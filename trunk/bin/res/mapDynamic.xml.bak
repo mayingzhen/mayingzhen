@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Item ItemName="Protagonist">
+	<Position x="500" z="600" Angle="-3.14" Rotate="1.0"/>
+	<ResName Name="res\\hero.X"/>		
+</Item> 	
+
+
