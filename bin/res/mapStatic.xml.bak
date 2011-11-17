@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>	
+<Item ItemName="house2">
+	<Position x="1000" z="1000" Angle="0.0" Rotate="5.0"/>
+	<ResName Name="res\\house.x"/>
+</Item>
+ 	
+
+
