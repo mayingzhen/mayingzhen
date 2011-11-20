@@ -4,8 +4,6 @@
 
 CHDRPostProcess g_HDRPostProcess;
 
-extern float			 g_ElapsedTime;
-
 CHDRPostProcess::CHDRPostProcess()
 {
 	//m_SumLums.resize(NUM_TONEMAP_TEXTURES);
@@ -180,7 +178,7 @@ void CHDRPostProcess::MeasureLuminance()
 		m_SumLumIterativeTech.BeginPass(0);
 
 		LPD3DXEFFECT effect = g_pCurCEffect->effect();
-		hr = effect->SetTexture(0, m_lumTexs[i + 1]);
+		bool res = g_pCurCEffect->SetTexture("g_TextureSrc", m_lumTexs[i + 1]);
 		hr = effect->SetVectorArray("tex_coord_offset", texCoordOffset, 2);
 
 		g_SceneQuad.Render();
@@ -292,8 +290,8 @@ void CHDRPostProcess::BloomPass()
 
 		LPD3DXEFFECT effect = g_pCurCEffect->effect();
 
-		float width = (float)g_nWndWidth;
-		float heigh = (float)g_nWndHeigh;
+		float width = g_nWndWidth;
+		float heigh = g_nWndHeigh;
 
 		D3DXVECTOR2 texSize = D3DXVECTOR2(width, 1.0f / width);
 
@@ -346,9 +344,9 @@ void CHDRPostProcess::BloomPass()
 	m_GlowMergeTech.BeginPass(0);
 
 	LPD3DXEFFECT effect = g_pCurCEffect->effect();
-	effect->SetTexture("glow_tex_0", m_GlowTex[0]);
-	effect->SetTexture("glow_tex_1", m_GlowTex[1]);
-	effect->SetTexture("glow_tex_2", m_GlowTex[2]);
+	hr = effect->SetTexture("glow_tex_0", m_GlowTex[0]);
+	hr = effect->SetTexture("glow_tex_1", m_GlowTex[1]);
+	hr = effect->SetTexture("glow_tex_2", m_GlowTex[2]);
 
 	g_SceneQuad.Render();
 

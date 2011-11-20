@@ -9,7 +9,6 @@ ShadowMap::ShadowMap()
 	m_pDSSurface = NULL;
 	m_pOldDSSurface = NULL;
 	m_pOldRenderTarget = NULL;
-	m_iBytesPerTexel = 0;
 }
 
 ShadowMap::~ShadowMap()
@@ -90,7 +89,7 @@ void ShadowMap::Destroy(void)
 	SAFE_RELEASE(m_pOldRenderTarget);
 }
 
-void ShadowMap::EnableRendering(void)
+void ShadowMap::EnableRendering() 
 {
 	// Store original values
 	g_pD3DDevice->GetViewport(&m_OldViewport);
@@ -103,7 +102,7 @@ void ShadowMap::EnableRendering(void)
 	g_pD3DDevice->SetDepthStencilSurface(m_pDSSurface);
 }
 
-void ShadowMap::DisableRendering(void)
+void ShadowMap::DisableRendering() 
 {
 	g_pD3DDevice->SetDepthStencilSurface(m_pOldDSSurface);
 	SAFE_RELEASE(m_pOldDSSurface)
@@ -113,5 +112,52 @@ void ShadowMap::DisableRendering(void)
 
 	g_pD3DDevice->SetViewport(&m_OldViewport);
 }
+
+
+ShadowMap CShadowMapPool::m_allShadowMap[MAX_NUM_SM];
+bool CShadowMapPool::m_useFlag[MAX_NUM_SM];
+bool CShadowMapPool::m_creatFlag[MAX_NUM_SM];
+
+ShadowMap* CShadowMapPool::GetOneShdowMap(int nSizeX, int nSizeY)
+{
+	for(int i = 0; i < MAX_NUM_SM; ++i)
+	{
+		if (m_useFlag[i])
+		{
+			continue;
+		}
+
+		if (!m_creatFlag[i])
+		{
+			m_allShadowMap[i].Create(nSizeX, nSizeY);
+			m_useFlag[i] = true;
+			m_creatFlag[i] = true;
+			return &m_allShadowMap[i];
+		}
+		else if (nSizeX == m_allShadowMap[i].m_nSizeX &&
+				nSizeY == m_allShadowMap[i].m_nSizeY )
+		{
+			m_useFlag[i] = true;
+			return &m_allShadowMap[i];
+		}
+	}
+
+	assert(false && "没有可用的shadowma");
+	return NULL;
+}
+
+void CShadowMapPool::ClearAllUseFlag()
+{
+	memset( &m_useFlag, 0, sizeof(m_useFlag) );
+}
+
+
+
+
+
+
+
+
+
 
 

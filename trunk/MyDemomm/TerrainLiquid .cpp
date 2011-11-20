@@ -56,20 +56,15 @@ void TerrainLiquid::create(const D3DXVECTOR3& seedPos,
 	m_bDepthEnable = bDepthEnable;
 	m_fDepthScale = fDepthScale;
 
-	// init AABB
-	//mBox.setMaximum( seedPos );
-	//mBox.setMinimum( seedPos );
-
 	// seed fill
 	spreed( 0,0,FOUR_DIR );
 
 	// create vertex & index
 	createVertexData();
 	createIndexData();
-
 	createVertexDeclation();
 
-	//CreateWaterTex();
+	CreateWaterTex();
 }
 
 void TerrainLiquid::BuildReflectionTexture()
@@ -77,8 +72,8 @@ void TerrainLiquid::BuildReflectionTexture()
 	HRESULT hr = S_OK;
 
 	// Get the current view and projection matrix
-	D3DXMATRIX OriginalViewMatrix = g_Camera.GetViewMatrix();
-	D3DXMATRIX OriginalProjectionMatrix = g_Camera.GetProjMatrix();
+	D3DXMATRIX OriginalViewMatrix = g_Camera.m_mView;
+	D3DXMATRIX OriginalProjectionMatrix = g_Camera.m_mProj;
 
 	// Set mirror camera
 	D3DXMATRIX MirrorViewMatrix;
@@ -218,18 +213,6 @@ void TerrainLiquid::createVertexData()
 {	
 	m_pTempGridArray.sort();
 
-	bool result = true;
-
-//	cString tempName;
-//	tempName.format( "terrain_section_%d", this );
-//	m_pVertex = TheGameHost.displayManager().vertexBufferPool().createResource(tempName);
-
-// 	m_worldRect.z0 = MAX_REAL32;
-// 	m_worldRect.z1 = MIN_REAL32;
-
-	//if (m_pVertex == NULL)
-	//	return;
-
 	sLiquidVertex* pVerts = new sLiquidVertex[m_pTempGridArray.size() * 4];
 
 	std::list<POINT>::iterator it;
@@ -272,7 +255,12 @@ void TerrainLiquid::createVertexData()
 		if( m_bDepthEnable )											
 		{																
 			pVerts[i].vVetrexUV1 = getDepthTexCoord( point.x + 1, point.z + 1 );									
-		}																		
+		}		
+
+		m_WorldAABB.Merge(pVerts[i].vPos);
+		m_WorldAABB.Merge(pVerts[i + 1].vPos);	
+		m_WorldAABB.Merge(pVerts[i + 2].vPos);	
+		m_WorldAABB.Merge(pVerts[i + 3].vPos);	
 	}
 
 	HRESULT hr = 0;
@@ -287,13 +275,6 @@ void TerrainLiquid::createVertexData()
 	m_pVertex->Unlock();
 
 	SAFE_DELETE_ARRAY(pVerts);
-
-// 	result = SUCCEEDED( m_pVertex->create( m_pTempGridArray.size() * 4, 
-// 		sizeof(sLiquidVertex), FLAG(cVertexBuffer::nRamBackupBit), pVerts) );
-// 
-// 	bool success = m_pVertex->setVertexDescription(
-// 		sizeof(vertex_Liquid_description) / sizeof(D3DVERTEXELEMENT9),
-// 		vertex_Liquid_description );
 }
 
 bool TerrainLiquid::isValidGrid( int x, int z, int dir )
@@ -351,10 +332,6 @@ bool TerrainLiquid::isValidGrid( int x, int z, int dir )
 
 void TerrainLiquid::createIndexData()
 {
-// 	cString tempName;
-// 	tempName.format("terrain_Liquid_index_%i", this);
-// 	m_pIndex = DisplayManager.indexBufferPool().createResource(tempName);
-
 	int total_indexes = m_pTempGridArray.size() * 6;
 	uint16* pIndexValues = new uint16[total_indexes];
 	uint16* pIdx = pIndexValues;
@@ -387,11 +364,6 @@ void TerrainLiquid::createIndexData()
 	m_pIndex->Unlock();
 
 	delete [] pIndexValues;
-
-// 	bool result = m_pIndex->create(D3DPT_TRIANGLELIST, total_indexes, 0, pIndexValues);
-// 
-// 	delete [] pIndexValues;
-	//return result;
 }
 
 

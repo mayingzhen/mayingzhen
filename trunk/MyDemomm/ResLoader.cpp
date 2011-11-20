@@ -12,7 +12,7 @@ const DWORD RES_THREAD_CLOSE_TIMEOUT = 5000;
 const DWORD RES_REQUEST_TIMEOUT = 1000;
 
 ///////////////////////////////////////////////////////////////////////////////
-CResLoader* CResLoader::GetTheOne()
+CResLoader* CResLoader::	GetTheOne()
 {
 	static CResLoader TheOne;
 	return &TheOne;

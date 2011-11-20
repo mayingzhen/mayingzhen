@@ -158,7 +158,7 @@ bool    CmdLineOptionCollection::Parse(int argc, char **argv)
         else
         {
             for (j = 0; j < CLO_NUM; ++j)
-                if (!strcmpi(kParseString[j], argv[i]))         // is it a known cmd-line option?
+                if (!_strcmpi(kParseString[j], argv[i]))         // is it a known cmd-line option?
                 {
                     if (mCurrent[j].present)                    //yes: was it set before?
                     {

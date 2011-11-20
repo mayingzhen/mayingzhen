@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <list>
 
 #include "public.h"
 
@@ -12,7 +13,8 @@ public:
 	~CRenderQueue() {}
 
 	void clear();
-	void Render();
+	void update();
+	//void Render();
 
 	size_t PushToTransRQ(CObject * obj) 
 	{ m_TransRQ.push_back(obj); return m_TransRQ.size(); }
@@ -20,17 +22,19 @@ public:
 	size_t PushToNormalRQ(CObject * obj) 
 	{ m_NormalRQ.push_back(obj); return m_NormalRQ.size(); }
 
-	size_t PushToShadowSrcRQ(CObject * obj) 
-	{ m_ShadowSrcRQ.push_back(obj); return m_ShadowSrcRQ.size(); }
+	//size_t PushToShadowSrcRQ(CObject * obj) 
+	//{ m_ShadowSrcRQ.push_back(obj); return m_ShadowSrcRQ.size(); }
 
-	size_t PushToShadowDestRQ(CObject * obj) 
-	{ m_ShadowDestRQ.push_back(obj); return m_ShadowDestRQ.size(); }
+	//size_t PushToShadowDestRQ(CObject * obj) 
+	//{ m_ShadowDestRQ.push_back(obj); return m_ShadowDestRQ.size(); }
 
 public:
 
-	std::vector<CObject*> m_TransRQ;
-	std::vector<CObject*> m_NormalRQ;
-	std::vector<CObject*> m_ShadowSrcRQ;
-	std::vector<CObject*> m_ShadowDestRQ;
+	std::list<CObject*> m_TransRQ;
+	std::list<CObject*> m_NormalRQ;
+	//std::vector<CObject*> m_ShadowSrcRQ;
+	//std::vector<CObject*> m_ShadowDestRQ;
+
+	
 };
 

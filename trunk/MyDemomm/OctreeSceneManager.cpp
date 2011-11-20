@@ -6,18 +6,15 @@
 #include "ResMeshMngr.h"
 #include "ResLoader.h"
 #include "GameApp.h"
-
 #include "tinyxml.h"
-
 #include "Sky.h"
 #include "Terrain.h"
 #include "TerrainSection.h"
 #include "TerrainLiquid.h"
-#include "mouse.h"
 #include "HDRPostProcess.h"
+#include "ShadowMap.h"
 
 #include <math.h>
-
 
 
 OctreeSceneManager g_SceneMng;
@@ -45,18 +42,16 @@ void OctreeSceneManager::Init( CAABB &box, int depth )
 
     mOctree -> mHalfSize = (max - min) / 2;
 
-	m_pSelfCha = NULL;
+	//m_pRenderQueue = new CRenderQueue;
 
-	m_pRenderQueue = new CRenderQueue;
 
-	InitLight();
-
+	//m_LightModel.LoadFromXFile("res\\sphere0.x");
 }
 
 OctreeSceneManager::~OctreeSceneManager()
 {
     SAFE_DELETE(mOctree);
-	SAFE_DELETE(m_pRenderQueue);
+	//SAFE_DELETE(m_pRenderQueue);
 
 	for (int i = 0; i < m_pTerrainLiquids.size(); ++i)
 	{
@@ -81,10 +76,22 @@ void OctreeSceneManager::ReleaseAll()
 const std::list<CObject*>& OctreeSceneManager::GetRenderObjList()
 {
 	return m_allObject;
-	//return m_pRenderQueue->m_NormalRQ;
-	//return std::vector<CObject*>( m_allObject.begin(),m_allObject.end() );
 }
 
+const std::list<Light>& OctreeSceneManager::GetLigtList()
+{
+	return m_allLight;
+}
+
+std::list<ShadowMap*>& OctreeSceneManager::GetShadowMapList()
+{
+	return m_allShdowMap;
+}
+
+const std::vector<TerrainLiquid*> OctreeSceneManager::GetTerrainLiquidList()
+{
+	return m_pRenderLiquids;
+}
 
 void OctreeSceneManager::UpdateObject(CObject* object)
 {
@@ -201,225 +208,99 @@ void OctreeSceneManager::AddObject(CObject* object, COctreeNode* octant, int dep
     }
 }
 
-
 void OctreeSceneManager::FindVisibleObjects(const CFrustum& frustum)
 {
-	m_pRenderQueue->clear();
+	//m_pRenderQueue->clear();
 
 	walkOctree(frustum,mOctree,CFrustum::Visble::PARTIAL);
 }
 
 
-
-void OctreeSceneManager::Render()
+std::list<CObject *> OctreeSceneManager::FindCasters(const CFrustum &frustum)
 {
-	m_pRenderQueue->Render();
-}
-
-
-// Helper function for AABB vs frustum test
-//
-//
-inline bool ProjectedIntersection(const D3DXVECTOR3 &vHalfSize, const D3DXVECTOR3 &vCenter,
-								  const D3DXVECTOR3 *pFrustumPoints,
-								  const D3DXVECTOR3 &vDir)
-{
-	// project AABB center point to vector
-	float fCenter = D3DXVec3Dot(&vCenter, &vDir);
-	// project AABB half-size to vector
-	float fHalfSize = vHalfSize.x * fabs(vDir.x) +
-		vHalfSize.y * fabs(vDir.y) +
-		vHalfSize.z * fabs(vDir.z);
-
-	float fMin1 = fCenter - fHalfSize;
-	float fMax1 = fCenter + fHalfSize;
-
-	// project frustum points
-	float fProj2 = D3DXVec3Dot(&pFrustumPoints[0], &vDir);
-	float fMin2 = fProj2;
-	float fMax2 = fProj2;
-	for(int i=1;i<8;i++)
+	std::list<CObject* > casters;
+	std::list<CObject*>::iterator objit = m_allObject.begin();	
+	for ( ; objit != m_allObject.end(); ++objit )
 	{
-		fProj2 = D3DXVec3Dot(&pFrustumPoints[i], &vDir);
-		fMin2 = Min(fProj2, fMin2);
-		fMax2 = Max(fProj2, fMax2);
+		CObject *pObject = *objit;
+		if(pObject->m_ObjFlag & FOB_NOT_CAST_SHADOW) 
+			continue;
+
+		//if ( pObject->m_WorldAABB.Intersect(frustum.m_AABB) )
+		//	continue;
+
+		casters.push_back(pObject);
 	}
-
-	// test for overlap
-	if(fMin1 > fMax2 || fMin2 > fMax1) return false;
-
-	return true;
+	return casters;
 }
 
-// AABB vs Frustum test, returns true if objects intersect
-//
-//
-inline bool IntersectionTest(const CAABB& objectBB, const CFrustum &frustum)
+void OctreeSceneManager::Update()
 {
-	// Note that this code is very unoptimal
-	//
-	//
-	D3DXVECTOR3 vHalfSize = (objectBB.vMax - objectBB.vMin) * 0.5f;
-	D3DXVECTOR3 vCenter = (objectBB.vMin + objectBB.vMax) * 0.5f;
+	g_Camera.Update();
 
-	// AABB face normals
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, D3DXVECTOR3(1,0,0))) return false;
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, D3DXVECTOR3(0,1,0))) return false;
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, D3DXVECTOR3(0,0,1))) return false;
-
-	// frustum face normals
-	//
-
-	// front and back faces:
-	D3DXVECTOR3 vNorm1;
-	//= Normalize(Cross(frustum.vPts[1] - frustum.vPts[0],
-	//	frustum.vPts[3] - frustum.vPts[0]));
-	D3DXVec3Cross( &vNorm1, &(frustum.vPts[1] - frustum.vPts[0]), &(frustum.vPts[3] - frustum.vPts[0]) );
-	D3DXVec3Normalize( &vNorm1, &vNorm1 );
-
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm1)) return false;
-
-	// left face:
-	D3DXVECTOR3 vNorm2;
-	//= Normalize(Cross(frustum.vPts[1] - frustum.vPts[0],
-	//	frustum.vPts[4] - frustum.vPts[0]));
-	D3DXVec3Cross( &vNorm2, &(frustum.vPts[1] - frustum.vPts[0]), &(frustum.vPts[4] - frustum.vPts[0]) );
-	D3DXVec3Normalize( &vNorm2, &vNorm2 );
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm2)) return false;
-
-	// right face:
-	D3DXVECTOR3 vNorm3;
-	//= Normalize(Cross(frustum.vPts[2] - frustum.vPts[3],
-	//	frustum.vPts[7] - frustum.vPts[3]));
-	D3DXVec3Cross( &vNorm3, &(frustum.vPts[2] - frustum.vPts[3]), &(frustum.vPts[7] - frustum.vPts[3]) );
-	D3DXVec3Normalize( &vNorm3, &vNorm3 );
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm3)) return false;
-
-	// top face:
-	D3DXVECTOR3 vNorm4;
-	//= Normalize(Cross(frustum.vPts[2] - frustum.vPts[1],
-	//	frustum.vPts[5] - frustum.vPts[1]));
-	D3DXVec3Cross( &vNorm4, &(frustum.vPts[2] - frustum.vPts[1]), &(frustum.vPts[5] - frustum.vPts[1]) );
-	D3DXVec3Normalize( &vNorm4, &vNorm4 );
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm4)) return false;
-
-	// bottom face:
-	D3DXVECTOR3 vNorm5;
-	//= Normalize(Cross(frustum.vPts[3] - frustum.vPts[0],
-	//	frustum.vPts[4] - frustum.vPts[0]));
-	D3DXVec3Cross( &vNorm5, &(frustum.vPts[3] - frustum.vPts[0]), &(frustum.vPts[4] - frustum.vPts[0]) );
-	D3DXVec3Normalize( &vNorm5, &vNorm5 );
-	if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm5)) return false;
-
-
-	// edge cross edge cases
-	//
-	D3DXVECTOR3 pBoxEdges[3] = {D3DXVECTOR3(1,0,0), D3DXVECTOR3(0,1,0), D3DXVECTOR3(0,0,1)};
-	for(int i=0;i<3;i++)
+	std::list<CObject*>::iterator objit = m_allObject.begin();	
+	while ( objit != m_allObject.end() )
 	{
-		// edge up-down
-		D3DXVECTOR3 vNorm1;
-		//= Normalize(Cross(frustum.vPts[1] - frustum.vPts[0], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm1, &(frustum.vPts[1] - frustum.vPts[0]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm1, &vNorm1 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm1)) return false;
+		CObject* sn = *objit;
+		if (sn == NULL)
+			continue;
 
-		// edge left-right
-		D3DXVECTOR3 vNorm2;
-		//= Normalize(Cross(frustum.vPts[3] - frustum.vPts[0], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm2, &(frustum.vPts[3] - frustum.vPts[0]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm2, &vNorm2 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm2)) return false;
-
-		// edge bottom left
-		D3DXVECTOR3 vNorm3;
-		//= Normalize(Cross(frustum.vPts[4] - frustum.vPts[0], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm3, &(frustum.vPts[4] - frustum.vPts[0]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm3, &vNorm3 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm3)) return false;
-
-		// edge top left
-		D3DXVECTOR3 vNorm4;
-		//= Normalize(Cross(frustum.vPts[5] - frustum.vPts[1], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm4, &(frustum.vPts[5] - frustum.vPts[1]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm4, &vNorm4 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm4)) return false;
-
-		// edge top right
-		D3DXVECTOR3 vNorm5;
-		//= Normalize(Cross(frustum.vPts[6] - frustum.vPts[2], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm5, &(frustum.vPts[6] - frustum.vPts[2]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm5, &vNorm5 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm5)) return false;
-
-		// edge bottom right
-		D3DXVECTOR3 vNorm6;
-		//= Normalize(Cross(frustum.vPts[7] - frustum.vPts[3], pBoxEdges[i]));
-		D3DXVec3Cross( &vNorm6, &(frustum.vPts[7] - frustum.vPts[3]), &pBoxEdges[i] );
-		D3DXVec3Normalize( &vNorm6, &vNorm6 );
-		if(!ProjectedIntersection(vHalfSize, vCenter, frustum.vPts, vNorm6)) return false;
-	}
-
-	// all tests passed - intersection occurs
-	return true;
-}
-
-
-inline bool IntersectionTest(const CAABB &objectBB, const CAABB &frustumBB)
-{
-	// min and max vectors
-	const D3DXVECTOR3 &vFrustumMin = frustumBB.vMin;
-	const D3DXVECTOR3 &vFrustumMax = frustumBB.vMax;
-	const D3DXVECTOR3 &vObjectMin = objectBB.vMin;
-	const D3DXVECTOR3 &vObjectMax = objectBB.vMax;
-
-	// test all axes
-	//
-	if(vObjectMin.x > vFrustumMax.x || vFrustumMin.x > vObjectMax.x) return false;
-	if(vObjectMin.y > vFrustumMax.y || vFrustumMin.y > vObjectMax.y) return false;
-	if(vObjectMin.z > vFrustumMax.z || vFrustumMin.z > vObjectMax.z) return false;
-
-	// all tests passed - intersection occurs
-	return true;
-}
-
-
-void OctreeSceneManager::Update(/*const CFrustum& frustum*/)
-{
-	m_Light.DoControls();
-
-	std::list<CObject*>::iterator it = m_allObject.begin();	
-	while ( it != m_allObject.end() )
-	{
-		CObject* sn = *it;
 		sn->Update();
-		++it;
+		++objit;
 	}
 
-	//FindVisibleObjects(frustum);
-
-	m_pRenderQueue->clear();
-
-	CFrustum frustum;
-	frustum = g_Camera.CalculateFrustum(g_Camera.m_fNearClip, g_Camera.m_fFarClip);
-	//CAABB frustumAABB = frustum.m_AABB;
-	it = m_allObject.begin();	
-	while ( it != m_allObject.end() )
+	CFrustum cameraFrustum = g_Camera.CalculateFrustum(g_Camera.m_fNearClip, g_Camera.m_fFarClip);
+	
+	///// water
+	m_pRenderLiquids.clear();
+	for (int i = 0; i < m_pTerrainLiquids.size(); ++i)
 	{
-		CObject* sn = *it;
-		if ( sn && IntersectionTest(sn->m_WorldAABB,frustum.m_AABB) )
+		TerrainLiquid* pObject = m_pTerrainLiquids[i];
+		if ( pObject && pObject->m_WorldAABB.Intersect(cameraFrustum.m_AABB) )
 		{
-			m_pRenderQueue->PushToNormalRQ(sn);
-		}
-		else
-		{
-			int i = 5;
-		}
+			m_pRenderLiquids.push_back(pObject);
+			continue;
+		} 
+	}
 
-		++it;
+	///// shadow map
+	CShadowMapPool::ClearAllUseFlag();
+	m_allShdowMap.clear();
+
+	std::list<Light>::iterator lightIt = m_allLight.begin();
+	for (; lightIt != m_allLight.end(); ++lightIt )
+	{
+		lightIt->Update();
+		lightIt->DoControls(); // test
+
+		for (int i = 0; i < CCamera::NUM_PSSM; ++i)
+		{
+			CFrustum splitFrustum;
+			splitFrustum = g_Camera.CalculateFrustum(g_Camera.m_fSplitPos[i], g_Camera.m_fSplitPos[i + 1]);
+			std::list<CObject*> ObjList = FindCasters(splitFrustum); 
+
+			if ( ObjList.empty() ) 
+			{
+				lightIt->m_pShadowMap[i] = NULL;
+				continue;
+			}
+			else
+			{
+				ShadowMap* pShadowMap = CShadowMapPool::GetOneShdowMap();
+				lightIt->m_pShadowMap[i] = pShadowMap;	
+				m_allShdowMap.push_back(pShadowMap);
+
+				D3DXMATRIX mCropMatrix = lightIt->CalculateCropMatrix(splitFrustum);
+				pShadowMap->m_nIndex = i;
+				pShadowMap->m_viewMat = lightIt->m_mView;
+				pShadowMap->m_projMat = lightIt->m_mProj * mCropMatrix;
+				pShadowMap->m_TexMat = pShadowMap->m_viewMat * pShadowMap->m_projMat * *( pShadowMap->GetTexScaleBiasMat() );
+				pShadowMap->m_casterList.clear();
+				pShadowMap->m_casterList = ObjList;
+			}			
+		}
 	}
 }
-
 
 void OctreeSceneManager::walkOctree(const CFrustum& frustum,COctreeNode* octNode,CFrustum::Visble parentVisible)
 {
@@ -448,7 +329,7 @@ void OctreeSceneManager::walkOctree(const CFrustum& frustum,COctreeNode* octNode
  		octNode->GetCullBounds(&box);
  		visble = frustum.VisibleTest(box);
 
-		visble == CFrustum::Visble::PARTIAL;
+		//visble = CFrustum::Visble::PARTIAL;
  	}
 
     if (visble != CFrustum::NONE)
@@ -462,7 +343,7 @@ void OctreeSceneManager::walkOctree(const CFrustum& frustum,COctreeNode* octNode
 			//if ( visble == CFrustum::FULL || 
 			//	 visble == CFrustum::PARTIAL && frustum.VisibleTest( sn->GetWorldAABB() ) != CFrustum::NONE )
 			//{
-				m_pRenderQueue->PushToNormalRQ(sn);
+				//m_pRenderQueue->PushToNormalRQ(sn);
 			//}
 			
             ++it;
@@ -540,78 +421,45 @@ void OctreeSceneManager::AddTerrainScetion(CTerrainSection* pTerrainSection)
 	if (pTerrainSection == NULL)
 		return;
 
-	//char strName[MAX_PATH] = {0};
-	//_snprintf( strName, sizeof(strName), "TerrainSection_%d_%d", heightMapX, heightMapY );
+	char strName[MAX_PATH] = {0};
+	_snprintf( strName, sizeof(strName), "TerrainSection_%d_%d",
+		pTerrainSection->GetHeightMapX(), pTerrainSection->GetHeightMapY() );
 
 	pTerrainSection->m_ObjFlag |= FOB_IS_TERRAIN;
 	//pTerrainSection->m_ObjFlag |= FOB_NOT_CAST_SHADOW;
-	pTerrainSection->SetHashName("TerrainSection_%d_%d");
+	pTerrainSection->SetHashName(strName);
 	pTerrainSection->HashObject();
 	g_SceneMng.AddObject(pTerrainSection,mOctree);
 	g_SceneMng.m_allObject.push_back(pTerrainSection);
 }
 
-
-void OctreeSceneManager::SetSelfCha(CCharactor* cha) 
+void OctreeSceneManager::AddTerrainLiquid(TerrainLiquid* pTerrainLiquid)
 {
-	m_pSelfCha = cha;
+	assert(pTerrainLiquid);
+	if (pTerrainLiquid == NULL)
+		return;
 
-// 	D3DXVECTOR3 lookAtPos = cha->GetWordPos();
-// 	D3DXVECTOR3 eyePos;
-// 	eyePos.x = lookAtPos.x;
-// 	eyePos.y = lookAtPos.y + 150;
-// 	eyePos.z = lookAtPos.z - 150;
-// 
-// 	g_Camera.SetViewParams( eyePos, lookAtPos );
-
-	//g_Camera.SetEyePt(eyePos);
-	//g_Camera.SetLookAtPt( cha->GetWordPos() );
-	//g_Camera.SetYaw( cha->GetAngle() - D3DX_PI / 2 );
-	//g_Camera.SetPitch(- D3DX_PI / 3);
-	//g_Camera.SetRadius(300);
+	pTerrainLiquid->m_ObjFlag |= FOB_NOT_CAST_SHADOW;
+	pTerrainLiquid->SetHashName("TerrainLiquid");
+	pTerrainLiquid->HashObject();
+	g_SceneMng.AddObject(pTerrainLiquid, mOctree);
+	//g_SceneMng.m_allObject.push_back(pTerrainLiquid);	
+	m_pTerrainLiquids.push_back(pTerrainLiquid);
 }
 
-
-
-void OctreeSceneManager::SetLightParams(const D3DXVECTOR3 &vLightPos, const D3DXVECTOR3 &vLightAt)
+void OctreeSceneManager::AddLight(const D3DXVECTOR3 &vLightPos, const D3DXVECTOR3 &vLightAt)
 {
-	m_Light.m_vSource = vLightPos;
-	m_Light.m_vTarget = vLightAt;
+	Light addLight;
+	addLight.m_vSource = vLightPos;
+	addLight.m_vTarget = vLightAt;
 
-	D3DXVECTOR3 vDir = m_Light.m_vSource - m_Light.m_vTarget;
+	D3DXVECTOR3 vDir = addLight.m_vSource - addLight.m_vTarget;
 	D3DXVec3Normalize(&vDir, &vDir);
-	m_Light.m_ControlState.m_vRotation.x = atan2f(vDir.x, vDir.z);
-	m_Light.m_ControlState.m_vRotation.y = asin(-vDir.y);
-
-	m_Light.DoControls();
+	addLight.m_ControlState.m_vRotation.x = atan2f(vDir.x, vDir.z);
+	addLight.m_ControlState.m_vRotation.y = asin(-vDir.y);
+	
+	m_allLight.push_back(addLight);
 }
-
-void OctreeSceneManager::InitLight()
-{
-	//m_fLightFov = D3DX_PI / 2.0f;
-
-// 	m_Light.Diffuse.r = 1.0f;
-// 	m_Light.Diffuse.g = 1.0f;
-// 	m_Light.Diffuse.b = 1.0f;
-// 	m_Light.Diffuse.a = 1.0f;
-// 	m_Light.Position = D3DXVECTOR3( -8.0f, -8.0f, 0.0f );
-// 	m_Light.Direction = D3DXVECTOR3( 1.0f, -1.0f, 0.0f );
-// 	D3DXVec3Normalize( (D3DXVECTOR3*)&m_Light.Direction, (D3DXVECTOR3*)&m_Light.Direction );
-// 	m_Light.Range = 10.0f;
-// 	m_Light.Theta = m_fLightFov / 2.0f;
-// 	m_Light.Phi = m_fLightFov / 2.0f;
-
-	//D3DXMatrixPerspectiveFovLH( &m_matLightProj, m_fLightFov, 4 / 3.0f, 0.1f, 4000.0f );
-
-	m_LightModel.LoadFromXFile("res\\sphere0.x");	
-
-// 	std::vector<D3DXVECTOR3> pos;
-// 	std::vector<int> index;
-// 	CreateConeMesh( pos, index, 0, sqrt(3.0f) / 3, 1.0f, 12);
-
-}
-
-
 
 
 void OctreeSceneManager::CreateScene(std::string sScenName)
@@ -629,8 +477,6 @@ void OctreeSceneManager::CreateScene(std::string sScenName)
 		const char* strTemp = element->Attribute( "type" );
 		if ( strcmp( "TerrainLiquid", strTemp ) == 0 )
 		{
-			TerrainLiquid* pTerrainLiquid = new TerrainLiquid;
-
 			std::string materialName;
 			D3DXVECTOR3 pos;
 			float textureScale = 0.0f;
@@ -671,10 +517,9 @@ void OctreeSceneManager::CreateScene(std::string sScenName)
 				propriety = propriety->NextSiblingElement();
 			}
 
+			TerrainLiquid* pTerrainLiquid = new TerrainLiquid;
 			pTerrainLiquid->create( pos, textureScale, bIsDepthEnable, depthHeight, &( CTerrain::GetSingleton() ) );	
-
-			m_pTerrainLiquids.push_back(pTerrainLiquid);
-
+			AddTerrainLiquid(pTerrainLiquid);
 		}
 
 		element = element->NextSiblingElement();

@@ -1,7 +1,11 @@
 #ifndef __SHADOWMAP_H__
 #define __SHADOWMAP_H__
 
+#include <list>
 #include "public.h"
+
+class Light;
+class CObject;
 
 //#define PIX_DEBUG  // PIX for window 调试的时候创建D24S8纹理失败
 
@@ -12,12 +16,13 @@ public:
 	~ShadowMap();
 
 	bool Create(int iSizeX,int iSizeY);
-	void Destroy(void);
+	void Destroy();
 
 	// start rendering to texture
-	void EnableRendering(void);
+	void EnableRendering();
+
 	// stop rendering to texture
-	void DisableRendering(void);
+	void DisableRendering();
 
 	inline D3DVIEWPORT9 &GetViewport(void) { return m_Viewport; }
 
@@ -32,8 +37,6 @@ public:
 	D3DXMATRIX* GetTexScaleBiasMat() {return &m_TexScaleBiasMat;}
 
 public:
-	int m_iBytesPerTexel;
-
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	LPDIRECT3DSURFACE9 m_pSurface;
 
@@ -50,8 +53,30 @@ public:
 	D3DXMATRIX m_TexScaleBiasMat;
 	D3DXMATRIX m_TexMat;
 
+	D3DXMATRIX m_viewMat;
+	D3DXMATRIX m_projMat;
+
+	int m_nIndex; 
+
 	int m_nSizeX;
 	int m_nSizeY;
+
+	Light* m_Light; 
+	std::list<CObject*> m_casterList;
+};
+
+
+class CShadowMapPool
+{
+public:
+	static ShadowMap* GetOneShdowMap(int nSizeX = 1024, int nSizeY = 1024);
+	static void ClearAllUseFlag();
+
+private:
+	enum {MAX_NUM_SM = 40};
+	static ShadowMap m_allShadowMap[MAX_NUM_SM];
+	static bool m_useFlag[MAX_NUM_SM];
+	static bool m_creatFlag[MAX_NUM_SM];
 };
 
 #endif

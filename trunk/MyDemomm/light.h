@@ -6,14 +6,14 @@
 #include "bounding.h"
 
 class CObject;
+class ShadowMap;
 
 class Light
 {
 public:
 	Light();
 
-	// finds scene objects that overlap given frustum from light's view
-	std::vector<CObject *> FindCasters(const CFrustum &frustum);
+	void Update();
 
 	// processes light controls
 	void DoControls(void);
@@ -62,6 +62,9 @@ public:
 	D3DXVECTOR3 m_vLightDiffuse;
 	D3DXVECTOR3 m_vLightAmbient;
 
+	// 点光源拆成6个frustrum
+	ShadowMap* m_pShadowMap[4];
+
 public:
 
 	struct ControlState
@@ -73,6 +76,9 @@ public:
 
 	ControlState m_ControlState;
 };
+
+
+
 
 
 

@@ -36,12 +36,12 @@ void CTerrainSection::Create(CTerrain* pParentSystem,
 	m_xVerts = xVerts;
 	m_yVerts = yVerts;
 
-	BuildVertexBuffer();
-	BuildIndexBuffer();
-	CreateVertexDecl();
+	createVertexData();
+	createIndexData();
+	createVertexDeclation();
 }
 
-void CTerrainSection::CreateVertexDecl()
+void CTerrainSection::createVertexDeclation()
 {
 	D3DVERTEXELEMENT9 terrainVertexElements[] =
 	{
@@ -55,7 +55,7 @@ void CTerrainSection::CreateVertexDecl()
 	V( g_pD3DDevice->CreateVertexDeclaration(terrainVertexElements, &m_TerrainVertexDeclaration) );
 }
 
-void CTerrainSection::BuildIndexBuffer()
+void CTerrainSection::createIndexData()
 {
 		/* ¶¥µãË³Ðò
 		    0     1 
@@ -119,10 +119,10 @@ void CTerrainSection::BuildIndexBuffer()
 	memcpy( indices, pIndexValues, total_indexes * sizeof(WORD) );	
 	m_pSectorIndex->Unlock();
 
-	delete [] pIndexValues;
+	SAFE_DELETE_ARRAY(pIndexValues);
 }
 
-void CTerrainSection::BuildVertexBuffer()
+void CTerrainSection::createVertexData()
 {
 	 
 	/* ¶¥µãË³Ðò
@@ -337,8 +337,8 @@ void CTerrainSection::Render()
 	V( g_pD3DDevice->SetFVF(NULL) );
 	V( g_pD3DDevice->SetVertexDeclaration(m_TerrainVertexDeclaration) );
 		
- 	if ( g_pCurCEffect && g_pCurCEffect->effect() )
- 		g_pCurCEffect->effect()->SetTexture( "TerrainTex", m_pTerrainSystem->m_pAltasTex );
+ 	if (g_pCurCEffect)
+ 		g_pCurCEffect->SetTexture( "TerrainTex", m_pTerrainSystem->m_pAltasTex );
 	else
  		g_pD3DDevice->SetTexture( 0, m_pTerrainSystem->m_pAltasTex );
 

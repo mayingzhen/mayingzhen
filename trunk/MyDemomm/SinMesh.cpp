@@ -6,11 +6,6 @@
 #include "GameApp.h"
 #include "Camera.h"
 
-
-
-extern float			 g_ElapsedTime;
-
-
 //-----------------------------------------------------------------------------
 // Name: AllocateName()
 // Desc: Allocates memory for a string to hold the name of a frame or mesh
@@ -455,9 +450,6 @@ CSkinMesh::CSkinMesh()
 	m_pFrameRoot = NULL;
 	m_pBoneMatrices = NULL;
 	m_NumBoneMatricesMax = 0;
-
-	//m_vMax = D3DXVECTOR3(0,0,0);
-	//m_vMin = D3DXVECTOR3(0,0,0);
 }
 
 
@@ -467,9 +459,7 @@ CSkinMesh::~CSkinMesh()
 	D3DXFrameDestroy(m_pFrameRoot, &Alloc);
 
 	SAFE_RELEASE(m_pAnimController);
-
 }
-
 
 //-----------------------------------------------------------------------------
 // Desc: 从文件加载蒙皮网格模型
@@ -501,13 +491,6 @@ HRESULT CSkinMesh::LoadFromXFile(const char *strFileName)
 
 	 V( D3DXFrameCalculateBoundingSphere( m_pFrameRoot, &m_vObjectCenter, &m_fObjectRadius ) );
 
-// 	if(m_pFrameRoot)
-// 	{
-// 		D3DXMATRIX matIdentity;
-// 		D3DXMatrixIdentity(&matIdentity); 
-// 		UpdateFrameMatrices(m_pFrameRoot,&matIdentity); 	
-// 	}
- 
 	CalculateBondingBox(m_pFrameRoot);
 
 	return S_OK;
@@ -589,23 +572,6 @@ void CSkinMesh::Render(LPD3DXMATRIX transWorld)
 	UpdateFrameMatrices(m_pFrameRoot,transWorld);
 
 	DrawFrame(m_pFrameRoot);	
-
-	//// Draw AABB
-	//m_modelAABB.Render(m_pFrameRoot->TransformationMatrix * *transWorld);
-
-// 	D3DXMATRIX matTemp = m_pFrameRoot->TransformationMatrix;
-// 	TRACE("\n%f %f %f %f \n %f %f %f %f \n %f %f %f %f \n %f %f %f %f \n",
-// 		matTemp._11, matTemp._12, matTemp._13, matTemp._14,
-// 		matTemp._21, matTemp._22, matTemp._23, matTemp._24,
-// 		matTemp._31, matTemp._32, matTemp._33, matTemp._34,
-// 		matTemp._41, matTemp._42, matTemp._43, matTemp._44);
-
- 	//CAABB temp;
- 	//m_modelAABB.Transform(temp,m_pFrameRoot->TransformationMatrix * *transWorld);
- 	//D3DXMATRIX initMat;
- 	//D3DXMatrixIdentity(&initMat);
- 	//temp.Render_Point(initMat);
-	///Fix:m_pFrameRoot->TransformationMatrix 可能不是单位矩阵
 }
 
 
@@ -613,23 +579,6 @@ void CSkinMesh::Upadte()
 {
 	if( 0.00f == g_ElapsedTime )    
 		return;	
-
-	// 	if(m_pAnimController)
-	// 	{
-	// 		if (m_bMoving)
-	// 
-	//  #if (D3D_SDK_VERSION &31)
-	//  			m_pAnimController->SetTime(m_pAnimController->GetTime()+ g_ElapsedTime );
-	//  		else
-	//  			m_pAnimController->SetTime(0);
-	//  
-	//  #else 
-	// 			m_pAnimController->AdvanceTime(g_ElapsedTime,NULL); 
-	// 		else
-	// 			m_pAnimController->ResetTime();
-	// 		
-	// #endif
-	// 	}
 
 	if( m_pAnimController != NULL )
 		m_pAnimController->AdvanceTime( g_ElapsedTime, NULL );
@@ -671,7 +620,7 @@ void CSkinMesh::DrawMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DX
 {
 	D3DXMESHCONTAINER_DERIVED *pMeshContainer = (D3DXMESHCONTAINER_DERIVED*)pMeshContainerBase;
 	D3DXFRAME_DERIVED *pFrame = (D3DXFRAME_DERIVED*)pFrameBase;
-	UINT iMaterial;
+	//UINT iMaterial;
 	//UINT NumBlend;
 	UINT iAttrib;
 	//DWORD AttribIdPrev;
@@ -684,40 +633,6 @@ void CSkinMesh::DrawMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DX
 	// first check for skinning
 	if (pMeshContainer->pSkinInfo != NULL)
 	{
-		// if hw doesn't support indexed vertex processing, switch to software vertex processing
-		//if (pMeshContainer->UseSoftwareVP)
-		//{
-		//	g_pD3DDevice->SetSoftwareVertexProcessing(TRUE);
-		//}
-
-		// set the number of vertex blend indices to be blended
-		//if (pMeshContainer->NumInfl == 1)
-		//	g_pD3DDevice->SetRenderState(D3DRS_VERTEXBLEND, D3DVBF_0WEIGHTS);
-		//else
-		///	g_pD3DDevice->SetRenderState(D3DRS_VERTEXBLEND, pMeshContainer->NumInfl - 1);
-
-		//if (pMeshContainer->NumInfl)
-		//	g_pD3DDevice->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, TRUE);
-
-///-----------------
-// 		ID3DXMesh* mesh = pMeshContainer->MeshData.pMesh;
-// 		IDirect3DIndexBuffer9* indexBuffer = NULL;
-// 		IDirect3DVertexBuffer9* vertexBuffer = NULL;
-// 		DWORD fvf;
-// 		mesh->GetIndexBuffer(&indexBuffer);
-// 		mesh->GetVertexBuffer(&vertexBuffer);
-// 		fvf = mesh->GetFVF();
-// 
-// 		g_pD3DDevice->SetFVF(fvf);
-// 		g_pD3DDevice->SetIndices(indexBuffer);
-// 		g_pD3DDevice->SetStreamSource( 0, vertexBuffer, 0, mesh->GetNumBytesPerVertex() );
-// 
-// 		DWORD attribTableSize = 0;
-// 		D3DXATTRIBUTERANGE attrribTable[20];
-// 		mesh->GetAttributeTable(NULL,&attribTableSize);
-// 		mesh->GetAttributeTable( (D3DXATTRIBUTERANGE*)attrribTable, &attribTableSize );
-///--------------------
-
 		D3DXMATRIX matrixArray[50];
 
 		// for each attribute group in the mesh, calculate the set of matrices in the palette and then draw the mesh subset
@@ -742,24 +657,20 @@ void CSkinMesh::DrawMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DX
 				}
 			}
 
-			V( g_pCurCEffect->effect()->SetMatrixArray( "mWorldMatrixArray", matrixArray, pMeshContainer->NumPaletteEntries ) );
-
-			V( g_pCurCEffect->effect()->SetInt( "CurNumBones", pMeshContainer->NumInfl - 1 ) );
-
-
-			V( g_pCurCEffect->effect()->SetMatrix( "viewprojection", &matProj ) );
-			///*V( */g_pCurCEffect->effect()->SetMatrix( "view", &matView )/* )*/;
+			if ( g_pCurCEffect && g_pCurCEffect->effect() )
+			{
+				V( g_pCurCEffect->effect()->SetMatrixArray( "mWorldMatrixArray", matrixArray, pMeshContainer->NumPaletteEntries ) );
+				V( g_pCurCEffect->effect()->SetMatrix( "viewprojection", &matProj ) );
+				V( g_pCurCEffect->effect()->SetInt( "CurNumBones", pMeshContainer->NumInfl - 1 ) );
+			}
 
 			// setup the material of the mesh subset - REMEMBER to use the original pre-skinning attribute id to get the correct material id
-			g_pD3DDevice->SetMaterial( &pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D );
-
-			//g_pD3DDevice->SetTexture( 0, (pMeshContainer->ppTextures[pBoneComb[iAttrib].AttribId])->GetD3DTexture() );
+			//g_pD3DDevice->SetMaterial( &pMeshContainer->pMaterials[pBoneComb[iAttrib].AttribId].MatD3D );
 			CTexture *texTemp  = pMeshContainer->ppTextures[pBoneComb[iAttrib].AttribId];
 			if ( texTemp && texTemp->IsValid() )
 			{
-				//g_pD3DDevice->SetTexture( 0, texTemp->GetD3DTexture() );
 				if ( g_pCurCEffect && g_pCurCEffect->effect() )
-					g_pCurCEffect->effect()->SetTexture( "g_TextureSrcDiffuse", texTemp->GetD3DTexture() );
+					g_pCurCEffect->SetTexture( "g_TextureSrcDiffuse", texTemp->GetD3DTexture() );
 				else
 					g_pD3DDevice->SetTexture( 0, texTemp->GetD3DTexture() );
 			}
@@ -769,28 +680,8 @@ void CSkinMesh::DrawMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DX
 
 			// finally draw the subset with the current world matrix palette and material state
 			pMeshContainer->MeshData.pMesh->DrawSubset( iAttrib );	
-// 			HRESULT hr = g_pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,0,
-// 				attrribTable[iAttrib].VertexStart,
-// 				attrribTable[iAttrib].VertexCount,
-// 				attrribTable[iAttrib].FaceStart * 3,
-// 				attrribTable[iAttrib].FaceCount );
-// 			assert( SUCCEEDED(hr) ); ////// 骨骼动画不能这样使用
-// 
-// 			/// memory leak;
-// 			SAFE_RELEASE(indexBuffer);
-// 			SAFE_RELEASE(vertexBuffer);
 
 		}
-
-		// reset blending state
-		//g_pD3DDevice->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE);
-		//g_pD3DDevice->SetRenderState(D3DRS_VERTEXBLEND, 0);
-
-		// remember to reset back to hw vertex processing if software was required
-		//if (pMeshContainer->UseSoftwareVP)
-		//{
-		//	g_pD3DDevice->SetSoftwareVertexProcessing(FALSE);
-		//}
 	}
 	else  // standard mesh, just draw it after setting material properties
 	{
@@ -818,22 +709,17 @@ void CSkinMesh::DrawMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase, LPD3DX
 			CTexture *texTemp  = pMeshContainer->ppTextures[i];
 			if ( texTemp && texTemp->IsValid() )
 			{
-				//g_pD3DDevice->SetTexture( 0, texTemp->GetD3DTexture() );
-				if ( g_pCurCEffect && g_pCurCEffect->effect() )
-					g_pCurCEffect->effect()->SetTexture( "g_TextureSrcDiffuse", texTemp->GetD3DTexture() );
+				if (g_pCurCEffect)
+					g_pCurCEffect->SetTexture( "g_TextureSrcDiffuse", texTemp->GetD3DTexture() );
 				else
 					g_pD3DDevice->SetTexture( 0, texTemp->GetD3DTexture() );
 			}
 
 			if (g_pCurCEffect)
 			{
-				//D3DXMATRIX mv  = pFrame->CombinedTransformationMatrix * g_Camera.m_mView;
-				//D3DXMATRIX mvp = mv * g_Camera.m_mProj;
 				D3DXMATRIX matView,matProj;
 				g_pD3DDevice->GetTransform(D3DTS_VIEW,&matView);
 				g_pD3DDevice->GetTransform(D3DTS_PROJECTION,&matProj);
-				//matView = g_Camera.m_mView;
-				//matProj = g_Camera.m_mProj;
 				D3DXMATRIX matWorldView = pFrame->CombinedTransformationMatrix * matView;
 				D3DXMATRIX matWorldViewProj = matWorldView * matProj;
 				g_pCurCEffect->setMatrix(CEffectFile::k_worldViewMatrix,&matWorldView);

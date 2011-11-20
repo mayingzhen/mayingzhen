@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool;F:\ma\MyDemomm\MyDemomm\dependency\Animation;F:\ma\MyDemomm\MyDemomm"
+				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -204,14 +204,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\effect_file.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ExcelTable.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\GameApp.cpp"
 				>
 			</File>
@@ -220,15 +212,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\loadMsd.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Log.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\lua_state.cpp"
 				>
 			</File>
 			<File
@@ -288,10 +272,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\staticmesh.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Terrain.cpp"
 				>
 			</File>
@@ -307,144 +287,18 @@
 				RelativePath=".\Text.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\XmlFile.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="ResMng"
 			>
 			<File
-				RelativePath=".\bit_flags.h"
-				>
-			</File>
-			<File
-				RelativePath=".\bounding.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Common.h"
-				>
-			</File>
-			<File
-				RelativePath=".\D3DRender.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Debug.h"
+				RelativePath=".\effect_file.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\effect_file.h"
 				>
 			</File>
-			<File
-				RelativePath=".\ExcelTable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameApp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\light.h"
-				>
-			</File>
-			<File
-				RelativePath=".\loadMsd.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Log.h"
-				>
-			</File>
-			<File
-				RelativePath=".\lua_state.h"
-				>
-			</File>
-			<File
-				RelativePath=".\mouse.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyMath.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OctreeNode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OctreeSceneManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\public.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderQueue.h"
-				>
-			</File>
-			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ScreenQuad.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShadowMap.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Sky.h"
-				>
-			</File>
-			<File
-				RelativePath=".\sprite.h"
-				>
-			</File>
-			<File
-				RelativePath=".\staticmesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Terrain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TerrainLiquid.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TerrainSection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Text.h"
-				>
-			</File>
-			<File
-				RelativePath=".\XmlFile.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="ResMng"
-			>
 			<File
 				RelativePath=".\Material.cpp"
 				>
@@ -603,126 +457,116 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Animation"
+			Name="头文件"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimation.cpp"
+				RelativePath=".\bit_flags.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimation.h"
+				RelativePath=".\bounding.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationController.cpp"
+				RelativePath=".\Camera.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationController.h"
+				RelativePath=".\CObject.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationSet.cpp"
+				RelativePath=".\Common.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationSet.h"
+				RelativePath=".\D3DRender.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationSetManager.cpp"
+				RelativePath=".\Debug.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationSetManager.h"
+				RelativePath=".\ExcelTable.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationTrack.cpp"
+				RelativePath=".\GameApp.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEAnimationTrack.h"
+				RelativePath=".\light.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEBone.cpp"
+				RelativePath=".\loadMsd.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEBone.h"
+				RelativePath=".\Log.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEBoneAssignment.cpp"
+				RelativePath=".\mouse.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEBoneAssignment.h"
+				RelativePath=".\OctreeNode.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEKeyframe.cpp"
+				RelativePath=".\OctreeSceneManager.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEKeyframe.h"
+				RelativePath=".\public.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMesh.cpp"
+				RelativePath=".\RenderQueue.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMesh.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMeshLoadHelper.cpp"
+				RelativePath=".\ScreenQuad.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMeshLoadHelper.h"
+				RelativePath=".\ShadowMap.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMorphAnimation.cpp"
+				RelativePath=".\Sky.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GEMorphAnimation.h"
+				RelativePath=".\sprite.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GESkeleton.cpp"
+				RelativePath=".\staticmesh.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GESkeleton.h"
+				RelativePath=".\Terrain.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GESkeletonManager.cpp"
+				RelativePath=".\TerrainLiquid.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GESkeletonManager.h"
+				RelativePath=".\TerrainSection.h"
 				>
 			</File>
 			<File
-				RelativePath=".\dependency\Animation\GESubmesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\Animation\GESubmesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\Animation\GEUTIL.CPP"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\Animation\GEUTIL.H"
+				RelativePath=".\Text.h"
 				>
 			</File>
 		</Filter>

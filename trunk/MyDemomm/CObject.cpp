@@ -8,9 +8,6 @@ CObject* CObject::GObjHash[OBJ_ARRAY_NUM]; // Object hash.
 
 CObject::CObject() 
 {
-	//m_bIsVisible = true;	
-	//m_bOnlyReceiveShadows = false;
-	//m_bIsSKin = false;
 	m_ObjFlag = 0;
 
 	m_scale = 1.0f;		   // Ëõ·Å±ÈÀý 
@@ -112,11 +109,12 @@ void CMapObj::Render()
 	if (!m_pSkinMesk || !m_pSkinMesk->IsValid() )
 		return;
 
-	D3DXMATRIX matRy,matSc,matTrworld;
-	D3DXMatrixRotationY(&matRy,m_angle);
-	D3DXMatrixScaling(&matSc,m_scale,m_scale,m_scale);
-	D3DXMatrixTranslation( &matTrworld, m_wordPos.x, m_wordPos.y, m_wordPos.z );
-	matTrworld = matRy * matSc * matTrworld;
+	D3DXMATRIX matTr, matRy,matSc,matTrworld;
+	//D3DXMatrixTranslation(&matOffset, -offset.x, -offset.y, -offset.z);
+	D3DXMatrixTranslation(&matTr, m_wordPos.x, m_wordPos.y, m_wordPos.z);
+	D3DXMatrixRotationY(&matRy, m_angle);
+	D3DXMatrixScaling(&matSc, m_scale, m_scale, m_scale);
+	matTrworld = matRy * matSc * matTr;
 
 	m_pSkinMesk->Render(&matTrworld);
 
@@ -125,10 +123,6 @@ void CMapObj::Render()
 	const D3DXMATRIX& meshRootMat = m_pSkinMesk->GetRootMatrix();
 	D3DXMATRIX AABBWorldmat = meshRootMat * matTrworld;
 	meshAABB.Transform(m_WorldAABB,  AABBWorldmat);
- 	
-// 	D3DXMATRIX initMat;
-// 	D3DXMatrixIdentity(&initMat);
-// 	m_WorldAABB.Render(initMat);
 }
 
 void CMapObj::Update()
