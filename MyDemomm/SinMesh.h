@@ -90,6 +90,7 @@ public:
 
 	const CAABB& GetBoundingBox() {return m_modelAABB;}
 	const D3DXMATRIX& GetRootMatrix() {return m_pFrameRoot->TransformationMatrix;}
+	const D3DXVECTOR3& GetCenter() {return m_vObjectCenter;}
 
 private: 
 	void UpdateFrameMatrices( LPD3DXFRAME pFrameBase, LPD3DXMATRIX pParentMatrix );

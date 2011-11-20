@@ -73,22 +73,22 @@ public:
 
 	bool begin() const;
 	bool BeginPass(int nPass) const;
-	bool BeginPass(std::string sPass) const;
+	bool BeginPass(const std::string& sPass) const;
 	bool CommitChanges() const;
 	bool endPass() const;
 	void end() const;
+
+	bool isParameterUsed(eParameterHandles index) const;
+	bool isParameterUsed(const std::string& sDataName) const;
+	bool isMatrixUsed(eMatrixHandles index) const;
 
 	// Accessors...
 	LPD3DXEFFECT effect()const;
 	int totalPasses()const;
 
-	bool isParameterUsed(eParameterHandles index) const;
-	bool isMatrixUsed(eMatrixHandles index) const;
-	bool isTextureUsed(int index) const;
-	bool isTextureMatrixUsed(int index) const;
-	bool isShadowTextureUsed() const;
-
 	bool setParameter(eParameterHandles index, const void* data, int size = D3DX_DEFAULT) const;
+	//bool setParameter(std::string sParameter, const void* data, int valueSize) const;
+
 	bool setMatrix(eMatrixHandles index, const D3DXMATRIX* data) const;
 	//bool setMatrixArray(eMatrixHandles index, const D3DXMATRIX* data, UINT count) const;
 	//bool setMatrixInArray(eMatrixHandles index, int element, const D3DXMATRIX* data) const;
@@ -97,6 +97,7 @@ public:
 	//bool setTexture(int index, const CTexture* data) const;
 	//bool setTextureMatrix(int index, const D3DXMATRIX* data) const;
 	//bool setShadowTexture(const CTexture* data) const;
+	bool SetTexture(const std::string& sTexture, IDirect3DTexture9* pD3DTexture) const;
 
 	void applySurfaceMaterial(const CMaterial* pSurfaceMaterial) ;
 	void applyCameraMatrices(const CCamera* pCamera) const;
@@ -121,8 +122,7 @@ private:
     D3DXHANDLE m_textureMatrixHandle[k_max_texture_handles];
 	D3DXHANDLE m_shadowTextureHandle;
 
-// 	LPDIRECT3DVERTEXSHADER9 m_pVertexShader[MAX_PASS];
-// 	LPDIRECT3DPIXELSHADER9 m_pPiexlShader[MAX_PASS];
+	std::map<std::string, D3DXHANDLE> m_paramNameToHandle;
 
 	UINT m_nNumPass;
 
@@ -153,7 +153,6 @@ inline CEffectFile::~CEffectFile()
 }
 
 
-
 inline LPD3DXEFFECT CEffectFile::effect() const
 {
 	return m_pEffect;
@@ -165,32 +164,6 @@ inline int CEffectFile::totalPasses()const
 	return m_techniqueDesc.Passes;
 }
 
-inline bool CEffectFile::isParameterUsed(eParameterHandles index)const
-{
-	return m_paramHandle[index] != 0;
-}
-
-inline bool CEffectFile::isMatrixUsed(eMatrixHandles index)const
-{
-	return m_matrixHandle[index] != 0;
-}
-
-inline bool CEffectFile::isTextureUsed(int index)const
-{
-	return m_textureHandle[index] != 0;
-}
-
-inline bool CEffectFile::isShadowTextureUsed()const
-{
-	return m_shadowTextureHandle != 0;
-}
-
-inline bool CEffectFile::isTextureMatrixUsed(int index)const
-{
-	return m_textureMatrixHandle[index] != 0;
-}
-
-
 inline bool CEffectFile::setParameter(eParameterHandles index, const void* data, int size)const
 {
 	if (m_pEffect && isParameterUsed(index))
@@ -201,6 +174,12 @@ inline bool CEffectFile::setParameter(eParameterHandles index, const void* data,
 	}
 	return false;
 }
+
+// bool CEffectFile::setParameter(std::string sParameter, const void* data, int valueSize) const
+// {
+// 	//if (m_pEffect && is)
+// 	return false;
+// }
 
 inline bool CEffectFile::setMatrix(eMatrixHandles index, const D3DXMATRIX* data)const
 {
@@ -249,6 +228,21 @@ inline bool CEffectFile::setFloatInArray(eParameterHandles index, int element, f
 	return false;
 }
 
+inline bool CEffectFile::SetTexture(const std::string& sTexture, IDirect3DTexture9* pD3DTexture) const
+{
+	if (m_pEffect)
+	{
+		std::map<std::string, D3DXHANDLE>::const_iterator it = m_paramNameToHandle.find(sTexture);
+		if (it != m_paramNameToHandle.end() )
+		{
+			D3DXHANDLE textureHandle = it->second;	
+			return SUCCEEDED(m_pEffect->SetTexture(textureHandle, pD3DTexture));
+			//return SUCCEEDED(m_pEffect->SetTexture(sTexture.c_str(), pD3DTexture));
+		}	
+	}
+	return false;
+}
+
 
 // inline bool CEffectFile::setTexture(int index, const CTexture* data) const
 // {
@@ -277,5 +271,20 @@ inline bool CEffectFile::setFloatInArray(eParameterHandles index, int element, f
 // 	return false;
 // }
 
+
+inline bool CEffectFile::isParameterUsed(eParameterHandles index)const
+{
+	return m_paramHandle[index] != 0;
+}
+
+inline bool CEffectFile::isMatrixUsed(eMatrixHandles index)const
+{
+	return m_matrixHandle[index] != 0;
+}
+
+inline bool CEffectFile::isParameterUsed(const std::string& sDataName) const
+{
+	return m_paramNameToHandle.find(sDataName) != m_paramNameToHandle.end();
+}
 
 

@@ -3,6 +3,7 @@
 
 #include "public.h"
 #include "CObject.h"
+#include "bit_flags.h"
 
 class CTerrain;
 
@@ -19,10 +20,13 @@ public:
 
 	void Render();
 
+	int GetHeightMapX() {return m_heightMapX;}
+	int GetHeightMapY() {return m_heightMapY;}
+
 private:
-	void BuildVertexBuffer();
-	void BuildIndexBuffer();
-	void CreateVertexDecl();
+	void createVertexData();
+	void createIndexData();
+	void createVertexDeclation();
 	void ChangeGridUV( D3DXVECTOR2& topLeft,  D3DXVECTOR2& topRight,
 		D3DXVECTOR2& botomLeft, D3DXVECTOR2& botomRight,
 		uint8 op, uint8 tri );

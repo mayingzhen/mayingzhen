@@ -32,7 +32,6 @@ private:
 		std::vector<float>& color_weight,
 		std::vector<float>& tex_coord_offset);
 
-
 public:
 
 	enum
@@ -46,15 +45,6 @@ public:
 		AdaptedTex_LAST = 1,
 		AdaptedTex_NUM = 2,
 	};
-
-// 	CPostProcess m_SumLumlog;
-// 	std::vector<CPostProcess> m_SumLums;
-// 	CPostProcess m_AdaptedLum;
-// 	CPostProcess m_BrightPassDownSampler;
-// 	CPostProcess m_DownSamplers[2];
-// 	CPostProcess m_Blurs[3];
-// 	CPostProcess m_GlowMerge;
-// 	CPostProcess m_ToneMapping;
 	
 	LPDIRECT3DTEXTURE9 m_lumTexs[NUM_SUM_LUM + 1]; 
 	LPDIRECT3DTEXTURE9 m_DownSampleTex[3];
@@ -62,10 +52,6 @@ public:
 	LPDIRECT3DTEXTURE9 m_BureTempTex[3];
 	LPDIRECT3DTEXTURE9 m_GlowMergedTex;
 	LPDIRECT3DTEXTURE9 m_AdaptedTex[AdaptedTex_NUM];
-
-	//std::vector<D3DXVECTOR4> m_tex_coord_offset(2);
-	//D3DXVECTOR4 m_TexcoordOffsetX;
-	//D3DXVECTOR4 m_TexcoordOffsetY;
 
 	CScreenQuad m_ScreenQuad;
 

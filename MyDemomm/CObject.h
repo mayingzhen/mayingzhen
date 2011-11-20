@@ -4,7 +4,6 @@
 
 #include "bounding.h"
 #include "SinMesh.h"
-#include "orientation.h"
 
 class COctreeNode;
 
@@ -70,10 +69,6 @@ public:
 
 	int m_ObjFlag;
 
-	//bool m_bIsSKin;
-	//bool m_bIsTerrain;
-	//bool m_bOnlyReceiveShadows;
-	//bool m_bIsVisible;	
 	std::string m_sName;
 
 	D3DXVECTOR3 m_wordPos; // 世界空间位置

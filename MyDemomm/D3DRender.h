@@ -14,19 +14,19 @@ public:
 	void Init();
 	void Destroy();
 
+	void Render();
+
+	void CreateRT();
+	void LoadShader();
+
+private:
 	void GBufferPass();
 	void ShadowMapPass();
 	void DefferdShadow();
 	void DeferredLight();
 	void ShadingPass();
 	void RenderWater();
-
 	void RenderSSAO();
-	
-	void RenderAABB();
-
-	void CreateRT();
-	void LoadShader();
 
 private:
 	bool m_bIsHDRRending;
@@ -40,8 +40,6 @@ private:
 	// shadow map
 	CEffectFile m_shadowMapTech;
 	CEffectFile m_SkinShadowMapTech;	
-	enum {NUM_PSSM = 4};
-	ShadowMap m_ShadowMap[NUM_PSSM];
 	
 	// defferred lighting
 	CEffectFile m_DeferredLightTech;
@@ -61,7 +59,6 @@ private:
 
 	/// 
 	CEffectFile m_WaterTech;
-
 
 	/// ssao
 	LPDIRECT3DTEXTURE9 m_pSSAOTex;

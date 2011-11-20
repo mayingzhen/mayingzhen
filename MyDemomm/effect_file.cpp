@@ -103,7 +103,7 @@ bool CEffectFile::begin() const
 	g_pCurCEffect = this;
 
 	UINT nPass;
-	result = m_pEffect->Begin(&nPass, 0/*D3DXFX_DONOTSAVESTATE|D3DXFX_DONOTSAVESHADERSTATE|D3DXFX_DONOTSAVESAMPLERSTATE*/);
+	result = m_pEffect->Begin(&nPass, 0);
     if( FAILED( result ) )
 	{
 		assert(false);
@@ -131,7 +131,7 @@ bool CEffectFile::BeginPass(int nPass) const
     return true;
 }
 
-bool CEffectFile::BeginPass(std::string sPass) const
+bool CEffectFile::BeginPass(const std::string& sPass) const
 {
 	for (int i = 0; i < MAX_PASS; ++i)
 	{
@@ -207,26 +207,29 @@ void CEffectFile::parseParameters()
     {
         hParam = m_pEffect->GetParameter ( NULL, iParam );
         m_pEffect->GetParameterDesc( hParam, &ParamDesc );
+
+		m_paramNameToHandle[ParamDesc.Name] = hParam;
+
         if( ParamDesc.Semantic != NULL && 
             ( ParamDesc.Class == D3DXPC_MATRIX_ROWS || ParamDesc.Class == D3DXPC_MATRIX_COLUMNS ) )
         {
-            if( strcmpi( ParamDesc.Semantic, "world" ) == 0 )
+            if( _strcmpi( ParamDesc.Semantic, "world" ) == 0 )
                 m_matrixHandle[k_worldMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "view" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "view" ) == 0 )
                 m_matrixHandle[k_viewMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "projection" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "projection" ) == 0 )
                 m_matrixHandle[k_projMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "worldview" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "worldview" ) == 0 )
                 m_matrixHandle[k_worldViewMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "viewprojection" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "viewprojection" ) == 0 )
                 m_matrixHandle[k_viewProjMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "worldviewprojection" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "worldviewprojection" ) == 0 )
                 m_matrixHandle[k_worldViewProjMatrix] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "worldmatrixarray" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "worldmatrixarray" ) == 0 )
                 m_matrixHandle[k_worldMatrixArray] = hParam;
 
 			// look for texture matrices which are named texMatX
-			if (strnicmp( ParamDesc.Semantic, "texmat", 6) ==0)
+			if (_strnicmp( ParamDesc.Semantic, "texmat", 6) ==0)
 			{
 				std::string name(ParamDesc.Name);
 				size_t iPos = name.find_first_of(numerals,0);
@@ -244,33 +247,33 @@ void CEffectFile::parseParameters()
         if( ParamDesc.Semantic != NULL && 
             ( ParamDesc.Class == D3DXPC_VECTOR ))
         {
-            if( strcmpi( ParamDesc.Semantic, "materialambient" ) == 0 )
+            if( _strcmpi( ParamDesc.Semantic, "materialambient" ) == 0 )
                 m_paramHandle[k_ambientMaterialColor] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "materialdiffuse" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "materialdiffuse" ) == 0 )
                 m_paramHandle[k_diffuseMaterialColor] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "materialspecular" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "materialspecular" ) == 0 )
                 m_paramHandle[k_specularMaterialColor] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "materialemissive" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "materialemissive" ) == 0 )
                 m_paramHandle[k_emissiveMaterialColor] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "sunvector" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "sunvector" ) == 0 )
                 m_paramHandle[k_sunVector] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "suncolor" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "suncolor" ) == 0 )
                 m_paramHandle[k_sunColor] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "worldcamerapos" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "worldcamerapos" ) == 0 )
                 m_paramHandle[k_cameraPos] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "viewdistances" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "viewdistances" ) == 0 )
                 m_paramHandle[k_cameraDistances] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "worldviewvector" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "worldviewvector" ) == 0 )
                 m_paramHandle[k_cameraFacing] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "ambientlight" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "ambientlight" ) == 0 )
                 m_paramHandle[k_ambientLight] = hParam;
 
-            else if( strcmpi( ParamDesc.Semantic, "posScaleOffset" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "posScaleOffset" ) == 0 )
                 m_paramHandle[k_posScaleOffset] = hParam;
-            else if( strcmpi( ParamDesc.Semantic, "uvScaleOffset" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "uvScaleOffset" ) == 0 )
                 m_paramHandle[k_uvScaleOffset] = hParam;
 
-            else if( strcmpi( ParamDesc.Semantic, "flareColor" ) == 0 )
+            else if( _strcmpi( ParamDesc.Semantic, "flareColor" ) == 0 )
                 m_paramHandle[k_lensFlareColor] = hParam;
 			
        }
@@ -279,14 +282,14 @@ void CEffectFile::parseParameters()
         {
 			if( ParamDesc.Semantic == NULL)
 			{
-				if( strcmpi( ParamDesc.Name, "curnumbones" ) == 0 )
+				if( _strcmpi( ParamDesc.Name, "curnumbones" ) == 0 )
 				{
 					m_paramHandle[k_boneInfluenceCount] = hParam;
 				}
 			}
 			else
 			{
-				if( strcmpi( ParamDesc.Semantic, "materialpower" ) == 0 )
+				if( _strcmpi( ParamDesc.Semantic, "materialpower" ) == 0 )
 					m_paramHandle[k_specularMaterialPower] = hParam;
 			}
 		}
@@ -319,9 +322,9 @@ void CEffectFile::parseParameters()
 
 		if ( ParamDesc.Class == D3DXPC_STRUCT)
 		{
-			if( strcmpi( ParamDesc.Semantic, "AtmosphericLighting" ) == 0 )
+			if( _strcmpi( ParamDesc.Semantic, "AtmosphericLighting" ) == 0 )
 				m_paramHandle[k_atmosphericLighting] = hParam;
-			else if ( strcmpi( ParamDesc.Semantic, "patchCorners") == 0 )
+			else if ( _strcmpi( ParamDesc.Semantic, "patchCorners") == 0 )
 				m_paramHandle[k_patchCorners] = hParam;
 		}
 	}

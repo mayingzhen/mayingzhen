@@ -5,10 +5,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				   LPTSTR    lpCmdLine,
 				   int       nCmdShow)
 {
-	CGameApp gameApp;
-	if ( !FAILED( gameApp.Create(hInstance) ) )
+	if ( !FAILED( g_GameApp.Create(hInstance) ) )
 	{
-		gameApp.Run();
+		g_GameApp.Run();
 	}
 
 	return 1 ;

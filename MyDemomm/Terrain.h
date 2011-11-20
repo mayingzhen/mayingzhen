@@ -6,6 +6,7 @@
 #include "effect_file.h"
 #include "TextureAtlas.h"
 #include "CObject.h"
+#include "bit_flags.h"
 
 
 class CTerrain : public CSingleton<CTerrain>

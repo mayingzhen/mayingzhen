@@ -1,8 +1,7 @@
 #ifndef __RES_H__
 #define __RES_H__
 
-#include "ResMngr.h"	//土，但没办法。为了看见ResMap_t和ResList_t
-
+#include "ResMngr.h"	
 
 enum ResState
 {
@@ -40,7 +39,7 @@ protected:
 	//设置资源延迟销毁时间，资源派生类可调用
 	inline void SetDelayTime( float fTimeOut );
 
-private:
+public:
 	///////////////////////////////////////////////////////////////////////////////
 	//以下接口仅供CResMngr或CResLoader调用
 	///////////////////////////////////////////////////////////////////////////////
@@ -69,10 +68,10 @@ private:
 	inline CResMngr* GetMngr() const;
 	//设置是否有效
 	inline void SetState( ResState state );
-
+	
 private:
 	std::string				m_strName;		//名称
-	int					m_dwRefCount;	//引用计数
+	int						m_dwRefCount;	//引用计数
 	float					m_fTimeDelay;	//删除缓冲时长（秒）
 	double					m_fTimeDelete;	//将被删除时刻（秒）
 	ResList_t::iterator		m_iterListFree;	//在Free链表中（如果在的话）的iterator

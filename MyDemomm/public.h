@@ -110,13 +110,13 @@ inline bool GetMouseDown(int iVirtualKey)
 // }
 
 
-D3DXMATRIX GetD3DXMATRIX(char** pMyBuffer)
-{
-	float fMat[16] = {0};
-	memcpy( (char*)fMat, *pMyBuffer, sizeof(float) * 16 );
-	*pMyBuffer += sizeof(float) * 16;
-	return fMat;   	
-}
+// D3DXMATRIX GetD3DXMATRIX(char** pMyBuffer)
+// {
+// 	float fMat[16] = {0};
+// 	memcpy( (char*)fMat, *pMyBuffer, sizeof(float) * 16 );
+// 	*pMyBuffer += sizeof(float) * 16;
+// 	return fMat;   	
+// }
 
 
 

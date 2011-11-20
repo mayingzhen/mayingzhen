@@ -1,6 +1,5 @@
-#pragma once
-
-
+#ifndef C_OCTREE_SCENE_MANAGGER__HH__
+#define C_OCTREE_SCENE_MANAGGER__HH__
 
 #include <list>
 #include <algorithm>
@@ -13,13 +12,12 @@
 #include "effect_file.h"
 #include "SinMesh.h"
 #include "light.h"
-#include "ShadowMap.h"
 #include "ScreenQuad.h"
-
 
 class CCharactor;
 class TerrainLiquid;
 class CTerrainSection;
+class ShadowMap;
 
 
 class OctreeSceneManager
@@ -32,74 +30,54 @@ public:
     void Init(CAABB &box, int depth);
 	void ReleaseAll();
 
-
 	const std::list<CObject*>& GetRenderObjList();
+	const std::list<Light>& GetLigtList();
+	std::list<ShadowMap*>& GetShadowMapList();
+	const std::vector<TerrainLiquid*> GetTerrainLiquidList();
 
-	void Update(/*const CFrustum& frustum*/);
-	void Render();
+	void Update();
 
 	void AddMapObject(const D3DXVECTOR3& pos,float scale,float angle,
 		const std::string& modelName,const std::string& hashName); 
 	void AddCharactor(const D3DXVECTOR3& pos,float scale,float angle,
 		const std::string& modelName,const std::string& hashName);
 	void AddTerrainScetion(CTerrainSection* pTerrainSection);
+	void AddTerrainLiquid(TerrainLiquid* pTerrainLiquid);
 
-	CCharactor* GetSelfCha() {return m_pSelfCha;}
-	void SetSelfCha(CCharactor* cha); 
-
-
-	void InitLight();
-	void SetLightParams(const D3DXVECTOR3 &vLightPos, const D3DXVECTOR3 &vLightAt);
+	void AddLight(const D3DXVECTOR3 &vLightPos, const D3DXVECTOR3 &vLightAt);
 
 	void CreateScene(std::string sScenName);
 	
 private:
 
+	std::list<CObject *> FindCasters(const CFrustum &frustum);
+
 	void FindVisibleObjects(const CFrustum& frustum);
 	void walkOctree(const CFrustum& frustum,COctreeNode* octNode,CFrustum::Visble parentVisible);
-
 	void UpdateObject(CObject* object); // 更新物体在八叉树中的位置
 	void RemoveObject(CObject* object); // 将物体从它所属的八叉树节点移除 
 	void AddObject(CObject *object, COctreeNode *octree, int depth = 0); // 将物体加到八叉树节点下(会找到尽可能深的子节点) 
 
-public:
+private:
 
-	struct SimpleVertex
-	{
-		SimpleVertex() {}
-		SimpleVertex(const D3DXVECTOR3& position, const D3DXVECTOR2& texCoords)
-		{
-			this->position = position;
-			this->texCoords = texCoords;
-		}
-
-		/// Vertex position
-		D3DXVECTOR3 position;
-
-		/// Vertex texture coordinate
-		D3DXVECTOR2 texCoords;
-	};
-	
-	CCharactor* m_pSelfCha; //自己
-
-	CRenderQueue* m_pRenderQueue;
+	//CRenderQueue* m_pRenderQueue;
 
 	std::list<CObject*> m_allObject;
+	std::list<Light> m_allLight;
 
-	Light m_Light;
-	CSkinMesh		   m_LightModel;
+	std::list<ShadowMap*> m_allShdowMap;
+
+	CSkinMesh	m_LightModel;
 
     COctreeNode *mOctree;     // The root octree
 
     int mMaxDepth;			// Max depth for the tree
-    CAABB mBox;    // Size of the octree
-
-	//IDirect3DVertexDeclaration9* m_simpleVertexDeclaration;
-	//SimpleVertex m_quadVerts[4]; 
+    CAABB mBox;				// Size of the octree
 	
-
-	std::vector<TerrainLiquid*> m_pTerrainLiquids;
-
+	std::vector<TerrainLiquid*> m_pRenderLiquids;  // need render Liquids
+	std::vector<TerrainLiquid*> m_pTerrainLiquids; // all Liquids
 };
 
 extern OctreeSceneManager g_SceneMng;
+
+#endif

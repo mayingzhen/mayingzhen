@@ -5,6 +5,10 @@
 #include <d3dx9.h>
 #include <mmsystem.h>
 
+#define  g_nWndWidth   g_GameApp.GetWndWith()
+#define  g_nWndHeigh   g_GameApp.GetWndHeigh()
+#define  g_pD3DDevice  g_GameApp.GetD3dDevice()
+#define  g_ElapsedTime g_GameApp.GetElapsedTime()
 
 class CGameApp
 {
@@ -14,6 +18,11 @@ public:
 
 	HRESULT Create(HINSTANCE hInstance);
 	void Run();
+
+	LPDIRECT3DDEVICE9 GetD3dDevice() {return m_pd3dDevice;}
+	int GetWndWith() {return m_nWndWidth;}
+	int GetWndHeigh() {return m_nWndHeigh;}
+	float GetElapsedTime() {return m_fElapsedTime;}
 
 private:
 	HRESULT InitDeviceObjects(); 
@@ -35,15 +44,14 @@ private:
 	LPDIRECT3D9  m_pD3D;				   // The main D3D object
 	D3DPRESENT_PARAMETERS m_d3dpp;         // Parameters for CreateDevice/Reset
 	LPDIRECT3DDEVICE9 m_pd3dDevice;        // The D3D rendering device
+	int m_nWndWidth;
+	int m_nWndHeigh;
+	float m_fElapsedTime;
 
 	/// Font
 	ID3DXFont* m_pFont;
-
-	BOOL m_bActive;
 };
 
-extern LPDIRECT3DDEVICE9 g_pD3DDevice ;   //DIRECT3D …Ë±∏
-extern int g_nWndWidth;
-extern int g_nWndHeigh;
+extern CGameApp g_GameApp;
 
 #endif
