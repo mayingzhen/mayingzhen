@@ -1,0 +1,30 @@
+# TerainTextAltas.tai
+# AtlasCreationTool.exe -halftexel -width 1024 -o TerainTextAltas
+#
+# <filename>		<atlas filename>, <atlas idx>, <atlas type>, <woffset>, <hoffset>, <depth offset>, <width>, <height>
+#
+# Texture <filename> can be found in texture atlas <atlas filename>, i.e., 
+# TerainTextAltas<idx>.dds of <atlas type> type with texture coordinates boundary given by:
+#   A = ( <woffset>, <hoffset> )
+#   B = ( <woffset> + <width>, <hoffset> + <height> )
+#
+# where coordinates (0,0) and (1,1) of the original texture map correspond
+# to coordinates A and B, respectively, in the texture atlas.
+# If the atlas is a volume texture then <depth offset> is the w-coordinate
+# to use the access the appropriate slice in the volume atlas.
+
+res\terrain\brush\北方/北方山A01.jpg		TerainTextAltas0.dds, 0, 2D, 0.000488, 0.000977, 0.000000, 0.249023, 0.498047
+res\terrain\brush\北方/北方山A02.jpg		TerainTextAltas0.dds, 0, 2D, 0.250488, 0.000977, 0.000000, 0.249023, 0.498047
+res\terrain\brush\北方/北方菜地.jpg		TerainTextAltas0.dds, 0, 2D, 0.500488, 0.000977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/北方砖地01.tga		TerainTextAltas0.dds, 0, 2D, 0.625488, 0.000977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/台基座高.tga		TerainTextAltas0.dds, 0, 2D, 0.750488, 0.000977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/杂草地密底层.jpg		TerainTextAltas0.dds, 0, 2D, 0.875488, 0.000977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/杂草地密上层.tga		TerainTextAltas0.dds, 0, 2D, 0.000488, 0.500977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/杂草地疏底层.jpg		TerainTextAltas0.dds, 0, 2D, 0.125488, 0.500977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\北方/杂草地疏上层.tga		TerainTextAltas0.dds, 0, 2D, 0.250488, 0.500977, 0.000000, 0.124023, 0.498047
+res\terrain\brush\06雁门关/落叶上层.tga		TerainTextAltas0.dds, 0, 2D, 0.375488, 0.500977, 0.000000, 0.124023, 0.248047
+res\terrain\brush\09洛阳/洛阳砖地边.tga		TerainTextAltas0.dds, 0, 2D, 0.500488, 0.500977, 0.000000, 0.124023, 0.248047
+res\terrain\brush\北方/北方山A03.jpg		TerainTextAltas0.dds, 0, 2D, 0.625488, 0.500977, 0.000000, 0.124023, 0.248047
+res\terrain\brush\北方/北方砖地台阶.tga		TerainTextAltas0.dds, 0, 2D, 0.750488, 0.500977, 0.000000, 0.124023, 0.248047
+res\terrain\brush\北方/台基座.tga		TerainTextAltas0.dds, 0, 2D, 0.875488, 0.500977, 0.000000, 0.124023, 0.248047
+res\terrain\transparent.tga		TerainTextAltas0.dds, 0, 2D, 0.375488, 0.750977, 0.000000, 0.061523, 0.123047
