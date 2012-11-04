@@ -170,12 +170,92 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\Camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Component.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObj.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MeshComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SceneNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SkelMeshComponent.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Component.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObj.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SceneNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkelMeshComponent.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"

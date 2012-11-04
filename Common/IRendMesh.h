@@ -9,6 +9,8 @@ namespace ma
 		virtual IRendMesh() = 0;
 		
 		virtual ~IRendMesh() = 0;
+
+
 		
 	};
 }

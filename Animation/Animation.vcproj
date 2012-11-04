@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="DXRender"
-	ProjectGUID="{2449FFE6-FC0E-4BD4-9013-EE1EDB870F1C}"
-	RootNamespace="DXRender"
+	Name="Animation"
+	ProjectGUID="{E650DD0B-091C-437A-850B-5939D786C6D1}"
+	RootNamespace="Animation"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,8 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DXRENDER_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -115,7 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DXRENDER_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -171,44 +170,12 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\DxRender.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DxRendMesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DxRendTexture.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\DxRender.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DxRendMesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DxRendTexture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"

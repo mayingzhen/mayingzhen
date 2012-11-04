@@ -1,7 +1,7 @@
-#ifndef  _MODULE__H__
-#define  _MODULE__H__
+#ifndef  _DXRENDER_MODULE__H__
+#define  _DXRENDER_MODULE__H__
 
-#include "DxRender.h"
+#include "DXRender/DxRender.h"
 
 
 void ModuleStart();

@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -170,12 +171,36 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\Module.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRender.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRendMesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRendTexture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"
