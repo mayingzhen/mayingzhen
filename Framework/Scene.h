@@ -4,6 +4,7 @@
 namespace ma
 {
 	class SceneNode;
+	class PhysicsScene;
 }
 
 namespace ma
@@ -19,8 +20,11 @@ namespace ma
 		void Render();
 
 	private:
-		std::vector<SceneNode*> m_vSceneNodes;
-		
+		SceneNode* m_pRootNode;
+		PhysicsScene* m_pPhyScene;
+
+		float m_fAccPhyTime;
+		float m_fFixUpdateInterval;
 
 	};
 }

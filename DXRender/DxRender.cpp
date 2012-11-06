@@ -28,17 +28,17 @@ void DxRender::RenderSkelMesh(IRendMesh* pSkelMesh)
 
 }
 
-HRESULT DxRender::Init()
+bool DxRender::Init(HWND hWnd)
 {
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 	if(NULL == m_pD3D)
 	{
 		ASSERT(FALSE && "Direct3DCreate9(D3D_SDK_VERSION)");
-		return S_FALSE;
+		return false;
 	}
 
 	RECT rect;
-	GetWindowRect(m_hMainWnd,&rect);
+	GetWindowRect(hWnd,&rect);
 
 	ZeroMemory( &m_d3dpp, sizeof(m_d3dpp) );
 	m_d3dpp.Windowed = TRUE;
@@ -48,8 +48,8 @@ HRESULT DxRender::Init()
 	m_d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 	m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // Disable vertical synchronization
-	m_d3dpp.BackBufferWidth = m_nWndWidth;
-	m_d3dpp.BackBufferHeight = m_nWndHeigh;
+	m_d3dpp.BackBufferWidth = rect.right - rect.left;
+	m_d3dpp.BackBufferHeight = rect.bottom - rect.top;
 
 	UINT AdapterToUse = D3DADAPTER_DEFAULT;
 	D3DDEVTYPE DeviceType = D3DDEVTYPE_HAL;
@@ -75,40 +75,15 @@ HRESULT DxRender::Init()
 #endif
 
 	HRESULT hr = S_OK;
-	hr = m_pD3D->CreateDevice(AdapterToUse,DeviceType,m_hMainWnd,
+	hr = m_pD3D->CreateDevice(AdapterToUse,DeviceType,hWnd,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&m_d3dpp,&m_pd3dDevice);
 
 	if( FAILED(hr) )
 	{
 		ASSERT(FALSE && "m_pD3D->CreateDevice()");
-		return E_FAIL;
+		return false;
 	}
 
-	// Create a D3DX font object
-	hr = D3DXCreateFont(
-		m_pd3dDevice,
-		14,
-		0,
-		FW_BOLD,
-		0,
-		FALSE,
-		DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS,
-		DEFAULT_QUALITY,
-		DEFAULT_PITCH | FF_DONTCARE,
-		TEXT("Arial"),
-		&m_pFont) ;
-
-
-	// Initialize the app's device-dependent objects
-	hr = InitDeviceObjects();
-	if( SUCCEEDED(hr) )
-	{
-		hr = RestoreDeviceObjects();
-		if( SUCCEEDED(hr) )
-			return S_OK;
-	}
-
-	return hr;
+	return true;
 }

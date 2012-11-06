@@ -1,5 +1,5 @@
-#ifndef  _IRENDMESH__H__
-#define  _IRENDMESH__H__
+#ifndef  _IRENDTEXTURE__H__
+#define  _IRENDTEXTURE__H__
 
 namespace ma
 {

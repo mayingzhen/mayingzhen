@@ -190,6 +190,11 @@ void CGameApp::InitGame()
 
 void CGameApp::Update()
 {
+	if (m_pScene)
+	{
+		m_pScene->Tick(m_fElapsedTime);
+	}
+
 	CMouse::GetSingleton().UpdateMousePos(); //Êó±ê¸üÐÂ
 
 	g_SceneMng.Update();
@@ -197,10 +202,7 @@ void CGameApp::Update()
 
 void CGameApp::Render()
 {
-	static float timeNow = timeGetTime() / 1000.0f;
-	m_fElapsedTime = timeNow;
-	timeNow = timeGetTime() / 1000.0f;
-	m_fElapsedTime = (timeNow - g_ElapsedTime);
+
 
 	if (NULL == g_pD3DDevice || 0.00f == g_ElapsedTime)
 		return ;
@@ -243,12 +245,18 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 	ShowWindow(m_hMainWnd,SW_SHOW);
 	UpdateWindow(m_hMainWnd);
 
- 	if( FAILED( Initialize3DEnvironment() ) )
- 	{
- 		ASSERT(FALSE && "Initialize3DEnvironment()");
- 		SAFE_RELEASE( m_pD3D );
- 		return S_FALSE;
- 	}
+	DxRender* pDxRender = new DxRender();
+	ma::SetRender(pDxRender);
+	pDxRender->Init(m_hMainWnd);
+
+
+
+//  	if( FAILED( Initialize3DEnvironment() ) )
+//  	{
+//  		ASSERT(FALSE && "Initialize3DEnvironment()");
+//  		SAFE_RELEASE( m_pD3D );
+//  		return S_FALSE;
+//  	}
 
 	InitGame();
 
@@ -416,6 +424,11 @@ HRESULT CGameApp::Render3DEnvironment()
 		}
 		return hr;
 	}
+
+	static float timeNow = timeGetTime() / 1000.0f;
+	m_fElapsedTime = timeNow;
+	timeNow = timeGetTime() / 1000.0f;
+	m_fElapsedTime = (timeNow - g_ElapsedTime);
 
 	Update();
 

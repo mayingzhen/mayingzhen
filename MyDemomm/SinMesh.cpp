@@ -6,6 +6,531 @@
 #include "GameApp.h"
 #include "Camera.h"
 
+#define F_EPS 1.0e-6f
+#define F_MAX 1.0e+6f
+
+
+void DecomposeFrame(float frame,const std::vector<UINT>& vkeyFrame,UINT& key0,UINT& key1,float& factor)
+{
+	//ASSERT(vkeyFrame.size() > 0);
+	frame = Clamp(frame, (float)vkeyFrame.back());
+	std::vector<UINT>::const_iterator iter = std::lower_bound(vkeyFrame.begin(), vkeyFrame.end(), (UINT)(frame + 1.0f));
+	if ( iter != vkeyFrame.end() )
+	{
+		key1 = iter - vkeyFrame.begin();
+		key0 = key1 > 0 ? key1 - 1 : key1;
+		factor = key0 < key1 ? (frame - vkeyFrame[key0]) / (vkeyFrame[key1] - vkeyFrame[key0]) : 0.0f;
+	}
+	else
+	{
+		key0 = (UINT)vkeyFrame.size() - 1;
+		key1 = key0;
+		factor = 0.0f;
+	}
+}
+
+void QuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat)
+{
+	D3DXVECTOR3 uv, uuv;
+	D3DXVECTOR3 qvec(pQuat->x, pQuat->y, pQuat->z);
+	D3DXVec3Cross(&uv, &qvec, pV);
+	D3DXVec3Cross(&uuv, &qvec, &uv);
+	uv *= (2.0f * pQuat->w);
+	uuv *= 2.0f;
+	*pOut = *pV + uv + uuv;
+}
+
+void QuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1, const D3DXQUATERNION* pQ2, float fWeight)
+{
+	if ( D3DXQuaternionDot(pQ1,pQ2) >= 0.0f )
+	{
+		*pOut = *pQ1 + *pQ2 * fWeight;
+	}
+	else
+	{
+		*pOut = *pQ1 - *pQ2 * fWeight;
+	}
+} 
+
+
+void TransformSetIdentity(CNodeTransform* pTSF)
+{
+	memset( &pTSF->m_vPos, 0, sizeof(D3DXVECTOR3) );
+	D3DXQuaternionIdentity(&pTSF->m_qRot);
+	pTSF->m_fScale = 1.0f;
+}
+
+void TransfromMul(CNodeTransform* pOut, const CNodeTransform* pTSFA, const CNodeTransform* pTSFB)
+{
+	D3DXVECTOR3 vOpos = pTSFA->m_vPos * pTSFB->m_fScale;
+	QuaternionTransformVector(&vOpos, &vOpos, &pTSFB->m_qRot);
+	pOut->m_vPos = vOpos + pTSFB->m_vPos;
+
+	D3DXQuaternionMultiply(&pOut->m_qRot, &pTSFA->m_qRot, &pTSFB->m_qRot);
+	
+	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale;
+}
+
+void TransformInverse(CNodeTransform* pOut, const CNodeTransform* pTSF)
+{
+	float fScaleInv;
+
+	fScaleInv = pTSF->m_fScale > F_EPS ? 1.0f / pTSF->m_fScale : 1.0f;
+
+	D3DXQuaternionInverse(&pOut->m_qRot,&pTSF->m_qRot);
+
+	pOut->m_vPos = pTSF->m_vPos * fScaleInv;
+	QuaternionTransformVector(&pOut->m_vPos, &pOut->m_vPos, &pOut->m_qRot);
+	pOut->m_vPos = -pOut->m_vPos;
+
+	pOut->m_fScale = fScaleInv;
+}
+
+void TransfromInvMul(CNodeTransform* pOut, const CNodeTransform* pTSFA, const CNodeTransform* pTSFB)
+{
+	CNodeTransform tsfInv;
+	TransformInverse(&tsfInv, pTSFB);
+	TransfromMul(pOut, pTSFA, &tsfInv);
+}
+
+void MatrixFromTransform(D3DXMATRIX* pMat, const CNodeTransform* pTSF)
+{
+	D3DXQUATERNION qRot;
+	D3DXQuaternionNormalize(&qRot, &pTSF->m_qRot);
+	
+	D3DXVECTOR3 vScale(pTSF->m_fScale, pTSF->m_fScale, pTSF->m_fScale);
+
+	D3DXMatrixTransformation(pMat, NULL, NULL, &vScale, NULL, &qRot, &pTSF->m_vPos);
+}
+
+template<class T> 
+bool IsValidID(T ind)
+{
+	return ind != (T)(-1);
+}
+
+template<class T> 
+bool IsInValidID(T ind)
+{
+	return ind == (T)(-1);
+}
+
+
+void CNodePose::InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice)
+{
+	UINT uBoneNum = arrParentIndice.size();
+	m_arrDirtyByte.resize(uBoneNum);
+	m_arrParentIndice.resize(uBoneNum);
+	m_arrTSF_OS.resize(uBoneNum);
+	m_arrTSF_PS.resize(uBoneNum);
+
+	for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+	{
+		m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
+		m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
+		m_arrParentIndice[uBoneCnt] = arrParentIndice[uBoneCnt];
+		TransformSetIdentity(&m_arrTSF_OS[uBoneCnt]);
+		TransformSetIdentity(&m_arrTSF_PS[uBoneCnt]);
+	}
+
+	m_bPSSynced = true;
+	m_bOSSynced = true;
+}
+
+void CNodePose::InitParentSpace(const std::vector<CNodeTransform>& arrTSF_PS, const std::vector<BoneIndex>& arrParentIndice)
+{
+	InitWithParentIndice(arrParentIndice);
+	SetTransformPSAll(arrTSF_PS);
+}
+
+void CNodePose::InitObjectSpace(const std::vector<CNodeTransform>& arrTSF_OS, const std::vector<BoneIndex>& arrParentIndice)
+{
+	InitWithParentIndice(arrParentIndice);
+	SetTransformOSAll(arrTSF_OS);
+}
+
+// void CNodePose::InitLocalSpace(const std::vector<CNodeTransform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice)
+// {
+// 
+// }
+
+void CNodePose::SetTransformPSAll(const std::vector<CNodeTransform>& arrTSF_PS)
+{
+	ASSERT(arrTSF_PS.size() == m_arrParentIndice.size());
+	UINT uBoneNum = m_arrParentIndice.size();
+	for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+	{
+		m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
+		m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
+		
+		m_arrTSF_PS[uBoneCnt] = arrTSF_PS[uBoneCnt];
+		
+		BoneIndex nParentInd = m_arrParentIndice[uBoneCnt];
+		if ( IsValidID(nParentInd) )
+		{
+			TransfromMul(&m_arrTSF_OS[uBoneCnt],&arrTSF_PS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
+		}	
+		else 
+		{
+			m_arrTSF_OS[uBoneCnt] = arrTSF_PS[uBoneCnt];
+		}
+	}
+
+	m_bPSSynced = true;
+	m_bOSSynced = true;
+}
+
+void CNodePose::SetTransformOSAll(const std::vector<CNodeTransform>& arrTSF_OS)
+{
+	ASSERT(arrTSF_OS.size() == m_arrParentIndice.size());
+	UINT uBoneNum = m_arrParentIndice.size();
+	for (UINT uBoneCnt = 0; uBoneCnt < uBoneNum; ++uBoneCnt)
+	{
+		m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
+		m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
+
+		m_arrTSF_OS[uBoneCnt] = arrTSF_OS[uBoneCnt];
+		
+		BoneIndex nParentInd = m_arrParentIndice[uBoneCnt];
+		if ( IsValidID(nParentInd) )
+		{
+			TransfromInvMul(&m_arrTSF_PS[uBoneCnt],&arrTSF_OS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
+		}	
+		else 
+		{
+			m_arrTSF_PS[uBoneCnt] = arrTSF_OS[uBoneCnt];
+		}
+	}
+
+	m_bPSSynced = true;
+	m_bOSSynced = true;
+}
+
+
+void CNodePose::SyncParentSpace() const
+{
+
+}
+
+void CNodePose::SyncObjectSpace() const
+{
+
+}
+
+void CNodePose::SetTransformPS(const CNodeTransform* pTSF, BoneIndex nBoneInd)
+{
+	SyncAllChildPS(nBoneInd);
+	m_arrTSF_PS[nBoneInd] = *pTSF;
+	m_arrDirtyByte[nBoneInd].m_bPSDirty = false;
+	m_arrDirtyByte[nBoneInd].m_bOSDirty = true;
+
+	m_bOSSynced = false;
+}
+
+void CNodePose::SetTransformOS(const CNodeTransform* pTSF, BoneIndex nBoneInd)
+{
+	SyncAllChildPS(nBoneInd);
+	m_arrTSF_OS[nBoneInd] = *pTSF;
+	m_arrDirtyByte[nBoneInd].m_bPSDirty = true;
+	m_arrDirtyByte[nBoneInd].m_bOSDirty = false;
+
+	m_bOSSynced = false;
+}
+
+const CNodeTransform& CNodePose::GetTransformOS(BoneIndex nBoneInd) const
+{
+	if (m_arrDirtyByte[nBoneInd].m_bOSDirty)
+	{
+		UpdateTransformOS(nBoneInd);
+	}
+	return m_arrTSF_OS[nBoneInd];
+}
+
+const CNodeTransform& CNodePose::GetTransformPS(BoneIndex nBoneInd) const
+{
+	if (m_arrDirtyByte[nBoneInd].m_bPSDirty)
+	{
+		UpdateTransformPS(nBoneInd);
+	}
+	return m_arrTSF_PS[nBoneInd];
+}
+
+void CNodePose::UpdateTransformPS(BoneIndex nBoneInd) const
+{
+	if (m_arrDirtyByte[nBoneInd].m_bPSDirty)
+	{
+		ASSERT(!m_arrDirtyByte[nBoneInd].m_bOSDirty);
+		
+		BoneIndex nParentInd = m_arrParentIndice[nBoneInd];
+		if ( IsValidID(nParentInd) )
+		{
+			const CNodeTransform& parentTSF = GetTransformOS(nParentInd);
+			TransfromInvMul(&m_arrTSF_PS[nBoneInd], &m_arrTSF_OS[nBoneInd], &parentTSF);
+		}
+		else
+		{
+			m_arrTSF_PS[nBoneInd] = m_arrTSF_OS[nBoneInd];
+		}
+
+		m_arrDirtyByte[nBoneInd].m_bPSDirty = false;
+	}
+}
+				
+void CNodePose::UpdateTransformOS(BoneIndex nBoneInd) const
+{
+	if (m_arrDirtyByte[nBoneInd].m_bOSDirty)
+	{
+		ASSERT(!m_arrDirtyByte[nBoneInd].m_bPSDirty);
+
+		BoneIndex nParentInd = m_arrParentIndice[nBoneInd];
+		if ( IsValidID(nParentInd) )
+		{
+			const CNodeTransform& patentTSF = GetTransformOS(nParentInd);
+			TransfromMul(&m_arrTSF_OS[nBoneInd], &m_arrTSF_PS[nBoneInd], &patentTSF);
+
+			D3DXQuaternionNormalize(&m_arrTSF_OS[nBoneInd].m_qRot, &m_arrTSF_OS[nBoneInd].m_qRot);
+		}
+		else 
+		{
+			m_arrTSF_OS[nBoneInd] = m_arrTSF_PS[nBoneInd];
+		}
+
+		m_arrDirtyByte[nBoneInd].m_bOSDirty = false;
+	}
+}
+
+void CNodePose::SyncAllChildPS(BoneIndex nAncestorInd) const
+{
+	UINT uBoneNum = m_arrParentIndice.size();
+	for (UINT uBoneCnt = nAncestorInd + 1; uBoneCnt < uBoneNum; ++uBoneCnt)
+	{
+		if ( IsAncestor(nAncestorInd, uBoneCnt) )
+		{
+			if (m_arrDirtyByte[uBoneCnt].m_bPSDirty)
+			{
+				GetTransformPS(uBoneCnt);
+			}
+
+			m_arrDirtyByte[uBoneCnt].m_bOSDirty = true;
+		}
+	}
+}
+
+bool CNodePose::IsAncestor(BoneIndex nAncestorInd,BoneIndex nDescendantInd) const
+{
+	BoneIndex nParentInd = m_arrParentIndice[nDescendantInd];
+	while ( IsValidID(nParentInd) && nAncestorInd < nParentInd )
+	{
+		nParentInd = m_arrParentIndice[nParentInd];
+	}
+	return nParentInd == nAncestorInd;
+}
+
+
+void CSkeleton::Init(const std::vector<std::string>& arrBoneName,
+					 const std::vector<BoneIndex>& arrParentInd,
+					 const std::vector<CNodeTransform>& arrNodeOS)
+{
+	UINT uBoneNum = arrBoneName.size();
+
+	m_arrBoneName = arrBoneName;
+	m_arrParentInd = arrParentInd;
+	
+	m_refPose.InitObjectSpace(arrNodeOS, arrParentInd);
+	
+	m_arrRefPosePS.resize(uBoneNum);
+	m_arrRefPoseOS.resize(uBoneNum);
+	m_arrRefPoseOSInv.resize(uBoneNum);
+
+	for (UINT uBoneCunt = 0; uBoneCunt < uBoneNum; ++uBoneCunt)
+	{
+		MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose.GetTransformOS(uBoneCunt) );
+		MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose.GetTransformPS(uBoneCunt) );
+		D3DXMatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
+	}
+}	
+
+const D3DXMATRIX& CSkeleton::GetBoneMatrixOSInv(BoneIndex nBoneID)
+{
+	return m_arrRefPoseOSInv[nBoneID];
+}
+
+void CAnimatedSkeleton::ComputeSingleBoneSkinMatrix(D3DXMATRIX* mat, UINT nBoneID)
+{
+	MatrixFromTransform( mat, &m_pose.GetTransformOS(nBoneID) );
+	D3DXMatrixMultiply( mat, &m_pSkel->GetBoneMatrixOSInv(nBoneID), mat );
+}
+
+void CAnimation::SampleAndAddSingleTrackByFrame(CNodeTransform* pTSF, BoneIndex nTrackID, float fWeight, float fFrame) const
+{
+	CNodeTransform tsfLS;
+	SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
+
+	pTSF->m_fScale += tsfLS.m_fScale * fWeight;
+
+	QuaternionMad(&pTSF->m_qRot, &pTSF->m_qRot, &tsfLS.m_qRot, fWeight);
+	
+	pTSF->m_vPos += tsfLS.m_vPos * fWeight;
+}
+
+void CAnimation::SampleSingleTrackByFrame(CNodeTransform* pTSF, BoneIndex nTrackID, float fFrame) const
+{
+	D3DXVECTOR3 vScale;
+	m_pRawTracks->m_scale[nTrackID]->SampleFrame(fFrame,vScale);
+	pTSF->m_fScale = ( abs(vScale.x) + abs(vScale.y) + abs(vScale.z) ) / 3.0f;
+
+	m_pRawTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
+	m_pRawTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);
+}
+
+float CAnimation::GetFrameRate()
+{
+	return 30.0f;
+}
+
+UINT CAnimation::GetTotalFrame()
+{
+	return m_nFrameNumber;
+}
+
+
+CAnimationInst::CAnimationInst(CAnimation* pAnim)
+{
+	m_fLocalFrame = 0.0f;
+	m_fPlaySpeed = 1.0f;
+	m_playbackMode = PLAYBACK_LOOP;
+	m_playerStatus = PLAYER_PLAYING;
+
+	m_pAnimtion = pAnim;
+}
+
+CAnimationInst::~CAnimationInst()
+{
+
+}
+
+
+void CAnimationInst::WrapLocalFrame()
+{
+	if (m_fLocalFrame > m_pAnimtion->GetTotalFrame())
+	{
+		if (m_playbackMode == PLAYBACK_LOOP)
+		{
+			m_fLocalFrame = 0.0f;
+		}
+		else
+		{
+			m_playerStatus = PLAYER_STOP;
+		}
+	}
+}
+
+void CAnimationInst::Instantiate(CSkeletonContext* pSkelContext, CBoneSet* pBoneSet)
+{
+	
+}
+
+void CAnimationInst::AdvanceTime(float fTimeElapsed)
+{
+	if (PLAYER_PLAYING == m_playerStatus)
+	{
+		m_fLocalFrame += fTimeElapsed * m_pAnimtion->GetFrameRate() * m_fPlaySpeed;
+		WrapLocalFrame();
+	}
+}
+
+void CAnimationInst::EvaluateAnimation(CAnimEvalContext* pContext, float fWeight, CBoneSet* pBoneSet)
+{
+	for (UINT uCnt = 0; uCnt < pBoneSet->m_arrBone.size(); ++uCnt)
+	{
+		BoneIndex nBoneInd = pBoneSet->m_arrBone[nBoneInd];
+		if ( IsInValidID(nBoneInd) )
+			continue;
+
+		m_pAnimtion->SampleAndAddSingleTrackByFrame(&pContext->m_arrTSFLS[nBoneInd], nBoneInd,fWeight,m_fLocalFrame);
+		pContext->m_arrAnimWeight[nBoneInd] += fWeight;
+	}
+
+	pContext->m_bLSAnimVaild = true;
+}
+
+
+bool CClipNode::Instantiate(CSkeletonContext* pSkelContext)
+{
+	m_pAnimInst->Instantiate(pSkelContext,m_pBoneSet);
+	return true;
+}
+
+void CClipNode::AdvanceTime(float fTimeElapsed)
+{
+	m_pAnimInst->AdvanceTime(fTimeElapsed);
+}
+
+void CClipNode::EvaluateAnimation(CAnimEvalContext* pAnimContext, float fWeight)
+{
+	m_pAnimInst->EvaluateAnimation(pAnimContext,fWeight,m_pBoneSet);
+}
+
+
+
+bool CLayerNode::Instantiate(CSkeletonContext* pSkelContext)
+{
+	for (UINT i = 0; i < m_arrChildLayer.size(); ++i)
+	{
+		m_arrChildLayer[i]->Instantiate(pSkelContext);
+	}
+
+	return true;
+}
+
+void CLayerNode::AdvanceTime(float fTimeElapsed)
+{
+	for (UINT i = 0; i < m_arrChildLayer.size(); ++i)
+	{
+		m_arrChildLayer[i]->AdvanceTime(fTimeElapsed);
+	}	
+}
+
+void CLayerNode::EvaluateAnimation(CAnimEvalContext* pAnimContext, float fWeight)
+{
+	for (UINT i = 0; i < m_arrChildLayer.size(); ++i)
+	{
+		m_arrChildLayer[i]->EvaluateAnimation(pAnimContext, fWeight/*1.0f*/);
+	}	
+}
+
+
+
+
+
+CBlendNode::CBlendNode()
+{
+	m_fWeight = 0.0f;
+}
+
+bool CBlendNode::Instantiate(CSkeletonContext* pSkelContext)
+{
+	bool bInstOk = true;
+	bInstOk &= m_pSrcNode->Instantiate(pSkelContext);
+	bInstOk &= m_pDestNode->Instantiate(pSkelContext);
+	return bInstOk;
+}
+
+void CBlendNode::AdvanceTime(float fTimeElapsed)
+{
+	m_pSrcNode->AdvanceTime(fTimeElapsed);
+	m_pDestNode->AdvanceTime(fTimeElapsed);
+}
+
+void CBlendNode::EvaluateAnimation(CAnimEvalContext* pAnimContext, float fWeight)
+{	
+	float fSrcWeight = fWeight * (1.0f - m_fWeight);
+	float fDestWeight = fWeight * m_fWeight;
+	m_pSrcNode->EvaluateAnimation(pAnimContext,fSrcWeight);
+	m_pDestNode->EvaluateAnimation(pAnimContext,fDestWeight);
+}
+
+
 //-----------------------------------------------------------------------------
 // Name: AllocateName()
 // Desc: Allocates memory for a string to hold the name of a frame or mesh
@@ -480,6 +1005,23 @@ HRESULT CSkinMesh::LoadFromXFile(const char *strFileName)
 		assert(false && ".x文件加载错误");
 		return hr;
 	}
+	
+	/// 
+	UINT uAnimSetNum = m_pAnimController->GetNumAnimationSets();
+	for (UINT i = 0; i < uAnimSetNum; ++i)
+	{
+		LPD3DXANIMATIONSET pAnimSet = NULL;
+		m_pAnimController->GetAnimationSet(i, &pAnimSet);
+		if (pAnimSet == NULL)
+			continue;
+
+		UINT uAnimNim = pAnimSet->GetNumAnimations();
+
+
+	}
+
+
+
 	
 	//建立各级框架的组合变换矩阵
 	hr = SetupBoneMatrixPointers(m_pFrameRoot);
