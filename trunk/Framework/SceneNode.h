@@ -15,9 +15,17 @@ namespace ma
 		
 		void SetWorldPos(const D3DXVECTOR3& pos);
 	
-		virtual void Render();
+		void Render();
 
-		virtual void Update();
+		void Update(float fTimeElapsed);
+
+		void ParalleUpdate(float fTimeElapsed);
+
+		void FixedUpdate(float fTimeElapsed);
+
+		void LateUpdate(float fTimeElapsed);
+
+		void SyncWorld();
 
 		void AddChildNode(SceneNode* pSceneNode);
 

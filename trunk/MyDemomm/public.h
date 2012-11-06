@@ -43,6 +43,27 @@ inline Type Clamp(const Type &A, const Type &Min, const Type &Max)
 	return A;
 }
 
+template<typename Type>
+inline Type Clamp(const Type &Min, const Type &Max)
+{
+	Type A;
+	if (A < Min) return Min;
+	if (A > Max) return Max;
+	return A;
+}
+
+template<class T>
+void Lerp(T& out, const T& v0, const T& v1, float factor)
+{
+	out = v0 * (1.0f - factor) + v1 * factor;
+}
+
+template<class T>
+T Lerp(const T& v0, const T& v1, float factor)
+{
+	return v0 * (1.0f - factor) + v1 * factor;
+}
+
 // time in seconds
 inline double GetAccurateTime(void)
 {

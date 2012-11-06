@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool"
+				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool;../CryCommon;../TestCryFileLoad"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -213,10 +213,6 @@
 			</File>
 			<File
 				RelativePath=".\Log.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
@@ -445,18 +441,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="PostProcess"
-			>
-			<File
-				RelativePath=".\HDRPostProcess.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\HDRPostProcess.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Í·ÎÄ¼þ"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
@@ -570,6 +554,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="PostProcess"
+			>
+			<File
+				RelativePath=".\HDRPostProcess.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HDRPostProcess.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\main.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

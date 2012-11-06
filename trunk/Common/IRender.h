@@ -12,10 +12,6 @@ namespace ma
 {
 	class IRender
 	{
-		virtual IRender() = 0;
-		
-		virtual ~IRender() = 0;
-
 		virtual void BeginRender() = 0;
 
 		virtual void EndRender() = 0;

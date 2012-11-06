@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DxRendWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Module.cpp"
 				>
 			</File>
@@ -203,6 +207,10 @@
 			</File>
 			<File
 				RelativePath=".\DxRendTexture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DxRendWindow.h"
 				>
 			</File>
 			<File

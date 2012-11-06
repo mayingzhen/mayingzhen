@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IRendWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Module.h"
 				>
 			</File>

@@ -18,7 +18,7 @@ namespace ma
 		LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
 
 	private:
-		HRESULT Init();
+		bool Init(HWND hWnd);
 
 	private:
 		LPDIRECT3D9  m_pD3D;				   // The main D3D object

@@ -10,6 +10,12 @@
 #define  g_pD3DDevice  g_GameApp.GetD3dDevice()
 #define  g_ElapsedTime g_GameApp.GetElapsedTime()
 
+namespace ma
+{
+	class Scene;
+}
+
+
 class CGameApp
 {
 public:
@@ -39,6 +45,8 @@ private:
 	void Update();
 
 private:
+
+	ma::Scene* m_pScene;
 
 	HWND m_hMainWnd;
 	LPDIRECT3D9  m_pD3D;				   // The main D3D object
