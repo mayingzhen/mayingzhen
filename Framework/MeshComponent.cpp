@@ -27,4 +27,12 @@ void MeshComponent::Update()
 
 }
 
+void MeshComponent::Start()
+{
+	
+}
 
+void MeshComponent::Stop()
+{
+
+}

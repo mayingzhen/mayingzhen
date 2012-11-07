@@ -1,9 +1,9 @@
 #include "Scene.h"
 
 
-Scene::Scene()
+Scene::Scene(const SceneNode* pRootNode)
 {
-	m_pRootNode = NULL;
+	m_pRootNode = pRootNode;
 }
 
 Scene::~Scene()
@@ -11,18 +11,18 @@ Scene::~Scene()
 
 }
 
-void Scene::Tick(float fTimeElapsed)
+void Scene::Update(float fElapsedTime)
 {
 	if (m_pRootNode == NULL)
 		return;
 
-	m_pRootNode->Update(fTimeElapsed);
+	m_pRootNode->Update(fElapsedTime);
 
-	m_pRootNode->ParalleUpdate(fTimeElapsed);
+	m_pRootNode->ParalleUpdate(fElapsedTime);
 
 	m_pRootNode->SyncWorld();
 
-	m_fAccPhyTime += fTimeElapsed;
+	m_fAccPhyTime += fElapsedTime;
 	if (m_fAccPhyTime > m_fFixUpdateInterval)
 	{
 		m_pRootNode->FixedUpdate(m_fFixUpdateInterval);
@@ -38,7 +38,7 @@ void Scene::Tick(float fTimeElapsed)
 		m_pPhyScene->EndSimulation();
 	}
 
-	m_pRootNode->LateUpdate(fTimeElapsed);
+	m_pRootNode->LateUpdate(fElapsedTime);
 
 	m_pRootNode->SyncWorld();
 }
@@ -55,4 +55,14 @@ void Scene::Render(Camera* pCmaera)
 // 
 // 		m_vSceneNodes[i].Render();
 // 	}
+}
+
+void Scene::Start()
+{
+	m_pRootNode->Start();
+}
+
+void Scene::Stop()
+{
+	m_pRootNode->Stop();
 }

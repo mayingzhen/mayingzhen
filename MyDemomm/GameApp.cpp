@@ -50,6 +50,8 @@ CGameApp::CGameApp()
 	m_pD3D = NULL;				   // The main D3D object
 	m_pd3dDevice = NULL;        // The D3D rendering device
 	m_pFont = NULL;
+
+	m_pScene = NULL;
 }
 
 CGameApp::~CGameApp(void)
@@ -136,6 +138,14 @@ BOOL LoadMapDynamicItem(const char *szFileName)
 
 void CGameApp::InitGame()
 {
+	//////////////////////////////////////////////////////////////////////////
+	ma::SceneNode* pRootNode = new ma::SceneNode("RootNode");
+	m_pScene = new ma::Scene(pRootNode);
+
+	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
+	pRootNode->AddChild(pMeshComp);
+	//////
+
  	CObject::StaticInit();
 
 	//启动资源加载
@@ -192,7 +202,7 @@ void CGameApp::Update()
 {
 	if (m_pScene)
 	{
-		m_pScene->Tick(m_fElapsedTime);
+		m_pScene->Update(m_fElapsedTime);
 	}
 
 	CMouse::GetSingleton().UpdateMousePos(); //鼠标更新

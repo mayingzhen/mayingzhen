@@ -1,6 +1,7 @@
 #include "GameObj.h"
 
-GameObject::GameObject()
+GameObject::GameObject(const char* pName):
+SceneNode(pName)
 {
 
 }
@@ -23,6 +24,47 @@ void GameObject::Update()
 	for (UINT i = 0; i < m_vComponents.size(); ++i)
 	{
 		m_vComponents[i].Update();
+	}
+}
+
+
+void GameObject::ParalleUpdate(float fTimeElapsed)
+{
+	for (UINT i = 0; i < m_vComponents.size(); ++i)
+	{
+		m_vComponents[i].ParalleUpdate();
+	}
+}
+
+void GameObject::FixedUpdate(float fTimeElapsed)
+{
+	for (UINT i = 0; i < m_vComponents.size(); ++i)
+	{
+		m_vComponents[i].FixedUpdate();
+	}
+}
+
+void GameObject::LateUpdate(float fTimeElapsed)
+{
+	for (UINT i = 0; i < m_vComponents.size(); ++i)
+	{
+		m_vComponents[i].LateUpdate();
+	}
+}
+
+void GameObject::Start()
+{
+	for (UINT i = 0; i < m_vComponents.size(); ++i)
+	{
+		m_vComponents[i].Start();
+	}
+}
+
+void GameObject::Stop()
+{
+	for (UINT i = 0; i < m_vComponents.size(); ++i)
+	{
+		m_vComponents[i].Stop();
 	}
 }
 
