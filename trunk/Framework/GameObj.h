@@ -13,12 +13,26 @@ namespace ma
 	class GameObject : public SceneNode
 	{
 	public:
-		GameObject();
+		GameObject(const char* pName = NULL);
 		~GameObject();
 
 		void Render();
 
 		void Update();
+
+		virtual void Render();
+
+		virtual void Update(float fTimeElapsed);
+
+		virtual void ParalleUpdate(float fTimeElapsed);
+
+		virtual void FixedUpdate(float fTimeElapsed);
+
+		virtual void LateUpdate(float fTimeElapsed);
+
+		virtual void Start();
+
+		virtual void Stop();
 
 		void AddComponent(Component* pComponent);
 

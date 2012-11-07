@@ -1,7 +1,7 @@
 #ifndef  _MESHCOMPONENT__H__
 #define  _MESHCOMPONENT__H__
 
-#include "Component.h"
+#include "Framework/Object.h"
 
 namespace ma
 {
@@ -10,7 +10,7 @@ namespace ma
 
 namespace ma
 {
-	class MeshComponent : public Component
+	class MeshComponent : public Object
 	{
 	public:
 		MeshComponent();
@@ -20,6 +20,10 @@ namespace ma
 		void Render();
 
 		void Update();
+
+		void Start();
+
+		void Stop();
 
 	private:
 		Mesh* m_pMesh;

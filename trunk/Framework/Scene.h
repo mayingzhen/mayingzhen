@@ -4,7 +4,7 @@
 namespace ma
 {
 	class SceneNode;
-	class PhysicsScene;
+	class IPhysicsScene;
 }
 
 namespace ma
@@ -12,16 +12,20 @@ namespace ma
 	class Scene
 	{
 	public:
-		Scene();
+		Scene(const SceneNode* pRootNode);
 		~Scene();
 		
-		void Tick();
+		void Update(float fElapsedTime);
 		
 		void Render();
 
+		void Start();
+
+		void Stop();
+
 	private:
 		SceneNode* m_pRootNode;
-		PhysicsScene* m_pPhyScene;
+		IPhysicsScene* m_pPhyScene;
 
 		float m_fAccPhyTime;
 		float m_fFixUpdateInterval;
