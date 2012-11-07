@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Object.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource.cpp"
 				>
 			</File>
@@ -238,6 +242,10 @@
 			</File>
 			<File
 				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Object.h"
 				>
 			</File>
 			<File
