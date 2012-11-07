@@ -361,34 +361,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="TinyXml"
-			>
-			<File
-				RelativePath=".\dependency\TinyXML\tinystr.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\TinyXML\tinystr.h"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\TinyXML\tinyxml.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\TinyXML\tinyxml.h"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\TinyXML\tinyxmlerror.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\dependency\TinyXML\tinyxmlparser.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="TextureAtlas"
 			>
 			<File
