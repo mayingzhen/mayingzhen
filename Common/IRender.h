@@ -20,16 +20,16 @@ namespace ma
 
 		virtual void RenderSkelMesh(IRendMesh* pSkelMesh) = 0;
 
-		IRendMesh* CreateRendMesh(const char* pszMeshFile) = 0;
+		virtual IRendMesh* CreateRendMesh(const char* pszMeshFile) = 0;
 
-		IRendTexture* CreateRendTexture(const char* pszTextueFile) = 0;
+		virtual IRendTexture* CreateRendTexture(const char* pszTextueFile) = 0;
 
-		IRendWindow* CreateRendWindow(int w, int z) = 0;
+		virtual IRendWindow* CreateRendWindow(int w, int z) = 0;
 	};
 
-	void SetRender(IRender* pRender) = 0;
+	void SetRender(IRender* pRender);
 
-	IRender* GetRender() = 0;
+	IRender* GetRender();
 }
 
 

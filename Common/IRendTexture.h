@@ -5,9 +5,6 @@ namespace ma
 {
 	class IRendTexture
 	{
-		virtual IRendTexture() = 0;
-		
-		virtual ~IRendTexture() = 0;
 	
 	};
 }
