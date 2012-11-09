@@ -1,14 +1,12 @@
 #ifndef  _SCENE__H__
 #define  _SCENE__H__
 
+
 namespace ma
 {
 	class SceneNode;
 	class IPhysicsScene;
-}
 
-namespace ma
-{
 	class Scene
 	{
 	public:

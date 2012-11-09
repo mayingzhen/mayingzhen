@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDemomm", "MyDemomm\MyDemomm.vcproj", "{F13D9694-3C43-4558-9A99-1F8F14253F0E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Framework\Framework.vcproj", "{40FAEC66-C864-49EB-A511-E250D35F99E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA} = {D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DXRender", "DXRender\DXRender.vcproj", "{2449FFE6-FC0E-4BD4-9013-EE1EDB870F1C}"
 EndProject

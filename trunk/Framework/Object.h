@@ -6,7 +6,7 @@ namespace ma
 	class Object
 	{
 	public:
-		Object(const char* pName);
+		Object(const Object* pParent = NULL,const char* pName = NULL);
 		
 		virtual ~Object();
 	
@@ -19,6 +19,8 @@ namespace ma
 		UINT GetChildNumber();
 
 		Object* GetChildByIndex(UINT uIndex);
+
+		Object* GetParent() {return m_pParent;}
 
 		virtual void Render();
 
@@ -34,9 +36,10 @@ namespace ma
 
 		virtual void Stop();
 
-	private:
+	protected:
 		std::string m_sName;
 		std::vector<Object*> m_vChilds;
+		Object* m_pParent;
 	};
 }
 

@@ -41,11 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FRAMEWORK_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Framework/stdafx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -171,48 +173,68 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Camera.cpp"
+				RelativePath=".\Camera.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Component.cpp"
+				RelativePath=".\Component.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\GameObj.cpp"
+				RelativePath=".\GameObj.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Mesh.cpp"
+				RelativePath=".\Mesh.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\MeshComponent.cpp"
+				RelativePath=".\MeshComponent.hxx"
 				>
 			</File>
 			<File
 				RelativePath=".\Module.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Object.cpp"
+				RelativePath=".\Object.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.cpp"
+				RelativePath=".\Resource.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Scene.cpp"
+				RelativePath=".\Scene.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SceneNode.cpp"
+				RelativePath=".\SceneNode.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SkelMeshComponent.cpp"
+				RelativePath=".\SkelMeshComponent.hxx"
 				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -262,6 +284,10 @@
 			</File>
 			<File
 				RelativePath=".\SkelMeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
