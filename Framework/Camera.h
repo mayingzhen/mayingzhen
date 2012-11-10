@@ -5,12 +5,19 @@
 
 namespace ma
 {
-	class Camera : public SceneNode
+	class FRAMEWORK_API Camera : public SceneNode
 	{
 	public:
 		Camera();
 		~Camera();
 
+		const D3DXMATRIX* GetViewMatrix() const {return &m_matView;}
+		const D3DXMATRIX* GetProjMatrix() const {return &m_matProj;}
+
+	private:
+		D3DXMATRIX m_matViewProj;
+		D3DXMATRIX m_matView;
+		D3DXMATRIX m_matProj;
 
 	};
 }

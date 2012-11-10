@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib d3d9.lib d3dxof.lib dxguid.lib dinput8.lib dsound.lib"
+				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -204,11 +204,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CommonExport.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IPhysicsScene.h"
 				>
 			</File>
 			<File
 				RelativePath=".\IRender.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRender.hxx"
 				>
 			</File>
 			<File

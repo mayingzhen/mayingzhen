@@ -1,11 +1,14 @@
 #ifndef  _DXRENDER_MODULE__H__
 #define  _DXRENDER_MODULE__H__
 
+#include "DxRenderExport.h"
 #include "DXRender/DxRender.h"
+#include "DXRender/DxRendMesh.h"
+#include "DxRender/DxRendTexture.h"
 
 
-void ModuleStart();
+DXRENDER_API void DxRenderModuleInit();
 
-void ModuleStop();
+DXRENDER_API void DxRenderModuleShutdown();
 
 #endif

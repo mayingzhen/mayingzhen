@@ -3,9 +3,10 @@
 
 namespace ma
 {
-	class IRendTexture
+	class COMMON_API IRendTexture
 	{
-	
+	public:
+		virtual bool Load(const char* resPath) = 0;
 	};
 }
 

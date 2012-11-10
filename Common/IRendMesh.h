@@ -3,10 +3,10 @@
 
 namespace ma
 {
-	class IRendMesh
+	class COMMON_API IRendMesh
 	{
 	public:
-
+		virtual bool Load(const char* resPath) = 0;
 	};
 }
 

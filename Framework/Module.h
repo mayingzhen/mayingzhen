@@ -1,15 +1,18 @@
 #ifndef  _FRAMEWORK_MODULE__H__
 #define  _FRAMEWORK_MODULE__H__
 
-
+#include "Framework/FrameworkExport.h"
 #include "Framework/SceneNode.h"
 #include "Framework/Scene.h"
 #include "Framework/GameObj.h"
+#include "Framework/Camera.h"
+#include "Framework/MeshComponent.h"
+#include "Framework/SkelMeshComponent.h"
 
 
-void ModuleStart();
+FRAMEWORK_API void FrameWorkModuleInit();
 
-void ModuleStop();
+FRAMEWORK_API void FrameWorkModuleShutdown();
 
 
 

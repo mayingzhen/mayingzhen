@@ -7,10 +7,10 @@ namespace ma
 {
 	class Scene;
 
-	class SceneNode : public Object
+	class FRAMEWORK_API SceneNode : public Object
 	{
 	public:
-		SceneNode(Scene* pSene = NULL, SceneNode* pParentNode = NULL, const char* pNodeName = NULL);
+		SceneNode(Scene* pSene = NULL, const char* pNodeName = NULL);
 
 		~SceneNode();
 
@@ -34,8 +34,16 @@ namespace ma
 
 		Scene* GetScene() {return m_pScen;}
 
+		SceneNode* GetSceneNode() {return m_pParentNode;}
+
+		void SetParentSceneNode(SceneNode* pParentNode) {m_pParentNode = pParentNode;}
+
+		void AddChildNode(SceneNode* pChildNode);
+
 	private:
 		std::vector<SceneNode*> m_vChildNodes;
+
+		SceneNode* m_pParentNode;
 
 		Scene* m_pScen;
 		
