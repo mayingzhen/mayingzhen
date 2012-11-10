@@ -7,13 +7,33 @@
 namespace ma
 {
 	class Component;
+	class Scene;
 
-	class GameObject : public SceneNode
+	class FRAMEWORK_API GameObject : public SceneNode
 	{
 	public:
-		GameObject(const char* pName = NULL);
+		GameObject(Scene* pScene = NULL, const char* pName = NULL);
+
 		~GameObject();
 
+		void Render();
+
+		void Update();
+
+		void ParalleUpdate(float fTimeElapsed);
+
+		void FixedUpdate(float fTimeElapsed);
+
+		void LateUpdate(float fTimeElapsed);
+
+		void Start();
+
+		void Stop();
+
+		void AddComponent(Component* pComponent);
+			
+	private:
+		std::vector<Component*> m_vComponents;
 	
 	};
 }

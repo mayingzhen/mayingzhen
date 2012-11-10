@@ -3,9 +3,17 @@
 
 namespace ma
 {
-	class DxRendMesh : public IRendMesh
+	class DXRENDER_API DxRendMesh : public IRendMesh
 	{
+	public:
+		DxRendMesh();
 
+		~DxRendMesh();
+
+		bool Load(const char* pszPath);
+
+	private:
+		ID3DXMesh*	m_pD3DMesh;
 	};
 }
 

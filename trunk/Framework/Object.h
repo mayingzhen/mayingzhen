@@ -3,24 +3,24 @@
 
 namespace ma
 {
-	class Object
+	class FRAMEWORK_API Object
 	{
 	public:
-		Object(const Object* pParent = NULL,const char* pName = NULL);
+		Object(const char* pName = NULL);
 		
 		virtual ~Object();
 	
-		const char* GetName() {m_sName.c_str();}
+		const char* GetName() {return m_sName.c_str();}
 
 		void SetName(const char* pName) {m_sName = pName;}
 
-		void AddChild(const Object* pObject);
+// 		void AddChild(const Object* pObject);
+// 
+// 		UINT GetChildNumber();
+// 
+// 		Object* GetChildByIndex(UINT uIndex);
 
-		UINT GetChildNumber();
-
-		Object* GetChildByIndex(UINT uIndex);
-
-		Object* GetParent() {return m_pParent;}
+//		Object* GetParent() {return m_pParent;}
 
 		virtual void Render();
 
@@ -38,8 +38,8 @@ namespace ma
 
 	protected:
 		std::string m_sName;
-		std::vector<Object*> m_vChilds;
-		Object* m_pParent;
+		//std::vector<Object*> m_vChilds;
+		//Object* m_pParent;
 	};
 }
 

@@ -6,16 +6,17 @@ namespace ma
 {
 	class SceneNode;
 	class IPhysicsScene;
+	class Camera;
 
-	class Scene
+	class FRAMEWORK_API Scene
 	{
 	public:
-		Scene(const SceneNode* pRootNode);
+		Scene(SceneNode* pRootNode);
 		~Scene();
 		
 		void Update(float fElapsedTime);
 		
-		void Render();
+		void Render(Camera* pCmera = NULL);
 
 		void Start();
 

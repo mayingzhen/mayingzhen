@@ -3,8 +3,9 @@
 
 namespace ma
 {
-	class IPhysicsScene
+	class COMMON_API IPhysicsScene
 	{
+	public:
 		virtual void BeginSimulation() = 0;
 	
 		virtual void EndSimulation() = 0;

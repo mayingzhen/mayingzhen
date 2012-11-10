@@ -142,8 +142,10 @@ void CGameApp::InitGame()
 	ma::SceneNode* pRootNode = new ma::SceneNode("RootNode");
 	m_pScene = new ma::Scene(pRootNode);
 
+	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
+	pRootNode->AddChildNode(pGameObj);
 	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
-	pRootNode->AddChild(pMeshComp);
+	pGameObj->AddComponent(pMeshComp);
 	//////
 
  	CObject::StaticInit();
@@ -212,18 +214,27 @@ void CGameApp::Update()
 
 void CGameApp::Render()
 {
+	ma::IRender* pRender = ma::GetRender();
+	
+	pRender->BeginRender();
 
+	if (m_pScene)
+	{
+		m_pScene->Render();
+	}
 
-	if (NULL == g_pD3DDevice || 0.00f == g_ElapsedTime)
-		return ;
+	pRender->EndRender();
 
-	g_pD3DDevice->BeginScene();
-
-	g_D3DRender.Render();
-
-  	g_pD3DDevice->EndScene();
-
-	g_pD3DDevice->Present(NULL,NULL,NULL,NULL);
+// 	if (NULL == g_pD3DDevice || 0.00f == g_ElapsedTime)
+// 		return ;
+// 
+// 	g_pD3DDevice->BeginScene();
+// 
+// 	g_D3DRender.Render();
+// 
+//   	g_pD3DDevice->EndScene();
+// 
+// 	g_pD3DDevice->Present(NULL,NULL,NULL,NULL);
 }
 
 HRESULT CGameApp::Create(HINSTANCE hInstance)

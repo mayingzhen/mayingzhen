@@ -1,16 +1,15 @@
 #ifndef  _MESHCOMPONENT__H__
 #define  _MESHCOMPONENT__H__
 
-#include "Framework/Object.h"
+#include "Framework/Component.h"
+
 
 namespace ma
 {
 	class Mesh;
-}
+	class Texture;
 
-namespace ma
-{
-	class MeshComponent : public Object
+	class FRAMEWORK_API MeshComponent : public Component
 	{
 	public:
 		MeshComponent();
@@ -25,8 +24,11 @@ namespace ma
 
 		void Stop();
 
+		void Load(const char* pszMeshPath,const char* pszTexPath);
+
 	private:
-		Mesh* m_pMesh;
+		Mesh*		m_pMesh;
+		Texture*	m_pTexture;
 
 
 	};

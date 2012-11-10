@@ -2,13 +2,14 @@
 #include "Common/Module.h"
 
 #include "Common/maMath.hxx"
+#include "Common/IRender.hxx"
 
-void ModuleStart()
+void CommonModuleInit()
 {
 
 }
 
-void ModuleStop()
+void CommonModuleShutdown()
 {
 
 }

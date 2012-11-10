@@ -3,17 +3,16 @@
 
 #include "Resource.h"
 
-namespace ma
-{
-	class IRendMesh;
-}
 
 namespace ma
 {
-	class Mesh : public Resource
+	class IRendMesh;
+
+	class FRAMEWORK_API Mesh : public Resource
 	{
 	public:
-		Mesh();
+		Mesh(const char* pszPath = NULL);
+		
 		~Mesh();
 
 		void Load();

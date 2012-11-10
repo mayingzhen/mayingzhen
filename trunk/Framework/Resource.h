@@ -3,18 +3,22 @@
 
 namespace ma
 {
-	class Resource
+	class FRAMEWORK_API Resource
 	{
 	public:
-		Resource();
-		
+		Resource(const char* pResPath = NULL);
+
 		virtual ~Resource();
 
-		virtual void Load() = 0;
+		virtual void Load();
 
-		virtual bool IsLoad() = 0;
-	
-	
+		virtual const char* GetResPath() {return m_sResPath.c_str();}
+
+		virtual bool IsLoad() {return m_bLoaded;}
+
+	protected:
+		std::string m_sResPath;
+		bool		m_bLoaded;
 	};
 }
 

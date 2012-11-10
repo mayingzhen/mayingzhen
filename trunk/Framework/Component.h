@@ -3,10 +3,11 @@
 
 namespace ma
 {
-	class Component
+	class FRAMEWORK_API Component
 	{
 	public:
 		Component();
+
 		virtual ~Component();
 
 		virtual void Render();
@@ -23,6 +24,12 @@ namespace ma
 
 		virtual void Stop();
 
+		GameObject* GetGameObject() {return m_pGameObject;}
+
+		void SetGameObject(GameObject* pGameObject) {m_pGameObject = pGameObject;}
+
+	protected:
+		GameObject* m_pGameObject;
 	};
 }
 
