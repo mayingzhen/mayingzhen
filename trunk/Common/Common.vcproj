@@ -232,11 +232,46 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IS3AMesh.h"
+				>
+			</File>
+			<File
 				RelativePath=".\maMath.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AExpMeshData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AMathSerialize.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AMeshData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AMeshData.hxx"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\xmBaseType.h"
 				>
 			</File>
 		</Filter>
@@ -245,6 +280,34 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="Serialize"
+			>
+			<File
+				RelativePath=".\Serialize\S3ABinaryInputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3ABinaryInputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3ABinaryOutputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3ABinaryOutputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3ASerializeListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3ASerializeListener.hxx"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

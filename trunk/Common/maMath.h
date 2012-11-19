@@ -1,6 +1,35 @@
 #ifndef  _maMath__H__
 #define  _maMath__H__
 
+struct COMMON_API maGUID
+{
+	unsigned __int64 m_a;
+	unsigned __int64 m_b;
+
+	void Clear()
+	{
+		m_a = 0;
+		m_b = 0;
+	}
+
+	bool operator ==(const maGUID& rhs) const
+	{
+		return (m_a == rhs.m_a) && (m_b == rhs.m_b);
+	}
+
+	bool operator !=(const maGUID& rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	bool operator <(const maGUID& rhs) const
+	{
+		return (m_a < rhs.m_a ? true 
+			: (m_a == rhs.m_a ? m_b < rhs.m_b : false)
+			);
+	}
+};
+
 struct COMMON_API maNodeTransform
 {
 	D3DXVECTOR3		m_vPos;
