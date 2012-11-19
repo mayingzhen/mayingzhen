@@ -3,6 +3,11 @@
 
 #include "Common/maMath.hxx"
 #include "Common/IRender.hxx"
+#include "Common/Serialize/S3ASerializeListener.hxx"
+#include "Common/Serialize/S3ABinaryInputArchive.hxx"
+#include "Common/Serialize/S3ABinaryOutputArchive.hxx"
+#include "Common/S3AMeshData.hxx"
+
 
 void CommonModuleInit()
 {
