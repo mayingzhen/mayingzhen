@@ -1,0 +1,19 @@
+<Scene Name="SceneRootNode">
+    <TransformPS>
+        <Pos x="0.000000" y="0.000000" z="0.000000" />
+        <Rot w="1.000000" x="0.000000" y="0.000000" z="0.000000" />
+        <Scale value="1.000000" />
+        <LocaleScale x="1.000000" y="1.000000" z="1.000000" />
+    </TransformPS>
+    <Node Name="stone">
+        <TransformPS>
+            <Pos x="0.000000" y="0.000000" z="0.000000" />
+            <Rot w="1.000000" x="0.000000" y="0.000000" z="0.000000" />
+            <Scale value="1.000000" />
+            <LocaleScale x="1.000000" y="1.000000" z="1.000000" />
+        </TransformPS>
+        <GameObject Name="">
+            <S3XMeshComponent meshPath="E:/Project/S3Project/OpenSDKBranch/Editor/Bin/Data/TrineGame/map/stone.skn" texPath="E:/Project/S3Project/OpenSDKBranch/Editor/Bin/Data/TrineGame/map/stone.tga" />
+        </GameObject>
+    </Node>
+</Scene>

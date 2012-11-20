@@ -1,4 +1,4 @@
-#include "MeshComponent.h"
+#include "Framework/MeshComponent.h"
 
 namespace ma
 {

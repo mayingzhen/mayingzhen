@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -266,9 +266,17 @@
 					Name="Debug|Win32"
 					>
 					<Tool
-						Name="VCCLCompilerTool"
+						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\S3AResourceBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3AResourceBuilder.hxx"
+				>
 			</File>
 			<File
 				RelativePath=".\xmBaseType.h"

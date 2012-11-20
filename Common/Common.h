@@ -26,11 +26,18 @@
 #define  xmMatrix4x4 D3DXMATRIX
 #define  xmNodeTransform maNodeTransform
 
+// #define S3A_DXTRACE_MSG(str)              DXTrace( __FILE__, (xmUint32)__LINE__, 0, str, FALSE )
+// #define S3A_DXTRACE_ERR(str,hr)           DXTrace( __FILE__, (xmUint32)__LINE__, hr, str, FALSE )
+// #define S3A_DXTRACE_ERR_MSGBOX(str,hr)    DXTrace( __FILE__, (xmUint32)__LINE__, hr, str, TRUE )
+
+//#define S3A_D3D_V(x)				{ HRESULT hr = x; if(FAILED(hr)){ S3A_DXTRACE_ERR( L#x,hr); } }
+#define S3A_D3D_V(x)				x
+
 #define S3ASSERT(x) 
 
-void S3ALog(const char* fmt,...) {}
-void S3ASSERT_MSG(bool expr,const char* fmt,...){}
-void S3ALogError(xmUint nErrorCode,const char* fmt,...){}
+void S3ALog(const char* fmt,...);
+void S3ASSERT_MSG(bool expr,const char* fmt,...);
+void S3ALogError(xmUint nErrorCode,const char* fmt,...);
 
 template<class T>
 inline T S3AInvalidID()
@@ -78,20 +85,10 @@ enum ES3AErrorCode
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
 #define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
 
-void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB)
-{
-	pOut->x = pA->x < pB->x ? pA->x : pB->x;
-	pOut->y = pA->y < pB->y ? pA->y : pB->y;
-	pOut->z = pA->z < pB->z ? pA->z : pB->z;
-}
+void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
 
 
-void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB)
-{
-	pOut->x = pA->x > pB->x ? pA->x : pB->x;
-	pOut->y = pA->y > pB->y ? pA->y : pB->y;
-	pOut->z = pA->z > pB->z ? pA->z : pB->z;
-}
+void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
 
 
 

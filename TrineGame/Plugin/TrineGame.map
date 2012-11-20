@@ -1,0 +1,908 @@
+ TrineGame
+
+ Timestamp is 5099a96c (Tue Nov 06 16:21:00 2012)
+
+ Preferred load address is 10000000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00010000H .textbss                DATA
+ 0002:00000000 0000b574H .text                   CODE
+ 0002:0000b580 0000176cH .text$x                 CODE
+ 0003:00000000 00000104H .CRT$XCA                DATA
+ 0003:00000104 00000104H .CRT$XCZ                DATA
+ 0003:00000208 00000104H .CRT$XIA                DATA
+ 0003:0000030c 00000104H .CRT$XIAA               DATA
+ 0003:00000410 00000104H .CRT$XIZ                DATA
+ 0003:00000520 00001b56H .rdata                  DATA
+ 0003:00002078 00000178H .rdata$debug            DATA
+ 0003:000021f0 0000077eH .rdata$r                DATA
+ 0003:00002970 00000104H .rtc$IAA                DATA
+ 0003:00002a74 0000010eH .rtc$IMZ                DATA
+ 0003:00002b84 00000104H .rtc$IZZ                DATA
+ 0003:00002c88 00000104H .rtc$TAA                DATA
+ 0003:00002d8c 0000010eH .rtc$TMZ                DATA
+ 0003:00002e9c 00000104H .rtc$TZZ                DATA
+ 0003:00002fa0 0000090dH .xdata$x                DATA
+ 0003:000038b0 00000c79H .edata                  DATA
+ 0004:00000000 00000413H .data                   DATA
+ 0004:00000418 00000470H .bss                    DATA
+ 0005:00000000 0000008cH .idata$2                DATA
+ 0005:0000008c 00000014H .idata$3                DATA
+ 0005:000000a0 00000460H .idata$4                DATA
+ 0005:00000500 00000460H .idata$5                DATA
+ 0005:00000960 00001bc0H .idata$6                DATA
+
+  Address         Publics by Value              Rva+Base       Lib:Object
+
+ 0000:00000000       __except_list              00000000     <absolute>
+ 0000:00000000       ___safe_se_handler_table   00000000     <absolute>
+ 0000:00000000       ___safe_se_handler_count   00000000     <absolute>
+ 0000:00009876       __fltused                  00009876     <absolute>
+ 0000:00009876       __ldused                   00009876     <absolute>
+ 0000:00000000       ___ImageBase               10000000     <linker-defined>
+ 0001:00000000       __enc$textbss$begin        10001000     <linker-defined>
+ 0001:00010000       __enc$textbss$end          10011000     <linker-defined>
+ 0002:00000ec0       ??1TriPushScene@xm@@UAE@XZ 10011ec0 f i TriPushScene.obj
+ 0002:00000f20       ??0TriPushScene@xm@@QAE@ABV01@@Z 10011f20 f i TriPushScene.obj
+ 0002:00000fe0       ??4TriPushScene@xm@@QAEAAV01@ABV01@@Z 10011fe0 f i TriPushScene.obj
+ 0002:000010a0       ??_GTriPushScene@xm@@UAEPAXI@Z 100120a0 f i TriPushScene.obj
+ 0002:00001110       ??_ETriPushScene@xm@@UAEPAXI@Z 10012110 f i TriPushScene.obj
+ 0002:000011d0       ??0TriPushScene@xm@@QAE@XZ 100121d0 f   TriPushScene.obj
+ 0002:00001270       ?Init@TriPushScene@xm@@UAEXHQAPAD@Z 10012270 f   TriPushScene.obj
+ 0002:00001390       ?Shutdown@TriPushScene@xm@@UAEXXZ 10012390 f   TriPushScene.obj
+ 0002:000013f0       ?CreateBox@xm@@YAXPAVS3XSceneNode@@PBDMMMMMM@Z 100123f0 f   TriPushScene.obj
+ 0002:00001630       ??_GS3XGameObject@@UAEPAXI@Z 10012630 f i TriPushScene.obj
+ 0002:00001630       ??_ES3XGameObject@@UAEPAXI@Z 10012630 f i TriPushScene.obj
+ 0002:000016b0       ?CenterCamera@TriPushScene@xm@@QAEXXZ 100126b0 f   TriPushScene.obj
+ 0002:00001860       ?Load@TriPushScene@xm@@UAEXXZ 10012860 f   TriPushScene.obj
+ 0002:00001ac0       ?Load@TriPushScene@xm@@UAEXPAVTiXmlElement@@PBVResImportDesc@2@@Z 10012ac0 f   TriPushScene.obj
+ 0002:00001d30       ??_GS3XScene@@UAEPAXI@Z    10012d30 f i TriPushScene.obj
+ 0002:00001d30       ??_ES3XScene@@UAEPAXI@Z    10012d30 f i TriPushScene.obj
+ 0002:00001db0       ?Unload@TriPushScene@xm@@UAEXXZ 10012db0 f   TriPushScene.obj
+ 0002:00001e50       ?Render@TriPushScene@xm@@UAEXXZ 10012e50 f   TriPushScene.obj
+ 0002:000020e0       ?Tick@TriPushScene@xm@@UAEXM@Z 100130e0 f   TriPushScene.obj
+ 0002:00002200       ?OnGUI@TriPushScene@xm@@UAEXPAVUIContext@nv@@@Z 10013200 f   TriPushScene.obj
+ 0002:00002500       ?GetSceneS3X@TriPushScene@xm@@UAEPAVS3XScene@@XZ 10013500 f   TriPushScene.obj
+ 0002:00002540       ?SetupCamera@TriPushScene@xm@@MAEXXZ 10013540 f   TriPushScene.obj
+ 0002:00002920       ??0xmMatrix4x4@@QAE@XZ     10013920 f i TriPushScene.obj
+ 0002:00002960       ??_GS3XCamera@@UAEPAXI@Z   10013960 f i TriPushScene.obj
+ 0002:00002960       ??_ES3XCamera@@UAEPAXI@Z   10013960 f i TriPushScene.obj
+ 0002:000029e0       ??_EModelViewCameraController@S3AUT@@UAEPAXI@Z 100139e0 f i TriPushScene.obj
+ 0002:000029e0       ??_GModelViewCameraController@S3AUT@@UAEPAXI@Z 100139e0 f i TriPushScene.obj
+ 0002:00002a60       ?HandleInput@TriPushScene@xm@@MAEXXZ 10013a60 f   TriPushScene.obj
+ 0002:00002b30       ??0?$S3ABitFieldBase@I@@QAE@XZ 10013b30 f i TriPushScene.obj
+ 0002:00002b80       ??0xmColor@@QAE@MMMM@Z     10013b80 f i TriPushScene.obj
+ 0002:00002bf0       ?xmMatrixIdentity@@YAPAUxmMatrix4x4@@PAU1@@Z 10013bf0 f i TriPushScene.obj
+ 0002:00002cc0       ?xmVec3Zero@@YA?AUxmVector3@@XZ 10013cc0 f i TriPushScene.obj
+ 0002:00002d30       ?xmVec3PositiveZ@@YA?AUxmVector3@@XZ 10013d30 f i TriPushScene.obj
+ 0002:00002da0       ?S3ASSERT_MSG@@YAX_NPBDZZ  10013da0 f i TriPushScene.obj
+ 0002:00002e20       ??0TrineGameDevice@xm@@QAE@XZ 10013e20 f i TrineGameDevice.obj
+ 0002:00002e90       ??1TrineGameDevice@xm@@UAE@XZ 10013e90 f i TrineGameDevice.obj
+ 0002:00002ef0       ??0TrineGameDevice@xm@@QAE@ABV01@@Z 10013ef0 f i TrineGameDevice.obj
+ 0002:00002f70       ??4TrineGameDevice@xm@@QAEAAV01@ABV01@@Z 10013f70 f i TrineGameDevice.obj
+ 0002:00002fe0       ??_GTrineGameDevice@xm@@UAEPAXI@Z 10013fe0 f i TrineGameDevice.obj
+ 0002:00003050       ??_ETrineGameDevice@xm@@UAEPAXI@Z 10014050 f i TrineGameDevice.obj
+ 0002:00003110       ??1TestMyGUIScene@xm@@UAE@XZ 10014110 f i TrineGameDevice.obj
+ 0002:00003170       ??0TestMyGUIScene@xm@@QAE@ABV01@@Z 10014170 f i TrineGameDevice.obj
+ 0002:000031f0       ??4TestMyGUIScene@xm@@QAEAAV01@ABV01@@Z 100141f0 f i TrineGameDevice.obj
+ 0002:00003260       ??_GTestMyGUIScene@xm@@UAEPAXI@Z 10014260 f i TrineGameDevice.obj
+ 0002:000032d0       ??_ETestMyGUIScene@xm@@UAEPAXI@Z 100142d0 f i TrineGameDevice.obj
+ 0002:00003390       ?StaticInitClass@TrineGameDevice@xm@@SAXXZ 10014390 f   TrineGameDevice.obj
+ 0002:00003540       ?StaticShutdownClass@TrineGameDevice@xm@@SAXXZ 10014540 f   TrineGameDevice.obj
+ 0002:000035f0       ?StaticGetClass@TrineGameDevice@xm@@SAPBVS3AClass@@XZ 100145f0 f   TrineGameDevice.obj
+ 0002:00003630       ?GetClass@TrineGameDevice@xm@@UBEPAVS3AClass@@XZ 10014630 f   TrineGameDevice.obj
+ 0002:00003670       ?Init@TrineGameDevice@xm@@UAEXXZ 10014670 f   TrineGameDevice.obj
+ 0002:000036c0       ?Shutdown@TrineGameDevice@xm@@UAEXXZ 100146c0 f   TrineGameDevice.obj
+ 0002:00003710       ?GetSceneNumber@TrineGameDevice@xm@@UAEIXZ 10014710 f   TrineGameDevice.obj
+ 0002:00003750       ?GetSceneNameByIndex@TrineGameDevice@xm@@UAE?AVS3AName@@I@Z 10014750 f   TrineGameDevice.obj
+ 0002:000037f0       ?CreateSceneByIndex@TrineGameDevice@xm@@UAEPAVS3AUTScene@@I@Z 100147f0 f   TrineGameDevice.obj
+ 0002:000038f0       ?ReleaseScene@TrineGameDevice@xm@@UAEXPAVS3AUTScene@@@Z 100148f0 f   TrineGameDevice.obj
+ 0002:000039a0       _dllGetPluginName          100149a0 f   TrineGameDllMain.obj
+ 0002:000039e0       _dllStartPlugin            100149e0 f   TrineGameDllMain.obj
+ 0002:00003af0       _dllStopPlugin             10014af0 f   TrineGameDllMain.obj
+ 0002:00003ba0       _dllGetDevice              10014ba0 f   TrineGameDllMain.obj
+ 0002:00003be0       ??_H@YGXPAXIHP6EPAX0@Z@Z   10014be0 f i TrinePCH.obj
+ 0002:00003c50       ??0TestMyGUIScene@xm@@QAE@XZ 10014c50 f   TestMyGUIScene.obj
+ 0002:00003cc0       ?Init@TestMyGUIScene@xm@@UAEXHQAPAD@Z 10014cc0 f   TestMyGUIScene.obj
+ 0002:00003de0       ?Shutdown@TestMyGUIScene@xm@@UAEXXZ 10014de0 f   TestMyGUIScene.obj
+ 0002:00003e40       ?Load@TestMyGUIScene@xm@@UAEXXZ 10014e40 f   TestMyGUIScene.obj
+ 0002:000041d0       ?CreateUI@AvatarStatusWidget@xm@@QAEXPBDPAVRGUIWidget@2@@Z 100151d0 f i TestMyGUIScene.obj
+ 0002:00004380       ??0AvatarStatusWidget@xm@@QAE@XZ 10015380 f i TestMyGUIScene.obj
+ 0002:000043e0       ?Unload@TestMyGUIScene@xm@@UAEXXZ 100153e0 f   TestMyGUIScene.obj
+ 0002:00004440       ?Render@TestMyGUIScene@xm@@UAEXXZ 10015440 f   TestMyGUIScene.obj
+ 0002:00004580       ?Tick@TestMyGUIScene@xm@@UAEXM@Z 10015580 f   TestMyGUIScene.obj
+ 0002:000045f0       ?OnGUI@TestMyGUIScene@xm@@UAEXPAVUIContext@nv@@@Z 100155f0 f   TestMyGUIScene.obj
+ 0002:000047d0       ?OnResize@TestMyGUIScene@xm@@UAEXHH@Z 100157d0 f   TestMyGUIScene.obj
+ 0002:00004860       ?HandleInput@TestMyGUIScene@xm@@MAEXXZ 10015860 f   TestMyGUIScene.obj
+ 0002:000048a0       ??0?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@XZ 100158a0 f i TestMyGUIScene.obj
+ 0002:00004960       ??1?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@XZ 10015960 f i TestMyGUIScene.obj
+ 0002:00004a00       ??4?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAEAAV01@ABV01@@Z 10015a00 f i TestMyGUIScene.obj
+ 0002:00004c30       ?at@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAEAAPAVRGUIWidget@xm@@I@Z 10015c30 f i TestMyGUIScene.obj
+ 0002:00004d80       ??1?$_Vector_val@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@XZ 10015d80 f i TestMyGUIScene.obj
+ 0002:00004dd0       ??1?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@XZ 10015dd0 f i TestMyGUIScene.obj
+ 0002:00004e20       ??1?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@XZ 10015e20 f i TestMyGUIScene.obj
+ 0002:00004e70       ??1?$_Ranit@PAVRGUIWidget@xm@@HPBQAV12@ABQAV12@@std@@QAE@XZ 10015e70 f i TestMyGUIScene.obj
+ 0002:00004ec0       ??1?$_Iterator_with_base@Urandom_access_iterator_tag@std@@PAVRGUIWidget@xm@@HPBQAV34@ABQAV34@V_Iterator_base@2@@std@@QAE@XZ 10015ec0 f i TestMyGUIScene.obj
+ 0002:00004f10       ?capacity@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEIXZ 10015f10 f i TestMyGUIScene.obj
+ 0002:00004f80       ?begin@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE?AV?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@XZ 10015f80 f i TestMyGUIScene.obj
+ 0002:00005010       ?size@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEIXZ 10016010 f i TestMyGUIScene.obj
+ 0002:00005060       ?clear@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAEXXZ 10016060 f i TestMyGUIScene.obj
+ 0002:000051f0       ?_Buy@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAE_NI@Z 100161f0 f i TestMyGUIScene.obj
+ 0002:000052d0       ?_Destroy@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAEXPAPAVRGUIWidget@xm@@0@Z 100162d0 f i TestMyGUIScene.obj
+ 0002:00005340       ?_Tidy@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAEXXZ 10016340 f i TestMyGUIScene.obj
+ 0002:00005420       ?_Xran@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@KAXXZ 10016420 f i TestMyGUIScene.obj
+ 0002:00005510       ??0?$_Vector_val@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAE@V?$allocator@PAVRGUIWidget@xm@@@1@@Z 10016510 f i TestMyGUIScene.obj
+ 0002:00005590       ??1?$_Container_base_aux_alloc_empty@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAE@XZ 10016590 f i TestMyGUIScene.obj
+ 0002:000055f0       ??0?$allocator@PAVRGUIWidget@xm@@@std@@QAE@XZ 100165f0 f i TestMyGUIScene.obj
+ 0002:00005630       ?deallocate@?$allocator@PAVRGUIWidget@xm@@@std@@QAEXPAPAVRGUIWidget@xm@@I@Z 10016630 f i TestMyGUIScene.obj
+ 0002:00005690       ??D?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEAAPAVRGUIWidget@xm@@XZ 10016690 f i TestMyGUIScene.obj
+ 0002:000056e0       ??H?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBE?AV01@H@Z 100166e0 f i TestMyGUIScene.obj
+ 0002:00005800       ??0?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@ABV01@@Z 10016800 f i TestMyGUIScene.obj
+ 0002:00005870       ??0?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@ABV01@@Z 10016870 f i TestMyGUIScene.obj
+ 0002:000058d0       ??0?$_Ranit@PAVRGUIWidget@xm@@HPBQAV12@ABQAV12@@std@@QAE@ABU01@@Z 100168d0 f i TestMyGUIScene.obj
+ 0002:00005930       ??0?$_Iterator_with_base@Urandom_access_iterator_tag@std@@PAVRGUIWidget@xm@@HPBQAV34@ABQAV34@V_Iterator_base@2@@std@@QAE@ABU01@@Z 10016930 f i TestMyGUIScene.obj
+ 0002:00005990       ?end@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE?AV?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@XZ 10016990 f i TestMyGUIScene.obj
+ 0002:00005a20       ?max_size@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEIXZ 10016a20 f i TestMyGUIScene.obj
+ 0002:00005a80       ?erase@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE?AV?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@V?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@0@Z 10016a80 f i TestMyGUIScene.obj
+ 0002:00005d20       ?_Xlen@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@KAXXZ 10016d20 f i TestMyGUIScene.obj
+ 0002:00005e10       ??0?$_Container_base_aux_alloc_empty@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAE@V?$allocator@PAVRGUIWidget@xm@@@1@@Z 10016e10 f i TestMyGUIScene.obj
+ 0002:00005e80       ??0?$allocator@PAVRGUIWidget@xm@@@std@@QAE@ABV01@@Z 10016e80 f i TestMyGUIScene.obj
+ 0002:00005ec0       ?allocate@?$allocator@PAVRGUIWidget@xm@@@std@@QAEPAPAVRGUIWidget@xm@@I@Z 10016ec0 f i TestMyGUIScene.obj
+ 0002:00005f20       ??0?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@PAPAVRGUIWidget@xm@@PBV_Container_base_secure@1@@Z 10016f20 f i TestMyGUIScene.obj
+ 0002:00005f80       ??Y?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAEAAV01@H@Z 10016f80 f i TestMyGUIScene.obj
+ 0002:00005fe0       ??D?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEABQAVRGUIWidget@xm@@XZ 10016fe0 f i TestMyGUIScene.obj
+ 0002:000060f0       ?_Make_iter@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBE?AV?$_Vector_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@V?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@2@@Z 100170f0 f i TestMyGUIScene.obj
+ 0002:000061c0       ?_Orphan_range@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IBEXPAPAVRGUIWidget@xm@@0@Z 100171c0 f i TestMyGUIScene.obj
+ 0002:000062d0       ?max_size@?$allocator@PAVRGUIWidget@xm@@@std@@QBEIXZ 100172d0 f i TestMyGUIScene.obj
+ 0002:00006340       ??0?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAE@PAPAVRGUIWidget@xm@@PBV_Container_base_secure@1@@Z 10017340 f i TestMyGUIScene.obj
+ 0002:00006480       ??Y?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QAEAAV01@H@Z 10017480 f i TestMyGUIScene.obj
+ 0002:00006610       ??9?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBE_NABV01@@Z 10017610 f i TestMyGUIScene.obj
+ 0002:00006680       ??M?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBE_NABV01@@Z 10017680 f i TestMyGUIScene.obj
+ 0002:000066f0       ??0?$_Ranit@PAVRGUIWidget@xm@@HPBQAV12@ABQAV12@@std@@QAE@XZ 100176f0 f i TestMyGUIScene.obj
+ 0002:00006750       ??0?$_Iterator_with_base@Urandom_access_iterator_tag@std@@PAVRGUIWidget@xm@@HPBQAV34@ABQAV34@V_Iterator_base@2@@std@@QAE@XZ 10017750 f i TestMyGUIScene.obj
+ 0002:000067b0       ??8?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBE_NABV01@@Z 100177b0 f i TestMyGUIScene.obj
+ 0002:00006820       ?_Compat@?$_Vector_const_iterator@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@QBEXABV12@@Z 10017820 f i TestMyGUIScene.obj
+ 0002:00006920       ??$S3ASafeCast@VRGUIImageBox@xm@@@@YAPAVRGUIImageBox@xm@@PAVS3AObject@@@Z 10017920 f i TestMyGUIScene.obj
+ 0002:000069b0       ??$S3ASafeCast@VRGUIProgressBar@xm@@@@YAPAVRGUIProgressBar@xm@@PAVS3AObject@@@Z 100179b0 f i TestMyGUIScene.obj
+ 0002:00006a40       ??$unchecked_copy@PAPAVRGUIWidget@xm@@PAPAV12@@stdext@@YAPAPAVRGUIWidget@xm@@PAPAV12@00@Z 10017a40 f i TestMyGUIScene.obj
+ 0002:00006b10       ??$_Ucopy@PAPAVRGUIWidget@xm@@@?$vector@PAVRGUIWidget@xm@@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@IAEPAPAVRGUIWidget@xm@@PAPAV23@00@Z 10017b10 f i TestMyGUIScene.obj
+ 0002:00006b80       ??$_Destroy_range@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@YAXPAPAVRGUIWidget@xm@@0AAV?$allocator@PAVRGUIWidget@xm@@@0@@Z 10017b80 f i TestMyGUIScene.obj
+ 0002:00006c00       ??$_Allocate@PAVRGUIWidget@xm@@@std@@YAPAPAVRGUIWidget@xm@@IPAPAV12@@Z 10017c00 f i TestMyGUIScene.obj
+ 0002:00006ca0       ??$_Checked_base@PAPAVRGUIWidget@xm@@@std@@YAPAPAVRGUIWidget@xm@@AAPAPAV12@@Z 10017ca0 f i TestMyGUIScene.obj
+ 0002:00006d30       ??$_Iter_random@PAPAVRGUIWidget@xm@@PAPAV12@@std@@YA?AUrandom_access_iterator_tag@0@ABQAPAVRGUIWidget@xm@@0@Z 10017d30 f i TestMyGUIScene.obj
+ 0002:00006da0       ??$_Ptr_cat@PAPAVRGUIWidget@xm@@PAPAV12@@std@@YA?AU_Scalar_ptr_iterator_tag@0@AAPAPAVRGUIWidget@xm@@0@Z 10017da0 f i TestMyGUIScene.obj
+ 0002:00006e10       ??$_Copy_opt@PAPAVRGUIWidget@xm@@PAPAV12@Urandom_access_iterator_tag@std@@@std@@YAPAPAVRGUIWidget@xm@@PAPAV12@00Urandom_access_iterator_tag@0@U_Scalar_ptr_iterator_tag@0@U_Range_checked_iterator_tag@0@@Z 10017e10 f i TestMyGUIScene.obj
+ 0002:00006ef0       ??$unchecked_uninitialized_copy@PAPAVRGUIWidget@xm@@PAPAV12@V?$allocator@PAVRGUIWidget@xm@@@std@@@stdext@@YAPAPAVRGUIWidget@xm@@PAPAV12@00AAV?$allocator@PAVRGUIWidget@xm@@@std@@@Z 10017ef0 f i TestMyGUIScene.obj
+ 0002:00006fa0       ??$_Destroy_range@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@YAXPAPAVRGUIWidget@xm@@0AAV?$allocator@PAVRGUIWidget@xm@@@0@U_Scalar_ptr_iterator_tag@0@@Z 10017fa0 f i TestMyGUIScene.obj
+ 0002:00006fd0       ??$_Checked_base@PAPAVRGUIWidget@xm@@@std@@YAPAPAVRGUIWidget@xm@@AAPAPAV12@U_Unchanged_checked_iterator_base_type_tag@0@@Z 10017fd0 f i TestMyGUIScene.obj
+ 0002:00007010       ??$_Debug_range@PAPAVRGUIWidget@xm@@@std@@YAXPAPAVRGUIWidget@xm@@0PB_WI@Z 10018010 f i TestMyGUIScene.obj
+ 0002:00007090       ??$_Debug_pointer@PAVRGUIWidget@xm@@@std@@YAXPAPAVRGUIWidget@xm@@PB_WI@Z 10018090 f i TestMyGUIScene.obj
+ 0002:00007100       ??$_Uninit_copy@PAPAVRGUIWidget@xm@@PAPAV12@V?$allocator@PAVRGUIWidget@xm@@@std@@@std@@YAPAPAVRGUIWidget@xm@@PAPAV12@00AAV?$allocator@PAVRGUIWidget@xm@@@0@U_Scalar_ptr_iterator_tag@0@U_Range_checked_iterator_tag@0@@Z 10018100 f i TestMyGUIScene.obj
+ 0002:000071e0       ??$_Iter_cat@PAPAVRGUIWidget@xm@@@std@@YA?AUrandom_access_iterator_tag@0@ABQAPAVRGUIWidget@xm@@@Z 100181e0 f i TestMyGUIScene.obj
+ 0002:00007250       ??$_Debug_range2@PAPAVRGUIWidget@xm@@@std@@YAXPAPAVRGUIWidget@xm@@0PB_WIUrandom_access_iterator_tag@0@@Z 10018250 f i TestMyGUIScene.obj
+ 0002:00007300       ??0_Iterator_base@std@@QAE@XZ 10018300 f i TestMyGUIScene.obj
+ 0002:00007350       ??0_Iterator_base@std@@QAE@ABV01@@Z 10018350 f i TestMyGUIScene.obj
+ 0002:000073d0       ??4_Iterator_base@std@@QAEAAV01@ABV01@@Z 100183d0 f i TestMyGUIScene.obj
+ 0002:00007500       ??1_Iterator_base@std@@QAE@XZ 10018500 f i TestMyGUIScene.obj
+ 0002:00007600       ?_Adopt@_Iterator_base@std@@QAEXPBV_Container_base_secure@2@@Z 10018600 f i TestMyGUIScene.obj
+ 0002:00007740       ?_Orphan_me@_Iterator_base@std@@QAEXXZ 10018740 f i TestMyGUIScene.obj
+ 0002:00007820       ?_Getmycont@_Iterator_base@std@@QBEPBV_Container_base_secure@2@XZ 10018820 f i TestMyGUIScene.obj
+ 0002:00007860       ?_Has_container@_Iterator_base@std@@QBE_NXZ 10018860 f i TestMyGUIScene.obj
+ 0002:000078b0       ??0bad_alloc@std@@QAE@PBD@Z 100188b0 f i TestMyGUIScene.obj
+ 0002:00007930       ??1bad_alloc@std@@UAE@XZ   10018930 f i TestMyGUIScene.obj
+ 0002:000079a0       ??_Ebad_alloc@std@@UAEPAXI@Z 100189a0 f i TestMyGUIScene.obj
+ 0002:000079a0       ??_Gbad_alloc@std@@UAEPAXI@Z 100189a0 f i TestMyGUIScene.obj
+ 0002:00007a10       ??0length_error@std@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@1@@Z 10018a10 f i TestMyGUIScene.obj
+ 0002:00007a80       ??0logic_error@std@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@1@@Z 10018a80 f i TestMyGUIScene.obj
+ 0002:00007b60       ?what@logic_error@std@@UBEPBDXZ 10018b60 f i TestMyGUIScene.obj
+ 0002:00007bc0       ??_Elogic_error@std@@UAEPAXI@Z 10018bc0 f i TestMyGUIScene.obj
+ 0002:00007bc0       ??_Glogic_error@std@@UAEPAXI@Z 10018bc0 f i TestMyGUIScene.obj
+ 0002:00007c30       ??1logic_error@std@@UAE@XZ 10018c30 f i TestMyGUIScene.obj
+ 0002:00007cb0       ??1length_error@std@@UAE@XZ 10018cb0 f i TestMyGUIScene.obj
+ 0002:00007d10       ??_Glength_error@std@@UAEPAXI@Z 10018d10 f i TestMyGUIScene.obj
+ 0002:00007d10       ??_Elength_error@std@@UAEPAXI@Z 10018d10 f i TestMyGUIScene.obj
+ 0002:00007d80       ??0out_of_range@std@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@1@@Z 10018d80 f i TestMyGUIScene.obj
+ 0002:00007df0       ??1out_of_range@std@@UAE@XZ 10018df0 f i TestMyGUIScene.obj
+ 0002:00007e50       ??_Eout_of_range@std@@UAEPAXI@Z 10018e50 f i TestMyGUIScene.obj
+ 0002:00007e50       ??_Gout_of_range@std@@UAEPAXI@Z 10018e50 f i TestMyGUIScene.obj
+ 0002:00007ec0       ??0out_of_range@std@@QAE@ABV01@@Z 10018ec0 f i TestMyGUIScene.obj
+ 0002:00007f30       ??0logic_error@std@@QAE@ABV01@@Z 10018f30 f i TestMyGUIScene.obj
+ 0002:00008010       ??0length_error@std@@QAE@ABV01@@Z 10019010 f i TestMyGUIScene.obj
+ 0002:00008080       ??0bad_alloc@std@@QAE@ABV01@@Z 10019080 f i TestMyGUIScene.obj
+ 0002:000080f2       ??0S3AName@@QAE@PBDW4EFindName@@@Z 100190f2 f   S3ACommon:S3ACommon.dll
+ 0002:000080f8       ?GetInstance@?$S3ASingleton@VS3AObjectFactoryManager@@@@SAAAVS3AObjectFactoryManager@@XZ 100190f8 f   S3ACommon:S3ACommon.dll
+ 0002:000080fe       ?IncReference@S3AReferenceCountObject@@UBEXXZ 100190fe f   S3ACommon:S3ACommon.dll
+ 0002:00008104       ?DecReference@S3AReferenceCountObject@@UBEXXZ 10019104 f   S3ACommon:S3ACommon.dll
+ 0002:0000810a       ?PostClone@S3AObject@@UAEXPAV1@@Z 1001910a f   S3ACommon:S3ACommon.dll
+ 0002:00008110       ?GetObjectId@S3AObject@@UBE?AVS3AName@@XZ 10019110 f   S3ACommon:S3ACommon.dll
+ 0002:00008116       ??0xmAxisAlignedBox@@QAE@XZ 10019116 f   S3ACommon:S3ACommon.dll
+ 0002:0000811c       _xmMatrixTranslation       1001911c f   S3ACommon:S3ACommon.dll
+ 0002:00008122       ?GetFrameDeltaTime@S3Time@@QBEMXZ 10019122 f   S3ACommon:S3ACommon.dll
+ 0002:00008128       ??0xmVector3@@QAE@MMM@Z    10019128 f   S3ACommon:S3ACommon.dll
+ 0002:0000812e       ?TravelProperty@S3AObject@@UAEXPAVPropertyVisitor@S3A@@@Z 1001912e f   S3ACommon:S3ACommon.dll
+ 0002:00008134       ?Start@S3AObject@@UAE_NXZ  10019134 f   S3ACommon:S3ACommon.dll
+ 0002:0000813a       ?GetClass@S3AObject@@UBEPAVS3AClass@@XZ 1001913a f   S3ACommon:S3ACommon.dll
+ 0002:00008140       ?S3AssertMsg@@YAX_NPBD1I1ZZ 10019140 f   S3ACommon:S3ACommon.dll
+ 0002:00008146       ?RegisterS3AClass@S3AClassManager@@QAE_NPAVS3AClass@@@Z 10019146 f   S3ACommon:S3ACommon.dll
+ 0002:0000814c       ?GetInstance@?$S3ASingleton@VS3AClassManager@@@@SAAAVS3AClassManager@@XZ 1001914c f   S3ACommon:S3ACommon.dll
+ 0002:00008152       ??0S3AClass@@QAE@VS3AName@@PBV0@I@Z 10019152 f   S3ACommon:S3ACommon.dll
+ 0002:00008158       ?UnRegisterS3AClass@S3AClassManager@@QAE_NPAVS3AClass@@@Z 10019158 f   S3ACommon:S3ACommon.dll
+ 0002:0000815e       ?IsA@S3AObject@@QBE_NPBVS3AClass@@@Z 1001915e f   S3ACommon:S3ACommon.dll
+ 0002:00008164       ??1S3AUTScene@@UAE@XZ      10019164 f   S3AUT:S3AUT.dll
+ 0002:0000816a       ??0S3AUTScene@@QAE@ABV0@@Z 1001916a f   S3AUT:S3AUT.dll
+ 0002:00008170       ?ModifyCamera@S3AUTScene@@UAEXPAUxmVector3@@0@Z 10019170 f   S3AUT:S3AUT.dll
+ 0002:00008176       ?OnResize@S3AUTScene@@UAEXHH@Z 10019176 f   S3AUT:S3AUT.dll
+ 0002:0000817c       ??4S3AUTScene@@QAEAAV0@ABV0@@Z 1001917c f   S3AUT:S3AUT.dll
+ 0002:00008182       ??0S3AUTScene@@QAE@XZ      10019182 f   S3AUT:S3AUT.dll
+ 0002:00008188       ?GetInstance@?$S3ASingleton@VS3AUTRenderer@@@@SAAAVS3AUTRenderer@@XZ 10019188 f   S3AUT:S3AUT.dll
+ 0002:0000818e       ?Init@S3AUTScene@@UAEXHQAPAD@Z 1001918e f   S3AUT:S3AUT.dll
+ 0002:00008194       ?Shutdown@S3AUTScene@@UAEXXZ 10019194 f   S3AUT:S3AUT.dll
+ 0002:0000819a       ??1TiXmlDocument@@UAE@XZ   1001919a f   S3AUT:S3AUT.dll
+ 0002:000081a0       ?RootElement@TiXmlDocument@@QAEPAVTiXmlElement@@XZ 100191a0 f   S3AUT:S3AUT.dll
+ 0002:000081a6       ?ErrorDesc@TiXmlDocument@@QBEPBDXZ 100191a6 f   S3AUT:S3AUT.dll
+ 0002:000081ac       ?LoadFile@TiXmlDocument@@QAE_NPBDW4TiXmlEncoding@@@Z 100191ac f   S3AUT:S3AUT.dll
+ 0002:000081b2       ??0TiXmlDocument@@QAE@XZ   100191b2 f   S3AUT:S3AUT.dll
+ 0002:000081b8       ?Unload@S3AUTScene@@UAEXXZ 100191b8 f   S3AUT:S3AUT.dll
+ 0002:000081be       ?Render@S3AUTScene@@UAEXXZ 100191be f   S3AUT:S3AUT.dll
+ 0002:000081c4       ?IsKeyPressed@Input@S3AUT@@QBE_NW4KeyCode@OIS@@@Z 100191c4 f   S3AUT:S3AUT.dll
+ 0002:000081ca       ?GetInput@S3AUT@@YAPAVInput@1@XZ 100191ca f   S3AUT:S3AUT.dll
+ 0002:000081d0       ?UpdateInput@ModelViewCameraController@S3AUT@@QAEXXZ 100191d0 f   S3AUT:S3AUT.dll
+ 0002:000081d6       ?S3AUTGetTime@@YAPAVS3Time@@XZ 100191d6 f   S3AUT:S3AUT.dll
+ 0002:000081dc       ?OnGUI@S3AUTScene@@UAEXPAVUIContext@nv@@@Z 100191dc f   S3AUT:S3AUT.dll
+ 0002:000081e2       ?LookAt@ModelViewCameraController@S3AUT@@QAEXABUxmVector3@@M@Z 100191e2 f   S3AUT:S3AUT.dll
+ 0002:000081e8       ?Init@ModelViewCameraController@S3AUT@@QAEXPAVS3AUTCamera@@PAVInput@2@@Z 100191e8 f   S3AUT:S3AUT.dll
+ 0002:000081ee       ??0ModelViewCameraController@S3AUT@@QAE@XZ 100191ee f   S3AUT:S3AUT.dll
+ 0002:000081f4       ?SetPerspective@S3AUTCamera@@QAEXMMMM@Z 100191f4 f   S3AUT:S3AUT.dll
+ 0002:000081fa       ??1ModelViewCameraController@S3AUT@@UAE@XZ 100191fa f   S3AUT:S3AUT.dll
+ 0002:00008200       ?SetupCamera@S3AUTScene@@MAEXXZ 10019200 f   S3AUT:S3AUT.dll
+ 0002:00008206       ?Load@S3AUTScene@@UAEXXZ   10019206 f   S3AUT:S3AUT.dll
+ 0002:0000820c       ?doLabel@UIContext@nv@@QAEXABURect@2@PBDH@Z 1001920c f   S3AUTRendererGL:S3AUTRendererGL.dll
+ 0002:00008212       ?end@UIContext@nv@@QAEXXZ  10019212 f   S3AUTRendererGL:S3AUTRendererGL.dll
+ 0002:00008218       ?doHorizontalSliderLabled@UI@S3AUT@@YA_NPAVUIContext@nv@@PBDABURect@4@MMPAMH@Z 10019218 f   S3AUTRendererGL:S3AUTRendererGL.dll
+ 0002:0000821e       ?begin@UIContext@nv@@QAEXXZ 1001921e f   S3AUTRendererGL:S3AUTRendererGL.dll
+ 0002:00008224       ??0Rect@nv@@QAE@XZ         10019224 f   S3AUTRendererGL:S3AUTRendererGL.dll
+ 0002:0000822a       ?TranslatePS@S3XSceneNode@@QAEXMMM@Z 1001922a f   framework:Framework.dll
+ 0002:00008230       ?AddGameObject@S3XSceneNode@@QAEXPAVS3XGameObject@@@Z 10019230 f   framework:Framework.dll
+ 0002:00008236       ?CreateChildNode@S3XSceneNode@@QAEPAV1@VS3AName@@@Z 10019236 f   framework:Framework.dll
+ 0002:0000823c       ?AddComponent@S3XGameObject@@QAEXPAVS3XComponent@@@Z 1001923c f   framework:Framework.dll
+ 0002:00008242       ?StaticGetClass@BoxCollisionComponent@xm@@SAPBVS3AClass@@XZ 10019242 f   framework:Framework.dll
+ 0002:00008248       ??0S3XGameObject@@QAE@XZ   10019248 f   framework:Framework.dll
+ 0002:0000824e       ?TravelProperty@S3XGameObject@@UAEXPAVPropertyVisitor@S3A@@@Z 1001924e f   framework:Framework.dll
+ 0002:00008254       ?Start@S3XGameObject@@UAE_NXZ 10019254 f   framework:Framework.dll
+ 0002:0000825a       ?GetClass@S3XGameObject@@UBEPAVS3AClass@@XZ 1001925a f   framework:Framework.dll
+ 0002:00008260       ??1S3XGameObject@@UAE@XZ   10019260 f   framework:Framework.dll
+ 0002:00008266       ?TranslateLS@S3XSceneNode@@QAEXMMM@Z 10019266 f   framework:Framework.dll
+ 0002:0000826c       ?FitAABB@S3XCamera@@QAEXPBVxmAxisAlignedBox@@M@Z 1001926c f   framework:Framework.dll
+ 0002:00008272       ?GetBounds@S3XSceneNode@@QBEPBVxmAxisAlignedBox@@XZ 10019272 f   framework:Framework.dll
+ 0002:00008278       ??1ResImportDesc@xm@@QAE@XZ 10019278 f   framework:Framework.dll
+ 0002:0000827e       ?Init@ResImportDesc@xm@@QAEXPBD00@Z 1001927e f   framework:Framework.dll
+ 0002:00008284       ??0ResImportDesc@xm@@QAE@XZ 10019284 f   framework:Framework.dll
+ 0002:0000828a       ?Tick@S3XScene@@QAEXM@Z    1001928a f   framework:Framework.dll
+ 0002:00008290       ?Start@S3XScene@@QAE_NXZ   10019290 f   framework:Framework.dll
+ 0002:00008296       ?TravelScene@S3XScene@@QAEXPAVS3XSceneVisiter@@@Z 10019296 f   framework:Framework.dll
+ 0002:0000829c       ??0S3XSceneHierarchyLogVisiter@@QAE@XZ 1001929c f   framework:Framework.dll
+ 0002:000082a2       ?GetChildNodeByName@S3XSceneNode@@QAEPAV1@VS3AName@@@Z 100192a2 f   framework:Framework.dll
+ 0002:000082a8       ?GetRootNode@S3XScene@@QAEPAVS3XSceneNode@@XZ 100192a8 f   framework:Framework.dll
+ 0002:000082ae       ?LoadFromXml@S3XScene@@QAE_NPAVTiXmlElement@@PBVResImportDesc@xm@@@Z 100192ae f   framework:Framework.dll
+ 0002:000082b4       ??0S3XScene@@QAE@XZ        100192b4 f   framework:Framework.dll
+ 0002:000082ba       ??1S3XScene@@UAE@XZ        100192ba f   framework:Framework.dll
+ 0002:000082c0       ?DbgRender@S3XSceneNode@@QAEXV?$S3ABitFieldBase@I@@@Z 100192c0 f   framework:Framework.dll
+ 0002:000082c6       ?Render@S3XScene@@QAEXPAVS3XCamera@@@Z 100192c6 f   framework:Framework.dll
+ 0002:000082cc       ?GetPhysicsScene@S3XScene@@QAEPAVPhysicsScene@xm@@XZ 100192cc f   framework:Framework.dll
+ 0002:000082d2       ?OnGUI@S3XScene@@QAEXPAVUIContext@nv@@@Z 100192d2 f   framework:Framework.dll
+ 0002:000082d8       ?SetMainCamera@S3XScene@@QAEXPAVS3XCamera@@@Z 100192d8 f   framework:Framework.dll
+ 0002:000082de       ?SetSceneNode@S3XCamera@@QAEXPAVS3XSceneNode@@@Z 100192de f   framework:Framework.dll
+ 0002:000082e4       ??0S3XCamera@@QAE@XZ       100192e4 f   framework:Framework.dll
+ 0002:000082ea       ?LookAt@S3XCamera@@UAEXPBUxmVector3@@00@Z 100192ea f   framework:Framework.dll
+ 0002:000082f0       ?SetTransfrom@S3XCamera@@UAEXUxmMatrix4x4@@@Z 100192f0 f   framework:Framework.dll
+ 0002:000082f6       ?Update@S3XCamera@@UAEXXZ  100192f6 f   framework:Framework.dll
+ 0002:000082fc       ?GetTransformWS@S3XCamera@@UBEXPAUxmNodeTransform@@@Z 100192fc f   framework:Framework.dll
+ 0002:00008302       ?TransformNormalToWorld@S3XCamera@@UAEXPAUxmVector3@@PBU2@@Z 10019302 f   framework:Framework.dll
+ 0002:00008308       ??1S3XCamera@@UAE@XZ       10019308 f   framework:Framework.dll
+ 0002:0000830e       ??0GamePlayDevice@xm@@QAE@XZ 1001930e f   framework:Framework.dll
+ 0002:00008314       ??1GamePlayDevice@xm@@UAE@XZ 10019314 f   framework:Framework.dll
+ 0002:0000831a       ??0GamePlayDevice@xm@@QAE@ABV01@@Z 1001931a f   framework:Framework.dll
+ 0002:00008320       ??4GamePlayDevice@xm@@QAEAAV01@ABV01@@Z 10019320 f   framework:Framework.dll
+ 0002:00008326       ?StaticGetClass@GamePlayDevice@xm@@SAPBVS3AClass@@XZ 10019326 f   framework:Framework.dll
+ 0002:0000832c       ?GetRGUIDevice@xm@@YAPAVRGUIDevice@1@XZ 1001932c f   framework:Framework.dll
+ 0002:00008332       ?StaticGetClass@RGUIImageBox@xm@@SAPBVS3AClass@@XZ 10019332 f   framework:Framework.dll
+ 0002:00008338       ?StaticGetClass@RGUIProgressBar@xm@@SAPBVS3AClass@@XZ 10019338 f   framework:Framework.dll
+ 0002:0000833e       ??1?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@XZ 1001933e f   msvcprtd:MSVCP90D.dll
+ 0002:00008344       ?c_str@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBEPBDXZ 10019344 f   msvcprtd:MSVCP90D.dll
+ 0002:0000834a       ??$?HDU?$char_traits@D@std@@V?$allocator@D@1@@std@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@0@ABV10@PBD@Z 1001934a f   msvcprtd:MSVCP90D.dll
+ 0002:00008350       ??0?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@PBD@Z 10019350 f   msvcprtd:MSVCP90D.dll
+ 0002:00008356       ?_Orphan_all@_Container_base_secure@std@@QBEXXZ 10019356 f   msvcprtd:MSVCP90D.dll
+ 0002:0000835c       ??1_Container_base_secure@std@@QAE@XZ 1001935c f   msvcprtd:MSVCP90D.dll
+ 0002:00008362       ?_Debug_message@std@@YAXPB_W0I@Z 10019362 f   msvcprtd:MSVCP90D.dll
+ 0002:00008368       ??0_Container_base_secure@std@@QAE@XZ 10019368 f   msvcprtd:MSVCP90D.dll
+ 0002:0000836e       ??1_Lockit@std@@QAE@XZ     1001936e f   msvcprtd:MSVCP90D.dll
+ 0002:00008374       ??0_Lockit@std@@QAE@H@Z    10019374 f   msvcprtd:MSVCP90D.dll
+ 0002:0000837a       ??0?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@ABV01@@Z 1001937a f   msvcprtd:MSVCP90D.dll
+ 0002:00008380       __RTC_CheckEsp             10019380 f   MSVCRTD:_stack_.obj
+ 0002:000083b0       @_RTC_CheckStackVars@8     100193b0 f   MSVCRTD:_stack_.obj
+ 0002:00008430       @_RTC_AllocaHelper@12      10019430 f   MSVCRTD:_stack_.obj
+ 0002:00008470       @_RTC_CheckStackVars2@12   10019470 f   MSVCRTD:_stack_.obj
+ 0002:00008580       __RTC_InitBase             10019580 f   MSVCRTD:_init_.obj
+ 0002:000085c0       __RTC_Shutdown             100195c0 f   MSVCRTD:_init_.obj
+ 0002:000085e0       ??0type_info@@AAE@ABV0@@Z  100195e0 f   MSVCRTD:ti_inst.obj
+ 0002:00008610       ??_Etype_info@@UAEPAXI@Z   10019610 f i MSVCRTD:ti_inst.obj
+ 0002:000086a0       ??4type_info@@AAEAAV0@ABV0@@Z 100196a0 f   MSVCRTD:ti_inst.obj
+ 0002:000086b6       ??3@YAXPAX@Z               100196b6 f   MSVCRTD:MSVCR90D.dll
+ 0002:000086bc       ??_V@YAXPAX@Z              100196bc f   MSVCRTD:MSVCR90D.dll
+ 0002:000086d0       ??_M@YGXPAXIHP6EX0@Z@Z     100196d0 f   MSVCRTD:ehvecdtr.obj
+ 0002:000087b0       ?__ArrayUnwind@@YGXPAXIHP6EX0@Z@Z 100197b0 f   MSVCRTD:ehvecdtr.obj
+ 0002:0000889a       ??2@YAPAXI@Z               1001989a f   MSVCRTD:MSVCR90D.dll
+ 0002:000088a0       ___CxxFrameHandler3        100198a0 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088b0       @__security_check_cookie@4 100198b0 f   MSVCRTD:secchk.obj
+ 0002:000088c2       _sprintf                   100198c2 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088c8       __CxxThrowException@8      100198c8 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088ce       ??0exception@std@@QAE@ABV01@@Z 100198ce f   MSVCRTD:MSVCR90D.dll
+ 0002:000088d4       __invalid_parameter        100198d4 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088da       __CrtDbgReportW            100198da f   MSVCRTD:MSVCR90D.dll
+ 0002:000088e0       _memmove_s                 100198e0 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088e6       ??0exception@std@@QAE@ABQBD@Z 100198e6 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088ec       ?what@exception@std@@UBEPBDXZ 100198ec f   MSVCRTD:MSVCR90D.dll
+ 0002:000088f2       ??1exception@std@@UAE@XZ   100198f2 f   MSVCRTD:MSVCR90D.dll
+ 0002:000088f8       ??0exception@std@@QAE@XZ   100198f8 f   MSVCRTD:MSVCR90D.dll
+ 0002:000089a0       __CRT_INIT@12              100199a0 f   MSVCRTD:crtdll.obj
+ 0002:00008d70       _NtCurrentTeb              10019d70 f i MSVCRTD:crtdll.obj
+ 0002:00008d80       __DllMainCRTStartup@12     10019d80 f   MSVCRTD:crtdll.obj
+ 0002:00009000       _DebuggerKnownHandle       1001a000 f   MSVCRTD:_error_.obj
+ 0002:000090e0       ?_RTC_Failure@@YAXPAXH@Z   1001a0e0 f   MSVCRTD:_error_.obj
+ 0002:000094b0       ?_RTC_StackFailure@@YAXPAXPBD@Z 1001a4b0 f   MSVCRTD:_error_.obj
+ 0002:000095f0       ?_RTC_AllocaFailure@@YAXPAXPAU_RTC_ALLOCA_NODE@@H@Z 1001a5f0 f   MSVCRTD:_error_.obj
+ 0002:00009800       __RTC_UninitUse            1001a800 f   MSVCRTD:_error_.obj
+ 0002:00009930       __RTC_NumErrors            1001a930 f   MSVCRTD:_userapi_.obj
+ 0002:00009940       __RTC_GetErrDesc           1001a940 f   MSVCRTD:_userapi_.obj
+ 0002:00009960       __RTC_SetErrorType         1001a960 f   MSVCRTD:_userapi_.obj
+ 0002:00009990       __RTC_SetErrorFunc         1001a990 f   MSVCRTD:_userapi_.obj
+ 0002:000099c0       __RTC_SetErrorFuncW        1001a9c0 f   MSVCRTD:_userapi_.obj
+ 0002:000099f0       ?_RTC_GetErrorFunc@@YAP6AHHPBDH00ZZPBX@Z 1001a9f0 f   MSVCRTD:_userapi_.obj
+ 0002:00009a00       ?_RTC_GetErrorFuncW@@YAP6AHHPB_WH00ZZPBX@Z 1001aa00 f   MSVCRTD:_userapi_.obj
+ 0002:00009a06       __CRT_RTC_INITW            1001aa06 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009a10       __except_handler4          1001aa10 f   MSVCRTD:chandler4gs.obj
+ 0002:00009a44       ?terminate@@YAXXZ          1001aa44 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009a50       ___report_gsfailure        1001aa50 f   MSVCRTD:gs_report.obj
+ 0002:00009bb0       ___clean_type_info_names   1001abb0 f   MSVCRTD:tncleanup.obj
+ 0002:00009bd0       __onexit                   1001abd0 f   MSVCRTD:atonexit.obj
+ 0002:00009d20       _atexit                    1001ad20 f   MSVCRTD:atonexit.obj
+ 0002:00009d50       __RTC_Initialize           1001ad50 f   MSVCRTD:_initsect_.obj
+ 0002:00009d80       __RTC_Terminate            1001ad80 f   MSVCRTD:_initsect_.obj
+ 0002:00009db0       __encode_pointer           1001adb0 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009db6       __malloc_dbg               1001adb6 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009dbc       __free_dbg                 1001adbc f   MSVCRTD:MSVCR90D.dll
+ 0002:00009dc2       __encoded_null             1001adc2 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009dc8       __decode_pointer           1001adc8 f   MSVCRTD:MSVCR90D.dll
+ 0002:00009dce       __CrtSetCheckCount         1001adce f   MSVCRTD:MSVCR90D.dll
+ 0002:00009de0       __ValidateImageBase        1001ade0 f   MSVCRTD:pesect.obj
+ 0002:00009e60       __FindPESection            1001ae60 f   MSVCRTD:pesect.obj
+ 0002:00009f00       __IsNonwritableInCurrentImage 1001af00 f   MSVCRTD:pesect.obj
+ 0002:0000a056       __initterm                 1001b056 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a05c       __initterm_e               1001b05c f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a062       __amsg_exit                1001b062 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a070       ___security_init_cookie    1001b070 f   MSVCRTD:gs_support.obj
+ 0002:0000a182       ___CppXcptFilter           1001b182 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a190       _DllMain@12                1001b190 f   MSVCRTD:dllmain.obj
+ 0002:0000a1c0       ?_RTC_GetSrcLine@@YAHPAEPA_WKPAH1K@Z 1001b1c0 f   MSVCRTD:_pdblkup_.obj
+ 0002:0000a77c       ??1type_info@@UAE@XZ       1001b77c f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a77c       ?_type_info_dtor_internal_method@type_info@@QAEXXZ 1001b77c f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a782       __except_handler4_common   1001b782 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a788       __crt_debugger_hook        1001b788 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a78e       ___clean_type_info_names_internal 1001b78e f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a794       __unlock                   1001b794 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a79a       ___dllonexit               1001b79a f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a7a0       __lock                     1001b7a0 f   MSVCRTD:MSVCR90D.dll
+ 0002:0000a7a6       _InterlockedExchange@8     1001b7a6 f   kernel32:KERNEL32.dll
+ 0002:0000a7ac       _Sleep@4                   1001b7ac f   kernel32:KERNEL32.dll
+ 0002:0000a7b2       _InterlockedCompareExchange@12 1001b7b2 f   kernel32:KERNEL32.dll
+ 0002:0000a7b8       _IsDebuggerPresent@0       1001b7b8 f   kernel32:KERNEL32.dll
+ 0002:0000a7be       _RaiseException@16         1001b7be f   kernel32:KERNEL32.dll
+ 0002:0000a7c4       _DebugBreak@0              1001b7c4 f   kernel32:KERNEL32.dll
+ 0002:0000a7ca       _WideCharToMultiByte@32    1001b7ca f   kernel32:KERNEL32.dll
+ 0002:0000a7d0       _MultiByteToWideChar@24    1001b7d0 f   kernel32:KERNEL32.dll
+ 0002:0000a7d6       _lstrlenA@4                1001b7d6 f   kernel32:KERNEL32.dll
+ 0002:0000a7dc       _GetProcAddress@8          1001b7dc f   kernel32:KERNEL32.dll
+ 0002:0000a7e2       _LoadLibraryA@4            1001b7e2 f   kernel32:KERNEL32.dll
+ 0002:0000a7e8       _TerminateProcess@8        1001b7e8 f   kernel32:KERNEL32.dll
+ 0002:0000a7ee       _GetCurrentProcess@0       1001b7ee f   kernel32:KERNEL32.dll
+ 0002:0000a7f4       _UnhandledExceptionFilter@4 1001b7f4 f   kernel32:KERNEL32.dll
+ 0002:0000a7fa       _SetUnhandledExceptionFilter@4 1001b7fa f   kernel32:KERNEL32.dll
+ 0002:0000a800       _QueryPerformanceCounter@4 1001b800 f   kernel32:KERNEL32.dll
+ 0002:0000a806       _GetTickCount@0            1001b806 f   kernel32:KERNEL32.dll
+ 0002:0000a80c       _GetCurrentThreadId@0      1001b80c f   kernel32:KERNEL32.dll
+ 0002:0000a812       _GetCurrentProcessId@0     1001b812 f   kernel32:KERNEL32.dll
+ 0002:0000a818       _GetSystemTimeAsFileTime@4 1001b818 f   kernel32:KERNEL32.dll
+ 0002:0000a81e       _DisableThreadLibraryCalls@4 1001b81e f   kernel32:KERNEL32.dll
+ 0002:0000a824       _HeapFree@12               1001b824 f   kernel32:KERNEL32.dll
+ 0002:0000a82a       _HeapAlloc@12              1001b82a f   kernel32:KERNEL32.dll
+ 0002:0000a830       _GetProcessHeap@0          1001b830 f   kernel32:KERNEL32.dll
+ 0002:0000a836       _GetModuleFileNameW@12     1001b836 f   kernel32:KERNEL32.dll
+ 0002:0000a83c       _VirtualQuery@12           1001b83c f   kernel32:KERNEL32.dll
+ 0002:0000a842       _FreeLibrary@4             1001b842 f   kernel32:KERNEL32.dll
+ 0003:00000000       ___xc_a                    1001e000     MSVCRTD:cinitexe.obj
+ 0003:00000104       ___xc_z                    1001e104     MSVCRTD:cinitexe.obj
+ 0003:00000208       ___xi_a                    1001e208     MSVCRTD:cinitexe.obj
+ 0003:00000410       ___xi_z                    1001e410     MSVCRTD:cinitexe.obj
+ 0003:00000540       ??_7TriPushScene@xm@@6B@   1001e540     TriPushScene.obj
+ 0003:00000584       __real@3dcccccd            1001e584     TriPushScene.obj
+ 0003:00000588       __real@3e4ccccd            1001e588     TriPushScene.obj
+ 0003:0000058c       __real@3e99999a            1001e58c     TriPushScene.obj
+ 0003:00000590       __real@00000000            1001e590     TriPushScene.obj
+ 0003:00000598       ??_SS3XGameObject@@6B@     1001e598     TriPushScene.obj
+ 0003:000005c0       __real@447a0000            1001e5c0     TriPushScene.obj
+ 0003:000005c4       ??_C@_02DKCKIIND@?$CFs?$AA@ 1001e5c4     TriPushScene.obj
+ 0003:000005c8       ??_C@_09IHGAAKJH@PushScene?$AA@ 1001e5c8     TriPushScene.obj
+ 0003:000005d4       ??_C@_0CA@MHGKOEAL@E?3?1work?1OpenSDK?1Editor?1Bin?1Data?$AA@ 1001e5d4     TriPushScene.obj
+ 0003:000005fc       ??_C@_0DF@MFBABEH@E?3?1work?1OpenSDK?1Editor?1Bin?1Data?1@ 1001e5fc     TriPushScene.obj
+ 0003:0000063c       ??_C@_08GBFHNBPH@Magician?$AA@ 1001e63c     TriPushScene.obj
+ 0003:0000064c       ??_SS3XScene@@6B@          1001e64c     TriPushScene.obj
+ 0003:0000065c       __real@42200000            1001e65c     TriPushScene.obj
+ 0003:00000660       __real@437a0000            1001e660     TriPushScene.obj
+ 0003:00000664       __real@42c80000            1001e664     TriPushScene.obj
+ 0003:00000668       __real@3f800000            1001e668     TriPushScene.obj
+ 0003:0000066c       ??_C@_0L@PGMBBEKJ@FPS?5?3?5?$CF?43f?$AA@ 1001e66c     TriPushScene.obj
+ 0003:00000680       __real@3ff0000000000000    1001e680     TriPushScene.obj
+ 0003:0000068c       ??_C@_07GFBFDLBM@gravity?$AA@ 1001e68c     TriPushScene.obj
+ 0003:00000698       __real@c3480000            1001e698     TriPushScene.obj
+ 0003:0000069c       __real@41200000            1001e69c     TriPushScene.obj
+ 0003:000006a0       __real@461c4000            1001e6a0     TriPushScene.obj
+ 0003:000006a8       ??_SModelViewCameraController@S3AUT@@6B@ 1001e6a8     TriPushScene.obj
+ 0003:000006d0       __real@c4160000            1001e6d0     TriPushScene.obj
+ 0003:000006d4       __real@43fa0000            1001e6d4     TriPushScene.obj
+ 0003:000006d8       ??_C@_06JCBBMBIP@Camera?$AA@ 1001e6d8     TriPushScene.obj
+ 0003:000006e0       __real@3f490fdb            1001e6e0     TriPushScene.obj
+ 0003:000006e4       __real@459c4000            1001e6e4     TriPushScene.obj
+ 0003:000006ec       ??_SS3XCamera@@6B@         1001e6ec     TriPushScene.obj
+ 0003:0000072b       ??_C@_00CNPNBAHC@?$AA@     1001e72b     TriPushScene.obj
+ 0003:0000072c       ??_C@_07NBCGADJA@Unknown?$AA@ 1001e72c     TriPushScene.obj
+ 0003:0000073c       ??_7TrineGameDevice@xm@@6B@ 1001e73c     TrineGameDevice.obj
+ 0003:00000784       ??_7TestMyGUIScene@xm@@6B@ 1001e784     TrineGameDevice.obj
+ 0003:000007c0       ??_C@_0BA@LJDCMFBL@TrineGameDevice?$AA@ 1001e7c0     TrineGameDevice.obj
+ 0003:000007d4       ??_C@_09PAHJLIH@TrineGame?$AA@ 1001e7d4     TrineGameDllMain.obj
+ 0003:000007e0       ??_C@_0CL@IGAELJGD@NULL?5?$DN?$DN?5TrineGamePlugin?3?3g_trine@ 1001e7e0     TrineGameDllMain.obj
+ 0003:00000818       ??_C@_0EM@CGNDAAPL@e?3?2project?2s3project?2opensdk?2edi@ 1001e818     TrineGameDllMain.obj
+ 0003:00000874       ??_C@_0P@GHFPNOJB@bad?5allocation?$AA@ 1001e874     TrinePCH.obj
+ 0003:00000886       ?_Value@?$_Is_swap_move@U_Swap_move_tag@std@@@std@@2_NB 1001e886     TrinePCH.obj
+ 0003:00000887       ?value@?$integral_constant@_N$0A@@tr1@std@@2_NB 1001e887     TrinePCH.obj
+ 0003:00000888       ?value@?$integral_constant@_N$00@tr1@std@@2_NB 1001e888     TrinePCH.obj
+ 0003:0000088c       ?collate@?$_Locbase@H@std@@2HB 1001e88c     TrinePCH.obj
+ 0003:00000890       ?ctype@?$_Locbase@H@std@@2HB 1001e890     TrinePCH.obj
+ 0003:00000894       ?monetary@?$_Locbase@H@std@@2HB 1001e894     TrinePCH.obj
+ 0003:00000898       ?numeric@?$_Locbase@H@std@@2HB 1001e898     TrinePCH.obj
+ 0003:0000089c       ?time@?$_Locbase@H@std@@2HB 1001e89c     TrinePCH.obj
+ 0003:000008a0       ?messages@?$_Locbase@H@std@@2HB 1001e8a0     TrinePCH.obj
+ 0003:000008a4       ?all@?$_Locbase@H@std@@2HB 1001e8a4     TrinePCH.obj
+ 0003:000008a8       ?none@?$_Locbase@H@std@@2HB 1001e8a8     TrinePCH.obj
+ 0003:000008ac       ?skipws@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8ac     TrinePCH.obj
+ 0003:000008b0       ?unitbuf@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8b0     TrinePCH.obj
+ 0003:000008b4       ?uppercase@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8b4     TrinePCH.obj
+ 0003:000008b8       ?showbase@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8b8     TrinePCH.obj
+ 0003:000008bc       ?showpoint@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8bc     TrinePCH.obj
+ 0003:000008c0       ?showpos@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8c0     TrinePCH.obj
+ 0003:000008c4       ?left@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8c4     TrinePCH.obj
+ 0003:000008c8       ?right@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8c8     TrinePCH.obj
+ 0003:000008cc       ?internal@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8cc     TrinePCH.obj
+ 0003:000008d0       ?dec@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8d0     TrinePCH.obj
+ 0003:000008d4       ?oct@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8d4     TrinePCH.obj
+ 0003:000008d8       ?hex@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8d8     TrinePCH.obj
+ 0003:000008dc       ?scientific@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8dc     TrinePCH.obj
+ 0003:000008e0       ?fixed@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8e0     TrinePCH.obj
+ 0003:000008e4       ?hexfloat@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8e4     TrinePCH.obj
+ 0003:000008e8       ?boolalpha@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8e8     TrinePCH.obj
+ 0003:000008ec       ?_Stdio@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8ec     TrinePCH.obj
+ 0003:000008f0       ?adjustfield@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8f0     TrinePCH.obj
+ 0003:000008f4       ?basefield@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8f4     TrinePCH.obj
+ 0003:000008f8       ?floatfield@?$_Iosb@H@std@@2W4_Fmtflags@12@B 1001e8f8     TrinePCH.obj
+ 0003:000008fc       ?goodbit@?$_Iosb@H@std@@2W4_Iostate@12@B 1001e8fc     TrinePCH.obj
+ 0003:00000900       ?eofbit@?$_Iosb@H@std@@2W4_Iostate@12@B 1001e900     TrinePCH.obj
+ 0003:00000904       ?failbit@?$_Iosb@H@std@@2W4_Iostate@12@B 1001e904     TrinePCH.obj
+ 0003:00000908       ?badbit@?$_Iosb@H@std@@2W4_Iostate@12@B 1001e908     TrinePCH.obj
+ 0003:0000090c       ?_Hardfail@?$_Iosb@H@std@@2W4_Iostate@12@B 1001e90c     TrinePCH.obj
+ 0003:00000910       ?in@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e910     TrinePCH.obj
+ 0003:00000914       ?out@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e914     TrinePCH.obj
+ 0003:00000918       ?ate@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e918     TrinePCH.obj
+ 0003:0000091c       ?app@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e91c     TrinePCH.obj
+ 0003:00000920       ?trunc@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e920     TrinePCH.obj
+ 0003:00000924       ?_Nocreate@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e924     TrinePCH.obj
+ 0003:00000928       ?_Noreplace@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e928     TrinePCH.obj
+ 0003:0000092c       ?binary@?$_Iosb@H@std@@2W4_Openmode@12@B 1001e92c     TrinePCH.obj
+ 0003:00000930       ?beg@?$_Iosb@H@std@@2W4_Seekdir@12@B 1001e930     TrinePCH.obj
+ 0003:00000934       ?cur@?$_Iosb@H@std@@2W4_Seekdir@12@B 1001e934     TrinePCH.obj
+ 0003:00000938       ?end@?$_Iosb@H@std@@2W4_Seekdir@12@B 1001e938     TrinePCH.obj
+ 0003:0000093c       ?_EEM_DS@?$deque@IV?$allocator@I@std@@@std@@2HB 1001e93c     TrinePCH.obj
+ 0003:00000940       ?_VBITS@?$vector@_NV?$allocator@_N@std@@@std@@2HB 1001e940     TrinePCH.obj
+ 0003:00000964       ??_C@_0CE@FPOIDPLG@Character?1Magician?1MagicianHead?4@ 1001e964     TestMyGUIScene.obj
+ 0003:00000990       ??_C@_0BL@PLKPKOKP@UI?1AvatarStatus?4layout?4xml?$AA@ 1001e990     TestMyGUIScene.obj
+ 0003:000009b0       ??_C@_06GEBGACCE@Widget?$AA@ 1001e9b0     TestMyGUIScene.obj
+ 0003:000009b8       ??_C@_0L@GKFCKEIN@PanelEmpty?$AA@ 1001e9b8     TestMyGUIScene.obj
+ 0003:000009c8       ??_C@_04KGFMLCPK@Main?$AA@ 1001e9c8     TestMyGUIScene.obj
+ 0003:000009d0       ??_C@_0BC@LECEHNAL@?4?4?1Data?1TrineGame?$AA@ 1001e9d0     TestMyGUIScene.obj
+ 0003:000009e8       ??_C@_0BH@MMEGEFOM@?1Demos?1Demo_ScrollView?$AA@ 1001e9e8     TestMyGUIScene.obj
+ 0003:00000a04       ??_C@_0BD@JGGPHPLH@magician_healthBar?$AA@ 1001ea04     TestMyGUIScene.obj
+ 0003:00000a1c       ??_C@_0BD@GGANFCCH@magician_headImage?$AA@ 1001ea1c     TestMyGUIScene.obj
+ 0003:00000a34       ??_C@_09FBMGHCCF@magician_?$AA@ 1001ea34     TestMyGUIScene.obj
+ 0003:00000a40       ??_C@_0BM@NMJKDPPO@invalid?5vector?$DMT?$DO?5subscript?$AA@ 1001ea40     TestMyGUIScene.obj
+ 0003:00000a68       ??_C@_1EI@HGIDLLCM@?$AAv?$AAe?$AAc?$AAt?$AAo?$AAr?$AA?5?$AAe?$AAr?$AAa?$AAs?$AAe?$AA?5?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?5?$AAo?$AAu?$AAt?$AAs?$AAi?$AAd?$AAe?$AA?5?$AAr?$AAa@ 1001ea68     TestMyGUIScene.obj
+ 0003:00000ac0       ??_C@_1HE@NOPHHBLK@?$AAe?$AA?3?$AA?2?$AAw?$AAi?$AAn?$AA7?$AAt?$AAo?$AAo?$AAl?$AA?2?$AAm?$AAi?$AAc?$AAr?$AAo?$AAs?$AAo?$AAf?$AAt?$AA?5?$AAv?$AAi?$AAs?$AAu?$AAa?$AAl?$AA?5?$AAs?$AAt?$AAu@ 1001eac0     TestMyGUIScene.obj
+ 0003:00000b4c       ??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@ 1001eb4c     TestMyGUIScene.obj
+ 0003:00000b64       ??_C@_1BO@MEPPHOO@?$AA?$CC?$AAo?$AAu?$AAt?$AA?5?$AAo?$AAf?$AA?5?$AAr?$AAa?$AAn?$AAg?$AAe?$AA?$CC?$AA?$AA@ 1001eb64     TestMyGUIScene.obj
+ 0003:00000b88       ??_C@_1NM@NJJJJFNO@?$AAs?$AAt?$AAd?$AA?3?$AA?3?$AA_?$AAV?$AAe?$AAc?$AAt?$AAo?$AAr?$AA_?$AAc?$AAo?$AAn?$AAs?$AAt?$AA_?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?$DM?$AAc?$AAl?$AAa?$AAs@ 1001eb88     TestMyGUIScene.obj
+ 0003:00000c90       ??_C@_1FG@CMLDHNON@?$AA?$CI?$AA?$CC?$AAS?$AAt?$AAa?$AAn?$AAd?$AAa?$AAr?$AAd?$AA?5?$AAC?$AA?$CL?$AA?$CL?$AA?5?$AAL?$AAi?$AAb?$AAr?$AAa?$AAr?$AAi?$AAe?$AAs?$AA?5?$AAO?$AAu?$AAt?$AA?5?$AAo?$AAf?$AA?5@ 1001ec90     TestMyGUIScene.obj
+ 0003:00000cf8       ??_C@_1EG@FOHJJHAC@?$AAv?$AAe?$AAc?$AAt?$AAo?$AAr?$AA?5?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?5?$AAn?$AAo?$AAt?$AA?5?$AAd?$AAe?$AAr?$AAe?$AAf?$AAe?$AAr?$AAe?$AAn?$AAc?$AAa?$AAb@ 1001ecf8     TestMyGUIScene.obj
+ 0003:00000d4c       ??_C@_1CG@JNLFBNGN@?$AA?$CC?$AAi?$AAn?$AAv?$AAa?$AAl?$AAi?$AAd?$AA?5?$AAa?$AAr?$AAg?$AAu?$AAm?$AAe?$AAn?$AAt?$AA?$CC?$AA?$AA@ 1001ed4c     TestMyGUIScene.obj
+ 0003:00000d80       ??_C@_1PE@LNEILIDI@?$AAs?$AAt?$AAd?$AA?3?$AA?3?$AA_?$AAV?$AAe?$AAc?$AAt?$AAo?$AAr?$AA_?$AAc?$AAo?$AAn?$AAs?$AAt?$AA_?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?$DM?$AAc?$AAl?$AAa?$AAs@ 1001ed80     TestMyGUIScene.obj
+ 0003:00000ea8       ??_C@_1NK@JLHOCNGO@?$AA?$CI?$AA?$CC?$AA_?$AAP?$AAv?$AAe?$AAc?$AAt?$AAo?$AAr?$AA?5?$AA?$DN?$AA?$DN?$AA?5?$AAN?$AAU?$AAL?$AAL?$AA?5?$AA?$HM?$AA?$HM?$AA?5?$AA?$CI?$AA?$CI?$AA?$CI?$AA_?$AAM?$AAy?$AAv?$AAe?$AAc?$AA?5@ 1001eea8     TestMyGUIScene.obj
+ 0003:00000fb0       ??_C@_1BAC@KBDNDJPK@?$AA?$CI?$AA?$CC?$AA_?$AAM?$AAy?$AAp?$AAt?$AAr?$AA?5?$AA?$CL?$AA?5?$AA_?$AAO?$AAf?$AAf?$AA?5?$AA?$DM?$AA?$DN?$AA?5?$AA?$CI?$AA?$CI?$AA_?$AAM?$AAy?$AAv?$AAe?$AAc?$AA?5?$AA?$CK?$AA?$CJ?$AA?$CI?$AAt@ 1001efb0     TestMyGUIScene.obj
+ 0003:000010e8       ??_C@_1NO@FGMDKFBK@?$AAs?$AAt?$AAd?$AA?3?$AA?3?$AA_?$AAV?$AAe?$AAc?$AAt?$AAo?$AAr?$AA_?$AAc?$AAo?$AAn?$AAs?$AAt?$AA_?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?$DM?$AAc?$AAl?$AAa?$AAs@ 1001f0e8     TestMyGUIScene.obj
+ 0003:000011f4       ??_C@_1DM@LBMEEJPP@?$AA?$CI?$AA?$CC?$AAt?$AAh?$AAi?$AAs?$AA?9?$AA?$DO?$AA_?$AAH?$AAa?$AAs?$AA_?$AAc?$AAo?$AAn?$AAt?$AAa?$AAi?$AAn?$AAe?$AAr?$AA?$CI?$AA?$CJ?$AA?$CC?$AA?0?$AA?5?$AA0?$AA?$CJ?$AA?$AA@ 1001f1f4     TestMyGUIScene.obj
+ 0003:00001240       ??_C@_1NG@LBFPJLFN@?$AAs?$AAt?$AAd?$AA?3?$AA?3?$AA_?$AAV?$AAe?$AAc?$AAt?$AAo?$AAr?$AA_?$AAc?$AAo?$AAn?$AAs?$AAt?$AA_?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?$DM?$AAc?$AAl?$AAa?$AAs@ 1001f240     TestMyGUIScene.obj
+ 0003:00001340       ??_C@_1FO@OCPOOAIA@?$AA?$CI?$AA?$CC?$AAS?$AAt?$AAa?$AAn?$AAd?$AAa?$AAr?$AAd?$AA?5?$AAC?$AA?$CL?$AA?$CL?$AA?5?$AAL?$AAi?$AAb?$AAr?$AAa?$AAr?$AAi?$AAe?$AAs?$AA?5?$AAI?$AAn?$AAv?$AAa?$AAl?$AAi?$AAd@ 1001f340     TestMyGUIScene.obj
+ 0003:000013b0       ??_C@_1DM@HINDPMBP@?$AAv?$AAe?$AAc?$AAt?$AAo?$AAr?$AA?5?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AAs?$AA?5?$AAi?$AAn?$AAc?$AAo?$AAm?$AAp?$AAa?$AAt?$AAi?$AAb?$AAl?$AAe?$AA?$AA@ 1001f3b0     TestMyGUIScene.obj
+ 0003:000013f8       ??_C@_1HI@DPMKEECG@?$AAe?$AA?3?$AA?2?$AAw?$AAi?$AAn?$AA7?$AAt?$AAo?$AAo?$AAl?$AA?2?$AAm?$AAi?$AAc?$AAr?$AAo?$AAs?$AAo?$AAf?$AAt?$AA?5?$AAv?$AAi?$AAs?$AAu?$AAa?$AAl?$AA?5?$AAs?$AAt?$AAu@ 1001f3f8     TestMyGUIScene.obj
+ 0003:00001488       ??_C@_1CK@EOPGIILJ@?$AAi?$AAn?$AAv?$AAa?$AAl?$AAi?$AAd?$AA?5?$AAn?$AAu?$AAl?$AAl?$AA?5?$AAp?$AAo?$AAi?$AAn?$AAt?$AAe?$AAr?$AA?$AA@ 1001f488     TestMyGUIScene.obj
+ 0003:000014c0       ??_C@_1HE@KACMPNLB@?$AAe?$AA?3?$AA?2?$AAw?$AAi?$AAn?$AA7?$AAt?$AAo?$AAo?$AAl?$AA?2?$AAm?$AAi?$AAc?$AAr?$AAo?$AAs?$AAo?$AAf?$AAt?$AA?5?$AAv?$AAi?$AAs?$AAu?$AAa?$AAl?$AA?5?$AAs?$AAt?$AAu@ 1001f4c0     TestMyGUIScene.obj
+ 0003:0000154c       ??_C@_1CO@DGLIKNHI@?$AAi?$AAn?$AAv?$AAa?$AAl?$AAi?$AAd?$AA?5?$AAi?$AAt?$AAe?$AAr?$AAa?$AAt?$AAo?$AAr?$AA?5?$AAr?$AAa?$AAn?$AAg?$AAe?$AA?$AA@ 1001f54c     TestMyGUIScene.obj
+ 0003:00001584       ??_C@_1DC@POOIKBAO@?$AAI?$AAT?$AAE?$AAR?$AAA?$AAT?$AAO?$AAR?$AA?5?$AAL?$AAI?$AAS?$AAT?$AA?5?$AAC?$AAO?$AAR?$AAR?$AAU?$AAP?$AAT?$AAE?$AAD?$AA?$CB?$AA?$AA@ 1001f584     TestMyGUIScene.obj
+ 0003:000015c4       ??_7bad_alloc@std@@6B@     1001f5c4     TestMyGUIScene.obj
+ 0003:000015d4       ??_7length_error@std@@6B@  1001f5d4     TestMyGUIScene.obj
+ 0003:000015e4       ??_7logic_error@std@@6B@   1001f5e4     TestMyGUIScene.obj
+ 0003:000015f4       ??_7out_of_range@std@@6B@  1001f5f4     TestMyGUIScene.obj
+ 0003:00001604       ??_7type_info@@6B@         1001f604     MSVCRTD:ti_inst.obj
+ 0003:0000160c       __pDefaultRawDllMain       1001f60c     MSVCRTD:crtdll.obj
+ 0003:0000160c       __pRawDllMain              1001f60c     MSVCRTD:crtdll.obj
+ 0003:00001610       ??_C@_0DA@FJPPCPEH@f?3?2dd?2vctools?2crt_bld?2self_x86?2c@ 1001f610     MSVCRTD:crtdll.obj
+ 0003:0000164c       ??_C@_0BO@GNIAFIKK@Unknown?5Runtime?5Check?5Error?6?$AN?$AA@ 1001f64c     MSVCRTD:_error_.obj
+ 0003:00001670       ??_C@_0CM@NGINOKPC@Stack?5memory?5around?5_alloca?5was?5@ 1001f670     MSVCRTD:_error_.obj
+ 0003:000016a4       ??_C@_0DG@HKJMLLLP@A?5local?5variable?5was?5used?5before@ 1001f6a4     MSVCRTD:_error_.obj
+ 0003:000016e4       ??_C@_0BN@FFOINMNJ@Stack?5memory?5was?5corrupted?6?$AN?$AA@ 1001f6e4     MSVCRTD:_error_.obj
+ 0003:00001708       ??_C@_0BBN@GPMLNJCF@A?5cast?5to?5a?5smaller?5data?5type?5ha@ 1001f708     MSVCRTD:_error_.obj
+ 0003:00001860       ??_C@_0NN@NGPKDKPD@The?5value?5of?5ESP?5was?5not?5properl@ 1001f860     MSVCRTD:_error_.obj
+ 0003:00001a28       ??_C@_0CA@IODNCDPG@Run?9Time?5Check?5Failure?5?$CD?$CFd?5?9?5?$CFs?$AA@ 1001fa28     MSVCRTD:_error_.obj
+ 0003:00001a50       ??_C@_0BE@GNBOBNCK@Unknown?5Module?5Name?$AA@ 1001fa50     MSVCRTD:_error_.obj
+ 0003:00001a68       ??_C@_0BB@PFFGGCJP@Unknown?5Filename?$AA@ 1001fa68     MSVCRTD:_error_.obj
+ 0003:00001a80       ??_C@_1EA@NFKNIFJP@?$AAR?$AAu?$AAn?$AA?9?$AAT?$AAi?$AAm?$AAe?$AA?5?$AAC?$AAh?$AAe?$AAc?$AAk?$AA?5?$AAF?$AAa?$AAi?$AAl?$AAu?$AAr?$AAe?$AA?5?$AA?$CD?$AA?$CF?$AAd?$AA?5?$AA?9?$AA?5?$AA?$CF?$AAs?$AA?$AA@ 1001fa80     MSVCRTD:_error_.obj
+ 0003:00001ad0       ??_C@_1GM@OLMCBDMB@?$AAR?$AAu?$AAn?$AAt?$AAi?$AAm?$AAe?$AA?5?$AAC?$AAh?$AAe?$AAc?$AAk?$AA?5?$AAE?$AAr?$AAr?$AAo?$AAr?$AA?4?$AA?6?$AA?$AN?$AA?5?$AAU?$AAn?$AAa?$AAb?$AAl?$AAe?$AA?5?$AAt?$AAo@ 1001fad0     MSVCRTD:_error_.obj
+ 0003:00001b54       ??_C@_0CG@IAFNJNEE@Stack?5corrupted?5near?5unknown?5var@ 1001fb54     MSVCRTD:_error_.obj
+ 0003:00001b88       ??_C@_0EJ@LJKNEOLN@Stack?5area?5around?5_alloca?5memory@ 1001fb88     MSVCRTD:_error_.obj
+ 0003:00001be0       ??_C@_08KJEDNCKC@?$CFs?$CFs?$CFs?$CFs?$AA@ 1001fbe0     MSVCRTD:_error_.obj
+ 0003:00001bec       ??_C@_02LLMPMKNF@?$DO?5?$AA@ 1001fbec     MSVCRTD:_error_.obj
+ 0003:00001bf0       ??_C@_01EEMJAFIK@?6?$AA@   1001fbf0     MSVCRTD:_error_.obj
+ 0003:00001bf4       ??_C@_0BC@KIBAILCI@?$CFs?$CFs?$CFp?$CFs?$CFld?$CFs?$CFd?$CFs?$AA@ 1001fbf4     MSVCRTD:_error_.obj
+ 0003:00001c10       ??_C@_0EI@CLEPFNGI@Stack?5area?5around?5_alloca?5memory@ 1001fc10     MSVCRTD:_error_.obj
+ 0003:00001c68       ??_C@_0N@MHFFIMFG@?6Address?3?50x?$AA@ 1001fc68     MSVCRTD:_error_.obj
+ 0003:00001c78       ??_C@_07DFDJCKFN@?6Size?3?5?$AA@ 1001fc78     MSVCRTD:_error_.obj
+ 0003:00001c84       ??_C@_0CK@DKGBICFE@?6Allocation?5number?5within?5this?5f@ 1001fc84     MSVCRTD:_error_.obj
+ 0003:00001cb8       ??_C@_08OMAHNMHJ@?6Data?3?5?$DM?$AA@ 1001fcb8     MSVCRTD:_error_.obj
+ 0003:00001cc4       ??_C@_09FOPFMPEJ@wsprintfA?$AA@ 1001fcc4     MSVCRTD:_error_.obj
+ 0003:00001cd0       ??_C@_0L@GMPLCCII@user32?4dll?$AA@ 1001fcd0     MSVCRTD:_error_.obj
+ 0003:00001ce0       ??_C@_05MKKEDADM@?$CF?42X?5?$AA@ 1001fce0     MSVCRTD:_error_.obj
+ 0003:00001ce8       ??_C@_0DE@OHJBPMBP@A?5variable?5is?5being?5used?5without@ 1001fce8     MSVCRTD:_error_.obj
+ 0003:00001d28       ??_C@_0BP@OGBCLIBO@Stack?5around?5_alloca?5corrupted?$AA@ 1001fd28     MSVCRTD:_userapi_.obj
+ 0003:00001d50       ??_C@_0CK@CNLNOEPB@Local?5variable?5used?5before?5initi@ 1001fd50     MSVCRTD:_userapi_.obj
+ 0003:00001d84       ??_C@_0BI@CIGMDCBH@Stack?5memory?5corruption?$AA@ 1001fd84     MSVCRTD:_userapi_.obj
+ 0003:00001da0       ??_C@_0CK@FEGOIOPB@Cast?5to?5smaller?5type?5causing?5los@ 1001fda0     MSVCRTD:_userapi_.obj
+ 0003:00001dd4       ??_C@_0BJ@HEGAHDFO@Stack?5pointer?5corruption?$AA@ 1001fdd4     MSVCRTD:_userapi_.obj
+ 0003:00001e18       ?ProcessDetach@NativeDll@<CrtImplementationDetails>@@0IB 1001fe18     MSVCRTD:tncleanup.obj
+ 0003:00001e1c       ?ProcessAttach@NativeDll@<CrtImplementationDetails>@@0IB 1001fe1c     MSVCRTD:tncleanup.obj
+ 0003:00001e20       ?ThreadAttach@NativeDll@<CrtImplementationDetails>@@0IB 1001fe20     MSVCRTD:tncleanup.obj
+ 0003:00001e24       ?ThreadDetach@NativeDll@<CrtImplementationDetails>@@0IB 1001fe24     MSVCRTD:tncleanup.obj
+ 0003:00001e28       ?ProcessVerifier@NativeDll@<CrtImplementationDetails>@@0IB 1001fe28     MSVCRTD:tncleanup.obj
+ 0003:00001e2c       ??_C@_0M@EKFFODEC@MSPDB80?4DLL?$AA@ 1001fe2c     MSVCRTD:_pdblkup_.obj
+ 0003:00001e3c       ??_C@_01KDCPPGHE@r?$AA@    1001fe3c     MSVCRTD:_pdblkup_.obj
+ 0003:00001e40       ??_C@_0BB@KCIACLNC@PDBOpenValidate5?$AA@ 1001fe40     MSVCRTD:_pdblkup_.obj
+ 0003:00001e54       ??_C@_0BF@BMIHBHCA@EnvironmentDirectory?$AA@ 1001fe54     MSVCRTD:_pdblkup_.obj
+ 0003:00001e70       ??_C@_0CN@JNNIHDGH@SOFTWARE?2Microsoft?2VisualStudio?2@ 1001fe70     MSVCRTD:_pdblkup_.obj
+ 0003:00001ea8       ??_C@_0M@HLOHPNFA@RegCloseKey?$AA@ 1001fea8     MSVCRTD:_pdblkup_.obj
+ 0003:00001eb8       ??_C@_0BB@HHEIPGME@RegQueryValueExA?$AA@ 1001feb8     MSVCRTD:_pdblkup_.obj
+ 0003:00001ecc       ??_C@_0O@DCOGKJGG@RegOpenKeyExA?$AA@ 1001fecc     MSVCRTD:_pdblkup_.obj
+ 0003:00001edc       ??_C@_0N@JJPEKNFO@ADVAPI32?4DLL?$AA@ 1001fedc     MSVCRTD:_pdblkup_.obj
+ 0003:000021f0       ??_R4TriPushScene@xm@@6B@  100201f0     TriPushScene.obj
+ 0003:00002208       ??_R3TriPushScene@xm@@8    10020208     TriPushScene.obj
+ 0003:0000221c       ??_R2TriPushScene@xm@@8    1002021c     TriPushScene.obj
+ 0003:00002228       ??_R1A@?0A@EA@TriPushScene@xm@@8 10020228     TriPushScene.obj
+ 0003:0000224c       ??_R1A@?0A@EA@S3AUTScene@@8 1002024c     TriPushScene.obj
+ 0003:00002270       ??_R3S3AUTScene@@8         10020270     TriPushScene.obj
+ 0003:00002284       ??_R2S3AUTScene@@8         10020284     TriPushScene.obj
+ 0003:0000228c       ??_R4S3XGameObject@@6B@    1002028c     TriPushScene.obj
+ 0003:000022a4       ??_R3S3XGameObject@@8      100202a4     TriPushScene.obj
+ 0003:000022b8       ??_R2S3XGameObject@@8      100202b8     TriPushScene.obj
+ 0003:000022c8       ??_R1A@?0A@EA@S3XGameObject@@8 100202c8     TriPushScene.obj
+ 0003:000022ec       ??_R1A@?0A@EA@S3AObject@@8 100202ec     TriPushScene.obj
+ 0003:00002310       ??_R3S3AObject@@8          10020310     TriPushScene.obj
+ 0003:00002324       ??_R2S3AObject@@8          10020324     TriPushScene.obj
+ 0003:00002330       ??_R1A@?0A@EA@S3AReferenceCountObject@@8 10020330     TriPushScene.obj
+ 0003:00002354       ??_R3S3AReferenceCountObject@@8 10020354     TriPushScene.obj
+ 0003:00002368       ??_R2S3AReferenceCountObject@@8 10020368     TriPushScene.obj
+ 0003:00002370       ??_R4S3XScene@@6B@         10020370     TriPushScene.obj
+ 0003:00002388       ??_R3S3XScene@@8           10020388     TriPushScene.obj
+ 0003:0000239c       ??_R2S3XScene@@8           1002039c     TriPushScene.obj
+ 0003:000023a8       ??_R1A@?0A@EA@S3XScene@@8  100203a8     TriPushScene.obj
+ 0003:000023cc       ??_R4S3XCamera@@6B@        100203cc     TriPushScene.obj
+ 0003:000023e4       ??_R3S3XCamera@@8          100203e4     TriPushScene.obj
+ 0003:000023f8       ??_R2S3XCamera@@8          100203f8     TriPushScene.obj
+ 0003:0000240c       ??_R1A@?0A@EA@S3XCamera@@8 1002040c     TriPushScene.obj
+ 0003:00002430       ??_R1A@?0A@EA@S3AUTCamera@@8 10020430     TriPushScene.obj
+ 0003:00002454       ??_R3S3AUTCamera@@8        10020454     TriPushScene.obj
+ 0003:00002468       ??_R2S3AUTCamera@@8        10020468     TriPushScene.obj
+ 0003:00002478       ??_R4ModelViewCameraController@S3AUT@@6B@ 10020478     TriPushScene.obj
+ 0003:00002490       ??_R3ModelViewCameraController@S3AUT@@8 10020490     TriPushScene.obj
+ 0003:000024a4       ??_R2ModelViewCameraController@S3AUT@@8 100204a4     TriPushScene.obj
+ 0003:000024b4       ??_R1A@?0A@EA@ModelViewCameraController@S3AUT@@8 100204b4     TriPushScene.obj
+ 0003:000024d8       ??_R4TrineGameDevice@xm@@6B@ 100204d8     TrineGameDevice.obj
+ 0003:000024f0       ??_R3TrineGameDevice@xm@@8 100204f0     TrineGameDevice.obj
+ 0003:00002504       ??_R2TrineGameDevice@xm@@8 10020504     TrineGameDevice.obj
+ 0003:00002520       ??_R1A@?0A@EA@TrineGameDevice@xm@@8 10020520     TrineGameDevice.obj
+ 0003:00002544       ??_R1A@?0A@EA@GamePlayDevice@xm@@8 10020544     TrineGameDevice.obj
+ 0003:00002568       ??_R3GamePlayDevice@xm@@8  10020568     TrineGameDevice.obj
+ 0003:0000257c       ??_R2GamePlayDevice@xm@@8  1002057c     TrineGameDevice.obj
+ 0003:00002590       ??_R1A@?0A@EA@Device@xm@@8 10020590     TrineGameDevice.obj
+ 0003:000025b4       ??_R3Device@xm@@8          100205b4     TrineGameDevice.obj
+ 0003:000025c8       ??_R2Device@xm@@8          100205c8     TrineGameDevice.obj
+ 0003:000025d8       ??_R4TestMyGUIScene@xm@@6B@ 100205d8     TrineGameDevice.obj
+ 0003:000025f0       ??_R3TestMyGUIScene@xm@@8  100205f0     TrineGameDevice.obj
+ 0003:00002604       ??_R2TestMyGUIScene@xm@@8  10020604     TrineGameDevice.obj
+ 0003:00002610       ??_R1A@?0A@EA@TestMyGUIScene@xm@@8 10020610     TrineGameDevice.obj
+ 0003:00002634       ??_R4bad_alloc@std@@6B@    10020634     TestMyGUIScene.obj
+ 0003:0000264c       ??_R3bad_alloc@std@@8      1002064c     TestMyGUIScene.obj
+ 0003:00002660       ??_R2bad_alloc@std@@8      10020660     TestMyGUIScene.obj
+ 0003:0000266c       ??_R1A@?0A@EA@bad_alloc@std@@8 1002066c     TestMyGUIScene.obj
+ 0003:00002690       ??_R1A@?0A@EA@exception@std@@8 10020690     TestMyGUIScene.obj
+ 0003:000026b4       ??_R3exception@std@@8      100206b4     TestMyGUIScene.obj
+ 0003:000026c8       ??_R2exception@std@@8      100206c8     TestMyGUIScene.obj
+ 0003:000026d0       ??_R4length_error@std@@6B@ 100206d0     TestMyGUIScene.obj
+ 0003:000026e8       ??_R3length_error@std@@8   100206e8     TestMyGUIScene.obj
+ 0003:000026fc       ??_R2length_error@std@@8   100206fc     TestMyGUIScene.obj
+ 0003:0000270c       ??_R1A@?0A@EA@length_error@std@@8 1002070c     TestMyGUIScene.obj
+ 0003:00002730       ??_R1A@?0A@EA@logic_error@std@@8 10020730     TestMyGUIScene.obj
+ 0003:00002754       ??_R3logic_error@std@@8    10020754     TestMyGUIScene.obj
+ 0003:00002768       ??_R2logic_error@std@@8    10020768     TestMyGUIScene.obj
+ 0003:00002774       ??_R4logic_error@std@@6B@  10020774     TestMyGUIScene.obj
+ 0003:0000278c       ??_R4out_of_range@std@@6B@ 1002078c     TestMyGUIScene.obj
+ 0003:000027a4       ??_R3out_of_range@std@@8   100207a4     TestMyGUIScene.obj
+ 0003:000027b8       ??_R2out_of_range@std@@8   100207b8     TestMyGUIScene.obj
+ 0003:000027c8       ??_R1A@?0A@EA@out_of_range@std@@8 100207c8     TestMyGUIScene.obj
+ 0003:000027ec       ??_R4type_info@@6B@        100207ec     MSVCRTD:ti_inst.obj
+ 0003:00002804       ??_R3type_info@@8          10020804     MSVCRTD:ti_inst.obj
+ 0003:00002818       ??_R2type_info@@8          10020818     MSVCRTD:ti_inst.obj
+ 0003:00002820       ??_R1A@?0A@EA@type_info@@8 10020820     MSVCRTD:ti_inst.obj
+ 0003:00002970       ___rtc_iaa                 10020970     MSVCRTD:_initsect_.obj
+ 0003:00002b84       ___rtc_izz                 10020b84     MSVCRTD:_initsect_.obj
+ 0003:00002c88       ___rtc_taa                 10020c88     MSVCRTD:_initsect_.obj
+ 0003:00002e9c       ___rtc_tzz                 10020e9c     MSVCRTD:_initsect_.obj
+ 0003:00003294       __TI3?AVout_of_range@std@@ 10021294     TestMyGUIScene.obj
+ 0003:000032d8       __CTA3?AVout_of_range@std@@ 100212d8     TestMyGUIScene.obj
+ 0003:000032ec       __CT??_R0?AVout_of_range@std@@@8??0out_of_range@std@@QAE@ABV01@@Z44 100212ec     TestMyGUIScene.obj
+ 0003:0000330c       __CT??_R0?AVlogic_error@std@@@8??0logic_error@std@@QAE@ABV01@@Z44 1002130c     TestMyGUIScene.obj
+ 0003:0000332c       __CT??_R0?AVexception@std@@@8??0exception@std@@QAE@ABV01@@Z12 1002132c     TestMyGUIScene.obj
+ 0003:000033dc       __TI3?AVlength_error@std@@ 100213dc     TestMyGUIScene.obj
+ 0003:00003420       __CTA3?AVlength_error@std@@ 10021420     TestMyGUIScene.obj
+ 0003:00003434       __CT??_R0?AVlength_error@std@@@8??0length_error@std@@QAE@ABV01@@Z44 10021434     TestMyGUIScene.obj
+ 0003:000034c0       __TI2?AVbad_alloc@std@@    100214c0     TestMyGUIScene.obj
+ 0003:000034d4       __CTA2?AVbad_alloc@std@@   100214d4     TestMyGUIScene.obj
+ 0003:000034e4       __CT??_R0?AVbad_alloc@std@@@8??0bad_alloc@std@@QAE@ABV01@@Z12 100214e4     TestMyGUIScene.obj
+ 0004:00000004       ??_R0?AVTriPushScene@xm@@@8 10023004     TriPushScene.obj
+ 0004:00000028       ??_R0?AVS3AUTScene@@@8     10023028     TriPushScene.obj
+ 0004:00000048       ??_R0?AVS3XGameObject@@@8  10023048     TriPushScene.obj
+ 0004:0000006c       ??_R0?AVS3AObject@@@8      1002306c     TriPushScene.obj
+ 0004:00000088       ??_R0?AVS3AReferenceCountObject@@@8 10023088     TriPushScene.obj
+ 0004:000000b8       ??_R0?AVS3XScene@@@8       100230b8     TriPushScene.obj
+ 0004:000000d4       ??_R0?AVS3XCamera@@@8      100230d4     TriPushScene.obj
+ 0004:000000f0       ??_R0?AVS3AUTCamera@@@8    100230f0     TriPushScene.obj
+ 0004:00000110       ??_R0?AVModelViewCameraController@S3AUT@@@8 10023110     TriPushScene.obj
+ 0004:00000148       ??_R0?AVTrineGameDevice@xm@@@8 10023148     TrineGameDevice.obj
+ 0004:00000170       ??_R0?AVGamePlayDevice@xm@@@8 10023170     TrineGameDevice.obj
+ 0004:00000198       ??_R0?AVDevice@xm@@@8      10023198     TrineGameDevice.obj
+ 0004:000001b4       ??_R0?AVTestMyGUIScene@xm@@@8 100231b4     TrineGameDevice.obj
+ 0004:000001dc       ?g_pluginName@TrineGamePlugin@@3PBDB 100231dc     TrineGameDllMain.obj
+ 0004:000001e0       ?__LINE__Var@?1??dllStartPlugin@@9@4JA 100231e0     TrineGameDllMain.obj
+ 0004:000001e8       ??_R0?AVout_of_range@std@@@8 100231e8     TestMyGUIScene.obj
+ 0004:00000210       ??_R0?AVlogic_error@std@@@8 10023210     TestMyGUIScene.obj
+ 0004:00000234       ??_R0?AVexception@std@@@8  10023234     TestMyGUIScene.obj
+ 0004:00000258       ??_R0?AVlength_error@std@@@8 10023258     TestMyGUIScene.obj
+ 0004:00000280       ??_R0?AVbad_alloc@std@@@8  10023280     TestMyGUIScene.obj
+ 0004:000002b0       ??_R0?AVtype_info@@@8      100232b0     MSVCRTD:ti_inst.obj
+ 0004:000002cc       ___security_cookie         100232cc     MSVCRTD:gs_cookie.obj
+ 0004:000002d0       ___security_cookie_complement 100232d0     MSVCRTD:gs_cookie.obj
+ 0004:000002d4       ?_RTC_ErrorLevels@@3PAHA   100232d4     MSVCRTD:_error_.obj
+ 0004:000002ec       ___native_dllmain_reason   100232ec     MSVCRTD:natstart.obj
+ 0004:000002f0       ___native_vcclrit_reason   100232f0     MSVCRTD:natstart.obj
+ 0004:00000430       ?ms_pTrineGameDeviceClass@TrineGameDevice@xm@@0PAVS3AClass@@A 10023430     TrineGameDevice.obj
+ 0004:00000434       ?g_trineGameDevice@TrineGamePlugin@@3PAVTrineGameDevice@xm@@A 10023434     TrineGameDllMain.obj
+ 0004:00000458       ?wsprintffp@@3P6AHPADPBDZZA 10023458     MSVCRTD:_error_.obj
+ 0004:0000082c       __forceCRTManifestRTM      1002382c     MSVCRTD:crtmanifestrtm.obj
+ 0004:00000830       ?__type_info_root_node@@3U__type_info_node@@A 10023830     MSVCRTD:tncleanup.obj
+ 0004:00000848       __adjust_fdiv              10023848     <common>
+ 0004:00000854       ___native_startup_state    10023854     <common>
+ 0004:00000864       ___native_startup_lock     10023864     <common>
+ 0004:00000868       ___onexitend               10023868     <common>
+ 0004:00000878       ___onexitbegin             10023878     <common>
+ 0004:0000087c       ___dyn_tls_init_callback   1002387c     <common>
+ 0005:00000000       __IMPORT_DESCRIPTOR_S3ACommon 10024000     S3ACommon:S3ACommon.dll
+ 0005:00000014       __IMPORT_DESCRIPTOR_S3AUT  10024014     S3AUT:S3AUT.dll
+ 0005:00000028       __IMPORT_DESCRIPTOR_S3AUTRendererGL 10024028     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:0000003c       __IMPORT_DESCRIPTOR_Framework 1002403c     framework:Framework.dll
+ 0005:00000050       __IMPORT_DESCRIPTOR_MSVCP90D 10024050     msvcprtd:MSVCP90D.dll
+ 0005:00000064       __IMPORT_DESCRIPTOR_MSVCR90D 10024064     MSVCRTD:MSVCR90D.dll
+ 0005:00000078       __IMPORT_DESCRIPTOR_KERNEL32 10024078     kernel32:KERNEL32.dll
+ 0005:0000008c       __NULL_IMPORT_DESCRIPTOR   1002408c     S3ACommon:S3ACommon.dll
+ 0005:00000500       __imp_?Update@S3XCamera@@UAEXXZ 10024500     framework:Framework.dll
+ 0005:00000504       __imp_?TravelScene@S3XScene@@QAEXPAVS3XSceneVisiter@@@Z 10024504     framework:Framework.dll
+ 0005:00000508       __imp_?Start@S3XScene@@QAE_NXZ 10024508     framework:Framework.dll
+ 0005:0000050c       __imp_?Tick@S3XScene@@QAEXM@Z 1002450c     framework:Framework.dll
+ 0005:00000510       __imp_??0ResImportDesc@xm@@QAE@XZ 10024510     framework:Framework.dll
+ 0005:00000514       __imp_?Init@ResImportDesc@xm@@QAEXPBD00@Z 10024514     framework:Framework.dll
+ 0005:00000518       __imp_??1ResImportDesc@xm@@QAE@XZ 10024518     framework:Framework.dll
+ 0005:0000051c       __imp_?GetBounds@S3XSceneNode@@QBEPBVxmAxisAlignedBox@@XZ 1002451c     framework:Framework.dll
+ 0005:00000520       __imp_?FitAABB@S3XCamera@@QAEXPBVxmAxisAlignedBox@@M@Z 10024520     framework:Framework.dll
+ 0005:00000524       __imp_?TranslateLS@S3XSceneNode@@QAEXMMM@Z 10024524     framework:Framework.dll
+ 0005:00000528       __imp_??1S3XGameObject@@UAE@XZ 10024528     framework:Framework.dll
+ 0005:0000052c       __imp_?GetClass@S3XGameObject@@UBEPAVS3AClass@@XZ 1002452c     framework:Framework.dll
+ 0005:00000530       __imp_?Start@S3XGameObject@@UAE_NXZ 10024530     framework:Framework.dll
+ 0005:00000534       __imp_?TravelProperty@S3XGameObject@@UAEXPAVPropertyVisitor@S3A@@@Z 10024534     framework:Framework.dll
+ 0005:00000538       __imp_??0S3XGameObject@@QAE@XZ 10024538     framework:Framework.dll
+ 0005:0000053c       __imp_?StaticGetClass@BoxCollisionComponent@xm@@SAPBVS3AClass@@XZ 1002453c     framework:Framework.dll
+ 0005:00000540       __imp_?AddComponent@S3XGameObject@@QAEXPAVS3XComponent@@@Z 10024540     framework:Framework.dll
+ 0005:00000544       __imp_?CreateChildNode@S3XSceneNode@@QAEPAV1@VS3AName@@@Z 10024544     framework:Framework.dll
+ 0005:00000548       __imp_?AddGameObject@S3XSceneNode@@QAEXPAVS3XGameObject@@@Z 10024548     framework:Framework.dll
+ 0005:0000054c       __imp_?TranslatePS@S3XSceneNode@@QAEXMMM@Z 1002454c     framework:Framework.dll
+ 0005:00000550       __imp_?GetChildNodeByName@S3XSceneNode@@QAEPAV1@VS3AName@@@Z 10024550     framework:Framework.dll
+ 0005:00000554       __imp_?GetRootNode@S3XScene@@QAEPAVS3XSceneNode@@XZ 10024554     framework:Framework.dll
+ 0005:00000558       __imp_?LoadFromXml@S3XScene@@QAE_NPAVTiXmlElement@@PBVResImportDesc@xm@@@Z 10024558     framework:Framework.dll
+ 0005:0000055c       __imp_??0S3XScene@@QAE@XZ  1002455c     framework:Framework.dll
+ 0005:00000560       __imp_??1S3XScene@@UAE@XZ  10024560     framework:Framework.dll
+ 0005:00000564       __imp_?DbgRender@S3XSceneNode@@QAEXV?$S3ABitFieldBase@I@@@Z 10024564     framework:Framework.dll
+ 0005:00000568       __imp_?Render@S3XScene@@QAEXPAVS3XCamera@@@Z 10024568     framework:Framework.dll
+ 0005:0000056c       __imp_?GetPhysicsScene@S3XScene@@QAEPAVPhysicsScene@xm@@XZ 1002456c     framework:Framework.dll
+ 0005:00000570       __imp_?StaticGetClass@RGUIProgressBar@xm@@SAPBVS3AClass@@XZ 10024570     framework:Framework.dll
+ 0005:00000574       __imp_?StaticGetClass@RGUIImageBox@xm@@SAPBVS3AClass@@XZ 10024574     framework:Framework.dll
+ 0005:00000578       __imp_?GetRGUIDevice@xm@@YAPAVRGUIDevice@1@XZ 10024578     framework:Framework.dll
+ 0005:0000057c       __imp_?StaticGetClass@GamePlayDevice@xm@@SAPBVS3AClass@@XZ 1002457c     framework:Framework.dll
+ 0005:00000580       __imp_??4GamePlayDevice@xm@@QAEAAV01@ABV01@@Z 10024580     framework:Framework.dll
+ 0005:00000584       __imp_??0GamePlayDevice@xm@@QAE@ABV01@@Z 10024584     framework:Framework.dll
+ 0005:00000588       __imp_??1GamePlayDevice@xm@@UAE@XZ 10024588     framework:Framework.dll
+ 0005:0000058c       __imp_??0GamePlayDevice@xm@@QAE@XZ 1002458c     framework:Framework.dll
+ 0005:00000590       __imp_??1S3XCamera@@UAE@XZ 10024590     framework:Framework.dll
+ 0005:00000594       __imp_?TransformNormalToWorld@S3XCamera@@UAEXPAUxmVector3@@PBU2@@Z 10024594     framework:Framework.dll
+ 0005:00000598       __imp_?GetTransformWS@S3XCamera@@UBEXPAUxmNodeTransform@@@Z 10024598     framework:Framework.dll
+ 0005:0000059c       __imp_?OnGUI@S3XScene@@QAEXPAVUIContext@nv@@@Z 1002459c     framework:Framework.dll
+ 0005:000005a0       __imp_?SetTransfrom@S3XCamera@@UAEXUxmMatrix4x4@@@Z 100245a0     framework:Framework.dll
+ 0005:000005a4       __imp_?LookAt@S3XCamera@@UAEXPBUxmVector3@@00@Z 100245a4     framework:Framework.dll
+ 0005:000005a8       __imp_??0S3XCamera@@QAE@XZ 100245a8     framework:Framework.dll
+ 0005:000005ac       __imp_?SetSceneNode@S3XCamera@@QAEXPAVS3XSceneNode@@@Z 100245ac     framework:Framework.dll
+ 0005:000005b0       __imp_?SetMainCamera@S3XScene@@QAEXPAVS3XCamera@@@Z 100245b0     framework:Framework.dll
+ 0005:000005b4       __imp_??0S3XSceneHierarchyLogVisiter@@QAE@XZ 100245b4     framework:Framework.dll
+ 0005:000005b8       \177Framework_NULL_THUNK_DATA 100245b8     framework:Framework.dll
+ 0005:00000608       __imp__InterlockedExchange@8 10024608     kernel32:KERNEL32.dll
+ 0005:0000060c       __imp__Sleep@4             1002460c     kernel32:KERNEL32.dll
+ 0005:00000610       __imp__InterlockedCompareExchange@12 10024610     kernel32:KERNEL32.dll
+ 0005:00000614       __imp__IsDebuggerPresent@0 10024614     kernel32:KERNEL32.dll
+ 0005:00000618       __imp__RaiseException@16   10024618     kernel32:KERNEL32.dll
+ 0005:0000061c       __imp__DebugBreak@0        1002461c     kernel32:KERNEL32.dll
+ 0005:00000620       __imp__WideCharToMultiByte@32 10024620     kernel32:KERNEL32.dll
+ 0005:00000624       __imp__MultiByteToWideChar@24 10024624     kernel32:KERNEL32.dll
+ 0005:00000628       __imp__lstrlenA@4          10024628     kernel32:KERNEL32.dll
+ 0005:0000062c       __imp__GetProcAddress@8    1002462c     kernel32:KERNEL32.dll
+ 0005:00000630       __imp__LoadLibraryA@4      10024630     kernel32:KERNEL32.dll
+ 0005:00000634       __imp__TerminateProcess@8  10024634     kernel32:KERNEL32.dll
+ 0005:00000638       __imp__GetCurrentProcess@0 10024638     kernel32:KERNEL32.dll
+ 0005:0000063c       __imp__UnhandledExceptionFilter@4 1002463c     kernel32:KERNEL32.dll
+ 0005:00000640       __imp__SetUnhandledExceptionFilter@4 10024640     kernel32:KERNEL32.dll
+ 0005:00000644       __imp__QueryPerformanceCounter@4 10024644     kernel32:KERNEL32.dll
+ 0005:00000648       __imp__GetTickCount@0      10024648     kernel32:KERNEL32.dll
+ 0005:0000064c       __imp__GetCurrentThreadId@0 1002464c     kernel32:KERNEL32.dll
+ 0005:00000650       __imp__GetCurrentProcessId@0 10024650     kernel32:KERNEL32.dll
+ 0005:00000654       __imp__GetSystemTimeAsFileTime@4 10024654     kernel32:KERNEL32.dll
+ 0005:00000658       __imp__DisableThreadLibraryCalls@4 10024658     kernel32:KERNEL32.dll
+ 0005:0000065c       __imp__HeapFree@12         1002465c     kernel32:KERNEL32.dll
+ 0005:00000660       __imp__HeapAlloc@12        10024660     kernel32:KERNEL32.dll
+ 0005:00000664       __imp__GetProcessHeap@0    10024664     kernel32:KERNEL32.dll
+ 0005:00000668       __imp__GetModuleFileNameW@12 10024668     kernel32:KERNEL32.dll
+ 0005:0000066c       __imp__VirtualQuery@12     1002466c     kernel32:KERNEL32.dll
+ 0005:00000670       __imp__FreeLibrary@4       10024670     kernel32:KERNEL32.dll
+ 0005:00000674       \177KERNEL32_NULL_THUNK_DATA 10024674     kernel32:KERNEL32.dll
+ 0005:000006b4       __imp_??0_Container_base_secure@std@@QAE@XZ 100246b4     msvcprtd:MSVCP90D.dll
+ 0005:000006b8       __imp_??0?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@ABV01@@Z 100246b8     msvcprtd:MSVCP90D.dll
+ 0005:000006bc       __imp_??0_Lockit@std@@QAE@H@Z 100246bc     msvcprtd:MSVCP90D.dll
+ 0005:000006c0       __imp_??1_Lockit@std@@QAE@XZ 100246c0     msvcprtd:MSVCP90D.dll
+ 0005:000006c4       __imp_?_Debug_message@std@@YAXPB_W0I@Z 100246c4     msvcprtd:MSVCP90D.dll
+ 0005:000006c8       __imp_??1_Container_base_secure@std@@QAE@XZ 100246c8     msvcprtd:MSVCP90D.dll
+ 0005:000006cc       __imp_?_Orphan_all@_Container_base_secure@std@@QBEXXZ 100246cc     msvcprtd:MSVCP90D.dll
+ 0005:000006d0       __imp_??0?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@PBD@Z 100246d0     msvcprtd:MSVCP90D.dll
+ 0005:000006d4       __imp_??$?HDU?$char_traits@D@std@@V?$allocator@D@1@@std@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@0@ABV10@PBD@Z 100246d4     msvcprtd:MSVCP90D.dll
+ 0005:000006d8       __imp_?c_str@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBEPBDXZ 100246d8     msvcprtd:MSVCP90D.dll
+ 0005:000006dc       __imp_??1?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAE@XZ 100246dc     msvcprtd:MSVCP90D.dll
+ 0005:000006e0       \177MSVCP90D_NULL_THUNK_DATA 100246e0     msvcprtd:MSVCP90D.dll
+ 0005:00000714       __imp___encode_pointer     10024714     MSVCRTD:MSVCR90D.dll
+ 0005:00000718       __imp_?terminate@@YAXXZ    10024718     MSVCRTD:MSVCR90D.dll
+ 0005:0000071c       __imp___CRT_RTC_INITW      1002471c     MSVCRTD:MSVCR90D.dll
+ 0005:00000720       __imp_??0exception@std@@QAE@XZ 10024720     MSVCRTD:MSVCR90D.dll
+ 0005:00000724       __imp_?what@exception@std@@UBEPBDXZ 10024724     MSVCRTD:MSVCR90D.dll
+ 0005:00000728       __imp_??0exception@std@@QAE@ABQBD@Z 10024728     MSVCRTD:MSVCR90D.dll
+ 0005:0000072c       __imp__memmove_s           1002472c     MSVCRTD:MSVCR90D.dll
+ 0005:00000730       __imp___malloc_dbg         10024730     MSVCRTD:MSVCR90D.dll
+ 0005:00000734       __imp___onexit             10024734     MSVCRTD:MSVCR90D.dll
+ 0005:00000738       __imp___lock               10024738     MSVCRTD:MSVCR90D.dll
+ 0005:0000073c       __imp____dllonexit         1002473c     MSVCRTD:MSVCR90D.dll
+ 0005:00000740       __imp___unlock             10024740     MSVCRTD:MSVCR90D.dll
+ 0005:00000744       __imp____clean_type_info_names_internal 10024744     MSVCRTD:MSVCR90D.dll
+ 0005:00000748       __imp___crt_debugger_hook  10024748     MSVCRTD:MSVCR90D.dll
+ 0005:0000074c       __imp___except_handler4_common 1002474c     MSVCRTD:MSVCR90D.dll
+ 0005:00000750       __imp___free_dbg           10024750     MSVCRTD:MSVCR90D.dll
+ 0005:00000754       __imp___encoded_null       10024754     MSVCRTD:MSVCR90D.dll
+ 0005:00000758       __imp___decode_pointer     10024758     MSVCRTD:MSVCR90D.dll
+ 0005:0000075c       __imp___CrtSetCheckCount   1002475c     MSVCRTD:MSVCR90D.dll
+ 0005:00000760       __imp___initterm           10024760     MSVCRTD:MSVCR90D.dll
+ 0005:00000764       __imp___initterm_e         10024764     MSVCRTD:MSVCR90D.dll
+ 0005:00000768       __imp___amsg_exit          10024768     MSVCRTD:MSVCR90D.dll
+ 0005:0000076c       __imp_??1exception@std@@UAE@XZ 1002476c     MSVCRTD:MSVCR90D.dll
+ 0005:00000770       __imp___adjust_fdiv        10024770     MSVCRTD:MSVCR90D.dll
+ 0005:00000774       __imp____CppXcptFilter     10024774     MSVCRTD:MSVCR90D.dll
+ 0005:00000778       __imp_?_type_info_dtor_internal_method@type_info@@QAEXXZ 10024778     MSVCRTD:MSVCR90D.dll
+ 0005:0000077c       __imp___CrtDbgReportW      1002477c     MSVCRTD:MSVCR90D.dll
+ 0005:00000780       __imp_??3@YAXPAX@Z         10024780     MSVCRTD:MSVCR90D.dll
+ 0005:00000784       __imp_??_V@YAXPAX@Z        10024784     MSVCRTD:MSVCR90D.dll
+ 0005:00000788       __imp_??2@YAPAXI@Z         10024788     MSVCRTD:MSVCR90D.dll
+ 0005:0000078c       __imp____CxxFrameHandler3  1002478c     MSVCRTD:MSVCR90D.dll
+ 0005:00000790       __imp__sprintf             10024790     MSVCRTD:MSVCR90D.dll
+ 0005:00000794       __imp___CxxThrowException@8 10024794     MSVCRTD:MSVCR90D.dll
+ 0005:00000798       __imp_??0exception@std@@QAE@ABV01@@Z 10024798     MSVCRTD:MSVCR90D.dll
+ 0005:0000079c       __imp___invalid_parameter  1002479c     MSVCRTD:MSVCR90D.dll
+ 0005:000007a0       \177MSVCR90D_NULL_THUNK_DATA 100247a0     MSVCRTD:MSVCR90D.dll
+ 0005:000007e8       __imp_?IsA@S3AObject@@QBE_NPBVS3AClass@@@Z 100247e8     S3ACommon:S3ACommon.dll
+ 0005:000007ec       __imp_?UnRegisterS3AClass@S3AClassManager@@QAE_NPAVS3AClass@@@Z 100247ec     S3ACommon:S3ACommon.dll
+ 0005:000007f0       __imp_??0S3AClass@@QAE@VS3AName@@PBV0@I@Z 100247f0     S3ACommon:S3ACommon.dll
+ 0005:000007f4       __imp_??0S3AName@@QAE@PBDW4EFindName@@@Z 100247f4     S3ACommon:S3ACommon.dll
+ 0005:000007f8       __imp_?GetInstance@?$S3ASingleton@VS3AClassManager@@@@SAAAVS3AClassManager@@XZ 100247f8     S3ACommon:S3ACommon.dll
+ 0005:000007fc       __imp_?RegisterS3AClass@S3AClassManager@@QAE_NPAVS3AClass@@@Z 100247fc     S3ACommon:S3ACommon.dll
+ 0005:00000800       __imp_?S3AssertMsg@@YAX_NPBD1I1ZZ 10024800     S3ACommon:S3ACommon.dll
+ 0005:00000804       __imp_?GetClass@S3AObject@@UBEPAVS3AClass@@XZ 10024804     S3ACommon:S3ACommon.dll
+ 0005:00000808       __imp_?Start@S3AObject@@UAE_NXZ 10024808     S3ACommon:S3ACommon.dll
+ 0005:0000080c       __imp_?TravelProperty@S3AObject@@UAEXPAVPropertyVisitor@S3A@@@Z 1002480c     S3ACommon:S3ACommon.dll
+ 0005:00000810       __imp_??0xmVector3@@QAE@MMM@Z 10024810     S3ACommon:S3ACommon.dll
+ 0005:00000814       __imp_?GetFrameDeltaTime@S3Time@@QBEMXZ 10024814     S3ACommon:S3ACommon.dll
+ 0005:00000818       __imp__xmMatrixTranslation 10024818     S3ACommon:S3ACommon.dll
+ 0005:0000081c       __imp_??0xmAxisAlignedBox@@QAE@XZ 1002481c     S3ACommon:S3ACommon.dll
+ 0005:00000820       __imp_?GetObjectId@S3AObject@@UBE?AVS3AName@@XZ 10024820     S3ACommon:S3ACommon.dll
+ 0005:00000824       __imp_?PostClone@S3AObject@@UAEXPAV1@@Z 10024824     S3ACommon:S3ACommon.dll
+ 0005:00000828       __imp_?DecReference@S3AReferenceCountObject@@UBEXXZ 10024828     S3ACommon:S3ACommon.dll
+ 0005:0000082c       __imp_?IncReference@S3AReferenceCountObject@@UBEXXZ 1002482c     S3ACommon:S3ACommon.dll
+ 0005:00000830       __imp_?GetInstance@?$S3ASingleton@VS3AObjectFactoryManager@@@@SAAAVS3AObjectFactoryManager@@XZ 10024830     S3ACommon:S3ACommon.dll
+ 0005:00000834       \177S3ACommon_NULL_THUNK_DATA 10024834     S3ACommon:S3ACommon.dll
+ 0005:0000086c       __imp_?Shutdown@S3AUTScene@@UAEXXZ 1002486c     S3AUT:S3AUT.dll
+ 0005:00000870       __imp_??1TiXmlDocument@@UAE@XZ 10024870     S3AUT:S3AUT.dll
+ 0005:00000874       __imp_?RootElement@TiXmlDocument@@QAEPAVTiXmlElement@@XZ 10024874     S3AUT:S3AUT.dll
+ 0005:00000878       __imp_?ErrorDesc@TiXmlDocument@@QBEPBDXZ 10024878     S3AUT:S3AUT.dll
+ 0005:0000087c       __imp_?LoadFile@TiXmlDocument@@QAE_NPBDW4TiXmlEncoding@@@Z 1002487c     S3AUT:S3AUT.dll
+ 0005:00000880       __imp_??0TiXmlDocument@@QAE@XZ 10024880     S3AUT:S3AUT.dll
+ 0005:00000884       __imp_?Unload@S3AUTScene@@UAEXXZ 10024884     S3AUT:S3AUT.dll
+ 0005:00000888       __imp_?Init@S3AUTScene@@UAEXHQAPAD@Z 10024888     S3AUT:S3AUT.dll
+ 0005:0000088c       __imp_?GetInstance@?$S3ASingleton@VS3AUTRenderer@@@@SAAAVS3AUTRenderer@@XZ 1002488c     S3AUT:S3AUT.dll
+ 0005:00000890       __imp_??0S3AUTScene@@QAE@XZ 10024890     S3AUT:S3AUT.dll
+ 0005:00000894       __imp_??4S3AUTScene@@QAEAAV0@ABV0@@Z 10024894     S3AUT:S3AUT.dll
+ 0005:00000898       __imp_?OnResize@S3AUTScene@@UAEXHH@Z 10024898     S3AUT:S3AUT.dll
+ 0005:0000089c       __imp_?ModifyCamera@S3AUTScene@@UAEXPAUxmVector3@@0@Z 1002489c     S3AUT:S3AUT.dll
+ 0005:000008a0       __imp_??0S3AUTScene@@QAE@ABV0@@Z 100248a0     S3AUT:S3AUT.dll
+ 0005:000008a4       __imp_??1S3AUTScene@@UAE@XZ 100248a4     S3AUT:S3AUT.dll
+ 0005:000008a8       __imp_?Render@S3AUTScene@@UAEXXZ 100248a8     S3AUT:S3AUT.dll
+ 0005:000008ac       __imp_?IsKeyPressed@Input@S3AUT@@QBE_NW4KeyCode@OIS@@@Z 100248ac     S3AUT:S3AUT.dll
+ 0005:000008b0       __imp_?GetInput@S3AUT@@YAPAVInput@1@XZ 100248b0     S3AUT:S3AUT.dll
+ 0005:000008b4       __imp_?UpdateInput@ModelViewCameraController@S3AUT@@QAEXXZ 100248b4     S3AUT:S3AUT.dll
+ 0005:000008b8       __imp_?S3AUTGetTime@@YAPAVS3Time@@XZ 100248b8     S3AUT:S3AUT.dll
+ 0005:000008bc       __imp_?OnGUI@S3AUTScene@@UAEXPAVUIContext@nv@@@Z 100248bc     S3AUT:S3AUT.dll
+ 0005:000008c0       __imp_?LookAt@ModelViewCameraController@S3AUT@@QAEXABUxmVector3@@M@Z 100248c0     S3AUT:S3AUT.dll
+ 0005:000008c4       __imp_?Init@ModelViewCameraController@S3AUT@@QAEXPAVS3AUTCamera@@PAVInput@2@@Z 100248c4     S3AUT:S3AUT.dll
+ 0005:000008c8       __imp_??0ModelViewCameraController@S3AUT@@QAE@XZ 100248c8     S3AUT:S3AUT.dll
+ 0005:000008cc       __imp_?SetPerspective@S3AUTCamera@@QAEXMMMM@Z 100248cc     S3AUT:S3AUT.dll
+ 0005:000008d0       __imp_??1ModelViewCameraController@S3AUT@@UAE@XZ 100248d0     S3AUT:S3AUT.dll
+ 0005:000008d4       __imp_?SetupCamera@S3AUTScene@@MAEXXZ 100248d4     S3AUT:S3AUT.dll
+ 0005:000008d8       __imp_?Load@S3AUTScene@@UAEXXZ 100248d8     S3AUT:S3AUT.dll
+ 0005:000008dc       \177S3AUT_NULL_THUNK_DATA  100248dc     S3AUT:S3AUT.dll
+ 0005:0000091c       __imp_?end@UIContext@nv@@QAEXXZ 1002491c     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:00000920       __imp_?doHorizontalSliderLabled@UI@S3AUT@@YA_NPAVUIContext@nv@@PBDABURect@4@MMPAMH@Z 10024920     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:00000924       __imp_?begin@UIContext@nv@@QAEXXZ 10024924     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:00000928       __imp_??0Rect@nv@@QAE@XZ   10024928     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:0000092c       __imp_?doLabel@UIContext@nv@@QAEXABURect@2@PBDH@Z 1002492c     S3AUTRendererGL:S3AUTRendererGL.dll
+ 0005:00000930       \177S3AUTRendererGL_NULL_THUNK_DATA 10024930     S3AUTRendererGL:S3AUTRendererGL.dll
+
+ entry point at        0002:0000044c
+

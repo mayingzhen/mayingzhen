@@ -7,6 +7,7 @@
 #include "Common/Serialize/S3ABinaryInputArchive.hxx"
 #include "Common/Serialize/S3ABinaryOutputArchive.hxx"
 #include "Common/S3AMeshData.hxx"
+#include "Common/S3AResourceBuilder.hxx"
 
 
 void CommonModuleInit()

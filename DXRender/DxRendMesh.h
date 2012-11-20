@@ -13,7 +13,8 @@ namespace ma
 		bool Load(const char* pszPath);
 
 	private:
-		ID3DXMesh*	m_pD3DMesh;
+		ID3DXMesh**	m_ppD3DMesh;
+		IS3AMeshData* m_pMeshData;
 	};
 }
 

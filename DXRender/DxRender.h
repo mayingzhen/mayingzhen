@@ -33,7 +33,6 @@ namespace ma
 
 		LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
 
-	private:
 		bool Init(HWND hWnd);
 
 	private:

@@ -1,5 +1,4 @@
 #include "Framework/GameObj.h"
-
 #include "Framework/Component.h"
 
 namespace ma

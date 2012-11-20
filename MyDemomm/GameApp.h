@@ -35,7 +35,6 @@ private:
 	HRESULT InvalidateDeviceObjects();
 	HRESULT DeleteDeviceObjects();
 	HRESULT RestoreDeviceObjects();
-	HRESULT Initialize3DEnvironment();
 	HRESULT Render3DEnvironment();
 	HRESULT Resize3DEnvironment();
 

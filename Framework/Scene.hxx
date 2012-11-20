@@ -1,5 +1,4 @@
 #include "Framework/Scene.h"
-
 #include "Framework/Camera.h"
 
 namespace ma

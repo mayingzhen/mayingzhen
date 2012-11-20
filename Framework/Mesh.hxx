@@ -5,6 +5,7 @@ namespace ma
 	Mesh::Mesh(const char* pszPath):
 	Resource(pszPath)
 	{
+		m_pRendMesh = NULL;
 	}
 
 	Mesh::~Mesh()
