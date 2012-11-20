@@ -9,6 +9,8 @@
 #include "Common/IRendMesh.h"
 #include "Common/IRendTexture.h"
 #include "Common/IPhysicsScene.h"
+#include "Common/S3AResourceBuilder.h"
+#include "Common/IS3AMesh.h"
 
 COMMON_API void CommonModuleInit();
 COMMON_API void CommonModuleShutdown();

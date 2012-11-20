@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Widget" skin="PanelSkin" position="0 0 100 120">
+        <Widget type="ImageBox" skin="ImageBox" position="0 0 100 100" name="headImage"/>
+        <Widget type="ProgressBar" skin="ProgressBarFill" position="0 100 100 20" name="healthBar">
+            <Property key="Range" value="100"/>
+            <Property key="RangePosition" value="100"/>
+            <Property key="Colour" value="0.912281 0.245409 0.245409"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings>
+        <Property key="IncludeDirectory" value="E:\Project\S3Project\OpenSDKBranch\Editor\Code\Project\Trine\UI"/>
+        <Property key="PanelName" value="AvatarStatusUI"/>
+        <Property key="PanelNamespace" value="TrineGame"/>
+        <Property key="SourceDirectory" value="E:\Project\S3Project\OpenSDKBranch\Editor\Code\Project\Trine\UI"/>
+    </CodeGeneratorSettings>
+</MyGUI>

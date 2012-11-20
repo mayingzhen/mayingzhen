@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Game>
+  <StandardPlugin Path="../Data/TrineGame/Config/StdPlugin.xml" />
+  <Plugin>
+    <PluginEntry_> Path="../Data/Editor/Plugin/ScriptDevicePlugin_d.dll"</PluginEntry_>
+    <PluginEntry Path="../Data/Editor/Plugin/MyGUIDevice_d.dll" />
+  </Plugin>
+  <GameDevice Path="../Data/TrineGame/Plugin/TrineGame_d.dll" />
+</Game>

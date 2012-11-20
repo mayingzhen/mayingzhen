@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<Root>
+    <BoneSetList>
+        <BoneSet Name="FullBody">
+            <Bone id="0" />
+            <Bone id="1" />
+            <Bone id="2" />
+            <Bone id="3" />
+            <Bone id="4" />
+            <Bone id="5" />
+            <Bone id="6" />
+            <Bone id="7" />
+            <Bone id="8" />
+            <Bone id="9" />
+            <Bone id="10" />
+            <Bone id="11" />
+            <Bone id="12" />
+            <Bone id="13" />
+            <Bone id="14" />
+            <Bone id="15" />
+            <Bone id="16" />
+            <Bone id="17" />
+            <Bone id="18" />
+            <Bone id="19" />
+            <Bone id="20" />
+            <Bone id="21" />
+            <Bone id="22" />
+            <Bone id="23" />
+            <Bone id="24" />
+            <Bone id="25" />
+            <Bone id="26" />
+            <Bone id="27" />
+            <Bone id="28" />
+            <Bone id="29" />
+            <Bone id="30" />
+            <Bone id="31" />
+            <Bone id="32" />
+            <Bone id="33" />
+            <Bone id="34" />
+            <Bone id="35" />
+            <Bone id="36" />
+            <Bone id="37" />
+            <Bone id="38" />
+            <Bone id="39" />
+            <Bone id="40" />
+            <Bone id="41" />
+            <Bone id="42" />
+            <Bone id="43" />
+            <Bone id="44" />
+            <Bone id="45" />
+            <Bone id="46" />
+            <Bone id="47" />
+            <Bone id="48" />
+            <Bone id="49" />
+            <Bone id="50" />
+            <Bone id="51" />
+            <Bone id="52" />
+            <Bone id="53" />
+            <Bone id="54" />
+            <Bone id="55" />
+            <Bone id="56" />
+            <Bone id="57" />
+            <Bone id="58" />
+            <Bone id="59" />
+            <Bone id="60" />
+            <Bone id="61" />
+            <Bone id="62" />
+        </BoneSet>
+        <BoneSet Name="EmptyBody" />
+        <BoneSet Name="Upper">
+            <Bone id="5" />
+            <Bone id="7" />
+            <Bone id="9" />
+            <Bone id="10" />
+            <Bone id="11" />
+            <Bone id="12" />
+            <Bone id="13" />
+            <Bone id="14" />
+            <Bone id="16" />
+            <Bone id="18" />
+            <Bone id="19" />
+            <Bone id="20" />
+            <Bone id="21" />
+            <Bone id="23" />
+            <Bone id="25" />
+            <Bone id="26" />
+            <Bone id="27" />
+            <Bone id="28" />
+            <Bone id="29" />
+            <Bone id="30" />
+            <Bone id="31" />
+            <Bone id="32" />
+            <Bone id="33" />
+            <Bone id="34" />
+            <Bone id="35" />
+            <Bone id="36" />
+            <Bone id="37" />
+            <Bone id="38" />
+            <Bone id="39" />
+            <Bone id="40" />
+            <Bone id="41" />
+            <Bone id="42" />
+            <Bone id="43" />
+            <Bone id="44" />
+            <Bone id="45" />
+            <Bone id="46" />
+            <Bone id="47" />
+            <Bone id="48" />
+            <Bone id="49" />
+            <Bone id="50" />
+            <Bone id="51" />
+            <Bone id="52" />
+            <Bone id="53" />
+            <Bone id="54" />
+        </BoneSet>
+        <BoneSet Name="Lower">
+            <Bone id="0" />
+            <Bone id="1" />
+            <Bone id="2" />
+            <Bone id="3" />
+            <Bone id="4" />
+            <Bone id="6" />
+            <Bone id="8" />
+            <Bone id="15" />
+            <Bone id="17" />
+            <Bone id="22" />
+            <Bone id="24" />
+        </BoneSet>
+    </BoneSetList>
+    <PosModiferList />
+    <AnimationSet Name="TrineGame/character/magician/animSet.xml">
+        <SingleAnimation Name="$(AssetDir)/100" skaPath="100/bip01.ska" />
+        <SingleAnimation Name="$(AssetDir)/120" skaPath="120/bip01.ska" />
+        <SingleAnimation Name="$(AssetDir)/602" skaPath="602/bip01.ska" />
+    </AnimationSet>
+</Root>

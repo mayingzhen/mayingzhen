@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "Framework/Camera.h"
 
 namespace ma
 {

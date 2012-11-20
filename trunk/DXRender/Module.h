@@ -1,7 +1,7 @@
 #ifndef  _DXRENDER_MODULE__H__
 #define  _DXRENDER_MODULE__H__
 
-#include "DxRenderExport.h"
+#include "DXRender/DxRenderExport.h"
 #include "DXRender/DxRender.h"
 #include "DXRender/DxRendMesh.h"
 #include "DxRender/DxRendTexture.h"

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Resource">
+    <Resource type="ResourceLayout" name="AvataStatusLayout" version="3.2.0">
+        <Widget type="Widget" skin="PanelSkin" position="220 190 100 120">
+            <Widget type="ImageBox" skin="ImageBox" position="0 0 100 100" name="head_img"/>
+            <Widget type="ProgressBar" skin="ProgressBar" position="0 100 100 20" name="hp_bar"/>
+        </Widget>
+        <CodeGeneratorSettings>
+            <Property key="IncludeDirectory" value="E:\Project\S3Project\OpenSDKBranch\Editor\Code\Project\Trine\Script"/>
+            <Property key="PanelName" value="AvatarStatus"/>
+            <Property key="PanelNamespace" value="TrineGame"/>
+            <Property key="SourceDirectory" value="E:\Project\S3Project\OpenSDKBranch\Editor\Code\Project\Trine\Script"/>
+        </CodeGeneratorSettings>
+    </Resource>
+</MyGUI>
