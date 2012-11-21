@@ -150,7 +150,7 @@ void CGameApp::InitGame()
 	pRootNode->AddChildNode(pGameObj);
 	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
 	pGameObj->AddComponent(pMeshComp);
-	pMeshComp->Load("E:/work/mydemon/TrineGame/map/anchor.skn",NULL);
+	pMeshComp->Load("E:/work/mydemon/TrineGame/map/qiaoqiaoban.skn",NULL);
 	//////
 
 //  	CObject::StaticInit();

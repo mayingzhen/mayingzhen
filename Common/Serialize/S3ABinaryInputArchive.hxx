@@ -52,16 +52,12 @@ void S3ABinaryInputArchive::SkipByte(xmUint nSizeToSkip)
 	m_file.seekg(nSizeToSkip,std::ios_base::cur);
 }
 
+
 bool S3ABinaryInputArchive::Open(const char* pszFilename)
 {
-#if S3_PLATFORM_WIN == 1
-	std::wstring filename =  S3AStringHelper::ToWideChar(pszFilename);
-	m_file.open(filename.c_str(),std::ios::in | std::ios::binary);
-#else
-    m_file.open(pszFilename);
-#endif
-    
-	if (!m_file)
+   m_file.open(pszFilename,std::ios::in | std::ios::binary);
+
+	if ( m_file.fail() )
 	{
 		S3ALog("fail to open file %s\n",pszFilename);
 		return false;
