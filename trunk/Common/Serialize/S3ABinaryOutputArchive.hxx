@@ -24,13 +24,7 @@ bool S3ABinaryOutputArchive::IsReading() const
 
 bool S3ABinaryOutputArchive::Open(const char* pszFilename)
 {
-#if S3_PLATFORM_WIN == 1
-	std::wstring filename = S3AStringHelper::ToWideChar(pszFilename);
-	m_file.open(filename.c_str(), std::ios::out | std::ios::binary);
-#else
-    m_file.open(pszFilename, std::ios::out | std::ios::binary);
-    
-#endif
+	m_file.open(pszFilename, std::ios::out | std::ios::binary);
 
 	S3ASSERT_MSG( ! m_file.fail(), "fail to open file" );
 
