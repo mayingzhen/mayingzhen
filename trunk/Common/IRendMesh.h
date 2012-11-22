@@ -5,7 +5,7 @@ namespace ma
 {
 	class MeshData;
 
-	class COMMON_API IRendMesh
+	class COMMON_API IRendMesh /*: public IRendItem*/
 	{
 	public:
 		virtual bool Load(const char* resPath) = 0;

@@ -1,11 +1,3 @@
-//----------------------------------------------------------------------
-// Copyright(c) TQ Digital Entertainment, All Rights Reserved
-// Author:  Xu Kaijie
-// Created: 2010/8/9
-// Describe: S3 Animation
-//----------------------------------------------------------------------
-
-
 #include "Common/S3AMeshData.h"
 #include "Common/S3AMathSerialize.h"
 

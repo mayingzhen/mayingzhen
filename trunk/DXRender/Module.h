@@ -2,6 +2,7 @@
 #define  _DXRENDER_MODULE__H__
 
 #include "DXRender/DxRenderExport.h"
+#include "DXRender/DxRenderDevice.h"
 #include "DXRender/DxRender.h"
 #include "DXRender/DxRendMesh.h"
 #include "DxRender/DxRendTexture.h"

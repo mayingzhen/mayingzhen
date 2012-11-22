@@ -5,6 +5,18 @@
 
 namespace ma
 {
+	struct RenderObj
+	{
+		D3DXMATRIX m_matWorld;
+		//IRe
+
+	};
+}
+
+
+
+namespace ma
+{
 	class DXRENDER_API DxRender : public IRender
 	{	
 	public:
@@ -21,9 +33,9 @@ namespace ma
 
 		void RenderSkelMesh(IRendMesh* pSkelMesh);
 
-		IRendMesh* CreateRendMesh();
+		//IRendMesh* CreateRendMesh();
 
-		IRendTexture* CreateRendTexture();
+		//IRendTexture* CreateRendTexture();
 
 		//IRendWindow* CreateRendWindow(int w, int z);
 
@@ -31,14 +43,14 @@ namespace ma
 
 		void SetProjMatrix(const D3DXMATRIX* projMatrix);
 
-		LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
+		//LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
 
-		bool Init(HWND hWnd);
+		//bool Init(HWND hWnd);
 
-	private:
-		LPDIRECT3D9  m_pD3D;				   // The main D3D object
-		D3DPRESENT_PARAMETERS m_d3dpp;         // Parameters for CreateDevice/Reset
-		LPDIRECT3DDEVICE9 m_pd3dDevice;        // The D3D rendering device
+// 	private:
+// 		LPDIRECT3D9  m_pD3D;				   // The main D3D object
+// 		D3DPRESENT_PARAMETERS m_d3dpp;         // Parameters for CreateDevice/Reset
+// 		LPDIRECT3DDEVICE9 m_pd3dDevice;        // The D3D rendering device
 	
 	};
 }

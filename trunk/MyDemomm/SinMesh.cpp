@@ -991,6 +991,8 @@ CSkinMesh::~CSkinMesh()
 //-----------------------------------------------------------------------------
 HRESULT CSkinMesh::LoadFromXFile(const char *strFileName)
 {
+	D3DXLoadMeshFromX
+
 	HRESULT hr = S_OK;
 
 	CAllocateHierarchy Alloc(this);

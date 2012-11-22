@@ -35,6 +35,7 @@
 
 #define S3ASSERT(x) 
 
+
 void S3ALog(const char* fmt,...);
 void S3ASSERT_MSG(bool expr,const char* fmt,...);
 void S3ALogError(xmUint nErrorCode,const char* fmt,...);
@@ -87,8 +88,8 @@ enum ES3AErrorCode
 
 void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
 
-
 void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
+
 
 
 

@@ -1,55 +1,20 @@
-#include "DxRender.h"
+#include "DXRender/DxRenderDevice.h"
+#include "DxRender/DxRendMesh.h"
+#include "DXRender/DxRendTexture.h"
 
 namespace ma
 {
-	DxRender::DxRender()
+	IRendMesh* DxRenderDevice::CreateRendMesh()
 	{
-
+		return new DxRendMesh();
 	}
 
-	DxRender::~DxRender()
+	IRendTexture* DxRenderDevice::CreateRendTexture()
 	{
-
+		return new DxRendTexture();
 	}
 
-	void DxRender::BeginRender()
-	{
-		m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
-		m_pd3dDevice->BeginScene();
-	}
-
-	void DxRender::EndRender()
-	{
-		m_pd3dDevice->EndScene();
-		m_pd3dDevice->Present(NULL,NULL,NULL,NULL);
-	}
-
-	void DxRender::RenderSkelMesh(IRendMesh* pSkelMesh)
-	{
-
-	}
-	
-	void DxRender::SetViewMatrix(const D3DXMATRIX* viewMatrix)
-	{
-		
-	}
-
-	void DxRender::SetProjMatrix(const D3DXMATRIX* projMatrix)
-	{
-		
-	}
-
-	void DxRender::RenderMesh(D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture)
-	{
-		DxRendMesh* pDxMesh = (DxRendMesh*)pMesh;
-		DxRendTexture* pDxTexure = (DxRendTexture*)(pTexture);
-
-		//m_pd3dDevice->setvi
-
-	}
-
-
-	bool DxRender::Init(HWND hWnd)
+	bool DxRenderDevice::Init(HWND hWnd)
 	{
 		m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 		if(NULL == m_pD3D)
@@ -109,5 +74,3 @@ namespace ma
 		return true;
 	}
 }
-
-
