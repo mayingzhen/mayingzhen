@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DxRenderDevice.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\DxRendMesh.hxx"
 				>
 			</File>
@@ -213,6 +217,10 @@
 			>
 			<File
 				RelativePath=".\DxRender.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DxRenderDevice.h"
 				>
 			</File>
 			<File

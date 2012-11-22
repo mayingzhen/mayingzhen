@@ -8,6 +8,7 @@ namespace ma
 	public:
 		DxRendMesh();
 
+
 		~DxRendMesh();
 
 		bool Load(const char* pszPath);

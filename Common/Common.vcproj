@@ -220,6 +220,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IRenderDevice.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IRendITem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IRendMesh.h"
 				>
 			</File>

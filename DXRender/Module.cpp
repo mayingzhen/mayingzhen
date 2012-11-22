@@ -1,6 +1,7 @@
 #include "DXRender/stdafx.h"
 #include "DXRender/Module.h"
 
+#include "DXRender/DxRenderDevice.hxx"
 #include "DXRender/DxRender.hxx"
 #include "DXRender/DxRendMesh.hxx"
 #include "DXRender/DxRendTexture.hxx"
