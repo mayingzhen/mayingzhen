@@ -1,10 +1,3 @@
-//----------------------------------------------------------------------
-// Copyright(c) TQ Digital Entertainment, All Rights Reserved
-// Author:  Xu Kaijie
-// Created: 2011/1/25
-// Describe: S3 Animation
-//----------------------------------------------------------------------
-
 #ifndef __S3AArchive_H__
 #define __S3AArchive_H__
 

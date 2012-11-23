@@ -1,17 +1,8 @@
-//----------------------------------------------------------------------
-// Copyright(c) TQ Digital Entertainment, All Rights Reserved
-// Author:  Xu Kaijie
-// Created: 2010/8/9
-// Describe: S3 Animation
-//----------------------------------------------------------------------
-
 #ifndef __S3AMeshData_H__
 #define __S3AMeshData_H__
 
 #include "Common/S3AExpMeshData.h"
 #include "Common/IS3AMesh.h"
-
-struct ID3DXMesh;
 
 
 void S3ASerialize(IS3ASerializeListener& sl,S3AExpVertexType0 &val,const char* pszLable );
