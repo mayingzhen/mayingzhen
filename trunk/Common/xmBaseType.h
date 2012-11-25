@@ -63,7 +63,7 @@ extern "C" {
 
 
 
-typedef unsigned short S3ABoneIndex;
+typedef unsigned short BoneIndex;
 
 
 

@@ -5,16 +5,16 @@
 // Describe:S3 Animation
 //----------------------------------------------------------------------
 
-#ifndef __IS3AMesh_H__
-#define __IS3AMesh_H__
+#ifndef __IMesh_H__
+#define __IMesh_H__
 
-class IS3ASerializeListener;
-class IS3AVertexIterator;
-struct S3AExpBounding;
-class S3AMeshLODData;
-class S3AUTMeshBase;
+class SerializeListener;
+class IVertexIterator;
+struct ExpBounding;
+class MeshLODData;
+class UTMeshBase;
 
-struct S3ASkinVertexType0
+struct SkinVertexType0
 {
 	xmVector3    m_vPos;			// position
 	xmUint32		   m_nBoneIndice;	// bones
@@ -26,7 +26,7 @@ struct S3ASkinVertexType0
 	xmUint32		   m_nIllum;		// vertex illumination
 };
 
-class COMMON_API IS3ASubMeshData
+class COMMON_API ISubMeshData
 {
 public:
 	virtual const char* GetName() const = 0;
@@ -41,7 +41,7 @@ public:
 
 	virtual xmUint	GetVertexCount() const = 0;
 
-	virtual S3AExpBounding  &GetMeshBounding() = 0;
+	virtual ExpBounding  &GetMeshBounding() = 0;
 
 	virtual xmUint16			GetBonePaletteSize() const = 0;
 
@@ -55,8 +55,8 @@ public:
 	virtual void	Reset(xmUint nIndexStart,xmUint nIndexCount
 		,xmUint nVertexStart,xmUint nVertexCount
 		,xmUint nMtlID
-		,const S3AExpBounding* pBounding
-		,const S3ABoneIndex* arrBonePalatte
+		,const ExpBounding* pBounding
+		,const BoneIndex* arrBonePalatte
 		,xmUint nBonePalatteSize = 0		
 		,const char* pszName = NULL
 		,const char* pszTag = NULL) = 0;
@@ -89,7 +89,7 @@ public:
 
 };
 
-class COMMON_API IS3AMeshLODData
+class COMMON_API IMeshLODData
 {
 public:
 	enum MeshDataFrom
@@ -102,15 +102,15 @@ public:
 
 	virtual xmUint					GetSubMeshNumber() const = 0;
 
-	virtual const IS3ASubMeshData*	GetSubMesh(xmUint nSubMeshInd) const = 0;
+	virtual const ISubMeshData*	GetSubMesh(xmUint nSubMeshInd) const = 0;
 
 	virtual void					ClearSubMesh() = 0;
 
 	virtual void					ResizeSubMesh(xmUint nSubMeshNum) = 0;
 
-	virtual IS3ASubMeshData*		CreateSubMesh() = 0;
+	virtual ISubMeshData*		CreateSubMesh() = 0;
 
-	virtual IS3ASubMeshData*		GetSubMesh(xmUint nSubMeshInd) = 0;
+	virtual ISubMeshData*		GetSubMesh(xmUint nSubMeshInd) = 0;
 
 	virtual int						GetBoneLOD() const = 0;
 
@@ -126,22 +126,22 @@ public:
 
 	virtual void*					GetIndexBuffer() = 0;
 
-	virtual S3ASkinVertexType0*		GetVertexBufferSkinVertexType0() = 0;
+	virtual SkinVertexType0*		GetVertexBufferSkinVertexType0() = 0;
 
 	virtual int						GetVertexNumber() const = 0;
 
 	virtual void					ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum) = 0;
 
-	virtual void					Serialize(IS3ASerializeListener& sl,const char* pszLabel) = 0;
+	virtual void					Serialize(SerializeListener& sl,const char* pszLabel) = 0;
 };
 
-class COMMON_API IS3AMeshData
+class COMMON_API IMeshData
 {
 public:
 
 	virtual void						Release() = 0;
 
-	virtual S3AGUID						GetGlobalSkeletonID() const = 0;
+	virtual GUID						GetGlobalSkeletonID() const = 0;
 
 	virtual const char*					GetSource() const = 0;
 
@@ -159,13 +159,13 @@ public:
 
 	virtual xmUint						GetBoneWeightOffset() const = 0;
 
-	virtual S3ASkinVertexType0*			GetVertexBufferSkinVertexType0() = 0;
+	virtual SkinVertexType0*			GetVertexBufferSkinVertexType0() = 0;
 
-	virtual const S3ASkinVertexType0*	GetVertexBufferSkinVertexType0() const = 0;
+	virtual const SkinVertexType0*	GetVertexBufferSkinVertexType0() const = 0;
 
 	virtual xmUint						GetSubMeshNumber() const = 0;
 
-	virtual const IS3ASubMeshData*		GetSubMesh(xmUint nSubMesh, int nLOD = 0) const = 0;
+	virtual const ISubMeshData*		GetSubMesh(xmUint nSubMesh, int nLOD = 0) const = 0;
 
 
 	virtual xmUint						GetBoneNumber() const = 0;
@@ -179,18 +179,18 @@ public:
 	//For LOD Mesh
 	//------------------------------------------------------------------------------
 	virtual xmUint						GetLODMeshNumber() const       = 0;
-	virtual IS3AMeshLODData*			GetLODMesh(int nLOD)          = 0;
-	virtual const IS3AMeshLODData*		GetLODMesh(int nLOD) const    = 0;
+	virtual IMeshLODData*			GetLODMesh(int nLOD)          = 0;
+	virtual const IMeshLODData*		GetLODMesh(int nLOD) const    = 0;
 	virtual int							GetBoneLOD(int nMeshLOD) const = 0;
 	virtual void						SetBoneLOD(int nMeshLOD, int nBoneLOD) = 0;
-	virtual IS3AMeshLODData*			IncLOD() = 0;
+	virtual IMeshLODData*			IncLOD() = 0;
 	virtual void						DecLOD(void) = 0;	
 	virtual	void						SetLodMeshVersion() = 0;
 
 	//------------------------------------------------------------------------------
 	//For modification
 	//------------------------------------------------------------------------------
-	virtual void					SetGlobalSkeletonID(S3AGUID nSkelGUID) = 0;
+	virtual void					SetGlobalSkeletonID(GUID nSkelGUID) = 0;
 
 	virtual void					SetSource(const char* pszSource) = 0;
 
@@ -204,11 +204,11 @@ public:
 
 	virtual void*					GetIndexBuffer() = 0;
 
-	virtual S3ASkinVertexType0*		GetVertexBuffer() = 0;	
+	virtual SkinVertexType0*		GetVertexBuffer() = 0;	
 
-	virtual IS3ASubMeshData*		GetSubMesh(xmUint nSubMeshInd, int nLOD = 0) = 0;
+	virtual ISubMeshData*		GetSubMesh(xmUint nSubMeshInd, int nLOD = 0) = 0;
 
-	virtual IS3ASubMeshData*		GetSubMeshByName(const char* pszName, int nLOD = 0) = 0;
+	virtual ISubMeshData*		GetSubMeshByName(const char* pszName, int nLOD = 0) = 0;
 
 
 	virtual void					SetBoneName(xmUint16 nBoneInd,const char* pszBoneName) = 0;
@@ -217,11 +217,11 @@ public:
 	
 };
 
-class IS3AMeshFile
+class IMeshFile
 {
 public:
 
 	virtual void Release();
 };
 
-#endif// __IS3AMesh_H__
+#endif// __IMesh_H__

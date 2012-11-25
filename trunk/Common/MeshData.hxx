@@ -1,5 +1,5 @@
-#include "Common/S3AMeshData.h"
-#include "Common/S3AMathSerialize.h"
+#include "Common/MeshData.h"
+//#include "Common/Serialize/MathSerialize.inl"
 
 
 /*!
@@ -8,12 +8,12 @@ Null element is not allowed in array.
 T must be a simple struct or class which do not has derived class.
 */
 template<class T>
-void S3ASerialize(IS3ASerializeListener& sl,std::vector<T*>& val,const char* pszLable = "array")
+void Serialize(SerializeListener& sl,std::vector<T*>& val,const char* pszLable = "array")
 {
 	sl.BeginSection(pszLable);
 
 	xmUint nSize = (xmUint)val.size();
-	S3ASerialize(sl,nSize,"size");
+	sl.Serialize(nSize,"size");
 
 	if (nSize != val.size())
 	{
@@ -32,7 +32,7 @@ void S3ASerialize(IS3ASerializeListener& sl,std::vector<T*>& val,const char* psz
 			val[nCnt] = new T;//T must be a simple struct or class which do not has derived class
 		}
 
-		S3ASerialize(sl,*val[nCnt],buf);
+		sl.Serialize(*val[nCnt],buf);
 	}
 	sl.EndSection();
 
@@ -40,7 +40,7 @@ void S3ASerialize(IS3ASerializeListener& sl,std::vector<T*>& val,const char* psz
 }
 
 template<class T>
-void S3APointerArrayClear(T& arr)
+void PointerArrayClear(T& arr)
 {
 	for (xmUint nCnt = 0; nCnt < (xmUint)arr.size(); ++nCnt)
 	{
@@ -51,7 +51,7 @@ void S3APointerArrayClear(T& arr)
 
 
 template<class ElementType >
-void S3APointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
+void PointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
 {
 	xmUint nOldSize = (xmUint)arr.size();
 	for (xmUint nCnt = nNewSize; nCnt < nOldSize; ++nCnt)
@@ -66,12 +66,12 @@ void S3APointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
 }
 
 template<class DataType>
-void S3ASerializeRawData(IS3ASerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
+void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
 {
 	sl.BeginSection(pszLable);
 
 	xmUint nSize = val.size();
-	S3ASerialize(sl,nSize,"size");
+	sl.Serialize(nSize,"size");
 
 	if (nSize != val.size())
 	{
@@ -86,14 +86,14 @@ void S3ASerializeRawData(IS3ASerializeListener& sl,std::vector<xmUint8>& val,con
 	{
 		char buf[64];
 		sprintf_s(&buf[0],64,"Element_%u",nCnt);
-		S3ASerialize(sl,(DataType&)val[nCnt*sizeof(DataType)],buf);
+		sl.Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
 	}
 	sl.EndSection();
 
 	sl.EndSection();
 }
 
-S3ASubMeshData::S3ASubMeshData()
+SubMeshData::SubMeshData()
 :m_nIndexStart(0)
 ,m_nIndexCount(0)
 ,m_nVertexStart(0)
@@ -103,11 +103,11 @@ S3ASubMeshData::S3ASubMeshData()
 	
 }
 
-void	S3ASubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
+void	SubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
 			  ,xmUint nVertexStart,xmUint nVertexCount
 			  ,xmUint nMtlID
-			  ,const S3AExpBounding* pBounding
-			  ,const S3ABoneIndex* arrBonePalatte
+			  ,const ExpBounding* pBounding
+			  ,const BoneIndex* arrBonePalatte
 			  ,xmUint nBonePalatteSize
 			  ,const char* pszName
 			  ,const char* pszTag )
@@ -136,7 +136,7 @@ void	S3ASubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
 	}else{
 		for (xmUint nPalCnt = 0; nPalCnt < nBonePalatteSize; ++nPalCnt)
 		{
-			m_arrBonePalette[nPalCnt] = S3AInvalidID<S3ABoneIndex>();
+			m_arrBonePalette[nPalCnt] = InvalidID<BoneIndex>();
 		}
 	}
 
@@ -145,52 +145,52 @@ void	S3ASubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
 }
 
 
-const char* S3ASubMeshData::GetName() const
+const char* SubMeshData::GetName() const
 {
 	return m_name.c_str();
 }
 
 
-const char*	S3ASubMeshData::GetTag() const
+const char*	SubMeshData::GetTag() const
 {
 	return m_submeshTag.c_str();
 }
 
 
-xmUint	S3ASubMeshData::GetIndexStart() const
+xmUint	SubMeshData::GetIndexStart() const
 {
 	return m_nIndexStart;
 }
 
 
-xmUint	S3ASubMeshData::GetIndexCount() const
+xmUint	SubMeshData::GetIndexCount() const
 {
 	return m_nIndexCount;
 }
 
 
-xmUint	S3ASubMeshData::GetVertexStart() const
+xmUint	SubMeshData::GetVertexStart() const
 {
 	return m_nVertexStart;
 }
 
 
-xmUint	S3ASubMeshData::GetVertexCount() const
+xmUint	SubMeshData::GetVertexCount() const
 {
 	return m_nVertexCount;
 }
 
-xmUint	S3ASubMeshData::GetMaterialID() const
+xmUint	SubMeshData::GetMaterialID() const
 {
 	return m_nMateiralID;
 }
 
-S3ABoneIndex	S3ASubMeshData::GetBonePaletteSize() const
+BoneIndex	SubMeshData::GetBonePaletteSize() const
 {
 	return m_arrBonePalette.size();
 }
 
-const S3ABoneIndex*	S3ASubMeshData::GetBonePalette() const
+const BoneIndex*	SubMeshData::GetBonePalette() const
 {
 	return m_arrBonePalette.size() > 0 ? &m_arrBonePalette[0] : NULL;
 }
@@ -199,43 +199,43 @@ const S3ABoneIndex*	S3ASubMeshData::GetBonePalette() const
 //------------------------------------------------------------------------------
 //For Modification
 //------------------------------------------------------------------------------
-void	S3ASubMeshData::SetName(const char* pszName)
+void	SubMeshData::SetName(const char* pszName)
 {
 	m_name = pszName;
 }
 
 
-void	S3ASubMeshData::SetTag(const char* pszTag)
+void	SubMeshData::SetTag(const char* pszTag)
 {
 	m_submeshTag = pszTag;
 }
 
 
 
-void	S3ASubMeshData::SetIndexStart(xmUint32 nIndStart)
+void	SubMeshData::SetIndexStart(xmUint32 nIndStart)
 {
 	m_nIndexStart = nIndStart;
 }
 
 
-void	S3ASubMeshData::SetIndexCount(xmUint32 nIndCnt)
+void	SubMeshData::SetIndexCount(xmUint32 nIndCnt)
 {
 	m_nIndexCount = nIndCnt;
 }
 
 
-void	S3ASubMeshData::SetVertexStart(xmUint32 nVStart)
+void	SubMeshData::SetVertexStart(xmUint32 nVStart)
 {
 	m_nVertexStart = nVStart;
 }
 
 
-void	S3ASubMeshData::SetVertexCount(xmUint32 nVCnt)
+void	SubMeshData::SetVertexCount(xmUint32 nVCnt)
 {
 	m_nVertexCount = nVCnt;
 }
 
-void	S3ASubMeshData::SetMaterialID(xmUint nMtlID)
+void	SubMeshData::SetMaterialID(xmUint nMtlID)
 {
 	m_nMateiralID = nMtlID;
 }
@@ -243,7 +243,7 @@ void	S3ASubMeshData::SetMaterialID(xmUint nMtlID)
 /*!\brief
 \param arrBoneIndice array of bone indices, if null, default bone will be filled
 */
-void	S3ASubMeshData::ResetBonePalatte(xmUint32 nPalatteSize,xmUint16* arrBoneIndice)
+void	SubMeshData::ResetBonePalatte(xmUint32 nPalatteSize,xmUint16* arrBoneIndice)
 {
 	m_arrBonePalette.resize(nPalatteSize);
 
@@ -263,33 +263,33 @@ void	S3ASubMeshData::ResetBonePalatte(xmUint32 nPalatteSize,xmUint16* arrBoneInd
 }
 
 
-void	S3ASubMeshData::SetBoneByPalatteIndex(xmUint16 nPalatteInd,xmUint16 nBoneInd)
+void	SubMeshData::SetBoneByPalatteIndex(xmUint16 nPalatteInd,xmUint16 nBoneInd)
 {
 	m_arrBonePalette[nPalatteInd] = nBoneInd;
 }
 
 
-xmUint16	S3ASubMeshData::GetBoneByPalatteIndex(xmUint16 nPalatteInd)
+xmUint16	SubMeshData::GetBoneByPalatteIndex(xmUint16 nPalatteInd)
 {
 	return m_arrBonePalette[nPalatteInd];
 }
 
 
-void	S3ASubMeshData::Serialize(IS3ASerializeListener& sl,const char* pszLabel)
+void	SubMeshData::Serialize(SerializeListener& sl,const char* pszLabel)
 {
 	sl.BeginSection(pszLabel);
 
-	S3ASerialize(sl,m_nIndexStart,"IndexStart");
-	S3ASerialize(sl,m_nIndexCount,"IndexCount");
-	S3ASerialize(sl,m_nVertexStart,"VertexStart");
-	S3ASerialize(sl,m_nVertexCount,"VertexCount");
-	S3ASerialize(sl,m_subMeshBound,"SubMeshBound");
-	S3ASerialize(sl,m_arrBonePalette,"BonePalette");
-	S3ASerialize(sl,m_name,"SubMeshName");
-	S3ASerialize(sl,m_submeshTag,"SubMeshTag");
+	sl.Serialize(m_nIndexStart,"IndexStart");
+	sl.Serialize(m_nIndexCount,"IndexCount");
+	sl.Serialize(m_nVertexStart,"VertexStart");
+	sl.Serialize(m_nVertexCount,"VertexCount");
+	sl.Serialize(m_subMeshBound,"SubMeshBound");
+	sl.Serialize(m_arrBonePalette,"BonePalette");
+	sl.Serialize(m_name,"SubMeshName");
+	sl.Serialize(m_submeshTag,"SubMeshTag");
     if (sl.GetVersion() >= EXP_MESH_VER_EMBED_MESH_DATA)
     {
-		S3ASerialize(sl,m_nMateiralID,"MaterialID");
+		sl.Serialize(m_nMateiralID,"MaterialID");
     }
 
 	sl.EndSection();
@@ -298,113 +298,113 @@ void	S3ASubMeshData::Serialize(IS3ASerializeListener& sl,const char* pszLabel)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-S3AMeshLODData::S3AMeshLODData()
+MeshLODData::MeshLODData()
 : m_nMeshDataFlag(DATA_PARENT_DATA)
 , m_nBoneLOD(0)
 ,m_nVertexType(EXP_VT_SKIN_VERTEX_0)
 {
 }
 
-S3AMeshLODData::~S3AMeshLODData()
+MeshLODData::~MeshLODData()
 {
 	ClearSubMesh();
 }
 
 
-// const S3ASkinVertexType0*	S3AMeshLODData::GetVertexBufferSkinVertexType0() const
+// const SkinVertexType0*	MeshLODData::GetVertexBufferSkinVertexType0() const
 // {
 // 	const xmUint8* pData = m_arrVertexBuffer.size() > 0
 // 		? &m_arrVertexBuffer[0]
 // 	: NULL;
 // 
 // 	return EXP_VT_SKIN_VERTEX_0 == m_nVertexType 
-// 		? reinterpret_cast<const S3ASkinVertexType0*>(pData)
+// 		? reinterpret_cast<const SkinVertexType0*>(pData)
 // 		: NULL;
 // }
 
-S3ASkinVertexType0*	S3AMeshLODData::GetVertexBufferSkinVertexType0()
+SkinVertexType0*	MeshLODData::GetVertexBufferSkinVertexType0()
 {
 	xmUint8* pData = m_arrVertexBuffer.size() > 0 ? &m_arrVertexBuffer[0] : NULL;
 
-	return EXP_VT_SKIN_VERTEX_0 == m_nVertexType ? reinterpret_cast<S3ASkinVertexType0*>(pData) : NULL;
+	return EXP_VT_SKIN_VERTEX_0 == m_nVertexType ? reinterpret_cast<SkinVertexType0*>(pData) : NULL;
 }
 
-const IS3ASubMeshData*	S3AMeshLODData::GetSubMesh(xmUint nSubMeshInd) const
+const ISubMeshData*	MeshLODData::GetSubMesh(xmUint nSubMeshInd) const
 {
 	return m_arrSubMesh[nSubMeshInd];
 }
 
 
-void					S3AMeshLODData::ResizeSubMesh(xmUint nSubMeshNum)
+void					MeshLODData::ResizeSubMesh(xmUint nSubMeshNum)
 {
-	S3APointerArrayResize(m_arrSubMesh,nSubMeshNum);
+	PointerArrayResize(m_arrSubMesh,nSubMeshNum);
 }
 
-IS3ASubMeshData*			S3AMeshLODData::CreateSubMesh()
+ISubMeshData*			MeshLODData::CreateSubMesh()
 {
-	S3ASubMeshData* pSubMesh = new S3ASubMeshData;
+	SubMeshData* pSubMesh = new SubMeshData;
 	m_arrSubMesh.push_back(pSubMesh);
 	return pSubMesh;
 }
 
-xmUint					S3AMeshLODData::GetSubMeshNumber() const
+xmUint					MeshLODData::GetSubMeshNumber() const
 {
 	return m_arrSubMesh.size();
 }
 
-IS3ASubMeshData*			S3AMeshLODData::GetSubMesh(xmUint nSubMeshInd)
+ISubMeshData*			MeshLODData::GetSubMesh(xmUint nSubMeshInd)
 {
 	return m_arrSubMesh[nSubMeshInd];
 }
 
-int						S3AMeshLODData::GetBoneLOD() const
+int						MeshLODData::GetBoneLOD() const
 {
 	return m_nBoneLOD;
 }
 
-void					S3AMeshLODData::SetBoneLOD(int nBoneLOD)
+void					MeshLODData::SetBoneLOD(int nBoneLOD)
 {
 	m_nBoneLOD = nBoneLOD;
 }
 
-xmUint					S3AMeshLODData::GetMeshDataFlag() const
+xmUint					MeshLODData::GetMeshDataFlag() const
 {
 	return m_nMeshDataFlag;
 }
 
-void					S3AMeshLODData::SetMeshDataFlag(xmUint uMeshDataFlag)
+void					MeshLODData::SetMeshDataFlag(xmUint uMeshDataFlag)
 {
 	m_nMeshDataFlag = uMeshDataFlag;
 }
 
-xmUint					S3AMeshLODData::GetIndexNumber() const
+xmUint					MeshLODData::GetIndexNumber() const
 {
 	return m_arrIndexBuffer.size() / (GetIsIndex32() ? sizeof(xmUint32) : sizeof(xmUint16));
 }
 
-bool					S3AMeshLODData::GetIsIndex32() const
+bool					MeshLODData::GetIsIndex32() const
 {
 	return m_nIndexType == EXP_INDEX_TYPE_U32;
 }
 
-int						S3AMeshLODData::GetVertexNumber() const
+int						MeshLODData::GetVertexNumber() const
 {
-	return m_arrVertexBuffer.size() / sizeof(S3ASkinVertexType0);
+	return m_arrVertexBuffer.size() / sizeof(SkinVertexType0);
 }
 
-void					S3AMeshLODData::ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum)
+void					MeshLODData::ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum)
 {
 	m_nIndexType = bIsIndex32 ? EXP_INDEX_TYPE_U32 : EXP_INDEX_TYPE_U16;
 	m_nVertexType = EXP_VT_SKIN_VERTEX_0;
 
 	const xmUint nIndexStride = m_nIndexType == EXP_INDEX_TYPE_U16 ? sizeof(xmUint16) : sizeof(xmUint32);
-	const xmUint nVertexStride = sizeof(S3ASkinVertexType0);
+	const xmUint nVertexStride = sizeof(SkinVertexType0);
 
 	m_arrIndexBuffer.resize(nIndexNum * nIndexStride);
 	m_arrVertexBuffer.resize(nVertexNum * nVertexStride);
 }
 
-void					S3AMeshLODData::ClearSubMesh()
+void					MeshLODData::ClearSubMesh()
 {
 	for (xmUint nSubMeshCnt = 0; nSubMeshCnt < (xmUint)m_arrSubMesh.size(); ++nSubMeshCnt)
 	{
@@ -413,48 +413,48 @@ void					S3AMeshLODData::ClearSubMesh()
 	m_arrSubMesh.clear();
 }
 
-void	S3AMeshLODData::Serialize(IS3ASerializeListener& sl,const char* pszLabel)
+void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
 {
 	sl.BeginSection(pszLabel);
 	if(sl.GetVersion() >= EXP_MESH_VER_LOD_MESH_DATA)
 	{
-		S3ASerialize(sl, m_nMeshDataFlag, "MeshDataFrom");
+		sl.Serialize( m_nMeshDataFlag, "MeshDataFrom");
 	}
 
 	if (m_nMeshDataFlag & DATA_HAS_OWN_INDEX)
 	{
-		S3ASerialize(sl,m_nIndexType,"IndexType");
+		sl.Serialize(m_nIndexType,"IndexType");
 
 		if (EXP_INDEX_TYPE_U16 == m_nIndexType)
 		{
-			S3ASerializeRawData<S3ABoneIndex>(sl,m_arrIndexBuffer,"IndexBuffer");
+			SerializeRawData<BoneIndex>(sl,m_arrIndexBuffer,"IndexBuffer");
 		}
 		else if (EXP_INDEX_TYPE_U32 == m_nIndexType)
 		{
-			S3ASerializeRawData<xmUint32>(sl,m_arrIndexBuffer,"IndexBuffer");
+			SerializeRawData<xmUint32>(sl,m_arrIndexBuffer,"IndexBuffer");
 		}
 		else
 		{
-			S3ALogError(S3A_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
+			LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
 		}
 	}
 
 	if (m_nMeshDataFlag & DATA_HAS_OWN_VERTEX)
 	{
-		S3ASerialize(sl,m_nVertexType,"VertexType");
+		sl.Serialize(m_nVertexType,"VertexType");
 
 		if (EXP_VT_SKIN_VERTEX_0 == m_nVertexType)
 		{
-			S3ASerializeRawData<S3AExpVertexType0>(sl,m_arrVertexBuffer,"VertexBuffer");
+			SerializeRawData<ExpVertexType0>(sl,m_arrVertexBuffer,"VertexBuffer");
 		}
 	}
 
 	if (m_nMeshDataFlag & DATA_HAS_BONE_LOD)
 	{
-		S3ASerialize(sl, m_nBoneLOD, "BoneLOD");
+		sl.Serialize( m_nBoneLOD, "BoneLOD");
 	}
 
-	S3ASerialize(sl,m_arrSubMesh,"SubMeshArray");
+	sl.Serialize(m_arrSubMesh,"SubMeshArray");
 
 	sl.EndSection();
 }
@@ -464,11 +464,11 @@ void	S3AMeshLODData::Serialize(IS3ASerializeListener& sl,const char* pszLabel)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-S3AMeshData::S3AMeshData()
+MeshData::MeshData()
 :m_nIndexType(EXP_INDEX_TYPE_U16)
 ,m_nVertexType(EXP_VT_SKIN_VERTEX_0)
 {
-	//S3AProfiler::GetCounterProfiler()->OnCreateMesh();
+	//Profiler::GetCounterProfiler()->OnCreateMesh();
 
 	m_header.m_nIdent		= 'S3MD';
 	m_header.m_nVersion 	= EXP_MESH_VER_CURRENT;
@@ -479,136 +479,136 @@ S3AMeshData::S3AMeshData()
 	m_header.m_nVertexNum	= 0;
 }
 
-S3AMeshData::~S3AMeshData()
+MeshData::~MeshData()
 {
 	Clear();
 
-	//S3AProfiler::GetCounterProfiler()->OnDeleteMesh();
+	//Profiler::GetCounterProfiler()->OnDeleteMesh();
 }
 
-void S3AMeshData::Clear()
+void MeshData::Clear()
 {
-	S3APointerArrayClear(m_arrMeshLOD);
+	PointerArrayClear(m_arrMeshLOD);
 }
 
 
-void				S3AMeshData::Release()
+void				MeshData::Release()
 {
 	delete this;
 }
 
 
-S3AGUID				S3AMeshData::GetGlobalSkeletonID() const
+GUID				MeshData::GetGlobalSkeletonID() const
 {
 	return m_header.m_nSkelGUID;
 }
 
 
-xmUint				S3AMeshData::GetIndexNumber() const
+xmUint				MeshData::GetIndexNumber() const
 {
 	return m_arrIndexBuffer.size() / (GetIsIndex32() ? sizeof(xmUint32) : sizeof(xmUint16));
 }
 
 
-bool				S3AMeshData::GetIsIndex32() const
+bool				MeshData::GetIsIndex32() const
 {
 	return m_nIndexType == EXP_INDEX_TYPE_U32;
 }
 
 
-const void*			S3AMeshData::GetIndexBuffer() const
+const void*			MeshData::GetIndexBuffer() const
 {
 	return m_arrIndexBuffer.size() > 0
 		? &m_arrIndexBuffer[0]
 	: 0;
 }
 
-xmUint				S3AMeshData::GetVertexSize() const
+xmUint				MeshData::GetVertexSize() const
 {
 	xmUint nSize = sizeof(xmUint8);
 	if (m_nVertexType == EXP_VT_SKIN_VERTEX_0)
 	{
-		nSize = sizeof(S3ASkinVertexType0);
+		nSize = sizeof(SkinVertexType0);
 	}
 	return nSize;
 }
 
-xmUint				S3AMeshData::GetVertexStride() const
+xmUint				MeshData::GetVertexStride() const
 {
-	return sizeof(S3ASkinVertexType0);
+	return sizeof(SkinVertexType0);
 }
 
 
-xmUint				S3AMeshData::GetBoneIndexOffset() const
+xmUint				MeshData::GetBoneIndexOffset() const
 {
-	S3ASkinVertexType0* pData = NULL;
+	SkinVertexType0* pData = NULL;
 	xmUint nOffset = (xmUint8*)(&pData->m_nBoneIndice) - (xmUint8*)(pData);
 	return nOffset;
 }
 
-xmUint				S3AMeshData::GetBoneWeightOffset() const
+xmUint				MeshData::GetBoneWeightOffset() const
 {
-	S3ASkinVertexType0* pData = NULL;
+	SkinVertexType0* pData = NULL;
 	xmUint nOffset = (xmUint8*)(&pData->m_nBoneWeight) - (xmUint8*)(pData);
 	return nOffset;
 }
 
-xmUint						S3AMeshData::GetVertexNumber() const
+xmUint						MeshData::GetVertexNumber() const
 {
 	return m_arrVertexBuffer.size() / GetVertexSize();
 }
 
-S3ASkinVertexType0*	S3AMeshData::GetVertexBufferSkinVertexType0()
+SkinVertexType0*	MeshData::GetVertexBufferSkinVertexType0()
 {
 	xmUint8* pData = m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 	: NULL;
 
 	return EXP_VT_SKIN_VERTEX_0 == m_nVertexType 
-		? reinterpret_cast<S3ASkinVertexType0*>(pData)
+		? reinterpret_cast<SkinVertexType0*>(pData)
 		: NULL;
 }
 
-const S3ASkinVertexType0*	S3AMeshData::GetVertexBufferSkinVertexType0() const
+const SkinVertexType0*	MeshData::GetVertexBufferSkinVertexType0() const
 {
 	const xmUint8* pData = m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 		: NULL;
 
 	return EXP_VT_SKIN_VERTEX_0 == m_nVertexType 
-		? reinterpret_cast<const S3ASkinVertexType0*>(pData)
+		? reinterpret_cast<const SkinVertexType0*>(pData)
 		: NULL;
 }
 
 
-void S3AMeshData::RemoveDegenerateTriangleInplace(void)
+void MeshData::RemoveDegenerateTriangleInplace(void)
 {
 	std::vector<unsigned int> subIndexMove;
 	RemoveDegenerateTriangleInplace(m_arrIndexBuffer, m_nIndexType, subIndexMove);
 	if (subIndexMove.size())
 	{
-		for (std::vector<S3AMeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
+		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
 		{
-			S3AMeshLODData *pLODData = *itr;
+			MeshLODData *pLODData = *itr;
 			DegenerateSubMeshData(pLODData, subIndexMove);
 		}
 	}
 	else
 	{
-		for (std::vector<S3AMeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
+		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
 		{
-			S3AMeshLODData *pLODData = *itr;
+			MeshLODData *pLODData = *itr;
 			RemoveDegenerateTriangleInplace(pLODData->m_arrIndexBuffer, pLODData->m_nIndexType, subIndexMove);
 			DegenerateSubMeshData(pLODData, subIndexMove);
 		}
 	}
 }
 
-void S3AMeshData::DegenerateSubMeshData( S3AMeshLODData * pLODData, std::vector<unsigned int> &subIndexMove ) 
+void MeshData::DegenerateSubMeshData( MeshLODData * pLODData, std::vector<unsigned int> &subIndexMove ) 
 {
 	for (int i = 0; i < (int)pLODData->GetSubMeshNumber(); ++i)
 	{
-		IS3ASubMeshData *pSubMeshData = pLODData->GetSubMesh(i);
+		ISubMeshData *pSubMeshData = pLODData->GetSubMesh(i);
 		for (int j = 0; j < (int)subIndexMove.size(); ++j)
 		{
 			xmUint indexStart = pSubMeshData->GetIndexStart();
@@ -624,7 +624,7 @@ void S3AMeshData::DegenerateSubMeshData( S3AMeshLODData * pLODData, std::vector<
 	}
 }
 
-void S3AMeshData::RemoveDegenerateTriangleInplace(std::vector<xmUint8> &arrIndexBuffer, xmUint nIndexType, std::vector<unsigned int> &subIndexMove)
+void MeshData::RemoveDegenerateTriangleInplace(std::vector<xmUint8> &arrIndexBuffer, xmUint nIndexType, std::vector<unsigned int> &subIndexMove)
 {
 	if (arrIndexBuffer.size() == 0)
 		return;
@@ -682,19 +682,19 @@ void S3AMeshData::RemoveDegenerateTriangleInplace(std::vector<xmUint8> &arrIndex
 	arrTmpIndexBuffer.swap(arrIndexBuffer);
 }
 
-void				S3AMeshData::GetBoundingAABB(xmVector3* vMin,xmVector3* vMax)
+void				MeshData::GetBoundingAABB(xmVector3* vMin,xmVector3* vMax)
 {
 	m_meshBound.GetAABB(*vMin,*vMax);
 }
 
 
 
-xmUint				S3AMeshData::GetBoneNumber() const
+xmUint				MeshData::GetBoneNumber() const
 {
 	return m_arrBoneName.size();
 }
 
-const char*			S3AMeshData::GetBoneName(xmUint nBoneInd) const
+const char*			MeshData::GetBoneName(xmUint nBoneInd) const
 {
 	return m_arrBoneName[nBoneInd].c_str();
 }
@@ -702,12 +702,12 @@ const char*			S3AMeshData::GetBoneName(xmUint nBoneInd) const
 //------------------------------------------------------------------------------
 //For LOD Mesh
 //------------------------------------------------------------------------------
-xmUint                S3AMeshData::GetLODMeshNumber() const
+xmUint                MeshData::GetLODMeshNumber() const
 {
 	return m_arrMeshLOD.size();
 }
 
-IS3AMeshLODData      *S3AMeshData::GetLODMesh(int nLOD)
+IMeshLODData      *MeshData::GetLODMesh(int nLOD)
 {
 	if (0 <= nLOD && nLOD < (int)m_arrMeshLOD.size())
 		return m_arrMeshLOD[nLOD];
@@ -715,7 +715,7 @@ IS3AMeshLODData      *S3AMeshData::GetLODMesh(int nLOD)
 		return NULL;
 }
 
-const IS3AMeshLODData *S3AMeshData::GetLODMesh(int nLOD) const
+const IMeshLODData *MeshData::GetLODMesh(int nLOD) const
 {
 	if (0 <= nLOD && nLOD < (int)m_arrMeshLOD.size())
 		return m_arrMeshLOD[nLOD];
@@ -723,19 +723,19 @@ const IS3AMeshLODData *S3AMeshData::GetLODMesh(int nLOD) const
 		return NULL;
 }
 
-int                 S3AMeshData::GetBoneLOD(int nMeshLOD) const
+int                 MeshData::GetBoneLOD(int nMeshLOD) const
 {
 	return GetLODMesh(nMeshLOD)->GetBoneLOD();
 }
 
-void                 S3AMeshData::SetBoneLOD(int nMeshLOD, int nBoneLOD)
+void                 MeshData::SetBoneLOD(int nMeshLOD, int nBoneLOD)
 {
 	GetLODMesh(nMeshLOD)->SetBoneLOD(nBoneLOD);// m_nBoneLOD = nBoneLOD;
 }
 
-IS3AMeshLODData*		S3AMeshData::IncLOD(/*IS3AMeshLODData* pMeshLodData*/)
+IMeshLODData*		MeshData::IncLOD(/*IMeshLODData* pMeshLodData*/)
 {
-	S3AMeshLODData *pMeshLODData = new S3AMeshLODData;
+	MeshLODData *pMeshLODData = new MeshLODData;
 	m_arrMeshLOD.push_back(pMeshLODData);
 	return pMeshLODData;
 
@@ -743,20 +743,20 @@ IS3AMeshLODData*		S3AMeshData::IncLOD(/*IS3AMeshLODData* pMeshLodData*/)
 // 		return;
 // 
 // 	m_arrMeshLOD.push_back(pMeshLodData);
-// 	S3AMeshLODData *pMeshLODData = new S3AMeshLODData;
-// 	S3AMeshDataHelperDX::CopyIndexBufferRev(pSourceD3DMesh, pMeshLODData, GetLODMesh(0));
+// 	MeshLODData *pMeshLODData = new MeshLODData;
+// 	MeshDataHelperDX::CopyIndexBufferRev(pSourceD3DMesh, pMeshLODData, GetLODMesh(0));
 // 	m_arrMeshLOD.push_back(pMeshLODData);
 // 	return pMeshLODData;
 }
 
-void                S3AMeshData::DecLOD(void)
+void                MeshData::DecLOD(void)
 {
-	S3AMeshLODData *pMeshLODData = *m_arrMeshLOD.rbegin();
+	MeshLODData *pMeshLODData = *m_arrMeshLOD.rbegin();
 	delete pMeshLODData;
 	m_arrMeshLOD.pop_back();
 }
 
-void				S3AMeshData::SetLodMeshVersion()
+void				MeshData::SetLodMeshVersion()
 {
 	GetExpMeshHeader().m_nVersion = EXP_MESH_VER_LOD_MESH_DATA;
 }
@@ -764,15 +764,15 @@ void				S3AMeshData::SetLodMeshVersion()
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-xmUint				S3AMeshData::GetSubMeshNumber() const
+xmUint				MeshData::GetSubMeshNumber() const
 {
 	return GetLODMesh(0)->GetSubMeshNumber();
 }
 
 
-const IS3ASubMeshData*	S3AMeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD) const
+const ISubMeshData*	MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD) const
 {
-	const IS3AMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	const IMeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 	else
@@ -780,7 +780,7 @@ const IS3ASubMeshData*	S3AMeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD) con
 }
 
 
-void					S3AMeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
+void					MeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
 									,xmUint32 nVertexNum
 									,xmUint32 nSubMeshNum
 									,xmUint32 nBoneNum
@@ -794,9 +794,9 @@ void					S3AMeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
 
 	m_arrIndexBuffer.resize(nIndexNum * nIndexStride);
 	
-	m_arrVertexBuffer.resize(nVertexNum * sizeof(S3ASkinVertexType0));
+	m_arrVertexBuffer.resize(nVertexNum * sizeof(SkinVertexType0));
 
-	S3APointerArrayResize(m_arrMeshLOD,1);
+	PointerArrayResize(m_arrMeshLOD,1);
 
 	m_arrMeshLOD[0]->ResizeSubMesh(nSubMeshNum);
 
@@ -813,14 +813,14 @@ void					S3AMeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
 }
 
 
-void					S3AMeshData::SetGlobalSkeletonID(S3AGUID nSkelGUID)
+void					MeshData::SetGlobalSkeletonID(GUID nSkelGUID)
 {
 	m_header.m_nSkelGUID = nSkelGUID;
 }
 
 
 
-void*					S3AMeshData::GetIndexBuffer()
+void*					MeshData::GetIndexBuffer()
 {
 	return m_arrIndexBuffer.size() > 0
 		? &m_arrIndexBuffer[0]
@@ -828,9 +828,9 @@ void*					S3AMeshData::GetIndexBuffer()
 }
 
 
-S3ASkinVertexType0*		S3AMeshData::GetVertexBuffer()
+SkinVertexType0*		MeshData::GetVertexBuffer()
 {
-	return reinterpret_cast<S3ASkinVertexType0*>(m_arrVertexBuffer.size() > 0
+	return reinterpret_cast<SkinVertexType0*>(m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 	: 0);
 }
@@ -838,9 +838,9 @@ S3ASkinVertexType0*		S3AMeshData::GetVertexBuffer()
 
 
 
-IS3ASubMeshData*		S3AMeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
+ISubMeshData*		MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
 {
-	IS3AMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	IMeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 
@@ -848,16 +848,16 @@ IS3ASubMeshData*		S3AMeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
 }
 
 
-IS3ASubMeshData*		S3AMeshData::GetSubMeshByName(const char* pszName, int nLOD)
+ISubMeshData*		MeshData::GetSubMeshByName(const char* pszName, int nLOD)
 {
-	IS3AMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	IMeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 
 	const xmUint nSubMeshNum = GetSubMeshNumber();
 	for (xmUint32 nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 	{
-		IS3ASubMeshData* pSubMesh = pLODMesh->GetSubMesh(nSubMeshCnt);
+		ISubMeshData* pSubMesh = pLODMesh->GetSubMesh(nSubMeshCnt);
 		if (_stricmp(pSubMesh->GetName(),pszName) == 0)
 		{
 			return pSubMesh;
@@ -869,10 +869,10 @@ IS3ASubMeshData*		S3AMeshData::GetSubMeshByName(const char* pszName, int nLOD)
 
 
 
-void					S3AMeshData::ResetBone(xmUint32 nBoneNum)
+void					MeshData::ResetBone(xmUint32 nBoneNum)
 {
 
-	S3AExpBounding boundIden;
+	ExpBounding boundIden;
 	boundIden.SetIdentity();
 	
 	m_arrBoneBound.resize(nBoneNum,boundIden);
@@ -882,52 +882,52 @@ void					S3AMeshData::ResetBone(xmUint32 nBoneNum)
 }
 
 
-void					S3AMeshData::SetBoneName(S3ABoneIndex nBoneInd,const char* pszBoneName)
+void					MeshData::SetBoneName(BoneIndex nBoneInd,const char* pszBoneName)
 {
 	m_arrBoneName[nBoneInd] = pszBoneName;
 }
 
-void					S3AMeshData::SetBoneBoundOBB(S3ABoneIndex nBoneInd
+void					MeshData::SetBoneBoundOBB(BoneIndex nBoneInd
 	,const xmVector3* pPos,const xmQuaternion* pRot
 	,float fXSize,float fYSize,float fZSize)
 {
 	m_arrBoneBound[nBoneInd].SetOBB(pPos,pRot,fXSize,fYSize,fZSize);
 }
 
-void					S3AMeshData::SetBoundingAABB(const xmVector3* vMin,const xmVector3* vMax)
+void					MeshData::SetBoundingAABB(const xmVector3* vMin,const xmVector3* vMax)
 {
 	m_meshBound.SetAABB(*vMin,*vMax);
 }
 
-void					S3AMeshData::Serialize(IS3ASerializeListener* pSL,const char* pszLabel)
+void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
 {
 	pSL->BeginSection(pszLabel);
 
-	S3ASerialize(*pSL,m_header,"MeshHeader");
+	pSL->Serialize(m_header,"MeshHeader");
 
 	pSL->PushVersion(m_header.m_nVersion);
-	S3ASerialize(*pSL,m_nIndexType,"IndexType");
-	S3ASerialize(*pSL,m_nVertexType,"VertexType");
+	pSL->Serialize(m_nIndexType,"IndexType");
+	pSL->Serialize(m_nVertexType,"VertexType");
 
 	if (EXP_INDEX_TYPE_U16 == m_nIndexType)
 	{
-		S3ASerializeRawData<S3ABoneIndex>(*pSL,m_arrIndexBuffer,"IndexBuffer");
+		SerializeRawData<BoneIndex>(*pSL,m_arrIndexBuffer,"IndexBuffer");
 	}else if (EXP_INDEX_TYPE_U32 == m_nIndexType)
 	{
-		S3ASerializeRawData<xmUint32>(*pSL,m_arrIndexBuffer,"IndexBuffer");
+		SerializeRawData<xmUint32>(*pSL,m_arrIndexBuffer,"IndexBuffer");
 	}else{
-		S3ALogError(S3A_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
+		LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
 	}
 
 	if (EXP_VT_SKIN_VERTEX_0 == m_nVertexType)
 	{
-		S3ASerializeRawData<S3AExpVertexType0>(*pSL,m_arrVertexBuffer,"VertexBuffer");
+		SerializeRawData<ExpVertexType0>(*pSL,m_arrVertexBuffer,"VertexBuffer");
 	}
 
-	S3ASerialize(*pSL,m_meshBound,"MeshBound");
-	S3ASerialize(*pSL,m_arrMeshLOD,"MeshLOD");
-	S3ASerialize(*pSL,m_arrBoneName,"BoneName");
-	S3ASerialize(*pSL,m_arrBoneBound,"BoundBound");
+	pSL->Serialize(m_meshBound,"MeshBound");
+	pSL->Serialize(m_arrMeshLOD,"MeshLOD");
+	pSL->Serialize(m_arrBoneName,"BoneName");
+	pSL->Serialize(m_arrBoneBound,"BoundBound");
 
 	pSL->PopVersion();
 
@@ -935,12 +935,12 @@ void					S3AMeshData::Serialize(IS3ASerializeListener* pSL,const char* pszLabel)
 }
 
 
-void					S3AMeshData::SetSource(const char* pszSource)
+void					MeshData::SetSource(const char* pszSource)
 {
 	m_header.m_strMaxFile = pszSource;
 }
 
-const char*				S3AMeshData::GetSource() const
+const char*				MeshData::GetSource() const
 {
 	return m_header.m_strMaxFile.c_str();
 }
@@ -950,19 +950,19 @@ const char*				S3AMeshData::GetSource() const
 
 
 
-void S3AExpBounding::SetInvalid()
+void ExpBounding::SetInvalid()
 {
 	m_nShapeType = EXP_BS_UNKNOWN;
 }
 
-void S3AExpBounding::SetIdentity()
+void ExpBounding::SetIdentity()
 {
 	xmVector3 vMin(-0.5f,-0.5f,-0.5f);
 	xmVector3 vMax(0.5f,0.5f,0.5f);
 	SetAABB(vMin,vMax);
 }
 
-void S3AExpBounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
+void ExpBounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
 {
 	m_nShapeType = EXP_BS_BOX;
 	m_vPos = 0.5f*(vMin + vMax);
@@ -973,7 +973,7 @@ void S3AExpBounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
 	m_boxShape.m_fZSize = vMax.z - vMin.z;
 }
 
-void S3AExpBounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
+void ExpBounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
 			,float fXSize,float fYSize,float fZSize)
 {
 	m_nShapeType = EXP_BS_BOX;
@@ -985,7 +985,7 @@ void S3AExpBounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
 
 }
 
-void S3AExpBounding::GetAABB(xmVector3& vMin,xmVector3& vMax) const
+void ExpBounding::GetAABB(xmVector3& vMin,xmVector3& vMax) const
 {
 
 	if (m_nShapeType == EXP_BS_BOX)
@@ -995,151 +995,151 @@ void S3AExpBounding::GetAABB(xmVector3& vMin,xmVector3& vMax) const
 		vMin = m_vPos - vSize;
 		vMax = m_vPos + vSize;
 	}else{
-		//S3ALogError(0,"Fail to get AABB");
+		//LogError(0,"Fail to get AABB");
 		vMin = m_vPos;
 		vMax = m_vPos;
 	}
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpVertexType0 &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpVertexType0 &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
 
-	S3ASerialize(sl,val.p,"Position");
-	S3ASerialize(sl,val.b,"BoneIndice");
-	S3ASerialize(sl,val.w,"BoneWeight");
-	S3ASerialize(sl,val.n,"Normal");
-	S3ASerialize(sl,val.uv,"UV");
-	S3ASerialize(sl,val.tgn,"Tangent");
-	S3ASerialize(sl,val.vc,"VertexColor");
-	S3ASerialize(sl,val.vi,"VertexIllumniation");
+	sl.Serialize(val.p,"Position");
+	sl.Serialize(val.b,"BoneIndice");
+	sl.Serialize(val.w,"BoneWeight");
+	sl.Serialize(val.n,"Normal");
+	sl.Serialize(val.uv,"UV");
+	sl.Serialize(val.tgn,"Tangent");
+	sl.Serialize(val.vc,"VertexColor");
+	sl.Serialize(val.vi,"VertexIllumniation");
 
 	sl.EndSection();
 
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpBoxShape &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpBoxShape &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
-	S3ASerialize(sl,val.m_fXSize,"XSize");
-	S3ASerialize(sl,val.m_fYSize,"YSize");
-	S3ASerialize(sl,val.m_fZSize,"ZSize");
+	sl.Serialize(val.m_fXSize,"XSize");
+	sl.Serialize(val.m_fYSize,"YSize");
+	sl.Serialize(val.m_fZSize,"ZSize");
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpCylinderShape &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpCylinderShape &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
-	S3ASerialize(sl,val.m_fRadius,"Radius");
-	S3ASerialize(sl,val.m_fHeight,"Height");
+	sl.Serialize(val.m_fRadius,"Radius");
+	sl.Serialize(val.m_fHeight,"Height");
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpBounding &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpBounding &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
-	S3ASerialize(sl,val.m_nShapeType,"ShapeType");
-	S3ASerialize(sl,val.m_vPos,"Position");
-	S3ASerialize(sl,val.m_qRot,"Rotation");
+	sl.Serialize(val.m_nShapeType,"ShapeType");
+	sl.Serialize(val.m_vPos,"Position");
+	sl.Serialize(val.m_qRot,"Rotation");
 	if (EXP_BS_BOX == val.m_nShapeType)
 	{
-		S3ASerialize(sl,val.m_boxShape,"BoxShape");
+		sl.Serialize(val.m_boxShape,"BoxShape");
 	}else if (EXP_BS_CYLINDER == val.m_nShapeType)
 	{
-		S3ASerialize(sl,val.m_cylinderShape,"CylinderShape");
+		sl.Serialize(val.m_cylinderShape,"CylinderShape");
 	}else{
-		S3ASSERT(false && "unknown bounding shape type");
+		SSERT(false && "unknown bounding shape type");
 	}
 
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpSubMesh &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpSubMesh &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
 
-	S3ASerialize(sl,val.m_nIndexStart,"IndexStart");
-	S3ASerialize(sl,val.m_nIndexCount,"IndexCount");
-	S3ASerialize(sl,val.m_nVertexStart,"VertexStart");
-	S3ASerialize(sl,val.m_nVertexCount,"VertexCount");
-	S3ASerialize(sl,val.m_subMeshBound,"SubMeshBound");
-	S3ASerialize(sl,val.m_name,"SubMeshName");
-	S3ASerialize(sl,val.m_submeshTag,"SubMeshTag");
-	S3ASerialize(sl,val.m_arrBonePalette,"BonePalette");
+	sl.Serialize(val.m_nIndexStart,"IndexStart");
+	sl.Serialize(val.m_nIndexCount,"IndexCount");
+	sl.Serialize(val.m_nVertexStart,"VertexStart");
+	sl.Serialize(val.m_nVertexCount,"VertexCount");
+	sl.Serialize(val.m_subMeshBound,"SubMeshBound");
+	sl.Serialize(val.m_name,"SubMeshName");
+	sl.Serialize(val.m_submeshTag,"SubMeshTag");
+	sl.Serialize(val.m_arrBonePalette,"BonePalette");
 
 
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpMeshLOD &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpMeshLOD &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
-	S3ASerialize(sl,val.m_arrSubMesh,"SubMesh");
+	sl.Serialize(val.m_arrSubMesh,"SubMesh");
 	sl.EndSection();
 }
 
 
 
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpMeshData &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpMeshData &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
 
-	S3ASerialize(sl,val.m_nIndexType,"IndexType");
-	S3ASerialize(sl,val.m_nVertexType,"VertexType");
+	sl.Serialize(val.m_nIndexType,"IndexType");
+	sl.Serialize(val.m_nVertexType,"VertexType");
 
 	if (EXP_INDEX_TYPE_U16 == val.m_nIndexType)
 	{
-		S3ASerializeRawData<S3ABoneIndex>(sl,val.m_arrIndexBuffer,"IndexBuffer");
+		SerializeRawData<BoneIndex>(sl,val.m_arrIndexBuffer,"IndexBuffer");
 	}else if (EXP_INDEX_TYPE_U32 == val.m_nIndexType)
 	{
-		S3ASerializeRawData<xmUint32>(sl,val.m_arrIndexBuffer,"IndexBuffer");
+		SerializeRawData<xmUint32>(sl,val.m_arrIndexBuffer,"IndexBuffer");
 	}
 
 	if (EXP_VT_SKIN_VERTEX_0 == val.m_nVertexType)
 	{
-		S3ASerializeRawData<S3AExpVertexType0>(sl,val.m_arrVertexBuffer,"VertexBuffer");
+		SerializeRawData<ExpVertexType0>(sl,val.m_arrVertexBuffer,"VertexBuffer");
 	}
 
-	S3ASerialize(sl,val.m_arrBoneName,"BoneName");
+	sl.Serialize(val.m_arrBoneName,"BoneName");
 
-	S3ASerialize(sl,val.m_arrMeshLOD,"MeshLOD");
+	sl.Serialize(val.m_arrMeshLOD,"MeshLOD");
 
-	S3ASerialize(sl,val.m_meshBound,"MeshBound");
+	sl.Serialize(val.m_meshBound,"MeshBound");
 
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpMeshHeader &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpMeshHeader &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
 
-	S3ASerialize(sl,val.m_nIdent,"FileIden");
-	S3ASerialize(sl,val.m_nVersion,"Version");
-	S3ASerialize(sl,val.m_strMaxFile,"SourceFile");
+	sl.Serialize(val.m_nIdent,"FileIden");
+	sl.Serialize(val.m_nVersion,"Version");
+	sl.Serialize(val.m_strMaxFile,"SourceFile");
 	if (val.m_nVersion <= EXP_MESH_VER_EMBED_MESH_DATA)
 	{
-		S3ASerialize(sl,val.m_nSkelGUID.m_a,"SkeletonGUID");
+		sl.Serialize(val.m_nSkelGUID.m_a,"SkeletonGUID");
 		val.m_nSkelGUID.m_b = 0;
 	}else{
-		S3ASerialize(sl,val.m_nSkelGUID,"SkeletonGUID");
+		sl.Serialize(val.m_nSkelGUID,"SkeletonGUID");
 	}
 	
-	S3ASerialize(sl,val.m_nBoneNum,"BoneNumber");
-	S3ASerialize(sl,val.m_nIndexNum,"IndexNumber");
-	S3ASerialize(sl,val.m_nVertexNum,"VertexNumber");
+	sl.Serialize(val.m_nBoneNum,"BoneNumber");
+	sl.Serialize(val.m_nIndexNum,"IndexNumber");
+	sl.Serialize(val.m_nVertexNum,"VertexNumber");
 
 	sl.EndSection();
 }
 
-void S3ASerialize(IS3ASerializeListener& sl,S3AExpMesh &val,const char* pszLable )
+void Serialize(SerializeListener& sl,ExpMesh &val,const char* pszLable )
 {
 	sl.BeginSection(pszLable);
 
-	S3ASerialize(sl,val.m_header,"MeshHeader");
+	sl.Serialize(val.m_header,"MeshHeader");
 
 	sl.PushVersion(val.m_header.m_nVersion);
-	S3ASerialize(sl,val.m_mesh,"MeshData");
+	sl.Serialize(val.m_mesh,"MeshData");
 	sl.PopVersion();
 
 	sl.EndSection();

@@ -1,18 +1,18 @@
-#ifndef __S3ABinaryInputArchive_H__
-#define __S3ABinaryInputArchive_H__
+#ifndef __BinaryInputArchive_H__
+#define __BinaryInputArchive_H__
 
-#include <Common/Serialize/S3ASerializeListener.h>
+#include <Common/Serialize/SerializeListener.h>
 
 //#include <Common/xmCommonPrefix.h>
 
-class COMMON_API S3ABinaryInputArchive : public S3ASerializeListener
+class COMMON_API BinaryInputArchive : public SerializeListener
 {
 	std::ifstream m_file;
 public:
 
-	S3ABinaryInputArchive();
+	BinaryInputArchive();
 
-	~S3ABinaryInputArchive();
+	~BinaryInputArchive();
 
 	
 	//------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ public:
 
 };
 
-class COMMON_API S3ABinaryMemoryInputArchive : public S3ASerializeListener
+class COMMON_API BinaryMemoryInputArchive : public SerializeListener
 {
 	const xmUint8* m_pData;
 	xmUint32 m_nDataSize;
@@ -44,9 +44,9 @@ class COMMON_API S3ABinaryMemoryInputArchive : public S3ASerializeListener
 
 public:
 
-	S3ABinaryMemoryInputArchive();
+	BinaryMemoryInputArchive();
 
-	~S3ABinaryMemoryInputArchive();
+	~BinaryMemoryInputArchive();
 
 	//------------------------------------------------------------------------------
 	//
@@ -71,4 +71,4 @@ public:
 
 //#include <Animation/Common/xmCommonSuffix.h>
 
-#endif// __S3ABinaryInputArchive_H__
+#endif// __BinaryInputArchive_H__
