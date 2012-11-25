@@ -15,7 +15,7 @@ namespace ma
 
 	private:
 		ID3DXMesh**	m_ppD3DMesh;
-		IS3AMeshData* m_pMeshData;
+		IMeshData* m_pMeshData;
 	};
 }
 

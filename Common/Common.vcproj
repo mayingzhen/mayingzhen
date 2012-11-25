@@ -208,6 +208,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ExpMeshData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IMesh.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IPhysicsScene.h"
 				>
 			</File>
@@ -240,35 +248,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IS3AMesh.h"
-				>
-			</File>
-			<File
 				RelativePath=".\maMath.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Module.h"
+				RelativePath=".\MeshData.h"
 				>
 			</File>
 			<File
-				RelativePath=".\S3AArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\S3AExpMeshData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\S3AMathSerialize.h"
-				>
-			</File>
-			<File
-				RelativePath=".\S3AMeshData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\S3AMeshData.hxx"
+				RelativePath=".\MeshData.hxx"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -279,11 +267,15 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\S3AResourceBuilder.h"
+				RelativePath=".\Module.h"
 				>
 			</File>
 			<File
-				RelativePath=".\S3AResourceBuilder.hxx"
+				RelativePath=".\ResourceBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ResourceBuilder.hxx"
 				>
 			</File>
 			<File
@@ -301,27 +293,27 @@
 			Name="Serialize"
 			>
 			<File
-				RelativePath=".\Serialize\S3ABinaryInputArchive.h"
+				RelativePath=".\Serialize\BinaryInputArchive.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Serialize\S3ABinaryInputArchive.hxx"
+				RelativePath=".\Serialize\BinaryInputArchive.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Serialize\S3ABinaryOutputArchive.h"
+				RelativePath=".\Serialize\BinaryOutputArchive.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Serialize\S3ABinaryOutputArchive.hxx"
+				RelativePath=".\Serialize\BinaryOutputArchive.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Serialize\S3ASerializeListener.h"
+				RelativePath=".\Serialize\SerializeListener.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Serialize\S3ASerializeListener.hxx"
+				RelativePath=".\Serialize\SerializeListener.hxx"
 				>
 			</File>
 		</Filter>

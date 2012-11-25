@@ -11,7 +11,7 @@ namespace ma
 		xmUint nIndexFilled = 0;
 		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 		{
-			IS3ASubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
+			ISubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
 			const xmUint nVertexStart = pSubMeshData->GetVertexStart();
 			const xmUint nIndexCount =  pSubMeshData->GetIndexCount();
 			for (xmUint nIndCnt = 0; nIndCnt < nIndexCount; ++nIndCnt)
@@ -20,7 +20,7 @@ namespace ma
 				++nIndexFilled;
 			}
 		}
-		S3ASSERT(nIndexFilled == numIndex); 
+		SSERT(nIndexFilled == numIndex); 
 	}
 
 	template<class MeshDataType>
@@ -57,10 +57,10 @@ namespace ma
 			const xmUint nSubMeshNum = pMeshData->GetSubMeshNumber();
 
 			xmUint32 dwUse32Ind = bIsIndex32 ? D3DXMESH_32BIT : 0;
-			S3A_D3D_V(D3DXCreateMesh(numFace,numVertex,dwUse32Ind|D3DXMESH_MANAGED,velem ,pd3dDevice,&pD3DMesh));
+			_D3D_V(D3DXCreateMesh(numFace,numVertex,dwUse32Ind|D3DXMESH_MANAGED,velem ,pd3dDevice,&pD3DMesh));
 
 			void* d3dbuf;
-			S3A_D3D_V(pD3DMesh->LockIndexBuffer(0,&d3dbuf));
+			_D3D_V(pD3DMesh->LockIndexBuffer(0,&d3dbuf));
 
 			if (nIndexSize == sizeof(xmUint32))
 			{
@@ -71,30 +71,30 @@ namespace ma
 				CopyIndexBuffer<xmUint16>(d3dbuf,pMeshData,nSubMeshNum, numIndex);
 			}				
 
-			S3A_D3D_V(pD3DMesh->UnlockIndexBuffer());
+			_D3D_V(pD3DMesh->UnlockIndexBuffer());
 
-			S3ASkinVertexType0* d3dVertexData;
-			S3A_D3D_V(pD3DMesh->LockVertexBuffer(0,(LPVOID*)&d3dVertexData));
+			SkinVertexType0* d3dVertexData;
+			_D3D_V(pD3DMesh->LockVertexBuffer(0,(LPVOID*)&d3dVertexData));
 			{
-				const S3ASkinVertexType0* arrVertex = pMeshData->GetVertexBufferSkinVertexType0();
+				const SkinVertexType0* arrVertex = pMeshData->GetVertexBufferSkinVertexType0();
 				for (xmUint nVCnt = 0; nVCnt < numVertex; ++nVCnt)
 				{
 					d3dVertexData[nVCnt] = arrVertex[nVCnt];
 				}
 			}
 			//memcpy(d3dVertexData,(const void*)&expMeshData.m_arrVertexBuffer[0],expMeshData.m_arrVertexBuffer.size());
-			S3A_D3D_V(pD3DMesh->UnlockVertexBuffer());
+			_D3D_V(pD3DMesh->UnlockVertexBuffer());
 
 			//fill sub mesh
 			{
 				DWORD* adata;
-				S3A_D3D_V(pD3DMesh->LockAttributeBuffer(0,&adata));
+				_D3D_V(pD3DMesh->LockAttributeBuffer(0,&adata));
 				DWORD faceFilled = 0;
 
 
 				for(xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 				{
-					IS3ASubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
+					ISubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
 					const xmUint nTriNum = pSubMeshData->GetIndexCount() / 3;
 					for (xmUint nTriCnt = 0; nTriCnt < nTriNum; ++nTriCnt)
 					{
@@ -103,17 +103,17 @@ namespace ma
 					}
 				}
 
-				S3A_D3D_V(pD3DMesh->UnlockAttributeBuffer());
+				_D3D_V(pD3DMesh->UnlockAttributeBuffer());
 			}
 
 			{
 				DWORD* aAdjacency = new DWORD[pD3DMesh->GetNumFaces() * 3];
-				S3ASSERT(NULL != aAdjacency);
+				SSERT(NULL != aAdjacency);
 
-				S3A_D3D_V( pD3DMesh->ConvertPointRepsToAdjacency(NULL, aAdjacency) );
+				_D3D_V( pD3DMesh->ConvertPointRepsToAdjacency(NULL, aAdjacency) );
 
-				S3A_D3D_V( pD3DMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE, aAdjacency, NULL, NULL, NULL) );
-				S3A_SAFE_DELETE_ARRAY(aAdjacency);
+				_D3D_V( pD3DMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE, aAdjacency, NULL, NULL, NULL) );
+				_SAFE_DELETE_ARRAY(aAdjacency);
 			}
 
 		}//Create D3DMesh
@@ -121,7 +121,7 @@ namespace ma
 		return pD3DMesh;
 	}
 
-	ID3DXMesh** CreateD3DMesh(IDirect3DDevice9* pd3dDevice,IS3AMeshData* pMeshData, int *pTotalLod)
+	ID3DXMesh** CreateD3DMesh(IDirect3DDevice9* pd3dDevice,IMeshData* pMeshData, int *pTotalLod)
 	{
 		int nLodNumber = pMeshData->GetLODMeshNumber();
 		if (nLodNumber == 0)
@@ -174,7 +174,7 @@ namespace ma
 
 		//return hr == D3D_OK;
 
-		m_pMeshData = S3AResourceBuilder::LoadMeshFromBinaryFile(pszPath);
+		m_pMeshData = ResourceBuilder::LoadMeshFromBinaryFile(pszPath);
 
 		int nTotalLod;
 		m_ppD3DMesh = CreateD3DMesh( pDxRender->GetDXDevive(), m_pMeshData, &nTotalLod );
