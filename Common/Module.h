@@ -6,6 +6,7 @@
 #include "Common/maMath.h"
 
 #include "Common/IRender.h"
+#include "Common/IRenderDevice.h"
 #include "Common/IRendMesh.h"
 #include "Common/IRendTexture.h"
 #include "Common/IPhysicsScene.h"

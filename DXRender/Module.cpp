@@ -8,13 +8,19 @@
 
 void DxRenderModuleInit()
 {
-	ma::DxRender* pDxRender = new ma::DxRender();
-	ma::SetRender(pDxRender);
+	ma::DxRenderDevice* pDxRenderDevice = new ma::DxRenderDevice();
+	ma::SetRenderDevice(pDxRenderDevice);
+
+ 	ma::DxRender* pDxRender = new ma::DxRender();
+ 	ma::SetRender(pDxRender);
 
 }
 
 void DxRenderModuleShutdown()
 {
-	ma::DxRender* pDxRender = (ma::DxRender*)ma::GetRender();
-	SAFE_DELETE(pDxRender);
+ 	ma::DxRender* pDxRender = (ma::DxRender*)ma::GetRender();
+ 	SAFE_DELETE(pDxRender); 
+
+	ma::DxRenderDevice* pDxRenderDevice = (ma::DxRenderDevice*)ma::GetRenderDevice();
+	SAFE_DELETE(pDxRenderDevice);
 }

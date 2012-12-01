@@ -4,6 +4,17 @@
 
 namespace ma
 {
+
+	DxRenderDevice::DxRenderDevice()
+	{
+
+	}
+
+	DxRenderDevice::~DxRenderDevice()
+	{
+
+	}
+
 	IRendMesh* DxRenderDevice::CreateRendMesh()
 	{
 		return new DxRendMesh();
@@ -73,4 +84,21 @@ namespace ma
 
 		return true;
 	}
+
+
+	void DxRenderDevice::BeginRender()
+	{
+		m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
+		m_pd3dDevice->BeginScene();
+	}
+
+	void DxRenderDevice::EndRender()
+	{
+		m_pd3dDevice->EndScene();
+		m_pd3dDevice->Present(NULL,NULL,NULL,NULL);
+	}
+
 }
+
+
+

@@ -273,7 +273,10 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 
 	ma::DxRender* pDxRender = new ma::DxRender();
 	ma::SetRender(pDxRender);
-	pDxRender->Init(m_hMainWnd);
+
+	ma::DxRenderDevice* pDxRenderDevice = new ma::DxRenderDevice();
+	ma::SetRenderDevice(pDxRenderDevice);
+	pDxRenderDevice->Init(m_hMainWnd);
 
 
 
@@ -347,19 +350,19 @@ HRESULT CGameApp::Resize3DEnvironment()
 
 HRESULT CGameApp::Render3DEnvironment()
 {
- 	HRESULT hr = S_OK;
-	if( FAILED( hr = m_pd3dDevice->TestCooperativeLevel() ) )
-	{
-		if( D3DERR_DEVICELOST == hr )
-			return S_OK;
-
-		if( D3DERR_DEVICENOTRESET == hr )
-		{
-			if( FAILED( hr = Resize3DEnvironment() ) )
-				return hr;
-		}
-		return hr;
-	}
+  	HRESULT hr = S_OK;
+// 	if( FAILED( hr = m_pd3dDevice->TestCooperativeLevel() ) )
+// 	{
+// 		if( D3DERR_DEVICELOST == hr )
+// 			return S_OK;
+// 
+// 		if( D3DERR_DEVICENOTRESET == hr )
+// 		{
+// 			if( FAILED( hr = Resize3DEnvironment() ) )
+// 				return hr;
+// 		}
+// 		return hr;
+// 	}
 
 	static float timeNow = timeGetTime() / 1000.0f;
 	m_fElapsedTime = timeNow;

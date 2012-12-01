@@ -5,23 +5,23 @@
 #include "Common/IMesh.h"
 
 
-void Serialize(SerializeListener& sl,ExpVertexType0 &val,const char* pszLable );
-
-void Serialize(SerializeListener& sl,ExpBoxShape &val,const char* pszLable = "BoxShape");
-
-void Serialize(SerializeListener& sl,ExpCylinderShape& val,const char* pszLable = "CylinderShape");
-
-void Serialize(SerializeListener& sl,ExpBounding &val,const char* pszLable = "MeshBounding");
-
-void Serialize(SerializeListener& sl,ExpSubMesh &val,const char* pszLable = "SubMesh");
-
-void Serialize(SerializeListener& sl,ExpMeshLOD &val,const char* pszLable = "MeshLOD");
-
-void Serialize(SerializeListener& sl,ExpMeshData &val,const char* pszLable = "MeshData");
-
-void Serialize(SerializeListener& sl,ExpMeshHeader &val,const char* pszLable = "MeshHeader");
-
-void Serialize(SerializeListener& sl,ExpMesh &val,const char* pszLable = "Mesh");
+// void Serialize(SerializeListener& sl,ExpVertexType0 &val,const char* pszLable );
+// 
+// void Serialize(SerializeListener& sl,ExpBoxShape &val,const char* pszLable = "BoxShape");
+// 
+// void Serialize(SerializeListener& sl,ExpCylinderShape& val,const char* pszLable = "CylinderShape");
+// 
+// void Serialize(SerializeListener& sl,ExpBounding &val,const char* pszLable = "MeshBounding");
+// 
+// void Serialize(SerializeListener& sl,ExpSubMesh &val,const char* pszLable = "SubMesh");
+// 
+// void Serialize(SerializeListener& sl,ExpMeshLOD &val,const char* pszLable = "MeshLOD");
+// 
+// void Serialize(SerializeListener& sl,ExpMeshData &val,const char* pszLable = "MeshData");
+// 
+// void Serialize(SerializeListener& sl,ExpMeshHeader &val,const char* pszLable = "MeshHeader");
+// 
+// void Serialize(SerializeListener& sl,ExpMesh &val,const char* pszLable = "Mesh");
 
 
 
