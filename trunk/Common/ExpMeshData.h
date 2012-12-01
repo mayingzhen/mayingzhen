@@ -41,6 +41,8 @@ struct ExpVertexType0
 	xmVector3	   tgn;
 	xmUint32          vc;				// vertex color
 	xmUint32		   vi;				// vertex illumination
+
+	void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 };
 
 struct ExpBoxShape
@@ -48,6 +50,9 @@ struct ExpBoxShape
 	float m_fXSize;
 	float m_fYSize;
 	float m_fZSize;
+
+	void	Serialize(SerializeListener& sl,const char* pszLabel = "ExpBoxShape");
+
 };
 
 struct ExpAABBShape
@@ -62,28 +67,14 @@ struct ExpAABBShape
 	void AddPoint(const xmVector3& v);
 };
 
-inline void ExpAABBShape::Init()
-{
-	m_vMin = xmVector3(xm_FMAX,xm_FMAX,xm_FMAX);
-	m_vMax = xmVector3(-xm_FMAX,-xm_FMAX,-xm_FMAX);
-}
-
-inline void ExpAABBShape::Merge(const xmVector3& vMin,const xmVector3& vMax)
-{
-	xmVec3Min(&m_vMin,&vMin,&m_vMin);
-	xmVec3Max(&m_vMax,&vMax,&m_vMax);
-}
-
-inline void ExpAABBShape::AddPoint(const xmVector3& v)
-{
-	xmVec3Min(&m_vMin,&v,&m_vMin);
-	xmVec3Max(&m_vMax,&v,&m_vMax);
-}
 
 struct ExpCylinderShape
 {
 	float m_fRadius;
 	float m_fHeight;
+
+	void Serialize(SerializeListener& sl, const char* pszLable = "ExpCylinderShape" );
+
 };
 
 struct ExpBounding
@@ -108,6 +99,8 @@ struct ExpBounding
 
 	void SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
 		,float fXSize,float fYSize,float fZSize);
+
+	void Serialize(SerializeListener& sl, const char* pszLable = "ExpBounding" );
 };
 
 
@@ -125,11 +118,16 @@ struct ExpSubMesh
 	std::string m_submeshTag;
 	std::vector<xmUint16> m_arrBonePalette;
 
+	void Serialize(SerializeListener& sl, const char* pszLable = "ExpSubMesh");
+
 };
 
 struct ExpMeshLOD
 {
 	std::vector<ExpSubMesh> m_arrSubMesh;
+
+	void Serialize(SerializeListener& sl, const char* pszLable = "ExpMeshLOD");
+
 };
 
 struct ExpMeshData
@@ -143,6 +141,8 @@ struct ExpMeshData
 	std::vector<ExpMeshLOD>	m_arrMeshLOD;
 	std::vector<ExpBounding> m_arrBoneBound;
 	ExpBounding				m_meshBound;
+
+	void Serialize(SerializeListener& sl,const char* pszLable = "ExpMeshData" );
 };
 
 struct ExpMeshHeader
@@ -154,12 +154,18 @@ struct ExpMeshHeader
 	xmUint		m_nBoneNum;
 	xmUint		m_nIndexNum;
 	xmUint		m_nVertexNum;
+
+	void Serialize(SerializeListener& sl,const char* pszLable = "ExpMeshHeader");
 };
 
 struct ExpMesh
 {
 	ExpMeshHeader	m_header;
 	ExpMeshData		m_mesh;
+
+
+	void Serialize(SerializeListener& sl, const char* pszLable = "ExpMesh");
+
 };
 
 #endif// __ExpMeshData_H__

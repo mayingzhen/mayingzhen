@@ -1,6 +1,7 @@
 #ifndef  _DXRenderDevice__H__
 #define  _DXRenderDevice__H__
 
+#include "Common/IRenderDevice.h"
 
 namespace ma
 {
@@ -10,6 +11,10 @@ namespace ma
 		DxRenderDevice();
 
 		~DxRenderDevice();
+
+		void BeginRender();
+	
+		void EndRender();
 
 		IRendMesh* CreateRendMesh();
 
@@ -28,3 +33,4 @@ namespace ma
 }
 
 #endif
+

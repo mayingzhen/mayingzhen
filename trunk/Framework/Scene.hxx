@@ -7,6 +7,7 @@ namespace ma
 	Scene::Scene(SceneNode* pRootNode)
 	{
 		m_pRootNode = pRootNode;
+		m_pPhyScene = NULL;
 	}
 
 	Scene::~Scene()

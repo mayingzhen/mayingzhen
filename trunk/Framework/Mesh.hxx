@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "Framework/Mesh.h"
 
 namespace ma
 {
@@ -17,7 +17,7 @@ namespace ma
 	{
 		if (m_pRendMesh == NULL)
 		{
-			m_pRendMesh = GetRender()->CreateRendMesh();
+			m_pRendMesh = GetRenderDevice()->CreateRendMesh();
 		}
 		m_pRendMesh->Load( m_sResPath.c_str() );
 	}

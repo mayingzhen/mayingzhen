@@ -2,7 +2,7 @@
 #define __SerializeListener_H__
 
 
-class SerializeListener 
+class COMMON_API SerializeListener 
 {
 	std::deque<xmUint> m_verStack;
 
@@ -52,8 +52,29 @@ public:
 	void Serialize(std::vector<T>& val,const char* pszLable = "array");
 
 	template<class T>
-	void Serialize(T& val,const char* pszLable);
+	void Serialize(std::vector<T*>& val,const char* pszLable = "array");
 
+	template<class T>
+	void Serialize(T& val,const char* pszLable = "");
+
+	template<class T>
+	void Serialize(T* val,const char* pszLable = "");
+
+	template<class DataType>
+	void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
+
+	////////////////
+	virtual void BeginSection(const char* pszLable);
+
+	virtual void EndSection();
+
+	virtual xmUint GetVersion() const;
+
+	virtual void PushVersion(xmUint nVersion);
+
+	virtual xmUint PopVersion();
+	////////////////////
+	
 	virtual bool SerializeByte(xmUint8* pData,xmUint nSizeInByte,const char* pszLable = "Bytes") = 0;
 
 	//------------------------------------------------------------------------------
@@ -69,33 +90,29 @@ public:
 	//------------------------------------------------------------------------------
 	virtual bool IsReading() const = 0;
 
-	virtual void BeginSection(const char* pszLable);
-
-	virtual void EndSection();
-
-	//Version for current module
-	virtual xmUint GetVersion() const;
-
-	virtual void PushVersion(xmUint nVersion);
-
-	virtual xmUint PopVersion();
-
-
-
 };
 
-template<class T>
-void Serialize(SerializeListener& pSL, T& val, const char* pszLable)
-{
 
-}
 
-template<class T>
-void SerializeListener::Serialize(T& val,const char* pszLable)
-{
-	//T.Serialize(*this,val,pszLable);
-	::Serialize(*this,val,pszLable);
-}
+// template<class T>
+// void Serialize(SerializeListener& pSL, T& val, const char* pszLable)
+// {
+// 	val.Serialize(pSL,pszLable);
+// }
+
+// template<class T>
+// void SerializeListener::Serialize(T& val,const char* pszLable)
+// {
+// 	val.Serialize(*this,pszLable);
+// 	//::Serialize(*this,val,pszLable);
+// }
+
+// template<class T>
+// void Serialize(T& val,const char* pszLable)
+// {
+// 	val.Serialize(sl,pszLable);
+// }
+
 // 
 // 
 // 

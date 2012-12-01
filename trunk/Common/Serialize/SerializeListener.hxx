@@ -158,6 +158,17 @@ void SerializeListener::Serialize(xmNodeTransform& val,const char *pszLable)
 	EndSection();
 }
 
+template<class T>
+void SerializeListener::Serialize(T& val,const char* pszLable)
+{
+	val.Serialize(*this,pszLable);
+}
+
+template<class T>
+void SerializeListener::Serialize(T* val,const char* pszLable)
+{
+	val->Serialize(*this,pszLable);
+}
 
 template<class T>
 void SerializeListener::Serialize(std::vector<T>& val,const char* pszLable)
@@ -178,6 +189,61 @@ void SerializeListener::Serialize(std::vector<T>& val,const char* pszLable)
 		char buf[32];
 		sprintf(&buf[0],"Element_%u",nCnt);
 		Serialize(val[nCnt],buf);
+	}
+	EndSection();
+
+	EndSection();
+}
+
+template<class T>
+void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
+{
+	BeginSection(pszLable);
+
+	xmUint nSize = (xmUint)val.size();
+	Serialize(nSize,"size");
+
+	if (nSize != val.size())
+	{
+		val.resize(nSize);
+	}
+	BeginSection("element");
+
+	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+	{
+		char buf[32];
+		sprintf(&buf[0],"Element_%u",nCnt);
+		val[nCnt] = new T();
+		Serialize(val[nCnt],buf);
+	}
+	EndSection();
+
+	EndSection();
+}
+
+
+template<class DataType>
+void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* pszLable)
+{
+	BeginSection(pszLable);
+
+	xmUint nSize = val.size();
+	Serialize(nSize,"size");
+
+	if (nSize != val.size())
+	{
+		val.resize(nSize);
+	}
+
+	BeginSection("element");
+
+	xmUint nDataNum = nSize / sizeof(DataType);
+
+	for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
+	{
+		char buf[64];
+		sprintf_s(&buf[0],64,"Element_%u",nCnt);
+		Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
 	}
 	EndSection();
 
