@@ -14,6 +14,17 @@ namespace ma
 
 	}
 
+	void SceneNode::Render()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->Render();
+		}
+	}
+
 	void SceneNode::TranslateLS(const D3DXVECTOR3& vDeltaLS)
 	{
 		D3DXVECTOR3 vDeltaPS;

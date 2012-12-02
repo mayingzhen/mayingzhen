@@ -13,6 +13,7 @@
 namespace ma
 {
 	class Scene;
+	class Camera;
 }
 
 
@@ -46,6 +47,7 @@ private:
 private:
 
 	ma::Scene* m_pScene;
+	ma::Camera* m_pCamera;
 
 	HWND m_hMainWnd;
 	LPDIRECT3D9  m_pD3D;				   // The main D3D object

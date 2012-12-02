@@ -1,8 +1,7 @@
 #include "GameApp.h"
 
-#include "CommonModule.h"
-#include "CGFLoader.h"
-#include "ReadOnlyChunkFile.h"
+//#include "CGFLoader.h"
+//#include "ReadOnlyChunkFile.h"
 
 // CContentCGF* LoadChunkFileContent( const char *filename,bool bNoWarningMode )
 // {
