@@ -34,7 +34,7 @@
 #define _D3D_V(x)				x
 
 #define SSERT(x) 
-
+#define ASSERT assert
 
 void Log(const char* fmt,...);
 void SSERT_MSG(bool expr,const char* fmt,...);
@@ -45,6 +45,19 @@ inline T InvalidID()
 {
 	return T(-1);
 }
+
+template<class T> 
+bool IsValidID(T ind)
+{
+	return ind != (T)(-1);
+}
+
+template<class T> 
+bool IsInValidID(T ind)
+{
+	return ind == (T)(-1);
+}
+
 
 enum EErrorCode
 {

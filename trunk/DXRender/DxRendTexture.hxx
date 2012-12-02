@@ -2,6 +2,16 @@
 
 namespace ma
 {
+	DxRendTexture::DxRendTexture()
+	{
+		m_pD3DTex = NULL;
+	}
+
+	DxRendTexture::~DxRendTexture()
+	{
+
+	}
+
 	bool DxRendTexture::Load(const char* resPath)
 	{
 		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();

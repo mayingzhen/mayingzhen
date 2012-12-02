@@ -23,7 +23,7 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		D3DXMatrixPerspectiveFovRH(&m_matProj,fFOV,fAspect,fNear,fFar);
+		D3DXMatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
 	}
 
 }

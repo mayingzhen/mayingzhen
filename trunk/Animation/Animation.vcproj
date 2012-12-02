@@ -41,11 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Animation/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -60,6 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -170,12 +173,58 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-		</Filter>
-		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			<File
+				RelativePath=".\AnimationExport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExpSkeletonData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExpSkeletonData.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NodePose.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NodePose.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Skeleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Skeleton.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"

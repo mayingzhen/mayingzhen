@@ -82,6 +82,23 @@ namespace ma
 			return false;
 		}
 
+
+		
+// 		D3DPRESENT_PARAMETERS d3dpp;
+// 		ZeroMemory( &d3dpp, sizeof( d3dpp ) );
+// 
+// 		d3dpp.BackBufferWidth = rect.right - rect.left;
+// 		d3dpp.BackBufferHeight = rect.bottom - rect.top;
+// 
+// 		d3dpp.Windowed = TRUE;
+// 		d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+// 		d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+// 		d3dpp.EnableAutoDepthStencil = TRUE;
+// 		d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+// 
+// 		m_pd3dDevice->CreateAdditionalSwapChain(&d3dpp,&m_pSwapChain);
+
+
 		return true;
 	}
 
@@ -90,6 +107,22 @@ namespace ma
 	{
 		m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
 		m_pd3dDevice->BeginScene();
+
+		//m_pd3dDevice->GetBackBuffer();
+
+// 		if (NULL == m_pSwapChain)
+// 		{
+// 			return;
+// 		}
+// 
+// 		IDirect3DDevice9* pd3dDevice;
+// 		m_pSwapChain->GetDevice(&pd3dDevice);
+// 
+// 		m_pSwapChain->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&m_pBackBuffer));
+// 		pd3dDevice->SetRenderTarget(0,m_pBackBuffer);
+// 
+// 		SAFE_RELEASE(pd3dDevice);
+
 	}
 
 	void DxRenderDevice::EndRender()

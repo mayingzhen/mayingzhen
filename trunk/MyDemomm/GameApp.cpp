@@ -152,7 +152,7 @@ void CGameApp::InitGame()
 	float fFOV = D3DX_PI / 4;
 	float fAspect = m_nWndHeigh / m_nWndHeigh;
 	float fNearClip = 1.0f;
-	float fFarClip = 3000.0f
+	float fFarClip = 3000.0f;
 	m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
 	// 	CCharactor* pLookAt = (CCharactor*)CObject::StaticFindObject("Protagonist");
@@ -175,7 +175,7 @@ void CGameApp::InitGame()
 	pRootNode->AddChildNode(pGameObj);
 	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
 	pGameObj->AddComponent(pMeshComp);
-	pMeshComp->Load("../TrineGame/map/qiaoqiaoban.skn",NULL);
+	pMeshComp->Load("../TrineGame/map/qiaoqiaoban.skn","../TrineGame/map/robotremains.tga");
 	//////
 
 //  	CObject::StaticInit();
@@ -250,7 +250,7 @@ void CGameApp::Render()
 
 	if (m_pScene)
 	{
-		m_pScene->Render();
+		m_pScene->Render(m_pCamera);
 	}
 
 	pRender->EndRender();
@@ -296,13 +296,13 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 	ShowWindow(m_hMainWnd,SW_SHOW);
 	UpdateWindow(m_hMainWnd);
 
-	ma::DxRender* pDxRender = new ma::DxRender();
-	ma::SetRender(pDxRender);
-
 	ma::DxRenderDevice* pDxRenderDevice = new ma::DxRenderDevice();
 	ma::SetRenderDevice(pDxRenderDevice);
 	pDxRenderDevice->Init(m_hMainWnd);
 
+	ma::DxRender* pDxRender = new ma::DxRender();
+	ma::SetRender(pDxRender);
+	pDxRender->InitDefaultShader();
 
 
 //  	if( FAILED( Initialize3DEnvironment() ) )
