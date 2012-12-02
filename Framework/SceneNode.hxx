@@ -7,6 +7,9 @@ namespace ma
 	{
 		m_pScen = pSene;	
 		m_pParentNode = NULL;
+
+		D3DXMatrixIdentity(&m_matWorld);
+		maTransformSetIdentity(&m_tsfPS);
 	}
 
 	SceneNode::~SceneNode()

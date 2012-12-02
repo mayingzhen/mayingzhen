@@ -29,6 +29,9 @@ namespace ma
 		D3DPRESENT_PARAMETERS m_d3dpp;         // Parameters for CreateDevice/Reset
 		LPDIRECT3DDEVICE9 m_pd3dDevice;        // The D3D rendering device
 
+		//IDirect3DSwapChain9* m_pSwapChain;
+		//IDirect3DSurface9*	m_pBackBuffer;
+
 	};
 }
 

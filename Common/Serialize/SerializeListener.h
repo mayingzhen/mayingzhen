@@ -55,6 +55,9 @@ public:
 	void Serialize(std::vector<T*>& val,const char* pszLable = "array");
 
 	template<class T>
+	void SerializeArray(std::vector<T>& val,const char* pszLable = "array");
+
+	template<class T>
 	void Serialize(T& val,const char* pszLable = "");
 
 	template<class T>

@@ -4,7 +4,7 @@ namespace ma
 {
 	Object::Object(const char* pName)
 	{
-		m_sName = pName;
+		m_sName = pName ? pName : "";
 	}
 
 	Object::~Object()

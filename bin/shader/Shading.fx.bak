@@ -64,11 +64,11 @@ float4 ShadingPS( float2 texcoord : TEXCOORD0,
 	float3 LightDiffuse = tex2D(g_SamplerLightDiffuse, tc);
 	float3 LightSpecular = tex2D(g_SamplerLightSpecular, tc);
 	
-	//return srcDiffuse;
+	return srcDiffuse;
 	//return float4(srcDiffuse.rgb, 1.0f);
 	//return float4( max( (LightDiffuse * srcDiffuse + specular_normalize_factor(shininess, 0.04f) * lighting.a * specular), 0), 1);
 	
-	return float4( LightDiffuse.rgb + srcDiffuse.rgb + LightSpecular * srcSpecular, 1.0f );
+	//return float4( LightDiffuse.rgb + srcDiffuse.rgb + LightSpecular * srcSpecular, 1.0f );
 }
 
 
