@@ -118,7 +118,7 @@ struct MeshHeader
 
 
 
-class SubMeshData : public ISubMeshData
+class SubMeshData /*: public ISubMeshData*/
 {
 	xmUint m_nIndexStart;
 	xmUint m_nIndexCount;
@@ -198,17 +198,17 @@ public:
 };
 
 
-class MeshLODData : public IMeshLODData
+class MeshLODData /*: public IMeshLODData*/
 {
 	std::vector<SubMeshData*> m_arrSubMesh;
 
-// 	enum MeshDataFrom
-// 	{
-// 		DATA_PARENT_DATA = 0,
-// 		DATA_HAS_OWN_INDEX = 1,
-// 		DATA_HAS_OWN_VERTEX = 2,
-// 		DATA_HAS_BONE_LOD = 4
-// 	};
+	enum MeshDataFrom
+	{
+		DATA_PARENT_DATA = 0,
+		DATA_HAS_OWN_INDEX = 1,
+		DATA_HAS_OWN_VERTEX = 2,
+		DATA_HAS_BONE_LOD = 4
+	};
 
 public:
 	xmUint m_nMeshDataFlag;  // MeshDataFrom Î»×éºÏ
@@ -236,15 +236,15 @@ public:
 
 	xmUint					GetSubMeshNumber() const;
 
-	const ISubMeshData*	GetSubMesh(xmUint nSubMeshInd) const;
+	const SubMeshData*		GetSubMesh(xmUint nSubMeshInd) const;
 
 	void					ClearSubMesh();
 
 	void					ResizeSubMesh(xmUint nSubMeshNum);
 
-	ISubMeshData*		CreateSubMesh();
+	SubMeshData*			CreateSubMesh();
 
-	ISubMeshData*		GetSubMesh(xmUint nSubMeshInd);
+	SubMeshData*			GetSubMesh(xmUint nSubMeshInd);
 
 	int						GetBoneLOD() const;
 
@@ -260,7 +260,7 @@ public:
 
 	void*					GetIndexBuffer() { return &m_arrIndexBuffer[0]; }
 
-	SkinVertexType0*		GetVertexBufferSkinVertexType0();
+	VertexType0*			GetVertexBufferVertexType0();
 
 	int						GetVertexNumber() const;
 
@@ -269,7 +269,7 @@ public:
 	void					Serialize(SerializeListener& sl,const char* pszLabel);
 };
 
-class MeshData : public IMeshData
+class MeshData/* : public IMeshData*/
 {
 	MeshHeader			m_header;
 
@@ -335,9 +335,9 @@ public:
 	xmUint				GetBoneWeightOffset() const;
 
 
-	SkinVertexType0*	GetVertexBufferSkinVertexType0();
+	VertexType0*	GetVertexBufferVertexType0();
 
-	const SkinVertexType0*	GetVertexBufferSkinVertexType0() const;
+	const VertexType0*	GetVertexBufferVertexType0() const;
 
 	void RemoveDegenerateTriangleInplace(void);
 
@@ -356,11 +356,11 @@ public:
 	//For LOD Mesh
 	//------------------------------------------------------------------------------
 	xmUint					GetLODMeshNumber() const;
-	IMeshLODData*		GetLODMesh(int nLOD);
-	const IMeshLODData*	GetLODMesh(int nLOD) const;
+	MeshLODData*			GetLODMesh(int nLOD);
+	const MeshLODData*		GetLODMesh(int nLOD) const;
 	int						GetBoneLOD(int nMeshLOD) const;
 	void					SetBoneLOD(int nMeshLOD, int nBoneLOD);
-	IMeshLODData*		IncLOD();
+	MeshLODData*			IncLOD();
 	void					DecLOD();
 	void					SetLodMeshVersion();
 
@@ -382,7 +382,7 @@ public:
 
 	void*					GetIndexBuffer();
 
-	SkinVertexType0*		GetVertexBuffer();	
+	VertexType0*		GetVertexBuffer();	
 
 
 	//------------------------------------------------------------------------------
@@ -390,11 +390,11 @@ public:
 	//------------------------------------------------------------------------------
 	xmUint					GetSubMeshNumber() const;
 
-	const ISubMeshData*	GetSubMesh(xmUint nSubMeshInd, int nLOD = 0) const;
+	const SubMeshData*		GetSubMesh(xmUint nSubMeshInd, int nLOD = 0) const;
 
-	ISubMeshData*		GetSubMesh(xmUint nSubMeshInd, int nLOD = 0);
+	SubMeshData*			GetSubMesh(xmUint nSubMeshInd, int nLOD = 0);
 
-	ISubMeshData*		GetSubMeshByName(const char* pszName, int nLOD = 0);
+	SubMeshData*			GetSubMeshByName(const char* pszName, int nLOD = 0);
 
 
 	void					ResetBone(xmUint32 nBoneNum);

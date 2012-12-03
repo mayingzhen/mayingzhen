@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -198,10 +198,6 @@
 			</File>
 			<File
 				RelativePath=".\S3ADataFormat.h"
-				>
-			</File>
-			<File
-				RelativePath=".\S3AExpMeshData.h"
 				>
 			</File>
 			<File

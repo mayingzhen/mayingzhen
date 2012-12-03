@@ -5,14 +5,25 @@
 #include "Common/IRender.hxx"
 #include "Common/IRenderDevice.hxx"
 
-#include "Common/Serialize/SerializeListener.hxx"
-#include "Common/Serialize/BinaryInputArchive.hxx"
-#include "Common/Serialize/BinaryOutputArchive.hxx"
 
-#include "Common/MeshData.hxx"
-#include "Common/ExpMeshData.hxx"
-#include "Common/ExpSkeletonData.hxx"
-#include "Common/ResourceBuilder.hxx"
+void Log(const char* fmt,...) {}
+void SSERT_MSG(bool expr,const char* fmt,...){}
+void LogError(xmUint nErrorCode,const char* fmt,...){}
+
+void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB)
+{
+	pOut->x = pA->x < pB->x ? pA->x : pB->x;
+	pOut->y = pA->y < pB->y ? pA->y : pB->y;
+	pOut->z = pA->z < pB->z ? pA->z : pB->z;
+}
+
+
+void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB)
+{
+	pOut->x = pA->x > pB->x ? pA->x : pB->x;
+	pOut->y = pA->y > pB->y ? pA->y : pB->y;
+	pOut->z = pA->z > pB->z ? pA->z : pB->z;
+}
 
 
 void CommonModuleInit()

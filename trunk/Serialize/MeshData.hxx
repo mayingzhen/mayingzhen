@@ -1,5 +1,4 @@
-#include "Common/MeshData.h"
-//#include "Common/Serialize/MathSerialize.inl"
+#include "Serialize/MeshData.h"
 
 void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
 {
@@ -136,31 +135,31 @@ T must be a simple struct or class which do not has derived class.
 // 	sl.EndSection();
 // }
 
-// template<class T>
-// void PointerArrayClear(T& arr)
-// {
-// 	for (xmUint nCnt = 0; nCnt < (xmUint)arr.size(); ++nCnt)
-// 	{
-// 		xmSafeDelete(arr[nCnt]);
-// 	}
-// 	arr.clear();
-// };
-// 
-// 
-// template<class ElementType >
-// void PointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
-// {
-// 	xmUint nOldSize = (xmUint)arr.size();
-// 	for (xmUint nCnt = nNewSize; nCnt < nOldSize; ++nCnt)
-// 	{
-// 		xmSafeDelete(arr[nCnt]);
-// 	}
-// 	arr.resize(nNewSize);
-// 	for (xmUint nCnt = nOldSize; nCnt < nNewSize; ++nCnt)
-// 	{
-// 		arr[nCnt] = new ElementType;
-// 	}
-// }
+template<class T>
+void PointerArrayClear(T& arr)
+{
+	for (xmUint nCnt = 0; nCnt < (xmUint)arr.size(); ++nCnt)
+	{
+		xmSafeDelete(arr[nCnt]);
+	}
+	arr.clear();
+};
+
+
+template<class ElementType >
+void PointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
+{
+	xmUint nOldSize = (xmUint)arr.size();
+	for (xmUint nCnt = nNewSize; nCnt < nOldSize; ++nCnt)
+	{
+		xmSafeDelete(arr[nCnt]);
+	}
+	arr.resize(nNewSize);
+	for (xmUint nCnt = nOldSize; nCnt < nNewSize; ++nCnt)
+	{
+		arr[nCnt] = new ElementType;
+	}
+}
 // 
 // template<class DataType>
 // void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
@@ -219,7 +218,9 @@ void	SubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
 	if (pBounding)
 	{
 		m_subMeshBound = *pBounding;
-	}else{
+	}
+	else
+	{
 		m_subMeshBound.SetIdentity();
 	}
 	m_arrBonePalette.resize(nBonePalatteSize);
@@ -230,7 +231,9 @@ void	SubMeshData::Reset(xmUint nIndexStart,xmUint nIndexCount
 		{
 			m_arrBonePalette[nPalCnt] = arrBonePalatte[nPalCnt];
 		}
-	}else{
+	}
+	else
+	{
 		for (xmUint nPalCnt = 0; nPalCnt < nBonePalatteSize; ++nPalCnt)
 		{
 			m_arrBonePalette[nPalCnt] = InvalidID<BoneIndex>();
@@ -408,25 +411,25 @@ MeshLODData::~MeshLODData()
 }
 
 
-// const SkinVertexType0*	MeshLODData::GetVertexBufferSkinVertexType0() const
+// const VertexType0*	MeshLODData::GetVertexBufferVertexType0() const
 // {
 // 	const xmUint8* pData = m_arrVertexBuffer.size() > 0
 // 		? &m_arrVertexBuffer[0]
 // 	: NULL;
 // 
 // 	return _VT_SKIN_VERTEX_0 == m_nVertexType 
-// 		? reinterpret_cast<const SkinVertexType0*>(pData)
+// 		? reinterpret_cast<const VertexType0*>(pData)
 // 		: NULL;
 // }
 
-SkinVertexType0*	MeshLODData::GetVertexBufferSkinVertexType0()
+VertexType0*	MeshLODData::GetVertexBufferVertexType0()
 {
 	xmUint8* pData = m_arrVertexBuffer.size() > 0 ? &m_arrVertexBuffer[0] : NULL;
 
-	return VT_SKIN_VERTEX_0 == m_nVertexType ? reinterpret_cast<SkinVertexType0*>(pData) : NULL;
+	return VT_SKIN_VERTEX_0 == m_nVertexType ? reinterpret_cast<VertexType0*>(pData) : NULL;
 }
 
-const ISubMeshData*	MeshLODData::GetSubMesh(xmUint nSubMeshInd) const
+const SubMeshData*	MeshLODData::GetSubMesh(xmUint nSubMeshInd) const
 {
 	return m_arrSubMesh[nSubMeshInd];
 }
@@ -437,7 +440,7 @@ void					MeshLODData::ResizeSubMesh(xmUint nSubMeshNum)
 	PointerArrayResize(m_arrSubMesh,nSubMeshNum);
 }
 
-ISubMeshData*			MeshLODData::CreateSubMesh()
+SubMeshData*			MeshLODData::CreateSubMesh()
 {
 	SubMeshData* pSubMesh = new SubMeshData;
 	m_arrSubMesh.push_back(pSubMesh);
@@ -449,7 +452,7 @@ xmUint					MeshLODData::GetSubMeshNumber() const
 	return m_arrSubMesh.size();
 }
 
-ISubMeshData*			MeshLODData::GetSubMesh(xmUint nSubMeshInd)
+SubMeshData*			MeshLODData::GetSubMesh(xmUint nSubMeshInd)
 {
 	return m_arrSubMesh[nSubMeshInd];
 }
@@ -486,7 +489,7 @@ bool					MeshLODData::GetIsIndex32() const
 
 int						MeshLODData::GetVertexNumber() const
 {
-	return m_arrVertexBuffer.size() / sizeof(SkinVertexType0);
+	return m_arrVertexBuffer.size() / sizeof(VertexType0);
 }
 
 void					MeshLODData::ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum)
@@ -495,7 +498,7 @@ void					MeshLODData::ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 
 	m_nVertexType = VT_SKIN_VERTEX_0;
 
 	const xmUint nIndexStride = m_nIndexType == INDEX_TYPE_U16 ? sizeof(xmUint16) : sizeof(xmUint32);
-	const xmUint nVertexStride = sizeof(SkinVertexType0);
+	const xmUint nVertexStride = sizeof(VertexType0);
 
 	m_arrIndexBuffer.resize(nIndexNum * nIndexStride);
 	m_arrVertexBuffer.resize(nVertexNum * nVertexStride);
@@ -524,11 +527,11 @@ void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
 
 		if (INDEX_TYPE_U16 == m_nIndexType)
 		{
-			SerializeRawData<BoneIndex>(sl,m_arrIndexBuffer,"IndexBuffer");
+			sl.SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
 		}
 		else if (INDEX_TYPE_U32 == m_nIndexType)
 		{
-			SerializeRawData<xmUint32>(sl,m_arrIndexBuffer,"IndexBuffer");
+			sl.SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
 		}
 		else
 		{
@@ -542,7 +545,7 @@ void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
 
 		if (VT_SKIN_VERTEX_0 == m_nVertexType)
 		{
-			SerializeRawData<VertexType0>(sl,m_arrVertexBuffer,"VertexBuffer");
+			sl.SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
 		}
 	}
 
@@ -625,28 +628,28 @@ xmUint				MeshData::GetVertexSize() const
 	xmUint nSize = sizeof(xmUint8);
 	if (m_nVertexType == VT_SKIN_VERTEX_0)
 	{
-		nSize = sizeof(SkinVertexType0);
+		nSize = sizeof(VertexType0);
 	}
 	return nSize;
 }
 
 xmUint				MeshData::GetVertexStride() const
 {
-	return sizeof(SkinVertexType0);
+	return sizeof(VertexType0);
 }
 
 
 xmUint				MeshData::GetBoneIndexOffset() const
 {
-	SkinVertexType0* pData = NULL;
-	xmUint nOffset = (xmUint8*)(&pData->m_nBoneIndice) - (xmUint8*)(pData);
+	VertexType0* pData = NULL;
+	xmUint nOffset = (xmUint8*)(&pData->b) - (xmUint8*)(pData);
 	return nOffset;
 }
 
 xmUint				MeshData::GetBoneWeightOffset() const
 {
-	SkinVertexType0* pData = NULL;
-	xmUint nOffset = (xmUint8*)(&pData->m_nBoneWeight) - (xmUint8*)(pData);
+	VertexType0* pData = NULL;
+	xmUint nOffset = (xmUint8*)(&pData->w) - (xmUint8*)(pData);
 	return nOffset;
 }
 
@@ -655,25 +658,25 @@ xmUint						MeshData::GetVertexNumber() const
 	return m_arrVertexBuffer.size() / GetVertexSize();
 }
 
-SkinVertexType0*	MeshData::GetVertexBufferSkinVertexType0()
+VertexType0*	MeshData::GetVertexBufferVertexType0()
 {
 	xmUint8* pData = m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 	: NULL;
 
 	return VT_SKIN_VERTEX_0 == m_nVertexType 
-		? reinterpret_cast<SkinVertexType0*>(pData)
+		? reinterpret_cast<VertexType0*>(pData)
 		: NULL;
 }
 
-const SkinVertexType0*	MeshData::GetVertexBufferSkinVertexType0() const
+const VertexType0*	MeshData::GetVertexBufferVertexType0() const
 {
 	const xmUint8* pData = m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 		: NULL;
 
 	return VT_SKIN_VERTEX_0 == m_nVertexType 
-		? reinterpret_cast<const SkinVertexType0*>(pData)
+		? reinterpret_cast<const VertexType0*>(pData)
 		: NULL;
 }
 
@@ -705,7 +708,7 @@ void MeshData::DegenerateSubMeshData( MeshLODData * pLODData, std::vector<unsign
 {
 	for (int i = 0; i < (int)pLODData->GetSubMeshNumber(); ++i)
 	{
-		ISubMeshData *pSubMeshData = pLODData->GetSubMesh(i);
+		SubMeshData *pSubMeshData = pLODData->GetSubMesh(i);
 		for (int j = 0; j < (int)subIndexMove.size(); ++j)
 		{
 			xmUint indexStart = pSubMeshData->GetIndexStart();
@@ -804,7 +807,7 @@ xmUint                MeshData::GetLODMeshNumber() const
 	return m_arrMeshLOD.size();
 }
 
-IMeshLODData      *MeshData::GetLODMesh(int nLOD)
+MeshLODData      *MeshData::GetLODMesh(int nLOD)
 {
 	if (0 <= nLOD && nLOD < (int)m_arrMeshLOD.size())
 		return m_arrMeshLOD[nLOD];
@@ -812,7 +815,7 @@ IMeshLODData      *MeshData::GetLODMesh(int nLOD)
 		return NULL;
 }
 
-const IMeshLODData *MeshData::GetLODMesh(int nLOD) const
+const MeshLODData *MeshData::GetLODMesh(int nLOD) const
 {
 	if (0 <= nLOD && nLOD < (int)m_arrMeshLOD.size())
 		return m_arrMeshLOD[nLOD];
@@ -830,7 +833,7 @@ void                 MeshData::SetBoneLOD(int nMeshLOD, int nBoneLOD)
 	GetLODMesh(nMeshLOD)->SetBoneLOD(nBoneLOD);// m_nBoneLOD = nBoneLOD;
 }
 
-IMeshLODData*		MeshData::IncLOD(/*IMeshLODData* pMeshLodData*/)
+MeshLODData*		MeshData::IncLOD(/*IMeshLODData* pMeshLodData*/)
 {
 	MeshLODData *pMeshLODData = new MeshLODData;
 	m_arrMeshLOD.push_back(pMeshLODData);
@@ -867,9 +870,9 @@ xmUint				MeshData::GetSubMeshNumber() const
 }
 
 
-const ISubMeshData*	MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD) const
+const SubMeshData*	MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD) const
 {
-	const IMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	const MeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 	else
@@ -891,7 +894,7 @@ void					MeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
 
 	m_arrIndexBuffer.resize(nIndexNum * nIndexStride);
 	
-	m_arrVertexBuffer.resize(nVertexNum * sizeof(SkinVertexType0));
+	m_arrVertexBuffer.resize(nVertexNum * sizeof(VertexType0));
 
 	PointerArrayResize(m_arrMeshLOD,1);
 
@@ -925,19 +928,18 @@ void*					MeshData::GetIndexBuffer()
 }
 
 
-SkinVertexType0*		MeshData::GetVertexBuffer()
+VertexType0*		MeshData::GetVertexBuffer()
 {
-	return reinterpret_cast<SkinVertexType0*>(m_arrVertexBuffer.size() > 0
+	return reinterpret_cast<VertexType0*>(m_arrVertexBuffer.size() > 0
 		? &m_arrVertexBuffer[0]
 	: 0);
 }
 	
 
 
-
-ISubMeshData*		MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
+SubMeshData*		MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
 {
-	IMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	MeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 
@@ -945,16 +947,16 @@ ISubMeshData*		MeshData::GetSubMesh(xmUint nSubMeshInd, int nLOD)
 }
 
 
-ISubMeshData*		MeshData::GetSubMeshByName(const char* pszName, int nLOD)
+SubMeshData*		MeshData::GetSubMeshByName(const char* pszName, int nLOD)
 {
-	IMeshLODData *pLODMesh = GetLODMesh(nLOD);
+	MeshLODData *pLODMesh = GetLODMesh(nLOD);
 	if (pLODMesh == NULL)
 		return NULL;
 
 	const xmUint nSubMeshNum = GetSubMeshNumber();
 	for (xmUint32 nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 	{
-		ISubMeshData* pSubMesh = pLODMesh->GetSubMesh(nSubMeshCnt);
+		SubMeshData* pSubMesh = pLODMesh->GetSubMesh(nSubMeshCnt);
 		if (_stricmp(pSubMesh->GetName(),pszName) == 0)
 		{
 			return pSubMesh;
@@ -1008,17 +1010,17 @@ void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
 
 	if (INDEX_TYPE_U16 == m_nIndexType)
 	{
-		SerializeRawData<BoneIndex>(*pSL,m_arrIndexBuffer,"IndexBuffer");
+		pSL->SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
 	}else if (INDEX_TYPE_U32 == m_nIndexType)
 	{
-		SerializeRawData<xmUint32>(*pSL,m_arrIndexBuffer,"IndexBuffer");
+		pSL->SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
 	}else{
 		LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
 	}
 
 	if (VT_SKIN_VERTEX_0 == m_nVertexType)
 	{
-		SerializeRawData<VertexType0>(*pSL,m_arrVertexBuffer,"VertexBuffer");
+		pSL->SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
 	}
 
 	pSL->Serialize(m_meshBound,"MeshBound");
@@ -1073,7 +1075,7 @@ void Bounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
 void Bounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
 			,float fXSize,float fYSize,float fZSize)
 {
-	m_nShapeType = _BS_BOX;
+	m_nShapeType = BS_BOX;
 	//m_vPos = pPos ? *pPos : xmVec3Zero();
 	//m_qRot = pRot ? *pRot : xmQuaternionIden();
 	m_boxShape.m_fXSize = fXSize;
