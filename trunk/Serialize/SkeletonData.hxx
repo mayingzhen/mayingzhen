@@ -1,6 +1,6 @@
-#include "Serialize/ExpSkeletonData.h"
+#include "Serialize/SkeletonData.h"
 
-void ExpSkeletonHeader::Serialize(SerializeListener& sl,const char* pszLable)
+void SkeletonHeader::Serialize(SerializeListener& sl,const char* pszLable)
 {
 	sl.BeginSection(pszLable);
 	sl.Serialize(m_nIden,"Iden");
@@ -10,7 +10,7 @@ void ExpSkeletonHeader::Serialize(SerializeListener& sl,const char* pszLable)
 }
 
 
-void ExpSocketData::Serialize(SerializeListener& sl,const char* pszLable)
+void SocketData::Serialize(SerializeListener& sl,const char* pszLable)
 {
 	sl.BeginSection(pszLable);
 	sl.Serialize(m_strBoneName,"BoneName");
@@ -21,11 +21,14 @@ void ExpSocketData::Serialize(SerializeListener& sl,const char* pszLable)
 
 
 
-void ExpSkeletonData::Serialize(SerializeListener& sl,const char* pszLable)
+void SkeletonData::Serialize(SerializeListener& sl,const char* pszLable)
 {
+	SkeletonHeader skelHeader;
+	sl.Serialize(skelHeader,"Header");
+
 	sl.BeginSection(pszLable);
 
-	if (sl.GetVersion() == EXP_SKEL_VER_INITIAL)
+	if (skelHeader.m_nVersion == EXP_SKEL_VER_INITIAL)
 	{
 		sl.Serialize(m_nGlobalSkeletonID.m_a,pszLable);
 		m_nGlobalSkeletonID.m_b = 0;
@@ -44,7 +47,7 @@ void ExpSkeletonData::Serialize(SerializeListener& sl,const char* pszLable)
  	sl.Serialize(m_arrPosOS,"PositionOS");
  	sl.Serialize(m_arrSocket,"Socket");
 
-	if (sl.GetVersion() >= EXP_SKEL_VER_BONE_LOD_MASK)
+	if (skelHeader.m_nVersion >= EXP_SKEL_VER_BONE_LOD_MASK)
 	{
 		sl.Serialize(m_arrLODBoneMask, "LODBoneMask");
 	}

@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	class Mesh;
+	class MeshRes;
 	class Texture;
 
 	class FRAMEWORK_API MeshComponent : public Component
@@ -27,7 +27,7 @@ namespace ma
 		void Load(const char* pszMeshPath,const char* pszTexPath);
 
 	private:
-		Mesh*		m_pMesh;
+		MeshRes*		m_pMeshRes;
 		Texture*	m_pTexture;
 
 

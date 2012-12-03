@@ -186,11 +186,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Mesh.hxx"
+				RelativePath=".\MeshComponent.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\MeshComponent.hxx"
+				RelativePath=".\MeshRes.hxx"
 				>
 			</File>
 			<File
@@ -260,11 +260,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Mesh.h"
+				RelativePath=".\MeshComponent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MeshComponent.h"
+				RelativePath=".\MeshRes.h"
 				>
 			</File>
 			<File

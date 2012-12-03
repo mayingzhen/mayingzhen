@@ -4,6 +4,7 @@
 #include <d3dx9.h>
 
 #include "Common/Module.h"
+#include "Serialize/Module.h"
 
 
 #endif

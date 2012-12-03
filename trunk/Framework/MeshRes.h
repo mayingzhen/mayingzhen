@@ -8,12 +8,12 @@ namespace ma
 {
 	class IRendMesh;
 
-	class FRAMEWORK_API Mesh : public Resource
+	class FRAMEWORK_API MeshRes : public Resource
 	{
 	public:
-		Mesh(const char* pszPath = NULL);
+		MeshRes(const char* pszPath = NULL);
 		
-		~Mesh();
+		~MeshRes();
 
 		void Load();
 		

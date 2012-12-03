@@ -10,7 +10,7 @@ enum SkelVersion
 };
 
 
-struct SkeletonHeader
+struct SERIALIZE_API SkeletonHeader
 {
 	xmUint m_nIden;
 	xmUint m_nVersion;
@@ -19,7 +19,7 @@ struct SkeletonHeader
 	void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonHeader" );
 };
 
-struct SocketData
+struct SERIALIZE_API SocketData
 {
 	std::string		m_strBoneName;
 	xmUint			m_nBoneID;
@@ -28,7 +28,7 @@ struct SocketData
 	void Serialize(SerializeListener& sl, const char* pszLable = "SocketData" );
 };
 
-class SkeletonData : public ISkeletonData
+struct SERIALIZE_API SkeletonData /*: public ISkeletonData*/
 {
 	GUID	m_nGlobalSkeletonID;
 	xmUint	m_nBoneNum;
@@ -37,7 +37,7 @@ class SkeletonData : public ISkeletonData
 	std::vector<xmVector3>	m_arrScaleOS;
 	std::vector<xmQuaternion>	m_arrRotOS;
 	std::vector<xmVector3>	m_arrPosOS;
-	std::vector<ExpSocketData> m_arrSocket;
+	std::vector<SocketData> m_arrSocket;
 	//typedef std::vector<xmUint8>   BoolList;
 	std::vector<std::string>  m_arrLODBoneMask;
 

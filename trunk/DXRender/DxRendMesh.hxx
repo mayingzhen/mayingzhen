@@ -11,7 +11,7 @@ namespace ma
 		xmUint nIndexFilled = 0;
 		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 		{
-			ISubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
+			SubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
 			const xmUint nVertexStart = pSubMeshData->GetVertexStart();
 			const xmUint nIndexCount =  pSubMeshData->GetIndexCount();
 			for (xmUint nIndCnt = 0; nIndCnt < nIndexCount; ++nIndCnt)
@@ -94,7 +94,7 @@ namespace ma
 
 				for(xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
 				{
-					ISubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
+					SubMeshData* pSubMeshData = pMeshData->GetSubMesh(nSubMeshCnt);
 					const xmUint nTriNum = pSubMeshData->GetIndexCount() / 3;
 					for (xmUint nTriCnt = 0; nTriCnt < nTriNum; ++nTriCnt)
 					{
@@ -121,7 +121,7 @@ namespace ma
 		return pD3DMesh;
 	}
 
-	ID3DXMesh** CreateD3DMesh(IDirect3DDevice9* pd3dDevice,IMeshData* pMeshData, int *pTotalLod)
+	ID3DXMesh** CreateD3DMesh(IDirect3DDevice9* pd3dDevice,MeshData* pMeshData, int *pTotalLod)
 	{
 		int nLodNumber = pMeshData->GetLODMeshNumber();
 		if (nLodNumber == 0)

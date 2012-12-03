@@ -9,9 +9,9 @@ class ISkeleton;
 class Animation;
 class MeshData;
 
-class IMeshData;
-class ISkeletonData;
-class IAnimationData;
+// class IMeshData;
+// class ISkeletonData;
+// class IAnimationData;
 
 class MeshData;
 class SkeletonData;

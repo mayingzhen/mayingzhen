@@ -3,10 +3,9 @@
 
 #include "Resource.h"
 
-
 namespace ma
 {
-	class ISkeleton;
+	class Skeleton;
 
 	class FRAMEWORK_API SkeletonRes : public Resource
 	{
@@ -20,7 +19,7 @@ namespace ma
 		bool IsLoad();
 
 	private:
-		Skeleton* m_skeleton;
+		Skeleton* m_pSkeleton;
 	};
 }
 

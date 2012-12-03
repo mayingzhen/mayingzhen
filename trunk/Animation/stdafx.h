@@ -3,6 +3,7 @@
 
 
 #include "Common/Module.h"
+#include "Serialize/Module.h"
 
 
 #endif
