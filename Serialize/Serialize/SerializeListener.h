@@ -2,7 +2,7 @@
 #define __SerializeListener_H__
 
 
-class COMMON_API SerializeListener 
+class SerializeListener 
 {
 	std::deque<xmUint> m_verStack;
 

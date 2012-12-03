@@ -15,7 +15,7 @@ class TiXmlElement;
 
 #include <Animation/Common/xmCommonPrefix.h>
 
-class COMMON_API S3AXMLInputArchive : public S3ASerializeListener , public IS3AXMLInputArchive
+class  S3AXMLInputArchive : public S3ASerializeListener , public IS3AXMLInputArchive
 {
 	std::string		m_strFilename;
 	TiXmlDocument*	m_pDoc;

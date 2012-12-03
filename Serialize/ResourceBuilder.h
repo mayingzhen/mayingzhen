@@ -13,6 +13,10 @@ class IMeshData;
 class ISkeletonData;
 class IAnimationData;
 
+class MeshData;
+class SkeletonData;
+class AnimationData;
+
 //Sub for resource of different version loading
 namespace ResourceBuilder
 {
@@ -23,15 +27,15 @@ namespace ResourceBuilder
 
 	//Animation*	LoadLegacyAnimation(SerializeListener* pSL,ISkeleton* pSkel);
 
-	COMMON_API bool			LoadMesh(MeshData* pMesh,SerializeListener* pSL);
+	SERIALIZE_API bool			LoadMesh(MeshData* pMesh,SerializeListener* pSL);
 
-	COMMON_API bool			SaveMesh(MeshData* pMesh,SerializeListener* pSL);
+	SERIALIZE_API bool			SaveMesh(MeshData* pMesh,SerializeListener* pSL);
 
-	COMMON_API IMeshData* LoadMeshFromBinaryFile(const char* filename);
+	SERIALIZE_API MeshData* LoadMeshFromBinaryFile(const char* filename);
 
-	COMMON_API ISkeletonData* LoadSkeletonFromBinaryFile(const char* fileName);
+	SERIALIZE_API SkeletonData* LoadSkeletonFromBinaryFile(const char* fileName);
 
-	COMMON_API IAnimationData* LoadAnimationFromBinaryFile(const char* fileName);
+	SERIALIZE_API AnimationData* LoadAnimationFromBinaryFile(const char* fileName);
 
 };
 

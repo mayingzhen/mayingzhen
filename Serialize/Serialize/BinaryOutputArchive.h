@@ -1,11 +1,11 @@
 #ifndef __BinaryOutputArchive_H__
 #define __BinaryOutputArchive_H__
 
-#include <Common/Serialize/SerializeListener.h>
+#include <Serialize/Serialize/SerializeListener.h>
 
 //#include <Animation/Common/xmCommonPrefix.h>
 
-class COMMON_API BinaryOutputArchive : public SerializeListener
+class BinaryOutputArchive : public SerializeListener
 {
 	std::ofstream m_file;
 

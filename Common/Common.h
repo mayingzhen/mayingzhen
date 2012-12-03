@@ -36,28 +36,6 @@
 #define SSERT(x) 
 #define ASSERT assert
 
-void Log(const char* fmt,...);
-void SSERT_MSG(bool expr,const char* fmt,...);
-void LogError(xmUint nErrorCode,const char* fmt,...);
-
-template<class T>
-inline T InvalidID()
-{
-	return T(-1);
-}
-
-template<class T> 
-bool IsValidID(T ind)
-{
-	return ind != (T)(-1);
-}
-
-template<class T> 
-bool IsInValidID(T ind)
-{
-	return ind == (T)(-1);
-}
-
 
 enum EErrorCode
 {
@@ -97,13 +75,7 @@ enum EErrorCode
 
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
-#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
-
-void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
-
-void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
-
-
+#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } 
 
 
 #endif

@@ -1,11 +1,10 @@
 #ifndef __BinaryInputArchive_H__
 #define __BinaryInputArchive_H__
 
-#include <Common/Serialize/SerializeListener.h>
+#include <Serialize/Serialize/SerializeListener.h>
 
-//#include <Common/xmCommonPrefix.h>
 
-class COMMON_API BinaryInputArchive : public SerializeListener
+class BinaryInputArchive : public SerializeListener
 {
 	std::ifstream m_file;
 public:
@@ -36,7 +35,7 @@ public:
 
 };
 
-class COMMON_API BinaryMemoryInputArchive : public SerializeListener
+class BinaryMemoryInputArchive : public SerializeListener
 {
 	const xmUint8* m_pData;
 	xmUint32 m_nDataSize;
@@ -69,6 +68,5 @@ public:
 };
 
 
-//#include <Animation/Common/xmCommonSuffix.h>
 
 #endif// __BinaryInputArchive_H__

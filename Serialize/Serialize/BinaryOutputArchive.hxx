@@ -1,4 +1,4 @@
-#include <Common/Serialize/BinaryOutputArchive.h>
+#include <Serialize/Serialize/BinaryOutputArchive.h>
 //#include <Animation/Common/String/StringHelper.h>
 
 BinaryOutputArchive::BinaryOutputArchive()

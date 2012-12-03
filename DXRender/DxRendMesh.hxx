@@ -73,10 +73,10 @@ namespace ma
 
 			_D3D_V(pD3DMesh->UnlockIndexBuffer());
 
-			SkinVertexType0* d3dVertexData;
+			VertexType0* d3dVertexData;
 			_D3D_V(pD3DMesh->LockVertexBuffer(0,(LPVOID*)&d3dVertexData));
 			{
-				const SkinVertexType0* arrVertex = pMeshData->GetVertexBufferSkinVertexType0();
+				const VertexType0* arrVertex = pMeshData->GetVertexBufferVertexType0();
 				for (xmUint nVCnt = 0; nVCnt < numVertex; ++nVCnt)
 				{
 					d3dVertexData[nVCnt] = arrVertex[nVCnt];

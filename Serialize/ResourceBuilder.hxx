@@ -1,8 +1,7 @@
-#include <Common/ResourceBuilder.h>
-#include <Common/Serialize/SerializeListener.h>
-//#include <Common/MathSerialize.h>
-#include <Common/Serialize/BinaryInputArchive.h>
-#include "Common/MeshData.h"
+#include "Serialize/ResourceBuilder.h"
+#include "Serialize/Serialize/SerializeListener.h"
+#include "Serialize/Serialize/BinaryInputArchive.h"
+#include "Serialize/MeshData.h"
 
 
 //------------------------------------------------------------------------------
@@ -269,7 +268,7 @@ namespace ResourceBuilder
 // 		{
 // 		public:
 // 
-// 			SkinVertexType0* m_pVertex;
+// 			VertexType0* m_pVertex;
 // 			xmUint				m_nVNum;
 // 
 // 			xmUint			GetVertexNumber() const
@@ -328,7 +327,7 @@ namespace ResourceBuilder
 // 	bool UpdateBonePalette(MeshData* pMeshData)
 // 	{
 // 
-// 		SkinVertexType0* pVertexBuffer = pMeshData->GetVertexBuffer();
+// 		VertexType0* pVertexBuffer = pMeshData->GetVertexBuffer();
 // 		SSERT(NULL != pVertexBuffer);
 // 
 // 
@@ -371,106 +370,106 @@ namespace ResourceBuilder
 // 		return true;
 // 	}
 
-	void UpdateBounding(ExpMeshData* pMesh)
-	{
-		SSERT( EXP_VT_SKIN_VERTEX_0 == pMesh->m_nVertexType);
-		const ExpVertexType0* arrVertex = reinterpret_cast<const ExpVertexType0*>(& pMesh->m_arrVertexBuffer[0]);
-		std::vector<ExpSubMesh>& arrSubmesh = pMesh->m_arrMeshLOD[0].m_arrSubMesh;
-
-		ExpAABBShape meshAABB;
-		meshAABB.Init();
-
-		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < arrSubmesh.size(); ++nSubMeshCnt)
-		{
-			ExpSubMesh& submesh = arrSubmesh[nSubMeshCnt];
-
-			ExpAABBShape subMeshAABB;
-			subMeshAABB.Init();
-
-			for (xmUint nVerCnt = 0; nVerCnt < submesh.m_nVertexCount; ++nVerCnt)
-			{
-				const ExpVertexType0& vertex = *(arrVertex + submesh.m_nVertexStart+nVerCnt);
-				subMeshAABB.AddPoint(vertex.p);
-			}
-
-			meshAABB.Merge(subMeshAABB.m_vMin,subMeshAABB.m_vMax);
-
-			submesh.m_subMeshBound.SetAABB(subMeshAABB.m_vMin,subMeshAABB.m_vMax);
-		}
-
-		pMesh->m_meshBound.SetAABB(meshAABB.m_vMin,meshAABB.m_vMax);
-	}
-
-
-
-	bool CreateMeshData(MeshData* pMesh,const ExpMesh* pMeshExp)
-	{
-
-		const std::vector<ExpSubMesh>& arrSrcSubMesh = pMeshExp->m_mesh.m_arrMeshLOD[0].m_arrSubMesh;
-		const xmUint nSubMeshNum = (xmUint)arrSrcSubMesh.size();
-
-		pMesh->SetSource(pMeshExp->m_header.m_strMaxFile.c_str());
-		pMesh->SetGlobalSkeletonID(pMeshExp->m_header.m_nSkelGUID);
-		pMesh->ResetBuffer(pMeshExp->m_mesh.m_nIndexType,pMeshExp->m_header.m_nIndexNum
-			,pMeshExp->m_header.m_nVertexNum
-			,nSubMeshNum
-			,pMeshExp->m_header.m_nBoneNum
-			);
-
-		//------------------------------------------------------------------------------
-		//fill stream source
-		//------------------------------------------------------------------------------
-		const std::vector<xmUint8>& arrSrcIndexBuffer = pMeshExp->m_mesh.m_arrIndexBuffer;
-		const std::vector<xmUint8>& arrSrcVertexBuffer = pMeshExp->m_mesh.m_arrVertexBuffer;
-		memcpy(pMesh->GetIndexBuffer(),arrSrcIndexBuffer.size() > 0 ? &arrSrcIndexBuffer[0] : NULL,arrSrcIndexBuffer.size());
-		memcpy(pMesh->GetVertexBuffer(),arrSrcVertexBuffer.size() > 0 ? &arrSrcVertexBuffer[0] : NULL,arrSrcVertexBuffer.size());
-
-		//------------------------------------------------------------------------------
-		//fill sub mesh
-		//------------------------------------------------------------------------------
-		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
-		{
-			const ExpSubMesh& srcSubMesh = arrSrcSubMesh[nSubMeshCnt];
-			ISubMeshData* pSubMesh = pMesh->GetSubMesh(nSubMeshCnt);
-			pSubMesh->Reset(srcSubMesh.m_nIndexStart,srcSubMesh.m_nIndexCount
-				,srcSubMesh.m_nVertexStart,srcSubMesh.m_nVertexCount
-				,0 //Unknown material id
-				,&srcSubMesh.m_subMeshBound
-				,srcSubMesh.m_arrBonePalette.size() > 0 ? &srcSubMesh.m_arrBonePalette[0] : NULL
-				,srcSubMesh.m_arrBonePalette.size()
-				,srcSubMesh.m_name.c_str()
-				,srcSubMesh.m_submeshTag.c_str());
-		}
-
-		//------------------------------------------------------------------------------
-		//fill skin info
-		//------------------------------------------------------------------------------
-		for (xmUint nBoneCnt = 0; nBoneCnt < pMeshExp->m_mesh.m_arrBoneName.size(); ++ nBoneCnt)
-		{
-			pMesh->SetBoneName(nBoneCnt,pMeshExp->m_mesh.m_arrBoneName[nBoneCnt].c_str());
-			if (pMeshExp->m_mesh.m_arrBoneBound.size() > 0)
-			{
-				const ExpBounding&  bound = pMeshExp->m_mesh.m_arrBoneBound[nBoneCnt];
-				SSERT(bound.m_nShapeType == EXP_BS_BOX);
-				pMesh->SetBoneBoundOBB(nBoneCnt,&bound.m_vPos,&bound.m_qRot,bound.m_boxShape.m_fXSize
-					,bound.m_boxShape.m_fYSize
-					,bound.m_boxShape.m_fZSize);
-			}
-
-		}
+// 	void UpdateBounding(ExpMeshData* pMesh)
+// 	{
+// 		SSERT( EXP_VT_SKIN_VERTEX_0 == pMesh->m_nVertexType);
+// 		const ExpVertexType0* arrVertex = reinterpret_cast<const ExpVertexType0*>(& pMesh->m_arrVertexBuffer[0]);
+// 		std::vector<ExpSubMesh>& arrSubmesh = pMesh->m_arrMeshLOD[0].m_arrSubMesh;
+// 
+// 		ExpAABBShape meshAABB;
+// 		meshAABB.Init();
+// 
+// 		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < arrSubmesh.size(); ++nSubMeshCnt)
+// 		{
+// 			ExpSubMesh& submesh = arrSubmesh[nSubMeshCnt];
+// 
+// 			ExpAABBShape subMeshAABB;
+// 			subMeshAABB.Init();
+// 
+// 			for (xmUint nVerCnt = 0; nVerCnt < submesh.m_nVertexCount; ++nVerCnt)
+// 			{
+// 				const ExpVertexType0& vertex = *(arrVertex + submesh.m_nVertexStart+nVerCnt);
+// 				subMeshAABB.AddPoint(vertex.p);
+// 			}
+// 
+// 			meshAABB.Merge(subMeshAABB.m_vMin,subMeshAABB.m_vMax);
+// 
+// 			submesh.m_subMeshBound.SetAABB(subMeshAABB.m_vMin,subMeshAABB.m_vMax);
+// 		}
+// 
+// 		pMesh->m_meshBound.SetAABB(meshAABB.m_vMin,meshAABB.m_vMax);
+// 	}
 
 
-		//------------------------------------------------------------------------------
-		//fill bounding
-		//------------------------------------------------------------------------------
-		xmVector3 vMin;
-		xmVector3 vMax;
-		pMeshExp->m_mesh.m_meshBound.GetAABB(vMin,vMax);
-		pMesh->SetBoundingAABB(&vMin,&vMax);
 
-		return true;
-
-	}
+// 	bool CreateMeshData(MeshData* pMesh,const ExpMesh* pMeshExp)
+// 	{
+// 
+// 		const std::vector<ExpSubMesh>& arrSrcSubMesh = pMeshExp->m_mesh.m_arrMeshLOD[0].m_arrSubMesh;
+// 		const xmUint nSubMeshNum = (xmUint)arrSrcSubMesh.size();
+// 
+// 		pMesh->SetSource(pMeshExp->m_header.m_strMaxFile.c_str());
+// 		pMesh->SetGlobalSkeletonID(pMeshExp->m_header.m_nSkelGUID);
+// 		pMesh->ResetBuffer(pMeshExp->m_mesh.m_nIndexType,pMeshExp->m_header.m_nIndexNum
+// 			,pMeshExp->m_header.m_nVertexNum
+// 			,nSubMeshNum
+// 			,pMeshExp->m_header.m_nBoneNum
+// 			);
+// 
+// 		//------------------------------------------------------------------------------
+// 		//fill stream source
+// 		//------------------------------------------------------------------------------
+// 		const std::vector<xmUint8>& arrSrcIndexBuffer = pMeshExp->m_mesh.m_arrIndexBuffer;
+// 		const std::vector<xmUint8>& arrSrcVertexBuffer = pMeshExp->m_mesh.m_arrVertexBuffer;
+// 		memcpy(pMesh->GetIndexBuffer(),arrSrcIndexBuffer.size() > 0 ? &arrSrcIndexBuffer[0] : NULL,arrSrcIndexBuffer.size());
+// 		memcpy(pMesh->GetVertexBuffer(),arrSrcVertexBuffer.size() > 0 ? &arrSrcVertexBuffer[0] : NULL,arrSrcVertexBuffer.size());
+// 
+// 		//------------------------------------------------------------------------------
+// 		//fill sub mesh
+// 		//------------------------------------------------------------------------------
+// 		for (xmUint nSubMeshCnt = 0; nSubMeshCnt < nSubMeshNum; ++nSubMeshCnt)
+// 		{
+// 			const ExpSubMesh& srcSubMesh = arrSrcSubMesh[nSubMeshCnt];
+// 			ISubMeshData* pSubMesh = pMesh->GetSubMesh(nSubMeshCnt);
+// 			pSubMesh->Reset(srcSubMesh.m_nIndexStart,srcSubMesh.m_nIndexCount
+// 				,srcSubMesh.m_nVertexStart,srcSubMesh.m_nVertexCount
+// 				,0 //Unknown material id
+// 				,&srcSubMesh.m_subMeshBound
+// 				,srcSubMesh.m_arrBonePalette.size() > 0 ? &srcSubMesh.m_arrBonePalette[0] : NULL
+// 				,srcSubMesh.m_arrBonePalette.size()
+// 				,srcSubMesh.m_name.c_str()
+// 				,srcSubMesh.m_submeshTag.c_str());
+// 		}
+// 
+// 		//------------------------------------------------------------------------------
+// 		//fill skin info
+// 		//------------------------------------------------------------------------------
+// 		for (xmUint nBoneCnt = 0; nBoneCnt < pMeshExp->m_mesh.m_arrBoneName.size(); ++ nBoneCnt)
+// 		{
+// 			pMesh->SetBoneName(nBoneCnt,pMeshExp->m_mesh.m_arrBoneName[nBoneCnt].c_str());
+// 			if (pMeshExp->m_mesh.m_arrBoneBound.size() > 0)
+// 			{
+// 				const ExpBounding&  bound = pMeshExp->m_mesh.m_arrBoneBound[nBoneCnt];
+// 				SSERT(bound.m_nShapeType == EXP_BS_BOX);
+// 				pMesh->SetBoneBoundOBB(nBoneCnt,&bound.m_vPos,&bound.m_qRot,bound.m_boxShape.m_fXSize
+// 					,bound.m_boxShape.m_fYSize
+// 					,bound.m_boxShape.m_fZSize);
+// 			}
+// 
+// 		}
+// 
+// 
+// 		//------------------------------------------------------------------------------
+// 		//fill bounding
+// 		//------------------------------------------------------------------------------
+// 		xmVector3 vMin;
+// 		xmVector3 vMax;
+// 		pMeshExp->m_mesh.m_meshBound.GetAABB(vMin,vMax);
+// 		pMesh->SetBoundingAABB(&vMin,&vMax);
+// 
+// 		return true;
+// 
+// 	}
 
 	bool LoadMesh(MeshData* pMesh,SerializeListener* pSL)
 	{
@@ -563,7 +562,7 @@ namespace ResourceBuilder
 
 	}
 
-	IMeshData* LoadMeshFromBinaryFile(const char* filename)
+	MeshData* LoadMeshFromBinaryFile(const char* filename)
 	{
 		BinaryInputArchive ar;
 		bool bLoadOK = ar.Open(filename);
@@ -574,7 +573,7 @@ namespace ResourceBuilder
 		}
 
 		MeshData* pMeshData = new MeshData;
-		ar.Serialize(pMeshData,"Mesh"); // pMeshData->Serialize(&ar,"Mesh");
+		pMeshData->Serialize(&ar,"Mesh");
 		//bLoadOK = ResourceBuilder::LoadMesh(pMeshData,&ar);
 		//pMeshData->RemoveDegenerateTriangleInplace();
 // 		if (!bLoadOK)
@@ -587,7 +586,7 @@ namespace ResourceBuilder
 		return pMeshData;
 	}
 
-	ISkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
+	SkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
 	{
 		BinaryInputArchive ar;
 		bool bLoadOK = ar.Open(filename);
@@ -597,7 +596,7 @@ namespace ResourceBuilder
 			return NULL;
 		}
 		
-		SkeletonData
+		//SkeletonData
 		//ExpSkeletonHeader skelHeader;
 		//ExpSkeletonData skelData;
 		//ar.Serialize(skelHeader,"Header");

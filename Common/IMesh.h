@@ -14,7 +14,7 @@ struct ExpBounding;
 class MeshLODData;
 class UTMeshBase;
 
-struct SkinVertexType0
+struct VertexType0
 {
 	xmVector3    m_vPos;			// position
 	xmUint32		   m_nBoneIndice;	// bones
@@ -126,7 +126,7 @@ public:
 
 	virtual void*					GetIndexBuffer() = 0;
 
-	virtual SkinVertexType0*		GetVertexBufferSkinVertexType0() = 0;
+	virtual VertexType0*		GetVertexBufferVertexType0() = 0;
 
 	virtual int						GetVertexNumber() const = 0;
 
@@ -159,9 +159,9 @@ public:
 
 	virtual xmUint						GetBoneWeightOffset() const = 0;
 
-	virtual SkinVertexType0*			GetVertexBufferSkinVertexType0() = 0;
+	virtual VertexType0*			GetVertexBufferVertexType0() = 0;
 
-	virtual const SkinVertexType0*	GetVertexBufferSkinVertexType0() const = 0;
+	virtual const VertexType0*	GetVertexBufferVertexType0() const = 0;
 
 	virtual xmUint						GetSubMeshNumber() const = 0;
 
@@ -204,7 +204,7 @@ public:
 
 	virtual void*					GetIndexBuffer() = 0;
 
-	virtual SkinVertexType0*		GetVertexBuffer() = 0;	
+	virtual VertexType0*		GetVertexBuffer() = 0;	
 
 	virtual ISubMeshData*		GetSubMesh(xmUint nSubMeshInd, int nLOD = 0) = 0;
 
