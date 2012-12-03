@@ -1,7 +1,7 @@
-#ifndef __ExpSkeletonData_H__
-#define __ExpSkeletonData_H__
+#ifndef __SkeletonData_H__
+#define __SkeletonData_H__
 
-enum EExpSkelVersion
+enum SkelVersion
 {
 	EXP_SKEL_VER_INITIAL = 0,
 	EXP_SKEL_VER_ANIM_RETARGET,//Use  SkelGUID
@@ -9,9 +9,8 @@ enum EExpSkelVersion
 	EXP_SKEL_VER_CURRENT = EXP_SKEL_VER_BONE_LOD_MASK,
 };
 
-class SerializeListener;
 
-struct ExpSkeletonHeader
+struct SkeletonHeader
 {
 	xmUint m_nIden;
 	xmUint m_nVersion;
@@ -20,7 +19,7 @@ struct ExpSkeletonHeader
 	void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonHeader" );
 };
 
-struct ExpSocketData
+struct SocketData
 {
 	std::string		m_strBoneName;
 	xmUint			m_nBoneID;
@@ -29,7 +28,7 @@ struct ExpSocketData
 	void Serialize(SerializeListener& sl, const char* pszLable = "SocketData" );
 };
 
-struct ExpSkeletonData
+class SkeletonData : public ISkeletonData
 {
 	GUID	m_nGlobalSkeletonID;
 	xmUint	m_nBoneNum;

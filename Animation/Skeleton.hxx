@@ -1,5 +1,4 @@
 #include "Animation/Skeleton.h"
-#include "Animation/ExpSkeletonData.h"
 
 namespace ma
 {
@@ -14,7 +13,6 @@ namespace ma
 		sl.Serialize(skelHeader,"Header");
 		sl.PushVersion(skelHeader.m_nVersion);
 		sl.Serialize(skelData,"Skeleton");
-		//skelData.Serialize(sl,"Skeleton");
 		sl.PopVersion();
 
 	

@@ -565,31 +565,53 @@ namespace ResourceBuilder
 
 	IMeshData* LoadMeshFromBinaryFile(const char* filename)
 	{
-		MeshData* pMeshData = NULL;
 		BinaryInputArchive ar;
 		bool bLoadOK = ar.Open(filename);
-		if (bLoadOK)
-		{
-			pMeshData = new MeshData;
-			bLoadOK = ResourceBuilder::LoadMesh(pMeshData,&ar);
-			pMeshData->RemoveDegenerateTriangleInplace();
-			if (!bLoadOK)
-			{
-				xmSafeDelete(pMeshData);
-			}
-		}
-
 		if (!bLoadOK)
 		{
-			LogError(_ERR_INVALID_CALL,"Fail to load mesh from file %s:",filename);
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
+			return NULL;
 		}
+
+		MeshData* pMeshData = new MeshData;
+		ar.Serialize(pMeshData,"Mesh"); // pMeshData->Serialize(&ar,"Mesh");
+		//bLoadOK = ResourceBuilder::LoadMesh(pMeshData,&ar);
+		//pMeshData->RemoveDegenerateTriangleInplace();
+// 		if (!bLoadOK)
+// 		{
+// 			xmSafeDelete(pMeshData);
+// 			LogError(_ERR_INVALID_CALL,"Fail to load mesh from file %s:",filename);
+// 			return NULL;
+// 		}
 
 		return pMeshData;
 	}
 
 	ISkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
 	{
+		BinaryInputArchive ar;
+		bool bLoadOK = ar.Open(filename);
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
+			return NULL;
+		}
+		
+		SkeletonData
+		//ExpSkeletonHeader skelHeader;
+		//ExpSkeletonData skelData;
+		//ar.Serialize(skelHeader,"Header");
+		//ar.Serialize(skelData,"Skeleton");
+		
 
+		// 		Skeleton* pSkel = NULL;
+		// 		ExpSkeletonHeader skelHeader;
+		// 		ExpSkeletonData skelData;
+		// 		pSL->Serialize(skelHeader,"Header");
+		// 		pSL->PushVersion(skelHeader.m_nVersion);
+		// 		pSL->Serialize(skelData,"Skeleton");
+		// 		pSL->PopVersion();
+		// 		pSkel = reinterpret_cast<Skeleton*>(ExpDataConverter::CreateSkeleton(&skelData,skelHeader.m_nVersion));
 	}
 
 }
