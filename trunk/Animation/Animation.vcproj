@@ -178,14 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExpSkeletonData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExpSkeletonData.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\Module.cpp"
 				>
 			</File>

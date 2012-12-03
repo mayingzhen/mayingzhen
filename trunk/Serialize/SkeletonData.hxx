@@ -1,4 +1,4 @@
-#include "Animation/ExpSkeletonData.h"
+#include "Serialize/ExpSkeletonData.h"
 
 void ExpSkeletonHeader::Serialize(SerializeListener& sl,const char* pszLable)
 {
@@ -37,16 +37,16 @@ void ExpSkeletonData::Serialize(SerializeListener& sl,const char* pszLable)
 	}
 
 	sl.Serialize(m_nBoneNum,"BoneNumber");
-// 	sl.Serialize(m_arrBoneName,"BoneName");
-// 	sl.Serialize(m_arrParentIndice,"ParentIndice");
-// 	sl.Serialize(m_arrScaleOS,"ScaleOS");
-// 	sl.Serialize(m_arrRotOS,"RotationOS");
-// 	sl.Serialize(m_arrPosOS,"PositionOS");
-// 	sl.Serialize(m_arrSocket,"Socket");
+ 	sl.Serialize(m_arrBoneName,"BoneName");
+ 	sl.Serialize(m_arrParentIndice,"ParentIndice");
+ 	sl.Serialize(m_arrScaleOS,"ScaleOS");
+ 	sl.Serialize(m_arrRotOS,"RotationOS");
+ 	sl.Serialize(m_arrPosOS,"PositionOS");
+ 	sl.Serialize(m_arrSocket,"Socket");
 
 	if (sl.GetVersion() >= EXP_SKEL_VER_BONE_LOD_MASK)
 	{
-		sl.SerializeArray(m_arrLODBoneMask, "LODBoneMask");
+		sl.Serialize(m_arrLODBoneMask, "LODBoneMask");
 	}
 	else
 	{

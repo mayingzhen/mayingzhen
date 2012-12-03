@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Framework"
-	ProjectGUID="{40FAEC66-C864-49EB-A511-E250D35F99E2}"
-	RootNamespace="Framework"
+	Name="Serialize"
+	ProjectGUID="{E48649B3-18D3-4EA5-8277-9869FDEB892A}"
+	RootNamespace="Serialize"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -42,12 +42,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FRAMEWORK_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SERIALIZE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="Framework/stdafx.h"
+				PrecompiledHeaderThrough="Serialize/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -117,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FRAMEWORK_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SERIALIZE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -169,64 +168,56 @@
 	</References>
 	<Files>
 		<Filter
-			Name="源文件"
+			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Camera.hxx"
+				RelativePath=".\MeshData.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Component.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\GameObj.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Mesh.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshComponent.hxx"
+				RelativePath=".\MeshData.hxx"
 				>
 			</File>
 			<File
 				RelativePath=".\Module.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Object.hxx"
+				RelativePath=".\Module.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.hxx"
+				RelativePath=".\ResourceBuilder.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Scene.hxx"
+				RelativePath=".\ResourceBuilder.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SceneNode.hxx"
+				RelativePath=".\S3ADataFormat.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SkelMeshComponent.hxx"
+				RelativePath=".\S3AExpMeshData.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp"
+				RelativePath=".\SerializeExport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonData.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\stdAfx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -237,86 +228,60 @@
 					/>
 				</FileConfiguration>
 			</File>
-		</Filter>
-		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
 			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Component.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FrameworkExport.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameObj.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Mesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshComponent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Object.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Scene.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SceneNode.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonRes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonRes.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\SkelMeshComponent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Texture.hxx"
+				RelativePath=".\stdAfx.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="资源文件"
+			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="Serialize"
+			>
+			<File
+				RelativePath=".\Serialize\BinaryInputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\BinaryInputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\BinaryOutputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\BinaryOutputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3AXMLInputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3AXMLInputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3AXMLOutputArchive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\S3AXMLOutputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\SerializeListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\SerializeListener.hxx"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

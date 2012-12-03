@@ -5,17 +5,20 @@
 #include "Common/Common.h"
 #include "Common/maMath.h"
 
-#include "Common/Serialize/SerializeListener.h"
-#include "Common/Serialize/BinaryInputArchive.h"
-#include "Common/Serialize/BinaryOutputArchive.h"
+// #include "Common/Serialize/SerializeListener.h"
+// #include "Common/Serialize/BinaryInputArchive.h"
+// #include "Common/Serialize/BinaryOutputArchive.h"
+
+#include "Common/MeshData.h"
+#include "Common/ExpMeshData.h"
+#include "Common/ExpSkeletonData.h"
+#include "Common/ResourceBuilder.h"
 
 #include "Common/IRender.h"
 #include "Common/IRenderDevice.h"
 #include "Common/IRendMesh.h"
 #include "Common/IRendTexture.h"
 #include "Common/IPhysicsScene.h"
-
-#include "Common/ResourceBuilder.h"
 #include "Common/IMesh.h"
 
 
