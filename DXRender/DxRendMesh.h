@@ -1,13 +1,14 @@
 #ifndef  _DXRENDMESH__H__
 #define  _DXRENDMESH__H__
 
+class MeshData;
+
 namespace ma
 {
 	class DXRENDER_API DxRendMesh : public IRendMesh
 	{
 	public:
 		DxRendMesh();
-
 
 		~DxRendMesh();
 
@@ -17,7 +18,7 @@ namespace ma
 
 	private:
 		ID3DXMesh**	m_ppD3DMesh;
-		IMeshData* m_pMeshData;
+		MeshData* m_pMeshData;
 	};
 }
 

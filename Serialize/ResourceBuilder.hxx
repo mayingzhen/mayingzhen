@@ -595,22 +595,13 @@ namespace ResourceBuilder
 			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
 			return NULL;
 		}
-		
-		//SkeletonData
-		//ExpSkeletonHeader skelHeader;
-		//ExpSkeletonData skelData;
+	
+		//SkeletonHeader skelHeader;
 		//ar.Serialize(skelHeader,"Header");
-		//ar.Serialize(skelData,"Skeleton");
-		
 
-		// 		Skeleton* pSkel = NULL;
-		// 		ExpSkeletonHeader skelHeader;
-		// 		ExpSkeletonData skelData;
-		// 		pSL->Serialize(skelHeader,"Header");
-		// 		pSL->PushVersion(skelHeader.m_nVersion);
-		// 		pSL->Serialize(skelData,"Skeleton");
-		// 		pSL->PopVersion();
-		// 		pSkel = reinterpret_cast<Skeleton*>(ExpDataConverter::CreateSkeleton(&skelData,skelHeader.m_nVersion));
+		SkeletonData* pSkelData = new SkeletonData();
+		pSkelData->Serialize(ar, "Skeleton");
+
+		return pSkelData;
 	}
-
 }

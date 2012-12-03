@@ -31,21 +31,21 @@ enum VertexType
 	VT_SKIN_VERTEX_0 = 0,
 };
 
-struct VertexType0
+struct SERIALIZE_API VertexType0
 {
 	xmVector3    p;				// position
-	xmUint32		   b;				// bones
-	xmUint32		   w;				// Weights		
-	xmVector3	   n;				// normal
-	xmVector2	   uv;				// Texture Coordinate
-	xmVector3	   tgn;
-	xmUint32          vc;				// vertex color
-	xmUint32		   vi;				// vertex illumination
+	xmUint32	 b;				// bones
+	xmUint32	 w;				// Weights		
+	xmVector3	 n;				// normal
+	xmVector2	 uv;				// Texture Coordinate
+	xmVector3	 tgn;
+	xmUint32     vc;				// vertex color
+	xmUint32	 vi;				// vertex illumination
 
 	void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 };
 
-struct CylinderShape
+struct SERIALIZE_API CylinderShape
 {
 	float m_fRadius;
 	float m_fHeight;
@@ -54,7 +54,7 @@ struct CylinderShape
 
 };
 
-struct BoxShape
+struct SERIALIZE_API BoxShape
 {
 	float m_fXSize;
 	float m_fYSize;
@@ -64,7 +64,7 @@ struct BoxShape
 
 };
 
-struct AABBShape
+struct SERIALIZE_API AABBShape
 {
 	xmVector3 m_vMin;
 	xmVector3 m_vMax;
@@ -76,7 +76,7 @@ struct AABBShape
 	void AddPoint(const xmVector3& v);
 };
 
-struct Bounding
+struct SERIALIZE_API Bounding
 {
 	xmUint16			m_nShapeType;
 	xmVector3		m_vPos;
@@ -103,7 +103,7 @@ struct Bounding
 };
 
 
-struct MeshHeader
+struct SERIALIZE_API MeshHeader
 {
 	xmUint32		m_nIdent;	 // File Identity = 'S3MD'
 	xmUint32		m_nVersion;	 // ∏Ò Ω∞Ê±æ∫≈
@@ -118,7 +118,7 @@ struct MeshHeader
 
 
 
-class SubMeshData /*: public ISubMeshData*/
+class SERIALIZE_API SubMeshData /*: public ISubMeshData*/
 {
 	xmUint m_nIndexStart;
 	xmUint m_nIndexCount;
@@ -198,7 +198,7 @@ public:
 };
 
 
-class MeshLODData /*: public IMeshLODData*/
+class SERIALIZE_API MeshLODData /*: public IMeshLODData*/
 {
 	std::vector<SubMeshData*> m_arrSubMesh;
 
@@ -269,7 +269,7 @@ public:
 	void					Serialize(SerializeListener& sl,const char* pszLabel);
 };
 
-class MeshData/* : public IMeshData*/
+class SERIALIZE_API MeshData/* : public IMeshData*/
 {
 	MeshHeader			m_header;
 

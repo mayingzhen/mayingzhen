@@ -7,3 +7,4 @@
 
 #include "Serialize/ResourceBuilder.hxx"
 #include "Serialize/MeshData.hxx"
+#include "Serialize/SkeletonData.hxx"

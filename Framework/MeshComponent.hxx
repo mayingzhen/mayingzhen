@@ -18,11 +18,11 @@ namespace ma
 		if (pRender == NULL)
 			return;
 
-		if (m_pMesh == NULL || m_pGameObject == NULL)
+		if (m_pMeshRes == NULL || m_pGameObject == NULL)
 			return;
 
 		D3DXMATRIX worldmat = m_pGameObject->GetWorldMatrix();
-		pRender->RenderMesh( &worldmat, m_pMesh->GetRendMesh(), m_pTexture->GetRendTexture() );
+		pRender->RenderMesh( &worldmat, m_pMeshRes->GetRendMesh(), m_pTexture->GetRendTexture() );
 	}
 
 	void MeshComponent::Update()
@@ -42,8 +42,8 @@ namespace ma
 
 	void MeshComponent::Load(const char* pszMeshPath,const char* pszTexPath)
 	{
-		m_pMesh = new Mesh(pszMeshPath);
-		m_pMesh->Load();
+		m_pMeshRes = new MeshRes(pszMeshPath);
+		m_pMeshRes->Load();
 
 		m_pTexture = new Texture(pszTexPath);
 		m_pTexture->Load();

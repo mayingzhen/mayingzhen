@@ -144,7 +144,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 400, 400);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, -400, 400);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -155,27 +155,17 @@ void CGameApp::InitGame()
 	float fFarClip = 3000.0f;
 	m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
-	// 	CCharactor* pLookAt = (CCharactor*)CObject::StaticFindObject("Protagonist");
-	// 	D3DXVECTOR3 lookAtPos = pLookAt->GetWordPos();
-	// 	D3DXVECTOR3 eyePos;
-	// 	eyePos.x = lookAtPos.x;
-	// 	eyePos.y = lookAtPos.y + 1200;
-	// 	eyePos.z = lookAtPos.z + 1200;
-	// 	g_Camera.m_fFOV = D3DX_PI / 4;
-	// 	g_Camera.m_fAspect = (float)g_nWndWidth / (float)g_nWndHeigh;
-	// 	g_Camera.m_fNearClip = 1.0f;
-	// 	g_Camera.m_fFarClip = 30000.0f;
-	// 	g_Camera.SetViewParams( eyePos, lookAtPos ); 
-	
-
 	ma::SceneNode* pRootNode = new ma::SceneNode(NULL,"RootNode");
 	m_pScene = new ma::Scene(pRootNode);
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
 	pRootNode->AddChildNode(pGameObj);
 	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
+	pMeshComp->Load("../TrineGame/character/magician/body.skn","../TrineGame/character/magician/body.tga");
+	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
 	pGameObj->AddComponent(pMeshComp);
-	pMeshComp->Load("../TrineGame/map/qiaoqiaoban.skn","../TrineGame/map/robotremains.tga");
+	//pSkelMeshComp->AddMeshComp(pMeshComp);
+	pSkelMeshComp->LoadSkeleton("../TrineGame/character/magician/body.ske");
 	//////
 
 //  	CObject::StaticInit();

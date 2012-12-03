@@ -3,17 +3,23 @@
 
 #include "Animation/NodePose.h"
 
+class SkeletonData;
+
 namespace ma
 {
 	class ANIMATION_API Skeleton
 	{
-// 		void CSkeleton::Init(const std::vector<std::string>& arrBoneName,
-// 			const std::vector<BoneIndex>& arrParentInd,
-// 			const std::vector<CNodeTransform>& arrNodeOS);
+	public:
+		Skeleton();
+
+		~Skeleton();
+
+		bool Load(const char* pszPath);
 
 		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID);
 
-		void Serialize(SerializeListener& sl,const char* pszLabel);
+	private:
+		void Init(const SkeletonData& skelData);
 
 	private:
 		std::string m_name;
