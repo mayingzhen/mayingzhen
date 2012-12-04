@@ -26,6 +26,10 @@ namespace ma
 
 		void Load(const char* pszMeshPath,const char* pszTexPath);
 
+		MeshRes* GetMeshRes() {return m_pMeshRes;}
+
+		Texture* GetTexture() {return m_pTexture;}
+
 	private:
 		MeshRes*		m_pMeshRes;
 		Texture*	m_pTexture;

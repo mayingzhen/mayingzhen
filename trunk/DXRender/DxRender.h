@@ -33,7 +33,8 @@ namespace ma
 
 		void RenderMesh(D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture);
 
-		void RenderSkelMesh(IRendMesh* pSkelMesh);
+		void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
+			D3DXMATRIX* pWordMat,IRendMesh* pSkelMesh,IRendTexture* pTexture);
 
 		//IRendMesh* CreateRendMesh();
 

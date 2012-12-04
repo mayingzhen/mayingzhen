@@ -13,17 +13,30 @@ namespace ma
 
 	}
 
-// 	void SkelMeshComponent::Render()
-// 	{
-// 		for (UINT i = 0; i < m_vMeshComp.size(); ++i)
-// 		{
-// 			if (m_vMeshComp[i] == NULL)
-// 				continue;
-// 			
-// 			// 		IRender* pRender = ma::GetRender();
-// 			//m_vMeshComp[i]->Render();
-// 		}
-// 	}
+	void SkelMeshComponent::Render()
+	{
+		IRender* pRender = ma::GetRender();
+		if (pRender == NULL)
+			return;
+
+		if (m_pGameObject == NULL)
+			return;
+
+		D3DXMATRIX worldmat = m_pGameObject->GetWorldMatrix();
+
+		for (UINT i = 0; i < m_vMeshComp.size(); ++i)
+		{
+			if (m_vMeshComp[i] == NULL)
+				continue;
+			
+			MeshRes* pMeshRes = m_vMeshComp[i].GetMeshRes();
+			Texture* pTexture = m_vMeshComp[i].GetTexture();
+			if (pMeshRes == NULL)
+				continue;
+			
+			pRender->RenderSkelMesh(NULL,0,&worldmat,pMeshRes->GetRendMesh(),pTexture->GetRendTexture());
+		}
+	}
 
 	void SkelMeshComponent::AddMeshComp(MeshComponent* pMeshComp)
 	{
