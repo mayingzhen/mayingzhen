@@ -14,6 +14,8 @@ namespace ma
 
 		~SceneNode();
 
+		void Update();
+
 		void Render();
 
 		void TranslateLS(const D3DXVECTOR3& vDeltaLS);
