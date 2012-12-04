@@ -18,7 +18,7 @@ namespace ma
 		~SkelMeshComponent();
 
 		void Update();
-
+			 
 		void Render();
 
 		void AddMeshComp(MeshComponent* pMeshComp);

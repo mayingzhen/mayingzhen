@@ -17,6 +17,17 @@ namespace ma
 
 	}
 
+	void SceneNode::Update()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->Update();
+		}
+	}
+
 	void SceneNode::Render()
 	{
 		for (UINT i = 0; i < m_vChildNodes.size(); ++i)

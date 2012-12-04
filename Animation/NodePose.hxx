@@ -55,6 +55,8 @@ namespace ma
 
 	void NodePose::InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS,const NodePose* pRefPose)
 	{
+		//InitWithParentIndice(pRefPose->get);
+
 		std::vector<maNodeTransform> arrTSF_PS;
 		const xmUint nBoneNum = pRefPose->GetNodeNumber();
 		arrTSF_PS.resize(nBoneNum);
