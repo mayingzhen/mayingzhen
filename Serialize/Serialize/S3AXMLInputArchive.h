@@ -8,14 +8,14 @@
 #ifndef __S3AXMLInputArchive_H__
 #define __S3AXMLInputArchive_H__
 
-#include <Animation/Common/Serialize/S3ASerializeListener.h>
+#include <Animation/Common/Serialize/SerializeListener.h>
 
 class TiXmlDocument;
 class TiXmlElement;
 
 #include <Animation/Common/xmCommonPrefix.h>
 
-class  S3AXMLInputArchive : public S3ASerializeListener , public IS3AXMLInputArchive
+class  S3AXMLInputArchive : public SerializeListener , public IS3AXMLInputArchive
 {
 	std::string		m_strFilename;
 	TiXmlDocument*	m_pDoc;
@@ -69,7 +69,7 @@ public:
 	void SerializeBasicType(IS3AStringWrapper* val,const char* pszLable);
 
 
-	IS3ASerializeListener* GetSerializeListener();
+	SerializeListener* GetSerializeListener();
 
 private:
 	void NextSiblingElement();

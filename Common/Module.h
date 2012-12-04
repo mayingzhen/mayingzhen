@@ -4,6 +4,7 @@
 #include "Common/CommonExport.h"
 #include "Common/Common.h"
 #include "Common/maMath.h"
+#include "Common/Timer.h"
 
 #include "Common/IRender.h"
 #include "Common/IRenderDevice.h"

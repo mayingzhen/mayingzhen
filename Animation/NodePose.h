@@ -20,6 +20,11 @@ namespace ma
 		mutable std::vector<maNodeTransform>	m_arrTSF_OS;
 		std::vector<BoneIndex>		m_arrParentIndice;
 
+		UINT NodePose::GetNodeNumber()const
+		{
+			return (xmUint)m_arrParentIndice.size();
+		}
+
 		void InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice);
 
 		void InitParentSpace(const std::vector<maNodeTransform>& arrTSF_PS, const std::vector<BoneIndex>& arrParentIndice);
@@ -28,6 +33,8 @@ namespace ma
 
 		void InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice);
 
+		void InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS,const NodePose* pRefPose);
+		
 		void SetTransformPSAll(const std::vector<maNodeTransform>& arrTSF_PS);
 
 		void SetTransformOSAll(const std::vector<maNodeTransform>& arrTSF_OS);

@@ -13,6 +13,7 @@
 #include "Common/Module.h"
 #include "Framework/Module.h"
 #include "DXRender/Module.h"
+#include "Animation/Module.h"
 
 CGameApp g_GameApp;
 
@@ -163,9 +164,10 @@ void CGameApp::InitGame()
 	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
 	pMeshComp->Load("../TrineGame/character/magician/body.skn","../TrineGame/character/magician/body.tga");
 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
-	pGameObj->AddComponent(pMeshComp);
-	//pSkelMeshComp->AddMeshComp(pMeshComp);
+	pGameObj->AddComponent(pSkelMeshComp);
+	pSkelMeshComp->AddMeshComp(pMeshComp);
 	pSkelMeshComp->LoadSkeleton("../TrineGame/character/magician/body.ske");
+	pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska");
 	//////
 
 //  	CObject::StaticInit();
@@ -222,6 +224,11 @@ void CGameApp::InitGame()
 
 void CGameApp::Update()
 {
+	if ( ma::GetTimer() )
+	{
+		ma::GetTimer()->UpdateFrame();
+	}
+
 	if (m_pScene)
 	{
 		m_pScene->Update(m_fElapsedTime);
@@ -293,6 +300,9 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 	ma::DxRender* pDxRender = new ma::DxRender();
 	ma::SetRender(pDxRender);
 	pDxRender->InitDefaultShader();
+
+	ma::Time* pTime = new ma::Time();
+	ma::SetTimer(pTime);
 
 
 //  	if( FAILED( Initialize3DEnvironment() ) )

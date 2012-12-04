@@ -18,6 +18,8 @@ namespace ma
 
 		bool IsLoad();
 
+		Skeleton* GetSkeleton() {return m_pSkeleton;}
+
 	private:
 		Skeleton* m_pSkeleton;
 	};

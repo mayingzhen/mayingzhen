@@ -78,11 +78,6 @@ namespace ma
 		//m_pd3dDevice->EndScene();
 		//m_pd3dDevice->Present(NULL,NULL,NULL,NULL);
 	}
-
-	void DxRender::RenderSkelMesh(IRendMesh* pSkelMesh)
-	{
-
-	}
 	
 	void DxRender::SetViewMatrix(const D3DXMATRIX* viewMatrix)
 	{
@@ -169,7 +164,7 @@ namespace ma
 
 	}
 
-	void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
+	void DxRender::RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
 		D3DXMATRIX* pWordMat,IRendMesh* pSkelMesh,IRendTexture* pTexture)
 	{
 

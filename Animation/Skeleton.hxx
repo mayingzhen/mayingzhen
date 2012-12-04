@@ -4,12 +4,12 @@ namespace ma
 {
 	Skeleton::Skeleton()
 	{
-
+		m_refPose = new NodePose;
 	}
 
 	Skeleton::~Skeleton()
 	{
-
+		SAFE_DELETE(m_refPose);
 	}
 
 	bool Skeleton::Load(const char* pszPath)
@@ -39,7 +39,7 @@ namespace ma
 			m_arrParentInd[nBoneCnt] = skelData.m_arrParentIndice[nBoneCnt];
 		}
 
-		m_refPose.InitObjectSpace(arrNodeOS, m_arrParentInd);
+		m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
 
 		m_arrRefPosePS.resize(nBoneNum);
 		m_arrRefPoseOS.resize(nBoneNum);
@@ -47,8 +47,8 @@ namespace ma
 
 		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNum; ++uBoneCunt)
 		{
-			maMatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose.GetTransformOS(uBoneCunt) );
-			maMatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose.GetTransformPS(uBoneCunt) );
+			maMatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
+			maMatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
 			D3DXMatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
 		}
 

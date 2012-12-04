@@ -604,4 +604,20 @@ namespace ResourceBuilder
 
 		return pSkelData;
 	}
+
+	AnimationData* LoadAnimationFromBinaryFile(const char* fileName)
+	{
+		BinaryInputArchive ar;
+		bool bLoadOK = ar.Open(fileName);
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
+			return NULL;
+		}
+
+		AnimationData* pAnimationData = new AnimationData();
+		pAnimationData->Serialize(ar, "Animation");
+
+		return pAnimationData;
+	}
 }

@@ -29,6 +29,23 @@ void maQuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1, const D3DX
 	}
 } 
 
+// void  xmQuaternionLerp(xmQuaternion* out,const xmQuaternion* q0,const xmQuaternion* q1,float factor)
+// {
+// 	if (xmQuaternionDot(q0,q1) > 0)
+// 	{
+// 		xmLerp(out->x,q0->x,q1->x,factor);
+// 		xmLerp(out->y,q0->y,q1->y,factor);
+// 		xmLerp(out->z,q0->z,q1->z,factor);
+// 		xmLerp(out->w,q0->w,q1->w,factor);
+// 	}else{
+// 		xmLerp(out->x,q0->x,-q1->x,factor);
+// 		xmLerp(out->y,q0->y,-q1->y,factor);
+// 		xmLerp(out->z,q0->z,-q1->z,factor);
+// 		xmLerp(out->w,q0->w,-q1->w,factor);
+// 	}
+// 
+// }
+
 void maTransformSetIdentity(maNodeTransform* pTSF)
 {
 	memset( &pTSF->m_vPos, 0, sizeof(D3DXVECTOR3) );
