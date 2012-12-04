@@ -196,7 +196,7 @@ void S3AXMLOutputArchive::SerializeBasicType(IS3AStringWrapper* val,const char* 
 	m_pParentElem->InsertEndChild(elem);
 }
 
-IS3ASerializeListener* S3AXMLOutputArchive::GetSerializeListener()
+SerializeListener* S3AXMLOutputArchive::GetSerializeListener()
 {
 	return this;
 }

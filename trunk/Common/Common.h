@@ -2,6 +2,7 @@
 #define COMMON__H__
 
 #include <Windows.h>
+#include <time.h>
 
 #include <d3dx9math.h>
 #include <assert.h>
@@ -15,6 +16,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <algorithm>
+
 
 #include "Common/xmBaseType.h"
 

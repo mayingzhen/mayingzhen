@@ -202,7 +202,7 @@ void S3AXMLInputArchive::NextSiblingElement()
 	m_pCurElem = pNextElem ? pNextElem : m_pCurElem;
 }
 
-IS3ASerializeListener* S3AXMLInputArchive::GetSerializeListener()
+SerializeListener* S3AXMLInputArchive::GetSerializeListener()
 {
 	return this;
 }

@@ -40,9 +40,11 @@ struct COMMON_API maNodeTransform
 };
 
 // Quaternion
-COMMON_API void  maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat);
+COMMON_API void maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat);
 
 COMMON_API void maQuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1, const D3DXQUATERNION* pQ2, float fWeight);
+
+//COMMON_API void maQuaternionLerp(xmQuaternion* out,const xmQuaternion* q0,const xmQuaternion* q1,float factor);
 
 // Transform
 COMMON_API void maTransformSetIdentity(maNodeTransform* pTSF);

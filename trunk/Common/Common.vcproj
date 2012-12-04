@@ -194,10 +194,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IMesh.h"
-				>
-			</File>
-			<File
 				RelativePath=".\IPhysicsScene.h"
 				>
 			</File>
@@ -247,6 +243,14 @@
 			</File>
 			<File
 				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Timer.hxx"
 				>
 			</File>
 			<File

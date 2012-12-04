@@ -2,6 +2,7 @@
 #include "Common/Module.h"
 
 #include "Common/maMath.hxx"
+#include "Common/Timer.hxx"
 #include "Common/IRender.hxx"
 #include "Common/IRenderDevice.hxx"
 

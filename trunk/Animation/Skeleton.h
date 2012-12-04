@@ -1,12 +1,14 @@
 #ifndef  _SKELETON__H__
 #define  _SKELETON__H__
 
-#include "Animation/NodePose.h"
+//#include "Animation/NodePose.h"
 
-class SkeletonData;
+struct SkeletonData;
 
 namespace ma
 {
+	class NodePose;
+
 	class ANIMATION_API Skeleton
 	{
 	public:
@@ -16,7 +18,12 @@ namespace ma
 
 		bool Load(const char* pszPath);
 
-		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID);
+		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
+
+		UINT GetBoneNumer() {return m_arrBoneName.size();}
+
+		const NodePose* GetResPose() {return m_refPose;} 
+
 
 	private:
 		void Init(const SkeletonData& skelData);
@@ -27,7 +34,7 @@ namespace ma
 		std::vector<std::string> m_arrBoneName;
 		std::vector<BoneIndex>	 m_arrParentInd;
 
-		NodePose				 m_refPose;
+		NodePose*				 m_refPose;
 
 		// D3DXMATRIX
 		std::vector<D3DXMATRIX> m_arrRefPosePS;

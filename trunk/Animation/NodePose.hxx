@@ -39,6 +39,34 @@ namespace ma
 	// {
 	// 
 	// }
+	void  xmTransformMulLocalScale(xmNodeTransform* pOut,const xmNodeTransform* pTSFA,const xmNodeTransform* pTSFB)
+	{
+		xmVector3 vOPos = pTSFA->m_vPos*pTSFB->m_fScale;
+		maQuaternionTransformVector(&vOPos,&vOPos,&pTSFB->m_qRot);
+		pOut->m_vPos = vOPos + pTSFB->m_vPos;
+
+		D3DXQuaternionMultiply(&pOut->m_qRot,&pTSFA->m_qRot,&pTSFB->m_qRot);
+
+		pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale; 
+
+		//xmVec3Mul(&pOut->m_vLocalScale,&pTSFA->m_vLocalScale,&pTSFB->m_vLocalScale);
+
+	}
+
+	void NodePose::InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS,const NodePose* pRefPose)
+	{
+		std::vector<maNodeTransform> arrTSF_PS;
+		const xmUint nBoneNum = pRefPose->GetNodeNumber();
+		arrTSF_PS.resize(nBoneNum);
+		m_arrDirtyByte.resize(nBoneNum);
+
+		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
+		{
+			xmTransformMulLocalScale(&arrTSF_PS[nBoneCnt],&arrTSF_LS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt));
+
+		}
+		SetTransformPSAll(arrTSF_PS);
+	}
 
 	void NodePose::SetTransformPSAll(const std::vector<maNodeTransform>& arrTSF_PS)
 	{

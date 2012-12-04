@@ -5,6 +5,7 @@
 #include "Serialize/ResourceBuilder.h"
 #include "Serialize/MeshData.h"
 #include "Serialize/SkeletonData.h"
+#include "Serialize/AnimationData.h"
 
 
 #endif
