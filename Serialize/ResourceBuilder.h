@@ -31,7 +31,7 @@ namespace ResourceBuilder
 
 	SERIALIZE_API bool			SaveMesh(MeshData* pMesh,SerializeListener* pSL);
 
-	SERIALIZE_API MeshData* LoadMeshFromBinaryFile(const char* filename);
+	SERIALIZE_API MeshData*		LoadMeshFromBinaryFile(const char* filename);
 
 	SERIALIZE_API SkeletonData* LoadSkeletonFromBinaryFile(const char* fileName);
 

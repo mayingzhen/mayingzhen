@@ -13,6 +13,8 @@ namespace ma
 
 		~SkelMeshComponent();
 
+		void Render();
+
 		void AddMeshComp(MeshComponent* pMeshComp);
 
 		void LoadSkeleton(const char* pSkelPath);
