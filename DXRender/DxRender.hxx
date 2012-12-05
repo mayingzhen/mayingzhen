@@ -32,6 +32,11 @@ namespace ma
 		HRESULT hr = D3DXCreateEffectFromFile( pRenderDevice->GetDXDevive(),
 			defaultfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefault, NULL ); 
 
+		const char* defaultSkinfx = "../bin/shader/Shading@Skin.fx";
+		hr = D3DXCreateEffectFromFile( pRenderDevice->GetDXDevive(),
+			defaultSkinfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefaultSkin, NULL );
+
+
 // 		D3DXEFFECT_DESC EffectDesc;
 // 		D3DXHANDLE hTechnique;
 // 		D3DXTECHNIQUE_DESC techniqueDesc;
@@ -165,9 +170,37 @@ namespace ma
 	}
 
 	void DxRender::RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
-		D3DXMATRIX* pWordMat,IRendMesh* pSkelMesh,IRendTexture* pTexture)
+		D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture)
 	{
+		DxRendMesh* pDxMesh = (DxRendMesh*)pMesh;
+		DxRendTexture* pDxTexure = (DxRendTexture*)(pTexture);
 
+		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
+
+		D3DXMATRIX matView,matProject;
+		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+		D3DXMATRIX matWVP = *pWordMat * matView * matProject;
+
+		HRESULT hr;
+		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
+		hr = m_pDefaultSkin->SetMatrix("worldviewprojection",&matWVP);
+		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",arrSkinMatrix,nSkinMaxtrixNum);
+		hr = m_pDefaultSkin->SetMatrix("worldview",&matView);
+
+		hr = m_pDefaultSkin->SetTechnique("SkinShading");
+		UINT cPasses = 0; 
+		hr = m_pDefaultSkin->Begin(&cPasses, 0 );
+		for (UINT i = 0; i < cPasses; ++i)
+		{
+			hr = m_pDefaultSkin->BeginPass(i);
+			hr = m_pDefaultSkin->CommitChanges();
+			pDxMesh->GetD3DXMesh()->DrawSubset(0/*nSubInd*/);
+			m_pDefaultSkin->EndPass();
+		}	
+		m_pDefaultSkin->End();
 	}
 
 }

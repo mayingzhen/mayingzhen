@@ -5,6 +5,7 @@
 #include "Animation/Skeleton.h"
 #include "Animation/NodePose.h"
 #include "Animation/Animation.h"
+#include "Animation/AnimationInst.h"
 
 
 

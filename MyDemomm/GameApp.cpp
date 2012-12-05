@@ -145,7 +145,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, -400, 400);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 200, 200);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -168,13 +168,17 @@ void CGameApp::InitGame()
 	ma::MeshComponent* pMeshBodyH = new ma::MeshComponent();
 	pMeshBodyH->Load("../TrineGame/man001/Man001/body_h.skn","../TrineGame/man001/Man001/body_h.tga");
 
-	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
-	pGameObj->AddComponent(pSkelMeshComp);
-	pSkelMeshComp->AddMeshComp(pMeshBodyB);
-	pSkelMeshComp->AddMeshComp(pMeshBodyF);
-	pSkelMeshComp->AddMeshComp(pMeshBodyH);
-	pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
-	pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska");
+	//pGameObj->AddComponent(pMeshBodyB);
+	//pGameObj->AddComponent(pMeshBodyF);
+	//pGameObj->AddComponent(pMeshBodyH);
+
+ 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
+ 	pGameObj->AddComponent(pSkelMeshComp);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyB);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyF);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyH);
+ 	pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
+ 	pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska");
 	//////
 
 //  	CObject::StaticInit();
