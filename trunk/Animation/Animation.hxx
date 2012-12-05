@@ -1,98 +1,16 @@
 #include "Animation/Animation.h"
 #include "Animation/Track.h"
+#include "Animation/AnimationTracks.h"
 
 namespace ma
 {
-
-	AnimationTracks::AnimationTracks()
-	{
-
-	}
-
-	AnimationTracks::~AnimationTracks()
-	{
-		Clear();
-	}
-
-	void AnimationTracks::Clear()
-	{
-// 		xmUint nTrackNum = m_pos.size();
-// 		for (xmUint trackCnt = 0; trackCnt <nTrackNum; ++ trackCnt)
-// 		{
-// 			delete m_scale[trackCnt];
-// 			delete m_rot[trackCnt];
-// 			delete m_pos[trackCnt];
-// 		}
-// 		m_scale.clear();
-// 		m_rot.clear();
-// 		m_pos.clear();
-// 
-// 
-// 		for (xmUint nFloatTrackCnt = 0; nFloatTrackCnt < m_float.size(); ++ nFloatTrackCnt)
-// 		{
-// 			delete m_float[nFloatTrackCnt];
-// 		}
-// 		m_float.clear();
-// 
-// 
-// 		m_rootMotionScale.Clear();
-// 		m_rootMotionRot.Clear();
-// 		m_rootMotionPos.Clear();
-
-	}
-
-	void AnimationTracks::SetPositionTrack(xmUint nTrackInd,const xmVector3Track* pTrack)
-	{
-		//m_pos[nTrackInd]->Clone(pTrack);
-	}
-
-
-	void AnimationTracks::SetRotationTrack(xmUint nTrackInd,const xmQuaternionTrack* pTrack)
-	{
-		//m_rot[nTrackInd]->Clone(pTrack);
-	}
-
-	void AnimationTracks::SetScaleTrack(xmUint nTrackInd,const xmVector3Track* pTrack)
-	{
-		//m_scale[nTrackInd]->Clone(pTrack);
-	}
-
-	void AnimationTracks::Clone(AnimationTracks* pTracks) const
-	{
-
-// 		S3AArrayDeepCopy<S3AArray<xmVector3Track*>,xmVector3Track>(pTracks->m_scale,m_scale);
-// 		S3AArrayDeepCopy<S3AArray<xmQuaternionTrack*>,xmQuaternionTrack>(pTracks->m_rot,m_rot);
-// 		S3AArrayDeepCopy<S3AArray<xmVector3Track*>,xmVector3Track>(pTracks->m_pos,m_pos);
-// 		S3AArrayDeepCopy<S3AArray<xmFloatTrack*>,xmFloatTrack>(pTracks->m_float,m_float);
-// 
-// 		pTracks->m_rootMotionPos = m_rootMotionPos;
-// 		pTracks->m_rootMotionRot = m_rootMotionRot;
-// 		pTracks->m_rootMotionScale = m_rootMotionScale;
-	}
-
-	xmUint AnimationTracks::ComputeDataSize() const
-	{
-// 		xmUint nScaleKeyFrameNum = GetKeyFrameNumber(m_scale);
-// 		nScaleKeyFrameNum += (xmUint)m_rootMotionScale.m_arrValue.size();
-// 
-// 		xmUint nRotKeyFrameNum = GetKeyFrameNumber(m_rot);
-// 		nRotKeyFrameNum += (xmUint)m_rootMotionRot.m_arrValue.size();
-// 
-// 		xmUint nPosKeyFrameNum = GetKeyFrameNumber(m_pos);
-// 		nPosKeyFrameNum += (xmUint)m_rootMotionPos.m_arrValue.size();
-// 
-// 		xmUint nDataSize = nScaleKeyFrameNum*(sizeof(xmVector3)+sizeof(xmUint))
-// 			+nPosKeyFrameNum*(sizeof(xmVector3)+sizeof(xmUint))
-// 			+nRotKeyFrameNum*(sizeof(xmQuaternion)+sizeof(xmUint));
-// 		return nDataSize;
-		return 0;
-	}
-
-
-
 	Animation::Animation()
 	{
-		m_fLocalFrame = 0;	
+		m_nBoneNum = 0;
+		m_nSocketNum = 0;
+		m_nFrameNumber = 0;
+		m_nFrameNumberDirty = false;
+		m_pRawTracks = NULL; 
 	}
 
 	Animation::~Animation()
@@ -142,38 +60,6 @@ namespace ma
 
 		return true;
 	}
-
-	void Animation::AdvanceTime(float fTimeElapsed)
-	{
-		m_fLocalFrame += fTimeElapsed * 30.0f/*GetFrameRate()*/ * 1.0f/*m_fPlaySpeed*/;
-		WrapLocalFrame();
-	}
-
-	void Animation::WrapLocalFrame()
-	{
-		if (m_fLocalFrame > m_nFrameNumber)
-		{
-			//if (m_playbackMode == S3L_PLAYBACK_LOOP)
-			//{
-				m_fLocalFrame = 0.0f;
-			//}
-			//else
-			//{
-			//	m_playerStatus = S3L_PLAYER_STOP;
-			//}
-		}
-	}
-
-	void Animation::EvaluateAnimation(std::vector<maNodeTransform>&m_arrTSFLS)
-	{
-		//m_arrTSFLS.resize(m_nBoneNum);
-		for (xmUint uBoneId = 0; uBoneId < m_nBoneNum; ++uBoneId)
-		{
-			//maTransformSetIdentity(&m_arrTSFLS[uBoneId]);
-			SampleAndAddSingleTrackByFrame(&m_arrTSFLS[uBoneId],uBoneId,1.0f,m_fLocalFrame);
-		}
-	}
-
 
 	void Animation::Init(AnimationData* pAniData)
 	{

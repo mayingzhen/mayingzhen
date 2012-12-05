@@ -105,6 +105,8 @@ namespace ma
 	{
 		m_pAniRes = new AnimationRes(pAniPath);
 		m_pAniRes->Load();
+
+		AnimationInst* pAniInst = new AnimationInst(m_pAniRes->GetAimation());
 	}
 
 }

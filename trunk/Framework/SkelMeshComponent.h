@@ -34,6 +34,14 @@ namespace ma
 
 		NodePose*	m_pose;
 
+
+		/// 
+		{
+			Skeleton* m_pSkeleton;
+			AnimationInst* m_pAnimationInst;
+			NodePose* m_AniPos;
+		}
+
 		std::vector<MeshComponent*> m_vMeshComp;	
 		
 	};

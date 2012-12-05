@@ -186,6 +186,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AnimationInst.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationInst.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTracks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTracks.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\Module.cpp"
 				>
 			</File>
@@ -207,6 +223,14 @@
 			</File>
 			<File
 				RelativePath=".\Skeleton.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonAnimation.hxx"
 				>
 			</File>
 			<File

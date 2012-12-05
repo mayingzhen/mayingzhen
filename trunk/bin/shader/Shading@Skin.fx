@@ -1,9 +1,9 @@
-float4x4 viewprojection : viewprojection;
+float4x4 worldviewprojection : worldviewprojection;
 
-static const int MAX_MATRICES = 26;
-float4x3    mWorldMatrixArray[MAX_MATRICES] : WORLDMATRIXARRAY;
+static const int MAX_MATRICES = 40;
+float4x3    mSkinMatrixArray[MAX_MATRICES] : WORLDMATRIXARRAY;
 
-int CurNumBones = 2;
+int CurNumBones = 4;
 
 texture g_TextureLightDiffuse;
 texture g_TextureLightSpecular;
@@ -56,14 +56,14 @@ void SkinPos( float4 pos ,
 	int4 Indices = D3DCOLORtoUBYTE4(BlendIndices);
     int   IndexArray[4]   = (int[4])Indices; 
     float WeightsArray[4] = (float[4])BlendWeights;
-    for (int iBone = 0; iBone < CurNumBones-1; iBone++)
+    for (int i = 0; i < CurNumBones-1; i++)
     {
-        LastWeight = LastWeight + WeightsArray[iBone];   
-        wPos += mul(pos, mWorldMatrixArray[IndexArray[iBone]]) * WeightsArray[iBone];
+        LastWeight = LastWeight + WeightsArray[i];   
+        wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
     }
     LastWeight = 1.0f - LastWeight; 
     // Now that we have the calculated weight, add in the final influence
-    wPos += (mul(pos, mWorldMatrixArray[IndexArray[CurNumBones-1]]) * LastWeight);
+    wPos += (mul(pos, mSkinMatrixArray[IndexArray[CurNumBones-1]]) * LastWeight);
 }
 
 void SkinShadingVS( float4 pos : POSITION,
@@ -74,11 +74,11 @@ void SkinShadingVS( float4 pos : POSITION,
 					out float2 oTexCoord: TEXCOORD0,
 					out float2 oTc : TEXCOORD1)
 {
-	float3 wPos = 0;
+	float3 wPos = pos.xyz;
 
   	SkinPos(pos,BlendWeights,BlendIndices,wPos);
 	
-	oPos = mul( float4(wPos.xyz, 1.0f), viewprojection );
+	oPos = mul( float4(wPos.xyz, 1.0f), worldviewprojection );
 	oTexCoord = texcoord;
 	
 	oTc = oPos.xy / oPos.w;
@@ -99,7 +99,7 @@ float4 ShadingPS( float2 texcoord : TEXCOORD0,
 	//return float4(srcDiffuse.rgb, 1.0f);
 	//return float4( max( (LightDiffuse * srcDiffuse + specular_normalize_factor(shininess, 0.04f) * lighting.a * specular), 0), 1);
 	
-	return float4( LightDiffuse.rgb * srcDiffuse.rgb + LightSpecular * srcSpecular, 1.0f );
+	return float4( LightDiffuse.rgb + srcDiffuse.rgb + LightSpecular * srcSpecular, 1.0f );
 }
 
 
