@@ -2,6 +2,27 @@
 
 namespace ma
 {
+	NodePose* NodePose::Clone() const
+	{
+		NodePose* pCloneNodePos = new NodePose();
+		pCloneNodePos->m_bPSSynced = m_bOSSynced;
+		pCloneNodePos->m_bOSSynced = m_bOSSynced;
+
+		UINT nodeNumber = m_arrParentIndice.size();
+ 		pCloneNodePos->m_arrDirtyByte.resize(nodeNumber);
+		pCloneNodePos->m_arrTSF_PS.resize(nodeNumber);
+		pCloneNodePos->m_arrTSF_OS.resize(nodeNumber);
+		pCloneNodePos->m_arrParentIndice.resize(nodeNumber);
+ 		for (UINT i = 0; i < m_arrDirtyByte.size();++i)
+		{
+			pCloneNodePos->m_arrDirtyByte[i] = m_arrDirtyByte[i];
+			pCloneNodePos->m_arrTSF_PS[i] = m_arrTSF_PS[i];
+			pCloneNodePos->m_arrTSF_OS[i] =	m_arrTSF_OS[i];
+			pCloneNodePos->m_arrParentIndice[i] = m_arrParentIndice[i];
+ 		}
+		return pCloneNodePos;
+	}
+
 	void NodePose::InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice)
 	{
 		UINT uBoneNum = arrParentIndice.size();

@@ -92,7 +92,7 @@ namespace ma
 
 	Animation::Animation()
 	{
-
+		m_fLocalFrame = 0;	
 	}
 
 	Animation::~Animation()
@@ -134,6 +134,7 @@ namespace ma
 	bool Animation::Load(const char* pszPath)
 	{
 		AnimationData* pAniData = ResourceBuilder::LoadAnimationFromBinaryFile(pszPath);
+		assert(pAniData);
 		if (pAniData == NULL)
 			return false;
 
@@ -165,9 +166,10 @@ namespace ma
 
 	void Animation::EvaluateAnimation(std::vector<maNodeTransform>&m_arrTSFLS)
 	{
-		m_arrTSFLS.resize(m_nBoneNum);
+		//m_arrTSFLS.resize(m_nBoneNum);
 		for (xmUint uBoneId = 0; uBoneId < m_nBoneNum; ++uBoneId)
 		{
+			//maTransformSetIdentity(&m_arrTSFLS[uBoneId]);
 			SampleAndAddSingleTrackByFrame(&m_arrTSFLS[uBoneId],uBoneId,1.0f,m_fLocalFrame);
 		}
 	}

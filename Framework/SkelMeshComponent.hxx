@@ -23,19 +23,26 @@ namespace ma
 
 		Animation* pAnimtion = m_pAniRes->GetAimation();
 		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
-		if (pAnimtion && pSkeleton)
-		{
-			pAnimtion->AdvanceTime(fTimeElapsed);
-		
-			std::vector<maNodeTransform> arrLSTSF;
-			pAnimtion->EvaluateAnimation(arrLSTSF);
+		const NodePose* refPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
+		if (!pAnimtion || !pSkeleton || !refPose)
+			return;
 
-			//------------------------------------------------------------------------------
-			//Local space animation to parent space
-			//------------------------------------------------------------------------------
-			m_pose->InitLocalSpace(arrLSTSF,pSkeleton->GetResPose());
-		}
+		pAnimtion->AdvanceTime(fTimeElapsed);
 		
+		std::vector<maNodeTransform> arrLSTSF;
+		arrLSTSF.resize(refPose->GetNodeNumber());
+		for (UINT i = 0; i < arrLSTSF.size(); ++i)
+		{
+			maTransformSetIdentity(&arrLSTSF[i]);
+		}
+		pAnimtion->EvaluateAnimation(arrLSTSF);
+
+		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
+		{
+			maNodeTransform tsfPS;
+			maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
+			m_pose->SetTransformPS(&tsfPS,i);
+		}
 	}
 
 	void SkelMeshComponent::Render()
@@ -88,6 +95,10 @@ namespace ma
 	{
 		m_pSkelRes = new SkeletonRes(pSkelPath);
 		m_pSkelRes->Load();
+
+		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
+		const NodePose* pRefPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
+		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 	}
 
 	void SkelMeshComponent::LoadAnimation(const char* pAniPath)

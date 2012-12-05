@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<AnimSet>
+    <BoneSetList>
+        <BoneSet Name="FullBody">
+            <Bone id="0" />
+            <Bone id="1" />
+            <Bone id="2" />
+            <Bone id="3" />
+            <Bone id="4" />
+            <Bone id="5" />
+            <Bone id="6" />
+            <Bone id="7" />
+            <Bone id="8" />
+            <Bone id="9" />
+            <Bone id="10" />
+            <Bone id="11" />
+            <Bone id="12" />
+            <Bone id="13" />
+            <Bone id="14" />
+            <Bone id="15" />
+            <Bone id="16" />
+            <Bone id="17" />
+            <Bone id="18" />
+            <Bone id="19" />
+            <Bone id="20" />
+            <Bone id="21" />
+            <Bone id="22" />
+            <Bone id="23" />
+            <Bone id="24" />
+            <Bone id="25" />
+            <Bone id="26" />
+            <Bone id="27" />
+            <Bone id="28" />
+            <Bone id="29" />
+            <Bone id="30" />
+            <Bone id="31" />
+        </BoneSet>
+        <BoneSet Name="EmptyBody" />
+        <BoneSet Name="Upper">
+            <Bone id="5" />
+            <Bone id="7" />
+            <Bone id="9" />
+            <Bone id="10" />
+            <Bone id="12" />
+            <Bone id="15" />
+            <Bone id="17" />
+            <Bone id="18" />
+            <Bone id="19" />
+            <Bone id="20" />
+            <Bone id="21" />
+            <Bone id="22" />
+            <Bone id="23" />
+            <Bone id="24" />
+            <Bone id="25" />
+            <Bone id="26" />
+            <Bone id="27" />
+            <Bone id="28" />
+            <Bone id="29" />
+        </BoneSet>
+        <BoneSet Name="Lower">
+            <Bone id="0" />
+            <Bone id="1" />
+            <Bone id="2" />
+            <Bone id="3" />
+            <Bone id="4" />
+            <Bone id="6" />
+            <Bone id="8" />
+            <Bone id="11" />
+            <Bone id="13" />
+            <Bone id="14" />
+            <Bone id="16" />
+        </BoneSet>
+    </BoneSetList>
+    <PosModiferList />
+    <AnimationSet Name="TrineGame/Man001/AnimSet_body.xml">
+        <SingleAnimation Name="TrineGame/Man001/120" skaPath="120/bip01.ska" />
+        <SingleAnimation Name="TrineGame/Man001/140" skaPath="140/bip01.ska" />
+        <CompleAnimation Name="120">
+            <Animation_Tree>
+                <Clip_Node Name="">
+                    <SkaPath Name="120/bip01.ska" />
+                    <BoneSet Name="FullBody" />
+                </Clip_Node>
+            </Animation_Tree>
+        </CompleAnimation>
+        <CompleAnimation Name="140">
+            <Animation_Tree>
+                <Clip_Node Name="">
+                    <SkaPath Name="140/bip01.ska" />
+                    <BoneSet Name="FullBody" />
+                </Clip_Node>
+            </Animation_Tree>
+        </CompleAnimation>
+    </AnimationSet>
+</AnimSet>
