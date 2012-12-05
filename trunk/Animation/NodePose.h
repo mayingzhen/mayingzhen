@@ -20,10 +20,9 @@ namespace ma
 		mutable std::vector<maNodeTransform>	m_arrTSF_OS;
 		std::vector<BoneIndex>		m_arrParentIndice;
 
-		UINT NodePose::GetNodeNumber()const
-		{
-			return (xmUint)m_arrParentIndice.size();
-		}
+		UINT NodePose::GetNodeNumber()const {return m_arrParentIndice.size();}
+
+		NodePose* Clone() const;
 
 		void InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice);
 

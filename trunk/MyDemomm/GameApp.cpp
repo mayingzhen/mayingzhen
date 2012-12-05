@@ -161,13 +161,20 @@ void CGameApp::InitGame()
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
 	pRootNode->AddChildNode(pGameObj);
-	ma::MeshComponent* pMeshComp = new ma::MeshComponent();
-	pMeshComp->Load("../TrineGame/character/magician/body.skn","../TrineGame/character/magician/body.tga");
+	ma::MeshComponent* pMeshBodyB = new ma::MeshComponent();
+	pMeshBodyB->Load("../TrineGame/man001/Man001/body_b.skn","../TrineGame/man001/Man001/body_b.tga");
+	ma::MeshComponent* pMeshBodyF = new ma::MeshComponent();
+	pMeshBodyF->Load("../TrineGame/man001/Man001/body_f.skn","../TrineGame/man001/Man001/body_f.tga");
+	ma::MeshComponent* pMeshBodyH = new ma::MeshComponent();
+	pMeshBodyH->Load("../TrineGame/man001/Man001/body_h.skn","../TrineGame/man001/Man001/body_h.tga");
+
 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
 	pGameObj->AddComponent(pSkelMeshComp);
-	pSkelMeshComp->AddMeshComp(pMeshComp);
-	pSkelMeshComp->LoadSkeleton("../TrineGame/character/magician/body.ske");
-	pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska");
+	pSkelMeshComp->AddMeshComp(pMeshBodyB);
+	pSkelMeshComp->AddMeshComp(pMeshBodyF);
+	pSkelMeshComp->AddMeshComp(pMeshBodyH);
+	pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
+	pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska");
 	//////
 
 //  	CObject::StaticInit();
