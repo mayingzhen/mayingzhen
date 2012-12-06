@@ -52,17 +52,23 @@ void SkinPos( float4 pos ,
 	wPos = 0;
 	float LastWeight = 0.0f;
 	// cast the vectors to arrays for use in the for loop below
-	int4 Indices = D3DCOLORtoUBYTE4(BlendIndices);
+	int4 Indices = BlendIndices;//D3DCOLORtoUBYTE4(BlendIndices);
     int   IndexArray[4]   = (int[4])Indices; 
     float WeightsArray[4] = (float[4])BlendWeights;
-    for (int i = 0; i < MAX_BLEND_BONE - 1; i++)
-    {
-        LastWeight = LastWeight + WeightsArray[i];   
-        wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
-    }
-    LastWeight = 1.0f - LastWeight; 
+    //for (int i = 0; i < MAX_BLEND_BONE - 1; i++)
+    //{
+    //    LastWeight = LastWeight + WeightsArray[i];   
+    //    wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
+    //}
+   // LastWeight = 1.0f - LastWeight; 
     // Now that we have the calculated weight, add in the final influence
-    wPos += (mul(pos, mSkinMatrixArray[IndexArray[MAX_BLEND_BONE-1]]) * LastWeight);
+   	//wPos += (mul(pos, mSkinMatrixArray[IndexArray[MAX_BLEND_BONE-1]]) * LastWeight);
+
+		for (int i = 0; i < MAX_BLEND_BONE; ++i)
+		{
+			wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
+		}
+
 }
 
 void SkinShadingVS( float4 pos : POSITION,
