@@ -6,6 +6,8 @@ namespace ma
 		m_pAnimation = pAnimation;
 		m_fLocalFrame = 0;
 		m_fPlaySpeed = 1.0f;
+		m_playbackMode = S3L_PLAYBACK_LOOP;
+		m_playerStatus = S3L_PLAYER_PLAYING;
 	}
 
 	AnimationInst::~AnimationInst()

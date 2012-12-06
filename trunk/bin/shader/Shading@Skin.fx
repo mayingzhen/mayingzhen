@@ -1,9 +1,8 @@
 float4x4 worldviewprojection : worldviewprojection;
 
-static const int MAX_MATRICES = 40;
-float4x3    mSkinMatrixArray[MAX_MATRICES] : WORLDMATRIXARRAY;
-
-int CurNumBones = 4;
+#define MAX_SKIN_MATRIX 60
+#define MAX_BLEND_BONE 4
+float4x3    mSkinMatrixArray[MAX_SKIN_MATRIX] : WORLDMATRIXARRAY;
 
 texture g_TextureLightDiffuse;
 texture g_TextureLightSpecular;
@@ -47,7 +46,7 @@ sampler g_SamplerSrcSpecular = sampler_state
 
 void SkinPos( float4 pos ,
 			    float4 BlendWeights , 
-				float4 BlendIndices,
+				int4 BlendIndices,
 				out float3 wPos)
 {
 	wPos = 0;
@@ -56,19 +55,19 @@ void SkinPos( float4 pos ,
 	int4 Indices = D3DCOLORtoUBYTE4(BlendIndices);
     int   IndexArray[4]   = (int[4])Indices; 
     float WeightsArray[4] = (float[4])BlendWeights;
-    for (int i = 0; i < CurNumBones-1; i++)
+    for (int i = 0; i < MAX_BLEND_BONE - 1; i++)
     {
         LastWeight = LastWeight + WeightsArray[i];   
         wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
     }
     LastWeight = 1.0f - LastWeight; 
     // Now that we have the calculated weight, add in the final influence
-    wPos += (mul(pos, mSkinMatrixArray[IndexArray[CurNumBones-1]]) * LastWeight);
+    wPos += (mul(pos, mSkinMatrixArray[IndexArray[MAX_BLEND_BONE-1]]) * LastWeight);
 }
 
 void SkinShadingVS( float4 pos : POSITION,
 					float4 BlendWeights :BLENDWEIGHT, 
-					float4 BlendIndices :BLENDINDICES,
+					int4 BlendIndices :BLENDINDICES,
 					float2 texcoord : TEXCOORD0,
 					out float4 oPos : POSITION,
 					out float2 oTexCoord: TEXCOORD0,

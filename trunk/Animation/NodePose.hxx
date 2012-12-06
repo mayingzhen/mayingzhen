@@ -146,12 +146,32 @@ namespace ma
 
 	void NodePose::SyncParentSpace() const
 	{
-
+		if (!m_bPSSynced)
+		{
+			for (xmUint nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			{
+				if (m_arrDirtyByte[nBoneCnt].m_bPSDirty)
+				{
+					UpdateTransformPS(nBoneCnt);
+				}
+			}
+			m_bPSSynced = true;
+		}
 	}
 
 	void NodePose::SyncObjectSpace() const
 	{
-
+		if (!m_bOSSynced)
+		{
+			for (xmUint nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			{
+				if (m_arrDirtyByte[nBoneCnt].m_bOSDirty)
+				{
+					UpdateTransformOS(nBoneCnt);
+				}
+			}
+			m_bOSSynced = true;
+		}
 	}
 
 	void NodePose::SetTransformPS(const maNodeTransform* pTSF, BoneIndex nBoneInd)

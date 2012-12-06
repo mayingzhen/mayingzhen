@@ -7,6 +7,7 @@ namespace ma
 	{
 		m_pSkelRes = NULL;
 		m_pose = new NodePose;
+		m_pAnimationInst = NULL;
 	}
 
 	SkelMeshComponent::~SkelMeshComponent()
@@ -27,7 +28,7 @@ namespace ma
 		if (!pAnimtion || !pSkeleton || !refPose)
 			return;
 
-		pAnimtion->AdvanceTime(fTimeElapsed);
+		m_pAnimationInst->AdvanceTime(fTimeElapsed);
 		
 		std::vector<maNodeTransform> arrLSTSF;
 		arrLSTSF.resize(refPose->GetNodeNumber());
@@ -35,14 +36,17 @@ namespace ma
 		{
 			maTransformSetIdentity(&arrLSTSF[i]);
 		}
-		pAnimtion->EvaluateAnimation(arrLSTSF);
+		m_pAnimationInst->EvaluateAnimation(arrLSTSF);
 
 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
 		{
-			maNodeTransform tsfPS;
-			maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
-			m_pose->SetTransformPS(&tsfPS,i);
+			//maNodeTransform tsfPS;
+			//maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
+			//m_pose->SetTransformPS(&tsfPS,i);
+			m_pose->SetTransformPS(&arrLSTSF[i],i);
 		}
+
+		m_pose->SyncObjectSpace();
 	}
 
 	void SkelMeshComponent::Render()
@@ -106,7 +110,7 @@ namespace ma
 		m_pAniRes = new AnimationRes(pAniPath);
 		m_pAniRes->Load();
 
-		AnimationInst* pAniInst = new AnimationInst(m_pAniRes->GetAimation());
+		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation());
 	}
 
 }

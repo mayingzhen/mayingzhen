@@ -34,12 +34,16 @@ namespace ma
 		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
 			arrNodeOS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
-			arrNodeOS[nBoneCnt].m_qRot = skelData.m_arrRotOS[nBoneCnt];
+			//arrNodeOS[nBoneCnt].m_qRot = ;
+			D3DXQuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&skelData.m_arrRotOS[nBoneCnt]);
+			arrNodeOS[nBoneCnt].m_fScale = 1.0f;
 			m_arrBoneName[nBoneCnt] = skelData.m_arrBoneName[nBoneCnt];
 			m_arrParentInd[nBoneCnt] = skelData.m_arrParentIndice[nBoneCnt];
 		}
 
 		m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
+		//m_refPose->SyncParentSpace();
+		//m_pose->SyncObjectSpace();
 
 		m_arrRefPosePS.resize(nBoneNum);
 		m_arrRefPoseOS.resize(nBoneNum);
