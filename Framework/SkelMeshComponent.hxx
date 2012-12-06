@@ -65,6 +65,7 @@ namespace ma
 		UINT nBoneNum = pSkeleton->GetBoneNumer();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
+			//D3DXMatrixIdentity(&arrSkinMatrix[i]);
 			maMatrixFromTransform(&arrSkinMatrix[i],& m_pose->GetTransformOS(i));
 			D3DXMatrixMultiply(&arrSkinMatrix[i],& pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
 		}
