@@ -9,6 +9,7 @@ namespace ma
 	class AnimationRes;
 	class MeshComponent;
 	class NodePose;
+	class AnimationInst;
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
@@ -32,15 +33,17 @@ namespace ma
 
 		AnimationRes* m_pAniRes;
 
+		AnimationInst* m_pAnimationInst;
+
 		NodePose*	m_pose;
 
 
 		/// 
-		{
-			Skeleton* m_pSkeleton;
-			AnimationInst* m_pAnimationInst;
-			NodePose* m_AniPos;
-		}
+// 		{
+// 			Skeleton* m_pSkeleton;
+// 			AnimationInst* m_pAnimationInst;
+// 			NodePose* m_AniPos;
+// 		}
 
 		std::vector<MeshComponent*> m_vMeshComp;	
 		

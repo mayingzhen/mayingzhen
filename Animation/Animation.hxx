@@ -41,7 +41,7 @@ namespace ma
 		xmNodeTransform tsfLS;
 		SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
 
-		pTSF->m_fScale += tsfLS.m_fScale * fWeight;
+		//pTSF->m_fScale += tsfLS.m_fScale * fWeight;
 		//pTSF->m_vLocalScale += tsfLS.m_vLocalScale * fWeight;
 
 		maQuaternionMad(&pTSF->m_qRot,&pTSF->m_qRot,&tsfLS.m_qRot,fWeight);
@@ -98,6 +98,8 @@ namespace ma
 
 		for (xmUint nTrackCnt = 0; nTrackCnt < nTransfTrackNum; ++nTrackCnt)
 		{
+			m_arrTransfTrackName[nTrackCnt] = pAniData->m_arrTransfTrackName[nTrackCnt];
+
 			xmVector3Track* pScaleTrack = new xmVector3Track;
 			xmQuaternionTrack* pRotTrack = new xmQuaternionTrack;
 			xmVector3Track* pPosTrack = new xmVector3Track;

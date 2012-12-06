@@ -21,6 +21,7 @@ namespace ma
 
 	class ANIMATION_API AnimationInst
 	{
+	public:
 		AnimationInst(Animation* pAnimation);
 
 		~AnimationInst();
