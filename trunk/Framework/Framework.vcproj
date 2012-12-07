@@ -169,12 +169,20 @@
 	</References>
 	<Files>
 		<Filter
-			Name="源文件"
+			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Camera.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Component.h"
 				>
 			</File>
 			<File
@@ -182,15 +190,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FrameworkExport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GameObj.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GameObj.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\MeshComponent.hxx"
+				RelativePath=".\MeshComponent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MeshRes.hxx"
+				RelativePath=".\MeshComponent.hxx"
 				>
 			</File>
 			<File
@@ -206,11 +222,19 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Object.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Object.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.hxx"
+				RelativePath=".\Scene.h"
 				>
 			</File>
 			<File
@@ -218,7 +242,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SceneNode.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SceneNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SkelMeshComponent.h"
 				>
 			</File>
 			<File
@@ -237,11 +269,13 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
 		</Filter>
 		<Filter
-			Name="头文件"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="Resource Mangager"
 			>
 			<File
 				RelativePath=".\AnimationRes.h"
@@ -252,35 +286,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Component.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FrameworkExport.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameObj.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshComponent.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MeshRes.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Module.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Object.h"
+				RelativePath=".\MeshRes.hxx"
 				>
 			</File>
 			<File
@@ -288,11 +298,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Scene.h"
+				RelativePath=".\Resource.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SceneNode.h"
+				RelativePath=".\ResourceMangager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ResourceMangager.hxx"
 				>
 			</File>
 			<File
@@ -301,14 +315,6 @@
 			</File>
 			<File
 				RelativePath=".\SkeletonRes.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\SkelMeshComponent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

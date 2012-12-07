@@ -8,11 +8,14 @@ namespace ma
 		m_pSkelRes = NULL;
 		m_pose = new NodePose;
 		m_pAnimationInst = NULL;
+
+		m_pSkeletonAnimation = new SkeletonAnimation();
 	}
 
 	SkelMeshComponent::~SkelMeshComponent()
 	{
 		SAFE_DELETE(m_pose);
+		SAFE_DELETE(m_pSkeletonAnimation);
 	}
 
 	void SkelMeshComponent::Update()
@@ -41,10 +44,10 @@ namespace ma
 
 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
 		{
-			//maNodeTransform tsfPS;
-			//maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
-			//m_pose->SetTransformPS(&tsfPS,i);
-			m_pose->SetTransformPS(&arrLSTSF[i],i);
+			maNodeTransform tsfPS;
+			maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
+			m_pose->SetTransformPS(&tsfPS,i);
+			//m_pose->SetTransformPS(&arrLSTSF[i],i);
 		}
 
 		m_pose->SyncObjectSpace();
@@ -107,10 +110,26 @@ namespace ma
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 	}
 
+	void SkelMeshComponent::PlayAnimation(const char* pszAniName)
+	{
+		//m_pAnimationSet->
+	}
+
+	void SkelMeshComponent::PlayAnimation(Animation* pAnimation)
+	{
+		if (pAnimation == NULL)
+			return;
+		
+		m_pSkeletonAnimation->Instantiate(pAnimation);
+		
+	}
+
 	void SkelMeshComponent::LoadAnimation(const char* pAniPath)
 	{
 		m_pAniRes = new AnimationRes(pAniPath);
 		m_pAniRes->Load();
+
+		m_pAniRes->GetAimation()->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkelRes->GetSkeleton());
 
 		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation());
 	}

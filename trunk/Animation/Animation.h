@@ -8,6 +8,7 @@ class AnimationData;
 namespace ma
 {
 	class AnimationTracks;
+	class Skeleton;
 
 	class ANIMATION_API Animation
 	{
@@ -23,6 +24,8 @@ namespace ma
 		void SampleSingleTrackByFrame(xmNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
 		bool Load(const char* pszPath);
+
+		bool ConverteAnimDataParentToLocalSpaceAnimation(Skeleton* pSkel);
 
 	private: 
 		void Init(AnimationData* pAniData);
