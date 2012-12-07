@@ -1,9 +1,75 @@
 #include "Animation/Animation.h"
 #include "Animation/Track.h"
 #include "Animation/AnimationTracks.h"
+#include "Animation/Skeleton.h"
 
 namespace ma
 {
+
+	bool ConverteAnimDataParentToLocalSpaceAnimation(
+		 const std::vector<std::string>& arrTrackName,
+		 std::vector<xmVector3Track*>& arrScaleTrackPS,
+		 std::vector<xmQuaternionTrack*>& arrRotTrackPS,
+		 std::vector<xmVector3Track*>& arrPosTrackPS,
+		 Skeleton* pSkel)
+	{
+
+		if (pSkel == NULL)
+			return false;
+
+		const NodePose* pRefPose = pSkel->GetResPose();
+		if (pRefPose == NULL)
+			return false;
+
+		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
+		{
+			maNodeTransform tsfBonePSInv;
+			const maNodeTransform& tsfBonePS = pRefPose->GetTransformPS(i);
+			maTransformInverse(&tsfBonePSInv,&tsfBonePS);
+
+			xmVector3Track& scaleTrack = *arrScaleTrackPS[i];
+			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
+			xmVector3Track& posTrack = *arrPosTrackPS[i];
+
+			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
+			nFrameNumber = nFrameNumber + 1;
+
+			for (xmUint nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			{
+				maNodeTransform tsfAnimPS;
+				maNodeTransform tsfAnimLS;
+				tsfAnimPS.m_vPos =  posTrack.m_arrValue[nFrameCnt];
+				tsfAnimPS.m_qRot = rotTrack.m_arrValue[nFrameCnt];
+				tsfAnimPS.m_fScale = 1.0f;//scaleTrack.m_arrValue[nFrameCnt];
+				maTransfromMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
+				scaleTrack.m_arrValue[nFrameCnt] = D3DXVECTOR3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
+				rotTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_qRot;
+				posTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_vPos;	
+			}
+		}
+		
+		return true;
+
+	}
+
+	bool Animation::ConverteAnimDataParentToLocalSpaceAnimation(Skeleton* pSkel)
+	{
+		if (pSkel == NULL)
+			return false;
+
+		return ma::ConverteAnimDataParentToLocalSpaceAnimation(
+			m_arrTransfTrackName,
+			m_pRawTracks->m_scale,
+			m_pRawTracks->m_rot,
+			m_pRawTracks->m_pos,
+			pSkel);
+	}
+
+
+
+
+
 	Animation::Animation()
 	{
 		m_nBoneNum = 0;
@@ -187,4 +253,5 @@ namespace ma
 
 
 	}
+
 }

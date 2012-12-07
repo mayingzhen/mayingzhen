@@ -30,6 +30,13 @@ bool IsInValidID(T ind)
 	return ind == (T)(-1);
 }
 
+template<class T>
+inline const T& maMax(const T& a,const T& b)
+{
+	return a > b ? a : b;
+}
+
+
 
 COMMON_API void Log(const char* fmt,...);
 COMMON_API void SSERT_MSG(bool expr,const char* fmt,...);

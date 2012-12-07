@@ -10,6 +10,7 @@ namespace ma
 	class MeshComponent;
 	class NodePose;
 	class AnimationInst;
+	class AnimationSet;
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
@@ -26,6 +27,10 @@ namespace ma
 
 		void LoadSkeleton(const char* pSkelPath);
 
+		void PlayAnimation(const char* pszAniName);
+
+		void PlayAnimation(Animation* pAnimation);
+
 		void LoadAnimation(const char* pAniPath);
 	
 	private:
@@ -37,6 +42,9 @@ namespace ma
 
 		NodePose*	m_pose;
 
+		//AnimationSet* m_pAnimationSet;
+
+		SkeletonAnimation* m_pSkeletonAnimation;
 
 		/// 
 // 		{
