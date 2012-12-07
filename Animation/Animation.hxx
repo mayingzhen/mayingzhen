@@ -41,7 +41,7 @@ namespace ma
 		xmNodeTransform tsfLS;
 		SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
 
-		//pTSF->m_fScale += tsfLS.m_fScale * fWeight;
+		pTSF->m_fScale += tsfLS.m_fScale * fWeight;
 		//pTSF->m_vLocalScale += tsfLS.m_vLocalScale * fWeight;
 
 		maQuaternionMad(&pTSF->m_qRot,&pTSF->m_qRot,&tsfLS.m_qRot,fWeight);

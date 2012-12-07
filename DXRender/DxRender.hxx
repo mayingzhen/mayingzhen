@@ -175,6 +175,14 @@ namespace ma
 		DxRendMesh* pDxMesh = (DxRendMesh*)pMesh;
 		DxRendTexture* pDxTexure = (DxRendTexture*)(pTexture);
 
+		xmMatrix4x4 matBonePalatte[256];
+		SubMeshData* pSubMeshData = pDxMesh->GetMeshData()->GetSubMesh(0);
+		UINT uBonePaletteSize = pSubMeshData->GetBonePaletteSize();
+		for (xmUint nCnt = 0; nCnt < uBonePaletteSize; ++nCnt)
+		{
+			matBonePalatte[nCnt] = arrSkinMatrix[pSubMeshData->GetBonePalette()[nCnt]];
+		}
+
 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
 		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
@@ -187,7 +195,7 @@ namespace ma
 		HRESULT hr;
 		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
 		hr = m_pDefaultSkin->SetMatrix("worldviewprojection",&matWVP);
-		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",arrSkinMatrix,nSkinMaxtrixNum);
+		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",matBonePalatte,uBonePaletteSize);
 		hr = m_pDefaultSkin->SetMatrix("worldview",&matView);
 
 		hr = m_pDefaultSkin->SetTechnique("SkinShading");

@@ -44,34 +44,21 @@ sampler g_SamplerSrcSpecular = sampler_state
 
 
 
-void SkinPos( float4 pos ,
+void SkinPos( float3 pos ,
 			    float4 BlendWeights , 
-				int4 BlendIndices,
-				out float3 wPos)
+					int4 BlendIndices,
+					out float3 wPos)
 {
 	wPos = 0;
-	float LastWeight = 0.0f;
-	// cast the vectors to arrays for use in the for loop below
-	int4 Indices = BlendIndices;//D3DCOLORtoUBYTE4(BlendIndices);
-    int   IndexArray[4]   = (int[4])Indices; 
-    float WeightsArray[4] = (float[4])BlendWeights;
-    //for (int i = 0; i < MAX_BLEND_BONE - 1; i++)
-    //{
-    //    LastWeight = LastWeight + WeightsArray[i];   
-    //    wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
-    //}
-   // LastWeight = 1.0f - LastWeight; 
-    // Now that we have the calculated weight, add in the final influence
-   	//wPos += (mul(pos, mSkinMatrixArray[IndexArray[MAX_BLEND_BONE-1]]) * LastWeight);
-
-		for (int i = 0; i < MAX_BLEND_BONE; ++i)
-		{
-			wPos += mul(pos, mSkinMatrixArray[IndexArray[i]]) * WeightsArray[i];
-		}
-
+  int   IndexArray[4]   = (int[4])BlendIndices; 
+  float WeightArray[4] = (float[4])BlendWeights;
+	for (int iBone = 0; iBone < MAX_BLEND_BONE; ++iBone)
+	{
+		wPos += mul(float4(pos,1), mSkinMatrixArray[IndexArray[iBone]]).xyz * WeightArray[iBone];
+	}
 }
 
-void SkinShadingVS( float4 pos : POSITION,
+void SkinShadingVS( float3 pos : POSITION,
 					float4 BlendWeights :BLENDWEIGHT, 
 					int4 BlendIndices :BLENDINDICES,
 					float2 texcoord : TEXCOORD0,
@@ -79,9 +66,9 @@ void SkinShadingVS( float4 pos : POSITION,
 					out float2 oTexCoord: TEXCOORD0,
 					out float2 oTc : TEXCOORD1)
 {
-	float3 wPos = pos.xyz;
+	float3 wPos = 0;
 
-  	SkinPos(pos,BlendWeights,BlendIndices,wPos);
+  SkinPos(pos,BlendWeights,BlendIndices,wPos);
 	
 	oPos = mul( float4(wPos.xyz, 1.0f), worldviewprojection );
 	oTexCoord = texcoord;

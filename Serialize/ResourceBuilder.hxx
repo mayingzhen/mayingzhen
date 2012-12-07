@@ -324,8 +324,8 @@ namespace ResourceBuilder
 // 		};
 // 	}
 
-// 	bool UpdateBonePalette(MeshData* pMeshData)
-// 	{
+ 	bool UpdateBonePalette(MeshData* pMeshData)
+ 	{
 // 
 // 		VertexType0* pVertexBuffer = pMeshData->GetVertexBuffer();
 // 		SSERT(NULL != pVertexBuffer);
@@ -367,8 +367,8 @@ namespace ResourceBuilder
 // 			}
 // 		}
 // 
-// 		return true;
-// 	}
+ 		return true;
+ 	}
 
 // 	void UpdateBounding(ExpMeshData* pMesh)
 // 	{
@@ -575,7 +575,8 @@ namespace ResourceBuilder
 		MeshData* pMeshData = new MeshData;
 		pMeshData->Serialize(&ar,"Mesh");
 		//bLoadOK = ResourceBuilder::LoadMesh(pMeshData,&ar);
-		//pMeshData->RemoveDegenerateTriangleInplace();
+		UpdateBonePalette(pMeshData);
+		pMeshData->RemoveDegenerateTriangleInplace();
 // 		if (!bLoadOK)
 // 		{
 // 			xmSafeDelete(pMeshData);

@@ -32,10 +32,11 @@ namespace ma
 		
 		std::vector<maNodeTransform> arrLSTSF;
 		arrLSTSF.resize(refPose->GetNodeNumber());
-		for (UINT i = 0; i < arrLSTSF.size(); ++i)
-		{
-			maTransformSetIdentity(&arrLSTSF[i]);
-		}
+		//for (UINT i = 0; i < arrLSTSF.size(); ++i)
+		//{
+		//	//maTransformSetIdentity(&arrLSTSF[i]);
+		//}
+		memset(&arrLSTSF[0],0,sizeof(maNodeTransform)*arrLSTSF.size());
 		m_pAnimationInst->EvaluateAnimation(arrLSTSF);
 
 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
