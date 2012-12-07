@@ -22,7 +22,6 @@ namespace ma
 
 		float fFrameRate = 30.0f;
 		m_fLocalFrame += fTimeElapsed * fFrameRate * m_fPlaySpeed;
-		//m_fLocalFrame = 0;
 		
 		UINT uFrameNumber = m_pAnimation->GetFrameNumber();
 		if (m_fLocalFrame > uFrameNumber)

@@ -683,25 +683,25 @@ const VertexType0*	MeshData::GetVertexBufferVertexType0() const
 
 void MeshData::RemoveDegenerateTriangleInplace(void)
 {
-// 	std::vector<unsigned int> subIndexMove;
-// 	RemoveDegenerateTriangleInplace(m_arrIndexBuffer, m_nIndexType, subIndexMove);
-// 	if (subIndexMove.size())
-// 	{
-// 		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
-// 		{
-// 			MeshLODData *pLODData = *itr;
-// 			DegenerateSubMeshData(pLODData, subIndexMove);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
-// 		{
-// 			MeshLODData *pLODData = *itr;
-// 			RemoveDegenerateTriangleInplace(pLODData->m_arrIndexBuffer, pLODData->m_nIndexType, subIndexMove);
-// 			DegenerateSubMeshData(pLODData, subIndexMove);
-// 		}
-// 	}
+	std::vector<unsigned int> subIndexMove;
+	RemoveDegenerateTriangleInplace(m_arrIndexBuffer, m_nIndexType, subIndexMove);
+	if (subIndexMove.size())
+	{
+		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
+		{
+			MeshLODData *pLODData = *itr;
+			DegenerateSubMeshData(pLODData, subIndexMove);
+		}
+	}
+	else
+	{
+		for (std::vector<MeshLODData*>::iterator itr = m_arrMeshLOD.begin(); itr != m_arrMeshLOD.end(); ++itr)
+		{
+			MeshLODData *pLODData = *itr;
+			RemoveDegenerateTriangleInplace(pLODData->m_arrIndexBuffer, pLODData->m_nIndexType, subIndexMove);
+			DegenerateSubMeshData(pLODData, subIndexMove);
+		}
+	}
 }
 
 void MeshData::DegenerateSubMeshData( MeshLODData * pLODData, std::vector<unsigned int> &subIndexMove ) 
