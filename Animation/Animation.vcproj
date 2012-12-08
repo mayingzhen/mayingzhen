@@ -210,6 +210,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NodeLink.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NodeLink.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\NodePose.h"
 				>
 			</File>

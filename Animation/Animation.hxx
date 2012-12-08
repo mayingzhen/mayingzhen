@@ -22,7 +22,7 @@ namespace ma
 			return false;
 
 		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
-		{
+		{	
 			maNodeTransform tsfBonePSInv;
 			const maNodeTransform& tsfBonePS = pRefPose->GetTransformPS(i);
 			maTransformInverse(&tsfBonePSInv,&tsfBonePS);

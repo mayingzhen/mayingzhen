@@ -22,6 +22,8 @@ namespace ma
 
 		UINT GetBoneNumer() {return m_arrBoneName.size();}
 
+		const char* GetBoneNameByIndex(UINT uIndex) {return m_arrBoneName[uIndex].c_str();}
+
 		const NodePose* GetResPose() {return m_refPose;} 
 
 
