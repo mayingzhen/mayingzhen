@@ -6,6 +6,7 @@
 #include "Animation/NodePose.h"
 #include "Animation/Animation.h"
 #include "Animation/AnimationInst.h"
+#include "Animation/NodeLink.h"
 
 
 

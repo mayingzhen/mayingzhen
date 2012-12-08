@@ -11,6 +11,7 @@ namespace ma
 	class NodePose;
 	class AnimationInst;
 	class AnimationSet;
+	class Animation;
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
@@ -44,7 +45,7 @@ namespace ma
 
 		//AnimationSet* m_pAnimationSet;
 
-		SkeletonAnimation* m_pSkeletonAnimation;
+//		SkeletonAnimation* m_pSkeletonAnimation;
 
 		/// 
 // 		{

@@ -9,6 +9,7 @@ namespace ma
 {
 	class AnimationTracks;
 	class Skeleton;
+	class NodeLink;
 
 	class ANIMATION_API Animation
 	{
@@ -26,6 +27,27 @@ namespace ma
 		bool Load(const char* pszPath);
 
 		bool ConverteAnimDataParentToLocalSpaceAnimation(Skeleton* pSkel);
+
+		UINT GetTansfTrackNumber() {return m_arrTransfTrackName.size();}
+
+		const char* GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}
+
+		UINT GetTransfTrackIndexByName(const char* pszName)
+		{
+			if (pszName == NULL)
+				return InvalidID<UINT>();
+
+			for (UINT i = 0; i < m_arrTransfTrackName.size(); ++i)
+			{
+				const char* pszTrackName = m_arrTransfTrackName[i].c_str();
+				if ( _stricmp(pszTrackName,pszName) == 0)
+				{
+					return i;
+				}
+			}
+
+			return InvalidID<UINT>();
+		}
 
 	private: 
 		void Init(AnimationData* pAniData);

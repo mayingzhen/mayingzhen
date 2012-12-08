@@ -9,13 +9,13 @@ namespace ma
 		m_pose = new NodePose;
 		m_pAnimationInst = NULL;
 
-		m_pSkeletonAnimation = new SkeletonAnimation();
+		//m_pSkeletonAnimation = new SkeletonAnimation();
 	}
 
 	SkelMeshComponent::~SkelMeshComponent()
 	{
 		SAFE_DELETE(m_pose);
-		SAFE_DELETE(m_pSkeletonAnimation);
+		//SAFE_DELETE(m_pSkeletonAnimation);
 	}
 
 	void SkelMeshComponent::Update()
@@ -120,7 +120,7 @@ namespace ma
 		if (pAnimation == NULL)
 			return;
 		
-		m_pSkeletonAnimation->Instantiate(pAnimation);
+		//m_pSkeletonAnimation->Instantiate(pAnimation);
 		
 	}
 
@@ -129,9 +129,14 @@ namespace ma
 		m_pAniRes = new AnimationRes(pAniPath);
 		m_pAniRes->Load();
 
-		m_pAniRes->GetAimation()->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkelRes->GetSkeleton());
+		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation(),m_pSkelRes->GetSkeleton());
+		
+	
 
-		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation());
+		Skeleton* pSkeleton = new Skeleton;
+		pSkeleton->Load("D:/work/mydemo_svn/TrineGame/Character/magician/Body.ske");
+
+		m_pAniRes->GetAimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
 	}
 
 }

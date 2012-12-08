@@ -4,6 +4,7 @@
 namespace ma
 {
 	class Animation;
+	class NodeLink;
 
 	enum eS3LPlaybackMode
 	{
@@ -22,7 +23,7 @@ namespace ma
 	class ANIMATION_API AnimationInst
 	{
 	public:
-		AnimationInst(Animation* pAnimation);
+		AnimationInst(Animation* pAnimation,Skeleton* pSkeleton = NULL);
 
 		~AnimationInst();
 
@@ -30,8 +31,13 @@ namespace ma
 
 		void AdvanceTime(float fTimeElapsed);
 
+		NodeLink* GetNodeLink() {return m_pNodeLink;}
+
 	private:
 		Animation* m_pAnimation;
+
+		NodeLink* m_pNodeLink;
+
 		//const IS3ANodeLink*	m_pNodeLink;
 		float m_fLocalFrame;
 		float m_fPlaySpeed;
