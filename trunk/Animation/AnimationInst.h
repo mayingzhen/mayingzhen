@@ -5,6 +5,8 @@ namespace ma
 {
 	class Animation;
 	class NodeLink;
+	class BoneSet;
+	class AnimEvalContext;
 
 	enum eS3LPlaybackMode
 	{
@@ -27,18 +29,23 @@ namespace ma
 
 		~AnimationInst();
 
-		void EvaluateAnimation(std::vector<maNodeTransform>&m_arrTSFLS,float fWeight = 1.0f);
+		void EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f);
 
 		void AdvanceTime(float fTimeElapsed);
 
 		NodeLink* GetNodeLink() {return m_pNodeLink;}
 
+		Animation* GetAnimation() {return m_pAnimation;}
+		
+		void SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
+
 	private:
 		Animation* m_pAnimation;
 
+		BoneSet* m_pBoneSet;
+
 		NodeLink* m_pNodeLink;
 
-		//const IS3ANodeLink*	m_pNodeLink;
 		float m_fLocalFrame;
 		float m_fPlaySpeed;
 

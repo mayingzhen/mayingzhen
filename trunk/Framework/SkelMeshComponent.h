@@ -12,6 +12,8 @@ namespace ma
 	class AnimationInst;
 	class AnimationSet;
 	class Animation;
+	class AnimTreeNode;
+	class Skeleton;
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
@@ -26,13 +28,15 @@ namespace ma
 
 		void AddMeshComp(MeshComponent* pMeshComp);
 
-		void LoadSkeleton(const char* pSkelPath);
+		Skeleton* LoadSkeleton(const char* pSkelPath);
 
 		void PlayAnimation(const char* pszAniName);
 
 		void PlayAnimation(Animation* pAnimation);
 
-		void LoadAnimation(const char* pAniPath);
+		AnimationInst* LoadAnimation(const char* pAniPath,Skeleton* pSkeleton);
+
+		void SetAnimTreeNode(AnimTreeNode* pAnimTreeNode) {m_pAnimNode = pAnimTreeNode;}
 	
 	private:
 		SkeletonRes* m_pSkelRes;
@@ -42,6 +46,8 @@ namespace ma
 		AnimationInst* m_pAnimationInst;
 
 		NodePose*	m_pose;
+
+		AnimTreeNode* m_pAnimNode;
 
 		//AnimationSet* m_pAnimationSet;
 

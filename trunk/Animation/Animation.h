@@ -7,7 +7,7 @@ class AnimationData;
 
 namespace ma
 {
-	class AnimationTracks;
+	struct AnimationTracks;
 	class Skeleton;
 	class NodeLink;
 
@@ -20,7 +20,7 @@ namespace ma
 
 		xmUint GetFrameNumber() {return m_nFrameNumber;}
 
-		void SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const;
+		//void SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const;
 
 		void SampleSingleTrackByFrame(xmNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 

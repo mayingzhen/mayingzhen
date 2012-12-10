@@ -7,6 +7,12 @@
 #include "Animation/Animation.h"
 #include "Animation/AnimationInst.h"
 #include "Animation/NodeLink.h"
+#include "Animation/AnimEvalContext.h"
+
+#include "Animation/AnimationTree/AnimTreeNode.h"
+#include "Animation/AnimationTree/AnimClipNode.h"
+#include "Animation/AnimationTree/AnimBlendNode.h"
+#include "Animation/AnimationTree/AnimLayerNode.h"
 
 
 

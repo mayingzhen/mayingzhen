@@ -202,6 +202,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AnimEvalContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BoneSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BoneSet.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\CompoundAnimation.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\CompoundAnimationn.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Module.cpp"
 				>
 			</File>
@@ -242,14 +262,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SkeletonAnimation.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonAnimation.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -275,6 +287,42 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="AnimationTree"
+			>
+			<File
+				RelativePath=".\AnimationTree\AnimBlendNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimBlendNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimClipNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimClipNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimLayerNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimLayerNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimTreeNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationTree\AnimTreeNode.hxx"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

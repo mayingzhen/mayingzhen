@@ -2,9 +2,10 @@
 
 namespace ma
 {
-	Resource::Resource(const char* pResPath)
+	Resource::Resource(const char* pszPath)
 	{
-		m_sResPath = pResPath ? pResPath : "";
+		m_sResPath = pszPath ? pszPath : ""; 
+		m_bLoaded = false;
 	}
 
 	Resource::~Resource()

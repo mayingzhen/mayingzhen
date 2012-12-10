@@ -102,18 +102,20 @@ namespace ma
 
 	}
 
-	void Animation::SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const
-	{
-		xmNodeTransform tsfLS;
-		SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
-
-		pTSF->m_fScale += tsfLS.m_fScale * fWeight;
-		//pTSF->m_vLocalScale += tsfLS.m_vLocalScale * fWeight;
-
-		maQuaternionMad(&pTSF->m_qRot,&pTSF->m_qRot,&tsfLS.m_qRot,fWeight);
-
-		pTSF->m_vPos += tsfLS.m_vPos * fWeight;
-	}
+// 	void Animation::SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const
+// 	{
+// 		xmNodeTransform tsfLS;
+// 		SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
+// 
+// 		maTransformMad(pTSF, pTSF, tsfLS, fWeight);
+// 
+// 		pTSF->m_fScale += tsfLS.m_fScale * fWeight;
+// 		//pTSF->m_vLocalScale += tsfLS.m_vLocalScale * fWeight;
+// 
+// 		maQuaternionMad(&pTSF->m_qRot,&pTSF->m_qRot,&tsfLS.m_qRot,fWeight);
+// 
+// 		pTSF->m_vPos += tsfLS.m_vPos * fWeight;
+// 	}
 
 	bool Animation::Load(const char* pszPath)
 	{
