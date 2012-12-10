@@ -1,4 +1,5 @@
 #include "Animation/Skeleton.h"
+#include "Animation/BoneSet.h"
 
 namespace ma
 {
@@ -64,6 +65,81 @@ namespace ma
 // 
 // 		pSkel->NotifySocketUpdate();
 
+	}
+
+	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
+	{
+		if (pszBoneName == NULL)
+			return InvalidID<BoneIndex>();
+
+		for (UINT i = 0; i < m_arrBoneName.size(); ++i)
+		{
+			if (_stricmp(pszBoneName,m_arrBoneName[i].c_str()) == 0)
+			{
+				return i;
+			}
+		}
+
+		return InvalidID<BoneIndex>();
+	}
+
+	BoneIndex Skeleton::GetParentIndice(BoneIndex nBoneID)
+	{
+		return m_arrParentInd[nBoneID];
+	}
+
+	bool Skeleton::IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID)
+	{
+		for (BoneIndex nParentID = GetParentIndice(nChildBoneID); IsValidID(nParentID); nParentID = GetParentIndice(nParentID))
+		{
+			if (nParentID == nAncestorBoneID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	BoneSet* Skeleton::GetBoneSetByName(const char* pszBoneSetName)
+	{
+		for (UINT i = 0; i < m_arrBoneSet.size(); ++i)
+		{
+			if ( _strcmpi(pszBoneSetName,m_arrBoneSet[i]->GetBoneSetName()) == 0 )
+				return m_arrBoneSet[i];
+		}
+
+		return NULL;
+	}
+
+	void Skeleton::InitUpLowerBoneSet(const char* pszSplitBone, const char* pszUpBody, const char* pszLowerBody)
+	{
+		if (!pszSplitBone || !pszUpBody || !pszLowerBody)
+			return;
+
+		BoneIndex nSplitBone = GetBoneIdByName(pszSplitBone);
+		if ( InvalidID<BoneIndex>() == nSplitBone )
+			return;
+
+		BoneSet* pUperBody = new BoneSet(pszUpBody);
+		BoneSet* pLowerBody = new BoneSet(pszLowerBody);
+		m_arrBoneSet.push_back(pUperBody);
+		m_arrBoneSet.push_back(pLowerBody);
+
+		for (BoneIndex nBoneCnt = 0; nBoneCnt < m_arrBoneName.size(); ++nBoneCnt)
+		{
+			if (nSplitBone == nBoneCnt)
+			{
+				pUperBody->AddBoneInd(nBoneCnt);
+			}
+			else if ( IsAncestorOf(nSplitBone,nBoneCnt) )
+			{
+				pUperBody->AddBoneInd(nBoneCnt);
+			}
+			else
+			{
+				pLowerBody->AddBoneInd(nBoneCnt);
+			}
+		}
 	}
 
 }

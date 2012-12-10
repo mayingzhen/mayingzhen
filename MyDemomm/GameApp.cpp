@@ -145,7 +145,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, -300, 300);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, -200, 200);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -177,9 +177,45 @@ void CGameApp::InitGame()
  	pSkelMeshComp->AddMeshComp(pMeshBodyB);
  	pSkelMeshComp->AddMeshComp(pMeshBodyF);
  	pSkelMeshComp->AddMeshComp(pMeshBodyH);
- 	pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
- 	//pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska");
-	pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska");
+
+	////// mag Skeletion
+	ma::Skeleton* pReSkeleton = new ma::Skeleton;
+	pReSkeleton->Load("../TrineGame/Character/magician/Body.ske");
+
+	////// man Skeleton
+	ma::Skeleton* pSkeleton = pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
+	pSkeleton->InitUpLowerBoneSet();
+
+	////// mag Animation
+	ma::AnimationInst* pMagAnim100 = pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska",pSkeleton);
+	pMagAnim100->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pReSkeleton);
+	
+	ma::AnimationInst* pMagAnim120 = pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska",pSkeleton);
+	pMagAnim120->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pReSkeleton);
+
+	////// man Animation
+ 	ma::AnimationInst* pUpBodyAnim = pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska",pSkeleton);
+	pUpBodyAnim->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
+	pUpBodyAnim->SetBoneSet(pSkeleton->GetBoneSetByName("UpBody"));
+	ma::AnimClipNode* pUpBodyNode = new ma::AnimClipNode();
+	pUpBodyNode->SetAnimationInst(pUpBodyAnim);
+
+
+	/////// test
+	ma::AnimationInst* pLowerBodyAnim = pSkelMeshComp->LoadAnimation("../TrineGame/Man001/140/bip01.ska",pSkeleton);
+	pLowerBodyAnim->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
+	pLowerBodyAnim->SetBoneSet(pSkeleton->GetBoneSetByName("LowerBody"));
+	ma::AnimClipNode* pLowerBodyNode = new ma::AnimClipNode();
+	pLowerBodyNode->SetAnimationInst(pLowerBodyAnim);
+	
+	ma::AnimLayerNode* pAnimLayerNode = new ma::AnimLayerNode();
+	pAnimLayerNode->AddLayer(pUpBodyNode);
+	pAnimLayerNode->AddLayer(pLowerBodyNode);
+	
+	pSkelMeshComp->SetAnimTreeNode(pAnimLayerNode/*pAnimLayerNode*/);
+
+
+
 	//////
 
 //  	CObject::StaticInit();

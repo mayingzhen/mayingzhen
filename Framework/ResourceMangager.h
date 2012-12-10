@@ -8,19 +8,29 @@ namespace ma
 	class MeshRes;
 	class Texture;
 
+	typedef Resource* (*ResourceCreator)();
+
 	class FRAMEWORK_API ResourceManager
 	{
 	public:
-		AnimationRes* CreateAnimationRes(const char* pszAniPath);
+		Resource* DeclareResource(const char* pszRelPath);
 
-		SkeletonRes* CreateSkeletonRes(const char* pszAniPath);
+		/////// Resource Creation
+		void RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		MeshRes* CreatMeshRes(const char* pszMeshPath);
+		void UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		Texture* CreateTextureRes(const char* pszTexturePath);
 
 	private:
-		std::map<std::string,Resource*> m_allResource;
+		typedef std::map<std::string,Resource*> ResMap;
+		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
+		typedef std::map<GUID,SkeletonRes*> SkeletonMap;
+
+		ResMap			m_resMap;
+
+		SkeletonMap		m_skelMap;
+		
+		ResCreateFunMap m_resCreateFunMap;
 	};
 }
 

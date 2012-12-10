@@ -1,3 +1,7 @@
+#include "Animation/AnimationInst.h"
+#include "Animation/BoneSet.h"
+#include "Animation/AnimEvalContext.h"
+
 namespace ma
 {
 
@@ -8,6 +12,7 @@ namespace ma
 		m_fPlaySpeed = 1.0f;
 		m_playbackMode = S3L_PLAYBACK_LOOP;
 		m_playerStatus = S3L_PLAYER_PLAYING;
+		m_pBoneSet = NULL;
 		m_pNodeLink = new NodeLink;
 		if (pSkeleton)
 		{
@@ -42,16 +47,21 @@ namespace ma
 		}
 	}
 
-	void AnimationInst::EvaluateAnimation(std::vector<maNodeTransform>&m_arrTSFLS,float fWeight)
+	void AnimationInst::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight)
 	{
-		if (m_pAnimation == NULL)
+		if (m_pAnimation == NULL || pEvalContext == NULL)
 			return;
-
-		for (xmUint uBoneId = 0; uBoneId < m_arrTSFLS.size(); ++uBoneId)
+		
+		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFLS.size();
+		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
+			BoneIndex uBoneId = m_pBoneSet ? m_pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
-
-			m_pAnimation->SampleAndAddSingleTrackByFrame(&m_arrTSFLS[uBoneId],nTrackInd,fWeight,m_fLocalFrame);
+			//m_pAnimation->SampleAndAddSingleTrackByFrame(&m_arrTSFLS[uBoneId],nTrackInd,fWeight,m_fLocalFrame);
+			xmNodeTransform tsfLS;
+			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
+			pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
+			//maTransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], &tsfLS, fWeight);
 		}
 	}
 }

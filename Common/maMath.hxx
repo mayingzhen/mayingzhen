@@ -64,6 +64,17 @@ void maTransfromMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, const m
 	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale;
 }
 
+void maTransformMad(maNodeTransform* pOut,maNodeTransform* pTSFA,maNodeTransform* pTSFB,float fWeight)
+{
+	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale * fWeight;
+	
+	//maQuaternionMad(&pOut->m_qRot,&pTSFA->m_qRot,&pTSFB.m_qRot,fWeight);
+	D3DXQuaternionMultiply(&pOut->m_qRot,&pTSFA->m_qRot,&(pTSFB->m_qRot * fWeight));
+
+	pOut->m_vPos = pTSFA->m_vPos +  pTSFB->m_vPos * fWeight;
+}
+
+
 void maTransformInverse(maNodeTransform* pOut, const maNodeTransform* pTSF)
 {
 	float fScaleInv;

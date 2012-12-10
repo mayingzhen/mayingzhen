@@ -25,27 +25,27 @@ namespace ma
 
 		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
 
-		Animation* pAnimtion = m_pAniRes->GetAimation();
 		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
 		const NodePose* refPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
-		if (!pAnimtion || !pSkeleton || !refPose)
+		if (!pSkeleton || !refPose)
 			return;
 
-		m_pAnimationInst->AdvanceTime(fTimeElapsed);
+		//m_pAnimationInst->AdvanceTime(fTimeElapsed);
+		m_pAnimNode->AdvanceTime(fTimeElapsed);
 		
-		std::vector<maNodeTransform> arrLSTSF;
-		arrLSTSF.resize(refPose->GetNodeNumber());
-		//for (UINT i = 0; i < arrLSTSF.size(); ++i)
-		//{
-		//	//maTransformSetIdentity(&arrLSTSF[i]);
-		//}
-		memset(&arrLSTSF[0],0,sizeof(maNodeTransform)*arrLSTSF.size());
-		m_pAnimationInst->EvaluateAnimation(arrLSTSF);
+		AnimEvalContext evalConst;
+		
+		maNodeTransform tsfIdent;
+		maTransformSetIdentity(&tsfIdent);
+		evalConst.m_arrTSFLS.resize(refPose->GetNodeNumber(),tsfIdent);
+		//memset(&arrLSTSF[0],0,sizeof(maNodeTransform)*arrLSTSF.size());
+		//m_pAnimationInst->EvaluateAnimation(tsfIdent);
+		m_pAnimNode->EvaluateAnimation(&evalConst,1.0f);
 
 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
 		{
 			maNodeTransform tsfPS;
-			maTransfromMul(&tsfPS,&arrLSTSF[i],&refPose->GetTransformPS(i));
+			maTransfromMul(&tsfPS,&evalConst.m_arrTSFLS[i],&refPose->GetTransformPS(i));
 			m_pose->SetTransformPS(&tsfPS,i);
 			//m_pose->SetTransformPS(&arrLSTSF[i],i);
 		}
@@ -100,7 +100,7 @@ namespace ma
 		m_vMeshComp.push_back(pMeshComp);
 	}
 
-	void SkelMeshComponent::LoadSkeleton(const char* pSkelPath)
+	Skeleton* SkelMeshComponent::LoadSkeleton(const char* pSkelPath)
 	{
 		m_pSkelRes = new SkeletonRes(pSkelPath);
 		m_pSkelRes->Load();
@@ -108,6 +108,7 @@ namespace ma
 		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
 		const NodePose* pRefPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
+		return m_pSkelRes->GetSkeleton();
 	}
 
 	void SkelMeshComponent::PlayAnimation(const char* pszAniName)
@@ -124,19 +125,13 @@ namespace ma
 		
 	}
 
-	void SkelMeshComponent::LoadAnimation(const char* pAniPath)
+	AnimationInst* SkelMeshComponent::LoadAnimation(const char* pAniPath,Skeleton* pSkeleton)
 	{
 		m_pAniRes = new AnimationRes(pAniPath);
 		m_pAniRes->Load();
 
-		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation(),m_pSkelRes->GetSkeleton());
-		
-	
-
-		Skeleton* pSkeleton = new Skeleton;
-		pSkeleton->Load("D:/work/mydemo_svn/TrineGame/Character/magician/Body.ske");
-
-		m_pAniRes->GetAimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
+		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation(),pSkeleton);
+		return m_pAnimationInst;
 	}
 
 }
