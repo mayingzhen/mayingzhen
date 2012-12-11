@@ -12,7 +12,6 @@ namespace ma
 		m_fPlaySpeed = 1.0f;
 		m_playbackMode = S3L_PLAYBACK_LOOP;
 		m_playerStatus = S3L_PLAYER_PLAYING;
-		m_pBoneSet = NULL;
 		m_pNodeLink = new NodeLink;
 		if (pSkeleton)
 		{
@@ -47,15 +46,15 @@ namespace ma
 		}
 	}
 
-	void AnimationInst::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight)
+	void AnimationInst::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight,BoneSet* pBoneSet)
 	{
 		if (m_pAnimation == NULL || pEvalContext == NULL)
 			return;
 		
-		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFLS.size();
+		UINT uBoneNumber = pBoneSet ? pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFLS.size();
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
-			BoneIndex uBoneId = m_pBoneSet ? m_pBoneSet->GetBoneIdByIndex(i) : i;
+			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
 			//m_pAnimation->SampleAndAddSingleTrackByFrame(&m_arrTSFLS[uBoneId],nTrackInd,fWeight,m_fLocalFrame);
 			xmNodeTransform tsfLS;

@@ -29,20 +29,16 @@ namespace ma
 
 		~AnimationInst();
 
-		void EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f);
+		void EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f,BoneSet* pBoneSet = NULL);
 
 		void AdvanceTime(float fTimeElapsed);
 
 		NodeLink* GetNodeLink() {return m_pNodeLink;}
 
 		Animation* GetAnimation() {return m_pAnimation;}
-		
-		void SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
 
 	private:
 		Animation* m_pAnimation;
-
-		BoneSet* m_pBoneSet;
 
 		NodeLink* m_pNodeLink;
 

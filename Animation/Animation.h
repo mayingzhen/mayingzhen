@@ -20,8 +20,6 @@ namespace ma
 
 		xmUint GetFrameNumber() {return m_nFrameNumber;}
 
-		//void SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const;
-
 		void SampleSingleTrackByFrame(xmNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
 		bool Load(const char* pszPath);
@@ -32,22 +30,7 @@ namespace ma
 
 		const char* GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}
 
-		UINT GetTransfTrackIndexByName(const char* pszName)
-		{
-			if (pszName == NULL)
-				return InvalidID<UINT>();
-
-			for (UINT i = 0; i < m_arrTransfTrackName.size(); ++i)
-			{
-				const char* pszTrackName = m_arrTransfTrackName[i].c_str();
-				if ( _stricmp(pszTrackName,pszName) == 0)
-				{
-					return i;
-				}
-			}
-
-			return InvalidID<UINT>();
-		}
+		UINT GetTransfTrackIndexByName(const char* pszName);
 
 	private: 
 		void Init(AnimationData* pAniData);

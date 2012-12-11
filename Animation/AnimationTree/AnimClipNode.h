@@ -7,15 +7,18 @@ namespace ma
 {
 	class AnimationInst;
 	class AnimEvalContext;
+	class BoneSet;
 
 	class ANIMATION_API AnimClipNode : public AnimTreeNode
 	{
 	public:
-		AnimClipNode();
+		AnimClipNode(AnimationInst* pAnimInst = NULL,BoneSet* pBoneSet = NULL);
 		
 		~AnimClipNode();
 
 		void SetAnimationInst(AnimationInst* pAnimInst) {m_pAnimInst = pAnimInst;}
+
+		void SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
 
 		virtual void AdvanceTime(float fTimeElapsed);
 
@@ -23,6 +26,8 @@ namespace ma
 
 	private:
 		AnimationInst* m_pAnimInst;
+
+		BoneSet* m_pBoneSet;
 	};
 }
 

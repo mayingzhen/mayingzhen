@@ -8,6 +8,9 @@
 #include "Animation/AnimationInst.h"
 #include "Animation/NodeLink.h"
 #include "Animation/AnimEvalContext.h"
+#include "Animation/AnimationSet.h"
+#include "Animation/SkeletonAnimation.h"
+#include "Animation/AnimationPlay.h"
 
 #include "Animation/AnimationTree/AnimTreeNode.h"
 #include "Animation/AnimationTree/AnimClipNode.h"
