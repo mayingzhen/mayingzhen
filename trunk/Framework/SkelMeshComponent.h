@@ -6,14 +6,10 @@
 namespace ma
 {
 	class SkeletonRes;
-	class AnimationRes;
-	class MeshComponent;
-	class NodePose;
-	class AnimationInst;
-	class AnimationSet;
-	class Animation;
-	class AnimTreeNode;
 	class Skeleton;
+	class MeshComponent;
+	class AnimationSet;
+	class AnimationPlay;
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
@@ -28,40 +24,20 @@ namespace ma
 
 		void AddMeshComp(MeshComponent* pMeshComp);
 
-		Skeleton* LoadSkeleton(const char* pSkelPath);
+		void SetSkeleton(Skeleton* pSkeleton);
+
+		void SetAnimationSet(AnimationSet* pAnimSet);
 
 		void PlayAnimation(const char* pszAniName);
 
-		void PlayAnimation(Animation* pAnimation);
-
-		AnimationInst* LoadAnimation(const char* pAniPath,Skeleton* pSkeleton);
-
-		void SetAnimTreeNode(AnimTreeNode* pAnimTreeNode) {m_pAnimNode = pAnimTreeNode;}
-	
 	private:
-		SkeletonRes* m_pSkelRes;
+		Skeleton* m_pSkeleton;
 
-		AnimationRes* m_pAniRes;
-
-		AnimationInst* m_pAnimationInst;
-
-		NodePose*	m_pose;
-
-		AnimTreeNode* m_pAnimNode;
-
-		//AnimationSet* m_pAnimationSet;
-
-//		SkeletonAnimation* m_pSkeletonAnimation;
-
-		/// 
-// 		{
-// 			Skeleton* m_pSkeleton;
-// 			AnimationInst* m_pAnimationInst;
-// 			NodePose* m_AniPos;
-// 		}
+		AnimationSet* m_pAnimSet;
 
 		std::vector<MeshComponent*> m_vMeshComp;	
-		
+
+		AnimationPlay* m_pAnimtionPlay;
 	};
 }
 

@@ -194,6 +194,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AnimationPlay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationPlay.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationSet.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\AnimationTracks.h"
 				>
 			</File>
@@ -211,14 +227,6 @@
 			</File>
 			<File
 				RelativePath=".\BoneSet.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\CompoundAnimation.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\CompoundAnimationn.h"
 				>
 			</File>
 			<File
@@ -259,6 +267,14 @@
 			</File>
 			<File
 				RelativePath=".\Skeleton.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonAnimation.hxx"
 				>
 			</File>
 			<File
@@ -321,6 +337,22 @@
 			</File>
 			<File
 				RelativePath=".\AnimationTree\AnimTreeNode.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="PoseModifier"
+			>
+			<File
+				RelativePath=".\PoseModifier\LookAtModifier.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PoseModifier\LookAtModifier.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\PoseModifier\PoseModifier.h"
 				>
 			</File>
 		</Filter>

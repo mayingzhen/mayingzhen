@@ -6,6 +6,9 @@
 #include "Animation/AnimationInst.hxx"
 #include "Animation/NodePose.hxx"
 #include "Animation/NodeLink.hxx"
+#include "Animation/AnimationSet.hxx"
+#include "Animation/SkeletonAnimation.hxx"
+#include "Animation/AnimationPlay.hxx"
 
 #include "Animation/AnimationTree/AnimTreeNode.hxx"
 #include "Animation/AnimationTree/AnimClipNode.hxx"

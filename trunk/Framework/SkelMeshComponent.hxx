@@ -5,17 +5,13 @@ namespace ma
 
 	SkelMeshComponent::SkelMeshComponent()
 	{
-		m_pSkelRes = NULL;
-		m_pose = new NodePose;
-		m_pAnimationInst = NULL;
-
-		//m_pSkeletonAnimation = new SkeletonAnimation();
+		m_pAnimSet = NULL;
+		m_pAnimtionPlay = new AnimationPlay();
 	}
 
 	SkelMeshComponent::~SkelMeshComponent()
 	{
-		SAFE_DELETE(m_pose);
-		//SAFE_DELETE(m_pSkeletonAnimation);
+		SAFE_DELETE(m_pAnimtionPlay);
 	}
 
 	void SkelMeshComponent::Update()
@@ -25,32 +21,10 @@ namespace ma
 
 		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
 
-		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
-		const NodePose* refPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
-		if (!pSkeleton || !refPose)
-			return;
+		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
 
-		//m_pAnimationInst->AdvanceTime(fTimeElapsed);
-		m_pAnimNode->AdvanceTime(fTimeElapsed);
-		
-		AnimEvalContext evalConst;
-		
-		maNodeTransform tsfIdent;
-		maTransformSetIdentity(&tsfIdent);
-		evalConst.m_arrTSFLS.resize(refPose->GetNodeNumber(),tsfIdent);
-		//memset(&arrLSTSF[0],0,sizeof(maNodeTransform)*arrLSTSF.size());
-		//m_pAnimationInst->EvaluateAnimation(tsfIdent);
-		m_pAnimNode->EvaluateAnimation(&evalConst,1.0f);
-
-		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
-		{
-			maNodeTransform tsfPS;
-			maTransfromMul(&tsfPS,&evalConst.m_arrTSFLS[i],&refPose->GetTransformPS(i));
-			m_pose->SetTransformPS(&tsfPS,i);
-			//m_pose->SetTransformPS(&arrLSTSF[i],i);
-		}
-
-		m_pose->SyncObjectSpace();
+		/// Parallel Update
+ 		m_pAnimtionPlay->EvaluateAnimation(1.0f);
 	}
 
 	void SkelMeshComponent::Render()
@@ -65,13 +39,15 @@ namespace ma
 		D3DXMATRIX worldmat = m_pGameObject->GetWorldMatrix();
 
 		xmMatrix4x4 arrSkinMatrix[256];
-		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
-		UINT nBoneNum = pSkeleton->GetBoneNumer();
+		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
+		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
+		if (pAnimPose == NULL)
+			return;
+
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
-			//D3DXMatrixIdentity(&arrSkinMatrix[i]);
-			maMatrixFromTransform(&arrSkinMatrix[i],& m_pose->GetTransformOS(i));
-			D3DXMatrixMultiply(&arrSkinMatrix[i],& pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
+			maMatrixFromTransform(&arrSkinMatrix[i],& pAnimPose->GetTransformOS(i));
+			D3DXMatrixMultiply(&arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
 		}
 
 		for (UINT i = 0; i < m_vMeshComp.size(); ++i)
@@ -100,38 +76,27 @@ namespace ma
 		m_vMeshComp.push_back(pMeshComp);
 	}
 
-	Skeleton* SkelMeshComponent::LoadSkeleton(const char* pSkelPath)
+	void SkelMeshComponent::SetSkeleton(Skeleton* pSkeleton)
 	{
-		m_pSkelRes = new SkeletonRes(pSkelPath);
-		m_pSkelRes->Load();
+		m_pSkeleton = pSkeleton;
+		m_pAnimtionPlay->SetSkeleton(m_pSkeleton);
+	}
 
-		Skeleton* pSkeleton = m_pSkelRes->GetSkeleton();
-		const NodePose* pRefPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
-		m_pose = pRefPose ? pRefPose->Clone() : NULL;
-		return m_pSkelRes->GetSkeleton();
+	void SkelMeshComponent::SetAnimationSet(AnimationSet* pAnimSet)
+	{
+		m_pAnimSet = pAnimSet;
 	}
 
 	void SkelMeshComponent::PlayAnimation(const char* pszAniName)
 	{
-		//m_pAnimationSet->
-	}
-
-	void SkelMeshComponent::PlayAnimation(Animation* pAnimation)
-	{
-		if (pAnimation == NULL)
+		if (pszAniName == NULL)
 			return;
-		
-		//m_pSkeletonAnimation->Instantiate(pAnimation);
-		
+
+		if (m_pAnimSet == NULL)
+			return;
+
+		SkeletonAnimation* pSkelAnim = m_pAnimSet->GetSkeletonAnimationByName(pszAniName);
+
+		m_pAnimtionPlay->PlayAnimation(pSkelAnim);
 	}
-
-	AnimationInst* SkelMeshComponent::LoadAnimation(const char* pAniPath,Skeleton* pSkeleton)
-	{
-		m_pAniRes = new AnimationRes(pAniPath);
-		m_pAniRes->Load();
-
-		m_pAnimationInst = new AnimationInst(m_pAniRes->GetAimation(),pSkeleton);
-		return m_pAnimationInst;
-	}
-
 }

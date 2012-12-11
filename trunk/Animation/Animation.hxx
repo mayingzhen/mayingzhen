@@ -102,20 +102,23 @@ namespace ma
 
 	}
 
-// 	void Animation::SampleAndAddSingleTrackByFrame(xmNodeTransform* pTSF,BoneIndex nTrackID,float fWeight,float fFrame) const
-// 	{
-// 		xmNodeTransform tsfLS;
-// 		SampleSingleTrackByFrame(&tsfLS,nTrackID,fFrame);
-// 
-// 		maTransformMad(pTSF, pTSF, tsfLS, fWeight);
-// 
-// 		pTSF->m_fScale += tsfLS.m_fScale * fWeight;
-// 		//pTSF->m_vLocalScale += tsfLS.m_vLocalScale * fWeight;
-// 
-// 		maQuaternionMad(&pTSF->m_qRot,&pTSF->m_qRot,&tsfLS.m_qRot,fWeight);
-// 
-// 		pTSF->m_vPos += tsfLS.m_vPos * fWeight;
-// 	}
+
+	UINT Animation::GetTransfTrackIndexByName(const char* pszName)
+	{
+		if (pszName == NULL)
+			return InvalidID<UINT>();
+
+		for (UINT i = 0; i < m_arrTransfTrackName.size(); ++i)
+		{
+			const char* pszTrackName = m_arrTransfTrackName[i].c_str();
+			if ( _stricmp(pszTrackName,pszName) == 0)
+			{
+				return i;
+			}
+		}
+
+		return InvalidID<UINT>();
+	}
 
 	bool Animation::Load(const char* pszPath)
 	{

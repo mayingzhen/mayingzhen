@@ -168,10 +168,6 @@ void CGameApp::InitGame()
 	ma::MeshComponent* pMeshBodyH = new ma::MeshComponent();
 	pMeshBodyH->Load("../TrineGame/man001/Man001/body_h.skn","../TrineGame/man001/Man001/body_h.tga");
 
-	//pGameObj->AddComponent(pMeshBodyB);
-	//pGameObj->AddComponent(pMeshBodyF);
-	//pGameObj->AddComponent(pMeshBodyH);
-
  	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
  	pGameObj->AddComponent(pSkelMeshComp);
  	pSkelMeshComp->AddMeshComp(pMeshBodyB);
@@ -179,41 +175,35 @@ void CGameApp::InitGame()
  	pSkelMeshComp->AddMeshComp(pMeshBodyH);
 
 	////// mag Skeletion
-	ma::Skeleton* pReSkeleton = new ma::Skeleton;
-	pReSkeleton->Load("../TrineGame/Character/magician/Body.ske");
+	ma::Skeleton* pMagSkeleton = new ma::Skeleton;
+	pMagSkeleton->Load("../TrineGame/Character/magician/Body.ske");
+	pMagSkeleton->InitUpLowerBoneSet();
 
 	////// man Skeleton
-	ma::Skeleton* pSkeleton = pSkelMeshComp->LoadSkeleton("../TrineGame/man001/Man001/body.ske");
-	pSkeleton->InitUpLowerBoneSet();
+	ma::Skeleton* pManSkeleton = new ma::Skeleton;
+	pManSkeleton->Load("../TrineGame/man001/Man001/body.ske");
+	pManSkeleton->InitUpLowerBoneSet();
 
-	////// mag Animation
-	ma::AnimationInst* pMagAnim100 = pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska",pSkeleton);
-	pMagAnim100->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pReSkeleton);
-	
-	ma::AnimationInst* pMagAnim120 = pSkelMeshComp->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska",pSkeleton);
-	pMagAnim120->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pReSkeleton);
+	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
+	ma::AnimationInst* pAniMag100 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska","mag100",pManSkeleton,pMagSkeleton);
+	ma::AnimationInst* pAniMag120 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska","mag120",pManSkeleton,pMagSkeleton);
+	ma::AnimationInst* pAniMan120 = pAnimSet->LoadAnimation("../TrineGame/Man001/120/bip01.ska","man120",pManSkeleton,pManSkeleton);
+	ma::AnimationInst* pAniMan140 = pAnimSet->LoadAnimation("../TrineGame/Man001/140/bip01.ska","man140",pManSkeleton,pManSkeleton);
 
-	////// man Animation
- 	ma::AnimationInst* pUpBodyAnim = pSkelMeshComp->LoadAnimation("../TrineGame/Man001/120/bip01.ska",pSkeleton);
-	pUpBodyAnim->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
-	pUpBodyAnim->SetBoneSet(pSkeleton->GetBoneSetByName("UpBody"));
-	ma::AnimClipNode* pUpBodyNode = new ma::AnimClipNode();
-	pUpBodyNode->SetAnimationInst(pUpBodyAnim);
-
-
-	/////// test
-	ma::AnimationInst* pLowerBodyAnim = pSkelMeshComp->LoadAnimation("../TrineGame/Man001/140/bip01.ska",pSkeleton);
-	pLowerBodyAnim->GetAnimation()->ConverteAnimDataParentToLocalSpaceAnimation(pSkeleton);
-	pLowerBodyAnim->SetBoneSet(pSkeleton->GetBoneSetByName("LowerBody"));
-	ma::AnimClipNode* pLowerBodyNode = new ma::AnimClipNode();
-	pLowerBodyNode->SetAnimationInst(pLowerBodyAnim);
-	
+	ma::AnimClipNode* pLowerBodyNode = new ma::AnimClipNode(pAniMan120,pManSkeleton->GetBoneSetByName("UpBody"));
+	ma::AnimClipNode* pUpBodyNode = new ma::AnimClipNode(pAniMan140,pManSkeleton->GetBoneSetByName("LowerBody"));
 	ma::AnimLayerNode* pAnimLayerNode = new ma::AnimLayerNode();
 	pAnimLayerNode->AddLayer(pUpBodyNode);
 	pAnimLayerNode->AddLayer(pLowerBodyNode);
-	
-	pSkelMeshComp->SetAnimTreeNode(pAnimLayerNode/*pAnimLayerNode*/);
+	ma::SkeletonAnimation* pSkelAnim = new ma::SkeletonAnimation;
+	pSkelAnim->SetAnimName("AnimationTree");
+	pSkelAnim->SetTreeNode(pAnimLayerNode);
+	pAnimSet->AddSkeletonAnimation(pSkelAnim);
 
+	pSkelMeshComp->SetAnimationSet(pAnimSet);
+	pSkelMeshComp->SetSkeleton(pManSkeleton);
+
+	pSkelMeshComp->PlayAnimation("AnimationTree");
 
 
 	//////

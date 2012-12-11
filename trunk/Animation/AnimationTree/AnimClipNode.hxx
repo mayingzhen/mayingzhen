@@ -3,9 +3,10 @@
 
 namespace ma
 {
-	AnimClipNode::AnimClipNode()
+	AnimClipNode::AnimClipNode(AnimationInst* pAnimInst,BoneSet* pBoneSet)
 	{
-		m_pAnimInst = NULL;
+		m_pAnimInst = pAnimInst;
+		m_pBoneSet = pBoneSet;
 	}
 
 	AnimClipNode::~AnimClipNode()
@@ -26,6 +27,6 @@ namespace ma
 		if (m_pAnimInst == NULL)
 			return;
 
-		m_pAnimInst->EvaluateAnimation(pEvalContext,fWeight);
+		m_pAnimInst->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet);
 	}
 }
