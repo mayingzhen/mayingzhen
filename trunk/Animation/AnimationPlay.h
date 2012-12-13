@@ -5,7 +5,7 @@ namespace ma
 {
 	class Skeleton;
 	class NodePose;
-	class SkeletonAnimation;
+	class AnimationAction;
 
 	class ANIMATION_API AnimationPlay
 	{
@@ -16,7 +16,7 @@ namespace ma
 
 		void SetSkeleton(Skeleton* pSkeleton);
 
-		void PlayAnimation(SkeletonAnimation* pSkelAnim);
+		void PlayAnimation(AnimationAction* pSkelAnim);
 
 		void AdvanceTime(float fTimeElepse);
 
@@ -29,7 +29,7 @@ namespace ma
 		
 		NodePose*		m_pose;
 
-		SkeletonAnimation*  m_pSkelAnim;
+		AnimationAction*  m_pSkelAnim;
 	};
 }
 

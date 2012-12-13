@@ -3,21 +3,21 @@
 
 namespace ma
 {
-	class SkeletonAnimation;
+	class AnimationAction;
 	class Skeleton;
 
 	class ANIMATION_API AnimationSet
 	{
 	public:
-		SkeletonAnimation* GetSkeletonAnimationByName(const char* pszName);
+		AnimationAction* GetAnimationActionByName(const char* pszName);
 
 		AnimationInst* LoadAnimation(const char* pszAnimPath,const char* pszAnimName,
 			Skeleton* pSkeleton,Skeleton* pOriSkeleton);
 
-		void AddSkeletonAnimation(SkeletonAnimation* pSkelAnim);
+		void AddAnimationAction(AnimationAction* pSkelAnim);
 
 	private:
-		std::vector<SkeletonAnimation*> m_arrAnimation;
+		std::vector<AnimationAction*> m_arrAnimation;
 	};
 }
 

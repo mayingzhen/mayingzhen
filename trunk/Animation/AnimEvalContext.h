@@ -3,9 +3,15 @@
 
 namespace ma
 {
+	class NodePose;
+
 	struct ANIMATION_API AnimEvalContext
 	{
 		std::vector<maNodeTransform> m_arrTSFLS;
+
+		const NodePose* m_refNodePos;
+
+		NodePose* m_pNodePos;
 	};
 }
 

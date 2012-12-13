@@ -283,6 +283,13 @@ namespace ma
 		return nParentInd == nAncestorInd;
 	}
 
+	void NodePose::ApplyTransformLS(const xmNodeTransform* pTSF, BoneIndex nBoneInd)
+	{
+		xmNodeTransform tsf = GetTransformPS(nBoneInd);
+		maTransfromMul(&tsf,pTSF,&tsf);
+		SetTransformPS(&tsf,nBoneInd);
+	}
+
 }
 
 

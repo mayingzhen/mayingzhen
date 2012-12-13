@@ -39,12 +39,56 @@ struct COMMON_API maNodeTransform
 	//static maNodeTransform Identity();
 };
 
+
+//------------------------------------------------------------------------------
+//EulerAngle
+//------------------------------------------------------------------------------
+
+
+//Rotate on x axis first, then y,z axis
+//x-roll
+//y-pitch
+//z-yaw
+struct COMMON_API xmEulerAngleXYZ
+{
+	xmFloat x;
+	xmFloat y;
+	xmFloat z;
+
+	xmEulerAngleXYZ();
+
+	xmEulerAngleXYZ(float fX,float fY,float fZ);
+
+	xmEulerAngleXYZ operator+(const xmEulerAngleXYZ& rhs);
+
+	xmEulerAngleXYZ& operator+=(const xmEulerAngleXYZ& rhs);
+
+	xmEulerAngleXYZ& operator*=(float);
+
+	void Normalize();
+};
+
+
+//axis is non zero
+//x-roll = 0, y-pitch, z-yaw
+COMMON_API void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const xmVector3* pAxis);
+
+
 // Quaternion
 COMMON_API void maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat);
 
 COMMON_API void maQuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1, const D3DXQUATERNION* pQ2, float fWeight);
 
-//COMMON_API void maQuaternionLerp(xmQuaternion* out,const xmQuaternion* q0,const xmQuaternion* q1,float factor);
+COMMON_API void maQuaternionFromEulerAngleXYZ(xmQuaternion* pQuat,const xmEulerAngleXYZ* pEuler);
+
+
+
+template<class T>
+inline void maLerp(T& out, const T& v0,const T& v1,float factor)
+{
+	out = v0*(1.0f-factor)+v1*factor;
+}
+
 
 // Transform
 COMMON_API void maTransformSetIdentity(maNodeTransform* pTSF);
@@ -59,8 +103,14 @@ COMMON_API void maTransfromInvMul(maNodeTransform* pOut, const maNodeTransform* 
 
 COMMON_API void maVec3TransformNormal(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *pV, const maNodeTransform* pTSF);
 
+COMMON_API void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maNodeTransform* pTSF);
+
+COMMON_API void maTransformLerp(maNodeTransform* pOut,const maNodeTransform* pA,const maNodeTransform* pB,float fFactor);
+
 // Matrix
 COMMON_API void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF);
+
+COMMON_API void  maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ);
 
 
 

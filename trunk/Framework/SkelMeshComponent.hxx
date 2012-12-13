@@ -95,7 +95,7 @@ namespace ma
 		if (m_pAnimSet == NULL)
 			return;
 
-		SkeletonAnimation* pSkelAnim = m_pAnimSet->GetSkeletonAnimationByName(pszAniName);
+		AnimationAction* pSkelAnim = m_pAnimSet->GetAnimationActionByName(pszAniName);
 
 		m_pAnimtionPlay->PlayAnimation(pSkelAnim);
 	}
