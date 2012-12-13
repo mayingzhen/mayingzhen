@@ -3,46 +3,51 @@
 
 #include "Animation/PoseModifier/PoseModifier.h"
 
-class ANIMATION_API LookAtModifier : public PoseModifier
+namespace ma
 {
-	xmVector3 m_vGoalOS;		//goal in object space
+	class ANIMATION_API LookAtModifier : public PoseModifier
+	{
+		xmVector3 m_vGoalOS;		//goal in object space
 
-	xmQuaternion	m_qPivotLS;
-	
-	xmUint		m_nBoneID;
+		xmQuaternion	m_qPivotLS;
 
-	float		m_fGoalDistThreshold;
+		xmUint		m_nBoneID;
 
-	float		m_fMaxYaw;
+		float		m_fGoalDistThreshold;
 
-public:
+		float		m_fMaxYaw;
 
-	LookAtModifier();
+	public:
 
-	void				UpdatePose(NodePose* pNodePose, const PoseUpdateInfo& updateInfo);
+		LookAtModifier();
 
-	void				Init(xmUint nBoneID,const xmVector3& vFowardLS,const xmVector3& vUpLS);
+		void				UpdatePose(NodePose* pNodePose);
 
-	void				SetBoneID(xmUint nBoneID);
+		void				Init(xmUint nBoneID,const xmVector3& vFowardLS,const xmVector3& vUpLS);
 
-	xmUint				GetBoneID()const;
+		void				SetBoneID(xmUint nBoneID);
 
-	void				SetGoalObjectSpace(const xmVector3& vGoalOS);
+		xmUint				GetBoneID()const;
 
-	const xmVector3&	GetGoalObjectSpace()const;
+		void				SetGoalObjectSpace(const xmVector3& vGoalOS);
 
-	void				SetMaxYaw(float fMaxYaw);
+		const xmVector3&	GetGoalObjectSpace()const;
 
-	float				GetMaxYaw() const;
+		void				SetMaxYaw(float fMaxYaw);
 
-	xmVector3			GetFowardLS() const;
+		float				GetMaxYaw() const;
 
-	xmVector3			GetUpLS() const;
+		xmVector3			GetFowardLS() const;
 
-	void				DbgDraw() const;
+		xmVector3			GetUpLS() const;
 
-private:
-	void CalculatePovitLs(const xmVector3& vFowardLS,const xmVector3& vUpLS);
-};
+		void				DbgDraw() const;
+
+	private:
+		void CalculatePovitLs(const xmVector3& vFowardLS,const xmVector3& vUpLS);
+	};
+}
+
+
 
 #endif// __LookAtModifier_H__

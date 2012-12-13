@@ -1,5 +1,5 @@
-#ifndef  _SkeletonAnimation__H__
-#define  _SkeletonAnimation__H__
+#ifndef  _AnimationAction__H__
+#define  _AnimationAction__H__
 
 namespace ma
 {
@@ -7,12 +7,12 @@ namespace ma
 	class PoseModifier;
 
 	// 合成动作（动作树+IK）
-	class ANIMATION_API SkeletonAnimation
+	class ANIMATION_API AnimationAction
 	{
 	public:
-		SkeletonAnimation();
+		AnimationAction();
 
-		~SkeletonAnimation();
+		~AnimationAction();
 
 		void SetTreeNode(AnimTreeNode* pAnimNode);
 

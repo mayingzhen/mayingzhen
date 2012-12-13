@@ -1,4 +1,4 @@
-#include "Animation/SkeletonAnimation.h"
+#include "Animation/AnimationAction.h"
 
 namespace ma
 {
@@ -18,7 +18,7 @@ namespace ma
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 	}
 
-	void AnimationPlay::PlayAnimation(SkeletonAnimation* pSkelAnim)
+	void AnimationPlay::PlayAnimation(AnimationAction* pSkelAnim)
 	{
 		m_pSkelAnim = pSkelAnim;
 	}
@@ -41,23 +41,24 @@ namespace ma
 			return;
 
 		AnimEvalContext evalContext;
-
 		maNodeTransform tsfIdent;
 		maTransformSetIdentity(&tsfIdent);
 		evalContext.m_arrTSFLS.resize(pRefPose->GetNodeNumber(),tsfIdent);
+		evalContext.m_pNodePos = m_pose;
+		evalContext.m_refNodePos = pRefPose;
 
 		if (m_pSkelAnim)
 		{
 			m_pSkelAnim->EvaluateAnimation(&evalContext,fWeight);
 		}
 
-		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
-		{
-			maNodeTransform tsfPS;
-			maTransfromMul(&tsfPS,&evalContext.m_arrTSFLS[i],&pRefPose->GetTransformPS(i));
-			m_pose->SetTransformPS(&tsfPS,i);
-		}
-
-		m_pose->SyncObjectSpace();
+// 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
+// 		{
+// 			maNodeTransform tsfPS;
+// 			maTransfromMul(&tsfPS,&evalContext.m_arrTSFLS[i],&pRefPose->GetTransformPS(i));
+// 			m_pose->SetTransformPS(&tsfPS,i);
+// 		}
+// 
+// 		m_pose->SyncObjectSpace();
 	}
 }

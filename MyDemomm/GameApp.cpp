@@ -195,10 +195,19 @@ void CGameApp::InitGame()
 	ma::AnimLayerNode* pAnimLayerNode = new ma::AnimLayerNode();
 	pAnimLayerNode->AddLayer(pUpBodyNode);
 	pAnimLayerNode->AddLayer(pLowerBodyNode);
-	ma::SkeletonAnimation* pSkelAnim = new ma::SkeletonAnimation;
+	ma::AnimationAction* pSkelAnim = new ma::AnimationAction;
 	pSkelAnim->SetAnimName("AnimationTree");
-	pSkelAnim->SetTreeNode(pAnimLayerNode);
-	pAnimSet->AddSkeletonAnimation(pSkelAnim);
+	pSkelAnim->SetTreeNode(pLowerBodyNode/*pAnimLayerNode*/);
+
+	ma::LookAtModifier* pLookAtIk = new ma::LookAtModifier();
+	xmVector3 vForwardLS(0.0f,1.0f,0.0f); //Forward Direction in Bip01 Head's space
+	xmVector3 vUpLS(1.0f,0.0f,0.0f);		//Up Direction in Bip01 Head's space
+	xmVector3 vGoalOS = D3DXVECTOR3(100, -200, 200);;//(0.0f,0.0f,0.0f);
+	pLookAtIk->Init( pManSkeleton->GetBoneIdByName("Bip01 Head"),vForwardLS,vUpLS);
+	pLookAtIk->SetGoalObjectSpace(vGoalOS);
+	pSkelAnim->AddPoseModifier(pLookAtIk);
+
+	pAnimSet->AddAnimationAction(pSkelAnim);
 
 	pSkelMeshComp->SetAnimationSet(pAnimSet);
 	pSkelMeshComp->SetSkeleton(pManSkeleton);

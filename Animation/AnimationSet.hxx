@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	SkeletonAnimation* AnimationSet::GetSkeletonAnimationByName(const char* pszName)
+	AnimationAction* AnimationSet::GetAnimationActionByName(const char* pszName)
 	{
 		if (pszName == NULL)
 			return NULL;
@@ -31,7 +31,7 @@ namespace ma
 		AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
 		AnimClipNode* pClipNode = new AnimClipNode();
 		pClipNode->SetAnimationInst(pAnimationInst);
-		SkeletonAnimation* pSkelAnim = new SkeletonAnimation;
+		AnimationAction* pSkelAnim = new AnimationAction;
 		pSkelAnim->SetAnimName(pszAnimName);
 		pSkelAnim->SetTreeNode(pClipNode);
 
@@ -40,7 +40,7 @@ namespace ma
 		return pAnimationInst;
 	}
 
-	void AnimationSet::AddSkeletonAnimation(SkeletonAnimation* pSkelAnim)
+	void AnimationSet::AddAnimationAction(AnimationAction* pSkelAnim)
 	{
 		if (pSkelAnim == NULL)
 			return;
