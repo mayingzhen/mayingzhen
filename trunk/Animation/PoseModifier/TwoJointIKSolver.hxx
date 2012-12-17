@@ -70,6 +70,75 @@ namespace ma
 		maTransfromMul(&pivotATSFOS,&m_pivotALS,&pRefPose->GetTransformOS(m_uBoneAID));
 		maTransformInverse(&pivotATSFInvOS,&pivotATSFOS);
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotATSFInvOS);
+		fGoalDistPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
+		if (fGoalDistPivotSpace > xm_EPS)
+		{
+			D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalDistPivotSpace;
+			D3DXVECTOR3 vGoalDirXY(vGoalDirPivotSpace.x,vGoalDirPivotSpace.y,0.0f);
+			D3DXVECTOR3 fGoalDirXYLen = D3DXVec3Length(&vGoalDirXY);
+			if (fGoalDirXYLen > xm_EPS)
+			{
+				vGoalDirXY = vGoalDirXY / fGoalDirXYLen;
+				maQuaternionFromAxisToAxis(qConstrainPlanePitchLS,&vGoalDirXY,&vGoalDirPivotSpace);
+			}
+			else
+			{
+				*qConstrainPlanePitchLS = vGoalDirPivotSpace.y > 0.0f ?
+					D3DXQUATERNION(0.0f, 0.0f, sin(-D3DX_PI / 1.0f), cos(-D3DX_PI / 4.0f)) :
+					D3DXQUATERNION(0.0f, 0.0f, sin(D3DX_PI / 1.0f), cos(D3DX_PI / 4.0f));
+			}
+		}
+		else
+		{
+			bGoalAlignJointA = true;
+			D3DXQuaternionIdentity(qConstrainPlanePitchLS);
+		}
+
+		return bGoalAlignJointA;
+	}
+
+	void SolveConstrainPlane(
+		maNodeTransform* pJointATSF,maNodeTransform* pJointBTSF,maNodeTransform* pJointCTSF,
+		const D3DXVECTOR3* pGoal,
+		float fLinkALength, float fLinkBLength,
+		float fJointAYawMax,float fJointAYawMin,
+		float fJointBYawMinLS,  // //related to joint a
+		const D3DXVECTOR3* pLinkADefaultDir)
+
+	{
+		float fGoalDist = D3DXVec3Length(pGoal);
+		D3DXVECTOR3 vGoalDir;
+		if (fGoalDist > xm_EPS)
+		{
+			vGoalDir = *pGoal / fGoalDist;
+		}
+		else
+		{
+			vGoalDir = pLinkADefaultDir? *pLinkADefaultDir : D3DXVECTOR3(1.0f,0.0f,0.0f);
+		}
+
+
+		D3DXVECTOR3 vXAxis = D3DXVECTOR3(1.0f,0.0f,0.0f);
+		D3DXVECTOR3 vZAxis = D3DXVECTOR3(0.0f,0.0f,1.0f);
+		
+		D3DXVECTOR3 vRegionADir = D3DXVECTOR3(cos(fJointAYawMax),sin(fJointAYawMax),0.0f);
+		D3DXVECTOR3 vRegionBDir = D3DXVECTOR3(cos(fJointAYawMin),sin(fJointAYawMin),0.0f);
+		D3DXVECTOR3 vRegionACenter = vRegionADir * fLinkALength;
+		D3DXVECTOR3 vRegionBCenter = vRegionBDir * fLinkALength;
+		D3DXVECTOR3 vAP = *pGoal - vRegionACenter;
+
+		bool bIsInRegionA = false;
+		float fAPlen = D3DXVec3Length(&vAP);
+		if (fAPlen < fLinkBLength)
+		{
+			D3DXVECTOR3 vOBPerp(vRegionACenter.y,-vRegionACenter.x,0.0f);
+			bIsInRegionA = D3DXVec3Dot(&vOBPerp,&vAP) > 0.0f;
+		}
+
+		if (bIsInRegionA)
+		{
+			D3DXVECTOR3 vAPDir;
+		}
 
 	}
 
@@ -82,7 +151,26 @@ namespace ma
 			return;
 
 		D3DXQUATERNION qConstrainPlanePitchLS;
-		CalculateConstrainPlane(qConstrainPlanePitchLS);
+		CalculateConstrainPlane(qConstrainPlanePitchLS,);
+
+		maNodeTransform newPivotTSFOS, newPivotTSFInvOS;
+		maTransfromMul(&newPivotTSFOS,&m_pivotALS,pNodePose->GetTransformOS(m_uBoneAID));
+		newPivotTSFOS.m_qRot = qConstrainPlanePitchLS * newPivotTSFOS.m_qRot;
+		maTransformInverse(*newPivotTSFInvOS,&newPivotTSFOS);
+
+		// object space to solver space
+		D3DXVECTOR3 vGoalNPS, vLinkANPS;
+		D3DXVECTOR3 vLinkAOS = pNodePose->GetTransformOS(m_uBoneBID).m_vPos - pNodePose->GetTransformOS(m_uBoneAID).m_vPos;
+		D3DXVECTOR3 vLinkBOS = pNodePose->GetTransformOS(m_uBoneCID).m_vPos - pNodePose->GetTransformOS(m_uBoneBID).m_vPos;
+		float fLinkALength = D3DXVec3Length(&vLinkAOS);
+		float fLinkBLength = D3DXVec3Length(&vLinkBOS);
+		maTransformVector(&vLinkANPS,&vLinkAOS,&newPivotTSFInvOS);
+		maTransformPoint(&vGoalNPS,&m_vGoalOS,&newPivotTSFInvOS);
+
+		maNodeTransform jointANewTSFNPS,jointBNewTSFNPS,jointCNewTSFNPS;
+		SolveConstrainPlane()
+
+
 	}
 }
 

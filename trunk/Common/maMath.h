@@ -81,6 +81,7 @@ COMMON_API void maQuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1,
 
 COMMON_API void maQuaternionFromEulerAngleXYZ(xmQuaternion* pQuat,const xmEulerAngleXYZ* pEuler);
 
+COMMON_API void	maQuaternionFromAxisToAxis(D3DXQUATERNION* pRot,const D3DXVECTOR3* pAxisFrom,const D3DXVECTOR3* pAxisTo);
 
 
 template<class T>
@@ -104,6 +105,8 @@ COMMON_API void maTransfromInvMul(maNodeTransform* pOut, const maNodeTransform* 
 COMMON_API void maVec3TransformNormal(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *pV, const maNodeTransform* pTSF);
 
 COMMON_API void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maNodeTransform* pTSF);
+
+COMMON_API void maTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const maNodeTransform* pTSF);
 
 COMMON_API void maTransformLerp(maNodeTransform* pOut,const maNodeTransform* pA,const maNodeTransform* pB,float fFactor);
 
