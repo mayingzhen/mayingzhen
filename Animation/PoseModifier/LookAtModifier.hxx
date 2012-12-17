@@ -24,44 +24,59 @@ namespace ma
 
 		maNodeTransform pivotOS;
 		maNodeTransform pivotInvOS;
-
-		pivotOS = pNodePose->GetTransformOS(m_nBoneID); //GetBoneTransformOS(m_nBoneID);
-		pivotOS.m_qRot = m_qPivotLS * pivotOS.m_qRot;
+		pivotOS = pNodePose->GetTransformOS(m_nBoneID);
 		maTransformInverse(&pivotInvOS,&pivotOS);
 
 		xmVector3 vGoalPivotSpace;
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotInvOS);
 		float fGoalLenPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
+		xmVector3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
+		maEulerAngleFromXToAxis()
 
-		xmEulerAngleXYZ eOffsetPivotSpace;
-		if (fGoalLenPivotSpace > xm_EPS)
-		{
-			xmVector3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
-			maEulerAngleFromXToAxis(&eOffsetPivotSpace,&vGoalDirPivotSpace);
-		}
-		else
-		{
-			memset(&eOffsetPivotSpace,0,sizeof(xmEulerAngleXYZ));
-		}
 
-		D3DXQUATERNION qRotLS;
-		maQuaternionFromEulerAngleXYZ(&qRotLS,&eOffsetPivotSpace);
-		xmQuaternion qPivotInvLS;
-		D3DXQuaternionInverse(&qPivotInvLS,&m_qPivotLS);
 
-		D3DXQuaternionMultiply(&qRotLS,&qPivotInvLS,&qRotLS);
-		D3DXQuaternionMultiply(&qRotLS,&qRotLS,&m_qPivotLS);
 
-		// 权重计算
-		D3DXQUATERNION iden;
-		D3DXQuaternionIdentity(&iden);
-		D3DXQuaternionSlerp(&qRotLS,&iden,&qRotLS,m_fGain);
-			
-		maNodeTransform offsetTSFLS;
-		maTransformSetIdentity(&offsetTSFLS);
-		offsetTSFLS.m_qRot = qRotLS;
 
-		pNodePose->ApplyTransformLS(&offsetTSFLS,m_nBoneID);
+// 		maNodeTransform pivotOS;
+// 		maNodeTransform pivotInvOS;
+// 
+// 		pivotOS = pNodePose->GetTransformOS(m_nBoneID); //GetBoneTransformOS(m_nBoneID);
+// 		pivotOS.m_qRot = m_qPivotLS * pivotOS.m_qRot;
+// 		maTransformInverse(&pivotInvOS,&pivotOS);
+// 
+// 		xmVector3 vGoalPivotSpace;
+// 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotInvOS);
+// 		float fGoalLenPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
+// 
+// 		xmEulerAngleXYZ eOffsetPivotSpace;
+// 		if (fGoalLenPivotSpace > xm_EPS)
+// 		{
+// 			xmVector3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
+// 			maEulerAngleFromXToAxis(&eOffsetPivotSpace,&vGoalDirPivotSpace);
+// 		}
+// 		else
+// 		{
+// 			memset(&eOffsetPivotSpace,0,sizeof(xmEulerAngleXYZ));
+// 		}
+// 
+// 		D3DXQUATERNION qRotLS;
+// 		maQuaternionFromEulerAngleXYZ(&qRotLS,&eOffsetPivotSpace);
+// 		xmQuaternion qPivotInvLS;
+// 		D3DXQuaternionInverse(&qPivotInvLS,&m_qPivotLS);
+// 
+// 		D3DXQuaternionMultiply(&qRotLS,&qPivotInvLS,&qRotLS);
+// 		D3DXQuaternionMultiply(&qRotLS,&qRotLS,&m_qPivotLS);
+// 
+// 		// 权重计算
+// 		D3DXQUATERNION iden;
+// 		D3DXQuaternionIdentity(&iden);
+// 		D3DXQuaternionSlerp(&qRotLS,&iden,&qRotLS,m_fGain);
+// 			
+// 		maNodeTransform offsetTSFLS;
+// 		maTransformSetIdentity(&offsetTSFLS);
+// 		offsetTSFLS.m_qRot = qRotLS;
+// 
+// 		pNodePose->ApplyTransformLS(&offsetTSFLS,m_nBoneID);
 
 	}
 
