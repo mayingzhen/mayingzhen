@@ -151,6 +151,11 @@ void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maNodeTransfor
 	*pOut += pTSF->m_vPos;
 }
 
+void maTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const maNodeTransform* pTSF)
+{
+	maQuaternionTransformVector(pOut,pV,&pTSF->m_qRot);	
+}
+
 void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF)
 {
 	D3DXQUATERNION qRot;
@@ -209,6 +214,31 @@ void maQuaternionFromEulerAngleXYZ(xmQuaternion* pQuat,const xmEulerAngleXYZ* pE
 
 }
 
+void maQuaternionFromAxisToAxis(D3DXQUATERNION* pRot,const D3DXVECTOR3* pAxisFrom,const D3DXVECTOR3* pAxisTo)
+{	
+	D3DXVECTOR3 vAxisRot;
+	D3DXVec3Cross(&vAxisRot,pAxisFrom,pAxisTo);
+	float fSinAlpha = D3DXVec3Length(&vAxisRot);
+	float fCosAlpha = D3DXVec3Dot(pAxisFrom,pAxisTo);
+	float fAlpha = atan2f(fSinAlpha,fCosAlpha);
+	if ( abs(fSinAlpha - .0.0f) < xm_EPS )
+	{
+		if (fCosAlpha < 0.0f)
+		{
+			D3DXVECTOR3 vAxisTangent(pAxisFrom->y,pAxisFrom->z,pAxisFrom->x);
+			D3DXVec3Cross(&vAxisRot,pAxisFrom,&vAxisTangent);
+			fAlpha = D3DX_PI;
+		}
+		else 
+		{
+			*pRot = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
+			return;
+		}
+	}
+
+	D3DXVec3Normalize(&vAxisRot,&vAxisRot);
+	D3DXQuaternionRotationAxis(pRot,&vAxisRot,fAlpha);
+}
 
 void maTransformLerp(maNodeTransform* pOut,const maNodeTransform* pA,const maNodeTransform* pB,float fFactor)
 {
