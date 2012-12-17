@@ -107,12 +107,16 @@ COMMON_API void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maN
 
 COMMON_API void maTransformLerp(maNodeTransform* pOut,const maNodeTransform* pA,const maNodeTransform* pB,float fFactor);
 
+COMMON_API void maTransformFromMatrix(maNodeTransform* pOut,const D3DXMATRIX& mat);
+
 // Matrix
 COMMON_API void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF);
 
-COMMON_API void  maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ);
+COMMON_API void maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ);
 
+COMMON_API const xmVector3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol);
 
+COMMON_API const xmVector4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT uCol);
 
 
 #endif

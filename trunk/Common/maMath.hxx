@@ -174,10 +174,16 @@ xmVector4* maMatrixAsVector4(xmMatrix4x4* pMat,xmUint nCol)
 	return reinterpret_cast<xmVector4*>(&pMat->m[nCol][0]);
 }
 
-const xmVector4* maMatrixAsVector4(const xmMatrix4x4* pMat,xmUint nCol)
+const xmVector4* maMatrixAsVector4(const xmMatrix4x4* pMat,xmUint uCol)
 {
-	return reinterpret_cast<const xmVector4*>(&pMat->m[nCol][0]);
+	return reinterpret_cast<const xmVector4*>(&pMat->m[uCol][0]);
 }
+
+const xmVector3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
+{
+	return reinterpret_cast<const xmVector3*>(&pMat->m[uCol][0]);
+}
+
 
 void  maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ)
 {
@@ -209,4 +215,10 @@ void maTransformLerp(maNodeTransform* pOut,const maNodeTransform* pA,const maNod
 	maLerp(pOut->m_vPos,pA->m_vPos,pB->m_vPos,fFactor);
 	D3DXQuaternionSlerp(&pOut->m_qRot,&pA->m_qRot,&pB->m_qRot,fFactor);
 	maLerp(pOut->m_fScale,pA->m_fScale,pB->m_fScale,fFactor);
+}
+
+void maTransformFromMatrix(maNodeTransform* pOut,const D3DXMATRIX& mat)
+{
+	D3DXVECTOR3 vScale;
+	D3DXMatrixDecompose(&vScale,&pOut->m_qRot,&pOut->m_vPos,&mat);
 }

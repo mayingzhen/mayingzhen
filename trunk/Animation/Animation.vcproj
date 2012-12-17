@@ -355,6 +355,14 @@
 				RelativePath=".\PoseModifier\PoseModifier.h"
 				>
 			</File>
+			<File
+				RelativePath=".\PoseModifier\TwoJointIKSolver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PoseModifier\TwoJointIKSolver.hxx"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
