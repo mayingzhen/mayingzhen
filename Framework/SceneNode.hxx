@@ -84,6 +84,19 @@ namespace ma
 		}
 	}
 
+	void SceneNode::SetTransformWS(const maNodeTransform& TSFWS)
+	{
+		if (m_pParentNode == NULL)
+		{
+			SetTransformPS(TSFWS);
+		}
+		else
+		{
+			maNodeTransform tsfParentWS = m_pParentNode->GetTransformWS();
+			maTransfromInvMul(&m_tsfPS,&TSFWS,&tsfParentWS);
+		}
+	}
+
 
 	void SceneNode::SyncWorld()
 	{

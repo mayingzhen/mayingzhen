@@ -200,9 +200,9 @@ void CGameApp::InitGame()
 	pSkelAnim->SetTreeNode(pLowerBodyNode/*pAnimLayerNode*/);
 
 	ma::LookAtModifier* pLookAtIk = new ma::LookAtModifier();
-	xmVector3 vForwardLS(0.0f,1.0f,0.0f); //Forward Direction in Bip01 Head's space
-	xmVector3 vUpLS(1.0f,0.0f,0.0f);		//Up Direction in Bip01 Head's space
-	xmVector3 vGoalOS = D3DXVECTOR3(100, -200, 200);;//(0.0f,0.0f,0.0f);
+	D3DXVECTOR3 vForwardLS(0.0f,1.0f,0.0f); //Forward Direction in Bip01 Head's space
+	D3DXVECTOR3 vUpLS(1.0f,0.0f,0.0f);		//Up Direction in Bip01 Head's space
+	D3DXVECTOR3 vGoalOS = D3DXVECTOR3(100, -200, 200);;//(0.0f,0.0f,0.0f);
 	pLookAtIk->Init( pManSkeleton->GetBoneIdByName("Bip01 Head"),vForwardLS,vUpLS);
 	pLookAtIk->SetGoalObjectSpace(vGoalOS);
 	pSkelAnim->AddPoseModifier(pLookAtIk);

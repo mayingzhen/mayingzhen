@@ -25,6 +25,8 @@ namespace ma
 		void TranslateWS(const D3DXVECTOR3& vDeltaWS);
 
 		maNodeTransform GetTransformWS();
+
+		void SetTransformWS(const maNodeTransform& TSFWS);
 		
 		void SetTransformPS(const maNodeTransform& TSFPS) {m_tsfPS = TSFPS;}
 		

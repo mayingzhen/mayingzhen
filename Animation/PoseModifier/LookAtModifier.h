@@ -7,7 +7,7 @@ namespace ma
 {
 	class ANIMATION_API LookAtModifier : public PoseModifier
 	{
-		xmVector3 m_vGoalOS;		//goal in object space
+		D3DXVECTOR3 m_vGoalOS;		//goal in object space
 
 		xmQuaternion	m_qPivotLS;
 
@@ -23,28 +23,28 @@ namespace ma
 
 		void				UpdatePose(NodePose* pNodePose);
 
-		void				Init(xmUint nBoneID,const xmVector3& vFowardLS,const xmVector3& vUpLS);
+		void				Init(xmUint nBoneID,const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
 
 		void				SetBoneID(xmUint nBoneID);
 
 		xmUint				GetBoneID()const;
 
-		void				SetGoalObjectSpace(const xmVector3& vGoalOS);
+		void				SetGoalObjectSpace(const D3DXVECTOR3& vGoalOS);
 
-		const xmVector3&	GetGoalObjectSpace()const;
+		const D3DXVECTOR3&	GetGoalObjectSpace()const;
 
 		void				SetMaxYaw(float fMaxYaw);
 
 		float				GetMaxYaw() const;
 
-		xmVector3			GetFowardLS() const;
+		D3DXVECTOR3			GetFowardLS() const;
 
-		xmVector3			GetUpLS() const;
+		D3DXVECTOR3			GetUpLS() const;
 
 		void				DbgDraw() const;
 
 	private:
-		void CalculatePovitLs(const xmVector3& vFowardLS,const xmVector3& vUpLS);
+		void CalculatePovitLs(const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
 	};
 }
 

@@ -62,7 +62,7 @@ namespace ma
 	// }
 	void  xmTransformMulLocalScale(xmNodeTransform* pOut,const xmNodeTransform* pTSFA,const xmNodeTransform* pTSFB)
 	{
-		xmVector3 vOPos = pTSFA->m_vPos*pTSFB->m_fScale;
+		D3DXVECTOR3 vOPos = pTSFA->m_vPos*pTSFB->m_fScale;
 		maQuaternionTransformVector(&vOPos,&vOPos,&pTSFB->m_qRot);
 		pOut->m_vPos = vOPos + pTSFB->m_vPos;
 

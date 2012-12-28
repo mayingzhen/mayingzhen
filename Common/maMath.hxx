@@ -56,7 +56,7 @@ void xmEulerAngleXYZ::Normalize()
 
 //axis is non zero
 //x-roll = 0, y-pitch, z-yaw
-void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const xmVector3* pAxis)
+void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis)
 {
 	float r = sqrtf(pAxis->x*pAxis->x+pAxis->y*pAxis->y);
 	pEuler->x = 0.0f;
@@ -145,7 +145,7 @@ void maVec3TransformNormal(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *pV, const maNod
 	maQuaternionTransformVector(pOut, pV, &pTSF->m_qRot);
 }
 
-void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maNodeTransform* pTSF)
+void maTransformPoint(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const maNodeTransform* pTSF)
 {
 	maQuaternionTransformVector(pOut,pV,&pTSF->m_qRot);
 	*pOut += pTSF->m_vPos;
@@ -166,7 +166,7 @@ void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF)
 	D3DXMatrixTransformation(pMat, NULL, NULL, &vScale, NULL, &qRot, &pTSF->m_vPos);
 }
 
-void  maVec4SetVector(xmVector4* pVec4, const xmVector3* pVec3)
+void  maVec4SetVector(xmVector4* pVec4, const D3DXVECTOR3* pVec3)
 {
 	pVec4->x = pVec3->x;
 	pVec4->y = pVec3->y;
@@ -184,13 +184,13 @@ const xmVector4* maMatrixAsVector4(const xmMatrix4x4* pMat,xmUint uCol)
 	return reinterpret_cast<const xmVector4*>(&pMat->m[uCol][0]);
 }
 
-const xmVector3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
+const D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
 {
-	return reinterpret_cast<const xmVector3*>(&pMat->m[uCol][0]);
+	return reinterpret_cast<const D3DXVECTOR3*>(&pMat->m[uCol][0]);
 }
 
 
-void  maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ)
+void  maMatrixAxis(xmMatrix4x4* pMat,const D3DXVECTOR3* pX,const D3DXVECTOR3* pY, const D3DXVECTOR3* pZ)
 {
 
 	maVec4SetVector(maMatrixAsVector4(pMat,0),pX);

@@ -28,17 +28,17 @@ void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 
 void AABBShape::Init()
 {
-	m_vMin = xmVector3(xm_FMAX,xm_FMAX,xm_FMAX);
-	m_vMax = xmVector3(-xm_FMAX,-xm_FMAX,-xm_FMAX);
+	m_vMin = D3DXVECTOR3(xm_FMAX,xm_FMAX,xm_FMAX);
+	m_vMax = D3DXVECTOR3(-xm_FMAX,-xm_FMAX,-xm_FMAX);
 }
 
-void AABBShape::Merge(const xmVector3& vMin,const xmVector3& vMax)
+void AABBShape::Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
 {
 	xmVec3Min(&m_vMin,&vMin,&m_vMin);
 	xmVec3Max(&m_vMax,&vMax,&m_vMax);
 }
 
-void AABBShape::AddPoint(const xmVector3& v)
+void AABBShape::AddPoint(const D3DXVECTOR3& v)
 {
 	xmVec3Min(&m_vMin,&v,&m_vMin);
 	xmVec3Max(&m_vMax,&v,&m_vMax);
@@ -782,7 +782,7 @@ void MeshData::RemoveDegenerateTriangleInplace(std::vector<xmUint8> &arrIndexBuf
 	arrTmpIndexBuffer.swap(arrIndexBuffer);
 }
 
-void				MeshData::GetBoundingAABB(xmVector3* vMin,xmVector3* vMax)
+void				MeshData::GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax)
 {
 	m_meshBound.GetAABB(*vMin,*vMax);
 }
@@ -987,13 +987,13 @@ void					MeshData::SetBoneName(BoneIndex nBoneInd,const char* pszBoneName)
 }
 
 void					MeshData::SetBoneBoundOBB(BoneIndex nBoneInd
-	,const xmVector3* pPos,const xmQuaternion* pRot
+	,const D3DXVECTOR3* pPos,const xmQuaternion* pRot
 	,float fXSize,float fYSize,float fZSize)
 {
 	m_arrBoneBound[nBoneInd].SetOBB(pPos,pRot,fXSize,fYSize,fZSize);
 }
 
-void					MeshData::SetBoundingAABB(const xmVector3* vMin,const xmVector3* vMax)
+void					MeshData::SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax)
 {
 	m_meshBound.SetAABB(*vMin,*vMax);
 }
@@ -1056,12 +1056,12 @@ void Bounding::SetInvalid()
 
 void Bounding::SetIdentity()
 {
-	xmVector3 vMin(-0.5f,-0.5f,-0.5f);
-	xmVector3 vMax(0.5f,0.5f,0.5f);
+	D3DXVECTOR3 vMin(-0.5f,-0.5f,-0.5f);
+	D3DXVECTOR3 vMax(0.5f,0.5f,0.5f);
 	SetAABB(vMin,vMax);
 }
 
-void Bounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
+void Bounding::SetAABB(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
 {
 	m_nShapeType = BS_BOX;
 	m_vPos = 0.5f*(vMin + vMax);
@@ -1072,7 +1072,7 @@ void Bounding::SetAABB(const xmVector3& vMin,const xmVector3& vMax)
 	m_boxShape.m_fZSize = vMax.z - vMin.z;
 }
 
-void Bounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
+void Bounding::SetOBB(const D3DXVECTOR3* pPos,const xmQuaternion* pRot
 			,float fXSize,float fYSize,float fZSize)
 {
 	m_nShapeType = BS_BOX;
@@ -1084,12 +1084,12 @@ void Bounding::SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
 
 }
 
-void Bounding::GetAABB(xmVector3& vMin,xmVector3& vMax) const
+void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 {
 
 	if (m_nShapeType == BS_BOX)
 	{
-		xmVector3 vSize(m_boxShape.m_fXSize,m_boxShape.m_fYSize,m_boxShape.m_fZSize);
+		D3DXVECTOR3 vSize(m_boxShape.m_fXSize,m_boxShape.m_fYSize,m_boxShape.m_fZSize);
 		vSize = vSize * 0.5f;
 		vMin = m_vPos - vSize;
 		vMax = m_vPos + vSize;

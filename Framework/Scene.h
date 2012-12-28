@@ -5,7 +5,7 @@
 namespace ma
 {
 	class SceneNode;
-	class IPhysicsScene;
+	class PhysicsScene;
 	class Camera;
 
 	class FRAMEWORK_API Scene
@@ -22,9 +22,11 @@ namespace ma
 
 		void Stop();
 
+		PhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
+
 	private:
 		SceneNode* m_pRootNode;
-		IPhysicsScene* m_pPhyScene;
+		PhysicsScene* m_pPhyScene;
 
 		float m_fAccPhyTime;
 		float m_fFixUpdateInterval;

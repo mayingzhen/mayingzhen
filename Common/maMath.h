@@ -71,7 +71,7 @@ struct COMMON_API xmEulerAngleXYZ
 
 //axis is non zero
 //x-roll = 0, y-pitch, z-yaw
-COMMON_API void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const xmVector3* pAxis);
+COMMON_API void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis);
 
 
 // Quaternion
@@ -104,7 +104,7 @@ COMMON_API void maTransfromInvMul(maNodeTransform* pOut, const maNodeTransform* 
 
 COMMON_API void maVec3TransformNormal(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *pV, const maNodeTransform* pTSF);
 
-COMMON_API void maTransformPoint(xmVector3* pOut, const xmVector3* pV, const maNodeTransform* pTSF);
+COMMON_API void maTransformPoint(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const maNodeTransform* pTSF);
 
 COMMON_API void maTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const maNodeTransform* pTSF);
 
@@ -115,11 +115,30 @@ COMMON_API void maTransformFromMatrix(maNodeTransform* pOut,const D3DXMATRIX& ma
 // Matrix
 COMMON_API void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF);
 
-COMMON_API void maMatrixAxis(xmMatrix4x4* pMat,const xmVector3* pX,const xmVector3* pY, const xmVector3* pZ);
+COMMON_API void maMatrixAxis(xmMatrix4x4* pMat,const D3DXVECTOR3* pX,const D3DXVECTOR3* pY, const D3DXVECTOR3* pZ);
 
-COMMON_API const xmVector3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol);
+COMMON_API const D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol);
 
 COMMON_API const xmVector4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT uCol);
+
+// xmInline void xmAPI xmEulerAngleFromQuaternion(xmEulerAngleXYZ* pEuler,const xmQuaternion* pQua)
+// {
+// 
+// 	xmMatrix4x4 mat;
+// 
+// 	xmMatrixRotationQuaternion(&mat,pQua);
+// 	xmEulerAngleXYZFromMatrix(pEuler,&mat);
+// 
+// 	D3DXMatrixRotationQuaternion()
+// }
+// 
+// void  maMatrixFromQuaternion(xmMatrix4x4* pMat,const xmQuaternion* pRot)
+// {
+// 	xmEulerAngleXYZ eRot;
+// 	maEulerAngleFromQuaternion(&eRot,pRot);
+// 	maMatrixFromEulerAngleXYZ(pMat,&eRot);
+// }
+
 
 
 #endif

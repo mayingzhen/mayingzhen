@@ -106,7 +106,7 @@ void SerializeListener::Serialize(GUID &val,const char* pszLable)
 	EndSection();
 }
 
-void SerializeListener::Serialize(xmVector3 &val,const char* pszLable)
+void SerializeListener::Serialize(D3DXVECTOR3 &val,const char* pszLable)
 {
 	BeginSection(pszLable);
 	Serialize(val.x,"x");

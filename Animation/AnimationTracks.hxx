@@ -79,8 +79,8 @@ namespace ma
 // 		// 		xmUint nPosKeyFrameNum = GetKeyFrameNumber(m_pos);
 // 		// 		nPosKeyFrameNum += (xmUint)m_rootMotionPos.m_arrValue.size();
 // 		// 
-// 		// 		xmUint nDataSize = nScaleKeyFrameNum*(sizeof(xmVector3)+sizeof(xmUint))
-// 		// 			+nPosKeyFrameNum*(sizeof(xmVector3)+sizeof(xmUint))
+// 		// 		xmUint nDataSize = nScaleKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
+// 		// 			+nPosKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
 // 		// 			+nRotKeyFrameNum*(sizeof(xmQuaternion)+sizeof(xmUint));
 // 		// 		return nDataSize;
 // 		return 0;

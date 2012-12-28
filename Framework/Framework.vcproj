@@ -273,6 +273,30 @@
 				RelativePath=".\stdafx.h"
 				>
 			</File>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\Physics\BulletRigidbodyComponent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Physics\BulletRigidbodyComponent.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Physics\BulletScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Physics\BulletScene.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Physics\BulletUtil.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Mangager"
