@@ -20,7 +20,7 @@
 
 #include "Common/xmBaseType.h"
 
-#define  xmVector3 D3DXVECTOR3
+//#define  D3DXVECTOR3 D3DXVECTOR3
 #define  xmVector2 D3DXVECTOR2
 #define  xmVector4 D3DXVECTOR4
 #define  xmQuaternion D3DXQUATERNION

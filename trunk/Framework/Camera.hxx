@@ -12,7 +12,7 @@ namespace ma
 
 	}
 
-	void Camera::LookAt(const xmVector3* pEye,const xmVector3* pAt,const xmVector3* pUp)
+	void Camera::LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp)
 	{
 		D3DXMatrixLookAtLH(&m_matView,pEye,pAt,pUp);
 	}

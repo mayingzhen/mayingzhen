@@ -116,7 +116,7 @@
 	public:
 
 		std::vector<xmUint>			m_arrFrame; //frame number of each key
-		std::vector<xmVector3>	m_arrValue;
+		std::vector<D3DXVECTOR3>	m_arrValue;
 
 
 		xmVector3Track()
@@ -140,17 +140,17 @@
 		xmUint	GetKeyFrame(xmUint nKeyInd) const;
 
 
-		void				SetKeyValue(xmUint key,const xmVector3& val);
+		void				SetKeyValue(xmUint key,const D3DXVECTOR3& val);
 
-		const xmVector3&	GetKeyValue(xmUint nKeyIndex)const;
-
-
-		void	SetKey(xmUint key, xmUint frame, const xmVector3& val);
+		const D3DXVECTOR3&	GetKeyValue(xmUint nKeyIndex)const;
 
 
-		void	Pushback(xmUint frame,const xmVector3& val);
+		void	SetKey(xmUint key, xmUint frame, const D3DXVECTOR3& val);
 
-		void	SampleFrame(float frame,xmVector3& val) const ;
+
+		void	Pushback(xmUint frame,const D3DXVECTOR3& val);
+
+		void	SampleFrame(float frame,D3DXVECTOR3& val) const ;
 
 		void	DbgDump() const;
 	};
@@ -250,30 +250,30 @@
 		return m_arrFrame.size() > 0 ? m_arrFrame[m_arrFrame.size()-1] + 1 : 0;
 	}
 
-	inline void xmVector3Track::SetKey( xmUint key,xmUint frame,const xmVector3& val )
+	inline void xmVector3Track::SetKey( xmUint key,xmUint frame,const D3DXVECTOR3& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
 
-	inline void xmVector3Track::SetKeyValue( xmUint key,const xmVector3& val )
+	inline void xmVector3Track::SetKeyValue( xmUint key,const D3DXVECTOR3& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline const xmVector3& xmVector3Track::GetKeyValue(xmUint nKeyIndex)const
+	inline const D3DXVECTOR3& xmVector3Track::GetKeyValue(xmUint nKeyIndex)const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void xmVector3Track::Pushback(xmUint frame,const xmVector3& val)
+	inline void xmVector3Track::Pushback(xmUint frame,const D3DXVECTOR3& val)
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void xmVector3Track::SampleFrame( float frame,xmVector3& val ) const
+	inline void xmVector3Track::SampleFrame( float frame,D3DXVECTOR3& val ) const
 	{
 		xmUint key0;
 		xmUint key1;

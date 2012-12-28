@@ -34,9 +34,9 @@ struct SERIALIZE_API SkeletonData /*: public ISkeletonData*/
 	xmUint	m_nBoneNum;
 	std::vector<std::string>	m_arrBoneName;
 	std::vector<xmUint>	m_arrParentIndice;
-	std::vector<xmVector3>	m_arrScaleOS;
+	std::vector<D3DXVECTOR3>	m_arrScaleOS;
 	std::vector<xmQuaternion>	m_arrRotOS;
-	std::vector<xmVector3>	m_arrPosOS;
+	std::vector<D3DXVECTOR3>	m_arrPosOS;
 	std::vector<SocketData> m_arrSocket;
 	//typedef std::vector<xmUint8>   BoolList;
 	std::vector<std::string>  m_arrLODBoneMask;

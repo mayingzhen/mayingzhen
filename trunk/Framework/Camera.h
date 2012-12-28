@@ -11,7 +11,7 @@ namespace ma
 		Camera();
 		~Camera();
 
-		void LookAt(const xmVector3* pEye,const xmVector3* pAt,const xmVector3* pUp);
+		void LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp);
 
 		void SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 

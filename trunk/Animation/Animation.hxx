@@ -90,7 +90,7 @@ namespace ma
 
 		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
 
-		xmVector3 vLocalScale;
+		D3DXVECTOR3 vLocalScale;
 		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( fabsf(vLocalScale.x) + fabsf(vLocalScale.y) + fabsf(vLocalScale.z) ) / 3.0f;
 
@@ -233,7 +233,7 @@ namespace ma
 // 		if (pTracks->m_rootMotionScale.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionScale.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionScale.m_arrValue.push_back(xmVector3(1.0f,1.0f,1.0f));
+// 			pTracks->m_rootMotionScale.m_arrValue.push_back(D3DXVECTOR3(1.0f,1.0f,1.0f));
 // 		}
 // 
 // 		S3AAnimationHelper::BuildTrack(&pTracks->m_rootMotionRot,pRootMotionRotTrack);
@@ -247,7 +247,7 @@ namespace ma
 // 		if(pTracks->m_rootMotionPos.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionPos.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionPos.m_arrValue.push_back(xmVector3(0.0f,0.0f,0.0f));
+// 			pTracks->m_rootMotionPos.m_arrValue.push_back(D3DXVECTOR3(0.0f,0.0f,0.0f));
 // 		}
 // 
 // 		m_strMaxFile = pszMaxFilename;

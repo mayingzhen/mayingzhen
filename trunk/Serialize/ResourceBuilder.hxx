@@ -462,8 +462,8 @@ namespace ResourceBuilder
 // 		//------------------------------------------------------------------------------
 // 		//fill bounding
 // 		//------------------------------------------------------------------------------
-// 		xmVector3 vMin;
-// 		xmVector3 vMax;
+// 		D3DXVECTOR3 vMin;
+// 		D3DXVECTOR3 vMax;
 // 		pMeshExp->m_mesh.m_meshBound.GetAABB(vMin,vMax);
 // 		pMesh->SetBoundingAABB(&vMin,&vMax);
 // 

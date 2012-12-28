@@ -5,6 +5,7 @@
 #include "Common/Common.h"
 #include "Common/maMath.h"
 #include "Common/Timer.h"
+#include "Common/BitField.h"
 
 #include "Common/IRender.h"
 #include "Common/IRenderDevice.h"
@@ -42,8 +43,8 @@ COMMON_API void Log(const char* fmt,...);
 COMMON_API void SSERT_MSG(bool expr,const char* fmt,...);
 COMMON_API void LogError(xmUint nErrorCode,const char* fmt,...);
 
-COMMON_API void  xmVec3Min(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
-COMMON_API void  xmVec3Max(xmVector3* pOut,const xmVector3* pA,const xmVector3* pB);
+COMMON_API void  xmVec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
+COMMON_API void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
 
 
 COMMON_API void CommonModuleInit();

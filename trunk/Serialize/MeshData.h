@@ -33,12 +33,12 @@ enum VertexType
 
 struct SERIALIZE_API VertexType0
 {
-	xmVector3    p;				// position
+	D3DXVECTOR3    p;				// position
 	xmUint32	 b;				// bones
 	xmUint32	 w;				// Weights		
-	xmVector3	 n;				// normal
+	D3DXVECTOR3	 n;				// normal
 	xmVector2	 uv;				// Texture Coordinate
-	xmVector3	 tgn;
+	D3DXVECTOR3	 tgn;
 	xmUint32     vc;				// vertex color
 	xmUint32	 vi;				// vertex illumination
 
@@ -66,20 +66,20 @@ struct SERIALIZE_API BoxShape
 
 struct SERIALIZE_API AABBShape
 {
-	xmVector3 m_vMin;
-	xmVector3 m_vMax;
+	D3DXVECTOR3 m_vMin;
+	D3DXVECTOR3 m_vMax;
 
 	void Init();
 
-	void Merge(const xmVector3& vMin,const xmVector3& vMax);
+	void Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax);
 
-	void AddPoint(const xmVector3& v);
+	void AddPoint(const D3DXVECTOR3& v);
 };
 
 struct SERIALIZE_API Bounding
 {
 	xmUint16			m_nShapeType;
-	xmVector3		m_vPos;
+	D3DXVECTOR3		m_vPos;
 	xmQuaternion	m_qRot;
 
 	union
@@ -92,11 +92,11 @@ struct SERIALIZE_API Bounding
 
 	void SetIdentity();
 
-	void SetAABB(const xmVector3& vMin,const xmVector3& vMax);
+	void SetAABB(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax);
 
-	void GetAABB(xmVector3& vMin,xmVector3& vMax) const;
+	void GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const;
 
-	void SetOBB(const xmVector3* pPos,const xmQuaternion* pRot
+	void SetOBB(const D3DXVECTOR3* pPos,const xmQuaternion* pRot
 		,float fXSize,float fYSize,float fZSize);
 
 	void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
@@ -350,7 +350,7 @@ public:
 	const char*			GetBoneName(xmUint nBoneInd) const;
 
 
-	void				GetBoundingAABB(xmVector3* vMin,xmVector3* vMax);
+	void				GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax);
 
 	//------------------------------------------------------------------------------
 	//For LOD Mesh
@@ -401,9 +401,9 @@ public:
 
 	void					SetBoneName(BoneIndex nBoneInd,const char* pszBoneName);
 
-	void					SetBoneBoundOBB(BoneIndex nBoneInd,const xmVector3* pPos,const xmQuaternion* pRot,float fXSize,float fYSize,float fZSize);
+	void					SetBoneBoundOBB(BoneIndex nBoneInd,const D3DXVECTOR3* pPos,const xmQuaternion* pRot,float fXSize,float fYSize,float fZSize);
 
-	void					SetBoundingAABB(const xmVector3* vMin,const xmVector3* vMax);
+	void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax);
 
 	void					Serialize(SerializeListener* pSL,const char* pszLabel);
 

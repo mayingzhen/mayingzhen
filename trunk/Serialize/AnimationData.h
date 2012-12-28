@@ -28,7 +28,7 @@ struct SERIALIZE_API AnimationHeader
 struct SERIALIZE_API Vector3TrackData
 {
 	std::vector<xmUint>		 m_arrFrame;
-	std::vector<xmVector3> m_arrKey;
+	std::vector<D3DXVECTOR3> m_arrKey;
 
 	void Serialize(SerializeListener& sl,const char* pszLable = "Vector3Track");
 };

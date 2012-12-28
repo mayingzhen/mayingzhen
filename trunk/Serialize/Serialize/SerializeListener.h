@@ -38,7 +38,7 @@ public:
 
 	virtual void Serialize(GUID &val,const char* pszLable = "GUID");
 
-	virtual void Serialize(xmVector3 &val,const char* pszLable = "Vector3");
+	virtual void Serialize(D3DXVECTOR3 &val,const char* pszLable = "Vector3");
 
 	virtual void Serialize(xmVector4 &val,const char* pszLable = "Vector4");
 
