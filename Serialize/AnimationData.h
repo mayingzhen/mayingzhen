@@ -36,7 +36,7 @@ struct SERIALIZE_API Vector3TrackData
 struct SERIALIZE_API QuaternionTrackData
 {
 	std::vector<xmUint>			m_arrFrame;
-	std::vector<xmQuaternion> m_arrKey;
+	std::vector<D3DXQUATERNION> m_arrKey;
 
 	void Serialize(SerializeListener& sl,const char* pszLable = "QuaternionTrack");
 };

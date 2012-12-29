@@ -38,6 +38,10 @@ namespace ma
 	
 		void SyncWorld();
 
+		virtual void SyncToPhysics() {}
+
+		virtual void SyncFromPhysics() {}
+
 		Scene* GetScene() {return m_pScen;}
 
 		SceneNode* GetSceneNode() {return m_pParentNode;}

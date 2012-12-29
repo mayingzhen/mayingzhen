@@ -1,9 +1,8 @@
 #ifndef __BULLET_SCENE_H__
 #define __BULLET_SCENE_H__
 
-#include "Common/IPhysicsScene.h"
 
-namespace xm
+namespace ma
 {
 	class FRAMEWORK_API PhysicsScene/* : public IPhysicsScene*/
 	{
@@ -11,29 +10,29 @@ namespace xm
 	public:
 		PhysicsScene();
 
-		virtual bool Start();
+		bool Start();
 
-		virtual void Stop();
+		void Stop();
 
 
 		//------------------------------------------------------------------------------
 		//Collision
 		//------------------------------------------------------------------------------
-		virtual void		SetLayerCollisionMask(xmUint8 nLayer,xmUint8 nColLayer,bool bCollide);
+		void		SetLayerCollisionMask(xmUint8 nLayer,xmUint8 nColLayer,bool bCollide);
 
 		//------------------------------------------------------------------------------
 		//Dynamic
 		//------------------------------------------------------------------------------
-		virtual D3DXVECTOR3	GetGravity() const;
+		D3DXVECTOR3	GetGravity() const;
 
-		virtual void		SetGravity(const D3DXVECTOR3& g);
+		void		SetGravity(const D3DXVECTOR3& g);
 
 		//------------------------------------------------------------------------------
 		//Simulation
 		//------------------------------------------------------------------------------
-		virtual void		BeginSimulation();
+		void		BeginSimulation();
 
-		virtual void		EndSimulation();
+		void		EndSimulation();
 
 		btDiscreteDynamicsWorld* GetBulletWorld() {return m_pDynamicsWorld;}
 

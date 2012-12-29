@@ -151,7 +151,7 @@ void CGameApp::InitGame()
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
 	
 	float fFOV = D3DX_PI / 4;
-	float fAspect = m_nWndHeigh / m_nWndHeigh;
+	float fAspect = m_nWndHeigh / (float)m_nWndHeigh;
 	float fNearClip = 1.0f;
 	float fFarClip = 3000.0f;
 	m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
@@ -213,6 +213,18 @@ void CGameApp::InitGame()
 	pSkelMeshComp->SetSkeleton(pManSkeleton);
 
 	pSkelMeshComp->PlayAnimation("AnimationTree");
+
+
+	/// physics
+	BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+	pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
+	pGameObj->AddComponent(pBoxCollisionShape);
+
+	//RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
+	//pGameObj->AddComponent(pRigidBodyComp);	
+	//pRigidBodyComp->AddCollisionShape(pBoxCollisionShape);
+
+	
 
 
 	//////

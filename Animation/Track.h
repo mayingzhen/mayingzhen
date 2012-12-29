@@ -161,7 +161,7 @@
 
 
 		std::vector<xmUint>				m_arrFrame; //frame number of each key
-		std::vector<xmQuaternion>	m_arrValue;
+		std::vector<D3DXQUATERNION>	m_arrValue;
 
 
 		xmQuaternionTrack();
@@ -182,17 +182,17 @@
 		xmUint	GetKeyFrame(xmUint nKeyInd) const;
 
 
-		void 					SetKeyValue(xmUint key,const xmQuaternion& val);
+		void 					SetKeyValue(xmUint key,const D3DXQUATERNION& val);
 
-		const xmQuaternion&	GetKeyValue(xmUint nKeyIndex)const;
-
-
-		void 					SetKey(xmUint key,xmUint frame,const xmQuaternion& val);
+		const D3DXQUATERNION&	GetKeyValue(xmUint nKeyIndex)const;
 
 
-		void 	Pushback(xmUint frame,const xmQuaternion& val);
+		void 					SetKey(xmUint key,xmUint frame,const D3DXQUATERNION& val);
 
-		void 	SampleFrame(float frame,xmQuaternion& val) const;
+
+		void 	Pushback(xmUint frame,const D3DXQUATERNION& val);
+
+		void 	SampleFrame(float frame,D3DXQUATERNION& val) const;
 
 		void	DbgDump() const;
 	};
@@ -345,29 +345,29 @@
 	}
 
 
-	inline void xmQuaternionTrack::SetKey( xmUint key,xmUint frame,const xmQuaternion& val )
+	inline void xmQuaternionTrack::SetKey( xmUint key,xmUint frame,const D3DXQUATERNION& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
-	inline const xmQuaternion& xmQuaternionTrack::GetKeyValue( xmUint nKeyIndex )const
+	inline const D3DXQUATERNION& xmQuaternionTrack::GetKeyValue( xmUint nKeyIndex )const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void xmQuaternionTrack::SetKeyValue( xmUint key,const xmQuaternion& val )
+	inline void xmQuaternionTrack::SetKeyValue( xmUint key,const D3DXQUATERNION& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline void xmQuaternionTrack::Pushback( xmUint frame,const xmQuaternion& val )
+	inline void xmQuaternionTrack::Pushback( xmUint frame,const D3DXQUATERNION& val )
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void xmQuaternionTrack::SampleFrame( float frame,xmQuaternion& val ) const
+	inline void xmQuaternionTrack::SampleFrame( float frame,D3DXQUATERNION& val ) const
 	{
 		xmUint key0;
 		xmUint key1;

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../"
+				AdditionalIncludeDirectories="../;../extern/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FRAMEWORK_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,6 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -277,84 +278,74 @@
 				Name="Physics"
 				>
 				<File
-					RelativePath=".\Physics\BulletRigidbodyComponent.h"
+					RelativePath=".\Physics\CollisionComponent.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Physics\BulletRigidbodyComponent.hxx"
+					RelativePath=".\Physics\CollisionComponent.hxx"
 					>
 				</File>
 				<File
-					RelativePath=".\Physics\BulletScene.h"
+					RelativePath=".\Physics\RigidbodyComponent.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Physics\BulletScene.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Physics\BulletUtil.h"
+					RelativePath=".\Physics\RigidbodyComponent.hxx"
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Resource Mangager"
-			>
-			<File
-				RelativePath=".\AnimationRes.h"
+			<Filter
+				Name="Resource Mangager"
 				>
-			</File>
-			<File
-				RelativePath=".\AnimationRes.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshRes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshRes.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\ResourceMangager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ResourceMangager.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonRes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonRes.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Texture.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="资源文件"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
+				<File
+					RelativePath=".\AnimationRes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\AnimationRes.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\MeshRes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MeshRes.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Resource.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceMangager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourceMangager.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\SkeletonRes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SkeletonRes.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Texture.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -28,7 +28,7 @@ namespace ma
 	{
 		xmUint nBoneNum = skelData.m_nBoneNum;
 
-		std::vector<xmNodeTransform> arrNodeOS;
+		std::vector<maNodeTransform> arrNodeOS;
 		arrNodeOS.resize(nBoneNum);
 		m_arrBoneName.resize(nBoneNum);
 		m_arrParentInd.resize(nBoneNum);

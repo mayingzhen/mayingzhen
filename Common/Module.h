@@ -7,11 +7,15 @@
 #include "Common/Timer.h"
 #include "Common/BitField.h"
 
-#include "Common/IRender.h"
-#include "Common/IRenderDevice.h"
-#include "Common/IRendMesh.h"
-#include "Common/IRendTexture.h"
-#include "Common/IPhysicsScene.h"
+#include "Common/IRender/IRender.h"
+#include "Common/IRender/IRenderDevice.h"
+#include "Common/IRender/IRendMesh.h"
+#include "Common/IRender/IRendTexture.h"
+
+#include "Common/IPhysics/IPhysicsDevive.h"
+#include "Common/IPhysics/IPhysicsScene.h"
+#include "Common/IPhysics/IPhysicsObject.h"
+
 
 template<class T>
 T InvalidID()

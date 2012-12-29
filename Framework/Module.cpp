@@ -20,6 +20,10 @@
 #include "Framework/MeshComponent.hxx"
 #include "Framework/SkelMeshComponent.hxx"
 
+// physics
+#include "Framework/Physics/BulletScene.hxx"
+#include "Framework/Physics/BulletRigidbodyComponent.hxx"
+
 void FrameWorkModuleInit()
 {
 

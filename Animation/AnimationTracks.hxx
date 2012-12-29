@@ -81,7 +81,7 @@ namespace ma
 // 		// 
 // 		// 		xmUint nDataSize = nScaleKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
 // 		// 			+nPosKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
-// 		// 			+nRotKeyFrameNum*(sizeof(xmQuaternion)+sizeof(xmUint));
+// 		// 			+nRotKeyFrameNum*(sizeof(D3DXQUATERNION)+sizeof(xmUint));
 // 		// 		return nDataSize;
 // 		return 0;
 // 	}

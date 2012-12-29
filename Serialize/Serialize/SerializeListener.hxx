@@ -89,7 +89,7 @@ void SerializeListener::Serialize(std::string& val,const char* pszLable)
 // 	}
 // }
 
-void SerializeListener::Serialize(xmVector2 &val,const char* pszLable)
+void SerializeListener::Serialize(D3DXVECTOR2 &val,const char* pszLable)
 {
 	BeginSection(pszLable);
 	Serialize(val.x,"x");
@@ -116,7 +116,7 @@ void SerializeListener::Serialize(D3DXVECTOR3 &val,const char* pszLable)
 }
 
 
-void SerializeListener::Serialize(xmVector4 &val,const char* pszLable)
+void SerializeListener::Serialize(D3DXVECTOR4 &val,const char* pszLable)
 {
 	BeginSection(pszLable);
 	Serialize(val.x,"x");
@@ -127,7 +127,7 @@ void SerializeListener::Serialize(xmVector4 &val,const char* pszLable)
 }
 
 
-void SerializeListener::Serialize(xmQuaternion &val,const char* pszLable)
+void SerializeListener::Serialize(D3DXQUATERNION &val,const char* pszLable)
 {
 	BeginSection(pszLable);
 	Serialize(val.x,"x");
@@ -138,17 +138,17 @@ void SerializeListener::Serialize(xmQuaternion &val,const char* pszLable)
 }
 
 
-void SerializeListener::Serialize(xmMatrix4x4 &val,const char* pszLable)
+void SerializeListener::Serialize(D3DXMATRIX &val,const char* pszLable)
 {
 	BeginSection(pszLable);
-	Serialize(*reinterpret_cast<xmVector4*>(&val._11),"X");
-	Serialize(*reinterpret_cast<xmVector4*>(&val._21),"Y");
-	Serialize(*reinterpret_cast<xmVector4*>(&val._31),"Z");
-	Serialize(*reinterpret_cast<xmVector4*>(&val._41),"T");
+	Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._11),"X");
+	Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._21),"Y");
+	Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._31),"Z");
+	Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._41),"T");
 	EndSection();
 }
 
-void SerializeListener::Serialize(xmNodeTransform& val,const char *pszLable)
+void SerializeListener::Serialize(maNodeTransform& val,const char *pszLable)
 {
 	BeginSection(pszLable);
 	//Serialize(val.m_vLocalScale,"NonPropScale");

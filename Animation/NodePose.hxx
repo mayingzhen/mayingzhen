@@ -60,7 +60,7 @@ namespace ma
 	// {
 	// 
 	// }
-	void  xmTransformMulLocalScale(xmNodeTransform* pOut,const xmNodeTransform* pTSFA,const xmNodeTransform* pTSFB)
+	void  xmTransformMulLocalScale(maNodeTransform* pOut,const maNodeTransform* pTSFA,const maNodeTransform* pTSFB)
 	{
 		D3DXVECTOR3 vOPos = pTSFA->m_vPos*pTSFB->m_fScale;
 		maQuaternionTransformVector(&vOPos,&vOPos,&pTSFB->m_qRot);
@@ -283,9 +283,9 @@ namespace ma
 		return nParentInd == nAncestorInd;
 	}
 
-	void NodePose::ApplyTransformLS(const xmNodeTransform* pTSF, BoneIndex nBoneInd)
+	void NodePose::ApplyTransformLS(const maNodeTransform* pTSF, BoneIndex nBoneInd)
 	{
-		xmNodeTransform tsf = GetTransformPS(nBoneInd);
+		maNodeTransform tsf = GetTransformPS(nBoneInd);
 		maTransfromMul(&tsf,pTSF,&tsf);
 		SetTransformPS(&tsf,nBoneInd);
 	}

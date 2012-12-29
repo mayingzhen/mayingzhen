@@ -12,6 +12,7 @@ namespace ma
 	{
 	public:
 		Scene(SceneNode* pRootNode);
+
 		~Scene();
 		
 		void Update(float fElapsedTime);
@@ -22,11 +23,11 @@ namespace ma
 
 		void Stop();
 
-		PhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
+		//PhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
 
 	private:
 		SceneNode* m_pRootNode;
-		PhysicsScene* m_pPhyScene;
+		IPhysicsScene* m_pPhyScene;
 
 		float m_fAccPhyTime;
 		float m_fFixUpdateInterval;

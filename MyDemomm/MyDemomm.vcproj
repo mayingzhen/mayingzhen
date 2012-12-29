@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool;../CryCommon;../TestCryFileLoad;../"
+				AdditionalIncludeDirectories="dependency\TinyXML;dependency\AtlasCreationTool;../CryCommon;../TestCryFileLoad;../;../extern/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

@@ -38,7 +38,7 @@ namespace ma
 
 		D3DXMATRIX worldmat = m_pGameObject->GetWorldMatrix();
 
-		xmMatrix4x4 arrSkinMatrix[256];
+		D3DXMATRIX arrSkinMatrix[256];
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
 		if (pAnimPose == NULL)

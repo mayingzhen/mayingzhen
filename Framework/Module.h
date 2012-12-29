@@ -10,6 +10,14 @@
 #include "Framework/MeshComponent.h"
 #include "Framework/SkelMeshComponent.h"
 
+// Physics
+#include "Bullet/btBulletCollisionCommon.h"
+#include "Bullet/btBulletDynamicsCommon.h"
+
+#include "Framework/Physics/BulletRigidbodyComponent.h"
+#include "Framework/Physics/BulletScene.h"
+
+
 
 FRAMEWORK_API void FrameWorkModuleInit();
 

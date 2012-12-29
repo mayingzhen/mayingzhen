@@ -35,6 +35,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serialize", "Serialize\Seri
 		{D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA} = {D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletPhysics", "BulletPhysics\BulletPhysics.vcproj", "{BB53F27E-5E92-4C38-8877-E907C4FECF98}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA} = {D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -65,6 +70,10 @@ Global
 		{E48649B3-18D3-4EA5-8277-9869FDEB892A}.Debug|Win32.Build.0 = Debug|Win32
 		{E48649B3-18D3-4EA5-8277-9869FDEB892A}.Release|Win32.ActiveCfg = Release|Win32
 		{E48649B3-18D3-4EA5-8277-9869FDEB892A}.Release|Win32.Build.0 = Release|Win32
+		{BB53F27E-5E92-4C38-8877-E907C4FECF98}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BB53F27E-5E92-4C38-8877-E907C4FECF98}.Debug|Win32.Build.0 = Debug|Win32
+		{BB53F27E-5E92-4C38-8877-E907C4FECF98}.Release|Win32.ActiveCfg = Release|Win32
+		{BB53F27E-5E92-4C38-8877-E907C4FECF98}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

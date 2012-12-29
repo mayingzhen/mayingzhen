@@ -1,5 +1,6 @@
 #include "Framework/Scene.h"
 #include "Framework/Camera.h"
+#include "Framework/Physics/BulletScene.h"
 
 namespace ma
 {
@@ -8,6 +9,12 @@ namespace ma
 	{
 		m_pRootNode = pRootNode;
 		m_pPhyScene = NULL;
+
+		IPhysicsDevice* pPhysicsDevice = GetPhysicsDevice();
+		if (pPhysicsDevice)
+		{
+			m_pPhyScene = pPhysicsDevice->CreatePhysicsScene();
+		}
 	}
 
 	Scene::~Scene()
@@ -37,9 +44,13 @@ namespace ma
 
 		if (m_pPhyScene != NULL)
 		{
+			m_pRootNode->SyncToPhysics();
+
 			m_pPhyScene->BeginSimulation();
 
 			m_pPhyScene->EndSimulation();
+			
+			m_pRootNode->SyncFromPhysics();
 		}
 
 		m_pRootNode->LateUpdate(fElapsedTime);

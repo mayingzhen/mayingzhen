@@ -9,7 +9,7 @@ namespace ma
 	{
 		D3DXVECTOR3 m_vGoalOS;		//goal in object space
 
-		xmQuaternion	m_qPivotLS;
+		D3DXQUATERNION	m_qPivotLS;
 
 		xmUint		m_nBoneID;
 
