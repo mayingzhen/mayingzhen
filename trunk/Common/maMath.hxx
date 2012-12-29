@@ -166,7 +166,7 @@ void maMatrixFromTransform(D3DXMATRIX* pMat, const maNodeTransform* pTSF)
 	D3DXMatrixTransformation(pMat, NULL, NULL, &vScale, NULL, &qRot, &pTSF->m_vPos);
 }
 
-void  maVec4SetVector(xmVector4* pVec4, const D3DXVECTOR3* pVec3)
+void  maVec4SetVector(D3DXVECTOR4* pVec4, const D3DXVECTOR3* pVec3)
 {
 	pVec4->x = pVec3->x;
 	pVec4->y = pVec3->y;
@@ -174,41 +174,44 @@ void  maVec4SetVector(xmVector4* pVec4, const D3DXVECTOR3* pVec3)
 	pVec4->w = 0.0f;
 }
 
-xmVector4* maMatrixAsVector4(xmMatrix4x4* pMat,xmUint nCol)
+D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,xmUint nCol)
 {
-	return reinterpret_cast<xmVector4*>(&pMat->m[nCol][0]);
+	return reinterpret_cast<D3DXVECTOR4*>(&pMat->m[nCol][0]);
 }
 
-const xmVector4* maMatrixAsVector4(const xmMatrix4x4* pMat,xmUint uCol)
+// const D3DXVECTOR4* maMatrixAsVector4(const D3DXMATRIX* pMat,xmUint uCol)
+// {
+// 	return reinterpret_cast<const D3DXVECTOR4*>(&pMat->m[uCol][0]);
+// }
+// 
+// const D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
+// {
+// 	return reinterpret_cast<const D3DXVECTOR3*>(&pMat->m[uCol][0]);
+// }
+
+D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
 {
-	return reinterpret_cast<const xmVector4*>(&pMat->m[uCol][0]);
+	return reinterpret_cast<D3DXVECTOR3*>(&pMat->m[uCol][0]);
 }
 
-const D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol)
+
+void  maMatrixAxis(D3DXMATRIX* pMat,const D3DXVECTOR3* pX,const D3DXVECTOR3* pY, const D3DXVECTOR3* pZ)
 {
-	return reinterpret_cast<const D3DXVECTOR3*>(&pMat->m[uCol][0]);
-}
-
-
-void  maMatrixAxis(xmMatrix4x4* pMat,const D3DXVECTOR3* pX,const D3DXVECTOR3* pY, const D3DXVECTOR3* pZ)
-{
-
 	maVec4SetVector(maMatrixAsVector4(pMat,0),pX);
 	maVec4SetVector(maMatrixAsVector4(pMat,1),pY);
 	maVec4SetVector(maMatrixAsVector4(pMat,2),pZ);
-	*maMatrixAsVector4(pMat,3) = xmVector4(0.0f,0.0f,0.0f,1.0f);
+	*maMatrixAsVector4(pMat,3) = D3DXVECTOR4(0.0f,0.0f,0.0f,1.0f);
 }
 
 
-void maQuaternionFromEulerAngleXYZ(xmQuaternion* pQuat,const xmEulerAngleXYZ* pEuler)
+void maQuaternionFromEulerAngleXYZ(D3DXQUATERNION* pQuat,const xmEulerAngleXYZ* pEuler)
 {
-
 	float fHalfX = 0.5f*pEuler->x;
 	float fHalfY = 0.5f*pEuler->y;
 	float fHalfZ = 0.5f*pEuler->z;
-	xmQuaternion qRotX(sinf(fHalfX),0.0f,0.0f,cosf(fHalfX));
-	xmQuaternion qRotY(0.0f,sinf(fHalfY),0.0f,cosf(fHalfY));
-	xmQuaternion qRotZ(0.0f,0.0f,sinf(fHalfZ),cosf(fHalfZ));
+	D3DXQUATERNION qRotX(sinf(fHalfX),0.0f,0.0f,cosf(fHalfX));
+	D3DXQUATERNION qRotY(0.0f,sinf(fHalfY),0.0f,cosf(fHalfY));
+	D3DXQUATERNION qRotZ(0.0f,0.0f,sinf(fHalfZ),cosf(fHalfZ));
 	*pQuat = qRotX * qRotY;
 	*pQuat = *pQuat * qRotZ;
 
@@ -221,7 +224,7 @@ void maQuaternionFromAxisToAxis(D3DXQUATERNION* pRot,const D3DXVECTOR3* pAxisFro
 	float fSinAlpha = D3DXVec3Length(&vAxisRot);
 	float fCosAlpha = D3DXVec3Dot(pAxisFrom,pAxisTo);
 	float fAlpha = atan2f(fSinAlpha,fCosAlpha);
-	if ( abs(fSinAlpha - .0.0f) < xm_EPS )
+	if ( abs(fSinAlpha - 0.0f) < xm_EPS )
 	{
 		if (fCosAlpha < 0.0f)
 		{

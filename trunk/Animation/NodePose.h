@@ -38,7 +38,7 @@ namespace ma
 
 		void SetTransformOSAll(const std::vector<maNodeTransform>& arrTSF_OS);
 
-		void ApplyTransformLS(const xmNodeTransform* pTSF, BoneIndex nBoneInd);
+		void ApplyTransformLS(const maNodeTransform* pTSF, BoneIndex nBoneInd);
 
 		void SyncParentSpace() const;
 

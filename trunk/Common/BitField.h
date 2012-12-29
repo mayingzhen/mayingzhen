@@ -37,6 +37,6 @@ public:
 
 };
 
-typedef BitFieldBase<UINT32> BitField;
+typedef BitFieldBase<UINT> BitField;
 
 #endif //__S3ABitField_H__

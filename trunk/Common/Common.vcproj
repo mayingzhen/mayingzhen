@@ -198,42 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IPhysicsScene.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRender.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRender.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\IRenderDevice.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRenderDevice.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\IRendITem.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRendMesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRendTexture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IRendWindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\maMath.h"
 				>
 			</File>
@@ -261,6 +225,62 @@
 				RelativePath=".\xmBaseType.h"
 				>
 			</File>
+			<Filter
+				Name="IRender"
+				>
+				<File
+					RelativePath=".\IRender\IMesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRender.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRender.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRenderDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRenderDevice.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRendITem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRendMesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IRender\IRendTexture.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="IPhysics"
+				>
+				<File
+					RelativePath=".\IPhysics\IPhysicsDevive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IPhysics\IPhysicsDevive.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\IPhysics\IPhysicsObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IPhysics\IPhysicsScene.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="资源文件"

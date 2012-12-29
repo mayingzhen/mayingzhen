@@ -6,6 +6,7 @@
 
 #include <d3dx9math.h>
 #include <assert.h>
+#include <math.h>
 
 #include <string>
 #include <vector>
@@ -21,12 +22,12 @@
 #include "Common/xmBaseType.h"
 
 //#define  D3DXVECTOR3 D3DXVECTOR3
-#define  xmVector2 D3DXVECTOR2
-#define  xmVector4 D3DXVECTOR4
-#define  xmQuaternion D3DXQUATERNION
+//#define  D3DXVECTOR2 D3DXVECTOR2
+//#define  D3DXVECTOR4 D3DXVECTOR4
+//#define  D3DXQUATERNION D3DXQUATERNION
 #define  GUID maGUID
-#define  xmMatrix4x4 D3DXMATRIX
-#define  xmNodeTransform maNodeTransform
+//#define  D3DXMATRIX D3DXMATRIX
+//#define  maNodeTransform maNodeTransform
 
 // #define _DXTRACE_MSG(str)              DXTrace( __FILE__, (xmUint32)__LINE__, 0, str, FALSE )
 // #define _DXTRACE_ERR(str,hr)           DXTrace( __FILE__, (xmUint32)__LINE__, hr, str, FALSE )

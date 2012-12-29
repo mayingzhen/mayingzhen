@@ -84,7 +84,7 @@ namespace ma
 
 	}
 
-	void Animation::SampleSingleTrackByFrame(xmNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
+	void Animation::SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
 		//S3ASSERT(m_bInit);
 
@@ -240,7 +240,7 @@ namespace ma
 // 		if (pTracks->m_rootMotionRot.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionRot.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionRot.m_arrValue.push_back(xmQuaternion(0.0f,0.0f,0.0f,1.0f));
+// 			pTracks->m_rootMotionRot.m_arrValue.push_back(D3DXQUATERNION(0.0f,0.0f,0.0f,1.0f));
 // 		}
 // 
 // 		S3AAnimationHelper::BuildTrack(&pTracks->m_rootMotionPos,pRootMotionPosTrack);

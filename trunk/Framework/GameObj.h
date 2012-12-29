@@ -8,6 +8,7 @@ namespace ma
 {
 	class Component;
 	class Scene;
+	class IPhysicsObject;
 
 	class FRAMEWORK_API GameObject : public SceneNode
 	{
@@ -31,8 +32,16 @@ namespace ma
 		void Stop();
 
 		void AddComponent(Component* pComponent);
-			
+		
+		void GetPhyscisObject() {return m_pPhyscisObject;}
+
+		void SyncToPhysics();
+
+		void SyncFromPhysics();
+
 	private:
+		IPhysicsObject* m_pPhyscisObject;
+
 		std::vector<Component*> m_vComponents;
 	
 	};

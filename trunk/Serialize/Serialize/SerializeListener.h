@@ -34,19 +34,19 @@ public:
 
 	//virtual void Serialize(IStringWrapper* val,const char* pszLable = "string");
 
-	virtual void Serialize(xmVector2 &val,const char* pszLable = "Vector2");
+	virtual void Serialize(D3DXVECTOR2 &val,const char* pszLable = "Vector2");
 
 	virtual void Serialize(GUID &val,const char* pszLable = "GUID");
 
 	virtual void Serialize(D3DXVECTOR3 &val,const char* pszLable = "Vector3");
 
-	virtual void Serialize(xmVector4 &val,const char* pszLable = "Vector4");
+	virtual void Serialize(D3DXVECTOR4 &val,const char* pszLable = "Vector4");
 
-	virtual void Serialize(xmQuaternion &val,const char* pszLable = "Quaternion");
+	virtual void Serialize(D3DXQUATERNION &val,const char* pszLable = "Quaternion");
 
-	virtual void Serialize(xmMatrix4x4 &val,const char* pszLable = "Matrix4x4");
+	virtual void Serialize(D3DXMATRIX &val,const char* pszLable = "Matrix4x4");
 
-	virtual void Serialize(xmNodeTransform& val,const char *pszLable = "NodeTransform");
+	virtual void Serialize(maNodeTransform& val,const char *pszLable = "NodeTransform");
 
 	template<class T>
 	void Serialize(std::vector<T>& val,const char* pszLable = "array");

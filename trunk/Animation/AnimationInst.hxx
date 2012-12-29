@@ -56,7 +56,7 @@ namespace ma
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
-			xmNodeTransform tsfLS;
+			maNodeTransform tsfLS;
 			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
 			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
 			maTransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], &tsfLS, fWeight);	

@@ -23,7 +23,7 @@ struct SERIALIZE_API SocketData
 {
 	std::string		m_strBoneName;
 	xmUint			m_nBoneID;
-	xmMatrix4x4		m_matTransformBS;
+	D3DXMATRIX		m_matTransformBS;
 
 	void Serialize(SerializeListener& sl, const char* pszLable = "SocketData" );
 };
@@ -35,7 +35,7 @@ struct SERIALIZE_API SkeletonData /*: public ISkeletonData*/
 	std::vector<std::string>	m_arrBoneName;
 	std::vector<xmUint>	m_arrParentIndice;
 	std::vector<D3DXVECTOR3>	m_arrScaleOS;
-	std::vector<xmQuaternion>	m_arrRotOS;
+	std::vector<D3DXQUATERNION>	m_arrRotOS;
 	std::vector<D3DXVECTOR3>	m_arrPosOS;
 	std::vector<SocketData> m_arrSocket;
 	//typedef std::vector<xmUint8>   BoolList;

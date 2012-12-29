@@ -987,7 +987,7 @@ void					MeshData::SetBoneName(BoneIndex nBoneInd,const char* pszBoneName)
 }
 
 void					MeshData::SetBoneBoundOBB(BoneIndex nBoneInd
-	,const D3DXVECTOR3* pPos,const xmQuaternion* pRot
+	,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
 	,float fXSize,float fYSize,float fZSize)
 {
 	m_arrBoneBound[nBoneInd].SetOBB(pPos,pRot,fXSize,fYSize,fZSize);
@@ -1072,7 +1072,7 @@ void Bounding::SetAABB(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
 	m_boxShape.m_fZSize = vMax.z - vMin.z;
 }
 
-void Bounding::SetOBB(const D3DXVECTOR3* pPos,const xmQuaternion* pRot
+void Bounding::SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
 			,float fXSize,float fYSize,float fZSize)
 {
 	m_nShapeType = BS_BOX;

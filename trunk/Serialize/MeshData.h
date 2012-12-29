@@ -37,7 +37,7 @@ struct SERIALIZE_API VertexType0
 	xmUint32	 b;				// bones
 	xmUint32	 w;				// Weights		
 	D3DXVECTOR3	 n;				// normal
-	xmVector2	 uv;				// Texture Coordinate
+	D3DXVECTOR2	 uv;				// Texture Coordinate
 	D3DXVECTOR3	 tgn;
 	xmUint32     vc;				// vertex color
 	xmUint32	 vi;				// vertex illumination
@@ -80,7 +80,7 @@ struct SERIALIZE_API Bounding
 {
 	xmUint16			m_nShapeType;
 	D3DXVECTOR3		m_vPos;
-	xmQuaternion	m_qRot;
+	D3DXQUATERNION	m_qRot;
 
 	union
 	{
@@ -96,7 +96,7 @@ struct SERIALIZE_API Bounding
 
 	void GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const;
 
-	void SetOBB(const D3DXVECTOR3* pPos,const xmQuaternion* pRot
+	void SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
 		,float fXSize,float fYSize,float fZSize);
 
 	void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
@@ -401,7 +401,7 @@ public:
 
 	void					SetBoneName(BoneIndex nBoneInd,const char* pszBoneName);
 
-	void					SetBoneBoundOBB(BoneIndex nBoneInd,const D3DXVECTOR3* pPos,const xmQuaternion* pRot,float fXSize,float fYSize,float fZSize);
+	void					SetBoneBoundOBB(BoneIndex nBoneInd,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot,float fXSize,float fYSize,float fZSize);
 
 	void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax);
 

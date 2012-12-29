@@ -3,8 +3,11 @@
 
 #include "Common/maMath.hxx"
 #include "Common/Timer.hxx"
-#include "Common/IRender.hxx"
-#include "Common/IRenderDevice.hxx"
+
+#include "Common/IRender/IRender.hxx"
+#include "Common/IRender/IRenderDevice.hxx"
+
+#include "Common/IPhysics/IPhysicsDevive.hxx"
 
 
 void Log(const char* fmt,...) {}

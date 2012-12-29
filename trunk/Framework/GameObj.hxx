@@ -7,12 +7,16 @@ namespace ma
 	GameObject::GameObject(Scene* pScene, const char* pName):
 	SceneNode(pScene,pName)
 	{
-
+		IPhysicsDevice* pPhysicsDevice = GetPhysicsDevice();
+		if (pPhysicsDevice)
+		{
+			m_pPhyscisObject = pPhysicsDevice->CreatePhysicsObject();
+		}
 	}
 
 	GameObject::~GameObject()
 	{
-
+		//SAFE_DELETE(m_pPhyscisObject);
 	}
 
 	void GameObject::Render()
@@ -62,6 +66,11 @@ namespace ma
 		{
 			m_vComponents[i]->Start();
 		}
+
+		if (m_pPhyscisObject)
+		{
+			m_pPhyscisObject->Start();
+		}
 	}
 
 	void GameObject::Stop()
@@ -84,6 +93,22 @@ namespace ma
 		m_vComponents.push_back(pComponent);
 
 		pComponent->SetGameObject(this);
+	}
+
+	void GameObject::SyncToPhysics()
+	{
+		if (m_pPhyscisObject == NULL)
+			return;
+
+		m_pPhyscisObject->SetTransformWS( this->GetTransformWS() );
+	}
+
+	void GameObject::SyncFromPhysics()
+	{
+		if (m_pPhyscisObject == NULL)
+			return;
+
+		this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 
 }

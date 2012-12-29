@@ -31,7 +31,7 @@ namespace ma
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotInvOS);
 		float fGoalLenPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
 		D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
-		maEulerAngleFromXToAxis()
+		//maEulerAngleFromXToAxis()
 
 
 
@@ -61,7 +61,7 @@ namespace ma
 // 
 // 		D3DXQUATERNION qRotLS;
 // 		maQuaternionFromEulerAngleXYZ(&qRotLS,&eOffsetPivotSpace);
-// 		xmQuaternion qPivotInvLS;
+// 		D3DXQUATERNION qPivotInvLS;
 // 		D3DXQuaternionInverse(&qPivotInvLS,&m_qPivotLS);
 // 
 // 		D3DXQuaternionMultiply(&qRotLS,&qPivotInvLS,&qRotLS);
@@ -91,7 +91,7 @@ namespace ma
 
 	void LookAtModifier::CalculatePovitLs(const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS)
 	{
-		xmMatrix4x4 matPovitLS;
+		D3DXMATRIX matPovitLS;
 		D3DXVECTOR3 vSide;
 		D3DXVECTOR3 vUp;
 		D3DXVec3Cross(&vSide,&vUpLS,&vFowardLS);
@@ -103,14 +103,14 @@ namespace ma
 
 	D3DXVECTOR3	LookAtModifier::GetFowardLS() const
 	{
-		xmMatrix4x4 matOldPPovitLS;
+		D3DXMATRIX matOldPPovitLS;
 		D3DXMatrixRotationQuaternion(&matOldPPovitLS, &m_qPivotLS);
 		D3DXVECTOR3 vOldFowardLS = D3DXVECTOR3(matOldPPovitLS._11, matOldPPovitLS._12, matOldPPovitLS._13);
 		return vOldFowardLS;
 	}
 	D3DXVECTOR3	LookAtModifier::GetUpLS() const
 	{
-		xmMatrix4x4 matOldPPovitLS;
+		D3DXMATRIX matOldPPovitLS;
 		D3DXMatrixRotationQuaternion(&matOldPPovitLS, &m_qPivotLS);
 		D3DXVECTOR3 vOldUpLS = D3DXVECTOR3(matOldPPovitLS._31, matOldPPovitLS._32, matOldPPovitLS._33);
 		return vOldUpLS;
@@ -147,9 +147,9 @@ namespace ma
 		return m_fMaxYaw;
 	}
 
-	//xmMatrix4x4 S3ALookAtModifier::ApplyLimit(const xmMatrix4x4* pBonePS)const
+	//D3DXMATRIX S3ALookAtModifier::ApplyLimit(const D3DXMATRIX* pBonePS)const
 	//{
-	//	xmMatrix4x4 ret;
+	//	D3DXMATRIX ret;
 	//	xmEulerAngleXYZ eRotPS;
 	//	xmEulerAngleXYZFromMatrix(&eRotPS,pBonePS);
 	//	eRotPS.x = xmClamp(eRotPS.x,m_vAngleMin.x,m_vAngleMax.x);

@@ -1,6 +1,9 @@
-#include "BulletPhysics/BulletScene.h"
+#include "Framework/Physics/BulletScene.h"
+#include "Framework/Physics/BulletRigidbodyComponent.h"
+#include "Framework/Physics/BulletUtil.h"
 
-namespace xm
+
+namespace ma
 {
 	PhysicsScene::PhysicsScene()
 	{
@@ -22,9 +25,11 @@ namespace xm
 		m_pOverlappingPairCache = new btDbvtBroadphase();
 
 		///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
-		m_pSolver = new btSequentialImpulseConstraintSolver;
+		m_pSolver = new btSequentialImpulseConstraintSolver();
 
 		m_pDynamicsWorld = new btDiscreteDynamicsWorld(m_pDispatcher,m_pOverlappingPairCache,m_pSolver,m_pCollisionConfiguration);
+		
+		return true;
 	}
 
 	void PhysicsScene::Stop()
@@ -50,12 +55,12 @@ namespace xm
 	//------------------------------------------------------------------------------
 	D3DXVECTOR3	PhysicsScene::GetGravity() const
 	{
-		return Physics::ToS3XUnit( m_pDynamicsWorld->getGravity() );
+		return ToMaUnit( m_pDynamicsWorld->getGravity() );
 	}
 
 	void		PhysicsScene::SetGravity(const D3DXVECTOR3& g)
 	{
-		m_pDynamicsWorld->setGravity( Physics::ToPhysicsUnit(g) );
+		m_pDynamicsWorld->setGravity( ToBulletUnit(g) );
 	}
 
 	//------------------------------------------------------------------------------
@@ -76,9 +81,9 @@ namespace xm
 			if (!pObj->isStaticOrKinematicObject())
 			{
 				// SyncFromScene
-				//BulletRigidBodyComponent* pRigidComp = (BulletRigidBodyComponent*)pObj->getUserPointer();
+				BulletRigidBodyComponent* pRigidComp = (BulletRigidBodyComponent*)pObj->getUserPointer();
 				//GameObject* pGameObj = pRigidComp->GetGameObject();
-				//xmNodeTransform tsfWS = pGameObj->GetTransformWS();
+				//maNodeTransform tsfWS = pGameObj->GetTransformWS();
 				//pGameObj->GetPhysicsActor()->SetTransformWS(tsfWS);
 				//BulletRigidBodyComponent* pRigidComp = pGameObj ? pGameObj->FindComponent<PhysXRigidBodyComponent>() : NULL;
 				if (NULL != pRigidComp)
@@ -111,7 +116,7 @@ namespace xm
 				//pRigidComp->SyncToScene();
 				//S3XGameObject* pGameObj = (S3XGameObject*)pObj->getUserPointer();
 				//S3XSceneNode* pSceneNode = pGameObj->GetSceneNode();
-				//xmNodeTransform tsfWS = pGameObj->GetPhysicsActor()->GetTransformWS();
+				//maNodeTransform tsfWS = pGameObj->GetPhysicsActor()->GetTransformWS();
 				//pSceneNode->SetTransformWS(&tsfWS);
 				
 				//PhysXRigidBodyComponent* pRigidComp = pGameObj ? pGameObj->FindComponent<PhysXRigidBodyComponent>() : NULL;

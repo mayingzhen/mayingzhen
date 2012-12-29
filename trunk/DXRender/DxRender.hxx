@@ -175,7 +175,7 @@ namespace ma
 		DxRendMesh* pDxMesh = (DxRendMesh*)pMesh;
 		DxRendTexture* pDxTexure = (DxRendTexture*)(pTexture);
 
-		xmMatrix4x4 matBonePalatte[256];
+		D3DXMATRIX matBonePalatte[256];
 		SubMeshData* pSubMeshData = pDxMesh->GetMeshData()->GetSubMesh(0);
 		UINT uBonePaletteSize = pSubMeshData->GetBonePaletteSize();
 		for (xmUint nCnt = 0; nCnt < uBonePaletteSize; ++nCnt)
