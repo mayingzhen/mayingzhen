@@ -6,7 +6,7 @@
 namespace ma
 {
 	class AnimationInst;
-	class AnimEvalContext;
+	struct AnimEvalContext;
 	class BoneSet;
 
 	class ANIMATION_API AnimClipNode : public AnimTreeNode

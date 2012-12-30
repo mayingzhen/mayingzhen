@@ -1,7 +1,7 @@
 #ifndef  _DXRenderDevice__H__
 #define  _DXRenderDevice__H__
 
-#include "Common/IRenderDevice.h"
+#include "Common/IRender/IRenderDevice.h"
 
 namespace ma
 {

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class AnimEvalContext;
+	struct AnimEvalContext;
 
 	class ANIMATION_API AnimLayerNode : public AnimTreeNode
 	{

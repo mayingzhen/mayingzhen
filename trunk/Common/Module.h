@@ -52,6 +52,7 @@ COMMON_API void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVEC
 
 
 COMMON_API void CommonModuleInit();
+
 COMMON_API void CommonModuleShutdown();
 
 #endif

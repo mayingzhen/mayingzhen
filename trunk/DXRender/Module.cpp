@@ -13,8 +13,9 @@ void DxRenderModuleInit()
 
  	ma::DxRender* pDxRender = new ma::DxRender();
  	ma::SetRender(pDxRender);
-
+	//pDxRender->InitDefaultShader();
 }
+
 
 void DxRenderModuleShutdown()
 {

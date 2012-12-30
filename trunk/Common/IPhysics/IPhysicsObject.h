@@ -19,6 +19,12 @@ namespace ma
 	{
 		maNodeTransform m_tsfLS;
 		D3DXVECTOR3 m_vSize;
+
+		BoxCollisionInfo(const maNodeTransform& tsfLS,const D3DXVECTOR3& vSize)
+		{
+			m_tsfLS = tsfLS;
+			m_vSize = vSize;
+		}
 	};
 
 
@@ -26,6 +32,10 @@ namespace ma
 	{
 	public:
 		virtual void Start() = 0;
+
+		virtual void Stop() = 0;
+
+		virtual bool IsKinematic() = 0;
 
 		virtual void SetRigidBody(const RigidBodyInfo& info) = 0;
 

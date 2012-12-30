@@ -18,11 +18,19 @@ namespace ma
 
 		void Render();
 
+		void Start();
+
+		void Stop();
+
 		void TranslateLS(const D3DXVECTOR3& vDeltaLS);
 
 		void TranslatePS(const D3DXVECTOR3& vDeltaPS);
 
 		void TranslateWS(const D3DXVECTOR3& vDeltaWS);
+
+		void RotateLS(const D3DXQUATERNION* pRot);
+
+		void RotateLS(float x,float y,float z);
 
 		maNodeTransform GetTransformWS();
 
@@ -38,9 +46,9 @@ namespace ma
 	
 		void SyncWorld();
 
-		virtual void SyncToPhysics() {}
+		virtual void SyncToPhysics();
 
-		virtual void SyncFromPhysics() {}
+		virtual void SyncFromPhysics();
 
 		Scene* GetScene() {return m_pScen;}
 

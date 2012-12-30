@@ -9,6 +9,12 @@ namespace ma
 	public:
 		virtual void Start();
 
+		virtual void Stop();
+
+		virtual bool IsKinematic();
+
+		//virtual bool Is
+
 		virtual void SetRigidBody(const RigidBodyInfo& info);
 
 		virtual void AddBoxCollision(const BoxCollisionInfo& info);
@@ -19,6 +25,9 @@ namespace ma
 
 	private:
 		btRigidBody* m_pRigidBody;
+
+		RigidBodyInfo m_rbInfo;
+		std::vector<BoxCollisionInfo> m_vBoxCollInfo;
 	};
 }
 

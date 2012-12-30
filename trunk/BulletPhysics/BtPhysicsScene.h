@@ -6,6 +6,8 @@ namespace ma
 	class BULLETPHYSICS_API BtPhysicsScene : public IPhysicsScene
 	{
 	public:
+		BtPhysicsScene();
+			
 		virtual void Start();
 
 		virtual void Stop();
@@ -17,6 +19,8 @@ namespace ma
 		virtual D3DXVECTOR3	GetGravity() const;
 
 		virtual void		SetGravity(const D3DXVECTOR3& g);
+
+		btDiscreteDynamicsWorld* GetDynamicsWorld() {return m_pDynamicsWorld;}
 
 	private:
 		btDefaultCollisionConfiguration*	 m_pCollisionConfiguration;

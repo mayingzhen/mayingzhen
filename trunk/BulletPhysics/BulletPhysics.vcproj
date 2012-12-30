@@ -179,15 +179,11 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BtPhysicsDevive.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\BtPhysicsExport.h"
-				>
-			</File>
-			<File
-				RelativePath=".\BtPhysicsModule.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BtPhysicsModule.h"
 				>
 			</File>
 			<File
@@ -208,6 +204,14 @@
 			</File>
 			<File
 				RelativePath=".\BulletUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Module.h"
 				>
 			</File>
 			<File

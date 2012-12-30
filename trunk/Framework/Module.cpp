@@ -21,8 +21,9 @@
 #include "Framework/SkelMeshComponent.hxx"
 
 // physics
-#include "Framework/Physics/BulletScene.hxx"
-#include "Framework/Physics/BulletRigidbodyComponent.hxx"
+#include "Framework/Physics/CollisionComponent.hxx"
+#include "Framework/Physics/RigidbodyComponent.hxx"
+
 
 void FrameWorkModuleInit()
 {

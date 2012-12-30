@@ -4,6 +4,15 @@
 
 namespace ma
 {
+	BtPhysicsScene::BtPhysicsScene()
+	{
+		m_pCollisionConfiguration = NULL;
+		m_pDispatcher = NULL;
+		m_pOverlappingPairCache = NULL;
+		m_pSolver = NULL;
+		m_pDynamicsWorld = NULL;
+	}
+
 	void BtPhysicsScene::Start()
 	{
 		m_pCollisionConfiguration = new btDefaultCollisionConfiguration();
@@ -33,7 +42,8 @@ namespace ma
 
 	void BtPhysicsScene::BeginSimulation()
 	{
-		m_pDynamicsWorld->stepSimulation( GetTimer()->GetFrameDeltaTime() );
+		if (m_pDynamicsWorld)
+			m_pDynamicsWorld->stepSimulation( GetTimer()->GetFrameDeltaTime() );
 	}
 
 	void BtPhysicsScene::EndSimulation()

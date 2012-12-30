@@ -3,6 +3,6 @@
 
 #include "Common/Module.h"
 
-
+#include "FBX/fbxsdk.h"
 
 #endif
