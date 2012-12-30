@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class AnimEvalContext;
+	struct AnimEvalContext;
 
 	class ANIMATION_API AnimTreeNode
 	{

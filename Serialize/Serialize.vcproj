@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../"
+				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SERIALIZE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="fbxsdk-2013.2d.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -234,12 +236,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<Filter
 			Name="Serialize"
 			>
 			<File
@@ -256,6 +252,10 @@
 			</File>
 			<File
 				RelativePath=".\Serialize\BinaryOutputArchive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\MathSerialize.h"
 				>
 			</File>
 			<File
@@ -282,6 +282,10 @@
 				RelativePath=".\Serialize\SerializeListener.hxx"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="FbxLoad"
+			>
 		</Filter>
 	</Files>
 	<Globals>

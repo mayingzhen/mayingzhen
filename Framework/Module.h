@@ -11,11 +11,8 @@
 #include "Framework/SkelMeshComponent.h"
 
 // Physics
-#include "Bullet/btBulletCollisionCommon.h"
-#include "Bullet/btBulletDynamicsCommon.h"
-
-#include "Framework/Physics/BulletRigidbodyComponent.h"
-#include "Framework/Physics/BulletScene.h"
+#include "Framework/Physics/RigidbodyComponent.h"
+#include "Framework/Physics/CollisionComponent.h"
 
 
 

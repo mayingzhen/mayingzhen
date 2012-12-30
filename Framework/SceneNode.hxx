@@ -39,6 +39,28 @@ namespace ma
 		}
 	}
 
+	void SceneNode::Start()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->Start();
+		}
+	}
+
+	void SceneNode::Stop()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->Stop();
+		}
+	}
+
 	void SceneNode::TranslateLS(const D3DXVECTOR3& vDeltaLS)
 	{
 		D3DXVECTOR3 vDeltaPS;
@@ -67,6 +89,19 @@ namespace ma
 		D3DXVECTOR3 vDeltaPS;
 		maVec3TransformNormal(&vDeltaPS,&vDeltaWS,&tsfParentWorldInv);
 		TranslatePS(vDeltaPS);
+	}
+
+	void SceneNode::RotateLS(const D3DXQUATERNION* pRot)
+	{
+		D3DXQuaternionMultiply(&m_tsfPS.m_qRot,pRot,&m_tsfPS.m_qRot);
+	}
+
+	void SceneNode::RotateLS(float x,float y,float z)
+	{
+		D3DXQUATERNION qRot;
+		xmEulerAngleXYZ qEuler(x,y,z);
+		maQuaternionFromEulerAngleXYZ(&qRot,&qEuler);
+		RotateLS(&qRot);
 	}
 
 	maNodeTransform SceneNode::GetTransformWS()
@@ -114,6 +149,22 @@ namespace ma
 		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
 		{
 			m_vChildNodes[i]->SyncWorld();
+		}
+	}
+
+	void SceneNode::SyncToPhysics()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			m_vChildNodes[i]->SyncToPhysics();
+		}	
+	}
+
+	void SceneNode::SyncFromPhysics()
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			m_vChildNodes[i]->SyncFromPhysics();
 		}
 	}
 

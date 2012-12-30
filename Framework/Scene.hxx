@@ -1,6 +1,5 @@
 #include "Framework/Scene.h"
 #include "Framework/Camera.h"
-#include "Framework/Physics/BulletScene.h"
 
 namespace ma
 {
@@ -75,12 +74,20 @@ namespace ma
 
 	void Scene::Start()
 	{
-		m_pRootNode->Start();
+		if (m_pPhyScene)
+			m_pPhyScene->Start();
+
+		if (m_pRootNode)
+			m_pRootNode->Start();
 	}
 
 	void Scene::Stop()
 	{
-		m_pRootNode->Stop();
+		if (m_pPhyScene)
+			m_pPhyScene->Stop();
+
+		if (m_pRootNode)
+			m_pRootNode->Stop();
 	}
 
 }

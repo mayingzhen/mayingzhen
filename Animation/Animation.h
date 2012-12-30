@@ -1,7 +1,7 @@
 #ifndef  _Animation__H__
 #define  _Animation__H__
 
-class AnimationData;
+struct AnimationData;
 
 #include "Animation/Track.h"
 

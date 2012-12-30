@@ -1,7 +1,7 @@
 #ifndef  _DXRENDER__H__
 #define  _DXRENDER__H__
 
-#include "Common/IRender.h"
+#include "Common/IRender/IRender.h"
 
 namespace ma
 {

@@ -8,4 +8,9 @@
 #include "Serialize/AnimationData.h"
 
 
+SERIALIZE_API void FBXModuleInit();
+
+SERIALIZE_API void FBXModuleShutdown();
+
+
 #endif

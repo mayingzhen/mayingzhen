@@ -10,9 +10,14 @@ namespace ma
 	{
 
 	public:
-		virtual IPhysicsScene* CreatePhysicsScene() {return new BtPhysicsScene();}
+		virtual IPhysicsScene* CreatePhysicsScene(); 
 	
-		virtual IPhysicsObject* CreatePhysicsObject() {return new BtPhysicsObject();}
+		virtual IPhysicsObject* CreatePhysicsObject();
+
+		BtPhysicsScene* GetBtPhysicsScene() {return m_pBtPhysicsScene;}
+	
+	private:
+		BtPhysicsScene* m_pBtPhysicsScene;
 	};
 }
 

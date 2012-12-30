@@ -33,7 +33,9 @@ namespace ma
 
 		void AddComponent(Component* pComponent);
 		
-		void GetPhyscisObject() {return m_pPhyscisObject;}
+		IPhysicsObject* GetPhyscisObject() {return m_pPhyscisObject;}
+
+		void SetPhyscisObject(IPhysicsObject* pPhyscisObject) {m_pPhyscisObject = pPhyscisObject;} 
 
 		void SyncToPhysics();
 

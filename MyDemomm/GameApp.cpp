@@ -14,6 +14,7 @@
 #include "Framework/Module.h"
 #include "DXRender/Module.h"
 #include "Animation/Module.h"
+#include "BulletPhysics/Module.h"
 
 CGameApp g_GameApp;
 
@@ -145,7 +146,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, -200, 200);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 200, 200);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -160,6 +161,8 @@ void CGameApp::InitGame()
 	m_pScene = new ma::Scene(pRootNode);
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
+	pGameObj->RotateLS(0,D3DXToRadian(180),D3DXToRadian(180));
+
 	pRootNode->AddChildNode(pGameObj);
 	ma::MeshComponent* pMeshBodyB = new ma::MeshComponent();
 	pMeshBodyB->Load("../TrineGame/man001/Man001/body_b.skn","../TrineGame/man001/Man001/body_b.tga");
@@ -212,18 +215,45 @@ void CGameApp::InitGame()
 	pSkelMeshComp->SetAnimationSet(pAnimSet);
 	pSkelMeshComp->SetSkeleton(pManSkeleton);
 
-	pSkelMeshComp->PlayAnimation("AnimationTree");
+	//pSkelMeshComp->PlayAnimation("AnimationTree");
 
 
 	/// physics
-	BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
-	pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
-	pGameObj->AddComponent(pBoxCollisionShape);
+// 	{
+// 		ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"physics");
+// 		pRootNode->AddChildNode(pGameObj);
+// 
+// 		ma::MeshComponent* pMeshComp = new ma::MeshComponent();
+// 		pMeshComp->Load("../TrineGame/map/stone.skn","../TrineGame/map/stone.tga");
+// 		pGameObj->AddComponent(pMeshComp);
+// 
+// 		ma::BoxCollisionComponent* pBoxCollisionShape = new ma::BoxCollisionComponent();
+// 		pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
+// 		pGameObj->AddComponent(pBoxCollisionShape);
+// 
+// 		ma::RigidBodyComponent* pRigidBodyComp = new ma::RigidBodyComponent();
+// 		pRigidBodyComp->SetMass(1.0f);
+// 		pRigidBodyComp->SetKinematic(false);
+// 		//pRigidBodyComp->SetUseGravity(true);
+// 		pGameObj->AddComponent(pRigidBodyComp);	
+// 
+// 	}
+// 
+// 	{
+// 		ma::GameObject* pTerrain = new ma::GameObject(m_pScene,"Terrain");
+// 		pRootNode->AddChildNode(pTerrain);
+// 
+// 		ma::MeshComponent* pTerrainMesh = new ma::MeshComponent();
+// 		pTerrainMesh->Load("../TrineGame/map/terrain.skn","../TrineGame/map/terrain.tga");
+// 		pTerrain->AddComponent(pTerrainMesh);
+// 
+// 		// 	ma::BoxCollisionComponent* pTerrainBoxColl = new ma::BoxCollisionComponent();
+// 		// 	pTerrainBoxColl->SetSize(D3DXVECTOR3(1000,1000,1000));
+// 		// 	pGameObj->AddComponent(pTerrainBoxColl);
+// 	}
 
-	//RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
-	//pGameObj->AddComponent(pRigidBodyComp);	
-	//pRigidBodyComp->AddCollisionShape(pBoxCollisionShape);
 
+	m_pScene->Start();
 	
 
 
@@ -352,16 +382,18 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 	ShowWindow(m_hMainWnd,SW_SHOW);
 	UpdateWindow(m_hMainWnd);
 
-	ma::DxRenderDevice* pDxRenderDevice = new ma::DxRenderDevice();
-	ma::SetRenderDevice(pDxRenderDevice);
+	// Init Moudle
+	CommonModuleInit();
+	DxRenderModuleInit();
+	BtPhysicsModuleInit();
+
+	ma::DxRenderDevice* pDxRenderDevice = (ma::DxRenderDevice*)ma::GetRenderDevice();
 	pDxRenderDevice->Init(m_hMainWnd);
 
-	ma::DxRender* pDxRender = new ma::DxRender();
-	ma::SetRender(pDxRender);
+	ma::DxRender* pDxRender = (ma::DxRender*)ma::GetRender();
 	pDxRender->InitDefaultShader();
 
-	ma::Time* pTime = new ma::Time();
-	ma::SetTimer(pTime);
+	
 
 
 //  	if( FAILED( Initialize3DEnvironment() ) )
