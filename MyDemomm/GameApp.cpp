@@ -15,6 +15,7 @@
 #include "DXRender/Module.h"
 #include "Animation/Module.h"
 #include "BulletPhysics/Module.h"
+#include "Serialize/Module.h"
 
 CGameApp g_GameApp;
 
@@ -252,6 +253,10 @@ void CGameApp::InitGame()
 // 		// 	pGameObj->AddComponent(pTerrainBoxColl);
 // 	}
 
+	/// Fbx
+	ma::FBXImporter fbxImpor;
+	fbxImpor.Initialize();
+	fbxImpor.LoadScene("E:/work/UE3_2011_May/Artwork/Lerpz.fbx");
 
 	m_pScene->Start();
 	

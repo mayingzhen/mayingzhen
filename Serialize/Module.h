@@ -7,10 +7,9 @@
 #include "Serialize/SkeletonData.h"
 #include "Serialize/AnimationData.h"
 
+#include "FBX/fbxsdk.h"
 
-SERIALIZE_API void FBXModuleInit();
-
-SERIALIZE_API void FBXModuleShutdown();
+#include "Serialize/FBXImporter.h"
 
 
 #endif
