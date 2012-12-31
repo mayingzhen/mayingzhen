@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fbxsdk-2013.2d.lib"
+				AdditionalDependencies="fbxsdk-2013.2-mdd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
@@ -180,6 +180,14 @@
 			</File>
 			<File
 				RelativePath=".\AnimationData.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\FBXImporter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FBXImporter.hxx"
 				>
 			</File>
 			<File
