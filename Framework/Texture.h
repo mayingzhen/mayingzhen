@@ -7,7 +7,7 @@ namespace ma
 {
 	class IRendTexture;
 
-	class Texture : public Resource
+	class FRAMEWORK_API Texture : public Resource
 	{
 	public:
 		Texture(const char* pTexturePath);

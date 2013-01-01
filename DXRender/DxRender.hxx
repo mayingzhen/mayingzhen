@@ -109,6 +109,8 @@ namespace ma
 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
 		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
 
+		//pDxDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
+
 		D3DXMATRIX matView,matProject;
 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);

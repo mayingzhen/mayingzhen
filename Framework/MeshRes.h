@@ -21,6 +21,8 @@ namespace ma
 
 		IRendMesh* GetRendMesh() {return m_pRendMesh;}
 
+		void SetRendMesh(IRendMesh* pRendMesh) {m_pRendMesh = pRendMesh;}
+
 	private:
 		IRendMesh* m_pRendMesh;
 

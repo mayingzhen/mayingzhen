@@ -177,8 +177,22 @@ namespace ma
 
 		m_pMeshData = ResourceBuilder::LoadMeshFromBinaryFile(pszPath);
 
+		Init(m_pMeshData);
+		//int nTotalLod;
+		//m_ppD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), m_pMeshData, &nTotalLod );
+
+		return true;
+	}
+
+	bool DxRendMesh::Init(MeshData* pMeshData)
+	{
+		DxRender* pDxRender = (DxRender*)GetRender();
+		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+
 		int nTotalLod;
-		m_ppD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), m_pMeshData, &nTotalLod );
+		m_ppD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), pMeshData, &nTotalLod );
+
+		m_pMeshData = pMeshData;
 
 		return true;
 	}

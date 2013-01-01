@@ -28,7 +28,11 @@ namespace ma
 
 		MeshRes* GetMeshRes() {return m_pMeshRes;}
 
+		void SetMeshRes(MeshRes* pMeshRes) {m_pMeshRes = pMeshRes;}
+
 		Texture* GetTexture() {return m_pTexture;}
+
+		void SetTexture(Texture* pTexture) {m_pTexture = pTexture;}
 
 	private:
 		MeshRes*		m_pMeshRes;

@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fbxsdk-2013.2-mdd.lib"
+				AdditionalDependencies="fbxsdk-2013.2-mdd.lib d3dx9d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
