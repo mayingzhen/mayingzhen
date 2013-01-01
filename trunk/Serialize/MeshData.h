@@ -118,7 +118,7 @@ struct SERIALIZE_API MeshHeader
 
 
 
-class SERIALIZE_API SubMeshData /*: public ISubMeshData*/
+struct SERIALIZE_API SubMeshData /*: public ISubMeshData*/
 {
 	xmUint m_nIndexStart;
 	xmUint m_nIndexCount;
@@ -198,7 +198,7 @@ public:
 };
 
 
-class SERIALIZE_API MeshLODData /*: public IMeshLODData*/
+struct SERIALIZE_API MeshLODData /*: public IMeshLODData*/
 {
 	std::vector<SubMeshData*> m_arrSubMesh;
 
@@ -269,7 +269,7 @@ public:
 	void					Serialize(SerializeListener& sl,const char* pszLabel);
 };
 
-class SERIALIZE_API MeshData/* : public IMeshData*/
+struct SERIALIZE_API MeshData/* : public IMeshData*/
 {
 	MeshHeader			m_header;
 

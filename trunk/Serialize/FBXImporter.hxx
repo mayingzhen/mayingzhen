@@ -41,11 +41,11 @@ namespace ma
 		return true;
 	}
 
-	bool FBXImporter::LoadScene(const char* pSeneName)
+	MeshData* FBXImporter::LoadScene(const char* pSeneName)
 	{
 		if(mpFBXSDKManager == NULL)
 		{
-			return false;
+			return NULL;
 		}
 
 		// Get the file version number generate by the FBX SDK.
@@ -62,7 +62,7 @@ namespace ma
 
 		if(!importStatus)
 		{
-			return false;
+			return NULL;
 		}
 
 		// Import the scene
@@ -74,21 +74,34 @@ namespace ma
 		// Destroy the importer.
 		pFBXImporter->Destroy();
 
-		ProcessNode( lScene->GetRootNode() );
+		MeshData* pMeshData = new MeshData;
 
-		return importStatus;
+		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
+		if (fbxAxis == FbxAxisSystem::OpenGL)
+		{
+			int i = 5;
+		}
+		else
+		{
+			int i = 5;
+		}
+
+		ProcessNode( pMeshData, lScene->GetRootNode() );
+
+		return pMeshData;
 	}
 
-	void FBXImporter::ProcessNode(FbxNode* pNode)
+	void FBXImporter::ProcessNode(MeshData* pMeshData,FbxNode* pNode)
 	{
-		//FbxNodeAttribute::EAttributeType attributeType;
+		if (pMeshData == NULL || pNode == NULL)
+			return;
 
 		if(pNode->GetNodeAttribute())
 		{
 			switch(pNode->GetNodeAttribute()->GetAttributeType())
 			{
 			case FbxNodeAttribute::eMesh:
-				ProcessMesh(pNode);
+				ProcessMesh(pMeshData,pNode);
 				break;
 			case FbxNodeAttribute::eSkeleton:
 				//ProcessSkeleton(pNode);
@@ -104,17 +117,59 @@ namespace ma
 
 		for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
 		{
-			ProcessNode(pNode->GetChild(i));
+			ProcessNode(pMeshData,pNode->GetChild(i));
 		}
 	}
 
-	void FBXImporter::ProcessMesh(FbxNode* pNode)
+	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
 	{
+		if (pMeshData == NULL || pNode == NULL)
+			return;
+
 		FbxMesh* pMesh = pNode->GetMesh();
 		if(pMesh == NULL)
-		{
 			return;
+
+		if(!pMesh->IsTriangleMesh())
+		{
+			FbxGeometryConverter converter(mpFBXSDKManager);
+			// #1
+			//converter.TriangulateInPlace(pNode);
+			//pMesh = dynamic_cast<KFbxMesh*>(pNode->GetNodeAttribute());
+
+			// #2
+			pMesh = converter.TriangulateMesh(pMesh);
 		}
+		
+		// Ib
+		int nIndexCount = pMesh->GetPolygonVertexCount();
+		int* pIndexData = pMesh->GetPolygonVertices();
+		pMeshData->m_nIndexType = INDEX_TYPE_U16;
+		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(UINT));
+		BoneIndex* pIb = (BoneIndex*)&pMeshData->m_arrIndexBuffer[0];
+		for (UINT i = 0; i < nIndexCount; ++i)
+		{
+			pIb[i] = pIndexData[i];
+		}
+
+		// vb
+		UINT nVertexCount = pMesh->GetControlPointsCount();
+		pMeshData->m_nVertexType = VT_SKIN_VERTEX_0;
+		pMeshData->m_arrVertexBuffer.resize(nVertexCount * sizeof(VertexType0));
+		VertexType0* pVb = (VertexType0*)&pMeshData->m_arrVertexBuffer[0]; 
+
+		// subMesh
+		MeshLODData* pMeshLodData = new MeshLODData;
+		SubMeshData* pSubMeshData = new SubMeshData;
+		pMeshLodData->m_arrSubMesh.push_back(pSubMeshData);
+		pSubMeshData->m_nIndexStart = 0;
+		pSubMeshData->m_nIndexCount = nIndexCount;
+		pSubMeshData->m_nVertexStart = 0;
+		pSubMeshData->m_nVertexCount = nVertexCount;
+		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
+
+		int triangleCount = pMesh->GetPolygonCount();
+		int vertexCounter = 0;
 
 		D3DXVECTOR3 vertex[3];
 		D3DXVECTOR4 color[3];
@@ -122,8 +177,8 @@ namespace ma
 		D3DXVECTOR3 tangent[3];
 		D3DXVECTOR2 uv[3][2];
 
-		int triangleCount = pMesh->GetPolygonCount();
-		int vertexCounter = 0;
+		//D3DXMATRIX                matrix;
+		//D3DXMatrixRotationX(&matrix, -(3.14/2));
 
 		for(int i = 0 ; i < triangleCount ; ++i)
 		{
@@ -150,6 +205,12 @@ namespace ma
 				ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &tangent[j]);
 
 				vertexCounter++;
+
+				//D3DXVec3TransformCoord(&vertex[j],&vertex[j],&matrix);
+
+				pVb[ctrlPointIndex].p = vertex[j];
+				//pVb[ctrlPointIndex].vc = color[j];
+				pVb[ctrlPointIndex].uv = uv[j][0];
 			}
 
 			// 根据读入的信息组装三角形，并以某种方式使用即可，比如存入到列表中、保存到文件等...
@@ -488,7 +549,8 @@ namespace ma
 
 			LoadMaterialTexture(pSurfaceMaterial);
 		}
-	}
+	}
+
 	void FBXImporter::LoadMaterialAttribute(FbxSurfaceMaterial* pSurfaceMaterial)
 	{
 		// Get the name of material
@@ -561,7 +623,8 @@ namespace ma
 		//FBXSDK_FOR_EACH_TEXTURE(lTextureIndex);
 		for(lTextureIndex=0; lTextureIndex < FbxLayerElement::sTypeTextureCount; lTextureIndex++)
 		{
-			FbxProperty pProperty = pSurfaceMaterial->FindProperty(FbxLayerElement::sTextureChannelNames[lTextureIndex]);
+			const char* pszTextureChannelName = FbxLayerElement::sTextureChannelNames[lTextureIndex];
+			FbxProperty pProperty = pSurfaceMaterial->FindProperty(pszTextureChannelName);
 			//FbxProperty pProperty = pSurfaceMaterial->FindProperty(FbxLayerElement::sTextureChannelNames[i]);
 			if ( pProperty.IsValid() )
 			{

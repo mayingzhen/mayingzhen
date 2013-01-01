@@ -471,76 +471,76 @@ namespace ResourceBuilder
 // 
 // 	}
 
-	bool LoadMesh(MeshData* pMesh,SerializeListener* pSL)
-	{
-		//S3_TRY
-		//{
-			xmUint nMeshBegin = pSL->Tell();
-
-			xmUint32		nIdent;	 // File Identity = 'S3MD'
-			xmUint32		nVersion;	 // 格式版本号;
-			bool bFileIdenOK = pSL->SerializeByte((xmUint8*)&nIdent,sizeof(xmUint32));
-
-			if (!bFileIdenOK || nIdent != 'S3MD')
-			{
-				return false;
-			}
-
-			pSL->SerializeByte((xmUint8*)&nVersion,sizeof(xmUint32));
-			pSL->Seek(nMeshBegin);
-
-
-
-			bool bLoadOK = true;
-
-			//
-			//
-
-			//if (nVersion >= EXP_MESH_VER_EMBED_MESH_DATA)
-			//{
-				pMesh->Serialize(pSL,"Mesh");
-
-			//}
-			//else{
+// 	bool LoadMesh(MeshData* pMesh,SerializeListener* pSL)
+// 	{
+// 		//S3_TRY
+// 		//{
+// 			xmUint nMeshBegin = pSL->Tell();
 // 
-// 				ExpMesh meshExp;
+// 			xmUint32		nIdent;	 // File Identity = 'S3MD'
+// 			xmUint32		nVersion;	 // 格式版本号;
+// 			bool bFileIdenOK = pSL->SerializeByte((xmUint8*)&nIdent,sizeof(xmUint32));
 // 
-// 				if (nVersion >= EXP_MESH_VER_USE_SERIALZIE)
-// 				{
-// 					Serialize(*pSL,meshExp,"Mesh");
-// 				}else{
-// 					bLoadOK = LoadMeshFromFileVersion1(&meshExp,pSL);
-// 					UpdateBounding(&meshExp.m_mesh);
+// 			if (!bFileIdenOK || nIdent != 'S3MD')
+// 			{
+// 				return false;
+// 			}
 // 
-// 					if (!bLoadOK)
-// 					{
-// 						LogError(_ERR_INVALID_CALL,"Fail to load mesh from version1 file");
-// 					}
-// 				}
+// 			pSL->SerializeByte((xmUint8*)&nVersion,sizeof(xmUint32));
+// 			pSL->Seek(nMeshBegin);
 // 
-// 				if (bLoadOK)
-// 				{
-// 					bLoadOK = CreateMeshData(pMesh,&meshExp);
-// 				}					
-			//}
-
-
-			//if (bLoadOK)
-			//{
-			//	bLoadOK = UpdateBonePalette(pMesh);
-			//}
-
-			return true;
-
-		//}
-		//S3_CATCH(...)
-		//{
-		//	LogError(_ERR_INVALID_CALL,"Fail to serialize mesh");
-		//}
-
-		return false;
-
-	}
+// 
+// 
+// 			bool bLoadOK = true;
+// 
+// 			//
+// 			//
+// 
+// 			//if (nVersion >= EXP_MESH_VER_EMBED_MESH_DATA)
+// 			//{
+// 				pMesh->Serialize(pSL,"Mesh");
+// 
+// 			//}
+// 			//else{
+// // 
+// // 				ExpMesh meshExp;
+// // 
+// // 				if (nVersion >= EXP_MESH_VER_USE_SERIALZIE)
+// // 				{
+// // 					Serialize(*pSL,meshExp,"Mesh");
+// // 				}else{
+// // 					bLoadOK = LoadMeshFromFileVersion1(&meshExp,pSL);
+// // 					UpdateBounding(&meshExp.m_mesh);
+// // 
+// // 					if (!bLoadOK)
+// // 					{
+// // 						LogError(_ERR_INVALID_CALL,"Fail to load mesh from version1 file");
+// // 					}
+// // 				}
+// // 
+// // 				if (bLoadOK)
+// // 				{
+// // 					bLoadOK = CreateMeshData(pMesh,&meshExp);
+// // 				}					
+// 			//}
+// 
+// 
+// 			//if (bLoadOK)
+// 			//{
+// 			//	bLoadOK = UpdateBonePalette(pMesh);
+// 			//}
+// 
+// 			return true;
+// 
+// 		//}
+// 		//S3_CATCH(...)
+// 		//{
+// 		//	LogError(_ERR_INVALID_CALL,"Fail to serialize mesh");
+// 		//}
+// 
+// 		return false;
+// 
+// 	}
 
 
 	bool	SaveMesh(MeshData* pMesh, SerializeListener* pSL)

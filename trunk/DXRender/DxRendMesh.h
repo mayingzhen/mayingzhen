@@ -18,6 +18,8 @@ namespace ma
 		
 		MeshData* GetMeshData() {return m_pMeshData;}
 
+		bool Init(MeshData* pMeshData);
+
 	private:
 		ID3DXMesh**	m_ppD3DMesh;
 		MeshData* m_pMeshData;
