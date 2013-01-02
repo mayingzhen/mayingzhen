@@ -42,6 +42,22 @@ struct SERIALIZE_API VertexType0
 	xmUint32     vc;				// vertex color
 	xmUint32	 vi;				// vertex illumination
 
+// 	 bool operator != ( const VertexType0& other) const
+// 	 {
+// 		 if ( p != other.p || uv != other.uv)
+// 			 return false;
+// 		 else
+// 			 return true;
+// 	 }
+
+	 bool operator == ( const VertexType0& other) const
+	 {
+		 if ( p == other.p && uv == other.uv)
+			 return true;
+		 else
+			 return false;
+	 }
+
 	void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 };
 
