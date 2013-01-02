@@ -132,41 +132,19 @@ namespace ma
 
 		if(!pMesh->IsTriangleMesh())
 		{
-			FbxGeometryConverter converter(mpFBXSDKManager);
-			// #1
-			//converter.TriangulateInPlace(pNode);
-			//pMesh = dynamic_cast<KFbxMesh*>(pNode->GetNodeAttribute());
+ 			FbxGeometryConverter converter(mpFBXSDKManager);
+// 			// #1
+// 			//converter.TriangulateInPlace(pNode);
+// 			//pMesh = dynamic_cast<KFbxMesh*>(pNode->GetNodeAttribute());
+// 
+// 			// #2
+ 			pMesh = converter.TriangulateMesh(pMesh);
 
-			// #2
-			pMesh = converter.TriangulateMesh(pMesh);
+
 		}
 		
-		// Ib
-		int nIndexCount = pMesh->GetPolygonVertexCount();
-		int* pIndexData = pMesh->GetPolygonVertices();
-		pMeshData->m_nIndexType = INDEX_TYPE_U16;
-		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(UINT));
-		BoneIndex* pIb = (BoneIndex*)&pMeshData->m_arrIndexBuffer[0];
-		for (UINT i = 0; i < nIndexCount; ++i)
-		{
-			pIb[i] = pIndexData[i];
-		}
-
-		// vb
-		UINT nVertexCount = pMesh->GetControlPointsCount();
-		pMeshData->m_nVertexType = VT_SKIN_VERTEX_0;
-		pMeshData->m_arrVertexBuffer.resize(nVertexCount * sizeof(VertexType0));
-		VertexType0* pVb = (VertexType0*)&pMeshData->m_arrVertexBuffer[0]; 
-
-		// subMesh
-		MeshLODData* pMeshLodData = new MeshLODData;
-		SubMeshData* pSubMeshData = new SubMeshData;
-		pMeshLodData->m_arrSubMesh.push_back(pSubMeshData);
-		pSubMeshData->m_nIndexStart = 0;
-		pSubMeshData->m_nIndexCount = nIndexCount;
-		pSubMeshData->m_nVertexStart = 0;
-		pSubMeshData->m_nVertexCount = nVertexCount;
-		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
+		std::vector<VertexType0> vertexList;
+		std::vector<xmUint16> indexList;
 
 		int triangleCount = pMesh->GetPolygonCount();
 		int vertexCounter = 0;
@@ -182,10 +160,11 @@ namespace ma
 
 		for(int i = 0 ; i < triangleCount ; ++i)
 		{
+			assert(pMesh->GetPolygonSize(i) == 3); 
 			for(int j = 0 ; j < 3 ; j++)
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
-
+				
 				// Read the vertex
 				ReadVertex(pMesh , ctrlPointIndex , &vertex[j]);
 
@@ -193,6 +172,13 @@ namespace ma
 				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color[j]);
 
 				// Read the UV of each vertex
+// 				FbxStringList lUVSetNameList;
+// 				pMesh->GetUVSetNames(lUVSetNameList);
+// 				for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
+// 				{
+// 					const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
+// 					const FbxGeometryElementUV* lUVElement = pMesh->GetElementUV(lUVSetName);
+// 				}
 				for(int k = 0 ; k < 2 ; ++k)
 				{
 					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[j][k]));
@@ -207,28 +193,75 @@ namespace ma
 				vertexCounter++;
 
 				//D3DXVec3TransformCoord(&vertex[j],&vertex[j],&matrix);
+				VertexType0 vertert;
+				memset(&vertert,0,sizeof(VertexType0));
+				vertert.p = vertex[j];
+				vertert.uv = uv[j][0];
 
-				pVb[ctrlPointIndex].p = vertex[j];
+				UINT index = 0;
+				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
+				if (it != vertexList.end())
+				{
+					index = it - vertexList.begin();
+				}
+				else
+				{
+					index = vertexList.size();
+					vertexList.push_back(vertert);
+				}
+				indexList.push_back(index);
+
+				//pVb[ctrlPointIndex].p = vertex[j];
 				//pVb[ctrlPointIndex].vc = color[j];
-				pVb[ctrlPointIndex].uv = uv[j][0];
+				//pVb[ctrlPointIndex].uv = uv[j][0];
 			}
 
 			// 根据读入的信息组装三角形，并以某种方式使用即可，比如存入到列表中、保存到文件等...
 		}
 
+		// Ib
+		int nIndexCount = indexList.size();
+		pMeshData->m_nIndexType = INDEX_TYPE_U16;
+		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(xmUint16));
+		xmUint16* pIb = (xmUint16*)&pMeshData->m_arrIndexBuffer[0];
+		for (UINT i = 0; i < nIndexCount; ++i)
+		{
+			pIb[i] = indexList[i];
+		}
+
+		// vb
+		UINT nVertexCount = vertexList.size();
+		pMeshData->m_nVertexType = VT_SKIN_VERTEX_0;
+		pMeshData->m_arrVertexBuffer.resize(nVertexCount * sizeof(VertexType0));
+		VertexType0* pVb = (VertexType0*)&pMeshData->m_arrVertexBuffer[0]; 
+		for (UINT i = 0; i < vertexList.size(); ++i)
+		{
+			pVb[i] = vertexList[i];
+		}
+
+		// subMesh
+		MeshLODData* pMeshLodData = new MeshLODData;
+		SubMeshData* pSubMeshData = new SubMeshData;
+		pMeshLodData->m_arrSubMesh.push_back(pSubMeshData);
+		pSubMeshData->m_nIndexStart = 0;
+		pSubMeshData->m_nIndexCount = nIndexCount;
+		pSubMeshData->m_nVertexStart = 0;
+		pSubMeshData->m_nVertexCount = nVertexCount;
+		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
+
 		LoadMaterial(pMesh);
 	}
 
-	void FBXImporter::ReadVertex(KFbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex)
+	void FBXImporter::ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex)
 	{
-		KFbxVector4* pCtrlPoint = pMesh->GetControlPoints();
+		FbxVector4* pCtrlPoint = pMesh->GetControlPoints();
 
 		pVertex->x = pCtrlPoint[ctrlPointIndex][0];
 		pVertex->y = pCtrlPoint[ctrlPointIndex][1];
 		pVertex->z = pCtrlPoint[ctrlPointIndex][2];
 	}
 
-	void FBXImporter::ReadColor(KFbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR4* pColor)
+	void FBXImporter::ReadColor(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR4* pColor)
 	{
 		if(pMesh->GetElementVertexColorCount() < 1)
 		{
@@ -296,63 +329,43 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadUV(KFbxMesh* pMesh , int ctrlPointIndex , int textureUVIndex , int uvLayer , D3DXVECTOR2* pUV)
+	void FBXImporter::ReadUV(FbxMesh* pMesh , int ctrlPointIndex , int textureUVIndex , int uvLayer , D3DXVECTOR2* pUV)
 	{
 		if(uvLayer >= 2 || pMesh->GetElementUVCount() <= uvLayer)
 		{
 			return ;
 		}
 
+		int uvCount = pMesh->GetTextureUVCount();
+		int uvLayerCount = pMesh->GetUVLayerCount();
+
 		FbxGeometryElementUV* pVertexUV = pMesh->GetElementUV(uvLayer);
 
+		int uvIndex = -1;
 		switch(pVertexUV->GetMappingMode())
 		{
 		case FbxGeometryElement::eByControlPoint:
 			{
-				switch(pVertexUV->GetReferenceMode())
-				{
-				case FbxGeometryElement::eDirect:
-					{
-						pUV->x = pVertexUV->GetDirectArray().GetAt(ctrlPointIndex)[0];
-						pUV->y = pVertexUV->GetDirectArray().GetAt(ctrlPointIndex)[1];
-					}
-					break;
-
-				case FbxGeometryElement::eIndexToDirect:
-					{
-						int id = pVertexUV->GetIndexArray().GetAt(ctrlPointIndex);
-						pUV->x = pVertexUV->GetDirectArray().GetAt(id)[0];
-						pUV->y = pVertexUV->GetDirectArray().GetAt(id)[1];
-					}
-					break;
-
-				default:
-					break;
-				}
+				const bool useIndex = pVertexUV->GetReferenceMode() != FbxGeometryElement::eDirect;
+				uvIndex = useIndex ? pVertexUV->GetIndexArray().GetAt(ctrlPointIndex) : ctrlPointIndex;
 			}
 			break;
-
 		case FbxGeometryElement::eByPolygonVertex:
 			{
-				switch (pVertexUV->GetReferenceMode())
-				{
-				case FbxGeometryElement::eDirect:
-				case FbxGeometryElement::eIndexToDirect:
-					{
-						pUV->x = pVertexUV->GetDirectArray().GetAt(textureUVIndex)[0];
-						pUV->y = pVertexUV->GetDirectArray().GetAt(textureUVIndex)[1];
-					}
-					break;
-
-				default:
-					break;
-				}
+				uvIndex = /*useIndex ? pVertexUV->GetIndexArray().GetAt(textureUVIndex) :*/ textureUVIndex;
 			}
 			break;
 		}
+
+		if (uvIndex != -1)
+		{
+			FbxVector2 uvValue = pVertexUV->GetDirectArray().GetAt(uvIndex);
+			pUV->x = (float)uvValue[0];
+			pUV->y = (float)uvValue[1];
+		}
 	}
 
-	void FBXImporter::ReadNormal(KFbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR3* pNormal)
+	void FBXImporter::ReadNormal(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR3* pNormal)
 	{
 		if(pMesh->GetElementNormalCount() < 1)
 		{
@@ -418,7 +431,7 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadTangent(KFbxMesh* pMesh , int ctrlPointIndex , int vertecCounter , D3DXVECTOR3* pTangent)
+	void FBXImporter::ReadTangent(FbxMesh* pMesh , int ctrlPointIndex , int vertecCounter , D3DXVECTOR3* pTangent)
 	{
 		if(pMesh->GetElementTangentCount() < 1)
 		{

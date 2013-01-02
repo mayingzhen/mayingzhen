@@ -257,7 +257,7 @@ void CGameApp::InitGame()
 ////////////////////////////////////////////////////////////////////////// Fbx ////////////////
 	ma::FBXImporter fbxImpor;
 	fbxImpor.Initialize();
-	MeshData* pMesdata = fbxImpor.LoadScene("E:/box.FBX"/*"E:/work/UE3_2011_May/Artwork/Crate.fbx"*/);
+	MeshData* pMesdata = fbxImpor.LoadScene("E:/work/UE3_2011_May/Artwork/MovingPlatform.fbx");
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
 	pRootNode->AddChildNode(pGameObj);
@@ -273,7 +273,7 @@ void CGameApp::InitGame()
 	pRendMesh->Init(pMesdata);
 	pMeshRes->SetRendMesh(pRendMesh);
 	
-	const char* pTexPath = "E:/work/UE3_2011_May/Artwork/Xplosive.tga";
+	const char* pTexPath = "E:/work/UE3_2011_May/Artwork/Platform Texture.tga";
 	ma::Texture* pTexture = new ma::Texture(pTexPath);
 	pTexture->Load();
 	pMeshComp->SetTexture(pTexture);
