@@ -41,13 +41,17 @@ namespace ma
 		D3DXMATRIX arrSkinMatrix[256];
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
-		if (pAnimPose == NULL)
-			return;
-
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
-			maMatrixFromTransform(&arrSkinMatrix[i],& pAnimPose->GetTransformOS(i));
-			D3DXMatrixMultiply(&arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
+			if (pAnimPose)
+			{
+				maMatrixFromTransform(&arrSkinMatrix[i],& pAnimPose->GetTransformOS(i));
+				D3DXMatrixMultiply(&arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
+			}
+			else
+			{
+				D3DXMatrixIdentity(&arrSkinMatrix[i]);
+			}
 		}
 
 		for (UINT i = 0; i < m_vMeshComp.size(); ++i)

@@ -281,6 +281,34 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Data"
+				>
+				<File
+					RelativePath=".\Data\AnimationData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Data\AnimationData.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Data\MeshData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Data\MeshData.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Data\SkeletonData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Data\SkeletonData.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="资源文件"

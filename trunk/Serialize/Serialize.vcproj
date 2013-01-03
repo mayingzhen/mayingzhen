@@ -175,27 +175,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AnimationData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AnimationData.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\FBXImporter.h"
 				>
 			</File>
 			<File
 				RelativePath=".\FBXImporter.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MeshData.hxx"
 				>
 			</File>
 			<File
@@ -216,14 +200,6 @@
 			</File>
 			<File
 				RelativePath=".\SerializeExport.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SkeletonData.hxx"
 				>
 			</File>
 			<File
@@ -290,10 +266,6 @@
 				RelativePath=".\Serialize\SerializeListener.hxx"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="FbxLoad"
-			>
 		</Filter>
 	</Files>
 	<Globals>

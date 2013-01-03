@@ -9,6 +9,10 @@
 
 #include "Common/IPhysics/IPhysicsDevive.hxx"
 
+#include "Common/Data/MeshData.hxx"
+#include "Common/Data/SkeletonData.hxx"
+#include "Common/Data/AnimationData.hxx"
+
 
 void Log(const char* fmt,...) {}
 void SSERT_MSG(bool expr,const char* fmt,...){}

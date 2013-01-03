@@ -165,26 +165,26 @@ namespace ma
 
 	}
 
-	bool DxRendMesh::Load(const char* pszPath)
-	{
-		DxRender* pDxRender = (DxRender*)GetRender();
-		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+// 	bool DxRendMesh::Load(const char* pszPath)
+// 	{
+// 		DxRender* pDxRender = (DxRender*)GetRender();
+// 		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+// 
+// 		//HRESULT hr = D3DXLoadMeshFromX(pszPath,D3DXMESH_MANAGED,pDxRender->GetDXDevive(),
+// 		//	NULL,NULL,NULL,NULL,&m_pD3DMesh);
+// 
+// 		//return hr == D3D_OK;
+// 
+// 		m_pMeshData = ResourceBuilder::LoadMeshFromBinaryFile(pszPath);
+// 
+// 		Init(m_pMeshData);
+// 		//int nTotalLod;
+// 		//m_ppD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), m_pMeshData, &nTotalLod );
+// 
+// 		return true;
+// 	}
 
-		//HRESULT hr = D3DXLoadMeshFromX(pszPath,D3DXMESH_MANAGED,pDxRender->GetDXDevive(),
-		//	NULL,NULL,NULL,NULL,&m_pD3DMesh);
-
-		//return hr == D3D_OK;
-
-		m_pMeshData = ResourceBuilder::LoadMeshFromBinaryFile(pszPath);
-
-		Init(m_pMeshData);
-		//int nTotalLod;
-		//m_ppD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), m_pMeshData, &nTotalLod );
-
-		return true;
-	}
-
-	bool DxRendMesh::Init(MeshData* pMeshData)
+	bool DxRendMesh::InitWithData(MeshData* pMeshData)
 	{
 		DxRender* pDxRender = (DxRender*)GetRender();
 		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();

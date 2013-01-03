@@ -12,13 +12,13 @@ namespace ma
 
 		~DxRendMesh();
 
-		bool Load(const char* pszPath);
+		//bool Load(const char* pszPath);
 
 		ID3DXMesh* GetD3DXMesh() {return m_ppD3DMesh[0];}
 		
 		MeshData* GetMeshData() {return m_pMeshData;}
 
-		bool Init(MeshData* pMeshData);
+		bool InitWithData(MeshData* pMeshData);
 
 	private:
 		ID3DXMesh**	m_ppD3DMesh;

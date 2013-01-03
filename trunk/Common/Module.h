@@ -16,6 +16,11 @@
 #include "Common/IPhysics/IPhysicsScene.h"
 #include "Common/IPhysics/IPhysicsObject.h"
 
+#include "Common/Data/MeshData.h"
+#include "Common/Data/SkeletonData.h"
+#include "Common/Data/AnimationData.h"
+
+
 
 template<class T>
 T InvalidID()

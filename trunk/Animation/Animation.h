@@ -22,7 +22,9 @@ namespace ma
 
 		void SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
-		bool Load(const char* pszPath);
+		//bool Load(const char* pszPath);
+
+		void InitWithData(AnimationData* pAniData);
 
 		bool ConverteAnimDataParentToLocalSpaceAnimation(Skeleton* pSkel);
 
@@ -31,9 +33,6 @@ namespace ma
 		const char* GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}
 
 		UINT GetTransfTrackIndexByName(const char* pszName);
-
-	private: 
-		void Init(AnimationData* pAniData);
 
 	private:
 		std::vector<std::string>			m_arrTransfTrackName;

@@ -13,13 +13,14 @@ class SerializeListener;
 // class ISkeletonData;
 // class IAnimationData;
 
-class MeshData;
-class SkeletonData;
-class AnimationData;
+
 
 //Sub for resource of different version loading
-namespace ResourceBuilder
+namespace ma
 {
+	class MeshData;
+	class SkeletonData;
+	class AnimationData;
 
 	//Skeleton*	LoadSkeleton(SerializeListener* pSL);
 

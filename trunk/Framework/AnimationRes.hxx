@@ -19,7 +19,10 @@ namespace ma
 		{
 			m_pAnimation = new Animation();
 		}
-		m_pAnimation->Load( m_sResPath.c_str() );
+			
+		AnimationData* pAniData = LoadAnimationFromBinaryFile(m_sResPath.c_str());
+		
+		m_pAnimation->InitWithData(pAniData);
 	}	
 
 	bool AnimationRes::IsLoad()

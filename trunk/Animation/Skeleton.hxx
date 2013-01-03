@@ -13,18 +13,18 @@ namespace ma
 		SAFE_DELETE(m_refPose);
 	}
 
-	bool Skeleton::Load(const char* pszPath)
-	{
-		SkeletonData* pSkelData = ResourceBuilder::LoadSkeletonFromBinaryFile(pszPath);
-		if (pSkelData == NULL)
-			return false;
-		
-		Init(*pSkelData);
+// 	bool Skeleton::Load(const char* pszPath)
+// 	{
+// 		SkeletonData* pSkelData = ResourceBuilder::LoadSkeletonFromBinaryFile(pszPath);
+// 		if (pSkelData == NULL)
+// 			return false;
+// 		
+// 		Init(*pSkelData);
+// 
+// 		return true;
+// 	}
 
-		return true;
-	}
-
-	void Skeleton::Init(const SkeletonData& skelData)
+	bool Skeleton::InitWithData(const SkeletonData& skelData)
 	{
 		xmUint nBoneNum = skelData.m_nBoneNum;
 
@@ -64,6 +64,8 @@ namespace ma
 // 		}
 // 
 // 		pSkel->NotifySocketUpdate();
+
+		return true;
 
 	}
 

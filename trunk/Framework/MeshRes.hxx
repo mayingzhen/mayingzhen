@@ -19,7 +19,10 @@ namespace ma
 		{
 			m_pRendMesh = GetRenderDevice()->CreateRendMesh();
 		}
-		m_pRendMesh->Load( m_sResPath.c_str() );
+		
+		MeshData* pMeshData = LoadMeshFromBinaryFile(m_sResPath.c_str());
+		
+		m_pRendMesh->InitWithData(pMeshData);
 	}
 
 	bool MeshRes::IsLoad()
