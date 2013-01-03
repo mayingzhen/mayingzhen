@@ -120,19 +120,19 @@ namespace ma
 		return InvalidID<UINT>();
 	}
 
-	bool Animation::Load(const char* pszPath)
-	{
-		AnimationData* pAniData = ResourceBuilder::LoadAnimationFromBinaryFile(pszPath);
-		assert(pAniData);
-		if (pAniData == NULL)
-			return false;
+// 	bool Animation::Load(const char* pszPath)
+// 	{
+// 		AnimationData* pAniData = ResourceBuilder::LoadAnimationFromBinaryFile(pszPath);
+// 		assert(pAniData);
+// 		if (pAniData == NULL)
+// 			return false;
+// 
+// 		Init(pAniData);
+// 
+// 		return true;
+// 	}
 
-		Init(pAniData);
-
-		return true;
-	}
-
-	void Animation::Init(AnimationData* pAniData)
+	void Animation::InitWithData(AnimationData* pAniData)
 	{
 		if (pAniData == NULL)
 			return;

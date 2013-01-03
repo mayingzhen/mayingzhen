@@ -1,13 +1,13 @@
 #include "Serialize/ResourceBuilder.h"
 #include "Serialize/Serialize/SerializeListener.h"
 #include "Serialize/Serialize/BinaryInputArchive.h"
-#include "Serialize/MeshData.h"
+//#include "Serialize/MeshData.h"
 
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-namespace ResourceBuilder
+namespace ma
 {
 
 
@@ -548,7 +548,7 @@ namespace ResourceBuilder
 		//S3_TRY
 		//{
 
-			pMesh->Serialize(pSL, "Mesh");
+			//pMesh->Serialize(pSL, "Mesh");
 
 			return true;
 
@@ -572,11 +572,11 @@ namespace ResourceBuilder
 			return NULL;
 		}
 
-		MeshData* pMeshData = new MeshData;
-		pMeshData->Serialize(&ar,"Mesh");
+		//MeshData* pMeshData = new MeshData;
+		//pMeshData->Serialize(&ar,"Mesh");
 		//bLoadOK = ResourceBuilder::LoadMesh(pMeshData,&ar);
-		UpdateBonePalette(pMeshData);
-		pMeshData->RemoveDegenerateTriangleInplace();
+		//UpdateBonePalette(pMeshData);
+		//pMeshData->RemoveDegenerateTriangleInplace();
 // 		if (!bLoadOK)
 // 		{
 // 			xmSafeDelete(pMeshData);
@@ -584,7 +584,7 @@ namespace ResourceBuilder
 // 			return NULL;
 // 		}
 
-		return pMeshData;
+		return NULL;
 	}
 
 	SkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
@@ -601,7 +601,7 @@ namespace ResourceBuilder
 		//ar.Serialize(skelHeader,"Header");
 
 		SkeletonData* pSkelData = new SkeletonData();
-		pSkelData->Serialize(ar, "Skeleton");
+		//pSkelData->Serialize(ar, "Skeleton");
 
 		return pSkelData;
 	}
@@ -617,7 +617,7 @@ namespace ResourceBuilder
 		}
 
 		AnimationData* pAnimationData = new AnimationData();
-		pAnimationData->Serialize(ar, "Animation");
+		//pAnimationData->Serialize(ar, "Animation");
 
 		return pAnimationData;
 	}

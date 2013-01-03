@@ -257,23 +257,32 @@ void CGameApp::InitGame()
 ////////////////////////////////////////////////////////////////////////// Fbx ////////////////
 	ma::FBXImporter fbxImpor;
 	fbxImpor.Initialize();
-	MeshData* pMesdata = fbxImpor.LoadScene("E:/work/UE3_2011_May/Artwork/MovingPlatform.fbx");
+	ma::MeshData* pMeshData = new ma::MeshData;
+	ma::SkeletonData* pSkeData = new ma::SkeletonData;
+	fbxImpor.LoadScene("../Fbx/Lerpz.fbx",pMeshData,pSkeData);
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
 	pRootNode->AddChildNode(pGameObj);
 
-	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
-	pGameObj->AddComponent(pMeshComp);
+	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
+	pGameObj->AddComponent(pSkelMeshComp);
 
-	const char* pMeshPath = "";
-	ma::MeshRes* pMeshRes = new ma::MeshRes(pMeshPath); 
+ 	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
+// 	pGameObj->AddComponent(pMeshComp);
+	pSkelMeshComp->AddMeshComp(pMeshComp);
+
+	ma::MeshRes* pMeshRes = new ma::MeshRes(); 
 	pMeshComp->SetMeshRes(pMeshRes);
 
 	ma::DxRendMesh* pRendMesh = new ma::DxRendMesh();
-	pRendMesh->Init(pMesdata);
+	pRendMesh->InitWithData(pMeshData);
 	pMeshRes->SetRendMesh(pRendMesh);
+
+	ma::Skeleton* pSkele = new ma::Skeleton();
+	pSkele->InitWithData(*pSkeData);
+	pSkelMeshComp->SetSkeleton(pSkele);
 	
-	const char* pTexPath = "E:/work/UE3_2011_May/Artwork/Platform Texture.tga";
+	const char* pTexPath = "../Fbx/lerpzUV.tga";
 	ma::Texture* pTexture = new ma::Texture(pTexPath);
 	pTexture->Load();
 	pMeshComp->SetTexture(pTexture);

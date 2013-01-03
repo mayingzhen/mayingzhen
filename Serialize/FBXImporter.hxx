@@ -41,11 +41,11 @@ namespace ma
 		return true;
 	}
 
-	MeshData* FBXImporter::LoadScene(const char* pSeneName)
+	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData)
 	{
 		if(mpFBXSDKManager == NULL)
 		{
-			return NULL;
+			return false;
 		}
 
 		// Get the file version number generate by the FBX SDK.
@@ -74,8 +74,6 @@ namespace ma
 		// Destroy the importer.
 		pFBXImporter->Destroy();
 
-		MeshData* pMeshData = new MeshData;
-
 		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
 		if (fbxAxis == FbxAxisSystem::OpenGL)
 		{
@@ -86,12 +84,12 @@ namespace ma
 			int i = 5;
 		}
 
-		ProcessNode( pMeshData, lScene->GetRootNode() );
+		ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
 
-		return pMeshData;
+		return true;
 	}
 
-	void FBXImporter::ProcessNode(MeshData* pMeshData,FbxNode* pNode)
+	void FBXImporter::ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode)
 	{
 		if (pMeshData == NULL || pNode == NULL)
 			return;
@@ -104,7 +102,7 @@ namespace ma
 				ProcessMesh(pMeshData,pNode);
 				break;
 			case FbxNodeAttribute::eSkeleton:
-				//ProcessSkeleton(pNode);
+				ProcessSkeleton(pNode,pSkeData);
 				break;
 			case FbxNodeAttribute::eLight:
 				//ProcessLight(pNode);
@@ -117,9 +115,57 @@ namespace ma
 
 		for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
 		{
-			ProcessNode(pMeshData,pNode->GetChild(i));
+			ProcessNode(pMeshData,pSkeData,pNode->GetChild(i));
 		}
 	}
+
+	void  FBXImporter::ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData)
+	{
+		if (pNode == NULL)
+			return;
+
+		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
+		if (pSkeleton == NULL)
+			return;
+		
+		BoneIndex parentID = InvalidID<BoneIndex>();
+		FbxNode* pParentNode = pNode->GetParent();
+		const char* pPrentName = pParentNode->GetName();
+		std::vector<std::string>::iterator it = 
+		std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
+		if (it != (pSkelData->m_arrBoneName).end())
+		{
+			parentID = it - (pSkelData->m_arrBoneName).begin(); 
+		}
+
+
+		FbxString  name = pNode->GetName();
+		FbxDouble3 translation = pNode->LclTranslation.Get();
+		FbxDouble3 rotation = pNode->LclRotation.Get();
+		FbxDouble3 scaling = pNode->LclScaling.Get();
+		D3DXVECTOR3 dxtranslation(translation[0],translation[1],translation[2]);
+		xmEulerAngleXYZ dxrotation(rotation[0],rotation[1],rotation[2]);
+		D3DXVECTOR3 dxscaling(scaling[0],scaling[1],scaling[2]);
+		D3DXQUATERNION qtot;
+		maQuaternionFromEulerAngleXYZ(&qtot,&dxrotation);
+
+		int index = (pSkelData->m_arrBoneName).size();
+		
+		(pSkelData->m_arrBoneName).push_back(name.Buffer());
+		(pSkelData->m_arrScaleOS).push_back(dxscaling);
+		(pSkelData->m_arrRotOS).push_back(qtot);
+		(pSkelData->m_arrPosOS).push_back(dxtranslation);
+		(pSkelData->m_arrParentIndice).push_back(parentID);
+		pSkelData->m_nBoneNum = index + 1;
+		
+// 		int nChildNode = pNode->GetChildCount();
+// 		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+// 		{
+// 			FbxNode* pChildNode = pNode->GetChild(i);
+// 			ProcessSkeleton(pChildNode,index, pSkelData);
+// 		}
+	}
+
 
 	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
 	{

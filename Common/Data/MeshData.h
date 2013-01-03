@@ -1,6 +1,10 @@
 #ifndef __MeshData_H__
 #define __MeshData_H__
 
+namespace ma
+{
+
+
 
 enum MeshVersion
 {
@@ -31,7 +35,7 @@ enum VertexType
 	VT_SKIN_VERTEX_0 = 0,
 };
 
-struct SERIALIZE_API VertexType0
+struct COMMON_API VertexType0
 {
 	D3DXVECTOR3    p;				// position
 	xmUint32	 b;				// bones
@@ -58,29 +62,29 @@ struct SERIALIZE_API VertexType0
 			 return false;
 	 }
 
-	void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
+	//void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 };
 
-struct SERIALIZE_API CylinderShape
+struct COMMON_API CylinderShape
 {
 	float m_fRadius;
 	float m_fHeight;
 
-	void Serialize(SerializeListener& sl, const char* pszLable = "CylinderShape" );
+	//void Serialize(SerializeListener& sl, const char* pszLable = "CylinderShape" );
 
 };
 
-struct SERIALIZE_API BoxShape
+struct COMMON_API BoxShape
 {
 	float m_fXSize;
 	float m_fYSize;
 	float m_fZSize;
 
-	void	Serialize(SerializeListener& sl,const char* pszLabel = "BoxShape");
+	//void	Serialize(SerializeListener& sl,const char* pszLabel = "BoxShape");
 
 };
 
-struct SERIALIZE_API AABBShape
+struct COMMON_API AABBShape
 {
 	D3DXVECTOR3 m_vMin;
 	D3DXVECTOR3 m_vMax;
@@ -92,7 +96,7 @@ struct SERIALIZE_API AABBShape
 	void AddPoint(const D3DXVECTOR3& v);
 };
 
-struct SERIALIZE_API Bounding
+struct COMMON_API Bounding
 {
 	xmUint16			m_nShapeType;
 	D3DXVECTOR3		m_vPos;
@@ -115,11 +119,11 @@ struct SERIALIZE_API Bounding
 	void SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
 		,float fXSize,float fYSize,float fZSize);
 
-	void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
+	//void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
 };
 
 
-struct SERIALIZE_API MeshHeader
+struct COMMON_API MeshHeader
 {
 	xmUint32		m_nIdent;	 // File Identity = 'S3MD'
 	xmUint32		m_nVersion;	 // ∏Ò Ω∞Ê±æ∫≈
@@ -129,12 +133,12 @@ struct SERIALIZE_API MeshHeader
 	xmUint		m_nIndexNum;
 	xmUint		m_nVertexNum;
 
-	void Serialize(SerializeListener& sl,const char* pszLable = "MeshHeader");
+	//void Serialize(SerializeListener& sl,const char* pszLable = "MeshHeader");
 };
 
 
 
-struct SERIALIZE_API SubMeshData /*: public ISubMeshData*/
+struct COMMON_API SubMeshData /*: public ISubMeshData*/
 {
 	xmUint m_nIndexStart;
 	xmUint m_nIndexCount;
@@ -209,12 +213,12 @@ public:
 
 	 xmUint16	GetBoneByPalatteIndex(xmUint16 nPalatteInd);
 
-	void	Serialize(SerializeListener& sl,const char* pszLabel);
+	//void	Serialize(SerializeListener& sl,const char* pszLabel);
 
 };
 
 
-struct SERIALIZE_API MeshLODData /*: public IMeshLODData*/
+struct COMMON_API MeshLODData /*: public IMeshLODData*/
 {
 	std::vector<SubMeshData*> m_arrSubMesh;
 
@@ -282,10 +286,10 @@ public:
 
 	void					ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum);
 
-	void					Serialize(SerializeListener& sl,const char* pszLabel);
+	//void					Serialize(SerializeListener& sl,const char* pszLabel);
 };
 
-struct SERIALIZE_API MeshData/* : public IMeshData*/
+struct COMMON_API MeshData/* : public IMeshData*/
 {
 	MeshHeader			m_header;
 
@@ -421,8 +425,10 @@ public:
 
 	void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax);
 
-	void					Serialize(SerializeListener* pSL,const char* pszLabel);
+	//void					Serialize(SerializeListener* pSL,const char* pszLabel);
 
 };
+
+}
 
 #endif// __MeshData_H__

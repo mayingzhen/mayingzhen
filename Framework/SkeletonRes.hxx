@@ -19,7 +19,12 @@ namespace ma
 		{
 			m_pSkeleton = new Skeleton();
 		}
-		m_pSkeleton->Load( m_sResPath.c_str() );
+
+		SkeletonData* pSkelData = ma::LoadSkeletonFromBinaryFile(m_sResPath.c_str());
+
+		m_pSkeleton->InitWithData(*pSkelData);
+
+		//m_pSkeleton->Load( m_sResPath.c_str() );
 	}	
 
 	bool SkeletonRes::IsLoad()

@@ -3,10 +3,12 @@
 
 //#include "Animation/NodePose.h"
 
-struct SkeletonData;
+
 
 namespace ma
 {
+	struct SkeletonData;
+
 	class NodePose;
 	class BoneSet;
 
@@ -19,7 +21,8 @@ namespace ma
 
 		~Skeleton();
 
-		bool Load(const char* pszPath);
+		//bool Load(const char* pszPath);
+		bool InitWithData(const SkeletonData& skelData);
 
 		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
@@ -38,10 +41,6 @@ namespace ma
 		bool IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID);
 
 		void InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody");
-
-
-	private:
-		void Init(const SkeletonData& skelData);
 
 	private:
 		std::string m_name;

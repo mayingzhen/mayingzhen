@@ -197,7 +197,7 @@ namespace ma
 		HRESULT hr;
 		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
 		hr = m_pDefaultSkin->SetMatrix("worldviewprojection",&matWVP);
-		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",matBonePalatte,uBonePaletteSize);
+		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",arrSkinMatrix/*matBonePalatte*/,nSkinMaxtrixNum/*uBonePaletteSize*/);
 		hr = m_pDefaultSkin->SetMatrix("worldview",&matView);
 
 		hr = m_pDefaultSkin->SetTechnique("SkinShading");

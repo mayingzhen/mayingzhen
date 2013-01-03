@@ -17,12 +17,14 @@ namespace ma
 
 		bool Initialize();
 	
-		MeshData* LoadScene(const char* pSeneName);
+		bool LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData);
 
 	private:
-		void ProcessNode(MeshData* pMeshData, FbxNode* pNode);
+		void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
 
 		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode);
+
+		void ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData);
 
 		void ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex);
 
