@@ -167,6 +167,13 @@ namespace ma
 	}
 
 
+	struct pointSkin
+	{
+		std::vector<std::string> m_vBoneName;
+		std::vector<BoneIndex>	m_vBoneInd;
+		std::vector<double> m_vBoneWeight;
+	};
+
 	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
 	{
 		if (pMeshData == NULL || pNode == NULL)
@@ -188,6 +195,52 @@ namespace ma
 
 
 		}
+
+		int nControlPoint = pMesh->GetControlPointsCount();
+		std::vector<pointSkin> m_vSkin;
+		m_vSkin.resize(nControlPoint);
+
+		int deformerCount  = pMesh->GetDeformerCount(); 
+		for (int i =0; i < deformerCount; ++i)
+		{
+			KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
+			if (pFBXDeformer == NULL)
+				continue;
+
+			if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
+				continue;  
+			
+			FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
+			if(pFBXSkin == NULL)  
+				continue;  
+			
+			int clusterCount = pFBXSkin->GetClusterCount(); 
+			for (int j = 0; j< clusterCount; ++j)
+			{
+				 KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
+				 if (pCluster == NULL)
+					 continue;
+
+				 KFbxNode* pLinkNode = pCluster->GetLink();  
+				 if (pLinkNode == NULL)
+					 continue;
+
+				 const char* pszName = pLinkNode->GetName();
+				 int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
+				 int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
+				 double* pCtrlPointWeights = pCluster->GetControlPointWeights();
+				
+				 for (int k = 0; k < associatedCtrlPointCount; ++k)
+				 {
+					int nIndex = pCtrlPointIndices[k];
+					double fWeight = pCtrlPointWeights[k];
+					m_vSkin[nIndex].m_vBoneName.push_back(pszName);
+					m_vSkin[nIndex].m_vBoneInd.push_back(j);
+					m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
+				 }	
+			}
+		}
+
 		
 		std::vector<VertexType0> vertexList;
 		std::vector<xmUint16> indexList;
@@ -244,6 +297,24 @@ namespace ma
 				vertert.p = vertex[j];
 				vertert.uv = uv[j][0];
 
+				xmUint8 boneInd[4]  = {0};
+				xmUint8 weight[4] = {0};
+				for (int k = 0; k < 4; ++k)
+				{
+					if (k < m_vSkin[ctrlPointIndex].m_vBoneInd.size())
+					{
+						boneInd[k] = m_vSkin[ctrlPointIndex].m_vBoneInd[k];
+						weight[k] = m_vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
+					}
+				}
+				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
+				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
+// 				for (int k = 0; k < 4; ++k)
+// 				{
+// 					xmUint8 boneInd = (vertert.b >> (k*8)) & 0xff;
+// 					float fweight = ((vertert.w >> (k*8)) & 0xff) / 255.0f;
+// 				}
+
 				UINT index = 0;
 				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
 				if (it != vertexList.end())
@@ -256,10 +327,6 @@ namespace ma
 					vertexList.push_back(vertert);
 				}
 				indexList.push_back(index);
-
-				//pVb[ctrlPointIndex].p = vertex[j];
-				//pVb[ctrlPointIndex].vc = color[j];
-				//pVb[ctrlPointIndex].uv = uv[j][0];
 			}
 
 			// 根据读入的信息组装三角形，并以某种方式使用即可，比如存入到列表中、保存到文件等...

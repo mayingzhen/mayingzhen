@@ -56,7 +56,7 @@ struct COMMON_API VertexType0
 
 	 bool operator == ( const VertexType0& other) const
 	 {
-		 if ( p == other.p && uv == other.uv)
+		 if (p == other.p && uv == other.uv)
 			 return true;
 		 else
 			 return false;
