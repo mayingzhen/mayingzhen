@@ -20,11 +20,15 @@ namespace ma
 		bool LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData);
 
 	private:
-		void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
+		//void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
 
 		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode);
 
+		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData);
+
 		void ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData);
+
+		void GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData);
 
 		void ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex);
 

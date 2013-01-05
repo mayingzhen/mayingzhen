@@ -1,8 +1,10 @@
 #ifndef __SerializeListener_H__
 #define __SerializeListener_H__
 
+namespace ma
+{
 
-class SerializeListener 
+class COMMON_API SerializeListener 
 {
 	std::deque<xmUint> m_verStack;
 
@@ -213,6 +215,7 @@ public:
 // 	sl.EndSection();
 // }
 
+}
 
 
 

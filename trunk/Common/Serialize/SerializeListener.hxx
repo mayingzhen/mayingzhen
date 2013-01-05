@@ -1,4 +1,9 @@
-#include "Serialize/Serialize/SerializeListener.h"
+#include "Common/Serialize/SerializeListener.h"
+
+namespace ma
+{
+
+
 
 SerializeListener::~SerializeListener()
 {
@@ -330,4 +335,6 @@ xmUint SerializeListener::PopVersion()
 	xmUint nVer = m_verStack.back();
 	m_verStack.pop_back();
 	return nVer;
+}
+
 }

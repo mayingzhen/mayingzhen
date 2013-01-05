@@ -1,10 +1,12 @@
 #ifndef __BinaryInputArchive_H__
 #define __BinaryInputArchive_H__
 
-#include <Serialize/Serialize/SerializeListener.h>
+#include <common/Serialize/SerializeListener.h>
 
+namespace ma
+{
 
-class BinaryInputArchive : public SerializeListener
+class COMMON_API BinaryInputArchive : public SerializeListener
 {
 	std::ifstream m_file;
 public:
@@ -67,6 +69,6 @@ public:
 
 };
 
-
+}
 
 #endif// __BinaryInputArchive_H__

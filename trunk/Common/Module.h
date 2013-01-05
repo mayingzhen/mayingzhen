@@ -2,7 +2,7 @@
 #define  COMMON_MODULE__H__
 
 #include "Common/CommonExport.h"
-#include "Common/Common.h"
+#include "Common/stdafx.h"
 #include "Common/maMath.h"
 #include "Common/Timer.h"
 #include "Common/BitField.h"
@@ -15,6 +15,10 @@
 #include "Common/IPhysics/IPhysicsDevive.h"
 #include "Common/IPhysics/IPhysicsScene.h"
 #include "Common/IPhysics/IPhysicsObject.h"
+
+#include "Common/Serialize/SerializeListener.h"
+#include "Common/Serialize/BinaryInputArchive.h"
+#include "Common/Serialize/BinaryOutputArchive.h"
 
 #include "Common/Data/MeshData.h"
 #include "Common/Data/SkeletonData.h"

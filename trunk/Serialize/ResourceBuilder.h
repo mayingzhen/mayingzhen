@@ -18,19 +18,9 @@ class SerializeListener;
 //Sub for resource of different version loading
 namespace ma
 {
-	class MeshData;
-	class SkeletonData;
-	class AnimationData;
-
-	//Skeleton*	LoadSkeleton(SerializeListener* pSL);
-
-	//Animation*	LoadAnimation(SerializeListener* pSL);
-
-	//Animation*	LoadLegacyAnimation(SerializeListener* pSL,ISkeleton* pSkel);
-
-	SERIALIZE_API bool			LoadMesh(MeshData* pMesh,SerializeListener* pSL);
-
-	SERIALIZE_API bool			SaveMesh(MeshData* pMesh,SerializeListener* pSL);
+	//class MeshData;
+	//class SkeletonData;
+	//class AnimationData;
 
 	SERIALIZE_API MeshData*		LoadMeshFromBinaryFile(const char* filename);
 

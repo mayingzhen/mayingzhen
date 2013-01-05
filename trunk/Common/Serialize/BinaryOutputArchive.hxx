@@ -1,5 +1,9 @@
-#include <Serialize/Serialize/BinaryOutputArchive.h>
+#include <Common/Serialize/BinaryOutputArchive.h>
 //#include <Animation/Common/String/StringHelper.h>
+
+namespace ma
+{
+
 
 BinaryOutputArchive::BinaryOutputArchive()
 {
@@ -145,5 +149,7 @@ bool BinaryOutputArchive::Open(const char* pszFilename)
 	}
 
 	return true;
+
+}
 
 }
