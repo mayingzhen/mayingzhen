@@ -47,7 +47,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="Common/Common.h"
+				PrecompiledHeaderThrough="Common/stdafx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -178,22 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Common.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Common.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CommonExport.h"
 				>
 			</File>
@@ -211,6 +195,22 @@
 			</File>
 			<File
 				RelativePath=".\Module.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -306,6 +306,38 @@
 				</File>
 				<File
 					RelativePath=".\Data\SkeletonData.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Serialize"
+				>
+				<File
+					RelativePath=".\Serialize\BinaryInputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\BinaryInputArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\BinaryOutputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\BinaryOutputArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\MathSerialize.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\SerializeListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\SerializeListener.hxx"
 					>
 				</File>
 			</Filter>

@@ -147,7 +147,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 3, 5);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 100, 100);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -162,62 +162,64 @@ void CGameApp::InitGame()
 	m_pScene = new ma::Scene(pRootNode);
 
 ////////////////////////////////////////////////////////////////////////// Animation ////////////////
-// 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
-// 	pGameObj->RotateLS(0,D3DXToRadian(180),D3DXToRadian(180));
-// 
-// 	pRootNode->AddChildNode(pGameObj);
-// 	ma::MeshComponent* pMeshBodyB = new ma::MeshComponent();
-// 	pMeshBodyB->Load("../TrineGame/man001/Man001/body_b.skn","../TrineGame/man001/Man001/body_b.tga");
-// 	ma::MeshComponent* pMeshBodyF = new ma::MeshComponent();
-// 	pMeshBodyF->Load("../TrineGame/man001/Man001/body_f.skn","../TrineGame/man001/Man001/body_f.tga");
-// 	ma::MeshComponent* pMeshBodyH = new ma::MeshComponent();
-// 	pMeshBodyH->Load("../TrineGame/man001/Man001/body_h.skn","../TrineGame/man001/Man001/body_h.tga");
-// 
-//  	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
-//  	pGameObj->AddComponent(pSkelMeshComp);
-//  	pSkelMeshComp->AddMeshComp(pMeshBodyB);
-//  	pSkelMeshComp->AddMeshComp(pMeshBodyF);
-//  	pSkelMeshComp->AddMeshComp(pMeshBodyH);
-// 
-// 	////// mag Skeletion
-// 	ma::Skeleton* pMagSkeleton = new ma::Skeleton;
-// 	pMagSkeleton->Load("../TrineGame/Character/magician/Body.ske");
-// 	pMagSkeleton->InitUpLowerBoneSet();
-// 
-// 	////// man Skeleton
-// 	ma::Skeleton* pManSkeleton = new ma::Skeleton;
-// 	pManSkeleton->Load("../TrineGame/man001/Man001/body.ske");
-// 	pManSkeleton->InitUpLowerBoneSet();
-// 
-// 	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
-// 	ma::AnimationInst* pAniMag100 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska","mag100",pManSkeleton,pMagSkeleton);
-// 	ma::AnimationInst* pAniMag120 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska","mag120",pManSkeleton,pMagSkeleton);
-// 	ma::AnimationInst* pAniMan120 = pAnimSet->LoadAnimation("../TrineGame/Man001/120/bip01.ska","man120",pManSkeleton,pManSkeleton);
-// 	ma::AnimationInst* pAniMan140 = pAnimSet->LoadAnimation("../TrineGame/Man001/140/bip01.ska","man140",pManSkeleton,pManSkeleton);
-// 
-// 	ma::AnimClipNode* pLowerBodyNode = new ma::AnimClipNode(pAniMan120,pManSkeleton->GetBoneSetByName("UpBody"));
-// 	ma::AnimClipNode* pUpBodyNode = new ma::AnimClipNode(pAniMan140,pManSkeleton->GetBoneSetByName("LowerBody"));
-// 	ma::AnimLayerNode* pAnimLayerNode = new ma::AnimLayerNode();
-// 	pAnimLayerNode->AddLayer(pUpBodyNode);
-// 	pAnimLayerNode->AddLayer(pLowerBodyNode);
-// 	ma::AnimationAction* pSkelAnim = new ma::AnimationAction;
-// 	pSkelAnim->SetAnimName("AnimationTree");
-// 	pSkelAnim->SetTreeNode(pLowerBodyNode/*pAnimLayerNode*/);
-// 
-// 	ma::LookAtModifier* pLookAtIk = new ma::LookAtModifier();
-// 	D3DXVECTOR3 vForwardLS(0.0f,1.0f,0.0f); //Forward Direction in Bip01 Head's space
-// 	D3DXVECTOR3 vUpLS(1.0f,0.0f,0.0f);		//Up Direction in Bip01 Head's space
-// 	D3DXVECTOR3 vGoalOS = D3DXVECTOR3(100, -200, 200);;//(0.0f,0.0f,0.0f);
-// 	pLookAtIk->Init( pManSkeleton->GetBoneIdByName("Bip01 Head"),vForwardLS,vUpLS);
-// 	pLookAtIk->SetGoalObjectSpace(vGoalOS);
-// 	pSkelAnim->AddPoseModifier(pLookAtIk);
-// 
-// 	pAnimSet->AddAnimationAction(pSkelAnim);
-// 
-// 	pSkelMeshComp->SetAnimationSet(pAnimSet);
-// 	pSkelMeshComp->SetSkeleton(pManSkeleton);
-// 
-// 	pSkelMeshComp->PlayAnimation("AnimationTree");
+	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
+	pGameObj->RotateLS(0,D3DXToRadian(180),D3DXToRadian(180));
+
+	pRootNode->AddChildNode(pGameObj);
+	ma::MeshComponent* pMeshBodyB = new ma::MeshComponent();
+	pMeshBodyB->Load("../TrineGame/man001/Man001/body_b.skn","../TrineGame/man001/Man001/body_b.tga");
+	ma::MeshComponent* pMeshBodyF = new ma::MeshComponent();
+	pMeshBodyF->Load("../TrineGame/man001/Man001/body_f.skn","../TrineGame/man001/Man001/body_f.tga");
+	ma::MeshComponent* pMeshBodyH = new ma::MeshComponent();
+	pMeshBodyH->Load("../TrineGame/man001/Man001/body_h.skn","../TrineGame/man001/Man001/body_h.tga");
+
+ 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
+ 	pGameObj->AddComponent(pSkelMeshComp);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyB);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyF);
+ 	pSkelMeshComp->AddMeshComp(pMeshBodyH);
+
+	////// mag Skeletion
+	ma::Skeleton* pMagSkeleton = new ma::Skeleton;
+	ma::SkeletonData* pMagSkelData = ma::LoadSkeletonFromBinaryFile("../TrineGame/Character/magician/Body.ske");
+	pMagSkeleton->InitWithData(*pMagSkelData);
+	pMagSkeleton->InitUpLowerBoneSet();
+
+	////// man Skeleton
+	ma::Skeleton* pManSkeleton = new ma::Skeleton;
+	ma::SkeletonData* pManSkelData = ma::LoadSkeletonFromBinaryFile("../TrineGame/man001/Man001/body.ske");
+	pManSkeleton->InitWithData(*pManSkelData);
+	pManSkeleton->InitUpLowerBoneSet();
+
+	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
+	ma::AnimationInst* pAniMag100 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/100/bip01.ska","mag100",pManSkeleton,pMagSkeleton);
+	ma::AnimationInst* pAniMag120 = pAnimSet->LoadAnimation("../TrineGame/Character/magician/120/bip01.ska","mag120",pManSkeleton,pMagSkeleton);
+	ma::AnimationInst* pAniMan120 = pAnimSet->LoadAnimation("../TrineGame/Man001/120/bip01.ska","man120",pManSkeleton,pManSkeleton);
+	ma::AnimationInst* pAniMan140 = pAnimSet->LoadAnimation("../TrineGame/Man001/140/bip01.ska","man140",pManSkeleton,pManSkeleton);
+
+	ma::AnimClipNode* pLowerBodyNode = new ma::AnimClipNode(pAniMan120,pManSkeleton->GetBoneSetByName("UpBody"));
+	ma::AnimClipNode* pUpBodyNode = new ma::AnimClipNode(pAniMan140,pManSkeleton->GetBoneSetByName("LowerBody"));
+	ma::AnimLayerNode* pAnimLayerNode = new ma::AnimLayerNode();
+	pAnimLayerNode->AddLayer(pUpBodyNode);
+	pAnimLayerNode->AddLayer(pLowerBodyNode);
+	ma::AnimationAction* pSkelAnim = new ma::AnimationAction;
+	pSkelAnim->SetAnimName("AnimationTree");
+	pSkelAnim->SetTreeNode(pLowerBodyNode/*pAnimLayerNode*/);
+
+	ma::LookAtModifier* pLookAtIk = new ma::LookAtModifier();
+	D3DXVECTOR3 vForwardLS(0.0f,1.0f,0.0f); //Forward Direction in Bip01 Head's space
+	D3DXVECTOR3 vUpLS(1.0f,0.0f,0.0f);		//Up Direction in Bip01 Head's space
+	D3DXVECTOR3 vGoalOS = D3DXVECTOR3(100, -200, 200);;//(0.0f,0.0f,0.0f);
+	pLookAtIk->Init( pManSkeleton->GetBoneIdByName("Bip01 Head"),vForwardLS,vUpLS);
+	pLookAtIk->SetGoalObjectSpace(vGoalOS);
+	pSkelAnim->AddPoseModifier(pLookAtIk);
+
+	pAnimSet->AddAnimationAction(pSkelAnim);
+
+	pSkelMeshComp->SetAnimationSet(pAnimSet);
+	pSkelMeshComp->SetSkeleton(pManSkeleton);
+
+	pSkelMeshComp->PlayAnimation("mag100");
 
 
 ////////////////////////////////////////////////////////////////////////// Physics ////////////////
@@ -255,37 +257,36 @@ void CGameApp::InitGame()
 // 	}
 
 ////////////////////////////////////////////////////////////////////////// Fbx ////////////////
-	ma::FBXImporter fbxImpor;
-	fbxImpor.Initialize();
-	ma::MeshData* pMeshData = new ma::MeshData;
-	ma::SkeletonData* pSkeData = new ma::SkeletonData;
-	fbxImpor.LoadScene("../Fbx/Lerpz.fbx",pMeshData,pSkeData);
-
-	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
-	pRootNode->AddChildNode(pGameObj);
-
-	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
-	pGameObj->AddComponent(pSkelMeshComp);
-
- 	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
-// 	pGameObj->AddComponent(pMeshComp);
-	pSkelMeshComp->AddMeshComp(pMeshComp);
-
-	ma::MeshRes* pMeshRes = new ma::MeshRes(); 
-	pMeshComp->SetMeshRes(pMeshRes);
-
-	ma::DxRendMesh* pRendMesh = new ma::DxRendMesh();
-	pRendMesh->InitWithData(pMeshData);
-	pMeshRes->SetRendMesh(pRendMesh);
-
-	ma::Skeleton* pSkele = new ma::Skeleton();
-	pSkele->InitWithData(*pSkeData);
-	pSkelMeshComp->SetSkeleton(pSkele);
-	
-	const char* pTexPath = "../Fbx/lerpzUV.tga";
-	ma::Texture* pTexture = new ma::Texture(pTexPath);
-	pTexture->Load();
-	pMeshComp->SetTexture(pTexture);
+// 	ma::FBXImporter fbxImpor;
+// 	fbxImpor.Initialize();
+// 	ma::MeshData* pMeshData = new ma::MeshData;
+// 	ma::SkeletonData* pSkeData = new ma::SkeletonData;
+// 	fbxImpor.LoadScene("../Fbx/Lerpz.fbx",pMeshData,pSkeData);
+// 
+// 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
+// 	pRootNode->AddChildNode(pGameObj);
+// 
+// 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
+// 	pGameObj->AddComponent(pSkelMeshComp);
+// 
+//  	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
+// 	pSkelMeshComp->AddMeshComp(pMeshComp);
+// 
+// 	ma::MeshRes* pMeshRes = new ma::MeshRes(); 
+// 	pMeshComp->SetMeshRes(pMeshRes);
+// 
+// 	ma::DxRendMesh* pRendMesh = new ma::DxRendMesh();
+// 	pRendMesh->InitWithData(pMeshData);
+// 	pMeshRes->SetRendMesh(pRendMesh);
+// 
+// 	ma::Skeleton* pSkele = new ma::Skeleton();
+// 	pSkele->InitWithData(*pSkeData);
+// 	pSkelMeshComp->SetSkeleton(pSkele);
+// 	
+// 	const char* pTexPath = "../Fbx/lerpzUV.tga";
+// 	ma::Texture* pTexture = new ma::Texture(pTexPath);
+// 	pTexture->Load();
+// 	pMeshComp->SetTexture(pTexture);
 
 
 	m_pScene->Start();

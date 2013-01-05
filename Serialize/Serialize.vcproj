@@ -219,54 +219,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Serialize"
-			>
-			<File
-				RelativePath=".\Serialize\BinaryInputArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\BinaryInputArchive.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\BinaryOutputArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\BinaryOutputArchive.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\MathSerialize.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\S3AXMLInputArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\S3AXMLInputArchive.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\S3AXMLOutputArchive.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\S3AXMLOutputArchive.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\SerializeListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\SerializeListener.hxx"
-				>
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

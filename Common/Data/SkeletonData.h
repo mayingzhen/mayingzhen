@@ -21,7 +21,7 @@ struct COMMON_API SkeletonHeader
 	xmUint m_nVersion;
 	std::string m_strMaxFile;
 
-	//void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonHeader" );
+	void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonHeader" );
 };
 
 struct COMMON_API SocketData
@@ -30,7 +30,7 @@ struct COMMON_API SocketData
 	xmUint			m_nBoneID;
 	D3DXMATRIX		m_matTransformBS;
 
-	//void Serialize(SerializeListener& sl, const char* pszLable = "SocketData" );
+	void Serialize(SerializeListener& sl, const char* pszLable = "SocketData" );
 };
 
 struct COMMON_API SkeletonData /*: public ISkeletonData*/
@@ -46,7 +46,7 @@ struct COMMON_API SkeletonData /*: public ISkeletonData*/
 	//typedef std::vector<xmUint8>   BoolList;
 	std::vector<std::string>  m_arrLODBoneMask;
 
-	//void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData" );
+	void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData" );
 };
 
 }

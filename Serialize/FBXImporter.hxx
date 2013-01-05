@@ -75,69 +75,64 @@ namespace ma
 		pFBXImporter->Destroy();
 
 		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
-		if (fbxAxis == FbxAxisSystem::OpenGL)
-		{
-			int i = 5;
-		}
-		else
-		{
-			int i = 5;
-		}
 
-		ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
+		ProcessSkeleton(lScene->GetRootNode(),pSkeData);
+
+		ProcessMesh(pMeshData,lScene->GetRootNode());
+
+
+
+		//ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
 
 		return true;
 	}
 
-	void FBXImporter::ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode)
+// 	void FBXImporter::ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode)
+// 	{
+// 		if (pMeshData == NULL || pNode == NULL)
+// 			return;
+// 
+// 		if(pNode->GetNodeAttribute())
+// 		{
+// 			switch(pNode->GetNodeAttribute()->GetAttributeType())
+// 			{
+// 			case FbxNodeAttribute::eMesh:
+// 				ProcessMesh(pMeshData,pNode);
+// 				break;
+// 			case FbxNodeAttribute::eSkeleton:
+// 				ProcessSkeleton(pNode,pSkeData);
+// 				break;
+// 			case FbxNodeAttribute::eLight:
+// 				//ProcessLight(pNode);
+// 				break;
+// 			case FbxNodeAttribute::eCamera:
+// 				//ProcessCamera();
+// 				break;
+// 			}
+// 		}
+// 
+// 		for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
+// 		{
+// 			ProcessNode(pMeshData,pSkeData,pNode->GetChild(i));
+// 		}
+// 	}
+
+	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData)
 	{
-		if (pMeshData == NULL || pNode == NULL)
-			return;
-
-		if(pNode->GetNodeAttribute())
-		{
-			switch(pNode->GetNodeAttribute()->GetAttributeType())
-			{
-			case FbxNodeAttribute::eMesh:
-				ProcessMesh(pMeshData,pNode);
-				break;
-			case FbxNodeAttribute::eSkeleton:
-				ProcessSkeleton(pNode,pSkeData);
-				break;
-			case FbxNodeAttribute::eLight:
-				//ProcessLight(pNode);
-				break;
-			case FbxNodeAttribute::eCamera:
-				//ProcessCamera();
-				break;
-			}
-		}
-
-		for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
-		{
-			ProcessNode(pMeshData,pSkeData,pNode->GetChild(i));
-		}
-	}
-
-	void  FBXImporter::ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData)
-	{
-		if (pNode == NULL)
-			return;
-
-		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
 		if (pSkeleton == NULL)
 			return;
-		
+
+		FbxNode* pNode = pSkeleton->GetNode();
+
 		BoneIndex parentID = InvalidID<BoneIndex>();
 		FbxNode* pParentNode = pNode->GetParent();
 		const char* pPrentName = pParentNode->GetName();
 		std::vector<std::string>::iterator it = 
-		std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
+			std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
 		if (it != (pSkelData->m_arrBoneName).end())
 		{
 			parentID = it - (pSkelData->m_arrBoneName).begin(); 
 		}
-
 
 		FbxString  name = pNode->GetName();
 		FbxDouble3 translation = pNode->LclTranslation.Get();
@@ -150,20 +145,32 @@ namespace ma
 		maQuaternionFromEulerAngleXYZ(&qtot,&dxrotation);
 
 		int index = (pSkelData->m_arrBoneName).size();
-		
+
 		(pSkelData->m_arrBoneName).push_back(name.Buffer());
 		(pSkelData->m_arrScaleOS).push_back(dxscaling);
 		(pSkelData->m_arrRotOS).push_back(qtot);
 		(pSkelData->m_arrPosOS).push_back(dxtranslation);
 		(pSkelData->m_arrParentIndice).push_back(parentID);
 		pSkelData->m_nBoneNum = index + 1;
-		
-// 		int nChildNode = pNode->GetChildCount();
-// 		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
-// 		{
-// 			FbxNode* pChildNode = pNode->GetChild(i);
-// 			ProcessSkeleton(pChildNode,index, pSkelData);
-// 		}
+	}
+
+	void  FBXImporter::ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData)
+	{
+		if (pNode == NULL)
+			return;
+
+		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
+		if (pSkeleton)
+		{
+			GetSkeletonData(pSkeleton,pSkelData);
+		}
+
+		int nChildNode = pNode->GetChildCount();
+		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		{
+			FbxNode* pChildNode = pNode->GetChild(i);
+			ProcessSkeleton(pChildNode, pSkelData);
+		}
 	}
 
 
@@ -174,26 +181,15 @@ namespace ma
 		std::vector<double> m_vBoneWeight;
 	};
 
-	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
+	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData)
 	{
-		if (pMeshData == NULL || pNode == NULL)
-			return;
-
-		FbxMesh* pMesh = pNode->GetMesh();
-		if(pMesh == NULL)
+		if (pMesh == NULL)
 			return;
 
 		if(!pMesh->IsTriangleMesh())
 		{
- 			FbxGeometryConverter converter(mpFBXSDKManager);
-// 			// #1
-// 			//converter.TriangulateInPlace(pNode);
-// 			//pMesh = dynamic_cast<KFbxMesh*>(pNode->GetNodeAttribute());
-// 
-// 			// #2
- 			pMesh = converter.TriangulateMesh(pMesh);
-
-
+			FbxGeometryConverter converter(mpFBXSDKManager);
+			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
 		int nControlPoint = pMesh->GetControlPointsCount();
@@ -209,39 +205,38 @@ namespace ma
 
 			if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
 				continue;  
-			
+
 			FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
 			if(pFBXSkin == NULL)  
 				continue;  
-			
+
 			int clusterCount = pFBXSkin->GetClusterCount(); 
 			for (int j = 0; j< clusterCount; ++j)
 			{
-				 KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
-				 if (pCluster == NULL)
-					 continue;
+				KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
+				if (pCluster == NULL)
+					continue;
 
-				 KFbxNode* pLinkNode = pCluster->GetLink();  
-				 if (pLinkNode == NULL)
-					 continue;
+				KFbxNode* pLinkNode = pCluster->GetLink();  
+				if (pLinkNode == NULL)
+					continue;
 
-				 const char* pszName = pLinkNode->GetName();
-				 int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
-				 int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
-				 double* pCtrlPointWeights = pCluster->GetControlPointWeights();
-				
-				 for (int k = 0; k < associatedCtrlPointCount; ++k)
-				 {
+				const char* pszName = pLinkNode->GetName();
+				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
+				int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
+				double* pCtrlPointWeights = pCluster->GetControlPointWeights();
+
+				for (int k = 0; k < associatedCtrlPointCount; ++k)
+				{
 					int nIndex = pCtrlPointIndices[k];
 					double fWeight = pCtrlPointWeights[k];
 					m_vSkin[nIndex].m_vBoneName.push_back(pszName);
 					m_vSkin[nIndex].m_vBoneInd.push_back(j);
 					m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
-				 }	
+				}	
 			}
 		}
 
-		
 		std::vector<VertexType0> vertexList;
 		std::vector<xmUint16> indexList;
 
@@ -263,7 +258,7 @@ namespace ma
 			for(int j = 0 ; j < 3 ; j++)
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
-				
+
 				// Read the vertex
 				ReadVertex(pMesh , ctrlPointIndex , &vertex[j]);
 
@@ -271,13 +266,13 @@ namespace ma
 				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color[j]);
 
 				// Read the UV of each vertex
-// 				FbxStringList lUVSetNameList;
-// 				pMesh->GetUVSetNames(lUVSetNameList);
-// 				for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
-// 				{
-// 					const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
-// 					const FbxGeometryElementUV* lUVElement = pMesh->GetElementUV(lUVSetName);
-// 				}
+				// 				FbxStringList lUVSetNameList;
+				// 				pMesh->GetUVSetNames(lUVSetNameList);
+				// 				for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
+				// 				{
+				// 					const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
+				// 					const FbxGeometryElementUV* lUVElement = pMesh->GetElementUV(lUVSetName);
+				// 				}
 				for(int k = 0 ; k < 2 ; ++k)
 				{
 					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[j][k]));
@@ -309,11 +304,11 @@ namespace ma
 				}
 				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
 				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
-// 				for (int k = 0; k < 4; ++k)
-// 				{
-// 					xmUint8 boneInd = (vertert.b >> (k*8)) & 0xff;
-// 					float fweight = ((vertert.w >> (k*8)) & 0xff) / 255.0f;
-// 				}
+				// 				for (int k = 0; k < 4; ++k)
+				// 				{
+				// 					xmUint8 boneInd = (vertert.b >> (k*8)) & 0xff;
+				// 					float fweight = ((vertert.w >> (k*8)) & 0xff) / 255.0f;
+				// 				}
 
 				UINT index = 0;
 				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
@@ -363,6 +358,25 @@ namespace ma
 		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
 
 		LoadMaterial(pMesh);
+	}
+
+	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
+	{
+		if (pMeshData == NULL || pNode == NULL)
+			return;
+
+		FbxMesh* pFbxMesh = pNode->GetMesh();
+		if (pFbxMesh)
+		{
+			GetMeshData(pFbxMesh,pMeshData);
+		}
+		else
+		{
+			for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
+			{
+				ProcessMesh(pMeshData,pNode->GetChild(i));
+			}
+		}
 	}
 
 	void FBXImporter::ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex)

@@ -25,7 +25,7 @@ struct COMMON_API AnimationHeader
 	xmUint m_nVersion;
 	std::string m_strMaxFile;
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "AnimationHeader");
+	void Serialize(SerializeListener& sl,const char* pszLable = "AnimationHeader");
 };
 
 struct COMMON_API Vector3TrackData
@@ -33,7 +33,7 @@ struct COMMON_API Vector3TrackData
 	std::vector<xmUint>		 m_arrFrame;
 	std::vector<D3DXVECTOR3> m_arrKey;
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "Vector3Track");
+	void Serialize(SerializeListener& sl,const char* pszLable = "Vector3Track");
 };
 
 struct COMMON_API QuaternionTrackData
@@ -41,7 +41,7 @@ struct COMMON_API QuaternionTrackData
 	std::vector<xmUint>			m_arrFrame;
 	std::vector<D3DXQUATERNION> m_arrKey;
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "QuaternionTrack");
+	void Serialize(SerializeListener& sl,const char* pszLable = "QuaternionTrack");
 };
 
 struct COMMON_API FloatTrackData
@@ -49,7 +49,7 @@ struct COMMON_API FloatTrackData
 	std::vector<xmUint>			m_arrFrame;
 	std::vector<float>			m_arrKey;
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "FloatTrack" );
+	void Serialize(SerializeListener& sl,const char* pszLable = "FloatTrack" );
 };
 
 struct COMMON_API AnimationData 
@@ -88,7 +88,7 @@ struct COMMON_API AnimationData
 		m_nSocketNum=0;
 	}
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "AnimationData");
+	void Serialize(SerializeListener& sl,const char* pszLable = "AnimationData");
 };
 
 }

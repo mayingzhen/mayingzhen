@@ -1,35 +1,36 @@
 #include "Common/Data/MeshData.h"
 
+
 namespace ma
 {
 
 
 
-// void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
-// {
-// 	sl.BeginSection(pszLabel);
-// 
-// 	sl.Serialize(p,"Position");
-// 	sl.Serialize(b,"BoneIndice");
-// 	sl.Serialize(w,"BoneWeight");
-// 	sl.Serialize(n,"Normal");
-// 	sl.Serialize(uv,"UV");
-// 	sl.Serialize(tgn,"Tangent");
-// 	sl.Serialize(vc,"VertexColor");
-// 	sl.Serialize(vi,"VertexIllumniation");
-// 
-// 	sl.EndSection();
-// 
-// }
+void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
+{
+	sl.BeginSection(pszLabel);
 
-// void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
-// {
-// 	sl.BeginSection(pszLabel);
-// 	sl.Serialize(m_fXSize,"XSize");
-// 	sl.Serialize(m_fYSize,"YSize");
-// 	sl.Serialize(m_fZSize,"ZSize");
-// 	sl.EndSection();
-// }
+	sl.Serialize(p,"Position");
+	sl.Serialize(b,"BoneIndice");
+	sl.Serialize(w,"BoneWeight");
+	sl.Serialize(n,"Normal");
+	sl.Serialize(uv,"UV");
+	sl.Serialize(tgn,"Tangent");
+	sl.Serialize(vc,"VertexColor");
+	sl.Serialize(vi,"VertexIllumniation");
+
+	sl.EndSection();
+
+}
+
+void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
+{
+	sl.BeginSection(pszLabel);
+	sl.Serialize(m_fXSize,"XSize");
+	sl.Serialize(m_fYSize,"YSize");
+	sl.Serialize(m_fZSize,"ZSize");
+	sl.EndSection();
+}
 
 void AABBShape::Init()
 {
@@ -49,57 +50,57 @@ void AABBShape::AddPoint(const D3DXVECTOR3& v)
 	xmVec3Max(&m_vMax,&v,&m_vMax);
 }
 
-// void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
-// {
-// 	sl.BeginSection(pszLable);
-// 	sl.Serialize(m_fRadius,"Radius");
-// 	sl.Serialize(m_fHeight,"Height");
-// 	sl.EndSection();
-// }
+void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
+{
+	sl.BeginSection(pszLable);
+	sl.Serialize(m_fRadius,"Radius");
+	sl.Serialize(m_fHeight,"Height");
+	sl.EndSection();
+}
 
-// void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
-// {
-// 	sl.BeginSection(pszLable);
-// 	sl.Serialize(m_nShapeType,"ShapeType");
-// 	sl.Serialize(m_vPos,"Position");
-// 	sl.Serialize(m_qRot,"Rotation");
-// 	if (BS_BOX == m_nShapeType)
-// 	{
-// 		sl.Serialize(m_boxShape,"BoxShape");
-// 	}
-// 	else if (BS_CYLINDER == m_nShapeType)
-// 	{
-// 		sl.Serialize(m_cylinderShape,"CylinderShape");
-// 	}
-// 	else{
-// 		SSERT(false && "unknown bounding shape type");
-// 	}
-// 
-// 	sl.EndSection();
-// }
+void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
+{
+	sl.BeginSection(pszLable);
+	sl.Serialize(m_nShapeType,"ShapeType");
+	sl.Serialize(m_vPos,"Position");
+	sl.Serialize(m_qRot,"Rotation");
+	if (BS_BOX == m_nShapeType)
+	{
+		sl.Serialize(m_boxShape,"BoxShape");
+	}
+	else if (BS_CYLINDER == m_nShapeType)
+	{
+		sl.Serialize(m_cylinderShape,"CylinderShape");
+	}
+	else{
+		SSERT(false && "unknown bounding shape type");
+	}
+
+	sl.EndSection();
+}
 
 
-// void MeshHeader::Serialize(SerializeListener& sl,const char* pszLable)
-// {
-// 	sl.BeginSection(pszLable);
-// 
-// 	sl.Serialize(m_nIdent,"FileIden");
-// 	sl.Serialize(m_nVersion,"Version");
-// 	sl.Serialize(m_strMaxFile,"SourceFile");
-// 	if (m_nVersion <= MESH_VER_EMBED_MESH_DATA)
-// 	{
-// 		sl.Serialize(m_nSkelGUID.m_a,"SkeletonGUID");
-// 		m_nSkelGUID.m_b = 0;
-// 	}else{
-// 		sl.Serialize(m_nSkelGUID,"SkeletonGUID");
-// 	}
-// 
-// 	sl.Serialize(m_nBoneNum,"BoneNumber");
-// 	sl.Serialize(m_nIndexNum,"IndexNumber");
-// 	sl.Serialize(m_nVertexNum,"VertexNumber");
-// 
-// 	sl.EndSection();
-// }
+void MeshHeader::Serialize(SerializeListener& sl,const char* pszLable)
+{
+	sl.BeginSection(pszLable);
+
+	sl.Serialize(m_nIdent,"FileIden");
+	sl.Serialize(m_nVersion,"Version");
+	sl.Serialize(m_strMaxFile,"SourceFile");
+	if (m_nVersion <= MESH_VER_EMBED_MESH_DATA)
+	{
+		sl.Serialize(m_nSkelGUID.m_a,"SkeletonGUID");
+		m_nSkelGUID.m_b = 0;
+	}else{
+		sl.Serialize(m_nSkelGUID,"SkeletonGUID");
+	}
+
+	sl.Serialize(m_nBoneNum,"BoneNumber");
+	sl.Serialize(m_nIndexNum,"IndexNumber");
+	sl.Serialize(m_nVertexNum,"VertexNumber");
+
+	sl.EndSection();
+}
 
 
 
@@ -108,37 +109,37 @@ param val
 Null element is not allowed in array.
 T must be a simple struct or class which do not has derived class.
 */
-// template<class T>
-// void Serialize(SerializeListener& sl,std::vector<T*>& val,const char* pszLable = "array")
-// {
-// 	sl.BeginSection(pszLable);
-// 
-// 	xmUint nSize = (xmUint)val.size();
-// 	sl.Serialize(nSize,"size");
-// 
-// 	if (nSize != val.size())
-// 	{
-// 		val.resize(nSize);
-// 	}
-// 	sl.BeginSection("element");
-// 
-// 	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
-// 	{
-// 		char buf[32];
-// 		sprintf_s(&buf[0],32,"Element_%u",nCnt);
-// 		
-// 		//Null element is not allowed in array
-// 		if (val[nCnt] == NULL)
-// 		{
-// 			val[nCnt] = new T;//T must be a simple struct or class which do not has derived class
-// 		}
-// 
-// 		sl.Serialize(*val[nCnt],buf);
-// 	}
-// 	sl.EndSection();
-// 
-// 	sl.EndSection();
-// }
+template<class T>
+void Serialize(SerializeListener& sl,std::vector<T*>& val,const char* pszLable = "array")
+{
+	sl.BeginSection(pszLable);
+
+	xmUint nSize = (xmUint)val.size();
+	sl.Serialize(nSize,"size");
+
+	if (nSize != val.size())
+	{
+		val.resize(nSize);
+	}
+	sl.BeginSection("element");
+
+	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+	{
+		char buf[32];
+		sprintf_s(&buf[0],32,"Element_%u",nCnt);
+		
+		//Null element is not allowed in array
+		if (val[nCnt] == NULL)
+		{
+			val[nCnt] = new T;//T must be a simple struct or class which do not has derived class
+		}
+
+		sl.Serialize(*val[nCnt],buf);
+	}
+	sl.EndSection();
+
+	sl.EndSection();
+}
 
 template<class T>
 void PointerArrayClear(T& arr)
@@ -165,34 +166,34 @@ void PointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
 		arr[nCnt] = new ElementType;
 	}
 }
-// 
-// template<class DataType>
-// void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
-// {
-// 	sl.BeginSection(pszLable);
-// 
-// 	xmUint nSize = val.size();
-// 	sl.Serialize(nSize,"size");
-// 
-// 	if (nSize != val.size())
-// 	{
-// 		val.resize(nSize);
-// 	}
-// 
-// 	sl.BeginSection("element");
-// 
-// 	xmUint nDataNum = nSize / sizeof(DataType);
-// 
-// 	for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
-// 	{
-// 		char buf[64];
-// 		sprintf_s(&buf[0],64,"Element_%u",nCnt);
-// 		sl.Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
-// 	}
-// 	sl.EndSection();
-// 
-// 	sl.EndSection();
-// }
+
+template<class DataType>
+void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
+{
+	sl.BeginSection(pszLable);
+
+	xmUint nSize = val.size();
+	sl.Serialize(nSize,"size");
+
+	if (nSize != val.size())
+	{
+		val.resize(nSize);
+	}
+
+	sl.BeginSection("element");
+
+	xmUint nDataNum = nSize / sizeof(DataType);
+
+	for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
+	{
+		char buf[64];
+		sprintf_s(&buf[0],64,"Element_%u",nCnt);
+		sl.Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
+	}
+	sl.EndSection();
+
+	sl.EndSection();
+}
 
 SubMeshData::SubMeshData()
 :m_nIndexStart(0)
@@ -380,25 +381,25 @@ xmUint16	SubMeshData::GetBoneByPalatteIndex(xmUint16 nPalatteInd)
 }
 
 
-// void	SubMeshData::Serialize(SerializeListener& sl,const char* pszLabel)
-// {
-// 	sl.BeginSection(pszLabel);
-// 
-// 	sl.Serialize(m_nIndexStart,"IndexStart");
-// 	sl.Serialize(m_nIndexCount,"IndexCount");
-// 	sl.Serialize(m_nVertexStart,"VertexStart");
-// 	sl.Serialize(m_nVertexCount,"VertexCount");
-// 	sl.Serialize(m_subMeshBound,"SubMeshBound");
-// 	sl.Serialize(m_arrBonePalette,"BonePalette");
-// 	sl.Serialize(m_name,"SubMeshName");
-// 	sl.Serialize(m_submeshTag,"SubMeshTag");
-//     if (sl.GetVersion() >= MESH_VER_EMBED_MESH_DATA)
-//     {
-// 		sl.Serialize(m_nMateiralID,"MaterialID");
-//     }
-// 
-// 	sl.EndSection();
-// }
+void	SubMeshData::Serialize(SerializeListener& sl,const char* pszLabel)
+{
+	sl.BeginSection(pszLabel);
+
+	sl.Serialize(m_nIndexStart,"IndexStart");
+	sl.Serialize(m_nIndexCount,"IndexCount");
+	sl.Serialize(m_nVertexStart,"VertexStart");
+	sl.Serialize(m_nVertexCount,"VertexCount");
+	sl.Serialize(m_subMeshBound,"SubMeshBound");
+	sl.Serialize(m_arrBonePalette,"BonePalette");
+	sl.Serialize(m_name,"SubMeshName");
+	sl.Serialize(m_submeshTag,"SubMeshTag");
+    if (sl.GetVersion() >= MESH_VER_EMBED_MESH_DATA)
+    {
+		sl.Serialize(m_nMateiralID,"MaterialID");
+    }
+
+	sl.EndSection();
+}
 
 //------------------------------------------------------------------------------
 //
@@ -518,51 +519,51 @@ void					MeshLODData::ClearSubMesh()
 	m_arrSubMesh.clear();
 }
 
-// void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
-// {
-// 	sl.BeginSection(pszLabel);
-// 	if(sl.GetVersion() >= MESH_VER_LOD_MESH_DATA)
-// 	{
-// 		sl.Serialize( m_nMeshDataFlag, "MeshDataFrom");
-// 	}
-// 
-// 	if (m_nMeshDataFlag & DATA_HAS_OWN_INDEX)
-// 	{
-// 		sl.Serialize(m_nIndexType,"IndexType");
-// 
-// 		if (INDEX_TYPE_U16 == m_nIndexType)
-// 		{
-// 			sl.SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
-// 		}
-// 		else if (INDEX_TYPE_U32 == m_nIndexType)
-// 		{
-// 			sl.SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
-// 		}
-// 		else
-// 		{
-// 			LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
-// 		}
-// 	}
-// 
-// 	if (m_nMeshDataFlag & DATA_HAS_OWN_VERTEX)
-// 	{
-// 		sl.Serialize(m_nVertexType,"VertexType");
-// 
-// 		if (VT_SKIN_VERTEX_0 == m_nVertexType)
-// 		{
-// 			sl.SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
-// 		}
-// 	}
-// 
-// 	if (m_nMeshDataFlag & DATA_HAS_BONE_LOD)
-// 	{
-// 		sl.Serialize( m_nBoneLOD, "BoneLOD");
-// 	}
-// 
-// 	sl.Serialize(m_arrSubMesh,"SubMeshArray");
-// 
-// 	sl.EndSection();
-// }
+void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
+{
+	sl.BeginSection(pszLabel);
+	if(sl.GetVersion() >= MESH_VER_LOD_MESH_DATA)
+	{
+		sl.Serialize( m_nMeshDataFlag, "MeshDataFrom");
+	}
+
+	if (m_nMeshDataFlag & DATA_HAS_OWN_INDEX)
+	{
+		sl.Serialize(m_nIndexType,"IndexType");
+
+		if (INDEX_TYPE_U16 == m_nIndexType)
+		{
+			sl.SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
+		}
+		else if (INDEX_TYPE_U32 == m_nIndexType)
+		{
+			sl.SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
+		}
+		else
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
+		}
+	}
+
+	if (m_nMeshDataFlag & DATA_HAS_OWN_VERTEX)
+	{
+		sl.Serialize(m_nVertexType,"VertexType");
+
+		if (VT_SKIN_VERTEX_0 == m_nVertexType)
+		{
+			sl.SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
+		}
+	}
+
+	if (m_nMeshDataFlag & DATA_HAS_BONE_LOD)
+	{
+		sl.Serialize( m_nBoneLOD, "BoneLOD");
+	}
+
+	sl.Serialize(m_arrSubMesh,"SubMeshArray");
+
+	sl.EndSection();
+}
 
 
 
@@ -1003,40 +1004,40 @@ void					MeshData::SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vM
 	m_meshBound.SetAABB(*vMin,*vMax);
 }
 
-// void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
-// {
-// 	pSL->BeginSection(pszLabel);
-// 
-// 	pSL->Serialize(m_header,"MeshHeader");
-// 
-// 	pSL->PushVersion(m_header.m_nVersion);
-// 	pSL->Serialize(m_nIndexType,"IndexType");
-// 	pSL->Serialize(m_nVertexType,"VertexType");
-// 
-// 	if (INDEX_TYPE_U16 == m_nIndexType)
-// 	{
-// 		pSL->SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
-// 	}else if (INDEX_TYPE_U32 == m_nIndexType)
-// 	{
-// 		pSL->SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
-// 	}else{
-// 		LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
-// 	}
-// 
-// 	if (VT_SKIN_VERTEX_0 == m_nVertexType)
-// 	{
-// 		pSL->SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
-// 	}
-// 
-// 	pSL->Serialize(m_meshBound,"MeshBound");
-//  	pSL->Serialize(m_arrMeshLOD,"MeshLOD");
-// 	pSL->Serialize(m_arrBoneName,"BoneName");
-// 	pSL->Serialize(m_arrBoneBound,"BoundBound");
-// 
-// 	pSL->PopVersion();
-// 
-// 	pSL->EndSection();
-// }
+void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
+{
+	pSL->BeginSection(pszLabel);
+
+	pSL->Serialize(m_header,"MeshHeader");
+
+	pSL->PushVersion(m_header.m_nVersion);
+	pSL->Serialize(m_nIndexType,"IndexType");
+	pSL->Serialize(m_nVertexType,"VertexType");
+
+	if (INDEX_TYPE_U16 == m_nIndexType)
+	{
+		pSL->SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
+	}else if (INDEX_TYPE_U32 == m_nIndexType)
+	{
+		pSL->SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
+	}else{
+		LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
+	}
+
+	if (VT_SKIN_VERTEX_0 == m_nVertexType)
+	{
+		pSL->SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
+	}
+
+	pSL->Serialize(m_meshBound,"MeshBound");
+ 	pSL->Serialize(m_arrMeshLOD,"MeshLOD");
+	pSL->Serialize(m_arrBoneName,"BoneName");
+	pSL->Serialize(m_arrBoneBound,"BoundBound");
+
+	pSL->PopVersion();
+
+	pSL->EndSection();
+}
 
 
 void					MeshData::SetSource(const char* pszSource)
@@ -1105,40 +1106,40 @@ void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 	}
 }
 
-// void Serialize(SerializeListener& sl,VertexType0 &val,const char* pszLable )
-// {
-// 	sl.BeginSection(pszLable);
-// 
-// 	sl.Serialize(val.p,"Position");
-// 	sl.Serialize(val.b,"BoneIndice");
-// 	sl.Serialize(val.w,"BoneWeight");
-// 	sl.Serialize(val.n,"Normal");
-// 	sl.Serialize(val.uv,"UV");
-// 	sl.Serialize(val.tgn,"Tangent");
-// 	sl.Serialize(val.vc,"VertexColor");
-// 	sl.Serialize(val.vi,"VertexIllumniation");
-// 
-// 	sl.EndSection();
-// 
-// }
-// 
-// void Serialize(SerializeListener& sl,BoxShape &val,const char* pszLable )
-// {
-// 	sl.BeginSection(pszLable);
-// 	sl.Serialize(val.m_fXSize,"XSize");
-// 	sl.Serialize(val.m_fYSize,"YSize");
-// 	sl.Serialize(val.m_fZSize,"ZSize");
-// 	sl.EndSection();
-// }
-// 
-// void Serialize(SerializeListener& sl,CylinderShape &val,const char* pszLable )
-// {
-// 	sl.BeginSection(pszLable);
-// 	sl.Serialize(val.m_fRadius,"Radius");
-// 	sl.Serialize(val.m_fHeight,"Height");
-// 	sl.EndSection();
-// }
-// 
+void Serialize(SerializeListener& sl,VertexType0 &val,const char* pszLable )
+{
+	sl.BeginSection(pszLable);
+
+	sl.Serialize(val.p,"Position");
+	sl.Serialize(val.b,"BoneIndice");
+	sl.Serialize(val.w,"BoneWeight");
+	sl.Serialize(val.n,"Normal");
+	sl.Serialize(val.uv,"UV");
+	sl.Serialize(val.tgn,"Tangent");
+	sl.Serialize(val.vc,"VertexColor");
+	sl.Serialize(val.vi,"VertexIllumniation");
+
+	sl.EndSection();
+
+}
+
+void Serialize(SerializeListener& sl,BoxShape &val,const char* pszLable )
+{
+	sl.BeginSection(pszLable);
+	sl.Serialize(val.m_fXSize,"XSize");
+	sl.Serialize(val.m_fYSize,"YSize");
+	sl.Serialize(val.m_fZSize,"ZSize");
+	sl.EndSection();
+}
+
+void Serialize(SerializeListener& sl,CylinderShape &val,const char* pszLable )
+{
+	sl.BeginSection(pszLable);
+	sl.Serialize(val.m_fRadius,"Radius");
+	sl.Serialize(val.m_fHeight,"Height");
+	sl.EndSection();
+}
+
 // void Serialize(SerializeListener& sl,Bounding &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);
@@ -1157,7 +1158,7 @@ void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 // 
 // 	sl.EndSection();
 // }
-// 
+
 // void Serialize(SerializeListener& sl,SubMesh &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);
@@ -1174,17 +1175,17 @@ void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 // 
 // 	sl.EndSection();
 // }
-// 
+
 // void Serialize(SerializeListener& sl,MeshLOD &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);
 // 	sl.Serialize(val.m_arrSubMesh,"SubMesh");
 // 	sl.EndSection();
 // }
-// 
-// 
-// 
-// 
+
+
+
+
 // void Serialize(SerializeListener& sl,MeshData &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);
@@ -1213,7 +1214,7 @@ void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 // 
 // 	sl.EndSection();
 // }
-// 
+
 // void Serialize(SerializeListener& sl,MeshHeader &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);
@@ -1235,7 +1236,7 @@ void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
 // 
 // 	sl.EndSection();
 // }
-// 
+
 // void Serialize(SerializeListener& sl,Mesh &val,const char* pszLable )
 // {
 // 	sl.BeginSection(pszLable);

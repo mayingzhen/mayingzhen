@@ -1,4 +1,4 @@
-#include "Common/Common.h"
+#include "Common/stdafx.h"
 #include "Common/Module.h"
 
 #include "Common/maMath.hxx"
@@ -9,9 +9,15 @@
 
 #include "Common/IPhysics/IPhysicsDevive.hxx"
 
+#include "Common/Serialize/SerializeListener.hxx"
+#include "Common/Serialize/BinaryInputArchive.hxx"
+#include "Common/Serialize/BinaryOutputArchive.hxx"
+
 #include "Common/Data/MeshData.hxx"
-#include "Common/Data/SkeletonData.hxx"
 #include "Common/Data/AnimationData.hxx"
+#include "Common/Data/SkeletonData.hxx"
+
+
 
 
 void Log(const char* fmt,...) {}

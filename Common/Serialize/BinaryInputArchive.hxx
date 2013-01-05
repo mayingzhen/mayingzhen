@@ -1,5 +1,9 @@
-#include <Serialize/Serialize/BinaryInputArchive.h>
+#include <Common/Serialize/BinaryInputArchive.h>
 //#include <Animation/Common/String/StringHelper.h>
+
+namespace ma
+{
+
 
 BinaryInputArchive::BinaryInputArchive()
 {
@@ -148,4 +152,6 @@ void BinaryMemoryInputArchive::Close()
 	m_pData = NULL;
 	m_nDataSize = 0;
 	m_nCurPos = 0;
+}
+
 }

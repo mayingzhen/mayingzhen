@@ -62,7 +62,7 @@ struct COMMON_API VertexType0
 			 return false;
 	 }
 
-	//void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
+	void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 };
 
 struct COMMON_API CylinderShape
@@ -70,7 +70,7 @@ struct COMMON_API CylinderShape
 	float m_fRadius;
 	float m_fHeight;
 
-	//void Serialize(SerializeListener& sl, const char* pszLable = "CylinderShape" );
+	void Serialize(SerializeListener& sl, const char* pszLable = "CylinderShape" );
 
 };
 
@@ -80,7 +80,7 @@ struct COMMON_API BoxShape
 	float m_fYSize;
 	float m_fZSize;
 
-	//void	Serialize(SerializeListener& sl,const char* pszLabel = "BoxShape");
+	void	Serialize(SerializeListener& sl,const char* pszLabel = "BoxShape");
 
 };
 
@@ -119,7 +119,7 @@ struct COMMON_API Bounding
 	void SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
 		,float fXSize,float fYSize,float fZSize);
 
-	//void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
+	void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
 };
 
 
@@ -133,7 +133,7 @@ struct COMMON_API MeshHeader
 	xmUint		m_nIndexNum;
 	xmUint		m_nVertexNum;
 
-	//void Serialize(SerializeListener& sl,const char* pszLable = "MeshHeader");
+	void Serialize(SerializeListener& sl,const char* pszLable = "MeshHeader");
 };
 
 
@@ -213,7 +213,7 @@ public:
 
 	 xmUint16	GetBoneByPalatteIndex(xmUint16 nPalatteInd);
 
-	//void	Serialize(SerializeListener& sl,const char* pszLabel);
+	void	Serialize(SerializeListener& sl,const char* pszLabel);
 
 };
 
@@ -286,7 +286,7 @@ public:
 
 	void					ResetBuffer(bool bIsIndex32, xmUint32 nIndexNum, xmUint32 nVertexNum);
 
-	//void					Serialize(SerializeListener& sl,const char* pszLabel);
+	void					Serialize(SerializeListener& sl,const char* pszLabel);
 };
 
 struct COMMON_API MeshData/* : public IMeshData*/
@@ -425,7 +425,7 @@ public:
 
 	void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax);
 
-	//void					Serialize(SerializeListener* pSL,const char* pszLabel);
+	void					Serialize(SerializeListener* pSL,const char* pszLabel);
 
 };
 
