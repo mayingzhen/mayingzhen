@@ -41,6 +41,352 @@ namespace ma
 		return true;
 	}
 
+	void DisplayChannels(FbxNode* pNode, FbxAnimLayer* pAnimLayer, void (*DisplayCurve) (FbxAnimCurve* pCurve), void (*DisplayListCurve) (FbxAnimCurve* pCurve, FbxProperty* pProperty), bool isSwitcher)
+	{
+		FbxAnimCurve* lAnimCurve = NULL;
+
+		// Display general curves.
+		if (!isSwitcher)
+		{
+			lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        TX\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        TY\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        TZ\n");
+				DisplayCurve(lAnimCurve);
+			}
+
+			lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        RX\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        RY\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        RZ\n");
+				DisplayCurve(lAnimCurve);
+			}
+
+			lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        SX\n");
+				DisplayCurve(lAnimCurve);
+			}    
+			lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        SY\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        SZ\n");
+				DisplayCurve(lAnimCurve);
+			}
+		}
+
+		// Display curves specific to a light or marker.
+		FbxNodeAttribute* lNodeAttribute = pNode->GetNodeAttribute();
+
+		if (lNodeAttribute)
+		{
+			lAnimCurve = lNodeAttribute->Color.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COLOR_RED);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        Red\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = lNodeAttribute->Color.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COLOR_GREEN);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        Green\n");
+				DisplayCurve(lAnimCurve);
+			}
+			lAnimCurve = lNodeAttribute->Color.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COLOR_BLUE);
+			if (lAnimCurve)
+			{
+				FBXSDK_printf("        Blue\n");
+				DisplayCurve(lAnimCurve);
+			}
+
+			// Display curves specific to a light.
+			FbxLight* light = pNode->GetLight();
+			if (light)
+			{
+				lAnimCurve = light->Intensity.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Intensity\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = light->OuterAngle.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Outer Angle\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = light->Fog.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Fog\n");
+					DisplayCurve(lAnimCurve);
+				}
+			}
+
+			// Display curves specific to a camera.
+			FbxCamera* camera = pNode->GetCamera();
+			if (camera)
+			{
+				lAnimCurve = camera->FieldOfView.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Field of View\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = camera->FieldOfViewX.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Field of View X\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = camera->FieldOfViewY.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Field of View Y\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = camera->OpticalCenterX.GetCurve(pAnimLayer);
+				if (lAnimCurve)
+				{
+					FBXSDK_printf("        Optical Center X\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = camera->OpticalCenterY.GetCurve(pAnimLayer);
+				if(lAnimCurve)
+				{
+					FBXSDK_printf("        Optical Center Y\n");
+					DisplayCurve(lAnimCurve);
+				}
+
+				lAnimCurve = camera->Roll.GetCurve(pAnimLayer);
+				if(lAnimCurve)
+				{
+					FBXSDK_printf("        Roll\n");
+					DisplayCurve(lAnimCurve);
+				}
+			}
+
+			// Display curves specific to a geometry.
+			if (lNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh ||
+				lNodeAttribute->GetAttributeType() == FbxNodeAttribute::eNurbs ||
+				lNodeAttribute->GetAttributeType() == FbxNodeAttribute::ePatch)
+			{
+				FbxGeometry* lGeometry = (FbxGeometry*) lNodeAttribute;
+
+				int lBlendShapeDeformerCount = lGeometry->GetDeformerCount(FbxDeformer::eBlendShape);
+				for(int lBlendShapeIndex = 0; lBlendShapeIndex<lBlendShapeDeformerCount; ++lBlendShapeIndex)
+				{
+					FbxBlendShape* lBlendShape = (FbxBlendShape*)lGeometry->GetDeformer(lBlendShapeIndex, FbxDeformer::eBlendShape);
+
+					int lBlendShapeChannelCount = lBlendShape->GetBlendShapeChannelCount();
+					for(int lChannelIndex = 0; lChannelIndex<lBlendShapeChannelCount; ++lChannelIndex)
+					{
+						FbxBlendShapeChannel* lChannel = lBlendShape->GetBlendShapeChannel(lChannelIndex);
+						const char* lChannelName = lChannel->GetName();
+
+						lAnimCurve = lGeometry->GetShapeChannel(lBlendShapeIndex, lChannelIndex, pAnimLayer, true);
+						if(lAnimCurve)
+						{
+							FBXSDK_printf("        Shape %s\n", lChannelName);
+							DisplayCurve(lAnimCurve);
+						}
+					}
+				}
+			}
+		}
+
+		// Display curves specific to properties
+		FbxProperty lProperty = pNode->GetFirstProperty();
+		while (lProperty.IsValid())
+		{
+			if (lProperty.GetFlag(FbxPropertyAttr::eUser))
+			{
+				FbxString lFbxFCurveNodeName  = lProperty.GetName();
+				FbxAnimCurveNode* lCurveNode = lProperty.GetCurveNode(pAnimLayer);
+
+				if (!lCurveNode){
+					lProperty = pNode->GetNextProperty(lProperty);
+					continue;
+				}
+
+				FbxDataType lDataType = lProperty.GetPropertyDataType();
+				if (lDataType.GetType() == eFbxBool || lDataType.GetType() == eFbxDouble || lDataType.GetType() == eFbxFloat || lDataType.GetType() == eFbxInt)
+				{
+					FbxString lMessage;
+
+					lMessage =  "        Property ";
+					lMessage += lProperty.GetName();
+					if (lProperty.GetLabel().GetLen() > 0)
+					{
+						lMessage += " (Label: ";
+						lMessage += lProperty.GetLabel();
+						lMessage += ")";
+					};
+
+					DisplayString(lMessage.Buffer());
+
+					for( int c = 0; c < lCurveNode->GetCurveCount(0U); c++ )
+					{
+						lAnimCurve = lCurveNode->GetCurve(0U, c);
+						if (lAnimCurve)
+							DisplayCurve(lAnimCurve);
+					}
+				}
+				else if(lDataType.GetType() == eFbxDouble3 || lDataType.GetType() == eFbxDouble4 || lDataType.Is(FbxColor3DT) || lDataType.Is(FbxColor4DT))
+				{
+					char* lComponentName1 = (lDataType.Is(FbxColor3DT) ||lDataType.Is(FbxColor4DT)) ? (char*)FBXSDK_CURVENODE_COLOR_RED : (char*)"X";
+					char* lComponentName2 = (lDataType.Is(FbxColor3DT) ||lDataType.Is(FbxColor4DT)) ? (char*)FBXSDK_CURVENODE_COLOR_GREEN : (char*)"Y";
+					char* lComponentName3 = (lDataType.Is(FbxColor3DT) ||lDataType.Is(FbxColor4DT)) ? (char*)FBXSDK_CURVENODE_COLOR_BLUE  : (char*)"Z";
+					FbxString      lMessage;
+
+					lMessage =  "        Property ";
+					lMessage += lProperty.GetName();
+					if (lProperty.GetLabel().GetLen() > 0)
+					{
+						lMessage += " (Label: ";
+						lMessage += lProperty.GetLabel();
+						lMessage += ")";
+					}
+					DisplayString(lMessage.Buffer());
+
+					for( int c = 0; c < lCurveNode->GetCurveCount(0U); c++ )
+					{
+						lAnimCurve = lCurveNode->GetCurve(0U, c);
+						if (lAnimCurve)
+						{
+							DisplayString("        Component ", lComponentName1);
+							DisplayCurve(lAnimCurve);
+						}
+					}
+
+					for( int c = 0; c < lCurveNode->GetCurveCount(1U); c++ )
+					{
+						lAnimCurve = lCurveNode->GetCurve(1U, c);
+						if (lAnimCurve)
+						{
+							DisplayString("        Component ", lComponentName2);
+							DisplayCurve(lAnimCurve);
+						}
+					}
+
+					for( int c = 0; c < lCurveNode->GetCurveCount(2U); c++ )
+					{
+						lAnimCurve = lCurveNode->GetCurve(2U, c);
+						if (lAnimCurve)
+						{
+							DisplayString("        Component ", lComponentName3);
+							DisplayCurve(lAnimCurve);
+						}
+					}
+				}
+				else if (lDataType.GetType() == eFbxEnum)
+				{
+					FbxString lMessage;
+
+					lMessage =  "        Property ";
+					lMessage += lProperty.GetName();
+					if (lProperty.GetLabel().GetLen() > 0)
+					{
+						lMessage += " (Label: ";
+						lMessage += lProperty.GetLabel();
+						lMessage += ")";
+					};
+					DisplayString(lMessage.Buffer());
+
+					for( int c = 0; c < lCurveNode->GetCurveCount(0U); c++ )
+					{
+						lAnimCurve = lCurveNode->GetCurve(0U, c);
+						if (lAnimCurve)
+							DisplayListCurve(lAnimCurve, &lProperty);
+					}                
+				}
+			}
+
+			lProperty = pNode->GetNextProperty(lProperty);
+		} // while
+
+	}
+
+	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode, bool isSwitcher)
+	{
+		int lModelCount;
+		FbxString lOutputString;
+
+		lOutputString = "     Node Name: ";
+		lOutputString += pNode->GetName();
+		lOutputString += "\n\n";
+		FBXSDK_printf(lOutputString);
+
+		DisplayChannels(pNode, pAnimLayer, DisplayCurveKeys, DisplayListCurveKeys, isSwitcher);
+		FBXSDK_printf ("\n");
+
+		for(lModelCount = 0; lModelCount < pNode->GetChildCount(); lModelCount++)
+		{
+			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount), isSwitcher);
+		}
+	}
+
+	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode, bool isSwitcher)
+	{
+		int l;
+		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
+		FbxString lOutputString;
+
+		lOutputString = "Animation stack contains ";
+		lOutputString += nbAnimLayers;
+		lOutputString += " Animation Layer(s)\n";
+		FBXSDK_printf(lOutputString);
+
+		for (l = 0; l < nbAnimLayers; l++)
+		{
+			FbxAnimLayer* lAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(l);
+
+			lOutputString = "AnimLayer ";
+			lOutputString += l;
+			lOutputString += "\n";
+			FBXSDK_printf(lOutputString);
+
+			DisplayAnimation(lAnimLayer, pNode, isSwitcher);
+		}
+	}
+
 	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData)
 	{
 		if(mpFBXSDKManager == NULL)
@@ -71,20 +417,41 @@ namespace ma
 
 		importStatus = pFBXImporter->Import(lScene);
 
-		// Destroy the importer.
-		pFBXImporter->Destroy();
-
 		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
 
 		ProcessSkeleton(lScene->GetRootNode(),pSkeData);
 
+		//ProcessAnimation(lScene->GetRootNode(),m_vAnimData);
+
 		ProcessMesh(pMeshData,lScene->GetRootNode());
 
+		for (int i = 0; i < lScene->GetSrcObjectCount<FbxAnimStack>(); i++)
+		{
+			FbxAnimStack* lAnimStack = lScene->GetSrcObject<FbxAnimStack>(i);
 
+			FbxString lOutputString = "Animation Stack Name: ";
+			lOutputString += lAnimStack->GetName();
+			lOutputString += "\n\n";
+			FBXSDK_printf(lOutputString);
+
+			DisplayAnimation(lAnimStack, pScene->GetRootNode(), true);
+			//DisplayAnimation(lAnimStack, pScene->GetRootNode());
+		}
 
 		//ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
 
+		// Destroy the importer.
+		pFBXImporter->Destroy();
+
 		return true;
+	}
+
+	void FBXImporter::ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData)
+	{
+		if (pNode == NULL)
+			return;
+
+
 	}
 
 // 	void FBXImporter::ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode)
@@ -197,6 +564,7 @@ namespace ma
 		m_vSkin.resize(nControlPoint);
 
 		int deformerCount  = pMesh->GetDeformerCount(); 
+		int clusterCount; 
 		for (int i =0; i < deformerCount; ++i)
 		{
 			KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
@@ -210,7 +578,7 @@ namespace ma
 			if(pFBXSkin == NULL)  
 				continue;  
 
-			int clusterCount = pFBXSkin->GetClusterCount(); 
+			clusterCount = pFBXSkin->GetClusterCount(); 
 			for (int j = 0; j< clusterCount; ++j)
 			{
 				KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
@@ -248,6 +616,9 @@ namespace ma
 		D3DXVECTOR3 normal[3];
 		D3DXVECTOR3 tangent[3];
 		D3DXVECTOR2 uv[3][2];
+
+		int* pTriangleMtlIndex = new int[triangleCount];
+		ConnectMaterialToMesh(pMesh,triangleCount,pTriangleMtlIndex);
 
 		//D3DXMATRIX                matrix;
 		//D3DXMatrixRotationX(&matrix, -(3.14/2));
@@ -304,11 +675,16 @@ namespace ma
 				}
 				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
 				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
-				// 				for (int k = 0; k < 4; ++k)
-				// 				{
-				// 					xmUint8 boneInd = (vertert.b >> (k*8)) & 0xff;
-				// 					float fweight = ((vertert.w >> (k*8)) & 0xff) / 255.0f;
-				// 				}
+				
+				vertert.b = 0;
+				vertert.w = 0x3f3f3f3f;
+				xmUint8 testBoneInd[4];
+				xmUint8 testWeight[4];
+				for (int k = 0; k < 4; ++k)
+				{
+					testBoneInd[k] = (vertert.b >> (k*8)) & 0xff;
+					testWeight[k] = ((vertert.w >> (k*8)) & 0xff);
+				}
 
 				UINT index = 0;
 				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
@@ -355,6 +731,11 @@ namespace ma
 		pSubMeshData->m_nIndexCount = nIndexCount;
 		pSubMeshData->m_nVertexStart = 0;
 		pSubMeshData->m_nVertexCount = nVertexCount;
+		pSubMeshData->m_arrBonePalette.resize(clusterCount);
+		for (UINT i = 0; i <clusterCount; ++i)
+		{
+			pSubMeshData->m_arrBonePalette[i] = i;
+		}
 		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
 
 		LoadMaterial(pMesh);
@@ -375,6 +756,50 @@ namespace ma
 			for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
 			{
 				ProcessMesh(pMeshData,pNode->GetChild(i));
+			}
+		}
+	}
+
+	void FBXImporter::ConnectMaterialToMesh(FbxMesh* pMesh , int triangleCount , int* pTriangleMtlIndex)
+	{
+		// Get the material index list of current mesh
+		FbxLayerElementArrayTemplate<int>* pMaterialIndices;
+		FbxGeometryElement::EMappingMode   materialMappingMode = FbxGeometryElement::eNone;
+
+		if(pMesh->GetElementMaterial())
+		{
+			pMaterialIndices    = &pMesh->GetElementMaterial()->GetIndexArray();
+			materialMappingMode = pMesh->GetElementMaterial()->GetMappingMode();
+			if(pMaterialIndices)
+			{
+				switch(materialMappingMode)
+				{
+				case FbxGeometryElement::eByPolygon:
+					{
+						if(pMaterialIndices->GetCount() == triangleCount)
+						{
+							for(int triangleIndex = 0 ; triangleIndex < triangleCount ; ++triangleIndex)
+							{
+								int materialIndex = pMaterialIndices->GetAt(triangleIndex);
+
+								pTriangleMtlIndex[triangleIndex] = materialIndex;
+							}
+						}
+					}
+					break;
+
+				case FbxGeometryElement::eAllSame:
+					{
+						int lMaterialIndex = pMaterialIndices->GetAt(0);
+
+						for(int triangleIndex = 0 ; triangleIndex < triangleCount ; ++triangleIndex)
+						{
+							int materialIndex = pMaterialIndices->GetAt(triangleIndex);
+
+							pTriangleMtlIndex[triangleIndex] = materialIndex;
+						}
+					}
+				}
 			}
 		}
 	}

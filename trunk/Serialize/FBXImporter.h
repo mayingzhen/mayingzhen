@@ -24,11 +24,15 @@ namespace ma
 
 		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode);
 
-		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData);
+		void ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 
 		void ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData);
 
+		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData);
+
 		void GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData);
+
+		void GetAnimtionData(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 
 		void ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex);
 
