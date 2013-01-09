@@ -8,13 +8,13 @@ namespace ma
 	class BoneSet;
 	class AnimEvalContext;
 
-	enum eS3LPlaybackMode
+	enum ePlaybackMode
 	{
 		S3L_PLAYBACK_ONCE = 0,
 		S3L_PLAYBACK_LOOP
 	};
 
-	enum eS3LPlayerStatus
+	enum ePlayerStatus
 	{
 		S3L_PLAYER_STOP = 0,
 		S3L_PLAYER_PLAYING,
@@ -45,8 +45,8 @@ namespace ma
 		float m_fLocalFrame;
 		float m_fPlaySpeed;
 
-		eS3LPlaybackMode m_playbackMode;
-		eS3LPlayerStatus m_playerStatus;
+		ePlaybackMode m_playbackMode;
+		ePlayerStatus m_playerStatus;
 
 	};
 }

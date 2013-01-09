@@ -115,8 +115,8 @@ namespace ma
 		if (m_pPhyscisObject == NULL)
 			return;
 
-		//if ( !m_pPhyscisObject->IsKinematic() )
-		//	this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
+		if ( !m_pPhyscisObject->IsKinematic() )
+			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 
 }

@@ -16,6 +16,8 @@ namespace ma
 
 		void AddAnimationAction(AnimationAction* pSkelAnim);
 
+		void AddAnimationInst(AnimationInst* pAnimIns,const char* pszAnimName);
+
 	private:
 		std::vector<AnimationAction*> m_arrAnimation;
 	};
