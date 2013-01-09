@@ -261,7 +261,8 @@ void CGameApp::InitGame()
 	fbxImpor.Initialize();
 	ma::MeshData* pMeshData = new ma::MeshData;
 	ma::SkeletonData* pSkeData = new ma::SkeletonData;
-	fbxImpor.LoadScene("../Fbx/dinosaurYUp.FBX",pMeshData,pSkeData);
+	std::vector<ma::AnimationData*> vAnimData;
+	fbxImpor.LoadScene("../Fbx/dinosaurYUp.FBX",pMeshData,pSkeData,vAnimData);
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
 	pRootNode->AddChildNode(pGameObj);
@@ -279,15 +280,25 @@ void CGameApp::InitGame()
 	pRendMesh->InitWithData(pMeshData);
 	pMeshRes->SetRendMesh(pRendMesh);
 
-	ma::Skeleton* pSkele = new ma::Skeleton();
-	pSkele->InitWithData(*pSkeData);
-	pSkelMeshComp->SetSkeleton(pSkele);
-	
 	const char* pTexPath = "../Fbx/dinosaur.bmp";
 	ma::Texture* pTexture = new ma::Texture(pTexPath);
 	pTexture->Load();
 	pMeshComp->SetTexture(pTexture);
 
+	ma::Skeleton* pSkele = new ma::Skeleton();
+	pSkele->InitWithData(*pSkeData);
+	pSkelMeshComp->SetSkeleton(pSkele);
+
+	ma::Animation* pAnimation = new ma::Animation;
+	pAnimation->InitWithData(vAnimData[0]);
+	pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pSkele);
+	ma::AnimationInst* pAnimInst = new ma::AnimationInst(pAnimation,pSkele);
+
+	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
+	pAnimSet->AddAnimationInst(pAnimInst,"xxx");
+
+	pSkelMeshComp->SetAnimationSet(pAnimSet);
+	pSkelMeshComp->PlayAnimation("xxx");	
 
 	m_pScene->Start();
 	

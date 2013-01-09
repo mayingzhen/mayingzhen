@@ -41,13 +41,8 @@ namespace ma
 		return true;
 	}
 
-	void DisplayCurve(FbxAnimCurve* pCurve)
+	void DisplayCurve(FbxAnimCurve* pCurve,std::vector<float>& vkey)
 	{
-		static const char* interpolation[] = { "?", "constant", "linear", "cubic"};
-		static const char* constantMode[] =  { "?", "Standard", "Next" };
-		static const char* cubicMode[] =     { "?", "Auto", "Auto break", "Tcb", "User", "Break", "User break" };
-		static const char* tangentWVMode[] = { "?", "None", "Right", "Next left" };
-
 		FbxTime   lKeyTime;
 		float   lKeyValue;
 		char    lTimeString[256];
@@ -61,96 +56,110 @@ namespace ma
 			lKeyValue = static_cast<float>(pCurve->KeyGetValue(lCount));
 			lKeyTime  = pCurve->KeyGetTime(lCount);
 
-			lOutputString = "            Key Time: ";
-			lOutputString += lKeyTime.GetTimeString(lTimeString, FbxUShort(256));
-			lOutputString += ".... Key Value: ";
-			lOutputString += lKeyValue;
-			lOutputString += " [ ";
-// 			lOutputString += interpolation[ InterpolationFlagToIndex(pCurve->KeyGetInterpolation(lCount)) ];
-// 			if ((pCurve->KeyGetInterpolation(lCount)&FbxAnimCurveDef::eInterpolationConstant) == FbxAnimCurveDef::eInterpolationConstant)
-// 			{
-// 				lOutputString += " | ";
-// 				lOutputString += constantMode[ ConstantmodeFlagToIndex(pCurve->KeyGetConstantMode(lCount)) ];
-// 			}
-// 			else if ((pCurve->KeyGetInterpolation(lCount)&FbxAnimCurveDef::eInterpolationCubic) == FbxAnimCurveDef::eInterpolationCubic)
-// 			{
-// 				lOutputString += " | ";
-// 				lOutputString += cubicMode[ TangentmodeFlagToIndex(pCurve->KeyGetTangentMode(lCount)) ];
-// 				lOutputString += " | ";
-// 				lOutputString += tangentWVMode[ TangentweightFlagToIndex(pCurve->KeyGet(lCount).GetTangentWeightMode()) ];
-// 				lOutputString += " | ";
-// 				lOutputString += tangentWVMode[ TangentVelocityFlagToIndex(pCurve->KeyGet(lCount).GetTangentVelocityMode()) ];
-// 			}
-			lOutputString += " ]";
-			lOutputString += "\n";
-			FBXSDK_printf (lOutputString);
+			vkey.push_back(lKeyValue);
 		}
 	}
 
-	void DisplayChannels(FbxNode* pNode, FbxAnimLayer* pAnimLayer)
+	struct TrackData
+	{
+		Vector3TrackData posTrack;
+		QuaternionTrackData RotTrack;
+		Vector3TrackData scaleTrack;
+	};
+
+	void DisplayChannels(FbxNode* pNode, FbxAnimLayer* pAnimLayer,std::map<std::string,TrackData>& boneTrack)
 	{
 		FbxAnimCurve* lAnimCurve = NULL;
+	
+		const char* pszName = pNode->GetName();
+
+		if (pNode->GetSkeleton() == NULL)
+			return;
+
+		std::vector<float> vTrasX,vTrasY,vTrasZ;
+		std::vector<float> vRotaX,vRotaY,vRotaZ;
+		std::vector<float> vScaleX,vScaleY,vScaleZ;
 
 		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        TX\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vTrasX);
 		}
 		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        TY\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vTrasY);
 		}
 		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        TZ\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vTrasZ);
 		}
 
 		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        RX\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vRotaX);
 		}
 		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        RY\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vRotaY);
 		}
 		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        RZ\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vRotaZ);
 		}
 
 		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        SX\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vScaleX);
 		}    
 		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        SY\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vScaleY);
 		}
 		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 		if (lAnimCurve)
 		{
 			FBXSDK_printf("        SZ\n");
-			DisplayCurve(lAnimCurve);
+			DisplayCurve(lAnimCurve,vScaleZ);
 		}
+
+		TrackData trackData;
+		for (UINT i = 0; i < vTrasX.size(); ++i)
+		{
+			D3DXVECTOR3 vPos = D3DXVECTOR3(vTrasX[i],vTrasY[i],vTrasZ[i]);
+			trackData.posTrack.m_arrFrame.push_back(i);
+			trackData.posTrack.m_arrKey.push_back(vPos);
+
+			D3DXVECTOR3 vRot = D3DXVECTOR3(vRotaX[i],vRotaY[i],vRotaZ[i]);
+			D3DXQUATERNION qRot;
+			maQuaternionFromEulerAngleXYZ(&qRot,(xmEulerAngleXYZ*)&vRot);
+			trackData.RotTrack.m_arrFrame.push_back(i);
+			trackData.RotTrack.m_arrKey.push_back(qRot);
+
+			D3DXVECTOR3 vScale = D3DXVECTOR3(vScaleX[i],vScaleY[i],vScaleZ[i]);
+			trackData.scaleTrack.m_arrFrame.push_back(i);
+			trackData.scaleTrack.m_arrKey.push_back(vScale);
+		}
+
+		boneTrack[pszName] = trackData;
 		
 	}
 
-	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode)
+	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,std::map<std::string,TrackData>& boneTrack)
 	{
 		int lModelCount;
 		FbxString lOutputString;
@@ -159,17 +168,18 @@ namespace ma
 		lOutputString += pNode->GetName();
 		lOutputString += "\n\n";
 		FBXSDK_printf(lOutputString);
-
-		DisplayChannels(pNode, pAnimLayer);
+		
+		DisplayChannels(pNode, pAnimLayer,boneTrack);
 		FBXSDK_printf ("\n");
+
 
 		for(lModelCount = 0; lModelCount < pNode->GetChildCount(); lModelCount++)
 		{
-			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount));
+			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount),boneTrack);
 		}
 	}
 
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode)
+	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData)
 	{
 		int l;
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
@@ -180,6 +190,9 @@ namespace ma
 		lOutputString += " Animation Layer(s)\n";
 		FBXSDK_printf(lOutputString);
 
+		std::map<std::string,TrackData> boneTrack;
+
+		assert(nbAnimLayers == 1);
 		for (l = 0; l < nbAnimLayers; l++)
 		{
 			FbxAnimLayer* lAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(l);
@@ -189,11 +202,24 @@ namespace ma
 			lOutputString += "\n";
 			FBXSDK_printf(lOutputString);
 
-			DisplayAnimation(lAnimLayer, pNode);
+		
+			DisplayAnimation(lAnimLayer, pNode,boneTrack);
+		}
+		
+		pAnimData->m_nBoneNum = boneTrack.size();
+
+		std::map<std::string,TrackData>::iterator it = boneTrack.begin();
+		for (; it != boneTrack.end(); ++it)
+		{
+			pAnimData->m_arrTransfTrackName.push_back(it->first);
+			pAnimData->m_arrPosTrack.push_back(it->second.posTrack);
+			pAnimData->m_arrRotTrack.push_back(it->second.RotTrack);
+			pAnimData->m_arrScaleTrack.push_back(it->second.scaleTrack);
+			pAnimData->m_nFrameNum = it->second.posTrack.m_arrFrame.size();
 		}
 	}
 
-	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData)
+	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData,std::vector<AnimationData*>& vAnimData)
 	{
 		if(mpFBXSDKManager == NULL)
 		{
@@ -240,7 +266,11 @@ namespace ma
 			lOutputString += "\n\n";
 			FBXSDK_printf(lOutputString);
 
-			DisplayAnimation(lAnimStack, lScene->GetRootNode());
+			AnimationData* pAnimData = new AnimationData;
+			
+			DisplayAnimation(lAnimStack, lScene->GetRootNode(),pAnimData);
+
+			vAnimData.push_back(pAnimData);
 		}
 
 		//ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );

@@ -17,7 +17,7 @@ namespace ma
 
 		bool Initialize();
 	
-		bool LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData);
+		bool LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData, std::vector<AnimationData*>& vAnimData);
 
 	private:
 		//void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);

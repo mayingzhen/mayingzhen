@@ -124,11 +124,6 @@ namespace ma
 		//}
 	}
 
-	void RigidBodyComponent::Update()
-	{
-		
-	}
-
 	void RigidBodyComponent::Start()
 	{
 		if ( GetGameObject() == NULL)

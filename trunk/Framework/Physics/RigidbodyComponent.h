@@ -36,14 +36,6 @@ namespace ma
 
 		float GetAngularDamping();
 
-		//void AddCollisionShape(CollisionShape* pCollisionShape);
-
-		void	SyncFromScene();
-
-		void	SyncToScene();
-
-		virtual void Update();
-
 		virtual void Start();
 
 		virtual void Stop();

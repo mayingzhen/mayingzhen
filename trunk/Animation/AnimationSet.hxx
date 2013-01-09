@@ -49,5 +49,16 @@ namespace ma
 		m_arrAnimation.push_back(pSkelAnim);
 	}
 
+	void AnimationSet::AddAnimationInst(AnimationInst* pAnimIns,const char* pszAnimName)
+	{
+		AnimClipNode* pClipNode = new AnimClipNode();
+		pClipNode->SetAnimationInst(pAnimIns);
+		AnimationAction* pSkelAnim = new AnimationAction;
+		pSkelAnim->SetAnimName(pszAnimName);
+		pSkelAnim->SetTreeNode(pClipNode);
+
+		m_arrAnimation.push_back(pSkelAnim);
+	}
+
 }
 
