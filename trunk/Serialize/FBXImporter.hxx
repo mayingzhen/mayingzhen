@@ -215,8 +215,21 @@ namespace ma
 			pAnimData->m_arrPosTrack.push_back(it->second.posTrack);
 			pAnimData->m_arrRotTrack.push_back(it->second.RotTrack);
 			pAnimData->m_arrScaleTrack.push_back(it->second.scaleTrack);
-			pAnimData->m_nFrameNum = it->second.posTrack.m_arrFrame.size();
+			int nFrame = it->second.posTrack.m_arrFrame.size();
+			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
 		}
+
+// 		for (UINT i = 0; i < pAnimData->m_arrTransfTrackName.size(); ++i)
+// 		{
+// 			Vector3TrackData& posTrack = pAnimData->m_arrPosTrack[i];
+// 			QuaternionTrackData& rotTrack = pAnimData->m_arrRotTrack[i];
+// 			Vector3TrackData& scaleTrack = pAnimData->m_arrScaleTrack[i];
+// 			for (UINT j = posTrack.m_arrFrame.size(); j != pAnimData->m_nFrameNum; ++j)
+// 			{
+// 				posTrack.m_arrFrame.push_back(j);
+// 				posTrack.m_arrKey.push_back(D3DXVECTOR3())
+// 			}
+// 		}
 	}
 
 	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData,std::vector<AnimationData*>& vAnimData)
