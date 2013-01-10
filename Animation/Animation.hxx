@@ -89,6 +89,13 @@ namespace ma
 		//S3ASSERT(m_bInit);
 
 		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
+		
+// 		xmVector3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
+// 		if (fFrame > scalTrack->m_arrFrame.size())
+// 		{
+// 			maTransformSetIdentity(pTSF);
+// 			return;
+// 		}
 
 		D3DXVECTOR3 vLocalScale;
 		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
