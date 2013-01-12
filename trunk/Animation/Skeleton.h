@@ -24,6 +24,8 @@ namespace ma
 		//bool Load(const char* pszPath);
 		bool InitWithData(const SkeletonData& skelData);
 
+		bool InitWithPSData(const SkeletonData& skelData);
+
 		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
 		const NodePose* GetResPose() {return m_refPose;} 
