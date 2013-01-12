@@ -22,13 +22,13 @@ namespace ma
 	private:
 		//void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
 
-		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode);
+		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode,const SkeletonData* pSkelData);
 
 		void ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 
 		void ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData);
 
-		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData);
+		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData);
 
 		void GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData);
 

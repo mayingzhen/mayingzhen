@@ -144,9 +144,27 @@ namespace ma
 			trackData.posTrack.m_arrFrame.push_back(i);
 			trackData.posTrack.m_arrKey.push_back(vPos);
 
-			D3DXVECTOR3 vRot = D3DXVECTOR3(vRotaX[i],vRotaY[i],vRotaZ[i]);
-			D3DXQUATERNION qRot;
-			maQuaternionFromEulerAngleXYZ(&qRot,(xmEulerAngleXYZ*)&vRot);
+			//D3DXVECTOR3 vRot = D3DXVECTOR3(D3DXToRadian(vRotaX[i]),D3DXToRadian(vRotaY[i]),D3DXToRadian(vRotaZ[i]));
+			//D3DXQUATERNION qRot;
+			//maQuaternionFromEulerAngleXYZ(&qRot,(xmEulerAngleXYZ*)&vRot);
+			
+			ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
+			D3DXQUATERNION qRot,qx,qy,qz;
+			D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
+			D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
+			D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
+			D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(vRotaX[i]));
+			D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(vRotaY[i]));
+			D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(vRotaZ[i]));
+			if (rotOrder == eEULER_XYZ)
+			{
+				qRot = qx * qy * qz;	
+			}
+			else
+			{
+				assert(false);		
+			}
+	
 			trackData.RotTrack.m_arrFrame.push_back(i);
 			trackData.RotTrack.m_arrKey.push_back(qRot);
 
@@ -268,7 +286,7 @@ namespace ma
 
 		//ProcessAnimation(lScene->GetRootNode(),m_vAnimData);
 
-		ProcessMesh(pMeshData,lScene->GetRootNode());
+		ProcessMesh(pMeshData,lScene->GetRootNode(),pSkeData);
 
 		for (int i = 0; i < lScene->GetSrcObjectCount<FbxAnimStack>(); i++)
 		{
@@ -354,16 +372,34 @@ namespace ma
 		FbxDouble3 rotation = pNode->LclRotation.Get();
 		FbxDouble3 scaling = pNode->LclScaling.Get();
 		D3DXVECTOR3 dxtranslation(translation[0],translation[1],translation[2]);
-		xmEulerAngleXYZ dxrotation(rotation[0],rotation[1],rotation[2]);
+		//xmEulerAngleXYZ dxrotation(rotation[0],rotation[1],rotation[2]);
 		D3DXVECTOR3 dxscaling(scaling[0],scaling[1],scaling[2]);
-		D3DXQUATERNION qtot;
-		maQuaternionFromEulerAngleXYZ(&qtot,&dxrotation);
+		//D3DXQUATERNION qtot;
+		//maQuaternionFromEulerAngleXYZ(&qtot,&dxrotation);
+		
+		ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
+		D3DXQUATERNION qRot,qx,qy,qz;
+		D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
+		D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
+		D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
+		D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(rotation[0]));
+		D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(rotation[1]));
+		D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(rotation[2]));
+		if (rotOrder == eEULER_XYZ)
+		{
+			qRot = qx * qy * qz;	
+		}
+		else
+		{
+			assert(false);		
+		}
+
 
 		int index = (pSkelData->m_arrBoneName).size();
 
 		(pSkelData->m_arrBoneName).push_back(name.Buffer());
 		(pSkelData->m_arrScaleOS).push_back(dxscaling);
-		(pSkelData->m_arrRotOS).push_back(qtot);
+		(pSkelData->m_arrRotOS).push_back(qRot);
 		(pSkelData->m_arrPosOS).push_back(dxtranslation);
 		(pSkelData->m_arrParentIndice).push_back(parentID);
 		pSkelData->m_nBoneNum = index + 1;
@@ -396,7 +432,7 @@ namespace ma
 		std::vector<double> m_vBoneWeight;
 	};
 
-	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData)
+	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData)
 	{
 		if (pMesh == NULL)
 			return;
@@ -438,6 +474,21 @@ namespace ma
 					continue;
 
 				const char* pszName = pLinkNode->GetName();
+					
+				BoneIndex boneIndex = InvalidID<BoneIndex>();
+				for (UINT index = 0; index < pSkelData->m_arrBoneName.size(); ++index)
+				{
+					const std::string& strBoneName = pSkelData->m_arrBoneName[index];
+					if ( strcmp(strBoneName.c_str(),pszName) == 0 )
+					{
+						boneIndex = index;
+						break;
+					}
+				}
+				assert( IsValidID(boneIndex) );
+				
+				//pSkelData->m_arrBoneName
+				
 				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
 				int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
 				double* pCtrlPointWeights = pCluster->GetControlPointWeights();
@@ -447,7 +498,7 @@ namespace ma
 					int nIndex = pCtrlPointIndices[k];
 					double fWeight = pCtrlPointWeights[k];
 					m_vSkin[nIndex].m_vBoneName.push_back(pszName);
-					m_vSkin[nIndex].m_vBoneInd.push_back(j);
+					m_vSkin[nIndex].m_vBoneInd.push_back(boneIndex);
 					m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
 				}	
 			}
@@ -524,8 +575,8 @@ namespace ma
 				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
 				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
 				
-				vertert.b = 0;
-				vertert.w = 0x3f3f3f3f;
+// 				vertert.b = 0;
+// 				vertert.w = 0x3f3f3f3f;
 				xmUint8 testBoneInd[4];
 				xmUint8 testWeight[4];
 				for (int k = 0; k < 4; ++k)
@@ -589,7 +640,7 @@ namespace ma
 		LoadMaterial(pMesh);
 	}
 
-	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode)
+	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode,const SkeletonData* pSkelData)
 	{
 		if (pMeshData == NULL || pNode == NULL)
 			return;
@@ -597,13 +648,13 @@ namespace ma
 		FbxMesh* pFbxMesh = pNode->GetMesh();
 		if (pFbxMesh)
 		{
-			GetMeshData(pFbxMesh,pMeshData);
+			GetMeshData(pFbxMesh,pMeshData,pSkelData);
 		}
 		else
 		{
 			for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
 			{
-				ProcessMesh(pMeshData,pNode->GetChild(i));
+				ProcessMesh(pMeshData,pNode->GetChild(i),pSkelData);
 			}
 		}
 	}

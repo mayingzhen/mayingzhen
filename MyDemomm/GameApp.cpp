@@ -286,7 +286,7 @@ void CGameApp::InitGame()
 	pMeshComp->SetTexture(pTexture);
 
 	ma::Skeleton* pSkele = new ma::Skeleton();
-	pSkele->InitWithData(*pSkeData);
+	pSkele->InitWithPSData(*pSkeData);
 	pSkelMeshComp->SetSkeleton(pSkele);
 
 	ma::Animation* pAnimation = new ma::Animation;

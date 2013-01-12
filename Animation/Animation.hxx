@@ -6,6 +6,54 @@
 namespace ma
 {
 
+	bool ConverteAnimDataObjectToLocalSpaceAnimation(
+		const std::vector<std::string>& arrTrackName,
+		std::vector<xmVector3Track*>& arrScaleTrackPS,
+		std::vector<xmQuaternionTrack*>& arrRotTrackPS,
+		std::vector<xmVector3Track*>& arrPosTrackPS,
+		Skeleton* pSkel)
+	{
+
+		if (pSkel == NULL)
+			return false;
+
+		const NodePose* pRefPose = pSkel->GetResPose();
+		if (pRefPose == NULL)
+			return false;
+
+		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
+		{	
+			maNodeTransform tsfBoneOSInv;
+			const maNodeTransform& tsfBoneOS = pRefPose->GetTransformOS(i);
+			maTransformInverse(&tsfBoneOSInv,&tsfBoneOS);
+
+			xmVector3Track& scaleTrack = *arrScaleTrackPS[i];
+			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
+			xmVector3Track& posTrack = *arrPosTrackPS[i];
+
+			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
+			nFrameNumber = nFrameNumber + 1;
+
+			for (xmUint nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			{
+				maNodeTransform tsfAnimOS;
+				maNodeTransform tsfAnimLS;
+				tsfAnimOS.m_vPos =  posTrack.m_arrValue[nFrameCnt];
+				tsfAnimOS.m_qRot = rotTrack.m_arrValue[nFrameCnt];
+				tsfAnimOS.m_fScale = 1.0f;//scaleTrack.m_arrValue[nFrameCnt];
+				maTransfromMul(&tsfAnimLS,&tsfAnimOS,&tsfBoneOSInv);
+				scaleTrack.m_arrValue[nFrameCnt] = D3DXVECTOR3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
+				rotTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_qRot;
+				posTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_vPos;	
+			}
+		}
+
+		return true;
+
+	}
+
+
 	bool ConverteAnimDataParentToLocalSpaceAnimation(
 		 const std::vector<std::string>& arrTrackName,
 		 std::vector<xmVector3Track*>& arrScaleTrackPS,
@@ -66,6 +114,19 @@ namespace ma
 			pSkel);
 	}
 
+	bool Animation::ConverteAnimDataObjectToLocalSpaceAnimation(Skeleton* pSkel)
+	{
+		if (pSkel == NULL)
+			return false;
+
+		return ma::ConverteAnimDataObjectToLocalSpaceAnimation(
+			m_arrTransfTrackName,
+			m_pRawTracks->m_scale,
+			m_pRawTracks->m_rot,
+			m_pRawTracks->m_pos,
+			pSkel);
+	}
+
 
 
 
@@ -90,12 +151,12 @@ namespace ma
 
 		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
 		
-// 		xmVector3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
-// 		if (fFrame > scalTrack->m_arrFrame.size())
-// 		{
-// 			maTransformSetIdentity(pTSF);
-// 			return;
-// 		}
+ 		xmVector3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
+ 		if (fFrame > scalTrack->m_arrFrame.size())
+ 		{
+ 			maTransformSetIdentity(pTSF);
+ 			return;
+ 		}
 
 		D3DXVECTOR3 vLocalScale;
 		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);

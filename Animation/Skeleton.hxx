@@ -69,6 +69,43 @@ namespace ma
 
 	}
 
+	bool Skeleton::InitWithPSData(const SkeletonData& skelData)
+	{
+		xmUint nBoneNum = skelData.m_nBoneNum;
+
+		std::vector<maNodeTransform> arrNodePS;
+		arrNodePS.resize(nBoneNum);
+		m_arrBoneName.resize(nBoneNum);
+		m_arrParentInd.resize(nBoneNum);
+		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
+		{
+			arrNodePS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
+			//arrNodeOS[nBoneCnt].m_qRot = ;
+			D3DXQuaternionNormalize(&arrNodePS[nBoneCnt].m_qRot,&skelData.m_arrRotOS[nBoneCnt]);
+			arrNodePS[nBoneCnt].m_fScale = 1.0f;
+			m_arrBoneName[nBoneCnt] = skelData.m_arrBoneName[nBoneCnt];
+			m_arrParentInd[nBoneCnt] = skelData.m_arrParentIndice[nBoneCnt];
+		}
+
+		m_refPose->InitParentSpace(arrNodePS,m_arrParentInd);
+		//m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
+		//m_refPose->SyncParentSpace();
+		//m_pose->SyncObjectSpace();
+
+		m_arrRefPosePS.resize(nBoneNum);
+		m_arrRefPoseOS.resize(nBoneNum);
+		m_arrRefPoseOSInv.resize(nBoneNum);
+
+		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNum; ++uBoneCunt)
+		{
+			maMatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
+			maMatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
+			D3DXMatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
+		}
+
+		return true;
+	}
+
 	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
 	{
 		if (pszBoneName == NULL)
