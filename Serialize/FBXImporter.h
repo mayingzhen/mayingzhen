@@ -22,6 +22,10 @@ namespace ma
 	private:
 		//void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
 
+		FbxMesh* GetFbxMesh(FbxNode* pNode);
+
+		FbxSkeleton* GetFbxRootBone(FbxNode* pNode);
+
 		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode,const SkeletonData* pSkelData);
 
 		void ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
@@ -30,7 +34,7 @@ namespace ma
 
 		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData);
 
-		void GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData);
+		void GetSkeletonData(FbxSkeleton* pSkeleton,FbxMesh* pFbxMesh,SkeletonData* pSkelData);
 
 		void GetAnimtionData(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 
@@ -56,6 +60,11 @@ namespace ma
 	private:
 		FbxManager* mpFBXSDKManager;
 		//FbxScene*   mpFBXSDKScene;
+
+		FbxMesh* mpFbxMesh;
+		FbxSkeleton* mpFbxSkeleton;
+		std::vector<FbxSkeleton*> mpFbxSkeleteon;
+		FbxAnimStack* mpFbxAnimStack;
 	};
 }
 
