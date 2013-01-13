@@ -177,7 +177,8 @@ namespace ma
 		
 	}
 
-	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,std::map<std::string,TrackData>& boneTrack)
+	
+	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
 	{
 		int lModelCount;
 		FbxString lOutputString;
@@ -186,18 +187,54 @@ namespace ma
 		lOutputString += pNode->GetName();
 		lOutputString += "\n\n";
 		FBXSDK_printf(lOutputString);
-		
-		DisplayChannels(pNode, pAnimLayer,boneTrack);
-		FBXSDK_printf ("\n");
 
+		const char* pszBoneName = pNode->GetName();
+
+		TrackData trackData;
+		
+		//DisplayChannels(pNode, pAnimLayer,boneTrack);
+		if ( pNode->GetSkeleton() )
+		{
+			FbxTimeSpan timeSpan = pAnimStack->GetLocalTimeSpan();
+			FbxTime start = timeSpan.GetStart();
+			FbxTime stop = timeSpan.GetStop();
+			FbxTime duration = timeSpan.GetDuration();
+			FbxLongLong frame = duration.GetFrameCount();
+			FbxTime step;
+			step.SetTime(0,0,0,1);
+			int i = 0;
+			while(start < stop)
+			{
+				start += step;
+
+				FbxAMatrix mat = pNode->EvaluateLocalTransform(start);
+				FbxVector4 pTranslation = mat.GetT();
+				FbxQuaternion pRotation = mat.GetQ();
+				FbxVector4 pScaling = mat.GetS();
+
+				FbxVector4 euler = mat.GetR();
+
+				trackData.posTrack.m_arrFrame.push_back(i);
+				trackData.RotTrack.m_arrFrame.push_back(i);
+				trackData.scaleTrack.m_arrFrame.push_back(i);
+
+				trackData.posTrack.m_arrKey.push_back(D3DXVECTOR3(pTranslation[0],pTranslation[1],pTranslation[2]));
+				trackData.RotTrack.m_arrKey.push_back(D3DXQUATERNION(pRotation[0],pRotation[1],pRotation[2],pRotation[3]));
+				trackData.scaleTrack.m_arrKey.push_back(D3DXVECTOR3(pScaling[0],pScaling[1],pScaling[2]));
+
+				++i;
+			}
+
+			boneTrack[pszBoneName] = trackData;	
+		}
 
 		for(lModelCount = 0; lModelCount < pNode->GetChildCount(); lModelCount++)
 		{
-			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount),boneTrack);
+			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount),pAnimStack,boneTrack);
 		}
 	}
 
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData)
+	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData,SkeletonData* pSkelData)
 	{
 		int l;
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
@@ -221,21 +258,45 @@ namespace ma
 			FBXSDK_printf(lOutputString);
 
 		
-			DisplayAnimation(lAnimLayer, pNode,boneTrack);
+			DisplayAnimation(lAnimLayer, pNode, pAnimStack, boneTrack);
 		}
 		
-		pAnimData->m_nBoneNum = boneTrack.size();
+		assert(boneTrack.size() == pSkelData->m_nBoneNum);
+		int nBoneNum = boneTrack.size();
+		pAnimData->m_nBoneNum = nBoneNum;
+		pAnimData->m_arrTransfTrackName.resize(nBoneNum);
+		pAnimData->m_arrPosTrack.resize(nBoneNum);
+		pAnimData->m_arrRotTrack.resize(nBoneNum);
+		pAnimData->m_arrScaleTrack.resize(nBoneNum);
 
-		std::map<std::string,TrackData>::iterator it = boneTrack.begin();
-		for (; it != boneTrack.end(); ++it)
+		for (UINT i = 0; i < nBoneNum; ++i)
 		{
-			pAnimData->m_arrTransfTrackName.push_back(it->first);
-			pAnimData->m_arrPosTrack.push_back(it->second.posTrack);
-			pAnimData->m_arrRotTrack.push_back(it->second.RotTrack);
-			pAnimData->m_arrScaleTrack.push_back(it->second.scaleTrack);
+			std::string boneName = pSkelData->m_arrBoneName[i];
+			std::map<std::string,TrackData>::iterator it = boneTrack.find(/*boneTrack.begin(),boneTrack.end(),*/boneName);
+			assert(it != boneTrack.end());
+			if (it == boneTrack.end())
+				continue;
+
+			//TrackData& trackData = it->second;
+			pAnimData->m_arrTransfTrackName[i] = boneName;
+			pAnimData->m_arrPosTrack[i] = it->second.posTrack;
+			pAnimData->m_arrRotTrack[i] = it->second.RotTrack;
+			pAnimData->m_arrScaleTrack[i] = it->second.scaleTrack;
 			int nFrame = it->second.posTrack.m_arrFrame.size();
 			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
+
 		}
+
+// 		std::map<std::string,TrackData>::iterator it = boneTrack.begin();
+// 		for (; it != boneTrack.end(); ++it)
+// 		{
+// 			pAnimData->m_arrTransfTrackName.push_back(it->first);
+// 			pAnimData->m_arrPosTrack.push_back(it->second.posTrack);
+// 			pAnimData->m_arrRotTrack.push_back(it->second.RotTrack);
+// 			pAnimData->m_arrScaleTrack.push_back(it->second.scaleTrack);
+// 			int nFrame = it->second.posTrack.m_arrFrame.size();
+// 			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
+// 		}
 
 // 		for (UINT i = 0; i < pAnimData->m_arrTransfTrackName.size(); ++i)
 // 		{
@@ -282,11 +343,18 @@ namespace ma
 
 		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
 
-		ProcessSkeleton(lScene->GetRootNode(),pSkeData);
+		GetFbxMesh(lScene->GetRootNode());
+
+		GetFbxRootBone(lScene->GetRootNode());
+
+		//ProcessSkeleton(lScene->GetRootNode(),pSkeData);
+		GetSkeletonData(mpFbxSkeleton,mpFbxMesh,pSkeData);
+
+		GetMeshData(mpFbxMesh,pMeshData,pSkeData);
 
 		//ProcessAnimation(lScene->GetRootNode(),m_vAnimData);
 
-		ProcessMesh(pMeshData,lScene->GetRootNode(),pSkeData);
+		//ProcessMesh(pMeshData,lScene->GetRootNode(),pSkeData);
 
 		for (int i = 0; i < lScene->GetSrcObjectCount<FbxAnimStack>(); i++)
 		{
@@ -299,7 +367,7 @@ namespace ma
 
 			AnimationData* pAnimData = new AnimationData;
 			
-			DisplayAnimation(lAnimStack, lScene->GetRootNode(),pAnimData);
+			DisplayAnimation(lAnimStack, lScene->GetRootNode(),pAnimData,pSkeData);
 
 			vAnimData.push_back(pAnimData);
 		}
@@ -310,6 +378,52 @@ namespace ma
 		pFBXImporter->Destroy();
 
 		return true;
+	}
+
+	FbxMesh* FBXImporter::GetFbxMesh(FbxNode* pNode)
+	{
+		if ( pNode->GetMesh() )
+		{
+			mpFbxMesh = pNode->GetMesh();
+			return mpFbxMesh;
+		}
+		
+		int nChildNode = pNode->GetChildCount();
+		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		{
+			FbxNode* pChildNode = pNode->GetChild(i);
+			FbxMesh* pFbxMesh = GetFbxMesh(pChildNode);
+			if (pFbxMesh)
+			{
+				mpFbxMesh = pChildNode->GetMesh();
+				return mpFbxMesh;
+			}
+		}
+
+		return NULL;
+	}
+
+	FbxSkeleton* FBXImporter::GetFbxRootBone(FbxNode* pNode)
+	{
+		if ( pNode->GetSkeleton() )
+		{
+			mpFbxSkeleton = pNode->GetSkeleton();
+			return mpFbxSkeleton;
+		}
+
+		int nChildNode = pNode->GetChildCount();
+		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		{
+			FbxNode* pChildNode = pNode->GetChild(i);
+			FbxSkeleton* mpFbxSkeleton = GetFbxRootBone(pChildNode);
+			if (mpFbxSkeleton)
+			{
+				mpFbxSkeleton = pChildNode->GetSkeleton();
+				return mpFbxSkeleton;
+			}
+		}
+
+		return NULL;
 	}
 
 	void FBXImporter::ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData)
@@ -350,77 +464,126 @@ namespace ma
 // 		}
 // 	}
 
-	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,SkeletonData* pSkelData)
+	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,FbxMesh* pFbxMesh,SkeletonData* pSkelData)
 	{
 		if (pSkeleton == NULL)
 			return;
 
 		FbxNode* pNode = pSkeleton->GetNode();
-
-		BoneIndex parentID = InvalidID<BoneIndex>();
-		FbxNode* pParentNode = pNode->GetParent();
-		const char* pPrentName = pParentNode->GetName();
-		std::vector<std::string>::iterator it = 
-			std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
-		if (it != (pSkelData->m_arrBoneName).end())
-		{
-			parentID = it - (pSkelData->m_arrBoneName).begin(); 
-		}
-
 		FbxString  name = pNode->GetName();
-		FbxDouble3 translation = pNode->LclTranslation.Get();
-		FbxDouble3 rotation = pNode->LclRotation.Get();
-		FbxDouble3 scaling = pNode->LclScaling.Get();
-		D3DXVECTOR3 dxtranslation(translation[0],translation[1],translation[2]);
-		//xmEulerAngleXYZ dxrotation(rotation[0],rotation[1],rotation[2]);
-		D3DXVECTOR3 dxscaling(scaling[0],scaling[1],scaling[2]);
-		//D3DXQUATERNION qtot;
-		//maQuaternionFromEulerAngleXYZ(&qtot,&dxrotation);
-		
-		ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
-		D3DXQUATERNION qRot,qx,qy,qz;
-		D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
-		D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
-		D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
-		D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(rotation[0]));
-		D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(rotation[1]));
-		D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(rotation[2]));
-		if (rotOrder == eEULER_XYZ)
+		FbxNode* pParentNode = pNode->GetParent();
+// 		if (pSkeleton == mpFbxSkeleton)
+// 		{
+// 			BoneIndex parentID = InvalidID<BoneIndex>();
+// 
+// 			FbxNode* pMeshNode = pFbxMesh->GetNode();
+// 			FbxAMatrix meshMatWS = pMeshNode->EvaluateGlobalTransform();
+// 			FbxAMatrix rootBoneMatWS = pNode->EvaluateGlobalTransform();
+// 			FbxAMatrix meshMatWSInv = meshMatWS.Inverse();
+// 			FbxAMatrix rootBoneMatMeshSpace = rootBoneMatWS * meshMatWSInv;
+// 			
+// 			FbxVector4 translation = rootBoneMatMeshSpace.GetT();
+// 			FbxQuaternion rotate = rootBoneMatMeshSpace.GetQ();
+// 			FbxVector4 scale = rootBoneMatMeshSpace.GetS();
+// 			
+// 			FbxAMatrix matLS = pNode->EvaluateLocalTransform();
+// 			FbxVector4 testTra = matLS.GetT();
+// 			FbxVector4 testRot = matLS.GetR();
+// 			FbxDouble3 trans = pNode->LclTranslation.Get();
+// 			FbxDouble3 rota = pNode->LclRotation.Get();
+// 
+// 			(pSkelData->m_arrBoneName).push_back(name.Buffer());
+// 			(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(scale[0],scale[1],scale[2]));
+// 			(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(rotate[0],rotate[1],rotate[2],rotate[3]));
+// 			(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(translation[0],translation[1],translation[2]));
+// 			(pSkelData->m_arrParentIndice).push_back(parentID);
+// 		}
+// 		else
+// 		{
+			BoneIndex parentID = InvalidID<BoneIndex>();
+			const char* pPrentName = pParentNode->GetName();
+			std::vector<std::string>::iterator it = 
+				std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
+			if (it != (pSkelData->m_arrBoneName).end())
+			{
+				parentID = it - (pSkelData->m_arrBoneName).begin(); 
+			}
+
+// 			FbxDouble3 translation = pNode->LclTranslation.Get();
+// 			FbxDouble3 rotation = pNode->LclRotation.Get();
+// 			FbxDouble3 scaling = pNode->LclScaling.Get();
+// 			D3DXVECTOR3 dxtranslation(translation[0],translation[1],translation[2]);
+// 			D3DXVECTOR3 dxscaling(scaling[0],scaling[1],scaling[2]);
+// 			
+// 			ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
+// 			D3DXQUATERNION qRot,qx,qy,qz;
+// 			D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
+// 			D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
+// 			D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
+// 			D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(rotation[0]));
+// 			D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(rotation[1]));
+// 			D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(rotation[2]));
+// 			if (rotOrder == eEULER_XYZ)
+// 			{
+// 				qRot = qx * qy * qz;	
+// 			}
+// 			else
+// 			{
+// 				assert(false);		
+// 			}
+
+			
+			FbxAMatrix mat = pNode->EvaluateGlobalTransform();	
+			FbxVector4 translation = mat.GetT();
+			FbxQuaternion rotate = mat.GetQ();
+			FbxVector4 scale = mat.GetS();
+
+			int index = (pSkelData->m_arrBoneName).size();
+
+			(pSkelData->m_arrBoneName).push_back(name.Buffer());
+			(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(scale[0],scale[1],scale[2]));
+			(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(rotate[0],rotate[1],rotate[2],rotate[3]));
+			(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(translation[0],translation[1],translation[2]));
+			(pSkelData->m_arrParentIndice).push_back(parentID);
+			pSkelData->m_nBoneNum = index + 1;
+		//}
+
+		int nChildNode = pNode->GetChildCount();
+		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
 		{
-			qRot = qx * qy * qz;	
+			FbxNode* pChildNode = pNode->GetChild(i);
+			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
+			assert(pSkeletonx);
+			GetSkeletonData(pSkeletonx,pFbxMesh,pSkelData);
 		}
-		else
-		{
-			assert(false);		
-		}
-
-
-		int index = (pSkelData->m_arrBoneName).size();
-
-		(pSkelData->m_arrBoneName).push_back(name.Buffer());
-		(pSkelData->m_arrScaleOS).push_back(dxscaling);
-		(pSkelData->m_arrRotOS).push_back(qRot);
-		(pSkelData->m_arrPosOS).push_back(dxtranslation);
-		(pSkelData->m_arrParentIndice).push_back(parentID);
-		pSkelData->m_nBoneNum = index + 1;
 	}
 
 	void  FBXImporter::ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData)
 	{
 		if (pNode == NULL)
 			return;
+		
+		if ( pNode->GetMesh() )
+		{
+			mpFbxMesh = pNode->GetMesh();
+		}
+ 
+// 		FbxString  name = pNode->GetName();
+// 		FbxDouble3 translation = pNode->LclTranslation.Get();
+// 		FbxDouble3 rotation = pNode->LclRotation.Get();
+// 		FbxDouble3 scaling = pNode->LclScaling.Get();
 
 		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
 		if (pSkeleton)
 		{
-			GetSkeletonData(pSkeleton,pSkelData);
+			GetSkeletonData(pSkeleton,mpFbxMesh,pSkelData);
 		}
 
 		int nChildNode = pNode->GetChildCount();
 		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
-			ProcessSkeleton(pChildNode, pSkelData);
+			ProcessSkeleton(pChildNode,pSkelData);
 		}
 	}
 
@@ -644,6 +807,11 @@ namespace ma
 	{
 		if (pMeshData == NULL || pNode == NULL)
 			return;
+
+		FbxString  name = pNode->GetName();
+		FbxDouble3 translation = pNode->LclTranslation.Get();
+		FbxDouble3 rotation = pNode->LclRotation.Get();
+		FbxDouble3 scaling = pNode->LclScaling.Get();
 
 		FbxMesh* pFbxMesh = pNode->GetMesh();
 		if (pFbxMesh)
