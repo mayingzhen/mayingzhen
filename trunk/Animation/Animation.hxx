@@ -89,9 +89,9 @@ namespace ma
 				maNodeTransform tsfAnimLS;
 				tsfAnimPS.m_vPos =  posTrack.m_arrValue[nFrameCnt];
 				tsfAnimPS.m_qRot = rotTrack.m_arrValue[nFrameCnt];
-				tsfAnimPS.m_fScale = 1.0f;//scaleTrack.m_arrValue[nFrameCnt];
+				tsfAnimPS.m_fScale = scaleTrack.m_arrValue[nFrameCnt].x;
 				maTransfromMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
-				scaleTrack.m_arrValue[nFrameCnt] = D3DXVECTOR3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
+				scaleTrack.m_arrValue[nFrameCnt] = D3DXVECTOR3(tsfAnimLS.m_fScale,tsfAnimLS.m_fScale,tsfAnimLS.m_fScale);
 				rotTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_qRot;
 				posTrack.m_arrValue[nFrameCnt] = tsfAnimLS.m_vPos;	
 			}
@@ -160,7 +160,7 @@ namespace ma
 
 		D3DXVECTOR3 vLocalScale;
 		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
-		pTSF->m_fScale = ( fabsf(vLocalScale.x) + fabsf(vLocalScale.y) + fabsf(vLocalScale.z) ) / 3.0f;
+		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
 		//pTSF->m_vLocalScale = pTSF->m_fScale > xm_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : xmVec3Zero();
 

@@ -348,7 +348,10 @@ namespace ma
 		GetFbxRootBone(lScene->GetRootNode());
 
 		//ProcessSkeleton(lScene->GetRootNode(),pSkeData);
-		GetSkeletonData(mpFbxSkeleton,mpFbxMesh,pSkeData);
+		// get bind pose
+		KFbxPose* pBindPose = lScene->GetPose(0);
+		assert(pBindPose && pBindPose->IsBindPose());
+		GetSkeletonData(mpFbxSkeleton,pBindPose,mpFbxMesh,pSkeData);
 
 		GetMeshData(mpFbxMesh,pMeshData,pSkeData);
 
@@ -356,7 +359,8 @@ namespace ma
 
 		//ProcessMesh(pMeshData,lScene->GetRootNode(),pSkeData);
 
-		for (int i = 0; i < lScene->GetSrcObjectCount<FbxAnimStack>(); i++)
+		int nAnimStackCount = lScene->GetSrcObjectCount<FbxAnimStack>();
+		for (int i = 0; i < nAnimStackCount; i++)
 		{
 			FbxAnimStack* lAnimStack = lScene->GetSrcObject<FbxAnimStack>(i);
 
@@ -370,6 +374,7 @@ namespace ma
 			DisplayAnimation(lAnimStack, lScene->GetRootNode(),pAnimData,pSkeData);
 
 			vAnimData.push_back(pAnimData);
+			break;
 		}
 
 		//ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
@@ -464,89 +469,65 @@ namespace ma
 // 		}
 // 	}
 
-	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,FbxMesh* pFbxMesh,SkeletonData* pSkelData)
+	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,FbxMesh* pFbxMesh,SkeletonData* pSkelData)
 	{
 		if (pSkeleton == NULL)
+			return;
+
+		if (pBindPose == NULL)
 			return;
 
 		FbxNode* pNode = pSkeleton->GetNode();
 		FbxString  name = pNode->GetName();
 		FbxNode* pParentNode = pNode->GetParent();
-// 		if (pSkeleton == mpFbxSkeleton)
+
+		BoneIndex parentID = InvalidID<BoneIndex>();
+		const char* pPrentName = pParentNode->GetName();
+		std::vector<std::string>::iterator it = 
+			std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
+		if (it != (pSkelData->m_arrBoneName).end())
+		{
+			parentID = it - (pSkelData->m_arrBoneName).begin(); 
+		}
+
+		KFbxVector4 LocalLinkT;
+		FbxQuaternion LocalLinkQ;
+		KFbxVector4 LocalLinkS;
+		
+		int PoseLinkIndex = pBindPose->Find(pNode);
+		assert(PoseLinkIndex >= 0);
+		KFbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
+		KFbxXMatrix Matrix = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
+		
+// 		if ( IsValidID<BoneIndex>(parentID) )
 // 		{
-// 			BoneIndex parentID = InvalidID<BoneIndex>();
+// 			int PoseLinkIndex = pBindPose->Find(pParentNode);
+// 			assert(PoseLinkIndex >= 0);
+// 			KFbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
+// 			KFbxXMatrix MatrixParent = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
 // 
-// 			FbxNode* pMeshNode = pFbxMesh->GetNode();
-// 			FbxAMatrix meshMatWS = pMeshNode->EvaluateGlobalTransform();
-// 			FbxAMatrix rootBoneMatWS = pNode->EvaluateGlobalTransform();
-// 			FbxAMatrix meshMatWSInv = meshMatWS.Inverse();
-// 			FbxAMatrix rootBoneMatMeshSpace = rootBoneMatWS * meshMatWSInv;
-// 			
-// 			FbxVector4 translation = rootBoneMatMeshSpace.GetT();
-// 			FbxQuaternion rotate = rootBoneMatMeshSpace.GetQ();
-// 			FbxVector4 scale = rootBoneMatMeshSpace.GetS();
-// 			
-// 			FbxAMatrix matLS = pNode->EvaluateLocalTransform();
-// 			FbxVector4 testTra = matLS.GetT();
-// 			FbxVector4 testRot = matLS.GetR();
-// 			FbxDouble3 trans = pNode->LclTranslation.Get();
-// 			FbxDouble3 rota = pNode->LclRotation.Get();
-// 
-// 			(pSkelData->m_arrBoneName).push_back(name.Buffer());
-// 			(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(scale[0],scale[1],scale[2]));
-// 			(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(rotate[0],rotate[1],rotate[2],rotate[3]));
-// 			(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(translation[0],translation[1],translation[2]));
-// 			(pSkelData->m_arrParentIndice).push_back(parentID);
+// 			//KFbxXMatrix	Matrix;
+// 			Matrix = MatrixParent.Inverse() * Matrix;
+// 			LocalLinkT = Matrix.GetT();
+// 			LocalLinkQ = Matrix.GetQ();
+// 			LocalLinkS = Matrix.GetS();
 // 		}
 // 		else
 // 		{
-			BoneIndex parentID = InvalidID<BoneIndex>();
-			const char* pPrentName = pParentNode->GetName();
-			std::vector<std::string>::iterator it = 
-				std::find((pSkelData->m_arrBoneName).begin(),(pSkelData->m_arrBoneName).end(),pPrentName);
-			if (it != (pSkelData->m_arrBoneName).end())
-			{
-				parentID = it - (pSkelData->m_arrBoneName).begin(); 
-			}
+			// for root, this is global coordinate
+			LocalLinkT = Matrix.GetT();
+			LocalLinkQ = Matrix.GetQ();
+			LocalLinkS = Matrix.GetS();
+//		}
 
-// 			FbxDouble3 translation = pNode->LclTranslation.Get();
-// 			FbxDouble3 rotation = pNode->LclRotation.Get();
-// 			FbxDouble3 scaling = pNode->LclScaling.Get();
-// 			D3DXVECTOR3 dxtranslation(translation[0],translation[1],translation[2]);
-// 			D3DXVECTOR3 dxscaling(scaling[0],scaling[1],scaling[2]);
-// 			
-// 			ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
-// 			D3DXQUATERNION qRot,qx,qy,qz;
-// 			D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
-// 			D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
-// 			D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
-// 			D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(rotation[0]));
-// 			D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(rotation[1]));
-// 			D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(rotation[2]));
-// 			if (rotOrder == eEULER_XYZ)
-// 			{
-// 				qRot = qx * qy * qz;	
-// 			}
-// 			else
-// 			{
-// 				assert(false);		
-// 			}
+		int index = (pSkelData->m_arrBoneName).size();
 
-			
-			FbxAMatrix mat = pNode->EvaluateGlobalTransform();	
-			FbxVector4 translation = mat.GetT();
-			FbxQuaternion rotate = mat.GetQ();
-			FbxVector4 scale = mat.GetS();
-
-			int index = (pSkelData->m_arrBoneName).size();
-
-			(pSkelData->m_arrBoneName).push_back(name.Buffer());
-			(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(scale[0],scale[1],scale[2]));
-			(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(rotate[0],rotate[1],rotate[2],rotate[3]));
-			(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(translation[0],translation[1],translation[2]));
-			(pSkelData->m_arrParentIndice).push_back(parentID);
-			pSkelData->m_nBoneNum = index + 1;
-		//}
+		(pSkelData->m_arrBoneName).push_back(name.Buffer());
+		(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(LocalLinkS[0],LocalLinkS[1],LocalLinkS[2]));
+		(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(LocalLinkQ[0],LocalLinkQ[1],LocalLinkQ[2],LocalLinkQ[3]));
+		(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(LocalLinkT[0],LocalLinkT[1],LocalLinkT[2]));
+		(pSkelData->m_arrParentIndice).push_back(parentID);
+		pSkelData->m_nBoneNum = index + 1;
 
 		int nChildNode = pNode->GetChildCount();
 		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
@@ -554,7 +535,7 @@ namespace ma
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
 			assert(pSkeletonx);
-			GetSkeletonData(pSkeletonx,pFbxMesh,pSkelData);
+			GetSkeletonData(pSkeletonx,pBindPose,pFbxMesh,pSkelData);
 		}
 	}
 
@@ -576,7 +557,7 @@ namespace ma
 		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
 		if (pSkeleton)
 		{
-			GetSkeletonData(pSkeleton,mpFbxMesh,pSkelData);
+			//GetSkeletonData(pSkeleton,mpFbxMesh,pSkelData);
 		}
 
 		int nChildNode = pNode->GetChildCount();

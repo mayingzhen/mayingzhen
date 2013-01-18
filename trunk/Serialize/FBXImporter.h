@@ -34,7 +34,7 @@ namespace ma
 
 		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData);
 
-		void GetSkeletonData(FbxSkeleton* pSkeleton,FbxMesh* pFbxMesh,SkeletonData* pSkelData);
+		void GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,FbxMesh* pFbxMesh,SkeletonData* pSkelData);
 
 		void GetAnimtionData(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 

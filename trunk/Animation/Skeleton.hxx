@@ -37,7 +37,7 @@ namespace ma
 			arrNodeOS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
 			//arrNodeOS[nBoneCnt].m_qRot = ;
 			D3DXQuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&skelData.m_arrRotOS[nBoneCnt]);
-			arrNodeOS[nBoneCnt].m_fScale = 1.0f;
+			arrNodeOS[nBoneCnt].m_fScale = skelData.m_arrScaleOS[nBoneCnt].x;
 			m_arrBoneName[nBoneCnt] = skelData.m_arrBoneName[nBoneCnt];
 			m_arrParentInd[nBoneCnt] = skelData.m_arrParentIndice[nBoneCnt];
 		}
@@ -82,7 +82,7 @@ namespace ma
 			arrNodePS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
 			//arrNodeOS[nBoneCnt].m_qRot = ;
 			D3DXQuaternionNormalize(&arrNodePS[nBoneCnt].m_qRot,&skelData.m_arrRotOS[nBoneCnt]);
-			arrNodePS[nBoneCnt].m_fScale = 1.0f;
+			arrNodePS[nBoneCnt].m_fScale = skelData.m_arrScaleOS[nBoneCnt].x;
 			m_arrBoneName[nBoneCnt] = skelData.m_arrBoneName[nBoneCnt];
 			m_arrParentInd[nBoneCnt] = skelData.m_arrParentIndice[nBoneCnt];
 		}
