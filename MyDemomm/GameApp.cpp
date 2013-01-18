@@ -262,7 +262,7 @@ void CGameApp::InitGame()
 	ma::MeshData* pMeshData = new ma::MeshData;
 	ma::SkeletonData* pSkeData = new ma::SkeletonData;
 	std::vector<ma::AnimationData*> vAnimData;
-	fbxImpor.LoadScene("../Fbx/dinosaurYUp.FBX",pMeshData,pSkeData,vAnimData);
+	fbxImpor.LoadScene("../Fbx/Naruto/Naruto.fbx",pMeshData,pSkeData,vAnimData);
 
 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
 	pRootNode->AddChildNode(pGameObj);
@@ -286,7 +286,7 @@ void CGameApp::InitGame()
 	pMeshComp->SetTexture(pTexture);
 
 	ma::Skeleton* pSkele = new ma::Skeleton();
-	pSkele->InitWithPSData(*pSkeData);
+	pSkele->InitWithData(*pSkeData);
 	pSkelMeshComp->SetSkeleton(pSkele);
 
 	ma::Animation* pAnimation = new ma::Animation;
