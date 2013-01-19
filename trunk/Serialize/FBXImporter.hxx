@@ -654,11 +654,11 @@ namespace ma
 		int triangleCount = pMesh->GetPolygonCount();
 		int vertexCounter = 0;
 
-		D3DXVECTOR3 vertex[3];
-		D3DXVECTOR4 color[3];
-		D3DXVECTOR3 normal[3];
-		D3DXVECTOR3 tangent[3];
-		D3DXVECTOR2 uv[3][2];
+// 		D3DXVECTOR3 vertex[3];
+// 		D3DXVECTOR4 color[3];
+// 		D3DXVECTOR3 normal[3];
+// 		D3DXVECTOR3 tangent[3];
+// 		D3DXVECTOR2 uv[3][2];
 
 		int* pTriangleMtlIndex = new int[triangleCount];
 		ConnectMaterialToMesh(pMesh,triangleCount,pTriangleMtlIndex);
@@ -669,15 +669,21 @@ namespace ma
 		for(int i = 0 ; i < triangleCount ; ++i)
 		{
 			assert(pMesh->GetPolygonSize(i) == 3); 
-			for(int j = 0 ; j < 3 ; j++)
+			for(int j = 0; j < 3 ; ++j)
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
 
+				D3DXVECTOR3 vertex;
+				D3DXVECTOR4 color;
+				D3DXVECTOR3 normal;
+				D3DXVECTOR3 tangent;
+				D3DXVECTOR2 uv[2];
+
 				// Read the vertex
-				ReadVertex(pMesh , ctrlPointIndex , &vertex[j]);
+				ReadVertex(pMesh , ctrlPointIndex , &vertex);
 
 				// Read the color of each vertex
-				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color[j]);
+				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
 
 				// Read the UV of each vertex
 				// 				FbxStringList lUVSetNameList;
@@ -689,22 +695,22 @@ namespace ma
 				// 				}
 				for(int k = 0 ; k < 2 ; ++k)
 				{
-					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[j][k]));
+					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[k]));
 				}
 
 				// Read the normal of each vertex
-				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &normal[j]);
+				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &normal);
 
 				// Read the tangent of each vertex
-				ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &tangent[j]);
+				ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &tangent);
 
 				vertexCounter++;
 
 				//D3DXVec3TransformCoord(&vertex[j],&vertex[j],&matrix);
 				VertexType0 vertert;
 				memset(&vertert,0,sizeof(VertexType0));
-				vertert.p = vertex[j];
-				vertert.uv = uv[j][0];
+				vertert.p = vertex;
+				vertert.uv = uv[0];
 
 				xmUint8 boneInd[4]  = {0};
 				xmUint8 weight[4] = {0};
@@ -719,15 +725,14 @@ namespace ma
 				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
 				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
 				
-// 				vertert.b = 0;
-// 				vertert.w = 0x3f3f3f3f;
-				xmUint8 testBoneInd[4];
-				xmUint8 testWeight[4];
-				for (int k = 0; k < 4; ++k)
-				{
-					testBoneInd[k] = (vertert.b >> (k*8)) & 0xff;
-					testWeight[k] = ((vertert.w >> (k*8)) & 0xff);
-				}
+
+// 				xmUint8 testBoneInd[4];
+// 				xmUint8 testWeight[4];
+// 				for (int k = 0; k < 4; ++k)
+// 				{
+// 					testBoneInd[k] = (vertert.b >> (k*8)) & 0xff;
+// 					testWeight[k] = ((vertert.w >> (k*8)) & 0xff);
+// 				}
 
 				UINT index = 0;
 				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
@@ -931,6 +936,20 @@ namespace ma
 
 	void FBXImporter::ReadUV(FbxMesh* pMesh , int ctrlPointIndex , int textureUVIndex , int uvLayer , D3DXVECTOR2* pUV)
 	{
+// 		for (int layerIndex = 0; layerIndex < pMesh->GetLayerCount(); ++layerIndex)
+// 		{
+// 			FbxLayer* pLayer = pMesh->GetLayer(layerIndex);
+// 			for (int uvSetIndex = 0; uvSetIndex < pLayer->GetUVSetCount();++uvSetIndex)
+// 			{
+// 				FbxLayerElementUV* pElementUV = pLayer->GetUVSets()[uvSetIndex];
+// 				if (pElementUV == NULL)
+// 					continue;
+// 
+// 				const char* pszUVSetName = pElementUV->GetName();
+// 
+// 			}
+// 		}
+
 		if(uvLayer >= 2 || pMesh->GetElementUVCount() <= uvLayer)
 		{
 			return ;
@@ -961,7 +980,7 @@ namespace ma
 		{
 			FbxVector2 uvValue = pVertexUV->GetDirectArray().GetAt(uvIndex);
 			pUV->x = (float)uvValue[0];
-			pUV->y = (float)uvValue[1];
+			pUV->y = 1.0f - (float)uvValue[1];
 		}
 	}
 
