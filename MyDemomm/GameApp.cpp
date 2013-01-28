@@ -147,7 +147,7 @@ void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
 	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 300, 500);
+	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 600, 1000);
 	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
@@ -223,82 +223,83 @@ void CGameApp::InitGame()
 
 
 ////////////////////////////////////////////////////////////////////////// Physics ////////////////
-// 	{
-// 		ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"physics");
-// 		pRootNode->AddChildNode(pGameObj);
-// 
-// 		ma::MeshComponent* pMeshComp = new ma::MeshComponent();
-// 		pMeshComp->Load("../TrineGame/map/stone.skn","../TrineGame/map/stone.tga");
-// 		pGameObj->AddComponent(pMeshComp);
-// 
-// 		ma::BoxCollisionComponent* pBoxCollisionShape = new ma::BoxCollisionComponent();
-// 		pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
-// 		pGameObj->AddComponent(pBoxCollisionShape);
-// 
-// 		ma::RigidBodyComponent* pRigidBodyComp = new ma::RigidBodyComponent();
-// 		pRigidBodyComp->SetMass(1.0f);
-// 		pRigidBodyComp->SetKinematic(false);
-// 		//pRigidBodyComp->SetUseGravity(true);
-// 		pGameObj->AddComponent(pRigidBodyComp);	
-// 
-// 	}
-// 
-// 	{
-// 		ma::GameObject* pTerrain = new ma::GameObject(m_pScene,"Terrain");
-// 		pRootNode->AddChildNode(pTerrain);
-// 
-// 		ma::MeshComponent* pTerrainMesh = new ma::MeshComponent();
-// 		pTerrainMesh->Load("../TrineGame/map/terrain.skn","../TrineGame/map/terrain.tga");
-// 		pTerrain->AddComponent(pTerrainMesh);
-// 
-// 		// 	ma::BoxCollisionComponent* pTerrainBoxColl = new ma::BoxCollisionComponent();
-// 		// 	pTerrainBoxColl->SetSize(D3DXVECTOR3(1000,1000,1000));
-// 		// 	pGameObj->AddComponent(pTerrainBoxColl);
-// 	}
+	{
+		ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"physics");
+		pRootNode->AddChildNode(pGameObj);
+
+		ma::MeshComponent* pMeshComp = new ma::MeshComponent();
+		pMeshComp->Load("../TrineGame/map/stone.skn","../TrineGame/map/stone.tga");
+		pGameObj->AddComponent(pMeshComp);
+
+		ma::BoxCollisionComponent* pBoxCollisionShape = new ma::BoxCollisionComponent();
+		pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
+		pGameObj->AddComponent(pBoxCollisionShape);
+
+		ma::RigidBodyComponent* pRigidBodyComp = new ma::RigidBodyComponent();
+		pRigidBodyComp->SetMass(1.0f);
+		pRigidBodyComp->SetKinematic(false);
+		//pRigidBodyComp->SetUseGravity(true);
+		pGameObj->AddComponent(pRigidBodyComp);	
+
+	}
+
+	{
+		ma::GameObject* pTerrain = new ma::GameObject(m_pScene,"Terrain");
+		pRootNode->AddChildNode(pTerrain);
+
+		ma::MeshComponent* pTerrainMesh = new ma::MeshComponent();
+		pTerrainMesh->Load("../TrineGame/map/terrain.skn","../TrineGame/map/terrain.tga");
+		pTerrain->AddComponent(pTerrainMesh);
+
+		// 	ma::BoxCollisionComponent* pTerrainBoxColl = new ma::BoxCollisionComponent();
+		// 	pTerrainBoxColl->SetSize(D3DXVECTOR3(1000,1000,1000));
+		// 	pGameObj->AddComponent(pTerrainBoxColl);
+	}
 
 ////////////////////////////////////////////////////////////////////////// Fbx ////////////////
-	ma::FBXImporter fbxImpor;
-	fbxImpor.Initialize();
-	ma::MeshData* pMeshData = new ma::MeshData;
-	ma::SkeletonData* pSkeData = new ma::SkeletonData;
-	std::vector<ma::AnimationData*> vAnimData;
-	fbxImpor.LoadScene("../Fbx/dinosaur.FBX",pMeshData,pSkeData,vAnimData);
-
-	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
-	pRootNode->AddChildNode(pGameObj);
-
-	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
-	pGameObj->AddComponent(pSkelMeshComp);
-
- 	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
-	pSkelMeshComp->AddMeshComp(pMeshComp);
-
-	ma::MeshRes* pMeshRes = new ma::MeshRes(); 
-	pMeshComp->SetMeshRes(pMeshRes);
-
-	ma::DxRendMesh* pRendMesh = new ma::DxRendMesh();
-	pRendMesh->InitWithData(pMeshData);
-	pMeshRes->SetRendMesh(pRendMesh);
-
-	const char* pTexPath = "../Fbx/dinosaur.bmp";
-	ma::Texture* pTexture = new ma::Texture(pTexPath);
-	pTexture->Load();
-	pMeshComp->SetTexture(pTexture);
-
-	ma::Skeleton* pSkele = new ma::Skeleton();
-	pSkele->InitWithData(*pSkeData);
-	pSkelMeshComp->SetSkeleton(pSkele);
-
-	ma::Animation* pAnimation = new ma::Animation;
-	pAnimation->InitWithData(vAnimData[0]);
-	pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pSkele);
-	ma::AnimationInst* pAnimInst = new ma::AnimationInst(pAnimation,pSkele);
-
-	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
-	pAnimSet->AddAnimationInst(pAnimInst,"xxx");
-
-	pSkelMeshComp->SetAnimationSet(pAnimSet);
-	pSkelMeshComp->PlayAnimation("xxx");	
+// 	ma::FBXImporter fbxImpor;
+// 	fbxImpor.Initialize();
+// 	ma::MeshData* pMeshData = new ma::MeshData;
+// 	ma::SkeletonData* pSkeData = new ma::SkeletonData;
+// 	std::vector<ma::AnimationData*> vAnimData;
+// 	fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx"/*"../Fbx/Naruto/NarutoYUP.FBX"*/,pMeshData,pSkeData,vAnimData);
+// 
+// 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"Fbx");
+// 	pRootNode->AddChildNode(pGameObj);
+// 
+// 	ma::SkelMeshComponent* pSkelMeshComp = new ma::SkelMeshComponent();
+// 	pGameObj->AddComponent(pSkelMeshComp);
+// 
+//  	ma::MeshComponent* pMeshComp = new ma::MeshComponent;
+// 	pSkelMeshComp->AddMeshComp(pMeshComp);
+// 	//pGameObj->AddComponent(pMeshComp);
+// 
+// 	ma::MeshRes* pMeshRes = new ma::MeshRes(); 
+// 	pMeshComp->SetMeshRes(pMeshRes);
+// 
+// 	ma::DxRendMesh* pRendMesh = new ma::DxRendMesh();
+// 	pRendMesh->InitWithData(pMeshData);
+// 	pMeshRes->SetRendMesh(pRendMesh);
+// 
+// 	const char* pTexPath = "../Fbx/TestBull_DM.png";//"../Fbx/Naruto/Naruto.fbm/FbxTemp_0003.jpg";
+// 	ma::Texture* pTexture = new ma::Texture(pTexPath);
+// 	pTexture->Load();
+// 	pMeshComp->SetTexture(pTexture);
+// 
+// 	ma::Skeleton* pSkele = new ma::Skeleton();
+// 	pSkele->InitWithData(*pSkeData);
+// 	pSkelMeshComp->SetSkeleton(pSkele);
+// 
+// 	ma::Animation* pAnimation = new ma::Animation;
+// 	pAnimation->InitWithData(vAnimData[0]);
+// 	pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pSkele);
+// 	ma::AnimationInst* pAnimInst = new ma::AnimationInst(pAnimation,pSkele);
+// 
+// 	ma::AnimationSet* pAnimSet = new ma::AnimationSet();
+// 	pAnimSet->AddAnimationInst(pAnimInst,"xxx");
+// 
+// 	pSkelMeshComp->SetAnimationSet(pAnimSet);
+// 	pSkelMeshComp->PlayAnimation("xxx");	
 
 	m_pScene->Start();
 	
@@ -360,9 +361,22 @@ void CGameApp::InitGame()
 
 void CGameApp::Update()
 {
+	if ( ma::GetInput() )
+	{
+		ma::GetInput()->CaptureInput();
+	}
+
 	if ( ma::GetTimer() )
 	{
 		ma::GetTimer()->UpdateFrame();
+	}
+
+	if ( ma::GetInput() )
+	{
+		if (ma::GetInput()->IsKeyPressed(OIS::KC_M) )
+		{
+			int i = 5;
+		}
 	}
 
 	if (m_pScene)
@@ -439,6 +453,10 @@ HRESULT CGameApp::Create(HINSTANCE hInstance)
 
 	ma::DxRender* pDxRender = (ma::DxRender*)ma::GetRender();
 	pDxRender->InitDefaultShader();
+
+	ma::Input* pInput  = new ma::Input();
+	pInput->Init((int)m_hMainWnd);
+	ma::SetInput(pInput);
 
 	
 
