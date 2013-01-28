@@ -259,6 +259,8 @@ namespace ma
 
 		
 			DisplayAnimation(lAnimLayer, pNode, pAnimStack, boneTrack);
+
+			break;
 		}
 		
 		assert(boneTrack.size() == pSkelData->m_nBoneNum);
@@ -349,7 +351,15 @@ namespace ma
 
 		//ProcessSkeleton(lScene->GetRootNode(),pSkeData);
 		// get bind pose
+		int nPose = lScene->GetPoseCount();
 		KFbxPose* pBindPose = lScene->GetPose(0);
+		int nCount = pBindPose->GetCount();
+		for (int i = 0; i < nCount; ++i)
+		{
+			FbxNode* pNode = pBindPose->GetNode(i);
+			const char* pszNodeName = pNode->GetName();
+			int k = 0;
+		}
 		assert(pBindPose && pBindPose->IsBindPose());
 		GetSkeletonData(mpFbxSkeleton,pBindPose,mpFbxMesh,pSkeData);
 
