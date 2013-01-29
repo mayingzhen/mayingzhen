@@ -21,11 +21,7 @@ namespace ma
 	class Input;
 	class InputListener;
 
-	FRAMEWORK_API void	SetInput(Input* pInput);
-
-	FRAMEWORK_API Input*	GetInput();
-
-	class FRAMEWORK_API Input : public OIS::MouseListener, public OIS::KeyListener
+	class Application_API Input : public OIS::MouseListener, public OIS::KeyListener
 	{
 		struct InputState
 		{
@@ -136,7 +132,9 @@ namespace ma
 
 	};
 
+	Application_API void	SetInput(Input* pInput);
 
+	Application_API Input*	GetInput();
 }
 
 

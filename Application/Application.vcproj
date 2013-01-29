@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Common"
-	ProjectGUID="{D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA}"
-	RootNamespace="Common"
+	Name="Application"
+	ProjectGUID="{B409639E-14C1-4A05-A3F5-192F4F365582}"
+	RootNamespace="Application"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,13 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS"
+				AdditionalIncludeDirectories="../;../extern/include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;APPLICATION_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="Common/stdafx.h"
+				PrecompiledHeaderThrough="Application/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -62,8 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
+				AdditionalDependencies="OIS_d.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -117,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;APPLICATION_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -170,23 +171,27 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\BitField.h"
+				RelativePath=".\Application.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CommonExport.h"
+				RelativePath=".\Application.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\maMath.h"
+				RelativePath=".\ApplicationWin.h"
 				>
 			</File>
 			<File
-				RelativePath=".\maMath.hxx"
+				RelativePath=".\ApplicationWin.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Export.h"
 				>
 			</File>
 			<File
@@ -198,7 +203,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp"
+				RelativePath=".\SceneContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdAfx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -210,135 +219,33 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\xmBaseType.h"
+				RelativePath=".\stdAfx.h"
 				>
 			</File>
 			<Filter
-				Name="IRender"
+				Name="Input"
 				>
 				<File
-					RelativePath=".\IRender\IMesh.h"
+					RelativePath=".\Input\Input.h"
 					>
 				</File>
 				<File
-					RelativePath=".\IRender\IRender.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRender.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRenderDevice.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRenderDevice.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRendITem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRendMesh.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IRender\IRendTexture.h"
+					RelativePath=".\Input\Input.hxx"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="IPhysics"
+				Name="Timer"
 				>
 				<File
-					RelativePath=".\IPhysics\IPhysicsDevive.h"
+					RelativePath=".\Timer\Timer.h"
 					>
 				</File>
 				<File
-					RelativePath=".\IPhysics\IPhysicsDevive.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\IPhysics\IPhysicsObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IPhysics\IPhysicsScene.h"
+					RelativePath=".\Timer\Timer.hxx"
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Data"
-				>
-				<File
-					RelativePath=".\Data\AnimationData.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Data\AnimationData.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Data\MeshData.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Data\MeshData.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Data\SkeletonData.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Data\SkeletonData.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Serialize"
-				>
-				<File
-					RelativePath=".\Serialize\BinaryInputArchive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\BinaryInputArchive.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\BinaryOutputArchive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\BinaryOutputArchive.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\MathSerialize.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\SerializeListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\SerializeListener.hxx"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="资源文件"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
 		</Filter>
 	</Files>
 	<Globals>

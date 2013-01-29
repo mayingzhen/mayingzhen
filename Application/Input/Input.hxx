@@ -1,4 +1,4 @@
-#include <Framework/Input/Input.h>
+#include <Application/Input/Input.h>
 
 //#include "OISInputManager.h"
 //#include "OISException.h"
@@ -13,12 +13,12 @@ namespace ma
 	Input* gs_input = 0;
 
 
-	FRAMEWORK_API void	SetInput(Input* pInput)
+	void	SetInput(Input* pInput)
 	{
 		gs_input = pInput;
 	}
 
-	FRAMEWORK_API Input*	GetInput()
+	Input*	GetInput()
 	{
 		return gs_input;
 	}

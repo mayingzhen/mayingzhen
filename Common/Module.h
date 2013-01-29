@@ -4,7 +4,6 @@
 #include "Common/CommonExport.h"
 #include "Common/stdafx.h"
 #include "Common/maMath.h"
-#include "Common/Timer.h"
 #include "Common/BitField.h"
 
 #include "Common/IRender/IRender.h"
