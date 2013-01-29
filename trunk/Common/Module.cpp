@@ -2,7 +2,6 @@
 #include "Common/Module.h"
 
 #include "Common/maMath.hxx"
-#include "Common/Timer.hxx"
 
 #include "Common/IRender/IRender.hxx"
 #include "Common/IRender/IRenderDevice.hxx"
@@ -42,12 +41,8 @@ void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 
 void CommonModuleInit()
 {
-	ma::Time* pTime = new ma::Time();
-	ma::SetTimer(pTime);
 }
 
 void CommonModuleShutdown()
 {
-	ma::Time* pTime = ma::GetTimer();	
-	SAFE_DELETE(pTime);
 }

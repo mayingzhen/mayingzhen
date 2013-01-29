@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class COMMON_API Time
+	class Application_API Time
 	{
 		long	m_frameCnt;	  //time of update called
 		float	m_fFrameTotalTime; //total time since last reset
@@ -33,9 +33,9 @@ namespace ma
 		
 	};
 
-	COMMON_API Time* GetTimer();
+	Application_API Time* GetTimer();
 
-	COMMON_API void  SetTimer(Time* pTimer);
+	Application_API void  SetTimer(Time* pTimer);
 }
 
-#endif// __S3ATimer_H__
+#endif// __Timer_H__
