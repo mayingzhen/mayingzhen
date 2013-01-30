@@ -2,11 +2,11 @@
 #define __SceneContext_h__
 
 namespace ma
-{
-	class Application_API SceneContext
+{	
+	class Application_API SceneView
 	{
-	public:
-		virtual void Init(int argc, char* argv[],int windID) = 0;
+	public:	
+		virtual void Init(/*int argc, char* argv[],*/int windID) = 0;
 
 		virtual void Shutdown() = 0;
 

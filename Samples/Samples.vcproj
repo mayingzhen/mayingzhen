@@ -168,6 +168,22 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Animation"
+			>
+		</Filter>
+		<Filter
+			Name="FBXImport"
+			>
+			<File
+				RelativePath=".\FbxImport\FbxImport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FbxImport\FbxImport.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\main.cpp"
 			>

@@ -6,9 +6,9 @@
 
 namespace ma
 {
-	class SceneContext;
+	class SceneView;
 
-	typedef SceneContext* (*FuncCreateScene)(const char* pszName);
+	//typedef SceneView* (*FuncCreateScene)(const char* pszName);
 	
 	class Application_API Application 
 	{
@@ -26,11 +26,14 @@ namespace ma
 
 		virtual void		Init(int argc, char* argv[]);
 
-		virtual void		RegisterSceneFactory(const char* sceneName,FuncCreateScene sceneFactory);
+		//virtual void		RegisterSceneFactory(const char* sceneName,FuncCreateScene sceneFactory);
+		//virtual void		AddSceneView(SceneView* pSceneView);			
 
-		virtual void		SetScene(const char* pszSceneName,int argc, char* argv[]);
+		//virtual void		SetScene(const char* pszSceneName,int argc, char* argv[]);
 
-		virtual SceneContext*	GetScene();
+		virtual void		SetSceneView(SceneView* pSceneView);
+
+		virtual SceneView*	GetSceneView();
 
 		virtual void		OnResize(int w,int h);
 
@@ -50,10 +53,11 @@ namespace ma
 
 		int			m_windId;
 
-		std::string		m_curSceneName;
-		SceneContext*	m_pSceneContext;
-		typedef std::map<std::string,FuncCreateScene> SceneFactoryMap;
-		SceneFactoryMap m_sceneMap;
+		//std::string	m_curSceneViewName;
+		SceneView*	m_pSceneView;
+		//typedef std::map<std::string,FuncCreateScene> SceneFactoryMap;
+		//SceneFactoryMap m_sceneMap;
+		//std::vector<SceneView*> m_vSceneView;
 	};
 }
 

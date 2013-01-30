@@ -16,3 +16,14 @@
 #include "Animation/AnimationTree/AnimLayerNode.hxx"
 
 #include "Animation/PoseModifier/LookAtModifier.hxx"
+
+
+void AnimationModuleInit()
+{
+
+}
+
+void AnimationModuleShutdown()
+{
+
+}

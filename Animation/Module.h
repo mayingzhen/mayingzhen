@@ -20,6 +20,9 @@
 #include "Animation/PoseModifier/PoseModifier.h"
 #include "Animation/PoseModifier/LookAtModifier.h"
 
+ANIMATION_API void AnimationModuleInit();
+
+ANIMATION_API void AnimationModuleShutdown();
 
 
 #endif

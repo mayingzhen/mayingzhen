@@ -146,20 +146,20 @@ CGameApp::~CGameApp(void)
 void CGameApp::InitGame()
 {
 	//////////////////////////////////////////////////////////////////////////
-	m_pCamera = new ma::Camera();
-	D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 600, 1000);
-	D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
-	D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
-	m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
-	
-	float fFOV = D3DX_PI / 4;
-	float fAspect = m_nWndWidth / (float)m_nWndHeigh;
-	float fNearClip = 0.1f;
-	float fFarClip = 3000.0f;
-	m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+		m_pCamera = new ma::Camera();
+		D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 600, 1000);
+		D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
+		D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
+		m_pCamera->LookAt(&eyePos, &lookatPos, &vUp);
+		
+		float fFOV = D3DX_PI / 4;
+		float fAspect = m_nWndWidth / (float)m_nWndHeigh;
+		float fNearClip = 0.1f;
+		float fFarClip = 3000.0f;
+		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
-	ma::SceneNode* pRootNode = new ma::SceneNode(NULL,"RootNode");
-	m_pScene = new ma::Scene(pRootNode);
+		ma::SceneNode* pRootNode = new ma::SceneNode(NULL,"RootNode");
+		m_pScene = new ma::Scene(pRootNode);
 
 ////////////////////////////////////////////////////////////////////////// Animation ////////////////
 // 	ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"char");
