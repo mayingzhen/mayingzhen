@@ -6,9 +6,9 @@
 
 #include "Application/Application.hxx"
 
-#ifdef WIN32
+//#ifdef WIN32
 #include "Application/ApplicationWin.hxx"
-#endif
+//#endif
 
 
 void ApplicationModuleInit()
