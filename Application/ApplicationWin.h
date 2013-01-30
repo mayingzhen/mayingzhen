@@ -13,8 +13,6 @@ namespace ma
 
 		virtual void		Run();	
 
-		void				OnIdle();
-
 		HWND				GetMainHWND() {return m_hMainWnd;}
 
 	private:

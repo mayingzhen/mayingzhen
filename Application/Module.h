@@ -7,9 +7,9 @@
 
 #include "Application/Application.h"
 
-#ifdef WIN32
+//#ifdef WIN32
 #include "Application/ApplicationWin.h"
-#endif
+//#endif
 
 Application_API void ApplicationModuleInit();
 

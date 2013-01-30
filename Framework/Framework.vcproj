@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib OIS_d.lib"
+				AdditionalDependencies="d3dx9d.lib "
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
@@ -346,18 +346,6 @@
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Input"
-			>
-			<File
-				RelativePath=".\Input\Input.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Input\Input.hxx"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

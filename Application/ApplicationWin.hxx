@@ -96,6 +96,8 @@ namespace ma
 
 		ShowWindow (m_hMainWnd, SW_SHOW) ;
 
+		SetWindowTextA(m_hMainWnd,m_strAppID.c_str());
+
 		return (int)m_hMainWnd;
 	}
 
@@ -108,18 +110,12 @@ namespace ma
 			TranslateMessage (&msg) ;
 			DispatchMessage (&msg) ;
 
-			OnIdle();
+			Sleep(10);
+
+			Update();
+
+			Render();
 		}
 	}
-
-	void ApplicationWin::OnIdle()
-	{
-		Sleep(10);
-
-		Update();
-
-		Render();
-	}
-
 }
 
