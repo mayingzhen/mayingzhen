@@ -5,6 +5,7 @@
 #include "Application/Input/Input.h"
 #include "Application/Timer/Timer.h"
 
+#include "Application/SceneView.h"
 #include "Application/Application.h"
 
 //#ifdef WIN32

@@ -1,12 +1,12 @@
 #include "Application/Application.h"
-#include "Application/SceneContext.h"
+#include "Application/SceneView.h"
 
 namespace ma
 {
 	Application::Application(const char* appID)
 	{	
 		m_strAppID = appID;
-		m_pSceneContext = NULL;
+		m_pSceneView = NULL;
 	}
 
 	Application::~Application()
@@ -32,41 +32,59 @@ namespace ma
 		SetTimer(&m_appTime);
 	}
 
-	void Application::RegisterSceneFactory(const char* sceneName,FuncCreateScene sceneFactory)
-	{
-		m_sceneMap[sceneName] = sceneFactory;
-	}
+// 	void Application::RegisterSceneFactory(const char* sceneName,FuncCreateScene sceneFactory)
+// 	{
+// 		m_sceneMap[sceneName] = sceneFactory;
+// 	}
 
-	void Application::SetScene(const char* sceneName,int argc, char* argv[])
+	void Application::SetSceneView(SceneView* pSceneView)
 	{
-		SceneFactoryMap::iterator iter = m_sceneMap.find(sceneName);
-		if (iter != m_sceneMap.end())
+		if (pSceneView == NULL)
+			return;
+
+		if (m_pSceneView == pSceneView)
+			return;
+
+		if (m_pSceneView)
 		{
-			if(NULL != m_pSceneContext)
-			{
-				m_pSceneContext->Unload();
-				SAFE_DELETE(m_pSceneContext);
-			}
-
-			FuncCreateScene fCreateScene = iter->second;
-			m_pSceneContext = fCreateScene(sceneName);
-			m_pSceneContext->Init(argc,argv,m_windId);
-			m_pSceneContext->Load();
-
-			m_curSceneName = sceneName;
+			m_pSceneView->Unload();
+			SAFE_DELETE(m_pSceneView);
 		}
+
+		m_pSceneView->Init(/*argc,argv,*/m_windId);
+		m_pSceneView->Load();
 	}
 
-	SceneContext*	Application::GetScene()
+// 	void Application::SetScene(const char* sceneName,int argc, char* argv[])
+// 	{
+// 		SceneFactoryMap::iterator iter = m_sceneMap.find(sceneName);
+// 		if (iter != m_sceneMap.end())
+// 		{
+// 			if(NULL != m_pSceneView)
+// 			{
+// 				m_pSceneView->Unload();
+// 				SAFE_DELETE(m_pSceneView);
+// 			}
+// 
+// 			FuncCreateScene fCreateScene = iter->second;
+// 			m_pSceneView = fCreateScene(sceneName);
+// 			m_pSceneView->Init(argc,argv,m_windId);
+// 			m_pSceneView->Load();
+// 
+// 			m_curSceneViewName = sceneName;
+// 		}
+// 	}
+
+	SceneView*	Application::GetSceneView()
 	{
-		return m_pSceneContext;
+		return m_pSceneView;
 	}
 
 	void Application::OnResize(int w,int h)
 	{
-		if (NULL != m_pSceneContext)
+		if (NULL != m_pSceneView)
 		{
-			m_pSceneContext->OnResize(w,h);
+			m_pSceneView->OnResize(w,h);
 		}
 		
 		m_input.OnResize(w,h);
@@ -78,27 +96,27 @@ namespace ma
 
 		m_appTime.UpdateFrame();
 
-		if (m_pSceneContext)
+		if (m_pSceneView)
 		{
-			m_pSceneContext->Tick(m_appTime.GetFrameDeltaTime());
+			m_pSceneView->Tick(m_appTime.GetFrameDeltaTime());
 		}
 	}
 
 	void Application::Render()
 	{
-		if (NULL != m_pSceneContext)
+		if (NULL != m_pSceneView)
 		{
-			m_pSceneContext->Render();
+			m_pSceneView->Render();
 		}
 	}
 
 	void Application::Shutdown()
 	{
-		if (NULL != m_pSceneContext)
+		if (NULL != m_pSceneView)
 		{
-			m_pSceneContext->Unload();
-			m_pSceneContext->Shutdown();
-			SAFE_DELETE(m_pSceneContext);
+			m_pSceneView->Unload();
+			m_pSceneView->Shutdown();
+			SAFE_DELETE(m_pSceneView);
 		}
 
 		SetTimer(NULL);
