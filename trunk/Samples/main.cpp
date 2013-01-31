@@ -1,5 +1,7 @@
 #include "Samples/stdafx.h"
 
+#include "Samples/SimpleSceneView.hxx"
+
 #include "Samples/FbxImport/FbxImport.hxx"
 
 using namespace ma;

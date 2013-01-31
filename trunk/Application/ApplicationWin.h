@@ -13,6 +13,8 @@ namespace ma
 
 		virtual void		Run();	
 
+		virtual	void		GetWindowSize(int& w, int& h);
+
 		HWND				GetMainHWND() {return m_hMainWnd;}
 
 	private:

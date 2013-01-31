@@ -22,14 +22,13 @@ namespace ma
 
 		virtual void		Run() = 0;
 
+		virtual	void		GetWindowSize(int& w, int& h) = 0;
+
+		virtual	int			GetWindID() {return m_windId;}
+
 		virtual const char*	GetAppTitle();
 
 		virtual void		Init(int argc, char* argv[]);
-
-		//virtual void		RegisterSceneFactory(const char* sceneName,FuncCreateScene sceneFactory);
-		//virtual void		AddSceneView(SceneView* pSceneView);			
-
-		//virtual void		SetScene(const char* pszSceneName,int argc, char* argv[]);
 
 		virtual void		SetSceneView(SceneView* pSceneView);
 
@@ -53,11 +52,7 @@ namespace ma
 
 		int			m_windId;
 
-		//std::string	m_curSceneViewName;
 		SceneView*	m_pSceneView;
-		//typedef std::map<std::string,FuncCreateScene> SceneFactoryMap;
-		//SceneFactoryMap m_sceneMap;
-		//std::vector<SceneView*> m_vSceneView;
 	};
 }
 

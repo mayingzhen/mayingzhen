@@ -3,10 +3,12 @@
 
 namespace ma
 {	
+	class Application;
+
 	class Application_API SceneView
 	{
 	public:	
-		virtual void Init(/*int argc, char* argv[],*/int windID) = 0;
+		virtual void Init(Application* pApplication) = 0;
 
 		virtual void Shutdown() = 0;
 

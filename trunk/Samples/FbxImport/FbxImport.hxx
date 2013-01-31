@@ -1,18 +1,22 @@
 #include "Samples/FbxImport/FbxImport.h"
+#include "Animation/Module.h"
+#include "DXRender/Module.h"
+#include "Serialize/Module.h"
 
 namespace ma
 {
 
-	void SampleFbxImport::Init(int windID)
+	void SampleFbxImport::Init(Application* pApplication)
 	{
 		DxRenderModuleInit();
 		AnimationModuleInit();
 
-		ma::DxRenderDevice* pDxRenderDevice = (ma::DxRenderDevice*)ma::GetRenderDevice();
-		pDxRenderDevice->Init(windID);
+		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
 
-		ma::DxRender* pDxRender = (ma::DxRender*)ma::GetRender();
+		DxRender* pDxRender = (DxRender*)GetRender();
 		pDxRender->InitDefaultShader();
+
 	}
 
 	void SampleFbxImport::Shutdown()
@@ -28,44 +32,29 @@ namespace ma
 		MeshData* pMeshData = new MeshData;
 		SkeletonData* pSkeData = new SkeletonData;
 		std::vector<AnimationData*> vAnimData;
-		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx"/*"../Fbx/Naruto/NarutoYUP.FBX"*/,pMeshData,pSkeData,vAnimData);
+		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData,vAnimData);
 
-		//GameObject* pGameObj = new GameObject(m_pScene,"Fbx");
-		//pRootNode->AddChildNode(pGameObj);
+		m_pRenderMesh = new DxRendMesh();
+		m_pRenderMesh->InitWithData(pMeshData);
 
-		//SkelMeshComponent* pSkelMeshComp = new SkelMeshComponent();
-		//pGameObj->AddComponent(pSkelMeshComp);
+		const char* pTexPath = "../Fbx/TestBull_DM.png";
+		m_pRendTexture = new DxRendTexture();
+		m_pRendTexture->Load(pTexPath);
 
-		//MeshComponent* pMeshComp = new MeshComponent;
-		//pSkelMeshComp->AddMeshComp(pMeshComp);
-		//pGameObj->AddComponent(pMeshComp);
-
-		//MeshRes* pMeshRes = new MeshRes(); 
-		//pMeshComp->SetMeshRes(pMeshRes);
-
-		DxRendMesh* pRendMesh = new DxRendMesh();
-		pRendMesh->InitWithData(pMeshData);
-		//pMeshRes->SetRendMesh(pRendMesh);
-
-		const char* pTexPath = "../Fbx/TestBull_DM.png";//"../Fbx/Naruto/Naruto.fbm/FbxTemp_0003.jpg";
-		DxRendTexture* pTexture = new DxRendTexture();
-		pTexture->Load(pTexPath);
-		//pMeshComp->SetTexture(pTexture);
-
-		Skeleton* pSkele = new Skeleton();
-		pSkele->InitWithData(*pSkeData);
-		//pSkelMeshComp->SetSkeleton(pSkele);
+		m_pSkeleton = new Skeleton();
+		m_pSkeleton->InitWithData(*pSkeData);
 
 		Animation* pAnimation = new Animation;
 		pAnimation->InitWithData(vAnimData[0]);
-		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pSkele);
-		AnimationInst* pAnimInst = new AnimationInst(pAnimation,pSkele);
+		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeleton);
+		AnimationInst* pAnimInst = new AnimationInst(pAnimation,m_pSkeleton);
+		AnimClipNode* pClipNode = new AnimClipNode(pAnimInst/*,m_pSkeleton->GetBoneSetByName("UpBody")*/);
+		AnimationAction* pAction = new AnimationAction();
+		pAction->SetTreeNode(pClipNode);
 
-		AnimationSet* pAnimSet = new AnimationSet();
-		pAnimSet->AddAnimationInst(pAnimInst,"xxx");
-
-		//pSkelMeshComp->SetAnimationSet(pAnimSet);
-		//pSkelMeshComp->PlayAnimation("xxx");
+		m_pAnimtionPlay = new AnimationPlay(); 
+		m_pAnimtionPlay->SetSkeleton(m_pSkeleton);
+		m_pAnimtionPlay->PlayAnimation(pAction);
 	}
 
 	void SampleFbxImport::Unload()
@@ -75,12 +64,46 @@ namespace ma
 
 	void SampleFbxImport::Tick(float timeElapsed)
 	{
+		if (ma::GetTimer() == NULL)
+			return;
 
+		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
+
+		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+
+		m_pAnimtionPlay->EvaluateAnimation(1.0f);
 	}
 
 	void SampleFbxImport::Render()
 	{
+		IRender* pRender = ma::GetRender();
+		if (pRender == NULL)
+			return;
 
+		pRender->SetViewMatrix(&m_matView);
+		pRender->SetProjMatrix(&m_matProj);
+	
+		D3DXMATRIX arrSkinMatrix[256];
+		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
+		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
+		for (UINT i = 0; i < nBoneNum; ++i)
+		{
+			if (pAnimPose)
+			{
+				maMatrixFromTransform(&arrSkinMatrix[i],& pAnimPose->GetTransformOS(i));
+				D3DXMatrixMultiply(&arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&arrSkinMatrix[i]);
+			}
+			else
+			{
+				D3DXMatrixIdentity(&arrSkinMatrix[i]);
+			}
+		}
+
+		D3DXMATRIX matWorld;
+		D3DXMatrixIdentity(&matWorld);
+
+		pRender->RenderSkelMesh(arrSkinMatrix,nBoneNum,&matWorld,m_pRenderMesh,m_pRendTexture);
+	
 	}
 
 	void SampleFbxImport::OnResize(int w,int h)
