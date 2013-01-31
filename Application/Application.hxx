@@ -51,7 +51,8 @@ namespace ma
 			SAFE_DELETE(m_pSceneView);
 		}
 
-		m_pSceneView->Init(/*argc,argv,*/m_windId);
+		m_pSceneView = pSceneView;
+		m_pSceneView->Init(this);
 		m_pSceneView->Load();
 	}
 

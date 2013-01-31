@@ -3,10 +3,15 @@
 
 namespace ma
 {
-	class SampleFbxImport : public SceneView
+	class AnimationPlay;
+	class Skeleton;
+	class IRendMesh;
+	class IRendTexture;
+
+	class SampleFbxImport : public SimpleSceneView
 	{
 	public:
-		virtual void Init(int windID);
+		virtual void Init(Application* pApplication);
 
 		virtual void Shutdown();
 
@@ -19,6 +24,15 @@ namespace ma
 		virtual void Render();
 
 		virtual	void OnResize(int w,int h);
+
+	private:
+		AnimationPlay*	m_pAnimtionPlay;
+
+		Skeleton*		m_pSkeleton;
+
+		IRendMesh*		m_pRenderMesh;
+
+		IRendTexture*	m_pRendTexture;
 	};
 }
 

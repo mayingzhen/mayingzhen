@@ -101,6 +101,14 @@ namespace ma
 		return (int)m_hMainWnd;
 	}
 
+	void ApplicationWin::GetWindowSize(int& w, int& h)
+	{
+		RECT rect; 
+		GetClientRect(m_hMainWnd,&rect);
+		w = rect.left - rect.right;
+		h = rect.bottom - rect.top;
+	}
+
 	void ApplicationWin::Run()
 	{
 		MSG msg;
