@@ -1,12 +1,12 @@
 #ifndef  _Animation__H__
 #define  _Animation__H__
 
-struct AnimationData;
 
 #include "Animation/Track.h"
 
 namespace ma
 {
+	struct AnimationData;
 	struct AnimationTracks;
 	class Skeleton;
 	class NodeLink;

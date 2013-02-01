@@ -56,6 +56,9 @@ namespace ma
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
+			if ( IsInValidID<BoneIndex>(nTrackInd) )
+				continue;
+
 			maNodeTransform tsfLS;
 			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
 			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
