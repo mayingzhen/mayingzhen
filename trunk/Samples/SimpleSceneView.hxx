@@ -17,7 +17,7 @@ namespace ma
 
 		int nWndWidth = 0;
 		int nWndHeigh = 0;
-		pApplication->GetWindowSize(nWndHeigh,nWndHeigh);
+		pApplication->GetWindowSize(nWndWidth,nWndHeigh);
 
 		float fFOV = D3DX_PI / 4;
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
@@ -56,3 +56,4 @@ namespace ma
 		D3DXMatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNearClip,fFarClip);
 	}
 }
+

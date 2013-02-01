@@ -1,13 +1,25 @@
-#include "Samples/FbxImport/FbxImport.h"
+#include "Samples/Animation/PartialAnimation/PartialAnimation.h"
 #include "Animation/Module.h"
 #include "DXRender/Module.h"
 #include "Serialize/Module.h"
 
 namespace ma
 {
-
-	void SampleFbxImport::Init(Application* pApplication)
+	SamplePartialAnimation::SamplePartialAnimation()
 	{
+		m_pAnimtionPlay = NULL;
+
+		m_pSkeleton = NULL;
+
+		m_pRenderMesh = NULL;
+
+		m_pRendTexture = NULL;
+	}
+
+	void SamplePartialAnimation::Init(Application* pApplication)
+	{
+		SimpleSceneView::Init(pApplication);
+
 		DxRenderModuleInit();
 		AnimationModuleInit();
 
@@ -19,20 +31,20 @@ namespace ma
 
 	}
 
-	void SampleFbxImport::Shutdown()
+	void SamplePartialAnimation::Shutdown()
 	{
 		DxRenderModuleShutdown();
 		AnimationModuleShutdown();
 	}
 
-	void SampleFbxImport::Load()
+	void SamplePartialAnimation::Load()
 	{
-		FBXImporter fbxImpor;
-		fbxImpor.Initialize();
-		MeshData* pMeshData = new MeshData;
-		SkeletonData* pSkeData = new SkeletonData;
-		std::vector<AnimationData*> vAnimData;
-		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData,vAnimData);
+// 		FBXImporter fbxImpor;
+// 		fbxImpor.Initialize();
+// 		MeshData* pMeshData = new MeshData;
+// 		SkeletonData* pSkeData = new SkeletonData;
+// 		std::vector<AnimationData*> vAnimData;
+// 		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData,vAnimData);
 
 		m_pRenderMesh = new DxRendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
@@ -57,12 +69,12 @@ namespace ma
 		m_pAnimtionPlay->PlayAnimation(pAction);
 	}
 
-	void SampleFbxImport::Unload()
+	void SamplePartialAnimation::Unload()
 	{
 
 	}
 
-	void SampleFbxImport::Tick(float timeElapsed)
+	void SamplePartialAnimation::Tick(float timeElapsed)
 	{
 		if (ma::GetTimer() == NULL)
 			return;
@@ -74,15 +86,20 @@ namespace ma
 		m_pAnimtionPlay->EvaluateAnimation(1.0f);
 	}
 
-	void SampleFbxImport::Render()
+	void SamplePartialAnimation::Render()
 	{
 		IRender* pRender = ma::GetRender();
 		if (pRender == NULL)
 			return;
 
+		pRender->BeginRender();
+
 		pRender->SetViewMatrix(&m_matView);
 		pRender->SetProjMatrix(&m_matProj);
-	
+
+		if (!m_pSkeleton || !m_pRenderMesh || !m_pAnimtionPlay)
+			return;
+
 		D3DXMATRIX arrSkinMatrix[256];
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
@@ -103,10 +120,11 @@ namespace ma
 		D3DXMatrixIdentity(&matWorld);
 
 		pRender->RenderSkelMesh(arrSkinMatrix,nBoneNum,&matWorld,m_pRenderMesh,m_pRendTexture);
-	
+
+		pRender->EndRender();
 	}
 
-	void SampleFbxImport::OnResize(int w,int h)
+	void SamplePartialAnimation::OnResize(int w,int h)
 	{
 
 	}

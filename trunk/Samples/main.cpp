@@ -2,7 +2,9 @@
 
 #include "Samples/SimpleSceneView.hxx"
 
-#include "Samples/FbxImport/FbxImport.hxx"
+// Sample
+#include "Samples/FbxImport/SampleFbxImport.hxx"
+#include "Samples/Animation/SampleAnimation.hxx"
 
 using namespace ma;
 
@@ -14,7 +16,10 @@ public:
 		SampleFbxImport* pFbxImport = new SampleFbxImport();
 		m_vSceneView.push_back(pFbxImport);
 
-		m_nCurSceneInde = 0;
+		SampleAnimation* pAnimation = new SampleAnimation();
+		m_vSceneView.push_back(pAnimation);
+
+		m_nCurSceneInde = 1;
 	}
 
 	virtual void Init(int argc, char* argv[])

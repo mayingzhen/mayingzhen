@@ -18,9 +18,22 @@ namespace ma
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 	}
 
+	void AnimationPlay::SetAnimationSet(AnimationSet* pAnimationSet)
+	{
+		m_pAnimSet = pAnimationSet;
+	}
+
 	void AnimationPlay::PlayAnimation(AnimationAction* pSkelAnim)
 	{
 		m_pSkelAnim = pSkelAnim;
+	}
+
+	void AnimationPlay::PlayAnimation(const char* pszAnimName)
+	{
+		if (m_pAnimSet == NULL)
+			return;
+
+		m_pSkelAnim = m_pAnimSet->GetAnimationActionByName(pszAnimName);
 	}
 
 	void AnimationPlay::AdvanceTime(float fTimeElepse)
@@ -60,5 +73,21 @@ namespace ma
 // 		}
 // 
 // 		m_pose->SyncObjectSpace();
+
+
+		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
+		for (UINT i = 0; i < nBoneNum; ++i)
+		{
+			if (m_pose)
+			{
+				maMatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
+				D3DXMatrixMultiply(&m_arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&m_arrSkinMatrix[i]);
+			}
+			else
+			{
+				D3DXMatrixIdentity(&m_arrSkinMatrix[i]);
+			}
+		}
+
 	}
 }

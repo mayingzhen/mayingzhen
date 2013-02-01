@@ -1,5 +1,5 @@
-#ifndef _Sample_FbxImport_H_
-#define _Sample_FbxImport_H_
+#ifndef _Sample_PartialAnimation_H_
+#define _Sample_PartialAnimation_H_
 
 namespace ma
 {
@@ -8,9 +8,11 @@ namespace ma
 	class IRendMesh;
 	class IRendTexture;
 
-	class SampleFbxImport : public SimpleSceneView
+	class SamplePartialAnimation : public SimpleSceneView
 	{
 	public:
+		SamplePartialAnimation();
+
 		virtual void Init(Application* pApplication);
 
 		virtual void Shutdown();
@@ -37,5 +39,5 @@ namespace ma
 }
 
 
-
 #endif
+

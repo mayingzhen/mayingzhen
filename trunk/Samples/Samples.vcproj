@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -172,16 +172,24 @@
 		<Filter
 			Name="Animation"
 			>
+			<File
+				RelativePath=".\Animation\SampleAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\SampleAnimation.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="FBXImport"
 			>
 			<File
-				RelativePath=".\FbxImport\FbxImport.h"
+				RelativePath=".\FbxImport\SampleFbxImport.h"
 				>
 			</File>
 			<File
-				RelativePath=".\FbxImport\FbxImport.hxx"
+				RelativePath=".\FbxImport\SampleFbxImport.hxx"
 				>
 			</File>
 		</Filter>

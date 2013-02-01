@@ -247,7 +247,7 @@ namespace ma
 
 		std::map<std::string,TrackData> boneTrack;
 
-		assert(nbAnimLayers == 1);
+		//assert(nbAnimLayers == 1);
 		for (l = 0; l < nbAnimLayers; l++)
 		{
 			FbxAnimLayer* lAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(l);

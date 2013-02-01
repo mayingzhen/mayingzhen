@@ -40,7 +40,7 @@ namespace ma
 				}
 				break;
 			case WM_PAINT:
-				g_pAppliction->Render();
+				//g_pAppliction->Render();
 				return 0 ;
 
 			case WM_DESTROY:
@@ -105,7 +105,7 @@ namespace ma
 	{
 		RECT rect; 
 		GetClientRect(m_hMainWnd,&rect);
-		w = rect.left - rect.right;
+		w = rect.right - rect.left;
 		h = rect.bottom - rect.top;
 	}
 
