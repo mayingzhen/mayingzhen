@@ -10,5 +10,4 @@
 // #include "Serialize/SkeletonData.hxx"
 // #include "Serialize/AnimationData.hxx"
 
-#include "Serialize/FBXImporter.hxx"
 

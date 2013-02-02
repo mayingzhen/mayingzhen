@@ -32,6 +32,7 @@ namespace ma
 		bool bLoadOK = ar.Open(filename);
 		if (!bLoadOK)
 		{
+			assert(false);
 			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
 			return NULL;
 		}
@@ -57,4 +58,51 @@ namespace ma
 
 		return pAnimationData;
 	}
+
+	bool SaveMeshToBinaryFile(const char* filename,MeshData* pMeshData)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(filename);
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
+			return false;
+		}
+
+		pMeshData->Serialize(&ar,"Mesh");
+
+		return true;
+	}
+
+	bool SaveSkeletonToBinaryFile(const char* fileName,SkeletonData* pSkelData)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(fileName);
+		if (!bLoadOK)
+		{
+			assert(false);
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
+			return false;
+		}
+
+		pSkelData->Serialize(ar, "Skeleton");
+
+		return true;
+	}
+
+	bool SaveAnimationToBinaryFile(const char* fileName,AnimationData* pAnimaData)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(fileName);
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
+			return false;
+		}
+
+		pAnimaData->Serialize(ar, "Animation");
+
+		return true;
+	}
+
 }

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX"
+				AdditionalIncludeDirectories="../;../extern/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;SERIALIZE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fbxsdk-2013.2-mdd.lib d3dx9d.lib"
+				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
@@ -174,14 +174,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\FBXImporter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FBXImporter.hxx"
-				>
-			</File>
 			<File
 				RelativePath=".\Module.cpp"
 				>

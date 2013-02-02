@@ -218,7 +218,10 @@ void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
 	{
 		char buf[32];
 		sprintf(&buf[0],"Element_%u",nCnt);
-		val[nCnt] = new T();
+		if (val[nCnt] == NULL)
+		{
+			val[nCnt] = new T();
+		}
 		Serialize(val[nCnt],buf);
 	}
 	EndSection();

@@ -1,13 +1,25 @@
 #ifndef __FBXImporter_H__
 #define __FBXImporter_H__
 
-// class KFbxNode;
-// class KFbxMesh;
-// class FbxManager;
+namespace fbxsdk_2013_2
+{
+	class FbxManager;
+	class FbxImporter;
+	class FbxMesh;
+	class FbxSkeleton;
+	class FbxSurfaceMaterial;
+	class FbxAnimStack;
+	class FbxNode;
+	class FbxPose;
+}
+
+using namespace fbxsdk_2013_2;
 
 namespace ma
 {
-	class SERIALIZE_API FBXImporter
+	struct MeshData;
+
+	class FBXImporter_API FBXImporter
 	{
 
 	public:
@@ -15,26 +27,24 @@ namespace ma
 
 		~FBXImporter();
 
-		bool Initialize();
+		bool	Initialize();
 	
-		bool LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData, std::vector<AnimationData*>& vAnimData);
+		bool	LoadStaticMeshData(const char* pFileName,MeshData* pMeshData);
+
+		bool	LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,SkeletonData* pSkeData);
+
+		bool	LoadAnimationData(const char* pFileName,AnimationData* pAnimation,const SkeletonData* pSkelData);
 
 	private:
-		//void ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode);
+		FbxScene*	GetFbxScene(const char* pFileName);
 
 		FbxMesh* GetFbxMesh(FbxNode* pNode);
 
 		FbxSkeleton* GetFbxRootBone(FbxNode* pNode);
 
-		void ProcessMesh(MeshData* pMeshData, FbxNode* pNode,const SkeletonData* pSkelData);
-
-		void ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
-
-		void ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData);
-
 		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData);
 
-		void GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,FbxMesh* pFbxMesh,SkeletonData* pSkelData);
+		void GetSkeletonData(FbxSkeleton* pSkeleton,FbxPose* pBindPose,SkeletonData* pSkelData);
 
 		void GetAnimtionData(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
 
@@ -59,12 +69,7 @@ namespace ma
 	
 	private:
 		FbxManager* mpFBXSDKManager;
-		//FbxScene*   mpFBXSDKScene;
-
-		FbxMesh* mpFbxMesh;
-		FbxSkeleton* mpFbxSkeleton;
-		std::vector<FbxSkeleton*> mpFbxSkeleteon;
-		FbxAnimStack* mpFbxAnimStack;
+		FbxImporter* mpFBXImporter;
 	};
 }
 
