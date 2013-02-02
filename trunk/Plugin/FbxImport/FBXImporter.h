@@ -11,6 +11,7 @@ namespace fbxsdk_2013_2
 	class FbxAnimStack;
 	class FbxNode;
 	class FbxPose;
+	class FbxScene;
 }
 
 using namespace fbxsdk_2013_2;
@@ -68,8 +69,9 @@ namespace ma
 		void LoadMaterialTexture(FbxSurfaceMaterial* pSurfaceMaterial);
 	
 	private:
-		FbxManager* mpFBXSDKManager;
-		FbxImporter* mpFBXImporter;
+		FbxManager*		m_pFBXSDKManager;
+		FbxImporter*	m_pFBXImporter;
+		//FbxScene*		m_pFBXSDKScene;
 	};
 }
 

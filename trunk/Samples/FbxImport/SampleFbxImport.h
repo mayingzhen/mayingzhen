@@ -7,6 +7,7 @@ namespace ma
 	class Skeleton;
 	class IRendMesh;
 	class IRendTexture;
+	class FBXImporter;
 
 	class SampleFbxImport : public SimpleSceneView
 	{
@@ -28,13 +29,21 @@ namespace ma
 		virtual	void OnResize(int w,int h);
 
 	private:
+		void LoadSkelMesh(FBXImporter& fbxImpor);
+
+		void LoadSaticMesh(FBXImporter& fbxImpor);
+
+	private:
+
+		// SkelMesh
 		AnimationPlay*	m_pAnimtionPlay;
-
 		Skeleton*		m_pSkeleton;
-
 		IRendMesh*		m_pRenderMesh;
-
 		IRendTexture*	m_pRendTexture;
+	
+		// staticMesh
+		IRendMesh*		m_pStaticMesh;
+		IRendTexture*	m_pStatcMeshTexture;
 	};
 }
 
