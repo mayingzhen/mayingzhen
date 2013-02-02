@@ -357,6 +357,76 @@ namespace ma
 		std::vector<double> m_vBoneWeight;
 	};
 
+	void GetSkinInfo(const FbxMesh* pMesh,const SkeletonData* pSkelData,
+		std::vector<pointSkin>& vPointSkin, int& clusterCount)
+	{
+		if (pMesh == NULL)
+			return;
+
+		FBXSDK_printf("Begin Get Skin Info .....\n");
+
+		vPointSkin.resize(pMesh->GetControlPointsCount());
+
+		int deformerCount  = pMesh->GetDeformerCount(); 
+		for (int i =0; i < deformerCount; ++i)
+		{
+			KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
+			if (pFBXDeformer == NULL)
+				continue;
+
+			if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
+				continue;  
+
+			FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
+			if(pFBXSkin == NULL)  
+				continue;  
+
+			clusterCount = pFBXSkin->GetClusterCount(); 
+			for (int j = 0; j< clusterCount; ++j)
+			{
+				KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
+				if (pCluster == NULL)
+					continue;
+
+				KFbxNode* pLinkNode = pCluster->GetLink();  
+				if (pLinkNode == NULL)
+					continue;
+
+				const char* pszName = pLinkNode->GetName();
+
+				BoneIndex boneIndex = InvalidID<BoneIndex>();
+				for (UINT index = 0; index < pSkelData->m_arrBoneName.size(); ++index)
+				{
+					const std::string& strBoneName = pSkelData->m_arrBoneName[index];
+					if ( strcmp(strBoneName.c_str(),pszName) == 0 )
+					{
+						boneIndex = index;
+						break;
+					}
+				}
+				assert( IsValidID(boneIndex) );
+
+				//pSkelData->m_arrBoneName
+
+				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
+				int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
+				double* pCtrlPointWeights = pCluster->GetControlPointWeights();
+
+				for (int k = 0; k < associatedCtrlPointCount; ++k)
+				{
+					int nIndex = pCtrlPointIndices[k];
+					double fWeight = pCtrlPointWeights[k];
+					vPointSkin[nIndex].m_vBoneName.push_back(pszName);
+					vPointSkin[nIndex].m_vBoneInd.push_back(boneIndex);
+					vPointSkin[nIndex].m_vBoneWeight.push_back(fWeight);
+				}	
+			}
+		}
+
+		FBXSDK_printf("End Get Skin Info .....\n");
+		
+	}
+
 	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData)
 	{
 		if (pMesh == NULL)
@@ -368,71 +438,11 @@ namespace ma
 			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
-		std::vector<pointSkin> m_vSkin;	
-		UINT clusterCount; 
+		std::vector<pointSkin> vSkin;	
+		int clusterCount = 0;
 		if (pSkelData)
 		{
-			FBXSDK_printf("Begin Get Skin Info .....\n");
-
-			m_vSkin.resize(pMesh->GetControlPointsCount());
-
-			int deformerCount  = pMesh->GetDeformerCount(); 
-			for (int i =0; i < deformerCount; ++i)
-			{
-				KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
-				if (pFBXDeformer == NULL)
-					continue;
-
-				if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
-					continue;  
-
-				FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
-				if(pFBXSkin == NULL)  
-					continue;  
-
-				clusterCount = pFBXSkin->GetClusterCount(); 
-				for (int j = 0; j< clusterCount; ++j)
-				{
-					KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
-					if (pCluster == NULL)
-						continue;
-
-					KFbxNode* pLinkNode = pCluster->GetLink();  
-					if (pLinkNode == NULL)
-						continue;
-
-					const char* pszName = pLinkNode->GetName();
-
-					BoneIndex boneIndex = InvalidID<BoneIndex>();
-					for (UINT index = 0; index < pSkelData->m_arrBoneName.size(); ++index)
-					{
-						const std::string& strBoneName = pSkelData->m_arrBoneName[index];
-						if ( strcmp(strBoneName.c_str(),pszName) == 0 )
-						{
-							boneIndex = index;
-							break;
-						}
-					}
-					assert( IsValidID(boneIndex) );
-
-					//pSkelData->m_arrBoneName
-
-					int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
-					int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
-					double* pCtrlPointWeights = pCluster->GetControlPointWeights();
-
-					for (int k = 0; k < associatedCtrlPointCount; ++k)
-					{
-						int nIndex = pCtrlPointIndices[k];
-						double fWeight = pCtrlPointWeights[k];
-						m_vSkin[nIndex].m_vBoneName.push_back(pszName);
-						m_vSkin[nIndex].m_vBoneInd.push_back(boneIndex);
-						m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
-					}	
-				}
-			}
-
-			FBXSDK_printf("End Get Skin Info .....\n");
+			GetSkinInfo(pMesh,pSkelData,vSkin,clusterCount);
 		}
 
 		FBXSDK_printf("Begin Get Vertex Info .....\n");
@@ -495,12 +505,12 @@ namespace ma
 				{
 					xmUint8 boneInd[4]  = {0};
 					xmUint8 weight[4] = {0};
-					for (int k = 0; k < 4; ++k)
+					for (UINT k = 0; k < 4; ++k)
 					{
-						if (k < m_vSkin[ctrlPointIndex].m_vBoneInd.size())
+						if (k < vSkin[ctrlPointIndex].m_vBoneInd.size())
 						{
-							boneInd[k] = m_vSkin[ctrlPointIndex].m_vBoneInd[k];
-							weight[k] = m_vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
+							boneInd[k] = vSkin[ctrlPointIndex].m_vBoneInd[k];
+							weight[k] = vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
 						}
 					}
 					memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
@@ -555,7 +565,7 @@ namespace ma
 		if (pSkelData)
 		{
 			pSubMeshData->m_arrBonePalette.resize(clusterCount);
-			for (UINT i = 0; i <clusterCount; ++i)
+			for (int i = 0; i <clusterCount; ++i)
 			{
 				pSubMeshData->m_arrBonePalette[i] = i;
 			}
