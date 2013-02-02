@@ -9,12 +9,12 @@ namespace ma
 	SampleFbxImport::SampleFbxImport()
 	{
 		m_pAnimtionPlay = NULL;
-
 		m_pSkeleton = NULL;
-
 		m_pRenderMesh = NULL;
-
 		m_pRendTexture = NULL;
+
+		m_pStaticMesh = NULL;
+		m_pStatcMeshTexture = NULL;
 	}
 
 	void SampleFbxImport::Init(Application* pApplication)
@@ -38,27 +38,28 @@ namespace ma
 		AnimationModuleShutdown();
 	}
 
-	void SampleFbxImport::Load()
+	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
 	{
-		FBXImporter fbxImpor;
-		fbxImpor.Initialize();
 		MeshData* pMeshData = new MeshData;
 		SkeletonData* pSkeData = new SkeletonData;
-		std::vector<AnimationData*> vAnimData;
-		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData,vAnimData);
+		AnimationData* pAnimData = new AnimationData;
+
+		fbxImpor.LoadSkeletonMeshData("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
+
+		fbxImpor.LoadAnimationData("../Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
 
 		// Save
 		SaveMeshToBinaryFile("../Fbx/TestBull.skn",pMeshData);
 		SaveSkeletonToBinaryFile("../Fbx/TestBull.ske",pSkeData);
-		SaveAnimationToBinaryFile("../Fbx/TestBull.ska",vAnimData[0]);
+		SaveAnimationToBinaryFile("../Fbx/TestBull.ska",pAnimData);
 		SAFE_DELETE(pMeshData);
 		SAFE_DELETE(pSkeData);
-		SAFE_DELETE(vAnimData[0]);
+		SAFE_DELETE(pAnimData);
 		///
 
 		pMeshData = LoadMeshFromBinaryFile("../Fbx/TestBull.skn");
 		pSkeData = LoadSkeletonFromBinaryFile("../Fbx/TestBull.ske");
-		AnimationData* pAnimData = LoadAnimationFromBinaryFile("../Fbx/TestBull.ska");
+		pAnimData = LoadAnimationFromBinaryFile("../Fbx/TestBull.ska");
 
 		m_pRenderMesh = new DxRendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
@@ -83,6 +84,36 @@ namespace ma
 		m_pAnimtionPlay->PlayAnimation(pAction);
 	}
 
+	void SampleFbxImport::LoadSaticMesh(FBXImporter& fbxImpor)
+	{
+		MeshData* pMeshData = new MeshData;
+
+		fbxImpor.LoadStaticMeshData("../Fbx/MovingPlatform.fbx",pMeshData);
+
+		SaveMeshToBinaryFile("../Fbx/MovingPlatform.skn",pMeshData);
+		SAFE_DELETE(pMeshData);
+
+		pMeshData = LoadMeshFromBinaryFile("../Fbx/MovingPlatform.skn");
+
+		m_pStaticMesh = new DxRendMesh();
+		m_pStaticMesh->InitWithData(pMeshData);
+		
+		const char* pTexPath = "../Fbx/PlatformTexture.tga";
+		m_pStatcMeshTexture = new DxRendTexture();
+		m_pStatcMeshTexture->Load(pTexPath);
+		
+	}
+
+	void SampleFbxImport::Load()
+	{
+		FBXImporter fbxImpor;
+		fbxImpor.Initialize();
+		
+		LoadSaticMesh(fbxImpor);
+
+		LoadSkelMesh(fbxImpor);
+	}
+
 	void SampleFbxImport::Unload()
 	{
 
@@ -97,9 +128,12 @@ namespace ma
 
 		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
 
-		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+		if (m_pAnimtionPlay)
+		{
+			m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
 
-		m_pAnimtionPlay->EvaluateAnimation(1.0f);
+			m_pAnimtionPlay->EvaluateAnimation(1.0f);
+		}
 	}
 
 	void SampleFbxImport::Render()
@@ -113,15 +147,29 @@ namespace ma
 		pRender->SetViewMatrix(&m_matView);
 		pRender->SetProjMatrix(&m_matProj);
 
-		if (m_pAnimtionPlay == NULL)
-			return;
+		// render skelMesh
+		{
+			D3DXMATRIX matWorld;
+			D3DXMatrixTranslation(&matWorld,-50,0,0);
 
-		D3DXMATRIX matWorld;
-		D3DXMatrixIdentity(&matWorld);
+			if (m_pAnimtionPlay)
+			{
+				D3DXMATRIX* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+				UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
+				pRender->RenderSkelMesh(skinMatrix,nNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
+			}
+		}
 
-		D3DXMATRIX* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-		UINT nSkinMatrixNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-		pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
+		// render staticMesh
+		{
+			D3DXMATRIX matWorld;
+			D3DXMATRIX matScale;
+			D3DXMatrixScaling(&matScale,50,50,50); 
+			D3DXMatrixTranslation(&matWorld,250,0,0);
+			matWorld = matScale * matWorld;
+			pRender->RenderMesh(&matWorld,m_pStaticMesh,m_pStatcMeshTexture);
+		}
+	
 
 		pRender->EndRender();
 	}

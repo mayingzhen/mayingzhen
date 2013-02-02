@@ -1,10 +1,12 @@
 #include "Plugin/FbxImport/FBXImporter.h"
+#include "Plugin/FbxImport/FbxImportUtil.h"
 
 namespace ma
 {
 	FBXImporter::FBXImporter()
 	{
-		mpFBXSDKManager = NULL;
+		m_pFBXSDKManager = NULL;
+		m_pFBXImporter = NULL;
 	}
 
 	FBXImporter::~FBXImporter()
@@ -15,54 +17,33 @@ namespace ma
 	bool FBXImporter::Initialize()
 	{
 		// Create the FBX SDK Manager, destroy the old manager at first
-		if(mpFBXSDKManager)
+		if(m_pFBXSDKManager)
 		{
-			mpFBXSDKManager->Destroy();
+			m_pFBXSDKManager->Destroy();
 		}
-		mpFBXSDKManager = FbxManager::Create();
-
-		if(mpFBXSDKManager == NULL)
+		m_pFBXSDKManager = FbxManager::Create();
+		if(m_pFBXSDKManager == NULL)
 		{
 			return false;
 		}
 
 		// Create an IOSettings object
-		//FbxIOSettings* ios = FbxIOSettings::Create(mpFBXSDKManager , IOSROOT);
-		//mpFBXSDKManager->SetIOSettings(ios);
+		FbxIOSettings* ios = FbxIOSettings::Create(m_pFBXSDKManager , IOSROOT);
+		m_pFBXSDKManager->SetIOSettings(ios);
 
 		// Load plug-ins from the executable directory
 		//KString lExtension = "dll";
 		//KString lPath = FbxGetApplicationDirectory();
 		//mpFBXSDKManager->LoadPluginsDirectory(lPath.Buffer() , lExtension.Buffer());
 
-		FbxImporter* pFBXImporter = FbxImporter::Create(mpFBXSDKManager , "");
-		assert(pFBXImporter);
-		if (pFBXImporter == NULL)
+		m_pFBXImporter = FbxImporter::Create(m_pFBXSDKManager , "");
+		assert(m_pFBXImporter);
+		if (m_pFBXImporter == NULL)
 			return false;
 
-		// Create the entity that hold the whole Scene
-		//mpFBXSDKScene = FbxScene::Create(mpFBXSDKManager , "");
+
 
 		return true;
-	}
-
-	void DisplayCurve(FbxAnimCurve* pCurve,std::vector<float>& vkey)
-	{
-		FbxTime   lKeyTime;
-		float   lKeyValue;
-		char    lTimeString[256];
-		FbxString lOutputString;
-		int     lCount;
-
-		int lKeyCount = pCurve->KeyGetCount();
-
-		for(lCount = 0; lCount < lKeyCount; lCount++)
-		{
-			lKeyValue = static_cast<float>(pCurve->KeyGetValue(lCount));
-			lKeyTime  = pCurve->KeyGetTime(lCount);
-
-			vkey.push_back(lKeyValue);
-		}
 	}
 
 	struct TrackData
@@ -72,117 +53,6 @@ namespace ma
 		Vector3TrackData scaleTrack;
 	};
 
-	void DisplayChannels(FbxNode* pNode, FbxAnimLayer* pAnimLayer,std::map<std::string,TrackData>& boneTrack)
-	{
-		FbxAnimCurve* lAnimCurve = NULL;
-	
-		const char* pszName = pNode->GetName();
-
-		if (pNode->GetSkeleton() == NULL)
-			return;
-
-		std::vector<float> vTrasX,vTrasY,vTrasZ;
-		std::vector<float> vRotaX,vRotaY,vRotaZ;
-		std::vector<float> vScaleX,vScaleY,vScaleZ;
-
-		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        TX\n");
-			DisplayCurve(lAnimCurve,vTrasX);
-		}
-		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        TY\n");
-			DisplayCurve(lAnimCurve,vTrasY);
-		}
-		lAnimCurve = pNode->LclTranslation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        TZ\n");
-			DisplayCurve(lAnimCurve,vTrasZ);
-		}
-
-		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        RX\n");
-			DisplayCurve(lAnimCurve,vRotaX);
-		}
-		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        RY\n");
-			DisplayCurve(lAnimCurve,vRotaY);
-		}
-		lAnimCurve = pNode->LclRotation.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        RZ\n");
-			DisplayCurve(lAnimCurve,vRotaZ);
-		}
-
-		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        SX\n");
-			DisplayCurve(lAnimCurve,vScaleX);
-		}    
-		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        SY\n");
-			DisplayCurve(lAnimCurve,vScaleY);
-		}
-		lAnimCurve = pNode->LclScaling.GetCurve(pAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
-		if (lAnimCurve)
-		{
-			FBXSDK_printf("        SZ\n");
-			DisplayCurve(lAnimCurve,vScaleZ);
-		}
-
-		TrackData trackData;
-		for (UINT i = 0; i < vTrasX.size(); ++i)
-		{
-			D3DXVECTOR3 vPos = D3DXVECTOR3(vTrasX[i],vTrasY[i],vTrasZ[i]);
-			trackData.posTrack.m_arrFrame.push_back(i);
-			trackData.posTrack.m_arrKey.push_back(vPos);
-
-			//D3DXVECTOR3 vRot = D3DXVECTOR3(D3DXToRadian(vRotaX[i]),D3DXToRadian(vRotaY[i]),D3DXToRadian(vRotaZ[i]));
-			//D3DXQUATERNION qRot;
-			//maQuaternionFromEulerAngleXYZ(&qRot,(xmEulerAngleXYZ*)&vRot);
-			
-			ERotationOrder rotOrder = pNode->RotationOrder.IsValid() ? pNode->RotationOrder.Get() : eEULER_XYZ;
-			D3DXQUATERNION qRot,qx,qy,qz;
-			D3DXVECTOR3 vXAxis = D3DXVECTOR3(1,0,0);
-			D3DXVECTOR3 vYAxis = D3DXVECTOR3(0,1,0);
-			D3DXVECTOR3 vZAxis = D3DXVECTOR3(0,0,1);
-			D3DXQuaternionRotationAxis(&qx,&vXAxis,D3DXToRadian(vRotaX[i]));
-			D3DXQuaternionRotationAxis(&qy,&vYAxis,D3DXToRadian(vRotaY[i]));
-			D3DXQuaternionRotationAxis(&qz,&vZAxis,D3DXToRadian(vRotaZ[i]));
-			if (rotOrder == eEULER_XYZ)
-			{
-				qRot = qx * qy * qz;	
-			}
-			else
-			{
-				assert(false);		
-			}
-	
-			trackData.RotTrack.m_arrFrame.push_back(i);
-			trackData.RotTrack.m_arrKey.push_back(qRot);
-
-			D3DXVECTOR3 vScale = D3DXVECTOR3(vScaleX[i],vScaleY[i],vScaleZ[i]);
-			trackData.scaleTrack.m_arrFrame.push_back(i);
-			trackData.scaleTrack.m_arrKey.push_back(vScale);
-		}
-
-		boneTrack[pszName] = trackData;
-		
-	}
-
-	
 	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
 	{
 		int lModelCount;
@@ -196,8 +66,7 @@ namespace ma
 		const char* pszBoneName = pNode->GetName();
 
 		TrackData trackData;
-		
-		//DisplayChannels(pNode, pAnimLayer,boneTrack);
+	
 		if ( pNode->GetSkeleton() )
 		{
 			FbxTimeSpan timeSpan = pAnimStack->GetLocalTimeSpan();
@@ -223,9 +92,9 @@ namespace ma
 				trackData.RotTrack.m_arrFrame.push_back(i);
 				trackData.scaleTrack.m_arrFrame.push_back(i);
 
-				trackData.posTrack.m_arrKey.push_back(D3DXVECTOR3(pTranslation[0],pTranslation[1],pTranslation[2]));
-				trackData.RotTrack.m_arrKey.push_back(D3DXQUATERNION(pRotation[0],pRotation[1],pRotation[2],pRotation[3]));
-				trackData.scaleTrack.m_arrKey.push_back(D3DXVECTOR3(pScaling[0],pScaling[1],pScaling[2]));
+				trackData.posTrack.m_arrKey.push_back( ToMaUnit(pTranslation) );
+				trackData.RotTrack.m_arrKey.push_back( ToMaUnit(pRotation) );
+				trackData.scaleTrack.m_arrKey.push_back( ToMaUnit(pScaling) );
 
 				++i;
 			}
@@ -268,7 +137,7 @@ namespace ma
 		}
 		
 		assert(boneTrack.size() == pSkelData->m_nBoneNum);
-		int nBoneNum = boneTrack.size();
+		UINT nBoneNum = boneTrack.size();
 		pAnimData->m_nBoneNum = nBoneNum;
 		pAnimData->m_arrTransfTrackName.resize(nBoneNum);
 		pAnimData->m_arrPosTrack.resize(nBoneNum);
@@ -304,7 +173,9 @@ namespace ma
 
 		GetMeshData(pFbxMesh,pMeshData,NULL);
 
-		mpFBXImporter->Destroy();
+		//m_pFBXImporter->Destroy();
+
+		return true;
 	}
 
 	bool	FBXImporter::LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,SkeletonData* pSkeData)
@@ -327,7 +198,9 @@ namespace ma
 
 		GetMeshData(pFbxMesh,pMeshData,pSkeData);
 
-		mpFBXImporter->Destroy();
+		//m_pFBXImporter->Destroy();
+
+		return true;
 	}
 
 	bool	FBXImporter::LoadAnimationData(const char* pFileName,AnimationData* pAnimation, const SkeletonData* pSkelData)
@@ -355,33 +228,31 @@ namespace ma
 			break;
 		}
 
-		mpFBXImporter->Destroy();
+		//m_pFBXImporter->Destroy();
+
+		return true;
 	}
 
 	FbxScene*	FBXImporter::GetFbxScene(const char* pFileName)
 	{
 		if (pFileName == NULL)
 			return NULL;
-	
-		if (mpFBXImporter == NULL)
-			return NULL;
-
-		bool importStatus = mpFBXImporter->Initialize(pFileName , -1 , mpFBXSDKManager->GetIOSettings());
+			
+		bool importStatus = m_pFBXImporter->Initialize(pFileName , -1 , m_pFBXImporter->GetIOSettings());
 		//lImporter->GetFileVersion(fileVersion.mMajor , fileVersion.mMinor , fileVersion.mRevision);
 		if(!importStatus)
-			return false;
+			return NULL;
 
-		FbxScene* pScene = FbxScene::Create(mpFBXSDKManager,"myScene");
-		if (pScene == NULL)
-			return false;
+		// Create the entity that hold the whole Scene
+		FbxScene* pFbxScene = FbxScene::Create(m_pFBXSDKManager , "");
 
-		importStatus = mpFBXImporter->Import(pScene);
+		importStatus = m_pFBXImporter->Import(pFbxScene);
 		if (!importStatus)
 			return false;
 
 		//FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
 		
-		return pScene;
+		return pFbxScene;
 	}
 
 	FbxMesh* FBXImporter::GetFbxMesh(FbxNode* pNode)
@@ -392,7 +263,7 @@ namespace ma
 		}
 		
 		int nChildNode = pNode->GetChildCount();
-		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		for (int i = 0; i < pNode->GetChildCount(); ++i)
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxMesh* pFbxMesh = GetFbxMesh(pChildNode);
@@ -412,8 +283,7 @@ namespace ma
 			return pNode->GetSkeleton();
 		}
 
-		int nChildNode = pNode->GetChildCount();
-		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		for (int i = 0; i < pNode->GetChildCount(); ++i)
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pFbxSkeleton = GetFbxRootBone(pChildNode);
@@ -470,8 +340,7 @@ namespace ma
 		(pSkelData->m_arrParentIndice).push_back(parentID);
 		pSkelData->m_nBoneNum = index + 1;
 
-		int nChildNode = pNode->GetChildCount();
-		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
+		for (int i = 0; i < pNode->GetChildCount(); ++i)
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
@@ -495,14 +364,16 @@ namespace ma
 
 		if(!pMesh->IsTriangleMesh())
 		{
-			FbxGeometryConverter converter(mpFBXSDKManager);
+			FbxGeometryConverter converter(m_pFBXSDKManager);
 			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
 		std::vector<pointSkin> m_vSkin;	
-		int clusterCount; 
+		UINT clusterCount; 
 		if (pSkelData)
 		{
+			FBXSDK_printf("Begin Get Skin Info .....\n");
+
 			m_vSkin.resize(pMesh->GetControlPointsCount());
 
 			int deformerCount  = pMesh->GetDeformerCount(); 
@@ -560,8 +431,11 @@ namespace ma
 					}	
 				}
 			}
+
+			FBXSDK_printf("End Get Skin Info .....\n");
 		}
 
+		FBXSDK_printf("Begin Get Vertex Info .....\n");
 
 		std::vector<VertexType0> vertexList;
 		std::vector<xmUint16> indexList;
@@ -648,8 +522,10 @@ namespace ma
 			}
 		}
 
+		FBXSDK_printf("End Get Vertex Info .....\n");
+
 		// Ib
-		int nIndexCount = indexList.size();
+		UINT nIndexCount = indexList.size();
 		pMeshData->m_nIndexType = INDEX_TYPE_U16;
 		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(xmUint16));
 		xmUint16* pIb = (xmUint16*)&pMeshData->m_arrIndexBuffer[0];
@@ -739,9 +615,7 @@ namespace ma
 	{
 		FbxVector4* pCtrlPoint = pMesh->GetControlPoints();
 
-		pVertex->x = pCtrlPoint[ctrlPointIndex][0];
-		pVertex->y = pCtrlPoint[ctrlPointIndex][1];
-		pVertex->z = pCtrlPoint[ctrlPointIndex][2];
+		*pVertex = ToMaUnit(pCtrlPoint[ctrlPointIndex]);
 	}
 
 	void FBXImporter::ReadColor(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR4* pColor)
@@ -760,20 +634,16 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pColor->x = pVertexColor->GetDirectArray().GetAt(ctrlPointIndex).mRed;
-						pColor->y = pVertexColor->GetDirectArray().GetAt(ctrlPointIndex).mGreen;
-						pColor->z = pVertexColor->GetDirectArray().GetAt(ctrlPointIndex).mBlue;
-						pColor->w = pVertexColor->GetDirectArray().GetAt(ctrlPointIndex).mAlpha;
+						FbxColor fbxColor = pVertexColor->GetDirectArray().GetAt(ctrlPointIndex);
+						*pColor =  ToMaUnit(fbxColor);
 					}
 					break;
 
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = pVertexColor->GetIndexArray().GetAt(ctrlPointIndex);
-						pColor->x = pVertexColor->GetDirectArray().GetAt(id).mRed;
-						pColor->y = pVertexColor->GetDirectArray().GetAt(id).mGreen;
-						pColor->z = pVertexColor->GetDirectArray().GetAt(id).mBlue;
-						pColor->w = pVertexColor->GetDirectArray().GetAt(id).mAlpha;
+						FbxColor fbxColor =  pVertexColor->GetDirectArray().GetAt(id);
+						*pColor = ToMaUnit(fbxColor);
 					}
 					break;
 
@@ -789,19 +659,15 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pColor->x = pVertexColor->GetDirectArray().GetAt(vertexCounter).mRed;
-						pColor->y = pVertexColor->GetDirectArray().GetAt(vertexCounter).mGreen;
-						pColor->z = pVertexColor->GetDirectArray().GetAt(vertexCounter).mBlue;
-						pColor->w = pVertexColor->GetDirectArray().GetAt(vertexCounter).mAlpha;
+						FbxColor fbxColor = pVertexColor->GetDirectArray().GetAt(vertexCounter);
+						*pColor = ToMaUnit(fbxColor);
 					}
 					break;
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = pVertexColor->GetIndexArray().GetAt(vertexCounter);
-						pColor->x = pVertexColor->GetDirectArray().GetAt(id).mRed;
-						pColor->y = pVertexColor->GetDirectArray().GetAt(id).mGreen;
-						pColor->z = pVertexColor->GetDirectArray().GetAt(id).mBlue;
-						pColor->w = pVertexColor->GetDirectArray().GetAt(id).mAlpha;
+						FbxColor fbxColor =  pVertexColor->GetDirectArray().GetAt(id);
+						*pColor = ToMaUnit(fbxColor);
 					}
 					break;
 				default:
@@ -878,18 +744,15 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pNormal->x = leNormal->GetDirectArray().GetAt(ctrlPointIndex)[0];
-						pNormal->y = leNormal->GetDirectArray().GetAt(ctrlPointIndex)[1];
-						pNormal->z = leNormal->GetDirectArray().GetAt(ctrlPointIndex)[2];
+						FbxVector4 vFbx = leNormal->GetDirectArray().GetAt(ctrlPointIndex);
+						*pNormal = ToMaUnit(vFbx);
 					}
 					break;
 
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leNormal->GetIndexArray().GetAt(ctrlPointIndex);
-						pNormal->x = leNormal->GetDirectArray().GetAt(id)[0];
-						pNormal->y = leNormal->GetDirectArray().GetAt(id)[1];
-						pNormal->z = leNormal->GetDirectArray().GetAt(id)[2];
+						*pNormal = ToMaUnit( leNormal->GetDirectArray().GetAt(id) );
 					}
 					break;
 
@@ -905,18 +768,14 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pNormal->x = leNormal->GetDirectArray().GetAt(vertexCounter)[0];
-						pNormal->y = leNormal->GetDirectArray().GetAt(vertexCounter)[1];
-						pNormal->z = leNormal->GetDirectArray().GetAt(vertexCounter)[2];
+						*pNormal = ToMaUnit( leNormal->GetDirectArray().GetAt(vertexCounter) );
 					}
 					break;
 
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leNormal->GetIndexArray().GetAt(vertexCounter);
-						pNormal->x = leNormal->GetDirectArray().GetAt(id)[0];
-						pNormal->y = leNormal->GetDirectArray().GetAt(id)[1];
-						pNormal->z = leNormal->GetDirectArray().GetAt(id)[2];
+						*pNormal = ToMaUnit(  leNormal->GetDirectArray().GetAt(id) );
 					}
 					break;
 
@@ -945,18 +804,14 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pTangent->x = leTangent->GetDirectArray().GetAt(ctrlPointIndex)[0];
-						pTangent->y = leTangent->GetDirectArray().GetAt(ctrlPointIndex)[1];
-						pTangent->z = leTangent->GetDirectArray().GetAt(ctrlPointIndex)[2];
+						*pTangent = ToMaUnit( leTangent->GetDirectArray().GetAt(ctrlPointIndex) ); 
 					}
 					break;
 
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leTangent->GetIndexArray().GetAt(ctrlPointIndex);
-						pTangent->x = leTangent->GetDirectArray().GetAt(id)[0];
-						pTangent->y = leTangent->GetDirectArray().GetAt(id)[1];
-						pTangent->z = leTangent->GetDirectArray().GetAt(id)[2];
+						*pTangent = ToMaUnit( leTangent->GetDirectArray().GetAt(id) );
 					}
 					break;
 
@@ -972,18 +827,14 @@ namespace ma
 				{
 				case FbxGeometryElement::eDirect:
 					{
-						pTangent->x = leTangent->GetDirectArray().GetAt(vertecCounter)[0];
-						pTangent->y = leTangent->GetDirectArray().GetAt(vertecCounter)[1];
-						pTangent->z = leTangent->GetDirectArray().GetAt(vertecCounter)[2];
+						*pTangent = ToMaUnit( leTangent->GetDirectArray().GetAt(vertecCounter) );
 					}
 					break;
 
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leTangent->GetIndexArray().GetAt(vertecCounter);
-						pTangent->x = leTangent->GetDirectArray().GetAt(id)[0];
-						pTangent->y = leTangent->GetDirectArray().GetAt(id)[1];
-						pTangent->z = leTangent->GetDirectArray().GetAt(id)[2];
+						*pTangent = ToMaUnit( leTangent->GetDirectArray().GetAt(id) );
 					}
 					break;
 
