@@ -9,10 +9,10 @@ namespace ma
 	class IRendTexture;
 	class Animation;
 
-	class SampleAnimation : public SimpleSceneView
+	class SampleAnimationRetarget : public SimpleSceneView
 	{
 	public:
-		SampleAnimation();
+		SampleAnimationRetarget();
 
 		virtual void Init(Application* pApplication);
 
@@ -27,6 +27,9 @@ namespace ma
 		virtual void Render();
 
 		virtual	void OnResize(int w,int h);
+
+	private:
+		void OnInput();
 
 	private:
 		IRendMesh*		m_pRenderMeshA_b;
@@ -45,7 +48,7 @@ namespace ma
 		AnimationPlay*	m_pAnimtionPlayB;
 		Skeleton*		m_pSkeletonB;
 		Animation*		m_pAnimationB120;
-		Animation*		m_pAnimationB100;
+		Animation*		m_pAnimationB602;
 	};
 }
 

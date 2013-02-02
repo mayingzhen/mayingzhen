@@ -38,6 +38,9 @@ namespace ma
 		Animation* GetAnimation() {return m_pAnimation;}
 
 	private:
+		void WrapLocalFrame();
+
+	private:
 		Animation* m_pAnimation;
 
 		NodeLink* m_pNodeLink;

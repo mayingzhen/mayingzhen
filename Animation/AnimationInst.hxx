@@ -32,12 +32,17 @@ namespace ma
 		float fFrameRate = 30.0f;
 		m_fLocalFrame += fTimeElapsed * fFrameRate * m_fPlaySpeed;
 		
+		WrapLocalFrame();
+	}
+
+	void AnimationInst::WrapLocalFrame()
+	{
 		UINT uFrameNumber = m_pAnimation->GetFrameNumber();
 		if (m_fLocalFrame > uFrameNumber)
 		{
 			if (m_playbackMode == S3L_PLAYBACK_LOOP)
 			{
-				m_fLocalFrame = 0.0f;
+				m_fLocalFrame = fmod(m_fLocalFrame,uFrameNumber);
 			}
 			else
 			{

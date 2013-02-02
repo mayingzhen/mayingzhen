@@ -1,4 +1,4 @@
-#include "Serialize/FBXImporter.h"
+#include "Plugin/FbxImport/FBXImporter.h"
 
 namespace ma
 {
@@ -27,13 +27,18 @@ namespace ma
 		}
 
 		// Create an IOSettings object
-		FbxIOSettings* ios = FbxIOSettings::Create(mpFBXSDKManager , IOSROOT);
-		mpFBXSDKManager->SetIOSettings(ios);
+		//FbxIOSettings* ios = FbxIOSettings::Create(mpFBXSDKManager , IOSROOT);
+		//mpFBXSDKManager->SetIOSettings(ios);
 
 		// Load plug-ins from the executable directory
-		KString lExtension = "dll";
-		KString lPath = FbxGetApplicationDirectory();
-		mpFBXSDKManager->LoadPluginsDirectory(lPath.Buffer() , lExtension.Buffer());
+		//KString lExtension = "dll";
+		//KString lPath = FbxGetApplicationDirectory();
+		//mpFBXSDKManager->LoadPluginsDirectory(lPath.Buffer() , lExtension.Buffer());
+
+		FbxImporter* pFBXImporter = FbxImporter::Create(mpFBXSDKManager , "");
+		assert(pFBXImporter);
+		if (pFBXImporter == NULL)
+			return false;
 
 		// Create the entity that hold the whole Scene
 		//mpFBXSDKScene = FbxScene::Create(mpFBXSDKManager , "");
@@ -234,9 +239,8 @@ namespace ma
 		}
 	}
 
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData,SkeletonData* pSkelData)
+	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData,const SkeletonData* pSkelData)
 	{
-		int l;
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
 		FbxString lOutputString;
 
@@ -248,7 +252,7 @@ namespace ma
 		std::map<std::string,TrackData> boneTrack;
 
 		//assert(nbAnimLayers == 1);
-		for (l = 0; l < nbAnimLayers; l++)
+		for (int l = 0; l < nbAnimLayers; l++)
 		{
 			FbxAnimLayer* lAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(l);
 
@@ -274,7 +278,7 @@ namespace ma
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
 			std::string boneName = pSkelData->m_arrBoneName[i];
-			std::map<std::string,TrackData>::iterator it = boneTrack.find(/*boneTrack.begin(),boneTrack.end(),*/boneName);
+			std::map<std::string,TrackData>::iterator it = boneTrack.find(boneName);
 			assert(it != boneTrack.end());
 			if (it == boneTrack.end())
 				continue;
@@ -288,119 +292,103 @@ namespace ma
 			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
 
 		}
-
-// 		std::map<std::string,TrackData>::iterator it = boneTrack.begin();
-// 		for (; it != boneTrack.end(); ++it)
-// 		{
-// 			pAnimData->m_arrTransfTrackName.push_back(it->first);
-// 			pAnimData->m_arrPosTrack.push_back(it->second.posTrack);
-// 			pAnimData->m_arrRotTrack.push_back(it->second.RotTrack);
-// 			pAnimData->m_arrScaleTrack.push_back(it->second.scaleTrack);
-// 			int nFrame = it->second.posTrack.m_arrFrame.size();
-// 			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
-// 		}
-
-// 		for (UINT i = 0; i < pAnimData->m_arrTransfTrackName.size(); ++i)
-// 		{
-// 			Vector3TrackData& posTrack = pAnimData->m_arrPosTrack[i];
-// 			QuaternionTrackData& rotTrack = pAnimData->m_arrRotTrack[i];
-// 			Vector3TrackData& scaleTrack = pAnimData->m_arrScaleTrack[i];
-// 			for (UINT j = posTrack.m_arrFrame.size(); j != pAnimData->m_nFrameNum; ++j)
-// 			{
-// 				posTrack.m_arrFrame.push_back(j);
-// 				posTrack.m_arrKey.push_back(D3DXVECTOR3())
-// 			}
-// 		}
 	}
 
-	bool FBXImporter::LoadScene(const char* pSeneName,MeshData* pMeshData, SkeletonData* pSkeData,std::vector<AnimationData*>& vAnimData)
+	bool	FBXImporter::LoadStaticMeshData(const char* pFileName,MeshData* pMeshData)
 	{
-		if(mpFBXSDKManager == NULL)
-		{
+		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		if (pFbxScene == NULL)
 			return false;
-		}
 
-		// Get the file version number generate by the FBX SDK.
-		//FbxSdkManager::GetFileFormatVersion(mSDKVersion.mMajor , mSDKVersion.mMinor , mSDKVersion.mRevision);
+		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		// Create an importer.
-		FbxImporter* pFBXImporter = FbxImporter::Create(mpFBXSDKManager , "");
+		GetMeshData(pFbxMesh,pMeshData,NULL);
 
-		// Initialize the importer by providing a filename
-		//FBXFileVersion fileVersion;
+		mpFBXImporter->Destroy();
+	}
 
-		bool importStatus = pFBXImporter->Initialize(pSeneName , -1 , mpFBXSDKManager->GetIOSettings());
-		//lImporter->GetFileVersion(fileVersion.mMajor , fileVersion.mMinor , fileVersion.mRevision);
+	bool	FBXImporter::LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,SkeletonData* pSkeData)
+	{
+		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		if (pFbxScene == NULL)
+			return false;
 
-		if(!importStatus)
-		{
-			return NULL;
-		}
-
-		// Import the scene
-		//mpFBXScene->Clear();
-		FbxScene* lScene = FbxScene::Create(mpFBXSDKManager,"myScene");
-
-		importStatus = pFBXImporter->Import(lScene);
-
-		FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
-
-		GetFbxMesh(lScene->GetRootNode());
-
-		GetFbxRootBone(lScene->GetRootNode());
-
-		//ProcessSkeleton(lScene->GetRootNode(),pSkeData);
 		// get bind pose
-		int nPose = lScene->GetPoseCount();
-		KFbxPose* pBindPose = lScene->GetPose(0);
-		int nCount = pBindPose->GetCount();
-		for (int i = 0; i < nCount; ++i)
-		{
-			FbxNode* pNode = pBindPose->GetNode(i);
-			const char* pszNodeName = pNode->GetName();
-			int k = 0;
-		}
+		KFbxPose* pBindPose = pFbxScene->GetPose(0);
 		assert(pBindPose && pBindPose->IsBindPose());
-		GetSkeletonData(mpFbxSkeleton,pBindPose,mpFbxMesh,pSkeData);
+		if (pBindPose == NULL)
+			return false;
 
-		GetMeshData(mpFbxMesh,pMeshData,pSkeData);
+		FbxSkeleton* pRootBone =  GetFbxRootBone(pFbxScene->GetRootNode());
 
-		//ProcessAnimation(lScene->GetRootNode(),m_vAnimData);
+		GetSkeletonData(pRootBone,pBindPose,pSkeData);
 
-		//ProcessMesh(pMeshData,lScene->GetRootNode(),pSkeData);
+		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		int nAnimStackCount = lScene->GetSrcObjectCount<FbxAnimStack>();
+		GetMeshData(pFbxMesh,pMeshData,pSkeData);
+
+		mpFBXImporter->Destroy();
+	}
+
+	bool	FBXImporter::LoadAnimationData(const char* pFileName,AnimationData* pAnimation, const SkeletonData* pSkelData)
+	{
+		if (pFileName == NULL)
+			return false;
+
+		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		if (pFbxScene == NULL)
+			return false;
+
+		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
+		assert(nAnimStackCount == 1);
 		for (int i = 0; i < nAnimStackCount; i++)
 		{
-			FbxAnimStack* lAnimStack = lScene->GetSrcObject<FbxAnimStack>(i);
+			FbxAnimStack* lAnimStack = pFbxScene->GetSrcObject<FbxAnimStack>(i);
 
 			FbxString lOutputString = "Animation Stack Name: ";
 			lOutputString += lAnimStack->GetName();
 			lOutputString += "\n\n";
 			FBXSDK_printf(lOutputString);
 
-			AnimationData* pAnimData = new AnimationData;
-			
-			DisplayAnimation(lAnimStack, lScene->GetRootNode(),pAnimData,pSkeData);
+			DisplayAnimation(lAnimStack, pFbxScene->GetRootNode(),pAnimation,pSkelData);
 
-			vAnimData.push_back(pAnimData);
 			break;
 		}
 
-		//ProcessNode( pMeshData, pSkeData, lScene->GetRootNode() );
+		mpFBXImporter->Destroy();
+	}
 
-		// Destroy the importer.
-		pFBXImporter->Destroy();
+	FbxScene*	FBXImporter::GetFbxScene(const char* pFileName)
+	{
+		if (pFileName == NULL)
+			return NULL;
+	
+		if (mpFBXImporter == NULL)
+			return NULL;
 
-		return true;
+		bool importStatus = mpFBXImporter->Initialize(pFileName , -1 , mpFBXSDKManager->GetIOSettings());
+		//lImporter->GetFileVersion(fileVersion.mMajor , fileVersion.mMinor , fileVersion.mRevision);
+		if(!importStatus)
+			return false;
+
+		FbxScene* pScene = FbxScene::Create(mpFBXSDKManager,"myScene");
+		if (pScene == NULL)
+			return false;
+
+		importStatus = mpFBXImporter->Import(pScene);
+		if (!importStatus)
+			return false;
+
+		//FbxAxisSystem fbxAxis = lScene->GetGlobalSettings().GetAxisSystem();
+		
+		return pScene;
 	}
 
 	FbxMesh* FBXImporter::GetFbxMesh(FbxNode* pNode)
 	{
 		if ( pNode->GetMesh() )
 		{
-			mpFbxMesh = pNode->GetMesh();
-			return mpFbxMesh;
+			return pNode->GetMesh();
 		}
 		
 		int nChildNode = pNode->GetChildCount();
@@ -410,8 +398,7 @@ namespace ma
 			FbxMesh* pFbxMesh = GetFbxMesh(pChildNode);
 			if (pFbxMesh)
 			{
-				mpFbxMesh = pChildNode->GetMesh();
-				return mpFbxMesh;
+				return pFbxMesh;
 			}
 		}
 
@@ -422,64 +409,25 @@ namespace ma
 	{
 		if ( pNode->GetSkeleton() )
 		{
-			mpFbxSkeleton = pNode->GetSkeleton();
-			return mpFbxSkeleton;
+			return pNode->GetSkeleton();
 		}
 
 		int nChildNode = pNode->GetChildCount();
 		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
-			FbxSkeleton* mpFbxSkeleton = GetFbxRootBone(pChildNode);
-			if (mpFbxSkeleton)
+			FbxSkeleton* pFbxSkeleton = GetFbxRootBone(pChildNode);
+			if (pFbxSkeleton)
 			{
-				mpFbxSkeleton = pChildNode->GetSkeleton();
-				return mpFbxSkeleton;
+				return pFbxSkeleton;
 			}
 		}
 
 		return NULL;
 	}
 
-	void FBXImporter::ProcessAnimation(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData)
-	{
-		if (pNode == NULL)
-			return;
 
-
-	}
-
-// 	void FBXImporter::ProcessNode(MeshData* pMeshData, SkeletonData* pSkeData,FbxNode* pNode)
-// 	{
-// 		if (pMeshData == NULL || pNode == NULL)
-// 			return;
-// 
-// 		if(pNode->GetNodeAttribute())
-// 		{
-// 			switch(pNode->GetNodeAttribute()->GetAttributeType())
-// 			{
-// 			case FbxNodeAttribute::eMesh:
-// 				ProcessMesh(pMeshData,pNode);
-// 				break;
-// 			case FbxNodeAttribute::eSkeleton:
-// 				ProcessSkeleton(pNode,pSkeData);
-// 				break;
-// 			case FbxNodeAttribute::eLight:
-// 				//ProcessLight(pNode);
-// 				break;
-// 			case FbxNodeAttribute::eCamera:
-// 				//ProcessCamera();
-// 				break;
-// 			}
-// 		}
-// 
-// 		for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
-// 		{
-// 			ProcessNode(pMeshData,pSkeData,pNode->GetChild(i));
-// 		}
-// 	}
-
-	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,FbxMesh* pFbxMesh,SkeletonData* pSkelData)
+	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,SkeletonData* pSkelData)
 	{
 		if (pSkeleton == NULL)
 			return;
@@ -509,33 +457,16 @@ namespace ma
 		KFbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
 		KFbxXMatrix Matrix = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
 		
-// 		if ( IsValidID<BoneIndex>(parentID) )
-// 		{
-// 			int PoseLinkIndex = pBindPose->Find(pParentNode);
-// 			assert(PoseLinkIndex >= 0);
-// 			KFbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
-// 			KFbxXMatrix MatrixParent = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
-// 
-// 			//KFbxXMatrix	Matrix;
-// 			Matrix = MatrixParent.Inverse() * Matrix;
-// 			LocalLinkT = Matrix.GetT();
-// 			LocalLinkQ = Matrix.GetQ();
-// 			LocalLinkS = Matrix.GetS();
-// 		}
-// 		else
-// 		{
-			// for root, this is global coordinate
-			LocalLinkT = Matrix.GetT();
-			LocalLinkQ = Matrix.GetQ();
-			LocalLinkS = Matrix.GetS();
-//		}
+		LocalLinkT = Matrix.GetT();
+		LocalLinkQ = Matrix.GetQ();
+		LocalLinkS = Matrix.GetS();
 
 		int index = (pSkelData->m_arrBoneName).size();
 
 		(pSkelData->m_arrBoneName).push_back(name.Buffer());
-		(pSkelData->m_arrScaleOS).push_back(D3DXVECTOR3(LocalLinkS[0],LocalLinkS[1],LocalLinkS[2]));
-		(pSkelData->m_arrRotOS).push_back(D3DXQUATERNION(LocalLinkQ[0],LocalLinkQ[1],LocalLinkQ[2],LocalLinkQ[3]));
-		(pSkelData->m_arrPosOS).push_back(D3DXVECTOR3(LocalLinkT[0],LocalLinkT[1],LocalLinkT[2]));
+		(pSkelData->m_arrScaleOS).push_back( ToMaUnit(LocalLinkS) );
+		(pSkelData->m_arrRotOS).push_back( ToMaUnit(LocalLinkQ) );
+		(pSkelData->m_arrPosOS).push_back( ToMaUnit(LocalLinkT) );
 		(pSkelData->m_arrParentIndice).push_back(parentID);
 		pSkelData->m_nBoneNum = index + 1;
 
@@ -545,36 +476,7 @@ namespace ma
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
 			assert(pSkeletonx);
-			GetSkeletonData(pSkeletonx,pBindPose,pFbxMesh,pSkelData);
-		}
-	}
-
-	void  FBXImporter::ProcessSkeleton(FbxNode* pNode,SkeletonData* pSkelData)
-	{
-		if (pNode == NULL)
-			return;
-		
-		if ( pNode->GetMesh() )
-		{
-			mpFbxMesh = pNode->GetMesh();
-		}
- 
-// 		FbxString  name = pNode->GetName();
-// 		FbxDouble3 translation = pNode->LclTranslation.Get();
-// 		FbxDouble3 rotation = pNode->LclRotation.Get();
-// 		FbxDouble3 scaling = pNode->LclScaling.Get();
-
-		FbxSkeleton* pSkeleton = pNode->GetSkeleton();
-		if (pSkeleton)
-		{
-			//GetSkeletonData(pSkeleton,mpFbxMesh,pSkelData);
-		}
-
-		int nChildNode = pNode->GetChildCount();
-		for (UINT i = 0; i < pNode->GetChildCount(); ++i)
-		{
-			FbxNode* pChildNode = pNode->GetChild(i);
-			ProcessSkeleton(pChildNode,pSkelData);
+			GetSkeletonData(pSkeletonx,pBindPose,pSkelData);
 		}
 	}
 
@@ -597,66 +499,69 @@ namespace ma
 			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
-		int nControlPoint = pMesh->GetControlPointsCount();
-		std::vector<pointSkin> m_vSkin;
-		m_vSkin.resize(nControlPoint);
-
-		int deformerCount  = pMesh->GetDeformerCount(); 
+		std::vector<pointSkin> m_vSkin;	
 		int clusterCount; 
-		for (int i =0; i < deformerCount; ++i)
+		if (pSkelData)
 		{
-			KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
-			if (pFBXDeformer == NULL)
-				continue;
+			m_vSkin.resize(pMesh->GetControlPointsCount());
 
-			if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
-				continue;  
-
-			FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
-			if(pFBXSkin == NULL)  
-				continue;  
-
-			clusterCount = pFBXSkin->GetClusterCount(); 
-			for (int j = 0; j< clusterCount; ++j)
+			int deformerCount  = pMesh->GetDeformerCount(); 
+			for (int i =0; i < deformerCount; ++i)
 			{
-				KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
-				if (pCluster == NULL)
+				KFbxDeformer* pFBXDeformer = pMesh->GetDeformer(i); 
+				if (pFBXDeformer == NULL)
 					continue;
 
-				KFbxNode* pLinkNode = pCluster->GetLink();  
-				if (pLinkNode == NULL)
-					continue;
+				if(pFBXDeformer->GetDeformerType() != KFbxDeformer::eSkin)  
+					continue;  
 
-				const char* pszName = pLinkNode->GetName();
-					
-				BoneIndex boneIndex = InvalidID<BoneIndex>();
-				for (UINT index = 0; index < pSkelData->m_arrBoneName.size(); ++index)
+				FbxSkin* pFBXSkin = (KFbxSkin*)(pFBXDeformer);  
+				if(pFBXSkin == NULL)  
+					continue;  
+
+				clusterCount = pFBXSkin->GetClusterCount(); 
+				for (int j = 0; j< clusterCount; ++j)
 				{
-					const std::string& strBoneName = pSkelData->m_arrBoneName[index];
-					if ( strcmp(strBoneName.c_str(),pszName) == 0 )
+					KFbxCluster* pCluster =  pFBXSkin->GetCluster(j);  
+					if (pCluster == NULL)
+						continue;
+
+					KFbxNode* pLinkNode = pCluster->GetLink();  
+					if (pLinkNode == NULL)
+						continue;
+
+					const char* pszName = pLinkNode->GetName();
+
+					BoneIndex boneIndex = InvalidID<BoneIndex>();
+					for (UINT index = 0; index < pSkelData->m_arrBoneName.size(); ++index)
 					{
-						boneIndex = index;
-						break;
+						const std::string& strBoneName = pSkelData->m_arrBoneName[index];
+						if ( strcmp(strBoneName.c_str(),pszName) == 0 )
+						{
+							boneIndex = index;
+							break;
+						}
 					}
-				}
-				assert( IsValidID(boneIndex) );
-				
-				//pSkelData->m_arrBoneName
-				
-				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
-				int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
-				double* pCtrlPointWeights = pCluster->GetControlPointWeights();
+					assert( IsValidID(boneIndex) );
 
-				for (int k = 0; k < associatedCtrlPointCount; ++k)
-				{
-					int nIndex = pCtrlPointIndices[k];
-					double fWeight = pCtrlPointWeights[k];
-					m_vSkin[nIndex].m_vBoneName.push_back(pszName);
-					m_vSkin[nIndex].m_vBoneInd.push_back(boneIndex);
-					m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
-				}	
+					//pSkelData->m_arrBoneName
+
+					int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
+					int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
+					double* pCtrlPointWeights = pCluster->GetControlPointWeights();
+
+					for (int k = 0; k < associatedCtrlPointCount; ++k)
+					{
+						int nIndex = pCtrlPointIndices[k];
+						double fWeight = pCtrlPointWeights[k];
+						m_vSkin[nIndex].m_vBoneName.push_back(pszName);
+						m_vSkin[nIndex].m_vBoneInd.push_back(boneIndex);
+						m_vSkin[nIndex].m_vBoneWeight.push_back(fWeight);
+					}	
+				}
 			}
 		}
+
 
 		std::vector<VertexType0> vertexList;
 		std::vector<xmUint16> indexList;
@@ -664,18 +569,8 @@ namespace ma
 		int triangleCount = pMesh->GetPolygonCount();
 		int vertexCounter = 0;
 
-// 		D3DXVECTOR3 vertex[3];
-// 		D3DXVECTOR4 color[3];
-// 		D3DXVECTOR3 normal[3];
-// 		D3DXVECTOR3 tangent[3];
-// 		D3DXVECTOR2 uv[3][2];
-
 		int* pTriangleMtlIndex = new int[triangleCount];
 		ConnectMaterialToMesh(pMesh,triangleCount,pTriangleMtlIndex);
-
-		//D3DXMATRIX                matrix;
-		//D3DXMatrixRotationX(&matrix, -(3.14/2));
-
 		for(int i = 0 ; i < triangleCount ; ++i)
 		{
 			assert(pMesh->GetPolygonSize(i) == 3); 
@@ -722,27 +617,21 @@ namespace ma
 				vertert.p = vertex;
 				vertert.uv = uv[0];
 
-				xmUint8 boneInd[4]  = {0};
-				xmUint8 weight[4] = {0};
-				for (int k = 0; k < 4; ++k)
+				if (pSkelData)
 				{
-					if (k < m_vSkin[ctrlPointIndex].m_vBoneInd.size())
+					xmUint8 boneInd[4]  = {0};
+					xmUint8 weight[4] = {0};
+					for (int k = 0; k < 4; ++k)
 					{
-						boneInd[k] = m_vSkin[ctrlPointIndex].m_vBoneInd[k];
-						weight[k] = m_vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
+						if (k < m_vSkin[ctrlPointIndex].m_vBoneInd.size())
+						{
+							boneInd[k] = m_vSkin[ctrlPointIndex].m_vBoneInd[k];
+							weight[k] = m_vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
+						}
 					}
+					memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
+					memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
 				}
-				memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
-				memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
-				
-
-// 				xmUint8 testBoneInd[4];
-// 				xmUint8 testWeight[4];
-// 				for (int k = 0; k < 4; ++k)
-// 				{
-// 					testBoneInd[k] = (vertert.b >> (k*8)) & 0xff;
-// 					testWeight[k] = ((vertert.w >> (k*8)) & 0xff);
-// 				}
 
 				UINT index = 0;
 				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
@@ -757,8 +646,6 @@ namespace ma
 				}
 				indexList.push_back(index);
 			}
-
-			// 根据读入的信息组装三角形，并以某种方式使用即可，比如存入到列表中、保存到文件等...
 		}
 
 		// Ib
@@ -789,39 +676,20 @@ namespace ma
 		pSubMeshData->m_nIndexCount = nIndexCount;
 		pSubMeshData->m_nVertexStart = 0;
 		pSubMeshData->m_nVertexCount = nVertexCount;
-		pSubMeshData->m_arrBonePalette.resize(clusterCount);
-		for (UINT i = 0; i <clusterCount; ++i)
+		if (pSkelData)
 		{
-			pSubMeshData->m_arrBonePalette[i] = i;
+			pSubMeshData->m_arrBonePalette.resize(clusterCount);
+			for (UINT i = 0; i <clusterCount; ++i)
+			{
+				pSubMeshData->m_arrBonePalette[i] = i;
+			}
 		}
 		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
 
 		LoadMaterial(pMesh);
 	}
 
-	void FBXImporter::ProcessMesh(MeshData* pMeshData,FbxNode* pNode,const SkeletonData* pSkelData)
-	{
-		if (pMeshData == NULL || pNode == NULL)
-			return;
 
-		FbxString  name = pNode->GetName();
-		FbxDouble3 translation = pNode->LclTranslation.Get();
-		FbxDouble3 rotation = pNode->LclRotation.Get();
-		FbxDouble3 scaling = pNode->LclScaling.Get();
-
-		FbxMesh* pFbxMesh = pNode->GetMesh();
-		if (pFbxMesh)
-		{
-			GetMeshData(pFbxMesh,pMeshData,pSkelData);
-		}
-		else
-		{
-			for(int i = 0 ; i < pNode->GetChildCount() ; ++i)
-			{
-				ProcessMesh(pMeshData,pNode->GetChild(i),pSkelData);
-			}
-		}
-	}
 
 	void FBXImporter::ConnectMaterialToMesh(FbxMesh* pMesh , int triangleCount , int* pTriangleMtlIndex)
 	{

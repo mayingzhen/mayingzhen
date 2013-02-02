@@ -2,6 +2,12 @@
 
 namespace ma
 {
+	SimpleSceneView::SimpleSceneView()
+	{
+		m_vEyePos = D3DXVECTOR3(0, 600, 1000);
+		m_fMoveCameraSpeed = 20.0f;
+	}
+
 	void SimpleSceneView::Init(Application* pApplication)
 	{
 		assert(pApplication);
@@ -10,10 +16,9 @@ namespace ma
 
 		m_pApplication = pApplication;
 
-		D3DXVECTOR3 eyePos = D3DXVECTOR3(0, 600, 1000);
 		D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
 		D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
-		D3DXMatrixLookAtLH(&m_matView,&eyePos,&lookatPos,&vUp);
+		D3DXMatrixLookAtLH(&m_matView,&m_vEyePos,&lookatPos,&vUp);
 
 		int nWndWidth = 0;
 		int nWndHeigh = 0;
@@ -39,8 +44,55 @@ namespace ma
 	{
 	}
 
+	void SimpleSceneView::UpdateCamra(float timeElapsed)
+	{
+		Input* pInput = GetInput();
+		if (pInput == NULL)
+			return;
+		
+		float fMoveDis = m_fMoveCameraSpeed * timeElapsed;
+		
+		bool isChaneg = false;
+		if ( pInput->IsKeyDown(OIS::KC_UP) )
+		{
+			m_vEyePos.y += fMoveDis;
+			isChaneg = true;
+		}
+		if ( pInput->IsKeyDown(OIS::KC_DOWN) )
+		{
+			m_vEyePos.y -= fMoveDis;
+			isChaneg = true;
+		}
+		if ( pInput->IsKeyDown(OIS::KC_LEFT) )
+		{
+			m_vEyePos.x -= fMoveDis;
+			isChaneg = true;
+		}
+		if ( pInput->IsKeyDown(OIS::KC_RIGHT) )
+		{
+			m_vEyePos.x += fMoveDis;
+			isChaneg = true;
+		}
+		if (pInput->IsKeyDown(OIS::KC_ADD))
+		{
+			m_fMoveCameraSpeed += 1.0f;
+		}
+		if (pInput->IsKeyDown(OIS::KC_SUBTRACT))
+		{
+			m_fMoveCameraSpeed -= 1.0f;
+		}
+
+		if (isChaneg)
+		{
+			D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
+			D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
+			D3DXMatrixLookAtLH(&m_matView,&m_vEyePos,&lookatPos,&vUp);
+		}
+	}
+
 	void SimpleSceneView::Tick(float timeElapsed)
 	{
+		UpdateCamra(timeElapsed);
 	}
 
 	void SimpleSceneView::Render()

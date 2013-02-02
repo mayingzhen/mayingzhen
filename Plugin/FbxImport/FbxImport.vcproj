@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Samples"
-	ProjectGUID="{3131A8F4-9234-4A5F-B198-186086BDDBB3}"
-	RootNamespace="Samples"
+	Name="FbxImport"
+	ProjectGUID="{7DB9B4CE-FF5B-4BEE-9842-8986D2DEB9D8}"
+	RootNamespace="FbxImport"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -20,8 +20,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="2"
+			ConfigurationType="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,13 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="../../;../../extern/include;../../extern/include/FBX"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;FBXImporter_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="Samples/StdAfx.h"
+				PrecompiledHeaderThrough="plugin/FbxImport/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -62,9 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
+				AdditionalDependencies="fbxsdk-2013.2-mdd.lib d3dx9d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../extern/lib"
+				AdditionalLibraryDirectories="../../extern/lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -169,44 +169,28 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Animation"
-			>
-			<File
-				RelativePath=".\Animation\SampleAnimationRetarget.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Animation\SampleAnimationRetarget.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="FBXImport"
-			>
-			<File
-				RelativePath=".\FbxImport\SampleFbxImport.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FbxImport\SampleFbxImport.hxx"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath=".\main.cpp"
+			RelativePath=".\FBXImporter.h"
 			>
 		</File>
 		<File
-			RelativePath=".\SimpleSceneView.h"
+			RelativePath=".\FBXImporter.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\SimpleSceneView.hxx"
+			RelativePath=".\FbxImportUtil.h"
 			>
 		</File>
 		<File
-			RelativePath=".\stdafx.cpp"
+			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdAfx.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -218,7 +202,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\stdafx.h"
+			RelativePath=".\stdAfx.h"
 			>
 		</File>
 	</Files>

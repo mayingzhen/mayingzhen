@@ -2,6 +2,7 @@
 #include "Animation/Module.h"
 #include "DXRender/Module.h"
 #include "Serialize/Module.h"
+#include "Plugin/FbxImport/Module.h"
 
 namespace ma
 {
@@ -46,6 +47,19 @@ namespace ma
 		std::vector<AnimationData*> vAnimData;
 		fbxImpor.LoadScene("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData,vAnimData);
 
+		// Save
+		SaveMeshToBinaryFile("../Fbx/TestBull.skn",pMeshData);
+		SaveSkeletonToBinaryFile("../Fbx/TestBull.ske",pSkeData);
+		SaveAnimationToBinaryFile("../Fbx/TestBull.ska",vAnimData[0]);
+		SAFE_DELETE(pMeshData);
+		SAFE_DELETE(pSkeData);
+		SAFE_DELETE(vAnimData[0]);
+		///
+
+		pMeshData = LoadMeshFromBinaryFile("../Fbx/TestBull.skn");
+		pSkeData = LoadSkeletonFromBinaryFile("../Fbx/TestBull.ske");
+		AnimationData* pAnimData = LoadAnimationFromBinaryFile("../Fbx/TestBull.ska");
+
 		m_pRenderMesh = new DxRendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
 
@@ -57,7 +71,7 @@ namespace ma
 		m_pSkeleton->InitWithData(*pSkeData);
 
 		Animation* pAnimation = new Animation();
-		pAnimation->InitWithData(vAnimData[0]);
+		pAnimation->InitWithData(pAnimData);
 		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeleton);
 		AnimationInst* pAnimInst = new AnimationInst(pAnimation,m_pSkeleton);
 		AnimClipNode* pClipNode = new AnimClipNode(pAnimInst/*,m_pSkeleton->GetBoneSetByName("UpBody")*/);
@@ -76,6 +90,8 @@ namespace ma
 
 	void SampleFbxImport::Tick(float timeElapsed)
 	{
+		__super::Tick(timeElapsed);
+
 		if (ma::GetTimer() == NULL)
 			return;
 

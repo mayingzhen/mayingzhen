@@ -4,7 +4,7 @@
 
 // Sample
 #include "Samples/FbxImport/SampleFbxImport.hxx"
-#include "Samples/Animation/SampleAnimation.hxx"
+#include "Samples/Animation/SampleAnimationRetarget.hxx"
 
 using namespace ma;
 
@@ -16,10 +16,10 @@ public:
 		SampleFbxImport* pFbxImport = new SampleFbxImport();
 		m_vSceneView.push_back(pFbxImport);
 
-		SampleAnimation* pAnimation = new SampleAnimation();
+		SampleAnimationRetarget* pAnimation = new SampleAnimationRetarget();
 		m_vSceneView.push_back(pAnimation);
 
-		m_nCurSceneInde = 1;
+		m_nCurSceneInde = 0;
 	}
 
 	virtual void Init(int argc, char* argv[])
@@ -43,7 +43,7 @@ public:
 		if (pInput == NULL)
 			return;
 
-		if (pInput->IsKeyDown(OIS::KC_TAB))
+		if (pInput->IsKeyPressed(OIS::KC_TAB))
 		{
 			if (m_vSceneView.empty())
 				return;

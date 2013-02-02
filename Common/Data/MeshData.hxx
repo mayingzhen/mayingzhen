@@ -460,6 +460,7 @@ xmUint					MeshLODData::GetSubMeshNumber() const
 
 SubMeshData*			MeshLODData::GetSubMesh(xmUint nSubMeshInd)
 {
+	assert(nSubMeshInd >=0 && nSubMeshInd < m_arrSubMesh.size());
 	return m_arrSubMesh[nSubMeshInd];
 }
 

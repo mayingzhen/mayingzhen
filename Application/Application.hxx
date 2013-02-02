@@ -48,7 +48,6 @@ namespace ma
 		if (m_pSceneView)
 		{
 			m_pSceneView->Unload();
-			SAFE_DELETE(m_pSceneView);
 		}
 
 		m_pSceneView = pSceneView;
