@@ -111,7 +111,7 @@
 	typedef S3ADataTrack<float> xmFloatTrack;
 
 
-	class xmVector3Track : public IS3ATrack
+	class D3DXVECTOR3Track : public IS3ATrack
 	{
 	public:
 
@@ -119,14 +119,14 @@
 		std::vector<D3DXVECTOR3>	m_arrValue;
 
 
-		xmVector3Track()
+		D3DXVECTOR3Track()
 		{
 
 		}
 
 		void	Clear();
 
-		void	Clone(const xmVector3Track* pTrack);
+		void	Clone(const D3DXVECTOR3Track* pTrack);
 
 		void	SetKeyNumber(xmUint keyNum);
 
@@ -201,79 +201,79 @@
 
 
 	//------------------------------------------------------------------------------
-	//xmVector3Track
+	//D3DXVECTOR3Track
 	//------------------------------------------------------------------------------
 
-// 	inline xmVector3Track::xmVector3Track()
+// 	inline D3DXVECTOR3Track::D3DXVECTOR3Track()
 // 	{
 // 
 // 	}
 
-	inline void	xmVector3Track::Clear()
+	inline void	D3DXVECTOR3Track::Clear()
 	{
 		m_arrFrame.clear();
 		m_arrValue.clear();
 	}
 
-	inline void	xmVector3Track::Clone(const xmVector3Track* pTrack)
+	inline void	D3DXVECTOR3Track::Clone(const D3DXVECTOR3Track* pTrack)
 	{
 		m_arrFrame = pTrack->m_arrFrame;
 		m_arrValue = pTrack->m_arrValue;
 	}
 
-	inline void xmVector3Track::SetKeyNumber( xmUint keyNum )
+	inline void D3DXVECTOR3Track::SetKeyNumber( xmUint keyNum )
 	{
 		m_arrFrame.resize(keyNum);
 		m_arrValue.resize(keyNum);
 
 	}
 
-	inline xmUint xmVector3Track::GetKeyNumber() const
+	inline xmUint D3DXVECTOR3Track::GetKeyNumber() const
 	{
 		return (xmUint)m_arrValue.size();
 
 	}
 
-	inline void xmVector3Track::SetKeyFrame( xmUint key,xmUint frame )
+	inline void D3DXVECTOR3Track::SetKeyFrame( xmUint key,xmUint frame )
 	{
 		m_arrFrame[key] = frame;
 	}
 
-	inline xmUint	xmVector3Track::GetKeyFrame(xmUint nKeyInd) const
+	inline xmUint	D3DXVECTOR3Track::GetKeyFrame(xmUint nKeyInd) const
 	{
 		return m_arrFrame[nKeyInd];
 	}
 
 
-	inline xmUint xmVector3Track::GetFrameNumber() const
+	inline xmUint D3DXVECTOR3Track::GetFrameNumber() const
 	{
 		return m_arrFrame.size() > 0 ? m_arrFrame[m_arrFrame.size()-1] + 1 : 0;
 	}
 
-	inline void xmVector3Track::SetKey( xmUint key,xmUint frame,const D3DXVECTOR3& val )
+	inline void D3DXVECTOR3Track::SetKey( xmUint key,xmUint frame,const D3DXVECTOR3& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
 
-	inline void xmVector3Track::SetKeyValue( xmUint key,const D3DXVECTOR3& val )
+	inline void D3DXVECTOR3Track::SetKeyValue( xmUint key,const D3DXVECTOR3& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline const D3DXVECTOR3& xmVector3Track::GetKeyValue(xmUint nKeyIndex)const
+	inline const D3DXVECTOR3& D3DXVECTOR3Track::GetKeyValue(xmUint nKeyIndex)const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void xmVector3Track::Pushback(xmUint frame,const D3DXVECTOR3& val)
+	inline void D3DXVECTOR3Track::Pushback(xmUint frame,const D3DXVECTOR3& val)
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void xmVector3Track::SampleFrame( float frame,D3DXVECTOR3& val ) const
+	inline void D3DXVECTOR3Track::SampleFrame( float frame,D3DXVECTOR3& val ) const
 	{
 		xmUint key0;
 		xmUint key1;
@@ -284,7 +284,7 @@
 
 	}
 
-	inline void	xmVector3Track::DbgDump() const
+	inline void	D3DXVECTOR3Track::DbgDump() const
 	{
 		//S3ALog("Total Key %u ",m_arrValue.size());
 		for (xmUint keyCnt = 0; keyCnt < m_arrValue.size(); ++keyCnt)

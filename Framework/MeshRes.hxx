@@ -13,7 +13,7 @@ namespace ma
 
 	}
 
-	void MeshRes::Load()
+	bool MeshRes::Load()
 	{
 		if (m_pRendMesh == NULL)
 		{
@@ -23,6 +23,7 @@ namespace ma
 		MeshData* pMeshData = LoadMeshFromBinaryFile(m_sResPath.c_str());
 		
 		m_pRendMesh->InitWithData(pMeshData);
+		return true;
 	}
 
 	bool MeshRes::IsLoad()

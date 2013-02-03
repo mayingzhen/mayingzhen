@@ -13,7 +13,7 @@ namespace ma
 
 	}
 
-	void AnimationRes::Load()
+	bool AnimationRes::Load()
 	{	
 		if (m_pAnimation == NULL)
 		{
@@ -23,6 +23,7 @@ namespace ma
 		AnimationData* pAniData = LoadAnimationFromBinaryFile(m_sResPath.c_str());
 		
 		m_pAnimation->InitWithData(pAniData);
+		return true;
 	}	
 
 	bool AnimationRes::IsLoad()

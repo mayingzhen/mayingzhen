@@ -70,7 +70,7 @@ namespace ma
 
 		if (m_pPhyscisObject)
 		{
-			m_pPhyscisObject->Start();
+			m_pPhyscisObject->Start(this);
 		}
 	}
 
@@ -83,7 +83,7 @@ namespace ma
 
 		if (m_pPhyscisObject)
 		{
-			m_pPhyscisObject->Stop();
+			m_pPhyscisObject->Stop(this);
 		}
 	}
 
@@ -106,7 +106,7 @@ namespace ma
 		if (m_pPhyscisObject == NULL)
 			return;
 	
-		if ( m_pPhyscisObject->IsKinematic() )
+		//if ( m_pPhyscisObject->IsKinematic() )
 			m_pPhyscisObject->SetTransformWS( this->GetTransformWS() );
 	}
 
@@ -115,7 +115,7 @@ namespace ma
 		if (m_pPhyscisObject == NULL)
 			return;
 
-		if ( !m_pPhyscisObject->IsKinematic() )
+		//if ( !m_pPhyscisObject->IsKinematic() )
 			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 

@@ -12,6 +12,9 @@
 #include "Application/ApplicationWin.h"
 //#endif
 
+// tiny xml
+#include "Application/tinyxml/tinyxml.h"
+
 Application_API void ApplicationModuleInit();
 
 Application_API void ApplicationModuleShutdown();

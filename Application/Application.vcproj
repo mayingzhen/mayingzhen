@@ -246,6 +246,34 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="TinyXml"
+				>
+				<File
+					RelativePath=".\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinystr.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxml.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxml.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxmlerror.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxmlparser.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

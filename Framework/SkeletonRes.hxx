@@ -13,7 +13,7 @@ namespace ma
 
 	}
 
-	void SkeletonRes::Load()
+	bool SkeletonRes::Load()
 	{	
 		if (m_pSkeleton == NULL)
 		{
@@ -25,6 +25,7 @@ namespace ma
 		m_pSkeleton->InitWithData(*pSkelData);
 
 		//m_pSkeleton->Load( m_sResPath.c_str() );
+		return true;
 	}	
 
 	bool SkeletonRes::IsLoad()

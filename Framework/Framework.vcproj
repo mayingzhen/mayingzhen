@@ -293,6 +293,38 @@
 					RelativePath=".\Physics\RigidbodyComponent.hxx"
 					>
 				</File>
+				<Filter
+					Name="Interface"
+					>
+					<File
+						RelativePath=".\Physics\ICharacterController.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\ICollisionShape.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\IPhysicsDevive.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\IPhysicsDevive.hxx"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\IPhysicsObject.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\IPhysicsScene.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Physics\IRigidBody.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Resource Mangager"
@@ -343,6 +375,38 @@
 				</File>
 				<File
 					RelativePath=".\Texture.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Script"
+				>
+				<File
+					RelativePath=".\Script\EdScriptObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\EdScriptObject.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\IScriptDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\IScriptDevice.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\IScriptObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\ScriptComponent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Script\ScriptComponent.hxx"
 					>
 				</File>
 			</Filter>

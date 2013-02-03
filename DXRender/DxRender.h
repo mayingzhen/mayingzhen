@@ -36,6 +36,10 @@ namespace ma
 		void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
 			D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture);
 
+		void DrawBox(const D3DXMATRIX* pWordMat,const D3DXVECTOR3* boxSize, D3DCOLOR color);
+
+		void DrawWireSphere(const D3DXMATRIX* pWordMat,float fRadius, D3DCOLOR color);
+
 		//IRendMesh* CreateRendMesh();
 
 		//IRendTexture* CreateRendTexture();

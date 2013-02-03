@@ -11,10 +11,6 @@
 #include "Common/IRender/IRendMesh.h"
 #include "Common/IRender/IRendTexture.h"
 
-#include "Common/IPhysics/IPhysicsDevive.h"
-#include "Common/IPhysics/IPhysicsScene.h"
-#include "Common/IPhysics/IPhysicsObject.h"
-
 #include "Common/Serialize/SerializeListener.h"
 #include "Common/Serialize/BinaryInputArchive.h"
 #include "Common/Serialize/BinaryOutputArchive.h"

@@ -114,7 +114,7 @@ namespace ma
 		{
 			maNodeTransform tsfParentWS = m_pParentNode->GetTransformWS();
 			maNodeTransform tsfWS;
-			maTransfromMul(&tsfParentWS,&m_tsfPS,&tsfParentWS);
+			maTransfromMul(&tsfWS,&m_tsfPS,&tsfParentWS);
 			return tsfWS;
 		}
 	}
@@ -123,7 +123,7 @@ namespace ma
 	{
 		if (m_pParentNode == NULL)
 		{
-			SetTransformPS(TSFWS);
+			m_tsfPS = TSFWS;
 		}
 		else
 		{

@@ -10,6 +10,11 @@
 #include "Application/ApplicationWin.hxx"
 //#endif
 
+// tiny xml
+#include "Application/tinyxml/tinyxml.hxx"
+#include "Application/tinyxml/tinystr.hxx"
+#include "Application/tinyxml/tinyxmlerror.hxx"
+#include "Application/tinyxml/tinyxmlparser.hxx"
 
 void ApplicationModuleInit()
 {

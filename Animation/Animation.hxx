@@ -8,9 +8,9 @@ namespace ma
 
 	bool ConverteAnimDataObjectToLocalSpaceAnimation(
 		const std::vector<std::string>& arrTrackName,
-		std::vector<xmVector3Track*>& arrScaleTrackPS,
+		std::vector<D3DXVECTOR3Track*>& arrScaleTrackPS,
 		std::vector<xmQuaternionTrack*>& arrRotTrackPS,
-		std::vector<xmVector3Track*>& arrPosTrackPS,
+		std::vector<D3DXVECTOR3Track*>& arrPosTrackPS,
 		Skeleton* pSkel)
 	{
 
@@ -27,9 +27,9 @@ namespace ma
 			const maNodeTransform& tsfBoneOS = pRefPose->GetTransformOS(i);
 			maTransformInverse(&tsfBoneOSInv,&tsfBoneOS);
 
-			xmVector3Track& scaleTrack = *arrScaleTrackPS[i];
+			D3DXVECTOR3Track& scaleTrack = *arrScaleTrackPS[i];
 			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
-			xmVector3Track& posTrack = *arrPosTrackPS[i];
+			D3DXVECTOR3Track& posTrack = *arrPosTrackPS[i];
 
 			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
@@ -56,9 +56,9 @@ namespace ma
 
 	bool ConverteAnimDataParentToLocalSpaceAnimation(
 		 const std::vector<std::string>& arrTrackName,
-		 std::vector<xmVector3Track*>& arrScaleTrackPS,
+		 std::vector<D3DXVECTOR3Track*>& arrScaleTrackPS,
 		 std::vector<xmQuaternionTrack*>& arrRotTrackPS,
-		 std::vector<xmVector3Track*>& arrPosTrackPS,
+		 std::vector<D3DXVECTOR3Track*>& arrPosTrackPS,
 		 Skeleton* pSkel)
 	{
 
@@ -75,9 +75,9 @@ namespace ma
 			const maNodeTransform& tsfBonePS = pRefPose->GetTransformPS(i);
 			maTransformInverse(&tsfBonePSInv,&tsfBonePS);
 
-			xmVector3Track& scaleTrack = *arrScaleTrackPS[i];
+			D3DXVECTOR3Track& scaleTrack = *arrScaleTrackPS[i];
 			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
-			xmVector3Track& posTrack = *arrPosTrackPS[i];
+			D3DXVECTOR3Track& posTrack = *arrPosTrackPS[i];
 
 			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
@@ -151,7 +151,7 @@ namespace ma
 
 		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
 		
- 		xmVector3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
+ 		D3DXVECTOR3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
  		if (fFrame > scalTrack->m_arrFrame.size())
  		{
  			maTransformSetIdentity(pTSF);
@@ -239,9 +239,9 @@ namespace ma
 		{
 			m_arrTransfTrackName[nTrackCnt] = pAniData->m_arrTransfTrackName[nTrackCnt];
 
-			xmVector3Track* pScaleTrack = new xmVector3Track;
+			D3DXVECTOR3Track* pScaleTrack = new D3DXVECTOR3Track;
 			xmQuaternionTrack* pRotTrack = new xmQuaternionTrack;
-			xmVector3Track* pPosTrack = new xmVector3Track;
+			D3DXVECTOR3Track* pPosTrack = new D3DXVECTOR3Track;
 
 			Vector3TrackData& scaleTrackData = pAniData->m_arrScaleTrack[nTrackCnt];
 			QuaternionTrackData& rotTrackData = pAniData->m_arrRotTrack[nTrackCnt];

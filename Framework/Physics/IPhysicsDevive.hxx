@@ -1,4 +1,5 @@
-#include "Common/IPhysics/IPhysicsDevive.h"
+#include "Framework/stdafx.h"
+#include "Framework/Physics/IPhysicsDevive.h"
 
 namespace ma
 {

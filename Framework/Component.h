@@ -26,7 +26,7 @@ namespace ma
 
 		GameObject* GetGameObject() {return m_pGameObject;}
 
-		void SetGameObject(GameObject* pGameObject) {m_pGameObject = pGameObject;}
+		virtual void SetGameObject(GameObject* pGameObject) {m_pGameObject = pGameObject;}
 
 	protected:
 		GameObject* m_pGameObject;

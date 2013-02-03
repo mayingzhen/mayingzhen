@@ -1,25 +1,26 @@
 #ifndef  _BtPhysicsDevice__H__
 #define  _BtPhysicsDevice__H__
 
-#include "BulletPhysics/BtPhysicsScene.h"
-#include "BulletPhysics/BtPhysicsObject.h"
+#include "Framework/Physics/IPhysicsDevive.h"
 
 namespace ma
 {
-	class BULLETPHYSICS_API BtPhysicsDevice : public IPhysicsDevice
+	class BULLETPHYSICS_API BulletDevice : public IPhysicsDevice
 	{
-
 	public:
-		virtual IPhysicsScene* CreatePhysicsScene(); 
-	
-		virtual IPhysicsObject* CreatePhysicsObject();
+		virtual IPhysicsScene*			CreatePhysicsScene();
 
-		BtPhysicsScene* GetBtPhysicsScene() {return m_pBtPhysicsScene;}
+		virtual IPhysicsObject*			CreatePhysicsObject();
+
+		virtual IRigidBody*				CreateRigidBody();
+
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
+
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
+
+		virtual ICharacterController*	CreateCharacterController();
 	
-	private:
-		BtPhysicsScene* m_pBtPhysicsScene;
 	};
 }
-
 
 #endif

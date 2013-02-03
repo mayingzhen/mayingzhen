@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX"
+				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX;../extern/include/Bullet"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -190,6 +190,18 @@
 			</File>
 			<File
 				RelativePath=".\FbxImport\SampleFbxImport.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Physics"
+			>
+			<File
+				RelativePath=".\Physics\SamplePhysics.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\SamplePhysics.hxx"
 				>
 			</File>
 		</Filter>

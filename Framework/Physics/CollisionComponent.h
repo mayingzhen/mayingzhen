@@ -4,39 +4,78 @@
 
 namespace ma
 {
+	class ICollisionShape;
+	class IBoxCollisionShape;
+	class ISphereCollisionShape;
+	class IPhysicsObject;
+
+	enum CollisionLayer
+	{
+		ColLayer_Default = 1,
+		ColLayer_Terrain = 2,
+	};
+
 
 	class FRAMEWORK_API CollisionComponent : public Component
 	{
 	public:
-		CollisionComponent();
+		CollisionComponent(); 
 
-		~CollisionComponent();
+		//virtual ~CollisionComponent() = 0;
 
-		virtual maNodeTransform GetTransformLS() {return m_tsfLS;}
+		maNodeTransform GetTransformLS() const; 
 
-		virtual void SetTransformLS(const maNodeTransform& tsfLS) {m_tsfLS = tsfLS;}
+		void SetTransformLS(const maNodeTransform& tsfLS); 
+
+		void SetCollisionLayer(int eCollLayer);
+
+		int	GetCollisionLayer();
+
+		virtual void SetGameObject(GameObject* pGameObj);
 
 	protected:
-		maNodeTransform m_tsfLS;
+		D3DXMATRIX GetWorldMatrix();
+
+	protected:
+		ICollisionShape* m_pCollisionShape;
+
+		IPhysicsObject* m_pPhysicsObject;
 	};
+
 
 	class FRAMEWORK_API BoxCollisionComponent : public CollisionComponent
 	{
 	public:
 		BoxCollisionComponent();
 
-		~BoxCollisionComponent();
+		void		SetSize(const D3DXVECTOR3& vSize);
 
-		virtual void Start();	
+		D3DXVECTOR3	GetSize() const; 
 
-		D3DXVECTOR3 GetSize(){return m_vSize;}
+		virtual void DbgRender(BitField flag);
 
-		void SetSize(const D3DXVECTOR3& vSize) {m_vSize = vSize;}
+		virtual void SetGameObject(GameObject* pGameObj);
 
 	private:
-		D3DXVECTOR3 m_vSize;
+		IBoxCollisionShape* m_pBoxCollisionShape;
+	};
 
-		IPhysicsObject* m_pPhysicsObj;
+
+	class FRAMEWORK_API SphereCollisionComponent : public CollisionComponent
+	{
+	public:
+		SphereCollisionComponent();
+
+		void		SetRadius(float fRadius);
+
+		float		GetRadius() const;
+
+		virtual void SetGameObject(GameObject* pGameObj);
+
+		virtual void DbgRender(BitField flag);
+
+	private:
+		ISphereCollisionShape* m_pSphereCollisionShape;
 	};
 
 }

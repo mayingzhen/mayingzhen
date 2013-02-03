@@ -8,12 +8,14 @@ namespace ma
 		m_pRendTexure = NULL;
 	}
 
-	void Texture::Load()
+	bool Texture::Load()
 	{
 		if (m_pRendTexure == NULL)
 		{
 			m_pRendTexure = GetRenderDevice()->CreateRendTexture();
 		}
 		m_pRendTexure->Load( m_sResPath.c_str() );
+
+		return true;
 	}
 }

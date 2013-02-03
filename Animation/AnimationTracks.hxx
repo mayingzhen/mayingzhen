@@ -39,7 +39,7 @@ namespace ma
 // 
 // 	}
 // 
-// 	void AnimationTracks::SetPositionTrack(xmUint nTrackInd,const xmVector3Track* pTrack)
+// 	void AnimationTracks::SetPositionTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack)
 // 	{
 // 		//m_pos[nTrackInd]->Clone(pTrack);
 // 	}
@@ -50,7 +50,7 @@ namespace ma
 // 		//m_rot[nTrackInd]->Clone(pTrack);
 // 	}
 // 
-// 	void AnimationTracks::SetScaleTrack(xmUint nTrackInd,const xmVector3Track* pTrack)
+// 	void AnimationTracks::SetScaleTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack)
 // 	{
 // 		//m_scale[nTrackInd]->Clone(pTrack);
 // 	}
@@ -58,9 +58,9 @@ namespace ma
 // 	void AnimationTracks::Clone(AnimationTracks* pTracks) const
 // 	{
 // 
-// 		// 		S3AArrayDeepCopy<S3AArray<xmVector3Track*>,xmVector3Track>(pTracks->m_scale,m_scale);
+// 		// 		S3AArrayDeepCopy<S3AArray<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_scale,m_scale);
 // 		// 		S3AArrayDeepCopy<S3AArray<xmQuaternionTrack*>,xmQuaternionTrack>(pTracks->m_rot,m_rot);
-// 		// 		S3AArrayDeepCopy<S3AArray<xmVector3Track*>,xmVector3Track>(pTracks->m_pos,m_pos);
+// 		// 		S3AArrayDeepCopy<S3AArray<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_pos,m_pos);
 // 		// 		S3AArrayDeepCopy<S3AArray<xmFloatTrack*>,xmFloatTrack>(pTracks->m_float,m_float);
 // 		// 
 // 		// 		pTracks->m_rootMotionPos = m_rootMotionPos;
