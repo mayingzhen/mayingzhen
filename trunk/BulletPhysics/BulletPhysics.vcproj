@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include"
+				AdditionalIncludeDirectories="../;../extern/include;../extern/include/Bullet"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BULLETPHYSICS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -175,6 +175,30 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\BtCharacterController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BtCharacterController.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\BtCollisionShape.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BtCollisionShape.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\BtContactReport.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BtContactReport.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\BtPhysicsDevive.h"
 				>
 			</File>
@@ -200,6 +224,14 @@
 			</File>
 			<File
 				RelativePath=".\BtPhysicsScene.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\BtRigidBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BtRigidBody.hxx"
 				>
 			</File>
 			<File

@@ -254,26 +254,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="IPhysics"
-				>
-				<File
-					RelativePath=".\IPhysics\IPhysicsDevive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IPhysics\IPhysicsDevive.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\IPhysics\IPhysicsObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IPhysics\IPhysicsScene.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Data"
 				>
 				<File

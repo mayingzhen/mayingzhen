@@ -43,13 +43,9 @@ namespace ma
 
 		if (m_pPhyScene != NULL)
 		{
-			m_pRootNode->SyncToPhysics();
-
-			m_pPhyScene->BeginSimulation();
+			m_pPhyScene->BeginSimulation(fElapsedTime);
 
 			m_pPhyScene->EndSimulation();
-			
-			m_pRootNode->SyncFromPhysics();
 		}
 
 		m_pRootNode->LateUpdate(fElapsedTime);

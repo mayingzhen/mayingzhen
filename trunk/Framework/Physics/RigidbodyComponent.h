@@ -4,6 +4,10 @@
 
 namespace ma
 {
+
+	class IRigidBody;
+	class IPhysicsObject;
+
 	class FRAMEWORK_API RigidBodyComponent : public Component
 	{
 	public:
@@ -11,11 +15,6 @@ namespace ma
 
 		~RigidBodyComponent();
 
-		//virtual int		GetPriority() const;
-
-		//------------------------------------------------------------------------------
-		//RigidBody Desc
-		//------------------------------------------------------------------------------
 		void SetUseGravity(bool bUseGravity);
 
 		bool IsUseGravity();
@@ -24,26 +23,25 @@ namespace ma
 
 		bool IsKinematic();
 
-		void SetMass(float fMass);
+		void	SetMass(float fMass);
 
-		float GetMass();
+		float	GetMass();
 
-		void SetLinearDamping(float fLinearDamping);
+		void	SetLinearDamping(float fLinearDamping);
 
-		float GetLinearDamping();
+		float	GetLinearDamping();
 
-		void SetAngularDamping(float fAngularDamping);
+		void	SetAngularDamping(float fAngularDamping);
 
-		float GetAngularDamping();
+		float	GetAngularDamping();
 
-		virtual void Start();
+		virtual void SetGameObject(GameObject* pGameObj);
 
-		virtual void Stop();
-	private:
-		RigidBodyInfo m_rbInfo;
+	protected:
+		IRigidBody*			m_pRigidBody;
 
-		IPhysicsObject* m_pPhysicsObj;
+		IPhysicsObject*		m_pPhysicsObject;
 	};
-
 }
 #endif //__RigidbodyComponent_H__
+

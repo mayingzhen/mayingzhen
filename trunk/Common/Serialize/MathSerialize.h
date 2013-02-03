@@ -24,17 +24,17 @@ COMMON_API void Serialize(SerializeListener& sl,float &val,const char* pszLable 
 
 COMMON_API void Serialize(SerializeListener& sl,std::string &val,const char* pszLable = "string");
 
-COMMON_API void Serialize(SerializeListener& sl,xmVector2 &val,const char* pszLable = "Vector2");
+COMMON_API void Serialize(SerializeListener& sl,D3DXVECTOR2 &val,const char* pszLable = "Vector2");
 
 COMMON_API void Serialize(SerializeListener& sl,GUID &val,const char* pszLable = "GUID");
 
-COMMON_API void Serialize(SerializeListener& sl,xmVector3 &val,const char* pszLable = "Vector3");
+COMMON_API void Serialize(SerializeListener& sl,D3DXVECTOR3 &val,const char* pszLable = "Vector3");
 
 COMMON_API void Serialize(SerializeListener& sl,xmVector4 &val,const char* pszLable = "Vector4");
 
 COMMON_API void Serialize(SerializeListener& sl,xmMatrix4x4 &val,const char* pszLable = "Matrix4x4");
 
-COMMON_API void Serialize(SerializeListener& sl,xmNodeTransform& val,const char *pszLable = "NodeTransform");
+COMMON_API void Serialize(SerializeListener& sl,maNodeTransform& val,const char *pszLable = "NodeTransform");
 
 template<class T>
 COMMON_API void Serialize(SerializeListener& sl,T& val,const char* pszLable);

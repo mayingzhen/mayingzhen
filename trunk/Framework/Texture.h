@@ -12,7 +12,7 @@ namespace ma
 	public:
 		Texture(const char* pTexturePath);
 
-		void Load();
+		bool Load();
 
 		IRendTexture* GetRendTexture() {return m_pRendTexure;}
 

@@ -213,6 +213,16 @@ namespace ma
 		m_pDefaultSkin->End();
 	}
 
+	void DxRender::DrawBox(const D3DXMATRIX* pWordMat,const D3DXVECTOR3* boxSize, D3DCOLOR color)
+	{
+
+	}
+
+	void DxRender::DrawWireSphere(const D3DXMATRIX* pWordMat,float fRadius, D3DCOLOR color)
+	{
+
+	}
+
 }
 
 

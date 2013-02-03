@@ -2,16 +2,34 @@
 
 namespace ma
 {
-	IPhysicsScene* BtPhysicsDevice::CreatePhysicsScene() 
+	IPhysicsScene*	BulletDevice::CreatePhysicsScene()
 	{
-		m_pBtPhysicsScene = new BtPhysicsScene();
-		return m_pBtPhysicsScene;
+		return new BulletScene;
 	}
 
-	IPhysicsObject* BtPhysicsDevice::CreatePhysicsObject() 
+	IPhysicsObject*	BulletDevice::CreatePhysicsObject()
 	{
-		return new BtPhysicsObject();
+		return new BulletPhysicsObject;
 	}
-	
-	
+
+	IRigidBody*			BulletDevice::CreateRigidBody()
+	{
+		return new BulletRigidBody;
+	}
+
+	IBoxCollisionShape*	BulletDevice::CreateBoxCollisionShape()
+	{
+		return new BulletBoxCollisionShape;
+	}
+
+	ISphereCollisionShape* BulletDevice::CreateSphereCollisionShape()
+	{
+		return new BulletSphereCollisionShape;
+	}
+
+	ICharacterController* BulletDevice::CreateCharacterController()
+	{
+		return new BulletCharacterController;
+	}
 }
+

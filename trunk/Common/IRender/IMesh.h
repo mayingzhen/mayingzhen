@@ -16,12 +16,12 @@ class UTMeshBase;
 
 struct VertexType0
 {
-	xmVector3    m_vPos;			// position
+	D3DXVECTOR3    m_vPos;			// position
 	xmUint32		   m_nBoneIndice;	// bones
 	xmUint32		   m_nBoneWeight;	// Weights		
-	xmVector3	   m_vNorm;			// normal
-	xmVector2	   m_vUV;			// Texture Coordinate
-	xmVector3	   m_vTangent;
+	D3DXVECTOR3	   m_vNorm;			// normal
+	D3DXVECTOR2	   m_vUV;			// Texture Coordinate
+	D3DXVECTOR3	   m_vTangent;
 	xmUint32          m_nColor;		// vertex color
 	xmUint32		   m_nIllum;		// vertex illumination
 };
@@ -173,7 +173,7 @@ public:
 	virtual const char*					GetBoneName(xmUint nBoneInd) const = 0;
 
 
-	virtual void						GetBoundingAABB(xmVector3* vMin,xmVector3* vMax) = 0;
+	virtual void						GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax) = 0;
 
 	//------------------------------------------------------------------------------
 	//For LOD Mesh
@@ -213,7 +213,7 @@ public:
 
 	virtual void					SetBoneName(xmUint16 nBoneInd,const char* pszBoneName) = 0;
 
-	virtual void					SetBoundingAABB(const xmVector3* vMin,const xmVector3* vMax) = 0;
+	virtual void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax) = 0;
 	
 };
 

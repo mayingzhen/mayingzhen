@@ -5,8 +5,13 @@
 namespace ma
 {
 	class SceneNode;
-	class PhysicsScene;
+	class IPhysicsScene;
 	class Camera;
+
+	enum DbgRenderFlag{
+		eDbgRenderCollShape		= 1 << 0,
+		eDbgRenderSkeleton		= 1 << 1,
+	};
 
 	class FRAMEWORK_API Scene
 	{
@@ -23,7 +28,7 @@ namespace ma
 
 		void Stop();
 
-		//PhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
+		IPhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
 
 	private:
 		SceneNode* m_pRootNode;

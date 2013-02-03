@@ -15,7 +15,7 @@ namespace ma
 		
 		~MeshRes();
 
-		void Load();
+		bool Load();
 		
 		bool IsLoad();
 

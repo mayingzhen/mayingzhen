@@ -13,8 +13,8 @@ namespace ma
 
 	}
 
-	void Resource::Load()
+	bool Resource::Load()
 	{
-
+		return false;
 	}
 }

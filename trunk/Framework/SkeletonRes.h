@@ -14,7 +14,7 @@ namespace ma
 
 		~SkeletonRes();
 
-		void Load();
+		bool Load();
 
 		bool IsLoad();
 

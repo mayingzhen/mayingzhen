@@ -21,9 +21,16 @@
 #include "Framework/SkelMeshComponent.hxx"
 
 // physics
+#include "Framework/Physics/IPhysicsDevive.hxx"
 #include "Framework/Physics/CollisionComponent.hxx"
 #include "Framework/Physics/RigidbodyComponent.hxx"
 
+
+// Scrript
+//#include "Framework/Script/ScriptEventBinder.hxx"
+#include "Framework/Script/IScriptDevice.hxx"
+#include "Framework/Script/EdScriptObject.hxx"
+#include "Framework/Script/ScriptComponent.hxx"
 
 void FrameWorkModuleInit()
 {

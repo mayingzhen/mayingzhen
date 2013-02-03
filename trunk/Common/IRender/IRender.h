@@ -19,6 +19,11 @@ namespace ma
 		virtual void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
 			D3DXMATRIX* pWordMat,IRendMesh* pSkelMesh,IRendTexture* pTexture) = 0;
 
+		// Debg Render
+		virtual void DrawBox(const D3DXMATRIX* pWordMat,const D3DXVECTOR3* boxSize, D3DCOLOR color) = 0;
+
+		virtual void DrawWireSphere(const D3DXMATRIX* pWordMat,float fRadius, D3DCOLOR color) = 0;
+
 // 		virtual IRendMesh* CreateRendMesh() = 0;
 // 
 // 		virtual IRendTexture* CreateRendTexture() = 0;

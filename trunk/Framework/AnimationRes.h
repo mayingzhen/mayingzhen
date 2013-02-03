@@ -14,7 +14,7 @@ namespace ma
 
 		~AnimationRes();
 
-		void Load();
+		bool Load();
 
 		bool IsLoad();
 

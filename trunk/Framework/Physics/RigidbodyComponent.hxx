@@ -1,14 +1,18 @@
 #include "Framework/Physics/RigidbodyComponent.h"
+#include "Framework/Physics/IRigidBody.h"
 
 
 namespace ma
 {
 
-
-
-
 	RigidBodyComponent::RigidBodyComponent()
 	{
+		m_pPhysicsObject = NULL;
+
+		if (GetPhysicsDevice() == NULL)
+			return;
+
+		m_pRigidBody = GetPhysicsDevice()->CreateRigidBody();
 	}
 
 	RigidBodyComponent::~RigidBodyComponent()
@@ -16,145 +20,110 @@ namespace ma
 
 	}
 
-	void RigidBodyComponent::SetMass(float fMass)
+	void RigidBodyComponent::SetUseGravity(bool bUseGravity)
 	{
-		//if (m_pPhysicsObj)
-		//{
-		//	m_pPhysicsObj->setMassProps(fMass, m_rbInfo.m_localInertia);
-		//}
-		//else
-		//{
-			m_rbInfo.m_fMass = fMass;
-		//}
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->SetUseGravity(bUseGravity);
+		}
 	}
 
-	float RigidBodyComponent::GetMass()
+	bool RigidBodyComponent::IsUseGravity()
 	{
-		//if (m_pPhysicsObj)
-		//{
-		//	1.0f / m_pRigudBody->getInvMass();
-		//}
-		//else
-		//{
-			return m_rbInfo.m_fMass;
-		//}
+		if (m_pRigidBody)
+		{
+			return m_pRigidBody->IsUseGravity();
+		}
+		return false;
 	}
-
-	// 	void BulletActor::SetUseGravity(bool bUseGravity)
-	// 
-	// 	bool BulletActor::IsUseGravity();
 
 	void RigidBodyComponent::SetKinematic(bool bKinematic)
 	{
-		//if (m_pRigudBody)
-		//{
-		//	UINT flags = m_pRigudBody->getCollisionFlags();
-		//	BitField::StaticSetBit(flags,btCollisionObject::CF_KINEMATIC_OBJECT,bKinematic);
-		//	m_pRigudBody->setCollisionFlags(flags);
-		//}
-		//else
-		//{
-		m_rbInfo.m_bKinematic = bKinematic;
-			//BitField::StaticSetBit(m_rbInfo.m_collisionFlags,btCollisionObject::CF_KINEMATIC_OBJECT,bKinematic);
-		//}
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->SetKinematic(bKinematic);
+		}
 	}
 
 	bool RigidBodyComponent::IsKinematic()
 	{
-		//if (m_pRigudBody)
-		//{
-		//	return m_pRigudBody->isKinematicObject();
-		//}
-		//else
-		//{
-		return m_rbInfo.m_bKinematic;
-			//return BitField::StaticGetBit(m_rbInfo.m_collisionFlags,btCollisionObject::CF_KINEMATIC_OBJECT);	
-		//}
-	}
-
-	void RigidBodyComponent::SetLinearDamping(float fLinearDamping)
-	{
-		//if (m_pRigudBody)
-		//{
-		//	m_pRigudBody->setDamping(fLinearDamping,m_pRigudBody->getAngularDamping());
-		//}
-		//else
-		//{
-		m_rbInfo.m_fLinearDamping = fLinearDamping;
-		//	m_rbInfo.m_linearDamping = fLinearDamping;
-		//}
-	}
-
-	float RigidBodyComponent::GetLinearDamping()
-	{
-		//if (m_pRigudBody)
-		//{
-		//	return m_pRigudBody->getLinearDamping();
-		//}
-		//else
-		//{
-		return m_rbInfo.m_fLinearDamping;
-		//	return m_rbInfo.m_linearDamping;
-		//}
-	}
-
-	void RigidBodyComponent::SetAngularDamping(float fAngularDamping)
-	{
-		//if (m_pRigudBody)
-		//{
-		//	m_pRigudBody->setDamping(m_pRigudBody->getLinearDamping(),fAngularDamping);
-		//}
-		//else
-		//{
-		m_rbInfo.m_fAngularDamping = fAngularDamping;
-		//	m_rbInfo.m_angularDamping = fAngularDamping;
-		//}
-	}
-
-	float RigidBodyComponent::GetAngularDamping()
-	{
-		//if (m_pRigudBody)
-		//{
-		//	return m_pRigudBody->getAngularDamping();
-		//}
-		//else
-		//{
-		return m_rbInfo.m_fAngularDamping;
-		//	return m_rbInfo.m_angularDamping;
-		//}
-	}
-
-	void RigidBodyComponent::Start()
-	{
-		if ( GetGameObject() == NULL)
-			return;
-
-		m_pPhysicsObj = GetGameObject()->GetPhyscisObject();
-		if (m_pPhysicsObj == NULL)
+		if (m_pRigidBody)
 		{
-			IPhysicsDevice* pPhysicsDevice = GetPhysicsDevice();
-			if (pPhysicsDevice)
-			{
-				m_pPhysicsObj = pPhysicsDevice->CreatePhysicsObject();
-				GetGameObject()->SetPhyscisObject(m_pPhysicsObj);
-			}
+			return m_pRigidBody->IsKinematic();
 		}
-
-		if (m_pPhysicsObj == NULL)
-			return;
-
-		m_pPhysicsObj->SetRigidBody(m_rbInfo);
+		return false;
 	}
 
-	void RigidBodyComponent::Stop()
+	void	RigidBodyComponent::SetMass(float fMass)
 	{
-		//btDiscreteDynamicsWorld* pBulletWorld = GetBulletWorld(this);
-		//assert(pBulletWorld);
-		//if (pBulletWorld == NULL)
-		//	return;
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->SetMass(fMass);
+		}
+	}
 
-		//pBulletWorld->removeRigidBody(m_pRigudBody);
-		//SAFE_DELETE(m_pRigudBody);
+	float	RigidBodyComponent::GetMass()
+	{
+		if (m_pRigidBody)
+		{
+			return m_pRigidBody->GetMass();
+		}
+		return 0;
+	}
+
+	void	RigidBodyComponent::SetLinearDamping(float fLinearDamping)
+	{
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->SetAngularDamping(fLinearDamping);
+		}
+	}
+
+	float	RigidBodyComponent::GetLinearDamping()
+	{
+		if (m_pRigidBody)
+		{
+			return m_pRigidBody->GetLinearDamping();
+		}
+		return 0;
+	}
+
+	void	RigidBodyComponent::SetAngularDamping(float fAngularDamping)
+	{
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->SetAngularDamping(fAngularDamping);
+		}
+	}
+
+	float	RigidBodyComponent::GetAngularDamping()
+	{
+		if (m_pRigidBody)
+		{
+			return m_pRigidBody->GetAngularDamping();
+		}
+		return 0;
+	}
+
+	void RigidBodyComponent::SetGameObject(GameObject* pGameObj)
+	{
+		__super::SetGameObject(pGameObj);
+
+		if (pGameObj == NULL)
+			return;
+
+		m_pPhysicsObject = pGameObj->GetPhyscisObject();
+		if (m_pPhysicsObject == NULL)
+		{
+			m_pPhysicsObject = GetPhysicsDevice()->CreatePhysicsObject();
+			pGameObj->SetPhyscisObject(m_pPhysicsObject);
+		}
+		assert(m_pPhysicsObject);
+
+		if (m_pPhysicsObject)
+		{	
+			m_pPhysicsObject->SetRigidBody(m_pRigidBody);
+		}
 	}
 }
 

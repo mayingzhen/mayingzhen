@@ -10,7 +10,7 @@ namespace ma
 
 		virtual ~Resource();
 
-		virtual void Load();
+		virtual bool Load();
 
 		virtual const char* GetResPath() {return m_sResPath.c_str();}
 
@@ -23,7 +23,6 @@ namespace ma
 		bool		m_bLoaded;
 	};
 }
-
 
 
 #endif
