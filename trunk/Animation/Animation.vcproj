@@ -262,14 +262,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NodeSet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\NodeSet.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\Skeleton.h"
 				>
 			</File>
