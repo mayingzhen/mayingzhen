@@ -1,10 +1,5 @@
 #include "BulletPhysics/BtRigidBody.h"
 
-/*
-If you want to change important data from objects, you have to remove them from the world first,
-then make the change, and re-add them to the world.
---Erwin Coumans
-*/
 
 namespace ma
 {
@@ -21,13 +16,12 @@ namespace ma
 	{
 		if (m_pRigidBody)
 		{
-			m_pBtDynamicsWorld->removeRigidBody(m_pRigidBody);
+			if (!bUseGravity)
+				m_pRigidBody->setGravity(btVector3(0,0,0));
+			else
+				m_pRigidBody->setGravity(m_pBtDynamicsWorld->getGravity());
 
-			int flags = m_pRigidBody->getFlags();
-			BitFieldBase<int>::StaticSetBit(flags,BT_DISABLE_WORLD_GRAVITY,!bUseGravity);
-			m_pRigidBody->setFlags(flags);
-
-			m_pBtDynamicsWorld->addRigidBody(m_pRigidBody);
+			m_pRigidBody->activate();
 		}
 		m_bUseGravity = bUseGravity;
 	}
@@ -61,13 +55,12 @@ namespace ma
 	{	
 		if (m_pRigidBody)
 		{
-			m_pBtDynamicsWorld->removeRigidBody(m_pRigidBody);
 
 			int flags = m_pRigidBody->getCollisionFlags();
 			BitFieldBase<int>::StaticSetBit(flags,btCollisionObject::CF_KINEMATIC_OBJECT,bKinematic);
 			m_pRigidBody->setCollisionFlags(flags);
 
-			m_pBtDynamicsWorld->addRigidBody(m_pRigidBody);
+			m_pRigidBody->activate();
 		}
 		m_bKinematic = bKinematic;
 	}
@@ -76,11 +69,7 @@ namespace ma
 	{
 		if (m_pRigidBody)
 		{
-			m_pBtDynamicsWorld->removeRigidBody(m_pRigidBody);
-
 			m_pRigidBody->setMassProps(fMass,m_rbInfo->m_localInertia);
-
-			m_pBtDynamicsWorld->addRigidBody(m_pRigidBody);
 		}
 		m_rbInfo->m_mass = fMass;
 	}

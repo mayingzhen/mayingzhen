@@ -5,7 +5,7 @@
 // Sample
 #include "Samples/FbxImport/SampleFbxImport.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
-#include "Samples/Physics/SamplePhysics.hxx"
+#include "Samples/Physics/SampleRigidBody.hxx"
 
 using namespace ma;
 
@@ -20,7 +20,7 @@ public:
 		SampleAnimationRetarget* pAnimation = new SampleAnimationRetarget();
 		m_vSceneView.push_back(pAnimation);
 
-		SamplePhysics* pPhysics = new SamplePhysics();
+		SampleRigidBody* pPhysics = new SampleRigidBody();
 		m_vSceneView.push_back(pPhysics);
 
 		m_nCurSceneInde = 2;

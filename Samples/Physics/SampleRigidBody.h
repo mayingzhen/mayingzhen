@@ -1,15 +1,15 @@
-#ifndef _Sample_Physics_H_
-#define _Sample_Physics_H_
+#ifndef _Sample_RigidBody_H_
+#define _Sample_RigidBody_H_
 
 namespace ma
 {
 	class Scene;
 	class RigidBodyComponent;
 
-	class SamplePhysics : public SimpleSceneView
+	class SampleRigidBody : public SimpleSceneView
 	{
 	public:
-		SamplePhysics();
+		SampleRigidBody();
 
 		virtual void Init(Application* pApplication);
 
@@ -24,11 +24,6 @@ namespace ma
 		virtual void Render();
 
 		virtual	void OnResize(int w,int h);
-
-	private:
-		void LoadSkelMesh(FBXImporter& fbxImpor);
-
-		void LoadSaticMesh(FBXImporter& fbxImpor);
 
 	private:
 		Scene*	m_pScene;	
