@@ -7,7 +7,7 @@
 namespace ma
 {
 
-	class MonoScriptAPI MonoScriptDevice : public ScriptDevice
+	class MonoScriptAPI MonoScriptDevice : public IScriptDevice
 	{
 		
 

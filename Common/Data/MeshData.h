@@ -302,8 +302,8 @@ struct COMMON_API MeshData/* : public IMeshData*/
 	Bounding					m_meshBound;
 	std::vector<MeshLODData*>	m_arrMeshLOD;
 
-	std::vector<std::string>		m_arrBoneName;
-	std::vector<Bounding>		m_arrBoneBound;
+	//std::vector<std::string>		m_arrBoneName;
+	//std::vector<Bounding>		m_arrBoneBound;
 	
 
 private:
@@ -365,9 +365,9 @@ public:
 	//------------------------------------------------------------------------------
 	//Skin info
 	//------------------------------------------------------------------------------
-	xmUint				GetBoneNumber() const;
+	//xmUint				GetBoneNumber() const;
 
-	const char*			GetBoneName(xmUint nBoneInd) const;
+	//const char*			GetBoneName(xmUint nBoneInd) const;
 
 
 	void				GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax);
@@ -417,11 +417,11 @@ public:
 	SubMeshData*			GetSubMeshByName(const char* pszName, int nLOD = 0);
 
 
-	void					ResetBone(xmUint32 nBoneNum);
+	//void					ResetBone(xmUint32 nBoneNum);
 
-	void					SetBoneName(BoneIndex nBoneInd,const char* pszBoneName);
+	//void					SetBoneName(BoneIndex nBoneInd,const char* pszBoneName);
 
-	void					SetBoneBoundOBB(BoneIndex nBoneInd,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot,float fXSize,float fYSize,float fZSize);
+	//void					SetBoneBoundOBB(BoneIndex nBoneInd,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot,float fXSize,float fYSize,float fZSize);
 
 	void					SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax);
 

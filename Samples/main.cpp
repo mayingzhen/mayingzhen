@@ -23,7 +23,7 @@ public:
 		SamplePhysics* pPhysics = new SamplePhysics();
 		m_vSceneView.push_back(pPhysics);
 
-		m_nCurSceneInde = m_vSceneView.size() - 1;
+		m_nCurSceneInde = 2;
 	}
 
 	virtual void Init(int argc, char* argv[])

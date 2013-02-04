@@ -6,36 +6,36 @@ namespace ma
 
 	namespace Script
 	{
-		ScriptDevice* g_pDevice = NULL;
+		IScriptDevice* g_pDevice = NULL;
 	}
 
 
-// 	void	ScriptDevice::RegisterScriptEventFactory(ScriptEventFactory* pFactory)
+// 	void	IScriptDevice::RegisterScriptEventFactory(ScriptEventFactory* pFactory)
 // 	{
 // 
 // 	}
 // 
-// 	void	ScriptDevice::UnRegisterScriptEventFactory(ScriptEventFactory* pFactory)
+// 	void	IScriptDevice::UnRegisterScriptEventFactory(ScriptEventFactory* pFactory)
 // 	{
 // 
 // 	}
 // 
-// 	DefaultScriptEventFactory*	ScriptDevice::GetDefaultScriptEventFactory()
+// 	DefaultScriptEventFactory*	IScriptDevice::GetDefaultScriptEventFactory()
 // 	{
 // 		return &m_defaultScriptFactory;
 // 	}
 // 
-// 	ScriptEventBinder*	ScriptDevice::CreateScriptEventBinder(const ScriptSignalKey& key)
+// 	ScriptEventBinder*	IScriptDevice::CreateScriptEventBinder(const ScriptSignalKey& key)
 // 	{
 // 		return m_defaultScriptFactory.CreateScriptEventBinder(key);
 // 	}
 
-	FRAMEWORK_API ScriptDevice* GetScriptDevice()
+	FRAMEWORK_API IScriptDevice* GetScriptDevice()
 	{
 		return Script::g_pDevice;
 	}
 
-	FRAMEWORK_API void SetScriptDevice(ScriptDevice* pDevice)
+	FRAMEWORK_API void SetScriptDevice(IScriptDevice* pDevice)
 	{
 		Script::g_pDevice = pDevice;
 	}

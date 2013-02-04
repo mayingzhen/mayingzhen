@@ -11,6 +11,8 @@ namespace ma
 
 	void SamplePhysics::Init(Application* pApplication)
 	{
+		m_vEyePos = D3DXVECTOR3(0, 6, 10);
+		m_fMoveCameraSpeed = 0.20f;
 		SimpleSceneView::Init(pApplication);
 
 		DxRenderModuleInit();
@@ -38,53 +40,57 @@ namespace ma
 		ma::SceneNode* pRootNode = new SceneNode(NULL,"RootNode");
 		m_pScene = new Scene(pRootNode);
 
-		GameObject* pGameObj = new GameObject(m_pScene,"physics");
-		pRootNode->AddChildNode(pGameObj);
+		m_pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
 
-		MeshComponent* pMeshComp = new MeshComponent();
-		pMeshComp->Load("../Fbx/TestBull.skn","../Fbx/TestBull_DM.png");
-		pGameObj->AddComponent(pMeshComp);
+		{
+			GameObject* pGameObj = new GameObject(m_pScene,"physics");
+			pRootNode->AddChildNode(pGameObj);
 
-		BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
- 		pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
- 		pGameObj->AddComponent(pBoxCollisionShape);
+			MeshComponent* pMeshComp = new MeshComponent();
+			pMeshComp->Load("../Fbx/Box.skn","../Fbx/Box.tga");
+			pGameObj->AddComponent(pMeshComp);
 
-		RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
- 		pGameObj->AddComponent(pRigidBodyComp);
+			D3DXVECTOR3 vMin,vMax;
+			pMeshComp->GetBoundingAABB(vMin,vMax);
+			D3DXVECTOR3 vSize = vMax - vMin;
+			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
+			maNodeTransform tsf;
+			maTransformSetIdentity(&tsf);
+			tsf.m_vPos = vCenter;
 
-	
-		// Stone
-// 		{
-// 			GameObject* pGameObj = new GameObject(m_pScene,"physics");
-// 			pRootNode->AddChildNode(pGameObj);
-// 			pGameObj->RotateLS(3.14f,0,0);
-// 
-// 			MeshComponent* pMeshComp = new MeshComponent();
-// 			pMeshComp->Load("../TrineGame/map/stone.skn","../TrineGame/map/stone.tga");
-// 			pGameObj->AddComponent(pMeshComp);
-// 
-// 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
-// 			pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
-// 			pGameObj->AddComponent(pBoxCollisionShape);
-// 
-// 			RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
-// 			pGameObj->AddComponent(pRigidBodyComp);
-// 		}
-// 
-// 		// Terrain
-// 		{
-// 			GameObject* pTerrain = new GameObject(m_pScene,"Terrain");
-// 			pRootNode->AddChildNode(pTerrain);
-// 			pTerrain->RotateLS(3.14f,0,0);
-// 
-// 			MeshComponent* pTerrainMesh = new MeshComponent();
-// 			pTerrainMesh->Load("../TrineGame/map/terrain.skn","../TrineGame/map/terrain.tga");
-// 			pTerrain->AddComponent(pTerrainMesh);
-// 
-// 			 BoxCollisionComponent* pTerrainBoxColl = new BoxCollisionComponent();
-// 			 pTerrainBoxColl->SetSize(D3DXVECTOR3(1000,1000,1000));
-// 			 pTerrain->AddComponent(pTerrainBoxColl);
-// 		}
+			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+ 			pBoxCollisionShape->SetSize(vSize);
+			pBoxCollisionShape->SetTransformLS(tsf);
+ 			pGameObj->AddComponent(pBoxCollisionShape);
+
+			m_pRigidBodyComp = new RigidBodyComponent();
+			pGameObj->AddComponent(m_pRigidBodyComp);
+			m_pRigidBodyComp->SetUseGravity(false);
+		}
+
+		{
+			GameObject* pGameObj = new GameObject(m_pScene,"Terrain");
+			pRootNode->AddChildNode(pGameObj);
+
+			MeshComponent* pMeshComp = new MeshComponent();
+			pMeshComp->Load("../Fbx/MovingPlatform.skn","../Fbx/PlatformTexture.tga");
+			pGameObj->AddComponent(pMeshComp);
+
+			D3DXVECTOR3 vMin,vMax;
+			pMeshComp->GetBoundingAABB(vMin,vMax);
+			D3DXVECTOR3 vSize = vMax - vMin;
+			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
+			maNodeTransform tsf;
+			maTransformSetIdentity(&tsf);
+			tsf.m_vPos = vCenter;
+
+			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+			pBoxCollisionShape->SetSize(vSize);
+			pBoxCollisionShape->SetTransformLS(tsf);
+			pGameObj->AddComponent(pBoxCollisionShape);
+
+			pGameObj->TranslateWS(D3DXVECTOR3(0,-3,0));
+		}
 
 		m_pScene->Start();
 	}
@@ -98,6 +104,11 @@ namespace ma
 	void SamplePhysics::Tick(float timeElapsed)
 	{
 		__super::Tick(timeElapsed);
+
+		if (GetInput()->IsKeyReleased(OIS::KC_G))
+		{
+			m_pRigidBodyComp->SetUseGravity(true);
+		}
 
 		if (m_pScene)
 		{

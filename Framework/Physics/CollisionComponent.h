@@ -52,6 +52,8 @@ namespace ma
 
 		D3DXVECTOR3	GetSize() const; 
 
+		virtual void Render();
+
 		virtual void DbgRender(BitField flag);
 
 		virtual void SetGameObject(GameObject* pGameObj);

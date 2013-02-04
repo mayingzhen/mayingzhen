@@ -42,6 +42,8 @@ namespace ma
 		btBroadphaseInterface*				 m_pOverlappingPairCache;
 		btSequentialImpulseConstraintSolver* m_pSolver;
 		btDiscreteDynamicsWorld*			 m_pDynamicsWorld;
+
+		btVector3 m_vGravity;
 	};
 
 	inline btDiscreteDynamicsWorld* GetbtDiscreteDynamicsWorld(GameObject* pGameObj)

@@ -18,7 +18,9 @@ namespace ma
 		
 		MeshData* GetMeshData() {return m_pMeshData;}
 
-		bool InitWithData(MeshData* pMeshData);
+		virtual	bool InitWithData(MeshData* pMeshData);
+
+		virtual	void GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3 &vMax);
 
 	private:
 		ID3DXMesh**	m_ppD3DMesh;

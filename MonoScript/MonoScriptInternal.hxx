@@ -46,7 +46,7 @@ namespace ma
 // 	{
 // 		ScriptSignalKey key;
 // 
-// 		xm::ScriptDevice* pSD	= xm::GetScriptDevice();
+// 		xm::IScriptDevice* pSD	= xm::GetScriptDevice();
 // 		const char* pszSignal	= pSD->GetStringValue(signal);
 // 		const char* pszSlot		= pSD->GetStringValue((ScriptObjectHandle)slot);
 // 
@@ -77,7 +77,7 @@ namespace ma
 // 
 // 	static void DisconnectEventImpl(int senderPtr,MonoString* signal,MonoObject* pReciver,MonoString* slot)
 // 	{
-// 		xm::ScriptDevice* pSD = xm::GetScriptDevice();
+// 		xm::IScriptDevice* pSD = xm::GetScriptDevice();
 // 
 // 		S3AObject* pSender = (S3AObject*)senderPtr;
 // 		const char* pszSignal	= pSD->GetStringValue((ScriptObjectHandle)signal);

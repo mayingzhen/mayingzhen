@@ -11,6 +11,8 @@ namespace ma
 		m_pOverlappingPairCache = NULL;
 		m_pSolver = NULL;
 		m_pDynamicsWorld = NULL;
+
+		m_vGravity = btVector3(0,-9.8f,0);
 	}
 
 	bool BulletScene::Start()
@@ -29,7 +31,7 @@ namespace ma
 
 		m_pDynamicsWorld = new btDiscreteDynamicsWorld(m_pDispatcher,m_pOverlappingPairCache,m_pSolver,m_pCollisionConfiguration);
 
-		m_pDynamicsWorld->setGravity( btVector3(0,-9.8f,0) );
+		m_pDynamicsWorld->setGravity(m_vGravity);
 
 		return true;
 	}
@@ -59,7 +61,9 @@ namespace ma
 
 	void		BulletScene::SetGravity(const D3DXVECTOR3& g)
 	{
-		m_pDynamicsWorld->setGravity( ToBulletUnit(g) );
+		if (m_pDynamicsWorld)
+			m_pDynamicsWorld->setGravity( ToBulletUnit(g) );
+		m_vGravity = ToBulletUnit(g);
 	}
 
 	//------------------------------------------------------------------------------
