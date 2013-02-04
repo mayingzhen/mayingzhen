@@ -163,41 +163,6 @@ void CGameApp::InitGame()
 		m_pScene = new ma::Scene(pRootNode);
 
 
-
-////////////////////////////////////////////////////////////////////////// Physics ////////////////
-	{
-		ma::GameObject* pGameObj = new ma::GameObject(m_pScene,"physics");
-		pRootNode->AddChildNode(pGameObj);
-
-		ma::MeshComponent* pMeshComp = new ma::MeshComponent();
-		pMeshComp->Load("../TrineGame/map/stone.skn","../TrineGame/map/stone.tga");
-		pGameObj->AddComponent(pMeshComp);
-
-		ma::BoxCollisionComponent* pBoxCollisionShape = new ma::BoxCollisionComponent();
-		pBoxCollisionShape->SetSize(D3DXVECTOR3(100,100,100));
-		pGameObj->AddComponent(pBoxCollisionShape);
-
-		ma::RigidBodyComponent* pRigidBodyComp = new ma::RigidBodyComponent();
-		pRigidBodyComp->SetMass(1.0f);
-		pRigidBodyComp->SetKinematic(false);
-		//pRigidBodyComp->SetUseGravity(true);
-		pGameObj->AddComponent(pRigidBodyComp);	
-
-	}
-
-	{
-		ma::GameObject* pTerrain = new ma::GameObject(m_pScene,"Terrain");
-		pRootNode->AddChildNode(pTerrain);
-
-		ma::MeshComponent* pTerrainMesh = new ma::MeshComponent();
-		pTerrainMesh->Load("../TrineGame/map/terrain.skn","../TrineGame/map/terrain.tga");
-		pTerrain->AddComponent(pTerrainMesh);
-
-		// 	ma::BoxCollisionComponent* pTerrainBoxColl = new ma::BoxCollisionComponent();
-		// 	pTerrainBoxColl->SetSize(D3DXVECTOR3(1000,1000,1000));
-		// 	pGameObj->AddComponent(pTerrainBoxColl);
-	}
-
 	m_pScene->Start();
 	
 

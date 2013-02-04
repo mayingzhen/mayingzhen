@@ -14,13 +14,19 @@ namespace ma
 
 		~SceneNode();
 
-		void Update();
+		virtual void Update();
 
-		void Render();
+		virtual void ParalleUpdate(float fTimeElapsed);
 
-		void Start();
+		virtual void FixedUpdate(float fTimeElapsed);
 
-		void Stop();
+		virtual void LateUpdate(float fTimeElapsed);
+
+		virtual void Render();
+
+		virtual void Start();
+
+		virtual void Stop();
 
 		void TranslateLS(const D3DXVECTOR3& vDeltaLS);
 

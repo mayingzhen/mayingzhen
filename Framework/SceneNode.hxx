@@ -28,6 +28,39 @@ namespace ma
 		}
 	}
 
+	void SceneNode::ParalleUpdate(float fTimeElapsed)
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->ParalleUpdate(fTimeElapsed);
+		}
+	}
+
+	void SceneNode::FixedUpdate(float fTimeElapsed)
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->FixedUpdate(fTimeElapsed);
+		}
+	}
+
+	void SceneNode::LateUpdate(float fTimeElapsed)
+	{
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			if (m_vChildNodes[i] == NULL)
+				continue;
+
+			m_vChildNodes[i]->LateUpdate(fTimeElapsed);
+		}
+	}
+
 	void SceneNode::Render()
 	{
 		for (UINT i = 0; i < m_vChildNodes.size(); ++i)

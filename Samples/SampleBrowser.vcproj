@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Samples"
+	Name="SampleBrowser"
 	ProjectGUID="{3131A8F4-9234-4A5F-B198-186086BDDBB3}"
 	RootNamespace="Samples"
 	Keyword="Win32Proj"

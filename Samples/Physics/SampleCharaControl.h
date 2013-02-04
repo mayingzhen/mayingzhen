@@ -27,7 +27,7 @@ namespace ma
 	private:
 		Scene*	m_pScene;	
 
-		Charac* m_pRigidBodyComp;
+		 //m_pRigidBodyComp;
 	};
 }
 

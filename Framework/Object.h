@@ -14,6 +14,8 @@ namespace ma
 
 		void SetName(const char* pName) {m_sName = pName;}
 
+		virtual Serialize(SerializeListener& sl, const char* pszLable = "Object") {}
+
 // 		void AddChild(const Object* pObject);
 // 
 // 		UINT GetChildNumber();
@@ -22,19 +24,19 @@ namespace ma
 
 //		Object* GetParent() {return m_pParent;}
 
-		virtual void Render();
-
-		virtual void Update();
-
-		virtual void ParalleUpdate(float fTimeElapsed);
-
-		virtual void FixedUpdate(float fTimeElapsed);
-
-		virtual void LateUpdate(float fTimeElapsed);
-
-		virtual void Start();
-
-		virtual void Stop();
+// 		virtual void Render();
+// 
+// 		virtual void Update();
+// 
+// 		virtual void ParalleUpdate(float fTimeElapsed);
+// 
+// 		virtual void FixedUpdate(float fTimeElapsed);
+// 
+// 		virtual void LateUpdate(float fTimeElapsed);
+// 
+// 		virtual void Start();
+// 
+// 		virtual void Stop();
 
 	protected:
 		std::string m_sName;

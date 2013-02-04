@@ -21,6 +21,12 @@ namespace ma
 		~Scene();
 		
 		void Update(float fElapsedTime);
+
+		void ParalleUpdate(float fTimeElapsed);
+
+		void FixedUpdate(float fTimeElapsed);
+
+		void LateUpdate(float fTimeElapsed);
 		
 		void Render(Camera* pCmera = NULL);
 
