@@ -10,6 +10,11 @@ namespace ma
 		return D3DXVECTOR3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
 	}
 
+	inline D3DXVECTOR3 ToMaUnit(const FbxDouble3 vFbx)
+	{
+		return D3DXVECTOR3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
+	}
+
 	inline D3DXQUATERNION ToMaUnit(const FbxQuaternion& qFbx)
 	{
 		return D3DXQUATERNION((float)qFbx[0],(float)qFbx[1],(float)qFbx[2],(float)qFbx[3]);

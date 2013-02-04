@@ -796,15 +796,15 @@ void				MeshData::GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax)
 
 
 
-xmUint				MeshData::GetBoneNumber() const
-{
-	return m_arrBoneName.size();
-}
+// xmUint				MeshData::GetBoneNumber() const
+// {
+// 	return m_arrBoneName.size();
+// }
 
-const char*			MeshData::GetBoneName(xmUint nBoneInd) const
-{
-	return m_arrBoneName[nBoneInd].c_str();
-}
+// const char*			MeshData::GetBoneName(xmUint nBoneInd) const
+// {
+// 	return m_arrBoneName[nBoneInd].c_str();
+// }
 
 //------------------------------------------------------------------------------
 //For LOD Mesh
@@ -910,7 +910,7 @@ void					MeshData::ResetBuffer(xmUint nIndexType,xmUint32 nIndexNum
 
 	m_meshBound.SetIdentity();
 
-	ResetBone(nBoneNum);
+	//ResetBone(nBoneNum);
 
 	m_header.m_nIndexNum = nIndexNum;
 	m_header.m_nVertexNum = nVertexNum;
@@ -975,30 +975,30 @@ SubMeshData*		MeshData::GetSubMeshByName(const char* pszName, int nLOD)
 
 
 
-void					MeshData::ResetBone(xmUint32 nBoneNum)
-{
+// void					MeshData::ResetBone(xmUint32 nBoneNum)
+// {
+// 
+// 	Bounding boundIden;
+// 	boundIden.SetIdentity();
+// 	
+// 	m_arrBoneBound.resize(nBoneNum,boundIden);
+// 	m_arrBoneName.resize(nBoneNum);
+// 
+// 	m_header.m_nBoneNum = nBoneNum;
+// }
 
-	Bounding boundIden;
-	boundIden.SetIdentity();
-	
-	m_arrBoneBound.resize(nBoneNum,boundIden);
-	m_arrBoneName.resize(nBoneNum);
 
-	m_header.m_nBoneNum = nBoneNum;
-}
+// void					MeshData::SetBoneName(BoneIndex nBoneInd,const char* pszBoneName)
+// {
+// 	m_arrBoneName[nBoneInd] = pszBoneName;
+// }
 
-
-void					MeshData::SetBoneName(BoneIndex nBoneInd,const char* pszBoneName)
-{
-	m_arrBoneName[nBoneInd] = pszBoneName;
-}
-
-void					MeshData::SetBoneBoundOBB(BoneIndex nBoneInd
-	,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
-	,float fXSize,float fYSize,float fZSize)
-{
-	m_arrBoneBound[nBoneInd].SetOBB(pPos,pRot,fXSize,fYSize,fZSize);
-}
+// void					MeshData::SetBoneBoundOBB(BoneIndex nBoneInd
+// 	,const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
+// 	,float fXSize,float fYSize,float fZSize)
+// {
+// 	m_arrBoneBound[nBoneInd].SetOBB(pPos,pRot,fXSize,fYSize,fZSize);
+// }
 
 void					MeshData::SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vMax)
 {
@@ -1032,8 +1032,8 @@ void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
 
 	pSL->Serialize(m_meshBound,"MeshBound");
  	pSL->Serialize(m_arrMeshLOD,"MeshLOD");
-	pSL->Serialize(m_arrBoneName,"BoneName");
-	pSL->Serialize(m_arrBoneBound,"BoundBound");
+	//pSL->Serialize(m_arrBoneName,"BoneName");
+	//pSL->Serialize(m_arrBoneBound,"BoundBound");
 
 	pSL->PopVersion();
 

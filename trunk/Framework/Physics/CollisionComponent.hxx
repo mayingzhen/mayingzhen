@@ -117,6 +117,14 @@ namespace ma
 		}
 	}
 
+	void BoxCollisionComponent::Render()
+	{
+		D3DXMATRIX worldMatr = GetWorldMatrix();
+
+		D3DXVECTOR3 boxSize = GetSize();
+		GetRender()->DrawBox(worldMatr, boxSize, D3DCOLOR_RGBA(0,255,0,255));
+	}
+
 	void BoxCollisionComponent::DbgRender(BitField flag)
 	{	
 		if ( !flag.GetBit(eDbgRenderCollShape) )
@@ -125,7 +133,7 @@ namespace ma
 		D3DXMATRIX worldMatr = GetWorldMatrix();
 
 		D3DXVECTOR3 boxSize = GetSize();
-		GetRender()->DrawBox(&worldMatr, &boxSize, D3DCOLOR_RGBA(0,255,0,255));
+		GetRender()->DrawBox(worldMatr, boxSize, D3DCOLOR_RGBA(0,255,0,255));
 	}
 
 
@@ -184,7 +192,7 @@ namespace ma
 		D3DXMATRIX worldMatr = GetWorldMatrix();
 
 		float fRadius = this->GetRadius();
-		GetRender()->DrawWireSphere(&worldMatr, fRadius, D3DCOLOR_RGBA(0,255,0,255));
+		GetRender()->DrawWireSphere(worldMatr, fRadius, D3DCOLOR_RGBA(0,255,0,255));
 	}
 }
 

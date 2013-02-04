@@ -196,4 +196,12 @@ namespace ma
 
 		return true;
 	}
+
+	void DxRendMesh::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3 &vMax)
+	{
+		if (m_pMeshData)
+		{
+			m_pMeshData->GetBoundingAABB(&vMin,&vMax);
+		}
+	}
 }

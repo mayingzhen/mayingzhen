@@ -474,14 +474,6 @@ namespace ma
 				// Read the color of each vertex
 				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
 
-				// Read the UV of each vertex
-				// 				FbxStringList lUVSetNameList;
-				// 				pMesh->GetUVSetNames(lUVSetNameList);
-				// 				for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
-				// 				{
-				// 					const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
-				// 					const FbxGeometryElementUV* lUVElement = pMesh->GetElementUV(lUVSetName);
-				// 				}
 				for(int k = 0 ; k < 2 ; ++k)
 				{
 					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[k]));
@@ -573,6 +565,14 @@ namespace ma
 		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
 
 		LoadMaterial(pMesh);
+
+		// Bound Box
+		pMesh->ComputeBBox();
+		D3DXVECTOR3 vBoxMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
+		D3DXVECTOR3 vBoxMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
+
+		pMeshData->SetBoundingAABB(&vBoxMin,&vBoxMax);
+		
 	}
 
 

@@ -4,6 +4,7 @@
 namespace ma
 {
 	class Scene;
+	class RigidBodyComponent;
 
 	class SamplePhysics : public SimpleSceneView
 	{
@@ -31,6 +32,8 @@ namespace ma
 
 	private:
 		Scene*	m_pScene;	
+
+		RigidBodyComponent* m_pRigidBodyComp;
 	};
 }
 

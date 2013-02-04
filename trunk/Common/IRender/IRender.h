@@ -14,21 +14,18 @@ namespace ma
 
 		virtual void EndRender() = 0;
 
-		virtual void RenderMesh(D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture) = 0;
+		virtual void RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture) = 0;
 
 		virtual void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
-			D3DXMATRIX* pWordMat,IRendMesh* pSkelMesh,IRendTexture* pTexture) = 0;
+			const D3DXMATRIX* pWordMat,const IRendMesh* pSkelMesh,const IRendTexture* pTexture) = 0;
 
-		// Debg Render
-		virtual void DrawBox(const D3DXMATRIX* pWordMat,const D3DXVECTOR3* boxSize, D3DCOLOR color) = 0;
+		virtual void DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor) = 0;
 
-		virtual void DrawWireSphere(const D3DXMATRIX* pWordMat,float fRadius, D3DCOLOR color) = 0;
+		virtual void DrawBox(const D3DXMATRIX& wordMat,const D3DXVECTOR3& boxSize, xmUint32 color);
 
-// 		virtual IRendMesh* CreateRendMesh() = 0;
-// 
-// 		virtual IRendTexture* CreateRendTexture() = 0;
+		virtual void DrawCircle(xmUint nbSegments, const D3DXMATRIX& world, xmUint32 dwColor, float radius, bool semicircle = false);
 
-		//virtual IRendWindow* CreateRendWindow(int w, int z) = 0;
+		virtual void DrawWireSphere(const D3DXMATRIX& wordMat,float fRadius, xmUint32 color);
 
 		virtual void SetViewMatrix(const D3DXMATRIX* viewMatrix) = 0;
 

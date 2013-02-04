@@ -77,7 +77,7 @@ namespace ma
 
 	void ScriptComponent::Start()
 	{
- 		ScriptDevice* pScriptDevice = GetScriptDevice();
+ 		IScriptDevice* pScriptDevice = GetScriptDevice();
  		assert(pScriptDevice);
  		if (pScriptDevice == NULL)
  			return ;
@@ -109,7 +109,7 @@ namespace ma
 
 		m_pScriptObject->InvokeMethod(m_pStop);
 		
-		ScriptDevice* pScriptDevice = GetScriptDevice();
+		IScriptDevice* pScriptDevice = GetScriptDevice();
 		assert(pScriptDevice);
 		if (pScriptDevice == NULL)
 			return;
@@ -159,7 +159,7 @@ namespace ma
 		if (pszName == NULL)
 			return;
 
-		ScriptDevice* pScriptDevice = GetScriptDevice();
+		IScriptDevice* pScriptDevice = GetScriptDevice();
 		if (pScriptDevice == NULL)
 			return;
 

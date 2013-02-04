@@ -49,5 +49,15 @@ namespace ma
 		m_pTexture->Load();
 	}	
 
+	void MeshComponent::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax)
+	{
+		IRendMesh* pRendMesh = m_pMeshRes->GetRendMesh();
+		if (pRendMesh == NULL)
+			return;
+
+		pRendMesh->GetBoundingAABB(vMin,vMax);
+	}
+
+
 }
 

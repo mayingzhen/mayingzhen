@@ -31,30 +31,26 @@ namespace ma
 
 		void EndRender();
 
-		void RenderMesh(D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture);
+		void RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture);
 
 		void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
-			D3DXMATRIX* pWordMat,IRendMesh* pMesh,IRendTexture* pTexture);
+			const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture);
 
-		void DrawBox(const D3DXMATRIX* pWordMat,const D3DXVECTOR3* boxSize, D3DCOLOR color);
-
-		void DrawWireSphere(const D3DXMATRIX* pWordMat,float fRadius, D3DCOLOR color);
-
-		//IRendMesh* CreateRendMesh();
-
-		//IRendTexture* CreateRendTexture();
-
-		//IRendWindow* CreateRendWindow(int w, int z);
+		void DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor);
 
 		void SetViewMatrix(const D3DXMATRIX* viewMatrix);
 
 		void SetProjMatrix(const D3DXMATRIX* projMatrix);
 
+	private:
+		void FlushLine();
 
 	private:
 		ID3DXEffect* m_pDefault;
 		ID3DXEffect* m_pDefaultSkin;
+		ID3DXEffect* m_pLineShader;
 		
+		IDirect3DVertexDeclaration9* m_pPrimitiveVBDesc;
 	
 	};
 }

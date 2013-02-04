@@ -34,6 +34,8 @@ namespace ma
 
 		void SetTexture(Texture* pTexture) {m_pTexture = pTexture;}
 
+		void GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax);
+
 	private:
 		MeshRes*		m_pMeshRes;
 		Texture*	m_pTexture;

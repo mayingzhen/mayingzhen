@@ -205,6 +205,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Script"
+			>
+			<File
+				RelativePath=".\Script\SampleMonoScript.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\SampleMonoScript.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\main.cpp"
 			>

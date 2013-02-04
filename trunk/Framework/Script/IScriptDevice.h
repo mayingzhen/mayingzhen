@@ -10,7 +10,7 @@ namespace ma
 
 	class ScriptObject;
 
-	class FRAMEWORK_API ScriptDevice 
+	class FRAMEWORK_API IScriptDevice 
 	{
 		//DefaultScriptEventFactory m_defaultScriptFactory;
 
@@ -72,9 +72,9 @@ namespace ma
 
 	};
 
-	FRAMEWORK_API ScriptDevice* GetScriptDevice();
+	FRAMEWORK_API IScriptDevice* GetScriptDevice();
 
-	FRAMEWORK_API void			SetScriptDevice(ScriptDevice* pDevice);
+	FRAMEWORK_API void			SetScriptDevice(IScriptDevice* pDevice);
 
 }
 
