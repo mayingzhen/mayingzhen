@@ -1,15 +1,15 @@
-#include "Samples/Physics/SamplePhysics.h"
+#include "Samples/Physics/SampleRigidBody.h"
 #include "DXRender/Module.h"
 #include "Framework/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma
 {
-	SamplePhysics::SamplePhysics()
+	SampleRigidBody::SampleRigidBody()
 	{
 	}
 
-	void SamplePhysics::Init(Application* pApplication)
+	void SampleRigidBody::Init(Application* pApplication)
 	{
 		m_vEyePos = D3DXVECTOR3(0, 6, 10);
 		m_fMoveCameraSpeed = 0.20f;
@@ -28,14 +28,14 @@ namespace ma
 		
 	}
 
-	void SamplePhysics::Shutdown()
+	void SampleRigidBody::Shutdown()
 	{
 		FrameWorkModuleShutdown();
 		DxRenderModuleShutdown();
 		BtPhysicsModuleShutdown();
 	}
 
-	void SamplePhysics::Load()
+	void SampleRigidBody::Load()
 	{
 		ma::SceneNode* pRootNode = new SceneNode(NULL,"RootNode");
 		m_pScene = new Scene(pRootNode);
@@ -66,6 +66,7 @@ namespace ma
 			m_pRigidBodyComp = new RigidBodyComponent();
 			pGameObj->AddComponent(m_pRigidBodyComp);
 			m_pRigidBodyComp->SetUseGravity(false);
+			m_pRigidBodyComp->SetKinematic(true);
 		}
 
 		{
@@ -96,18 +97,22 @@ namespace ma
 	}
 
 
-	void SamplePhysics::Unload()
+	void SampleRigidBody::Unload()
 	{
 
 	}
 
-	void SamplePhysics::Tick(float timeElapsed)
+	void SampleRigidBody::Tick(float timeElapsed)
 	{
 		__super::Tick(timeElapsed);
 
 		if (GetInput()->IsKeyReleased(OIS::KC_G))
 		{
 			m_pRigidBodyComp->SetUseGravity(true);
+		}
+		if (GetInput()->IsKeyPressed(OIS::KC_K))
+		{
+			m_pRigidBodyComp->SetKinematic(false);
 		}
 
 		if (m_pScene)
@@ -116,7 +121,7 @@ namespace ma
 		}
 	}
 
-	void SamplePhysics::Render()
+	void SampleRigidBody::Render()
 	{
 		IRender* pRender = ma::GetRender();
 		if (pRender == NULL)
@@ -135,7 +140,7 @@ namespace ma
 		pRender->EndRender();
 	}
 
-	void SamplePhysics::OnResize(int w,int h)
+	void SampleRigidBody::OnResize(int w,int h)
 	{
 
 	}

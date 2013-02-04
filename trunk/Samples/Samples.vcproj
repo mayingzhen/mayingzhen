@@ -197,11 +197,19 @@
 			Name="Physics"
 			>
 			<File
-				RelativePath=".\Physics\SamplePhysics.h"
+				RelativePath=".\Physics\SampleCharaControl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Physics\SamplePhysics.hxx"
+				RelativePath=".\Physics\SampleCharaControl.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\SampleRigidBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\SampleRigidBody.hxx"
 				>
 			</File>
 		</Filter>
