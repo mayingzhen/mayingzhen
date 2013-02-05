@@ -119,6 +119,17 @@ namespace ma
 			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 
+	void GameObject::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		{
+			m_vComponents[i]->Serialize(sl);
+		}
+
+		sl.EndSection();
+	}
 }
 
 

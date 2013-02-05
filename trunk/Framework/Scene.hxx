@@ -86,6 +86,15 @@ namespace ma
 			m_pRootNode->Stop();
 	}
 
+	void Scene::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		m_pRootNode->Serialize(sl);
+	
+		sl.EndSection();
+	}
 }
+
 
 

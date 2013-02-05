@@ -16,6 +16,8 @@ namespace ma
 
 		IRendTexture* GetRendTexture() {return m_pRendTexure;}
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "TextureRes");
+
 	private:
 		IRendTexture* m_pRendTexure;
 	};

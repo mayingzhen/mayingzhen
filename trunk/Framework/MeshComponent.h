@@ -36,6 +36,8 @@ namespace ma
 
 		void GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax);
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
+
 	private:
 		MeshRes*		m_pMeshRes;
 		Texture*	m_pTexture;

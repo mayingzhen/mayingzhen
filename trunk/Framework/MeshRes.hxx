@@ -31,5 +31,10 @@ namespace ma
 		//m_pRendMesh->
 		return true;
 	}
+
+	void MeshRes::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		__super::Serialize(sl,pszLable);
+	}
 }
 
