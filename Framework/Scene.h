@@ -13,7 +13,7 @@ namespace ma
 		eDbgRenderSkeleton		= 1 << 1,
 	};
 
-	class FRAMEWORK_API Scene
+	class FRAMEWORK_API Scene : public Object
 	{
 	public:
 		Scene(SceneNode* pRootNode);
@@ -35,6 +35,8 @@ namespace ma
 		void Stop();
 
 		IPhysicsScene* GetPhysicsScene() {return m_pPhyScene;}
+
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Scene");
 
 	private:
 		SceneNode* m_pRootNode;

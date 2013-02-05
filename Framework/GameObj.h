@@ -41,6 +41,7 @@ namespace ma
 
 		void SyncFromPhysics();
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "GameObject");
 	private:
 		IPhysicsObject* m_pPhyscisObject;
 

@@ -215,6 +215,17 @@ namespace ma
 		pChildNode->SetParentSceneNode(this);
 	}
 
+	void SceneNode::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+		
+		sl.Serialize(m_tsfPS);
+
+		sl.EndSection();
+		
+		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		{
+			m_vChildNodes[i]->Serialize(sl);
+		}
+	}
 }
-
-

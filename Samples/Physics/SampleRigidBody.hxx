@@ -94,8 +94,14 @@ namespace ma
 		}
 
 		m_pScene->Start();
-	}
 
+
+		/// 
+		BinaryOutputArchive ar;
+		bool bOpenOK = ar.Open("../Tesx.xml");
+		assert(bOpenOK);
+		m_pScene->Serialize(ar);
+	}
 
 	void SampleRigidBody::Unload()
 	{

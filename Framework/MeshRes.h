@@ -23,6 +23,8 @@ namespace ma
 
 		void SetRendMesh(IRendMesh* pRendMesh) {m_pRendMesh = pRendMesh;}
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "MeshRes");
+
 	private:
 		IRendMesh* m_pRendMesh;
 

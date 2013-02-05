@@ -14,7 +14,7 @@ namespace ma
 
 		void SetName(const char* pName) {m_sName = pName;}
 
-		virtual Serialize(SerializeListener& sl, const char* pszLable = "Object") {}
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Object");
 
 // 		void AddChild(const Object* pObject);
 // 

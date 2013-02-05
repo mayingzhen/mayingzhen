@@ -58,6 +58,16 @@ namespace ma
 		pRendMesh->GetBoundingAABB(vMin,vMax);
 	}
 
+	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		m_pMeshRes->Serialize(sl);
+
+		m_pTexture->Serialize(sl);
+
+		sl.EndSection();
+	}
 
 }
 

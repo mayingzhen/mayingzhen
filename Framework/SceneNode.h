@@ -64,6 +64,8 @@ namespace ma
 
 		void AddChildNode(SceneNode* pChildNode);
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "SceneNode");
+
 	private:
 		std::vector<SceneNode*> m_vChildNodes;
 

@@ -18,4 +18,9 @@ namespace ma
 
 		return true;
 	}
+
+	void Texture::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		__super::Serialize(sl,pszLable);
+	}
 }

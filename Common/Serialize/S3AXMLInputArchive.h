@@ -1,81 +1,75 @@
-//----------------------------------------------------------------------
-// Copyright(c) TQ Digital Entertainment, All Rights Reserved
-// Author:  Xu Kaijie
-// Created: 2010/3/3
-// Describe:S3 Animation
-//----------------------------------------------------------------------
+#ifndef __XMLInputArchive_H__
+#define __XMLInputArchive_H__
 
-#ifndef __S3AXMLInputArchive_H__
-#define __S3AXMLInputArchive_H__
-
-#include <Animation/Common/Serialize/SerializeListener.h>
+#include <Common/Serialize/SerializeListener.h>
 
 class TiXmlDocument;
 class TiXmlElement;
 
-#include <Animation/Common/xmCommonPrefix.h>
-
-class  S3AXMLInputArchive : public SerializeListener , public IS3AXMLInputArchive
+namespace ma
 {
-	std::string		m_strFilename;
-	TiXmlDocument*	m_pDoc;
-	TiXmlElement*	m_pCurElem;
-	xmInt				m_nullChild;
 
-public:
-	S3AXMLInputArchive();
+	class COMMON_API S3AXMLInputArchive : public SerializeListener 
+	{
+		std::string		m_strFilename;
+		TiXmlDocument*	m_pDoc;
+		TiXmlElement*	m_pCurElem;
+		xmInt				m_nullChild;
 
-	~S3AXMLInputArchive();
+	public:
+		S3AXMLInputArchive();
 
-	void Release();
+		~S3AXMLInputArchive();
 
-	bool IsReading() const;
+		void Release();
 
-	bool Open(const char* pszFilename);
+		bool IsReading() const;
 
-	bool OpenFromMemory(const char* pszData);
+		bool Open(const char* pszFilename);
 
-	void Close();
+		bool OpenFromMemory(const char* pszData);
 
-	TiXmlDocument* GetXMLDocument();
+		void Close();
 
-	void BeginSection(const char* pszLable);
+		TiXmlDocument* GetXMLDocument();
 
-	void EndSection();
+		void BeginSection(const char* pszLable);
 
-	void SerializeBasicType(bool& val,const char* pszLable = "bool");
+		void EndSection();
 
-	void SerializeBasicType(unsigned char& val,const char* pszLable);
+		void Serialize(bool& val,const char* pszLable = "bool");
 
-	void SerializeBasicType(short& val,const char* pszLable);
+		void Serialize(unsigned char& val,const char* pszLable);
 
-	void SerializeBasicType(unsigned short& val, const char* pszLabel);
+		void Serialize(short& val,const char* pszLable);
 
-	void SerializeBasicType(unsigned int&val,const char* pszLable = "unsigned int");
+		void Serialize(unsigned short& val, const char* pszLabel);
 
-	void SerializeBasicType(int&val,const char* pszLable = "int");
+		void Serialize(unsigned int&val,const char* pszLable = "unsigned int");
 
-	void SerializeBasicType(unsigned long &val,const char* pszLable = "unsigned long");
+		void Serialize(int&val,const char* pszLable = "int");
 
-	void SerializeBasicType(long &val,const char* pszLable = "long");
+		void Serialize(unsigned long &val,const char* pszLable = "unsigned long");
 
-
-	void SerializeBasicType(xmUint64&val,const char* pszLable = "xmUint64");
-
-	void SerializeBasicType(float& val,const char* pszLable = "float");
-
-	void SerializeBasicType(std::string& val,const char* pszLable = "string");
-
-	void SerializeBasicType(IS3AStringWrapper* val,const char* pszLable);
+		void Serialize(long &val,const char* pszLable = "long");
 
 
-	SerializeListener* GetSerializeListener();
+		void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
 
-private:
-	void NextSiblingElement();
-};
+		void Serialize(float& val,const char* pszLable = "float");
 
-#include <Animation/Common/xmCommonSuffix.h>
+		void Serialize(std::string& val,const char* pszLable = "string");
+
+		//void SerializeBasicType(IS3AStringWrapper* val,const char* pszLable);
 
 
-#endif// __S3AXMLInputArchive_H__
+		SerializeListener* GetSerializeListener();
+
+	private:
+		void NextSiblingElement();
+	};
+
+}
+
+
+#endif// __XMLInputArchive_H__

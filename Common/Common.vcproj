@@ -305,6 +305,30 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Serialize\S3AStringConverter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\S3AStringConverter.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\S3AXMLInputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\S3AXMLInputArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\S3AXMLOutputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\S3AXMLOutputArchive.hxx"
+					>
+				</File>
+				<File
 					RelativePath=".\Serialize\SerializeListener.h"
 					>
 				</File>

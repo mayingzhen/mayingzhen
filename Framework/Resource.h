@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class FRAMEWORK_API Resource
+	class FRAMEWORK_API Resource : public Object
 	{
 	public:
 		Resource(const char* pszPath = NULL);
@@ -17,6 +17,8 @@ namespace ma
 		virtual void SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 
 		virtual bool IsLoad() {return m_bLoaded;}
+
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Resource");
 
 	protected:
 		std::string m_sResPath;

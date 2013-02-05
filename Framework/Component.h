@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class FRAMEWORK_API Component
+	class FRAMEWORK_API Component : public Object
 	{
 	public:
 		Component();

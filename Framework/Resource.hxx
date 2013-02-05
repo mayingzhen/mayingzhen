@@ -17,4 +17,14 @@ namespace ma
 	{
 		return false;
 	}
+
+	void Resource::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+		
+		sl.Serialize(m_sResPath);
+		
+		sl.EndSection();
+	}
+
 }
