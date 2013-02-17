@@ -83,7 +83,7 @@ namespace ma
 		SAFE_DELETE(pScriptObject);
 	}
 
-// 	xmBool	MonoScriptDevice::GetBooleanField(ScriptObjectHandle hObj,S3AName fieldName)
+// 	xmBool	MonoScriptDevice::GetBooleanField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
 // 		xmBool ret = false;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
@@ -91,13 +91,13 @@ namespace ma
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetBooleanField(ScriptObjectHandle hObj,S3AName fieldName,xmBool val)
+// 	void	MonoScriptDevice::SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
 // 
 // 
-// 	xmInt	MonoScriptDevice::GetIntField(ScriptObjectHandle hObj,S3AName fieldName)
+// 	xmInt	MonoScriptDevice::GetIntField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
 // 		xmInt ret = 0;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
@@ -105,12 +105,12 @@ namespace ma
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetIntField(ScriptObjectHandle hObj,S3AName fieldName,xmInt val)
+// 	void	MonoScriptDevice::SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
 // 
-// 	xmUint	MonoScriptDevice::GetUintField(ScriptObjectHandle hObj,S3AName fieldName)
+// 	xmUint	MonoScriptDevice::GetUintField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
 // 		xmUint ret = 0;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
@@ -118,7 +118,7 @@ namespace ma
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetUintField(ScriptObjectHandle hObj,S3AName fieldName,xmUint val)
+// 	void	MonoScriptDevice::SetUintField(ScriptObjectHandle hObj,Name fieldName,xmUint val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
@@ -126,7 +126,7 @@ namespace ma
 // 
 // 
 // 
-// 	xmFloat	MonoScriptDevice::GetFloatField(ScriptObjectHandle hObj,S3AName fieldName)
+// 	xmFloat	MonoScriptDevice::GetFloatField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
 // 		xmFloat ret = 0.0f;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
@@ -134,19 +134,19 @@ namespace ma
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetFloatField(ScriptObjectHandle hObj,S3AName fieldName,xmFloat val)
+// 	void	MonoScriptDevice::SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
 // 
 // 
-// 	ScriptObjectHandle	MonoScriptDevice::GetObjectField(ScriptObjectHandle hObj,S3AName fieldName)
+// 	ScriptObjectHandle	MonoScriptDevice::GetObjectField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
 // 		return 0;
 // 	}
 // 
 
-// 	void				MonoScriptDevice::SetObjectField(ScriptObjectHandle hObj,S3AName field, ScriptObjectHandle val)
+// 	void				MonoScriptDevice::SetObjectField(ScriptObjectHandle hObj,Name field, ScriptObjectHandle val)
 // 	{
 // 
 // 	}
@@ -159,7 +159,7 @@ namespace ma
 // 	}
 
 
-// 	bool	MonoScriptDevice::Execute(ScriptObjectHandle hObj,S3AName funName)
+// 	bool	MonoScriptDevice::Execute(ScriptObjectHandle hObj,Name funName)
 // 	{
 // 		
 // 		MonoObject* pException = NULL;

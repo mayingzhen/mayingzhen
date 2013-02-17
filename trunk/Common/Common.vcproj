@@ -198,6 +198,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ReferenceCountObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ReferenceCountObject.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RTTIDecl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Singleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SmartPointer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -305,35 +325,91 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Serialize\S3AStringConverter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\S3AStringConverter.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\S3AXMLInputArchive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\S3AXMLInputArchive.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\S3AXMLOutputArchive.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Serialize\S3AXMLOutputArchive.hxx"
-					>
-				</File>
-				<File
 					RelativePath=".\Serialize\SerializeListener.h"
 					>
 				</File>
 				<File
 					RelativePath=".\Serialize\SerializeListener.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\StringConverter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\StringConverter.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\XMLInputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\XMLInputArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\XMLOutputArchive.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Serialize\XMLOutputArchive.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="TinyXML"
+				>
+				<File
+					RelativePath=".\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinystr.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxml.h"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxml.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxmlerror.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\tinyxml\tinyxmlparser.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="RTTI"
+				>
+				<File
+					RelativePath=".\RTTI\Class.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\Class.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\Object.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\Object.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\ObjectFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\ObjectFactory.hxx"
 					>
 				</File>
 			</Filter>

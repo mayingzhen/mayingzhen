@@ -3,7 +3,7 @@
 
 namespace ma
 {
-
+	IMPL_OBJECT(GameObject,SceneNode)
 	GameObject::GameObject(Scene* pScene, const char* pName):
 	SceneNode(pScene,pName)
 	{

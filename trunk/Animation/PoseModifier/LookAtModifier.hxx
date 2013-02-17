@@ -147,7 +147,7 @@ namespace ma
 		return m_fMaxYaw;
 	}
 
-	//D3DXMATRIX S3ALookAtModifier::ApplyLimit(const D3DXMATRIX* pBonePS)const
+	//D3DXMATRIX LookAtModifier::ApplyLimit(const D3DXMATRIX* pBonePS)const
 	//{
 	//	D3DXMATRIX ret;
 	//	xmEulerAngleXYZ eRotPS;
@@ -165,7 +165,7 @@ namespace ma
 
 	void LookAtModifier::DbgDraw() const
 	{
-		// 	IS3ADebugRenderer* pdbgr = S3AGetDebugRenderer();
+		// 	IDebugRenderer* pdbgr = GetDebugRenderer();
 		// 	if (pdbgr)
 		// 	{
 		// 		pdbgr->DrawBox(&m_vGoalOS,NULL,1.0f,0xffffffff);

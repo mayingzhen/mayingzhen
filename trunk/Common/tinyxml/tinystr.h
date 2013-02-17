@@ -64,7 +64,7 @@ distribution.
    The buffer allocation is made by a simplistic power of 2 like mechanism : if we increase
    a string and there's no more room, we allocate a buffer twice as big as we need.
 */
-class Application_API TiXmlString
+class COMMON_API TiXmlString
 {
   public :
 	// The size type used
@@ -286,16 +286,16 @@ inline bool operator == (const char* a, const TiXmlString & b) { return b == a; 
 inline bool operator != (const TiXmlString & a, const char* b) { return !(a == b); }
 inline bool operator != (const char* a, const TiXmlString & b) { return !(b == a); }
 
-Application_API TiXmlString operator + (const TiXmlString & a, const TiXmlString & b);
-Application_API TiXmlString operator + (const TiXmlString & a, const char* b);
-Application_API TiXmlString operator + (const char* a, const TiXmlString & b);
+COMMON_API TiXmlString operator + (const TiXmlString & a, const TiXmlString & b);
+COMMON_API TiXmlString operator + (const TiXmlString & a, const char* b);
+COMMON_API TiXmlString operator + (const char* a, const TiXmlString & b);
 
 
 /*
    TiXmlOutStream is an emulation of std::ostream. It is based on TiXmlString.
    Only the operators that we need for TinyXML have been developped.
 */
-class Application_API TiXmlOutStream : public TiXmlString
+class COMMON_API TiXmlOutStream : public TiXmlString
 {
 public :
 

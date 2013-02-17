@@ -59,7 +59,7 @@ namespace ma
 
 // 		for (xmUint nSocketCnt = 0; nSocketCnt < pSkelData->m_arrSocket.size(); ++nSocketCnt)
 // 		{
-// 			const S3AExpSocketData* pSocketData = &pSkelData->m_arrSocket[nSocketCnt];
+// 			const ExpSocketData* pSocketData = &pSkelData->m_arrSocket[nSocketCnt];
 // 			pSkel->AddSocket(pSocketData->m_strBoneName.c_str(),pSocketData->m_nBoneID,pSocketData->m_matTransformBS);
 // 		}
 // 

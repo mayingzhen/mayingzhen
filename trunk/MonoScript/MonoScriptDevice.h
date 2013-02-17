@@ -40,25 +40,25 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//Script Object Data Access
 		//------------------------------------------------------------------------------
-// 		xmBool	GetBooleanField(ScriptObjectHandle hObj,S3AName fieldName);
+// 		xmBool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetBooleanField(ScriptObjectHandle hObj,S3AName fieldName,xmBool val);
+// 		void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val);
 // 
-// 		xmInt	GetIntField(ScriptObjectHandle hObj,S3AName fieldName);
+// 		xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetIntField(ScriptObjectHandle hObj,S3AName fieldName,xmInt val);
+// 		void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val);
 // 
-// 		xmUint	GetUintField(ScriptObjectHandle hObj,S3AName fieldName);
+// 		xmUint	GetUintField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetUintField(ScriptObjectHandle hObj,S3AName fieldName,xmUint val);
+// 		void	SetUintField(ScriptObjectHandle hObj,Name fieldName,xmUint val);
 // 
-// 		xmFloat	GetFloatField(ScriptObjectHandle hObj,S3AName fieldName);
+// 		xmFloat	GetFloatField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetFloatField(ScriptObjectHandle hObj,S3AName fieldName,xmFloat val);
+// 		void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val);
 // 
-// 		ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,S3AName fieldName);
+// 		ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void				SetObjectField(ScriptObjectHandle hObj,S3AName field, ScriptObjectHandle val);
+// 		void				SetObjectField(ScriptObjectHandle hObj,Name field, ScriptObjectHandle val);
 // 
 // 		const char*			GetStringValue(ScriptObjectHandle hObj);
 // 
@@ -66,7 +66,7 @@ namespace ma
 // 		//------------------------------------------------------------------------------
 // 		//
 // 		//------------------------------------------------------------------------------
-// 		bool	Execute(ScriptObjectHandle hObj,S3AName funName);
+// 		bool	Execute(ScriptObjectHandle hObj,Name funName);
 
 
 		//------------------------------------------------------------------------------

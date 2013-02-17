@@ -21,7 +21,7 @@ namespace ma
 		}
 
 		MeshData* pMeshData = new MeshData;
-		pMeshData->Serialize(&ar,"Mesh");
+		pMeshData->Serialize(ar,"Mesh");
 
 		return pMeshData;
 	}
@@ -69,7 +69,7 @@ namespace ma
 			return false;
 		}
 
-		pMeshData->Serialize(&ar,"Mesh");
+		pMeshData->Serialize(ar,"Mesh");
 
 		return true;
 	}

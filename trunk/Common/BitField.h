@@ -39,4 +39,4 @@ public:
 
 typedef BitFieldBase<UINT> BitField;
 
-#endif //__S3ABitField_H__
+#endif //__BitField_H__

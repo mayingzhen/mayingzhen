@@ -2,7 +2,6 @@
 #include "Framework/Module.h"
 
 // Node
-#include "Framework/Object.hxx"
 #include "Framework/SceneNode.hxx"
 #include "Framework/Scene.hxx"
 #include "Framework/GameObj.hxx"
@@ -32,12 +31,27 @@
 #include "Framework/Script/EdScriptObject.hxx"
 #include "Framework/Script/ScriptComponent.hxx"
 
-void FrameWorkModuleInit()
+
+namespace ma
 {
+	// RTTI
+	#define RTTI_DECL(ClassType) \
+		Object* Create_##ClassType() { return new ClassType();}
 
-}
+	#include <Framework/RTTIDecl.h>
 
-void FrameWorkModuleShutdown()
-{
+	#undef RTTI_DECL
 
+	#define RTTI_DECL(ClassType) \
+		ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
+
+	void FrameWorkModuleInit()
+	{
+		#include <Framework/RTTIDecl.h>
+	}
+
+	void FrameWorkModuleShutdown()
+	{
+
+	}
 }

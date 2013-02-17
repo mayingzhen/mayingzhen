@@ -1,25 +1,24 @@
-#ifndef __XMLInputArchive_H__
-#define __XMLInputArchive_H__
+#ifndef __XMLOutputArchive_H__
+#define __XMLOutputArchive_H__
 
 #include <Common/Serialize/SerializeListener.h>
 
 class TiXmlDocument;
 class TiXmlElement;
+class IAllocator;
 
 namespace ma
 {
-
-	class COMMON_API S3AXMLInputArchive : public SerializeListener 
+	class COMMON_API XMLOutputArchive : public SerializeListener 
 	{
 		std::string		m_strFilename;
 		TiXmlDocument*	m_pDoc;
-		TiXmlElement*	m_pCurElem;
-		xmInt				m_nullChild;
+		TiXmlElement*	m_pParentElem;
 
 	public:
-		S3AXMLInputArchive();
+		XMLOutputArchive();
 
-		~S3AXMLInputArchive();
+		~XMLOutputArchive();
 
 		void Release();
 
@@ -27,11 +26,11 @@ namespace ma
 
 		bool Open(const char* pszFilename);
 
-		bool OpenFromMemory(const char* pszData);
-
 		void Close();
 
-		TiXmlDocument* GetXMLDocument();
+		bool OpenToMemory();
+
+		//bool SaveToMemory(char** ppData,xmUint* pDataSize,IAllocator* pAlloc);
 
 		void BeginSection(const char* pszLable);
 
@@ -39,7 +38,9 @@ namespace ma
 
 		void Serialize(bool& val,const char* pszLable = "bool");
 
-		void Serialize(unsigned char& val,const char* pszLable);
+		void Serialize(unsigned char& val, const char* pszLabel = "unsigned char");
+
+		void Serialize(char& val,const char* pszLable);
 
 		void Serialize(short& val,const char* pszLable);
 
@@ -60,16 +61,14 @@ namespace ma
 
 		void Serialize(std::string& val,const char* pszLable = "string");
 
-		//void SerializeBasicType(IS3AStringWrapper* val,const char* pszLable);
-
+		//void Serialize(IStringWrapper* val,const char* pszLable = "string");
 
 		SerializeListener* GetSerializeListener();
 
-	private:
-		void NextSiblingElement();
 	};
 
 }
 
 
-#endif// __XMLInputArchive_H__
+
+#endif// __XMLOutputArchive_H__

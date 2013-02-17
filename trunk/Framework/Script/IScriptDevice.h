@@ -33,21 +33,21 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//Script Object Data Access
 		//------------------------------------------------------------------------------
-// 		virtual xmBool	GetBooleanField(ScriptObjectHandle hObj,S3AName fieldName) = 0;
+// 		virtual xmBool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetBooleanField(ScriptObjectHandle hObj,S3AName fieldName,xmBool val) = 0;
+// 		virtual void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val) = 0;
 // 
-// 		virtual xmInt	GetIntField(ScriptObjectHandle hObj,S3AName fieldName) = 0;
+// 		virtual xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetIntField(ScriptObjectHandle hObj,S3AName fieldName,xmInt val) = 0;
+// 		virtual void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val) = 0;
 // 
-// 		virtual xmFloat	GetFloatField(ScriptObjectHandle hObj,S3AName fieldName) = 0;
+// 		virtual xmFloat	GetFloatField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetFloatField(ScriptObjectHandle hObj,S3AName fieldName,xmFloat val) = 0;
+// 		virtual void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val) = 0;
 // 
-// 		virtual ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,S3AName fieldName) = 0;
+// 		virtual ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void				SetObjectField(ScriptObjectHandle hObj,S3AName field, ScriptObjectHandle val) = 0;
+// 		virtual void				SetObjectField(ScriptObjectHandle hObj,Name field, ScriptObjectHandle val) = 0;
 // 
 // 		virtual const char*			GetStringValue(ScriptObjectHandle hObj) = 0;
 
@@ -55,7 +55,7 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//Function Invoke
 		//------------------------------------------------------------------------------
-//		virtual bool	Execute(ScriptObjectHandle hObj,S3AName funName) = 0;
+//		virtual bool	Execute(ScriptObjectHandle hObj,Name funName) = 0;
 
 
 		//------------------------------------------------------------------------------

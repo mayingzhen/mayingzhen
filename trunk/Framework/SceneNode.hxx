@@ -2,6 +2,7 @@
 
 namespace ma
 {
+	IMPL_OBJECT(SceneNode,Object)
 	SceneNode::SceneNode(Scene* pSene, const char* pNodeName):
 	Object(pNodeName)
 	{
@@ -221,11 +222,14 @@ namespace ma
 		
 		sl.Serialize(m_tsfPS);
 
+		sl.Serialize(m_vChildNodes);
+
 		sl.EndSection();
+
 		
-		for (UINT i = 0; i < m_vChildNodes.size(); ++i)
-		{
-			m_vChildNodes[i]->Serialize(sl);
-		}
+		//for (UINT i = 0; i < m_vChildNodes.size(); ++i)
+		//{
+		//	m_vChildNodes[i]->Serialize(sl);
+		//}
 	}
 }
