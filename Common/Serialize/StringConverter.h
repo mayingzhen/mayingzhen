@@ -1,7 +1,7 @@
-#ifndef __S3AStringConverter_H__
-#define __S3AStringConverter_H__
+#ifndef __StringConverter_H__
+#define __StringConverter_H__
 
-class S3AStringConverter
+class StringConverter
 {
 	enum { STRING_BUFFER_SIZE = 1024};
 public:
@@ -52,12 +52,12 @@ public:
 
 };
 
-inline std::string S3AStringConverter::ToString(bool val)
+inline std::string StringConverter::ToString(bool val)
 {
 	return val ? "true" : "false";
 }
 
-inline std::string S3AStringConverter::ToString(unsigned char val)
+inline std::string StringConverter::ToString(unsigned char val)
 {
 	int iVal = val;
 	char buf[STRING_BUFFER_SIZE];
@@ -65,7 +65,7 @@ inline std::string S3AStringConverter::ToString(unsigned char val)
 	return buf;
 }
 
-inline  std::string S3AStringConverter::ToString(short val)
+inline  std::string StringConverter::ToString(short val)
 {
 	int iVal = val;
 	char buf[STRING_BUFFER_SIZE];
@@ -73,7 +73,7 @@ inline  std::string S3AStringConverter::ToString(short val)
 	return buf;
 }
 
-inline  std::string S3AStringConverter::ToString(unsigned short val)
+inline  std::string StringConverter::ToString(unsigned short val)
 {
 	unsigned int iVal = val;
 	char buf[STRING_BUFFER_SIZE];
@@ -81,14 +81,14 @@ inline  std::string S3AStringConverter::ToString(unsigned short val)
 	return buf;
 }
 
-inline std::string S3AStringConverter::ToString(unsigned int val)
+inline std::string StringConverter::ToString(unsigned int val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%u",val);
 	return buf;
 }
 
-inline std::string S3AStringConverter::ToString(int val)
+inline std::string StringConverter::ToString(int val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%d",val);
@@ -96,14 +96,14 @@ inline std::string S3AStringConverter::ToString(int val)
 }
 
 
-inline std::string S3AStringConverter::ToString(unsigned long val)
+inline std::string StringConverter::ToString(unsigned long val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%lu",val);
 	return buf;
 }
 
-inline std::string S3AStringConverter::ToString(long val)
+inline std::string StringConverter::ToString(long val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%ld",val);
@@ -111,14 +111,14 @@ inline std::string S3AStringConverter::ToString(long val)
 }
 
 
-inline std::string S3AStringConverter::ToString(xmUint64 val)
+inline std::string StringConverter::ToString(xmUint64 val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%llu",val);
 	return buf;
 }
 
-inline std::string S3AStringConverter::ToString(float val)
+inline std::string StringConverter::ToString(float val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%f",val);
@@ -128,7 +128,7 @@ inline std::string S3AStringConverter::ToString(float val)
 
 
 
-inline void S3AStringConverter::ToValue(bool& val,const char* pszVal)
+inline void StringConverter::ToValue(bool& val,const char* pszVal)
 {
 	if (_stricmp("true",pszVal) == 0)
 	{
@@ -138,17 +138,17 @@ inline void S3AStringConverter::ToValue(bool& val,const char* pszVal)
 	}
 }
 
-inline  void S3AStringConverter::ToValue(unsigned char& val,const char* pszVal)
+inline  void StringConverter::ToValue(unsigned char& val,const char* pszVal)
 {
 	val = (unsigned char)atoi(pszVal);
 }
 
-inline void S3AStringConverter::ToValue(short& val,const char* pszVal)
+inline void StringConverter::ToValue(short& val,const char* pszVal)
 {
 	val = (short)atoi(pszVal);
 }
 
-inline void S3AStringConverter::ToValue(unsigned short& val,const char* pszVal)
+inline void StringConverter::ToValue(unsigned short& val,const char* pszVal)
 {
 	unsigned int iVal;
 	sscanf(pszVal,"%u",&iVal);
@@ -156,34 +156,34 @@ inline void S3AStringConverter::ToValue(unsigned short& val,const char* pszVal)
 }
 
 
-inline void S3AStringConverter::ToValue(int& val,const char* pszVal)
+inline void StringConverter::ToValue(int& val,const char* pszVal)
 {
 	val = atoi(pszVal);
 }
 
-inline void S3AStringConverter::ToValue(unsigned int& val,const char* pszVal)
+inline void StringConverter::ToValue(unsigned int& val,const char* pszVal)
 {
 	sscanf(pszVal,"%u",&val);
 }
 
-inline void S3AStringConverter::ToValue(long& val,const char* pszVal)
+inline void StringConverter::ToValue(long& val,const char* pszVal)
 {
 	val = atoi(pszVal);
 }
 
-inline void S3AStringConverter::ToValue(unsigned long& val,const char* pszVal)
+inline void StringConverter::ToValue(unsigned long& val,const char* pszVal)
 {
 	sscanf(pszVal,"%u",&val);
 }
 
-inline void S3AStringConverter::ToValue(xmUint64& val,const char* pszVal)
+inline void StringConverter::ToValue(xmUint64& val,const char* pszVal)
 {
 	sscanf(pszVal,"%llu",&val);
 }
 
 
-inline void S3AStringConverter::ToValue(float& val,const char* pszVal)
+inline void StringConverter::ToValue(float& val,const char* pszVal)
 {
 	val = (float)atof(pszVal);
 }
-#endif// __S3AStringConverter_H__
+#endif// __StringConverter_H__

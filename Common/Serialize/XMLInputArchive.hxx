@@ -1,10 +1,10 @@
 #include <Common/Serialize/XMLInputArchive.h>
 #include <Common/tinyxml/TinyXML.h>
-#include <Common/Serialize/S3AStringConverter.h>
+#include <Common/Serialize/StringConverter.h>
 
 namespace ma
 {
-	S3AXMLInputArchive::S3AXMLInputArchive()
+	XMLInputArchive::XMLInputArchive()
 		:m_pDoc(NULL)
 		,m_pCurElem(NULL)
 		,m_nullChild(0)
@@ -12,7 +12,7 @@ namespace ma
 		m_pDoc = new TiXmlDocument();
 	}
 
-	S3AXMLInputArchive::~S3AXMLInputArchive()
+	XMLInputArchive::~XMLInputArchive()
 	{
 		xmSafeDelete(m_pDoc);
 		m_pCurElem = NULL;
@@ -20,17 +20,17 @@ namespace ma
 	}
 
 
-	bool S3AXMLInputArchive::IsReading() const
+	bool XMLInputArchive::IsReading() const
 	{
 		return true;
 	}
 
-	void S3AXMLInputArchive::Release()
+	void XMLInputArchive::Release()
 	{
 		delete this;
 	}
 
-	bool S3AXMLInputArchive::Open(const char* pszFilename)
+	bool XMLInputArchive::Open(const char* pszFilename)
 	{
 
 		Close();
@@ -49,7 +49,7 @@ namespace ma
 
 	}
 
-	bool S3AXMLInputArchive::OpenFromMemory(const char* pszData)
+	bool XMLInputArchive::OpenFromMemory(const char* pszData)
 	{
 		Close();
 		m_strFilename = "Memory";
@@ -66,17 +66,17 @@ namespace ma
 		return bLoadOK;
 	}
 
-	void S3AXMLInputArchive::Close()
+	void XMLInputArchive::Close()
 	{
 		m_pCurElem = NULL;
 	}
 
-	TiXmlDocument* S3AXMLInputArchive::GetXMLDocument()
+	TiXmlDocument* XMLInputArchive::GetXMLDocument()
 	{
 		return m_pDoc;
 	}
 
-	void S3AXMLInputArchive::BeginSection(const char* pszLable)
+	void XMLInputArchive::BeginSection(const char* pszLable)
 	{
 		assert(_stricmp(pszLable,m_pCurElem->Value()) == 0);
 		TiXmlElement* pFirstChild = reinterpret_cast<TiXmlElement*>(m_pCurElem->FirstChild());
@@ -85,97 +85,97 @@ namespace ma
 
 	}
 
-	void S3AXMLInputArchive::EndSection()
+	void XMLInputArchive::EndSection()
 	{
 		m_pCurElem = m_nullChild ? m_pCurElem : reinterpret_cast<TiXmlElement*>(m_pCurElem->Parent());
 		m_nullChild -= m_nullChild > 0 ? 1 : 0;
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(bool& val,const char* pszLable)
+	void XMLInputArchive::Serialize(bool& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(unsigned char& val,const char* pszLable)
+	void XMLInputArchive::Serialize(unsigned char& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(short& val,const char* pszLable)
+	void XMLInputArchive::Serialize(short& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(unsigned short& val, const char* pszLable)
+	void XMLInputArchive::Serialize(unsigned short& val, const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
-		NextSiblingElement();
-	}
-
-
-	void S3AXMLInputArchive::SerializeBasicType(unsigned int& val,const char* pszLable)
-	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
-		NextSiblingElement();
-	}
-
-	void S3AXMLInputArchive::SerializeBasicType(int& val,const char* pszLable)
-	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
-		NextSiblingElement();
-	}
-
-	void S3AXMLInputArchive::SerializeBasicType(unsigned long &val,const char* pszLable)
-	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
-		NextSiblingElement();
-	}
-
-	void S3AXMLInputArchive::SerializeBasicType(long &val,const char* pszLable)
-	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 
-	void S3AXMLInputArchive::SerializeBasicType(xmUint64& val,const char* pszLable)
+	void XMLInputArchive::Serialize(unsigned int& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
+		NextSiblingElement();
+	}
+
+	void XMLInputArchive::Serialize(int& val,const char* pszLable)
+	{
+		assert(m_nullChild == 0);
+		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		StringConverter::ToValue(val,m_pCurElem->GetText());
+		NextSiblingElement();
+	}
+
+	void XMLInputArchive::Serialize(unsigned long &val,const char* pszLable)
+	{
+		assert(m_nullChild == 0);
+		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		StringConverter::ToValue(val,m_pCurElem->GetText());
+		NextSiblingElement();
+	}
+
+	void XMLInputArchive::Serialize(long &val,const char* pszLable)
+	{
+		assert(m_nullChild == 0);
+		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 
-	void S3AXMLInputArchive::SerializeBasicType(float& val,const char* pszLable)
+	void XMLInputArchive::Serialize(xmUint64& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		S3AStringConverter::ToValue(val,m_pCurElem->GetText());
+		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(std::string& val,const char* pszLable)
+
+	void XMLInputArchive::Serialize(float& val,const char* pszLable)
+	{
+		assert(m_nullChild == 0);
+		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		StringConverter::ToValue(val,m_pCurElem->GetText());
+		NextSiblingElement();
+	}
+
+	void XMLInputArchive::Serialize(std::string& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
@@ -183,21 +183,21 @@ namespace ma
 		NextSiblingElement();
 	}
 
-	void S3AXMLInputArchive::SerializeBasicType(IS3AStringWrapper* val,const char* pszLable)
-	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
-		val->SetValue(m_pCurElem->GetText());
-		NextSiblingElement();
-	}
+// 	void XMLInputArchive::Serialize(IStringWrapper* val,const char* pszLable)
+// 	{
+// 		assert(m_nullChild == 0);
+// 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+// 		val->SetValue(m_pCurElem->GetText());
+// 		NextSiblingElement();
+// 	}
 
-	void S3AXMLInputArchive::NextSiblingElement()
+	void XMLInputArchive::NextSiblingElement()
 	{
 		TiXmlElement* pNextElem = m_pCurElem->NextSiblingElement();
 		m_pCurElem = pNextElem ? pNextElem : m_pCurElem;
 	}
 
-	SerializeListener* S3AXMLInputArchive::GetSerializeListener()
+	SerializeListener* XMLInputArchive::GetSerializeListener()
 	{
 		return this;
 	}	

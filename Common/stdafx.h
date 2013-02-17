@@ -36,7 +36,7 @@
 //#define _D3D_V(x)				{ HRESULT hr = x; if(FAILED(hr)){ _DXTRACE_ERR( L#x,hr); } }
 #define _D3D_V(x)				x
 
-#define SSERT(x) 
+#define assert(x) 
 #define ASSERT assert
 
 

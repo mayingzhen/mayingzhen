@@ -9,12 +9,28 @@
 #include "Common/Serialize/SerializeListener.hxx"
 #include "Common/Serialize/BinaryInputArchive.hxx"
 #include "Common/Serialize/BinaryOutputArchive.hxx"
+#include "Common/Serialize/XMLInputArchive.hxx"
+#include "Common/Serialize/XMLOutputArchive.hxx"
+#include "Common/Serialize/StringConverter.hxx"
 
 #include "Common/Data/MeshData.hxx"
 #include "Common/Data/AnimationData.hxx"
 #include "Common/Data/SkeletonData.hxx"
 
+//TinyXml
+#include "Common/tinyxml/tinyxml.hxx"
+#include "Common/tinyxml/tinystr.hxx"
+#include "Common/tinyxml/tinyxmlerror.hxx"
+#include "Common/tinyxml/tinyxmlparser.hxx"
 
+// Object
+#include "Common/RTTI/Class.hxx"
+#include "Common/RTTI/Object.hxx"
+#include "Common/RTTI/ObjectFactory.hxx"
+
+#include "Common/ReferenceCountObject.hxx"
+
+using namespace ma;
 
 
 void Log(const char* fmt,...) {}
@@ -36,11 +52,38 @@ void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 	pOut->z = pA->z > pB->z ? pA->z : pB->z;
 }
 
-
-void CommonModuleInit()
+namespace ma
 {
+#define RTTI_DECL(ClassType) \
+	Object* Create_##ClassType() { return new ClassType();}
+
+#include <Common/RTTIDecl.h>
+
+#undef RTTI_DECL
+
+#define RTTI_DECL(ClassType) \
+	ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
+
+	void CommonModuleInit()
+	{
+		ClassManager* pClsMan = new ClassManager();
+		new ObjectFactoryManager();
+
+		Object::StaticInitClass();
+
+		#include <Common/RTTIDecl.h>
+	}
+
+	void CommonModuleShutdown()
+	{
+		Object::StaticShutdownClass();
+
+		ObjectFactoryManager::GetInstance().Shutdown();
+		delete ObjectFactoryManager::GetInstancePtr();
+
+		ClassManager::GetInstance().Shutdown();
+		delete ClassManager::GetInstancePtr();
+	}
+
 }
 
-void CommonModuleShutdown()
-{
-}

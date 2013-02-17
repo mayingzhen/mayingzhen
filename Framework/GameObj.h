@@ -12,6 +12,8 @@ namespace ma
 
 	class FRAMEWORK_API GameObject : public SceneNode
 	{
+		DECL_OBJECT(GameObject)
+
 	public:
 		GameObject(Scene* pScene = NULL, const char* pName = NULL);
 

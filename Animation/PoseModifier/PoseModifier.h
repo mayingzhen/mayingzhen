@@ -11,7 +11,7 @@ namespace ma
 		D3DXMATRIX		m_matInvWorld;
 		float			m_fTimeElapsed;
 
-		//IS3AAnimatedSkeleton* m_pSkelInst;
+		//IAnimatedSkeleton* m_pSkelInst;
 	};
 
 

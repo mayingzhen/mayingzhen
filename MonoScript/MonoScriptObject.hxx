@@ -257,7 +257,7 @@ namespace ma
 			MonoClass* pParentClass = pScriptDevice->GetScriptBaseClass(m_pClass);
 			pMethod = mono_class_get_method_from_name(pParentClass,pszMethod,param_count);
 		}
-		//S3ASSERT_MSG(pMethod != NULL,"%s:%s Not Find",GetName(),pszMethod);
+		//SSERT_MSG(pMethod != NULL,"%s:%s Not Find",GetName(),pszMethod);
 
 		InvokeMethod(pMethod,params);
 	}
@@ -280,7 +280,7 @@ namespace ma
 		mono_runtime_invoke(pMethod,m_pObj,params,&pException);
 		if (pException)
 		{
-			//S3ALogError(S3A_ERR_INVALID_CALL, "Fail to invoke %s script %s Method", 
+			//LogError(_ERR_INVALID_CALL, "Fail to invoke %s script %s Method", 
 			//	GetName(), mono_method_get_name(pMethod) );
 		}
 	}

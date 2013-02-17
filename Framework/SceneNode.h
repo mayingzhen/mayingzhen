@@ -1,7 +1,6 @@
 #ifndef  _SCENE_NODE__H__
 #define  _SCENE_NODE__H__
 
-#include "Framework/Object.h"
 
 namespace ma
 {
@@ -9,6 +8,8 @@ namespace ma
 
 	class FRAMEWORK_API SceneNode : public Object
 	{
+		DECL_OBJECT(SceneNode)
+
 	public:
 		SceneNode(Scene* pSene = NULL, const char* pNodeName = NULL);
 

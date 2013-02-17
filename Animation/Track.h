@@ -1,10 +1,10 @@
 #ifndef __Track_H__
 #define __Track_H__
 
-// #include <Animation/Animation/S3AKeyFrameHelper.h>
-// #include <Animation/Animation/S3AAnimationConfig.h>
-// #include <Animation/Interface/IS3ATrack.h>
-// #include <Animation/Animation/S3AKeyFrameHelper.h>
+// #include <Animation/Animation/KeyFrameHelper.h>
+// #include <Animation/Animation/AnimationConfig.h>
+// #include <Animation/Interface/ITrack.h>
+// #include <Animation/Animation/KeyFrameHelper.h>
 
 // namespace ma
 // {
@@ -29,7 +29,7 @@
 
 	inline void DecomposeFrame( float frame,const std::vector<xmUint>& keyFrame,xmUint& key0,xmUint& key1,float& factor )
 	{
-		//S3ASSERT(keyFrame.size() > 0);
+		//assert(keyFrame.size() > 0);
 		WrapFrameClamp(frame,(float)keyFrame.back());
 		std::vector<xmUint>::const_iterator iter = std::lower_bound(keyFrame.begin(),keyFrame.end(),(xmUint)(frame+1.0f));
 		if (iter != keyFrame.end())
@@ -46,7 +46,7 @@
 	}
 
 
-	class IS3ATrack
+	class ITrack
 	{
 	public:
 
@@ -56,7 +56,7 @@
 	};
 
 	template<class T>
-	class S3ADataTrack
+	class DataTrack
 	{
 	public:
 		std::vector<xmUint>	m_arrFrame; //frame number of each key
@@ -108,10 +108,10 @@
 		}		
 	};
 
-	typedef S3ADataTrack<float> xmFloatTrack;
+	typedef DataTrack<float> xmFloatTrack;
 
 
-	class D3DXVECTOR3Track : public IS3ATrack
+	class D3DXVECTOR3Track : public ITrack
 	{
 	public:
 
@@ -155,7 +155,7 @@
 		void	DbgDump() const;
 	};
 
-	class xmQuaternionTrack : public IS3ATrack
+	class xmQuaternionTrack : public ITrack
 	{
 	public:
 
@@ -286,10 +286,10 @@
 
 	inline void	D3DXVECTOR3Track::DbgDump() const
 	{
-		//S3ALog("Total Key %u ",m_arrValue.size());
+		//Log("Total Key %u ",m_arrValue.size());
 		for (xmUint keyCnt = 0; keyCnt < m_arrValue.size(); ++keyCnt)
 		{
-			//S3ALog(" %d(%.5f,%.5f,%.5f)",m_arrFrame[keyCnt],m_arrValue[keyCnt].x,m_arrValue[keyCnt].y,m_arrValue[keyCnt].z);
+			//Log(" %d(%.5f,%.5f,%.5f)",m_arrFrame[keyCnt],m_arrValue[keyCnt].x,m_arrValue[keyCnt].y,m_arrValue[keyCnt].z);
 		}
 	}
 
@@ -373,7 +373,7 @@
 		xmUint key1;
 		float factor; 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
-//#ifdef S3A_TRACK_SAMPLE_USE_SLERP
+//#ifdef _TRACK_SAMPLE_USE_SLERP
 		D3DXQuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 //#else
 //		maQuaternionLerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
@@ -382,11 +382,11 @@
 
 	inline void	xmQuaternionTrack::DbgDump() const
 	{
-		//S3ALog("Total Key %u ",m_arrValue.size());
+		//Log("Total Key %u ",m_arrValue.size());
 
 		for (xmUint keyCnt = 0; keyCnt < m_arrValue.size(); ++keyCnt)
 		{
-			//S3ALog(" %d(%.5f,%.5f,%.5f,%.5f)",m_arrFrame[keyCnt],m_arrValue[keyCnt].x,m_arrValue[keyCnt].y,m_arrValue[keyCnt].z,m_arrValue[keyCnt].w);
+			//Log(" %d(%.5f,%.5f,%.5f,%.5f)",m_arrFrame[keyCnt],m_arrValue[keyCnt].x,m_arrValue[keyCnt].y,m_arrValue[keyCnt].z,m_arrValue[keyCnt].w);
 		}
 	}
 //}

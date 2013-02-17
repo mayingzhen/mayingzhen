@@ -31,7 +31,7 @@ namespace ma
 		int				gsLineBatchSize = 0;
 
 
-	//}//namespace S3ADebugRendererImpl
+	//}//namespace DebugRendererImpl
 
 	DxRender::DxRender()
 	{
@@ -167,7 +167,7 @@ namespace ma
 		//for (xmUint nSubInd = 0; nSubInd < pDxMesh->GetSubMeshNumber(); ++nSubInd)
 		//{
 
-			//S3AUTMaterial* pMtl = pMeshDX->GetMaterial(nSubInd);
+			//UTMaterial* pMtl = pMeshDX->GetMaterial(nSubInd);
 
 
 			//m_meshShader->SetTexture(pTexDX != NULL ? pTexDX->m_pTexDX : NULL);

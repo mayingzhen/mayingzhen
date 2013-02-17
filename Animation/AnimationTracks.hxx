@@ -58,10 +58,10 @@ namespace ma
 // 	void AnimationTracks::Clone(AnimationTracks* pTracks) const
 // 	{
 // 
-// 		// 		S3AArrayDeepCopy<S3AArray<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_scale,m_scale);
-// 		// 		S3AArrayDeepCopy<S3AArray<xmQuaternionTrack*>,xmQuaternionTrack>(pTracks->m_rot,m_rot);
-// 		// 		S3AArrayDeepCopy<S3AArray<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_pos,m_pos);
-// 		// 		S3AArrayDeepCopy<S3AArray<xmFloatTrack*>,xmFloatTrack>(pTracks->m_float,m_float);
+// 		// 		ArrayDeepCopy<Array<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_scale,m_scale);
+// 		// 		ArrayDeepCopy<Array<xmQuaternionTrack*>,xmQuaternionTrack>(pTracks->m_rot,m_rot);
+// 		// 		ArrayDeepCopy<Array<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_pos,m_pos);
+// 		// 		ArrayDeepCopy<Array<xmFloatTrack*>,xmFloatTrack>(pTracks->m_float,m_float);
 // 		// 
 // 		// 		pTracks->m_rootMotionPos = m_rootMotionPos;
 // 		// 		pTracks->m_rootMotionRot = m_rootMotionRot;

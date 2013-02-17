@@ -2,7 +2,6 @@
 #define  _FRAMEWORK_MODULE__H__
 
 #include "Framework/FrameworkExport.h"
-#include "Framework/Object.h"
 #include "Framework/SceneNode.h"
 #include "Framework/Scene.h"
 #include "Framework/GameObj.h"
@@ -38,11 +37,11 @@
 #include "Framework/Script/ScriptComponent.h"
 //#include "Framework/Script/ScriptEventBinder.h"
 
+namespace ma
+{
+	FRAMEWORK_API void FrameWorkModuleInit();
 
-FRAMEWORK_API void FrameWorkModuleInit();
-
-FRAMEWORK_API void FrameWorkModuleShutdown();
-
-
+	FRAMEWORK_API void FrameWorkModuleShutdown();
+}
 
 #endif

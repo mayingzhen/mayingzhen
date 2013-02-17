@@ -1,11 +1,12 @@
 #include "Common/Data/MeshData.h"
+#include "Common/RTTI/Object.h"
 
 
 namespace ma
 {
 
 
-
+IMPL_OBJECT(VertexType0,Object)
 void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
 {
 	sl.BeginSection(pszLabel);
@@ -23,6 +24,7 @@ void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
 
 }
 
+IMPL_OBJECT(BoxShape,Object)
 void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 {
 	sl.BeginSection(pszLabel);
@@ -32,6 +34,7 @@ void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 	sl.EndSection();
 }
 
+IMPL_OBJECT(AABBShape,Object)
 void AABBShape::Init()
 {
 	m_vMin = D3DXVECTOR3(xm_FMAX,xm_FMAX,xm_FMAX);
@@ -50,6 +53,7 @@ void AABBShape::AddPoint(const D3DXVECTOR3& v)
 	xmVec3Max(&m_vMax,&v,&m_vMax);
 }
 
+IMPL_OBJECT(CylinderShape,Object)
 void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
 {
 	sl.BeginSection(pszLable);
@@ -58,6 +62,7 @@ void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
 	sl.EndSection();
 }
 
+IMPL_OBJECT(Bounding,Object)
 void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
 {
 	sl.BeginSection(pszLable);
@@ -67,19 +72,21 @@ void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
 	if (BS_BOX == m_nShapeType)
 	{
 		sl.Serialize(m_boxShape,"BoxShape");
+		//m_boxShape.Serialize(sl);
 	}
 	else if (BS_CYLINDER == m_nShapeType)
 	{
 		sl.Serialize(m_cylinderShape,"CylinderShape");
 	}
 	else{
-		SSERT(false && "unknown bounding shape type");
+		assert(false && "unknown bounding shape type");
 	}
 
 	sl.EndSection();
 }
 
 
+IMPL_OBJECT(MeshHeader,Object)
 void MeshHeader::Serialize(SerializeListener& sl,const char* pszLable)
 {
 	sl.BeginSection(pszLable);
@@ -195,6 +202,7 @@ void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char
 	sl.EndSection();
 }
 
+IMPL_OBJECT(SubMeshData,Object)
 SubMeshData::SubMeshData()
 :m_nIndexStart(0)
 ,m_nIndexCount(0)
@@ -401,6 +409,7 @@ void	SubMeshData::Serialize(SerializeListener& sl,const char* pszLabel)
 	sl.EndSection();
 }
 
+IMPL_OBJECT(MeshLODData,Object)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -567,7 +576,7 @@ void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
 }
 
 
-
+IMPL_OBJECT(MeshData,Object)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -1005,39 +1014,39 @@ void					MeshData::SetBoundingAABB(const D3DXVECTOR3* vMin,const D3DXVECTOR3* vM
 	m_meshBound.SetAABB(*vMin,*vMax);
 }
 
-void					MeshData::Serialize(SerializeListener* pSL,const char* pszLabel)
+void					MeshData::Serialize(SerializeListener& sl,const char* pszLabel)
 {
-	pSL->BeginSection(pszLabel);
+	sl.BeginSection(pszLabel);
 
-	pSL->Serialize(m_header,"MeshHeader");
+	sl.Serialize(m_header,"MeshHeader");
 
-	pSL->PushVersion(m_header.m_nVersion);
-	pSL->Serialize(m_nIndexType,"IndexType");
-	pSL->Serialize(m_nVertexType,"VertexType");
+	sl.PushVersion(m_header.m_nVersion);
+	sl.Serialize(m_nIndexType,"IndexType");
+	sl.Serialize(m_nVertexType,"VertexType");
 
 	if (INDEX_TYPE_U16 == m_nIndexType)
 	{
-		pSL->SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
+		sl.SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
 	}else if (INDEX_TYPE_U32 == m_nIndexType)
 	{
-		pSL->SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
+		sl.SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
 	}else{
 		LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
 	}
 
 	if (VT_SKIN_VERTEX_0 == m_nVertexType)
 	{
-		pSL->SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
+		sl.SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
 	}
 
-	pSL->Serialize(m_meshBound,"MeshBound");
- 	pSL->Serialize(m_arrMeshLOD,"MeshLOD");
+	sl.Serialize(m_meshBound,"MeshBound");
+ 	sl.Serialize(m_arrMeshLOD,"MeshLOD");
 	//pSL->Serialize(m_arrBoneName,"BoneName");
 	//pSL->Serialize(m_arrBoneBound,"BoundBound");
 
-	pSL->PopVersion();
+	sl.PopVersion();
 
-	pSL->EndSection();
+	sl.EndSection();
 }
 
 
@@ -1055,7 +1064,7 @@ const char*				MeshData::GetSource() const
 //------------------------------------------------------------------------------
 
 
-
+//IMPL_OBJECT(Bounding,Object)
 void Bounding::SetInvalid()
 {
 	m_nShapeType = BS_UNKNOWN;
@@ -1154,7 +1163,7 @@ void Serialize(SerializeListener& sl,CylinderShape &val,const char* pszLable )
 // 	{
 // 		sl.Serialize(val.m_cylinderShape,"CylinderShape");
 // 	}else{
-// 		SSERT(false && "unknown bounding shape type");
+// 		assert(false && "unknown bounding shape type");
 // 	}
 // 
 // 	sl.EndSection();

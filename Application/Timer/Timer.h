@@ -1,5 +1,5 @@
-#ifndef __S3ATimer_H__
-#define __S3ATimer_H__
+#ifndef __Timer_H__
+#define __Timer_H__
 
 namespace ma
 {

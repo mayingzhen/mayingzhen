@@ -6,7 +6,7 @@
 namespace ma
 {
 
-// 		typedef std::map<S3AName,S3AName> MonoTypeMap;
+// 		typedef std::map<Name,Name> MonoTypeMap;
 // 		MonoTypeMap gs_monoTypeMap;
 // 
 // 		void Init()
@@ -51,7 +51,7 @@ namespace ma
 // 		const char* pszSlot		= pSD->GetStringValue((ScriptObjectHandle)slot);
 // 
 // 
-// 		S3AObject* pSender = (S3AObject*)senderPtr;
+// 		Object* pSender = (Object*)senderPtr;
 // 		key.m_className = NULL != pSender ? pSender->GetClass()->GetName() : "";
 // 		key.m_signal = pszSignal;
 // 
@@ -79,7 +79,7 @@ namespace ma
 // 	{
 // 		xm::IScriptDevice* pSD = xm::GetScriptDevice();
 // 
-// 		S3AObject* pSender = (S3AObject*)senderPtr;
+// 		Object* pSender = (Object*)senderPtr;
 // 		const char* pszSignal	= pSD->GetStringValue((ScriptObjectHandle)signal);
 // 		const char* pszSlot		= pSD->GetStringValue((ScriptObjectHandle)slot);
 // 
@@ -103,7 +103,7 @@ namespace ma
 // 		for (UINT nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
 // 		{
 // 			//Component* pComp = pGameObj->GetComponentByIndex(nCnt);
-// 			ScriptComponent* pScriptComp = NULL;//S3ASafeCast<ScriptComponent>(pComp);
+// 			ScriptComponent* pScriptComp = NULL;//SafeCast<ScriptComponent>(pComp);
 // 			if (pScriptComp == NULL)
 // 				continue;
 // 

@@ -97,7 +97,7 @@ namespace ma
 
 
 		/// 
-		BinaryOutputArchive ar;
+		XMLOutputArchive ar;
 		bool bOpenOK = ar.Open("../Tesx.xml");
 		assert(bOpenOK);
 		m_pScene->Serialize(ar);

@@ -3,99 +3,102 @@
 
 namespace ma
 {
+	class Object;
 
-class COMMON_API SerializeListener 
-{
-	std::deque<xmUint> m_verStack;
+	class COMMON_API SerializeListener 
+	{
+		std::deque<xmUint> m_verStack;
 
-public:
+	public:
 
-	virtual ~SerializeListener();
+		virtual ~SerializeListener();
 
-	virtual void Serialize(bool& val,const char* pszLable = "bool");
+		virtual void Serialize(bool& val,const char* pszLable = "bool");
 
-	virtual void Serialize(unsigned char& val, const char* pszLabel = "unsigned char");
+		virtual void Serialize(unsigned char& val, const char* pszLabel = "unsigned char");
 
-	virtual void Serialize(short& val,const char* pszLable = "short");	
+		virtual void Serialize(short& val,const char* pszLable = "short");	
 
-	virtual void Serialize(unsigned short& val, const char* pszLabel = "unsigned short");
+		virtual void Serialize(unsigned short& val, const char* pszLabel = "unsigned short");
 
-	virtual void Serialize(unsigned int&val,const char* pszLable = "unsigned int");
+		virtual void Serialize(unsigned int&val,const char* pszLable = "unsigned int");
 
-	virtual void Serialize(int&val,const char* pszLable = "int");
+		virtual void Serialize(int&val,const char* pszLable = "int");
 
-	virtual void Serialize(unsigned long &val,const char* pszLable = "unsigned long");
+		virtual void Serialize(unsigned long &val,const char* pszLable = "unsigned long");
 
-	virtual void Serialize(long &val,const char* pszLable = "long");
+		virtual void Serialize(long &val,const char* pszLable = "long");
 
-	virtual void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
+		virtual void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
 
-	virtual void Serialize(float& val,const char* pszLable = "float");
+		virtual void Serialize(float& val,const char* pszLable = "float");
 
-	virtual void Serialize(std::string& val,const char* pszLable = "string");
+		virtual void Serialize(std::string& val,const char* pszLable = "string");
 
-	//virtual void Serialize(IStringWrapper* val,const char* pszLable = "string");
+		//virtual void Serialize(IStringWrapper* val,const char* pszLable = "string");
 
-	virtual void Serialize(D3DXVECTOR2 &val,const char* pszLable = "Vector2");
+		virtual void Serialize(D3DXVECTOR2 &val,const char* pszLable = "Vector2");
 
-	virtual void Serialize(GUID &val,const char* pszLable = "GUID");
+		virtual void Serialize(GUID &val,const char* pszLable = "GUID");
 
-	virtual void Serialize(D3DXVECTOR3 &val,const char* pszLable = "Vector3");
+		virtual void Serialize(D3DXVECTOR3 &val,const char* pszLable = "Vector3");
 
-	virtual void Serialize(D3DXVECTOR4 &val,const char* pszLable = "Vector4");
+		virtual void Serialize(D3DXVECTOR4 &val,const char* pszLable = "Vector4");
 
-	virtual void Serialize(D3DXQUATERNION &val,const char* pszLable = "Quaternion");
+		virtual void Serialize(D3DXQUATERNION &val,const char* pszLable = "Quaternion");
 
-	virtual void Serialize(D3DXMATRIX &val,const char* pszLable = "Matrix4x4");
+		virtual void Serialize(D3DXMATRIX &val,const char* pszLable = "Matrix4x4");
 
-	virtual void Serialize(maNodeTransform& val,const char *pszLable = "NodeTransform");
+		virtual void Serialize(maNodeTransform& val,const char *pszLable = "NodeTransform");
 
-	template<class T>
-	void Serialize(std::vector<T>& val,const char* pszLable = "array");
+		//template<class T>
+		//void Serialize(std::vector<T>& val,const char* pszLable = "array");
 
-	template<class T>
-	void Serialize(std::vector<T*>& val,const char* pszLable = "array");
+		template<class T>
+		void Serialize(std::vector<T*>& val,const char* pszLable = "array");
 
-	//template<class T>
-	//void SerializeArray(std::vector<T>& val,const char* pszLable = "array");
+		//void Serialize(std::vector<Object*>& vObject, const char* pszLable = "array");
 
-	template<class T>
-	void Serialize(T& val,const char* pszLable = "");
+		//template<class T>
+		//void SerializeArray(std::vector<T>& val,const char* pszLable = "array");
 
-	template<class T>
-	void Serialize(T* val,const char* pszLable = "");
+		//template<class T>
+		//void Serialize(T& val,const char* pszLable = "");
 
-	template<class DataType>
-	void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
+		//template<class T>
+		//void Serialize(T* val,const char* pszLable = "");
 
-	////////////////
-	virtual void BeginSection(const char* pszLable);
+		template<class DataType>
+		void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
 
-	virtual void EndSection();
+		////////////////
+		virtual void BeginSection(const char* pszLable);
 
-	virtual xmUint GetVersion() const;
+		virtual void EndSection();
 
-	virtual void PushVersion(xmUint nVersion);
+		virtual xmUint GetVersion() const;
 
-	virtual xmUint PopVersion();
-	////////////////////
-	
-	virtual bool SerializeByte(xmUint8* pData,xmUint nSizeInByte,const char* pszLable = "Bytes") = 0;
+		virtual void PushVersion(xmUint nVersion);
 
-	//------------------------------------------------------------------------------
-	//
-	//------------------------------------------------------------------------------
-	virtual xmUint Tell() = 0;
+		virtual xmUint PopVersion();
+		////////////////////
+		
+		virtual bool SerializeByte(xmUint8* pData,xmUint nSizeInByte,const char* pszLable = "Bytes") {return false;}
 
-	virtual void Seek(xmUint nPos) = 0;
+		//------------------------------------------------------------------------------
+		//
+		//------------------------------------------------------------------------------
+		virtual xmUint Tell() {return 0;}
 
-	virtual void SkipByte(xmUint nSize) = 0;
-	//------------------------------------------------------------------------------
-	//
-	//------------------------------------------------------------------------------
-	virtual bool IsReading() const = 0;
+		virtual void Seek(xmUint nPos) {}
 
-};
+		virtual void SkipByte(xmUint nSize) {}
+		//------------------------------------------------------------------------------
+		//
+		//------------------------------------------------------------------------------
+		virtual bool IsReading() const {return false;}
+
+	};
 
 
 

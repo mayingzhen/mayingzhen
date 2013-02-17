@@ -14,11 +14,25 @@
 #include "Common/Serialize/SerializeListener.h"
 #include "Common/Serialize/BinaryInputArchive.h"
 #include "Common/Serialize/BinaryOutputArchive.h"
+#include "Common/Serialize/XMLInputArchive.h"
+#include "Common/Serialize/XMLOutputArchive.h"
 
 #include "Common/Data/MeshData.h"
 #include "Common/Data/SkeletonData.h"
 #include "Common/Data/AnimationData.h"
 
+///TinyXMl
+#include "Common/tinyxml/tinyxml.h"
+
+// RTTI
+#include "Common/RTTI/Object.h"
+#include "Common/RTTI/Class.h"
+#include "Common/RTTI/ObjectFactory.h"
+
+// Singleton
+#include "Common/Singleton.h"
+
+#include "Common/ReferenceCountObject.h"
 
 
 template<class T>
@@ -54,9 +68,12 @@ COMMON_API void LogError(xmUint nErrorCode,const char* fmt,...);
 COMMON_API void  xmVec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
 COMMON_API void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
 
+namespace ma
+{
+	COMMON_API void CommonModuleInit();
 
-COMMON_API void CommonModuleInit();
+	COMMON_API void CommonModuleShutdown();
+}
 
-COMMON_API void CommonModuleShutdown();
 
 #endif

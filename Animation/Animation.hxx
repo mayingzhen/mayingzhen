@@ -147,7 +147,7 @@ namespace ma
 
 	void Animation::SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
-		//S3ASSERT(m_bInit);
+		//assert(m_bInit);
 
 		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
 		
@@ -205,7 +205,7 @@ namespace ma
 		if (pAniData == NULL)
 			return;
 	
-		//S3ASSERT(nBoneNum+nSocketNum==nTransfTrackNum);
+		//assert(nBoneNum+nSocketNum==nTransfTrackNum);
 		m_nBoneNum = pAniData->m_nBoneNum;
 		m_nSocketNum = pAniData->m_nSocketNum;
 		UINT nTransfTrackNum = m_nBoneNum + m_nSocketNum;
@@ -276,9 +276,9 @@ namespace ma
 			}
 
 
-			//S3AAnimationHelper::BuildTrack(pScaleTrack,&arrScaleTrack[nTrackCnt]);
-			//S3AAnimationHelper::BuildTrack(pRotTrack,&arrRotTrack[nTrackCnt]);
-			//S3AAnimationHelper::BuildTrack(pPosTrack,&arrPosTrack[nTrackCnt]);
+			//AnimationHelper::BuildTrack(pScaleTrack,&arrScaleTrack[nTrackCnt]);
+			//AnimationHelper::BuildTrack(pRotTrack,&arrRotTrack[nTrackCnt]);
+			//AnimationHelper::BuildTrack(pPosTrack,&arrPosTrack[nTrackCnt]);
 
 			pTracks->m_scale[nTrackCnt] = pScaleTrack;
 			pTracks->m_rot[nTrackCnt] = pRotTrack;
@@ -291,27 +291,27 @@ namespace ma
 // 		for (xmUint nFloatTrackCnt = 0; nFloatTrackCnt < nFloatTrackNum; ++nFloatTrackCnt)
 // 		{
 // 			xmFloatTrack* pFloatTrack = new xmFloatTrack;
-// 			S3AAnimationHelper::BuildTrack(pFloatTrack,&arrFloatTrack[nFloatTrackCnt]);
+// 			AnimationHelper::BuildTrack(pFloatTrack,&arrFloatTrack[nFloatTrackCnt]);
 // 			pTracks->m_float[nFloatTrackCnt] = pFloatTrack;
 // 		}
 
 
 // 
-// 		S3AAnimationHelper::BuildTrack(&pTracks->m_rootMotionScale,pRootMotionScaleTrack);
+// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionScale,pRootMotionScaleTrack);
 // 		if (pTracks->m_rootMotionScale.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionScale.m_arrFrame.push_back(0);
 // 			pTracks->m_rootMotionScale.m_arrValue.push_back(D3DXVECTOR3(1.0f,1.0f,1.0f));
 // 		}
 // 
-// 		S3AAnimationHelper::BuildTrack(&pTracks->m_rootMotionRot,pRootMotionRotTrack);
+// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionRot,pRootMotionRotTrack);
 // 		if (pTracks->m_rootMotionRot.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionRot.m_arrFrame.push_back(0);
 // 			pTracks->m_rootMotionRot.m_arrValue.push_back(D3DXQUATERNION(0.0f,0.0f,0.0f,1.0f));
 // 		}
 // 
-// 		S3AAnimationHelper::BuildTrack(&pTracks->m_rootMotionPos,pRootMotionPosTrack);
+// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionPos,pRootMotionPosTrack);
 // 		if(pTracks->m_rootMotionPos.m_arrFrame.size() == 0)
 // 		{
 // 			pTracks->m_rootMotionPos.m_arrFrame.push_back(0);

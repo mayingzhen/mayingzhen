@@ -20,7 +20,7 @@ namespace ma
 				++nIndexFilled;
 			}
 		}
-		SSERT(nIndexFilled == numIndex); 
+		assert(nIndexFilled == numIndex); 
 	}
 
 	template<class MeshDataType>
@@ -108,7 +108,7 @@ namespace ma
 
 			{
 				DWORD* aAdjacency = new DWORD[pD3DMesh->GetNumFaces() * 3];
-				SSERT(NULL != aAdjacency);
+				assert(NULL != aAdjacency);
 
 				_D3D_V( pD3DMesh->ConvertPointRepsToAdjacency(NULL, aAdjacency) );
 

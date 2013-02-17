@@ -10,7 +10,7 @@ namespace ma
 // 		const char* MapTypeMonoToCRT(const char* pszMonoType);
 // 
 // 		template<class T>
-// 		bool GetField(T* pRet,MonoObject* pObj,S3AName fieldName)
+// 		bool GetField(T* pRet,MonoObject* pObj,Name fieldName)
 // 		{
 //			MonoClass*		pCls = NULL != pObj ? mono_object_get_class(pObj) : NULL;
 //			MonoClassField* pField = NULL != pCls ? mono_class_get_field_from_name(pCls,fieldName.GetName()) : NULL;
@@ -24,7 +24,7 @@ namespace ma
 // 		}
 // 
 // 		template<class T>
-// 		bool SetField(MonoObject* pObj,S3AName fieldName,T* pVal)
+// 		bool SetField(MonoObject* pObj,Name fieldName,T* pVal)
 // 		{
 // 			MonoClass*		pCls = NULL != pObj ? mono_object_get_class(pObj) : NULL;
 //			MonoClassField* pField = NULL != pCls ? mono_class_get_field_from_name(pCls,fieldName.GetName()) : NULL;
@@ -37,7 +37,7 @@ namespace ma
 //			return false;
 // 		}
 // 
-// 		S3AName GetClassName(MonoObject* pObj)
+// 		Name GetClassName(MonoObject* pObj)
 // 		{
 // 			MonoClass* pCls = NULL != pObj ? mono_object_get_class(pObj) : NULL;
 // 			const char* pszClsName = NULL != pCls ? mono_class_get_name(pCls) : NULL;
