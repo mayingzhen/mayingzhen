@@ -224,7 +224,7 @@ void maQuaternionFromAxisToAxis(D3DXQUATERNION* pRot,const D3DXVECTOR3* pAxisFro
 	float fSinAlpha = D3DXVec3Length(&vAxisRot);
 	float fCosAlpha = D3DXVec3Dot(pAxisFrom,pAxisTo);
 	float fAlpha = atan2f(fSinAlpha,fCosAlpha);
-	if ( abs(fSinAlpha - 0.0f) < xm_EPS )
+	if ( abs(fSinAlpha - 0.0f) < F_EPS )
 	{
 		if (fCosAlpha < 0.0f)
 		{

@@ -54,15 +54,10 @@ void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 
 namespace ma
 {
-#define RTTI_DECL(ClassType) \
-	Object* Create_##ClassType() { return new ClassType();}
 
-#include <Common/RTTIDecl.h>
-
+#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
+	#include <Common/RTTIDecl.h>
 #undef RTTI_DECL
-
-#define RTTI_DECL(ClassType) \
-	ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
 
 	void CommonModuleInit()
 	{
@@ -71,7 +66,9 @@ namespace ma
 
 		Object::StaticInitClass();
 
+	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType)
 		#include <Common/RTTIDecl.h>
+	#undef RTTI_DECL
 	}
 
 	void CommonModuleShutdown()

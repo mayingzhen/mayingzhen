@@ -49,7 +49,7 @@ namespace ma
 // 		float fGoalLenPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
 // 
 // 		xmEulerAngleXYZ eOffsetPivotSpace;
-// 		if (fGoalLenPivotSpace > xm_EPS)
+// 		if (fGoalLenPivotSpace > F_EPS)
 // 		{
 // 			D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
 // 			maEulerAngleFromXToAxis(&eOffsetPivotSpace,&vGoalDirPivotSpace);

@@ -168,7 +168,7 @@ namespace ma
 		if (pXMlClass == NULL)
 			return;
 
-		xmSafeDelete(m_pEdScriptObject);
+		SAFE_DELETE(m_pEdScriptObject);
 		m_pEdScriptObject = new EdScriptObject(pXMlClass);
 		m_pActiveScriptObject = m_pEdScriptObject;
 

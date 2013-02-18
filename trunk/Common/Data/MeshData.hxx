@@ -36,8 +36,8 @@ void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 
 void AABBShape::Init()
 {
-	m_vMin = D3DXVECTOR3(xm_FMAX,xm_FMAX,xm_FMAX);
-	m_vMax = D3DXVECTOR3(-xm_FMAX,-xm_FMAX,-xm_FMAX);
+	m_vMin = D3DXVECTOR3(F_MAX,F_MAX,F_MAX);
+	m_vMax = D3DXVECTOR3(-F_MAX,-F_MAX,-F_MAX);
 }
 
 void AABBShape::Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
@@ -151,7 +151,7 @@ void PointerArrayClear(T& arr)
 {
 	for (xmUint nCnt = 0; nCnt < (xmUint)arr.size(); ++nCnt)
 	{
-		xmSafeDelete(arr[nCnt]);
+		SAFE_DELETE(arr[nCnt]);
 	}
 	arr.clear();
 };
@@ -163,7 +163,7 @@ void PointerArrayResize(std::vector<ElementType*>& arr,xmUint nNewSize)
 	xmUint nOldSize = (xmUint)arr.size();
 	for (xmUint nCnt = nNewSize; nCnt < nOldSize; ++nCnt)
 	{
-		xmSafeDelete(arr[nCnt]);
+		SAFE_DELETE(arr[nCnt]);
 	}
 	arr.resize(nNewSize);
 	for (xmUint nCnt = nOldSize; nCnt < nNewSize; ++nCnt)
@@ -520,7 +520,7 @@ void					MeshLODData::ClearSubMesh()
 {
 	for (xmUint nSubMeshCnt = 0; nSubMeshCnt < (xmUint)m_arrSubMesh.size(); ++nSubMeshCnt)
 	{
-		xmSafeDelete(m_arrSubMesh[nSubMeshCnt]);
+		SAFE_DELETE(m_arrSubMesh[nSubMeshCnt]);
 	}
 	m_arrSubMesh.clear();
 }

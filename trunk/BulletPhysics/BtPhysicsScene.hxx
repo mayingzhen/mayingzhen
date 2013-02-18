@@ -38,11 +38,11 @@ namespace ma
 
 	void BulletScene::Stop()
 	{
-		xmSafeDelete(m_pDynamicsWorld);
-		xmSafeDelete(m_pSolver);
-		xmSafeDelete(m_pOverlappingPairCache);
-		xmSafeDelete(m_pDispatcher);
-		xmSafeDelete(m_pCollisionConfiguration);
+		SAFE_DELETE(m_pDynamicsWorld);
+		SAFE_DELETE(m_pSolver);
+		SAFE_DELETE(m_pOverlappingPairCache);
+		SAFE_DELETE(m_pDispatcher);
+		SAFE_DELETE(m_pCollisionConfiguration);
 	}
 
 

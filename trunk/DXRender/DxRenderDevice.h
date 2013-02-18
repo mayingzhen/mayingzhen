@@ -21,6 +21,7 @@ namespace ma
 		IRendTexture* CreateRendTexture();
 
 		LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
+		D3DPRESENT_PARAMETERS* GetD3dPP() {return &m_d3dpp;}
 
 		bool Init(HWND hWnd);
 

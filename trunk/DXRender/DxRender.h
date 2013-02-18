@@ -45,11 +45,24 @@ namespace ma
 	private:
 		void FlushLine();
 
+		void FlushRenderQueue();
+
+		void GBufferPass();
+
 	private:
 		ID3DXEffect* m_pDefault;
 		ID3DXEffect* m_pDefaultSkin;
 		ID3DXEffect* m_pLineShader;
 		
+		// GBuffer
+		ID3DXEffect* m_pGBufferTech;
+		//ID3DXEffect* m_pSkinGBufferTech;
+		LPDIRECT3DTEXTURE9 m_pDepthTex;
+		LPDIRECT3DTEXTURE9 m_pNormalTex;
+
+		float m_fNearClip;
+		float m_fFarClip;
+
 		IDirect3DVertexDeclaration9* m_pPrimitiveVBDesc;
 	
 	};

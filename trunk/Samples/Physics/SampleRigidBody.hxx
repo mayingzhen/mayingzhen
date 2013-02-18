@@ -23,9 +23,7 @@ namespace ma
 		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
 
 		DxRender* pDxRender = (DxRender*)GetRender();
-		pDxRender->InitDefaultShader();
-
-		
+		pDxRender->InitDefaultShader();	
 	}
 
 	void SampleRigidBody::Shutdown()
@@ -92,27 +90,6 @@ namespace ma
 
 			pGameObj->TranslateWS(D3DXVECTOR3(0,-3,0));
 		}
-
-		//m_pScene->Start();
-
-
-		/// 
-		{
-			BinaryOutputArchive arOut;
-			bool bOpenOK = arOut.Open("../Tesx.xml");
-			assert(bOpenOK);
-			m_pScene->Serialize(arOut);
-		}
-
-		{
-			BinaryInputArchive arIn;
-			bool bOpenOK = arIn.Open("../Tesx.xml");
-			assert(bOpenOK);
-			SAFE_DELETE(m_pScene);
-			m_pScene = new Scene(NULL);
-			m_pScene->Serialize(arIn);
-		}
-
 
 		m_pScene->Start();
 	}

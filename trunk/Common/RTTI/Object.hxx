@@ -9,7 +9,7 @@ namespace ma
 	}
 	void Object::StaticShutdownClass()
 	{
-		xmSafeDelete(ms_pObjectClass);
+		SAFE_DELETE(ms_pObjectClass);
 	}
 	const Class*		Object::StaticGetClass()
 	{

@@ -1,6 +1,12 @@
 float4x4 worldviewprojection : worldviewprojection;
 float4x4 worldview : worldview;
 
+#define MAX_SKIN_MATRIX 60
+#define MAX_BLEND_BONE 4
+float4x3    mSkinMatrixArray[MAX_SKIN_MATRIX] : WORLDMATRIXARRAY;
+
+int CurNumBones = 4;
+
 float shininess = 16.0h;
 
 float4 depth_near_far_invfar;
@@ -33,16 +39,50 @@ struct VS_OUT
   	float3 oNormal : TEXCOORD2;	
 };
 
-VS_OUT GBufferVS( float4 pos : POSITION,
+VS_OUT GBufferVS( float3 pos : POSITION,
 				  float3 normal : NORMAL,
          		  float2 texcoord : TEXCOORD0)
 {
 	VS_OUT vout;
-   	vout.oPos = mul(pos, worldviewprojection);
+   	vout.oPos = mul( float4(pos.xyz,1.0f), worldviewprojection);
    	vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
    	vout.oTex = texcoord;
    	vout.oNormal = mul(normal,(float3x3)worldview);
    	return vout;
+}
+
+void SkinPos( float3 pos ,
+					float3 normal,
+			    float4 BlendWeights , 
+					int4 BlendIndices,
+					out float3 sPos,
+					out float3 sNormal)
+{
+	sPos = 0;
+	sNormal = 0;
+  int   IndexArray[4]   = (int[4])BlendIndices; 
+  float WeightArray[4] = (float[4])BlendWeights;
+	for (int iBone = 0; iBone < MAX_BLEND_BONE; ++iBone)
+	{
+		sPos += mul(float4(sPos.xyz, 1.0f), mSkinMatrixArray[IndexArray[iBone]]).xyz * WeightArray[iBone];
+		sNormal += mul(normal, (float3x3)mSkinMatrixArray[IndexArray[iBone]]) * WeightArray[iBone];
+	}
+}
+
+
+VS_OUT SkinGBufferVS( float3 pos : POSITION,
+					  float4 BlendWeights :BLENDWEIGHT, 
+				 	  float4 BlendIndices :BLENDINDICES,
+				 	  float3 normal : NORMAL,
+         		  	  float2 texcoord : TEXCOORD0 )
+{
+	VS_OUT vout = (VS_OUT)0;
+	
+	float3 sPos = 0;
+	float3 sNormal = 0;  
+	SkinPos(pos,normal,BlendWeights,BlendIndices,sPos,sNormal);
+	
+	return GBufferVS(sPos,sNormal,texcoord);
 }
 
 struct PS_OUT
@@ -61,6 +101,18 @@ technique GBufferTech
 	pass P0
 	{
 		VertexShader = compile vs_3_0 GBufferVS();
+		PixelShader = compile ps_3_0 GBufferPS();
+		ZEnable = true;
+		ZWriteEnable = true;
+	}
+}
+
+
+technique SkinGBufferTech
+{
+	pass P0
+	{
+		VertexShader = compile vs_3_0 SkinGBufferVS();
 		PixelShader = compile ps_3_0 GBufferPS();
 		ZEnable = true;
 		ZWriteEnable = true;

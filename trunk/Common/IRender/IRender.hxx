@@ -14,6 +14,27 @@ namespace ma
 		return g_pRender;
 	}
 
+	void IRender::BeginRender()
+	{
+		m_vGeneral.clear();
+		m_vTransparent.clear();
+	}
+
+	void IRender::EndRender()
+	{
+		
+	}
+
+
+	void IRender::DrawMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
+	{
+		IRendITem renderItem;
+		renderItem.m_pMatWorld = pWordMat;
+		renderItem.m_pMesh = pMesh;
+		renderItem.m_pTex = pTexture;
+		m_vGeneral.push_back(renderItem);
+	}
+
 	void IRender::DrawBox(const D3DXMATRIX& wordMat,const D3DXVECTOR3& size, xmUint32 color)
 	{
 		D3DXVECTOR3 vScale;
