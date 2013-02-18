@@ -12,9 +12,9 @@ namespace ma
 	class COMMON_API IRender
 	{
 	public:	
-		virtual void BeginRender() = 0;
+		virtual void BeginRender();
 
-		virtual void EndRender() = 0;
+		virtual void EndRender();
 
 		virtual void RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture) = 0;
 

@@ -56,6 +56,7 @@ namespace ma
 		
 		// GBuffer
 		ID3DXEffect* m_pGBufferTech;
+		ID3DXEffect* m_pShadingTech;
 		//ID3DXEffect* m_pSkinGBufferTech;
 		LPDIRECT3DTEXTURE9 m_pDepthTex;
 		LPDIRECT3DTEXTURE9 m_pNormalTex;

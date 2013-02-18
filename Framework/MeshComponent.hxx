@@ -24,7 +24,7 @@ namespace ma
 		if (m_pMeshRes == NULL || m_pGameObject == NULL)
 			return;
 
-		D3DXMATRIX worldmat = m_pGameObject->GetWorldMatrix();
+		const D3DXMATRIX& worldmat = m_pGameObject->GetWorldMatrix();
 		pRender->RenderMesh( &worldmat, m_pMeshRes->GetRendMesh(), m_pTexture->GetRendTexture() );
 	}
 
