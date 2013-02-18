@@ -95,6 +95,8 @@ namespace ma
 
 	void DxRender::BeginRender()
 	{
+		__super::BeginRender();
+
 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
 		pRenderDevice->BeginRender();
 		//m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
@@ -104,16 +106,74 @@ namespace ma
 	void DxRender::FlushRenderQueue()
 	{
 		GBufferPass();	
+
+		ShadingPass();
+	}
+
+	void DxRender::ShadingPass()
+	{
+		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"ShadingPass");
+
+		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+		
+		HRESULT hr = S_OK;
+
+		pDxDevice->Clear( 0, NULL,
+			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
+			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+
+		D3DXMATRIX matView,matProject;
+		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+		
+		for(UINT i = 0; i < m_vGeneral.size(); ++i)
+		{
+			IRendITem& renderObj = m_vGeneral[i];
+			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
+
+			ID3DXEffect* pCurEffect = m_pShadingTech;
+
+			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
+			{
+				hr = pCurEffect->SetTechnique("SkinShadinTech");
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
+			}
+			else
+			{
+				hr = pCurEffect->SetTechnique("ShadinTech");
+			}
+
+			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
+			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
+			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+			pCurEffect->SetMatrix("worldview",&matWV);
+
+			UINT cPasses = 0; 
+			hr = pCurEffect->Begin(&cPasses, 0 );
+			for (UINT i = 0; i < cPasses; ++i)
+			{
+				hr = pCurEffect->BeginPass(i);
+				hr = pCurEffect->CommitChanges();
+				pDxMesh->GetD3DXMesh()->DrawSubset(0);
+				pCurEffect->EndPass();
+			}	
+			pCurEffect->End();
+		}
+
+
+		D3DPERF_EndEvent();
 	}
 
 	void DxRender::GBufferPass()
 	{
+		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"GBufferPass");
+
  		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
  		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
  
   		HRESULT hr = S_OK;
   
-  		//PROFILE_LABEL_PUSH("RenderGBuffer");
   
   		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
   		pDxDevice->GetRenderTarget(0, &pOldRT0);
@@ -180,11 +240,13 @@ namespace ma
 		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
 		SAFE_RELEASE(pOldRT1);
 
-		//PROFILE_LABEL_POP("RenderGBuffer");
+		D3DPERF_EndEvent();
 	}
 
 	void DxRender::EndRender()
 	{
+		__super::EndRender();
+
 		FlushRenderQueue();
 
 		FlushLine();
@@ -213,6 +275,9 @@ namespace ma
 
 	void DxRender::RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
 	{
+		DrawMesh(pWordMat,pMesh,pTexture);
+		return;
+
 		DxRendMesh* pDxMesh = (DxRendMesh*)pMesh;
 		DxRendTexture* pDxTexure = (DxRendTexture*)(pTexture);
 
