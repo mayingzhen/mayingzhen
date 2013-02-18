@@ -11,6 +11,7 @@ namespace ma
 
 	class FRAMEWORK_API MeshComponent : public Component
 	{
+		DECL_OBJECT(MeshComponent)
 	public:
 		MeshComponent();
 

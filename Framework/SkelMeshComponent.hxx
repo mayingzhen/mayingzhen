@@ -2,6 +2,7 @@
 
 namespace ma
 {
+	IMPL_OBJECT(SkelMeshComponent,Component)
 
 	SkelMeshComponent::SkelMeshComponent()
 	{

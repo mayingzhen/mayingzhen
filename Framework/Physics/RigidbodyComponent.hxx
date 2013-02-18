@@ -4,6 +4,7 @@
 
 namespace ma
 {
+	IMPL_OBJECT(RigidBodyComponent,Component)
 
 	RigidBodyComponent::RigidBodyComponent()
 	{

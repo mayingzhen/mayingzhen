@@ -90,6 +90,10 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
+		if (m_pRootNode == NULL)
+		{
+			m_pRootNode = new SceneNode(this,"RootNode");
+		}
 		m_pRootNode->Serialize(sl);
 	
 		sl.EndSection();

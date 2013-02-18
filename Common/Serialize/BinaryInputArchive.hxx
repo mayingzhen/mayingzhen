@@ -12,6 +12,7 @@ BinaryInputArchive::BinaryInputArchive()
 
 BinaryInputArchive::~BinaryInputArchive()
 {
+	Close();
 }
 
 

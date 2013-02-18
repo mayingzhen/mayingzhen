@@ -2,9 +2,12 @@
 
 namespace ma
 {
+	IMPL_OBJECT(MeshComponent,Component)
+
 	MeshComponent::MeshComponent()
 	{
-
+		m_pMeshRes = NULL;
+		m_pTexture = NULL;
 	}
 
 	MeshComponent::~MeshComponent()
@@ -32,7 +35,8 @@ namespace ma
 
 	void MeshComponent::Start()
 	{
-
+		m_pMeshRes->Load();	
+		m_pTexture->Load();
 	}
 
 	void MeshComponent::Stop()
@@ -62,8 +66,16 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
+		if (m_pMeshRes == NULL)
+		{
+			m_pMeshRes = new MeshRes(NULL);
+		}
 		m_pMeshRes->Serialize(sl);
 
+		if (m_pTexture == NULL)
+		{
+			m_pTexture = new Texture(NULL);
+		}
 		m_pTexture->Serialize(sl);
 
 		sl.EndSection();

@@ -18,6 +18,7 @@ namespace ma
 
 	class FRAMEWORK_API CollisionComponent : public Component
 	{
+		DECL_OBJECT(CollisionComponent)
 	public:
 		CollisionComponent(); 
 
@@ -45,6 +46,7 @@ namespace ma
 
 	class FRAMEWORK_API BoxCollisionComponent : public CollisionComponent
 	{
+		DECL_OBJECT(BoxCollisionComponent)
 	public:
 		BoxCollisionComponent();
 
@@ -65,6 +67,7 @@ namespace ma
 
 	class FRAMEWORK_API SphereCollisionComponent : public CollisionComponent
 	{
+		DECL_OBJECT(SphereCollisionComponent)
 	public:
 		SphereCollisionComponent();
 

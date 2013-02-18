@@ -1,4 +1,4 @@
-#include "Samples/FbxImport/SampleFbxImport.h"
+#include "Samples/Serialize/SampleFbxImport.h"
 #include "Animation/Module.h"
 #include "DXRender/Module.h"
 #include "Serialize/Module.h"

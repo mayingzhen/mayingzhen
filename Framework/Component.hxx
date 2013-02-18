@@ -2,9 +2,11 @@
 
 namespace ma
 {
+	IMPL_OBJECT(Component,Object);
+
 	Component::Component()
 	{
-
+		m_pGameObject = NULL;
 	}
 
 	Component::~Component()

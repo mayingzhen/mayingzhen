@@ -182,14 +182,22 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="FBXImport"
+			Name="Serialize"
 			>
 			<File
-				RelativePath=".\FbxImport\SampleFbxImport.h"
+				RelativePath=".\Serialize\SampleFbxImport.h"
 				>
 			</File>
 			<File
-				RelativePath=".\FbxImport\SampleFbxImport.hxx"
+				RelativePath=".\Serialize\SampleFbxImport.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\SampleSceneSerialize.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\SampleSceneSerialize.hxx"
 				>
 			</File>
 		</Filter>

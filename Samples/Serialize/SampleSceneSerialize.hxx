@@ -1,15 +1,16 @@
-#include "Samples/Physics/SampleRigidBody.h"
+#include "Samples/Serialize/SampleSceneSerialize.h"
 #include "DXRender/Module.h"
 #include "Framework/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma
 {
-	SampleRigidBody::SampleRigidBody()
+	SampleSceneSerialize::SampleSceneSerialize()
 	{
+		m_pScene = NULL;
 	}
 
-	void SampleRigidBody::Init(Application* pApplication)
+	void SampleSceneSerialize::Init(Application* pApplication)
 	{
 		m_vEyePos = D3DXVECTOR3(0, 6, 10);
 		m_fMoveCameraSpeed = 0.20f;
@@ -25,22 +26,22 @@ namespace ma
 		DxRender* pDxRender = (DxRender*)GetRender();
 		pDxRender->InitDefaultShader();
 
-		
+
 	}
 
-	void SampleRigidBody::Shutdown()
+	void SampleSceneSerialize::Shutdown()
 	{
 		FrameWorkModuleShutdown();
 		DxRenderModuleShutdown();
 		BtPhysicsModuleShutdown();
 	}
 
-	void SampleRigidBody::Load()
+	void SampleSceneSerialize::Load()
 	{
 		ma::SceneNode* pRootNode = new SceneNode(NULL,"RootNode");
-		m_pScene = new Scene(pRootNode);
+		ma::Scene* pScene = new Scene(pRootNode);
 
-		m_pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
+		pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
 
 		{
 			GameObject* pGameObj = new GameObject(m_pScene,"physics");
@@ -59,14 +60,14 @@ namespace ma
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
- 			pBoxCollisionShape->SetSize(vSize);
+			pBoxCollisionShape->SetSize(vSize);
 			pBoxCollisionShape->SetTransformLS(tsf);
- 			pGameObj->AddComponent(pBoxCollisionShape);
+			pGameObj->AddComponent(pBoxCollisionShape);
 
-			m_pRigidBodyComp = new RigidBodyComponent();
-			pGameObj->AddComponent(m_pRigidBodyComp);
-			m_pRigidBodyComp->SetUseGravity(false);
-			m_pRigidBodyComp->SetKinematic(true);
+			RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
+			pGameObj->AddComponent(pRigidBodyComp);
+			pRigidBodyComp->SetUseGravity(false);
+			pRigidBodyComp->SetKinematic(true);
 		}
 
 		{
@@ -93,20 +94,16 @@ namespace ma
 			pGameObj->TranslateWS(D3DXVECTOR3(0,-3,0));
 		}
 
-		//m_pScene->Start();
-
-
-		/// 
 		{
 			BinaryOutputArchive arOut;
-			bool bOpenOK = arOut.Open("../Tesx.xml");
+			bool bOpenOK = arOut.Open("../Tesx.scene");
 			assert(bOpenOK);
-			m_pScene->Serialize(arOut);
+			pScene->Serialize(arOut);
 		}
 
 		{
 			BinaryInputArchive arIn;
-			bool bOpenOK = arIn.Open("../Tesx.xml");
+			bool bOpenOK = arIn.Open("../Tesx.scene");
 			assert(bOpenOK);
 			SAFE_DELETE(m_pScene);
 			m_pScene = new Scene(NULL);
@@ -117,22 +114,33 @@ namespace ma
 		m_pScene->Start();
 	}
 
-	void SampleRigidBody::Unload()
+	void SampleSceneSerialize::Unload()
 	{
 
 	}
 
-	void SampleRigidBody::Tick(float timeElapsed)
+	void SampleSceneSerialize::Tick(float timeElapsed)
 	{
 		__super::Tick(timeElapsed);
 
-		if (GetInput()->IsKeyReleased(OIS::KC_G))
+		if (GetInput()->IsKeyReleased(OIS::KC_X))
 		{
-			m_pRigidBodyComp->SetUseGravity(true);
-		}
-		if (GetInput()->IsKeyPressed(OIS::KC_K))
-		{
-			m_pRigidBodyComp->SetKinematic(false);
+			{
+				XMLOutputArchive arOut;
+				bool bOpenOK = arOut.Open("../Tesx.scene.xml");
+				assert(bOpenOK);
+				m_pScene->Serialize(arOut);
+			}
+
+			{
+				XMLInputArchive arIn;
+				bool bOpenOK = arIn.Open("../Tesx.scene.xml");
+				assert(bOpenOK);
+				SAFE_DELETE(m_pScene);
+				m_pScene = new Scene(NULL);
+				m_pScene->Serialize(arIn);
+				m_pScene->Start();
+			}
 		}
 
 		if (m_pScene)
@@ -141,7 +149,7 @@ namespace ma
 		}
 	}
 
-	void SampleRigidBody::Render()
+	void SampleSceneSerialize::Render()
 	{
 		IRender* pRender = ma::GetRender();
 		if (pRender == NULL)
@@ -160,7 +168,7 @@ namespace ma
 		pRender->EndRender();
 	}
 
-	void SampleRigidBody::OnResize(int w,int h)
+	void SampleSceneSerialize::OnResize(int w,int h)
 	{
 
 	}
