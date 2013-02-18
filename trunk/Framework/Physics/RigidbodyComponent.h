@@ -10,6 +10,7 @@ namespace ma
 
 	class FRAMEWORK_API RigidBodyComponent : public Component
 	{
+		DECL_OBJECT(RigidBodyComponent)
 	public:
 		RigidBodyComponent();
 

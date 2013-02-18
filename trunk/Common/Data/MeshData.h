@@ -1,7 +1,7 @@
 #ifndef __MeshData_H__
 #define __MeshData_H__
 
-#include "Common/RTTI/Object.h"
+//#include "Common/RTTI/Object.h"
 
 namespace ma
 {
@@ -35,10 +35,8 @@ namespace ma
 		VT_SKIN_VERTEX_0 = 0,
 	};
 
-	struct COMMON_API VertexType0 : public Object
+	struct COMMON_API VertexType0 
 	{
-		DECL_OBJECT(VertexType0)
-	
 	public:
 		D3DXVECTOR3    p;				// position
 		xmUint32	 b;				// bones
@@ -68,9 +66,8 @@ namespace ma
 		void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 	};
 
-	struct COMMON_API CylinderShape : public Object
+	struct COMMON_API CylinderShape
 	{
-		DECL_OBJECT(CylinderShape)
 	public:
 		float m_fRadius;
 		float m_fHeight;
@@ -79,9 +76,8 @@ namespace ma
 
 	};
 
-	struct COMMON_API BoxShape : public Object
+	struct COMMON_API BoxShape 
 	{
-		DECL_OBJECT(BoxShape)
 	public:
 		float m_fXSize;
 		float m_fYSize;
@@ -91,9 +87,8 @@ namespace ma
 
 	};
 
-	struct COMMON_API AABBShape : public Object
+	struct COMMON_API AABBShape 
 	{
-		DECL_OBJECT(AABBShape)
 	public:
 		D3DXVECTOR3 m_vMin;
 		D3DXVECTOR3 m_vMax;
@@ -105,9 +100,8 @@ namespace ma
 		void AddPoint(const D3DXVECTOR3& v);
 	};
 
-	struct COMMON_API Bounding : public Object
+	struct COMMON_API Bounding 
 	{
-		DECL_OBJECT(Bounding)
 	public:
 		xmUint16			m_nShapeType;
 		D3DXVECTOR3		m_vPos;
@@ -134,9 +128,8 @@ namespace ma
 	};
 
 
-	struct COMMON_API MeshHeader : public Object
+	struct COMMON_API MeshHeader 
 	{
-		DECL_OBJECT(MeshHeader)
 	public:
 		xmUint32		m_nIdent;	 // File Identity = 'S3MD'
 		xmUint32		m_nVersion;	 // ∏Ò Ω∞Ê±æ∫≈
@@ -151,9 +144,8 @@ namespace ma
 
 
 
-	struct COMMON_API SubMeshData : public Object/*: public ISubMeshData*/
+	struct COMMON_API SubMeshData /*: public ISubMeshData*/
 	{
-		DECL_OBJECT(SubMeshData)
 	public:
 		xmUint m_nIndexStart;
 		xmUint m_nIndexCount;
@@ -233,9 +225,8 @@ namespace ma
 	};
 
 
-	struct COMMON_API MeshLODData : public Object /*: public IMeshLODData*/
+	struct COMMON_API MeshLODData /*: public IMeshLODData*/
 	{
-		DECL_OBJECT(MeshLODData)
 	public:
 		std::vector<SubMeshData*> m_arrSubMesh;
 
@@ -306,9 +297,8 @@ namespace ma
 		void					Serialize(SerializeListener& sl,const char* pszLabel = "MeshLodData");
 	};
 
-	struct COMMON_API MeshData : public Object/* : public IMeshData*/
+	struct COMMON_API MeshData /* : public IMeshData*/
 	{
-		DECL_OBJECT(MeshData)
 	public:
 		MeshHeader			m_header;
 

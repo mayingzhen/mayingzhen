@@ -3,7 +3,8 @@
 #include "Samples/SimpleSceneView.hxx"
 
 // Sample
-#include "Samples/FbxImport/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 
@@ -23,7 +24,10 @@ public:
 		SampleRigidBody* pPhysics = new SampleRigidBody();
 		m_vSceneView.push_back(pPhysics);
 
-		m_nCurSceneInde = 2;
+		SampleSceneSerialize* pSceneSerialize = new SampleSceneSerialize();
+		m_vSceneView.push_back(pSceneSerialize);
+
+		m_nCurSceneInde = 3;
 	}
 
 	virtual void Init(int argc, char* argv[])

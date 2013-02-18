@@ -12,11 +12,12 @@ BinaryOutputArchive::BinaryOutputArchive()
 
 BinaryOutputArchive::~BinaryOutputArchive()
 {
+	Close();
 }
 
 bool BinaryOutputArchive::IsReading() const
 {
-	return true;
+	return false;
 }
 // 
 // bool BinaryOutputArchive::Open(const char* pszFilename)
@@ -30,10 +31,10 @@ bool BinaryOutputArchive::IsReading() const
 // }
 // 
 // 
-// void BinaryOutputArchive::Close()
-// {
-// 	m_file.close();
-// }
+void BinaryOutputArchive::Close()
+{
+	m_file.close();
+}
 // 
 // 
 // void BinaryOutputArchive::Serialize(bool& val,const char* pszLable)

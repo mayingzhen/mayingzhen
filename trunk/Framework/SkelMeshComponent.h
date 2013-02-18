@@ -13,6 +13,7 @@ namespace ma
 
 	class FRAMEWORK_API SkelMeshComponent : public Component
 	{
+		DECL_OBJECT(SkelMeshComponent)
 	public:
 		SkelMeshComponent();
 

@@ -6,7 +6,6 @@ namespace ma
 {
 
 
-IMPL_OBJECT(VertexType0,Object)
 void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
 {
 	sl.BeginSection(pszLabel);
@@ -24,7 +23,7 @@ void VertexType0::Serialize(SerializeListener& sl,const char* pszLabel)
 
 }
 
-IMPL_OBJECT(BoxShape,Object)
+
 void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 {
 	sl.BeginSection(pszLabel);
@@ -34,7 +33,7 @@ void BoxShape::Serialize(SerializeListener& sl,const char* pszLabel )
 	sl.EndSection();
 }
 
-IMPL_OBJECT(AABBShape,Object)
+
 void AABBShape::Init()
 {
 	m_vMin = D3DXVECTOR3(xm_FMAX,xm_FMAX,xm_FMAX);
@@ -53,7 +52,7 @@ void AABBShape::AddPoint(const D3DXVECTOR3& v)
 	xmVec3Max(&m_vMax,&v,&m_vMax);
 }
 
-IMPL_OBJECT(CylinderShape,Object)
+
 void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
 {
 	sl.BeginSection(pszLable);
@@ -62,7 +61,7 @@ void CylinderShape::Serialize(SerializeListener& sl, const char* pszLable )
 	sl.EndSection();
 }
 
-IMPL_OBJECT(Bounding,Object)
+
 void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
 {
 	sl.BeginSection(pszLable);
@@ -78,15 +77,14 @@ void Bounding::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		sl.Serialize(m_cylinderShape,"CylinderShape");
 	}
-	else{
-		assert(false && "unknown bounding shape type");
+	else
+	{
+		//assert(false && "unknown bounding shape type");
 	}
 
 	sl.EndSection();
 }
 
-
-IMPL_OBJECT(MeshHeader,Object)
 void MeshHeader::Serialize(SerializeListener& sl,const char* pszLable)
 {
 	sl.BeginSection(pszLable);
@@ -202,7 +200,6 @@ void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char
 	sl.EndSection();
 }
 
-IMPL_OBJECT(SubMeshData,Object)
 SubMeshData::SubMeshData()
 :m_nIndexStart(0)
 ,m_nIndexCount(0)
@@ -409,7 +406,6 @@ void	SubMeshData::Serialize(SerializeListener& sl,const char* pszLabel)
 	sl.EndSection();
 }
 
-IMPL_OBJECT(MeshLODData,Object)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -576,7 +572,6 @@ void	MeshLODData::Serialize(SerializeListener& sl,const char* pszLabel)
 }
 
 
-IMPL_OBJECT(MeshData,Object)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -1064,7 +1059,6 @@ const char*				MeshData::GetSource() const
 //------------------------------------------------------------------------------
 
 
-//IMPL_OBJECT(Bounding,Object)
 void Bounding::SetInvalid()
 {
 	m_nShapeType = BS_UNKNOWN;

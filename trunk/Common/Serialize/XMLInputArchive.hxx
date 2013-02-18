@@ -69,6 +69,17 @@ namespace ma
 	void XMLInputArchive::Close()
 	{
 		m_pCurElem = NULL;
+
+		if (m_strFilename.size() > 0)
+		{
+
+			bool bSaveOK = m_pDoc->SaveFile(m_strFilename.c_str());
+			(void)bSaveOK;
+
+			m_strFilename = "";
+
+			assert(bSaveOK && "Fail to Save File");
+		}
 	}
 
 	TiXmlDocument* XMLInputArchive::GetXMLDocument()

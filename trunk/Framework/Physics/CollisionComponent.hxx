@@ -3,9 +3,12 @@
 
 namespace ma
 {
+	IMPL_OBJECT(CollisionComponent,Component)
+
 	CollisionComponent::CollisionComponent()
 	{
 		m_pCollisionShape = NULL;
+		m_pPhysicsObject = NULL;
 	}
 
 	maNodeTransform CollisionComponent::GetTransformLS() const 
@@ -78,15 +81,17 @@ namespace ma
 			maNodeTransform tsfWS = m_pPhysicsObject->GetTransformWS();
 			maMatrixFromTransform(&worldMatr,&tsfWS);
 		}
-		else
+		else if (m_pGameObject)
 		{
-			worldMatr =  this->GetGameObject()->GetWorldMatrix();
+			worldMatr =  m_pGameObject->GetWorldMatrix();
 		}
 
 		worldMatr = localMatr * worldMatr;
 
 		return worldMatr;
 	}
+
+	IMPL_OBJECT(BoxCollisionComponent,CollisionComponent)
 
 	BoxCollisionComponent::BoxCollisionComponent()
 	{
@@ -147,6 +152,7 @@ namespace ma
 		}
 	}
 
+	IMPL_OBJECT(SphereCollisionComponent,CollisionComponent)
 
 	SphereCollisionComponent::SphereCollisionComponent()
 	{

@@ -121,14 +121,21 @@ namespace ma
 
 	void GameObject::Serialize(SerializeListener& sl, const char* pszLable)
 	{
+		__super::Serialize(sl,pszLable);
+
 		sl.BeginSection(pszLable);
 
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
-		{
-			m_vComponents[i]->Serialize(sl);
-		}
+		sl.SerializeObjectArray(m_vComponents);
 
 		sl.EndSection();
+
+		if ( sl.IsReading() )
+		{
+			for(UINT i = 0; i < m_vComponents.size(); ++i)
+			{
+				m_vComponents[i]->SetGameObject(this);
+			}
+		}
 	}
 }
 

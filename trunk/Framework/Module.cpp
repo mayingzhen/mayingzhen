@@ -35,19 +35,20 @@
 namespace ma
 {
 	// RTTI
-	#define RTTI_DECL(ClassType) \
-		Object* Create_##ClassType() { return new ClassType();}
-
+#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
 	#include <Framework/RTTIDecl.h>
+#undef RTTI_DECL
 
-	#undef RTTI_DECL
-
-	#define RTTI_DECL(ClassType) \
-		ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
 
 	void FrameWorkModuleInit()
 	{
+#define RTTI_DECL(ClassType) ClassType##::StaticInitClass();
 		#include <Framework/RTTIDecl.h>
+#undef RTTI_DECL
+
+#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
+	#include <Framework/RTTIDecl.h>
+#undef RTTI_DECL
 	}
 
 	void FrameWorkModuleShutdown()

@@ -51,22 +51,69 @@ namespace ma
 
 		virtual void Serialize(maNodeTransform& val,const char *pszLable = "NodeTransform");
 
-		//template<class T>
-		//void Serialize(std::vector<T>& val,const char* pszLable = "array");
+		template<class T>
+		void Serialize(std::vector<T>& val,const char* pszLable = "array");
 
 		template<class T>
 		void Serialize(std::vector<T*>& val,const char* pszLable = "array");
 
-		//void Serialize(std::vector<Object*>& vObject, const char* pszLable = "array");
+		template<class T>
+		void Serialize(T& val,const char* pszLable = "")
+		{
+			//Serialize(*this,val,pszLable);
+			val.Serialize(*this,pszLable);
+		}
 
-		//template<class T>
-		//void SerializeArray(std::vector<T>& val,const char* pszLable = "array");
+		void SerializeObjectArray(std::vector<Object*>& vObject, const char* pszLable = "array");
 
-		//template<class T>
-		//void Serialize(T& val,const char* pszLable = "");
+		template<class T>
+		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array")
+		{
+			BeginSection(pszLable);
 
-		//template<class T>
-		//void Serialize(T* val,const char* pszLable = "");
+			xmUint nSize = (xmUint)vObject.size();
+			Serialize(nSize,"size");
+
+			if (nSize != vObject.size())
+			{
+				vObject.resize(nSize);
+			}
+			BeginSection("element");
+
+			for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+			{
+				char buf[32];
+				sprintf(&buf[0],"Element_%u",nCnt);
+				std::string sTypeName;
+				if (vObject[nCnt])
+				{
+					Class* pClass = vObject[nCnt]->GetClass();
+					assert(pClass);
+					if (pClass)
+						sTypeName = pClass->GetName();
+				}
+
+				this->Serialize(sTypeName,"ObjectTypeName");
+
+				if (vObject[nCnt] == NULL)
+				{
+					vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(sTypeName.c_str());
+				}
+
+				vObject[nCnt]->Serialize(*this);
+			}
+			EndSection();
+
+			EndSection();
+		}
+
+// 		template<class T>
+// 		void Serialize(T* val,const char* pszLable = "")
+// 		{
+// 			Serialize(*this,val,pszLable);
+// 			//val->Serialize(this,pszLable);
+// 		}
+
 
 		template<class DataType>
 		void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
@@ -96,127 +143,101 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//
 		//------------------------------------------------------------------------------
-		virtual bool IsReading() const {return false;}
-
+		virtual bool IsReading() const = 0;
 	};
 
 
-
-// template<class T>
-// void Serialize(SerializeListener& pSL, T& val, const char* pszLable)
-// {
-// 	val.Serialize(pSL,pszLable);
-// }
-
-// template<class T>
-// void SerializeListener::Serialize(T& val,const char* pszLable)
-// {
-// 	val.Serialize(*this,pszLable);
-// 	//::Serialize(*this,val,pszLable);
-// }
-
-// template<class T>
-// void Serialize(T& val,const char* pszLable)
-// {
-// 	val.Serialize(sl,pszLable);
-// }
-
-// 
-// 
-// 
-// 
-// 
-// //------------------------------------------------------------------------------
-// //
-// //------------------------------------------------------------------------------
-// 
-// 
-// inline void Serialize(bool &val,const char* pszLable = "bool")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(unsigned char &val,const char* pszLable = "unsigned char")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(unsigned short &val,const char* pszLable = "unsigned short")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(short &val,const char* pszLable = "short")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(unsigned int &val,const char* pszLable = "unsigned in")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(int &val,const char* pszLable = "int")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(unsigned long &val,const char* pszLable = "unsigned in")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(long &val,const char* pszLable = "int")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(xmUint64 &val,const char* pszLable = "bool")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// inline void Serialize(float &val,const char* pszLable = "float")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// 
-// inline void Serialize(std::string &val,const char* pszLable = "string")
-// {
-// 	sl.Serialize(val,pszLable);
-// }
-// 
-// template<class T>
-// void Serialize(T& val,const char* pszLable)
-// {
-// 	val.Serialize(sl,pszLable);
-// }
-// 
-// template<class T>
-// void Serialize(std::vector<T>& val,const char* pszLable = "array")
-// {
-// 	sl.BeginSection(pszLable);
-//     
-// 	xmUint nSize = (xmUint)val.size();
-// 	Serialize(sl,nSize,"size");
-// 	
-// 	if (nSize != val.size())
+// 	template<class T>
+// 	void Serialize(SerializeListener& sl,T& val,const char* pszLable)
 // 	{
-// 		val.resize(nSize);
+// 		val.Serialize(sl,pszLable);
 // 	}
-// 	sl.BeginSection("element");
-//     
-// 	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
-// 	{
-// 		char buf[32];
-// 		sprintf(&buf[0],"Element_%u",nCnt);
-// 		Serialize(sl,val[nCnt],buf);
-// 	}
-// 	sl.EndSection();
-//     
-// 	sl.EndSection();
-// }
+
+
+	template<class T>
+	void SerializeListener::Serialize(std::vector<T>& val,const char* pszLable)
+	{
+		BeginSection(pszLable);
+
+		xmUint nSize = (xmUint)val.size();
+		Serialize(nSize,"size");
+
+		if (nSize != val.size())
+		{
+			val.resize(nSize);
+		}
+		BeginSection("element");
+
+		for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			Serialize(val[nCnt],buf);
+		}
+		EndSection();
+
+		EndSection();
+	}
+
+	template<class T>
+	void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
+	{
+		BeginSection(pszLable);
+
+		xmUint nSize = (xmUint)val.size();
+		Serialize(nSize,"size");
+
+		if (nSize != val.size())
+		{
+			val.resize(nSize);
+		}
+		BeginSection("element");
+
+		for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			if (val[nCnt] == NULL)
+			{
+				val[nCnt] = new T();
+			}
+			//Serialize(val[nCnt],buf);
+			val[nCnt]->Serialize(*this);
+		}
+		EndSection();
+
+		EndSection();
+	}
+
+	template<class DataType>
+	void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* pszLable)
+	{
+		BeginSection(pszLable);
+
+		xmUint nSize = val.size();
+		Serialize(nSize,"size");
+
+		if (nSize != val.size())
+		{
+			val.resize(nSize);
+		}
+
+		BeginSection("element");
+
+		xmUint nDataNum = nSize / sizeof(DataType);
+
+		for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
+		{
+			char buf[64];
+			sprintf_s(&buf[0],64,"Element_%u",nCnt);
+			Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
+		}
+		EndSection();
+
+		EndSection();
+	}
+                                             
+
 
 }
 

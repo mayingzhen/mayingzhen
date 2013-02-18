@@ -165,17 +165,6 @@ void SerializeListener::Serialize(maNodeTransform& val,const char *pszLable)
 	EndSection();
 }
 
-// template<class T>
-// void SerializeListener::Serialize(T& val,const char* pszLable)
-// {
-// 	val.Serialize(*this,pszLable);
-// }
-// 
-// template<class T>
-// void SerializeListener::Serialize(T* val,const char* pszLable)
-// {
-// 	val->Serialize(*this,pszLable);
-// }
 
 // template<class T>
 // void SerializeListener::Serialize(std::vector<T>& val,const char* pszLable)
@@ -200,77 +189,10 @@ void SerializeListener::Serialize(maNodeTransform& val,const char *pszLable)
 // 	EndSection();
 // 
 // 	EndSection();
-// }
-
-template<class T>
-void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
-{
-	BeginSection(pszLable);
-
-	xmUint nSize = (xmUint)val.size();
-	Serialize(nSize,"size");
-
-	if (nSize != val.size())
-	{
-		val.resize(nSize);
-	}
-	BeginSection("element");
-
-	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
-	{
-		char buf[32];
-		sprintf(&buf[0],"Element_%u",nCnt);
-		if (val[nCnt] == NULL)
-		{
-			val[nCnt] = (T*)ObjectFactoryManager::GetInstance().
-				CreateObject(T::StaticGetClass()->GetName());
-			//val[nCnt] = new T();
-			//val[nCnt] = TypeFactory.CreatebyTypeName(T::StaticTypeName());
-		}
-		//Serialize(val[nCnt],buf);
-		val[nCnt]->Serialize(*this);
-	}
-	EndSection();
-
-	EndSection();
-}
-
-
-// void SerializeListener::Serialize(std::vector<Object*>& vObject, const char* pszLable)
-// {
-// 	BeginSection(pszLable);
-// 
-// 	xmUint nSize = (xmUint)vObject.size();
-// 	Serialize(nSize,"size");
-// 	//std::string sTypeName;
-// 
-// 	if (nSize != vObject.size())
-// 	{
-// 		vObject.resize(nSize);
-// 	}
-// 	BeginSection("element");
-// 
-// 	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
-// 	{
-// 		char buf[32];
-// 		sprintf(&buf[0],"Element_%u",nCnt);
-// 		if (vObject[nCnt] == NULL)
-// 		{
-// 			//vObject[nCnt] = new T();
-// 			//val[nCnt] = ObjectFactoryManager::GetInstance().
-// 			//	CreateObject(Object[nCnt]->GetClass()->GetName());
-// 		}
-// 		vObject[nCnt]->Serialize(*this);
-// 		//Serialize(vObject[nCnt],buf);
-// 
-// 	}
-// 	EndSection();
-// 
-// 	EndSection();
-// }
+//}
 
 // template<class T>
-// void SerializeListener::SerializeArray(std::vector<T>& val,const char* pszLable)
+// void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
 // {
 // 	BeginSection(pszLable);
 // 
@@ -287,7 +209,15 @@ void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
 // 	{
 // 		char buf[32];
 // 		sprintf(&buf[0],"Element_%u",nCnt);
+// 		if (val[nCnt] == NULL)
+// 		{
+// 			//val[nCnt] = (T*)ObjectFactoryManager::GetInstance().
+// 			//	CreateObject(T::StaticGetClass()->GetName());
+// 			val[nCnt] = new T();
+// 			//val[nCnt] = TypeFactory.CreatebyTypeName(T::StaticTypeName());
+// 		}
 // 		Serialize(val[nCnt],buf);
+// 		//val[nCnt]->Serialize(*this);
 // 	}
 // 	EndSection();
 // 
@@ -295,29 +225,40 @@ void SerializeListener::Serialize(std::vector<T*>& val,const char* pszLable)
 // }
 
 
-
-template<class DataType>
-void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* pszLable)
+void SerializeListener::SerializeObjectArray(std::vector<Object*>& vObject, const char* pszLable)
 {
 	BeginSection(pszLable);
 
-	xmUint nSize = val.size();
+	xmUint nSize = (xmUint)vObject.size();
 	Serialize(nSize,"size");
 
-	if (nSize != val.size())
+	if (nSize != vObject.size())
 	{
-		val.resize(nSize);
+		vObject.resize(nSize);
 	}
-
 	BeginSection("element");
 
-	xmUint nDataNum = nSize / sizeof(DataType);
-
-	for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
+	for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
 	{
-		char buf[64];
-		sprintf_s(&buf[0],64,"Element_%u",nCnt);
-		Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
+		char buf[32];
+		sprintf(&buf[0],"Element_%u",nCnt);
+		std::string sTypeName;
+		if (vObject[nCnt])
+		{
+			Class* pClass = vObject[nCnt]->GetClass();
+			assert(pClass);
+			if (pClass)
+				sTypeName = pClass->GetName();
+		}
+
+		this->Serialize(sTypeName,"ObjectTypeName");
+		
+		if (vObject[nCnt] == NULL)
+		{
+			vObject[nCnt] = ObjectFactoryManager::GetInstance().CreateObject(sTypeName.c_str());
+		}
+
+		vObject[nCnt]->Serialize(*this);
 	}
 	EndSection();
 
@@ -325,31 +266,32 @@ void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* p
 }
 
 
-
-// bool SerializeListener::SerializeByte(xmUint8* pData,xmUint nSizeInByte,const char* pszLable)
+// template<class DataType>
+// void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* pszLable)
 // {
-// 	Log("Derived class has not implement function 'SerializeByte' yet");
-// 	assert(false);
-// 	return false;
-// }
+// 	BeginSection(pszLable);
 // 
-// xmUint SerializeListener::Tell()
-// {
-// 	Log("Derived class has not implement function 'Tell' yet");
-// 	assert(false);
-// 	return 0;
-// }
+// 	xmUint nSize = val.size();
+// 	Serialize(nSize,"size");
 // 
-// void SerializeListener::Seek(xmUint nPos)
-// {
-// 	Log("Derived class has not implement function 'Seek' yet");
-// 	assert(false);
-// }
+// 	if (nSize != val.size())
+// 	{
+// 		val.resize(nSize);
+// 	}
 // 
-// void SerializeListener::SkipByte(xmUint nSize)
-// {
-// 	Log("Derived class has not implement function 'SkipByte' yet");
-// 	assert(false);
+// 	BeginSection("element");
+// 
+// 	xmUint nDataNum = nSize / sizeof(DataType);
+// 
+// 	for (xmUint nCnt = 0;nCnt < nDataNum; ++nCnt)
+// 	{
+// 		char buf[64];
+// 		sprintf_s(&buf[0],64,"Element_%u",nCnt);
+// 		Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
+// 	}
+// 	EndSection();
+// 
+// 	EndSection();
 // }
 
 

@@ -5,6 +5,8 @@ namespace ma
 {
 	class FRAMEWORK_API Component : public Object
 	{
+		DECL_OBJECT(Component)
+
 	public:
 		Component();
 
