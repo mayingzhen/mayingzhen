@@ -36,7 +36,7 @@
 //#define _D3D_V(x)				{ HRESULT hr = x; if(FAILED(hr)){ _DXTRACE_ERR( L#x,hr); } }
 #define _D3D_V(x)				x
 
-#define assert(x) 
+//#define assert(x) 
 #define ASSERT assert
 
 
@@ -50,35 +50,18 @@ enum EErrorCode
 	_ERR_NUM
 };
 
+#define F_EPS 1.0e-6f
+#define F_MAX 1.0e+6f
+#define FNAN (F_MAX+1.0f)
+#define MIN_NODE_SCALE 0.0001f
 
-#define xm_EPS 1.0e-6f
-#define xm_FMAX 1.0e+6f
-#define xm_FNAN (xm_FMAX+1.0f)
-#define xm_MIN_NODE_SCALE 0.0001f
-
-#define _SAFE_FREE(p)			{ if(p){ free (p); (p) = 0;} }
-
-#define xmSafeDelete(p)			{ if(p){ delete (p); (p) = 0;} }
-
-#define _SAFE_DELETE_ARRAY(p)	{ if(p){ delete [] (p); (p) = 0;} }
-
-#define _SAFE_RELEASE(p)			{ if(p) { (p)->Release(); (p)=NULL; } }
-
-#define _SAFE_SET(r,l)		{ if(l)	{(l)->AddRef();} _SAFE_RELEASE(r); (r) = (l); }
-
-#define _SAFE_INC_REF(p)			{ if(p){ (p)->IncReference();} }
-
-#define _SAFE_DEC_REF(p)			{ if(p){ (p)->DecReference();} (p) = NULL;}
-
-#define _SAFE_SET_REF(pl,pr)		{ _SAFE_INC_REF(pr); _SAFE_DEC_REF(pl); (pl) = (pr);}
-
-
-#define  F_EPS 1.0e-6f
-#define  F_MAX 1.0e+6f
+#define SAFE_SET(r,l)		{ if(l)	{(l)->AddRef();} _SAFE_RELEASE(r); (r) = (l); }
+#define SAFE_INC_REF(p)			{ if(p){ (p)->IncReference();} }
+#define SAFE_DEC_REF(p)			{ if(p){ (p)->DecReference();} (p) = NULL;}
+#define SAFE_SET_REF(pl,pr)		{ SAFE_INC_REF(pr); SAFE_DEC_REF(pl); (pl) = (pr);}
 
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
-#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } 
-
+#define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
 
 #endif

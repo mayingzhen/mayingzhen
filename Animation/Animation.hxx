@@ -162,7 +162,7 @@ namespace ma
 		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
-		//pTSF->m_vLocalScale = pTSF->m_fScale > xm_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : xmVec3Zero();
+		//pTSF->m_vLocalScale = pTSF->m_fScale > F_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : xmVec3Zero();
 
 
 		pAnimTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);

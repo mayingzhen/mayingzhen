@@ -14,7 +14,7 @@ namespace ma
 	XMLOutputArchive::~XMLOutputArchive()
 	{
 		Close();
-		xmSafeDelete(m_pDoc);
+		SAFE_DELETE(m_pDoc);
 		m_pParentElem = NULL;
 
 	}

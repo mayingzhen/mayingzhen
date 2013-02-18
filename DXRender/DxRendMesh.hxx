@@ -113,7 +113,7 @@ namespace ma
 				_D3D_V( pD3DMesh->ConvertPointRepsToAdjacency(NULL, aAdjacency) );
 
 				_D3D_V( pD3DMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE, aAdjacency, NULL, NULL, NULL) );
-				_SAFE_DELETE_ARRAY(aAdjacency);
+				SAFE_DELETE_ARRAY(aAdjacency);
 			}
 
 		}//Create D3DMesh
@@ -151,7 +151,6 @@ namespace ma
 
 		return ppD3DMesh;	
 	}
-
 
 
 	DxRendMesh::DxRendMesh()

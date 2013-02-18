@@ -50,7 +50,8 @@ namespace ma
 	void DxRender::InitDefaultShader()
 	{
 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
-		if (pRenderDevice == NULL || pRenderDevice->GetDXDevive() == NULL)
+		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+		if (pRenderDevice == NULL || pDxDevice == NULL)
 			return;
 
 		DWORD dwShaderFlags = 0;
@@ -59,19 +60,37 @@ namespace ma
 #endif // _DEBUG
 
 		const char* defaultfx = "../bin/shader/Shading.fx";
-		HRESULT hr = D3DXCreateEffectFromFile( pRenderDevice->GetDXDevive(),
+		HRESULT hr = D3DXCreateEffectFromFile( pDxDevice,
 			defaultfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefault, NULL ); 
 
 		const char* defaultSkinfx = "../bin/shader/Shading@Skin.fx";
-		hr = D3DXCreateEffectFromFile( pRenderDevice->GetDXDevive(),
+		hr = D3DXCreateEffectFromFile( pDxDevice,
 			defaultSkinfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefaultSkin, NULL );
 
 		const char* pszLineShader = "../bin/shader/ColorVertex.fx";
-		hr = D3DXCreateEffectFromFile( pRenderDevice->GetDXDevive(), 
+		hr = D3DXCreateEffectFromFile( pDxDevice, 
 			pszLineShader, NULL, NULL, dwShaderFlags, NULL, &m_pLineShader, NULL);
 
+		hr = D3DXCreateEffectFromFile( pDxDevice, 
+			"../bin/shader/Gbuffer.fx", NULL, NULL, dwShaderFlags, NULL, &m_pGBufferTech, NULL);
 
-		pRenderDevice->GetDXDevive()->CreateVertexDeclaration(gs_primtiveVBElem,&m_pPrimitiveVBDesc);
+		//hr = D3DXCreateEffectFromFile( pDxDevice, 
+		//	"../bin/shader/Gbuffer@Skin.fx", NULL, NULL, dwShaderFlags, NULL, &m_pSkinGBufferTech, NULL);
+
+		pDxDevice->CreateVertexDeclaration(gs_primtiveVBElem,&m_pPrimitiveVBDesc);
+
+		D3DPRESENT_PARAMETERS* pD3DPP = pRenderDevice->GetD3dPP();
+		UINT uBackBuffW = pD3DPP->BackBufferWidth;
+		UINT uBackBuffH = pD3DPP->BackBufferHeight;
+
+		hr = pDxDevice->CreateTexture( uBackBuffW, uBackBuffH, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F, 
+			D3DPOOL_DEFAULT, &m_pDepthTex, NULL);
+		assert( SUCCEEDED(hr) && "D3DFMT_R32F Render Target 创建失败" );
+
+		hr = pDxDevice->CreateTexture( uBackBuffW, uBackBuffH, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, 
+			D3DPOOL_DEFAULT, &m_pNormalTex, NULL);
+		assert( SUCCEEDED(hr) && "D3DFMT_A8R8G8B8 Render Target 创建失败" );
+
 	}
 
 	void DxRender::BeginRender()
@@ -82,8 +101,92 @@ namespace ma
 		//m_pd3dDevice->BeginScene();
 	}
 
+	void DxRender::FlushRenderQueue()
+	{
+		GBufferPass();	
+	}
+
+	void DxRender::GBufferPass()
+	{
+ 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
+ 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+ 
+  		HRESULT hr = S_OK;
+  
+  		//PROFILE_LABEL_PUSH("RenderGBuffer");
+  
+  		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
+  		pDxDevice->GetRenderTarget(0, &pOldRT0);
+ 		LPDIRECT3DSURFACE9 pOldRT1 = NULL;
+  		pDxDevice->GetRenderTarget(1, &pOldRT1);
+  
+  		LPDIRECT3DSURFACE9 pSurfDepth = NULL;
+  		hr = m_pDepthTex->GetSurfaceLevel(0,&pSurfDepth);
+  		hr = pDxDevice->SetRenderTarget(0,pSurfDepth);
+  		SAFE_RELEASE(pSurfDepth);
+
+		LPDIRECT3DSURFACE9 pSurfNormal = NULL;
+		hr = m_pNormalTex->GetSurfaceLevel(0,&pSurfNormal);
+		hr = pDxDevice->SetRenderTarget(1,pSurfNormal);
+		SAFE_RELEASE(pSurfNormal)
+
+		pDxDevice->Clear(0, NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+
+		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(m_fNearClip, 
+			m_fFarClip, 1 / m_fFarClip, 0 );
+
+		D3DXMATRIX matView,matProject;
+		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+
+		for(UINT i = 0; i < m_vGeneral.size(); ++i)
+		{
+			IRendITem& renderObj = m_vGeneral[i];
+			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
+
+			ID3DXEffect* pCurEffect = m_pGBufferTech;
+
+			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
+			{
+				hr = pCurEffect->SetTechnique("SkinGBufferTech");
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
+			}
+			else
+			{
+				hr = pCurEffect->SetTechnique("GBufferTech");
+			}
+
+			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
+			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
+			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+			pCurEffect->SetMatrix("worldview",&matWV);
+			pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
+	
+			UINT cPasses = 0; 
+			hr = pCurEffect->Begin(&cPasses, 0 );
+			for (UINT i = 0; i < cPasses; ++i)
+			{
+				hr = pCurEffect->BeginPass(i);
+				hr = pCurEffect->CommitChanges();
+				pDxMesh->GetD3DXMesh()->DrawSubset(0);
+				pCurEffect->EndPass();
+			}	
+			pCurEffect->End();
+		}
+
+		hr = pDxDevice->SetRenderTarget(0, pOldRT0);
+		SAFE_RELEASE(pOldRT0);
+		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
+		SAFE_RELEASE(pOldRT1);
+
+		//PROFILE_LABEL_POP("RenderGBuffer");
+	}
+
 	void DxRender::EndRender()
 	{
+		FlushRenderQueue();
+
 		FlushLine();
 
 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
@@ -142,40 +245,6 @@ namespace ma
 			m_pDefault->EndPass();
 		}	
 		m_pDefault->End();
-
-// 		V( g_pEffect->SetTechnique( pMaterial->hTechnique ) );
-// 		V( g_pEffect->Begin( &cPasses, 0 ) );
-// 
-// 		for( iPass = 0; iPass < cPasses; iPass++ )
-// 		{
-// 			V( g_pEffect->BeginPass( iPass ) );
-// 
-// 			// The effect interface queues up the changes and performs them 
-// 			// with the CommitChanges call. You do not need to call CommitChanges if 
-// 			// you are not setting any parameters between the BeginPass and EndPass.
-// 			// V( g_pEffect->CommitChanges() );
-// 
-// 			// Render the mesh with the applied technique
-// 			V( pMesh->DrawSubset( iSubset ) );
-// 
-// 			V( g_pEffect->EndPass() );
-// 		}
-// 		V( g_pEffect->End() );
-
-		//ID3DXMesh* pD3DXMesh = pDxMesh->GetD3DXMesh();
-		//pDxMesh->Dr	
-		//for (xmUint nSubInd = 0; nSubInd < pDxMesh->GetSubMeshNumber(); ++nSubInd)
-		//{
-
-			//UTMaterial* pMtl = pMeshDX->GetMaterial(nSubInd);
-
-
-			//m_meshShader->SetTexture(pTexDX != NULL ? pTexDX->m_pTexDX : NULL);
-
-			//m_meshShader->CommitChanges();
-
-			//pDxMesh->GetD3DXMesh()->DrawSubset(0/*nSubInd*/);
-		//}
 
 	}
 

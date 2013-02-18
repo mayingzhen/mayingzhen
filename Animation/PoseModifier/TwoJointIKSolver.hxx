@@ -71,12 +71,12 @@ namespace ma
 		maTransformInverse(&pivotATSFInvOS,&pivotATSFOS);
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotATSFInvOS);
 		fGoalDistPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
-		if (fGoalDistPivotSpace > xm_EPS)
+		if (fGoalDistPivotSpace > F_EPS)
 		{
 			D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalDistPivotSpace;
 			D3DXVECTOR3 vGoalDirXY(vGoalDirPivotSpace.x,vGoalDirPivotSpace.y,0.0f);
 			D3DXVECTOR3 fGoalDirXYLen = D3DXVec3Length(&vGoalDirXY);
-			if (fGoalDirXYLen > xm_EPS)
+			if (fGoalDirXYLen > F_EPS)
 			{
 				vGoalDirXY = vGoalDirXY / fGoalDirXYLen;
 				maQuaternionFromAxisToAxis(qConstrainPlanePitchLS,&vGoalDirXY,&vGoalDirPivotSpace);
@@ -108,7 +108,7 @@ namespace ma
 	{
 		float fGoalDist = D3DXVec3Length(pGoal);
 		D3DXVECTOR3 vGoalDir;
-		if (fGoalDist > xm_EPS)
+		if (fGoalDist > F_EPS)
 		{
 			vGoalDir = *pGoal / fGoalDist;
 		}

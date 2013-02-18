@@ -22,7 +22,7 @@
 	}\
 	void ClassName##::StaticShutdownClass(){ \
 	ClassManager::GetInstance().UnRegisterClass(ms_p##ClassName##Class); \
-	xmSafeDelete(ms_p##ClassName##Class);\
+	SAFE_DELETE(ms_p##ClassName##Class);\
 	}\
 	const Class*		ClassName##::StaticGetClass(){\
 	return ms_p##ClassName##Class;\

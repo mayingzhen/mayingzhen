@@ -14,7 +14,7 @@ namespace ma
 
 	XMLInputArchive::~XMLInputArchive()
 	{
-		xmSafeDelete(m_pDoc);
+		SAFE_DELETE(m_pDoc);
 		m_pCurElem = NULL;
 
 	}
