@@ -34,6 +34,8 @@
 
 namespace ma
 {
+	Class SerializeListener;
+
 	class COMMON_API Object : public ReferenceCountObject
 	{
 		DECL_OBJECT(Object)

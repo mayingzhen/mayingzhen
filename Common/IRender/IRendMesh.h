@@ -1,12 +1,13 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
+#include "Common/Resource.h"
 
 namespace ma
 {
 	struct MeshData;
 
-	class COMMON_API IRendMesh 
+	class COMMON_API IRendMesh : public Resource
 	{
 	public:
 		virtual bool InitWithData(MeshData* pMeshData) = 0;

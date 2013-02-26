@@ -206,6 +206,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\RTTIDecl.h"
 				>
 			</File>

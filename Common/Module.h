@@ -21,6 +21,8 @@
 #include "Common/Data/SkeletonData.h"
 #include "Common/Data/AnimationData.h"
 
+#include "Common/Resource.h"
+
 ///TinyXMl
 #include "Common/tinyxml/tinyxml.h"
 
@@ -33,6 +35,7 @@
 #include "Common/Singleton.h"
 
 #include "Common/ReferenceCountObject.h"
+
 
 
 template<class T>
