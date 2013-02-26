@@ -17,6 +17,8 @@
 #include "Common/Data/AnimationData.hxx"
 #include "Common/Data/SkeletonData.hxx"
 
+#include "Common/Resource.hxx"
+
 //TinyXml
 #include "Common/tinyxml/tinyxml.hxx"
 #include "Common/tinyxml/tinystr.hxx"

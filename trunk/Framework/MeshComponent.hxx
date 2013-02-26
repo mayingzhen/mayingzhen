@@ -30,7 +30,7 @@ namespace ma
 
 	void MeshComponent::Update()
 	{
-
+		
 	}
 
 	void MeshComponent::Start()

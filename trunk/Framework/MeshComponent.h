@@ -42,7 +42,7 @@ namespace ma
 	private:
 		MeshRes*		m_pMeshRes;
 		Texture*	m_pTexture;
-
+		
 
 	};
 

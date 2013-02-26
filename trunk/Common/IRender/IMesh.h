@@ -8,7 +8,12 @@
 #ifndef __IMesh_H__
 #define __IMesh_H__
 
-class SerializeListener;
+namespace ma
+{
+	class SerializeListener;
+}
+
+
 class IVertexIterator;
 struct ExpBounding;
 class MeshLODData;
