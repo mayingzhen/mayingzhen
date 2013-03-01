@@ -16,9 +16,11 @@ namespace ma
 	
 		void EndRender();
 
-		IRendMesh* CreateRendMesh();
+		IRendMesh* CreateRendMesh(const char* pResPath);
 
-		IRendTexture* CreateRendTexture();
+		//IRendTexture* CreateRendTexture(const char* pResPath);
+
+		virtual Texture* Load2DTexture(const char* pRespath);
 
 		LPDIRECT3DDEVICE9 GetDXDevive() {return m_pd3dDevice;}
 		D3DPRESENT_PARAMETERS* GetD3dPP() {return &m_d3dpp;}

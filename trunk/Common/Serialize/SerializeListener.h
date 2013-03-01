@@ -60,60 +60,11 @@ namespace ma
 		template<class T>
 		void Serialize(T& val,const char* pszLable = "")
 		{
-			//Serialize(*this,val,pszLable);
 			val.Serialize(*this,pszLable);
 		}
 
-		void SerializeObjectArray(std::vector<Object*>& vObject, const char* pszLable = "array");
-
 		template<class T>
-		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array")
-		{
-			BeginSection(pszLable);
-
-			xmUint nSize = (xmUint)vObject.size();
-			Serialize(nSize,"size");
-
-			if (nSize != vObject.size())
-			{
-				vObject.resize(nSize);
-			}
-			BeginSection("element");
-
-			for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
-			{
-				char buf[32];
-				sprintf(&buf[0],"Element_%u",nCnt);
-				std::string sTypeName;
-				if (vObject[nCnt])
-				{
-					Class* pClass = vObject[nCnt]->GetClass();
-					assert(pClass);
-					if (pClass)
-						sTypeName = pClass->GetName();
-				}
-
-				this->Serialize(sTypeName,"ObjectTypeName");
-
-				if (vObject[nCnt] == NULL)
-				{
-					vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(sTypeName.c_str());
-				}
-
-				vObject[nCnt]->Serialize(*this);
-			}
-			EndSection();
-
-			EndSection();
-		}
-
-// 		template<class T>
-// 		void Serialize(T* val,const char* pszLable = "")
-// 		{
-// 			Serialize(*this,val,pszLable);
-// 			//val->Serialize(this,pszLable);
-// 		}
-
+		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
 
 		template<class DataType>
 		void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
@@ -147,12 +98,46 @@ namespace ma
 	};
 
 
-// 	template<class T>
-// 	void Serialize(SerializeListener& sl,T& val,const char* pszLable)
-// 	{
-// 		val.Serialize(sl,pszLable);
-// 	}
+	template<class T>
+	void SerializeListener::SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable)
+	{
+		BeginSection(pszLable);
 
+		xmUint nSize = (xmUint)vObject.size();
+		Serialize(nSize,"size");
+
+		if (nSize != vObject.size())
+		{
+			vObject.resize(nSize);
+		}
+		BeginSection("element");
+
+		for (xmUint nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			std::string sTypeName;
+			if (vObject[nCnt])
+			{
+				Class* pClass = vObject[nCnt]->GetClass();
+				assert(pClass);
+				if (pClass)
+					sTypeName = pClass->GetName();
+			}
+
+			this->Serialize(sTypeName,"ObjectTypeName");
+
+			if (vObject[nCnt] == NULL)
+			{
+				vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(sTypeName.c_str());
+			}
+
+			vObject[nCnt]->Serialize(*this);
+		}
+		EndSection();
+
+		EndSection();
+	}
 
 	template<class T>
 	void SerializeListener::Serialize(std::vector<T>& val,const char* pszLable)

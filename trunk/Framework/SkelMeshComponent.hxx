@@ -60,12 +60,12 @@ namespace ma
 			if (m_vMeshComp[i] == NULL)
 				continue;
 			
-			MeshRes* pMeshRes = m_vMeshComp[i]->GetMeshRes();
-			Texture* pTexture = m_vMeshComp[i]->GetTexture();
+			IRendMesh* pMeshRes = m_vMeshComp[i]->GetMeshRes();
+			IRendTexture* pTexture = m_vMeshComp[i]->GetTexture();
 			if (pMeshRes == NULL)
 				continue;
 			
-			pRender->RenderSkelMesh(arrSkinMatrix,nBoneNum,&worldmat,pMeshRes->GetRendMesh(),pTexture->GetRendTexture());
+			pRender->RenderSkelMesh(arrSkinMatrix,nBoneNum,&worldmat,pMeshRes,pTexture);
 		}
 	}
 

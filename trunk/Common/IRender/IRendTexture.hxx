@@ -8,12 +8,7 @@ namespace ma
 	class COMMON_API IRendTexture : public Resource
 	{
 	public:
-		IRendTexture(const char* resPath):Resource(resPath)
-		{
-
-		}
-
-		virtual bool Load() = 0;
+		virtual bool Load(const char* resPath) = 0;
 	};
 }
 

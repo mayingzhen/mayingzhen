@@ -249,10 +249,6 @@
 				Name="IRender"
 				>
 				<File
-					RelativePath=".\IRender\IMesh.h"
-					>
-				</File>
-				<File
 					RelativePath=".\IRender\IRender.h"
 					>
 				</File>
@@ -418,6 +414,62 @@
 				</File>
 				<File
 					RelativePath=".\RTTI\ObjectFactory.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="RenderSystem"
+				>
+				<File
+					RelativePath=".\RenderSystem\IndexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Material.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Material.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Mesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Mesh.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\PrimtiveStream.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\PrimtiveStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\RenderDefine.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\Texture.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\VertexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\VertexDeclaration.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderSystem\VertexDeclaration.hxx"
 					>
 				</File>
 			</Filter>

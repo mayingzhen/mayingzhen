@@ -15,14 +15,22 @@ namespace ma
 
 	}
 
-	IRendMesh* DxRenderDevice::CreateRendMesh()
+	IRendMesh* DxRenderDevice::CreateRendMesh(const char* pResPath)
 	{
-		return new DxRendMesh();
+		return new DxRendMesh(pResPath);
 	}
 
-	IRendTexture* DxRenderDevice::CreateRendTexture()
+// 	Texture* DxRenderDevice::CreateRendTexture(const char* pResPath)
+// 	{
+// 		return new D3D9Texture(m_pd3dDevice);
+// 	}
+
+	Texture* DxRenderDevice::Load2DTexture(const char* pRespath)
 	{
-		return new DxRendTexture();
+		D3D9Texture* pD3D9Texture = new D3D9Texture(m_pd3dDevice);
+		pD3D9Texture->SetResPath(pRespath);
+		pD3D9Texture->Load();
+		return pD3D9Texture;
 	}
 
 	bool DxRenderDevice::Init(HWND hWnd)

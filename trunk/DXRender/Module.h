@@ -7,6 +7,12 @@
 #include "DXRender/DxRendMesh.h"
 #include "DxRender/DxRendTexture.h"
 
+#include "MWD3D9IndexBuffer.h"
+#include "MWD3D9VertexBuffer.h"
+#include "MWD3D9Texture.h"
+#include "MWD3D9Mapping.h"
+#include "MWD3D9VertexDeclaration.h"
+
 
 DXRENDER_API void DxRenderModuleInit();
 

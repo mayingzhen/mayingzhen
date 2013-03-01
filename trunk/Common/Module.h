@@ -36,6 +36,16 @@
 
 #include "Common/ReferenceCountObject.h"
 
+// RenderSystem
+#include "Common/RenderSystem/Texture.h"
+#include "Common/RenderSystem/IndexBuffer.h"
+#include "Common/RenderSystem/VertexBuffer.h"
+#include "Common/RenderSystem/Material.h"
+#include "Common/RenderSystem/Mesh.h"
+#include "Common/RenderSystem/PrimtiveStream.h"
+#include "Common/RenderSystem/RenderDefine.h"
+#include "Common/RenderSystem/VertexDeclaration.h"
+
 
 
 template<class T>
