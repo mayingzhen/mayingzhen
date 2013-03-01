@@ -226,6 +226,46 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MWD3D9IndexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9IndexBuffer.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9Mapping.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9Mapping.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9Texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9Texture.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9VertexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9VertexBuffer.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9VertexDeclaration.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MWD3D9VertexDeclaration.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration

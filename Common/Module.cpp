@@ -32,6 +32,12 @@
 
 #include "Common/ReferenceCountObject.hxx"
 
+#include "Common/RenderSystem/Texture.hxx"
+#include "Common/RenderSystem/Material.hxx"
+#include "Common/RenderSystem/Mesh.hxx"
+#include "Common/RenderSystem/PrimtiveStream.hxx"
+#include "Common/RenderSystem/VertexDeclaration.hxx"
+
 using namespace ma;
 
 

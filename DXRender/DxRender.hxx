@@ -114,52 +114,52 @@ namespace ma
 	{
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"ShadingPass");
 
-		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
-		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-		
-		HRESULT hr = S_OK;
-
-		pDxDevice->Clear( 0, NULL,
-			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
-			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
-
-		D3DXMATRIX matView,matProject;
-		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		
-		for(UINT i = 0; i < m_vGeneral.size(); ++i)
-		{
-			IRendITem& renderObj = m_vGeneral[i];
-			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
-
-			ID3DXEffect* pCurEffect = m_pShadingTech;
-
-			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
-			{
-				hr = pCurEffect->SetTechnique("SkinShadinTech");
-				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
-			}
-			else
-			{
-				hr = pCurEffect->SetTechnique("ShadinTech");
-			}
-
-			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
-			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
-			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-			pCurEffect->SetMatrix("worldview",&matWV);
-
-			UINT cPasses = 0; 
-			hr = pCurEffect->Begin(&cPasses, 0 );
-			for (UINT i = 0; i < cPasses; ++i)
-			{
-				hr = pCurEffect->BeginPass(i);
-				hr = pCurEffect->CommitChanges();
-				pDxMesh->GetD3DXMesh()->DrawSubset(0);
-				pCurEffect->EndPass();
-			}	
-			pCurEffect->End();
-		}
+// 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
+// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+// 		
+// 		HRESULT hr = S_OK;
+// 
+// 		pDxDevice->Clear( 0, NULL,
+// 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
+// 			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+// 
+// 		D3DXMATRIX matView,matProject;
+// 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+// 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+// 		
+// 		for(UINT i = 0; i < m_vGeneral.size(); ++i)
+// 		{
+// 			IRendITem& renderObj = m_vGeneral[i];
+// 			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
+// 
+// 			ID3DXEffect* pCurEffect = m_pShadingTech;
+// 
+// 			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
+// 			{
+// 				hr = pCurEffect->SetTechnique("SkinShadinTech");
+// 				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
+// 			}
+// 			else
+// 			{
+// 				hr = pCurEffect->SetTechnique("ShadinTech");
+// 			}
+// 
+// 			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
+// 			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
+// 			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+// 			pCurEffect->SetMatrix("worldview",&matWV);
+// 
+// 			UINT cPasses = 0; 
+// 			hr = pCurEffect->Begin(&cPasses, 0 );
+// 			for (UINT i = 0; i < cPasses; ++i)
+// 			{
+// 				hr = pCurEffect->BeginPass(i);
+// 				hr = pCurEffect->CommitChanges();
+// 				pDxMesh->GetD3DXMesh()->DrawSubset(0);
+// 				pCurEffect->EndPass();
+// 			}	
+// 			pCurEffect->End();
+// 		}
 
 
 		D3DPERF_EndEvent();
@@ -169,76 +169,76 @@ namespace ma
 	{
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"GBufferPass");
 
- 		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
- 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
- 
-  		HRESULT hr = S_OK;
-  
-  
-  		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
-  		pDxDevice->GetRenderTarget(0, &pOldRT0);
- 		LPDIRECT3DSURFACE9 pOldRT1 = NULL;
-  		pDxDevice->GetRenderTarget(1, &pOldRT1);
-  
-  		LPDIRECT3DSURFACE9 pSurfDepth = NULL;
-  		hr = m_pDepthTex->GetSurfaceLevel(0,&pSurfDepth);
-  		hr = pDxDevice->SetRenderTarget(0,pSurfDepth);
-  		SAFE_RELEASE(pSurfDepth);
-
-		LPDIRECT3DSURFACE9 pSurfNormal = NULL;
-		hr = m_pNormalTex->GetSurfaceLevel(0,&pSurfNormal);
-		hr = pDxDevice->SetRenderTarget(1,pSurfNormal);
-		SAFE_RELEASE(pSurfNormal)
-
-		pDxDevice->Clear(0, NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
-			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
-
-		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(m_fNearClip, 
-			m_fFarClip, 1 / m_fFarClip, 0 );
-
-		D3DXMATRIX matView,matProject;
-		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-
-		for(UINT i = 0; i < m_vGeneral.size(); ++i)
-		{
-			IRendITem& renderObj = m_vGeneral[i];
-			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
-
-			ID3DXEffect* pCurEffect = m_pGBufferTech;
-
-			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
-			{
-				hr = pCurEffect->SetTechnique("SkinGBufferTech");
-				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
-			}
-			else
-			{
-				hr = pCurEffect->SetTechnique("GBufferTech");
-			}
-
-			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
-			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
-			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-			pCurEffect->SetMatrix("worldview",&matWV);
-			pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
-	
-			UINT cPasses = 0; 
-			hr = pCurEffect->Begin(&cPasses, 0 );
-			for (UINT i = 0; i < cPasses; ++i)
-			{
-				hr = pCurEffect->BeginPass(i);
-				hr = pCurEffect->CommitChanges();
-				pDxMesh->GetD3DXMesh()->DrawSubset(0);
-				pCurEffect->EndPass();
-			}	
-			pCurEffect->End();
-		}
-
-		hr = pDxDevice->SetRenderTarget(0, pOldRT0);
-		SAFE_RELEASE(pOldRT0);
-		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
-		SAFE_RELEASE(pOldRT1);
+//  		DxRenderDevice* pRenderDevice = (DxRenderDevice*)GetRenderDevice();
+//  		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+//  
+//   		HRESULT hr = S_OK;
+//   
+//   
+//   		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
+//   		pDxDevice->GetRenderTarget(0, &pOldRT0);
+//  		LPDIRECT3DSURFACE9 pOldRT1 = NULL;
+//   		pDxDevice->GetRenderTarget(1, &pOldRT1);
+//   
+//   		LPDIRECT3DSURFACE9 pSurfDepth = NULL;
+//   		hr = m_pDepthTex->GetSurfaceLevel(0,&pSurfDepth);
+//   		hr = pDxDevice->SetRenderTarget(0,pSurfDepth);
+//   		SAFE_RELEASE(pSurfDepth);
+// 
+// 		LPDIRECT3DSURFACE9 pSurfNormal = NULL;
+// 		hr = m_pNormalTex->GetSurfaceLevel(0,&pSurfNormal);
+// 		hr = pDxDevice->SetRenderTarget(1,pSurfNormal);
+// 		SAFE_RELEASE(pSurfNormal)
+// 
+// 		pDxDevice->Clear(0, NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+// 			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+// 
+// 		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(m_fNearClip, 
+// 			m_fFarClip, 1 / m_fFarClip, 0 );
+// 
+// 		D3DXMATRIX matView,matProject;
+// 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+// 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+// 
+// 		for(UINT i = 0; i < m_vGeneral.size(); ++i)
+// 		{
+// 			IRendITem& renderObj = m_vGeneral[i];
+// 			DxRendMesh* pDxMesh = (DxRendMesh*)renderObj.m_pMesh;
+// 
+// 			ID3DXEffect* pCurEffect = m_pGBufferTech;
+// 
+// 			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
+// 			{
+// 				hr = pCurEffect->SetTechnique("SkinGBufferTech");
+// 				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
+// 			}
+// 			else
+// 			{
+// 				hr = pCurEffect->SetTechnique("GBufferTech");
+// 			}
+// 
+// 			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
+// 			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
+// 			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+// 			pCurEffect->SetMatrix("worldview",&matWV);
+// 			pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
+// 	
+// 			UINT cPasses = 0; 
+// 			hr = pCurEffect->Begin(&cPasses, 0 );
+// 			for (UINT i = 0; i < cPasses; ++i)
+// 			{
+// 				hr = pCurEffect->BeginPass(i);
+// 				hr = pCurEffect->CommitChanges();
+// 				pDxMesh->GetD3DXMesh()->DrawSubset(0);
+// 				pCurEffect->EndPass();
+// 			}	
+// 			pCurEffect->End();
+// 		}
+// 
+// 		hr = pDxDevice->SetRenderTarget(0, pOldRT0);
+// 		SAFE_RELEASE(pOldRT0);
+// 		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
+// 		SAFE_RELEASE(pOldRT1);
 
 		D3DPERF_EndEvent();
 	}
@@ -271,6 +271,11 @@ namespace ma
 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
 
 		pDxDevice->SetTransform(D3DTS_PROJECTION,projMatrix);
+	}
+
+	virtual void DxRender::RenderMesh(const D3DXMATRIX* pWordMat,const Mesh* pMesh)
+	{
+
 	}
 
 	void DxRender::RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)

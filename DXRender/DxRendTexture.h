@@ -8,11 +8,11 @@ namespace ma
 	class DXRENDER_API DxRendTexture : public IRendTexture
 	{
 	public:
-		DxRendTexture();
+		DxRendTexture(const char* resPath);
 
 		~DxRendTexture();
 
-		bool Load(const char* resPath);
+		virtual bool Load();
 
 		IDirect3DTexture9* GetD3DTexture() {return m_pD3DTex;}
 		

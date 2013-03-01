@@ -437,7 +437,6 @@ namespace ma
 		void					Serialize(SerializeListener& sl,const char* pszLabel = "MeshData");
 
 	};
-
 }
 
 #endif// __MeshData_H__ 

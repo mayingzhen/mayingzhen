@@ -2,7 +2,8 @@
 
 namespace ma
 {
-	DxRendTexture::DxRendTexture()
+	DxRendTexture::DxRendTexture(const char* resPath):
+	IRendTexture(resPath)
 	{
 		m_pD3DTex = NULL;
 	}
@@ -12,10 +13,10 @@ namespace ma
 
 	}
 
-	bool DxRendTexture::Load(const char* resPath)
+	bool DxRendTexture::Load()
 	{
 		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
-		HRESULT hr = D3DXCreateTextureFromFile(pDxRenderDevice->GetDXDevive(), resPath, &m_pD3DTex);
+		HRESULT hr = D3DXCreateTextureFromFile(pDxRenderDevice->GetDXDevive(), m_sResPath.c_str(), &m_pD3DTex);
 
 		return hr == D3D_OK;
 	}

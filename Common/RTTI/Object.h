@@ -1,8 +1,9 @@
 #ifndef  _Object__H__
 #define  _Object__H__
 
-#include <Common/ReferenceCountObject.h>
-#include <Common/RTTI/Class.h>
+#include "Common/ReferenceCountObject.h"
+#include "Common/RTTI/Class.h"
+#include "Common/Serialize/SerializeListener.h"
 
 
 #define DECL_OBJECT(ClassName) private:\
@@ -34,7 +35,7 @@
 
 namespace ma
 {
-	Class SerializeListener;
+	//Class SerializeListener;
 
 	class COMMON_API Object : public ReferenceCountObject
 	{

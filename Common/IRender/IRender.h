@@ -16,6 +16,8 @@ namespace ma
 
 		virtual void EndRender();
 
+		//virtual void RenderMesh(const D3DXMATRIX* pWordMat,const Mesh* pMesh) = 0;
+
 		virtual void RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture) = 0;
 
 		virtual void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,

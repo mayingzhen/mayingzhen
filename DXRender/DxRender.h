@@ -31,6 +31,8 @@ namespace ma
 
 		void EndRender();
 
+		virtual void RenderMesh(const D3DXMATRIX* pWordMat,const Mesh* pMesh);
+
 		void RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture);
 
 		void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,xmUint nSkinMaxtrixNum,
@@ -47,7 +49,9 @@ namespace ma
 
 		void FlushRenderQueue();
 
-		void GBufferPass();
+		void GBufferPass();	
+
+		void ShadingPass();
 
 	private:
 		ID3DXEffect* m_pDefault;

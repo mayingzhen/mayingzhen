@@ -25,7 +25,7 @@ namespace ma
 			return;
 
 		const D3DXMATRIX& worldmat = m_pGameObject->GetWorldMatrix();
-		pRender->RenderMesh( &worldmat, m_pMeshRes->GetRendMesh(), m_pTexture->GetRendTexture() );
+		pRender->RenderMesh( &worldmat, m_pMeshRes, m_pTexture );
 	}
 
 	void MeshComponent::Update()
@@ -46,37 +46,42 @@ namespace ma
 
 	void MeshComponent::Load(const char* pszMeshPath,const char* pszTexPath)
 	{
-		m_pMeshRes = new MeshRes(pszMeshPath);
+		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
+		if (pRenderDevice == NULL)
+			return;
+
+		m_pMeshRes = pRenderDevice->CreateRendMesh(pszMeshPath);
 		m_pMeshRes->Load();
 
-		m_pTexture = new Texture(pszTexPath);
-		m_pTexture->Load();
+		//m_pTexture = pRenderDevice->CreateRendTexture(pszTexPath);
+		//m_pTexture->Load();
 	}	
 
 	void MeshComponent::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax)
 	{
-		IRendMesh* pRendMesh = m_pMeshRes->GetRendMesh();
-		if (pRendMesh == NULL)
-			return;
-
-		pRendMesh->GetBoundingAABB(vMin,vMax);
+		if (m_pMeshRes)
+			m_pMeshRes->GetBoundingAABB(vMin,vMax);
 	}
 
 	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
 	{
+		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
+		if (pRenderDevice == NULL)
+			return;
+
 		sl.BeginSection(pszLable);
 
 		if (m_pMeshRes == NULL)
 		{
-			m_pMeshRes = new MeshRes(NULL);
+			m_pMeshRes = pRenderDevice->CreateRendMesh(NULL);
 		}
 		m_pMeshRes->Serialize(sl);
 
 		if (m_pTexture == NULL)
 		{
-			m_pTexture = new Texture(NULL);
+			//m_pTexture = pRenderDevice->CreateRendTexture(NULL);
 		}
-		m_pTexture->Serialize(sl);
+		//m_pTexture->Serialize(sl);
 
 		sl.EndSection();
 	}

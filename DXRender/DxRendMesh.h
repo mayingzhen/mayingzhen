@@ -8,12 +8,6 @@ namespace ma
 	class DXRENDER_API DxRendMesh : public IRendMesh
 	{
 	public:
-		DxRendMesh();
-
-		~DxRendMesh();
-
-		//bool Load(const char* pszPath);
-
 		ID3DXMesh* GetD3DXMesh() {return m_ppD3DMesh[0];}
 		
 		MeshData* GetMeshData() {return m_pMeshData;}

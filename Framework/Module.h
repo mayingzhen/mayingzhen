@@ -13,11 +13,11 @@
 #include "Framework/SkelMeshComponent.h"
 
 // Resource
-#include "Framework/Resource.h"
-#include "Framework/MeshRes.h"
-#include "Framework/SkeletonRes.h"
-#include "Framework/Texture.h"
-#include "Framework/AnimationRes.h"
+// #include "Framework/Resource.h"
+// #include "Framework/MeshRes.h"
+// #include "Framework/SkeletonRes.h"
+// #include "Framework/Texture.h"
+// #include "Framework/AnimationRes.h"
 
 // Physics
 #include "Framework/Physics/ICharacterController.h"

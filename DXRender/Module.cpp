@@ -6,6 +6,12 @@
 #include "DXRender/DxRendMesh.hxx"
 #include "DXRender/DxRendTexture.hxx"
 
+#include "MWD3D9IndexBuffer.hxx"
+#include "MWD3D9VertexBuffer.hxx"
+#include "MWD3D9Texture.hxx"
+#include "MWD3D9Mapping.hxx"
+#include "MWD3D9VertexDeclaration.hxx"
+
 void DxRenderModuleInit()
 {
 	ma::DxRenderDevice* pDxRenderDevice = new ma::DxRenderDevice();

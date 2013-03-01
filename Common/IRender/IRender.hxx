@@ -30,8 +30,8 @@ namespace ma
 	{
 		IRendITem renderItem;
 		renderItem.m_pMatWorld = pWordMat;
-		renderItem.m_pMesh = pMesh;
-		renderItem.m_pTex = pTexture;
+		//renderItem.m_pMesh = pMesh;
+		//renderItem.m_pTex = pTexture;
 		m_vGeneral.push_back(renderItem);
 	}
 
