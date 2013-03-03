@@ -26,10 +26,6 @@ namespace ma
 
 		void InitWithData(AnimationData* pAniData);
 
-		bool ConverteAnimDataParentToLocalSpaceAnimation(Skeleton* pSkel);
-
-		bool ConverteAnimDataObjectToLocalSpaceAnimation(Skeleton* pSkel);
-
 		UINT GetTansfTrackNumber() {return m_arrTransfTrackName.size();}
 
 		const char* GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}

@@ -1,11 +1,10 @@
-#include "Samples/Animation/PartialAnimation/PartialAnimation.h"
+#include "SampleAnimationTree.h"
 #include "Animation/Module.h"
 #include "DXRender/Module.h"
-#include "Serialize/Module.h"
 
 namespace ma
 {
-	SamplePartialAnimation::SamplePartialAnimation()
+	SampleAnimationTree::SampleAnimationTree()
 	{
 		m_pAnimtionPlay = NULL;
 
@@ -16,7 +15,7 @@ namespace ma
 		m_pRendTexture = NULL;
 	}
 
-	void SamplePartialAnimation::Init(Application* pApplication)
+	void SampleAnimationTree::Init(Application* pApplication)
 	{
 		SimpleSceneView::Init(pApplication);
 
@@ -31,13 +30,13 @@ namespace ma
 
 	}
 
-	void SamplePartialAnimation::Shutdown()
+	void SampleAnimationTree::Shutdown()
 	{
 		DxRenderModuleShutdown();
 		AnimationModuleShutdown();
 	}
 
-	void SamplePartialAnimation::Load()
+	void SampleAnimationTree::Load()
 	{
 // 		FBXImporter fbxImpor;
 // 		fbxImpor.Initialize();
@@ -69,12 +68,12 @@ namespace ma
 		m_pAnimtionPlay->PlayAnimation(pAction);
 	}
 
-	void SamplePartialAnimation::Unload()
+	void SampleAnimationTree::Unload()
 	{
 
 	}
 
-	void SamplePartialAnimation::Tick(float timeElapsed)
+	void SampleAnimationTree::Tick(float timeElapsed)
 	{
 		if (ma::GetTimer() == NULL)
 			return;
@@ -86,7 +85,7 @@ namespace ma
 		m_pAnimtionPlay->EvaluateAnimation(1.0f);
 	}
 
-	void SamplePartialAnimation::Render()
+	void SampleAnimationTree::Render()
 	{
 		IRender* pRender = ma::GetRender();
 		if (pRender == NULL)
@@ -124,7 +123,7 @@ namespace ma
 		pRender->EndRender();
 	}
 
-	void SamplePartialAnimation::OnResize(int w,int h)
+	void SampleAnimationTree::OnResize(int w,int h)
 	{
 
 	}

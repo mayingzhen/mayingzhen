@@ -1,5 +1,5 @@
-#ifndef _Sample_PartialAnimation_H_
-#define _Sample_PartialAnimation_H_
+#ifndef _Sample_AnimationTree_H_
+#define _Sample_AnimationTree_H_
 
 namespace ma
 {
@@ -8,10 +8,10 @@ namespace ma
 	class IRendMesh;
 	class IRendTexture;
 
-	class SamplePartialAnimation : public SimpleSceneView
+	class SampleAnimationTree : public SimpleSceneView
 	{
 	public:
-		SamplePartialAnimation();
+		SampleAnimationTree();
 
 		virtual void Init(Application* pApplication);
 
