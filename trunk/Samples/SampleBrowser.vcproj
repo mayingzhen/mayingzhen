@@ -192,26 +192,10 @@
 				RelativePath=".\Serialize\SampleFbxImport.hxx"
 				>
 			</File>
-			<File
-				RelativePath=".\Serialize\SampleSceneSerialize.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Serialize\SampleSceneSerialize.hxx"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Physics"
 			>
-			<File
-				RelativePath=".\Physics\SampleCharaControl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Physics\SampleCharaControl.hxx"
-				>
-			</File>
 			<File
 				RelativePath=".\Physics\SampleRigidBody.h"
 				>
@@ -224,14 +208,6 @@
 		<Filter
 			Name="Script"
 			>
-			<File
-				RelativePath=".\Script\SampleMonoScript.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Script\SampleMonoScript.hxx"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"
