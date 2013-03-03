@@ -7,12 +7,6 @@
 #include "Framework/GameObj.hxx"
 #include "Framework/Camera.hxx"
 
-// Resource
-// #include "Framework/Resource.hxx"
-// #include "Framework/MeshRes.hxx"
-// #include "Framework/SkeletonRes.hxx"
-// #include "Framework/Texture.hxx"
-// #include "Framework/AnimationRes.hxx"
 
 // Component
 #include "Framework/Component.hxx"
@@ -56,3 +50,4 @@ namespace ma
 
 	}
 }
+

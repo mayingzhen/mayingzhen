@@ -11,7 +11,7 @@ namespace ma
 
 		D3DXQUATERNION	m_qPivotLS;
 
-		xmUint		m_nBoneID;
+		UINT		m_nBoneID;
 
 		float		m_fGoalDistThreshold;
 
@@ -23,11 +23,11 @@ namespace ma
 
 		void				UpdatePose(NodePose* pNodePose);
 
-		void				Init(xmUint nBoneID,const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
+		void				Init(UINT nBoneID,const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
 
-		void				SetBoneID(xmUint nBoneID);
+		void				SetBoneID(UINT nBoneID);
 
-		xmUint				GetBoneID()const;
+		UINT				GetBoneID()const;
 
 		void				SetGoalObjectSpace(const D3DXVECTOR3& vGoalOS);
 

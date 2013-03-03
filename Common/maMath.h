@@ -49,21 +49,21 @@ struct COMMON_API maNodeTransform
 //x-roll
 //y-pitch
 //z-yaw
-struct COMMON_API xmEulerAngleXYZ
+struct COMMON_API EulerAngleXYZ
 {
-	xmFloat x;
-	xmFloat y;
-	xmFloat z;
+	float x;
+	float y;
+	float z;
 
-	xmEulerAngleXYZ();
+	EulerAngleXYZ();
 
-	xmEulerAngleXYZ(float fX,float fY,float fZ);
+	EulerAngleXYZ(float fX,float fY,float fZ);
 
-	xmEulerAngleXYZ operator+(const xmEulerAngleXYZ& rhs);
+	EulerAngleXYZ operator+(const EulerAngleXYZ& rhs);
 
-	xmEulerAngleXYZ& operator+=(const xmEulerAngleXYZ& rhs);
+	EulerAngleXYZ& operator+=(const EulerAngleXYZ& rhs);
 
-	xmEulerAngleXYZ& operator*=(float);
+	EulerAngleXYZ& operator*=(float);
 
 	void Normalize();
 };
@@ -71,7 +71,7 @@ struct COMMON_API xmEulerAngleXYZ
 
 //axis is non zero
 //x-roll = 0, y-pitch, z-yaw
-COMMON_API void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis);
+COMMON_API void maEulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis);
 
 
 // Quaternion
@@ -79,7 +79,7 @@ COMMON_API void maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3
 
 COMMON_API void maQuaternionMad(D3DXQUATERNION* pOut, const D3DXQUATERNION* pQ1, const D3DXQUATERNION* pQ2, float fWeight);
 
-COMMON_API void maQuaternionFromEulerAngleXYZ(D3DXQUATERNION* pQuat,const xmEulerAngleXYZ* pEuler);
+COMMON_API void maQuaternionFromEulerAngleXYZ(D3DXQUATERNION* pQuat,const EulerAngleXYZ* pEuler);
 
 COMMON_API void	maQuaternionFromAxisToAxis(D3DXQUATERNION* pRot,const D3DXVECTOR3* pAxisFrom,const D3DXVECTOR3* pAxisTo);
 
@@ -125,7 +125,7 @@ COMMON_API D3DXVECTOR3* maMatrixAsVector3(D3DXMATRIX* pMat,UINT uCol);
 
 COMMON_API D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT uCol);
 
-// xmInline void xmAPI xmEulerAngleFromQuaternion(xmEulerAngleXYZ* pEuler,const D3DXQUATERNION* pQua)
+// xmInline void xmAPI xmEulerAngleFromQuaternion(EulerAngleXYZ* pEuler,const D3DXQUATERNION* pQua)
 // {
 // 
 // 	D3DXMATRIX mat;
@@ -138,7 +138,7 @@ COMMON_API D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT uCol);
 // 
 // void  maMatrixFromQuaternion(D3DXMATRIX* pMat,const D3DXQUATERNION* pRot)
 // {
-// 	xmEulerAngleXYZ eRot;
+// 	EulerAngleXYZ eRot;
 // 	maEulerAngleFromQuaternion(&eRot,pRot);
 // 	maMatrixFromEulerAngleXYZ(pMat,&eRot);
 // }

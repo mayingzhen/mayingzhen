@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\AnimationExport.h"
-				>
-			</File>
-			<File
 				RelativePath=".\AnimationInst.h"
 				>
 			</File>
@@ -238,14 +234,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Module.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.h"
-				>
-			</File>
-			<File
 				RelativePath=".\NodeLink.h"
 				>
 			</File>
@@ -267,22 +255,6 @@
 			</File>
 			<File
 				RelativePath=".\Skeleton.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -350,6 +322,34 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\Export.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdafx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdafx.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

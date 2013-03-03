@@ -133,7 +133,7 @@ namespace ma
 	void SceneNode::RotateLS(float x,float y,float z)
 	{
 		D3DXQUATERNION qRot;
-		xmEulerAngleXYZ qEuler(x,y,z);
+		EulerAngleXYZ qEuler(x,y,z);
 		maQuaternionFromEulerAngleXYZ(&qRot,&qEuler);
 		RotateLS(&qRot);
 	}
@@ -222,7 +222,7 @@ namespace ma
 		
 		sl.Serialize(m_tsfPS);
 
-		sl.SerializeObjectArray(m_vChildNodes);
+		//sl.SerializeObjectArray(m_vChildNodes);
 
 		sl.EndSection();
 

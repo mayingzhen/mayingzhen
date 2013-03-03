@@ -60,7 +60,7 @@ namespace ma
 			if (m_vMeshComp[i] == NULL)
 				continue;
 			
-			IRendMesh* pMeshRes = m_vMeshComp[i]->GetMeshRes();
+			IRendMesh* pMeshRes = m_vMeshComp[i]->GetRendMesh();
 			IRendTexture* pTexture = m_vMeshComp[i]->GetTexture();
 			if (pMeshRes == NULL)
 				continue;

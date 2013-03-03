@@ -191,10 +191,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FrameworkExport.h"
-				>
-			</File>
-			<File
 				RelativePath=".\GameObj.h"
 				>
 			</File>
@@ -208,22 +204,6 @@
 			</File>
 			<File
 				RelativePath=".\MeshComponent.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Module.h"
 				>
 			</File>
 			<File
@@ -252,22 +232,6 @@
 			</File>
 			<File
 				RelativePath=".\SkelMeshComponent.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<Filter
@@ -407,6 +371,42 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\Export.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="2"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdafx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdafx.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

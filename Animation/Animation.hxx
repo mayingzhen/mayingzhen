@@ -31,11 +31,11 @@ namespace ma
 			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
 			D3DXVECTOR3Track& posTrack = *arrPosTrackPS[i];
 
-			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			UINT nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
-			for (xmUint nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
 				maNodeTransform tsfAnimOS;
 				maNodeTransform tsfAnimLS;
@@ -79,11 +79,11 @@ namespace ma
 			xmQuaternionTrack& rotTrack = *arrRotTrackPS[i];
 			D3DXVECTOR3Track& posTrack = *arrPosTrackPS[i];
 
-			xmUint nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			UINT nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
-			for (xmUint nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
 				maNodeTransform tsfAnimPS;
 				maNodeTransform tsfAnimLS;
@@ -207,7 +207,6 @@ namespace ma
 	
 		//assert(nBoneNum+nSocketNum==nTransfTrackNum);
 		m_nBoneNum = pAniData->m_nBoneNum;
-		m_nSocketNum = pAniData->m_nSocketNum;
 		UINT nTransfTrackNum = m_nBoneNum + m_nSocketNum;
 
 		//m_name = "unknown";
@@ -235,7 +234,7 @@ namespace ma
 		m_nFrameNumber = pAniData->m_nFrameNum;
 		m_nFrameNumberDirty = false;
 
-		for (xmUint nTrackCnt = 0; nTrackCnt < nTransfTrackNum; ++nTrackCnt)
+		for (UINT nTrackCnt = 0; nTrackCnt < nTransfTrackNum; ++nTrackCnt)
 		{
 			m_arrTransfTrackName[nTrackCnt] = pAniData->m_arrTransfTrackName[nTrackCnt];
 
@@ -250,7 +249,7 @@ namespace ma
 			UINT nKeyFrameNum = scaleTrackData.m_arrFrame.size();
 			pScaleTrack->m_arrFrame.resize(nKeyFrameNum);
 			pScaleTrack->m_arrValue.resize(nKeyFrameNum);
-			for (xmUint nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
+			for (UINT nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
 			{
 				pScaleTrack->m_arrFrame[nKeyFrameCnt] = scaleTrackData.m_arrFrame[nKeyFrameCnt];
 				pScaleTrack->m_arrValue[nKeyFrameCnt] = scaleTrackData.m_arrKey[nKeyFrameCnt];
@@ -259,7 +258,7 @@ namespace ma
 			nKeyFrameNum = rotTrackData.m_arrFrame.size();
 			pRotTrack->m_arrFrame.resize(nKeyFrameNum);
 			pRotTrack->m_arrValue.resize(nKeyFrameNum);
-			for (xmUint nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
+			for (UINT nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
 			{
 				pRotTrack->m_arrFrame[nKeyFrameCnt] = rotTrackData.m_arrFrame[nKeyFrameCnt];
 				D3DXQuaternionNormalize(&pRotTrack->m_arrValue[nKeyFrameCnt],&rotTrackData.m_arrKey[nKeyFrameCnt]);
@@ -269,7 +268,7 @@ namespace ma
 			nKeyFrameNum = posTrackData.m_arrFrame.size();
 			pPosTrack->m_arrFrame.resize(nKeyFrameNum);
 			pPosTrack->m_arrValue.resize(nKeyFrameNum);
-			for (xmUint nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
+			for (UINT nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
 			{
 				pPosTrack->m_arrFrame[nKeyFrameCnt] = posTrackData.m_arrFrame[nKeyFrameCnt];
 				pPosTrack->m_arrValue[nKeyFrameCnt] = posTrackData.m_arrKey[nKeyFrameCnt];
@@ -288,7 +287,7 @@ namespace ma
 // 		UINT nFloatTrackNum = pAniData->m_arrFloatLSTrack.size();
 // 		pTracks->m_float.resize(nFloatTrackNum);
 // 		m_arrFloatTrackName.resize(nFloatTrackNum);
-// 		for (xmUint nFloatTrackCnt = 0; nFloatTrackCnt < nFloatTrackNum; ++nFloatTrackCnt)
+// 		for (UINT nFloatTrackCnt = 0; nFloatTrackCnt < nFloatTrackNum; ++nFloatTrackCnt)
 // 		{
 // 			xmFloatTrack* pFloatTrack = new xmFloatTrack;
 // 			AnimationHelper::BuildTrack(pFloatTrack,&arrFloatTrack[nFloatTrackCnt]);

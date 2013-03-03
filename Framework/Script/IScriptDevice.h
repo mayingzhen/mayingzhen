@@ -33,17 +33,17 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//Script Object Data Access
 		//------------------------------------------------------------------------------
-// 		virtual xmBool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName) = 0;
+// 		virtual bool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val) = 0;
+// 		virtual void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,bool val) = 0;
 // 
 // 		virtual xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
 // 		virtual void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val) = 0;
 // 
-// 		virtual xmFloat	GetFloatField(ScriptObjectHandle hObj,Name fieldName) = 0;
+// 		virtual float	GetFloatField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val) = 0;
+// 		virtual void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,float val) = 0;
 // 
 // 		virtual ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 

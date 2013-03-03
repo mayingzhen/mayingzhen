@@ -6,7 +6,7 @@ namespace ma
 	LookAtModifier::LookAtModifier()
 		:m_vGoalOS(0.0,1.0,0.0)
 		,m_qPivotLS(0.0f,0.0f,0.0f,1.0f)
-		,m_nBoneID(InvalidID<xmUint>())
+		,m_nBoneID(InvalidID<UINT>())
 		,m_fGoalDistThreshold(1.0f)
 		,m_fMaxYaw(D3DX_PI/2.0f)
 	{
@@ -48,7 +48,7 @@ namespace ma
 // 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotInvOS);
 // 		float fGoalLenPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
 // 
-// 		xmEulerAngleXYZ eOffsetPivotSpace;
+// 		EulerAngleXYZ eOffsetPivotSpace;
 // 		if (fGoalLenPivotSpace > F_EPS)
 // 		{
 // 			D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
@@ -56,7 +56,7 @@ namespace ma
 // 		}
 // 		else
 // 		{
-// 			memset(&eOffsetPivotSpace,0,sizeof(xmEulerAngleXYZ));
+// 			memset(&eOffsetPivotSpace,0,sizeof(EulerAngleXYZ));
 // 		}
 // 
 // 		D3DXQUATERNION qRotLS;
@@ -82,7 +82,7 @@ namespace ma
 
 
 
-	void LookAtModifier::Init(xmUint nBoneID,const D3DXVECTOR3& vInFowardLS,const D3DXVECTOR3& vInUpLS)
+	void LookAtModifier::Init(UINT nBoneID,const D3DXVECTOR3& vInFowardLS,const D3DXVECTOR3& vInUpLS)
 	{
 		m_nBoneID = nBoneID;
 
@@ -115,12 +115,12 @@ namespace ma
 		D3DXVECTOR3 vOldUpLS = D3DXVECTOR3(matOldPPovitLS._31, matOldPPovitLS._32, matOldPPovitLS._33);
 		return vOldUpLS;
 	}
-	void LookAtModifier::SetBoneID( xmUint nBoneID )
+	void LookAtModifier::SetBoneID( UINT nBoneID )
 	{
 		m_nBoneID = nBoneID;
 	}
 
-	xmUint LookAtModifier::GetBoneID() const
+	UINT LookAtModifier::GetBoneID() const
 	{
 		return m_nBoneID;
 	}
@@ -150,7 +150,7 @@ namespace ma
 	//D3DXMATRIX LookAtModifier::ApplyLimit(const D3DXMATRIX* pBonePS)const
 	//{
 	//	D3DXMATRIX ret;
-	//	xmEulerAngleXYZ eRotPS;
+	//	EulerAngleXYZ eRotPS;
 	//	xmEulerAngleXYZFromMatrix(&eRotPS,pBonePS);
 	//	eRotPS.x = xmClamp(eRotPS.x,m_vAngleMin.x,m_vAngleMax.x);
 	//	eRotPS.y = xmClamp(eRotPS.y,m_vAngleMin.y,m_vAngleMax.y);

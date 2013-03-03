@@ -40,21 +40,21 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//Script Object Data Access
 		//------------------------------------------------------------------------------
-// 		xmBool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName);
+// 		bool	GetBooleanField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val);
+// 		void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,bool val);
 // 
 // 		xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName);
 // 
 // 		void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val);
 // 
-// 		xmUint	GetUintField(ScriptObjectHandle hObj,Name fieldName);
+// 		UINT	GetUintField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetUintField(ScriptObjectHandle hObj,Name fieldName,xmUint val);
+// 		void	SetUintField(ScriptObjectHandle hObj,Name fieldName,UINT val);
 // 
-// 		xmFloat	GetFloatField(ScriptObjectHandle hObj,Name fieldName);
+// 		float	GetFloatField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val);
+// 		void	SetFloatField(ScriptObjectHandle hObj,Name fieldName,float val);
 // 
 // 		ScriptObjectHandle	GetObjectField(ScriptObjectHandle hObj,Name fieldName);
 // 

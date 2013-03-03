@@ -26,13 +26,13 @@ namespace ma
 
 	bool Skeleton::InitWithData(const SkeletonData& skelData)
 	{
-		xmUint nBoneNum = skelData.m_nBoneNum;
+		UINT nBoneNum = skelData.m_nBoneNum;
 
 		std::vector<maNodeTransform> arrNodeOS;
 		arrNodeOS.resize(nBoneNum);
 		m_arrBoneName.resize(nBoneNum);
 		m_arrParentInd.resize(nBoneNum);
-		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
+		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
 			arrNodeOS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
 			//arrNodeOS[nBoneCnt].m_qRot = ;
@@ -57,7 +57,7 @@ namespace ma
 			D3DXMatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
 		}
 
-// 		for (xmUint nSocketCnt = 0; nSocketCnt < pSkelData->m_arrSocket.size(); ++nSocketCnt)
+// 		for (UINT nSocketCnt = 0; nSocketCnt < pSkelData->m_arrSocket.size(); ++nSocketCnt)
 // 		{
 // 			const ExpSocketData* pSocketData = &pSkelData->m_arrSocket[nSocketCnt];
 // 			pSkel->AddSocket(pSocketData->m_strBoneName.c_str(),pSocketData->m_nBoneID,pSocketData->m_matTransformBS);
@@ -71,13 +71,13 @@ namespace ma
 
 	bool Skeleton::InitWithPSData(const SkeletonData& skelData)
 	{
-		xmUint nBoneNum = skelData.m_nBoneNum;
+		UINT nBoneNum = skelData.m_nBoneNum;
 
 		std::vector<maNodeTransform> arrNodePS;
 		arrNodePS.resize(nBoneNum);
 		m_arrBoneName.resize(nBoneNum);
 		m_arrParentInd.resize(nBoneNum);
-		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
+		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
 			arrNodePS[nBoneCnt].m_vPos = skelData.m_arrPosOS[nBoneCnt];
 			//arrNodeOS[nBoneCnt].m_qRot = ;

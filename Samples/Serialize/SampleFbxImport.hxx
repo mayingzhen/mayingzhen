@@ -1,6 +1,6 @@
 #include "Samples/Serialize/SampleFbxImport.h"
 #include "Animation/Module.h"
-#include "DXRender/Module.h"
+#include "D3D9Render/Module.h"
 #include "Serialize/Module.h"
 #include "Plugin/FbxImport/Module.h"
 
@@ -21,20 +21,20 @@ namespace ma
 	{
 		SimpleSceneView::Init(pApplication);
 		
-		DxRenderModuleInit();
+		D3D9RenderModuleInit();
 		AnimationModuleInit();
 
-		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
 
-		DxRender* pDxRender = (DxRender*)GetRender();
+		D3D9Render* pDxRender = (D3D9Render*)GetRender();
 		pDxRender->InitDefaultShader();
 
 	}
 
 	void SampleFbxImport::Shutdown()
 	{
-		DxRenderModuleShutdown();
+		D3D9RenderModuleShutdown();
 		AnimationModuleShutdown();
 	}
 
@@ -61,12 +61,13 @@ namespace ma
 		pSkeData = LoadSkeletonFromBinaryFile("../Fbx/TestBull.ske");
 		pAnimData = LoadAnimationFromBinaryFile("../Fbx/TestBull.ska");
 
-		m_pRenderMesh = new DxRendMesh();
+		m_pRenderMesh = new D3D9RendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
 
 		const char* pTexPath = "../Fbx/TestBull_DM.png";
-		m_pRendTexture = new DxRendTexture();
-		m_pRendTexture->Load(pTexPath);
+		m_pRendTexture = new D3D9RendTexture();
+		m_pRendTexture->SetResPath(pTexPath);
+		m_pRendTexture->Load();
 
 		m_pSkeleton = new Skeleton();
 		m_pSkeleton->InitWithData(*pSkeData);
@@ -95,12 +96,13 @@ namespace ma
 
 		pMeshData = LoadMeshFromBinaryFile("../Fbx/MovingPlatform.skn");
 
-		m_pStaticMesh = new DxRendMesh();
+		m_pStaticMesh = new D3D9RendMesh();
 		m_pStaticMesh->InitWithData(pMeshData);
 		
 		const char* pTexPath = "../Fbx/PlatformTexture.tga";
-		m_pStatcMeshTexture = new DxRendTexture();
-		m_pStatcMeshTexture->Load(pTexPath);
+		m_pStatcMeshTexture = new D3D9RendTexture();
+		m_pStatcMeshTexture->SetResPath(pTexPath);
+		m_pStatcMeshTexture->Load();
 		
 	}
 

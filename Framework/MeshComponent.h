@@ -31,9 +31,9 @@ namespace ma
 
 		void Load(const char* pszMeshPath,const char* pszTexPath);
 
-		IRendMesh* GetMeshRes() {return m_pMeshRes;}
+		IRendMesh* GetRendMesh() {return m_pRendMesh;}
 
-		void SetMeshRes(IRendMesh* pMeshRes) {m_pMeshRes = pMeshRes;}
+		//void SetMeshRes(IRendMesh* pMeshRes) {m_pMeshRes = pMeshRes;}
 
 		IRendTexture* GetTexture() {return m_pTexture;}
 
@@ -44,19 +44,9 @@ namespace ma
 		virtual void Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
 
 	private:
-		//MeshRes*		m_pMeshRes;
-		//Texture*	m_pTexture;
-		IRendMesh*		m_pMeshRes;
+		IRendMesh*		m_pRendMesh;
 		IRendTexture*   m_pTexture;
-		
-
 	};
-
-
-
 }
-
-
-
 
 #endif

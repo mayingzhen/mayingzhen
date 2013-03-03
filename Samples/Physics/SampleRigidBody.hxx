@@ -1,5 +1,5 @@
 #include "Samples/Physics/SampleRigidBody.h"
-#include "DXRender/Module.h"
+#include "D3D9Render/Module.h"
 #include "Framework/Module.h"
 #include "BulletPhysics/Module.h"
 
@@ -15,21 +15,21 @@ namespace ma
 		m_fMoveCameraSpeed = 0.20f;
 		SimpleSceneView::Init(pApplication);
 
-		DxRenderModuleInit();
+		D3D9RenderModuleInit();
 		FrameWorkModuleInit();
 		BtPhysicsModuleInit();
 
-		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
 
-		DxRender* pDxRender = (DxRender*)GetRender();
+		D3D9Render* pDxRender = (D3D9Render*)GetRender();
 		pDxRender->InitDefaultShader();	
 	}
 
 	void SampleRigidBody::Shutdown()
 	{
 		FrameWorkModuleShutdown();
-		DxRenderModuleShutdown();
+		D3D9RenderModuleShutdown();
 		BtPhysicsModuleShutdown();
 	}
 

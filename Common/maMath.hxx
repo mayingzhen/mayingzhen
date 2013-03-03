@@ -10,12 +10,12 @@
 //Euler Angle
 //------------------------------------------------------------------------------
 
-xmEulerAngleXYZ::xmEulerAngleXYZ()
+EulerAngleXYZ::EulerAngleXYZ()
 {
 
 }
 
-xmEulerAngleXYZ::xmEulerAngleXYZ(float fX,float fY,float fZ)
+EulerAngleXYZ::EulerAngleXYZ(float fX,float fY,float fZ)
 :x(fX)
 ,y(fY)
 ,z(fZ)
@@ -24,12 +24,12 @@ xmEulerAngleXYZ::xmEulerAngleXYZ(float fX,float fY,float fZ)
 }
 
 
-xmEulerAngleXYZ xmEulerAngleXYZ::operator +(const xmEulerAngleXYZ& rhs)
+EulerAngleXYZ EulerAngleXYZ::operator +(const EulerAngleXYZ& rhs)
 {
-	return xmEulerAngleXYZ(x + rhs.x,y + rhs.y, z + rhs.z);
+	return EulerAngleXYZ(x + rhs.x,y + rhs.y, z + rhs.z);
 }
 
-xmEulerAngleXYZ& xmEulerAngleXYZ::operator +=(const xmEulerAngleXYZ& rhs)
+EulerAngleXYZ& EulerAngleXYZ::operator +=(const EulerAngleXYZ& rhs)
 {
 	x += rhs.x;
 	y += rhs.y;
@@ -37,7 +37,7 @@ xmEulerAngleXYZ& xmEulerAngleXYZ::operator +=(const xmEulerAngleXYZ& rhs)
 	return *this;
 }
 
-xmEulerAngleXYZ& xmEulerAngleXYZ::operator *=(float rhs)
+EulerAngleXYZ& EulerAngleXYZ::operator *=(float rhs)
 {
 	x *= rhs;
 	y *= rhs;
@@ -46,7 +46,7 @@ xmEulerAngleXYZ& xmEulerAngleXYZ::operator *=(float rhs)
 }
 
 
-void xmEulerAngleXYZ::Normalize()
+void EulerAngleXYZ::Normalize()
 {
 	x = fmodf(x,2.0f*D3DX_PI);
 	y = fmodf(y,2.0f*D3DX_PI);
@@ -56,7 +56,7 @@ void xmEulerAngleXYZ::Normalize()
 
 //axis is non zero
 //x-roll = 0, y-pitch, z-yaw
-void maEulerAngleFromXToAxis(xmEulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis)
+void maEulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis)
 {
 	float r = sqrtf(pAxis->x*pAxis->x+pAxis->y*pAxis->y);
 	pEuler->x = 0.0f;
@@ -174,12 +174,12 @@ void  maVec4SetVector(D3DXVECTOR4* pVec4, const D3DXVECTOR3* pVec3)
 	pVec4->w = 0.0f;
 }
 
-D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,xmUint nCol)
+D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT nCol)
 {
 	return reinterpret_cast<D3DXVECTOR4*>(&pMat->m[nCol][0]);
 }
 
-// const D3DXVECTOR4* maMatrixAsVector4(const D3DXMATRIX* pMat,xmUint uCol)
+// const D3DXVECTOR4* maMatrixAsVector4(const D3DXMATRIX* pMat,UINT uCol)
 // {
 // 	return reinterpret_cast<const D3DXVECTOR4*>(&pMat->m[uCol][0]);
 // }
@@ -204,7 +204,7 @@ void  maMatrixAxis(D3DXMATRIX* pMat,const D3DXVECTOR3* pX,const D3DXVECTOR3* pY,
 }
 
 
-void maQuaternionFromEulerAngleXYZ(D3DXQUATERNION* pQuat,const xmEulerAngleXYZ* pEuler)
+void maQuaternionFromEulerAngleXYZ(D3DXQUATERNION* pQuat,const EulerAngleXYZ* pEuler)
 {
 	float fHalfX = 0.5f*pEuler->x;
 	float fHalfY = 0.5f*pEuler->y;

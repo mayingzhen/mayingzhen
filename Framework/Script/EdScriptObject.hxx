@@ -138,7 +138,7 @@ namespace ma
 		}
 	}
 
-	xmUint			EdScriptObject::GetUint(const char* pszName)
+	UINT			EdScriptObject::GetUint(const char* pszName)
 	{
 		if (pszName == NULL)
 			return 0;
@@ -155,14 +155,14 @@ namespace ma
 			{
 				const char* pszValue = pEleField->Attribute("value");
 				int iVal = atoi(pszValue);
-				return (xmUint)iVal;
+				return (UINT)iVal;
 			}
 		}
 
 		return 0;
 	}
 
-	void		EdScriptObject::SetUint(const char* pszName, xmUint nValue)
+	void		EdScriptObject::SetUint(const char* pszName, UINT nValue)
 	{
 		if (pszName == NULL)
 			return;

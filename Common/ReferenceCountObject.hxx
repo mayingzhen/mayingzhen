@@ -38,7 +38,7 @@ namespace ma
 
 	}
 
-	xmUint ReferenceCountObject::GetReferenceCount() const
+	UINT ReferenceCountObject::GetReferenceCount() const
 	{
 		return m_nRefCnt;
 	}

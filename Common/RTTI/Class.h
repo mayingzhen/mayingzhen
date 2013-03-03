@@ -11,13 +11,13 @@ namespace ma
 		std::string m_className;
 		const Class* m_pParent;
 
-		//xmUint m_nClassID;
+		//UINT m_nClassID;
 
 	public:
 
 		Class(const char* className,const Class* pParent);
 
-		//xmUint GetClassID() const;
+		//UINT GetClassID() const;
 
 		const char* GetName() const;
 
@@ -48,7 +48,7 @@ namespace ma
 
 		const Class* GetClassByName(const char* clsName);
 
-		//const Class* GetClassById(xmUint nClsID);
+		//const Class* GetClassById(UINT nClsID);
 
 
 	};
@@ -61,7 +61,7 @@ namespace ma
 
 	}
 
-// 	inline xmUint Class::GetClassID() const
+// 	inline UINT Class::GetClassID() const
 // 	{
 // 		return m_nClassID;
 // 	}
