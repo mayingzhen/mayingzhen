@@ -18,7 +18,7 @@ namespace ma
 
 		~Animation();
 
-		xmUint GetFrameNumber() {return m_nFrameNumber;}
+		UINT GetFrameNumber() {return m_nFrameNumber;}
 
 		void SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
@@ -38,11 +38,11 @@ namespace ma
 
 	private:
 		std::vector<std::string>			m_arrTransfTrackName;
-		xmUint								m_nBoneNum;
-		xmUint								m_nSocketNum;
+		UINT								m_nBoneNum;
+		UINT								m_nSocketNum;
 
 		std::vector<std::string>			m_arrFloatTrackName;
-		xmUint								m_nFrameNumber;
+		UINT								m_nFrameNumber;
 		bool								m_nFrameNumberDirty;
 
 		AnimationTracks* m_pRawTracks; 

@@ -1,0 +1,45 @@
+#include "Common/Resource.h"
+
+namespace ma
+{
+	Resource::Resource(const char* pszPath)
+	{
+		m_sResPath = pszPath ? pszPath : ""; 
+		m_bLoaded = false;
+	}
+
+	Resource::~Resource()
+	{
+
+	}
+
+	bool Resource::Load(const char* pszPath)
+	{
+		if (pszPath)
+		{
+			m_sResPath = pszPath;
+		}
+
+		BinaryInputArchive ar;
+		bool bLoadOK = ar.Open(m_sResPath.c_str());
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",m_sResPath.c_str());
+			return NULL;
+		}
+
+		Serialize(ar);
+
+		return true;
+	}
+
+	void Resource::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+		
+		sl.Serialize(m_sResPath);
+		
+		sl.EndSection();
+	}
+
+}

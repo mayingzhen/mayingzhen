@@ -185,9 +185,9 @@ namespace ma
 	}
 
 
-	xmUint		MonoScriptObject::GetUint(const char* pszName)
+	UINT		MonoScriptObject::GetUint(const char* pszName)
 	{
-		xmUint nRet = 0;
+		UINT nRet = 0;
 		if (pszName != NULL)
 		{
 			//MonoUtil::GetField(&nRet,m_pObj,pszName);
@@ -195,7 +195,7 @@ namespace ma
 		return nRet;
 	}
 
-	void		MonoScriptObject::SetUint(const char* pszName, xmUint nValue)
+	void		MonoScriptObject::SetUint(const char* pszName, UINT nValue)
 	{
 		if (pszName != NULL)
 		{

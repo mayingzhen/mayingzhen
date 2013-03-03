@@ -79,11 +79,11 @@ namespace ma
 		//InitWithParentIndice(pRefPose->get);
 
 		std::vector<maNodeTransform> arrTSF_PS;
-		const xmUint nBoneNum = pRefPose->GetNodeNumber();
+		const UINT nBoneNum = pRefPose->GetNodeNumber();
 		arrTSF_PS.resize(nBoneNum);
 		m_arrDirtyByte.resize(nBoneNum);
 
-		for (xmUint nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
+		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
 			xmTransformMulLocalScale(&arrTSF_PS[nBoneCnt],&arrTSF_LS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt));
 
@@ -148,7 +148,7 @@ namespace ma
 	{
 		if (!m_bPSSynced)
 		{
-			for (xmUint nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			for (UINT nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
 			{
 				if (m_arrDirtyByte[nBoneCnt].m_bPSDirty)
 				{
@@ -163,7 +163,7 @@ namespace ma
 	{
 		if (!m_bOSSynced)
 		{
-			for (xmUint nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
+			for (UINT nBoneCnt = 0; nBoneCnt < m_arrParentIndice.size(); ++nBoneCnt)
 			{
 				if (m_arrDirtyByte[nBoneCnt].m_bOSDirty)
 				{

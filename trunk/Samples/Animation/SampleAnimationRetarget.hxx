@@ -1,6 +1,6 @@
 #include "Samples/Animation/SampleAnimationRetarget.h"
 #include "Animation/Module.h"
-#include "DXRender/Module.h"
+#include "D3D9Render/Module.h"
 #include "Serialize/Module.h"
 
 namespace ma
@@ -18,20 +18,20 @@ namespace ma
 		D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
 		D3DXMatrixLookAtLH(&m_matView,&m_vEyePos,&lookatPos,&vUp);
 
-		DxRenderModuleInit();
+		D3D9RenderModuleInit();
 		AnimationModuleInit();
 
-		DxRenderDevice* pDxRenderDevice = (DxRenderDevice*)GetRenderDevice();
+		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
 
-		DxRender* pDxRender = (DxRender*)GetRender();
+		D3D9Render* pDxRender = (D3D9Render*)GetRender();
 		pDxRender->InitDefaultShader();
 
 	}
 
 	void SampleAnimationRetarget::Shutdown()
 	{
-		DxRenderModuleShutdown();
+		D3D9RenderModuleShutdown();
 		AnimationModuleShutdown();
 	}
 
@@ -42,7 +42,7 @@ namespace ma
 
 		// character A Mesh & skeleton & Animation
 		{
-			// Mesh B f h
+			// Mesh B (b f h)
 			m_pRenderMeshA_b = GetRenderDevice()->CreateRendMesh();
 			MeshData* pMeshDataA_b = LoadMeshFromBinaryFile("../TrineGame/man001/Man001/body_b.skn");
 			m_pRenderMeshA_b->InitWithData(pMeshDataA_b);

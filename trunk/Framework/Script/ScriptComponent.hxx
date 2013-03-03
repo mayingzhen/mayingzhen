@@ -47,7 +47,7 @@ namespace ma
 			}
 			else if (strcmp(pTypeName,"uint") == 0)
 			{
-				pScriptObject->SetUint(pFieldName, (xmUint)atoi(pValue) );
+				pScriptObject->SetUint(pFieldName, (UINT)atoi(pValue) );
 			}
 			else if (strcmp(pTypeName,"float") == 0)
 			{

@@ -14,8 +14,8 @@ namespace ma
 // 
 // 	void AnimationTracks::Clear()
 // 	{
-// 		// 		xmUint nTrackNum = m_pos.size();
-// 		// 		for (xmUint trackCnt = 0; trackCnt <nTrackNum; ++ trackCnt)
+// 		// 		UINT nTrackNum = m_pos.size();
+// 		// 		for (UINT trackCnt = 0; trackCnt <nTrackNum; ++ trackCnt)
 // 		// 		{
 // 		// 			delete m_scale[trackCnt];
 // 		// 			delete m_rot[trackCnt];
@@ -26,7 +26,7 @@ namespace ma
 // 		// 		m_pos.clear();
 // 		// 
 // 		// 
-// 		// 		for (xmUint nFloatTrackCnt = 0; nFloatTrackCnt < m_float.size(); ++ nFloatTrackCnt)
+// 		// 		for (UINT nFloatTrackCnt = 0; nFloatTrackCnt < m_float.size(); ++ nFloatTrackCnt)
 // 		// 		{
 // 		// 			delete m_float[nFloatTrackCnt];
 // 		// 		}
@@ -39,18 +39,18 @@ namespace ma
 // 
 // 	}
 // 
-// 	void AnimationTracks::SetPositionTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack)
+// 	void AnimationTracks::SetPositionTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack)
 // 	{
 // 		//m_pos[nTrackInd]->Clone(pTrack);
 // 	}
 // 
 // 
-// 	void AnimationTracks::SetRotationTrack(xmUint nTrackInd,const xmQuaternionTrack* pTrack)
+// 	void AnimationTracks::SetRotationTrack(UINT nTrackInd,const xmQuaternionTrack* pTrack)
 // 	{
 // 		//m_rot[nTrackInd]->Clone(pTrack);
 // 	}
 // 
-// 	void AnimationTracks::SetScaleTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack)
+// 	void AnimationTracks::SetScaleTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack)
 // 	{
 // 		//m_scale[nTrackInd]->Clone(pTrack);
 // 	}
@@ -68,20 +68,20 @@ namespace ma
 // 		// 		pTracks->m_rootMotionScale = m_rootMotionScale;
 // 	}
 // 
-// 	xmUint AnimationTracks::ComputeDataSize() const
+// 	UINT AnimationTracks::ComputeDataSize() const
 // 	{
-// 		// 		xmUint nScaleKeyFrameNum = GetKeyFrameNumber(m_scale);
-// 		// 		nScaleKeyFrameNum += (xmUint)m_rootMotionScale.m_arrValue.size();
+// 		// 		UINT nScaleKeyFrameNum = GetKeyFrameNumber(m_scale);
+// 		// 		nScaleKeyFrameNum += (UINT)m_rootMotionScale.m_arrValue.size();
 // 		// 
-// 		// 		xmUint nRotKeyFrameNum = GetKeyFrameNumber(m_rot);
-// 		// 		nRotKeyFrameNum += (xmUint)m_rootMotionRot.m_arrValue.size();
+// 		// 		UINT nRotKeyFrameNum = GetKeyFrameNumber(m_rot);
+// 		// 		nRotKeyFrameNum += (UINT)m_rootMotionRot.m_arrValue.size();
 // 		// 
-// 		// 		xmUint nPosKeyFrameNum = GetKeyFrameNumber(m_pos);
-// 		// 		nPosKeyFrameNum += (xmUint)m_rootMotionPos.m_arrValue.size();
+// 		// 		UINT nPosKeyFrameNum = GetKeyFrameNumber(m_pos);
+// 		// 		nPosKeyFrameNum += (UINT)m_rootMotionPos.m_arrValue.size();
 // 		// 
-// 		// 		xmUint nDataSize = nScaleKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
-// 		// 			+nPosKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(xmUint))
-// 		// 			+nRotKeyFrameNum*(sizeof(D3DXQUATERNION)+sizeof(xmUint));
+// 		// 		UINT nDataSize = nScaleKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(UINT))
+// 		// 			+nPosKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(UINT))
+// 		// 			+nRotKeyFrameNum*(sizeof(D3DXQUATERNION)+sizeof(UINT));
 // 		// 		return nDataSize;
 // 		return 0;
 // 	}

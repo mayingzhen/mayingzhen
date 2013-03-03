@@ -23,17 +23,17 @@ namespace ma
 // 		~AnimationTracks();
 // 
 // 
-// 		void SetPositionTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack);
+// 		void SetPositionTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack);
 // 
-// 		void SetRotationTrack(xmUint nTrackInd,const xmQuaternionTrack* pTrack);
+// 		void SetRotationTrack(UINT nTrackInd,const xmQuaternionTrack* pTrack);
 // 
-// 		void SetScaleTrack(xmUint nTrackInd,const D3DXVECTOR3Track* pTrack);
+// 		void SetScaleTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack);
 // 
 // 		void Clear();
 // 
 // 		void Clone(AnimationTracks* pTracks) const;
 // 
-// 		xmUint ComputeDataSize() const;
+// 		UINT ComputeDataSize() const;
 	};
 }
 

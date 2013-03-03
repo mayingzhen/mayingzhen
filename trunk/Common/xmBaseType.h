@@ -2,14 +2,9 @@
 #define __xmBaseType_h__
 
 
-
-
-typedef int                 xmBool;
-
-
 typedef unsigned char		xmUint8;
 typedef unsigned short		xmUint16;
-typedef unsigned int		xmUint;
+typedef unsigned int		UINT;
 typedef unsigned int		xmUint32;
 
 typedef char				xmInt8;
@@ -28,11 +23,6 @@ typedef unsigned int64_t	xmUInt64;
 
 typedef unsigned char       xmByte;
 typedef unsigned short      xmWord;
-typedef float               xmFloat;
-
-typedef char				xmChar;
-typedef short				xmShort;
-typedef long				xmLong;
 
 
 

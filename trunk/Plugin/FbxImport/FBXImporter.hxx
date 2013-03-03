@@ -547,9 +547,7 @@ namespace ma
 		}
 
 		// subMesh
-		MeshLODData* pMeshLodData = new MeshLODData;
 		SubMeshData* pSubMeshData = new SubMeshData;
-		pMeshLodData->m_arrSubMesh.push_back(pSubMeshData);
 		pSubMeshData->m_nIndexStart = 0;
 		pSubMeshData->m_nIndexCount = nIndexCount;
 		pSubMeshData->m_nVertexStart = 0;
@@ -562,7 +560,7 @@ namespace ma
 				pSubMeshData->m_arrBonePalette[i] = i;
 			}
 		}
-		pMeshData->m_arrMeshLOD.push_back(pMeshLodData);
+		pMeshData->m_arrSubMesh.push_back(pSubMeshData);
 
 		LoadMaterial(pMesh);
 
@@ -571,8 +569,7 @@ namespace ma
 		D3DXVECTOR3 vBoxMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
 		D3DXVECTOR3 vBoxMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
 
-		pMeshData->SetBoundingAABB(&vBoxMin,&vBoxMax);
-		
+		pMeshData->m_meshBound.SetAABB(vBoxMin,vBoxMax);	
 	}
 
 

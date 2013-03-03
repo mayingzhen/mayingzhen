@@ -5,7 +5,7 @@ namespace ma
 {
 	class COMMON_API ReferenceCountObject
 	{
-		mutable xmUint m_nRefCnt;
+		mutable UINT m_nRefCnt;
 
 	public:
 
@@ -21,7 +21,7 @@ namespace ma
 
 		ReferenceCountObject& operator=(const ReferenceCountObject& rhs);
 
-		xmUint GetReferenceCount() const;
+		UINT GetReferenceCount() const;
 	};
 
 }

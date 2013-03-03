@@ -83,15 +83,15 @@ namespace ma
 		SAFE_DELETE(pScriptObject);
 	}
 
-// 	xmBool	MonoScriptDevice::GetBooleanField(ScriptObjectHandle hObj,Name fieldName)
+// 	bool	MonoScriptDevice::GetBooleanField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
-// 		xmBool ret = false;
+// 		bool ret = false;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
 // 		return ret;
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetBooleanField(ScriptObjectHandle hObj,Name fieldName,xmBool val)
+// 	void	MonoScriptDevice::SetBooleanField(ScriptObjectHandle hObj,Name fieldName,bool val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
@@ -110,15 +110,15 @@ namespace ma
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
 // 
-// 	xmUint	MonoScriptDevice::GetUintField(ScriptObjectHandle hObj,Name fieldName)
+// 	UINT	MonoScriptDevice::GetUintField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
-// 		xmUint ret = 0;
+// 		UINT ret = 0;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
 // 		return ret;
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetUintField(ScriptObjectHandle hObj,Name fieldName,xmUint val)
+// 	void	MonoScriptDevice::SetUintField(ScriptObjectHandle hObj,Name fieldName,UINT val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
@@ -126,15 +126,15 @@ namespace ma
 // 
 // 
 // 
-// 	xmFloat	MonoScriptDevice::GetFloatField(ScriptObjectHandle hObj,Name fieldName)
+// 	float	MonoScriptDevice::GetFloatField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
-// 		xmFloat ret = 0.0f;
+// 		float ret = 0.0f;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
 // 		return ret;
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetFloatField(ScriptObjectHandle hObj,Name fieldName,xmFloat val)
+// 	void	MonoScriptDevice::SetFloatField(ScriptObjectHandle hObj,Name fieldName,float val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
@@ -270,7 +270,7 @@ namespace ma
 				}
 				else if (nType == MONO_TYPE_U4)
 				{
-					xmUint nValue;
+					UINT nValue;
 					mono_field_get_value(pObj,field,&nValue);
 					pEleField->SetAttribute("value",nValue);
 					pEleField->SetAttribute("sTypeName","uint");

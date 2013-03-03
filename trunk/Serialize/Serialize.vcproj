@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Serialize"
+	Name="S3Serialize"
 	ProjectGUID="{E48649B3-18D3-4EA5-8277-9869FDEB892A}"
 	RootNamespace="Serialize"
 	Keyword="Win32Proj"
@@ -175,42 +175,66 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Module.cpp"
+				RelativePath=".\S3Resource\AnimationData.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Module.h"
+				RelativePath=".\S3Resource\AnimationData.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\ResourceBuilder.h"
+				RelativePath=".\S3Resource\MeshData.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ResourceBuilder.hxx"
+				RelativePath=".\S3Resource\MeshData.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SerializeExport.h"
+				RelativePath=".\S3Resource\ResourceBuilder.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdAfx.cpp"
+				RelativePath=".\S3Resource\ResourceBuilder.hxx"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\stdAfx.h"
+				RelativePath=".\S3Resource\SkeletonData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\S3Resource\SkeletonData.hxx"
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\Export.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdAfx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdAfx.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

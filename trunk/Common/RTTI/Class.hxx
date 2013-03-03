@@ -64,7 +64,7 @@ namespace ma
 		return iter != m_nameMap.end() ? iter->second : NULL;
 	}
 
-	//const Class* ClassManager::GetClassById(xmUint nClsID)
+	//const Class* ClassManager::GetClassById(UINT nClsID)
 	//{
 	//	ClassIDMap::iterator iter = m_idMap.find(nClsID);
 	//	return iter != m_idMap.end() ? iter->second : NULL;

@@ -125,7 +125,7 @@ namespace ma
 
 		sl.BeginSection(pszLable);
 
-		sl.SerializeObjectArray(m_vComponents);
+		//sl.SerializeObjectArray(m_vComponents);
 
 		sl.EndSection();
 

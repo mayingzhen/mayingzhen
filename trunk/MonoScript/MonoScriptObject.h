@@ -26,9 +26,9 @@ namespace ma
 
 		virtual void		SetInt(const char* pszName, int nValue);
 
-		virtual xmUint		GetUint(const char* pszName);
+		virtual UINT		GetUint(const char* pszName);
 
-		virtual void		SetUint(const char* pszName, xmUint nValue);
+		virtual void		SetUint(const char* pszName, UINT nValue);
 
 		virtual D3DXVECTOR3	GetVector3(const char* pszName);
 

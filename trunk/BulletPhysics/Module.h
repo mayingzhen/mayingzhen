@@ -6,7 +6,7 @@
 #include "Bullet/BulletDynamics/Character/btKinematicCharacterController.h"
 #include "Bullet/BulletCollision/CollisionDispatch/btGhostObject.h"
 
-#include "BulletPhysics/BtPhysicsExport.h"
+#include "BulletPhysics/Export.h"
 #include "BulletPhysics/BtPhysicsDevive.h"
 #include "BulletPhysics/BtPhysicsObject.h"
 #include "BulletPhysics/BtPhysicsScene.h"

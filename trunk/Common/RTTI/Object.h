@@ -3,7 +3,7 @@
 
 #include "Common/ReferenceCountObject.h"
 #include "Common/RTTI/Class.h"
-#include "Common/Serialize/SerializeListener.h"
+//#include "Common/Serialize/SerializeListener.h"
 
 
 #define DECL_OBJECT(ClassName) private:\
@@ -52,7 +52,7 @@ namespace ma
 
 		bool			IsA(const Class* pParent) const;
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Object");
+		//virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Object");
 
 	protected:
 		std::string m_sName;

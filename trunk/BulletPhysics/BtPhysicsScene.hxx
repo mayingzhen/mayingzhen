@@ -75,8 +75,8 @@ namespace ma
 			return;
 
 		// SyncToPhysics
-		xmUint nActNum = m_pDynamicsWorld->getNumCollisionObjects();
-		for (xmUint i = 0; i < nActNum; ++i)
+		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
+		for (UINT i = 0; i < nActNum; ++i)
 		{
 			btCollisionObject* pObj = m_pDynamicsWorld->getCollisionObjectArray()[i];
 			if (pObj == NULL)
@@ -112,8 +112,8 @@ namespace ma
 			return;
 
 		// // SyncFromPhysics
-		xmUint nActNum = m_pDynamicsWorld->getNumCollisionObjects();
-		for (xmUint i = 0; i < nActNum; ++i)
+		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
+		for (UINT i = 0; i < nActNum; ++i)
 		{
 			btCollisionObject* pObj = m_pDynamicsWorld->getCollisionObjectArray()[i];
 			if (pObj == NULL)

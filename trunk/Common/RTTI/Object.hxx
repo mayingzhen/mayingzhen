@@ -32,13 +32,13 @@ namespace ma
 
 	}
 	
-	void Object::Serialize(SerializeListener& sl,const char* pszLable) 
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_sName);
-
-		sl.EndSection();
-	}
+// 	void Object::Serialize(SerializeListener& sl,const char* pszLable) 
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		sl.Serialize(m_sName);
+// 
+// 		sl.EndSection();
+// 	}
 }
 

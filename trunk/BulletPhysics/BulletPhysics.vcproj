@@ -207,10 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BtPhysicsExport.h"
-				>
-			</File>
-			<File
 				RelativePath=".\BtPhysicsObject.h"
 				>
 			</File>
@@ -238,31 +234,35 @@
 				RelativePath=".\BulletUtil.h"
 				>
 			</File>
-			<File
-				RelativePath=".\Module.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
 		</Filter>
+		<File
+			RelativePath=".\Export.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdafx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdafx.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
