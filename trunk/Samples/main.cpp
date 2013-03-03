@@ -27,7 +27,7 @@ public:
 		SampleSceneSerialize* pSceneSerialize = new SampleSceneSerialize();
 		m_vSceneView.push_back(pSceneSerialize);
 
-		m_nCurSceneInde = 0;
+		m_nCurSceneInde = 1;
 	}
 
 	virtual void Init(int argc, char* argv[])

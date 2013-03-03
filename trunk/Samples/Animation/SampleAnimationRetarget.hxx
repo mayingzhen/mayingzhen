@@ -1,7 +1,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.h"
 #include "Animation/Module.h"
 #include "D3D9Render/Module.h"
-#include "Serialize/Module.h"
+
 
 namespace ma
 {
@@ -44,61 +44,63 @@ namespace ma
 		{
 			// Mesh B (b f h)
 			m_pRenderMeshA_b = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_b = LoadMeshFromBinaryFile("../TrineGame/man001/Man001/body_b.skn");
+			MeshData* pMeshDataA_b = LoadMeshFromBinaryFile("../Data/Man001/body_b.skn");
 			m_pRenderMeshA_b->InitWithData(pMeshDataA_b);
 
 			m_pRendTextureA_b = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_b->Load("../TrineGame/man001/Man001/body_b.tga");
+			m_pRendTextureA_b->Load("../Data/Man001/body_b.tga");
 
 			m_pRenderMeshA_h = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_h = LoadMeshFromBinaryFile("../TrineGame/man001/Man001/body_h.skn");
+			MeshData* pMeshDataA_h = LoadMeshFromBinaryFile("../Data/Man001/body_h.skn");
 			m_pRenderMeshA_h->InitWithData(pMeshDataA_h);
 
 			m_pRendTextureA_h = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_h->Load("../TrineGame/man001/Man001/body_h.tga");	
+			m_pRendTextureA_h->Load("../Data/Man001/body_h.tga");	
 
 			m_pRenderMeshA_f = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_f = LoadMeshFromBinaryFile("../TrineGame/man001/Man001/body_f.skn");
+			MeshData* pMeshDataA_f = LoadMeshFromBinaryFile("../Data/Man001/body_f.skn");
 			m_pRenderMeshA_f->InitWithData(pMeshDataA_f);
 
 			m_pRendTextureA_f = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_f->Load("../TrineGame/man001/Man001/body_f.tga");	
+			m_pRendTextureA_f->Load("../Data/Man001/body_f.tga");	
 
-			SkeletonData* pSkelDataA = LoadSkeletonFromBinaryFile("../TrineGame/man001/Man001/body.ske");
+			SkeletonData* pSkelDataA = LoadSkeletonFromBinaryFile("../Data/Man001/body.ske");
 			m_pSkeletonA = new Skeleton();
 			m_pSkeletonA->InitWithData(*pSkelDataA);
 
 			m_pAnimationA120 = new Animation();
-			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../TrineGame/Man001/120/bip01.ska");
+			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/man001/120/bip01.ska");
 			m_pAnimationA120->InitWithData(pAnimData120);
 			m_pAnimationA120->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonA);
 
 			m_pAnimationA100 = new Animation();
-			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../TrineGame/Man001/140/bip01.ska");
+			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/man001/140/bip01.ska");
 			m_pAnimationA100->InitWithData(pAnimData100);
 			m_pAnimationA100->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonA);
+
 		}
 
 		// character B Mesh & skeleton & Animation
 		{
 			m_pRenderMeshB = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataB = LoadMeshFromBinaryFile("../TrineGame/Character/magician/Body.skn");
+			MeshData* pMeshDataB = LoadMeshFromBinaryFile("../Data/magician/Body.skn");
 			m_pRenderMeshB->InitWithData(pMeshDataB);
 
 			m_pRendTextureB = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureB->Load("../TrineGame/Character/magician/Body.tga");	
+			m_pRendTextureB->Load("../Data/magician/Body.tga");	
 
-			SkeletonData* pSkelDataB = LoadSkeletonFromBinaryFile("../TrineGame/Character/magician/Body.ske");
+			SkeletonData* pSkelDataB = LoadSkeletonFromBinaryFile("../Data/magician/Body.ske");
 			m_pSkeletonB = new Skeleton();
 			m_pSkeletonB->InitWithData(*pSkelDataB);
 
+
 			m_pAnimationB602 = new Animation();
-			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../TrineGame/Character/magician/602/bip01.ska");
+			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/magician/602/bip01.ska");
 			m_pAnimationB602->InitWithData(pAnimData100);
 			m_pAnimationB602->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonB);
 
 			m_pAnimationB120 = new Animation();
-			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../TrineGame/Character/magician/100/bip01.ska");
+			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/magician/100/bip01.ska");
 			m_pAnimationB120->InitWithData(pAnimData120);
 			m_pAnimationB120->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonB);
 		}

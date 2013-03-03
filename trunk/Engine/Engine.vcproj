@@ -233,6 +233,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resource\ResourceBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource\ResourceBuilder.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource\SkeletonData.h"
 				>
 			</File>

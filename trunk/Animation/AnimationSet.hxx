@@ -26,7 +26,8 @@ namespace ma
 			return NULL;
 
 		Animation* pAnimation = new Animation();
-		AnimationData* pAnimData = LoadAnimationFromBinaryFile(pszAnimPath);
+		AnimationData* pAnimData = new AnimationData();//LoadAnimationFromBinaryFile(pszAnimPath);
+		pAnimData->Load(pszAnimPath);
 		pAnimation->InitWithData(pAnimData);
 		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pOriSkeleton);
 		AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
