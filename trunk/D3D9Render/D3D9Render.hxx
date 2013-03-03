@@ -59,23 +59,23 @@ namespace ma
 		dwShaderFlags |= D3DXSHADER_DEBUG | D3DXSHADER_SKIPOPTIMIZATION;
 #endif // _DEBUG
 
-		const char* defaultfx = "../bin/shader/Shading.fx";
+		const char* defaultfx = "../Data/shader/Shading.fx";
 		HRESULT hr = D3DXCreateEffectFromFile( pDxDevice,
 			defaultfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefault, NULL ); 
 
-		const char* defaultSkinfx = "../bin/shader/Shading@Skin.fx";
+		const char* defaultSkinfx = "../Data/shader/Shading@Skin.fx";
 		hr = D3DXCreateEffectFromFile( pDxDevice,
 			defaultSkinfx, NULL, NULL, dwShaderFlags, NULL, &m_pDefaultSkin, NULL );
 
-		const char* pszLineShader = "../bin/shader/ColorVertex.fx";
+		const char* pszLineShader = "../Data/shader/ColorVertex.fx";
 		hr = D3DXCreateEffectFromFile( pDxDevice, 
 			pszLineShader, NULL, NULL, dwShaderFlags, NULL, &m_pLineShader, NULL);
 
 		hr = D3DXCreateEffectFromFile( pDxDevice, 
-			"../bin/shader/Gbuffer.fx", NULL, NULL, dwShaderFlags, NULL, &m_pGBufferTech, NULL);
+			"../Data/shader/Gbuffer.fx", NULL, NULL, dwShaderFlags, NULL, &m_pGBufferTech, NULL);
 
 		//hr = D3DXCreateEffectFromFile( pDxDevice, 
-		//	"../bin/shader/Gbuffer@Skin.fx", NULL, NULL, dwShaderFlags, NULL, &m_pSkinGBufferTech, NULL);
+		//	"../Data/shader/Gbuffer@Skin.fx", NULL, NULL, dwShaderFlags, NULL, &m_pSkinGBufferTech, NULL);
 
 		pDxDevice->CreateVertexDeclaration(gs_primtiveVBElem,&m_pPrimitiveVBDesc);
 
