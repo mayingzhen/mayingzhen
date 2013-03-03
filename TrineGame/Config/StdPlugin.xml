@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<StandardPlugin>
-  <PhysicsDevice Path="../Data/Editor/Plugin/PhysXDevice_d.dll" />
-</StandardPlugin>

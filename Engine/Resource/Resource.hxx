@@ -33,6 +33,26 @@ namespace ma
 		return true;
 	}
 
+	bool Resource::Save(const char* pszPath)
+	{
+		if (pszPath)
+		{
+			m_sResPath = pszPath;
+		}
+
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(m_sResPath.c_str());
+		if (!bLoadOK)
+		{
+			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",m_sResPath.c_str());
+			return NULL;
+		}
+
+		Serialize(ar);
+
+		return true;
+	}
+
 	void Resource::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);

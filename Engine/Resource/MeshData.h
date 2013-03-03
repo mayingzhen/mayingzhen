@@ -123,18 +123,18 @@ namespace ma
 		xmUint32	m_nIdent;	 // File Identity 
 		xmUint32	m_nVersion;	 // ∏Ò Ω∞Ê±æ∫≈
 		GUID		m_nSkelGUID;
-		UINT		m_nBoneNum;
-		UINT		m_nIndexNum;
-		UINT		m_nVertexNum;
+// 		UINT		m_nBoneNum;
+// 		UINT		m_nIndexNum;
+// 		UINT		m_nVertexNum;
 
 		MeshHeader()
 		{
 			m_nIdent = 'S3MD';
 			m_nVersion = MESH_VER_CURRENT;
 			m_nSkelGUID.Clear();
-			m_nBoneNum = 0;
-			m_nIndexNum	= 0;
-			m_nVertexNum = 0;
+// 			m_nBoneNum = 0;
+// 			m_nIndexNum	= 0;
+// 			m_nVertexNum = 0;
 		}
 
 		void Serialize(SerializeListener& sl,const char* pszLable = "MeshHeader");
@@ -152,10 +152,10 @@ namespace ma
 
 		UINT m_nMateiralID;
 
-		Bounding				m_subMeshBound;
+		//Bounding				m_subMeshBound;
 		std::vector<BoneIndex>	m_arrBonePalette;
-		std::string				m_name;
-		std::string				m_submeshTag;
+		//std::string				m_name;
+		//std::string				m_submeshTag;
 		
 
 	public:
@@ -175,7 +175,7 @@ namespace ma
 
 		UINT	GetMaterialID() const;
 
-		Bounding          &GetMeshBounding() { return m_subMeshBound; }
+		//Bounding          &GetMeshBounding() { return m_subMeshBound; }
 
 		BoneIndex			GetBonePaletteSize() const;
 

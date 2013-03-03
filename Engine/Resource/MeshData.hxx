@@ -90,9 +90,9 @@ namespace ma
 		sl.Serialize(m_nIdent,"FileIden");
 		sl.Serialize(m_nVersion,"Version");
 		sl.Serialize(m_nSkelGUID,"SkeletonGUID");
-		sl.Serialize(m_nBoneNum,"BoneNumber");
-		sl.Serialize(m_nIndexNum,"IndexNumber");
-		sl.Serialize(m_nVertexNum,"VertexNumber");
+// 		sl.Serialize(m_nBoneNum,"BoneNumber");
+// 		sl.Serialize(m_nIndexNum,"IndexNumber");
+// 		sl.Serialize(m_nVertexNum,"VertexNumber");
 
 		sl.EndSection();
 	}
@@ -173,17 +173,6 @@ namespace ma
 		
 	}
 
-	const char* SubMeshData::GetName() const
-	{
-		return m_name.c_str();
-	}
-
-
-	const char*	SubMeshData::GetTag() const
-	{
-		return m_submeshTag.c_str();
-	}
-
 
 	UINT	SubMeshData::GetIndexStart() const
 	{
@@ -222,22 +211,6 @@ namespace ma
 	{
 		return m_arrBonePalette.size() > 0 ? &m_arrBonePalette[0] : NULL;
 	}
-
-
-	//------------------------------------------------------------------------------
-	//For Modification
-	//------------------------------------------------------------------------------
-	void	SubMeshData::SetName(const char* pszName)
-	{
-		m_name = pszName;
-	}
-
-
-	void	SubMeshData::SetTag(const char* pszTag)
-	{
-		m_submeshTag = pszTag;
-	}
-
 
 
 	void	SubMeshData::SetIndexStart(xmUint32 nIndStart)
@@ -288,10 +261,7 @@ namespace ma
 		sl.Serialize(m_nIndexCount,"IndexCount");
 		sl.Serialize(m_nVertexStart,"VertexStart");
 		sl.Serialize(m_nVertexCount,"VertexCount");
-		sl.Serialize(m_subMeshBound,"SubMeshBound");
 		sl.Serialize(m_arrBonePalette,"BonePalette");
-		sl.Serialize(m_name,"SubMeshName");
-		sl.Serialize(m_submeshTag,"SubMeshTag");
 		sl.Serialize(m_nMateiralID,"MaterialID");
 
 		sl.EndSection();
