@@ -228,6 +228,11 @@ namespace ma
 			break;
 		}
 
+		Skeleton* pSkeleton = new Skeleton();
+		pSkeleton->InitWithData(*pSkelData);
+		ConverteAnimDataParentToLocalSpaceAnimation(pAnimation,pSkeleton);
+		SAFE_DELETE(pSkeleton);
+
 		//m_pFBXImporter->Destroy();
 
 		return true;
@@ -457,6 +462,8 @@ namespace ma
 		ConnectMaterialToMesh(pMesh,triangleCount,pTriangleMtlIndex);
 		for(int i = 0 ; i < triangleCount ; ++i)
 		{
+			FBXSDK_printf("Parase triangle %d/%d .....\n",i,triangleCount);
+
 			assert(pMesh->GetPolygonSize(i) == 3); 
 			for(int j = 0; j < 3 ; ++j)
 			{

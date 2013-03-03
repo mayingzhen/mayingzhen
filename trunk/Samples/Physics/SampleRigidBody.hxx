@@ -45,7 +45,7 @@ namespace ma
 			pRootNode->AddChildNode(pGameObj);
 
 			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Fbx/Box.skn","../Fbx/Box.tga");
+			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
 			pGameObj->AddComponent(pMeshComp);
 
 			D3DXVECTOR3 vMin,vMax;
@@ -72,7 +72,7 @@ namespace ma
 			pRootNode->AddChildNode(pGameObj);
 
 			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Fbx/MovingPlatform.skn","../Fbx/PlatformTexture.tga");
+			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
 			pGameObj->AddComponent(pMeshComp);
 
 			D3DXVECTOR3 vMin,vMax;

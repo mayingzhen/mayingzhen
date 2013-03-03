@@ -190,6 +190,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AnimationDataCover.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimationDataCover.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\AnimationInst.h"
 				>
 			</File>

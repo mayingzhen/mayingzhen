@@ -71,12 +71,10 @@ namespace ma
 			m_pAnimationA120 = new Animation();
 			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/man001/120/bip01.ska");
 			m_pAnimationA120->InitWithData(pAnimData120);
-			m_pAnimationA120->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonA);
 
 			m_pAnimationA100 = new Animation();
 			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/man001/140/bip01.ska");
 			m_pAnimationA100->InitWithData(pAnimData100);
-			m_pAnimationA100->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonA);
 
 		}
 
@@ -97,12 +95,10 @@ namespace ma
 			m_pAnimationB602 = new Animation();
 			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/magician/602/bip01.ska");
 			m_pAnimationB602->InitWithData(pAnimData100);
-			m_pAnimationB602->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonB);
 
 			m_pAnimationB120 = new Animation();
 			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/magician/100/bip01.ska");
 			m_pAnimationB120->InitWithData(pAnimData120);
-			m_pAnimationB120->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeletonB);
 		}
 		
 		// original Animation

@@ -275,9 +275,6 @@ namespace ma
 
 	void D3D9Render::RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
 	{
-		DrawMesh(pWordMat,pMesh,pTexture);
-		return;
-
 		D3D9RendMesh* pDxMesh = (D3D9RendMesh*)pMesh;
 		D3D9RendTexture* pDxTexure = (D3D9RendTexture*)(pTexture);
 

@@ -29,7 +29,7 @@ namespace ma
 		AnimationData* pAnimData = new AnimationData();//LoadAnimationFromBinaryFile(pszAnimPath);
 		pAnimData->Load(pszAnimPath);
 		pAnimation->InitWithData(pAnimData);
-		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(pOriSkeleton);
+
 		AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
 		AnimClipNode* pClipNode = new AnimClipNode();
 		pClipNode->SetAnimationInst(pAnimationInst);

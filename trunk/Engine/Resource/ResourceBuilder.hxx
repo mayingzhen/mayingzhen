@@ -39,16 +39,8 @@ namespace ma
 
 	AnimationData* LoadAnimationFromBinaryFile(const char* fileName)
 	{
-		BinaryInputArchive ar;
-		bool bLoadOK = ar.Open(fileName);
-		if (!bLoadOK)
-		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
-			return NULL;
-		}
-
 		AnimationData* pAnimationData = new AnimationData();
-		pAnimationData->Serialize(ar, "Animation");
+		pAnimationData->Load(fileName);
 
 		return pAnimationData;
 	}
@@ -86,15 +78,7 @@ namespace ma
 
 	bool SaveAnimationToBinaryFile(const char* fileName,AnimationData* pAnimaData)
 	{
-		BinaryOutputArchive ar;
-		bool bLoadOK = ar.Open(fileName);
-		if (!bLoadOK)
-		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
-			return false;
-		}
-
-		pAnimaData->Serialize(ar, "Animation");
+		pAnimaData->Save(fileName);
 
 		return true;
 	}

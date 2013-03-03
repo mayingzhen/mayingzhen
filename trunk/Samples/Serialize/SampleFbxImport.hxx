@@ -39,31 +39,38 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
 	{
+		{
+			MeshData* pMeshData = new MeshData;
+			fbxImpor.LoadStaticMeshData("../Data/Fbx/Box.fbx",pMeshData);
+			pMeshData->Save("../Data/Fbx/Box.skn");
+		}
+		
+
 		MeshData* pMeshData = new MeshData;
 		SkeletonData* pSkeData = new SkeletonData;
 		AnimationData* pAnimData = new AnimationData;
 
-		fbxImpor.LoadSkeletonMeshData("../Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
+		fbxImpor.LoadSkeletonMeshData("../Data/Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
 
-		fbxImpor.LoadAnimationData("../Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
+		fbxImpor.LoadAnimationData("../Data/Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
 
 		// Save
-		SaveMeshToBinaryFile("../Fbx/TestBull.skn",pMeshData);
-		SaveSkeletonToBinaryFile("../Fbx/TestBull.ske",pSkeData);
-		SaveAnimationToBinaryFile("../Fbx/TestBull.ska",pAnimData);
+		SaveMeshToBinaryFile("../Data/Fbx/TestBull.skn",pMeshData);
+		SaveSkeletonToBinaryFile("../Data/Fbx/TestBull.ske",pSkeData);
+		SaveAnimationToBinaryFile("../Data/Fbx/TestBull.ska",pAnimData);
 		SAFE_DELETE(pMeshData);
 		SAFE_DELETE(pSkeData);
 		SAFE_DELETE(pAnimData);
 		///
 
-		pMeshData = LoadMeshFromBinaryFile("../Fbx/TestBull.skn");
-		pSkeData = LoadSkeletonFromBinaryFile("../Fbx/TestBull.ske");
-		pAnimData = LoadAnimationFromBinaryFile("../Fbx/TestBull.ska");
+		pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/TestBull.skn");
+		pSkeData = LoadSkeletonFromBinaryFile("../Data/Fbx/TestBull.ske");
+		pAnimData = LoadAnimationFromBinaryFile("../Data/Fbx/TestBull.ska");
 
 		m_pRenderMesh = new D3D9RendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
 
-		const char* pTexPath = "../Fbx/TestBull_DM.png";
+		const char* pTexPath = "../Data/Fbx/TestBull_DM.png";
 		m_pRendTexture = new D3D9RendTexture();
 		m_pRendTexture->SetResPath(pTexPath);
 		m_pRendTexture->Load();
@@ -73,7 +80,6 @@ namespace ma
 
 		Animation* pAnimation = new Animation();
 		pAnimation->InitWithData(pAnimData);
-		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeleton);
 		AnimationInst* pAnimInst = new AnimationInst(pAnimation,m_pSkeleton);
 		AnimClipNode* pClipNode = new AnimClipNode(pAnimInst/*,m_pSkeleton->GetBoneSetByName("UpBody")*/);
 		AnimationAction* pAction = new AnimationAction();
@@ -88,17 +94,17 @@ namespace ma
 	{
 		MeshData* pMeshData = new MeshData;
 
-		fbxImpor.LoadStaticMeshData("../Fbx/MovingPlatform.fbx",pMeshData);
+		fbxImpor.LoadStaticMeshData("../Data/Fbx/MovingPlatform.fbx",pMeshData);
 
-		SaveMeshToBinaryFile("../Fbx/MovingPlatform.skn",pMeshData);
+		SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshData);
 		SAFE_DELETE(pMeshData);
 
-		pMeshData = LoadMeshFromBinaryFile("../Fbx/MovingPlatform.skn");
+		pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/MovingPlatform.skn");
 
 		m_pStaticMesh = new D3D9RendMesh();
 		m_pStaticMesh->InitWithData(pMeshData);
 		
-		const char* pTexPath = "../Fbx/PlatformTexture.tga";
+		const char* pTexPath = "../Data/Fbx/PlatformTexture.tga";
 		m_pStatcMeshTexture = new D3D9RendTexture();
 		m_pStatcMeshTexture->SetResPath(pTexPath);
 		m_pStatcMeshTexture->Load();

@@ -17,6 +17,7 @@
 
 #include "Animation/PoseModifier/LookAtModifier.hxx"
 
+#include "Animation/AnimationDataCover.hxx"
 
 void AnimationModuleInit()
 {

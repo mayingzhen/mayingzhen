@@ -36,7 +36,7 @@ namespace ma
 	void MeshComponent::Start()
 	{
 		//m_pRendMesh->Load();	
-		m_pTexture->Load();
+		//m_pTexture->Load();
 	}
 
 	void MeshComponent::Stop()
@@ -50,17 +50,20 @@ namespace ma
 		if (pRenderDevice == NULL)
 			return;
 
-		//m_pMeshRes = pRenderDevice->CreateRendMesh(pszMeshPath);
-		//m_pMeshRes->Load();
+		m_pRendMesh = pRenderDevice->CreateRendMesh();
+		MeshData* pMeshData = LoadMeshFromBinaryFile(pszMeshPath);
+		m_pRendMesh->InitWithData(pMeshData);
 
-		//m_pTexture = pRenderDevice->CreateRendTexture(pszTexPath);
-		//m_pTexture->Load();
+		m_pTexture = pRenderDevice->CreateRendTexture();
+		m_pTexture->Load(pszTexPath);
 	}	
 
 	void MeshComponent::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax)
 	{
-		//if (m_pMeshRes)
-		//	m_pMeshRes->GetBoundingAABB(vMin,vMax);
+		if (m_pRendMesh)
+		{
+			m_pRendMesh->GetBoundingAABB(vMin,vMax);
+		}
 	}
 
 	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
