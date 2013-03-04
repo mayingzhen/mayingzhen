@@ -24,8 +24,8 @@ public:
 		SampleRigidBody* pPhysics = new SampleRigidBody();
 		m_vSceneView.push_back(pPhysics);
 
-		//SampleSceneSerialize* pSceneSerialize = new SampleSceneSerialize();
-		//m_vSceneView.push_back(pSceneSerialize);
+		SampleSceneSerialize* pSceneSerialize = new SampleSceneSerialize();
+		m_vSceneView.push_back(pSceneSerialize);
 
 		m_nCurSceneInde = 1;
 	}

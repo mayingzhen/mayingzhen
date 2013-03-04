@@ -30,6 +30,8 @@ namespace ma
 
 		virtual void SetGameObject(GameObject* pGameObject) {m_pGameObject = pGameObject;}
 
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Component");
+
 	protected:
 		GameObject* m_pGameObject;
 	};
