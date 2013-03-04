@@ -15,7 +15,7 @@ namespace ma
 
 	void	MonoScriptDevice::Init()
 	{
-		mono_set_dirs("../Data/Framework/mono-2.11.3/lib/", "../Data/Framework/mono-2.11.3/etc/");
+		mono_set_dirs("../Data/mono-2.11.3/lib/", "../Data/mono-2.11.3/etc/");
 
 		int port = (int)(56000 + (GetCurrentProcessId() % 1000));
 		char options[255];
