@@ -1,9 +1,9 @@
-#ifndef  _NODEPOSE__H__
-#define  _NODEPOSE__H__
+#ifndef  _SkeletonPose__H__
+#define  _SkeletonPose__H__
 
 namespace ma
 {
-	class ANIMATION_API NodePose
+	class ANIMATION_API SkeletonPose
 	{
 	public:
 		struct DirtyByte
@@ -20,9 +20,9 @@ namespace ma
 		mutable std::vector<maNodeTransform>	m_arrTSF_OS;
 		std::vector<BoneIndex>		m_arrParentIndice;
 
-		UINT NodePose::GetNodeNumber()const {return m_arrParentIndice.size();}
+		UINT SkeletonPose::GetNodeNumber()const {return m_arrParentIndice.size();}
 
-		NodePose* Clone() const;
+		SkeletonPose* Clone() const;
 
 		void InitWithParentIndice(const std::vector<BoneIndex>& arrParentIndice);
 
@@ -32,7 +32,7 @@ namespace ma
 
 		void InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice);
 
-		void InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS,const NodePose* pRefPose);
+		void InitLocalSpace(const std::vector<maNodeTransform>& arrTSF_LS,const SkeletonPose* pRefPose);
 		
 		void SetTransformPSAll(const std::vector<maNodeTransform>& arrTSF_PS);
 

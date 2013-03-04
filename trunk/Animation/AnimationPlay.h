@@ -4,7 +4,7 @@
 namespace ma
 {
 	class Skeleton;
-	class NodePose;
+	class SkeletonPose;
 	class AnimationAction;
 
 	class ANIMATION_API AnimationPlay
@@ -26,7 +26,7 @@ namespace ma
 
 		void EvaluateAnimation(float fWeight);
 
-		NodePose* GetAnimationPose() {return m_pose;}
+		SkeletonPose* GetAnimationPose() {return m_pose;}
 
 		UINT GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
 
@@ -37,7 +37,7 @@ namespace ma
 	private:
 		Skeleton*			m_pSkeleton;
 		
-		NodePose*			m_pose;
+		SkeletonPose*			m_pose;
 
 		AnimationSet*		m_pAnimSet;
 

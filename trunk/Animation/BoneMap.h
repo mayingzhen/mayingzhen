@@ -1,12 +1,12 @@
-#ifndef  _NODE_LINK__H__
-#define  _NODE_LINK__H__
+#ifndef  _Bone_Map__H__
+#define  _Bone_Map__H__
 
 namespace ma
 {
 	class Skeleton;
 	class Animation;
 	
-	class ANIMATION_API NodeLink
+	class ANIMATION_API BoneMap
 	{
 	public:
 		void Build(Skeleton* pSkeleton,Animation* pAnimation); 

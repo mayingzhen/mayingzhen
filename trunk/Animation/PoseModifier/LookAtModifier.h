@@ -21,7 +21,7 @@ namespace ma
 
 		LookAtModifier();
 
-		void				UpdatePose(NodePose* pNodePose);
+		void				UpdatePose(SkeletonPose* pNodePose);
 
 		void				Init(UINT nBoneID,const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
 

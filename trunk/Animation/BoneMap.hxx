@@ -1,8 +1,8 @@
-#include "Animation/NodeLink.h"
+#include "Animation/BoneMap.h"
 
 namespace ma
 {
-	void NodeLink::Build(Skeleton* pSkeleton,Animation* pAnimation)
+	void BoneMap::Build(Skeleton* pSkeleton,Animation* pAnimation)
 	{
 		if (pSkeleton == NULL || pAnimation == NULL)
 			return;
@@ -17,7 +17,7 @@ namespace ma
 		}
 	}
 
-	BoneIndex NodeLink::MapNode(BoneIndex uBoneInd)
+	BoneIndex BoneMap::MapNode(BoneIndex uBoneInd)
 	{
 		if (uBoneInd >= m_arrMapBoneInd.size() || uBoneInd < 0)
 			return InvalidID<BoneIndex>();

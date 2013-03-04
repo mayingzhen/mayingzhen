@@ -41,7 +41,7 @@ namespace ma
 
 		D3DXMATRIX arrSkinMatrix[256];
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
-		NodePose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
+		SkeletonPose* pAnimPose = m_pAnimtionPlay->GetAnimationPose();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
 			if (pAnimPose)

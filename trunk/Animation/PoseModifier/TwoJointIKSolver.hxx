@@ -27,7 +27,7 @@ namespace ma
 		m_vHingAxisLS = vHingAxisLs;
 		m_pResfSkel = pResfSkel;
 
-		const NodePose* pRefPose = pResfSkel->GetResPose();
+		const SkeletonPose* pRefPose = pResfSkel->GetResPose();
 		D3DXVECTOR3 vBoneAToBoneBOS = pRefPose->GetTransformOS(uBoneBInd).m_vPos - pRefPose->GetTransformOS(uBoneAInd).m_vPos;
 		D3DXVECTOR3 vBoneBToBoneCOS = pRefPose->GetTransformOS(uBoneCInd).m_vPos - pRefPose->GetTransformOS(uBoneBInd).m_vPos;
 		D3DXVec3Normalize(&vBoneAToBoneBOS,&vBoneAToBoneBOS);
@@ -59,7 +59,7 @@ namespace ma
 
 	void TwoJointIKSolver::CalculateConstrainPlane(D3DXQUATERNION& qConstrainPlanePitchLS)
 	{
-		const NodePose* pRefPose = m_pResfSkel->GetResPose();
+		const SkeletonPose* pRefPose = m_pResfSkel->GetResPose();
 
 		bool bGoalAlignJointA = false;
 		D3DXVECTOR3 vGoalPivotSpace;
@@ -142,7 +142,7 @@ namespace ma
 
 	}
 
-	void TwoJointIKSolver::UpdatePose(NodePose* pNodePose)
+	void TwoJointIKSolver::UpdatePose(SkeletonPose* pNodePose)
 	{
 		if (pNodePose == NULL)
 			return;

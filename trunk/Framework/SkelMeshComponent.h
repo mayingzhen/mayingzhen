@@ -1,7 +1,7 @@
 #ifndef  _SKELMESHCOMPONENT__H__
 #define  _SKELMESHCOMPONENT__H__
 
-//#include "Animation/NodePose.h"
+//#include "Animation/SkeletonPose.h"
 
 namespace ma
 {

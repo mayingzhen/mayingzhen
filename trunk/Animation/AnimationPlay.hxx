@@ -14,7 +14,7 @@ namespace ma
 	void AnimationPlay::SetSkeleton(Skeleton* pSkeleton)
 	{
 		m_pSkeleton = pSkeleton;
-		const NodePose* pRefPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
+		const SkeletonPose* pRefPose = pSkeleton ? pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 	}
 
@@ -49,7 +49,7 @@ namespace ma
 		if (m_pSkeleton == NULL)
 			return;
 
-		const NodePose* pRefPose = m_pSkeleton->GetResPose();
+		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
 		if (pRefPose == NULL)
 			return;
 
