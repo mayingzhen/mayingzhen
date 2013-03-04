@@ -222,7 +222,7 @@ namespace ma
 		
 		sl.Serialize(m_tsfPS);
 
-		//sl.SerializeObjectArray(m_vChildNodes);
+		sl.SerializeObjectArray(m_vChildNodes);
 
 		sl.EndSection();
 

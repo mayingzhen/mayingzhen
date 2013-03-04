@@ -74,17 +74,28 @@ namespace ma
 
 		sl.BeginSection(pszLable);
 
-		//if (m_pMeshRes == NULL)
-		//{
-		//	m_pMeshRes = pRenderDevice->CreateRendMesh(NULL);
-		//}
-		//m_pMeshRes->Serialize(sl);
-
-		if (m_pTexture == NULL)
+		std::string sMeshPath,sTexturePath;
+		if (m_pRendMesh)
 		{
-			//m_pTexture = pRenderDevice->CreateRendTexture(NULL);
+			MeshData* pMeshData = m_pRendMesh->GetMeshData();
+			if (pMeshData)
+			{
+				sMeshPath = pMeshData->GetResPath();
+			}
 		}
-		//m_pTexture->Serialize(sl);
+
+		if (m_pTexture)
+		{
+			sTexturePath = m_pTexture->GetResPath();
+		}
+
+		sl.Serialize(sMeshPath);
+		sl.Serialize(sTexturePath);
+
+		if ( sl.IsReading() )
+		{
+			Load(sMeshPath.c_str(),sTexturePath.c_str());
+		}
 
 		sl.EndSection();
 	}

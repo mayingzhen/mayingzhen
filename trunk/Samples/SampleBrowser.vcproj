@@ -192,6 +192,14 @@
 				RelativePath=".\Serialize\SampleFbxImport.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\Serialize\SampleSceneSerialize.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Serialize\SampleSceneSerialize.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Physics"

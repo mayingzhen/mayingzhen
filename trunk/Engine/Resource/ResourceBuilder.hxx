@@ -3,37 +3,17 @@
 
 namespace ma
 {
-
 	MeshData* LoadMeshFromBinaryFile(const char* filename)
 	{
-		BinaryInputArchive ar;
-		bool bLoadOK = ar.Open(filename);
-		if (!bLoadOK)
-		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
-			return NULL;
-		}
-
-		MeshData* pMeshData = new MeshData;
-		pMeshData->Serialize(ar,"Mesh");
-
+ 		MeshData* pMeshData = new MeshData;
+		pMeshData->Load(filename);	
 		return pMeshData;
 	}
 
 	SkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
 	{
-		BinaryInputArchive ar;
-		bool bLoadOK = ar.Open(filename);
-		if (!bLoadOK)
-		{
-			assert(false);
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
-			return NULL;
-		}
-
 		SkeletonData* pSkelData = new SkeletonData();
-		pSkelData->Serialize(ar, "Skeleton");
-
+		pSkelData->Load(filename);
 		return pSkelData;
 	}
 
@@ -41,46 +21,37 @@ namespace ma
 	{
 		AnimationData* pAnimationData = new AnimationData();
 		pAnimationData->Load(fileName);
-
 		return pAnimationData;
 	}
 
 	bool SaveMeshToBinaryFile(const char* filename,MeshData* pMeshData)
 	{
-		BinaryOutputArchive ar;
-		bool bLoadOK = ar.Open(filename);
-		if (!bLoadOK)
-		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",filename);
+		if (filename == NULL || pMeshData == NULL)
 			return false;
-		}
 
-		pMeshData->Serialize(ar,"Mesh");
+		pMeshData->Save(filename);
 
 		return true;
 	}
 
 	bool SaveSkeletonToBinaryFile(const char* fileName,SkeletonData* pSkelData)
 	{
-		BinaryOutputArchive ar;
-		bool bLoadOK = ar.Open(fileName);
-		if (!bLoadOK)
-		{
-			assert(false);
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",fileName);
+		if (fileName == NULL || pSkelData == NULL)
 			return false;
-		}
 
-		pSkelData->Serialize(ar, "Skeleton");
+		pSkelData->Save(fileName);
 
 		return true;
 	}
 
 	bool SaveAnimationToBinaryFile(const char* fileName,AnimationData* pAnimaData)
 	{
+		if (fileName == NULL || pAnimaData == NULL)
+			return false;
+
 		pAnimaData->Save(fileName);
 
 		return true;
 	}
-
 }
+

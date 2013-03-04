@@ -49,5 +49,10 @@ namespace ma
 	{
 
 	}
+
+	void Component::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+
+	}
 }
 

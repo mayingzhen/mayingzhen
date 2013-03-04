@@ -15,6 +15,9 @@ namespace ma
 
 	bool D3D9RendMesh::InitWithData(MeshData* pMeshData)
 	{
+		if (pMeshData == NULL)
+			return false;
+
 		D3D9Render* pDxRender = (D3D9Render*)GetRender();
 		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 
