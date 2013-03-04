@@ -206,10 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RTTIDecl.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Singleton.h"
 				>
 			</File>
