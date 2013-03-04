@@ -1,0 +1,4 @@
+SampleBrowser编译完后可以运行，Tab键切换下一个Sample。
+SampleBrowser启动后第一个Sample为动作重定向Sample，按1,2,3,4键切换不同的动作。
+下一个为物理系统Sample，按k键给Box设置Kinematic属性，按个g键给Box设置使用重量属性。按过K和g键后Box会掉下来。
+再下一个为Fbx资源读取Sample，sample中模型读取的时间大概10秒左右，读取完成后会显示一个静态模型和一个动画模型。
