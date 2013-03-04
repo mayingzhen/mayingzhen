@@ -12,7 +12,7 @@ namespace ma
 		m_fPlaySpeed = 1.0f;
 		m_playbackMode = S3L_PLAYBACK_LOOP;
 		m_playerStatus = S3L_PLAYER_PLAYING;
-		m_pNodeLink = new NodeLink;
+		m_pNodeLink = new BoneMap;
 		if (pSkeleton)
 		{
 			m_pNodeLink->Build(pSkeleton,pAnimation);

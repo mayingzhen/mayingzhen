@@ -13,7 +13,7 @@ namespace ma
 		if (pSkel == NULL)
 			return false;
 
-		const NodePose* pRefPose = pSkel->GetResPose();
+		const SkeletonPose* pRefPose = pSkel->GetResPose();
 		if (pRefPose == NULL)
 			return false;
 
@@ -61,7 +61,7 @@ namespace ma
 		if (pSkel == NULL)
 			return false;
 
-		const NodePose* pRefPose = pSkel->GetResPose();
+		const SkeletonPose* pRefPose = pSkel->GetResPose();
 		if (pRefPose == NULL)
 			return false;
 

@@ -9,7 +9,7 @@ namespace ma
 	struct AnimationData;
 	struct AnimationTracks;
 	class Skeleton;
-	class NodeLink;
+	class BoneMap;
 
 	class ANIMATION_API Animation
 	{

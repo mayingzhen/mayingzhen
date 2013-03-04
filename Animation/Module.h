@@ -3,10 +3,10 @@
 
 #include "Animation/Export.h"
 #include "Animation/Skeleton.h"
-#include "Animation/NodePose.h"
+#include "Animation/SkeletonPose.h"
 #include "Animation/Animation.h"
 #include "Animation/AnimationInst.h"
-#include "Animation/NodeLink.h"
+#include "Animation/BoneMap.h"
 #include "Animation/AnimEvalContext.h"
 #include "Animation/AnimationSet.h"
 #include "Animation/AnimationAction.h"

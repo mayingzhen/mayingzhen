@@ -5,7 +5,7 @@ namespace ma
 {
 	Skeleton::Skeleton()
 	{
-		m_refPose = new NodePose;
+		m_refPose = new SkeletonPose;
 	}
 
 	Skeleton::~Skeleton()

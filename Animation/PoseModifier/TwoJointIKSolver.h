@@ -8,7 +8,7 @@ namespace ma
 		void Init(BoneIndex uBoneAInd,BoneIndex uBoneBInd,BoneIndex uBoneCInd,
 			const D3DVECTOR& vHingAxisLs,const Skeleton* pResfSkel);
 
-		void UpdatePose(NodePose* pNodePose);
+		void UpdatePose(SkeletonPose* pNodePose);
 
 	private:
 		const Skeleton* m_pResfSkel;

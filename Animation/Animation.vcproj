@@ -234,6 +234,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BoneMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BoneMap.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\BoneSet.h"
 				>
 			</File>
@@ -242,27 +250,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NodeLink.h"
-				>
-			</File>
-			<File
-				RelativePath=".\NodeLink.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\NodePose.h"
-				>
-			</File>
-			<File
-				RelativePath=".\NodePose.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\Skeleton.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Skeleton.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonPose.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SkeletonPose.hxx"
 				>
 			</File>
 			<File

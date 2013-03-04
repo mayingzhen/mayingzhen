@@ -1,5 +1,5 @@
 #include "Animation/PoseModifier/LookAtModifier.h"
-#include "Animation/NodePose.h"
+#include "Animation/SkeletonPose.h"
 
 namespace ma
 {
@@ -14,7 +14,7 @@ namespace ma
 	}
 
 
-	void LookAtModifier::UpdatePose(NodePose* pNodePose)
+	void LookAtModifier::UpdatePose(SkeletonPose* pNodePose)
 	{
 		if (pNodePose == NULL)
 			return;

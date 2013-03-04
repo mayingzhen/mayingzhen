@@ -1,7 +1,7 @@
 #ifndef  _SKELETON__H__
 #define  _SKELETON__H__
 
-//#include "Animation/NodePose.h"
+//#include "Animation/SkeletonPose.h"
 
 
 
@@ -9,7 +9,7 @@ namespace ma
 {
 	struct SkeletonData;
 
-	class NodePose;
+	class SkeletonPose;
 	class BoneSet;
 
 	//typedef std::vector<BoneIndex> BoneSet;
@@ -28,7 +28,7 @@ namespace ma
 
 		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
-		const NodePose* GetResPose() {return m_refPose;} 
+		const SkeletonPose* GetResPose() {return m_refPose;} 
 
 		UINT GetBoneNumer() {return m_arrBoneName.size();}
 
@@ -50,7 +50,7 @@ namespace ma
 		std::vector<std::string> m_arrBoneName;
 		std::vector<BoneIndex>	 m_arrParentInd;
 
-		NodePose*				 m_refPose;
+		SkeletonPose*				 m_refPose;
 
 		// D3DXMATRIX
 		std::vector<D3DXMATRIX> m_arrRefPosePS;

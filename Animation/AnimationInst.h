@@ -4,7 +4,7 @@
 namespace ma
 {
 	class Animation;
-	class NodeLink;
+	class BoneMap;
 	class BoneSet;
 	class AnimEvalContext;
 
@@ -33,7 +33,7 @@ namespace ma
 
 		void AdvanceTime(float fTimeElapsed);
 
-		NodeLink* GetNodeLink() {return m_pNodeLink;}
+		BoneMap* GetNodeLink() {return m_pNodeLink;}
 
 		Animation* GetAnimation() {return m_pAnimation;}
 
@@ -43,7 +43,7 @@ namespace ma
 	private:
 		Animation* m_pAnimation;
 
-		NodeLink* m_pNodeLink;
+		BoneMap* m_pNodeLink;
 
 		float m_fLocalFrame;
 		float m_fPlaySpeed;

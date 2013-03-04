@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class NodePose;
+	class SkeletonPose;
 
 	struct ANIMATION_API PoseUpdateInfo
 	{		
@@ -34,7 +34,7 @@ namespace ma
 
 		float GetGain() {return m_fGain;}
 
-		virtual void UpdatePose(NodePose* pNodePose) = 0;
+		virtual void UpdatePose(SkeletonPose* pNodePose) = 0;
 
 protected:
 		bool  m_bEnable;
