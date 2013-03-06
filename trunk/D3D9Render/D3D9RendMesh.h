@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class MeshData;
+	struct MeshData;
 
 	class D3D9RENDER_API D3D9RendMesh : public IRendMesh
 	{

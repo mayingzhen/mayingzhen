@@ -42,12 +42,20 @@ namespace ma
 
 		void SetProjMatrix(const D3DXMATRIX* projMatrix);
 
+		const D3DXMATRIX& GetViewMatrix() {return m_matView;}
+
+		const D3DXMATRIX& GetProjMatrix() {return m_matProj;}
+
+		const D3DXMATRIX& GetViewProjMatrix() {return m_matViewProj;}
+
 	private:
 		void FlushLine();
 
 		void FlushRenderQueue();
 
 		void GBufferPass();	
+
+		void LightPass();
 
 		void ShadingPass();
 
@@ -67,6 +75,11 @@ namespace ma
 		float m_fFarClip;
 
 		IDirect3DVertexDeclaration9* m_pPrimitiveVBDesc;
+
+		D3DXMATRIX	m_matView;
+		D3DXMATRIX	m_matProj;
+		D3DXMATRIX	m_matViewProj;
+
 	
 	};
 }

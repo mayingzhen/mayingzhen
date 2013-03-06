@@ -14,6 +14,9 @@ namespace ma
 		{
 			m_pPhyScene = pPhysicsDevice->CreatePhysicsScene();
 		}
+
+		m_pRenderQueue = new RenderQueue();
+		SetRenderQueue(m_pRenderQueue);
 	}
 
 	Scene::~Scene()
@@ -59,6 +62,11 @@ namespace ma
 		if (pRender == NULL)
 			return;
 
+		if (m_pRenderQueue == NULL)
+			return;
+
+		m_pRenderQueue->Clear();
+
 		if (pCmera)
 		{
 			pRender->SetViewMatrix( pCmera->GetViewMatrix() );
@@ -66,6 +74,8 @@ namespace ma
 		}
 		
 		m_pRootNode->Render();
+
+		//m_pRenderQueue->Flush();
 	}
 
 	void Scene::Start()

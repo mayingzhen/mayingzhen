@@ -1,13 +1,13 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
-#include "Engine/RenderSystem/IRendITem.h"
+#include "Engine/RenderSystem/IRenderItem.h"
 
 namespace ma
 {
 	struct MeshData;
 
-	class ENGINE_API IRendMesh : IRendITem
+	class ENGINE_API IRendMesh : public IRenderItem
 	{
 	public:
 		virtual bool InitWithData(MeshData* pMeshData) = 0;

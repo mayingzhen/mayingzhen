@@ -37,6 +37,8 @@ namespace ma
 	{
 		m_pDefault = NULL;
 		m_pDefaultSkin = NULL;
+		m_pGBufferTech = NULL;
+		m_pShadingTech = NULL;
 // 		D3D9RenderDevice* pRenderDevice = new D3D9RenderDevice();
 // 		SetRenderDevice(pRenderDevice);
 	}
@@ -74,8 +76,8 @@ namespace ma
 		hr = D3DXCreateEffectFromFile( pDxDevice, 
 			"../Data/shader/Gbuffer.fx", NULL, NULL, dwShaderFlags, NULL, &m_pGBufferTech, NULL);
 
-		//hr = D3DXCreateEffectFromFile( pDxDevice, 
-		//	"../Data/shader/Gbuffer@Skin.fx", NULL, NULL, dwShaderFlags, NULL, &m_pSkinGBufferTech, NULL);
+		hr = D3DXCreateEffectFromFile( pDxDevice, 
+			"../Data/shader/Shading.fx", NULL, NULL, dwShaderFlags, NULL, &m_pShadingTech, NULL);
 
 		pDxDevice->CreateVertexDeclaration(gs_primtiveVBElem,&m_pPrimitiveVBDesc);
 
@@ -112,141 +114,166 @@ namespace ma
 
 	void D3D9Render::ShadingPass()
 	{
+		RenderQueue* pRenderQueue = GetRenderQueue();
+		if (pRenderQueue == NULL)
+			return;
+
+		UINT uNumber = pRenderQueue->GetSolidEntryNumber();
+		if (uNumber <= 0)
+			return;
+
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"ShadingPass");
 
-// 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-// 		
-// 		HRESULT hr = S_OK;
-// 
-// 		pDxDevice->Clear( 0, NULL,
-// 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
-// 			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
-// 
-// 		D3DXMATRIX matView,matProject;
-// 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-// 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-// 		
-// 		for(UINT i = 0; i < m_vGeneral.size(); ++i)
-// 		{
-// 			IRendITem& renderObj = m_vGeneral[i];
-// 			D3D9RendMesh* pDxMesh = (D3D9RendMesh*)renderObj.m_pMesh;
-// 
-// 			ID3DXEffect* pCurEffect = m_pShadingTech;
-// 
-// 			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
-// 			{
-// 				hr = pCurEffect->SetTechnique("SkinShadinTech");
-// 				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
-// 			}
-// 			else
-// 			{
-// 				hr = pCurEffect->SetTechnique("ShadinTech");
-// 			}
-// 
-// 			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
-// 			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
-// 			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-// 			pCurEffect->SetMatrix("worldview",&matWV);
-// 
-// 			UINT cPasses = 0; 
-// 			hr = pCurEffect->Begin(&cPasses, 0 );
-// 			for (UINT i = 0; i < cPasses; ++i)
-// 			{
-// 				hr = pCurEffect->BeginPass(i);
-// 				hr = pCurEffect->CommitChanges();
-// 				pDxMesh->GetD3DXMesh()->DrawSubset(0);
-// 				pCurEffect->EndPass();
-// 			}	
-// 			pCurEffect->End();
-// 		}
+		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+		
+		HRESULT hr = S_OK;
 
+		pDxDevice->Clear( 0, NULL,
+			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
+			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+
+		//D3DXMATRIX matView,matProject;
+		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+		
+		for(UINT i = 0; i < uNumber; ++i)
+		{
+			IRenderItem* pRenderItem = pRenderQueue->GetSolidEntryByIndex(i);
+			D3D9RendMesh* pDxMesh = (D3D9RendMesh*)pRenderItem->m_pMesh;
+			D3D9RendTexture* pDxTexture = (D3D9RendTexture*)pRenderItem->m_pTex;
+
+			ID3DXEffect* pCurEffect = m_pShadingTech;
+
+			if (pRenderItem->m_nSkinMatrixNum != 0)
+			{
+				hr = pCurEffect->SetTechnique("SkinShadinTech");
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
+			}
+			else
+			{
+				hr = pCurEffect->SetTechnique("ShadinTech");
+			}
+
+			D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * m_matViewProj;
+			D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * m_matView;
+			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+			pCurEffect->SetMatrix("worldview",&matWV);
+
+			hr = pCurEffect->SetTexture("g_TextureSrcDiffuse",pDxTexture->GetD3DTexture());
+
+			UINT cPasses = 0; 
+			hr = pCurEffect->Begin(&cPasses, 0 );
+			for (UINT i = 0; i < cPasses; ++i)
+			{
+				hr = pCurEffect->BeginPass(i);
+				hr = pCurEffect->CommitChanges();
+				pDxMesh->GetD3DXMesh()->DrawSubset(0);
+				pCurEffect->EndPass();
+			}	
+			pCurEffect->End();
+		}
 
 		D3DPERF_EndEvent();
 	}
 
 	void D3D9Render::GBufferPass()
 	{
+		RenderQueue* pRenderQueue = GetRenderQueue();
+		if (pRenderQueue == NULL)
+			return;
+
+		UINT uNumber = pRenderQueue->GetSolidEntryNumber();
+		if (uNumber <= 0)
+			return;
+
+
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"GBufferPass");
 
-//  		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-//  		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-//  
-//   		HRESULT hr = S_OK;
-//   
-//   
-//   		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
-//   		pDxDevice->GetRenderTarget(0, &pOldRT0);
-//  		LPDIRECT3DSURFACE9 pOldRT1 = NULL;
-//   		pDxDevice->GetRenderTarget(1, &pOldRT1);
-//   
-//   		LPDIRECT3DSURFACE9 pSurfDepth = NULL;
-//   		hr = m_pDepthTex->GetSurfaceLevel(0,&pSurfDepth);
-//   		hr = pDxDevice->SetRenderTarget(0,pSurfDepth);
-//   		SAFE_RELEASE(pSurfDepth);
-// 
-// 		LPDIRECT3DSURFACE9 pSurfNormal = NULL;
-// 		hr = m_pNormalTex->GetSurfaceLevel(0,&pSurfNormal);
-// 		hr = pDxDevice->SetRenderTarget(1,pSurfNormal);
-// 		SAFE_RELEASE(pSurfNormal)
-// 
-// 		pDxDevice->Clear(0, NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
-// 			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
-// 
-// 		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(m_fNearClip, 
-// 			m_fFarClip, 1 / m_fFarClip, 0 );
-// 
-// 		D3DXMATRIX matView,matProject;
-// 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-// 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-// 
-// 		for(UINT i = 0; i < m_vGeneral.size(); ++i)
-// 		{
-// 			IRendITem& renderObj = m_vGeneral[i];
-// 			D3D9RendMesh* pDxMesh = (D3D9RendMesh*)renderObj.m_pMesh;
-// 
-// 			ID3DXEffect* pCurEffect = m_pGBufferTech;
-// 
-// 			if (renderObj.m_ObjFlag & FOB_IS_SKIN)
-// 			{
-// 				hr = pCurEffect->SetTechnique("SkinGBufferTech");
-// 				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",renderObj.m_arrSkinMatrix,renderObj.m_nSkinMatrixNum);
-// 			}
-// 			else
-// 			{
-// 				hr = pCurEffect->SetTechnique("GBufferTech");
-// 			}
-// 
-// 			D3DXMATRIX matWVP = *renderObj.m_pMatWorld * matView * matProject;
-// 			D3DXMATRIX matWV = *renderObj.m_pMatWorld * matView;
-// 			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-// 			pCurEffect->SetMatrix("worldview",&matWV);
-// 			pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
-// 	
-// 			UINT cPasses = 0; 
-// 			hr = pCurEffect->Begin(&cPasses, 0 );
-// 			for (UINT i = 0; i < cPasses; ++i)
-// 			{
-// 				hr = pCurEffect->BeginPass(i);
-// 				hr = pCurEffect->CommitChanges();
-// 				pDxMesh->GetD3DXMesh()->DrawSubset(0);
-// 				pCurEffect->EndPass();
-// 			}	
-// 			pCurEffect->End();
-// 		}
-// 
-// 		hr = pDxDevice->SetRenderTarget(0, pOldRT0);
-// 		SAFE_RELEASE(pOldRT0);
-// 		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
-// 		SAFE_RELEASE(pOldRT1);
+ 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+ 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+ 
+  		HRESULT hr = S_OK;
+  
+  		LPDIRECT3DSURFACE9 pOldRT0 = NULL;
+  		pDxDevice->GetRenderTarget(0, &pOldRT0);
+ 		LPDIRECT3DSURFACE9 pOldRT1 = NULL;
+  		pDxDevice->GetRenderTarget(1, &pOldRT1);
+  
+  		LPDIRECT3DSURFACE9 pSurfDepth = NULL;
+  		hr = m_pDepthTex->GetSurfaceLevel(0,&pSurfDepth);
+  		hr = pDxDevice->SetRenderTarget(0,pSurfDepth);
+  		SAFE_RELEASE(pSurfDepth);
+
+		LPDIRECT3DSURFACE9 pSurfNormal = NULL;
+		hr = m_pNormalTex->GetSurfaceLevel(0,&pSurfNormal);
+		hr = pDxDevice->SetRenderTarget(1,pSurfNormal);
+		SAFE_RELEASE(pSurfNormal)
+
+		pDxDevice->Clear(0, NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+
+		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(m_fNearClip, 
+			m_fFarClip, 1 / m_fFarClip, 0 );
+
+		//D3DXMATRIX matView,matProject;
+		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+
+		
+		for(UINT i = 0; i < uNumber; ++i)
+		{
+			IRenderItem* pRenderItem = pRenderQueue->GetSolidEntryByIndex(i);
+			if (pRenderItem == NULL)
+				continue;
+
+			D3D9RendMesh* pD3D9RenderMesh = (D3D9RendMesh*)pRenderItem->m_pMesh; 
+
+			ID3DXEffect* pCurEffect = m_pGBufferTech;
+
+			if (pRenderItem->m_nSkinMatrixNum != 0)
+			{
+				hr = pCurEffect->SetTechnique("SkinGBufferTech");
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
+			}
+			else
+			{
+				hr = pCurEffect->SetTechnique("GBufferTech");
+			}
+
+			D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * m_matViewProj;
+			D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * m_matView;
+			pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+			pCurEffect->SetMatrix("worldview",&matWV);
+			pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
+	
+			UINT cPasses = 0; 
+			hr = pCurEffect->Begin(&cPasses, 0 );
+			for (UINT i = 0; i < cPasses; ++i)
+			{
+				hr = pCurEffect->BeginPass(i);
+				hr = pCurEffect->CommitChanges();
+				pD3D9RenderMesh->GetD3DXMesh()->DrawSubset(0);
+				pCurEffect->EndPass();
+			}	
+			pCurEffect->End();
+		}
+
+		hr = pDxDevice->SetRenderTarget(0, pOldRT0);
+		SAFE_RELEASE(pOldRT0);
+		hr = pDxDevice->SetRenderTarget(1, pOldRT1);
+		SAFE_RELEASE(pOldRT1);
 
 		D3DPERF_EndEvent();
 	}
 
+	void D3D9Render::LightPass()
+	{
+
+	}
+
 	void D3D9Render::EndRender()
 	{
-		__super::EndRender();
-
 		FlushRenderQueue();
 
 		FlushLine();
@@ -259,18 +286,22 @@ namespace ma
 	
 	void D3D9Render::SetViewMatrix(const D3DXMATRIX* viewMatrix)
 	{
-		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-		
-		pDxDevice->SetTransform(D3DTS_VIEW,viewMatrix);
+// 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+// 		
+// 		pDxDevice->SetTransform(D3DTS_VIEW,viewMatrix);
+		m_matView = *viewMatrix;
+		m_matViewProj = m_matView * m_matProj;
 	}
 
 	void D3D9Render::SetProjMatrix(const D3DXMATRIX* projMatrix)
 	{
-		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-
-		pDxDevice->SetTransform(D3DTS_PROJECTION,projMatrix);
+// 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
+// 
+// 		pDxDevice->SetTransform(D3DTS_PROJECTION,projMatrix);
+		m_matProj = *projMatrix;
+		m_matViewProj = m_matView * m_matProj;
 	}
 
 	void D3D9Render::RenderMesh(const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
@@ -280,19 +311,19 @@ namespace ma
 
 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
+		//pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
 
 		//pDxDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
 
-		D3DXMATRIX matView,matProject;
-		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		D3DXMATRIX matWVP = *pWordMat * matView * matProject;
+// 		D3DXMATRIX matView,matProject;
+// 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+// 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+ 		D3DXMATRIX matWVP = *pWordMat * m_matViewProj;
 
 		HRESULT hr;
 		hr = m_pDefault->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
 		hr = m_pDefault->SetMatrix("worldviewprojection",&matWVP);
-		hr = m_pDefault->SetMatrix("worldview",&matView);
+		hr = m_pDefault->SetMatrix("worldview",&m_matView);
 
 		//D3DXHANDLE tech = m_pDefault->GetTechniqueByName( "Shading" );
 
@@ -328,16 +359,16 @@ namespace ma
 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
 		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
 
-		D3DXMATRIX matView,matProject;
-		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		D3DXMATRIX matWVP = *pWordMat * matView * matProject;
+		//D3DXMATRIX matView,matProject;
+		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+		D3DXMATRIX matWVP = *pWordMat * m_matViewProj;
 
 		HRESULT hr;
 		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
 		hr = m_pDefaultSkin->SetMatrix("worldviewprojection",&matWVP);
 		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",matBonePalatte,uBonePaletteSize);
-		hr = m_pDefaultSkin->SetMatrix("worldview",&matView);
+		hr = m_pDefaultSkin->SetMatrix("worldview",&m_matView);
 
 		hr = m_pDefaultSkin->SetTechnique("SkinShading");
 		UINT cPasses = 0; 
@@ -384,13 +415,13 @@ namespace ma
 
 		pDxDevice->SetVertexDeclaration( m_pPrimitiveVBDesc );
 
-		D3DXMATRIX matView,matProject;
-		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		D3DXMATRIX matVP = matView * matProject;
+		//D3DXMATRIX matView,matProject;
+		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
+		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
+		//D3DXMATRIX matVP = matView * matProject;
 
 		m_pLineShader->SetTechnique("LineShader");
-		m_pLineShader->SetMatrix( "gmVP", (const D3DXMATRIX*)&matVP);
+		m_pLineShader->SetMatrix( "gmVP", (const D3DXMATRIX*)&m_matViewProj);
 		
 		pDxDevice->SetRenderState(D3DRS_ZFUNC,D3DCMP_ALWAYS);
 

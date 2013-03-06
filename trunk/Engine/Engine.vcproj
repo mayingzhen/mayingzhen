@@ -345,7 +345,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderSystem\IRendITem.h"
+				RelativePath=".\RenderSystem\IRenderItem.h"
 				>
 			</File>
 			<File
@@ -366,6 +366,14 @@
 			</File>
 			<File
 				RelativePath=".\RenderSystem\Material.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderQueue.hxx"
 				>
 			</File>
 		</Filter>

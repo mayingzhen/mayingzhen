@@ -45,6 +45,8 @@ namespace ma
 		float m_fAccPhyTime;
 		float m_fFixUpdateInterval;
 
+		RenderQueue* m_pRenderQueue;
+
 	};
 }
 

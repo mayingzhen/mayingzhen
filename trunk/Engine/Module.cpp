@@ -25,6 +25,7 @@
 #include "Engine/RenderSystem/IRender.hxx"
 #include "Engine/RenderSystem/IRenderDevice.hxx"
 #include "Engine/RenderSystem/IRendMesh.hxx"
+#include "Engine/RenderSystem/RenderQueue.hxx"
 
 
 void EngineModuleInit()
