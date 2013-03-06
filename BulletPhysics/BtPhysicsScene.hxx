@@ -92,7 +92,7 @@ namespace ma
 				continue;
 			}
 
-			if ( !pObj->isKinematicObject() )
+			if ( !pObj->isStaticOrKinematicObject() )
 				continue;
 
 			GameObject* pGameObj = (GameObject*)pObj->getUserPointer();

@@ -26,6 +26,7 @@
 #include "Engine/RenderSystem/IRenderDevice.h"
 #include "Engine/RenderSystem/IRendMesh.h"
 #include "Engine/RenderSystem/IRendTexture.h"
+#include "Engine/RenderSystem/RenderQueue.h"
 
 
 

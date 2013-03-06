@@ -1,7 +1,7 @@
 #ifndef  _IRENDER__H__
 #define  _IRENDER__H__
 
-#include "Engine/RenderSystem/IRendITem.h"
+#include "IRenderItem.h"
 
 namespace ma
 {
@@ -36,8 +36,8 @@ namespace ma
 		virtual void SetProjMatrix(const D3DXMATRIX* projMatrix) = 0;
 
 	protected:
-		std::vector<IRendITem> m_vGeneral;	
-		std::vector<IRendITem> m_vTransparent;
+		//std::vector<IRenderItem> m_vGeneral;	
+		//std::vector<IRenderItem> m_vTransparent;
 	};
 
 	ENGINE_API void SetRender(IRender* pRender);

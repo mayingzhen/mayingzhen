@@ -287,58 +287,6 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="Resource Mangager"
-				>
-				<File
-					RelativePath=".\AnimationRes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\AnimationRes.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\MeshRes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MeshRes.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Resource.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Resource.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\ResourceMangager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ResourceMangager.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\SkeletonRes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SkeletonRes.hxx"
-					>
-				</File>
-				<File
-					RelativePath=".\Texture.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Texture.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Script"
 				>
 				<File

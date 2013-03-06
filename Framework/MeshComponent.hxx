@@ -26,6 +26,12 @@ namespace ma
 
 		const D3DXMATRIX& worldmat = m_pGameObject->GetWorldMatrix();
 		pRender->RenderMesh( &worldmat, m_pRendMesh, m_pTexture );
+		
+// 		m_pRendMesh->m_pMesh = m_pRendMesh;
+// 		m_pRendMesh->m_pTex = m_pTexture;
+// 		m_pRendMesh->m_pMatWorld = &worldmat;
+// 		
+// 		GetRenderQueue()->AddRenderer(m_pRendMesh);	
 	}
 
 	void MeshComponent::Update()
