@@ -1,10 +1,6 @@
 float4x4 worldviewprojection : worldviewprojection;
 float4x4 worldview : worldview;
 
-#define MAX_SKIN_MATRIX 60
-#define MAX_BLEND_BONE 4
-float4x3    mSkinMatrixArray[MAX_SKIN_MATRIX] : WORLDMATRIXARRAY;
-
 texture g_TextureLightDiffuse;
 texture g_TextureLightSpecular;
 
@@ -45,47 +41,18 @@ sampler g_SamplerSrcSpecular = sampler_state
 
 
 
-void ShadingVS( float3 pos : POSITION,
+void ShadingVS( float4 pos : POSITION,
 				float2 texcoord : TEXCOORD0,
 				out float4 oPos : POSITION,
 				out float2 oTexCoord: TEXCOORD0,
 				out float2 oTc : TEXCOORD1)
 {
-	oPos = mul( float4(pos.xyz,1.0f), worldviewprojection );
+	oPos = mul( pos, worldviewprojection );
 	oTexCoord = texcoord;
 	
 	oTc = oPos.xy / oPos.w;
 	oTc.y *= -1;
 	oTc = oTc * 0.5f + 0.5f;
-}
-
-void SkinPos( float3 pos ,
-			    float4 BlendWeights , 
-					int4 BlendIndices,
-					out float3 wPos)
-{
-	wPos = 0;
-  int   IndexArray[4]   = (int[4])BlendIndices; 
-  float WeightArray[4] = (float[4])BlendWeights;
-	for (int iBone = 0; iBone < MAX_BLEND_BONE; ++iBone)
-	{
-		wPos += mul(float4(pos,1), mSkinMatrixArray[IndexArray[iBone]]).xyz * WeightArray[iBone];
-	}
-}
-
-void SkinShadingVS( float3 pos : POSITION,
-					float4 BlendWeights :BLENDWEIGHT, 
-					int4 BlendIndices :BLENDINDICES,
-					float2 texcoord : TEXCOORD0,
-					out float4 oPos : POSITION,
-					out float2 oTexCoord: TEXCOORD0,
-					out float2 oTc : TEXCOORD1)
-{
-	float3 wPos = 0;
-
-  SkinPos(pos,BlendWeights,BlendIndices,wPos);
-  
- 	ShadingVS(pos,texcoord,oPos,oTexCoord,oTc);
 }
 
 float4 ShadingPS( float2 texcoord : TEXCOORD0,
@@ -114,14 +81,3 @@ technique Shading
 	}
 };
 
-
-technique SkinShading
-{
-	pass P0
-	{
-		VertexShader = compile vs_3_0 SkinShadingVS();
-		PixelShader = compile ps_3_0 ShadingPS();
-		
-		//cu
-	}
-};
