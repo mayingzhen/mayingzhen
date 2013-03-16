@@ -9,7 +9,7 @@ namespace ma
 	class COMMON_API Class
 	{
 		std::string m_className;
-		const Class* m_pParent;
+		const Class* m_pParentNode;
 
 		//UINT m_nClassID;
 
@@ -55,7 +55,7 @@ namespace ma
 
 	inline Class::Class(const char* className,const Class* pParent)
 		:m_className(className)
-		,m_pParent(pParent)
+		,m_pParentNode(pParent)
 		//,m_nClassID(nClassID)
 	{
 
@@ -74,7 +74,7 @@ namespace ma
 
 	inline const Class* Class::GetParent() const
 	{
-		return m_pParent;
+		return m_pParentNode;
 	}
 
 

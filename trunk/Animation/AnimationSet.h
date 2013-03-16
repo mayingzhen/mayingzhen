@@ -3,23 +3,31 @@
 
 namespace ma
 {
-	class AnimationAction;
+	class Action;
 	class Skeleton;
+	class PoseModifier;
 
-	class ANIMATION_API AnimationSet
+	class ANIMATION_API AnimationSet : public IAnimationSet
 	{
 	public:
-		AnimationAction* GetAnimationActionByName(const char* pszName);
+		Action*	GetActionByName(const char* pszName);
 
-		AnimationInst* LoadAnimation(const char* pszAnimPath,const char* pszAnimName,
-			Skeleton* pSkeleton,Skeleton* pOriSkeleton);
+		UINT	GetActionNumber() {return m_arrAnimation.size();}
 
-		void AddAnimationAction(AnimationAction* pSkelAnim);
+		Action* GetActionByIndex(UINT index);
 
-		void AddAnimationInst(AnimationInst* pAnimIns,const char* pszAnimName);
+		void	AddAction(Action* pAction);
+
+		void	RemoveAction(Action* pAction);
+
+		void	Serialize(SerializeListener& sl, const char* pszLable = "AnimationSet");
 
 	private:
-		std::vector<AnimationAction*> m_arrAnimation;
+		std::vector<BoneSet*>	m_arrBoneSet;
+
+		std::vector<PoseModifier*> m_arrPoseModifier;
+			
+		std::vector<Action*>	m_arrAnimation;
 	};
 }
 

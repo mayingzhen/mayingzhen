@@ -38,7 +38,9 @@ namespace ma
 		IRendTexture*	m_pRendTextureA_b;
 		IRendTexture*	m_pRendTextureA_f;
 		IRendTexture*	m_pRendTextureA_h;
+
 		AnimationPlay*	m_pAnimtionPlayA;
+		
 		Skeleton*		m_pSkeletonA;
 		Animation*		m_pAnimationA120;
 		Animation*		m_pAnimationA100;

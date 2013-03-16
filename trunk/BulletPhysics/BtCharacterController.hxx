@@ -126,7 +126,7 @@ namespace ma
 		if (m_pGameObject == NULL)
 			return;
 
-		D3DXVECTOR3 vMovePos = *( m_pGameObject->GetWorldPos() ) + m_vCenter;
+		D3DXVECTOR3 vMovePos = m_pGameObject->GetPositionWS() + m_vCenter;
 
 		D3DXVECTOR3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
 		D3DXVECTOR3 motion =vMovePos - vCharPosPre;
@@ -140,10 +140,11 @@ namespace ma
 			return;
 
 		D3DXVECTOR3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		D3DXVECTOR3 vPosWSNew = charPos - m_vCenter;
-		D3DXVECTOR3 vPosWSOld = *(m_pGameObject->GetWorldPos());
-		D3DXVECTOR3 vDirWs = vPosWSNew - vPosWSOld;
-		m_pGameObject->TranslateWS(vDirWs);
+		m_pGameObject->SetPositionWS(charPos);
+		//D3DXVECTOR3 vPosWSNew = charPos - m_vCenter;
+		//D3DXVECTOR3 vPosWSOld = m_pGameObject->GetPositionWS();
+		//D3DXVECTOR3 vDirWs = vPosWSNew - vPosWSOld;
+		//m_pGameObject->TranslateWS(vDirWs);
 	}
 
 	CollisionFlags BulletCharacterController::MoveImpl(const D3DXVECTOR3& motion)

@@ -65,6 +65,49 @@ void maEulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis)
 
 }
 
+void maEulerAngleFromQuaternion(EulerAngleXYZ* pEuler,const D3DXQUATERNION* pQua)
+{
+	D3DXMATRIX mat;
+	D3DXMatrixRotationQuaternion(&mat,pQua);
+	maEulerAngleXYZFromMatrix(pEuler,&mat);
+}
+
+bool maEulerAngleXYZFromMatrix(EulerAngleXYZ* pEuler,const D3DXMATRIX* pMat)
+{
+	// rot  = cy*cz           cy*sz           -sy
+	//        cz*sx*sy-cx*sz  cx*cz+sx*sy*sz  cy*sx
+	//        cx*cz*sy+sx*sz  -cz*sx+cx*sy*sz  cx*cy
+
+	float m02 = xmClamp(pMat->m[0][2],-1.0f,1.0f);
+	pEuler->y = -asinf(m02); //asinf(x) has error when x is outside of range[-1,1]
+
+	if ( pEuler->y < D3DX_PI * 0.5f )
+	{
+		if ( pEuler->y > -D3DX_PI * 0.5f )
+		{
+			pEuler->x = atan2f(pMat->m[1][2],pMat->m[2][2]);
+			pEuler->z = atan2f(pMat->m[0][1],pMat->m[0][0]);
+			return true;
+		}
+		else
+		{
+			// WARNING.  Not a unique solution.
+			float fRmY = atan2f(pMat->m[1][0],pMat->m[1][1]);
+			pEuler->z = (0.0f);  // any angle works
+			pEuler->x = pEuler->z - fRmY;
+			return false;
+		}
+	}
+	else
+	{
+		// WARNING.  Not a unique solution.
+		float fRpY = atan2f(pMat->m[1][0],pMat->m[1][1]);
+		pEuler->z = (0.0f);  // any angle works
+		pEuler->x = fRpY - pEuler->z;
+		return false;
+	}
+}
+
 
 void maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat)
 {
@@ -96,7 +139,7 @@ void maTransformSetIdentity(maNodeTransform* pTSF)
 	pTSF->m_fScale = 1.0f;
 }
 
-void maTransfromMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, const maNodeTransform* pTSFB)
+void maTransformMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, const maNodeTransform* pTSFB)
 {
 	D3DXVECTOR3 vOpos = pTSFA->m_vPos * pTSFB->m_fScale;
 	maQuaternionTransformVector(&vOpos, &vOpos, &pTSFB->m_qRot);
@@ -137,7 +180,7 @@ void maTransfromInvMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, cons
 {
 	maNodeTransform tsfInv;
 	maTransformInverse(&tsfInv, pTSFB);
-	maTransfromMul(pOut, pTSFA, &tsfInv);
+	maTransformMul(pOut, pTSFA, &tsfInv);
 }
 
 void maVec3TransformNormal(D3DXVECTOR3 *pOut, const D3DXVECTOR3 *pV, const maNodeTransform* pTSF)
@@ -260,7 +303,7 @@ void Log(const char* fmt,...) {}
 void SSERT_MSG(bool expr,const char* fmt,...){}
 void LogError(UINT nErrorCode,const char* fmt,...){}
 
-void  xmVec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
+void  Vec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 {
 	pOut->x = pA->x < pB->x ? pA->x : pB->x;
 	pOut->y = pA->y < pB->y ? pA->y : pB->y;
@@ -268,9 +311,15 @@ void  xmVec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 }
 
 
-void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
+void  Vec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB)
 {
 	pOut->x = pA->x > pB->x ? pA->x : pB->x;
 	pOut->y = pA->y > pB->y ? pA->y : pB->y;
 	pOut->z = pA->z > pB->z ? pA->z : pB->z;
 }
+
+D3DXVECTOR3 Vec3Zero()
+{
+	return D3DXVECTOR3(0,0,0);
+}
+

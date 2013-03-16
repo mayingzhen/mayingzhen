@@ -105,7 +105,7 @@ namespace ma
 			BoneIndex nParentInd = m_arrParentIndice[uBoneCnt];
 			if ( IsValidID(nParentInd) )
 			{
-				maTransfromMul(&m_arrTSF_OS[uBoneCnt],&arrTSF_PS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
+				maTransformMul(&m_arrTSF_OS[uBoneCnt],&arrTSF_PS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
 			}	
 			else 
 			{
@@ -243,7 +243,7 @@ namespace ma
 			if ( IsValidID(nParentInd) )
 			{
 				const maNodeTransform& patentTSF = GetTransformOS(nParentInd);
-				maTransfromMul(&m_arrTSF_OS[nBoneInd], &m_arrTSF_PS[nBoneInd], &patentTSF);
+				maTransformMul(&m_arrTSF_OS[nBoneInd], &m_arrTSF_PS[nBoneInd], &patentTSF);
 
 				D3DXQuaternionNormalize(&m_arrTSF_OS[nBoneInd].m_qRot, &m_arrTSF_OS[nBoneInd].m_qRot);
 			}
@@ -286,7 +286,7 @@ namespace ma
 	void SkeletonPose::ApplyTransformLS(const maNodeTransform* pTSF, BoneIndex nBoneInd)
 	{
 		maNodeTransform tsf = GetTransformPS(nBoneInd);
-		maTransfromMul(&tsf,pTSF,&tsf);
+		maTransformMul(&tsf,pTSF,&tsf);
 		SetTransformPS(&tsf,nBoneInd);
 	}
 

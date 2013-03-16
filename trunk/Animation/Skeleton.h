@@ -12,37 +12,36 @@ namespace ma
 	class SkeletonPose;
 	class BoneSet;
 
-	//typedef std::vector<BoneIndex> BoneSet;
-
-	class ANIMATION_API Skeleton
+	class ANIMATION_API Skeleton : public ISkeleton
 	{
 	public:
 		Skeleton();
 
 		~Skeleton();
 
-		//bool Load(const char* pszPath);
-		bool InitWithData(const SkeletonData& skelData);
+		bool				InitWithData(const SkeletonData* pSkelData);
 
-		bool InitWithPSData(const SkeletonData& skelData);
+		const SkeletonData*	GetSkeletonData() {return m_pSkeleonData;}
 
-		const D3DXMATRIX& GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
+		//bool				InitWithPSData(SkeletonData* pSkelData);
+
+		const D3DXMATRIX&	GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
 		const SkeletonPose* GetResPose() {return m_refPose;} 
 
-		UINT GetBoneNumer() {return m_arrBoneName.size();}
+		UINT				GetBoneNumer() {return m_arrBoneName.size();}
 
-		const char* GetBoneNameByIndex(UINT uIndex) {return m_arrBoneName[uIndex].c_str();}
+		const char*			GetBoneNameByIndex(UINT uIndex) {return m_arrBoneName[uIndex].c_str();}
 
-		BoneIndex GetBoneIdByName(const char* pszBoneName);
+		BoneIndex			GetBoneIdByName(const char* pszBoneName);
 
-		BoneIndex GetParentIndice(BoneIndex nBoneID);
+		BoneIndex			GetParentIndice(BoneIndex nBoneID);
 
-		BoneSet* GetBoneSetByName(const char* pszBoneSetName);
+		BoneSet*			GetBoneSetByName(const char* pszBoneSetName);
 
-		bool IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID);
+		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID);
 
-		void InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody");
+		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody");
 
 	private:
 		std::string m_name;
@@ -50,7 +49,7 @@ namespace ma
 		std::vector<std::string> m_arrBoneName;
 		std::vector<BoneIndex>	 m_arrParentInd;
 
-		SkeletonPose*				 m_refPose;
+		SkeletonPose*			 m_refPose;
 
 		// D3DXMATRIX
 		std::vector<D3DXMATRIX> m_arrRefPosePS;
@@ -58,7 +57,9 @@ namespace ma
 		std::vector<D3DXMATRIX> m_arrRefPoseOSInv;
 
 		// ¹Ç÷À¼¯
-		std::vector<BoneSet*> m_arrBoneSet;
+		std::vector<BoneSet*>	m_arrBoneSet;
+
+		const SkeletonData*		m_pSkeleonData;
 	};
 }
 

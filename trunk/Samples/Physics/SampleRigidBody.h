@@ -3,7 +3,6 @@
 
 namespace ma
 {
-	class Scene;
 	class RigidBodyComponent;
 
 	class SampleRigidBody : public SimpleSceneView
@@ -26,8 +25,6 @@ namespace ma
 		virtual	void OnResize(int w,int h);
 
 	private:
-		Scene*	m_pScene;	
-
 		RigidBodyComponent* m_pRigidBodyComp;
 	};
 }

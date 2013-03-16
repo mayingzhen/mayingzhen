@@ -1,7 +1,7 @@
 #ifndef  _BtPhysicsScene__H__
 #define  _BtPhysicsScene__H__
 
-#include "Framework/Physics/IPhysicsScene.h"
+#include "Engine/Physics/IPhysicsScene.h"
 
 
 class btDefaultCollisionConfiguration;

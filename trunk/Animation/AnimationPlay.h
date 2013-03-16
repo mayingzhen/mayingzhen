@@ -5,46 +5,56 @@ namespace ma
 {
 	class Skeleton;
 	class SkeletonPose;
-	class AnimationAction;
+	class Action;
 
-	class ANIMATION_API AnimationPlay
+	typedef UINT ActionID;
+
+	class ANIMATION_API AnimationPlay : public IAnimationPlay
 	{
 	public:
-		AnimationPlay();
+		AnimationPlay(ISkeleton* pSkeleton = NULL);
 
 		~AnimationPlay();
 
-		void SetSkeleton(Skeleton* pSkeleton);
+		virtual void			SetSkeleton(ISkeleton* pSkeleton);
 
-		void SetAnimationSet(AnimationSet* pAnimationSet);
+		virtual	ISkeleton*		GetSkeleton() {return m_pSkeleton;}
 
-		void PlayAnimation(AnimationAction* pSkelAnim);
+		virtual void			SetAnimationSet(IAnimationSet* pAnimationSet);
 
-		void PlayAnimation(const char* pszAnimName);
-		
-		void AdvanceTime(float fTimeElepse);
+		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
-		void EvaluateAnimation(float fWeight);
+		virtual	void			AddAction(const char* pszSkaPath, const char* actionName);
 
-		SkeletonPose* GetAnimationPose() {return m_pose;}
+		virtual void			PlayAnimation(const char* pszAnimName); 
 
-		UINT GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
+		virtual void			PlayAnimation(ActionID actionID);
 
-		D3DXMATRIX GetSkinMatrixByIndex(UINT index) {return m_arrSkinMatrix[index];}
+		virtual void			AdvanceTime(float fTimeElepse);
 
-		D3DXMATRIX* GetSkinMatrixArray() {return m_arrSkinMatrix;}
+		virtual void			EvaluateAnimation(float fWeight);
 
+		virtual UINT			GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
+
+		virtual D3DXMATRIX*		GetSkinMatrixArray()  {return m_arrSkinMatrix;}	
+
+		SkeletonPose*			GetAnimationPose() {return m_pose;}
+
+	protected:
+		void					PlayAnimation(Action* pSkelAnim);
+	
 	private:
-		Skeleton*			m_pSkeleton;
+		Skeleton*				m_pSkeleton;
 		
 		SkeletonPose*			m_pose;
 
-		AnimationSet*		m_pAnimSet;
+		AnimationSet*			m_pAnimSet;
 
-		AnimationAction*	m_pSkelAnim;
+		Action*					m_pSkelAnim;
 
-		D3DXMATRIX			m_arrSkinMatrix[256];
+		D3DXMATRIX				m_arrSkinMatrix[256];
 	};
 }
 
 #endif
+

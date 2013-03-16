@@ -1,7 +1,7 @@
 #ifndef  _BtPhysicsDevice__H__
 #define  _BtPhysicsDevice__H__
 
-#include "Framework/Physics/IPhysicsDevive.h"
+#include "Engine/Physics/IPhysicsDevive.h"
 
 namespace ma
 {
@@ -9,6 +9,8 @@ namespace ma
 	{
 	public:
 		virtual IPhysicsScene*			CreatePhysicsScene();
+
+		virtual void					DestoryPhysicsScene(IPhysicsScene* pPhysicsScene);
 
 		virtual IPhysicsObject*			CreatePhysicsObject();
 

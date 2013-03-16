@@ -174,11 +174,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AABB.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AABB.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\BitField.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CommonExport.h"
+				RelativePath=".\Frustum.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Frustum.hxx"
 				>
 			</File>
 			<File
@@ -187,14 +199,6 @@
 			</File>
 			<File
 				RelativePath=".\maMath.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Module.h"
 				>
 			</File>
 			<File
@@ -211,22 +215,6 @@
 			</File>
 			<File
 				RelativePath=".\SmartPointer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -262,6 +250,34 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath=".\Export.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\stdafx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdafx.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

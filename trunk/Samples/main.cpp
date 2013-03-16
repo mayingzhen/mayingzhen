@@ -7,6 +7,7 @@
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
+#include "Samples/Render/SampleLighting.hxx"
 
 using namespace ma;
 
@@ -27,7 +28,10 @@ public:
 		SampleSceneSerialize* pSceneSerialize = new SampleSceneSerialize();
 		m_vSceneView.push_back(pSceneSerialize);
 
-		m_nCurSceneInde = 2;
+		SampleLighting*	pLighting = new SampleLighting();
+		m_vSceneView.push_back(pLighting);
+
+		m_nCurSceneInde = m_vSceneView.size() - 1;
 	}
 
 	virtual void Init(int argc, char* argv[])

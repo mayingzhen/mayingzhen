@@ -73,6 +73,11 @@ struct COMMON_API EulerAngleXYZ
 //x-roll = 0, y-pitch, z-yaw
 COMMON_API void maEulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const D3DXVECTOR3* pAxis);
 
+COMMON_API void maEulerAngleFromQuaternion(EulerAngleXYZ* pEuler,const D3DXQUATERNION* pQua);
+
+COMMON_API bool maEulerAngleXYZFromMatrix(EulerAngleXYZ* pEuler,const D3DXMATRIX* pMat);
+
+
 
 // Quaternion
 COMMON_API void maQuaternionTransformVector(D3DXVECTOR3* pOut, const D3DXVECTOR3* pV, const D3DXQUATERNION* pQuat);
@@ -90,13 +95,20 @@ inline void maLerp(T& out, const T& v0,const T& v1,float factor)
 	out = v0*(1.0f-factor)+v1*factor;
 }
 
+inline float xmClamp(float fVal,float fMin,float fMax)
+{
+	fVal = fVal > fMin ? fVal : fMin;
+	fVal = fVal < fMax ? fVal : fMax;
+	return fVal;
+}
+
 
 // Transform
 COMMON_API void maTransformSetIdentity(maNodeTransform* pTSF);
 
 COMMON_API void maTransformInverse(maNodeTransform* pOut, const maNodeTransform* pTSF);
 
-COMMON_API void maTransfromMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, const maNodeTransform* pTSFB);
+COMMON_API void maTransformMul(maNodeTransform* pOut, const maNodeTransform* pTSFA, const maNodeTransform* pTSFB);
 
 COMMON_API void maTransformMad(maNodeTransform* pOut,maNodeTransform* pTSFA,maNodeTransform* pTSFB,float fWeight);
 
@@ -143,6 +155,7 @@ COMMON_API D3DXVECTOR4* maMatrixAsVector4(D3DXMATRIX* pMat,UINT uCol);
 // 	maMatrixFromEulerAngleXYZ(pMat,&eRot);
 // }
 
+
 template<class T>
 T InvalidID()
 {
@@ -173,8 +186,10 @@ COMMON_API void Log(const char* fmt,...);
 COMMON_API void SSERT_MSG(bool expr,const char* fmt,...);
 COMMON_API void LogError(UINT nErrorCode,const char* fmt,...);
 
-COMMON_API void  xmVec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
-COMMON_API void  xmVec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
+COMMON_API void  Vec3Min(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
+COMMON_API void  Vec3Max(D3DXVECTOR3* pOut,const D3DXVECTOR3* pA,const D3DXVECTOR3* pB);
+COMMON_API D3DXVECTOR3 Vec3Zero();
+
 
 
 

@@ -229,7 +229,7 @@ namespace ma
 		}
 
 		Skeleton* pSkeleton = new Skeleton();
-		pSkeleton->InitWithData(*pSkelData);
+		pSkeleton->InitWithData(pSkelData);
 		ConverteAnimDataParentToLocalSpaceAnimation(pAnimation,pSkeleton);
 		SAFE_DELETE(pSkeleton);
 
@@ -469,14 +469,14 @@ namespace ma
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
 
-				D3DXVECTOR3 vertex;
+				D3DXVECTOR3 pos;
 				D3DXVECTOR4 color;
 				D3DXVECTOR3 normal;
 				D3DXVECTOR3 tangent;
 				D3DXVECTOR2 uv[2];
 
 				// Read the vertex
-				ReadVertex(pMesh , ctrlPointIndex , &vertex);
+				ReadVertex(pMesh , ctrlPointIndex , &pos);
 
 				// Read the color of each vertex
 				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
@@ -497,7 +497,8 @@ namespace ma
 				//D3DXVec3TransformCoord(&vertex[j],&vertex[j],&matrix);
 				VertexType0 vertert;
 				memset(&vertert,0,sizeof(VertexType0));
-				vertert.p = vertex;
+				vertert.p = pos;
+				vertert.n = normal;
 				vertert.uv = uv[0];
 
 				if (pSkelData)

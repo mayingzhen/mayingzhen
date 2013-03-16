@@ -1,20 +1,23 @@
 #ifndef	COMMON_MODULE__H__
 #define  COMMON_MODULE__H__
 
-#include "Common/CommonExport.h"
+#include "Common/Export.h"
 #include "Common/stdafx.h"
+
+// Math
 #include "Common/maMath.h"
-#include "Common/BitField.h"
+#include "Common/AABB.h"
+#include "Common/Frustum.h"
 
 // RTTI
 #include "Common/RTTI/Object.h"
 #include "Common/RTTI/Class.h"
 #include "Common/RTTI/ObjectFactory.h"
 
-// Singleton
+// Utile
 #include "Common/Singleton.h"
-
 #include "Common/ReferenceCountObject.h"
+#include "Common/BitField.h"
 
 
 COMMON_API void CommonModuleInit();

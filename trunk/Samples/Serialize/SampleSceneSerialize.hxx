@@ -1,6 +1,4 @@
 #include "Samples/Serialize/SampleSceneSerialize.h"
-#include "D3D9Render/Module.h"
-#include "Framework/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma
@@ -12,34 +10,27 @@ namespace ma
 
 	void SampleSceneSerialize::Init(Application* pApplication)
 	{
-		m_vEyePos = D3DXVECTOR3(0, 6, 10);
-		m_fMoveCameraSpeed = 0.20f;
-		SimpleSceneView::Init(pApplication);
-
-		D3D9RenderModuleInit();
-		FrameWorkModuleInit();
 		BtPhysicsModuleInit();
 
-		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
+		SimpleSceneView::Init(pApplication);
 
-		D3D9Render* pDxRender = (D3D9Render*)GetRender();
-		pDxRender->InitDefaultShader();
-
-
+		D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 6, 10);
+		m_fMoveCameraSpeed = 0.20f;
+		m_pCamera->LookAt(&vEyePos);
 	}
 
 	void SampleSceneSerialize::Shutdown()
 	{
-		FrameWorkModuleShutdown();
-		D3D9RenderModuleShutdown();
 		BtPhysicsModuleShutdown();
+
+		SimpleSceneView::Shutdown();
 	}
 
 	void SampleSceneSerialize::Load()
 	{
-		ma::SceneNode* pRootNode = new SceneNode(NULL,"RootNode");
-		ma::Scene* pScene = new Scene(pRootNode);
+		//ma::SceneNode* pRootNode = m_pScene->GetRootNode();//new SceneNode(NULL,"RootNode");
+		ma::Scene* pScene = new Scene();
+		ma::SceneNode* pRootNode = pScene->GetRootNode();
 
 		pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
 
@@ -99,14 +90,15 @@ namespace ma
 			bool bOpenOK = arOut.Open("../Tesx.scene");
 			assert(bOpenOK);
 			pScene->Serialize(arOut);
+			SAFE_DELETE(pScene);
 		}
 
 		{
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open("../Tesx.scene");
 			assert(bOpenOK);
-			SAFE_DELETE(m_pScene);
-			m_pScene = new Scene(NULL);
+			//SAFE_DELETE(m_pScene);
+			//m_pScene = new Scene(NULL);
 			m_pScene->Serialize(arIn);
 		}
 
@@ -130,6 +122,7 @@ namespace ma
 				bool bOpenOK = arOut.Open("../Tesx.scene.xml");
 				assert(bOpenOK);
 				m_pScene->Serialize(arOut);
+				SAFE_DELETE(m_pScene);
 			}
 
 			{
@@ -137,35 +130,16 @@ namespace ma
 				bool bOpenOK = arIn.Open("../Tesx.scene.xml");
 				assert(bOpenOK);
 				SAFE_DELETE(m_pScene);
-				m_pScene = new Scene(NULL);
+				m_pScene = new Scene();
 				m_pScene->Serialize(arIn);
 				m_pScene->Start();
 			}
-		}
-
-		if (m_pScene)
-		{
-			m_pScene->Update(timeElapsed);
 		}
 	}
 
 	void SampleSceneSerialize::Render()
 	{
-		IRender* pRender = ma::GetRender();
-		if (pRender == NULL)
-			return;
-
-		pRender->BeginRender();
-
-		pRender->SetViewMatrix(&m_matView);
-		pRender->SetProjMatrix(&m_matProj);
-
-		if (m_pScene)
-		{
-			m_pScene->Render();
-		}
-
-		pRender->EndRender();
+		__super::Render();
 	}
 
 	void SampleSceneSerialize::OnResize(int w,int h)

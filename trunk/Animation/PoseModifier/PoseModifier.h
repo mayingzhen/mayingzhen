@@ -15,28 +15,28 @@ namespace ma
 	};
 
 
-	class ANIMATION_API PoseModifier
+	class ANIMATION_API PoseModifier : public Object
 	{
+		DECL_OBJECT(PoseModifier)
+
 	public:
-		PoseModifier() 
-		{
-			m_bEnable = true;
-			m_fGain =1.0f;
-		}
+		PoseModifier();
 
-		virtual ~PoseModifier() {};
+		~PoseModifier();
 
-		void Enable(bool bEnable = true) {m_bEnable = bEnable;}
+		void			Enable(bool bEnable = true) {m_bEnable = bEnable;}
 
-		bool IsEnable() const  {return m_bEnable;}
+		bool			IsEnable() const  {return m_bEnable;}
 
-		void SetGain(float fGain) {m_fGain = fGain;}
+		void			SetGain(float fGain) {m_fGain = fGain;}
 
-		float GetGain() {return m_fGain;}
+		float			GetGain() {return m_fGain;}
 
-		virtual void UpdatePose(SkeletonPose* pNodePose) = 0;
+		virtual void	UpdatePose(SkeletonPose* pNodePose);
 
-protected:
+		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "PoseModifier");
+
+	protected:
 		bool  m_bEnable;
 
 		float m_fGain;

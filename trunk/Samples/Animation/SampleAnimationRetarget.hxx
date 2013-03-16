@@ -1,6 +1,5 @@
 #include "Samples/Animation/SampleAnimationRetarget.h"
 #include "Animation/Module.h"
-#include "D3D9Render/Module.h"
 
 
 namespace ma
@@ -13,25 +12,14 @@ namespace ma
 	{
 		SimpleSceneView::Init(pApplication);
 
-		m_vEyePos = D3DXVECTOR3(0, 400, 400);
-		D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
-		D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
-		D3DXMatrixLookAtLH(&m_matView,&m_vEyePos,&lookatPos,&vUp);
+		D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 400, 400);
+		m_pCamera->LookAt(&vEyePos);
 
-		D3D9RenderModuleInit();
 		AnimationModuleInit();
-
-		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
-
-		D3D9Render* pDxRender = (D3D9Render*)GetRender();
-		pDxRender->InitDefaultShader();
-
 	}
 
 	void SampleAnimationRetarget::Shutdown()
 	{
-		D3D9RenderModuleShutdown();
 		AnimationModuleShutdown();
 	}
 
@@ -66,16 +54,7 @@ namespace ma
 
 			SkeletonData* pSkelDataA = LoadSkeletonFromBinaryFile("../Data/Man001/body.ske");
 			m_pSkeletonA = new Skeleton();
-			m_pSkeletonA->InitWithData(*pSkelDataA);
-
-			m_pAnimationA120 = new Animation();
-			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/man001/120/bip01.ska");
-			m_pAnimationA120->InitWithData(pAnimData120);
-
-			m_pAnimationA100 = new Animation();
-			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/man001/140/bip01.ska");
-			m_pAnimationA100->InitWithData(pAnimData100);
-
+			m_pSkeletonA->InitWithData(pSkelDataA);
 		}
 
 		// character B Mesh & skeleton & Animation
@@ -89,61 +68,29 @@ namespace ma
 
 			SkeletonData* pSkelDataB = LoadSkeletonFromBinaryFile("../Data/magician/Body.ske");
 			m_pSkeletonB = new Skeleton();
-			m_pSkeletonB->InitWithData(*pSkelDataB);
-
-
-			m_pAnimationB602 = new Animation();
-			AnimationData* pAnimData100 = LoadAnimationFromBinaryFile("../Data/magician/602/bip01.ska");
-			m_pAnimationB602->InitWithData(pAnimData100);
-
-			m_pAnimationB120 = new Animation();
-			AnimationData* pAnimData120 = LoadAnimationFromBinaryFile("../Data/magician/100/bip01.ska");
-			m_pAnimationB120->InitWithData(pAnimData120);
+			m_pSkeletonB->InitWithData(pSkelDataB);
 		}
-		
-		// original Animation
-		// A
-		AnimationInst* pAnimInstA100SkeA = new AnimationInst(m_pAnimationA100,m_pSkeletonA);
-		AnimationInst* pAnimInstA120SkeA = new AnimationInst(m_pAnimationA120,m_pSkeletonA);
-		// B
-		AnimationInst* pAnimInstB602SkeB = new AnimationInst(m_pAnimationB602,m_pSkeletonB);
-		AnimationInst* pAnimInstB120SkeB = new AnimationInst(m_pAnimationB120,m_pSkeletonB);
+	
 
-		// Animation Retarget 
-		// A -- > B
-		AnimationInst* pAnimInstA100SkeB = new AnimationInst(m_pAnimationA100,m_pSkeletonB);
-		AnimationInst* pAnimInstA120SkeB = new AnimationInst(m_pAnimationA120,m_pSkeletonB);
-		// B --> A
-		AnimationInst* pAnimInstB602SkeA = new AnimationInst(m_pAnimationB602,m_pSkeletonA);
-		AnimationInst* pAnimInstB120SkeA = new AnimationInst(m_pAnimationB120,m_pSkeletonA);
-
-
-		// A have 4 animation pAnimInstA100SkeA & pAnimInstA120SkeA & pAnimInstB100SkeA & pAnimInstB120SkeA
 		{
-			AnimationSet* pAnimSetA = new AnimationSet();
-			pAnimSetA->AddAnimationInst(pAnimInstA100SkeA,"A100");
-			pAnimSetA->AddAnimationInst(pAnimInstA120SkeA,"A120");
-			pAnimSetA->AddAnimationInst(pAnimInstB602SkeA,"B602");
-			pAnimSetA->AddAnimationInst(pAnimInstB120SkeA,"B120");
+			m_pAnimtionPlayA = new AnimationPlay(m_pSkeletonA);
+			m_pAnimtionPlayA->AddAction("../Data/man001/120/bip01.ska","man120");
+			m_pAnimtionPlayA->AddAction("../Data/man001/140/bip01.ska","Man140");
+			m_pAnimtionPlayA->AddAction("../Data/magician/602/bip01.ska","Mag602");
+			m_pAnimtionPlayA->AddAction("../Data/magician/100/bip01.ska","mag100");
 
-			m_pAnimtionPlayA = new AnimationPlay();
-			m_pAnimtionPlayA->SetSkeleton(m_pSkeletonA);
-			m_pAnimtionPlayA->SetAnimationSet(pAnimSetA);
-			m_pAnimtionPlayA->PlayAnimation("A100");
-		}
+			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
+		} 
 
-		// B have 4 animation pAnimInstA100SkeB & pAnimInstA120SkeB & pAnimInstB100SkeB & pAnimInstB120SkeB	
 		{
-			AnimationSet* pAnimSetB = new AnimationSet();
-			pAnimSetB->AddAnimationInst(pAnimInstA100SkeB,"A100");
-			pAnimSetB->AddAnimationInst(pAnimInstA120SkeB,"A120");
-			pAnimSetB->AddAnimationInst(pAnimInstB602SkeB,"B602");
-			pAnimSetB->AddAnimationInst(pAnimInstB120SkeB,"B120");
-			
-			m_pAnimtionPlayB = new AnimationPlay();
-			m_pAnimtionPlayB->SetSkeleton(m_pSkeletonB);
-			m_pAnimtionPlayB->SetAnimationSet(pAnimSetB);
-			m_pAnimtionPlayB->PlayAnimation("A100");
+			m_pAnimtionPlayB = new AnimationPlay(m_pSkeletonB);
+
+			m_pAnimtionPlayA->AddAction("../Data/man001/120/bip01.ska","man120");
+			m_pAnimtionPlayA->AddAction("../Data/man001/140/bip01.ska","Man140");
+			m_pAnimtionPlayA->AddAction("../Data/magician/602/bip01.ska","Mag602");
+			m_pAnimtionPlayA->AddAction("../Data/magician/100/bip01.ska","mag100");
+
+			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
 		}
 	}
 
@@ -160,23 +107,23 @@ namespace ma
 
 		if (pInput->IsKeyPressed(OIS::KC_1))
 		{
-			m_pAnimtionPlayA->PlayAnimation("A100");
-			m_pAnimtionPlayB->PlayAnimation("A100");
+			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
+			m_pAnimtionPlayB->PlayAnimation((ActionID)0);
 		}
 		else if (pInput->IsKeyPressed(OIS::KC_2))
 		{
-			m_pAnimtionPlayA->PlayAnimation("A120");
-			m_pAnimtionPlayB->PlayAnimation("A120");
+			m_pAnimtionPlayA->PlayAnimation(1);
+			m_pAnimtionPlayB->PlayAnimation(2);
 		}
 		else if (pInput->IsKeyPressed(OIS::KC_3))
 		{
-			m_pAnimtionPlayA->PlayAnimation("B602");
-			m_pAnimtionPlayB->PlayAnimation("B602");
+			m_pAnimtionPlayA->PlayAnimation(3);
+			m_pAnimtionPlayB->PlayAnimation(3);
 		}
 		else if (pInput->IsKeyPressed(OIS::KC_4))
 		{
-			m_pAnimtionPlayA->PlayAnimation("B120");
-			m_pAnimtionPlayB->PlayAnimation("B120");
+			m_pAnimtionPlayA->PlayAnimation(4);
+			m_pAnimtionPlayB->PlayAnimation(4);
 		}
 	}
 
@@ -202,14 +149,10 @@ namespace ma
 
 	void SampleAnimationRetarget::Render()
 	{
-		IRender* pRender = ma::GetRender();
-		if (pRender == NULL)
+		if (GetRenderDevice() == NULL)
 			return;
 
-		pRender->BeginRender();
-
-		pRender->SetViewMatrix(&m_matView);
-		pRender->SetProjMatrix(&m_matProj);
+		GetRenderDevice()->BeginRender();
 	
 		// Render A
 		{
@@ -220,9 +163,9 @@ namespace ma
 
 			D3DXMATRIX* skinMatrix = m_pAnimtionPlayA->GetSkinMatrixArray();
 			UINT nSkinMatrixNumber = m_pAnimtionPlayA->GetSkinMatrixNumber();
-			pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_b,m_pRendTextureA_b);
-			pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_f,m_pRendTextureA_f);
-			pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_h,m_pRendTextureA_h);
+			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_b,m_pRendTextureA_b);
+			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_f,m_pRendTextureA_f);
+			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_h,m_pRendTextureA_h);
 		}
 
 		// Render B
@@ -234,10 +177,10 @@ namespace ma
 
 			D3DXMATRIX* skinMatrix = m_pAnimtionPlayB->GetSkinMatrixArray();
 			UINT nSkinMatrixNumber = m_pAnimtionPlayB->GetSkinMatrixNumber();
-			pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshB,m_pRendTextureB);
+			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshB,m_pRendTextureB);
 		}
 
-		pRender->EndRender();
+		GetRenderDevice()->EndRender();
 	}
 
 	void SampleAnimationRetarget::OnResize(int w,int h)

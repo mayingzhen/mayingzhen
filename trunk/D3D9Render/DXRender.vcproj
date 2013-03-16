@@ -174,14 +174,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\D3D9Render.h"
-				>
-			</File>
-			<File
-				RelativePath=".\D3D9Render.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\D3D9RenderDevice.h"
 				>
 			</File>
@@ -211,6 +203,30 @@
 			</File>
 			<File
 				RelativePath=".\DxMeshHelp.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\LineRender.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineRender.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\ScreenQuad.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScreenQuad.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\ShadowMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ShadowMap.hxx"
 				>
 			</File>
 		</Filter>

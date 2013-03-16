@@ -48,13 +48,13 @@ namespace ma
 		pivotCOS.m_vPos = pRefPose->GetTransformOS(uBoneCInd).m_vPos;
 
 		maTransformInverse(&boneAInvOS,&pRefPose->GetTransformOS(uBoneAInd));
-		maTransfromMul(&m_pivotALS,&pivotAOS,&boneAInvOS);
+		maTransformMul(&m_pivotALS,&pivotAOS,&boneAInvOS);
 
 		maTransformInverse(&boneBInvOS,&pRefPose->GetTransformOS(uBoneBInd));
-		maTransfromMul(&m_pivotBLS,&pivotBOS,&boneBInvOS);
+		maTransformMul(&m_pivotBLS,&pivotBOS,&boneBInvOS);
 
 		maTransformInverse(&boneCInvOS,&pRefPose->GetTransformOS(uBoneCInd));
-		maTransfromMul(&m_pivotCLS,&pivotCOS,&boneCInvOS);
+		maTransformMul(&m_pivotCLS,&pivotCOS,&boneCInvOS);
 	}
 
 	void TwoJointIKSolver::CalculateConstrainPlane(D3DXQUATERNION& qConstrainPlanePitchLS)
@@ -67,7 +67,7 @@ namespace ma
 		
 		maNodeTransform pivotATSFOS;
 		maNodeTransform pivotATSFInvOS;
-		maTransfromMul(&pivotATSFOS,&m_pivotALS,&pRefPose->GetTransformOS(m_uBoneAID));
+		maTransformMul(&pivotATSFOS,&m_pivotALS,&pRefPose->GetTransformOS(m_uBoneAID));
 		maTransformInverse(&pivotATSFInvOS,&pivotATSFOS);
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotATSFInvOS);
 		fGoalDistPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
@@ -154,7 +154,7 @@ namespace ma
 		CalculateConstrainPlane(qConstrainPlanePitchLS,);
 
 		maNodeTransform newPivotTSFOS, newPivotTSFInvOS;
-		maTransfromMul(&newPivotTSFOS,&m_pivotALS,pNodePose->GetTransformOS(m_uBoneAID));
+		maTransformMul(&newPivotTSFOS,&m_pivotALS,pNodePose->GetTransformOS(m_uBoneAID));
 		newPivotTSFOS.m_qRot = qConstrainPlanePitchLS * newPivotTSFOS.m_qRot;
 		maTransformInverse(*newPivotTSFInvOS,&newPivotTSFOS);
 
