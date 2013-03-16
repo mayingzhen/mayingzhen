@@ -7,6 +7,11 @@ namespace ma
 		return new BulletScene;
 	}
 
+	void BulletDevice::DestoryPhysicsScene(IPhysicsScene* pPhysicsScene)
+	{
+		SAFE_DELETE(pPhysicsScene);
+	}
+
 	IPhysicsObject*	BulletDevice::CreatePhysicsObject()
 	{
 		return new BulletPhysicsObject;

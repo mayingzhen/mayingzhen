@@ -3,6 +3,9 @@
 
 namespace ma
 {
+	class Camera;
+	class Application;
+
 	class SimpleSceneView : public SceneView
 	{
 	public:
@@ -26,12 +29,11 @@ namespace ma
 		void UpdateCamra(float timeElapsed);
 
 	protected:
-		D3DXMATRIX m_matView;
-		D3DXMATRIX m_matProj;
+		Scene*			m_pScene;
+		Camera*			m_pCamera;
 	
-		Application* m_pApplication;
+		Application*	m_pApplication;
 
-		D3DXVECTOR3		m_vEyePos;
 		float			m_fMoveCameraSpeed;
 	};
 }

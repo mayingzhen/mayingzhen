@@ -35,13 +35,9 @@ namespace ma
 	private:
 		std::vector<std::string>			m_arrTransfTrackName;
 		UINT								m_nBoneNum;
-		UINT								m_nSocketNum;
-
-		std::vector<std::string>			m_arrFloatTrackName;
 		UINT								m_nFrameNumber;
 		bool								m_nFrameNumberDirty;
-
-		AnimationTracks* m_pRawTracks; 
+		AnimationTracks*					m_pTracks; 
 	
 	};
 }

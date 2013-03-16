@@ -18,7 +18,7 @@ namespace ma
 
 		virtual bool Save(const char* pszPath = NULL);
 
-		virtual const char* GetResPath() {return m_sResPath.c_str();}
+		virtual const char* GetResPath() const {return m_sResPath.c_str();}
 
 		virtual void SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 

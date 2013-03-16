@@ -40,14 +40,14 @@ namespace ma
 
 	void AABBShape::Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
 	{
-		xmVec3Min(&m_vMin,&vMin,&m_vMin);
-		xmVec3Max(&m_vMax,&vMax,&m_vMax);
+		Vec3Min(&m_vMin,&vMin,&m_vMin);
+		Vec3Max(&m_vMax,&vMax,&m_vMax);
 	}
 
 	void AABBShape::AddPoint(const D3DXVECTOR3& v)
 	{
-		xmVec3Min(&m_vMin,&v,&m_vMin);
-		xmVec3Max(&m_vMax,&v,&m_vMax);
+		Vec3Min(&m_vMin,&v,&m_vMin);
+		Vec3Max(&m_vMax,&v,&m_vMax);
 	}
 
 
@@ -423,7 +423,7 @@ namespace ma
 				,float fXSize,float fYSize,float fZSize)
 	{
 		m_nShapeType = BS_BOX;
-		//m_vPos = pPos ? *pPos : xmVec3Zero();
+		//m_vPos = pPos ? *pPos : Vec3Zero();
 		//m_qRot = pRot ? *pRot : xmQuaternionIden();
 		m_boxShape.m_fXSize = fXSize;
 		m_boxShape.m_fYSize = fYSize;

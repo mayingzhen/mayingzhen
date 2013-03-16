@@ -8,10 +8,9 @@ namespace ma
 	Animation::Animation()
 	{
 		m_nBoneNum = 0;
-		m_nSocketNum = 0;
 		m_nFrameNumber = 0;
 		m_nFrameNumberDirty = false;
-		m_pRawTracks = NULL; 
+		m_pTracks = NULL; 
 	}
 
 	Animation::~Animation()
@@ -22,10 +21,7 @@ namespace ma
 	void Animation::SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
 		//assert(m_bInit);
-
-		const AnimationTracks* pAnimTracks = m_pRawTracks;//GetActiveAnimationTracks();
-		
- 		D3DXVECTOR3Track* scalTrack = pAnimTracks->m_scale[nTrackID];
+ 		D3DXVECTOR3Track* scalTrack = m_pTracks->m_scale[nTrackID];
  		if (fFrame > scalTrack->m_arrFrame.size())
  		{
  			maTransformSetIdentity(pTSF);
@@ -33,14 +29,13 @@ namespace ma
  		}
 
 		D3DXVECTOR3 vLocalScale;
-		pAnimTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
+		m_pTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
-		//pTSF->m_vLocalScale = pTSF->m_fScale > F_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : xmVec3Zero();
+		//pTSF->m_vLocalScale = pTSF->m_fScale > F_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
 
-
-		pAnimTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
-		pAnimTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);
+		m_pTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
+		m_pTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);
 
 	}
 
@@ -62,18 +57,6 @@ namespace ma
 		return InvalidID<UINT>();
 	}
 
-// 	bool Animation::Load(const char* pszPath)
-// 	{
-// 		AnimationData* pAniData = ResourceBuilder::LoadAnimationFromBinaryFile(pszPath);
-// 		assert(pAniData);
-// 		if (pAniData == NULL)
-// 			return false;
-// 
-// 		Init(pAniData);
-// 
-// 		return true;
-// 	}
-
 	void Animation::InitWithData(AnimationData* pAniData)
 	{
 		if (pAniData == NULL)
@@ -81,29 +64,15 @@ namespace ma
 	
 		//assert(nBoneNum+nSocketNum==nTransfTrackNum);
 		m_nBoneNum = pAniData->m_nBoneNum;
-		UINT nTransfTrackNum = m_nBoneNum + m_nSocketNum;
+		UINT nTransfTrackNum = m_nBoneNum /*+ m_nSocketNum*/;
 
-		//m_name = "unknown";
-		//m_nGlobalSkeletonID = skelGUID;
+		AnimationTracks* m_pTracks = new AnimationTracks;
 
-		AnimationTracks* pTracks = new AnimationTracks;
-
-		pTracks->m_scale.resize(nTransfTrackNum);
-		pTracks->m_rot.resize(nTransfTrackNum);
-		pTracks->m_pos.resize(nTransfTrackNum);
-
-		//if (bCompressed)
-		//{
-		//	m_pCompTracks = pTracks;
-		//}else{
-			m_pRawTracks = pTracks;
-		//}
-
-		//m_compParam.m_fDiffThreshold = fDiffThreshold;
-		//m_compParam.m_fVarianceThreshold = fVariThreshold;
+		m_pTracks->m_scale.resize(nTransfTrackNum);
+		m_pTracks->m_rot.resize(nTransfTrackNum);
+		m_pTracks->m_pos.resize(nTransfTrackNum);
 
 		m_arrTransfTrackName.resize(nTransfTrackNum);
-
 
 		m_nFrameNumber = pAniData->m_nFrameNum;
 		m_nFrameNumberDirty = false;
@@ -148,55 +117,10 @@ namespace ma
 				pPosTrack->m_arrValue[nKeyFrameCnt] = posTrackData.m_arrKey[nKeyFrameCnt];
 			}
 
-
-			//AnimationHelper::BuildTrack(pScaleTrack,&arrScaleTrack[nTrackCnt]);
-			//AnimationHelper::BuildTrack(pRotTrack,&arrRotTrack[nTrackCnt]);
-			//AnimationHelper::BuildTrack(pPosTrack,&arrPosTrack[nTrackCnt]);
-
-			pTracks->m_scale[nTrackCnt] = pScaleTrack;
-			pTracks->m_rot[nTrackCnt] = pRotTrack;
-			pTracks->m_pos[nTrackCnt] = pPosTrack;
+			m_pTracks->m_scale[nTrackCnt] = pScaleTrack;
+			m_pTracks->m_rot[nTrackCnt] = pRotTrack;
+			m_pTracks->m_pos[nTrackCnt] = pPosTrack;
 		}
-
-// 		UINT nFloatTrackNum = pAniData->m_arrFloatLSTrack.size();
-// 		pTracks->m_float.resize(nFloatTrackNum);
-// 		m_arrFloatTrackName.resize(nFloatTrackNum);
-// 		for (UINT nFloatTrackCnt = 0; nFloatTrackCnt < nFloatTrackNum; ++nFloatTrackCnt)
-// 		{
-// 			xmFloatTrack* pFloatTrack = new xmFloatTrack;
-// 			AnimationHelper::BuildTrack(pFloatTrack,&arrFloatTrack[nFloatTrackCnt]);
-// 			pTracks->m_float[nFloatTrackCnt] = pFloatTrack;
-// 		}
-
-
-// 
-// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionScale,pRootMotionScaleTrack);
-// 		if (pTracks->m_rootMotionScale.m_arrFrame.size() == 0)
-// 		{
-// 			pTracks->m_rootMotionScale.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionScale.m_arrValue.push_back(D3DXVECTOR3(1.0f,1.0f,1.0f));
-// 		}
-// 
-// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionRot,pRootMotionRotTrack);
-// 		if (pTracks->m_rootMotionRot.m_arrFrame.size() == 0)
-// 		{
-// 			pTracks->m_rootMotionRot.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionRot.m_arrValue.push_back(D3DXQUATERNION(0.0f,0.0f,0.0f,1.0f));
-// 		}
-// 
-// 		AnimationHelper::BuildTrack(&pTracks->m_rootMotionPos,pRootMotionPosTrack);
-// 		if(pTracks->m_rootMotionPos.m_arrFrame.size() == 0)
-// 		{
-// 			pTracks->m_rootMotionPos.m_arrFrame.push_back(0);
-// 			pTracks->m_rootMotionPos.m_arrValue.push_back(D3DXVECTOR3(0.0f,0.0f,0.0f));
-// 		}
-// 
-// 		m_strMaxFile = pszMaxFilename;
-// 
-// 
-// 
-// 		m_bInit = false;
-
 
 	}
 

@@ -15,8 +15,6 @@
 #include "BulletPhysics/BtCharacterController.h"
 #include "BulletPhysics/BtContactReport.h"
 
-#include "Framework/Module.h"
-
 
 BULLETPHYSICS_API void BtPhysicsModuleInit();
 

@@ -18,7 +18,6 @@ namespace ma
 		if (pMeshData == NULL)
 			return false;
 
-		D3D9Render* pDxRender = (D3D9Render*)GetRender();
 		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 
 		m_pD3DMesh = CreateD3DMesh( pDxRenderDevice->GetDXDevive(), pMeshData);

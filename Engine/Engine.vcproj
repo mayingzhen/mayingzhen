@@ -189,19 +189,55 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\SceneView.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Input"
-			>
-			<File
 				RelativePath=".\Input\Input.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Input\Input.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\SceneView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Timer\Timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Timer\Timer.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Animation"
+			>
+			<File
+				RelativePath=".\Animation\IAnimationDevice.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\IAnimationDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\IAnimationPlay.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\IAnimationSet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\ISkeleton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\SkelMeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Animation\SkelMeshComponent.hxx"
 				>
 			</File>
 		</Filter>
@@ -329,14 +365,6 @@
 			Name="RenderSystem"
 			>
 			<File
-				RelativePath=".\RenderSystem\IRender.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\IRender.hxx"
-				>
-			</File>
-			<File
 				RelativePath=".\RenderSystem\IRenderDevice.h"
 				>
 			</File>
@@ -369,23 +397,159 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderSystem\RenderQueue.h"
+				RelativePath=".\RenderSystem\MeshComponent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RenderSystem\RenderQueue.hxx"
+				RelativePath=".\RenderSystem\MeshComponent.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\ShadowMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\ShadowMap.hxx"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Timer"
+			Name="Physics"
 			>
 			<File
-				RelativePath=".\Timer\Timer.h"
+				RelativePath=".\Physics\CollisionComponent.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Timer\Timer.hxx"
+				RelativePath=".\Physics\CollisionComponent.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\ICharacterController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\ICollisionShape.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\IPhysicsDevive.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\IPhysicsDevive.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\IPhysicsObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\IPhysicsScene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\IRigidBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\RigidbodyComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Physics\RigidbodyComponent.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Script"
+			>
+			<File
+				RelativePath=".\Script\EdScriptObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\EdScriptObject.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\IScriptDevice.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\IScriptDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\IScriptObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\ScriptComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\ScriptComponent.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\ScriptEventBinder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\ScriptEventBinder.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Scene"
+			>
+			<File
+				RelativePath=".\Scene\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Camera.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Component.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Component.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\GameObj.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\GameObj.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Light.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Light.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\Scene.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\SceneNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\SceneNode.hxx"
 				>
 			</File>
 		</Filter>
@@ -399,6 +563,10 @@
 		</File>
 		<File
 			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\RTTIDecl.h"
 			>
 		</File>
 		<File

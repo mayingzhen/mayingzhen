@@ -2,6 +2,7 @@ float4x4 worldviewprojection : worldviewprojection;
 float4x4 worldview : worldview;
 
 float4 light_pos_es;
+float4 light_dir_es;
 float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
 float  lightRadius;
 float  g_OneOverSqrLightRadius;
@@ -95,9 +96,10 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 	half  shiness = SrcNormal.w  * 255.0f;
 
 	half shadow = tex2D(g_SamplerShadow, In.oTc).r;
-	//shadow = 1.0f;
+	shadow = 1.0f;
 	
-	half3 vlightVec = light_pos_es.xyz - pos_es.xyz;
+	//half3 vlightVec = light_pos_es.xyz - pos_es.xyz;
+	half3 vlightVec = light_dir_es;
 	
 	half3 vLight  = normalize(vlightVec);	
 	half3 vView   = normalize(-pos_es.xyz);
@@ -105,9 +107,9 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 	
 	half3 light = lit( dot( vLight, vNormal ), dot( halfDir, vNormal ), shiness );	
 	
-	vlightVec.x = distance( light_pos_es, pos_es );
-	half fAttenuation = GetAttenuation(vlightVec);
-	fAttenuation = 1.0f; // Directon light 
+	//vlightVec.x = distance( light_pos_es, pos_es );
+	//half fAttenuation = GetAttenuation(vlightVec);
+	half fAttenuation = 1.0f; // Directon light 
 	
 	half3 cDiffUse = light.y * shadow * light_color * fAttenuation;
 	half3 cSpecular = light.z * shadow * light_color * fAttenuation;
@@ -133,12 +135,13 @@ void GemetryVS(float4 Pos : POSITION,out float4 oPos : POSITION)
 	oPos = mul(Pos, worldviewprojection);
 }
 
-technique DeferredLight
+
+technique AmbientLight
 {
-	pass AmbientLight
+	pass p0
 	{
 		VertexShader = compile vs_3_0 DeferredLightVS();
-        PixelShader = compile ps_3_0 AmbientLightPS();
+    PixelShader = compile ps_3_0 AmbientLightPS();
         
 		ZEnable = false;
 		ZWriteEnable = false;
@@ -149,40 +152,18 @@ technique DeferredLight
 		
 		CullMode = CW;
 	}
+}
 
-	pass StencilVolumeMask
+
+technique StencilVolumeMask
+{
+	pass p0
 	{
 		VertexShader = compile vs_1_1 GemetryVS();
 		PixelShader = null;
-/*		
-		ColorWriteEnable = 0;
 		
-		ZWriteEnable = false;
-		ZEnable = true;
-
-		// Disable culling so front and back sides of the volume will be drawn
-		CullMode = none;
-
-		// Set up stencil test to increase if depth fails
-		StencilEnable = true;
-		StencilFunc = Always;
-
-		StencilFail = Keep;
-		StencilZFail = Incr;
-		StencilPass = Keep;
-
-		StencilWriteMask = 0xFFFFFFFF;
-*/
-
-
         CullMode = None;
-        // Disable writing to the frame buffer
-        //AlphaBlendEnable = true;
-        //SrcBlend = Zero;
-        //DestBlend = One;
-        // Disable writing to depth buffer
-        
-        // Depth State
+
         ZEnable = true;
         ZWriteEnable = false;
         ZFunc = Less;
@@ -202,8 +183,12 @@ technique DeferredLight
         StencilMask = 0xFFFFFFFF;
         StencilWriteMask = 0xFFFFFFFF;
 	}
+}
 
-	pass DiffuseLight
+
+technique DiffuseLight
+{
+	pass p0
 	{
 		VertexShader = compile vs_3_0 DeferredLightVS() ;
 		PixelShader = compile ps_3_0 DeferredLightPS() ;
@@ -211,46 +196,23 @@ technique DeferredLight
 		//StencilEnable = false;
 		//ZFunc = GreaterEqual;
 		//CullMode = CCW;
-		CullMode = cw;
+		CullMode = CW;
 
-		ZEnable = true;
-		ZWriteEnable = true;
+		ZEnable = false;
+		ZWriteEnable = false;
 		
 		//AlphaBlendEnable = true;
 		//SrcBlend = One;
 		//DestBlend = One;
 	}
-	
-	pass DiffuseLightStencil
+}
+
+technique DiffuseLightStencil
+{
+	pass p0
 	{
 		VertexShader = compile vs_3_0 DeferredLightVS() ;
 		PixelShader = compile ps_3_0 DeferredLightPS() ;
-		
-		/*
-        ZWriteEnable = false;
-        ZEnable = false;	// Stencil test tests for us
-
-        AlphaBlendEnable = true;
-        SrcBlend  = One;
-        DestBlend = One;
-
-        CullMode = CW;
-        //CullMode = none;
-
-        ColorWriteEnable = 0x0000000F;
-  
-  		// Set stencil test to pass when equals 1 (and zeroe all values)
-        StencilEnable = true;
-        StencilFunc = Equal;
-		
-		StencilFail = Zero;
-		StencilZFail = Keep;
-		StencilPass = Zero;
-
-		StencilRef = 1;
-		StencilMask = 1;
-		stencilMask = 1;
-		*/
 		
 		ZEnable = true;
         ZFunc = LessEqual;

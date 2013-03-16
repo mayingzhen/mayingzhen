@@ -38,7 +38,7 @@ namespace ma
 				tsfAnimOS.m_vPos =  posTrack.m_arrKey[nFrameCnt];
 				tsfAnimOS.m_qRot = rotTrack.m_arrKey[nFrameCnt];
 				tsfAnimOS.m_fScale = 1.0f;//scaleTrack.m_arrValue[nFrameCnt];
-				maTransfromMul(&tsfAnimLS,&tsfAnimOS,&tsfBoneOSInv);
+				maTransformMul(&tsfAnimLS,&tsfAnimOS,&tsfBoneOSInv);
 				scaleTrack.m_arrKey[nFrameCnt] = D3DXVECTOR3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
 				rotTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_qRot;
 				posTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_vPos;	
@@ -86,7 +86,7 @@ namespace ma
 				tsfAnimPS.m_vPos =  posTrack.m_arrKey[nFrameCnt];
 				tsfAnimPS.m_qRot = rotTrack.m_arrKey[nFrameCnt];
 				tsfAnimPS.m_fScale = scaleTrack.m_arrKey[nFrameCnt].x;
-				maTransfromMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
+				maTransformMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
 				scaleTrack.m_arrKey[nFrameCnt] = D3DXVECTOR3(tsfAnimLS.m_fScale,tsfAnimLS.m_fScale,tsfAnimLS.m_fScale);
 				rotTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_qRot;
 				posTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_vPos;	

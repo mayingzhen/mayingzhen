@@ -1,12 +1,18 @@
 #include "Common/stdafx.h"
 #include "Common/Module.h"
 
+
+// Math
 #include "Common/maMath.hxx"
+#include "Common/AABB.hxx"
+#include "Common/Frustum.hxx"
+
 
 // RTTI
 #include "Common/RTTI/Class.hxx"
 #include "Common/RTTI/Object.hxx"
 #include "Common/RTTI/ObjectFactory.hxx"
+
 
 #include "Common/ReferenceCountObject.hxx"
 

@@ -1,7 +1,7 @@
 #ifndef __Bullet_PhysicsObject_H__
 #define __Bullet_PhysicsObject_H__
 
-#include "Framework/Physics/IPhysicsObject.h"
+#include "Engine/Physics/IPhysicsObject.h"
 
 class btRigidBody;
 

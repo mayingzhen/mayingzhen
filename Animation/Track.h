@@ -8,12 +8,12 @@
 
 // namespace ma
 // {
-	inline float xmClamp(float fVal,float fMin,float fMax)
-	{
-		fVal = fVal > fMin ? fVal : fMin;
-		fVal = fVal < fMax ? fVal : fMax;
-		return fVal;
-	}
+// 	inline float xmClamp(float fVal,float fMin,float fMax)
+// 	{
+// 		fVal = fVal > fMin ? fVal : fMin;
+// 		fVal = fVal < fMax ? fVal : fMax;
+// 		return fVal;
+// 	}
 
 	template<class T>
 	inline void xmLerp(T& out, const T& v0,const T& v1,float factor)

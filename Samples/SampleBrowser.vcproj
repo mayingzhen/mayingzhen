@@ -216,6 +216,26 @@
 		<Filter
 			Name="Script"
 			>
+			<File
+				RelativePath=".\Script\SampleMonoScript.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Script\SampleMonoScript.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Render"
+			>
+			<File
+				RelativePath=".\Render\SampleLighting.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Render\SampleLighting.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"

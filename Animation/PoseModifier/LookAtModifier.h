@@ -7,6 +7,8 @@ namespace ma
 {
 	class ANIMATION_API LookAtModifier : public PoseModifier
 	{
+		DECL_OBJECT(LookAtModifier)
+
 		D3DXVECTOR3 m_vGoalOS;		//goal in object space
 
 		D3DXQUATERNION	m_qPivotLS;

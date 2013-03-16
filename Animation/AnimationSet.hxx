@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	AnimationAction* AnimationSet::GetAnimationActionByName(const char* pszName)
+	Action* AnimationSet::GetActionByName(const char* pszName)
 	{
 		if (pszName == NULL)
 			return NULL;
@@ -19,46 +19,45 @@ namespace ma
 		return NULL;
 	}
 
-	AnimationInst* AnimationSet::LoadAnimation(const char* pszAnimPath,const char* pszAnimName,
-		Skeleton* pSkeleton,Skeleton* pOriSkeleton)
+	Action* AnimationSet::GetActionByIndex(UINT index)
 	{
-		if (pszAnimPath == NULL)
+		if (index < 0 || index >= m_arrAnimation.size())
 			return NULL;
 
-		Animation* pAnimation = new Animation();
-		AnimationData* pAnimData = new AnimationData();//LoadAnimationFromBinaryFile(pszAnimPath);
-		pAnimData->Load(pszAnimPath);
-		pAnimation->InitWithData(pAnimData);
-
-		AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
-		AnimClipNode* pClipNode = new AnimClipNode();
-		pClipNode->SetAnimationInst(pAnimationInst);
-		AnimationAction* pSkelAnim = new AnimationAction;
-		pSkelAnim->SetAnimName(pszAnimName);
-		pSkelAnim->SetTreeNode(pClipNode);
-
-		m_arrAnimation.push_back(pSkelAnim);
-
-		return pAnimationInst;
+		return m_arrAnimation[index];
 	}
 
-	void AnimationSet::AddAnimationAction(AnimationAction* pSkelAnim)
+	void	AnimationSet::AddAction(Action* pAction) 
 	{
-		if (pSkelAnim == NULL)
+		if (pAction == NULL)
 			return;
 
-		m_arrAnimation.push_back(pSkelAnim);
+		m_arrAnimation.push_back(pAction);
 	}
 
-	void AnimationSet::AddAnimationInst(AnimationInst* pAnimIns,const char* pszAnimName)
+	void	AnimationSet::RemoveAction(Action* pAction)
 	{
-		AnimClipNode* pClipNode = new AnimClipNode();
-		pClipNode->SetAnimationInst(pAnimIns);
-		AnimationAction* pSkelAnim = new AnimationAction;
-		pSkelAnim->SetAnimName(pszAnimName);
-		pSkelAnim->SetTreeNode(pClipNode);
+		if (pAction == NULL)
+			return;
 
-		m_arrAnimation.push_back(pSkelAnim);
+		std::vector<Action*>::iterator it = std::find(m_arrAnimation.begin(),m_arrAnimation.end(),pAction);
+		if (it == m_arrAnimation.end())
+			return;
+
+		m_arrAnimation.erase(it);
+	}
+
+	void	AnimationSet::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_arrBoneSet);
+
+		sl.SerializeObjectArray(m_arrPoseModifier);
+
+		sl.Serialize(m_arrAnimation);
+
+		sl.EndSection();
 	}
 
 }

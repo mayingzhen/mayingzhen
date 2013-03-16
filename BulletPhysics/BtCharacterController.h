@@ -2,7 +2,7 @@
 #define __BulletCharacterController_H__
 
 
-#include "Framework/Physics/ICharacterController.h"
+#include "Engine/Physics/ICharacterController.h"
 
 
 class btKinematicCharacterController;

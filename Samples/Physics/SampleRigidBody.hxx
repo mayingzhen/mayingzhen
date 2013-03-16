@@ -1,6 +1,4 @@
 #include "Samples/Physics/SampleRigidBody.h"
-#include "D3D9Render/Module.h"
-#include "Framework/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma
@@ -11,32 +9,28 @@ namespace ma
 
 	void SampleRigidBody::Init(Application* pApplication)
 	{
-		m_vEyePos = D3DXVECTOR3(0, 6, 10);
-		m_fMoveCameraSpeed = 0.20f;
-		SimpleSceneView::Init(pApplication);
-
-		D3D9RenderModuleInit();
-		FrameWorkModuleInit();
 		BtPhysicsModuleInit();
 
-		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
+		SimpleSceneView::Init(pApplication);
 
-		D3D9Render* pDxRender = (D3D9Render*)GetRender();
-		pDxRender->InitDefaultShader();	
+		m_fMoveCameraSpeed = 0.20f;
+		m_pCamera->SetPositionWS( D3DXVECTOR3(0, 6, 10) );	
 	}
 
 	void SampleRigidBody::Shutdown()
 	{
-		FrameWorkModuleShutdown();
-		D3D9RenderModuleShutdown();
 		BtPhysicsModuleShutdown();
+
+		SimpleSceneView::Shutdown();
 	}
 
 	void SampleRigidBody::Load()
 	{
-		ma::SceneNode* pRootNode = new SceneNode(NULL,"RootNode");
-		m_pScene = new Scene(pRootNode);
+		assert(m_pScene);
+		if (m_pScene == NULL)
+			return;
+
+		ma::SceneNode* pRootNode = m_pScene->GetRootNode(); 
 
 		m_pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
 
@@ -111,30 +105,11 @@ namespace ma
 		{
 			m_pRigidBodyComp->SetKinematic(false);
 		}
-
-		if (m_pScene)
-		{
-			m_pScene->Update(timeElapsed);
-		}
 	}
 
 	void SampleRigidBody::Render()
 	{
-		IRender* pRender = ma::GetRender();
-		if (pRender == NULL)
-			return;
-
-		pRender->BeginRender();
-
-		pRender->SetViewMatrix(&m_matView);
-		pRender->SetProjMatrix(&m_matProj);
-
-		if (m_pScene)
-		{
-			m_pScene->Render();
-		}
-
-		pRender->EndRender();
+		__super::Render();
 	}
 
 	void SampleRigidBody::OnResize(int w,int h)

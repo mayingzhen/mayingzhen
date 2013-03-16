@@ -1,8 +1,8 @@
 #ifndef __Application_h__
 #define __Application_h__
 
-#include "Engine/Input/Input.h"
-#include "Engine/Timer/Timer.h"
+#include "Input.h"
+#include "Timer.h"
 
 namespace ma
 {

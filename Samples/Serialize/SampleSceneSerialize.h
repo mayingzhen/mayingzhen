@@ -24,8 +24,6 @@ namespace ma
 
 		virtual	void OnResize(int w,int h);
 
-	private:
-		Scene*	m_pScene;	
 	};
 }
 

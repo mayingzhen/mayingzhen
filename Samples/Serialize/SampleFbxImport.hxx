@@ -23,12 +23,9 @@ namespace ma
 		D3D9RenderModuleInit();
 		AnimationModuleInit();
 
-		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
-
-		D3D9Render* pDxRender = (D3D9Render*)GetRender();
-		pDxRender->InitDefaultShader();
-
+		//D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+		//pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
+		GetRenderDevice()->Init(pApplication->GetWindID());
 	}
 
 	void SampleFbxImport::Shutdown()
@@ -65,7 +62,7 @@ namespace ma
 
 		pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/TestBull.skn");
 		pSkeData = LoadSkeletonFromBinaryFile("../Data/Fbx/TestBull.ske");
-		pAnimData = LoadAnimationFromBinaryFile("../Data/Fbx/TestBull.ska");
+		//pAnimData = LoadAnimationFromBinaryFile("../Data/Fbx/TestBull.ska");
 
 		m_pRenderMesh = new D3D9RendMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
@@ -76,18 +73,11 @@ namespace ma
 		m_pRendTexture->Load();
 
 		m_pSkeleton = new Skeleton();
-		m_pSkeleton->InitWithData(*pSkeData);
+		m_pSkeleton->InitWithData(pSkeData);
 
-		Animation* pAnimation = new Animation();
-		pAnimation->InitWithData(pAnimData);
-		AnimationInst* pAnimInst = new AnimationInst(pAnimation,m_pSkeleton);
-		AnimClipNode* pClipNode = new AnimClipNode(pAnimInst/*,m_pSkeleton->GetBoneSetByName("UpBody")*/);
-		AnimationAction* pAction = new AnimationAction();
-		pAction->SetTreeNode(pClipNode);
-
-		m_pAnimtionPlay = new AnimationPlay(); 
-		m_pAnimtionPlay->SetSkeleton(m_pSkeleton);
-		m_pAnimtionPlay->PlayAnimation(pAction);
+		m_pAnimtionPlay = new AnimationPlay(m_pSkeleton);
+		m_pAnimtionPlay->AddAction("../Data/Fbx/TestBull.ska","TestAction");
+		m_pAnimtionPlay->PlayAnimation("TestAction");
 	}
 
 	void SampleFbxImport::LoadSaticMesh(FBXImporter& fbxImpor)
@@ -145,14 +135,10 @@ namespace ma
 
 	void SampleFbxImport::Render()
 	{
-		IRender* pRender = ma::GetRender();
-		if (pRender == NULL)
+		if (GetRenderDevice() == NULL)
 			return;
 
-		pRender->BeginRender();
-
-		pRender->SetViewMatrix(&m_matView);
-		pRender->SetProjMatrix(&m_matProj);
+		GetRenderDevice()->BeginRender();
 
 		// render skelMesh
 		{
@@ -163,7 +149,7 @@ namespace ma
 			{
 				D3DXMATRIX* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
 				UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-				pRender->RenderSkelMesh(skinMatrix,nNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
+				//pRender->RenderSkelMesh(skinMatrix,nNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
 			}
 		}
 
@@ -174,11 +160,11 @@ namespace ma
 			D3DXMatrixScaling(&matScale,50,50,50); 
 			D3DXMatrixTranslation(&matWorld,250,0,0);
 			matWorld = matScale * matWorld;
-			pRender->RenderMesh(&matWorld,m_pStaticMesh,m_pStatcMeshTexture);
+			//pRender->RenderMesh(&matWorld,m_pStaticMesh,m_pStatcMeshTexture);
 		}
 	
 
-		pRender->EndRender();
+		GetRenderDevice()->EndRender();
 	}
 
 	void SampleFbxImport::OnResize(int w,int h)
