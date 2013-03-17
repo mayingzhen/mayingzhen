@@ -8,6 +8,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Render/SampleLighting.hxx"
+#include "Samples/Render/SampleShadowMap.hxx"
 
 using namespace ma;
 
@@ -30,6 +31,9 @@ public:
 
 		SampleLighting*	pLighting = new SampleLighting();
 		m_vSceneView.push_back(pLighting);
+
+		SampleShadowMap* pShadowMap = new SampleShadowMap();
+		m_vSceneView.push_back(pShadowMap);
 
 		m_nCurSceneInde = m_vSceneView.size() - 1;
 	}
