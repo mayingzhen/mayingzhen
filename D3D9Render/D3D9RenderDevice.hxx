@@ -364,16 +364,17 @@ namespace ma
 			pShadowMap->CalculateMatrix(m_pMainCamera,i,m_mainLigt);
 
 			pShadowMap->ClearCaster();
-			pShadowMap->FindCaster((IRenderItem**)&m_SolidEntry[0],m_SolidEntry.size());
-			pShadowMap->FindCaster((IRenderItem**)&m_TransEntry[0],m_TransEntry.size());
-
+			if (!m_SolidEntry.empty())
+				pShadowMap->FindCaster((IRenderItem**)&m_SolidEntry[0],m_SolidEntry.size());
+			if (!m_TransEntry.empty())
+				pShadowMap->FindCaster((IRenderItem**)&m_TransEntry[0],m_TransEntry.size());
 
 			pShadowMap->BeginRender();
 
 			m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0x00FFFFFF, 1.0f, 0L);
 
 			UINT nCaster = pShadowMap->GetCasterNumber();
-			for(UINT j = 0; j < uNumber; ++j)
+			for(UINT j = 0; j < nCaster; ++j)
 			{
 				IRenderItem* pRenderItem = pShadowMap->GetCasterByIndex(j);
 				if (pRenderItem == NULL)
@@ -381,7 +382,7 @@ namespace ma
 
 				D3D9RendMesh* pD3D9RenderMesh = (D3D9RendMesh*)pRenderItem->m_pMesh; 
 
-				ID3DXEffect* pCurEffect = m_pGBufferTech;
+				ID3DXEffect* pCurEffect = m_pShdowMapTech;
 
 				if (pRenderItem->m_nSkinMatrixNum != 0)
 				{
@@ -393,10 +394,15 @@ namespace ma
 					hr = pCurEffect->SetTechnique("RenderShadow");
 				}
 
+				float fNearClip = m_mainLigt->GetNearClip();
+				float fFarClip = m_mainLigt->GetFarClip();
+				D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(fNearClip, fFarClip, 1 / fFarClip, 0);
+
 				D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix() * pShadowMap->GetProjMatrix();
 				D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix();
 				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
 				pCurEffect->SetMatrix("worldview",&matWV);
+				pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
 
 				UINT cPasses = 0; 
 				hr = pCurEffect->Begin(&cPasses, 0 );

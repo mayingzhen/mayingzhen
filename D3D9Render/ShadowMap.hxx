@@ -41,10 +41,10 @@ namespace ma
 				continue;
 
 			Frustum splitFrustum = m_pCamera->GetSplitFrustum(m_nIndex);	
-			if ( IsFrustumCull(pRenderItem->GetAABB(), splitFrustum.m_matViewProj) )
-			{
-				continue;
-			}
+// 			if ( IsFrustumCull(pRenderItem->GetAABB(), splitFrustum.m_matViewProj) )
+// 			{
+// 				continue;
+// 			}
 
 			m_arrCasterList.push_back(pRenderItem);
 		}

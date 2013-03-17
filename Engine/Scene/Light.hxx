@@ -11,8 +11,8 @@ namespace ma
 		m_fAspectRatio = 1.0f;
 		m_vSource = D3DXVECTOR3(0, 0, 0);
 		m_vTarget = D3DXVECTOR3(0, 0, 0);
-		m_fNear = 1.0f;
-		m_fFar = 30000.0f;
+		m_fNear = 0.1f;
+		m_fFar = 3000.0f;
 		m_fFOV =  D3DXToRadian(90.0f);
 		m_fRange = m_fFar - m_fNear;
 		m_vLightDiffuse = D3DXVECTOR3( 2.0f, 2.0f, 2.0f);//D3DXVECTOR3(0.7f,0.7f,0.7f);
