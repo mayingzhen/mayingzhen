@@ -34,7 +34,7 @@ namespace ma
 
 	inline AABB::AABB()
 	{
-
+		SetNull();
 	}
 
 	inline void AABB::SetNull()

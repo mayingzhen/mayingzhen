@@ -9,7 +9,7 @@ int CurNumBones = 4;
 
 
 // HW shadow map
-void VertShadow( float3 Pos : POSITION,
+void HWVertShadow( float3 Pos : POSITION,
 				 out float4 oPos : POSITION)
 {
 	oPos = mul( float4(Pos.xyz,1.0f), worldviewprojection );
@@ -30,7 +30,7 @@ void SkinPos( float3 pos ,
 	}
 }
 
-void SkinVertShadow( float4 Pos : POSITION,
+void SkinHWVertShadow( float4 Pos : POSITION,
 				 float4 BlendWeights :BLENDWEIGHT, 
 				 float4 BlendIndices :BLENDINDICES,	
 				 out float4 oPos : POSITION )
@@ -38,17 +38,17 @@ void SkinVertShadow( float4 Pos : POSITION,
 	float3 sPos = 0;
 	SkinPos(Pos,BlendWeights,BlendIndices,sPos);
 
-	VertShadow(sPos,oPos);
+	HWVertShadow(sPos,oPos);
 	//oPos = mul(  float4(wPos.xyz, 1.0f), viewprojection );
 }
 
 
 
-technique RenderShadow
+technique HWRenderShadow
 {
 	pass p0
 	{
-		VertexShader = compile vs_1_1 VertShadow();
+		VertexShader = compile vs_1_1 HWVertShadow();
 		
        	//ZEnable          = True;
         //AlphaBlendEnable = False;
@@ -60,11 +60,11 @@ technique RenderShadow
 }
 
 
-technique SkinRenderShadow
+technique SkinHWRenderShadow
 {
 	pass p0
 	{
-		VertexShader = compile vs_1_1 SkinVertShadow();
+		VertexShader = compile vs_1_1 SkinHWVertShadow();
 		
         //ZEnable          = True;
         //AlphaBlendEnable = False;
@@ -80,15 +80,15 @@ technique SkinRenderShadow
 
 
 //for PIX debug shader
-/*
+
 float4 depth_near_far_invfar;
 
-void VertShadow( float4 Pos : POSITION,
+void VertShadow( float3 Pos : POSITION,
 				 out float4 oPos : POSITION,
 				 out float4 oPos2 : TEXCOORD0)
 {
-	oPos = mul( Pos, worldviewprojection );
-	oPos2 = mul( Pos, worldview );  
+	oPos = mul( float4(Pos.xyz,1.0f), worldviewprojection );
+	oPos2 = mul( float4(Pos.xyz,1.0f), worldview );  
 }
 
 void PixelShadow( float4 pos2 : TEXCOORD0,
@@ -96,6 +96,19 @@ void PixelShadow( float4 pos2 : TEXCOORD0,
 {
 	Color = pos2.z * depth_near_far_invfar.z;
 }
+
+void SkinVertShadow( float4 Pos : POSITION,
+				 float4 BlendWeights :BLENDWEIGHT, 
+				 float4 BlendIndices :BLENDINDICES,	
+				 out float4 oPos : POSITION,
+				 out float4 oPos2 : TEXCOORD0 )
+{
+	float3 sPos = 0;
+	SkinPos(Pos,BlendWeights,BlendIndices,sPos);
+
+	VertShadow(sPos,oPos,oPos2);
+}
+
 
 
 technique RenderShadow
@@ -108,4 +121,14 @@ technique RenderShadow
 		//CullMode = none;
 	}		
 }
-*/
+
+technique SkinRenderShadow
+{
+	pass p0
+	{
+		VertexShader = compile vs_1_1 SkinVertShadow();
+		PixelShader = compile ps_2_0 PixelShadow();
+		
+		//CullMode = none;
+	}		
+}

@@ -32,8 +32,8 @@ public:
 		SampleLighting*	pLighting = new SampleLighting();
 		m_vSceneView.push_back(pLighting);
 
-		SampleShadowMap* pShadowMap = new SampleShadowMap();
-		m_vSceneView.push_back(pShadowMap);
+		//SampleShadowMap* pShadowMap = new SampleShadowMap();
+		//m_vSceneView.push_back(pShadowMap);
 
 		m_nCurSceneInde = m_vSceneView.size() - 1;
 	}

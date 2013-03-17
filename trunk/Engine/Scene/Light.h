@@ -38,6 +38,8 @@ namespace ma
 
 		D3DXVECTOR3		GetDir() {return m_vSource - m_vTarget;}
 
+		float			GetNearClip() {return m_fNear;}
+
 		float			GetFarClip() {return m_fFar;}
 
 	protected:
