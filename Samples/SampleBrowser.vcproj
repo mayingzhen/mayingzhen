@@ -236,6 +236,14 @@
 				RelativePath=".\Render\SampleLighting.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\Render\SampleShadowMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Render\SampleShadowMap.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\main.cpp"

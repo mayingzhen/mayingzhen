@@ -28,6 +28,12 @@ namespace ma
 
 		void				EndRender();
 
+		const D3DXMATRIX&	GetViewMatrix() {return m_viewMat;}
+
+		const D3DXMATRIX&	GetProjMatrix() {return m_projMat;}
+
+		const D3DXMATRIX&	GetTexMatrix()  {return m_TexMat;}
+
 		D3DVIEWPORT9&		GetViewport(void) { return m_Viewport; }
 
 		LPDIRECT3DTEXTURE9	GetColorTexture() {return m_pTexture;}

@@ -26,6 +26,8 @@ namespace ma
 
 		bool			IsCreateShadow() {return m_bCreateShadow;}
 
+		void			SetCeateShadow(bool bCreateShadow) {m_bCreateShadow = bCreateShadow;}
+
 		D3DXMATRIX		GetViewMatrix() {return m_mView;}
 
 		D3DXMATRIX		GetProjmatrix()	{return m_mProj;}
@@ -35,6 +37,8 @@ namespace ma
 		float			GetRadius() {return m_fRange;}
 
 		D3DXVECTOR3		GetDir() {return m_vSource - m_vTarget;}
+
+		float			GetFarClip() {return m_fFar;}
 
 	protected:
 		void			CalculateMatrices();

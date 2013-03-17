@@ -71,6 +71,7 @@ namespace ma
 		ID3DXEffect*					m_pDefaultSkin;
 		ID3DXEffect*					m_pGBufferTech;
 		ID3DXEffect*					m_pShdowMapTech;
+		ID3DXEffect*					m_DefferedShdowTech;
 	 	ID3DXEffect*					m_DeferredLightTech;
 		ID3DXEffect*					m_pShadingTech;
 

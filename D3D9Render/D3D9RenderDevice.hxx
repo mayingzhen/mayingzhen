@@ -134,6 +134,9 @@ namespace ma
 		hr = D3DXCreateEffectFromFile(m_pD3DDevice, "../Data/shader/DeferredLight.fx", 
 			NULL, NULL, dwShaderFlags, NULL, &m_DeferredLightTech, NULL);
 
+		hr = D3DXCreateEffectFromFile(m_pD3DDevice, "../Data/shader/DefferedShadow.fx", 
+			NULL, NULL, dwShaderFlags, NULL, &m_DefferedShdowTech, NULL);
+		
 		hr = D3DXCreateEffectFromFile(m_pD3DDevice, "../Data/shader/shadowmap.fx", 
 			NULL, NULL, dwShaderFlags, NULL, &m_pShdowMapTech, NULL);
 		
@@ -382,16 +385,16 @@ namespace ma
 
 				if (pRenderItem->m_nSkinMatrixNum != 0)
 				{
-					hr = pCurEffect->SetTechnique("SkinGBufferTech");
+					hr = pCurEffect->SetTechnique("SkinRenderShadow");
 					hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
 				}
 				else
 				{
-					hr = pCurEffect->SetTechnique("GBufferTech");
+					hr = pCurEffect->SetTechnique("RenderShadow");
 				}
 
-				D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewProjMatrix();
-				D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewMatrix();
+				D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix() * pShadowMap->GetProjMatrix();
+				D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix();
 				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
 				pCurEffect->SetMatrix("worldview",&matWV);
 
@@ -535,94 +538,109 @@ namespace ma
 
 	void D3D9RenderDevice::DefferdShadowPass()
 	{
-// 		PROFILE_LABEL_PUSH("DefferdShadow");
-// 
-// 		HRESULT hr = S_OK;
-// 
-// 		LPDIRECT3DSURFACE9 pOldRT = NULL;
-// 		m_pD3DDevice->GetRenderTarget(0, &pOldRT);	
-// 
-// 		LPDIRECT3DSURFACE9 pSurfShadowTex;
-// 		V( m_pShadowTex->GetSurfaceLevel( 0, &pSurfShadowTex) );
-// 		V( m_pD3DDevice->SetRenderTarget( 0, pSurfShadowTex ) );
-// 		SAFE_RELEASE( pSurfShadowTex );
-// 
-// 		m_pD3DDevice->Clear(0, NULL,
-// 			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
-// 			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
-// 
-// 		D3DXMATRIXA16 invView;
-// 		D3DXMatrixInverse(&invView, NULL, &g_Camera.m_mView);
-// 
-// 		const std::list<Light>& lightList = g_SceneMng.GetLigtList();
-// 		std::list<Light>::const_iterator lightIt = lightList.begin();
-// 		for (; lightIt != lightList.end(); ++lightIt)
-// 		{
-// 			m_DefferedShdowTech.begin();
-// 			m_DefferedShdowTech.BeginPass(0);
-// 
-// 			LPD3DXEFFECT effect = m_DefferedShdowTech.effect();
-// 
-// 			D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(g_Camera.m_fNearClip, 
-// 				g_Camera.m_fFarClip, 1 / g_Camera.m_fFarClip, lightIt->m_fFar );
-// 			V( effect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar ) );
-// 
-// 			D3DXMATRIX viwToLightProjArray[CCamera::NUM_PSSM];
-// 			D3DXMATRIX wordToLightView[CCamera::NUM_PSSM];
-// 			for (int i = 0; i < CCamera::NUM_PSSM; ++i) 
-// 			{
-// 				ShadowMap* pShadowMap = lightIt->m_pShadowMap[i];
-// 				if (pShadowMap == NULL)
-// 					continue;
-// 
-// 				viwToLightProjArray[i] = invView * pShadowMap->m_TexMat;
-// 				wordToLightView[i] = invView * pShadowMap->m_viewMat;
-// 
-// 				char strTexShadowMap[MAX_PATH] = {0};
-// 				_snprintf(strTexShadowMap, sizeof(strTexShadowMap), "TexShadowMap%d", i);
-// 				V( effect->SetTexture( strTexShadowMap, pShadowMap->GetDepthTexture() ) );
-// 			}
-// 
-// 			V( effect->SetTexture( "g_TextureSrcPos", m_pDepthTex ) );
-// 
-// 			//V( effect->SetTexture("Jitter", m_pJitterTexture) );
-// 
-// 			V( effect->SetMatrixArray( "viwToLightProjArray", viwToLightProjArray, CCamera::NUM_PSSM ) );
-// 			V( effect->SetMatrixArray( "wordLightView", wordToLightView, CCamera::NUM_PSSM ) );
-// 			V ( effect->SetFloatArray( "splitPos", g_Camera.m_fSplitPos, CCamera::NUM_PSSM ) );
-// 
-// 			if (lightIt->m_Type == Light::TYPE_ORTHOGRAPHIC)
-// 			{
-// 				m_DefferedShdowTech.CommitChanges();
-// 				g_SceneQuad.Render();
-// 			}
-// 			else
-// 			{
-// 				D3DXVECTOR3 lightPos = D3DXVECTOR3( lightIt->m_vSource.x, lightIt->m_vSource.y, lightIt->m_vSource.z );
-// 				float lightRadius = lightIt->m_fFar - lightIt->m_fNear;
-// 
-// 				D3DXMATRIX matTrans,matScal,matWorld;
-// 				D3DXMatrixTranslation( &matTrans, lightPos.x, lightPos.y, lightPos.z );
-// 				D3DXMatrixScaling( &matScal, 0.5f * lightRadius, 0.5f * lightRadius, 0.5f * lightRadius );
-// 				matWorld = matScal * matTrans;
-// 
-// 				//m_LightModel.Render(&matWorld);
-// 			}
-// 
-// 			for (int i = 0; i < CCamera::NUM_PSSM; ++i) // mutli pass
+		if (m_mainLigt == NULL)
+			return;
+
+		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"DefferdShadow");
+
+		HRESULT hr = S_OK;
+
+		LPDIRECT3DSURFACE9 pOldRT = NULL;
+		m_pD3DDevice->GetRenderTarget(0, &pOldRT);	
+
+		LPDIRECT3DSURFACE9 pSurfShadowTex;
+		hr = m_pShadowTex->GetSurfaceLevel( 0, &pSurfShadowTex);
+		hr = m_pD3DDevice->SetRenderTarget( 0, pSurfShadowTex );
+		SAFE_RELEASE( pSurfShadowTex );
+
+		m_pD3DDevice->Clear(0, NULL,
+			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
+			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+
+		D3DXMATRIXA16 invView;
+		D3DXMatrixInverse(&invView, NULL, &m_pMainCamera->GetViewMatrix());
+
+		//const std::list<Light>& lightList = g_SceneMng.GetLigtList();
+		//std::list<Light>::const_iterator lightIt = lightList.begin();
+		//for (; lightIt != lightList.end(); ++lightIt)
+		{
+			Light* pLigt = m_mainLigt;
+
+			LPD3DXEFFECT pCurEffect = m_DefferedShdowTech;
+
+			float fNearClip = m_pMainCamera->GetNearClip();
+			float fFarClip = m_pMainCamera->GetFarClip();
+			D3DXVECTOR4 depth_near_far_invfar(fNearClip, fFarClip, 1 / fFarClip, pLigt->GetFarClip() );
+			hr = pCurEffect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar );
+
+			D3DXMATRIX viwToLightProjArray[Camera::NUM_PSSM];
+			D3DXMATRIX wordToLightView[Camera::NUM_PSSM];
+			for (int i = 0; i < Camera::NUM_PSSM; ++i) 
+			{
+				ShadowMap* pShadowMap = m_arrShadowMap[i];
+				if (pShadowMap == NULL)
+					continue;
+
+				viwToLightProjArray[i] = invView * pShadowMap->GetTexMatrix();
+				wordToLightView[i] = invView * pShadowMap->GetViewMatrix();
+
+				char strTexShadowMap[MAX_PATH] = {0};
+				_snprintf(strTexShadowMap, sizeof(strTexShadowMap), "TexShadowMap%d", i);
+				hr = pCurEffect->SetTexture( strTexShadowMap, pShadowMap->GetDepthTexture() ) ;
+			}
+
+			hr = pCurEffect->SetTexture( "g_TextureSrcPos", m_pDepthTex );
+
+			//V( effect->SetTexture("Jitter", m_pJitterTexture) );
+
+			hr = pCurEffect->SetMatrixArray( "viwToLightProjArray", viwToLightProjArray, Camera::NUM_PSSM );
+			hr = pCurEffect->SetMatrixArray( "wordLightView", wordToLightView, Camera::NUM_PSSM );
+			hr = pCurEffect->SetFloatArray( "splitPos", m_pMainCamera->GetSplitPos(), Camera::NUM_PSSM );
+
+			//if (lightIt->m_Type == Light::TYPE_ORTHOGRAPHIC)
+			//{
+			//	m_DefferedShdowTech.CommitChanges();
+			//	g_SceneQuad.Render();
+			//}
+			//else
+			//{
+			//	D3DXVECTOR3 lightPos = D3DXVECTOR3( lightIt->m_vSource.x, lightIt->m_vSource.y, lightIt->m_vSource.z );
+			//	float lightRadius = lightIt->m_fFar - lightIt->m_fNear;
+
+			//	D3DXMATRIX matTrans,matScal,matWorld;
+			//	D3DXMatrixTranslation( &matTrans, lightPos.x, lightPos.y, lightPos.z );
+			//	D3DXMatrixScaling( &matScal, 0.5f * lightRadius, 0.5f * lightRadius, 0.5f * lightRadius );
+			//	matWorld = matScal * matTrans;
+
+				//m_LightModel.Render(&matWorld);
+			//}
+
+// 			for (int i = 0; i < Camera::NUM_PSSM; ++i) // mutli pass
 // 			{
 // 				m_pD3DDevice->SetTexture( i, NULL );
 // 			}
-// 
-// 			m_DefferedShdowTech.endPass();
-// 			m_DefferedShdowTech.end();
-// 
-// 		}
-// 
-// 		hr = m_pD3DDevice->SetRenderTarget(0, pOldRT);
-// 		SAFE_RELEASE(pOldRT);
-// 
-// 		PROFILE_LABEL_POP("DefferdShadow");
+
+			//m_DefferedShdowTech.endPass();
+			//m_DefferedShdowTech.end();
+
+			UINT cPasses = 0; 
+			hr = pCurEffect->Begin(&cPasses, 0 );
+			for (UINT i = 0; i < cPasses; ++i)
+			{
+				hr = pCurEffect->BeginPass(i);
+				//hr = pCurEffect->CommitChanges();
+				m_pScreenQuad->Render(pCurEffect);
+				pCurEffect->EndPass();
+			}	
+			pCurEffect->End();
+
+
+		}
+
+		hr = m_pD3DDevice->SetRenderTarget(0, pOldRT);
+		SAFE_RELEASE(pOldRT);
+
+		D3DPERF_EndEvent();
 	}
 
 	void D3D9RenderDevice::SetCamera(Camera* pCamera)

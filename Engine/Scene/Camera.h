@@ -8,6 +8,8 @@ namespace ma
 	class ENGINE_API Camera : public SceneNode
 	{
 	public:
+		enum {NUM_PSSM = 4};
+
 		Camera();
 		
 		~Camera();
@@ -29,6 +31,8 @@ namespace ma
 		float				GetFarClip() {return m_fFar;}
 		
 		Frustum				GetSplitFrustum(int index) {return m_arrSplitFrustum[index];}
+
+		float*				GetSplitPos() {return m_fSplitPos;}
 
 	protected:
 		void				CalculateSplitPositions();
@@ -55,8 +59,6 @@ namespace ma
 		//bool			m_bOrtho;
 		float			m_fHeight;
 
-
-		enum {NUM_PSSM = 4};
 		float m_fSplitPos[NUM_PSSM + 1];
 
 		Frustum m_arrSplitFrustum[NUM_PSSM];
