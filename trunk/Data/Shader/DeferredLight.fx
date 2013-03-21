@@ -95,9 +95,6 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 	half3 vNormal = SrcNormal.xyz * 2 - 1;
 	half  shiness = SrcNormal.w  * 255.0f;
 
-	half shadow = tex2D(g_SamplerShadow, In.oTc).r;
-	shadow = 1.0f;
-	
 	//half3 vlightVec = light_pos_es.xyz - pos_es.xyz;
 	half3 vlightVec = light_dir_es;
 	
@@ -111,12 +108,23 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 	//half fAttenuation = GetAttenuation(vlightVec);
 	half fAttenuation = 1.0f; // Directon light 
 	
-	half3 cDiffUse = light.y * shadow * light_color * fAttenuation;
-	half3 cSpecular = light.z * shadow * light_color * fAttenuation;
+	half3 cDiffUse = light.y * light_color * fAttenuation;
+	half3 cSpecular = light.z * light_color * fAttenuation;
 		
 	pOut.Diffuse.xyz = cDiffUse;
 	pOut.Specular.xyz = cSpecular;	
 }
+
+void DeferredShadowLightPS(VS_OUT In, out PS_OUT pOut)
+{
+	DeferredLightPS(In,pOut);	
+	
+	half shadow = tex2D(g_SamplerShadow, In.oTc).r;
+	
+	pOut.Diffuse *= shadow;
+	pOut.Specular *= shadow;	
+}
+
 
 
 void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
@@ -206,6 +214,28 @@ technique DiffuseLight
 		//DestBlend = One;
 	}
 }
+
+technique DiffuseShadowLight
+{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 DeferredLightVS() ;
+		PixelShader = compile ps_3_0 DeferredShadowLightPS() ;
+		
+		//StencilEnable = false;
+		//ZFunc = GreaterEqual;
+		//CullMode = CCW;
+		CullMode = CW;
+
+		ZEnable = false;
+		ZWriteEnable = false;
+		
+		//AlphaBlendEnable = true;
+		//SrcBlend = One;
+		//DestBlend = One;
+	}
+}
+
 
 technique DiffuseLightStencil
 {

@@ -7,7 +7,7 @@ namespace ma
 		m_vEyePt = D3DXVECTOR3(0,0,0);
 		m_vLookAtPt = D3DXVECTOR3(0,0,0);
 		m_fNear = 0.1f;
-		m_fFar = 3000.0f;
+		m_fFar = 300.0f;
 		m_fFOV = D3DXToRadian(45.0f); 
 		m_vUpVector = D3DXVECTOR3(0, 1, 0);
 	}
@@ -19,13 +19,27 @@ namespace ma
 
 	void Camera::Update()
 	{
-		m_vEyePt = GetPositionWS();
-		D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
-		D3DXMatrixPerspectiveFovLH(&m_matProj,m_fFOV,m_fAspect,m_fNear,m_fFar);
+		SyncFromSceneNode();
 		
 		CalculateSplitPositions();
 
 		CalculateFrustum();
+	}
+
+	void Camera::SyncFromSceneNode()
+	{	
+		m_vEyePt = GetPositionWS();
+		D3DXMatrixInverse(&m_matView,NULL,&GetWorldMatrix());
+		//D3DXMatrixMultiply(&m_matViewProj,&m_matView,&m_matProj);
+	}
+
+	void Camera::SyncToSceneNode()
+	{
+		maNodeTransform tsfWS;
+		D3DXMATRIX matViewInv;
+		D3DXMatrixInverse(&matViewInv,NULL,&m_matView);
+		maTransformFromMatrix(&tsfWS,matViewInv);
+		SetTransformWS(tsfWS);
 	}
 
 	void Camera::LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp)
@@ -43,9 +57,10 @@ namespace ma
 			m_vEyePt = *pEye;
 		}
 		
-		SetPositionWS(m_vEyePt);
-	
 		D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
+		
+		// 
+		SyncToSceneNode();
 	}
 
 	void Camera::SetPerspective(float fFOV,float fAspect,float fNear,float fFar)

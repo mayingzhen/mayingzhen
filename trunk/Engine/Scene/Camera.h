@@ -41,6 +41,10 @@ namespace ma
 
 		Frustum				CalculateFrustum(float fNear, float fFar);
 
+		void				SyncFromSceneNode();
+
+		void				SyncToSceneNode();
+
 	private:
 		D3DXMATRIX		m_matView;
 		D3DXMATRIX		m_matProj;

@@ -36,7 +36,7 @@ namespace ma
  		float fFOV = D3DX_PI / 4;
  		float fAspect = (float)nWndWidth / (float)nWndHeigh;
  		float fNearClip = 1.0f;
- 		float fFarClip = 3000.0f;
+ 		float fFarClip = 300.0f;
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 	}
 

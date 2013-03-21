@@ -13,7 +13,9 @@ namespace ma
 		SimpleSceneView::Init(pApplication);
 
 		m_fMoveCameraSpeed = 0.20f;
-		m_pCamera->SetPositionWS( D3DXVECTOR3(0, 2, -3) );	
+		//m_pCamera->SetPositionWS( D3DXVECTOR3(0, 2, -3) );
+		D3DXVECTOR3 vEyePos(0, 2, -3);
+		m_pCamera->LookAt(&vEyePos);
 	}
 
 	void SampleLighting::Shutdown()

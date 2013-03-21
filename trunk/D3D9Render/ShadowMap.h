@@ -1,7 +1,7 @@
 #ifndef  _ShadowMap__H__
 #define  _ShadowMap__H__
 
-#define PIX_DEBUG  // PIX for window 调试的时候创建D24S8纹理失败
+//#define PIX_DEBUG  // PIX for window 调试的时候创建D24S8纹理失败
 
 namespace ma
 {
