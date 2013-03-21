@@ -42,8 +42,14 @@ namespace ma
 
 		float			GetFarClip() {return m_fFar;}
 
+		void			LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
+
 	protected:
-		void			CalculateMatrices();
+		//void			CalculateMatrices();
+
+		void			SyncFromSceneNode();
+
+		void			SyncToSceneNode();
 
 	protected:
 		//D3DXCOLOR	m_Diffuse;

@@ -12,8 +12,9 @@ namespace ma
 	{
 		SimpleSceneView::Init(pApplication);
 
-		m_fMoveCameraSpeed = 0.20f;
-		m_pCamera->SetPositionWS( D3DXVECTOR3(0, 2, -3) );	
+		m_fMoveCameraSpeed = 1.0f;
+		
+		m_pCamera->LookAt( &D3DXVECTOR3(-7, 2, -3) );	
 	}
 
 	void SampleShadowMap::Shutdown()
@@ -58,7 +59,7 @@ namespace ma
 			MeshComponent* pMeshComp = new MeshComponent();
 			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
 			pGameObj->AddComponent(pMeshComp);
-			//pGameObj->TranslateWS(D3DXVECTOR3(0,0,0));
+			pGameObj->TranslateWS(D3DXVECTOR3(0,-1,0));
 		}
 
 		//light
@@ -67,7 +68,8 @@ namespace ma
 			m_pLigt->SetCeateShadow(true);
 			m_pLigt->SetLigtType(TYPE_ORTHOGRAPHIC);
 			pRootNode->AddChildNode(m_pLigt);
-			m_pLigt->SetPositionWS(D3DXVECTOR3(2, 1, 0));
+			//m_pLigt->LookAt(&D3DXVECTOR3(2, 1, 0));
+			m_pLigt->LookAt(&D3DXVECTOR3(-1.6, 10, -3));
 			
 			GetRenderDevice()->AddLight(m_pLigt);
 		}
@@ -109,7 +111,7 @@ namespace ma
 		{
 			vLightPos.x += fMoveDis;
 		}
-		m_pLigt->SetPositionWS(vLightPos);
+		m_pLigt->LookAt(&vLightPos);
 
 	}
 

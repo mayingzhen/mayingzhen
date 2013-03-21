@@ -273,6 +273,8 @@ technique DefferedShadow
 		PixelShader = compile ps_3_0  DefferedShadowPS();
 		
 		CullMode = cw;
+		ZEnable = false;
+		ZWriteEnable = false;
 	}		
 }
 

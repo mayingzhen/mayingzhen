@@ -15,10 +15,8 @@ namespace ma
 
 		D3DXMatrixIdentity(&m_matWorld);
 		maTransformSetIdentity(&m_tsfPS);
-
-		maTransformSetIdentity(&m_tsfPS);
-		D3DXMatrixIdentity(&m_matWorld);
 		maTransformSetIdentity(&m_tsfWS);
+
 		m_aabb.SetNull();
 	}
 

@@ -351,8 +351,11 @@ namespace ma
 		if (uNumber <= 0)
 			return;
 
-		for (UINT i = 0; i != 4; ++i)
+		for (UINT i = 0; i < 4; ++i)
 		{
+			//D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"ShadowMapPass");
+
+
 			ShadowMap* pShadowMap = m_arrShadowMap[i];
 			if(pShadowMap == NULL)
 			{
@@ -386,12 +389,12 @@ namespace ma
 
 				if (pRenderItem->m_nSkinMatrixNum != 0)
 				{
-					hr = pCurEffect->SetTechnique("SkinRenderShadow");
+					hr = pCurEffect->SetTechnique("SkinHWRenderShadow");
 					hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
 				}
 				else
 				{
-					hr = pCurEffect->SetTechnique("RenderShadow");
+					hr = pCurEffect->SetTechnique("HWRenderShadow");
 				}
 
 				float fNearClip = m_mainLigt->GetNearClip();
@@ -477,7 +480,14 @@ namespace ma
 			if (pLight == NULL)
 				continue;
 
-			hr = pCurEffect->SetTechnique("DiffuseLight");
+			if ( !pLight->IsCreateShadow() )
+			{
+				hr = pCurEffect->SetTechnique("DiffuseLight");
+			}
+			else
+			{
+				hr = pCurEffect->SetTechnique("DiffuseShadowLight");
+			}
 
 			hr = pCurEffect->SetTexture( "g_TextureSrcPos", m_pDepthTex );
 			hr = pCurEffect->SetTexture( "g_TextureSrcNormal", m_pNormalTex ) ;
@@ -544,8 +554,6 @@ namespace ma
 
 	void D3D9RenderDevice::DefferdShadowPass()
 	{
-		if (m_mainLigt == NULL)
-			return;
 
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"DefferdShadow");
 
@@ -559,9 +567,7 @@ namespace ma
 		hr = m_pD3DDevice->SetRenderTarget( 0, pSurfShadowTex );
 		SAFE_RELEASE( pSurfShadowTex );
 
-		m_pD3DDevice->Clear(0, NULL,
-			D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
-			D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+		m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 0);
 
 		D3DXMATRIXA16 invView;
 		D3DXMatrixInverse(&invView, NULL, &m_pMainCamera->GetViewMatrix());
@@ -569,6 +575,7 @@ namespace ma
 		//const std::list<Light>& lightList = g_SceneMng.GetLigtList();
 		//std::list<Light>::const_iterator lightIt = lightList.begin();
 		//for (; lightIt != lightList.end(); ++lightIt)
+		if (m_mainLigt)
 		{
 			Light* pLigt = m_mainLigt;
 

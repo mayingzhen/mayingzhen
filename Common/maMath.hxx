@@ -297,6 +297,8 @@ void maTransformFromMatrix(maNodeTransform* pOut,const D3DXMATRIX& mat)
 {
 	D3DXVECTOR3 vScale;
 	D3DXMatrixDecompose(&vScale,&pOut->m_qRot,&pOut->m_vPos,&mat);
+	//assert(vScale.x == vScale.y && vScale.y == vScale.z);
+	pOut->m_fScale = vScale.x;
 }
 
 void Log(const char* fmt,...) {}
