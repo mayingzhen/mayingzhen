@@ -65,6 +65,8 @@ namespace ma
 		
 		void					AddChildNode(SceneNode* pChildNode);
 
+		const AABB&				GetAABB() {return m_aabbWS;}		
+
 		virtual void			Serialize(SerializeListener& sl, const char* pszLable = "SceneNode");
 
 	private:
@@ -75,6 +77,8 @@ namespace ma
 		void					UpdateTransformPS();
 
 		void					SetTransformWSDirty();
+
+		void					UpdateAABB();
 
 	protected:
 		std::vector<SceneNode*>	m_arrChildNode;
@@ -89,7 +93,8 @@ namespace ma
 		bool					m_btsfWSDirty;
 		bool					m_bmatWSDirty;
 
-		AABB					m_aabb;	
+		AABB					m_aabbWS;	
+		AABB					m_aabbLS;
 	};
 
 }

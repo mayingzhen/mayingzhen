@@ -8,6 +8,7 @@ namespace ma
 	class ShadowMap;
 	class LineRender;
 	class ScreenQuad;
+	class UnitSphere;
 
 	class D3D9RENDER_API D3D9RenderDevice : public IRenderDevice
 	{
@@ -95,6 +96,8 @@ namespace ma
 		LineRender*						m_pLineRender;
 
 		ScreenQuad*						m_pScreenQuad;
+		
+		UnitSphere*						m_pUnitSphere;
 
 	};
 }

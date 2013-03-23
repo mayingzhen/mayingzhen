@@ -12,8 +12,8 @@ namespace ma
 	{
 		SimpleSceneView::Init(pApplication);
 
-		D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 400, 400);
-		m_pCamera->LookAt(&vEyePos);
+		//D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 400, 400);
+		//m_pCamera->LookAt(&vEyePos);
 
 		AnimationModuleInit();
 	}

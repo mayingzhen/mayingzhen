@@ -4,8 +4,6 @@ float4x4 worldview : worldview;
 float4 light_pos_es;
 float4 light_dir_es;
 float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
-float  lightRadius;
-float  g_OneOverSqrLightRadius;
 
 float4 depth_near_far_invfar;
 
@@ -48,12 +46,6 @@ sampler g_SamplerShadow = sampler_state
 };
 
 
-float GetAttenuation(half3 lightVec)
-{
-  	//return saturate(1 -  dot(lightVec, lightVec) * g_OneOverSqrLightRadius );
-  	//return saturate( 1 - lightVec.x * lightVec.x *  g_OneOverSqrLightRadius );
-  	return saturate( 1 -  lightVec.x /  lightRadius );
-}
 		
 struct VS_OUT
 {
@@ -64,8 +56,8 @@ struct VS_OUT
 
 struct PS_OUT
 {
- 	half4 Diffuse  : COLOR0;
-	half4 Specular  : COLOR1;
+ 	float4 Diffuse  : COLOR0;
+	float4 Specular  : COLOR1;
 };
 
 
@@ -81,43 +73,80 @@ void DeferredLightVS( float4 pos : POSITION,
 	vOut.oTc += 0.5f;
 }
 
-void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
+void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float shiness)
 {
-	pOut = (PS_OUT)0;
-	
-	half depth = tex2D(g_SamplerSrcPos, In.oTc).x;
+	float depth = tex2D(g_SamplerSrcPos, In.oTc).x;
 	depth *= depth_near_far_invfar.y;
 	
 	float3 view_dir = normalize(In.oViewDir);
-	float3 pos_es = view_dir * (depth / view_dir.z);	
+	pos_es = view_dir * (depth / view_dir.z);	
 	
-	half4 SrcNormal = tex2D( g_SamplerSrcNormal, In.oTc);
-	half3 vNormal = SrcNormal.xyz * 2 - 1;
-	half  shiness = SrcNormal.w  * 255.0f;
+	float4 SrcNormal = tex2D( g_SamplerSrcNormal, In.oTc);
+	normal = SrcNormal.xyz * 2 - 1;
+	shiness = SrcNormal.w  * 255.0f;
+}
 
-	//half3 vlightVec = light_pos_es.xyz - pos_es.xyz;
-	half3 vlightVec = light_dir_es;
+void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out PS_OUT pOut)
+{
+	pOut = (PS_OUT)0;
+
+	float3 vLight  = normalize(lightVec);	
+	float3 vView   = normalize(-pos_es.xyz);
+	float3 halfDir = normalize(vView + vLight);
 	
-	half3 vLight  = normalize(vlightVec);	
-	half3 vView   = normalize(-pos_es.xyz);
-	half3 halfDir = normalize(vView + vLight);
+	float3 light = lit( dot( vLight, normal ), dot( halfDir, normal ), shiness );	
 	
-	half3 light = lit( dot( vLight, vNormal ), dot( halfDir, vNormal ), shiness );	
-	
-	//vlightVec.x = distance( light_pos_es, pos_es );
-	//half fAttenuation = GetAttenuation(vlightVec);
-	half fAttenuation = 1.0f; // Directon light 
-	
-	half3 cDiffUse = light.y * light_color * fAttenuation;
-	half3 cSpecular = light.z * light_color * fAttenuation;
+	float3 cDiffUse = light.y * light_color;
+	float3 cSpecular = light.z * light_color;
 		
 	pOut.Diffuse.xyz = cDiffUse;
 	pOut.Specular.xyz = cSpecular;	
 }
 
-void DeferredShadowLightPS(VS_OUT In, out PS_OUT pOut)
+void DeferredDirectLightPS(VS_OUT In, out PS_OUT pOut)
 {
-	DeferredLightPS(In,pOut);	
+	pOut = (PS_OUT)0;
+
+	float3 pos_es;
+	float3 normal;
+	float shiness;
+	GetPosNormalShiness(In,pos_es,normal,shiness);
+
+	float3 vlightVec = light_dir_es;
+	
+	GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,pOut);
+}
+
+
+void DeferredPointLightPS(VS_OUT In, out PS_OUT pOut)
+{
+	pOut = (PS_OUT)0;
+	
+	float3 pos_es;
+	float3 normal;
+	float shiness;
+	GetPosNormalShiness(In,pos_es,normal,shiness);
+	
+	float3 vlightVec = light_pos_es.xyz - pos_es.xyz;
+	
+	GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,pOut);
+}
+
+
+
+void DeferredShadowDirectLightPS(VS_OUT In, out PS_OUT pOut)
+{
+	DeferredDirectLightPS(In,pOut);	
+	
+	half shadow = tex2D(g_SamplerShadow, In.oTc).r;
+	
+	pOut.Diffuse *= shadow;
+	pOut.Specular *= shadow;	
+}
+
+void DeferredShadowPointLightPS(VS_OUT In, out PS_OUT pOut)
+{
+	DeferredPointLightPS(In,pOut);	
 	
 	half shadow = tex2D(g_SamplerShadow, In.oTc).r;
 	
@@ -127,11 +156,12 @@ void DeferredShadowLightPS(VS_OUT In, out PS_OUT pOut)
 
 
 
+
 void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
 {
 	pOut = (PS_OUT)0;
 	
-	half3 cDiffuse = 0.2f;
+	half3 cDiffuse = 0.3f;
 	half3 cSpecular = 0;
 		
 	pOut.Diffuse.xyz = cDiffuse;
@@ -154,9 +184,9 @@ technique AmbientLight
 		ZEnable = false;
 		ZWriteEnable = false;
 		
-		AlphaBlendEnable = true;
-		SrcBlend = One;
-		DestBlend = One;
+		//AlphaBlendEnable = true;
+		//SrcBlend = One;
+		//DestBlend = One;
 		
 		CullMode = CW;
 	}
@@ -194,12 +224,12 @@ technique StencilVolumeMask
 }
 
 
-technique DiffuseLight
+technique DiffuseDirectLight
 {
 	pass p0
 	{
 		VertexShader = compile vs_3_0 DeferredLightVS() ;
-		PixelShader = compile ps_3_0 DeferredLightPS() ;
+		PixelShader = compile ps_3_0 DeferredDirectLightPS() ;
 		
 		//StencilEnable = false;
 		//ZFunc = GreaterEqual;
@@ -209,18 +239,34 @@ technique DiffuseLight
 		ZEnable = false;
 		ZWriteEnable = false;
 		
-		//AlphaBlendEnable = true;
-		//SrcBlend = One;
-		//DestBlend = One;
+		AlphaBlendEnable = true;
+		SrcBlend = One;
+		DestBlend = One;
 	}
 }
 
-technique DiffuseShadowLight
+technique DiffusePointLight
 {
 	pass p0
 	{
 		VertexShader = compile vs_3_0 DeferredLightVS() ;
-		PixelShader = compile ps_3_0 DeferredShadowLightPS() ;
+		PixelShader = compile ps_3_0 DeferredPointLightPS() ;
+		
+		ZEnable = false;
+		ZWriteEnable = false;
+		
+		AlphaBlendEnable = true;
+		SrcBlend = One;
+		DestBlend = One;
+	}
+}
+
+technique DiffuseShadowDirectLight
+{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 DeferredLightVS() ;
+		PixelShader = compile ps_3_0 DeferredShadowDirectLightPS() ;
 		
 		//StencilEnable = false;
 		//ZFunc = GreaterEqual;
@@ -230,13 +276,32 @@ technique DiffuseShadowLight
 		ZEnable = false;
 		ZWriteEnable = false;
 		
-		//AlphaBlendEnable = true;
-		//SrcBlend = One;
-		//DestBlend = One;
+		AlphaBlendEnable = true;
+		SrcBlend = One;
+		DestBlend = One;
+	}
+}
+
+technique DiffuseShadowPointLight
+{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 DeferredLightVS() ;
+		PixelShader = compile ps_3_0 DeferredShadowPointLightPS() ;
+		
+		//CullMode = CW;
+
+		ZEnable = false;
+		ZWriteEnable = false;
+		
+		AlphaBlendEnable = true;
+		SrcBlend = One;
+		DestBlend = One;
 	}
 }
 
 
+/*
 technique DiffuseLightStencil
 {
 	pass p0
@@ -260,3 +325,4 @@ technique DiffuseLightStencil
         CullMode = CCW;
 	}
 }
+*/

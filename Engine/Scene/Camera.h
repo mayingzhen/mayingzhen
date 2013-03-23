@@ -16,7 +16,7 @@ namespace ma
 
 		virtual void		Update();			
 
-		void				LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
+		//void				LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
@@ -34,6 +34,8 @@ namespace ma
 
 		float*				GetSplitPos() {return m_fSplitPos;}
 
+		void				FitAABB(const AABB& aabb, float fMargin);
+
 	protected:
 		void				CalculateSplitPositions();
 
@@ -44,6 +46,8 @@ namespace ma
 		void				SyncFromSceneNode();
 
 		void				SyncToSceneNode();
+
+		D3DXVECTOR2			GetNearPlaneSize() const;
 
 	private:
 		D3DXMATRIX		m_matView;

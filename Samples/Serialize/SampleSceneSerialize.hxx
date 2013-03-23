@@ -14,9 +14,9 @@ namespace ma
 
 		SimpleSceneView::Init(pApplication);
 
-		D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 6, 10);
+		//D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 6, 10);
 		m_fMoveCameraSpeed = 0.20f;
-		m_pCamera->LookAt(&vEyePos);
+		//m_pCamera->LookAt(&vEyePos);
 	}
 
 	void SampleSceneSerialize::Shutdown()

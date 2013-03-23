@@ -7,9 +7,9 @@ namespace ma
 {
 	enum LightType
 	{
-		TYPE_ORTHOGRAPHIC, // eg. directional light
-		TYPE_PERSPECTIVE,   // eg. spot light
-		TYPE_POINT,	
+		LIGHT_DIRECTIONAL,
+		LIGHT_SPOT,			
+		LIGHT_POINT,	
 	};
 
 
@@ -20,13 +20,9 @@ namespace ma
 
 		virtual	void	Update();
 
-		LightType		GetLightType() {return m_Type;}
+		LightType		GetLightType() {return m_eLightType;}
 
-		void			SetLigtType(LightType eType) {m_Type = eType;}
-
-		bool			IsCreateShadow() {return m_bCreateShadow;}
-
-		void			SetCeateShadow(bool bCreateShadow) {m_bCreateShadow = bCreateShadow;}
+		void			SetLigtType(LightType eType) {m_eLightType = eType;}
 
 		D3DXMATRIX		GetViewMatrix() {return m_mView;}
 
@@ -34,54 +30,50 @@ namespace ma
 
 		D3DXVECTOR3		GetDiffuse() {return m_vLightDiffuse;}
 
-		float			GetRadius() {return m_fRange;}
+		float			GetRadius() {return m_fRadius;}
 
-		D3DXVECTOR3		GetDir() {return m_vSource - m_vTarget;}
+		void			SetRadius(float fRadius) {m_fRadius = fRadius;}
 
-		float			GetNearClip() {return m_fNear;}
+		D3DXVECTOR3		GetDirection() {return m_vDirection;}
 
-		float			GetFarClip() {return m_fFar;}
+		bool			IsCreateShadow() {return m_bCreateShadow;}
+
+		void			SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}
 
 		void			LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
 
 	protected:
-		//void			CalculateMatrices();
-
 		void			SyncFromSceneNode();
 
 		void			SyncToSceneNode();
 
 	protected:
-		//D3DXCOLOR	m_Diffuse;
-		D3DXCOLOR   m_fSpecular;
-		float       m_fRange;
-		float       m_fFalloff;
-		float       m_fAtten0;
-		float       m_fAtten1;
-		float       m_fAtten2;
-		float       m_fInner;
-		float       m_fMOuter;
+		LightType		m_eLightType;
 
-		// type of light
-		LightType m_Type;
+		D3DXVECTOR3		m_vLightDiffuse;
 
-		D3DXMATRIX m_mView;
-		D3DXMATRIX m_mProj;
+		D3DXVECTOR3		m_vTarget;
+		D3DXVECTOR3		m_vUpVector;
+		D3DXMATRIX		m_mView;
+		D3DXMATRIX		m_mProj;
+		
 
+		// Point Light
+		float			m_fRadius;
 
-		bool		m_bCreateShadow;
+		// directional Ligt
+		D3DXVECTOR3		m_vDirection;
+		bool			m_bCreateShadow;
 
-		D3DXVECTOR3 m_vSource;
-		D3DXVECTOR3 m_vTarget;
-		float m_fNear;
-		float m_fFar;
-		float m_fFOV;
-		D3DXVECTOR3 m_vUpVector;
-		float m_fAspectRatio;
-		D3DXVECTOR3 m_vLightDiffuse;
-		D3DXVECTOR3 m_vLightAmbient;
+		// spot Light
+		float			m_fAspectRatio;
+		float			m_fNearClip;
+		float			m_fFarClip;
+		float			m_fFOV;
 	};
+
 }
 
 #endif
+
 
