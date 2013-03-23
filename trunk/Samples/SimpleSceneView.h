@@ -30,6 +30,7 @@ namespace ma
 
 	protected:
 		Scene*			m_pScene;
+
 		Camera*			m_pCamera;
 	
 		Application*	m_pApplication;

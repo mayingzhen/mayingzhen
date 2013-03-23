@@ -28,8 +28,8 @@ namespace ma
 		m_pScene->GetRootNode()->AddChildNode(m_pCamera);
 
 
-		D3DXVECTOR3 vEyePos =  D3DXVECTOR3(0, 600, 1000);
-		m_pCamera->LookAt(&vEyePos);
+		//D3DXVECTOR3 vEyePos =  D3DXVECTOR3(0, 600, 1000);
+		//m_pCamera->LookAt(&vEyePos);
 
  		int nWndWidth,nWndHeigh;
  		pApplication->GetWindowSize(nWndWidth,nWndHeigh);
@@ -59,50 +59,45 @@ namespace ma
 
 	void SimpleSceneView::UpdateCamra(float timeElapsed)
 	{
-		Input* pInput = GetInput();
-		if (pInput == NULL)
+		if (m_pCamera == NULL)
+			return;
+
+		const OIS::MouseState* pMS = GetInput() ? GetInput()->GetMouseState() : NULL;
+		if (pMS == NULL)
 			return;
 		
 		D3DXVECTOR3 vEyePos = m_pCamera->GetPositionWS();
 
 		float fMoveDis = m_fMoveCameraSpeed * timeElapsed;
-		
-		bool isChaneg = false;
-		if ( pInput->IsKeyDown(OIS::KC_UP) )
+
+		// RotateCamera
+		if ( GetInput()->IsMouseButtonDown(OIS::MB_Right) )
 		{
-			vEyePos.y += fMoveDis;
-			isChaneg = true;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_DOWN) )
-		{
-			vEyePos.y -= fMoveDis;
-			isChaneg = true;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_LEFT) )
-		{
-			vEyePos.x += fMoveDis;
-			isChaneg = true;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_RIGHT) )
-		{
-			vEyePos.x -= fMoveDis;
-			isChaneg = true;
-		}
-		if (pInput->IsKeyDown(OIS::KC_ADD))
-		{
-			m_fMoveCameraSpeed += 1.0f;
-		}
-		if (pInput->IsKeyDown(OIS::KC_SUBTRACT))
-		{
-			m_fMoveCameraSpeed -= 1.0f;
+			EulerAngleXYZ vRotEuler(0.0f,0.0f,0.0f);	
+			vRotEuler.y = pMS->X.rel / 512.0f;
+			vRotEuler.x = pMS->Y.rel / 512.0f;
+
+			D3DXQUATERNION qRot;
+			maQuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
+			m_pCamera->RotateLS(qRot);
 		}
 
-		if (isChaneg)
+		// MoveCamera
+		if ( GetInput()->IsMouseButtonDown(OIS::MB_Middle) )
 		{
-			//D3DXVECTOR3 lookatPos = D3DXVECTOR3(0, 0, 0);
-			//D3DXVECTOR3 vUp = D3DXVECTOR3(0, 1, 0);
-			//D3DXMatrixLookAtLH(&m_matView,&m_vEyePos,&lookatPos,&vUp);
-			m_pCamera->LookAt(&vEyePos);
+			float fMoveX = pMS->X.rel * fMoveDis;
+			float fMoveY = pMS->Y.rel * fMoveDis;
+			D3DXVECTOR3 vDist(fMoveX,fMoveY,0);
+
+			m_pCamera->TranslateLS(vDist);
+		}
+
+		// ZoomCamera
+		if ( pMS->Z.rel != 0 )
+		{	
+			float fDeltaZoom = pMS->Z.rel * fMoveDis;
+			D3DXVECTOR3 vDist(0.0f,0.0f,-fDeltaZoom);
+			m_pCamera->TranslateLS(vDist);
 		}
 	}
 

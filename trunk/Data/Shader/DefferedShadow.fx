@@ -211,60 +211,6 @@ void DefferedShadowPS( float2 Tc : TEXCOORD0,
 }
 
 
-/* for pix debug shader
-static const float fShadowBias = 0.001f;
-void DefferedShadowPS( float2 Tc : TEXCOORD0,
-					   float3 ViewDir : TEXCOORD1,
-					   out float4 color : COLOR0 )
-{	
-	half depth = tex2D(g_SamplerSrcPos, Tc).x;
-	depth *= depth_near_far_invfar.y;
-	
-	float3 view_dir = normalize(ViewDir);
-	float3 pos_es = view_dir * ( depth / view_dir.z ); 
-	
-	float shadow = 1;
-	
-	if ( depth < splitPos.x )
-	{
-	
-		float4 projCoord = mul( float4( pos_es, 1 ), viwToLightProjArray[0] );
-		float4 ligtViewPos = mul( float4( pos_es, 1 ), wordLightView[0] );
-		
-		float shadowDepth = tex2D(SamplerShadowMap0, projCoord.xyz / projCoord.w) + fShadowBias;
-		shadowDepth *= depth_near_far_invfar.w;
-		shadow = ligtViewPos.z < shadowDepth;
-	}
-	else if ( depth < splitPos.y )
-	{
-		
-		float4 projCoord = mul( float4( pos_es, 1 ), viwToLightProjArray[1] );
-		float4 ligtViewPos = mul( float4( pos_es, 1 ), wordLightView[1] );
-		float shadowDepth = tex2D(SamplerShadowMap1, projCoord.xyz / projCoord.w ) + fShadowBias;
-		shadowDepth *= depth_near_far_invfar.w;
-		shadow = ligtViewPos.z < shadowDepth;
-	}
-	else if ( depth < splitPos.z )
-	{
-		float4 projCoord = mul( float4( pos_es, 1 ), viwToLightProjArray[2] );
-		float4 ligtViewPos = mul( float4( pos_es, 1 ), wordLightView[2] );
-		float shadowDepth = tex2D(SamplerShadowMap2, projCoord.xyz / projCoord.w ) + fShadowBias;
-		shadowDepth *= depth_near_far_invfar.w;
-		shadow = ligtViewPos.z < shadowDepth;	
-	}
-	else
-	{
-		float4 projCoord = mul( float4( pos_es, 1 ), viwToLightProjArray[3] );
-		float4 ligtViewPos = mul( float4( pos_es, 1 ), wordLightView[3] );
-		float shadowDepth = tex2D(SamplerShadowMap3, projCoord.xyz / projCoord.w ) + fShadowBias;
-		shadowDepth *= depth_near_far_invfar.w;
-		shadow = ligtViewPos.z < shadowDepth;	
-	}		
-	
-	color = shadow;
-}
-*/
-
 technique DefferedShadow
 {
 	pass p0

@@ -14,7 +14,7 @@ namespace ma
 
 		m_fMoveCameraSpeed = 1.0f;
 		
-		m_pCamera->LookAt( &D3DXVECTOR3(-7, 2, -3) );	
+		//m_pCamera->LookAt( &D3DXVECTOR3(-7, 2, -3) );	
 	}
 
 	void SampleShadowMap::Shutdown()
@@ -65,8 +65,8 @@ namespace ma
 		//light
 		{
 			m_pLigt = new Light(m_pScene,"Light");
-			m_pLigt->SetCeateShadow(true);
-			m_pLigt->SetLigtType(TYPE_ORTHOGRAPHIC);
+			m_pLigt->SetCreateShadow(true);
+			m_pLigt->SetLigtType(LIGHT_DIRECTIONAL);
 			pRootNode->AddChildNode(m_pLigt);
 			//m_pLigt->LookAt(&D3DXVECTOR3(2, 1, 0));
 			m_pLigt->LookAt(&D3DXVECTOR3(-1.6, 10, -3));

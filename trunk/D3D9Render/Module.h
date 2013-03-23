@@ -8,6 +8,7 @@
 #include "D3D9Render/D3D9RendTexture.h"
 #include "D3D9Render/LineRender.h"
 #include "D3D9Render/ScreenQuad.h"
+#include "D3D9Render/UnitSphere.h"
 #include "D3D9Render/ShadowMap.h"
 
 

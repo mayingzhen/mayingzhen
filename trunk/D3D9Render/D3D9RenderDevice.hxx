@@ -16,6 +16,7 @@ namespace ma
 
 		m_pLineRender = new LineRender();
 		m_pScreenQuad = new ScreenQuad();
+		m_pUnitSphere = new UnitSphere();
 
 		memset(m_arrShadowMap,0,sizeof(m_arrShadowMap));
 	}
@@ -24,6 +25,7 @@ namespace ma
 	{
 		SAFE_DELETE(m_pLineRender);
 		SAFE_DELETE(m_pScreenQuad);
+		SAFE_DELETE(m_pUnitSphere);
 	}
 
 	IRendMesh* D3D9RenderDevice::CreateRendMesh()
@@ -45,6 +47,8 @@ namespace ma
 		m_pLineRender->Init(m_pD3DDevice);
 
 		m_pScreenQuad->Init(m_pD3DDevice);
+
+		m_pUnitSphere->Init(m_pD3DDevice);
 	}
 
 	void D3D9RenderDevice::InitD3D9(HWND hWnd)
@@ -397,15 +401,10 @@ namespace ma
 					hr = pCurEffect->SetTechnique("HWRenderShadow");
 				}
 
-				float fNearClip = m_mainLigt->GetNearClip();
-				float fFarClip = m_mainLigt->GetFarClip();
-				D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(fNearClip, fFarClip, 1 / fFarClip, 0);
-
 				D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix() * pShadowMap->GetProjMatrix();
 				D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix();
 				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
 				pCurEffect->SetMatrix("worldview",&matWV);
-				pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
 
 				UINT cPasses = 0; 
 				hr = pCurEffect->Begin(&cPasses, 0 );
@@ -455,24 +454,28 @@ namespace ma
 
 		ID3DXEffect* pCurEffect = m_DeferredLightTech;
 
-// 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"AmbientLight");
-// 
-// 		pCurEffect->SetTechnique("AmbientLight");
-// 
-// 		UINT cPasses = 0; 
-// 		hr = pCurEffect->Begin(&cPasses, 0 );
-// 		for (UINT i = 0; i < cPasses; ++i)
-// 		{
-// 			hr = pCurEffect->BeginPass(i);
-// 			//hr = pCurEffect->CommitChanges();
-// 			m_pScreenQuad->Render(pCurEffect);
-// 			pCurEffect->EndPass();
-// 		}	
-// 		pCurEffect->End();
-// 
-// 		D3DPERF_EndEvent();
+		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"AmbientLight");
+
+		pCurEffect->SetTechnique("AmbientLight");
+
+		UINT cPasses = 0; 
+		hr = pCurEffect->Begin(&cPasses, 0 );
+		for (UINT i = 0; i < cPasses; ++i)
+		{
+			hr = pCurEffect->BeginPass(i);
+			//hr = pCurEffect->CommitChanges();
+			m_pScreenQuad->Render(pCurEffect);
+			pCurEffect->EndPass();
+		}	
+		pCurEffect->End();
+
+		D3DPERF_EndEvent();
 
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"DiffuseLight");
+
+		hr = pCurEffect->SetTexture( "g_TextureSrcPos", m_pDepthTex );
+		hr = pCurEffect->SetTexture( "g_TextureSrcNormal", m_pNormalTex ) ;
+		hr = pCurEffect->SetTexture( "g_TextureShadow", m_pShadowTex );
 
 		for (UINT i = 0; i < m_Ligts.size(); ++i)
 		{
@@ -480,65 +483,78 @@ namespace ma
 			if (pLight == NULL)
 				continue;
 
-			if ( !pLight->IsCreateShadow() )
-			{
-				hr = pCurEffect->SetTechnique("DiffuseLight");
-			}
-			else
-			{
-				hr = pCurEffect->SetTechnique("DiffuseShadowLight");
-			}
-
-			hr = pCurEffect->SetTexture( "g_TextureSrcPos", m_pDepthTex );
-			hr = pCurEffect->SetTexture( "g_TextureSrcNormal", m_pNormalTex ) ;
-			hr = pCurEffect->SetTexture( "g_TextureShadow", m_pShadowTex );
-
-			//D3DXVECTOR4 lightColor =  pLight->GetDiffuse(); //
-			D3DXVECTOR4 lightColor = D3DXVECTOR4( 2.0f, 2.0f, 2.0f, 1.0f );
-			D3DXVECTOR3 lightPos = pLight->GetPositionWS();//D3DXVECTOR3( lightIt->m_vSource.x, lightIt->m_vSource.y, lightIt->m_vSource.z );
-			float lightRadius =  pLight->GetRadius();
-			D3DXVECTOR3 lightDir = pLight->GetDir();
-
-			D3DXMATRIX matTrans,matScal,matWorld;
-			D3DXMatrixTranslation( &matTrans, lightPos.x, lightPos.y, lightPos.z );
-			D3DXMatrixScaling( &matScal, 0.5f * lightRadius, 0.5f * lightRadius, 0.5f * lightRadius  );
-			matWorld = matScal * matTrans;
-
-			D3DXVec3TransformCoord(&lightPos, &lightPos, &m_pMainCamera->GetViewMatrix());
-			D3DXVec3TransformNormal(&lightDir, &lightDir, &m_pMainCamera->GetViewMatrix());
-			D3DXVECTOR4 lightPosView(lightPos.x,lightPos.y,lightPos.z,1);
-			D3DXVECTOR4 ligtDirView(lightDir.x,lightDir.y,lightDir.z,0);
-
-
+			D3DXVECTOR4 lightColor =  pLight->GetDiffuse(); 
 			hr = pCurEffect->SetVector( "light_color", &lightColor );
-			hr = pCurEffect->SetVector( "light_pos_es", &lightPosView );
-			hr = pCurEffect->SetVector( "light_dir_es", &ligtDirView );
-			hr = pCurEffect->SetFloat( "lightRadius", lightRadius) ;
-			hr = pCurEffect->SetFloat( "g_OneOverSqrLightRadius", 1 / (lightRadius * lightRadius) ) ;
 
 			float fNearClip = m_pMainCamera->GetNearClip();
 			float fFarClip = m_pMainCamera->GetFarClip();
 			D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(fNearClip, fFarClip, 1 / fFarClip, 0 );
 			hr = pCurEffect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar );
-
-			///////////
-			//  	m_DeferredLightTech.BeginPass("StencilVolumeMask");
-			//  	m_LightModel.Render(&matWorld);
-			//  	m_DeferredLightTech.endPass();
-			///////////
-
-
-			UINT cPasses = 0; 
-			hr = pCurEffect->Begin(&cPasses, 0 );
-			for (UINT i = 0; i < cPasses; ++i)
+			
+			if (pLight->GetLightType() == LIGHT_POINT)
 			{
-				hr = pCurEffect->BeginPass(i);
-				//hr = pCurEffect->CommitChanges();
-				m_pScreenQuad->Render(pCurEffect);
-				pCurEffect->EndPass();
-			}	
-			pCurEffect->End();
+				if ( !pLight->IsCreateShadow() )
+				{
+					hr = pCurEffect->SetTechnique("DiffusePointLight");
+				}
+				else
+				{
+					hr = pCurEffect->SetTechnique("DiffuseShadowPointLight");
+				}
 
+				D3DXVECTOR3 lightPosWS = pLight->GetPositionWS();
+				D3DXVECTOR3 lightPosES;
+				D3DXVec3TransformCoord(&lightPosES, &lightPosWS, &m_pMainCamera->GetViewMatrix());
+				D3DXVECTOR4 lightPosView(lightPosES.x,lightPosES.y,lightPosES.z,1);
+				hr = pCurEffect->SetVector( "light_pos_es", &lightPosView );
+			
+				float fExpensionRadius = pLight->GetRadius() * 1.08f;
+			
+				D3DXMATRIX matTrans,matScal,matWorld;
+				D3DXMatrixTranslation( &matTrans, lightPosWS.x, lightPosWS.y, lightPosWS.z );
+				D3DXMatrixScaling( &matScal,fExpensionRadius, fExpensionRadius, fExpensionRadius );
+				matWorld = matScal * matTrans;
+
+				D3DXMATRIX matWVP = matWorld * m_pMainCamera->GetViewProjMatrix();
+				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+
+				UINT cPasses = 0; 
+				hr = pCurEffect->Begin(&cPasses, 0 );
+				for (UINT i = 0; i < cPasses; ++i)
+				{
+					hr = pCurEffect->BeginPass(i);
+					m_pUnitSphere->Render(pCurEffect);
+					pCurEffect->EndPass();
+				}	
+				pCurEffect->End();
+
+			}
+			else if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
+			{
+				if ( !pLight->IsCreateShadow() )
+				{
+					hr = pCurEffect->SetTechnique("DiffuseDirectLight");
+				}
+				else
+				{
+					hr = pCurEffect->SetTechnique("DiffuseShadowDirectLight");
+				}
+			
+				D3DXVECTOR3 lightDir = pLight->GetDirection();	
+				D3DXVec3TransformNormal(&lightDir, &lightDir, &m_pMainCamera->GetViewMatrix());
+				D3DXVECTOR4 ligtDirView(lightDir.x,lightDir.y,lightDir.z,0);
+				hr = pCurEffect->SetVector( "light_dir_es", &ligtDirView );
+
+				UINT cPasses = 0; 
+				hr = pCurEffect->Begin(&cPasses, 0 );
+				for (UINT i = 0; i < cPasses; ++i)
+				{
+					hr = pCurEffect->BeginPass(i);
+					m_pScreenQuad->Render(pCurEffect);
+					pCurEffect->EndPass();
+				}	
+				pCurEffect->End();
+			}
 		}
 
 		D3DPERF_EndEvent();
@@ -583,7 +599,7 @@ namespace ma
 
 			float fNearClip = m_pMainCamera->GetNearClip();
 			float fFarClip = m_pMainCamera->GetFarClip();
-			D3DXVECTOR4 depth_near_far_invfar(fNearClip, fFarClip, 1 / fFarClip, pLigt->GetFarClip() );
+			D3DXVECTOR4 depth_near_far_invfar(fNearClip, fFarClip, 1 / fFarClip, 0 );
 			hr = pCurEffect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar );
 
 			D3DXMATRIX viwToLightProjArray[Camera::NUM_PSSM];

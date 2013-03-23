@@ -17,7 +17,7 @@ namespace ma
 		maTransformSetIdentity(&m_tsfPS);
 		maTransformSetIdentity(&m_tsfWS);
 
-		m_aabb.SetNull();
+		//m_aabb.SetNull();
 	}
 
 	SceneNode::~SceneNode()
@@ -335,6 +335,27 @@ namespace ma
 		m_arrChildNode.push_back(pChildNode);
 
 		pChildNode->SetParentSceneNode(this);
+	}
+
+	void SceneNode::UpdateAABB()
+	{
+		//m_aabbLS = GetAABBLS()l
+// 		for (UINT nCnt = 0; nCnt < m_arrGameObj.size(); ++nCnt)
+// 		{
+// 			m_arrGameObj[nCnt]->UpdateLocalBounds();
+// 			m_localBound.Merge(* m_arrGameObj[nCnt]->GetLocalBounds());
+// 		}
+
+// 		const D3DXMATRIX& matWorld = GetWorldMatrix();
+// 		m_aabbBound = m_localBound;
+// 		m_aabbBound.Transform(matWorld);
+// 
+// 		for (xmUint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 		{
+// 			m_arrChildNode[nCnt]->UpdateBounds();
+// 			m_aabbBound.Merge(*m_arrChildNode[nCnt]->GetBounds());
+// 		}
+
 	}
 
 	void SceneNode::Serialize(SerializeListener& sl, const char* pszLable)

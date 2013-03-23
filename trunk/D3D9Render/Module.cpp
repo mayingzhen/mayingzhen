@@ -8,6 +8,7 @@
 #include "D3D9Render/D3D9RendTexture.hxx"
 #include "D3D9Render/DxMeshHelp.hxx"
 #include "D3D9Render/ShadowMap.hxx"
+#include "D3D9Render/UnitSphere.hxx"
 
 
 void D3D9RenderModuleInit()

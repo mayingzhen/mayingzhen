@@ -42,26 +42,81 @@ namespace ma
 		SetTransformWS(tsfWS);
 	}
 
-	void Camera::LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp)
-	{
-		if (pAt)
+	void Camera::FitAABB(const AABB& aabb, float fMargin)
+	{	
+		SyncFromSceneNode();
+
+		AABB aabbCS = aabb;
+		aabbCS.Transform(m_matView);
+
+		//Center object
+		D3DXVECTOR3 aabbSize = aabbCS.Size();
+		bool bUseWidth = false;
+		if (aabbSize.y <= F_EPS)
 		{
-			m_vLookAtPt = *pAt;
+			bUseWidth = true;
 		}
-		if (pUp)
+		else
 		{
-			m_vUpVector = *pUp;
+			float ratio = aabbSize.x / aabbSize.y;
+			bUseWidth = (ratio > m_fAspect);
 		}
-		if (pEye)
+
+		D3DXVECTOR3 vPosCS(0.0f,0.0f,0.0f);
+		D3DXVECTOR2 vNearSize = GetNearPlaneSize();
+		vNearSize *= (1.0f - fMargin);
+		if(bUseWidth)
 		{
-			m_vEyePt = *pEye;
+
+			vPosCS.z =  m_fNear * aabbSize.x / vNearSize.x;
 		}
-		
-		D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
-		
-		// 
+		else
+		{
+			vPosCS.z = m_fNear * aabbSize.y / vNearSize.y;
+		}
+
+		D3DXMATRIX matViewInv;
+		D3DXMatrixInverse(&matViewInv,NULL,&m_matView);
+		D3DXVECTOR3 vDummyPosWS;
+		D3DXVec3TransformCoord(&vDummyPosWS,&vPosCS,&matViewInv);
+
+		D3DXVECTOR3 vPosOffsetWS = aabb.Center() - vDummyPosWS;
+
+		D3DXVECTOR3* vPos = (D3DXVECTOR3*)(&matViewInv._41);
+		*vPos += vPosOffsetWS;
+		D3DXMatrixInverse(&m_matView,NULL,&matViewInv);
+
 		SyncToSceneNode();
 	}
+
+	D3DXVECTOR2 Camera::GetNearPlaneSize() const
+	{
+		D3DXVECTOR2 vSize;	
+		vSize.y = tanf(m_fFOV*0.5f) * m_fNear * 2.0f;
+		vSize.x = m_fAspect * vSize.y;
+		return vSize;
+	}
+
+// 	void Camera::LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp)
+// 	{
+// 		if (pAt)
+// 		{
+// 			m_vLookAtPt = *pAt;
+// 		}
+// 		if (pUp)
+// 		{
+// 			m_vUpVector = *pUp;
+// 		}
+// 		if (pEye)
+// 		{
+// 			m_vEyePt = *pEye;
+// 		}
+// 		
+// 		D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
+// 		
+// 		// 
+// 		SyncToSceneNode();
+// 	}
 
 	void Camera::SetPerspective(float fFOV,float fAspect,float fNear,float fFar)
 	{

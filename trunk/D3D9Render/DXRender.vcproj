@@ -229,6 +229,14 @@
 				RelativePath=".\ShadowMap.hxx"
 				>
 			</File>
+			<File
+				RelativePath=".\UnitSphere.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitSphere.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\Export.h"
