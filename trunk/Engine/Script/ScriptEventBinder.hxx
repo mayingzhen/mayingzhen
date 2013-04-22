@@ -25,7 +25,7 @@ namespace ma
 
 	bool ScriptEventBinder::BindScriptEvent(S3AObject* pSender,S3AName signal,ScriptObjectHandle hReciver,S3AName slot)
 	{
-		m_key.m_sender = (xmInt)pSender;
+		m_key.m_sender = (int)pSender;
 		m_key.m_signal = signal;
 		m_key.m_reciver = hReciver;
 		m_key.m_slot	= slot;
@@ -78,7 +78,7 @@ namespace ma
 	ScriptEventBinder*	ScriptEventAgent::TakeBinder(const ScriptEventBinderKey& key)
 	{
 		ScriptEventBinder* pBinder = NULL;
-		for (xmUint nCnt = 0; nCnt < m_arrBinder.size(); ++nCnt)
+		for (Uint nCnt = 0; nCnt < m_arrBinder.size(); ++nCnt)
 		{
 			if (m_arrBinder[nCnt]->GetKey() == key)
 			{

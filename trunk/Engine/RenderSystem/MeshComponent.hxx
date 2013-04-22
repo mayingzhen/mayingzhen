@@ -23,7 +23,7 @@ namespace ma
 		if (m_pRendMesh == NULL || m_pGameObject == NULL)
 			return;
 
-		const D3DXMATRIX& worldmat = m_pGameObject->GetWorldMatrix();
+		const Matrix4x4& worldmat = m_pGameObject->GetWorldMatrix();
 		m_pRendMesh->m_pMesh = m_pRendMesh;
 		m_pRendMesh->m_pTex = m_pTexture;
 		m_pRendMesh->m_pMatWorld = &worldmat;
@@ -60,7 +60,7 @@ namespace ma
 		m_pTexture->Load(pszTexPath);
 	}	
 
-	void MeshComponent::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax)
+	void MeshComponent::GetBoundingAABB(Vector3& vMin,Vector3& vMax)
 	{
 		if (m_pRendMesh)
 		{

@@ -453,7 +453,7 @@ namespace ma
 		FBXSDK_printf("Begin Get Vertex Info .....\n");
 
 		std::vector<VertexType0> vertexList;
-		std::vector<xmUint16> indexList;
+		std::vector<Uint16> indexList;
 
 		int triangleCount = pMesh->GetPolygonCount();
 		int vertexCounter = 0;
@@ -469,11 +469,11 @@ namespace ma
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
 
-				D3DXVECTOR3 pos;
-				D3DXVECTOR4 color;
-				D3DXVECTOR3 normal;
-				D3DXVECTOR3 tangent;
-				D3DXVECTOR2 uv[2];
+				Vector3 pos;
+				Vector4 color;
+				Vector3 normal;
+				Vector3 tangent;
+				Vector2 uv[2];
 
 				// Read the vertex
 				ReadVertex(pMesh , ctrlPointIndex , &pos);
@@ -494,7 +494,7 @@ namespace ma
 
 				vertexCounter++;
 
-				//D3DXVec3TransformCoord(&vertex[j],&vertex[j],&matrix);
+				//Vec3TransformCoord(&vertex[j],&vertex[j],&matrix);
 				VertexType0 vertert;
 				memset(&vertert,0,sizeof(VertexType0));
 				vertert.p = pos;
@@ -503,8 +503,8 @@ namespace ma
 
 				if (pSkelData)
 				{
-					xmUint8 boneInd[4]  = {0};
-					xmUint8 weight[4] = {0};
+					Uint8 boneInd[4]  = {0};
+					Uint8 weight[4] = {0};
 					for (UINT k = 0; k < 4; ++k)
 					{
 						if (k < vSkin[ctrlPointIndex].m_vBoneInd.size())
@@ -513,8 +513,8 @@ namespace ma
 							weight[k] = vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
 						}
 					}
-					memcpy(&vertert.b,&boneInd[0],sizeof(xmUint32));
-					memcpy(&vertert.w,&weight[0],sizeof(xmUint32));
+					memcpy(&vertert.b,&boneInd[0],sizeof(Uint32));
+					memcpy(&vertert.w,&weight[0],sizeof(Uint32));
 				}
 
 				UINT index = 0;
@@ -537,8 +537,8 @@ namespace ma
 		// Ib
 		UINT nIndexCount = indexList.size();
 		pMeshData->m_nIndexType = INDEX_TYPE_U16;
-		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(xmUint16));
-		xmUint16* pIb = (xmUint16*)&pMeshData->m_arrIndexBuffer[0];
+		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(Uint16));
+		Uint16* pIb = (Uint16*)&pMeshData->m_arrIndexBuffer[0];
 		for (UINT i = 0; i < nIndexCount; ++i)
 		{
 			pIb[i] = indexList[i];
@@ -574,8 +574,8 @@ namespace ma
 
 		// Bound Box
 		pMesh->ComputeBBox();
-		D3DXVECTOR3 vBoxMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
-		D3DXVECTOR3 vBoxMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
+		Vector3 vBoxMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
+		Vector3 vBoxMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
 
 		pMeshData->m_meshBound.SetAABB(vBoxMin,vBoxMax);	
 	}
@@ -626,14 +626,14 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , D3DXVECTOR3* pVertex)
+	void FBXImporter::ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , Vector3* pVertex)
 	{
 		FbxVector4* pCtrlPoint = pMesh->GetControlPoints();
 
 		*pVertex = ToMaUnit(pCtrlPoint[ctrlPointIndex]);
 	}
 
-	void FBXImporter::ReadColor(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR4* pColor)
+	void FBXImporter::ReadColor(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , Vector4* pColor)
 	{
 		if(pMesh->GetElementVertexColorCount() < 1)
 		{
@@ -693,7 +693,7 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadUV(FbxMesh* pMesh , int ctrlPointIndex , int textureUVIndex , int uvLayer , D3DXVECTOR2* pUV)
+	void FBXImporter::ReadUV(FbxMesh* pMesh , int ctrlPointIndex , int textureUVIndex , int uvLayer , Vector2* pUV)
 	{
 // 		for (int layerIndex = 0; layerIndex < pMesh->GetLayerCount(); ++layerIndex)
 // 		{
@@ -743,7 +743,7 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadNormal(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , D3DXVECTOR3* pNormal)
+	void FBXImporter::ReadNormal(FbxMesh* pMesh , int ctrlPointIndex , int vertexCounter , Vector3* pNormal)
 	{
 		if(pMesh->GetElementNormalCount() < 1)
 		{
@@ -802,7 +802,7 @@ namespace ma
 		}
 	}
 
-	void FBXImporter::ReadTangent(FbxMesh* pMesh , int ctrlPointIndex , int vertecCounter , D3DXVECTOR3* pTangent)
+	void FBXImporter::ReadTangent(FbxMesh* pMesh , int ctrlPointIndex , int vertecCounter , Vector3* pTangent)
 	{
 		if(pMesh->GetElementTangentCount() < 1)
 		{

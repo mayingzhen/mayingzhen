@@ -203,10 +203,10 @@ namespace ma
 		}		
 	}
 
-	D3DXVECTOR3 MonoScriptObject::GetVector3(const char* pszName)
+	Vector3 MonoScriptObject::GetVector3(const char* pszName)
 	{
 		if (pszName == NULL)
-			return D3DXVECTOR3(0,0,0);
+			return Vector3(0,0,0);
 		
 		for (UINT i = 0; i < m_vMonoFields.size(); ++i)
 		{
@@ -216,16 +216,16 @@ namespace ma
 
 			const char* pszFieldName = mono_field_get_name(pClassField);
 			const char* pszTypeName  = mono_type_get_name( mono_field_get_type(pClassField) );
-			if ( strcmp(pszFieldName,pszName) == 0 &&  strcmp(pszTypeName,"D3DXVECTOR3") == 0 )
+			if ( strcmp(pszFieldName,pszName) == 0 &&  strcmp(pszTypeName,"Vector3") == 0 )
 			{
-				return MonoUtil::MonoVector3ValueToxmValue(pClassField,m_pObj);
+				return MonoUtil::MonoVector3ValueToValue(pClassField,m_pObj);
 			}
 		}
 
-		return D3DXVECTOR3(0,0,0);
+		return Vector3(0,0,0);
 	}
 
-	void MonoScriptObject::SetVector3(const char* pszName,const D3DXVECTOR3& vecotr3)
+	void MonoScriptObject::SetVector3(const char* pszName,const Vector3& vecotr3)
 	{
 		if (pszName == NULL)
 			return ;
@@ -238,9 +238,9 @@ namespace ma
 
 			const char* pszFieldName = mono_field_get_name(pClassField);
 			const char* pszTypeName  = mono_type_get_name( mono_field_get_type(pClassField) );
-			if ( strcmp(pszFieldName,pszName) == 0 &&  strcmp(pszTypeName,"D3DXVECTOR3") == 0 )
+			if ( strcmp(pszFieldName,pszName) == 0 &&  strcmp(pszTypeName,"Vector3") == 0 )
 			{
-				MonoUtil::D3DXVECTOR3ValueToMonoValue(vecotr3,pClassField,m_pObj);	
+				MonoUtil::VECTOR3ValueToMonoValue(vecotr3,pClassField,m_pObj);	
 			}
 		}
 	}	

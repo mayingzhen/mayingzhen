@@ -18,13 +18,13 @@ namespace ma
 	class ENGINE_API ICharacterController
 	{
 	public:
-		virtual void			SetTransformWS(const maNodeTransform& tsfWS) = 0;
+		virtual void			SetTransformWS(const NodeTransform& tsfWS) = 0;
 
-		virtual maNodeTransform GetTransformWS() = 0;
+		virtual NodeTransform GetTransformWS() = 0;
 
- 		virtual void			SetCenterLS(const D3DXVECTOR3& vCenter) = 0;
+ 		virtual void			SetCenterLS(const Vector3& vCenter) = 0;
  
- 		virtual D3DXVECTOR3		GetCenterLS() const = 0;
+ 		virtual Vector3		GetCenterLS() const = 0;
 
 		virtual void			SetHeight(float fHeight) = 0;
 
@@ -50,4 +50,4 @@ namespace ma
 }
 
 
-#endif //__xmCharacterController_H__
+#endif //__CharacterController_H__

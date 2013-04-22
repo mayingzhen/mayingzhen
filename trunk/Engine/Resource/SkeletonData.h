@@ -21,13 +21,13 @@ namespace ma
 
 	struct ENGINE_API SkeletonData : public Resource
 	{
-		GUID						m_nGlobalSkeletonID;
+		maGUID						m_nGlobalSkeletonID;
 		UINT						m_nBoneNum;
 		std::vector<std::string>	m_arrBoneName;
 		std::vector<UINT>			m_arrParentIndice;
-		std::vector<D3DXVECTOR3>	m_arrScaleOS;
-		std::vector<D3DXQUATERNION>	m_arrRotOS;
-		std::vector<D3DXVECTOR3>	m_arrPosOS;
+		std::vector<Vector3>	m_arrScaleOS;
+		std::vector<Quaternion>	m_arrRotOS;
+		std::vector<Vector3>	m_arrPosOS;
 
 		void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData" );
 	};

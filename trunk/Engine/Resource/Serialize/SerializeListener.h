@@ -29,7 +29,7 @@ namespace ma
 
 		virtual void Serialize(long &val,const char* pszLable = "long");
 
-		virtual void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
+		virtual void Serialize(Uint64&val,const char* pszLable = "Uint64");
 
 		virtual void Serialize(float& val,const char* pszLable = "float");
 
@@ -37,19 +37,19 @@ namespace ma
 
 		//virtual void Serialize(IStringWrapper* val,const char* pszLable = "string");
 
-		virtual void Serialize(D3DXVECTOR2 &val,const char* pszLable = "Vector2");
+		virtual void Serialize(Vector2 &val,const char* pszLable = "Vector2");
 
-		virtual void Serialize(GUID &val,const char* pszLable = "GUID");
+		virtual void Serialize(maGUID &val,const char* pszLable = "GUID");
 
-		virtual void Serialize(D3DXVECTOR3 &val,const char* pszLable = "Vector3");
+		virtual void Serialize(Vector3 &val,const char* pszLable = "Vector3");
 
-		virtual void Serialize(D3DXVECTOR4 &val,const char* pszLable = "Vector4");
+		virtual void Serialize(Vector4 &val,const char* pszLable = "Vector4");
 
-		virtual void Serialize(D3DXQUATERNION &val,const char* pszLable = "Quaternion");
+		virtual void Serialize(Quaternion &val,const char* pszLable = "Quaternion");
 
-		virtual void Serialize(D3DXMATRIX &val,const char* pszLable = "Matrix4x4");
+		virtual void Serialize(Matrix4x4 &val,const char* pszLable = "Matrix4x4");
 
-		virtual void Serialize(maNodeTransform& val,const char *pszLable = "NodeTransform");
+		virtual void Serialize(NodeTransform& val,const char *pszLable = "NodeTransform");
 
 		template<class T>
 		void Serialize(std::vector<T>& val,const char* pszLable = "array");
@@ -67,7 +67,7 @@ namespace ma
 		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
 
 		template<class DataType>
-		void SerializeRawData(std::vector<xmUint8>& val,const char* pszLable);
+		void SerializeRawData(std::vector<Uint8>& val,const char* pszLable);
 
 		////////////////
 		virtual void BeginSection(const char* pszLable);
@@ -81,7 +81,7 @@ namespace ma
 		virtual UINT PopVersion();
 		////////////////////
 		
-		virtual bool SerializeByte(xmUint8* pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
+		virtual bool SerializeByte(Uint8* pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
 
 		//------------------------------------------------------------------------------
 		//
@@ -195,7 +195,7 @@ namespace ma
 	}
 
 	template<class DataType>
-	void SerializeListener::SerializeRawData(std::vector<xmUint8>& val,const char* pszLable)
+	void SerializeListener::SerializeRawData(std::vector<Uint8>& val,const char* pszLable)
 	{
 		BeginSection(pszLable);
 

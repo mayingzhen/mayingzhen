@@ -14,7 +14,7 @@ namespace ma
 
 		SimpleSceneView::Init(pApplication);
 
-		//D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 6, 10);
+		//Vector3 vEyePos = Vector3(0, 6, 10);
 		m_fMoveCameraSpeed = 0.20f;
 		//m_pCamera->LookAt(&vEyePos);
 	}
@@ -32,7 +32,7 @@ namespace ma
 		ma::Scene* pScene = new Scene();
 		ma::SceneNode* pRootNode = pScene->GetRootNode();
 
-		pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
+		pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
 
 		{
 			GameObject* pGameObj = new GameObject(m_pScene,"physics");
@@ -42,12 +42,12 @@ namespace ma
 			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
 			pGameObj->AddComponent(pMeshComp);
 
-			D3DXVECTOR3 vMin,vMax;
+			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
-			D3DXVECTOR3 vSize = vMax - vMin;
-			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
-			maNodeTransform tsf;
-			maTransformSetIdentity(&tsf);
+			Vector3 vSize = vMax - vMin;
+			Vector3 vCenter = (vMin + vMax) * 0.5f;
+			NodeTransform tsf;
+			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
@@ -69,12 +69,12 @@ namespace ma
 			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
 			pGameObj->AddComponent(pMeshComp);
 
-			D3DXVECTOR3 vMin,vMax;
+			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
-			D3DXVECTOR3 vSize = vMax - vMin;
-			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
-			maNodeTransform tsf;
-			maTransformSetIdentity(&tsf);
+			Vector3 vSize = vMax - vMin;
+			Vector3 vCenter = (vMin + vMax) * 0.5f;
+			NodeTransform tsf;
+			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
@@ -82,7 +82,7 @@ namespace ma
 			pBoxCollisionShape->SetTransformLS(tsf);
 			pGameObj->AddComponent(pBoxCollisionShape);
 
-			pGameObj->TranslateWS(D3DXVECTOR3(0,-3,0));
+			pGameObj->TranslateWS(Vector3(0,-3,0));
 		}
 
 		{
@@ -119,7 +119,7 @@ namespace ma
 		{
 			{
 				XMLOutputArchive arOut;
-				bool bOpenOK = arOut.Open("../Tesx.scene.xml");
+				bool bOpenOK = arOut.Open("../Tesx.scene.l");
 				assert(bOpenOK);
 				m_pScene->Serialize(arOut);
 				SAFE_DELETE(m_pScene);
@@ -127,7 +127,7 @@ namespace ma
 
 			{
 				XMLInputArchive arIn;
-				bool bOpenOK = arIn.Open("../Tesx.scene.xml");
+				bool bOpenOK = arIn.Open("../Tesx.scene.l");
 				assert(bOpenOK);
 				SAFE_DELETE(m_pScene);
 				m_pScene = new Scene();
@@ -142,10 +142,6 @@ namespace ma
 		__super::Render();
 	}
 
-	void SampleSceneSerialize::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

@@ -25,7 +25,7 @@ namespace ma
 
 		virtual UINT			GetSkinMatrixNumber() = 0;
 
-		virtual D3DXMATRIX*		GetSkinMatrixArray() = 0;
+		virtual Matrix4x4*		GetSkinMatrixArray() = 0;
 	};
 }
 

@@ -46,7 +46,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="Common/stdafx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -182,6 +181,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Assert.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Assert.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\BaseType.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BitField.h"
 				>
 			</File>
@@ -194,19 +205,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\maMath.h"
+				RelativePath=".\Log.h"
 				>
 			</File>
 			<File
-				RelativePath=".\maMath.hxx"
+				RelativePath=".\Log.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\ReferenceCountObject.h"
+				RelativePath=".\Macro.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ReferenceCountObject.hxx"
+				RelativePath=".\RefCountObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RefCountObject.hxx"
 				>
 			</File>
 			<File
@@ -215,10 +230,6 @@
 			</File>
 			<File
 				RelativePath=".\SmartPointer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\xmBaseType.h"
 				>
 			</File>
 			<Filter
@@ -249,6 +260,70 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Math"
+				>
+				<File
+					RelativePath=".\Math\Math.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\Math.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\Math.inl"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\MathBase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\MathBase.inl"
+					>
+				</File>
+				<File
+					RelativePath=".\Math\MathBase_Portable.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Platform"
+				>
+				<File
+					RelativePath=".\Platform\Platform.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Platform\Platform.hxx"
+					>
+				</File>
+				<Filter
+					Name="Win"
+					>
+					<File
+						RelativePath=".\Platform\Win\PlatformWin.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Platform\Win\PlatformWin.hxx"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Android"
+					>
+					<File
+						RelativePath=".\Platform\Android\PlatformAndroid.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Platform\Android\PlatformAndroid.hxx"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\Export.h"
@@ -260,22 +335,6 @@
 		</File>
 		<File
 			RelativePath=".\Module.h"
-			>
-		</File>
-		<File
-			RelativePath=".\stdafx.cpp"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					UsePrecompiledHeader="1"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath=".\stdafx.h"
 			>
 		</File>
 	</Files>

@@ -50,10 +50,6 @@ namespace ma
 
 	}
 
-	void SampleMonoScript::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

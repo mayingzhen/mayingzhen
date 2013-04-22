@@ -13,7 +13,7 @@ namespace ma
 
 	}
 
-	bool IsFrustumCull(const AABB& aabb, const D3DXMATRIX& matViewProj)
+	bool IsFrustumCull(const AABB& aabb, const Matrix4x4& matViewProj)
 	{
 		AABB viewProjAABB = aabb.Transform(matViewProj);
 		if (viewProjAABB.m_vMax.x < -1 || viewProjAABB.m_vMin.x > +1 ||
@@ -63,7 +63,7 @@ namespace ma
 		float fOffsetY = 0.5f + (0.5f / (float)iSizeY);
 		unsigned int range = 1;            //note different scale in DX9!
 		float fBias    = 0.0f;
-		m_TexScaleBiasMat = D3DXMATRIX( 0.5f,     0.0f,     0.0f,         0.0f,
+		m_TexScaleBiasMat = Matrix4x4( 0.5f,     0.0f,     0.0f,         0.0f,
 			0.0f,    -0.5f,     0.0f,         0.0f,
 			0.0f,     0.0f,     (float)range, 0.0f,
 			fOffsetX, fOffsetY, fBias,        1.0f );

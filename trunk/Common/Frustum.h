@@ -16,18 +16,18 @@ namespace ma
 	public:
 		Frustum();
 
-		Frustum(const D3DXMATRIX& mViewProj); 
+		Frustum(const Matrix4x4& mViewProj); 
 
 		//Visble	VisibleTest(const AABB& box) const;
 
-		//bool	IsPointIn(const D3DXVECTOR3& point) const;
+		//bool	IsPointIn(const Vector3& point) const;
 
 	public:
-		D3DXVECTOR3	vPts[8];
-		//D3DXPLANE	vPlanes[6];
+		Vector3	vPts[8];
+		//PLANE	vPlanes[6];
 		//int			nVertexLUT[6];
 
-		D3DXMATRIX	m_matViewProj;
+		Matrix4x4	m_matViewProj;
 	};
 }
 

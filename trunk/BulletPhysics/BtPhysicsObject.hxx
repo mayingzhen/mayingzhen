@@ -93,7 +93,7 @@ namespace ma
 		return true;
 	}
 
-	void BulletPhysicsObject::SetTransformWS(const maNodeTransform& tsfWS)
+	void BulletPhysicsObject::SetTransformWS(const NodeTransform& tsfWS)
 	{
 		if (m_pbtRigidBody)
 		{
@@ -103,7 +103,7 @@ namespace ma
 		m_tsfWS = tsfWS;
 	}
 
-	maNodeTransform BulletPhysicsObject::GetTransformWS()
+	NodeTransform BulletPhysicsObject::GetTransformWS()
 	{
 		if (m_pbtRigidBody)
 		{
@@ -113,7 +113,7 @@ namespace ma
 		return m_tsfWS;
 	}
 
-	void BulletPhysicsObject::ApplyForce(D3DXVECTOR3 vForce)
+	void BulletPhysicsObject::ApplyForce(Vector3 vForce)
 	{
 		if (m_pbtRigidBody)
 		{

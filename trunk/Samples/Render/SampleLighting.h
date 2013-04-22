@@ -20,8 +20,6 @@ namespace ma
 
 		virtual void Render();
 
-		virtual	void OnResize(int w,int h);
-
 	private:
 		Light* m_pLigt;
 	};

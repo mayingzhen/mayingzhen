@@ -5,7 +5,7 @@ namespace ma
 {
 	struct D3D9RENDER_API LineVertex
 	{
-		D3DXVECTOR3 pos;
+		Vector3 pos;
 		D3DXCOLOR   col;
 	};
 
@@ -18,7 +18,7 @@ namespace ma
 
 		void Init(LPDIRECT3DDEVICE9 pDxDevice);
 
-		void DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor);
+		void DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);
 
 		void FlushLine();
 

@@ -7,8 +7,8 @@ namespace ma
 	{
 	public:
 
-		D3DXVECTOR3 m_vMin;
-		D3DXVECTOR3 m_vMax;
+		Vector3 m_vMin;
+		Vector3 m_vMax;
 
 		AABB();
 
@@ -16,19 +16,19 @@ namespace ma
 
 		bool IsNull() const;
 
-		void Merge(const D3DXVECTOR3& v);
+		void Merge(const Vector3& v);
 
-		void Merge(const D3DXVECTOR3* arrPiont,int n);
+		void Merge(const Vector3* arrPiont,int n);
 
 		void Merge(const AABB& aabb);
 
-		void Transform(const D3DXMATRIX& mat);
+		void Transform(const Matrix4x4& mat);
 
-		D3DXVECTOR3 Center() const;
+		Vector3 Center() const;
 
-		D3DXVECTOR3 Extent() const;
+		Vector3 Extent() const;
 
-		D3DXVECTOR3 Size() const;
+		Vector3 Size() const;
 
 	};
 
@@ -39,22 +39,22 @@ namespace ma
 
 	inline void AABB::SetNull()
 	{
-		m_vMin = D3DXVECTOR3(F_MAX,F_MAX,F_MAX);
+		m_vMin = Vector3(FMAX,FMAX,FMAX);
 		m_vMax = -m_vMin;
 	}
 
 	inline bool AABB::IsNull() const
 	{
-		return m_vMin.x >= F_MAX && m_vMax.x <= -F_MAX;
+		return m_vMin.x >= FMAX && m_vMax.x <= -FMAX;
 	}
 
-	inline void AABB::Merge(const D3DXVECTOR3& v)
+	inline void AABB::Merge(const Vector3& v)
 	{
 		Vec3Min(&m_vMin,&m_vMin,&v);
 		Vec3Max(&m_vMax,&m_vMax,&v);
 	}
 
-	inline void AABB::Merge(const D3DXVECTOR3* arrPiont,int n)
+	inline void AABB::Merge(const Vector3* arrPiont,int n)
 	{
 		for (int i = 0; i < n; ++i)
 		{
@@ -68,17 +68,17 @@ namespace ma
 		Vec3Min(&m_vMin,&m_vMin,&aabb.m_vMin);
 	}
 
-	inline D3DXVECTOR3 AABB::Center() const
+	inline Vector3 AABB::Center() const
 	{
-		D3DXVECTOR3 vCenter;
+		Vector3 vCenter;
 		vCenter = m_vMin + m_vMax;
 		vCenter *= 0.5f;
 		return vCenter;
 	}
 
-	inline D3DXVECTOR3 AABB::Extent() const
+	inline Vector3 AABB::Extent() const
 	{
-		D3DXVECTOR3 vExtent;
+		Vector3 vExtent;
 		if (!IsNull())
 		{
 			vExtent = m_vMax - m_vMin;
@@ -90,9 +90,9 @@ namespace ma
 
 	}
 
-	inline D3DXVECTOR3 AABB::Size() const
+	inline Vector3 AABB::Size() const
 	{
-		D3DXVECTOR3 vExtent;
+		Vector3 vExtent;
 		if (!IsNull())
 		{
 			vExtent = m_vMax - m_vMin;

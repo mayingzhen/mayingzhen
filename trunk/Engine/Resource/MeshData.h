@@ -35,14 +35,14 @@ namespace ma
 	struct ENGINE_API VertexType0 
 	{
 	public:
-		D3DXVECTOR3    p;				// position
-		xmUint32	 b;				// bones
-		xmUint32	 w;				// Weights		
-		D3DXVECTOR3	 n;				// normal
-		D3DXVECTOR2	 uv;				// Texture Coordinate
-		D3DXVECTOR3	 tgn;
-		xmUint32     vc;				// vertex color
-		xmUint32	 vi;				// vertex illumination
+		Vector3    p;				// position
+		Uint32	 b;				// bones
+		Uint32	 w;				// Weights		
+		Vector3	 n;				// normal
+		Vector2	 uv;				// Texture Coordinate
+		Vector3	 tgn;
+		Uint32     vc;				// vertex color
+		Uint32	 vi;				// vertex illumination
 
 		 bool operator == ( const VertexType0& other) const
 		 {
@@ -79,22 +79,22 @@ namespace ma
 	struct ENGINE_API AABBShape 
 	{
 	public:
-		D3DXVECTOR3 m_vMin;
-		D3DXVECTOR3 m_vMax;
+		Vector3 m_vMin;
+		Vector3 m_vMax;
 
 		void Init();
 
-		void Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax);
+		void Merge(const Vector3& vMin,const Vector3& vMax);
 
-		void AddPoint(const D3DXVECTOR3& v);
+		void AddPoint(const Vector3& v);
 	};
 
 	struct ENGINE_API Bounding 
 	{
 	public:
-		xmUint16			m_nShapeType;
-		D3DXVECTOR3		m_vPos;
-		D3DXQUATERNION	m_qRot;
+		Uint16			m_nShapeType;
+		Vector3		m_vPos;
+		Quaternion	m_qRot;
 
 		//union
 		//{
@@ -106,11 +106,11 @@ namespace ma
 
 		void SetIdentity();
 
-		void SetAABB(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax);
+		void SetAABB(const Vector3& vMin,const Vector3& vMax);
 
-		void GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const;
+		void GetAABB(Vector3& vMin,Vector3& vMax) const;
 
-		void SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
+		void SetOBB(const Vector3* pPos,const Quaternion* pRot
 			,float fXSize,float fYSize,float fZSize);
 
 		void Serialize(SerializeListener& sl, const char* pszLable = "Bounding" );
@@ -120,9 +120,9 @@ namespace ma
 	struct ENGINE_API MeshHeader 
 	{
 	public:
-		xmUint32	m_nIdent;	 // File Identity 
-		xmUint32	m_nVersion;	 // 格式版本号
-		GUID		m_nSkelGUID;
+		Uint32	m_nIdent;	 // File Identity 
+		Uint32	m_nVersion;	 // 格式版本号
+		maGUID		m_nSkelGUID;
 // 		UINT		m_nBoneNum;
 // 		UINT		m_nIndexNum;
 // 		UINT		m_nVertexNum;
@@ -189,24 +189,24 @@ namespace ma
 		 void	SetTag(const char* pszTag);
 
 
-		 void	SetIndexStart(xmUint32 nIndStart);
+		 void	SetIndexStart(Uint32 nIndStart);
 
-		 void	SetIndexCount(xmUint32 nIndCnt);
+		 void	SetIndexCount(Uint32 nIndCnt);
 
-		 void	SetVertexStart(xmUint32 nVStart);
+		 void	SetVertexStart(Uint32 nVStart);
 
-		 void	SetVertexCount(xmUint32 nVCnt);
+		 void	SetVertexCount(Uint32 nVCnt);
 
 		 void	SetMaterialID(UINT nMtlID);
 
 		/*!\brief
 		\param arrBoneIndice array of bone indices, if null, invalid bone index will be filled
 		*/
-		 void	ResetBonePalatte(xmUint32 nPalatteSize,xmUint16* arrBoneIndice);
+		 void	ResetBonePalatte(Uint32 nPalatteSize,Uint16* arrBoneIndice);
 
-		 void	SetBoneByPalatteIndex(xmUint16 nPalatteInd,xmUint16 nBoneInd);
+		 void	SetBoneByPalatteIndex(Uint16 nPalatteInd,Uint16 nBoneInd);
 
-		 xmUint16	GetBoneByPalatteIndex(xmUint16 nPalatteInd);
+		 Uint16	GetBoneByPalatteIndex(Uint16 nPalatteInd);
 
 		void	Serialize(SerializeListener& sl,const char* pszLabel = "SubMeshData");
 
@@ -219,8 +219,8 @@ namespace ma
 		MeshHeader					m_header;
 		UINT						m_nIndexType;
 		UINT						m_nVertexType;
-		std::vector<xmUint8>		m_arrIndexBuffer;
-		std::vector<xmUint8>		m_arrVertexBuffer;
+		std::vector<Uint8>		m_arrIndexBuffer;
+		std::vector<Uint8>		m_arrVertexBuffer;
 		Bounding					m_meshBound;	
 		std::vector<SubMeshData*>	m_arrSubMesh;
 		
@@ -229,7 +229,7 @@ namespace ma
 
 		~MeshData();
 
-		GUID				GetGlobalSkeletonID() const;
+		maGUID				GetGlobalSkeletonID() const;
 
 		UINT				GetIndexNumber() const;
 
@@ -245,7 +245,7 @@ namespace ma
 
 		const VertexType0*	GetVertexBufferVertexType0() const;
 
-		void				GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax);
+		void				GetBoundingAABB(Vector3* vMin,Vector3* vMax);
 
 		void*				GetIndexBuffer();
 

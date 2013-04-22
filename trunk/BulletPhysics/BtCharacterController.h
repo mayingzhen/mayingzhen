@@ -21,13 +21,13 @@ namespace ma
 
 		~BulletCharacterController();
 
-		virtual void			SetTransformWS(const maNodeTransform& tsfWS);
+		virtual void			SetTransformWS(const NodeTransform& tsfWS);
 
-		virtual maNodeTransform GetTransformWS();
+		virtual NodeTransform GetTransformWS();
 
-		virtual void			SetCenterLS(const D3DXVECTOR3& vCenter);
+		virtual void			SetCenterLS(const Vector3& vCenter);
 
-		virtual D3DXVECTOR3		GetCenterLS() const;
+		virtual Vector3		GetCenterLS() const;
 
 		virtual void			SetHeight(float fHeight);
 
@@ -60,7 +60,7 @@ namespace ma
 
 	protected:
 
-		CollisionFlags MoveImpl(const D3DXVECTOR3& motion);
+		CollisionFlags MoveImpl(const Vector3& motion);
 
 	private:
 		GameObject* m_pGameObject;
@@ -72,7 +72,7 @@ namespace ma
 		float m_fRadius;
 		float m_fSetpOffset;
 
-		D3DXVECTOR3 m_vCenter;
+		Vector3 m_vCenter;
 
 		int m_nCollLayer;
 	};

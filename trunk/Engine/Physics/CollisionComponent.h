@@ -25,9 +25,9 @@ namespace ma
 
 		//virtual ~CollisionComponent() = 0;
 
-		maNodeTransform GetTransformLS() const; 
+		NodeTransform GetTransformLS() const; 
 
-		void SetTransformLS(const maNodeTransform& tsfLS); 
+		void SetTransformLS(const NodeTransform& tsfLS); 
 
 		void SetCollisionLayer(int eCollLayer);
 
@@ -36,7 +36,7 @@ namespace ma
 		virtual void SetGameObject(GameObject* pGameObj);
 
 	protected:
-		D3DXMATRIX GetWorldMatrix();
+		Matrix4x4 GetWorldMatrix();
 
 	protected:
 		ICollisionShape* m_pCollisionShape;
@@ -51,9 +51,9 @@ namespace ma
 	public:
 		BoxCollisionComponent();
 
-		void		SetSize(const D3DXVECTOR3& vSize);
+		void		SetSize(const Vector3& vSize);
 
-		D3DXVECTOR3	GetSize() const; 
+		Vector3	GetSize() const; 
 
 		virtual void Render();
 

@@ -42,8 +42,8 @@ namespace ma
 		if (m_pGameObject == NULL || m_pAnimtionPlay == NULL)
 			return;
 
-		const D3DXMATRIX& worldmat = m_pGameObject->GetWorldMatrix();
-		const D3DXMATRIX* arrSkinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+		const Matrix4x4& worldmat = m_pGameObject->GetWorldMatrix();
+		const Matrix4x4* arrSkinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
 		UINT nSkinMaxtrixNum = m_pAnimtionPlay->GetSkinMatrixNumber();
 
 		for (UINT i = 0; i < m_vMeshComp.size(); ++i)

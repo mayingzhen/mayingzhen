@@ -18,14 +18,14 @@ namespace ma
 
 		void EndRender();
 
-		D3DXMATRIX* GetTexScaleBiasMat() {return &m_TexScaleBiasMat;}
+		Matrix4x4* GetTexScaleBiasMat() {return &m_TexScaleBiasMat;}
 
 	public:
-		D3DXMATRIX	m_TexScaleBiasMat;
-		D3DXMATRIX	m_TexMat;
+		Matrix4x4	m_TexScaleBiasMat;
+		Matrix4x4	m_TexMat;
 
-		D3DXMATRIX	m_viewMat;
-		D3DXMATRIX	m_projMat;
+		Matrix4x4	m_viewMat;
+		Matrix4x4	m_projMat;
 
 		int			m_nSizeX;
 		int			m_nSizeY;

@@ -97,15 +97,15 @@ namespace ma
 // 	}
 // 
 // 
-// 	xmInt	MonoScriptDevice::GetIntField(ScriptObjectHandle hObj,Name fieldName)
+// 	int	MonoScriptDevice::GetIntField(ScriptObjectHandle hObj,Name fieldName)
 // 	{
-// 		xmInt ret = 0;
+// 		int ret = 0;
 // 		MonoUtil::GetField(&ret,(MonoObject*)hObj,fieldName);
 // 		return ret;
 // 	}
 // 
 // 
-// 	void	MonoScriptDevice::SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val)
+// 	void	MonoScriptDevice::SetIntField(ScriptObjectHandle hObj,Name fieldName,int val)
 // 	{
 // 		MonoUtil::SetField((MonoObject*)hObj,fieldName,&val);
 // 	}
@@ -243,7 +243,7 @@ namespace ma
 				if ( (flags & MONO_FIELD_ATTR_FIELD_ACCESS_MASK) != MONO_FIELD_ATTR_PUBLIC) 
 					continue;
 
-				// to xml
+				// to l
 				const char* pName = mono_field_get_name(field);
 				MonoType* pType = mono_field_get_type(field);
 				int nType = mono_type_get_type(pType);
@@ -277,11 +277,11 @@ namespace ma
 				}
 				else 
 				{
-// 					if ( strcmp(pTypeName,"D3DXVECTOR3") == 0 )
+// 					if ( strcmp(pTypeName,"Vector3") == 0 )
 // 					{
-// 						D3DXVECTOR3 vector3 = MonoUtil::MonoVector3ValueToxmValue(field,pObj);
-// 						TiXmlElement* pEleD3DXVECTOR3 = SaveD3DXVECTOR3(vector3,"D3DXVECTOR3");
-// 						pEleField->LinkEndChild(pEleD3DXVECTOR3);
+// 						Vector3 vector3 = MonoUtil::MonoVector3ValueToValue(field,pObj);
+// 						TiXmlElement* pEleVECTOR3 = SaveVECTOR3(vector3,"Vector3");
+// 						pEleField->LinkEndChild(pEleVECTOR3);
 // 					}
 				}
 

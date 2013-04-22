@@ -19,11 +19,11 @@ namespace ma
 
 		virtual	void			AddSphereCollisionShape(ISphereCollisionShape* pSphereCollisionShape)  = 0;
 
-		virtual void			SetTransformWS(const maNodeTransform& tsfWS) = 0;
+		virtual void			SetTransformWS(const NodeTransform& tsfWS) = 0;
 
-		virtual maNodeTransform GetTransformWS() = 0;
+		virtual NodeTransform GetTransformWS() = 0;
 
-		virtual	void			ApplyForce(D3DXVECTOR3 vForce) = 0;
+		virtual	void			ApplyForce(Vector3 vForce) = 0;
 	};
 }
 

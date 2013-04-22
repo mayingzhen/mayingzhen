@@ -22,7 +22,7 @@ namespace ma
 	struct ENGINE_API Vector3TrackData
 	{
 		std::vector<UINT>		 m_arrFrame;
-		std::vector<D3DXVECTOR3> m_arrKey;
+		std::vector<Vector3> m_arrKey;
 
 		void Serialize(SerializeListener& sl,const char* pszLable = "Vector3Track");
 	};
@@ -30,7 +30,7 @@ namespace ma
 	struct ENGINE_API QuaternionTrackData
 	{
 		std::vector<UINT>			m_arrFrame;
-		std::vector<D3DXQUATERNION> m_arrKey;
+		std::vector<Quaternion> m_arrKey;
 
 		void Serialize(SerializeListener& sl,const char* pszLable = "QuaternionTrack");
 	};
@@ -45,7 +45,7 @@ namespace ma
 
 	struct ENGINE_API AnimationData : public Resource
 	{
-		GUID								m_nGlobalSkeletonID;
+		maGUID								m_nGlobalSkeletonID;
 		UINT								m_nFrameNum;
 		UINT								m_nBoneNum;						
 		std::vector<Vector3TrackData>		m_arrScaleTrack;

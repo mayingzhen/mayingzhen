@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_d.lib d3dx9d.lib"
+				AdditionalDependencies="OIS_d.lib "
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../extern/lib"
 				GenerateDebugInformation="true"
@@ -189,11 +189,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Input\Input.h"
+				RelativePath=".\Application\Input.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Input\Input.hxx"
+				RelativePath=".\Application\Input.hxx"
 				>
 			</File>
 			<File
@@ -201,11 +201,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Timer\Timer.h"
+				RelativePath=".\Application\Timer.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Timer\Timer.hxx"
+				RelativePath=".\Application\Timer.hxx"
 				>
 			</File>
 		</Filter>
@@ -365,6 +365,10 @@
 			Name="RenderSystem"
 			>
 			<File
+				RelativePath=".\RenderSystem\IndexBuffer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderSystem\IRenderDevice.h"
 				>
 			</File>
@@ -405,11 +409,43 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderSystem\PrimtiveStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\PrimtiveStream.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderDefine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Renderer.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderSystem\ShadowMap.h"
 				>
 			</File>
 			<File
 				RelativePath=".\RenderSystem\ShadowMap.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\VertexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\VertexDeclaration.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\VertexDeclaration.hxx"
 				>
 			</File>
 		</Filter>
@@ -550,6 +586,18 @@
 			</File>
 			<File
 				RelativePath=".\Scene\SceneNode.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Event"
+			>
+			<File
+				RelativePath=".\Event\Event.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Event\Event.hxx"
 				>
 			</File>
 		</Filter>

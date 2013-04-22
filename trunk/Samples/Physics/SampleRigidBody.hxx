@@ -14,7 +14,7 @@ namespace ma
 		SimpleSceneView::Init(pApplication);
 
 		m_fMoveCameraSpeed = 0.20f;
-		m_pCamera->SetPositionWS( D3DXVECTOR3(0, 6, 10) );	
+		m_pCamera->SetPositionWS( Vector3(0, 6, 10) );	
 	}
 
 	void SampleRigidBody::Shutdown()
@@ -32,7 +32,7 @@ namespace ma
 
 		ma::SceneNode* pRootNode = m_pScene->GetRootNode(); 
 
-		m_pScene->GetPhysicsScene()->SetGravity(D3DXVECTOR3(0,-0.98f,0));
+		m_pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
 
 		{
 			GameObject* pGameObj = new GameObject(m_pScene,"physics");
@@ -42,12 +42,12 @@ namespace ma
 			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
 			pGameObj->AddComponent(pMeshComp);
 
-			D3DXVECTOR3 vMin,vMax;
+			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
-			D3DXVECTOR3 vSize = vMax - vMin;
-			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
-			maNodeTransform tsf;
-			maTransformSetIdentity(&tsf);
+			Vector3 vSize = vMax - vMin;
+			Vector3 vCenter = (vMin + vMax) * 0.5f;
+			NodeTransform tsf;
+			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
@@ -69,12 +69,12 @@ namespace ma
 			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
 			pGameObj->AddComponent(pMeshComp);
 
-			D3DXVECTOR3 vMin,vMax;
+			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
-			D3DXVECTOR3 vSize = vMax - vMin;
-			D3DXVECTOR3 vCenter = (vMin + vMax) * 0.5f;
-			maNodeTransform tsf;
-			maTransformSetIdentity(&tsf);
+			Vector3 vSize = vMax - vMin;
+			Vector3 vCenter = (vMin + vMax) * 0.5f;
+			NodeTransform tsf;
+			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
@@ -82,7 +82,7 @@ namespace ma
 			pBoxCollisionShape->SetTransformLS(tsf);
 			pGameObj->AddComponent(pBoxCollisionShape);
 
-			pGameObj->TranslateWS(D3DXVECTOR3(0,-3,0));
+			pGameObj->TranslateWS(Vector3(0,-3,0));
 		}
 
 		m_pScene->Start();
@@ -112,10 +112,6 @@ namespace ma
 		__super::Render();
 	}
 
-	void SampleRigidBody::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

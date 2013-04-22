@@ -230,17 +230,17 @@ namespace ma
 			if (pRenderItem->m_nSkinMatrixNum != 0)
 			{
 				hr = pCurEffect->SetTechnique("SkinShadinTech");
-				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",(const D3DXMATRIX*)pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
 			}
 			else
 			{
 				hr = pCurEffect->SetTechnique("Shading");
 			}
 
-			D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewProjMatrix();
-			D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewMatrix();
-			hr = pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-			hr = pCurEffect->SetMatrix("worldview",&matWV);
+			Matrix4x4 matWVP = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewProjMatrix();
+			Matrix4x4 matWV = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewMatrix();
+			hr = pCurEffect->SetMatrix("worldviewprojection",(const D3DXMATRIX*)&matWVP);
+			hr = pCurEffect->SetMatrix("worldview",(const D3DXMATRIX*)&matWV);
 
 			hr = pCurEffect->SetTexture("g_TextureSrcDiffuse",pDxTexture->GetD3DTexture());
 			hr = pCurEffect->SetTexture( "g_TextureLightDiffuse", m_pDiffuseTex );
@@ -291,7 +291,7 @@ namespace ma
 
 		float fNearClip = m_pMainCamera->GetNearClip();
 		float fFarClip = m_pMainCamera->GetFarClip();
-		D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(fNearClip, fFarClip, 1 / fFarClip, 0);
+		Vector4 depth_near_far_invfar = Vector4(fNearClip, fFarClip, 1 / fFarClip, 0);
 
 		for(UINT i = 0; i < uNumber; ++i)
 		{
@@ -306,18 +306,18 @@ namespace ma
 			if (pRenderItem->m_nSkinMatrixNum != 0)
 			{
 				hr = pCurEffect->SetTechnique("SkinGBufferTech");
-				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
+				hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",(const D3DXMATRIX*)pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
 			}
 			else
 			{
 				hr = pCurEffect->SetTechnique("GBufferTech");
 			}
 
-			D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewProjMatrix();
-			D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewMatrix();
-			hr = pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-			hr = pCurEffect->SetMatrix("worldview",&matWV);
-			hr = pCurEffect->SetVector("depth_near_far_invfar",&depth_near_far_invfar);
+			Matrix4x4 matWVP = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewProjMatrix();
+			Matrix4x4 matWV = *(pRenderItem->m_pMatWorld) * m_pMainCamera->GetViewMatrix();
+			hr = pCurEffect->SetMatrix("worldviewprojection",(const D3DXMATRIX*)&matWVP);
+			hr = pCurEffect->SetMatrix("worldview",(const D3DXMATRIX*)&matWV);
+			hr = pCurEffect->SetVector("depth_near_far_invfar",(const D3DXVECTOR4*)&depth_near_far_invfar);
 
 			UINT cPasses = 0; 
 			hr = pCurEffect->Begin(&cPasses, 0 );
@@ -394,17 +394,17 @@ namespace ma
 				if (pRenderItem->m_nSkinMatrixNum != 0)
 				{
 					hr = pCurEffect->SetTechnique("SkinHWRenderShadow");
-					hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
+					hr = pCurEffect->SetMatrixArray("mSkinMatrixArray",(const D3DXMATRIX*)pRenderItem->m_arrSkinMatrix,pRenderItem->m_nSkinMatrixNum);
 				}
 				else
 				{
 					hr = pCurEffect->SetTechnique("HWRenderShadow");
 				}
 
-				D3DXMATRIX matWVP = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix() * pShadowMap->GetProjMatrix();
-				D3DXMATRIX matWV = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix();
-				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
-				pCurEffect->SetMatrix("worldview",&matWV);
+				Matrix4x4 matWVP = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix() * pShadowMap->GetProjMatrix();
+				Matrix4x4 matWV = *(pRenderItem->m_pMatWorld) * pShadowMap->GetViewMatrix();
+				pCurEffect->SetMatrix("worldviewprojection",(const D3DXMATRIX*)&matWVP);
+				pCurEffect->SetMatrix("worldview",(const D3DXMATRIX*)&matWV);
 
 				UINT cPasses = 0; 
 				hr = pCurEffect->Begin(&cPasses, 0 );
@@ -483,13 +483,13 @@ namespace ma
 			if (pLight == NULL)
 				continue;
 
-			D3DXVECTOR4 lightColor =  pLight->GetDiffuse(); 
-			hr = pCurEffect->SetVector( "light_color", &lightColor );
+			Vector4 lightColor =  pLight->GetDiffuse(); 
+			hr = pCurEffect->SetVector( "light_color", (const D3DXVECTOR4*)&lightColor );
 
 			float fNearClip = m_pMainCamera->GetNearClip();
 			float fFarClip = m_pMainCamera->GetFarClip();
-			D3DXVECTOR4 depth_near_far_invfar = D3DXVECTOR4(fNearClip, fFarClip, 1 / fFarClip, 0 );
-			hr = pCurEffect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar );
+			Vector4 depth_near_far_invfar = Vector4(fNearClip, fFarClip, 1 / fFarClip, 0 );
+			hr = pCurEffect->SetVector( "depth_near_far_invfar", (const D3DXVECTOR4*)&depth_near_far_invfar );
 			
 			if (pLight->GetLightType() == LIGHT_POINT)
 			{
@@ -502,21 +502,21 @@ namespace ma
 					hr = pCurEffect->SetTechnique("DiffuseShadowPointLight");
 				}
 
-				D3DXVECTOR3 lightPosWS = pLight->GetPositionWS();
-				D3DXVECTOR3 lightPosES;
-				D3DXVec3TransformCoord(&lightPosES, &lightPosWS, &m_pMainCamera->GetViewMatrix());
-				D3DXVECTOR4 lightPosView(lightPosES.x,lightPosES.y,lightPosES.z,1);
-				hr = pCurEffect->SetVector( "light_pos_es", &lightPosView );
+				Vector3 lightPosWS = pLight->GetPositionWS();
+				Vector3 lightPosES;
+				Vec3TransformCoord(&lightPosES, &lightPosWS, &m_pMainCamera->GetViewMatrix());
+				Vector4 lightPosView(lightPosES.x,lightPosES.y,lightPosES.z,1);
+				hr = pCurEffect->SetVector( "light_pos_es", (const D3DXVECTOR4*)&lightPosView );
 			
 				float fExpensionRadius = pLight->GetRadius() * 1.08f;
 			
-				D3DXMATRIX matTrans,matScal,matWorld;
-				D3DXMatrixTranslation( &matTrans, lightPosWS.x, lightPosWS.y, lightPosWS.z );
-				D3DXMatrixScaling( &matScal,fExpensionRadius, fExpensionRadius, fExpensionRadius );
+				Matrix4x4 matTrans,matScal,matWorld;
+				MatrixTranslation( &matTrans, lightPosWS.x, lightPosWS.y, lightPosWS.z );
+				MatrixScaling( &matScal,fExpensionRadius, fExpensionRadius, fExpensionRadius );
 				matWorld = matScal * matTrans;
 
-				D3DXMATRIX matWVP = matWorld * m_pMainCamera->GetViewProjMatrix();
-				pCurEffect->SetMatrix("worldviewprojection",&matWVP);
+				Matrix4x4 matWVP = matWorld * m_pMainCamera->GetViewProjMatrix();
+				pCurEffect->SetMatrix("worldviewprojection",(const D3DXMATRIX*)&matWVP);
 
 				UINT cPasses = 0; 
 				hr = pCurEffect->Begin(&cPasses, 0 );
@@ -540,10 +540,10 @@ namespace ma
 					hr = pCurEffect->SetTechnique("DiffuseShadowDirectLight");
 				}
 			
-				D3DXVECTOR3 lightDir = pLight->GetDirection();	
-				D3DXVec3TransformNormal(&lightDir, &lightDir, &m_pMainCamera->GetViewMatrix());
-				D3DXVECTOR4 ligtDirView(lightDir.x,lightDir.y,lightDir.z,0);
-				hr = pCurEffect->SetVector( "light_dir_es", &ligtDirView );
+				Vector3 lightDir = pLight->GetDirection();	
+				Vec3TransformNormal(&lightDir, &lightDir, &m_pMainCamera->GetViewMatrix());
+				Vector4 ligtDirView(lightDir.x,lightDir.y,lightDir.z,0);
+				hr = pCurEffect->SetVector( "light_dir_es", (const D3DXVECTOR4*)&ligtDirView );
 
 				UINT cPasses = 0; 
 				hr = pCurEffect->Begin(&cPasses, 0 );
@@ -585,8 +585,8 @@ namespace ma
 
 		m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 0);
 
-		D3DXMATRIXA16 invView;
-		D3DXMatrixInverse(&invView, NULL, &m_pMainCamera->GetViewMatrix());
+		Matrix4x4 invView;
+		MatrixInverse(&invView, NULL, &m_pMainCamera->GetViewMatrix());
 
 		//const std::list<Light>& lightList = g_SceneMng.GetLigtList();
 		//std::list<Light>::const_iterator lightIt = lightList.begin();
@@ -599,11 +599,11 @@ namespace ma
 
 			float fNearClip = m_pMainCamera->GetNearClip();
 			float fFarClip = m_pMainCamera->GetFarClip();
-			D3DXVECTOR4 depth_near_far_invfar(fNearClip, fFarClip, 1 / fFarClip, 0 );
-			hr = pCurEffect->SetVector( "depth_near_far_invfar", &depth_near_far_invfar );
+			Vector4 depth_near_far_invfar(fNearClip, fFarClip, 1 / fFarClip, 0 );
+			hr = pCurEffect->SetVector( "depth_near_far_invfar", (const D3DXVECTOR4 *)&depth_near_far_invfar );
 
-			D3DXMATRIX viwToLightProjArray[Camera::NUM_PSSM];
-			D3DXMATRIX wordToLightView[Camera::NUM_PSSM];
+			Matrix4x4 viwToLightProjArray[Camera::NUM_PSSM];
+			Matrix4x4 wordToLightView[Camera::NUM_PSSM];
 			for (int i = 0; i < Camera::NUM_PSSM; ++i) 
 			{
 				ShadowMap* pShadowMap = m_arrShadowMap[i];
@@ -622,8 +622,8 @@ namespace ma
 
 			//V( effect->SetTexture("Jitter", m_pJitterTexture) );
 
-			hr = pCurEffect->SetMatrixArray( "viwToLightProjArray", viwToLightProjArray, Camera::NUM_PSSM );
-			hr = pCurEffect->SetMatrixArray( "wordLightView", wordToLightView, Camera::NUM_PSSM );
+			hr = pCurEffect->SetMatrixArray( "viwToLightProjArray", (const D3DXMATRIX*)viwToLightProjArray, Camera::NUM_PSSM );
+			hr = pCurEffect->SetMatrixArray( "wordLightView", (const D3DXMATRIX *)wordToLightView, Camera::NUM_PSSM );
 			hr = pCurEffect->SetFloatArray( "splitPos", m_pMainCamera->GetSplitPos(), Camera::NUM_PSSM );
 
 			//if (lightIt->m_Type == Light::TYPE_ORTHOGRAPHIC)
@@ -633,12 +633,12 @@ namespace ma
 			//}
 			//else
 			//{
-			//	D3DXVECTOR3 lightPos = D3DXVECTOR3( lightIt->m_vSource.x, lightIt->m_vSource.y, lightIt->m_vSource.z );
+			//	Vector3 lightPos = Vector3( lightIt->m_vSource.x, lightIt->m_vSource.y, lightIt->m_vSource.z );
 			//	float lightRadius = lightIt->m_fFar - lightIt->m_fNear;
 
-			//	D3DXMATRIX matTrans,matScal,matWorld;
-			//	D3DXMatrixTranslation( &matTrans, lightPos.x, lightPos.y, lightPos.z );
-			//	D3DXMatrixScaling( &matScal, 0.5f * lightRadius, 0.5f * lightRadius, 0.5f * lightRadius );
+			//	Matrix4x4 matTrans,matScal,matWorld;
+			//	MatrixTranslation( &matTrans, lightPos.x, lightPos.y, lightPos.z );
+			//	MatrixScaling( &matScal, 0.5f * lightRadius, 0.5f * lightRadius, 0.5f * lightRadius );
 			//	matWorld = matScal * matTrans;
 
 				//m_LightModel.Render(&matWorld);
@@ -731,17 +731,17 @@ namespace ma
 		// 
 		// 		//pDxDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
 		// 
-		// // 		D3DXMATRIX matView,matProject;
+		// // 		Matrix4x4 matView,matProject;
 		// // 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
 		// // 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		//  		D3DXMATRIX matWVP = *pWordMat * m_matViewProj;
+		//  		Matrix4x4 matWVP = *pWordMat * m_matViewProj;
 		// 
 		// 		HRESULT hr;
 		// 		hr = m_pDefault->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
 		// 		hr = m_pDefault->SetMatrix("worldviewprojection",&matWVP);
 		// 		hr = m_pDefault->SetMatrix("worldview",&m_matView);
 		// 
-		// 		//D3DXHANDLE tech = m_pDefault->GetTechniqueByName( "Shading" );
+		// 		//HANDLE tech = m_pDefault->GetTechniqueByName( "Shading" );
 		// 
 		// 		hr = m_pDefault->SetTechnique("Shading");
 		// 		UINT cPasses = 0; 
@@ -750,20 +750,20 @@ namespace ma
 		// 		{
 		// 			hr = m_pDefault->BeginPass(i);
 		// 			hr = m_pDefault->CommitChanges();
-		// 			pDxMesh->GetD3DXMesh()->DrawSubset(0/*nSubInd*/);
+		// 			pDxMesh->GetMesh()->DrawSubset(0/*nSubInd*/);
 		// 			m_pDefault->EndPass();
 		// 		}	
 		// 		m_pDefault->End();
 
 	}
 
-	// 	void D3D9Render::RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,UINT nSkinMaxtrixNum,
-	// 		const D3DXMATRIX* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
+	// 	void D3D9Render::RenderSkelMesh(const Matrix4x4* arrSkinMatrix,UINT nSkinMaxtrixNum,
+	// 		const Matrix4x4* pWordMat,const IRendMesh* pMesh,const IRendTexture* pTexture)
 	// 	{
 	// 		D3D9RendMesh* pDxMesh = (D3D9RendMesh*)pMesh;
 	// 		D3D9RendTexture* pDxTexure = (D3D9RendTexture*)(pTexture);
 	// 
-	// 		D3DXMATRIX matBonePalatte[256];
+	// 		Matrix4x4 matBonePalatte[256];
 	// 		SubMeshData* pSubMeshData = pDxMesh->GetMeshData()->GetSubMesh(0);
 	// 		UINT uBonePaletteSize = pSubMeshData->GetBonePaletteSize();
 	// 		for (UINT nCnt = 0; nCnt < uBonePaletteSize; ++nCnt)
@@ -775,10 +775,10 @@ namespace ma
 	// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
 	// 		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
 	// 
-	// 		//D3DXMATRIX matView,matProject;
+	// 		//Matrix4x4 matView,matProject;
 	// 		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
 	// 		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-	// 		D3DXMATRIX matWVP = *pWordMat * m_matViewProj;
+	// 		Matrix4x4 matWVP = *pWordMat * m_matViewProj;
 	// 
 	// 		HRESULT hr;
 	// 		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
@@ -793,7 +793,7 @@ namespace ma
 	// 		{
 	// 			hr = m_pDefaultSkin->BeginPass(i);
 	// 			hr = m_pDefaultSkin->CommitChanges();
-	// 			pDxMesh->GetD3DXMesh()->DrawSubset(0/*nSubInd*/);
+	// 			pDxMesh->GetMesh()->DrawSubset(0/*nSubInd*/);
 	// 			m_pDefaultSkin->EndPass();
 	// 		}	
 	// 		m_pDefaultSkin->End();
@@ -801,12 +801,18 @@ namespace ma
 
 
 
-	void D3D9RenderDevice::DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor)
+	void D3D9RenderDevice::DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor)
 	{
 		if (m_pLineRender == NULL)
 			return;
 
 		m_pLineRender->DrawLine(p0,p1,dwColor);
+	}
+
+	Matrix4x4 D3D9RenderDevice::MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
+	{
+		 D3DXMatrixPerspectiveFovLH((D3DXMATRIX*)pOut,fovy,Aspect,zn,zf);
+		 return *pOut;
 	}
 
 	void D3D9RenderDevice::FlushLine()

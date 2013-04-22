@@ -28,17 +28,17 @@ namespace ma
 // 
 // 	static void TestFunc_int(int a)
 // 	{
-// 		xmLogMsg(xm::Log_Default,"TestFunc_int");
+// 		LogMsg(::Log_Default,"TestFunc_int");
 // 	}
 // 
 // 	static void TestFunc_Object(MonoObject* pObj)
 // 	{
-// 		xmLogMsg(xm::Log_Default,"TestFunc_Object");
+// 		LogMsg(::Log_Default,"TestFunc_Object");
 // 	}
 // 
 // 	static void TestFunc_intStringObj(int a,MonoString* b,MonoObject* c)
 // 	{
-// 		xmLogMsg(xm::Log_Default,"TestFunc_intStringObj");
+// 		LogMsg(::Log_Default,"TestFunc_intStringObj");
 // 	}
 // 
 // 
@@ -46,7 +46,7 @@ namespace ma
 // 	{
 // 		ScriptSignalKey key;
 // 
-// 		xm::IScriptDevice* pSD	= xm::GetScriptDevice();
+// 		::IScriptDevice* pSD	= ::GetScriptDevice();
 // 		const char* pszSignal	= pSD->GetStringValue(signal);
 // 		const char* pszSlot		= pSD->GetStringValue((ScriptObjectHandle)slot);
 // 
@@ -65,11 +65,11 @@ namespace ma
 // 			if (NULL == pAgent)
 // 			{
 // 				pAgent = new ScriptEventAgent();
-// 				pSender->SetData("ScriptAgent",(xmInt32)pAgent);
+// 				pSender->SetData("ScriptAgent",(Int32)pAgent);
 // 			}
 // 			pAgent->AddBinder(pBinder);
 // 		}else{
-// 			xmLogError(xm::Log_Default,"Fail to bind event");
+// 			LogError(::Log_Default,"Fail to bind event");
 // 		}
 // 
 // 
@@ -77,7 +77,7 @@ namespace ma
 // 
 // 	static void DisconnectEventImpl(int senderPtr,MonoString* signal,MonoObject* pReciver,MonoString* slot)
 // 	{
-// 		xm::IScriptDevice* pSD = xm::GetScriptDevice();
+// 		::IScriptDevice* pSD = ::GetScriptDevice();
 // 
 // 		Object* pSender = (Object*)senderPtr;
 // 		const char* pszSignal	= pSD->GetStringValue((ScriptObjectHandle)signal);
@@ -125,16 +125,16 @@ namespace ma
 
 void MonoInternalInit()
 {	
-	//xm::MonoUtil::Init();
+	//::MonoUtil::Init();
 
 	mono_add_internal_call("EngineInternal::MonoGameObject_GetScript(int,string)",ma::MonoGameObject_GetScript);
-	//mono_add_internal_call("EngineInternal::ConnectEventImpl(int,string,object,string)",xm::ConnectEventImpl);
-	//mono_add_internal_call("EngineInternal::DisonnectEventImpl(int,string,object,string)",xm::DisconnectEventImpl);
+	//mono_add_internal_call("EngineInternal::ConnectEventImpl(int,string,object,string)",::ConnectEventImpl);
+	//mono_add_internal_call("EngineInternal::DisonnectEventImpl(int,string,object,string)",::DisconnectEventImpl);
 
 
-	//mono_add_internal_call("EngineInternal::TestFunc_int(int)",xm::TestFunc_int);
-	//mono_add_internal_call("EngineInternal::TestFunc_Object(object)",xm::TestFunc_Object);
-	//mono_add_internal_call("EngineInternal::TestFunc_intStringObj(int,object,string",xm::TestFunc_intStringObj);
+	//mono_add_internal_call("EngineInternal::TestFunc_int(int)",::TestFunc_int);
+	//mono_add_internal_call("EngineInternal::TestFunc_Object(object)",::TestFunc_Object);
+	//mono_add_internal_call("EngineInternal::TestFunc_intStringObj(int,object,string",::TestFunc_intStringObj);
 }
 
 

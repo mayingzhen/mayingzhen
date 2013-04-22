@@ -182,10 +182,10 @@ namespace ma
 		}
 	}
 
-	D3DXVECTOR3 EdScriptObject::GetVector3(const char* pszName)
+	Vector3 EdScriptObject::GetVector3(const char* pszName)
 	{
 		if (pszName == NULL)
-			return D3DXVECTOR3();
+			return Vector3();
 
 		for (UINT i = 0; i < m_vXmlFields.size(); ++i)
 		{
@@ -195,17 +195,17 @@ namespace ma
 
 			const char* pszEleName = pEleField->Attribute("name");
 			const char* pszTypeName = pEleField->Attribute("sTypeName");
-			if ( strcmp(pszEleName,pszName) == 0 && strcmp(pszTypeName,"D3DXVECTOR3") == 0 )
+			if ( strcmp(pszEleName,pszName) == 0 && strcmp(pszTypeName,"Vector3") == 0 )
 			{
-				TiXmlElement* pEleValue = pEleField->FirstChildElement("D3DXVECTOR3");
-				//return ParseD3DXVECTOR3(pEleValue);
+				TiXmlElement* pEleValue = pEleField->FirstChildElement("Vector3");
+				//return ParseVECTOR3(pEleValue);
 			}
 		}	
 
-		return D3DXVECTOR3();
+		return Vector3();
 	}
 
-	void EdScriptObject::SetVector3(const char* pszName,const D3DXVECTOR3& vecotr3)
+	void EdScriptObject::SetVector3(const char* pszName,const Vector3& vecotr3)
 	{
 		if (pszName == NULL)
 			return ;
@@ -218,9 +218,9 @@ namespace ma
 
 			const char* pszEleName = pEleField->Attribute("name");
 			const char* pszTypeName = pEleField->Attribute("sTypeName");
-			if ( strcmp(pszEleName,pszName) == 0 && strcmp(pszTypeName,"D3DXVECTOR3") == 0 )
+			if ( strcmp(pszEleName,pszName) == 0 && strcmp(pszTypeName,"Vector3") == 0 )
 			{
-				TiXmlElement* pEleValue =  pEleField->FirstChildElement("D3DXVECTOR3");
+				TiXmlElement* pEleValue =  pEleField->FirstChildElement("Vector3");
 				if (pEleValue != NULL)
 				{
 					pEleValue->SetDoubleAttribute("x",vecotr3.x);

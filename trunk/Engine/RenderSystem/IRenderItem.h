@@ -24,11 +24,11 @@ namespace ma
 
 		AABB GetAABB() {return m_aabb;}
 
-		const D3DXMATRIX*		m_pMatWorld;
+		const Matrix4x4*		m_pMatWorld;
  		const IRendMesh*		m_pMesh;
  		const IRendTexture*		m_pTex;
 // 
- 		const D3DXMATRIX*		m_arrSkinMatrix;
+ 		const Matrix4x4*		m_arrSkinMatrix;
  		UINT					m_nSkinMatrixNum;
 		AABB					m_aabb;
 

@@ -13,8 +13,8 @@ namespace ma
 		SimpleSceneView::Init(pApplication);
 
 		m_fMoveCameraSpeed = 0.80f;
-		//m_pCamera->SetPositionWS( D3DXVECTOR3(0, 2, -3) );
-		//D3DXVECTOR3 vEyePos(-2, 3, -5);
+		//m_pCamera->SetPositionWS( Vector3(0, 2, -3) );
+		//Vector3 vEyePos(-2, 3, -5);
 		//m_pCamera->LookAt(&vEyePos);
 	}
 
@@ -52,8 +52,8 @@ namespace ma
 			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
 			pGameObj->AddComponent(pMeshComp);
 
-			D3DXVECTOR3 vMin;
-			D3DXVECTOR3 vMax;
+			Vector3 vMin;
+			Vector3 vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
 			AABB aabb;
 			aabb.m_vMin = vMin;
@@ -68,7 +68,7 @@ namespace ma
 // 			MeshComponent* pMeshComp = new MeshComponent();
 // 			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
 // 			pGameObj->AddComponent(pMeshComp);
-// 			//pGameObj->TranslateWS(D3DXVECTOR3(0,0,0));
+// 			//pGameObj->TranslateWS(Vector3(0,0,0));
 // 		}
 
 		//light
@@ -77,7 +77,7 @@ namespace ma
 			m_pLigt->SetLigtType(LIGHT_POINT);
 			m_pLigt->SetRadius(3.0f);
 			pRootNode->AddChildNode(m_pLigt);
-			//m_pLigt->SetPositionWS(D3DXVECTOR3(2, 1, 0));
+			//m_pLigt->SetPositionWS(Vector3(2, 1, 0));
 			
 			GetRenderDevice()->AddLight(m_pLigt);
 		}
@@ -103,7 +103,7 @@ namespace ma
 		float fMoveSpeed = 5;
 		float fMoveDis = fMoveSpeed * timeElapsed;
 
-		D3DXVECTOR3 vLightPos = m_pLigt->GetPositionWS();
+		Vector3 vLightPos = m_pLigt->GetPositionWS();
 		if ( pInput->IsKeyDown(OIS::KC_W) )
 		{
 			vLightPos.y += fMoveDis;
@@ -128,14 +128,10 @@ namespace ma
 	{
 		__super::Render();
 
-		D3DXMATRIX matWS = m_pLigt->GetWorldMatrix();
-		GetRenderDevice()->DrawWireSphere(matWS,m_pLigt->GetRadius(),D3DCOLOR_RGBA(255,0,0,255));
+		Matrix4x4 matWS = m_pLigt->GetWorldMatrix();
+		GetRenderDevice()->DrawWireSphere(matWS,m_pLigt->GetRadius(),COLOR_RGBA(255,0,0,255));
 	}
 
-	void SampleLighting::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

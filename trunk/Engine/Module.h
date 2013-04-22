@@ -1,8 +1,13 @@
 #ifndef  _Application_Moudule__H__
 #define  _Application_Moudule__H__
 
+#define MW_ALIGN_ENUM(str) 
+#define DeclareSmartPtr(str) 
+
 #include "Engine/Export.h"
 
+// Event
+#include "Engine/Event/Event.h"
 
 // Application
 #include "Engine/Application/Input.h"
@@ -32,6 +37,13 @@
 #include "Engine/RenderSystem/IRendMesh.h"
 #include "Engine/RenderSystem/IRendTexture.h"
 #include "Engine/RenderSystem/MeshComponent.h"
+#include "Engine/RenderSystem/IndexBuffer.h"
+#include "Engine/RenderSystem/VertexBuffer.h"
+#include "Engine/RenderSystem/RenderDefine.h"
+#include "Engine/RenderSystem/VertexDeclaration.h"
+#include "Engine/RenderSystem/PrimtiveStream.h"
+#include "Engine/RenderSystem/Material.h"
+#include "Engine/RenderSystem/Renderer.h"
 
 // Animation
 #include "Engine/Animation/IAnimationDevice.h"

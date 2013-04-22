@@ -3,35 +3,35 @@
 
 namespace ma
 {
-	inline btVector3 ToBulletUnit(const D3DXVECTOR3& v)
+	inline btVector3 ToBulletUnit(const Vector3& v)
 	{
 		return btVector3(v.x,v.y,v.z);
 	}
 
-	inline btQuaternion ToBulletUnit(const D3DXQUATERNION& q)
+	inline btQuaternion ToBulletUnit(const Quaternion& q)
 	{
 	 	return btQuaternion(q.x,q.y,q.z,q.w);
 	}
 
-	inline btTransform ToBulletUnit(const maNodeTransform& tsf)
+	inline btTransform ToBulletUnit(const NodeTransform& tsf)
 	{
 		return btTransform(ToBulletUnit(tsf.m_qRot),ToBulletUnit(tsf.m_vPos));
 	}
 
-	inline D3DXVECTOR3 ToMaUnit(const btVector3& v)
+	inline Vector3 ToMaUnit(const btVector3& v)
 	{
-		return *(D3DXVECTOR3*)(&v);
+		return *(Vector3*)(&v);
 	}
 
-	inline D3DXQUATERNION ToMaUnit(const btQuaternion& q)
+	inline Quaternion ToMaUnit(const btQuaternion& q)
 	{
-		return D3DXQUATERNION( q.x(),q.y(),q.z(),q.w() );
+		return Quaternion( q.x(),q.y(),q.z(),q.w() );
 	
 	}
 
-	inline maNodeTransform ToMaUnit(const btTransform& btTsf)
+	inline NodeTransform ToMaUnit(const btTransform& btTsf)
 	{
-		maNodeTransform tsf;
+		NodeTransform tsf;
 		tsf.m_fScale = 1.0f;
 		tsf.m_vPos = ToMaUnit( btTsf.getOrigin() );
 		tsf.m_qRot = ToMaUnit( btTsf.getRotation() );

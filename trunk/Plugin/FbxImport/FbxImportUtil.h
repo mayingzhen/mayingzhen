@@ -5,28 +5,28 @@
 
 namespace ma
 {
-	inline D3DXVECTOR3 ToMaUnit(const FbxVector4& vFbx)
+	inline Vector3 ToMaUnit(const FbxVector4& vFbx)
 	{
-		return D3DXVECTOR3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
+		return Vector3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
 	}
 
-	inline D3DXVECTOR3 ToMaUnit(const FbxDouble3 vFbx)
+	inline Vector3 ToMaUnit(const FbxDouble3 vFbx)
 	{
-		return D3DXVECTOR3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
+		return Vector3((float)vFbx[0],(float)vFbx[1],(float)vFbx[2]);
 	}
 
-	inline D3DXQUATERNION ToMaUnit(const FbxQuaternion& qFbx)
+	inline Quaternion ToMaUnit(const FbxQuaternion& qFbx)
 	{
-		return D3DXQUATERNION((float)qFbx[0],(float)qFbx[1],(float)qFbx[2],(float)qFbx[3]);
+		return Quaternion((float)qFbx[0],(float)qFbx[1],(float)qFbx[2],(float)qFbx[3]);
 	}
 
-	inline D3DXVECTOR4 ToMaUnit(const FbxColor& cFbx)
+	inline Vector4 ToMaUnit(const FbxColor& cFbx)
 	{
-		return D3DXVECTOR4((float)cFbx.mRed,(float)cFbx.mGreen,(float)cFbx.mBlue,(float)cFbx.mAlpha);
+		return Vector4((float)cFbx.mRed,(float)cFbx.mGreen,(float)cFbx.mBlue,(float)cFbx.mAlpha);
 	}
 
 
-	inline void ToMaUnit(const FbxVector4& vFbx,D3DXVECTOR4& maVector4)
+	inline void ToMaUnit(const FbxVector4& vFbx,Vector4& maVector4)
 	{
 		maVector4.x = (float)vFbx[0];
 		maVector4.y = (float)vFbx[1];

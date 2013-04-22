@@ -9,7 +9,7 @@
  
 ****************************************************************************************/
 
-//! \file fbxmesh.h
+//! \file fbesh.h
 #ifndef _FBXSDK_SCENE_GEOMETRY_MESH_H_
 #define _FBXSDK_SCENE_GEOMETRY_MESH_H_
 

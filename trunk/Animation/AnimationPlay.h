@@ -36,7 +36,7 @@ namespace ma
 
 		virtual UINT			GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
 
-		virtual D3DXMATRIX*		GetSkinMatrixArray()  {return m_arrSkinMatrix;}	
+		virtual Matrix4x4*		GetSkinMatrixArray()  {return m_arrSkinMatrix;}	
 
 		SkeletonPose*			GetAnimationPose() {return m_pose;}
 
@@ -52,7 +52,7 @@ namespace ma
 
 		Action*					m_pSkelAnim;
 
-		D3DXMATRIX				m_arrSkinMatrix[256];
+		Matrix4x4				m_arrSkinMatrix[256];
 	};
 }
 

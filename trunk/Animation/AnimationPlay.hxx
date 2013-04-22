@@ -84,8 +84,8 @@ namespace ma
 			return;
 
 		AnimEvalContext evalContext;
-		maNodeTransform tsfIdent;
-		maTransformSetIdentity(&tsfIdent);
+		NodeTransform tsfIdent;
+		TransformSetIdentity(&tsfIdent);
 		evalContext.m_arrTSFLS.resize(pRefPose->GetNodeNumber(),tsfIdent);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
@@ -97,7 +97,7 @@ namespace ma
 
 // 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
 // 		{
-// 			maNodeTransform tsfPS;
+// 			NodeTransform tsfPS;
 // 			maTransformMul(&tsfPS,&evalContext.m_arrTSFLS[i],&pRefPose->GetTransformPS(i));
 // 			m_pose->SetTransformPS(&tsfPS,i);
 // 		}
@@ -110,12 +110,12 @@ namespace ma
 		{
 			if (m_pose)
 			{
-				maMatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
-				D3DXMatrixMultiply(&m_arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&m_arrSkinMatrix[i]);
+				MatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
+				MatrixMultiply(&m_arrSkinMatrix[i],& m_pSkeleton->GetBoneMatrixOSInv(i),&m_arrSkinMatrix[i]);
 			}
 			else
 			{
-				D3DXMatrixIdentity(&m_arrSkinMatrix[i]);
+				MatrixIdentity(&m_arrSkinMatrix[i]);
 			}
 		}
 

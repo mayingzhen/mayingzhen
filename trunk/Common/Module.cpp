@@ -1,12 +1,17 @@
-#include "Common/stdafx.h"
 #include "Common/Module.h"
 
-
 // Math
-#include "Common/maMath.hxx"
+#include "Common/Math/Math.hxx"
+#include "Common/Math/MathBase_Portable.hxx"
+
+#include "Common/Platform/Platform.hxx"
+
 #include "Common/AABB.hxx"
 #include "Common/Frustum.hxx"
 
+#include "Common/Assert.hxx"
+#include "Common/Log.hxx"
+#include "Common/RefCountObject.hxx"
 
 // RTTI
 #include "Common/RTTI/Class.hxx"
@@ -14,7 +19,6 @@
 #include "Common/RTTI/ObjectFactory.hxx"
 
 
-#include "Common/ReferenceCountObject.hxx"
 
 
 using namespace ma;

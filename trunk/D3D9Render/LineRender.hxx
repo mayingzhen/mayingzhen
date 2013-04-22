@@ -9,7 +9,7 @@ namespace ma
 	};
 	
 
-	void RGBToColor(D3DXCOLOR* col,xmUint32 dwARGB)
+	void RGBToColor(D3DXCOLOR* col,Uint32 dwARGB)
 	{
 		col->a = ((dwARGB>>24)&0xff)/255.0f;
 		col->r = ((dwARGB>>16)&0xff)/255.0f;
@@ -43,7 +43,7 @@ namespace ma
 	}
 
 
-	void LineRender::DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor)
+	void LineRender::DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor)
 	{
 		if (m_LineBatchSize < LINE_BATCH_MAX)
 		{
@@ -66,7 +66,7 @@ namespace ma
 		D3DPERF_BeginEvent(D3DCOLOR_RGBA(255,0,0,255),L"FlushLine");
 
 
-		D3DXMATRIX matViewProj = GetRenderDevice()->GetCamera()->GetViewProjMatrix();
+		Matrix4x4 matViewProj = GetRenderDevice()->GetCamera()->GetViewProjMatrix();
 
 		m_pDxDevice->SetVertexDeclaration( m_pPrimitiveVBDesc );
 

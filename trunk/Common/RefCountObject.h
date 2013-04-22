@@ -3,23 +3,23 @@
 
 namespace ma
 {
-	class COMMON_API ReferenceCountObject
+	class COMMON_API RefCountObject
 	{
 		mutable UINT m_nRefCnt;
 
 	public:
 
-		ReferenceCountObject();
+		RefCountObject();
 
-		ReferenceCountObject(const ReferenceCountObject& rhs);
+		RefCountObject(const RefCountObject& rhs);
 
-		virtual ~ReferenceCountObject();
+		virtual ~RefCountObject();
 
 		virtual void IncReference() const;
 
 		virtual void DecReference() const;
 
-		ReferenceCountObject& operator=(const ReferenceCountObject& rhs);
+		RefCountObject& operator=(const RefCountObject& rhs);
 
 		UINT GetReferenceCount() const;
 	};

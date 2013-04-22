@@ -8,6 +8,8 @@
 #include "Engine/Application/Application.hxx"
 #include "Engine/Application/ApplicationWin.hxx"
 
+// Event
+#include "Engine/Event/Event.hxx"
 
 // Resource
 #include "Engine/Resource/Resource.hxx"
@@ -30,6 +32,10 @@
 #include "Engine/RenderSystem/IRenderDevice.hxx"
 #include "Engine/RenderSystem/IRendMesh.hxx"
 #include "Engine/RenderSystem/MeshComponent.hxx"
+#include "Engine/RenderSystem/VertexDeclaration.hxx"
+#include "Engine/RenderSystem/PrimtiveStream.hxx"
+#include "Engine/RenderSystem/Material.hxx"
+#include "Engine/RenderSystem/Renderer.hxx"
 
 
 // Animation

@@ -24,23 +24,23 @@ namespace ma
 
 		void			SetLigtType(LightType eType) {m_eLightType = eType;}
 
-		D3DXMATRIX		GetViewMatrix() {return m_mView;}
+		Matrix4x4		GetViewMatrix() {return m_mView;}
 
-		D3DXMATRIX		GetProjmatrix()	{return m_mProj;}
+		Matrix4x4		GetProjmatrix()	{return m_mProj;}
 
-		D3DXVECTOR3		GetDiffuse() {return m_vLightDiffuse;}
+		Vector3		GetDiffuse() {return m_vLightDiffuse;}
 
 		float			GetRadius() {return m_fRadius;}
 
 		void			SetRadius(float fRadius) {m_fRadius = fRadius;}
 
-		D3DXVECTOR3		GetDirection() {return m_vDirection;}
+		Vector3		GetDirection() {return m_vDirection;}
 
 		bool			IsCreateShadow() {return m_bCreateShadow;}
 
 		void			SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}
 
-		void			LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
+		void			LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
 
 	protected:
 		void			SyncFromSceneNode();
@@ -50,19 +50,19 @@ namespace ma
 	protected:
 		LightType		m_eLightType;
 
-		D3DXVECTOR3		m_vLightDiffuse;
+		Vector3		m_vLightDiffuse;
 
-		D3DXVECTOR3		m_vTarget;
-		D3DXVECTOR3		m_vUpVector;
-		D3DXMATRIX		m_mView;
-		D3DXMATRIX		m_mProj;
+		Vector3		m_vTarget;
+		Vector3		m_vUpVector;
+		Matrix4x4		m_mView;
+		Matrix4x4		m_mProj;
 		
 
 		// Point Light
 		float			m_fRadius;
 
 		// directional Ligt
-		D3DXVECTOR3		m_vDirection;
+		Vector3		m_vDirection;
 		bool			m_bCreateShadow;
 
 		// spot Light

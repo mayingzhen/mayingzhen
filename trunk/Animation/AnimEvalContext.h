@@ -7,7 +7,7 @@ namespace ma
 
 	struct ANIMATION_API AnimEvalContext
 	{
-		std::vector<maNodeTransform> m_arrTSFLS;
+		std::vector<NodeTransform> m_arrTSFLS;
 
 		const SkeletonPose* m_refNodePos;
 

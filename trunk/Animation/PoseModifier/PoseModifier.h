@@ -7,8 +7,8 @@ namespace ma
 
 	struct ANIMATION_API PoseUpdateInfo
 	{		
-		D3DXMATRIX		m_matWorld;
-		D3DXMATRIX		m_matInvWorld;
+		Matrix4x4		m_matWorld;
+		Matrix4x4		m_matInvWorld;
 		float			m_fTimeElapsed;
 
 		//IAnimatedSkeleton* m_pSkelInst;

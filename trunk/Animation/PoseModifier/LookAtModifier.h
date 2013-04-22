@@ -9,9 +9,9 @@ namespace ma
 	{
 		DECL_OBJECT(LookAtModifier)
 
-		D3DXVECTOR3 m_vGoalOS;		//goal in object space
+		Vector3 m_vGoalOS;		//goal in object space
 
-		D3DXQUATERNION	m_qPivotLS;
+		Quaternion	m_qPivotLS;
 
 		UINT		m_nBoneID;
 
@@ -25,28 +25,28 @@ namespace ma
 
 		void				UpdatePose(SkeletonPose* pNodePose);
 
-		void				Init(UINT nBoneID,const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
+		void				Init(UINT nBoneID,const Vector3& vFowardLS,const Vector3& vUpLS);
 
 		void				SetBoneID(UINT nBoneID);
 
 		UINT				GetBoneID()const;
 
-		void				SetGoalObjectSpace(const D3DXVECTOR3& vGoalOS);
+		void				SetGoalObjectSpace(const Vector3& vGoalOS);
 
-		const D3DXVECTOR3&	GetGoalObjectSpace()const;
+		const Vector3&	GetGoalObjectSpace()const;
 
 		void				SetMaxYaw(float fMaxYaw);
 
 		float				GetMaxYaw() const;
 
-		D3DXVECTOR3			GetFowardLS() const;
+		Vector3			GetFowardLS() const;
 
-		D3DXVECTOR3			GetUpLS() const;
+		Vector3			GetUpLS() const;
 
 		void				DbgDraw() const;
 
 	private:
-		void CalculatePovitLs(const D3DXVECTOR3& vFowardLS,const D3DXVECTOR3& vUpLS);
+		void CalculatePovitLs(const Vector3& vFowardLS,const Vector3& vUpLS);
 	};
 }
 

@@ -169,7 +169,7 @@ namespace ma
 	}
 
 
-	void XMLInputArchive::Serialize(xmUint64& val,const char* pszLable)
+	void XMLInputArchive::Serialize(Uint64& val,const char* pszLable)
 	{
 		assert(m_nullChild == 0);
 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
