@@ -20,7 +20,7 @@ namespace ma
 
 		UINT GetFrameNumber() {return m_nFrameNumber;}
 
-		void SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
+		void SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
 		//bool Load(const char* pszPath);
 

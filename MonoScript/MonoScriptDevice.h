@@ -44,9 +44,9 @@ namespace ma
 // 
 // 		void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,bool val);
 // 
-// 		xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName);
+// 		int	GetIntField(ScriptObjectHandle hObj,Name fieldName);
 // 
-// 		void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val);
+// 		void	SetIntField(ScriptObjectHandle hObj,Name fieldName,int val);
 // 
 // 		UINT	GetUintField(ScriptObjectHandle hObj,Name fieldName);
 // 

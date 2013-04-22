@@ -12,24 +12,24 @@ namespace ma
 
 		~BulletBoxCollisionShape();
 
-		virtual void			SetTransformLS(const maNodeTransform& tsfLS);
+		virtual void			SetTransformLS(const NodeTransform& tsfLS);
 
-		virtual maNodeTransform GetTransformLS();
+		virtual NodeTransform GetTransformLS();
 
 		virtual	void			SetCollisionLayer(int nCollLayer);
 
 		virtual int				GetCollisionLayer();
 
-		virtual void			SetSize(const D3DXVECTOR3& vSize);
+		virtual void			SetSize(const Vector3& vSize);
 
-		virtual	D3DXVECTOR3		GetSize(); 
+		virtual	Vector3		GetSize(); 
 
 	private:
-		maNodeTransform m_tsfLS;
+		NodeTransform m_tsfLS;
 
 		int m_nCollLayer;
 
-		D3DXVECTOR3 m_vSize;
+		Vector3 m_vSize;
 	};
 
 	
@@ -40,9 +40,9 @@ namespace ma
 
 		~BulletSphereCollisionShape();
 
-		virtual void			SetTransformLS(const maNodeTransform& tsfLS);
+		virtual void			SetTransformLS(const NodeTransform& tsfLS);
 
-		virtual maNodeTransform GetTransformLS();
+		virtual NodeTransform GetTransformLS();
 
 		virtual	void			SetCollisionLayer(int eCollLayer);
 
@@ -53,7 +53,7 @@ namespace ma
 		virtual	float			GetRadius(); 
 
 	private:
-		maNodeTransform m_tsfLS;
+		NodeTransform m_tsfLS;
 		int m_nCollLayer;
 
 		float m_fRadius;

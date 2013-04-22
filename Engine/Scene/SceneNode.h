@@ -34,28 +34,28 @@ namespace ma
 		virtual void			SyncFromPhysics();
 
 		// TransformPS
-		void					SetTransformPS(const maNodeTransform& tsfPS);
-		const maNodeTransform&	GetTransformPS();
-		void					SetPositionPS(const D3DXVECTOR3& pPosPS);
-		void					TranslatePS(const D3DXVECTOR3& vDirPS);
-		const D3DXVECTOR3&		GetPositionPS();
+		void					SetTransformPS(const NodeTransform& tsfPS);
+		const NodeTransform&	GetTransformPS();
+		void					SetPositionPS(const Vector3& pPosPS);
+		void					TranslatePS(const Vector3& vDirPS);
+		const Vector3&		GetPositionPS();
 
 		// TransformWS 
-		void					SetTransformWS(const maNodeTransform& tsfWS);
-		const maNodeTransform&	GetTransformWS();
-		void					SetPositionWS(const D3DXVECTOR3& vPosWS);
-		void					TranslateWS(const D3DXVECTOR3& vDirWS);
-		const D3DXVECTOR3&		GetPositionWS();
-		const D3DXMATRIX&		GetWorldMatrix();
+		void					SetTransformWS(const NodeTransform& tsfWS);
+		const NodeTransform&	GetTransformWS();
+		void					SetPositionWS(const Vector3& vPosWS);
+		void					TranslateWS(const Vector3& vDirWS);
+		const Vector3&		GetPositionWS();
+		const Matrix4x4&		GetWorldMatrix();
 
 		// TransformLS
-		void					TranslateLS(const D3DXVECTOR3& vDirLS);	
+		void					TranslateLS(const Vector3& vDirLS);	
 		void					RotateYAxisLS(float fDegree);
 		void					RotateZAxisLS(float fDegree);
 		void					RotateLS(float xDegree,float yDegree,float zDegree);
-		void					RotateLS(const D3DXQUATERNION& qRot);
+		void					RotateLS(const Quaternion& qRot);
 		EulerAngleXYZ			GetRotateLS();
-		void					WorldToLocal(maNodeTransform* pOutLocal,const maNodeTransform* pWorld);
+		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
 		Scene*					GetScene() {return m_pScen;}
 
@@ -86,9 +86,9 @@ namespace ma
 		Scene*					m_pScen;
 		
 		// Transform
-		maNodeTransform			m_tsfPS;	//relate to parent node
-		D3DXMATRIX				m_matWorld;	//relate to world
-		maNodeTransform			m_tsfWS;
+		NodeTransform			m_tsfPS;	//relate to parent node
+		Matrix4x4				m_matWorld;	//relate to world
+		NodeTransform			m_tsfWS;
 		bool					m_btsfPSDirty;
 		bool					m_btsfWSDirty;
 		bool					m_bmatWSDirty;

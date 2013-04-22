@@ -5,7 +5,7 @@ namespace ma
 	BulletBoxCollisionShape::BulletBoxCollisionShape()
 	{
 		//m_pBoxShape = NULL;
-		maTransformSetIdentity(&m_tsfLS);
+		TransformSetIdentity(&m_tsfLS);
 		m_nCollLayer = 0;
 	}
 
@@ -14,12 +14,12 @@ namespace ma
 
 	}
 
-	void BulletBoxCollisionShape::SetTransformLS(const maNodeTransform& tsfLS) 
+	void BulletBoxCollisionShape::SetTransformLS(const NodeTransform& tsfLS) 
 	{
 		m_tsfLS = tsfLS;
 	}
 
-	maNodeTransform BulletBoxCollisionShape::GetTransformLS() 
+	NodeTransform BulletBoxCollisionShape::GetTransformLS() 
 	{
 		return m_tsfLS;
 	}
@@ -34,12 +34,12 @@ namespace ma
 		return m_nCollLayer;
 	}
 
-	void BulletBoxCollisionShape::SetSize(const D3DXVECTOR3& vSize)
+	void BulletBoxCollisionShape::SetSize(const Vector3& vSize)
 	{
 		m_vSize = vSize;
 	}
 
-	D3DXVECTOR3 BulletBoxCollisionShape::GetSize()
+	Vector3 BulletBoxCollisionShape::GetSize()
 	{
 		return m_vSize;
 	}
@@ -47,7 +47,7 @@ namespace ma
 
 	BulletSphereCollisionShape::BulletSphereCollisionShape()
 	{
-		maTransformSetIdentity(&m_tsfLS);
+		TransformSetIdentity(&m_tsfLS);
 	}
 
 	BulletSphereCollisionShape::~BulletSphereCollisionShape()
@@ -55,12 +55,12 @@ namespace ma
 
 	}
 
-	void BulletSphereCollisionShape::SetTransformLS(const maNodeTransform& tsfLS) 
+	void BulletSphereCollisionShape::SetTransformLS(const NodeTransform& tsfLS) 
 	{
 		m_tsfLS = tsfLS;
 	}
 
-	maNodeTransform BulletSphereCollisionShape::GetTransformLS() 
+	NodeTransform BulletSphereCollisionShape::GetTransformLS() 
 	{
 		return m_tsfLS;
 	}

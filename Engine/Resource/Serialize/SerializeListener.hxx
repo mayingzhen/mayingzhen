@@ -10,59 +10,59 @@ namespace ma
 
 	void SerializeListener::Serialize(bool& val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(short& val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 	void SerializeListener::Serialize(unsigned char& val, const char* pszLabel)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLabel);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLabel);
 	}
 
 	void SerializeListener::Serialize(unsigned short& val, const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(unsigned int&val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(int&val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(unsigned long &val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(long &val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
-	void SerializeListener::Serialize(xmUint64&val,const char* pszLable)
+	void SerializeListener::Serialize(Uint64&val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
 	void SerializeListener::Serialize(float& val,const char* pszLable)
 	{
-		SerializeByte((xmUint8*)&val,sizeof(val),pszLable);
+		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
 	}
 
 
@@ -70,11 +70,11 @@ namespace ma
 	{
 
 		UINT nSize = (UINT)(val.size()+1);
-		SerializeByte(reinterpret_cast<xmUint8*>(&nSize),sizeof(nSize),pszLable);
+		SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
 		val.resize(nSize,'\0');
 		if (nSize > 0)
 		{
-			xmUint8* pBuf = (xmUint8*)&val[0];
+			Uint8* pBuf = (Uint8*)&val[0];
 			SerializeByte(pBuf,nSize,pszLable);
 		}
 	}
@@ -84,16 +84,16 @@ namespace ma
 	// void SerializeListener::Serialize(IStringWrapper* val,const char* pszLable)
 	// {
 	// 	UINT nSize = (UINT)(val->GetSize()+1);
-	// 	SerializeByte(reinterpret_cast<xmUint8*>(&nSize),sizeof(nSize),pszLable);
+	// 	SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
 	// 	val->Resize(nSize,'\0');
 	// 	if (nSize > 0)
 	// 	{
-	// 		xmUint8* pBuf = (xmUint8*)val->GetValue();
+	// 		Uint8* pBuf = (Uint8*)val->GetValue();
 	// 		SerializeByte(pBuf,nSize,pszLable);
 	// 	}
 	// }
 
-	void SerializeListener::Serialize(D3DXVECTOR2 &val,const char* pszLable)
+	void SerializeListener::Serialize(Vector2 &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
 		Serialize(val.x,"x");
@@ -102,7 +102,7 @@ namespace ma
 	}
 
 
-	void SerializeListener::Serialize(GUID &val,const char* pszLable)
+	void SerializeListener::Serialize(maGUID &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
 		Serialize(val.m_a,"a");
@@ -110,7 +110,7 @@ namespace ma
 		EndSection();
 	}
 
-	void SerializeListener::Serialize(D3DXVECTOR3 &val,const char* pszLable)
+	void SerializeListener::Serialize(Vector3 &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
 		Serialize(val.x,"x");
@@ -120,18 +120,7 @@ namespace ma
 	}
 
 
-	void SerializeListener::Serialize(D3DXVECTOR4 &val,const char* pszLable)
-	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		Serialize(val.z,"z");
-		Serialize(val.w,"w");
-		EndSection();
-	}
-
-
-	void SerializeListener::Serialize(D3DXQUATERNION &val,const char* pszLable)
+	void SerializeListener::Serialize(Vector4 &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
 		Serialize(val.x,"x");
@@ -142,17 +131,28 @@ namespace ma
 	}
 
 
-	void SerializeListener::Serialize(D3DXMATRIX &val,const char* pszLable)
+	void SerializeListener::Serialize(Quaternion &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
-		Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._11),"X");
-		Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._21),"Y");
-		Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._31),"Z");
-		Serialize(*reinterpret_cast<D3DXVECTOR4*>(&val._41),"T");
+		Serialize(val.x,"x");
+		Serialize(val.y,"y");
+		Serialize(val.z,"z");
+		Serialize(val.w,"w");
 		EndSection();
 	}
 
-	void SerializeListener::Serialize(maNodeTransform& val,const char *pszLable)
+
+	void SerializeListener::Serialize(Matrix4x4 &val,const char* pszLable)
+	{
+		BeginSection(pszLable);
+		Serialize(*reinterpret_cast<Vector4*>(&val._11),"X");
+		Serialize(*reinterpret_cast<Vector4*>(&val._21),"Y");
+		Serialize(*reinterpret_cast<Vector4*>(&val._31),"Z");
+		Serialize(*reinterpret_cast<Vector4*>(&val._41),"T");
+		EndSection();
+	}
+
+	void SerializeListener::Serialize(NodeTransform& val,const char *pszLable)
 	{
 		BeginSection(pszLable);
 		//Serialize(val.m_vLocalScale,"NonPropScale");

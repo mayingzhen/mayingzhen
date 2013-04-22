@@ -142,12 +142,12 @@ namespace ma
 
 		// render skelMesh
 		{
-			D3DXMATRIX matWorld;
-			D3DXMatrixTranslation(&matWorld,-50,0,0);
+			Matrix4x4 matWorld;
+			MatrixTranslation(&matWorld,-50,0,0);
 
 			if (m_pAnimtionPlay)
 			{
-				D3DXMATRIX* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+				Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
 				UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
 				//pRender->RenderSkelMesh(skinMatrix,nNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
 			}
@@ -155,10 +155,10 @@ namespace ma
 
 		// render staticMesh
 		{
-			D3DXMATRIX matWorld;
-			D3DXMATRIX matScale;
-			D3DXMatrixScaling(&matScale,50,50,50); 
-			D3DXMatrixTranslation(&matWorld,250,0,0);
+			Matrix4x4 matWorld;
+			Matrix4x4 matScale;
+			MatrixScaling(&matScale,50,50,50); 
+			MatrixTranslation(&matWorld,250,0,0);
 			matWorld = matScale * matWorld;
 			//pRender->RenderMesh(&matWorld,m_pStaticMesh,m_pStatcMeshTexture);
 		}
@@ -167,10 +167,6 @@ namespace ma
 		GetRenderDevice()->EndRender();
 	}
 
-	void SampleFbxImport::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

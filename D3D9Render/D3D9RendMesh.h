@@ -20,7 +20,7 @@ namespace ma
 
 		ID3DXMesh* GetD3DXMesh() {return m_pD3DMesh;}
 
-		virtual	void GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3 &vMax);
+		virtual	void GetBoundingAABB(Vector3& vMin,Vector3 &vMax);
 
 	private:
 		ID3DXMesh*	m_pD3DMesh;

@@ -46,7 +46,7 @@ namespace ma
 	}
 
 
-	void BulletScene::SetLayerCollisionMask(xmUint8 nLayer,xmUint8 nColLayer,bool bCollide)
+	void BulletScene::SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide)
 	{
 
 	}
@@ -54,12 +54,12 @@ namespace ma
 	//------------------------------------------------------------------------------
 	//Dynamic
 	//------------------------------------------------------------------------------
-	D3DXVECTOR3	BulletScene::GetGravity() const
+	Vector3	BulletScene::GetGravity() const
 	{
 		return ToMaUnit( m_pDynamicsWorld->getGravity() );
 	}
 
-	void		BulletScene::SetGravity(const D3DXVECTOR3& g)
+	void		BulletScene::SetGravity(const Vector3& g)
 	{
 		if (m_pDynamicsWorld)
 			m_pDynamicsWorld->setGravity( ToBulletUnit(g) );
@@ -143,7 +143,7 @@ namespace ma
 		BulletContactReport(m_pDynamicsWorld);
 	}
 
-	GameObject* 	BulletScene::RayCastCloseGameObj(const D3DXVECTOR3& rayOrig, const D3DXVECTOR3& rayDir, int nCollLayer,D3DXVECTOR3& hitPosWS)
+	GameObject* 	BulletScene::RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer,Vector3& hitPosWS)
 	{
 		btVector3 from = ToBulletUnit(rayOrig);
 		btVector3 to = ToBulletUnit(rayOrig + 10000.0f * rayDir);

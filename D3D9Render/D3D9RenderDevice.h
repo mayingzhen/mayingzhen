@@ -39,7 +39,9 @@ namespace ma
 
 		virtual	void			GetRenderWndSize(int& Width,int& Heigh);
 
-		virtual void			DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor);
+		virtual void			DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);
+
+		virtual	Matrix4x4		MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
 
 		LPDIRECT3DDEVICE9		GetDXDevive() {return m_pD3DDevice;}
 	

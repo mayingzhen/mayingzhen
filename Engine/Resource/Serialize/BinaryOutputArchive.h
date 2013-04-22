@@ -38,7 +38,7 @@ public:
 // 
 // 	void Serialize(long &val,const char* pszLable = "long");
 // 
-// 	void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
+// 	void Serialize(Uint64&val,const char* pszLable = "Uint64");
 // 
 // 	void Serialize(float& val,const char* pszLable = "float");
 // 
@@ -52,7 +52,7 @@ public:
 
 	void Seek(UINT nPos);
 
-	bool SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
+	bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
 
 	void SkipByte(UINT nSizeToSkip);
 

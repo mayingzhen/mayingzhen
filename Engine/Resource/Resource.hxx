@@ -24,7 +24,7 @@ namespace ma
 		bool bLoadOK = ar.Open(m_sResPath.c_str());
 		if (!bLoadOK)
 		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",m_sResPath.c_str());
+			Log("Fail to open mesh from file %s:",m_sResPath.c_str());
 			return NULL;
 		}
 
@@ -44,7 +44,7 @@ namespace ma
 		bool bLoadOK = ar.Open(m_sResPath.c_str());
 		if (!bLoadOK)
 		{
-			LogError(_ERR_INVALID_CALL,"Fail to open mesh from file %s:",m_sResPath.c_str());
+			Log("Fail to open mesh from file %s:",m_sResPath.c_str());
 			return NULL;
 		}
 

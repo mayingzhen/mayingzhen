@@ -73,9 +73,9 @@ void BinaryOutputArchive::Close()
 // 	m_file.write(reinterpret_cast<char*>(&val),sizeof(long));
 // }
 // 
-// void BinaryOutputArchive::Serialize(xmUint64&val,const char* pszLable)
+// void BinaryOutputArchive::Serialize(Uint64&val,const char* pszLable)
 // {
-// 	m_file.write(reinterpret_cast<const char*>(&val),sizeof(xmUint64));
+// 	m_file.write(reinterpret_cast<const char*>(&val),sizeof(Uint64));
 // }
 // 
 // 
@@ -92,7 +92,7 @@ void BinaryOutputArchive::Close()
 // 	m_file.write(val.c_str(),sizeof(char)*nSize);
 // }
 // 
-// bool BinaryOutputArchive::SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes")
+// bool BinaryOutputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes")
 // {
 // 	m_file.write()
 // }
@@ -124,7 +124,7 @@ void BinaryOutputArchive::Seek(UINT nPos)
 
 }
 
-bool BinaryOutputArchive::SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable)
+bool BinaryOutputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
 {
 	m_file.write((char*)pData,nSizeToRead);
 	return ! m_file.fail();

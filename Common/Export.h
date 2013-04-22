@@ -1,10 +1,14 @@
 #ifndef  _CommonExport__H__
 #define  _CommonExport__H__
 
-#ifdef COMMON_EXPORTS
-#define COMMON_API _declspec (dllexport)
+#ifdef _MSC_VER
+	#ifdef COMMON_EXPORTS
+		#define COMMON_API _declspec (dllexport)
+	#else
+		#define COMMON_API _declspec (dllimport)
+	#endif
 #else
-#define COMMON_API _declspec (dllimport)
+	#define  COMMON_API	
 #endif
 
 

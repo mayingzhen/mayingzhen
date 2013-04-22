@@ -2,10 +2,19 @@
 #define  COMMON_MODULE__H__
 
 #include "Common/Export.h"
-#include "Common/stdafx.h"
 
-// Math
-#include "Common/maMath.h"
+
+#include "Common/BaseType.h"
+#include "Common/Macro.h"
+
+#include "Common/Platform/Platform.h"
+
+#include "Common/Assert.h"
+#include "Common/Log.h"
+
+#include "Common/Math/Math.h"
+#include "Common/Math/MathBase.h"
+
 #include "Common/AABB.h"
 #include "Common/Frustum.h"
 
@@ -16,7 +25,7 @@
 
 // Utile
 #include "Common/Singleton.h"
-#include "Common/ReferenceCountObject.h"
+#include "Common/RefCountObject.h"
 #include "Common/BitField.h"
 
 

@@ -34,16 +34,18 @@ namespace ma
 
 		virtual	void			GetRenderWndSize(int& Width,int& Heigh) = 0;
 
-		//virtual void RenderSkelMesh(const D3DXMATRIX* arrSkinMatrix,UINT nSkinMaxtrixNum,
-		//	const D3DXMATRIX* pWordMat,const IRendMesh* pSkelMesh,const IRendTexture* pTexture) = 0;
+		virtual	Matrix4x4		MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
 
-		virtual void			DrawLine(const D3DXVECTOR3& p0,const D3DXVECTOR3& p1,xmUint32 dwColor) = 0;
+		//virtual void RenderSkelMesh(const Matrix4x4* arrSkinMatrix,UINT nSkinMaxtrixNum,
+		//	const Matrix4x4* pWordMat,const IRendMesh* pSkelMesh,const IRendTexture* pTexture) = 0;
 
-		virtual void			DrawBox(const D3DXMATRIX& wordMat,const D3DXVECTOR3& boxSize, xmUint32 color);
+		virtual void			DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor) = 0;
 
-		virtual void			DrawCircle(UINT nbSegments, const D3DXMATRIX& world, xmUint32 dwColor, float radius, bool semicircle = false);
+		virtual void			DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Uint32 color);
 
-		virtual void			DrawWireSphere(const D3DXMATRIX& wordMat,float fRadius, xmUint32 color);
+		virtual void			DrawCircle(UINT nbSegments, const Matrix4x4& world, Uint32 dwColor, float radius, bool semicircle = false);
+
+		virtual void			DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Uint32 color);
 	};
 
 	ENGINE_API void SetRenderDevice(IRenderDevice* pRenderDevice);

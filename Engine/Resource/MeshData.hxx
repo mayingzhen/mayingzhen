@@ -34,17 +34,17 @@ namespace ma
 
 	void AABBShape::Init()
 	{
-		m_vMin = D3DXVECTOR3(F_MAX,F_MAX,F_MAX);
-		m_vMax = D3DXVECTOR3(-F_MAX,-F_MAX,-F_MAX);
+		m_vMin = Vector3(FMAX,FMAX,FMAX);
+		m_vMax = Vector3(-FMAX,-FMAX,-FMAX);
 	}
 
-	void AABBShape::Merge(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
+	void AABBShape::Merge(const Vector3& vMin,const Vector3& vMax)
 	{
 		Vec3Min(&m_vMin,&vMin,&m_vMin);
 		Vec3Max(&m_vMax,&vMax,&m_vMax);
 	}
 
-	void AABBShape::AddPoint(const D3DXVECTOR3& v)
+	void AABBShape::AddPoint(const Vector3& v)
 	{
 		Vec3Min(&m_vMin,&v,&m_vMin);
 		Vec3Max(&m_vMax,&v,&m_vMax);
@@ -136,7 +136,7 @@ namespace ma
 	}
 
 	template<class DataType>
-	void SerializeRawData(SerializeListener& sl,std::vector<xmUint8>& val,const char* pszLable)
+	void SerializeRawData(SerializeListener& sl,std::vector<Uint8>& val,const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -213,25 +213,25 @@ namespace ma
 	}
 
 
-	void	SubMeshData::SetIndexStart(xmUint32 nIndStart)
+	void	SubMeshData::SetIndexStart(Uint32 nIndStart)
 	{
 		m_nIndexStart = nIndStart;
 	}
 
 
-	void	SubMeshData::SetIndexCount(xmUint32 nIndCnt)
+	void	SubMeshData::SetIndexCount(Uint32 nIndCnt)
 	{
 		m_nIndexCount = nIndCnt;
 	}
 
 
-	void	SubMeshData::SetVertexStart(xmUint32 nVStart)
+	void	SubMeshData::SetVertexStart(Uint32 nVStart)
 	{
 		m_nVertexStart = nVStart;
 	}
 
 
-	void	SubMeshData::SetVertexCount(xmUint32 nVCnt)
+	void	SubMeshData::SetVertexCount(Uint32 nVCnt)
 	{
 		m_nVertexCount = nVCnt;
 	}
@@ -241,13 +241,13 @@ namespace ma
 		m_nMateiralID = nMtlID;
 	}
 
-	void	SubMeshData::SetBoneByPalatteIndex(xmUint16 nPalatteInd,xmUint16 nBoneInd)
+	void	SubMeshData::SetBoneByPalatteIndex(Uint16 nPalatteInd,Uint16 nBoneInd)
 	{
 		m_arrBonePalette[nPalatteInd] = nBoneInd;
 	}
 
 
-	xmUint16	SubMeshData::GetBoneByPalatteIndex(xmUint16 nPalatteInd)
+	Uint16	SubMeshData::GetBoneByPalatteIndex(Uint16 nPalatteInd)
 	{
 		return m_arrBonePalette[nPalatteInd];
 	}
@@ -282,7 +282,7 @@ namespace ma
 	{
 	}
 
-	GUID MeshData::GetGlobalSkeletonID() const
+	maGUID MeshData::GetGlobalSkeletonID() const
 	{
 		return m_header.m_nSkelGUID;
 	}
@@ -290,7 +290,7 @@ namespace ma
 
 	UINT MeshData::GetIndexNumber() const
 	{
-		return m_arrIndexBuffer.size() / (GetIsIndex32() ? sizeof(xmUint32) : sizeof(xmUint16));
+		return m_arrIndexBuffer.size() / (GetIsIndex32() ? sizeof(Uint32) : sizeof(Uint16));
 	}
 
 
@@ -306,7 +306,7 @@ namespace ma
 
 	UINT	MeshData::GetVertexSize() const
 	{
-		UINT nSize = sizeof(xmUint8);
+		UINT nSize = sizeof(Uint8);
 		if (m_nVertexType == VT_SKIN_VERTEX_0)
 		{
 			nSize = sizeof(VertexType0);
@@ -321,7 +321,7 @@ namespace ma
 
 	VertexType0*	MeshData::GetVertexBufferVertexType0()
 	{
-		xmUint8* pData = m_arrVertexBuffer.size() > 0
+		Uint8* pData = m_arrVertexBuffer.size() > 0
 			? &m_arrVertexBuffer[0]
 		: NULL;
 
@@ -332,7 +332,7 @@ namespace ma
 
 	const VertexType0*	MeshData::GetVertexBufferVertexType0() const
 	{
-		const xmUint8* pData = m_arrVertexBuffer.size() > 0
+		const Uint8* pData = m_arrVertexBuffer.size() > 0
 			? &m_arrVertexBuffer[0]
 			: NULL;
 
@@ -341,7 +341,7 @@ namespace ma
 			: NULL;
 	}
 
-	void MeshData::GetBoundingAABB(D3DXVECTOR3* vMin,D3DXVECTOR3* vMax)
+	void MeshData::GetBoundingAABB(Vector3* vMin,Vector3* vMax)
 	{
 		m_meshBound.GetAABB(*vMin,*vMax);
 	}
@@ -371,11 +371,14 @@ namespace ma
 		if (INDEX_TYPE_U16 == m_nIndexType)
 		{
 			sl.SerializeRawData<BoneIndex>(m_arrIndexBuffer,"IndexBuffer");
-		}else if (INDEX_TYPE_U32 == m_nIndexType)
+		}
+		else if (INDEX_TYPE_U32 == m_nIndexType)
 		{
-			sl.SerializeRawData<xmUint32>(m_arrIndexBuffer,"IndexBuffer");
-		}else{
-			LogError(_ERR_INVALID_CALL,"Fail to serialize mesh data : invalid index type");
+			sl.SerializeRawData<Uint32>(m_arrIndexBuffer,"IndexBuffer");
+		}
+		else
+		{
+			Log("Fail to serialize mesh data : invalid index type");
 		}
 
 		if (VT_SKIN_VERTEX_0 == m_nVertexType)
@@ -403,40 +406,39 @@ namespace ma
 
 	void Bounding::SetIdentity()
 	{
-		D3DXVECTOR3 vMin(-0.5f,-0.5f,-0.5f);
-		D3DXVECTOR3 vMax(0.5f,0.5f,0.5f);
+		Vector3 vMin(-0.5f,-0.5f,-0.5f);
+		Vector3 vMax(0.5f,0.5f,0.5f);
 		SetAABB(vMin,vMax);
 	}
 
-	void Bounding::SetAABB(const D3DXVECTOR3& vMin,const D3DXVECTOR3& vMax)
+	void Bounding::SetAABB(const Vector3& vMin,const Vector3& vMax)
 	{
 		m_nShapeType = BS_BOX;
 		m_vPos = 0.5f*(vMin + vMax);
-		//xmQuaternionIdentity(&m_qRot);
-		D3DXQuaternionIdentity(&m_qRot);
+		QuaternionIdentity(&m_qRot);
 		m_boxShape.m_fXSize = vMax.x - vMin.x;
 		m_boxShape.m_fYSize = vMax.y - vMin.y;
 		m_boxShape.m_fZSize = vMax.z - vMin.z;
 	}
 
-	void Bounding::SetOBB(const D3DXVECTOR3* pPos,const D3DXQUATERNION* pRot
+	void Bounding::SetOBB(const Vector3* pPos,const Quaternion* pRot
 				,float fXSize,float fYSize,float fZSize)
 	{
 		m_nShapeType = BS_BOX;
 		//m_vPos = pPos ? *pPos : Vec3Zero();
-		//m_qRot = pRot ? *pRot : xmQuaternionIden();
+		//m_qRot = pRot ? *pRot : QuaternionIden();
 		m_boxShape.m_fXSize = fXSize;
 		m_boxShape.m_fYSize = fYSize;
 		m_boxShape.m_fZSize = fZSize;
 
 	}
 
-	void Bounding::GetAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax) const
+	void Bounding::GetAABB(Vector3& vMin,Vector3& vMax) const
 	{
 
 		if (m_nShapeType == BS_BOX)
 		{
-			D3DXVECTOR3 vSize(m_boxShape.m_fXSize,m_boxShape.m_fYSize,m_boxShape.m_fZSize);
+			Vector3 vSize(m_boxShape.m_fXSize,m_boxShape.m_fYSize,m_boxShape.m_fZSize);
 			vSize = vSize * 0.5f;
 			vMin = m_vPos - vSize;
 			vMax = m_vPos + vSize;

@@ -37,9 +37,9 @@ namespace ma
 // 
 // 		virtual void	SetBooleanField(ScriptObjectHandle hObj,Name fieldName,bool val) = 0;
 // 
-// 		virtual xmInt	GetIntField(ScriptObjectHandle hObj,Name fieldName) = 0;
+// 		virtual int	GetIntField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 
-// 		virtual void	SetIntField(ScriptObjectHandle hObj,Name fieldName,xmInt val) = 0;
+// 		virtual void	SetIntField(ScriptObjectHandle hObj,Name fieldName,int val) = 0;
 // 
 // 		virtual float	GetFloatField(ScriptObjectHandle hObj,Name fieldName) = 0;
 // 

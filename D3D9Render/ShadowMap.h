@@ -30,11 +30,11 @@ namespace ma
 
 		void				EndRender();
 
-		const D3DXMATRIX&	GetViewMatrix() {return m_viewMat;}
+		const Matrix4x4&	GetViewMatrix() {return m_viewMat;}
 
-		const D3DXMATRIX&	GetProjMatrix() {return m_projMat;}
+		const Matrix4x4&	GetProjMatrix() {return m_projMat;}
 
-		const D3DXMATRIX&	GetTexMatrix()  {return m_TexMat;}
+		const Matrix4x4&	GetTexMatrix()  {return m_TexMat;}
 
 		D3DVIEWPORT9&		GetViewport(void) { return m_Viewport; }
 
@@ -47,7 +47,7 @@ namespace ma
 #endif
 
 	private:
-		D3DXMATRIX CalculateCropMatrix();
+		Matrix4x4 CalculateCropMatrix();
 
 	private:
 		LPDIRECT3DTEXTURE9			m_pTexture;
@@ -60,10 +60,10 @@ namespace ma
 		D3DVIEWPORT9				m_OldViewport;
 		LPDIRECT3DDEVICE9			m_pDxDevice;
 
-		D3DXMATRIX					m_viewMat;
-		D3DXMATRIX					m_projMat;
-		D3DXMATRIX					m_TexScaleBiasMat;
-		D3DXMATRIX					m_TexMat;
+		Matrix4x4					m_viewMat;
+		Matrix4x4					m_projMat;
+		Matrix4x4					m_TexScaleBiasMat;
+		Matrix4x4					m_TexMat;
 
 		int							m_nSizeX;
 		int							m_nSizeY;

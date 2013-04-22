@@ -45,9 +45,9 @@ namespace ma
 // 
 // 		}
 
-		D3DXVECTOR3 MonoVector3ValueToxmValue(MonoClassField* pField,MonoObject* pObject)
+		Vector3 MonoVector3ValueToValue(MonoClassField* pField,MonoObject* pObject)
 		{
-			D3DXVECTOR3 value(0.0f, 0.0f, 0.0f);
+			Vector3 value(0.0f, 0.0f, 0.0f);
 		
 			MonoScriptDevice* pMonoDScriptevive = (MonoScriptDevice*)GetScriptDevice();
 			if (pMonoDScriptevive == NULL)
@@ -93,7 +93,7 @@ namespace ma
 			return value;
 		}
 
-		bool D3DXVECTOR3ValueToMonoValue(const D3DXVECTOR3& value, MonoClassField* pField,MonoObject* pObject)
+		bool VECTOR3ValueToMonoValue(const Vector3& value, MonoClassField* pField,MonoObject* pObject)
 		{
 			MonoScriptDevice* pMonoDScriptevive = (MonoScriptDevice*)GetScriptDevice();
 			if (pMonoDScriptevive == NULL)

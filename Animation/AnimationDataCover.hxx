@@ -19,27 +19,27 @@ namespace ma
 
 		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
 		{	
-			maNodeTransform tsfBoneOSInv;
-			const maNodeTransform& tsfBoneOS = pRefPose->GetTransformOS(i);
-			maTransformInverse(&tsfBoneOSInv,&tsfBoneOS);
+			NodeTransform tsfBoneOSInv;
+			const NodeTransform& tsfBoneOS = pRefPose->GetTransformOS(i);
+			TransformInverse(&tsfBoneOSInv,&tsfBoneOS);
 
 			Vector3TrackData& scaleTrack = arrScaleTrackPS[i];
 			QuaternionTrackData& rotTrack = arrRotTrackPS[i];
 			Vector3TrackData& posTrack = arrPosTrackPS[i];
 
-			UINT nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
-			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
+			UINT nFrameNumber = Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			nFrameNumber = Max(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
 			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
-				maNodeTransform tsfAnimOS;
-				maNodeTransform tsfAnimLS;
+				NodeTransform tsfAnimOS;
+				NodeTransform tsfAnimLS;
 				tsfAnimOS.m_vPos =  posTrack.m_arrKey[nFrameCnt];
 				tsfAnimOS.m_qRot = rotTrack.m_arrKey[nFrameCnt];
 				tsfAnimOS.m_fScale = 1.0f;//scaleTrack.m_arrValue[nFrameCnt];
-				maTransformMul(&tsfAnimLS,&tsfAnimOS,&tsfBoneOSInv);
-				scaleTrack.m_arrKey[nFrameCnt] = D3DXVECTOR3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
+				TransformMul(&tsfAnimLS,&tsfAnimOS,&tsfBoneOSInv);
+				scaleTrack.m_arrKey[nFrameCnt] = Vector3(1.0f,1.0f,1.0f);//tsfAnimLS.m_fScale;
 				rotTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_qRot;
 				posTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_vPos;	
 			}
@@ -67,27 +67,27 @@ namespace ma
 
 		for (UINT i = 0; i < pSkel->GetBoneNumer(); ++i)
 		{	
-			maNodeTransform tsfBonePSInv;
-			const maNodeTransform& tsfBonePS = pRefPose->GetTransformPS(i);
-			maTransformInverse(&tsfBonePSInv,&tsfBonePS);
+			NodeTransform tsfBonePSInv;
+			const NodeTransform& tsfBonePS = pRefPose->GetTransformPS(i);
+			TransformInverse(&tsfBonePSInv,&tsfBonePS);
 
 			Vector3TrackData& scaleTrack = arrScaleTrackPS[i];
 			QuaternionTrackData& rotTrack = arrRotTrackPS[i];
 			Vector3TrackData& posTrack = arrPosTrackPS[i];
 
-			UINT nFrameNumber = maMax(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
-			nFrameNumber = maMax(nFrameNumber,posTrack.m_arrFrame.back());
+			UINT nFrameNumber = Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			nFrameNumber = Max(nFrameNumber,posTrack.m_arrFrame.back());
 			nFrameNumber = nFrameNumber + 1;
 
 			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
 			{
-				maNodeTransform tsfAnimPS;
-				maNodeTransform tsfAnimLS;
+				NodeTransform tsfAnimPS;
+				NodeTransform tsfAnimLS;
 				tsfAnimPS.m_vPos =  posTrack.m_arrKey[nFrameCnt];
 				tsfAnimPS.m_qRot = rotTrack.m_arrKey[nFrameCnt];
 				tsfAnimPS.m_fScale = scaleTrack.m_arrKey[nFrameCnt].x;
-				maTransformMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
-				scaleTrack.m_arrKey[nFrameCnt] = D3DXVECTOR3(tsfAnimLS.m_fScale,tsfAnimLS.m_fScale,tsfAnimLS.m_fScale);
+				TransformMul(&tsfAnimLS,&tsfAnimPS,&tsfBonePSInv);
+				scaleTrack.m_arrKey[nFrameCnt] = Vector3(tsfAnimLS.m_fScale,tsfAnimLS.m_fScale,tsfAnimLS.m_fScale);
 				rotTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_qRot;
 				posTrack.m_arrKey[nFrameCnt] = tsfAnimLS.m_vPos;	
 			}

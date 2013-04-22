@@ -18,21 +18,21 @@ namespace ma
 
 	}
 
-	void Animation::SampleSingleTrackByFrame(maNodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
+	void Animation::SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
 		//assert(m_bInit);
- 		D3DXVECTOR3Track* scalTrack = m_pTracks->m_scale[nTrackID];
+ 		VECTOR3Track* scalTrack = m_pTracks->m_scale[nTrackID];
  		if (fFrame > scalTrack->m_arrFrame.size())
  		{
- 			maTransformSetIdentity(pTSF);
+ 			TransformSetIdentity(pTSF);
  			return;
  		}
 
-		D3DXVECTOR3 vLocalScale;
+		Vector3 vLocalScale;
 		m_pTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
-		//pTSF->m_vLocalScale = pTSF->m_fScale > F_EPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
+		//pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
 
 		m_pTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
 		m_pTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);
@@ -81,9 +81,9 @@ namespace ma
 		{
 			m_arrTransfTrackName[nTrackCnt] = pAniData->m_arrTransfTrackName[nTrackCnt];
 
-			D3DXVECTOR3Track* pScaleTrack = new D3DXVECTOR3Track;
-			xmQuaternionTrack* pRotTrack = new xmQuaternionTrack;
-			D3DXVECTOR3Track* pPosTrack = new D3DXVECTOR3Track;
+			VECTOR3Track* pScaleTrack = new VECTOR3Track;
+			QuaternionTrack* pRotTrack = new QuaternionTrack;
+			VECTOR3Track* pPosTrack = new VECTOR3Track;
 
 			Vector3TrackData& scaleTrackData = pAniData->m_arrScaleTrack[nTrackCnt];
 			QuaternionTrackData& rotTrackData = pAniData->m_arrRotTrack[nTrackCnt];
@@ -104,7 +104,7 @@ namespace ma
 			for (UINT nKeyFrameCnt = 0; nKeyFrameCnt < nKeyFrameNum; ++nKeyFrameCnt)
 			{
 				pRotTrack->m_arrFrame[nKeyFrameCnt] = rotTrackData.m_arrFrame[nKeyFrameCnt];
-				D3DXQuaternionNormalize(&pRotTrack->m_arrValue[nKeyFrameCnt],&rotTrackData.m_arrKey[nKeyFrameCnt]);
+				QuaternionNormalize(&pRotTrack->m_arrValue[nKeyFrameCnt],&rotTrackData.m_arrKey[nKeyFrameCnt]);
 				//pRotTrack->m_arrValue[nKeyFrameCnt] = rotTrackData.m_arrKey[nKeyFrameCnt];
 			}
 			

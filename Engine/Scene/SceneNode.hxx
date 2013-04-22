@@ -13,9 +13,9 @@ namespace ma
 		m_btsfWSDirty = true;
 		m_bmatWSDirty = true;
 
-		D3DXMatrixIdentity(&m_matWorld);
-		maTransformSetIdentity(&m_tsfPS);
-		maTransformSetIdentity(&m_tsfWS);
+		MatrixIdentity(&m_matWorld);
+		TransformSetIdentity(&m_tsfPS);
+		TransformSetIdentity(&m_tsfWS);
 
 		//m_aabb.SetNull();
 	}
@@ -102,7 +102,7 @@ namespace ma
 		}
 	}
 
-	void					SceneNode::SetTransformWS(const maNodeTransform& tsfWS)
+	void					SceneNode::SetTransformWS(const NodeTransform& tsfWS)
 	{
 		//profile_code();
 
@@ -114,7 +114,7 @@ namespace ma
 		m_bmatWSDirty = true;
 	}
 
-	void					SceneNode::SetTransformPS(const maNodeTransform& tsfPS)
+	void					SceneNode::SetTransformPS(const NodeTransform& tsfPS)
 	{
 		//profile_code();
 
@@ -136,7 +136,7 @@ namespace ma
 		}
 	}
 
-	const maNodeTransform&	SceneNode::GetTransformPS() 
+	const NodeTransform&	SceneNode::GetTransformPS() 
 	{
 		if (m_btsfPSDirty)
 		{
@@ -145,7 +145,7 @@ namespace ma
 		return m_tsfPS;
 	}
 
-	const maNodeTransform&	SceneNode::GetTransformWS() 
+	const NodeTransform&	SceneNode::GetTransformWS() 
 	{
 		if (m_btsfWSDirty)
 		{
@@ -154,7 +154,7 @@ namespace ma
 		return m_tsfWS;
 	}
 
-	const D3DXMATRIX&		SceneNode::GetWorldMatrix()
+	const Matrix4x4&		SceneNode::GetWorldMatrix()
 	{
 		if (m_bmatWSDirty)
 		{
@@ -163,27 +163,27 @@ namespace ma
 		return m_matWorld;
 	}
 
-	void					SceneNode::SetPositionPS(const D3DXVECTOR3& vPosPS)
+	void					SceneNode::SetPositionPS(const Vector3& vPosPS)
 	{
-		maNodeTransform tsfPS = GetTransformPS();
+		NodeTransform tsfPS = GetTransformPS();
 		tsfPS.m_vPos = vPosPS;
 		SetTransformPS(tsfPS);
 	}
 
-	const D3DXVECTOR3&		SceneNode::GetPositionPS() 
+	const Vector3&		SceneNode::GetPositionPS() 
 	{
 		return GetTransformPS().m_vPos;
 	}
 
 
-	void					SceneNode::SetPositionWS(const D3DXVECTOR3& vPosWS)
+	void					SceneNode::SetPositionWS(const Vector3& vPosWS)
 	{
-		maNodeTransform tsfWS = GetTransformWS();
+		NodeTransform tsfWS = GetTransformWS();
 		tsfWS.m_vPos = vPosWS;
 		SetTransformWS(tsfWS);
 	}
 
-	const D3DXVECTOR3&		SceneNode::GetPositionWS() 
+	const Vector3&		SceneNode::GetPositionWS() 
 	{
 		return GetTransformWS().m_vPos;
 	}
@@ -191,8 +191,8 @@ namespace ma
 
 	void					SceneNode::UpdateMatWorld()
 	{
-		maNodeTransform tsfWS = GetTransformWS();
-		maMatrixFromTransform(&m_matWorld,&GetTransformWS());
+		NodeTransform tsfWS = GetTransformWS();
+		MatrixFromTransform(&m_matWorld,&GetTransformWS());
 		m_bmatWSDirty = false;
 	}
 
@@ -205,7 +205,7 @@ namespace ma
 		}
 		else
 		{
-			maTransformMul(&m_tsfWS, &m_tsfPS, &m_pParentNode->GetTransformWS());
+			TransformMul(&m_tsfWS, &m_tsfPS, &m_pParentNode->GetTransformWS());
 		}
 		m_btsfWSDirty = false;
 	}
@@ -219,7 +219,7 @@ namespace ma
 		}
 		else
 		{
-			maTransfromInvMul(&m_tsfPS,&m_tsfWS,&m_pParentNode->GetTransformWS());
+			TransformInvMul(&m_tsfPS,&m_tsfWS,&m_pParentNode->GetTransformWS());
 		}
 		m_btsfPSDirty = false;
 	}
@@ -237,72 +237,72 @@ namespace ma
 	// }
 
 
-	void					SceneNode::WorldToLocal(maNodeTransform* pOutLocal,const maNodeTransform* pWorld)
+	void					SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)
 	{
-		maNodeTransform tsfWorld = GetTransformWS();
-		maNodeTransform tsfWorldInv;
-		maTransformInverse(&tsfWorldInv,&tsfWorld);
-		maTransformMul(pOutLocal,pWorld,&tsfWorldInv);
+		NodeTransform tsfWorld = GetTransformWS();
+		NodeTransform tsfWorldInv;
+		TransformInverse(&tsfWorldInv,&tsfWorld);
+		TransformMul(pOutLocal,pWorld,&tsfWorldInv);
 	}
 
 
-	void					SceneNode::TranslateLS(const D3DXVECTOR3& vDirLS)
+	void					SceneNode::TranslateLS(const Vector3& vDirLS)
 	{
-		D3DXVECTOR3 vDirPS;
-		maQuaternionTransformVector(&vDirPS,&vDirLS,&GetTransformPS().m_qRot);
+		Vector3 vDirPS;
+		QuaternionTransformVector(&vDirPS,&vDirLS,&GetTransformPS().m_qRot);
 		TranslatePS(vDirPS);
 	}
 
-	void					SceneNode::TranslatePS(const D3DXVECTOR3& vDirPS)
+	void					SceneNode::TranslatePS(const Vector3& vDirPS)
 	{
-		D3DXVECTOR3 vPosPS = GetPositionPS();
+		Vector3 vPosPS = GetPositionPS();
 		vPosPS += vDirPS;
 		SetPositionPS(vPosPS);
 	}
 
-	void					SceneNode::TranslateWS(const D3DXVECTOR3& vDirWS)
+	void					SceneNode::TranslateWS(const Vector3& vDirWS)
 	{
-		D3DXVECTOR3 vPosWS = GetPositionWS();
+		Vector3 vPosWS = GetPositionWS();
 		vPosWS += vDirWS;
 		SetPositionWS(vPosWS);
 	}
 
 	void					SceneNode::RotateYAxisLS(float fDegree)
 	{
-		D3DXQUATERNION qRot;
-		const D3DXVECTOR3 vY(0.0f,1.0f,0.0f);
-		D3DXQuaternionRotationAxis(&qRot,&vY,D3DXToRadian(fDegree));
+		Quaternion qRot;
+		const Vector3 vY(0.0f,1.0f,0.0f);
+		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
 		RotateLS(qRot);
 
 	}
 
 	void					SceneNode::RotateZAxisLS(float fDegree)
 	{
-		D3DXQUATERNION qRot;
-		const D3DXVECTOR3 vZ(0.0f,0.0f,1.0f);
-		D3DXQuaternionRotationAxis(&qRot,&vZ,D3DXToRadian(fDegree));
+		Quaternion qRot;
+		const Vector3 vZ(0.0f,0.0f,1.0f);
+		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
 		RotateLS(qRot);
 	}
 
 	void					SceneNode::RotateLS(float xDegree,float yDegree,float zDegree)
 	{
-		D3DXQUATERNION qRot;
-		EulerAngleXYZ qEuler(D3DXToRadian(xDegree), D3DXToRadian(yDegree), D3DXToRadian(xDegree));
-		maQuaternionFromEulerAngleXYZ(&qRot,&qEuler);
+		Quaternion qRot;
+		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
+		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
 		RotateLS(qRot);
 	}
 
-	void					SceneNode::RotateLS(const D3DXQUATERNION& qRot)
+	void					SceneNode::RotateLS(const Quaternion& qRot)
 	{
-		maNodeTransform tsfPS = GetTransformPS();
-		D3DXQuaternionMultiply(&tsfPS.m_qRot,&qRot,&tsfPS.m_qRot);
+		NodeTransform tsfPS = GetTransformPS();
+		QuaternionMultiply(&tsfPS.m_qRot,&qRot,&tsfPS.m_qRot);
 		SetTransformPS(tsfPS);
 	}
 
 	EulerAngleXYZ			SceneNode::GetRotateLS()
 	{
 		EulerAngleXYZ euler;
-		maEulerAngleFromQuaternion(&euler,&GetTransformPS().m_qRot);
+		EulerAngleFromQuaternion(&euler,&GetTransformPS().m_qRot);
 		return euler;
 	}
 
@@ -346,11 +346,11 @@ namespace ma
 // 			m_localBound.Merge(* m_arrGameObj[nCnt]->GetLocalBounds());
 // 		}
 
-// 		const D3DXMATRIX& matWorld = GetWorldMatrix();
+// 		const Matrix4x4& matWorld = GetWorldMatrix();
 // 		m_aabbBound = m_localBound;
 // 		m_aabbBound.Transform(matWorld);
 // 
-// 		for (xmUint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 		for (Uint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
 // 		{
 // 			m_arrChildNode[nCnt]->UpdateBounds();
 // 			m_aabbBound.Merge(*m_arrChildNode[nCnt]->GetBounds());

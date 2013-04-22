@@ -15,13 +15,13 @@ namespace ma
 		BoneIndex m_uBoneAID;
 		BoneIndex m_uBoneBID;
 		BoneIndex m_uBoneCID;
-		D3DXVECTOR3 m_vHingAxisLS;
-		D3DXVECTOR3 m_vGoalOS;
+		Vector3 m_vHingAxisLS;
+		Vector3 m_vGoalOS;
 
 		// 
-		maNodeTransform m_pivotALS;
-		maNodeTransform m_pivotBLS;
-		maNodeTransform m_pivotCLS;
+		NodeTransform m_pivotALS;
+		NodeTransform m_pivotBLS;
+		NodeTransform m_pivotCLS;
 	};
 }
 

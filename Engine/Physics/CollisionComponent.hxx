@@ -11,7 +11,7 @@ namespace ma
 		m_pPhysicsObject = NULL;
 	}
 
-	maNodeTransform CollisionComponent::GetTransformLS() const 
+	NodeTransform CollisionComponent::GetTransformLS() const 
 	{
 		assert(m_pCollisionShape);
 		if (m_pCollisionShape)
@@ -20,13 +20,13 @@ namespace ma
 		}
 		else
 		{
-			maNodeTransform tsf;
-			maTransformSetIdentity(&tsf);
+			NodeTransform tsf;
+			TransformSetIdentity(&tsf);
 			return tsf;
 		}
 	}
 
-	void CollisionComponent::SetTransformLS(const maNodeTransform& tsfLS) 
+	void CollisionComponent::SetTransformLS(const NodeTransform& tsfLS) 
 	{
 		assert(m_pCollisionShape);
 		if (m_pCollisionShape)
@@ -69,17 +69,17 @@ namespace ma
 	}
 
 
-	D3DXMATRIX CollisionComponent::GetWorldMatrix()
+	Matrix4x4 CollisionComponent::GetWorldMatrix()
 	{
-		D3DXMATRIX localMatr;
-		maNodeTransform tsfLS = GetTransformLS();
-		maMatrixFromTransform(&localMatr,&tsfLS);
+		Matrix4x4 localMatr;
+		NodeTransform tsfLS = GetTransformLS();
+		MatrixFromTransform(&localMatr,&tsfLS);
 
-		D3DXMATRIX worldMatr;
+		Matrix4x4 worldMatr;
 		if (m_pPhysicsObject)
 		{	
-			maNodeTransform tsfWS = m_pPhysicsObject->GetTransformWS();
-			maMatrixFromTransform(&worldMatr,&tsfWS);
+			NodeTransform tsfWS = m_pPhysicsObject->GetTransformWS();
+			MatrixFromTransform(&worldMatr,&tsfWS);
 		}
 		else if (m_pGameObject)
 		{
@@ -102,7 +102,7 @@ namespace ma
 		m_pCollisionShape = m_pBoxCollisionShape;
 	}
 
-	void		BoxCollisionComponent::SetSize(const D3DXVECTOR3& vSize)
+	void		BoxCollisionComponent::SetSize(const Vector3& vSize)
 	{
 		if (m_pBoxCollisionShape)
 		{
@@ -110,7 +110,7 @@ namespace ma
 		}
 	}
 
-	D3DXVECTOR3	BoxCollisionComponent::GetSize() const 
+	Vector3	BoxCollisionComponent::GetSize() const 
 	{
 		if (m_pBoxCollisionShape)
 		{
@@ -118,7 +118,7 @@ namespace ma
 		}
 		else
 		{
-			return D3DXVECTOR3(0,0,0);
+			return Vector3(0,0,0);
 		}
 	}
 
@@ -127,10 +127,10 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		D3DXMATRIX worldMatr = GetWorldMatrix();
+		Matrix4x4 worldMatr = GetWorldMatrix();
 
-		D3DXVECTOR3 boxSize = GetSize();
-		GetRenderDevice()->DrawBox(worldMatr, boxSize, D3DCOLOR_RGBA(0,255,0,255));
+		Vector3 boxSize = GetSize();
+		GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
 	}
 
 	void BoxCollisionComponent::DbgRender(BitField flag)
@@ -141,10 +141,10 @@ namespace ma
 		if ( !flag.GetBit(eDbgRenderCollShape) )
 			return;
 
-		D3DXMATRIX worldMatr = GetWorldMatrix();
+		Matrix4x4 worldMatr = GetWorldMatrix();
 
-		D3DXVECTOR3 boxSize = GetSize();
-		GetRenderDevice()->DrawBox(worldMatr, boxSize, D3DCOLOR_RGBA(0,255,0,255));
+		Vector3 boxSize = GetSize();
+		GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
 	}
 
 
@@ -204,10 +204,10 @@ namespace ma
 		if ( !flag.GetBit(eDbgRenderCollShape) )
 			return;
 
-		D3DXMATRIX worldMatr = GetWorldMatrix();
+		Matrix4x4 worldMatr = GetWorldMatrix();
 
 		float fRadius = this->GetRadius();
-		GetRenderDevice()->DrawWireSphere(worldMatr, fRadius, D3DCOLOR_RGBA(0,255,0,255));
+		GetRenderDevice()->DrawWireSphere(worldMatr, fRadius, COLOR_RGBA(0,255,0,255));
 	}
 }
 

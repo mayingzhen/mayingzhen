@@ -28,11 +28,11 @@ namespace ma
 
 		virtual	void			AddSphereCollisionShape(ISphereCollisionShape* pSphereCollisionShape);
 
-		virtual void			SetTransformWS(const maNodeTransform& tsfWS);
+		virtual void			SetTransformWS(const NodeTransform& tsfWS);
 
-		virtual maNodeTransform GetTransformWS();
+		virtual NodeTransform GetTransformWS();
 
-		virtual	void			ApplyForce(D3DXVECTOR3 vForce);
+		virtual	void			ApplyForce(Vector3 vForce);
 
 		int						GetCollLayer() {return m_nCollLayer;}
 
@@ -44,7 +44,7 @@ namespace ma
 		std::vector<IBoxCollisionShape*>	m_vBoxCollisionShape;
 		std::vector<ISphereCollisionShape*>	m_vSphereCollisionShape;
 
-		maNodeTransform m_tsfWS;
+		NodeTransform m_tsfWS;
 
 		int m_nCollLayer;
 	};

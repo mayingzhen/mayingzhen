@@ -14,7 +14,7 @@ namespace ma
 		std::string		m_strFilename;
 		TiXmlDocument*	m_pDoc;
 		TiXmlElement*	m_pCurElem;
-		xmInt				m_nullChild;
+		int				m_nullChild;
 
 	public:
 		XMLInputArchive();
@@ -54,7 +54,7 @@ namespace ma
 		void Serialize(long &val,const char* pszLable = "long");
 
 
-		void Serialize(xmUint64&val,const char* pszLable = "xmUint64");
+		void Serialize(Uint64&val,const char* pszLable = "Uint64");
 
 		void Serialize(float& val,const char* pszLable = "float");
 

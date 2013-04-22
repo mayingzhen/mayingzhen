@@ -44,27 +44,27 @@ namespace ma
 		//import mesh
 		//------------------------------------------------------------------------------
 		bool bIsIndex32 = pMeshData->GetIsIndex32();
-		UINT nIndexSize = bIsIndex32 ? sizeof(xmUint32) : sizeof(xmUint16);
+		UINT nIndexSize = bIsIndex32 ? sizeof(Uint32) : sizeof(Uint16);
 		UINT numIndex = pMeshData->GetIndexNumber();
 		UINT numVertex = pMeshData->GetVertexNumber();
 
 		//Create D3DMesh
-		const xmUint32 numFace = numIndex / 3;
+		const Uint32 numFace = numIndex / 3;
 		const UINT nSubMeshNum = pMeshData->GetSubMeshNumber();
 
-		xmUint32 dwUse32Ind = bIsIndex32 ? D3DXMESH_32BIT : 0;
+		Uint32 dwUse32Ind = bIsIndex32 ? D3DXMESH_32BIT : 0;
 		_D3D_V(D3DXCreateMesh(numFace,numVertex,dwUse32Ind|D3DXMESH_MANAGED,velem ,pd3dDevice,&pD3DMesh));
 
 		void* d3dbuf;
 		_D3D_V(pD3DMesh->LockIndexBuffer(0,&d3dbuf));
 
-		if (nIndexSize == sizeof(xmUint32))
+		if (nIndexSize == sizeof(Uint32))
 		{
-			CopyIndexBuffer<xmUint32>(d3dbuf,pMeshData,nSubMeshNum, numIndex);
+			CopyIndexBuffer<Uint32>(d3dbuf,pMeshData,nSubMeshNum, numIndex);
 		}
 		else
 		{
-			CopyIndexBuffer<xmUint16>(d3dbuf,pMeshData,nSubMeshNum, numIndex);
+			CopyIndexBuffer<Uint16>(d3dbuf,pMeshData,nSubMeshNum, numIndex);
 		}				
 
 		_D3D_V(pD3DMesh->UnlockIndexBuffer());

@@ -61,13 +61,13 @@ namespace ma
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
-			if ( IsInValidID<BoneIndex>(nTrackInd) )
+			if ( IsInvalidID<BoneIndex>(nTrackInd) )
 				continue;
 
-			maNodeTransform tsfLS;
+			NodeTransform tsfLS;
 			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
 			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
-			maTransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], &tsfLS, fWeight);	
+			TransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], fWeight, &tsfLS);	
 		}
 	}
 }

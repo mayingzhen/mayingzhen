@@ -19,26 +19,26 @@ namespace ma
 
 	}
 
-	void			BulletCharacterController::SetTransformWS(const maNodeTransform& tsfWS)
+	void			BulletCharacterController::SetTransformWS(const NodeTransform& tsfWS)
 	{
-		maNodeTransform tsfTemp = tsfWS;
+		NodeTransform tsfTemp = tsfWS;
 		tsfTemp.m_vPos = tsfTemp.m_vPos + m_vCenter;
 		m_ghostObject->setWorldTransform( ToBulletUnit(tsfTemp) );
 	}
 
-	maNodeTransform BulletCharacterController::GetTransformWS()
+	NodeTransform BulletCharacterController::GetTransformWS()
 	{
-		maNodeTransform tsfWS = ToMaUnit( m_ghostObject->getWorldTransform() );
+		NodeTransform tsfWS = ToMaUnit( m_ghostObject->getWorldTransform() );
 		tsfWS.m_vPos = tsfWS.m_vPos - m_vCenter;
 		return tsfWS;
 	}
 
-	void			BulletCharacterController::SetCenterLS(const D3DXVECTOR3& vCenter)
+	void			BulletCharacterController::SetCenterLS(const Vector3& vCenter)
 	{
 		m_vCenter = vCenter;
 	}
 
-	D3DXVECTOR3		BulletCharacterController::GetCenterLS() const
+	Vector3		BulletCharacterController::GetCenterLS() const
 	{
 		return m_vCenter;
 	}
@@ -126,10 +126,10 @@ namespace ma
 		if (m_pGameObject == NULL)
 			return;
 
-		D3DXVECTOR3 vMovePos = m_pGameObject->GetPositionWS() + m_vCenter;
+		Vector3 vMovePos = m_pGameObject->GetPositionWS() + m_vCenter;
 
-		D3DXVECTOR3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		D3DXVECTOR3 motion =vMovePos - vCharPosPre;
+		Vector3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
+		Vector3 motion =vMovePos - vCharPosPre;
 
 		MoveImpl(motion);
 	}
@@ -139,15 +139,15 @@ namespace ma
 		if (m_pGameObject == NULL)
 			return;
 
-		D3DXVECTOR3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
+		Vector3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
 		m_pGameObject->SetPositionWS(charPos);
-		//D3DXVECTOR3 vPosWSNew = charPos - m_vCenter;
-		//D3DXVECTOR3 vPosWSOld = m_pGameObject->GetPositionWS();
-		//D3DXVECTOR3 vDirWs = vPosWSNew - vPosWSOld;
+		//Vector3 vPosWSNew = charPos - m_vCenter;
+		//Vector3 vPosWSOld = m_pGameObject->GetPositionWS();
+		//Vector3 vDirWs = vPosWSNew - vPosWSOld;
 		//m_pGameObject->TranslateWS(vDirWs);
 	}
 
-	CollisionFlags BulletCharacterController::MoveImpl(const D3DXVECTOR3& motion)
+	CollisionFlags BulletCharacterController::MoveImpl(const Vector3& motion)
 	{
 		m_character->setWalkDirection(ToBulletUnit(motion));
 		return CF_None;

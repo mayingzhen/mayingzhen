@@ -19,7 +19,7 @@ namespace ma
 		// Construct full screen quad
 		int width, Heigh;
 		GetRenderDevice()->GetRenderWndSize(width,Heigh);
-		D3DXVECTOR2 offset = D3DXVECTOR2(0.5f / width, 0.5f / Heigh);
+		Vector2 offset = Vector2(0.5f / width, 0.5f / Heigh);
 
 		//   1    0 
 		//   +----+
@@ -28,15 +28,15 @@ namespace ma
 		//   +----+
 		//   3    2
 		/// view space near plan  ccw index  
-		m_quadVerts[0].position = D3DXVECTOR3(1, 1, 0);
-		m_quadVerts[1].position = D3DXVECTOR3(-1, +1, 0);
-		m_quadVerts[2].position = D3DXVECTOR3(1, -1, 0);
-		m_quadVerts[3].position = D3DXVECTOR3(-1, -1, 0);
+		m_quadVerts[0].position = Vector3(1, 1, 0);
+		m_quadVerts[1].position = Vector3(-1, +1, 0);
+		m_quadVerts[2].position = Vector3(1, -1, 0);
+		m_quadVerts[3].position = Vector3(-1, -1, 0);
 
-		m_quadVerts[0].texCoords = D3DXVECTOR2(0.0f, 1.0f) + offset;
- 		m_quadVerts[1].texCoords = D3DXVECTOR2(0.0f, 0.0f) + offset;
- 		m_quadVerts[2].texCoords = D3DXVECTOR2(1.0f, 1.0f) + offset;
- 		m_quadVerts[3].texCoords = D3DXVECTOR2(0.0f, 1.0f) + offset;
+		m_quadVerts[0].texCoords = Vector2(0.0f, 1.0f) + offset;
+ 		m_quadVerts[1].texCoords = Vector2(0.0f, 0.0f) + offset;
+ 		m_quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
+ 		m_quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;
 	}
 
 	void ScreenQuad::Render(ID3DXEffect* pEffect)
@@ -54,12 +54,12 @@ namespace ma
 		hr = m_pDxDevice->SetVertexDeclaration(m_pVertexDeclaration);
 
 
-		D3DXMATRIX mWordViewProj,mWOrldView;
-		D3DXMatrixInverse(&mWOrldView, NULL, &pCamera->GetProjMatrix());
-		D3DXMatrixIdentity(&mWordViewProj);
+		Matrix4x4 mWordViewProj,mWOrldView;
+		MatrixInverse(&mWOrldView, NULL, &pCamera->GetProjMatrix());
+		MatrixIdentity(&mWordViewProj);
 
-		hr = pEffect->SetMatrix("worldview",&mWOrldView);
-		hr = pEffect->SetMatrix("worldviewprojection",&mWordViewProj);
+		hr = pEffect->SetMatrix("worldview",(const D3DXMATRIX*)&mWOrldView);
+		hr = pEffect->SetMatrix("worldviewprojection",(const D3DXMATRIX*)&mWordViewProj);
 		hr = pEffect->CommitChanges();
 
 		hr = m_pDxDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, m_quadVerts, sizeof(Vertex));

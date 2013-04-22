@@ -2,17 +2,17 @@
 
 namespace ma
 {
-	maTransformXZAxis(maNodeTransform* pTSF,D3DVECTOR* pXAxis,D3DVECTOR* pZAxis)
+	maTransformXZAxis(NodeTransform* pTSF,D3DVECTOR* pXAxis,D3DVECTOR* pZAxis)
 	{
-		D3DXMATRIX matAxis;
-		D3DXMatrixIdentity(&matAxis);
-		D3DXVECTOR3& vXAxis = *maMatrixAsVector3(&matAxis,0);
-		D3DXVECTOR3& vYAxis = *maMatrixAsVector3(&matAxis,1);
-		D3DXVECTOR3* vZAxis = *maMatrixAsVector3(&matAxis,2);
+		Matrix4x4 matAxis;
+		MatrixIdentity(&matAxis);
+		Vector3& vXAxis = *maMatrixAsVector3(&matAxis,0);
+		Vector3& vYAxis = *maMatrixAsVector3(&matAxis,1);
+		Vector3* vZAxis = *maMatrixAsVector3(&matAxis,2);
 
-		D3DXVec3Cross(&vYAxis,pZAxis,pXAxis);
-		D3DXVec3Normalize(&vYAxis,&vYAxis);
-		D3DXVec3Cross(&vZAxis,pXAxis,&vYAxis);
+		Vec3Cross(&vYAxis,pZAxis,pXAxis);
+		Vec3Normalize(&vYAxis,&vYAxis);
+		Vec3Cross(&vZAxis,pXAxis,&vYAxis);
 		vXAxis = *pXAxis;
 
 		maTransformFromMatrix(pTSF,&matAxis);
@@ -28,15 +28,15 @@ namespace ma
 		m_pResfSkel = pResfSkel;
 
 		const SkeletonPose* pRefPose = pResfSkel->GetResPose();
-		D3DXVECTOR3 vBoneAToBoneBOS = pRefPose->GetTransformOS(uBoneBInd).m_vPos - pRefPose->GetTransformOS(uBoneAInd).m_vPos;
-		D3DXVECTOR3 vBoneBToBoneCOS = pRefPose->GetTransformOS(uBoneCInd).m_vPos - pRefPose->GetTransformOS(uBoneBInd).m_vPos;
-		D3DXVec3Normalize(&vBoneAToBoneBOS,&vBoneAToBoneBOS);
-		D3DXVec3Normalize(&vBoneBToBoneCOS,&vBoneBToBoneCOS);
-		D3DXVECTOR3 vHingAxisOS;
-		D3DXVec3Cross(&vHingAxisOS,&vBoneAToBoneBOS,&vBoneBToBoneCOS);
+		Vector3 vBoneAToBoneBOS = pRefPose->GetTransformOS(uBoneBInd).m_vPos - pRefPose->GetTransformOS(uBoneAInd).m_vPos;
+		Vector3 vBoneBToBoneCOS = pRefPose->GetTransformOS(uBoneCInd).m_vPos - pRefPose->GetTransformOS(uBoneBInd).m_vPos;
+		Vec3Normalize(&vBoneAToBoneBOS,&vBoneAToBoneBOS);
+		Vec3Normalize(&vBoneBToBoneCOS,&vBoneBToBoneCOS);
+		Vector3 vHingAxisOS;
+		Vec3Cross(&vHingAxisOS,&vBoneAToBoneBOS,&vBoneBToBoneCOS);
 
-		maNodeTransform pivotAOS,pivotBOS,pivotCOS;
-		maNodeTransform boneAInvOS,boneBInvOS,boneCInvOS;
+		NodeTransform pivotAOS,pivotBOS,pivotCOS;
+		NodeTransform boneAInvOS,boneBInvOS,boneCInvOS;
 
 		maTransformXZAxis(&pivotAOS,&vBoneAToBoneBOS,&vHingAxisOS);
 		pivotAOS.m_vPos = pRefPose->GetTransformOS(uBoneAInd).m_vPos;
@@ -57,26 +57,26 @@ namespace ma
 		maTransformMul(&m_pivotCLS,&pivotCOS,&boneCInvOS);
 	}
 
-	void TwoJointIKSolver::CalculateConstrainPlane(D3DXQUATERNION& qConstrainPlanePitchLS)
+	void TwoJointIKSolver::CalculateConstrainPlane(Quaternion& qConstrainPlanePitchLS)
 	{
 		const SkeletonPose* pRefPose = m_pResfSkel->GetResPose();
 
 		bool bGoalAlignJointA = false;
-		D3DXVECTOR3 vGoalPivotSpace;
+		Vector3 vGoalPivotSpace;
 		float fGoalDistPivotSpace;
 		
-		maNodeTransform pivotATSFOS;
-		maNodeTransform pivotATSFInvOS;
+		NodeTransform pivotATSFOS;
+		NodeTransform pivotATSFInvOS;
 		maTransformMul(&pivotATSFOS,&m_pivotALS,&pRefPose->GetTransformOS(m_uBoneAID));
 		maTransformInverse(&pivotATSFInvOS,&pivotATSFOS);
 		maTransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotATSFInvOS);
-		fGoalDistPivotSpace = D3DXVec3Length(&vGoalPivotSpace);
-		if (fGoalDistPivotSpace > F_EPS)
+		fGoalDistPivotSpace = Vec3Length(&vGoalPivotSpace);
+		if (fGoalDistPivotSpace > FEPS)
 		{
-			D3DXVECTOR3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalDistPivotSpace;
-			D3DXVECTOR3 vGoalDirXY(vGoalDirPivotSpace.x,vGoalDirPivotSpace.y,0.0f);
-			D3DXVECTOR3 fGoalDirXYLen = D3DXVec3Length(&vGoalDirXY);
-			if (fGoalDirXYLen > F_EPS)
+			Vector3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalDistPivotSpace;
+			Vector3 vGoalDirXY(vGoalDirPivotSpace.x,vGoalDirPivotSpace.y,0.0f);
+			Vector3 fGoalDirXYLen = Vec3Length(&vGoalDirXY);
+			if (fGoalDirXYLen > FEPS)
 			{
 				vGoalDirXY = vGoalDirXY / fGoalDirXYLen;
 				maQuaternionFromAxisToAxis(qConstrainPlanePitchLS,&vGoalDirXY,&vGoalDirPivotSpace);
@@ -84,60 +84,60 @@ namespace ma
 			else
 			{
 				*qConstrainPlanePitchLS = vGoalDirPivotSpace.y > 0.0f ?
-					D3DXQUATERNION(0.0f, 0.0f, sin(-D3DX_PI / 1.0f), cos(-D3DX_PI / 4.0f)) :
-					D3DXQUATERNION(0.0f, 0.0f, sin(D3DX_PI / 1.0f), cos(D3DX_PI / 4.0f));
+					Quaternion(0.0f, 0.0f, sin(-_PI / 1.0f), cos(-_PI / 4.0f)) :
+					Quaternion(0.0f, 0.0f, sin(_PI / 1.0f), cos(_PI / 4.0f));
 			}
 		}
 		else
 		{
 			bGoalAlignJointA = true;
-			D3DXQuaternionIdentity(qConstrainPlanePitchLS);
+			QuaternionIdentity(qConstrainPlanePitchLS);
 		}
 
 		return bGoalAlignJointA;
 	}
 
 	void SolveConstrainPlane(
-		maNodeTransform* pJointATSF,maNodeTransform* pJointBTSF,maNodeTransform* pJointCTSF,
-		const D3DXVECTOR3* pGoal,
+		NodeTransform* pJointATSF,NodeTransform* pJointBTSF,NodeTransform* pJointCTSF,
+		const Vector3* pGoal,
 		float fLinkALength, float fLinkBLength,
 		float fJointAYawMax,float fJointAYawMin,
 		float fJointBYawMinLS,  // //related to joint a
-		const D3DXVECTOR3* pLinkADefaultDir)
+		const Vector3* pLinkADefaultDir)
 
 	{
-		float fGoalDist = D3DXVec3Length(pGoal);
-		D3DXVECTOR3 vGoalDir;
-		if (fGoalDist > F_EPS)
+		float fGoalDist = Vec3Length(pGoal);
+		Vector3 vGoalDir;
+		if (fGoalDist > FEPS)
 		{
 			vGoalDir = *pGoal / fGoalDist;
 		}
 		else
 		{
-			vGoalDir = pLinkADefaultDir? *pLinkADefaultDir : D3DXVECTOR3(1.0f,0.0f,0.0f);
+			vGoalDir = pLinkADefaultDir? *pLinkADefaultDir : Vector3(1.0f,0.0f,0.0f);
 		}
 
 
-		D3DXVECTOR3 vXAxis = D3DXVECTOR3(1.0f,0.0f,0.0f);
-		D3DXVECTOR3 vZAxis = D3DXVECTOR3(0.0f,0.0f,1.0f);
+		Vector3 vXAxis = Vector3(1.0f,0.0f,0.0f);
+		Vector3 vZAxis = Vector3(0.0f,0.0f,1.0f);
 		
-		D3DXVECTOR3 vRegionADir = D3DXVECTOR3(cos(fJointAYawMax),sin(fJointAYawMax),0.0f);
-		D3DXVECTOR3 vRegionBDir = D3DXVECTOR3(cos(fJointAYawMin),sin(fJointAYawMin),0.0f);
-		D3DXVECTOR3 vRegionACenter = vRegionADir * fLinkALength;
-		D3DXVECTOR3 vRegionBCenter = vRegionBDir * fLinkALength;
-		D3DXVECTOR3 vAP = *pGoal - vRegionACenter;
+		Vector3 vRegionADir = Vector3(cos(fJointAYawMax),sin(fJointAYawMax),0.0f);
+		Vector3 vRegionBDir = Vector3(cos(fJointAYawMin),sin(fJointAYawMin),0.0f);
+		Vector3 vRegionACenter = vRegionADir * fLinkALength;
+		Vector3 vRegionBCenter = vRegionBDir * fLinkALength;
+		Vector3 vAP = *pGoal - vRegionACenter;
 
 		bool bIsInRegionA = false;
-		float fAPlen = D3DXVec3Length(&vAP);
+		float fAPlen = Vec3Length(&vAP);
 		if (fAPlen < fLinkBLength)
 		{
-			D3DXVECTOR3 vOBPerp(vRegionACenter.y,-vRegionACenter.x,0.0f);
-			bIsInRegionA = D3DXVec3Dot(&vOBPerp,&vAP) > 0.0f;
+			Vector3 vOBPerp(vRegionACenter.y,-vRegionACenter.x,0.0f);
+			bIsInRegionA = Vec3Dot(&vOBPerp,&vAP) > 0.0f;
 		}
 
 		if (bIsInRegionA)
 		{
-			D3DXVECTOR3 vAPDir;
+			Vector3 vAPDir;
 		}
 
 	}
@@ -150,24 +150,24 @@ namespace ma
 		if (!m_bEnable)
 			return;
 
-		D3DXQUATERNION qConstrainPlanePitchLS;
+		Quaternion qConstrainPlanePitchLS;
 		CalculateConstrainPlane(qConstrainPlanePitchLS,);
 
-		maNodeTransform newPivotTSFOS, newPivotTSFInvOS;
+		NodeTransform newPivotTSFOS, newPivotTSFInvOS;
 		maTransformMul(&newPivotTSFOS,&m_pivotALS,pNodePose->GetTransformOS(m_uBoneAID));
 		newPivotTSFOS.m_qRot = qConstrainPlanePitchLS * newPivotTSFOS.m_qRot;
 		maTransformInverse(*newPivotTSFInvOS,&newPivotTSFOS);
 
 		// object space to solver space
-		D3DXVECTOR3 vGoalNPS, vLinkANPS;
-		D3DXVECTOR3 vLinkAOS = pNodePose->GetTransformOS(m_uBoneBID).m_vPos - pNodePose->GetTransformOS(m_uBoneAID).m_vPos;
-		D3DXVECTOR3 vLinkBOS = pNodePose->GetTransformOS(m_uBoneCID).m_vPos - pNodePose->GetTransformOS(m_uBoneBID).m_vPos;
-		float fLinkALength = D3DXVec3Length(&vLinkAOS);
-		float fLinkBLength = D3DXVec3Length(&vLinkBOS);
+		Vector3 vGoalNPS, vLinkANPS;
+		Vector3 vLinkAOS = pNodePose->GetTransformOS(m_uBoneBID).m_vPos - pNodePose->GetTransformOS(m_uBoneAID).m_vPos;
+		Vector3 vLinkBOS = pNodePose->GetTransformOS(m_uBoneCID).m_vPos - pNodePose->GetTransformOS(m_uBoneBID).m_vPos;
+		float fLinkALength = Vec3Length(&vLinkAOS);
+		float fLinkBLength = Vec3Length(&vLinkBOS);
 		maTransformVector(&vLinkANPS,&vLinkAOS,&newPivotTSFInvOS);
 		maTransformPoint(&vGoalNPS,&m_vGoalOS,&newPivotTSFInvOS);
 
-		maNodeTransform jointANewTSFNPS,jointBNewTSFNPS,jointCNewTSFNPS;
+		NodeTransform jointANewTSFNPS,jointBNewTSFNPS,jointCNewTSFNPS;
 		SolveConstrainPlane()
 
 

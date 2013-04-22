@@ -33,7 +33,7 @@ namespace ma
 
 		void SetTexture(IRendTexture* pTexture) {m_pTexture = pTexture;}
 
-		void GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3& vMax);
+		void GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
 		virtual void Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
 

@@ -21,7 +21,7 @@ public:
 
 	static std::string ToString(unsigned long val);
 
-	static std::string ToString(xmUint64 val);
+	static std::string ToString(Uint64 val);
 
 	static std::string ToString(float val);
 
@@ -43,7 +43,7 @@ public:
 	
 	static void ToValue(unsigned long& val,const char* pszVal);
 	
-	static void ToValue(xmUint64& val,const char* pszVal);
+	static void ToValue(Uint64& val,const char* pszVal);
 
 	static void ToValue(float& val,const char* pszVal);
 
@@ -111,7 +111,7 @@ inline std::string StringConverter::ToString(long val)
 }
 
 
-inline std::string StringConverter::ToString(xmUint64 val)
+inline std::string StringConverter::ToString(Uint64 val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%llu",val);
@@ -176,7 +176,7 @@ inline void StringConverter::ToValue(unsigned long& val,const char* pszVal)
 	sscanf(pszVal,"%u",&val);
 }
 
-inline void StringConverter::ToValue(xmUint64& val,const char* pszVal)
+inline void StringConverter::ToValue(Uint64& val,const char* pszVal)
 {
 	sscanf(pszVal,"%llu",&val);
 }

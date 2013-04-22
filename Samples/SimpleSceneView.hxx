@@ -13,6 +13,7 @@ namespace ma
 
 	void SimpleSceneView::Init(Application* pApplication)
 	{
+		CommonModuleInit();
 		EngineModuleInit();
 		D3D9RenderModuleInit();
 
@@ -28,12 +29,12 @@ namespace ma
 		m_pScene->GetRootNode()->AddChildNode(m_pCamera);
 
 
-		//D3DXVECTOR3 vEyePos =  D3DXVECTOR3(0, 600, 1000);
+		//Vector3 vEyePos =  Vector3(0, 600, 1000);
 		//m_pCamera->LookAt(&vEyePos);
 
  		int nWndWidth,nWndHeigh;
  		pApplication->GetWindowSize(nWndWidth,nWndHeigh);
- 		float fFOV = D3DX_PI / 4;
+ 		float fFOV = PI / 4;
  		float fAspect = (float)nWndWidth / (float)nWndHeigh;
  		float fNearClip = 1.0f;
  		float fFarClip = 300.0f;
@@ -47,6 +48,7 @@ namespace ma
 
 		D3D9RenderModuleShutdown();
 		EngineModuleShutdown();
+		CommonModuleShutdown();
 	}
 
 	void SimpleSceneView::Load()
@@ -66,7 +68,7 @@ namespace ma
 		if (pMS == NULL)
 			return;
 		
-		D3DXVECTOR3 vEyePos = m_pCamera->GetPositionWS();
+		Vector3 vEyePos = m_pCamera->GetPositionWS();
 
 		float fMoveDis = m_fMoveCameraSpeed * timeElapsed;
 
@@ -77,8 +79,8 @@ namespace ma
 			vRotEuler.y = pMS->X.rel / 512.0f;
 			vRotEuler.x = pMS->Y.rel / 512.0f;
 
-			D3DXQUATERNION qRot;
-			maQuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
+			Quaternion qRot;
+			QuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
 			m_pCamera->RotateLS(qRot);
 		}
 
@@ -87,7 +89,7 @@ namespace ma
 		{
 			float fMoveX = pMS->X.rel * fMoveDis;
 			float fMoveY = pMS->Y.rel * fMoveDis;
-			D3DXVECTOR3 vDist(fMoveX,fMoveY,0);
+			Vector3 vDist(fMoveX,fMoveY,0);
 
 			m_pCamera->TranslateLS(vDist);
 		}
@@ -96,7 +98,7 @@ namespace ma
 		if ( pMS->Z.rel != 0 )
 		{	
 			float fDeltaZoom = pMS->Z.rel * fMoveDis;
-			D3DXVECTOR3 vDist(0.0f,0.0f,-fDeltaZoom);
+			Vector3 vDist(0.0f,0.0f,-fDeltaZoom);
 			m_pCamera->TranslateLS(vDist);
 		}
 	}
@@ -124,11 +126,11 @@ namespace ma
 
 	void SimpleSceneView::OnResize(int w,int h)
 	{
-		//float fFOV = D3DX_PI / 4;
+		//float fFOV = _PI / 4;
 		//float fAspect = (float)w / (float)h;
 		//float fNearClip = 0.1f;
 		//float fFarClip = 3000.0f;
-		//D3DXMatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNearClip,fFarClip);
+		//MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNearClip,fFarClip);
 	}
 }
 

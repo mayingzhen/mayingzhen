@@ -17,7 +17,7 @@ namespace ma
 		Destroy();
 	}
 
-	bool IsFrustumCull(const AABB& aabb, const D3DXMATRIX& matViewProj)
+	bool IsFrustumCull(const AABB& aabb, const Matrix4x4& matViewProj)
 	{
 		AABB viewProjAABB;
 		viewProjAABB.Merge(aabb);
@@ -107,7 +107,7 @@ namespace ma
 		float fOffsetY = 0.5f + (0.5f / (float)iSizeY);
 		unsigned int range = 1;            //note different scale in DX9!
 		float fBias    = 0.0f;
-		m_TexScaleBiasMat = D3DXMATRIX( 0.5f,     0.0f,     0.0f,         0.0f,
+		m_TexScaleBiasMat = Matrix4x4( 0.5f,     0.0f,     0.0f,         0.0f,
 			0.0f,    -0.5f,     0.0f,         0.0f,
 			0.0f,     0.0f,     (float)range, 0.0f,
 			fOffsetX, fOffsetY, fBias,        1.0f );
@@ -115,11 +115,11 @@ namespace ma
 		return ;
 	}
 
-	D3DXMATRIX ShadowMap::CalculateCropMatrix()
+	Matrix4x4 ShadowMap::CalculateCropMatrix()
 	{
 		Frustum splitFrustum = m_pCamera->GetSplitFrustum(m_nIndex);
 
-		D3DXMATRIX mViewProj = m_pLight->GetViewMatrix() * m_pLight->GetProjmatrix();
+		Matrix4x4 mViewProj = m_pLight->GetViewMatrix() * m_pLight->GetProjmatrix();
 
 		AABB cropAABB;
 		cropAABB.Merge(splitFrustum.vPts,8);
@@ -128,8 +128,8 @@ namespace ma
 
 		// finally, create matrix
 		//return BuildCropMatrix(cropBB.vMin, cropBB.vMax);
-		D3DXVECTOR3 vMax = cropAABB.m_vMax;
-		D3DXVECTOR3 vMin = cropAABB.m_vMin;
+		Vector3 vMax = cropAABB.m_vMax;
+		Vector3 vMin = cropAABB.m_vMin;
 
 		float fScaleX, fScaleY, fScaleZ;
 		float fOffsetX, fOffsetY, fOffsetZ;
@@ -144,7 +144,7 @@ namespace ma
 		fOffsetZ = -vMin.z * fScaleZ;
 
 		// crop volume matrix
-		return D3DXMATRIX(   fScaleX,     0.0f,     0.0f,   0.0f,
+		return Matrix4x4(   fScaleX,     0.0f,     0.0f,   0.0f,
 			0.0f,  fScaleY,     0.0f,   0.0f,
 			0.0f,     0.0f,  fScaleZ,   0.0f,
 			fOffsetX, fOffsetY, fOffsetZ,   1.0f  );

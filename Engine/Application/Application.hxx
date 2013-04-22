@@ -21,8 +21,6 @@ namespace ma
 
 	void Application::Init(int argc, char* argv[])
 	{
-		CommonModuleInit();
-	
 		m_windId = CreateMainWnd(argc,argv);
 
  		m_input.Init(m_windId);
@@ -44,8 +42,6 @@ namespace ma
 		SetTimer(NULL);
 
 		SetInput(NULL);
-
-		CommonModuleShutdown();
 	}
 
 	void Application::SetSceneView(SceneView* pSceneView)

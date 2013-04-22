@@ -11,19 +11,19 @@ namespace ma
 		void Render(ID3DXEffect* pEffect);
 
 	private:
-		void CreateUnitSphere( int rec, std::vector<xmUint16>& indBuff, std::vector<D3DXVECTOR3>& vertBuff );
+		void CreateUnitSphere( int rec, std::vector<Uint16>& indBuff, std::vector<Vector3>& vertBuff );
 
-		void SphereTess(D3DXVECTOR3& v0, D3DXVECTOR3& v1, D3DXVECTOR3& v2, 
-			std::vector<xmUint16>& indBuff, std::vector<D3DXVECTOR3>& vertBuff);
+		void SphereTess(Vector3& v0, Vector3& v1, Vector3& v2, 
+			std::vector<Uint16>& indBuff, std::vector<Vector3>& vertBuff);
 
-		void SphereTessR(D3DXVECTOR3& v0, D3DXVECTOR3& v1, D3DXVECTOR3& v2, int depth, 
-			std::vector<xmUint16>& indBuff, std::vector<D3DXVECTOR3>& vertBuff);
+		void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, 
+			std::vector<Uint16>& indBuff, std::vector<Vector3>& vertBuff);
 
 	private:
 
 // 		struct Vertex
 // 		{
-// 			D3DXVECTOR3 position;
+// 			Vector3 position;
 // 		};
 
 		//Vertex							m_quadVerts[4];

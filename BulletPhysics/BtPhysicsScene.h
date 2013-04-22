@@ -22,17 +22,17 @@ namespace ma
 
 		virtual void		Stop();
 
-		virtual void		SetLayerCollisionMask(xmUint8 nLayer,xmUint8 nColLayer,bool bCollide);
+		virtual void		SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide);
 
-		virtual D3DXVECTOR3	GetGravity() const;
+		virtual Vector3	GetGravity() const;
 
-		virtual void		SetGravity(const D3DXVECTOR3& g);
+		virtual void		SetGravity(const Vector3& g);
 
 		virtual void		BeginSimulation(float fDeltaTime);
 
 		virtual void		EndSimulation();
 
-		virtual GameObject* RayCastCloseGameObj(const D3DXVECTOR3& rayOrig, const D3DXVECTOR3& rayDir, int nCollLayer, D3DXVECTOR3& hitPosWS);
+		virtual GameObject* RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 
 		btDiscreteDynamicsWorld* GetDynamicsWorld() {return m_pDynamicsWorld;}
 

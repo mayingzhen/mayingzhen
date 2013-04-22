@@ -5,29 +5,29 @@ namespace ma
 {
 	struct AnimationTracks
 	{
-		std::vector<D3DXVECTOR3Track*>		m_scale;
-		std::vector<xmQuaternionTrack*>		m_rot;
-		std::vector<D3DXVECTOR3Track*>		m_pos;
+		std::vector<VECTOR3Track*>		m_scale;
+		std::vector<QuaternionTrack*>		m_rot;
+		std::vector<VECTOR3Track*>		m_pos;
 
-		std::vector<xmFloatTrack*>			m_float;
+		std::vector<FloatTrack*>			m_float;
 
 		//------------------------------------------------------------------------------
 		//RootMotion
 		//------------------------------------------------------------------------------
-		// 		D3DXVECTOR3Track					m_rootMotionPos;
-		// 		xmQuaternionTrack				m_rootMotionRot;
-		// 		D3DXVECTOR3Track					m_rootMotionScale;
+		// 		VECTOR3Track					m_rootMotionPos;
+		// 		QuaternionTrack				m_rootMotionRot;
+		// 		VECTOR3Track					m_rootMotionScale;
 
 // 		AnimationTracks();
 // 
 // 		~AnimationTracks();
 // 
 // 
-// 		void SetPositionTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack);
+// 		void SetPositionTrack(UINT nTrackInd,const VECTOR3Track* pTrack);
 // 
-// 		void SetRotationTrack(UINT nTrackInd,const xmQuaternionTrack* pTrack);
+// 		void SetRotationTrack(UINT nTrackInd,const QuaternionTrack* pTrack);
 // 
-// 		void SetScaleTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack);
+// 		void SetScaleTrack(UINT nTrackInd,const VECTOR3Track* pTrack);
 // 
 // 		void Clear();
 // 

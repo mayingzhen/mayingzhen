@@ -9,6 +9,11 @@
 #include "D3D9Render/DxMeshHelp.hxx"
 #include "D3D9Render/ShadowMap.hxx"
 #include "D3D9Render/UnitSphere.hxx"
+#include "D3D9Render/D3D9VertexBuffer.hxx"
+#include "D3D9Render/D3D9IndexBuffer.hxx"
+#include "D3D9Render/D3D9Mapping.hxx"
+#include "D3D9Render/D3D9VertexDeclaration.hxx"
+
 
 
 void D3D9RenderModuleInit()

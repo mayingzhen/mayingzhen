@@ -8,23 +8,23 @@
 
 // namespace ma
 // {
-// 	inline float xmClamp(float fVal,float fMin,float fMax)
+// 	inline float Clamp(float fVal,float fMin,float fMax)
 // 	{
 // 		fVal = fVal > fMin ? fVal : fMin;
 // 		fVal = fVal < fMax ? fVal : fMax;
 // 		return fVal;
 // 	}
 
-	template<class T>
-	inline void xmLerp(T& out, const T& v0,const T& v1,float factor)
-	{
-		out = v0*(1.0f-factor)+v1*factor;
-	}
+// 	template<class T>
+// 	inline void Lerp(T& out, const T& v0,const T& v1,float factor)
+// 	{
+// 		out = v0*(1.0f-factor)+v1*factor;
+// 	}
 
 
 	inline void WrapFrameClamp(float& frame,float maxFrame)
 	{
-		frame = xmClamp(frame,0.0f,maxFrame);
+		frame = Clamp(frame,0.0f,maxFrame);
 	}
 
 	inline void DecomposeFrame( float frame,const std::vector<UINT>& keyFrame,UINT& key0,UINT& key1,float& factor )
@@ -71,7 +71,7 @@
 			DecomposeFrame(frame,m_arrFrame,nKey0,nKey1,fFactor);
 			if (nKey0 != nKey1)
 			{
-				xmLerp(val,m_arrValue[nKey0],m_arrValue[nKey1],fFactor);
+				Lerp(val,m_arrValue[nKey0],m_arrValue[nKey1],fFactor);
 			}else{
 				val = m_arrValue[nKey0];
 			}
@@ -108,25 +108,25 @@
 		}		
 	};
 
-	typedef DataTrack<float> xmFloatTrack;
+	typedef DataTrack<float> FloatTrack;
 
 
-	class D3DXVECTOR3Track : public ITrack
+	class VECTOR3Track : public ITrack
 	{
 	public:
 
 		std::vector<UINT>			m_arrFrame; //frame number of each key
-		std::vector<D3DXVECTOR3>	m_arrValue;
+		std::vector<Vector3>	m_arrValue;
 
 
-		D3DXVECTOR3Track()
+		VECTOR3Track()
 		{
 
 		}
 
 		void	Clear();
 
-		void	Clone(const D3DXVECTOR3Track* pTrack);
+		void	Clone(const VECTOR3Track* pTrack);
 
 		void	SetKeyNumber(UINT keyNum);
 
@@ -140,33 +140,33 @@
 		UINT	GetKeyFrame(UINT nKeyInd) const;
 
 
-		void				SetKeyValue(UINT key,const D3DXVECTOR3& val);
+		void				SetKeyValue(UINT key,const Vector3& val);
 
-		const D3DXVECTOR3&	GetKeyValue(UINT nKeyIndex)const;
-
-
-		void	SetKey(UINT key, UINT frame, const D3DXVECTOR3& val);
+		const Vector3&	GetKeyValue(UINT nKeyIndex)const;
 
 
-		void	Pushback(UINT frame,const D3DXVECTOR3& val);
+		void	SetKey(UINT key, UINT frame, const Vector3& val);
 
-		void	SampleFrame(float frame,D3DXVECTOR3& val) const ;
+
+		void	Pushback(UINT frame,const Vector3& val);
+
+		void	SampleFrame(float frame,Vector3& val) const ;
 
 		void	DbgDump() const;
 	};
 
-	class xmQuaternionTrack : public ITrack
+	class QuaternionTrack : public ITrack
 	{
 	public:
 
 
 		std::vector<UINT>				m_arrFrame; //frame number of each key
-		std::vector<D3DXQUATERNION>	m_arrValue;
+		std::vector<Quaternion>	m_arrValue;
 
 
-		xmQuaternionTrack();
+		QuaternionTrack();
 
-		void	Clone(const xmQuaternionTrack* pTrack);
+		void	Clone(const QuaternionTrack* pTrack);
 
 		void	Clear();
 
@@ -182,17 +182,17 @@
 		UINT	GetKeyFrame(UINT nKeyInd) const;
 
 
-		void 					SetKeyValue(UINT key,const D3DXQUATERNION& val);
+		void 					SetKeyValue(UINT key,const Quaternion& val);
 
-		const D3DXQUATERNION&	GetKeyValue(UINT nKeyIndex)const;
-
-
-		void 					SetKey(UINT key,UINT frame,const D3DXQUATERNION& val);
+		const Quaternion&	GetKeyValue(UINT nKeyIndex)const;
 
 
-		void 	Pushback(UINT frame,const D3DXQUATERNION& val);
+		void 					SetKey(UINT key,UINT frame,const Quaternion& val);
 
-		void 	SampleFrame(float frame,D3DXQUATERNION& val) const;
+
+		void 	Pushback(UINT frame,const Quaternion& val);
+
+		void 	SampleFrame(float frame,Quaternion& val) const;
 
 		void	DbgDump() const;
 	};
@@ -201,90 +201,90 @@
 
 
 	//------------------------------------------------------------------------------
-	//D3DXVECTOR3Track
+	//VECTOR3Track
 	//------------------------------------------------------------------------------
 
-// 	inline D3DXVECTOR3Track::D3DXVECTOR3Track()
+// 	inline VECTOR3Track::VECTOR3Track()
 // 	{
 // 
 // 	}
 
-	inline void	D3DXVECTOR3Track::Clear()
+	inline void	VECTOR3Track::Clear()
 	{
 		m_arrFrame.clear();
 		m_arrValue.clear();
 	}
 
-	inline void	D3DXVECTOR3Track::Clone(const D3DXVECTOR3Track* pTrack)
+	inline void	VECTOR3Track::Clone(const VECTOR3Track* pTrack)
 	{
 		m_arrFrame = pTrack->m_arrFrame;
 		m_arrValue = pTrack->m_arrValue;
 	}
 
-	inline void D3DXVECTOR3Track::SetKeyNumber( UINT keyNum )
+	inline void VECTOR3Track::SetKeyNumber( UINT keyNum )
 	{
 		m_arrFrame.resize(keyNum);
 		m_arrValue.resize(keyNum);
 
 	}
 
-	inline UINT D3DXVECTOR3Track::GetKeyNumber() const
+	inline UINT VECTOR3Track::GetKeyNumber() const
 	{
 		return (UINT)m_arrValue.size();
 
 	}
 
-	inline void D3DXVECTOR3Track::SetKeyFrame( UINT key,UINT frame )
+	inline void VECTOR3Track::SetKeyFrame( UINT key,UINT frame )
 	{
 		m_arrFrame[key] = frame;
 	}
 
-	inline UINT	D3DXVECTOR3Track::GetKeyFrame(UINT nKeyInd) const
+	inline UINT	VECTOR3Track::GetKeyFrame(UINT nKeyInd) const
 	{
 		return m_arrFrame[nKeyInd];
 	}
 
 
-	inline UINT D3DXVECTOR3Track::GetFrameNumber() const
+	inline UINT VECTOR3Track::GetFrameNumber() const
 	{
 		return m_arrFrame.size() > 0 ? m_arrFrame[m_arrFrame.size()-1] + 1 : 0;
 	}
 
-	inline void D3DXVECTOR3Track::SetKey( UINT key,UINT frame,const D3DXVECTOR3& val )
+	inline void VECTOR3Track::SetKey( UINT key,UINT frame,const Vector3& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
 
-	inline void D3DXVECTOR3Track::SetKeyValue( UINT key,const D3DXVECTOR3& val )
+	inline void VECTOR3Track::SetKeyValue( UINT key,const Vector3& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline const D3DXVECTOR3& D3DXVECTOR3Track::GetKeyValue(UINT nKeyIndex)const
+	inline const Vector3& VECTOR3Track::GetKeyValue(UINT nKeyIndex)const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void D3DXVECTOR3Track::Pushback(UINT frame,const D3DXVECTOR3& val)
+	inline void VECTOR3Track::Pushback(UINT frame,const Vector3& val)
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void D3DXVECTOR3Track::SampleFrame( float frame,D3DXVECTOR3& val ) const
+	inline void VECTOR3Track::SampleFrame( float frame,Vector3& val ) const
 	{
 		UINT key0;
 		UINT key1;
 		float factor; 
 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
-		D3DXVec3Lerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
+		Vec3Lerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 
 	}
 
-	inline void	D3DXVECTOR3Track::DbgDump() const
+	inline void	VECTOR3Track::DbgDump() const
 	{
 		//Log("Total Key %u ",m_arrValue.size());
 		for (UINT keyCnt = 0; keyCnt < m_arrValue.size(); ++keyCnt)
@@ -299,88 +299,88 @@
 	//------------------------------------------------------------------------------
 
 
-	inline xmQuaternionTrack::xmQuaternionTrack()
+	inline QuaternionTrack::QuaternionTrack()
 	{
 
 	}
 
-	inline void	xmQuaternionTrack::Clone(const xmQuaternionTrack* pTrack)
+	inline void	QuaternionTrack::Clone(const QuaternionTrack* pTrack)
 	{
 		m_arrFrame = pTrack->m_arrFrame;
 		m_arrValue = pTrack->m_arrValue;
 	}
 
-	inline void	xmQuaternionTrack::Clear()
+	inline void	QuaternionTrack::Clear()
 	{
 		m_arrFrame.clear();
 		m_arrValue.clear();
 	}
 
-	inline void xmQuaternionTrack::SetKeyNumber( UINT keyNum )
+	inline void QuaternionTrack::SetKeyNumber( UINT keyNum )
 	{
 		m_arrFrame.resize(keyNum);
 		m_arrValue.resize(keyNum);
 
 	}
 
-	inline UINT xmQuaternionTrack::GetKeyNumber() const
+	inline UINT QuaternionTrack::GetKeyNumber() const
 	{
 		return (UINT)m_arrValue.size();
 
 	}
 
-	inline void xmQuaternionTrack::SetKeyFrame( UINT key,UINT frame )
+	inline void QuaternionTrack::SetKeyFrame( UINT key,UINT frame )
 	{
 		m_arrFrame[key] = frame;
 	}
 
-	inline UINT	xmQuaternionTrack::GetKeyFrame(UINT nKeyInd) const
+	inline UINT	QuaternionTrack::GetKeyFrame(UINT nKeyInd) const
 	{
 		return m_arrFrame[nKeyInd];
 	}
 
-	inline UINT xmQuaternionTrack::GetFrameNumber() const
+	inline UINT QuaternionTrack::GetFrameNumber() const
 	{
 		return m_arrFrame.size() > 0 ? m_arrFrame[m_arrFrame.size()-1]+1 : 0;
 	}
 
 
-	inline void xmQuaternionTrack::SetKey( UINT key,UINT frame,const D3DXQUATERNION& val )
+	inline void QuaternionTrack::SetKey( UINT key,UINT frame,const Quaternion& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
-	inline const D3DXQUATERNION& xmQuaternionTrack::GetKeyValue( UINT nKeyIndex )const
+	inline const Quaternion& QuaternionTrack::GetKeyValue( UINT nKeyIndex )const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void xmQuaternionTrack::SetKeyValue( UINT key,const D3DXQUATERNION& val )
+	inline void QuaternionTrack::SetKeyValue( UINT key,const Quaternion& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline void xmQuaternionTrack::Pushback( UINT frame,const D3DXQUATERNION& val )
+	inline void QuaternionTrack::Pushback( UINT frame,const Quaternion& val )
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void xmQuaternionTrack::SampleFrame( float frame,D3DXQUATERNION& val ) const
+	inline void QuaternionTrack::SampleFrame( float frame,Quaternion& val ) const
 	{
 		UINT key0;
 		UINT key1;
 		float factor; 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
 //#ifdef _TRACK_SAMPLE_USE_SLERP
-		D3DXQuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
+		QuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 //#else
 //		maQuaternionLerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 //#endif
 	}
 
-	inline void	xmQuaternionTrack::DbgDump() const
+	inline void	QuaternionTrack::DbgDump() const
 	{
 		//Log("Total Key %u ",m_arrValue.size());
 

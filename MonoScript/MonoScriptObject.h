@@ -30,9 +30,9 @@ namespace ma
 
 		virtual void		SetUint(const char* pszName, UINT nValue);
 
-		virtual D3DXVECTOR3	GetVector3(const char* pszName);
+		virtual Vector3	GetVector3(const char* pszName);
 
-		virtual void		SetVector3(const char* pszName,const D3DXVECTOR3& vecotr3);
+		virtual void		SetVector3(const char* pszName,const Vector3& vecotr3);
 
 		virtual void		InvokeMethod(const char* pszMethod,int param_count = 0, void **params = NULL);
 

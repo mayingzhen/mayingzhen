@@ -36,7 +36,7 @@ void BinaryInputArchive::Seek(UINT nPos)
 	
 }
 
-bool BinaryInputArchive::SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable)
+bool BinaryInputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
 {
 	m_file.read((char*)pData,nSizeToRead);
 	return ! m_file.fail();
@@ -111,7 +111,7 @@ void BinaryMemoryInputArchive::Seek(UINT nPos)
 	}	
 }
 
-bool BinaryMemoryInputArchive::SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable)
+bool BinaryMemoryInputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
 {
 	bool bLoadOK = true;
 	if (m_nCurPos + nSizeToRead <= m_nDataSize)
@@ -138,7 +138,7 @@ void BinaryMemoryInputArchive::SkipByte(UINT nSizeToSkip)
 	
 }
 
-bool BinaryMemoryInputArchive::Open(const xmUint8* pData,xmUint32 nSizeInByte)
+bool BinaryMemoryInputArchive::Open(const Uint8* pData,Uint32 nSizeInByte)
 {
 	m_pData = pData;
 	m_nDataSize = nSizeInByte;

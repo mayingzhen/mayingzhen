@@ -39,18 +39,18 @@ namespace ma
 // 
 // 	}
 // 
-// 	void AnimationTracks::SetPositionTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack)
+// 	void AnimationTracks::SetPositionTrack(UINT nTrackInd,const VECTOR3Track* pTrack)
 // 	{
 // 		//m_pos[nTrackInd]->Clone(pTrack);
 // 	}
 // 
 // 
-// 	void AnimationTracks::SetRotationTrack(UINT nTrackInd,const xmQuaternionTrack* pTrack)
+// 	void AnimationTracks::SetRotationTrack(UINT nTrackInd,const QuaternionTrack* pTrack)
 // 	{
 // 		//m_rot[nTrackInd]->Clone(pTrack);
 // 	}
 // 
-// 	void AnimationTracks::SetScaleTrack(UINT nTrackInd,const D3DXVECTOR3Track* pTrack)
+// 	void AnimationTracks::SetScaleTrack(UINT nTrackInd,const VECTOR3Track* pTrack)
 // 	{
 // 		//m_scale[nTrackInd]->Clone(pTrack);
 // 	}
@@ -58,10 +58,10 @@ namespace ma
 // 	void AnimationTracks::Clone(AnimationTracks* pTracks) const
 // 	{
 // 
-// 		// 		ArrayDeepCopy<Array<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_scale,m_scale);
-// 		// 		ArrayDeepCopy<Array<xmQuaternionTrack*>,xmQuaternionTrack>(pTracks->m_rot,m_rot);
-// 		// 		ArrayDeepCopy<Array<D3DXVECTOR3Track*>,D3DXVECTOR3Track>(pTracks->m_pos,m_pos);
-// 		// 		ArrayDeepCopy<Array<xmFloatTrack*>,xmFloatTrack>(pTracks->m_float,m_float);
+// 		// 		ArrayDeepCopy<Array<VECTOR3Track*>,VECTOR3Track>(pTracks->m_scale,m_scale);
+// 		// 		ArrayDeepCopy<Array<QuaternionTrack*>,QuaternionTrack>(pTracks->m_rot,m_rot);
+// 		// 		ArrayDeepCopy<Array<VECTOR3Track*>,VECTOR3Track>(pTracks->m_pos,m_pos);
+// 		// 		ArrayDeepCopy<Array<FloatTrack*>,FloatTrack>(pTracks->m_float,m_float);
 // 		// 
 // 		// 		pTracks->m_rootMotionPos = m_rootMotionPos;
 // 		// 		pTracks->m_rootMotionRot = m_rootMotionRot;
@@ -79,9 +79,9 @@ namespace ma
 // 		// 		UINT nPosKeyFrameNum = GetKeyFrameNumber(m_pos);
 // 		// 		nPosKeyFrameNum += (UINT)m_rootMotionPos.m_arrValue.size();
 // 		// 
-// 		// 		UINT nDataSize = nScaleKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(UINT))
-// 		// 			+nPosKeyFrameNum*(sizeof(D3DXVECTOR3)+sizeof(UINT))
-// 		// 			+nRotKeyFrameNum*(sizeof(D3DXQUATERNION)+sizeof(UINT));
+// 		// 		UINT nDataSize = nScaleKeyFrameNum*(sizeof(Vector3)+sizeof(UINT))
+// 		// 			+nPosKeyFrameNum*(sizeof(Vector3)+sizeof(UINT))
+// 		// 			+nRotKeyFrameNum*(sizeof(Quaternion)+sizeof(UINT));
 // 		// 		return nDataSize;
 // 		return 0;
 // 	}

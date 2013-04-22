@@ -25,7 +25,7 @@ namespace ma
 
 		//bool				InitWithPSData(SkeletonData* pSkelData);
 
-		const D3DXMATRIX&	GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
+		const Matrix4x4&	GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
 		const SkeletonPose* GetResPose() {return m_refPose;} 
 
@@ -51,10 +51,10 @@ namespace ma
 
 		SkeletonPose*			 m_refPose;
 
-		// D3DXMATRIX
-		std::vector<D3DXMATRIX> m_arrRefPosePS;
-		std::vector<D3DXMATRIX> m_arrRefPoseOS;
-		std::vector<D3DXMATRIX> m_arrRefPoseOSInv;
+		// Matrix4x4
+		std::vector<Matrix4x4> m_arrRefPosePS;
+		std::vector<Matrix4x4> m_arrRefPoseOS;
+		std::vector<Matrix4x4> m_arrRefPoseOSInv;
 
 		// ¹Ç÷À¼¯
 		std::vector<BoneSet*>	m_arrBoneSet;

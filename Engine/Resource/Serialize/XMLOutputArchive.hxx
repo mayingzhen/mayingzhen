@@ -150,7 +150,7 @@ namespace ma
 		m_pParentElem->InsertEndChild(elem);
 	}
 
-	void XMLOutputArchive::Serialize(xmUint64& val,const char* pszLable)
+	void XMLOutputArchive::Serialize(Uint64& val,const char* pszLable)
 	{
 		TiXmlElement elem(pszLable);
 		TiXmlText text(StringConverter::ToString(val).c_str());

@@ -15,32 +15,32 @@ namespace ma
 	}
 
 
-	void IRenderDevice::DrawBox(const D3DXMATRIX& wordMat,const D3DXVECTOR3& size, xmUint32 color)
+	void IRenderDevice::DrawBox(const Matrix4x4& wordMat,const Vector3& size, Uint32 color)
 	{
-		D3DXVECTOR3 vScale;
-		D3DXQUATERNION qRot;
-		D3DXVECTOR3 vPos;
-		D3DXMatrixDecompose(&vScale,&qRot,&vPos,&wordMat);
+		Vector3 vScale;
+		Quaternion qRot;
+		Vector3 vPos;
+		MatrixDecompose(&vScale,&qRot,&vPos,&wordMat);
 
 		float fHalfWidth = 0.5f * vScale.x * size.x;
 		float fHalfHeight = 0.5f * vScale.y * size.y;
 		float fHalfDepth = 0.5f * vScale.z * size.z;
 
-		D3DXVECTOR3 arrVec[]=
+		Vector3 arrVec[]=
 		{
-			D3DXVECTOR3(-fHalfWidth,-fHalfHeight,fHalfDepth),
-			D3DXVECTOR3(fHalfWidth,-fHalfHeight,fHalfDepth),
-			D3DXVECTOR3(fHalfWidth,fHalfHeight,fHalfDepth),
-			D3DXVECTOR3(-fHalfWidth,fHalfHeight,fHalfDepth),
-			D3DXVECTOR3(-fHalfWidth,-fHalfHeight,-fHalfDepth),
-			D3DXVECTOR3(fHalfWidth,-fHalfHeight,-fHalfDepth),
-			D3DXVECTOR3(fHalfWidth,fHalfHeight,-fHalfDepth),
-			D3DXVECTOR3(-fHalfWidth,fHalfHeight,-fHalfDepth),
+			Vector3(-fHalfWidth,-fHalfHeight,fHalfDepth),
+			Vector3(fHalfWidth,-fHalfHeight,fHalfDepth),
+			Vector3(fHalfWidth,fHalfHeight,fHalfDepth),
+			Vector3(-fHalfWidth,fHalfHeight,fHalfDepth),
+			Vector3(-fHalfWidth,-fHalfHeight,-fHalfDepth),
+			Vector3(fHalfWidth,-fHalfHeight,-fHalfDepth),
+			Vector3(fHalfWidth,fHalfHeight,-fHalfDepth),
+			Vector3(-fHalfWidth,fHalfHeight,-fHalfDepth),
 		};
 
 		for (UINT nCnt = 0; nCnt < 8; ++nCnt)
 		{
-			maQuaternionTransformVector(&arrVec[nCnt],&arrVec[nCnt],&qRot);
+			QuaternionTransformVector(&arrVec[nCnt],&arrVec[nCnt],&qRot);
 			arrVec[nCnt] += vPos;
 		}
 
@@ -53,8 +53,8 @@ namespace ma
 		}
 	}
 
-	void IRenderDevice::DrawCircle(UINT nbSegments, const D3DXMATRIX& world, 
-		xmUint32 dwColor, float radius, bool semicircle)
+	void IRenderDevice::DrawCircle(UINT nbSegments, const Matrix4x4& world, 
+		Uint32 dwColor, float radius, bool semicircle)
 	{
 		static const float NxTwoPiF32	= 6.28318530717958647692f;
 
@@ -74,25 +74,25 @@ namespace ma
 			float angle0 = float(i) * step;
 			float angle1 = float(j) * step;
 
-			D3DXVECTOR3 p0,p1;
-			D3DXVECTOR3 pTemp0(radius * sinf(angle0), radius * cosf(angle0), 0.0f);
-			D3DXVECTOR3 pTemp1(radius * sinf(angle1), radius * cosf(angle1), 0.0f);
-			D3DXVec3TransformCoord(&p0, &pTemp0, &world);
-			D3DXVec3TransformCoord(&p1, &pTemp1, &world);
+			Vector3 p0,p1;
+			Vector3 pTemp0(radius * sinf(angle0), radius * cosf(angle0), 0.0f);
+			Vector3 pTemp1(radius * sinf(angle1), radius * cosf(angle1), 0.0f);
+			Vec3TransformCoord(&p0, &pTemp0, &world);
+			Vec3TransformCoord(&p1, &pTemp1, &world);
 
 			DrawLine(p0, p1, dwColor);
 		}
 	}
 
-	void IRenderDevice::DrawWireSphere(const D3DXMATRIX& world,float fRadius, xmUint32 dwColor)
+	void IRenderDevice::DrawWireSphere(const Matrix4x4& world,float fRadius, Uint32 dwColor)
 	{
-		D3DXVECTOR3 c0 = *(D3DXVECTOR3*)&world._11;
-		D3DXVECTOR3 c1 = *(D3DXVECTOR3*)&world._21;
-		D3DXVECTOR3 c2 = *(D3DXVECTOR3*)&world._31;	
+		Vector3 c0 = *(Vector3*)&world._11;
+		Vector3 c1 = *(Vector3*)&world._21;
+		Vector3 c2 = *(Vector3*)&world._31;	
 
 		DrawCircle(20, world, dwColor, fRadius);
 
-		D3DXMATRIX matrTemp = world;
+		Matrix4x4 matrTemp = world;
 		matrTemp._11 = c1.x; matrTemp._12 = c1.y; matrTemp._13 = c1.z;
 		matrTemp._21 = c2.x; matrTemp._22 = c2.y; matrTemp._23 = c2.z;
 		matrTemp._31 = c0.x; matrTemp._32 = c0.y; matrTemp._33 = c0.z;

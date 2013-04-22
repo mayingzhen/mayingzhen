@@ -27,7 +27,7 @@ namespace ma
 		return true;
 	}
 
-	void D3D9RendMesh::GetBoundingAABB(D3DXVECTOR3& vMin,D3DXVECTOR3 &vMax)
+	void D3D9RendMesh::GetBoundingAABB(Vector3& vMin,Vector3 &vMax)
 	{
 		if (m_pMeshData)
 		{

@@ -16,15 +16,15 @@ namespace ma
 
 		virtual void		Update();			
 
-		//void				LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt = NULL,const D3DXVECTOR3* pUp = NULL);
+		//void				LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
-		const D3DXMATRIX&	GetViewMatrix() const {return m_matView;}
+		const Matrix4x4&	GetViewMatrix() const {return m_matView;}
 
-		const D3DXMATRIX&	GetProjMatrix() const {return m_matProj;}
+		const Matrix4x4&	GetProjMatrix() const {return m_matProj;}
 		
-		D3DXMATRIX			GetViewProjMatrix() const {return m_matView * m_matProj;}
+		Matrix4x4			GetViewProjMatrix() const {return m_matView * m_matProj;}
 		
 		float				GetNearClip() {return m_fNear;}
 
@@ -47,20 +47,20 @@ namespace ma
 
 		void				SyncToSceneNode();
 
-		D3DXVECTOR2			GetNearPlaneSize() const;
+		Vector2			GetNearPlaneSize() const;
 
 	private:
-		D3DXMATRIX		m_matView;
-		D3DXMATRIX		m_matProj;
+		Matrix4x4		m_matView;
+		Matrix4x4		m_matProj;
 
 		float			m_fAspect;
 		float			m_fFOV;	
 		float			m_fNear;
 		float			m_fFar;
 
-		D3DXVECTOR3		m_vLookAtPt;
-		D3DXVECTOR3		m_vEyePt;
-		D3DXVECTOR3		m_vUpVector;
+		Vector3		m_vLookAtPt;
+		Vector3		m_vEyePt;
+		Vector3		m_vUpVector;
 
 		//bool			m_bProjDirty;
 

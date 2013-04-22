@@ -11,13 +11,9 @@ namespace ma
 		std::string m_className;
 		const Class* m_pParentNode;
 
-		//UINT m_nClassID;
-
 	public:
 
 		Class(const char* className,const Class* pParent);
-
-		//UINT GetClassID() const;
 
 		const char* GetName() const;
 
@@ -31,11 +27,6 @@ namespace ma
 
 	class COMMON_API ClassManager : public Singleton<ClassManager>
 	{
-		typedef std::map<std::string,Class*> ClassNameMap;
-		//typedef std::map<int,Class*> ClassIDMap;
-		ClassNameMap m_nameMap;
-		//ClassIDMap m_idMap;
-
 	public:
 
 		ClassManager();
@@ -48,23 +39,18 @@ namespace ma
 
 		const Class* GetClassByName(const char* clsName);
 
-		//const Class* GetClassById(UINT nClsID);
-
+	private:
+		typedef std::map<std::string,Class*> ClassNameMap;
+		ClassNameMap m_nameMap;
 
 	};
 
 	inline Class::Class(const char* className,const Class* pParent)
 		:m_className(className)
 		,m_pParentNode(pParent)
-		//,m_nClassID(nClassID)
 	{
 
 	}
-
-// 	inline UINT Class::GetClassID() const
-// 	{
-// 		return m_nClassID;
-// 	}
 
 	inline const char* Class::GetName() const
 	{

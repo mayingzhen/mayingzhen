@@ -14,8 +14,8 @@ namespace ma
 	private:
 		struct Vertex
 		{
-			D3DXVECTOR3 position;
-			D3DXVECTOR2 texCoords;
+			Vector3 position;
+			Vector2 texCoords;
 		};
 
 		IDirect3DVertexDeclaration9*	m_pVertexDeclaration;

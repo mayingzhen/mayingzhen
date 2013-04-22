@@ -24,14 +24,14 @@ Material::Material()
     mRenderState.blendMode = BM_OPATICY;
     mRenderState.alphaTestRef = 0.5f;
 
-//     mEmissive = D3DXCOLOR::Black;
-//     mAmbient = D3DXCOLOR::Gray;
-//     mDiffuse = D3DXCOLOR::White;
-//     mSpecular = D3DXCOLOR::Black;
-	   mEmissive = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	   mAmbient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
-       mDiffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	   mSpecular = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
+//     mEmissive = COLOR::Black;
+//     mAmbient = COLOR::Gray;
+//     mDiffuse = COLOR::White;
+//     mSpecular = COLOR::Black;
+	   mEmissive = COLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	   mAmbient = COLOR(0.5f, 0.5f, 0.5f, 1.0f);
+       mDiffuse = COLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	   mSpecular = COLOR(0.0f, 0.0f, 0.0f, 1.0f);
     mSpecularPower = 80;
 
     //mEmissiveMap = RenderHelper::Instance()->GetBlackTexture();
@@ -44,22 +44,22 @@ Material::~Material()
 {
 }
 
-void Material::SetEmissive(const D3DXCOLOR & color)
+void Material::SetEmissive(const COLOR & color)
 {
     mEmissive = color;
 }
 
-void Material::SetAmbient(const D3DXCOLOR & color)
+void Material::SetAmbient(const COLOR & color)
 {
     mAmbient = color;
 }
 
-void Material::SetDiffuse(const D3DXCOLOR & color)
+void Material::SetDiffuse(const COLOR & color)
 {
     mDiffuse = color;
 }
 
-void Material::SetSpecular(const D3DXCOLOR & color)
+void Material::SetSpecular(const COLOR & color)
 {
     mSpecular = color;
 }
@@ -125,22 +125,22 @@ void Material::SetNormalMap(Texture* tex)
     mNormalMap = tex;
 }
 
-const D3DXCOLOR & Material::GetEmissive() const
+const COLOR & Material::GetEmissive() const
 {
     return mEmissive;
 }
 
-const D3DXCOLOR & Material::GetAmbient() const
+const COLOR & Material::GetAmbient() const
 {
     return mAmbient;
 }
 
-const D3DXCOLOR & Material::GetDiffuse() const
+const COLOR & Material::GetDiffuse() const
 {
     return mDiffuse;
 }
 
-const D3DXCOLOR & Material::GetSpecular() const
+const COLOR & Material::GetSpecular() const
 {
     return mSpecular;
 }
@@ -266,64 +266,64 @@ Texture* Material::GetNormalMap() const
 //     }
 // }
 // 
-// void MaterialLoader::_loadMaterial(Material * mat, xml_node * node)
+// void MaterialLoader::_loadMaterial(Material * mat, l_node * node)
 // {
-//     xml_node * ndCullMode = node->first_node("cull_mode");
-//     xml_node * ndFillMode = node->first_node("fill_mode");
-//     xml_node * ndDepthWrite = node->first_node("depth_write");
-//     xml_node * ndDepthCheck = node->first_node("depth_check");
-//     xml_node * ndBlendMode = node->first_node("blend_mode");
-//     xml_node * ndAlphaTestRef = node->first_node("alpha_test_ref");
-//     xml_node * ndEmissive = node->first_node("emissive");
-//     xml_node * ndAmbient = node->first_node("ambient");
-//     xml_node * ndDiffuse = node->first_node("diffuse");
-//     xml_node * ndSpecular = node->first_node("specular");
-//     xml_node * ndSpecularPower = node->first_node("specular_power");
-//     xml_node * ndEmissiveMap = node->first_node("emissive_map");
-//     xml_node * ndDiffuseMap = node->first_node("diffuse_map");
-//     xml_node * ndSpecularMap = node->first_node("specular_map");
-//     xml_node * ndNormalMap = node->first_node("normal_map");
+//     l_node * ndCullMode = node->first_node("cull_mode");
+//     l_node * ndFillMode = node->first_node("fill_mode");
+//     l_node * ndDepthWrite = node->first_node("depth_write");
+//     l_node * ndDepthCheck = node->first_node("depth_check");
+//     l_node * ndBlendMode = node->first_node("blend_mode");
+//     l_node * ndAlphaTestRef = node->first_node("alpha_test_ref");
+//     l_node * ndEmissive = node->first_node("emissive");
+//     l_node * ndAmbient = node->first_node("ambient");
+//     l_node * ndDiffuse = node->first_node("diffuse");
+//     l_node * ndSpecular = node->first_node("specular");
+//     l_node * ndSpecularPower = node->first_node("specular_power");
+//     l_node * ndEmissiveMap = node->first_node("emissive_map");
+//     l_node * ndDiffuseMap = node->first_node("diffuse_map");
+//     l_node * ndSpecularMap = node->first_node("specular_map");
+//     l_node * ndNormalMap = node->first_node("normal_map");
 // 
-//     xml_node * ndShaderProvider = doc.first_node("shader_provider");
+//     l_node * ndShaderProvider = doc.first_node("shader_provider");
 // 
 //     if (ndCullMode)
 //     {
-//         xml_attri * attri = ndCullMode->first_attribute("value");
+//         l_attri * attri = ndCullMode->first_attribute("value");
 //         CULL_MODE mode = GetCullMode(attri->value());
 //         mat->SetCullMode(mode);
 //     }
 // 
 //     if (ndFillMode)
 //     {
-//         xml_attri * attri = ndFillMode->first_attribute("value");
+//         l_attri * attri = ndFillMode->first_attribute("value");
 //         FILL_MODE mode = GetFillMode(attri->value());
 //         mat->SetFillMode(mode);
 //     }
 // 
 //     if (ndDepthWrite)
 //     {
-//         xml_attri * attri = ndFillMode->first_attribute("value");
+//         l_attri * attri = ndFillMode->first_attribute("value");
 //         bool b = GetBoolen(attri->value());
 //         mat->SetDepthWrite(b);
 //     }
 // 
 //     if (ndDepthCheck)
 //     {
-//         xml_attri * attri = ndDepthCheck->first_attribute("value");
+//         l_attri * attri = ndDepthCheck->first_attribute("value");
 //         DEPTH_CHECK_MODE mode = GetDepthCheck(attri->value());
 //         mat->SetDepthCheck(mode);
 //     }
 // 
 //     if (ndBlendMode)
 //     {
-//         xml_attri * attri = ndBlendMode->first_attribute("value");
+//         l_attri * attri = ndBlendMode->first_attribute("value");
 //         BLEND_MODE mode = GetBlendMode(attri->value());
 //         mat->SetBlendMode(mode);
 //     }
 // 
 //     if (ndAlphaTestRef)
 //     {
-//         xml_attri * attri = ndAlphaTestRef->first_attribute("value");
+//         l_attri * attri = ndAlphaTestRef->first_attribute("value");
 //         float v = atof(attri->value());
 //         mat->SetAlphaTestRef(v);
 //     }
@@ -334,7 +334,7 @@ Texture* Material::GetNormalMap() const
 //         float g = atof(ndEmissive->first_attribute("g")->value()); 
 //         float b = atof(ndEmissive->first_attribute("b")->value());
 // 
-//         mat->SetEmissive(D3DXCOLOR(r, g, b));
+//         mat->SetEmissive(COLOR(r, g, b));
 //     }
 // 
 //     if (ndAmbient)
@@ -343,7 +343,7 @@ Texture* Material::GetNormalMap() const
 //         float g = atof(ndAmbient->first_attribute("g")->value()); 
 //         float b = atof(ndAmbient->first_attribute("b")->value());
 // 
-//         mat->SetAmbient(D3DXCOLOR(r, g, b));
+//         mat->SetAmbient(COLOR(r, g, b));
 //     }
 // 
 //     if (ndDiffuse)
@@ -352,7 +352,7 @@ Texture* Material::GetNormalMap() const
 //         float g = atof(ndDiffuse->first_attribute("g")->value()); 
 //         float b = atof(ndDiffuse->first_attribute("b")->value());
 // 
-//         mat->SetDiffuse(D3DXCOLOR(r, g, b));
+//         mat->SetDiffuse(COLOR(r, g, b));
 //     }
 // 
 //     if (ndSpecular)
@@ -361,7 +361,7 @@ Texture* Material::GetNormalMap() const
 //         float g = atof(ndSpecular->first_attribute("g")->value()); 
 //         float b = atof(ndSpecular->first_attribute("b")->value());
 // 
-//         mat->SetSpecular(D3DXCOLOR(r, g, b));
+//         mat->SetSpecular(COLOR(r, g, b));
 //     }
 // 
 //     if (ndSpecularPower)
@@ -402,8 +402,8 @@ Texture* Material::GetNormalMap() const
 // 
 //     int i = 0;
 // 
-//     xml_node * root = doc.first_node("Materials"); 
-//     xml_node * node = root->first_node("Material");
+//     l_node * root = doc.first_node("Materials"); 
+//     l_node * node = root->first_node("Material");
 // 
 //     while (node)
 //     {

@@ -12,7 +12,7 @@ namespace ma
 	{
 		SimpleSceneView::Init(pApplication);
 
-		//D3DXVECTOR3 vEyePos = D3DXVECTOR3(0, 400, 400);
+		//Vector3 vEyePos = Vector3(0, 400, 400);
 		//m_pCamera->LookAt(&vEyePos);
 
 		AnimationModuleInit();
@@ -156,12 +156,12 @@ namespace ma
 	
 		// Render A
 		{
-			D3DXMATRIX matWorld,matRoat;
-			D3DXMatrixRotationX(&matRoat,-3.14f / 2.0f);
-			D3DXMatrixTranslation(&matWorld,-50,0,0);
+			Matrix4x4 matWorld,matRoat;
+			MatrixRotationX(&matRoat,-3.14f / 2.0f);
+			MatrixTranslation(&matWorld,-50,0,0);
 			matWorld = matRoat * matWorld;
 
-			D3DXMATRIX* skinMatrix = m_pAnimtionPlayA->GetSkinMatrixArray();
+			Matrix4x4* skinMatrix = m_pAnimtionPlayA->GetSkinMatrixArray();
 			UINT nSkinMatrixNumber = m_pAnimtionPlayA->GetSkinMatrixNumber();
 			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_b,m_pRendTextureA_b);
 			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_f,m_pRendTextureA_f);
@@ -170,12 +170,12 @@ namespace ma
 
 		// Render B
 		{
-			D3DXMATRIX matWorld,matRoat;
-			D3DXMatrixRotationX(&matRoat,-3.14f / 2.0f);
-			D3DXMatrixTranslation(&matWorld,50,0,0);
+			Matrix4x4 matWorld,matRoat;
+			MatrixRotationX(&matRoat,-3.14f / 2.0f);
+			MatrixTranslation(&matWorld,50,0,0);
 			matWorld = matRoat * matWorld;
 
-			D3DXMATRIX* skinMatrix = m_pAnimtionPlayB->GetSkinMatrixArray();
+			Matrix4x4* skinMatrix = m_pAnimtionPlayB->GetSkinMatrixArray();
 			UINT nSkinMatrixNumber = m_pAnimtionPlayB->GetSkinMatrixNumber();
 			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshB,m_pRendTextureB);
 		}
@@ -183,10 +183,6 @@ namespace ma
 		GetRenderDevice()->EndRender();
 	}
 
-	void SampleAnimationRetarget::OnResize(int w,int h)
-	{
-
-	}
 }
 
 

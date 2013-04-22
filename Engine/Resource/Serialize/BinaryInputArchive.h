@@ -25,7 +25,7 @@ public:
 
 	void Seek(UINT nPos);
 
-	bool SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
+	bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
 
 	void SkipByte(UINT nSizeToSkip);
 
@@ -39,9 +39,9 @@ public:
 
 class BinaryMemoryInputArchive : public SerializeListener
 {
-	const xmUint8* m_pData;
-	xmUint32 m_nDataSize;
-	xmUint32 m_nCurPos;
+	const Uint8* m_pData;
+	Uint32 m_nDataSize;
+	Uint32 m_nCurPos;
 
 public:
 
@@ -58,11 +58,11 @@ public:
 
 	void Seek(UINT nPos);
 
-	bool SerializeByte(xmUint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
+	bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
 
 	void SkipByte(UINT nSizeToSkip);
 
-	bool Open(const xmUint8* pData,xmUint32 nSizeInByte);
+	bool Open(const Uint8* pData,Uint32 nSizeInByte);
 
 	void Close();
 

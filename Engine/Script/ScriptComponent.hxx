@@ -53,10 +53,10 @@ namespace ma
 			{
 				pScriptObject->SetFloat(pFieldName, (float)atof(pValue) );
 			}
-			else if ( strcmp(pTypeName,"D3DXVECTOR3") == 0)
+			else if ( strcmp(pTypeName,"Vector3") == 0)
 			{
-				TiXmlElement* pEleVecor3 = pEleField->FirstChildElement("D3DXVECTOR3");
-				//D3DXVECTOR3 vector3 = ParseD3DXVECTOR3(pEleVecor3);
+				TiXmlElement* pEleVecor3 = pEleField->FirstChildElement("Vector3");
+				//Vector3 vector3 = ParseVECTOR3(pEleVecor3);
 				//pScriptObject->SetVector3(pFieldName,vector3);
 			}
 		

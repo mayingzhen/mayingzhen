@@ -4,12 +4,12 @@ namespace ma
 {
 	Camera::Camera()
 	{
-		m_vEyePt = D3DXVECTOR3(0,0,0);
-		m_vLookAtPt = D3DXVECTOR3(0,0,0);
+		m_vEyePt = Vector3(0,0,0);
+		m_vLookAtPt = Vector3(0,0,0);
 		m_fNear = 0.1f;
 		m_fFar = 300.0f;
-		m_fFOV = D3DXToRadian(45.0f); 
-		m_vUpVector = D3DXVECTOR3(0, 1, 0);
+		m_fFOV = ToRadian(45.0f); 
+		m_vUpVector = Vector3(0, 1, 0);
 	}
 
 	Camera::~Camera()
@@ -29,16 +29,16 @@ namespace ma
 	void Camera::SyncFromSceneNode()
 	{	
 		m_vEyePt = GetPositionWS();
-		D3DXMatrixInverse(&m_matView,NULL,&GetWorldMatrix());
-		//D3DXMatrixMultiply(&m_matViewProj,&m_matView,&m_matProj);
+		MatrixInverse(&m_matView,NULL,&GetWorldMatrix());
+		//MatrixMultiply(&m_matViewProj,&m_matView,&m_matProj);
 	}
 
 	void Camera::SyncToSceneNode()
 	{
-		maNodeTransform tsfWS;
-		D3DXMATRIX matViewInv;
-		D3DXMatrixInverse(&matViewInv,NULL,&m_matView);
-		maTransformFromMatrix(&tsfWS,matViewInv);
+		NodeTransform tsfWS;
+		Matrix4x4 matViewInv;
+		MatrixInverse(&matViewInv,NULL,&m_matView);
+		TransformFromMatrix(&tsfWS,&matViewInv);
 		SetTransformWS(tsfWS);
 	}
 
@@ -50,9 +50,9 @@ namespace ma
 		aabbCS.Transform(m_matView);
 
 		//Center object
-		D3DXVECTOR3 aabbSize = aabbCS.Size();
+		Vector3 aabbSize = aabbCS.Size();
 		bool bUseWidth = false;
-		if (aabbSize.y <= F_EPS)
+		if (aabbSize.y <= FEPS)
 		{
 			bUseWidth = true;
 		}
@@ -62,8 +62,8 @@ namespace ma
 			bUseWidth = (ratio > m_fAspect);
 		}
 
-		D3DXVECTOR3 vPosCS(0.0f,0.0f,0.0f);
-		D3DXVECTOR2 vNearSize = GetNearPlaneSize();
+		Vector3 vPosCS(0.0f,0.0f,0.0f);
+		Vector2 vNearSize = GetNearPlaneSize();
 		vNearSize *= (1.0f - fMargin);
 		if(bUseWidth)
 		{
@@ -75,29 +75,29 @@ namespace ma
 			vPosCS.z = m_fNear * aabbSize.y / vNearSize.y;
 		}
 
-		D3DXMATRIX matViewInv;
-		D3DXMatrixInverse(&matViewInv,NULL,&m_matView);
-		D3DXVECTOR3 vDummyPosWS;
-		D3DXVec3TransformCoord(&vDummyPosWS,&vPosCS,&matViewInv);
+		Matrix4x4 matViewInv;
+		MatrixInverse(&matViewInv,NULL,&m_matView);
+		Vector3 vDummyPosWS;
+		Vec3TransformCoord(&vDummyPosWS,&vPosCS,&matViewInv);
 
-		D3DXVECTOR3 vPosOffsetWS = aabb.Center() - vDummyPosWS;
+		Vector3 vPosOffsetWS = aabb.Center() - vDummyPosWS;
 
-		D3DXVECTOR3* vPos = (D3DXVECTOR3*)(&matViewInv._41);
+		Vector3* vPos = (Vector3*)(&matViewInv._41);
 		*vPos += vPosOffsetWS;
-		D3DXMatrixInverse(&m_matView,NULL,&matViewInv);
+		MatrixInverse(&m_matView,NULL,&matViewInv);
 
 		SyncToSceneNode();
 	}
 
-	D3DXVECTOR2 Camera::GetNearPlaneSize() const
+	Vector2 Camera::GetNearPlaneSize() const
 	{
-		D3DXVECTOR2 vSize;	
+		Vector2 vSize;	
 		vSize.y = tanf(m_fFOV*0.5f) * m_fNear * 2.0f;
 		vSize.x = m_fAspect * vSize.y;
 		return vSize;
 	}
 
-// 	void Camera::LookAt(const D3DXVECTOR3* pEye,const D3DXVECTOR3* pAt,const D3DXVECTOR3* pUp)
+// 	void Camera::LookAt(const Vector3* pEye,const Vector3* pAt,const Vector3* pUp)
 // 	{
 // 		if (pAt)
 // 		{
@@ -112,7 +112,7 @@ namespace ma
 // 			m_vEyePt = *pEye;
 // 		}
 // 		
-// 		D3DXMatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
+// 		MatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
 // 		
 // 		// 
 // 		SyncToSceneNode();
@@ -124,7 +124,7 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		D3DXMatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
+		MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
 	}
 
 	void Camera::CalculateFrustum()
@@ -133,23 +133,23 @@ namespace ma
 
 		for (UINT i = 0; i < NUM_PSSM; ++i)
 		{
-			D3DXMATRIX matProj;
-			D3DXMatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,m_fSplitPos[i],m_fSplitPos[i + 1]);
+			Matrix4x4 matProj;
+			MatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,m_fSplitPos[i],m_fSplitPos[i + 1]);
 			m_arrSplitFrustum[i] = Frustum(m_matView * matProj);
 		}
 	}
 
 	Frustum Camera::CalculateFrustum(float fNear, float fFar)
 	{
-		D3DXMATRIX matProj;
-		D3DXMatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,fNear,fFar);
+		Matrix4x4 matProj;
+		MatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,fNear,fFar);
 		Frustum frustum(m_matView * matProj);
-// 		D3DXVECTOR3 vX,vY,vZ,vTemp;
-// 		D3DXVec3Normalize( &vZ, &(m_vLookAtPt - m_vEyePt) );
-// 		D3DXVec3Cross(&vTemp, &m_vUpVector, &vZ);
-// 		D3DXVec3Normalize(&vX, &vTemp);
-// 		D3DXVec3Cross(&vTemp, &vZ, &vX);
-// 		D3DXVec3Normalize(&vY, &vTemp);
+// 		Vector3 vX,vY,vZ,vTemp;
+// 		Vec3Normalize( &vZ, &(m_vLookAtPt - m_vEyePt) );
+// 		Vec3Cross(&vTemp, &m_vUpVector, &vZ);
+// 		Vec3Normalize(&vX, &vTemp);
+// 		Vec3Cross(&vTemp, &vZ, &vX);
+// 		Vec3Normalize(&vY, &vTemp);
 // 
 // 		float fNearPlaneHalfHeight = tanf(m_fFOV * 0.5f) * m_fNear;
 // 		float fNearPlaneHalfWidth = fNearPlaneHalfHeight * m_fAspect;
@@ -157,20 +157,20 @@ namespace ma
 // 		float fFarPlaneHalfHeight = tanf(m_fFOV * 0.5f) * m_fFar;
 // 		float fFarPlaneHalfWidth = fFarPlaneHalfHeight * m_fAspect;
 // 
-// 		D3DXVECTOR3 vNearPlaneCenter = m_vEyePt + vZ * m_fNear;
-// 		D3DXVECTOR3 vFarPlaneCenter = m_vEyePt + vZ * m_fFar;
+// 		Vector3 vNearPlaneCenter = m_vEyePt + vZ * m_fNear;
+// 		Vector3 vFarPlaneCenter = m_vEyePt + vZ * m_fFar;
 // 
 // 		
 // 
-// 		frustum.vPts[0] = D3DXVECTOR3(vNearPlaneCenter - vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[1] = D3DXVECTOR3(vNearPlaneCenter - vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[2] = D3DXVECTOR3(vNearPlaneCenter + vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[3] = D3DXVECTOR3(vNearPlaneCenter + vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
+// 		frustum.vPts[0] = Vector3(vNearPlaneCenter - vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
+// 		frustum.vPts[1] = Vector3(vNearPlaneCenter - vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
+// 		frustum.vPts[2] = Vector3(vNearPlaneCenter + vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
+// 		frustum.vPts[3] = Vector3(vNearPlaneCenter + vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
 // 
-// 		frustum.vPts[4] = D3DXVECTOR3(vFarPlaneCenter - vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[5] = D3DXVECTOR3(vFarPlaneCenter - vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[6] = D3DXVECTOR3(vFarPlaneCenter + vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[7] = D3DXVECTOR3(vFarPlaneCenter + vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
+// 		frustum.vPts[4] = Vector3(vFarPlaneCenter - vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
+// 		frustum.vPts[5] = Vector3(vFarPlaneCenter - vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
+// 		frustum.vPts[6] = Vector3(vFarPlaneCenter + vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
+// 		frustum.vPts[7] = Vector3(vFarPlaneCenter + vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
 	
 		return frustum;
 	}
