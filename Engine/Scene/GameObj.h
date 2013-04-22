@@ -19,35 +19,41 @@ namespace ma
 
 		~GameObject();
 
-		void Render();
+		void			Render();
 
-		void Update();
+		void			Update();
 
-		void ParalleUpdate(float fTimeElapsed);
+		void			ParalleUpdate(float fTimeElapsed);
 
-		void FixedUpdate(float fTimeElapsed);
+		void			FixedUpdate(float fTimeElapsed);
 
-		void LateUpdate(float fTimeElapsed);
+		void			LateUpdate(float fTimeElapsed);
 
-		void Start();
+		void			Start();
 
-		void Stop();
+		void			Stop();
 
-		void AddComponent(Component* pComponent);
+		void			AddComponent(Component* pComponent);
 		
-		IPhysicsObject* GetPhyscisObject() {return m_pPhyscisObject;}
+		IPhysicsObject*	GetPhyscisObject() {return m_pPhyscisObject;}
 
-		void SetPhyscisObject(IPhysicsObject* pPhyscisObject) {m_pPhyscisObject = pPhyscisObject;} 
+		void			SetPhyscisObject(IPhysicsObject* pPhyscisObject) {m_pPhyscisObject = pPhyscisObject;} 
 
-		void SyncToPhysics();
+		void			SyncToPhysics();
 
-		void SyncFromPhysics();
+		void			SyncFromPhysics();
 
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "GameObject");
+		virtual void	TravelProperty(PropertyVisitor* pVisitor);
+
+		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "GameObject");
+	
+	protected:
+		virtual void UpdateAABB();
+
 	private:
 		IPhysicsObject* m_pPhyscisObject;
 
-		std::vector<Component*> m_vComponents;
+		std::vector<Component*> m_arrComp;
 	
 	};
 }

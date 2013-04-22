@@ -614,10 +614,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\RTTIDecl.h"
-			>
-		</File>
-		<File
 			RelativePath=".\stdAfx.cpp"
 			>
 			<FileConfiguration
@@ -631,6 +627,14 @@
 		</File>
 		<File
 			RelativePath=".\stdAfx.h"
+			>
+		</File>
+		<File
+			RelativePath=".\XMLSerialize.h"
+			>
+		</File>
+		<File
+			RelativePath=".\XMLSerialize.hxx"
 			>
 		</File>
 	</Files>

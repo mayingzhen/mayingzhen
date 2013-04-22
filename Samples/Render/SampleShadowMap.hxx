@@ -85,7 +85,7 @@ namespace ma
 
 	void SampleShadowMap::Tick(float timeElapsed)
 	{
-		__super::Tick(timeElapsed);
+		SimpleSceneView::Tick(timeElapsed);
 
 		Input* pInput = GetInput();
 		if (pInput == NULL)

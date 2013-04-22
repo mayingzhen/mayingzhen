@@ -5,7 +5,7 @@ namespace ma
 {
 	class IRendMesh;
 	class IRendTexture;
-	class Texture;
+	//class Texture;
 	class Camera;
 	class Light;
 

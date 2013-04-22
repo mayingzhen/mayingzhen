@@ -2,8 +2,9 @@
 #define  _Material__H__
 
 
-#include "Common/RenderSystem/Texture.h"
+#include "IRendTexture.h"
 
+#define Texture IRendTexture
 
 namespace ma
 {
