@@ -34,6 +34,9 @@
 
 namespace ma
 {
+	class PropertyVisitor;
+	class Class;
+
 	class COMMON_API Object : public RefCountObject
 	{
 		DECL_OBJECT(Object)
@@ -49,10 +52,16 @@ namespace ma
 
 		bool			IsA(const Class* pParent) const;
 
-		//virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Object");
+		void			SetPropertyTag(Uint nTag) {m_nPropTag = nTag;}
+
+		Uint			GetPropertyTag() const {return m_nPropTag;}
+
+		virtual void	TravelProperty(PropertyVisitor* pVisitor);
 
 	protected:
-		std::string m_sName;
+		std::string	m_sName;
+
+		Uint		m_nPropTag; //transient data
 	};
 
 

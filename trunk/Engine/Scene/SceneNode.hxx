@@ -7,7 +7,7 @@ namespace ma
 	SceneNode::SceneNode(Scene* pSene, const char* pNodeName):
 	Object(pNodeName)
 	{
-		m_pScen = pSene;	
+		m_pScene = pSene;	
 		m_pParentNode = NULL;
 		m_btsfPSDirty = false;
 		m_btsfWSDirty = true;
@@ -339,23 +339,27 @@ namespace ma
 
 	void SceneNode::UpdateAABB()
 	{
-		//m_aabbLS = GetAABBLS()l
-// 		for (UINT nCnt = 0; nCnt < m_arrGameObj.size(); ++nCnt)
-// 		{
-// 			m_arrGameObj[nCnt]->UpdateLocalBounds();
-// 			m_localBound.Merge(* m_arrGameObj[nCnt]->GetLocalBounds());
-// 		}
+		const Matrix4x4& matWorld = GetWorldMatrix();
+		m_aabbWS = m_aabbLS;
+		m_aabbWS.Transform(matWorld);
 
-// 		const Matrix4x4& matWorld = GetWorldMatrix();
-// 		m_aabbBound = m_localBound;
-// 		m_aabbBound.Transform(matWorld);
-// 
-// 		for (Uint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
-// 		{
-// 			m_arrChildNode[nCnt]->UpdateBounds();
-// 			m_aabbBound.Merge(*m_arrChildNode[nCnt]->GetBounds());
-// 		}
 
+		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+		{
+			m_arrChildNode[nCnt]->UpdateAABB();
+			m_aabbWS.Merge(m_arrChildNode[nCnt]->GetAABBWS());
+		}
+
+	}
+
+	void SceneNode::TravelProperty(PropertyVisitor* pVisitor)
+	{
+		Object::TravelProperty(pVisitor);
+		
+		pVisitor->VisitProperty(m_tsfPS,"tsfPS");
+		pVisitor->VisitProperty((Object*&)m_pScene,"pScene",RefMode_Aggregate);
+		pVisitor->VisitProperty((Object*&)m_pParentNode,"pParent",RefMode_Aggregate);
+		pVisitor->VisitObjectArrayProperty(m_arrChildNode,"arrChildNode",RefMode_Composite);
 	}
 
 	void SceneNode::Serialize(SerializeListener& sl, const char* pszLable)

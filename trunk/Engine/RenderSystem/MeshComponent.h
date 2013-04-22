@@ -15,31 +15,36 @@ namespace ma
 
 		~MeshComponent();
 
-		void Render();
+		void			Render();
 
-		void Update();
+		void			Update();
 
-		void Start();
+		void			Start();
 
-		void Stop();
+		void			Stop();
 
-		void Load(const char* pszMeshPath,const char* pszTexPath);
+		void			Load(const char* pszMeshPath,const char* pszTexPath);
 
-		IRendMesh* GetRendMesh() {return m_pRendMesh;}
+		IRendMesh*		GetRendMesh() {return m_pRendMesh;}
 
 		//void SetMeshRes(IRendMesh* pMeshRes) {m_pMeshRes = pMeshRes;}
 
-		IRendTexture* GetTexture() {return m_pTexture;}
+		IRendTexture*	GetTexture() {return m_pTexture;}
 
-		void SetTexture(IRendTexture* pTexture) {m_pTexture = pTexture;}
+		void			SetTexture(IRendTexture* pTexture) {m_pTexture = pTexture;}
 
-		void GetBoundingAABB(Vector3& vMin,Vector3& vMax);
+		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
+		virtual void	TravelProperty(PropertyVisitor* pVisitor);
+
+		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
 
 	private:
 		IRendMesh*		m_pRendMesh;
 		IRendTexture*   m_pTexture;
+
+		std::string		m_strMeshPath;
+		std::string		m_strTexturePath;
 	};
 }
 

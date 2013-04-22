@@ -33,6 +33,8 @@ namespace ma
 
 		virtual void			SyncFromPhysics();
 
+		virtual void			TravelProperty(PropertyVisitor* pVisitor);
+
 		// TransformPS
 		void					SetTransformPS(const NodeTransform& tsfPS);
 		const NodeTransform&	GetTransformPS();
@@ -45,7 +47,7 @@ namespace ma
 		const NodeTransform&	GetTransformWS();
 		void					SetPositionWS(const Vector3& vPosWS);
 		void					TranslateWS(const Vector3& vDirWS);
-		const Vector3&		GetPositionWS();
+		const Vector3&			GetPositionWS();
 		const Matrix4x4&		GetWorldMatrix();
 
 		// TransformLS
@@ -57,7 +59,7 @@ namespace ma
 		EulerAngleXYZ			GetRotateLS();
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
-		Scene*					GetScene() {return m_pScen;}
+		Scene*					GetScene() {return m_pScene;}
 
 		SceneNode*				GetSceneNode() {return m_pParentNode;}
 		
@@ -65,9 +67,13 @@ namespace ma
 		
 		void					AddChildNode(SceneNode* pChildNode);
 
-		const AABB&				GetAABB() {return m_aabbWS;}		
+		const AABB&				GetAABBWS() {return m_aabbWS;}	
+
+		const AABB&				GetAABBLS() {return m_aabbLS;}
 
 		virtual void			Serialize(SerializeListener& sl, const char* pszLable = "SceneNode");
+
+		virtual void			UpdateAABB();
 
 	private:
 		void					UpdateMatWorld();
@@ -78,12 +84,10 @@ namespace ma
 
 		void					SetTransformWSDirty();
 
-		void					UpdateAABB();
-
 	protected:
 		std::vector<SceneNode*>	m_arrChildNode;
 		SceneNode*				m_pParentNode;
-		Scene*					m_pScen;
+		Scene*					m_pScene;
 		
 		// Transform
 		NodeTransform			m_tsfPS;	//relate to parent node

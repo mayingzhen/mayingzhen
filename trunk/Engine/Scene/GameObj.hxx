@@ -22,50 +22,50 @@ namespace ma
 
 	void GameObject::Render()
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->Render();
+			m_arrComp[i]->Render();
 		}
 	}
 
 	void GameObject::Update()
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->Update();
+			m_arrComp[i]->Update();
 		}
 	}
 
 
 	void GameObject::ParalleUpdate(float fTimeElapsed)
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->ParalleUpdate(fTimeElapsed);
+			m_arrComp[i]->ParalleUpdate(fTimeElapsed);
 		}
 	}
 
 	void GameObject::FixedUpdate(float fTimeElapsed)
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->FixedUpdate(fTimeElapsed);
+			m_arrComp[i]->FixedUpdate(fTimeElapsed);
 		}
 	}
 
 	void GameObject::LateUpdate(float fTimeElapsed)
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->LateUpdate(fTimeElapsed);
+			m_arrComp[i]->LateUpdate(fTimeElapsed);
 		}
 	}
 
 	void GameObject::Start()
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->Start();
+			m_arrComp[i]->Start();
 		}
 
 		if (m_pPhyscisObject)
@@ -76,9 +76,9 @@ namespace ma
 
 	void GameObject::Stop()
 	{
-		for (UINT i = 0; i < m_vComponents.size(); ++i)
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			m_vComponents[i]->Stop();
+			m_arrComp[i]->Stop();
 		}
 
 		if (m_pPhyscisObject)
@@ -92,11 +92,11 @@ namespace ma
 		if (pComponent == NULL)
 			return;
 
-		std::vector<Component*>::iterator it = find(m_vComponents.begin(),m_vComponents.end(),pComponent);
-		if (it != m_vComponents.end())
+		std::vector<Component*>::iterator it = find(m_arrComp.begin(),m_arrComp.end(),pComponent);
+		if (it != m_arrComp.end())
 			return;
 
-		m_vComponents.push_back(pComponent);
+		m_arrComp.push_back(pComponent);
 
 		pComponent->SetGameObject(this);
 	}
@@ -119,23 +119,35 @@ namespace ma
 			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 
+	void GameObject::TravelProperty(PropertyVisitor* pVisitor)
+	{
+		SceneNode::TravelProperty(pVisitor);
+
+		pVisitor->VisitObjectArrayProperty(m_arrComp,"arrComp",RefMode_Composite);
+	}
+
 	void GameObject::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		__super::Serialize(sl,pszLable);
 
 		sl.BeginSection(pszLable);
 
-		sl.SerializeObjectArray(m_vComponents);
+		sl.SerializeObjectArray(m_arrComp);
 
 		sl.EndSection();
 
 		if ( sl.IsReading() )
 		{
-			for(UINT i = 0; i < m_vComponents.size(); ++i)
+			for(UINT i = 0; i < m_arrComp.size(); ++i)
 			{
-				m_vComponents[i]->SetGameObject(this);
+				m_arrComp[i]->SetGameObject(this);
 			}
 		}
+	}
+
+	void GameObject::UpdateAABB()
+	{
+
 	}
 }
 

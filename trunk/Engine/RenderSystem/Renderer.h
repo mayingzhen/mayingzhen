@@ -38,7 +38,7 @@ namespace ma
 				void            SetMaterial(const Material * material);
 				Material *      GetMaterial();
 
-		virtual Technique *		GetTechnique(eRenderTechType::enum_t type) { return NULL; }
+		//virtual Technique *		GetTechnique(eRenderTechType::enum_t type) { return NULL; }
 
 				void			SetUsingDefferedShading(bool b) { mUsingDefferedShading = b; }
 				bool			IsUsingDefferedShading() { return mUsingDefferedShading; }

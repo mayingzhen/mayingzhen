@@ -1,5 +1,5 @@
-#include "Common/RTTI/Object.h"
-//#include "Common/Serialize/SerializeListener.h"
+#include "Object.h"
+#include "Property.h"
 
 namespace ma
 {
@@ -31,14 +31,12 @@ namespace ma
 	{
 
 	}
+
+	void Object::TravelProperty(PropertyVisitor* pVisitor)
+	{
+		pVisitor->VisitProperty(m_nPropTag,"propTag",0);
+		pVisitor->VisitProperty(m_sName,"name","object");
+	}
 	
-// 	void Object::Serialize(SerializeListener& sl,const char* pszLable) 
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		sl.Serialize(m_sName);
-// 
-// 		sl.EndSection();
-// 	}
 }
 

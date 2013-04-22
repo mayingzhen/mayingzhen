@@ -259,6 +259,14 @@
 					RelativePath=".\RTTI\ObjectFactory.hxx"
 					>
 				</File>
+				<File
+					RelativePath=".\RTTI\Property.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RTTI\Property.hxx"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Math"

@@ -23,7 +23,7 @@ namespace ma
 		return m_key;
 	}
 
-	bool ScriptEventBinder::BindScriptEvent(S3AObject* pSender,S3AName signal,ScriptObjectHandle hReciver,S3AName slot)
+	bool ScriptEventBinder::BindScriptEvent(Object* pSender,const char* signal,ScriptObjectHandle hReciver,const char* slot)
 	{
 		m_key.m_sender = (int)pSender;
 		m_key.m_signal = signal;

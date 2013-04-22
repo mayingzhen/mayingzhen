@@ -1,5 +1,5 @@
-#include "Common/RenderSystem/Material.h"
-#include "Common/IRender/IRenderDevice.h"
+#include "Material.h"
+#include "IRenderDevice.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4244)
@@ -28,10 +28,10 @@ Material::Material()
 //     mAmbient = COLOR::Gray;
 //     mDiffuse = COLOR::White;
 //     mSpecular = COLOR::Black;
-	   mEmissive = COLOR(0.0f, 0.0f, 0.0f, 1.0f);
-	   mAmbient = COLOR(0.5f, 0.5f, 0.5f, 1.0f);
-       mDiffuse = COLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	   mSpecular = COLOR(0.0f, 0.0f, 0.0f, 1.0f);
+	   mEmissive = Color(0.0f, 0.0f, 0.0f, 1.0f);
+	   mAmbient = Color(0.5f, 0.5f, 0.5f, 1.0f);
+       mDiffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	   mSpecular = Color(0.0f, 0.0f, 0.0f, 1.0f);
     mSpecularPower = 80;
 
     //mEmissiveMap = RenderHelper::Instance()->GetBlackTexture();
@@ -70,7 +70,6 @@ void Material::SetEmissiveMap(const char* tex)
 	//	mEmissiveMap = VideoBufferManager::Instance()->Load2DTexture(tex, tex);
 	//else
 	//	mEmissiveMap = RenderHelper::Instance()->GetBlackTexture();
-	mEmissiveMap = GetRenderDevice()->Load2DTexture(tex);
 }
 
 void Material::SetDiffuseMap(const char* tex)
@@ -79,7 +78,6 @@ void Material::SetDiffuseMap(const char* tex)
 	//	mDiffuseMap = VideoBufferManager::Instance()->Load2DTexture(tex, tex);
 	//else
 	//	mDiffuseMap = RenderHelper::Instance()->GetWhiteTexture();
-	mDiffuseMap = GetRenderDevice()->Load2DTexture(tex);
 }
 
 void Material::SetSpecularMap(const char* tex)
@@ -88,7 +86,6 @@ void Material::SetSpecularMap(const char* tex)
 	//	mSpecularMap = VideoBufferManager::Instance()->Load2DTexture(tex, tex);
 	//else
 	//	mSpecularMap = RenderHelper::Instance()->GetBlackTexture();
-	mSpecularMap = GetRenderDevice()->Load2DTexture(tex);
 }
 
 void Material::SetNormalMap(const char* tex)
@@ -97,7 +94,6 @@ void Material::SetNormalMap(const char* tex)
 	//	mNormalMap = VideoBufferManager::Instance()->Load2DTexture(tex, tex);
 	//else
 	//	mNormalMap = RenderHelper::Instance()->GetDefaultNormalTexture();
-	mNormalMap = GetRenderDevice()->Load2DTexture(tex);
 }
 
 void Material::SetSpecularPower(float power)
