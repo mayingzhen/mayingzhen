@@ -30,7 +30,6 @@
 #include "Engine/Resource/Serialize/StringConverter.h"
 #include "Engine/Resource/Serialize/XMLInputArchive.h"
 #include "Engine/Resource/Serialize/XMLOutputArchive.h"
-#include "Engine/Resource/Serialize/XMLSerialize.h"
 
 
 // RenderSystem

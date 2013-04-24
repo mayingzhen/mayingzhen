@@ -16,7 +16,6 @@
 // RTTI
 #include "Common/RTTI/Class.hxx"
 #include "Common/RTTI/Object.hxx"
-#include "Common/RTTI/Property.hxx"
 #include "Common/RTTI/ObjectFactory.hxx"
 
 

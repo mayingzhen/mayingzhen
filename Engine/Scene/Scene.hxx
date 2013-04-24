@@ -84,15 +84,6 @@ namespace ma
 			m_pRootNode->Stop();
 	}
 
-
-	void Scene::TravelProperty(PropertyVisitor* pVisitor)
-	{
-		Object::TravelProperty(pVisitor);
-		
-		pVisitor->VisitProperty((Object*&)m_pRootNode,"pRootNode",RefMode_Composite);
-		
-	}
-
 	void Scene::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);

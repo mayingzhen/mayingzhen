@@ -20,7 +20,6 @@
 
 // RTTI
 #include "Common/RTTI/Object.h"
-#include "Common/RTTI/Property.h"
 #include "Common/RTTI/Class.h"
 #include "Common/RTTI/ObjectFactory.h"
 

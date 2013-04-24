@@ -33,8 +33,6 @@ namespace ma
 
 		virtual void			SyncFromPhysics();
 
-		virtual void			TravelProperty(PropertyVisitor* pVisitor);
-
 		// TransformPS
 		void					SetTransformPS(const NodeTransform& tsfPS);
 		const NodeTransform&	GetTransformPS();

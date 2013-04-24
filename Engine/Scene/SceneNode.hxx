@@ -352,16 +352,6 @@ namespace ma
 
 	}
 
-	void SceneNode::TravelProperty(PropertyVisitor* pVisitor)
-	{
-		Object::TravelProperty(pVisitor);
-		
-		pVisitor->VisitProperty(m_tsfPS,"tsfPS");
-		pVisitor->VisitProperty((Object*&)m_pScene,"pScene",RefMode_Aggregate);
-		pVisitor->VisitProperty((Object*&)m_pParentNode,"pParent",RefMode_Aggregate);
-		pVisitor->VisitObjectArrayProperty(m_arrChildNode,"arrChildNode",RefMode_Composite);
-	}
-
 	void SceneNode::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);

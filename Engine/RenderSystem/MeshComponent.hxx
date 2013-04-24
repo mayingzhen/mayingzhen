@@ -68,16 +68,6 @@ namespace ma
 		}
 	}
 
-	void MeshComponent::TravelProperty(PropertyVisitor* pVisitor)
-	{
-		Component::TravelProperty(pVisitor);
-
-		pVisitor->BeginVisitGroup("MeshComponent","Section");
-		pVisitor->VisitProperty(m_strMeshPath,"MeshPath");
-		pVisitor->VisitProperty(m_strTexturePath,"TexturePath");
-		pVisitor->EndVisiteGroup("MeshComponent");
-	}
-
 	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
 	{
 		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
