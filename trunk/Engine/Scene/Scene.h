@@ -39,6 +39,8 @@ namespace ma
 
 		SceneNode*		GetRootNode() {return m_pRootNode;}
 
+		virtual void	TravelProperty(PropertyVisitor* pVisitor);
+
 		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Scene");
 
 	private:

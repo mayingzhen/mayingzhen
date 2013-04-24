@@ -85,22 +85,25 @@ namespace ma
 			pGameObj->TranslateWS(Vector3(0,-3,0));
 		}
 
-		{
-			BinaryOutputArchive arOut;
-			bool bOpenOK = arOut.Open("../Tesx.scene");
-			assert(bOpenOK);
-			pScene->Serialize(arOut);
-			SAFE_DELETE(pScene);
-		}
+		XMLSaveVisitor saveVistor;
+		saveVistor.SaveToXMLFile("../Tesx.scene.xml",pScene);
 
-		{
-			BinaryInputArchive arIn;
-			bool bOpenOK = arIn.Open("../Tesx.scene");
-			assert(bOpenOK);
-			//SAFE_DELETE(m_pScene);
-			//m_pScene = new Scene(NULL);
-			m_pScene->Serialize(arIn);
-		}
+// 		{
+// 			BinaryOutputArchive arOut;
+// 			bool bOpenOK = arOut.Open("../Tesx.scene");
+// 			assert(bOpenOK);
+// 			pScene->Serialize(arOut);
+// 			SAFE_DELETE(pScene);
+// 		}
+// 
+// 		{
+// 			BinaryInputArchive arIn;
+// 			bool bOpenOK = arIn.Open("../Tesx.scene");
+// 			assert(bOpenOK);
+// 			//SAFE_DELETE(m_pScene);
+// 			//m_pScene = new Scene(NULL);
+// 			m_pScene->Serialize(arIn);
+// 		}
 
 
 		m_pScene->Start();

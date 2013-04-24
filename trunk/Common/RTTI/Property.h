@@ -82,6 +82,10 @@ namespace ma
 
 		virtual void VisitProperty(std::string& val,const char* propName, const char* defVal = "");
 
+		virtual void VisitProperty(Vector3& val,const char* propName);
+
+		virtual void VisitProperty(Quaternion& val,const char* propName);
+
 		virtual void VisitProperty(NodeTransform& val,const char* propName);
 
 		virtual void VisitProperty(Object*& val,const char* propName,PropertyRefMode refMode);

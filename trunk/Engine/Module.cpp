@@ -26,6 +26,7 @@
 #include "Engine/Resource/Serialize/BinaryOutputArchive.hxx"
 #include "Engine/Resource/Serialize/XMLInputArchive.hxx"
 #include "Engine/Resource/Serialize/XMLOutputArchive.hxx"
+#include "Engine/Resource/Serialize/XMLSerialize.hxx"
 
 
 // RenderSystem

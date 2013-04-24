@@ -331,6 +331,14 @@
 					RelativePath=".\Resource\Serialize\XMLOutputArchive.hxx"
 					>
 				</File>
+				<File
+					RelativePath=".\Resource\Serialize\XMLSerialize.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Resource\Serialize\XMLSerialize.hxx"
+					>
+				</File>
 				<Filter
 					Name="Tinyxml"
 					>
