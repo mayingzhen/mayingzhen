@@ -34,7 +34,7 @@ namespace ma
 
 	void Object::TravelProperty(PropertyVisitor* pVisitor)
 	{
-		pVisitor->VisitProperty(m_nPropTag,"propTag",0);
+		//pVisitor->VisitProperty(m_nPropTag,"propTag",0);
 		pVisitor->VisitProperty(m_sName,"name","object");
 	}
 	

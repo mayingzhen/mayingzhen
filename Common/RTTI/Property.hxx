@@ -73,9 +73,27 @@ namespace ma
 	{
 	}
 
+	void PropertyVisitor::VisitProperty(Vector3& val,const char* propName)
+	{
+		VisitProperty(val.x,"x");
+		VisitProperty(val.y,"y");	
+		VisitProperty(val.z,"z");	
+	}
+
+	void PropertyVisitor::VisitProperty(Quaternion& val,const char* propName)
+	{
+		VisitProperty(val.x,"x");
+		VisitProperty(val.y,"y");	
+		VisitProperty(val.z,"z");
+		VisitProperty(val.w,"w");	
+	}
+
 	void PropertyVisitor::VisitProperty(NodeTransform& val,const char* propName)
 	{
-
+		VisitProperty(val.m_vPos,"m_vPos");
+		VisitProperty(val.m_qRot,"m_qRot");
+		VisitProperty(val.m_fScale,"m_fScale");
+		VisitProperty(val.m_vLocalScale,"m_vLocalScale");
 	}
 
 	void PropertyVisitor::VisitProperty(Object*& val,const char* propName,PropertyRefMode refMode)
@@ -86,7 +104,5 @@ namespace ma
 		}
 		
 	}
-
-
 
 }

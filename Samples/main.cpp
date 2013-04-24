@@ -35,7 +35,7 @@ public:
 		SampleShadowMap* pShadowMap = new SampleShadowMap();
 		m_vSceneView.push_back(pShadowMap);
 
-		m_nCurSceneInde = m_vSceneView.size() - 2;
+		m_nCurSceneInde = 3;
 	}
 
 	virtual void Init(int argc, char* argv[])

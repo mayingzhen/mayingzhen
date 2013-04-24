@@ -17,17 +17,28 @@ namespace ma
 // 		}
 // 	}
 
-	void XMLSaveVisitor::SaveToXML(TiXmlElement* pParent,Object* pObj,const char* propName)
+	bool XMLSaveVisitor::SaveToXMLFile(const char* pszFileName,Object* pObj)
 	{
-		m_pRootElem = pParent;
-		m_pParentElem = pParent;
-		VisitProperty(pObj,propName,RefMode_Composite);
+		if (pszFileName == NULL || pObj == NULL)
+			return false;
+
+		TiXmlDocument document;
+		m_pRootElem = new TiXmlElement( pObj->GetName() );
+		m_pParentElem = m_pRootElem;
+		
+		VisitProperty(pObj,"",RefMode_Composite);
+
+		document.LinkEndChild(m_pRootElem);
+
+		bool bSaveOK = document.SaveFile(pszFileName);
+
+		return bSaveOK;
 	}
 
 	void XMLSaveVisitor::BeginVisitGroup(const char* propName,const char* groupType)
 	{
-		TiXmlElement* pGroupElem = new TiXmlElement(propName.GetName());
-		pGroupElem->SetAttribute("type",groupType.GetName());
+		TiXmlElement* pGroupElem = new TiXmlElement(propName);
+		pGroupElem->SetAttribute("type",groupType);
 		m_pParentElem->LinkEndChild(pGroupElem);
 		
 		m_arrGroupStack.push_back(m_pParentElem);
@@ -42,8 +53,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(bool& val,const char* propName,bool defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","bool");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -51,8 +61,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(char& val,const char* propName,char defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","char");	
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		char strVal[2] = {val,'\0'};
 		pElem->SetAttribute("value",strVal);
 		m_pParentElem->LinkEndChild(pElem);
@@ -61,16 +70,14 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(short& val,const char* propName,short defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","short");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
 
 	void XMLSaveVisitor::VisitProperty(int& val,const char* propName,int defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","int");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -78,8 +85,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(long& val,const char* propName,long defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","long");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -87,16 +93,14 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(unsigned char& val,const char* propName,unsigned char defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","unsigned char");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
 
 	void XMLSaveVisitor::VisitProperty(unsigned short& val,const char* propName,unsigned short defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","unsigned short");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -104,8 +108,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(unsigned int& val,const char* propName,unsigned int defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","unsigned int");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -113,8 +116,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(unsigned long& val,const char* propName,unsigned long defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","unsigned long");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -122,8 +124,7 @@ namespace ma
 
 	void XMLSaveVisitor::VisitProperty(float& val,const char* propName, float defVal)
 	{
-		TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		pElem->SetAttribute("type","float");
+		TiXmlElement* pElem = new TiXmlElement(propName);
 		pElem->SetAttribute("value",StringConverter::ToString(val).c_str());
 		m_pParentElem->LinkEndChild(pElem);
 	}
@@ -131,51 +132,50 @@ namespace ma
 
 	 void XMLSaveVisitor::VisitProperty(std::string& val,const char* propName, const char* defVal)
 	 {
-		 TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		 pElem->SetAttribute("type","string");
+		 TiXmlElement* pElem = new TiXmlElement(propName);
 		 pElem->SetAttribute("value",val.c_str());
 		 m_pParentElem->LinkEndChild(pElem);
 	 }
 
 	 void XMLSaveVisitor::VisitProperty(const char*& val,const char* propName,const char* defVal)
 	 {
-		 TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-		 pElem->SetAttribute("type","name");
-		 pElem->SetAttribute("value",val.GetName());
+		 TiXmlElement* pElem = new TiXmlElement(propName);
+		 pElem->SetAttribute("value",val);
 		 m_pParentElem->LinkEndChild(pElem);
 	 }
 
+	  void XMLSaveVisitor::VisitProperty(NodeTransform& val,const char* propName)
+	  {
+		  TiXmlElement* pElem = new TiXmlElement(propName);
+		  {
+				TiXmlElement* pEleSacle = new TiXmlElement("m_pos");
+				pElem->SetAttribute("x");
+		  }
+		  m_pParentElem->LinkEndChild(pElem);
+	  }
+
 	 void XMLSaveVisitor::VisitProperty(Object*& val,const char* propName,PropertyRefMode refMode)
 	 {
-		 if (val != NULL)
+		 if (val == NULL)
+			 return;
+
+		 TiXmlElement* pElem = new TiXmlElement(propName);
+		 pElem->SetAttribute("type",val->GetClass()->GetName());
+		 if (refMode == RefMode_Composite)
 		 {
-			 TiXmlElement* pElem = new TiXmlElement(propName.GetName());
-			 pElem->SetAttribute("type",val->GetClass()->GetName().GetName());
-			 pElem->SetAttribute("aggregate",refMode == RefMode_Aggregate ? "true" : "false");
-
-			 union 
-			 {
-				 RefID refID;
-				 Uint nRefID;
-			 };
-
-			 nRefID = val->GetPropertyTag();
-			 if (refID.nRefIndex != 0)
-			 {
-				 pElem->SetAttribute("ref_id",StringConverter::ToString(refID.nRefIndex).c_str());
-			 }
-
-			 m_pParentElem->LinkEndChild(pElem);
-
 			 TiXmlElement* preParent = m_pParentElem;
 			 m_pParentElem = pElem;
 
-			 if (refMode == RefMode_Composite)
-			 {
-				 val->TravelProperty(this);
-			 }
-
-			 m_pParentElem = preParent; 
+			val->TravelProperty(this);
+			
+			m_pParentElem = preParent;
 		 }
+		 else
+		 {
+
+		 }
+
+		 m_pParentElem->LinkEndChild(pElem);
 	 }
 }
+

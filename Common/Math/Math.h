@@ -46,7 +46,7 @@ struct COMMON_API NodeTransform
 {
 	Vector3		m_vPos;
 	Quaternion	m_qRot;
-	float			m_fScale; //propagative scale
+	float		m_fScale; //propagative scale
 
 	Vector3		m_vLocalScale;
 
