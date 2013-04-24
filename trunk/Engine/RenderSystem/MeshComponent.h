@@ -35,8 +35,6 @@ namespace ma
 
 		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
-		virtual void	TravelProperty(PropertyVisitor* pVisitor);
-
 		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
 
 	private:

@@ -119,16 +119,9 @@ namespace ma
 			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
 	}
 
-	void GameObject::TravelProperty(PropertyVisitor* pVisitor)
-	{
-		SceneNode::TravelProperty(pVisitor);
-
-		pVisitor->VisitObjectArrayProperty(m_arrComp,"arrComp",RefMode_Composite);
-	}
-
 	void GameObject::Serialize(SerializeListener& sl, const char* pszLable)
 	{
-		__super::Serialize(sl,pszLable);
+		SceneNode::Serialize(sl,pszLable);
 
 		sl.BeginSection(pszLable);
 

@@ -43,8 +43,6 @@ namespace ma
 
 		void			SyncFromPhysics();
 
-		virtual void	TravelProperty(PropertyVisitor* pVisitor);
-
 		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "GameObject");
 	
 	protected:

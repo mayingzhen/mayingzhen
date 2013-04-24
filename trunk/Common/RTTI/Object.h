@@ -34,7 +34,6 @@
 
 namespace ma
 {
-	class PropertyVisitor;
 	class Class;
 
 	class COMMON_API Object : public RefCountObject
@@ -52,16 +51,8 @@ namespace ma
 
 		bool			IsA(const Class* pParent) const;
 
-		void			SetPropertyTag(Uint nTag) {m_nPropTag = nTag;}
-
-		Uint			GetPropertyTag() const {return m_nPropTag;}
-
-		virtual void	TravelProperty(PropertyVisitor* pVisitor);
-
 	protected:
-		std::string	m_sName;
-
-		Uint		m_nPropTag; //transient data
+		std::string		m_sName;
 	};
 
 
