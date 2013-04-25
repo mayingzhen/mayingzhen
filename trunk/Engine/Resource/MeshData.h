@@ -29,7 +29,8 @@ namespace ma
 
 	enum VertexType
 	{
-		VT_SKIN_VERTEX_0 = 0,
+		VT_SKIN_VERTEX_0,
+		VT_3f_3f_2f,
 	};
 
 	struct ENGINE_API VertexType0 
@@ -54,6 +55,25 @@ namespace ma
 
 		void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
 	};
+
+	struct ENGINE_API VT_3F_3F_2F 
+	{
+	public:
+		Vector3  p;				// position
+		Vector3	 n;				// normal
+		Vector2	 uv;			// Texture Coordinate
+
+		bool operator == ( const VertexType0& other) const
+		{
+			if (p == other.p && uv == other.uv)
+				return true;
+			else
+				return false;
+		}
+
+		void	Serialize(SerializeListener& sl,const char* pszLabel = "Vertex");
+	};
+
 
 	struct ENGINE_API CylinderShape
 	{
@@ -213,14 +233,15 @@ namespace ma
 	};
 
 
+
 	struct ENGINE_API MeshData : public Resource
 	{
 	public:
 		MeshHeader					m_header;
 		UINT						m_nIndexType;
 		UINT						m_nVertexType;
-		std::vector<Uint8>		m_arrIndexBuffer;
-		std::vector<Uint8>		m_arrVertexBuffer;
+		std::vector<Uint8>			m_arrIndexBuffer;
+		std::vector<Uint8>			m_arrVertexBuffer;
 		Bounding					m_meshBound;	
 		std::vector<SubMeshData*>	m_arrSubMesh;
 		
@@ -264,6 +285,7 @@ namespace ma
 		void					Serialize(SerializeListener& sl,const char* pszLabel = "MeshData");
 
 	};
+	
 }
 
 #endif// __MeshData_H__ 

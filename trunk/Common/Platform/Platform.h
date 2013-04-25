@@ -37,6 +37,12 @@
 #endif
 
 
+COMMON_API int DisplayError(const char * title, 
+							const char * text, 
+							const char * description, 
+							const char * file, 
+							int line);
+
 
 
 
