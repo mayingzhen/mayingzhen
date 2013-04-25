@@ -356,7 +356,63 @@ namespace ma
 	{
 		return (VertexType0*)(m_arrVertexBuffer.size() > 0 ? &m_arrVertexBuffer[0] : 0);
 	}
-		
+
+	int GenVertexDecl(VertexDeclarationPtr decl, int vertexElems)
+	{
+		int voffset = 0;
+
+		if (vertexElems & VE_POSITION)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT3, DU_POSITION, 0);
+			voffset += 12;
+		}
+
+		if (vertexElems & VE_NORMAL)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT3, DU_NORMAL, 0);
+			voffset += 12;
+		}
+
+		if (vertexElems & VE_COLOR)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT4, DU_COLOR, 0);
+			voffset += 16;
+		}
+
+		if (vertexElems & VE_TANGENT)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT3, DU_TANGENT, 0);
+			voffset += 12;
+		}
+
+		if (vertexElems & VE_TEXCOORD)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT2, DU_TEXCOORD, 0);
+			voffset += 8;
+		}
+
+		if (vertexElems & VE_LIGHTMAPUV)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT2, DU_TEXCOORD, 1);
+			voffset += 8;
+		}
+
+		if (vertexElems & VE_BLENDINDICES)
+		{
+			decl->AddElement(0, voffset, DT_UBYTE4, DU_BLENDINDICES, 0);
+			voffset += 4;
+		}
+
+		if (vertexElems & VE_BLENDWEIGHTS)
+		{
+			decl->AddElement(0, voffset, DT_FLOAT4, DU_BLENDWEIGHT, 0);
+			voffset += 16;
+		}
+
+		decl->Init();
+
+		return voffset;
+	}
 
 	void MeshData::Serialize(SerializeListener& sl,const char* pszLabel)
 	{
@@ -384,6 +440,10 @@ namespace ma
 		if (VT_SKIN_VERTEX_0 == m_nVertexType)
 		{
 			sl.SerializeRawData<VertexType0>(m_arrVertexBuffer,"VertexBuffer");
+		}
+		else if (VT_3F_3F_2F == m_nVertexType)
+		{
+			sl.SerializeRawData<VT_3F_3F_2F>(m_arrVertexBuffer,"VertexBuffer");
 		}
 
 		sl.Serialize(m_meshBound,"MeshBound");

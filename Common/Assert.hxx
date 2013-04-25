@@ -1,6 +1,7 @@
 #include "Assert.h"
 
-void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,const char* pszFunction,Uint nLine,const char* fmt,...)
+void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,
+			   const char* pszFunction,Uint nLine,const char* fmt,...)
 {
 	if (!bOK)
 	{

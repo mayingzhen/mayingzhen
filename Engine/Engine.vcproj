@@ -261,6 +261,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resource\MeshLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resource\MeshLoader.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource\Resource.h"
 				>
 			</File>
