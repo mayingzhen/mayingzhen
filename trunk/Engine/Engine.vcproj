@@ -409,6 +409,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderSystem\Mesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Mesh.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderSystem\MeshComponent.h"
 				>
 			</File>
