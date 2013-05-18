@@ -61,7 +61,8 @@ namespace ma
 
 		GetRenderDevice()->BeginRender();
 		
-		m_pRootNode->Render();
+		//GetRenderDevice()->DoRender();
+		//m_pRootNode->Render();
 
 		GetRenderDevice()->EndRender();
 	}

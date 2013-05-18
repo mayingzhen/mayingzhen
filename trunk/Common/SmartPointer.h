@@ -108,14 +108,14 @@ SmartPointer<T>& SmartPointer<T>::operator=(const SmartPointer<T>& rhs)
 template<class T>
 T* SmartPointer<T>::operator->()
 {
-	assert(NULL != m_pData);
+	ASSERT(NULL != m_pData);
 	return m_pData;
 }
 
 template<class T>
 const T* SmartPointer<T>::operator->() const 
 {
-	assert(NULL != m_pData);
+	ASSERT(NULL != m_pData);
 	return m_pData;
 }
 
@@ -129,7 +129,7 @@ T* SmartPointer<T>::GetData()
 template<class T>
 const T* SmartPointer<T>::GetData() const 
 {
-	assert(NULL != m_pData);
+	ASSERT(NULL != m_pData);
 	return m_pData;
 }
 
@@ -175,92 +175,13 @@ public:
 
 };
 
-template<class T>
-SmartConstPointer<T>::SmartConstPointer()
-:m_pData(NULL)
-{
-}
 
-template<class T>
-SmartConstPointer<T>::SmartConstPointer(const T* pData)
-:m_pData(pData)
-{
-	if (pData)
-	{
-		pData->IncReference();
-	}
-}
+#include "SmartPointer.inl"
 
-template<class T>
-SmartConstPointer<T>::SmartConstPointer(const SmartConstPointer<T>& rhs)
-:m_pData(NULL)
-{
-	*this = rhs;
-}
-
-template<class T>
-SmartConstPointer<T>::~SmartConstPointer()
-{
-	if (m_pData)
-	{
-		m_pData->DecReference();
-	}
-
-}
-
-template<class T>
-bool SmartConstPointer<T>::IsNull()const
-{
-	return NULL == m_pData;
-}
-
-template<class T>
-void SmartConstPointer<T>::SetNull()
-{
-	*this = NULL;
-}
-
-template<class T>
-SmartConstPointer<T>& SmartConstPointer<T>::operator=(const SmartConstPointer<T>& rhs)
-{
-	if (this != &rhs)
-	{
-		if (rhs.m_pData)
-		{
-			rhs.m_pData->IncReference();
-		}
-
-		if (m_pData)
-		{
-			m_pData->DecReference();
-		}	
-
-		m_pData = rhs.m_pData;
-	}
-
-	return *this;
-}
+#define DeclareSmartPtr(classname)  \
+	class classname;                \
+	typedef SmartConstPointer<classname> classname##Ptr
 
 
-template<class T>
-const T* SmartConstPointer<T>::operator->() const 
-{
-	assert(NULL != m_pData);
-	return m_pData;
-}
-
-
-template<class T>
-const T* SmartConstPointer<T>::GetData() const 
-{
-
-	return m_pData;
-}
-
-template<class T>
-bool				SmartConstPointer<T>::operator == (T* rhs) const
-{
-	return m_pData == rhs;
-}
 
 #endif// __SmartPointer_H__

@@ -28,6 +28,8 @@ namespace ma
 		m_arrParentInd.resize(nBoneNum);
 		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
+			TransformSetIdentity(&arrNodeOS[nBoneCnt]);
+
 			arrNodeOS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
 			//arrNodeOS[nBoneCnt].m_qRot = ;
 			QuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);

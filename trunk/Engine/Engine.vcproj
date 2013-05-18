@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include"
+				AdditionalIncludeDirectories="../;../extern/include;../extern/glew/include;../extern/openal/include/al;../extern/lua/include;../extern/libpng/include;../extern/zlib/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -173,31 +173,19 @@
 			Name="Application"
 			>
 			<File
-				RelativePath=".\Application\Application.h"
+				RelativePath=".\Application\Game.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\Application.hxx"
+				RelativePath=".\Application\Game.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\ApplicationWin.h"
+				RelativePath=".\Application\Platform.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\ApplicationWin.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Application\Input.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Application\Input.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Application\SceneView.h"
+				RelativePath=".\Application\Platform.hxx"
 				>
 			</File>
 			<File
@@ -208,6 +196,34 @@
 				RelativePath=".\Application\Timer.hxx"
 				>
 			</File>
+			<Filter
+				Name="Android"
+				>
+				<File
+					RelativePath=".\Application\Android\android_native_app_glue.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Application\Android\android_native_app_glue.hxx"
+					>
+				</File>
+				<File
+					RelativePath=".\Application\Android\ApplicationAndroid.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Application\Android\ApplicationAndroid.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Win"
+				>
+				<File
+					RelativePath=".\Application\Win\PlatformWin.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Animation"
@@ -261,11 +277,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resource\MeshLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource\MeshLoader.hxx"
+				RelativePath=".\Resource\MeshRes.h"
 				>
 			</File>
 			<File
@@ -389,18 +401,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderSystem\IRendMesh.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\IRendMesh.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\IRendTexture.h"
-				>
-			</File>
-			<File
 				RelativePath=".\RenderSystem\Material.h"
 				>
 			</File>
@@ -409,27 +409,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderSystem\Mesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\Mesh.h"
-				>
-			</File>
-			<File
 				RelativePath=".\RenderSystem\MeshComponent.h"
 				>
 			</File>
 			<File
 				RelativePath=".\RenderSystem\MeshComponent.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\PrimtiveStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderSystem\PrimtiveStream.hxx"
 				>
 			</File>
 			<File
@@ -445,11 +429,67 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderSystem\RenderPipeline.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderQueue.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderScheme.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderScheme.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderTarget.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RenderTarget.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RendMesh.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\RendMesh.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\ShadowDepthPass.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\ShadowDepthPass.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderSystem\ShadowMap.h"
 				>
 			</File>
 			<File
 				RelativePath=".\RenderSystem\ShadowMap.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Technique.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Technique.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\Texture.h"
 				>
 			</File>
 			<File
@@ -462,6 +502,14 @@
 			</File>
 			<File
 				RelativePath=".\RenderSystem\VertexDeclaration.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\VertexStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderSystem\VertexStream.hxx"
 				>
 			</File>
 		</Filter>
@@ -565,6 +613,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scene\CameraController.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Scene\CameraController.hxx"
+				>
+			</File>
+			<File
 				RelativePath=".\Scene\Component.h"
 				>
 			</File>
@@ -617,6 +673,38 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Input"
+			>
+			<File
+				RelativePath=".\Input\Gesture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Joystick.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Joystick.hxx"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Joystick.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Keyboard.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Mouse.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Input\Touch.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\Export.h"
 			>
@@ -643,6 +731,14 @@
 		</File>
 		<File
 			RelativePath=".\stdAfx.h"
+			>
+		</File>
+		<File
+			RelativePath=".\WarningPrefix.h"
+			>
+		</File>
+		<File
+			RelativePath=".\WarningSuffix.h"
 			>
 		</File>
 	</Files>

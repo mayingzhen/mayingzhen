@@ -8,11 +8,11 @@ namespace ma
 		m_pScene = NULL;
 	}
 
-	void SampleSceneSerialize::Init(Application* pApplication)
+	void SampleSceneSerialize::Init(ApplicationBase* pApplication)
 	{
 		BtPhysicsModuleInit();
 
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		//Vector3 vEyePos = Vector3(0, 6, 10);
 		m_fMoveCameraSpeed = 0.20f;
@@ -23,7 +23,7 @@ namespace ma
 	{
 		BtPhysicsModuleShutdown();
 
-		SimpleSceneView::Shutdown();
+		Sample::Shutdown();
 	}
 
 	void SampleSceneSerialize::Load()
@@ -88,7 +88,7 @@ namespace ma
 		{
 			BinaryOutputArchive arOut;
 			bool bOpenOK = arOut.Open("../Tesx.scene");
-			assert(bOpenOK);
+			ASSERT(bOpenOK);
 			pScene->Serialize(arOut);
 			SAFE_DELETE(pScene);
 		}
@@ -96,7 +96,7 @@ namespace ma
 		{
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open("../Tesx.scene");
-			assert(bOpenOK);
+			ASSERT(bOpenOK);
 			//SAFE_DELETE(m_pScene);
 			//m_pScene = new Scene(NULL);
 			m_pScene->Serialize(arIn);
@@ -120,7 +120,7 @@ namespace ma
 			{
 				XMLOutputArchive arOut;
 				bool bOpenOK = arOut.Open("../Tesx.scene.l");
-				assert(bOpenOK);
+				ASSERT(bOpenOK);
 				m_pScene->Serialize(arOut);
 				SAFE_DELETE(m_pScene);
 			}
@@ -128,7 +128,7 @@ namespace ma
 			{
 				XMLInputArchive arIn;
 				bool bOpenOK = arIn.Open("../Tesx.scene.l");
-				assert(bOpenOK);
+				ASSERT(bOpenOK);
 				SAFE_DELETE(m_pScene);
 				m_pScene = new Scene();
 				m_pScene->Serialize(arIn);

@@ -2,7 +2,6 @@
 #define  _D3D9VertexDeclaration__H__
 
 #include "D3D9Mapping.h"
-#include "Engine/RenderSystem/VertexDeclaration.h"
 
 namespace ma
 {
@@ -25,7 +24,7 @@ namespace ma
 		D3D9VertexDeclaration(IDirect3DDevice9 * Device);
 		~D3D9VertexDeclaration();
 
-		void Init();
+		virtual void Create();
 
 		IDirect3DVertexDeclaration9 * GetD3DVertexDeclaration() const { return mD3D9VertexDecl; }
 

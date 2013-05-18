@@ -8,9 +8,9 @@ namespace ma
 	{
 	}
 
-	void SampleAnimationRetarget::Init(Application* pApplication)
+	void SampleAnimationRetarget::Init(ApplicationBase* pApplication)
 	{
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		//Vector3 vEyePos = Vector3(0, 400, 400);
 		//m_pCamera->LookAt(&vEyePos);
@@ -28,9 +28,9 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		// character A Mesh & skeleton & Animation
+		// character A MeshData & skeleton & Animation
 		{
-			// Mesh B (b f h)
+			// MeshData B (b f h)
 			m_pRenderMeshA_b = GetRenderDevice()->CreateRendMesh();
 			MeshData* pMeshDataA_b = LoadMeshFromBinaryFile("../Data/Man001/body_b.skn");
 			m_pRenderMeshA_b->InitWithData(pMeshDataA_b);
@@ -57,7 +57,7 @@ namespace ma
 			m_pSkeletonA->InitWithData(pSkelDataA);
 		}
 
-		// character B Mesh & skeleton & Animation
+		// character B MeshData & skeleton & Animation
 		{
 			m_pRenderMeshB = GetRenderDevice()->CreateRendMesh();
 			MeshData* pMeshDataB = LoadMeshFromBinaryFile("../Data/magician/Body.skn");

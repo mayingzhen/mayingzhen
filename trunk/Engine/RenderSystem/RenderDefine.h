@@ -178,8 +178,6 @@ namespace ma
 		TEXTYPE_3D,                 // volume texture
 		TEXTYPE_CUBE,               // cube texture
 		TEXTYPE_RENDERTARGET,       // render target
-
-		MW_ALIGN_ENUM(TEXTURE_TYPE)
 	};
 
 	/* enum: DECL_TYPE
@@ -196,8 +194,9 @@ namespace ma
 		DT_FLOAT4         = 3,
 		DT_COLOR          = 4,
 		DT_UBYTE4         = 5,
-		DT_SHORT2         = 6,
-		DT_SHORT4         = 7,
+		DT_UBYTE4N        = 6,
+		DT_SHORT2         = 7,
+		DT_SHORT4         = 8,
 
 		DT_UNKNOWN        = 255
 	};
@@ -212,15 +211,34 @@ namespace ma
 	enum DECL_USAGE
 	{
 		DU_POSITION      = 0,
-		DU_BLENDWEIGHT   = 1,
+		DU_TEXCOORD      = 1,
 		DU_BLENDINDICES  = 2,
-		DU_NORMAL        = 3,
-		DU_TEXCOORD      = 5,
-		DU_TANGENT       = 6,
-		DU_BINORMAL      = 7,
-		DU_COLOR         = 10,
+		DU_BLENDWEIGHT   = 3,
+		DU_NORMAL        = 4,
+		DU_TANGENT       = 5,
+		DU_COLOR         = 6,
 	    
 		DU_UNKNOWN       = 255
+	};
+
+
+	enum DECL_USAGEMASK
+	{
+		DUM_POSITION      = 1 << DU_POSITION,
+		DUM_TEXCOORD      = 1 << DU_TEXCOORD,
+		DUM_BLENDWEIGHT   = 1 << DU_BLENDWEIGHT,
+		DUM_BLENDINDICES  = 1 << DU_BLENDINDICES,
+		DUM_NORMAL        = 1 << DU_NORMAL,
+		DUM_TANGENT       = 1 << DU_TANGENT,
+		DUM_COLOR         = 1 << DU_COLOR,
+
+		DUM_UNKNOWN       = 255
+	};
+
+	enum INDEX_TYPE
+	{
+		INDEX_TYPE_U16,
+		INDEX_TYPE_U32,
 	};
 
 
@@ -289,8 +307,6 @@ namespace ma
 
 		SPT_MATRIX3x4,
 		SPT_MATRIX4x4,
-
-		MW_ALIGN_ENUM(SHADER_PARAM_TYPE)
 	};
 
 	enum SHADER_PARAM_BIND_TYPE

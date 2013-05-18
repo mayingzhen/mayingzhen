@@ -232,6 +232,10 @@
 				RelativePath=".\SmartPointer.h"
 				>
 			</File>
+			<File
+				RelativePath=".\SmartPointer.inl"
+				>
+			</File>
 			<Filter
 				Name="RTTI"
 				>
@@ -335,6 +339,14 @@
 		</File>
 		<File
 			RelativePath=".\Module.h"
+			>
+		</File>
+		<File
+			RelativePath=".\WarningPrefix.h"
+			>
+		</File>
+		<File
+			RelativePath=".\WarningSuffix.h"
 			>
 		</File>
 	</Files>

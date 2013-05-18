@@ -3,49 +3,75 @@
 
 namespace ma
 {
-	class IRendMesh;
-	class IRendTexture;
-	//class Texture;
+	class IRenderItem;
+	class Texture;
+	class VertexBuffer;
+	class IndexBuffer;
+	class VertexDeclaration;
 	class Camera;
 	class Light;
+	class VertexStream;
+	class Technique;
+	class RenderMesh;
+
+	//typedef void* Technique;
 
 	class ENGINE_API IRenderDevice
 	{
 	public:
-		virtual	void			Init(int wndhandle) = 0;
+
+		/// Vido Buffer
+		virtual Texture*			CreateRendTexture() = 0;
+
+		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
+
+		virtual VertexBuffer*		CreateVertexBuffer() = 0;
+
+		virtual IndexBuffer*		CreateIndexBuffer() = 0;
+
+		virtual	Technique*			CreateTechnique() = 0;
+
+
+		/// Render
+		virtual void				SetRenderTarget(int index,Texture* pTexture) = 0;
+
+		//virtual void				SetVertexStream(VertexStream* pVertexStream) = 0;
+
+		//virtual void				DrawIndexedPrimitive(PRIMITIVE_TYPE ePrimType,UINT startVertex,UINT vertexCount,UINT startIndex,UINT IndexCount) = 0;
 		
-		virtual void			BeginRender() = 0;
+		virtual	void				DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech) = 0;
 
-		virtual void			EndRender() = 0;
+		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 	
-		virtual IRendMesh*		CreateRendMesh() = 0;
+		virtual void				DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor) = 0;
 
-		virtual IRendTexture*	CreateRendTexture() = 0;
 
-		virtual void			SetCamera(Camera* pCamera) = 0;
+		/// Render pass
+		virtual	void				Init(HWND wndhandle) = 0;
 
-		virtual Camera*			GetCamera() = 0;
+		virtual void				BeginRender() = 0;
 
-		virtual void			ClearLightList() = 0;
+		virtual void				EndRender() = 0;
 
-		virtual void			AddLight(Light* pLigt) = 0;
+		virtual void				SetCamera(Camera* pCamera)  {}
 
-		virtual void			RenderMesh(IRendMesh* pMesh) = 0;
+		virtual Camera*				GetCamera() {return NULL;}
 
-		virtual	void			GetRenderWndSize(int& Width,int& Heigh) = 0;
+		virtual void				ClearLightList() {}
 
-		virtual	Matrix4x4		MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
+		virtual void				AddLight(Light* pLigt) {}
 
-		//virtual void RenderSkelMesh(const Matrix4x4* arrSkinMatrix,UINT nSkinMaxtrixNum,
-		//	const Matrix4x4* pWordMat,const IRendMesh* pSkelMesh,const IRendTexture* pTexture) = 0;
+		virtual	void				GetRenderWndSize(int& Width,int& Heigh) = 0;
 
-		virtual void			DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor) = 0;
+		virtual	Matrix4x4			MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
 
-		virtual void			DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Uint32 color);
 
-		virtual void			DrawCircle(UINT nbSegments, const Matrix4x4& world, Uint32 dwColor, float radius, bool semicircle = false);
+		/// Util
+		virtual void				DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Uint32 color);
 
-		virtual void			DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Uint32 color);
+		virtual void				DrawCircle(UINT nbSegments, const Matrix4x4& world, Uint32 dwColor, float radius, bool semicircle = false);
+
+		virtual void				DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Uint32 color);
 	};
 
 	ENGINE_API void SetRenderDevice(IRenderDevice* pRenderDevice);

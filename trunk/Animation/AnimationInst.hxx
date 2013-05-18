@@ -42,7 +42,7 @@ namespace ma
 		{
 			if (m_playbackMode == S3L_PLAYBACK_LOOP)
 			{
-				m_fLocalFrame = fmod(m_fLocalFrame,uFrameNumber);
+				m_fLocalFrame = fmod((float)m_fLocalFrame,(float)uFrameNumber);
 			}
 			else
 			{
@@ -65,6 +65,7 @@ namespace ma
 				continue;
 
 			NodeTransform tsfLS;
+			TransformSetIdentity(&tsfLS);
 			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
 			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
 			TransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], fWeight, &tsfLS);	

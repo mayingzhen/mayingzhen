@@ -33,29 +33,32 @@ namespace ma
 
 		virtual void			SyncFromPhysics();
 
-		// TransformPS
-		void					SetTransformPS(const NodeTransform& tsfPS);
-		const NodeTransform&	GetTransformPS();
-		void					SetPositionPS(const Vector3& pPosPS);
-		void					TranslatePS(const Vector3& vDirPS);
-		const Vector3&		GetPositionPS();
-
-		// TransformWS 
-		void					SetTransformWS(const NodeTransform& tsfWS);
-		const NodeTransform&	GetTransformWS();
-		void					SetPositionWS(const Vector3& vPosWS);
-		void					TranslateWS(const Vector3& vDirWS);
-		const Vector3&			GetPositionWS();
+		// Transform
+		void					SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts = TS_PARENT);	
+		const NodeTransform&	GetTransform(TRANSFORM_TYPE ts = TS_PARENT);
 		const Matrix4x4&		GetWorldMatrix();
+		
+		void					SetPosition(const Vector3& vPos, TRANSFORM_TYPE ts = TS_PARENT);
+		const Vector3&			GetPosition(TRANSFORM_TYPE ts = TS_PARENT);
+		void					Translate(const Vector3& vDir, TRANSFORM_TYPE ts = TS_PARENT);
 
-		// TransformLS
-		void					TranslateLS(const Vector3& vDirLS);	
+		const Quaternion&		GetRotate(TRANSFORM_TYPE ts = TS_PARENT);
+		void					Rotate(const Quaternion& qRot, TRANSFORM_TYPE ts = TS_PARENT);
+		void					Rotate(float xDegree,float yDegree,float zDegree, TRANSFORM_TYPE ts = TS_PARENT);
 		void					RotateYAxisLS(float fDegree);
 		void					RotateZAxisLS(float fDegree);
-		void					RotateLS(float xDegree,float yDegree,float zDegree);
-		void					RotateLS(const Quaternion& qRot);
-		EulerAngleXYZ			GetRotateLS();
+		void					RotateXAxisLS(float fDegree);
+
+		Vector3					GetDirection(TRANSFORM_TYPE ts = TS_PARENT);
+		Vector3					GetRight(TRANSFORM_TYPE ts = TS_PARENT);
+		Vector3					GetUp(TRANSFORM_TYPE ts = TS_PARENT);
+
+		void                    Move(float x);
+		void                    Fly(float x);
+		void                    Right(float x);
+
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
+
 
 		Scene*					GetScene() {return m_pScene;}
 

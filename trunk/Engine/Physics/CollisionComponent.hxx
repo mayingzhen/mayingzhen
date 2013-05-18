@@ -13,7 +13,7 @@ namespace ma
 
 	NodeTransform CollisionComponent::GetTransformLS() const 
 	{
-		assert(m_pCollisionShape);
+		ASSERT(m_pCollisionShape);
 		if (m_pCollisionShape)
 		{
 			return m_pCollisionShape->GetTransformLS();
@@ -28,7 +28,7 @@ namespace ma
 
 	void CollisionComponent::SetTransformLS(const NodeTransform& tsfLS) 
 	{
-		assert(m_pCollisionShape);
+		ASSERT(m_pCollisionShape);
 		if (m_pCollisionShape)
 		{
 			m_pCollisionShape->SetTransformLS(tsfLS);
@@ -65,7 +65,7 @@ namespace ma
 			m_pPhysicsObject = GetPhysicsDevice()->CreatePhysicsObject();
 			pGameObj->SetPhyscisObject(m_pPhysicsObject);
 		}
-		assert(m_pPhysicsObject);
+		ASSERT(m_pPhysicsObject);
 	}
 
 

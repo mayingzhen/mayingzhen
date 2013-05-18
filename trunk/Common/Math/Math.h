@@ -205,7 +205,7 @@ void Vec3TransformNormal(Vector3* pOut,const Vector3* pV,const NodeTransform* pN
 
 
 //------------------------------------------------------------------------------
-//Matrix
+//Matrix4x4
 //------------------------------------------------------------------------------
 Matrix4x4 MatrixIdentity();
 
@@ -247,7 +247,7 @@ Vector3*		MatrixAsTranslation(Matrix4x4* pMat);
 
 
 //------------------------------------------------------------------------------
-//None inline Matrix
+//None inline Matrix4x4
 //------------------------------------------------------------------------------
 COMMON_API Matrix4x4* MatrixPerspectiveGL_RH(Matrix4x4* pOut,float w,float h,float zn,float zf);
 

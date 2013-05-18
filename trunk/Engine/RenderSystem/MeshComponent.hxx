@@ -7,7 +7,7 @@ namespace ma
 	MeshComponent::MeshComponent()
 	{
 		m_pRendMesh = NULL;
-		m_pTexture = NULL;
+		m_pMaterial = NULL;
 	}
 
 	MeshComponent::~MeshComponent()
@@ -17,17 +17,10 @@ namespace ma
 
 	void MeshComponent::Render()
 	{
-		if (GetRenderDevice() == NULL)
-			return;
-
 		if (m_pRendMesh == NULL || m_pGameObject == NULL)
-			return;
+ 			return;	
 
-		const Matrix4x4& worldmat = m_pGameObject->GetWorldMatrix();
-		m_pRendMesh->m_pMesh = m_pRendMesh;
-		m_pRendMesh->m_pTex = m_pTexture;
-		m_pRendMesh->m_pMatWorld = &worldmat;
-		GetRenderDevice()->RenderMesh(m_pRendMesh);
+		//m_pRendMesh->Render( m_pGameObject->GetWorldMatrix() );
 	}
 
 	void MeshComponent::Update()
@@ -52,20 +45,20 @@ namespace ma
 		if (pRenderDevice == NULL)
 			return;
 
-		m_pRendMesh = pRenderDevice->CreateRendMesh();
-		MeshData* pMeshData = LoadMeshFromBinaryFile(pszMeshPath);
-		m_pRendMesh->InitWithData(pMeshData);
-
-		m_pTexture = pRenderDevice->CreateRendTexture();
-		m_pTexture->Load(pszTexPath);
+// 		m_pRendMesh = pRenderDevice->CreateRendMesh();
+// 		MeshData* pMeshData = LoadMeshFromBinaryFile(pszMeshPath);
+// 		m_pRendMesh->InitWithData(pMeshData);
+// 
+// 		m_pTexture = pRenderDevice->CreateRendTexture();
+// 		m_pTexture->Load(pszTexPath);
 	}	
 
 	void MeshComponent::GetBoundingAABB(Vector3& vMin,Vector3& vMax)
 	{
-		if (m_pRendMesh)
-		{
-			m_pRendMesh->GetBoundingAABB(vMin,vMax);
-		}
+// 		if (m_pRendMesh)
+// 		{
+// 			m_pRendMesh->GetBoundingAABB(vMin,vMax);
+// 		}
 	}
 
 	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
@@ -77,19 +70,19 @@ namespace ma
 		sl.BeginSection(pszLable);
 
 		std::string sMeshPath,sTexturePath;
-		if (m_pRendMesh)
-		{
-			MeshData* pMeshData = m_pRendMesh->GetMeshData();
-			if (pMeshData)
-			{
-				sMeshPath = pMeshData->GetResPath();
-			}
-		}
+// 		if (m_pRendMesh)
+// 		{
+// 			MeshData* pMeshData = m_pRendMesh->GetMeshData();
+// 			if (pMeshData)
+// 			{
+// 				sMeshPath = pMeshData->GetResPath();
+// 			}
+// 		}
 
-		if (m_pTexture)
-		{
-			sTexturePath = m_pTexture->GetResPath();
-		}
+// 		if (m_pTexture)
+// 		{
+// 			sTexturePath = m_pTexture->GetResPath();
+// 		}
 
 		sl.Serialize(sMeshPath);
 		sl.Serialize(sTexturePath);

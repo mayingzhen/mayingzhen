@@ -25,6 +25,8 @@ namespace ma
 		void * Lock(int iOffsetBytes, int iLockSize, int LockFlags);
 		void Unlock();
 
+		virtual void	Bind(void* Data, int size, UINT nVertexType, USAGE Usgae = USAGE_STATIC);
+
 		IDirect3DVertexBuffer9 * GetD3DVertexBuffer() const;
 
 		friend class D3D9VideoBufferManager;

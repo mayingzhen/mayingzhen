@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX;../extern/include/Bullet"
+				AdditionalIncludeDirectories="../;../extern/include;../extern/include/FBX;../extern/include/Bullet;../extern/glew/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -250,11 +250,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\SimpleSceneView.h"
+			RelativePath=".\Sample.h"
 			>
 		</File>
 		<File
-			RelativePath=".\SimpleSceneView.hxx"
+			RelativePath=".\Sample.hxx"
+			>
+		</File>
+		<File
+			RelativePath=".\SampleBrowser.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\SampleBrowser.h"
 			>
 		</File>
 		<File

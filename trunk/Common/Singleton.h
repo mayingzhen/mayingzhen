@@ -2,7 +2,7 @@
 #define __Singleton_H__
 
 
-//#include <Common/assert.h>
+//#include <Common/ASSERT.h>
 
 namespace ma
 {
@@ -15,7 +15,7 @@ namespace ma
 	public:
 		Singleton( void )
 		{
-			assert( !ms_singleton );
+			ASSERT( !ms_singleton );
 #if defined( _MSC_VER ) && _MSC_VER < 1200	 
 			int offset = (int)(T*)1 - (int)(Singleton <T>*)(T*)1;
 			ms_singleton = (T*)((int)this + offset);
@@ -26,13 +26,13 @@ namespace ma
 
 		~Singleton( void )
 		{ 
-			assert( NULL != ms_singleton ); 
+			ASSERT( NULL != ms_singleton ); 
 			ms_singleton = 0;  
 		}
 
 		static T& GetInstance( void )
 		{	
-			assert( NULL != ms_singleton );  
+			ASSERT( NULL != ms_singleton );  
 			return ( *ms_singleton );
 		}
 

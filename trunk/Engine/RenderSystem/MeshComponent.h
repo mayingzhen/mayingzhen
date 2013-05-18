@@ -6,6 +6,8 @@
 
 namespace ma
 {
+	class RenderMesh;
+	class Material;
 	
 	class ENGINE_API MeshComponent : public Component
 	{
@@ -25,24 +27,23 @@ namespace ma
 
 		void			Load(const char* pszMeshPath,const char* pszTexPath);
 
-		IRendMesh*		GetRendMesh() {return m_pRendMesh;}
+		RenderMesh*		GetRendMesh() {return m_pRendMesh;}
 
-		//void SetMeshRes(IRendMesh* pMeshRes) {m_pMeshRes = pMeshRes;}
+		Material*		GetMaterial() {return m_pMaterial;}
 
-		IRendTexture*	GetTexture() {return m_pTexture;}
-
-		void			SetTexture(IRendTexture* pTexture) {m_pTexture = pTexture;}
+		void			SetMaterial(Material* pMaterial) {m_pMaterial = pMaterial;}
 
 		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
 		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
 
 	private:
-		IRendMesh*		m_pRendMesh;
-		IRendTexture*   m_pTexture;
+		RenderMesh*		m_pRendMesh;
+
+		Material*		m_pMaterial;
 
 		std::string		m_strMeshPath;
-		std::string		m_strTexturePath;
+		std::string		m_strMaterialPath;
 	};
 }
 

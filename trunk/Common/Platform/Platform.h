@@ -22,7 +22,7 @@
 #include <stdarg.h>
 #include <memory.h>
 #include <time.h>
-#include <assert.h>
+#include <ASSERT.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <memory.h>

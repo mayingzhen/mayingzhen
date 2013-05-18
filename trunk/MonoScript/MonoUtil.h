@@ -59,12 +59,12 @@ namespace ma
 				return value;
 
 			MonoObject* pMonoObject = mono_field_get_value_object(pDomain,pField,pObject);
-			assert(pMonoObject != NULL);
+			ASSERT(pMonoObject != NULL);
 			if (pMonoObject == NULL)
 				return value;
 
 			MonoClass* pMonoClass = mono_object_get_class(pMonoObject);
-			assert(pMonoClass != NULL);
+			ASSERT(pMonoClass != NULL);
 			if (pMonoClass == NULL)
 				return value;
 

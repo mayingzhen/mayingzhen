@@ -5,24 +5,18 @@ namespace ma
 {
 	class AnimationPlay;
 	class Skeleton;
-	class IRendMesh;
-	class IRendTexture;
+	class MeshData;
+	class Texture;
 	class FBXImporter;
 
-	class SampleFbxImport : public SimpleSceneView
+	class SampleFbxImport : public Sample
 	{
 	public:
 		SampleFbxImport();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(const Platform* pPlatform);
 
-		virtual void Shutdown();
-
-		virtual void Load();
-
-		virtual void Unload();
-
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
 
@@ -31,17 +25,22 @@ namespace ma
 
 		void LoadSaticMesh(FBXImporter& fbxImpor);
 
+		void LoadBoxMesh(FBXImporter& fbxImpor);
+
 	private:
 
 		// SkelMesh
 		AnimationPlay*	m_pAnimtionPlay;
 		Skeleton*		m_pSkeleton;
-		IRendMesh*		m_pRenderMesh;
-		IRendTexture*	m_pRendTexture;
+		RenderMesh*		m_pRenderMesh;
+		Texture*		m_pRendTexture;
 	
 		// staticMesh
-		IRendMesh*		m_pStaticMesh;
-		IRendTexture*	m_pStatcMeshTexture;
+		RenderMesh*		m_pStaticMesh;
+		Texture*		m_pStatcMeshTexture;
+
+		RenderMesh*		m_pBoxMesh;
+		Texture*		m_pBoxTexture;
 	};
 }
 

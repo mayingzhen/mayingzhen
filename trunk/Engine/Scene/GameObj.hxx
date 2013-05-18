@@ -107,7 +107,7 @@ namespace ma
 			return;
 	
 		//if ( m_pPhyscisObject->IsKinematic() )
-			m_pPhyscisObject->SetTransformWS( this->GetTransformWS() );
+			m_pPhyscisObject->SetTransformWS( this->GetTransform(TS_WORLD) );
 	}
 
 	void GameObject::SyncFromPhysics()
@@ -116,7 +116,7 @@ namespace ma
 			return;
 
 		//if ( !m_pPhyscisObject->IsKinematic() )
-			this->SetTransformWS( m_pPhyscisObject->GetTransformWS() );
+			this->SetTransform( m_pPhyscisObject->GetTransformWS(), TS_WORLD );
 	}
 
 	void GameObject::Serialize(SerializeListener& sl, const char* pszLable)

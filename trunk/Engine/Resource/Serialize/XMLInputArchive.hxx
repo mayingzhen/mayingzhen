@@ -78,7 +78,7 @@ namespace ma
 
 			m_strFilename = "";
 
-			assert(bSaveOK && "Fail to Save File");
+			ASSERT(bSaveOK && "Fail to Save File");
 		}
 	}
 
@@ -89,7 +89,7 @@ namespace ma
 
 	void XMLInputArchive::BeginSection(const char* pszLable)
 	{
-		assert(_stricmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(_stricmp(pszLable,m_pCurElem->Value()) == 0);
 		TiXmlElement* pFirstChild = reinterpret_cast<TiXmlElement*>(m_pCurElem->FirstChild());
 		m_nullChild += (pFirstChild == NULL);
 		m_pCurElem = m_nullChild ? m_pCurElem : pFirstChild;
@@ -105,32 +105,32 @@ namespace ma
 
 	void XMLInputArchive::Serialize(bool& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(unsigned char& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(short& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(unsigned short& val, const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
@@ -138,32 +138,32 @@ namespace ma
 
 	void XMLInputArchive::Serialize(unsigned int& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(int& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(unsigned long &val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(long &val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
@@ -171,8 +171,8 @@ namespace ma
 
 	void XMLInputArchive::Serialize(Uint64& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
@@ -180,24 +180,24 @@ namespace ma
 
 	void XMLInputArchive::Serialize(float& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		StringConverter::ToValue(val,m_pCurElem->GetText());
 		NextSiblingElement();
 	}
 
 	void XMLInputArchive::Serialize(std::string& val,const char* pszLable)
 	{
-		assert(m_nullChild == 0);
-		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+		ASSERT(m_nullChild == 0);
+		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 		val = NULL != m_pCurElem->GetText() ? m_pCurElem->GetText() : "\0";
 		NextSiblingElement();
 	}
 
 // 	void XMLInputArchive::Serialize(IStringWrapper* val,const char* pszLable)
 // 	{
-// 		assert(m_nullChild == 0);
-// 		assert(strcmp(pszLable,m_pCurElem->Value()) == 0);
+// 		ASSERT(m_nullChild == 0);
+// 		ASSERT(strcmp(pszLable,m_pCurElem->Value()) == 0);
 // 		val->SetValue(m_pCurElem->GetText());
 // 		NextSiblingElement();
 // 	}

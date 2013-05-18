@@ -9,23 +9,50 @@ namespace ma
 	class LineRender;
 	class ScreenQuad;
 	class UnitSphere;
+	class IndexBuffer;
+	class VertexBuffer;
+	class RenderTarget;
+	class D3D9Technique;
 
-	class D3D9RENDER_API D3D9RenderDevice : public IRenderDevice
+	class D3D9RenderDevice : public IRenderDevice
 	{
 	public:
 		D3D9RenderDevice();
 
 		~D3D9RenderDevice();
 
-		virtual	void			Init(int wndhandle);
+		/// Vido Buffer 
+		virtual Texture*			CreateRendTexture();
+
+		virtual VertexDeclaration*	CreateVertexDeclaration();
+
+		virtual VertexBuffer*		CreateVertexBuffer();
+
+		virtual IndexBuffer*		CreateIndexBuffer();
+
+		virtual	Technique*			CreateTechnique();
+		
+
+		//// Render
+		virtual void			SetRenderTarget(int index,Texture* pTexture);
+		
+		//virtual void			SetVertexStream(VertexStream* pVertexStream);
+
+		//virtual void			DrawIndexedPrimitive(PRIMITIVE_TYPE ePrimType,UINT startVertex,UINT vertexCount,UINT startIndex,UINT IndexCount);
+		virtual	void			DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech);
+
+		virtual	void			ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
+		
+		virtual void			DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);
+
+
+		/// Render Pass
+
+		virtual	void			Init(HWND wndhandle);
 
 		virtual void			BeginRender();
 	
 		virtual void			EndRender();
-
-		virtual IRendMesh*		CreateRendMesh();
-
-		virtual IRendTexture*	CreateRendTexture();
 
 		virtual void			SetCamera(Camera* pCamera);
 
@@ -35,12 +62,8 @@ namespace ma
 
 		virtual void			AddLight(Light* pLigt);
 
-		virtual void			RenderMesh(IRendMesh* pMesh);
-
 		virtual	void			GetRenderWndSize(int& Width,int& Heigh);
-
-		virtual void			DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);
-
+		
 		virtual	Matrix4x4		MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
 
 		LPDIRECT3DDEVICE9		GetDXDevive() {return m_pD3DDevice;}
@@ -70,8 +93,6 @@ namespace ma
 		LPDIRECT3DDEVICE9				m_pD3DDevice;
 		HWND							m_hWnd;
 
-		ID3DXEffect*					m_pDefault;
-		ID3DXEffect*					m_pDefaultSkin;
 		ID3DXEffect*					m_pGBufferTech;
 		ID3DXEffect*					m_pShdowMapTech;
 		ID3DXEffect*					m_DefferedShdowTech;

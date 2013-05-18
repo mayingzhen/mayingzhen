@@ -744,7 +744,7 @@ extern "C" {
 
 
 //--------------------------
-// 4D Matrix
+// 4D Matrix4x4
 //--------------------------
 
 // inline
@@ -776,12 +776,12 @@ extern "C" {
 	COMMON_API Matrix4x4*  MatrixTranspose
 		( Matrix4x4 *pOut, const Matrix4x4 *pM );
 
-	// Matrix multiplication.  The result represents the transformation M2
+	// Matrix4x4 multiplication.  The result represents the transformation M2
 	// followed by the transformation M1.  (Out = M1 * M2)
 	COMMON_API Matrix4x4*  MatrixMultiply
 		( Matrix4x4 *pOut, const Matrix4x4 *pM1, const Matrix4x4 *pM2 );
 
-	//// Matrix multiplication, followed by a transpose. (Out = T(M1 * M2))
+	//// Matrix4x4 multiplication, followed by a transpose. (Out = T(M1 * M2))
 	//Matrix4x4*  MatrixMultiplyTranspose
 	//	( Matrix4x4 *pOut, const Matrix4x4 *pM1, const Matrix4x4 *pM2 );
 

@@ -198,19 +198,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\D3D9RendMesh.h"
+				RelativePath=".\D3D9Technique.h"
 				>
 			</File>
 			<File
-				RelativePath=".\D3D9RendMesh.hxx"
+				RelativePath=".\D3D9Technique.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\D3D9RendTexture.h"
+				RelativePath=".\D3D9Texture.h"
 				>
 			</File>
 			<File
-				RelativePath=".\D3D9RendTexture.hxx"
+				RelativePath=".\D3D9Texture.hxx"
 				>
 			</File>
 			<File
@@ -267,6 +267,50 @@
 			</File>
 			<File
 				RelativePath=".\UnitSphere.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Shader"
+			>
+			<File
+				RelativePath="..\Data\Shader\D3D9\ColorVertex.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\Default.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\DeferredLight.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\DefferedShadow.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\Gbuffer.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\Shading.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\Shading@terrain.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\shadowmap.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\simple_skybox.fx"
+				>
+			</File>
+			<File
+				RelativePath="..\Data\Shader\D3D9\water.fx"
 				>
 			</File>
 		</Filter>

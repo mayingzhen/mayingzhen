@@ -29,6 +29,8 @@ namespace ma
 		void * Lock(int iOffsetBytes, int uiLockSize, int LockFlags);
 		void Unlock();
 
+		virtual void	Bind(void* Data, int size, INDEX_TYPE eIndexType, USAGE Usgae = USAGE_STATIC);
+
 		IDirect3DIndexBuffer9 * GetD3DIndexBuffer() const;
 
 	protected:

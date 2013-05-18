@@ -7,7 +7,7 @@ namespace ma
 	class Skeleton;
 	class PoseModifier;
 
-	class ANIMATION_API AnimationSet : public IAnimationSet
+	class AnimationSet : public IAnimationSet
 	{
 	public:
 		Action*	GetActionByName(const char* pszName);

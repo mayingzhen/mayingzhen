@@ -2,14 +2,15 @@
 #include "Engine/Module.h"
 
 
-// Application
-#include "Engine/Application/Input.hxx"
+// Platform
 #include "Engine/Application/Timer.hxx"
-#include "Engine/Application/Application.hxx"
-#include "Engine/Application/ApplicationWin.hxx"
+#include "Engine/Application/Platform.hxx"
+#include "Engine/Application/Game.hxx"
+
 
 // Event
 #include "Engine/Event/Event.hxx"
+
 
 // Resource
 #include "Engine/Resource/Resource.hxx"
@@ -30,12 +31,10 @@
 
 // RenderSystem
 #include "Engine/RenderSystem/IRenderDevice.hxx"
-#include "Engine/RenderSystem/IRendMesh.hxx"
+#include "Engine/RenderSystem/RendMesh.hxx"
 #include "Engine/RenderSystem/MeshComponent.hxx"
 #include "Engine/RenderSystem/VertexDeclaration.hxx"
-#include "Engine/RenderSystem/PrimtiveStream.hxx"
 #include "Engine/RenderSystem/Material.hxx"
-#include "Engine/RenderSystem/Renderer.hxx"
 
 
 // Animation
@@ -63,6 +62,38 @@
 #include "Engine/Scene/Light.hxx"
 #include "Engine/Scene/Scene.hxx"
 #include "Engine/Scene/SceneNode.hxx"
+
+
+// Input
+//#include "Engine/UI/Joystick.hxx"
+
+
+
+// UI
+// #include "Engine/UI/Ref.hxx"
+// #include "Engine/UI/Vector2.hxx"
+// 
+// //#include "Engine/UI/Texture.hxx"
+// //#include "Engine/UI/SpriteBatch.hxx"
+// 
+// #include "Engine/UI/Control.hxx"
+// #include "Engine/UI/Joystick.hxx"
+// 
+// #include "Engine/UI/AnimationTarget.hxx"
+// #include "Engine/UI/ScriptTarget.hxx"
+// 
+// #include "Engine/UI/AbsoluteLayout.hxx"
+// #include "Engine/UI/CheckBox.hxx"
+// #include "Engine/UI/Container.hxx"
+// #include "Engine/UI/FlowLayout.hxx"
+// //#include "Engine/UI/Font.hxx"
+// #include "Engine/UI/Form.hxx"
+// #include "Engine/UI/Gamepad.hxx"
+// #include "Engine/UI/Label.hxx"
+// #include "Engine/UI/Layout.hxx"
+// #include "Engine/UI/Properties.hxx"
+
+
 
 
 using namespace ma;

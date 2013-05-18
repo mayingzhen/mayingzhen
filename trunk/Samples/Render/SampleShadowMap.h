@@ -3,12 +3,12 @@
 
 namespace ma
 {
-	class SampleShadowMap : public SimpleSceneView
+	class SampleShadowMap : public Sample
 	{
 	public:
 		SampleShadowMap();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(ApplicationBase* pApplication);
 
 		virtual void Shutdown();
 

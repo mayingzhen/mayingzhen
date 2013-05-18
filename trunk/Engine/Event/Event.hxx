@@ -25,7 +25,7 @@ namespace ma
 
     Event::~Event()
     {
-        assert (head == NULL);
+        ASSERT (head == NULL);
     }
 
     void Event::Call(void * param0, void * param1)
@@ -42,7 +42,7 @@ namespace ma
 
     void Event::operator += (EventListener * p)
     {
-        assert (p->prev == NULL && p->next == NULL);
+        ASSERT (p->prev == NULL && p->next == NULL);
 
         if (head)
             head->prev = p;

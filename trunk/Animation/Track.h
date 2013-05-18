@@ -29,7 +29,7 @@
 
 	inline void DecomposeFrame( float frame,const std::vector<UINT>& keyFrame,UINT& key0,UINT& key1,float& factor )
 	{
-		//assert(keyFrame.size() > 0);
+		//ASSERT(keyFrame.size() > 0);
 		WrapFrameClamp(frame,(float)keyFrame.back());
 		std::vector<UINT>::const_iterator iter = std::lower_bound(keyFrame.begin(),keyFrame.end(),(UINT)(frame+1.0f));
 		if (iter != keyFrame.end())

@@ -21,7 +21,7 @@ namespace ma
 
 	void RefCountObject::IncReference() const
 	{
-		assert(m_nRefCnt > 0);
+		ASSERT(m_nRefCnt > 0);
 		++m_nRefCnt;
 	}
 

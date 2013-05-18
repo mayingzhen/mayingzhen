@@ -156,7 +156,7 @@ namespace ma
 
 		hitPosWS = ToMaUnit(closestResults.m_hitPointWorld);
 
-		assert(closestResults.m_collisionObject);
+		ASSERT(closestResults.m_collisionObject);
 		if (closestResults.m_collisionObject == NULL)
 			return NULL;
 

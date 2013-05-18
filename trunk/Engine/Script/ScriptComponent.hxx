@@ -37,7 +37,7 @@ namespace ma
 			const char* pFieldName = pEleField->Attribute("name");
 			const char* pValue = pEleField->Attribute("value");
 			const char* pTypeName = pEleField->Attribute("sTypeName");
-			assert(pTypeName);
+			ASSERT(pTypeName);
 			if (pTypeName == NULL)
 				continue;
 
@@ -78,7 +78,7 @@ namespace ma
 	void ScriptComponent::Start()
 	{
  		IScriptDevice* pScriptDevice = GetScriptDevice();
- 		assert(pScriptDevice);
+ 		ASSERT(pScriptDevice);
  		if (pScriptDevice == NULL)
  			return ;
  
@@ -110,7 +110,7 @@ namespace ma
 		m_pScriptObject->InvokeMethod(m_pStop);
 		
 		IScriptDevice* pScriptDevice = GetScriptDevice();
-		assert(pScriptDevice);
+		ASSERT(pScriptDevice);
 		if (pScriptDevice == NULL)
 			return;
 
@@ -164,7 +164,7 @@ namespace ma
 			return;
 
 		TiXmlElement* pXMlClass = pScriptDevice->GetXmlClassByName(pszName);
-		assert(pXMlClass);
+		ASSERT(pXMlClass);
 		if (pXMlClass == NULL)
 			return;
 
@@ -172,7 +172,7 @@ namespace ma
 		m_pEdScriptObject = new EdScriptObject(pXMlClass);
 		m_pActiveScriptObject = m_pEdScriptObject;
 
-		assert(m_pScriptObject == NULL);
+		ASSERT(m_pScriptObject == NULL);
 		if (m_pScriptObject)
 		{
 			pScriptDevice->DestoryScriptObject(m_pScriptObject);

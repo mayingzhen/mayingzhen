@@ -30,7 +30,7 @@ namespace ma
 		{
 			Object* pObj = CreateObject(T::StaticGetClass());
 			T* pT = SafeCast<T>(pObj);
-			assert(pObj == pT);
+			ASSERT(pObj == pT);
 			return pT;
 		}
 	};

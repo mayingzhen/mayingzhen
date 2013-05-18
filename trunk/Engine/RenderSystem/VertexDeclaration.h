@@ -8,29 +8,33 @@ namespace ma
 
 	class ENGINE_API VertexDeclaration : public RefCountObject
 	{
-		static int GetDeclTypeSize(DECL_TYPE type);
+		//static int GetDeclTypeSize(DECL_TYPE type);
 
 	public: 
 		VertexDeclaration();
 		virtual ~VertexDeclaration();
+			
+		virtual void Create() = 0;
 
-		virtual void Init() = 0;
+		void Init(UINT nVertexType);
 
 		void AddElement(short number, short Offset, 
 			DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char index);
 
-		int GetStreamSize(short number);
-		void GetStreamItem(short number, VertexElement * ve, int & count);
-		void GetAllStreamItem(VertexElement * ve, int & count);
+		int GetStreanmStride() {return m_nStreamStride;}
+		int GetElementStride(int index);
+		//void GetStreamItem(short number, VertexElement * ve, int & count);
+		//void GetAllStreamItem(VertexElement * ve, int & count);
 		void GetElement(VertexElement & ve);
-		const VertexElement * GetElementByUsage(DECL_USAGE usage);
+		//const VertexElement * GetElementByUsage(DECL_USAGE usage);
 
-		int GetElementCount() { return mElementCount; }
-		const VertexElement & GetElement(int index) { assert (index < mElementCount); return mElements[index]; }
+		int GetElementCount() { return m_ElementCount; }
+		const VertexElement & GetElement(int index) { ASSERT (index < m_ElementCount); return m_Elements[index]; }
 
 	protected:
-		VertexElement mElements[MAX_ELEMENT];
-		int mElementCount;
+		VertexElement	m_Elements[MAX_ELEMENT];
+		int				m_ElementCount;
+		int				m_nStreamStride;
 
 	};
 

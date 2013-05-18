@@ -5,12 +5,12 @@ namespace ma
 {
 	class RigidBodyComponent;
 
-	class SampleRigidBody : public SimpleSceneView
+	class SampleRigidBody : public Sample
 	{
 	public:
 		SampleRigidBody();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(ApplicationBase* pApplication);
 
 		virtual void Shutdown();
 

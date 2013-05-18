@@ -62,7 +62,7 @@ namespace ma
 
 		void Attach(Event * e)
 		{
-			assert (e != NULL);
+			ASSERT (e != NULL);
 
 			if (evt == e)
 				return ;

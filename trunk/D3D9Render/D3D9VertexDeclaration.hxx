@@ -20,34 +20,29 @@ namespace ma
 	// }
 
 
-	void D3D9VertexDeclaration::Init()
+	void D3D9VertexDeclaration::Create()
 	{
-
 		D3DVERTEXELEMENT9 d3dve[MAX_ELEMENT];
 
-		for (int i = 0; i < mElementCount; ++i)
+		for (int i = 0; i < m_ElementCount; ++i)
 		{
-			d3dve[i].Stream = mElements[i].Stream;
-			d3dve[i].Offset = mElements[i].Offset;
-			d3dve[i].Type   = D3D9Mapping::GetD3DDeclType(mElements[i].Type);
+			d3dve[i].Stream = m_Elements[i].Stream;
+			d3dve[i].Offset = m_Elements[i].Offset;
+			d3dve[i].Type   = D3D9Mapping::GetD3DDeclType(m_Elements[i].Type);
 			d3dve[i].Method = D3DDECLMETHOD_DEFAULT;
-			d3dve[i].Usage  = D3D9Mapping::GetD3DDeclUsage(mElements[i].Usage);
-			d3dve[i].UsageIndex = mElements[i].UsageIndex;
+			d3dve[i].Usage  = D3D9Mapping::GetD3DDeclUsage(m_Elements[i].Usage);
+			d3dve[i].UsageIndex = m_Elements[i].UsageIndex;
 		}
 	    
-		d3dve[mElementCount].Stream = 0xFF;
-		d3dve[mElementCount].Offset = 0;
-		d3dve[mElementCount].Type   = D3DDECLTYPE_UNUSED;
-		d3dve[mElementCount].Method = 0;
-		d3dve[mElementCount].Usage  = 0;
-		d3dve[mElementCount].UsageIndex = 0;
+		d3dve[m_ElementCount].Stream = 0xFF;
+		d3dve[m_ElementCount].Offset = 0;
+		d3dve[m_ElementCount].Type   = D3DDECLTYPE_UNUSED;
+		d3dve[m_ElementCount].Method = 0;
+		d3dve[m_ElementCount].Usage  = 0;
+		d3dve[m_ElementCount].UsageIndex = 0;
 
 		HRESULT hr = mD3D9Device->CreateVertexDeclaration(d3dve, &mD3D9VertexDecl);
-
-		if (FAILED(hr))
-		{
-			//EXCEPTION("D3D Error: CreateVertexDeclaration failed. desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
-		}
+		ASSERT(hr == D3D_OK);
 	}
 
 }

@@ -5,10 +5,14 @@ namespace ma
 {
 	class Object;
 
+	template<class T>
+	void SerializeData(SerializeListener& sl, T& val,const char* pszLable = "")
+	{
+		val.Serialize(sl,pszLable);
+	}
+
 	class ENGINE_API SerializeListener 
 	{
-		std::deque<UINT> m_verStack;
-
 	public:
 
 		virtual ~SerializeListener();
@@ -60,25 +64,17 @@ namespace ma
 		template<class T>
 		void Serialize(T& val,const char* pszLable = "")
 		{
-			val.Serialize(*this,pszLable);
+			SerializeData(*this,val,pszLable);
 		}
 
 		template<class T>
 		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
 
-		template<class DataType>
-		void SerializeRawData(std::vector<Uint8>& val,const char* pszLable);
 
 		////////////////
 		virtual void BeginSection(const char* pszLable);
 
 		virtual void EndSection();
-
-		virtual UINT GetVersion() const;
-
-		virtual void PushVersion(UINT nVersion);
-
-		virtual UINT PopVersion();
 		////////////////////
 		
 		virtual bool SerializeByte(Uint8* pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
@@ -120,7 +116,7 @@ namespace ma
 			if (vObject[nCnt])
 			{
 				Class* pClass = vObject[nCnt]->GetClass();
-				assert(pClass);
+				ASSERT(pClass);
 				if (pClass)
 					sTypeName = pClass->GetName();
 			}
@@ -186,44 +182,14 @@ namespace ma
 			{
 				val[nCnt] = new T();
 			}
-			//Serialize(val[nCnt],buf);
-			val[nCnt]->Serialize(*this);
+			Serialize(*(val[nCnt]),buf);
 		}
 		EndSection();
 
 		EndSection();
 	}
 
-	template<class DataType>
-	void SerializeListener::SerializeRawData(std::vector<Uint8>& val,const char* pszLable)
-	{
-		BeginSection(pszLable);
-
-		UINT nSize = val.size();
-		Serialize(nSize,"size");
-
-		if (nSize != val.size())
-		{
-			val.resize(nSize);
-		}
-
-		BeginSection("element");
-
-		UINT nDataNum = nSize / sizeof(DataType);
-
-		for (UINT nCnt = 0;nCnt < nDataNum; ++nCnt)
-		{
-			char buf[64];
-			sprintf_s(&buf[0],64,"Element_%u",nCnt);
-			Serialize((DataType&)val[nCnt*sizeof(DataType)],buf);
-		}
-		EndSection();
-
-		EndSection();
-	}
-                                             
-
-
+                                           
 }
 
 

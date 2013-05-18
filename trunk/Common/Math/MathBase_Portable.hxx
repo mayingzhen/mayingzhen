@@ -393,7 +393,7 @@ extern "C" {
 
 
 //------------------------------------------------------------------------------
-//Matrix
+//Matrix4x4
 //------------------------------------------------------------------------------
 COMMON_API float  MatrixDeterminant
 ( const Matrix4x4 *pM )
@@ -581,7 +581,7 @@ COMMON_API Matrix4x4*  MatrixTranspose
 	
 }
 
-// Matrix multiplication.  The result represents the transformation M2
+// Matrix4x4 multiplication.  The result represents the transformation M2
 // followed by the transformation M1.  (Out = M1 * M2)
 COMMON_API Matrix4x4*  MatrixMultiply
 ( Matrix4x4 *pOut, const Matrix4x4 *pM1, const Matrix4x4 *pM2 )
@@ -611,7 +611,7 @@ COMMON_API Matrix4x4*  MatrixMultiply
 	return pOut;
 }
 
-// Matrix multiplication, followed by a transpose. (Out = T(M1 * M2))
+// Matrix4x4 multiplication, followed by a transpose. (Out = T(M1 * M2))
 Matrix4x4*  MatrixMultiplyTranspose
 ( Matrix4x4 *pOut, const Matrix4x4 *pM1, const Matrix4x4 *pM2 );
 

@@ -177,7 +177,7 @@ Texture* Material::GetNormalMap() const
 
 
 
-// #include "Mesh.h"
+// #include "MeshData.h"
 // 
 // CULL_MODE GetCullMode(const char * m)
 // {
@@ -392,7 +392,7 @@ Texture* Material::GetNormalMap() const
 // }
 
 
-// void MaterialLoader::Load(Mesh * mesh, DataStreamPtr stream)
+// void MaterialLoader::Load(MeshData * mesh, DataStreamPtr stream)
 // {
 //     doc.parse<0>((char *)stream->GetData());
 // 
