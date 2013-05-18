@@ -8,6 +8,14 @@ namespace ma
 	AnimationPlay::AnimationPlay(ISkeleton* pSkeleton)
 	{
 		m_pSkelAnim = NULL;
+		m_pAnimSet = NULL;
+		m_pSkeleton = NULL;
+		m_pose = NULL;
+
+		for (UINT i = 0; i < 256; ++i)
+		{
+			MatrixIdentity(&m_arrSkinMatrix[i]);
+		}
 
 		if (pSkeleton)
 		{
@@ -38,9 +46,14 @@ namespace ma
 
 	void AnimationPlay::AddAction(const char* pszSkaPath, const char* actionName)
 	{
-		assert(m_pAnimSet && m_pSkeleton);
-		if (m_pAnimSet == NULL || m_pSkeleton == NULL)
+		ASSERT(m_pSkeleton);
+		if (m_pSkeleton == NULL)
 			return;
+
+		if (m_pAnimSet == NULL)
+		{
+			m_pAnimSet = new AnimationSet();
+		}
 
 		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,m_pSkeleton,actionName);
 		m_pAnimSet->AddAction(pAction);
@@ -85,7 +98,8 @@ namespace ma
 
 		AnimEvalContext evalContext;
 		NodeTransform tsfIdent;
-		TransformSetIdentity(&tsfIdent);
+		//TransformSetIdentity(&tsfIdent);
+		memset(&tsfIdent,0,sizeof(NodeTransform));
 		evalContext.m_arrTSFLS.resize(pRefPose->GetNodeNumber(),tsfIdent);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;

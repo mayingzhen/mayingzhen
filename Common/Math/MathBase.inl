@@ -448,7 +448,7 @@ Vector4::operator != ( const Vector4& v ) const
 
 
 //--------------------------
-// Matrix
+// Matrix4x4
 //--------------------------
 inline
 Matrix4x4::Matrix4x4( const float* pf )
@@ -1553,7 +1553,7 @@ inline Vector4* Vec4Lerp
 
 
 //--------------------------
-// 4D Matrix
+// 4D Matrix4x4
 //--------------------------
 
 inline Matrix4x4* MatrixIdentity

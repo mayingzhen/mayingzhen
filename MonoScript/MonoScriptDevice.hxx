@@ -29,7 +29,7 @@ namespace ma
 		m_pDomain = mono_jit_init_version("m_pDomain","v2.11.30727");
 
 		MonoInternalInit();
-		assert(m_pDomain != NULL);
+		ASSERT(m_pDomain != NULL);
 	}
 
 	void	MonoScriptDevice::Shutdown()
@@ -44,7 +44,7 @@ namespace ma
 			return false;
 
 		m_pAppDomain = mono_domain_create_appdomain("m_pAppDomain",NULL);
-		assert(m_pAppDomain !=  NULL);
+		ASSERT(m_pAppDomain !=  NULL);
 		if (m_pAppDomain == NULL)
 			return false;
 
@@ -187,7 +187,7 @@ namespace ma
 		if (m_pAppDomain == NULL)
 		{
 			m_pAppDomain = mono_domain_create_appdomain("m_pAppDomain",NULL);
-			assert(m_pAppDomain !=  NULL);
+			ASSERT(m_pAppDomain !=  NULL);
 			if (m_pAppDomain == NULL)
 				return;
 
@@ -195,12 +195,12 @@ namespace ma
 		}
 
 		MonoAssembly* pAssembly = mono_domain_assembly_open (m_pAppDomain,pScriptDllName);
-		assert(pAssembly != NULL);
+		ASSERT(pAssembly != NULL);
 		if (pAssembly == NULL)
 			return;
 
 		MonoImage* pImage = mono_assembly_get_image(pAssembly);
-		assert(pImage != NULL);
+		ASSERT(pImage != NULL);
 		if (pImage == NULL)
 			return;
 
@@ -327,17 +327,17 @@ namespace ma
 		if (pScriptDllName == NULL)
 			return;
 
-		assert(m_pAppDomain != NULL);
+		ASSERT(m_pAppDomain != NULL);
 		if (m_pAppDomain == NULL)
 			return;
 
 		MonoAssembly* pAssembly = mono_domain_assembly_open(m_pAppDomain,pScriptDllName);
-		assert(pAssembly != NULL);
+		ASSERT(pAssembly != NULL);
 		if (pAssembly == NULL)
 			return;
 
 		MonoImage* pImage = mono_assembly_get_image(pAssembly);
-		assert(pImage != NULL);
+		ASSERT(pImage != NULL);
 		if (pImage == NULL)
 			return;
 
@@ -360,7 +360,7 @@ namespace ma
 			m_vClass.push_back(pClass);
 		}
 
-		assert(m_vClass.size() == m_vEleClass.size());
+		ASSERT(m_vClass.size() == m_vEleClass.size());
 	}
 
 	UINT	MonoScriptDevice::GetScriptNumber()
@@ -438,7 +438,7 @@ namespace ma
 
 		// base class
 		MonoClass* pParentClass = mono_class_get_parent(pMonoClass);
-		assert(pParentClass != NULL);
+		ASSERT(pParentClass != NULL);
 		if (pParentClass == NULL)
 			return NULL;
 

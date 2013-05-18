@@ -102,31 +102,182 @@ namespace ma
 		}
 	}
 
-	void					SceneNode::SetTransformWS(const NodeTransform& tsfWS)
+	void SceneNode::SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts)
 	{
-		//profile_code();
+		if (ts == TS_WORLD)
+		{
+			SetTransformWSDirty();
 
-		SetTransformWSDirty();
+			m_tsfWS = tsf;
+			m_btsfWSDirty = false;
+		}
+		else if (ts == TS_PARENT)
+		{
+			SetTransformWSDirty();
 
-		m_tsfWS = tsfWS;
-		m_btsfWSDirty = false;
-		m_btsfPSDirty = true;
-		m_bmatWSDirty = true;
+			m_tsfPS = tsf;
+			m_btsfPSDirty = false;
+		}
+		else 
+		{
+			ASSERT(false);
+		}
 	}
 
-	void					SceneNode::SetTransformPS(const NodeTransform& tsfPS)
+	const NodeTransform& SceneNode::GetTransform(TRANSFORM_TYPE ts)
 	{
-		//profile_code();
-
-		SetTransformWSDirty();
-
-		m_tsfPS = tsfPS;
-		m_btsfPSDirty = false;
-		m_btsfWSDirty = true;
-		m_bmatWSDirty = true;
+		if (ts == TS_PARENT)
+		{
+			if (m_btsfPSDirty)
+			{
+				UpdateTransformPS();
+			}
+			return m_tsfPS;
+		}
+		else if (ts == TS_WORLD)
+		{
+			if (m_btsfWSDirty)
+			{
+				UpdateTransformWS();
+			}
+			return m_tsfWS;
+		}
+		else
+		{
+			ASSERT(false);
+			if (m_btsfPSDirty)
+			{
+				UpdateTransformPS();
+			}
+			return m_tsfPS;	
+		}
 	}
 
-	void					SceneNode::SetTransformWSDirty()
+
+	void SceneNode::SetPosition(const Vector3& vPos, TRANSFORM_TYPE ts)
+	{		
+		NodeTransform tsf = GetTransform(ts);
+		tsf.m_vPos = vPos;
+		SetTransform(tsf,ts);
+	}
+
+	const Vector3&	SceneNode::GetPosition(TRANSFORM_TYPE ts)
+	{
+		return GetTransform(ts).m_vPos;
+	}
+
+	const Quaternion& SceneNode::GetRotate(TRANSFORM_TYPE ts)
+	{
+		return GetTransform(ts).m_qRot;
+	}
+
+// 	EulerAngleXYZ SceneNode::GetRotate(TRANSFORM_TYPE ts)
+// 	{
+// 		EulerAngleXYZ euler;
+// 		EulerAngleFromQuaternion(&euler,&GetTransform(ts).m_qRot);
+// 		return euler;	
+// 	}
+
+	Vector3	SceneNode::GetDirection(TRANSFORM_TYPE ts)
+	{
+		Quaternion qRotate = GetTransform(ts).m_qRot;
+		Matrix4x4 matRotate;
+		MatrixFromQuaternion(&matRotate,&qRotate);
+		return matRotate.GetRow(3);
+
+	}
+
+	Vector3	SceneNode::GetRight(TRANSFORM_TYPE ts)
+	{
+		Quaternion qRotate = GetTransform(ts).m_qRot;
+		Matrix4x4 matRotate;
+		MatrixFromQuaternion(&matRotate,&qRotate);
+		return matRotate.GetRow(0);
+	}
+	
+	Vector3	SceneNode::GetUp(TRANSFORM_TYPE ts)
+	{
+		Quaternion qRotate = GetTransform(ts).m_qRot;
+		Matrix4x4 matRotate;
+		MatrixFromQuaternion(&matRotate,&qRotate);
+		return matRotate.GetRow(1);
+	}
+
+	void  SceneNode::Move(float x)
+	{
+		Vector3 vPos = GetPosition(TS_PARENT);
+		vPos += GetDirection(TS_PARENT) * x;
+		SetPosition(vPos,TS_PARENT);
+	}
+
+	void  SceneNode::Fly(float x)
+	{
+		Vector3 vPos = GetPosition(TS_PARENT);
+		vPos += GetUp(TS_PARENT) * x;
+		SetPosition(vPos,TS_PARENT);
+		
+	}
+
+	void  SceneNode::Right(float x)
+	{
+		Vector3 vPos = GetPosition(TS_PARENT);
+		vPos += GetRight(TS_PARENT) * x;
+		SetPosition(vPos,TS_PARENT);
+	}
+
+
+	void SceneNode::Translate(const Vector3& vDir, TRANSFORM_TYPE ts)
+	{
+		if (ts == TS_WORLD || ts == TS_PARENT)
+		{
+			Vector3 vPos = GetPosition(ts);
+			vPos += vDir;
+			SetPosition(vPos,ts);
+		}
+		else if (ts == TS_LOCAL)
+		{
+			NodeTransform tsfPS = GetTransform(TS_PARENT);
+			Vector3 vDirPS;
+			QuaternionTransformVector(&vDirPS,&vDir,&tsfPS.m_qRot);
+			tsfPS.m_vPos += vDirPS;
+			SetTransform(tsfPS,TS_PARENT);
+		}
+	}
+
+	void SceneNode::Rotate(const Quaternion& qRot, TRANSFORM_TYPE ts)
+	{
+		if (ts == TS_WORLD || ts == TS_PARENT)
+		{
+			NodeTransform tsf = GetTransform(ts);
+			tsf.m_qRot = qRot * tsf.m_qRot;
+			SetTransform(tsf,ts);
+		}
+		else if (ts == TS_LOCAL)
+		{
+			NodeTransform tsfPS = GetTransform(TS_PARENT);
+			tsfPS.m_qRot = tsfPS.m_qRot * qRot;
+			SetTransform(tsfPS,TS_PARENT);
+		}
+	}	
+
+	void SceneNode::Rotate(float xDegree,float yDegree,float zDegree, TRANSFORM_TYPE ts)
+	{
+		Quaternion qRot;
+		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
+		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
+		Rotate(qRot,ts);
+	}
+
+	const Matrix4x4& SceneNode::GetWorldMatrix()
+	{
+		if (m_bmatWSDirty)
+		{
+			UpdateMatWorld();
+		}
+		return m_matWorld;
+	}
+
+	void SceneNode::SetTransformWSDirty()
 	{
 		m_btsfWSDirty = true;
 		m_bmatWSDirty = true;
@@ -136,143 +287,56 @@ namespace ma
 		}
 	}
 
-	const NodeTransform&	SceneNode::GetTransformPS() 
-	{
-		if (m_btsfPSDirty)
-		{
-			UpdateTransformPS();
-		}
-		return m_tsfPS;
-	}
-
-	const NodeTransform&	SceneNode::GetTransformWS() 
-	{
-		if (m_btsfWSDirty)
-		{
-			UpdateTransformWS();
-		}
-		return m_tsfWS;
-	}
-
-	const Matrix4x4&		SceneNode::GetWorldMatrix()
-	{
-		if (m_bmatWSDirty)
-		{
-			UpdateMatWorld();
-		}
-		return m_matWorld;
-	}
-
-	void					SceneNode::SetPositionPS(const Vector3& vPosPS)
-	{
-		NodeTransform tsfPS = GetTransformPS();
-		tsfPS.m_vPos = vPosPS;
-		SetTransformPS(tsfPS);
-	}
-
-	const Vector3&		SceneNode::GetPositionPS() 
-	{
-		return GetTransformPS().m_vPos;
-	}
-
-
-	void					SceneNode::SetPositionWS(const Vector3& vPosWS)
-	{
-		NodeTransform tsfWS = GetTransformWS();
-		tsfWS.m_vPos = vPosWS;
-		SetTransformWS(tsfWS);
-	}
-
-	const Vector3&		SceneNode::GetPositionWS() 
-	{
-		return GetTransformWS().m_vPos;
-	}
-
-
 	void					SceneNode::UpdateMatWorld()
 	{
-		NodeTransform tsfWS = GetTransformWS();
-		MatrixFromTransform(&m_matWorld,&GetTransformWS());
+		MatrixFromTransform(&m_matWorld,&GetTransform(TS_WORLD));
 		m_bmatWSDirty = false;
 	}
 
 	void					SceneNode::UpdateTransformWS()
 	{
-		assert(!m_btsfPSDirty);
+		ASSERT(!m_btsfPSDirty);
 		if (m_pParentNode == NULL)
 		{
 			m_tsfWS = m_tsfPS;
 		}
 		else
 		{
-			TransformMul(&m_tsfWS, &m_tsfPS, &m_pParentNode->GetTransformWS());
+			TransformMul(&m_tsfWS, &m_tsfPS, &m_pParentNode->GetTransform(TS_WORLD));
 		}
 		m_btsfWSDirty = false;
 	}
 
 	void					SceneNode::UpdateTransformPS()
 	{
-		assert(!m_btsfWSDirty);
+		ASSERT(!m_btsfWSDirty);
 		if (m_pParentNode == NULL)
 		{
 			m_tsfPS = m_tsfWS;
 		}
 		else
 		{
-			TransformInvMul(&m_tsfPS,&m_tsfWS,&m_pParentNode->GetTransformWS());
+			TransformInvMul(&m_tsfPS,&m_tsfWS,&m_pParentNode->GetTransform(TS_PARENT));
 		}
 		m_btsfPSDirty = false;
 	}
 
 
-	// void					SceneNode::SetTransformDirty()
-	// {
-	// 	m_btsfPSDirty = true;
-	// 	m_btsfWSDirty = true;
-	// 	m_bmatWSDirty = true;
-	// 	for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-	// 	{
-	// 		m_arrChildNode[i]->SetTransformDirty();
-	// 	}
-	// }
-
-
 	void					SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)
 	{
-		NodeTransform tsfWorld = GetTransformWS();
+		NodeTransform tsfWorld = GetTransform(TS_WORLD);
 		NodeTransform tsfWorldInv;
 		TransformInverse(&tsfWorldInv,&tsfWorld);
 		TransformMul(pOutLocal,pWorld,&tsfWorldInv);
 	}
 
 
-	void					SceneNode::TranslateLS(const Vector3& vDirLS)
-	{
-		Vector3 vDirPS;
-		QuaternionTransformVector(&vDirPS,&vDirLS,&GetTransformPS().m_qRot);
-		TranslatePS(vDirPS);
-	}
-
-	void					SceneNode::TranslatePS(const Vector3& vDirPS)
-	{
-		Vector3 vPosPS = GetPositionPS();
-		vPosPS += vDirPS;
-		SetPositionPS(vPosPS);
-	}
-
-	void					SceneNode::TranslateWS(const Vector3& vDirWS)
-	{
-		Vector3 vPosWS = GetPositionWS();
-		vPosWS += vDirWS;
-		SetPositionWS(vPosWS);
-	}
-
 	void					SceneNode::RotateYAxisLS(float fDegree)
 	{
 		Quaternion qRot;
 		const Vector3 vY(0.0f,1.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
-		RotateLS(qRot);
+		Rotate(qRot,TS_LOCAL);
 
 	}
 
@@ -281,30 +345,69 @@ namespace ma
 		Quaternion qRot;
 		const Vector3 vZ(0.0f,0.0f,1.0f);
 		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
-		RotateLS(qRot);
+		Rotate(qRot,TS_LOCAL);
 	}
 
-	void					SceneNode::RotateLS(float xDegree,float yDegree,float zDegree)
+	void					SceneNode::RotateXAxisLS(float fDegree)
 	{
 		Quaternion qRot;
-		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
-		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
-		RotateLS(qRot);
+		const Vector3 vZ(1.0f,0.0f,0.0f);
+		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
+		Rotate(qRot,TS_LOCAL);
 	}
 
-	void					SceneNode::RotateLS(const Quaternion& qRot)
-	{
-		NodeTransform tsfPS = GetTransformPS();
-		QuaternionMultiply(&tsfPS.m_qRot,&qRot,&tsfPS.m_qRot);
-		SetTransformPS(tsfPS);
-	}
+// 	void					SceneNode::RotateLS(float xDegree,float yDegree,float zDegree)
+// 	{
+// 		Quaternion qRot;
+// 		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
+// 		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
+// 		RotateLS(qRot);
+// 	}
 
-	EulerAngleXYZ			SceneNode::GetRotateLS()
-	{
-		EulerAngleXYZ euler;
-		EulerAngleFromQuaternion(&euler,&GetTransformPS().m_qRot);
-		return euler;
-	}
+// 	void					SceneNode::RotateLS(const Quaternion& qRot)
+// 	{
+// 		NodeTransform tsfPS = GetTransformPS();
+// 		QuaternionMultiply(&tsfPS.m_qRot,&qRot,&tsfPS.m_qRot);
+// 		SetTransformPS(tsfPS);
+// 	}
+
+// 	EulerAngleXYZ			SceneNode::GetRotateLS()
+// 	{
+// 		EulerAngleXYZ euler;
+// 		EulerAngleFromQuaternion(&euler,&GetTransformPS().m_qRot);
+// 		return euler;
+// 	}
+
+// 	void  SceneNode::Pitch(float x, TRANSFORM_TYPE ts)
+// 	{
+// 
+// 	}
+// 
+// 	void  SceneNode::Yaw(float x, TRANSFORM_TYPE ts)
+// 	{
+// 
+// 	}
+// 	
+// 	void  SceneNode::Roll(float x, TRANSFORM_TYPE ts)
+// 	{
+// 
+// 	}
+// 
+// 	void SceneNode::Move(float x)
+// 	{
+// 		Vector3 dir;
+// 		
+// 	}
+// 
+// 	void SceneNode::Fly(float x)
+// 	{
+// 
+// 	}
+// 
+// 	void SceneNode::Right(float x)
+// 	{
+// 
+// 	}
 
 
 	void SceneNode::SyncToPhysics()

@@ -51,10 +51,10 @@ namespace ma
 			if (m_vMeshComp[i] == NULL)
 				continue;
 			
-			IRendMesh* pMeshRes = m_vMeshComp[i]->GetRendMesh();
-			IRendTexture* pTexture = m_vMeshComp[i]->GetTexture();
-			if (pMeshRes == NULL)
-				continue;
+// 			RendMesh* pMeshRes = m_vMeshComp[i]->GetRendMesh();
+// 			Texture* pTexture = m_vMeshComp[i]->GetTexture();
+// 			if (pMeshRes == NULL)
+// 				continue;
 			
 			//GetRenderDevice()->RenderSkelMesh(arrSkinMatrix,nSkinMaxtrixNum,&worldmat,pMeshRes,pTexture);
 		}

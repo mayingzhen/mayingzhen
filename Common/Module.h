@@ -3,6 +3,7 @@
 
 #include "Common/Export.h"
 
+#include "Common/WarningPrefix.h"
 
 #include "Common/BaseType.h"
 #include "Common/Macro.h"
@@ -26,7 +27,10 @@
 // Utile
 #include "Common/Singleton.h"
 #include "Common/RefCountObject.h"
+#include "Common/SmartPointer.h"
 #include "Common/BitField.h"
+
+#include "Common/WarningSuffix.h"
 
 
 COMMON_API void CommonModuleInit();

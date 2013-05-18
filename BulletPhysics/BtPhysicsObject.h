@@ -11,7 +11,7 @@ namespace ma
 	class IBoxCollisionShape;
 	class ISphereCollisionShape;
 	
-	class BULLETPHYSICS_API BulletPhysicsObject : public IPhysicsObject
+	class BulletPhysicsObject : public IPhysicsObject
 	{
 	public:
 		BulletPhysicsObject();

@@ -2,9 +2,8 @@
 #define  _Material__H__
 
 
-#include "IRendTexture.h"
+#include "Texture.h"
 
-#define Texture IRendTexture
 
 namespace ma
 {
@@ -151,11 +150,11 @@ namespace ma
 	};
 
 
-	// class Mesh;
+	// class MeshData;
 	// class MaterialLoader
 	// {
 	// public:
-	// 	void Load(Mesh * mesh, DataStreamPtr stream);
+	// 	void Load(MeshData * mesh, DataStreamPtr stream);
 	// 
 	// protected:
 	// 	void _loadMaterial(Material * mat, l_node * node);;

@@ -3,12 +3,12 @@
 
 namespace ma
 {
-	class SampleLighting : public SimpleSceneView
+	class SampleLighting : public Sample
 	{
 	public:
 		SampleLighting();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(ApplicationBase* pApplication);
 
 		virtual void Shutdown();
 

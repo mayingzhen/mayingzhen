@@ -51,7 +51,7 @@ namespace ma
 
 			m_strFilename = "";
 
-			assert(bSaveOK && "Fail to Save File");
+			ASSERT(bSaveOK && "Fail to Save File");
 			m_pParentElem = NULL;
 		}
 
@@ -184,7 +184,7 @@ namespace ma
 
 // 	void XMLOutputArchive::Serialize(IStringWrapper* val,const char* pszLable )
 // 	{
-// 		assert(NULL != val);
+// 		ASSERT(NULL != val);
 // 		TiXmlElement elem(pszLable);
 // 		TiXmlText text(val->GetValue());
 // 		elem.InsertEndChild(text);

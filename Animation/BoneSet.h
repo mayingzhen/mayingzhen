@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class ANIMATION_API BoneSet
+	class BoneSet
 	{
 	public:
 		BoneSet(const char* pszName = NULL){m_sName = pszName ? pszName : "";}

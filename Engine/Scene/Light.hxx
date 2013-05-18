@@ -33,7 +33,7 @@ namespace ma
 		Matrix4x4 matViewInv;
 		MatrixInverse(&matViewInv,NULL,&m_mView);
 		TransformFromMatrix(&tsfWS,&matViewInv);
-		SetTransformWS(tsfWS);
+		SetTransform(tsfWS,TS_WORLD);
 	}
 
 	void Light::LookAt(const Vector3* pEye,const Vector3* pAt,const Vector3* pUp)

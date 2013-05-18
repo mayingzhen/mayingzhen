@@ -178,7 +178,7 @@ namespace ma
 
 		hr = m_pd3dDevice->CreateVertexBuffer( vertBuff.size() * sizeof( Vector3 ), D3DUSAGE_WRITEONLY,
 			0, D3DPOOL_DEFAULT, &m_pVB, NULL );
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 		if(FAILED(hr))
 		{
 			return /*false*/;
@@ -186,7 +186,7 @@ namespace ma
 
 		hr = m_pd3dDevice->CreateIndexBuffer( indBuff.size() * sizeof( indBuff ), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
 			D3DPOOL_DEFAULT, &m_pIB, NULL );
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 		if(FAILED(hr))
 		{
 			return /*false*/;
@@ -197,21 +197,21 @@ namespace ma
 
 		//allocate vertices
 		hr = m_pVB->Lock(0, vertBuff.size() * sizeof( Vector3 ), (void **) &pVerts, 0);
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 
 		memcpy( pVerts, &vertBuff[0], vertBuff.size()*sizeof(Vector3 ) );
 
 		hr = m_pVB->Unlock();
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 
 		//allocate indices
 		hr = m_pIB->Lock(0, indBuff.size() * sizeof( Uint16 ), (void **) &pInds, 0);
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 
 		memcpy( pInds, &indBuff[0], sizeof(Uint16)*indBuff.size() );
 
 		hr = m_pIB->Unlock();
-		assert(SUCCEEDED(hr));
+		ASSERT(SUCCEEDED(hr));
 
 
 		return /*SUCCEEDED(hr)*/;

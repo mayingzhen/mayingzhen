@@ -4,43 +4,25 @@
 namespace ma
 {
 
-	enum AnimVersion
-	{
-		EXP_ANIM_VER_INITIAL = 1,
-
-		EXP_ANIM_VER_CURRENT = EXP_ANIM_VER_INITIAL,
-	};
-
 	struct ENGINE_API AnimationHeader
 	{
 		UINT m_nIden;
 		UINT m_nVersion;
 
-		void Serialize(SerializeListener& sl,const char* pszLable = "AnimationHeader");
+		AnimationHeader();
 	};
 
 	struct ENGINE_API Vector3TrackData
 	{
-		std::vector<UINT>		 m_arrFrame;
-		std::vector<Vector3> m_arrKey;
+		std::vector<UINT>		m_arrFrame;
+		std::vector<Vector3>	m_arrKey;
 
-		void Serialize(SerializeListener& sl,const char* pszLable = "Vector3Track");
 	};
 
 	struct ENGINE_API QuaternionTrackData
 	{
 		std::vector<UINT>			m_arrFrame;
-		std::vector<Quaternion> m_arrKey;
-
-		void Serialize(SerializeListener& sl,const char* pszLable = "QuaternionTrack");
-	};
-
-	struct ENGINE_API FloatTrackData
-	{
-		std::vector<UINT>			m_arrFrame;
-		std::vector<float>			m_arrKey;
-
-		void Serialize(SerializeListener& sl,const char* pszLable = "FloatTrack" );
+		std::vector<Quaternion>		m_arrKey;
 	};
 
 	struct ENGINE_API AnimationData : public Resource
@@ -59,7 +41,7 @@ namespace ma
 			m_nBoneNum = 0;
 		}
 
-		void Serialize(SerializeListener& sl,const char* pszLable = "AnimationData");
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "AnimationData");
 	};
 }
 

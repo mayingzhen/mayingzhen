@@ -16,9 +16,13 @@ namespace ma
 
 		virtual void		Update();			
 
-		//void				LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
+		void				LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
+
+		NodeTransform		GetTransform() const;
+
+		void				SetTransform(const NodeTransform& tsfCamra);
 
 		const Matrix4x4&	GetViewMatrix() const {return m_matView;}
 
@@ -35,6 +39,10 @@ namespace ma
 		float*				GetSplitPos() {return m_fSplitPos;}
 
 		void				FitAABB(const AABB& aabb, float fMargin);
+
+		Vector3				ProjToWorldNormal(const Vector2* pVec) const;
+
+		Vector3				GetLookAtPos() {return m_vLookAtPt;}
 
 	protected:
 		void				CalculateSplitPositions();
@@ -58,9 +66,9 @@ namespace ma
 		float			m_fNear;
 		float			m_fFar;
 
-		Vector3		m_vLookAtPt;
-		Vector3		m_vEyePt;
-		Vector3		m_vUpVector;
+		Vector3			m_vLookAtPt;
+		Vector3			m_vEyePt;
+		Vector3			m_vUpVector;
 
 		//bool			m_bProjDirty;
 

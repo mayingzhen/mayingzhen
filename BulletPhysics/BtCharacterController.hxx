@@ -90,7 +90,7 @@ namespace ma
 			return false;
 
 		m_capsule = new btCapsuleShape(m_fRadius,m_fHeight);
-		SetTransformWS(pGameObj->GetSceneNode()->GetTransformWS());
+		SetTransformWS(pGameObj->GetSceneNode()->GetTransform(TS_WORLD));
 		//m_ghostObject->setWorldTransform(pGameObj->GetSceneNode()->GetTransformWS());
 		m_ghostObject->setCollisionShape(m_capsule);
 		m_ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
@@ -126,7 +126,7 @@ namespace ma
 		if (m_pGameObject == NULL)
 			return;
 
-		Vector3 vMovePos = m_pGameObject->GetPositionWS() + m_vCenter;
+		Vector3 vMovePos = m_pGameObject->GetPosition(TS_WORLD) + m_vCenter;
 
 		Vector3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
 		Vector3 motion =vMovePos - vCharPosPre;
@@ -140,7 +140,7 @@ namespace ma
 			return;
 
 		Vector3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		m_pGameObject->SetPositionWS(charPos);
+		m_pGameObject->SetPosition(charPos,TS_WORLD);
 		//Vector3 vPosWSNew = charPos - m_vCenter;
 		//Vector3 vPosWSOld = m_pGameObject->GetPositionWS();
 		//Vector3 vDirWs = vPosWSNew - vPosWSOld;

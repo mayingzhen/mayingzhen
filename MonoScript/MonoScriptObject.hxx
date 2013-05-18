@@ -28,7 +28,7 @@ namespace ma
 		}
 
 		m_pObj = mono_object_new(pScriptDevice->GetAppDomain(),m_pClass);
-		assert(m_pObj != NULL);
+		ASSERT(m_pObj != NULL);
 		if (m_pObj == NULL)
 			return;
 

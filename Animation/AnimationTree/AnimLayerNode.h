@@ -7,7 +7,7 @@ namespace ma
 {
 	struct AnimEvalContext;
 
-	class ANIMATION_API AnimLayerNode : public AnimTreeNode
+	class  AnimLayerNode : public AnimTreeNode
 	{
 	public:
 		virtual void AddLayer(AnimTreeNode* pAnimTreeNode);

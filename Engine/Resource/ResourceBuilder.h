@@ -4,11 +4,11 @@
 namespace ma
 {
 	class MeshData;
-	class SkeletonData;
-	class AnimationData;
+	struct SkeletonData;
+	struct AnimationData;
 
 	// Load
-	ENGINE_API MeshData*		LoadMeshFromBinaryFile(const char* filename);
+	//ENGINE_API MeshData*		LoadMeshFromBinaryFile(const char* filename);
 
 	ENGINE_API SkeletonData*	LoadSkeletonFromBinaryFile(const char* fileName);
 

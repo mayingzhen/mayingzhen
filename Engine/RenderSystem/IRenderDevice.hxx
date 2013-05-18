@@ -14,7 +14,6 @@ namespace ma
 		return g_pRenderDevice;
 	}
 
-
 	void IRenderDevice::DrawBox(const Matrix4x4& wordMat,const Vector3& size, Uint32 color)
 	{
 		Vector3 vScale;

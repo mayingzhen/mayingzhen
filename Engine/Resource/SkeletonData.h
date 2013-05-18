@@ -3,19 +3,13 @@
 
 namespace ma
 {
-	enum SkelVersion
-	{
-		EXP_SKEL_VER_INITIAL = 1,
-		EXP_SKEL_VER_CURRENT = EXP_SKEL_VER_INITIAL,
-	};
-
 
 	struct ENGINE_API SkeletonHeader
 	{
 		UINT m_nIden;
 		UINT m_nVersion;
 
-		void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonHeader" );
+		SkeletonHeader();
 	};
 
 
@@ -25,11 +19,11 @@ namespace ma
 		UINT						m_nBoneNum;
 		std::vector<std::string>	m_arrBoneName;
 		std::vector<UINT>			m_arrParentIndice;
-		std::vector<Vector3>	m_arrScaleOS;
-		std::vector<Quaternion>	m_arrRotOS;
-		std::vector<Vector3>	m_arrPosOS;
+		std::vector<Vector3>		m_arrScaleOS;
+		std::vector<Quaternion>		m_arrRotOS;
+		std::vector<Vector3>		m_arrPosOS;
 
-		void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData" );
+		virtual void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData");
 	};
 }
 

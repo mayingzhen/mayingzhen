@@ -8,9 +8,9 @@ namespace ma
 		m_pLigt = NULL;
 	}
 
-	void SampleLighting::Init(Application* pApplication)
+	void SampleLighting::Init(ApplicationBase* pApplication)
 	{
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		m_fMoveCameraSpeed = 0.80f;
 		//m_pCamera->SetPositionWS( Vector3(0, 2, -3) );
@@ -20,12 +20,12 @@ namespace ma
 
 	void SampleLighting::Shutdown()
 	{
-		SimpleSceneView::Shutdown();
+		Sample::Shutdown();
 	}
 
 	void SampleLighting::Load()
 	{
-		assert(m_pScene);
+		ASSERT(m_pScene);
 		if (m_pScene == NULL)
 			return;
 

@@ -60,7 +60,7 @@ namespace ma
 		// Create a renderable texture
 		hr = m_pDxDevice->CreateTexture( iSizeX, iSizeY, 1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
 			D3DPOOL_DEFAULT, &m_pTexture, NULL );
-		assert( SUCCEEDED(hr) );
+		ASSERT( SUCCEEDED(hr) );
 
 		hr = m_pTexture->GetSurfaceLevel(0, &m_pSurface);
 		if (FAILED(hr))
@@ -75,7 +75,7 @@ namespace ma
 #else
 		hr = m_pDxDevice->CreateTexture( iSizeX, iSizeY, 1, D3DUSAGE_DEPTHSTENCIL, D3DFMT_D24S8, 
 			D3DPOOL_DEFAULT, &m_pDSTexture, NULL);
-		assert( SUCCEEDED(hr) );
+		ASSERT( SUCCEEDED(hr) );
 
 		if (FAILED(hr))
 		{

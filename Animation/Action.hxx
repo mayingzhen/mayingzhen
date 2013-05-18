@@ -45,6 +45,7 @@ namespace ma
 		for (UINT i = 0; i < pAnimContext->m_pNodePos->GetNodeNumber(); ++i)
 		{
 		 	NodeTransform tsfPS;
+			TransformSetIdentity(&tsfPS);
 		 	TransformMul(&tsfPS,&pAnimContext->m_arrTSFLS[i],&pAnimContext->m_refNodePos->GetTransformPS(i));
 		 	pAnimContext->m_pNodePos->SetTransformPS(&tsfPS,i);
 		}

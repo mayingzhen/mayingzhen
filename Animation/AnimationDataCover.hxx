@@ -97,34 +97,46 @@ namespace ma
 
 	}
 
-	bool ConverteAnimDataParentToLocalSpaceAnimation(AnimationData* pAniData,Skeleton* pSkel)
-	{
-		if (pSkel == NULL || pAniData == NULL)
+	bool ConverteAnimDataParentToLocalSpaceAnimation(AnimationData* pAniData,const SkeletonData* pSkelData)
+	{	
+		if (pAniData == NULL)
 			return false;
+
+		Skeleton* pSkeleton = new Skeleton();
+		pSkeleton->InitWithData(pSkelData);
 
 		bool res =  ConverteAnimDataParentToLocalSpaceAnimation(
 			pAniData->m_arrTransfTrackName,
 			pAniData->m_arrScaleTrack, 
 			pAniData->m_arrRotTrack, 
 			pAniData->m_arrPosTrack, 
-			pSkel);
+			pSkeleton);
 
 		pAniData->Save();
+
+		SAFE_DELETE(pSkeleton);
 
 		return res;
 	}
 
-	bool ConverteAnimDataObjectToLocalSpaceAnimation(AnimationData* pAniData,Skeleton* pSkel)
+	bool ConverteAnimDataObjectToLocalSpaceAnimation(AnimationData* pAniData,const SkeletonData* pSkelData)
 	{
-		if (pSkel == NULL || pAniData == NULL)
+		if (pAniData == NULL)
 			return false;
 
-		return ConverteAnimDataObjectToLocalSpaceAnimation(
+		Skeleton* pSkeleton = new Skeleton();
+		pSkeleton->InitWithData(pSkelData);
+
+		bool res =  ConverteAnimDataObjectToLocalSpaceAnimation(
 			pAniData->m_arrTransfTrackName,
 			pAniData->m_arrScaleTrack, 
 			pAniData->m_arrRotTrack, 
 			pAniData->m_arrPosTrack, 
-			pSkel);
+			pSkeleton);
+
+		SAFE_DELETE(pSkeleton);
+
+		return res;
 	}
 
 }

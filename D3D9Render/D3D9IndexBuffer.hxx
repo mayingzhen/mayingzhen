@@ -24,7 +24,7 @@ void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
     void * pData = NULL;
     DWORD D3DLock = 0;
 
-    if ((LockFlag & LOCK_DISCARD) && (mUsage & USAGE_DYNAMIC))
+    if ((LockFlag & LOCK_DISCARD) && (m_eUsage & USAGE_DYNAMIC))
         D3DLock |= D3DLOCK_DISCARD;
 
     if (LockFlag & LOCK_NOOVERWRITE)
@@ -34,7 +34,7 @@ void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
         D3DLock |= D3DLOCK_READONLY;
 
     HRESULT hr = mD3D9IndexBuffer->Lock(iOffsetBytes, iLockSize, &pData, D3DLock);
-    assert(hr == D3D_OK && "Lock index buffer failed.");
+    ASSERT(hr == D3D_OK && "Lock index buffer failed.");
 
     return pData;
 }
@@ -44,23 +44,56 @@ void D3D9IndexBuffer::Unlock()
     mD3D9IndexBuffer->Unlock();
 }
 
+void D3D9IndexBuffer::Bind(void* Data, int iSize,INDEX_TYPE eIndexType, USAGE Usage)
+{
+	ASSERT(iSize);
+
+	HRESULT hr;
+	DWORD D3DUsage = D3D9Mapping::GetD3DUsage(Usage);
+	D3DFORMAT D3DFormat = D3D9Mapping::GetD3DIndexType(eIndexType);
+	D3DPOOL D3DPool = D3D9Mapping::GetD3DPool(Usage);
+	IDirect3DIndexBuffer9 * pD3DIB;
+
+	hr = mD3D9Device->CreateIndexBuffer(iSize, D3DUsage, D3DFormat, D3DPool, &pD3DIB, NULL);
+	ASSERT(hr == D3D_OK && "D3D Error: CreateIndexBuffer failed");
+	if (FAILED(hr))
+	{
+		false;
+	}
+
+	mD3D9IndexBuffer = pD3DIB;
+	m_nSize = iSize;
+	m_eUsage = Usage;
+	m_eType = eIndexType;
+
+	void * pData = NULL;
+	DWORD D3DLock = LOCK_DISCARD;
+	hr = mD3D9IndexBuffer->Lock(0, iSize, &pData, D3DLock);
+	ASSERT(hr == D3D_OK && "Lock index buffer failed.");
+
+	memcpy(pData,Data,iSize);
+
+	mD3D9IndexBuffer->Unlock();
+
+}
+
 void D3D9IndexBuffer::LostDevice()
 {
-    if (mUsage == USAGE_DYNAMIC)
+    if (m_eUsage == USAGE_DYNAMIC)
         safe_release_com(mD3D9IndexBuffer);
 }
 
 void D3D9IndexBuffer::ResetDevice()
 {
-    if (mUsage == USAGE_DYNAMIC)
+    if (m_eUsage == USAGE_DYNAMIC)
     {
-        assert(mD3D9IndexBuffer == NULL);
+        ASSERT(mD3D9IndexBuffer == NULL);
 
         HRESULT hr;
-        DWORD D3DUsage = D3D9Mapping::GetD3DUsage(mUsage);
-        D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(mFormat);
+        DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_eUsage);
+        D3DFORMAT D3DFormat = D3DFMT_INDEX16;
 
-        hr = mD3D9Device->CreateIndexBuffer(mSize,
+        hr = mD3D9Device->CreateIndexBuffer(m_nSize,
                                               D3DUsage,
                                               D3DFormat,
                                               D3DPOOL_DEFAULT,

@@ -30,7 +30,7 @@ void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
     void * pData = NULL;
     DWORD D3DLock = 0;
 
-    if ((LockFlag & LOCK_DISCARD) && (mUsage == USAGE_DYNAMIC))
+    if ((LockFlag & LOCK_DISCARD) && (m_Usage == USAGE_DYNAMIC))
         D3DLock |= D3DLOCK_DISCARD;
 
     if (LockFlag & LOCK_NOOVERWRITE)
@@ -40,7 +40,7 @@ void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
         D3DLock |= D3DLOCK_READONLY;
 
     HRESULT hr = mD3D9VertexBuffer->Lock((UINT)iOffsetBytes, (UINT)iLockSize, &pData, D3DLock);
-    assert(hr == D3D_OK && "Lock vertex buffer failed.");
+    ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
 
     return pData;
 }
@@ -48,6 +48,42 @@ void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
 void D3D9VertexBuffer::Unlock()
 {
     mD3D9VertexBuffer->Unlock();
+}
+
+void D3D9VertexBuffer::Bind(void* Data, int size, UINT nVertexType, USAGE Usage)
+{
+	ASSERT(mD3D9VertexBuffer == NULL);
+
+	ASSERT(size);
+
+	HRESULT hr;
+	DWORD D3DUsage = D3D9Mapping::GetD3DUsage(Usage);
+	D3DPOOL D3DPool = D3D9Mapping::GetD3DPool(Usage);
+	IDirect3DVertexBuffer9 * pD3DVB;
+
+	hr = mD3D9Device->CreateVertexBuffer(size, D3DUsage, 0, D3DPool, &pD3DVB, NULL);
+	ASSERT(hr == D3D_OK && "D3D Error: CreateVertexBuffer failed");
+	if (FAILED(hr))
+	{
+		return;
+	}
+
+	mD3D9VertexBuffer = pD3DVB;
+	m_Size = size;
+	m_Usage = Usage;
+	//m_Stride = mStride;
+
+	void * pData = NULL;
+	DWORD D3DLock = D3DLOCK_DISCARD;
+	hr = mD3D9VertexBuffer->Lock(0, size, &pData, D3DLock);
+	ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
+
+	memcpy(pData,Data,size);
+
+	mD3D9VertexBuffer->Unlock();
+
+	
+
 }
 
 
@@ -58,7 +94,7 @@ IDirect3DVertexBuffer9 * D3D9VertexBuffer::GetD3DVertexBuffer() const
 
 void D3D9VertexBuffer::LostDevice()
 {
-    if (mUsage == USAGE_DYNAMIC)
+    if (m_Usage == USAGE_DYNAMIC)
     {
         safe_release_com(mD3D9VertexBuffer);
     }
@@ -66,12 +102,12 @@ void D3D9VertexBuffer::LostDevice()
 
 void D3D9VertexBuffer::ResetDevice()
 {
-    if (mUsage == USAGE_DYNAMIC)
+    if (m_Usage == USAGE_DYNAMIC)
     {
         HRESULT hr = D3D_OK;
-        DWORD D3DUsage = D3D9Mapping::GetD3DUsage(mUsage);
+        DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
 
-        hr = mD3D9Device->CreateVertexBuffer(mSize, D3DUsage, 0, D3DPOOL_DEFAULT, &mD3D9VertexBuffer, NULL);
+        hr = mD3D9Device->CreateVertexBuffer(m_Size, D3DUsage, 0, D3DPOOL_DEFAULT, &mD3D9VertexBuffer, NULL);
 
         if (FAILED(hr))
         {

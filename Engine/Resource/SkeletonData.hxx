@@ -2,29 +2,55 @@
 
 namespace ma
 {
-	void SkeletonHeader::Serialize(SerializeListener& sl,const char* pszLable)
+	enum SkelVersion
+	{
+		EXP_SKEL_VER_INITIAL = 1,
+		EXP_SKEL_VER_CURRENT = EXP_SKEL_VER_INITIAL,
+	};
+
+	SkeletonHeader::SkeletonHeader()
+	{
+		m_nIden = 'MAED';
+		m_nVersion = EXP_SKEL_VER_CURRENT;
+	}
+
+
+	void SerializeData(SerializeListener& sl, SkeletonHeader& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
-		sl.Serialize(m_nIden,"Iden");
-		sl.Serialize(m_nVersion,"Version");
+
+		sl.Serialize(data.m_nIden,"Iden");
+		sl.Serialize(data.m_nVersion,"Version");
+		
 		sl.EndSection();
 	}
 
-	void SkeletonData::Serialize(SerializeListener& sl,const char* pszLable)
+	void SerializeDataV1(SerializeListener& sl, SkeletonData& data, const char* pszLable)
 	{
-		SkeletonHeader skelHeader;
-		sl.Serialize(skelHeader,"Header");
-
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_nGlobalSkeletonID,"GlobalSkeletonID");
-		sl.Serialize(m_nBoneNum,"BoneNumber");
- 		sl.Serialize(m_arrBoneName,"BoneName");
- 		sl.Serialize(m_arrParentIndice,"ParentIndice");
- 		sl.Serialize(m_arrScaleOS,"ScaleOS");
- 		sl.Serialize(m_arrRotOS,"RotationOS");
- 		sl.Serialize(m_arrPosOS,"PositionOS");
+		sl.Serialize(data.m_nGlobalSkeletonID,"GlobalSkeletonID");
+		sl.Serialize(data.m_nBoneNum,"BoneNumber");
+ 		sl.Serialize(data.m_arrBoneName,"BoneName");
+ 		sl.Serialize(data.m_arrParentIndice,"ParentIndice");
+ 		sl.Serialize(data.m_arrScaleOS,"ScaleOS");
+ 		sl.Serialize(data.m_arrRotOS,"RotationOS");
+ 		sl.Serialize(data.m_arrPosOS,"PositionOS");
 
 		sl.EndSection();
+	}
+
+	void SkeletonData::Serialize(SerializeListener& sl, const char* pszLable)
+	{
+		SkeletonHeader header;
+		sl.Serialize(header);
+		if (header.m_nIden != 'MAED')
+			return;
+
+		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
+		{
+			SerializeDataV1(sl,*this,pszLable);
+		}
+
 	}
 }

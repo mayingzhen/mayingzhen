@@ -3,12 +3,12 @@
 
 namespace ma
 {
-	class SampleMonoScript : public SimpleSceneView
+	class SampleMonoScript : public Sample
 	{
 	public:
 		SampleMonoScript();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(ApplicationBase* pApplication);
 
 		virtual void Shutdown();
 

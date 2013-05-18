@@ -119,7 +119,7 @@ namespace ma
 			m_pPhysicsObject = GetPhysicsDevice()->CreatePhysicsObject();
 			pGameObj->SetPhyscisObject(m_pPhysicsObject);
 		}
-		assert(m_pPhysicsObject);
+		ASSERT(m_pPhysicsObject);
 
 		if (m_pPhysicsObject)
 		{	

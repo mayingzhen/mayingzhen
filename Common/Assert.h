@@ -1,34 +1,61 @@
 #ifndef __ASSERT_H__
 #define __ASSERT_H__
 
-#define DEBUG_BACKPOINT			0
-#define DEBUG_IGNORE			1
-#define DEBUG_CONTINUE			2
+COMMON_API int AssertMsg(bool bOK, const char* exper, const char* description, 
+								const char* file, int line);
 
-#define debug_assert(x, comment)	\
-{									\
-	static bool bIgnore = false;	\
-	if (!bIgnore && !(x))			\
-	{								\
-		switch (DisplayError("ASSERT FAILED!", #x, comment, __FILE__, __LINE__)) \
-		{							\
-		case DEBUG_IGNORE:			\
-			bIgnore = true;         \
-			break;					\
-		case DEBUG_BACKPOINT:		\
-			__asm {int 3};          \
-			break;					\
-		}							\
-	}								\
-}
+#define ASSERT_ENABLE
 
-COMMON_API void AssertMsg(bool bOK, const char* pszExpr, const char* pszFile, 
-						  const char* pszFunction,Uint nLine,const char* fmt,...);
+#if defined(ASSERT_ENABLE) 
+	
+	#if PLATFORM_WIN == 1
+
+		#define DEBUG_BACKPOINT			0
+		#define DEBUG_IGNORE			1
+		#define DEBUG_CONTINUE			2
+
+		#define debug_assert(x, comment)	\
+		{									\
+			static bool bIgnore = false;	\
+			if (!bIgnore && !(x))					\
+			{								\
+				switch (AssertMsg(!!(x), #x, comment, __FILE__, __LINE__)) \
+				{							\
+				case DEBUG_IGNORE:			\
+					bIgnore = true;         \
+					break;					\
+				case DEBUG_BACKPOINT:		\
+					__asm {int 3};          \
+					break;					\
+				}							\
+			}								\
+		}
+		
+		#define ASSERT(expr) debug_assert(expr,"")
+		#define ASSERT_MSG(expr,MSG) debug_assert(expr,MSG)
+
+	#elif PLATFORM_ANDROID == 1
+
+		#define ASSERT(expr) AssertMsg(!!(expr),#expr,"",__FILE__, __LINE__)
+		#define ASSERT_MSG(expr,MSG) AssertMsg(!!(expr),#expr,MSG,__FILE__, __LINE__)
+	
+	#else
+
+		#define ASSERT(expr) 
+		#define ASSERT_MSG(expr,MSG)
+
+	#endif	//PLATFORM_WIN == 1
 
 
-#define ASSERT(expr) debug_assert(expr,"")
-#define ASSERT_MSG(expr,MSG) debug_assert(expr,MSG)
-//#define ASSERT(expr) AssertMsg((bool)(expr), #expr , __FILE__ , __FUNCTION__, __LINE__ ,NULL)
-//#define ASSERT_MSG(expr,MSG) AssertMsg((bool)(expr), #expr , __FILE__ , __FUNCTION__, __LINE__ ,MSG)
+#else	//#if defined(ASSERT_ENABLE) 
+
+	#define ASSERT(x) 
+	#define ASSERT_MSG(expr,MSG)
+
+#endif
+
+
+
+
 
 #endif

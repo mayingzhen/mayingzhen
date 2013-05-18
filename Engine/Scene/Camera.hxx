@@ -17,9 +17,10 @@ namespace ma
 
 	}
 
+
 	void Camera::Update()
 	{
-		SyncFromSceneNode();
+		//SyncFromSceneNode();
 		
 		CalculateSplitPositions();
 
@@ -28,7 +29,7 @@ namespace ma
 
 	void Camera::SyncFromSceneNode()
 	{	
-		m_vEyePt = GetPositionWS();
+		m_vEyePt = GetPosition(TS_WORLD);
 		MatrixInverse(&m_matView,NULL,&GetWorldMatrix());
 		//MatrixMultiply(&m_matViewProj,&m_matView,&m_matProj);
 	}
@@ -39,7 +40,7 @@ namespace ma
 		Matrix4x4 matViewInv;
 		MatrixInverse(&matViewInv,NULL,&m_matView);
 		TransformFromMatrix(&tsfWS,&matViewInv);
-		SetTransformWS(tsfWS);
+		SetTransform(tsfWS);
 	}
 
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
@@ -97,26 +98,13 @@ namespace ma
 		return vSize;
 	}
 
-// 	void Camera::LookAt(const Vector3* pEye,const Vector3* pAt,const Vector3* pUp)
-// 	{
-// 		if (pAt)
-// 		{
-// 			m_vLookAtPt = *pAt;
-// 		}
-// 		if (pUp)
-// 		{
-// 			m_vUpVector = *pUp;
-// 		}
-// 		if (pEye)
-// 		{
-// 			m_vEyePt = *pEye;
-// 		}
-// 		
-// 		MatrixLookAtLH(&m_matView,&m_vEyePt,&m_vLookAtPt,&m_vUpVector);
-// 		
-// 		// 
-// 		SyncToSceneNode();
-// 	}
+	void Camera::LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp)
+	{
+		m_vEyePt = vEye;
+		m_vLookAtPt = vAt;
+		m_vUpVector = vUp;
+		MatrixLookAtLH(&m_matView,&vEye,&vAt,&vUp);
+	}
 
 	void Camera::SetPerspective(float fFOV,float fAspect,float fNear,float fFar)
 	{
@@ -124,8 +112,31 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
+		GetRenderDevice()->MakeProjectionMatrix(&m_matProj,fFOV,fAspect,fNear,fFar);
+		//MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
+		//MatrixPerspectiveFovGL_LH(&m_matProj,fFOV,fAspect,fNear,fFar);
 	}
+
+	NodeTransform Camera::GetTransform() const
+	{
+		NodeTransform tsf;
+		TransformSetIdentity(&tsf);
+
+		Matrix4x4 matTSFWS;
+		MatrixInverse(&matTSFWS,NULL,&m_matView);
+		TransformFromMatrix(&tsf,&matTSFWS);
+
+		return tsf;
+	}
+
+	void Camera::SetTransform(const NodeTransform& tsfCamra)
+	{
+		Matrix4x4 matViewInv;
+		MatrixFromTransform(&matViewInv,&tsfCamra);
+
+		MatrixInverse(&m_matView,NULL,&matViewInv);
+	}
+
 
 	void Camera::CalculateFrustum()
 	{
@@ -197,6 +208,23 @@ namespace ma
 		// make sure border values are accurate
 		m_fSplitPos[0] = m_fNear;
 		m_fSplitPos[NUM_PSSM] = m_fFar;
+	}
+
+	Vector3	Camera::ProjToWorldNormal(const Vector2* pVec) const
+	{
+		float fDepth = Vec3Length(&(m_vLookAtPt - m_vEyePt));
+
+		float fRatio = fDepth / m_fNear;
+
+		Matrix4x4 matWorld;
+		MatrixInverse(&matWorld,NULL,&m_matView);
+
+		Vector2 vNearPlaneSize = GetNearPlaneSize();
+		Vector3 vVecNearPlan(pVec->x * vNearPlaneSize.x,pVec->y * vNearPlaneSize.y,0.0f);
+		Vector3 vWorld = vVecNearPlan * fRatio;
+		Vec3TransformNormal(&vWorld,&vWorld,&matWorld);
+		return vWorld;
+
 	}
 
 }

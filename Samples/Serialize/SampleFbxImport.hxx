@@ -14,63 +14,41 @@ namespace ma
 
 		m_pStaticMesh = NULL;
 		m_pStatcMeshTexture = NULL;
-	}
 
-	void SampleFbxImport::Init(Application* pApplication)
-	{
-		SimpleSceneView::Init(pApplication);
-		
-		D3D9RenderModuleInit();
-		AnimationModuleInit();
-
-		//D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		//pDxRenderDevice->Init( (HWND)pApplication->GetWindID() );
-		GetRenderDevice()->Init(pApplication->GetWindID());
-	}
-
-	void SampleFbxImport::Shutdown()
-	{
-		D3D9RenderModuleShutdown();
-		AnimationModuleShutdown();
+		m_pBoxMesh = NULL;
+		m_pBoxTexture = NULL;
 	}
 
 	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
 	{
-		{
-			MeshData* pMeshData = new MeshData;
-			fbxImpor.LoadStaticMeshData("../Data/Fbx/Box.fbx",pMeshData);
-			pMeshData->Save("../Data/Fbx/Box.skn");
-		}
-		
-
 		MeshData* pMeshData = new MeshData;
 		SkeletonData* pSkeData = new SkeletonData;
 		AnimationData* pAnimData = new AnimationData;
 
-		fbxImpor.LoadSkeletonMeshData("../Data/Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
-
-		fbxImpor.LoadAnimationData("../Data/Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
-
-		// Save
-		SaveMeshToBinaryFile("../Data/Fbx/TestBull.skn",pMeshData);
-		SaveSkeletonToBinaryFile("../Data/Fbx/TestBull.ske",pSkeData);
-		SaveAnimationToBinaryFile("../Data/Fbx/TestBull.ska",pAnimData);
-		SAFE_DELETE(pMeshData);
-		SAFE_DELETE(pSkeData);
-		SAFE_DELETE(pAnimData);
+// 		fbxImpor.LoadSkeletonMeshData("../Data/Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
+// 
+// 		fbxImpor.LoadAnimationData("../Data/Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
+// 
+// 		// Save
+// 		SaveMeshToBinaryFile("../Data/Fbx/TestBull.skn",pMeshData);
+// 		SaveSkeletonToBinaryFile("../Data/Fbx/TestBull.ske",pSkeData);
+// 		SaveAnimationToBinaryFile("../Data/Fbx/TestBull.ska",pAnimData);
+// 		SAFE_DELETE(pMeshData);
+// 		SAFE_DELETE(pSkeData);
+// 		SAFE_DELETE(pAnimData);
 		///
-
-		pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/TestBull.skn");
+		
+		pMeshData = new MeshData;
+		pMeshData->Load("../Data/Fbx/TestBull.skn");
+		//pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/TestBull.skn");
 		pSkeData = LoadSkeletonFromBinaryFile("../Data/Fbx/TestBull.ske");
 		//pAnimData = LoadAnimationFromBinaryFile("../Data/Fbx/TestBull.ska");
 
-		m_pRenderMesh = new D3D9RendMesh();
+		m_pRenderMesh = new RenderMesh();
 		m_pRenderMesh->InitWithData(pMeshData);
 
-		const char* pTexPath = "../Data/Fbx/TestBull_DM.png";
-		m_pRendTexture = new D3D9RendTexture();
-		m_pRendTexture->SetResPath(pTexPath);
-		m_pRendTexture->Load();
+		m_pRendTexture = GetRenderDevice()->CreateRendTexture();
+		m_pRendTexture->Load("../Data/Fbx/TestBull_DM.png");
 
 		m_pSkeleton = new Skeleton();
 		m_pSkeleton->InitWithData(pSkeData);
@@ -89,36 +67,58 @@ namespace ma
 		SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshData);
 		SAFE_DELETE(pMeshData);
 
-		pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/MovingPlatform.skn");
+		pMeshData = new MeshData();
+		pMeshData->Load("../Data/Fbx/MovingPlatform.skn");
+		//pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/MovingPlatform.skn");
 
-		m_pStaticMesh = new D3D9RendMesh();
+		m_pStaticMesh = new RenderMesh();
 		m_pStaticMesh->InitWithData(pMeshData);
 		
-		const char* pTexPath = "../Data/Fbx/PlatformTexture.tga";
-		m_pStatcMeshTexture = new D3D9RendTexture();
-		m_pStatcMeshTexture->SetResPath(pTexPath);
-		m_pStatcMeshTexture->Load();
+		m_pStatcMeshTexture = GetRenderDevice()->CreateRendTexture();
+		m_pStatcMeshTexture->Load("../Data/Fbx/PlatformTexture.tga");
 		
 	}
 
-	void SampleFbxImport::Load()
+	void SampleFbxImport::Init(const Platform* pPlatform)
 	{
+		Sample::Init(pPlatform);
+		
+		Vector3 vEyePos = Vector3(0, 600, 800);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
+
 		FBXImporter fbxImpor;
 		fbxImpor.Initialize();
-		
-		LoadSaticMesh(fbxImpor);
+
+		//LoadSaticMesh(fbxImpor);
 
 		LoadSkelMesh(fbxImpor);
-	}
 
-	void SampleFbxImport::Unload()
-	{
+		//LoadBoxMesh(fbxImpor);
 
 	}
 
-	void SampleFbxImport::Tick(float timeElapsed)
+	void SampleFbxImport::LoadBoxMesh(FBXImporter& fbxImpor)
 	{
-		__super::Tick(timeElapsed);
+		MeshData* pMeshData = new MeshData;
+		fbxImpor.LoadStaticMeshData("../Data/Fbx/Box.fbx",pMeshData);
+		pMeshData->Save("../Data/Fbx/Box.skn");
+
+		pMeshData = new MeshData();
+		pMeshData->Load("../Data/Fbx/Box.skn");
+
+		m_pBoxMesh = new RenderMesh();
+		m_pBoxMesh->InitWithData(pMeshData);
+
+		m_pBoxTexture = GetRenderDevice()->CreateRendTexture();
+		m_pBoxTexture->Load("../Data/Fbx/Box.tga");
+
+	}
+
+
+	void SampleFbxImport::Update()
+	{
 
 		if (ma::GetTimer() == NULL)
 			return;
@@ -138,33 +138,77 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		GetRenderDevice()->BeginRender();
-
 		// render skelMesh
+		if (m_pRenderMesh && m_pAnimtionPlay)
 		{
 			Matrix4x4 matWorld;
 			MatrixTranslation(&matWorld,-50,0,0);
+	
+			Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+			UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
 
-			if (m_pAnimtionPlay)
-			{
-				Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-				UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-				//pRender->RenderSkelMesh(skinMatrix,nNumber,&matWorld,m_pRenderMesh,m_pRendTexture);
-			}
+			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
+
+			m_pDefaultTech->Begin(ShderFLag_SKIN);
+
+			m_pDefaultTech->SetMatrixArray("u_matrixPalette",skinMatrix,nNumber);
+			m_pDefaultTech->SetMatrix("u_worldViewProjectionMatrix",&matWVP);
+			m_pDefaultTech->SetTexture("u_diffuseTexture",m_pRendTexture);
+
+			m_pDefaultTech->CommitChanges();
+							
+			//m_pRenderMesh->Draw();
+			GetRenderDevice()->DrawRenderMesh(m_pRenderMesh,m_pDefaultTech);
+
+			m_pDefaultTech->End();
 		}
 
+
 		// render staticMesh
+		if (m_pStaticMesh)
 		{
 			Matrix4x4 matWorld;
 			Matrix4x4 matScale;
 			MatrixScaling(&matScale,50,50,50); 
-			MatrixTranslation(&matWorld,250,0,0);
+			MatrixTranslation(&matWorld,0,0,0);
 			matWorld = matScale * matWorld;
-			//pRender->RenderMesh(&matWorld,m_pStaticMesh,m_pStatcMeshTexture);
-		}
-	
+			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
 
-		GetRenderDevice()->EndRender();
+			m_pDefaultTech->Begin();
+
+			m_pDefaultTech->SetMatrix("u_worldViewProjectionMatrix",&matWVP);
+			m_pDefaultTech->SetTexture("u_diffuseTexture",m_pStatcMeshTexture);
+
+			m_pDefaultTech->CommitChanges();
+
+			GetRenderDevice()->DrawRenderMesh(m_pStaticMesh,m_pDefaultTech);
+			//m_pStaticMesh->Draw();
+
+			m_pDefaultTech->End();
+		}
+
+		if (m_pBoxMesh)
+		{
+			Matrix4x4 matWorld;
+			Matrix4x4 matScale;
+			MatrixScaling(&matScale,200,200,200); 
+			MatrixTranslation(&matWorld,0,0,0);
+			matWorld = matScale * matWorld;
+			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
+
+			m_pDefaultTech->Begin();
+
+			m_pDefaultTech->SetMatrix("u_worldViewProjectionMatrix",&matWVP);
+			m_pDefaultTech->SetTexture("u_diffuseTexture",m_pBoxTexture);
+
+			m_pDefaultTech->CommitChanges();
+
+			GetRenderDevice()->DrawRenderMesh(m_pBoxMesh,m_pDefaultTech);
+			//m_pStaticMesh->Draw();
+
+			m_pDefaultTech->End();
+		}
+
 	}
 
 }

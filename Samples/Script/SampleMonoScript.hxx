@@ -8,9 +8,9 @@ namespace ma
 	{
 	}
 
-	void SampleMonoScript::Init(Application* pApplication)
+	void SampleMonoScript::Init(ApplicationBase* pApplication)
 	{
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		FrameWorkModuleInit();
 		MonoScriptModuleInit();

@@ -11,7 +11,7 @@ namespace ma
 	class Skeleton;
 	class BoneMap;
 
-	class ANIMATION_API Animation
+	class Animation
 	{
 	public: 
 		Animation();

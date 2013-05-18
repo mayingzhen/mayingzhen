@@ -3,12 +3,12 @@
 
 namespace ma
 {
-	MeshData* LoadMeshFromBinaryFile(const char* filename)
-	{
- 		MeshData* pMeshData = new MeshData;
-		pMeshData->Load(filename);	
-		return pMeshData;
-	}
+// 	MeshData* LoadMeshFromBinaryFile(const char* filename)
+// 	{
+//  		MeshData* pMeshData = new MeshData;
+// 		pMeshData->Load(filename);	
+// 		return pMeshData;
+// 	}
 
 	SkeletonData* LoadSkeletonFromBinaryFile(const char* filename)
 	{

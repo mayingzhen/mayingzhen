@@ -38,6 +38,18 @@ DWORD D3D9Mapping::GetD3DLock(int Lock)
     return D3DLock;
 }
 
+D3DFORMAT D3D9Mapping::GetD3DIndexType(INDEX_TYPE eType)
+{
+	if (eType == INDEX_TYPE_U16)
+	{
+		return D3DFMT_INDEX16;
+	}
+	else
+	{
+		return D3DFMT_INDEX32;
+	}
+}
+
 D3DFORMAT D3D9Mapping::GetD3DFormat(FORMAT Format)
 {
     switch (Format)
@@ -235,7 +247,7 @@ D3DFORMAT D3D9Mapping::GetD3DFormat(FORMAT Format)
         return D3DFMT_BINARYBUFFER;
 
     default:
-        assert(0 && "Invalid Format.");
+        ASSERT(0 && "Invalid Format.");
         return D3DFMT_UNKNOWN;
     }
 }
@@ -262,6 +274,9 @@ BYTE D3D9Mapping::GetD3DDeclType(DECL_TYPE DeclType)
     case DT_UBYTE4:
         return D3DDECLTYPE_UBYTE4;
 
+	case  DT_UBYTE4N:
+		return D3DDECLTYPE_UBYTE4N;
+
     case DT_SHORT2:
         return D3DDECLTYPE_SHORT2;
 
@@ -269,7 +284,7 @@ BYTE D3D9Mapping::GetD3DDeclType(DECL_TYPE DeclType)
         return D3DDECLTYPE_SHORT4;
 
     default:
-        assert(0 && "Invalid Declaration Type.");
+        ASSERT(0 && "Invalid Declaration Type.");
         return 0;
     }
 }
@@ -324,9 +339,38 @@ int D3D9Mapping::GetD3DDeclTypeSize(BYTE type)
         return 8;
 
     default:
-        assert(0 && "Invalid Declaration Type.");
+        ASSERT(0 && "Invalid Declaration Type.");
         return 0;
     }
+}
+
+
+D3DPRIMITIVETYPE D3D9Mapping::GetD3DPrimitiveType(PRIMITIVE_TYPE type)
+{
+	switch (type)
+	{
+	case PRIM_POINTLIST:
+		return D3DPT_POINTLIST;
+
+	case PRIM_LINELIST:
+		return D3DPT_LINELIST;
+
+	case PRIM_LINESTRIP:
+		return D3DPT_LINESTRIP;
+
+	case PRIM_TRIANGLELIST:
+		return D3DPT_TRIANGLELIST;
+
+	case PRIM_TRIANGLESTRIP:
+		return D3DPT_TRIANGLESTRIP;
+
+	case PRIM_TRIANGLEFAN:
+		return D3DPT_TRIANGLEFAN;
+
+	default:
+		ASSERT(0 && "Invalid Declaration Usage.");
+		return D3DPT_TRIANGLELIST;
+	} 
 }
 
 
@@ -352,14 +396,11 @@ BYTE D3D9Mapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
     case DU_TANGENT:
         return D3DDECLUSAGE_TANGENT;
 
-    case DU_BINORMAL:
-        return D3DDECLUSAGE_BINORMAL;
-
     case DU_COLOR:
         return D3DDECLUSAGE_COLOR;
 
     default:
-        assert(0 && "Invalid Declaration Usage.");
+        ASSERT(0 && "Invalid Declaration Usage.");
         return 0;
     }
 }
@@ -503,7 +544,7 @@ DWORD D3D9Mapping::GetD3DFilterType(TEXTURE_FILTER_TYPE Type)
         return D3DTEXF_ANISOTROPIC;
 
     default:
-        assert(0);
+        ASSERT(0);
         return D3DTEXF_POINT;
     }
 }
@@ -568,7 +609,7 @@ DWORD D3D9Mapping::GetD3DAddressMode(TEXTURE_ADDRESS_MODE Mode)
         return D3DTADDRESS_BORDER;
 
     default:
-        assert(0);
+        ASSERT(0);
         return D3DTADDRESS_WRAP;
     }
 }
@@ -792,7 +833,7 @@ FORMAT D3D9Mapping::GetFormat(D3DFORMAT D3DFormat)
         return FMT_BINARYBUFFER;
 
     default:
-        assert(0 && "Invalid Format.");
+        ASSERT(0 && "Invalid Format.");
         return FMT_UNKNOWN;
     }
 }
@@ -811,7 +852,7 @@ TEXTURE_FILTER_TYPE D3D9Mapping::GetFilterType(DWORD Type)
         return TEXF_ANISOTROPIC;
 
     default:
-        assert(0);
+        ASSERT(0);
         return TEXF_POINT;
     }
 }
@@ -833,7 +874,7 @@ TEXTURE_ADDRESS_MODE D3D9Mapping::GetAddressMode(DWORD Mode)
         return TEXA_BORDER;
 
     default:
-        assert(0);
+        ASSERT(0);
         return TEXA_WRAP;
     }
 }
@@ -860,14 +901,11 @@ DECL_USAGE D3D9Mapping::GetDeclUsage(BYTE usage)
     case D3DDECLUSAGE_TANGENT:
         return DU_TANGENT;
 
-    case D3DDECLUSAGE_BINORMAL:
-        return DU_BINORMAL;
-
     case D3DDECLUSAGE_COLOR:
         return DU_COLOR;
 
     default:
-        assert(0 && "Invalid Declaration Usage.");
+        ASSERT(0 && "Invalid Declaration Usage.");
         return DU_UNKNOWN;
     }
 }
@@ -901,7 +939,7 @@ DECL_TYPE D3D9Mapping::GetDeclType(BYTE type)
         return DT_SHORT4;
 
     default:
-        assert(0 && "Invalid Declaration Type.");
+        ASSERT(0 && "Invalid Declaration Type.");
         return DT_UNKNOWN;
     }
 }
@@ -928,7 +966,7 @@ D3DMULTISAMPLE_TYPE D3D9Mapping::GetD3DMultiSampleType(MULTI_SAMPLE ms)
         return D3DMULTISAMPLE_16_SAMPLES;
 
     default:
-        assert(0 && "Invalid Multi Sample Type.");
+        ASSERT(0 && "Invalid Multi Sample Type.");
         return D3DMULTISAMPLE_NONE;
     }
 }
@@ -953,7 +991,7 @@ MULTI_SAMPLE D3D9Mapping::GetMultiSampleType(D3DMULTISAMPLE_TYPE ms)
         return MSAA_16x;
 
     default:
-        assert(0 && "Invalid Multi Sample Type.");
+        ASSERT(0 && "Invalid Multi Sample Type.");
         return MSAA_NONE;
     }
 }
@@ -978,7 +1016,7 @@ std::string D3D9Mapping::GetMSAAString(MULTI_SAMPLE msaa)
         return "MSAA_16x";
 
     default:
-        assert(0 && "Invalid Multi Sample Type.");
+        ASSERT(0 && "Invalid Multi Sample Type.");
        return "";
     }
 }
@@ -1192,7 +1230,7 @@ std::string D3D9Mapping::GetFormatString(FORMAT Format)
         return "FMT_BINARYBUFFER";
 
     default:
-        assert(0 && "Invalid Format.");
+        ASSERT(0 && "Invalid Format.");
         return "FMT_UNKNOWN";
     }
 }

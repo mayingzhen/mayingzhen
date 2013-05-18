@@ -56,6 +56,7 @@ namespace ma
 	{
 	public:
 		static DWORD        GetD3DUsage(USAGE Usage);
+		static D3DFORMAT	GetD3DIndexType(INDEX_TYPE eType);
 		static D3DPOOL      GetD3DPool(USAGE Usage);
 		static DWORD        GetD3DLock(int Lock);
 		static D3DFORMAT    GetD3DFormat(FORMAT Format);
@@ -65,6 +66,7 @@ namespace ma
 		static BYTE         GetD3DDeclUsage(DECL_USAGE DeclUsage);
 		static BYTE         GetD3DDeclType(DECL_TYPE DeclType);
 		static int          GetD3DDeclTypeSize(BYTE type);
+		static D3DPRIMITIVETYPE GetD3DPrimitiveType(PRIMITIVE_TYPE type);
 		//static CGprofile    GetCgProfile(SHADER_PROFILE Profile);
 
 		static std::string   GetHLSLProfile(SHADER_PROFILE Profile);

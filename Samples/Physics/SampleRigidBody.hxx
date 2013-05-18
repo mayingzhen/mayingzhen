@@ -7,11 +7,11 @@ namespace ma
 	{
 	}
 
-	void SampleRigidBody::Init(Application* pApplication)
+	void SampleRigidBody::Init(ApplicationBase* pApplication)
 	{
 		BtPhysicsModuleInit();
 
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		m_fMoveCameraSpeed = 0.20f;
 		m_pCamera->SetPositionWS( Vector3(0, 6, 10) );	
@@ -21,12 +21,12 @@ namespace ma
 	{
 		BtPhysicsModuleShutdown();
 
-		SimpleSceneView::Shutdown();
+		Sample::Shutdown();
 	}
 
 	void SampleRigidBody::Load()
 	{
-		assert(m_pScene);
+		ASSERT(m_pScene);
 		if (m_pScene == NULL)
 			return;
 

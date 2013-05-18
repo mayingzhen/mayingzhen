@@ -5,12 +5,12 @@ namespace ma
 {
 	class Scene;
 
-	class SampleSceneSerialize : public SimpleSceneView
+	class SampleSceneSerialize : public Sample
 	{
 	public:
 		SampleSceneSerialize();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init(ApplicationBase* pApplication);
 
 		virtual void Shutdown();
 

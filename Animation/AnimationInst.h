@@ -6,7 +6,7 @@ namespace ma
 	class Animation;
 	class BoneMap;
 	class BoneSet;
-	class AnimEvalContext;
+	struct AnimEvalContext;
 
 	enum ePlaybackMode
 	{

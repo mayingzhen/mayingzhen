@@ -37,7 +37,7 @@ namespace ma
 		//mpFBXSDKManager->LoadPluginsDirectory(lPath.Buffer() , lExtension.Buffer());
 
 		m_pFBXImporter = FbxImporter::Create(m_pFBXSDKManager , "");
-		assert(m_pFBXImporter);
+		ASSERT(m_pFBXImporter);
 		if (m_pFBXImporter == NULL)
 			return false;
 
@@ -120,7 +120,7 @@ namespace ma
 
 		std::map<std::string,TrackData> boneTrack;
 
-		//assert(nbAnimLayers == 1);
+		//ASSERT(nbAnimLayers == 1);
 		for (int l = 0; l < nbAnimLayers; l++)
 		{
 			FbxAnimLayer* lAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(l);
@@ -136,7 +136,7 @@ namespace ma
 			break;
 		}
 		
-		assert(boneTrack.size() == pSkelData->m_nBoneNum);
+		ASSERT(boneTrack.size() == pSkelData->m_nBoneNum);
 		UINT nBoneNum = boneTrack.size();
 		pAnimData->m_nBoneNum = nBoneNum;
 		pAnimData->m_arrTransfTrackName.resize(nBoneNum);
@@ -148,7 +148,7 @@ namespace ma
 		{
 			std::string boneName = pSkelData->m_arrBoneName[i];
 			std::map<std::string,TrackData>::iterator it = boneTrack.find(boneName);
-			assert(it != boneTrack.end());
+			ASSERT(it != boneTrack.end());
 			if (it == boneTrack.end())
 				continue;
 
@@ -186,7 +186,7 @@ namespace ma
 
 		// get bind pose
 		KFbxPose* pBindPose = pFbxScene->GetPose(0);
-		assert(pBindPose && pBindPose->IsBindPose());
+		ASSERT(pBindPose && pBindPose->IsBindPose());
 		if (pBindPose == NULL)
 			return false;
 
@@ -213,7 +213,7 @@ namespace ma
 			return false;
 
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
-		assert(nAnimStackCount == 1);
+		ASSERT(nAnimStackCount == 1);
 		for (int i = 0; i < nAnimStackCount; i++)
 		{
 			FbxAnimStack* lAnimStack = pFbxScene->GetSrcObject<FbxAnimStack>(i);
@@ -228,10 +228,7 @@ namespace ma
 			break;
 		}
 
-		Skeleton* pSkeleton = new Skeleton();
-		pSkeleton->InitWithData(pSkelData);
-		ConverteAnimDataParentToLocalSpaceAnimation(pAnimation,pSkeleton);
-		SAFE_DELETE(pSkeleton);
+		ConverteAnimDataParentToLocalSpaceAnimation(pAnimation,pSkelData);
 
 		//m_pFBXImporter->Destroy();
 
@@ -328,13 +325,13 @@ namespace ma
 		KFbxVector4 LocalLinkS;
 		
 		int PoseLinkIndex = pBindPose->Find(pNode);
-		assert(PoseLinkIndex >= 0);
+		ASSERT(PoseLinkIndex >= 0);
 		KFbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
-		KFbxXMatrix Matrix = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
+		KFbxXMatrix Matrix4x4 = *(KFbxXMatrix*)(double*)&NoneAffineMatrix;
 		
-		LocalLinkT = Matrix.GetT();
-		LocalLinkQ = Matrix.GetQ();
-		LocalLinkS = Matrix.GetS();
+		LocalLinkT = Matrix4x4.GetT();
+		LocalLinkQ = Matrix4x4.GetQ();
+		LocalLinkS = Matrix4x4.GetS();
 
 		int index = (pSkelData->m_arrBoneName).size();
 
@@ -349,7 +346,7 @@ namespace ma
 		{
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
-			assert(pSkeletonx);
+			ASSERT(pSkeletonx);
 			GetSkeletonData(pSkeletonx,pBindPose,pSkelData);
 		}
 	}
@@ -409,7 +406,7 @@ namespace ma
 						break;
 					}
 				}
-				assert( IsValidID(boneIndex) );
+				ASSERT( IsValidID(boneIndex) );
 
 				//pSkelData->m_arrBoneName
 
@@ -443,17 +440,22 @@ namespace ma
 			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
-		std::vector<pointSkin> vSkin;	
+		pMeshData->m_nVertexType |= DUM_POSITION | DUM_TEXCOORD /*| DUM_NORMAL | DUM_TANGENT*/;
+		pMeshData->m_nIndexType  = INDEX_TYPE_U16;
+
+		std::vector<V_3P_2UV_3N_3T> arrVertex;
+		std::vector<V_3P_2UV_3N_3T_S> arrSkinVertex;
+		std::vector<Uint16> arrIndex;
+
+		std::vector<pointSkin> arrPointSkin;	
 		int clusterCount = 0;
 		if (pSkelData)
 		{
-			GetSkinInfo(pMesh,pSkelData,vSkin,clusterCount);
+			GetSkinInfo(pMesh,pSkelData,arrPointSkin,clusterCount);
+			pMeshData->m_nVertexType |= DUM_BLENDWEIGHT | DUM_BLENDINDICES;
 		}
 
 		FBXSDK_printf("Begin Get Vertex Info .....\n");
-
-		std::vector<VertexType0> vertexList;
-		std::vector<Uint16> indexList;
 
 		int triangleCount = pMesh->GetPolygonCount();
 		int vertexCounter = 0;
@@ -464,100 +466,121 @@ namespace ma
 		{
 			FBXSDK_printf("Parase triangle %d/%d .....\n",i,triangleCount);
 
-			assert(pMesh->GetPolygonSize(i) == 3); 
+			ASSERT(pMesh->GetPolygonSize(i) == 3); 
 			for(int j = 0; j < 3 ; ++j)
 			{
 				int ctrlPointIndex = pMesh->GetPolygonVertex(i , j);
 
-				Vector3 pos;
-				Vector4 color;
-				Vector3 normal;
-				Vector3 tangent;
-				Vector2 uv[2];
+				//VertexGENERAL vGeneral;
+				//memset(&vGeneral,0,sizeof(vGeneral));
+				Vector3 vPos;
+				Vector2 vUV;
+				Vector3 vNormal;
+				//Vector3 vTangent;
 
 				// Read the vertex
-				ReadVertex(pMesh , ctrlPointIndex , &pos);
+				ReadVertex(pMesh , ctrlPointIndex , &vPos);
 
 				// Read the color of each vertex
-				ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
+				//ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
 
-				for(int k = 0 ; k < 2 ; ++k)
-				{
-					ReadUV(pMesh , ctrlPointIndex , pMesh->GetTextureUVIndex(i, j) , k , &(uv[k]));
-				}
+				ReadUV(pMesh,ctrlPointIndex,pMesh->GetTextureUVIndex(i, j),0,&vUV);
 
 				// Read the normal of each vertex
-				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &normal);
+				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &vNormal);
 
 				// Read the tangent of each vertex
-				ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &tangent);
+				//ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &vTangent);
 
 				vertexCounter++;
-
-				//Vec3TransformCoord(&vertex[j],&vertex[j],&matrix);
-				VertexType0 vertert;
-				memset(&vertert,0,sizeof(VertexType0));
-				vertert.p = pos;
-				vertert.n = normal;
-				vertert.uv = uv[0];
+					
+				UINT index = 0;
 
 				if (pSkelData)
 				{
-					Uint8 boneInd[4]  = {0};
-					Uint8 weight[4] = {0};
+					union UIndex
+					{
+						Uint32 uInde;
+						Uint8 uByte[4];
+					};
+
+					UIndex boneInd;
+					UIndex weight;
+					boneInd.uInde = 0;
+					weight.uInde = 0;
+
 					for (UINT k = 0; k < 4; ++k)
 					{
-						if (k < vSkin[ctrlPointIndex].m_vBoneInd.size())
+						if (k < arrPointSkin[ctrlPointIndex].m_vBoneInd.size())
 						{
-							boneInd[k] = vSkin[ctrlPointIndex].m_vBoneInd[k];
-							weight[k] = vSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
+							boneInd.uByte[k] = arrPointSkin[ctrlPointIndex].m_vBoneInd[k];
+							weight.uByte[k] = arrPointSkin[ctrlPointIndex].m_vBoneWeight[k] * 255;
 						}
 					}
-					memcpy(&vertert.b,&boneInd[0],sizeof(Uint32));
-					memcpy(&vertert.w,&weight[0],sizeof(Uint32));
-				}
 
-				UINT index = 0;
-				std::vector<VertexType0>::iterator it = std::find(vertexList.begin(),vertexList.end(),vertert);
-				if (it != vertexList.end())
-				{
-					index = it - vertexList.begin();
+					V_3P_2UV_3N_3T_S vTemp;
+					vTemp.m_position = vPos;
+					vTemp.m_uv = vUV;
+					//vTemp.m_normal = vNormal;
+					//vTemp.m_tangent = vTangent;
+					vTemp.m_boneID = boneInd.uInde;
+					vTemp.m_weight = weight.uInde;
+					std::vector<V_3P_2UV_3N_3T_S>::iterator it = std::find(arrSkinVertex.begin(),arrSkinVertex.end(),vTemp);
+					if (it != arrSkinVertex.end())
+					{
+						index = it - arrSkinVertex.begin();
+					}
+					else
+					{
+						index = arrSkinVertex.size();
+						arrSkinVertex.push_back(vTemp);
+					}
+
 				}
 				else
 				{
-					index = vertexList.size();
-					vertexList.push_back(vertert);
+					V_3P_2UV_3N_3T vTemp;
+					vTemp.m_position = vPos;
+					vTemp.m_uv = vUV;
+					//vTemp.m_normal = vNormal;
+					//vTemp.m_tangent = vTangent;
+					std::vector<V_3P_2UV_3N_3T>::iterator it = std::find(arrVertex.begin(),arrVertex.end(),vTemp);
+					if (it != arrVertex.end())
+					{
+						index = it - arrVertex.begin();
+					}
+					else
+					{
+						index = arrVertex.size();
+						arrVertex.push_back(vTemp);
+					}
 				}
-				indexList.push_back(index);
+
+				arrIndex.push_back(index);
+			
 			}
 		}
 
 		FBXSDK_printf("End Get Vertex Info .....\n");
 
-		// Ib
-		UINT nIndexCount = indexList.size();
-		pMeshData->m_nIndexType = INDEX_TYPE_U16;
-		pMeshData->m_arrIndexBuffer.resize(nIndexCount * sizeof(Uint16));
-		Uint16* pIb = (Uint16*)&pMeshData->m_arrIndexBuffer[0];
-		for (UINT i = 0; i < nIndexCount; ++i)
-		{
-			pIb[i] = indexList[i];
-		}
+		int nIndexStride = pMeshData->m_nIndexType == INDEX_TYPE_U16 ? 2 : 4;
+		UINT indexSize = nIndexStride * arrIndex.size();
+		pMeshData->m_arrIndexBuffer.resize(indexSize);
+		memcpy(&pMeshData->m_arrIndexBuffer[0],&arrIndex[0],indexSize);
 
-		// vb
-		UINT nVertexCount = vertexList.size();
-		pMeshData->m_nVertexType = VT_SKIN_VERTEX_0;
-		pMeshData->m_arrVertexBuffer.resize(nVertexCount * sizeof(VertexType0));
-		VertexType0* pVb = (VertexType0*)&pMeshData->m_arrVertexBuffer[0]; 
-		for (UINT i = 0; i < vertexList.size(); ++i)
-		{
-			pVb[i] = vertexList[i];
-		}
+		int nVertexStride = arrVertex.empty() ? sizeof(V_3P_2UV_3N_3T_S) : sizeof(V_3P_2UV_3N_3T);
+		UINT nVertexCount = arrVertex.empty() ? arrSkinVertex.size() : arrVertex.size();
+		UINT vertexSize = nVertexStride * nVertexCount;
+		pMeshData->m_arrVertexBuffer.resize(vertexSize);
+		if (arrVertex.empty())
+			memcpy(&pMeshData->m_arrVertexBuffer[0],&arrSkinVertex[0],vertexSize);
+		else
+			memcpy(&pMeshData->m_arrVertexBuffer[0],&arrVertex[0],vertexSize);
 
 		// subMesh
 		SubMeshData* pSubMeshData = new SubMeshData;
 		pSubMeshData->m_nIndexStart = 0;
-		pSubMeshData->m_nIndexCount = nIndexCount;
+		pSubMeshData->m_nIndexCount = arrIndex.size();
 		pSubMeshData->m_nVertexStart = 0;
 		pSubMeshData->m_nVertexCount = nVertexCount;
 		if (pSkelData)
@@ -574,10 +597,9 @@ namespace ma
 
 		// Bound Box
 		pMesh->ComputeBBox();
-		Vector3 vBoxMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
-		Vector3 vBoxMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
+		pMeshData->m_meshBound.m_vMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
+		pMeshData->m_meshBound.m_vMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
 
-		pMeshData->m_meshBound.SetAABB(vBoxMin,vBoxMax);	
 	}
 
 

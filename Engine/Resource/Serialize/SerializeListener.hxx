@@ -172,21 +172,4 @@ namespace ma
 
 	}
 
-	UINT SerializeListener::GetVersion() const
-	{
-		return m_verStack.back();
-	}
-
-	void SerializeListener::PushVersion(UINT nVersion)
-	{
-		m_verStack.push_back(nVersion);
-	}
-
-	UINT SerializeListener::PopVersion()
-	{
-		UINT nVer = m_verStack.back();
-		m_verStack.pop_back();
-		return nVer;
-	}
-
 }

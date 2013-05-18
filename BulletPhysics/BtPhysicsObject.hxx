@@ -26,7 +26,7 @@ namespace ma
 		for (UINT i = 0; i < m_vBoxCollisionShape.size(); ++i)
 		{
 			BulletBoxCollisionShape* pBtBoxCollisionShape = (BulletBoxCollisionShape*)m_vBoxCollisionShape[i];
-			assert(pBtBoxCollisionShape);
+			ASSERT(pBtBoxCollisionShape);
 			if (pBtBoxCollisionShape == NULL)
 				continue;
 
@@ -35,13 +35,13 @@ namespace ma
 			pCompoundShape->addChildShape(btTsfLs,pBtShape);
 
 			int nTempCollLayer = pBtBoxCollisionShape->GetCollisionLayer();
-			assert(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
+			ASSERT(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
 			m_nCollLayer = nTempCollLayer;
 		}
 		for (UINT i = 0; i < m_vSphereCollisionShape.size(); ++i)
 		{
 			BulletSphereCollisionShape* pBtSphereCollisionShape = (BulletSphereCollisionShape*)m_vSphereCollisionShape[i];
-			assert(pBtSphereCollisionShape);
+			ASSERT(pBtSphereCollisionShape);
 			if (pBtSphereCollisionShape == NULL)
 				continue;
 
@@ -50,7 +50,7 @@ namespace ma
 			pCompoundShape->addChildShape(btTsfLs,pBtShape);
 
 			int nTempCollLayer = pBtSphereCollisionShape->GetCollisionLayer();
-			assert(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
+			ASSERT(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
 			m_nCollLayer = nTempCollLayer;
 		}
 

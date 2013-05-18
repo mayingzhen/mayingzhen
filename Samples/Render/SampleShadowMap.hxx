@@ -8,9 +8,9 @@ namespace ma
 		m_pLigt = NULL;
 	}
 
-	void SampleShadowMap::Init(Application* pApplication)
+	void SampleShadowMap::Init(ApplicationBase* pApplication)
 	{
-		SimpleSceneView::Init(pApplication);
+		Sample::Init(pApplication);
 
 		m_fMoveCameraSpeed = 1.0f;
 		
@@ -19,12 +19,12 @@ namespace ma
 
 	void SampleShadowMap::Shutdown()
 	{
-		SimpleSceneView::Shutdown();
+		Sample::Shutdown();
 	}
 
 	void SampleShadowMap::Load()
 	{
-		assert(m_pScene);
+		ASSERT(m_pScene);
 		if (m_pScene == NULL)
 			return;
 
@@ -85,7 +85,7 @@ namespace ma
 
 	void SampleShadowMap::Tick(float timeElapsed)
 	{
-		SimpleSceneView::Tick(timeElapsed);
+		Sample::Tick(timeElapsed);
 
 		Input* pInput = GetInput();
 		if (pInput == NULL)

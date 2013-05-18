@@ -20,7 +20,7 @@ namespace ma
 
 	void Animation::SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
-		//assert(m_bInit);
+		//ASSERT(m_bInit);
  		VECTOR3Track* scalTrack = m_pTracks->m_scale[nTrackID];
  		if (fFrame > scalTrack->m_arrFrame.size())
  		{
@@ -32,7 +32,7 @@ namespace ma
 		m_pTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
-		//pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
+		pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
 
 		m_pTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
 		m_pTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);
@@ -62,11 +62,11 @@ namespace ma
 		if (pAniData == NULL)
 			return;
 	
-		//assert(nBoneNum+nSocketNum==nTransfTrackNum);
+		//ASSERT(nBoneNum+nSocketNum==nTransfTrackNum);
 		m_nBoneNum = pAniData->m_nBoneNum;
 		UINT nTransfTrackNum = m_nBoneNum /*+ m_nSocketNum*/;
 
-		AnimationTracks* m_pTracks = new AnimationTracks;
+		m_pTracks = new AnimationTracks;
 
 		m_pTracks->m_scale.resize(nTransfTrackNum);
 		m_pTracks->m_rot.resize(nTransfTrackNum);
