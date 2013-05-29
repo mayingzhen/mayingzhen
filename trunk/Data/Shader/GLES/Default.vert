@@ -10,7 +10,7 @@ attribute vec4 a_blendIndices;								// Vertex blend index int u_matrixPalette	
 #endif
 
 // Uniforms
-uniform mat4 u_worldViewProjectionMatrix;					// Matrix to transform a position to clip space
+uniform mat4 u_worldViewProjectionMatrix;					// Matrix4x4 to transform a position to clip space
 #if defined(SKINNING)
 //uniform vec4 u_matrixPalette[SKINNING_JOINT_COUNT * 3];		// Array of 4x3 matrices
 uniform mat4 u_matrixPalette[SKINNING_JOINT_COUNT];
