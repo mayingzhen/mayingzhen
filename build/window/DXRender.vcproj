@@ -174,6 +174,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Effect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Effect.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9IndexBuffer.h"
 				>
 			</File>
@@ -198,14 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Technique.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Technique.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Texture.h"
 				>
 			</File>
@@ -227,14 +227,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9VertexDeclaration.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\DxRendWindow.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\DxRendWindow.hxx"
 				>
 			</File>
 			<File
@@ -274,55 +266,19 @@
 			Name="Shader"
 			>
 			<File
-				RelativePath="..\..\Data\Shader\D3D9\ColorVertex.fx"
+				RelativePath="..\..\data\Shader\D3D9\default.frag"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\D3D9\Default.fx"
+				RelativePath="..\..\data\Shader\D3D9\default.vert"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\D3D9\Default.fx.bak"
+				RelativePath="..\..\data\Shader\D3D9\sprite.frag"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\D3D9\Default.fxo"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\DeferredLight.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\DefferedShadow.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\Gbuffer.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\Shading.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\Shading@terrain.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\shadowmap.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\simple_skybox.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\sprite.fx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\D3D9\water.fx"
+				RelativePath="..\..\data\Shader\D3D9\sprite.vert"
 				>
 			</File>
 		</Filter>

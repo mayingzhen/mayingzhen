@@ -289,10 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\MeshRes.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Resource\Properties.h"
 				>
 			</File>
@@ -429,10 +425,6 @@
 			Name="RenderSystem"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IMesh.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\IndexBuffer.h"
 				>
 			</File>
@@ -473,19 +465,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.hxx"
+				RelativePath="..\..\Code\Engine\RenderSystem\Renderable.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\RenderDefine.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Renderer.h"
 				>
 			</File>
 			<File
@@ -525,14 +509,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Texture.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\VertexBuffer.h"
 				>
 			</File>
@@ -547,6 +523,50 @@
 			<Filter
 				Name="Paticle"
 				>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Material"
+				>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\ShaderProgram.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\ShaderProgram.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
