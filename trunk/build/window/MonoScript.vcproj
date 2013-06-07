@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;../extern/include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MONOSCRIPT_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="mono-2.0.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../;../extern/lib"
+				AdditionalLibraryDirectories="../../extern/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -170,55 +170,55 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\MonoScriptDevice.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\Export.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptDevice.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptDevice.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptExport.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptDevice.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptIntenal.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptIntenal.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptInternal.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptInternal.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptModule.cpp"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptModule.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptModule.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptModule.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptObject.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptObject.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptObject.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptObject.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptResource.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptResource.h"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoScriptResource.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptResource.hxx"
 			>
 		</File>
 		<File
-			RelativePath=".\MonoUtil.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\MonoUtil.h"
 			>
 		</File>
 		<File
-			RelativePath=".\stdafx.cpp"
+			RelativePath="..\..\Code\Plugin\MonoScript\stdafx.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -230,7 +230,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\stdafx.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\stdafx.h"
 			>
 		</File>
 	</Files>

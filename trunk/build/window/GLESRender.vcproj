@@ -176,15 +176,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\Effect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\Effect.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\GLESRender\GLESEffect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\GLESRender\GLESEffect.hxx"
 				>
 			</File>
 			<File
@@ -209,14 +209,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESRenderDevice.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\GLESTechnique.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\GLESTechnique.hxx"
 				>
 			</File>
 			<File
