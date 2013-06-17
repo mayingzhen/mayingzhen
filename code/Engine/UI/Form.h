@@ -162,6 +162,29 @@ public:
      */
     const char* getType() const;
 
+	    /**
+     * Propagate touch events to enabled forms.
+     *
+     * @return Whether the touch event was consumed by a form.
+     */
+    static bool touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+
+    /**
+     * Propagate key events to enabled forms.
+     *
+     * @return Whether the key event was consumed by a form.
+     */
+    static bool keyEventInternal(Keyboard::KeyEvent evt, int key);
+
+    /**
+     * Propagate mouse events to enabled forms.
+     *
+     * @return True if the mouse event is consumed or false if it is not consumed.
+     *
+     * @see Mouse::MouseEvent
+     */
+    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+
 private:
     
     /**
@@ -196,28 +219,7 @@ private:
      */
     static void updateInternal(float elapsedTime);
 
-    /**
-     * Propagate touch events to enabled forms.
-     *
-     * @return Whether the touch event was consumed by a form.
-     */
-    static bool touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
 
-    /**
-     * Propagate key events to enabled forms.
-     *
-     * @return Whether the key event was consumed by a form.
-     */
-    static bool keyEventInternal(Keyboard::KeyEvent evt, int key);
-
-    /**
-     * Propagate mouse events to enabled forms.
-     *
-     * @return True if the mouse event is consumed or false if it is not consumed.
-     *
-     * @see Mouse::MouseEvent
-     */
-    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
     /**
      * Propagate gamepad events to enabled forms.

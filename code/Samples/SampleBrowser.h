@@ -5,7 +5,7 @@ namespace ma
 {
 	class Sample;
 
-	class SampleBrowser : public Game
+	class SampleBrowser : public Game,Control::Listener
 	{
 	public:
 		SampleBrowser();
@@ -26,6 +26,8 @@ namespace ma
 		virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
 		virtual void resizeEvent(unsigned int width, unsigned int height);
+
+		void		 controlEvent(Control* control, EventType evt);
 
 	private:
 		std::vector<Sample*>	m_arrSamples;

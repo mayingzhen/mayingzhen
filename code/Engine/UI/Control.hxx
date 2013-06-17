@@ -1095,7 +1095,7 @@ void Control::drawBorder(SpriteBatch* spriteBatch, const Rectangle& clip)
         if (border.bottom && border.left)
             spriteBatch->draw(_absoluteBounds.x, bottomY, border.left, border.bottom, bottomLeft.u1, bottomLeft.v1, bottomLeft.u2, bottomLeft.v2, skinColor, clip);
         if (border.bottom)
-            spriteBatch->draw(midX, bottomY, midWidth, border.bottom, bottom.u1, bottom.v1, bottom.u2, bottom.v2, skinColor, clip);
+           spriteBatch->draw(midX, bottomY, midWidth, border.bottom, bottom.u1, bottom.v1, bottom.u2, bottom.v2, skinColor, clip);
         if (border.bottom && border.right)
             spriteBatch->draw(rightX, bottomY, border.right, border.bottom, bottomRight.u1, bottomRight.v1, bottomRight.u2, bottomRight.v2, skinColor, clip);
     }

@@ -77,7 +77,7 @@ namespace ma
 		sampleButton->setAutoWidth(true);
 		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
 		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-		//sampleButton->addListener(this, Control::Listener::CLICK);
+		sampleButton->addListener(this, Control::Listener::CLICK);
 		m_pSampleSelectForm->addControl(sampleButton);
 
 		{
@@ -86,7 +86,7 @@ namespace ma
 			sampleButton->setAutoWidth(true);
 			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
 			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-			//sampleButton->addListener(this, Control::Listener::CLICK);
+			sampleButton->addListener(this, Control::Listener::CLICK);
 			m_pSampleSelectForm->addControl(sampleButton);
 		}
 
@@ -123,10 +123,7 @@ namespace ma
 	///// Input
 	void SampleBrowser::keyEvent(Keyboard::KeyEvent evt, int key)
 	{
-		if (evt == Keyboard::KEY_PRESS && key == Keyboard::KEY_TAB)
-		{
-			int i = 5;
-		}
+		
 	}
 
 	void SampleBrowser::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
@@ -136,15 +133,27 @@ namespace ma
 
 	bool SampleBrowser::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 	{
+		if ( Form::mouseEventInternal(evt,x,y,wheelDelta) )
+			return true;
+	
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->mouseEvent(evt,x,y,wheelDelta);
 
-		return false;
+		return true;
 	}
 
 	void SampleBrowser::resizeEvent(unsigned int width, unsigned int height)
 	{
 
+	}
+
+	void SampleBrowser::controlEvent(Control* control, EventType evt)
+	{
+		ASSERT(control);
+		if (control == NULL)
+			return;
+
+		//control->setText()
 	}
 }
 
