@@ -5,7 +5,7 @@
 namespace ma
 {
 
-	class Uniform;
+	struct Uniform;
 
 	/**
 	 * Defines an effect which can be applied during rendering.
@@ -17,7 +17,7 @@ namespace ma
 	 * typical effect systems support, such as GPU render state management,
 	 * techniques and passes.
 	 */
-	class ENGINE_API ShaderProgram/*: public Ref*/
+	class ENGINE_API ShaderProgram : public RefCountObject
 	{
 	public:
 
@@ -73,6 +73,8 @@ namespace ma
 
 
 		virtual	void		Bind() = 0;
+
+		//virtual void		UnBind() = 0;
 
 		//static ShaderProgram* GetCurrentEffect();
 

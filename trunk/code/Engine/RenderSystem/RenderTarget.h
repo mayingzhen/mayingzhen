@@ -1,34 +1,35 @@
 #ifndef  _RenderTarget__H__
 #define  _RenderTarget__H__
 
-#include "MWTexture.h"
 
 namespace ma
 {
 
-class ENGINE_API RenderTarget : public Texture
-{
-public:
-    RenderTarget();
-    virtual ~RenderTarget();
+	class ENGINE_API RenderTarget : public RefCountObject 
+	{
+	public:
+		RenderTarget()
+		{
+			mWidth = 0;
+			mHeight = 0;
+			mFormat = FMT_A8R8G8B8;
+			m_pTexture = NULL;
+		}
 
-    virtual void Stretch(Texture * texture) = 0;
+		virtual bool Create(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8) = 0;
 
-    const TString128 & GetName() const;
-    int GetWidth() const;
-    int GetHeight() const;
-    FORMAT GetFormat() const;
-    MULTI_SAMPLE GetMultiSampleType() const;
+		Texture* GetTexture() {return m_pTexture;}
 
-protected:
-    TString128 mName;
+	protected:
+		int mWidth;
+		int mHeight;
+		FORMAT mFormat;
+		Texture* m_pTexture;
+		
+	};
 
-    int mWidth;
-    int mHeight;
-    FORMAT mFormat;
-    MULTI_SAMPLE mMSAA;
-};
-
-DeclareSmartPtr(RenderTarget);
+	DeclareSmartPtr(RenderTarget);
 
 }
+
+#endif

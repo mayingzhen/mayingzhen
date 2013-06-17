@@ -21,7 +21,7 @@ namespace ma
 	Sampler* Sampler::create(Texture* texture)
 	{
 		ASSERT(texture);
-		//texture->addRef();
+		//texture->IncReference();
 		return new Sampler(texture);
 	}
 

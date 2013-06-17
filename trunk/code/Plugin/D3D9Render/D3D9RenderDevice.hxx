@@ -60,9 +60,14 @@ namespace ma
 		return new D3D9IndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateEffect()
+	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram()
 	{
-		return new D3D9Effect();
+		return new D3D9ShaderProgram();
+	}
+
+	const char*	D3D9RenderDevice::GetShaderPath()
+	{
+		return "/shader/d3d9/";
 	}
 
 	void D3D9RenderDevice::Init(HWND wndhandle)
@@ -70,6 +75,21 @@ namespace ma
 		InitD3D9(wndhandle);
 
 		InitRender();
+
+		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
+		{
+			m_pCurRenderTarget[i] =  new D3D9RenderTarget();
+			LPDIRECT3DSURFACE9 surface = NULL;
+			m_pD3DDevice->GetRenderTarget(i,&surface);
+			((D3D9RenderTarget*)m_pCurRenderTarget[i])->SetD3DSurface(surface);
+		}
+	
+		D3DVIEWPORT9 vp;
+		m_pD3DDevice->GetViewport(&vp);
+		m_curViewport.x = vp.X;
+		m_curViewport.y = vp.Y;
+		m_curViewport.width = vp.Width;
+		m_curViewport.height = vp.Height;
 
 		m_pLineRender->Init(m_pD3DDevice);
 
@@ -200,11 +220,8 @@ namespace ma
 	void D3D9RenderDevice::BeginRender()
 	{
  		HRESULT hr = D3D_OK;
-		//Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-		Color clearColor(0,0,0,0);
+		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
 		ClearBuffer(true,true,true,clearColor,1.0f,0);
-// 		hr = m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
-// 		ASSERT( SUCCEEDED(hr) );
 		
 		hr = m_pD3DDevice->BeginScene();
 		ASSERT( SUCCEEDED(hr) );
@@ -224,13 +241,20 @@ namespace ma
 		ASSERT( SUCCEEDED(hr) );
 	}
 
-	void D3D9RenderDevice::SetRenderTarget(int index,Texture* pTexture)
+	RenderTarget* D3D9RenderDevice::CreateRenderTarget()
 	{
+		return new D3D9RenderTarget();
+	}
+
+	RenderTarget* D3D9RenderDevice::SetRenderTarget(int index,RenderTarget* pTexture)
+	{
+		RenderTarget* pPreTarget = m_pCurRenderTarget[index];
+
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
-			D3D9Texture* pD3D9Texture = static_cast<D3D9Texture*>(pTexture);
-			IDirect3DSurface9* target = pD3D9Texture->GetD3DSurface();
+			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
 
 			hr = m_pD3DDevice->SetRenderTarget(index, target);
 			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
@@ -240,7 +264,29 @@ namespace ma
 			m_pD3DDevice->SetRenderTarget(index, NULL);
 		}
 
+		m_pCurRenderTarget[index] = pTexture;
+
+		return pPreTarget;
+
 		//mRenderTarget[index] = target;
+	}
+
+	Rectangle D3D9RenderDevice::SetViewport(const Rectangle& rect)
+	{
+		Rectangle preViewport = m_curViewport;
+		m_curViewport = rect;
+
+		D3DVIEWPORT9 vp;
+		vp.X      = rect.x;
+		vp.Y      = rect.y;
+		vp.Width  = rect.width;
+		vp.Height = rect.height;
+		vp.MinZ   = 0.0f;
+		vp.MaxZ   = 1.0f;
+
+		m_pD3DDevice->SetViewport(&vp);
+
+		return preViewport;
 	}
 
 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
@@ -256,83 +302,75 @@ namespace ma
 // 				cullMode = D3DCULL_CCW;
 // 		}
 
-		//GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, cullMode);
+		//GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
 
 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
 
-		//mD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, state.depthWrite);
-		GetD3D9DxDevive()->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
+		GetD3D9DxDevive()->SetRenderState(D3DRS_ZWRITEENABLE,false/*state.m_bDepthWrite*/);
+		GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE,false/*state.m_bDepthWrite*/);
 
-		switch (state.m_eDepthCheckMode)
-		{
-		case DCM_LESS_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-			break;
-
-		case DCM_LESS:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-			break;
-
-		case DCM_GREATER_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
-			break;
-
-		case DCM_GREATER:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
-			break;
-
-		case DCM_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
-			break;
-
-		case DCM_ALWAYS:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-			break;
-
-		case DCM_NONE:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, FALSE);
-			break;
-		}
+// 		switch (state.m_eDepthCheckMode)
+// 		{
+// 		case DCM_LESS_EQUAL:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+// 			break;
+// 
+// 		case DCM_LESS:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+// 			break;
+// 
+// 		case DCM_GREATER_EQUAL:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+// 			break;
+// 
+// 		case DCM_GREATER:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+// 			break;
+// 
+// 		case DCM_EQUAL:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+// 			break;
+// 
+// 		case DCM_ALWAYS:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+// 			break;
+// 
+// 		case DCM_NONE:
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, FALSE);
+// 			break;
+// 		}
 
 		switch (state.m_eBlendMode)
 		{
 		case BM_OPATICY:
 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 			break;
 
 		case BM_TRANSPARENT:
 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 			break;
 
 		case BM_ADD:
 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-// 			GetD3D9DxDevive()->SetRendserState(D3DRS_ALPHATESTENABLE, FALSE);
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 			break;
 
 		case BM_MULTIPLY:
 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 			break;
 		}
 	}
@@ -844,74 +882,12 @@ namespace ma
 		m_Ligts.clear();
 	}
 
-// 	void D3D9RenderDevice::AddLight(Light* pLigt)
-// 	{
-// 		if (pLigt == NULL)
-// 			return;
-// 
-// 		std::vector<Light*>::iterator it = std::find(m_Ligts.begin(),m_Ligts.end(),pLigt);
-// 		if (it != m_Ligts.end())
-// 			return;
-// 
-// 		m_Ligts.push_back(pLigt);
-// 
-// 		if ( pLigt->IsCreateShadow() )
-// 		{
-// 			ASSERT(m_mainLigt == NULL);
-// 			m_mainLigt = pLigt;
-// 		}
-// 	}
-
 	void D3D9RenderDevice::GetRenderWndSize(int& Width,int& Heigh)
 	{
 		RECT rect;
 		GetWindowRect(m_hWnd,&rect);
 		Width = rect.right - rect.left;
 		Heigh = rect.bottom - rect.top;
-	}
-
-	void D3D9RenderDevice::DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech)
-	{
-// 		if (pRenderMesh == NULL)
-// 			return;
-// 
-// 		HRESULT hr = D3D_OK;
-// 
-// 		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderMesh->m_pDeclaration;
-// 
-// 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
-// 		ASSERT(hr == D3D_OK);
-// 
-// 		D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderMesh->m_pIndexBuffer;
-// 		hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
-// 		ASSERT(hr == D3D_OK);
-// 
-// 		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderMesh->m_pVertexBuffers;
-// 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
-// 
-// 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderMesh->m_ePrimitiveType);
-// 		
-// 		for (UINT i = 0; i < pRenderMesh->m_pMesData->GetSubMeshNumber(); ++i)
-// 		{
-// 			SubMeshData* pSubMesh = pRenderMesh->m_pMesData->GetSubMeshByIndex(i);
-// 			if (pSubMesh == NULL)
-// 				continue;
-// 
-// 			UINT nPrimCount = 0;
-// 			if (ePrimitiveType == D3DPT_TRIANGLELIST)
-// 			{
-// 				nPrimCount = pSubMesh->m_nIndexCount / 3;
-// 			}
-// 			else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
-// 			{
-// 				nPrimCount = pSubMesh->m_nIndexCount - 2;
-// 			}
-// 
-// 			HRESULT hr = D3D_OK;
-// 			hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,pSubMesh->m_nVertexStart,pSubMesh->m_nVertexCount,
-// 				pSubMesh->m_nIndexStart,nPrimCount);
-// 			ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
-// 		}	
 	}
 
 	void D3D9RenderDevice::DrawRenderable(Renderable* pRenderable)
@@ -922,13 +898,6 @@ namespace ma
 		Material* pMaterial = pRenderable->m_pMaterial;
 		ASSERT(pMaterial);
 		pMaterial->Bind();
-
-		//m_pD3DDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
-// 		m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,false);
-// 		m_pD3DDevice->SetRenderState(D3DRS_ZENABLE,true);
-// 		m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-// 		m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND,  D3DBLEND_SRCALPHA);
-// 		m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 		HRESULT hr = D3D_OK;
 
@@ -964,66 +933,6 @@ namespace ma
 
 	}
 
-	void D3D9RenderDevice::DrawMeshBatch(MeshBatch* pMeshBatch,Technique* pTech)
-	{
-// 		if (pMeshBatch == NULL)
-// 			return;
-// 
-// 		HRESULT hr = D3D_OK;
-// 
-// 		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pMeshBatch->_vertexFormat;
-// 		UINT vertexStreamStride = d3dvd->GetStreanmStride();
-// 
-// 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
-// 		ASSERT(hr == D3D_OK);
-// 
-// 		D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pMeshBatch->m_pIndexBuffer;
-// 		hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
-// 		ASSERT(hr == D3D_OK);
-// 
-// 		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pMeshBatch->m_pVertexBuffers;
-// 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
-// 
-// 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pMeshBatch->_primitiveType);
-// 
-// 		UINT nPrimCount = 0;
-// 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
-// 		{
-// 			nPrimCount = pMeshBatch->_indexCount / 3;
-// 		}
-// 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
-// 		{
-// 			nPrimCount = pMeshBatch->_indexCount - 2;
-// 		}
-// 
-// 		//HRESULT hr = D3D_OK;
-// 		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,pSubMesh->m_nVertexStart,pSubMesh->m_nVertexCount,
-// 			pSubMesh->m_nIndexStart,nPrimCount);
-// 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
-// 
-// // 		for (UINT i = 0; i < pRenderMesh->m_pMesData->GetSubMeshNumber(); ++i)
-// // 		{
-// // 			SubMeshData* pSubMesh = pRenderMesh->m_pMesData->GetSubMeshByIndex(i);
-// // 			if (pSubMesh == NULL)
-// // 				continue;
-// // 
-// // 			UINT nPrimCount = 0;
-// // 			if (ePrimitiveType == D3DPT_TRIANGLELIST)
-// // 			{
-// // 				nPrimCount = pSubMesh->m_nIndexCount / 3;
-// // 			}
-// // 			else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
-// // 			{
-// // 				nPrimCount = pSubMesh->m_nIndexCount - 2;
-// // 			}
-// // 
-// // 			HRESULT hr = D3D_OK;
-// // 			hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,pSubMesh->m_nVertexStart,pSubMesh->m_nVertexCount,
-// // 				pSubMesh->m_nIndexStart,nPrimCount);
-// // 			ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
-// // 		}	
-	}
-
 	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
 		HRESULT hr;
@@ -1045,172 +954,6 @@ namespace ma
 	}
 
 
-// 	void D3D9RenderDevice::Render(Technique* tech, Renderer * obj)
-// 	{
-// 		ID3DXEffect* pTech = (ID3DXEffect*)tech;
-// 
-// 		//RenderRegister::Instance()->Reset();
-// 
-// 
-// 		HRESULT hr = D3D_OK;
-// 
-// 		// draw
-// 		VertexStream * vstream = obj->GetVertexStream();
-// 		IndexStream * istream = obj->GetIndexStream();
-// 
-// 		VertexDeclarationPtr decl = vstream->GetDeclaration();
-// 		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)decl.c_ptr();
-// 
-// 		hr = mD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
-// 
-// 		for (int i = 0; i < MAX_VERTEX_STREAM; ++i)
-// 		{
-// 			int stride = vstream->GetStreamStride(i);
-// 			int instances = vstream->GetStreamInstance(i);
-// 			VertexBufferPtr vb = vstream->GetStream(i);
-// 
-// 			if (stride && vb.NotNull())
-// 			{
-// 				D3D9VertexBuffer * d3dvb = (D3D9VertexBuffer*)vb.c_ptr();
-// 				hr = mD3DDevice->SetStreamSource(i, d3dvb->GetD3DVertexBuffer(), 0, stride);
-// 			}
-// 			else
-// 			{
-// 				hr = mD3DDevice->SetStreamSource(i, NULL, 0, 0);
-// 			}
-// 
-// 			if (instances > 1)
-// 			{
-// 				mD3DDevice->SetStreamSourceFreq(i, D3DSTREAMSOURCE_INDEXEDDATA | instances);
-// 			}
-// 			else if (instances == 1)
-// 			{
-// 				mD3DDevice->SetStreamSourceFreq(i, D3DSTREAMSOURCE_INSTANCEDATA | 1);
-// 			}
-// 			else
-// 			{
-// 				mD3DDevice->SetStreamSourceFreq(i, 1);
-// 			}
-// 
-// 			D3DErrorExceptionFunction(SetStreamSource, hr);
-// 		}
-// 
-// 
-// 		IndexBufferPtr ib = istream->GetStream();
-// 
-// 		int startVertex = vstream->GetStart();
-// 		int vertexCount = vstream->GetCount();
-// 		int startIndex = istream->GetStart();
-// 		int primCount = obj->GetPrimitiveCount();
-// 		D3DPRIMITIVETYPE primType = (D3DPRIMITIVETYPE)obj->GetPrimitiveType();
-// 
-// 		if (ib.NotNull())
-// 		{
-// 			D3D9IndexBuffer * d3dib = (D3D9IndexBuffer*)(ib.c_ptr());
-// 
-// 			hr = mD3DDevice->SetIndices(d3dib->GetD3DIndexBuffer());
-// 			hr = mD3DDevice->DrawIndexedPrimitive(primType, 0, startVertex, vertexCount, startIndex, primCount);
-// 
-// 			D3DErrorExceptionFunction(DrawIndexedPrimitive, hr);
-// 		}
-// 		else
-// 		{
-// 			hr = mD3DDevice->DrawPrimitive(primType, startVertex, primCount);
-// 
-// 			D3DErrorExceptionFunction(DrawPrimitive, hr);
-// 		}
-// 
-// 		RenderRegister::Instance()->End();
-// 
-// 		mBatchCount += 1;
-// 		mPrimitivCount += primCount;
-// 
-// 	}
-
-	//void D3D9RenderDevice::MeshData(RendMesh* pMesh)
-	//{
-		//m_SolidEntry.push_back(pMesh);
-
-	//	return;
-
-		// 		D3D9RendMesh* pDxMesh = (D3D9RendMesh*)pMesh;
-		// 		D3D9Texture* pDxTexure = (D3D9Texture*)(pTexture);
-		// 
-		// 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-		// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-		// 		//pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
-		// 
-		// 		//pDxDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_CW );
-		// 
-		// // 		Matrix4x4 matView,matProject;
-		// // 		pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-		// // 		pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-		//  		Matrix4x4 matWVP = *pWordMat * m_matViewProj;
-		// 
-		// 		HRESULT hr;
-		// 		hr = m_pDefault->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
-		// 		hr = m_pDefault->SetMatrix("worldviewprojection",&matWVP);
-		// 		hr = m_pDefault->SetMatrix("worldview",&m_matView);
-		// 
-		// 		//HANDLE tech = m_pDefault->GetTechniqueByName( "Shading" );
-		// 
-		// 		hr = m_pDefault->SetTechnique("Shading");
-		// 		UINT cPasses = 0; 
-		// 		hr = m_pDefault->Begin(&cPasses, 0 );
-		// 		for (UINT i = 0; i < cPasses; ++i)
-		// 		{
-		// 			hr = m_pDefault->BeginPass(i);
-		// 			hr = m_pDefault->CommitChanges();
-		// 			pDxMesh->GetMesh()->DrawSubset(0/*nSubInd*/);
-		// 			m_pDefault->EndPass();
-		// 		}	
-		// 		m_pDefault->End();
-
-	//}
-
-	// 	void D3D9Render::RenderSkelMesh(const Matrix4x4* arrSkinMatrix,UINT nSkinMaxtrixNum,
-	// 		const Matrix4x4* pWordMat,const RendMesh* pMesh,const Texture* pTexture)
-	// 	{
-	// 		D3D9RendMesh* pDxMesh = (D3D9RendMesh*)pMesh;
-	// 		D3D9Texture* pDxTexure = (D3D9Texture*)(pTexture);
-	// 
-	// 		Matrix4x4 matBonePalatte[256];
-	// 		SubMeshData* pSubMeshData = pDxMesh->GetMeshData()->GetSubMesh(0);
-	// 		UINT uBonePaletteSize = pSubMeshData->GetBonePaletteSize();
-	// 		for (UINT nCnt = 0; nCnt < uBonePaletteSize; ++nCnt)
-	// 		{
-	// 			matBonePalatte[nCnt] = arrSkinMatrix[pSubMeshData->GetBonePalette()[nCnt]];
-	// 		}
-	// 
-	// 		D3D9RenderDevice* pRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
-	// 		LPDIRECT3DDEVICE9 pDxDevice = pRenderDevice->GetDXDevive();
-	// 		pDxDevice->SetTransform(D3DTS_WORLD,pWordMat);
-	// 
-	// 		//Matrix4x4 matView,matProject;
-	// 		//pDxDevice->GetTransform(D3DTS_VIEW,&matView);
-	// 		//pDxDevice->GetTransform(D3DTS_PROJECTION,&matProject);
-	// 		Matrix4x4 matWVP = *pWordMat * m_matViewProj;
-	// 
-	// 		HRESULT hr;
-	// 		hr = m_pDefaultSkin->SetTexture("g_TextureSrcDiffuse",pDxTexure->GetD3DTexture());
-	// 		hr = m_pDefaultSkin->SetMatrix("worldviewprojection",&matWVP);
-	// 		hr = m_pDefaultSkin->SetMatrixArray("mSkinMatrixArray",matBonePalatte,uBonePaletteSize);
-	// 		hr = m_pDefaultSkin->SetMatrix("worldview",&m_matView);
-	// 
-	// 		hr = m_pDefaultSkin->SetTechnique("SkinShading");
-	// 		UINT cPasses = 0; 
-	// 		hr = m_pDefaultSkin->Begin(&cPasses, 0 );
-	// 		for (UINT i = 0; i < cPasses; ++i)
-	// 		{
-	// 			hr = m_pDefaultSkin->BeginPass(i);
-	// 			hr = m_pDefaultSkin->CommitChanges();
-	// 			pDxMesh->GetMesh()->DrawSubset(0/*nSubInd*/);
-	// 			m_pDefaultSkin->EndPass();
-	// 		}	
-	// 		m_pDefaultSkin->End();
-	// 	}
-
-
 	void D3D9RenderDevice::DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor)
 	{
 		if (m_pLineRender == NULL)
@@ -1219,10 +962,22 @@ namespace ma
 		m_pLineRender->DrawLine(p0,p1,dwColor);
 	}
 
-	Matrix4x4 D3D9RenderDevice::MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
+	Matrix4x4 D3D9RenderDevice::MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
 	{
-		 D3DXMatrixPerspectiveFovLH((D3DXMATRIX*)pOut,fovy,Aspect,zn,zf);
+		 MatrixPerspectiveFovLH(pOut,fovy,Aspect,zn,zf);
 		 return *pOut;
+	}
+
+	Matrix4x4 D3D9RenderDevice::MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf)
+	{
+		D3DXMatrixOrthoLH((D3DXMATRIX*)pOut,width,height,zn,zf);
+		return *pOut;
+	}
+
+	Matrix4x4 D3D9RenderDevice::MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf)
+	{
+		D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)pOut,left,right,bottom,top,zn,zf);
+		return *pOut;
 	}
 
 	void D3D9RenderDevice::FlushLine()

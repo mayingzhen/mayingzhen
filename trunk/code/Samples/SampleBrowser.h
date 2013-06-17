@@ -32,6 +32,8 @@ namespace ma
 		int						m_curSampleIndex;
 
 		Time					m_Timer;
+
+		Form*					m_pSampleSelectForm; 
 	};
 }
 

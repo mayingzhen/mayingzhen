@@ -259,12 +259,21 @@ COMMON_API Matrix4x4* MatrixPerspectiveFovGL_LH(Matrix4x4 *pOut, float fovy, flo
 
 COMMON_API Matrix4x4* MatrixOrthoGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
 
+COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
+
 //------------------------------------------------------------------------------
 //Frame
 //------------------------------------------------------------------------------
 
 void FrameTransformPoint(Vector3* pOut,const Vector3* pP,const Frame* pFrame);
 
+
+#ifdef WIN32
+inline float round(float r)
+{
+	return (r > 0.0f) ? floor(r + 0.5f) : ceil(r - 0.5f);
+}
+#endif
 
 #include "Math.inl"
 

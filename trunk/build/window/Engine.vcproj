@@ -437,22 +437,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IRenderItem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IRendTexture.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Material.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Material.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.h"
 				>
 			</File>
@@ -470,10 +454,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\RenderDefine.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Renderer.hxx"
 				>
 			</File>
 			<File
@@ -498,14 +478,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Technique.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Technique.hxx"
 				>
 			</File>
 			<File
@@ -557,6 +529,14 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\ShaderProgram.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\ShaderProgramUtil.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\ShaderProgramUtil.hxx"
 					>
 				</File>
 				<File
@@ -677,6 +657,14 @@
 			Name="Input"
 			>
 			<File
+				RelativePath="..\..\code\Engine\Input\Gamepad.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Input\Gamepad.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Engine\Input\Gesture.h"
 				>
 			</File>
@@ -702,6 +690,154 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Input\Touch.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="UI"
+			>
+			<File
+				RelativePath="..\..\code\Engine\UI\AbsoluteLayout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\AbsoluteLayout.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Bundle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Bundle.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Button.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Button.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\CheckBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\CheckBox.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Container.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Container.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Control.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Control.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\FlowLayout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\FlowLayout.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Font.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Form.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Form.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\ImageControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\ImageControl.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Label.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Label.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Layout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Layout.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\RadioButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\RadioButton.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Slider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Slider.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\TextBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\TextBox.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Theme.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\Theme.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\ThemeStyle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\ThemeStyle.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\VerticalLayout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\VerticalLayout.hxx"
 				>
 			</File>
 		</Filter>

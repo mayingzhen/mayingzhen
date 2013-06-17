@@ -97,6 +97,8 @@ public:
 
 	void rotate(const Vector2& point, float angle);
 
+	static Vector2 zero() {return Vector2(0.0f,0.0f);}
+
 
 public:
 

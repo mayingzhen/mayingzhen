@@ -68,7 +68,7 @@ namespace ma
 			// Create our static sprite effect.
 			if (__spriteEffect == NULL)
 			{
-				__spriteEffect = GetRenderDevice()->CreateEffect();
+				__spriteEffect = GetRenderDevice()->CreateShaderProgram();
 				//__spriteEffect->CreateFromShaderName(SPRITE);
 				__spriteEffect->CreateFromShaderName("default","DIFFUSE;COLOR");
 				if (__spriteEffect == NULL)
@@ -81,7 +81,7 @@ namespace ma
 			else
 			{
 				effect = __spriteEffect;
-				//__spriteEffect->addRef();
+				//__spriteEffect->IncReference();
 			}
 		}
 
@@ -148,9 +148,10 @@ namespace ma
 		Platform& platform = Platform::GetInstance();
 		int w,h;
 		platform.GetWindowSize(w, h);
-		MatrixOrthoGL_LH(&batch->_projectionMatrix, w, h, 0, 1);
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(&batch->_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
+		//GetRenderDevice()->MakeOrthoMatrix(&batch->_projectionMatrix, w, h,  0.0f, 1.0f);
 		//Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &batch->_projectionMatrix);
-		material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
+		material->getParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
 		
 		return batch;
 	}
@@ -237,7 +238,8 @@ namespace ma
 		SPRITE_ADD_VERTEX(v[2], downRight.x, downRight.y, z, u2, v1, color.x, color.y, color.z, color.w);
 		SPRITE_ADD_VERTEX(v[3], upRight.x, upRight.y, z, u2, v2, color.x, color.y, color.z, color.w);
 	    
-		static unsigned short indices[4] = { 0, 1, 2, 3 };
+		//static unsigned short indices[4] = { 0, 1, 2, 3 };
+		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
 		_batch->add(v, 4, indices, 4);
 	}
@@ -308,7 +310,11 @@ namespace ma
 		SPRITE_ADD_VERTEX(v[1], p1.x, p1.y, p1.z, u2, v1, color.x, color.y, color.z, color.w);
 		SPRITE_ADD_VERTEX(v[2], p2.x, p2.y, p2.z, u1, v2, color.x, color.y, color.z, color.w);
 		SPRITE_ADD_VERTEX(v[3], p3.x, p3.y, p3.z, u2, v2, color.x, color.y, color.z, color.w);
-	    
+
+		// 2 ------- 3
+		//   |	   |
+		//   |	   |
+	    // 0 ------- 1
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 		_batch->add(v, 4, const_cast<unsigned short*>(indices), 4);
 	}
@@ -379,7 +385,13 @@ namespace ma
 		SPRITE_ADD_VERTEX(v[2], x2, y, z, u2, v1, color.x, color.y, color.z, color.w);
 		SPRITE_ADD_VERTEX(v[3], x2, y2, z, u2, v2, color.x, color.y, color.z, color.w);
 
-		static unsigned short indices[4] = { 0, 1, 2, 3 };
+		// 0 ------- 2
+		//   |	   |
+		//   |	   |
+		// 1 ------- 3
+
+		//static unsigned short indices[4] = { 0, 1, 2, 3 };
+		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
 		_batch->add(v, 4, indices, 4);
 	}

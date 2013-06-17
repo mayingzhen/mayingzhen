@@ -175,12 +175,7 @@ namespace ma
 		if (shName == NULL)
 			return;
 
-		std::string strPath; 
-//#if PLATFORM_WIN == 1
-		strPath = "Shader/D3D9/";
-//#else PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
-//		strPath = "Shader/GLES/";
-//#endif
+		std::string strPath = GetRenderDevice()->GetShaderPath();
 		strPath += shName;
 
 		std::string strPathVS = strPath + ".vert";
@@ -208,7 +203,7 @@ namespace ma
 		{
 			// Found an exiting effect with this id, so increase its ref count and return it.
 			ASSERT(itr->second);
-			//itr->second->addRef();
+			//itr->second->IncReference();
 			//return itr->second;
 		}
 

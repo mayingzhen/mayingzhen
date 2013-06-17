@@ -16,7 +16,7 @@ namespace ma
 		
 		~GLESIndexBuffer();
 
-		virtual void* Lock(int iOffsetBytes, int uiLockSize, int LockFlags);
+		virtual void* Lock(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
 		
 		virtual void Unlock();
 

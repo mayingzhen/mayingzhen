@@ -6,13 +6,13 @@
 namespace ma
 {
 
-	class GLESEffect : public ShaderProgram
+	class GLESShaderProgram : public ShaderProgram
 	{
 	public:
 
-		GLESEffect();
+		GLESShaderProgram();
 
-		~GLESEffect();
+		~GLESShaderProgram();
 
 		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
@@ -144,6 +144,8 @@ namespace ma
 		 */
 		void Bind();
 
+		VertexAttribute getVertexAttribute(const char* name) const;
+
 		/**
 		 * Returns the currently bound effect for the rendering system.
 		 *
@@ -156,7 +158,9 @@ namespace ma
 
 	private:
 
-		GLuint _program;
+		GLuint m_program;
+
+		std::map<std::string, VertexAttribute> m_vertexAttributes;
 	};
 
 

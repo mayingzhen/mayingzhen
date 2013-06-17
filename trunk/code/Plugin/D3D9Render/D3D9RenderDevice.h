@@ -13,6 +13,7 @@ namespace ma
 	class VertexBuffer;
 	class RenderTarget;
 	class D3D9Technique;
+	class D3D9RenderTarget;
 
 	class D3D9RenderDevice : public IRenderDevice
 	{
@@ -30,23 +31,21 @@ namespace ma
 
 		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC);
 
-		virtual ShaderProgram*				CreateEffect();
+		virtual ShaderProgram*		CreateShaderProgram();
+
+		virtual const char*			GetShaderPath();
 
 		
-
 		//// Render
-		virtual void			SetRenderTarget(int index,Texture* pTexture);
+		virtual RenderTarget*	CreateRenderTarget();
+
+		virtual RenderTarget*	SetRenderTarget(int index,RenderTarget* pTexture);
+
+		virtual Rectangle		SetViewport(const Rectangle& rect);
 
 		virtual void			SetRenderState(const RenderState& state);
 		
-		//virtual void			SetVertexStream(VertexStream* pVertexStream);
-
-		//virtual void			DrawIndexedPrimitive(PRIMITIVE_TYPE ePrimType,UINT startVertex,UINT vertexCount,UINT startIndex,UINT IndexCount);
-		virtual	void			DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech);
-
 		virtual	void			DrawRenderable(Renderable* pRenderable);
-
-		virtual void			DrawMeshBatch(MeshBatch* pMeshBatch,Technique* pTech);
 
 		virtual	void			ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
@@ -71,7 +70,11 @@ namespace ma
 
 		virtual	void			GetRenderWndSize(int& Width,int& Heigh);
 		
-		virtual	Matrix4x4		MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
+		virtual	Matrix4x4		MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
+
+		virtual	Matrix4x4		MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf);
+
+		virtual Matrix4x4		MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf);
 
 		LPDIRECT3DDEVICE9		GetDXDevive() {return m_pD3DDevice;}
 	
@@ -129,6 +132,11 @@ namespace ma
 		
 		UnitSphere*						m_pUnitSphere;
 
+		enum {MAX_RENDER_TARGET = 4};
+		RenderTarget*					m_pCurRenderTarget[MAX_RENDER_TARGET];
+
+		Rectangle						m_curViewport;
+	
 	};
 
 	LPDIRECT3DDEVICE9 GetD3D9DxDevive();

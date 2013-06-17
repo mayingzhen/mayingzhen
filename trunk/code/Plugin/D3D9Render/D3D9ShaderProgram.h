@@ -6,13 +6,13 @@
 namespace ma
 {
 
-	class D3D9Effect : public ShaderProgram
+	class D3D9ShaderProgram : public ShaderProgram
 	{
 	public:
 
-		D3D9Effect();
+		D3D9ShaderProgram();
 
-		~D3D9Effect();
+		~D3D9ShaderProgram();
 
 		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
@@ -156,7 +156,6 @@ namespace ma
 
 	private:
 
-		//GLuint _program;
 		IDirect3DVertexShader9*		m_pVertexShader;
 		IDirect3DPixelShader9*		m_pPiexelShader;
 

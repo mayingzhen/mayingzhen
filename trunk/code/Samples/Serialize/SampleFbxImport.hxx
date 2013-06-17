@@ -60,8 +60,8 @@ namespace ma
 		pRendTexture->Load(strPath.c_str());
 		Sampler* sampler = Sampler::create(pRendTexture); // +ref texture
 
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateEffect();
-		pShaderProgram->CreateFromShaderName("default","SKIN;SKIN_MATRIX_COUNT 60;DIFFUSE");
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
+		pShaderProgram->CreateFromShaderName("default","SKIN;SKIN_MATRIX_COUNT 55;DIFFUSE");
 		m_pRenderMaterial = Material::create(pShaderProgram);
 		m_pRenderMaterial->getParameter("u_texture")->SetValue(sampler);
 
@@ -95,7 +95,7 @@ namespace ma
 		Texture* pTexture = GetRenderDevice()->CreateRendTexture();
 		pTexture->Load("../../Data/Fbx/PlatformTexture.tga");
 
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateEffect();
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
 		pShaderProgram->CreateFromShaderName("default","DIFFUSE");
 		m_pStaticMeshMaterial = Material::create(pShaderProgram);
 		Sampler* sampler = Sampler::create(pTexture); // +ref texture
@@ -115,8 +115,8 @@ namespace ma
 	{
 		Sample::Init(pPlatform);
 		
-		Vector3 vEyePos = Vector3(0, 600, 800);
-		//Vector3 vEyePos = Vector3(0, 0, 40);
+		//Vector3 vEyePos = Vector3(0, 600, 800);
+		Vector3 vEyePos = Vector3(0, 40, 40);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
@@ -126,7 +126,7 @@ namespace ma
 
 		LoadSaticMesh(fbxImpor);
 
-		LoadSkelMesh(fbxImpor);
+		//LoadSkelMesh(fbxImpor);
 
 		//LoadBoxMesh(fbxImpor);
 
@@ -149,7 +149,7 @@ namespace ma
 		Texture* pTexture = GetRenderDevice()->CreateRendTexture();
 		pTexture->Load("../../Data/Fbx/Box.tga");
 
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateEffect();
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
 		pShaderProgram->CreateFromShaderName("default","DIFFUSE");
 		m_pBoxMaterial = Material::create(pShaderProgram);
 		Sampler* sampler = Sampler::create(pTexture); // +ref texture
@@ -173,6 +173,11 @@ namespace ma
 			m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
 
 			m_pAnimtionPlay->EvaluateAnimation(1.0f);
+		}
+	
+		if (m_pEmitter)
+		{	
+			m_pEmitter->update(fTimeElapsed);
 		}
 	}
 
@@ -198,9 +203,9 @@ namespace ma
 
 			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
 
-			m_pRenderMaterial->getParameter("u_projectionMatrix")->SetValue(matWVP);
+			m_pRenderMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
 			m_pRenderMaterial->getParameter("u_matrixPalette")->SetValue(skinMatrix,nNumber);
-			m_pRenderMesh->Draw();
+			//m_pRenderMesh->Draw();
 		}
 
 
@@ -208,14 +213,14 @@ namespace ma
 		if (m_pStaticMesh)
 		{
 			Matrix4x4 matWorld;
-			Matrix4x4 matScale;
-			MatrixScaling(&matScale,50,50,50); 
+			//Matrix4x4 matScale;
+			//MatrixScaling(&matScale,50,50,50); 
 			MatrixTranslation(&matWorld,0,0,0);
- 			matWorld = matScale * matWorld;
+ 			//matWorld = matScale * matWorld;
 
 			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
 
-			m_pStaticMeshMaterial->getParameter("u_projectionMatrix")->SetValue(matWVP);
+			m_pStaticMeshMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
 
 			m_pStaticMesh->Draw();
 		}
@@ -229,7 +234,7 @@ namespace ma
 			matWorld = matScale * matWorld;
 			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
 
-			m_pBoxMaterial->getParameter("u_projectionMatrix")->SetValue(matWVP);
+			m_pBoxMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
 
 			m_pBoxMesh->Draw();
 		}
@@ -237,9 +242,9 @@ namespace ma
 		if (m_pEmitter)
 		{
 			Matrix4x4 matWorld;
-			MatrixIdentity(&matWorld);
-			m_pEmitter->update(GetTimer()->GetFrameDeltaTime(),matWorld);
-			m_pEmitter->draw(m_pCamera);
+			MatrixTranslation(&matWorld,-20,0,0);
+				
+			m_pEmitter->draw(m_pCamera,matWorld);
 		
 		}
 

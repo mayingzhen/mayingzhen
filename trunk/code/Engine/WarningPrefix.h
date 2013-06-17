@@ -13,3 +13,7 @@
 
 #   pragma warning( disable : 4996)
 
+#   pragma warning( disable : 2440)
+
+#   pragma warning( disable : 4244)
+

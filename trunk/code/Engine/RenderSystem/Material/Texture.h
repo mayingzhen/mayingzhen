@@ -10,9 +10,11 @@ namespace ma
 	public:
 		//static Texture* create(const char* path,bool generateMipmaps = false);
 
-		virtual bool Create(int nWidth,int nHeight,int nMipLevel,FORMAT Format = FMT_X8R8G8B8,USAGE Usage = USAGE_STATIC) = 0;
+		virtual bool CreateRT(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8) = 0;
 
 		virtual bool Load(const char* pszPath = NULL, bool generateMipmaps = false) = 0;
+
+		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false) = 0;
 
 		int getWidth() {return mWidth;}
 
@@ -32,13 +34,13 @@ namespace ma
 	/**
      * Defines the set of supported texture formats.
      */
-    enum Format
-    {
-        UNKNOWN = 0,
-        RGB    /* = GL_RGB*/,
-        RGBA    /*= GL_RGBA*/,
-        ALPHA   /*= GL_ALPHA*/
-    };
+//     enum Format
+//     {
+//         UNKNOWN = 0,
+//         RGB    /* = GL_RGB*/,
+//         RGBA    /*= GL_RGBA*/,
+//         ALPHA   /*= GL_ALPHA*/
+//     };
 
     /**
      * Defines the set of supported texture filters.
@@ -82,7 +84,7 @@ namespace ma
      * itself, a sampler stores per-instance texture state information, such
      * as wrap and filter modes.
      */
-    class ENGINE_API Sampler /*: public Ref*/
+    class ENGINE_API Sampler /*: public RefCountObject*/
     {
         friend class Texture;
 

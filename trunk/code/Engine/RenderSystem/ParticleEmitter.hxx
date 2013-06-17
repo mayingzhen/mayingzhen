@@ -70,8 +70,8 @@ ParticleEmitter* ParticleEmitter::create(const char* textureFile, BLEND_MODE tex
 
     // By default assume only one frame which uses the entire texture.
     emitter->setTextureBlending(textureBlending);
-    emitter->_spriteTextureWidth = texture->getWidth();
-    emitter->_spriteTextureHeight = texture->getHeight();
+    emitter->_spriteTextureWidth = (float)texture->getWidth();
+    emitter->_spriteTextureHeight = (float)texture->getHeight();
     emitter->_spriteTextureWidthRatio = 1.0f / (float)texture->getWidth();
     emitter->_spriteTextureHeightRatio = 1.0f / (float)texture->getHeight();
 
@@ -263,7 +263,7 @@ bool ParticleEmitter::isActive() const
     return active;
 }
 
-void ParticleEmitter::emitOnce(unsigned int particleCount,const Matrix4x4& worldmat)
+void ParticleEmitter::emitOnce(unsigned int particleCount)
 {
     //ASSERT(_node);
     //ASSERT(_particles);
@@ -274,15 +274,15 @@ void ParticleEmitter::emitOnce(unsigned int particleCount,const Matrix4x4& world
         particleCount = _particleCountMax - _particleCount;
     }
 
-    Vector3 translation = worldmat.GetRow(3);
-    Matrix4x4 world = worldmat;
+    //Vector3 translation(0,0,0);
+    //Matrix4x4 world = worldmat;
 	//MatrixFromTransform(&world,&_tsfWS);//_node->getWorldMatrix();
     //world.getTranslation(&translation);
 
     // Take translation out of world matrix so it can be used to rotate orbiting properties.
-    world.m[3][0] = 0.0f;
-    world.m[3][1] = 0.0f;
-    world.m[3][2] = 0.0f;
+    //world.m[3][0] = 0.0f;
+    //world.m[3][1] = 0.0f;
+   // world.m[3][2] = 0.0f;
 
     // Emit the new particles.
     for (unsigned int i = 0; i < particleCount; i++)
@@ -311,31 +311,31 @@ void ParticleEmitter::emitOnce(unsigned int particleCount,const Matrix4x4& world
         // Rotate specified properties by the node's rotation.
         if (_orbitPosition)
         {
-			Vec3TransformCoord(&p->_position,&p->_position,&world);
+			//Vec3TransformCoord(&p->_position,&p->_position,&world);
             //world.transformPoint(p->_position, &p->_position);
         }
 
         if (_orbitVelocity)
         {
-			Vec3TransformCoord(&p->_velocity,&p->_velocity,&world);
+			//Vec3TransformCoord(&p->_velocity,&p->_velocity,&world);
             //world.transformPoint(p->_velocity, &p->_velocity);
         }
 
         if (_orbitAcceleration)
         {
-			Vec3TransformCoord(&p->_acceleration,&p->_acceleration,&world);
+			//Vec3TransformCoord(&p->_acceleration,&p->_acceleration,&world);
             //world.transformPoint(p->_acceleration, &p->_acceleration);
         }
 
         // The rotation axis always orbits the node.
         if (p->_rotationSpeed != 0.0f && p->_rotationAxis != Vec3Zero() )
         {
-			Vec3TransformCoord(&p->_rotationAxis,&p->_rotationAxis,&world);
+			//Vec3TransformCoord(&p->_rotationAxis,&p->_rotationAxis,&world);
             //world.transformPoint(p->_rotationAxis, &p->_rotationAxis);
         }
 
         // Translate position relative to the node's world space.
-		p->_position += translation;
+		//p->_position += translation;
         //p->_position.add(translation);
 
         // Initial sprite frame.
@@ -799,7 +799,7 @@ BLEND_MODE ParticleEmitter::getTextureBlendingFromString(const char* str)
     }
 }
 
-void ParticleEmitter::update(float elapsedTime,const Matrix4x4& worldmat)
+void ParticleEmitter::update(float elapsedTime)
 {
     if (!isActive())
     {
@@ -824,7 +824,7 @@ void ParticleEmitter::update(float elapsedTime,const Matrix4x4& worldmat)
             {
                 _timeRunning = fmod(_timeRunning, (double)_timePerEmission);
             }
-            emitOnce(emitCount,worldmat);
+            emitOnce(emitCount);
         }
     }
 
@@ -926,7 +926,7 @@ void ParticleEmitter::update(float elapsedTime,const Matrix4x4& worldmat)
     }
 }
 
-void ParticleEmitter::draw(Camera* pCamera)
+void ParticleEmitter::draw(Camera* pCamera,const Matrix4x4& matWorld)
 {
     if (!isActive())
     {
@@ -942,7 +942,7 @@ void ParticleEmitter::draw(Camera* pCamera)
         // Set our node's view projection matrix to this emitter's effect.
         if (pCamera)
         {
-            _spriteBatch->setProjectionMatrix(pCamera->GetViewProjMatrix());
+            _spriteBatch->setProjectionMatrix(matWorld * pCamera->GetViewProjMatrix());
         }
 
         // Begin sprite batch drawing

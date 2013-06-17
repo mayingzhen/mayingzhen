@@ -156,8 +156,6 @@ public:
 
     void add(const void* vertices, size_t size, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount);
 
-    void updateVertexAttributeBinding();
-
     bool resize(unsigned int capacity);
 
     //VertexDeclaration* _vertexFormat;
@@ -176,8 +174,8 @@ public:
     unsigned short* _indices;
     unsigned short* _indicesPtr;
 
-	unsigned char*	m_pVbLock;
-	unsigned short*	m_pIbLock;
+	//unsigned char*	m_pVbLock;
+	//unsigned short*	m_pIbLock;
 
 	//Matrix4x4	mProjMatrix;
 

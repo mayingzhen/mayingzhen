@@ -210,6 +210,11 @@ namespace ma
 // 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_uvAddressMode);
 // 	}
 
+	bool GLESTexture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, bool generateMipmaps)
+	{
+		return true;
+	}
+
 	bool GLESTexture::Load(const char* pszPath,bool generateMipmaps)
 	{
 		// ´´½¨DevImage¾ä±ú

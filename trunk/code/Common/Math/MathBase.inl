@@ -150,8 +150,8 @@ inline bool Vector2::isZero() const
 
 inline void Vector2::rotate(const Vector2& point, float angle)
 {
-	double sinAngle = sin(angle);
-	double cosAngle = cos(angle);
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
 
 	if (point.isZero())
 	{

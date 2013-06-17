@@ -112,7 +112,7 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		GetRenderDevice()->MakeProjectionMatrix(&m_matProj,fFOV,fAspect,fNear,fFar);
+		GetRenderDevice()->MakePerspectiveMatrix(&m_matProj,fFOV,fAspect,fNear,fFar);
 		//MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
 		//MatrixPerspectiveFovGL_LH(&m_matProj,fFOV,fAspect,fNear,fFar);
 	}

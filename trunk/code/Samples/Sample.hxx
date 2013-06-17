@@ -16,8 +16,8 @@ namespace ma
 		if (pPlatform == NULL)
 			return;
 
-		m_pDefaultEffect = GetRenderDevice()->CreateEffect();
-		m_pDefaultEffect->CreateFromShaderName("sprite");
+		m_pDefaultEffect = GetRenderDevice()->CreateShaderProgram();
+		//m_pDefaultEffect->CreateFromShaderName("sprite");
 
 		//m_pScene = new Scene();
 		m_pCamera = new Camera();

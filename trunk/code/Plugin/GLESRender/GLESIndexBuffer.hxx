@@ -12,18 +12,18 @@ namespace ma
 	{
 	}
 
-	void * GLESIndexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
+	void * GLESIndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		//void * pData = NULL;
-
-
-		//return pData;
-		return m_pData;
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,NULL,GL_STATIC_DRAW);
+		return glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY);
+		//return m_pData;
 	}
 
 	void GLESIndexBuffer::Unlock()
 	{
-	  
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
+		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);	
 	}
 
 	void GLESIndexBuffer::Active()

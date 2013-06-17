@@ -180,14 +180,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\GLESEffect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\GLESRender\GLESEffect.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESIndexBuffer.h"
 				>
 			</File>
@@ -209,6 +201,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESRenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\GLESRender\GLESShaderProgram.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\GLESRender\GLESShaderProgram.hxx"
 				>
 			</File>
 			<File
@@ -248,23 +248,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\GLES\Default.vert.err"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Data\Shader\GLES\skinning-none.vert"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Data\Shader\GLES\skinning.vert"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\GLES\sprite.frag"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Data\Shader\GLES\sprite.vert"
 				>
 			</File>
 		</Filter>
