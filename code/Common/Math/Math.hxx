@@ -177,3 +177,23 @@ COMMON_API Matrix4x4* MatrixOrthoGL_LH(Matrix4x4* pOut,float w,float h,float zn,
 
 	return pOut;
 }
+
+COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float l,float r, float b, float t, float zn,float zf)
+{
+	if(NULL == pOut)
+	{
+		return NULL;
+	}
+
+// 	float l = -w * 0.5f;
+// 	float r = w * 0.5f;
+// 	float b = -h * 0.5f;
+// 	float t = h * 0.5f;
+
+	pOut->_11 = 2.0f / (r-l);			pOut->_12 = 0.0f;					pOut->_13 = 0.0f;					pOut->_14 = 0.0f;
+	pOut->_21 = 0.0f;					pOut->_22 = 2.0f / (t-b);			pOut->_23 = 0.0f;					pOut->_24 = 0.0f;
+	pOut->_31 = 0.0f;					pOut->_32 = 0.0f;					pOut->_33 = 2.0f / (zf-zn);			pOut->_34 = 0.0f;
+	pOut->_41 = (l+r) / (l-r);			pOut->_42 = (t+b) / (b-t);			pOut->_43 = (zf+zn) / (zn-zf);		pOut->_44 = 1.0f;
+
+	return pOut;
+}

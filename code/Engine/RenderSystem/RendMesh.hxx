@@ -49,29 +49,7 @@ namespace ma
 			m_arrRenderable.push_back(pRenderable);
 		}
 
-// 		pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-// 		pRenderable->m_pIndexBuffer = pIndexBuffer;
-// 		pRenderable->m_pVertexBuffers = pVertexBuffer;
-// 		pRenderable->m_pDeclaration = pDeclaration;
-
-// 		m_ePrimitiveType = PRIM_TRIANGLELIST;
-// 		m_pIndexBuffer = pIndexBuffer;
-// 		m_pDeclaration = pDeclaration;
-// 		m_pVertexBuffers = pVertexBuffer;
-
 		return true;
-	}
-
-// 	void RenderMesh::SetTexture(const Texture* pTexture)
-// 	{
-// 		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateEffect();
-// 		pShaderProgram->CreateFromShaderName("default",);
-// 		m_pMaterial = new Material(pShaderProgram);
-// 	}
-
-	void RenderMesh::SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount)
-	{
-
 	}
 
 	void RenderMesh::SetMaterial(Material* pMaterial)
@@ -82,46 +60,12 @@ namespace ma
 		}
 	}
 
-// 	void RenderMesh::SetMatrix(const Matrix4x4& matWorld, const Matrix4x4& matView, const Matrix4x4& matProj)
-// 	{
-// 		Matrix4x4* matWVP = matWorld * matView * matProj;
-// 		
-// 
-// 		//for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-// 		//{
-// 		//	GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
-// 		//}
-// 
-// 	}
-
-
 	void RenderMesh::Draw()
 	{
-
-
-
-		//pTechnique->CommitChanges();
-
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
 			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
 		}
-
-// 		if (GetRenderDevice() == NULL)
-// 			return;
-// 
-// 		GetRenderDevice()->SetVertexStream(m_pVertexStream);
-// 		PRIMITIVE_TYPE type = m_pVertexStream->m_ePrimitiveType;
-// 
-// 		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
-// 		{
-// 			SubMeshData* pSubMesh = m_pMesData->GetSubMeshByIndex(i);
-// 			if (pSubMesh == NULL)
-// 				continue;
-// 
-// 			GetRenderDevice()->DrawIndexedPrimitive(type,pSubMesh->m_nVertexStart,pSubMesh->m_nVertexCount,
-// 				pSubMesh->m_nIndexStart,pSubMesh->m_nIndexCount);
-// 		}
 	}
 }
 

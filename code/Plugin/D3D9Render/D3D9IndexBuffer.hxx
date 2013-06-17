@@ -21,7 +21,7 @@ D3D9IndexBuffer::~D3D9IndexBuffer()
 //     VideoBufferManager::Instance()->DestroyIndexBuffer(this);
 // }
 
-void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
+void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
     void * pData = NULL;
     DWORD D3DLock = 0;

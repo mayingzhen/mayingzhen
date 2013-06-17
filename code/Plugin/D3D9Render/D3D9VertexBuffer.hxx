@@ -26,7 +26,7 @@ D3D9VertexBuffer::~D3D9VertexBuffer()
 //     VideoBufferManager::Instance()->DestroyVertexBuffer(this);
 // }
 
-void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
+void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
     void * pData = NULL;
     DWORD D3DLock = 0;

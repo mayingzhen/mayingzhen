@@ -136,7 +136,7 @@ class Camera;
  * values.  Accepts the same symbolic constants as glBlendFunc().
  *
  */
-class ENGINE_API ParticleEmitter /*: public Ref*/
+class ENGINE_API ParticleEmitter /*: public RefCountObject*/
 {
     friend class Node;
 
@@ -238,7 +238,7 @@ public:
      *
      * @param particleCount The number of particles to emit immediately.
      */
-    void emitOnce(unsigned int particleCount,const Matrix4x4& worldmat);
+    void emitOnce(unsigned int particleCount);
 
     /**
      * Gets the current number of particles.
@@ -611,12 +611,12 @@ public:
      *
      * @param elapsedTime The amount of time that has passed since the last call to update(), in milliseconds.
      */
-    void update(float elapsedTime,const Matrix4x4& worldmat);
+    void update(float elapsedTime);
 
     /**
      * Draws the particles currently being emitted.
      */
-    void draw(Camera* pCamera);
+    void draw(Camera* pCamera,const Matrix4x4& matWorld);
 
     /**
      * Gets a TextureBlending enum from a corresponding string.

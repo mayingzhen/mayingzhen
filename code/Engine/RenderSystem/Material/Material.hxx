@@ -136,7 +136,7 @@ namespace ma
 
 	void Material::UnBind()
 	{
-
+		//m_pShaderProgram->UnBind();
 	}
 
 	MaterialParameter* Material::getParameter(const char* name) 

@@ -28,7 +28,7 @@ namespace ma
 		EngineModuleInit();
 		D3D9RenderModuleInit();
 		//GLESRenderModuleInit();
-		AnimationModuleInit();
+		//AnimationModuleInit();
 
 		GetRenderDevice()->Init(pPlatform->GetWindId());
 
@@ -51,13 +51,45 @@ namespace ma
 // 		Vector3 vUp = Vector3(0,1,0);
 // 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
 // 
-// 		int nWndWidth,nWndHeigh;
-// 		pApplication->GetWindowSize(nWndWidth,nWndHeigh);
+ 		int nWndWidth,nWndHeigh;
+ 		pPlatform->GetWindowSize(nWndWidth,nWndHeigh);
 // 		float fFOV = PI / 4;
 // 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 // 		float fNearClip = 1.0f;
 // 		float fFarClip = 3000.0f;
 // 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+
+
+		Theme* theme = Theme::create("ui/default.theme");
+		Theme::Style* formStyle = theme->getStyle("basicContainer");
+		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
+		Theme::Style* titleStyle = theme->getStyle("title");	
+		
+		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
+		//m_pSampleSelectForm->setAutoHeight(true);
+		//m_pSampleSelectForm->setWidth(200.0f);
+		m_pSampleSelectForm->setSize(200.0f,nWndHeigh);
+		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
+		m_pSampleSelectForm->setConsumeInputEvents(true);
+
+		Button* sampleButton = Button::create("xxxx", buttonStyle);
+		sampleButton->setText("xxxx");
+		sampleButton->setAutoWidth(true);
+		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+		//sampleButton->addListener(this, Control::Listener::CLICK);
+		m_pSampleSelectForm->addControl(sampleButton);
+
+		{
+			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
+			sampleButton->setText("xxxxTT");
+			sampleButton->setAutoWidth(true);
+			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+			//sampleButton->addListener(this, Control::Listener::CLICK);
+			m_pSampleSelectForm->addControl(sampleButton);
+		}
+
 	}
 
 	void SampleBrowser::Shutdown()
@@ -71,14 +103,19 @@ namespace ma
 
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Update();
+		
+
+		m_pSampleSelectForm->update(m_Timer.GetFrameDeltaTime());
 	}
 
 	void SampleBrowser::Render()
 	{
 		GetRenderDevice()->BeginRender();
 
-		if (m_arrSamples[m_curSampleIndex])
-			m_arrSamples[m_curSampleIndex]->Render();
+		//if (m_arrSamples[m_curSampleIndex])
+		//	m_arrSamples[m_curSampleIndex]->Render();
+
+		m_pSampleSelectForm->draw();
 	
 		GetRenderDevice()->EndRender();
 	}

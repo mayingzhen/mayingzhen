@@ -1,22 +1,22 @@
-#include "D3D9Effect.h"
+#include "D3D9ShaderProgram.h"
 
 
 
 namespace ma
 {
-	D3D9Effect::D3D9Effect() : m_pVertexShader(0),m_pPiexelShader(0),
+	D3D9ShaderProgram::D3D9ShaderProgram() : m_pVertexShader(0),m_pPiexelShader(0),
 		m_pVShConstantTable(0),m_pPShConstantTable(0)
 	{
 	}
 
-	D3D9Effect::~D3D9Effect()
+	D3D9ShaderProgram::~D3D9ShaderProgram()
 	{
 		SAFE_RELEASE(m_pVertexShader);
 		SAFE_RELEASE(m_pPiexelShader);
 	}
 
 
-	void D3D9Effect::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+	void D3D9ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
 		ASSERT(vshSource);
 		ASSERT(fshSource);
@@ -76,7 +76,7 @@ namespace ma
 		return;
 	}
 
-	void D3D9Effect::ParseUniform()
+	void D3D9ShaderProgram::ParseUniform()
 	{
 		HRESULT hr = D3D_OK;
 
@@ -151,7 +151,7 @@ namespace ma
 	}
 
 
-	void D3D9Effect::SetValue(Uniform* uniform, float value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, float value)
 	{
 		ASSERT(uniform);
 
@@ -164,7 +164,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const float* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const float* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -178,7 +178,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, int value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, int value)
 	{
 		ASSERT(uniform);
 
@@ -191,7 +191,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const int* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const int* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -205,7 +205,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Matrix4x4& value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4x4& value)
 	{
 		ASSERT(uniform);
 
@@ -219,7 +219,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -232,7 +232,7 @@ namespace ma
 		ASSERT(hr == D3D_OK);
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector2& value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector2& value)
 	{
 		ASSERT(uniform);
 
@@ -245,7 +245,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector2* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector2* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -259,7 +259,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector3& value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector3& value)
 	{
 		ASSERT(uniform);
 
@@ -272,7 +272,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector3* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector3* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -285,7 +285,7 @@ namespace ma
 		ASSERT(hr == D3D_OK);
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector4& value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector4& value)
 	{
 		ASSERT(uniform);
 
@@ -298,7 +298,7 @@ namespace ma
 		
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Vector4* values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector4* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -312,7 +312,7 @@ namespace ma
 	
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Sampler* sampler)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Sampler* sampler)
 	{
 		ASSERT(uniform);
 		//ASSERT(uniform->_type == GL_SAMPLER_2D);
@@ -342,7 +342,7 @@ namespace ma
 
 	}
 
-	void D3D9Effect::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
 	{
 	     ASSERT(uniform);
 	     //ASSERT(uniform->_type == GL_SAMPLER_2D);
@@ -351,9 +351,9 @@ namespace ma
 
 	}
 
-	void D3D9Effect::Bind()
+	void D3D9ShaderProgram::Bind()
 	{
-	   //GL_ASSERT( glUseProgram(_program) );
+	   //GL_ASSERT( glUseProgram(m_program) );
 
 		//__currentEffect = this;
 
@@ -362,7 +362,7 @@ namespace ma
 		GetD3D9DxDevive()->SetPixelShader(m_pPiexelShader);
 	}
 
-	void D3D9Effect::BindSampler(const Sampler* pSampler)
+	void D3D9ShaderProgram::BindSampler(const Sampler* pSampler)
 	{
 		// Bind the sampler - this binds the texture and applies sampler state
 		//const_cast<Sampler*>(sampler)->Bind();

@@ -56,11 +56,11 @@ namespace ma
 		// projection matrix
 		if(m_eLightType == LIGHT_SPOT)
 		{
-			GetRenderDevice()->MakeProjectionMatrix(&m_mProj, m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
+			GetRenderDevice()->MakePerspectiveMatrix(&m_mProj, m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
 		}
 		else if (m_eLightType == LIGHT_DIRECTIONAL)
 		{
-			//MatrixOrthoLH(&m_mProj, 1, 1, 0, 1);
+			//GetRenderDevice()->MakeOrthoMatrix(&m_mProj, 1, 1, 0, 1);
 		}
 	}
 }

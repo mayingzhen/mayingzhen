@@ -25,7 +25,7 @@ namespace ma
 		DWORD       AlphaRef;
 	};
 
-	struct GLESRENDER_API GLESDisplayDevice
+	struct  GLESDisplayDevice
 	{
 
 	};
@@ -46,7 +46,8 @@ namespace ma
 		static GLenum GetGLESUSage(USAGE Usage);
  		static GLenum GetGLESPrimitiveType(PRIMITIVE_TYPE type);
 		static GLenum GetGLESIndexType(INDEX_TYPE type);
-		static void	  GetGLESDeclType(DECL_USAGE Usage, GLenum type, GLint& typeCount,GLboolean& normalized);
+		static void	  GetGLESDeclType(DECL_USAGE Usage, GLenum& type, 
+			GLint& typeCount,GLboolean& normalized,std::string& name);
 		static void	  GetGLESFilter(FilterOptions type, GLenum& minFilter, GLenum& magFilter);
 		static GLenum GetGLESWrap(Wrap type);
 // 		//static CGprofile    GetCgProfile(SHADER_PROFILE Profile);

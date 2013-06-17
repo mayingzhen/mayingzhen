@@ -15,7 +15,7 @@ namespace ma
 
 		~GLESVertexBuffer();
 
-		virtual void*	Lock(int iOffsetBytes, int iLockSize, int LockFlags);
+		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags);
 
 		virtual void	Unlock();
 

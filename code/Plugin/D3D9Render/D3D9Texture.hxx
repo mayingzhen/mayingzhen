@@ -12,13 +12,10 @@ namespace ma
 
 	}
 
-	bool D3D9Texture::Create(int nWidth,int nHeight,int nMipLevel,FORMAT Format,USAGE Usage)
+	bool D3D9Texture::CreateRT(int nWidth,int nHeight,FORMAT Format)
 	{
 		if (nWidth == -1 && nHeight == -1)
 		{
-// 			const DeviceProperty * dp = Engine::Instance()->GetDeviceProperty();
-// 			rWidth = dp->Width;
-// 			rHeight = dp->Height;
 			GetRenderDevice()->GetRenderWndSize(nWidth,nHeight);
 		}
 
@@ -40,9 +37,16 @@ namespace ma
 		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 
 		hr = GetD3D9DxDevive()->CreateTexture(
-			nWidth, nHeight, 1,
-			D3DUsage, D3DFormat, D3DPool,
+			nWidth, 
+			nHeight, 
+			1,
+			D3DUSAGE_RENDERTARGET, 
+			D3DFMT_A8R8G8B8, 
+			D3DPOOL_DEFAULT,
 			&pD3D9Texture, NULL);
+
+		ASSERT(hr == D3D_OK);
+
 
 // 		if (FAILED(hr))
 // 		{
@@ -59,13 +63,41 @@ namespace ma
 		mUsage = USAGE_DYNAMIC;
 		mFormat = Format;
 		mType = TEXTYPE_RENDERTARGET;
-		mMipLevels = nMipLevel;
+		mMipLevels = 1;
 
-		hr = pD3D9Texture->GetSurfaceLevel(0,&mRenderTarget);
+		//hr = pD3D9Texture->GetSurfaceLevel(0,&mRenderTarget);
 
 		//mTextures.Insert(pTexture->GetName(), pTexture);
 
 		//return TexturePtr(pTexture);
+
+		return true;
+	}
+
+	bool D3D9Texture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, UINT size, bool generateMipmaps )
+	{	
+		mWidth = width;
+		mHeight = height;
+		mDepth = 1;
+		mFormat = format;
+
+		HRESULT hr = D3D_OK;
+		hr = GetD3D9DxDevive()->CreateTexture(
+			mWidth,
+			mHeight,
+			generateMipmaps ? 0 : 1,
+			D3DUSAGE_DYNAMIC,
+			D3D9Mapping::GetD3DFormat(format),
+			D3DPOOL_DEFAULT,
+			&m_pD3DTex,
+			NULL
+			);
+		ASSERT(hr == D3D_OK);
+		
+		D3DLOCKED_RECT lock;
+		hr = m_pD3DTex->LockRect(0,&lock,NULL,0);
+		memcpy(lock.pBits,data,size);
+		hr = m_pD3DTex->UnlockRect(0);
 
 		return true;
 	}
@@ -87,7 +119,7 @@ namespace ma
 			pszPath,
 			D3DX_DEFAULT,
 			D3DX_DEFAULT,
-			D3DX_DEFAULT,
+			generateMipmaps ? D3DX_DEFAULT : D3DX_FROM_FILE,
 			0,
 			D3DFMT_UNKNOWN,
 			D3DPOOL_MANAGED,

@@ -1,35 +1,44 @@
-// Attributes
-attribute vec3 a_position;									// Vertex Position							(x, y, z, w)
-attribute vec2 a_texCoord0;									// Vertex Texture Coordinate				(u, v)
-#if defined(TEXCOORD1)
-attribute vec2 a_texCoord1;                                 // Second tex coord for multi-texturing
-#endif
-#if defined(SKINNING)
-attribute vec4 a_blendWeights;								// Vertex blend weight, up to 4				(0, 1, 2, 3) 
-attribute vec4 a_blendIndices;								// Vertex blend index int u_matrixPalette	(0, 1, 2, 3)
+// Uniforms
+uniform mat4 u_worldViewProjectionMatrix;
+
+#ifdef SKIN
+uniform mat4 u_matrixPalette[SKIN_MATRIX_COUNT];
 #endif
 
-// Uniforms
-uniform mat4 u_worldViewProjectionMatrix;					// Matrix4x4 to transform a position to clip space
-#if defined(SKINNING)
-//uniform vec4 u_matrixPalette[SKINNING_JOINT_COUNT * 3];		// Array of 4x3 matrices
-uniform mat4 u_matrixPalette[SKINNING_JOINT_COUNT];
+
+// Attributes
+attribute vec3 a_position; 
+
+#ifdef DIFFUSE   
+attribute vec2 a_texCoord0;
 #endif
-#if defined(TEXTURE_REPEAT)
-uniform vec2 u_textureRepeat;								// Texture repeat for tiling
+
+#ifdef SKIN   
+attribute vec4 a_blendIndices;
+attribute vec4 a_blendWeights;      
+#endif   
+ 
+
+#ifdef COLOR   
+attribute vec4 a_color;
 #endif
-#if defined(TEXTURE_OFFSET)
-uniform vec2 u_textureOffset;								// Texture offset
-#endif
+
 
 // Varyings
-varying vec2 v_texCoord0;									// Texture Coordinate
-#if defined(TEXCOORD1)
-varying vec2 v_texCoord1;                                   // Second tex coord for multi-texturing
+varying vec4 v_position;
+
+#ifdef DIFFUSE    
+varying vec2 v_texCoord;
+#endif  
+   
+#ifdef COLOR      
+varying vec4 v_color;
 #endif
 
-// Skinning 
-#if defined(SKINNING)
+
+
+
+#ifdef SKIN
 #include "skinning.vert"
 #else
 #include "skinning-none.vert" 
@@ -37,22 +46,20 @@ varying vec2 v_texCoord1;                                   // Second tex coord 
 
 
 void main()
-{
+{    
     // Get the vertex position
     vec4 position = getPosition();
 
     // Transform position to clip space.
     gl_Position = u_worldViewProjectionMatrix * position;
-
-    // Texture transformation.
-    v_texCoord0 = vec2(a_texCoord0.x,a_texCoord0.y);
-    #if defined(TEXCOORD1)
-    v_texCoord1 = a_texCoord1;
-    #endif
-    #if defined(TEXTURE_REPEAT)
-    v_texCoord0 *= u_textureRepeat;
-    #endif
-    #if defined(TEXTURE_OFFSET)
-    v_texCoord0 += u_textureOffset;
-    #endif
+   
+       
+#ifdef DIFFUSE      
+    v_texCoord = a_texCoord0;
+#endif
+    
+#ifdef COLOR    
+    v_color = a_color;
+#endif
+    
 }

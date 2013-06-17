@@ -14,9 +14,10 @@ namespace ma
 	class Technique;
 	class RenderMesh; 
 	class MeshBatch;
-	class Renderable;
+	struct Renderable;
 	class ShaderProgram;
-	class RenderState;
+	struct RenderState;
+	class RenderTarget;
 
 	//typedef void* Technique;
 
@@ -33,22 +34,22 @@ namespace ma
 
 		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC) = 0;
 	
-		virtual ShaderProgram*				CreateEffect() = 0;
+		virtual ShaderProgram*		CreateShaderProgram() = 0;
+
+		virtual const char*			GetShaderPath() = 0;
 
 		/// Render
-		virtual void				SetRenderTarget(int index,Texture* pTexture) = 0;
+		virtual RenderTarget*		CreateRenderTarget() = 0;
+
+		virtual RenderTarget*		SetRenderTarget(int index,RenderTarget* pTexture) = 0;
+
+		virtual Rectangle			SetViewport(const Rectangle& rect) = 0;
 
 		virtual void				SetRenderState(const RenderState& state) = 0;
 
-		//virtual void				SetVertexStream(VertexStream* pVertexStream) = 0;
-
-		//virtual void				DrawIndexedPrimitive(PRIMITIVE_TYPE ePrimType,UINT startVertex,UINT vertexCount,UINT startIndex,UINT IndexCount) = 0;
-		
-		virtual	void				DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech) = 0;
 
 		virtual	void				DrawRenderable(Renderable* pRenderable) = 0;
-		
-		virtual void				DrawMeshBatch(MeshBatch* pMeshBatch,Technique* pTech) = 0;
+	
 
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 	
@@ -72,8 +73,11 @@ namespace ma
 
 		virtual	void				GetRenderWndSize(int& Width,int& Heigh) = 0;
 
-		virtual	Matrix4x4			MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
+		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
 
+		virtual	Matrix4x4			MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf) = 0;
+		
+		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf) = 0;
 
 		/// Util
 		virtual void				DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Uint32 color);

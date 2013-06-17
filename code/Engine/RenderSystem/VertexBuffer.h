@@ -17,7 +17,7 @@ namespace ma
 			m_Usage = Usgae;
 		}
 
-		virtual void*	Lock(int iOffsetBytes, int iLockSize, int LockFlags) = 0;
+		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
 		
 		virtual void    Unlock() = 0;
 

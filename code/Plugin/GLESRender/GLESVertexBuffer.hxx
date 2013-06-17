@@ -14,18 +14,18 @@ namespace ma
 	}
 
 
-	void * GLESVertexBuffer::Lock(int iOffsetBytes, int iLockSize, int LockFlag)
+	void * GLESVertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		//void * pData = NULL;
-
-
-		//return pData;
-		return m_pData;
+		glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer);
+		glBufferData(GL_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW);
+		return glMapBuffer(GL_ARRAY_BUFFER,GL_WRITE_ONLY);
+		//return m_pData;
 	}
 
 	void GLESVertexBuffer::Unlock()
 	{
-
+		glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
 	}
 
 	void GLESVertexBuffer::Active()

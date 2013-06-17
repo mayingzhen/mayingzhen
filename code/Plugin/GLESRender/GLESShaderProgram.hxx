@@ -1,21 +1,21 @@
-#include "GLESEffect.h"
+#include "GLESShaderProgram.h"
 
 
 
 namespace ma
 {
-	GLESEffect::GLESEffect() : _program(0)
+	GLESShaderProgram::GLESShaderProgram() : m_program(0)
 	{
 	}
 
-	GLESEffect::~GLESEffect()
+	GLESShaderProgram::~GLESShaderProgram()
 	{
-		GL_ASSERT( glDeleteProgram(_program) );
-		_program = 0;
+		GL_ASSERT( glDeleteProgram(m_program) );
+		m_program = 0;
 	}
 
 
-	void GLESEffect::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+	void GLESShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
 		ASSERT(vshSource);
 		ASSERT(fshSource);
@@ -128,9 +128,9 @@ namespace ma
 			return /*NULL*/;
 		}
 
-		// Create and return the new GLESEffect.
-		//GLESEffect* effect = new GLESEffect();
-		//effect->_program = program;
+		// Create and return the new GLESShaderProgram.
+		//GLESShaderProgram* effect = new GLESShaderProgram();
+		//effect->m_program = program;
 
 		// Query and store vertex attribute meta-data from the program.
 		// NOTE: Rather than using glBindAttribLocation to explicitly specify our own
@@ -139,54 +139,54 @@ namespace ma
 		// glBindAttribLocation, some vendors actually reserve certain attribute indices
 		// and therefore using this function can create compatibility issues between
 		// different hardware vendors.
-		GL_ASSERT( glBindAttribLocation(program,DU_POSITION,VERTEX_ATTRIBUTE_POSITION_NAME) );
-		GL_ASSERT( glBindAttribLocation(program,DU_TEXCOORD,VERTEX_ATTRIBUTE_TEXCOORD0_NAME) );
-		GL_ASSERT( glBindAttribLocation(program,DU_BLENDINDICES,VERTEX_ATTRIBUTE_BLENDINDICES_NAME) );
-		GL_ASSERT( glBindAttribLocation(program,DU_BLENDWEIGHT,VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME) );
-		GL_ASSERT( glBindAttribLocation(program,DU_NORMAL,VERTEX_ATTRIBUTE_NORMAL_NAME) );
-		GL_ASSERT( glBindAttribLocation(program,DU_TANGENT,VERTEX_ATTRIBUTE_TANGENT_NAME) );
-	//     GLint activeAttributes;
-	//     GL_ASSERT( glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &activeAttributes) );
-	//     if (activeAttributes > 0)
-	//     {
-	//         GL_ASSERT( glGetProgramiv(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &length) );
-	//         if (length > 0)
-	//         {
-	//             GLchar* attribName = new GLchar[length + 1];
-	//             GLint attribSize;
-	//             GLenum attribType;
-	//             GLint attribLocation;
-	//             for (int i = 0; i < activeAttributes; ++i)
-	//             {
-	//                 // Query attribute info.
-	//                 GL_ASSERT( glGetActiveAttrib(program, i, length, NULL, &attribSize, &attribType, attribName) );
-	//                 attribName[length] = '\0';
-	// 
-	//                 // Query the pre-assigned attribute location.
-	//                 GL_ASSERT( attribLocation = glGetAttribLocation(program, attribName) );
-	// 
-	//                 // Assign the vertex attribute mapping for the effect.
-	//                 effect->_vertexAttributes[attribName] = attribLocation;
-	//             }
-	//             SAFE_DELETE_ARRAY(attribName);
-	//         }
-	//     }
+// 		GL_ASSERT( glBindAttribLocation(program,DU_POSITION,VERTEX_ATTRIBUTE_POSITION_NAME) );
+// 		GL_ASSERT( glBindAttribLocation(program,DU_TEXCOORD,VERTEX_ATTRIBUTE_TEXCOORD0_NAME) );
+// 		GL_ASSERT( glBindAttribLocation(program,DU_BLENDINDICES,VERTEX_ATTRIBUTE_BLENDINDICES_NAME) );
+// 		GL_ASSERT( glBindAttribLocation(program,DU_BLENDWEIGHT,VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME) );
+// 		GL_ASSERT( glBindAttribLocation(program,DU_NORMAL,VERTEX_ATTRIBUTE_NORMAL_NAME) );
+// 		GL_ASSERT( glBindAttribLocation(program,DU_TANGENT,VERTEX_ATTRIBUTE_TANGENT_NAME) );
+		GLint activeAttributes;
+		GL_ASSERT( glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &activeAttributes) );
+		if (activeAttributes > 0)
+		{
+			GL_ASSERT( glGetProgramiv(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &length) );
+			if (length > 0)
+			{
+				GLchar* attribName = new GLchar[length + 1];
+				GLint attribSize;
+				GLenum attribType;
+				GLint attribLocation;
+				for (int i = 0; i < activeAttributes; ++i)
+				{
+					// Query attribute info.
+					GL_ASSERT( glGetActiveAttrib(program, i, length, NULL, &attribSize, &attribType, attribName) );
+					attribName[length] = '\0';
 
-		_program = program;	
+					// Query the pre-assigned attribute location.
+					GL_ASSERT( attribLocation = glGetAttribLocation(program, attribName) );
+
+					// Assign the vertex attribute mapping for the effect.
+					m_vertexAttributes[attribName] = attribLocation;
+				}
+				SAFE_DELETE_ARRAY(attribName);
+			}
+		}
+
+		m_program = program;	
 
 		return /*effect*/;
 	}
 
-	void GLESEffect::ParseUniform()
+	void GLESShaderProgram::ParseUniform()
 	{
 	
 		GLint activeUniforms;
-		GL_ASSERT( glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &activeUniforms) );
+		GL_ASSERT( glGetProgramiv(m_program, GL_ACTIVE_UNIFORMS, &activeUniforms) );
 		if (activeUniforms <= 0)
 			return;
 
 		GLint length = 0;
-		GL_ASSERT( glGetProgramiv(_program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &length) );
+		GL_ASSERT( glGetProgramiv(m_program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &length) );
 		if (length <= 0)
 			return;
 
@@ -198,7 +198,7 @@ namespace ma
 		for (int i = 0; i < activeUniforms; ++i)
 		{
 			// Query uniform info.
-			GL_ASSERT( glGetActiveUniform(_program, i, length, NULL, &uniformSize, &uniformType, uniformName) );
+			GL_ASSERT( glGetActiveUniform(m_program, i, length, NULL, &uniformSize, &uniformType, uniformName) );
 			uniformName[length] = '\0';  // null terminate
 			if (length > 3)
 			{
@@ -214,7 +214,7 @@ namespace ma
 			}
 
 			// Query the pre-assigned uniform location.
-			GL_ASSERT( uniformLocation = glGetUniformLocation(_program, uniformName) );
+			GL_ASSERT( uniformLocation = glGetUniformLocation(m_program, uniformName) );
 
 			Uniform* uniform = new Uniform();
 			uniform->_effect = this;
@@ -237,91 +237,92 @@ namespace ma
 	
 	}
 
-// 	VertexAttribute GLESEffect::getVertexAttribute(const char* name) const
-// 	{
-// 		std::map<std::string, VertexAttribute>::const_iterator itr = _vertexAttributes.find(name);
-// 		return (itr == _vertexAttributes.end() ? -1 : itr->second);
-// 	}
+	VertexAttribute GLESShaderProgram::getVertexAttribute(const char* name) const
+	{
+		std::map<std::string, VertexAttribute>::const_iterator itr = m_vertexAttributes.find(name);
+		ASSERT(itr != m_vertexAttributes.end());
+		return (itr == m_vertexAttributes.end() ? -1 : itr->second);
+	}
 
-	void GLESEffect::SetValue(Uniform* uniform, float value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, float value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniform1f(uniform->_location, value) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const float* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const float* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform1fv(uniform->_location, count, values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, int value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, int value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniform1i(uniform->_location, value) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const int* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const int* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform1iv(uniform->_location, count, values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Matrix4x4& value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4& value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniformMatrix4fv(uniform->_location, 1, GL_FALSE, (GLfloat*)&value) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniformMatrix4fv(uniform->_location, count, GL_FALSE, (GLfloat*)values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector2& value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2& value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniform2f(uniform->_location, value.x, value.y) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector2* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform2fv(uniform->_location, count, (GLfloat*)values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector3& value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3& value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniform3f(uniform->_location, value.x, value.y, value.z) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector3* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform3fv(uniform->_location, count, (GLfloat*)values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector4& value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4& value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniform4f(uniform->_location, value.x, value.y, value.z, value.w) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Vector4* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4* values, unsigned int count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform4fv(uniform->_location, count, (GLfloat*)values) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Sampler* sampler)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Sampler* sampler)
 	{
 		ASSERT(uniform);
 		ASSERT(uniform->_type == GL_SAMPLER_2D);
@@ -336,7 +337,7 @@ namespace ma
 		GL_ASSERT( glUniform1i(uniform->_location, uniform->_index) );
 	}
 
-	void GLESEffect::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
 	{
 	     ASSERT(uniform);
 	     ASSERT(uniform->_type == GL_SAMPLER_2D);
@@ -358,14 +359,14 @@ namespace ma
 	     GL_ASSERT( glUniform1iv(uniform->_location, count, units) );
 	}
 
-	void GLESEffect::Bind()
+	void GLESShaderProgram::Bind()
 	{
-	   GL_ASSERT( glUseProgram(_program) );
+	   GL_ASSERT( glUseProgram(m_program) );
 
 		//__currentEffect = this;
 	}
 
-	void GLESEffect::BindSampler(const Sampler* pSampler)
+	void GLESShaderProgram::BindSampler(const Sampler* pSampler)
 	{
 		// Bind the sampler - this binds the texture and applies sampler state
 		//const_cast<Sampler*>(sampler)->Bind();

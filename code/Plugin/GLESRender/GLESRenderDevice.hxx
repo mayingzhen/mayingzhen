@@ -38,9 +38,14 @@ namespace ma
 		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*			GLESRenderDevice::CreateEffect()
+	ShaderProgram*			GLESRenderDevice::CreateShaderProgram()
 	{
-		return new GLESEffect();
+		return new GLESShaderProgram();
+	}
+
+	const char*			GLESRenderDevice::GetShaderPath()
+	{
+		return "/shader/gles/";
 	}
 
 	void GLESRenderDevice::Init(HWND wndhandle)
@@ -109,33 +114,19 @@ namespace ma
 	{
 		//BOOL bOK = wglMakeCurrent(m_hDC,m_hGLRC);
 
-// 		glClearColor(m_clearCol.r, m_clearCol.g, m_clearCol.b, m_clearCol.a);
-// 		glClearDepthf(1.0);
-// 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-		ClearBuffer(true,true,true,clearColor,1.0f,0);
+		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
 
-		glEnable(GL_DEPTH_TEST);
-
-		//m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB(0,45,50,170), 1.0f, 0);
-		
-		//m_pD3DDevice->BeginScene();
+		GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 	}
 
 	void GLESRenderDevice::EndRender()
 	{
-		//FlushRenderQueue();
-
-		//FlushLine();
-
-		//m_pD3DDevice->EndScene();
-		//m_pD3DDevice->Present(NULL,NULL,NULL,NULL);
-
-		glFlush();
+		GL_ASSERT( glFlush() );
 
 
 #if PLATFORM_WIN == 1
-		SwapBuffers(m_hDC);
+		GL_ASSERT( SwapBuffers(m_hDC) );
 #endif
 	}
 
@@ -160,7 +151,90 @@ namespace ma
 
 	void GLESRenderDevice::SetRenderState(const RenderState& state)
 	{
+// 		//		DWORD cullMode = state.cullMode;
+// 
+// 		// 		if (mFlipCullMode)
+// 		// 		{
+// 		// 			if (cullMode == D3DCULL_CCW)
+// 		// 				cullMode = D3DCULL_CW;
+// 		// 			else if (cullMode == D3DCULL_CW)
+// 		// 				cullMode = D3DCULL_CCW;
+// 		// 		}
+// 
+// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, cullMode);
+// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
+// 
+// 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
+// 
+		GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
+// 		
+// 
+// 		switch (state.m_eDepthCheckMode)
+// 		{
+// 		case DCM_LESS_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 
+// 			//GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+// 			break;
+// 
+// 		case DCM_LESS:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+// 			break;
+// 
+// 		case DCM_GREATER_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+// 			break;
+// 
+// 		case DCM_GREATER:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+// 			break;
+// 
+// 		case DCM_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+// 			break;
+// 
+// 		case DCM_ALWAYS:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+// 			break;
+// 
+// 		case DCM_NONE:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,false) );
+// 			break;
+// 		}
+// 
+		switch (state.m_eBlendMode)
+		{
+		case BM_OPATICY:
+			GL_ASSERT( glDisable(GL_BLEND) );
+			break;
 
+		case BM_TRANSPARENT:
+			GL_ASSERT( glEnable(GL_BLEND) );
+			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			break;
+
+		case BM_ADD:
+			GL_ASSERT( glEnable(GL_BLEND) );
+			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+// 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+			break;
+
+		case BM_MULTIPLY:
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
+			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+			break;
+		}
 	}
 
 
@@ -175,67 +249,27 @@ namespace ma
 
 	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
 
-	void GLESRenderDevice::DrawRenderMesh(RenderMesh* pRenderMesh,Technique* pTech)
-	{
-// 		//GL_CHECK_ERROR;
-// 
-// 		//glDisable(GL_CULL_FACE);
-// 		//glEnable(GL_CULL_FACE);
-// 		//glFrontFace(GL_CCW);
-// 		glEnable(GL_DEPTH_TEST);
-// 
-// 		if (pRenderMesh == NULL)
-// 			return;
-// 
-// 		// Bind index buffer
-// 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderMesh->m_pIndexBuffer;
-// 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() );
-// 		//GL_CHECK_ERROR;
-// 
-// 		// Bind Vertex Buffer
-// 		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderMesh->m_pVertexBuffers;
-// 		glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() );
-// 		//GL_CHECK_ERROR;
-// 
-// 		// Vertex Declar
-// 		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderMesh->m_pDeclaration;
-// 
-//  		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderMesh->m_ePrimitiveType);
-// 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-// 		for (UINT i = 0; i < pRenderMesh->m_pMesData->GetSubMeshNumber(); ++i)
-// 		{
-// 			SubMeshData* pSubMesh = pRenderMesh->m_pMesData->GetSubMeshByIndex(i);
-// 			if (pSubMesh == NULL)
-// 				continue;
-// 
-// 			GLESTechnique* glesTech = (GLESTechnique*)pTech;
-// 			pVertexDeclar->Bind(pSubMesh->m_nVertexStart,glesTech->GetCurEffect());
-// 			//GL_CHECK_ERROR;
-// 
-// // 			UINT nPrimCount = 0;
-// // 			if (ePrimType == GL_TRIANGLES)
-// // 			{
-// // 				nPrimCount = pSubMesh->m_nIndexCount / 3;
-// // 			}
-// // 			else if (ePrimType == GL_TRIANGLE_STRIP)
-// // 			{
-// // 				nPrimCount = pSubMesh->m_nIndexCount - 2;
-// // 			}
-// 
-// 			int indexStride = pIndexBuffer->GetStride();
-// 			void* pBufferData = BUFFER_OFFSET(indexStride * pSubMesh->m_nIndexStart);
-// 
-// 			glDrawElements(ePrimType, pSubMesh->m_nIndexCount, eIndexType, pBufferData);
-// 			//GL_CHECK_ERROR;
-// 
-// 		}	
-	}
-
-
 	void GLESRenderDevice::DrawRenderable(Renderable* pRenderable)
 	{
 		if (pRenderable == NULL)
 			return;
+
+
+		//m_pD3DDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+		// 		m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,false);
+		// 		m_pD3DDevice->SetRenderState(D3DRS_ZENABLE,true);
+		// 		m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+		// 		m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND,  D3DBLEND_SRCALPHA);
+		// 		m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		//glEnable(GL_DEPTH_TEST);
+		//glDepthMask(false);
+		//glEnable(GL_BLEND);
+		//glDisable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+		Material* pMaterial = pRenderable->m_pMaterial;
+		pMaterial->Bind();
+		GLESShaderProgram* pProgram = (GLESShaderProgram*)pMaterial->GetShaderProgram();
 
 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
@@ -254,16 +288,18 @@ namespace ma
 		{
 			const VertexElement& ve = pVertexDeclar->GetElement(i);
 
-			GLint typeCount; 
-			GLenum type;
-			GLboolean normalized;
-			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized);
+			GLint typeCount = 1; 
+			GLenum type = 0;
+			GLboolean normalized = false;
+			std::string name;
+			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
 
 			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
 
-			GL_ASSERT( glVertexAttribPointer( ve.Usage,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
+			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
 
-			GL_ASSERT( glEnableVertexAttribArray(ve.Usage) );
+			GL_ASSERT( glEnableVertexAttribArray(attr) );
 		}
 
 
@@ -278,141 +314,42 @@ namespace ma
 		for (int i = 0; i < nSteam; ++i)
 		{
 			const VertexElement& ve = pVertexDeclar->GetElement(i);
+			GLint typeCount = 1; 
+			GLenum type = 0;
+			GLboolean normalized = false;
+			std::string name;
+			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
 
-			GL_ASSERT( glDisableVertexAttribArray(ve.Usage) );
+			GL_ASSERT( glDisableVertexAttribArray(attr) );
 		}
+
+		pMaterial->UnBind();
 	}
 
-
-	void GLESRenderDevice::DrawMeshBatch(MeshBatch* pMeshBatch,Technique* pTech)
-	{
-// 		//GL_CHECK_ERROR;
-// 
-// 		//glDisable(GL_CULL_FACE);
-// 		//glEnable(GL_CULL_FACE);
-// 		//glFrontFace(GL_CCW);
-// 		glEnable(GL_DEPTH_TEST);
-// 
-// 		if (pMeshBatch == NULL)
-// 			return;
-// 
-// 		// Bind index buffer
-// 		//GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderMesh->m_pIndexBuffer;
-// 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-// 		//GL_CHECK_ERROR;
-// 
-// 		// Bind Vertex Buffer
-// 		//GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderMesh->m_pVertexBuffers;
-// 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-// 		//GL_CHECK_ERROR;
-// 
-// 		// Vertex Declar
-// 		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pMeshBatch->_vertexFormat;
-// 
-// 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pMeshBatch->_primitiveType);
-// 		GLenum eIndexType = GL_UNSIGNED_SHORT;//GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-// 
-// 		GLESTechnique* glesTech = (GLESTechnique*)pTech;
-// 		//pVertexDeclar->Active(0,glesTech->GetCurEffect());
-// 		//GL_CHECK_ERROR;
-// 
-// 
-// 		//int vertexStartByte = nVertexStart * GetStreanmStride();
-// 		ShaderProgram* pEffect = glesTech->GetCurEffect();
-// 		int nSteam = pVertexDeclar->GetElementCount();
-// 		for (int i = 0; i < nSteam; ++i)
-// 		{
-// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
-// 
-// 			VertexAttribute attrib;
-// 			GLint typeCount = 0;
-// 			GLenum type = GL_FLOAT;
-// 			GLboolean normalized = false;
-// 			if (ve.Usage == DU_POSITION)
-// 			{
-// 				attrib = pEffect->getVertexAttribute(VERTEX_ATTRIBUTE_POSITION_NAME);
-// 				typeCount = 3;
-// 				type = GL_FLOAT;
-// 				normalized = false;
-// 			}
-// 			else if (ve.Usage == DU_TEXCOORD)
-// 			{
-// 				attrib = pEffect->getVertexAttribute(VERTEX_ATTRIBUTE_TEXCOORD0_NAME);
-// 				typeCount = 2;
-// 				type = GL_FLOAT;
-// 				normalized = false;
-// 			}
-// 			else if (ve.Usage == DU_COLOR)
-// 			{
-// 				attrib = pEffect->getVertexAttribute(VERTEX_ATTRIBUTE_COLOR_NAME);
-// 				typeCount = 4;
-// 				type = GL_FLOAT;
-// 				normalized = false;
-// 			}
-// 			else if (ve.Usage == DU_NORMAL)
-// 			{
-// 				typeCount = 3;
-// 				type = GL_FLOAT;
-// 				normalized = false;
-// 			}
-// 			else if (ve.Usage == DU_BLENDINDICES)
-// 			{
-// 				attrib = pEffect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDINDICES_NAME);
-// 				typeCount = 4;
-// 				type = GL_UNSIGNED_BYTE;
-// 				normalized = false;
-// 			}
-// 			else if (ve.Usage == DU_BLENDWEIGHT)
-// 			{
-// 				attrib = pEffect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME);
-// 				typeCount = 4;
-// 				type = GL_UNSIGNED_BYTE;
-// 				normalized = true;
-// 			}
-// 
-// 			//void* pBufferData = OFFSET( vertexStartByte + ve.Offset );		
-// 
-// 			GL_ASSERT( glVertexAttribPointer(attrib,typeCount,type,normalized,
-// 				pVertexDeclar->GetStreanmStride(), pMeshBatch->_vertices ) );
-// 			//GL_CHECK_ERROR;
-// 
-// 			GL_ASSERT( glEnableVertexAttribArray(attrib) );
-// 			//GL_CHECK_ERROR;
-// 		}
-// 
-// 
-// 
-// 
-// 
-// 		//int indexStride = 2;//pIndexBuffer->GetStride();
-// 		//void* pBufferData = BUFFER_OFFSET(indexStride * 0);
-// 
-// 		glDrawElements(ePrimType, pMeshBatch->_indexCount, eIndexType, (GLvoid*)pMeshBatch->_indices);
-
-	}
 
 	void GLESRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
 		GLbitfield mask = 0;
 		if (bColor)
 		{
-			glClearColor(c.r, c.g, c.b, c.a);
+			GL_ASSERT( glClearColor(c.r, c.g, c.b, c.a) );
 			mask |= GL_COLOR_BUFFER_BIT;
 		}
 
 		if (bDepth)
 		{
-			glClearDepthf(z);
+			GL_ASSERT( glClearDepthf(z) );
 			mask |= GL_DEPTH_BUFFER_BIT;
 		}
 
 		if (bStencil)
 		{
-			glClearStencil(s);
+			GL_ASSERT( glClearStencil(s) );
 			mask |= GL_STENCIL_BUFFER_BIT;
 		}
 
-		glClear(mask);
+		GL_ASSERT( glClear(mask) );
 	}
 
 
@@ -424,10 +361,22 @@ namespace ma
 // 		m_pLineRender->DrawLine(p0,p1,dwColor);
 	}
 
-	Matrix4x4 GLESRenderDevice::MakeProjectionMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
+	Matrix4x4 GLESRenderDevice::MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
 	{
 		 MatrixPerspectiveFovGL_LH(pOut,fovy,Aspect,zn,zf);
 		 return *pOut;
+	}
+
+	Matrix4x4 GLESRenderDevice::MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf)
+	{
+		MatrixOrthoGL_LH(pOut,width,height,zn,zf);
+		return *pOut;
+	}
+
+	Matrix4x4 GLESRenderDevice::MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf)
+	{
+		MatrixOrthoOffCenterGL_LH(pOut,left,right,bottom,top,zn,zf);
+		return *pOut;
 	}
 
 

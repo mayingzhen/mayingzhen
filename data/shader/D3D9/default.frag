@@ -23,9 +23,15 @@ float4 main(PS_IN In) : COLOR0
    flagColor = In.v_color;   
 #endif
 
+#ifdef FONT
+   flagColor.a *= tex2D(u_texture, In.v_texCoord).a;	
+#else
+
 #ifdef DIFFUSE
   flagColor *= tex2D(u_texture, In.v_texCoord);
-#endif  
+#endif 
+
+#endif
        
    return flagColor; 
 }

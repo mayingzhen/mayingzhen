@@ -10,7 +10,7 @@
 #include "GLESRender/GLESIndexBuffer.h"
 #include "GLESRender/GLESMapping.h"
 #include "GLESRender/GLESVertexDeclaration.h"
-#include "GLESRender/GLESEffect.h"
+#include "GLESRender/GLESShaderProgram.h"
 
 
 GLESRENDER_API void GLESRenderModuleInit();

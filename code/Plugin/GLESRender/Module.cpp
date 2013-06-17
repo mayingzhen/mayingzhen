@@ -28,7 +28,7 @@ GLenum __gl_error_code = GL_NO_ERROR;
 #include "GLESMapping.hxx"
 #include "GLESVertexDeclaration.hxx"
 //#include "GLESTechnique.hxx"
-#include "GLESEffect.hxx"
+#include "GLESShaderProgram.hxx"
 
 
 

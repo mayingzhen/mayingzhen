@@ -13,7 +13,7 @@ namespace ma
 {
     //class Node;
 	class ShaderProgram;
-	class Uniform;
+	struct Uniform;
 
 /**
  * Defines a material parameter.
@@ -36,7 +36,7 @@ namespace ma
  * you pass in are valid for the lifetime of the MaterialParameter
  * object.
  */
-class ENGINE_API MaterialParameter /*: public AnimationTarget, public Ref*/
+class ENGINE_API MaterialParameter /*: public AnimationTarget, public RefCountObject*/
 {
     friend class Material;
 
@@ -368,7 +368,7 @@ private:
     /**
      * Interface implemented by templated method bindings for simple storage and iteration.
      */
-    class MethodBinding /*: public Ref*/
+    class MethodBinding /*: public RefCountObject*/
     {
         friend class RenderState;
 

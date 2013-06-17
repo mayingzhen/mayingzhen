@@ -174,14 +174,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Effect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9Effect.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9IndexBuffer.h"
 				>
 			</File>
@@ -203,6 +195,22 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9RenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D9Render\D3D9RenderTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D9Render\D3D9RenderTarget.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9ShaderProgram.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9ShaderProgram.hxx"
 				>
 			</File>
 			<File

@@ -62,43 +62,50 @@ namespace ma
 		}
 	}
 
-	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage, GLenum type, GLint& typeCount,GLboolean& normalized)
+	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage, GLenum& type, 
+		GLint& typeCount,GLboolean& normalized,std::string& name)
 	{
 		if (Usage == DU_POSITION)
 		{
 			typeCount = 3;
 			type = GL_FLOAT;
 			normalized = false;
+			name = VERTEX_ATTRIBUTE_POSITION_NAME;
 		}
 		else if (Usage == DU_TEXCOORD)
 		{
 			typeCount = 2;
 			type = GL_FLOAT;
 			normalized = false;
+			name = VERTEX_ATTRIBUTE_TEXCOORD0_NAME;
 		}
 		else if (Usage == DU_COLOR)
 		{
 			typeCount = 4;
 			type = GL_FLOAT;
 			normalized = false;
+			name = VERTEX_ATTRIBUTE_COLOR_NAME;
 		}
 		else if (Usage == DU_NORMAL)
 		{
 			typeCount = 3;
 			type = GL_FLOAT;
 			normalized = false;
+			name = VERTEX_ATTRIBUTE_NORMAL_NAME;
 		}
 		else if (Usage == DU_BLENDINDICES)
 		{
 			typeCount = 4;
 			type = GL_UNSIGNED_BYTE;
 			normalized = false;
+			name = VERTEX_ATTRIBUTE_BLENDINDICES_NAME;
 		}
 		else if (Usage == DU_BLENDWEIGHT)
 		{
 			typeCount = 4;
 			type = GL_UNSIGNED_BYTE;
 			normalized = true;
+			name = VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME;
 		}
 
 	}

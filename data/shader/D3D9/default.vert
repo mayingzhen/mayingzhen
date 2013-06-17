@@ -1,5 +1,5 @@
 // Uniforms
-uniform float4x4 u_projectionMatrix;
+uniform float4x4 u_worldViewProjectionMatrix;
 
 #ifdef SKIN
 float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
@@ -73,7 +73,7 @@ VS_OUT main(VS_IN In)
    SkinPos(In.a_position,In.a_blendWeights,In.a_blendIndices,wPos);
 #endif
    
-    Out.v_position = mul(u_projectionMatrix, float4(wPos,1)); // SetVertexShaderConstantF
+    Out.v_position = mul(u_worldViewProjectionMatrix, float4(wPos,1)); // SetVertexShaderConstantF
     
 #ifdef DIFFUSE      
     Out.v_texCoord = In.a_texCoord0;

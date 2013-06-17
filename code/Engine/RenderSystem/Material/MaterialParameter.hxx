@@ -228,7 +228,7 @@ void MaterialParameter::SetValue(const Sampler* sampler)
     ASSERT(sampler);
     clearValue();
 
-    //const_cast<Sampler*>(sampler)->addRef();
+    //const_cast<Sampler*>(sampler)->IncReference();
     _value.samplerValue = sampler;
     _type = MaterialParameter::SAMPLER;
 }
@@ -240,7 +240,7 @@ void MaterialParameter::SetValue(const Sampler** samplers, unsigned int count)
 
     for (unsigned int i = 0; i < count; ++i)
     {
-        //const_cast<Sampler*>(samplers[i])->addRef();
+        //const_cast<Sampler*>(samplers[i])->IncReference();
     }
     _value.samplerArrayValue = samplers;
     _count = count;
@@ -439,7 +439,7 @@ void MaterialParameter::setSamplerArray(const Sampler** values, unsigned int cou
 
     for (unsigned int i = 0; i < count; ++i)
     {
-        //const_cast<Sampler*>(_value.samplerArrayValue[i])->addRef();
+        //const_cast<Sampler*>(_value.samplerArrayValue[i])->IncReference();
     }
 
     _count = count;
@@ -835,7 +835,7 @@ void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
     case METHOD:
         materialParameter->_value.method = _value.method;
         ASSERT(materialParameter->_value.method);
-        //materialParameter->_value.method->addRef();
+        //materialParameter->_value.method->IncReference();
         break;
     default:
         GP_ERROR("Unsupported material parameter type(%d).", _type);
