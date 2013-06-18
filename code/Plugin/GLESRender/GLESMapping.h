@@ -50,6 +50,7 @@ namespace ma
 			GLint& typeCount,GLboolean& normalized,std::string& name);
 		static void	  GetGLESFilter(FilterOptions type, GLenum& minFilter, GLenum& magFilter);
 		static GLenum GetGLESWrap(Wrap type);
+		static GLenum GetGLESFormat(FORMAT format);
 // 		//static CGprofile    GetCgProfile(SHADER_PROFILE Profile);
 // 
 // 		static std::string   GetHLSLProfile(SHADER_PROFILE Profile);

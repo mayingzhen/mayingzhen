@@ -28,7 +28,7 @@ namespace ma
     }
  @endverbatim
  */
-class ENGINE_API Label : public Control
+class UI_API Label : public Control
 {
     friend class Container;
 

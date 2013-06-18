@@ -18,7 +18,7 @@ namespace ma
  * other theme classes to determine the border, background, cursor, and image settings to use for
  * a particular state, as well as color and font settings, etcetera.
  */
-class ENGINE_API Theme::Style
+class UI_API Theme::Style
 {
     friend class Theme;
     friend class Control;
@@ -52,7 +52,7 @@ private:
     /**
      * This class represents a control's overlay for one of its states.
      */
-    class ENGINE_API Overlay : public RefCountObject/*, public AnimationTarget*/
+    class UI_API Overlay : public RefCountObject/*, public AnimationTarget*/
     {
         friend class Theme;
         friend class Theme::Style;

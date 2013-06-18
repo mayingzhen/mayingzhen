@@ -158,5 +158,27 @@ namespace ma
 		return GL_REPEAT;
 	}
 
+	GLenum GLESMapping::GetGLESFormat(FORMAT format)
+	{
+		switch (format)
+		{
+		case FMT_R8G8B8:
+		case FMT_R5G6B5:
+		case FMT_R3G3B2:
+			return GL_RGB;
+
+		case FMT_A8R8G8B8:
+		case FMT_X8R8G8B8:
+			return GL_RGBA;
+
+		case FMT_A8:
+			return GL_ALPHA;
+
+		default:
+			ASSERT(0 && "Invalid Format.");
+			return GL_RGB;
+	}
 
 }
+
+

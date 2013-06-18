@@ -46,7 +46,7 @@ class Theme;
     }
  @endverbatim
  */
-class ENGINE_API Form : public Container
+class UI_API Form : public Container
 {
     friend class Platform;
     friend class Game;

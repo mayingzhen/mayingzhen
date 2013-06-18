@@ -48,7 +48,7 @@ namespace ma
     }
  @endverbatim
  */
-class ENGINE_API Container : public Control/*, TimeListener*/
+class UI_API Container : public Control/*, TimeListener*/
 {
 
 public:

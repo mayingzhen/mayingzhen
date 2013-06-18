@@ -182,33 +182,8 @@ namespace ma
 
 		ASSERT(nWidth && nHeight);
 
-
-
 		return true;
 	}
-
-// 	void	GLESTexture::Bind()
-// 	{
-// 		glBindTexture(GL_TEXTURE_2D, m_pTex);
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-// // 		if(ilHasMipMap())
-// // 		{
-// // 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-// // 		}
-// // 		else if(m_bAutoGenerateMipmap)
-// // 		{	
-// // 			// 没有Mipmap数据,需要自动生成.
-// // 			//glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);// 自动产生Mipmap
-// // 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-// // 		}
-// // 		else
-// // 		{
-// // 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-// // 		}
-// // 
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_uvAddressMode);
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_uvAddressMode);
-// 	}
 
 	bool GLESTexture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, bool generateMipmaps)
 	{
