@@ -31,7 +31,7 @@ namespace ma
     }
  @endverbatim
  */
-class ENGINE_API Button : public Label
+class UI_API Button : public Label
 {
     friend class Container;
     friend class Gamepad;

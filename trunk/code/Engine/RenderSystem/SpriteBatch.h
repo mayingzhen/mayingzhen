@@ -28,7 +28,7 @@ namespace ma
 	 * recommended to combine multiple small textures into larger texture atlases
 	 * where possible when drawing sprites.
 	 */
-	class SpriteBatch
+	class ENGINE_API SpriteBatch
 	{
 		friend class Bundle;
 		friend class Font;

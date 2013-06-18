@@ -132,7 +132,7 @@ namespace ma
 @endverbatim
  *
  */
-class ENGINE_API Theme: public RefCountObject
+class UI_API Theme: public RefCountObject
 {
     friend class Control;
     friend class Form;
@@ -335,7 +335,7 @@ private:
      * can be assigned to each overlay of a style, and controls
      * using the style can then retrieve images by ID in order to draw themselves.
      */
-    class ENGINE_API ImageList : public RefCountObject
+    class UI_API ImageList : public RefCountObject
     {
         friend class Theme;
         friend class Control;
@@ -369,7 +369,7 @@ private:
     /**
      * A skin defines the border and background of a control.
      */
-    class ENGINE_API Skin : public RefCountObject
+    class UI_API Skin : public RefCountObject
     {
         friend class Theme;
 
