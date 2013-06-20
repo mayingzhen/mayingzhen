@@ -21,15 +21,15 @@
 
 GLenum __gl_error_code = GL_NO_ERROR;
 
-#include "GLESRenderDevice.hxx"
-#include "GLESTexture.hxx"
-#include "GLESVertexBuffer.hxx"
-#include "GLESIndexBuffer.hxx"
-#include "GLESMapping.hxx"
-#include "GLESVertexDeclaration.hxx"
-//#include "GLESTechnique.hxx"
-#include "GLESShaderProgram.hxx"
 
+#include "GLESRender/GLESRenderDevice.hxx"
+#include "GLESRender/GLESTexture.hxx"
+#include "GLESRender/GLESVertexBuffer.hxx"
+#include "GLESRender/GLESIndexBuffer.hxx"
+#include "GLESRender/GLESMapping.hxx"
+#include "GLESRender/GLESVertexDeclaration.hxx"
+#include "GLESRender/GLESShaderProgram.hxx"
+#include "GLESRender/GLESRenderTarget.hxx"
 
 
 

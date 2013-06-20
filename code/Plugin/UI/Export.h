@@ -1,5 +1,5 @@
-#ifndef  _GLESRender_Export__H__
-#define  _GLESRender_Export__H__
+#ifndef  _UI_Export__H__
+#define  _UI_Export__H__
 
 #ifdef _MSC_VER
 	#ifdef UI_EXPORTS

@@ -18,23 +18,23 @@ namespace ma
 // 
 // 	int RenderTarget::GetWidth() const
 // 	{ 
-// 		if (mWidth != -1)
-// 			return mWidth;
+// 		if (m_nWidth != -1)
+// 			return m_nWidth;
 // 		else
 // 			return Engine::Instance()->GetDeviceProperty()->Width;
 // 	}
 // 
 // 	int RenderTarget::GetHeight() const
 // 	{
-// 		if (mHeight != -1)
-// 			return mHeight;
+// 		if (m_nHeight != -1)
+// 			return m_nHeight;
 // 		else
 // 			return Engine::Instance()->GetDeviceProperty()->Height;
 // 	}
 // 
 // 	FORMAT RenderTarget::GetFormat() const
 // 	{ 
-// 		return mFormat;
+// 		return m_eFormat;
 // 	}
 // 
 // 	MULTI_SAMPLE RenderTarget::GetMultiSampleType() const

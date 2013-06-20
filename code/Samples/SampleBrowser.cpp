@@ -5,7 +5,6 @@
 
 #include "Samples/Serialize/SampleFbxImport.hxx"
 
-
 namespace ma
 {
 	static SampleBrowser __sampleBrowser;
@@ -26,8 +25,8 @@ namespace ma
 
 		CommonModuleInit();
 		EngineModuleInit();
-		D3D9RenderModuleInit();
-		//GLESRenderModuleInit();
+		//D3D9RenderModuleInit();
+		GLESRenderModuleInit();
 		//AnimationModuleInit();
 
 		GetRenderDevice()->Init(pPlatform->GetWindId());

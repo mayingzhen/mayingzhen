@@ -35,11 +35,13 @@ namespace ma
 
 		virtual const char*			GetShaderPath();
 
+		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
+
 		
 		//// Render
 		virtual RenderTarget*	CreateRenderTarget();
 
-		virtual RenderTarget*	SetRenderTarget(int index,RenderTarget* pTexture);
+		virtual RenderTarget*	SetRenderTarget(RenderTarget* pTexture,int index = 0);
 
 		virtual Rectangle		SetViewport(const Rectangle& rect);
 

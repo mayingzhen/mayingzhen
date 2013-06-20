@@ -1,5 +1,5 @@
-#ifndef  _GLESRender_Module__H__
-#define  _GLESRender_Module__H__
+#ifndef  _UI_Module__H__
+#define  _UI_Module__H__
 
 #include "UI/Export.h"
 #include "UI/Control.h"

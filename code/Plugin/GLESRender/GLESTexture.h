@@ -12,27 +12,23 @@ namespace ma
 
 		~GLESTexture();
 
-		virtual bool Create(int nWidth,int nHeight,int nMipLevel = 1,FORMAT Format = FMT_X8R8G8B8,USAGE Usage = USAGE_STATIC);
+		virtual bool CreateRT(int nWidth,int nHeight,FORMAT Format = FMT_A8R8G8B8);
 
 		virtual bool Load(const char* pszPath = NULL, bool generateMipmaps = false);
 
-		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, bool generateMipmaps = false);
-
-		//void	Bind();
+		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false);
 
 		GLuint GetTexture() {return m_pTex;}
 
-		void generateMipmaps();
 		
 	private:
-		GLuint		m_pTex;		// 贴图地址
-		GLuint	    m_PixelFormat;// 内部像素格式
-		GLint		m_uvAddressMode;
-		bool        m_bAddBorderPvr;//pvr图像添加边框模式
-		int			m_nMemSize;
-		bool		m_bAutoGenerateMipmap;
+		void GenerateMipmaps();
 
-		bool		_mipmapped;
+		void ConvertImageData(GLenum pixelFormat,int nPixelCount,Uint8* pPixel);
+		
+	private:
+		GLuint		m_pTex;			// 贴图地址
+		GLuint	    m_PixelFormat;	// 内部像素格式
 	};
 
 }

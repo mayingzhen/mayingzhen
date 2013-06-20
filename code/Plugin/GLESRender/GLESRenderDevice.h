@@ -1,13 +1,11 @@
 #ifndef  _GLESRENDERDevice__H__
 #define  _GLESRENDERDevice__H__
 
-#include "Engine/RenderSystem/IRenderDevice.h"
-
 namespace ma
 {
 	class IndexBuffer;
 	class VertexBuffer;
-	class RenderTarget;
+	class GLESRenderTarget;
 	class GLESTechnique;
 
 	class GLESRENDER_API GLESRenderDevice : public IRenderDevice
@@ -29,9 +27,15 @@ namespace ma
 		virtual	ShaderProgram*		CreateShaderProgram();
 
 		virtual const char*			GetShaderPath();
+
+		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
 		
 		//// Render
-		virtual void				SetRenderTarget(int index,Texture* pTexture);
+		virtual RenderTarget*		CreateRenderTarget();
+
+		virtual RenderTarget*		SetRenderTarget(RenderTarget* pTarget,int index = 0);
+
+		virtual Rectangle			SetViewport(const Rectangle& rect);
 
 		virtual void				SetRenderState(const RenderState& state);
 
@@ -57,13 +61,21 @@ namespace ma
 
 		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf);
 
+		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
 
 	private:
+		FrameBufferHandle			m_hDefaultFrameBuffer;
+		FrameBufferHandle			m_hOffecreenFrameBuffer;	
+
+		GLESRenderTarget*			m_pCurRenderTarget;
+		Rectangle					m_curViewport;
+
 
 #if PLATFORM_WIN == 1
 		HDC		m_hDC;
 		HGLRC	m_hGLRC;
 #endif
+
 	};
 }
 

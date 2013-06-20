@@ -1,7 +1,6 @@
 #include "GLESRenderDevice.h"
-//#include "GLESRendMesh.h"
 #include "GLESTexture.h"
-
+#include "GLESBase.h"
 
 
 
@@ -38,14 +37,23 @@ namespace ma
 		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*			GLESRenderDevice::CreateShaderProgram()
+	ShaderProgram*	GLESRenderDevice::CreateShaderProgram()
 	{
 		return new GLESShaderProgram();
 	}
 
-	const char*			GLESRenderDevice::GetShaderPath()
+	const char*	GLESRenderDevice::GetShaderPath()
 	{
 		return "/shader/gles/";
+	}
+
+	void	GLESRenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
+	{
+		float fUVTop = fBottom;
+		float fUVBottom = fTop;
+		
+		fTop = fUVTop;
+		fBottom = fUVBottom;
 	}
 
 	void GLESRenderDevice::Init(HWND wndhandle)
@@ -107,17 +115,36 @@ namespace ma
 			return ;
 		}
 
-#endif		
+#endif	
+		
+		GLint fbo;
+		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
+		m_pCurRenderTarget = new GLESRenderTarget();
+		m_pCurRenderTarget->SetFrameBuffer(fbo);
+
+		m_hDefaultFrameBuffer = fbo;
+		GL_ASSERT( glGenFramebuffers(1, &m_hOffecreenFrameBuffer) );
+
+		GLint viewport[4]; 
+		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
+		m_curViewport.x = viewport[0];
+		m_curViewport.y = viewport[1];
+		m_curViewport.width = viewport[2];
+		m_curViewport.height = viewport[3];
+
+		GLint val;
+		GL_ASSERT( glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &val) );
 	}
 
 	void GLESRenderDevice::BeginRender()
 	{
-		//BOOL bOK = wglMakeCurrent(m_hDC,m_hGLRC);
-
 		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
 		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
 
 		GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+		GL_ASSERT( glDisable(GL_CULL_FACE) );
+		//GL_ASSERT( glEnable(GL_CULL_FACE) );
+		//GL_ASSERT( glCullFace(GL_FRONT) );
 	}
 
 	void GLESRenderDevice::EndRender()
@@ -130,23 +157,44 @@ namespace ma
 #endif
 	}
 
-	void GLESRenderDevice::SetRenderTarget(int index,Texture* pTexture)
+	RenderTarget* GLESRenderDevice::CreateRenderTarget()
 	{
-// 		if (pTexture != NULL)
-// 		{
-// 			HRESULT hr = D3D_OK;
-// 			GLESTexture* pGLESTexture = static_cast<GLESTexture*>(pTexture);
-// 			IDirect3DSurface9* target = pGLESTexture->GetD3DSurface();
-// 
-// 			hr = m_pD3DDevice->SetRenderTarget(index, target);
-// 			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
-// 		}
-// 		else
-// 		{
-// 			m_pD3DDevice->SetRenderTarget(index, NULL);
-// 		}
-// 
-// 		//mRenderTarget[index] = target;
+		GLESRenderTarget* pTarget = new GLESRenderTarget();
+		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
+		return pTarget;
+	}
+
+	RenderTarget* GLESRenderDevice::SetRenderTarget(RenderTarget* pTarget,int index)
+	{
+		ASSERT(pTarget && index == 0);
+		if (pTarget == NULL || index != 0)
+			return NULL;
+
+		GLESRenderTarget* preTarger = m_pCurRenderTarget;
+		m_pCurRenderTarget = (GLESRenderTarget*)pTarget;
+		GLESTexture* pGLESTexure = (GLESTexture*)m_pCurRenderTarget->GetTexture();
+
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, m_pCurRenderTarget->GetFrameBuffer()) );
+	
+		if (pGLESTexure)
+		{
+			GLenum attachment = GL_COLOR_ATTACHMENT0 + index;
+			GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pGLESTexure->GetTexture(), 0) );
+			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+			{
+				GP_ERROR("Framebuffer status incomplete: 0x%x", fboStatus);
+			}
+		}
+		return preTarger;
+	}
+
+	Rectangle GLESRenderDevice::SetViewport(const Rectangle& rect)
+	{
+		Rectangle preViewport = m_curViewport;
+		m_curViewport = rect;
+		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);
+		return preViewport;
 	}
 
 	void GLESRenderDevice::SetRenderState(const RenderState& state)
@@ -161,8 +209,8 @@ namespace ma
 // 		// 				cullMode = D3DCULL_CCW;
 // 		// 		}
 // 
-// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, cullMode);
-// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
+// 		//GetGLESDxDevive()->SetRenderState(D3DRS_CULLMODE, cullMode);
+// 		//GetGLESDxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
 // 
 // 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
 // 
@@ -174,23 +222,23 @@ namespace ma
 // 		case DCM_LESS_EQUAL:
 // 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
 // 
-// 			//GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+// 			//GetGLESDxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 // 			break;
 // 
 // 		case DCM_LESS:
 // 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 // 			break;
 // 
 // 		case DCM_GREATER_EQUAL:
 // 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
 // 			break;
 // 
 // 		case DCM_GREATER:
 // 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
 // 			break;
 // 
 // 		case DCM_EQUAL:

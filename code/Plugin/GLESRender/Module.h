@@ -11,6 +11,7 @@
 #include "GLESRender/GLESMapping.h"
 #include "GLESRender/GLESVertexDeclaration.h"
 #include "GLESRender/GLESShaderProgram.h"
+#include "GLESRender/GLESRenderTarget.h"
 
 
 GLESRENDER_API void GLESRenderModuleInit();

@@ -177,6 +177,7 @@ namespace ma
 		default:
 			ASSERT(0 && "Invalid Format.");
 			return GL_RGB;
+		}
 	}
 
 }
