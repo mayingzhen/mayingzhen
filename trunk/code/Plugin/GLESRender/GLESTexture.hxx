@@ -152,19 +152,8 @@ namespace ma
 		return 0;
 	}	
 
-	struct IMAGE_INFO
-	{
-		GLuint Width;
-		GLuint Height;
-		GLuint PixelFormat;
-	};
-
-
 	GLESTexture::GLESTexture()
 	{
-		_mipmapped = false;
-		m_nMemSize = 0;
-		m_uvAddressMode = GL_REPEAT;
 	}
 
 	GLESTexture::~GLESTexture()
@@ -172,21 +161,45 @@ namespace ma
 
 	}
 
-	bool GLESTexture::Create(int nWidth,int nHeight,int nMipLevel,FORMAT Format,USAGE Usage)
+	bool GLESTexture::CreateRT(int nWidth,int nHeight,FORMAT Format)
 	{
 		if (nWidth == -1 && nHeight == -1)
 		{
-
 			GetRenderDevice()->GetRenderWndSize(nWidth,nHeight);
 		}
 
-		ASSERT(nWidth && nHeight);
-
+		m_nWidth = nWidth;
+		m_nHeight = nHeight;
+		m_eFormat = Format;
+		m_nMipLevels = 0;
+		m_eUsage = USAGE_DYNAMIC;
+		m_eType = TEXTYPE_RENDERTARGET;
+		m_PixelFormat = GLESMapping::GetGLESFormat(Format);
+			
+		glGenTextures(1, &m_pTex);
+		glBindTexture(GL_TEXTURE_2D, m_pTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, nWidth, nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, NULL);
+		
 		return true;
 	}
 
-	bool GLESTexture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, bool generateMipmaps)
+	bool GLESTexture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps)
 	{
+		m_PixelFormat = GLESMapping::GetGLESFormat(format);
+		m_nWidth = width;
+		m_nHeight = height;
+		ConvertImageData(m_PixelFormat,m_nWidth * m_nHeight,data);
+		
+		glGenTextures(1, &m_pTex);
+		glBindTexture(GL_TEXTURE_2D, m_pTex);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, data);	
+
+		if (generateMipmaps)
+		{
+			GenerateMipmaps();
+		}
+
 		return true;
 	}
 
@@ -197,112 +210,41 @@ namespace ma
 		ilGenImages(1, &curImage);
 		ilBindImage(curImage);
 
-		//GLuint idNewTexture = 0;
-
-		char szFullPathName[512] = { 0 };
-		//sprintf(szFullPathName, "%s/%s", g_szAppFolderPath, pszName);
 		if(!ilLoadImage(pszPath))
 		{ 
 			ASSERT(false);
 			ilDeleteImages(1, &curImage);
-			//SAFE_DELETE(pNewC3Tex);
 			return false;
 		} 
 	
-		IMAGE_INFO infoImage;
-		infoImage.Width = ilGetInteger(IL_IMAGE_WIDTH);
-		infoImage.Height = ilGetInteger(IL_IMAGE_HEIGHT);
-		infoImage.PixelFormat = ilGetInteger(IL_IMAGE_FORMAT);
-		m_PixelFormat = ChooseBestTextureFormat(infoImage.PixelFormat);
-		if(ilGetInteger(IL_IMAGE_PVR_ADDBORDER)== IL_FALSE)
-		{
-			m_bAddBorderPvr = false;
-		}
-		else
-		{
-			m_bAddBorderPvr = true;
-		}
+
+		m_nWidth = ilGetInteger(IL_IMAGE_WIDTH);
+		m_nHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+		m_nMipLevels = ilGetInteger(IL_NUM_MIPMAPS);
+		ILint imageFormat = ilGetInteger(IL_IMAGE_FORMAT);
+		m_PixelFormat = ChooseBestTextureFormat(imageFormat);
+		bool bCompressFormat = IsCompressedTextureFormat(imageFormat);
 
 		glGenTextures(1, &m_pTex);
 		glBindTexture(GL_TEXTURE_2D, m_pTex);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		if(ilHasMipMap())
-		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		}
-		else if(m_bAutoGenerateMipmap)
-		{	
-			// 没有Mipmap数据,需要自动生成.
-			glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);// 自动产生Mipmap
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			//generateMipmaps();
-		}
-		else
-		{
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		}
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_uvAddressMode);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_uvAddressMode);
-		//pNewC3Tex->uvAddressMode = texUVMode;
-		//pNewC3Tex->nMemSize = sizeof(C3Texture);
-
-		bool bCompressFormat = IsCompressedTextureFormat(infoImage.PixelFormat);
 
 		int i = 0;
-		Uint8* pSrcData = NULL;
-		unsigned int unDataLength = 0;
-		unsigned int unLevelWidth = 0;
-		unsigned int unLevelHeight = 0;
-		GLuint unLevelFormat = infoImage.PixelFormat;
 		while(ilActiveMipmap(i))
 		{	
-			pSrcData= (Uint8*)ilGetData();
-			unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
-			unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+			Uint8* pSrcData= (Uint8*)ilGetData();
+			int unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
+			int unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
 
-			if(infoImage.PixelFormat == IL_BGR)
-			{
-				Uint8* pPixel = (Uint8*)pSrcData;
-				const int nPixelCount = unLevelWidth * unLevelHeight;
-				for(int i = 0; i < nPixelCount; ++i)
-				{
-					const int nIndex = i * 3;
-					Uint8 a = pPixel[nIndex];
-					pPixel[nIndex] = pPixel[nIndex+2];
-					pPixel[nIndex+2] = a;
-				}
-				unLevelFormat = GL_RGB;
-			}
-			else if(infoImage.PixelFormat == IL_BGRA)
-			{
-				Uint8* pPixel = (Uint8*)pSrcData;
-				const int nPixelCount = unLevelWidth * unLevelHeight;
-				for(int i = 0; i < nPixelCount; ++i)
-				{
-					const int nIndex = i * 4;
-					Uint8 a = pPixel[nIndex];
-					pPixel[nIndex] = pPixel[nIndex+2];
-					pPixel[nIndex+2] = a;
-				}
-				unLevelFormat = GL_RGBA;
-			}
+			ConvertImageData(m_PixelFormat,unLevelWidth * unLevelHeight,pSrcData);
 
 			if(bCompressFormat)
 			{
-				unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
-				m_nMemSize += unDataLength;
+				UINT unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
 				glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData);
-			}
-// 			else if(unLevelFormat == IL_PVR_RGBA4444)
-// 			{
-// 				pNewC3Tex->nMemSize += (unLevelWidth * unLevelHeight * 2);
-// 				glTexImage2D(GL_TEXTURE_2D, i, PixelFormat, unLevelWidth, unLevelHeight, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, pSrcData);	
-// 			}
+			}	
 			else
 			{
-				m_nMemSize += (unLevelWidth * unLevelHeight * 5);// 夸大占用以促使pvr的使用.
-				glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unLevelFormat, GL_UNSIGNED_BYTE, pSrcData);	
+				glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData);	
 			}
 
 			ilBindImage(curImage);
@@ -311,21 +253,49 @@ namespace ma
 
 		ilDeleteImages(1, &curImage);
 
-		// 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
-		glFlush();
+		if (generateMipmaps)
+		{
+			GenerateMipmaps();
+		}
+		
+		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
 
 		return true;
 	}
 
-	void GLESTexture::generateMipmaps()
+	void GLESTexture::GenerateMipmaps()
 	{
-		if (!_mipmapped)
+		if (m_nMipLevels <= 1)
 		{
 			GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 			GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
 			GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
+		}
+	}
 
-			_mipmapped = true;
+	void GLESTexture::ConvertImageData(GLenum pixelFormat,int nPixelCount,Uint8* pPixel)
+	{
+		int nPixelSize = 1;
+		if(pixelFormat == GL_BGR)
+		{
+			nPixelSize = 3;
+		}
+		else if(pixelFormat == GL_BGRA)
+		{
+			nPixelSize = 4;
+		}
+		else if (pixelFormat == GL_ALPHA)
+		{
+			return;
+			//nPixelSize = 1;
+		}
+
+		for(int i = 0; i < nPixelCount; ++i)
+		{
+			const int nIndex = i * nPixelSize;
+			Uint8 a = pPixel[nIndex];
+			pPixel[nIndex] = pPixel[nIndex+2];
+			pPixel[nIndex+2] = a;
 		}
 	}
 }

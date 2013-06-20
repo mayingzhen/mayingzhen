@@ -10,9 +10,9 @@ namespace ma
 	public:
 		RenderTarget()
 		{
-			mWidth = 0;
-			mHeight = 0;
-			mFormat = FMT_A8R8G8B8;
+			m_nWidth = 0;
+			m_nHeight = 0;
+			m_eFormat = FMT_A8R8G8B8;
 			m_pTexture = NULL;
 		}
 
@@ -21,9 +21,9 @@ namespace ma
 		Texture* GetTexture() {return m_pTexture;}
 
 	protected:
-		int mWidth;
-		int mHeight;
-		FORMAT mFormat;
+		int m_nWidth;
+		int m_nHeight;
+		FORMAT m_eFormat;
 		Texture* m_pTexture;
 		
 	};

@@ -267,7 +267,7 @@ void Form::setSize(float width, float height)
         // Clear the framebuffer black
         //Game* game = Game::getInstance();
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
-		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(0,_frameBuffer);
+		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(_frameBuffer);
         Rectangle previousViewport = GetRenderDevice()->SetViewport(Rectangle(0, 0, width, height));
 
         //game->setViewport(Rectangle(0, 0, width, height));
@@ -278,7 +278,7 @@ void Form::setSize(float width, float height)
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
         //previousFrameBuffer->bind();
-		GetRenderDevice()->SetRenderTarget(0,previousFrameBuffer);
+		GetRenderDevice()->SetRenderTarget(previousFrameBuffer);
         GetRenderDevice()->SetViewport(previousViewport);
     }
     _bounds.width = width;
@@ -562,7 +562,7 @@ void Form::draw()
     {
         ASSERT(_frameBuffer);
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
-		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(0,_frameBuffer);
+		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(_frameBuffer);
         Rectangle prevViewport = GetRenderDevice()->SetViewport(Rectangle(0, 0, _bounds.width, _bounds.height));
 
         ASSERT(_theme);
@@ -580,7 +580,7 @@ void Form::draw()
         GetRenderDevice()->SetViewport(prevViewport);
         // Rebind the previous framebuffer and game viewport.
         //previousFrameBuffer->bind();
-		GetRenderDevice()->SetRenderTarget(0,previousFrameBuffer);
+		GetRenderDevice()->SetRenderTarget(previousFrameBuffer);
     }
 
     // Draw either with a 3D quad or sprite batch.
@@ -598,7 +598,12 @@ void Form::draw()
             ASSERT(_spriteBatch);
         }
         _spriteBatch->start();
-        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, 0, 0,_u2,_v1, Vec4One());
+		float fTop = 0;
+		float fLeft = 0;
+		float fRight = _u2;
+		float fBottom = _v1;
+		GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
+        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, 0, _v1, _u2, 0, Vec4One());
         _spriteBatch->finish();
     //}
 }

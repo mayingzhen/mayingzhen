@@ -16,18 +16,17 @@ namespace ma
 
 		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false) = 0;
 
-		int getWidth() {return mWidth;}
+		int getWidth() {return m_nWidth;}
 
-		int getHeight() {return mHeight;}
+		int getHeight() {return m_nHeight;}
 
 	protected:
-		int				mWidth;
-		int				mHeight;
-		int				mDepth;
-		int				mMipLevels;
-		USAGE			mUsage;
-		FORMAT			mFormat;
-		TEXTURE_TYPE	mType;
+		int				m_nWidth;
+		int				m_nHeight;
+		int				m_nMipLevels;
+		USAGE			m_eUsage;
+		FORMAT			m_eFormat;
+		TEXTURE_TYPE	m_eType;
 	};
 
 

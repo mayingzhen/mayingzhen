@@ -70,6 +70,11 @@ namespace ma
 		return "/shader/d3d9/";
 	}
 
+	void D3D9RenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
+	{
+		return;
+	}
+
 	void D3D9RenderDevice::Init(HWND wndhandle)
 	{
 		InitD3D9(wndhandle);
@@ -246,7 +251,7 @@ namespace ma
 		return new D3D9RenderTarget();
 	}
 
-	RenderTarget* D3D9RenderDevice::SetRenderTarget(int index,RenderTarget* pTexture)
+	RenderTarget* D3D9RenderDevice::SetRenderTarget(RenderTarget* pTexture,int index)
 	{
 		RenderTarget* pPreTarget = m_pCurRenderTarget[index];
 

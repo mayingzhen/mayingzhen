@@ -204,6 +204,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\GLESRender\GLESRenderTarget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\GLESRender\GLESRenderTarget.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESShaderProgram.h"
 				>
 			</File>

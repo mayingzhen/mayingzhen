@@ -259,7 +259,7 @@ COMMON_API Matrix4x4* MatrixPerspectiveFovGL_LH(Matrix4x4 *pOut, float fovy, flo
 
 COMMON_API Matrix4x4* MatrixOrthoGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
 
-COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
+COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float l,float r, float b, float t, float zn,float zf);
 
 //------------------------------------------------------------------------------
 //Frame

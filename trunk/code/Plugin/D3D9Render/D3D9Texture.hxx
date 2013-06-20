@@ -57,13 +57,12 @@ namespace ma
 
 		//pTexture->mName = sName;
 		m_pD3DTex = pD3D9Texture;
-		mWidth = nWidth;
-		mHeight = nHeight;
-		mDepth = 1;
-		mUsage = USAGE_DYNAMIC;
-		mFormat = Format;
-		mType = TEXTYPE_RENDERTARGET;
-		mMipLevels = 1;
+		m_nWidth = nWidth;
+		m_nHeight = nHeight;
+		m_eUsage = USAGE_DYNAMIC;
+		m_eFormat = Format;
+		m_eType = TEXTYPE_RENDERTARGET;
+		m_nMipLevels = 1;
 
 		//hr = pD3D9Texture->GetSurfaceLevel(0,&mRenderTarget);
 
@@ -76,15 +75,14 @@ namespace ma
 
 	bool D3D9Texture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, UINT size, bool generateMipmaps )
 	{	
-		mWidth = width;
-		mHeight = height;
-		mDepth = 1;
-		mFormat = format;
+		m_nWidth = width;
+		m_nHeight = height;
+		m_eFormat = format;
 
 		HRESULT hr = D3D_OK;
 		hr = GetD3D9DxDevive()->CreateTexture(
-			mWidth,
-			mHeight,
+			m_nWidth,
+			m_nHeight,
 			generateMipmaps ? 0 : 1,
 			D3DUSAGE_DYNAMIC,
 			D3D9Mapping::GetD3DFormat(format),
@@ -137,11 +135,10 @@ namespace ma
 		pD3D9Texture->GetLevelDesc(0, &desc);
 
 		m_pD3DTex = pD3D9Texture;
-		mWidth = desc.Width;
-		mHeight = desc.Height;
-		mDepth = 1;
-		mFormat = D3D9Mapping::GetFormat(desc.Format);
-		mMipLevels = pD3D9Texture->GetLevelCount();
+		m_nWidth = desc.Width;
+		m_nHeight = desc.Height;
+		m_eFormat = D3D9Mapping::GetFormat(desc.Format);
+		m_nMipLevels = pD3D9Texture->GetLevelCount();
 
 		//mLoadState = Resource::LOADED;
 

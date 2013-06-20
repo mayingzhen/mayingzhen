@@ -58,9 +58,9 @@ namespace ma
 // 		// 		}
 // 
 // 		m_pD3DTex = pD3D9Texture;
-// 		mWidth = nWidth;
-// 		mHeight = nHeight;
-// 		mFormat = format;
+// 		m_nWidth = nWidth;
+// 		m_nHeight = nHeight;
+// 		m_eFormat = format;
 // 
 // 		hr = pD3D9Texture->GetSurfaceLevel(0,&mRenderTarget);
 // 
