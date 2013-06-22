@@ -98,6 +98,9 @@ Theme* Theme::create(const char* url)
     ASSERT(theme->_spriteBatch);
     theme->_spriteBatch->getSampler()->setFilterMode(TFO_POINT/*Texture::NEAREST, Texture::NEAREST*/);
 
+	theme->_spriteBatch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
+	theme->_spriteBatch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
+
     float tw = 1.0f / theme->_texture->getWidth();
     float th = 1.0f / theme->_texture->getHeight();
 

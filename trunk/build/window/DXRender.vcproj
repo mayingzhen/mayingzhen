@@ -282,11 +282,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\data\Shader\D3D9\sprite.frag"
+				RelativePath="..\..\data\shader\D3D9\gbuffer.frag"
 				>
 			</File>
 			<File
-				RelativePath="..\..\data\Shader\D3D9\sprite.vert"
+				RelativePath="..\..\data\shader\D3D9\gbuffer.vert"
 				>
 			</File>
 		</Filter>

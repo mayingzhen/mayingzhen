@@ -212,7 +212,6 @@ namespace ma
 		HRESULT hr = D3D_OK;
 		if (uniform->_vshShder)
 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->_location, (const float*)&value, 4);
-			//hr = m_pVShConstantTable->SetMatrix(GetD3D9DxDevive(),uniform->_name.c_str(), (D3DXMATRIX*)&value);
 		else 
 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->_location, (const float*)&value, 4);
 		ASSERT(hr == D3D_OK);

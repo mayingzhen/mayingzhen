@@ -102,9 +102,9 @@ namespace ma
 		IAnimationSet* pAnimationSet = GetAnimationDevice()->CreateAnimationSet();
 		pAnimationSet->Load(pszSkeletonPath);
 
-		SkeletonData* pSkeletonData = LoadSkeletonFromBinaryFile(pszSkeletonPath);
-		ISkeleton* pSkeleton = GetAnimationDevice()->CreateSkeleton();
-		pSkeleton->InitWithData(pSkeletonData);
+		//SkeletonData* pSkeletonData = LoadSkeletonFromBinaryFile(pszSkeletonPath);
+		//ISkeleton* pSkeleton = GetAnimationDevice()->CreateSkeleton();
+		//pSkeleton->InitWithData(pSkeletonData);
 	}
 
 	void SkelMeshComponent::Serialize(SerializeListener& sl, const char* pszLable)

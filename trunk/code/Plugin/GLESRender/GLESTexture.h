@@ -24,7 +24,7 @@ namespace ma
 	private:
 		void GenerateMipmaps();
 
-		void ConvertImageData(GLenum pixelFormat,int nPixelCount,Uint8* pPixel);
+		void ConvertImageData(int pixelFormat,int nPixelCount,Uint8* pPixel);
 		
 	private:
 		GLuint		m_pTex;			// Ã˘Õºµÿ÷∑

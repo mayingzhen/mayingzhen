@@ -18,7 +18,7 @@ namespace ma
 	public:
 		Light();
 
-		virtual	void	Update();
+		//virtual	void	Update();
 
 		LightType		GetLightType() {return m_eLightType;}
 
@@ -43,9 +43,9 @@ namespace ma
 		void			LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
 
 	protected:
-		void			SyncFromSceneNode();
-
-		void			SyncToSceneNode();
+// 		void			SyncFromSceneNode();
+// 
+// 		void			SyncToSceneNode();
 
 	protected:
 		LightType		m_eLightType;

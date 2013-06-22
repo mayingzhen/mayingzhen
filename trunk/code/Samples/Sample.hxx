@@ -23,6 +23,8 @@ namespace ma
 		m_pCamera = new Camera();
 		//m_pScene->GetRootNode()->AddChildNode(m_pCamera);
 
+		Material::SetAuotBingCamera(m_pCamera);
+
 		Vector3 vEyePos = Vector3(0, 200, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);

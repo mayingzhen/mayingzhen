@@ -305,14 +305,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\ResourceBuilder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\ResourceBuilder.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Resource\ResourceMangager.h"
 				>
 			</File>
@@ -330,6 +322,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Resource\Stream.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\TextureData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\TextureData.hxx"
 				>
 			</File>
 			<Filter
@@ -425,6 +425,14 @@
 			Name="RenderSystem"
 			>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\Camera.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\IndexBuffer.h"
 				>
 			</File>
@@ -434,6 +442,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\Light.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\Light.hxx"
 				>
 			</File>
 			<File
@@ -532,47 +548,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\ShaderProgramUtil.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\ShaderProgramUtil.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Terrain"
-				>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\Terrain.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\Terrain.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\TerrainLiquid .hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\TerrainLiquid.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\TerrainSection.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Terrain\TerrainSection.hxx"
 					>
 				</File>
 			</Filter>

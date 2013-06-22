@@ -1,8 +1,6 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
-//#include "Engine/RenderSystem/IRenderItem.h"
-//#include "Renderable.h"
 
 namespace ma
 {
@@ -12,13 +10,21 @@ namespace ma
 	class ENGINE_API RenderMesh 
 	{
 	public:
+		RenderMesh();
+
 		bool InitWithData(MeshData* pMeshData);
+
+		bool Load(const char* pMeshPath,const char* pDiffueTexture);
 		
 		void Draw();
 
 		void SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 
+		void SetWorldMatrix(const Matrix4x4& matWorld);
+
 		void SetMaterial(Material* pMaterial);
+
+		Material* GetMaterial() {return m_pMaterial;}
 
 	public:
 		
@@ -27,6 +33,8 @@ namespace ma
 		Material*				m_pMaterial;
 
 		std::vector<Renderable*>	m_arrRenderable;
+
+		bool					m_bSkin;
 
 	};
 }

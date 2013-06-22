@@ -36,12 +36,12 @@ namespace ma
 		Skeleton*		m_pSkeleton;
 		RenderMesh*		m_pRenderMesh;
 		//Texture*		m_pRendTexture;
-		Material*		m_pRenderMaterial;
+		//Material*		m_pRenderMaterial;
 	
 		// staticMesh
 		RenderMesh*		m_pStaticMesh;
 		//Texture*		m_pStatcMeshTexture;
-		Material*		m_pStaticMeshMaterial;
+		//Material*		m_pStaticMeshMaterial;
 
 		RenderMesh*		m_pBoxMesh;
 		//Texture*		m_pBoxTexture;

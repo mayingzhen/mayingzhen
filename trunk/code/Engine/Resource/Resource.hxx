@@ -1,4 +1,4 @@
-#include "Common/Resource.h"
+#include "Resource.h"
 
 namespace ma
 {

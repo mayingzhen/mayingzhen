@@ -56,7 +56,7 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		GetRenderDevice()->SetCamera(pCmera);
+		//GetRenderDevice()->SetCamera(pCmera);
 
 		GetRenderDevice()->BeginRender();
 		

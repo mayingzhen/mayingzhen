@@ -25,7 +25,8 @@
 #include "Engine/Resource/MeshData.h"
 #include "Engine/Resource/AnimationData.h"
 #include "Engine/Resource/SkeletonData.h"
-#include "Engine/Resource/ResourceBuilder.h"
+#include "Engine/Resource/TextureData.h"
+#include "Engine/Resource/ResourceMangager.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/SerializeListener.h"
 #include "Engine/Resource/Serialize/BinaryInputArchive.h"
@@ -47,6 +48,8 @@
 #include "Engine/RenderSystem/ParticleEmitter.h"
 #include "Engine/RenderSystem/SpriteBatch.h"
 #include "Engine/RenderSystem/RenderTarget.h"
+#include "Engine/RenderSystem/Camera.h"
+#include "Engine/RenderSystem/Light.h"
 
 // Material
 #include "Engine/RenderSystem/Material/Material.h"
@@ -84,9 +87,6 @@
 //#include "Engine/Script/ScriptEventBinder.h"
 
 
-// Scene
-#include "Engine/Scene/Camera.h"
-//#include "Engine/Scene/Light.h"
 
 
 // Input

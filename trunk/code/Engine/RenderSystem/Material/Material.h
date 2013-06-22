@@ -8,6 +8,9 @@
 namespace ma
 {
 	class MaterialParameter;
+	class Camera;
+	class Light;
+	class Renderable;
 
 	struct RenderState 
     {
@@ -20,6 +23,7 @@ namespace ma
 		RenderState()
 		{
 			m_bDepthWrite = true;
+			//m_bDepthTest = true;
 			m_eDepthCheckMode = DCM_LESS_EQUAL;
 			m_eBlendMode = BM_OPATICY;
 			m_eCullMode = CULL_FACE_SIDE_BACK;
@@ -50,126 +54,68 @@ namespace ma
 	{
 	public:
 
-		/**
-		 * Creates a material using the data from the Properties object defined at the specified URL, 
-		 * where the URL is of the format "<file-path>.<extension>#<namespace-id>/<namespace-id>/.../<namespace-id>"
-		 * (and "#<namespace-id>/<namespace-id>/.../<namespace-id>" is optional). 
-		 * 
-		 * @param url The URL pointing to the Properties object defining the material.
-		 * 
-		 * @return A new Material.
-		 * @script{create}
-		 */
-		static Material* create(const char* url);
+		Material();
 
-		/**
-		 * Creates a material from the specified effect.
-		 *
-		 * The returned material has a single technique and a single pass for the
-		 * given effect.
-		 *
-		 * @param effect ShaderProgram for the new material.
-		 * 
-		 * @return A new Material.
-		 * @script{create}
-		 */
-		static Material* create(ShaderProgram* pShaderProgram);
+		~Material();
 
-		void Bind();
+		void				Bind();
 
-		void UnBind();
+		void				UnBind();
 
+		MaterialParameter*	GetParameter(const char* name);
 
-		 /**
-		 * Returns a MaterialParameter for the specified name.
-		 * 
-		 * The returned MaterialParameter can be used to set values for the specified
-		 * parameter name.
-		 *
-		 * Note that this method causes a new MaterialParameter to be created if one
-		 * does not already exist for the given parameter name.
-		 *
-		 * @param name Material parameter (uniform) name.
-		 * 
-		 * @return A MaterialParameter for the specified name.
-		 */
-		MaterialParameter* getParameter(const char* name);
+		void				ClearParameter(const char* name);
 
+		void				setParameterAutoBinding(const char* name, AutoBinding autoBinding);
 
-		/**
-		 * Clears the MaterialParameter with the given name.
-		 *
-		 * If a material parameter exists for the given name, it is destroyed and
-		 * removed from this RenderState.
-		 *
-		 * @param name Material parameter (uniform) name.
-		 */
-		void clearParameter(const char* name);
-
-		/**
-		 * Sets a material parameter auto-binding.
-		 *
-		 * @param name The name of the material parameter to store an auto-binding for.
-		 * @param autoBinding A valid AutoBinding value.
-		 */
-		void setParameterAutoBinding(const char* name, AutoBinding autoBinding);
-
-		/**
-		 * Sets a material parameter auto-binding.
-		 *
-		 * This method parses the passed in autoBinding string and attempts to convert it
-		 * to an AutoBinding enumeration value, which is then stored in this render state.
-		 *
-		 * @param name The name of the material parameter to store an auto-binding for.
-		 * @param autoBinding A string matching one of the built-in AutoBinding enum constants.
-		 */
-		void setParameterAutoBinding(const char* name, const char* autoBinding);
+		void				SetShaderProgram(const char* pszName,const char* define);
 
 		RenderState*		GetRenderState()  {return &m_renderState;}
 
 		ShaderProgram*		GetShaderProgram() {return m_pShaderProgram;}
 
+		void				SetRenderable(Renderable* pRenderable) {m_pRenderable = pRenderable;}
+
+		static void			SetAuotBingCamera(Camera* pCamera) {m_auotBingCamera = pCamera;}
+
+	private:
+		// Internal auto binding handler methods.
+		const Matrix4x4&	autoBindingGetWorldMatrix() const;
+		const Matrix4x4&	autoBindingGetViewMatrix() const;
+		const Matrix4x4&	autoBindingGetProjectionMatrix() const;
+		Matrix4x4			autoBindingGetWorldViewMatrix() const;
+		Matrix4x4			autoBindingGetViewProjectionMatrix() const;
+		Matrix4x4			autoBindingGetWorldViewProjectionMatrix() const;
+		const Matrix4x4&	autoBindingGetInverseTransposeWorldMatrix() const;
+		const Matrix4x4&	autoBindingGetInverseTransposeWorldViewMatrix() const;
+		Vector3				autoBindingGetCameraWorldPosition() const;
+		Vector3				autoBindingGetCameraViewPosition() const;
+		const Matrix4x4*	autoBindingGetMatrixPalette() const;
+		unsigned int		autoBindingGetMatrixPaletteSize() const;
+		const Vector3&		autoBindingGetAmbientColor() const;
+		const Vector3&		autoBindingGetLightColor() const;
+		const Vector3&		autoBindingGetLightDirection() const;
+
 	private:
 
-		/**
-		 * Constructor.
-		 */
-		Material();
+		RenderState			m_renderState;
 
-		/**
-		 * Constructor.
-		 */
-		Material(const Material& m);
-	    
-		/**
-		 * Destructor.
-		 */
-		~Material();
+		ShaderProgram*		m_pShaderProgram;
 
-		/**
-		 * Clones this material.
-		 * 
-		 * @param context The clone context.
-		 * 
-		 * @return The newly created material.
-		 * @script{create}
-		 */
-		//Material* clone(NodeCloneContext &context) const;
+		std::string			m_strShaderName;
 
+		std::string			m_strShaderDefine;
 
-		RenderState		m_renderState;
-
-		ShaderProgram*	m_pShaderProgram;
+		Renderable*			m_pRenderable;
 			
-		/**
-		* Collection of MaterialParameter's to be applied to the ma::ShaderProgram.
-		*/
 		std::vector<MaterialParameter*> m_parameters;
 
-		/**
-		 * Map of parameter names to auto binding strings.
-		 */
-		std::map<std::string, std::string> _autoBindings;
+		
+		// Map of parameter names to auto binding strings. 
+		static std::map<std::string, AutoBinding> m_autoDefaultBings;
+
+		static Camera*  m_auotBingCamera;
+		static Light*	m_autoBingLight;
 	};
 
 }

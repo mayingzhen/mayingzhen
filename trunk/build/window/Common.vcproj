@@ -233,14 +233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\Resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Common\Resource.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Common\Singleton.h"
 				>
 			</File>

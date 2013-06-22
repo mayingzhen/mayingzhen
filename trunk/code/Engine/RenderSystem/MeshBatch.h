@@ -12,7 +12,7 @@ class Material;
 /**
  * Defines a class for rendering multiple mesh into a single draw call on the graphics device.
  */
-class MeshBatch : public Renderable
+class ENGINE_API MeshBatch : public Renderable
 {
 public:
 

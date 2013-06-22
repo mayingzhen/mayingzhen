@@ -1,7 +1,11 @@
-#include "Framework/ResourceMangager.h"
+#include "ResourceMangager.h"
 
 namespace ma
 {
+	std::map<std::string,Resource*>			ResourceManager::m_resMap;
+	std::map<std::string,ResourceCreator>	ResourceManager::m_resCreateFunMap;
+	std::string								ResourceManager::m_sResRootPath;
+
 
 	std::string GetExtention(const std::string& FileName) 
 	{
@@ -13,24 +17,37 @@ namespace ma
 		return FileName.substr(i + 1, FileName.size() - i - 1);
 	}
 
+	void ResourceManager::SetResRootPath(const char* path)
+	{
+		m_sResRootPath = path;
+	}
+
+	const char* ResourceManager::GetResRootPath()
+	{
+		return m_sResRootPath.c_str();
+	}
+
 	Resource* ResourceManager::DeclareResource(const char* pszRelPath)
 	{
 		if (pszRelPath == NULL)
-			return;
+			return NULL;
 
-		ResMap::iterator itRes = m_resMap.find(pszRelPath);
+		ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
 		if (itRes != m_resMap.end())
 			return itRes->second;
 
 		std::string fileExt = GetExtention(pszRelPath);
 		ResCreateFunMap::iterator itFun = m_resCreateFunMap.find(fileExt);
 		if (itFun == m_resCreateFunMap.end())
-			return;
+			return NULL;
 	
 		Resource* pResource = itFun->second();
-		pResource->SetResPath(pszRelPath);
+		std::string fullPath = m_sResRootPath + pszRelPath;
+		pResource->SetResPath(fullPath.c_str());
 
 		m_resMap[pszRelPath] = pResource;
+
+		return pResource;
 	}
 
 	void ResourceManager::RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator)
