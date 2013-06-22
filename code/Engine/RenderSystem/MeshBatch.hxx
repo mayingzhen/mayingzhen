@@ -35,15 +35,17 @@ namespace ma
 
 	MeshBatch* MeshBatch::create(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, const char* materialPath, bool indexed, unsigned int initialCapacity, unsigned int growSize)
 	{
-		Material* material = Material::create(materialPath);
-		if (material == NULL)
-		{
-			GP_ERROR("Failed to create material for mesh batch from file '%s'.", materialPath);
-			return NULL;
-		}
-		MeshBatch* batch = create(vertexFormat, primitiveType, material, indexed, initialCapacity, growSize);
-		//SAFE_RELEASE(material); // batch now owns the material
-		return batch;
+		ASSERT(false);
+		return NULL;
+// 		Material* material = Material::create(materialPath);
+// 		if (material == NULL)
+// 		{
+// 			GP_ERROR("Failed to create material for mesh batch from file '%s'.", materialPath);
+// 			return NULL;
+// 		}
+// 		MeshBatch* batch = create(vertexFormat, primitiveType, material, indexed, initialCapacity, growSize);
+// 		//SAFE_RELEASE(material); // batch now owns the material
+// 		return batch;
 	}
 
 	MeshBatch* MeshBatch::create(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, Material* material, bool indexed, unsigned int initialCapacity, unsigned int growSize)

@@ -127,6 +127,9 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
         return NULL;
     }
 
+	batch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
+	batch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
+
     // Add linear filtering for better font quality.
     Sampler* sampler = batch->getSampler();
     sampler->setFilterMode(TFO_BILINEAR);

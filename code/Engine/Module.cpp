@@ -19,7 +19,8 @@
 #include "Engine/Resource/MeshData.hxx"
 #include "Engine/Resource/AnimationData.hxx"
 #include "Engine/Resource/SkeletonData.hxx"
-#include "Engine/Resource/ResourceBuilder.hxx"
+#include "Engine/Resource/TextureData.hxx"
+#include "Engine/Resource/ResourceMangager.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxmlerror.hxx"
@@ -39,16 +40,14 @@
 #include "Engine/RenderSystem/ParticleEmitter.hxx"
 #include "Engine/RenderSystem/SpriteBatch.hxx"
 #include "Engine/RenderSystem/RenderTarget.hxx"
+#include "Engine/RenderSystem/Camera.hxx"
+#include "Engine/RenderSystem/Light.hxx"
 
 #include "Engine/RenderSystem/Material/Material.hxx"
 #include "Engine/RenderSystem/Material/MaterialParameter.hxx"
 #include "Engine/RenderSystem/Material/ShaderProgram.hxx"
 #include "Engine/RenderSystem/Material/Texture.hxx"
 
-// Terrain
-// #include "Engine/RenderSystem/Terrain/Terrain.hxx"
-// #include "Engine/RenderSystem/Terrain/TerrainLiquid.hxx"
-// #include "Engine/RenderSystem/Terrain/TerrainSection.hxx"
 
 // Animation
 #include "Engine/Animation/IAnimationDevice.hxx"
@@ -62,11 +61,6 @@
 #include "Engine/Script/IScriptDevice.hxx"
 #include "Engine/Script/EdScriptObject.hxx"
 //#include "Engine/Script/ScriptEventBinder.hxx"
-
-
-// Scene
-#include "Engine/Scene/Camera.hxx"
-//#include "Engine/Scene/Light.hxx"
 
 
 
@@ -86,6 +80,10 @@ using namespace ma;
 #include <Engine/RTTIDecl.h>
 #undef RTTI_DECL
 
+Resource* MeshData_Creator() {return new MeshData();}
+Resource* TextureData_Creator() {return new TextureData();}
+Resource* AnimationData_Creator() {return new AnimationData();}
+Resource* SkeletonData_Creator() {return new SkeletonData();}
 
 void EngineModuleInit()
 {
@@ -96,12 +94,27 @@ void EngineModuleInit()
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Engine/RTTIDecl.h>
 	#undef RTTI_DECL
-
-	//RenderState::initialize();
+	
+	ResourceManager::RegisterResourceFactory("skn",MeshData_Creator);
+	ResourceManager::RegisterResourceFactory("ske",SkeletonData_Creator);
+	ResourceManager::RegisterResourceFactory("ska",AnimationData_Creator);
+	ResourceManager::RegisterResourceFactory("tga",TextureData_Creator);
+	ResourceManager::RegisterResourceFactory("jpg",TextureData_Creator);
+	ResourceManager::RegisterResourceFactory("png",TextureData_Creator);
+	ResourceManager::RegisterResourceFactory("dds",TextureData_Creator);
+	
 }
 
 void EngineModuleShutdown()
 {
+	ResourceManager::UnregisterResourceFactory("skn",MeshData_Creator);
+	ResourceManager::UnregisterResourceFactory("ske",SkeletonData_Creator);
+	ResourceManager::UnregisterResourceFactory("ska",AnimationData_Creator);
+	ResourceManager::UnregisterResourceFactory("tga",TextureData_Creator);
+	ResourceManager::UnregisterResourceFactory("jpg",TextureData_Creator);
+	ResourceManager::UnregisterResourceFactory("png",TextureData_Creator);
+	ResourceManager::UnregisterResourceFactory("dds",TextureData_Creator);
+
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Engine/RTTIDecl.h>
 	#undef RTTI_DECL
@@ -110,6 +123,6 @@ void EngineModuleShutdown()
 	#include <Engine/RTTIDecl.h>
 	#undef RTTI_DECL
 
-	//RenderState::finalize()
+	
 }
 

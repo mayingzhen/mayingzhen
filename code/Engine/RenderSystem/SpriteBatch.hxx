@@ -104,7 +104,9 @@ namespace ma
 // 		}
 
 		// Wrap the effect in a material
-		Material* material = Material::create(effect); // +ref effect
+		//Material* material = Material::create(effect); // +ref effect
+		Material* material = new Material();
+		material->SetShaderProgram("default","DIFFUSE;COLOR");
 
 
 		// Set initial material state
@@ -115,8 +117,8 @@ namespace ma
 
 		// Bind the texture to the material as a sampler
 		Sampler* sampler = Sampler::create(texture); // +ref texture
-		//material->getParameter(samplerUniform->getName())->SetValue(sampler);
-		material->getParameter("u_texture")->SetValue(sampler);
+		//material->GetParameter(samplerUniform->getName())->SetValue(sampler);
+		material->GetParameter("u_texture")->setSampler(sampler);
 	    
 		// Define the vertex format for the batch
 		//VertexElement vertexElements[] =
@@ -151,7 +153,7 @@ namespace ma
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&batch->_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
 		//GetRenderDevice()->MakeOrthoMatrix(&batch->_projectionMatrix, w, h,  0.0f, 1.0f);
 		//Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &batch->_projectionMatrix);
-		material->getParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
+		material->GetParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
 		
 		return batch;
 	}

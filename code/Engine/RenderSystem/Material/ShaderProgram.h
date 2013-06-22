@@ -7,16 +7,7 @@ namespace ma
 
 	struct Uniform;
 
-	/**
-	 * Defines an effect which can be applied during rendering.
-	 *
-	 * An effect essentially wraps an OpenGL program object, which includes the
-	 * vertex and fragment shader.
-	 *
-	 * In the future, this class may be extended to support additional logic that
-	 * typical effect systems support, such as GPU render state management,
-	 * techniques and passes.
-	 */
+
 	class ENGINE_API ShaderProgram : public RefCountObject
 	{
 	public:

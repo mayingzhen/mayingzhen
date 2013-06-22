@@ -1,17 +1,25 @@
-//#include "Base.h"
 #include "Material.h"
-//#include "FileSystem.h"
 #include "ShaderProgram.h"
-//#include "Technique.h"
-//#include "Pass.h"
-//#include "Properties.h"
-//#include "Node.h"
+//#include "../Camera.h"
+//#include "../Light.h"
+
 
 namespace ma
 {
+	std::map<std::string, AutoBinding> Material::m_autoDefaultBings;
+	Camera* Material::m_auotBingCamera = NULL;
+	Light*	Material::m_autoBingLight = NULL;
+
 	Material::Material() 
 	{
 		m_pShaderProgram = NULL; 
+		m_pRenderable = NULL;
+
+		if (m_autoDefaultBings.empty())
+		{
+			m_autoDefaultBings["u_worldViewProjectionMatrix"] = WORLD_VIEW_PROJECTION_MATRIX;
+			m_autoDefaultBings["u_matrixPalette"] = MATRIX_PALETTE;
+		}
 	}
 
 	Material::~Material()
@@ -19,56 +27,64 @@ namespace ma
 		SAFE_DELETE(m_pShaderProgram);
 	}
 
-	Material* Material::create(const char* url)
-	{
-		// Load the material properties from file.
-// 		Properties* properties = Properties::create(url);
-// 		if (properties == NULL)
-// 		{
-// 			GP_ERROR("Failed to create material from file.");
-// 			return NULL;
-// 		}
+// 	Material* Material::create(const char* url)
+// 	{
+// 		// Load the material properties from file.
+// // 		Properties* properties = Properties::create(url);
+// // 		if (properties == NULL)
+// // 		{
+// // 			GP_ERROR("Failed to create material from file.");
+// // 			return NULL;
+// // 		}
+// // 
+// // 		//Material* material = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace());
+// // 		SAFE_DELETE(properties);
+// // 
+// // 		return material;
+// 		return NULL;
+// 	}
+
+
+// 	Material* Material::create(ShaderProgram* pShaderProgram)
+// 	{
+// 		ASSERT(pShaderProgram);
 // 
-// 		//Material* material = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace());
-// 		SAFE_DELETE(properties);
+// 		// Create a new material with a single technique and pass for the given effect.
+// 		Material* material = new Material();
+// 
+// 		material->m_pShaderProgram = pShaderProgram;
 // 
 // 		return material;
-		return NULL;
-	}
+// 	}
 
-
-	Material* Material::create(ShaderProgram* pShaderProgram)
+	void Material::SetShaderProgram(const char* pszName,const char* define)
 	{
-		ASSERT(pShaderProgram);
+		ASSERT(pszName);
+		if (pszName == NULL)
+			return;
 
-		// Create a new material with a single technique and pass for the given effect.
-		Material* material = new Material();
+		m_strShaderName = pszName;
+		m_strShaderDefine = define;
 
-		material->m_pShaderProgram = pShaderProgram;
-
-		return material;
-	}
-
-	static bool isMaterialKeyword(const char* str)
-	{
-		ASSERT(str);
-
-		#define MATERIAL_KEYWORD_COUNT 3
-		static const char* reservedKeywords[MATERIAL_KEYWORD_COUNT] =
+		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();
+		m_pShaderProgram->CreateFromShaderName(pszName,define);
+		
+		UINT nUniform = m_pShaderProgram->GetUniformCount();
+		for (UINT i = 0; i < nUniform; ++i)
 		{
-			"vertexShader",
-			"fragmentShader",
-			"defines"
-		};
-		for (unsigned int i = 0; i < MATERIAL_KEYWORD_COUNT; ++i)
-		{
-			if (strcmp(reservedKeywords[i], str) == 0)
+			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+			ASSERT(pUniform);
+			if (pUniform == NULL)
+				continue;
+
+			std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pUniform->getName());
+			if (itr != m_autoDefaultBings.end())
 			{
-				return true;
+				setParameterAutoBinding(pUniform->getName(),itr->second);
 			}
 		}
-		return false;
 	}
+
 
 	static FilterOptions parseTextureFilterMode(const char* str, FilterOptions defaultValue)
 	{
@@ -139,7 +155,7 @@ namespace ma
 		//m_pShaderProgram->UnBind();
 	}
 
-	MaterialParameter* Material::getParameter(const char* name) 
+	MaterialParameter* Material::GetParameter(const char* name) 
 	{
 		ASSERT(name);
 
@@ -162,7 +178,7 @@ namespace ma
 		return param;
 	}
 
-	void Material::clearParameter(const char* name)
+	void Material::ClearParameter(const char* name)
 	{
 		for (size_t i = 0, count = m_parameters.size(); i < count; ++i)
 		{
@@ -231,34 +247,164 @@ namespace ma
 		}
 	}
 
-	void Material::setParameterAutoBinding(const char* name, AutoBinding autoBinding)
-	{
-		setParameterAutoBinding(name, autoBindingToString(autoBinding));
-	}
+// 	void Material::setParameterAutoBinding(const char* name, AutoBinding autoBinding)
+// 	{
+// 		ASSERT(name);
+// 	
+// 		if (autoBinding == NONE)
+// 		{
+// 			// Remove an existing auto-binding
+// 			std::map<std::string, AutoBinding>::iterator itr = m_autoBindings.find(name);
+// 			if (itr != m_autoBindings.end())
+// 				m_autoBindings.erase(itr);
+// 		}
+// 		else
+// 		{
+// 			// Add/update an auto-binding
+// 			m_autoBindings[name] = autoBinding;
+// 		}
+// 	}
 
-	void Material::setParameterAutoBinding(const char* name, const char* autoBinding)
+	void Material::setParameterAutoBinding(const char* uniformName,AutoBinding autoBinding)
 	{
-		ASSERT(name);
-		ASSERT(autoBinding);
+		MaterialParameter* param = GetParameter(uniformName);
+		ASSERT(param);
 
-		if (autoBinding == NULL)
+		if (autoBinding == WORLD_MATRIX)
 		{
-			// Remove an existing auto-binding
-			std::map<std::string, std::string>::iterator itr = _autoBindings.find(name);
-			if (itr != _autoBindings.end())
-				_autoBindings.erase(itr);
+			param->bindValue(this, &Material::autoBindingGetWorldMatrix);
+		}
+		else if (autoBinding == VIEW_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetViewMatrix);
+		}
+		else if (autoBinding == PROJECTION_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetProjectionMatrix);
+		}
+		else if (autoBinding == WORLD_VIEW_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetWorldViewMatrix);
+		}
+		else if (autoBinding == VIEW_PROJECTION_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetViewProjectionMatrix);
+		}
+		else if (autoBinding == WORLD_VIEW_PROJECTION_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetWorldViewProjectionMatrix);
+		}
+		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetInverseTransposeWorldMatrix);
+		}
+		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX)
+		{
+			param->bindValue(this, &Material::autoBindingGetInverseTransposeWorldViewMatrix);
+		}
+		else if (autoBinding == CAMERA_WORLD_POSITION)
+		{
+			param->bindValue(this, &Material::autoBindingGetCameraWorldPosition);
+		}
+		else if (autoBinding == CAMERA_VIEW_POSITION)
+		{
+			param->bindValue(this, &Material::autoBindingGetCameraViewPosition);
+		}
+		else if (autoBinding == MATRIX_PALETTE)
+		{
+			param->bindValue(this, &Material::autoBindingGetMatrixPalette, &Material::autoBindingGetMatrixPaletteSize);
+		}
+		else if (autoBinding == SCENE_AMBIENT_COLOR)
+		{
+			param->bindValue(this, &Material::autoBindingGetAmbientColor);
+		}
+		else if (autoBinding == SCENE_LIGHT_COLOR)
+		{
+			param->bindValue(this, &Material::autoBindingGetLightColor);
+		}
+		else if (autoBinding == SCENE_LIGHT_DIRECTION)
+		{
+			param->bindValue(this, &Material::autoBindingGetLightDirection);
 		}
 		else
 		{
-			// Add/update an auto-binding
-			_autoBindings[name] = autoBinding;
+			ASSERT("Unsupported auto binding type (%d).", autoBinding);
 		}
+	}
 
-		// If we already have a node binding set, pass it to our handler now
-	//     if (_nodeBinding)
-	//     {
-	//         applyAutoBinding(name, autoBinding);
-	//     }
+	const Matrix4x4& Material::autoBindingGetWorldMatrix() const
+	{
+		return m_pRenderable ? m_pRenderable->m_matWorld : Matrix4x4::identity();
+	}
+
+	const Matrix4x4& Material::autoBindingGetViewMatrix() const
+	{
+		return m_auotBingCamera ? m_auotBingCamera->GetViewMatrix() : Matrix4x4::identity();
+	}
+
+	const Matrix4x4& Material::autoBindingGetProjectionMatrix() const
+	{
+		return m_auotBingCamera ? m_auotBingCamera->GetProjMatrix() : Matrix4x4::identity();
+	}
+
+	Matrix4x4 Material::autoBindingGetWorldViewMatrix() const
+	{
+		return m_pRenderable && m_auotBingCamera ? m_pRenderable->m_matWorld * m_auotBingCamera->GetViewMatrix(): Matrix4x4::identity();
+	}
+
+	Matrix4x4 Material::autoBindingGetViewProjectionMatrix() const
+	{
+		return m_auotBingCamera ? m_auotBingCamera->GetViewProjMatrix() : Matrix4x4::identity();
+	}
+
+	Matrix4x4 Material::autoBindingGetWorldViewProjectionMatrix() const
+	{
+		return m_pRenderable && m_auotBingCamera ? m_pRenderable->m_matWorld * m_auotBingCamera->GetViewProjMatrix() : Matrix4x4::identity();
+	}
+
+	const Matrix4x4& Material::autoBindingGetInverseTransposeWorldMatrix() const
+	{
+		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldMatrix() :*/ Matrix4x4::identity();
+	}
+
+	const Matrix4x4& Material::autoBindingGetInverseTransposeWorldViewMatrix() const
+	{
+		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldViewMatrix() :*/ Matrix4x4::identity();
+	}
+
+	Vector3 Material::autoBindingGetCameraWorldPosition() const
+	{
+		return m_auotBingCamera ? m_auotBingCamera->GetTransform().m_vPos : Vec3Zero();
+	}
+
+	Vector3 Material::autoBindingGetCameraViewPosition() const
+	{
+		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vec3Zero();
+	}
+
+	const Matrix4x4* Material::autoBindingGetMatrixPalette() const
+	{
+		return m_pRenderable ? &m_pRenderable->m_arrSkinMatrix[0] : NULL;
+	}
+
+	unsigned int Material::autoBindingGetMatrixPaletteSize() const
+	{
+		return m_pRenderable ? m_pRenderable->m_arrSkinMatrix.size() : 0;
+	}
+
+	const Vector3& Material::autoBindingGetAmbientColor() const
+	{
+		return /*m_pLight ? scene->getAmbientColor() :*/ Vec3Zero();
+	}
+
+	const Vector3& Material::autoBindingGetLightColor() const
+	{
+		return m_autoBingLight ? m_autoBingLight->GetDiffuse() : Vec3One();
+	}
+
+	const Vector3& Material::autoBindingGetLightDirection() const
+	{
+		return m_autoBingLight ? m_autoBingLight->GetDirection() : Vec3One();
 	}
 
 }

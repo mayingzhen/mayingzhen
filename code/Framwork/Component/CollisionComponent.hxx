@@ -129,7 +129,7 @@ namespace ma
 		Matrix4x4 worldMatr = GetWorldMatrix();
 
 		Vector3 boxSize = GetSize();
-		GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
+		//GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
 	}
 
 	void BoxCollisionComponent::DbgRender(BitField flag)
@@ -143,7 +143,7 @@ namespace ma
 		Matrix4x4 worldMatr = GetWorldMatrix();
 
 		Vector3 boxSize = GetSize();
-		GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
+		//GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
 	}
 
 
@@ -206,7 +206,7 @@ namespace ma
 		Matrix4x4 worldMatr = GetWorldMatrix();
 
 		float fRadius = this->GetRadius();
-		GetRenderDevice()->DrawWireSphere(worldMatr, fRadius, COLOR_RGBA(0,255,0,255));
+		//GetRenderDevice()->DrawWireSphere(worldMatr, fRadius, COLOR_RGBA(0,255,0,255));
 	}
 }
 

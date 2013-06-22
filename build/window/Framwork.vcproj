@@ -248,46 +248,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="RenderScheme"
-				>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\RenderPipeline.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\RenderQueue.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\RenderQueue.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\RenderScheme.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\RenderScheme.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\ShadowDepthPass.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\ShadowDepthPass.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\ShadowMap.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Render\ShadowMap.hxx"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<File
 			RelativePath="..\..\Code\Framwork\Export.h"

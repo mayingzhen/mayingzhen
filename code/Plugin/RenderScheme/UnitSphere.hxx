@@ -136,85 +136,44 @@ namespace ma
 	}
 
 
-	void UnitSphere::Render(ID3DXEffect* pEffect)
+	void UnitSphere::Render(Material* pMaterial)
 	{
-		if (pEffect == NULL)
-			return;
+		m_pRenderable->m_pMaterial;
 
-		HRESULT hr = D3D_OK;
-
-// 		Camera* pCamera = GetRenderDevice()->GetCamera();
-// 		if (pCamera == NULL)
-// 			return;
-
-		hr = m_pd3dDevice->SetVertexDeclaration(m_pVertexDeclaration);
-		hr = m_pd3dDevice->SetIndices(m_pIB);
-		hr = m_pd3dDevice->SetStreamSource(0,m_pVB,0,sizeof(Vector3));
-		hr = m_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_nVBSise, 0, m_nIBSize);
+		GetRenderDevice()->DrawRenderable(m_pRenderable);
 	}
 
 
-	void UnitSphere::Init(LPDIRECT3DDEVICE9 pDxDevice)
+	void UnitSphere::Init()
 	{
-		m_pd3dDevice = pDxDevice;
+		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); 
+		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
+		pVertexDec->Active();
 
-		D3DVERTEXELEMENT9 vertexElements[] =
-		{
-			{ 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 }, 
-			D3DDECL_END()
-		};
+		std::vector<Uint16> arrIndex;
+		std::vector<Vector3> arrVertex;
+		CreateUnitSphere(1,arrIndex,arrVertex);
 
-		m_pd3dDevice->CreateVertexDeclaration(vertexElements, &m_pVertexDeclaration);
+		// Init Renderable
+		m_pRenderable = new Renderable();
 
-		std::vector<Uint16> indBuff;
-		std::vector<Vector3> vertBuff;
-		CreateUnitSphere(1,indBuff,vertBuff);
+		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(&arrVertex[0],sizeof(Vector3) * arrVertex.size(),sizeof(Vector3));
+		pVertexs->Active();
 
-		m_nVBSise = vertBuff.size();
-		m_nIBSize = indBuff.size();
+		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(&arrIndex[0],sizeof(Uint16) * arrIndex.size());
+		pIndexs->Active();
 
-
-		HRESULT hr = S_OK;
-
-		hr = m_pd3dDevice->CreateVertexBuffer( vertBuff.size() * sizeof( Vector3 ), D3DUSAGE_WRITEONLY,
-			0, D3DPOOL_DEFAULT, &m_pVB, NULL );
-		ASSERT(SUCCEEDED(hr));
-		if(FAILED(hr))
-		{
-			return /*false*/;
-		}
-
-		hr = m_pd3dDevice->CreateIndexBuffer( indBuff.size() * sizeof( indBuff ), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16,
-			D3DPOOL_DEFAULT, &m_pIB, NULL );
-		ASSERT(SUCCEEDED(hr));
-		if(FAILED(hr))
-		{
-			return /*false*/;
-		}
-
-		Vector3* pVerts = NULL;
-		UINT* pInds = NULL;
-
-		//allocate vertices
-		hr = m_pVB->Lock(0, vertBuff.size() * sizeof( Vector3 ), (void **) &pVerts, 0);
-		ASSERT(SUCCEEDED(hr));
-
-		memcpy( pVerts, &vertBuff[0], vertBuff.size()*sizeof(Vector3 ) );
-
-		hr = m_pVB->Unlock();
-		ASSERT(SUCCEEDED(hr));
-
-		//allocate indices
-		hr = m_pIB->Lock(0, indBuff.size() * sizeof( Uint16 ), (void **) &pInds, 0);
-		ASSERT(SUCCEEDED(hr));
-
-		memcpy( pInds, &indBuff[0], sizeof(Uint16)*indBuff.size() );
-
-		hr = m_pIB->Unlock();
-		ASSERT(SUCCEEDED(hr));
+		m_pRenderable->m_pDeclaration = pVertexDec;
+		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
+		m_pRenderable->m_pIndexBuffer = pIndexs;
+		m_pRenderable->m_pVertexBuffers = pVertexs;
+		m_pRenderable->m_nVertexStart = 0;
+		m_pRenderable->m_nVertexCount = 4;
+		m_pRenderable->m_nIndexStart = 0;
+		m_pRenderable->m_nIndexCount = 4;
 
 
-		return /*SUCCEEDED(hr)*/;
+		return;
 	}
 
 }

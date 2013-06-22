@@ -203,9 +203,19 @@ namespace ma
 		return true;
 	}
 
+	struct IMAGE_INFO
+	{
+		GLuint Width;
+		GLuint Height;
+		GLuint PixelFormat;
+	};
+
 	bool GLESTexture::Load(const char* pszPath,bool generateMipmaps)
 	{
-		// ´´½¨DevImage¾ä±ú
+		ASSERT(pszPath);
+		if (pszPath == NULL)
+			return;
+
 		ILuint curImage = 0; 
 		ilGenImages(1, &curImage);
 		ilBindImage(curImage);
@@ -235,7 +245,7 @@ namespace ma
 			int unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
 			int unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
 
-			ConvertImageData(m_PixelFormat,unLevelWidth * unLevelHeight,pSrcData);
+			ConvertImageData(imageFormat,unLevelWidth * unLevelHeight,pSrcData);
 
 			if(bCompressFormat)
 			{
@@ -273,21 +283,20 @@ namespace ma
 		}
 	}
 
-	void GLESTexture::ConvertImageData(GLenum pixelFormat,int nPixelCount,Uint8* pPixel)
+	void GLESTexture::ConvertImageData(int pixelFormat,int nPixelCount,Uint8* pPixel)
 	{
 		int nPixelSize = 1;
-		if(pixelFormat == GL_BGR)
+		if(pixelFormat == IL_BGR)
 		{
 			nPixelSize = 3;
 		}
-		else if(pixelFormat == GL_BGRA)
+		else if(pixelFormat == IL_BGRA)
 		{
 			nPixelSize = 4;
 		}
-		else if (pixelFormat == GL_ALPHA)
+		else 
 		{
 			return;
-			//nPixelSize = 1;
 		}
 
 		for(int i = 0; i < nPixelCount; ++i)

@@ -2,7 +2,7 @@
 uniform float4x4 u_worldViewProjectionMatrix;
 
 #ifdef SKIN
-float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
+uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
 #endif
 
 
@@ -36,6 +36,11 @@ struct VS_OUT
 #ifdef DIFFUSE    
    float2 v_texCoord : TEXCOORD0;
 #endif  
+
+#ifdef DeferredLight
+   float2 v_defTc : TEXCOORD1;
+#endif
+
    
 #ifdef COLOR      
    float4 v_color : COLOR0;
@@ -78,6 +83,12 @@ VS_OUT main(VS_IN In)
 #ifdef DIFFUSE      
     Out.v_texCoord = In.a_texCoord0;
 #endif
+
+#ifdef DeferredLight
+   Out.v_defTc = Out.v_position.xy / Out.v_position.w;
+   Out.v_defTc.y *= -1;
+   Out.v_defTc = Out.v_defTc * 0.5f + 0.5f;
+#endif   
     
 #ifdef COLOR    
     Out.v_color = In.a_color;

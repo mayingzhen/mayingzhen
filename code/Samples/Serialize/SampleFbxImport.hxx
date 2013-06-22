@@ -11,11 +11,11 @@ namespace ma
 		m_pSkeleton = NULL;
 		m_pRenderMesh = NULL;
 		//m_pRendTexture = NULL;
-		m_pRenderMaterial = NULL;
+		//m_pRenderMaterial = NULL;
 
 		m_pStaticMesh = NULL;
 		//m_pStatcMeshTexture = NULL;
-		m_pStaticMeshMaterial = NULL;
+		//m_pStaticMeshMaterial = NULL;
 
 		m_pBoxMesh = NULL;
 		//m_pBoxTexture = NULL;
@@ -43,65 +43,35 @@ namespace ma
 // 		SAFE_DELETE(pAnimData);
 		///
         std::string strPath;
-        
-		pMeshData = new MeshData;
-        strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull.skn";
-		pMeshData->Load(strPath.c_str());
-		//pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/TestBull.skn");
-        strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull.ske";
-		pSkeData = LoadSkeletonFromBinaryFile(strPath.c_str());
-		//pAnimData = LoadAnimationFromBinaryFile("../Data/Fbx/TestBull.ska");
 
 		m_pRenderMesh = new RenderMesh();
-		m_pRenderMesh->InitWithData(pMeshData);
+		m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");
+        
 
-		Texture* pRendTexture = GetRenderDevice()->CreateRendTexture();
-        strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull_DM.png";
-		pRendTexture->Load(strPath.c_str());
-		Sampler* sampler = Sampler::create(pRendTexture); // +ref texture
-
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-		pShaderProgram->CreateFromShaderName("default","SKIN;SKIN_MATRIX_COUNT 55;DIFFUSE");
-		m_pRenderMaterial = Material::create(pShaderProgram);
-		m_pRenderMaterial->getParameter("u_texture")->SetValue(sampler);
-
-		m_pRenderMesh->SetMaterial(m_pRenderMaterial);
+        strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull.ske";
+		pSkeData = new SkeletonData();
+		pSkeData->Load(strPath.c_str());
 
 		m_pSkeleton = new Skeleton();
 		m_pSkeleton->InitWithData(pSkeData);
 
 		m_pAnimtionPlay = new AnimationPlay(m_pSkeleton);
-         strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull.ska";
+        strPath = std::string( FileSystem::getResourcePath() ) + "FBX/TestBull.ska";
 		m_pAnimtionPlay->AddAction(strPath.c_str(),"TestAction");
 		m_pAnimtionPlay->PlayAnimation("TestAction");
 	}
 
 	void SampleFbxImport::LoadSaticMesh(FBXImporter& fbxImpor)
 	{
-		MeshData* pMeshData = new MeshData;
-
-		//fbxImpor.LoadStaticMeshData("../Data/Fbx/MovingPlatform.fbx",pMeshData);
-
-		//SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshData);
-		//SAFE_DELETE(pMeshData);
-
-		pMeshData = new MeshData();
-		pMeshData->Load("../../Data/Fbx/MovingPlatform.skn");
-		//pMeshData = LoadMeshFromBinaryFile("../Data/Fbx/MovingPlatform.skn");
+// 		MeshData* pMeshData = new MeshData;
+// 
+// 		fbxImpor.LoadStaticMeshData("../Data/Fbx/MovingPlatform.fbx",pMeshData);
+// 
+// 		SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshData);
+// 		SAFE_DELETE(pMeshData);
 
 		m_pStaticMesh = new RenderMesh();
-		m_pStaticMesh->InitWithData(pMeshData);
-		
-		Texture* pTexture = GetRenderDevice()->CreateRendTexture();
-		pTexture->Load("../../Data/Fbx/PlatformTexture.tga");
-
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-		pShaderProgram->CreateFromShaderName("default","DIFFUSE");
-		m_pStaticMeshMaterial = Material::create(pShaderProgram);
-		Sampler* sampler = Sampler::create(pTexture); // +ref texture
-		m_pStaticMeshMaterial->getParameter("u_texture")->SetValue(sampler);
-
-		m_pStaticMesh->SetMaterial(m_pStaticMeshMaterial);
+		m_pStaticMesh->Load("Fbx/MovingPlatform.skn","Fbx/PlatformTexture.tga");
 		
 	}
 
@@ -126,9 +96,9 @@ namespace ma
 
 		LoadSaticMesh(fbxImpor);
 
-		//LoadSkelMesh(fbxImpor);
+		LoadSkelMesh(fbxImpor);
 
-		//LoadBoxMesh(fbxImpor);
+		LoadBoxMesh(fbxImpor);
 
 		LoadParticles();
 
@@ -139,23 +109,10 @@ namespace ma
 		MeshData* pMeshData = new MeshData;
 		fbxImpor.LoadStaticMeshData("../../Data/Fbx/Box.fbx",pMeshData);
 		pMeshData->Save("../../Data/Fbx/Box.skn");
-
-		pMeshData = new MeshData();
-		pMeshData->Load("../../Data/Fbx/Box.skn");
+		SAFE_DELETE(pMeshData);
 
 		m_pBoxMesh = new RenderMesh();
-		m_pBoxMesh->InitWithData(pMeshData);
-
-		Texture* pTexture = GetRenderDevice()->CreateRendTexture();
-		pTexture->Load("../../Data/Fbx/Box.tga");
-
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-		pShaderProgram->CreateFromShaderName("default","DIFFUSE");
-		m_pBoxMaterial = Material::create(pShaderProgram);
-		Sampler* sampler = Sampler::create(pTexture); // +ref texture
-		m_pBoxMaterial->getParameter("u_texture")->SetValue(sampler);
-
-		m_pBoxMesh->SetMaterial(m_pBoxMaterial);
+		m_pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.tga");
 
 	}
 
@@ -190,22 +147,21 @@ namespace ma
 		if (m_pRenderMesh && m_pAnimtionPlay)
 		{
 			Matrix4x4 matWorld;
-			MatrixTranslation(&matWorld,-50,0,0);
+			MatrixTranslation(&matWorld,20,0,0);
 
-// 			Matrix4x4 matScale;
-// 			MatrixScaling(&matScale, 1.0f / 50.0f, 1.0f / 50.0f, 1.0f / 50.0f); 
-// 
-// 			matWorld = matScale * matWorld;
+ 			Matrix4x4 matScale;
+ 			MatrixScaling(&matScale, 1.0f / 50.0f, 1.0f / 50.0f, 1.0f / 50.0f); 
+ 
+ 			matWorld = matScale * matWorld;
 
 	
 			Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
 			UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
 
-			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
 
-			m_pRenderMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
-			m_pRenderMaterial->getParameter("u_matrixPalette")->SetValue(skinMatrix,nNumber);
-			//m_pRenderMesh->Draw();
+			m_pRenderMesh->SetWorldMatrix(matWorld);
+			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
+			m_pRenderMesh->Draw();
 		}
 
 
@@ -217,10 +173,8 @@ namespace ma
 			//MatrixScaling(&matScale,50,50,50); 
 			MatrixTranslation(&matWorld,0,0,0);
  			//matWorld = matScale * matWorld;
-
-			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
-
-			m_pStaticMeshMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
+			
+			m_pStaticMesh->SetWorldMatrix(matWorld);
 
 			m_pStaticMesh->Draw();
 		}
@@ -232,9 +186,8 @@ namespace ma
 			MatrixScaling(&matScale,200,200,200); 
 			MatrixTranslation(&matWorld,0,0,0);
 			matWorld = matScale * matWorld;
-			Matrix4x4 matWVP = matWorld * m_pCamera->GetViewProjMatrix();
-
-			m_pBoxMaterial->getParameter("u_worldViewProjectionMatrix")->SetValue(matWVP);
+			
+			m_pBoxMesh->SetWorldMatrix(matWorld);
 
 			m_pBoxMesh->Draw();
 		}

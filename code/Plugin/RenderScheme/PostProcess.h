@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "effect_file.h"
 #include "ScreenQuad.h"
 
 class CPostProcess
@@ -30,9 +29,10 @@ private:
 	std::vector<LPDIRECT3DTEXTURE9> m_pInputTexs;
 	std::vector<LPDIRECT3DTEXTURE9> m_pOutputTexs;
 
-	CEffectFile	m_Tech;
+	//CEffectFile	m_Tech;
+	Material*		m_pMaterial;
 
-	CScreenQuad m_ScreenQuad;
+	ScreenQuad		m_ScreenQuad;
 };
 
 class CPostProcessChain 

@@ -492,6 +492,16 @@ Matrix4x4::Matrix4x4( const Matrix4x4& mat )
 	memcpy(&_11, &mat, sizeof(Matrix4x4));
 }
 
+inline 
+const Matrix4x4& Matrix4x4::identity()
+{
+	static Matrix4x4 m(
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1 );
+	return m;
+}
 
 inline
 Matrix4x4::Matrix4x4( float f11, float f12, float f13, float f14,

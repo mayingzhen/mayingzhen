@@ -3,34 +3,32 @@
 
 namespace ma
 {
-	class AnimationRes;
-	class SkeletonRes;
-	class MeshRes;
-	class Texture;
+	class Resource;
 
 	typedef Resource* (*ResourceCreator)();
 
-	class FRAMEWORK_API ResourceManager
+	class ENGINE_API ResourceManager
 	{
 	public:
-		Resource* DeclareResource(const char* pszRelPath);
+		static Resource* DeclareResource(const char* pszRelPath);
 
-		/////// Resource Creation
-		void RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		static void RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		void UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		static void UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
+		static void SetResRootPath(const char* path);
+
+		static const char* GetResRootPath();
 
 	private:
-		typedef std::map<std::string,Resource*> ResMap;
+		typedef std::map<std::string,Resource*> ResourceMap;
 		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
-		typedef std::map<GUID,SkeletonRes*> SkeletonMap;
 
-		ResMap			m_resMap;
-
-		SkeletonMap		m_skelMap;
+		static ResourceMap		m_resMap;
 		
-		ResCreateFunMap m_resCreateFunMap;
+		static ResCreateFunMap	m_resCreateFunMap;
+
+		static std::string		m_sResRootPath;
 	};
 }
 

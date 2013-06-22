@@ -21,12 +21,13 @@ namespace ma
 
 	void SampleBrowser::Init(const Platform* pPlatform)
 	{
+		ResourceManager::SetResRootPath("../../Data/");
 		FileSystem::setResourcePath("../../Data/");
 
 		CommonModuleInit();
 		EngineModuleInit();
-		//D3D9RenderModuleInit();
-		GLESRenderModuleInit();
+		D3D9RenderModuleInit();
+		//GLESRenderModuleInit();
 		//AnimationModuleInit();
 
 		GetRenderDevice()->Init(pPlatform->GetWindId());
@@ -111,8 +112,8 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
-		//if (m_arrSamples[m_curSampleIndex])
-		//	m_arrSamples[m_curSampleIndex]->Render();
+		if (m_arrSamples[m_curSampleIndex])
+			m_arrSamples[m_curSampleIndex]->Render();
 
 		m_pSampleSelectForm->draw();
 	

@@ -264,6 +264,9 @@ void Form::setSize(float width, float height)
         _spriteBatch = SpriteBatch::create(/*pTest*/_frameBuffer->GetTexture());
         ASSERT(_spriteBatch);
 
+		_spriteBatch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
+		_spriteBatch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
+
         // Clear the framebuffer black
         //Game* game = Game::getInstance();
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
@@ -399,7 +402,7 @@ static ShaderProgram* createEffect()
 //         Texture::Sampler* sampler = Texture::Sampler::create(_frameBuffer->getRenderTarget()->getTexture());
 //         ASSERT(sampler);
 //         sampler->setWrapMode(Texture::CLAMP, Texture::CLAMP);
-//         _nodeMaterial->getParameter("u_texture")->setValue(sampler);
+//         _nodeMaterial->GetParameter("u_texture")->setValue(sampler);
 //         sampler->release();
 // 
 //         RenderState::StateBlock* rsBlock = _nodeMaterial->getStateBlock();
@@ -558,7 +561,7 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (1/*isDirty()*/)
+    if (isDirty())
     {
         ASSERT(_frameBuffer);
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
@@ -603,7 +606,7 @@ void Form::draw()
 		float fRight = _u2;
 		float fBottom = _v1;
 		GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
-        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, 0, _v1, _u2, 0, Vec4One());
+        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
         _spriteBatch->finish();
     //}
 }

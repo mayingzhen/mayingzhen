@@ -259,6 +259,8 @@ public:
 	float& operator () ( Uint Row, Uint Col );
 	float  operator () ( Uint Row, Uint Col ) const;
 
+	static const Matrix4x4& identity();
+
 	Vector3 GetRow(Uint Row) const {return Vector3(m[Row][0],m[Row][1],m[Row][2]);}
 
 	// casting operators

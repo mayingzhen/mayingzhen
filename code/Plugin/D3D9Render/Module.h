@@ -8,11 +8,7 @@
 
 #include "D3D9Render/Export.h"
 #include "D3D9Render/D3D9RenderDevice.h"
-#include "D3D9Render/LineRender.h"
 #include "D3D9Render/D3D9Texture.h"
-#include "D3D9Render/LineRender.h"
-#include "D3D9Render/ScreenQuad.h"
-#include "D3D9Render/UnitSphere.h"
 #include "D3D9Render/D3D9VertexBuffer.h"
 #include "D3D9Render/D3D9IndexBuffer.h"
 #include "D3D9Render/D3D9Mapping.h"

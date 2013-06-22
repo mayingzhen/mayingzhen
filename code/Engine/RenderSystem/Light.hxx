@@ -2,8 +2,7 @@
 
 namespace ma
 {
-	Light::Light(Scene* pSene, const char* pNodeName):
-	SceneNode(pSene,pNodeName)
+	Light::Light()
 	{
 		m_eLightType = LIGHT_POINT;
 		m_vUpVector = Vector3(0, 1, 0);
@@ -17,24 +16,24 @@ namespace ma
 		m_bCreateShadow = false;
 	}
 
-	void Light::Update()
-	{
-		SyncFromSceneNode();
-	}
+// 	void Light::Update()
+// 	{
+// 		SyncFromSceneNode();
+// 	}
 
-	void Light::SyncFromSceneNode()
-	{
-		MatrixInverse(&m_mView,NULL,&GetWorldMatrix());
-	}
-
-	void Light::SyncToSceneNode()
-	{
-		NodeTransform tsfWS;
-		Matrix4x4 matViewInv;
-		MatrixInverse(&matViewInv,NULL,&m_mView);
-		TransformFromMatrix(&tsfWS,&matViewInv);
-		SetTransform(tsfWS,TS_WORLD);
-	}
+// 	void Light::SyncFromSceneNode()
+// 	{
+// 		MatrixInverse(&m_mView,NULL,&GetWorldMatrix());
+// 	}
+// 
+// 	void Light::SyncToSceneNode()
+// 	{
+// 		NodeTransform tsfWS;
+// 		Matrix4x4 matViewInv;
+// 		MatrixInverse(&matViewInv,NULL,&m_mView);
+// 		TransformFromMatrix(&tsfWS,&matViewInv);
+// 		SetTransform(tsfWS,TS_WORLD);
+// 	}
 
 	void Light::LookAt(const Vector3* pEye,const Vector3* pAt,const Vector3* pUp)
 	{
@@ -50,7 +49,7 @@ namespace ma
 		// view matrix
 		MatrixLookAtLH(&m_mView, pEye, &m_vTarget, &m_vUpVector);
 		
-		SyncToSceneNode();
+		//SyncToSceneNode();
 
 
 		// projection matrix
