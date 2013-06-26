@@ -516,6 +516,8 @@ namespace ma
 	void MaterialParameter::bind(ShaderProgram* effect)
 	{
 		ASSERT(effect);
+		if (effect == NULL)
+			return;
 
 		// If we had a Uniform cached that is not from the passed in effect,
 		// we need to update our uniform to point to the new effect's uniform.

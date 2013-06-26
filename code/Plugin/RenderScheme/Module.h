@@ -4,9 +4,9 @@
 
 #include "RenderScheme/Export.h"
 
-#include "RenderScheme/LineRender.h"
-#include "RenderScheme/ScreenQuad.h"
-#include "RenderScheme/UnitSphere.h"
+
+//#include "RenderScheme/ScreenQuad.h"
+//#include "RenderScheme/UnitSphere.h"
 
 // #include "RenderScheme/PostProcess.h"
 // #include "RenderScheme/HDRPostProcess.h"

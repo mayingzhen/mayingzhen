@@ -58,6 +58,11 @@ namespace ma
 		return;
 	}
 
+	float D3D9RenderDevice::GetHalfPixelOffset(float fHalfPiexl)
+	{
+		return fHalfPiexl;
+	}
+
 	void D3D9RenderDevice::Init(HWND wndhandle)
 	{
 		InitD3D9(wndhandle);
@@ -316,9 +321,12 @@ namespace ma
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
-		D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
-		hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
-		ASSERT(hr == D3D_OK);
+		if (pRenderable->m_pIndexBuffer)
+		{	
+			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
+			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
+			ASSERT(hr == D3D_OK);
+		}
 
 		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
@@ -333,6 +341,10 @@ namespace ma
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
 			nPrimCount = pRenderable->m_nIndexCount - 2;
+		}
+		else if (ePrimitiveType == D3DPT_LINELIST)
+		{
+			nPrimCount = pRenderable->m_nIndexCount / 2;
 		}
 
 		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,pRenderable->m_nVertexStart,pRenderable->m_nVertexCount,

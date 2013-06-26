@@ -1,8 +1,5 @@
-//#include "Base.h"
 #include "SpriteBatch.h"
-//#include "Game.h"
 #include "Material/Material.h"
-#include "Material/ShaderProgram.h"
 
 // Default size of a newly created sprite batch
 #define SPRITE_BATCH_DEFAULT_SIZE 128
@@ -16,15 +13,11 @@
     vtx.u = vu; vtx.v = vv; \
     vtx.r = vr; vtx.g = vg; vtx.b = vb; vtx.a = va
 
-// Default sprite shaders
-//#define SPRITE_VSH "res/shaders/sprite.vert"
-//#define SPRITE_FSH "res/shaders/sprite.frag"
-#define SPRITE		"sprite"	
 
 namespace ma
 {
 
-	static ShaderProgram* __spriteEffect = NULL;
+	static Material* __spriteMaterial = NULL;
 
 	SpriteBatch::SpriteBatch()
 		: _batch(NULL), _sampler(NULL), _textureWidthRatio(0.0f), _textureHeightRatio(0.0f)
@@ -37,105 +30,64 @@ namespace ma
 		//SAFE_RELEASE(_sampler);
 		if (!_customEffect)
 		{
-			//if (__spriteEffect && __spriteEffect->getRefCount() == 1)
+			//if (__spriteMaterial && __spriteMaterial->getRefCount() == 1)
 			//{
-			//    __spriteEffect->release();
-			//    __spriteEffect = NULL;
+			//    __spriteMaterial->release();
+			//    __spriteMaterial = NULL;
 			//}
 			//else
 			//{
-			//    __spriteEffect->release();
+			//    __spriteMaterial->release();
 			//}
 		}
 	}
 
-	SpriteBatch* SpriteBatch::create(const char* texturePath, ShaderProgram* effect, unsigned int initialCapacity)
-	{
-		Texture* texture = GetRenderDevice()->CreateRendTexture();//Texture::create(texturePath);
-		texture->Load(texturePath);
-		SpriteBatch* batch = SpriteBatch::create(texture, effect, initialCapacity);
-		//SAFE_RELEASE(texture);
-		return batch;
-	}
+// 	SpriteBatch* SpriteBatch::create(const char* texturePath, Material* pMaterial, unsigned int initialCapacity)
+// 	{
+// 		Texture* texture =  ResourceManager::DeclareResource(texturePath);
+// 		texture->Load();
+// 		SpriteBatch* batch = SpriteBatch::create(texture, pMaterial, initialCapacity);
+// 		return batch;
+// 	}
 
-	SpriteBatch* SpriteBatch::create(Texture* texture,  ShaderProgram* effect, unsigned int initialCapacity)
+	SpriteBatch* SpriteBatch::create(Texture* texture, Material* pMaterial, unsigned int initialCapacity)
 	{
 		ASSERT(texture != NULL);
 
-		bool customEffect = (effect != NULL);
+		bool customEffect = (pMaterial != NULL);
 		if (!customEffect)
 		{
 			// Create our static sprite effect.
-			if (__spriteEffect == NULL)
+			if (__spriteMaterial == NULL)
 			{
-				__spriteEffect = GetRenderDevice()->CreateShaderProgram();
-				//__spriteEffect->CreateFromShaderName(SPRITE);
-				__spriteEffect->CreateFromShaderName("default","DIFFUSE;COLOR");
-				if (__spriteEffect == NULL)
-				{
-					GP_ERROR("Unable to load sprite effect.");
-					return NULL;
-				}
-				effect = __spriteEffect;
+				__spriteMaterial = new Material("DIFFUSE;COLOR","default");
+
+				pMaterial = __spriteMaterial;
 			}
 			else
 			{
-				effect = __spriteEffect;
-				//__spriteEffect->IncReference();
+				pMaterial = new Material("DIFFUSE;COLOR","default"); //__spriteMaterial;
 			}
 		}
 
-		// Search for the first sampler uniform in the effect.
-// 		Uniform* samplerUniform = NULL;
-// 		for (unsigned int i = 0, count = effect->GetUniformCount(); i < count; ++i)
-// 		{
-// 			Uniform* uniform = effect->GetUniform(i);
-// 			if (uniform && uniform->getType() == SPT_SAMPLER2D)
-// 			{
-// 				samplerUniform = uniform;
-// 				break;
-// 			}
-// 		}
-// 		if (!samplerUniform)
-// 		{
-// 			GP_ERROR("No uniform of type GL_SAMPLER_2D found in sprite effect.");
-// 			//SAFE_RELEASE(effect);
-// 			return NULL;
-// 		}
-
-		// Wrap the effect in a material
-		//Material* material = Material::create(effect); // +ref effect
-		Material* material = new Material();
-		material->SetShaderProgram("default","DIFFUSE;COLOR");
-
-
-		// Set initial material state
-		//material->getStateBlock()->setBlend(true);
-		//material->getStateBlock()->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-		//material->getStateBlock()->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
-		material->GetRenderState()->m_eBlendMode = BM_TRANSPARENT;
+		
+		Technique* pTech = pMaterial->GetCurTechnqiue();
+		pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
 		// Bind the texture to the material as a sampler
 		Sampler* sampler = Sampler::create(texture); // +ref texture
 		//material->GetParameter(samplerUniform->getName())->SetValue(sampler);
-		material->GetParameter("u_texture")->setSampler(sampler);
+		pMaterial->GetParameter("u_texture")->setSampler(sampler);
 	    
-		// Define the vertex format for the batch
-		//VertexElement vertexElements[] =
-		//{
-		//    VertexElement(0,0,DT_FLOAT3,DU_POSITION,0),
-		//    VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0), 
-		//	VertexElement(0,20,DT_FLOAT4,DU_COLOR,0)       	
-		//};
+
 		VertexDeclaration* vertexFormat = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
 		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
-		//vertexFormat->m_nStreamStride = 36;
 		vertexFormat->Active();
 
 		// Create the mesh batch
-		MeshBatch* meshBatch = MeshBatch::create(vertexFormat, PRIM_TRIANGLESTRIP, material, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+		MeshBatch* meshBatch = MeshBatch::create(vertexFormat, PRIM_TRIANGLESTRIP, pMaterial, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
 		//material->release(); // don't call SAFE_RELEASE since material is used below
 
 		// Create the batch
@@ -153,7 +105,7 @@ namespace ma
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&batch->_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
 		//GetRenderDevice()->MakeOrthoMatrix(&batch->_projectionMatrix, w, h,  0.0f, 1.0f);
 		//Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &batch->_projectionMatrix);
-		material->GetParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
+		pMaterial->GetParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
 		
 		return batch;
 	}
@@ -406,9 +358,15 @@ namespace ma
 		_batch->draw();
 	}
 
-	RenderState* SpriteBatch::getStateBlock() const
+	RenderState& SpriteBatch::getStateBlock() const
 	{
-		return _batch->getMaterial()->GetRenderState();
+		ASSERT(_batch);
+		ASSERT(_batch->getMaterial());
+		ASSERT(_batch->getMaterial()->GetCurTechnqiue());
+		//if (_batch || _batch->getMaterial() || _batch->getMaterial()->GetCurTechnqiue())
+		//	return 
+
+		return _batch->getMaterial()->GetCurTechnqiue()->GetRenderState();
 	}
 
 	Sampler* SpriteBatch::getSampler() const

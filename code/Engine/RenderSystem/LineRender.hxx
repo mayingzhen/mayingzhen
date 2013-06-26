@@ -13,17 +13,15 @@ namespace ma
 
 	void LineRender::Init()
 	{
-		ShaderProgram* pShaderProram = GetRenderDevice()->CreateShaderProgram();
-		pShaderProram->CreateFromShaderName("default","COLOR");
-		
-		Material* pMaterial = Material::create(pShaderProram);
-		//pMaterial->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &LineRender::GetViewProjMatrix);
-		
+		Material* pMaterial = new Material("COLOR","default");
+
+		pMaterial->setParameterAutoBinding("u_worldViewProjectionMatrix",VIEW_PROJECTION_MATRIX);
+
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT4,DU_COLOR,0);
 		pVertexDec->Active();
-		m_pMeshBatch = MeshBatch::create(pVertexDec, PRIM_LINELIST, pMaterial, false, 1024);
+		m_pMeshBatch = MeshBatch::create(pVertexDec, PRIM_LINELIST, pMaterial, true, 1024);
 	}
 
 
@@ -33,9 +31,11 @@ namespace ma
 		v[0].pos = p0;
 		v[0].col = dwColor;
 		v[1].pos = p1;
-		v[2].col = dwColor;
-		
-		m_pMeshBatch->add(v,2,NULL,0);
+		v[1].col = dwColor;
+	
+		Uint16 index[2] = {0,1};
+
+		m_pMeshBatch->add(v,2,index,2);
 	}
 
 

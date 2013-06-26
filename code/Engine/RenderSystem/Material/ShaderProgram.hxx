@@ -204,7 +204,7 @@ namespace ma
 			// Found an exiting effect with this id, so increase its ref count and return it.
 			ASSERT(itr->second);
 			//itr->second->IncReference();
-			//return itr->second;
+			//return;
 		}
 
 		std::string strVshSource = prePareShaderSource(vshPath,defines);
@@ -214,6 +214,8 @@ namespace ma
 			strFshSource.c_str(), strFshSource.length() );
 
 		ParseUniform();
+
+		__effectCache[uniqueId] = this;
 	}
 
 

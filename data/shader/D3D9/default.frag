@@ -45,7 +45,7 @@ float4 main(PS_IN In) : COLOR0
    float3 LightDiffuse = tex2D(u_textureLightDiffuse, In.v_defTc);
    float3 LightSpecular = tex2D(u_textureLightSpecular, In.v_defTc);
    
-   flagColor = float4( LightDiffuse.rgb * flagColor.rgb + LightSpecular, 1.0f );
+   flagColor = float4( LightDiffuse.rgb * flagColor.rgb + LightSpecular.rgb, 1.0f );
 #endif
 
    return flagColor; 

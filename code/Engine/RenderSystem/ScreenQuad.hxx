@@ -57,9 +57,9 @@ namespace ma
 	{
 		m_pRenderable->m_pMaterial = pMaterial;
 
-		Matrix4x4 mInvProj;
-		MatrixInverse(&mInvProj, NULL, &m_matProj);
-		pMaterial->GetParameter("u_InvProjMatrix")->SetValue(mInvProj);
+// 		Matrix4x4 mInvProj;
+// 		MatrixInverse(&mInvProj, NULL, &m_matProj);
+// 		pMaterial->GetParameter("u_InvProjMatrix")->setMatrix(mInvProj);
 
 		GetRenderDevice()->DrawRenderable(m_pRenderable);
 	}

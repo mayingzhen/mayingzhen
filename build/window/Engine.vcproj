@@ -325,6 +325,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Resource\Stream.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Resource\TextureData.h"
 				>
 			</File>
@@ -349,14 +353,6 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputArchive.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\SerializeListener - 副本.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\SerializeListener - 副本.hxx"
 					>
 				</File>
 				<File
@@ -548,11 +544,47 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\Technqiue.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\Technqiue.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Util"
+				>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\LineRender.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\LineRender.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ScreenQuad.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ScreenQuad.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\UnitSphere.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\UnitSphere.hxx"
 					>
 				</File>
 			</Filter>

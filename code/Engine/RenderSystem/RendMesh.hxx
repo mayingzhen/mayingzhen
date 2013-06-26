@@ -26,27 +26,25 @@ namespace ma
 	
 		if (pDiffueTexture)
 		{
-			TextureData* pTexture = static_cast<TextureData*>(ResourceManager::DeclareResource(pDiffueTexture));
+			Texture* pTexture = static_cast<Texture*>(ResourceManager::DeclareResource(pDiffueTexture));
 			ASSERT(pTexture);
 			if (pTexture == NULL)
 				return false;
 
 			pTexture->Load();
-			Sampler* sampler = Sampler::create(pTexture->GetRenderTexture()); // +ref texture
+			Sampler* sampler = Sampler::create(pTexture); // +ref texture
 			
-
-			std::string sShaderDefine;
+			std::string sMaterFlag;
 			if (m_bSkin)
 			{
-				sShaderDefine = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 60";
+				sMaterFlag = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55";
 			}
 			else
 			{
-				sShaderDefine = "DIFFUSE";
+				sMaterFlag = "DIFFUSE";
 			}
 		
-			Material* pMaterial = new Material();
-			pMaterial->SetShaderProgram("Default",sShaderDefine.c_str());
+			Material* pMaterial = new Material(sMaterFlag.c_str(),"default");
 			
 			pMaterial->GetParameter("u_texture")->setSampler(sampler);
 
@@ -161,8 +159,13 @@ namespace ma
 		}
 	}
 
-	void RenderMesh::Draw()
+	void RenderMesh::Draw(const char* pTechName)
 	{
+		if (pTechName)
+		{
+			m_pMaterial->SetCurTechnqiue(pTechName);
+		}
+
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
 			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);

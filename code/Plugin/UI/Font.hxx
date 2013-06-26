@@ -1,19 +1,13 @@
 
 #include "Font.h"
-//#include "Game.h"
-//#include "FileSystem.h"
-//#include "Bundle.h"
 
-// Default font shaders
-#define FONT_VSH "res/shaders/font.vert"
-#define FONT_FSH "res/shaders/font.frag"
 
 namespace ma
 {
 
 static std::vector<Font*> __fontCache;
 
-static ShaderProgram* __fontEffect = NULL;
+static Material* __fontMaterial = NULL;
 
 Font::Font() :
     _style(PLAIN), _size(0), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL)
@@ -98,37 +92,28 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     ASSERT(texture);
 
     // Create the effect for the font's sprite batch.
-    if (__fontEffect == NULL)
+    if (__fontMaterial == NULL)
     {
-        //__fontEffect = Effect::createFromFile(FONT_VSH, FONT_FSH);
-		__fontEffect = GetRenderDevice()->CreateShaderProgram();
-		__fontEffect->CreateFromShaderName("default","DIFFUSE;COLOR;FONT");
-        if (__fontEffect == NULL)
-        {
-            GP_ERROR("Failed to create effect for font.");
-            SAFE_DEC_REF(texture);
-            return NULL;
-        }
+		__fontMaterial = new Material("DIFFUSE;COLOR;FONT","default");
+
+		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
+		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_eDepthCheckMode = DCM_NONE;
     }
     else
     {
-        __fontEffect->IncReference();
+        //__fontMaterial->IncReference();
     }
 
     // Create batch for the font.
-    SpriteBatch* batch = SpriteBatch::create(texture, __fontEffect, 128);
+    SpriteBatch* batch = SpriteBatch::create(texture, __fontMaterial, 128);
     
-    // Release __fontEffect since the SpriteBatch keeps a reference to it
-    //SAFE_DEC_REF(__fontEffect);
-
+    // Release __fontMaterial since the SpriteBatch keeps a reference to it
+    //SAFE_DEC_REF(__fontMaterial);
     if (batch == NULL)
     {
         GP_ERROR("Failed to create batch for font.");
         return NULL;
     }
-
-	batch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
-	batch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
 
     // Add linear filtering for better font quality.
     Sampler* sampler = batch->getSampler();

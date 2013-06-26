@@ -1,5 +1,5 @@
-uniform float4x4 worldviewprojection ;
-uniform float4x4 worldview ;
+uniform float4x4 u_worldViewProjectionMatrix;
+uniform float4x4 u_worldviewMatrix;
 
 #ifdef SKIN
 uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
@@ -20,21 +20,21 @@ struct VS_OUT
 
 #ifdef SKIN
 void SkinPos( float3 pos ,
-               float3 normal,
-             float4 BlendWeights , 
-               int4 BlendIndices,
-               out float3 wPos,
-               out float3 wNormal)
+              float3 normal,
+			  float4 BlendWeights , 
+              int4 BlendIndices,
+              out float3 wPos,
+              out float3 wNormal)
 {
-   wPos = 0;
-   wNormal = 0;
-   int   IndexArray[4]   = (int[4])BlendIndices; 
-   float WeightArray[4] = (float[4])BlendWeights;
-   for (int iBone = 0; iBone < 4; ++iBone)
-   {
-      wPos += mul(u_matrixPalette[IndexArray[iBone]], float4(wPos.xyz, 1.0f)).xyz * WeightArray[iBone];
-      wNormal += mul((float3x3)u_matrixPalette[IndexArray[iBone]], wNormal) * WeightArray[iBone];
-   }
+	wPos = 0;
+	wNormal = 0;
+	int   IndexArray[4]   = (int[4])BlendIndices; 
+	float WeightArray[4] = (float[4])BlendWeights;
+	for (int iBone = 0; iBone < 4; ++iBone)
+	{
+		wPos += mul(u_matrixPalette[IndexArray[iBone]], float4(pos.xyz, 1.0f)).xyz * WeightArray[iBone];
+		wNormal += mul((float3x3)u_matrixPalette[IndexArray[iBone]], normal) * WeightArray[iBone];
+	}
 }
 #endif
 
@@ -53,12 +53,12 @@ VS_OUT main( float3 pos : POSITION,
    SkinPos(pos,normal,BlendWeights,BlendIndices,wPos,wNormal);
 #endif
 
-      vout.oPos = mul( worldviewprojection, float4(wPos.xyz,1.0f) );
-      vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
-      vout.oTex = texcoord;
-      vout.oNormal = mul((float3x3)worldview,wNormal);
+   vout.oPos = mul( u_worldViewProjectionMatrix, float4(wPos.xyz,1.0f) );
+   vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
+   vout.oTex = texcoord;
+   vout.oNormal = mul((float3x3)u_worldviewMatrix,wNormal);
       
-      return vout;
+   return vout;
 }
 
 

@@ -28,13 +28,13 @@ namespace ma
 
 		Matrix4x4		GetProjmatrix()	{return m_mProj;}
 
-		Vector3		GetDiffuse() {return m_vLightDiffuse;}
+		Vector3			GetDiffuse() {return m_vLightDiffuse;}
 
 		float			GetRadius() {return m_fRadius;}
 
 		void			SetRadius(float fRadius) {m_fRadius = fRadius;}
 
-		Vector3		GetDirection() {return m_vDirection;}
+		Vector3			GetDirection() {return m_vDirection;}
 
 		bool			IsCreateShadow() {return m_bCreateShadow;}
 

@@ -1,7 +1,5 @@
 #include "Material.h"
 #include "ShaderProgram.h"
-//#include "../Camera.h"
-//#include "../Light.h"
 
 
 namespace ma
@@ -10,22 +8,66 @@ namespace ma
 	Camera* Material::m_auotBingCamera = NULL;
 	Light*	Material::m_autoBingLight = NULL;
 
-	Material::Material() 
+	Material::Material(const char* pMaterialFlag,const char* pShaderName) 
 	{
-		m_pShaderProgram = NULL; 
-		m_pRenderable = NULL;
-
 		if (m_autoDefaultBings.empty())
 		{
 			m_autoDefaultBings["u_worldViewProjectionMatrix"] = WORLD_VIEW_PROJECTION_MATRIX;
+			m_autoDefaultBings["u_worldviewMatrix"] = WORLD_VIEW_MATRIX;
 			m_autoDefaultBings["u_matrixPalette"] = MATRIX_PALETTE;
+			m_autoDefaultBings["depth_near_far_invfar"] = DepthNearFarInvfar;
+			
 		}
+
+		m_pRenderable = NULL;
+		m_pCurTechnque = NULL;
+
+		m_strMaterialFlag = pMaterialFlag;
+		
+		if (pShaderName)
+		{
+			m_pCurTechnque = CreateTechnique(pShaderName,pShaderName);
+		}
+			
+
 	}
 
 	Material::~Material()
 	{
-		SAFE_DELETE(m_pShaderProgram);
+		//SAFE_DELETE(m_pShaderProgram);
 	}
+
+	Technique*	Material::CreateTechnique(const char* pTechName,const char* pShadrName, const char* pDefine)
+	{
+		ASSERT(pTechName);
+		if (pTechName == NULL)
+			return NULL;
+
+		Technique* pTechnique = new Technique(this,pTechName);
+		m_arrTechnique.push_back(pTechnique);
+		pTechnique->CreateShaderProgram(pShadrName,pDefine);
+		return pTechnique;
+	}
+
+	void Material::SetCurTechnqiue(const char* pTechName)
+	{
+		for (Uint i = 0; i < m_arrTechnique.size(); ++i)
+		{
+			Technique* pTech = m_arrTechnique[i];
+			ASSERT(pTech);
+			if (pTech == NULL)
+				continue;
+
+			if ( strcmp(pTechName,pTech->GetTechName()) == 0 )
+			{
+				m_pCurTechnque = m_arrTechnique[i];
+				return;
+			}
+		}
+
+		ASSERT(false);
+	}
+
 
 // 	Material* Material::create(const char* url)
 // 	{
@@ -57,33 +99,33 @@ namespace ma
 // 		return material;
 // 	}
 
-	void Material::SetShaderProgram(const char* pszName,const char* define)
-	{
-		ASSERT(pszName);
-		if (pszName == NULL)
-			return;
-
-		m_strShaderName = pszName;
-		m_strShaderDefine = define;
-
-		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-		m_pShaderProgram->CreateFromShaderName(pszName,define);
-		
-		UINT nUniform = m_pShaderProgram->GetUniformCount();
-		for (UINT i = 0; i < nUniform; ++i)
-		{
-			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-			ASSERT(pUniform);
-			if (pUniform == NULL)
-				continue;
-
-			std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pUniform->getName());
-			if (itr != m_autoDefaultBings.end())
-			{
-				setParameterAutoBinding(pUniform->getName(),itr->second);
-			}
-		}
-	}
+// 	void Material::SetShaderProgram(const char* pszName,const char* define)
+// 	{
+// 		ASSERT(pszName);
+// 		if (pszName == NULL)
+// 			return;
+// 
+// 		//m_strShaderName = pszName;
+// 		//m_strShaderDefine = define;
+// 
+// 		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();
+// 		m_pShaderProgram->CreateFromShaderName(pszName,define);
+// 		
+// 		UINT nUniform = m_pShaderProgram->GetUniformCount();
+// 		for (UINT i = 0; i < nUniform; ++i)
+// 		{
+// 			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+// 			ASSERT(pUniform);
+// 			if (pUniform == NULL)
+// 				continue;
+// 
+// 			std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pUniform->getName());
+// 			if (itr != m_autoDefaultBings.end())
+// 			{
+// 				setParameterAutoBinding(pUniform->getName(),itr->second);
+// 			}
+// 		}
+// 	}
 
 
 	static FilterOptions parseTextureFilterMode(const char* str, FilterOptions defaultValue)
@@ -140,14 +182,16 @@ namespace ma
 
 	void Material::Bind()
 	{
-		m_pShaderProgram->Bind();
+		ASSERT(m_pCurTechnque);
+		if (m_pCurTechnque == NULL)
+			return;
+
+		m_pCurTechnque->Bind();
 
 		for (UINT i = 0; i < m_parameters.size(); ++i)
 		{
-			m_parameters[i]->bind(m_pShaderProgram);
+			m_parameters[i]->bind(m_pCurTechnque->GetShaderProgram());
 		}
-
-		GetRenderDevice()->SetRenderState(m_renderState);
 	}
 
 	void Material::UnBind()
@@ -265,6 +309,15 @@ namespace ma
 // 		}
 // 	}
 
+	void Material::UseDefaultBing(Uniform* pUniform)
+	{
+		std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pUniform->getName());
+		if (itr != m_autoDefaultBings.end())
+		{
+			setParameterAutoBinding(pUniform->getName(),itr->second);
+		}
+	}
+
 	void Material::setParameterAutoBinding(const char* uniformName,AutoBinding autoBinding)
 	{
 		MaterialParameter* param = GetParameter(uniformName);
@@ -326,9 +379,13 @@ namespace ma
 		{
 			param->bindValue(this, &Material::autoBindingGetLightDirection);
 		}
+		else if (autoBinding == DepthNearFarInvfar)
+		{
+			param->bindValue(this, &Material::autoBingingDepthNearFarInvfar);
+		}
 		else
 		{
-			ASSERT("Unsupported auto binding type (%d).", autoBinding);
+			ASSERT("Unsupported auto binding type " && autoBinding);
 		}
 	}
 
@@ -405,6 +462,17 @@ namespace ma
 	const Vector3& Material::autoBindingGetLightDirection() const
 	{
 		return m_autoBingLight ? m_autoBingLight->GetDirection() : Vec3One();
+	}
+
+	Vector4 Material::autoBingingDepthNearFarInvfar() const
+	{
+		if (m_auotBingCamera == NULL)
+			return Vec4One();
+		
+		float fNear = m_auotBingCamera->GetNearClip();
+		float fFar = m_auotBingCamera->GetFarClip();
+		
+		return Vector4(fNear,fFar,1/fFar,0);
 	}
 
 }

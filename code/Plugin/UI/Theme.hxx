@@ -90,16 +90,18 @@ Theme* Theme::create(const char* url)
     // Parse the Properties object and set up the theme.
     const char* textureFile = themeProperties->getString("texture");
     //theme->_texture = Texture::create(textureFile, false);
-	theme->_texture = GetRenderDevice()->CreateRendTexture();
-	std::string strPath = std::string(FileSystem::getResourcePath()) + textureFile;
-	theme->_texture->Load(strPath.c_str());
+	//theme->_texture = GetRenderDevice()->CreateRendTexture();
+	//std::string strPath = std::string(FileSystem::getResourcePath()) + textureFile;
+	//theme->_texture->Load(strPath.c_str());
+	theme->_texture = static_cast<Texture*>(ResourceManager::DeclareResource(textureFile));
+	theme->_texture->Load();
     ASSERT(theme->_texture);
     theme->_spriteBatch = SpriteBatch::create(theme->_texture);
     ASSERT(theme->_spriteBatch);
     theme->_spriteBatch->getSampler()->setFilterMode(TFO_POINT/*Texture::NEAREST, Texture::NEAREST*/);
 
-	theme->_spriteBatch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
-	theme->_spriteBatch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
+	theme->_spriteBatch->getStateBlock().m_bDepthWrite = false;
+	theme->_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
 
     float tw = 1.0f / theme->_texture->getWidth();
     float th = 1.0f / theme->_texture->getHeight();
@@ -731,16 +733,19 @@ const Rectangle& Theme::Skin::getRegion() const
 
 void Theme::Skin::setRegion(const Rectangle& region, float tw, float th)
 {
-    // Can calculate all measurements in advance.
-    float leftEdge = region.x * tw;
-    float rightEdge = (region.x + region.width) * tw;
-    float leftBorder = (region.x + _border.left) * tw;
-    float rightBorder = (region.x + region.width - _border.right) * tw;
+	float fHalftw = GetRenderDevice()->GetHalfPixelOffset(0.5f * tw);
+	float fHalfth = GetRenderDevice()->GetHalfPixelOffset(0.5f * th);
 
-    float topEdge = /*1.0f - */(region.y * th);
-    float bottomEdge = /*1.0f -*/ ((region.y + region.height) * th);
-    float topBorder = /*1.0f -*/ ((region.y + _border.top) * th);
-    float bottomBorder = /*1.0f -*/ ((region.y + region.height - _border.bottom) * th);
+    // Can calculate all measurements in advance.
+    float leftEdge = region.x * tw + fHalftw;
+    float rightEdge = (region.x + region.width) * tw + fHalftw;
+    float leftBorder = (region.x + _border.left) * tw + + fHalftw;
+    float rightBorder = (region.x + region.width - _border.right) * tw + fHalftw;
+
+    float topEdge = /*1.0f - */(region.y * th) + fHalfth;
+    float bottomEdge = /*1.0f -*/ ((region.y + region.height) * th) + fHalfth;
+    float topBorder = /*1.0f -*/ ((region.y + _border.top) * th) + fHalfth;
+    float bottomBorder = /*1.0f -*/ ((region.y + region.height - _border.bottom) * th) + fHalfth;
 
     // There are 9 sets of UVs to set.
     _uvs[TOP_LEFT].u1 = leftEdge;

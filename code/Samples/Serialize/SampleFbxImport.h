@@ -48,6 +48,18 @@ namespace ma
 		Material*       m_pBoxMaterial;
 
 		ParticleEmitter* m_pEmitter;
+
+		RenderTarget*	m_pDepthTex;
+		RenderTarget*	m_pNormalTex;
+
+		RenderTarget*	m_pDiffuse;
+		RenderTarget*	m_pSpecular;
+
+		ScreenQuad*		m_pScreenQuad;
+
+		Material*		m_pMaterDeferred;
+
+		Light*			m_pLight;
 	};
 }
 

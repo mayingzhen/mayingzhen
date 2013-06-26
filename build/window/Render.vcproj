@@ -281,34 +281,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Util"
-			>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\LineRender.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\LineRender.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ScreenQuad.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ScreenQuad.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\UnitSphere.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\UnitSphere.hxx"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath="..\..\code\Plugin\RenderScheme\Export.h"
 			>

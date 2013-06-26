@@ -1,4 +1,4 @@
-uniform float shininess = 16.0h;
+const float shininess = 16.0h;
 
 struct VS_OUT
 {      

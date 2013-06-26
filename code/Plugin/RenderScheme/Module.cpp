@@ -1,9 +1,8 @@
 #include "RenderScheme/stdAfx.h"
 #include "RenderScheme/Module.h"
 
-#include "RenderScheme/LineRender.hxx"
-#include "RenderScheme/ScreenQuad.hxx"
-#include "RenderScheme/UnitSphere.hxx"
+//#include "RenderScheme/ScreenQuad.hxx"
+//#include "RenderScheme/UnitSphere.hxx"
 
 // #include "RenderScheme/PostProcess.hxx"
 // #include "RenderScheme/HDRPostProcess.hxx"

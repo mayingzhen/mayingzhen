@@ -34,8 +34,8 @@ ParticleEmitter::ParticleEmitter(SpriteBatch* batch, unsigned int particleCountM
     _particles = new Particle[particleCountMax];
 
     ASSERT(_spriteBatch);
-    ASSERT(_spriteBatch->getStateBlock());
-    _spriteBatch->getStateBlock()->m_bDepthWrite = false;
+    //ASSERT(_spriteBatch->getStateBlock());
+    _spriteBatch->getStateBlock().m_bDepthWrite = false;
     //_spriteBatch->getStateBlock()->m_bDepthTest = true;
 }
 
@@ -48,9 +48,8 @@ ParticleEmitter::~ParticleEmitter()
 
 ParticleEmitter* ParticleEmitter::create(const char* textureFile, BLEND_MODE textureBlending, unsigned int particleCountMax)
 {
-    Texture* texture = GetRenderDevice()->CreateRendTexture();//Texture::create(textureFile, false);
-	std::string strPath = std::string( FileSystem::getResourcePath() ) + textureFile;
-	texture->Load(strPath.c_str(),false);
+	Texture* texture = static_cast<Texture*>(ResourceManager::DeclareResource(textureFile)); //GetRenderDevice()->CreateRendTexture();//Texture::create(textureFile, false);
+	texture->Load();
 
     if (!texture)
     {
@@ -535,9 +534,9 @@ const Vector3& ParticleEmitter::getRotationAxisVariance() const
 void ParticleEmitter::setTextureBlending(BLEND_MODE textureBlending)
 {
     ASSERT(_spriteBatch);
-    ASSERT(_spriteBatch->getStateBlock());
+    //ASSERT(_spriteBatch->getStateBlock());
 
-	_spriteBatch->getStateBlock()->m_eBlendMode = textureBlending;
+	_spriteBatch->getStateBlock().m_eBlendMode = textureBlending;
 
 //     switch (textureBlending)
 //     {

@@ -41,7 +41,7 @@ namespace ma
 			nHeight, 
 			1,
 			D3DUSAGE_RENDERTARGET, 
-			D3DFMT_A8R8G8B8, 
+			D3DFormat, 
 			D3DPOOL_DEFAULT,
 			&pD3D9Texture, NULL);
 
@@ -102,9 +102,12 @@ namespace ma
 
 	bool D3D9Texture::Load(const char* pszPath,bool generateMipmaps)
 	{
-		if (pszPath)
+		if (m_bLoaded)
+			return true;
+
+		if (pszPath == NULL)
 		{
-			m_sResPath = pszPath;
+			pszPath = m_sResPath.c_str();
 		}
 	
 		//D3DXCreateTextureFromFile(GetD3D9DxDevive(),pszPath,&m_pD3DTex);

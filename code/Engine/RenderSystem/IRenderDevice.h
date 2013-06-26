@@ -59,6 +59,8 @@ namespace ma
 
 		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom) = 0;
 
+		virtual float				GetHalfPixelOffset(float fHalfPiexl) = 0;
+
 		virtual	void				GetRenderWndSize(int& Width,int& Heigh) = 0;
 
 		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;

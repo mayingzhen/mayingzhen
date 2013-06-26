@@ -218,9 +218,12 @@ namespace ma
 		// Update our vertex attribute bindings now that our client array pointers have changed
 		//updateVertexAttributeBinding();
 		//UpdateVB IB
-		SAFE_DELETE(m_pIndexBuffer);
-		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(_indices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC);
-		m_pIndexBuffer->Active();
+		if (_indexed)
+		{
+			SAFE_DELETE(m_pIndexBuffer);
+			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(_indices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC);
+			m_pIndexBuffer->Active();
+		}
 
 		SAFE_DELETE(m_pVertexBuffers);
 		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(_vertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
@@ -244,10 +247,12 @@ namespace ma
 
 	void MeshBatch::finish()
 	{
-		
-		void* pIbLock = m_pIndexBuffer->Lock(0,m_pIndexBuffer->GetSize(),LOCK_DISCARD);		
-		memcpy(pIbLock,_indices,_indexCount * sizeof(Uint16));	
-		m_pIndexBuffer->Unlock();
+		if (_indices)
+		{
+			void* pIbLock = m_pIndexBuffer->Lock(0,m_pIndexBuffer->GetSize(),LOCK_DISCARD);		
+			memcpy(pIbLock,_indices,_indexCount * sizeof(Uint16));	
+			m_pIndexBuffer->Unlock();
+		}
 
 		void* pVbLock = m_pVertexBuffers->Lock(0,m_pVertexBuffers->GetSize(),LOCK_DISCARD);
 		memcpy(pVbLock,_vertices,_vertexCount * m_pDeclaration->GetStreanmStride());	

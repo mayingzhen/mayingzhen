@@ -25,7 +25,7 @@
 #include "Engine/Resource/MeshData.h"
 #include "Engine/Resource/AnimationData.h"
 #include "Engine/Resource/SkeletonData.h"
-#include "Engine/Resource/TextureData.h"
+//#include "Engine/Resource/TextureData.h"
 #include "Engine/Resource/ResourceMangager.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/SerializeListener.h"
@@ -51,11 +51,17 @@
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
 
+// Util
+#include "Engine/RenderSystem/LineRender.h"
+#include "Engine/RenderSystem/ScreenQuad.h"
+#include "Engine/RenderSystem/UnitSphere.h"
+
 // Material
 #include "Engine/RenderSystem/Material/Material.h"
 #include "Engine/RenderSystem/Material/MaterialParameter.h"
 #include "Engine/RenderSystem/Material/ShaderProgram.h"
 #include "Engine/RenderSystem/Material/Texture.h"
+#include "Engine/RenderSystem/Material/Technqiue.h"
 
 // Terrain
 // #include "Engine/RenderSystem/Terrain/Terrain.h"
