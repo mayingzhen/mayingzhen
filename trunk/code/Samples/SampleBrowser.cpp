@@ -17,11 +17,12 @@ namespace ma
 		m_curSampleIndex = 0;
 
 		SetTimer(&m_Timer);
+
+		m_pLineRender = new LineRender();
 	}
 
 	void SampleBrowser::Init(const Platform* pPlatform)
 	{
-		ResourceManager::SetResRootPath("../../Data/");
 		FileSystem::setResourcePath("../../Data/");
 
 		CommonModuleInit();
@@ -33,6 +34,8 @@ namespace ma
 		GetRenderDevice()->Init(pPlatform->GetWindId());
 
 		m_arrSamples[m_curSampleIndex]->Init(pPlatform);
+
+		m_pLineRender->Init();
 
 // 		m_pDefaultTech = GetRenderDevice()->CreateTechnique();
 // 		m_pDefaultTech->Load(NULL,"Default");
@@ -116,6 +119,10 @@ namespace ma
 			m_arrSamples[m_curSampleIndex]->Render();
 
 		m_pSampleSelectForm->draw();
+
+		m_pLineRender->Start();
+		m_pLineRender->DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
+		m_pLineRender->Finish();
 	
 		GetRenderDevice()->EndRender();
 	}

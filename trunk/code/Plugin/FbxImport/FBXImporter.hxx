@@ -440,7 +440,7 @@ namespace ma
 			pMesh = converter.TriangulateMesh(pMesh);
 		}
 
-		pMeshData->m_nVertexType |= DUM_POSITION | DUM_TEXCOORD /*| DUM_NORMAL | DUM_TANGENT*/;
+		pMeshData->m_nVertexType |= DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL /*| DUM_TANGENT*/;
 		pMeshData->m_nIndexType  = INDEX_TYPE_U16;
 
 		std::vector<V_3P_2UV_3N_3T> arrVertex;
@@ -521,7 +521,7 @@ namespace ma
 					V_3P_2UV_3N_3T_S vTemp;
 					vTemp.m_position = vPos;
 					vTemp.m_uv = vUV;
-					//vTemp.m_normal = vNormal;
+					vTemp.m_normal = vNormal;
 					//vTemp.m_tangent = vTangent;
 					vTemp.m_boneID = boneInd.uInde;
 					vTemp.m_weight = weight.uInde;
@@ -542,7 +542,7 @@ namespace ma
 					V_3P_2UV_3N_3T vTemp;
 					vTemp.m_position = vPos;
 					vTemp.m_uv = vUV;
-					//vTemp.m_normal = vNormal;
+					vTemp.m_normal = vNormal;
 					//vTemp.m_tangent = vTangent;
 					std::vector<V_3P_2UV_3N_3T>::iterator it = std::find(arrVertex.begin(),arrVertex.end(),vTemp);
 					if (it != arrVertex.end())

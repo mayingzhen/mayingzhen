@@ -10,25 +10,9 @@ namespace ma
 	class MaterialParameter;
 	class Camera;
 	class Light;
-	class Renderable;
-
-	struct RenderState 
-    {
-		bool				m_bDepthWrite;
-		//bool				m_bDepthTest;
-        DEPTH_CHECK_MODE	m_eDepthCheckMode;
-		BLEND_MODE			m_eBlendMode;
-		CULL_MODE			m_eCullMode;
-
-		RenderState()
-		{
-			m_bDepthWrite = true;
-			//m_bDepthTest = true;
-			m_eDepthCheckMode = DCM_LESS_EQUAL;
-			m_eBlendMode = BM_OPATICY;
-			m_eCullMode = CULL_FACE_SIDE_BACK;
-		}
-    };
+	struct Renderable;
+	class Technique;
+	struct Uniform;
 
     enum AutoBinding
 	{
@@ -46,7 +30,8 @@ namespace ma
 		MATRIX_PALETTE,			// matrix palette of MeshSkin
 		SCENE_AMBIENT_COLOR,
 		SCENE_LIGHT_COLOR,
-		SCENE_LIGHT_DIRECTION
+		SCENE_LIGHT_DIRECTION,
+		DepthNearFarInvfar,
 	};
 
 
@@ -54,9 +39,11 @@ namespace ma
 	{
 	public:
 
-		Material();
+		Material(const char* pMaterialFlag,const char* pShaderName = NULL);
 
 		~Material();
+
+		Technique*			CreateTechnique(const char* pTechName,const char* pShadrName, const char* pDefine = NULL);
 
 		void				Bind();
 
@@ -68,13 +55,17 @@ namespace ma
 
 		void				setParameterAutoBinding(const char* name, AutoBinding autoBinding);
 
-		void				SetShaderProgram(const char* pszName,const char* define);
+		void				SetMaterialFlage(const char* pszFlage) {m_strMaterialFlag = pszFlage;}
 
-		RenderState*		GetRenderState()  {return &m_renderState;}
-
-		ShaderProgram*		GetShaderProgram() {return m_pShaderProgram;}
+		const char*			GetMaterialFlage() {return m_strMaterialFlag.c_str();}
 
 		void				SetRenderable(Renderable* pRenderable) {m_pRenderable = pRenderable;}
+
+		void				UseDefaultBing(Uniform* pUniform);
+
+		Technique*			GetCurTechnqiue() {return m_pCurTechnque;}
+
+		void				SetCurTechnqiue(const char* pTechName);
 
 		static void			SetAuotBingCamera(Camera* pCamera) {m_auotBingCamera = pCamera;}
 
@@ -95,25 +86,22 @@ namespace ma
 		const Vector3&		autoBindingGetAmbientColor() const;
 		const Vector3&		autoBindingGetLightColor() const;
 		const Vector3&		autoBindingGetLightDirection() const;
+		Vector4				autoBingingDepthNearFarInvfar() const;
 
 	private:
 
-		RenderState			m_renderState;
+		std::vector<Technique*>	m_arrTechnique;
 
-		ShaderProgram*		m_pShaderProgram;
-
-		std::string			m_strShaderName;
-
-		std::string			m_strShaderDefine;
+		std::string			m_strMaterialFlag;
 
 		Renderable*			m_pRenderable;
 			
 		std::vector<MaterialParameter*> m_parameters;
 
+		Technique*				m_pCurTechnque;
 		
 		// Map of parameter names to auto binding strings. 
 		static std::map<std::string, AutoBinding> m_autoDefaultBings;
-
 		static Camera*  m_auotBingCamera;
 		static Light*	m_autoBingLight;
 	};

@@ -29,6 +29,8 @@ namespace ma
 		virtual const char*			GetShaderPath();
 
 		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
+
+		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		
 		//// Render
 		virtual RenderTarget*		CreateRenderTarget();

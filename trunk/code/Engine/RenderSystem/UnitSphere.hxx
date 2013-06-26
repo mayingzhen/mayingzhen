@@ -53,11 +53,11 @@ namespace ma
 				k = depth - i - j;
 
 				{
-					w0 = (i * v0 + j * v1 + k * v2) / depth;
+					w0 = (i * v0 + j * v1 + k * v2) / (float)depth;
 					w1 = ((i + 1) * v0 + j * v1 + (k - 1) * v2)
-						/ depth;
+						/ (float)depth;
 					w2 = (i * v0 + (j + 1) * v1 + (k - 1) * v2)
-						/ depth;
+						/ (float)depth;
 				}
 
 				Vec3Normalize(&w0,&w0);

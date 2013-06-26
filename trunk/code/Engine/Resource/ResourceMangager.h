@@ -16,10 +16,6 @@ namespace ma
 
 		static void UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		static void SetResRootPath(const char* path);
-
-		static const char* GetResRootPath();
-
 	private:
 		typedef std::map<std::string,Resource*> ResourceMap;
 		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
@@ -27,8 +23,6 @@ namespace ma
 		static ResourceMap		m_resMap;
 		
 		static ResCreateFunMap	m_resCreateFunMap;
-
-		static std::string		m_sResRootPath;
 	};
 }
 

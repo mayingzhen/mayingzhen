@@ -14,12 +14,13 @@
 
 // Resource
 #include "Engine/Resource/Properties.hxx"
+#include "Engine/Resource/Stream.hxx"
 #include "Engine/Resource/FileSystem.hxx"
 #include "Engine/Resource/Resource.hxx"
 #include "Engine/Resource/MeshData.hxx"
 #include "Engine/Resource/AnimationData.hxx"
 #include "Engine/Resource/SkeletonData.hxx"
-#include "Engine/Resource/TextureData.hxx"
+//#include "Engine/Resource/TextureData.hxx"
 #include "Engine/Resource/ResourceMangager.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
@@ -43,10 +44,16 @@
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
 
+// Util
+#include "Engine/RenderSystem/LineRender.hxx"
+#include "Engine/RenderSystem/ScreenQuad.hxx"
+#include "Engine/RenderSystem/UnitSphere.hxx"
+
 #include "Engine/RenderSystem/Material/Material.hxx"
 #include "Engine/RenderSystem/Material/MaterialParameter.hxx"
 #include "Engine/RenderSystem/Material/ShaderProgram.hxx"
 #include "Engine/RenderSystem/Material/Texture.hxx"
+#include "Engine/RenderSystem/Material/Technqiue.hxx"
 
 
 // Animation
@@ -81,7 +88,7 @@ using namespace ma;
 #undef RTTI_DECL
 
 Resource* MeshData_Creator() {return new MeshData();}
-Resource* TextureData_Creator() {return new TextureData();}
+Resource* TextureData_Creator() {return GetRenderDevice()->CreateRendTexture();}
 Resource* AnimationData_Creator() {return new AnimationData();}
 Resource* SkeletonData_Creator() {return new SkeletonData();}
 

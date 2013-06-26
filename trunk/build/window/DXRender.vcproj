@@ -282,6 +282,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\D3D9\DeferredLight.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\D3D9\DeferredLight.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\D3D9\gbuffer.frag"
 				>
 			</File>

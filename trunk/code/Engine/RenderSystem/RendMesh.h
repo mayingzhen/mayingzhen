@@ -12,19 +12,20 @@ namespace ma
 	public:
 		RenderMesh();
 
-		bool InitWithData(MeshData* pMeshData);
+		bool		InitWithData(MeshData* pMeshData);
 
-		bool Load(const char* pMeshPath,const char* pDiffueTexture);
+		bool		Load(const char* pMeshPath,const char* pDiffueTexture);
 		
-		void Draw();
+		void		Draw(const char* pTechName = NULL);
 
-		void SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
+		void		SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 
-		void SetWorldMatrix(const Matrix4x4& matWorld);
+		void		SetWorldMatrix(const Matrix4x4& matWorld);
 
-		void SetMaterial(Material* pMaterial);
+		void		SetMaterial(Material* pMaterial);
 
-		Material* GetMaterial() {return m_pMaterial;}
+		Material*	GetMaterial() {return m_pMaterial;}
+
 
 	public:
 		

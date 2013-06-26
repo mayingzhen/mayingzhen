@@ -264,8 +264,8 @@ void Form::setSize(float width, float height)
         _spriteBatch = SpriteBatch::create(/*pTest*/_frameBuffer->GetTexture());
         ASSERT(_spriteBatch);
 
-		_spriteBatch->getMaterial()->GetRenderState()->m_bDepthWrite = false;
-		_spriteBatch->getMaterial()->GetRenderState()->m_eDepthCheckMode = DCM_NONE;
+		_spriteBatch->getStateBlock().m_bDepthWrite = false;
+		_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
 
         // Clear the framebuffer black
         //Game* game = Game::getInstance();
@@ -561,7 +561,7 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (isDirty())
+    if (1/*isDirty()*/)
     {
         ASSERT(_frameBuffer);
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();

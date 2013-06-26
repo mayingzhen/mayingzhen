@@ -9,7 +9,7 @@ namespace ma
 	{
 		Vector3  m_position;			// position
 		Vector2	 m_uv;					// Texture Coordinate
-		//Vector3	 m_normal;				// normal
+		Vector3	 m_normal;				// normal
 		//Vector3	 m_tangent;				// normal
 
 		bool operator == ( const V_3P_2UV_3N_3T& other) const
@@ -25,7 +25,7 @@ namespace ma
 	{
 		Vector3  m_position;			// position
 		Vector2	 m_uv;					// Texture Coordinate
-		//Vector3	 m_normal;				// normal
+		Vector3	 m_normal;				// normal
 		//Vector3	 m_tangent;				// normal
 		Uint32	 m_boneID;				// bones
 		Uint32	 m_weight;				// Weights	

@@ -13,12 +13,6 @@ namespace ma
 		m_pNormalTex = GetRenderDevice()->CreateRenderTarget();
 		m_pNormalTex->Create(-1,-1,FMT_A8R8G8B8);
 
-// 		m_pGBufferTech = GetRenderDevice()->CreateShaderProgram();
-// 		m_pGBufferTech->CreateFromShaderName("gbuffer");
-// 
-// 		m_pGBufferSkinTech = GetRenderDevice()->CreateShaderProgram();
-// 		m_pGBufferSkinTech->CreateFromShaderName("gbuffer","SKIN");
-
 		// Light
 		m_pDiffuseTex = GetRenderDevice()->CreateRenderTarget();
 		m_pDiffuseTex->Create(-1,-1,D3DFMT_A8R8G8B8);
@@ -26,14 +20,6 @@ namespace ma
 		m_pSpeculaTex = GetRenderDevice()->CreateRenderTarget();
 		m_pSpeculaTex->Create(-1,-1,D3DFMT_A8R8G8B8);
 		
-// 		m_DeferredLightTech = GetRenderDevice()->CreateShaderProgram();
-// 		m_DeferredLightTech->CreateFromShaderName("deferredLight");
-// 
-// 		//Shading
-// 		m_pShadingTech = GetRenderDevice()->CreateShaderProgram();
-// 		m_pShadingTech->CreateFromShaderName("default","DeferredLight");
-
-
 	}
 
 
@@ -50,7 +36,7 @@ namespace ma
 			if (pRenderItem == NULL)
 				continue;
 
-			pRenderItem->m_pMaterial->SetShaderName("default");
+			pRenderItem->m_pMaterial->SetShaderProgram("default","DIFFUSE;DeferredLight");
 
 			GetRenderDevice()->DrawRenderable(pRenderItem);
 		}
@@ -74,7 +60,13 @@ namespace ma
 			if (pRenderItem == NULL)
 				continue;
 
-			pRenderItem->m_pMaterial->SetShaderName("gbuffer");
+			Material* pMaterial = pRenderItem->m_pMaterial;
+			ASSERT(pMaterial);
+			if (pMaterial == NULL)
+				continue;
+
+			const char* pDefine = pMaterial->GetShaderDefine();
+			pMaterial->SetShaderProgram("gbuffer",pDefine);
 
 			GetRenderDevice()->DrawRenderable(pRenderItem);
 		}

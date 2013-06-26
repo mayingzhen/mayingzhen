@@ -56,6 +56,11 @@ namespace ma
 		fBottom = fUVBottom;
 	}
 
+	float	GLESRenderDevice::GetHalfPixelOffset(float fHalfPiexl)
+	{
+		return 0;
+	}
+
 	void GLESRenderDevice::Init(HWND wndhandle)
 	{
 #if PLATFORM_WIN == 1
@@ -317,7 +322,10 @@ namespace ma
 
 		Material* pMaterial = pRenderable->m_pMaterial;
 		pMaterial->Bind();
-		GLESShaderProgram* pProgram = (GLESShaderProgram*)pMaterial->GetShaderProgram();
+		
+		Technique* pCurTech = pMaterial->GetCurTechnqiue();
+		ASSERT(pCurTech);
+		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );

@@ -36,6 +36,8 @@ namespace ma
 		Time					m_Timer;
 
 		Form*					m_pSampleSelectForm; 
+
+		LineRender*				m_pLineRender;
 	};
 }
 

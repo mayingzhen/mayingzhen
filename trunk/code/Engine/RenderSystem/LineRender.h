@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class LineRender
+	class ENGINE_API LineRender
 	{
 	public:
 		LineRender();
@@ -22,12 +22,9 @@ namespace ma
 
 		void Finish();
 
-		Matrix4x4& GetViewProjMatrix() {return m_matViewPorj;}
-
 	private:
 		MeshBatch*	m_pMeshBatch;
 		
-		Matrix4x4 	m_matViewPorj;			
 	};
 }
 

@@ -1,10 +1,10 @@
-#ifndef  C_SCREENQUAD__H__
-#define  C_SCREENQUAD__H__
+#ifndef  _SCREENQUAD__H__
+#define  _SCREENQUAD__H__
 
 
 namespace ma
 {
-	class ScreenQuad
+	class ENGINE_API ScreenQuad
 	{
 	public:
 		void Init();

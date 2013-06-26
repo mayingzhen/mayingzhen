@@ -1,22 +1,15 @@
 #ifndef SPRITEBATCH_H_
 #define SPRITEBATCH_H_
 
-#include "Material/Texture.h"
-//#include "ShaderProgram.h"
-//#include "Mesh.h"
-//#include "Rectangle.h"
-//#include "Matrix4x4.h"
-//#include "RenderState.h"
-//#include "Material/RenderState.h"
-#include "Material/Material.h"
-#include "MeshBatch.h"
+// #include "Material/Texture.h"
+// #include "Material/Material.h"
+// #include "MeshBatch.h"
 
 namespace ma
 {
 
-	//class RenderState;
 	class Material;
-	class ShaderProgram;
+
 	//class 
 	/**
 	 * Enables groups of sprites to be drawn with common settings.
@@ -44,23 +37,8 @@ namespace ma
 		 * a new projection matrix into the SpriteBatch via the setProjectionMatrix
 		 * method.
 		 *
-		 * If a custom effect is specified, it must meet the following requirements:
-		 * <ol>
-		 * <li>The vertex shader inputs must include a vec3 position, a vec2 tex coord
-		 * and a vec4 color.
-		 * <li>The names of the the vertex shader inputs must match the names defined
-		 * by the VERTEX_ATTRIBUTE_XXX constants.
-		 * <li>The fragment shader must define at least a single sampler/texture uniform.
-		 * </ol>
-		 *
-		 * @param texturePath The path of the texture for this sprite batch.
-		 * @param effect An optional effect to use with the SpriteBatch.
-		 * @param initialCapacity An optional initial capacity of the batch (number of sprites).
-		 * 
-		 * @return A new SpriteBatch for drawing sprites using the given texture.
-		 * @script{create}
 		 */
-		static SpriteBatch* create(const char* texturePath, ShaderProgram* effect = NULL, unsigned int initialCapacity = 0);
+		//static SpriteBatch* create(const char* texturePath, Material* pMaterial = NULL, unsigned int initialCapacity = 0);
 
 		/**
 		 * Creates a new SpriteBatch for drawing sprites with the given texture.
@@ -87,7 +65,7 @@ namespace ma
 		 * @return A new SpriteBatch for drawing sprites using the given texture.
 		 * @script{create}
 		 */
-		static SpriteBatch* create(Texture* texture, ShaderProgram* effect = NULL, unsigned int initialCapacity = 0);
+		static SpriteBatch* create(Texture* texture, Material* pMaterial = NULL, unsigned int initialCapacity = 0);
 
 		/**
 		 * Destructor.
@@ -269,7 +247,7 @@ namespace ma
 		 *
 		 * @return The StateBlock for this SpriteBatch.
 		 */
-		RenderState* getStateBlock() const;
+		RenderState& getStateBlock() const;
 
 		/**
 		 * Gets the material used by this batch.
