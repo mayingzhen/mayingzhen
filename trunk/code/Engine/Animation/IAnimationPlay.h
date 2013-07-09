@@ -9,13 +9,13 @@ namespace ma
 	class ENGINE_API IAnimationPlay
 	{
 	public:
-		virtual void			SetSkeleton(ISkeleton* pSkeleton) = 0;
-
 		virtual	ISkeleton*		GetSkeleton() = 0;
 
-		virtual void			SetAnimationSet(IAnimationSet* pAnimationSet) = 0;
+ 		virtual IAnimationSet*	GetAnimationSet() = 0;
 
-		virtual IAnimationSet*	GetAnimationSet() = 0;
+		virtual ISkeleton*		CreateSkeleton(const char* pSkePath) = 0;
+
+		virtual	IAnimationSet*	CreateAnimSet(const char* pAnimSetPath) = 0;
 
 		virtual void			PlayAnimation(const char* pszAnimName) = 0;
 

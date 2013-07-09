@@ -25,7 +25,7 @@ namespace ma
 
 		const char*		GetAnimName() {return m_sAnimName.c_str();}
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Action");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "Action");
 
 	private:
 		std::string		m_sAnimName;

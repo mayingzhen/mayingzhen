@@ -16,16 +16,17 @@ namespace ma
 	class ShaderProgram;
 	struct RenderState;
 	class RenderTarget;
+	class Technique;
 
 	//typedef void* Technique;
 
-	class ENGINE_API IRenderDevice
+	class ENGINE_API IRenderDevice /*: public IDevice*/
 	{
 	public:
 		// Render Res
 		virtual Texture*			CreateRendTexture() = 0;
 
-		virtual RenderTarget*		CreateRenderTarget() = 0;
+		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8) = 0;
 
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 
@@ -37,6 +38,8 @@ namespace ma
 
 		// Set
 		virtual RenderTarget*		SetRenderTarget(RenderTarget* pTexture,int index = 0) = 0;
+		
+		virtual RenderTarget*		SetDepthStencil(RenderTarget* pTexture) = 0;
 
 		virtual Rectangle			SetViewport(const Rectangle& rect) = 0;
 

@@ -1,12 +1,12 @@
 #ifndef __BinaryInputArchive_H__
 #define __BinaryInputArchive_H__
 
-#include "Engine/Resource/Serialize/SerializeListener.h"
+#include "Engine/Resource/Serialize/Serializer.h"
 
 namespace ma
 {
 
-class ENGINE_API BinaryInputArchive : public SerializeListener
+class ENGINE_API BinaryInputArchive : public Serializer
 {
 	std::ifstream m_file;
 public:
@@ -37,7 +37,7 @@ public:
 
 };
 
-class BinaryMemoryInputArchive : public SerializeListener
+class BinaryMemoryInputArchive : public Serializer
 {
 	const Uint8* m_pData;
 	Uint32 m_nDataSize;

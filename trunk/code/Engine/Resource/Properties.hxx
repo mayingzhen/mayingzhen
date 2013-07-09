@@ -1,7 +1,5 @@
-//#include "Base.h"
 #include "Properties.h"
 #include "FileSystem.h"
-//#include "Quaternion.h"
 
 namespace ma
 {

@@ -4,6 +4,7 @@
 
 namespace ma
 {
+	IMPL_OBJECT(MeshData,Resource)
 
 	enum MeshVersion
 	{
@@ -18,7 +19,7 @@ namespace ma
 		m_nVersion = MESH_VER_CURRENT;
 	}
 
-	void SerializeData(SerializeListener& sl, AABB& val,const char* pszLable)
+	void SerializeData(Serializer& sl, AABB& val,const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 		
@@ -29,7 +30,7 @@ namespace ma
 	}
 
 
-	void SerializeData(SerializeListener& sl, MeshHeader& mehHeader, const char* pszLable)
+	void SerializeData(Serializer& sl, MeshHeader& mehHeader, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -39,7 +40,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeData(SerializeListener& sl, SubMeshData& subMeshData, const char* pszLabel)
+	void SerializeData(Serializer& sl, SubMeshData& subMeshData, const char* pszLabel)
 	{
 		sl.BeginSection(pszLabel);
 
@@ -53,7 +54,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-// 	void SerializeData(SerializeListener& sl, VertexGENERAL& vertexGeneral, const char* pszLabel)
+// 	void SerializeData(Serializer& sl, VertexGENERAL& vertexGeneral, const char* pszLabel)
 // 	{
 // 		sl.BeginSection(pszLabel);
 // 
@@ -64,7 +65,7 @@ namespace ma
 // 		sl.EndSection();
 // 	}
 // 
-// 	void SerializeData(SerializeListener& sl, VertexHWSKIN& vertexSkin, const char* pszLabel)
+// 	void SerializeData(Serializer& sl, VertexHWSKIN& vertexSkin, const char* pszLabel)
 // 	{
 // 		sl.BeginSection(pszLabel);
 // 
@@ -75,7 +76,7 @@ namespace ma
 // 	}
 
 
-	void SerializeDataV0(SerializeListener& sl, MeshData& meshData, const char* pszLabel)
+	void SerializeDataV0(Serializer& sl, MeshData& meshData, const char* pszLabel)
 	{
 		sl.BeginSection(pszLabel);
 
@@ -97,7 +98,7 @@ namespace ma
 	}
 
 
-	void MeshData::Serialize(SerializeListener& sl, const char* pszLable)
+	void MeshData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		MeshHeader header;
 		sl.Serialize(header);

@@ -1,7 +1,7 @@
 #include "D3D9Render/stdafx.h"
 #include "D3D9Render/Module.h"
 
-#include "D3D9Render/D3D9RenderDevice.hxx"
+
 #include "D3D9Render/D3D9Texture.hxx"
 #include "D3D9Render/D3D9VertexBuffer.hxx"
 #include "D3D9Render/D3D9IndexBuffer.hxx"
@@ -9,6 +9,7 @@
 #include "D3D9Render/D3D9VertexDeclaration.hxx"
 #include "D3D9Render/D3D9ShaderProgram.hxx"
 #include "D3D9Render/D3D9RenderTarget.hxx"
+#include "D3D9Render/D3D9RenderDevice.hxx"
 
 
 

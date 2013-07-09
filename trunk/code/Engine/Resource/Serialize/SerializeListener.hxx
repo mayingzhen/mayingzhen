@@ -164,12 +164,21 @@ namespace ma
 
 	void SerializeListener::BeginSection(const char* pszLable)
 	{
-		(void)pszLable;
 	}
 
 	void SerializeListener::EndSection()
 	{
 
 	}
+
+// 	const char* SerializeListener::GetFirstChildName()
+// 	{
+// 		return NULL;
+// 	}
+// 
+// 	const char* SerializeListener::GetNextChildName()
+// 	{
+// 		return NULL;
+// 	}
 
 }

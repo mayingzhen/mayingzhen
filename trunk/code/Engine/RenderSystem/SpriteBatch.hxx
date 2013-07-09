@@ -103,8 +103,6 @@ namespace ma
 		int w,h;
 		platform.GetWindowSize(w, h);
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&batch->_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
-		//GetRenderDevice()->MakeOrthoMatrix(&batch->_projectionMatrix, w, h,  0.0f, 1.0f);
-		//Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &batch->_projectionMatrix);
 		pMaterial->GetParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
 		
 		return batch;
@@ -355,7 +353,8 @@ namespace ma
 		
 		// Finish and draw the batch
 		_batch->finish();
-		_batch->draw();
+		//_batch->draw();
+		RenderQueue::AddRenderable(_batch,this);
 	}
 
 	RenderState& SpriteBatch::getStateBlock() const

@@ -3,27 +3,25 @@
 
 namespace ma
 {
+	class IRigidBody;
+	class IBoxCollisionShape;
+	class ISphereCollisionShape;
 
 	class ENGINE_API IPhysicsObject
 	{
 	public:
-		virtual bool			Start(GameObject* pOwner) = 0;
 
-		virtual	bool			Stop(GameObject* pOwner) = 0;
+		virtual	IRigidBody*				CreateRigidBody() = 0;
 
-		virtual IRigidBody*		GetRigidBody() = 0;
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape() = 0;
 
-		virtual void			SetRigidBody(IRigidBody* pRigidBody) = 0;
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape() = 0;
 
-		virtual void			AddBoxCollisionShape(IBoxCollisionShape* pCollisionShape) = 0;
+		virtual void					SetTransformWS(const NodeTransform& tsfWS) = 0;
 
-		virtual	void			AddSphereCollisionShape(ISphereCollisionShape* pSphereCollisionShape)  = 0;
+		virtual NodeTransform			GetTransformWS() = 0;
 
-		virtual void			SetTransformWS(const NodeTransform& tsfWS) = 0;
-
-		virtual NodeTransform GetTransformWS() = 0;
-
-		virtual	void			ApplyForce(Vector3 vForce) = 0;
+		virtual	void					ApplyForce(Vector3 vForce) = 0;
 	};
 }
 

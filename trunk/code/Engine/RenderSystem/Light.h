@@ -42,18 +42,23 @@ namespace ma
 
 		void			LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
 
+		//void			InitShadowMapFrustum(Camera* pCamera);
+		//void			ShadowDepthPass();	
+
 	protected:
 // 		void			SyncFromSceneNode();
 // 
 // 		void			SyncToSceneNode();
 
+		void			CalculateCropMatrix(Frustum splitFrustum);
+
 	protected:
 		LightType		m_eLightType;
 
-		Vector3		m_vLightDiffuse;
+		Vector3			m_vLightDiffuse;
 
-		Vector3		m_vTarget;
-		Vector3		m_vUpVector;
+		Vector3			m_vTarget;
+		Vector3			m_vUpVector;
 		Matrix4x4		m_mView;
 		Matrix4x4		m_mProj;
 		
@@ -62,7 +67,7 @@ namespace ma
 		float			m_fRadius;
 
 		// directional Ligt
-		Vector3		m_vDirection;
+		Vector3			m_vDirection;
 		bool			m_bCreateShadow;
 
 		// spot Light
@@ -70,6 +75,8 @@ namespace ma
 		float			m_fNearClip;
 		float			m_fFarClip;
 		float			m_fFOV;
+
+		//std::vector<ShadowMapFrustum*>	m_arrSMF;
 	};
 
 }

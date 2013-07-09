@@ -22,7 +22,6 @@
 GLenum __gl_error_code = GL_NO_ERROR;
 
 
-#include "GLESRender/GLESRenderDevice.hxx"
 #include "GLESRender/GLESTexture.hxx"
 #include "GLESRender/GLESVertexBuffer.hxx"
 #include "GLESRender/GLESIndexBuffer.hxx"
@@ -30,6 +29,7 @@ GLenum __gl_error_code = GL_NO_ERROR;
 #include "GLESRender/GLESVertexDeclaration.hxx"
 #include "GLESRender/GLESShaderProgram.hxx"
 #include "GLESRender/GLESRenderTarget.hxx"
+#include "GLESRender/GLESRenderDevice.hxx"
 
 
 

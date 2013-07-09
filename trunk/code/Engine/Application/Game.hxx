@@ -19,4 +19,13 @@ namespace ma
 		ASSERT(__gameInstance);
 		return *__gameInstance;
 	}
+
+	void Game::Frame()
+	{
+// 		GetAnimationDevice()->Update();
+// 
+// 		GetPhysicsDevice()->Update();
+// 
+// 		GetAiDevice()->Update();
+	}
 }

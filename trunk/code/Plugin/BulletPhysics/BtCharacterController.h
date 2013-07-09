@@ -13,11 +13,12 @@ class btCollisionObject;
 namespace ma
 {
 	class GameObject;
+	class BulletScene;
 
 	class BULLETPHYSICS_API BulletCharacterController : public ICharacterController
 	{
 	public:
-		BulletCharacterController();
+		BulletCharacterController(GameObject* pGameObject,BulletScene*	pPhyScene);
 
 		~BulletCharacterController();
 
@@ -45,9 +46,9 @@ namespace ma
 
 		virtual CollisionFlags	GetCollisionState() const;		
 
-		virtual bool			Start(GameObject* pGameObj);
+		virtual bool			Start();
 
-		virtual void			Stop(GameObject* pGameObj);
+		virtual void			Stop();
 
 
 		void					SyncToPhysics();
@@ -63,7 +64,7 @@ namespace ma
 		CollisionFlags MoveImpl(const Vector3& motion);
 
 	private:
-		GameObject* m_pGameObject;
+		
 		btKinematicCharacterController* m_character;
 		btPairCachingGhostObject* m_ghostObject;
 		
@@ -75,6 +76,9 @@ namespace ma
 		Vector3 m_vCenter;
 
 		int m_nCollLayer;
+		
+		GameObject*		m_pGameObject;
+		BulletScene*	m_pPhyScene;
 	};
 
 

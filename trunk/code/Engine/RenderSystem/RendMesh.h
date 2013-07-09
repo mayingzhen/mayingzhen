@@ -16,7 +16,7 @@ namespace ma
 
 		bool		Load(const char* pMeshPath,const char* pDiffueTexture);
 		
-		void		Draw(const char* pTechName = NULL);
+		void		Draw();
 
 		void		SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 
@@ -26,6 +26,9 @@ namespace ma
 
 		Material*	GetMaterial() {return m_pMaterial;}
 
+		UINT		GetRenderableNumber() {return m_arrRenderable.size();}
+
+		Renderable*	GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
 	public:
 		

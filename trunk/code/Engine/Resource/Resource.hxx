@@ -2,6 +2,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(Resource,Object)
+
 	Resource::Resource(const char* pszPath)
 	{
 		m_sResPath = pszPath ? pszPath : ""; 
@@ -13,12 +15,12 @@ namespace ma
 
 	}
 
-	bool Resource::Load(const char* pszPath)
+	bool Resource::Load(/*const char* pszPath*/)
 	{
-		if (pszPath)
-		{
-			m_sResPath = pszPath;
-		}
+		//if (pszPath)
+		//{
+		//	m_sResPath = pszPath;
+		//}
 
 		BinaryInputArchive ar;
 		bool bLoadOK = ar.Open(m_sResPath.c_str());
@@ -44,7 +46,7 @@ namespace ma
 		bool bLoadOK = ar.Open(m_sResPath.c_str());
 		if (!bLoadOK)
 		{
-			Log("Fail to open mesh from file %s:",m_sResPath.c_str());
+			ASSERT(false && "Fail to save mesh from file");
 			return NULL;
 		}
 
@@ -53,13 +55,13 @@ namespace ma
 		return true;
 	}
 
-	void Resource::Serialize(SerializeListener& sl, const char* pszLable)
+	void Resource::Serialize(Serializer& sl, const char* pszLable)
 	{
-		sl.BeginSection(pszLable);
-		
-		sl.Serialize(m_sResPath);
-		
-		sl.EndSection();
+// 		sl.BeginSection(pszLable);
+// 		
+// 		sl.Serialize(m_sResPath);
+// 		
+// 		sl.EndSection();
 	}
 
 }

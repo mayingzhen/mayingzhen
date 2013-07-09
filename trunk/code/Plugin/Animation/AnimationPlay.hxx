@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	AnimationPlay::AnimationPlay(ISkeleton* pSkeleton)
+	AnimationPlay::AnimationPlay()
 	{
 		m_pSkelAnim = NULL;
 		m_pAnimSet = NULL;
@@ -16,47 +16,40 @@ namespace ma
 		{
 			MatrixIdentity(&m_arrSkinMatrix[i]);
 		}
-
-		if (pSkeleton)
-		{
-			SetSkeleton(pSkeleton);
-		}
 	}
 
 	AnimationPlay::~AnimationPlay()
 	{
 	}
 
-	void AnimationPlay::SetSkeleton(ISkeleton* pSkeleton)
+	ISkeleton*		AnimationPlay::CreateSkeleton(const char* pSkePath)
 	{
-		m_pSkeleton = (Skeleton*)pSkeleton;
+		ASSERT(pSkePath);
+		if (pSkePath == NULL)
+			return NULL;
+
+		SkeletonData* pSkeData = static_cast<SkeletonData*>(ResourceManager::DeclareResource(pSkePath));
+		pSkeData->Load();
+
+		m_pSkeleton = new Skeleton();
+		m_pSkeleton->InitWithData(pSkeData);
+
 		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
+
+		return m_pSkeleton;
 	}
 
-	void AnimationPlay::SetAnimationSet(IAnimationSet* pAnimationSet)
+	IAnimationSet*	AnimationPlay::CreateAnimSet(const char* pAnimSetPath)
 	{
-		m_pAnimSet = (AnimationSet*)pAnimationSet;
+		m_pAnimSet = new AnimationSet(this);
+
+		return m_pAnimSet;
 	}
 
 	void AnimationPlay::PlayAnimation(Action* pSkelAnim)
 	{
 		m_pSkelAnim = pSkelAnim;
-	}
-
-	void AnimationPlay::AddAction(const char* pszSkaPath, const char* actionName)
-	{
-		ASSERT(m_pSkeleton);
-		if (m_pSkeleton == NULL)
-			return;
-
-		if (m_pAnimSet == NULL)
-		{
-			m_pAnimSet = new AnimationSet();
-		}
-
-		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,m_pSkeleton,actionName);
-		m_pAnimSet->AddAction(pAction);
 	}
 
 	void AnimationPlay::PlayAnimation(ActionID actionID)

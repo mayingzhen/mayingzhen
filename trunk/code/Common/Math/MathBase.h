@@ -144,12 +144,13 @@ public:
 	bool operator == ( const Vector3& ) const;
 	bool operator != ( const Vector3& ) const;
 
-
 public:
 	float x;
 	float y;
 	float z;
 };
+
+
 
 //LHS system
 inline Vector3 Vec3Right() { return Vector3(1.0f,0.0f,0.0f); }

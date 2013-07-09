@@ -4,6 +4,7 @@
 #include "Sample.hxx"
 
 #include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Physics/SampleRigidBody.hxx"
 
 namespace ma
 {
@@ -13,6 +14,9 @@ namespace ma
 	{
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
 		m_arrSamples.push_back(pSampleFbxImport);
+
+		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
+		m_arrSamples.push_back(pSampleRigidBody);
 
 		m_curSampleIndex = 0;
 
@@ -71,7 +75,7 @@ namespace ma
 		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
 		//m_pSampleSelectForm->setAutoHeight(true);
 		//m_pSampleSelectForm->setWidth(200.0f);
-		m_pSampleSelectForm->setSize(200.0f,nWndHeigh);
+		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
 		m_pSampleSelectForm->setConsumeInputEvents(true);
 
@@ -104,6 +108,8 @@ namespace ma
 	{
 		m_Timer.UpdateFrame();
 
+		ResourceManager::Process();
+
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Update();
 		
@@ -115,8 +121,12 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
+		RenderQueue::Clear();
+
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Render();
+
+		RenderQueue::Fulsh();
 
 		m_pSampleSelectForm->draw();
 

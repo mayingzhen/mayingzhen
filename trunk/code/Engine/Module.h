@@ -1,8 +1,6 @@
 #ifndef  _Application_Moudule__H__
 #define  _Application_Moudule__H__
 
-#define MW_ALIGN_ENUM(str) 
-
 #include "WarningPrefix.h"
 
 #include "Engine/Export.h"
@@ -25,10 +23,10 @@
 #include "Engine/Resource/MeshData.h"
 #include "Engine/Resource/AnimationData.h"
 #include "Engine/Resource/SkeletonData.h"
-//#include "Engine/Resource/TextureData.h"
+#include "Engine/Resource/TextureData.h"
 #include "Engine/Resource/ResourceMangager.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
-#include "Engine/Resource/Serialize/SerializeListener.h"
+#include "Engine/Resource/Serialize/Serializer.h"
 #include "Engine/Resource/Serialize/BinaryInputArchive.h"
 #include "Engine/Resource/Serialize/BinaryOutputArchive.h"
 #include "Engine/Resource/Serialize/StringConverter.h"
@@ -39,17 +37,21 @@
 // RenderSystem
 #include "Engine/RenderSystem/RenderDefine.h"
 #include "Engine/RenderSystem/IRenderDevice.h"
-#include "Engine/RenderSystem/RendMesh.h"
 #include "Engine/RenderSystem/IndexBuffer.h"
 #include "Engine/RenderSystem/VertexBuffer.h"
 #include "Engine/RenderSystem/VertexDeclaration.h"
 #include "Engine/RenderSystem/Renderable.h"
+#include "Engine/RenderSystem/RendMesh.h"
 #include "Engine/RenderSystem/MeshBatch.h"
 #include "Engine/RenderSystem/ParticleEmitter.h"
 #include "Engine/RenderSystem/SpriteBatch.h"
 #include "Engine/RenderSystem/RenderTarget.h"
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
+
+// RenderScheme
+#include "Engine/RenderSystem/RenderQueue.h"
+#include "Engine/RenderSystem/ShadowMapFrustum.h"
 
 // Util
 #include "Engine/RenderSystem/LineRender.h"
@@ -103,6 +105,10 @@
 //#include "Engine/Input/Gamepad.h"
 //#include "Engine/Input/Joystick.h"
 
+
+// DataThread
+#include "Engine/DataThread/AutoLock.h"
+#include "Engine/DataThread/DataThread.h"
 
 
 

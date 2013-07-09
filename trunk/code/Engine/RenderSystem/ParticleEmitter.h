@@ -1,25 +1,15 @@
 #ifndef PARTICLEEMITTER_H_
 #define PARTICLEEMITTER_H_
 
-//#include "Transform.h"
-//#include "Mesh.h"
-//#include "Vector2.h"
-//#include "Vector4.h"
-#include "Material/Texture.h"
-//#include "Rectangle.h"
-#include "SpriteBatch.h"
-//#include "Properties.h"
 
 namespace ma
 {
 
 class Camera;
+class SpriteBatch;
 
 /**
  * Defines a particle emitter that can be made to simulate and render a particle system.
- * Once created, the emitter can be set on a node in order to follow an object or be placed
- * within a scene.
- *
  * A ParticleEmitter has a texture and a maximum number of particles that can be alive at
  * once, both of which are set when the ParticleEmitter is created and cannot be changed
  * from then on.  Particles are rendered as camera-facing billboards using the emitter's
@@ -138,517 +128,138 @@ class Camera;
  */
 class ENGINE_API ParticleEmitter /*: public RefCountObject*/
 {
-    friend class Node;
-
+ 
 public:
 
-    /**
-     * Defines the types of texture blending 
-     */
-//     enum TextureBlending
-//     {
-//         BLEND_OPAQUE,
-//         BLEND_TRANSPARENT,
-//         BLEND_ADDITIVE,
-//         BLEND_MULTIPLIED
-//     };
-
-    /**
-     * Creates a particle emitter using the data from the Properties object defined at the specified URL, 
-     * where the URL is of the format "<file-path>.<extension>#<namespace-id>/<namespace-id>/.../<namespace-id>"
-     * (and "#<namespace-id>/<namespace-id>/.../<namespace-id>" is optional). 
-     * 
-     * @param url The URL pointing to the Properties object defining the particle emitter.
-     * 
-     * @return An initialized ParticleEmitter.
-     * @script{create}
-     */
     static ParticleEmitter* create(const char* url);
 
-    /**
-     * Creates a particle emitter from the specified properties object.
-     * 
-     * @param properties The properties object defining the 
-     *      particle emitter (must have namespace equal to 'particle').
-     * @return The newly created particle emitter, or <code>NULL</code> if the particle emitter failed to load.
-     * @script{create}
-     */
     static ParticleEmitter* create(Properties* properties);
 
-    /**
-     * Creates an uninitialized ParticleEmitter.
-     *
-     * @param texturePath A path to the image to use as this ParticleEmitter's texture.
-     * @param textureBlending The type of texture blending to be used for the particles emitted.
-     * @param particleCountMax The maximum number of particles that can be alive at one time in this ParticleEmitter's system.
-     * @script{create}
-     */
     static ParticleEmitter* create(const char* texturePath, BLEND_MODE textureBlending,  unsigned int particleCountMax);
 
-    /**
-     * Sets the emission rate, measured in particles per second.
-     *
-     * @param rate The emission rate, measured in particles per second.
-     */
+	Renderable*	GetRenderable();
+
     void setEmissionRate(unsigned int rate);
 
-    /**
-     * Gets the emission rate, measured in particles per second.
-     *
-     * @return The emission rate, measured in particles per second.
-     */
     unsigned int getEmissionRate() const;
 
-    /**
-     * Starts emitting particles over time at this ParticleEmitter's emission rate.
-     *
-     * @see ParticleEmitter::emit()
-     */
     void start();
 
-    /**
-     * Stops emitting particles over time.
-     *
-     * @see ParticleEmitter::emit()
-     */
     void stop();
 
-    /**
-     * Gets whether this ParticleEmitter is currently started.
-     *
-     * @return Whether this ParticleEmitter is currently started.
-     */
     bool isStarted() const;
 
-    /**
-     * Gets whether this ParticleEmitter is currently active (i.e. if any of its particles are alive).
-     * 
-     * @return Whether this ParticleEmitter is currently active.
-     */
     bool isActive() const;
 
-    /**
-     * Generates an arbitrary number of particles all at once.  Each newly emitted
-     * particle has its properties assigned within the ranges defined by its ParticleEmitter.
-     *
-     * Note that the maximum number of particles that can be alive at once in a particle
-     * system is defined when a ParticleEmitter is created and cannot be changed.  A call
-     * to emit() cannot cause the particle system to exceed this maximum, so fewer or zero
-     * particles will be emitted if the maximum is or has been reached.
-     *
-     * @param particleCount The number of particles to emit immediately.
-     */
     void emitOnce(unsigned int particleCount);
 
-    /**
-     * Gets the current number of particles.
-     *
-     * @return The number of particles that are currently alive.
-     */
     unsigned int getParticlesCount() const;
 
-    /**
-     * Sets whether the positions of newly emitted particles are generated within an ellipsoidal domain.
-     *
-     * Each vector property is generated such as to fall within the domain defined by a base vector and a
-     * variance vector. If that domain is ellipsoidal, vectors are generated within an ellipsoid centered 
-     * at the base vector and scaled by the variance vector. If that domain is not ellipsoidal, vectors are 
-     * generated by multiplying the variance vector by a random floating-point number between -1 and 1, 
-     * then adding this result to the base vector.
-     *
-     * Ellipsoidal domains are somewhat less efficient and only necessary when determining the positions of
-     * newly emitted particles.  Call this method with 'true' to make initial position an ellipsoidal domain.
-     * The default setting is 'false'.
-     *
-     * @param ellipsoid Whether initial particle positions are generated within an ellipsoidal domain.
-     */
     void setEllipsoid(bool ellipsoid);
 
-    /**
-     * Determines whether the positions of newly emitted particles are generated within an ellipsoidal domain.
-     *
-     * @return true if is ellipsoid, false if not.
-     */
     bool isEllipsoid() const;
 
-    /**
-     * Sets the minimum and maximum size that each particle can be at the time when it is spawned,
-     * as well as the minimum and maximum size for particles to be at the end of their lifetimes.
-     *
-     * @param startMin The minimum size that each particle can be at the time when it is started.
-     * @param startMax The maximum size that each particle can be at the time when it is started.
-     * @param endMin The minimum size that each particle can be at the end of its lifetime.
-     * @param endMax The maximum size that each particle can be at the end of its lifetime.
-     */
     void setSize(float startMin, float startMax, float endMin, float endMax);
 
-    /**
-     * Gets the minimum size that each particle can be at the time when it is started.
-     *
-     * @return The minimum size that each particle can be at the time when it is started.
-     */
     float getSizeStartMin() const;
 
-    /**
-     * Gets the maximum size that each particle can be at the time when it is started.
-     *
-     * @return The maximum size that each particle can be at the time when it is started.
-     */
     float getSizeStartMax() const;
 
-    /**
-     * Gets the minimum size that each particle can be at the end of its lifetime.
-     *
-     * @return The minimum size that each particle can be at the end of its lifetime.
-     */
     float getSizeEndMin() const;
 
-    /**
-     * Gets the maximum size that each particle can be at the end of its lifetime.
-     *
-     * @return The maximum size that each particle can be at the end of its lifetime.
-     */
     float getSizeEndMax() const;
 
-    /**
-     * Set the start and end colors, and their variances, of particles in this emitter's system.
-     *
-     * @param start The base start color of emitted particles.
-     * @param startVariance The variance of start color of emitted particles.
-     * @param end The base end color of emitted particles.
-     * @param endVariance The variance of end color of emitted particles.
-     */
     void setColor(const Vector4& start, const Vector4& startVariance, const Vector4& end, const Vector4& endVariance);
     
-    /**
-     * Gets the base start color of emitted particles.
-     *
-     * @return The base start color of emitted particles.
-     */
     const Vector4& getColorStart() const;
 
-    /**
-     * Gets the variance of start color of emitted particles.
-     *
-     * @return The variance of start color of emitted particles.
-     */
     const Vector4& getColorStartVariance() const;
 
-    /**
-     * Gets the base end color of emitted particles.
-     *
-     * @return The base end color of emitted particles.
-     */
     const Vector4& getColorEnd() const;
 
-    /**
-     * Gets the variance of end color of emitted particles.
-     *
-     * @return The variance of end color of emitted particles.
-     */
     const Vector4& getColorEndVariance() const;
 
-    /**
-     * Sets the minimum and maximum lifetime of emitted particles, measured in milliseconds.
-     *
-     * @param energyMin The minimum lifetime of each particle, measured in milliseconds.
-     * @param energyMax The maximum lifetime of each particle, measured in milliseconds.
-     */
     void setEnergy(long energyMin, long energyMax);
 
-    /**
-     * Gets the minimum lifetime of each particle, measured in milliseconds.
-     *
-     * @return The minimum lifetime of each particle, measured in milliseconds.
-     */
     long getEnergyMin() const;
 
-    /**
-     * Gets the maximum lifetime of each particle, measured in milliseconds.
-     *
-     * @return The maximum lifetime of each particle, measured in milliseconds.
-     */
     long getEnergyMax() const;
 
-    /**
-     * Sets the initial position and position variance of new particles.
-     *
-     * @param position The initial position of new particles.
-     * @param positionVariance The amount of variance allowed in the initial position of new particles.
-     */
     void setPosition(const Vector3& position, const Vector3& positionVariance);
 
-    /**
-     * Gets the position of new particles, relative to the emitter's transform.
-     *
-     * @return The position of new particles, relative to the emitter's transform.
-     */
     const Vector3& getPosition() const;
 
-    /**
-     * Gets the position variance of new particles.
-     *
-     * @return The position variance of new particles.
-     */
     const Vector3& getPositionVariance() const;
 
-    /**
-     * Sets the base velocity of new particles and its variance.
-     *
-     * @param velocity The initial velocity of new particles.
-     * @param velocityVariance The amount of variance allowed in the initial velocity of new particles.
-     */
     void setVelocity(const Vector3& velocity, const Vector3& velocityVariance);
 
-    /**
-     * Gets the initial velocity of new particles.
-     *
-     * @return The initial velocity of new particles.
-     */
     const Vector3& getVelocity() const;
 
-    /**
-     * Gets the initial velocity variance of new particles.
-     *
-     * @return The initial velocity variance of new particles.
-     */
     const Vector3& getVelocityVariance() const;
 
-    /**
-     * Gets the base acceleration vector of particles.
-     * 
-     * @return The base acceleration vector of particles.
-     */
     const Vector3& getAcceleration() const;
 
-    /**
-     * Sets the base acceleration vector and its allowed variance for this ParticleEmitter.
-     *
-     * @param acceleration The base acceleration vector of emitted particles.
-     * @param accelerationVariance The variance allowed in the acceleration of emitted particles.
-     */
     void setAcceleration(const Vector3& acceleration, const Vector3& accelerationVariance);
 
-    /**
-     * Gets the variance of acceleration of particles.
-     * 
-     * @return The variance of acceleration of particles.
-     */
     const Vector3& getAccelerationVariance() const;
 
-    /**
-     * Gets the maximum rotation speed of each emitted particle.
-     * This determines the speed of rotation of each particle's screen-facing billboard.
-     *
-     * @param speedMin The minimum rotation speed (per particle).
-     * @param speedMax The maximum rotation speed (per particle).
-     */
     void setRotationPerParticle(float speedMin, float speedMax);
 
-    /**
-     * Gets the minimum rotation speed of each emitted particle.
-     *
-     * @return The minimum rotation speed of each emitted particle.
-     */
     float getRotationPerParticleSpeedMin() const;
 
-    /**
-     * Gets the maximum rotation speed of each emitted particle.
-     *
-     * @return The maximum rotation speed of each emitted particle.
-     */
     float getRotationPerParticleSpeedMax() const;
 
-    /**
-     * Sets a rotation axis in world space around which all particles will spin,
-     * as well as the minimum and maximum rotation speed around this axis.
-     * This should not be confused with rotation speed per particle.
-     *
-     * @param axis The base rotation axis of emitted particles.
-     * @param axisVariance The variance of the rotation axis of emitted particles.
-     * @param speedMin The minimum rotation speed of emitted particles.
-     * @param speedMax The maximum rotation speed of emitted particles.
-     */
-   void setRotation(float speedMin, float speedMax, const Vector3& axis, const Vector3& axisVariance);
+	void setRotation(float speedMin, float speedMax, const Vector3& axis, const Vector3& axisVariance);
 
-    /**
-     * Gets the minimum rotation speed of emitted particles.
-     *
-     * @return The minimum rotation speed of emitted particles.
-     */
     float getRotationSpeedMin() const;
 
-    /**
-     * Gets the maximum rotation speed of emitted particles.
-     *
-     * @return The maximum rotation speed of emitted particles.
-     */
     float getRotationSpeedMax() const;
 
-    /**
-     * Gets the base rotation axis of emitted particles.
-     *
-     * @return The base rotation axis of emitted particles.
-     */
     const Vector3& getRotationAxis() const;
 
-    /**
-     * Gets the variance of the rotation axis of emitted particles.
-     *
-     * @return The variance of the rotation axis of emitted particles.
-     */
     const Vector3& getRotationAxisVariance() const;
 
-    /**
-     * Sets whether particles cycle through the sprite frames.
-     *
-     * @param animated Whether to animate particles through the sprite frames.
-     */
     void setSpriteAnimated(bool animated);
 
-    /**
-     * Whether particles cycle through the sprite frames.
-     */
     bool isSpriteAnimated() const;
 
-    /**
-     * If sprites are set to loop, each frame will last for the emitter's frameDuration.
-     * If sprites are set not to loop, the animation will be timed so that the last frame
-     * finishes just as a particle dies.
-     * Note: This timing is calculated based on a spriteRandomOffset of 0.
-     * For other offsets, the final frame may be reached earlier.
-     * If sprites are not set to animate, this setting has no effect.
-     *
-     * @param looped Whether to loop animated sprites.
-     * @see ParticleEmitter::setSpriteFrameDuration
-     */
     void setSpriteLooped(bool looped);
 
-    /**
-     * Whether sprites are set to loop, each frame will last for the emitter's frameDuration.
-     *
-     * @return true if looped, false if not.
-     */
     bool isSpriteLooped() const;
 
-    /**
-     * Sets the maximum offset that a random frame from 0 to maxOffset will be selected.
-     * Set maxOffset to 0 (the default) for all particles to start on the first frame.
-     * maxOffset will be clamped to frameCount.
-     *
-     * @param maxOffset The maximum sprite frame offset.
-     */
     void setSpriteFrameRandomOffset(int maxOffset);
     
-    /**
-     * Gets the maximum offset that a random frame from 0 to maxOffset will be selected.
-     */
     int getSpriteFrameRandomOffset() const;
 
-    /**
-     * Set the animated sprites frame duration.
-     *
-     * @param duration The duration of a single sprite frame, in milliseconds.
-     */
     void setSpriteFrameDuration(long duration);
 
-    /**
-     * Gets the animated sprites frame duration.
-     *
-     * @return The animated sprites frame duration.
-     */
     long getSpriteFrameDuration() const;
 
-    /**
-     * Sets the sprite's texture coordinates in texture space.
-     *
-     * @param frameCount The number of frames to set texture coordinates for.
-     * @param texCoords The texture coordinates for all frames, in texture space.
-     */
     void setSpriteTexCoords(unsigned int frameCount, float* texCoords);
 
-    /**
-     * Sets the sprite's texture coordinates in image space (pixels).
-     *
-     * @param frameCount The number of frames to set texture coordinates for.
-     * @param frameCoords A rectangle for each frame representing its position and size
-     *  within the texture image, measured in pixels.
-     */
     void setSpriteFrameCoords(unsigned int frameCount, Rectangle* frameCoords);
 
-    /**
-     * Calculates and sets the sprite's texture coordinates based on the width and
-     * height of a single frame, measured in pixels.  This method assumes that there
-     * is no padding between sprite frames and that the first frame is in the top-left
-     * corner of the image.  Frames are ordered in the image from left to right, top to
-     * bottom.
-     *
-     * @param frameCount The number of frames to set texture coordinates for.
-     * @param width The width of a single frame, in pixels.
-     * @param height The height of a single frame, in pixels.
-     */
     void setSpriteFrameCoords(unsigned int frameCount, int width, int height);
 
-    /**
-     * Gets the node that this emitter is attached to.
-     *
-     * @return The node that this emitter is attached to.
-     */
-    //Node* getNode() const;
-
-    /**
-     * Sets whether the vector properties of newly emitted particles are rotated around the node's position
-     * by the node's rotation matrix.
-     *
-     * @param orbitPosition Whether to rotate initial particle positions by the node's rotation matrix.
-     * @param orbitVelocity Whether to rotate initial particle velocity vectors by the node's rotation matrix.
-     * @param orbitAcceleration Whether to rotate initial particle acceleration vectors by the node's rotation matrix.
-     */
     void setOrbit(bool orbitPosition, bool orbitVelocity, bool orbitAcceleration);
 
-    /**
-     * Updates the particles currently being emitted.
-     *
-     * @param elapsedTime The amount of time that has passed since the last call to update(), in milliseconds.
-     */
-    void update(float elapsedTime);
+    void update(float elapsedTime,const Matrix4x4& matWorld);
 
-    /**
-     * Draws the particles currently being emitted.
-     */
-    void draw(Camera* pCamera,const Matrix4x4& matWorld);
+    void draw(Camera* pCamera/*,const Matrix4x4& matWorld*/);
 
-    /**
-     * Gets a TextureBlending enum from a corresponding string.
-     */
+	void setWorldMatrix(const Matrix4x4& matWorld);
+
     static BLEND_MODE getTextureBlendingFromString(const char* src);
 
-    /**
-     * Sets a TextureBlending enum from a corresponding string.
-     */
     void setTextureBlending(BLEND_MODE blending);
 
 private:
 
-    /**
-     * Constructor.
-     */
     ParticleEmitter(SpriteBatch* batch, unsigned int particlesCount);
 
-    /**
-     * Destructor.
-     */
     ~ParticleEmitter();
 
-    /**
-     * Hidden copy assignment operator.
-     */
     ParticleEmitter& operator=(const ParticleEmitter&);
-
-    /**
-     * Sets the node that this emitter is attached to.
-     */
-    //void setNode(Node* node);
 
     // Generates a scalar within the range defined by min and max.
     float generateScalar(float min, float max);
@@ -736,8 +347,6 @@ private:
     long _spriteFrameDuration;
     float _spriteFrameDurationSecs;
     float _spritePercentPerFrame;
-    //Node* _node;
-	//NodeTransform _tsfWS;
     bool _orbitPosition;
     bool _orbitVelocity;
     bool _orbitAcceleration;

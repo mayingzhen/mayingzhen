@@ -12,15 +12,15 @@ namespace ma
 
 		virtual void					DestoryPhysicsScene(IPhysicsScene* pPhysicsScene);
 
-		virtual IPhysicsObject*			CreatePhysicsObject();
-
-		virtual IRigidBody*				CreateRigidBody();
-
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
-
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
-
-		virtual ICharacterController*	CreateCharacterController();
+// 		virtual IPhysicsObject*			CreatePhysicsObject();
+// 
+// 		virtual IRigidBody*				CreateRigidBody();
+// 
+// 		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
+// 
+// 		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
+// 
+// 		virtual ICharacterController*	CreateCharacterController();
 	
 	};
 }

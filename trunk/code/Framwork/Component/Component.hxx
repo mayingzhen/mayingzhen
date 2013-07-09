@@ -4,12 +4,17 @@ namespace ma
 {
 	IMPL_OBJECT(Component,Object);
 
-	Component::Component()
+	Component::Component(GameObject* pGameObj)
 	{
-		m_pGameObject = NULL;
+		m_pGameObject = pGameObj;
 	}
 
 	Component::~Component()
+	{
+
+	}
+
+	void Component::TravelScene(SceneVisiter* pVisiter)
 	{
 
 	}
@@ -25,20 +30,20 @@ namespace ma
 	}
 
 
-	void Component::ParalleUpdate(float fTimeElapsed)
-	{
-
-	}
-
-	void Component::FixedUpdate(float fTimeElapsed)
-	{
-
-	}
-
-	void Component::LateUpdate(float fTimeElapsed)
-	{
-
-	}
+// 	void Component::ParalleUpdate(float fTimeElapsed)
+// 	{
+// 
+// 	}
+// 
+// 	void Component::FixedUpdate(float fTimeElapsed)
+// 	{
+// 
+// 	}
+// 
+// 	void Component::LateUpdate(float fTimeElapsed)
+// 	{
+// 
+// 	}
 
 	void Component::Start()
 	{
@@ -49,10 +54,15 @@ namespace ma
 	{
 
 	}
-
-	void Component::Serialize(SerializeListener& sl, const char* pszLable)
+	
+	GameObject*	Component::GetGameObject()
 	{
+		return m_pGameObject;
+	}
 
+	SceneNode* Component::GetSceneNode() 
+	{
+		return m_pGameObject ? m_pGameObject->GetSceneNode() : NULL;
 	}
 }
 

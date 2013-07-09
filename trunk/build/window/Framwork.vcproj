@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/libpng/include;../../extern/zlib/include"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/libpng/include;../../extern/zlib/include"
 				PreprocessorDefinitions="_DEBUG;_USRDLL;FRAMWORK_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -200,6 +200,14 @@
 				Name="Component"
 				>
 				<File
+					RelativePath="..\..\Code\Framwork\Component\AnimPlayComponent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Framwork\Component\AnimPlayComponent.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Framwork\Component\CollisionComponent.h"
 					>
 				</File>
@@ -224,6 +232,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Framwork\Component\ParticleComponent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Framwork\Component\ParticleComponent.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.h"
 					>
 				</File>
@@ -239,16 +255,12 @@
 					RelativePath="..\..\Code\Framwork\Component\ScriptComponent.hxx"
 					>
 				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Component\SkelMeshComponent.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Component\SkelMeshComponent.hxx"
-					>
-				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath="..\..\code\Framwork\CompRTTIDecl.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\Code\Framwork\Export.h"
 			>

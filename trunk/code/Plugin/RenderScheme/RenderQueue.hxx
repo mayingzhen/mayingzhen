@@ -1,94 +1,61 @@
 #include "RenderQueue.h"
 
 
-
 namespace ma
 {
-	RenderQueue::RenderQueue()
+	std::vector<Renderable*>	RenderQueue::m_SolidEntry;
+	std::vector<Renderable*>	RenderQueue::m_TransEntry;
+	RenderTarget*				RenderQueue::m_pDepthTex = NULL;
+	RenderTarget*				RenderQueue::m_pNormalTex = NULL;
+	RenderTarget*				RenderQueue::m_pDiffuse = NULL;
+	RenderTarget*				RenderQueue::m_pSpecular = NULL;
+	ScreenQuad*					RenderQueue::m_pScreenQuad = NULL;
+	ShadowMapFrustum*			RenderQueue::m_arrSMF[Camera::NUM_PSSM];
+
+	void RenderQueue::Init()
 	{
+		m_pDepthTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R32F);
+		m_pNormalTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pDiffuse = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pSpecular = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+
+		m_pScreenQuad = new ScreenQuad();
+		m_pScreenQuad->Init();
+
+		m_pMaterDeferred = new Material("AMBIENT_LIGHT","DeferredLight");
+		//Sampler* pDiffuse = Sampler::create(m_pDiffuse->GetTexture());
+		//Sampler* pSpeclar = Sampler::create(m_pSpecular->GetTexture());
 	}
 
-	RenderQueue::~RenderQueue()
+	void RenderQueue::AddRenderable(Renderable* pRenderable,bool bTrans)
 	{
-		Clear();
-	}
-
-	void RenderQueue::PushRenderer(const List<SceneNode *> & nodes)
-	{
-		List<SceneNode *>::ConstIterator whr = nodes.Begin();
-		List<SceneNode *>::ConstIterator end = nodes.End();
-
-		while (whr != end)
+		if (bTrans)
 		{
-			_pushRenderer(*whr);
-
-			++whr;
-		}
-	}
-
-	void RenderQueue::_pushRenderer(SceneNode * node)
-	{
-		SceneNode::MoverVisitor vr = node->GetMovers();
-
-		while (!vr.Endof())
-		{
-			Mover * m = *vr.Cursor();
-
-			if (m->IsVisible())
-				m->AddRenderQueue(this);
-
-			++vr;
-		}
-	}
-
-	void RenderQueue::AddRenderer(Renderer * obj)
-	{
-		if (!obj->GetMaterial()->IsTransparency())
-		{
-			mSolidEntry.PushBack(obj);
+			m_TransEntry.push_back(pRenderable);
 		}
 		else
 		{
-			mTransEntry.PushBack(obj);
-		}
-	}
-
-	void RenderQueue::SortTransparency(Camera * cam)
-	{
-		Renderer * e1, * e2;
-		Vec3 pos1, pos2;
-		float z1, z2;
-
-		const Mat4 & view = cam->GetViewMatrix();
-
-		for (int i = 0; i < mTransEntry.Size(); ++i)
-		{
-			e1 = mTransEntry[i];
-			e1->GetWorldPosition(&pos1);
-			Math::VecTransformZ(z1, pos1, view);
-
-			for (int j = i + 1; j < mTransEntry.Size(); ++j)
-			{
-				e2 = mTransEntry[j];
-				e2->GetWorldPosition(&pos2);
-
-				Math::VecTransformZ(z2, pos1, view);
-
-				if (z2 < z1)
-				{
-					mTransEntry[j] = e1;
-					mTransEntry[i] = e2;
-
-					e1 = e2;
-				}
-			}
+			m_SolidEntry.push_back(pRenderable);
 		}
 	}
 
 	void RenderQueue::Clear()
 	{
-		mSolidEntry.Clear();
-		mTransEntry.Clear();
+		m_SolidEntry.clear();
+		m_TransEntry.clear();
+	}
+
+	void RenderQueue::Fulsh()
+	{
+		for (UINT i = 0; i < m_SolidEntry.size(); ++i)
+		{
+			GetRenderDevice()->DrawRenderable(m_SolidEntry[i]);
+		}
+
+		for (UINT i = 0; i < m_TransEntry.size(); ++i)
+		{
+			GetRenderDevice()->DrawRenderable(m_TransEntry[i]);
+		}
 	}
 
 }

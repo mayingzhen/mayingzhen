@@ -10,31 +10,36 @@ namespace ma
 	class IRigidBody;
 	class IBoxCollisionShape;
 	class ISphereCollisionShape;
+	class BulletScene;
 	
 	class BulletPhysicsObject : public IPhysicsObject
 	{
 	public:
-		BulletPhysicsObject();
+		BulletPhysicsObject(GameObject*	pGameObject,BulletScene* pPhyScene);
 
-		virtual bool			Start(GameObject* pOwner);
+		virtual	IRigidBody*				CreateRigidBody();
 
-		virtual	bool			Stop(GameObject* pOwner);
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
 
-		virtual	IRigidBody*		GetRigidBody();
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
 
-		virtual void			SetRigidBody(IRigidBody* pRigidBody);
+		virtual void					SetTransformWS(const NodeTransform& tsfWS);
 
-		virtual void			AddBoxCollisionShape(IBoxCollisionShape* pCollisionShape);
+		virtual NodeTransform			GetTransformWS();
 
-		virtual	void			AddSphereCollisionShape(ISphereCollisionShape* pSphereCollisionShape);
+		virtual	void					ApplyForce(Vector3 vForce);
 
-		virtual void			SetTransformWS(const NodeTransform& tsfWS);
+		bool							Start();
 
-		virtual NodeTransform GetTransformWS();
+		bool							Stop();
 
-		virtual	void			ApplyForce(Vector3 vForce);
+		void							SyncToPhysics();
 
-		int						GetCollLayer() {return m_nCollLayer;}
+		void							SyncFromPhysics();
+
+		GameObject*						GetGameObject() {return m_pGameObject;}
+
+		int								GetCollLayer() {return m_nCollLayer;}
 
 	private:
 		btRigidBody*						m_pbtRigidBody;
@@ -44,9 +49,12 @@ namespace ma
 		std::vector<IBoxCollisionShape*>	m_vBoxCollisionShape;
 		std::vector<ISphereCollisionShape*>	m_vSphereCollisionShape;
 
-		NodeTransform m_tsfWS;
+		NodeTransform						m_tsfWS;
 
-		int m_nCollLayer;
+		int									m_nCollLayer;
+
+		GameObject*							m_pGameObject;
+		BulletScene*						m_pPhyScene;
 	};
 }
 

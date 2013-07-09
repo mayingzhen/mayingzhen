@@ -2,9 +2,6 @@
 #define  _GLESIndexBuffer__H__
 
 
-#include "GLESMapping.h"
-#include "Engine/RenderSystem/IndexBuffer.h"
-
 namespace ma
 {
 

@@ -262,14 +262,14 @@ namespace ma
 		m_nVertexCount = _vertexCount;
 	}
 
-	void MeshBatch::draw()
-	{
-		if (_vertexCount == 0 || (_indexed && _indexCount == 0))
-			return; // nothing to draw
-
-		GetRenderDevice()->DrawRenderable(this);
-
-	}
-    
+// 	void MeshBatch::draw()
+// 	{
+// 		if (_vertexCount == 0 || (_indexed && _indexCount == 0))
+// 			return; // nothing to draw
+// 
+// 		GetRenderDevice()->DrawRenderable(this);
+// 
+// 	}
+//     
 
 }

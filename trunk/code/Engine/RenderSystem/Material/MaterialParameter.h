@@ -124,7 +124,7 @@ namespace ma
 		 */
 		class MethodBinding 
 		{
-			friend class RenderState;
+			friend struct RenderState;
 
 		public:
 

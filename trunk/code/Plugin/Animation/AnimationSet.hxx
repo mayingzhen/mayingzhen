@@ -2,6 +2,18 @@
 
 namespace ma
 {
+	AnimationSet::AnimationSet(AnimationPlay* pAniPlay)
+	{
+		m_pAnimPlay = pAniPlay;
+	}
+
+	void AnimationSet::AddAction(const char* pszSkaPath, const char* actionName)
+	{
+		ISkeleton* pISkelton = m_pAnimPlay->GetSkeleton();
+		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,(Skeleton*)pISkelton,actionName);
+		AddAction(pAction);
+	}
+
 	Action* AnimationSet::GetActionByName(const char* pszName)
 	{
 		if (pszName == NULL)
@@ -47,13 +59,13 @@ namespace ma
 		m_arrAnimation.erase(it);
 	}
 
-	void	AnimationSet::Serialize(SerializeListener& sl, const char* pszLable)
+	void	AnimationSet::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
 		sl.Serialize(m_arrBoneSet);
 
-		sl.SerializeObjectArray(m_arrPoseModifier);
+		//sl.SerializeObjectArray(m_arrPoseModifier);
 
 		sl.Serialize(m_arrAnimation);
 

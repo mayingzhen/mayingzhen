@@ -5,14 +5,13 @@ namespace ma
 {
 	IMPL_OBJECT(RigidBodyComponent,Component)
 
-	RigidBodyComponent::RigidBodyComponent()
+	RigidBodyComponent::RigidBodyComponent(GameObject* pGameObj)
+	:Component(pGameObj)
 	{
-		m_pPhysicsObject = NULL;
-
-		if (GetPhysicsDevice() == NULL)
-			return;
-
-		m_pRigidBody = GetPhysicsDevice()->CreateRigidBody();
+		ASSERT(pGameObj);
+		m_pPhysicsObject = pGameObj ? m_pGameObject->GetPhyscisObject() : NULL;
+		ASSERT(m_pPhysicsObject);	
+		m_pRigidBody = m_pPhysicsObject ? m_pPhysicsObject->CreateRigidBody() : NULL;
 	}
 
 	RigidBodyComponent::~RigidBodyComponent()
@@ -20,25 +19,9 @@ namespace ma
 
 	}
 
-	void RigidBodyComponent::SetGameObject(GameObject* pGameObj)
+	void RigidBodyComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
-		Component::SetGameObject(pGameObj);
 
-		if (pGameObj == NULL)
-			return;
-
-		m_pPhysicsObject = pGameObj->GetPhyscisObject();
-		if (m_pPhysicsObject == NULL)
-		{
-			m_pPhysicsObject = GetPhysicsDevice()->CreatePhysicsObject();
-			pGameObj->SetPhyscisObject(m_pPhysicsObject);
-		}
-		ASSERT(m_pPhysicsObject);
-
-		if (m_pPhysicsObject)
-		{	
-			m_pPhysicsObject->SetRigidBody(m_pRigidBody);
-		}
 	}
 }
 

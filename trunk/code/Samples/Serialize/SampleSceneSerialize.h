@@ -10,7 +10,7 @@ namespace ma
 	public:
 		SampleSceneSerialize();
 
-		virtual void Init(ApplicationBase* pApplication);
+		virtual void Init(const Platform* pPlatform);
 
 		virtual void Shutdown();
 
@@ -18,9 +18,12 @@ namespace ma
 
 		virtual void Unload();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
+
+	private:
+		Scene*		m_pScene;
 
 	};
 }

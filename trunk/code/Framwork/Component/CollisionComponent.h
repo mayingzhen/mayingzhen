@@ -21,9 +21,9 @@ namespace ma
 	{
 		DECL_OBJECT(CollisionComponent)
 	public:
-		CollisionComponent(); 
+		CollisionComponent(GameObject* pGameObj); 
 
-		//virtual ~CollisionComponent() = 0;
+		//virtual ~CollisionComponent();
 
 		NodeTransform GetTransformLS() const; 
 
@@ -33,7 +33,7 @@ namespace ma
 
 		int	GetCollisionLayer();
 
-		virtual void SetGameObject(GameObject* pGameObj);
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "CollisionComponent");
 
 	protected:
 		Matrix4x4 GetWorldMatrix();
@@ -49,7 +49,7 @@ namespace ma
 	{
 		DECL_OBJECT(BoxCollisionComponent)
 	public:
-		BoxCollisionComponent();
+		BoxCollisionComponent(GameObject* pGameObj);
 
 		void		SetSize(const Vector3& vSize);
 
@@ -59,7 +59,7 @@ namespace ma
 
 		virtual void DbgRender(BitField flag);
 
-		virtual void SetGameObject(GameObject* pGameObj);
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "BoxCollisionComponent");
 
 	private:
 		IBoxCollisionShape* m_pBoxCollisionShape;
@@ -70,15 +70,15 @@ namespace ma
 	{
 		DECL_OBJECT(SphereCollisionComponent)
 	public:
-		SphereCollisionComponent();
+		SphereCollisionComponent(GameObject* pGameObj);
 
 		void		SetRadius(float fRadius);
 
 		float		GetRadius() const;
 
-		virtual void SetGameObject(GameObject* pGameObj);
-
 		virtual void DbgRender(BitField flag);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "SphereCollisionComponent");
 
 	private:
 		ISphereCollisionShape* m_pSphereCollisionShape;

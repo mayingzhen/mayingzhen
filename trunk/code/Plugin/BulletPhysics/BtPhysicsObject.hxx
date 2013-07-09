@@ -1,24 +1,28 @@
-#include "BulletPhysics/BtPhysicsObject.h"
+#include "BtPhysicsObject.h"
 #include "BulletPhysics/BtCollisionShape.h"
 #include "BulletPhysics/BtRigidBody.h"
 #include "BulletPhysics/BulletUtil.h"
+#include "BtPhysicsScene.h"
 
 namespace ma
 {
 
-	BulletPhysicsObject::BulletPhysicsObject()
+	BulletPhysicsObject::BulletPhysicsObject(GameObject* pGameObject,BulletScene* pPhyScene)
 	{
 		m_pbtRigidBody = NULL;
 		m_pXmRigidBody = NULL;
 		m_nCollLayer = 0;
+
+		m_pGameObject = pGameObject;
+		m_pPhyScene = pPhyScene;
 	}
 
-	bool BulletPhysicsObject::Start(GameObject* pOwner)
+	bool BulletPhysicsObject::Start()
 	{
-		if (pOwner == NULL)
+		if (m_vBoxCollisionShape.empty() && m_vSphereCollisionShape.empty() && m_pXmRigidBody == NULL)
 			return false;
 
-		btDiscreteDynamicsWorld* pBtDynamicsWorld = GetbtDiscreteDynamicsWorld(pOwner);
+		btDiscreteDynamicsWorld* pBtDynamicsWorld = m_pPhyScene->GetDynamicsWorld();
 		if (pBtDynamicsWorld == NULL)
 			return false;
 
@@ -67,18 +71,19 @@ namespace ma
 			pBtDynamicsWorld->addRigidBody(m_pbtRigidBody);	
 		}
 
-		m_pbtRigidBody->setUserPointer(pOwner);
-		pOwner->SyncToPhysics();
+		m_pbtRigidBody->setUserPointer(this);
+	
+		SyncToPhysics();
 
 		return true;
 	}
 
-	bool BulletPhysicsObject::Stop(GameObject* pOwner)
+	bool BulletPhysicsObject::Stop()
 	{
-		if (pOwner == NULL)
+		if (m_vBoxCollisionShape.empty() && m_vSphereCollisionShape.empty() && m_pXmRigidBody == NULL)
 			return false;
 
-		btDiscreteDynamicsWorld* pBtDynamicsWorld = GetbtDiscreteDynamicsWorld(pOwner);
+		btDiscreteDynamicsWorld* pBtDynamicsWorld = m_pPhyScene->GetDynamicsWorld();
 		if (pBtDynamicsWorld == NULL)
 			return false;
 
@@ -91,6 +96,34 @@ namespace ma
 		}
 
 		return true;
+	}
+
+	void BulletPhysicsObject::SyncToPhysics()
+	{
+		ASSERT(m_pGameObject);
+		if (m_pGameObject == NULL)
+			return;
+
+		SceneNode* pSceneNode = m_pGameObject->GetSceneNode();
+		ASSERT(pSceneNode);
+		if (pSceneNode == NULL)
+			return;
+
+		SetTransformWS( pSceneNode->GetTransform(TS_WORLD) );
+	}
+
+	void BulletPhysicsObject::SyncFromPhysics()
+	{
+		ASSERT(m_pGameObject);
+		if (m_pGameObject == NULL)
+			return;
+
+		SceneNode* pSceneNode = m_pGameObject->GetSceneNode();
+		ASSERT(pSceneNode);
+		if (pSceneNode == NULL)
+			return;
+
+		pSceneNode->SetTransform(GetTransformWS(),TS_WORLD);
 	}
 
 	void BulletPhysicsObject::SetTransformWS(const NodeTransform& tsfWS)
@@ -121,23 +154,25 @@ namespace ma
 		}
 	}
 
-	IRigidBody* BulletPhysicsObject::GetRigidBody()
+	IRigidBody*				BulletPhysicsObject::CreateRigidBody()
 	{
+		ASSERT(m_pXmRigidBody == NULL);
+
+		m_pXmRigidBody = new BulletRigidBody();
 		return m_pXmRigidBody;
 	}
 
-	void BulletPhysicsObject::SetRigidBody(IRigidBody* pRigidBody)
+	IBoxCollisionShape*		BulletPhysicsObject::CreateBoxCollisionShape()
 	{
-		m_pXmRigidBody = pRigidBody;
+		BulletBoxCollisionShape* pBoxColl = new BulletBoxCollisionShape();
+		m_vBoxCollisionShape.push_back(pBoxColl);
+		return pBoxColl;
 	}
 
-	void BulletPhysicsObject::AddBoxCollisionShape(IBoxCollisionShape* pCollisionShape)
+	ISphereCollisionShape*	BulletPhysicsObject::CreateSphereCollisionShape()
 	{
-		m_vBoxCollisionShape.push_back(pCollisionShape);
-	}
-
-	void BulletPhysicsObject::AddSphereCollisionShape(ISphereCollisionShape* pSphereCollisionShape)
-	{
-		m_vSphereCollisionShape.push_back(pSphereCollisionShape);
+		BulletSphereCollisionShape* pSpherColl = new BulletSphereCollisionShape();
+		m_vSphereCollisionShape.push_back(pSpherColl);
+		return pSpherColl;
 	}
 }

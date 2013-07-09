@@ -162,9 +162,10 @@ namespace ma
 #endif
 	}
 
-	RenderTarget* GLESRenderDevice::CreateRenderTarget()
+	RenderTarget* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
 		GLESRenderTarget* pTarget = new GLESRenderTarget();
+		pTarget->Create(nWidth,nHeight,format);
 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
 		return pTarget;
 	}
@@ -192,6 +193,12 @@ namespace ma
 			}
 		}
 		return preTarger;
+	}
+
+	RenderTarget* GLESRenderDevice::SetDepthStencil(RenderTarget* pTexture)
+	{
+		ASSERT(false);
+		return NULL;
 	}
 
 	Rectangle GLESRenderDevice::SetViewport(const Rectangle& rect)
@@ -308,12 +315,6 @@ namespace ma
 			return;
 
 
-		//m_pD3DDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
-		// 		m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,false);
-		// 		m_pD3DDevice->SetRenderState(D3DRS_ZENABLE,true);
-		// 		m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-		// 		m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND,  D3DBLEND_SRCALPHA);
-		// 		m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 		//glEnable(GL_DEPTH_TEST);
 		//glDepthMask(false);
 		//glEnable(GL_BLEND);

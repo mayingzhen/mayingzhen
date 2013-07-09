@@ -1,9 +1,6 @@
 # ifndef MATERIAL_H_
 # define MATERIAL_H_
 
-//#include "RenderState.h"
-//#include "Technique.h"
-//#include "Properties.h"
 
 namespace ma
 {
@@ -25,6 +22,7 @@ namespace ma
 		WORLD_VIEW_PROJECTION_MATRIX,
 		INVERSE_TRANSPOSE_WORLD_MATRIX,
 		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
+		INVERSE_PROJECTION_MATRIX,
 		CAMERA_WORLD_POSITION,
 		CAMERA_VIEW_POSITION,
 		MATRIX_PALETTE,			// matrix palette of MeshSkin
@@ -53,6 +51,10 @@ namespace ma
 
 		void				ClearParameter(const char* name);
 
+		UINT				GetParameterNumber() {return m_parameters.size();}
+
+		MaterialParameter*	GetParameterByIndex(UINT index) {return m_parameters[index];}
+
 		void				setParameterAutoBinding(const char* name, AutoBinding autoBinding);
 
 		void				SetMaterialFlage(const char* pszFlage) {m_strMaterialFlag = pszFlage;}
@@ -65,9 +67,10 @@ namespace ma
 
 		Technique*			GetCurTechnqiue() {return m_pCurTechnque;}
 
-		void				SetCurTechnqiue(const char* pTechName);
+		void				SetCurTechnqiue(const char* pShaderName,const char* pDefine);
 
 		static void			SetAuotBingCamera(Camera* pCamera) {m_auotBingCamera = pCamera;}
+		static void			SetAutoBingLight(Light* pLight) {m_autoBingLight = pLight;}
 
 	private:
 		// Internal auto binding handler methods.
@@ -79,6 +82,7 @@ namespace ma
 		Matrix4x4			autoBindingGetWorldViewProjectionMatrix() const;
 		const Matrix4x4&	autoBindingGetInverseTransposeWorldMatrix() const;
 		const Matrix4x4&	autoBindingGetInverseTransposeWorldViewMatrix() const;
+		Matrix4x4			autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
 		const Matrix4x4*	autoBindingGetMatrixPalette() const;

@@ -12,29 +12,29 @@ namespace ma
 		SAFE_DELETE(pPhysicsScene);
 	}
 
-	IPhysicsObject*	BulletDevice::CreatePhysicsObject()
-	{
-		return new BulletPhysicsObject;
-	}
+// 	IPhysicsObject*	BulletDevice::CreatePhysicsObject()
+// 	{
+// 		return new BulletPhysicsObject;
+// 	}
+// 
+// 	IRigidBody*			BulletDevice::CreateRigidBody()
+// 	{
+// 		return new BulletRigidBody;
+// 	}
+// 
+// 	IBoxCollisionShape*	BulletDevice::CreateBoxCollisionShape()
+// 	{
+// 		return new BulletBoxCollisionShape;
+// 	}
+// 
+// 	ISphereCollisionShape* BulletDevice::CreateSphereCollisionShape()
+// 	{
+// 		return new BulletSphereCollisionShape;
+// 	}
 
-	IRigidBody*			BulletDevice::CreateRigidBody()
-	{
-		return new BulletRigidBody;
-	}
-
-	IBoxCollisionShape*	BulletDevice::CreateBoxCollisionShape()
-	{
-		return new BulletBoxCollisionShape;
-	}
-
-	ISphereCollisionShape* BulletDevice::CreateSphereCollisionShape()
-	{
-		return new BulletSphereCollisionShape;
-	}
-
-	ICharacterController* BulletDevice::CreateCharacterController()
-	{
-		return new BulletCharacterController;
-	}
+// 	ICharacterController* BulletDevice::CreateCharacterController()
+// 	{
+// 		return new BulletCharacterController;
+// 	}
 }
 

@@ -75,6 +75,7 @@ namespace ma
 
 	class ENGINE_API MeshData : public Resource
 	{
+		DECL_OBJECT(MeshData)
 
 	public:
 		MeshData();
@@ -91,7 +92,7 @@ namespace ma
 		UINT			GetVertexType() {return m_nVertexType;}
 		int				GetVertexStride();
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "MeshData");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
 
 	public:

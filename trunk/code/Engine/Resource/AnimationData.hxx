@@ -2,6 +2,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(AnimationData,Resource)
+
 	enum AnimVersion
 	{
 		EXP_ANIM_VER_INITIAL = 1,
@@ -15,7 +17,7 @@ namespace ma
 		m_nVersion = EXP_ANIM_VER_CURRENT;
 	}
 
-	void SerializeData(SerializeListener& sl,AnimationHeader& aniHeader, const char* pszLable)
+	void SerializeData(Serializer& sl,AnimationHeader& aniHeader, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -25,7 +27,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeData(SerializeListener& sl, Vector3TrackData& data, const char* pszLable)
+	void SerializeData(Serializer& sl, Vector3TrackData& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -35,7 +37,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeData(SerializeListener& sl, QuaternionTrackData& data, const char* pszLable)
+	void SerializeData(Serializer& sl, QuaternionTrackData& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -46,7 +48,7 @@ namespace ma
 	}
 
 
-	void SerializeDataV1(SerializeListener& sl, AnimationData& data, const char* pszLable)
+	void SerializeDataV1(Serializer& sl, AnimationData& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -61,7 +63,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void AnimationData::Serialize(SerializeListener& sl, const char* pszLable)
+	void AnimationData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		AnimationHeader header;
 		sl.Serialize(header);

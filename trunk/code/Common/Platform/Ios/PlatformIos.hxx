@@ -3,7 +3,7 @@
 
 void OutputDebugString(const char* buf)
 {
-	 //NSLog(@"%s",&buf[0]);
+	 NSLog(@"%s",&buf[0]);
 }
 
 

@@ -1,10 +1,4 @@
-//#include "Base.h"
 #include "ParticleEmitter.h"
-//#include "Game.h"
-//#include "Node.h"
-//#include "Scene.h"
-//#include "Quaternion.h"
-//#include "Properties.h"
 
 #define PARTICLE_COUNT_MAX                       100
 #define PARTICLE_EMISSION_RATE                   10
@@ -48,8 +42,10 @@ ParticleEmitter::~ParticleEmitter()
 
 ParticleEmitter* ParticleEmitter::create(const char* textureFile, BLEND_MODE textureBlending, unsigned int particleCountMax)
 {
-	Texture* texture = static_cast<Texture*>(ResourceManager::DeclareResource(textureFile)); //GetRenderDevice()->CreateRendTexture();//Texture::create(textureFile, false);
-	texture->Load();
+	TextureData* textureData = SafeCast<TextureData>(ResourceManager::DeclareResource(textureFile)); //GetRenderDevice()->CreateRendTexture();//Texture::create(textureFile, false);
+	textureData->Load();
+
+	Texture* texture = textureData->GetRenderTexture();
 
     if (!texture)
     {
@@ -216,6 +212,11 @@ ParticleEmitter* ParticleEmitter::create(Properties* properties)
 unsigned int ParticleEmitter::getEmissionRate() const
 {
     return _emissionRate;
+}
+
+Renderable*	ParticleEmitter::GetRenderable() 
+{
+	return _spriteBatch->GetMeshBatch();
 }
 
 void ParticleEmitter::setEmissionRate(unsigned int rate)
@@ -534,34 +535,8 @@ const Vector3& ParticleEmitter::getRotationAxisVariance() const
 void ParticleEmitter::setTextureBlending(BLEND_MODE textureBlending)
 {
     ASSERT(_spriteBatch);
-    //ASSERT(_spriteBatch->getStateBlock());
-
+  
 	_spriteBatch->getStateBlock().m_eBlendMode = textureBlending;
-
-//     switch (textureBlending)
-//     {
-//         case BM_OPATICY:
-//             _spriteBatch->getStateBlock().m_eBlendMode = BM_OPATICY;
-//             break;
-//         case BLEND_TRANSPARENT:
-//             _spriteBatch->getStateBlock()->setBlend(true);
-//             _spriteBatch->getStateBlock()->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-//             _spriteBatch->getStateBlock()->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
-//             break;
-//         case BLEND_ADDITIVE:
-//             _spriteBatch->getStateBlock()->setBlend(true);
-//             _spriteBatch->getStateBlock()->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-//             _spriteBatch->getStateBlock()->setBlendDst(RenderState::BLEND_ONE);
-//             break;
-//         case BLEND_MULTIPLIED:
-//             _spriteBatch->getStateBlock()->setBlend(true);
-//             _spriteBatch->getStateBlock()->setBlendSrc(RenderState::BLEND_ZERO);
-//             _spriteBatch->getStateBlock()->setBlendDst(RenderState::BLEND_SRC_COLOR);
-//             break;
-//         default:
-//             GP_ERROR("Unsupported texture blending mode (%d).", textureBlending);
-//             break;
-//     }
 }
 
 void ParticleEmitter::setSpriteAnimated(bool animated)
@@ -676,16 +651,6 @@ void ParticleEmitter::setSpriteFrameCoords(unsigned int frameCount, int width, i
     SAFE_DELETE_ARRAY(frameCoords);
 }
 
-// Node* ParticleEmitter::getNode() const
-// {
-//     return _node;
-// }
-
-// void ParticleEmitter::setNode(Node* node)
-// {
-//     // Connect the new node.
-//     _node = node;
-// }
 
 void ParticleEmitter::setOrbit(bool orbitPosition, bool orbitVelocity, bool orbitAcceleration)
 {
@@ -798,7 +763,7 @@ BLEND_MODE ParticleEmitter::getTextureBlendingFromString(const char* str)
     }
 }
 
-void ParticleEmitter::update(float elapsedTime)
+void ParticleEmitter::update(float elapsedTime,const Matrix4x4& matWorld)
 {
     if (!isActive())
     {
@@ -925,7 +890,7 @@ void ParticleEmitter::update(float elapsedTime)
     }
 }
 
-void ParticleEmitter::draw(Camera* pCamera,const Matrix4x4& matWorld)
+void ParticleEmitter::draw(Camera* pCamera/*,const Matrix4x4& matWorld*/)
 {
     if (!isActive())
     {
@@ -941,7 +906,7 @@ void ParticleEmitter::draw(Camera* pCamera,const Matrix4x4& matWorld)
         // Set our node's view projection matrix to this emitter's effect.
         if (pCamera)
         {
-            _spriteBatch->setProjectionMatrix(matWorld * pCamera->GetViewProjMatrix());
+            _spriteBatch->setProjectionMatrix(/*matWorld * */pCamera->GetViewProjMatrix());
         }
 
         // Begin sprite batch drawing

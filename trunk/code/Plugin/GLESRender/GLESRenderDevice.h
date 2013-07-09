@@ -33,9 +33,11 @@ namespace ma
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		
 		//// Render
-		virtual RenderTarget*		CreateRenderTarget();
+		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
 
 		virtual RenderTarget*		SetRenderTarget(RenderTarget* pTarget,int index = 0);
+
+		virtual RenderTarget*		SetDepthStencil(RenderTarget* pTexture); 
 
 		virtual Rectangle			SetViewport(const Rectangle& rect);
 

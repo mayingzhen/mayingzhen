@@ -5,31 +5,18 @@
 
 namespace ma
 {
-
-	class Renderer;
-	class SceneNode;
-
-	class FRAMWORK_API RenderQueue
+	class RENDERSCHEME_API RenderQueue
 	{
 	public:
-		RenderQueue();
-		virtual ~RenderQueue();
-
-		void PushRenderer(const std::list<SceneNode *> & nodes);
-		virtual void AddRenderer(Renderer * obj);
-
-		void SortTransparency(Camera * cam);
-		void Clear();
-
-		//const Array<Renderer *> & GetSolidRender() { return mSolidEntry; }
-		//const Array<Renderer *> & GetTransRender() { return mTransEntry; }
+		static void AddRenderable(Renderable* pRenderable,bool bTrans = false);
+		
+		static void Clear();
 
 	protected:
-		void _pushRenderer(SceneNode * node);
-
-	protected:
-		std::vector<IRenderItem*>   mSolidEntry;
-		std::vector<IRenderItem*>   mTransEntry;
+		static std::vector<Renderable*>   m_SolidEntry;
+		static std::vector<Renderable*>   m_TransEntry;
 	};
 
 }
+
+#endif

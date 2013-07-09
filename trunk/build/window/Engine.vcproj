@@ -340,6 +340,14 @@
 				Name="Serialize"
 				>
 				<File
+					RelativePath="..\..\code\Engine\Resource\Serialize\ArchiveObj.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Serialize\ArchiveObj.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputArchive.h"
 					>
 				</File>
@@ -356,11 +364,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\SerializeListener.h"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\Serializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\SerializeListener.hxx"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\Serializer.hxx"
 					>
 				</File>
 				<File
@@ -429,18 +437,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IndexBuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderSystem\Light.h"
 				>
 			</File>
@@ -449,59 +445,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.inl"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\Renderable.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\RenderSystem\RenderDefine.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\RenderTarget.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\RenderTarget.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\VertexBuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.hxx"
 				>
 			</File>
 			<Filter
@@ -588,6 +532,110 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="RenderDevice"
+				>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\IndexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\RenderTarget.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\VertexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Renderable"
+				>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\Renderable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="RenderScheme"
+				>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\DeferredLight.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\DeferredLight.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Shadow.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Shadow.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ShadowMapFrustum.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ShadowMapFrustum.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Physics"
@@ -654,34 +702,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Scene"
-			>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\Camera.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\CameraController.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\CameraController.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\Light.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Scene\Light.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Event"
 			>
 			<File
@@ -733,8 +753,80 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="DataThread"
+			>
+			<File
+				RelativePath="..\..\code\Engine\DataThread\AutoLock.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\DataThread\DataThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\DataThread\DataThread.hxx"
+				>
+			</File>
+			<Filter
+				Name="IOS"
+				>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\ios\CriticalSection_IOS.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\ios\Event_IOS.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\ios\Thread_IOS.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Android"
+				>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\android\CriticalSection_Android.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\android\Event_Android.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\android\Thread_Android.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Win"
+				>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\win\CriticalSection_win.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\win\Event_win.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\DataThread\win\Thread_win.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<File
+			RelativePath="..\..\code\Engine\Device.hxx"
+			>
+		</File>
 		<File
 			RelativePath="..\..\Code\Engine\Export.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Engine\IDevice.h"
 			>
 		</File>
 		<File

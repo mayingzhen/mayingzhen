@@ -24,6 +24,7 @@ namespace ma
 		//m_pScene->GetRootNode()->AddChildNode(m_pCamera);
 
 		Material::SetAuotBingCamera(m_pCamera);
+		RenderQueue::SetCamera(m_pCamera);
 
 		Vector3 vEyePos = Vector3(0, 200, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 

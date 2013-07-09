@@ -1,13 +1,14 @@
 #include "BulletPhysics/stdafx.h"
 #include "BulletPhysics/Module.h"
 
-#include "BulletPhysics/BtPhysicsDevive.hxx"
-#include "BulletPhysics/BtPhysicsObject.hxx"
-#include "BulletPhysics/BtPhysicsScene.hxx"
+
 #include "BulletPhysics/BtCollisionShape.hxx"
 #include "BulletPhysics/BtRigidBody.hxx"
 #include "BulletPhysics/BtCharacterController.hxx"
 #include "BulletPhysics/BtContactReport.hxx"
+#include "BulletPhysics/BtPhysicsObject.hxx"
+#include "BulletPhysics/BtPhysicsScene.hxx"
+#include "BulletPhysics/BtPhysicsDevive.hxx"
 
 
 void BtPhysicsModuleInit()

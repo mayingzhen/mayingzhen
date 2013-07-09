@@ -24,18 +24,18 @@ namespace ma
 		Vector3 _far_right_bottom(1,-1,farZ),_far_right_bottom_world;
 
 
-		Matrix4x4 __invProjViewMatrix;
-		MatrixInverse(&__invProjViewMatrix,0,&mViewProj);
+		Matrix4x4 invProjViewMatrix;
+		MatrixInverse(&invProjViewMatrix,0,&mViewProj);
 
-		Vec3TransformCoord(&_near_left_top_world,&_near_left_top,&__invProjViewMatrix);
-		Vec3TransformCoord(&_near_left_bottom_world,&_near_left_bottom,&__invProjViewMatrix);
-		Vec3TransformCoord(&_near_right_top_world,&_near_right_top,&__invProjViewMatrix);
-		Vec3TransformCoord(&_near_right_bottom_world,&_near_right_bottom,&__invProjViewMatrix);
+		Vec3TransformCoord(&_near_left_top_world,&_near_left_top,&invProjViewMatrix);
+		Vec3TransformCoord(&_near_left_bottom_world,&_near_left_bottom,&invProjViewMatrix);
+		Vec3TransformCoord(&_near_right_top_world,&_near_right_top,&invProjViewMatrix);
+		Vec3TransformCoord(&_near_right_bottom_world,&_near_right_bottom,&invProjViewMatrix);
 
-		Vec3TransformCoord(&_far_left_top_world,&_far_left_top,&__invProjViewMatrix);
-		Vec3TransformCoord(&_far_left_bottom_world,&_far_left_bottom,&__invProjViewMatrix);
-		Vec3TransformCoord(&_far_right_top_world,&_far_right_top,&__invProjViewMatrix);
-		Vec3TransformCoord(&_far_right_bottom_world,&_far_right_bottom,&__invProjViewMatrix);
+		Vec3TransformCoord(&_far_left_top_world,&_far_left_top,&invProjViewMatrix);
+		Vec3TransformCoord(&_far_left_bottom_world,&_far_left_bottom,&invProjViewMatrix);
+		Vec3TransformCoord(&_far_right_top_world,&_far_right_top,&invProjViewMatrix);
+		Vec3TransformCoord(&_far_right_bottom_world,&_far_right_bottom,&invProjViewMatrix);
 
 		vPts[0] = _near_left_top_world;
 		vPts[1] = _near_left_bottom_world;

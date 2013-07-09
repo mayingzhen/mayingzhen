@@ -40,6 +40,7 @@ namespace ma
 		Material*               m_pMaterial;
 
 		Matrix4x4				m_matWorld;
+
 	};
 }
 

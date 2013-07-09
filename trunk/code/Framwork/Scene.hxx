@@ -2,16 +2,17 @@
 
 namespace ma
 {
+	IMPL_OBJECT(Scene,Object)
 
 	Scene::Scene()
 	{
-		m_pRootNode = new SceneNode(this,"RootNode");
-		
 		m_pPhyScene = NULL;
 		if (GetPhysicsDevice())
 		{
 			m_pPhyScene = GetPhysicsDevice()->CreatePhysicsScene();
 		}
+
+		m_pRootNode = new SceneNode(this,"RootNode");
 	}
 
 	Scene::~Scene()
@@ -25,30 +26,43 @@ namespace ma
 		m_pPhyScene = NULL;
 	}
 
+	void Scene::TravelScene(SceneVisiter* pVisiter)
+	{	
+		m_pRootNode->TravelScene(pVisiter);
+	}
+
 	void Scene::Update(float fElapsedTime)
 	{
-		if (m_pRootNode == NULL)
-			return;
+		//GetScriptDevice()->Update();
 
-		m_pRootNode->Update();
+		//GetAnimationDevice()->Update();
 
-		m_pRootNode->ParalleUpdate(fElapsedTime);
+// 		if (m_pRootNode == NULL)
+// 			return;
+// 
+// 		m_pRootNode->Update();
+// 
+// 		m_pRootNode->ParalleUpdate(fElapsedTime);
+// 
+// 		m_fAccPhyTime += fElapsedTime;
+// 		if (m_fAccPhyTime > m_fFixUpdateInterval)
+// 		{
+// 			m_pRootNode->FixedUpdate(m_fFixUpdateInterval);
+// 			m_fAccPhyTime -= m_fFixUpdateInterval;
+// 		}
+// 
+// 		if (m_pPhyScene != NULL)
+// 		{
+// 			m_pPhyScene->BeginSimulation(fElapsedTime);
+// 
+// 			m_pPhyScene->EndSimulation();
+// 		}
+// 
+// 		m_pRootNode->LateUpdate(fElapsedTime);
 
-		m_fAccPhyTime += fElapsedTime;
-		if (m_fAccPhyTime > m_fFixUpdateInterval)
-		{
-			m_pRootNode->FixedUpdate(m_fFixUpdateInterval);
-			m_fAccPhyTime -= m_fFixUpdateInterval;
-		}
+		//if (m_pRootGameObject)
+		//	m_pRootGameObject->Update();
 
-		if (m_pPhyScene != NULL)
-		{
-			m_pPhyScene->BeginSimulation(fElapsedTime);
-
-			m_pPhyScene->EndSimulation();
-		}
-
-		m_pRootNode->LateUpdate(fElapsedTime);
 	}
 
 	void Scene::Render(Camera* pCmera)
@@ -56,14 +70,17 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		//GetRenderDevice()->SetCamera(pCmera);
-
-		GetRenderDevice()->BeginRender();
+		m_pCurCamera = pCmera;
+		Material::SetAuotBingCamera(pCmera);
 		
-		//GetRenderDevice()->DoRender();
-		//m_pRootNode->Render();
+		//if (m_pRootGameObject)
+		//	m_pRootGameObject->Render();
+	}
 
-		GetRenderDevice()->EndRender();
+	void Scene::Awak()
+	{
+		//if (m_pRootNode)
+		//	m_pRootNode->Awak();
 	}
 
 	void Scene::Start()
@@ -71,8 +88,8 @@ namespace ma
 		if (m_pPhyScene)
 			m_pPhyScene->Start();
 
-		if (m_pRootNode)
-			m_pRootNode->Start();
+		//if (m_pRootNode)
+		//	m_pRootNode->Start();
 	}
 
 	void Scene::Stop()
@@ -80,21 +97,28 @@ namespace ma
 		if (m_pPhyScene)
 			m_pPhyScene->Stop();
 
-		if (m_pRootNode)
-			m_pRootNode->Stop();
+		//if (m_pRootNode)
+		//	m_pRootNode->Stop();
 	}
 
-	void Scene::Serialize(SerializeListener& sl, const char* pszLable)
+	void Scene::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
-		if (m_pRootNode == NULL)
-		{
-			m_pRootNode = new SceneNode(this,"RootNode");
-		}
-		m_pRootNode->Serialize(sl);
+		m_pRootNode->Serialize(sl,"RootObject");
 	
 		sl.EndSection();
+	}
+
+	GameObject*	Scene::CreateGameObject(const char* pName)
+	{
+		ASSERT(m_pRootNode);
+		if (m_pRootNode == NULL)
+			return NULL;
+
+		SceneNode* pNode = m_pRootNode->AddChildNode(pName);
+		GameObject* pGameObj = pNode->CreateGameObject();		
+		return pGameObj;
 	}
 }
 

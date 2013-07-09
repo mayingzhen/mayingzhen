@@ -5,6 +5,7 @@
 namespace ma
 {
 	class Scene;
+	class SceneVisiter;
 
 	class FRAMWORK_API SceneNode : public Object
 	{
@@ -15,43 +16,27 @@ namespace ma
 
 		~SceneNode();
 
-		virtual void			Update();
-
-		virtual void			ParalleUpdate(float fTimeElapsed);
-
-		virtual void			FixedUpdate(float fTimeElapsed);
-
-		virtual void			LateUpdate(float fTimeElapsed);
-
-		virtual void			Render();
-
-		virtual void			Start();
-
-		virtual void			Stop();
-
-		virtual void			SyncToPhysics();
-
-		virtual void			SyncFromPhysics();
+		void					TravelScene(SceneVisiter* pVisiter);
 
 		// Transform
-		void					SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts = TS_PARENT);	
-		const NodeTransform&	GetTransform(TRANSFORM_TYPE ts = TS_PARENT);
+		void					SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts = TS_WORLD);	
+		const NodeTransform&	GetTransform(TRANSFORM_TYPE ts = TS_WORLD);
 		const Matrix4x4&		GetWorldMatrix();
 		
-		void					SetPosition(const Vector3& vPos, TRANSFORM_TYPE ts = TS_PARENT);
-		const Vector3&			GetPosition(TRANSFORM_TYPE ts = TS_PARENT);
-		void					Translate(const Vector3& vDir, TRANSFORM_TYPE ts = TS_PARENT);
+		void					SetPosition(const Vector3& vPos, TRANSFORM_TYPE ts = TS_WORLD);
+		const Vector3&			GetPosition(TRANSFORM_TYPE ts = TS_WORLD);
+		void					Translate(const Vector3& vDir, TRANSFORM_TYPE ts = TS_WORLD);
 
-		const Quaternion&		GetRotate(TRANSFORM_TYPE ts = TS_PARENT);
-		void					Rotate(const Quaternion& qRot, TRANSFORM_TYPE ts = TS_PARENT);
-		void					Rotate(float xDegree,float yDegree,float zDegree, TRANSFORM_TYPE ts = TS_PARENT);
+		const Quaternion&		GetRotate(TRANSFORM_TYPE ts = TS_WORLD);
+		void					Rotate(const Quaternion& qRot, TRANSFORM_TYPE ts = TS_WORLD);
+		void					Rotate(float xDegree,float yDegree,float zDegree, TRANSFORM_TYPE ts = TS_WORLD);
 		void					RotateYAxisLS(float fDegree);
 		void					RotateZAxisLS(float fDegree);
 		void					RotateXAxisLS(float fDegree);
 
-		Vector3					GetDirection(TRANSFORM_TYPE ts = TS_PARENT);
-		Vector3					GetRight(TRANSFORM_TYPE ts = TS_PARENT);
-		Vector3					GetUp(TRANSFORM_TYPE ts = TS_PARENT);
+		Vector3					GetDirection(TRANSFORM_TYPE ts = TS_WORLD);
+		Vector3					GetRight(TRANSFORM_TYPE ts = TS_WORLD);
+		Vector3					GetUp(TRANSFORM_TYPE ts = TS_WORLD);
 
 		void                    Move(float x);
 		void                    Fly(float x);
@@ -59,20 +44,31 @@ namespace ma
 
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
+		SceneNode*				Clone(const char* pName);
 
-		Scene*					GetScene() {return m_pScene;}
+		SceneNode*				GetParent() {return m_pParentNode;}
 
-		SceneNode*				GetSceneNode() {return m_pParentNode;}
+		Scene*					GetSene() {return m_pScene;}
+
+		GameObject*				CreateGameObject();
+
+		GameObject*				GetGameObject() {return m_pGameObject;}
 		
-		void					SetParentSceneNode(SceneNode* pParentNode) {m_pParentNode = pParentNode;}
+		void					NotifySetParent(SceneNode* pParentNode);
+		
+		SceneNode*				AddChildNode(const char* pName);
 		
 		void					AddChildNode(SceneNode* pChildNode);
 
+		UINT					GetChildNumber() {return m_arrChildNode.size();}
+			
+		SceneNode*				GetChildByIndex(UINT index) {return m_arrChildNode[index];}
+			
 		const AABB&				GetAABBWS() {return m_aabbWS;}	
 
 		const AABB&				GetAABBLS() {return m_aabbLS;}
 
-		virtual void			Serialize(SerializeListener& sl, const char* pszLable = "SceneNode");
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "SceneNode");
 
 		virtual void			UpdateAABB();
 
@@ -89,6 +85,8 @@ namespace ma
 		std::vector<SceneNode*>	m_arrChildNode;
 		SceneNode*				m_pParentNode;
 		Scene*					m_pScene;
+
+		GameObject*				m_pGameObject;
 		
 		// Transform
 		NodeTransform			m_tsfPS;	//relate to parent node

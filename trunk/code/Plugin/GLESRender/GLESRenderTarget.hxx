@@ -7,6 +7,7 @@ namespace ma
 	GLESRenderTarget::GLESRenderTarget()
 	{
 		m_handle = 0;
+		m_pTexture = NULL;
 	}
 
 
@@ -21,6 +22,11 @@ namespace ma
 		m_pTexture->CreateRT(nWidth,nHeight,format);
 		
 		return true;
+	}
+
+	Texture* GLESRenderTarget::GetTexture()
+	{	
+		return m_pTexture;
 	}
 
 }

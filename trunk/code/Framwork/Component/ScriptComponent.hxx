@@ -3,7 +3,8 @@
 namespace ma
 {
 
-	ScriptComponent::ScriptComponent()
+	ScriptComponent::ScriptComponent(GameObject* pGameObj)
+	:Component(pGameObj)
 	{
 		m_pScriptObject = NULL;
 		m_pEdScriptObject = NULL;

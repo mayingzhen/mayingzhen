@@ -14,7 +14,7 @@ namespace ma
 		if (pMeshPath == NULL)
 			return false;
 
-		MeshData* pMeshData = static_cast<MeshData*>(ResourceManager::DeclareResource(pMeshPath));
+		MeshData* pMeshData = SafeCast<MeshData>(ResourceManager::DeclareResource(pMeshPath));
 		ASSERT(pMeshData);
 		if (pMeshData)
 		{
@@ -26,13 +26,13 @@ namespace ma
 	
 		if (pDiffueTexture)
 		{
-			Texture* pTexture = static_cast<Texture*>(ResourceManager::DeclareResource(pDiffueTexture));
-			ASSERT(pTexture);
-			if (pTexture == NULL)
+			TextureData* pTextureData = SafeCast<TextureData>(ResourceManager::DeclareResource(pDiffueTexture));
+			ASSERT(pTextureData);
+			if (pTextureData == NULL)
 				return false;
 
-			pTexture->Load();
-			Sampler* sampler = Sampler::create(pTexture); // +ref texture
+			pTextureData->Load();
+			Sampler* sampler = Sampler::create(pTextureData->GetRenderTexture()); // +ref texture
 			
 			std::string sMaterFlag;
 			if (m_bSkin)
@@ -113,7 +113,6 @@ namespace ma
 	}
 
 
-
 	void RenderMesh::SetMaterial(Material* pMaterial)
 	{
 		m_pMaterial = pMaterial;
@@ -134,7 +133,7 @@ namespace ma
 			if (pRenderable == NULL)
 				continue;
 
-			int nBone = pRenderable->m_arrBonePalette.size();
+			UINT nBone = pRenderable->m_arrBonePalette.size();
 			ASSERT(pRenderable->m_arrSkinMatrix.size() == nBone);
 			if (pRenderable->m_arrSkinMatrix.size() != nBone)
 				continue;
@@ -159,17 +158,23 @@ namespace ma
 		}
 	}
 
-	void RenderMesh::Draw(const char* pTechName)
+	void RenderMesh::Draw()
 	{
-		if (pTechName)
-		{
-			m_pMaterial->SetCurTechnqiue(pTechName);
-		}
-
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-		{
-			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
-		}
+ 		{
+			RenderQueue::AddRenderable(m_arrRenderable[i]);
+ 		}
+		
+
+// 		if (pTechName)
+// 		{
+// 			m_pMaterial->SetCurTechnqiue(pTechName);
+// 		}
+// 
+// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+// 		{
+// 			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
+// 		}
 	}
 }
 

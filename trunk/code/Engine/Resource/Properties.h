@@ -1,9 +1,6 @@
 #ifndef PROPERTIES_H_
 #define PROPERTIES_H_
 
-//#include "Base.h"
-//#include "Matrix4x4.h"
-//#include "Vector2.h"
 #include "Stream.h"
 
 namespace ma

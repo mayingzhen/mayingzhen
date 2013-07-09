@@ -1,11 +1,6 @@
 #ifndef  _RenderDefine__H__
 #define  _RenderDefine__H__
 
-#pragma once 
-
-//#include "MWMath.h"
-//#include "MWProperty.h"
-
 namespace ma
 {
 	/* LockedRect
@@ -48,8 +43,6 @@ namespace ma
 	{
 		USAGE_STATIC,
 		USAGE_DYNAMIC,
-
-		MW_ALIGN_ENUM(USAGE)
 	};
 
 
@@ -65,8 +58,6 @@ namespace ma
 		LOCK_DISCARD        = 1,
 		LOCK_NOOVERWRITE    = 2,
 		LOCK_READONLY       = 4,
-
-		MW_ALIGN_ENUM(LOCK)
 	};
 
 
@@ -162,7 +153,6 @@ namespace ma
 		FMT_A1,
 		FMT_BINARYBUFFER,
 
-		MW_ALIGN_ENUM(FORMAT)
 	};
 
 
@@ -292,236 +282,6 @@ namespace ma
 		}
 	};
 
-
-	/* enum: SHADER_PROGRAM_LANGUAGE
-	----------------------------------------------------------
-		@Remark:
-			着色程序语言.        
-	----------------------------------------------------------
-	*/
-	enum SHADER_LANGUAGE
-	{
-		SL_UNKNOWN,
-
-		SL_HLSL,
-		SL_CG,
-		SL_ASM,
-		SL_PRECOMPILED,
-
-		MW_ALIGN_ENUM(SHADER_LANGUAGE)
-	};
-
-
-	/* enum: SHADER_PARAM_TYPE
-	----------------------------------------------------------
-		@Remark:
-			着色程序参数类型.        
-	----------------------------------------------------------
-	*/
-	enum SHADER_PARAM_TYPE
-	{
-		SPT_UNKNOWN,
-
-		SPT_VOID,
-		SPT_BOOL,
-		SPT_INT,
-		SPT_FLOAT,
-		SPT_STRING,
-		SPT_TEXTURE,
-		SPT_TEXTURE1D,
-		SPT_TEXTURE2D,
-		SPT_TEXTURE3D,
-		SPT_TEXTURECUBE,
-		SPT_SAMPLER,
-		SPT_SAMPLER1D,
-		SPT_SAMPLER2D,
-		SPT_SAMPLER3D,
-		SPT_SAMPLERCUBE,
-		SPT_PIXELSHADER,
-		SPT_VERTEXSHADER,
-		SPT_PIXELFRAGMENT,
-		SPT_VERTEXFRAGMENT,
-		SPT_UNSUPPORTED,
-
-		//SPT_INT4,
-		//SPT_FLOAT4,
-
-		//SPT_MATRIX3x4,
-		//SPT_MATRIX4x4,
-	};
-
-	enum SHADER_PARAM_BIND_TYPE
-	{
-		SPBT_UNKNOWN,
-
-		SPBT_WORLD_MATRIX,
-		SPBT_VIEW_MATRIX,
-		SPBT_PROJ_MATRIX,
-		SPBT_WORLD_VIEW_MATRIX,
-		SPBT_VIEW_PROJ_MATRIX,
-		SPBT_WORLD_VIEW_PROJ_MATRIX,
-		SPBT_BLEND_MATRIX,
-
-		SPBT_FOG_PARAM,
-		SPBT_FOG_COLOR,
-
-		SPBT_MATERIAL_AMBIENT,
-		SPBT_MATERIAL_EMISSIVE,
-		SPBT_MATERIAL_DIFFUSE,
-		SPBT_MATERIAL_SPECULAR,
-
-		SPBT_LIGHT_POSITION,
-		SPBT_LIGHT_DIRECTION,
-		SPBT_LIGHT_ATTENUATION,
-		SPBT_LIGHT_SPOT_PARAM,
-
-		SPBT_TEXTURE_SIZE,
-		SPBT_INV_TEXTURE_SIZE,
-
-		SPBT_TIME, // x - time, y - sin(t), z - cos(t), w - 1
-
-		SPBT_CLIP_PANE, // x: near, y: far, z: 1 / near, w: 1 / far
-
-		SPBT_USER,
-
-		MW_ALIGN_ENUM(SHADER_PARAM_BIND_TYPE)
-	};
-
-
-	/* enum: SHADER_PROGRAM_PROFILE
-	----------------------------------------------------------
-		@Remark:
-			着色程序版本.        
-	----------------------------------------------------------
-	*/
-	enum SHADER_PROFILE
-	{
-		SP_UNKNOWN      = 0,
-
-		SP_VS_2_0       = 200,
-		SP_VS_3_0       = 300,
-
-		SP_PS_2_0       = 2000,
-		SP_PS_3_0       = 3000,
-
-		MW_ALIGN_ENUM(SHADER_PROFILE)
-	};
-
-
-	enum SAMPLER_STATE_TYPE
-	{
-		SAMP_ADDRESSU = 1,
-		SAMP_ADDRESSV = 2,
-		SAMP_ADDRESSW = 3,
-		SAMP_BORDERCOLOR = 4,
-		SAMP_MAGFILTER = 5,
-		SAMP_MINFILTER = 6,
-		SAMP_MIPFILTER = 7,
-		SAMP_MIPMAPLODBIAS = 8,
-		SAMP_MAXMIPLEVEL = 9,
-		SAMP_MAXANISOTROPY = 10,
-		SAMP_SRGBTEXTURE = 11,
-		SAMP_ELEMENTINDEX = 12,
-		SAMP_DMAPOFFSET = 13,
-
-		MW_ALIGN_ENUM(SAMPLER_STATE_TYPE)
-	};
-
-	enum TEXTURE_ADDRESS_MODE
-	{
-		TEXA_WRAP = 1,
-		TEXA_MIRROR = 2,
-		TEXA_CLAMP = 3,
-		TEXA_BORDER = 4,
-
-		MW_ALIGN_ENUM(TEXTURE_ADDRESS_MODE)
-	};
-
-	enum TEXTURE_FILTER_TYPE
-	{
-		TEXF_DEFAULT = 0, 
-		TEXF_POINT = 1,
-		TEXF_LINEAR = 2,
-		TEXF_ANISOTROPIC = 3,
-
-		MW_ALIGN_ENUM(TEXTURE_FILTER_TYPE)
-	};
-
-	enum SamplerBindType
-	{
-		SPBT_Unknown,
-
-		SBT_Emissive,
-		SBT_Diffuse,
-		SBT_Normal,
-		SBT_Specular,
-		SBT_Shadow,
-		SBT_Scene,
-		SBT_Extern0,
-		SBT_Extern1,
-		SBT_Extern2,
-		SBT_Extern3,
-		SBT_Extern4,
-		SBT_Extern5,
-		SBT_Extern6,
-		SBT_Extern7,
-	};
-
-	struct ENGINE_API SamplerState
-	{
-		SamplerBindType      BindType;
-		TEXTURE_FILTER_TYPE  Filter; 
-		TEXTURE_ADDRESS_MODE Address;
-		Color                BorderColor;
-		int                  MaxMipLevel;
-
-		SamplerState() : BindType(SPBT_Unknown),
-						 Filter(TEXF_DEFAULT),
-						 Address(TEXA_WRAP),
-						 BorderColor(0, 0, 0, 1),
-						 MaxMipLevel(0) {}
-	};
-
-	/* enum: MULTI_SAMPLE
-	----------------------------------------------------------
-		@Remark:
-			多重采样类型.        
-	----------------------------------------------------------
-	*/
-	enum MULTI_SAMPLE
-	{
-		MSAA_NONE	= 0,
-		MSAA_2x		= 2,
-		MSAA_4x		= 4,
-		MSAA_8x		= 8,
-		MSAA_16x		= 16,
-
-		MW_ALIGN_ENUM(MULTI_SAMPLE)
-	};
-
-	/* enum: SMAA_TYPE
-	----------------------------------------------------------
-	----------------------------------------------------------
-	*/
-// 	struct ENGINE_API eSmaaType : public IEnumObj
-// 	{
-// 		enum enum_t {
-// 			SMAA_NONE,
-// 			SMAA_LOW,
-// 			SMAA_MEDIUM,
-// 			SMAA_HIGH,
-// 			SMAA_ULTRA
-// 		};
-// 
-// 		DECLARE_ENUM(eSmaaType)
-// 	};
-
-	/* enum: PRIMITIVE_TYPE
-	----------------------------------------------------------
-		@Remark:
-			图元类型.        
-	----------------------------------------------------------
-	*/
 	enum PRIMITIVE_TYPE
 	{
 		PRIM_UNKNOW                 = 0,
@@ -531,84 +291,8 @@ namespace ma
 		PRIM_TRIANGLELIST           = 4,
 		PRIM_TRIANGLESTRIP          = 5,
 		PRIM_TRIANGLEFAN            = 6,
-
-		MW_ALIGN_ENUM(PRIMITIVE_TYPE)
 	};
 
-	/* enum: FOG_MODE
-	----------------------------------------------------------
-		@Remark:
-			雾效模式.
-	----------------------------------------------------------
-	*/
-	enum FOG_MODE
-	{
-		FOG_NONE                    = 0,
-		FOG_LINEAR                  = 1,                
-		FOG_EXP_1                   = 2,                
-		FOG_EXP_2                   = 3,
-
-		MW_ALIGN_ENUM(FOG_MODE)
-	};
-
-	/* struct: DeviceProperty
-	----------------------------------------------------------
-		@Remark:
-			设备属性.
-	----------------------------------------------------------
-	*/
-	struct ENGINE_API DeviceProperty
-	{
-		HINSTANCE		hInst;					//应用程序句柄
-		HWND            hWnd;                   //窗口句柄
-		int             Adpter;                 //显示适配器
-		bool            bWnded;                 //是否窗口化
-		int             Width;                  //窗口宽
-		int             Height;                 //窗口高
-		bool            bVSync;                 //是否垂直同步 
-		int             RefreshRate;            //屏幕刷新率(窗口模式必须为0)
-		bool            bNVPerfHUD;             //NVidia PerfHUD
-
-		DeviceProperty()
-		{
-			hInst = NULL;
-			hWnd = NULL;
-			Adpter = 0;
-			bWnded = true;
-			Width = 800;
-			Height = 600;
-			bVSync = false;
-			RefreshRate = 0;
-			bNVPerfHUD = true;
-		}
-	};
-
-	enum TextureCaps
-	{
-		TEXCAPS_ALPHA           = 1,                //Alpha in texture pixels is supported. 
-		TEXCAPS_ALPHAPALETTE    = 2,                //Device can draw alpha from texture palettes. 
-		TEXCAPS_CUBEMAP         = 4,                //Supports cube textures. 
-		TEXCAPS_MIPCUBEMAP      = 16,               //Device supports mipmapped cube textures. 
-		TEXCAPS_MIPMAP          = 32,               //Device supports mipmapped textures. 
-		TEXCAPS_MIPVOLUMEMAP    = 64,               //Device supports mipmapped volume textures. 
-		TEXCAPS_VOLUMEMAP       = 128,              //Device supports volume textures. 
-
-		MW_ALIGN_ENUM(TextureCaps)
-	};
-
-
-	/* struct: RenderOp
-	----------------------------------------------------------
-		@Remark:
-			设备属性.        
-	----------------------------------------------------------
-	*/
-	struct RenderPerf
-	{
-		int       iTriangleCount;
-		int       iDrawPrimtiveCount;
-		int       iShaderChangeCount;
-	};
 
 	/* enum: CULL_MODE
 	----------------------------------------------------------
@@ -618,11 +302,6 @@ namespace ma
 	*/
 	enum CULL_MODE
 	{
-// 		CULL_NONE                   = 1,                //不裁剪
-// 		CULL_CW                     = 2,                //逆时针
-// 		CULL_CCW                    = 3,                //顺时针
-// 
-// 		MW_ALIGN_ENUM(CULL_MODE)
 		CULL_FACE_SIDE_NONE,
 		CULL_FACE_SIDE_BACK,
 		CULL_FACE_SIDE_FRONT,
@@ -641,25 +320,15 @@ namespace ma
 		FILL_POINT                  = 1,                //点填充
 		FILL_FRAME                  = 2,                //框架填充
 		FILL_SOLID                  = 3,                //实填充
-
-		MW_ALIGN_ENUM(FILL_MODE)
 	};
 
 	enum BLEND_MODE
 	{
 		BM_OPATICY,
-		//BM_ALPHA_TEST,
 		BM_TRANSPARENT,
 		BM_ADD,
 		BM_MULTIPLY,
-		//BM_ALPHA_TEST_ADD,
-		//BM_ALPHA_TEST_MUL,
 	};
-
-// 	BLEND_OPAQUE,
-// 		BLEND_TRANSPARENT,
-// 		BLEND_ADDITIVE,
-// 		BLEND_MULTIPLIED
 
 	enum DEPTH_CHECK_MODE
 	{
@@ -686,89 +355,13 @@ namespace ma
 		CWE_GREEN  = 1 << 2,
 		CWE_ALPHA  = 1 << 3,
 		CWE_ALL    = CWE_RED | CWE_BLUE | CWE_GREEN | CWE_ALPHA,
-
-		MW_ALIGN_ENUM(COLOR_WRITE_ENABLE)
 	};
 
-
-// 	enum Blend
-// 	{
-// 		BLEND_ZERO/* = GL_ZERO*/,
-// 		BLEND_ONE /*= GL_ONE*/,
-// 		BLEND_SRC_COLOR /*= GL_SRC_COLOR*/,
-// 		BLEND_ONE_MINUS_SRC_COLOR /*= GL_ONE_MINUS_SRC_COLOR*/,
-// 		BLEND_DST_COLOR /*= GL_DST_COLOR*/,
-// 		BLEND_ONE_MINUS_DST_COLOR /*= GL_ONE_MINUS_DST_COLOR*/,
-// 		BLEND_SRC_ALPHA/* = GL_SRC_ALPHA*/,
-// 		BLEND_ONE_MINUS_SRC_ALPHA /*= GL_ONE_MINUS_SRC_ALPHA*/,
-// 		BLEND_DST_ALPHA/* = GL_DST_ALPHA*/,
-// 		BLEND_ONE_MINUS_DST_ALPHA /*= GL_ONE_MINUS_DST_ALPHA*/,
-// 		BLEND_CONSTANT_ALPHA /*= GL_CONSTANT_ALPHA*/,
-// 		BLEND_ONE_MINUS_CONSTANT_ALPHA /*= GL_ONE_MINUS_CONSTANT_ALPHA*/,
-// 		BLEND_SRC_ALPHA_SATURATE /*= GL_SRC_ALPHA_SATURATE*/
-// 	};
-// 
-// 	// Render state override bits
-// 	#define RS_BLEND 1
-// 	#define RS_BLEND_FUNC 2
-// 	#define RS_CULL_FACE 4
-// 	#define RS_DEPTH_TEST 8
-// 	#define RS_DEPTH_WRITE 16
-// 	#define RS_DEPTH_FUNC 32
-// 	#define RS_CULL_FACE_SIDE 64
-// 
-// 	struct RenderState
-// 	{
-// 		CULL_MODE cullMode;
-// 		FILL_MODE fillMode;
-// 		int colorWrite;
-// 		bool depthWrite;
-// 		bool depthTest;
-// 		DEPTH_CHECK_MODE depthCheck;
-// 		BLEND_MODE blendMode;
-// 		float alphaTestRef;
-// 
-// 		bool _blendEnabled;
-// 		Blend _blendSrc;
-// 		Blend _blendDst;
-// 
-// 		UINT _bits;
-// 
-// 		RenderState()
-// 		{
-// 			cullMode = CULL_CCW;
-// 			fillMode = FILL_SOLID;
-// 			colorWrite = CWE_ALL;
-// 			depthWrite = true;
-// 			depthTest = true;
-// 			depthCheck = DCM_LESS_EQUAL;
-// 			blendMode = BM_OPATICY;
-// 			alphaTestRef = 0.5f;
-// 		}
-// 	};
-
-	/* enum: LIGHT_MODE
-	----------------------------------------------------------
-		@Remark:
-			光照模式.        
-	----------------------------------------------------------
-	*/
 	enum LIGHT_TYPE
 	{
 		LT_POINT                 = 1,
 		LT_SPOT                  = 2,
 		LT_DIRECTIONAL           = 3,
-
-		MW_ALIGN_ENUM(LIGHT_TYPE)
-	};
-
-
-	enum LIGHTING_MODE
-	{
-		LM_NONE                         = 0,
-		LM_PHONE                        = 1,
-
-		MW_ALIGN_ENUM(LIGHTING_MODE)
 	};
 
 	enum TRANSFORM_TYPE
@@ -776,80 +369,13 @@ namespace ma
 		TS_LOCAL,
 		TS_PARENT,
 		TS_WORLD,
-
-		MW_ALIGN_ENUM(TRANSFORM_TYPE)
-	};
-
-
-	enum CONSTANT_VARIABLE
-	{
-		MAX_RENDER_TARGET       = 4,
-		MAX_PASS                = 8,
-		MAX_LIGHTS              = 8,
-		MAX_SAMPLER_STATE      = 16,
-		MAX_VERTEX_STREAM       = 8,
-		MAX_SHADOW_CAMERAS      = 8,
-		MAX_BLEND_MATRIX        = 256,
-		MAX_BLEND_MATRIX_VS     = 50,
-		DEFAULT_MIPMAP_LEVEL    = 8,
-		MAX_USER_BUFFER         = 4096,
-		MAX_TEXTURE_LINKER      = 8,
-
-		SHADOW_TEXTURE_LINKER   = 0,
-
-		MW_ALIGN_ENUM(CONSTANT_VARIABLE)
-	};
-
-
-	enum IMAGE_FILE_FORMAT
-	{
-		IMAGE_BMP = 0,
-		IMAGE_JPG = 1,
-		IMAGE_TGA = 2,
-		IMAGE_PNG = 3,
-		IMAGE_DDS = 4,
-		IMAGE_PPM = 5,
-		IMAGE_DIB = 6,
-		IMAGE_HDR = 7,
-		IMAGE_PFM = 8,
-
-		MW_ALIGN_ENUM(IMAGE_FILE_FORMAT)
-	};
-
-	enum IMAGE_FILTER
-	{
-		IMAGE_FILTER_DEFAULT    = 1 << 0,
-		IMAGE_FILTER_NONE       = 1 << 1,
-		IMAGE_FILTER_POINT      = 1 << 2,
-		IMAGE_FILTER_LINEAR     = 1 << 3,
-		IMAGE_FILTER_TRIANGLE   = 1 << 4,
-		IMAGE_FILTER_BOX        = 1 << 5,
-
-		MW_ALIGN_ENUM(IMAGE_FILTER)
 	};
 
 	enum PROJECTION_TYPE
 	{
 		PROJTYPE_ORTHO,
 		PROJTYPE_PROJECTION,
-
-		MW_ALIGN_ENUM(PROJECTION_TYPE)
 	};
-
-
-// 	struct eRenderTechType : public IEnumObj
-// 	{
-// 		enum enum_t {
-// 			RTT_Base,
-// 			RTT_Mirror,
-// 			RTT_Shadow,
-// 
-// 			RTT_Max
-// 		};
-// 
-// 		DECLARE_ENUM(eRenderTechType);
-// 	};
-
 }
 
 #endif

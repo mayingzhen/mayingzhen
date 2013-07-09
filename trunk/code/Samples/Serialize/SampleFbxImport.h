@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class AnimationPlay;
+	class IAnimationPlay;
 	class Skeleton;
 	class MeshData;
 	class Texture;
@@ -32,34 +32,18 @@ namespace ma
 	private:
 
 		// SkelMesh
-		AnimationPlay*	m_pAnimtionPlay;
+		IAnimationPlay*	m_pAnimtionPlay;
 		Skeleton*		m_pSkeleton;
 		RenderMesh*		m_pRenderMesh;
-		//Texture*		m_pRendTexture;
-		//Material*		m_pRenderMaterial;
 	
 		// staticMesh
 		RenderMesh*		m_pStaticMesh;
-		//Texture*		m_pStatcMeshTexture;
-		//Material*		m_pStaticMeshMaterial;
+
 
 		RenderMesh*		m_pBoxMesh;
-		//Texture*		m_pBoxTexture;
 		Material*       m_pBoxMaterial;
 
 		ParticleEmitter* m_pEmitter;
-
-		RenderTarget*	m_pDepthTex;
-		RenderTarget*	m_pNormalTex;
-
-		RenderTarget*	m_pDiffuse;
-		RenderTarget*	m_pSpecular;
-
-		ScreenQuad*		m_pScreenQuad;
-
-		Material*		m_pMaterDeferred;
-
-		Light*			m_pLight;
 	};
 }
 
