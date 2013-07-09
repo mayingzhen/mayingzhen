@@ -16,6 +16,7 @@ namespace ma
 			m_autoDefaultBings["u_worldviewMatrix"] = WORLD_VIEW_MATRIX;
 			m_autoDefaultBings["u_matrixPalette"] = MATRIX_PALETTE;
 			m_autoDefaultBings["depth_near_far_invfar"] = DepthNearFarInvfar;
+			m_autoDefaultBings["u_InvProjMatrix"] =  INVERSE_PROJECTION_MATRIX;
 			
 		}
 
@@ -49,8 +50,14 @@ namespace ma
 		return pTechnique;
 	}
 
-	void Material::SetCurTechnqiue(const char* pTechName)
+	void Material::SetCurTechnqiue(const char* pShaderName,const char* pDefine)
 	{
+		std::string sTechName = pShaderName;
+		if (pDefine && strcmp(pDefine,"") != 0)
+		{
+			sTechName += std::string("_") + pDefine;
+		}
+
 		for (Uint i = 0; i < m_arrTechnique.size(); ++i)
 		{
 			Technique* pTech = m_arrTechnique[i];
@@ -58,14 +65,17 @@ namespace ma
 			if (pTech == NULL)
 				continue;
 
-			if ( strcmp(pTechName,pTech->GetTechName()) == 0 )
+			if ( strcmp(sTechName.c_str(),pTech->GetTechName()) == 0 )
 			{
 				m_pCurTechnque = m_arrTechnique[i];
 				return;
 			}
 		}
 
-		ASSERT(false);
+		Technique* pTech = CreateTechnique(sTechName.c_str(),pShaderName,pDefine);
+		m_pCurTechnque = pTech;
+
+		//ASSERT(false);
 	}
 
 
@@ -84,47 +94,6 @@ namespace ma
 // // 
 // // 		return material;
 // 		return NULL;
-// 	}
-
-
-// 	Material* Material::create(ShaderProgram* pShaderProgram)
-// 	{
-// 		ASSERT(pShaderProgram);
-// 
-// 		// Create a new material with a single technique and pass for the given effect.
-// 		Material* material = new Material();
-// 
-// 		material->m_pShaderProgram = pShaderProgram;
-// 
-// 		return material;
-// 	}
-
-// 	void Material::SetShaderProgram(const char* pszName,const char* define)
-// 	{
-// 		ASSERT(pszName);
-// 		if (pszName == NULL)
-// 			return;
-// 
-// 		//m_strShaderName = pszName;
-// 		//m_strShaderDefine = define;
-// 
-// 		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-// 		m_pShaderProgram->CreateFromShaderName(pszName,define);
-// 		
-// 		UINT nUniform = m_pShaderProgram->GetUniformCount();
-// 		for (UINT i = 0; i < nUniform; ++i)
-// 		{
-// 			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-// 			ASSERT(pUniform);
-// 			if (pUniform == NULL)
-// 				continue;
-// 
-// 			std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pUniform->getName());
-// 			if (itr != m_autoDefaultBings.end())
-// 			{
-// 				setParameterAutoBinding(pUniform->getName(),itr->second);
-// 			}
-// 		}
 // 	}
 
 
@@ -355,6 +324,10 @@ namespace ma
 		{
 			param->bindValue(this, &Material::autoBindingGetInverseTransposeWorldViewMatrix);
 		}
+		else if (autoBinding == INVERSE_PROJECTION_MATRIX)
+		{
+			param->bindValue(this,&Material::autoBindingGetInverseProjectionMatrix);
+		}
 		else if (autoBinding == CAMERA_WORLD_POSITION)
 		{
 			param->bindValue(this, &Material::autoBindingGetCameraWorldPosition);
@@ -427,6 +400,21 @@ namespace ma
 	const Matrix4x4& Material::autoBindingGetInverseTransposeWorldViewMatrix() const
 	{
 		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldViewMatrix() :*/ Matrix4x4::identity();
+	}
+		
+	Matrix4x4 Material::autoBindingGetInverseProjectionMatrix() const
+	{
+		if (m_auotBingCamera)
+		{
+			Matrix4x4 mInvProj;
+			Matrix4x4 matProj = m_auotBingCamera->GetProjMatrix();
+			MatrixInverse(&mInvProj, NULL, &matProj);
+			return mInvProj;
+		}
+		else
+		{
+			return Matrix4x4::identity();
+		}
 	}
 
 	Vector3 Material::autoBindingGetCameraWorldPosition() const

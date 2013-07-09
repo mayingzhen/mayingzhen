@@ -15,7 +15,12 @@ namespace ma
 
 		virtual IAnimationPlay*	CreateAnimationPlay();
 
-		virtual	IAnimationSet*	CreateAnimationSet();
+		virtual	IAnimationSet*	CreateAnimationSet(IAnimationPlay* pAnimPlay);
+
+		virtual	void			Update();
+
+	private:
+		std::vector<IAnimationPlay*>	m_arrAnimPlay;
 	};
 }
 

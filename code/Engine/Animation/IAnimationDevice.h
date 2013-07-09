@@ -7,7 +7,7 @@ namespace ma
 	class IAnimationPlay;
 	class IAnimationSet;
 
-	class ENGINE_API IAnimationDevice
+	class ENGINE_API IAnimationDevice /*: public IDevice*/
 	{
 	public:
 
@@ -15,7 +15,7 @@ namespace ma
 
 		virtual IAnimationPlay*	CreateAnimationPlay() = 0;
 
-		virtual	IAnimationSet*	CreateAnimationSet() = 0;
+		virtual	IAnimationSet*	CreateAnimationSet(IAnimationPlay* pAnimPlay) = 0;
 	};
 
 	ENGINE_API void SetAnimationDevice(IAnimationDevice* pAnimationDevice);

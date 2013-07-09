@@ -28,7 +28,7 @@ Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),/* _node(NUL
 Form::~Form()
 {
     SAFE_DELETE(_spriteBatch);
-    SAFE_DEC_REF(_frameBuffer);
+    //SAFE_DEC_REF(_frameBuffer);
     SAFE_DEC_REF(_theme);
 
     if (__formEffect)
@@ -244,12 +244,12 @@ void Form::setSize(float width, float height)
         _v1 = height / (float)h;
 
         // Create framebuffer if necessary. TODO: Use pool to cache.
-        if (_frameBuffer)
-            SAFE_DEC_REF(_frameBuffer)
+        //if (_frameBuffer)
+        //    SAFE_DEC_REF(_frameBuffer)
         
         //_frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
-		_frameBuffer = GetRenderDevice()->CreateRenderTarget();
-		_frameBuffer->Create(w,h);
+		_frameBuffer = GetRenderDevice()->CreateRenderTarget(w,h);
+		//_frameBuffer->Create(w,h);
         ASSERT(_frameBuffer);
 
         // Re-create projection matrix.

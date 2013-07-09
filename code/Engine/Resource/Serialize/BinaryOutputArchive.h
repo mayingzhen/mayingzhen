@@ -1,14 +1,14 @@
 #ifndef __BinaryOutputArchive_H__
 #define __BinaryOutputArchive_H__
 
-#include "Engine/Resource/Serialize/SerializeListener.h"
+#include "Engine/Resource/Serialize/Serializer.h"
 
 namespace ma
 {
 
 
 
-class ENGINE_API BinaryOutputArchive : public SerializeListener
+class ENGINE_API BinaryOutputArchive : public Serializer
 {
 	std::ofstream m_file;
 

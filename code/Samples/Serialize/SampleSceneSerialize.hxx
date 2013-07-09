@@ -8,40 +8,39 @@ namespace ma
 		m_pScene = NULL;
 	}
 
-	void SampleSceneSerialize::Init(ApplicationBase* pApplication)
+	void SampleSceneSerialize::Init(const Platform* pPlatform)
 	{
-		BtPhysicsModuleInit();
+		Sample::Init(pPlatform);
 
-		Sample::Init(pApplication);
+		BtPhysicsModuleInit();
+		AnimationModuleInit();
 
 		//Vector3 vEyePos = Vector3(0, 6, 10);
-		m_fMoveCameraSpeed = 0.20f;
+		//m_fMoveCameraSpeed = 0.20f;
 		//m_pCamera->LookAt(&vEyePos);
 	}
 
 	void SampleSceneSerialize::Shutdown()
 	{
 		BtPhysicsModuleShutdown();
+		AnimationModuleShutdown();
 
-		Sample::Shutdown();
+		//Sample::Shutdown();
 	}
 
 	void SampleSceneSerialize::Load()
 	{
-		//ma::SceneNode* pRootNode = m_pScene->GetRootNode();//new SceneNode(NULL,"RootNode");
-		ma::Scene* pScene = new Scene();
-		ma::SceneNode* pRootNode = pScene->GetRootNode();
+		//ma::SceneNode* pRootNode = m_pScene->GetRootNode();//new SceneNode(NULL,"RootNode");	
+		Scene* pScene = new Scene();
 
 		pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
 
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"physics");
-			pRootNode->AddChildNode(pGameObj);
+			GameObject* pGameObj = pScene->CreateGameObject("physics");
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
-			pGameObj->AddComponent(pMeshComp);
-
+			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+			pMeshComp->Load("Fbx/Box.skn","Fbx/Box.tga");
+	
 			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
 			Vector3 vSize = vMax - vMin;
@@ -50,23 +49,32 @@ namespace ma
 			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
-			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
 			pBoxCollisionShape->SetSize(vSize);
 			pBoxCollisionShape->SetTransformLS(tsf);
-			pGameObj->AddComponent(pBoxCollisionShape);
 
-			RigidBodyComponent* pRigidBodyComp = new RigidBodyComponent();
-			pGameObj->AddComponent(pRigidBodyComp);
-			pRigidBodyComp->SetUseGravity(false);
-			pRigidBodyComp->SetKinematic(true);
+			RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
+			pRigidBodyComp->GetRigidBody()->SetUseGravity(false);
+			pRigidBodyComp->GetRigidBody()->SetKinematic(true);
+			
+			int nClone = 5;
+			for (int i = 0; i < nClone; ++i)
+			{
+				char buf[10] = {0};
+				itoa(i,buf,10);
+				std::string pName = pGameObj->GetName();
+				pName += std::string("_clone") + buf;
+				GameObject* pClone = pGameObj->Clone(pName.c_str());
+				pClone->Translate(Vector3(10 * i,0,0));
+			}
+			
 		}
 
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"Terrain");
-			pRootNode->AddChildNode(pGameObj);
+			GameObject* pGameObj = m_pScene->CreateGameObject("Terrain");
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
+			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();//new MeshComponent();
+			pMeshComp->Load("/Fbx/MovingPlatform.skn","/Fbx/PlatformTexture.tga");
 			pGameObj->AddComponent(pMeshComp);
 
 			Vector3 vMin,vMax;
@@ -77,12 +85,12 @@ namespace ma
 			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
-			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();//new BoxCollisionComponent();
 			pBoxCollisionShape->SetSize(vSize);
 			pBoxCollisionShape->SetTransformLS(tsf);
 			pGameObj->AddComponent(pBoxCollisionShape);
 
-			pGameObj->TranslateWS(Vector3(0,-3,0));
+			pGameObj->Translate(vCenter,TS_WORLD);
 		}
 
 		{

@@ -20,7 +20,7 @@ namespace ma
 
 	}
 
-	void	PoseModifier::Serialize(SerializeListener& sl, const char* pszLable)
+	void	PoseModifier::Serialize(Serializer& sl, const char* pszLable)
 	{
 
 	}

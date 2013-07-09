@@ -12,7 +12,7 @@
 // #include "RenderScheme/HDRPostProcess.h"
 
 // #include "RenderScheme/RenderPipeline.h"
-// #include "RenderScheme/RenderQueue.h"
+#include "RenderScheme/RenderQueue.h"
 // #include "RenderScheme/RenderScheme.h"
 // #include "RenderScheme/ShadowDepthPass.h"
 // #include "RenderScheme/ShadowMap.h"

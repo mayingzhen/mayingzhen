@@ -1,4 +1,5 @@
-#include "GLESRender/GLESTexture.h"
+#include "GLESTexture.h"
+#include "GLESMapping.h"
 
 #include "il/il.h"
 
@@ -214,7 +215,7 @@ namespace ma
 	{
 		ASSERT(pszPath);
 		if (pszPath == NULL)
-			return;
+			return false;
 
 		ILuint curImage = 0; 
 		ilGenImages(1, &curImage);

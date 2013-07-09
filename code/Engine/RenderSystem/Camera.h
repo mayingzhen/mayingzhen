@@ -12,9 +12,7 @@ namespace ma
 
 		Camera();
 		
-		~Camera();
-
-		//virtual void		Update();			
+		~Camera();			
 
 		void				LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);
 
@@ -51,11 +49,7 @@ namespace ma
 
 		Frustum				CalculateFrustum(float fNear, float fFar);
 
-		//void				SyncFromSceneNode();
-
-		//void				SyncToSceneNode();
-
-		Vector2			GetNearPlaneSize() const;
+		Vector2				GetNearPlaneSize() const;
 
 	private:
 		Matrix4x4		m_matView;

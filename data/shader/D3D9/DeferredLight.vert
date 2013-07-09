@@ -8,11 +8,6 @@ struct VS_OUT
 	float3 oViewDir : TEXCOORD1;
 };
 
-struct PS_OUT
-{
- 	float4 Diffuse  : COLOR0;
-	float4 Specular  : COLOR1;
-};
 
 
 void main( float4 pos : POSITION,

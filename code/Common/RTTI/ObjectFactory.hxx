@@ -38,35 +38,58 @@ namespace ma
 	Object* ObjectFactoryManager::CreateObject(const char* pCls)
 	{
 		Object* pObj = NULL;
-		//ObjFunFactoryMap::iterator iter = m_objFunFactoryMap.find(pCls);
-		//if (iter != m_objFunFactoryMap.end())
-		//{
-			ObjFunFactoryMap::iterator funIter = m_objFunFactoryMap.find(pCls);
-			if (funIter != m_objFunFactoryMap.end())
-			{
-				pObj = funIter->second();
-			}
-			else
-			{
-				Log("Object factory not found for type %s",pCls);
-			}
-		//}
+		ObjFunFactoryMap::iterator funIter = m_objFunFactoryMap.find(pCls);
+		if (funIter != m_objFunFactoryMap.end())
+		{
+			pObj = funIter->second();
+		}
+		else
+		{
+			Log("Object factory not found for type %s",pCls);
+		}
 		return pObj;
 	}
 
-// 	Object* ObjectFactoryManager::CreateObject(const char* clsName)
-// 	{
-// 		Object* pObj = NULL;
-// 		const RTTIClass* pCls = ClassManager::GetInstance().GetClassByName(clsName);
-// 		if (NULL != pCls)
-// 		{
-// 			pObj = CreateObject(pCls);
-// 		}
-// 		else
-// 		{
-// 			Log("RTTIClass not found %s",clsName);
-// 		}
-// 		return pObj;
-// 	}
+	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
+	{
+		ObjFunArgFactoryMap::iterator iter = m_objFunArgFactoryMap.find(pCls);
+		if (iter == m_objFunArgFactoryMap.end())
+		{
+			m_objFunArgFactoryMap[pCls] = funArgCreator;
+		}
+		else
+		{
+			Log("Object factory conflict : %s %p",pCls,funArgCreator);
+		}
+	}
+
+	void ObjectFactoryManager::UnRegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
+	{
+		ObjFunArgFactoryMap::iterator iter = m_objFunArgFactoryMap.find(pCls);
+		if (iter != m_objFunArgFactoryMap.end() && iter->second == funArgCreator)
+		{
+			m_objFunArgFactoryMap.erase(iter);
+		}
+		else
+		{
+			Log("Fail to unregister object factory");
+		}
+	}
+
+	Object*	ObjectFactoryManager::CreateObjectArg(const char* pCls,void* arg)
+	{
+		Object* pObj = NULL;
+		ObjFunArgFactoryMap::iterator funIter = m_objFunArgFactoryMap.find(pCls);
+		if (funIter != m_objFunArgFactoryMap.end())
+		{
+			pObj = funIter->second(arg);
+		}
+		else
+		{
+			Log("Object factory not found for type %s",pCls);
+		}
+		return pObj;
+	}
+
 }
 

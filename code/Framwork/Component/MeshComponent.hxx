@@ -4,7 +4,8 @@ namespace ma
 {
 	IMPL_OBJECT(MeshComponent,Component)
 
-	MeshComponent::MeshComponent()
+	MeshComponent::MeshComponent(GameObject* pGameObj)
+	:Component(pGameObj)
 	{
 		m_pRendMesh = NULL;
 		m_pMaterial = NULL;
@@ -17,21 +18,29 @@ namespace ma
 
 	void MeshComponent::Render()
 	{
-		if (m_pRendMesh == NULL || m_pGameObject == NULL)
- 			return;	
+		if (m_pRendMesh == NULL)
+			return;
 
-		//m_pRendMesh->Render( m_pGameObject->GetWorldMatrix() );
+		m_pRendMesh->Draw();
+
+// 		UINT nCnt = m_pRendMesh->GetRenderableNumber();
+// 		for (UINT i = 0; i < nCnt; ++i)
+// 		{
+// 			
+// 			RenderQueue::AddRenderable(m_pRendMesh->GetRenderableByIndex(i));		
+// 		}
 	}
 
 	void MeshComponent::Update()
 	{
-		
+		if (m_pRendMesh == NULL || m_pGameObject == NULL)
+			return;	
+
+		m_pRendMesh->SetWorldMatrix( m_pGameObject->GetSceneNode()->GetWorldMatrix() );		
 	}
 
 	void MeshComponent::Start()
 	{
-		//m_pRendMesh->Load();	
-		//m_pTexture->Load();
 	}
 
 	void MeshComponent::Stop()
@@ -45,12 +54,11 @@ namespace ma
 		if (pRenderDevice == NULL)
 			return;
 
-// 		m_pRendMesh = pRenderDevice->CreateRendMesh();
-// 		MeshData* pMeshData = LoadMeshFromBinaryFile(pszMeshPath);
-// 		m_pRendMesh->InitWithData(pMeshData);
-// 
-// 		m_pTexture = pRenderDevice->CreateRendTexture();
-// 		m_pTexture->Load(pszTexPath);
+		m_strMeshPath = pszMeshPath;
+		m_strMaterialPath = pszTexPath;
+
+		m_pRendMesh = new RenderMesh();
+		m_pRendMesh->Load(pszMeshPath,pszTexPath);
 	}	
 
 	void MeshComponent::GetBoundingAABB(Vector3& vMin,Vector3& vMax)
@@ -61,7 +69,7 @@ namespace ma
 // 		}
 	}
 
-	void MeshComponent::Serialize(SerializeListener& sl, const char* pszLable)
+	void MeshComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
 		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
 		if (pRenderDevice == NULL)
@@ -69,27 +77,12 @@ namespace ma
 
 		sl.BeginSection(pszLable);
 
-		std::string sMeshPath,sTexturePath;
-// 		if (m_pRendMesh)
-// 		{
-// 			MeshData* pMeshData = m_pRendMesh->GetMeshData();
-// 			if (pMeshData)
-// 			{
-// 				sMeshPath = pMeshData->GetResPath();
-// 			}
-// 		}
-
-// 		if (m_pTexture)
-// 		{
-// 			sTexturePath = m_pTexture->GetResPath();
-// 		}
-
-		sl.Serialize(sMeshPath);
-		sl.Serialize(sTexturePath);
+		sl.Serialize(m_strMeshPath);
+		sl.Serialize(m_strMaterialPath);
 
 		if ( sl.IsReading() )
 		{
-			Load(sMeshPath.c_str(),sTexturePath.c_str());
+			Load(m_strMeshPath.c_str(),m_strMaterialPath.c_str());
 		}
 
 		sl.EndSection();

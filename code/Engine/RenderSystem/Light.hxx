@@ -16,25 +16,6 @@ namespace ma
 		m_bCreateShadow = false;
 	}
 
-// 	void Light::Update()
-// 	{
-// 		SyncFromSceneNode();
-// 	}
-
-// 	void Light::SyncFromSceneNode()
-// 	{
-// 		MatrixInverse(&m_mView,NULL,&GetWorldMatrix());
-// 	}
-// 
-// 	void Light::SyncToSceneNode()
-// 	{
-// 		NodeTransform tsfWS;
-// 		Matrix4x4 matViewInv;
-// 		MatrixInverse(&matViewInv,NULL,&m_mView);
-// 		TransformFromMatrix(&tsfWS,&matViewInv);
-// 		SetTransform(tsfWS,TS_WORLD);
-// 	}
-
 	void Light::LookAt(const Vector3* pEye,const Vector3* pAt,const Vector3* pUp)
 	{
 		if (pAt)
@@ -49,9 +30,6 @@ namespace ma
 		// view matrix
 		MatrixLookAtLH(&m_mView, pEye, &m_vTarget, &m_vUpVector);
 		
-		//SyncToSceneNode();
-
-
 		// projection matrix
 		if(m_eLightType == LIGHT_SPOT)
 		{
@@ -62,6 +40,29 @@ namespace ma
 			//GetRenderDevice()->MakeOrthoMatrix(&m_mProj, 1, 1, 0, 1);
 		}
 	}
+
+// 	void Light::UpdateShadowMapFrustum()
+// 	{
+// 		if (!m_bCreateShadow)
+// 			return;
+// 
+// 		for (UINT i = 0; i < m_arrSMF.size(); ++i)
+// 		{
+// 			m_arrSMF[i]->Update();
+// 		}
+// 	}
+
+// 	void Light::ShadowDepthPass()
+// 	{
+// 		if (!m_bCreateShadow)
+// 			return;
+// 
+// 		for (UINT i = 0; i < m_arrSMF.size(); ++i)
+// 		{
+// 			m_arrSMF[i]->ShadowDepthPass();
+// 		}
+// 	}
+
 }
 
 

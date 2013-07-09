@@ -8,6 +8,8 @@ namespace ma
 	class ENGINE_API IAnimationSet : public Resource
 	{
 	public:
+		virtual	void		AddAction(const char* pszSkaPath, const char* actionName) = 0;
+
 // 		virtual IAction*	GetActionByName(const char* pszName) = 0;
 // 
 // 		virtual UINT		GetActionNumber() = 0;

@@ -4,35 +4,33 @@
 namespace ma
 {
 	class GameObject;
+	class SceneVisiter;
+	class SceneNode;
 
 	class FRAMWORK_API Component : public Object
 	{
 		DECL_OBJECT(Component)
 
 	public:
-		Component();
+		Component(GameObject* pGameObj);
 
 		virtual ~Component();
 
-		virtual void Render();
+		virtual void	TravelScene(SceneVisiter* pVisiter);
 
-		virtual void Update();
+		virtual void	Render();
 
-		virtual void ParalleUpdate(float fTimeElapsed);
+		virtual void	Update();
 
-		virtual void FixedUpdate(float fTimeElapsed);
+		virtual void	Start();
 
-		virtual void LateUpdate(float fTimeElapsed);
+		virtual void	Stop();
 
-		virtual void Start();
+		GameObject*		GetGameObject();
 
-		virtual void Stop();
+		SceneNode*		GetSceneNode();
 
-		GameObject* GetGameObject() {return m_pGameObject;}
-
-		virtual void SetGameObject(GameObject* pGameObject) {m_pGameObject = pGameObject;}
-
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Component");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component") = 0;
 
 	protected:
 		GameObject* m_pGameObject;

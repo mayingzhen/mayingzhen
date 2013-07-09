@@ -3,8 +3,9 @@
 
 
 #include "Framwork/Component/Component.hxx"
-#include "Framwork/Component/SkelMeshComponent.hxx"
+#include "Framwork/Component/AnimPlayComponent.hxx"
 #include "Framwork/Component/MeshComponent.hxx"
+#include "Framwork/Component/ParticleComponent.hxx"
 #include "Framwork/Component/RigidbodyComponent.hxx"
 #include "Framwork/Component/CollisionComponent.hxx"
 #include "Framwork/Component/ScriptComponent.hxx"
@@ -24,15 +25,21 @@ using namespace ma;
 #include <Framwork/RTTIDecl.h>
 #undef RTTI_DECL
 
+#define RTTI_DECL(ClassType) Object* Create_##ClassType(void* arg) { return new ClassType((GameObject*)arg);}
+#include <Framwork/CompRTTIDecl.h>
+#undef RTTI_DECL
+
 
 void FramworkModuleInit()
 {
 	#define RTTI_DECL(ClassType) ClassType::StaticInitClass();
 	#include <Framwork/RTTIDecl.h>
+	#include <Framwork/CompRTTIDecl.h>
 	#undef RTTI_DECL
 
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().RegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Framwork/RTTIDecl.h>
+	#include <Framwork/CompRTTIDecl.h>
 	#undef RTTI_DECL
 }
 
@@ -40,10 +47,12 @@ void FramworkModuleShutdown()
 {
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Framwork/RTTIDecl.h>
+	#include <Framwork/CompRTTIDecl.h>
 	#undef RTTI_DECL
 
 	#define RTTI_DECL(ClassType) ClassType::StaticShutdownClass();
 	#include <Framwork/RTTIDecl.h>
+	#include <Framwork/CompRTTIDecl.h>
 	#undef RTTI_DECL
 }
 

@@ -6,28 +6,35 @@ namespace ma
 	class Action;
 	class Skeleton;
 	class PoseModifier;
+	class AnimationPlay;
 
 	class AnimationSet : public IAnimationSet
 	{
 	public:
-		Action*	GetActionByName(const char* pszName);
+		AnimationSet(AnimationPlay* pAniPlay);
 
-		UINT	GetActionNumber() {return m_arrAnimation.size();}
+		virtual	void	AddAction(const char* pszSkaPath, const char* actionName);
 
-		Action* GetActionByIndex(UINT index);
+		Action*			GetActionByName(const char* pszName);
 
-		void	AddAction(Action* pAction);
+		UINT			GetActionNumber() {return m_arrAnimation.size();}
 
-		void	RemoveAction(Action* pAction);
+		Action*			GetActionByIndex(UINT index);
 
-		void	Serialize(SerializeListener& sl, const char* pszLable = "AnimationSet");
+		void			AddAction(Action* pAction);
+
+		void			RemoveAction(Action* pAction);
+
+		void			Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
 
 	private:
-		std::vector<BoneSet*>	m_arrBoneSet;
+		std::vector<BoneSet*>		m_arrBoneSet;
 
-		std::vector<PoseModifier*> m_arrPoseModifier;
+		std::vector<PoseModifier*>	m_arrPoseModifier;
 			
-		std::vector<Action*>	m_arrAnimation;
+		std::vector<Action*>		m_arrAnimation;
+
+		AnimationPlay*				m_pAnimPlay;
 	};
 }
 

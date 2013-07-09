@@ -63,7 +63,7 @@ namespace ma
 
 	}
 
-	void Action::Serialize(SerializeListener& sl, const char* pszLable)
+	void Action::Serialize(Serializer& sl, const char* pszLable)
 	{
 
 	}

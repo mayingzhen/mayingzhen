@@ -1,4 +1,5 @@
 #include "Samples/Physics/SampleRigidBody.h"
+#include "Framwork/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma
@@ -7,40 +8,43 @@ namespace ma
 	{
 	}
 
-	void SampleRigidBody::Init(ApplicationBase* pApplication)
+	void SampleRigidBody::Init(const Platform* pPlatform)
 	{
+		Sample::Init(pPlatform);
+
+		FramworkModuleInit();
 		BtPhysicsModuleInit();
 
-		Sample::Init(pApplication);
+		//m_fMoveCameraSpeed = 0.20f;
+		Vector3 vEyePos = Vector3(0, 40, 40);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		m_pCamera->LookAt(vEyePos, VAtPos, vUp);
 
-		m_fMoveCameraSpeed = 0.20f;
-		m_pCamera->SetPositionWS( Vector3(0, 6, 10) );	
+		Load();
 	}
 
 	void SampleRigidBody::Shutdown()
 	{
 		BtPhysicsModuleShutdown();
+		FramworkModuleShutdown();
 
-		Sample::Shutdown();
+		//Sample::Shutdown();
 	}
 
 	void SampleRigidBody::Load()
 	{
-		ASSERT(m_pScene);
-		if (m_pScene == NULL)
-			return;
+		m_pScene = new Scene();
 
-		ma::SceneNode* pRootNode = m_pScene->GetRootNode(); 
+		//ma::SceneNode* pRootNode = m_pScene->GetRootNode(); 
 
 		m_pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
 
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"physics");
-			pRootNode->AddChildNode(pGameObj);
+			GameObject* pGameObj = m_pScene->CreateGameObject("physics");
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
-			pGameObj->AddComponent(pMeshComp);
+			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+			pMeshComp->Load("/Fbx/Box.skn","/Fbx/Box.tga");
 
 			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
@@ -50,24 +54,21 @@ namespace ma
 			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
-			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
  			pBoxCollisionShape->SetSize(vSize);
 			pBoxCollisionShape->SetTransformLS(tsf);
- 			pGameObj->AddComponent(pBoxCollisionShape);
 
-			m_pRigidBodyComp = new RigidBodyComponent();
-			pGameObj->AddComponent(m_pRigidBodyComp);
-			m_pRigidBodyComp->SetUseGravity(false);
-			m_pRigidBodyComp->SetKinematic(true);
+			m_pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
+			IRigidBody* pRigidBody = m_pRigidBodyComp->GetRigidBody();
+			pRigidBody->SetUseGravity(false);
+			pRigidBody->SetKinematic(true);
 		}
 
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"Terrain");
-			pRootNode->AddChildNode(pGameObj);
-
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
-			pGameObj->AddComponent(pMeshComp);
+			GameObject* pGameObj = m_pScene->CreateGameObject("Terrain");
+	
+			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();//new MeshComponent();
+			pMeshComp->Load("/Fbx/MovingPlatform.skn","/Fbx/PlatformTexture.tga");
 
 			Vector3 vMin,vMax;
 			pMeshComp->GetBoundingAABB(vMin,vMax);
@@ -77,13 +78,29 @@ namespace ma
 			TransformSetIdentity(&tsf);
 			tsf.m_vPos = vCenter;
 
-			BoxCollisionComponent* pBoxCollisionShape = new BoxCollisionComponent();
+			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();//new BoxCollisionComponent();
 			pBoxCollisionShape->SetSize(vSize);
-			pBoxCollisionShape->SetTransformLS(tsf);
-			pGameObj->AddComponent(pBoxCollisionShape);
+			//pBoxCollisionShape->SetTransformLS(tsf);
 
-			pGameObj->TranslateWS(Vector3(0,-3,0));
+			pGameObj->GetSceneNode()->Translate(vCenter,TS_WORLD);
 		}
+
+		{
+			XMLOutputArchive xmlOutAr;
+			xmlOutAr.Open("../../Text.scene.xml");
+			m_pScene->Serialize(xmlOutAr);
+			xmlOutAr.Close();
+		}
+
+		{
+			XMLInputArchive xmlInAr;
+			xmlInAr.Open("../../Text.scene.xml");
+
+			SAFE_DELETE(m_pScene);
+			m_pScene = new Scene();
+			m_pScene->Serialize(xmlInAr);
+		}
+
 
 		m_pScene->Start();
 	}
@@ -93,23 +110,27 @@ namespace ma
 
 	}
 
-	void SampleRigidBody::Tick(float timeElapsed)
+	void SampleRigidBody::Update()
 	{
-		__super::Tick(timeElapsed);
+		Sample::Update();
 
-		if (GetInput()->IsKeyReleased(OIS::KC_G))
-		{
-			m_pRigidBodyComp->SetUseGravity(true);
-		}
-		if (GetInput()->IsKeyPressed(OIS::KC_K))
-		{
-			m_pRigidBodyComp->SetKinematic(false);
-		}
+		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
+
+// 		if (GetInput()->IsKeyReleased(OIS::KC_G))
+// 		{
+// 			m_pRigidBodyComp->SetUseGravity(true);
+// 		}
+// 		if (GetInput()->IsKeyPressed(OIS::KC_K))
+// 		{
+// 			m_pRigidBodyComp->SetKinematic(false);
+// 		}
 	}
 
 	void SampleRigidBody::Render()
 	{
-		__super::Render();
+		Sample::Render();
+
+		m_pScene->Render(m_pCamera);
 	}
 
 }

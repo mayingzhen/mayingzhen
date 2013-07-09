@@ -4,17 +4,20 @@
 namespace ma
 {
 	class Resource;
+	class DataThread;
 
 	typedef Resource* (*ResourceCreator)();
 
 	class ENGINE_API ResourceManager
 	{
 	public:
-		static Resource* DeclareResource(const char* pszRelPath);
+		static Resource*	DeclareResource(const char* pszRelPath);
 
-		static void RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		static void			RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		static void UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		static void			UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+
+		static void			Process();
 
 	private:
 		typedef std::map<std::string,Resource*> ResourceMap;
@@ -23,6 +26,8 @@ namespace ma
 		static ResourceMap		m_resMap;
 		
 		static ResCreateFunMap	m_resCreateFunMap;
+
+		static DataThread*		m_pDataThread;
 	};
 }
 

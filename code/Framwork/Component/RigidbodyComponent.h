@@ -13,13 +13,13 @@ namespace ma
 	{
 		DECL_OBJECT(RigidBodyComponent)
 	public:
-		RigidBodyComponent();
+		RigidBodyComponent(GameObject* pGameObj);
 
 		~RigidBodyComponent();
 
 		IRigidBody*		GetRigidBody() {return m_pRigidBody;}
 
-		virtual void	SetGameObject(GameObject* pGameObj);
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "RigidBodyComponent");
 
 	protected:
 		IRigidBody*			m_pRigidBody;

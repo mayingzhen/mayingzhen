@@ -42,10 +42,6 @@ namespace ma
 
 		virtual CollisionFlags	GetCollisionState() const = 0;
 
-		virtual bool			Start(GameObject* pGameObj) = 0;
-
-		virtual void			Stop(GameObject* pGameObj) = 0;
-
 	};
 }
 

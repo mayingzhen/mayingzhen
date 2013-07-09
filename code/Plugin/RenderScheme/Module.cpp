@@ -8,7 +8,7 @@
 // #include "RenderScheme/HDRPostProcess.hxx"
 
 // #include "RenderScheme/RenderPipeline.hxx"
-// #include "RenderScheme/RenderQueue.hxx"
+#include "RenderScheme/RenderQueue.hxx"
 // #include "RenderScheme/RenderScheme.hxx"
 // #include "RenderScheme/ShadowDepthPass.hxx"
 // #include "RenderScheme/ShadowMap.hxx"

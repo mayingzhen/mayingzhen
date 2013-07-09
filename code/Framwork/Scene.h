@@ -4,52 +4,59 @@
 
 namespace ma
 {
-	class SceneNode;
+	class GameObject;
 	class IPhysicsScene;
 	class Camera;
 
-	enum DbgRenderFlag
-	{
-		eDbgRenderCollShape		= 1 << 0,
-		eDbgRenderSkeleton		= 1 << 1,
-	};
 
 	class FRAMWORK_API Scene : public Object
 	{
+		DECL_OBJECT(Scene);
+
 	public:
 		Scene();
 
 		~Scene();
+
+		void			TravelScene(SceneVisiter* pVisiter);
 		
-		void			Update(float fElapsedTime);
+ 		void			Update(float fElapsedTime);
+ 		
+ 		void			Render(Camera* pCmera = NULL);
+	
+		void			Awak();
 
-		void			ParalleUpdate(float fTimeElapsed);
+ 		void			Start();
+ 
+ 		void			Stop();
 
-		void			FixedUpdate(float fTimeElapsed);
-
-		void			LateUpdate(float fTimeElapsed);
-		
-		void			Render(Camera* pCmera = NULL);
-
-		void			Start();
-
-		void			Stop();
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "Scene");
 
 		IPhysicsScene*	GetPhysicsScene() {return m_pPhyScene;}
 
-		SceneNode*		GetRootNode() {return m_pRootNode;}
+		Camera*			GetCurCamera() {return m_pCurCamera;}
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "Scene");
+		GameObject*		CreateGameObject(const char* pName);
 
 	private:
-		SceneNode*		m_pRootNode;
+		SceneNode*				m_pRootNode;
 
-		IPhysicsScene*	m_pPhyScene;
+		IPhysicsScene*			m_pPhyScene;
 
-		float			m_fAccPhyTime;
-		float			m_fFixUpdateInterval;
-
+		Camera*					m_pCurCamera;
 	};
+
+
+	class ENGINE_API SceneVisiter
+	{
+	public:
+		virtual bool VisiteGameObjectBegin(GameObject* pGameObj);
+
+		virtual bool VisiteGameObjectEnd(GameObject* pGameObj);
+
+		virtual bool VisiteComponent(Component* pComp);
+	};
+
 }
 
 

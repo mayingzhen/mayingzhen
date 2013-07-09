@@ -12,7 +12,7 @@ namespace ma
 	{
 	public:
 
-		ScriptComponent();
+		ScriptComponent(GameObject* pGameObj);
 
 		~ScriptComponent();
 

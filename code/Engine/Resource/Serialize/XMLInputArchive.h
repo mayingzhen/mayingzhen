@@ -1,37 +1,33 @@
 #ifndef __XMLInputArchive_H__
 #define __XMLInputArchive_H__
 
-#include "Engine/Resource/Serialize/SerializeListener.h"
+#include "Engine/Resource/Serialize/Serializer.h"
 
 class TiXmlDocument;
 class TiXmlElement;
 
 namespace ma
 {
+	class XMLOutputArchive;
 
-	class ENGINE_API XMLInputArchive : public SerializeListener 
+	class ENGINE_API XMLInputArchive : public Serializer 
 	{
-		std::string		m_strFilename;
 		TiXmlDocument*	m_pDoc;
+
+		TiXmlElement*	m_pRootElem;
+		
 		TiXmlElement*	m_pCurElem;
-		int				m_nullChild;
 
 	public:
 		XMLInputArchive();
 
 		~XMLInputArchive();
 
-		void Release();
-
 		bool IsReading() const;
 
 		bool Open(const char* pszFilename);
 
-		bool OpenFromMemory(const char* pszData);
-
-		void Close();
-
-		TiXmlDocument* GetXMLDocument();
+		bool Open(XMLOutputArchive& xmlOutAr);
 
 		void BeginSection(const char* pszLable);
 
@@ -53,22 +49,13 @@ namespace ma
 
 		void Serialize(long &val,const char* pszLable = "long");
 
-
 		void Serialize(Uint64&val,const char* pszLable = "Uint64");
 
 		void Serialize(float& val,const char* pszLable = "float");
 
 		void Serialize(std::string& val,const char* pszLable = "string");
 
-		//void SerializeBasicType(IStringWrapper* val,const char* pszLable);
-
-
-		SerializeListener* GetSerializeListener();
-
-	private:
-		void NextSiblingElement();
 	};
-
 }
 
 

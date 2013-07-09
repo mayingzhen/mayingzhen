@@ -1,0 +1,5 @@
+RTTI_DECL(Resource)
+RTTI_DECL(MeshData)
+RTTI_DECL(AnimationData)
+RTTI_DECL(SkeletonData)
+RTTI_DECL(TextureData)

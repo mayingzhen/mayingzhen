@@ -9,51 +9,71 @@ namespace ma
 	class Component;
 	class Scene;
 	class IPhysicsObject;
+	class SceneVisiter;
 
-	class FRAMWORK_API GameObject : public SceneNode
+	class FRAMWORK_API GameObject : public Object
 	{
 		DECL_OBJECT(GameObject)
 
 	public:
-		GameObject(Scene* pScene = NULL, const char* pName = NULL);
+		GameObject(SceneNode* pSceneNode = NULL, const char* pName = NULL);
 
 		~GameObject();
 
-		void			Render();
+		void			TravelScene(SceneVisiter* pVisiter);
 
-		void			Update();
+ 		//void			Render();
+ 
+ 		//void			Update();
 
-		void			ParalleUpdate(float fTimeElapsed);
+		//void			Awak();
+ 
+ 		//void			Start();
+ 
+ 		//void			Stop();
 
-		void			FixedUpdate(float fTimeElapsed);
+		//Scene*			GetScene() {return m_pScene;}
+		SceneNode*		GetSceneNode() {return m_pScenNode;}
 
-		void			LateUpdate(float fTimeElapsed);
+		GameObject*		Clone(const char* pName);
 
-		void			Start();
+		//GameObject*		CreateChild(const char* pszName);
 
-		void			Stop();
+		template<class T>
+		T*				CreateComponent();
 
-		void			AddComponent(Component* pComponent);
+		UINT			GetComponentNumber() {return m_arrComp.size();}
+
+		Component*		GetComponentByIndex(UINT index) {return m_arrComp[index];}
 		
 		IPhysicsObject*	GetPhyscisObject() {return m_pPhyscisObject;}
 
-		void			SetPhyscisObject(IPhysicsObject* pPhyscisObject) {m_pPhyscisObject = pPhyscisObject;} 
-
-		void			SyncToPhysics();
-
-		void			SyncFromPhysics();
-
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "GameObject");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "GameObject");
 	
 	protected:
-		virtual void UpdateAABB();
+		void			UpdateAABB();
+
+		void			SetScene(Scene* pScene);
+
+		void			AddComponent(Component* pComponent);
 
 	private:
-		IPhysicsObject* m_pPhyscisObject;
+		IPhysicsObject*				m_pPhyscisObject;
 
-		std::vector<Component*> m_arrComp;
+		SceneNode*					m_pScenNode;
+
+		std::vector<Component*>		m_arrComp;
 	
 	};
+
+	template<class T>
+	T*	GameObject::CreateComponent()
+	{
+		T* pComponent = new T(this);
+		AddComponent(pComponent);
+		return pComponent;
+	}
+
 }
 
 

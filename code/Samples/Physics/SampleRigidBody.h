@@ -4,13 +4,14 @@
 namespace ma
 {
 	class RigidBodyComponent;
+	class Scene;
 
 	class SampleRigidBody : public Sample
 	{
 	public:
 		SampleRigidBody();
 
-		virtual void Init(ApplicationBase* pApplication);
+		virtual void Init(const Platform* pPlatform);
 
 		virtual void Shutdown();
 
@@ -18,12 +19,14 @@ namespace ma
 
 		virtual void Unload();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
 
 	private:
 		RigidBodyComponent* m_pRigidBodyComp;
+
+		Scene*	m_pScene;
 	};
 }
 

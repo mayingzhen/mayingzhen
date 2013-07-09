@@ -2,6 +2,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(SkeletonData,Resource)
+
 	enum SkelVersion
 	{
 		EXP_SKEL_VER_INITIAL = 1,
@@ -15,7 +17,7 @@ namespace ma
 	}
 
 
-	void SerializeData(SerializeListener& sl, SkeletonHeader& data, const char* pszLable)
+	void SerializeData(Serializer& sl, SkeletonHeader& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -25,7 +27,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeDataV1(SerializeListener& sl, SkeletonData& data, const char* pszLable)
+	void SerializeDataV1(Serializer& sl, SkeletonData& data, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -40,7 +42,7 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SkeletonData::Serialize(SerializeListener& sl, const char* pszLable)
+	void SkeletonData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		SkeletonHeader header;
 		sl.Serialize(header);

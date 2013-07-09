@@ -1,4 +1,6 @@
-#include "D3D9Render/D3D9Texture.h"
+#include "D3D9Texture.h"
+#include "D3D9Mapping.h"
+#include "D3D9RenderDevice.h"
 
 namespace ma
 {
@@ -33,6 +35,11 @@ namespace ma
 		D3DPOOL D3DPool = D3DPOOL_DEFAULT;
 		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(Format);
 		IDirect3DTexture9 * pD3D9Texture = NULL;
+
+		if (D3DFormat == D3DFMT_D24S8)
+		{
+			D3DUsage = D3DUSAGE_DEPTHSTENCIL;
+		}
 		
 		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 
@@ -40,9 +47,9 @@ namespace ma
 			nWidth, 
 			nHeight, 
 			1,
-			D3DUSAGE_RENDERTARGET, 
+			D3DUsage, 
 			D3DFormat, 
-			D3DPOOL_DEFAULT,
+			D3DPool,
 			&pD3D9Texture, NULL);
 
 		ASSERT(hr == D3D_OK);
@@ -102,14 +109,10 @@ namespace ma
 
 	bool D3D9Texture::Load(const char* pszPath,bool generateMipmaps)
 	{
-		if (m_bLoaded)
-			return true;
-
+		ASSERT(pszPath);
 		if (pszPath == NULL)
-		{
-			pszPath = m_sResPath.c_str();
-		}
-	
+			return false;
+
 		//D3DXCreateTextureFromFile(GetD3D9DxDevive(),pszPath,&m_pD3DTex);
 
 

@@ -12,8 +12,9 @@ namespace ma
 	class FRAMWORK_API MeshComponent : public Component
 	{
 		DECL_OBJECT(MeshComponent)
+
 	public:
-		MeshComponent(); 
+		MeshComponent(GameObject* pGameObj); 
 
 		~MeshComponent();
 
@@ -35,7 +36,7 @@ namespace ma
 
 		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "MeshComponent");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "MeshComponent");
 
 	private:
 		RenderMesh*		m_pRendMesh;

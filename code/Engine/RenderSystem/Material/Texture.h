@@ -5,8 +5,10 @@
 
 namespace ma
 {
-	class ENGINE_API Texture : public Resource
+	class ENGINE_API Texture : public Object
 	{
+		
+
 	public:
 		//static Texture* create(const char* path,bool generateMipmaps = false);
 

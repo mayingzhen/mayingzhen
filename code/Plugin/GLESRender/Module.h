@@ -3,15 +3,6 @@
 
 
 #include "GLESRender/Export.h"
-#include "GLESRender/GLESBase.h"
-#include "GLESRender/GLESRenderDevice.h"
-#include "GLESRender/GLESTexture.h"
-#include "GLESRender/GLESVertexBuffer.h"
-#include "GLESRender/GLESIndexBuffer.h"
-#include "GLESRender/GLESMapping.h"
-#include "GLESRender/GLESVertexDeclaration.h"
-#include "GLESRender/GLESShaderProgram.h"
-#include "GLESRender/GLESRenderTarget.h"
 
 
 GLESRENDER_API void GLESRenderModuleInit();

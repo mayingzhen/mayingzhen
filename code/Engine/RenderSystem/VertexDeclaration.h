@@ -8,8 +8,6 @@ namespace ma
 
 	class ENGINE_API VertexDeclaration : public RefCountObject
 	{
-		//static int GetDeclTypeSize(DECL_TYPE type);
-
 	public: 
 		VertexDeclaration();
 

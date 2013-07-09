@@ -67,14 +67,19 @@ namespace ma
 			SerializeData(*this,val,pszLable);
 		}
 
-		template<class T>
-		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
+ 		template<class T>
+ 		void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
 
 
 		////////////////
 		virtual void BeginSection(const char* pszLable);
 
 		virtual void EndSection();
+
+		//virtual const char* GetFirstChildName();
+
+		//virtual const char* GetNextChildName();
+
 		////////////////////
 		
 		virtual bool SerializeByte(Uint8* pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
@@ -94,45 +99,99 @@ namespace ma
 	};
 
 
+
 	template<class T>
 	void SerializeListener::SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable)
 	{
 		BeginSection(pszLable);
-
-		UINT nSize = (UINT)vObject.size();
-		Serialize(nSize,"size");
-
-		if (nSize != vObject.size())
+	
+		if (this->IsReading())
 		{
+			UINT nSize = 0;
+
+			Serialize(nSize,"arrSize");
+
 			vObject.resize(nSize);
-		}
-		BeginSection("element");
 
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+			for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
+			{
+				std::string str = std::string("arr_") + StringConverter::ToString(nCnt);
+				BeginSection(str.c_str());
+				
+				std::string strClassName;
+				Serialize(strClassName,"classType");
+
+				vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(strClassName.c_str());
+				ASSERT(vObject[nCnt]);
+				if (vObject[nCnt] == NULL)
+					continue;
+
+				vObject[nCnt]->Serialize(*this,strClassName.c_str());
+
+				EndSection();
+			}
+		}
+		else
 		{
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-			std::string sTypeName;
-			if (vObject[nCnt])
+			UINT nSize = vObject.size();
+			
+			Serialize(nSize,"arrSize");
+
+			for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
 			{
-				RTTIClass* pClass = vObject[nCnt]->GetClass();
+				std::string str = std::string("arr_") + StringConverter::ToString(nCnt);
+				BeginSection(str.c_str());
+
+				const RTTIClass* pClass = vObject[nCnt]->GetClass();
 				ASSERT(pClass);
-				if (pClass)
-					sTypeName = pClass->GetName();
+				if (pClass == NULL)
+					continue;
+				
+				std::string strClassName = pClass->GetName();
+				Serialize(strClassName,"classType");
+
+				vObject[nCnt]->Serialize(*this,strClassName.c_str());
+			
+				EndSection();
 			}
-
-			this->Serialize(sTypeName,"ObjectTypeName");
-
-			if (vObject[nCnt] == NULL)
-			{
-				vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(sTypeName.c_str());
-			}
-
-			vObject[nCnt]->Serialize(*this);
 		}
+		
 		EndSection();
 
-		EndSection();
+// 		BeginSection(pszLable);
+// 		
+// 		if (this->IsReading())
+// 		{
+// 			const char* pClassName = GetFirstChildName();
+// 			while (pClassName)
+// 			{
+// 				T* pObj = (T*)ObjectFactoryManager::GetInstance().CreateObject(pClassName);
+// 				ASSERT(pObj);
+// 				if (pObj == NULL)
+// 					continue;
+// 
+// 				pObj->Serialize(*this,pClassName);
+// 
+// 				vObject.push_back(pObj);
+// 
+// 				pClassName = GetNextChildName();
+// 			}
+// 		}
+// 		else
+// 		{
+// 			for (UINT nCnt = 0; nCnt < vObject.size(); ++nCnt)
+// 			{
+// 				const RTTIClass* pClass = vObject[nCnt]->GetClass();
+// 				ASSERT(pClass);
+// 				if (pClass == NULL)
+// 					continue;
+// 
+// 				vObject[nCnt]->Serialize(*this,pClass->GetName());
+// 			}
+// 		}
+// 		
+// 		EndSection();
+
 	}
 
 	template<class T>

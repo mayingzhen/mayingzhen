@@ -1,8 +1,10 @@
-#include "BulletPhysics/BtCharacterController.h"
+#include "BtCharacterController.h"
+#include "BulletUtil.h"
+#include "BtPhysicsScene.h"
 
 namespace ma
 {
-	BulletCharacterController::BulletCharacterController()
+	BulletCharacterController::BulletCharacterController(GameObject* pGameObject,BulletScene*	pPhyScene)
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_character = NULL;
@@ -11,7 +13,9 @@ namespace ma
 		m_fRadius = 0;
 		m_fSetpOffset = 0.5f;
 		m_nCollLayer = 3;
-		
+
+		m_pGameObject = pGameObject;
+		m_pPhyScene = pPhyScene;		
 	}	
 
 	BulletCharacterController::~BulletCharacterController()
@@ -83,14 +87,14 @@ namespace ma
 		return CF_None;
 	}
 
-	bool BulletCharacterController::Start(GameObject* pGameObj)
+	bool BulletCharacterController::Start()
 	{
-		btDiscreteDynamicsWorld* pbtWorld = GetbtDiscreteDynamicsWorld(pGameObj);
+		btDiscreteDynamicsWorld* pbtWorld = m_pPhyScene->GetDynamicsWorld();
 		if (pbtWorld == NULL)
 			return false;
 
 		m_capsule = new btCapsuleShape(m_fRadius,m_fHeight);
-		SetTransformWS(pGameObj->GetSceneNode()->GetTransform(TS_WORLD));
+		SetTransformWS(m_pGameObject->GetSceneNode()->GetTransform(TS_WORLD));
 		//m_ghostObject->setWorldTransform(pGameObj->GetSceneNode()->GetTransformWS());
 		m_ghostObject->setCollisionShape(m_capsule);
 		m_ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
@@ -101,17 +105,15 @@ namespace ma
 		
 		pbtWorld->addCollisionObject(m_ghostObject,btBroadphaseProxy::CharacterFilter,btBroadphaseProxy::StaticFilter|btBroadphaseProxy::DefaultFilter);
 		pbtWorld->addCharacter(m_character);
-		
-		m_pGameObject = pGameObj;
 
 		SyncToPhysics();
 		
 		return true;
 	}
 
-	void BulletCharacterController::Stop(GameObject* pGameObj)
+	void BulletCharacterController::Stop()
 	{
-		btDiscreteDynamicsWorld* pbtWorld = GetbtDiscreteDynamicsWorld(pGameObj);
+		btDiscreteDynamicsWorld* pbtWorld = m_pPhyScene->GetDynamicsWorld();
 		if (pbtWorld == NULL)
 			return;
 
@@ -126,7 +128,7 @@ namespace ma
 		if (m_pGameObject == NULL)
 			return;
 
-		Vector3 vMovePos = m_pGameObject->GetPosition(TS_WORLD) + m_vCenter;
+		Vector3 vMovePos = m_pGameObject->GetSceneNode()->GetPosition(TS_WORLD) + m_vCenter;
 
 		Vector3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
 		Vector3 motion =vMovePos - vCharPosPre;
@@ -140,7 +142,7 @@ namespace ma
 			return;
 
 		Vector3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		m_pGameObject->SetPosition(charPos,TS_WORLD);
+		m_pGameObject->GetSceneNode()->SetPosition(charPos,TS_WORLD);
 		//Vector3 vPosWSNew = charPos - m_vCenter;
 		//Vector3 vPosWSOld = m_pGameObject->GetPositionWS();
 		//Vector3 vDirWs = vPosWSNew - vPosWSOld;

@@ -1,20 +1,22 @@
 #ifndef  _RESOURCE__H__
 #define  _RESOURCE__H__
 
-#include "Common/RTTI/Object.h"
+#include "Engine/DataThread/DataThread.h"
 
 namespace ma
 {
-	class SerializeListener;
+	class Serializer;
 
-	class ENGINE_API Resource : public Object
+	class ENGINE_API Resource : public Object, public IDataObj
 	{
+		DECL_OBJECT(Resource)
+
 	public:
 		Resource(const char* pszPath = NULL);
 
 		virtual ~Resource();
 
-		virtual bool Load(const char* pszPath = NULL);
+		virtual bool Load(/*const char* pszPath = NULL*/);
 
 		virtual bool Save(const char* pszPath = NULL);
 
@@ -24,7 +26,7 @@ namespace ma
 
 		virtual bool IsLoad() {return m_bLoaded;}
 
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "Resource");
+		virtual void Serialize(Serializer& sl, const char* pszLable = "Resource");
 
 	protected:
 		std::string m_sResPath;

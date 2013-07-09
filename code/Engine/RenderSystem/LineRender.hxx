@@ -138,7 +138,8 @@ namespace ma
 	{
 		m_pMeshBatch->finish();
 
-		m_pMeshBatch->draw();
+		GetRenderDevice()->DrawRenderable(m_pMeshBatch);
+		//m_pMeshBatch->draw();
 	}
 	
 }

@@ -2,26 +2,6 @@
 
 namespace ma 
 {
-
-// 	int VertexDeclaration::GetDeclTypeSize(DECL_TYPE type)
-// 	{
-// 		switch (type)
-// 		{
-// 		case DT_FLOAT1: return 4;
-// 		case DT_FLOAT2: return 8;
-// 		case DT_FLOAT3: return 12;
-// 		case DT_FLOAT4: return 16;
-// 		case DT_COLOR:  return 4;
-// 		case DT_UBYTE4: return 4;
-// 		case DT_SHORT2: return 4;
-// 		case DT_SHORT4: return 8;
-// 		}
-// 
-// 		ASSERT(false);
-// 
-// 		return 0;
-// 	}
-
 	VertexDeclaration::VertexDeclaration()
 	{
 		m_ElementCount = 0;
@@ -67,7 +47,6 @@ namespace ma
 		}
 		
 		m_nStreamStride = voffset;
-
 	}
 
 	void VertexDeclaration::AddElement(short StreamNumber, short Offset,

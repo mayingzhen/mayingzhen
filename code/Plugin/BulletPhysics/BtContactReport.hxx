@@ -1,5 +1,6 @@
-#include "BulletPhysics/BtContactReport.h"
-#include "BulletPhysics/BtCharacterController.h"
+#include "BtContactReport.h"
+#include "BtCharacterController.h"
+#include "BtPhysicsObject.h"
 
 namespace ma
 {
@@ -25,7 +26,8 @@ namespace ma
 			}
 			else
 			{
-				pGameObjA = (GameObject*)obA->getUserPointer();
+				BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)obB->getUserPointer();
+				pGameObjA = pPhysicsObj->GetGameObject();
 			}
 
 			if ( IsCharacterController(obB) )
@@ -35,7 +37,8 @@ namespace ma
 			}
 			else
 			{
-				pGameObjB = (GameObject*)obB->getUserPointer();
+				BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)obB->getUserPointer();
+				pGameObjB = pPhysicsObj->GetGameObject();
 			}
 			
 			if (pGameObjA)
@@ -61,7 +64,7 @@ namespace ma
 		if (proxy0 == NULL)
 			return false;
 
-		if ( !__super::needsCollision(proxy0) )
+		if ( !btCollisionWorld::ClosestRayResultCallback::needsCollision(proxy0) )
 			return false;
 
 		btCollisionObject* pbtCollObj = (btCollisionObject*)proxy0->m_clientObject;
@@ -75,12 +78,8 @@ namespace ma
 		}
 		else
 		{
-			GameObject* pGaemObj = (GameObject*)pbtCollObj->getUserPointer();
-			if (pGaemObj == NULL)
-				return false;
-
-			BulletPhysicsObject* pBulletPhysicsObject = (BulletPhysicsObject*)pGaemObj->GetPhyscisObject();
-			if (pBulletPhysicsObject && pBulletPhysicsObject->GetCollLayer() == m_nTestLayer)
+			BulletPhysicsObject* pPhysicsObject = (BulletPhysicsObject*)pbtCollObj->getUserPointer();
+			if (pPhysicsObject && pPhysicsObject->GetCollLayer() == m_nTestLayer)
 			{
 				return true;
 			}

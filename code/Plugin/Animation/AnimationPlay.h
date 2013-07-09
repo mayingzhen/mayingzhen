@@ -12,19 +12,17 @@ namespace ma
 	class ANIMATION_API AnimationPlay : public IAnimationPlay
 	{
 	public:
-		AnimationPlay(ISkeleton* pSkeleton = NULL);
+		AnimationPlay();
 
 		~AnimationPlay();
 
-		virtual void			SetSkeleton(ISkeleton* pSkeleton);
+ 		virtual	ISkeleton*		GetSkeleton() {return m_pSkeleton;}
 
-		virtual	ISkeleton*		GetSkeleton() {return m_pSkeleton;}
+ 		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
-		virtual void			SetAnimationSet(IAnimationSet* pAnimationSet);
+		virtual ISkeleton*		CreateSkeleton(const char* pSkePath);
 
-		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
-
-		virtual	void			AddAction(const char* pszSkaPath, const char* actionName);
+		virtual	IAnimationSet*	CreateAnimSet(const char* pAnimSetPath);
 
 		virtual void			PlayAnimation(const char* pszAnimName); 
 

@@ -20,13 +20,13 @@
 #include "Engine/Resource/MeshData.hxx"
 #include "Engine/Resource/AnimationData.hxx"
 #include "Engine/Resource/SkeletonData.hxx"
-//#include "Engine/Resource/TextureData.hxx"
+#include "Engine/Resource/TextureData.hxx"
 #include "Engine/Resource/ResourceMangager.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxmlerror.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxmlparser.hxx"
-#include "Engine/Resource/Serialize/SerializeListener.hxx"
+#include "Engine/Resource/Serialize/Serializer.hxx"
 #include "Engine/Resource/Serialize/BinaryInputArchive.hxx"
 #include "Engine/Resource/Serialize/BinaryOutputArchive.hxx"
 #include "Engine/Resource/Serialize/XMLInputArchive.hxx"
@@ -35,14 +35,17 @@
 
 // RenderSystem
 #include "Engine/RenderSystem/IRenderDevice.hxx"
-#include "Engine/RenderSystem/RendMesh.hxx"
 #include "Engine/RenderSystem/VertexDeclaration.hxx"
 #include "Engine/RenderSystem/MeshBatch.hxx"
+#include "Engine/RenderSystem/RendMesh.hxx"
 #include "Engine/RenderSystem/ParticleEmitter.hxx"
 #include "Engine/RenderSystem/SpriteBatch.hxx"
-#include "Engine/RenderSystem/RenderTarget.hxx"
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
+
+// RenderScheme
+#include "Engine/RenderSystem/RenderQueue.hxx"
+#include "Engine/RenderSystem/ShadowMapFrustum.hxx"
 
 // Util
 #include "Engine/RenderSystem/LineRender.hxx"
@@ -76,6 +79,7 @@
 //#include "Engine/Input/Gamepad.hxx"
 
 
+#include "Engine/DataThread/DataThread.hxx"
 
 
 
@@ -88,9 +92,10 @@ using namespace ma;
 #undef RTTI_DECL
 
 Resource* MeshData_Creator() {return new MeshData();}
-Resource* TextureData_Creator() {return GetRenderDevice()->CreateRendTexture();}
+Resource* TextureData_Creator() {return new TextureData();}
 Resource* AnimationData_Creator() {return new AnimationData();}
 Resource* SkeletonData_Creator() {return new SkeletonData();}
+
 
 void EngineModuleInit()
 {

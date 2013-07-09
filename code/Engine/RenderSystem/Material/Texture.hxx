@@ -4,6 +4,7 @@
 
 namespace ma
 {
+
 	Sampler::Sampler(Texture* texture)
 		: _texture(texture), _wrapS(/*Texture::*/CLAMP), _wrapT(/*Texture::*/CLAMP),
 		_filter(TFO_BILINEAR)

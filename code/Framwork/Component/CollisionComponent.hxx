@@ -4,10 +4,17 @@ namespace ma
 {
 	IMPL_OBJECT(CollisionComponent,Component)
 
-	CollisionComponent::CollisionComponent()
+	CollisionComponent::CollisionComponent(GameObject* pGameObj)
+	:Component(pGameObj)
 	{
 		m_pCollisionShape = NULL;
-		m_pPhysicsObject = NULL;
+ 		m_pPhysicsObject = NULL;
+
+		ASSERT(pGameObj);
+		if (pGameObj)
+		{
+			m_pPhysicsObject = pGameObj->GetPhyscisObject();
+		}
 	}
 
 	NodeTransform CollisionComponent::GetTransformLS() const 
@@ -34,6 +41,11 @@ namespace ma
 		}
 	}
 
+	void CollisionComponent::Serialize(Serializer& sl, const char* pszLable)
+	{
+
+	}
+
 	void CollisionComponent::SetCollisionLayer(int eCollLayer)
 	{
 		if (m_pCollisionShape)
@@ -51,23 +63,6 @@ namespace ma
 		return ColLayer_Default;
 	}
 
-	void CollisionComponent::SetGameObject(GameObject* pGameObj)
-	{
-		Component::SetGameObject(pGameObj);
-
-		if (pGameObj == NULL)
-			return;
-
-		m_pPhysicsObject = pGameObj->GetPhyscisObject();
-		if (m_pPhysicsObject == NULL)
-		{
-			m_pPhysicsObject = GetPhysicsDevice()->CreatePhysicsObject();
-			pGameObj->SetPhyscisObject(m_pPhysicsObject);
-		}
-		ASSERT(m_pPhysicsObject);
-	}
-
-
 	Matrix4x4 CollisionComponent::GetWorldMatrix()
 	{
 		Matrix4x4 localMatr;
@@ -82,7 +77,7 @@ namespace ma
 		}
 		else if (m_pGameObject)
 		{
-			worldMatr =  m_pGameObject->GetWorldMatrix();
+			worldMatr =  GetSceneNode()->GetWorldMatrix();
 		}
 
 		worldMatr = localMatr * worldMatr;
@@ -92,13 +87,15 @@ namespace ma
 
 	IMPL_OBJECT(BoxCollisionComponent,CollisionComponent)
 
-	BoxCollisionComponent::BoxCollisionComponent()
+	BoxCollisionComponent::BoxCollisionComponent(GameObject* pGameObj):
+	CollisionComponent(pGameObj)
 	{
-		if (GetPhysicsDevice() == NULL)
-			return;
-
-		m_pBoxCollisionShape = GetPhysicsDevice()->CreateBoxCollisionShape();
-		m_pCollisionShape = m_pBoxCollisionShape;
+		ASSERT(m_pPhysicsObject);
+		if (m_pPhysicsObject)
+		{
+			m_pBoxCollisionShape = m_pPhysicsObject->CreateBoxCollisionShape();
+			m_pCollisionShape = m_pBoxCollisionShape;
+		}
 	}
 
 	void		BoxCollisionComponent::SetSize(const Vector3& vSize)
@@ -137,8 +134,8 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		if ( !flag.GetBit(eDbgRenderCollShape) )
-			return;
+		//if ( !flag.GetBit(eDbgRenderCollShape) )
+		//	return;
 
 		Matrix4x4 worldMatr = GetWorldMatrix();
 
@@ -146,26 +143,25 @@ namespace ma
 		//GetRenderDevice()->DrawBox(worldMatr, boxSize, COLOR_RGBA(0,255,0,255));
 	}
 
-
-	void BoxCollisionComponent::SetGameObject(GameObject* pGameObj)
+	void BoxCollisionComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
-		CollisionComponent::SetGameObject(pGameObj);
 
-		if (m_pPhysicsObject)
-		{
-			m_pPhysicsObject->AddBoxCollisionShape(m_pBoxCollisionShape);
-		}
 	}
+
 
 	IMPL_OBJECT(SphereCollisionComponent,CollisionComponent)
 
-	SphereCollisionComponent::SphereCollisionComponent()
+	SphereCollisionComponent::SphereCollisionComponent(GameObject* pGameObj)
+	:CollisionComponent(pGameObj)
 	{
-		if (GetPhysicsDevice() == NULL)
-			return;
-
-		m_pSphereCollisionShape = GetPhysicsDevice()->CreateSphereCollisionShape();
-		m_pCollisionShape = m_pSphereCollisionShape;
+		m_pSphereCollisionShape = NULL;
+	
+		ASSERT(m_pPhysicsObject);
+		if (m_pPhysicsObject)
+		{
+			m_pSphereCollisionShape = m_pPhysicsObject->CreateSphereCollisionShape();
+			m_pCollisionShape = m_pSphereCollisionShape;
+		}
 	}
 
 	void SphereCollisionComponent::SetRadius(float fRadius)
@@ -185,28 +181,24 @@ namespace ma
 		return 0;
 	}
 
-	void SphereCollisionComponent::SetGameObject(GameObject* pGameObj)
-	{
-		CollisionComponent::SetGameObject(pGameObj);
-
-		if (m_pPhysicsObject)
-		{
-			m_pPhysicsObject->AddSphereCollisionShape(m_pSphereCollisionShape);
-		}
-	}
-
 	void SphereCollisionComponent::DbgRender(BitField flag)
 	{	
 		if (GetRenderDevice() == NULL)
 			return;
 
-		if ( !flag.GetBit(eDbgRenderCollShape) )
-			return;
+		//if ( !flag.GetBit(eDbgRenderCollShape) )
+		//	return;
 
 		Matrix4x4 worldMatr = GetWorldMatrix();
 
 		float fRadius = this->GetRadius();
 		//GetRenderDevice()->DrawWireSphere(worldMatr, fRadius, COLOR_RGBA(0,255,0,255));
 	}
+
+	void SphereCollisionComponent::Serialize(Serializer& sl, const char* pszLable)
+	{
+
+	}
+
 }
 

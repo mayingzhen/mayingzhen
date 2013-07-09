@@ -15,6 +15,10 @@ namespace ma
 
 	struct ENGINE_API SkeletonData : public Resource
 	{
+		DECL_OBJECT(SkeletonData)
+	
+	public:
+
 		maGUID						m_nGlobalSkeletonID;
 		UINT						m_nBoneNum;
 		std::vector<std::string>	m_arrBoneName;
@@ -23,7 +27,7 @@ namespace ma
 		std::vector<Quaternion>		m_arrRotOS;
 		std::vector<Vector3>		m_arrPosOS;
 
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "SkeletonData");
+		virtual void Serialize(Serializer& sl, const char* pszLable = "SkeletonData");
 	};
 }
 

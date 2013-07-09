@@ -17,36 +17,8 @@ namespace ma
 
 	}
 
-
-// 	void Camera::Update()
-// 	{
-// 		//SyncFromSceneNode();
-// 		
-// 		CalculateSplitPositions();
-// 
-// 		CalculateFrustum();
-// 	}
-
-// 	void Camera::SyncFromSceneNode()
-// 	{	
-// 		m_vEyePt = GetPosition(TS_WORLD);
-// 		MatrixInverse(&m_matView,NULL,&GetWorldMatrix());
-// 		//MatrixMultiply(&m_matViewProj,&m_matView,&m_matProj);
-// 	}
-
-// 	void Camera::SyncToSceneNode()
-// 	{
-// 		NodeTransform tsfWS;
-// 		Matrix4x4 matViewInv;
-// 		MatrixInverse(&matViewInv,NULL,&m_matView);
-// 		TransformFromMatrix(&tsfWS,&matViewInv);
-// 		SetTransform(tsfWS);
-// 	}
-
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
 	{	
-		//SyncFromSceneNode();
-
 		AABB aabbCS = aabb;
 		aabbCS.Transform(m_matView);
 
@@ -86,8 +58,6 @@ namespace ma
 		Vector3* vPos = (Vector3*)(&matViewInv._41);
 		*vPos += vPosOffsetWS;
 		MatrixInverse(&m_matView,NULL,&matViewInv);
-
-		//SyncToSceneNode();
 	}
 
 	Vector2 Camera::GetNearPlaneSize() const
@@ -113,8 +83,6 @@ namespace ma
 		m_fNear = fNear;
 		m_fFar = fFar;
 		GetRenderDevice()->MakePerspectiveMatrix(&m_matProj,fFOV,fAspect,fNear,fFar);
-		//MatrixPerspectiveFovLH(&m_matProj,fFOV,fAspect,fNear,fFar);
-		//MatrixPerspectiveFovGL_LH(&m_matProj,fFOV,fAspect,fNear,fFar);
 	}
 
 	NodeTransform Camera::GetTransform() const
@@ -155,33 +123,6 @@ namespace ma
 		Matrix4x4 matProj;
 		MatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,fNear,fFar);
 		Frustum frustum(m_matView * matProj);
-// 		Vector3 vX,vY,vZ,vTemp;
-// 		Vec3Normalize( &vZ, &(m_vLookAtPt - m_vEyePt) );
-// 		Vec3Cross(&vTemp, &m_vUpVector, &vZ);
-// 		Vec3Normalize(&vX, &vTemp);
-// 		Vec3Cross(&vTemp, &vZ, &vX);
-// 		Vec3Normalize(&vY, &vTemp);
-// 
-// 		float fNearPlaneHalfHeight = tanf(m_fFOV * 0.5f) * m_fNear;
-// 		float fNearPlaneHalfWidth = fNearPlaneHalfHeight * m_fAspect;
-// 
-// 		float fFarPlaneHalfHeight = tanf(m_fFOV * 0.5f) * m_fFar;
-// 		float fFarPlaneHalfWidth = fFarPlaneHalfHeight * m_fAspect;
-// 
-// 		Vector3 vNearPlaneCenter = m_vEyePt + vZ * m_fNear;
-// 		Vector3 vFarPlaneCenter = m_vEyePt + vZ * m_fFar;
-// 
-// 		
-// 
-// 		frustum.vPts[0] = Vector3(vNearPlaneCenter - vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[1] = Vector3(vNearPlaneCenter - vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[2] = Vector3(vNearPlaneCenter + vX*fNearPlaneHalfWidth + vY*fNearPlaneHalfHeight);
-// 		frustum.vPts[3] = Vector3(vNearPlaneCenter + vX*fNearPlaneHalfWidth - vY*fNearPlaneHalfHeight);
-// 
-// 		frustum.vPts[4] = Vector3(vFarPlaneCenter - vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[5] = Vector3(vFarPlaneCenter - vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[6] = Vector3(vFarPlaneCenter + vX*fFarPlaneHalfWidth + vY*fFarPlaneHalfHeight);
-// 		frustum.vPts[7] = Vector3(vFarPlaneCenter + vX*fFarPlaneHalfWidth - vY*fFarPlaneHalfHeight);
 	
 		return frustum;
 	}

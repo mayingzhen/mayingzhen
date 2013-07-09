@@ -34,7 +34,7 @@ namespace ma
 
 		virtual void	UpdatePose(SkeletonPose* pNodePose);
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "PoseModifier");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "PoseModifier");
 
 	protected:
 		bool  m_bEnable;

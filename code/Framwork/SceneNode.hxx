@@ -4,20 +4,14 @@ namespace ma
 {
 	IMPL_OBJECT(SceneNode,Object)
 
-	SceneNode::SceneNode(Scene* pSene, const char* pNodeName):
-	Object(pNodeName)
+	SceneNode::SceneNode(Scene* pSene, const char* pNodeName)
 	{
 		m_pScene = pSene;	
 		m_pParentNode = NULL;
-		m_btsfPSDirty = false;
-		m_btsfWSDirty = true;
-		m_bmatWSDirty = true;
+		m_pGameObject = NULL;
 
 		MatrixIdentity(&m_matWorld);
-		TransformSetIdentity(&m_tsfPS);
 		TransformSetIdentity(&m_tsfWS);
-
-		//m_aabb.SetNull();
 	}
 
 	SceneNode::~SceneNode()
@@ -25,80 +19,17 @@ namespace ma
 
 	}
 
-	void SceneNode::Update()
+	void SceneNode::TravelScene(SceneVisiter* pVisiter)
 	{
 		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
 		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->Update();
+			m_arrChildNode[i]->TravelScene(pVisiter);
 		}
-	}
 
-	void SceneNode::ParalleUpdate(float fTimeElapsed)
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
+		ASSERT(m_pGameObject);
+		if (m_pGameObject)
 		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->ParalleUpdate(fTimeElapsed);
-		}
-	}
-
-	void SceneNode::FixedUpdate(float fTimeElapsed)
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->FixedUpdate(fTimeElapsed);
-		}
-	}
-
-	void SceneNode::LateUpdate(float fTimeElapsed)
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->LateUpdate(fTimeElapsed);
-		}
-	}
-
-	void SceneNode::Render()
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->Render();
-		}
-	}
-
-	void SceneNode::Start()
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->Start();
-		}
-	}
-
-	void SceneNode::Stop()
-	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			if (m_arrChildNode[i] == NULL)
-				continue;
-
-			m_arrChildNode[i]->Stop();
+			m_pGameObject->TravelScene(pVisiter);
 		}
 	}
 
@@ -287,13 +218,13 @@ namespace ma
 		}
 	}
 
-	void					SceneNode::UpdateMatWorld()
+	void SceneNode::UpdateMatWorld()
 	{
 		MatrixFromTransform(&m_matWorld,&GetTransform(TS_WORLD));
 		m_bmatWSDirty = false;
 	}
 
-	void					SceneNode::UpdateTransformWS()
+	void SceneNode::UpdateTransformWS()
 	{
 		ASSERT(!m_btsfPSDirty);
 		if (m_pParentNode == NULL)
@@ -307,7 +238,7 @@ namespace ma
 		m_btsfWSDirty = false;
 	}
 
-	void					SceneNode::UpdateTransformPS()
+	void SceneNode::UpdateTransformPS()
 	{
 		ASSERT(!m_btsfWSDirty);
 		if (m_pParentNode == NULL)
@@ -322,7 +253,7 @@ namespace ma
 	}
 
 
-	void					SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)
+	void SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)
 	{
 		NodeTransform tsfWorld = GetTransform(TS_WORLD);
 		NodeTransform tsfWorldInv;
@@ -331,7 +262,7 @@ namespace ma
 	}
 
 
-	void					SceneNode::RotateYAxisLS(float fDegree)
+	void SceneNode::RotateYAxisLS(float fDegree)
 	{
 		Quaternion qRot;
 		const Vector3 vY(0.0f,1.0f,0.0f);
@@ -340,7 +271,7 @@ namespace ma
 
 	}
 
-	void					SceneNode::RotateZAxisLS(float fDegree)
+	void SceneNode::RotateZAxisLS(float fDegree)
 	{
 		Quaternion qRot;
 		const Vector3 vZ(0.0f,0.0f,1.0f);
@@ -348,12 +279,30 @@ namespace ma
 		Rotate(qRot,TS_LOCAL);
 	}
 
-	void					SceneNode::RotateXAxisLS(float fDegree)
+	void SceneNode::RotateXAxisLS(float fDegree)
 	{
 		Quaternion qRot;
 		const Vector3 vZ(1.0f,0.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
 		Rotate(qRot,TS_LOCAL);
+	}
+
+	SceneNode* SceneNode::Clone(const char* pName)
+	{
+		SceneNode* pParent = GetParent();
+		ASSERT(pParent);
+		if (pParent == NULL)
+			return NULL;
+
+		XMLOutputArchive xmlout;
+		this->Serialize(xmlout);
+
+		XMLInputArchive xmlin;
+		xmlin.Open(xmlout);
+		SceneNode* pClone = pParent->AddChildNode(pName);
+		pClone->Serialize(xmlin);
+
+		return pClone;
 	}
 
 // 	void					SceneNode::RotateLS(float xDegree,float yDegree,float zDegree)
@@ -409,21 +358,23 @@ namespace ma
 // 
 // 	}
 
-
-	void SceneNode::SyncToPhysics()
+	GameObject*	SceneNode::CreateGameObject()
 	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			m_arrChildNode[i]->SyncToPhysics();
-		}	
+		ASSERT(m_pGameObject == NULL);
+		m_pGameObject = new GameObject(this,m_sName.c_str());
+		return m_pGameObject;
 	}
 
-	void SceneNode::SyncFromPhysics()
+	void SceneNode::NotifySetParent(SceneNode* pParentNode)
 	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			m_arrChildNode[i]->SyncFromPhysics();
-		}
+		m_pParentNode = pParentNode;
+	}
+
+	SceneNode*	SceneNode::AddChildNode(const char* pName)
+	{
+		SceneNode* pNode = new SceneNode(m_pScene,pName);
+		AddChildNode(pNode);
+		return pNode;
 	}
 
 	void SceneNode::AddChildNode(SceneNode* pChildNode)
@@ -437,7 +388,7 @@ namespace ma
 
 		m_arrChildNode.push_back(pChildNode);
 
-		pChildNode->SetParentSceneNode(this);
+		pChildNode->NotifySetParent(this);
 	}
 
 	void SceneNode::UpdateAABB()
@@ -455,22 +406,48 @@ namespace ma
 
 	}
 
-	void SceneNode::Serialize(SerializeListener& sl, const char* pszLable)
+	void SceneNode::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
-		
-		sl.Serialize(m_tsfPS);
 
-		sl.SerializeObjectArray(m_arrChildNode);
+		if (GetParent()) // !RootNode
+		{
+			sl.Serialize(m_tsfPS);
+
+			if (sl.IsReading())
+			{
+				m_pGameObject = new GameObject(this,m_sName.c_str());
+			}
+
+			ASSERT(m_pGameObject);
+			if (m_pGameObject)
+				m_pGameObject->Serialize(sl,"m_pGameObject");
+		}
+
+		if (sl.IsReading())
+		{
+			UINT nSize;;
+			sl.Serialize(nSize,"size");
+
+			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+			{
+				SceneNode* pChild = AddChildNode("");
+				pChild->Serialize(sl);
+			}
+		}
+		else
+		{
+			UINT nSize = m_arrChildNode.size();
+			sl.Serialize(nSize,"size");
+
+			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+			{
+				SceneNode* pChild = m_arrChildNode[nCnt];
+				pChild->Serialize(sl);
+			}
+		}
 
 		sl.EndSection();
 
-		if ( sl.IsReading() )
-		{
-			for(UINT i = 0; i < m_arrChildNode.size(); ++i)
-			{
-				m_arrChildNode[i]->SetParentSceneNode(this);
-			}
-		}
 	}
 }

@@ -27,6 +27,10 @@ namespace ma
 
 	struct ENGINE_API AnimationData : public Resource
 	{
+		DECL_OBJECT(AnimationData)
+	
+	public:
+
 		maGUID								m_nGlobalSkeletonID;
 		UINT								m_nFrameNum;
 		UINT								m_nBoneNum;						
@@ -41,7 +45,7 @@ namespace ma
 			m_nBoneNum = 0;
 		}
 
-		virtual void Serialize(SerializeListener& sl, const char* pszLable = "AnimationData");
+		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimationData");
 	};
 }
 

@@ -21,7 +21,7 @@ namespace ma
 
 		void			SetBoneSetName(const char* pszName) {m_sName = pszName ? pszName : "";}
 
-		virtual void	Serialize(SerializeListener& sl, const char* pszLable = "BoneSet");
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "BoneSet");
 
 	private:
 		std::string m_sName;

@@ -7,8 +7,8 @@ namespace ma
 		Action* CreateAction(const char* pszAnimPath,Skeleton* pSkeleton,const char* pszActionName)	
 		{
 			Animation* pAnimation = new Animation();
-			AnimationData* pAnimData = new AnimationData();
-			pAnimData->Load(pszAnimPath);
+			AnimationData* pAnimData = static_cast<AnimationData*>(ResourceManager::DeclareResource(pszAnimPath));
+			pAnimData->Load();
 			pAnimation->InitWithData(pAnimData);
 
 			AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);

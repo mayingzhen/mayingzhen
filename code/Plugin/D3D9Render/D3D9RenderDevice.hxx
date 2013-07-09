@@ -72,15 +72,21 @@ namespace ma
 			m_pCurRenderTarget[i] =  new D3D9RenderTarget();
 			LPDIRECT3DSURFACE9 surface = NULL;
 			m_pD3DDevice->GetRenderTarget(i,&surface);
-			((D3D9RenderTarget*)m_pCurRenderTarget[i])->SetD3DSurface(surface);
+			m_pCurRenderTarget[i]->SetD3DSurface(surface);
 		}
+
+		m_pCurDepthStencil =  new D3D9RenderTarget();
+		LPDIRECT3DSURFACE9 surface = NULL;
+		m_pD3DDevice->GetDepthStencilSurface(&surface);
+		m_pCurDepthStencil->SetD3DSurface(surface);
+
 	
 		D3DVIEWPORT9 vp;
 		m_pD3DDevice->GetViewport(&vp);
-		m_curViewport.x = vp.X;
-		m_curViewport.y = vp.Y;
-		m_curViewport.width = vp.Width;
-		m_curViewport.height = vp.Height;
+		m_curViewport.x = (float)vp.X;
+		m_curViewport.y = (float)vp.Y;
+		m_curViewport.width = (float)vp.Width;
+		m_curViewport.height = (float)vp.Height;
 	}
 
 	void D3D9RenderDevice::InitD3D9(HWND hWnd)
@@ -166,9 +172,11 @@ namespace ma
 		ASSERT( SUCCEEDED(hr) );
 	}
 
-	RenderTarget* D3D9RenderDevice::CreateRenderTarget()
+	RenderTarget* D3D9RenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
-		return new D3D9RenderTarget();
+		D3D9RenderTarget* pRT = new D3D9RenderTarget();
+		pRT->Create(nWidth,nHeight,format);
+		return pRT;
 	}
 
 	RenderTarget* D3D9RenderDevice::SetRenderTarget(RenderTarget* pTexture,int index)
@@ -183,16 +191,42 @@ namespace ma
 
 			hr = m_pD3DDevice->SetRenderTarget(index, target);
 			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+
+			m_pCurRenderTarget[index] = pD3D9Target;
 		}
 		else
 		{
 			m_pD3DDevice->SetRenderTarget(index, NULL);
+			m_pCurRenderTarget[index] = NULL;
 		}
-
-		m_pCurRenderTarget[index] = pTexture;
 
 		return pPreTarget;
 	}
+
+	RenderTarget* D3D9RenderDevice::SetDepthStencil(RenderTarget* pTexture)
+	{
+ 		RenderTarget* pPreTarget = m_pCurDepthStencil;
+
+		if (pTexture != NULL)
+		{
+			HRESULT hr = D3D_OK;
+			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
+
+			hr = m_pD3DDevice->SetDepthStencilSurface(target);
+			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+
+			m_pCurDepthStencil = pD3D9Target;
+		}
+		else
+		{
+			m_pD3DDevice->SetDepthStencilSurface(NULL);
+			m_pCurDepthStencil = NULL;
+		}
+
+		return pPreTarget;
+	}
+
 
 	Rectangle D3D9RenderDevice::SetViewport(const Rectangle& rect)
 	{
@@ -230,71 +264,86 @@ namespace ma
 
 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
 
-		GetD3D9DxDevive()->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
-
-		switch (state.m_eDepthCheckMode)
+		if (m_curState.m_bDepthWrite != state.m_bDepthWrite)
 		{
-		case DCM_NONE:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, FALSE);
-			break;
+			m_curState.m_bDepthWrite = state.m_bDepthWrite;
+			m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
+			
+		}
+		
+		if (m_curState.m_eDepthCheckMode != state.m_eDepthCheckMode)
+		{
+			m_curState.m_eDepthCheckMode = state.m_eDepthCheckMode;
+			switch (state.m_eDepthCheckMode)
+			{
+			case DCM_NONE:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+				break;
 
-		case DCM_LESS_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-			break;
+			case DCM_LESS_EQUAL:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+				break;
 
-		case DCM_LESS:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-			break;
+			case DCM_LESS:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+				break;
 
-		case DCM_GREATER_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
-			break;
+			case DCM_GREATER_EQUAL:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+				break;
 
-		case DCM_GREATER:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
-			break;
+			case DCM_GREATER:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+				break;
 
-		case DCM_EQUAL:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
-			break;
+			case DCM_EQUAL:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+				break;
 
-		case DCM_ALWAYS:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-			break;
+			case DCM_ALWAYS:
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+				break;
+			}
 		}
 
-		switch (state.m_eBlendMode)
+
+		if (m_curState.m_eBlendMode != state.m_eBlendMode)
 		{
-		case BM_OPATICY:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-			break;
+			m_curState.m_eBlendMode = state.m_eBlendMode;
+			switch (state.m_eBlendMode)
+			{
+			case BM_OPATICY:
+				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+				break;
 
-		case BM_TRANSPARENT:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			break;
+			case BM_TRANSPARENT:
+				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+				break;
 
-		case BM_ADD:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			break;
+			case BM_ADD:
+				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+				//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+				break;
 
-		case BM_MULTIPLY:
-			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-			break;
+			case BM_MULTIPLY:
+				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+				break;
+			}
 		}
+
 	}
 
 	void D3D9RenderDevice::GetRenderWndSize(int& Width,int& Heigh)
@@ -313,6 +362,7 @@ namespace ma
 		Material* pMaterial = pRenderable->m_pMaterial;
 		ASSERT(pMaterial);
 		pMaterial->Bind();
+		//pTech->Bind();
 
 		HRESULT hr = D3D_OK;
 

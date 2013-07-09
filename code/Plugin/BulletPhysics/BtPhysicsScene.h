@@ -12,27 +12,34 @@ class btDiscreteDynamicsWorld;
 
 namespace ma
 {
-	class BULLETPHYSICS_API BulletScene : public IPhysicsScene
+	class BulletCharacterController;
+	class BulletPhysicsObject;
+
+	class BulletScene : public IPhysicsScene
 	{
 
 	public:
 		BulletScene();
 
-		virtual bool		Start();
+		virtual bool			Start();
 
-		virtual void		Stop();
+		virtual void			Stop();
 
-		virtual void		SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide);
+		virtual void			SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide);
 
-		virtual Vector3	GetGravity() const;
+		virtual Vector3			GetGravity() const;
 
-		virtual void		SetGravity(const Vector3& g);
+		virtual void			SetGravity(const Vector3& g);
 
-		virtual void		BeginSimulation(float fDeltaTime);
+		virtual void			BeginSimulation(float fDeltaTime);
 
-		virtual void		EndSimulation();
+		virtual void			EndSimulation();
 
-		virtual GameObject* RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+		virtual	IPhysicsObject*	CreatePhysicsObject(GameObject* pGameObj);
+
+		virtual	ICharacterController* CreateCharacterController(GameObject* pGameObj);
+
+		virtual GameObject*		RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 
 		btDiscreteDynamicsWorld* GetDynamicsWorld() {return m_pDynamicsWorld;}
 
@@ -43,27 +50,12 @@ namespace ma
 		btSequentialImpulseConstraintSolver* m_pSolver;
 		btDiscreteDynamicsWorld*			 m_pDynamicsWorld;
 
+		std::vector<BulletPhysicsObject*>	 m_arrPhysicsObject;
+
+		std::vector<BulletCharacterController*>	m_arrCharControl;
+
 		btVector3 m_vGravity;
 	};
-
-	inline btDiscreteDynamicsWorld* GetbtDiscreteDynamicsWorld(GameObject* pGameObj)
-	{
-		if (pGameObj == NULL)
-			return NULL;
-		
-		ASSERT(false);
-		return NULL;
-
-// 		Scene* pScene = pGameObj->GetScene();
-// 		if (pScene == NULL)
-// 			return NULL;
-// 
-// 		BulletScene* pBtScene = (BulletScene*)pScene->GetPhysicsScene();
-// 		if (pBtScene == NULL)
-// 			return NULL;
-// 
-// 		return pBtScene->GetDynamicsWorld();
-	}
 }
 
 

@@ -12,13 +12,17 @@ namespace ma
 
 		~GLESRenderTarget();
 
-		virtual bool		Create(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8);
+		virtual Texture*	GetTexture();
+
+		bool				Create(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
 
 		void				SetFrameBuffer(FrameBufferHandle handele) {m_handle = handele;}
 
 		FrameBufferHandle	GetFrameBuffer() {return m_handle;}
 
 	private:
+		GLESTexture*		m_pTexture;
+
 		FrameBufferHandle	m_handle;
 		
 	};

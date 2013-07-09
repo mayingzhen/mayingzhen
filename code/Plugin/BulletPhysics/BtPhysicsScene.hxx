@@ -1,6 +1,7 @@
-#include "BulletPhysics/BtPhysicsScene.h"
-#include "BulletPhysics/BulletUtil.h"
-#include "BulletPhysics/BtContactReport.h"
+#include "BtPhysicsScene.h"
+#include "BulletUtil.h"
+#include "BtContactReport.h"
+
 
 namespace ma
 {
@@ -33,11 +34,31 @@ namespace ma
 
 		m_pDynamicsWorld->setGravity(m_vGravity);
 
+		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
+		{
+			m_arrPhysicsObject[i]->Start();
+		}
+
+		for (UINT i = 0; i < m_arrCharControl.size(); ++i)
+		{
+			m_arrCharControl[i]->Start();
+		}
+
 		return true;
 	}
 
 	void BulletScene::Stop()
 	{
+		for (UINT i = 0; i < m_arrCharControl.size(); ++i)
+		{
+			m_arrCharControl[i]->Stop();
+		}
+
+		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
+		{
+			m_arrPhysicsObject[i]->Stop();
+		}
+
 		SAFE_DELETE(m_pDynamicsWorld);
 		SAFE_DELETE(m_pSolver);
 		SAFE_DELETE(m_pOverlappingPairCache);
@@ -95,10 +116,10 @@ namespace ma
 			if ( !pObj->isStaticOrKinematicObject() )
 				continue;
 
-			GameObject* pGameObj = (GameObject*)pObj->getUserPointer();
-			if (pGameObj)
+			BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)pObj->getUserPointer();
+			if (pPhysicsObj)
 			{
-				pGameObj->SyncToPhysics();
+				pPhysicsObj->SyncToPhysics();
 			}
 		}
 
@@ -132,10 +153,10 @@ namespace ma
 			if ( pObj->isStaticOrKinematicObject() )
 				continue;
 
-			GameObject* pGameObj = (GameObject*)pObj->getUserPointer();
-			if (pGameObj)
+			BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)pObj->getUserPointer();
+			if (pPhysicsObj)
 			{
-				pGameObj->SyncFromPhysics();
+				pPhysicsObj->SyncFromPhysics();
 			}
 
 		}
@@ -163,5 +184,27 @@ namespace ma
 		return (GameObject*)closestResults.m_collisionObject->getUserPointer();
 
 		return NULL;
+	}
+
+	IPhysicsObject*	BulletScene::CreatePhysicsObject(GameObject* pGameObj)
+	{
+		ASSERT(pGameObj);
+		if (pGameObj == NULL)
+			return NULL;
+		
+		BulletPhysicsObject* pPhysicObj = new BulletPhysicsObject(pGameObj,this);
+		m_arrPhysicsObject.push_back(pPhysicObj);
+		return pPhysicObj;
+	}
+
+	ICharacterController* BulletScene::CreateCharacterController(GameObject* pGameObj)
+	{
+		ASSERT(pGameObj);
+		if (pGameObj == NULL)
+			return NULL;
+
+		BulletCharacterController* pChar = new BulletCharacterController(pGameObj,this);
+		m_arrCharControl.push_back(pChar);
+		return pChar;
 	}
 }

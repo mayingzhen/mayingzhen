@@ -1,8 +1,6 @@
 #ifndef  _D3D9RENDERDevice__H__
 #define  _D3D9RENDERDevice__H__
 
-#include "Engine/RenderSystem/IRenderDevice.h"
-
 namespace ma
 {
 	class IndexBuffer;
@@ -34,9 +32,11 @@ namespace ma
 
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		
-		virtual RenderTarget*		CreateRenderTarget();
+		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
 
 		virtual RenderTarget*		SetRenderTarget(RenderTarget* pTexture,int index = 0);
+
+		virtual RenderTarget*		SetDepthStencil(RenderTarget* pTexture);
 
 		virtual Rectangle			SetViewport(const Rectangle& rect);
 
@@ -72,10 +72,12 @@ namespace ma
 		HWND							m_hWnd;
 
 		enum {MAX_RENDER_TARGET = 4};
-		RenderTarget*					m_pCurRenderTarget[MAX_RENDER_TARGET];
-
+		D3D9RenderTarget*				m_pCurRenderTarget[MAX_RENDER_TARGET];
+		D3D9RenderTarget*				m_pCurDepthStencil;
+		
 		Rectangle						m_curViewport;
 	
+		RenderState						m_curState;
 	};
 
 	LPDIRECT3DDEVICE9 GetD3D9DxDevive();

@@ -18,7 +18,7 @@ using namespace fbxsdk_2013_2;
 
 namespace ma
 {
-	struct MeshData;
+	class MeshData;
 
 	class FBXImporter_API FBXImporter
 	{

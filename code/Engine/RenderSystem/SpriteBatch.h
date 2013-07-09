@@ -9,8 +9,8 @@ namespace ma
 {
 
 	class Material;
-
-	//class 
+	class Sampler;
+ 
 	/**
 	 * Enables groups of sprites to be drawn with common settings.
 	 *
@@ -274,6 +274,8 @@ namespace ma
 		 * @return The projection matrix.
 		 */
 		const Matrix4x4& getProjectionMatrix() const;
+
+		MeshBatch*	GetMeshBatch() {return _batch;}
 
 	private:
 

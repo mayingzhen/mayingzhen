@@ -1,9 +1,6 @@
 #ifndef  _GLESVertexBuffer__H__
 #define  _GLESVertexBuffer__H__
 
-#include "GLESMapping.h"
-#include "Engine/RenderSystem/VertexBuffer.h"
-
 namespace ma
 {
 

@@ -26,6 +26,8 @@ namespace ma
 
 		virtual void Render() = 0;
 
+		virtual	void Frame();
+
 		///// Input
 		virtual void keyEvent(Keyboard::KeyEvent evt, int key) = 0;
 
