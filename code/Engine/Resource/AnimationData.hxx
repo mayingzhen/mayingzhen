@@ -63,6 +63,17 @@ namespace ma
 		sl.EndSection();
 	}
 
+	void AnimationData::LoadImp(DataStream* pDataStream)
+	{
+		ASSERT(pDataStream);
+		if (pDataStream == NULL)
+			return;
+
+		BinaryInputArchive inAr;
+		inAr.Open(pDataStream);
+		Serialize(inAr);
+	}
+
 	void AnimationData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		AnimationHeader header;

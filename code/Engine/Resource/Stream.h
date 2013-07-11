@@ -1,5 +1,5 @@
-#ifndef Stream_H_
-#define Stream_H_
+#ifndef _Stream_H_
+#define _Stream_H_
 
 namespace ma
 {

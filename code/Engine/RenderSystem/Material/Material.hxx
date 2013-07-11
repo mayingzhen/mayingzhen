@@ -429,7 +429,13 @@ namespace ma
 
 	const Matrix4x4* Material::autoBindingGetMatrixPalette() const
 	{
-		return m_pRenderable ? &m_pRenderable->m_arrSkinMatrix[0] : NULL;
+		if (m_pRenderable == NULL)
+			return NULL;
+
+		if ( m_pRenderable->m_arrSkinMatrix.empty() )
+			return NULL;
+		
+		return &m_pRenderable->m_arrSkinMatrix[0];
 	}
 
 	unsigned int Material::autoBindingGetMatrixPaletteSize() const

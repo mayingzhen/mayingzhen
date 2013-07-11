@@ -303,7 +303,40 @@ namespace ma
 		return fp;
 	}
 
-	char* FileSystem::readAll(const char* filePath, int* fileSize)
+// 	char* FileSystem::readAll(const char* filePath, int* fileSize)
+// 	{
+// 		ASSERT(filePath);
+// 
+// 		// Open file for reading.
+// 		std::auto_ptr<Stream> stream(open(filePath));
+// 		if (stream.get() == NULL)
+// 		{
+// 			GP_ERROR("Failed to load file: %s", filePath);
+// 			return NULL;
+// 		}
+// 		size_t size = stream->length();
+// 
+// 		// Read entire file contents.
+// 		char* buffer = new char[size + 1];
+// 		size_t read = stream->read(buffer, 1, size);
+// 		if (read != size)
+// 		{
+// 			GP_ERROR("Failed to read complete contents of file '%s' (amount read vs. file size: %u < %u).", filePath, read, size);
+// 			SAFE_DELETE_ARRAY(buffer);
+// 			return NULL;
+// 		}
+// 
+// 		// Force the character buffer to be NULL-terminated.
+// 		buffer[size] = '\0';
+// 
+// 		if (fileSize)
+// 		{
+// 			*fileSize = (int)size; 
+// 		}
+// 		return buffer;
+// 	}
+
+	DataStream*	FileSystem::readAll(const char* filePath)
 	{
 		ASSERT(filePath);
 
@@ -317,7 +350,7 @@ namespace ma
 		size_t size = stream->length();
 
 		// Read entire file contents.
-		char* buffer = new char[size + 1];
+		Byte* buffer = new Byte[size + 1];
 		size_t read = stream->read(buffer, 1, size);
 		if (read != size)
 		{
@@ -329,11 +362,10 @@ namespace ma
 		// Force the character buffer to be NULL-terminated.
 		buffer[size] = '\0';
 
-		if (fileSize)
-		{
-			*fileSize = (int)size; 
-		}
-		return buffer;
+		DataStream* pDataSteam = new DataStream(buffer,size);
+		
+		return pDataSteam;
+			
 	}
 
 	bool FileSystem::isAbsolutePath(const char* filePath)

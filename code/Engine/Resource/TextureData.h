@@ -11,11 +11,13 @@ namespace ma
 		DECL_OBJECT(TextureData)
 
 	public:
-		virtual bool Load(const char* pszPath = NULL);
+		TextureData(const char* pszPath = NULL);
 
-		virtual bool Save(const char* pszPath = NULL);
+		virtual void	LoadImp(DataStream* pStream);
 
-		Texture*	GetRenderTexture() {return m_pTexture;}
+		virtual bool	Save(const char* pszPath = NULL);
+
+		Texture*		GetRenderTexture() {return m_pTexture;}
 
 	private:
 		Texture* m_pTexture;

@@ -5,8 +5,6 @@ namespace ma
 {
 	std::map<std::string,Resource*>			ResourceManager::m_resMap;
 	std::map<std::string,ResourceCreator>	ResourceManager::m_resCreateFunMap;
-	DataThread*								ResourceManager::m_pDataThread = NULL;
-
 
 	Resource* ResourceManager::DeclareResource(const char* pszRelPath)
 	{
@@ -23,44 +21,11 @@ namespace ma
 			return NULL;
 	
 		Resource* pResource = itFun->second();
-		std::string fullPath = FileSystem::getFullPath(pszRelPath);
-		pResource->SetResPath(fullPath.c_str());
+		pResource->SetResPath(pszRelPath);
 
 		m_resMap[pszRelPath] = pResource;
 
-		if (m_pDataThread == NULL)
-		{
-			m_pDataThread = new DataThread(0,0);
-		}
-
-		m_pDataThread->PushBackDataObj(pResource);
-	
-
 		return pResource;
-	}
-
-	void ResourceManager::Process()
-	{
-		if (m_pDataThread == NULL)
-		{
-			m_pDataThread = new DataThread(0,0);
-		}
-
-		m_pDataThread->Process();
-
-// 		if ( m_pDataThread->Process() )
-// 		{
-// 			while (true)
-// 			{
-// 				Resource* pRes = (Resource*)m_pDataThread->PopUpDataObj();
-// 				ASSERT(pRes);
-// 				if (pRes == NULL)
-// 					continue;
-// 
-// 				pRes->OnLoaded();
-// 			}
-// 		}
-
 	}
 
 	void ResourceManager::RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator)

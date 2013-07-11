@@ -1,74 +1,34 @@
 #ifndef __BinaryInputArchive_H__
 #define __BinaryInputArchive_H__
 
-#include "Engine/Resource/Serialize/Serializer.h"
+#include "Serializer.h"
 
 namespace ma
 {
 
-class ENGINE_API BinaryInputArchive : public Serializer
-{
-	std::ifstream m_file;
-public:
+	class ENGINE_API BinaryInputArchive : public Serializer
+	{
+		
+	public:
 
-	BinaryInputArchive();
+		BinaryInputArchive();
 
-	~BinaryInputArchive();
+		~BinaryInputArchive();
 
-	
-	//------------------------------------------------------------------------------
-	//
-	//------------------------------------------------------------------------------
-	bool IsReading() const;
+		bool IsReading() const;
 
-	UINT Tell();
+		bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
 
-	void Seek(UINT nPos);
+		bool Open(const char* pszFilename);
 
-	bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
+		bool Open(Stream* pStream);
 
-	void SkipByte(UINT nSizeToSkip);
+		void Close();
 
-	bool Open(const char* pszFilename);
-
-	void Close();
-
-	
-
-};
-
-class BinaryMemoryInputArchive : public Serializer
-{
-	const Uint8* m_pData;
-	Uint32 m_nDataSize;
-	Uint32 m_nCurPos;
-
-public:
-
-	BinaryMemoryInputArchive();
-
-	~BinaryMemoryInputArchive();
-
-	//------------------------------------------------------------------------------
-	//
-	//------------------------------------------------------------------------------
-	bool IsReading()const;
-
-	UINT Tell();
-
-	void Seek(UINT nPos);
-
-	bool SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable = "Bytes");
-
-	void SkipByte(UINT nSizeToSkip);
-
-	bool Open(const Uint8* pData,Uint32 nSizeInByte);
-
-	void Close();
-
-
-};
-
+	private:
+		//std::ifstream m_file;
+		Stream*			m_pStream;
+	};
 }
 
 #endif// __BinaryInputArchive_H__

@@ -72,6 +72,9 @@ namespace ma
 	};
 
 
+	class IndexBuffer;
+	class VertexBuffer;
+	class VertexDeclaration;
 
 	class ENGINE_API MeshData : public Resource
 	{
@@ -83,14 +86,24 @@ namespace ma
 		UINT			GetSubMeshNumber() {return m_arrSubMesh.size();}
 		SubMeshData*	GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
 
-		void*			GetIndexBuffer() {return &m_arrIndexBuffer[0];}
-		UINT			GetIndexBufferSize() {return m_arrIndexBuffer.size();}
-		UINT			GetIndexType() {return m_nIndexType;}
+		//void*			GetIndexBuffer() {return &m_arrIndexBuffer[0];}
+		//UINT			GetIndexBufferSize() {return m_arrIndexBuffer.size();}
+		//UINT			GetIndexType() {return m_nIndexType;}
 		
-		void*			GetVertexBuffer() {return &m_arrVertexBuffer[0];}
-		UINT			GetVertexBufferSize() {return m_arrVertexBuffer.size();}	
-		UINT			GetVertexType() {return m_nVertexType;}
+		//void*			GetVertexBuffer() {return &m_arrVertexBuffer[0];}
+		//UINT			GetVertexBufferSize() {return m_arrVertexBuffer.size();}	
+		//UINT			GetVertexType() {return m_nVertexType;}
 		int				GetVertexStride();
+
+		bool			InitRendable();
+
+		IndexBuffer*	GetIndexBuffer() {return m_pIndexBuffer;}
+
+		VertexBuffer*	GetVertexBuffer() {return m_pVertexBuffer;}
+
+		VertexDeclaration*	GetVertexDeclar() {return m_pDeclaration;}
+
+		virtual void	LoadImp(DataStream* pDataStream);
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
@@ -101,6 +114,10 @@ namespace ma
 		Uint						m_nVertexType;
 		std::vector<Uint8>			m_arrIndexBuffer;
 		std::vector<Uint8>			m_arrVertexBuffer;
+
+		IndexBuffer*				m_pIndexBuffer;
+		VertexBuffer*				m_pVertexBuffer;
+		VertexDeclaration*			m_pDeclaration; 
 
 		AABB						m_meshBound;		
 		std::vector<SubMeshData*>	m_arrSubMesh;

@@ -30,6 +30,7 @@ namespace ma
 
 		SkeletonData* pSkeData = static_cast<SkeletonData*>(ResourceManager::DeclareResource(pSkePath));
 		pSkeData->Load();
+		pSkeData->LoadImp(pSkeData->GetDataStream());
 
 		m_pSkeleton = new Skeleton();
 		m_pSkeleton->InitWithData(pSkeData);

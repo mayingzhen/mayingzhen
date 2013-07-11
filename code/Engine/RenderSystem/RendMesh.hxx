@@ -8,51 +8,59 @@ namespace ma
 		m_pMaterial = NULL;
 		m_bSkin = false;
 	}
+
+	bool RenderMesh::LoadToMemory()
+	{		
+		ASSERT(m_pMesData);
+		m_pMesData->Load();
+		
+		ASSERT(m_pTextureData);
+		m_pTextureData->Load();
+	}
+
+	bool RenderMesh::LoadImp()
+	{
+		m_pMesData->LoadImp(m_pMesData->GetDataStream());
+		InitWithData(m_pMesData);
+		
+		m_pTextureData->LoadImp(m_pTextureData->GetDataStream());
+		Sampler* sampler = Sampler::create(m_pTextureData->GetRenderTexture()); // +ref texture
+			
+		std::string sMaterFlag;
+		if (m_bSkin)
+		{
+			sMaterFlag = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55";
+		}
+		else
+		{
+			sMaterFlag = "DIFFUSE";
+		}
+		
+		Material* pMaterial = new Material(sMaterFlag.c_str(),"default");
+			
+		pMaterial->GetParameter("u_texture")->setSampler(sampler);
+
+		SetMaterial(pMaterial);
+
+		return true;
+	}
 	
 	bool RenderMesh::Load(const char* pMeshPath,const char* pDiffueTexture)
 	{
 		if (pMeshPath == NULL)
 			return false;
 
-		MeshData* pMeshData = SafeCast<MeshData>(ResourceManager::DeclareResource(pMeshPath));
-		ASSERT(pMeshData);
-		if (pMeshData)
-		{
-			pMeshData->Load();
+		m_pMesData = (MeshData*)ResourceManager::DeclareResource(pMeshPath);
+		ASSERT(m_pMesData);
 
-			InitWithData(pMeshData);
-		}
-			
-	
-		if (pDiffueTexture)
-		{
-			TextureData* pTextureData = SafeCast<TextureData>(ResourceManager::DeclareResource(pDiffueTexture));
-			ASSERT(pTextureData);
-			if (pTextureData == NULL)
-				return false;
+		m_pTextureData = (TextureData*)ResourceManager::DeclareResource(pDiffueTexture);
+		ASSERT(m_pTextureData);
 
-			pTextureData->Load();
-			Sampler* sampler = Sampler::create(pTextureData->GetRenderTexture()); // +ref texture
-			
-			std::string sMaterFlag;
-			if (m_bSkin)
-			{
-				sMaterFlag = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55";
-			}
-			else
-			{
-				sMaterFlag = "DIFFUSE";
-			}
+		m_sknPath = pMeshPath;
+		m_texPath = pDiffueTexture;
+
+		GetDataThread()->PushBackDataObj(this);	
 		
-			Material* pMaterial = new Material(sMaterFlag.c_str(),"default");
-			
-			pMaterial->GetParameter("u_texture")->setSampler(sampler);
-
-			SetMaterial(pMaterial);
-
-			
-		}
-
 		return true;
 	}
 
@@ -63,22 +71,6 @@ namespace ma
 
 		m_pMesData = pMeshData;
 
-		void* pIndexData = pMeshData->GetIndexBuffer();
-		int nIndexSize = pMeshData->GetIndexBufferSize();
-		INDEX_TYPE eIndexType = pMeshData->GetIndexType() == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
-		IndexBuffer* pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
-		pIndexBuffer->Active();
-
-		void* pVertexData = pMeshData->GetVertexBuffer();
-		int nVertexDataSize = pMeshData->GetVertexBufferSize();
-		int nVertexStride = pMeshData->GetVertexStride();
-		VertexBuffer* pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
-		pVertexBuffer->Active();
-		
-		VertexDeclaration* pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
-		pDeclaration->Init( pMeshData->GetVertexType() );
-		pDeclaration->Active();
-
 		for (UINT i = 0; i < pMeshData->GetSubMeshNumber(); ++i)
 		{
 			SubMeshData* pSubMesh = pMeshData->GetSubMeshByIndex(i);
@@ -88,21 +80,16 @@ namespace ma
 
 			Renderable* pRenderable = new Renderable();
 			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-			pRenderable->m_pDeclaration = pDeclaration;
-			pRenderable->m_pVertexBuffers = pVertexBuffer;
-			pRenderable->m_pIndexBuffer = pIndexBuffer;
-			pRenderable->m_nIndexCount = pSubMesh->m_nIndexCount;
-			pRenderable->m_nIndexStart = pSubMesh->m_nIndexStart;
-			pRenderable->m_nVertexStart = pSubMesh->m_nVertexStart;
-			pRenderable->m_nVertexCount = pSubMesh->m_nVertexCount;
+			pRenderable->m_pDeclaration = pMeshData->GetVertexDeclar(); 
+			pRenderable->m_pVertexBuffers = pMeshData->GetVertexBuffer(); 
+			pRenderable->m_pIndexBuffer =  pMeshData->GetIndexBuffer();
+			pRenderable->m_pSubMeshData = pSubMesh;
 
 			Uint nBone = pSubMesh->m_arrBonePalette.size();
-			pRenderable->m_arrBonePalette.resize(nBone);
 			pRenderable->m_arrSkinMatrix.resize(nBone);
+			m_bSkin = nBone > 0 ? true : false;
 			for (Uint i = 0; i < nBone; ++i)
 			{
-				m_bSkin = true;
-				pRenderable->m_arrBonePalette[i] = pSubMesh->m_arrBonePalette[i];
 				pRenderable->m_arrSkinMatrix[i] = Matrix4x4::identity();
 			}
 
@@ -133,14 +120,14 @@ namespace ma
 			if (pRenderable == NULL)
 				continue;
 
-			UINT nBone = pRenderable->m_arrBonePalette.size();
+			UINT nBone = pRenderable->m_pSubMeshData->m_arrBonePalette.size();
 			ASSERT(pRenderable->m_arrSkinMatrix.size() == nBone);
 			if (pRenderable->m_arrSkinMatrix.size() != nBone)
 				continue;
 
 			for (Uint iBone = 0; iBone < nBone; ++iBone)
 			{
-				BoneIndex boneID = pRenderable->m_arrBonePalette[iBone];
+				BoneIndex boneID = pRenderable->m_pSubMeshData->m_arrBonePalette[iBone];
 				ASSERT(boneID >=0 && boneID < nCount);
 				if (boneID < 0 || boneID >= nCount)
 					continue;

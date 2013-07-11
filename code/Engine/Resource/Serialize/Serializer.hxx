@@ -68,7 +68,6 @@ namespace ma
 
 	void Serializer::Serialize(std::string& val,const char* pszLable)
 	{
-
 		UINT nSize = (UINT)(val.size()+1);
 		SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
 		val.resize(nSize,'\0');
@@ -78,20 +77,6 @@ namespace ma
 			SerializeByte(pBuf,nSize,pszLable);
 		}
 	}
-
-
-
-	// void Serializer::Serialize(IStringWrapper* val,const char* pszLable)
-	// {
-	// 	UINT nSize = (UINT)(val->GetSize()+1);
-	// 	SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
-	// 	val->Resize(nSize,'\0');
-	// 	if (nSize > 0)
-	// 	{
-	// 		Uint8* pBuf = (Uint8*)val->GetValue();
-	// 		SerializeByte(pBuf,nSize,pszLable);
-	// 	}
-	// }
 
 	void Serializer::Serialize(Vector2 &val,const char* pszLable)
 	{
@@ -170,15 +155,4 @@ namespace ma
 	{
 
 	}
-
-// 	const char* Serializer::GetFirstChildName()
-// 	{
-// 		return NULL;
-// 	}
-// 
-// 	const char* Serializer::GetNextChildName()
-// 	{
-// 		return NULL;
-// 	}
-
 }

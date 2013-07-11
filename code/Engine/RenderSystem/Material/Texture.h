@@ -16,6 +16,10 @@ namespace ma
 
 		virtual bool Load(const char* pszPath = NULL, bool generateMipmaps = false) = 0;
 
+		virtual bool Load(DataStream* pDataStream, bool generateMipmaps = false) = 0;
+
+		//virtual bool Load(Stream* pStream, bool generateMipmaps = false) = 0;
+
 		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false) = 0;
 
 		int getWidth() {return m_nWidth;}
