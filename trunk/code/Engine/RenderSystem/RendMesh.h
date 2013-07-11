@@ -7,10 +7,14 @@ namespace ma
 	class MeshData;
 	class Material;
 
-	class ENGINE_API RenderMesh 
+	class ENGINE_API RenderMesh : public IDataObj
 	{
 	public:
 		RenderMesh();
+
+		bool		LoadToMemory();
+
+		bool		LoadImp();
 
 		bool		InitWithData(MeshData* pMeshData);
 
@@ -31,8 +35,12 @@ namespace ma
 		Renderable*	GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
 	public:
+		std::string				m_sknPath;
+		std::string				m_texPath;	
 		
  		MeshData*				m_pMesData;
+
+		TextureData*			m_pTextureData;
 
 		Material*				m_pMaterial;
 

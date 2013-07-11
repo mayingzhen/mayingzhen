@@ -17,8 +17,6 @@ namespace ma
 
 		static void			UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		static void			Process();
-
 	private:
 		typedef std::map<std::string,Resource*> ResourceMap;
 		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
@@ -26,8 +24,6 @@ namespace ma
 		static ResourceMap		m_resMap;
 		
 		static ResCreateFunMap	m_resCreateFunMap;
-
-		static DataThread*		m_pDataThread;
 	};
 }
 

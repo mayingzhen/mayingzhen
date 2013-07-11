@@ -8,6 +8,7 @@ namespace ma
 	{
 		m_sResPath = pszPath ? pszPath : ""; 
 		m_bLoaded = false;
+		m_pDataStream = NULL;
 	}
 
 	Resource::~Resource()
@@ -17,20 +18,8 @@ namespace ma
 
 	bool Resource::Load(/*const char* pszPath*/)
 	{
-		//if (pszPath)
-		//{
-		//	m_sResPath = pszPath;
-		//}
-
-		BinaryInputArchive ar;
-		bool bLoadOK = ar.Open(m_sResPath.c_str());
-		if (!bLoadOK)
-		{
-			ASSERT(false && "Fail to open mesh from file");
-			return NULL;
-		}
-
-		Serialize(ar);
+		SAFE_DELETE(m_pDataStream);
+		m_pDataStream =  FileSystem::readAll(m_sResPath.c_str());
 
 		return true;
 	}

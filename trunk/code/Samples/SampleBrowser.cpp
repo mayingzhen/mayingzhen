@@ -108,7 +108,7 @@ namespace ma
 	{
 		m_Timer.UpdateFrame();
 
-		ResourceManager::Process();
+		GetDataThread()->Process();
 
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Update();

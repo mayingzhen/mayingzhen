@@ -24,6 +24,8 @@ namespace ma
  		m_pMaterial = material;
 
 		resize(initialCapacity);
+
+		m_pSubMeshData = new SubMeshData();
 	}
 
 	MeshBatch::~MeshBatch()
@@ -258,8 +260,8 @@ namespace ma
 		memcpy(pVbLock,_vertices,_vertexCount * m_pDeclaration->GetStreanmStride());	
 		m_pVertexBuffers->Unlock();
 
-		m_nIndexCount = _indexCount;
-		m_nVertexCount = _vertexCount;
+		m_pSubMeshData->m_nIndexCount = _indexCount;
+		m_pSubMeshData->m_nVertexCount = _vertexCount;
 	}
 
 // 	void MeshBatch::draw()

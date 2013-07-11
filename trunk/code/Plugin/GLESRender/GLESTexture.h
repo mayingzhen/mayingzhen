@@ -16,6 +16,8 @@ namespace ma
 
 		virtual bool Load(const char* pszPath = NULL, bool generateMipmaps = false);
 
+		virtual bool Load(DataStream* pDataStream, bool generateMipmaps = false);
+
 		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false);
 
 		GLuint GetTexture() {return m_pTex;}

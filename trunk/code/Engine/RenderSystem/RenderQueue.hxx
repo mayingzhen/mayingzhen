@@ -171,11 +171,14 @@ namespace ma
 		for (UINT i = 0; i < m_SolidEntry.size(); ++i)
 		{
 			Material* pMaterial = m_SolidEntry[i]->m_pMaterial;
+			pMaterial->SetCurTechnqiue("default",NULL);
 			GetRenderDevice()->DrawRenderable(m_SolidEntry[i]);
 		}
 
 		for (UINT i = 0; i < m_TransEntry.size(); ++i)
 		{
+			Material* pMaterial = m_TransEntry[i]->m_pMaterial;
+			pMaterial->SetCurTechnqiue("default",NULL);
 			GetRenderDevice()->DrawRenderable(m_TransEntry[i]);
 		}
 	}
@@ -228,7 +231,7 @@ namespace ma
 	{
 		ShadowDepthPass();
 
-		if (m_bUseDeferred)
+		if (0/*m_bUseDeferred*/)
 		{
 			DeferredRending();
 		}

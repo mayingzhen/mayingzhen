@@ -54,28 +54,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-// 	void SerializeData(Serializer& sl, VertexGENERAL& vertexGeneral, const char* pszLabel)
-// 	{
-// 		sl.BeginSection(pszLabel);
-// 
-// 		sl.Serialize(vertexGeneral.m_position,"m_position");
-// 		sl.Serialize(vertexGeneral.m_normal,"m_normal");
-// 		sl.Serialize(vertexGeneral.m_uv,"m_uv");
-// 		
-// 		sl.EndSection();
-// 	}
-// 
-// 	void SerializeData(Serializer& sl, VertexHWSKIN& vertexSkin, const char* pszLabel)
-// 	{
-// 		sl.BeginSection(pszLabel);
-// 
-// 		sl.Serialize(vertexSkin.m_boneID,"m_boneID");
-// 		sl.Serialize(vertexSkin.m_weight,"m_weight");
-// 
-// 		sl.EndSection();
-// 	}
-
-
 	void SerializeDataV0(Serializer& sl, MeshData& meshData, const char* pszLabel)
 	{
 		sl.BeginSection(pszLabel);
@@ -97,6 +75,39 @@ namespace ma
 		m_nVertexType = 0;
 	}
 
+	void MeshData::LoadImp(DataStream* pDataStream)
+	{
+		ASSERT(pDataStream);
+		if (pDataStream == NULL)
+			return;
+		
+		BinaryInputArchive inAr;
+		inAr.Open(pDataStream);
+		Serialize(inAr);
+
+		InitRendable();
+	}
+
+	bool MeshData::InitRendable()
+	{
+		void* pIndexData =  &m_arrIndexBuffer[0];
+		int nIndexSize = m_arrIndexBuffer.size();
+		INDEX_TYPE eIndexType = m_nIndexType == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
+		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
+		m_pIndexBuffer->Active();
+
+		void* pVertexData =  &m_arrVertexBuffer[0];
+		int nVertexDataSize = m_arrVertexBuffer.size();
+		int nVertexStride = GetVertexStride();
+		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
+		m_pVertexBuffer->Active();
+
+		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
+		m_pDeclaration->Init(m_nVertexType);
+		m_pDeclaration->Active();
+
+		return true;
+	}
 
 	void MeshData::Serialize(Serializer& sl, const char* pszLable)
 	{

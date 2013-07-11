@@ -67,57 +67,11 @@ namespace ma
 			SerializeData(*this,val,pszLable);
 		}
 
-// 		//template<class T>
-// 		ArchiveObj* SerializeObject(ArchiveObj* val,const char* pszLable = "")
-// 		{
-// 			if (this->IsReading())
-// 			{	
-// 				BeginSection(pszLable);
-// 
-// 				ASSERT(val == NULL);
-// 
-// 				std::string strClassName;
-// 
-// 				Serialize(strClassName,"classType");
-// 
-// 				val = (ArchiveObj*)ObjectFactoryManager::GetInstance().CreateObject(strClassName.c_str());
-// 				ASSERT(val);
-// 				
-// 				val->Serialize(*this,pszLable);
-// 
-// 				EndSection();
-// 
-// 				return val;
-// 			}
-// 			else
-// 			{
-// 				BeginSection(pszLable);
-// 
-// 				ASSERT(val);
-// 
-// 				std::string strClassName = val->GetClass()->GetName(); 
-// 
-// 				Serialize(strClassName,"classType");
-// 
-// 				val->Serialize(*this,pszLable);
-// 
-// 				EndSection();
-// 
-// 				return val;
-// 			}
-// 			
-// 			//SerializeData(*this,val,pszLable);
-// 		}
-
 		template<class T>
 		void Serialize(T* val,const char* pszLable = "")
 		{
 			SerializeData(*this,val,pszLable);
 		}
-
- 		//template<class T>
- 		//void SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable = "array");
-
 
 		////////////////
 		virtual void BeginSection(const char* pszLable);
@@ -135,112 +89,17 @@ namespace ma
 		//------------------------------------------------------------------------------
 		//
 		//------------------------------------------------------------------------------
-		virtual UINT Tell() {return 0;}
-
-		virtual void Seek(UINT nPos) {}
-
-		virtual void SkipByte(UINT nSize) {}
+// 		virtual UINT Tell() {return 0;}
+// 
+// 		virtual void Seek(UINT nPos) {}
+// 
+// 		virtual void SkipByte(UINT nSize) {}
 		//------------------------------------------------------------------------------
 		//
 		//------------------------------------------------------------------------------
 		virtual bool IsReading() const = 0;
 	};
 
-
-// 
-// 	template<class T>
-// 	void Serializer::SerializeObjectArray(std::vector<T*>& vObject, const char* pszLable)
-// 	{
-// 		BeginSection(pszLable);
-// 	
-// 		if (this->IsReading())
-// 		{
-// 			UINT nSize = 0;
-// 
-// 			Serialize(nSize,"arrSize");
-// 
-// 			vObject.resize(nSize);
-// 
-// 			for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
-// 			{
-// 				std::string str = std::string("arr_") + StringConverter::ToString(nCnt);
-// 				BeginSection(str.c_str());
-// 				
-// 				std::string strClassName;
-// 				Serialize(strClassName,"classType");
-// 
-// 				vObject[nCnt] = (T*)ObjectFactoryManager::GetInstance().CreateObject(strClassName.c_str());
-// 				ASSERT(vObject[nCnt]);
-// 				if (vObject[nCnt] == NULL)
-// 					continue;
-// 
-// 				vObject[nCnt]->Serialize(*this,strClassName.c_str());
-// 
-// 				EndSection();
-// 			}
-// 		}
-// 		else
-// 		{
-// 			UINT nSize = vObject.size();
-// 			
-// 			Serialize(nSize,"arrSize");
-// 
-// 			for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
-// 			{
-// 				std::string str = std::string("arr_") + StringConverter::ToString(nCnt);
-// 				BeginSection(str.c_str());
-// 
-// 				const RTTIClass* pClass = vObject[nCnt]->GetClass();
-// 				ASSERT(pClass);
-// 				if (pClass == NULL)
-// 					continue;
-// 				
-// 				std::string strClassName = pClass->GetName();
-// 				Serialize(strClassName,"classType");
-// 
-// 				vObject[nCnt]->Serialize(*this,strClassName.c_str());
-// 			
-// 				EndSection();
-// 			}
-// 		}
-// 		
-// 		EndSection();
-// 
-// // 		BeginSection(pszLable);
-// // 		
-// // 		if (this->IsReading())
-// // 		{
-// // 			const char* pClassName = GetFirstChildName();
-// // 			while (pClassName)
-// // 			{
-// // 				T* pObj = (T*)ObjectFactoryManager::GetInstance().CreateObject(pClassName);
-// // 				ASSERT(pObj);
-// // 				if (pObj == NULL)
-// // 					continue;
-// // 
-// // 				pObj->Serialize(*this,pClassName);
-// // 
-// // 				vObject.push_back(pObj);
-// // 
-// // 				pClassName = GetNextChildName();
-// // 			}
-// // 		}
-// // 		else
-// // 		{
-// // 			for (UINT nCnt = 0; nCnt < vObject.size(); ++nCnt)
-// // 			{
-// // 				const RTTIClass* pClass = vObject[nCnt]->GetClass();
-// // 				ASSERT(pClass);
-// // 				if (pClass == NULL)
-// // 					continue;
-// // 
-// // 				vObject[nCnt]->Serialize(*this,pClass->GetName());
-// // 			}
-// // 		}
-// // 		
-// // 		EndSection();
-// 
-// 	}
 
 	template<class T>
 	void Serializer::Serialize(std::vector<T>& val,const char* pszLable)

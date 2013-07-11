@@ -43,14 +43,16 @@ namespace ma
 		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(indices,sizeof(indices));
 		pIndexs->Active();
 
+		m_pRenderable->m_pSubMeshData = new SubMeshData();
+
 		m_pRenderable->m_pDeclaration = pVertexDec;
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		m_pRenderable->m_pIndexBuffer = pIndexs;
 		m_pRenderable->m_pVertexBuffers = pVertexs;
-		m_pRenderable->m_nVertexStart = 0;
-		m_pRenderable->m_nVertexCount = 4;
-		m_pRenderable->m_nIndexStart = 0;
-		m_pRenderable->m_nIndexCount = 4;
+		m_pRenderable->m_pSubMeshData->m_nVertexStart = 0;
+		m_pRenderable->m_pSubMeshData->m_nVertexCount = 4;
+		m_pRenderable->m_pSubMeshData->m_nIndexStart = 0;
+		m_pRenderable->m_pSubMeshData->m_nIndexCount = 4;
 	}
 
 	void ScreenQuad::Render(Material* pMaterial)

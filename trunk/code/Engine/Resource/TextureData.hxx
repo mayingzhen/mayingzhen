@@ -3,14 +3,15 @@ namespace ma
 {
 	IMPL_OBJECT(TextureData,Resource)
 
-	bool TextureData::Load(const char* pszPath)
+	TextureData::TextureData(const char* pszPath)
 	{
-		if (pszPath == NULL)
-			pszPath = m_sResPath.c_str();
-
 		m_pTexture = GetRenderDevice()->CreateRendTexture();
-		m_pTexture->Load(pszPath);
-		return true;
+	}
+
+
+	void TextureData::LoadImp(DataStream* pStream)
+	{
+		m_pTexture->Load(pStream);
 	}
 
 	bool TextureData::Save(const char* pszPath)

@@ -42,6 +42,17 @@ namespace ma
 		sl.EndSection();
 	}
 
+	void SkeletonData::LoadImp(DataStream* pDataStream)
+	{
+		ASSERT(pDataStream);
+		if (pDataStream == NULL)
+			return;
+
+		BinaryInputArchive inAr;
+		inAr.Open(pDataStream);
+		Serialize(inAr);
+	}
+
 	void SkeletonData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		SkeletonHeader header;

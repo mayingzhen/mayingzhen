@@ -273,14 +273,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\FileSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\FileSystem.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Resource\MeshData.h"
 				>
 			</File>
@@ -321,14 +313,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\Stream.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\Stream.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Resource\TextureData.h"
 				>
 			</File>
@@ -339,14 +323,6 @@
 			<Filter
 				Name="Serialize"
 				>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\ArchiveObj.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\ArchiveObj.hxx"
-					>
-				</File>
 				<File
 					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputArchive.h"
 					>
@@ -423,6 +399,50 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="FileSystem"
+				>
+				<File
+					RelativePath="..\..\code\Engine\Resource\AAssetFileStream.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\AAssetFileStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\DataStream.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\DataStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\FileStream.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\FileStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\Resource\FileSystem.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\Resource\FileSystem.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\Resource\Stream.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Stream.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -584,11 +604,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.h"
+					RelativePath="..\..\code\Engine\RenderSystem\RendMesh.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\RendMesh.hxx"
+					RelativePath="..\..\code\Engine\RenderSystem\RendMesh.hxx"
 					>
 				</File>
 				<File
@@ -835,6 +855,10 @@
 		</File>
 		<File
 			RelativePath="..\..\Code\Engine\Module.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Engine\RTTI.h"
 			>
 		</File>
 		<File

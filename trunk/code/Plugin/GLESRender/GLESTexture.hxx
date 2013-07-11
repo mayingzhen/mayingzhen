@@ -211,6 +211,71 @@ namespace ma
 		GLuint PixelFormat;
 	};
 
+	bool GLESTexture::Load(DataStream* pDataStream, bool generateMipmaps)
+	{
+		ASSERT(pDataStream);
+		if (pDataStream == NULL)
+			return false;
+
+		ILuint curImage = 0; 
+		ilGenImages(1, &curImage);
+		ilBindImage(curImage);
+		
+		//ILenum ilImageType = ilTypeFromExt(m_);
+		
+		if( !ilLoadL( IL_TGA, pDataStream->GetData(), pDataStream->GetSize() ) )
+		{ 
+			ASSERT(false);
+			ilDeleteImages(1, &curImage);
+			return false;
+		} 
+
+
+		m_nWidth = ilGetInteger(IL_IMAGE_WIDTH);
+		m_nHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+		m_nMipLevels = ilGetInteger(IL_NUM_MIPMAPS);
+		ILint imageFormat = ilGetInteger(IL_IMAGE_FORMAT);
+		m_PixelFormat = ChooseBestTextureFormat(imageFormat);
+		bool bCompressFormat = IsCompressedTextureFormat(imageFormat);
+
+		glGenTextures(1, &m_pTex);
+		glBindTexture(GL_TEXTURE_2D, m_pTex);
+
+		int i = 0;
+		while(ilActiveMipmap(i))
+		{	
+			Uint8* pSrcData= (Uint8*)ilGetData();
+			int unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
+			int unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+
+			ConvertImageData(imageFormat,unLevelWidth * unLevelHeight,pSrcData);
+
+			if(bCompressFormat)
+			{
+				UINT unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
+				glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData);
+			}	
+			else
+			{
+				glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData);	
+			}
+
+			ilBindImage(curImage);
+			i++;
+		}
+
+		ilDeleteImages(1, &curImage);
+
+		if (generateMipmaps)
+		{
+			GenerateMipmaps();
+		}
+
+		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
+
+		return true;
+	}
+
 	bool GLESTexture::Load(const char* pszPath,bool generateMipmaps)
 	{
 		ASSERT(pszPath);

@@ -7,7 +7,7 @@ namespace ma
 {
 	class Serializer;
 
-	class ENGINE_API Resource : public Object, public IDataObj
+	class ENGINE_API Resource : public Object
 	{
 		DECL_OBJECT(Resource)
 
@@ -16,7 +16,9 @@ namespace ma
 
 		virtual ~Resource();
 
-		virtual bool Load(/*const char* pszPath = NULL*/);
+		virtual bool Load();
+
+		virtual void LoadImp(DataStream* pDataStream) = 0;
 
 		virtual bool Save(const char* pszPath = NULL);
 
@@ -28,9 +30,13 @@ namespace ma
 
 		virtual void Serialize(Serializer& sl, const char* pszLable = "Resource");
 
+		DataStream*	 GetDataStream() {return m_pDataStream;}
+
 	protected:
-		std::string m_sResPath;
-		bool		m_bLoaded;
+		std::string		m_sResPath;
+		bool			m_bLoaded;
+
+		DataStream*		m_pDataStream;
 	};
 }
 

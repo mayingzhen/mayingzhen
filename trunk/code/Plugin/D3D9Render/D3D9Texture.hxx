@@ -107,6 +107,48 @@ namespace ma
 		return true;
 	}
 
+	bool D3D9Texture::Load(DataStream* pDataStream, bool generateMipmaps)
+	{
+		ASSERT(pDataStream);
+		if (pDataStream == NULL)
+			return false;
+
+		D3DXIMAGE_INFO ImgInfo;
+
+		IDirect3DTexture9 * pD3D9Texture = NULL;
+		HRESULT hr = D3DXCreateTextureFromFileInMemoryEx(GetD3D9DxDevive(),
+			pDataStream->GetData(),
+			pDataStream->GetSize(),
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			generateMipmaps ? D3DX_DEFAULT : D3DX_FROM_FILE,
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_MANAGED,
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			0,
+			&ImgInfo,
+			NULL,
+			&pD3D9Texture);
+
+		//D3DErrorExceptionFunction(D3DXCreateTextureFromFileEx, hr);
+
+		D3DSURFACE_DESC desc;
+
+		pD3D9Texture->GetLevelDesc(0, &desc);
+
+		m_pD3DTex = pD3D9Texture;
+		m_nWidth = desc.Width;
+		m_nHeight = desc.Height;
+		m_eFormat = D3D9Mapping::GetFormat(desc.Format);
+		m_nMipLevels = pD3D9Texture->GetLevelCount();
+
+		//mLoadState = Resource::LOADED;
+
+		return true;
+	}
+
 	bool D3D9Texture::Load(const char* pszPath,bool generateMipmaps)
 	{
 		ASSERT(pszPath);

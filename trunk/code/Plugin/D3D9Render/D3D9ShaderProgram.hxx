@@ -221,7 +221,9 @@ namespace ma
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
 	{
 		ASSERT(uniform);
-		ASSERT(values);
+		//ASSERT(values);
+		if (values == NULL)
+			return;
 		
 		HRESULT hr = D3D_OK;
 		if (uniform->_vshShder)

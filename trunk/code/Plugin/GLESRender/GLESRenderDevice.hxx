@@ -338,7 +338,7 @@ namespace ma
 
 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = pRenderable->m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = pRenderable->m_pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
 
 		int nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
@@ -361,9 +361,9 @@ namespace ma
 
 
 		int indexStride = pIndexBuffer->GetStride();
-		void* pIBufferData = BUFFER_OFFSET(indexStride * pRenderable->m_nIndexStart);
+		void* pIBufferData = BUFFER_OFFSET(indexStride * pRenderable->m_pSubMeshData->m_nIndexStart);
 
-		GL_ASSERT( glDrawElements(ePrimType, pRenderable->m_nIndexCount, eIndexType, pIBufferData) );
+		GL_ASSERT( glDrawElements(ePrimType, pRenderable->m_pSubMeshData->m_nIndexCount, eIndexType, pIBufferData) );
 
 
 

@@ -81,7 +81,8 @@ namespace ma
 				size_t len = endQuote - (startQuote);
 				std::string includeStr = str.substr(startQuote, len);
 				directoryPath.append(includeStr);
-				const char* includedSource = FileSystem::readAll(directoryPath.c_str());
+				DataStream* pDataStream = FileSystem::readAll(directoryPath.c_str());
+				const char* includedSource = (const char*)pDataStream->GetData();
 				if (includedSource == NULL)
 				{
 					GP_ERROR("Compile failed for shader '%s' invalid filepath.", filepathStr.c_str());
@@ -116,7 +117,9 @@ namespace ma
 	static std::string prePareShaderSource(const char* shPath,const char* defines)
 	{
 		// Read source from file.
-		char* shSource = FileSystem::readAll(shPath);
+		//char* shSource = FileSystem::readAll(shPath);
+		DataStream* pDataStream = FileSystem::readAll(shPath);
+		const char* shSource = (const char*)pDataStream->GetData();
 		if (shSource == NULL)
 		{
 			GP_ERROR("Failed to read vertex shader from file '%s'.", vshPath);

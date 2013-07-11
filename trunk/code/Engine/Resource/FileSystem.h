@@ -33,7 +33,9 @@ namespace ma
 
 		static FILE*		openFile(const char* filePath, const char* mode);
 
-		static char*		readAll(const char* filePath, int* fileSize = NULL);
+		//static char*		readAll(const char* filePath, int* fileSize = NULL);
+
+		static DataStream*	readAll(const char* filePath);
 
 		static bool			isAbsolutePath(const char* filePath);
 

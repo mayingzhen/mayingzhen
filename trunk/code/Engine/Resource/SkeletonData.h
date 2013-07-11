@@ -27,6 +27,8 @@ namespace ma
 		std::vector<Quaternion>		m_arrRotOS;
 		std::vector<Vector3>		m_arrPosOS;
 
+		virtual void LoadImp(DataStream* pDataStream);
+
 		virtual void Serialize(Serializer& sl, const char* pszLable = "SkeletonData");
 	};
 }

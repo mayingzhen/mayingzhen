@@ -386,19 +386,23 @@ namespace ma
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = pRenderable->m_nIndexCount / 3;
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = pRenderable->m_nIndexCount - 2;
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = pRenderable->m_nIndexCount / 2;
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 2;
 		}
 
-		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,pRenderable->m_nVertexStart,pRenderable->m_nVertexCount,
-				pRenderable->m_nIndexStart,nPrimCount);
+		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,
+			0,
+			pRenderable->m_pSubMeshData->m_nVertexStart,
+			pRenderable->m_pSubMeshData->m_nVertexCount,
+			pRenderable->m_pSubMeshData->m_nIndexStart,
+			nPrimCount);
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
 
 		pMaterial->UnBind();

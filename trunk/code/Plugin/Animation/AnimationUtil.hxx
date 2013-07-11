@@ -9,6 +9,7 @@ namespace ma
 			Animation* pAnimation = new Animation();
 			AnimationData* pAnimData = static_cast<AnimationData*>(ResourceManager::DeclareResource(pszAnimPath));
 			pAnimData->Load();
+			pAnimData->LoadImp(pAnimData->GetDataStream());
 			pAnimation->InitWithData(pAnimData);
 
 			AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
