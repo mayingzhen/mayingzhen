@@ -656,6 +656,10 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Terrain"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Physics"
@@ -674,6 +678,10 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Physics\IPhysicsDevive.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.h"
 				>
 			</File>
 			<File
@@ -774,33 +782,49 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="DataThread"
+			Name="Thread"
 			>
 			<File
-				RelativePath="..\..\code\Engine\DataThread\AutoLock.h"
+				RelativePath="..\..\code\Engine\Thread\AutoLock.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\DataThread\DataThread.h"
+				RelativePath="..\..\code\Engine\Thread\DataThread.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\DataThread\DataThread.hxx"
+				RelativePath="..\..\code\Engine\Thread\DataThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\RenderThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\TArray.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\Thread.h"
 				>
 			</File>
 			<Filter
 				Name="IOS"
 				>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\ios\CriticalSection_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\ios\CriticalSection_IOS.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\ios\Event_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\ios\Event_IOS.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\ios\Thread_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\ios\Thread_IOS.h"
 					>
 				</File>
 			</Filter>
@@ -808,15 +832,15 @@
 				Name="Android"
 				>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\android\CriticalSection_Android.h"
+					RelativePath="..\..\code\Engine\Thread\android\CriticalSection_Android.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\android\Event_Android.h"
+					RelativePath="..\..\code\Engine\Thread\android\Event_Android.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\android\Thread_Android.h"
+					RelativePath="..\..\code\Engine\Thread\android\Thread_Android.h"
 					>
 				</File>
 			</Filter>
@@ -824,15 +848,15 @@
 				Name="Win"
 				>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\win\CriticalSection_win.h"
+					RelativePath="..\..\code\Engine\Thread\win\CriticalSection_win.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\win\Event_win.h"
+					RelativePath="..\..\code\Engine\Thread\win\Event_win.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\DataThread\win\Thread_win.h"
+					RelativePath="..\..\code\Engine\Thread\win\Thread_win.h"
 					>
 				</File>
 			</Filter>

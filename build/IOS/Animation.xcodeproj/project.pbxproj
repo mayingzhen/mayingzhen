@@ -1,0 +1,351 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6FA78ED217943163005B3CD6 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FA78EC017943163005B3CD6 /* Module.cpp */; };
+		6FA78ED317943163005B3CD6 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FA78ECE17943163005B3CD6 /* stdafx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FA78E8B17943131005B3CD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6FA78E8D17943131005B3CD6 /* libAnimation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnimation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FA78E9F17943163005B3CD6 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
+		6FA78EA017943163005B3CD6 /* Action.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Action.hxx; sourceTree = "<group>"; };
+		6FA78EA117943163005B3CD6 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		6FA78EA217943163005B3CD6 /* Animation.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hxx; sourceTree = "<group>"; };
+		6FA78EA317943163005B3CD6 /* AnimationDataCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDataCover.h; sourceTree = "<group>"; };
+		6FA78EA417943163005B3CD6 /* AnimationDataCover.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationDataCover.hxx; sourceTree = "<group>"; };
+		6FA78EA517943163005B3CD6 /* AnimationDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDevice.h; sourceTree = "<group>"; };
+		6FA78EA617943163005B3CD6 /* AnimationDevice.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationDevice.hxx; sourceTree = "<group>"; };
+		6FA78EA717943163005B3CD6 /* AnimationInst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationInst.h; sourceTree = "<group>"; };
+		6FA78EA817943163005B3CD6 /* AnimationInst.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationInst.hxx; sourceTree = "<group>"; };
+		6FA78EA917943163005B3CD6 /* AnimationPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationPlay.h; sourceTree = "<group>"; };
+		6FA78EAA17943163005B3CD6 /* AnimationPlay.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlay.hxx; sourceTree = "<group>"; };
+		6FA78EAB17943163005B3CD6 /* AnimationSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationSet.h; sourceTree = "<group>"; };
+		6FA78EAC17943163005B3CD6 /* AnimationSet.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationSet.hxx; sourceTree = "<group>"; };
+		6FA78EAD17943163005B3CD6 /* AnimationTracks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationTracks.h; sourceTree = "<group>"; };
+		6FA78EAE17943163005B3CD6 /* AnimationTracks.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationTracks.hxx; sourceTree = "<group>"; };
+		6FA78EB017943163005B3CD6 /* AnimBlendNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimBlendNode.h; sourceTree = "<group>"; };
+		6FA78EB117943163005B3CD6 /* AnimBlendNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimBlendNode.hxx; sourceTree = "<group>"; };
+		6FA78EB217943163005B3CD6 /* AnimClipNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimClipNode.h; sourceTree = "<group>"; };
+		6FA78EB317943163005B3CD6 /* AnimClipNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimClipNode.hxx; sourceTree = "<group>"; };
+		6FA78EB417943163005B3CD6 /* AnimLayerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimLayerNode.h; sourceTree = "<group>"; };
+		6FA78EB517943163005B3CD6 /* AnimLayerNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimLayerNode.hxx; sourceTree = "<group>"; };
+		6FA78EB617943163005B3CD6 /* AnimTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimTreeNode.h; sourceTree = "<group>"; };
+		6FA78EB717943163005B3CD6 /* AnimTreeNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimTreeNode.hxx; sourceTree = "<group>"; };
+		6FA78EB817943163005B3CD6 /* AnimationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtil.h; sourceTree = "<group>"; };
+		6FA78EB917943163005B3CD6 /* AnimationUtil.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationUtil.hxx; sourceTree = "<group>"; };
+		6FA78EBA17943163005B3CD6 /* AnimEvalContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimEvalContext.h; sourceTree = "<group>"; };
+		6FA78EBB17943163005B3CD6 /* BoneMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneMap.h; sourceTree = "<group>"; };
+		6FA78EBC17943163005B3CD6 /* BoneMap.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoneMap.hxx; sourceTree = "<group>"; };
+		6FA78EBD17943163005B3CD6 /* BoneSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneSet.h; sourceTree = "<group>"; };
+		6FA78EBE17943163005B3CD6 /* BoneSet.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoneSet.hxx; sourceTree = "<group>"; };
+		6FA78EBF17943163005B3CD6 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6FA78EC017943163005B3CD6 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6FA78EC117943163005B3CD6 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6FA78EC317943163005B3CD6 /* LookAtModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookAtModifier.h; sourceTree = "<group>"; };
+		6FA78EC417943163005B3CD6 /* LookAtModifier.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LookAtModifier.hxx; sourceTree = "<group>"; };
+		6FA78EC517943163005B3CD6 /* PoseModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoseModifier.h; sourceTree = "<group>"; };
+		6FA78EC617943163005B3CD6 /* PoseModifier.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoseModifier.hxx; sourceTree = "<group>"; };
+		6FA78EC717943163005B3CD6 /* TwoJointIKSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoJointIKSolver.h; sourceTree = "<group>"; };
+		6FA78EC817943163005B3CD6 /* TwoJointIKSolver.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TwoJointIKSolver.hxx; sourceTree = "<group>"; };
+		6FA78EC917943163005B3CD6 /* RTTIDecl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTTIDecl.h; sourceTree = "<group>"; };
+		6FA78ECA17943163005B3CD6 /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skeleton.h; sourceTree = "<group>"; };
+		6FA78ECB17943163005B3CD6 /* Skeleton.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Skeleton.hxx; sourceTree = "<group>"; };
+		6FA78ECC17943163005B3CD6 /* SkeletonPose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonPose.h; sourceTree = "<group>"; };
+		6FA78ECD17943163005B3CD6 /* SkeletonPose.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletonPose.hxx; sourceTree = "<group>"; };
+		6FA78ECE17943163005B3CD6 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6FA78ECF17943163005B3CD6 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FA78ED017943163005B3CD6 /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FA78E8A17943131005B3CD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6FA78E8417943131005B3CD6 = {
+			isa = PBXGroup;
+			children = (
+				6FA78E9E17943163005B3CD6 /* Animation */,
+				6FA78E8E17943131005B3CD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FA78E8E17943131005B3CD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78E8D17943131005B3CD6 /* libAnimation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FA78E9E17943163005B3CD6 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78E9F17943163005B3CD6 /* Action.h */,
+				6FA78EA017943163005B3CD6 /* Action.hxx */,
+				6FA78EA117943163005B3CD6 /* Animation.h */,
+				6FA78EA217943163005B3CD6 /* Animation.hxx */,
+				6FA78EA317943163005B3CD6 /* AnimationDataCover.h */,
+				6FA78EA417943163005B3CD6 /* AnimationDataCover.hxx */,
+				6FA78EA517943163005B3CD6 /* AnimationDevice.h */,
+				6FA78EA617943163005B3CD6 /* AnimationDevice.hxx */,
+				6FA78EA717943163005B3CD6 /* AnimationInst.h */,
+				6FA78EA817943163005B3CD6 /* AnimationInst.hxx */,
+				6FA78EA917943163005B3CD6 /* AnimationPlay.h */,
+				6FA78EAA17943163005B3CD6 /* AnimationPlay.hxx */,
+				6FA78EAB17943163005B3CD6 /* AnimationSet.h */,
+				6FA78EAC17943163005B3CD6 /* AnimationSet.hxx */,
+				6FA78EAD17943163005B3CD6 /* AnimationTracks.h */,
+				6FA78EAE17943163005B3CD6 /* AnimationTracks.hxx */,
+				6FA78EAF17943163005B3CD6 /* AnimationTree */,
+				6FA78EB817943163005B3CD6 /* AnimationUtil.h */,
+				6FA78EB917943163005B3CD6 /* AnimationUtil.hxx */,
+				6FA78EBA17943163005B3CD6 /* AnimEvalContext.h */,
+				6FA78EBB17943163005B3CD6 /* BoneMap.h */,
+				6FA78EBC17943163005B3CD6 /* BoneMap.hxx */,
+				6FA78EBD17943163005B3CD6 /* BoneSet.h */,
+				6FA78EBE17943163005B3CD6 /* BoneSet.hxx */,
+				6FA78EBF17943163005B3CD6 /* Export.h */,
+				6FA78EC017943163005B3CD6 /* Module.cpp */,
+				6FA78EC117943163005B3CD6 /* Module.h */,
+				6FA78EC217943163005B3CD6 /* PoseModifier */,
+				6FA78EC917943163005B3CD6 /* RTTIDecl.h */,
+				6FA78ECA17943163005B3CD6 /* Skeleton.h */,
+				6FA78ECB17943163005B3CD6 /* Skeleton.hxx */,
+				6FA78ECC17943163005B3CD6 /* SkeletonPose.h */,
+				6FA78ECD17943163005B3CD6 /* SkeletonPose.hxx */,
+				6FA78ECE17943163005B3CD6 /* stdafx.cpp */,
+				6FA78ECF17943163005B3CD6 /* stdafx.h */,
+				6FA78ED017943163005B3CD6 /* Track.h */,
+			);
+			name = Animation;
+			path = ../../code/Plugin/Animation;
+			sourceTree = "<group>";
+		};
+		6FA78EAF17943163005B3CD6 /* AnimationTree */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78EB017943163005B3CD6 /* AnimBlendNode.h */,
+				6FA78EB117943163005B3CD6 /* AnimBlendNode.hxx */,
+				6FA78EB217943163005B3CD6 /* AnimClipNode.h */,
+				6FA78EB317943163005B3CD6 /* AnimClipNode.hxx */,
+				6FA78EB417943163005B3CD6 /* AnimLayerNode.h */,
+				6FA78EB517943163005B3CD6 /* AnimLayerNode.hxx */,
+				6FA78EB617943163005B3CD6 /* AnimTreeNode.h */,
+				6FA78EB717943163005B3CD6 /* AnimTreeNode.hxx */,
+			);
+			path = AnimationTree;
+			sourceTree = "<group>";
+		};
+		6FA78EC217943163005B3CD6 /* PoseModifier */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78EC317943163005B3CD6 /* LookAtModifier.h */,
+				6FA78EC417943163005B3CD6 /* LookAtModifier.hxx */,
+				6FA78EC517943163005B3CD6 /* PoseModifier.h */,
+				6FA78EC617943163005B3CD6 /* PoseModifier.hxx */,
+				6FA78EC717943163005B3CD6 /* TwoJointIKSolver.h */,
+				6FA78EC817943163005B3CD6 /* TwoJointIKSolver.hxx */,
+			);
+			path = PoseModifier;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FA78E8C17943131005B3CD6 /* Animation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FA78E9B17943131005B3CD6 /* Build configuration list for PBXNativeTarget "Animation" */;
+			buildPhases = (
+				6FA78E8917943131005B3CD6 /* Sources */,
+				6FA78E8A17943131005B3CD6 /* Frameworks */,
+				6FA78E8B17943131005B3CD6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Animation;
+			productName = Animation;
+			productReference = 6FA78E8D17943131005B3CD6 /* libAnimation.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FA78E8517943131005B3CD6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FA78E8817943131005B3CD6 /* Build configuration list for PBXProject "Animation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FA78E8417943131005B3CD6;
+			productRefGroup = 6FA78E8E17943131005B3CD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FA78E8C17943131005B3CD6 /* Animation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FA78E8917943131005B3CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FA78ED217943163005B3CD6 /* Module.cpp in Sources */,
+				6FA78ED317943163005B3CD6 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FA78E9917943131005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FA78E9A17943131005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FA78E9C17943131005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/Animation.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/Animation/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin/,
+					../../Extern/Include/,
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FA78E9D17943131005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/Animation.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/Animation/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin/,
+					../../Extern/Include/,
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FA78E8817943131005B3CD6 /* Build configuration list for PBXProject "Animation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E9917943131005B3CD6 /* Debug */,
+				6FA78E9A17943131005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FA78E9B17943131005B3CD6 /* Build configuration list for PBXNativeTarget "Animation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E9C17943131005B3CD6 /* Debug */,
+				6FA78E9D17943131005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FA78E8517943131005B3CD6 /* Project object */;
+}

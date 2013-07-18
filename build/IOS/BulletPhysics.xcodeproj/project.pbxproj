@@ -1,0 +1,305 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F09DFE11795434100BC748A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFDE1795434100BC748A /* libBulletCollision.a */; };
+		6F09DFE21795434100BC748A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFDF1795434100BC748A /* libBulletDynamics.a */; };
+		6F09DFE31795434100BC748A /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFE01795434100BC748A /* libLinerMath.a */; };
+		6FB7D780179675F000D771E5 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D77C179675F000D771E5 /* Module.cpp */; };
+		6FB7D781179675F000D771E5 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D77E179675F000D771E5 /* stdafx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FDF1AC517951F1D005C7E62 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6F09DFDE1795434100BC748A /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libBulletCollision.a"; sourceTree = "<group>"; };
+		6F09DFDF1795434100BC748A /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libBulletDynamics.a"; sourceTree = "<group>"; };
+		6F09DFE01795434100BC748A /* libLinerMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinerMath.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libLinerMath.a"; sourceTree = "<group>"; };
+		6FB7D76A179675F000D771E5 /* BtCharacterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCharacterController.h; sourceTree = "<group>"; };
+		6FB7D76B179675F000D771E5 /* BtCharacterController.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtCharacterController.hxx; sourceTree = "<group>"; };
+		6FB7D76C179675F000D771E5 /* BtCollisionShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCollisionShape.h; sourceTree = "<group>"; };
+		6FB7D76D179675F000D771E5 /* BtCollisionShape.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtCollisionShape.hxx; sourceTree = "<group>"; };
+		6FB7D76E179675F000D771E5 /* BtContactReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtContactReport.h; sourceTree = "<group>"; };
+		6FB7D76F179675F000D771E5 /* BtContactReport.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtContactReport.hxx; sourceTree = "<group>"; };
+		6FB7D770179675F000D771E5 /* BtPhysicsDevive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsDevive.h; sourceTree = "<group>"; };
+		6FB7D771179675F000D771E5 /* BtPhysicsDevive.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsDevive.hxx; sourceTree = "<group>"; };
+		6FB7D772179675F000D771E5 /* BtPhysicsJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsJoint.h; sourceTree = "<group>"; };
+		6FB7D773179675F000D771E5 /* BtPhysicsJoint.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsJoint.hxx; sourceTree = "<group>"; };
+		6FB7D774179675F000D771E5 /* BtPhysicsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsObject.h; sourceTree = "<group>"; };
+		6FB7D775179675F000D771E5 /* BtPhysicsObject.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsObject.hxx; sourceTree = "<group>"; };
+		6FB7D776179675F000D771E5 /* BtPhysicsScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsScene.h; sourceTree = "<group>"; };
+		6FB7D777179675F000D771E5 /* BtPhysicsScene.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsScene.hxx; sourceTree = "<group>"; };
+		6FB7D778179675F000D771E5 /* BtRigidBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtRigidBody.h; sourceTree = "<group>"; };
+		6FB7D779179675F000D771E5 /* BtRigidBody.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtRigidBody.hxx; sourceTree = "<group>"; };
+		6FB7D77A179675F000D771E5 /* BulletUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletUtil.h; sourceTree = "<group>"; };
+		6FB7D77B179675F000D771E5 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6FB7D77C179675F000D771E5 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6FB7D77D179675F000D771E5 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6FB7D77E179675F000D771E5 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6FB7D77F179675F000D771E5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FDF1AC717951F1D005C7E62 /* libBulletPhysics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBulletPhysics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FDF1AC417951F1D005C7E62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F09DFE11795434100BC748A /* libBulletCollision.a in Frameworks */,
+				6F09DFE21795434100BC748A /* libBulletDynamics.a in Frameworks */,
+				6F09DFE31795434100BC748A /* libLinerMath.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6FB7D769179675F000D771E5 /* BulletPhysics */ = {
+			isa = PBXGroup;
+			children = (
+				6FB7D76A179675F000D771E5 /* BtCharacterController.h */,
+				6FB7D76B179675F000D771E5 /* BtCharacterController.hxx */,
+				6FB7D76C179675F000D771E5 /* BtCollisionShape.h */,
+				6FB7D76D179675F000D771E5 /* BtCollisionShape.hxx */,
+				6FB7D76E179675F000D771E5 /* BtContactReport.h */,
+				6FB7D76F179675F000D771E5 /* BtContactReport.hxx */,
+				6FB7D770179675F000D771E5 /* BtPhysicsDevive.h */,
+				6FB7D771179675F000D771E5 /* BtPhysicsDevive.hxx */,
+				6FB7D772179675F000D771E5 /* BtPhysicsJoint.h */,
+				6FB7D773179675F000D771E5 /* BtPhysicsJoint.hxx */,
+				6FB7D774179675F000D771E5 /* BtPhysicsObject.h */,
+				6FB7D775179675F000D771E5 /* BtPhysicsObject.hxx */,
+				6FB7D776179675F000D771E5 /* BtPhysicsScene.h */,
+				6FB7D777179675F000D771E5 /* BtPhysicsScene.hxx */,
+				6FB7D778179675F000D771E5 /* BtRigidBody.h */,
+				6FB7D779179675F000D771E5 /* BtRigidBody.hxx */,
+				6FB7D77A179675F000D771E5 /* BulletUtil.h */,
+				6FB7D77B179675F000D771E5 /* Export.h */,
+				6FB7D77C179675F000D771E5 /* Module.cpp */,
+				6FB7D77D179675F000D771E5 /* Module.h */,
+				6FB7D77E179675F000D771E5 /* stdafx.cpp */,
+				6FB7D77F179675F000D771E5 /* stdafx.h */,
+			);
+			name = BulletPhysics;
+			path = ../../code/Plugin/BulletPhysics;
+			sourceTree = "<group>";
+		};
+		6FDF1ABE17951F1C005C7E62 = {
+			isa = PBXGroup;
+			children = (
+				6FB7D769179675F000D771E5 /* BulletPhysics */,
+				6F09DFDE1795434100BC748A /* libBulletCollision.a */,
+				6F09DFDF1795434100BC748A /* libBulletDynamics.a */,
+				6F09DFE01795434100BC748A /* libLinerMath.a */,
+				6FDF1AC817951F1D005C7E62 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FDF1AC817951F1D005C7E62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1AC717951F1D005C7E62 /* libBulletPhysics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FDF1AC617951F1D005C7E62 /* BulletPhysics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FDF1AD517951F1D005C7E62 /* Build configuration list for PBXNativeTarget "BulletPhysics" */;
+			buildPhases = (
+				6FDF1AC317951F1D005C7E62 /* Sources */,
+				6FDF1AC417951F1D005C7E62 /* Frameworks */,
+				6FDF1AC517951F1D005C7E62 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BulletPhysics;
+			productName = BulletPhysics;
+			productReference = 6FDF1AC717951F1D005C7E62 /* libBulletPhysics.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FDF1ABF17951F1D005C7E62 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FDF1AC217951F1D005C7E62 /* Build configuration list for PBXProject "BulletPhysics" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FDF1ABE17951F1C005C7E62;
+			productRefGroup = 6FDF1AC817951F1D005C7E62 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FDF1AC617951F1D005C7E62 /* BulletPhysics */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FDF1AC317951F1D005C7E62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FB7D780179675F000D771E5 /* Module.cpp in Sources */,
+				6FB7D781179675F000D771E5 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FDF1AD317951F1D005C7E62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FDF1AD417951F1D005C7E62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FDF1AD617951F1D005C7E62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/BulletPhysics.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/BulletPhysics/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin,
+					../../Extern/include,
+					"../../Extern/Bullet-2.81/Src/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/Bullet-2.81/build/xCode/Lib\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FDF1AD717951F1D005C7E62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/BulletPhysics.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/BulletPhysics/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin,
+					../../Extern/include,
+					"../../Extern/Bullet-2.81/Src/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/Bullet-2.81/build/xCode/Lib\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FDF1AC217951F1D005C7E62 /* Build configuration list for PBXProject "BulletPhysics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FDF1AD317951F1D005C7E62 /* Debug */,
+				6FDF1AD417951F1D005C7E62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FDF1AD517951F1D005C7E62 /* Build configuration list for PBXNativeTarget "BulletPhysics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FDF1AD617951F1D005C7E62 /* Debug */,
+				6FDF1AD717951F1D005C7E62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FDF1ABF17951F1D005C7E62 /* Project object */;
+}

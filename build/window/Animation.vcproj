@@ -304,14 +304,6 @@
 					RelativePath="..\..\Code\Plugin\Animation\PoseModifier\PoseModifier.hxx"
 					>
 				</File>
-				<File
-					RelativePath="..\..\Code\Plugin\Animation\PoseModifier\TwoJointIKSolver.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Plugin\Animation\PoseModifier\TwoJointIKSolver.hxx"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="AnimationTree"
