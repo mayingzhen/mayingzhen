@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F49EE4C17957FCD00EF1CCE /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F49EE4B17957FCD00EF1CCE /* data */; };
+		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
+		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
+		6FDF1ABC17951DF3005C7E62 /* TestCSharp.cs in Resources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */; };
+		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
+		6FDF1B041795233B005C7E62 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFD1795233B005C7E62 /* libAnimation.a */; };
+		6FDF1B051795233B005C7E62 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */; };
+		6FDF1B061795233B005C7E62 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFF1795233B005C7E62 /* libCommon.a */; };
+		6FDF1B071795233B005C7E62 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B001795233B005C7E62 /* libEngine.a */; };
+		6FDF1B081795233B005C7E62 /* libFramwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B011795233B005C7E62 /* libFramwork.a */; };
+		6FDF1B091795233B005C7E62 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B021795233B005C7E62 /* libGLESRender.a */; };
+		6FDF1B0A1795233B005C7E62 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B031795233B005C7E62 /* libUI.a */; };
+		6FDF1B0C179524FB005C7E62 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0B179524FB005C7E62 /* OpenGLES.framework */; };
+		6FDF1B0E1795250B005C7E62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0D1795250B005C7E62 /* Foundation.framework */; };
+		6FDF1B1017952519005C7E62 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0F17952519005C7E62 /* CoreGraphics.framework */; };
+		6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B1117952521005C7E62 /* UIKit.framework */; };
+		6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B1317952541005C7E62 /* QuartzCore.framework */; };
+		6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B1517952552005C7E62 /* CoreMotion.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6F49EE4B17957FCD00EF1CCE /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
+		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
+		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
+		6FDF1A9917951DF3005C7E62 /* SampleAnimationTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationTree.h; sourceTree = "<group>"; };
+		6FDF1A9A17951DF3005C7E62 /* SampleAnimationTree.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationTree.hxx; sourceTree = "<group>"; };
+		6FDF1A9B17951DF3005C7E62 /* main-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "main-ios.mm"; sourceTree = "<group>"; };
+		6FDF1A9F17951DF3005C7E62 /* SampleCharaControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleCharaControl.h; sourceTree = "<group>"; };
+		6FDF1AA017951DF3005C7E62 /* SampleCharaControl.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleCharaControl.hxx; sourceTree = "<group>"; };
+		6FDF1AA117951DF3005C7E62 /* SampleRigidBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleRigidBody.h; sourceTree = "<group>"; };
+		6FDF1AA217951DF3005C7E62 /* SampleRigidBody.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleRigidBody.hxx; sourceTree = "<group>"; };
+		6FDF1AA417951DF3005C7E62 /* SampleLighting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleLighting.h; sourceTree = "<group>"; };
+		6FDF1AA517951DF3005C7E62 /* SampleLighting.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleLighting.hxx; sourceTree = "<group>"; };
+		6FDF1AA617951DF3005C7E62 /* SampleShadowMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleShadowMap.h; sourceTree = "<group>"; };
+		6FDF1AA717951DF3005C7E62 /* SampleShadowMap.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleShadowMap.hxx; sourceTree = "<group>"; };
+		6FDF1AA817951DF3005C7E62 /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
+		6FDF1AA917951DF3005C7E62 /* Sample.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sample.hxx; sourceTree = "<group>"; };
+		6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleBrowser.cpp; sourceTree = "<group>"; };
+		6FDF1AAB17951DF3005C7E62 /* SampleBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleBrowser.h; sourceTree = "<group>"; };
+		6FDF1AAD17951DF3005C7E62 /* SampleMonoScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMonoScript.h; sourceTree = "<group>"; };
+		6FDF1AAE17951DF3005C7E62 /* SampleMonoScript.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleMonoScript.hxx; sourceTree = "<group>"; };
+		6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestCSharp.cs; sourceTree = "<group>"; };
+		6FDF1AB317951DF3005C7E62 /* SampleSceneSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleSceneSerialize.h; sourceTree = "<group>"; };
+		6FDF1AB417951DF3005C7E62 /* SampleSceneSerialize.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleSceneSerialize.hxx; sourceTree = "<group>"; };
+		6FDF1AB517951DF3005C7E62 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6FDF1AB617951DF3005C7E62 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FDF1AFD1795233B005C7E62 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
+		6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
+		6FDF1AFF1795233B005C7E62 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
+		6FDF1B001795233B005C7E62 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
+		6FDF1B011795233B005C7E62 /* libFramwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFramwork.a; path = .././lib/libFramwork.a; sourceTree = "<group>"; };
+		6FDF1B021795233B005C7E62 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
+		6FDF1B031795233B005C7E62 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
+		6FDF1B0B179524FB005C7E62 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		6FDF1B0D1795250B005C7E62 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6FDF1B0F17952519005C7E62 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6FDF1B1117952521005C7E62 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6FDF1B1317952541005C7E62 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6FDF1B1517952552005C7E62 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FDF1A7217951DA5005C7E62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */,
+				6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */,
+				6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */,
+				6FDF1B1017952519005C7E62 /* CoreGraphics.framework in Frameworks */,
+				6FDF1B0E1795250B005C7E62 /* Foundation.framework in Frameworks */,
+				6FDF1B0C179524FB005C7E62 /* OpenGLES.framework in Frameworks */,
+				6FDF1B041795233B005C7E62 /* libAnimation.a in Frameworks */,
+				6FDF1B051795233B005C7E62 /* libBulletPhysics.a in Frameworks */,
+				6FDF1B061795233B005C7E62 /* libCommon.a in Frameworks */,
+				6FDF1B071795233B005C7E62 /* libEngine.a in Frameworks */,
+				6FDF1B081795233B005C7E62 /* libFramwork.a in Frameworks */,
+				6FDF1B091795233B005C7E62 /* libGLESRender.a in Frameworks */,
+				6FDF1B0A1795233B005C7E62 /* libUI.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6FDF1A6C17951DA5005C7E62 = {
+			isa = PBXGroup;
+			children = (
+				6F49EE4B17957FCD00EF1CCE /* data */,
+				6FDF1AFD1795233B005C7E62 /* libAnimation.a */,
+				6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */,
+				6FDF1AFF1795233B005C7E62 /* libCommon.a */,
+				6FDF1B001795233B005C7E62 /* libEngine.a */,
+				6FDF1B011795233B005C7E62 /* libFramwork.a */,
+				6FDF1B021795233B005C7E62 /* libGLESRender.a */,
+				6FDF1B031795233B005C7E62 /* libUI.a */,
+				6FDF1A9517951DF3005C7E62 /* Samples */,
+				6FDF1A7717951DA5005C7E62 /* Frameworks */,
+				6FDF1A7617951DA5005C7E62 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FDF1A7617951DA5005C7E62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FDF1A7717951DA5005C7E62 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1B1517952552005C7E62 /* CoreMotion.framework */,
+				6FDF1B1317952541005C7E62 /* QuartzCore.framework */,
+				6FDF1B1117952521005C7E62 /* UIKit.framework */,
+				6FDF1B0F17952519005C7E62 /* CoreGraphics.framework */,
+				6FDF1B0D1795250B005C7E62 /* Foundation.framework */,
+				6FDF1B0B179524FB005C7E62 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6FDF1A9517951DF3005C7E62 /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1A9B17951DF3005C7E62 /* main-ios.mm */,
+				6FDF1AA817951DF3005C7E62 /* Sample.h */,
+				6FDF1AA917951DF3005C7E62 /* Sample.hxx */,
+				6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */,
+				6FDF1AAB17951DF3005C7E62 /* SampleBrowser.h */,
+				6FDF1AB517951DF3005C7E62 /* stdafx.cpp */,
+				6FDF1AB617951DF3005C7E62 /* stdafx.h */,
+				6FDF1A9617951DF3005C7E62 /* Animation */,
+				6FDF1A9E17951DF3005C7E62 /* Physics */,
+				6FDF1AA317951DF3005C7E62 /* Render */,
+				6FDF1AAC17951DF3005C7E62 /* Script */,
+				6FDF1AB017951DF3005C7E62 /* Serialize */,
+				6FDF1AB717951DF3005C7E62 /* UI */,
+			);
+			name = Samples;
+			path = ../../../code/Samples;
+			sourceTree = "<group>";
+		};
+		6FDF1A9617951DF3005C7E62 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */,
+				6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */,
+				6FDF1A9917951DF3005C7E62 /* SampleAnimationTree.h */,
+				6FDF1A9A17951DF3005C7E62 /* SampleAnimationTree.hxx */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		6FDF1A9E17951DF3005C7E62 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1A9F17951DF3005C7E62 /* SampleCharaControl.h */,
+				6FDF1AA017951DF3005C7E62 /* SampleCharaControl.hxx */,
+				6FDF1AA117951DF3005C7E62 /* SampleRigidBody.h */,
+				6FDF1AA217951DF3005C7E62 /* SampleRigidBody.hxx */,
+			);
+			path = Physics;
+			sourceTree = "<group>";
+		};
+		6FDF1AA317951DF3005C7E62 /* Render */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1AA417951DF3005C7E62 /* SampleLighting.h */,
+				6FDF1AA517951DF3005C7E62 /* SampleLighting.hxx */,
+				6FDF1AA617951DF3005C7E62 /* SampleShadowMap.h */,
+				6FDF1AA717951DF3005C7E62 /* SampleShadowMap.hxx */,
+			);
+			path = Render;
+			sourceTree = "<group>";
+		};
+		6FDF1AAC17951DF3005C7E62 /* Script */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1AAD17951DF3005C7E62 /* SampleMonoScript.h */,
+				6FDF1AAE17951DF3005C7E62 /* SampleMonoScript.hxx */,
+				6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */,
+			);
+			path = Script;
+			sourceTree = "<group>";
+		};
+		6FDF1AB017951DF3005C7E62 /* Serialize */ = {
+			isa = PBXGroup;
+			children = (
+				6FDF1AB317951DF3005C7E62 /* SampleSceneSerialize.h */,
+				6FDF1AB417951DF3005C7E62 /* SampleSceneSerialize.hxx */,
+			);
+			path = Serialize;
+			sourceTree = "<group>";
+		};
+		6FDF1AB717951DF3005C7E62 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FDF1A7417951DA5005C7E62 /* SampleBrowser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FDF1A9217951DA6005C7E62 /* Build configuration list for PBXNativeTarget "SampleBrowser" */;
+			buildPhases = (
+				6FDF1A7117951DA5005C7E62 /* Sources */,
+				6FDF1A7217951DA5005C7E62 /* Frameworks */,
+				6FDF1A7317951DA5005C7E62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SampleBrowser;
+			productName = SampleBrowser;
+			productReference = 6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FDF1A6D17951DA5005C7E62 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FDF1A7017951DA5005C7E62 /* Build configuration list for PBXProject "SampleBrowser" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FDF1A6C17951DA5005C7E62;
+			productRefGroup = 6FDF1A7617951DA5005C7E62 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FDF1A7417951DA5005C7E62 /* SampleBrowser */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6FDF1A7317951DA5005C7E62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FDF1ABC17951DF3005C7E62 /* TestCSharp.cs in Resources */,
+				6F49EE4C17957FCD00EF1CCE /* data in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FDF1A7117951DA5005C7E62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */,
+				6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */,
+				6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FDF1A9017951DA6005C7E62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6FDF1A9117951DA6005C7E62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FDF1A9317951DA6005C7E62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../../Code/,
+					../../../Code/Plugin/,
+					../../../extern/Include/,
+				);
+				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6FDF1A9417951DA6005C7E62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../../Code/,
+					../../../Code/Plugin/,
+					../../../extern/Include/,
+				);
+				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FDF1A7017951DA5005C7E62 /* Build configuration list for PBXProject "SampleBrowser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FDF1A9017951DA6005C7E62 /* Debug */,
+				6FDF1A9117951DA6005C7E62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FDF1A9217951DA6005C7E62 /* Build configuration list for PBXNativeTarget "SampleBrowser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FDF1A9317951DA6005C7E62 /* Debug */,
+				6FDF1A9417951DA6005C7E62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FDF1A6D17951DA5005C7E62 /* Project object */;
+}

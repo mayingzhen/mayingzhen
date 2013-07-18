@@ -1,0 +1,295 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6FB7D7991796760B00D771E5 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7951796760B00D771E5 /* Module.cpp */; };
+		6FB7D79A1796760B00D771E5 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7971796760B00D771E5 /* stdafx.cpp */; };
+		6FD5653017952B3100B4C59A /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD5652F17952B3100B4C59A /* libDevIL.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FA78E58179430A1005B3CD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6FA78E5A179430A1005B3CD6 /* libGLESRender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGLESRender.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FB7D7831796760B00D771E5 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6FB7D7841796760B00D771E5 /* GLESBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESBase.h; sourceTree = "<group>"; };
+		6FB7D7851796760B00D771E5 /* GLESIndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESIndexBuffer.h; sourceTree = "<group>"; };
+		6FB7D7861796760B00D771E5 /* GLESIndexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESIndexBuffer.hxx; sourceTree = "<group>"; };
+		6FB7D7871796760B00D771E5 /* GLESMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMapping.h; sourceTree = "<group>"; };
+		6FB7D7881796760B00D771E5 /* GLESMapping.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESMapping.hxx; sourceTree = "<group>"; };
+		6FB7D7891796760B00D771E5 /* GLESRenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderDevice.h; sourceTree = "<group>"; };
+		6FB7D78A1796760B00D771E5 /* GLESRenderDevice.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESRenderDevice.hxx; sourceTree = "<group>"; };
+		6FB7D78B1796760B00D771E5 /* GLESRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderTarget.h; sourceTree = "<group>"; };
+		6FB7D78C1796760B00D771E5 /* GLESRenderTarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESRenderTarget.hxx; sourceTree = "<group>"; };
+		6FB7D78D1796760B00D771E5 /* GLESShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESShaderProgram.h; sourceTree = "<group>"; };
+		6FB7D78E1796760B00D771E5 /* GLESShaderProgram.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESShaderProgram.hxx; sourceTree = "<group>"; };
+		6FB7D78F1796760B00D771E5 /* GLESTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESTexture.h; sourceTree = "<group>"; };
+		6FB7D7901796760B00D771E5 /* GLESTexture.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESTexture.hxx; sourceTree = "<group>"; };
+		6FB7D7911796760B00D771E5 /* GLESVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexBuffer.h; sourceTree = "<group>"; };
+		6FB7D7921796760B00D771E5 /* GLESVertexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexBuffer.hxx; sourceTree = "<group>"; };
+		6FB7D7931796760B00D771E5 /* GLESVertexDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexDeclaration.h; sourceTree = "<group>"; };
+		6FB7D7941796760B00D771E5 /* GLESVertexDeclaration.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexDeclaration.hxx; sourceTree = "<group>"; };
+		6FB7D7951796760B00D771E5 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6FB7D7961796760B00D771E5 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6FB7D7971796760B00D771E5 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6FB7D7981796760B00D771E5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FD5652F17952B3100B4C59A /* libDevIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDevIL.a; path = ../../extern/DevIL/lib/libDevIL.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FA78E57179430A1005B3CD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FD5653017952B3100B4C59A /* libDevIL.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6FA78E51179430A1005B3CD6 = {
+			isa = PBXGroup;
+			children = (
+				6FB7D7821796760B00D771E5 /* GLESRender */,
+				6FD5652F17952B3100B4C59A /* libDevIL.a */,
+				6FA78E5B179430A1005B3CD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FA78E5B179430A1005B3CD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78E5A179430A1005B3CD6 /* libGLESRender.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FB7D7821796760B00D771E5 /* GLESRender */ = {
+			isa = PBXGroup;
+			children = (
+				6FB7D7831796760B00D771E5 /* Export.h */,
+				6FB7D7841796760B00D771E5 /* GLESBase.h */,
+				6FB7D7851796760B00D771E5 /* GLESIndexBuffer.h */,
+				6FB7D7861796760B00D771E5 /* GLESIndexBuffer.hxx */,
+				6FB7D7871796760B00D771E5 /* GLESMapping.h */,
+				6FB7D7881796760B00D771E5 /* GLESMapping.hxx */,
+				6FB7D7891796760B00D771E5 /* GLESRenderDevice.h */,
+				6FB7D78A1796760B00D771E5 /* GLESRenderDevice.hxx */,
+				6FB7D78B1796760B00D771E5 /* GLESRenderTarget.h */,
+				6FB7D78C1796760B00D771E5 /* GLESRenderTarget.hxx */,
+				6FB7D78D1796760B00D771E5 /* GLESShaderProgram.h */,
+				6FB7D78E1796760B00D771E5 /* GLESShaderProgram.hxx */,
+				6FB7D78F1796760B00D771E5 /* GLESTexture.h */,
+				6FB7D7901796760B00D771E5 /* GLESTexture.hxx */,
+				6FB7D7911796760B00D771E5 /* GLESVertexBuffer.h */,
+				6FB7D7921796760B00D771E5 /* GLESVertexBuffer.hxx */,
+				6FB7D7931796760B00D771E5 /* GLESVertexDeclaration.h */,
+				6FB7D7941796760B00D771E5 /* GLESVertexDeclaration.hxx */,
+				6FB7D7951796760B00D771E5 /* Module.cpp */,
+				6FB7D7961796760B00D771E5 /* Module.h */,
+				6FB7D7971796760B00D771E5 /* stdafx.cpp */,
+				6FB7D7981796760B00D771E5 /* stdafx.h */,
+			);
+			name = GLESRender;
+			path = ../../code/Plugin/GLESRender;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FA78E59179430A1005B3CD6 /* GLESRender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FA78E68179430A1005B3CD6 /* Build configuration list for PBXNativeTarget "GLESRender" */;
+			buildPhases = (
+				6FA78E56179430A1005B3CD6 /* Sources */,
+				6FA78E57179430A1005B3CD6 /* Frameworks */,
+				6FA78E58179430A1005B3CD6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GLESRender;
+			productName = GLESRender;
+			productReference = 6FA78E5A179430A1005B3CD6 /* libGLESRender.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FA78E52179430A1005B3CD6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FA78E55179430A1005B3CD6 /* Build configuration list for PBXProject "GLESRender" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FA78E51179430A1005B3CD6;
+			productRefGroup = 6FA78E5B179430A1005B3CD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FA78E59179430A1005B3CD6 /* GLESRender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FA78E56179430A1005B3CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FB7D7991796760B00D771E5 /* Module.cpp in Sources */,
+				6FB7D79A1796760B00D771E5 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FA78E66179430A1005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FA78E67179430A1005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FA78E69179430A1005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/GLESRender.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/GLESRender/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/DevIL/include/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/DevIL/lib\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FA78E6A179430A1005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/GLESRender.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/GLESRender/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/DevIL/include/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/DevIL/lib\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FA78E55179430A1005B3CD6 /* Build configuration list for PBXProject "GLESRender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E66179430A1005B3CD6 /* Debug */,
+				6FA78E67179430A1005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FA78E68179430A1005B3CD6 /* Build configuration list for PBXNativeTarget "GLESRender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E69179430A1005B3CD6 /* Debug */,
+				6FA78E6A179430A1005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FA78E52179430A1005B3CD6 /* Project object */;
+}

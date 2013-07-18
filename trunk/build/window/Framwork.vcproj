@@ -196,6 +196,10 @@
 				RelativePath="..\..\Code\Framwork\SceneNode.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Framwork\SceneVisiter.h"
+				>
+			</File>
 			<Filter
 				Name="Component"
 				>
@@ -221,6 +225,14 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Framwork\Component\Component.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Framwork\Component\JointComponent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Framwork\Component\JointComponent.hxx"
 					>
 				</File>
 				<File

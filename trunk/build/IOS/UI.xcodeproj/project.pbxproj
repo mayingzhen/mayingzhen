@@ -1,0 +1,321 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6FA78F32179431E0005B3CD6 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FA78F22179431E0005B3CD6 /* Module.cpp */; };
+		6FA78F33179431E0005B3CD6 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FA78F28179431E0005B3CD6 /* stdafx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FA78EDB17943184005B3CD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6FA78EDD17943184005B3CD6 /* libUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FA78F09179431E0005B3CD6 /* AbsoluteLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbsoluteLayout.h; sourceTree = "<group>"; };
+		6FA78F0A179431E0005B3CD6 /* AbsoluteLayout.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AbsoluteLayout.hxx; sourceTree = "<group>"; };
+		6FA78F0B179431E0005B3CD6 /* Bundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bundle.h; sourceTree = "<group>"; };
+		6FA78F0C179431E0005B3CD6 /* Bundle.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bundle.hxx; sourceTree = "<group>"; };
+		6FA78F0D179431E0005B3CD6 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		6FA78F0E179431E0005B3CD6 /* Button.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Button.hxx; sourceTree = "<group>"; };
+		6FA78F0F179431E0005B3CD6 /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
+		6FA78F10179431E0005B3CD6 /* CheckBox.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CheckBox.hxx; sourceTree = "<group>"; };
+		6FA78F11179431E0005B3CD6 /* Container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Container.h; sourceTree = "<group>"; };
+		6FA78F12179431E0005B3CD6 /* Container.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Container.hxx; sourceTree = "<group>"; };
+		6FA78F13179431E0005B3CD6 /* Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Control.h; sourceTree = "<group>"; };
+		6FA78F14179431E0005B3CD6 /* Control.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Control.hxx; sourceTree = "<group>"; };
+		6FA78F15179431E0005B3CD6 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6FA78F16179431E0005B3CD6 /* FlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlowLayout.h; sourceTree = "<group>"; };
+		6FA78F17179431E0005B3CD6 /* FlowLayout.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FlowLayout.hxx; sourceTree = "<group>"; };
+		6FA78F18179431E0005B3CD6 /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		6FA78F19179431E0005B3CD6 /* Font.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hxx; sourceTree = "<group>"; };
+		6FA78F1A179431E0005B3CD6 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
+		6FA78F1B179431E0005B3CD6 /* Form.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Form.hxx; sourceTree = "<group>"; };
+		6FA78F1C179431E0005B3CD6 /* ImageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageControl.h; sourceTree = "<group>"; };
+		6FA78F1D179431E0005B3CD6 /* ImageControl.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageControl.hxx; sourceTree = "<group>"; };
+		6FA78F1E179431E0005B3CD6 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
+		6FA78F1F179431E0005B3CD6 /* Label.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Label.hxx; sourceTree = "<group>"; };
+		6FA78F20179431E0005B3CD6 /* Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layout.h; sourceTree = "<group>"; };
+		6FA78F21179431E0005B3CD6 /* Layout.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layout.hxx; sourceTree = "<group>"; };
+		6FA78F22179431E0005B3CD6 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6FA78F23179431E0005B3CD6 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6FA78F24179431E0005B3CD6 /* RadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RadioButton.h; sourceTree = "<group>"; };
+		6FA78F25179431E0005B3CD6 /* RadioButton.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RadioButton.hxx; sourceTree = "<group>"; };
+		6FA78F26179431E0005B3CD6 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		6FA78F27179431E0005B3CD6 /* Slider.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Slider.hxx; sourceTree = "<group>"; };
+		6FA78F28179431E0005B3CD6 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6FA78F29179431E0005B3CD6 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FA78F2A179431E0005B3CD6 /* TextBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextBox.h; sourceTree = "<group>"; };
+		6FA78F2B179431E0005B3CD6 /* TextBox.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextBox.hxx; sourceTree = "<group>"; };
+		6FA78F2C179431E0005B3CD6 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		6FA78F2D179431E0005B3CD6 /* Theme.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Theme.hxx; sourceTree = "<group>"; };
+		6FA78F2E179431E0005B3CD6 /* ThemeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeStyle.h; sourceTree = "<group>"; };
+		6FA78F2F179431E0005B3CD6 /* ThemeStyle.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThemeStyle.hxx; sourceTree = "<group>"; };
+		6FA78F30179431E0005B3CD6 /* VerticalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticalLayout.h; sourceTree = "<group>"; };
+		6FA78F31179431E0005B3CD6 /* VerticalLayout.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VerticalLayout.hxx; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FA78EDA17943184005B3CD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6FA78ED417943183005B3CD6 = {
+			isa = PBXGroup;
+			children = (
+				6FA78F08179431E0005B3CD6 /* UI */,
+				6FA78EDE17943184005B3CD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FA78EDE17943184005B3CD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78EDD17943184005B3CD6 /* libUI.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FA78F08179431E0005B3CD6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78F09179431E0005B3CD6 /* AbsoluteLayout.h */,
+				6FA78F0A179431E0005B3CD6 /* AbsoluteLayout.hxx */,
+				6FA78F0B179431E0005B3CD6 /* Bundle.h */,
+				6FA78F0C179431E0005B3CD6 /* Bundle.hxx */,
+				6FA78F0D179431E0005B3CD6 /* Button.h */,
+				6FA78F0E179431E0005B3CD6 /* Button.hxx */,
+				6FA78F0F179431E0005B3CD6 /* CheckBox.h */,
+				6FA78F10179431E0005B3CD6 /* CheckBox.hxx */,
+				6FA78F11179431E0005B3CD6 /* Container.h */,
+				6FA78F12179431E0005B3CD6 /* Container.hxx */,
+				6FA78F13179431E0005B3CD6 /* Control.h */,
+				6FA78F14179431E0005B3CD6 /* Control.hxx */,
+				6FA78F15179431E0005B3CD6 /* Export.h */,
+				6FA78F16179431E0005B3CD6 /* FlowLayout.h */,
+				6FA78F17179431E0005B3CD6 /* FlowLayout.hxx */,
+				6FA78F18179431E0005B3CD6 /* Font.h */,
+				6FA78F19179431E0005B3CD6 /* Font.hxx */,
+				6FA78F1A179431E0005B3CD6 /* Form.h */,
+				6FA78F1B179431E0005B3CD6 /* Form.hxx */,
+				6FA78F1C179431E0005B3CD6 /* ImageControl.h */,
+				6FA78F1D179431E0005B3CD6 /* ImageControl.hxx */,
+				6FA78F1E179431E0005B3CD6 /* Label.h */,
+				6FA78F1F179431E0005B3CD6 /* Label.hxx */,
+				6FA78F20179431E0005B3CD6 /* Layout.h */,
+				6FA78F21179431E0005B3CD6 /* Layout.hxx */,
+				6FA78F22179431E0005B3CD6 /* Module.cpp */,
+				6FA78F23179431E0005B3CD6 /* Module.h */,
+				6FA78F24179431E0005B3CD6 /* RadioButton.h */,
+				6FA78F25179431E0005B3CD6 /* RadioButton.hxx */,
+				6FA78F26179431E0005B3CD6 /* Slider.h */,
+				6FA78F27179431E0005B3CD6 /* Slider.hxx */,
+				6FA78F28179431E0005B3CD6 /* stdafx.cpp */,
+				6FA78F29179431E0005B3CD6 /* stdafx.h */,
+				6FA78F2A179431E0005B3CD6 /* TextBox.h */,
+				6FA78F2B179431E0005B3CD6 /* TextBox.hxx */,
+				6FA78F2C179431E0005B3CD6 /* Theme.h */,
+				6FA78F2D179431E0005B3CD6 /* Theme.hxx */,
+				6FA78F2E179431E0005B3CD6 /* ThemeStyle.h */,
+				6FA78F2F179431E0005B3CD6 /* ThemeStyle.hxx */,
+				6FA78F30179431E0005B3CD6 /* VerticalLayout.h */,
+				6FA78F31179431E0005B3CD6 /* VerticalLayout.hxx */,
+			);
+			name = UI;
+			path = ../../code/Plugin/UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FA78EDC17943184005B3CD6 /* UI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FA78EEB17943184005B3CD6 /* Build configuration list for PBXNativeTarget "UI" */;
+			buildPhases = (
+				6FA78ED917943184005B3CD6 /* Sources */,
+				6FA78EDA17943184005B3CD6 /* Frameworks */,
+				6FA78EDB17943184005B3CD6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UI;
+			productName = UI;
+			productReference = 6FA78EDD17943184005B3CD6 /* libUI.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FA78ED517943183005B3CD6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FA78ED817943183005B3CD6 /* Build configuration list for PBXProject "UI" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FA78ED417943183005B3CD6;
+			productRefGroup = 6FA78EDE17943184005B3CD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FA78EDC17943184005B3CD6 /* UI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FA78ED917943184005B3CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FA78F32179431E0005B3CD6 /* Module.cpp in Sources */,
+				6FA78F33179431E0005B3CD6 /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FA78EE917943184005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FA78EEA17943184005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FA78EEC17943184005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/UI.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Code/plugin/UI/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin/,
+					../../Extern/Include/,
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FA78EED17943184005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/UI.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Code/plugin/UI/stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../Code/,
+					../../Code/Plugin/,
+					../../Extern/Include/,
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FA78ED817943183005B3CD6 /* Build configuration list for PBXProject "UI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78EE917943184005B3CD6 /* Debug */,
+				6FA78EEA17943184005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FA78EEB17943184005B3CD6 /* Build configuration list for PBXNativeTarget "UI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78EEC17943184005B3CD6 /* Debug */,
+				6FA78EED17943184005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FA78ED517943183005B3CD6 /* Project object */;
+}

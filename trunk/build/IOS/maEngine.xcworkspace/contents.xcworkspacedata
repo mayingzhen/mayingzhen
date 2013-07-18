@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:SampleBrowser/SampleBrowser.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Plugin">
+      <FileRef
+         location = "group:GLESRender.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:BulletPhysics.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:UI.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Animation.xcodeproj">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:Framwork.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Engine.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Common.xcodeproj">
+   </FileRef>
+</Workspace>
