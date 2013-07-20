@@ -106,7 +106,7 @@ namespace ma
 		//IDirect3DVertexDeclaration9*  m_pVertexDeclaration;
 		std::list<TerrainLiquid::POINT>	m_pTempGridArray;
 
-		std::vector<Texture*/*LPDIRECT3DTEXTURE9*/> m_allFrameTex;
+		std::vector<Texture*> m_allFrameTex;
 		/*LPDIRECT3DTEXTURE9*/Texture* m_pDepthTex;
 
 		/*LPDIRECT3DTEXTURE9*/RenderTarget* m_ReflectionTexture;

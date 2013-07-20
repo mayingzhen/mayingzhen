@@ -41,10 +41,10 @@ restrictions:
 
 	So, if wanting to link against DLL version, just uncomment these lines.
 */
-#ifdef OIS_DYNAMIC_LIB
-#  undef OIS_DYNAMIC_LIB
-#endif
-#define OIS_DYNAMIC_LIB
+//#ifdef OIS_DYNAMIC_LIB
+//#  undef OIS_DYNAMIC_LIB
+//#endif
+//#define OIS_DYNAMIC_LIB
 
 /**
 @remarks

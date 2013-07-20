@@ -84,6 +84,7 @@
 
 
 // Input
+#include "Engine/Input/Input.hxx"
 //#include "Engine/Input/Joystick.hxx"
 //#include "Engine/Input/Gamepad.hxx"
 

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/DevIL/include"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/DevIL/include;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

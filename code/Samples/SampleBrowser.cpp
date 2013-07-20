@@ -1,6 +1,7 @@
 #include "Samples/stdafx.h"
 #include "SampleBrowser.h"
 
+#include "CameraController.hxx"
 #include "Sample.hxx"
 
 //#include "Samples/Serialize/SampleFbxImport.hxx"
@@ -26,6 +27,7 @@ namespace ma
 		m_curSampleIndex = 1;
 
 		SetTimer(&m_Timer);
+		SetInput(&m_Input);
 
 		m_pLineRender = new LineRender();
 	}
@@ -51,6 +53,8 @@ namespace ma
 		//GLESRenderModuleInit();
 
 		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
+
+		m_Input.Init(Platform::GetInstance().GetWindId());
 
 		m_arrSamples[m_curSampleIndex]->Init();
 
@@ -82,35 +86,35 @@ namespace ma
 // 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
 
-		Theme* theme = Theme::create("ui/default.theme");
-		Theme::Style* formStyle = theme->getStyle("basicContainer");
-		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
-		Theme::Style* titleStyle = theme->getStyle("title");	
-		
-		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
-		//m_pSampleSelectForm->setAutoHeight(true);
-		//m_pSampleSelectForm->setWidth(200.0f);
-		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
-		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
-		m_pSampleSelectForm->setConsumeInputEvents(true);
-
-		Button* sampleButton = Button::create("xxxx", buttonStyle);
-		sampleButton->setText("xxxx");
-		sampleButton->setAutoWidth(true);
-		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-		sampleButton->addListener(this, Control::Listener::CLICK);
-		m_pSampleSelectForm->addControl(sampleButton);
-
-		{
-			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
-			sampleButton->setText("xxxxTT");
-			sampleButton->setAutoWidth(true);
-			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-			sampleButton->addListener(this, Control::Listener::CLICK);
-			m_pSampleSelectForm->addControl(sampleButton);
-		}
+// 		Theme* theme = Theme::create("ui/default.theme");
+// 		Theme::Style* formStyle = theme->getStyle("basicContainer");
+// 		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
+// 		Theme::Style* titleStyle = theme->getStyle("title");	
+// 		
+// 		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
+// 		//m_pSampleSelectForm->setAutoHeight(true);
+// 		//m_pSampleSelectForm->setWidth(200.0f);
+// 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
+// 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
+// 		m_pSampleSelectForm->setConsumeInputEvents(true);
+// 
+// 		Button* sampleButton = Button::create("xxxx", buttonStyle);
+// 		sampleButton->setText("xxxx");
+// 		sampleButton->setAutoWidth(true);
+// 		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+// 		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+// 		sampleButton->addListener(this, Control::Listener::CLICK);
+// 		m_pSampleSelectForm->addControl(sampleButton);
+// 
+// 		{
+// 			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
+// 			sampleButton->setText("xxxxTT");
+// 			sampleButton->setAutoWidth(true);
+// 			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+// 			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+// 			sampleButton->addListener(this, Control::Listener::CLICK);
+// 			m_pSampleSelectForm->addControl(sampleButton);
+// 		}
 
 	}
 
@@ -121,6 +125,8 @@ namespace ma
 
 	void SampleBrowser::Update()
 	{
+		m_Input.Capture();
+
 		m_Timer.UpdateFrame();
 
         if (GetDataThread())
@@ -130,7 +136,7 @@ namespace ma
 			m_arrSamples[m_curSampleIndex]->Update();
 		
 
-		m_pSampleSelectForm->update(m_Timer.GetFrameDeltaTime());
+		//m_pSampleSelectForm->update(m_Timer.GetFrameDeltaTime());
 	}
 
 	void SampleBrowser::Render()
@@ -154,39 +160,39 @@ namespace ma
 	}
 
 	///// Input
-	void SampleBrowser::keyEvent(Keyboard::KeyEvent evt, int key)
-	{
-		
-	}
+// 	void SampleBrowser::keyEvent(Keyboard::KeyEvent evt, int key)
+// 	{
+// 		
+// 	}
+// 
+// 	void SampleBrowser::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
+// 	{
+// 
+// 	}
 
-	void SampleBrowser::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
-	{
+// 	bool SampleBrowser::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+// 	{
+// 		if ( Form::mouseEventInternal(evt,x,y,wheelDelta) )
+// 			return true;
+// 	
+// 		if (m_arrSamples[m_curSampleIndex])
+// 			m_arrSamples[m_curSampleIndex]->mouseEvent(evt,x,y,wheelDelta);
+// 
+// 		return true;
+// 	}
 
-	}
+// 	void SampleBrowser::resizeEvent(unsigned int width, unsigned int height)
+// 	{
+// 
+// 	}
 
-	bool SampleBrowser::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
-	{
-		if ( Form::mouseEventInternal(evt,x,y,wheelDelta) )
-			return true;
-	
-		if (m_arrSamples[m_curSampleIndex])
-			m_arrSamples[m_curSampleIndex]->mouseEvent(evt,x,y,wheelDelta);
-
-		return true;
-	}
-
-	void SampleBrowser::resizeEvent(unsigned int width, unsigned int height)
-	{
-
-	}
-
-	void SampleBrowser::controlEvent(Control* control, EventType evt)
-	{
-		ASSERT(control);
-		if (control == NULL)
-			return;
-
-		//control->setText()
-	}
+// 	void SampleBrowser::controlEvent(Control* control, EventType evt)
+// 	{
+// 		ASSERT(control);
+// 		if (control == NULL)
+// 			return;
+// 
+// 		//control->setText()
+// 	}
 }
 

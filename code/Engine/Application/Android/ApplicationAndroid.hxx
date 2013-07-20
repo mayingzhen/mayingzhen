@@ -46,50 +46,73 @@ namespace ma
 
 	int32_t Platform::InputProc(android_app* app, AInputEvent* event)
 	{
-		if (app == NULL || event == NULL)
-			return 0;
-
-		Input* pInput = GetInput(); 
-		if (pInput == NULL)
-			return 0;
-
-		Platform* pApplication = static_cast<Platform*>(app->userData);
-		int32_t nEventType = AInputEvent_getType(event);
-		if (nEventType == AINPUT_EVENT_TYPE_MOTION)
-		{	
-			int32_t nMotinAction = AMotionEvent_getAction(event);
-			int posx = AMotionEvent_getX(event,0);
-			int posy = AMotionEvent_getY(event,0);
-			if (nMotinAction == AMOTION_EVENT_ACTION_DOWN)
+	
+		
+		if (mInputInjector)
+		{
+			if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
 			{
-				OIS::MouseState ms = * pInput->GetMouseState();
-				ms.X.rel = posx - ms.X.abs;
-				ms.X.abs = posx;
-				ms.Y.rel = posy - ms.Y.abs;
-				ms.Y.abs = posy;
-				OIS::MouseButtonID iBtn = OIS::MB_Left;
-			
-				ms.buttons |= (1L << iBtn);
-				OIS::MouseEvent arg(NULL,ms);
-				pInput->InjectMousePressed(arg,iBtn);
-			
-			}
-			else if (nMotinAction == AMOTION_EVENT_ACTION_UP)
-			{
-				OIS::MouseState ms = * pInput->GetMouseState();
-				ms.X.rel = posx - ms.X.abs;
-				ms.X.abs = posx;
-				ms.Y.rel = posy - ms.Y.abs;
-				ms.Y.abs = posy;
-				OIS::MouseButtonID iBtn = OIS::MB_Left;
+				int action = (int)(AMOTION_EVENT_ACTION_MASK & AMotionEvent_getAction(event));
 
-				ms.buttons |= (1L << iBtn);
-				OIS::MouseEvent arg(NULL,ms);
-				pInput->InjectMouseReleased(arg,iBtn);
+				if(action == 0)
+					mInputInjector->injectTouchEvent(2, AMotionEvent_getRawX(event, 0), AMotionEvent_getRawY(event, 0) );
+
+				mInputInjector->injectTouchEvent(action, AMotionEvent_getRawX(event, 0), AMotionEvent_getRawY(event, 0) );
 			}
+			else 
+			{
+				mInputInjector->injectKeyEvent(AKeyEvent_getAction(event), AKeyEvent_getKeyCode(event));
+			}
+
+			return 1;
 		}
-
 		return 0;
+
+
+// 		if (app == NULL || event == NULL)
+// 			return 0;
+// 
+// 		Input* pInput = GetInput(); 
+// 		if (pInput == NULL)
+// 			return 0;
+// 
+// 		Platform* pApplication = static_cast<Platform*>(app->userData);
+// 		int32_t nEventType = AInputEvent_getType(event);
+// 		if (nEventType == AINPUT_EVENT_TYPE_MOTION)
+// 		{	
+// 			int32_t nMotinAction = AMotionEvent_getAction(event);
+// 			int posx = AMotionEvent_getX(event,0);
+// 			int posy = AMotionEvent_getY(event,0);
+// 			if (nMotinAction == AMOTION_EVENT_ACTION_DOWN)
+// 			{
+// 				OIS::MouseState ms = * pInput->GetMouseState();
+// 				ms.X.rel = posx - ms.X.abs;
+// 				ms.X.abs = posx;
+// 				ms.Y.rel = posy - ms.Y.abs;
+// 				ms.Y.abs = posy;
+// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
+// 			
+// 				ms.buttons |= (1L << iBtn);
+// 				OIS::MouseEvent arg(NULL,ms);
+// 				pInput->InjectMousePressed(arg,iBtn);
+// 			
+// 			}
+// 			else if (nMotinAction == AMOTION_EVENT_ACTION_UP)
+// 			{
+// 				OIS::MouseState ms = * pInput->GetMouseState();
+// 				ms.X.rel = posx - ms.X.abs;
+// 				ms.X.abs = posx;
+// 				ms.Y.rel = posy - ms.Y.abs;
+// 				ms.Y.abs = posy;
+// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
+// 
+// 				ms.buttons |= (1L << iBtn);
+// 				OIS::MouseEvent arg(NULL,ms);
+// 				pInput->InjectMouseReleased(arg,iBtn);
+// 			}
+// 		}
+// 
+// 		return 0;
 	}
 
 	Platform::Platform(const char* appID):ApplicationBase(appID)
