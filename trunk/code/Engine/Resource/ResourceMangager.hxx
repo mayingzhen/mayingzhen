@@ -1,5 +1,4 @@
 #include "ResourceMangager.h"
-#include "Engine/DataThread/DataThread.h"
 
 namespace ma
 {

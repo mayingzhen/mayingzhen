@@ -1,7 +1,6 @@
 #ifndef  _IRENDTEXTURE__H__
 #define  _IRENDTEXTURE__H__
 
-#include "Common/Resource.h"
 
 namespace ma
 {

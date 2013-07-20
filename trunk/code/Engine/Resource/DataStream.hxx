@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	DataStream::DataStream(Byte* pMem, size_t size)
+	DataStream::DataStream(Byte* pMem, size_t size,const char* pFilePath)
 	{
 		m_pData = pMem;
 		m_size = size;
@@ -12,6 +12,7 @@ namespace ma
 		m_pEnd = m_pPos + size;
 		_canRead = true;
 		_canWrite = true;
+		m_sFilePath = pFilePath ? pFilePath : "";
 	}
 
 	DataStream::DataStream(size_t size)

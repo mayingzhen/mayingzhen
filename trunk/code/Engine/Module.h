@@ -54,6 +54,12 @@
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
 
+// Terrain
+#include "Engine/Terrain/Terrain.h"
+#include "Engine/Terrain/TerrainSection.h"
+#include "Engine/Terrain/TerrainLiquid.h"
+
+
 // RenderScheme
 #include "Engine/RenderSystem/RenderQueue.h"
 #include "Engine/RenderSystem/ShadowMapFrustum.h"
@@ -91,7 +97,7 @@
 #include "Engine/Physics/IPhysicsObject.h"
 #include "Engine/Physics/IPhysicsScene.h"
 #include "Engine/Physics/IRigidBody.h"
-
+#include "Engine/Physics/IPhysicsJoint.h"
 
 // script
 #include "Engine/Script/IScriptDevice.h"
@@ -112,8 +118,8 @@
 
 
 // DataThread
-#include "Engine/DataThread/AutoLock.h"
-#include "Engine/DataThread/DataThread.h"
+#include "Engine/Thread/AutoLock.h"
+#include "Engine/Thread/DataThread.h"
 
 
 

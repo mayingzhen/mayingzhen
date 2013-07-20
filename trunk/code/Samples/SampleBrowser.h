@@ -8,9 +8,9 @@ namespace ma
 	class SampleBrowser : public Game,Control::Listener
 	{
 	public:
-		SampleBrowser();
+		SampleBrowser(const char* pGameName);
 
-		virtual void Init(const Platform* pPlatform);
+		virtual void Init();
 
 		virtual void Shutdown();
 

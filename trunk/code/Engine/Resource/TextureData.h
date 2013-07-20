@@ -13,7 +13,7 @@ namespace ma
 	public:
 		TextureData(const char* pszPath = NULL);
 
-		virtual void	LoadImp(DataStream* pStream);
+		virtual void	CreateFromMemeory();
 
 		virtual bool	Save(const char* pszPath = NULL);
 

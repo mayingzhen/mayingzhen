@@ -1,45 +1,26 @@
+#ifndef _CMyEvent_IOS_H__
+#define _CMyEvent_IOS_H__
 
-#include <Foundation/Foundation.h>
 
 namespace ma
 {
 	class CMyEvent
 	{
 	public:
-		CMyEvent()
-		{
-			m_ptrCondition = [NSCondition new];
-		}
+		CMyEvent();
 
-		~CMyEvent()
-		{
-			if(m_ptrCondition)
-			{
-				[m_ptrCondition lock];
-				[m_ptrCondition release];
-				[m_ptrCondition unlock];
-				m_ptrCondition = nil;;
-			}
-		}
+		~CMyEvent();
 
-		void Wait()
-		{
-			[m_ptrCondition lock];
-			[m_ptrCondition wait];
-			[m_ptrCondition unlock];
-		}
+		void Wait();
 
-		void Signal()
-		{
-			[m_ptrCondition lock];
-			[m_ptrCondition signal];
-			[m_ptrCondition unlock];
-		}
+		void Signal();
 
-	public:
-		NSCondition* m_ptrCondition;
+	private:
+		void* m_ptrCondition;
 	};
 }
+
+#endif
 
 
 

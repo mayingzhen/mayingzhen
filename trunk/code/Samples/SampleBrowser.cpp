@@ -3,41 +3,56 @@
 
 #include "Sample.hxx"
 
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
+#include "Samples/Render/SampleTerrain.hxx"
 
 namespace ma
 {
-	static SampleBrowser __sampleBrowser;
+	static SampleBrowser __sampleBrowser("SampleBrowser");
 
-	SampleBrowser::SampleBrowser()
+	SampleBrowser::SampleBrowser(const char* pGameName)
+		:Game(pGameName)
 	{
-		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-		m_arrSamples.push_back(pSampleFbxImport);
+//		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
+//		m_arrSamples.push_back(pSampleFbxImport);
 
 		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
 		m_arrSamples.push_back(pSampleRigidBody);
 
-		m_curSampleIndex = 0;
+		SampleTerrain* PSampleTerrain = new SampleTerrain();
+		m_arrSamples.push_back(PSampleTerrain);
+
+		m_curSampleIndex = 1;
 
 		SetTimer(&m_Timer);
 
 		m_pLineRender = new LineRender();
 	}
 
-	void SampleBrowser::Init(const Platform* pPlatform)
+	void SampleBrowser::Init()
 	{
+#if PLATFORM_WIN == 1
 		FileSystem::setResourcePath("../../Data/");
+#elif PLAFTORM_IOS == 1
+		std::string sDataDir = Platform::GetInstance().GetAppPath();
+		sDataDir += "/Data/";
+		FileSystem::setResourcePath(sDataDir.c_str());
+#elif PLAFTORM_ANDROID == 1
+        
+#endif
+		
 
 		CommonModuleInit();
 		EngineModuleInit();
+        //AnimationModuleInit();
+        //BtPhysicsModuleInit();
 		D3D9RenderModuleInit();
 		//GLESRenderModuleInit();
-		//AnimationModuleInit();
 
-		GetRenderDevice()->Init(pPlatform->GetWindId());
+		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
 
-		m_arrSamples[m_curSampleIndex]->Init(pPlatform);
+		m_arrSamples[m_curSampleIndex]->Init();
 
 		m_pLineRender->Init();
 
@@ -59,7 +74,7 @@ namespace ma
 // 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
 // 
  		int nWndWidth,nWndHeigh;
- 		pPlatform->GetWindowSize(nWndWidth,nWndHeigh);
+		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 // 		float fFOV = PI / 4;
 // 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 // 		float fNearClip = 1.0f;
@@ -108,7 +123,8 @@ namespace ma
 	{
 		m_Timer.UpdateFrame();
 
-		GetDataThread()->Process();
+        if (GetDataThread())
+            GetDataThread()->Process();
 
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Update();
@@ -121,14 +137,14 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
-		RenderQueue::Clear();
+		//RenderQueue::Clear();
 
 		if (m_arrSamples[m_curSampleIndex])
 			m_arrSamples[m_curSampleIndex]->Render();
 
-		RenderQueue::Fulsh();
+		//RenderQueue::Fulsh();
 
-		m_pSampleSelectForm->draw();
+		//m_pSampleSelectForm->draw();
 
 		m_pLineRender->Start();
 		m_pLineRender->DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));

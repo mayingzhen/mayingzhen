@@ -42,15 +42,17 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SkeletonData::LoadImp(DataStream* pDataStream)
+	void SkeletonData::CreateFromMemeory()
 	{
-		ASSERT(pDataStream);
-		if (pDataStream == NULL)
+		ASSERT(m_pDataStream);
+		if (m_pDataStream == NULL)
 			return;
 
 		BinaryInputArchive inAr;
-		inAr.Open(pDataStream);
+		inAr.Open(m_pDataStream);
 		Serialize(inAr);
+
+		m_eResState = ResLoaded;
 	}
 
 	void SkeletonData::Serialize(Serializer& sl, const char* pszLable)

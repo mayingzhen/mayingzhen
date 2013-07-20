@@ -354,7 +354,7 @@ namespace ma
 		size_t read = stream->read(buffer, 1, size);
 		if (read != size)
 		{
-			GP_ERROR("Failed to read complete contents of file '%s' (amount read vs. file size: %u < %u).", filePath, read, size);
+			//GP_ERROR("Failed to read complete contents of file '%s' (amount read vs. file size: %u < %u).", filePath, read, size);
 			SAFE_DELETE_ARRAY(buffer);
 			return NULL;
 		}

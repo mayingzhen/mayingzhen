@@ -7,6 +7,7 @@
 #include "Framwork/GameObj.h"
 #include "Framwork/Scene.h"
 #include "Framwork/SceneNode.h"
+#include "Framwork/SceneVisiter.h"
 
 #include "Framwork/Component/Component.h"
 #include "Framwork/Component/AnimPlayComponent.h"

@@ -26,6 +26,8 @@ namespace ma
 		virtual void			SetAngularDamping(float fAngularDamping) = 0;
 
 		virtual float			GetAngularDamping() = 0;
+
+		virtual	void			ApplyForce(Vector3 vForce) = 0;
 	};
 }
 

@@ -24,9 +24,9 @@ namespace ma
 		{
 			Vector3 v01, v12, v02;
 
-			Vec3Normalize(&v01,&(v0 + v1));
-			Vec3Normalize(&v12,&(v1 + v2));
-			Vec3Normalize(&v02,&(v0 + v2));
+			Vec3Normalize(v01,v0 + v1);
+			Vec3Normalize(v12,v1 + v2);
+			Vec3Normalize(v02,v0 + v2);
 
 			SphereTessR(v0,  v01, v02, depth-1, indBuff, vertBuff);
 			SphereTessR(v01,  v1, v12, depth-1, indBuff, vertBuff);

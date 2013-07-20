@@ -8,7 +8,7 @@ namespace ma
 	struct Uniform;
 
 
-	class ENGINE_API ShaderProgram : public RefCountObject
+	class ENGINE_API ShaderProgram /*: public RefCountObject*/
 	{
 	public:
 
@@ -72,7 +72,7 @@ namespace ma
 	protected:
 		std::string m_id;
 		std::map<std::string, Uniform*> m_uniforms;
-		static Uniform _emptyUniform;
+		//static Uniform _emptyUniform;
 	};
 
 	/**

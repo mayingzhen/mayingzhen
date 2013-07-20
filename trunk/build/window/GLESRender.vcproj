@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/DevIL/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,9 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenGL32.lib GLU32.lib glew32.lib DevIL.lib LibJpeg.lib Libpng.lib zlib.lib"
+				AdditionalDependencies="OpenGL32.lib GLU32.lib glew32.lib DevIL_d.lib libjpeg_d.lib zlib_d.lib libpng_d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/glew/lib/windows/x86;../../extern/DevIL/lib/windows/"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"

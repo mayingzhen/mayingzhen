@@ -141,7 +141,7 @@ namespace ma
 		m_pD3DTex = pD3D9Texture;
 		m_nWidth = desc.Width;
 		m_nHeight = desc.Height;
-		m_eFormat = D3D9Mapping::GetFormat(desc.Format);
+		//m_eFormat = D3D9Mapping::GetFormat(desc.Format);
 		m_nMipLevels = pD3D9Texture->GetLevelCount();
 
 		//mLoadState = Resource::LOADED;
@@ -185,7 +185,7 @@ namespace ma
 		m_pD3DTex = pD3D9Texture;
 		m_nWidth = desc.Width;
 		m_nHeight = desc.Height;
-		m_eFormat = D3D9Mapping::GetFormat(desc.Format);
+		//m_eFormat = D3D9Mapping::GetFormat(desc.Format);
 		m_nMipLevels = pD3D9Texture->GetLevelCount();
 
 		//mLoadState = Resource::LOADED;

@@ -221,9 +221,9 @@ namespace ma
 		ilGenImages(1, &curImage);
 		ilBindImage(curImage);
 		
-		//ILenum ilImageType = ilTypeFromExt(m_);
+		ILenum ilImageType = ilTypeFromExt(pDataStream->GetFilePath());
 		
-		if( !ilLoadL( IL_TGA, pDataStream->GetData(), pDataStream->GetSize() ) )
+		if( !ilLoadL( ilImageType, pDataStream->GetData(), pDataStream->GetSize() ) )
 		{ 
 			ASSERT(false);
 			ilDeleteImages(1, &curImage);

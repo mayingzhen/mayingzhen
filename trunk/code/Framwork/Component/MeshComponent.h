@@ -1,5 +1,5 @@
-#ifndef  _MESHCOMPONENT__H__
-#define  _MESHCOMPONENT__H__
+#ifndef  _MeshComponent__H__
+#define  _MeshComponent__H__
 
 #include "Component.h"
 

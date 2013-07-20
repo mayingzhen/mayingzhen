@@ -10,12 +10,8 @@ namespace ma
 		m_fZoomSpeed = 500.0f;
 	}
 
-	void Sample::Init(const Platform* pPlatform)
+	void Sample::Init()
 	{	
-		ASSERT(pPlatform);
-		if (pPlatform == NULL)
-			return;
-
 		m_pDefaultEffect = GetRenderDevice()->CreateShaderProgram();
 		//m_pDefaultEffect->CreateFromShaderName("sprite");
 
@@ -32,11 +28,11 @@ namespace ma
 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
 
 		int nWndWidth,nWndHeigh;
-		pPlatform->GetWindowSize(nWndWidth,nWndHeigh);
+		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 		float fFOV = PI / 4;
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 1.0f;
-		float fFarClip = 3000.0f;
+		float fFarClip = 30000.0f;
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 	}
 

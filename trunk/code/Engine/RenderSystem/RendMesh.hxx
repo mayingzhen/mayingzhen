@@ -10,20 +10,20 @@ namespace ma
 	}
 
 	bool RenderMesh::LoadToMemory()
-	{		
+	{	
 		ASSERT(m_pMesData);
-		m_pMesData->Load();
+		m_pMesData->LoadFileToMemeory();
 		
 		ASSERT(m_pTextureData);
-		m_pTextureData->Load();
+		m_pTextureData->LoadFileToMemeory();
 	}
 
 	bool RenderMesh::LoadImp()
 	{
-		m_pMesData->LoadImp(m_pMesData->GetDataStream());
+		m_pMesData->CreateFromMemeory();
+		m_pTextureData->CreateFromMemeory();
+
 		InitWithData(m_pMesData);
-		
-		m_pTextureData->LoadImp(m_pTextureData->GetDataStream());
 		Sampler* sampler = Sampler::create(m_pTextureData->GetRenderTexture()); // +ref texture
 			
 		std::string sMaterFlag;
@@ -59,7 +59,9 @@ namespace ma
 		m_sknPath = pMeshPath;
 		m_texPath = pDiffueTexture;
 
-		GetDataThread()->PushBackDataObj(this);	
+		//GetDataThread()->PushBackDataObj(this);
+		this->LoadToMemory();
+		this->LoadImp();
 		
 		return true;
 	}

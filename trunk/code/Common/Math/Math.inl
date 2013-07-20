@@ -677,7 +677,7 @@ inline void  MatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF)
 }
 
 
-inline void S3ANodeVec3TransformCoord(Vector3* pOut,const Vector3* pPos,const NodeTransform* pTSF)
+inline void NodeVec3TransformCoord(Vector3* pOut,const Vector3* pPos,const NodeTransform* pTSF)
 {
 	Vector3 vPos;
 	vPos = *pPos * pTSF->m_fScale;

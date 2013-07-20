@@ -1,5 +1,5 @@
-#ifndef _Thread_h__
-#define _Thread_h__
+#ifndef _Thread_Android_h__
+#define _Thread_Android_h__
 
 
 #include <pthread.h>
@@ -34,5 +34,5 @@ namespace ma
 }
 
 
-#endif // _Thread_h__
+#endif // _Thread_Android_h__
 

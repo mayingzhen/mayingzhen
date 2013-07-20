@@ -82,31 +82,25 @@ namespace ma
 
 	public:
 		MeshData();
-
-		UINT			GetSubMeshNumber() {return m_arrSubMesh.size();}
-		SubMeshData*	GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
-
-		//void*			GetIndexBuffer() {return &m_arrIndexBuffer[0];}
-		//UINT			GetIndexBufferSize() {return m_arrIndexBuffer.size();}
-		//UINT			GetIndexType() {return m_nIndexType;}
 		
-		//void*			GetVertexBuffer() {return &m_arrVertexBuffer[0];}
-		//UINT			GetVertexBufferSize() {return m_arrVertexBuffer.size();}	
-		//UINT			GetVertexType() {return m_nVertexType;}
-		int				GetVertexStride();
+		UINT				GetSubMeshNumber() {return m_arrSubMesh.size();}
 
-		bool			InitRendable();
+		SubMeshData*		GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
 
-		IndexBuffer*	GetIndexBuffer() {return m_pIndexBuffer;}
+		IndexBuffer*		GetIndexBuffer() {return m_pIndexBuffer;}
 
-		VertexBuffer*	GetVertexBuffer() {return m_pVertexBuffer;}
+		VertexBuffer*		GetVertexBuffer() {return m_pVertexBuffer;}
 
 		VertexDeclaration*	GetVertexDeclar() {return m_pDeclaration;}
 
-		virtual void	LoadImp(DataStream* pDataStream);
+		virtual void		CreateFromMemeory();
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "MeshData");
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
+	private:
+		bool				InitRendable();
+
+		int					GetVertexStride();
 
 	public:
 		

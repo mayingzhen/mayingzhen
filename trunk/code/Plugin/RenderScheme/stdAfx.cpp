@@ -1,1 +1,1 @@
-#include "RenderScheme/stdAfx.h"
+#include "RenderScheme/stdafx.h"

@@ -9,12 +9,12 @@ namespace ma
 
 	BinaryInputArchive::~BinaryInputArchive()
 	{
-		Close();
+		//Close();
 	}
 
 	bool BinaryInputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
 	{
-		return m_pStream->read(pData,nSizeToRead,1) == 1;
+ 		return m_pStream->read(pData,nSizeToRead,1) == 1;
 	}
 
 	bool BinaryInputArchive::Open(Stream* pStream)

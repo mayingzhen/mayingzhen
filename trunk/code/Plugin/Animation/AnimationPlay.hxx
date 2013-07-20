@@ -29,8 +29,8 @@ namespace ma
 			return NULL;
 
 		SkeletonData* pSkeData = static_cast<SkeletonData*>(ResourceManager::DeclareResource(pSkePath));
-		pSkeData->Load();
-		pSkeData->LoadImp(pSkeData->GetDataStream());
+		pSkeData->LoadFileToMemeory();
+		pSkeData->CreateFromMemeory();
 
 		m_pSkeleton = new Skeleton();
 		m_pSkeleton->InitWithData(pSkeData);

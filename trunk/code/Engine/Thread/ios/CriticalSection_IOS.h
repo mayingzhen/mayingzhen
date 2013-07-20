@@ -1,36 +1,25 @@
-#ifndef _MyCs_IOS_H__
-#define _MyCs_IOS_H__
+#ifndef _CriticalSection_IOS_H__
+#define _CriticalSection_IOS_H__
 
-class CriticalSection
+
+namespace  ma
 {
-public:
-	CriticalSection::CriticalSection()
+	class CriticalSection
 	{
-		m_ptrNSLock = [NSLock new];
-	}
+	public:
+		CriticalSection();
 
-	CriticalSection::~CriticalSection()
-	{
-		if(m_ptrNSLock != NULL)
-		{
-			[((NSLock*)m_ptrNSLock) release];
-			m_ptrNSLock = NULL;
-		}
-	}
+		~CriticalSection();
 
-	void CriticalSection::Lock()
-	{
-		[((NSLock*)m_ptrNSLock) lock];
-	}
+		void Lock();
 
-	void CriticalSection::Unlock()
-	{
-		[((NSLock*)m_ptrNSLock) unlock];
-	}
+		void Unlock();
 
-public:
-	void* m_ptrNSLock;
-};
+	public:
+		void* m_ptrNSLock;
+	};
+}
 
 
-#endif//_MyCs_IOS_H__
+#endif//_CriticalSection_IOS_H__
+

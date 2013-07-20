@@ -194,6 +194,8 @@ namespace ma
 			pSMF->ShadowDepthPass();
 		}
 	}
+    
+#include <stdio.h>
 
 	void RenderQueue::DeferredShadow()
 	{
@@ -216,7 +218,7 @@ namespace ma
 	 		viwToLightProjArray[i] = invView * pSMF->GetViewProjMarix() * pSMF->GetTexScaleBiasMatrix();
 	 
 	 		char strTexShadowMap[MAX_PATH] = {0};
-	 		_snprintf(strTexShadowMap, sizeof(strTexShadowMap), "TexShadowMap%d", i);
+	 		snprintf(strTexShadowMap, sizeof(strTexShadowMap), "TexShadowMap%d", i);
 	 		//hr = pCurEffect->SetTexture( strTexShadowMap, pShadowMap->GetDepthTexture() ) ;
 	 	}
 

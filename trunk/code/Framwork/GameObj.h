@@ -20,7 +20,7 @@ namespace ma
 
 		~GameObject();
 
-		void			TravelScene(SceneVisiter* pVisiter);
+		bool			TravelScene(SceneVisiter* pVisiter);
 
  		//void			Render();
  

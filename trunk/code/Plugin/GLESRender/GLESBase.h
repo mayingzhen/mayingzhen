@@ -34,6 +34,9 @@
 		#define glDeleteVertexArrays glDeleteVertexArraysOES
 		#define glGenVertexArrays glGenVertexArraysOES
 		#define glIsVertexArray glIsVertexArrayOES
+        #define GL_WRITE_ONLY GL_WRITE_ONLY_OES
+        #define glMapBuffer glMapBufferOES
+        #define glUnmapBuffer glUnmapBufferOES
 		#define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
 		#define glClearDepth glClearDepthf
 		#define OPENGL_ES

@@ -1,7 +1,8 @@
-#ifndef	_RenderScheme_StdAfx__H__
-#define _RenderScheme_StdAfx__H__
+#ifndef  _RenderScheme_STDAFX__H__
+#define  _RenderScheme_STDAFX__H__
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
+
 
 #endif

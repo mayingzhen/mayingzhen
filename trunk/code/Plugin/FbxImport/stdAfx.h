@@ -5,7 +5,7 @@
 #include "Engine/Module.h"
 #include "Animation/Module.h"
 
-#include "FBX/fbxsdk.h"
+#include "fbxsdk.h"
 
 
 #endif

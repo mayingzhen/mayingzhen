@@ -4,9 +4,10 @@ namespace ma
 {
 	static Game* __gameInstance = NULL;
 
-	Game::Game()
+	Game::Game(const char* pGameName)
 	{
 		__gameInstance = this;
+		m_sGameName = pGameName ? pGameName : "";
 	}
 
 	Game::~Game()
@@ -20,12 +21,12 @@ namespace ma
 		return *__gameInstance;
 	}
 
-	void Game::Frame()
-	{
-// 		GetAnimationDevice()->Update();
-// 
-// 		GetPhysicsDevice()->Update();
-// 
-// 		GetAiDevice()->Update();
-	}
+// 	void Game::Frame()
+// 	{
+// // 		GetAnimationDevice()->Update();
+// // 
+// // 		GetPhysicsDevice()->Update();
+// // 
+// // 		GetAiDevice()->Update();
+// 	}
 }

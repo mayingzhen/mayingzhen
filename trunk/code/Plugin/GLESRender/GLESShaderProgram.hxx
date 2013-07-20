@@ -240,7 +240,7 @@ namespace ma
 	VertexAttribute GLESShaderProgram::getVertexAttribute(const char* name) const
 	{
 		std::map<std::string, VertexAttribute>::const_iterator itr = m_vertexAttributes.find(name);
-		ASSERT(itr != m_vertexAttributes.end());
+		//ASSERT(itr != m_vertexAttributes.end());
 		return (itr == m_vertexAttributes.end() ? -1 : itr->second);
 	}
 

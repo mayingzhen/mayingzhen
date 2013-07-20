@@ -34,7 +34,7 @@ namespace ma
 
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); 
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
+		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		pVertexDec->Active();
 		
 		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(quadVerts,sizeof(quadVerts),sizeof(Vertex));

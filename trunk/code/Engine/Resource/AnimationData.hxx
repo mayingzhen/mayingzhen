@@ -63,15 +63,17 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void AnimationData::LoadImp(DataStream* pDataStream)
+	void AnimationData::CreateFromMemeory()
 	{
-		ASSERT(pDataStream);
-		if (pDataStream == NULL)
+		ASSERT(m_pDataStream);
+		if (m_pDataStream == NULL)
 			return;
 
 		BinaryInputArchive inAr;
-		inAr.Open(pDataStream);
+		inAr.Open(m_pDataStream);
 		Serialize(inAr);
+
+		m_eResState = ResLoaded;
 	}
 
 	void AnimationData::Serialize(Serializer& sl, const char* pszLable)

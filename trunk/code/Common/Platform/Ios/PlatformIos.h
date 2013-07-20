@@ -12,6 +12,8 @@ typedef void* HINSTANCE;
 #define _stricmp strcasecmp
 #define _strnicmp strncasecmp
 
+#define MAX_PATH 1024
+
 
 void OutputDebugString(const char* buf);
 

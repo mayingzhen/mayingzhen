@@ -206,10 +206,10 @@ namespace ma
 
 		// Copy old data back in
 		if (oldVertices)
-			memcpy(_vertices, oldVertices, min(_vertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
+			memcpy(_vertices, oldVertices, Min(_vertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
 		SAFE_DELETE_ARRAY(oldVertices);
 		if (oldIndices)
-			memcpy(_indices, oldIndices, min(_indexCapacity, indexCapacity) * sizeof(unsigned short));
+			memcpy(_indices, oldIndices, Min(_indexCapacity, indexCapacity) * sizeof(unsigned short));
 		SAFE_DELETE_ARRAY(oldIndices);
 
 		// Assign new capacities

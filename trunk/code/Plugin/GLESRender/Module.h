@@ -3,7 +3,7 @@
 
 
 #include "GLESRender/Export.h"
-
+//#include "GLESRender/GLESBase.h"
 
 GLESRENDER_API void GLESRenderModuleInit();
 

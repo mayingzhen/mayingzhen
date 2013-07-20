@@ -14,7 +14,7 @@ namespace ma
 
 		virtual void			SetTransformLS(const NodeTransform& tsfLS);
 
-		virtual NodeTransform GetTransformLS();
+		virtual NodeTransform	GetTransformLS();
 
 		virtual	void			SetCollisionLayer(int nCollLayer);
 
@@ -22,7 +22,7 @@ namespace ma
 
 		virtual void			SetSize(const Vector3& vSize);
 
-		virtual	Vector3		GetSize(); 
+		virtual	Vector3			GetSize(); 
 
 	private:
 		NodeTransform m_tsfLS;
@@ -42,7 +42,7 @@ namespace ma
 
 		virtual void			SetTransformLS(const NodeTransform& tsfLS);
 
-		virtual NodeTransform GetTransformLS();
+		virtual NodeTransform	GetTransformLS();
 
 		virtual	void			SetCollisionLayer(int eCollLayer);
 

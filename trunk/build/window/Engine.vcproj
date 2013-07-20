@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OIS_d.lib "
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/OISInput/Lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -656,10 +656,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Terrain"
-				>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Physics"
@@ -860,6 +856,34 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Terrain"
+			>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\Terrain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\Terrain.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\TerrainLiquid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\TerrainLiquid.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\TerrainSection.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\TerrainSection.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\code\Engine\Device.hxx"

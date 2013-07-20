@@ -11,6 +11,8 @@
 namespace ma
 {
 
+    class Font;
+    
 /**
  * A theme is created and stored as part of a form and represents its appearance.
  * Once loaded, the appearance properties can be retrieved from their style IDs and set on other

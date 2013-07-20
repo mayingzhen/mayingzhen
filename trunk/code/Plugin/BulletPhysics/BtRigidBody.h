@@ -34,9 +34,13 @@ namespace ma
 
 		virtual float			GetAngularDamping();
 
+		virtual	void			ApplyForce(Vector3 vForce);
+
 		btRigidBody*			CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pm_pBtDynamicsWorld); 
 
 		void					SetbtRigidBody(btRigidBody* pbtRigidBody); 
+
+		btRigidBody*			GetbtRigidBody() {return m_pRigidBody;}
 	
 	private:
 		btRigidBody*   m_pRigidBody;

@@ -68,9 +68,9 @@ namespace ma
 		m_pEmitter->start();
 	}
 
-	void SampleFbxImport::Init(const Platform* pPlatform)
+	void SampleFbxImport::Init()
 	{
-		Sample::Init(pPlatform);
+		Sample::Init();
 
 		AnimationModuleInit();
 		
@@ -165,7 +165,7 @@ namespace ma
 		{
 			Matrix4x4 matWorld;
 			Matrix4x4 matScale;
-			MatrixScaling(&matScale,200,200,200); 
+			MatrixScaling(&matScale,1,1,1); 
 			MatrixTranslation(&matWorld,0,0,0);
 			matWorld = matScale * matWorld;
 			

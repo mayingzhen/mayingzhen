@@ -14,7 +14,7 @@ namespace ma
 	public:
 		SampleFbxImport();
 
-		virtual void Init(const Platform* pPlatform);
+		virtual void Init();
 
 		virtual void Update();
 

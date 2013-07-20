@@ -1,5 +1,5 @@
 #include "BulletPhysics/BtRigidBody.h"
-
+#include "BulletUtil.h"
 
 namespace ma
 {
@@ -125,6 +125,14 @@ namespace ma
 		else
 		{
 			return m_rbInfo->m_angularDamping;
+		}
+	}
+
+	void BulletRigidBody::ApplyForce(Vector3 vForce)
+	{		
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->applyCentralForce(ToBulletUnit(vForce));
 		}
 	}
 

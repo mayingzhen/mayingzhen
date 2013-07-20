@@ -10,7 +10,7 @@ namespace ma
 	public:
 		SampleSceneSerialize();
 
-		virtual void Init(const Platform* pPlatform);
+		virtual void Init();
 
 		virtual void Shutdown();
 

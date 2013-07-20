@@ -27,6 +27,9 @@ namespace ma
 		
 		const VertexElement& GetElement(int index) { ASSERT (index < m_ElementCount); return m_Elements[index]; }
 
+	private:
+		int			GetDeclTypeSize(DECL_TYPE type);
+
 	protected:
 		VertexElement	m_Elements[MAX_ELEMENT];
 		int				m_ElementCount;

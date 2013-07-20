@@ -12,6 +12,8 @@ namespace ma
 
 		MatrixIdentity(&m_matWorld);
 		TransformSetIdentity(&m_tsfWS);
+
+		m_btsfPSDirty = false;
 	}
 
 	SceneNode::~SceneNode()
@@ -19,19 +21,39 @@ namespace ma
 
 	}
 
-	void SceneNode::TravelScene(SceneVisiter* pVisiter)
+	bool SceneNode::TravelScene(SceneVisiter* pVisiter)
 	{
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
+		bool bTraveling = pVisiter->VisiteSceneNodeBegin(this);
+
+		if (bTraveling)
 		{
-			m_arrChildNode[i]->TravelScene(pVisiter);
+			if (NULL != m_pGameObject)
+			{
+				bTraveling = m_pGameObject->TravelScene(pVisiter);
+				if(!bTraveling)
+				{
+					//break;
+				}
+			}
 		}
 
-		ASSERT(m_pGameObject);
-		if (m_pGameObject)
+		if (bTraveling)
 		{
-			m_pGameObject->TravelScene(pVisiter);
+			for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+			{
+				bTraveling = m_arrChildNode[nCnt]->TravelScene(pVisiter);
+				if (!bTraveling)
+				{
+					break;
+				}
+			}
 		}
+
+		pVisiter->VisiteSceneNodeEnd(this);
+
+		return bTraveling;
 	}
+
 
 	void SceneNode::SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts)
 	{

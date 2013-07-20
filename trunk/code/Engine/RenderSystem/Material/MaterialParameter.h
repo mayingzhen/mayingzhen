@@ -1,11 +1,13 @@
 #ifndef MATERIALPARAMETER_H_
 #define MATERIALPARAMETER_H_
 
+#include "ShaderProgram.h"
+
 
 namespace ma
 {
-	class ShaderProgram;
-	struct Uniform;
+	//class ShaderProgram;
+	//struct Uniform;
 
 	/**
 	 * Defines a material parameter.
@@ -191,20 +193,13 @@ namespace ma
 	    
 		union
 		{
-			/** @script{ignore} */
-			float floatValue;
-			/** @script{ignore} */
-			int intValue;
-			/** @script{ignore} */
-			float* floatPtrValue;
-			/** @script{ignore} */
-			int* intPtrValue;
-			/** @script{ignore} */
-			const Sampler* samplerValue;
-			/** @script{ignore} */
+			float           floatValue;
+			int             intValue;
+			float*          floatPtrValue;
+			int*            intPtrValue;
+			const Sampler*  samplerValue;
 			const Sampler** samplerArrayValue;
-			/** @script{ignore} */
-			MethodBinding* method;
+			MethodBinding*  method;
 		} _value;
 	    
 		enum
