@@ -389,6 +389,7 @@ namespace ma
 
 	Matrix4x4 Material::autoBindingGetWorldViewProjectionMatrix() const
 	{
+		ASSERT(m_pRenderable);
 		return m_pRenderable && m_auotBingCamera ? m_pRenderable->m_matWorld * m_auotBingCamera->GetViewProjMatrix() : Matrix4x4::identity();
 	}
 

@@ -14,11 +14,6 @@ namespace ma
 
 	}
 
-	void Component::TravelScene(SceneVisiter* pVisiter)
-	{
-
-	}
-
 	void Component::Render()
 	{
 

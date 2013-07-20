@@ -44,7 +44,7 @@ namespace ma
 
 	const char*	GLESRenderDevice::GetShaderPath()
 	{
-		return "/shader/gles/";
+		return "shader/gles/";
 	}
 
 	void	GLESRenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
@@ -137,8 +137,10 @@ namespace ma
 		m_curViewport.width = viewport[2];
 		m_curViewport.height = viewport[3];
 
+#ifdef GL_MAX_COLOR_ATTACHMENTS
 		GLint val;
 		GL_ASSERT( glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &val) );
+#endif
 	}
 
 	void GLESRenderDevice::BeginRender()
@@ -351,6 +353,8 @@ namespace ma
 			std::string name;
 			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			if (attr == -1)
+				continue;
 
 			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
 
@@ -377,6 +381,8 @@ namespace ma
 			std::string name;
 			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			if (attr == -1)
+				continue;
 
 			GL_ASSERT( glDisableVertexAttribArray(attr) );
 		}

@@ -112,7 +112,7 @@ namespace ma
 			pAniData->m_arrPosTrack, 
 			pSkeleton);
 
-		pAniData->Save();
+		//pAniData->Save();
 
 		SAFE_DELETE(pSkeleton);
 

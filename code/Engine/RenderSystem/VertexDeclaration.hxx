@@ -22,7 +22,7 @@ namespace ma
 		}
 		if (nVertexType & DUM_TEXCOORD)
 		{
-			AddElement(0, voffset, DT_FLOAT2, DU_TEXCOORD, 0);
+			AddElement(0, voffset, DT_FLOAT2, DU_TEXCOORD0, 0);
 			voffset += 8;
 		}
 		if (nVertexType & DUM_NORMAL)
@@ -49,6 +49,7 @@ namespace ma
 		m_nStreamStride = voffset;
 	}
 
+
 	void VertexDeclaration::AddElement(short StreamNumber, short Offset,
 		DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char UsageIndex)
 	{
@@ -65,5 +66,26 @@ namespace ma
 
 		m_nStreamStride = Offset + GetDeclTypeSize(DeclType);
 	}
+
+	int VertexDeclaration::GetDeclTypeSize(DECL_TYPE type)
+	{
+		switch (type)
+		{
+		case DT_FLOAT1: return 4;
+		case DT_FLOAT2: return 8;
+		case DT_FLOAT3: return 12;
+		case DT_FLOAT4: return 16;
+		case DT_COLOR:  return 4;
+		case DT_UBYTE4: return 4;
+		case DT_UBYTE4N:return 4;
+		case DT_SHORT2: return 4;
+		case DT_SHORT4: return 8;
+		}
+
+		ASSERT(false);
+
+		return 0;
+	}
+
 
 }

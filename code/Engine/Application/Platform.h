@@ -9,7 +9,7 @@ namespace ma
 	{
 
 	public:
-		Platform(const char* appID = NULL);
+		Platform();
 
 		void		Init();
 
@@ -23,6 +23,12 @@ namespace ma
 
 		HWND		GetWindId() const {return m_windId;}
 
+		void		SetWindId(HWND hWnd) {m_windId = hWnd;} 
+
+		const char*	GetAppPath() {return m_strAppPath.c_str();}
+
+		void		SetAppPath(const char* pAppPath) {m_strAppPath = pAppPath;}
+
 		static void		swapBuffers();
 
 		static void		sleep(long ms);
@@ -34,7 +40,7 @@ namespace ma
 	protected:
 		HWND			m_windId;
 
-		std::string		m_strAppID;
+		std::string		m_strAppPath;
 	};
 }
 

@@ -11,7 +11,14 @@ COMMON_API int AssertMsg(bool bOK, const char* exper, const char* description,
 #define ASSERT_ENABLE
 
 #if defined(ASSERT_ENABLE) 
-	
+
+// Error macro.
+    #define GP_ERROR(...) do \
+    { \
+        ASSERT(false); \
+        std::exit(-1); \
+    } while (0)
+
 	#if PLATFORM_WIN == 1
 
 		#define DEBUG_BACKPOINT			0
@@ -37,13 +44,6 @@ COMMON_API int AssertMsg(bool bOK, const char* exper, const char* description,
 		
 		#define ASSERT(expr) debug_assert(expr,"")
 		#define ASSERT_MSG(expr,MSG) debug_assert(expr,MSG)
-
-		// Error macro.
-		#define GP_ERROR(...) do \
-		{ \
-			ASSERT(false); \
-			std::exit(-1); \
-		} while (0)
 
 	#elif PLATFORM_ANDROID == 1
 

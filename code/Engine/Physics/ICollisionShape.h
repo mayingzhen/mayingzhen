@@ -9,7 +9,7 @@ namespace ma
 	public:
 		virtual void			SetTransformLS(const NodeTransform& tsfLS) = 0;
 
-		virtual NodeTransform GetTransformLS() = 0;
+		virtual NodeTransform	GetTransformLS() = 0;
 
 		virtual	void			SetCollisionLayer(int nCollLayer) = 0;
 		
@@ -21,7 +21,7 @@ namespace ma
 	public:
 		virtual void			SetSize(const Vector3& vSize) = 0;
 
-		virtual	Vector3		GetSize() = 0;
+		virtual	Vector3			GetSize() = 0;
 	};
 
 	class ENGINE_API ISphereCollisionShape : public ICollisionShape

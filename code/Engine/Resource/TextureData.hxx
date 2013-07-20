@@ -9,9 +9,14 @@ namespace ma
 	}
 
 
-	void TextureData::LoadImp(DataStream* pStream)
+	void TextureData::CreateFromMemeory()
 	{
-		m_pTexture->Load(pStream);
+		if (m_eResState == ResLoaded)
+			return;
+
+		m_pTexture->Load(m_pDataStream);
+
+		m_eResState = ResLoaded;
 	}
 
 	bool TextureData::Save(const char* pszPath)

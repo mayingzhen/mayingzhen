@@ -125,19 +125,19 @@ namespace ma
 
 	bool DataThread::Process(void)
 	{	
+		while(!m_queLoaded.empty())
+		{	
+			m_csLoadedQueue.Lock();
+			IDataObj* pObj = m_queLoaded.front();
+			m_queLoaded.pop_front();
+			m_csLoadedQueue.Unlock();	
+			if (pObj)
+				pObj->LoadImp();
+		}
+
 		// Note: Process是主线程调用的
 		if(this->IsFree())
-		{
-			m_csLoadedQueue.Lock();
-			while(!m_queLoaded.empty())
-			{	
-				IDataObj* pObj = m_queLoaded.front();
-				m_queLoaded.pop_front();
-				if (pObj)
-					pObj->LoadImp();
-			}
-			m_csLoadedQueue.Unlock();	
-
+		{	
 			// 将m_queUnloadedBuffer转入m_queUnloaded 
 			// Note: m_queUnloadedBuffer只被主线程操作.
 			// Note: 假设加载线程休停在ProcessLoadRequest的m_bFree = false;之前 

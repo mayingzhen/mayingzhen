@@ -82,7 +82,7 @@ namespace ma
 
 		VertexDeclaration* vertexFormat = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
+		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
 		vertexFormat->Active();
 

@@ -23,11 +23,13 @@ namespace ma
 
 		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
 
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjB);
+
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjB);
+
 		virtual void					SetTransformWS(const NodeTransform& tsfWS);
 
 		virtual NodeTransform			GetTransformWS();
-
-		virtual	void					ApplyForce(Vector3 vForce);
 
 		bool							Start();
 
@@ -39,15 +41,24 @@ namespace ma
 
 		GameObject*						GetGameObject() {return m_pGameObject;}
 
+		btCollisionObject*				GetbtCollisionObject() {return m_pBtCollObject;}
+
 		int								GetCollLayer() {return m_nCollLayer;}
 
 	private:
-		btRigidBody*						m_pbtRigidBody;
+		void							InitCollObject();
 		
+		void							InitJoint();
 
-		IRigidBody*							m_pXmRigidBody;
+	private:
+		btCollisionObject*					m_pBtCollObject;
+		
+		IRigidBody*							m_pRigidBody;
 		std::vector<IBoxCollisionShape*>	m_vBoxCollisionShape;
 		std::vector<ISphereCollisionShape*>	m_vSphereCollisionShape;
+
+		std::vector<IPhysicsGenericJoint*>	m_vGenericJoint;
+		std::vector<IPhysicsHingeJoint*>	m_vHingeJoint;
 
 		NodeTransform						m_tsfWS;
 

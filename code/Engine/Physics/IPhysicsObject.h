@@ -6,6 +6,9 @@ namespace ma
 	class IRigidBody;
 	class IBoxCollisionShape;
 	class ISphereCollisionShape;
+	class IPhysicsGenericJoint;
+	class IPhysicsHingeJoint;
+
 
 	class ENGINE_API IPhysicsObject
 	{
@@ -17,11 +20,13 @@ namespace ma
 
 		virtual ISphereCollisionShape*	CreateSphereCollisionShape() = 0;
 
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjB) = 0;
+
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjB) = 0;
+
 		virtual void					SetTransformWS(const NodeTransform& tsfWS) = 0;
 
 		virtual NodeTransform			GetTransformWS() = 0;
-
-		virtual	void					ApplyForce(Vector3 vForce) = 0;
 	};
 }
 

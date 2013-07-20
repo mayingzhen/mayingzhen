@@ -264,6 +264,14 @@
 				RelativePath="..\..\Code\Samples\Render\SampleShadowMap.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Samples\Render\SampleTerrain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Render\SampleTerrain.hxx"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\Code\Samples\main.cpp"

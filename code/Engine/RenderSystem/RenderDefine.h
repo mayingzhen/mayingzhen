@@ -191,26 +191,6 @@ namespace ma
 		DT_UNKNOWN        = 255
 	};
 
-	int GetDeclTypeSize(DECL_TYPE type)
-	{
-	 	switch (type)
-	 	{
-	 		case DT_FLOAT1: return 4;
-	 		case DT_FLOAT2: return 8;
-	 		case DT_FLOAT3: return 12;
-	 		case DT_FLOAT4: return 16;
-	 		case DT_COLOR:  return 4;
-	 		case DT_UBYTE4: return 4;
-			case DT_UBYTE4N:return 4;
-	 		case DT_SHORT2: return 4;
-	 		case DT_SHORT4: return 8;
-	 	}
-	 
-	 	ASSERT(false);
-	 
-	 	return 0;
-	}
-
 
 	/* enum: DECL_USAGE
 	----------------------------------------------------------
@@ -221,12 +201,13 @@ namespace ma
 	enum DECL_USAGE
 	{
 		DU_POSITION      = 0,
-		DU_TEXCOORD      = 1,
+		DU_TEXCOORD0     = 1,
 		DU_BLENDINDICES  = 2,
 		DU_BLENDWEIGHT   = 3,
 		DU_NORMAL        = 4,
 		DU_TANGENT       = 5,
 		DU_COLOR         = 6,
+		DU_TEXCOORD1     = 7,
 	    
 		DU_UNKNOWN       = 255
 	};
@@ -235,7 +216,7 @@ namespace ma
 	enum DECL_USAGEMASK
 	{
 		DUM_POSITION      = 1 << DU_POSITION,
-		DUM_TEXCOORD      = 1 << DU_TEXCOORD,
+		DUM_TEXCOORD      = 1 << DU_TEXCOORD0,
 		DUM_BLENDWEIGHT   = 1 << DU_BLENDWEIGHT,
 		DUM_BLENDINDICES  = 1 << DU_BLENDINDICES,
 		DUM_NORMAL        = 1 << DU_NORMAL,

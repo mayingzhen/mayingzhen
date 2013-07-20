@@ -18,12 +18,25 @@ namespace ma
 		//SAFE_DELETE(m_pPhyscisObject);
 	}
 
-	void GameObject::TravelScene(SceneVisiter* pVisiter)
+	bool GameObject::TravelScene(SceneVisiter* pVisiter)
 	{
-		for (Uint i = 0; i < m_arrComp.size(); ++i)
+		bool bTraveling = pVisiter->VisiteGameObjectBegin(this);
+
+		if (bTraveling)
 		{
-			m_arrComp[i]->TravelScene(pVisiter);
+			for (UINT nCnt = 0; nCnt < m_arrComp.size(); ++nCnt)
+			{
+				bTraveling = pVisiter->VisiteComponent(m_arrComp[nCnt]);
+				if (!bTraveling)
+				{
+					break;
+				}
+			}
 		}
+
+		pVisiter->VisiteGameObjectEnd(this);
+
+		return bTraveling;
 	}
 
 // 	void GameObject::SetScene(Scene* pScene)

@@ -11,7 +11,7 @@ namespace ma
 	public:
 		SampleRigidBody();
 
-		virtual void Init(const Platform* pPlatform);
+		virtual void Init();
 
 		virtual void Shutdown();
 

@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="BulletCollision_vs2008_debug.lib BulletDynamics_vs2008_debug.lib LinearMath_vs2008_debug.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/Bullet-2.81/build/vs2008/Lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

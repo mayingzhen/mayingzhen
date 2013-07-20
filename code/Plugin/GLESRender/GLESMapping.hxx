@@ -72,12 +72,19 @@ namespace ma
 			normalized = false;
 			name = VERTEX_ATTRIBUTE_POSITION_NAME;
 		}
-		else if (Usage == DU_TEXCOORD)
+		else if (Usage == DU_TEXCOORD0)
 		{
 			typeCount = 2;
 			type = GL_FLOAT;
 			normalized = false;
 			name = VERTEX_ATTRIBUTE_TEXCOORD0_NAME;
+		}
+		else if (Usage == DU_TEXCOORD1)
+		{
+			typeCount = 2;
+			type = GL_FLOAT;
+			normalized = false;
+			name = VERTEX_ATTRIBUTE_TEXCOORD1_NAME;
 		}
 		else if (Usage == DU_COLOR)
 		{

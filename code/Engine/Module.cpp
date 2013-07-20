@@ -47,6 +47,11 @@
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
 
+// Terrain
+#include "Engine/Terrain/Terrain.hxx"
+#include "Engine/Terrain/TerrainSection.hxx"
+#include "Engine/Terrain/TerrainLiquid.hxx"
+
 // RenderScheme
 #include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/ShadowMapFrustum.hxx"
@@ -83,7 +88,7 @@
 //#include "Engine/Input/Gamepad.hxx"
 
 
-#include "Engine/DataThread/DataThread.hxx"
+#include "Engine/Thread/DataThread.hxx"
 
 
 
@@ -95,15 +100,15 @@ void EngineModuleInit()
 {
 	EngineRTTIInit();
 
-	DataThread* pDtaThread = new DataThread(0,.0);
-	SetDataThread(pDtaThread);
+	//DataThread* pDtaThread = new DataThread(0,.0);
+	//SetDataThread(pDtaThread);
 }
 
 void EngineModuleShutdown()
 {
 	EngineRTTIShutdown();
 
-	delete GetDataThread();
-	SetDataThread(NULL);
+	//delete GetDataThread();
+	//SetDataThread(NULL);
 }
 

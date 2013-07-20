@@ -75,18 +75,22 @@ namespace ma
 		m_nVertexType = 0;
 	}
 
-	void MeshData::LoadImp(DataStream* pDataStream)
+	void MeshData::CreateFromMemeory()
 	{
-		ASSERT(pDataStream);
-		if (pDataStream == NULL)
+		ASSERT(m_pDataStream);
+		if (m_pDataStream == NULL)
 			return;
 		
 		BinaryInputArchive inAr;
-		inAr.Open(pDataStream);
+		inAr.Open(m_pDataStream);
 		Serialize(inAr);
+		m_pDataStream->rewind();
 
 		InitRendable();
+	
+		m_eResState = ResLoaded;
 	}
+
 
 	bool MeshData::InitRendable()
 	{

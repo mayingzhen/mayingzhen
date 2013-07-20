@@ -1,6 +1,7 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
+#include "Engine/Thread/DataThread.h"
 
 namespace ma
 {

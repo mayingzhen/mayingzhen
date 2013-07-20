@@ -1027,7 +1027,7 @@ void Control::update(const Control* container, const Vector2& offset)
 
     width += border.left + padding.left + border.right + padding.right;
     height += border.top + padding.top + border.bottom + padding.bottom;
-    _absoluteClipBounds.set(x - border.left - padding.left, y - border.top - padding.top, max(width, 0.0f), max(height, 0.0f));
+    _absoluteClipBounds.set(x - border.left - padding.left, y - border.top - padding.top, Max(width, 0.0f), Max(height, 0.0f));
     if (_clearBounds.isEmpty())
     {
         _clearBounds.set(_absoluteClipBounds);

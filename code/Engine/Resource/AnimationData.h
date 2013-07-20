@@ -45,7 +45,7 @@ namespace ma
 			m_nBoneNum = 0;
 		}
 
-		virtual void LoadImp(DataStream* pDataStream);
+		virtual void CreateFromMemeory();
 
 		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimationData");
 	};

@@ -1,27 +1,10 @@
 #ifndef _DataThread_h__
 #define _DataThread_h__
 
-
-#if PLATFORM_WIN == 1
-#include "Win/CriticalSection_win.h"
-#include "Win/Event_win.h"
-#include "Win/Thread_win.h"
-#elif PLAFTORM_IOS == 1
-#include "IOS/CriticalSection_ios.h"
-#include "IOS/Event_IOS.h"
-#include "IOS/Thread_IOS.h"
-#elif PLATFORM_ANDROID == 1
-#include "Android/CriticalSection_Android.h"
-#include "Android/Event_Android.h"
-#include "Android/Thread_Android.h"
-#endif
+#include "Thread.h"
 
 namespace ma
 {
-	class Thread;
-	class CMyEvent;
-
-
 	enum
 	{
 		DATA_THREAD_EXIGENCE_NORMAL = 0,
@@ -39,6 +22,8 @@ namespace ma
 		//virtual void	DataThreadRelease()		=	0;
 	};
 
+    class Thread;
+    class CMyEvent;
 
 	class ENGINE_API DataThread 
 	{	

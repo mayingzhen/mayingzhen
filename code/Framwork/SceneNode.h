@@ -16,7 +16,7 @@ namespace ma
 
 		~SceneNode();
 
-		void					TravelScene(SceneVisiter* pVisiter);
+		bool					TravelScene(SceneVisiter* pVisiter);
 
 		// Transform
 		void					SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts = TS_WORLD);	

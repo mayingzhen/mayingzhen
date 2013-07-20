@@ -8,6 +8,7 @@
 #include "BulletPhysics/BtContactReport.hxx"
 #include "BulletPhysics/BtPhysicsObject.hxx"
 #include "BulletPhysics/BtPhysicsScene.hxx"
+#include "BulletPhysics/BtPhysicsJoint.hxx"
 #include "BulletPhysics/BtPhysicsDevive.hxx"
 
 

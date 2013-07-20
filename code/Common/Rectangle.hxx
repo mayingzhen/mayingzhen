@@ -112,10 +112,10 @@ void Rectangle::combine(const Rectangle& r1, const Rectangle& r2, Rectangle* dst
 {
     ASSERT(dst);
 
-    dst->x = min(r1.x, r2.x);
-    dst->y = min(r1.y, r2.y);
-    dst->width = max(r1.x + r1.width, r2.x + r2.width) - dst->x;
-    dst->height = max(r1.y + r1.height, r2.y + r2.height) - dst->y;
+    dst->x = Min(r1.x, r2.x);
+    dst->y = Min(r1.y, r2.y);
+    dst->width = Max(r1.x + r1.width, r2.x + r2.width) - dst->x;
+    dst->height = Max(r1.y + r1.height, r2.y + r2.height) - dst->y;
 }
 
 void Rectangle::inflate(float horizontalAmount, float verticalAmount)

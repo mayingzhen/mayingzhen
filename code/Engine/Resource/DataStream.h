@@ -11,7 +11,7 @@ namespace ma
 	public:
 		friend class FileSystem;
 
-		DataStream(Byte* pMem, size_t size);
+		DataStream(Byte* pMem, size_t size, const char* pFilePath = NULL);
 
 		DataStream(size_t size);
 	    
@@ -31,6 +31,7 @@ namespace ma
 
 		Byte*			GetData() {return m_pData;}
 		size_t			GetSize() {return m_size;}
+		const char*		GetFilePath() {return m_sFilePath.c_str();}
 
 		static DataStream* create(const char* filePath, const char* mode);	
 
@@ -42,6 +43,8 @@ namespace ma
 
 		bool _canRead;
 		bool _canWrite;
+
+		std::string	m_sFilePath;
 	};
 
 }

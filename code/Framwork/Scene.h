@@ -47,15 +47,7 @@ namespace ma
 	};
 
 
-	class ENGINE_API SceneVisiter
-	{
-	public:
-		virtual bool VisiteGameObjectBegin(GameObject* pGameObj);
 
-		virtual bool VisiteGameObjectEnd(GameObject* pGameObj);
-
-		virtual bool VisiteComponent(Component* pComp);
-	};
 
 }
 

@@ -97,7 +97,7 @@ void main( VS_OUT vout, out PS_OUT pout )
 #ifdef AMBIENT_LIGHT
    AmbientLightPS(vout,pout);  
 #else
-      DeferredLightPS(vout,pout);   
+	DeferredLightPS(vout,pout);   
    
    #ifdef SHADOW
       half shadow = tex2D(u_SamplerShadow, In.oTc).r;

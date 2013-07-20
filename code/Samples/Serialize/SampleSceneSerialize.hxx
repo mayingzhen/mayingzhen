@@ -8,9 +8,9 @@ namespace ma
 		m_pScene = NULL;
 	}
 
-	void SampleSceneSerialize::Init(const Platform* pPlatform)
+	void SampleSceneSerialize::Init()
 	{
-		Sample::Init(pPlatform);
+		Sample::Init();
 
 		BtPhysicsModuleInit();
 		AnimationModuleInit();

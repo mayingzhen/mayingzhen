@@ -29,8 +29,7 @@ namespace ma
 			d3dve[i].Offset = m_Elements[i].Offset;
 			d3dve[i].Type   = D3D9Mapping::GetD3DDeclType(m_Elements[i].Type);
 			d3dve[i].Method = D3DDECLMETHOD_DEFAULT;
-			d3dve[i].Usage  = D3D9Mapping::GetD3DDeclUsage(m_Elements[i].Usage);
-			d3dve[i].UsageIndex = m_Elements[i].UsageIndex;
+			D3D9Mapping::GetD3DDeclUsage(m_Elements[i].Usage,d3dve[i].Usage,d3dve[i].UsageIndex);
 		}
 	    
 		d3dve[m_ElementCount].Stream = 0xFF;

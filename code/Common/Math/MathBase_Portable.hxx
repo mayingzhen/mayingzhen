@@ -5,9 +5,9 @@
 //------------------------------------------------------------------------------
 
 // non-inline
-#ifdef __cplusplus
-extern "C" {
-#endif
+// #ifdef __cplusplus
+// extern "C" {
+// #endif
 
 	Vector2*  Vec2Normalize
 		( Vector2 *pOut, const Vector2 *pV );
@@ -56,8 +56,7 @@ extern "C" {
 //Vector3
 //------------------------------------------------------------------------------
 
-	COMMON_API Vector3*  Vec3Normalize
-		( Vector3 *pOut, const Vector3 *pV )
+	Vector3* Vec3Normalize( Vector3 *pOut, const Vector3 *pV )
 	{
 		float fLenSq = Vec3LengthSq(pV);
 		if( fLenSq > FEPS )
@@ -72,6 +71,11 @@ extern "C" {
 			pOut->z = 0.0f;
 		}
 		return pOut;
+	}
+
+	Vector3&  Vec3Normalize( Vector3& vOut, const Vector3& vIn )
+	{
+		return *Vec3Normalize(&vOut,&vIn);
 	}
 
 	// Hermite interpolation between position V1, tangent T1 (when s == 0)
@@ -1089,6 +1093,6 @@ Matrix4x4*  MatrixReflect
 ( Matrix4x4 *pOut, const Plane *pPlane );
 
 
-#ifdef __cplusplus
-}
-#endif
+// #ifdef __cplusplus
+//}
+//#endif

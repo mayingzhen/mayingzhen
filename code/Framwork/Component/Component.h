@@ -16,8 +16,6 @@ namespace ma
 
 		virtual ~Component();
 
-		virtual void	TravelScene(SceneVisiter* pVisiter);
-
 		virtual void	Render();
 
 		virtual void	Update();

@@ -2,7 +2,6 @@
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
-#include "Animation/Module.h"
 #include "GLESRender/Module.h"
 //#include "Engine/Application/Platform.h"
 //#include "Engine/Application/Game.h"
@@ -41,6 +40,8 @@ char** __argv = 0;
 static Platform* __platform = NULL;
 static AppDelegate *__appDelegate = NULL;
 static View* __view = NULL;
+
+#define GL_ASSERT(x) x
 
 class TouchPoint
 {
@@ -141,7 +142,7 @@ int getUnicode(int key);
         }
         else
         {
-            GP_ERROR("Invalid OS Version: %s\n", (currSysVer == NULL?"NULL":[currSysVer cStringUsingEncoding:NSASCIIStringEncoding]));
+            //GP_ERROR("Invalid OS Version: %s\n", (currSysVer == NULL?"NULL":[currSysVer cStringUsingEncoding:NSASCIIStringEncoding]));
             [self release];
             return nil;
         }
@@ -169,7 +170,7 @@ int getUnicode(int key);
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         if (!context || ![EAGLContext setCurrentContext:context])
         {
-            GP_ERROR("Failed to make context current.");
+            //GP_ERROR("Failed to make context current.");
             [self release];
             return nil;
         }
@@ -191,7 +192,8 @@ int getUnicode(int key);
         
         // Set the resource path and initalize the game
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
-        FileSystem::setResourcePath([bundlePath fileSystemRepresentation]); 
+        //FileSystem::setResourcePath([bundlePath fileSystemRepresentation]);
+        __platform->SetAppPath([bundlePath fileSystemRepresentation]);
     }
     return self;
 }
@@ -425,7 +427,7 @@ int getUnicode(int key);
     {
         game = &Game::GetInstance();
         __timeStart = getMachTimeInMilliseconds();
-        game->Init(__platform);
+        game->Init();
     }
 }
 
@@ -1334,8 +1336,14 @@ extern void print(const char* format, ...)
     vfprintf(stderr, format, argptr);
     va_end(argptr);
 }
+    
+    
+Platform&	Platform::GetInstance()
+{
+    return *__platform;
+}
 
-Platform::Platform(const char* appID)
+Platform::Platform()
 {
     __platform = this;
 }

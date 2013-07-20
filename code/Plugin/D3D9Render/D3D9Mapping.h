@@ -62,7 +62,7 @@ namespace ma
 		static D3DFORMAT    GetD3DFormat(FORMAT Format);
 		static void         GetD3D9Filter(FilterOptions Type,DWORD& minFilter,DWORD& magFilter,DWORD mipFilter);
 		static DWORD		GetD3D9Wrap(Wrap type);
-		static BYTE         GetD3DDeclUsage(DECL_USAGE DeclUsage);
+		static void         GetD3DDeclUsage(DECL_USAGE DeclUsage,BYTE& d3dUse,BYTE& index);
 		static BYTE         GetD3DDeclType(DECL_TYPE DeclType);
 		static int          GetD3DDeclTypeSize(BYTE type);
 		static D3DPRIMITIVETYPE GetD3DPrimitiveType(PRIMITIVE_TYPE type);
@@ -70,14 +70,14 @@ namespace ma
 		static std::string   GetD3DErrorDescription(HRESULT hr);
 		static std::string   GetD3DErrorString(HRESULT hr);
 
-		static USAGE        GetUsage(DWORD Usage);
-		static int          GetLock(DWORD Lock);
-		static FORMAT       GetFormat(D3DFORMAT D3DFormat);
-		static DECL_USAGE   GetDeclUsage(BYTE usage);
-		static DECL_TYPE    GetDeclType(BYTE type);
-
-		static std::string   GetUsageString(USAGE usage);
-		static std::string   GetFormatString(FORMAT format);
+// 		static USAGE        GetUsage(DWORD Usage);
+// 		static int          GetLock(DWORD Lock);
+// 		static FORMAT       GetFormat(D3DFORMAT D3DFormat);
+// 		static DECL_USAGE   GetDeclUsage(BYTE usage);
+// 		static DECL_TYPE    GetDeclType(BYTE type);
+// 
+// 		static std::string   GetUsageString(USAGE usage);
+// 		static std::string   GetFormatString(FORMAT format);
 	};
 
 } 

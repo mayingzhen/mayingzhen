@@ -629,12 +629,13 @@ Vector3* Vec3Lerp
  float s );
 
 // non-inline
-#ifdef __cplusplus
-extern "C" {
-#endif
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 
-	COMMON_API Vector3*  Vec3Normalize
-		( Vector3 *pOut, const Vector3 *pV );
+	COMMON_API Vector3* Vec3Normalize( Vector3 *pOut, const Vector3 *pV );
+    
+    COMMON_API Vector3& Vec3Normalize( Vector3& vOut, const Vector3& vIn );
 
 	//// Hermite interpolation between position V1, tangent T1 (when s == 0)
 	//// and position V2, tangent T2 (when s == 1).
@@ -702,9 +703,9 @@ extern "C" {
 	//	const Matrix4x4 *pProjection, const Matrix4x4 *pView, const Matrix4x4 *pWorld, Uint n);
 
 
-#ifdef __cplusplus
-}
-#endif
+//#ifdef __cplusplus
+//}
+//#endif
 
 
 
@@ -1002,6 +1003,12 @@ template<class T>
 inline const T& Max(const T& a,const T& b)
 {
 	return a > b ? a : b;
+}
+
+template<class T>
+inline T Lerp(const T& v0,const T& v1,float factor)
+{
+	return v0*(1.0f-factor)+v1*factor;
 }
 
 template<class T>

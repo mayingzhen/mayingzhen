@@ -22,13 +22,6 @@ namespace ma
 			return;
 
 		m_pRendMesh->Draw();
-
-// 		UINT nCnt = m_pRendMesh->GetRenderableNumber();
-// 		for (UINT i = 0; i < nCnt; ++i)
-// 		{
-// 			
-// 			RenderQueue::AddRenderable(m_pRendMesh->GetRenderableByIndex(i));		
-// 		}
 	}
 
 	void MeshComponent::Update()

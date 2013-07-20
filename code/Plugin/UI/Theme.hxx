@@ -95,7 +95,8 @@ Theme* Theme::create(const char* url)
 	//theme->_texture->Load(strPath.c_str());
 	TextureData* pTextureData = SafeCast<TextureData>(ResourceManager::DeclareResource(textureFile));
 	ASSERT(pTextureData);
-	pTextureData->Load();
+	pTextureData->LoadFileToMemeory();
+	pTextureData->CreateFromMemeory();
 
 	theme->_texture = pTextureData->GetRenderTexture();
 	//theme->_texture->Load();

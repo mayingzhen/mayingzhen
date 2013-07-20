@@ -8,9 +8,9 @@ namespace ma
 	{
 	}
 
-	void SampleRigidBody::Init(const Platform* pPlatform)
+	void SampleRigidBody::Init()
 	{
-		Sample::Init(pPlatform);
+		Sample::Init();
 
 		FramworkModuleInit();
 		BtPhysicsModuleInit();
@@ -55,8 +55,8 @@ namespace ma
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
- 			pBoxCollisionShape->SetSize(vSize);
-			pBoxCollisionShape->SetTransformLS(tsf);
+ 			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(vSize);
+			pBoxCollisionShape->GetBoxCollisionShape()->SetTransformLS(tsf);
 
 			m_pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
 			IRigidBody* pRigidBody = m_pRigidBodyComp->GetRigidBody();
@@ -79,26 +79,26 @@ namespace ma
 			tsf.m_vPos = vCenter;
 
 			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();//new BoxCollisionComponent();
-			pBoxCollisionShape->SetSize(vSize);
+			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(vSize);
 			//pBoxCollisionShape->SetTransformLS(tsf);
 
 			pGameObj->GetSceneNode()->Translate(vCenter,TS_WORLD);
 		}
 
-		{
-			XMLOutputArchive xmlOutAr;
-			xmlOutAr.Open("../../Text.scene.xml");
-			m_pScene->Serialize(xmlOutAr);
-			xmlOutAr.Close();
-		}
+		//{
+		//	XMLOutputArchive xmlOutAr;
+		//	xmlOutAr.Open("../../Text.scene.xml");
+		//	m_pScene->Serialize(xmlOutAr);
+		//	xmlOutAr.Close();
+		//}
 
 		{
-			XMLInputArchive xmlInAr;
-			xmlInAr.Open("../../Text.scene.xml");
+		//	XMLInputArchive xmlInAr;
+		//	xmlInAr.Open("../../Text.scene.xml");
 
-			SAFE_DELETE(m_pScene);
-			m_pScene = new Scene();
-			m_pScene->Serialize(xmlInAr);
+		//	SAFE_DELETE(m_pScene);
+		//	m_pScene = new Scene();
+		//	m_pScene->Serialize(xmlInAr);
 		}
 
 
@@ -128,8 +128,6 @@ namespace ma
 
 	void SampleRigidBody::Render()
 	{
-		Sample::Render();
-
 		m_pScene->Render(m_pCamera);
 	}
 

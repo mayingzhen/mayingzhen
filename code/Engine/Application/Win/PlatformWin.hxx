@@ -391,11 +391,9 @@ namespace ma
 		return *__platformInstance;
 	}
 
-	Platform::Platform(const char* appID)
+	Platform::Platform()
 	{
 		__platformInstance = this;
-
-		m_strAppID = appID ? appID : "";
 	}
 
 	float Platform::GetAbsoluteTime()
@@ -459,9 +457,9 @@ namespace ma
 
 		ShowWindow (m_windId, SW_SHOW) ;
 
-		SetWindowText(m_windId,m_strAppID.c_str());
+		SetWindowText(m_windId,Game::GetInstance().GetGameName());
 
-		Game::GetInstance().Init(this);
+		Game::GetInstance().Init();
 	}
 
 	void Platform::Shutdown()

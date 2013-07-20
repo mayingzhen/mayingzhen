@@ -65,6 +65,15 @@ namespace ma
 
 	}
 
+	class SceneRender : public SceneVisiter
+	{
+		virtual bool VisiteComponent(Component* pComp)
+		{
+			pComp->Render();
+			return true;
+		}
+	};
+
 	void Scene::Render(Camera* pCmera)
 	{
 		if (GetRenderDevice() == NULL)
@@ -73,8 +82,8 @@ namespace ma
 		m_pCurCamera = pCmera;
 		Material::SetAuotBingCamera(pCmera);
 		
-		//if (m_pRootGameObject)
-		//	m_pRootGameObject->Render();
+		SceneRender sceneRender;
+		TravelScene(&sceneRender);
 	}
 
 	void Scene::Awak()

@@ -277,6 +277,14 @@
 				RelativePath="..\..\data\shader\D3D9\shadowDepth.vert"
 				>
 			</File>
+			<File
+				RelativePath="..\..\data\shader\D3D9\terrain.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\D3D9\terrain.vert"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\Code\Plugin\D3D9Render\Export.h"
