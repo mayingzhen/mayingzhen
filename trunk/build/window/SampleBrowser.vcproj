@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/include/Bullet;../../extern/glew/include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/include/Bullet;../../extern/glew/include;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -273,6 +273,14 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\code\Samples\CameraController.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Samples\CameraController.hxx"
+			>
+		</File>
 		<File
 			RelativePath="..\..\Code\Samples\main.cpp"
 			>

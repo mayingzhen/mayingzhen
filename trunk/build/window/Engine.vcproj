@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../extern/libpng/include;../extern/zlib/include"
+				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -741,11 +741,11 @@
 			Name="Input"
 			>
 			<File
-				RelativePath="..\..\code\Engine\Input\Gamepad.h"
+				RelativePath="..\..\code\Engine\Input\AndroidInputInjector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Input\Gamepad.hxx"
+				RelativePath="..\..\code\Engine\Input\AndroidInputInjector.hxx"
 				>
 			</File>
 			<File
@@ -753,27 +753,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Input\Joystick.h"
+				RelativePath="..\..\code\Engine\Input\Input.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Input\Joystick.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Input\Joystick.inl"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Input\Keyboard.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Input\Mouse.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Input\Touch.h"
+				RelativePath="..\..\code\Engine\Input\Input.hxx"
 				>
 			</File>
 		</Filter>

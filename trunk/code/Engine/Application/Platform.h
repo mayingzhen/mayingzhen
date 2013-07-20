@@ -33,8 +33,6 @@ namespace ma
 
 		static void		sleep(long ms);
 
-		static float	GetAbsoluteTime();
-
 		static Platform&	GetInstance();
 
 	protected:

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;FBXImporter_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

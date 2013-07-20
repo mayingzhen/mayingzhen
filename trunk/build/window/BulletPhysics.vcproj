@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.81/src&quot;"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.81/src&quot;;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BULLETPHYSICS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

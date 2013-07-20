@@ -14,34 +14,31 @@ namespace ma
 
 	void CameraController::UpdateInput()
 	{
-		if (NULL == m_pInput || m_pCamera == NULL || GetTimer() == NULL)
-		{
+		if (GetInput() == NULL || m_pCamera == NULL || GetTimer() == NULL)
 			return;
-		}
 
 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
-		
 
 		//Handle rotation
-		if (m_pInput->IsMouseButtonDown(OIS::MB_Middle) && m_pInput->IsKeyDown(OIS::KC_LMENU))
+		if (GetInput()->IsMouseButtonDown(OIS::MB_Middle) && GetInput()->IsKeyDown(OIS::KC_LMENU))
 		{
 			EulerAngleXYZ vRotEuler(0.0f,0.0f,0.0f);	
-			const OIS::MouseState* pMS = m_pInput->GetMouseState();
-			vRotEuler.y = pMS->X.rel / 512.0f;
-			vRotEuler.x = pMS->Y.rel / 512.0f;
+			const OIS::MouseState& mouseState = GetInput()->GetMouseState();
+			vRotEuler.y = mouseState.X.rel / 512.0f;
+			vRotEuler.x = mouseState.Y.rel / 512.0f;
 
 			RotateCamera(vRotEuler);	
 		}
 
 			
 		//Handle pan
-		if (!m_pInput->IsKeyDown(OIS::KC_LMENU) && m_pInput->IsMouseButtonDown(OIS::MB_Middle) )
+		if (!GetInput()->IsKeyDown(OIS::KC_LMENU) && GetInput()->IsMouseButtonDown(OIS::MB_Middle) )
 		{
 			Vector3 vPan(0.0f,0.0f,0.0f);
 			float fPanDist = m_fMoveSpeed * fTimeElapsed;
 
-			const OIS::MouseState* pMS = m_pInput->GetMouseState();
-			Vector2 vPanHS(pMS->X.rel / 512.0f, pMS->Y.rel / 512.0f);
+			const OIS::MouseState& mouseState = GetInput()->GetMouseState();
+			Vector2 vPanHS(mouseState.X.rel / 512.0f, mouseState.Y.rel / 512.0f);
 	
 			Vector3 vPanMouse = m_pCamera->ProjToWorldNormal(&vPanHS);
 			fPanDist *= Vec3Length(&vPanMouse);				
@@ -58,7 +55,7 @@ namespace ma
 		}
 
 		//Handle zoom
-		float fDeltaZoom = m_pInput->GetMouseState()->Z.rel;
+		float fDeltaZoom = GetInput()->GetMouseState().Z.rel;
 		if (fDeltaZoom != 0)
 		{
 			fDeltaZoom *=  m_fZoomSpeed * fTimeElapsed;

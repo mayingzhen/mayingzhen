@@ -109,10 +109,11 @@
 
 
 // Input
-#include "Engine/Input/Gesture.h"
-#include "Engine/Input/Keyboard.h"
-#include "Engine/Input/Mouse.h"
-#include "Engine/Input/Touch.h"
+#include "Engine/Input/Input.h"
+// #include "Engine/Input/Gesture.h"
+// #include "Engine/Input/Keyboard.h"
+// #include "Engine/Input/Mouse.h"
+// #include "Engine/Input/Touch.h"
 //#include "Engine/Input/Gamepad.h"
 //#include "Engine/Input/Joystick.h"
 

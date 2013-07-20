@@ -5,12 +5,11 @@
 namespace ma
 {
 
-	class ENGINE_API CameraController
+	class CameraController
 	{
 
 	public:
-					CameraController(Camera* pCamera,Input* pInput);
-
+		CameraController(Camera* pCamera);
 
 		void		UpdateInput();		
 					
@@ -39,8 +38,6 @@ namespace ma
 		float		m_fMoveSpeed;
 
 		Camera*		m_pCamera;
-
-		Input*		m_pInput;	
 	};
 }
 
