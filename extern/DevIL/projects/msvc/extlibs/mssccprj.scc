@@ -1,0 +1,13 @@
+SCC = This is a Source Code Control file
+
+[LibJpeg.dsp]
+SCC_Aux_Path = "\\172.23.8.137\VssDbR&D\xxx"
+SCC_Project_Name = "$/C3_OpenGLES/DevIL/projects/msvc/extlibs", HSDBAAAA
+
+[libpng.dsp]
+SCC_Aux_Path = "\\172.23.8.137\VssDbR&D\xxx"
+SCC_Project_Name = "$/C3_OpenGLES/DevIL/projects/msvc/extlibs", HSDBAAAA
+
+[zlib.dsp]
+SCC_Aux_Path = "\\172.23.8.137\VssDbR&D\xxx"
+SCC_Project_Name = "$/C3_OpenGLES/DevIL/projects/msvc/extlibs", HSDBAAAA

@@ -1,0 +1,514 @@
+Tzlib
+v7
+r0
+t390450220.847900
+cCheck dependencies
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/adler32.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/compress.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/crc32.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/deflate.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/gzio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/infback.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inffast.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inflate.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inftrees.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/trees.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/uncompr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c normal i386 c com.apple.compilers.gcc.4_2
+cCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c normal i386 c com.apple.compilers.gcc.4_2
+cLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/libzlib.a normal i386
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk
+c000000004F45CFA20000000000000132
+t1329975202
+s306
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/ctype.h
+c000000004748A1320000000000002C3A
+t1195942194
+s11322
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/errno.h
+c000000004748A13100000000000003EB
+t1195942193
+s1003
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdio.h
+c000000004748A1330000000000003D1D
+t1195942195
+s15645
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdlib.h
+c000000004748A1330000000000002A79
+t1195942195
+s10873
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/string.h
+c000000004748A1330000000000001731
+t1195942195
+s5937
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/sys/types.h
+c00000000476344C1000000000000290F
+t1197688001
+s10511
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/unistd.h
+c000000004748A13300000000000053FF
+t1195942195
+s21503
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h
+c000000004748AF950000000000000C7E
+t1195945877
+s3198
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stdarg.h
+c000000004748AF9500000000000010DD
+t1195945877
+s4317
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h
+c000000004748AF950000000000003197
+t1195945877
+s12695
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk
+c000000004CC128950000000000000110
+t1287727253
+s272
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/ctype.h
+c000000004CB3E4860000000000002C18
+t1286857862
+s11288
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/errno.h
+c000000004CB3E48600000000000003EB
+t1286857862
+s1003
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdio.h
+c000000004CB3E48600000000000040AC
+t1286857862
+s16556
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdlib.h
+c000000004CB3E4860000000000002DF5
+t1286857862
+s11765
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/string.h
+c000000004CB3E4860000000000001731
+t1286857862
+s5937
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/sys/types.h
+c000000004CBFACAC0000000000002905
+t1287629996
+s10501
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/unistd.h
+c000000004CB3E486000000000000563E
+t1286857862
+s22078
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/limits.h
+c000000004A1198340000000000000C7E
+t1242667060
+s3198
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stdarg.h
+c000000004A11983400000000000010DD
+t1242667060
+s4317
+
+N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h
+c000000004A1198340000000000003197
+t1242667060
+s12695
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c
+c000000004D8AA8940000000000000907
+t1300932756
+s2311
+i"zlib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/libzlib.a
+t1368757420
+s171952
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/adler32.o
+t1368757420
+s2748
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/compress.o
+t1368757420
+s4192
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/crc32.o
+t1368757420
+s15680
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/deflate.o
+t1368757420
+s29444
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/gzio.o
+t1368757420
+s25104
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/infback.o
+t1368757420
+s15624
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inffast.o
+t1368757420
+s6312
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inflate.o
+t1368757420
+s24420
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inftrees.o
+t1368757420
+s5476
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/trees.o
+t1368757420
+s32544
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/uncompr.o
+t1368757420
+s3504
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zlib.LinkFileList
+c00000000519594AC00000000000006AD
+t1368757420
+s1709
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zutil.o
+t1368757420
+s4168
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c
+c000000004D8AA8940000000000000A08
+t1300932756
+s2568
+i"zlib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c
+c000000004D8AA8940000000000002B04
+t1300932756
+s11012
+i<stdio.h>
+i"zutil.h"
+i<limits.h>
+i"crc32.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.h
+c000000004D8AA8940000000000007921
+t1300932756
+s31009
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c
+c000000004D8AA894000000000000DC92
+t1300932756
+s56466
+i"deflate.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.h
+c000000004D8AA8940000000000002FB3
+t1300932756
+s12211
+i"zutil.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c
+c000000004D8AA8940000000000007BD8
+t1300932756
+s31704
+i<stdio.h>
+i"zutil.h"
+i<stdarg.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c
+c000000004D8AA89400000000000058DF
+t1300932756
+s22751
+i"zutil.h"
+i"inftrees.h"
+i"inflate.h"
+i"inffast.h"
+i"inffixed.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c
+c000000004D8AA89400000000000030D2
+t1300932756
+s12498
+i"zutil.h"
+i"inftrees.h"
+i"inflate.h"
+i"inffast.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.h
+c000000004D8AA89400000000000001A2
+t1300932756
+s418
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffixed.h
+c000000004D8AA8940000000000001925
+t1300932756
+s6437
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c
+c000000004D8AA894000000000000B6CB
+t1300932756
+s46795
+i"zutil.h"
+i"inftrees.h"
+i"inflate.h"
+i"inffast.h"
+i"inffixed.h"
+i<stdio.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.h
+c000000004D8AA894000000000000171F
+t1300932756
+s5919
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c
+c000000004D8AA89400000000000036AF
+t1300932756
+s13999
+i"zutil.h"
+i"inftrees.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.h
+c000000004D8AA894000000000000097C
+t1300932756
+s2428
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c
+c000000004D8AA894000000000000B0CC
+t1300932756
+s45260
+i"deflate.h"
+i<ctype.h>
+i"trees.h"
+i<stdio.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.h
+c000000004D8AA894000000000000217C
+t1300932756
+s8572
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c
+c000000004D8AA8940000000000000864
+t1300932756
+s2148
+i"zlib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zconf.h
+c000000004D8AA89400000000000025C3
+t1300932756
+s9667
+i<windows.h>
+i<sys/types.h>
+i<unistd.h>
+i<unixio.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zlib.h
+c000000004D8AA894000000000000E659
+t1300932756
+s58969
+i"zconf.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c
+c000000004D8AA8940000000000001C9E
+t1300932756
+s7326
+i"zutil.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.h
+c000000004D8AA8940000000000001AA9
+t1300932756
+s6825
+i"zlib.h"
+i<stddef.h>
+i<string.h>
+i<stdlib.h>
+i<errno.h>
+i<alloc.h>
+i<malloc.h>
+i<unix.h>
+i<stdio.h>
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies390450220#390450220#0(0"0(0#1#0"8635107072#0"0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/adler32.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.202466
+e390450220.244208
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/adler32.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c8642758688#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/adler32.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/adler32.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/compress.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.203433
+e390450220.245793
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/compress.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@81"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c390450220#390450220#0(0"0(0#0#73"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c8642656736#1921"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/compress.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/compress.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/crc32.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.244338
+e390450220.377126
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/crc32.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@78"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c390450220#390450220#0(0"0(0#0#70"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c8641271520#1915"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/crc32.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/crc32.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/deflate.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.245870
+e390450220.474679
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/deflate.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c8641233376#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/deflate.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/deflate.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/gzio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.377230
+e390450220.496424
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/gzio.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@77"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c390450220#390450220#0(0"0(0#0#69"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c8631988576#1913"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/gzio.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/gzio.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/infback.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.474777
+e390450220.589934
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/infback.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c8647362464#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/infback.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/infback.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inffast.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.496527
+e390450220.550559
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inffast.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c8647034720#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inffast.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inffast.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inflate.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.550660
+e390450220.733289
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inflate.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c8645284256#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inflate.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inflate.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inftrees.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.590026
+e390450220.664793
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inftrees.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@81"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c390450220#390450220#0(0"0(0#0#73"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c8645090880#1921"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/inftrees.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/inftrees.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/trees.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.664892
+e390450220.837617
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/trees.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@78"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c390450220#390450220#0(0"0(0#0#70"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c8644393376#1915"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/trees.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/trees.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/uncompr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.733387
+e390450220.763025
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/uncompr.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@80"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c390450220#390450220#0(0"0(0#0#72"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c8647196384#1919"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/uncompr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/uncompr.o0#
+
+CCompileC build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c normal i386 c com.apple.compilers.gcc.4_2
+s390450220.763123
+e390450220.804122
+r1
+xCompileC
+xbuild/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zutil.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@78"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c390450220#390450220#0(0"0(0#0#70"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c8646952992#1915"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/zlib-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/zutil.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zutil.o0#
+
+CLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/libzlib.a normal i386
+s390450220.837713
+e390450220.847846
+r1
+xLibtool
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/libzlib.a
+xnormal
+xi386
+lSLF07#2@57"Libtool build/Debug-iphonesimulator/libzlib.a normal i386390450220#390450220#0(0"0(0#0#0"8646450272#808"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool -static -arch_only i386 -syslibroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -L/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator -filelist /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/zlib.build/Debug-iphonesimulator/zlib.build/Objects-normal/i386/zlib.LinkFileList -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/zlib/build/Debug-iphonesimulator/libzlib.a0#
+

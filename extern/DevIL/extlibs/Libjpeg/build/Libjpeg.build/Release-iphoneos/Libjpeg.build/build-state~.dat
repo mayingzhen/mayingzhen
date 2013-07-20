@@ -1,0 +1,1338 @@
+TLibjpeg
+v7
+r0
+t390450294.907465
+cCheck dependencies
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcdctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jchuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcinit.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcomapi.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcparam.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcprepct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jctrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatadst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatasrc.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jddctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdhuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdinput.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmerge.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdpostct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctred.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemnobs.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant1.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant2.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c normal armv7 c com.apple.compilers.gcc.4_2
+cCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jutils.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c normal armv7 c com.apple.compilers.gcc.4_2
+cLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/libLibjpeg.a normal armv7
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk
+c000000004E25190E0000000000000132
+t1311054094
+s306
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/stdio.h
+c000000004B9F135D0000000000004174
+t1268716381
+s16756
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/stdlib.h
+c000000004B9F135D0000000000002DF5
+t1268716381
+s11765
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/string.h
+c000000004B9F135D0000000000001731
+t1268716381
+s5937
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/strings.h
+c000000004B9F135D0000000000000DA4
+t1268716381
+s3492
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/include/sys/types.h
+c000000004C5A1A140000000000002905
+t1280973332
+s10501
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk/usr/lib/gcc/arm-apple-darwin10/4.2.1/include/stddef.h
+c000000004B734D600000000000003197
+t1265847648
+s12695
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk
+c000000004CC7DC9E0000000000000110
+t1288166558
+s272
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/stdio.h
+c000000004CB3E4B800000000000040AC
+t1286857912
+s16556
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/stdlib.h
+c000000004CB3E4B80000000000002DF5
+t1286857912
+s11765
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/string.h
+c000000004CB3E4B80000000000001731
+t1286857912
+s5937
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/strings.h
+c000000004CB3E4B80000000000000DA4
+t1286857912
+s3492
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/sys/types.h
+c000000004CBFACD90000000000002905
+t1287630041
+s10501
+
+N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/lib/gcc/arm-apple-darwin10/4.2.1/include/stddef.h
+c000000004C5A56870000000000003197
+t1280988807
+s12695
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/Libjpeg.LinkFileList
+c00000000519594F30000000000001AAF
+t1368757491
+s6831
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapimin.o
+t1368757491
+s16700
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapistd.o
+t1368757491
+s14072
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccoefct.o
+t1368757491
+s18260
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccolor.o
+t1368757491
+s17484
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcdctmgr.o
+t1368757491
+s17860
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jchuff.o
+t1368757491
+s24956
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcinit.o
+t1368757491
+s13512
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmainct.o
+t1368757491
+s13916
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmarker.o
+t1368757491
+s20888
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmaster.o
+t1368757491
+s19140
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcomapi.o
+t1368757491
+s12168
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcparam.o
+t1368757492
+s22512
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcphuff.o
+t1368757492
+s22912
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcprepct.o
+t1368757492
+s18104
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcsample.o
+t1368757492
+s20892
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jctrans.o
+t1368757492
+s22744
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapimin.o
+t1368757492
+s18768
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapistd.o
+t1368757492
+s16820
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatadst.o
+t1368757492
+s13516
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatasrc.o
+t1368757492
+s14704
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcoefct.o
+t1368757492
+s21028
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcolor.o
+t1368757492
+s18948
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jddctmgr.o
+t1368757492
+s16788
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdhuff.o
+t1368757493
+s23912
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdinput.o
+t1368757493
+s18264
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmainct.o
+t1368757493
+s20288
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmarker.o
+t1368757493
+s34316
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmaster.o
+t1368757493
+s20124
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmerge.o
+t1368757493
+s17212
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdphuff.o
+t1368757493
+s24128
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdpostct.o
+t1368757493
+s17344
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdsample.o
+t1368757493
+s21336
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdtrans.o
+t1368757493
+s15016
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jerror.o
+t1368757493
+s17428
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctflt.o
+t1368757493
+s3916
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctfst.o
+t1368757494
+s3844
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctint.o
+t1368757494
+s3964
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctflt.o
+t1368757494
+s14208
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctfst.o
+t1368757494
+s14080
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctint.o
+t1368757494
+s14100
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctred.o
+t1368757494
+s15680
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemmgr.o
+t1368757494
+s23148
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemnobs.o
+t1368757494
+s10916
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant1.o
+t1368757494
+s26372
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant2.o
+t1368757494
+s30740
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jutils.o
+t1368757494
+s5944
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/libLibjpeg.a
+t1368757494
+s819768
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c
+c000000004D8AA89F00000000000024B9
+t1300932767
+s9401
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c
+c000000004D8AA89F000000000000179A
+t1300932767
+s6042
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c
+c000000004D8AA89F00000000000041D1
+t1300932767
+s16849
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c
+c000000004D8AA89F0000000000003BCB
+t1300932767
+s15307
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c
+c000000004D8AA89F0000000000003238
+t1300932767
+s12856
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c
+c000000004D8AA89F00000000000071CB
+t1300932767
+s29131
+i"jinclude.h"
+i"jpeglib.h"
+i"jchuff.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.h
+c000000004D8AA89F0000000000000656
+t1300932767
+s1622
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c
+c000000004D8AA89F0000000000000975
+t1300932767
+s2421
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c
+c000000004D8AA89F00000000000024F5
+t1300932767
+s9461
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c
+c000000004D8AA89F00000000000045F5
+t1300932767
+s17909
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c
+c000000004D8AA89F0000000000004FFF
+t1300932767
+s20479
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c
+c000000004D8AA89F0000000000000C90
+t1300932767
+s3216
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jconfig.h
+c000000004D8AA89F00000000000004DC
+t1300932767
+s1244
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c
+c000000004D8AA89F000000000000557D
+t1300932767
+s21885
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c
+c000000004D8AA89F000000000000655C
+t1300932767
+s25948
+i"jinclude.h"
+i"jpeglib.h"
+i"jchuff.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c
+c000000004D8AA89F000000000000308B
+t1300932767
+s12427
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c
+c000000004D8AA89F0000000000004BB2
+t1300932767
+s19378
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c
+c000000004D8AA89F000000000000381D
+t1300932767
+s14365
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c
+c000000004D8AA89F00000000000032E8
+t1300932767
+s13032
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c
+c000000004D8AA89F0000000000002597
+t1300932767
+s9623
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c
+c000000004D8AA89F0000000000001496
+t1300932767
+s5270
+i"jinclude.h"
+i"jpeglib.h"
+i"jerror.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c
+c000000004D8AA89F0000000000001E88
+t1300932767
+s7816
+i"jinclude.h"
+i"jpeglib.h"
+i"jerror.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c
+c000000004D8AA89F0000000000006523
+t1300932767
+s25891
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c
+c000000004D8AA8A0000000000000342E
+t1300932768
+s13358
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdct.h
+c000000004D8AA89F0000000000001C31
+t1300932767
+s7217
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c
+c000000004D8AA89F0000000000002172
+t1300932767
+s8562
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c
+c000000004D8AA89F000000000000540D
+t1300932767
+s21517
+i"jinclude.h"
+i"jpeglib.h"
+i"jdhuff.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.h
+c000000004D8AA89F0000000000002093
+t1300932767
+s8339
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c
+c000000004D8AA89F0000000000003639
+t1300932767
+s13881
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c
+c000000004D8AA89F000000000000518E
+t1300932767
+s20878
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c
+c000000004D8AA89F000000000000A5EE
+t1300932767
+s42478
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c
+c000000004D8AA89F0000000000004F2B
+t1300932767
+s20267
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c
+c000000004D8AA89F00000000000037EC
+t1300932767
+s14316
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c
+c000000004D8AA89F00000000000052EB
+t1300932767
+s21227
+i"jinclude.h"
+i"jpeglib.h"
+i"jdhuff.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c
+c000000004D8AA89F000000000000271D
+t1300932767
+s10013
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c
+c000000004D8AA89F00000000000041DB
+t1300932767
+s16859
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c
+c000000004D8AA89F0000000000001471
+t1300932767
+s5233
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c
+c000000004D8AA89F0000000000001F75
+t1300932767
+s8053
+i"jinclude.h"
+i"jpeglib.h"
+i"jversion.h"
+i"jerror.h"
+i<windows.h>
+i"jerror.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.h
+c000000004D8AA89F0000000000003793
+t1300932767
+s14227
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c
+c000000004D8AA89F0000000000001616
+t1300932767
+s5654
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c
+c000000004D8AA89F0000000000001E7A
+t1300932767
+s7802
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c
+c000000004D8AA89F0000000000002C55
+t1300932767
+s11349
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c
+c000000004D8AA89F00000000000021F5
+t1300932767
+s8693
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c
+c000000004D8AA89F00000000000034E2
+t1300932767
+s13538
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c
+c000000004D8AA89F0000000000003B64
+t1300932767
+s15204
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c
+c000000004D8AA8A00000000000003666
+t1300932768
+s13926
+i"jinclude.h"
+i"jpeglib.h"
+i"jdct.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jinclude.h
+c000000004D8AA89F0000000000000D0D
+t1300932767
+s3341
+i"jconfig.h"
+i<stddef.h>
+i<stdlib.h>
+i<sys/types.h>
+i<stdio.h>
+i<strings.h>
+i<string.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c
+c000000004D8AA89F000000000000A47A
+t1300932767
+s42106
+i"jinclude.h"
+i"jpeglib.h"
+i"jmemsys.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c
+c000000004D8AA89F0000000000000B41
+t1300932767
+s2881
+i"jinclude.h"
+i"jpeglib.h"
+i"jmemsys.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemsys.h
+c000000004D8AA89F00000000000020EC
+t1300932767
+s8428
+i<Files.h>
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmorecfg.h
+c000000004D8AA89F000000000000321B
+t1300932767
+s12827
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jpegint.h
+c000000004D8AA89F0000000000003EE8
+t1300932767
+s16104
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jpeglib.h
+c000000004D8AA89F000000000000B8C5
+t1300932767
+s47301
+i"jconfig.h"
+i"jmorecfg.h"
+i"jpegint.h"
+i"jerror.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c
+c000000004D8AA89F0000000000007D96
+t1300932767
+s32150
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c
+c000000004D8AA89F000000000000C24B
+t1300932767
+s49739
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c
+c000000004D8AA89F000000000000152B
+t1300932767
+s5419
+i"jinclude.h"
+i"jpeglib.h"
+
+N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jversion.h
+c000000004D8AA89F0000000000000176
+t1300932767
+s374
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies390450291#390450291#0(0"0(0#1#0"8643863360#0"0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.035557
+e390450291.220459
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapimin.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c8640214720#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapimin.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.036707
+e390450291.127972
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapistd.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c8640062816#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcapistd.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.128145
+e390450291.297897
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccoefct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c8647238336#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccoefct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.220563
+e390450291.382875
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccolor.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c390450291#390450291#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c8650439584#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jccolor.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcdctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.298000
+e390450291.426425
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcdctmgr.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c8648137952#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcdctmgr.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jchuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.382978
+e390450291.719632
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jchuff.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c390450291#390450291#0(0"0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c8646497504#1857"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jchuff.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcinit.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.426523
+e390450291.484190
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcinit.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c390450291#390450291#0(0"0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c8646234752#1857"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcinit.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.484298
+e390450291.555727
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmainct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c8643827872#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmainct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.555845
+e390450291.754614
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmarker.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c8643677376#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmarker.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.719760
+e390450291.960853
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmaster.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c390450291#390450291#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c8643195968#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcmaster.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcomapi.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.754718
+e390450291.845634
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcomapi.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c390450291#390450291#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c8643100672#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcomapi.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcparam.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.845740
+e390450292.057700
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcparam.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c390450291#390450292#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c8648291776#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcparam.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450291.960955
+e390450292.216595
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcphuff.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c390450291#390450292#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c8646454752#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcphuff.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcprepct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.057799
+e390450292.184759
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcprepct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c8643805920#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcprepct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.184857
+e390450292.404287
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcsample.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c8642982176#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jcsample.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jctrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.216698
+e390450292.371834
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jctrans.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c390450292#390450292#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c8642861472#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jctrans.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.371940
+e390450292.497146
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapimin.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c8646952992#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapimin.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.404412
+e390450292.540958
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapistd.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c8644044416#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdapistd.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatadst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.497251
+e390450292.569670
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatadst.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c8643531296#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatadst.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatasrc.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.541065
+e390450292.649508
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatasrc.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c8642933920#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdatasrc.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.569776
+e390450292.829161
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcoefct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c8642780448#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcoefct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.649667
+e390450292.792677
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcolor.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c390450292#390450292#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c8650416160#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdcolor.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jddctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.792783
+e390450292.900278
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jddctmgr.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c390450292#390450292#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c8646877056#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jddctmgr.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdhuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.829265
+e390450293.027813
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdhuff.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c390450292#390450293#0(0"0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c8646619040#1857"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdhuff.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdinput.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450292.900394
+e390450293.050807
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdinput.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c390450292#390450293#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c8643992576#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdinput.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.027920
+e390450293.247136
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmainct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c8643032928#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmainct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.050914
+e390450293.555928
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmarker.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c8642815616#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmarker.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.247239
+e390450293.408876
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmaster.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c8650330400#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmaster.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmerge.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.408983
+e390450293.551816
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmerge.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c390450293#390450293#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c8646799328#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdmerge.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.551959
+e390450293.818612
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdphuff.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c390450293#390450293#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c8644646016#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdphuff.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdpostct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.556028
+e390450293.659666
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdpostct.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c8643821376#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdpostct.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.659774
+e390450293.837965
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdsample.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c8642939296#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdsample.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.818709
+e390450293.896360
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdtrans.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c390450293#390450293#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c8647685888#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jdtrans.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.838071
+e390450293.932475
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jerror.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c390450293#390450293#0(0"0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c8647124320#1857"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jerror.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.896480
+e390450293.977946
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctflt.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c390450293#390450293#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c8646679040#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctflt.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.932584
+e390450294.013673
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctfst.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c390450293#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c8644084064#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctfst.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450293.978052
+e390450294.067629
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctint.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c390450293#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c8643647904#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jfdctint.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.013780
+e390450294.140488
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctflt.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c390450294#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c8642468704#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctflt.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.067734
+e390450294.194228
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctfst.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c390450294#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c8642559840#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctfst.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.140585
+e390450294.265715
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctint.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c390450294#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c8649847520#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctint.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctred.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.194393
+e390450294.337992
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctred.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c390450294#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c8647898528#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jidctred.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.265818
+e390450294.551737
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemmgr.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c390450294#390450294#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c8646450272#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemmgr.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemnobs.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.338097
+e390450294.400624
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemnobs.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c390450294#390450294#0(0"0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c8643621120#1861"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jmemnobs.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant1.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.400726
+e390450294.636547
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant1.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c390450294#390450294#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c8643136192#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant1.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant2.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.551836
+e390450294.875122
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant2.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c390450294#390450294#0(0"0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c8647939072#1859"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jquant2.o0#
+
+CCompileC build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jutils.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c normal armv7 c com.apple.compilers.gcc.4_2
+s390450294.636658
+e390450294.698085
+r1
+xCompileC
+xbuild/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jutils.o
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c
+xnormal
+xarmv7
+xc
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c390450294#390450294#0(0"0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c8645052896#1857"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -Os -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/jutils.o0#
+
+CLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/libLibjpeg.a normal armv7
+s390450294.875228
+e390450294.907406
+r1
+xLibtool
+x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/libLibjpeg.a
+xnormal
+xarmv7
+lSLF07#2@56"Libtool build/Release-iphoneos/libLibjpeg.a normal armv7390450294#390450294#0(0"0(0#0#0"8642646976#792"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv IPHONEOS_DEPLOYMENT_TARGET 3.0    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/libtool -static -arch_only armv7 -syslibroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.2.sdk -L/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos -filelist /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphoneos/Libjpeg.build/Objects-normal/armv7/Libjpeg.LinkFileList -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphoneos/libLibjpeg.a0#
+
