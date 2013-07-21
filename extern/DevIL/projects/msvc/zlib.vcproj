@@ -372,7 +372,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_GraphicEngine|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory=".\../../lib/windows"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -421,7 +421,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/$(ProjectName)_DBG.lib"
+				OutputFile="$(OutDir)/$(ProjectName).lib"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=""
 			/>
@@ -450,119 +450,59 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\adler32.c"
+				RelativePath="..\..\extlibs\zlib\adler32.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\compress.c"
+				RelativePath="..\..\extlibs\zlib\compress.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\crc32.c"
+				RelativePath="..\..\extlibs\zlib\crc32.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\deflate.c"
+				RelativePath="..\..\extlibs\zlib\deflate.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\gzio.c"
+				RelativePath="..\..\extlibs\zlib\example.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\infback.c"
+				RelativePath="..\..\extlibs\zlib\gzio.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inffast.c"
+				RelativePath="..\..\extlibs\zlib\infback.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inflate.c"
+				RelativePath="..\..\extlibs\zlib\inffast.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inftrees.c"
+				RelativePath="..\..\extlibs\zlib\inflate.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\trees.c"
+				RelativePath="..\..\extlibs\zlib\inftrees.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\uncompr.c"
+				RelativePath="..\..\extlibs\zlib\minigzip.c"
 				>
 			</File>
 			<File
-				RelativePath="zlib.def"
+				RelativePath="..\..\extlibs\zlib\trees.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\msdos\zlib.rc"
+				RelativePath="..\..\extlibs\zlib\uncompr.c"
 				>
-				<FileConfiguration
-					Name="Debug_ImageEditor|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_HobbyGame|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_HobbyGame|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_ImageEditor|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_GraphicEngine|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_GraphicEngine|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\XIX\S\sourceforge\DevIL\extlibs\zlib\msdos"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\zutil.c"
+				RelativePath="..\..\extlibs\zlib\zutil.c"
 				>
 			</File>
 		</Filter>
@@ -571,43 +511,47 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\crc32.h"
+				RelativePath="..\..\extlibs\zlib\crc32.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\deflate.h"
+				RelativePath="..\..\extlibs\zlib\deflate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inffast.h"
+				RelativePath="..\..\extlibs\zlib\inffast.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inffixed.h"
+				RelativePath="..\..\extlibs\zlib\inffixed.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inflate.h"
+				RelativePath="..\..\extlibs\zlib\inflate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\inftrees.h"
+				RelativePath="..\..\extlibs\zlib\inftrees.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\trees.h"
+				RelativePath="..\..\extlibs\zlib\trees.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\zconf.h"
+				RelativePath="..\..\extlibs\zlib\zconf.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\zlib.h"
+				RelativePath="..\..\extlibs\zlib\zconf.in.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\extlibs\zlib\zutil.h"
+				RelativePath="..\..\extlibs\zlib\zlib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\extlibs\zlib\zutil.h"
 				>
 			</File>
 		</Filter>

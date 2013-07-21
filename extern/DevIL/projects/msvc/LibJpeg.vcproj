@@ -381,7 +381,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_GraphicEngine|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory=".\../../lib/windows/"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -411,7 +411,7 @@
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\libjpeg___Win32_Debug/LibJpeg.pch"
+				PrecompiledHeaderFile=""
 				AssemblerListingLocation=".\libjpeg___Win32_Debug/"
 				ObjectFile=".\libjpeg___Win32_Debug/"
 				ProgramDataBaseFileName=".\libjpeg___Win32_Debug/"
@@ -433,7 +433,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/$(ProjectName)_DBG.lib"
+				OutputFile="$(OutDir)/$(ProjectName).lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -650,14 +650,6 @@
 			</File>
 			<File
 				RelativePath="..\..\extlibs\Libjpeg\jmemansi.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\extlibs\Libjpeg\jmemdos.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\extlibs\Libjpeg\jmemmac.c"
 				>
 			</File>
 			<File
