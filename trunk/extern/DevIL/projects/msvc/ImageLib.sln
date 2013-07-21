@@ -54,10 +54,9 @@ Global
 		{A0FEEAD3-97BB-45E2-BFD0-1EB5A292DAEC}.Release_HobbyGame|Win32.Build.0 = Release_HobbyGame|Win32
 		{A0FEEAD3-97BB-45E2-BFD0-1EB5A292DAEC}.Release_ImageEditor|Win32.ActiveCfg = Release_ImageEditor|Win32
 		{A0FEEAD3-97BB-45E2-BFD0-1EB5A292DAEC}.Release_ImageEditor|Win32.Build.0 = Release_ImageEditor|Win32
-		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_GraphicEngine|Win32.ActiveCfg = Debug_GraphicEngine|Win32
-		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_GraphicEngine|Win32.Build.0 = Debug_GraphicEngine|Win32
-		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_HobbyGame|Win32.ActiveCfg = Debug_HobbyGame|Win32
-		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_HobbyGame|Win32.Build.0 = Debug_HobbyGame|Win32
+		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_GraphicEngine|Win32.ActiveCfg = Debug_HobbyGame|Win32
+		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_GraphicEngine|Win32.Build.0 = Debug_HobbyGame|Win32
+		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_HobbyGame|Win32.ActiveCfg = Release_ImageEditor|Win32
 		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_ImageEditor|Win32.ActiveCfg = Debug_ImageEditor|Win32
 		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Debug_ImageEditor|Win32.Build.0 = Debug_ImageEditor|Win32
 		{825B8E6F-64BF-44C3-87DC-0A50757F758D}.Release_GraphicEngine|Win32.ActiveCfg = Release_GraphicEngine|Win32
