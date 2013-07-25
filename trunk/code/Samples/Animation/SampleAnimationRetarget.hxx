@@ -1,5 +1,5 @@
-#include "Samples/Animation/SampleAnimationRetarget.h"
-#include "Animation/Module.h"
+#include "SampleAnimationRetarget.h"
+#include "S3Serialize/Module.h"
 
 
 namespace ma
@@ -8,19 +8,11 @@ namespace ma
 	{
 	}
 
-	void SampleAnimationRetarget::Init(ApplicationBase* pApplication)
+	void SampleAnimationRetarget::Init()
 	{
-		Sample::Init(pApplication);
+		Sample::Init();
 
-		//Vector3 vEyePos = Vector3(0, 400, 400);
-		//m_pCamera->LookAt(&vEyePos);
-
-		AnimationModuleInit();
-	}
-
-	void SampleAnimationRetarget::Shutdown()
-	{
-		AnimationModuleShutdown();
+		Load();
 	}
 
 	void SampleAnimationRetarget::Load()
@@ -28,75 +20,89 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
+		// DataConver
+		{
+			// gigi
+			{
+				MeshData* pMeshDatab = LoadMeshFromS3BinaryFile("../../Data/S3gigi/gigi/body_b.skn");
+				pMeshDatab->SaveToFile("../../Data/gigi/gigi/body_b.skn");
+
+				MeshData* pMeshDatah = LoadMeshFromS3BinaryFile("../../Data/S3gigi/gigi/body_h.skn");
+				pMeshDatah->SaveToFile("../../Data/gigi/gigi/body_h.skn");
+
+				MeshData* pMeshDataf = LoadMeshFromS3BinaryFile("../../Data/S3gigi/gigi/body_f.skn");
+				pMeshDataf->SaveToFile("../../Data/gigi/gigi/body_f.skn");
+
+				SkeletonData* pSkelData = LoadSkeletonFromS3BinaryFile("../../Data/S3gigi/gigi/body.ske");
+				pSkelData->SaveToFile("../../Data/gigi/gigi/body.ske");
+
+				AnimationData* pRun = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/210_run/bip01.ska");
+				ConverteAnimDataParentToLocalSpaceAnimation(pRun,pSkelData);
+				pRun->SaveToFile("../../Data/gigi/210_run/bip01.ska");
+
+				AnimationData* pJunmp = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/281_run_jump_start/bip01.ska");
+				ConverteAnimDataParentToLocalSpaceAnimation(pJunmp,pSkelData);
+				pJunmp->SaveToFile("../../Data/gigi/281_run_jump_start/bip01.ska");
+			}
+
+			// magic
+			{
+				MeshData* pMeshDataMag = LoadMeshFromS3BinaryFile("../../Data/S3magician/Body.skn");
+				pMeshDataMag->SaveToFile("../../Data/magician/Body.skn");
+			
+				SkeletonData* pSkelDataMag = LoadSkeletonFromS3BinaryFile("../../Data/S3magician/Body.ske");
+				pSkelDataMag->SaveToFile("../../Data/magician/Body.ske");
+
+				AnimationData* Mag602 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/602/bip01.ska");
+				ConverteAnimDataParentToLocalSpaceAnimation(Mag602,pSkelDataMag);
+				Mag602->SaveToFile("../../Data/magician/602/bip01.ska");
+
+				AnimationData* mag100 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/100/bip01.ska");
+				ConverteAnimDataParentToLocalSpaceAnimation(mag100,pSkelDataMag);
+				mag100->SaveToFile("../../Data/magician/100/bip01.ska");
+			}
+		}
+
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)
-			m_pRenderMeshA_b = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_b = LoadMeshFromBinaryFile("../Data/Man001/body_b.skn");
-			m_pRenderMeshA_b->InitWithData(pMeshDataA_b);
+			m_pRenderMeshA_b = new RenderMesh();
+			m_pRenderMeshA_b->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.tga");
 
-			m_pRendTextureA_b = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_b->Load("../Data/Man001/body_b.tga");
+			m_pRenderMeshA_h = new RenderMesh(); 
+			m_pRenderMeshA_h->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.tga");
 
-			m_pRenderMeshA_h = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_h = LoadMeshFromBinaryFile("../Data/Man001/body_h.skn");
-			m_pRenderMeshA_h->InitWithData(pMeshDataA_h);
+			m_pRenderMeshA_f = new RenderMesh();
+			m_pRenderMeshA_f->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
 
-			m_pRendTextureA_h = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_h->Load("../Data/Man001/body_h.tga");	
+			m_pAnimtionPlayA = GetAnimationDevice()->CreateAnimationPlay();
+			m_pAnimtionPlayA->CreateSkeleton("gigi/gigi/body.ske");
+			IAnimationSet* pAnimSet = m_pAnimtionPlayA->CreateAnimSet(NULL);
 
-			m_pRenderMeshA_f = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataA_f = LoadMeshFromBinaryFile("../Data/Man001/body_f.skn");
-			m_pRenderMeshA_f->InitWithData(pMeshDataA_f);
+			pAnimSet->AddAction("gigi/210_run/bip01.ska","gigi_Run");
+			pAnimSet->AddAction("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+			pAnimSet->AddAction("magician/602/bip01.ska","Mag602");
+			pAnimSet->AddAction("magician/100/bip01.ska","mag100");
 
-			m_pRendTextureA_f = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureA_f->Load("../Data/Man001/body_f.tga");	
-
-			SkeletonData* pSkelDataA = LoadSkeletonFromBinaryFile("../Data/Man001/body.ske");
-			m_pSkeletonA = new Skeleton();
-			m_pSkeletonA->InitWithData(pSkelDataA);
+			m_pAnimtionPlayA->PlayAnimation((UINT)0);	
 		}
 
 		// character B MeshData & skeleton & Animation
 		{
-			m_pRenderMeshB = GetRenderDevice()->CreateRendMesh();
-			MeshData* pMeshDataB = LoadMeshFromBinaryFile("../Data/magician/Body.skn");
-			m_pRenderMeshB->InitWithData(pMeshDataB);
+			m_pRenderMeshB = new RenderMesh();
+			m_pRenderMeshB->Load("magician/Body.skn","magician/Body.tga");
 
-			m_pRendTextureB = GetRenderDevice()->CreateRendTexture();
-			m_pRendTextureB->Load("../Data/magician/Body.tga");	
+			m_pAnimtionPlayB =  GetAnimationDevice()->CreateAnimationPlay();
+			m_pAnimtionPlayB->CreateSkeleton("magician/Body.ske");
+			IAnimationSet* pAnimSet = m_pAnimtionPlayB->CreateAnimSet(NULL);
+			
+			pAnimSet->AddAction("gigi/210_run/bip01.ska","gigi_Run");
+			pAnimSet->AddAction("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+			pAnimSet->AddAction("magician/602/bip01.ska","Mag602");
+			pAnimSet->AddAction("magician/100/bip01.ska","mag100");
 
-			SkeletonData* pSkelDataB = LoadSkeletonFromBinaryFile("../Data/magician/Body.ske");
-			m_pSkeletonB = new Skeleton();
-			m_pSkeletonB->InitWithData(pSkelDataB);
+			m_pAnimtionPlayB->PlayAnimation((UINT)0);
 		}
-	
-
-		{
-			m_pAnimtionPlayA = new AnimationPlay(m_pSkeletonA);
-			m_pAnimtionPlayA->AddAction("../Data/man001/120/bip01.ska","man120");
-			m_pAnimtionPlayA->AddAction("../Data/man001/140/bip01.ska","Man140");
-			m_pAnimtionPlayA->AddAction("../Data/magician/602/bip01.ska","Mag602");
-			m_pAnimtionPlayA->AddAction("../Data/magician/100/bip01.ska","mag100");
-
-			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
-		} 
-
-		{
-			m_pAnimtionPlayB = new AnimationPlay(m_pSkeletonB);
-
-			m_pAnimtionPlayA->AddAction("../Data/man001/120/bip01.ska","man120");
-			m_pAnimtionPlayA->AddAction("../Data/man001/140/bip01.ska","Man140");
-			m_pAnimtionPlayA->AddAction("../Data/magician/602/bip01.ska","Mag602");
-			m_pAnimtionPlayA->AddAction("../Data/magician/100/bip01.ska","mag100");
-
-			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
-		}
-	}
-
-	void SampleAnimationRetarget::Unload()
-	{
-
 	}
 
 	void SampleAnimationRetarget::OnInput()
@@ -105,31 +111,31 @@ namespace ma
 		if (pInput == NULL)
 			return;
 
-		if (pInput->IsKeyPressed(OIS::KC_1))
+		if (pInput->IsKeyDown(OIS::KC_1))
 		{
-			m_pAnimtionPlayA->PlayAnimation((ActionID)0);
-			m_pAnimtionPlayB->PlayAnimation((ActionID)0);
+			m_pAnimtionPlayA->PlayAnimation((UINT)0);
+			m_pAnimtionPlayB->PlayAnimation((UINT)0);
 		}
-		else if (pInput->IsKeyPressed(OIS::KC_2))
+		else if (pInput->IsKeyDown(OIS::KC_2))
 		{
 			m_pAnimtionPlayA->PlayAnimation(1);
+			m_pAnimtionPlayB->PlayAnimation(1);
+		}
+		else if (pInput->IsKeyDown(OIS::KC_3))
+		{
+			m_pAnimtionPlayA->PlayAnimation(2);
 			m_pAnimtionPlayB->PlayAnimation(2);
 		}
-		else if (pInput->IsKeyPressed(OIS::KC_3))
+		else if (pInput->IsKeyDown(OIS::KC_4))
 		{
 			m_pAnimtionPlayA->PlayAnimation(3);
 			m_pAnimtionPlayB->PlayAnimation(3);
 		}
-		else if (pInput->IsKeyPressed(OIS::KC_4))
-		{
-			m_pAnimtionPlayA->PlayAnimation(4);
-			m_pAnimtionPlayB->PlayAnimation(4);
-		}
 	}
 
-	void SampleAnimationRetarget::Tick(float timeElapsed)
+	void SampleAnimationRetarget::Update()
 	{
-		__super::Tick(timeElapsed);
+		Sample::Update();
 
 		OnInput();
 
@@ -138,13 +144,42 @@ namespace ma
 
 		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
 
-		m_pAnimtionPlayA->AdvanceTime(fTimeElapsed);
+		if (m_pAnimtionPlayA)
+		{
+			m_pAnimtionPlayA->AdvanceTime(fTimeElapsed);
+			m_pAnimtionPlayA->EvaluateAnimation(1.0f);
 
-		m_pAnimtionPlayB->AdvanceTime(fTimeElapsed);
+			Matrix4x4* skinMatrixA = m_pAnimtionPlayA->GetSkinMatrixArray();
+			UINT nNumberA = m_pAnimtionPlayA->GetSkinMatrixNumber();
 
-		m_pAnimtionPlayA->EvaluateAnimation(1.0f);
+			m_pRenderMeshA_b->SetSkinMatrix(skinMatrixA,nNumberA);
+			m_pRenderMeshA_f->SetSkinMatrix(skinMatrixA,nNumberA);
+			m_pRenderMeshA_h->SetSkinMatrix(skinMatrixA,nNumberA);
 
-		m_pAnimtionPlayB->EvaluateAnimation(1.0f);
+			Matrix4x4 matWorld;
+			MatrixTranslation(&matWorld,-50,0,0);
+			m_pRenderMeshA_b->SetWorldMatrix(matWorld);
+			m_pRenderMeshA_f->SetWorldMatrix(matWorld);
+			m_pRenderMeshA_h->SetWorldMatrix(matWorld);
+
+		}
+
+		if (m_pAnimtionPlayB)
+		{
+			m_pAnimtionPlayB->AdvanceTime(fTimeElapsed);
+			m_pAnimtionPlayB->EvaluateAnimation(1.0f);
+
+			Matrix4x4* skinMatrixB = m_pAnimtionPlayB->GetSkinMatrixArray();
+			UINT nNumberB = m_pAnimtionPlayB->GetSkinMatrixNumber();
+
+			m_pRenderMeshB->SetSkinMatrix(skinMatrixB,nNumberB);
+
+			Matrix4x4 matWorld,matRoat;
+			MatrixTranslation(&matWorld,50,0,0);
+			//MatrixRotationYawPitchRoll(&matRoat,0,PI,0);
+			//matWorld = matWorld * matRoat;
+			m_pRenderMeshB->SetWorldMatrix(matWorld);
+		}
 	}
 
 	void SampleAnimationRetarget::Render()
@@ -152,35 +187,13 @@ namespace ma
 		if (GetRenderDevice() == NULL)
 			return;
 
-		GetRenderDevice()->BeginRender();
-	
-		// Render A
-		{
-			Matrix4x4 matWorld,matRoat;
-			MatrixRotationX(&matRoat,-3.14f / 2.0f);
-			MatrixTranslation(&matWorld,-50,0,0);
-			matWorld = matRoat * matWorld;
+		// A
+ 		//m_pRenderMeshA_b->Draw();
+ 		//m_pRenderMeshA_f->Draw();
+ 		//m_pRenderMeshA_h->Draw();
 
-			Matrix4x4* skinMatrix = m_pAnimtionPlayA->GetSkinMatrixArray();
-			UINT nSkinMatrixNumber = m_pAnimtionPlayA->GetSkinMatrixNumber();
-			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_b,m_pRendTextureA_b);
-			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_f,m_pRendTextureA_f);
-			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshA_h,m_pRendTextureA_h);
-		}
-
-		// Render B
-		{
-			Matrix4x4 matWorld,matRoat;
-			MatrixRotationX(&matRoat,-3.14f / 2.0f);
-			MatrixTranslation(&matWorld,50,0,0);
-			matWorld = matRoat * matWorld;
-
-			Matrix4x4* skinMatrix = m_pAnimtionPlayB->GetSkinMatrixArray();
-			UINT nSkinMatrixNumber = m_pAnimtionPlayB->GetSkinMatrixNumber();
-			//pRender->RenderSkelMesh(skinMatrix,nSkinMatrixNumber,&matWorld,m_pRenderMeshB,m_pRendTextureB);
-		}
-
-		GetRenderDevice()->EndRender();
+		// B
+		m_pRenderMeshB->Draw();
 	}
 
 }

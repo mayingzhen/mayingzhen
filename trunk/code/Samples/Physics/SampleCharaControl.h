@@ -5,12 +5,12 @@ namespace ma
 {
 	class Scene;
 
-	class SampleCharaControl : public SimpleSceneView
+	class SampleCharaControl : public Sample
 	{
 	public:
 		SampleCharaControl();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init();
 
 		virtual void Shutdown();
 
@@ -18,11 +18,9 @@ namespace ma
 
 		virtual void Unload();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
-
-		virtual	void OnResize(int w,int h);
 
 	private:
 		Scene*	m_pScene;	

@@ -1,5 +1,5 @@
-#ifndef  _GAMEOBJ__H__
-#define  _GAMEOBJ__H__
+#ifndef  _GameObject__H__
+#define  _GameObject__H__
 
 #include "SceneNode.h"
 
@@ -20,42 +20,45 @@ namespace ma
 
 		~GameObject();
 
-		bool			TravelScene(SceneVisiter* pVisiter);
+		bool				TravelScene(SceneVisiter* pVisiter);
 
- 		//void			Render();
- 
- 		//void			Update();
+		SceneNode*			GetSceneNode() {return m_pScenNode;}
 
-		//void			Awak();
- 
- 		//void			Start();
- 
- 		//void			Stop();
-
-		//Scene*			GetScene() {return m_pScene;}
-		SceneNode*		GetSceneNode() {return m_pScenNode;}
-
-		GameObject*		Clone(const char* pName);
-
-		//GameObject*		CreateChild(const char* pszName);
+		GameObject*			Clone(const char* pName);
 
 		template<class T>
-		T*				CreateComponent();
+		T*					CreateComponent();
 
-		UINT			GetComponentNumber() {return m_arrComp.size();}
+		UINT				GetComponentNumber() {return m_arrComp.size();}
 
-		Component*		GetComponentByIndex(UINT index) {return m_arrComp[index];}
+		Component*			GetComponentByIndex(UINT index) {return m_arrComp[index];}
+
+		template<class T>
+		T*					GetTypeComponentFirst();
+
+		template<class T>
+		T*					GetTypeComponentNumber();
+
+		template<class T>
+		T*					GetTypeComponentByIndex(UINT index);
+
+		void				Serialize(Serializer& sl, const char* pszLable = "GameObject");
+
+		// physic
+		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 		
-		IPhysicsObject*	GetPhyscisObject() {return m_pPhyscisObject;}
+		ICharaControll*		GetCharController();
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "GameObject");
-	
+		void				AddCollisionListener(GameObject* pGameObjB);
+
+		void				RemoveCollisionListener(GameObject* pGameObjB);
+
 	protected:
-		void			UpdateAABB();
+		void				UpdateAABB();
 
-		void			SetScene(Scene* pScene);
+		void				SetScene(Scene* pScene);
 
-		void			AddComponent(Component* pComponent);
+		void				AddComponent(Component* pComponent);
 
 	private:
 		IPhysicsObject*				m_pPhyscisObject;
@@ -72,6 +75,47 @@ namespace ma
 		T* pComponent = new T(this);
 		AddComponent(pComponent);
 		return pComponent;
+	}
+
+	template<class T>
+	T*	GameObject::GetTypeComponentFirst()
+	{
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			if (T::StaticGetClass() == m_arrComp[i].GetClass())
+			{
+				return m_arrComp[i];
+			}
+		}
+		return NULL;
+	}
+
+	template<class T>
+	T*	GameObject::GetTypeComponentNumber()
+	{
+		UINT nNumber = 0;
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			if (T::StaticGetClass() == m_arrComp[i].GetClass())
+			{
+				++nNumber;
+			}
+		}
+		return nNumber;
+	}
+
+	template<class T>
+	T*	GameObject::GetTypeComponentByIndex(UINT index)
+	{
+		UINT nNumber = 0;
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			if (T::StaticGetClass() == m_arrComp[i].GetClass() && nNumber == index)
+			{
+				return m_arrComp[i];
+			}
+		}
+		return NULL;
 	}
 
 }

@@ -68,7 +68,7 @@ inline void BoneMatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF)
 
 inline void NodeMatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF)
 {
-	Vector3 vScale = pTSF->m_fScale * pTSF->m_vLocalScale;
+	Vector3 vScale(pTSF->m_fScale,pTSF->m_fScale,pTSF->m_fScale);// * pTSF->m_vLocalScale;
 	MatrixTransform(pMat,&vScale,&pTSF->m_qRot,&pTSF->m_vPos);
 }
 
@@ -76,18 +76,19 @@ inline void TransformSetIdentity(NodeTransform* pTSF)
 {
 	memset(&pTSF->m_vPos,0,sizeof(Vector3));
 	QuaternionIdentity(&pTSF->m_qRot);
-	pTSF->m_vLocalScale = Vector3(1.0f,1.0f,1.0f);
+	//pTSF->m_vLocalScale = Vector3(1.0f,1.0f,1.0f);
 	pTSF->m_fScale = 1.0f;
 }
 
 inline void TransformFromMatrix(NodeTransform* pTSF,const Matrix4x4* pMat)
 {
-	MatrixDecompose(&pTSF->m_vLocalScale,&pTSF->m_qRot,&pTSF->m_vPos,pMat);
-	float fPropScale = (fabs(pTSF->m_vLocalScale.x) + fabs(pTSF->m_vLocalScale.y) + fabs(pTSF->m_vLocalScale.z))/3.0f;
+	Vector3 vScale;
+	MatrixDecompose(&vScale,&pTSF->m_qRot,&pTSF->m_vPos,pMat);
+	float fPropScale = (fabs(vScale.x) + fabs(vScale.y) + fabs(vScale.z))/3.0f;
 	if (fPropScale > FEPS)
 	{
 		pTSF->m_fScale = fPropScale;
-		pTSF->m_vLocalScale = pTSF->m_vLocalScale/fPropScale;
+		//pTSF->m_vLocalScale = pTSF->m_vLocalScale/fPropScale;
 	}else{
 		pTSF->m_fScale = 1.0f;
 	}
@@ -104,7 +105,7 @@ inline void  TransformMul(NodeTransform* pOut,const NodeTransform* pTSFA,const N
 	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale; 
 
 	//It is local scale use A
-	pOut->m_vLocalScale = pTSFA->m_vLocalScale;
+	//pOut->m_vLocalScale = pTSFA->m_vLocalScale;
 
 }
 
@@ -118,7 +119,7 @@ inline void  TransformMulLocalScale(NodeTransform* pOut,const NodeTransform* pTS
 
 	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale; 
 
-	Vec3Mul(&pOut->m_vLocalScale,&pTSFA->m_vLocalScale,&pTSFB->m_vLocalScale);
+	//Vec3Mul(&pOut->m_vLocalScale,&pTSFA->m_vLocalScale,&pTSFB->m_vLocalScale);
 
 }
 
@@ -593,7 +594,7 @@ inline void  Vec3TransformCoord(Vector3* pOut,const Vector3* pV,const NodeTransf
 {
 	Vector3 vPos;
 	vPos = *pV * pRT->m_fScale;
-	Vec3Mul(&vPos,&vPos,&pRT->m_vLocalScale);
+	//Vec3Mul(&vPos,&vPos,&pRT->m_vLocalScale);
 	QuaternionTransformVector(pOut,&vPos,&pRT->m_qRot);
 	*pOut = *pOut+pRT->m_vPos;
 }
@@ -631,7 +632,7 @@ inline void  TransformMul(NodeTransform* pOut,const NodeTransform* pTSF,float fW
 {
 	pOut->m_vPos = pTSF->m_vPos * fWeight;
 	pOut->m_qRot = pTSF->m_qRot * fWeight;
-	pOut->m_vLocalScale = pTSF->m_vLocalScale * fWeight;
+	//pOut->m_vLocalScale = pTSF->m_vLocalScale * fWeight;
 	pOut->m_fScale = pTSF->m_fScale * fWeight;
 }
 
@@ -649,7 +650,7 @@ inline void  TransformInverse(NodeTransform* pOut,const NodeTransform* pTSF)
 
 	pOut->m_fScale = fScaleInv;
 
-	Vec3Recip(&pOut->m_vLocalScale,&pTSF->m_vLocalScale);	
+	//Vec3Recip(&pOut->m_vLocalScale,&pTSF->m_vLocalScale);	
 
 }
 
@@ -664,7 +665,7 @@ inline void  TransformMad(NodeTransform* pOut,const NodeTransform* pA,float f,co
 {
 	Vec3Mad(&pOut->m_vPos,&pA->m_vPos,f,&pB->m_vPos);
 	QuaternionMad(&pOut->m_qRot,&pB->m_qRot,&pA->m_qRot,f);
-	Vec3Mad(&pOut->m_vLocalScale,&pA->m_vLocalScale,f,&pB->m_vLocalScale);
+	//Vec3Mad(&pOut->m_vLocalScale,&pA->m_vLocalScale,f,&pB->m_vLocalScale);
 	pOut->m_fScale = pA->m_fScale * f + pB->m_fScale;
 }
 
@@ -672,7 +673,7 @@ inline void  TransformMad(NodeTransform* pOut,const NodeTransform* pA,float f,co
 
 inline void  MatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF)
 {
-	Vector3 vScale = pTSF->m_vLocalScale * pTSF->m_fScale;
+	Vector3 vScale = Vector3(pTSF->m_fScale,pTSF->m_fScale,pTSF->m_fScale);//pTSF->m_vLocalScale * pTSF->m_fScale;
 	MatrixTransform(pMat,&vScale,&pTSF->m_qRot,&pTSF->m_vPos);
 }
 
@@ -681,7 +682,7 @@ inline void NodeVec3TransformCoord(Vector3* pOut,const Vector3* pPos,const NodeT
 {
 	Vector3 vPos;
 	vPos = *pPos * pTSF->m_fScale;
-	Vec3Mul(&vPos,&vPos,&pTSF->m_vLocalScale);
+	//Vec3Mul(&vPos,&vPos,&pTSF->m_vLocalScale);
 	QuaternionTransformVector(&vPos,&vPos,&pTSF->m_qRot);
 	*pOut = vPos + pTSF->m_vPos;
 

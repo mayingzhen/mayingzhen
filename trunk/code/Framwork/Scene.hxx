@@ -31,38 +31,27 @@ namespace ma
 		m_pRootNode->TravelScene(pVisiter);
 	}
 
+	class SceneUpdate : public SceneVisiter
+	{
+		virtual bool VisiteComponent(Component* pComp)
+		{
+			pComp->Update();
+			return true;
+		}
+	};
+
 	void Scene::Update(float fElapsedTime)
 	{
-		//GetScriptDevice()->Update();
+		SceneUpdate sceneUpdate;
+		TravelScene(&sceneUpdate);
 
-		//GetAnimationDevice()->Update();
+		if (m_pPhyScene)
+		{
+			m_pPhyScene->BeginSimulation(fElapsedTime);
 
-// 		if (m_pRootNode == NULL)
-// 			return;
-// 
-// 		m_pRootNode->Update();
-// 
-// 		m_pRootNode->ParalleUpdate(fElapsedTime);
-// 
-// 		m_fAccPhyTime += fElapsedTime;
-// 		if (m_fAccPhyTime > m_fFixUpdateInterval)
-// 		{
-// 			m_pRootNode->FixedUpdate(m_fFixUpdateInterval);
-// 			m_fAccPhyTime -= m_fFixUpdateInterval;
-// 		}
-// 
-// 		if (m_pPhyScene != NULL)
-// 		{
-// 			m_pPhyScene->BeginSimulation(fElapsedTime);
-// 
-// 			m_pPhyScene->EndSimulation();
-// 		}
-// 
-// 		m_pRootNode->LateUpdate(fElapsedTime);
-
-		//if (m_pRootGameObject)
-		//	m_pRootGameObject->Update();
-
+			m_pPhyScene->EndSimulation();
+		}
+		
 	}
 
 	class SceneRender : public SceneVisiter
@@ -76,9 +65,6 @@ namespace ma
 
 	void Scene::Render(Camera* pCmera)
 	{
-		if (GetRenderDevice() == NULL)
-			return;
-
 		m_pCurCamera = pCmera;
 		Material::SetAuotBingCamera(pCmera);
 		
@@ -92,13 +78,12 @@ namespace ma
 		//	m_pRootNode->Awak();
 	}
 
+
 	void Scene::Start()
 	{
 		if (m_pPhyScene)
 			m_pPhyScene->Start();
 
-		//if (m_pRootNode)
-		//	m_pRootNode->Start();
 	}
 
 	void Scene::Stop()

@@ -257,6 +257,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Samples\Render\SampleParticle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Render\SampleParticle.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Samples\Render\SampleShadowMap.h"
 				>
 			</File>
@@ -282,7 +290,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Samples\main.cpp"
+			RelativePath="..\..\code\Samples\main-windows.cpp"
 			>
 		</File>
 		<File

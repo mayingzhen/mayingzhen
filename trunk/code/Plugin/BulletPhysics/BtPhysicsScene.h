@@ -37,7 +37,7 @@ namespace ma
 
 		virtual	IPhysicsObject*	CreatePhysicsObject(GameObject* pGameObj);
 
-		virtual	ICharacterController* CreateCharacterController(GameObject* pGameObj);
+		virtual	ICharaControll* CreateCharacterController(GameObject* pGameObj);
 
 		virtual GameObject*		RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 

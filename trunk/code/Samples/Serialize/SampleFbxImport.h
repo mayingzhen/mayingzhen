@@ -27,8 +27,6 @@ namespace ma
 
 		void LoadBoxMesh(FBXImporter& fbxImpor);
 
-		void LoadParticles();
-
 	private:
 
 		// SkelMesh
@@ -43,7 +41,8 @@ namespace ma
 		RenderMesh*		m_pBoxMesh;
 		Material*       m_pBoxMaterial;
 
-		ParticleEmitter* m_pEmitter;
+		float			m_fFame;
+		
 	};
 }
 

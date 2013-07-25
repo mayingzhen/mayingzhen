@@ -90,7 +90,7 @@
 
 
 #include "Engine/Thread/DataThread.hxx"
-
+#include "Engine/Thread/RenderThread.hxx"
 
 
 using namespace ma;

@@ -12,14 +12,15 @@ namespace ma
 		D3D9IndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC);
 
 		~D3D9IndexBuffer();
+	
+		IDirect3DIndexBuffer9 * GetD3DIndexBuffer() ;
 
+	private:
 		virtual void*	Lock(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
 		
 		virtual void	Unlock();
 
 		virtual void	Active();
-
-		IDirect3DIndexBuffer9 * GetD3DIndexBuffer() const;
 
 	protected:
 		IDirect3DDevice9 *          mD3D9Device;

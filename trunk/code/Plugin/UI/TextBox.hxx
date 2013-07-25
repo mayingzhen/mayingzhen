@@ -111,7 +111,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
         {
             switch (key)
             {
-                case Keyboard::KEY_HOME:
+			case OIS::KC_HOME/*Keyboard::KEY_HOME*/:
                 {
                     // TODO: Move cursor to beginning of line.
                     // This only works for left alignment...
@@ -120,12 +120,12 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     //_dirty = true;
                     break;
                 }
-                case Keyboard::KEY_END:
+			case OIS::KC_END/*Keyboard::KEY_END*/:
                 {
                     // TODO: Move cursor to end of line.
                     break;
                 }
-                case Keyboard::KEY_DELETE:
+			case OIS::KC_DELETE/*Keyboard::KEY_DELETE*/:
                 {
                     Font* font = getFont(_state);
                     ASSERT(font);
@@ -143,13 +143,13 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     notifyListeners(Control::Listener::TEXT_CHANGED);
                     break;
                 }
-                case Keyboard::KEY_TAB:
+			case OIS::KC_TAB/*Keyboard::KEY_TAB*/:
                 {
                     // Allow tab to move the focus forward.
                     return false;
                     break;
                 }
-                case Keyboard::KEY_LEFT_ARROW:
+			case OIS::KC_LEFT/*Keyboard::KEY_LEFT_ARROW*/:
                 {
                     Font* font = getFont(_state);
                     ASSERT(font);
@@ -164,7 +164,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     _dirty = true;
                     break;
                 }
-                case Keyboard::KEY_RIGHT_ARROW:
+			case OIS::KC_RIGHT/*Keyboard::KEY_RIGHT_ARROW*/:
                 {
                     Font* font = getFont(_state);
                     ASSERT(font);
@@ -179,7 +179,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     _dirty = true;
                     break;
                 }
-                case Keyboard::KEY_UP_ARROW:
+			case OIS::KC_UP/*Keyboard::KEY_UP_ARROW*/:
                 {
                     Font* font = getFont(_state);
                     ASSERT(font);
@@ -198,7 +198,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     _dirty = true;
                     break;
                 }
-                case Keyboard::KEY_DOWN_ARROW:
+			case OIS::KC_DOWN/*Keyboard::KEY_DOWN_ARROW*/:
                 {
                     Font* font = getFont(_state);
                     ASSERT(font);
@@ -240,7 +240,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
 
             switch (key)
             {
-                case Keyboard::KEY_BACKSPACE:
+			case OIS::KC_BACK/*Keyboard::KEY_BACKSPACE*/:
                 {
                     if (textIndex > 0)
                     {
@@ -253,12 +253,12 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     }
                     break;
                 }
-                case Keyboard::KEY_RETURN:
+			case OIS::KC_RETURN/*Keyboard::KEY_RETURN*/:
                     // TODO: Handle line-break insertion correctly.
                     break;
-                case Keyboard::KEY_ESCAPE:
+			case OIS::KC_ESCAPE/*Keyboard::KEY_ESCAPE*/:
                     break;
-                case Keyboard::KEY_TAB:
+			case OIS::KC_TAB/*Keyboard::KEY_TAB*/:
                     // Allow tab to move the focus forward.
                     return false;
                     break;

@@ -6,10 +6,7 @@ namespace ma
 	 	Color   col;
  	};
 
-	LineRender::LineRender()
-	{
-		m_pMeshBatch = NULL;
-	}
+	static MeshBatch* _pMeshBatch = NULL;
 
 	void LineRender::Init()
 	{
@@ -21,7 +18,12 @@ namespace ma
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT4,DU_COLOR,0);
 		pVertexDec->Active();
-		m_pMeshBatch = MeshBatch::create(pVertexDec, PRIM_LINELIST, pMaterial, true, 1024);
+		_pMeshBatch = MeshBatch::create(pVertexDec, PRIM_LINELIST, pMaterial, true, 1024);
+	}
+
+	void LineRender::ShutDown()
+	{
+		SAFE_DELETE(_pMeshBatch);
 	}
 
 
@@ -35,7 +37,7 @@ namespace ma
 	
 		Uint16 index[2] = {0,1};
 
-		m_pMeshBatch->add(v,2,index,2);
+		_pMeshBatch->add(v,2,index,2);
 	}
 
 
@@ -128,18 +130,16 @@ namespace ma
 		DrawCircle(20, matrTemp, dwColor, fRadius);
 	}
 
-
-	void LineRender::Start()
+	void LineRender::BeginFrame()
 	{
-		m_pMeshBatch->start();
+		_pMeshBatch->start();
 	}
 
-	void LineRender::Finish()
+	void LineRender::EndFrame()
 	{
-		m_pMeshBatch->finish();
+		_pMeshBatch->finish();
 
-		GetRenderDevice()->DrawRenderable(m_pMeshBatch);
-		//m_pMeshBatch->draw();
+		GetRenderDevice()->DrawRenderable(_pMeshBatch);
 	}
 	
 }

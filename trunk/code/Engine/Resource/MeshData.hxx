@@ -77,6 +77,9 @@ namespace ma
 
 	void MeshData::CreateFromMemeory()
 	{
+		if (m_eResState == ResLoaded)
+			return;
+
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return;
@@ -98,19 +101,32 @@ namespace ma
 		int nIndexSize = m_arrIndexBuffer.size();
 		INDEX_TYPE eIndexType = m_nIndexType == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
-		m_pIndexBuffer->Active();
+		//m_pIndexBuffer->Active();
 
 		void* pVertexData =  &m_arrVertexBuffer[0];
 		int nVertexDataSize = m_arrVertexBuffer.size();
 		int nVertexStride = GetVertexStride();
 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
-		m_pVertexBuffer->Active();
+		//m_pVertexBuffer->Active();
 
 		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
 		m_pDeclaration->Init(m_nVertexType);
-		m_pDeclaration->Active();
+		//m_pDeclaration->Active();
 
 		return true;
+	}
+
+	void MeshData::SaveToFile(const char* pPath)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(pPath);
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return;
+
+		Serialize(ar,"Mesh");
+
+		ar.Close();
 	}
 
 	void MeshData::Serialize(Serializer& sl, const char* pszLable)

@@ -116,7 +116,7 @@ bool CheckBox::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int cont
 
 bool CheckBox::keyEvent(Keyboard::KeyEvent evt, int key)
 {
-    if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == Keyboard::KEY_RETURN)
+	if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == OIS::KC_RETURN/*Keyboard::KEY_RETURN*/)
     {
         _checked = !_checked;
         notifyListeners(Control::Listener::VALUE_CHANGED);

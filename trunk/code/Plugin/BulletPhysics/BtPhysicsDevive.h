@@ -8,6 +8,8 @@ namespace ma
 	class BULLETPHYSICS_API BulletDevice : public IPhysicsDevice
 	{
 	public:
+		BulletDevice();
+
 		virtual IPhysicsScene*			CreatePhysicsScene();
 
 		virtual void					DestoryPhysicsScene(IPhysicsScene* pPhysicsScene);
@@ -21,6 +23,11 @@ namespace ma
 // 		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
 // 
 // 		virtual ICharacterController*	CreateCharacterController();
+
+		BulletScene*					GetPhysicsScene() {return m_pPhyscicsScene;}
+
+	private:
+		BulletScene*					m_pPhyscicsScene;
 	
 	};
 }

@@ -48,6 +48,8 @@ namespace ma
 		virtual void CreateFromMemeory();
 
 		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimationData");
+
+		virtual void SaveToFile(const char* pPath);
 	};
 }
 

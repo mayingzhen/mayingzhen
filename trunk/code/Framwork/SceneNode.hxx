@@ -12,8 +12,11 @@ namespace ma
 
 		MatrixIdentity(&m_matWorld);
 		TransformSetIdentity(&m_tsfWS);
+		TransformSetIdentity(&m_tsfPS);
 
 		m_btsfPSDirty = false;
+		m_btsfWSDirty = false;
+		m_bmatWSDirty = false;
 	}
 
 	SceneNode::~SceneNode()

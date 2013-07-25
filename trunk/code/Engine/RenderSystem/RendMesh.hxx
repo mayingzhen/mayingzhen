@@ -147,23 +147,28 @@ namespace ma
 		}
 	}
 
+	AABB RenderMesh::GetBoundingAABB()
+	{
+		return m_pMesData->GetBoundingAABB();
+	}
+
 	void RenderMesh::Draw()
 	{
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
- 		{
-			RenderQueue::AddRenderable(m_arrRenderable[i]);
- 		}
+// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+//  		{
+// 			RenderQueue::AddRenderable(m_arrRenderable[i]);
+//  		}
 		
 
 // 		if (pTechName)
 // 		{
 // 			m_pMaterial->SetCurTechnqiue(pTechName);
 // 		}
-// 
-// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-// 		{
-// 			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
-// 		}
+
+		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+		{
+			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
+		}
 	}
 }
 

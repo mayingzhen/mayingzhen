@@ -1,23 +1,58 @@
 #ifndef __BulletContactReport_H__
 #define __BulletContactReport_H__
 
-class btDynamicsWorld;
+#include "BtCharacterController.h"
+#include "BtPhysicsObject.h"
 
 namespace ma
 {
-	void BulletContactReport(btDynamicsWorld* sDynamicsWorld);
+	
+	class BulletContactReport
+	{
+	public:
+		static void AddCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener = NULL);
+
+		static void RemoveCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener = NULL);
+	
+		static void Update();
+	};
+
+
+	class CollisionCallback : public btCollisionWorld::ContactResultCallback
+    {
+    public:
+        /**
+         * Constructor.
+         * 
+         * @param pc The physics controller that owns the callback.
+         */
+        CollisionCallback(/*PhysicsController* pc*/) /*: _pc(pc)*/ {}
+
+    protected:
+        /**
+            * Internal function used for Bullet integration (do not use or override).
+            */
+        btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* a, int partIdA, int indexA, const btCollisionObjectWrapper* b, int partIdB, int indexB);    
+
+    private:
+        //PhysicsController* _pc;
+    };
 
 
 	struct MyClosestRayResultCallbackCallback : public btCollisionWorld::ClosestRayResultCallback
 	{
-		MyClosestRayResultCallbackCallback(const btVector3&	rayFromWorld,const btVector3&	rayToWorld);
+		MyClosestRayResultCallbackCallback(const btVector3&	rayFromWorld,const btVector3&	rayToWorld):
+		btCollisionWorld::ClosestRayResultCallback(rayFromWorld,rayToWorld)	
+		{
+
+		}
 
 		virtual bool needsCollision(btBroadphaseProxy* proxy0) const;
+
 	public:
 		int m_nTestLayer;
 	};
 }
 
 #endif
-
 

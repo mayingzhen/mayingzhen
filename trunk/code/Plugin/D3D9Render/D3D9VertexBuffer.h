@@ -16,13 +16,15 @@ namespace ma
 
 		~D3D9VertexBuffer();
 
+		IDirect3DVertexBuffer9 * GetD3DVertexBuffer();
+
+	private:
+
 		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags);
 		
 		virtual void	Unlock();
 
 		virtual void	Active();
-
-		IDirect3DVertexBuffer9 * GetD3DVertexBuffer() const;
 
 	protected:
 		IDirect3DDevice9 *          mD3D9Device;

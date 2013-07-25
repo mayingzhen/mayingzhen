@@ -65,6 +65,9 @@ namespace ma
 
 	void AnimationData::CreateFromMemeory()
 	{
+		if (m_eResState == ResLoaded)
+			return;
+
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return;
@@ -87,5 +90,18 @@ namespace ma
 		{
 			SerializeDataV1(sl,*this,pszLable);
 		}
+	}
+
+	void AnimationData::SaveToFile(const char* pPath)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(pPath);
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return;
+
+		Serialize(ar,"Mesh");
+
+		ar.Close();
 	}
 }

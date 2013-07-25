@@ -27,7 +27,26 @@ namespace ma
 		sl.Serialize(tsfLS);
 		sl.Serialize(vSize);
 
+		if (sl.IsReading())
+		{
+			m_pBoxCollisionShape->SetTransformLS(tsfLS);
+			m_pBoxCollisionShape->SetSize(vSize);
+		}
+
 		sl.EndSection();
+	}
+
+	void BoxCollisionComponent::Render()
+	{	
+		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
+		NodeTransform tsfLS = m_pBoxCollisionShape->GetTransformLS();
+		
+		NodeTransform tsfBoxWS;
+		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
+		Matrix4x4 matWS;
+		MatrixFromTransform(&matWS,&tsfBoxWS);
+
+		LineRender::DrawBox(matWS,m_pBoxCollisionShape->GetSize(),Color(1,0,0,0));
 	}
 
 
@@ -55,8 +74,26 @@ namespace ma
 		sl.Serialize(tsfLS);
 		sl.Serialize(fRadius);
 
+		if (sl.IsReading())
+		{
+			m_pSphereCollisionShape->SetTransformLS(tsfLS);
+			m_pSphereCollisionShape->SetRadius(fRadius);
+		}
+
 		sl.EndSection();
 	}
 
+	void SphereCollisionComponent::Render()
+	{
+		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
+		NodeTransform tsfLS = m_pSphereCollisionShape->GetTransformLS();
+
+		NodeTransform tsfBoxWS;
+		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
+		Matrix4x4 matWS;
+		MatrixFromTransform(&matWS,&tsfBoxWS);
+
+		LineRender::DrawWireSphere(matWS,m_pSphereCollisionShape->GetRadius(),Color(1,0,0,0));
+	}
 }
 

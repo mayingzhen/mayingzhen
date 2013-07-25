@@ -126,29 +126,29 @@ namespace ma
 			}
 			break;
 
-// 		case IL_ATCI_FORMAT:
-// 			{
-// 				return GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD;
-// 			}
-// 			break;
-// 
-// 		case IL_DXT1:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-// 			}
-// 			break;
-// 
-// 		case IL_DXT3:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-// 			}
-// 			break;
-// 
-// 		case IL_DXT5:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-// 			}
-// 			break;
+		case IL_ATCI_FORMAT:
+			{
+				return GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD;
+			}
+			break;
+
+		case IL_DXT1:
+			{
+				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+			}
+			break;
+
+		case IL_DXT3:
+			{
+				return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+			}
+			break;
+
+		case IL_DXT5:
+			{
+				return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+			}
+			break;
 		}
 		return 0;
 	}	
@@ -213,6 +213,7 @@ namespace ma
 
 	bool GLESTexture::Load(DataStream* pDataStream, bool generateMipmaps)
 	{
+		return Load(pDataStream->GetFilePath(),generateMipmaps);
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
@@ -301,8 +302,8 @@ namespace ma
 		m_PixelFormat = ChooseBestTextureFormat(imageFormat);
 		bool bCompressFormat = IsCompressedTextureFormat(imageFormat);
 
-		glGenTextures(1, &m_pTex);
-		glBindTexture(GL_TEXTURE_2D, m_pTex);
+		GL_ASSERT( glGenTextures(1, &m_pTex) );
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 
 		int i = 0;
 		while(ilActiveMipmap(i))
@@ -316,11 +317,11 @@ namespace ma
 			if(bCompressFormat)
 			{
 				UINT unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
-				glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData);
+				GL_ASSERT( glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData) );
 			}	
 			else
 			{
-				glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData);	
+				GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData) );	
 			}
 
 			ilBindImage(curImage);
@@ -334,7 +335,7 @@ namespace ma
 			GenerateMipmaps();
 		}
 		
-		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
+		//glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
 
 		return true;
 	}

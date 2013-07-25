@@ -158,10 +158,10 @@ namespace ma
 		m_pRenderable = new Renderable();
 
 		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(&arrVertex[0],sizeof(Vector3) * arrVertex.size(),sizeof(Vector3));
-		pVertexs->Active();
+		//pVertexs->Active();
 
 		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(&arrIndex[0],sizeof(Uint16) * arrIndex.size());
-		pIndexs->Active();
+		//pIndexs->Active();
 
 		m_pRenderable->m_pSubMeshData = new SubMeshData();
 

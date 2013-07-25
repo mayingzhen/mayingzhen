@@ -417,7 +417,7 @@
 		<Configuration
 			Name="Debug_GraphicEngine|Win32"
 			OutputDirectory=".\../../lib/windows"
-			IntermediateDirectory=".\../src/obj"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -490,7 +490,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>

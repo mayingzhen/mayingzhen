@@ -31,7 +31,7 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(data.m_nGlobalSkeletonID,"GlobalSkeletonID");
+		sl.Serialize(data.m_nGlobalSkeletonID,pszLable);
 		sl.Serialize(data.m_nBoneNum,"BoneNumber");
  		sl.Serialize(data.m_arrBoneName,"BoneName");
  		sl.Serialize(data.m_arrParentIndice,"ParentIndice");
@@ -44,6 +44,9 @@ namespace ma
 
 	void SkeletonData::CreateFromMemeory()
 	{
+		if (m_eResState == ResLoaded)
+			return;
+
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return;
@@ -67,5 +70,18 @@ namespace ma
 			SerializeDataV1(sl,*this,pszLable);
 		}
 
+	}
+
+	void SkeletonData::SaveToFile(const char* pPath)
+	{
+		BinaryOutputArchive ar;
+		bool bLoadOK = ar.Open(pPath);
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return;
+
+		Serialize(ar,"Mesh");
+
+		ar.Close();
 	}
 }

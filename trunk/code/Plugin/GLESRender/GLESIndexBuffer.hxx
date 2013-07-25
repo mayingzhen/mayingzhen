@@ -5,7 +5,8 @@ namespace ma
 	GLESIndexBuffer::GLESIndexBuffer(void* Data, int size, INDEX_TYPE eIndexType, USAGE Usgae)
 		: IndexBuffer(Data,size,eIndexType,Usgae)
 	{
-		m_hIndexBuffer = 0;
+		m_hIndexBuffer = -1;
+		Active();
 	}
 
 	GLESIndexBuffer::~GLESIndexBuffer()
@@ -33,6 +34,16 @@ namespace ma
 		glGenBuffers(1,& m_hIndexBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,m_pData,glUsage);
+	}
+
+	GLuint	GLESIndexBuffer::GetIndexBuffer()
+	{
+// 		if (m_hIndexBuffer < 0)
+// 		{
+// 			Active();
+// 		}
+
+		return m_hIndexBuffer;
 	}
 
 }

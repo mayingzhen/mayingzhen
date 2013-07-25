@@ -93,9 +93,13 @@ namespace ma
 
 		VertexDeclaration*	GetVertexDeclar() {return m_pDeclaration;}
 
+		AABB				GetBoundingAABB() {return m_meshBound;}
+
 		virtual void		CreateFromMemeory();
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "MeshData");
+
+		virtual void		SaveToFile(const char* pPath);
 
 	private:
 		bool				InitRendable();

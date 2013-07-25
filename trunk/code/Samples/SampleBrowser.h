@@ -5,29 +5,27 @@ namespace ma
 {
 	class Sample;
 
-	class SampleBrowser : public Game/*,Control::Listener*/
+	class SampleBrowser : public Game,Control::Listener,OIS::KeyListener
 	{
 	public:
 		SampleBrowser(const char* pGameName);
 
-		virtual void Init();
+		virtual void	Init();
 
-		virtual void Shutdown();
+		virtual void	Shutdown();
 
-		virtual void Update();
+		virtual void	Update();
 
-		virtual void Render();
+		virtual void	Render();
 
-		///// Input
-// 		virtual void keyEvent(Keyboard::KeyEvent evt, int key);
-// 
-// 		virtual void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
-// 
-// 		virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
-// 
-// 		virtual void resizeEvent(unsigned int width, unsigned int height);
-// 
-// 		void		 controlEvent(Control* control, EventType evt);
+ 		virtual void	controlEvent(Control* control, EventType evt);
+
+		virtual bool	keyPressed(const OIS::KeyEvent &arg);
+
+		virtual bool	keyReleased(const OIS::KeyEvent &arg);		
+
+	private:
+		void			LoadUI();
 
 	private:
 		std::vector<Sample*>	m_arrSamples;
@@ -36,9 +34,10 @@ namespace ma
 		Time					m_Timer;
 		Input					m_Input;
 
-		//Form*					m_pSampleSelectForm; 
+		Form*					m_pSampleSelectForm; 
 
-		LineRender*				m_pLineRender;
+		bool					m_bPause;
+		bool					m_bStepOneFrame;
 	};
 }
 

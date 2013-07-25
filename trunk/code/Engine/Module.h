@@ -118,10 +118,11 @@
 //#include "Engine/Input/Joystick.h"
 
 
-// DataThread
+// Thread
 #include "Engine/Thread/AutoLock.h"
 #include "Engine/Thread/DataThread.h"
-
+#include "Engine/Thread/TArray.h"
+#include "Engine/Thread/RenderThread.h"
 
 
 #include "WarningSuffix.h"

@@ -30,6 +30,8 @@ namespace ma
 		virtual void CreateFromMemeory();
 
 		virtual void Serialize(Serializer& sl, const char* pszLable = "SkeletonData");
+
+		virtual void SaveToFile(const char* pPath);
 	};
 }
 

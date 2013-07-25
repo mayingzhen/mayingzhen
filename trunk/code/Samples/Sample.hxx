@@ -5,20 +5,14 @@ namespace ma
 	Sample::Sample()
 	{
 		m_pCamera = NULL;
-		//m_pScene = NULL;
 		m_fMoveCameraSpeed = 20.0f;
-		m_fZoomSpeed = 500.0f;
+		m_fZoomSpeed = 50.0f;
 	}
 
 	void Sample::Init()
 	{	
-		m_pDefaultEffect = GetRenderDevice()->CreateShaderProgram();
-		//m_pDefaultEffect->CreateFromShaderName("sprite");
-
-		//m_pScene = new Scene();
 		m_pCamera = new Camera();
 		m_pCameraControl = new CameraController(m_pCamera);
-		//m_pScene->GetRootNode()->AddChildNode(m_pCamera);
 
 		Material::SetAuotBingCamera(m_pCamera);
 		RenderQueue::SetCamera(m_pCamera);
@@ -56,38 +50,6 @@ namespace ma
 	{
 
 	}
-
-// 	void Sample::keyEvent(Keyboard::KeyEvent evt, int key)
-// 	{
-// // 		if (evt== Keyboard::KEY_PRESS && key == Keyboard::KEY_W)
-// // 		{
-// // 			m_pCamera->m
-// // 		}
-// 	}
-// 
-// 	void Sample::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
-// 	{
-// 
-// 	}
-// 
-// 	bool Sample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
-// 	{
-// 		if (evt == Mouse::MOUSE_WHEEL && wheelDelta != 0)
-// 		{
-// 			float fZoom =  wheelDelta * m_fZoomSpeed * GetTimer()->GetFrameDeltaTime();
-// 
-// 			NodeTransform tsfCamera = m_pCamera->GetTransform();
-// 
-// 			Vector3 vDist(0.0f,0.0f,-fZoom);
-// 			Vec3TransformNormal(&vDist,&vDist,&tsfCamera);
-// 			tsfCamera.m_vPos += vDist;
-// 
-// 			m_pCamera->SetTransform(tsfCamera);
-// 		}
-// 
-// 
-// 		return false;
-// 	}
 
 }
 

@@ -23,6 +23,12 @@ static std::vector<Form*> __forms;
 Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),/* _node(NULL),*/
    /* _nodeQuad(NULL),*/ _nodeMaterial(NULL) , _u2(0), _v1(0), _isGamepad(false)
 {
+	//GetInput()->GetMouse()->setEventCallback(this);
+	//GetInput()->GetKeyboard()->setEventCallback(this);
+
+#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+	//GetInput()->GetMultiTouch()->setEventCallback(this);
+#endif
 }
 
 Form::~Form()
@@ -46,6 +52,77 @@ Form::~Form()
     {
         __forms.erase(it);
     }
+}
+
+bool Form::mouseMoved( const OIS::MouseEvent &arg )
+{
+	mouseEvent(Mouse::MOUSE_MOVE, arg.state.X.rel, arg.state.Y.rel, 0);
+
+	return true;
+}
+
+bool Form::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	if (id == OIS::MB_Left)
+		mouseEvent(Mouse::MOUSE_PRESS_LEFT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	else if (id == OIS::MB_Middle)
+		mouseEvent(Mouse::MOUSE_PRESS_MIDDLE_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	else if (id == OIS::MB_Right)
+		mouseEvent(Mouse::MOUSE_PRESS_RIGHT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	
+	return true;
+}
+
+bool Form::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	if (id == OIS::MB_Left)
+		mouseEvent(Mouse::MOUSE_RELEASE_LEFT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	else if (id == OIS::MB_Middle)
+		mouseEvent(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	else if (id == OIS::MB_Right)
+		mouseEvent(Mouse::MOUSE_RELEASE_RIGHT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+
+	return true;
+}
+
+bool Form::keyPressed(const OIS::KeyEvent &arg)
+{
+	keyEvent(Keyboard::KEY_PRESS,arg.key);
+
+	return true;
+}
+
+bool Form::keyReleased(const OIS::KeyEvent &arg)
+{
+	keyEvent(Keyboard::KEY_RELEASE,arg.key);
+
+	return true;
+}
+
+bool Form::touchMoved( const OIS::MultiTouchEvent &arg )
+{
+	touchEvent(Touch::TOUCH_MOVE,arg.state.X.rel,arg.state.Y.rel,0);
+
+	return true;
+}
+
+bool Form::touchPressed( const OIS::MultiTouchEvent &arg )
+{
+	touchEvent(Touch::TOUCH_PRESS,arg.state.X.rel,arg.state.Y.rel,0);
+
+	return true;
+}
+
+bool Form::touchReleased( const OIS::MultiTouchEvent &arg )
+{
+	touchEvent(Touch::TOUCH_RELEASE,arg.state.X.rel,arg.state.Y.rel,0);
+
+	return true;
+}
+
+bool Form::touchCancelled( const OIS::MultiTouchEvent &arg )
+{
+	return true;
 }
 
 Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
@@ -561,7 +638,7 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (1/*isDirty()*/)
+    if (isDirty())
     {
         ASSERT(_frameBuffer);
         //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();

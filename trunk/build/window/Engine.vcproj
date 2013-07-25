@@ -661,19 +661,19 @@
 			Name="Physics"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\ICharacterController.h"
+				RelativePath="..\..\code\Engine\Physics\ICharacterController.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\ICollisionShape.h"
+				RelativePath="..\..\code\Engine\Physics\ICollisionShape.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\IPhysicsDevive.h"
+				RelativePath="..\..\code\Engine\Physics\IPhysicsDevive.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\IPhysicsDevive.hxx"
+				RelativePath="..\..\code\Engine\Physics\IPhysicsDevive.hxx"
 				>
 			</File>
 			<File
@@ -681,15 +681,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\IPhysicsObject.h"
+				RelativePath="..\..\code\Engine\Physics\IPhysicsObject.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\IPhysicsScene.h"
+				RelativePath="..\..\code\Engine\Physics\IPhysicsScene.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Physics\IRigidBody.h"
+				RelativePath="..\..\code\Engine\Physics\IRigidBody.h"
 				>
 			</File>
 		</Filter>
@@ -782,6 +782,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Thread\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\RenderThread.inl"
 				>
 			</File>
 			<File

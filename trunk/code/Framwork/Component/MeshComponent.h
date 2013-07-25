@@ -34,7 +34,7 @@ namespace ma
 
 		void			SetMaterial(Material* pMaterial) {m_pMaterial = pMaterial;}
 
-		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
+		AABB			GetBoundingAABB();
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "MeshComponent");
 

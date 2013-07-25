@@ -359,6 +359,9 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
+		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
+			return;
+
 		Material* pMaterial = pRenderable->m_pMaterial;
 		ASSERT(pMaterial);
 		pMaterial->Bind();

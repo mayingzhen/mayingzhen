@@ -27,11 +27,17 @@ namespace ma
 
 		bool IsMouseButtonDown(OIS::MouseButtonID button) const;
 
-		bool IsMouseButtonPressed(OIS::MouseButtonID button) const;
-
-		bool IsMouseButtonReleased(OIS::MouseButtonID button) const;
-
 		const OIS::MouseState& GetMouseState() const;
+
+		OIS::Mouse*			   GetMouse() {return mMouse;}
+
+		OIS::Keyboard*		   GetKeyboard() {return mKeyboard;}
+
+#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+		OIS::MultiTouch*			GetMultiTouch() {return mTouch;}
+		UINT						GetTouchStateNumber() const;
+		const OIS::MultiTouchState& GetTouchStateByIndex(int index) const;
+#endif
 
 		void OnResize(int w,int h);
 

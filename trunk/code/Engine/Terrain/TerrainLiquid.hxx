@@ -269,7 +269,7 @@ namespace ma
 
 		UINT nVertSize = m_pTempGridArray.size() * 4 * sizeof(sLiquidVertex);
 		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
-		m_pVertexBuffers->Active();
+		//m_pVertexBuffers->Active();
 
 		m_pSubMeshData->m_nVertexCount = m_pTempGridArray.size() * 4;
 

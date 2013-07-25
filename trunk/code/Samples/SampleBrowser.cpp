@@ -4,9 +4,13 @@
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
-//#include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
+#include "Samples/Animation/SampleAnimationRetarget.hxx"
+#include "Samples/Animation/SampleAnimationTree.hxx"
+#include "Samples/Render/SampleParticle.hxx"
 
 namespace ma
 {
@@ -15,21 +19,34 @@ namespace ma
 	SampleBrowser::SampleBrowser(const char* pGameName)
 		:Game(pGameName)
 	{
-//		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-//		m_arrSamples.push_back(pSampleFbxImport);
+		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
+		m_arrSamples.push_back(pSampleFbxImport);
+
+		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
+		m_arrSamples.push_back(pSceneSerial);
 
 		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
 		m_arrSamples.push_back(pSampleRigidBody);
 
-		SampleTerrain* PSampleTerrain = new SampleTerrain();
-		m_arrSamples.push_back(PSampleTerrain);
+		SampleTerrain* pSampleTerrain = new SampleTerrain();
+		m_arrSamples.push_back(pSampleTerrain);
 
-		m_curSampleIndex = 1;
+		SampleAnimationRetarget* pAnimRetar = new SampleAnimationRetarget();
+		m_arrSamples.push_back(pAnimRetar);
+
+		SampleAnimationTree* pAniTree = new SampleAnimationTree();
+		m_arrSamples.push_back(pAniTree);
+
+		SampleParticle* pParticle = new SampleParticle();
+		m_arrSamples.push_back(pParticle);
+
+		m_curSampleIndex = 2;
 
 		SetTimer(&m_Timer);
 		SetInput(&m_Input);
 
-		m_pLineRender = new LineRender();
+		m_bPause = false;
+		m_bStepOneFrame = false;
 	}
 
 	void SampleBrowser::Init()
@@ -43,78 +60,61 @@ namespace ma
 #elif PLAFTORM_ANDROID == 1
         
 #endif
-		
-
+	
 		CommonModuleInit();
 		EngineModuleInit();
-        //AnimationModuleInit();
-        //BtPhysicsModuleInit();
-		D3D9RenderModuleInit();
-		//GLESRenderModuleInit();
+        AnimationModuleInit();
+        BtPhysicsModuleInit();
+		//D3D9RenderModuleInit();
+		GLESRenderModuleInit();
+		FramworkModuleInit();
 
 		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
 
+		LineRender::Init();
+
 		m_Input.Init(Platform::GetInstance().GetWindId());
+		m_Input.GetKeyboard()->setEventCallback(this);
 
 		m_arrSamples[m_curSampleIndex]->Init();
 
-		m_pLineRender->Init();
+		LoadUI();
+	}
 
-// 		m_pDefaultTech = GetRenderDevice()->CreateTechnique();
-// 		m_pDefaultTech->Load(NULL,"Default");
-// 
-// 		ASSERT(pApplication);
-// 		if (pApplication == NULL)
-// 			return;
-// 
-// 		m_pScene = new Scene();
-// 		m_pCamera = new Camera();
-// 		m_pScene->GetRootNode()->AddChildNode(m_pCamera);
-// 
-// 
-// 		Vector3 vEyePos = Vector3(0, 200, 300);
-// 		Vector3 VAtPos = Vector3(0,0,0); 
-// 		Vector3 vUp = Vector3(0,1,0);
-// 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
-// 
- 		int nWndWidth,nWndHeigh;
+	void SampleBrowser::LoadUI()
+	{
+		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-// 		float fFOV = PI / 4;
-// 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
-// 		float fNearClip = 1.0f;
-// 		float fFarClip = 3000.0f;
-// 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
+		Theme* theme = Theme::create("ui/default.theme");
+		Theme::Style* formStyle = theme->getStyle("basicContainer");
+		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
+		Theme::Style* titleStyle = theme->getStyle("title");	
 
-// 		Theme* theme = Theme::create("ui/default.theme");
-// 		Theme::Style* formStyle = theme->getStyle("basicContainer");
-// 		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
-// 		Theme::Style* titleStyle = theme->getStyle("title");	
-// 		
-// 		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
-// 		//m_pSampleSelectForm->setAutoHeight(true);
-// 		//m_pSampleSelectForm->setWidth(200.0f);
-// 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
-// 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
-// 		m_pSampleSelectForm->setConsumeInputEvents(true);
-// 
-// 		Button* sampleButton = Button::create("xxxx", buttonStyle);
-// 		sampleButton->setText("xxxx");
-// 		sampleButton->setAutoWidth(true);
-// 		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-// 		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-// 		sampleButton->addListener(this, Control::Listener::CLICK);
-// 		m_pSampleSelectForm->addControl(sampleButton);
-// 
-// 		{
-// 			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
-// 			sampleButton->setText("xxxxTT");
-// 			sampleButton->setAutoWidth(true);
-// 			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-// 			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-// 			sampleButton->addListener(this, Control::Listener::CLICK);
-// 			m_pSampleSelectForm->addControl(sampleButton);
-// 		}
+		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
+		//m_pSampleSelectForm->setAutoHeight(true);
+		//m_pSampleSelectForm->setWidth(200.0f);
+		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
+		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
+		m_pSampleSelectForm->setConsumeInputEvents(true);
+
+		Button* sampleButton = Button::create("xxxx", buttonStyle);
+		sampleButton->setText("xxxx");
+		sampleButton->setAutoWidth(true);
+		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+		sampleButton->addListener(this, Control::Listener::CLICK);
+		m_pSampleSelectForm->addControl(sampleButton);
+
+		{
+			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
+			sampleButton->setText("xxxxTT");
+			sampleButton->setAutoWidth(true);
+			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
+			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+			sampleButton->addListener(this, Control::Listener::CLICK);
+			m_pSampleSelectForm->addControl(sampleButton);
+		}
 
 	}
 
@@ -128,6 +128,14 @@ namespace ma
 		m_Input.Capture();
 
 		m_Timer.UpdateFrame();
+
+		if (m_bPause && !m_bStepOneFrame)
+		{
+			return;				
+		}
+		m_bStepOneFrame = false;
+
+		Form::updateInternal(m_Timer.GetFrameDeltaTime());
 
         if (GetDataThread())
             GetDataThread()->Process();
@@ -143,6 +151,8 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
+		LineRender::BeginFrame();
+
 		//RenderQueue::Clear();
 
 		if (m_arrSamples[m_curSampleIndex])
@@ -150,49 +160,45 @@ namespace ma
 
 		//RenderQueue::Fulsh();
 
-		//m_pSampleSelectForm->draw();
+		m_pSampleSelectForm->draw();
 
-		m_pLineRender->Start();
-		m_pLineRender->DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
-		m_pLineRender->Finish();
+		//m_pLineRender->Start();
+		//LineRender::DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
+		
+		LineRender::EndFrame();
 	
 		GetRenderDevice()->EndRender();
 	}
 
-	///// Input
-// 	void SampleBrowser::keyEvent(Keyboard::KeyEvent evt, int key)
-// 	{
-// 		
-// 	}
-// 
-// 	void SampleBrowser::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
-// 	{
-// 
-// 	}
+	void SampleBrowser::controlEvent(Control* control, EventType evt)
+	{
+		ASSERT(control);
+		if (control == NULL)
+			return;
 
-// 	bool SampleBrowser::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
-// 	{
-// 		if ( Form::mouseEventInternal(evt,x,y,wheelDelta) )
-// 			return true;
-// 	
-// 		if (m_arrSamples[m_curSampleIndex])
-// 			m_arrSamples[m_curSampleIndex]->mouseEvent(evt,x,y,wheelDelta);
-// 
-// 		return true;
-// 	}
+		//control->setText()
+	}
 
-// 	void SampleBrowser::resizeEvent(unsigned int width, unsigned int height)
-// 	{
-// 
-// 	}
+	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
+	{
+		if (arg.key == OIS::KC_P)
+		{
+			m_bPause = !m_bPause;
+			if (m_bPause)
+				m_bStepOneFrame = false;
+		}
+		
+		if (arg.key == OIS::KC_N)
+		{
+			m_bStepOneFrame = true;
+		}
 
-// 	void SampleBrowser::controlEvent(Control* control, EventType evt)
-// 	{
-// 		ASSERT(control);
-// 		if (control == NULL)
-// 			return;
-// 
-// 		//control->setText()
-// 	}
+		return false;
+	}
+
+	bool SampleBrowser::keyReleased(const OIS::KeyEvent &arg)
+	{
+		return false;
+	}
 }
 

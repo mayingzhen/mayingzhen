@@ -22,6 +22,11 @@ namespace ma
 
 	void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
+		if (!mD3D9VertexBuffer)
+		{
+			Active();
+		}
+
 		void * pData = NULL;
 		DWORD D3DLock = 0;
 
@@ -69,7 +74,7 @@ namespace ma
 		mD3D9VertexBuffer = pD3DVB;
 
 		void* pLockData = NULL;
-		DWORD D3DLock = D3DLOCK_DISCARD;
+		DWORD D3DLock = D3DUsage == D3DUSAGE_DYNAMIC ? D3DLOCK_DISCARD : 0;
 		hr = mD3D9VertexBuffer->Lock(0, m_Size, &pLockData, D3DLock);
 		ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
 
@@ -80,8 +85,13 @@ namespace ma
 	}
 
 
-	IDirect3DVertexBuffer9 * D3D9VertexBuffer::GetD3DVertexBuffer() const
+	IDirect3DVertexBuffer9 * D3D9VertexBuffer::GetD3DVertexBuffer()
 	{
+		if (!mD3D9VertexBuffer)
+		{
+			Active();
+		}
+
 		return mD3D9VertexBuffer;
 	}
 

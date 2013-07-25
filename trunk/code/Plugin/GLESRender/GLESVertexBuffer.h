@@ -18,10 +18,10 @@ namespace ma
 
 		virtual void	Active();
 
-		GLuint	GetVertexBuffer() {return m_hVertexBufffer;}
+		GLuint			GetVertexBuffer(); 
 		
 	private:
-		GLuint m_hVertexBufffer;
+		GLuint			m_hVertexBufffer;
 	};
 
 }

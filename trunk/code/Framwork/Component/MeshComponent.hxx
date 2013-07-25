@@ -54,12 +54,17 @@ namespace ma
 		m_pRendMesh->Load(pszMeshPath,pszTexPath);
 	}	
 
-	void MeshComponent::GetBoundingAABB(Vector3& vMin,Vector3& vMax)
+	AABB MeshComponent::GetBoundingAABB()
 	{
-// 		if (m_pRendMesh)
-// 		{
-// 			m_pRendMesh->GetBoundingAABB(vMin,vMax);
-// 		}
+		if (m_pRendMesh)
+		{
+			return m_pRendMesh->GetBoundingAABB();
+		}
+		else
+		{
+			ASSERT(false);
+			return AABB();
+		}
 	}
 
 	void MeshComponent::Serialize(Serializer& sl, const char* pszLable)

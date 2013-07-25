@@ -77,8 +77,8 @@ bool TransformIsIdentity(NodeTransform* pTSF,float fThreshold = FEPS)
 {
 	bool bPosIden = Vector3IsZero(&pTSF->m_vPos,fThreshold);
 	bool bRotIden = QuaternionIsIdentity(&pTSF->m_qRot,fThreshold);
-	bool bScaleIden = Vector3IsOne(&pTSF->m_vLocalScale,fThreshold) && FloatEqual(pTSF->m_fScale,1.0f,fThreshold);
-	return bPosIden && bRotIden && bScaleIden;
+	//bool bScaleIden = Vector3IsOne(&pTSF->m_vLocalScale,fThreshold) && FloatEqual(pTSF->m_fScale,1.0f,fThreshold);
+	return bPosIden && bRotIden /*&& bScaleIden*/;
 }
 
 
