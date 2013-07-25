@@ -21,7 +21,7 @@ namespace ma
 		//m_pBoxTexture = NULL;
 		m_pBoxMaterial = NULL;
 
-		m_pEmitter = NULL;
+		m_fFame = 0.5;
 	}
 
 	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
@@ -62,23 +62,21 @@ namespace ma
 		m_pStaticMesh->Load("Fbx/MovingPlatform.skn","Fbx/PlatformTexture.tga");
 	}
 
-	void SampleFbxImport::LoadParticles()
-	{
-		m_pEmitter = ParticleEmitter::create("Particle/fire.particle");
-		m_pEmitter->start();
-	}
 
 	void SampleFbxImport::Init()
 	{
 		Sample::Init();
 
-		AnimationModuleInit();
+		//AnimationModuleInit();
 		
 		//Vector3 vEyePos = Vector3(0, 600, 800);
 		Vector3 vEyePos = Vector3(0, 40, 40);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
 		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
+
+		m_fZoomSpeed *= 0.1;
+		//m_fMoveCameraSpeed *= 2;
 
 		FBXImporter fbxImpor;
 		fbxImpor.Initialize();
@@ -88,18 +86,15 @@ namespace ma
 		LoadSkelMesh(fbxImpor);
 
 		LoadBoxMesh(fbxImpor);
-
-		LoadParticles();
 		
-		RenderQueue::Init();	
 	}
 
 	void SampleFbxImport::LoadBoxMesh(FBXImporter& fbxImpor)
-	{
-		MeshData* pMeshData = new MeshData;
-		fbxImpor.LoadStaticMeshData("../../Data/Fbx/Box.fbx",pMeshData);
-		pMeshData->Save("../../Data/Fbx/Box.skn");
-		SAFE_DELETE(pMeshData);
+	{	
+// 		MeshData* pMeshData = new MeshData;
+// 		fbxImpor.LoadStaticMeshData("../../Data/Fbx/Box.fbx",pMeshData);
+// 		pMeshData->Save("../../Data/Fbx/Box.skn");
+// 		SAFE_DELETE(pMeshData);
 
 		m_pBoxMesh = new RenderMesh();
 		m_pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.tga");
@@ -109,28 +104,31 @@ namespace ma
 
 	void SampleFbxImport::Update()
 	{
+		Sample::Update();
 
-		if (ma::GetTimer() == NULL)
+		if (GetTimer() == NULL)
 			return;
 
-		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
+		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
 
 		if (m_pAnimtionPlay)
 		{
-			m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+			//m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+			//if (GetInput()->IsKeyDown(OIS::KC_A))
+			//	m_pAnimtionPlay->SetFrame(++m_fFame);
+			//if (GetInput()->IsKeyDown(OIS::KC_D))
+			//	m_pAnimtionPlay->SetFrame(--m_fFame);
 
+			m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
 			m_pAnimtionPlay->EvaluateAnimation(1.0f);
+		
 
 			Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
 			UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
 
 			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
 		}
-	
-		if (m_pEmitter)
-		{	
-			//m_pEmitter->update(fTimeElapsed);
-		}
+
 	}
 
 	void SampleFbxImport::Render()
@@ -173,15 +171,6 @@ namespace ma
 
 			m_pBoxMesh->Draw();
 		}
-
-		if (m_pEmitter)
-		{
-			Matrix4x4 matWorld;
-			MatrixTranslation(&matWorld,-20,0,0);
-				
-			//m_pEmitter->draw(m_pCamera,matWorld);
-		
-		}		
 
 	}
 

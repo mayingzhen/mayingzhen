@@ -46,13 +46,26 @@ class Theme;
     }
  @endverbatim
  */
-class UI_API Form : public Container
+class UI_API Form : public Container, 
+	public OIS::MouseListener, public OIS::KeyListener, public OIS::MultiTouchListener
 {
     friend class Platform;
     friend class Game;
     friend class Gamepad;
 
 public:
+
+	virtual bool mouseMoved( const OIS::MouseEvent &arg );
+	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+	virtual bool keyPressed(const OIS::KeyEvent &arg);
+	virtual bool keyReleased(const OIS::KeyEvent &arg);
+
+	virtual bool touchMoved( const OIS::MultiTouchEvent &arg );
+	virtual bool touchPressed( const OIS::MultiTouchEvent &arg );
+	virtual bool touchReleased( const OIS::MultiTouchEvent &arg );
+	virtual bool touchCancelled( const OIS::MultiTouchEvent &arg );
 
     /**
      * Creates a form using the data from the Properties object defined at the specified URL, 
@@ -75,6 +88,11 @@ public:
      * @script{create}
      */
     static Form* create(const char* id, Theme::Style* style, Layout::Type layoutType = Layout::LAYOUT_ABSOLUTE);
+
+	 /**
+     * Updates all visible, enabled forms.
+     */
+    static void updateInternal(float elapsedTime);
 
     /**
      * Get a form from its ID.
@@ -152,6 +170,8 @@ public:
      */
     void update(float elapsedTime);
 
+	bool updatInput();
+
     /**
      * Draws this form.
      */
@@ -161,6 +181,10 @@ public:
      * @see Control::getType
      */
     const char* getType() const;
+
+
+	static bool iputEventInternal();
+
 
 	    /**
      * Propagate touch events to enabled forms.
@@ -213,11 +237,6 @@ private:
      * Update this form's bounds.
      */
     void updateBounds();
-
-    /**
-     * Updates all visible, enabled forms.
-     */
-    static void updateInternal(float elapsedTime);
 
 
 

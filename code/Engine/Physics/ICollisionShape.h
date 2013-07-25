@@ -31,6 +31,18 @@ namespace ma
 
 		virtual	float			GetRadius() = 0;
 	};
+
+	class ENGINE_API ICapsuleShape : public ICollisionShape
+	{
+	public:
+		virtual void			SetHeight(float fHeight) = 0;
+
+		virtual float			GetHeight() const = 0;
+
+		virtual void			SetRadius(float fRadius) = 0;
+
+		virtual float			GetRadius() const = 0;
+	};
 }
 
 #endif

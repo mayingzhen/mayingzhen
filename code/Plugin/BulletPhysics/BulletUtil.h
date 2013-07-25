@@ -32,6 +32,7 @@ namespace ma
 	inline NodeTransform ToMaUnit(const btTransform& btTsf)
 	{
 		NodeTransform tsf;
+		TransformSetIdentity(&tsf);
 		tsf.m_fScale = 1.0f;
 		tsf.m_vPos = ToMaUnit( btTsf.getOrigin() );
 		tsf.m_qRot = ToMaUnit( btTsf.getRotation() );

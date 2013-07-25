@@ -428,7 +428,7 @@ namespace ma
 		std::string sDir = FileSystem::getDirectoryName(sFilPath.c_str());
 		std::string sTextAltasPath = sDir + pTextAltasPath;
 		m_pAltasTex = GetRenderDevice()->CreateRendTexture();
-		m_pAltasTex->Load(sTextAltasPath.c_str(),true);
+		m_pAltasTex->Load(sTextAltasPath.c_str());
 
 		Sampler* pSameler = Sampler::create(m_pAltasTex);
 		m_pMaterial = new Material("","terrain");

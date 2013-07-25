@@ -48,7 +48,7 @@ struct COMMON_API NodeTransform
 	Quaternion	m_qRot;
 	float		m_fScale; //propagative scale
 
-	Vector3		m_vLocalScale;
+	//Vector3		m_vLocalScale;
 
 	static NodeTransform Identity();
 

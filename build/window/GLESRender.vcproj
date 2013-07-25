@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenGL32.lib GLU32.lib glew32.lib DevIL_d.lib libjpeg_d.lib zlib_d.lib libpng_d.lib"
+				AdditionalDependencies="OpenGL32.lib glew32.lib DevIL.lib libjpeg.lib libpng.lib zlib.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/glew/lib/windows/x86;../../extern/DevIL/lib/windows/"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
@@ -261,6 +261,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Data\Shader\GLES\skinning.vert"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\GLES\terrain.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\GLES\terrain.vert"
 				>
 			</File>
 		</Filter>

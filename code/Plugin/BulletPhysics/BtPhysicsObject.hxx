@@ -17,6 +17,8 @@ namespace ma
 
 		m_pGameObject = pGameObject;
 		m_pPhyScene = pPhyScene;
+
+		TransformSetIdentity(&m_tsfWS);
 	}
 
 	void BulletPhysicsObject::InitCollObject()
@@ -168,6 +170,16 @@ namespace ma
 		}
 
 		m_tsfWS = tsfWS;
+	}
+
+	void BulletPhysicsObject::AddCollisionListener(IPhysicsObject* objectB,CollisionListener* pListener)
+	{
+
+	}
+
+	void BulletPhysicsObject::AddCollisionListener(ICharaControll* objectB)
+	{
+
 	}
 
 	NodeTransform BulletPhysicsObject::GetTransformWS()

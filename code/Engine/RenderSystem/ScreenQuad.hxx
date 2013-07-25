@@ -35,13 +35,13 @@ namespace ma
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); 
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
-		pVertexDec->Active();
+		//pVertexDec->Active();
 		
 		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(quadVerts,sizeof(quadVerts),sizeof(Vertex));
-		pVertexs->Active();
+		//pVertexs->Active();
 		
 		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(indices,sizeof(indices));
-		pIndexs->Active();
+		//pIndexs->Active();
 
 		m_pRenderable->m_pSubMeshData = new SubMeshData();
 

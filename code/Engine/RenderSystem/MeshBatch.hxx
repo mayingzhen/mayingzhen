@@ -224,12 +224,12 @@ namespace ma
 		{
 			SAFE_DELETE(m_pIndexBuffer);
 			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(_indices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC);
-			m_pIndexBuffer->Active();
+			//m_pIndexBuffer->Active();
 		}
 
 		SAFE_DELETE(m_pVertexBuffers);
 		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(_vertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
-		m_pVertexBuffers->Active();
+		//m_pVertexBuffers->Active();
 
 		return true;
 	}

@@ -247,7 +247,7 @@ public:
 
     void draw(Camera* pCamera/*,const Matrix4x4& matWorld*/);
 
-	void setWorldMatrix(const Matrix4x4& matWorld);
+	//void setWorldMatrix(const Matrix4x4& matWorld);
 
     static BLEND_MODE getTextureBlendingFromString(const char* src);
 

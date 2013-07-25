@@ -12,103 +12,70 @@ namespace ma
 	{
 		Sample::Init();
 
-		FramworkModuleInit();
-		BtPhysicsModuleInit();
-
-		//m_fMoveCameraSpeed = 0.20f;
-		Vector3 vEyePos = Vector3(0, 40, 40);
-		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		m_pCamera->LookAt(vEyePos, VAtPos, vUp);
-
 		Load();
 	}
 
-	void SampleRigidBody::Shutdown()
-	{
-		BtPhysicsModuleShutdown();
-		FramworkModuleShutdown();
-
-		//Sample::Shutdown();
-	}
 
 	void SampleRigidBody::Load()
 	{
 		m_pScene = new Scene();
 
-		//ma::SceneNode* pRootNode = m_pScene->GetRootNode(); 
+		m_pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f * 10,0));
 
-		m_pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
-
+		GameObject* pGameObjA = NULL;
 		{
 			GameObject* pGameObj = m_pScene->CreateGameObject("physics");
+			pGameObjA = pGameObj;
 
-			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-			pMeshComp->Load("/Fbx/Box.skn","/Fbx/Box.tga");
+			BoxCollisionComponent* pBoxCollisionComp = pGameObj->CreateComponent<BoxCollisionComponent>();
+ 			pBoxCollisionComp->GetBoxCollisionShape()->SetSize(Vector3(5,5,5));
 
-			Vector3 vMin,vMax;
-			pMeshComp->GetBoundingAABB(vMin,vMax);
-			Vector3 vSize = vMax - vMin;
-			Vector3 vCenter = (vMin + vMax) * 0.5f;
-			NodeTransform tsf;
-			TransformSetIdentity(&tsf);
-			tsf.m_vPos = vCenter;
+			RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
+			m_pRigidBody = pRigidBodyComp->GetRigidBody();
+			m_pRigidBody->SetUseGravity(false);
 
-			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
- 			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(vSize);
-			pBoxCollisionShape->GetBoxCollisionShape()->SetTransformLS(tsf);
+			pGameObj->GetSceneNode()->Translate(Vector3(0,40,0),TS_WORLD);
 
-			m_pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
-			IRigidBody* pRigidBody = m_pRigidBodyComp->GetRigidBody();
-			pRigidBody->SetUseGravity(false);
-			pRigidBody->SetKinematic(true);
+			int nClone = 5;
+			for (int i = 0; i < nClone; ++i)
+			{
+				char buf[10] = {0};
+				itoa(i,buf,10);
+				std::string pName = pGameObj->GetName();
+				pName += std::string("_clone") + buf;
+				GameObject* pClone = pGameObj->Clone(pName.c_str());
+				pClone->GetSceneNode()->Translate(Vector3(10 * i,10,0));
+			}
+
+
+			{
+				GameObject* pGameObjSphere = m_pScene->CreateGameObject("Sphere");
+				SphereCollisionComponent* pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionComponent>();
+				pSphereComp->GetSphereCollisionShape()->SetRadius(20);
+				pGameObjSphere->CreateComponent<RigidBodyComponent>();
+
+				pGameObjSphere->GetSceneNode()->Translate(Vector3(10,80,0),TS_WORLD);
+			}
+
 		}
 
+		GameObject* pGameObjB = NULL;
 		{
 			GameObject* pGameObj = m_pScene->CreateGameObject("Terrain");
-	
-			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();//new MeshComponent();
-			pMeshComp->Load("/Fbx/MovingPlatform.skn","/Fbx/PlatformTexture.tga");
+			pGameObjB = pGameObj;
 
-			Vector3 vMin,vMax;
-			pMeshComp->GetBoundingAABB(vMin,vMax);
-			Vector3 vSize = vMax - vMin;
-			Vector3 vCenter = (vMin + vMax) * 0.5f;
-			NodeTransform tsf;
-			TransformSetIdentity(&tsf);
-			tsf.m_vPos = vCenter;
+			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
+			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(Vector3(100,5,100));
 
-			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();//new BoxCollisionComponent();
-			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(vSize);
-			//pBoxCollisionShape->SetTransformLS(tsf);
-
-			pGameObj->GetSceneNode()->Translate(vCenter,TS_WORLD);
-		}
-
-		//{
-		//	XMLOutputArchive xmlOutAr;
-		//	xmlOutAr.Open("../../Text.scene.xml");
-		//	m_pScene->Serialize(xmlOutAr);
-		//	xmlOutAr.Close();
-		//}
-
-		{
-		//	XMLInputArchive xmlInAr;
-		//	xmlInAr.Open("../../Text.scene.xml");
-
-		//	SAFE_DELETE(m_pScene);
-		//	m_pScene = new Scene();
-		//	m_pScene->Serialize(xmlInAr);
+			//pGameObj->GetSceneNode()->Translate(vCenter,TS_WORLD);
 		}
 
 
 		m_pScene->Start();
+
+		pGameObjA->GetPhyscisObject()->AddCollisionListener(pGameObjB->GetPhyscisObject(),this);
 	}
 
-	void SampleRigidBody::Unload()
-	{
-
-	}
 
 	void SampleRigidBody::Update()
 	{
@@ -116,19 +83,27 @@ namespace ma
 
 		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
 
-// 		if (GetInput()->IsKeyReleased(OIS::KC_G))
-// 		{
-// 			m_pRigidBodyComp->SetUseGravity(true);
-// 		}
-// 		if (GetInput()->IsKeyPressed(OIS::KC_K))
-// 		{
-// 			m_pRigidBodyComp->SetKinematic(false);
-// 		}
+		if (GetInput()->IsKeyDown(OIS::KC_G))
+		{
+			m_pRigidBody->SetUseGravity(true);
+		}
+		if (GetInput()->IsKeyDown(OIS::KC_K))
+		{
+			m_pRigidBody->SetKinematic(false);
+		}
 	}
 
 	void SampleRigidBody::Render()
 	{
 		m_pScene->Render(m_pCamera);
+	}
+
+	void SampleRigidBody::collisionEvent(CollisionListener::EventType type,
+		const CollisionPair& collisionPair,
+		const Vector3& contactPointA,
+		const Vector3& contactPointB)
+	{
+		int i = 5;
 	}
 
 }

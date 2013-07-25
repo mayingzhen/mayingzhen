@@ -123,13 +123,13 @@ bool Button::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contac
 
 bool Button::keyEvent(Keyboard::KeyEvent evt, int key)
 {
-    if (evt == Keyboard::KEY_PRESS && key == Keyboard::KEY_RETURN)
+	if (evt == Keyboard::KEY_PRESS && key == OIS::KC_RETURN/*Keyboard::KEY_RETURN*/)
     {
         notifyListeners(Control::Listener::PRESS);
         setState(Control::ACTIVE);
         return _consumeInputEvents;
     }
-    else if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == Keyboard::KEY_RETURN)
+    else if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == OIS::KC_RETURN/*Keyboard::KEY_RETURN*/)
     {
         notifyListeners(Control::Listener::RELEASE);
         notifyListeners(Control::Listener::CLICK);

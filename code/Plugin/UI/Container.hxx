@@ -670,27 +670,27 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
             {
                 switch (key)
                 {
-                case Keyboard::KEY_TAB:
+				case OIS::KC_TAB/*Keyboard::KEY_TAB*/:
                     _focusPressed |= NEXT;
                     if (moveFocus(NEXT))
                         eventConsumed |= true;
                     break;
-                case Keyboard::KEY_UP_ARROW:
+				case OIS::KC_UP/*Keyboard::KEY_UP_ARROW*/:
                     _focusPressed |= UP;
                     if (moveFocus(UP))
                         eventConsumed |= true;
                     break;
-                case Keyboard::KEY_DOWN_ARROW:
+				case OIS::KC_DOWN/*Keyboard::KEY_DOWN_ARROW*/:
                     _focusPressed |= DOWN;
                     if (moveFocus(DOWN))
                         eventConsumed |= true;
                     break;
-                case Keyboard::KEY_LEFT_ARROW:
+				case OIS::KC_LEFT/*Keyboard::KEY_LEFT_ARROW*/:
                     _focusPressed |= LEFT;
                     if (moveFocus(LEFT))
                         eventConsumed |= true;
                     break;
-                case Keyboard::KEY_RIGHT_ARROW:
+				case OIS::KC_RIGHT/*Keyboard::KEY_RIGHT_ARROW*/:
                     _focusPressed |= RIGHT;
                     if (moveFocus(RIGHT))
                         eventConsumed |= true;
@@ -703,23 +703,23 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
         {
             switch (key)
             {
-            case Keyboard::KEY_TAB:
+            case OIS::KC_TAB/*Keyboard::KEY_TAB*/:
                 _focusPressed &= ~NEXT;
                 eventConsumed |= true;
                 break;
-            case Keyboard::KEY_UP_ARROW:
+            case OIS::KC_UP/*Keyboard::KEY_UP_ARROW*/:
                 _focusPressed &= ~UP;
                 eventConsumed |= true;
                 break;
-            case Keyboard::KEY_DOWN_ARROW:
+            case OIS::KC_DOWN/*Keyboard::KEY_DOWN_ARROW*/:
                 _focusPressed &= ~DOWN;
                 eventConsumed |= true;
                 break;
-            case Keyboard::KEY_LEFT_ARROW:
+            case OIS::KC_LEFT/*Keyboard::KEY_LEFT_ARROW*/:
                 _focusPressed &= ~LEFT;
                 eventConsumed |= true;
                 break;
-            case Keyboard::KEY_RIGHT_ARROW:
+            case OIS::KC_RIGHT/*Keyboard::KEY_RIGHT_ARROW*/:
                 _focusPressed &= ~RIGHT;
                 eventConsumed |= true;
                 break;

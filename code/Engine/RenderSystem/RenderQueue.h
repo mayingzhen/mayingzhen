@@ -71,6 +71,10 @@ namespace ma
 
 
 		static	bool m_bUseDeferred;
+
+
+		static   int m_nProcessThreadID;
+		static   int m_nFillThreadID;
 	};
 
 }

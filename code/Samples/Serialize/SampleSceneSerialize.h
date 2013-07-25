@@ -12,11 +12,7 @@ namespace ma
 
 		virtual void Init();
 
-		virtual void Shutdown();
-
 		virtual void Load();
-
-		virtual void Unload();
 
 		virtual void Update();
 

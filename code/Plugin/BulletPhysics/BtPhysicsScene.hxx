@@ -161,7 +161,7 @@ namespace ma
 
 		}
 
-		BulletContactReport(m_pDynamicsWorld);
+		BulletContactReport::Update();
 	}
 
 	GameObject* 	BulletScene::RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer,Vector3& hitPosWS)
@@ -197,7 +197,7 @@ namespace ma
 		return pPhysicObj;
 	}
 
-	ICharacterController* BulletScene::CreateCharacterController(GameObject* pGameObj)
+	ICharaControll* BulletScene::CreateCharacterController(GameObject* pGameObj)
 	{
 		ASSERT(pGameObj);
 		if (pGameObj == NULL)

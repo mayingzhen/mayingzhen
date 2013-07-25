@@ -35,6 +35,8 @@ namespace ma
 
 		Renderable*	GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
+		AABB		GetBoundingAABB();
+
 	public:
 		std::string				m_sknPath;
 		std::string				m_texPath;	

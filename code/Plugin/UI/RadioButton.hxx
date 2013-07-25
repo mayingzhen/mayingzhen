@@ -155,7 +155,7 @@ void RadioButton::clearSelected(const std::string& groupId)
 
 bool RadioButton::keyEvent(Keyboard::KeyEvent evt, int key)
 {
-    if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == Keyboard::KEY_RETURN && !_selected)
+	if (_state == ACTIVE && evt == Keyboard::KEY_RELEASE && key == OIS::KC_RETURN/*Keyboard::KEY_RETURN*/ && !_selected)
     {
         RadioButton::clearSelected(_groupId);
         _selected = true;

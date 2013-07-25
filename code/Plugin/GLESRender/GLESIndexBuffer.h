@@ -13,16 +13,16 @@ namespace ma
 		
 		~GLESIndexBuffer();
 
-		virtual void* Lock(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
+		virtual void*	Lock(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
 		
-		virtual void Unlock();
+		virtual void	Unlock();
 
 		virtual void	Active();
 
-		GLuint	GetIndexBuffer(){return m_hIndexBuffer;}
+		GLuint			GetIndexBuffer();
 
 	protected:
-		GLuint m_hIndexBuffer;
+		GLuint			m_hIndexBuffer;
 	};
 
 }

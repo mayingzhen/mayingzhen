@@ -43,4 +43,13 @@ namespace ma
 		ASSERT(hr == D3D_OK);
 	}
 
+	IDirect3DVertexDeclaration9 * D3D9VertexDeclaration::GetD3DVertexDeclaration()  
+	{ 
+		if (!mD3D9VertexDecl)
+		{
+			Active();
+		}
+		return mD3D9VertexDecl; 
+	}
+
 }

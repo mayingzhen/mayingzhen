@@ -387,14 +387,14 @@ bool Slider::keyEvent(Keyboard::KeyEvent evt, int key)
         case Keyboard::KEY_PRESS:
             switch (key)
             {
-            case Keyboard::KEY_LEFT_ARROW:
+            case OIS::KC_LEFT/*Keyboard::KEY_LEFT_ARROW*/:
                 _delta = -1.0f;
                 _directionButtonDown = true;
                 _dirty = true;
                 _gamepadValue = _value;
                 return true;
 
-            case Keyboard::KEY_RIGHT_ARROW:
+            case OIS::KC_RIGHT/*Keyboard::KEY_RIGHT_ARROW*/:
                 _delta = 1.0f;
                 _directionButtonDown = true;
                 _dirty = true;
@@ -406,7 +406,7 @@ bool Slider::keyEvent(Keyboard::KeyEvent evt, int key)
         case Keyboard::KEY_RELEASE:
             switch (key)
             {
-            case Keyboard::KEY_LEFT_ARROW:
+            case OIS::KC_LEFT/*Keyboard::KEY_LEFT_ARROW*/:
                 if (_delta == -1.0f)
                 {
                     _directionButtonDown = false;
@@ -416,7 +416,7 @@ bool Slider::keyEvent(Keyboard::KeyEvent evt, int key)
                 }
                 break;
 
-            case Keyboard::KEY_RIGHT_ARROW:
+            case OIS::KC_RIGHT/*Keyboard::KEY_RIGHT_ARROW*/:
                 if (_delta == 1.0f)
                 {
                     _directionButtonDown = false;
@@ -429,7 +429,7 @@ bool Slider::keyEvent(Keyboard::KeyEvent evt, int key)
         }
     }
 
-    if (evt == Keyboard::KEY_PRESS && key == Keyboard::KEY_RETURN)
+	if (evt == Keyboard::KEY_PRESS && key == OIS::KC_RETURN/*Keyboard::KEY_RETURN*/)
     {
         if (hasFocus())
             setState(ACTIVE);

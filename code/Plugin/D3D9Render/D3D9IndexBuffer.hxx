@@ -23,6 +23,11 @@ D3D9IndexBuffer::~D3D9IndexBuffer()
 
 void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
+	if (!mD3D9IndexBuffer)
+	{
+		Active();
+	}
+
     void * pData = NULL;
     DWORD D3DLock = 0;
 
@@ -67,7 +72,7 @@ void D3D9IndexBuffer::Active()
 	}
 
 	void* pLockData = NULL;
-	DWORD D3DLock = LOCK_DISCARD;
+	DWORD D3DLock = D3DUsage == USAGE_DYNAMIC ? LOCK_DISCARD : 0;
 	hr = mD3D9IndexBuffer->Lock(0, m_nSize, &pLockData, D3DLock);
 	ASSERT(hr == D3D_OK && "Lock index buffer failed.");
 
@@ -106,8 +111,13 @@ void D3D9IndexBuffer::ResetDevice()
     }
 }
 
-IDirect3DIndexBuffer9 * D3D9IndexBuffer::GetD3DIndexBuffer() const
+IDirect3DIndexBuffer9 * D3D9IndexBuffer::GetD3DIndexBuffer() 
 {
+	if (!mD3D9IndexBuffer)
+	{
+		Active();
+	}
+
     return mD3D9IndexBuffer;
 }
 

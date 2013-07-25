@@ -148,8 +148,9 @@ namespace ma
 		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
 		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
 
-		GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-		GL_ASSERT( glDisable(GL_CULL_FACE) );
+		//GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+		//GL_ASSERT( glDepthMask(GL_TRUE) );
+		//GL_ASSERT( glDisable(GL_CULL_FACE) );
 		//GL_ASSERT( glEnable(GL_CULL_FACE) );
 		//GL_ASSERT( glCullFace(GL_FRONT) );
 	}
@@ -228,45 +229,41 @@ namespace ma
 // 
 // 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
 // 
-		GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
-// 		
-// 
+		//GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
+		
+
 // 		switch (state.m_eDepthCheckMode)
 // 		{
-// 		case DCM_LESS_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
+// 		case DCM_NONE:
+// 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
+// 			break;
 // 
-// 			//GetGLESDxDevive()->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+// 		case DCM_LESS_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
 // 			break;
 // 
 // 		case DCM_LESS:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_LESS) );
 // 			break;
 // 
 // 		case DCM_GREATER_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
 // 			break;
 // 
 // 		case DCM_GREATER:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetGLESDxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_GREATER) );
 // 			break;
 // 
 // 		case DCM_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_EQUAL) );
 // 			break;
-// 
-// 		case DCM_ALWAYS:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,true) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-// 			break;
-// 
-// 		case DCM_NONE:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST,false) );
+// 		default:
+// 			ASSERT(false);
 // 			break;
 // 		}
 // 
@@ -316,9 +313,11 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
+		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
+			return;
 
-		//glEnable(GL_DEPTH_TEST);
-		//glDepthMask(false);
+		glEnable(GL_DEPTH_TEST);
+		//glDepthMask(TRUE);
 		//glEnable(GL_BLEND);
 		//glDisable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);

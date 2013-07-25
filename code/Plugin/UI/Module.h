@@ -2,6 +2,9 @@
 #define  _UI_Module__H__
 
 #include "UI/Export.h"
+#include "UI/Mouse.h"
+#include "UI/Keyboard.h"
+#include "UI/Touch.h"
 #include "UI/Control.h"
 #include "UI/Layout.h"
 #include "UI/FlowLayout.h"

@@ -35,8 +35,6 @@ namespace ma
 		float				m_fMoveCameraSpeed;
 		float				m_fZoomSpeed;
 
-		ShaderProgram*				m_pDefaultEffect;
-
 	};
 }
 

@@ -34,8 +34,9 @@ namespace ma
 // 			return false;
 // 		}
 		m_pStream = FileStream::create(pszFilename,"rb");
+		ASSERT(m_pStream);
 
-		return true;	
+		return m_pStream != NULL;	
 	}
 
 

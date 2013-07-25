@@ -15,7 +15,7 @@ namespace ma
 	class GameObject;
 	class BulletScene;
 
-	class BULLETPHYSICS_API BulletCharacterController : public ICharacterController
+	class BULLETPHYSICS_API BulletCharacterController : public ICharaControll
 	{
 	public:
 		BulletCharacterController(GameObject* pGameObject,BulletScene*	pPhyScene);

@@ -8,6 +8,7 @@
 #include "Framwork/Scene.h"
 #include "Framwork/SceneNode.h"
 #include "Framwork/SceneVisiter.h"
+#include "Framwork/Util.h"
 
 #include "Framwork/Component/Component.h"
 #include "Framwork/Component/AnimPlayComponent.h"
@@ -16,7 +17,6 @@
 #include "Framwork/Component/RigidbodyComponent.h"
 #include "Framwork/Component/CollisionComponent.h"
 #include "Framwork/Component/ScriptComponent.h"
-
 
 
 

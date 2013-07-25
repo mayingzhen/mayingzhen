@@ -105,6 +105,19 @@ namespace ma
 		return mMouse->getMouseState();
 	}
 
+#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+	UINT Input::GetTouchStateNumber() const
+	{
+		return mTouch.getMultiTouchStates().size();
+	}
+
+	const OIS::MultiTouchState& Input::GetTouchStateByIndex(int index) const
+	{
+		std::vector<MultiTouchState>& arrState = mTouch.getMultiTouchStates();
+		return arrState[index];
+	}
+#endif
+
 	void Input::OnResize(int w,int h)
 	{
 		if (NULL != mMouse)

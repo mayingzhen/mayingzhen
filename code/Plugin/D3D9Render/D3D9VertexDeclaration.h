@@ -13,9 +13,11 @@ namespace ma
 		
 		~D3D9VertexDeclaration();
 
-		virtual void Active();
+		IDirect3DVertexDeclaration9 * GetD3DVertexDeclaration()  ;
 
-		IDirect3DVertexDeclaration9 * GetD3DVertexDeclaration() const { return mD3D9VertexDecl; }
+	private:
+
+		virtual void Active();
 
 	protected:
 		IDirect3DDevice9 *                      mD3D9Device;

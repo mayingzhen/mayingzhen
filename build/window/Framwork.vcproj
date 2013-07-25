@@ -200,6 +200,14 @@
 				RelativePath="..\..\code\Framwork\SceneVisiter.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Framwork\Util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Framwork\Util.hxx"
+				>
+			</File>
 			<Filter
 				Name="Component"
 				>

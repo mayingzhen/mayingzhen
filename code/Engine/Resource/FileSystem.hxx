@@ -363,6 +363,7 @@ namespace ma
 		buffer[size] = '\0';
 
 		DataStream* pDataSteam = new DataStream(buffer,size);
+		pDataSteam->m_sFilePath = getFullPath(filePath);
 		
 		return pDataSteam;
 			

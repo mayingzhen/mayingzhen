@@ -6,25 +6,21 @@ namespace ma
 	class ENGINE_API LineRender
 	{
 	public:
-		LineRender();
+		static void Init();
 
-		void Init();
+		static void ShutDown();
 
-		void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
+		static void	BeginFrame();
 
-		void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
+		static void EndFrame();
 
-		void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
+		static void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
 
-		void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
+		static void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
 
-		void Start();
+		static void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
 
-		void Finish();
-
-	private:
-		MeshBatch*	m_pMeshBatch;
-		
+		static void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
 	};
 }
 

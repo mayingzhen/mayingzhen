@@ -3,17 +3,16 @@
 
 namespace ma
 {
-	class AnimationPlay;
-	class Skeleton;
-	class IRendMesh;
-	class IRendTexture;
+	class IAnimationPlay;
+	class RenderMesh;
 
-	class SampleAnimationTree : public SimpleSceneView
+
+	class SampleAnimationTree : public Sample
 	{
 	public:
 		SampleAnimationTree();
 
-		virtual void Init(Application* pApplication);
+		virtual void Init();
 
 		virtual void Shutdown();
 
@@ -21,20 +20,14 @@ namespace ma
 
 		virtual void Unload();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
 
-		virtual	void OnResize(int w,int h);
-
 	private:
-		AnimationPlay*	m_pAnimtionPlay;
+		IAnimationPlay*	m_pAnimtionPlay;
 
-		Skeleton*		m_pSkeleton;
-
-		IRendMesh*		m_pRenderMesh;
-
-		IRendTexture*	m_pRendTexture;
+		RenderMesh*		m_pRenderMesh;
 	};
 }
 

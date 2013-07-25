@@ -69,7 +69,8 @@ namespace ma
 	void Serializer::Serialize(std::string& val,const char* pszLable)
 	{
 		UINT nSize = (UINT)(val.size()+1);
-		SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
+		//bool res = SerializeByte(reinterpret_cast<Uint8*>(&nSize),sizeof(nSize),pszLable);
+		Serialize(nSize,pszLable);
 		val.resize(nSize,'\0');
 		if (nSize > 0)
 		{

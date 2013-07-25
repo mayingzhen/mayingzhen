@@ -31,6 +31,10 @@ namespace ma
 
 		virtual NodeTransform			GetTransformWS();
 
+		virtual void					AddCollisionListener(IPhysicsObject* objectB,CollisionListener* pListener);
+
+		virtual void					AddCollisionListener(ICharaControll* objectB);
+
 		bool							Start();
 
 		bool							Stop();

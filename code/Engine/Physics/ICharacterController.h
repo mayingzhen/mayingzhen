@@ -15,7 +15,7 @@ namespace ma
 	class GameObject;
 
 
-	class ENGINE_API ICharacterController
+	class ENGINE_API ICharaControll
 	{
 	public:
 		virtual void			SetTransformWS(const NodeTransform& tsfWS) = 0;
