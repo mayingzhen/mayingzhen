@@ -31,9 +31,9 @@ namespace ma
 			TransformSetIdentity(&arrNodeOS[nBoneCnt]);
 
 			arrNodeOS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
-			//arrNodeOS[nBoneCnt].m_qRot = ;
+			//arrNodeOS[nBoneCnt].m_qRot = pSkelData->m_arrRotOS[nBoneCnt];
 			QuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);
-			arrNodeOS[nBoneCnt].m_fScale = pSkelData->m_arrScaleOS[nBoneCnt].x;
+			arrNodeOS[nBoneCnt].m_fScale = 1.0f;//pSkelData->m_arrScaleOS[nBoneCnt].x;
 			m_arrBoneName[nBoneCnt] = pSkelData->m_arrBoneName[nBoneCnt];
 			m_arrParentInd[nBoneCnt] = pSkelData->m_arrParentIndice[nBoneCnt];
 		}

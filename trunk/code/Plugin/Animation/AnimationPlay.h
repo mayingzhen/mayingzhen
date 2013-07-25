@@ -32,6 +32,8 @@ namespace ma
 
 		virtual void			EvaluateAnimation(float fWeight);
 
+		virtual	void			SetFrame(float fFrame);
+
 		virtual UINT			GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
 
 		virtual Matrix4x4*		GetSkinMatrixArray()  {return m_arrSkinMatrix;}	

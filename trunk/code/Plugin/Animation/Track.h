@@ -374,9 +374,9 @@
 		float factor; 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
 //#ifdef _TRACK_SAMPLE_USE_SLERP
-		QuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
+		//QuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 //#else
-//		maQuaternionLerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
+		QuaternionLerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
 //#endif
 	}
 

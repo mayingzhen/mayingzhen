@@ -126,6 +126,13 @@ namespace ma
 				MatrixIdentity(&m_arrSkinMatrix[i]);
 			}
 		}
+	}
 
+	void AnimationPlay::SetFrame(float fFrame)
+	{
+		if (m_pSkelAnim)
+		{
+			m_pSkelAnim->SetFrame(fFrame);
+		}
 	}
 }

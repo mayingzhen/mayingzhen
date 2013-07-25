@@ -29,4 +29,12 @@ namespace ma
 
 		m_pAnimInst->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet);
 	}
+
+	void AnimClipNode::SetFrame(float fFrame)
+	{
+		if (m_pAnimInst == NULL)
+			return;
+
+		m_pAnimInst->SetFrame(fFrame);
+	}
 }

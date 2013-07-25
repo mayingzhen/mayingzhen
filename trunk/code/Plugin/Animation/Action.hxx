@@ -42,13 +42,14 @@ namespace ma
 		}
 
 		// ApplyLocalSpaceAnimation
-		for (UINT i = 0; i < pAnimContext->m_pNodePos->GetNodeNumber(); ++i)
+		UINT nBoneNumber = pAnimContext->m_pNodePos->GetNodeNumber();
+		std::vector<NodeTransform> arrTSfPS;
+		arrTSfPS.resize(nBoneNumber);
+		for (UINT i = 0; i < nBoneNumber; ++i)
 		{
-		 	NodeTransform tsfPS;
-			TransformSetIdentity(&tsfPS);
-		 	TransformMul(&tsfPS,&pAnimContext->m_arrTSFLS[i],&pAnimContext->m_refNodePos->GetTransformPS(i));
-		 	pAnimContext->m_pNodePos->SetTransformPS(&tsfPS,i);
+		 	TransformMul(&arrTSfPS[i],&pAnimContext->m_arrTSFLS[i],&pAnimContext->m_refNodePos->GetTransformPS(i));
 		}
+		pAnimContext->m_pNodePos->SetTransformPSAll(arrTSfPS);
 		 
 
 		for (UINT i = 0; i < m_arrPoseModifier.size(); ++i)
@@ -61,6 +62,14 @@ namespace ma
 
 		pAnimContext->m_pNodePos->SyncObjectSpace();
 
+	}
+
+	void Action::SetFrame(float fFrame)
+	{
+		if (m_pAnimaNode)
+		{
+			m_pAnimaNode->SetFrame(fFrame);
+		}
 	}
 
 	void Action::Serialize(Serializer& sl, const char* pszLable)

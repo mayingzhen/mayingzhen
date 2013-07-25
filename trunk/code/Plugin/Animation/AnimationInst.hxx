@@ -35,6 +35,13 @@ namespace ma
 		WrapLocalFrame();
 	}
 
+	void AnimationInst::SetFrame(float fFrame)
+	{
+		m_fLocalFrame = fFrame;
+
+		WrapLocalFrame();
+	}
+
 	void AnimationInst::WrapLocalFrame()
 	{
 		UINT uFrameNumber = m_pAnimation->GetFrameNumber();
@@ -61,12 +68,16 @@ namespace ma
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
-			if ( IsInvalidID<BoneIndex>(nTrackInd) )
-				continue;
-
 			NodeTransform tsfLS;
-			TransformSetIdentity(&tsfLS);
-			m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
+			if ( IsInvalidID<BoneIndex>(nTrackInd) )
+			{
+				TransformSetIdentity(&tsfLS);
+			}
+			else
+			{
+				m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
+			}
+
 			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
 			TransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], fWeight, &tsfLS);	
 		}
