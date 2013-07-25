@@ -39,6 +39,19 @@ namespace ma
 			m_pDestAnimNode->EvaluateAnimation(pEvalContext,fDestWeight);
 		}
 	}
+
+	void AnimBlendNode::SetFrame(float fFrame)
+	{
+		if (m_pSrcAnimNode)
+		{
+			m_pSrcAnimNode->SetFrame(fFrame);
+		}
+
+		if (m_pDestAnimNode)
+		{
+			m_pDestAnimNode->SetFrame(fFrame);
+		}
+	}
 }
 
 

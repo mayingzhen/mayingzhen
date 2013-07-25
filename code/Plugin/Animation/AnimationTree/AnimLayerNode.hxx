@@ -42,5 +42,12 @@ namespace ma
 		}
 	}
 
+	void AnimLayerNode::SetFrame(float fFrame)
+	{
+		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+		{
+			m_arrAnimNode[i]->SetFrame(fFrame);
+		}
+	}
 }
 

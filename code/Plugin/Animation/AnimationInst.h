@@ -33,6 +33,8 @@ namespace ma
 
 		void AdvanceTime(float fTimeElapsed);
 
+		void SetFrame(float fFrame);
+
 		BoneMap* GetNodeLink() {return m_pNodeLink;}
 
 		Animation* GetAnimation() {return m_pAnimation;}

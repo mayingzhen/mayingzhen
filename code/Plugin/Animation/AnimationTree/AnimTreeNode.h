@@ -11,6 +11,8 @@ namespace ma
 		virtual void AdvanceTime(float fTimeElapsed) = 0;
 
 		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight) = 0;
+
+		virtual	void SetFrame(float fFrame) = 0;
 	};
 }
 

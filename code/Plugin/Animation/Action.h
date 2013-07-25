@@ -21,6 +21,8 @@ namespace ma
 
 		void			EvaluateAnimation(AnimEvalContext* pAnimContext,float fWeight);
 
+		void			SetFrame(float fFrame);
+
 		void			SetAnimName(const char* pszAnimName) {m_sAnimName = pszAnimName;}
 
 		const char*		GetAnimName() {return m_sAnimName.c_str();}

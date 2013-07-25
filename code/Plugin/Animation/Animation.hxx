@@ -32,7 +32,7 @@ namespace ma
 		m_pTracks->m_scale[nTrackID]->SampleFrame(fFrame,vLocalScale);
 		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
 
-		pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
+		//pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
 
 		m_pTracks->m_rot[nTrackID]->SampleFrame(fFrame,pTSF->m_qRot);
 		m_pTracks->m_pos[nTrackID]->SampleFrame(fFrame,pTSF->m_vPos);

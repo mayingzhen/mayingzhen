@@ -24,6 +24,8 @@ namespace ma
 
 		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
+		virtual	void SetFrame(float fFrame);
+
 	private:
 		AnimTreeNode* m_pSrcAnimNode;
 		AnimTreeNode* m_pDestAnimNode;
