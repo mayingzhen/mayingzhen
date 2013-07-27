@@ -527,6 +527,7 @@ namespace ma
 
 			if (!_uniform)
 			{
+				ASSERT(false);
 				// This parameter was not found in the specified effect, so do nothing.
 				//GP_WARN("Warning: Material parameter '%s' not found in effect '%s'.", _name.c_str(), effect->GetId());
 				return;

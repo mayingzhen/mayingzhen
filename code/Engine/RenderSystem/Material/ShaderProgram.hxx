@@ -1,6 +1,6 @@
 #include "ShaderProgram.h"
 
-#define OPENGL_ES_DEFINE  "#define OPENGL_ES\n"
+//#define OPENGL_ES_DEFINE  "#define OPENGL_ES\n"
 
 namespace ma
 {
@@ -23,7 +23,7 @@ namespace ma
 			out += "\n";
 		}
 #if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
-		out.insert(0, "#define Open");
+		out.insert(0, "#define OPENGL_ES\n");
 #endif
 	}
 

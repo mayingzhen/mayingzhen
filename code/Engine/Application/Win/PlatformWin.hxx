@@ -75,8 +75,8 @@ namespace ma
 			WS_OVERLAPPEDWINDOW,        // window style
 			CW_USEDEFAULT,              // initial x position
 			CW_USEDEFAULT,              // initial y position
-			CW_USEDEFAULT,              // initial x size
-			CW_USEDEFAULT,              // initial y size
+			800/*CW_USEDEFAULT*/,              // initial x size
+			480/*CW_USEDEFAULT*/,              // initial y size
 			NULL,                       // parent window handle
 			NULL,                       // window menu handle
 			hInstance,                  // program instance handle

@@ -6,6 +6,11 @@
 namespace ma
 {
 
+#if !defined(__APPLE__)  &&  !defined(_WIN32)
+	extern bool g_bHardwareETCSupported;
+	extern bool g_bHardwareDDSSupported;
+#endif
+
 	bool InitTextureSystem()
 	{
 		ilInit();
@@ -25,7 +30,6 @@ namespace ma
 		//ilSetEtcDecompress(IL_TRUE);
 		ilSetInteger(IL_DXT_DONT_DECOMP, IL_TRUE);
 		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
-		//ilSetEtcDecompress(IL_TRUE);
 #elif defined(__APPLE__)
 #if defined(TARGET_OS_IPHONE)
 		ilSetInteger(IL_DXT_DONT_DECOMP, IL_FALSE);
@@ -35,8 +39,6 @@ namespace ma
 		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
 #endif//TARGET_OS_IPHONE
 #elif defined(__ANDROID__)
-		bool g_bHardwareETCSupported = true;
-		bool g_bHardwareDDSSupported = true;
 		ilSetEtcDecompress(g_bHardwareETCSupported? IL_FALSE : IL_TRUE);
 		ilSetInteger(IL_KEEP_DXTC_DATA, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
 		ilSetInteger(IL_DXT_DONT_DECOMP, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
