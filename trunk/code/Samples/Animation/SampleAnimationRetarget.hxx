@@ -159,8 +159,10 @@ namespace ma
 			m_pRenderMeshA_f->SetSkinMatrix(skinMatrixA,nNumberA);
 			m_pRenderMeshA_h->SetSkinMatrix(skinMatrixA,nNumberA);
 
-			Matrix4x4 matWorld;
-			MatrixTranslation(&matWorld,-50,0,0);
+			Matrix4x4 matWorld,matRoat;
+			MatrixTranslation(&matWorld,-50,120,0);
+			MatrixRotationYawPitchRoll(&matRoat,0,PI * 1.2,0);
+			matWorld = matWorld * matRoat;
 			m_pRenderMeshA_b->SetWorldMatrix(matWorld);
 			m_pRenderMeshA_f->SetWorldMatrix(matWorld);
 			m_pRenderMeshA_h->SetWorldMatrix(matWorld);
@@ -178,9 +180,9 @@ namespace ma
 			m_pRenderMeshB->SetSkinMatrix(skinMatrixB,nNumberB);
 
 			Matrix4x4 matWorld,matRoat;
-			MatrixTranslation(&matWorld,50,0,0);
-			//MatrixRotationYawPitchRoll(&matRoat,0,PI,0);
-			//matWorld = matWorld * matRoat;
+			MatrixTranslation(&matWorld,50,120,0);
+			MatrixRotationYawPitchRoll(&matRoat,0,PI * 1.2,0);
+			matWorld = matWorld * matRoat;
 			m_pRenderMeshB->SetWorldMatrix(matWorld);
 		}
 	}
@@ -191,9 +193,9 @@ namespace ma
 			return;
 
 		// A
- 		//m_pRenderMeshA_b->Draw();
- 		//m_pRenderMeshA_f->Draw();
- 		//m_pRenderMeshA_h->Draw();
+ 		m_pRenderMeshA_b->Draw();
+ 		m_pRenderMeshA_f->Draw();
+ 		m_pRenderMeshA_h->Draw();
 
 		// B
 		m_pRenderMeshB->Draw();

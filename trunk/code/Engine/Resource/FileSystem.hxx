@@ -272,34 +272,34 @@ namespace ma
 		if ((mode & WRITE) != 0)
 			modeStr[0] = 'w';
 
-	#ifdef __ANDROID__
-		if ((mode & WRITE) != 0)
-		{
-			// Open a file on the SD card
-			std::string fullPath(__resourcePath);
-			fullPath += path;
-
-			size_t index = fullPath.rfind('/');
-			if (index != std::string::npos)
-			{
-				std::string directoryPath = fullPath.substr(0, index);
-				struct stat s;
-				if (stat(directoryPath.c_str(), &s) != 0)
-					makepath(directoryPath, 0777);
-			}
-			return FileStream::create(fullPath.c_str(), modeStr);
-		}
-		else
-		{
-			// Open a file in the read-only asset directory
-			return FileStreamAndroid::create(path, modeStr);
-		}
-	#else
+// 	#ifdef __ANDROID__
+// 		if ((mode & WRITE) != 0)
+// 		{
+// 			// Open a file on the SD card
+// 			std::string fullPath(__resourcePath);
+// 			fullPath += path;
+// 
+// 			size_t index = fullPath.rfind('/');
+// 			if (index != std::string::npos)
+// 			{
+// 				std::string directoryPath = fullPath.substr(0, index);
+// 				struct stat s;
+// 				if (stat(directoryPath.c_str(), &s) != 0)
+// 					makepath(directoryPath, 0777);
+// 			}
+// 			return FileStream::create(fullPath.c_str(), modeStr);
+// 		}
+// 		else
+// 		{
+// 			// Open a file in the read-only asset directory
+// 			return FileStreamAndroid::create(path, modeStr);
+// 		}
+// 	#else
 		std::string fullPath = getFullPath(path);
 	     
 		FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
 		return stream;
-	#endif
+//	#endif
 	}
 
 	FILE* FileSystem::openFile(const char* filePath, const char* mode)

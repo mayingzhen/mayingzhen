@@ -14,7 +14,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
-#include "Samples/Script/SampleMonoScript.hxx"
+//#include "Samples/Script/SampleMonoScript.hxx"
 
 namespace ma
 {
@@ -22,6 +22,43 @@ namespace ma
 
 	SampleBrowser::SampleBrowser(const char* pGameName)
 		:Game(pGameName)
+	{
+// #if PLATFORM_WIN == 1
+// 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
+// 		m_arrSamples.push_back(pSampleFbxImport);
+// #endif
+// 
+// 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
+// 		m_arrSamples.push_back(pSceneSerial);
+// 
+// 		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
+// 		m_arrSamples.push_back(pSampleRigidBody);
+// 
+// 		SampleTerrain* pSampleTerrain = new SampleTerrain();
+// 		m_arrSamples.push_back(pSampleTerrain);
+// 
+// 		SampleAnimationRetarget* pAnimRetar = new SampleAnimationRetarget();
+// 		m_arrSamples.push_back(pAnimRetar);
+// 
+// 		SampleAnimationTree* pAniTree = new SampleAnimationTree();
+// 		m_arrSamples.push_back(pAniTree);
+// 
+// 		SampleParticle* pParticle = new SampleParticle();
+// 		m_arrSamples.push_back(pParticle);
+// 
+// 		//SampleMonoScript* pScript = new SampleMonoScript();
+// 		//m_arrSamples.push_back(pScript);
+// 
+// 		m_curSampleIndex = m_arrSamples.size() - 1;
+// 
+// 		SetTimer(&m_Timer);
+// 		SetInput(&m_Input);
+// 
+// 		m_bPause = false;
+// 		m_bStepOneFrame = false;
+	}
+
+	void SampleBrowser::Init()
 	{
 #if PLATFORM_WIN == 1
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
@@ -46,20 +83,17 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples.push_back(pParticle);
 
-		SampleMonoScript* pScript = new SampleMonoScript();
-		m_arrSamples.push_back(pScript);
+		//SampleMonoScript* pScript = new SampleMonoScript();
+		//m_arrSamples.push_back(pScript);
 
-		m_curSampleIndex = m_arrSamples.size() - 1;
+		m_curSampleIndex = m_arrSamples.size() - 3;
 
 		SetTimer(&m_Timer);
 		SetInput(&m_Input);
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
-	}
 
-	void SampleBrowser::Init()
-	{
 #if PLATFORM_WIN == 1
 		FileSystem::setResourcePath("../../Data/");
 #elif PLAFTORM_IOS == 1
@@ -67,8 +101,10 @@ namespace ma
 		sDataDir += "/Data/";
 		FileSystem::setResourcePath(sDataDir.c_str());
 #elif PLATFORM_ANDROID == 1
-		FileSystem::setResourcePath("/sdcard/MyData/Data");    
+		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
 #endif
+
+		Log("............SampleBrowser::init()......................");
 	
 		CommonModuleInit();
 		EngineModuleInit();
@@ -161,7 +197,7 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
-		LineRender::BeginFrame();
+		//LineRender::BeginFrame();
 
 		//RenderQueue::Clear();
 
@@ -170,12 +206,12 @@ namespace ma
 
 		//RenderQueue::Fulsh();
 
-		m_pSampleSelectForm->draw();
+		//m_pSampleSelectForm->draw();
 
 		//m_pLineRender->Start();
 		//LineRender::DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
 		
-		LineRender::EndFrame();
+		//LineRender::EndFrame();
 	
 		GetRenderDevice()->EndRender();
 	}
