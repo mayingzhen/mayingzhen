@@ -35,6 +35,8 @@ namespace ma
 		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
 #endif//TARGET_OS_IPHONE
 #elif defined(__ANDROID__)
+		bool g_bHardwareETCSupported = true;
+		bool g_bHardwareDDSSupported = true;
 		ilSetEtcDecompress(g_bHardwareETCSupported? IL_FALSE : IL_TRUE);
 		ilSetInteger(IL_KEEP_DXTC_DATA, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
 		ilSetInteger(IL_DXT_DONT_DECOMP, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
@@ -132,23 +134,26 @@ namespace ma
 			}
 			break;
 
-		case IL_DXT1:
-			{
-				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-			}
-			break;
+// 		case IL_DXT1:
+// 			{
+// 				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+// 			}
+// 			break;
 
-		case IL_DXT3:
-			{
-				return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-			}
-			break;
+// 		case IL_DXT3:
+// 			{
+// 				return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+// 			}
+// 			break;
 
-		case IL_DXT5:
-			{
-				return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-			}
-			break;
+// 		case IL_DXT5:
+// 			{
+// 				return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+// 			}
+// 			break;
+			
+		default:
+			ASSERT(false);
 		}
 		return 0;
 	}	
@@ -335,7 +340,7 @@ namespace ma
 			GenerateMipmaps();
 		}
 		
-		//glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
+		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
 
 		return true;
 	}

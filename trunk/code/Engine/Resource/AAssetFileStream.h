@@ -1,10 +1,17 @@
+#ifndef _FileStreamAndroid_H_
+#define _FileStreamAndroid_H_
+
 #include "Stream.h"
 
+class AAsset;
 
 namespace ma
 {
 
 #ifdef __ANDROID__
+
+	
+
 	class FileStreamAndroid : public Stream
 	{
 	public:
@@ -32,7 +39,10 @@ namespace ma
 	private:
 		AAsset* _asset;
 	};
+
 #endif
 
 
 }
+
+#endif //_FileStreamAndroid_H_

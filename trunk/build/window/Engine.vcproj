@@ -208,11 +208,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Application\Android\ApplicationAndroid.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Application\Android\ApplicationAndroid.hxx"
+					RelativePath="..\..\Code\Engine\Application\Android\PlatformAndroid.hxx"
 					>
 				</File>
 			</Filter>
@@ -697,14 +693,6 @@
 			Name="Script"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\Script\EdScriptObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Script\EdScriptObject.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Script\IScriptDevice.h"
 				>
 			</File>
@@ -714,14 +702,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Script\IScriptObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Script\ScriptEventBinder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Script\ScriptEventBinder.hxx"
 				>
 			</File>
 		</Filter>

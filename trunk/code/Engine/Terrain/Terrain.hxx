@@ -2,6 +2,7 @@
 #include "TerrainSection.h"
 
 
+#if PLATFORM_WIN == 1
 char * UnicodeToANSI( const wchar_t* str )
 {
 	char* result;
@@ -32,6 +33,12 @@ char* UTF8ToANSI(const char* str)
 	delete []temp;
 	return res;
 }
+#elif PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
+char* UTF8ToANSI(const char* str)
+{
+	return (char*)str;
+}
+#endif
 
 // char* UTF8ToANSI(const char* str)
 // {

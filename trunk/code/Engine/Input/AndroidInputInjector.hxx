@@ -1,4 +1,5 @@
 #include "AndroidInputInjector.h"
+#include "OIS.h"
 
 namespace ma
 {
@@ -15,7 +16,7 @@ namespace ma
 			if(Platform::GetInstance().GetWindId())
             {
 				OIS::MultiTouchState state;
-				Platform::GetInstance().GetWindowSize(state.width,state.height)
+				Platform::GetInstance().GetWindowSize(state.width,state.height);
                 mStates.push_back(state);
             }
             return mStates[i];
@@ -34,16 +35,16 @@ namespace ma
             OIS::KeyEvent evt(mKeyboard, OIS::KC_ESCAPE, 0);
             if(action == 0)
             {
-                mBrowser->keyPressed(evt);
+                //mBrowser->keyPressed(evt);
             }
             else
             {
-                mBrowser->keyReleased(evt);
+                //mBrowser->keyReleased(evt);
             }
         }
     }
         
-	void AndroidInputInjector::injectTouchEvent(int action, float x, float y, int pointerId = 0)
+	void AndroidInputInjector::injectTouchEvent(int action, float x, float y, int pointerId)
     {
         OIS::MultiTouchState &state = mTouch->getMultiTouchState(pointerId);
         
@@ -67,36 +68,36 @@ namespace ma
         
         if(state.touchType != OIS::MT_None)
         {
-            int last = state.X.abs;
-            state.X.abs =  (int)x;
-            state.X.rel = state.X.abs - last;
+//             int last = state.X.abs;
+//             state.X.abs =  (int)x;
+//             state.X.rel = state.X.abs - last;
+//             
+//             last = state.Y.abs;
+//             state.Y.abs = (int)y;
+//             state.Y.rel = state.Y.abs - last;
+//             
+//             state.Z.abs = 0;
+//             state.Z.rel = 0;
+//             
+//             OIS::MultiTouchEvent evt(mTouch, state);
             
-            last = state.Y.abs;
-            state.Y.abs = (int)y;
-            state.Y.rel = state.Y.abs - last;
-            
-            state.Z.abs = 0;
-            state.Z.rel = 0;
-            
-            OIS::MultiTouchEvent evt(mTouch, state);
-            
-            switch(state.touchType)
-            {
-                case OIS::MT_Pressed:
-                    mBrowser->touchPressed(evt);
-                    break;
-                case OIS::MT_Released:
-                    mBrowser->touchReleased(evt);
-                    break;
-                case OIS::MT_Moved:
-                    mBrowser->touchMoved(evt);
-                    break;
-                case OIS::MT_Cancelled:
-                    mBrowser->touchCancelled(evt);
-                    break;
-                default:
-                    break;
-            }
+//             switch(state.touchType)
+//             {
+//                 case OIS::MT_Pressed:
+//                     mBrowser->touchPressed(evt);
+//                     break;
+//                 case OIS::MT_Released:
+//                     mBrowser->touchReleased(evt);
+//                     break;
+//                 case OIS::MT_Moved:
+//                     mBrowser->touchMoved(evt);
+//                     break;
+//                 case OIS::MT_Cancelled:
+//                     mBrowser->touchCancelled(evt);
+//                     break;
+//                 default:
+//                     break;
+//             }
         }
     }
   

@@ -17,14 +17,10 @@ int DisplayError(const char * title,
 				 const char * file, 
 				 int line)
 {
-	HWND hwnd = GetActiveWindow();
-	if (!hwnd)
-		hwnd = GetLastActivePopup(hwnd);
-
 	const int BUFFER_SIZE = 1024;
 	char buffer[BUFFER_SIZE];
 
-	_snprintf(buffer, BUFFER_SIZE, 
+	snprintf(buffer, BUFFER_SIZE, 
 		"%s\n\n"					\
 		"File:         %s\n"		\
 		"Line:         %d\n\n"	\

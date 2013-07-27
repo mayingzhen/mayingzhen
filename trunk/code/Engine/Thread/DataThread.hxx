@@ -67,19 +67,19 @@ namespace ma
 		return m_bFree;
 	}
 
-	DataThread::DataThread(DWORD dwTlsIndex, DWORD dwThreadAppID)
+	DataThread::DataThread(/*DWORD dwTlsIndex, DWORD dwThreadAppID*/)
 	{
 		m_bFree = true;
 		m_bExit = false;
 		//m_pThreadExitCallback = NULL;
-		m_dwTlsIndex = dwTlsIndex;
-		m_dwThreadAppID = dwThreadAppID;
+		//m_dwTlsIndex = dwTlsIndex;
+		//m_dwThreadAppID = dwThreadAppID;
 		m_bImmediate = false;
 		//m_pThreadExitCallback = NULL;
 
 		m_pReadEvent = new CMyEvent();
 
-		m_pThread = new Thread(MyDataThread,this);
+		//m_pThread = new Thread(MyDataThread,this);
 	}
 
 	DataThread::~DataThread()

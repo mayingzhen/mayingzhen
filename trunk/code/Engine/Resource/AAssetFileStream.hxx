@@ -1,4 +1,4 @@
-#include "FileStream.h"
+#include "AAssetFileStream.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -38,7 +38,7 @@ namespace ma
 
 	FileStreamAndroid* FileStreamAndroid::create(const char* filePath, const char* mode)
 	{
-		AAsset* asset = AAssetManager_open(__assetManager, filePath, AASSET_MODE_RANDOM);
+		AAsset* asset = AAssetManager_open(FileSystem::getAAssetManager(), filePath, AASSET_MODE_RANDOM);
 		if (asset)
 		{
 			FileStreamAndroid* stream = new FileStreamAndroid(asset);

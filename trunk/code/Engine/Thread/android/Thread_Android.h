@@ -7,7 +7,7 @@
 
 namespace ma
 {
-	typedef void* (*ThreadMain)(void* pThis);
+	typedef void* (*ThreadMain)(void* pParameter);
 
 	class Thread
 	{	

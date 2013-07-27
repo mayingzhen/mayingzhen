@@ -29,6 +29,8 @@ namespace ma
 
 		bool Open(XMLOutputArchive& xmlOutAr);
 
+		bool Close();
+
 		void BeginSection(const char* pszLable);
 
 		void EndSection();

@@ -28,7 +28,7 @@ namespace ma
 	class ENGINE_API DataThread 
 	{	
 	public:
-		DataThread(DWORD dwTlsIndex, DWORD dwThreadAppID);
+		DataThread(/*DWORD dwTlsIndex, DWORD dwThreadAppID*/);
 
 		~DataThread();
 

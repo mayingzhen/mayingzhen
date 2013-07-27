@@ -16,7 +16,7 @@ namespace ma
 
 	void BulletDevice::DestoryPhysicsScene(IPhysicsScene* pPhysicsScene)
 	{
-		ASSERT(m_pPhyscicsScene == pPhysicsScene)
+		ASSERT(m_pPhyscicsScene == pPhysicsScene);
 		SAFE_DELETE(pPhysicsScene);
 		m_pPhyscicsScene = NULL;
 	}

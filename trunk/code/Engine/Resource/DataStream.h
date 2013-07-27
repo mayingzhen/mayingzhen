@@ -6,7 +6,7 @@
 namespace ma
 {
 
-	class DataStream : public Stream
+	class ENGINE_API DataStream : public Stream
 	{
 	public:
 		friend class FileSystem;
@@ -33,7 +33,7 @@ namespace ma
 		size_t			GetSize() {return m_size;}
 		const char*		GetFilePath() {return m_sFilePath.c_str();}
 
-		static DataStream* create(const char* filePath, const char* mode);	
+		//static DataStream* create(const char* filePath, const char* mode);	
 
 	private:
 		size_t	m_size;

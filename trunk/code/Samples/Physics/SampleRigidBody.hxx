@@ -39,10 +39,8 @@ namespace ma
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
-				char buf[10] = {0};
-				itoa(i,buf,10);
 				std::string pName = pGameObj->GetName();
-				pName += std::string("_clone") + buf;
+				pName += std::string("_clone") + StringConverter::ToString(i);
 				GameObject* pClone = pGameObj->Clone(pName.c_str());
 				pClone->GetSceneNode()->Translate(Vector3(10 * i,10,0));
 			}

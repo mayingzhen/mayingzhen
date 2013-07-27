@@ -16,6 +16,8 @@ namespace ma
 		
 		ASSERT(m_pTextureData);
 		m_pTextureData->LoadFileToMemeory();
+
+		return true;
 	}
 
 	bool RenderMesh::LoadImp()

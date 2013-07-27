@@ -1,6 +1,7 @@
 #include "SampleAnimationRetarget.h"
+#if PLATFORM_WIN == 1
 #include "S3Serialize/Module.h"
-
+#endif
 
 namespace ma
 {
@@ -21,6 +22,7 @@ namespace ma
 			return;
 
 		// DataConver
+#if PLATFORM_WIN == 1
 		{
 			// gigi
 			{
@@ -62,6 +64,7 @@ namespace ma
 				mag100->SaveToFile("../../Data/magician/100/bip01.ska");
 			}
 		}
+#endif
 
 		// character A MeshData & skeleton & Animation
 		{

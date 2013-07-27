@@ -78,7 +78,7 @@
 
 // script
 #include "Engine/Script/IScriptDevice.hxx"
-#include "Engine/Script/EdScriptObject.hxx"
+//#include "Engine/Script/EdScriptObject.hxx"
 //#include "Engine/Script/ScriptEventBinder.hxx"
 
 
@@ -90,7 +90,7 @@
 
 
 #include "Engine/Thread/DataThread.hxx"
-#include "Engine/Thread/RenderThread.hxx"
+//#include "Engine/Thread/RenderThread.hxx"
 
 
 using namespace ma;

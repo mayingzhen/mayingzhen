@@ -15,25 +15,26 @@ namespace ma
 
 	void * GLESIndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,NULL,GL_STATIC_DRAW);
-		return glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY);
-		//return m_pData;
+		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
+		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,NULL,GL_STATIC_DRAW) );
+		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ;
+		ASSERT(glGetError() == GL_NO_ERROR); 
+		return pLock;
 	}
 
 	void GLESIndexBuffer::Unlock()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
-		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);	
+		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
+		GL_ASSERT( glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) );	
 	}
 
 	void GLESIndexBuffer::Active()
 	{
 		GLenum glUsage = GLESMapping::GetGLESUSage(m_eUsage);
 
-		glGenBuffers(1,& m_hIndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,m_pData,glUsage);
+		GL_ASSERT( glGenBuffers(1,& m_hIndexBuffer) );
+		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
+		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,m_pData,glUsage) );
 	}
 
 	GLuint	GLESIndexBuffer::GetIndexBuffer()

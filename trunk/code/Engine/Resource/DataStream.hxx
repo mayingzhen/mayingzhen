@@ -166,6 +166,7 @@ namespace ma
 		{
 			m_pPos = m_pEnd - offset;
 		}
+		return true;
 	}
 
 	bool DataStream::rewind()

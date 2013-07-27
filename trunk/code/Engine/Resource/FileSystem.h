@@ -2,6 +2,8 @@
 #define FILESYSTEM_H_
 
 
+class AAssetManager;
+
 namespace ma
 {
 
@@ -16,8 +18,12 @@ namespace ma
 			WRITE = 2
 		};
 
-
 		~FileSystem();
+
+#ifdef __ANDROID__
+		static void				setAAssetManager(AAssetManager* pAAssetManager);	
+		static AAssetManager*	getAAssetManager();
+#endif
 
 		static void			setResourcePath(const char* path);
 

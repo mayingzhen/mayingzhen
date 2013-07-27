@@ -215,13 +215,13 @@ namespace ma
 
 	enum DECL_USAGEMASK
 	{
-		DUM_POSITION      = 1 << DU_POSITION,
-		DUM_TEXCOORD      = 1 << DU_TEXCOORD0,
-		DUM_BLENDWEIGHT   = 1 << DU_BLENDWEIGHT,
-		DUM_BLENDINDICES  = 1 << DU_BLENDINDICES,
-		DUM_NORMAL        = 1 << DU_NORMAL,
-		DUM_TANGENT       = 1 << DU_TANGENT,
-		DUM_COLOR         = 1 << DU_COLOR,
+		DUM_POSITION      = 1 << 0,
+		DUM_TEXCOORD      = 1 << 1,
+		DUM_BLENDWEIGHT   = 1 << 2,
+		DUM_BLENDINDICES  = 1 << 3,
+		DUM_NORMAL        = 1 << 4,
+		DUM_TANGENT       = 1 << 5,
+		DUM_COLOR         = 1 << 6,
 
 		DUM_UNKNOWN       = 255
 	};

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/mono/Inlude/;../../extern/oisinput/include/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MONOSCRIPT_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="mono-2.0.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/mono/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -170,51 +170,55 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\..\code\Plugin\MonoScript\ClassField.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\MonoScript\ClassField.hxx"
+			>
+		</File>
+		<File
 			RelativePath="..\..\Code\Plugin\MonoScript\Export.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptDevice.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\IntenalCall.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptDevice.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\IntenalCall.hxx"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptIntenal.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\Module.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptInternal.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\Module.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptModule.cpp"
+			RelativePath="..\..\code\Plugin\MonoScript\ScriptClass.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptModule.h"
+			RelativePath="..\..\code\Plugin\MonoScript\ScriptClass.hxx"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptObject.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\ScriptDevice.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptObject.hxx"
+			RelativePath="..\..\Code\Plugin\MonoScript\ScriptDevice.hxx"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptResource.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\ScriptObject.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoScriptResource.hxx"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\MonoUtil.h"
+			RelativePath="..\..\Code\Plugin\MonoScript\ScriptObject.hxx"
 			>
 		</File>
 		<File

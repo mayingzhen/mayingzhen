@@ -2,7 +2,7 @@
 #define  _GameObject__H__
 
 #include "SceneNode.h"
-
+#include "Component/Component.h"
 
 namespace ma
 {
@@ -10,6 +10,7 @@ namespace ma
 	class Scene;
 	class IPhysicsObject;
 	class SceneVisiter;
+
 
 	class FRAMWORK_API GameObject : public Object
 	{
@@ -70,7 +71,7 @@ namespace ma
 	};
 
 	template<class T>
-	T*	GameObject::CreateComponent()
+	inline T*	GameObject::CreateComponent()
 	{
 		T* pComponent = new T(this);
 		AddComponent(pComponent);
@@ -78,11 +79,11 @@ namespace ma
 	}
 
 	template<class T>
-	T*	GameObject::GetTypeComponentFirst()
+	inline T*	GameObject::GetTypeComponentFirst()
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i].GetClass())
+			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
 			{
 				return m_arrComp[i];
 			}
@@ -91,12 +92,12 @@ namespace ma
 	}
 
 	template<class T>
-	T*	GameObject::GetTypeComponentNumber()
+	inline T*	GameObject::GetTypeComponentNumber()
 	{
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i].GetClass())
+			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
 			{
 				++nNumber;
 			}
@@ -105,18 +106,33 @@ namespace ma
 	}
 
 	template<class T>
-	T*	GameObject::GetTypeComponentByIndex(UINT index)
+	inline T*	GameObject::GetTypeComponentByIndex(UINT index)
 	{
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i].GetClass() && nNumber == index)
+			if (T::StaticGetClass() == m_arrComp[i]->GetClass() && nNumber == index)
 			{
 				return m_arrComp[i];
 			}
 		}
 		return NULL;
 	}
+
+	struct FRAMWORK_API Collision
+	{
+		GameObject* m_pGameEntity;
+		Vector3	m_vContactsPointWS;
+		Vector3	m_vContactsNormalWS;
+
+		Collision()
+		{
+			m_pGameEntity = NULL;
+			m_vContactsPointWS = Vector3(0,0,0);
+			m_vContactsNormalWS = Vector3(0,0,0);
+		}
+	};
+
 
 }
 
