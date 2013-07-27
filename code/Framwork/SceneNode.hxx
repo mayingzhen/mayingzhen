@@ -226,7 +226,7 @@ namespace ma
 
 	const Matrix4x4& SceneNode::GetWorldMatrix()
 	{
-		if (m_bmatWSDirty)
+		//if (m_bmatWSDirty)
 		{
 			UpdateMatWorld();
 		}
@@ -437,7 +437,7 @@ namespace ma
 
 		if (GetParent()) // !RootNode
 		{
-			sl.Serialize(m_tsfPS);
+			sl.Serialize(m_tsfWS);
 
 			if (sl.IsReading())
 			{

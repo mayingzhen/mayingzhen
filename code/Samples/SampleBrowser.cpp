@@ -4,13 +4,17 @@
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
+#if PLATFORM_WIN == 1
 #include "Samples/Serialize/SampleFbxImport.hxx"
+#endif
+
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
+#include "Samples/Script/SampleMonoScript.hxx"
 
 namespace ma
 {
@@ -19,8 +23,10 @@ namespace ma
 	SampleBrowser::SampleBrowser(const char* pGameName)
 		:Game(pGameName)
 	{
+#if PLATFORM_WIN == 1
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
 		m_arrSamples.push_back(pSampleFbxImport);
+#endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
 		m_arrSamples.push_back(pSceneSerial);
@@ -40,7 +46,10 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples.push_back(pParticle);
 
-		m_curSampleIndex = 2;
+		SampleMonoScript* pScript = new SampleMonoScript();
+		m_arrSamples.push_back(pScript);
+
+		m_curSampleIndex = m_arrSamples.size() - 1;
 
 		SetTimer(&m_Timer);
 		SetInput(&m_Input);
@@ -57,8 +66,8 @@ namespace ma
 		std::string sDataDir = Platform::GetInstance().GetAppPath();
 		sDataDir += "/Data/";
 		FileSystem::setResourcePath(sDataDir.c_str());
-#elif PLAFTORM_ANDROID == 1
-        
+#elif PLATFORM_ANDROID == 1
+		FileSystem::setResourcePath("/sdcard/MyData/Data");    
 #endif
 	
 		CommonModuleInit();
@@ -74,8 +83,9 @@ namespace ma
 		LineRender::Init();
 
 		m_Input.Init(Platform::GetInstance().GetWindId());
+#if PLAFTORM_IOS == 1
 		m_Input.GetKeyboard()->setEventCallback(this);
-
+#endif
 		m_arrSamples[m_curSampleIndex]->Init();
 
 		LoadUI();

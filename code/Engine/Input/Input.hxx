@@ -3,6 +3,11 @@
 
 #include <sstream>
 
+#if PLATFORM_ANDROID == 1	
+#include "AndroidInputInjector.hxx"
+#endif
+
+
 namespace ma
 {
 	static Input* gs_input = 0;
@@ -20,9 +25,11 @@ namespace ma
 
 	Input::Input()
 	{
+//#if PLATFORM_WIN == 1 
 		mInputMgr = NULL;
 		mKeyboard = NULL;
 		mMouse = NULL;
+//#endif
 	}
 
 
@@ -106,16 +113,16 @@ namespace ma
 	}
 
 #if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
-	UINT Input::GetTouchStateNumber() const
-	{
-		return mTouch.getMultiTouchStates().size();
-	}
+// 	UINT Input::GetTouchStateNumber() const
+// 	{
+// 		return mTouch.getMultiTouchStates().size();
+// 	}
 
-	const OIS::MultiTouchState& Input::GetTouchStateByIndex(int index) const
-	{
-		std::vector<MultiTouchState>& arrState = mTouch.getMultiTouchStates();
-		return arrState[index];
-	}
+// 	const OIS::MultiTouchState& Input::GetTouchStateByIndex(int index) const
+// 	{
+// 		std::vector<MultiTouchState>& arrState = mTouch.getMultiTouchStates();
+// 		return arrState[index];
+// 	}
 #endif
 
 	void Input::OnResize(int w,int h)

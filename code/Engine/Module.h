@@ -102,10 +102,6 @@
 // script
 #include "Engine/Script/IScriptDevice.h"
 #include "Engine/Script/IScriptObject.h"
-#include "Engine/Script/EdScriptObject.h"
-//#include "Engine/Script/ScriptEventBinder.h"
-
-
 
 
 // Input
@@ -122,7 +118,7 @@
 #include "Engine/Thread/AutoLock.h"
 #include "Engine/Thread/DataThread.h"
 #include "Engine/Thread/TArray.h"
-#include "Engine/Thread/RenderThread.h"
+//#include "Engine/Thread/RenderThread.h"
 
 
 #include "WarningSuffix.h"

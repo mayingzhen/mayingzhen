@@ -13,6 +13,8 @@ namespace ma
 	{
 		Sample::Init();
 
+		m_fZoomSpeed *= 0.5; 
+
 		Load();
 	}
 
@@ -27,15 +29,13 @@ namespace ma
 			GameObject* pGameObj = CreateGameObjectWithCollision(pScene,"Fbx/Box.skn","Fbx/Box.tga");
 			pGameObj->SetName("Test");
 
-			RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
+			//RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
 			
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
-				char buf[10] = {0};
-				itoa(i,buf,10);
 				std::string pName = pGameObj->GetName();
-				pName += std::string("_clone") + buf;
+				pName += std::string("_clone") + StringConverter::ToString(i);
 				GameObject* pClone = pGameObj->Clone(pName.c_str());
 				pClone->GetSceneNode()->Translate(Vector3(10 * i,0,0));
 			}
@@ -48,15 +48,17 @@ namespace ma
 			ASSERT(bOpenOK);
 			pScene->Serialize(arOut);
 			SAFE_DELETE(pScene);
+			arOut.Close();
 		}
 
 		{
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open("../Tesx.scene");
 			ASSERT(bOpenOK);
-			//SAFE_DELETE(m_pScene);
-			//m_pScene = new Scene(NULL);
+			SAFE_DELETE(m_pScene);
+			m_pScene = new Scene();
 			m_pScene->Serialize(arIn);
+			arIn.Close();
 		}
 
 
@@ -76,6 +78,7 @@ namespace ma
 				ASSERT(bOpenOK);
 				m_pScene->Serialize(arOut);
 				SAFE_DELETE(m_pScene);
+				arOut.Close();
 			}
 
 			{
@@ -85,14 +88,17 @@ namespace ma
 				SAFE_DELETE(m_pScene);
 				m_pScene = new Scene();
 				m_pScene->Serialize(arIn);
+				arIn.Close();
 				m_pScene->Start();
 			}
 		}
+
+		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
 	}
 
 	void SampleSceneSerialize::Render()
 	{
-		__super::Render();
+		m_pScene->Render(m_pCamera);
 	}
 
 }

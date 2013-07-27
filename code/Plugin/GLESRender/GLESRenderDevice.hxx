@@ -401,7 +401,7 @@ namespace ma
 
 		if (bDepth)
 		{
-			GL_ASSERT( glClearDepthf(z) );
+			GL_ASSERT( glClearDepth(z) ); // glClearDepthf 在笔记本上出错
 			mask |= GL_DEPTH_BUFFER_BIT;
 		}
 

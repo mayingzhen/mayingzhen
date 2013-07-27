@@ -21,7 +21,7 @@ namespace ma
 
 		int				GetStreanmStride() const {return m_nStreamStride;} 
 		
-		int				GetElementStride(int index) ;
+		//int				GetElementStride(int index) ;
 		
 		int				GetElementCount() { return m_ElementCount; }
 		

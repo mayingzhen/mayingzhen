@@ -21,7 +21,7 @@ namespace ma
 
 		bool IsA(const RTTIClass* pAnisister) const;
 
-		void DbgLog() const;
+		//void DbgLog() const;
 
 	};
 

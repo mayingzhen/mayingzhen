@@ -9,7 +9,7 @@ namespace ma
 
 	BinaryOutputArchive::~BinaryOutputArchive()
 	{
-		Close();
+		//Close();
 	}
 
 	bool BinaryOutputArchive::IsReading() const

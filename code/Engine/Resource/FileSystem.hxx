@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <memory>
 
 #ifdef WIN32
     #include <windows.h>
@@ -21,7 +22,7 @@
 
 #ifdef __ANDROID__
 #include <android/asset_manager.h>
-extern AAssetManager* __assetManager;
+AAssetManager* __assetManager;
 #endif
 
 namespace ma
@@ -30,6 +31,18 @@ namespace ma
 
 	#ifdef __ANDROID__
 	#include <unistd.h>
+
+
+	void FileSystem::setAAssetManager(AAssetManager* pAAssetManager)
+	{
+		__assetManager = pAAssetManager;
+	}
+
+	AAssetManager*	FileSystem::getAAssetManager()
+	{
+		return __assetManager;
+	}
+
 
 	static void makepath(std::string path, int mode)
 	{
@@ -75,7 +88,7 @@ namespace ma
 		AAsset* asset = AAssetManager_open(__assetManager, filePath, AASSET_MODE_RANDOM);
 		if (asset)
 		{
-			int lenght = AAsset_getLength(asset);
+			int length = AAsset_getLength(asset);
 			AAsset_close(asset);
 			return length > 0;
 		}

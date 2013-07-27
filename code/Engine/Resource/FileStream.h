@@ -7,7 +7,7 @@
 namespace ma
 {
 
-	class FileStream : public Stream
+	class ENGINE_API FileStream : public Stream
 	{
 	public:
 		friend class FileSystem;

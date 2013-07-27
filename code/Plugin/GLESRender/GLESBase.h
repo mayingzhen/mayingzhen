@@ -2,8 +2,6 @@
 #define __GLESBASE_H_
 
 
-
-
 // Graphics (OpenGL)
 #ifdef __ANDROID__
 	#include <EGL/egl.h>
@@ -13,6 +11,9 @@
 	extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays;
 	extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays;
 	extern PFNGLISVERTEXARRAYOESPROC glIsVertexArray;
+	#define glMapBuffer glMapBufferOES
+	#define glUnmapBuffer glUnmapBufferOES
+	#define GL_WRITE_ONLY GL_WRITE_ONLY_OES
 	#define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
 	#define glClearDepth glClearDepthf
 	#define OPENGL_ES

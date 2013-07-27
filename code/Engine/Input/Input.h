@@ -3,9 +3,15 @@
 
 #include "OIS.h"
 
+#if PLATFORM_ANDROID == 1
+#include "AndroidInputInjector.h"
+#endif
 
 namespace ma
 {
+	class AndroidInputInjector;
+	class AndroidMultiTouch;
+	class AndroidKeyboard;
 
 	class ENGINE_API Input 
 	{
@@ -29,24 +35,26 @@ namespace ma
 
 		const OIS::MouseState& GetMouseState() const;
 
+#if PLATFORM_WIN == 1
 		OIS::Mouse*			   GetMouse() {return mMouse;}
 
 		OIS::Keyboard*		   GetKeyboard() {return mKeyboard;}
 
-#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
-		OIS::MultiTouch*			GetMultiTouch() {return mTouch;}
-		UINT						GetTouchStateNumber() const;
-		const OIS::MultiTouchState& GetTouchStateByIndex(int index) const;
+#elif PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+		//OIS::MultiTouch*			GetMultiTouch() {return mTouch;}
+		//UINT						GetTouchStateNumber() const;
+		//const OIS::MultiTouchState& GetTouchStateByIndex(int index) const;
 #endif
 
 		void OnResize(int w,int h);
 
 	protected:
+		
+		OIS::InputManager*	mInputMgr;
+		OIS::Mouse*			mMouse;
 
 #if PLATFORM_WIN == 1
-		OIS::InputManager*	mInputMgr;
 		OIS::Keyboard*		mKeyboard;
-		OIS::Mouse*			mMouse;
 
 #elif PLAFTORM_IOS == 1
 		OIS::InputManager*	mInputMgr;

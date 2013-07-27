@@ -81,7 +81,7 @@ void Normalize(Quaternion* pOut,const Quaternion* pIn);
 
 void Normalize(float* pOut,const float* pIn);
 
-COMMON_API  void DbgDump(const RigidTransform& val);
+//COMMON_API  void DbgDump(const RigidTransform& val);
 
 //------------------------------------------------------------------------------
 //Vector3

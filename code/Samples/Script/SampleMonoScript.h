@@ -8,7 +8,7 @@ namespace ma
 	public:
 		SampleMonoScript();
 
-		virtual void Init(ApplicationBase* pApplication);
+		virtual void Init();
 
 		virtual void Shutdown();
 
@@ -16,13 +16,15 @@ namespace ma
 
 		virtual void Unload();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
 
 
 	private:
+		IScriptObject*	m_pTestScript;
 	};
+
 }
 
 #endif

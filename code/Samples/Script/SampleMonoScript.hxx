@@ -1,6 +1,5 @@
-#include "Samples/Script/SampleMonoScript.h"
-#include "Framework/Module.h"
-#include "MonoScript/MonoScriptModule.h"
+#include "SampleMonoScript.h"
+#include "MonoScript/Module.h"
 
 namespace ma
 {
@@ -8,27 +7,31 @@ namespace ma
 	{
 	}
 
-	void SampleMonoScript::Init(ApplicationBase* pApplication)
+	void SampleMonoScript::Init()
 	{
-		Sample::Init(pApplication);
+		Sample::Init();
 
-		FrameWorkModuleInit();
 		MonoScriptModuleInit();
+
+		Load();
 	}
 
 	void SampleMonoScript::Shutdown()
 	{
-		FrameWorkModuleShutdown();
 		MonoScriptModuleShutdown();
 	}
 
 	void SampleMonoScript::Load()
 	{
-		MonoScriptDevice* pScriptDeveice = (MonoScriptDevice*)GetScriptDevice();
+		IScriptDevice* pScriptDeveice = GetScriptDevice();
 		if (pScriptDeveice == NULL)
 			return;
 
-		//pScriptDeveice->ParseScriptDll("");
+		pScriptDeveice->ParseScriptAll("../../code/Samples/Script/CSharpTest/CSharpTest/bin/Debug/CSharpTest.dll");
+		m_pTestScript = GetScriptDevice()->CreateScriptObject("MyClass");
+
+		pScriptDeveice->Start();
+	
 	}
 
 	void SampleMonoScript::Unload()
@@ -36,17 +39,19 @@ namespace ma
 
 	}
 
-	void SampleMonoScript::Tick(float timeElapsed)
+	void SampleMonoScript::Update()
 	{
-		__super::Tick(timeElapsed);
+		Sample::Update();
+
+		m_pTestScript->InvokeMethod("Update");
 
 	}
 
 	void SampleMonoScript::Render()
 	{
-		IRender* pRender = ma::GetRender();
-		if (pRender == NULL)
-			return;
+// 		IRender* pRender = ma::GetRender();
+// 		if (pRender == NULL)
+// 			return;
 
 	}
 

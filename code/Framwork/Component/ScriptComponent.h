@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ScriptObject;
+	class IScriptObject;
 	class EdScriptObject;
 
 	class FRAMWORK_API ScriptComponent : public Component
@@ -16,48 +16,25 @@ namespace ma
 
 		~ScriptComponent();
 
-		virtual void Start();
+		virtual void	Start();
 
-		virtual void Stop();
+		virtual void	Stop();
 
-		virtual void Update(float fTimeElapsed);
+		virtual void	Update(float fTimeElapsed);
 
-		virtual void LateUpdate(float fTimeElapsed);
+		virtual void	OnCollisionEnter(const Collision& collData);
 
-		virtual void FixedUpdate(float fTimeElapsed);
+		virtual void	OnCollisionExit(const Collision& collData);
 
-		virtual void OnContactNotify(GameObject* pGameObj);
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "ScriptComponent");
 
+		IScriptObject*	GetScriptObject() {return m_pScriptObject;}
 
-		ScriptObject* GetScriptObject() {return m_pScriptObject;}
-
-		void		  SetScriptByName(const char* pszName);
-
-		ScriptObject* GetActiveScriptObject() {return m_pActiveScriptObject;}	
+		IScriptObject*	CreatScriptObject(const char* pszName);
 
 	private:
-		// 将XMl内保存的变量值设置到ScriptObject上
-		void SetPublicFieldValue(ScriptObject* pScriptObject, TiXmlElement* pEleClass);
 
-		void CacheMethod();
-
-	private:
-		//HScriptResource m_hScriptRes;
-
-		ScriptObject* m_pScriptObject;
-
-		EdScriptObject* m_pEdScriptObject;
-
-		ScriptObject*	m_pActiveScriptObject;
-
-		// Method
-		ScriptMethodHandle m_pSetObject;
-		ScriptMethodHandle m_pStart;
-		ScriptMethodHandle m_pUpdate;
-		ScriptMethodHandle m_pLateUpdate;
-		ScriptMethodHandle m_pFixedUpdate;
-		ScriptMethodHandle m_pStop;
-		ScriptMethodHandle m_pOnContactNotify;
+ 		IScriptObject*	m_pScriptObject;
 	};
 }
 

@@ -13,7 +13,13 @@ namespace ma
 
 	XMLInputArchive::~XMLInputArchive()
 	{
+		
+	}
+
+	bool XMLInputArchive::Close()
+	{
 		SAFE_DELETE(m_pDoc);
+		return true;
 	}
 
 	bool XMLInputArchive::Open(const char* pszFilename)
