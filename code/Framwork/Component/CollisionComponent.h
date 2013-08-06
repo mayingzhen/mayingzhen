@@ -49,6 +49,22 @@ namespace ma
 		ISphereCollisionShape* m_pSphereCollisionShape;
 	};
 
+	class FRAMWORK_API CapsuleCollisionComponent : public Component
+	{
+		DECL_OBJECT(CapsuleCollisionComponent)
+	public:
+		CapsuleCollisionComponent(GameObject* pGameObj);
+
+		ICapsuleCollisionShape* GetCapsuleCollisionShape() {return m_pCapsuleCollisionShape;}
+
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "CapsuleCollisionComponent");
+
+		virtual void			Render();
+
+	private:
+		ICapsuleCollisionShape*	m_pCapsuleCollisionShape;
+	};
+
 }
 
 #endif

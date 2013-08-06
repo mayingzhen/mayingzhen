@@ -438,6 +438,8 @@ namespace ma
 		m_pAltasTex->Load(sTextAltasPath.c_str());
 
 		Sampler* pSameler = Sampler::create(m_pAltasTex);
+		pSameler->setWrapMode(Sampler::CLAMP,Sampler::CLAMP);
+		pSameler->setFilterMode(Sampler::TFO_TRILINEAR);
 		m_pMaterial = new Material("","terrain");
 		m_pMaterial->GetParameter("TerrainTex")->setSampler(pSameler);
 		

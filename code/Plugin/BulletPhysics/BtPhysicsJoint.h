@@ -32,7 +32,9 @@ namespace ma
 		}\
 		virtual void			SetPysicsObjectB(IPhysicsObject* pPhyObjB)\
 		{\
+			m_pPhyObjB = (BulletPhysicsObject*)pPhyObjB; \
 		}\
+		btTypedConstraint*		GetBtConstraint() {return m_pConstraint;} \
 	private: \
 		BulletPhysicsObject*	m_pPhyObjA;\
 		BulletPhysicsObject*	m_pPhyObjB;\
@@ -49,7 +51,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsGenericJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB);
+		BulletPhysicsGenericJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB);
 
 		virtual void	SetAngularLowerLimit(const Vector3& limit); 
 
@@ -66,6 +68,11 @@ namespace ma
 		Vector3			m_vAngularUpperLimit;
 		Vector3			m_vLinearLowerLimit;
 		Vector3			m_vLinearUpperLimit;
+
+		bool			m_bAngularLowerLimit;
+		bool			m_bAngularUpperLimit;
+		bool			m_bLinearLowerLimit;
+		bool			m_bLinearUpperLimit;
 	};
 
 	class BulletPhysicsHingeJoint : public IPhysicsHingeJoint
@@ -73,7 +80,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsHingeJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB);
+		BulletPhysicsHingeJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB);
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 

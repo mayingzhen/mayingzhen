@@ -2,7 +2,7 @@
 #include <android/log.h>
 
 
-void OutputDebugString(const char* buf)
+void _OutputDebugString(const char* buf)
 {
 	if (buf == NULL)
 		return;
@@ -28,5 +28,5 @@ int DisplayError(const char * title,
 		"Description:  %s\n",
 		title, file, line, text, description);
 
-	OutputDebugString(buffer);	
+	_OutputDebugString(buffer);	
 }

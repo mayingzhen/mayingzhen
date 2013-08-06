@@ -12,6 +12,6 @@ typedef void* HWND;
 #define MAX_PATH 256
 
 
-void OutputDebugString(const char* buf);
+void _OutputDebugString(const char* buf);
 
 #endif //__PlatformAndroid_h__

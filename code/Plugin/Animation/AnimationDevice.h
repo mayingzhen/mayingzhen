@@ -7,7 +7,7 @@ namespace ma
 	class IAnimationPlay;
 	class IAnimationSet;
 
-	class ANIMATION_API AnimationDevice : public IAnimationDevice
+	class AnimationDevice : public IAnimationDevice
 	{
 	public:
 

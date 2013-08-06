@@ -39,9 +39,17 @@ namespace ma
 			m_arrPhysicsObject[i]->Start();
 		}
 
-		for (UINT i = 0; i < m_arrCharControl.size(); ++i)
+		// Joint
+		for (UINT i = 0; i < m_vGenericJoint.size(); ++i)
 		{
-			m_arrCharControl[i]->Start();
+			m_vGenericJoint[i]->Create();
+			m_pDynamicsWorld->addConstraint(m_vGenericJoint[i]->GetBtConstraint(),true);
+		}
+
+		for (UINT i = 0; i < m_vHingeJoint.size(); ++i)
+		{
+			m_vHingeJoint[i]->Create();
+			m_pDynamicsWorld->addConstraint(m_vHingeJoint[i]->GetBtConstraint(),true);
 		}
 
 		return true;
@@ -49,11 +57,6 @@ namespace ma
 
 	void BulletScene::Stop()
 	{
-		for (UINT i = 0; i < m_arrCharControl.size(); ++i)
-		{
-			m_arrCharControl[i]->Stop();
-		}
-
 		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
 		{
 			m_arrPhysicsObject[i]->Stop();
@@ -87,15 +90,12 @@ namespace ma
 		m_vGravity = ToBulletUnit(g);
 	}
 
-	//------------------------------------------------------------------------------
-	//Simulation
-	//------------------------------------------------------------------------------
+
 	void		BulletScene::BeginSimulation(float fDeltaTime)
 	{
 		if (m_pDynamicsWorld == NULL)
 			return;
 
-		// SyncToPhysics
 		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
 		for (UINT i = 0; i < nActNum; ++i)
 		{
@@ -103,21 +103,11 @@ namespace ma
 			if (pObj == NULL)
 				continue;
 
-			if ( IsCharacterController(pObj) )
-			{
-				BulletCharacterController* pCharControl = (BulletCharacterController*)pObj->getUserPointer();
-				if (pCharControl)
-				{
-					pCharControl->SyncToPhysics();
-				}
-				continue;
-			}
-
-			if ( !pObj->isStaticOrKinematicObject() )
-				continue;
-
 			BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)pObj->getUserPointer();
-			if (pPhysicsObj)
+			if (pPhysicsObj == NULL)
+				continue;
+
+			if ( pObj->isKinematicObject()  || IsCharacterController(pObj) )
 			{
 				pPhysicsObj->SyncToPhysics();
 			}
@@ -128,11 +118,9 @@ namespace ma
 
 	void		BulletScene::EndSimulation()
 	{
-		//m_pNxScene->fetchResults(NX_RIGID_BODY_FINISHED,true);
 		if (m_pDynamicsWorld == NULL)
 			return;
 
-		// // SyncFromPhysics
 		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
 		for (UINT i = 0; i < nActNum; ++i)
 		{
@@ -140,25 +128,14 @@ namespace ma
 			if (pObj == NULL)
 				continue;
 
-			if ( IsCharacterController(pObj) )
-			{
-				BulletCharacterController* pCharControl = (BulletCharacterController*)pObj->getUserPointer();
-				if (pCharControl)
-				{
-					pCharControl->SyncFromPhysics();
-				}
-				continue;
-			}
-
-			if ( pObj->isStaticOrKinematicObject() )
-				continue;
-
 			BulletPhysicsObject* pPhysicsObj = (BulletPhysicsObject*)pObj->getUserPointer();
-			if (pPhysicsObj)
+			if (pPhysicsObj == NULL)
+				continue;
+
+			if ( !pObj->isStaticOrKinematicObject() || IsCharacterController(pObj) )
 			{
 				pPhysicsObj->SyncFromPhysics();
 			}
-
 		}
 
 		BulletContactReport::Update();
@@ -177,13 +154,13 @@ namespace ma
 
 		hitPosWS = ToMaUnit(closestResults.m_hitPointWorld);
 
-		ASSERT(closestResults.m_collisionObject);
-		if (closestResults.m_collisionObject == NULL)
+		const btCollisionObject* pBtObject = closestResults.m_collisionObject;
+		ASSERT(pBtObject);
+		if (pBtObject == NULL)
 			return NULL;
 
-		return (GameObject*)closestResults.m_collisionObject->getUserPointer();
-
-		return NULL;
+		BulletPhysicsObject* pPhysicsObject = (BulletPhysicsObject*)(pBtObject->getUserPointer());
+		return pPhysicsObject ? pPhysicsObject->GetGameObject() : NULL;
 	}
 
 	IPhysicsObject*	BulletScene::CreatePhysicsObject(GameObject* pGameObj)
@@ -197,14 +174,19 @@ namespace ma
 		return pPhysicObj;
 	}
 
-	ICharaControll* BulletScene::CreateCharacterController(GameObject* pGameObj)
+	IPhysicsGenericJoint*	BulletScene::CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
 	{
-		ASSERT(pGameObj);
-		if (pGameObj == NULL)
-			return NULL;
-
-		BulletCharacterController* pChar = new BulletCharacterController(pGameObj,this);
-		m_arrCharControl.push_back(pChar);
-		return pChar;
+		BulletPhysicsGenericJoint* pGenericJoint = new BulletPhysicsGenericJoint((BulletPhysicsObject*)pPhyObjA,(BulletPhysicsObject*)pPhyObjB);
+		m_vGenericJoint.push_back(pGenericJoint);
+		return pGenericJoint;
 	}
+
+
+	IPhysicsHingeJoint*		BulletScene::CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
+	{
+		BulletPhysicsHingeJoint* pHingeJoint = new BulletPhysicsHingeJoint((BulletPhysicsObject*)pPhyObjA,(BulletPhysicsObject*)pPhyObjB);
+		m_vHingeJoint.push_back(pHingeJoint);
+		return pHingeJoint;
+	}
+
 }

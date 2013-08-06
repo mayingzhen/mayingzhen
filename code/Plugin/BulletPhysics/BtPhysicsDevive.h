@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class BULLETPHYSICS_API BulletDevice : public IPhysicsDevice
+	class BulletDevice : public IPhysicsDevice
 	{
 	public:
 		BulletDevice();

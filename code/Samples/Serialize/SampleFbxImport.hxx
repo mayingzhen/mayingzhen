@@ -63,20 +63,16 @@ namespace ma
 	}
 
 
-	void SampleFbxImport::Init()
+	void SampleFbxImport::Load()
 	{
-		Sample::Init();
-
-		//AnimationModuleInit();
-		
 		//Vector3 vEyePos = Vector3(0, 600, 800);
 		Vector3 vEyePos = Vector3(0, 40, 40);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
-		m_fZoomSpeed *= 0.1;
-		//m_fMoveCameraSpeed *= 2;
+		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
+		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.1);
 
 		FBXImporter fbxImpor;
 		fbxImpor.Initialize();
@@ -87,6 +83,13 @@ namespace ma
 
 		LoadBoxMesh(fbxImpor);
 		
+	}
+
+	void SampleFbxImport::UnLoad()
+	{
+		SAFE_DELETE(m_pRenderMesh);
+		SAFE_DELETE(m_pBoxMesh);
+		SAFE_DELETE(m_pBoxMesh);
 	}
 
 	void SampleFbxImport::LoadBoxMesh(FBXImporter& fbxImpor)
@@ -104,11 +107,6 @@ namespace ma
 
 	void SampleFbxImport::Update()
 	{
-		Sample::Update();
-
-		if (GetTimer() == NULL)
-			return;
-
 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
 
 		if (m_pAnimtionPlay)

@@ -5,27 +5,40 @@ namespace ma
 {
 	class Scene;
 
-	class SampleCharaControl : public Sample
+	class SampleCharaControl : public Sample,OIS::MouseListener
 	{
 	public:
 		SampleCharaControl();
 
-		virtual void Init();
+		virtual void	Load();
 
-		virtual void Shutdown();
+		virtual void	UnLoad();
 
-		virtual void Load();
+		virtual void	Update();
 
-		virtual void Unload();
+		virtual void	Render();
 
-		virtual void Update();
-
-		virtual void Render();
+		virtual bool	mouseMoved( const OIS::MouseEvent &arg );
+		virtual bool	mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+		virtual bool	mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 	private:
-		Scene*	m_pScene;	
+		void			MoveToWS(Vector3 vMouveTo);
+		
+		void			DoMouveTo();
 
-		 //m_pRigidBodyComp;
+	private:
+		Scene*			m_pScene;	
+
+		GameObject*		m_pCharaObj;
+
+		GameObject*		m_pTerrain;
+	
+		Vector3			m_vMoveTo;
+
+		float			m_fMoveSpeed;
+
+		bool			m_bMoveing;
 	};
 }
 

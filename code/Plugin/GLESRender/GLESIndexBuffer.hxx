@@ -17,7 +17,7 @@ namespace ma
 	{
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
 		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,NULL,GL_STATIC_DRAW) );
-		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ;
+		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ; 
 		ASSERT(glGetError() == GL_NO_ERROR); 
 		return pLock;
 	}

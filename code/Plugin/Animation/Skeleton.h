@@ -12,7 +12,7 @@ namespace ma
 	class SkeletonPose;
 	class BoneSet;
 
-	class ANIMATION_API Skeleton : public ISkeleton
+	class Skeleton : public ISkeleton
 	{
 	public:
 		Skeleton();

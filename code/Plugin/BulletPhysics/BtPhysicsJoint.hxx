@@ -2,14 +2,29 @@
 
 namespace ma
 {
-	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
+	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB)
 	{
-		m_pPhyObjA = (BulletPhysicsObject*)pPhyObjA;
-		m_pPhyObjB = (BulletPhysicsObject*)pPhyObjB;
+		m_pPhyObjA = pPhyObjA;
+		m_pPhyObjB = pPhyObjB;
+		m_pConstraint = NULL;
+		m_bEnabled = true;
+		TransformSetIdentity(&m_AtsfLS);
+		TransformSetIdentity(&m_BtsfLS);
+
+		m_vAngularLowerLimit = Vector3(0,0,0);
+		m_vAngularUpperLimit = Vector3(0,0,0);
+		m_vLinearLowerLimit = Vector3(0,0,0);
+		m_vLinearUpperLimit = Vector3(0,0,0);
+
+		m_bAngularLowerLimit = false;
+		m_bAngularUpperLimit = false;
+		m_bLinearLowerLimit = false;
+		m_bLinearUpperLimit = false;
 	}
 	
 	void	BulletPhysicsGenericJoint::SetAngularLowerLimit(const Vector3& limit)
 	{
+		m_bAngularLowerLimit= true;
 		m_vAngularLowerLimit= limit;
 		if (m_pConstraint)
 		{	
@@ -19,6 +34,7 @@ namespace ma
 
 	void	BulletPhysicsGenericJoint::SetAngularUpperLimit(const Vector3& limit)
 	{
+		m_bAngularUpperLimit = true;
 		m_vAngularUpperLimit = limit;
 		if (m_pConstraint)
 		{	
@@ -28,6 +44,7 @@ namespace ma
 
 	void	BulletPhysicsGenericJoint::SetLinearLowerLimit(const Vector3& limit)
 	{	
+		m_bLinearLowerLimit = true;
 		m_vLinearLowerLimit = limit;
 		if (m_pConstraint)
 		{	
@@ -37,6 +54,7 @@ namespace ma
 
 	void	BulletPhysicsGenericJoint::SetLinearUpperLimit(const Vector3& limit)
 	{
+		m_bLinearUpperLimit = true;
 		m_vLinearUpperLimit = limit;
 		if (m_pConstraint)
 		{	
@@ -44,17 +62,19 @@ namespace ma
 		}
 	}
 
-// 	btRigidBody*	GetbtRigidBody(BulletPhysicsObject* pPhyObj)
-// 	{
-// 		ASSERT(pPhyObj && pPhyObj->GetbtCollisionObject());
-// 		if (pPhyObj == NULL || pPhyObj->GetbtCollisionObject() == NULL)
-// 			return;
-// 
-// 		btRigidBody* pRigidBody = btRigidBody::upcast(pPhyObj->GetbtCollisionObject());
-// 		ASSERT(pRigidBody);
-// 		if (pRigidBody == NULL)
-// 			return;
-// 	}
+	btRigidBody*	GetbtRigidBody(BulletPhysicsObject* pPhyObj)
+	{
+		//ASSERT(pPhyObj && pPhyObj->GetbtCollisionObject());
+		if (pPhyObj == NULL || pPhyObj->GetbtCollisionObject() == NULL)
+			return NULL;
+
+		btRigidBody* pRigidBody = btRigidBody::upcast(pPhyObj->GetbtCollisionObject());
+		ASSERT(pRigidBody);
+		if (pRigidBody == NULL)
+			return NULL;
+
+		return pRigidBody;
+	}
 
 // 	Vector3 getWorldCenterOfMass(const Node* node)
 // 	{
@@ -130,42 +150,43 @@ namespace ma
 
 	void	BulletPhysicsGenericJoint::Create()
 	{
-		ASSERT(m_pPhyObjA && m_pPhyObjA->GetbtCollisionObject());
-		if (m_pPhyObjA == NULL || m_pPhyObjA->GetbtCollisionObject() == NULL)
-			return;
-
-		btRigidBody* pRigidBodyA = btRigidBody::upcast(m_pPhyObjA->GetbtCollisionObject());
+		btRigidBody* pRigidBodyA = GetbtRigidBody(m_pPhyObjA);
+		btRigidBody* pRigidBodyB = GetbtRigidBody(m_pPhyObjB);
 		ASSERT(pRigidBodyA);
 		if (pRigidBodyA == NULL)
 			return;
 
-		btRigidBody* pRigidBodyB = NULL;
-		if (m_pPhyObjB && m_pPhyObjB->GetbtCollisionObject())
-		{
-			pRigidBodyB = btRigidBody::upcast(m_pPhyObjB->GetbtCollisionObject());
-		}
+		btTransform frameInA = ToBulletUnit(m_AtsfLS);
 
 		if (pRigidBodyB)
 		{
-			btTransform tsfWSA = pRigidBodyB->getWorldTransform();
-			btTransform tsfWSB = pRigidBodyB->getWorldTransform();
+			btTransform frameInB = ToBulletUnit(m_BtsfLS);
 
-			//btVector3 origin = (tsfWSA.getOrigin() + tsfWSB.getOrigin()) * 0.5f;
-			//btTransform tsfFrameA = ts
-			
-			//Vector3 origin = centerOfMassMidpoint(a->getNode(), b->getNode());
-			//m_pConstraint = new btGeneric6DofConstraint(pRigidBodyA, pRigidBodyB, getTransformOffset(a->getNode(), origin), getTransformOffset(b->getNode(), origin), true);
+			m_pConstraint = new btGeneric6DofConstraint(*pRigidBodyA, *pRigidBodyB, frameInA, frameInB, true);
 		}
 		else
 		{
-			//m_pConstraint = new btGeneric6DofConstraint(pRigidBodyA, btTransform::getIdentity(), true);
+			m_pConstraint = new btGeneric6DofConstraint(*pRigidBodyA, frameInA, true);
 		}
+	
+		if (m_bLinearLowerLimit)
+			SetLinearLowerLimit(m_vLinearLowerLimit);
+		
+		if (m_bLinearUpperLimit)
+			SetLinearUpperLimit(m_vLinearUpperLimit);
+		
+		if (m_bAngularLowerLimit)
+			SetAngularLowerLimit(m_vAngularLowerLimit);
+		
+		if (m_bAngularUpperLimit)
+			SetAngularUpperLimit(m_vAngularUpperLimit);
 	}
 
-	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
+	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB)
 	{
-		m_pPhyObjA = (BulletPhysicsObject*)pPhyObjA;
-		m_pPhyObjB = (BulletPhysicsObject*)pPhyObjB;
+		m_pConstraint = NULL;
+		m_pPhyObjA = pPhyObjA;
+		m_pPhyObjB = pPhyObjB;
 	}
 
 	void BulletPhysicsHingeJoint::SetLimits(float minAngle, float maxAngle, float bounciness)

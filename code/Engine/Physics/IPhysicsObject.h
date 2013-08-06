@@ -9,6 +9,7 @@ namespace ma
 	class IPhysicsGenericJoint;
 	class IPhysicsHingeJoint;
 	class CollisionListener;
+	class CollisionMaterial;
 
 
 	class ENGINE_API IPhysicsObject
@@ -21,9 +22,11 @@ namespace ma
 
 		virtual ISphereCollisionShape*	CreateSphereCollisionShape() = 0;
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjB) = 0;
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape() = 0;
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjB) = 0;
+		virtual ICharaControll*			CreateCharaControll() = 0;
+
+		virtual CollisionMaterial*		GetCollisionMaterial() = 0;
 
 		virtual void					SetTransformWS(const NodeTransform& tsfWS) = 0;
 
@@ -34,40 +37,25 @@ namespace ma
 		virtual void					AddCollisionListener(ICharaControll* objectB) = 0;
 	};
 
-	class CollisionPair
+	class ENGINE_API CollisionMaterial
 	{
 	public:
-		CollisionPair(void* objectA, void* objectB)
+		int		m_nCollLayer;
+		float	m_friction;
+		float	m_restitution;
+		float	m_rollingFriction;
+
+		CollisionMaterial()
 		{
-			m_pObjectA = objectA;
-			m_pObjectB = objectB;
+			m_nCollLayer = 0;
+			m_friction = 0;
+			m_restitution = 0;
+			m_rollingFriction = 0;
 		}
 
-		bool operator < (const CollisionPair& collisionPair) const
-		{
-			// If the pairs are equal, then return false.
-			if ((m_pObjectA == collisionPair.m_pObjectA && m_pObjectB == collisionPair.m_pObjectB) || 
-				(m_pObjectA == collisionPair.m_pObjectB && m_pObjectB == collisionPair.m_pObjectA))
-				return false;
-
-			// We choose to compare based on objectA arbitrarily.
-			if (m_pObjectA < collisionPair.m_pObjectA)
-				return true;
-
-			if (m_pObjectA == collisionPair.m_pObjectA)
-				return m_pObjectB < collisionPair.m_pObjectB;
-
-			return false;
-
-		}
-
-		void* m_pObjectA;
-
-		void* m_pObjectB;
 	};
 
-
-	class CollisionListener
+	class ENGINE_API CollisionListener
     {
     public:
         enum EventType
@@ -77,35 +65,31 @@ namespace ma
         };
 
 	
-		struct EventData
+		struct CollisionData
 		{
-			EventType	m_eType;
-			GameObject*	m_pGameObjectA;
-			GameObject*	m_pGameObjectB;
-			Vector3		m_vContactPointA;
-			Vector3		m_vContactPointB;
+			EventType		m_eType;
+			IPhysicsObject*	m_pObjectA;
+			IPhysicsObject*	m_pObjectB;
+			Vector3			m_vContactPointA;  // world space
+			Vector3			m_vContactPointB;  // world space
+			Vector3			m_vContactNoramlA; // world space
+			Vector3			m_vContactNoramlB; // world space
+
+			CollisionData()
+			{
+				m_pObjectA = NULL;
+				m_pObjectB = NULL;
+				m_vContactPointA = Vector3(0,0,0);
+				m_vContactPointB = Vector3(0,0,0);
+				m_vContactNoramlA = Vector3(0,0,0);
+				m_vContactNoramlB = Vector3(0,0,0);
+			}
 		};
 
-        /**
-         * Virtual destructor.
-         */
         virtual ~CollisionListener() { }
 
-        /**
-         * Called when a collision occurs between two objects in the physics world.
-         * 
-         * NOTE: You are not permitted to disable physics objects from within this callback. Disabling physics on a collision object
-         *  removes the object from the physics world. This is not permitted during the PhysicsController::update.
-         *
-         * @param type The type of collision event.
-         * @param collisionPair The two collision objects involved in the collision.
-         * @param contactPointA The contact point with the first object (in world space).
-         * @param contactPointB The contact point with the second object (in world space).
-         */
-		virtual void collisionEvent(CollisionListener::EventType type,
-                                    const CollisionPair& collisionPair,
-                                    const Vector3& contactPointA,
-                                    const Vector3& contactPointB) = 0;
+ 
+		virtual void collisionEvent(const CollisionData& eventData) = 0;
     };
 }
 

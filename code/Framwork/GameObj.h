@@ -38,7 +38,7 @@ namespace ma
 		T*					GetTypeComponentFirst();
 
 		template<class T>
-		T*					GetTypeComponentNumber();
+		UINT				GetTypeComponentNumber();
 
 		template<class T>
 		T*					GetTypeComponentByIndex(UINT index);
@@ -48,9 +48,9 @@ namespace ma
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 		
-		ICharaControll*		GetCharController();
+		//ICharaControll*		GetCharController();
 
-		void				AddCollisionListener(GameObject* pGameObjB);
+		void				AddCollisionListener(GameObject* pGameObjB,CollisionListener* pCallBack);
 
 		void				RemoveCollisionListener(GameObject* pGameObjB);
 
@@ -85,14 +85,14 @@ namespace ma
 		{
 			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
 			{
-				return m_arrComp[i];
+				return SafeCast<T>(m_arrComp[i]);
 			}
 		}
 		return NULL;
 	}
 
 	template<class T>
-	inline T*	GameObject::GetTypeComponentNumber()
+	inline UINT	GameObject::GetTypeComponentNumber()
 	{
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
@@ -113,7 +113,7 @@ namespace ma
 		{
 			if (T::StaticGetClass() == m_arrComp[i]->GetClass() && nNumber == index)
 			{
-				return m_arrComp[i];
+				return SafeCast<T>(m_arrComp[i]);
 			}
 		}
 		return NULL;

@@ -79,8 +79,8 @@ namespace ma
 	void UnitSphere::CreateUnitSphere( int rec, std::vector<Uint16>& indBuff, std::vector<Vector3>& vertBuff )
 	{
 		// vb Ib
-	#define X .525731112119133606f
-	#define Z .850650808352039932f
+		float X = 0.525731112119133606f;
+		float Z = 0.850650808352039932f;
 
 	  static Vector3 verts[12] =
 	  {

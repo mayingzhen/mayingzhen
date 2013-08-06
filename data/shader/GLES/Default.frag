@@ -21,16 +21,17 @@ void main()
 	gl_FragColor = vec4(1.0,1.0,1.0,1.0);
 	
 #ifdef COLOR   
-	gl_FragColor = v_color;     
+	gl_FragColor = v_color;   
 #endif
 
-//#ifdef FONT
-//	gl_FragColor.a *= texture2D(u_texture, v_texCoord).a;
-//	return;    
-//#endif
+#ifdef FONT
+	gl_FragColor.a *= texture2D(u_texture, v_texCoord).a;
+	return;    
+#endif
 
 #ifdef  DIFFUSE
 	gl_FragColor *= texture2D(u_texture, v_texCoord);
-#endif
 
+#endif
+	
 }

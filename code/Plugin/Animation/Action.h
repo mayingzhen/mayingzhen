@@ -6,7 +6,7 @@ namespace ma
 	class AnimTreeNode;
 	class PoseModifier;
 
-	class ANIMATION_API Action
+	class Action
 	{
 	public:
 		Action();

@@ -117,35 +117,19 @@ namespace ma
 
 	}
 
-	ICharaControll* GameObject::GetCharController()
-	{
-		return NULL;
-	}
+// 	ICharaControll* GameObject::GetCharController()
+// 	{
+// 		return NULL;
+// 	}
 
-	void GameObject::AddCollisionListener(GameObject* pGameObjB)
+	void GameObject::AddCollisionListener(GameObject* pGameObjB,CollisionListener* pCallBack)
 	{
-		ICharaControll* pCharcterB = pGameObjB ? pGameObjB->GetCharController() : NULL;
-		IPhysicsObject* m_pPhyscisObjectB = pGameObjB ? pGameObjB->GetPhyscisObject() : NULL;
-
+		ASSERT(m_pPhyscisObject);
 		if (m_pPhyscisObject == NULL)
-		{
-			ICharaControll* pCharcter = GetCharController();
-			ASSERT(pCharcter);
-			if (pCharcter == NULL)
-				return;
+			return;
 
-			//if (pCharcterB)
-			//	pCharcter->AddCollisionListener(pCharcterB);
-			//else
-			//	pCharcter->AddCollisionListener(pPhysicsActorB);
-		}
-		else
-		{
-			//if (pCharcterB)
-			//	m_pPhyscisObject->AddCollisionListener(pCharcterB);
-			//else
-			//	m_pPhyscisObject->AddCollisionListener(m_pPhyscisObjectB);
-		}
+		IPhysicsObject* pPhyscisObjectB = pGameObjB ? pGameObjB->GetPhyscisObject() : NULL;
+		m_pPhyscisObject->AddCollisionListener(pPhyscisObjectB,pCallBack);
 	}
 
 	void GameObject::RemoveCollisionListener(GameObject* pGameObjB)

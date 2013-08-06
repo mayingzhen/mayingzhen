@@ -78,21 +78,42 @@ namespace ma
 		//	m_pRootNode->Awak();
 	}
 
+	class SceneStart : public SceneVisiter
+	{
+		virtual bool VisiteComponent(Component* pComp)
+		{
+			pComp->Start();
+			return true;
+		}
+	};
+
+	class SceneStop : public SceneVisiter
+	{
+		virtual bool VisiteComponent(Component* pComp)
+		{
+			pComp->Stop();
+			return true;
+		}
+	};
+
+
 
 	void Scene::Start()
 	{
 		if (m_pPhyScene)
 			m_pPhyScene->Start();
 
-	}
+		SceneStart sceneStart;
+		TravelScene(&sceneStart);
+	}	
 
 	void Scene::Stop()
 	{
 		if (m_pPhyScene)
 			m_pPhyScene->Stop();
 
-		//if (m_pRootNode)
-		//	m_pRootNode->Stop();
+		SceneStop sceneStop;
+		TravelScene(&sceneStop);
 	}
 
 	void Scene::Serialize(Serializer& sl, const char* pszLable)

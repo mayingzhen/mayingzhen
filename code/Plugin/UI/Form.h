@@ -170,8 +170,6 @@ public:
      */
     void update(float elapsedTime);
 
-	bool updatInput();
-
     /**
      * Draws this form.
      */
@@ -183,22 +181,19 @@ public:
     const char* getType() const;
 
 
-	static bool iputEventInternal();
-
-
 	    /**
      * Propagate touch events to enabled forms.
      *
      * @return Whether the touch event was consumed by a form.
      */
-    static bool touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+    bool touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
 
     /**
      * Propagate key events to enabled forms.
      *
      * @return Whether the key event was consumed by a form.
      */
-    static bool keyEventInternal(Keyboard::KeyEvent evt, int key);
+    bool keyEventInternal(Keyboard::KeyEvent evt, int key);
 
     /**
      * Propagate mouse events to enabled forms.
@@ -207,7 +202,7 @@ public:
      *
      * @see Mouse::MouseEvent
      */
-    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
 private:
     
@@ -277,7 +272,7 @@ private:
     float _v1;
     Matrix4x4 _projectionMatrix;           // Orthographic projection matrix to be set on SpriteBatch objects when rendering into the FBO.
     Matrix4x4 _defaultProjectionMatrix;
-    bool _isGamepad;
+    //bool _isGamepad;
 };
 
 }

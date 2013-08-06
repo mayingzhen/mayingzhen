@@ -144,8 +144,8 @@ namespace ma
 			pCompoundShape->calculateLocalInertia(m_rbInfo->m_mass,localInertia);
 		}
 
-		btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		m_rbInfo->m_motionState = myMotionState;
+		//btDefaultMotionState* myMotionState = new btDefaultMotionState();
+		m_rbInfo->m_motionState = NULL/*myMotionState*/;
 		m_rbInfo->m_collisionShape = pCompoundShape;
 		m_rbInfo->m_localInertia = localInertia;
 		

@@ -235,12 +235,12 @@ namespace ma
 	{
 		ASSERT(filePath);
 
-	#ifdef __ANDROID__
-		if (androidFileExists(filePath))
-		{
-			return true;
-		}
-	#endif
+	//#ifdef __ANDROID__
+	//	if (androidFileExists(filePath))
+	//	{
+	//		return true;
+	//	}
+	//#endif
 
 		std::string fullPath = getFullPath(filePath);
 
@@ -309,7 +309,7 @@ namespace ma
 
 		std::string fullPath = getFullPath(filePath);
 
-		createFileFromAsset(filePath);
+		//createFileFromAsset(filePath);
 	    
 		FILE* fp = fopen(fullPath.c_str(), mode);
 	    

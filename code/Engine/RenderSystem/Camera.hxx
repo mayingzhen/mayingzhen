@@ -169,6 +169,27 @@ namespace ma
 
 	}
 
+	void Camera::GetWorldRayCast(const Vector2& clientSize,const Vector2& point, Vector3& worldOrig, Vector3& worldDir)
+	{
+		float viewportW = clientSize.x;
+		float viewPortH = clientSize.y;
+
+		Matrix4x4 matVPInv;
+
+		MatrixMultiply(&matVPInv,& GetViewMatrix(),& GetProjMatrix());
+		MatrixInverse(&matVPInv,NULL,&matVPInv);
+
+		Vector3 vProj0( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, -1.0f);
+		Vector3 vProj1( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, 0.0f);
+		Vector3 vWorld0,vWorld1;
+
+		Vec3TransformCoord(&vWorld0,&vProj0,&matVPInv);
+		Vec3TransformCoord(&vWorld1,&vProj1,&matVPInv);
+		worldOrig = vWorld0;
+		worldDir = vWorld1 - vWorld0;
+		Vec3Normalize(&worldDir,&worldDir);
+	}
+
 }
 
 

@@ -23,7 +23,7 @@ void Log(Uint msgType,Uint msgSource,const char* fmt,...)
 		}
 		else
 		{
-			OutputDebugString(buffer);
+			_OutputDebugString(buffer);
 		}	
 	}
 }

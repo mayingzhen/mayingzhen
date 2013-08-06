@@ -4,16 +4,12 @@
 #include "Engine/Physics/IPhysicsScene.h"
 
 
-class btDefaultCollisionConfiguration;
-class btCollisionDispatcher;
-class btBroadphaseInterface;
-class btSequentialImpulseConstraintSolver;
-class btDiscreteDynamicsWorld;
-
 namespace ma
 {
 	class BulletCharacterController;
 	class BulletPhysicsObject;
+	class BulletPhysicsGenericJoint;
+	class BulletPhysicsHingeJoint;
 
 	class BulletScene : public IPhysicsScene
 	{
@@ -21,40 +17,43 @@ namespace ma
 	public:
 		BulletScene();
 
-		virtual bool			Start();
+		virtual bool					Start();
 
-		virtual void			Stop();
+		virtual void					Stop();
 
-		virtual void			SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide);
+		virtual void					SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide);
 
-		virtual Vector3			GetGravity() const;
+		virtual Vector3					GetGravity() const;
 
-		virtual void			SetGravity(const Vector3& g);
+		virtual void					SetGravity(const Vector3& g);
 
-		virtual void			BeginSimulation(float fDeltaTime);
+		virtual void					BeginSimulation(float fDeltaTime);
 
-		virtual void			EndSimulation();
+		virtual void					EndSimulation();
 
-		virtual	IPhysicsObject*	CreatePhysicsObject(GameObject* pGameObj);
+		virtual	IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj);
 
-		virtual	ICharaControll* CreateCharacterController(GameObject* pGameObj);
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
 
-		virtual GameObject*		RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
 
-		btDiscreteDynamicsWorld* GetDynamicsWorld() {return m_pDynamicsWorld;}
+		virtual GameObject*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+
+		btDiscreteDynamicsWorld*		GetDynamicsWorld() {return m_pDynamicsWorld;}
 
 	private:
-		btDefaultCollisionConfiguration*	 m_pCollisionConfiguration;
-		btCollisionDispatcher*				 m_pDispatcher;
-		btBroadphaseInterface*				 m_pOverlappingPairCache;
-		btSequentialImpulseConstraintSolver* m_pSolver;
-		btDiscreteDynamicsWorld*			 m_pDynamicsWorld;
+		btDefaultCollisionConfiguration*			m_pCollisionConfiguration;
+		btCollisionDispatcher*						m_pDispatcher;
+		btBroadphaseInterface*						m_pOverlappingPairCache;
+		btSequentialImpulseConstraintSolver*		m_pSolver;
+		btDiscreteDynamicsWorld*					m_pDynamicsWorld;
 
-		std::vector<BulletPhysicsObject*>	 m_arrPhysicsObject;
+		std::vector<BulletPhysicsObject*>			m_arrPhysicsObject;
 
-		std::vector<BulletCharacterController*>	m_arrCharControl;
+		std::vector<BulletPhysicsGenericJoint*>		m_vGenericJoint;
+		std::vector<BulletPhysicsHingeJoint*>		m_vHingeJoint;
 
-		btVector3 m_vGravity;
+		btVector3									m_vGravity;
 	};
 }
 

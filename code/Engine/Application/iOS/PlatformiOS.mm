@@ -509,38 +509,41 @@ int getUnicode(int key);
     return [self resignFirstResponder];
 }
 
-- (void)insertText:(NSString*)text 
-{
-    if([text length] == 0) return;
-    assert([text length] == 1);
-    unichar c = [text characterAtIndex:0];
-    int key = getKey(c);
-    //Platform::keyEventInternal(Keyboard::KEY_PRESS, key);
-    game->keyEvent(Keyboard::KEY_PRESS, key);
 
-    int character = getUnicode(key);
-    if (character)
-    {
+//- (void)insertText:(NSString*)text
+//{
+//    if([text length] == 0) return;
+//    assert([text length] == 1);
+//    unichar c = [text characterAtIndex:0];
+//    int key = getKey(c);
+    //Platform::keyEventInternal(Keyboard::KEY_PRESS, key);
+//    game->keyEvent(Keyboard::KEY_PRESS, key);
+
+//    int character = getUnicode(key);
+//    if (character)
+//    {
         //Platform::keyEventInternal(Keyboard::KEY_CHAR, /*character*/c);
-        game->keyEvent(Keyboard::KEY_CHAR, /*character*/c);
-    }
+//        game->keyEvent(Keyboard::KEY_CHAR, /*character*/c);
+//    }
     
     //Platform::keyEventInternal(Keyboard::KEY_RELEASE, key);
-    game->keyEvent(Keyboard::KEY_RELEASE, key);
-}
+//    game->keyEvent(Keyboard::KEY_RELEASE, key);
+//}
 
-- (void)deleteBackward 
-{
-    game->keyEvent(Keyboard::KEY_PRESS, Keyboard::KEY_BACKSPACE);    
-    game->keyEvent(Keyboard::KEY_CHAR, getUnicode(Keyboard::KEY_BACKSPACE));
-    game->keyEvent(Keyboard::KEY_RELEASE, Keyboard::KEY_BACKSPACE);    
-}
+//- (void)deleteBackward
+//{
+//    game->keyEvent(Keyboard::KEY_PRESS, Keyboard::KEY_BACKSPACE);
+//    game->keyEvent(Keyboard::KEY_CHAR, getUnicode(Keyboard::KEY_BACKSPACE));
+//    game->keyEvent(Keyboard::KEY_RELEASE, Keyboard::KEY_BACKSPACE);
+//}
+
 
 - (BOOL)hasText 
 {
     return YES;
 }
 
+/*
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event 
 {
     unsigned int touchID = 0;
@@ -618,7 +621,7 @@ int getUnicode(int key);
     [self touchesEnded:touches withEvent:event];
 }
 
-- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event 
+- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
 {
     unsigned int touchID = 0;
     for(UITouch* touch in touches) 
@@ -640,9 +643,10 @@ int getUnicode(int key);
         }
     }
 }
-
+*/
+/*
 // Gesture support for Mac OS X Trackpads
-- (bool)isGestureRegistered: (Gesture::GestureEvent) evt
+- (bool)isGestureRegistered: (TGesture:GestureEvent) evt
 {
     switch(evt) {
         case Gesture::GESTURE_SWIPE:
@@ -751,6 +755,7 @@ int getUnicode(int key);
     }
     //ma::Platform::gestureSwipeEventInternal(location.x, location.y, gameplayDirection);
 }
+ */
 
 @end
 
@@ -986,6 +991,7 @@ double getMachTimeInMilliseconds()
     ASSERT(s_timebase_info.denom);
     return ((double)mach_absolute_time() * (double)s_timebase_info.numer) / (kOneMillion * (double)s_timebase_info.denom);
 }
+/*
 
 int getKey(unichar keyCode) 
 {
@@ -1206,10 +1212,12 @@ int getKey(unichar keyCode)
     }
     return Keyboard::KEY_NONE;
 }
+*/
 
 /**
  * Returns the unicode value for the given keycode or zero if the key is not a valid printable character.
  */
+/*
 int getUnicode(int key)
 {
     
@@ -1324,6 +1332,7 @@ int getUnicode(int key)
             return 0;
     }
 }
+*/
 
 namespace ma
 {

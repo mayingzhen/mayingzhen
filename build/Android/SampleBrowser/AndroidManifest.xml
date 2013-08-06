@@ -15,6 +15,7 @@
              This will take care of integrating with our NDK code. -->
         <activity android:name="android.app.NativeActivity"
                 android:label="SampleBrowser"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  
                 android:screenOrientation="landscape"  
                 android:configChanges="orientation|keyboardHidden">
             <!-- Tell NativeActivity the name of or .so -->

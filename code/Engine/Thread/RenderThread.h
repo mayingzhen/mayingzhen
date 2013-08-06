@@ -12,6 +12,7 @@ namespace ma
 		eRC_Init,
 		eRC_BeginFrame,
 		eRC_EndFrame,
+		eRC_DrawRenderable,
 	};
 
 	struct RenderThread
@@ -76,6 +77,7 @@ namespace ma
 		void  RC_Init(HWND hWnd);
 		void  RC_BeginFrame();
 		void  RC_EndFrame();
+		void  RC_DrawRenderable(Renderable* pRenderable);
 
 	};
 

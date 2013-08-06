@@ -15,20 +15,22 @@ namespace ma
 
 		~AnimPlayComponent();
 
+		virtual void	Start();
+
+		virtual void	Stop();
+
 		void			Update();
 
 		IAnimationPlay*	GetAnimPlay() {return m_pAnimtionPlay;}
 
 		void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
-		void			SetSkinMesh(RenderMesh* pSkinMesh) {m_pRenderMesh = pSkinMesh;}
-
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimPlayComponent");
 
 	private:
-		RenderMesh*		m_pRenderMesh;
+		std::vector<RenderMesh*>	m_arrRenderMesh;
 
-		IAnimationPlay* m_pAnimtionPlay;
+		IAnimationPlay*				m_pAnimtionPlay;
 	};
 }
 

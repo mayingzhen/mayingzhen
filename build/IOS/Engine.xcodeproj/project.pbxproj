@@ -672,6 +672,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../code/,
 					../../code/plugin/,
+					../../extern/oisinput/include/,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -692,6 +693,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../code/,
 					../../code/plugin/,
+					../../extern/oisinput/include/,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";

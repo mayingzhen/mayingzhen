@@ -42,6 +42,8 @@ namespace ma
 
 		Vector3				GetLookAtPos() {return m_vLookAtPt;}
 
+		void				GetWorldRayCast(const Vector2& clientSize,const Vector2& mousePos, Vector3& worldOrig, Vector3& worldDir);
+
 	protected:
 		void				CalculateSplitPositions();
 

@@ -9,14 +9,7 @@ namespace ma
 		m_pRenderMesh = NULL;
 	}
 
-	void SampleAnimationTree::Init()
-	{
-		Sample::Init();
-
-		Load();
-	}
-
-	void SampleAnimationTree::Shutdown()
+	void SampleAnimationTree::UnLoad()
 	{
 	}
 
@@ -42,15 +35,9 @@ namespace ma
 // 		m_pAnimtionPlay->PlayAnimation(pAction);
 	}
 
-	void SampleAnimationTree::Unload()
-	{
-
-	}
 
 	void SampleAnimationTree::Update()
 	{
-		Sample::Update();
-
 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
 
 		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);

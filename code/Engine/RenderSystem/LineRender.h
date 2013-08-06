@@ -18,6 +18,8 @@ namespace ma
 
 		static void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
 
+		static void DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color);
+
 		static void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
 
 		static void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);

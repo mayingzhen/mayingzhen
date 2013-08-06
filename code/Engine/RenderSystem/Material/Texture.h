@@ -59,26 +59,6 @@ namespace ma
 //         LINEAR_MIPMAP_LINEAR /*= GL_LINEAR_MIPMAP_LINEAR*/
 //     };
 
-	enum FilterOptions
-	{
-		/// Equal to: min=FO_POINT, mag=FO_POINT, mip=FO_NONE
-		TFO_POINT,
-		/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_POINT
-		TFO_BILINEAR,
-		/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_LINEAR
-		TFO_TRILINEAR,
-		/// Equal to: min=FO_ANISOTROPIC, max=FO_ANISOTROPIC, mip=FO_LINEAR
-		TFO_ANISOTROPIC
-	};
-
-    /**
-     * Defines the set of supported texture wrapping modes.
-     */
-    enum Wrap
-    {
-        REPEAT /*= GL_REPEAT*/,
-        CLAMP /*= GL_CLAMP_TO_EDGE*/
-    };
 
 		    /**
      * Defines a texture sampler.
@@ -93,6 +73,28 @@ namespace ma
         friend class Texture;
 
     public:
+
+		enum FilterOptions
+		{
+			/// Equal to: min=FO_POINT, mag=FO_POINT, mip=FO_NONE
+			TFO_POINT,
+			/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_POINT
+			TFO_BILINEAR,
+			/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_LINEAR
+			TFO_TRILINEAR,
+			/// Equal to: min=FO_ANISOTROPIC, max=FO_ANISOTROPIC, mip=FO_LINEAR
+			TFO_ANISOTROPIC
+		};
+
+		/**
+		 * Defines the set of supported texture wrapping modes.
+		 */
+		enum Wrap
+		{
+			REPEAT /*= GL_REPEAT*/,
+			CLAMP /*= GL_CLAMP_TO_EDGE*/
+		};
+
 
         /**
          * Destructor.

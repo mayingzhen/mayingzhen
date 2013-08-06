@@ -10,8 +10,6 @@ namespace ma
 
 	void SampleShadowMap::Init(ApplicationBase* pApplication)
 	{
-		Sample::Init(pApplication);
-
 		m_fMoveCameraSpeed = 1.0f;
 		
 		//m_pCamera->LookAt( &Vector3(-7, 2, -3) );	
@@ -19,7 +17,6 @@ namespace ma
 
 	void SampleShadowMap::Shutdown()
 	{
-		Sample::Shutdown();
 	}
 
 	void SampleShadowMap::Load()

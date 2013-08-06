@@ -183,22 +183,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\BulletPhysics\BtCollisionListener.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\BulletPhysics\BtCollisionListener.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\BulletPhysics\BtCollisionObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\BulletPhysics\BtCollisionObject.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\BulletPhysics\BtCollisionShape.h"
 				>
 			</File>

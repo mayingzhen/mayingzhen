@@ -1,5 +1,6 @@
 #include "AndroidInputInjector.h"
-#include "OIS.h"
+//#include "OIS.h"
+//#include "Input.h"
 
 namespace ma
 {
@@ -19,8 +20,8 @@ namespace ma
 				Platform::GetInstance().GetWindowSize(state.width,state.height);
                 mStates.push_back(state);
             }
-            return mStates[i];
 		}
+		return mStates[i];
 	}
         
 	AndroidInputInjector::AndroidInputInjector(AndroidMultiTouch* touch, AndroidKeyboard* keyboard) 
@@ -35,31 +36,39 @@ namespace ma
             OIS::KeyEvent evt(mKeyboard, OIS::KC_ESCAPE, 0);
             if(action == 0)
             {
-                //mBrowser->keyPressed(evt);
+                GetInput()->keyPressed(evt);
             }
             else
             {
-                //mBrowser->keyReleased(evt);
+                GetInput()->keyReleased(evt);
             }
         }
     }
         
 	void AndroidInputInjector::injectTouchEvent(int action, float x, float y, int pointerId)
     {
-        OIS::MultiTouchState &state = mTouch->getMultiTouchState(pointerId);
+		Log("injectTouchEvent action = %d x = %f y = %f pointerId = %d",action,x,y,pointerId);
+		ASSERT(mTouch);
+		if (mTouch == NULL)
+			return;
+
+		OIS::MultiTouchState& state = mTouch->getMultiTouchState(pointerId);
         
         switch(action)
         {
-            case 0:
+            case AMOTION_EVENT_ACTION_DOWN:
                 state.touchType = OIS::MT_Pressed;
+				Log("touchType MT_Pressed ...........");
                 break;
-            case 1:
+            case AMOTION_EVENT_ACTION_UP:
                 state.touchType = OIS::MT_Released;
+				Log("touchType MT_Released ...........");
                 break;
-            case 2:
+            case AMOTION_EVENT_ACTION_MOVE:
                 state.touchType = OIS::MT_Moved;
+				Log("touchType MT_Moved ...........");
                 break;
-            case 3:
+            case AMOTION_EVENT_ACTION_CANCEL:
                 state.touchType = OIS::MT_Cancelled;
                 break;
             default:
@@ -68,38 +77,38 @@ namespace ma
         
         if(state.touchType != OIS::MT_None)
         {
-//             int last = state.X.abs;
-//             state.X.abs =  (int)x;
-//             state.X.rel = state.X.abs - last;
-//             
-//             last = state.Y.abs;
-//             state.Y.abs = (int)y;
-//             state.Y.rel = state.Y.abs - last;
-//             
-//             state.Z.abs = 0;
-//             state.Z.rel = 0;
-//             
-//             OIS::MultiTouchEvent evt(mTouch, state);
-            
-//             switch(state.touchType)
-//             {
-//                 case OIS::MT_Pressed:
-//                     mBrowser->touchPressed(evt);
-//                     break;
-//                 case OIS::MT_Released:
-//                     mBrowser->touchReleased(evt);
-//                     break;
-//                 case OIS::MT_Moved:
-//                     mBrowser->touchMoved(evt);
-//                     break;
-//                 case OIS::MT_Cancelled:
-//                     mBrowser->touchCancelled(evt);
-//                     break;
-//                 default:
-//                     break;
-//             }
-        }
-    }
-  
+ 			int last = state.X.abs;
+			state.X.abs =  (int)x;
+			state.X.rel = state.X.abs - last;
 
+			last = state.Y.abs;
+			state.Y.abs = (int)y;
+			state.Y.rel = state.Y.abs - last;
+
+			state.Z.abs = 0;
+			state.Z.rel = 0;
+
+			OIS::MultiTouchEvent evt(mTouch, state);
+            
+			switch(state.touchType)
+			{
+			case OIS::MT_Pressed:
+				 GetInput()->touchPressed(evt);
+				 break;
+			 case OIS::MT_Released:
+				 GetInput()->touchReleased(evt);
+				 break;
+			 case OIS::MT_Moved:
+				 //GetInput()->touchMoved(evt);
+				 Log("touchMoved ...........");
+				 break;
+			 case OIS::MT_Cancelled:
+				 GetInput()->touchCancelled(evt);
+				 break;
+			 default:
+				 break;
+			}
+		}
+    }
+ 
 }

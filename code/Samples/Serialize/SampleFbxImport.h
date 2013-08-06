@@ -14,7 +14,9 @@ namespace ma
 	public:
 		SampleFbxImport();
 
-		virtual void Init();
+		virtual void Load();
+
+		virtual void UnLoad();
 
 		virtual void Update();
 

@@ -103,7 +103,7 @@ Theme* Theme::create(const char* url)
     ASSERT(theme->_texture);
     theme->_spriteBatch = SpriteBatch::create(theme->_texture);
     ASSERT(theme->_spriteBatch);
-    theme->_spriteBatch->getSampler()->setFilterMode(TFO_POINT/*Texture::NEAREST, Texture::NEAREST*/);
+    theme->_spriteBatch->getSampler()->setFilterMode(Sampler::TFO_POINT/*Texture::NEAREST, Texture::NEAREST*/);
 
 	theme->_spriteBatch->getStateBlock().m_bDepthWrite = false;
 	theme->_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;

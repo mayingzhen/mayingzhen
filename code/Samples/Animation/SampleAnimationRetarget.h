@@ -11,15 +11,15 @@ namespace ma
 	public:
 		SampleAnimationRetarget();
 
-		virtual void	Init();
+		virtual void	Load();
+
+		virtual void	UnLoad();
 
 		virtual void	Update();
 
 		virtual void	Render();
 
 	private:
-		void			Load();
-
 		void			OnInput();
 
 

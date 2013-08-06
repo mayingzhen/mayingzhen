@@ -60,8 +60,8 @@ namespace ma
 		static D3DPOOL      GetD3DPool(USAGE Usage);
 		static DWORD        GetD3DLock(int Lock);
 		static D3DFORMAT    GetD3DFormat(FORMAT Format);
-		static void         GetD3D9Filter(FilterOptions Type,DWORD& minFilter,DWORD& magFilter,DWORD mipFilter);
-		static DWORD		GetD3D9Wrap(Wrap type);
+		static void         GetD3D9Filter(Sampler::FilterOptions Type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter);
+		static DWORD		GetD3D9Wrap(Sampler::Wrap type);
 		static void         GetD3DDeclUsage(DECL_USAGE DeclUsage,BYTE& d3dUse,BYTE& index);
 		static BYTE         GetD3DDeclType(DECL_TYPE DeclType);
 		static int          GetD3DDeclTypeSize(BYTE type);

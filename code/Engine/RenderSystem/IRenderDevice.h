@@ -46,6 +46,8 @@ namespace ma
 		virtual void				SetRenderState(const RenderState& state) = 0;
 
 		virtual	void				DrawRenderable(Renderable* pRenderable) = 0;
+
+		virtual void				DrawDynamicRenderable(Renderable* pRenderable) = 0;
 	
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 

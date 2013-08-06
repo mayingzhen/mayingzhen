@@ -240,8 +240,8 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin,
-					../../Extern/include,
 					"../../Extern/Bullet-2.81/Src/",
+					../../extern/oisinput/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -265,8 +265,8 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin,
-					../../Extern/include,
 					"../../Extern/Bullet-2.81/Src/",
+					../../extern/oisinput/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

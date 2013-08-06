@@ -353,9 +353,9 @@ namespace ma
 		
 		// Finish and draw the batch
 		_batch->finish();
-		//_batch->draw();
+		_batch->draw();
 		//RenderQueue::AddRenderable(_batch,this);
-		GetRenderDevice()->DrawRenderable(_batch);
+		//GetRenderDevice()->DrawRenderable(_batch);
 	}
 
 	RenderState& SpriteBatch::getStateBlock() const

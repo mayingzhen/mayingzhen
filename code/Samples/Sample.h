@@ -3,37 +3,23 @@
 
 namespace ma
 {
+	class CameraController;
 	class Camera;
-	class Platform;
 
 	class Sample
 	{
 	public:
-		Sample();
+		virtual void		Load() = 0;
 
-		virtual void Init();
+		virtual void		UnLoad() = 0;
 
-		virtual void ShoutDown();
+		virtual void		Update() = 0;
 
-		virtual void Update();
+		virtual void		Render() = 0;
 
-		virtual void Render();
+		CameraController*	GetCameraControll();
 
-		///// Input
-// 		virtual void keyEvent(Keyboard::KeyEvent evt, int key);
-// 
-// 		virtual void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
-// 
-// 		virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
-
-
-	protected:
-		//Scene*				m_pScene;
-		CameraController*	m_pCameraControl;
-		Camera*				m_pCamera;
-
-		float				m_fMoveCameraSpeed;
-		float				m_fZoomSpeed;
+		Camera*				GetCamera();
 
 	};
 }

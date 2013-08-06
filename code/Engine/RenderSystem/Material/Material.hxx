@@ -97,7 +97,7 @@ namespace ma
 // 	}
 
 
-	static FilterOptions parseTextureFilterMode(const char* str, FilterOptions defaultValue)
+	static Sampler::FilterOptions parseTextureFilterMode(const char* str, Sampler::FilterOptions defaultValue)
 	{
 		if (str == NULL || strlen(str) == 0)
 		{
@@ -106,19 +106,19 @@ namespace ma
 		}
 		else if (strcmp(str, "TFO_POINT") == 0)
 		{
-			return TFO_POINT;
+			return Sampler::TFO_POINT;
 		}
 		else if (strcmp(str, "TFO_BILINEAR") == 0)
 		{
-			return TFO_BILINEAR;
+			return Sampler::TFO_BILINEAR;
 		}
 		else if (strcmp(str, "TFO_TRILINEAR") == 0)
 		{
-			return TFO_TRILINEAR;
+			return Sampler::TFO_TRILINEAR;
 		}
 		else if (strcmp(str, "TFO_ANISOTROPIC") == 0)
 		{
-			return TFO_ANISOTROPIC;
+			return Sampler::TFO_ANISOTROPIC;
 		}
 		else
 		{
@@ -127,7 +127,7 @@ namespace ma
 		}
 	}
 
-	static Wrap parseTextureWrapMode(const char* str, Wrap defaultValue)
+	static Sampler::Wrap parseTextureWrapMode(const char* str, Sampler::Wrap defaultValue)
 	{
 		if (str == NULL || strlen(str) == 0)
 		{
@@ -136,11 +136,11 @@ namespace ma
 		}
 		else if (strcmp(str, "REPEAT") == 0)
 		{
-			return /*Texture::*/REPEAT;
+			return /*Texture::*/Sampler::REPEAT;
 		}
 		else if (strcmp(str, "CLAMP") == 0)
 		{
-			return /*Texture::*/CLAMP;
+			return /*Texture::*/Sampler::CLAMP;
 		}
 		else
 		{

@@ -10,7 +10,6 @@
 		6F49EE4C17957FCD00EF1CCE /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F49EE4B17957FCD00EF1CCE /* data */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
-		6FDF1ABC17951DF3005C7E62 /* TestCSharp.cs in Resources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
 		6FDF1B041795233B005C7E62 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFD1795233B005C7E62 /* libAnimation.a */; };
 		6FDF1B051795233B005C7E62 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */; };
@@ -49,7 +48,6 @@
 		6FDF1AAB17951DF3005C7E62 /* SampleBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleBrowser.h; sourceTree = "<group>"; };
 		6FDF1AAD17951DF3005C7E62 /* SampleMonoScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMonoScript.h; sourceTree = "<group>"; };
 		6FDF1AAE17951DF3005C7E62 /* SampleMonoScript.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleMonoScript.hxx; sourceTree = "<group>"; };
-		6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestCSharp.cs; sourceTree = "<group>"; };
 		6FDF1AB317951DF3005C7E62 /* SampleSceneSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleSceneSerialize.h; sourceTree = "<group>"; };
 		6FDF1AB417951DF3005C7E62 /* SampleSceneSerialize.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleSceneSerialize.hxx; sourceTree = "<group>"; };
 		6FDF1AB517951DF3005C7E62 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 			children = (
 				6FDF1AAD17951DF3005C7E62 /* SampleMonoScript.h */,
 				6FDF1AAE17951DF3005C7E62 /* SampleMonoScript.hxx */,
-				6FDF1AAF17951DF3005C7E62 /* TestCSharp.cs */,
 			);
 			path = Script;
 			sourceTree = "<group>";
@@ -262,7 +259,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FDF1ABC17951DF3005C7E62 /* TestCSharp.cs in Resources */,
 				6F49EE4C17957FCD00EF1CCE /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +346,7 @@
 					../../../Code/,
 					../../../Code/Plugin/,
 					../../../extern/Include/,
+					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib\"";
@@ -369,6 +366,7 @@
 					../../../Code/,
 					../../../Code/Plugin/,
 					../../../extern/Include/,
+					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib\"";

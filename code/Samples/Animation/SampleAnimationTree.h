@@ -12,13 +12,9 @@ namespace ma
 	public:
 		SampleAnimationTree();
 
-		virtual void Init();
-
-		virtual void Shutdown();
-
 		virtual void Load();
 
-		virtual void Unload();
+		virtual void UnLoad();
 
 		virtual void Update();
 

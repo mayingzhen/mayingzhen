@@ -76,7 +76,7 @@ namespace ma
 			CW_USEDEFAULT,              // initial x position
 			CW_USEDEFAULT,              // initial y position
 			800/*CW_USEDEFAULT*/,              // initial x size
-			480/*CW_USEDEFAULT*/,              // initial y size
+			600/*CW_USEDEFAULT*/,              // initial y size
 			NULL,                       // parent window handle
 			NULL,                       // window menu handle
 			hInstance,                  // program instance handle

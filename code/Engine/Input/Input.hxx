@@ -25,11 +25,14 @@ namespace ma
 
 	Input::Input()
 	{
-//#if PLATFORM_WIN == 1 
-		mInputMgr = NULL;
+        mInputMgr = NULL;
 		mKeyboard = NULL;
 		mMouse = NULL;
-//#endif
+		mAccelerometer = NULL;
+		mTouch = NULL;
+#if PLATFORM_ANDROID == 1	
+		mAndroidInputInjector = NULL;
+#endif
 	}
 
 
@@ -56,6 +59,9 @@ namespace ma
 		mKeyboard = static_cast<OIS::Keyboard*>(mInputMgr->createInputObject(OIS::OISKeyboard, true));
 		mMouse = static_cast<OIS::Mouse*>(mInputMgr->createInputObject(OIS::OISMouse, true));
 
+		mKeyboard->setEventCallback(this);
+		mMouse->setEventCallback(this);
+
 #elif PLAFTORM_IOS == 1
 		OIS::ParamList pl;
 		size_t winHandle = 0;
@@ -65,65 +71,60 @@ namespace ma
 		mInputMgr = OIS::InputManager::createInputSystem(pl);
 		mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
 		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
+		mTouch->setEventCallback(this);
 
 #elif PLATFORM_ANDROID == 1	
 		mTouch = new AndroidMultiTouch();
 		mKeyboard = new AndroidKeyboard();
-		mInputInjector = new AndroidInputInjector(mTouch, mKeyboard);
+		mAndroidInputInjector = new AndroidInputInjector((AndroidMultiTouch*)mTouch, (AndroidKeyboard*)mKeyboard);
 #endif
-	
+
+		int w,h;
+		Platform::GetInstance().GetWindowSize(w,h);
+		OnResize(w,h);
 	}
 
 	void Input::Shutdown()
 	{
-		if(mInputMgr)
-		{
-			OIS::InputManager::destroyInputSystem(mInputMgr);
-		}
+		//if(mInputMgr)
+		//{
+		//	OIS::InputManager::destroyInputSystem(mInputMgr);
+		//}
 	}
 
 	void Input::Capture() const
 	{
 		if(mKeyboard)
+		{
 			mKeyboard->capture();
+		}
+
 		if(mMouse)
+		{
 			mMouse->capture();
+		}
 
-		//if(mTouch)
-		//	mTouch->capture();
+		if(mTouch)
+		{
+			mTouch->capture();
+		}
 
-		//if(mAccelerometer)
-		//	mAccelerometer->capture();
+		if(mAccelerometer)
+		{
+			mAccelerometer->capture();
+		}
 	}
 
-	bool Input::IsKeyDown(OIS::KeyCode keyCode) const
+	UINT Input::GetTouchStateNumber() const
 	{
-		return mKeyboard && mKeyboard->isKeyDown(keyCode);
+		return mTouch->getMultiTouchStates().size();
 	}
 
-
-	bool Input::IsMouseButtonDown(OIS::MouseButtonID button) const
+	const OIS::MultiTouchState& Input::GetTouchStateByIndex(int index) const
 	{
-		return mMouse->getMouseState().buttonDown(button);
+		const std::vector<OIS::MultiTouchState>& arrState = mTouch->getMultiTouchStates();
+		return arrState[index];
 	}
-
-	const OIS::MouseState& Input::GetMouseState() const
-	{
-		return mMouse->getMouseState();
-	}
-
-#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
-// 	UINT Input::GetTouchStateNumber() const
-// 	{
-// 		return mTouch.getMultiTouchStates().size();
-// 	}
-
-// 	const OIS::MultiTouchState& Input::GetTouchStateByIndex(int index) const
-// 	{
-// 		std::vector<MultiTouchState>& arrState = mTouch.getMultiTouchStates();
-// 		return arrState[index];
-// 	}
-#endif
 
 	void Input::OnResize(int w,int h)
 	{
@@ -132,6 +133,127 @@ namespace ma
 			mMouse->getMouseState().width = w;
 			mMouse->getMouseState().height = h;
 		}	
+	}
+
+	
+	bool Input::keyPressed(const OIS::KeyEvent &arg)
+	{
+		for (UINT i = 0; i < m_arrKeyListener.size(); ++i)
+		{
+			m_arrKeyListener[i]->keyPressed(arg);
+		}
+
+		return true;
+	}
+
+	bool Input::keyReleased(const OIS::KeyEvent &arg)
+	{
+		for (UINT i = 0; i < m_arrKeyListener.size(); ++i)
+		{
+			m_arrKeyListener[i]->keyReleased(arg);
+		}
+
+		return true;
+	}
+
+	bool Input::mouseMoved( const OIS::MouseEvent &arg )
+	{
+		for (UINT i = 0; i < m_arrMouseListener.size(); ++i)
+		{
+			m_arrMouseListener[i]->mouseMoved(arg);
+		}
+
+		return true;
+	}
+
+	bool Input::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+	{
+		for (UINT i = 0; i < m_arrMouseListener.size(); ++i)
+		{
+			m_arrMouseListener[i]->mousePressed(arg,id);
+		}
+
+		return true;
+	}
+
+	bool Input::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+	{
+		for (UINT i = 0; i < m_arrMouseListener.size(); ++i)
+		{
+			m_arrMouseListener[i]->mouseReleased(arg,id);
+		}
+
+		return true;
+	}
+
+	bool Input::touchMoved( const OIS::MultiTouchEvent &arg )
+	{
+		for (UINT i = 0; i < m_arrTouchListener.size(); ++i)
+		{
+			m_arrTouchListener[i]->touchMoved(arg);
+		}	
+
+		return true;
+	}	
+
+	bool Input::touchPressed( const OIS::MultiTouchEvent &arg )
+	{
+		for (UINT i = 0; i < m_arrTouchListener.size(); ++i)
+		{
+			m_arrTouchListener[i]->touchPressed(arg);
+		}	
+
+		return true;
+	}
+
+	bool Input::touchReleased( const OIS::MultiTouchEvent &arg )
+	{
+		for (UINT i = 0; i < m_arrTouchListener.size(); ++i)
+		{
+			m_arrTouchListener[i]->touchReleased(arg);
+		}	
+
+		return true;
+	}
+
+	bool Input::touchCancelled( const OIS::MultiTouchEvent &arg )
+	{
+		for (UINT i = 0; i < m_arrTouchListener.size(); ++i)
+		{
+			m_arrTouchListener[i]->touchCancelled(arg);
+		}
+
+		return true;
+	}
+
+	void Input::RemoveKeyListener(OIS::KeyListener* pListen)
+	{
+		std::vector<OIS::KeyListener*>::iterator it;	
+		it = std::find(m_arrKeyListener.begin(),m_arrKeyListener.end(),pListen);
+		if (it != m_arrKeyListener.end())
+		{
+			m_arrKeyListener.erase(it);
+		}
+	}
+
+	void Input::RemoveMouseListener(OIS::MouseListener* pListen)
+	{
+		std::vector<OIS::MouseListener*>::iterator it;	
+		it = std::find(m_arrMouseListener.begin(),m_arrMouseListener.end(),pListen);
+		if (it != m_arrMouseListener.end())
+		{
+			m_arrMouseListener.erase(it);
+		}
+	}
+
+	void Input::RemoveTouchListener(OIS::MultiTouchListener* pListen)
+	{
+		std::vector<OIS::MultiTouchListener*>::iterator it;	
+		it = std::find(m_arrTouchListener.begin(),m_arrTouchListener.end(),pListen);
+		if (it != m_arrTouchListener.end())
+		{
+			m_arrTouchListener.erase(it);
+		}
 	}
 
 }

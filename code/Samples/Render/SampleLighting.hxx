@@ -10,17 +10,14 @@ namespace ma
 
 	void SampleLighting::Init(ApplicationBase* pApplication)
 	{
-		Sample::Init(pApplication);
-
 		m_fMoveCameraSpeed = 0.80f;
 		//m_pCamera->SetPositionWS( Vector3(0, 2, -3) );
 		//Vector3 vEyePos(-2, 3, -5);
 		//m_pCamera->LookAt(&vEyePos);
 	}
 
-	void SampleLighting::Shutdown()
+	void SampleLighting::UnLoad()
 	{
-		Sample::Shutdown();
 	}
 
 	void SampleLighting::Load()
