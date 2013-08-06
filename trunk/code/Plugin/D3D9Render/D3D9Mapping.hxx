@@ -427,27 +427,27 @@ std::string D3D9Mapping::GetD3DErrorString(HRESULT hr)
     return DXErrorString(hr);
 }
 
-void D3D9Mapping::GetD3D9Filter(FilterOptions type,DWORD& minFilter,DWORD& magFilter,DWORD mipFilter)
+void D3D9Mapping::GetD3D9Filter(Sampler::FilterOptions type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter)
 {
-	if (type == TFO_POINT)
+	if (type == Sampler::TFO_POINT)
 	{
 		minFilter = D3DTEXF_POINT;
 		magFilter = D3DTEXF_POINT;
 		mipFilter = D3DTEXF_NONE;
 	}
-	else if (type == TFO_BILINEAR)
+	else if (type == Sampler::TFO_BILINEAR)
 	{
 		minFilter = D3DTEXF_LINEAR;
 		magFilter = D3DTEXF_LINEAR;
 		mipFilter = D3DTEXF_POINT;
 	}
-	else if (type == TFO_TRILINEAR)
+	else if (type == Sampler::TFO_TRILINEAR)
 	{
 		minFilter = D3DTEXF_LINEAR;
 		magFilter = D3DTEXF_LINEAR;
 		mipFilter = D3DTEXF_LINEAR;
 	}
-	else if (type == TFO_ANISOTROPIC)
+	else if (type == Sampler::TFO_ANISOTROPIC)
 	{
 		minFilter = D3DTEXF_ANISOTROPIC;
 		magFilter = D3DTEXF_ANISOTROPIC;
@@ -463,13 +463,13 @@ void D3D9Mapping::GetD3D9Filter(FilterOptions type,DWORD& minFilter,DWORD& magFi
 }
 
 
-DWORD		D3D9Mapping::GetD3D9Wrap(Wrap type)
+DWORD		D3D9Mapping::GetD3D9Wrap(Sampler::Wrap type)
 {
-	if (type == REPEAT)
+	if (type == Sampler::REPEAT)
 	{
 		return D3DTADDRESS_WRAP;
 	}
-	else if (type == CLAMP)
+	else if (type == Sampler::CLAMP)
 	{
 		return D3DTADDRESS_CLAMP;
 	}

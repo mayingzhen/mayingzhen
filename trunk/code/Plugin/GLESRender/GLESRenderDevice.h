@@ -45,6 +45,8 @@ namespace ma
 
 		virtual	void				DrawRenderable(Renderable* pRenderable);
 
+		virtual	void				DrawDynamicRenderable(Renderable* pRenderable);
+
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
 		virtual void				DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);

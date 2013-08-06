@@ -4,34 +4,13 @@ namespace ma
 {	
 	BulletBoxCollisionShape::BulletBoxCollisionShape()
 	{
-		//m_pBoxShape = NULL;
 		TransformSetIdentity(&m_tsfLS);
-		m_nCollLayer = 0;
+		m_vSize = Vector3(0,0,0);
 	}
 
 	BulletBoxCollisionShape::~BulletBoxCollisionShape()
 	{
 
-	}
-
-	void BulletBoxCollisionShape::SetTransformLS(const NodeTransform& tsfLS) 
-	{
-		m_tsfLS = tsfLS;
-	}
-
-	NodeTransform BulletBoxCollisionShape::GetTransformLS() 
-	{
-		return m_tsfLS;
-	}
-
-	void BulletBoxCollisionShape::SetCollisionLayer(int nCollLayer)
-	{
-		m_nCollLayer = nCollLayer;
-	}
-
-	int BulletBoxCollisionShape::GetCollisionLayer()
-	{
-		return m_nCollLayer;
 	}
 
 	void BulletBoxCollisionShape::SetSize(const Vector3& vSize)
@@ -48,31 +27,12 @@ namespace ma
 	BulletSphereCollisionShape::BulletSphereCollisionShape()
 	{
 		TransformSetIdentity(&m_tsfLS);
+		m_fRadius = 0;
 	}
 
 	BulletSphereCollisionShape::~BulletSphereCollisionShape()
 	{
 
-	}
-
-	void BulletSphereCollisionShape::SetTransformLS(const NodeTransform& tsfLS) 
-	{
-		m_tsfLS = tsfLS;
-	}
-
-	NodeTransform BulletSphereCollisionShape::GetTransformLS() 
-	{
-		return m_tsfLS;
-	}
-
-	void BulletSphereCollisionShape::SetCollisionLayer(int nCollLayer)
-	{
-		m_nCollLayer = nCollLayer;
-	}
-
-	int BulletSphereCollisionShape::GetCollisionLayer()
-	{
-		return m_nCollLayer;
 	}
 
 	void BulletSphereCollisionShape::SetRadius(float fRadius)
@@ -86,5 +46,35 @@ namespace ma
 	}
 
 
+	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape()
+	{
+		TransformSetIdentity(&m_tsfLS);
+		m_fRadius = 0;
+		m_fHeight = 0;
+	}
 
+	BulletCapsuleCollisionShape::~BulletCapsuleCollisionShape()
+	{
+
+	}
+
+	void BulletCapsuleCollisionShape::SetHeight(float fHeight)
+	{
+		m_fHeight = fHeight;
+	}
+
+	float BulletCapsuleCollisionShape::GetHeight() const
+	{
+		return m_fHeight;
+	}
+
+	void BulletCapsuleCollisionShape::SetRadius(float fRadius)
+	{
+		m_fRadius = fRadius;
+	}
+
+	float BulletCapsuleCollisionShape::GetRadius() const
+	{
+		return m_fRadius;
+	}
 }

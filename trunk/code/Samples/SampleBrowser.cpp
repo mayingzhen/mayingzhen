@@ -6,94 +6,78 @@
 
 #if PLATFORM_WIN == 1
 #include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Script/SampleMonoScript.hxx"
 #endif
 
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
+#include "Samples/Physics/SampleCharaControl.hxx"
+#include "Samples/Physics/SampleJoint.hxx"
+#include "Samples/Physics/SampleRagdoll.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
-//#include "Samples/Script/SampleMonoScript.hxx"
+
 
 namespace ma
 {
 	static SampleBrowser __sampleBrowser("SampleBrowser");
 
+	SampleBrowser* GetSampleBrowser()
+	{
+		return &__sampleBrowser;
+	}
+
 	SampleBrowser::SampleBrowser(const char* pGameName)
 		:Game(pGameName)
 	{
-// #if PLATFORM_WIN == 1
-// 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-// 		m_arrSamples.push_back(pSampleFbxImport);
-// #endif
-// 
-// 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
-// 		m_arrSamples.push_back(pSceneSerial);
-// 
-// 		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
-// 		m_arrSamples.push_back(pSampleRigidBody);
-// 
-// 		SampleTerrain* pSampleTerrain = new SampleTerrain();
-// 		m_arrSamples.push_back(pSampleTerrain);
-// 
-// 		SampleAnimationRetarget* pAnimRetar = new SampleAnimationRetarget();
-// 		m_arrSamples.push_back(pAnimRetar);
-// 
-// 		SampleAnimationTree* pAniTree = new SampleAnimationTree();
-// 		m_arrSamples.push_back(pAniTree);
-// 
-// 		SampleParticle* pParticle = new SampleParticle();
-// 		m_arrSamples.push_back(pParticle);
-// 
-// 		//SampleMonoScript* pScript = new SampleMonoScript();
-// 		//m_arrSamples.push_back(pScript);
-// 
-// 		m_curSampleIndex = m_arrSamples.size() - 1;
-// 
-// 		SetTimer(&m_Timer);
-// 		SetInput(&m_Input);
-// 
-// 		m_bPause = false;
-// 		m_bStepOneFrame = false;
-	}
-
-	void SampleBrowser::Init()
-	{
 #if PLATFORM_WIN == 1
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-		m_arrSamples.push_back(pSampleFbxImport);
+		m_arrSamples["FbxImport"] = pSampleFbxImport;
+
+		SampleMonoScript* pSampleScript = new SampleMonoScript();
+		m_arrSamples["CSharpScript"] = pSampleScript;
 #endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
-		m_arrSamples.push_back(pSceneSerial);
+		m_arrSamples["SceneSerialize"] = pSceneSerial;
 
 		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
-		m_arrSamples.push_back(pSampleRigidBody);
+		m_arrSamples["RigidBody"] = pSampleRigidBody;
+
+		SampleCharaControl* pSampleCharControl = new SampleCharaControl();
+		m_arrSamples["CharControl"] = pSampleCharControl;
+
+		SampleJoint* pSampleJoint = new SampleJoint();
+		m_arrSamples["PhysicsJoint"] = pSampleJoint;
+
+		SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
+		m_arrSamples["Ragdoll"] = pSampleRagdoll;
 
 		SampleTerrain* pSampleTerrain = new SampleTerrain();
-		m_arrSamples.push_back(pSampleTerrain);
+		m_arrSamples["Terrain"] = pSampleTerrain;
 
 		SampleAnimationRetarget* pAnimRetar = new SampleAnimationRetarget();
-		m_arrSamples.push_back(pAnimRetar);
+		m_arrSamples["AnimationRetarget"] = pAnimRetar;
 
 		SampleAnimationTree* pAniTree = new SampleAnimationTree();
-		m_arrSamples.push_back(pAniTree);
+		m_arrSamples["AnimationTree"] = pAniTree;
 
 		SampleParticle* pParticle = new SampleParticle();
-		m_arrSamples.push_back(pParticle);
+		m_arrSamples["Particle"] = pParticle;
 
-		//SampleMonoScript* pScript = new SampleMonoScript();
-		//m_arrSamples.push_back(pScript);
-
-		m_curSampleIndex = m_arrSamples.size() - 3;
+		m_pCurSample = pSampleCharControl;
 
 		SetTimer(&m_Timer);
 		SetInput(&m_Input);
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
+	}
 
+	void SampleBrowser::Init()
+	{
 #if PLATFORM_WIN == 1
 		FileSystem::setResourcePath("../../Data/");
 #elif PLAFTORM_IOS == 1
@@ -103,8 +87,6 @@ namespace ma
 #elif PLATFORM_ANDROID == 1
 		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
 #endif
-
-		Log("............SampleBrowser::init()......................");
 	
 		CommonModuleInit();
 		EngineModuleInit();
@@ -119,12 +101,55 @@ namespace ma
 		LineRender::Init();
 
 		m_Input.Init(Platform::GetInstance().GetWindId());
-#if PLAFTORM_IOS == 1
-		m_Input.GetKeyboard()->setEventCallback(this);
-#endif
-		m_arrSamples[m_curSampleIndex]->Init();
+		m_Input.AddKeyListener(this);
+
+		InitCamera();
 
 		LoadUI();
+
+		if (m_pCurSample)
+		{
+			m_pCurSample->Load();
+		}
+	}
+
+	void SampleBrowser::InitCamera()
+	{
+		m_pCamera = new Camera();
+		m_pCameraControl = new CameraController(m_pCamera);
+
+		Material::SetAuotBingCamera(m_pCamera);
+		RenderQueue::SetCamera(m_pCamera);
+
+		Vector3 vEyePos = Vector3(0, 200, 300);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
+
+		int nWndWidth,nWndHeigh;
+		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
+		float fFOV = PI / 4;
+		float fAspect = (float)nWndWidth / (float)nWndHeigh;
+		float fNearClip = 1.0f;
+		float fFarClip = 30000.0f;
+		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+	}
+
+	void SampleBrowser::RunSample(const char* pSampleNma)
+	{
+		std::map<std::string,Sample*>::iterator it = m_arrSamples.find(pSampleNma);
+		ASSERT(it != m_arrSamples.end());
+		if  (it == m_arrSamples.end())
+			return;
+
+		if (m_pCurSample)
+		{
+			m_pCurSample->UnLoad();
+		}
+
+		Sample* pSameple = it->second;
+		pSameple->Load();
+		m_pCurSample = pSameple;
 	}
 
 	void SampleBrowser::LoadUI()
@@ -144,17 +169,12 @@ namespace ma
 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
 		m_pSampleSelectForm->setConsumeInputEvents(true);
 
-		Button* sampleButton = Button::create("xxxx", buttonStyle);
-		sampleButton->setText("xxxx");
-		sampleButton->setAutoWidth(true);
-		sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-		sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
-		sampleButton->addListener(this, Control::Listener::CLICK);
-		m_pSampleSelectForm->addControl(sampleButton);
-
+		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
+		for (; it != m_arrSamples.end(); ++it)
 		{
-			Button* sampleButton = Button::create("xxxxTT", buttonStyle);
-			sampleButton->setText("xxxxTT");
+			const char* pSamepeName = it->first.c_str();
+			Button* sampleButton = Button::create(pSamepeName, buttonStyle);
+			sampleButton->setText(pSamepeName);
 			sampleButton->setAutoWidth(true);
 			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
 			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
@@ -166,7 +186,7 @@ namespace ma
 
 	void SampleBrowser::Shutdown()
 	{
-
+		
 	}
 
 	void SampleBrowser::Update()
@@ -174,6 +194,8 @@ namespace ma
 		m_Input.Capture();
 
 		m_Timer.UpdateFrame();
+
+		m_pCameraControl->UpdateInput();
 
 		if (m_bPause && !m_bStepOneFrame)
 		{
@@ -186,8 +208,8 @@ namespace ma
         if (GetDataThread())
             GetDataThread()->Process();
 
-		if (m_arrSamples[m_curSampleIndex])
-			m_arrSamples[m_curSampleIndex]->Update();
+		if (m_pCurSample)
+			m_pCurSample->Update();
 		
 
 		//m_pSampleSelectForm->update(m_Timer.GetFrameDeltaTime());
@@ -197,32 +219,35 @@ namespace ma
 	{
 		GetRenderDevice()->BeginRender();
 
-		//LineRender::BeginFrame();
+		LineRender::BeginFrame();
 
 		//RenderQueue::Clear();
 
-		if (m_arrSamples[m_curSampleIndex])
-			m_arrSamples[m_curSampleIndex]->Render();
+		if (m_pCurSample)
+			m_pCurSample->Render();
 
 		//RenderQueue::Fulsh();
 
-		//m_pSampleSelectForm->draw();
+		m_pSampleSelectForm->draw();
 
 		//m_pLineRender->Start();
 		//LineRender::DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
 		
-		//LineRender::EndFrame();
+		LineRender::EndFrame();
 	
 		GetRenderDevice()->EndRender();
 	}
 
 	void SampleBrowser::controlEvent(Control* control, EventType evt)
 	{
-		ASSERT(control);
-		if (control == NULL)
+		Log("..............controlEvent.............");
+
+		Button* pButton = static_cast<Button*>(control);
+		if (pButton == NULL)
 			return;
 
-		//control->setText()
+		const char* pText = pButton->getText();
+		RunSample(pText);
 	}
 
 	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)

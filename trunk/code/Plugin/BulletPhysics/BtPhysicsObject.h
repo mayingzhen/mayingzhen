@@ -3,14 +3,15 @@
 
 #include "Engine/Physics/IPhysicsObject.h"
 
-class btRigidBody;
 
 namespace ma
 {
-	class IRigidBody;
-	class IBoxCollisionShape;
-	class ISphereCollisionShape;
+	class BulletRigidBody;
+	class BulletBoxCollisionShape;
+	class BulletSphereCollisionShape;
 	class BulletScene;
+	class BulletPhysicsGenericJoint;
+	class BulletPhysicsHingeJoint;
 	
 	class BulletPhysicsObject : public IPhysicsObject
 	{
@@ -23,9 +24,11 @@ namespace ma
 
 		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjB);
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape();
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjB);
+		virtual ICharaControll*			CreateCharaControll();
+
+		virtual CollisionMaterial*		GetCollisionMaterial();
 
 		virtual void					SetTransformWS(const NodeTransform& tsfWS);
 
@@ -47,29 +50,30 @@ namespace ma
 
 		btCollisionObject*				GetbtCollisionObject() {return m_pBtCollObject;}
 
-		int								GetCollLayer() {return m_nCollLayer;}
-
 	private:
+		void							InitCharControll();
+
 		void							InitCollObject();
 		
-		void							InitJoint();
+		void							InitMaterial();
 
 	private:
-		btCollisionObject*					m_pBtCollObject;
+		btCollisionObject*							m_pBtCollObject;
 		
-		IRigidBody*							m_pRigidBody;
-		std::vector<IBoxCollisionShape*>	m_vBoxCollisionShape;
-		std::vector<ISphereCollisionShape*>	m_vSphereCollisionShape;
+		BulletRigidBody*							m_pRigidBody;
+		std::vector<BulletBoxCollisionShape*>		m_vBoxCollisionShape;
+		std::vector<BulletSphereCollisionShape*>	m_vSphereCollisionShape;
+		std::vector<BulletCapsuleCollisionShape*>	m_vCapsuleCollisionShape;
 
-		std::vector<IPhysicsGenericJoint*>	m_vGenericJoint;
-		std::vector<IPhysicsHingeJoint*>	m_vHingeJoint;
+		BulletCharacterController*					m_pCharaControll;
 
-		NodeTransform						m_tsfWS;
+		NodeTransform								m_tsfWS;
 
-		int									m_nCollLayer;
+		//int											m_nCollLayer;
+		CollisionMaterial							m_material;
 
-		GameObject*							m_pGameObject;
-		BulletScene*						m_pPhyScene;
+		GameObject*									m_pGameObject;
+		BulletScene*								m_pPhyScene;
 	};
 }
 

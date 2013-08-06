@@ -23,6 +23,22 @@ namespace ma
 		}
 	}
 
+	void AnimPlayComponent::Start()
+	{
+		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<MeshComponent>();
+		for (UINT i = 0; i < nMeshComp; ++i)
+		{
+			MeshComponent* pMeshComp = m_pGameObject->GetTypeComponentByIndex<MeshComponent>(i);
+			m_arrRenderMesh.push_back(pMeshComp->GetRendMesh())	;
+		}
+
+	}
+
+	void AnimPlayComponent::Stop()
+	{
+		m_arrRenderMesh.clear();
+	}
+
 	void AnimPlayComponent::Update()
 	{
 		if (ma::GetTimer() == NULL)
@@ -38,13 +54,11 @@ namespace ma
 		/// Parallel Update
  		m_pAnimtionPlay->EvaluateAnimation(1.0f);
 
-		ASSERT(m_pRenderMesh);
-		if (m_pRenderMesh)
+		Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+ 		UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
+		for (UINT i = 0; i < m_arrRenderMesh.size(); ++i)
 		{
-			Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-			UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-
-			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
+			m_arrRenderMesh[i]->SetSkinMatrix(skinMatrix,nNumber);
 		}
 	}
 

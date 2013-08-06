@@ -8,13 +8,13 @@ namespace ma
 	{
 	}
 
-	void SampleRigidBody::Init()
+
+	void SampleRigidBody::UnLoad()
 	{
-		Sample::Init();
+		m_pScene->Stop();
 
-		Load();
-	}
-
+		SAFE_DELETE(m_pScene);
+	}	
 
 	void SampleRigidBody::Load()
 	{
@@ -77,8 +77,6 @@ namespace ma
 
 	void SampleRigidBody::Update()
 	{
-		Sample::Update();
-
 		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
 
 		if (GetInput()->IsKeyDown(OIS::KC_G))
@@ -93,13 +91,10 @@ namespace ma
 
 	void SampleRigidBody::Render()
 	{
-		m_pScene->Render(m_pCamera);
+		m_pScene->Render(GetCamera());
 	}
 
-	void SampleRigidBody::collisionEvent(CollisionListener::EventType type,
-		const CollisionPair& collisionPair,
-		const Vector3& contactPointA,
-		const Vector3& contactPointB)
+	void SampleRigidBody::collisionEvent(const CollisionData& eventData)
 	{
 		int i = 5;
 	}

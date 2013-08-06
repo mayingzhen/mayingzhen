@@ -40,17 +40,21 @@ namespace ma
 		_pMeshBatch->add(v,2,index,2);
 	}
 
+	void LineRender::DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color)
+	{
+
+	}
 
 	void LineRender::DrawBox(const Matrix4x4& wordMat,const Vector3& size, Color dwcolor)
 	{
-		Vector3 vScale;
-		Quaternion qRot;
-		Vector3 vPos;
-		MatrixDecompose(&vScale,&qRot,&vPos,&wordMat);
+		//Vector3 vScale;
+		//Quaternion qRot;
+		//Vector3 vPos;
+		//MatrixDecompose(&vScale,&qRot,&vPos,&wordMat);
 
-		float fHalfWidth = 0.5f * vScale.x * size.x;
-		float fHalfHeight = 0.5f * vScale.y * size.y;
-		float fHalfDepth = 0.5f * vScale.z * size.z;
+		float fHalfWidth = 0.5f /** vScale.x*/ * size.x;
+		float fHalfHeight = 0.5f /** vScale.y*/ * size.y;
+		float fHalfDepth = 0.5f /** vScale.z*/ * size.z;
 
 		Vector3 arrVec[]=
 		{
@@ -66,8 +70,9 @@ namespace ma
 
 		for (UINT nCnt = 0; nCnt < 8; ++nCnt)
 		{
-			QuaternionTransformVector(&arrVec[nCnt],&arrVec[nCnt],&qRot);
-			arrVec[nCnt] += vPos;
+			//QuaternionTransformVector(&arrVec[nCnt],&arrVec[nCnt],&qRot);
+			//arrVec[nCnt] += vPos;
+			Vec3TransformCoord(&arrVec[nCnt],&arrVec[nCnt],&wordMat);
 		}
 
 		for (UINT nCnt = 0; nCnt < 4; ++nCnt)
@@ -138,8 +143,8 @@ namespace ma
 	void LineRender::EndFrame()
 	{
 		_pMeshBatch->finish();
-
-		GetRenderDevice()->DrawRenderable(_pMeshBatch);
+		_pMeshBatch->draw();
+		//GetRenderDevice()->DrawRenderable(_pMeshBatch);
 	}
 	
 }

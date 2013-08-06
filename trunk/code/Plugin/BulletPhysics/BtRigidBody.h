@@ -9,7 +9,7 @@ class btCompoundShape;
 
 namespace ma
 {
-	class BULLETPHYSICS_API BulletRigidBody : public IRigidBody
+	class BulletRigidBody : public IRigidBody
 	{
 	public:
 		BulletRigidBody();

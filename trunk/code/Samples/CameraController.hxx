@@ -14,7 +14,7 @@ namespace ma
 
 	void CameraController::UpdateInput()
 	{
-#if PLATFORM_ANDROID == 1
+#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
 		return;
 #endif
 		if (GetInput() == NULL || m_pCamera == NULL || GetTimer() == NULL)

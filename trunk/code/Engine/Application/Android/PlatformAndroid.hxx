@@ -1,13 +1,29 @@
 #include "../Platform.h"
 #include "Plugin/GLESRender/GLESBase.h"
-
+#include "Engine/Input/AndroidInputInjector.h"
+#include "Engine/Input/Gesture.h"
 #include "android_native_app_glue.hxx"
 
+#include "bitset"
 
+static std::bitset<3> __gestureEventsProcessed;
+
+struct TouchPointerData
+{
+	size_t pointerId;
+	bool pressed;
+	double time;
+	int x;
+	int y;
+};
+
+TouchPointerData __pointer0;
+TouchPointerData __pointer1;
 
 
 namespace ma
 {
+
 	bool g_bHardwareETCSupported = false;
 	bool g_bHardwareATCSupported = false;
 	bool g_bHardwareDDSSupported = false;
@@ -19,6 +35,10 @@ namespace ma
 	static EGLSurface	__eglSurface = EGL_NO_SURFACE;
 	static EGLConfig	__eglConfig = 0;
 	static int			__orientationAngle = 90;
+
+	static int __primaryTouchId = -1;
+	static bool __multiTouch = false;
+
 	// OpenGL VAO functions.
 	static const char* __glExtensions;
 	PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = NULL;
@@ -70,74 +90,55 @@ namespace ma
 	}
 
 
-	int32_t onInputEvent(android_app* app, AInputEvent* event)
+	static int32_t onInputEvent(android_app* app, AInputEvent* event)
 	{
+		if (GetInput() == NULL)
+			return 0;
 
-		// 		if (mInputInjector)
-		// 		{
-		// 			if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) 
-		// 			{
-		// 				int action = (int)(AMOTION_EVENT_ACTION_MASK & AMotionEvent_getAction(event));
-		// 
-		// 				if(action == 0)
-		// 					mInputInjector->injectTouchEvent(2, AMotionEvent_getRawX(event, 0), AMotionEvent_getRawY(event, 0) );
-		// 
-		// 				mInputInjector->injectTouchEvent(action, AMotionEvent_getRawX(event, 0), AMotionEvent_getRawY(event, 0) );
-		// 			}
-		// 			else 
-		// 			{
-		// 				mInputInjector->injectKeyEvent(AKeyEvent_getAction(event), AKeyEvent_getKeyCode(event));
-		// 			}
-		// 
-		// 			return 1;
-		// 		}
-		// 		return 0;
+		AndroidInputInjector* pInputInjector = GetInput()->GetAndroidInputInjector();
+		if (pInputInjector == NULL)
+			return 0;
+
+		int32_t nEventType = AInputEvent_getType(event);
+		if (nEventType == AINPUT_EVENT_TYPE_MOTION)
+		{	
+			int32_t nMotinAction = AMotionEvent_getAction(event);
+			int posx = AMotionEvent_getX(event,0);
+			int posy = AMotionEvent_getY(event,0);
+			if (nMotinAction == AMOTION_EVENT_ACTION_DOWN)
+			{
+// 				OIS::MouseState ms = * pInput->GetMouseState();
+// 				ms.X.rel = posx - ms.X.abs;
+// 				ms.X.abs = posx;
+// 				ms.Y.rel = posy - ms.Y.abs;
+// 				ms.Y.abs = posy;
+// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
+// 
+// 				ms.buttons |= (1L << iBtn);
+// 				OIS::MouseEvent arg(NULL,ms);
+// 				pInput->InjectMousePressed(arg,iBtn);
+				pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
+
+			}
+			else if (nMotinAction == AMOTION_EVENT_ACTION_UP)
+			{
+				pInputInjector->injectTouchEvent(nMotinAction,posx,posy,0);
+// 				OIS::MouseState ms = * pInput->GetMouseState();
+// 				ms.X.rel = posx - ms.X.abs;
+// 				ms.X.abs = posx;
+// 				ms.Y.rel = posy - ms.Y.abs;
+// 				ms.Y.abs = posy;
+// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
+// 
+// 				ms.buttons |= (1L << iBtn);
+// 				OIS::MouseEvent arg(NULL,ms);
+// 				pInput->InjectMouseReleased(arg,iBtn);
+			}
+		}
+
+		return 1;
 
 
-		// 		if (app == NULL || event == NULL)
-		// 			return 0;
-		// 
-		// 		Input* pInput = GetInput(); 
-		// 		if (pInput == NULL)
-		// 			return 0;
-		// 
-		// 		Platform* pApplication = static_cast<Platform*>(app->userData);
-		// 		int32_t nEventType = AInputEvent_getType(event);
-		// 		if (nEventType == AINPUT_EVENT_TYPE_MOTION)
-		// 		{	
-		// 			int32_t nMotinAction = AMotionEvent_getAction(event);
-		// 			int posx = AMotionEvent_getX(event,0);
-		// 			int posy = AMotionEvent_getY(event,0);
-		// 			if (nMotinAction == AMOTION_EVENT_ACTION_DOWN)
-		// 			{
-		// 				OIS::MouseState ms = * pInput->GetMouseState();
-		// 				ms.X.rel = posx - ms.X.abs;
-		// 				ms.X.abs = posx;
-		// 				ms.Y.rel = posy - ms.Y.abs;
-		// 				ms.Y.abs = posy;
-		// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
-		// 			
-		// 				ms.buttons |= (1L << iBtn);
-		// 				OIS::MouseEvent arg(NULL,ms);
-		// 				pInput->InjectMousePressed(arg,iBtn);
-		// 			
-		// 			}
-		// 			else if (nMotinAction == AMOTION_EVENT_ACTION_UP)
-		// 			{
-		// 				OIS::MouseState ms = * pInput->GetMouseState();
-		// 				ms.X.rel = posx - ms.X.abs;
-		// 				ms.X.abs = posx;
-		// 				ms.Y.rel = posy - ms.Y.abs;
-		// 				ms.Y.abs = posy;
-		// 				OIS::MouseButtonID iBtn = OIS::MB_Left;
-		// 
-		// 				ms.buttons |= (1L << iBtn);
-		// 				OIS::MouseEvent arg(NULL,ms);
-		// 				pInput->InjectMouseReleased(arg,iBtn);
-		// 			}
-		// 		}
-		// 
-		// 		return 0;
 	}
 
 	extern void print(const char* format, ...)

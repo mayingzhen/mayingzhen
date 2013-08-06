@@ -5,80 +5,43 @@
 #include "Engine/Physics/ICharacterController.h"
 
 
-class btKinematicCharacterController;
-class btPairCachingGhostObject;
-class btCapsuleShape;
-class btCollisionObject;
-
 namespace ma
 {
-	class GameObject;
-	class BulletScene;
+	class BulletPhysicsObject;
 
-	class BULLETPHYSICS_API BulletCharacterController : public ICharaControll
+	class BulletCharacterController : public ICharaControll
 	{
 	public:
-		BulletCharacterController(GameObject* pGameObject,BulletScene*	pPhyScene);
+		BulletCharacterController(BulletPhysicsObject* pPhysicsObject);
 
 		~BulletCharacterController();
 
-		virtual void			SetTransformWS(const NodeTransform& tsfWS);
+		//virtual void						SetCollisionShape(ICapsuleCollisionShape* pCapsule) = 0;
 
-		virtual NodeTransform	GetTransformWS();
+		virtual ICapsuleCollisionShape*		GetCollisionShape();
 
-		virtual void			SetCenterLS(const Vector3& vCenter);
+		virtual void						SetStepOffset(float fStepOffset);
 
-		virtual Vector3			GetCenterLS() const;
+		virtual float						GetStepOffset();
 
-		virtual void			SetHeight(float fHeight);
+		virtual bool						IsGrounded() const;	
 
-		virtual float			GetHeight() const;
+		virtual btCollisionObject*			Start();
 
-		virtual void			SetRadius(float fRadius);
+		virtual void						Stop();
 
-		virtual float			GetRadius() const;
-
-		virtual void			SetStepOffset(float fStepOffset);
-
-		virtual float			GetStepOffset();
-
-		virtual bool			IsGrounded() const;
-
-		virtual CollisionFlags	GetCollisionState() const;		
-
-		virtual bool			Start();
-
-		virtual void			Stop();
-
-
-		void					SyncToPhysics();
-
-		void					SyncFromPhysics();
-
-		GameObject*				GetGameObject() {return m_pGameObject;}
-
-		int						GetColllLayer() {return m_nCollLayer;}
-
-	protected:
-
-		CollisionFlags MoveImpl(const Vector3& motion);
+		void								MoveImpl(const Vector3& motion);
 
 	private:
 		
-		btKinematicCharacterController* m_character;
-		btPairCachingGhostObject* m_ghostObject;
+		btKinematicCharacterController*		m_character;
+		btPairCachingGhostObject*			m_ghostObject;
 		
-		btCapsuleShape*	m_capsule;
-		float m_fHeight;
-		float m_fRadius;
-		float m_fSetpOffset;
+		float								m_fSetpOffset;
 
-		Vector3 m_vCenter;
-
-		int m_nCollLayer;
+		BulletCapsuleCollisionShape*		m_pCapsuleShape;
 		
-		GameObject*		m_pGameObject;
-		BulletScene*	m_pPhyScene;
+		BulletPhysicsObject*				m_pPhysicsObject;
 	};
 
 

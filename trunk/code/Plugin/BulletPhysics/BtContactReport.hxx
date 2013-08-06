@@ -22,13 +22,48 @@ namespace ma
 		int _status;
 	};
 
+	class CollisionPair
+	{
+	public:
+		CollisionPair(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB)
+		{
+			m_pObjectA = objectA;
+			m_pObjectB = objectB;
+		}
+
+		bool operator < (const CollisionPair& collisionPair) const
+		{
+			// If the pairs are equal, then return false.
+			if ((m_pObjectA == collisionPair.m_pObjectA && m_pObjectB == collisionPair.m_pObjectB) || 
+				(m_pObjectA == collisionPair.m_pObjectB && m_pObjectB == collisionPair.m_pObjectA))
+				return false;
+
+			// We choose to compare based on objectA arbitrarily.
+			if (m_pObjectA < collisionPair.m_pObjectA)
+				return true;
+
+			if (m_pObjectA == collisionPair.m_pObjectA)
+				return m_pObjectB < collisionPair.m_pObjectB;
+
+			return false;
+
+		}
+
+		BulletPhysicsObject* m_pObjectA;
+
+		BulletPhysicsObject* m_pObjectB;
+	};
+
 
 
 	static std::map<CollisionPair, CollisionInfo> _collisionStatus;
 	static CollisionCallback _collisionCallback;
 
-	void BulletContactReport::AddCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener)
+	void BulletContactReport::AddCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener)
 	{
+// 		btCollisionObject* pBtObjectA = objectA->GetbtCollisionObject();
+// 		btCollisionObject* pBtObjectB = objectB->GetbtCollisionObject();
+
 		// One of the collision objects in the pair must be non-null.
 		ASSERT(objectA || objectB);
 		CollisionPair pair(objectA, objectB);
@@ -39,8 +74,11 @@ namespace ma
 		info._status |= CollisionInfo::REGISTEREDD;
 	}
 
-	void BulletContactReport::RemoveCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener)
+	void BulletContactReport::RemoveCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener)
 	{
+		//btCollisionObject* pBtObjectA = objectA->GetbtCollisionObject();
+		//btCollisionObject* pBtObjectB = objectB->GetbtCollisionObject();
+
 		// One of the collision objects in the pair must be non-null.
 		ASSERT(objectA || objectB);
 		CollisionPair pair(objectA, objectB);
@@ -50,6 +88,11 @@ namespace ma
 		{
 			_collisionStatus[pair]._status |= CollisionInfo::REMOVE;
 		}
+	}
+
+	void BulletContactReport::ClearCollisionListener()
+	{
+		_collisionStatus.clear();
 	}
 
 	void BulletContactReport::Update()
@@ -88,15 +131,18 @@ namespace ma
 		iter = _collisionStatus.begin();
 		for (; iter != _collisionStatus.end(); iter++)
 		{
+			btCollisionObject* pBtObjectA = iter->first.m_pObjectA->GetbtCollisionObject();
+			btCollisionObject* pBtObjectB = iter->first.m_pObjectB->GetbtCollisionObject();
+
 			// If this collision pair was one that was registered for listening, then perform the collision test.
 			// (In the case where we register for all collisions with a rigid body, there will be a lot
 			// of collision pairs in the status cache that we did not explicitly register for.)
 			if ((iter->second._status & CollisionInfo::REGISTEREDD) != 0 && (iter->second._status & CollisionInfo::REMOVE) == 0)
 			{
 				if (iter->first.m_pObjectB)
-					pDynamicsWorld->contactPairTest((btCollisionObject*)(iter->first.m_pObjectA), (btCollisionObject*)(iter->first.m_pObjectB), _collisionCallback);
+					pDynamicsWorld->contactPairTest(pBtObjectA, pBtObjectB, _collisionCallback);
 				else
-					pDynamicsWorld->contactTest((btCollisionObject*)(iter->first.m_pObjectA), _collisionCallback);
+					pDynamicsWorld->contactTest(pBtObjectA, _collisionCallback);
 			}
 		}
 
@@ -111,8 +157,12 @@ namespace ma
 					size_t size = iter->second._listeners.size();
 					for (size_t i = 0; i < size; i++)
 					{
-						iter->second._listeners[i]->collisionEvent(
-							CollisionListener::NOT_COLLIDING, iter->first,Vector3(0,0,0),Vector3(0,0,0));
+						CollisionListener::CollisionData eventData;
+						eventData.m_eType = CollisionListener::NOT_COLLIDING;
+						eventData.m_pObjectA = iter->first.m_pObjectA;
+						eventData.m_pObjectB = iter->first.m_pObjectB;
+
+						iter->second._listeners[i]->collisionEvent(eventData);
 					}
 				}
 
@@ -121,7 +171,7 @@ namespace ma
 		}
 	}
 
-	BulletPhysicsObject* GetBulletActor(const btCollisionObject* collisionObject)
+	BulletPhysicsObject* GetBulletPhysicsObject(const btCollisionObject* collisionObject)
 	{
 		ASSERT(collisionObject);
 		return reinterpret_cast<BulletPhysicsObject*>(collisionObject->getUserPointer());
@@ -130,11 +180,9 @@ namespace ma
 	btScalar CollisionCallback::addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* a, int partIdA, int indexA, 
 		const btCollisionObjectWrapper* b, int partIdB, int indexB)
 	{
-		//ASSERT(_pc);
-
 		// Get pointers to the PhysicsCollisionObject objects.
-		btCollisionObject* objectA = /*GetBulletActor(*/(btCollisionObject*)(a->m_collisionObject)/*)*/;
-		btCollisionObject* objectB = /*GetBulletActor(*/(btCollisionObject*)(b->m_collisionObject)/*)*/;
+		BulletPhysicsObject* objectA = GetBulletPhysicsObject(a->m_collisionObject);
+		BulletPhysicsObject* objectB = GetBulletPhysicsObject(b->m_collisionObject);
 
 		// If the given collision object pair has collided in the past, then
 		// we notify the listeners only if the pair was not colliding
@@ -149,31 +197,15 @@ namespace ma
 		}
 		else
 		{
-			// Add a new collision pair for these objects.
-			collisionInfo = &_collisionStatus[pair];
-
-			// Add the appropriate listeners.
 			CollisionPair p1(pair.m_pObjectA, NULL);
+			CollisionPair p2(pair.m_pObjectB, NULL);
 			if (_collisionStatus.count(p1) > 0)
 			{
-				const CollisionInfo& ci = _collisionStatus[p1];
-				std::vector<CollisionListener*>::const_iterator iter = ci._listeners.begin();
-				for (; iter != ci._listeners.end(); iter++)
-				{
-					ASSERT(*iter);
-					collisionInfo->_listeners.push_back(*iter);
-				}
+				collisionInfo = &_collisionStatus[p1];
 			}
-			CollisionPair p2(pair.m_pObjectB, NULL);
-			if (_collisionStatus.count(p2) > 0)
+			else if (_collisionStatus.count(p2) > 0)
 			{
-				const CollisionInfo& ci = _collisionStatus[p2];
-				std::vector<CollisionListener*>::const_iterator iter = ci._listeners.begin();
-				for (; iter != ci._listeners.end(); iter++)
-				{
-					ASSERT(*iter);
-					collisionInfo->_listeners.push_back(*iter);
-				}
+				collisionInfo = &_collisionStatus[p2];
 			}
 		}
 
@@ -186,8 +218,16 @@ namespace ma
 				ASSERT(*iter);
 				if ((collisionInfo->_status & CollisionInfo::REMOVE) == 0)
 				{
-					(*iter)->collisionEvent(CollisionListener::COLLIDING, pair, ToMaUnit( cp.getPositionWorldOnA() ),
-						ToMaUnit( cp.getPositionWorldOnB() ) );
+					CollisionListener::CollisionData eventData;
+					eventData.m_eType = CollisionListener::NOT_COLLIDING;
+					eventData.m_pObjectA = pair.m_pObjectA;
+					eventData.m_pObjectB = pair.m_pObjectB;
+					eventData.m_vContactPointA = ToMaUnit( cp.getPositionWorldOnA() );
+					eventData.m_vContactPointB = ToMaUnit( cp.getPositionWorldOnB() );
+					eventData.m_vContactNoramlA = ToMaUnit(-cp.m_normalWorldOnB);
+					eventData.m_vContactNoramlB = ToMaUnit(cp.m_normalWorldOnB);
+
+					(*iter)->collisionEvent(eventData);
 				}
 			}
 		}
@@ -208,21 +248,11 @@ namespace ma
 			return false;
 
 		btCollisionObject* pbtCollObj = (btCollisionObject*)proxy0->m_clientObject;
-		if ( IsCharacterController(pbtCollObj) )
+		
+		BulletPhysicsObject* pBulletPhysObj = (BulletPhysicsObject*)pbtCollObj->getUserPointer();
+		if (pBulletPhysObj && pBulletPhysObj->GetCollisionMaterial()->m_nCollLayer == m_nTestLayer)
 		{
-			BulletCharacterController* pBulletCharContr = (BulletCharacterController*)pbtCollObj->getUserPointer();
-			if (pBulletCharContr && m_nTestLayer == pBulletCharContr->GetColllLayer())
-			{
-				return true;
-			}
-		}
-		else
-		{
-			BulletPhysicsObject* pBulletPhysObj = (BulletPhysicsObject*)pbtCollObj->getUserPointer();
-			if (pBulletPhysObj && pBulletPhysObj->GetCollLayer() == m_nTestLayer)
-			{
-				return true;
-			}
+			return true;
 		}
 
 		return false;

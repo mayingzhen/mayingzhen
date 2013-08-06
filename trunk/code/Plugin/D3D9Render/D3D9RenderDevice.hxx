@@ -412,6 +412,65 @@ namespace ma
 
 	}
 
+	void D3D9RenderDevice::DrawDynamicRenderable(Renderable* pRenderable)
+	{
+		if (pRenderable == NULL)
+			return;
+
+		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
+			return;
+
+		Material* pMaterial = pRenderable->m_pMaterial;
+		ASSERT(pMaterial);
+		pMaterial->Bind();
+		//pTech->Bind();
+
+		HRESULT hr = D3D_OK;
+
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
+
+		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
+		ASSERT(hr == D3D_OK);
+
+// 		if (pRenderable->m_pIndexBuffer)
+// 		{	
+// 			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
+// 			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
+// 			ASSERT(hr == D3D_OK);
+// 		}
+
+// 		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
+// 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
+
+		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
+
+		UINT nPrimCount = 0;
+		if (ePrimitiveType == D3DPT_TRIANGLELIST)
+		{
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 3;
+		}
+		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
+		{
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount - 2;
+		}
+		else if (ePrimitiveType == D3DPT_LINELIST)
+		{
+			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 2;
+		}
+
+		hr = m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
+			pRenderable->m_pSubMeshData->m_nVertexStart,
+			pRenderable->m_pSubMeshData->m_nVertexCount,
+			nPrimCount,
+			pRenderable->m_pIndexBuffer->GetData(),
+			D3D9Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
+			pRenderable->m_pVertexBuffers->GetData(),
+			pRenderable->m_pVertexBuffers->GetStride());
+		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
+
+		pMaterial->UnBind();
+	}
+
 	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
 		HRESULT hr;

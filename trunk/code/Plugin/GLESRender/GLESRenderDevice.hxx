@@ -389,6 +389,68 @@ namespace ma
 		pMaterial->UnBind();
 	}
 
+	void GLESRenderDevice::DrawDynamicRenderable(Renderable* pRenderable)
+	{
+		if (pRenderable == NULL)
+			return;
+
+		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
+			return;
+
+		glEnable(GL_DEPTH_TEST);
+
+		Material* pMaterial = pRenderable->m_pMaterial;
+		pMaterial->Bind();
+
+		Technique* pCurTech = pMaterial->GetCurTechnqiue();
+		ASSERT(pCurTech);
+		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
+
+		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
+		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
+
+		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration;
+
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
+		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
+		int vertexStartByte = pRenderable->m_pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		GLsizei nIndexCount = pRenderable->m_pSubMeshData->m_nIndexCount;
+		GLvoid* pIndices = pRenderable->m_pIndexBuffer->GetData();
+		GLvoid*	pVertex = pRenderable->m_pVertexBuffers->GetData();
+
+		int nSteam = pVertexDeclar->GetElementCount();
+		for (int i = 0; i < nSteam; ++i)
+		{
+			const VertexElement& ve = pVertexDeclar->GetElement(i);
+
+			GLint typeCount = 1; 
+			GLenum type = 0;
+			GLboolean normalized = false;
+			std::string name;
+			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			if (attr == -1)
+				continue;
+
+			int offset = vertexStartByte + ve.Offset;
+			void* pVBufferData = (void*)(((unsigned char*)pVertex) + offset);	
+
+			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
+
+			GL_ASSERT( glEnableVertexAttribArray(attr) );
+		}
+
+
+		if (pRenderable->m_pIndexBuffer)
+		{
+			GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIndices) );
+		}
+		else
+		{
+			//GL_ASSERT( glDrawArrays(_primitiveType, 0, _vertexCount) );
+		}
+	}
+
 
 	void GLESRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{

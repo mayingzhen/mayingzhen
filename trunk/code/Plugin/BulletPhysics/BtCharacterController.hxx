@@ -1,119 +1,84 @@
 #include "BtCharacterController.h"
 #include "BulletUtil.h"
 #include "BtPhysicsScene.h"
+#include "BtPhysicsDevive.h"
+#include "BtCollisionShape.h"
+#include "BtPhysicsObject.h"
 
 namespace ma
 {
-	BulletCharacterController::BulletCharacterController(GameObject* pGameObject,BulletScene*	pPhyScene)
+	BulletCharacterController::BulletCharacterController(BulletPhysicsObject* pPhysicsObject)
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_character = NULL;
-		m_capsule = NULL;
-		m_fHeight = 0;
-		m_fRadius = 0;
 		m_fSetpOffset = 0.5f;
-		m_nCollLayer = 3;
+		m_pCapsuleShape = NULL;
+		m_pPhysicsObject = pPhysicsObject;
 
-		m_pGameObject = pGameObject;
-		m_pPhyScene = pPhyScene;		
+		 m_pCapsuleShape = new BulletCapsuleCollisionShape();
 	}	
 
 	BulletCharacterController::~BulletCharacterController()
 	{
-
+		SAFE_DELETE(m_pCapsuleShape);
 	}
 
-	void			BulletCharacterController::SetTransformWS(const NodeTransform& tsfWS)
+	ICapsuleCollisionShape* BulletCharacterController::GetCollisionShape()
 	{
-		NodeTransform tsfTemp = tsfWS;
-		tsfTemp.m_vPos = tsfTemp.m_vPos + m_vCenter;
-		m_ghostObject->setWorldTransform( ToBulletUnit(tsfTemp) );
+		ASSERT(m_pCapsuleShape);
+		if (m_pCapsuleShape == NULL)
+			m_pCapsuleShape = new BulletCapsuleCollisionShape();
+
+		return m_pCapsuleShape;
 	}
 
-	NodeTransform BulletCharacterController::GetTransformWS()
-	{
-		NodeTransform tsfWS = ToMaUnit( m_ghostObject->getWorldTransform() );
-		tsfWS.m_vPos = tsfWS.m_vPos - m_vCenter;
-		return tsfWS;
-	}
-
-	void			BulletCharacterController::SetCenterLS(const Vector3& vCenter)
-	{
-		m_vCenter = vCenter;
-	}
-
-	Vector3		BulletCharacterController::GetCenterLS() const
-	{
-		return m_vCenter;
-	}
-
-	void			BulletCharacterController::SetHeight(float fHeight)
-	{
-		m_fHeight = fHeight;
-	}
-
-	float			BulletCharacterController::GetHeight() const
-	{
-		return m_fHeight;
-	}
-
-	void			BulletCharacterController::SetRadius(float fRadius)
-	{
-		m_fRadius = fRadius;
-	}
-
-	float			BulletCharacterController::GetRadius() const
-	{
-		return m_fRadius;
-	}
-
-	void			BulletCharacterController::SetStepOffset(float fStepOffset)
+	void BulletCharacterController::SetStepOffset(float fStepOffset)
 	{
 		m_fSetpOffset = fStepOffset;
 	}
 
-	float			BulletCharacterController::GetStepOffset()
+	float BulletCharacterController::GetStepOffset()
 	{
 		return m_fSetpOffset;
 	}
 
-	bool			BulletCharacterController::IsGrounded() const
+	bool BulletCharacterController::IsGrounded() const
 	{
 		return m_character->onGround();
 	}
 
-	CollisionFlags	BulletCharacterController::GetCollisionState() const
+	btCollisionObject* BulletCharacterController::Start()
 	{
-		return CF_None;
-	}
-
-	bool BulletCharacterController::Start()
-	{
-		btDiscreteDynamicsWorld* pbtWorld = m_pPhyScene->GetDynamicsWorld();
+		BulletScene* pBulletScene = ((BulletDevice*)GetPhysicsDevice())->GetPhysicsScene();
+		btDiscreteDynamicsWorld* pbtWorld = pBulletScene ? pBulletScene->GetDynamicsWorld() : NULL;
+		ASSERT(pbtWorld);
 		if (pbtWorld == NULL)
-			return false;
+			return NULL;
 
-		m_capsule = new btCapsuleShape(m_fRadius,m_fHeight);
-		SetTransformWS(m_pGameObject->GetSceneNode()->GetTransform(TS_WORLD));
-		//m_ghostObject->setWorldTransform(pGameObj->GetSceneNode()->GetTransformWS());
-		m_ghostObject->setCollisionShape(m_capsule);
+		btCompoundShape* pCompoundShape = new btCompoundShape();
+		btCapsuleShape* pCapsule = new btCapsuleShape(m_pCapsuleShape->GetRadius(),m_pCapsuleShape->GetHeight());
+		btTransform btTsfLs = ToBulletUnit(m_pCapsuleShape->GetTransformLS());
+		pCompoundShape->addChildShape(btTsfLs,pCapsule);
+		m_ghostObject->setCollisionShape(pCompoundShape);
 		m_ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-		m_ghostObject->setUserPointer(this);
+		//m_ghostObject->setUserPointer(m_pPhysicsObject);
+		m_ghostObject->setWorldTransform( ToBulletUnit( m_pPhysicsObject->GetGameObject()->GetSceneNode()->GetTransform() ) );
 		
-		m_character = new btKinematicCharacterController(m_ghostObject,m_capsule,m_fSetpOffset);
-		m_character->setGravity(0);
+		m_character = new btKinematicCharacterController(m_ghostObject,pCapsule/*pCompoundShape*/,m_fSetpOffset);
+		m_character->setGravity(1);
 		
 		pbtWorld->addCollisionObject(m_ghostObject,btBroadphaseProxy::CharacterFilter,btBroadphaseProxy::StaticFilter|btBroadphaseProxy::DefaultFilter);
 		pbtWorld->addCharacter(m_character);
 
-		SyncToPhysics();
 		
-		return true;
+		return m_ghostObject;
 	}
 
 	void BulletCharacterController::Stop()
 	{
-		btDiscreteDynamicsWorld* pbtWorld = m_pPhyScene->GetDynamicsWorld();
+		BulletScene* pBulletScene = ((BulletDevice*)GetPhysicsDevice())->GetPhysicsScene();
+		btDiscreteDynamicsWorld* pbtWorld = pBulletScene ? pBulletScene->GetDynamicsWorld() : NULL;
+		ASSERT(pbtWorld);
 		if (pbtWorld == NULL)
 			return;
 
@@ -123,35 +88,10 @@ namespace ma
 		}
 	}
 
-	void BulletCharacterController::SyncToPhysics()
-	{
-		if (m_pGameObject == NULL)
-			return;
-
-		Vector3 vMovePos = m_pGameObject->GetSceneNode()->GetPosition(TS_WORLD) + m_vCenter;
-
-		Vector3 vCharPosPre = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		Vector3 motion =vMovePos - vCharPosPre;
-
-		MoveImpl(motion);
-	}
-
-	void BulletCharacterController::SyncFromPhysics()
-	{
-		if (m_pGameObject == NULL)
-			return;
-
-		Vector3 charPos = ToMaUnit(m_ghostObject->getWorldTransform().getOrigin());
-		m_pGameObject->GetSceneNode()->SetPosition(charPos,TS_WORLD);
-		//Vector3 vPosWSNew = charPos - m_vCenter;
-		//Vector3 vPosWSOld = m_pGameObject->GetPositionWS();
-		//Vector3 vDirWs = vPosWSNew - vPosWSOld;
-		//m_pGameObject->TranslateWS(vDirWs);
-	}
-
-	CollisionFlags BulletCharacterController::MoveImpl(const Vector3& motion)
+	void BulletCharacterController::MoveImpl(const Vector3& motion)
 	{
 		m_character->setWalkDirection(ToBulletUnit(motion));
-		return CF_None;
 	}
+
+
 }

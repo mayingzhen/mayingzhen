@@ -10,10 +10,6 @@ namespace ma
 		virtual void			SetTransformLS(const NodeTransform& tsfLS) = 0;
 
 		virtual NodeTransform	GetTransformLS() = 0;
-
-		virtual	void			SetCollisionLayer(int nCollLayer) = 0;
-		
-		virtual int				GetCollisionLayer() = 0;
 	};
 
 	class ENGINE_API IBoxCollisionShape : public ICollisionShape
@@ -32,7 +28,7 @@ namespace ma
 		virtual	float			GetRadius() = 0;
 	};
 
-	class ENGINE_API ICapsuleShape : public ICollisionShape
+	class ENGINE_API ICapsuleCollisionShape : public ICollisionShape
 	{
 	public:
 		virtual void			SetHeight(float fHeight) = 0;

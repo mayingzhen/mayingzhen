@@ -4,41 +4,57 @@
 namespace ma
 {
 	class Sample;
+	class CameraController;
+	class Camera;
 
 	class SampleBrowser : public Game,Control::Listener,OIS::KeyListener
 	{
 	public:
 		SampleBrowser(const char* pGameName);
 
-		virtual void	Init();
+		virtual void		Init();
 
-		virtual void	Shutdown();
+		virtual void		Shutdown();
 
-		virtual void	Update();
+		virtual void		Update();
 
-		virtual void	Render();
+		virtual void		Render();
 
- 		virtual void	controlEvent(Control* control, EventType evt);
+ 		virtual void		controlEvent(Control* control, EventType evt);
 
-		virtual bool	keyPressed(const OIS::KeyEvent &arg);
+		virtual bool		keyPressed(const OIS::KeyEvent &arg);
 
-		virtual bool	keyReleased(const OIS::KeyEvent &arg);		
+		virtual bool		keyReleased(const OIS::KeyEvent &arg);	
+
+		CameraController*	GetCameraController() {return m_pCameraControl;}
+
+		Camera*				GetCamera() {return m_pCamera;}
 
 	private:
-		void			LoadUI();
+		void				LoadUI();
+
+		void				InitCamera();
+
+		void				RunSample(const char* pSampleNma);
 
 	private:
-		std::vector<Sample*>	m_arrSamples;
-		int						m_curSampleIndex;
+		std::map<std::string,Sample*>	m_arrSamples;
 
-		Time					m_Timer;
-		Input					m_Input;
+		Sample*							m_pCurSample;
 
-		Form*					m_pSampleSelectForm; 
+		Time							m_Timer;
+		Input							m_Input;
 
-		bool					m_bPause;
-		bool					m_bStepOneFrame;
+		Form*							m_pSampleSelectForm; 
+
+		bool							m_bPause;
+		bool							m_bStepOneFrame;
+
+		CameraController*				m_pCameraControl;
+		Camera*							m_pCamera;
 	};
+
+	SampleBrowser* GetSampleBrowser();
 }
 
 

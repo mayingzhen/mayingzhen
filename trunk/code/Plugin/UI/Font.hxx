@@ -117,7 +117,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
 
     // Add linear filtering for better font quality.
     Sampler* sampler = batch->getSampler();
-    sampler->setFilterMode(TFO_BILINEAR);
+    sampler->setFilterMode(Sampler::TFO_BILINEAR);
 
     // Increase the ref count of the texture to retain it.
     texture->IncReference();

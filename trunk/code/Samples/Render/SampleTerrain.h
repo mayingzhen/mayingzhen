@@ -10,7 +10,9 @@ namespace ma
 	public:
 		SampleTerrain();
 
-		virtual void Init();
+		virtual void Load();
+
+		virtual	void UnLoad();
 
 		virtual void Update();
 

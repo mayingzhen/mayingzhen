@@ -9,18 +9,9 @@ namespace ma
 	{
 	}
 
-	void SampleAnimationRetarget::Init()
-	{
-		Sample::Init();
-
-		Load();
-	}
 
 	void SampleAnimationRetarget::Load()
-	{		
-		if (GetRenderDevice() == NULL)
-			return;
-
+	{	
 		// DataConver
 #if PLATFORM_WIN == 1
 		{
@@ -108,6 +99,15 @@ namespace ma
 		}
 	}
 
+	void SampleAnimationRetarget::UnLoad()
+	{
+		SAFE_DELETE(m_pRenderMeshA_b);
+		SAFE_DELETE(m_pRenderMeshA_f);
+		SAFE_DELETE(m_pRenderMeshA_h);
+
+		SAFE_DELETE(m_pRenderMeshB);
+	}
+
 	void SampleAnimationRetarget::OnInput()
 	{
 		Input* pInput = GetInput();
@@ -138,8 +138,6 @@ namespace ma
 
 	void SampleAnimationRetarget::Update()
 	{
-		Sample::Update();
-
 		OnInput();
 
 		if (ma::GetTimer() == NULL)

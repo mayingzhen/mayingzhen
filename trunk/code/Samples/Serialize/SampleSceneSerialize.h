@@ -10,9 +10,9 @@ namespace ma
 	public:
 		SampleSceneSerialize();
 
-		virtual void Init();
-
 		virtual void Load();
+
+		virtual void UnLoad();
 
 		virtual void Update();
 

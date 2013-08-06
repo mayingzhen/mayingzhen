@@ -1,14 +1,17 @@
 #include "Framwork/stdAfx.h"
 #include "Framwork/Module.h"
 
-
 #include "Framwork/Component/Component.hxx"
 #include "Framwork/Component/AnimPlayComponent.hxx"
 #include "Framwork/Component/MeshComponent.hxx"
 #include "Framwork/Component/ParticleComponent.hxx"
+#include "Framwork/Component/ScriptComponent.hxx"
+
+// Physics
 #include "Framwork/Component/RigidbodyComponent.hxx"
 #include "Framwork/Component/CollisionComponent.hxx"
-#include "Framwork/Component/ScriptComponent.hxx"
+#include "Framwork/Component/CharaControlComponent.hxx"
+#include "Framwork/Component/JointComponent.hxx"
 
 
 #include "Framwork/GameObj.hxx"

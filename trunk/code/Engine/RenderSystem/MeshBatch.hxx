@@ -249,29 +249,30 @@ namespace ma
 
 	void MeshBatch::finish()
 	{
-		if (_indices)
-		{
-			void* pIbLock = m_pIndexBuffer->Lock(0,m_pIndexBuffer->GetSize(),LOCK_DISCARD);		
-			memcpy(pIbLock,_indices,_indexCount * sizeof(Uint16));	
-			m_pIndexBuffer->Unlock();
-		}
-
-		void* pVbLock = m_pVertexBuffers->Lock(0,m_pVertexBuffers->GetSize(),LOCK_DISCARD);
-		memcpy(pVbLock,_vertices,_vertexCount * m_pDeclaration->GetStreanmStride());	
-		m_pVertexBuffers->Unlock();
-
-		m_pSubMeshData->m_nIndexCount = _indexCount;
-		m_pSubMeshData->m_nVertexCount = _vertexCount;
+// 		if (_indices)
+// 		{
+// 			void* pIbLock = m_pIndexBuffer->Lock(0,m_pIndexBuffer->GetSize(),LOCK_DISCARD);		
+// 			memcpy(pIbLock,_indices,_indexCount * sizeof(Uint16));	
+// 			m_pIndexBuffer->Unlock();
+// 		}
+// 
+// 		void* pVbLock = m_pVertexBuffers->Lock(0,m_pVertexBuffers->GetSize(),LOCK_DISCARD);
+// 		memcpy(pVbLock,_vertices,_vertexCount * m_pDeclaration->GetStreanmStride());	
+// 		m_pVertexBuffers->Unlock();
+// 
+ 		m_pSubMeshData->m_nIndexCount = _indexCount;
+ 		m_pSubMeshData->m_nVertexCount = _vertexCount;
 	}
 
-// 	void MeshBatch::draw()
-// 	{
-// 		if (_vertexCount == 0 || (_indexed && _indexCount == 0))
-// 			return; // nothing to draw
-// 
-// 		GetRenderDevice()->DrawRenderable(this);
-// 
-// 	}
-//     
+	void MeshBatch::draw()
+	{
+		if (_vertexCount == 0 || (_indexed && _indexCount == 0))
+			return; // nothing to draw
+
+		//GetRenderDevice()->DrawRenderable(this);
+		GetRenderDevice()->DrawDynamicRenderable(this);
+
+	}
+     
 
 }

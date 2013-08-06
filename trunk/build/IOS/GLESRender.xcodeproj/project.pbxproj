@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F32FB3617A5106300B1DFCC /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F32FB3517A5106300B1DFCC /* libDevIL.a */; };
 		6FB7D7991796760B00D771E5 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7951796760B00D771E5 /* Module.cpp */; };
 		6FB7D79A1796760B00D771E5 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7971796760B00D771E5 /* stdafx.cpp */; };
-		6FD5653017952B3100B4C59A /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD5652F17952B3100B4C59A /* libDevIL.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F32FB3517A5106300B1DFCC /* libDevIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDevIL.a; path = ../../extern/DevIL/lib/IOS/libDevIL.a; sourceTree = "<group>"; };
 		6FA78E5A179430A1005B3CD6 /* libGLESRender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGLESRender.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FB7D7831796760B00D771E5 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		6FB7D7841796760B00D771E5 /* GLESBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESBase.h; sourceTree = "<group>"; };
@@ -48,7 +49,6 @@
 		6FB7D7961796760B00D771E5 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		6FB7D7971796760B00D771E5 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
 		6FB7D7981796760B00D771E5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
-		6FD5652F17952B3100B4C59A /* libDevIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDevIL.a; path = ../../extern/DevIL/lib/libDevIL.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FD5653017952B3100B4C59A /* libDevIL.a in Frameworks */,
+				6F32FB3617A5106300B1DFCC /* libDevIL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,8 +66,8 @@
 		6FA78E51179430A1005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6F32FB3517A5106300B1DFCC /* libDevIL.a */,
 				6FB7D7821796760B00D771E5 /* GLESRender */,
-				6FD5652F17952B3100B4C59A /* libDevIL.a */,
 				6FA78E5B179430A1005B3CD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -233,10 +233,11 @@
 					../../code/,
 					../../code/plugin/,
 					../../extern/DevIL/include/,
+					../../extern/oisinput/include/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/DevIL/lib\"",
+					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -257,10 +258,11 @@
 					../../code/,
 					../../code/plugin/,
 					../../extern/DevIL/include/,
+					../../extern/oisinput/include/,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/DevIL/lib\"",
+					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

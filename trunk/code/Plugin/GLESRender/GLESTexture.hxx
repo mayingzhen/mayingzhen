@@ -28,7 +28,7 @@ namespace ma
 
 #if defined(_WIN32)
 		//ilSetEtcDecompress(IL_TRUE);
-		ilSetInteger(IL_DXT_DONT_DECOMP, IL_TRUE);
+		//ilSetInteger(IL_DXT_DONT_DECOMP, IL_TRUE);
 		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
 #elif defined(__APPLE__)
 #if defined(TARGET_OS_IPHONE)
@@ -136,11 +136,11 @@ namespace ma
 			}
 			break;
 
-// 		case IL_DXT1:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-// 			}
-// 			break;
+		case IL_DXT1:
+			{
+				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+			}
+			break;
 
 // 		case IL_DXT3:
 // 			{
@@ -312,6 +312,12 @@ namespace ma
 		GL_ASSERT( glGenTextures(1, &m_pTex) );
 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 
+// 		GLint minFilter = m_nMipLevels > 1 ? GL_NEAREST_MIPMAP_LINEAR : GL_LINEAR;
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter ) );
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE) );
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE) );
+
 		int i = 0;
 		while(ilActiveMipmap(i))
 		{	
@@ -349,12 +355,12 @@ namespace ma
 
 	void GLESTexture::GenerateMipmaps()
 	{
-		if (m_nMipLevels <= 1)
-		{
+		//if (m_nMipLevels <= 1)
+		//{
 			GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 			GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
 			GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
-		}
+		//}
 	}
 
 	void GLESTexture::ConvertImageData(int pixelFormat,int nPixelCount,Uint8* pPixel)

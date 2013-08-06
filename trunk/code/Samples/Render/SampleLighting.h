@@ -8,15 +8,11 @@ namespace ma
 	public:
 		SampleLighting();
 
-		virtual void Init(ApplicationBase* pApplication);
-
-		virtual void Shutdown();
-
 		virtual void Load();
 
-		virtual void Unload();
+		virtual void UnLoad();
 
-		virtual void Tick(float timeElapsed);
+		virtual void Update();
 
 		virtual void Render();
 

@@ -292,7 +292,7 @@ namespace ma
 		Quaternion qRot;
 		const Vector3 vY(0.0f,1.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
-		Rotate(qRot,TS_LOCAL);
+		Rotate(qRot,TS_WORLD);
 
 	}
 

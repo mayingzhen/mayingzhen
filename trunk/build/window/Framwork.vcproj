@@ -220,27 +220,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\CollisionComponent.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Component\CollisionComponent.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Code\Framwork\Component\Component.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\Code\Framwork\Component\Component.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Framwork\Component\JointComponent.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Framwork\Component\JointComponent.hxx"
 					>
 				</File>
 				<File
@@ -260,14 +244,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Code\Framwork\Component\ScriptComponent.h"
 					>
 				</File>
@@ -275,6 +251,42 @@
 					RelativePath="..\..\Code\Framwork\Component\ScriptComponent.hxx"
 					>
 				</File>
+				<Filter
+					Name="Physics"
+					>
+					<File
+						RelativePath="..\..\code\Framwork\Component\CharaControlComponent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\Framwork\Component\CharaControlComponent.hxx"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Code\Framwork\Component\CollisionComponent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Code\Framwork\Component\CollisionComponent.hxx"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\Framwork\Component\JointComponent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\Framwork\Component\JointComponent.hxx"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.hxx"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<File

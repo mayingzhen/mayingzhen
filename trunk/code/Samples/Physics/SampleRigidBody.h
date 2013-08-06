@@ -11,18 +11,15 @@ namespace ma
 	public:
 		SampleRigidBody();
 
-		virtual void Init();
-
 		virtual void Load();
+
+		virtual void UnLoad();
 
 		virtual void Update();
 
 		virtual void Render();
 
-		virtual void collisionEvent(CollisionListener::EventType type,
-			const CollisionPair& collisionPair,
-			const Vector3& contactPointA,
-			const Vector3& contactPointB);
+		virtual void collisionEvent(const CollisionData& eventData);
 
 	private:
 		IRigidBody* m_pRigidBody;

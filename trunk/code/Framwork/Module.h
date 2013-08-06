@@ -14,12 +14,13 @@
 #include "Framwork/Component/AnimPlayComponent.h"
 #include "Framwork/Component/MeshComponent.h"
 #include "Framwork/Component/ParticleComponent.h"
-#include "Framwork/Component/RigidbodyComponent.h"
-#include "Framwork/Component/CollisionComponent.h"
 #include "Framwork/Component/ScriptComponent.h"
 
-
-
+// Physics
+#include "Framwork/Component/RigidbodyComponent.h"
+#include "Framwork/Component/CharaControlComponent.h"
+#include "Framwork/Component/CollisionComponent.h"
+#include "Framwork/Component/JointComponent.h"
 
 FRAMWORK_API void FramworkModuleInit();
 

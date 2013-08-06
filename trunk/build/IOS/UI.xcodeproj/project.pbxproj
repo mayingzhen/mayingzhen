@@ -266,7 +266,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin/,
-					../../Extern/Include/,
+					../../Extern/oisinput/include/,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -286,7 +286,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin/,
-					../../Extern/Include/,
+					../../Extern/oisinput/include/,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

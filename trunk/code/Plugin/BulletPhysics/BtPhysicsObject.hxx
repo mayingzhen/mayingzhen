@@ -1,9 +1,10 @@
 #include "BtPhysicsObject.h"
-#include "BulletPhysics/BtCollisionShape.h"
-#include "BulletPhysics/BtRigidBody.h"
-#include "BulletPhysics/BulletUtil.h"
+#include "BtCollisionShape.h"
+#include "BtRigidBody.h"
+#include "BulletUtil.h"
 #include "BtPhysicsScene.h"
 #include "BtPhysicsJoint.h"
+#include "BtCharacterController.h"
 
 
 namespace ma
@@ -13,7 +14,7 @@ namespace ma
 	{
 		m_pBtCollObject = NULL;
 		m_pRigidBody = NULL;
-		m_nCollLayer = 0;
+		m_pCharaControll = NULL;
 
 		m_pGameObject = pGameObject;
 		m_pPhyScene = pPhyScene;
@@ -21,10 +22,22 @@ namespace ma
 		TransformSetIdentity(&m_tsfWS);
 	}
 
+	CollisionMaterial* BulletPhysicsObject::GetCollisionMaterial()
+	{
+		return &m_material;	
+	}
+
 	void BulletPhysicsObject::InitCollObject()
 	{
-		if (m_vBoxCollisionShape.empty() && m_vSphereCollisionShape.empty() && m_pRigidBody == NULL)
+		if (m_vCapsuleCollisionShape.empty() && 
+			m_vBoxCollisionShape.empty() && 
+			m_vSphereCollisionShape.empty() && 
+			m_pRigidBody == NULL)
+		{
 			return ;
+		}
+		
+		ASSERT(m_pBtCollObject == NULL);
 
 		btDiscreteDynamicsWorld* pBtDynamicsWorld = m_pPhyScene->GetDynamicsWorld();
 		if (pBtDynamicsWorld == NULL)
@@ -33,7 +46,7 @@ namespace ma
 		btCompoundShape* pCompoundShape = new btCompoundShape();
 		for (UINT i = 0; i < m_vBoxCollisionShape.size(); ++i)
 		{
-			BulletBoxCollisionShape* pBtBoxCollisionShape = (BulletBoxCollisionShape*)m_vBoxCollisionShape[i];
+			BulletBoxCollisionShape* pBtBoxCollisionShape = m_vBoxCollisionShape[i];
 			ASSERT(pBtBoxCollisionShape);
 			if (pBtBoxCollisionShape == NULL)
 				continue;
@@ -41,14 +54,10 @@ namespace ma
 			btBoxShape* pBtShape = new btBoxShape( ToBulletUnit( pBtBoxCollisionShape->GetSize() ) * 0.5f );
 			btTransform btTsfLs = ToBulletUnit(pBtBoxCollisionShape->GetTransformLS());
 			pCompoundShape->addChildShape(btTsfLs,pBtShape);
-
-			int nTempCollLayer = pBtBoxCollisionShape->GetCollisionLayer();
-			ASSERT(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
-			m_nCollLayer = nTempCollLayer;
 		}
 		for (UINT i = 0; i < m_vSphereCollisionShape.size(); ++i)
 		{
-			BulletSphereCollisionShape* pBtSphereCollisionShape = (BulletSphereCollisionShape*)m_vSphereCollisionShape[i];
+			BulletSphereCollisionShape* pBtSphereCollisionShape = m_vSphereCollisionShape[i];
 			ASSERT(pBtSphereCollisionShape);
 			if (pBtSphereCollisionShape == NULL)
 				continue;
@@ -56,10 +65,19 @@ namespace ma
 			btSphereShape* pBtShape = new btSphereShape(pBtSphereCollisionShape->GetRadius());
 			btTransform btTsfLs = ToBulletUnit(pBtSphereCollisionShape->GetTransformLS());
 			pCompoundShape->addChildShape(btTsfLs,pBtShape);
+		}
+		for (UINT i = 0; i < m_vCapsuleCollisionShape.size(); ++i)
+		{
+			BulletCapsuleCollisionShape* pBtCapusleCollisionShape = m_vCapsuleCollisionShape[i];
+			ASSERT(pBtCapusleCollisionShape);
+			if (pBtCapusleCollisionShape == NULL)
+				continue;
 
-			int nTempCollLayer = pBtSphereCollisionShape->GetCollisionLayer();
-			ASSERT(m_nCollLayer == 0 || m_nCollLayer == nTempCollLayer);
-			m_nCollLayer = nTempCollLayer;
+			float fRadius = pBtCapusleCollisionShape->GetRadius();
+			float fHeight = pBtCapusleCollisionShape->GetHeight();
+			btCapsuleShape* pBtShape = new btCapsuleShape(fRadius,fHeight);
+			btTransform btTsfLs = ToBulletUnit(pBtCapusleCollisionShape->GetTransformLS());
+			pCompoundShape->addChildShape(btTsfLs,pBtShape);
 		}
 
 		BulletRigidBody* pBulletRigidBody = (BulletRigidBody*)m_pRigidBody;
@@ -76,40 +94,37 @@ namespace ma
 			pBtDynamicsWorld->addCollisionObject(m_pBtCollObject);	
 		}
 
-		m_pBtCollObject->setUserPointer(this);
-
-		SyncToPhysics();
 	}
 
-	void BulletPhysicsObject::InitJoint()
+	void BulletPhysicsObject::InitCharControll()
 	{
-		for (UINT i = 0; i < m_vGenericJoint.size(); ++i)
-		{
-			BulletPhysicsGenericJoint* pGenerGenericJoint = (BulletPhysicsGenericJoint*)m_vGenericJoint[i];
-			ASSERT(pGenerGenericJoint);
-			if (pGenerGenericJoint == NULL)
-				continue;
+		if (m_pCharaControll == NULL)
+			return;
 
-			pGenerGenericJoint->Create();
-		}
+		m_pBtCollObject = m_pCharaControll->Start();
+	}
 
-		for (UINT i = 0; i < m_vHingeJoint.size(); ++i)
-		{
-			BulletPhysicsHingeJoint* pHingeJoint = (BulletPhysicsHingeJoint*)m_vHingeJoint[i];
-			ASSERT(pHingeJoint);
-			if (pHingeJoint == NULL)
-				continue;
+	void BulletPhysicsObject::InitMaterial()
+	{
+		if (m_pBtCollObject == NULL)
+			return;
 
-			pHingeJoint->Create();
-		}
-		
+		m_pBtCollObject->setRestitution(m_material.m_restitution);
+		m_pBtCollObject->setFriction(m_material.m_friction);
+		m_pBtCollObject->setRollingFriction(m_material.m_rollingFriction);
 	}
 
 	bool BulletPhysicsObject::Start()
 	{
+		InitCharControll();
+
 		InitCollObject();
 
-		InitJoint();
+		InitMaterial();
+
+		m_pBtCollObject->setUserPointer(this);
+
+		SyncToPhysics();
 
 		return true;
 	}
@@ -144,8 +159,18 @@ namespace ma
 		ASSERT(pSceneNode);
 		if (pSceneNode == NULL)
 			return;
-
-		SetTransformWS( pSceneNode->GetTransform(TS_WORLD) );
+		
+		if (m_pCharaControll)
+		{
+			Vector3 vMovePos = m_pGameObject->GetSceneNode()->GetPosition(TS_WORLD);
+			Vector3 vCharPosPre = ToMaUnit( m_pBtCollObject->getWorldTransform().getOrigin() );
+			Vector3 motion =vMovePos - vCharPosPre;
+			m_pCharaControll->MoveImpl(motion);
+		}
+		else
+		{
+			SetTransformWS( pSceneNode->GetTransform(TS_WORLD) );
+		}
 	}
 
 	void BulletPhysicsObject::SyncFromPhysics()
@@ -174,12 +199,12 @@ namespace ma
 
 	void BulletPhysicsObject::AddCollisionListener(IPhysicsObject* objectB,CollisionListener* pListener)
 	{
-
+		BulletContactReport::AddCollisionListener(this,(BulletPhysicsObject*)objectB,pListener);
 	}
 
 	void BulletPhysicsObject::AddCollisionListener(ICharaControll* objectB)
 	{
-
+		//BulletContactReport::RemoveCollisionListener();
 	}
 
 	NodeTransform BulletPhysicsObject::GetTransformWS()
@@ -192,7 +217,7 @@ namespace ma
 		return m_tsfWS;
 	}
 
-	IRigidBody*				BulletPhysicsObject::CreateRigidBody()
+	IRigidBody*	BulletPhysicsObject::CreateRigidBody()
 	{
 		ASSERT(m_pRigidBody == NULL);
 
@@ -214,19 +239,19 @@ namespace ma
 		return pSpherColl;
 	}
 
-
-	IPhysicsGenericJoint*	BulletPhysicsObject::CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjB)
+	ICapsuleCollisionShape* BulletPhysicsObject::CreateCapsuleCollisionShape()
 	{
-		BulletPhysicsGenericJoint* pGenericJoint = new BulletPhysicsGenericJoint(this,pPhyObjB);
-		m_vGenericJoint.push_back(pGenericJoint);
-		return pGenericJoint;
+		BulletCapsuleCollisionShape* pCapsuleShape = new BulletCapsuleCollisionShape();
+		m_vCapsuleCollisionShape.push_back(pCapsuleShape);
+		return pCapsuleShape;
 	}
 
-
-	IPhysicsHingeJoint*		BulletPhysicsObject::CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjB)
+	ICharaControll*	BulletPhysicsObject::CreateCharaControll()
 	{
-		BulletPhysicsHingeJoint* pHingeJoint = new BulletPhysicsHingeJoint(this,pPhyObjB);
-		m_vHingeJoint.push_back(pHingeJoint);
-		return pHingeJoint;
+		ASSERT(m_pCharaControll == NULL);
+		BulletCharacterController* pBtCharater = new BulletCharacterController(this);
+		m_pCharaControll = pBtCharater;
+		return pBtCharater;
 	}
+
 }

@@ -449,7 +449,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../include;../../extlibs/libjpeg;../../include/IL;&quot;../../Src-IL/include&quot;;../../extlibs/libpng;../../extlibs/libtiff/libtiff;../../extlibs/littlecms/include;../../extlibs/libmng;../../extlibs/zlib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;IL_EXPORTS;__RELEASE_GRAPHIC_ENGINE__"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"

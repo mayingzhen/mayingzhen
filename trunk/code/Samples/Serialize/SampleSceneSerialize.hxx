@@ -9,18 +9,11 @@ namespace ma
 		m_pScene = NULL;
 	}
 
-	void SampleSceneSerialize::Init()
-	{
-		Sample::Init();
-
-		m_fZoomSpeed *= 0.5; 
-
-		Load();
-	}
-
-
 	void SampleSceneSerialize::Load()
-	{	
+	{
+		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
+		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
+
 		Scene* pScene = new Scene();
 
 		pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
@@ -30,7 +23,7 @@ namespace ma
 			pGameObj->SetName("Test");
 
 			//RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
-			
+
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
@@ -65,11 +58,14 @@ namespace ma
 		m_pScene->Start();
 	}
 
+	void SampleSceneSerialize::UnLoad()
+	{
+		m_pScene->Stop();
+		SAFE_DELETE(m_pScene);
+	}
 
 	void SampleSceneSerialize::Update()
 	{
-		Sample::Update();
-
 		if (GetInput()->IsKeyDown(OIS::KC_X))
 		{
 			{
@@ -98,7 +94,7 @@ namespace ma
 
 	void SampleSceneSerialize::Render()
 	{
-		m_pScene->Render(m_pCamera);
+		m_pScene->Render(GetCamera());
 	}
 
 }

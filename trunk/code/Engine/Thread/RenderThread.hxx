@@ -90,6 +90,7 @@ namespace ma
 
 		AddCommand(eRC_BeginFrame);
 	}
+
 	void RenderThread::RC_EndFrame()
 	{
 		if (IsRenderThread())
@@ -101,6 +102,18 @@ namespace ma
 		AddCommand(eRC_EndFrame);
 		FlushFrame();
 	}
+
+	void RenderThread::RC_DrawRenderable(Renderable* pRenderable)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->DrawRenderable(pRenderable);
+			return;
+		}
+
+		AddCommand(eRC_DrawRenderable);
+
+	}	
 
 	void RenderThread::ProcessCommands()
 	{

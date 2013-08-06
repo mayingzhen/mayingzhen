@@ -10,10 +10,12 @@ namespace ma
 	class BulletContactReport
 	{
 	public:
-		static void AddCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener = NULL);
+		static void AddCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener = NULL);
 
-		static void RemoveCollisionListener(GameObject* objectA, GameObject* objectB,CollisionListener* listener = NULL);
-	
+		static void RemoveCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener = NULL);
+		
+		static void ClearCollisionListener();
+
 		static void Update();
 	};
 

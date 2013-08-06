@@ -253,7 +253,7 @@
 				GCC_PREFIX_HEADER = ../../code/Framwork/stdafx.h;
 				HEADER_SEARCH_PATHS = (
 					../../code/,
-					../../extern/include/,
+					../../extern/oisinput/include/,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -272,7 +272,7 @@
 				GCC_PREFIX_HEADER = ../../code/Framwork/stdafx.h;
 				HEADER_SEARCH_PATHS = (
 					../../code/,
-					../../extern/include/,
+					../../extern/oisinput/include/,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

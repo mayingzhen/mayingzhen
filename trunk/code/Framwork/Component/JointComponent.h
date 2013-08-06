@@ -3,10 +3,17 @@
 
 namespace ma
 {
-	class GenericJointComponent : public Component
+	class FRAMWORK_API GenericJointComponent : public Component
 	{
+		DECL_OBJECT(GenericJointComponent)
+
 	public:
 		GenericJointComponent(GameObject* pGameObject);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "GenericJointComponent")
+		{
+			ASSERT(false);
+		}
 
 		IPhysicsGenericJoint* GetPhysicsGenericJoint() {return m_pPhysicsGenericJoint;}
 
@@ -15,10 +22,14 @@ namespace ma
 
 	};
 
-	class FixJointComponent : public Component
+	class FRAMWORK_API FixJointComponent : public Component
 	{
+		DECL_OBJECT(FixJointComponent)
+
 	public:
 		FixJointComponent(GameObject* pGameObject);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "FixJointComponent");
 
 		IPhysicsJoint*	GetPhysicsFixJoint() {return m_pPhysicsFixJoint;}
 		
@@ -27,10 +38,17 @@ namespace ma
 	};
 
 	
-	class HingJointComponent : public Component
+	class FRAMWORK_API HingJointComponent : public Component
 	{
+		DECL_OBJECT(HingJointComponent)
+
 	public:
 		HingJointComponent(GameObject* pGameObject);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "HingJointComponent")
+		{
+			ASSERT(false);
+		}
 		
 		IPhysicsHingeJoint*	GetPhysicsHingeJoint() {return m_pPhysicsHingeJoint;}
 

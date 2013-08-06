@@ -21,14 +21,11 @@ static ShaderProgram* __formEffect = NULL;
 static std::vector<Form*> __forms;
 
 Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),/* _node(NULL),*/
-   /* _nodeQuad(NULL),*/ _nodeMaterial(NULL) , _u2(0), _v1(0), _isGamepad(false)
+   /* _nodeQuad(NULL),*/ _nodeMaterial(NULL) , _u2(0), _v1(0)/*, _isGamepad(false)*/
 {
-	//GetInput()->GetMouse()->setEventCallback(this);
-	//GetInput()->GetKeyboard()->setEventCallback(this);
-
-#if PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
-	//GetInput()->GetMultiTouch()->setEventCallback(this);
-#endif
+	GetInput()->AddKeyListener(this);
+	GetInput()->AddMouseListener(this);
+	GetInput()->AddTouchListener(this);
 }
 
 Form::~Form()
@@ -56,66 +53,86 @@ Form::~Form()
 
 bool Form::mouseMoved( const OIS::MouseEvent &arg )
 {
-	mouseEvent(Mouse::MOUSE_MOVE, arg.state.X.rel, arg.state.Y.rel, 0);
+	if (!mouseEventInternal(Mouse::MOUSE_MOVE, arg.state.X.abs, arg.state.Y.abs, 0))
+	{
+		touchEventInternal(Touch::TOUCH_MOVE,arg.state.X.abs,arg.state.Y.abs,0);
+	}
 
 	return true;
 }
 
 bool Form::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
+	bool res = false;
 	if (id == OIS::MB_Left)
-		mouseEvent(Mouse::MOUSE_PRESS_LEFT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	{
+		if (!mouseEventInternal(Mouse::MOUSE_PRESS_LEFT_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0))
+		{
+			touchEventInternal(Touch::TOUCH_PRESS,arg.state.X.abs,arg.state.Y.abs,0);	
+		}
+	}
 	else if (id == OIS::MB_Middle)
-		mouseEvent(Mouse::MOUSE_PRESS_MIDDLE_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	{
+		res = mouseEventInternal(Mouse::MOUSE_PRESS_MIDDLE_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0);
+	}
 	else if (id == OIS::MB_Right)
-		mouseEvent(Mouse::MOUSE_PRESS_RIGHT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
-	
+	{
+		res = mouseEventInternal(Mouse::MOUSE_PRESS_RIGHT_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0);
+	}
+
 	return true;
 }
 
 bool Form::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	if (id == OIS::MB_Left)
-		mouseEvent(Mouse::MOUSE_RELEASE_LEFT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	{
+		if ( !mouseEventInternal(Mouse::MOUSE_RELEASE_LEFT_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0) )
+			touchEventInternal(Touch::TOUCH_RELEASE, arg.state.X.abs, arg.state.Y.abs, 0);
+	}
 	else if (id == OIS::MB_Middle)
-		mouseEvent(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	{
+		mouseEventInternal(Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0);
+	}
 	else if (id == OIS::MB_Right)
-		mouseEvent(Mouse::MOUSE_RELEASE_RIGHT_BUTTON, arg.state.X.rel, arg.state.Y.rel, 0);
+	{
+		mouseEventInternal(Mouse::MOUSE_RELEASE_RIGHT_BUTTON, arg.state.X.abs, arg.state.Y.abs, 0);
+	}
 
 	return true;
 }
 
 bool Form::keyPressed(const OIS::KeyEvent &arg)
 {
-	keyEvent(Keyboard::KEY_PRESS,arg.key);
+	keyEventInternal(Keyboard::KEY_PRESS,arg.key);
 
 	return true;
 }
 
 bool Form::keyReleased(const OIS::KeyEvent &arg)
 {
-	keyEvent(Keyboard::KEY_RELEASE,arg.key);
+	keyEventInternal(Keyboard::KEY_RELEASE,arg.key);
 
 	return true;
 }
 
 bool Form::touchMoved( const OIS::MultiTouchEvent &arg )
 {
-	touchEvent(Touch::TOUCH_MOVE,arg.state.X.rel,arg.state.Y.rel,0);
+	touchEventInternal(Touch::TOUCH_MOVE,arg.state.X.abs,arg.state.Y.abs,0);
 
 	return true;
 }
 
 bool Form::touchPressed( const OIS::MultiTouchEvent &arg )
 {
-	touchEvent(Touch::TOUCH_PRESS,arg.state.X.rel,arg.state.Y.rel,0);
+	touchEventInternal(Touch::TOUCH_PRESS,arg.state.X.abs,arg.state.Y.abs,0);
 
 	return true;
 }
 
 bool Form::touchReleased( const OIS::MultiTouchEvent &arg )
 {
-	touchEvent(Touch::TOUCH_RELEASE,arg.state.X.rel,arg.state.Y.rel,0);
+	touchEventInternal(Touch::TOUCH_RELEASE,arg.state.X.abs,arg.state.Y.abs,0);
 
 	return true;
 }
@@ -722,13 +739,13 @@ bool Form::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int 
 {
     // Check for a collision with each Form in __forms.
     // Pass the event on.
-    size_t size = __forms.size();
-    for (size_t i = 0; i < size; ++i)
-    {
-        Form* form = __forms[i];
-        ASSERT(form);
+    //size_t size = __forms.size();
+    //for (size_t i = 0; i < size; ++i)
+    //{
+       // Form* form = __forms[i];
+        //ASSERT(form);
 
-        if (form->isEnabled() && form->isVisible())
+        if (this->isEnabled() && this->isVisible())
         {
 //             if (form->_node)
 //             {
@@ -746,32 +763,32 @@ bool Form::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int 
 //            else
             {
                 // Simply compare with the form's bounds.
-                const Rectangle& bounds = form->getBounds();
-                if (shouldPropagateTouchEvent(form->getState(), evt, bounds, x, y))
+                const Rectangle& bounds = this->getBounds();
+                if (shouldPropagateTouchEvent(this->getState(), evt, bounds, x, y))
                 {
                     // Pass on the event's position relative to the form.
-                    if (form->touchEvent(evt, x - bounds.x, y - bounds.y, contactIndex))
+                    if (this->touchEvent(evt, x - bounds.x, y - bounds.y, contactIndex))
                         return true;
                 }
             }
         }
-    }
+   // }
     return false;
 }
 
 bool Form::keyEventInternal(Keyboard::KeyEvent evt, int key)
 {
-    size_t size = __forms.size();
-    for (size_t i = 0; i < size; ++i)
-    {
-        Form* form = __forms[i];
-        ASSERT(form);
-        if (form->isEnabled() && form->isVisible() && form->hasFocus() && !form->_isGamepad)
+    //size_t size = __forms.size();
+    //for (size_t i = 0; i < size; ++i)
+    //{
+        //Form* form = __forms[i];
+       // ASSERT(form);
+        if (this->isEnabled() && this->isVisible() && this->hasFocus() /*&& !this->_isGamepad*/)
         {
-            if (form->keyEvent(evt, key))
+            if (this->keyEvent(evt, key))
                 return true;
         }
-    }
+   // }
     return false;
 }
 
@@ -791,12 +808,12 @@ static bool shouldPropagateMouseEvent(Control::State state, Mouse::MouseEvent ev
 
 bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 {
-    for (size_t i = 0; i < __forms.size(); ++i)
-    {
-        Form* form = __forms[i];
-        ASSERT(form);
+    //for (size_t i = 0; i < __forms.size(); ++i)
+    //{
+     //   Form* form = __forms[i];
+      //  ASSERT(form);
 
-        if (form->isEnabled() && form->isVisible())
+        if (this->isEnabled() && this->isVisible())
         {
 //             if (form->_node)
 //             {
@@ -814,16 +831,16 @@ bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelt
 //            else
             {
                 // Simply compare with the form's bounds.
-                const Rectangle& bounds = form->getBounds();
-                if (shouldPropagateMouseEvent(form->getState(), evt, bounds, x, y))
+                const Rectangle& bounds = this->getBounds();
+                if (shouldPropagateMouseEvent(this->getState(), evt, bounds, x, y))
                 {
                     // Pass on the event's position relative to the form.
-                    if (form->mouseEvent(evt, x - bounds.x, y - bounds.y, wheelDelta))
+                    if (this->mouseEvent(evt, x - bounds.x, y - bounds.y, wheelDelta))
                         return true;
                 }
             }
         }
-    }
+    //}
     return false;
 }
 
