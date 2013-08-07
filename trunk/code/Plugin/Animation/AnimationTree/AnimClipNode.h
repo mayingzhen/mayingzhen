@@ -13,14 +13,16 @@ namespace ma
 	{
 	public:
 		AnimClipNode();
-
-		AnimClipNode(const char* pSkaPath,const char* pBoneSetName);
 		
 		~AnimClipNode();
 
 		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
 
+		void			SetAnimationClip(const char* pszSkaPath);
+
 		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
+
+		void			SetBoneSet(const char* pBoneSetName);
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 

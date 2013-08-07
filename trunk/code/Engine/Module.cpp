@@ -18,14 +18,11 @@
 #include "Engine/Resource/AAssetFileStream.hxx"
 #include "Engine/Resource/FileStream.hxx"
 #include "Engine/Resource/FileSystem.hxx"
-
 #include "Engine/Resource/Properties.hxx"
 #include "Engine/Resource/Resource.hxx"
 #include "Engine/Resource/MeshData.hxx"
-//#include "Engine/Resource/AnimationData.hxx"
-//#include "Engine/Resource/SkeletonData.hxx"
-//#include "Engine/Resource/Texture.hxx"
-#include "Engine/Resource/ResourceMangager.hxx"
+#include "Engine/Resource/ResourceSystem.hxx"
+#include "Engine/Resource/DataThread.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxmlerror.hxx"
@@ -68,29 +65,17 @@
 #include "Engine/RenderSystem/Material/Technqiue.hxx"
 
 
-// Animation
-//#include "Engine/Animation/IAnimationSystem.hxx"
-
-
 // Physics
 #include "Engine/Physics/IPhysicsDevive.hxx"
 
 
 // script
 #include "Engine/Script/IScriptDevice.hxx"
-//#include "Engine/Script/EdScriptObject.hxx"
-//#include "Engine/Script/ScriptEventBinder.hxx"
-
 
 
 // Input
 #include "Engine/Input/Input.hxx"
-//#include "Engine/Input/Joystick.hxx"
-//#include "Engine/Input/Gamepad.hxx"
 
-
-#include "Engine/Thread/DataThread.hxx"
-//#include "Engine/Thread/RenderThread.hxx"
 
 
 using namespace ma;
@@ -101,15 +86,13 @@ void EngineModuleInit()
 {
 	EngineRTTIInit();
 
-	//DataThread* pDtaThread = new DataThread(0,.0);
-	//SetDataThread(pDtaThread);
+	ResourceSystem::Init();
 }
 
 void EngineModuleShutdown()
 {
-	EngineRTTIShutdown();
+	ResourceSystem::ShoutDown();
 
-	//delete GetDataThread();
-	//SetDataThread(NULL);
+	EngineRTTIShutdown();
 }
 

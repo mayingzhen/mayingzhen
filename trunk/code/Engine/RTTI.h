@@ -28,21 +28,21 @@ void EngineRTTIInit()
 	Texture::StaticInitClass();
 	ObjectFactoryManager::GetInstance().RegisterObjectFactory("Texture",Texture_Creator);
 
-	ResourceManager::RegisterResourceFactory("skn",MeshData_Creator);
-	ResourceManager::RegisterResourceFactory("tga",TextureData_Creator);
-	ResourceManager::RegisterResourceFactory("jpg",TextureData_Creator);
-	ResourceManager::RegisterResourceFactory("png",TextureData_Creator);
-	ResourceManager::RegisterResourceFactory("dds",TextureData_Creator);
+	ResourceSystem::RegisterResourceFactory("skn",MeshData_Creator);
+	ResourceSystem::RegisterResourceFactory("tga",TextureData_Creator);
+	ResourceSystem::RegisterResourceFactory("jpg",TextureData_Creator);
+	ResourceSystem::RegisterResourceFactory("png",TextureData_Creator);
+	ResourceSystem::RegisterResourceFactory("dds",TextureData_Creator);
 
 }
 
 void EngineRTTIShutdown()
 {
-	ResourceManager::UnregisterResourceFactory("skn",MeshData_Creator);
-	ResourceManager::UnregisterResourceFactory("tga",TextureData_Creator);
-	ResourceManager::UnregisterResourceFactory("jpg",TextureData_Creator);
-	ResourceManager::UnregisterResourceFactory("png",TextureData_Creator);
-	ResourceManager::UnregisterResourceFactory("dds",TextureData_Creator);
+	ResourceSystem::UnregisterResourceFactory("skn",MeshData_Creator);
+	ResourceSystem::UnregisterResourceFactory("tga",TextureData_Creator);
+	ResourceSystem::UnregisterResourceFactory("jpg",TextureData_Creator);
+	ResourceSystem::UnregisterResourceFactory("png",TextureData_Creator);
+	ResourceSystem::UnregisterResourceFactory("dds",TextureData_Creator);
 
 	Texture::StaticShutdownClass();
 	ObjectFactoryManager::GetInstance().UnRegisterObjectFactory("Texture",Texture_Creator);

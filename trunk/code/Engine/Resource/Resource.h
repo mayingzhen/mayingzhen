@@ -1,6 +1,7 @@
 #ifndef  _RESOURCE__H__
 #define  _RESOURCE__H__
 
+#include "DataThread.h"
 
 namespace ma
 {
@@ -13,7 +14,7 @@ namespace ma
 
 	class Serializer;
 
-	class ENGINE_API Resource : public Object
+	class ENGINE_API Resource : public Object, IDataObj
 	{
 		DECL_OBJECT(Resource)
 
@@ -22,7 +23,9 @@ namespace ma
 
 		virtual ~Resource();
 
-		virtual bool	LoadSync();
+		virtual void	LoadSync();
+
+		virtual void	LoadAsync();
 
 		virtual void	SaveToFile(const char* pszPath);
 

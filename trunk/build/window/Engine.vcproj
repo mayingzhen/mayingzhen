@@ -237,6 +237,14 @@
 			Name="Resource"
 			>
 			<File
+				RelativePath="..\..\code\Engine\Resource\DataThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\DataThread.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Engine\Resource\MeshData.h"
 				>
 			</File>
@@ -265,11 +273,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\ResourceMangager.h"
+				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\ResourceMangager.hxx"
+				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.hxx"
 				>
 			</File>
 			<Filter
@@ -702,14 +710,6 @@
 			>
 			<File
 				RelativePath="..\..\code\Engine\Thread\AutoLock.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\DataThread.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\DataThread.hxx"
 				>
 			</File>
 			<File

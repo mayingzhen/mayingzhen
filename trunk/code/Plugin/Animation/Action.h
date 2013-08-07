@@ -29,12 +29,26 @@ namespace ma
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Action");
 
+		Skeleton*		GetSkeleton() {return m_pSkeleton;}
+
+		void			SetSkeleton(Skeleton* pSkeleton) {m_pSkeleton = pSkeleton;}
+
+		template <class T>
+		T*				CreateRootNode()
+		{
+			m_pAnimaNode = new T();
+			m_pAnimaNode->SetSkeleton(m_pSkeleton);
+			return (T*)m_pAnimaNode;
+		}
+
 	private:
 		std::string		m_sAnimName;
 
 		AnimTreeNode*	m_pAnimaNode;
 
 		std::vector<PoseModifier*> m_arrPoseModifier;
+
+		Skeleton*		m_pSkeleton;
 	};
 }
 

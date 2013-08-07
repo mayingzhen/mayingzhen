@@ -11,6 +11,7 @@ namespace ma
 	{
 		Action* pAction = new Action(actionName);
 		m_arrAnimation.push_back(pAction);
+		pAction->SetSkeleton(m_pAnimPlay->GetSkeleton());
 		return pAction;
 	}
 

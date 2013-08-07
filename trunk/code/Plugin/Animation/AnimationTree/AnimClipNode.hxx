@@ -3,11 +3,12 @@
 
 namespace ma
 {
-	AnimClipNode::AnimClipNode(/*const char* pAnimPath,const char* pBonsetName*/)
+	AnimClipNode::AnimClipNode()
 	{
 		m_pBoneSet = NULL;
 		m_pAnimClip = NULL;
-		
+
+		m_pSkeleton = NULL;
 	}
 
 	AnimClipNode::~AnimClipNode()
@@ -37,5 +38,34 @@ namespace ma
 			return;
 
 		m_pAnimClip->SetFrame(fFrame);
+	}
+
+	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
+	{
+		ASSERT(m_pAnimClip == NULL);
+		if (m_pAnimClip)
+		{
+			SAFE_DELETE(m_pAnimClip);
+		}
+
+		Animation* pAnim = DeclareResource<Animation>(pszSkaPath);
+		m_pAnimClip = new AnimationClip(pAnim,m_pSkeleton);
+	}
+
+	void AnimClipNode::SetBoneSet(const char* pBoneSetName)
+	{
+		if (pBoneSetName == NULL)
+			return;
+
+		if (m_pSkeleton == NULL)
+			return;
+
+		BoneSet* pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
+		ASSERT(pBoneSet);
+		if (pBoneSet == NULL)
+			return;
+
+		m_pBoneSet = pBoneSet;
+
 	}
 }

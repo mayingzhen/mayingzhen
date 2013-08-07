@@ -3,7 +3,6 @@
 
 namespace ma
 {
-
 	class BoneSet
 	{
 	public:

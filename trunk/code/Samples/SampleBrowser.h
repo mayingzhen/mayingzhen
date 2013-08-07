@@ -35,6 +35,8 @@ namespace ma
 
 		void				InitCamera();
 
+		void				ResetCamera();
+
 		void				RunSample(const char* pSampleNma);
 
 	private:

@@ -1,6 +1,8 @@
 #ifndef _Thread_h__
 #define _Thread_h__
 
+#include "AutoLock.h"
+
 #if PLATFORM_WIN == 1
 #include "Win/CriticalSection_win.h"
 #include "Win/Event_win.h"
@@ -17,4 +19,4 @@
 
 
 
-#endif
+#endif // _Thread_h__

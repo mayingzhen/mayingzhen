@@ -9,7 +9,7 @@ namespace ma
 		m_bSkin = false;
 	}
 
-	bool RenderMesh::LoadToMemory()
+	bool RenderMesh::LoadFileToMemeory()
 	{	
 		ASSERT(m_pMesData);
 		m_pMesData->LoadFileToMemeory();
@@ -20,7 +20,7 @@ namespace ma
 		return true;
 	}
 
-	bool RenderMesh::LoadImp()
+	bool RenderMesh::CreateFromMemeory()
 	{
 		m_pMesData->CreateFromMemeory();
 		m_pTexture->CreateFromMemeory();
@@ -52,18 +52,25 @@ namespace ma
 		if (pMeshPath == NULL)
 			return false;
 
-		m_pMesData = (MeshData*)ResourceManager::DeclareResource(pMeshPath);
+		m_pMesData = DeclareResource<MeshData>(pMeshPath);
 		ASSERT(m_pMesData);
 
-		m_pTexture = (Texture*)ResourceManager::DeclareResource(pDiffueTexture);
+		m_pTexture = DeclareResource<Texture>(pDiffueTexture);
 		ASSERT(m_pTexture);
 
 		m_sknPath = pMeshPath;
 		m_texPath = pDiffueTexture;
 
-		//GetDataThread()->PushBackDataObj(this);
-		this->LoadToMemory();
-		this->LoadImp();
+		DataThread* pDataThread = ResourceSystem::GetDataThread();
+		if (pDataThread)
+		{
+			pDataThread->PushBackDataObj(this);
+		}
+		else
+		{
+			LoadFileToMemeory();
+			CreateFromMemeory();
+		}
 		
 		return true;
 	}
