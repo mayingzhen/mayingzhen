@@ -39,7 +39,9 @@ namespace ma
 
 		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID);
 
-		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody");
+		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",
+			const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody",
+			const char* pszFullBoyd = "FullBody",const char* pzEmptyBody = "EmptyBody");
 
 		void				InitResPose();
 

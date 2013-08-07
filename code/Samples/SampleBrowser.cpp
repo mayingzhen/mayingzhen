@@ -58,16 +58,16 @@ namespace ma
 		SampleTerrain* pSampleTerrain = new SampleTerrain();
 		m_arrSamples["Terrain"] = pSampleTerrain;
 
-		SampleAnimationRetarget* pAnimRetar = new SampleAnimationRetarget();
-		m_arrSamples["AnimationRetarget"] = pAnimRetar;
+		SampleAnimationRetarget* pSampleAnimRetar = new SampleAnimationRetarget();
+		m_arrSamples["AnimationRetarget"] = pSampleAnimRetar;
 
-		SampleAnimationTree* pAniTree = new SampleAnimationTree();
-		m_arrSamples["AnimationTree"] = pAniTree;
+		SampleAnimationTree* pSampleAniTree = new SampleAnimationTree();
+		m_arrSamples["AnimationTree"] = pSampleAniTree;
 
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples["Particle"] = pParticle;
 
-		m_pCurSample = pSampleCharControl;
+		m_pCurSample = pSampleAnimRetar;
 
 		SetTimer(&m_Timer);
 		SetInput(&m_Input);
@@ -113,14 +113,8 @@ namespace ma
 		}
 	}
 
-	void SampleBrowser::InitCamera()
+	void SampleBrowser::ResetCamera()
 	{
-		m_pCamera = new Camera();
-		m_pCameraControl = new CameraController(m_pCamera);
-
-		Material::SetAuotBingCamera(m_pCamera);
-		RenderQueue::SetCamera(m_pCamera);
-
 		Vector3 vEyePos = Vector3(0, 200, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
@@ -133,6 +127,18 @@ namespace ma
 		float fNearClip = 1.0f;
 		float fFarClip = 30000.0f;
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+
+	}
+
+	void SampleBrowser::InitCamera()
+	{
+		m_pCamera = new Camera();
+		m_pCameraControl = new CameraController(m_pCamera);
+
+		Material::SetAuotBingCamera(m_pCamera);
+		RenderQueue::SetCamera(m_pCamera);
+
+		ResetCamera();
 	}
 
 	void SampleBrowser::RunSample(const char* pSampleNma)
@@ -145,6 +151,8 @@ namespace ma
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
+
+			ResetCamera();
 		}
 
 		Sample* pSameple = it->second;
@@ -163,8 +171,6 @@ namespace ma
 		Theme::Style* titleStyle = theme->getStyle("title");	
 
 		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
-		//m_pSampleSelectForm->setAutoHeight(true);
-		//m_pSampleSelectForm->setWidth(200.0f);
 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
 		m_pSampleSelectForm->setConsumeInputEvents(true);
@@ -203,16 +209,13 @@ namespace ma
 		}
 		m_bStepOneFrame = false;
 
+		ResourceSystem::Update();
+			
 		Form::updateInternal(m_Timer.GetFrameDeltaTime());
-
-        if (GetDataThread())
-            GetDataThread()->Process();
-
+			
 		if (m_pCurSample)
 			m_pCurSample->Update();
-		
 
-		//m_pSampleSelectForm->update(m_Timer.GetFrameDeltaTime());
 	}
 
 	void SampleBrowser::Render()

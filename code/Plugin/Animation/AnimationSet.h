@@ -23,8 +23,6 @@ namespace ma
 
 		Action*			GetActionByIndex(UINT index);
 
-		//void			AddAction(Action* pAction);
-
 		void			RemoveAction(Action* pAction);
 
 		void			Serialize(Serializer& sl, const char* pszLable = "AnimationSet");

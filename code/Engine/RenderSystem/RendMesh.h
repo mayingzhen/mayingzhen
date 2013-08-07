@@ -1,7 +1,7 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
-#include "Engine/Thread/DataThread.h"
+#include "Engine/Resource/DataThread.h"
 
 namespace ma
 {
@@ -13,9 +13,9 @@ namespace ma
 	public:
 		RenderMesh();
 
-		bool		LoadToMemory();
+		bool		LoadFileToMemeory();
 
-		bool		LoadImp();
+		bool		CreateFromMemeory();
 
 		bool		InitWithData(MeshData* pMeshData);
 

@@ -5,7 +5,7 @@ namespace ma
 {
 	class SkeletonPose;
 
-	struct  AnimEvalContext
+	struct ANIMATION_API AnimEvalContext
 	{
 		std::vector<NodeTransform> m_arrTSFLS;
 

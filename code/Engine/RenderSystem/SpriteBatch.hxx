@@ -44,7 +44,7 @@ namespace ma
 
 // 	SpriteBatch* SpriteBatch::create(const char* texturePath, Material* pMaterial, unsigned int initialCapacity)
 // 	{
-// 		Texture* texture =  ResourceManager::DeclareResource(texturePath);
+// 		Texture* texture =  ResourceSystem::DeclareResource(texturePath);
 // 		texture->Load();
 // 		SpriteBatch* batch = SpriteBatch::create(texture, pMaterial, initialCapacity);
 // 		return batch;

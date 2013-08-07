@@ -7,7 +7,7 @@ namespace ma
 {
 	struct AnimEvalContext;
 
-	class  AnimLayerNode : public AnimTreeNode
+	class ANIMATION_API AnimLayerNode : public AnimTreeNode
 	{
 	public:
 		virtual void AddLayer(AnimTreeNode* pAnimTreeNode);
@@ -19,6 +19,15 @@ namespace ma
 		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
 		virtual void SetFrame(float fFrame);
+
+		template <class T>
+		T*			CreateLayer()
+		{
+			AnimTreeNode* pLayer = new T();
+			m_arrAnimNode.push_back(pLayer);
+			pLayer->SetSkeleton(m_pSkeleton);
+			return (T*)pLayer;
+		}
 
 	private:
 		std::vector<AnimTreeNode*> m_arrAnimNode;

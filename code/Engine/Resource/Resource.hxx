@@ -16,13 +16,21 @@ namespace ma
 
 	}
 
-	bool Resource::LoadSync()
+	void Resource::LoadSync()
 	{
 		LoadFileToMemeory();
 
 		CreateFromMemeory();
-		
-		return true;
+	}
+
+	void Resource::LoadAsync()
+	{
+		DataThread* pDataThrea = ResourceSystem::GetDataThread();
+		ASSERT(pDataThrea);
+		if (pDataThrea == NULL)
+			return;
+
+		pDataThrea->PushBackDataObj(this);
 	}
 
 	bool Resource::LoadFileToMemeory()

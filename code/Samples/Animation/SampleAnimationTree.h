@@ -7,7 +7,7 @@ namespace ma
 	class RenderMesh;
 
 
-	class SampleAnimationTree : public Sample
+	class SampleAnimationTree : public Sample,OIS::KeyListener
 	{
 	public:
 		SampleAnimationTree();
@@ -19,6 +19,9 @@ namespace ma
 		virtual void Update();
 
 		virtual void Render();
+
+		virtual bool keyPressed(const OIS::KeyEvent &arg);
+		virtual bool keyReleased(const OIS::KeyEvent &arg);	
 
 	private:
 		AnimationPlay*	m_pAnimtionPlay;

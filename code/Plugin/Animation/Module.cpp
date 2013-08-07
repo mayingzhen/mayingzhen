@@ -51,8 +51,8 @@ void AnimationModuleInit()
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 
-	ResourceManager::RegisterResourceFactory("ska",AnimationData_Creator);
-	ResourceManager::RegisterResourceFactory("ske",SkeletonData_Creator);
+	ResourceSystem::RegisterResourceFactory("ska",AnimationData_Creator);
+	ResourceSystem::RegisterResourceFactory("ske",SkeletonData_Creator);
 
 
 	// Device
@@ -66,8 +66,8 @@ void AnimationModuleShutdown()
 	AnimationSystem* pAnimationSystem = GetAnimationSystem();
 	SAFE_DELETE(pAnimationSystem);
 	
-	ResourceManager::UnregisterResourceFactory("skn",AnimationData_Creator);
-	ResourceManager::UnregisterResourceFactory("ske",SkeletonData_Creator);
+	ResourceSystem::UnregisterResourceFactory("skn",AnimationData_Creator);
+	ResourceSystem::UnregisterResourceFactory("ske",SkeletonData_Creator);
 
 	// RTTI
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);

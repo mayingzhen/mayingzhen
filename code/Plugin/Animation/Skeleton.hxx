@@ -104,7 +104,8 @@ namespace ma
 		return NULL;
 	}
 
-	void Skeleton::InitUpLowerBoneSet(const char* pszSplitBone, const char* pszUpBody, const char* pszLowerBody)
+	void Skeleton::InitUpLowerBoneSet(const char* pszSplitBone, const char* pszUpBody, const char* pszLowerBody,
+		const char* pszFullBoyd,const char* pzEmptyBody)
 	{
 		if (!pszSplitBone || !pszUpBody || !pszLowerBody)
 			return;
@@ -115,8 +116,12 @@ namespace ma
 
 		BoneSet* pUperBody = new BoneSet(pszUpBody);
 		BoneSet* pLowerBody = new BoneSet(pszLowerBody);
+		BoneSet* pEmptyBody = new BoneSet(pzEmptyBody);
+		BoneSet* pFullBody = new BoneSet(pszFullBoyd);
 		m_arrBoneSet.push_back(pUperBody);
 		m_arrBoneSet.push_back(pLowerBody);
+		m_arrBoneSet.push_back(pEmptyBody);
+		m_arrBoneSet.push_back(pFullBody);
 
 		for (BoneIndex nBoneCnt = 0; nBoneCnt < m_arrBoneName.size(); ++nBoneCnt)
 		{
@@ -132,6 +137,8 @@ namespace ma
 			{
 				pLowerBody->AddBoneInd(nBoneCnt);
 			}
+
+			pFullBody->AddBoneInd(nBoneCnt);
 		}
 	}
 
@@ -168,6 +175,8 @@ namespace ma
 			MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
 			MatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
 		}
+
+		InitUpLowerBoneSet();
 	}
 
 }

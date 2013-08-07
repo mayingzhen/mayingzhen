@@ -94,16 +94,6 @@ namespace ma
 			m_pSkelAnim->EvaluateAnimation(&evalContext,fWeight);
 		}
 
-// 		for (UINT i = 0; i < m_pose->GetNodeNumber(); ++i)
-// 		{
-// 			NodeTransform tsfPS;
-// 			maTransformMul(&tsfPS,&evalContext.m_arrTSFLS[i],&pRefPose->GetTransformPS(i));
-// 			m_pose->SetTransformPS(&tsfPS,i);
-// 		}
-// 
-// 		m_pose->SyncObjectSpace();
-
-
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{

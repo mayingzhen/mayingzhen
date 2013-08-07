@@ -16,20 +16,16 @@
 
 
 // Resource
-
 #include "Engine/Resource/Stream.h"
 #include "Engine/Resource/DataStream.h"
 #include "Engine/Resource/AAssetFileStream.h"
 #include "Engine/Resource/FileStream.h"
 #include "Engine/Resource/FileSystem.h"
-
 #include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/MeshData.h"
-//#include "Engine/Resource/AnimationData.h"
-//#include "Engine/Resource/SkeletonData.h"
-//#include "Engine/Resource/Texture.h"
-#include "Engine/Resource/ResourceMangager.h"
+#include "Engine/Resource/ResourceSystem.h"
+#include "Engine/Resource/DataThread.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h"
 #include "Engine/Resource/Serialize/BinaryInputArchive.h"
@@ -76,19 +72,6 @@
 #include "Engine/RenderSystem/Material/Texture.h"
 #include "Engine/RenderSystem/Material/Technqiue.h"
 
-// Terrain
-// #include "Engine/RenderSystem/Terrain/Terrain.h"
-// #include "Engine/RenderSystem/Terrain/TerrainLiquid.h"
-// #include "Engine/RenderSystem/Terrain/TerrainSection.h"
-
-
-// Animation
-// #include "Engine/Animation/IAnimationSystem.h"
-// #include "Engine/Animation/AnimationPlay.h"
-// #include "Engine/Animation/ISkeleton.h"
-// #include "Engine/Animation/IAnimationSet.h"
-
-
 
 // Physics
 #include "Engine/Physics/ICharacterController.h"
@@ -106,19 +89,9 @@
 
 // Input
 #include "Engine/Input/Input.h"
-// #include "Engine/Input/Gesture.h"
-// #include "Engine/Input/Keyboard.h"
-// #include "Engine/Input/Mouse.h"
-// #include "Engine/Input/Touch.h"
-//#include "Engine/Input/Gamepad.h"
-//#include "Engine/Input/Joystick.h"
-
 
 // Thread
-#include "Engine/Thread/AutoLock.h"
-#include "Engine/Thread/DataThread.h"
-#include "Engine/Thread/TArray.h"
-//#include "Engine/Thread/RenderThread.h"
+#include "Engine/Thread/Thread.h"
 
 
 #include "WarningSuffix.h"
