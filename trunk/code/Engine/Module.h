@@ -26,9 +26,9 @@
 #include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/MeshData.h"
-#include "Engine/Resource/AnimationData.h"
-#include "Engine/Resource/SkeletonData.h"
-#include "Engine/Resource/TextureData.h"
+//#include "Engine/Resource/AnimationData.h"
+//#include "Engine/Resource/SkeletonData.h"
+//#include "Engine/Resource/Texture.h"
 #include "Engine/Resource/ResourceMangager.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h"
@@ -83,10 +83,10 @@
 
 
 // Animation
-#include "Engine/Animation/IAnimationDevice.h"
-#include "Engine/Animation/IAnimationPlay.h"
-#include "Engine/Animation/ISkeleton.h"
-#include "Engine/Animation/IAnimationSet.h"
+// #include "Engine/Animation/IAnimationSystem.h"
+// #include "Engine/Animation/AnimationPlay.h"
+// #include "Engine/Animation/ISkeleton.h"
+// #include "Engine/Animation/IAnimationSet.h"
 
 
 

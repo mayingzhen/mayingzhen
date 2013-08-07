@@ -14,8 +14,8 @@ namespace ma
 		ASSERT(m_pMesData);
 		m_pMesData->LoadFileToMemeory();
 		
-		ASSERT(m_pTextureData);
-		m_pTextureData->LoadFileToMemeory();
+		ASSERT(m_pTexture);
+		m_pTexture->LoadFileToMemeory();
 
 		return true;
 	}
@@ -23,10 +23,10 @@ namespace ma
 	bool RenderMesh::LoadImp()
 	{
 		m_pMesData->CreateFromMemeory();
-		m_pTextureData->CreateFromMemeory();
+		m_pTexture->CreateFromMemeory();
 
 		InitWithData(m_pMesData);
-		Sampler* sampler = Sampler::create(m_pTextureData->GetRenderTexture()); // +ref texture
+		Sampler* sampler = Sampler::create(m_pTexture); // +ref texture
 			
 		std::string sMaterFlag;
 		if (m_bSkin)
@@ -55,8 +55,8 @@ namespace ma
 		m_pMesData = (MeshData*)ResourceManager::DeclareResource(pMeshPath);
 		ASSERT(m_pMesData);
 
-		m_pTextureData = (TextureData*)ResourceManager::DeclareResource(pDiffueTexture);
-		ASSERT(m_pTextureData);
+		m_pTexture = (Texture*)ResourceManager::DeclareResource(pDiffueTexture);
+		ASSERT(m_pTexture);
 
 		m_sknPath = pMeshPath;
 		m_texPath = pDiffueTexture;

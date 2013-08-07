@@ -43,7 +43,7 @@ namespace ma
 		
  		MeshData*				m_pMesData;
 
-		TextureData*			m_pTextureData;
+		Texture*				m_pTexture;
 
 		Material*				m_pMaterial;
 

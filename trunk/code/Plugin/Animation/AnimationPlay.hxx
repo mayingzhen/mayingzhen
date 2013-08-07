@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	AnimationPlay::AnimationPlay()
+	AnimationPlay::AnimationPlay(const char* pszSkePath)
 	{
 		m_pSkelAnim = NULL;
 		m_pAnimSet = NULL;
@@ -16,36 +16,27 @@ namespace ma
 		{
 			MatrixIdentity(&m_arrSkinMatrix[i]);
 		}
+
+		CreateSkeleton(pszSkePath);
 	}
 
 	AnimationPlay::~AnimationPlay()
 	{
 	}
 
-	ISkeleton*		AnimationPlay::CreateSkeleton(const char* pSkePath)
+	void AnimationPlay::CreateSkeleton(const char* pSkePath)
 	{
 		ASSERT(pSkePath);
 		if (pSkePath == NULL)
-			return NULL;
+			return ;
 
-		SkeletonData* pSkeData = static_cast<SkeletonData*>(ResourceManager::DeclareResource(pSkePath));
-		pSkeData->LoadFileToMemeory();
-		pSkeData->CreateFromMemeory();
-
-		m_pSkeleton = new Skeleton();
-		m_pSkeleton->InitWithData(pSkeData);
+		m_pSkeleton =  DeclareResource<Skeleton>(pSkePath);
+		m_pSkeleton->LoadSync();
 
 		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 
-		return m_pSkeleton;
-	}
-
-	IAnimationSet*	AnimationPlay::CreateAnimSet(const char* pAnimSetPath)
-	{
 		m_pAnimSet = new AnimationSet(this);
-
-		return m_pAnimSet;
 	}
 
 	void AnimationPlay::PlayAnimation(Action* pSkelAnim)

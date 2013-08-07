@@ -9,20 +9,14 @@ namespace ma
 
 	typedef UINT ActionID;
 
-	class ANIMATION_API AnimationPlay : public IAnimationPlay
+	class ANIMATION_API AnimationPlay 
 	{
 	public:
-		AnimationPlay();
+		AnimationPlay(const char* pszSkePath);
 
 		~AnimationPlay();
 
- 		virtual	ISkeleton*		GetSkeleton() {return m_pSkeleton;}
-
- 		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
-
-		virtual ISkeleton*		CreateSkeleton(const char* pSkePath);
-
-		virtual	IAnimationSet*	CreateAnimSet(const char* pAnimSetPath);
+ 		virtual AnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
 		virtual void			PlayAnimation(const char* pszAnimName); 
 
@@ -40,7 +34,11 @@ namespace ma
 
 		SkeletonPose*			GetAnimationPose() {return m_pose;}
 
+		Skeleton*				GetSkeleton() {return m_pSkeleton;}
+
 	protected:
+		void					CreateSkeleton(const char* pSkePath);
+
 		void					PlayAnimation(Action* pSkelAnim);
 	
 	private:

@@ -6,17 +6,13 @@ namespace ma
 	{
 		Action* CreateAction(const char* pszAnimPath,Skeleton* pSkeleton,const char* pszActionName)	
 		{
-			Animation* pAnimation = new Animation();
-			AnimationData* pAnimData = static_cast<AnimationData*>(ResourceManager::DeclareResource(pszAnimPath));
-			pAnimData->LoadFileToMemeory();
-			pAnimData->CreateFromMemeory();
-			pAnimation->InitWithData(pAnimData);
+			Animation* pAnimation = DeclareResource<Animation>(pszAnimPath);
+			pAnimation->LoadSync();
 
-			AnimationInst* pAnimationInst = new AnimationInst(pAnimation,pSkeleton);
+			AnimationClip* pAnimationInst = new AnimationClip(pAnimation,pSkeleton);
 			AnimClipNode* pClipNode = new AnimClipNode();
-			pClipNode->SetAnimationInst(pAnimationInst);
-			Action* pAction = new Action();
-			pAction->SetAnimName(pszActionName);
+			pClipNode->SetAnimationClip(pAnimationInst);
+			Action* pAction = new Action(pszActionName);
 			pAction->SetTreeNode(pClipNode);
 
 			return pAction;

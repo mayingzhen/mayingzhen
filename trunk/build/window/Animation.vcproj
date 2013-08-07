@@ -190,27 +190,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationClip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationClip.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationDataCover.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationDataCover.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationDevice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationDevice.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationInst.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationInst.hxx"
 				>
 			</File>
 			<File
@@ -222,11 +214,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\Animation\AnimationSerializer.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationSet.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationSet.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationSystem.hxx"
 				>
 			</File>
 			<File
@@ -279,6 +283,10 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\SkeletonPose.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\SkeletonSerializer.hxx"
 				>
 			</File>
 			<File

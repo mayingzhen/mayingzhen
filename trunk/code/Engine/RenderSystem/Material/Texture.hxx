@@ -4,6 +4,23 @@
 
 namespace ma
 {
+	IMPL_OBJECT(Texture,Resource);
+
+	bool Texture::CreateFromMemeory()
+	{
+		if (m_eResState == ResLoaded)
+			return true;
+
+		ASSERT(m_pDataStream);
+		if (m_pDataStream == NULL)
+			return false;
+
+		Load(m_pDataStream);
+
+		m_eResState = ResLoaded;
+
+		return true;
+	}
 
 	Sampler::Sampler(Texture* texture)
 		: _texture(texture), _wrapS(/*Texture::*/CLAMP), _wrapT(/*Texture::*/CLAMP),

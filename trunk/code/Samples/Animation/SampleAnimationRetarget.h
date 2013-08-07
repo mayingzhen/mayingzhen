@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class IAnimationPlay;
+	class AnimationPlay;
 	class RenderMesh;
 
 	class SampleAnimationRetarget : public Sample
@@ -27,10 +27,10 @@ namespace ma
 		RenderMesh*		m_pRenderMeshA_b;
 		RenderMesh*		m_pRenderMeshA_f;
 		RenderMesh*		m_pRenderMeshA_h;
-		IAnimationPlay*	m_pAnimtionPlayA;
+		AnimationPlay*	m_pAnimtionPlayA;
 		
 		RenderMesh*		m_pRenderMeshB;
-		IAnimationPlay*	m_pAnimtionPlayB;
+		AnimationPlay*	m_pAnimtionPlayB;
 	};
 }
 

@@ -1,6 +1,7 @@
 #ifndef  _Engine_RTTI__H__
 #define  _Engine_RTTI__H__
 
+
 using namespace ma;
 
 // RTTI
@@ -9,10 +10,9 @@ using namespace ma;
 #undef RTTI_DECL
 
 Resource* MeshData_Creator() {return new MeshData();}
-Resource* TextureData_Creator() {return new TextureData();}
-Resource* AnimationData_Creator() {return new AnimationData();}
-Resource* SkeletonData_Creator() {return new SkeletonData();}
+Resource* TextureData_Creator() {return GetRenderDevice()->CreateRendTexture();}
 
+Object*		Texture_Creator() {return GetRenderDevice()->CreateRendTexture();}
 
 void EngineRTTIInit()
 {
@@ -25,9 +25,10 @@ void EngineRTTIInit()
 #include <Engine/RTTIDecl.h>
 #undef RTTI_DECL
 
+	Texture::StaticInitClass();
+	ObjectFactoryManager::GetInstance().RegisterObjectFactory("Texture",Texture_Creator);
+
 	ResourceManager::RegisterResourceFactory("skn",MeshData_Creator);
-	ResourceManager::RegisterResourceFactory("ske",SkeletonData_Creator);
-	ResourceManager::RegisterResourceFactory("ska",AnimationData_Creator);
 	ResourceManager::RegisterResourceFactory("tga",TextureData_Creator);
 	ResourceManager::RegisterResourceFactory("jpg",TextureData_Creator);
 	ResourceManager::RegisterResourceFactory("png",TextureData_Creator);
@@ -38,12 +39,13 @@ void EngineRTTIInit()
 void EngineRTTIShutdown()
 {
 	ResourceManager::UnregisterResourceFactory("skn",MeshData_Creator);
-	ResourceManager::UnregisterResourceFactory("ske",SkeletonData_Creator);
-	ResourceManager::UnregisterResourceFactory("ska",AnimationData_Creator);
 	ResourceManager::UnregisterResourceFactory("tga",TextureData_Creator);
 	ResourceManager::UnregisterResourceFactory("jpg",TextureData_Creator);
 	ResourceManager::UnregisterResourceFactory("png",TextureData_Creator);
 	ResourceManager::UnregisterResourceFactory("dds",TextureData_Creator);
+
+	Texture::StaticShutdownClass();
+	ObjectFactoryManager::GetInstance().UnRegisterObjectFactory("Texture",Texture_Creator);
 
 #define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);
 #include <Engine/RTTIDecl.h>

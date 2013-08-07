@@ -12,24 +12,22 @@ namespace ma
 	class SkeletonPose;
 	class BoneSet;
 
-	class Skeleton : public ISkeleton
+	class ANIMATION_API Skeleton : public Resource
 	{
+		DECL_OBJECT(Skeleton)
+
 	public:
 		Skeleton();
 
 		~Skeleton();
 
-		bool				InitWithData(const SkeletonData* pSkelData);
-
-		const SkeletonData*	GetSkeletonData() {return m_pSkeleonData;}
-
-		//bool				InitWithPSData(SkeletonData* pSkelData);
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
 
 		const Matrix4x4&	GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
-		const SkeletonPose* GetResPose() {return m_refPose;} 
+		const SkeletonPose* GetResPose() const {return m_refPose;} 
 
-		UINT				GetBoneNumer() {return m_arrBoneName.size();}
+		UINT				GetBoneNumer() const {return m_arrBoneName.size();} 
 
 		const char*			GetBoneNameByIndex(UINT uIndex) {return m_arrBoneName[uIndex].c_str();}
 
@@ -43,23 +41,23 @@ namespace ma
 
 		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody");
 
+		void				InitResPose();
+
+	public:
+		std::vector<std::string>	m_arrBoneName;
+		std::vector<BoneIndex>		m_arrParentIndice;
+		std::vector<NodeTransform>	m_arrTsfOS;
+
 	private:
-		std::string m_name;
-
-		std::vector<std::string> m_arrBoneName;
-		std::vector<BoneIndex>	 m_arrParentInd;
-
-		SkeletonPose*			 m_refPose;
+		SkeletonPose*				m_refPose;
 
 		// Matrix4x4
-		std::vector<Matrix4x4> m_arrRefPosePS;
-		std::vector<Matrix4x4> m_arrRefPoseOS;
-		std::vector<Matrix4x4> m_arrRefPoseOSInv;
+		std::vector<Matrix4x4>		m_arrRefPosePS;
+		std::vector<Matrix4x4>		m_arrRefPoseOS;
+		std::vector<Matrix4x4>		m_arrRefPoseOSInv;
 
 		// ¹Ç÷À¼¯
-		std::vector<BoneSet*>	m_arrBoneSet;
-
-		const SkeletonData*		m_pSkeleonData;
+		std::vector<BoneSet*>		m_arrBoneSet;
 	};
 }
 

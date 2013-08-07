@@ -1,8 +1,12 @@
 #include "Animation/Skeleton.h"
 #include "Animation/BoneSet.h"
 
+#include "SkeletonSerializer.hxx"
+
 namespace ma
 {
+	IMPL_OBJECT(Skeleton,Resource)
+
 	Skeleton::Skeleton()
 	{
 		m_refPose = new SkeletonPose;
@@ -13,69 +17,33 @@ namespace ma
 		SAFE_DELETE(m_refPose);
 	}
 
-	bool Skeleton::InitWithData(const SkeletonData* pSkelData)
-	{
-		if (pSkelData == NULL)
-			return false;
 
-		m_pSkeleonData = pSkelData;
-
-		UINT nBoneNum = pSkelData->m_nBoneNum;
-
-		std::vector<NodeTransform> arrNodeOS;
-		arrNodeOS.resize(nBoneNum);
-		m_arrBoneName.resize(nBoneNum);
-		m_arrParentInd.resize(nBoneNum);
-		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
-		{
-			TransformSetIdentity(&arrNodeOS[nBoneCnt]);
-
-			arrNodeOS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
-			//arrNodeOS[nBoneCnt].m_qRot = pSkelData->m_arrRotOS[nBoneCnt];
-			QuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);
-			arrNodeOS[nBoneCnt].m_fScale = 1.0f;//pSkelData->m_arrScaleOS[nBoneCnt].x;
-			m_arrBoneName[nBoneCnt] = pSkelData->m_arrBoneName[nBoneCnt];
-			m_arrParentInd[nBoneCnt] = pSkelData->m_arrParentIndice[nBoneCnt];
-		}
-
-		m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
-
-		m_arrRefPosePS.resize(nBoneNum);
-		m_arrRefPoseOS.resize(nBoneNum);
-		m_arrRefPoseOSInv.resize(nBoneNum);
-
-		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNum; ++uBoneCunt)
-		{
-			MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
-			MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
-			MatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
-		}
-
-		return true;
-	}
-
-// 	bool Skeleton::InitWithPSData(const SkeletonData& skelData)
+// 	bool Skeleton::InitWithData(const SkeletonData* pSkelData)
 // 	{
+// 		if (pSkelData == NULL)
+// 			return false;
+// 
+// 		//m_pSkeleonData = pSkelData;
+// 
 // 		UINT nBoneNum = pSkelData->m_nBoneNum;
 // 
-// 		std::vector<NodeTransform> arrNodePS;
-// 		arrNodePS.resize(nBoneNum);
+// 		std::vector<NodeTransform> arrNodeOS;
+// 		arrNodeOS.resize(nBoneNum);
 // 		m_arrBoneName.resize(nBoneNum);
 // 		m_arrParentInd.resize(nBoneNum);
 // 		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 // 		{
-// 			arrNodePS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
-// 			//arrNodeOS[nBoneCnt].m_qRot = ;
-// 			QuaternionNormalize(&arrNodePS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);
-// 			arrNodePS[nBoneCnt].m_fScale = pSkelData->m_arrScaleOS[nBoneCnt].x;
+// 			TransformSetIdentity(&arrNodeOS[nBoneCnt]);
+// 
+// 			arrNodeOS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
+// 			//arrNodeOS[nBoneCnt].m_qRot = pSkelData->m_arrRotOS[nBoneCnt];
+// 			QuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);
+// 			arrNodeOS[nBoneCnt].m_fScale = 1.0f;//pSkelData->m_arrScaleOS[nBoneCnt].x;
 // 			m_arrBoneName[nBoneCnt] = pSkelData->m_arrBoneName[nBoneCnt];
 // 			m_arrParentInd[nBoneCnt] = pSkelData->m_arrParentIndice[nBoneCnt];
 // 		}
 // 
-// 		m_refPose->InitParentSpace(arrNodePS,m_arrParentInd);
-// 		//m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
-// 		//m_refPose->SyncParentSpace();
-// 		//m_pose->SyncObjectSpace();
+// 		m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
 // 
 // 		m_arrRefPosePS.resize(nBoneNum);
 // 		m_arrRefPoseOS.resize(nBoneNum);
@@ -90,6 +58,7 @@ namespace ma
 // 
 // 		return true;
 // 	}
+
 
 	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
 	{
@@ -109,7 +78,7 @@ namespace ma
 
 	BoneIndex Skeleton::GetParentIndice(BoneIndex nBoneID)
 	{
-		return m_arrParentInd[nBoneID];
+		return m_arrParentIndice[nBoneID];
 	}
 
 	bool Skeleton::IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID)
@@ -163,6 +132,41 @@ namespace ma
 			{
 				pLowerBody->AddBoneInd(nBoneCnt);
 			}
+		}
+	}
+
+	void Skeleton::Serialize(Serializer& sl, const char* pszLable)
+	{
+		SkeletonHeader header;
+		sl.Serialize(header);
+		if (header.m_nIden != 'MAED')
+			return;
+
+		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
+		{
+			SerializeDataV0(sl,*this,pszLable);
+		}
+
+		if (sl.IsReading())
+		{
+			InitResPose();
+		}
+	}
+
+	void Skeleton::InitResPose()
+	{
+		m_refPose->InitObjectSpace(m_arrTsfOS, m_arrParentIndice);
+
+		UINT nBoneNumer = m_arrBoneName.size();
+		m_arrRefPosePS.resize(nBoneNumer);
+		m_arrRefPoseOS.resize(nBoneNumer);
+		m_arrRefPoseOSInv.resize(nBoneNumer);
+
+		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNumer; ++uBoneCunt)
+		{
+			MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
+			MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
+			MatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
 		}
 	}
 

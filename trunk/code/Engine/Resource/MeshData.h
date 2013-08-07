@@ -40,17 +40,6 @@ namespace ma
 	};
 
 
-	struct ENGINE_API MeshHeader 
-	{
-
-		Uint32		m_nIdent;	 // File Identity 
-		Uint32		m_nVersion;	 // ∏Ò Ω∞Ê±æ∫≈
-		
-		MeshHeader();
-	};
-
-
-
 	struct ENGINE_API SubMeshData 
 	{
 
@@ -95,11 +84,9 @@ namespace ma
 
 		AABB				GetBoundingAABB() {return m_meshBound;}
 
-		virtual void		CreateFromMemeory();
+		//virtual bool		CreateFromMemeory();
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "MeshData");
-
-		virtual void		SaveToFile(const char* pPath);
 
 	private:
 		bool				InitRendable();

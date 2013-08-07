@@ -32,9 +32,9 @@ namespace ma
 	
 		bool	LoadStaticMeshData(const char* pFileName,MeshData* pMeshData);
 
-		bool	LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,SkeletonData* pSkeData);
+		bool	LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,Skeleton* pSkeData);
 
-		bool	LoadAnimationData(const char* pFileName,AnimationData* pAnimation,const SkeletonData* pSkelData);
+		bool	LoadAnimationData(const char* pFileName,Animation* pAnimation,const Skeleton* pSkelData);
 
 	private:
 		FbxScene*	GetFbxScene(const char* pFileName);
@@ -43,11 +43,11 @@ namespace ma
 
 		FbxSkeleton* GetFbxRootBone(FbxNode* pNode);
 
-		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData);
+		void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const Skeleton* pSkelData);
 
-		void GetSkeletonData(FbxSkeleton* pSkeleton,FbxPose* pBindPose,SkeletonData* pSkelData);
+		void GetSkeletonData(FbxSkeleton* pSkeleton,FbxPose* pBindPose,Skeleton* pSkelData);
 
-		void GetAnimtionData(FbxNode* pNode,std::vector<AnimationData*> m_vAnimData);
+		void GetAnimtionData(FbxNode* pNode,std::vector<Animation*> m_vAnimData);
 
 		void ReadVertex(FbxMesh* pMesh , int ctrlPointIndex , Vector3* pVertex);
 

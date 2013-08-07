@@ -7,11 +7,18 @@ namespace ma
 		m_pAnimPlay = pAniPlay;
 	}
 
-	void AnimationSet::AddAction(const char* pszSkaPath, const char* actionName)
+	Action*	AnimationSet::CreateAction(const char* actionName)
 	{
-		ISkeleton* pISkelton = m_pAnimPlay->GetSkeleton();
-		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,(Skeleton*)pISkelton,actionName);
-		AddAction(pAction);
+		Action* pAction = new Action(actionName);
+		m_arrAnimation.push_back(pAction);
+		return pAction;
+	}
+
+	void AnimationSet::AddAnimClip(const char* pszSkaPath, const char* actionName)
+	{
+		Skeleton* pSkelton = m_pAnimPlay->GetSkeleton();
+		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,pSkelton,actionName);
+		m_arrAnimation.push_back(pAction);
 	}
 
 	Action* AnimationSet::GetActionByName(const char* pszName)
@@ -39,13 +46,13 @@ namespace ma
 		return m_arrAnimation[index];
 	}
 
-	void	AnimationSet::AddAction(Action* pAction) 
-	{
-		if (pAction == NULL)
-			return;
-
-		m_arrAnimation.push_back(pAction);
-	}
+// 	void	AnimationSet::AddAction(Action* pAction) 
+// 	{
+// 		if (pAction == NULL)
+// 			return;
+// 
+// 		m_arrAnimation.push_back(pAction);
+// 	}
 
 	void	AnimationSet::RemoveAction(Action* pAction)
 	{

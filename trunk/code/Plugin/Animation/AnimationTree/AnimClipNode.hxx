@@ -3,10 +3,11 @@
 
 namespace ma
 {
-	AnimClipNode::AnimClipNode(AnimationInst* pAnimInst,BoneSet* pBoneSet)
+	AnimClipNode::AnimClipNode(/*const char* pAnimPath,const char* pBonsetName*/)
 	{
-		m_pAnimInst = pAnimInst;
-		m_pBoneSet = pBoneSet;
+		m_pBoneSet = NULL;
+		m_pAnimClip = NULL;
+		
 	}
 
 	AnimClipNode::~AnimClipNode()
@@ -16,25 +17,25 @@ namespace ma
 
 	void AnimClipNode::AdvanceTime(float fTimeElapsed)
 	{
-		if (m_pAnimInst == NULL)
+		if (m_pAnimClip == NULL)
 			return;
 
-		m_pAnimInst->AdvanceTime(fTimeElapsed);
+		m_pAnimClip->AdvanceTime(fTimeElapsed);
 	}
 
 	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
-		if (m_pAnimInst == NULL)
+		if (m_pAnimClip == NULL)
 			return;
 
-		m_pAnimInst->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet);
+		m_pAnimClip->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet);
 	}
 
 	void AnimClipNode::SetFrame(float fFrame)
 	{
-		if (m_pAnimInst == NULL)
+		if (m_pAnimClip == NULL)
 			return;
 
-		m_pAnimInst->SetFrame(fFrame);
+		m_pAnimClip->SetFrame(fFrame);
 	}
 }

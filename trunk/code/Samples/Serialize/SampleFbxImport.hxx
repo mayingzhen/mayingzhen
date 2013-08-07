@@ -27,8 +27,8 @@ namespace ma
 	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
 	{
 		MeshData* pMeshData = new MeshData;
-		SkeletonData* pSkeData = new SkeletonData;
-		AnimationData* pAnimData = new AnimationData;
+		Skeleton* pSkeData = new Skeleton;
+		Animation* pAnimData = new Animation;
 // 		fbxImpor.LoadSkeletonMeshData("../../Data/Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
 // 		fbxImpor.LoadAnimationData("../../Data/Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
 // 
@@ -44,10 +44,9 @@ namespace ma
 		m_pRenderMesh = new RenderMesh();
 		m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");        
 
-		m_pAnimtionPlay =  GetAnimationDevice()->CreateAnimationPlay();
-		m_pAnimtionPlay->CreateSkeleton("FBX/TestBull.ske");
-		IAnimationSet* pAnimSet = m_pAnimtionPlay->CreateAnimSet(NULL);
-		pAnimSet->AddAction("FBX/TestBull.ska","TestAction");
+		m_pAnimtionPlay =  GetAnimationSystem()->CreateAnimationPlay("FBX/TestBull.ske");
+		AnimationSet* pAnimSet = m_pAnimtionPlay->GetAnimationSet();
+		pAnimSet->AddAnimClip("FBX/TestBull.ska","TestAction");
 		m_pAnimtionPlay->PlayAnimation("TestAction");
 	}
 

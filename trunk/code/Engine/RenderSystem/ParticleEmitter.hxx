@@ -42,11 +42,8 @@ ParticleEmitter::~ParticleEmitter()
 
 ParticleEmitter* ParticleEmitter::create(const char* textureFile, BLEND_MODE textureBlending, unsigned int particleCountMax)
 {
-	TextureData* textureData = SafeCast<TextureData>(ResourceManager::DeclareResource(textureFile)); //GetRenderDevice()->CreateRendTexture();//Texture::create(textureFile, false);
-	textureData->LoadFileToMemeory();
-	textureData->CreateFromMemeory();
-
-	Texture* texture = textureData->GetRenderTexture();
+	Texture* texture = DeclareResource<Texture>(textureFile);
+	texture->LoadSync();
 
     if (!texture)
     {

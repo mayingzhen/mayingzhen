@@ -48,9 +48,9 @@ namespace ma
 
 	struct TrackData
 	{
-		Vector3TrackData posTrack;
-		QuaternionTrackData RotTrack;
-		Vector3TrackData scaleTrack;
+		Vector3Track posTrack;
+		QuaternionTrack RotTrack;
+		Vector3Track scaleTrack;
 	};
 
 	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
@@ -66,6 +66,9 @@ namespace ma
 		const char* pszBoneName = pNode->GetName();
 
 		TrackData trackData;
+		//trackData.posTrack = new Vector3Track();
+		//trackData.RotTrack = new QuaternionTrack();
+		//trackData.posTrack = new Vector3Track();
 	
 		if ( pNode->GetSkeleton() )
 		{
@@ -92,9 +95,9 @@ namespace ma
 				trackData.RotTrack.m_arrFrame.push_back(i);
 				trackData.scaleTrack.m_arrFrame.push_back(i);
 
-				trackData.posTrack.m_arrKey.push_back( ToMaUnit(pTranslation) );
-				trackData.RotTrack.m_arrKey.push_back( ToMaUnit(pRotation) );
-				trackData.scaleTrack.m_arrKey.push_back( ToMaUnit(pScaling) );
+				trackData.posTrack.m_arrValue.push_back( ToMaUnit(pTranslation) );
+				trackData.RotTrack.m_arrValue.push_back( ToMaUnit(pRotation) );
+				trackData.scaleTrack.m_arrValue.push_back( ToMaUnit(pScaling) );
 
 				++i;
 			}
@@ -108,7 +111,7 @@ namespace ma
 		}
 	}
 
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,AnimationData* pAnimData,const SkeletonData* pSkelData)
+	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation* pAnimData,const Skeleton* pSkelData)
 	{
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
 		FbxString lOutputString;
@@ -136,9 +139,8 @@ namespace ma
 			break;
 		}
 		
-		ASSERT(boneTrack.size() == pSkelData->m_nBoneNum);
+		ASSERT(boneTrack.size() == pSkelData->m_arrBoneName.size());
 		UINT nBoneNum = boneTrack.size();
-		pAnimData->m_nBoneNum = nBoneNum;
 		pAnimData->m_arrTransfTrackName.resize(nBoneNum);
 		pAnimData->m_arrPosTrack.resize(nBoneNum);
 		pAnimData->m_arrRotTrack.resize(nBoneNum);
@@ -158,7 +160,7 @@ namespace ma
 			pAnimData->m_arrRotTrack[i] = it->second.RotTrack;
 			pAnimData->m_arrScaleTrack[i] = it->second.scaleTrack;
 			int nFrame = it->second.posTrack.m_arrFrame.size();
-			pAnimData->m_nFrameNum = pAnimData->m_nFrameNum < nFrame ? nFrame : pAnimData->m_nFrameNum;
+			pAnimData->m_nFrameNumber = pAnimData->m_nFrameNumber < nFrame ? nFrame : pAnimData->m_nFrameNumber;
 
 		}
 	}
@@ -178,7 +180,7 @@ namespace ma
 		return true;
 	}
 
-	bool	FBXImporter::LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,SkeletonData* pSkeData)
+	bool	FBXImporter::LoadSkeletonMeshData(const char* pFileName,MeshData* pMeshData,Skeleton* pSkeData)
 	{
 		FbxScene* pFbxScene = GetFbxScene(pFileName);
 		if (pFbxScene == NULL)
@@ -203,7 +205,7 @@ namespace ma
 		return true;
 	}
 
-	bool	FBXImporter::LoadAnimationData(const char* pFileName,AnimationData* pAnimation, const SkeletonData* pSkelData)
+	bool	FBXImporter::LoadAnimationData(const char* pFileName,Animation* pAnimation, const Skeleton* pSkelData)
 	{
 		if (pFileName == NULL)
 			return false;
@@ -299,7 +301,7 @@ namespace ma
 	}
 
 
-	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,SkeletonData* pSkelData)
+	void  FBXImporter::GetSkeletonData(FbxSkeleton* pSkeleton,KFbxPose* pBindPose,Skeleton* pSkelData)
 	{
 		if (pSkeleton == NULL)
 			return;
@@ -335,12 +337,15 @@ namespace ma
 
 		int index = (pSkelData->m_arrBoneName).size();
 
+		NodeTransform tsfOS;
+		tsfOS.m_fScale = ToMaUnit(LocalLinkS).x;
+		tsfOS.m_qRot = ToMaUnit(LocalLinkQ);
+		tsfOS.m_vPos = ToMaUnit(LocalLinkT);
+
 		(pSkelData->m_arrBoneName).push_back(name.Buffer());
-		(pSkelData->m_arrScaleOS).push_back( ToMaUnit(LocalLinkS) );
-		(pSkelData->m_arrRotOS).push_back( ToMaUnit(LocalLinkQ) );
-		(pSkelData->m_arrPosOS).push_back( ToMaUnit(LocalLinkT) );
 		(pSkelData->m_arrParentIndice).push_back(parentID);
-		pSkelData->m_nBoneNum = index + 1;
+		pSkelData->m_arrTsfOS.push_back(tsfOS);		
+		//pSkelData->m_nBoneNum = index + 1;
 
 		for (int i = 0; i < pNode->GetChildCount(); ++i)
 		{
@@ -359,7 +364,7 @@ namespace ma
 		std::vector<double> m_vBoneWeight;
 	};
 
-	void GetSkinInfo(const FbxMesh* pMesh,const SkeletonData* pSkelData,
+	void GetSkinInfo(const FbxMesh* pMesh,const Skeleton* pSkelData,
 		std::vector<pointSkin>& vPointSkin, int& clusterCount)
 	{
 		if (pMesh == NULL)
@@ -429,7 +434,7 @@ namespace ma
 		
 	}
 
-	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const SkeletonData* pSkelData)
+	void FBXImporter::GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,const Skeleton* pSkelData)
 	{
 		if (pMesh == NULL)
 			return;

@@ -7,8 +7,8 @@
 
 %include "../../Code/Engine/Export.h"
 
-%include "../../Code/Engine/Animation/IAnimationDevice.h"
-%include "../../Code/Engine/Animation/IAnimationPlay.h"
+%include "../../Code/Engine/Animation/IAnimationSystem.h"
+%include "../../Code/Engine/Animation/AnimationPlay.h"
 %include "../../Code/Engine/Animation/ISkeleton.h"
 %include "../../Code/Engine/Animation/IAnimationSet.h"
 
@@ -30,7 +30,7 @@
 %include "../../Code/Engine/Resource/MeshData.h"
 %include "../../Code/Engine/Resource/AnimationData.h"
 %include "../../Code/Engine/Resource/SkeletonData.h"
-%include "../../Code/Engine/Resource/TextureData.h"
+%include "../../Code/Engine/Resource/Texture.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"
 
 %include "../../Code/Engine/RenderSystem/RenderDefine.h"

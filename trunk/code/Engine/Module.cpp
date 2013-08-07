@@ -22,9 +22,9 @@
 #include "Engine/Resource/Properties.hxx"
 #include "Engine/Resource/Resource.hxx"
 #include "Engine/Resource/MeshData.hxx"
-#include "Engine/Resource/AnimationData.hxx"
-#include "Engine/Resource/SkeletonData.hxx"
-#include "Engine/Resource/TextureData.hxx"
+//#include "Engine/Resource/AnimationData.hxx"
+//#include "Engine/Resource/SkeletonData.hxx"
+//#include "Engine/Resource/Texture.hxx"
 #include "Engine/Resource/ResourceMangager.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
@@ -69,7 +69,7 @@
 
 
 // Animation
-#include "Engine/Animation/IAnimationDevice.hxx"
+//#include "Engine/Animation/IAnimationSystem.hxx"
 
 
 // Physics
