@@ -18,35 +18,39 @@ namespace ma
 		m_pRenderMesh = new RenderMesh();
 		m_pRenderMesh->Load("magician/Body.skn","magician/Body.tga");
 
-		m_pAnimtionPlay =  GetAnimationDevice()->CreateAnimationPlay();
-		m_pAnimtionPlay->CreateSkeleton("magician/Body.ske");
+		m_pAnimtionPlay = GetAnimationSystem()->CreateAnimationPlay("magician/Body.ske");
+		AnimationSet* pAnimSet = m_pAnimtionPlay->GetAnimationSet();
+		Action*	pAction = pAnimSet->CreateAction("TestAnim");
+		//AnimLayerNode*	pLayerNode = pAction->CreateTreeNode<AnimLayerNode>();
+		//m_pClip602 = pLayerNode->AddLayer<AnimClipNode>();
+		//m_pClip602->SetAnimationClip("magician/602/bip01.ska");
+		//m_pClip602->SetBoneSet("UpBody");
 
+		//m_pClip100 = pLayerNode->AddLayer<AnimClipNode>();
+		//m_pClip100->SetAnimationClip("magician/100/bip01.ska");
+		//m_pClip100->SetBoneSet("LowerBody");
 
-// 		Animation* pAnimation = new Animation;
-// 		pAnimation->InitWithData(vAnimData[0]);
-// 		pAnimation->ConverteAnimDataParentToLocalSpaceAnimation(m_pSkeleton);
-// 		AnimationInst* pAnimInst = new AnimationInst(pAnimation,m_pSkeleton);
-// 		AnimClipNode* pClipNode = new AnimClipNode(pAnimInst/*,m_pSkeleton->GetBoneSetByName("UpBody")*/);
-// 		AnimationAction* pAction = new AnimationAction();
-// 		pAction->SetTreeNode(pClipNode);
-// 
-// 		m_pAnimtionPlay = new AnimationPlay(); 
-// 		m_pAnimtionPlay->SetSkeleton(m_pSkeleton);
-// 		m_pAnimtionPlay->PlayAnimation(pAction);
+		m_pAnimtionPlay->PlayAnimation("TestAnim");
 	}
 
 
 	void SampleAnimationTree::Update()
 	{
-		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
-
-		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
-
-		m_pAnimtionPlay->EvaluateAnimation(1.0f);
-
-		Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-		UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-		m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
+// 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
+// 
+// 		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+// 
+// 		m_pAnimtionPlay->EvaluateAnimation(1.0f);
+// 
+// 		Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
+// 		UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
+// 		m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
+// 
+// 		if (GetInput()->IsKeyDown(OIS::KC_1))
+// 		{
+// 			m_pClip602->SetBoneSet("FullBody");
+// 			m_pClip100->SetBoneSet("EmptyBody");
+// 		}
 	}
 
 	void SampleAnimationTree::Render()

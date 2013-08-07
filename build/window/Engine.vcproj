@@ -234,46 +234,18 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Animation"
-			>
-			<File
-				RelativePath="..\..\Code\Engine\Animation\IAnimationDevice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Animation\IAnimationDevice.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Animation\IAnimationPlay.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Animation\IAnimationSet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Animation\ISkeleton.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Resource"
 			>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\AnimationData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\AnimationData.hxx"
-				>
-			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Resource\MeshData.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Resource\MeshData.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\MeshDataSerialize.hxx"
 				>
 			</File>
 			<File
@@ -298,22 +270,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Resource\ResourceMangager.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\SkeletonData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\SkeletonData.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\TextureData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\TextureData.hxx"
 				>
 			</File>
 			<Filter

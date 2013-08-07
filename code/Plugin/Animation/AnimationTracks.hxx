@@ -39,7 +39,7 @@ namespace ma
 // 
 // 	}
 // 
-// 	void AnimationTracks::SetPositionTrack(UINT nTrackInd,const VECTOR3Track* pTrack)
+// 	void AnimationTracks::SetPositionTrack(UINT nTrackInd,const Vector3Track* pTrack)
 // 	{
 // 		//m_pos[nTrackInd]->Clone(pTrack);
 // 	}
@@ -50,7 +50,7 @@ namespace ma
 // 		//m_rot[nTrackInd]->Clone(pTrack);
 // 	}
 // 
-// 	void AnimationTracks::SetScaleTrack(UINT nTrackInd,const VECTOR3Track* pTrack)
+// 	void AnimationTracks::SetScaleTrack(UINT nTrackInd,const Vector3Track* pTrack)
 // 	{
 // 		//m_scale[nTrackInd]->Clone(pTrack);
 // 	}
@@ -58,9 +58,9 @@ namespace ma
 // 	void AnimationTracks::Clone(AnimationTracks* pTracks) const
 // 	{
 // 
-// 		// 		ArrayDeepCopy<Array<VECTOR3Track*>,VECTOR3Track>(pTracks->m_scale,m_scale);
+// 		// 		ArrayDeepCopy<Array<Vector3Track*>,Vector3Track>(pTracks->m_scale,m_scale);
 // 		// 		ArrayDeepCopy<Array<QuaternionTrack*>,QuaternionTrack>(pTracks->m_rot,m_rot);
-// 		// 		ArrayDeepCopy<Array<VECTOR3Track*>,VECTOR3Track>(pTracks->m_pos,m_pos);
+// 		// 		ArrayDeepCopy<Array<Vector3Track*>,Vector3Track>(pTracks->m_pos,m_pos);
 // 		// 		ArrayDeepCopy<Array<FloatTrack*>,FloatTrack>(pTracks->m_float,m_float);
 // 		// 
 // 		// 		pTracks->m_rootMotionPos = m_rootMotionPos;

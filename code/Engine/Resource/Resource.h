@@ -22,21 +22,24 @@ namespace ma
 
 		virtual ~Resource();
 
-		virtual bool LoadFileToMemeory();
+		virtual bool	LoadSync();
 
-		virtual void CreateFromMemeory() = 0;
+		virtual void	SaveToFile(const char* pszPath);
 
-		//virtual bool Save(const char* pszPath = NULL);
+		const char*		GetResPath() const {return m_sResPath.c_str();}
 
-		const char* GetResPath() const {return m_sResPath.c_str();}
+		void			SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 
-		void		SetResPath(const char* pResPath) {m_sResPath = pResPath;}
+		ResState		GetResState() {return m_eResState;}
 
-		ResState	GetResState() {return m_eResState;}
+		virtual bool	LoadFileToMemeory();
 
-		//virtual void Serialize(Serializer& sl, const char* pszLable = "Resource");
+		virtual bool	CreateFromMemeory();
 
-		DataStream*	GetDataStream() {return m_pDataStream;}
+	protected:
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
+
+		DataStream*		GetDataStream() {return m_pDataStream;}
 
 	protected:
 		std::string		m_sResPath;

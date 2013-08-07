@@ -3,7 +3,7 @@
 
 #include "Animation/Skeleton.hxx"
 #include "Animation/Animation.hxx"
-#include "Animation/AnimationInst.hxx"
+#include "Animation/AnimationClip.hxx"
 #include "Animation/SkeletonPose.hxx"
 #include "Animation/BoneMap.hxx"
 #include "Animation/BoneSet.hxx"
@@ -27,7 +27,7 @@
 
 
 // Device
-#include "Animation/AnimationDevice.hxx"
+#include "Animation/AnimationSystem.hxx"
 
 
 using namespace ma;
@@ -36,6 +36,9 @@ using namespace ma;
 #include <Animation/RTTIDecl.h>
 #undef RTTI_DECL
 
+
+Resource* AnimationData_Creator() {return new Animation();}
+Resource* SkeletonData_Creator() {return new Skeleton();}
 
 void AnimationModuleInit()
 {
@@ -48,18 +51,23 @@ void AnimationModuleInit()
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 
+	ResourceManager::RegisterResourceFactory("ska",AnimationData_Creator);
+	ResourceManager::RegisterResourceFactory("ske",SkeletonData_Creator);
+
 
 	// Device
-	AnimationDevice* pAnimationDevice = new AnimationDevice();
-	SetAnimationDevice(pAnimationDevice); 
+	AnimationSystem* pAnimationSystem = new AnimationSystem();
+	SetAnimationSystem(pAnimationSystem); 
 }
 
 void AnimationModuleShutdown()
 {
 	// Device
-	AnimationDevice* pAnimationDevice = (AnimationDevice*)GetAnimationDevice();
-	SAFE_DELETE(pAnimationDevice);
-
+	AnimationSystem* pAnimationSystem = GetAnimationSystem();
+	SAFE_DELETE(pAnimationSystem);
+	
+	ResourceManager::UnregisterResourceFactory("skn",AnimationData_Creator);
+	ResourceManager::UnregisterResourceFactory("ske",SkeletonData_Creator);
 
 	// RTTI
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);
@@ -70,3 +78,4 @@ void AnimationModuleShutdown()
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 }
+

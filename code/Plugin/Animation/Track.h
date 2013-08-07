@@ -6,8 +6,8 @@
 // #include <Animation/Interface/ITrack.h>
 // #include <Animation/Animation/KeyFrameHelper.h>
 
-// namespace ma
-// {
+namespace ma
+{
 // 	inline float Clamp(float fVal,float fMin,float fMax)
 // 	{
 // 		fVal = fVal > fMin ? fVal : fMin;
@@ -111,22 +111,22 @@
 	typedef DataTrack<float> FloatTrack;
 
 
-	class VECTOR3Track : public ITrack
+	class Vector3Track : public ITrack
 	{
 	public:
 
-		std::vector<UINT>			m_arrFrame; //frame number of each key
+		std::vector<UINT>		m_arrFrame; //frame number of each key
 		std::vector<Vector3>	m_arrValue;
 
 
-		VECTOR3Track()
+		Vector3Track()
 		{
 
 		}
 
 		void	Clear();
 
-		void	Clone(const VECTOR3Track* pTrack);
+		void	Clone(const Vector3Track* pTrack);
 
 		void	SetKeyNumber(UINT keyNum);
 
@@ -201,79 +201,79 @@
 
 
 	//------------------------------------------------------------------------------
-	//VECTOR3Track
+	//Vector3Track
 	//------------------------------------------------------------------------------
 
-// 	inline VECTOR3Track::VECTOR3Track()
+// 	inline Vector3Track::Vector3Track()
 // 	{
 // 
 // 	}
 
-	inline void	VECTOR3Track::Clear()
+	inline void	Vector3Track::Clear()
 	{
 		m_arrFrame.clear();
 		m_arrValue.clear();
 	}
 
-	inline void	VECTOR3Track::Clone(const VECTOR3Track* pTrack)
+	inline void	Vector3Track::Clone(const Vector3Track* pTrack)
 	{
 		m_arrFrame = pTrack->m_arrFrame;
 		m_arrValue = pTrack->m_arrValue;
 	}
 
-	inline void VECTOR3Track::SetKeyNumber( UINT keyNum )
+	inline void Vector3Track::SetKeyNumber( UINT keyNum )
 	{
 		m_arrFrame.resize(keyNum);
 		m_arrValue.resize(keyNum);
 
 	}
 
-	inline UINT VECTOR3Track::GetKeyNumber() const
+	inline UINT Vector3Track::GetKeyNumber() const
 	{
 		return (UINT)m_arrValue.size();
 
 	}
 
-	inline void VECTOR3Track::SetKeyFrame( UINT key,UINT frame )
+	inline void Vector3Track::SetKeyFrame( UINT key,UINT frame )
 	{
 		m_arrFrame[key] = frame;
 	}
 
-	inline UINT	VECTOR3Track::GetKeyFrame(UINT nKeyInd) const
+	inline UINT	Vector3Track::GetKeyFrame(UINT nKeyInd) const
 	{
 		return m_arrFrame[nKeyInd];
 	}
 
 
-	inline UINT VECTOR3Track::GetFrameNumber() const
+	inline UINT Vector3Track::GetFrameNumber() const
 	{
 		return m_arrFrame.size() > 0 ? m_arrFrame[m_arrFrame.size()-1] + 1 : 0;
 	}
 
-	inline void VECTOR3Track::SetKey( UINT key,UINT frame,const Vector3& val )
+	inline void Vector3Track::SetKey( UINT key,UINT frame,const Vector3& val )
 	{
 		m_arrValue[key]		= val;
 		m_arrFrame[key]	= frame;
 	}
 
 
-	inline void VECTOR3Track::SetKeyValue( UINT key,const Vector3& val )
+	inline void Vector3Track::SetKeyValue( UINT key,const Vector3& val )
 	{
 		m_arrValue[key] = val;
 	}
 
-	inline const Vector3& VECTOR3Track::GetKeyValue(UINT nKeyIndex)const
+	inline const Vector3& Vector3Track::GetKeyValue(UINT nKeyIndex)const
 	{
 		return m_arrValue[nKeyIndex];
 	}
 
-	inline void VECTOR3Track::Pushback(UINT frame,const Vector3& val)
+	inline void Vector3Track::Pushback(UINT frame,const Vector3& val)
 	{
 		m_arrValue.push_back(val);
 		m_arrFrame.push_back(frame);
 	}
 
-	inline void VECTOR3Track::SampleFrame( float frame,Vector3& val ) const
+	inline void Vector3Track::SampleFrame( float frame,Vector3& val ) const
 	{
 		UINT key0;
 		UINT key1;
@@ -284,7 +284,7 @@
 
 	}
 
-	inline void	VECTOR3Track::DbgDump() const
+	inline void	Vector3Track::DbgDump() const
 	{
 		//Log("Total Key %u ",m_arrValue.size());
 		for (UINT keyCnt = 0; keyCnt < m_arrValue.size(); ++keyCnt)
@@ -389,7 +389,7 @@
 			//Log(" %d(%.5f,%.5f,%.5f,%.5f)",m_arrFrame[keyCnt],m_arrValue[keyCnt].x,m_arrValue[keyCnt].y,m_arrValue[keyCnt].z,m_arrValue[keyCnt].w);
 		}
 	}
-//}
+}
 
 
 #endif

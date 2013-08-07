@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class IAnimationPlay;
+	class AnimationPlay;
 	class RenderMesh;
 
 
@@ -21,9 +21,12 @@ namespace ma
 		virtual void Render();
 
 	private:
-		IAnimationPlay*	m_pAnimtionPlay;
+		AnimationPlay*	m_pAnimtionPlay;
 
 		RenderMesh*		m_pRenderMesh;
+
+		AnimClipNode*	m_pClip602;
+		AnimClipNode*	m_pClip100;
 	};
 }
 

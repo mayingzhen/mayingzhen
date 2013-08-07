@@ -3,8 +3,9 @@
 
 namespace ma
 {
-	Action::Action()
+	Action::Action(const char* pName)
 	{
+		m_sAnimName = pName ? pName : "";
 		m_pAnimaNode = NULL;
 	}
 

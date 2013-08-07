@@ -6,10 +6,10 @@ namespace ma
 	class AnimTreeNode;
 	class PoseModifier;
 
-	class Action
+	class ANIMATION_API Action 
 	{
 	public:
-		Action();
+		Action(const char* pName = NULL);
 
 		~Action();
 

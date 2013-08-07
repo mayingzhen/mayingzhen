@@ -8,19 +8,19 @@ namespace ma
 	:Component(pGameObj)
 	{
 		m_pAnimtionPlay= NULL;
-		if (GetAnimationDevice())
-		{	
-			m_pAnimtionPlay = GetAnimationDevice()->CreateAnimationPlay();
-		}
+// 		if (GetAnimationSystem())
+// 		{	
+// 			m_pAnimtionPlay = GetAnimationSystem()->CreateAnimationPlay();
+// 		}
 	}
 
 	AnimPlayComponent::~AnimPlayComponent()
 	{
-		//SAFE_DELETE(m_pAnimtionPlay);
-		if (GetAnimationDevice())
-		{
-			//GetAnimationDevice()->
-		}
+// 		SAFE_DELETE(m_pAnimtionPlay);
+// 		if (GetAnimationSystem())
+// 		{
+// 			GetAnimationSystem()->
+// 		}
 	}
 
 	void AnimPlayComponent::Start()
@@ -65,25 +65,26 @@ namespace ma
 
 	void AnimPlayComponent::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
-		if (GetAnimationDevice() == NULL)
+		if (GetAnimationSystem() == NULL)
 			return;
-
-		m_pAnimtionPlay->CreateSkeleton(pszSkeletonPath);
-		m_pAnimtionPlay->CreateAnimSet(pszAniSetPath);
-
+		
+		if (pszSkeletonPath)
+		{
+ 			m_pAnimtionPlay = GetAnimationSystem()->CreateAnimationPlay(pszSkeletonPath);
+		}
 	}
 
 	void AnimPlayComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
-// 		sl.SerializeObjectArray(m_vMeshComp);
-// 
-// 		std::string sAniSetPath,sSkeletonPath;
-// 	
-// 		IAnimationSet* pAnimationSet = m_pAnimtionPlay->GetAnimationSet();
+
+ 
+ 		std::string sAniSetPath,sSkeletonPath;
+ 	
+ 		AnimationSet* pAnimationSet = m_pAnimtionPlay->GetAnimationSet();
 // 		if (pAnimationSet)
-// 		{
+ //		{
 // 			sAniSetPath = pAnimationSet->GetResPath();
 // 		}
 // 

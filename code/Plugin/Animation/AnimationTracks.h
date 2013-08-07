@@ -5,29 +5,29 @@ namespace ma
 {
 	struct AnimationTracks
 	{
-		std::vector<VECTOR3Track*>		m_scale;
+		std::vector<Vector3Track*>		m_scale;
 		std::vector<QuaternionTrack*>		m_rot;
-		std::vector<VECTOR3Track*>		m_pos;
+		std::vector<Vector3Track*>		m_pos;
 
 		std::vector<FloatTrack*>			m_float;
 
 		//------------------------------------------------------------------------------
 		//RootMotion
 		//------------------------------------------------------------------------------
-		// 		VECTOR3Track					m_rootMotionPos;
+		// 		Vector3Track					m_rootMotionPos;
 		// 		QuaternionTrack				m_rootMotionRot;
-		// 		VECTOR3Track					m_rootMotionScale;
+		// 		Vector3Track					m_rootMotionScale;
 
 // 		AnimationTracks();
 // 
 // 		~AnimationTracks();
 // 
 // 
-// 		void SetPositionTrack(UINT nTrackInd,const VECTOR3Track* pTrack);
+// 		void SetPositionTrack(UINT nTrackInd,const Vector3Track* pTrack);
 // 
 // 		void SetRotationTrack(UINT nTrackInd,const QuaternionTrack* pTrack);
 // 
-// 		void SetScaleTrack(UINT nTrackInd,const VECTOR3Track* pTrack);
+// 		void SetScaleTrack(UINT nTrackInd,const Vector3Track* pTrack);
 // 
 // 		void Clear();
 // 

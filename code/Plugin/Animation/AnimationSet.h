@@ -8,12 +8,14 @@ namespace ma
 	class PoseModifier;
 	class AnimationPlay;
 
-	class AnimationSet : public IAnimationSet
+	class ANIMATION_API AnimationSet 
 	{
 	public:
 		AnimationSet(AnimationPlay* pAniPlay);
 
-		virtual	void	AddAction(const char* pszSkaPath, const char* actionName);
+		virtual	Action*	CreateAction(const char* actionName);
+
+		virtual	void	AddAnimClip(const char* pszSkaPath, const char* actionName);
 
 		Action*			GetActionByName(const char* pszName);
 
@@ -21,7 +23,7 @@ namespace ma
 
 		Action*			GetActionByIndex(UINT index);
 
-		void			AddAction(Action* pAction);
+		//void			AddAction(Action* pAction);
 
 		void			RemoveAction(Action* pAction);
 

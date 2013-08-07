@@ -26,14 +26,14 @@ namespace ma
 				MeshData* pMeshDataf = LoadMeshFromS3BinaryFile("../../Data/S3gigi/gigi/body_f.skn");
 				pMeshDataf->SaveToFile("../../Data/gigi/gigi/body_f.skn");
 
-				SkeletonData* pSkelData = LoadSkeletonFromS3BinaryFile("../../Data/S3gigi/gigi/body.ske");
+				Skeleton* pSkelData = LoadSkeletonFromS3BinaryFile("../../Data/S3gigi/gigi/body.ske");
 				pSkelData->SaveToFile("../../Data/gigi/gigi/body.ske");
 
-				AnimationData* pRun = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/210_run/bip01.ska");
+				Animation* pRun = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/210_run/bip01.ska");
 				ConverteAnimDataParentToLocalSpaceAnimation(pRun,pSkelData);
 				pRun->SaveToFile("../../Data/gigi/210_run/bip01.ska");
 
-				AnimationData* pJunmp = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/281_run_jump_start/bip01.ska");
+				Animation* pJunmp = LoadAnimationFromS3BinaryFile("../../Data/S3gigi/281_run_jump_start/bip01.ska");
 				ConverteAnimDataParentToLocalSpaceAnimation(pJunmp,pSkelData);
 				pJunmp->SaveToFile("../../Data/gigi/281_run_jump_start/bip01.ska");
 			}
@@ -43,14 +43,14 @@ namespace ma
 				MeshData* pMeshDataMag = LoadMeshFromS3BinaryFile("../../Data/S3magician/Body.skn");
 				pMeshDataMag->SaveToFile("../../Data/magician/Body.skn");
 			
-				SkeletonData* pSkelDataMag = LoadSkeletonFromS3BinaryFile("../../Data/S3magician/Body.ske");
+				Skeleton* pSkelDataMag = LoadSkeletonFromS3BinaryFile("../../Data/S3magician/Body.ske");
 				pSkelDataMag->SaveToFile("../../Data/magician/Body.ske");
 
-				AnimationData* Mag602 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/602/bip01.ska");
+				Animation* Mag602 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/602/bip01.ska");
 				ConverteAnimDataParentToLocalSpaceAnimation(Mag602,pSkelDataMag);
 				Mag602->SaveToFile("../../Data/magician/602/bip01.ska");
 
-				AnimationData* mag100 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/100/bip01.ska");
+				Animation* mag100 = LoadAnimationFromS3BinaryFile("../../Data/S3magician/100/bip01.ska");
 				ConverteAnimDataParentToLocalSpaceAnimation(mag100,pSkelDataMag);
 				mag100->SaveToFile("../../Data/magician/100/bip01.ska");
 			}
@@ -69,14 +69,13 @@ namespace ma
 			m_pRenderMeshA_f = new RenderMesh();
 			m_pRenderMeshA_f->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
 
-			m_pAnimtionPlayA = GetAnimationDevice()->CreateAnimationPlay();
-			m_pAnimtionPlayA->CreateSkeleton("gigi/gigi/body.ske");
-			IAnimationSet* pAnimSet = m_pAnimtionPlayA->CreateAnimSet(NULL);
+			m_pAnimtionPlayA = GetAnimationSystem()->CreateAnimationPlay("gigi/gigi/body.ske");
+			AnimationSet* pAnimSet = m_pAnimtionPlayA->GetAnimationSet();
 
-			pAnimSet->AddAction("gigi/210_run/bip01.ska","gigi_Run");
-			pAnimSet->AddAction("gigi/281_run_jump_start/bip01.ska","gigi_jump");
-			pAnimSet->AddAction("magician/602/bip01.ska","Mag602");
-			pAnimSet->AddAction("magician/100/bip01.ska","mag100");
+			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
+			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
+			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
 
 			m_pAnimtionPlayA->PlayAnimation((UINT)0);	
 		}
@@ -86,14 +85,13 @@ namespace ma
 			m_pRenderMeshB = new RenderMesh();
 			m_pRenderMeshB->Load("magician/Body.skn","magician/Body.tga");
 
-			m_pAnimtionPlayB =  GetAnimationDevice()->CreateAnimationPlay();
-			m_pAnimtionPlayB->CreateSkeleton("magician/Body.ske");
-			IAnimationSet* pAnimSet = m_pAnimtionPlayB->CreateAnimSet(NULL);
+			m_pAnimtionPlayB =  GetAnimationSystem()->CreateAnimationPlay("magician/Body.ske");
+			AnimationSet* pAnimSet = m_pAnimtionPlayB->GetAnimationSet();
 			
-			pAnimSet->AddAction("gigi/210_run/bip01.ska","gigi_Run");
-			pAnimSet->AddAction("gigi/281_run_jump_start/bip01.ska","gigi_jump");
-			pAnimSet->AddAction("magician/602/bip01.ska","Mag602");
-			pAnimSet->AddAction("magician/100/bip01.ska","mag100");
+			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
+			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
+			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
 
 			m_pAnimtionPlayB->PlayAnimation((UINT)0);
 		}

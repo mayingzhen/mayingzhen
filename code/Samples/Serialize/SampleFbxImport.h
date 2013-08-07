@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class IAnimationPlay;
+	class AnimationPlay;
 	class Skeleton;
 	class MeshData;
 	class Texture;
@@ -32,7 +32,7 @@ namespace ma
 	private:
 
 		// SkelMesh
-		IAnimationPlay*	m_pAnimtionPlay;
+		AnimationPlay*	m_pAnimtionPlay;
 		Skeleton*		m_pSkeleton;
 		RenderMesh*		m_pRenderMesh;
 	

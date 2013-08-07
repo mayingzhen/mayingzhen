@@ -5,31 +5,33 @@
 
 namespace ma
 {
-	class AnimationInst;
+	class AnimationClip;
 	struct AnimEvalContext;
 	class BoneSet;
 
 	class ANIMATION_API AnimClipNode : public AnimTreeNode
 	{
 	public:
-		AnimClipNode(AnimationInst* pAnimInst = NULL,BoneSet* pBoneSet = NULL);
+		AnimClipNode();
+
+		AnimClipNode(const char* pSkaPath,const char* pBoneSetName);
 		
 		~AnimClipNode();
 
-		void SetAnimationInst(AnimationInst* pAnimInst) {m_pAnimInst = pAnimInst;}
+		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
 
-		void SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
+		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
 
-		virtual void AdvanceTime(float fTimeElapsed);
+		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
+		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
-		virtual	void SetFrame(float fFrame);
+		virtual	void	SetFrame(float fFrame);
 
 	private:
-		AnimationInst* m_pAnimInst;
+		AnimationClip*	m_pAnimClip;
 
-		BoneSet* m_pBoneSet;
+		BoneSet*		m_pBoneSet;
 	};
 }
 

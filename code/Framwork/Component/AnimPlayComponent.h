@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class IAnimationPlay;
+	class AnimationPlay;
 
 	class FRAMWORK_API AnimPlayComponent : public Component
 	{
@@ -21,7 +21,7 @@ namespace ma
 
 		void			Update();
 
-		IAnimationPlay*	GetAnimPlay() {return m_pAnimtionPlay;}
+		AnimationPlay*	GetAnimPlay() {return m_pAnimtionPlay;}
 
 		void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
@@ -30,7 +30,7 @@ namespace ma
 	private:
 		std::vector<RenderMesh*>	m_arrRenderMesh;
 
-		IAnimationPlay*				m_pAnimtionPlay;
+		AnimationPlay*				m_pAnimtionPlay;
 	};
 }
 

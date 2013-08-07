@@ -93,12 +93,12 @@ Theme* Theme::create(const char* url)
 	//theme->_texture = GetRenderDevice()->CreateRendTexture();
 	//std::string strPath = std::string(FileSystem::getResourcePath()) + textureFile;
 	//theme->_texture->Load(strPath.c_str());
-	TextureData* pTextureData = SafeCast<TextureData>(ResourceManager::DeclareResource(textureFile));
-	ASSERT(pTextureData);
-	pTextureData->LoadFileToMemeory();
-	pTextureData->CreateFromMemeory();
+	Texture* pTexture = DeclareResource<Texture>(textureFile);
+	ASSERT(pTexture);
+	pTexture->LoadSync();
 
-	theme->_texture = pTextureData->GetRenderTexture();
+
+	theme->_texture = pTexture;
 	//theme->_texture->Load();
     ASSERT(theme->_texture);
     theme->_spriteBatch = SpriteBatch::create(theme->_texture);

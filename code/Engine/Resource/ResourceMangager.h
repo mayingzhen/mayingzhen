@@ -25,6 +25,17 @@ namespace ma
 		
 		static ResCreateFunMap	m_resCreateFunMap;
 	};
+
+	template <class T>
+	T*	DeclareResource(const char* pszRelPath)
+	{
+		Resource* pRes = ResourceManager::DeclareResource(pszRelPath);
+		ASSERT(pRes);
+
+		T* pTypeRes = SafeCast<T>(pRes);
+		ASSERT(pTypeRes);
+		return pTypeRes;
+	}
 }
 
 

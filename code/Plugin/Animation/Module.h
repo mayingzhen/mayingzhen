@@ -5,7 +5,7 @@
 #include "Animation/Skeleton.h"
 #include "Animation/SkeletonPose.h"
 #include "Animation/Animation.h"
-#include "Animation/AnimationInst.h"
+#include "Animation/AnimationClip.h"
 #include "Animation/BoneMap.h"
 #include "Animation/BoneSet.h"
 #include "Animation/AnimEvalContext.h"
@@ -29,7 +29,7 @@
 
 
 // Device
-#include "Animation/AnimationDevice.h"
+#include "Animation/AnimationSystem.h"
 
 
 

@@ -23,7 +23,7 @@ namespace ma
 
 // 	void Game::Frame()
 // 	{
-// // 		GetAnimationDevice()->Update();
+// // 		GetAnimationSystem()->Update();
 // // 
 // // 		GetPhysicsDevice()->Update();
 // // 

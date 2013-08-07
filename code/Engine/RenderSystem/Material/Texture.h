@@ -4,9 +4,9 @@
 
 namespace ma
 {
-	class ENGINE_API Texture : public Object
+	class ENGINE_API Texture : public Resource
 	{
-		
+		DECL_OBJECT(Texture)
 
 	public:
 		//static Texture* create(const char* path,bool generateMipmaps = false);
@@ -17,7 +17,7 @@ namespace ma
 
 		virtual bool Load(DataStream* pDataStream, bool generateMipmaps = false) = 0;
 
-		//virtual bool Load(Stream* pStream, bool generateMipmaps = false) = 0;
+		virtual bool CreateFromMemeory();
 
 		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false) = 0;
 
