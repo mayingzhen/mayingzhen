@@ -7,20 +7,10 @@ namespace ma
 	AnimPlayComponent::AnimPlayComponent(GameObject* pGameObj)
 	:Component(pGameObj)
 	{
-		m_pAnimtionPlay= NULL;
-// 		if (GetAnimationSystem())
-// 		{	
-// 			m_pAnimtionPlay = GetAnimationSystem()->CreateAnimationPlay();
-// 		}
 	}
 
 	AnimPlayComponent::~AnimPlayComponent()
 	{
-// 		SAFE_DELETE(m_pAnimtionPlay);
-// 		if (GetAnimationSystem())
-// 		{
-// 			GetAnimationSystem()->
-// 		}
 	}
 
 	void AnimPlayComponent::Start()
@@ -78,11 +68,9 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-
- 
  		std::string sAniSetPath,sSkeletonPath;
  	
- 		AnimationSet* pAnimationSet = m_pAnimtionPlay->GetAnimationSet();
+ 		IAnimationSet* pAnimationSet = m_pAnimtionPlay->GetAnimationSet();
 // 		if (pAnimationSet)
  //		{
 // 			sAniSetPath = pAnimationSet->GetResPath();

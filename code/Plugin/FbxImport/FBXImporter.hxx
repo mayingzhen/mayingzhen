@@ -354,6 +354,8 @@ namespace ma
 			ASSERT(pSkeletonx);
 			GetSkeletonData(pSkeletonx,pBindPose,pSkelData);
 		}
+
+		pSkelData->InitResPose();
 	}
 
 

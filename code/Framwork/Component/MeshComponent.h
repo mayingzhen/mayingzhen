@@ -18,13 +18,7 @@ namespace ma
 
 		~MeshComponent();
 
-		void			Render();
-
-		void			Update();
-
-		void			Start();
-
-		void			Stop();
+		virtual	void	Update();
 
 		void			Load(const char* pszMeshPath,const char* pszTexPath);
 
@@ -48,4 +42,4 @@ namespace ma
 	};
 }
 
-#endif
+#endif // _MeshComponent__H__

@@ -1,4 +1,5 @@
 #include "AnimationUtil.h"
+#include "AnimationTree/AnimClipNode.h"
 
 namespace ma
 {

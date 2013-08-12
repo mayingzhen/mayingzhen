@@ -322,6 +322,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\UI\UISystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\UI\UISystem.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Plugin\UI\VerticalLayout.h"
 				>
 			</File>

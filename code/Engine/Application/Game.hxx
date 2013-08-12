@@ -25,7 +25,7 @@ namespace ma
 // 	{
 // // 		GetAnimationSystem()->Update();
 // // 
-// // 		GetPhysicsDevice()->Update();
+// // 		GetPhysicsSystem()->Update();
 // // 
 // // 		GetAiDevice()->Update();
 // 	}

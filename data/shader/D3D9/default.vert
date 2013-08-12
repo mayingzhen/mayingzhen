@@ -2,7 +2,7 @@
 uniform float4x4 u_worldViewProjectionMatrix;
 
 #ifdef SKIN
-uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
+uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT];
 #endif
 
 
@@ -53,17 +53,15 @@ struct VS_OUT
 
 #ifdef SKIN
 void SkinPos(float3 pos,
-           float4 BlendWeights , 
-           int4 BlendIndices,
+           float4 a_blendWeights , 
+           int4 	a_blendIndices,
            out float3 wPos)
 {
-   wPos = 0;
-   int   IndexArray[4]   = (int[4])BlendIndices; 
-   float WeightArray[4] = (float[4])BlendWeights;
-   for (int iBone = 0; iBone < 4; ++iBone)
-   {
-      wPos += mul( u_matrixPalette[IndexArray[iBone]], float4(pos,1) ).xyz * WeightArray[iBone];
-   }
+    wPos = 0;
+	wPos += mul(u_matrixPalette[a_blendIndices.x], float4(pos,1.0)).xyz * a_blendWeights.x;
+	wPos += mul(u_matrixPalette[a_blendIndices.y], float4(pos,1.0)).xyz * a_blendWeights.y;
+	wPos += mul(u_matrixPalette[a_blendIndices.z], float4(pos,1.0)).xyz * a_blendWeights.z;
+	wPos += mul(u_matrixPalette[a_blendIndices.w], float4(pos,1.0)).xyz * a_blendWeights.w;  
 }
 #endif
 

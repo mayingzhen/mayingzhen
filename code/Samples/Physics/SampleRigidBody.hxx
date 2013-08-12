@@ -11,20 +11,16 @@ namespace ma
 
 	void SampleRigidBody::UnLoad()
 	{
-		m_pScene->Stop();
-
-		SAFE_DELETE(m_pScene);
 	}	
 
 	void SampleRigidBody::Load()
 	{
-		m_pScene = new Scene();
 
-		m_pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f * 10,0));
+		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f * 10,0));
 
 		GameObject* pGameObjA = NULL;
 		{
-			GameObject* pGameObj = m_pScene->CreateGameObject("physics");
+			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("physics");
 			pGameObjA = pGameObj;
 
 			BoxCollisionComponent* pBoxCollisionComp = pGameObj->CreateComponent<BoxCollisionComponent>();
@@ -34,7 +30,7 @@ namespace ma
 			m_pRigidBody = pRigidBodyComp->GetRigidBody();
 			m_pRigidBody->SetUseGravity(false);
 
-			pGameObj->GetSceneNode()->Translate(Vector3(0,40,0),TS_WORLD);
+			pGameObj->GetSceneNode()->Translate(Vector3(0,40,0));
 
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
@@ -47,19 +43,19 @@ namespace ma
 
 
 			{
-				GameObject* pGameObjSphere = m_pScene->CreateGameObject("Sphere");
+				GameObject* pGameObjSphere = GetEntitySystem()->CreateGameObject("Sphere");
 				SphereCollisionComponent* pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionComponent>();
 				pSphereComp->GetSphereCollisionShape()->SetRadius(20);
 				pGameObjSphere->CreateComponent<RigidBodyComponent>();
 
-				pGameObjSphere->GetSceneNode()->Translate(Vector3(10,80,0),TS_WORLD);
+				pGameObjSphere->GetSceneNode()->Translate(Vector3(10,80,0));
 			}
 
 		}
 
 		GameObject* pGameObjB = NULL;
 		{
-			GameObject* pGameObj = m_pScene->CreateGameObject("Terrain");
+			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
 			pGameObjB = pGameObj;
 
 			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
@@ -69,15 +65,12 @@ namespace ma
 		}
 
 
-		m_pScene->Start();
-
 		pGameObjA->GetPhyscisObject()->AddCollisionListener(pGameObjB->GetPhyscisObject(),this);
 	}
 
 
 	void SampleRigidBody::Update()
 	{
-		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
 
 		if (GetInput()->IsKeyDown(OIS::KC_G))
 		{
@@ -91,7 +84,6 @@ namespace ma
 
 	void SampleRigidBody::Render()
 	{
-		m_pScene->Render(GetCamera());
 	}
 
 	void SampleRigidBody::collisionEvent(const CollisionData& eventData)

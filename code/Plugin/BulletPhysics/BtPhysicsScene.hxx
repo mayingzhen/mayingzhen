@@ -174,6 +174,21 @@ namespace ma
 		return pPhysicObj;
 	}
 
+	void BulletScene::DeletePhysicsObject(IPhysicsObject* pPhysicsObject)
+	{
+		std::vector<BulletPhysicsObject*>::iterator it;
+		it = std::find(m_arrPhysicsObject.begin(),m_arrPhysicsObject.end(),pPhysicsObject);
+		ASSERT(it != m_arrPhysicsObject.end());
+		if (it == m_arrPhysicsObject.end())
+		{
+			SAFE_DELETE(pPhysicsObject);
+			return;
+		}
+
+		SAFE_DELETE(pPhysicsObject);
+		m_arrPhysicsObject.erase(it);
+	}
+
 	IPhysicsGenericJoint*	BulletScene::CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
 	{
 		BulletPhysicsGenericJoint* pGenericJoint = new BulletPhysicsGenericJoint((BulletPhysicsObject*)pPhyObjA,(BulletPhysicsObject*)pPhyObjB);

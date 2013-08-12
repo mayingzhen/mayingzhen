@@ -154,10 +154,7 @@ namespace ma
 
 	void D3D9RenderDevice::BeginRender()
 	{
- 		HRESULT hr = D3D_OK;
-		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-		ClearBuffer(true,true,true,clearColor,1.0f,0);
-		
+  		HRESULT hr = D3D_OK;	
 		hr = m_pD3DDevice->BeginScene();
 		ASSERT( SUCCEEDED(hr) );
 	}

@@ -7,7 +7,7 @@ namespace ma
 {
 	SampleFbxImport::SampleFbxImport()
 	{
-		m_pAnimtionPlay = NULL;
+		m_pAnimtionObject = NULL;
 		m_pSkeleton = NULL;
 		m_pRenderMesh = NULL;
 		//m_pRendTexture = NULL;
@@ -26,16 +26,16 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh(FBXImporter& fbxImpor)
 	{
-		MeshData* pMeshData = new MeshData;
-		Skeleton* pSkeData = new Skeleton;
-		Animation* pAnimData = new Animation;
+// 		MeshData* pMeshData = new MeshData;
+// 		Skeleton* pSkeData = new Skeleton;
+// 		Animation* pAnimData = new Animation;
 // 		fbxImpor.LoadSkeletonMeshData("../../Data/Fbx/TestBull_anim.fbx",pMeshData,pSkeData);
 // 		fbxImpor.LoadAnimationData("../../Data/Fbx/TestBull_anim.fbx",pAnimData,pSkeData);
 // 
 // 		// Save
-// 		pMeshData->Save("../../Data/Fbx/TestBull.skn");
-// 		pSkeData->Save("../../Data/Fbx/TestBull.ske");
-// 		pAnimData->Save("../../Data/Fbx/TestBull.ska");
+// 		pMeshData->SaveToFile("../../Data/Fbx/TestBull.skn");
+// 		pSkeData->SaveToFile("../../Data/Fbx/TestBull.ske");
+// 		pAnimData->SaveToFile("../../Data/Fbx/TestBull.ska");
 // 		SAFE_DELETE(pMeshData);
 // 		SAFE_DELETE(pSkeData);
 // 		SAFE_DELETE(pAnimData);
@@ -44,17 +44,17 @@ namespace ma
 		m_pRenderMesh = new RenderMesh();
 		m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");        
 
-		m_pAnimtionPlay =  GetAnimationSystem()->CreateAnimationPlay("FBX/TestBull.ske");
-		AnimationSet* pAnimSet = m_pAnimtionPlay->GetAnimationSet();
+		m_pAnimtionObject =  GetAnimationSystem()->CreateAnimationObject("FBX/TestBull.ske");
+		IAnimationSet* pAnimSet = m_pAnimtionObject->GetAnimationSet();
 		pAnimSet->AddAnimClip("FBX/TestBull.ska","TestAction");
-		m_pAnimtionPlay->PlayAnimation("TestAction");
+		m_pAnimtionObject->PlayAnimation("TestAction");
 	}
 
 	void SampleFbxImport::LoadSaticMesh(FBXImporter& fbxImpor)
 	{
 // 		MeshData* pMeshData = new MeshData;
 // 		fbxImpor.LoadStaticMeshData("../../Data/Fbx/MovingPlatform.fbx",pMeshData);
-// 		pMeshData->Save("../../Data/Fbx/MovingPlatform.skn");
+// 		pMeshData->SaveToFile("../../Data/Fbx/MovingPlatform.skn");
 // 		SAFE_DELETE(pMeshData);
 
 		m_pStaticMesh = new RenderMesh();
@@ -108,20 +108,20 @@ namespace ma
 	{
 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
 
-		if (m_pAnimtionPlay)
+		if (m_pAnimtionObject)
 		{
-			//m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
+			//m_pAnimtionObject->AdvanceTime(fTimeElapsed);
 			//if (GetInput()->IsKeyDown(OIS::KC_A))
-			//	m_pAnimtionPlay->SetFrame(++m_fFame);
+			//	m_pAnimtionObject->SetFrame(++m_fFame);
 			//if (GetInput()->IsKeyDown(OIS::KC_D))
-			//	m_pAnimtionPlay->SetFrame(--m_fFame);
+			//	m_pAnimtionObject->SetFrame(--m_fFame);
 
-			m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
-			m_pAnimtionPlay->EvaluateAnimation(1.0f);
+			m_pAnimtionObject->AdvanceTime(fTimeElapsed);
+			m_pAnimtionObject->EvaluateAnimation(1.0f);
 		
 
-			Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-			UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
+			Matrix4x4* skinMatrix = m_pAnimtionObject->GetSkinMatrixArray();
+			UINT nNumber = m_pAnimtionObject->GetSkinMatrixNumber();
 
 			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
 		}

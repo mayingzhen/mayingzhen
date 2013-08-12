@@ -69,7 +69,7 @@ namespace ma
 
 		void				SetCurTechnqiue(const char* pShaderName,const char* pDefine);
 
-		static void			SetAuotBingCamera(Camera* pCamera) {m_auotBingCamera = pCamera;}
+		//static void			SetAuotBingCamera(Camera* pCamera) {m_auotBingCamera = pCamera;}
 		static void			SetAutoBingLight(Light* pLight) {m_autoBingLight = pLight;}
 
 	private:

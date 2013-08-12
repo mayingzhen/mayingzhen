@@ -31,11 +31,15 @@ namespace ma
 
 		void					Serialize(Serializer& sl, const char* pszLable = "ScriptObject");
 
-		//void					InitWithScriptClass(ScriptClass* pScriptClass);
-
 		void					InitMonoObject(MonoClass* pMonoClass); 
 
 		MonoObject*				GetMonoObject() {return m_pMonoObj;}
+
+		ScriptClass*			GetScriptClass() {return m_pScriptClass;}
+
+		//GameObject*				GetGameObject() {return m_pGameObj;}
+
+		//void					SetGameObject(GameObject* pGameObj) {m_pGameObj = pGameObj;}
 
 	private:
 		void					DestoryScript();
@@ -52,6 +56,8 @@ namespace ma
 		uint32_t						m_handle;
 
 		std::vector<ClassField*>		m_arrFields;
+
+		//GameObject*						m_pGameObj;
 	};
 
 

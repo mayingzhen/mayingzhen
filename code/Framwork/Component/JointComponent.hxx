@@ -10,8 +10,7 @@ namespace ma
 		ASSERT(pGameObject && pGameObject->GetPhyscisObject());
 		if (pGameObject && pGameObject->GetPhyscisObject())
 		{
-			IPhysicsScene* pPgysicsScene = pGameObject->GetSceneNode()->GetSene()->GetPhysicsScene();
-			m_pPhysicsGenericJoint = pPgysicsScene->CreatePhysicsGenericJoint(pGameObject->GetPhyscisObject(),NULL);
+			m_pPhysicsGenericJoint = GetPhysicsSystem()->CreatePhysicsGenericJoint(pGameObject->GetPhyscisObject(),NULL);
 		}
 	}
 
@@ -23,8 +22,7 @@ namespace ma
 		ASSERT(pGameObject && pGameObject->GetPhyscisObject());
 		if (pGameObject && pGameObject->GetPhyscisObject())
 		{
-			IPhysicsScene* pPgysicsScene = pGameObject->GetSceneNode()->GetSene()->GetPhysicsScene();
-			IPhysicsGenericJoint* pGenericJoint = pPgysicsScene->CreatePhysicsGenericJoint(pGameObject->GetPhyscisObject(),NULL);
+			IPhysicsGenericJoint* pGenericJoint = GetPhysicsSystem()->CreatePhysicsGenericJoint(pGameObject->GetPhyscisObject(),NULL);
 			pGenericJoint->SetAngularLowerLimit(Vector3(0.0f, 0.0f, 0.0f));
 			pGenericJoint->SetAngularUpperLimit(Vector3(0.0f, 0.0f, 0.0f));
 			pGenericJoint->SetLinearLowerLimit(Vector3(0.0f, 0.0f, 0.0f));
@@ -46,8 +44,7 @@ namespace ma
 		ASSERT(pGameObject && pGameObject->GetPhyscisObject());
 		if (pGameObject && pGameObject->GetPhyscisObject())
 		{
-			IPhysicsScene* pPgysicsScene = pGameObject->GetSceneNode()->GetSene()->GetPhysicsScene();
-			m_pPhysicsHingeJoint = pPgysicsScene->CreatePhysicsHingeJoint(pGameObject->GetPhyscisObject(),NULL);
+			m_pPhysicsHingeJoint = GetPhysicsSystem()->CreatePhysicsHingeJoint(pGameObject->GetPhyscisObject(),NULL);
 		}
 	}
 

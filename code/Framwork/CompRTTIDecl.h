@@ -1,6 +1,6 @@
 //RTTI_DECL(Component)
 RTTI_DECL(MeshComponent)
-RTTI_DECL(AnimPlayComponent)
+RTTI_DECL(AnimComponent)
 RTTI_DECL(ParticlComponent)
 //RTTI_DECL(CollisionComponent)
 RTTI_DECL(BoxCollisionComponent)

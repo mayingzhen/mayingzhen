@@ -3,9 +3,9 @@
 
 using namespace ma;
 
-static MonoObject* MonoGameObject_GetScript(int goPtr,MonoString* pScriptNameM)
+static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNameM)
 {
-	GameObject* pGameObj = (GameObject*)goPtr;
+	GameObject* pGameObj = (GameObject*)gameObjPtr;
 	std::string strScriptName = mono_string_to_utf8(pScriptNameM);
 
 	IScriptObject* pRetScriptObject = NULL;
@@ -30,10 +30,26 @@ static MonoObject* MonoGameObject_GetScript(int goPtr,MonoString* pScriptNameM)
 	return NULL != pMonoScriptObject ? pMonoScriptObject->GetMonoObject() : NULL;
 }
 
+static void AddCollisionListener(int scriptObjPtr, int gameObjPtr)
+{
+
+}
+
+static void RemoveCollisionListener(int scriptObjPtr, int gameObjPtr)
+{
+
+}
+
+
 
 void MonoInternalInit()
 {	
 	mono_add_internal_call("EngineInternal::MonoGameObject_GetScript(int,string)",MonoGameObject_GetScript);
+
+	mono_add_internal_call("EngineInternal::AddCollisionListener(int,int)",AddCollisionListener);
+
+	mono_add_internal_call("EngineInternal::RemoveCollisionListener(int,int)",RemoveCollisionListener);
+
 
 }
 

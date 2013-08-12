@@ -1,35 +1,35 @@
 #ifndef  _Animation_BlendNode__H__
 #define  _Animation_BlendNode__H__
 
-#include "Animation/AnimationTree/AnimTreeNode.h"
 
 namespace ma
 {
 	struct AnimEvalContext;
 
-	class ANIMATION_API AnimBlendNode : public AnimTreeNode
+	class ANIMATION_API AnimBlendNode : public IAnimBlendNode
 	{
+
 	public:
 		AnimBlendNode();
 		
 		~AnimBlendNode();
 
-		void SetSrcAnimNode(AnimTreeNode* pAnimNode) {m_pSrcAnimNode = pAnimNode;}
+		virtual void	SetSrcAnimNode(IAnimTreeNode* pAnimNode) {m_pSrcAnimNode = pAnimNode;}
 
-		void SetDestAnimNode(AnimTreeNode* pAnimNode) {m_pDestAnimNode = pAnimNode;}
+		virtual void	SetDestAnimNode(IAnimTreeNode* pAnimNode) {m_pDestAnimNode = pAnimNode;}
 
-		void SetWeight(float fWeight) { m_fWeight = fWeight;}
+		virtual void	SetWeight(float fWeight) { m_fWeight = fWeight;}
 
-		virtual void AdvanceTime(float fTimeElapsed);
+		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
+		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
-		virtual	void SetFrame(float fFrame);
+		virtual	void	SetFrame(float fFrame);
 
 	private:
-		AnimTreeNode* m_pSrcAnimNode;
-		AnimTreeNode* m_pDestAnimNode;
-		float		  m_fWeight;
+		IAnimTreeNode*	m_pSrcAnimNode;
+		IAnimTreeNode*	m_pDestAnimNode;
+		float			m_fWeight;
 		
 	};
 }

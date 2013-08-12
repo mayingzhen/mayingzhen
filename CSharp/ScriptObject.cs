@@ -4,11 +4,15 @@ using System.Runtime.InteropServices;
 
 public class ScriptBase 
 {
-    private IntPtr m_gamePtr;
+    //private IntPtr m_scriptObjPtr;
+    //private IntPtr m_gamePtr;
+
+    private ScriptObject m_scriptObj;
 
     public GameObject m_gameObj
 	{
-		get { return new GameObject(m_gamePtr, false);}
+		//get { return new GameObject(m_gamePtr, false);}
+        get { return new m_scriptObj.GetGameObj(); }
 	}
 
     public SceneNode m_node
@@ -22,6 +26,30 @@ public class ScriptBase
 	//	get { return maEngine.GetInput(); }
 	//}
 
+    public void AddCollisionListener()
+    {
+        EngineInternal.AddCollisionListener(0);
+    }
+
+    public void AddCollisionListener(GameObject gameObj)
+    {
+        HandleRef handle = GameObject.getCPtr(gameObj);
+        IntPtr gamePtr = HandleRef.ToIntPtr(handle);
+        EngineInternal.AddCollisionListener(gamePtr);
+    }
+
+    public void RemoveCollisionListener()
+    {
+        EngineInternal.RemoveCollisionListener(0);
+    }
+
+    public void RemoveCollisionListener(GameObject gameObj)
+    {
+        HandleRef handle = GameObject.getCPtr(gameObj);
+        IntPtr gamePtr = HandleRef.ToIntPtr(handle);
+        EngineInternal.RemoveCollisionListener(gamePtr); 
+    }
+
     public ScriptBase GetScript(string name)
 	{
 		return EngineInternal.MonoGameObject_GetScript(m_gamePtr.ToInt32(),name);
@@ -34,9 +62,8 @@ public class ScriptBase
         return EngineInternal.MonoGameObject_GetScript(gamePtr.ToInt32(), name);
     }
 
-    public void SetGameObject(IntPtr cPtr)
+    public void SetScriptObjPtr(IntPtr cPtr)
     {
-		//Debug.WriteLine("ScriptObject.SetGameObject()");
-		m_gamePtr = cPtr;
+        m_scriptObj = new ScriptObject(cPtr, false);
     }
 }

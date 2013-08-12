@@ -26,8 +26,6 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "BoxCollisionComponent");
 
-		virtual	void		Render();
-
 	private:
 		IBoxCollisionShape* m_pBoxCollisionShape;
 	};
@@ -42,8 +40,6 @@ namespace ma
 		ISphereCollisionShape*	GetSphereCollisionShape() {return m_pSphereCollisionShape;}
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "SphereCollisionComponent");
-		
-		virtual	void			Render();
 
 	private:
 		ISphereCollisionShape* m_pSphereCollisionShape;
@@ -58,8 +54,6 @@ namespace ma
 		ICapsuleCollisionShape* GetCapsuleCollisionShape() {return m_pCapsuleCollisionShape;}
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "CapsuleCollisionComponent");
-
-		virtual void			Render();
 
 	private:
 		ICapsuleCollisionShape*	m_pCapsuleCollisionShape;

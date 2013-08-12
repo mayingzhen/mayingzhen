@@ -206,11 +206,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationPlay.h"
+				RelativePath="..\..\Code\Plugin\Animation\AnimationObject.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationPlay.hxx"
+				RelativePath="..\..\Code\Plugin\Animation\AnimationObject.hxx"
 				>
 			</File>
 			<File
@@ -338,14 +338,6 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimLayerNode.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimTreeNode.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimTreeNode.hxx"
 					>
 				</File>
 			</Filter>

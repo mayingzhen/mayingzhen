@@ -16,14 +16,29 @@ namespace ma
 		return pScriptObject;
 	}
 
+	void ScriptClass::DeleteScriptObject(ScriptObject* pScriptObject)
+	{
+		std::vector<ScriptObject*>::iterator it;
+		it = std::find(m_arrObjectInstance.begin(),m_arrObjectInstance.end(),pScriptObject);
+		ASSERT(it != m_arrObjectInstance.end());
+		if (it == m_arrObjectInstance.end())
+		{
+			SAFE_DELETE(pScriptObject);
+			return;
+		}
+
+		SAFE_DELETE(pScriptObject);
+		m_arrObjectInstance.erase(it);
+	}
+
 	void ScriptClass::ParseMonoClass(MonoClass* pMonoClass)
 	{
 		//m_pMonoClas = pMonoClass;
 		m_strClassName = mono_class_get_name(pMonoClass);
 
-		ScriptDevice* pScriptDevice = (ScriptDevice*)GetScriptDevice();
+		ScriptSystem* pScriptSystem= (ScriptSystem*)GetScriptSystem();
 
-		MonoObject* pMonoObj = mono_object_new(pScriptDevice->GetAppDomain(),pMonoClass);
+		MonoObject* pMonoObj = mono_object_new(pScriptSystem->GetAppDomain(),pMonoClass);
 		ASSERT(pMonoObj != NULL);
 		if (pMonoObj == NULL)
 			return;

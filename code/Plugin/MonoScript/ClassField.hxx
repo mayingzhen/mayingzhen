@@ -131,7 +131,7 @@ namespace ma
 
 		Vector3 value(0,0,0);
 
-		ScriptDevice* pMonoDScriptevive = (ScriptDevice*)GetScriptDevice();
+		ScriptSystem* pMonoDScriptevive = (ScriptSystem*)GetScriptSystem();
 		if (pMonoDScriptevive == NULL)
 			return value;
 
@@ -185,7 +185,7 @@ namespace ma
 
 		if (m_pMonoField)
 		{
-			ScriptDevice* pMonoDScriptevive = (ScriptDevice*)GetScriptDevice();
+			ScriptSystem* pMonoDScriptevive = (ScriptSystem*)GetScriptSystem();
 			if (pMonoDScriptevive == NULL)
 				return;
 
@@ -242,6 +242,8 @@ namespace ma
 			return INT_TYPE;
 		else if (stType == "Vector3")
 			return VECTOR3_TYPE;
+
+		return NONE_TYPE;
 	}
 
 	ClassField::Type ClassField::ToEType(MonoType* pMonoType)

@@ -65,9 +65,9 @@ namespace ma
 	{
 		ASSERT(vertices);
 	    
-		unsigned int newVertexCount = _vertexCount + vertexCount;
-		unsigned int newIndexCount = _indexCount + indexCount;
-		if (m_ePrimitiveType == PRIM_TRIANGLESTRIP && _vertexCount > 0)
+		unsigned int newVertexCount = m_pSubMeshData->m_nVertexCount + vertexCount;
+		unsigned int newIndexCount = m_pSubMeshData->m_nIndexCount + indexCount;
+		if (m_ePrimitiveType == PRIM_TRIANGLESTRIP && m_pSubMeshData->m_nVertexCount > 0)
 			newIndexCount += 2; // need an extra 2 indices for connecting strips with degenerate triangles
 	    
 		// Do we need to grow the batch?
@@ -94,7 +94,7 @@ namespace ma
 			ASSERT(indices);
 			ASSERT(_indicesPtr);
 
-			if (_vertexCount == 0)
+			if (m_pSubMeshData->m_nVertexCount == 0)
 			{
 				// Simply copy values directly into the start of the index array.
 				memcpy(_indicesPtr, indices, indexCount * sizeof(unsigned short));
@@ -106,7 +106,7 @@ namespace ma
 					// Create a degenerate triangle to connect separate triangle strips
 					// by duplicating the previous and next vertices.
 					_indicesPtr[0] = *(_indicesPtr - 1);
-					_indicesPtr[1] = _vertexCount;
+					_indicesPtr[1] = m_pSubMeshData->m_nVertexCount;
 					_indicesPtr += 2;
 				}
 	            
@@ -114,16 +114,16 @@ namespace ma
 				// 'vertexCount' so that they are relative to the first newly inserted vertex.
 				for (unsigned int i = 0; i < indexCount; ++i)
 				{
-					_indicesPtr[i] = indices[i] + _vertexCount;
+					_indicesPtr[i] = indices[i] + m_pSubMeshData->m_nVertexCount;
 				}
 			}
 
 			_indicesPtr += indexCount;
-			_indexCount = newIndexCount;
+			m_pSubMeshData->m_nIndexCount = newIndexCount;
 		}
 
 		_verticesPtr += vBytes;
-		_vertexCount = newVertexCount;
+		m_pSubMeshData->m_nVertexCount = newVertexCount;
 	    
 	}
 
@@ -241,8 +241,8 @@ namespace ma
 	    
 	void MeshBatch::start()
 	{
-		_vertexCount = 0;
-		_indexCount = 0;
+		m_pSubMeshData->m_nVertexCount = 0;
+		m_pSubMeshData->m_nIndexCount = 0;
 		_verticesPtr = _vertices;
 		_indicesPtr = _indices;
 	}
@@ -260,13 +260,13 @@ namespace ma
 // 		memcpy(pVbLock,_vertices,_vertexCount * m_pDeclaration->GetStreanmStride());	
 // 		m_pVertexBuffers->Unlock();
 // 
- 		m_pSubMeshData->m_nIndexCount = _indexCount;
- 		m_pSubMeshData->m_nVertexCount = _vertexCount;
+ 		//m_pSubMeshData->m_nIndexCount = _indexCount;
+ 		//m_pSubMeshData->m_nVertexCount = _vertexCount;
 	}
 
 	void MeshBatch::draw()
 	{
-		if (_vertexCount == 0 || (_indexed && _indexCount == 0))
+		if (m_pSubMeshData->m_nVertexCount == 0 || (_indexed && m_pSubMeshData->m_nIndexCount == 0))
 			return; // nothing to draw
 
 		//GetRenderDevice()->DrawRenderable(this);

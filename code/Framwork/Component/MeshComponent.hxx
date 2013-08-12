@@ -16,29 +16,17 @@ namespace ma
 
 	}
 
-	void MeshComponent::Render()
-	{
-		if (m_pRendMesh == NULL)
-			return;
-
-		m_pRendMesh->Draw();
-	}
-
 	void MeshComponent::Update()
 	{
 		if (m_pRendMesh == NULL || m_pGameObject == NULL)
 			return;	
 
-		m_pRendMesh->SetWorldMatrix( m_pGameObject->GetSceneNode()->GetWorldMatrix() );		
-	}
+		m_pRendMesh->SetWorldMatrix( m_pGameObject->GetSceneNode()->GetWorldMatrix() );	
 
-	void MeshComponent::Start()
-	{
-	}
-
-	void MeshComponent::Stop()
-	{
-
+		for (UINT i = 0; i < m_pRendMesh->GetRenderableNumber(); ++i)
+		{
+			GetRenderSystem()->AddRenderable(m_pRendMesh->GetRenderableByIndex(i));
+		}
 	}
 
 	void MeshComponent::Load(const char* pszMeshPath,const char* pszTexPath)
@@ -50,8 +38,7 @@ namespace ma
 		m_strMeshPath = pszMeshPath;
 		m_strMaterialPath = pszTexPath;
 
-		m_pRendMesh = new RenderMesh();
-		m_pRendMesh->Load(pszMeshPath,pszTexPath);
+		m_pRendMesh = GetRenderSystem()->CreatRenderMesh(pszMeshPath,pszTexPath);
 	}	
 
 	AABB MeshComponent::GetBoundingAABB()

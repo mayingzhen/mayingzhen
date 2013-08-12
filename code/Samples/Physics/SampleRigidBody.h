@@ -24,7 +24,7 @@ namespace ma
 	private:
 		IRigidBody* m_pRigidBody;
 
-		Scene*	m_pScene;
+		//Scene*	m_pScene;
 	};
 }
 

@@ -40,7 +40,7 @@ namespace ma
 
 		m_pMaterDeferred = new Material("AMBIENT_LIGHT","DeferredLight");
 
-		m_pDiffuseTex= Sampler::create(m_pDiffuse->GetTexture());
+		m_pDiffuseTex = Sampler::create(m_pDiffuse->GetTexture());
 		m_pSpecularTex = Sampler::create(m_pSpecular->GetTexture());
 
 		m_pShadowTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R16F);

@@ -50,7 +50,6 @@ namespace ma
 		std::vector<Renderable*>	m_arrRenderable;
 
 		bool					m_bSkin;
-
 	};
 }
 

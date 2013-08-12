@@ -17,7 +17,7 @@ namespace ma
 		DECL_OBJECT(GameObject)
 
 	public:
-		GameObject(SceneNode* pSceneNode = NULL, const char* pName = NULL);
+		GameObject(const char* pName = NULL);
 
 		~GameObject();
 
@@ -47,8 +47,6 @@ namespace ma
 
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
-		
-		//ICharaControll*		GetCharController();
 
 		void				AddCollisionListener(GameObject* pGameObjB,CollisionListener* pCallBack);
 
@@ -67,7 +65,6 @@ namespace ma
 		SceneNode*					m_pScenNode;
 
 		std::vector<Component*>		m_arrComp;
-	
 	};
 
 	template<class T>
@@ -111,9 +108,14 @@ namespace ma
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i]->GetClass() && nNumber == index)
+			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
 			{
-				return SafeCast<T>(m_arrComp[i]);
+				if (nNumber == index)
+				{
+					return SafeCast<T>(m_arrComp[i]);
+				}
+
+				nNumber++;
 			}
 		}
 		return NULL;

@@ -61,8 +61,8 @@ namespace ma
 		m_sknPath = pMeshPath;
 		m_texPath = pDiffueTexture;
 
-		DataThread* pDataThread = ResourceSystem::GetDataThread();
-		if (pDataThread)
+		DataThread* pDataThread = GetResourceSystem()->GetDataThread();
+		if (0/*pDataThread*/)
 		{
 			pDataThread->PushBackDataObj(this);
 		}
@@ -106,6 +106,8 @@ namespace ma
 
 			m_arrRenderable.push_back(pRenderable);
 		}
+
+		m_bSkin = true;
 
 		return true;
 	}
@@ -165,15 +167,9 @@ namespace ma
 	{
 // 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 //  		{
-// 			RenderQueue::AddRenderable(m_arrRenderable[i]);
+// 			GetRenderSystem()->AddRenderable(m_arrRenderable[i]);
 //  		}
 		
-
-// 		if (pTechName)
-// 		{
-// 			m_pMaterial->SetCurTechnqiue(pTechName);
-// 		}
-
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
 			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);

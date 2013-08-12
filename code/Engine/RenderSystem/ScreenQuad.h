@@ -7,22 +7,11 @@ namespace ma
 	class ENGINE_API ScreenQuad
 	{
 	public:
-		void Init();
+		static void Init();
 		
-		void Render(Material* pMaterial);
+		static void ShoutDown();
 
-		Matrix4x4&	GetMatProj() {return m_matProj;}
-
-	private:
-		struct Vertex
-		{
-			Vector3 position;
-			Vector2 texCoords;
-		};
-
-		Renderable*	m_pRenderable;
-
-		Matrix4x4	m_matProj;
+		static void Render(Material* pMaterial);
 	};
 
 }

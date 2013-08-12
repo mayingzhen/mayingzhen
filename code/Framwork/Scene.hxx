@@ -6,24 +6,12 @@ namespace ma
 
 	Scene::Scene()
 	{
-		m_pPhyScene = NULL;
-		if (GetPhysicsDevice())
-		{
-			m_pPhyScene = GetPhysicsDevice()->CreatePhysicsScene();
-		}
-
-		m_pRootNode = new SceneNode(this,"RootNode");
+		m_pRootNode = new SceneNode(NULL,this);
 	}
 
 	Scene::~Scene()
 	{
 		SAFE_DELETE(m_pRootNode);
-		
-		if (GetPhysicsDevice())
-		{
-			GetPhysicsDevice()->DestoryPhysicsScene(m_pPhyScene);
-		}
-		m_pPhyScene = NULL;
 	}
 
 	void Scene::TravelScene(SceneVisiter* pVisiter)
@@ -44,45 +32,39 @@ namespace ma
 	{
 		SceneUpdate sceneUpdate;
 		TravelScene(&sceneUpdate);
-
-		if (m_pPhyScene)
-		{
-			m_pPhyScene->BeginSimulation(fElapsedTime);
-
-			m_pPhyScene->EndSimulation();
-		}
-		
 	}
 
-	class SceneRender : public SceneVisiter
-	{
-		virtual bool VisiteComponent(Component* pComp)
-		{
-			pComp->Render();
-			return true;
-		}
-	};
+// 	class SceneRender : public SceneVisiter
+// 	{
+// 		virtual bool VisiteComponent(Component* pComp)
+// 		{
+// 			pComp->Render();
+// 			return true;
+// 		}
+// 	};
+// 
+// 	void Scene::Render(Camera* pCmera)
+// 	{
+// 		m_pCurCamera = pCmera;
+// 		GetRenderSystem()->SetCamera(pCmera);
+// 		
+// 		SceneRender sceneRender;
+// 		TravelScene(&sceneRender);
+// 	}
 
-	void Scene::Render(Camera* pCmera)
-	{
-		m_pCurCamera = pCmera;
-		Material::SetAuotBingCamera(pCmera);
-		
-		SceneRender sceneRender;
-		TravelScene(&sceneRender);
-	}
-
-	void Scene::Awak()
-	{
-		//if (m_pRootNode)
-		//	m_pRootNode->Awak();
-	}
+// 	void Scene::Awak()
+// 	{
+// 		//if (m_pRootNode)
+// 		//	m_pRootNode->Awak();
+// 	}
 
 	class SceneStart : public SceneVisiter
 	{
 		virtual bool VisiteComponent(Component* pComp)
 		{
-			pComp->Start();
+			if (pComp)
+				pComp->Start();
+			
 			return true;
 		}
 	};
@@ -91,27 +73,21 @@ namespace ma
 	{
 		virtual bool VisiteComponent(Component* pComp)
 		{
-			pComp->Stop();
+			if (pComp)
+				pComp->Stop();
+			
 			return true;
 		}
 	};
 
-
-
 	void Scene::Start()
 	{
-		if (m_pPhyScene)
-			m_pPhyScene->Start();
-
 		SceneStart sceneStart;
 		TravelScene(&sceneStart);
 	}	
 
 	void Scene::Stop()
 	{
-		if (m_pPhyScene)
-			m_pPhyScene->Stop();
-
 		SceneStop sceneStop;
 		TravelScene(&sceneStop);
 	}
@@ -125,16 +101,49 @@ namespace ma
 		sl.EndSection();
 	}
 
-	GameObject*	Scene::CreateGameObject(const char* pName)
+	void Scene::AddSceneNode(SceneNode* pSceneNode)
 	{
-		ASSERT(m_pRootNode);
-		if (m_pRootNode == NULL)
-			return NULL;
-
-		SceneNode* pNode = m_pRootNode->AddChildNode(pName);
-		GameObject* pGameObj = pNode->CreateGameObject();		
-		return pGameObj;
+		m_pRootNode->AddChildNode(pSceneNode);
 	}
+
+// 	GameObject*	Scene::CreateGameObject(const char* pName)
+// 	{
+// 		ASSERT(m_pRootNode);
+// 		if (m_pRootNode == NULL)
+// 			return NULL;
+// 
+// 		SceneNode* pNode = m_pRootNode->CreateChildNode(pName);
+// 		GameObject* pGameObj = pNode->CreateGameObject();		
+// 		return pGameObj;
+// 	}
+// 
+// 	void Scene::DeleteGameObject(GameObject* pGameObj)
+// 	{
+// 		ASSERT(pGameObj);
+// 		if (pGameObj == NULL)
+// 			return;
+// 
+// 		SceneNode* pSceneNode = pGameObj->GetSceneNode();
+// 		ASSERT(pSceneNode);
+// 		if (pSceneNode == NULL)
+// 		{
+// 			SAFE_DELETE(pGameObj);
+// 			return ;
+// 		}
+// 
+// 		SceneNode* pParent = pSceneNode->GetParent();
+// 		ASSERT(pParent);
+// 		if (pParent == NULL)
+// 		{
+// 			SAFE_DELETE(pSceneNode);
+// 			SAFE_DELETE(pGameObj);
+// 			return;
+// 		}
+// 		
+// 		pSceneNode->DeleteGameObject(pGameObj);
+// 		pParent->DeleteChildNode(pSceneNode);
+// 
+// 	}
 }
 
 

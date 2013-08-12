@@ -2,7 +2,7 @@
 #include "Module.h"
 
 #include "ScriptObject.hxx"
-#include "ScriptDevice.hxx"
+#include "ScriptSystem.hxx"
 #include "IntenalCall.hxx"
 #include "ClassField.hxx"
 #include "ScriptClass.hxx"
@@ -12,16 +12,16 @@ using namespace ma;
 
 void MonoScriptModuleInit()
 {
-	ScriptDevice* pScriptDevive = new ScriptDevice();
+	ScriptSystem* pScriptDevive = new ScriptSystem();
 	pScriptDevive->Init();
-	SetScriptDevice(pScriptDevive);
+	SetScriptSystem(pScriptDevive);
 }
 
 void MonoScriptModuleShutdown()
 {
-	ScriptDevice* pScriptDevive = (ScriptDevice*)GetScriptDevice();
+	ScriptSystem* pScriptDevive = (ScriptSystem*)GetScriptSystem();
 	pScriptDevive->Shutdown();
 	delete pScriptDevive;
-	SetScriptDevice(NULL);
+	SetScriptSystem(NULL);
 }
 

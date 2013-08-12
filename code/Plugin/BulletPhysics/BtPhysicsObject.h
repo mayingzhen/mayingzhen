@@ -9,14 +9,16 @@ namespace ma
 	class BulletRigidBody;
 	class BulletBoxCollisionShape;
 	class BulletSphereCollisionShape;
-	class BulletScene;
 	class BulletPhysicsGenericJoint;
 	class BulletPhysicsHingeJoint;
+	class CollisionListener;
 	
 	class BulletPhysicsObject : public IPhysicsObject
 	{
 	public:
-		BulletPhysicsObject(GameObject*	pGameObject,BulletScene* pPhyScene);
+		BulletPhysicsObject(GameObject*	pGameObject);
+
+		~BulletPhysicsObject();
 
 		virtual	IRigidBody*				CreateRigidBody();
 
@@ -50,6 +52,8 @@ namespace ma
 
 		btCollisionObject*				GetbtCollisionObject() {return m_pBtCollObject;}
 
+		void							DebugRender();
+
 	private:
 		void							InitCharControll();
 
@@ -73,7 +77,6 @@ namespace ma
 		CollisionMaterial							m_material;
 
 		GameObject*									m_pGameObject;
-		BulletScene*								m_pPhyScene;
 	};
 }
 

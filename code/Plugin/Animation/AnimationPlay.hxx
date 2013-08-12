@@ -24,6 +24,30 @@ namespace ma
 	{
 	}
 
+	void AnimationPlay::Start()
+	{
+		ASSERT(m_pGameObj);
+		if (m_pGameObj == NULL)
+			return;
+
+		m_arrRenderMesh.clear();
+		UINT nMeshComp = m_pGameObj->GetTypeComponentNumber<MeshComponent>();
+		for (UINT i = 0; i < nMeshComp; ++i)
+		{
+			MeshComponent* pMecomp = m_pGameObj->GetTypeComponentByIndex<MeshComponent>(i);
+			ASSERT(pMecomp && pMecomp->GetRendMesh());
+			if (pMecomp == NULL || pMecomp->GetRendMesh() == NULL)
+				continue;
+
+			m_arrRenderMesh.push_back(pMecomp->GetRendMesh());
+		}
+	}
+
+	void AnimationPlay::Stop()
+	{
+		m_arrRenderMesh.clear();
+	}
+
 	void AnimationPlay::CreateSkeleton(const char* pSkePath)
 	{
 		ASSERT(pSkePath);
@@ -52,7 +76,7 @@ namespace ma
 		if (actionID < 0 || actionID >= m_pAnimSet->GetActionNumber())
 			return;
 
-		m_pSkelAnim = m_pAnimSet->GetActionByIndex(actionID);
+		m_pSkelAnim = (Action*)m_pAnimSet->GetActionByIndex(actionID);
 	}
 
 
@@ -61,7 +85,7 @@ namespace ma
 		if (m_pAnimSet == NULL)
 			return;
 
-		m_pSkelAnim = m_pAnimSet->GetActionByName(pszAnimName);
+		m_pSkelAnim = (Action*)m_pAnimSet->GetActionByName(pszAnimName);
 	}
 
 	void AnimationPlay::AdvanceTime(float fTimeElepse)
@@ -107,6 +131,11 @@ namespace ma
 				MatrixIdentity(&m_arrSkinMatrix[i]);
 			}
 		}
+
+		for (UINT i = 0; i < m_arrRenderMesh.size(); ++i)
+		{
+			m_arrRenderMesh[i]->SetSkinMatrix(m_arrSkinMatrix,nBoneNum);
+		}
 	}
 
 	void AnimationPlay::SetFrame(float fFrame)
@@ -115,5 +144,10 @@ namespace ma
 		{
 			m_pSkelAnim->SetFrame(fFrame);
 		}
+	}
+
+	void AnimationPlay::AddSkinMesh(RenderMesh* pRenderMesh)
+	{
+		m_arrRenderMesh.push_back(pRenderMesh);
 	}
 }

@@ -1,5 +1,8 @@
-#include "Animation/Action.h"
-#include "Animation/PoseModifier/PoseModifier.h"
+#include "Action.h"
+#include "PoseModifier/PoseModifier.h"
+#include "AnimationTree/AnimBlendNode.h"
+#include "AnimationTree/AnimClipNode.h"
+#include "AnimationTree/AnimLayerNode.h"
 
 namespace ma
 {
@@ -14,17 +17,30 @@ namespace ma
 		SAFE_DELETE(m_pAnimaNode);
 	}
 
-	void Action::SetTreeNode(AnimTreeNode* pAnimNode)
+	void Action::SetTreeNode(IAnimTreeNode* pAnimNode)
 	{
 		m_pAnimaNode = pAnimNode;
 	}
 
-	void Action::AddPoseModifier(PoseModifier* pPoseModifier)
+	void Action::AddPoseModifier(IPoseModifier* pPoseModifier)
 	{
 		if (pPoseModifier == NULL)
 			return;
 
-		m_arrPoseModifier.push_back(pPoseModifier);
+		m_arrPoseModifier.push_back((PoseModifier*)pPoseModifier);
+	}
+
+	void Action::RemovePoseModifier(IPoseModifier* pPoseModifier)
+	{
+		PoseModifier* pModifier = (PoseModifier*)pPoseModifier;
+		if (pModifier == NULL)
+			return;
+
+		std::vector<PoseModifier*>::iterator it = std::find(m_arrPoseModifier.begin(),m_arrPoseModifier.end(),pModifier);
+		if (it == m_arrPoseModifier.end())
+			return;
+
+		m_arrPoseModifier.erase(it);
 	}
 
 	void Action::AdvanceTime(float fTimeElepse)
@@ -77,4 +93,24 @@ namespace ma
 	{
 
 	}
+
+	IAnimLayerNode*		Action::CreateLayerNode()
+	{
+		return new AnimLayerNode();
+	}
+
+	IAnimClipNode*		Action::CreateClipNode(const char* pSkaPath,const char* pBonsetNam)
+	{
+		AnimClipNode* pClipNode = new AnimClipNode();
+		pClipNode->SetSkeleton(m_pSkeleton);
+		pClipNode->SetAnimationClip(pSkaPath);
+		pClipNode->SetBoneSet(pBonsetNam);
+		return pClipNode;
+	}
+
+	IAnimBlendNode*		Action::CreateBlendNode()
+	{
+		return new AnimBlendNode();
+	}
 }
+

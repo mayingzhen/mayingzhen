@@ -3,19 +3,21 @@
 
 namespace ma
 {
-	class AnimTreeNode;
+	class IAnimTreeNode;
 	class PoseModifier;
 
-	class ANIMATION_API Action 
+	class Action : public IAction
 	{
 	public:
 		Action(const char* pName = NULL);
 
 		~Action();
 
-		void			SetTreeNode(AnimTreeNode* pAnimNode);
+		void			SetTreeNode(IAnimTreeNode* pAnimNode);
 
-		void			AddPoseModifier(PoseModifier* pPoseModifier);
+		void			AddPoseModifier(IPoseModifier* pPoseModifier);
+
+		void			RemovePoseModifier(IPoseModifier* pPoseModifier);
 
 		void			AdvanceTime(float fTimeElepse);
 
@@ -33,18 +35,17 @@ namespace ma
 
 		void			SetSkeleton(Skeleton* pSkeleton) {m_pSkeleton = pSkeleton;}
 
-		template <class T>
-		T*				CreateRootNode()
-		{
-			m_pAnimaNode = new T();
-			m_pAnimaNode->SetSkeleton(m_pSkeleton);
-			return (T*)m_pAnimaNode;
-		}
+		virtual IAnimLayerNode*		CreateLayerNode();
+
+		virtual IAnimBlendNode*		CreateBlendNode();
+
+		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+
 
 	private:
 		std::string		m_sAnimName;
 
-		AnimTreeNode*	m_pAnimaNode;
+		IAnimTreeNode*	m_pAnimaNode;
 
 		std::vector<PoseModifier*> m_arrPoseModifier;
 

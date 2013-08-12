@@ -10,6 +10,8 @@ namespace ma
 
 		ScriptObject*			CreateScriptObject();
 
+		void					DeleteScriptObject(ScriptObject* pScriptObject);
+
 		void					ParseMonoClass(MonoClass* pMonoClass);
 
 		UINT					GetClassFieldNumber() {return m_arrFields.size();}
@@ -19,6 +21,10 @@ namespace ma
 		void					SetMonoClass(MonoClass* pMonoClass);
 
 		const char*				GetClassName() {return m_strClassName.c_str();}
+
+		UINT					GetObjectInsNumber() {return m_arrObjectInstance.size();}
+
+		ScriptObject*			GetObjectInsByIndex(UINT index) {return m_arrObjectInstance[index];}
 
 	private:
 		std::string					m_strClassName;

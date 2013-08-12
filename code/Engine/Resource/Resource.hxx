@@ -25,7 +25,7 @@ namespace ma
 
 	void Resource::LoadAsync()
 	{
-		DataThread* pDataThrea = ResourceSystem::GetDataThread();
+		DataThread* pDataThrea = GetResourceSystem()->GetDataThread();
 		ASSERT(pDataThrea);
 		if (pDataThrea == NULL)
 			return;
