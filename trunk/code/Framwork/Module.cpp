@@ -1,8 +1,9 @@
 #include "Framwork/stdAfx.h"
 #include "Framwork/Module.h"
 
+#include "Framwork/EntitySystem.hxx"
 #include "Framwork/Component/Component.hxx"
-#include "Framwork/Component/AnimPlayComponent.hxx"
+#include "Framwork/Component/AnimComponent.hxx"
 #include "Framwork/Component/MeshComponent.hxx"
 #include "Framwork/Component/ParticleComponent.hxx"
 #include "Framwork/Component/ScriptComponent.hxx"
@@ -44,10 +45,19 @@ void FramworkModuleInit()
 	#include <Framwork/RTTIDecl.h>
 	#include <Framwork/CompRTTIDecl.h>
 	#undef RTTI_DECL
+
+	EntitySystem* pEntitySystem = new EntitySystem();
+	SetEntitySystem(pEntitySystem);
+	pEntitySystem->Init();
 }
 
 void FramworkModuleShutdown()
 {
+	EntitySystem* pEntitySystem = GetEntitySystem();
+	pEntitySystem->ShoutDown();
+	SAFE_DELETE(pEntitySystem)
+	SetEntitySystem(NULL);
+
 	#define RTTI_DECL(ClassType) ObjectFactoryManager::GetInstance().UnRegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Framwork/RTTIDecl.h>
 	#include <Framwork/CompRTTIDecl.h>

@@ -7,19 +7,18 @@
 #include "BulletPhysics/BtCharacterController.hxx"
 #include "BulletPhysics/BtContactReport.hxx"
 #include "BulletPhysics/BtPhysicsObject.hxx"
-#include "BulletPhysics/BtPhysicsScene.hxx"
 #include "BulletPhysics/BtPhysicsJoint.hxx"
-#include "BulletPhysics/BtPhysicsDevive.hxx"
+#include "BulletPhysics/BtPhysicsSystem.hxx"
 
 
 void BtPhysicsModuleInit()
 {
-	ma::BulletDevice* pBtPhysicsDevice = new ma::BulletDevice();
-	ma::SetPhysicsDevice(pBtPhysicsDevice); 
+	ma::BtPhysicsSystem* pBtPhysicsSystem = new ma::BtPhysicsSystem();
+	ma::SetPhysicsSystem(pBtPhysicsSystem); 
 }
 
 void BtPhysicsModuleShutdown()
 {
-	ma::BulletDevice* pBtPhysicsDevice = (ma::BulletDevice*)ma::GetPhysicsDevice();
-	SAFE_DELETE(pBtPhysicsDevice);
+	ma::BtPhysicsSystem* pBtPhysicsSystem = (ma::BtPhysicsSystem*)ma::GetPhysicsSystem();
+	SAFE_DELETE(pBtPhysicsSystem);
 }

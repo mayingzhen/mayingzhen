@@ -3,23 +3,19 @@
 
 namespace ma
 {
-	class AnimationPlay;
+	class AnimationObject;
 
-	class ANIMATION_API AnimationSystem 
+	class AnimationSystem : public IAnimationSystem
 	{
 	public:
 
-		virtual AnimationPlay*	CreateAnimationPlay(const char* pszSkePath);
+		virtual IAnimationObject*	CreateAnimationObject(const char* pszSkePath);
 
-		virtual	void			Update();
+		virtual	void				Update();
 
 	private:
-		std::vector<AnimationPlay*>	m_arrAnimPlay;
+		std::vector<AnimationObject*>	m_arrAnimObject;
 	};
-
-	ANIMATION_API void SetAnimationSystem(AnimationSystem* pAnimationSystem);
-
-	ANIMATION_API AnimationSystem* GetAnimationSystem();
 }
 
 #endif

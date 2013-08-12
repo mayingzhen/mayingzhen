@@ -9,7 +9,7 @@ namespace ma
 {
 	class BulletPhysicsObject;
 
-	class BulletCharacterController : public ICharaControll
+	class BulletCharacterController : public ICharaControll , public btActionInterface
 	{
 	public:
 		BulletCharacterController(BulletPhysicsObject* pPhysicsObject);
@@ -30,18 +30,36 @@ namespace ma
 
 		virtual void						Stop();
 
-		void								MoveImpl(const Vector3& motion);
+		//void								MoveImpl(const Vector3& motion);
+
+		virtual void						updateAction( btCollisionWorld* collisionWorld, btScalar deltaTimeStep);
+		
+		virtual void						debugDraw(btIDebugDraw* debugDrawer) {}
+
+		void								DebugRender();
+
+	private:
+		bool								RecoverFromPenetration(int nMaxSubStep);
+
 
 	private:
 		
-		btKinematicCharacterController*		m_character;
+		//btKinematicCharacterController*		m_character;
 		btPairCachingGhostObject*			m_ghostObject;
+		btCompoundShape*					m_collShape;
 		
 		float								m_fSetpOffset;
 
 		BulletCapsuleCollisionShape*		m_pCapsuleShape;
 		
 		BulletPhysicsObject*				m_pPhysicsObject;
+
+		float								m_touchSkin;	//Margin used for stay on ground
+		bool								m_bTouched;
+		Vector3								m_touchNorm;
+		btManifoldArray						m_manifoldArray;
+
+		CollisionFlags						m_colState;
 	};
 
 

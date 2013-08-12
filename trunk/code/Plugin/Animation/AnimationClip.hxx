@@ -1,6 +1,7 @@
-#include "Animation/AnimationClip.h"
-#include "Animation/BoneSet.h"
-#include "Animation/AnimEvalContext.h"
+#include "AnimationClip.h"
+#include "BoneSet.h"
+#include "AnimEvalContext.h"
+#include "BoneMap.h"
 
 namespace ma
 {

@@ -2,6 +2,17 @@
 
 namespace ma
 {
+	static Time* gpTimer = NULL;
+
+	Time* GetTimer()
+	{
+		return gpTimer;
+	}
+
+	void  SetTimer(Time* pTimer)
+	{
+		gpTimer = pTimer;
+	}
 
 	Time::Time()
 		:m_frameCnt(0)
@@ -10,21 +21,6 @@ namespace ma
 	{
 		Reset();
 	}
-
-
-
-	Time* g_pTimer = NULL;
-
-	Time* GetTimer()
-	{
-		return g_pTimer;
-	}
-
-	void  SetTimer(Time* pTimer)
-	{
-		g_pTimer = pTimer;
-	}
-
 
 	Time::~Time()
 	{

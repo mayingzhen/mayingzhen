@@ -1,7 +1,7 @@
 #include "ScriptObject.h"
 #include "ClassField.h"
 #include "ScriptClass.h"
-#include "ScriptDevice.h"
+#include "ScriptSystem.h"
 
 namespace ma
 {
@@ -163,22 +163,9 @@ namespace ma
 		sl.EndSection();
 	}
 
-// 	void ScriptObject::InitWithScriptClass(ScriptClass* pScriptClass)
-// 	{
-// 		m_pScriptClass = pScriptClass;
-// 
-// 		UINT nFieldNumber = pScriptClass->GetClassFieldNumber();
-// 		for (UINT i = 0; i < nFieldNumber; ++i)
-// 		{
-// 			ClassField* pField = pScriptClass->GetClassFieldByIndex(i);
-// 			ClassField* pFieldInstace = pField->Clone();
-// 			m_arrFields.push_back(pFieldInstace);
-// 		}
-// 	}
-
 	void ScriptObject::InitMonoObject(MonoClass* pMonoClass)
 	{
-		ScriptDevice* pScriptDevice = (ScriptDevice*)GetScriptDevice();
+		ScriptSystem* pScriptSystem= (ScriptSystem*)GetScriptSystem();
 
 		if (pMonoClass == NULL)
 		{
@@ -194,7 +181,7 @@ namespace ma
 			mono_gchandle_free(m_handle); 
 		}
 
-		m_pMonoObj = mono_object_new(pScriptDevice->GetAppDomain(),m_pMonoClass);
+		m_pMonoObj = mono_object_new(pScriptSystem->GetAppDomain(),m_pMonoClass);
 		ASSERT(m_pMonoObj != NULL);
 		if (m_pMonoObj == NULL)
 			return;

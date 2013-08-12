@@ -60,53 +60,66 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)
-			m_pRenderMeshA_b = new RenderMesh();
-			m_pRenderMeshA_b->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.tga");
+			m_pChargigi = GetEntitySystem()->CreateGameObject("gigi");
+			MeshComponent* pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
+			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.tga");
 
-			m_pRenderMeshA_h = new RenderMesh(); 
-			m_pRenderMeshA_h->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.tga");
+			MeshComponent* pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
+			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.tga");
 
-			m_pRenderMeshA_f = new RenderMesh();
-			m_pRenderMeshA_f->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
+			MeshComponent* pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
+			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
+			
+			AnimComponent* pAnimComp = m_pChargigi->CreateComponent<AnimComponent>();
+			pAnimComp->Load(NULL,"gigi/gigi/body.ske");
+			m_pAnimtionObjectA = pAnimComp->GetAnimObject();
 
-			m_pAnimtionPlayA = GetAnimationSystem()->CreateAnimationPlay("gigi/gigi/body.ske");
-			AnimationSet* pAnimSet = m_pAnimtionPlayA->GetAnimationSet();
+			IAnimationSet* pAnimSet = m_pAnimtionObjectA->GetAnimationSet();
 
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
 			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
 			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
 
-			m_pAnimtionPlayA->PlayAnimation((UINT)0);	
+			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
+
+			m_pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
+			//m_pChargigi->GetSceneNode()->RotateXAxisLS(216);
 		}
 
 		// character B MeshData & skeleton & Animation
 		{
-			m_pRenderMeshB = new RenderMesh();
-			m_pRenderMeshB->Load("magician/Body.skn","magician/Body.tga");
+			m_pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			m_pAnimtionPlayB =  GetAnimationSystem()->CreateAnimationPlay("magician/Body.ske");
-			AnimationSet* pAnimSet = m_pAnimtionPlayB->GetAnimationSet();
+			MeshComponent* pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
+			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
+
+			AnimComponent* pAnimComp = m_pCharMagic->CreateComponent<AnimComponent>();
+			pAnimComp->Load(NULL,"magician/Body.ske");
+
+			m_pAnimtionObjectB = pAnimComp->GetAnimObject();
+
+			IAnimationSet* pAnimSet = m_pAnimtionObjectB->GetAnimationSet();
 			
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
 			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
 			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
 
-			m_pAnimtionPlayB->PlayAnimation((UINT)0);
+			m_pAnimtionObjectB->PlayAnimation((UINT)0);
+
+ 			m_pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
+ 			//m_pCharMagic->GetSceneNode()->RotateXAxisLS(216);
 		}
 	}
 
 	void SampleAnimationRetarget::UnLoad()
 	{
-		SAFE_DELETE(m_pRenderMeshA_b);
-		SAFE_DELETE(m_pRenderMeshA_f);
-		SAFE_DELETE(m_pRenderMeshA_h);
-
-		SAFE_DELETE(m_pRenderMeshB);
+		GetEntitySystem()->DeleteGameObject(m_pChargigi);
+		GetEntitySystem()->DeleteGameObject(m_pCharMagic);
 	}
 
-	void SampleAnimationRetarget::OnInput()
+	void SampleAnimationRetarget::Update()
 	{
 		Input* pInput = GetInput();
 		if (pInput == NULL)
@@ -114,87 +127,25 @@ namespace ma
 
 		if (pInput->IsKeyDown(OIS::KC_1))
 		{
-			m_pAnimtionPlayA->PlayAnimation((UINT)0);
-			m_pAnimtionPlayB->PlayAnimation((UINT)0);
+			m_pAnimtionObjectA->PlayAnimation((UINT)0);
+			m_pAnimtionObjectB->PlayAnimation((UINT)0);
 		}
 		else if (pInput->IsKeyDown(OIS::KC_2))
 		{
-			m_pAnimtionPlayA->PlayAnimation(1);
-			m_pAnimtionPlayB->PlayAnimation(1);
+			m_pAnimtionObjectA->PlayAnimation(1);
+			m_pAnimtionObjectB->PlayAnimation(1);
 		}
 		else if (pInput->IsKeyDown(OIS::KC_3))
 		{
-			m_pAnimtionPlayA->PlayAnimation(2);
-			m_pAnimtionPlayB->PlayAnimation(2);
+			m_pAnimtionObjectA->PlayAnimation(2);
+			m_pAnimtionObjectB->PlayAnimation(2);
 		}
 		else if (pInput->IsKeyDown(OIS::KC_4))
 		{
-			m_pAnimtionPlayA->PlayAnimation(3);
-			m_pAnimtionPlayB->PlayAnimation(3);
-		}
-	}
-
-	void SampleAnimationRetarget::Update()
-	{
-		OnInput();
-
-		if (ma::GetTimer() == NULL)
-			return;
-
-		float fTimeElapsed = ma::GetTimer()->GetFrameDeltaTime();
-
-		if (m_pAnimtionPlayA)
-		{
-			m_pAnimtionPlayA->AdvanceTime(fTimeElapsed);
-			m_pAnimtionPlayA->EvaluateAnimation(1.0f);
-
-			Matrix4x4* skinMatrixA = m_pAnimtionPlayA->GetSkinMatrixArray();
-			UINT nNumberA = m_pAnimtionPlayA->GetSkinMatrixNumber();
-
-			m_pRenderMeshA_b->SetSkinMatrix(skinMatrixA,nNumberA);
-			m_pRenderMeshA_f->SetSkinMatrix(skinMatrixA,nNumberA);
-			m_pRenderMeshA_h->SetSkinMatrix(skinMatrixA,nNumberA);
-
-			Matrix4x4 matWorld,matRoat;
-			MatrixTranslation(&matWorld,-50,120,0);
-			MatrixRotationYawPitchRoll(&matRoat,0,PI * 1.2,0);
-			matWorld = matWorld * matRoat;
-			m_pRenderMeshA_b->SetWorldMatrix(matWorld);
-			m_pRenderMeshA_f->SetWorldMatrix(matWorld);
-			m_pRenderMeshA_h->SetWorldMatrix(matWorld);
-
+			m_pAnimtionObjectA->PlayAnimation(3);
+			m_pAnimtionObjectB->PlayAnimation(3);
 		}
 
-		if (m_pAnimtionPlayB)
-		{
-			m_pAnimtionPlayB->AdvanceTime(fTimeElapsed);
-			m_pAnimtionPlayB->EvaluateAnimation(1.0f);
-
-			Matrix4x4* skinMatrixB = m_pAnimtionPlayB->GetSkinMatrixArray();
-			UINT nNumberB = m_pAnimtionPlayB->GetSkinMatrixNumber();
-
-			m_pRenderMeshB->SetSkinMatrix(skinMatrixB,nNumberB);
-
-			Matrix4x4 matWorld,matRoat;
-			MatrixTranslation(&matWorld,50,120,0);
-			MatrixRotationYawPitchRoll(&matRoat,0,PI * 1.2,0);
-			matWorld = matWorld * matRoat;
-			m_pRenderMeshB->SetWorldMatrix(matWorld);
-		}
-	}
-
-	void SampleAnimationRetarget::Render()
-	{
-		if (GetRenderDevice() == NULL)
-			return;
-
-		// A
- 		m_pRenderMeshA_b->Draw();
- 		m_pRenderMeshA_f->Draw();
- 		m_pRenderMeshA_h->Draw();
-
-		// B
-		m_pRenderMeshB->Draw();
 	}
 
 }

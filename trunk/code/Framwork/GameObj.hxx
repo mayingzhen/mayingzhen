@@ -5,17 +5,33 @@ namespace ma
 {
 	IMPL_OBJECT(GameObject,Object)
 	
-	GameObject::GameObject(SceneNode* pSceneNode, const char* pName)
+	GameObject::GameObject(const char* pName)
 	{
-		m_pScenNode = pSceneNode;
-		Scene* pScene = m_pScenNode ? m_pScenNode->GetSene() : NULL;
-		IPhysicsScene* pPhyScene = pScene ? pScene->GetPhysicsScene() : NULL;
-		m_pPhyscisObject = pPhyScene ? pPhyScene->CreatePhysicsObject(this) : NULL;
+		m_sName = pName;
+		m_pScenNode = new SceneNode(this);
+		m_pPhyscisObject = GetPhysicsSystem() ? GetPhysicsSystem()->CreatePhysicsObject(this) : NULL;
 	}
 
 	GameObject::~GameObject()
 	{
-		//SAFE_DELETE(m_pPhyscisObject);
+		SceneNode* pParent = m_pScenNode->GetParent();
+		if (pParent)
+		{
+			pParent->RemoveChildNode(m_pScenNode);
+		}
+		SAFE_DELETE(m_pScenNode);
+		
+		if (GetPhysicsSystem() && m_pPhyscisObject)
+		{
+			GetPhysicsSystem()->DeletePhysicsObject(m_pPhyscisObject);
+			m_pPhyscisObject = NULL;
+		}
+
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			SAFE_DELETE(m_arrComp[i]);
+		}
+		m_arrComp.clear();
 	}
 
 
@@ -99,17 +115,35 @@ namespace ma
 			}
 		}
 
+		m_pScenNode->Serialize(sl);
+
 		sl.EndSection();
 	}
 
 	GameObject* GameObject::Clone(const char* pName)
 	{
-		ASSERT(m_pScenNode);
-		SceneNode* pClonNode = m_pScenNode->Clone(pName);
-		GameObject* pClonGameObj = pClonNode->GetGameObject();
-		pClonGameObj->SetName(pName);
+// 		SceneNode* pParent = m_pScenNode->GetParent();
+// 		ASSERT(pParent);
+// 		if (pParent == NULL)
+// 			return NULL;
 
-		return pClonGameObj;
+		XMLOutputArchive xmlout;
+		this->Serialize(xmlout);
+
+		XMLInputArchive xmlin;
+		xmlin.Open(xmlout);
+		//SceneNode* pClone = pParent->CreateChildNode(pName);
+		GameObject* pClone = GetEntitySystem()->CreateGameObject(pName);
+		pClone->Serialize(xmlin);
+
+		return pClone;
+
+// 		ASSERT(m_pScenNode);
+// 		SceneNode* pClonNode = m_pScenNode->Clone(pName);
+// 		GameObject* pClonGameObj = pClonNode->GetGameObject();
+// 		pClonGameObj->SetName(pName);
+// 
+// 		return pClonGameObj;
 	}
 
 	void GameObject::UpdateAABB()

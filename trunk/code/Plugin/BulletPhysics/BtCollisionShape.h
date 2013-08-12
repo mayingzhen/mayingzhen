@@ -30,6 +30,8 @@ namespace ma
 
 		virtual	Vector3			GetSize(); 
 
+		virtual void			DebugRender(NodeTransform tsfWS);
+
 	private:
 
 		Vector3					m_vSize;
@@ -48,6 +50,8 @@ namespace ma
 		virtual void			SetRadius(float fRadius);
 
 		virtual	float			GetRadius(); 
+
+		virtual void			DebugRender(NodeTransform tsfWS);
 
 	private:
 
@@ -70,6 +74,8 @@ namespace ma
 		virtual void			SetRadius(float fRadius);
 
 		virtual float			GetRadius() const;
+
+		virtual void			DebugRender(NodeTransform tsfWS);
 
 	private:
 		float					m_fHeight;

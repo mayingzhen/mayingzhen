@@ -2,7 +2,6 @@
 #include "BtCollisionShape.h"
 #include "BtRigidBody.h"
 #include "BulletUtil.h"
-#include "BtPhysicsScene.h"
 #include "BtPhysicsJoint.h"
 #include "BtCharacterController.h"
 
@@ -10,16 +9,39 @@
 namespace ma
 {
 
-	BulletPhysicsObject::BulletPhysicsObject(GameObject* pGameObject,BulletScene* pPhyScene)
+	BulletPhysicsObject::BulletPhysicsObject(GameObject* pGameObject)
 	{
 		m_pBtCollObject = NULL;
 		m_pRigidBody = NULL;
 		m_pCharaControll = NULL;
 
 		m_pGameObject = pGameObject;
-		m_pPhyScene = pPhyScene;
 
 		TransformSetIdentity(&m_tsfWS);
+	}
+
+	BulletPhysicsObject::~BulletPhysicsObject()
+	{
+		SAFE_DELETE(m_pCharaControll);
+		SAFE_DELETE(m_pRigidBody);
+
+		for (UINT i = 0; i < m_vBoxCollisionShape.size(); ++i)
+		{
+			SAFE_DELETE(m_vBoxCollisionShape[i]);
+		}
+		m_vBoxCollisionShape.clear();
+
+		for (UINT i = 0; i < m_vSphereCollisionShape.size(); ++i)
+		{
+			SAFE_DELETE(m_vSphereCollisionShape[i]);
+		}
+		m_vSphereCollisionShape.clear();
+
+		for (UINT i = 0; i < m_vCapsuleCollisionShape.size(); ++i)
+		{
+			SAFE_DELETE(m_vCapsuleCollisionShape[i]);
+		}
+		m_vCapsuleCollisionShape.clear();
 	}
 
 	CollisionMaterial* BulletPhysicsObject::GetCollisionMaterial()
@@ -39,7 +61,7 @@ namespace ma
 		
 		ASSERT(m_pBtCollObject == NULL);
 
-		btDiscreteDynamicsWorld* pBtDynamicsWorld = m_pPhyScene->GetDynamicsWorld();
+		btDiscreteDynamicsWorld* pBtDynamicsWorld = GetDynamicsWorld();
 		if (pBtDynamicsWorld == NULL)
 			return ;
 
@@ -122,7 +144,8 @@ namespace ma
 
 		InitMaterial();
 
-		m_pBtCollObject->setUserPointer(this);
+		if (m_pBtCollObject)
+			m_pBtCollObject->setUserPointer(this);
 
 		SyncToPhysics();
 
@@ -134,7 +157,7 @@ namespace ma
 		if (m_vBoxCollisionShape.empty() && m_vSphereCollisionShape.empty() && m_pRigidBody == NULL)
 			return false;
 
-		btDiscreteDynamicsWorld* pBtDynamicsWorld = m_pPhyScene->GetDynamicsWorld();
+		btDiscreteDynamicsWorld* pBtDynamicsWorld = GetDynamicsWorld();
 		if (pBtDynamicsWorld == NULL)
 			return false;
 
@@ -149,6 +172,32 @@ namespace ma
 		return true;
 	}
 
+	void BulletPhysicsObject::DebugRender()
+	{
+		NodeTransform tsfWS = GetTransformWS();
+
+		for (UINT i = 0; i < m_vBoxCollisionShape.size(); ++i)
+		{
+			m_vBoxCollisionShape[i]->DebugRender(tsfWS);
+		}
+
+		for (UINT i = 0; i < m_vSphereCollisionShape.size(); ++i)
+		{
+			m_vSphereCollisionShape[i]->DebugRender(tsfWS);
+		}
+
+		for (UINT i = 0; i < m_vCapsuleCollisionShape.size(); ++i)
+		{
+			m_vCapsuleCollisionShape[i]->DebugRender(tsfWS);
+		}
+		
+		if (m_pCharaControll)
+		{
+			m_pCharaControll->DebugRender();
+		}
+
+	}
+
 	void BulletPhysicsObject::SyncToPhysics()
 	{
 		ASSERT(m_pGameObject);
@@ -160,17 +209,17 @@ namespace ma
 		if (pSceneNode == NULL)
 			return;
 		
-		if (m_pCharaControll)
-		{
-			Vector3 vMovePos = m_pGameObject->GetSceneNode()->GetPosition(TS_WORLD);
-			Vector3 vCharPosPre = ToMaUnit( m_pBtCollObject->getWorldTransform().getOrigin() );
-			Vector3 motion =vMovePos - vCharPosPre;
-			m_pCharaControll->MoveImpl(motion);
-		}
-		else
-		{
-			SetTransformWS( pSceneNode->GetTransform(TS_WORLD) );
-		}
+		//if (m_pCharaControll)
+		//{
+			//Vector3 vMovePos = m_pGameObject->GetSceneNode()->GetTransform().m_vPos;
+			//Vector3 vCharPosPre = ToMaUnit( m_pBtCollObject->getWorldTransform().getOrigin() );
+			//Vector3 motion = vMovePos - vCharPosPre;
+			//m_pCharaControll->MoveImpl(motion);
+		//}
+		//else
+		//{
+			SetTransformWS( pSceneNode->GetTransform() );
+		//}
 	}
 
 	void BulletPhysicsObject::SyncFromPhysics()
@@ -184,7 +233,7 @@ namespace ma
 		if (pSceneNode == NULL)
 			return;
 
-		pSceneNode->SetTransform(GetTransformWS(),TS_WORLD);
+		pSceneNode->SetTransform(GetTransformWS());
 	}
 
 	void BulletPhysicsObject::SetTransformWS(const NodeTransform& tsfWS)

@@ -1,5 +1,7 @@
-#include "Animation/Skeleton.h"
-#include "Animation/BoneSet.h"
+#include "Skeleton.h"
+#include "BoneSet.h"
+#include "SkeletonPose.h"
+
 
 #include "SkeletonSerializer.hxx"
 

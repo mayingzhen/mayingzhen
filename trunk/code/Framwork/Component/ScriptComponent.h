@@ -6,7 +6,6 @@
 namespace ma
 {
 	class IScriptObject;
-	class EdScriptObject;
 
 	class FRAMWORK_API ScriptComponent : public Component
 	{

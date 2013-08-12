@@ -1,7 +1,6 @@
 #ifndef  _Animation_ClipNode__H__
 #define  _Animation_ClipNode__H__
 
-#include "Animation/AnimationTree/AnimTreeNode.h"
 
 namespace ma
 {
@@ -9,20 +8,18 @@ namespace ma
 	struct AnimEvalContext;
 	class BoneSet;
 
-	class ANIMATION_API AnimClipNode : public AnimTreeNode
+
+	class ANIMATION_API AnimClipNode : public IAnimClipNode
 	{
+
 	public:
 		AnimClipNode();
 		
 		~AnimClipNode();
 
-		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
+		virtual void	SetAnimationClip(const char* pszSkaPath);
 
-		void			SetAnimationClip(const char* pszSkaPath);
-
-		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
-
-		void			SetBoneSet(const char* pBoneSetName);
+		virtual void	SetBoneSet(const char* pBoneSetName);
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
@@ -30,10 +27,20 @@ namespace ma
 
 		virtual	void	SetFrame(float fFrame);
 
+		Skeleton*		GetSkeleton() {return m_pSkeleton;}
+		
+		virtual void	SetSkeleton(Skeleton* pSkeleton) {m_pSkeleton = pSkeleton;}
+
+		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
+
+		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
+
 	private:
 		AnimationClip*	m_pAnimClip;
 
 		BoneSet*		m_pBoneSet;
+	
+		Skeleton*		m_pSkeleton;
 	};
 }
 

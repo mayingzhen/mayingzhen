@@ -47,14 +47,9 @@ namespace ma
 
 	void LineRender::DrawBox(const Matrix4x4& wordMat,const Vector3& size, Color dwcolor)
 	{
-		//Vector3 vScale;
-		//Quaternion qRot;
-		//Vector3 vPos;
-		//MatrixDecompose(&vScale,&qRot,&vPos,&wordMat);
-
-		float fHalfWidth = 0.5f /** vScale.x*/ * size.x;
-		float fHalfHeight = 0.5f /** vScale.y*/ * size.y;
-		float fHalfDepth = 0.5f /** vScale.z*/ * size.z;
+		float fHalfWidth = 0.5f  * size.x;
+		float fHalfHeight = 0.5f  * size.y;
+		float fHalfDepth = 0.5f * size.z;
 
 		Vector3 arrVec[]=
 		{
@@ -70,8 +65,6 @@ namespace ma
 
 		for (UINT nCnt = 0; nCnt < 8; ++nCnt)
 		{
-			//QuaternionTransformVector(&arrVec[nCnt],&arrVec[nCnt],&qRot);
-			//arrVec[nCnt] += vPos;
 			Vec3TransformCoord(&arrVec[nCnt],&arrVec[nCnt],&wordMat);
 		}
 
@@ -135,16 +128,19 @@ namespace ma
 		DrawCircle(20, matrTemp, dwColor, fRadius);
 	}
 
-	void LineRender::BeginFrame()
+	void LineRender::Begin()
 	{
 		_pMeshBatch->start();
 	}
 
-	void LineRender::EndFrame()
+// 	void LineRender::EndFrame()
+// 	{
+// 		_pMeshBatch->finish();	
+// 	}
+
+	void LineRender::Flush()
 	{
-		_pMeshBatch->finish();
 		_pMeshBatch->draw();
-		//GetRenderDevice()->DrawRenderable(_pMeshBatch);
 	}
 	
 }

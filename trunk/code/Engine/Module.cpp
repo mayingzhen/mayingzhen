@@ -43,6 +43,7 @@
 #include "Engine/RenderSystem/SpriteBatch.hxx"
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
+#include "Engine/RenderSystem/RenderSystem.hxx"
 
 // Terrain
 #include "Engine/Terrain/Terrain.hxx"
@@ -66,12 +67,14 @@
 
 
 // Physics
-#include "Engine/Physics/IPhysicsDevive.hxx"
+#include "Engine/Physics/IPhysicsSystem.hxx"
 
 
 // script
-#include "Engine/Script/IScriptDevice.hxx"
+#include "Engine/Script/IScriptSystem.hxx"
 
+// Animation
+#include "Engine/Animation/IAnimationSystem.hxx"
 
 // Input
 #include "Engine/Input/Input.hxx"
@@ -86,12 +89,32 @@ void EngineModuleInit()
 {
 	EngineRTTIInit();
 
-	ResourceSystem::Init();
+	RenderSystem* pRenderSystem = new RenderSystem();
+	SetRenderSystem(pRenderSystem);
+	pRenderSystem->Init();
+
+	ResourceSystem* pRsourceSystem = new ResourceSystem();
+	SetResourceSystem(pRsourceSystem);
+	pRsourceSystem->Init();
+
+	Input* pInput = new Input();
+	SetInput(pInput);
+	pInput->Init(Platform::GetInstance().GetWindId());
+
+	Time* pTime = new Time();
+	SetTimer(pTime);
 }
 
 void EngineModuleShutdown()
 {
-	ResourceSystem::ShoutDown();
+	ResourceSystem* pRsourceSystem = GetResourceSystem();
+	SAFE_DELETE(pRsourceSystem);
+	SetResourceSystem(NULL);
+	pRsourceSystem->ShoutDown(); 
+
+	RenderSystem* pRenderSystem = GetRenderSystem();
+	SAFE_DELETE(pRenderSystem);
+	SetRenderSystem(NULL);
 
 	EngineRTTIShutdown();
 }

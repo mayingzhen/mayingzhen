@@ -9,14 +9,18 @@ namespace ma
 
 	typedef UINT ActionID;
 
-	class ANIMATION_API AnimationPlay 
+	class AnimationPlay : public IAnimationPlay
 	{
 	public:
 		AnimationPlay(const char* pszSkePath);
 
 		~AnimationPlay();
 
- 		virtual AnimationSet*	GetAnimationSet() {return m_pAnimSet;}
+		virtual	void			Start();
+
+		virtual void			Stop();
+
+ 		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
 		virtual void			PlayAnimation(const char* pszAnimName); 
 
@@ -36,6 +40,10 @@ namespace ma
 
 		Skeleton*				GetSkeleton() {return m_pSkeleton;}
 
+		void					AddSkinMesh(RenderMesh* pRenderMesh);
+
+		void					SetGameObject(GameObject* pGameObj) {m_pGameObj = pGameObj;}
+
 	protected:
 		void					CreateSkeleton(const char* pSkePath);
 
@@ -51,6 +59,10 @@ namespace ma
 		Action*					m_pSkelAnim;
 
 		Matrix4x4				m_arrSkinMatrix[256];
+
+		std::vector<RenderMesh*>	m_arrRenderMesh;
+
+		GameObject*				m_pGameObj;
 	};
 }
 

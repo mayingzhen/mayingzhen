@@ -2,32 +2,21 @@
 
 namespace ma
 {
-	static AnimationSystem* gpAnimSystem = NULL;
-
-	void SetAnimationSystem(AnimationSystem* pAnimationSystem)
+	IAnimationObject*	AnimationSystem::CreateAnimationObject(const char* pszSkePath)
 	{
-		gpAnimSystem = pAnimationSystem;
-	}
-
-	AnimationSystem* GetAnimationSystem()
-	{
-		return gpAnimSystem;
-	}
-
-	AnimationPlay*	AnimationSystem::CreateAnimationPlay(const char* pszSkePath)
-	{
-		AnimationPlay* pAnimPlay = new AnimationPlay(pszSkePath);
-		m_arrAnimPlay.push_back(pAnimPlay);
-		return pAnimPlay;
+		AnimationObject* pAnimObject = new AnimationObject(pszSkePath);
+		m_arrAnimObject.push_back(pAnimObject);
+		return pAnimObject;
 	}
 
 
 	void AnimationSystem::Update()
 	{
-// 		for (UINT i = 0; i < m_arrAnimPlay.size(); ++i)
-// 		{
-// 			m_arrAnimPlay[i].EvaluateAnimation(1.0f);
-// 		}
+		for (UINT i = 0; i < m_arrAnimObject.size(); ++i)
+		{
+			m_arrAnimObject[i]->AdvanceTime(GetTimer()->GetFrameDeltaTime());
+			m_arrAnimObject[i]->EvaluateAnimation(1.0f);
+		}
 	}
 
 }

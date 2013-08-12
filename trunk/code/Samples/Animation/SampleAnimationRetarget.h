@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class AnimationPlay;
+	class IAnimationObject;
 	class RenderMesh;
 
 	class SampleAnimationRetarget : public Sample
@@ -17,20 +17,12 @@ namespace ma
 
 		virtual void	Update();
 
-		virtual void	Render();
-
 	private:
-		void			OnInput();
-
-
-	private:
-		RenderMesh*		m_pRenderMeshA_b;
-		RenderMesh*		m_pRenderMeshA_f;
-		RenderMesh*		m_pRenderMeshA_h;
-		AnimationPlay*	m_pAnimtionPlayA;
+		GameObject*			m_pChargigi;
+		IAnimationObject*	m_pAnimtionObjectA;
 		
-		RenderMesh*		m_pRenderMeshB;
-		AnimationPlay*	m_pAnimtionPlayB;
+		GameObject*			m_pCharMagic;
+		IAnimationObject*	m_pAnimtionObjectB;
 	};
 }
 

@@ -1,6 +1,7 @@
 #include "Samples/stdafx.h"
 #include "SampleBrowser.h"
 
+#include "Systems.hxx"
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
@@ -67,10 +68,7 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples["Particle"] = pParticle;
 
-		m_pCurSample = pSampleAnimRetar;
-
-		SetTimer(&m_Timer);
-		SetInput(&m_Input);
+		m_pCurSample = pSampleCharControl;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -89,19 +87,15 @@ namespace ma
 #endif
 	
 		CommonModuleInit();
+		//D3D9RenderModuleInit();
+		GLESRenderModuleInit();
 		EngineModuleInit();
         AnimationModuleInit();
         BtPhysicsModuleInit();
-		//D3D9RenderModuleInit();
-		GLESRenderModuleInit();
 		FramworkModuleInit();
 
-		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
-
-		LineRender::Init();
-
-		m_Input.Init(Platform::GetInstance().GetWindId());
-		m_Input.AddKeyListener(this);
+		m_pSystems = new Systems();
+		GetInput()->AddKeyListener(this);
 
 		InitCamera();
 
@@ -111,6 +105,8 @@ namespace ma
 		{
 			m_pCurSample->Load();
 		}
+
+		m_pSystems->Start();
 	}
 
 	void SampleBrowser::ResetCamera()
@@ -135,7 +131,7 @@ namespace ma
 		m_pCamera = new Camera();
 		m_pCameraControl = new CameraController(m_pCamera);
 
-		Material::SetAuotBingCamera(m_pCamera);
+		GetRenderSystem()->SetCamera(m_pCamera);
 		RenderQueue::SetCamera(m_pCamera);
 
 		ResetCamera();
@@ -153,11 +149,17 @@ namespace ma
 			m_pCurSample->UnLoad();
 
 			ResetCamera();
+
+			m_pSystems->Stop();
+
+			GetEntitySystem()->DeleteAll();
 		}
 
 		Sample* pSameple = it->second;
 		pSameple->Load();
 		m_pCurSample = pSameple;
+
+		m_pSystems->Start();
 	}
 
 	void SampleBrowser::LoadUI()
@@ -197,10 +199,6 @@ namespace ma
 
 	void SampleBrowser::Update()
 	{
-		m_Input.Capture();
-
-		m_Timer.UpdateFrame();
-
 		m_pCameraControl->UpdateInput();
 
 		if (m_bPause && !m_bStepOneFrame)
@@ -208,10 +206,9 @@ namespace ma
 			return;				
 		}
 		m_bStepOneFrame = false;
-
-		ResourceSystem::Update();
-			
-		Form::updateInternal(m_Timer.GetFrameDeltaTime());
+		
+		m_pSystems->Update();
+		
 			
 		if (m_pCurSample)
 			m_pCurSample->Update();
@@ -220,25 +217,20 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
-		GetRenderDevice()->BeginRender();
-
-		LineRender::BeginFrame();
-
-		//RenderQueue::Clear();
+		GetRenderSystem()->BeginFrame();
 
 		if (m_pCurSample)
 			m_pCurSample->Render();
 
-		//RenderQueue::Fulsh();
+		GetPhysicsSystem()->DebugRender();
+
+		GetRenderSystem()->Flush();
+		
+		LineRender::Flush();
 
 		m_pSampleSelectForm->draw();
-
-		//m_pLineRender->Start();
-		//LineRender::DrawBox(Matrix4x4::identity(),Vector3(5,5,5),Color(1,0,0,0));
 		
-		LineRender::EndFrame();
-	
-		GetRenderDevice()->EndRender();
+		GetRenderSystem()->EndFrame();
 	}
 
 	void SampleBrowser::controlEvent(Control* control, EventType evt)

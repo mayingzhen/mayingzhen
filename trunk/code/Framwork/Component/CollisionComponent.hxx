@@ -36,20 +36,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void BoxCollisionComponent::Render()
-	{	
-		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
-		NodeTransform tsfLS = m_pBoxCollisionShape->GetTransformLS();
-		
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		LineRender::DrawBox(matWS,m_pBoxCollisionShape->GetSize(),Color(1,0,0,0));
-	}
-
-
 	IMPL_OBJECT(SphereCollisionComponent,Component)
 
 	SphereCollisionComponent::SphereCollisionComponent(GameObject* pGameObj)
@@ -83,21 +69,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SphereCollisionComponent::Render()
-	{
-		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
-		NodeTransform tsfLS = m_pSphereCollisionShape->GetTransformLS();
-
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		LineRender::DrawWireSphere(matWS,m_pSphereCollisionShape->GetRadius(),Color(1,0,0,0));
-	}
-
-
-	
 
 	IMPL_OBJECT(CapsuleCollisionComponent,Component)
 
@@ -133,24 +104,6 @@ namespace ma
 		}
 
 		sl.EndSection();
-	}
-
-	void CapsuleCollisionComponent::Render()
-	{
-		ICapsuleCollisionShape* pCapusle = m_pCapsuleCollisionShape;
-
-		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
-		NodeTransform tsfLS = pCapusle->GetTransformLS();
-
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		float fRadius = pCapusle->GetRadius();
-		float fHeight = pCapusle->GetHeight();
-		Vector3 boxSize = Vector3(fRadius * 2, fHeight + 2 * fRadius, fRadius * 2);
-		LineRender::DrawBox(matWS,boxSize,Color(1,0,0,0));
 	}
 }
 

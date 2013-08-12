@@ -6,9 +6,9 @@
 
 namespace ma
 {
-	GameObject* CreateGameObjectWithCollision(Scene* pScene,const char* pSknPath,const char* pTexPath)
+	GameObject* CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
 	{
-		GameObject* pGameObj = pScene->CreateGameObject("");
+		GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
 
 		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load(pSknPath,pTexPath);
@@ -21,6 +21,19 @@ namespace ma
 		BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
 		pBoxCollisionShape->GetBoxCollisionShape()->SetSize(aabb.Size());
 		pBoxCollisionShape->GetBoxCollisionShape()->SetTransformLS(tsf);
+
+		return pGameObj;
+	}
+
+	GameObject* CreateAnimationGameObject(const char* psknPath,const char* pTexPath,const char* pSkePth)
+	{
+		GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
+
+		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		pMeshComp->Load(psknPath,pTexPath);
+
+		AnimComponent* pAnimComp = pGameObj->CreateComponent<AnimComponent>();
+		pAnimComp->Load(NULL,pSkePth);
 
 		return pGameObj;
 	}

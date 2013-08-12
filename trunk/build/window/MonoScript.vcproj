@@ -206,19 +206,19 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\ScriptDevice.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\ScriptDevice.hxx"
-			>
-		</File>
-		<File
 			RelativePath="..\..\Code\Plugin\MonoScript\ScriptObject.h"
 			>
 		</File>
 		<File
 			RelativePath="..\..\Code\Plugin\MonoScript\ScriptObject.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\MonoScript\ScriptSystem.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\Code\Plugin\MonoScript\ScriptSystem.hxx"
 			>
 		</File>
 		<File

@@ -167,9 +167,9 @@ public:
     unsigned int _growSize;
     unsigned int _vertexCapacity;
     unsigned int _indexCapacity;
-    unsigned int _vertexCount;
-    unsigned int _indexCount;
-    unsigned char* _vertices;
+    //unsigned int _vertexCount;
+    //unsigned int _indexCount;
+	unsigned char* _vertices;
     unsigned char* _verticesPtr;
     unsigned short* _indices;
     unsigned short* _indicesPtr;

@@ -4,19 +4,15 @@ namespace ma
 {
 	IMPL_OBJECT(SceneNode,Object)
 
-	SceneNode::SceneNode(Scene* pSene, const char* pNodeName)
+	SceneNode::SceneNode(GameObject* pGameObj,Scene* pSene)
 	{
 		m_pScene = pSene;	
 		m_pParentNode = NULL;
-		m_pGameObject = NULL;
+		m_pGameObject = pGameObj;
 
 		MatrixIdentity(&m_matWorld);
 		TransformSetIdentity(&m_tsfWS);
-		TransformSetIdentity(&m_tsfPS);
-
-		m_btsfPSDirty = false;
-		m_btsfWSDirty = false;
-		m_bmatWSDirty = false;
+		m_bmatWSDirty = true;
 	}
 
 	SceneNode::~SceneNode()
@@ -58,241 +54,94 @@ namespace ma
 	}
 
 
-	void SceneNode::SetTransform(const NodeTransform& tsf, TRANSFORM_TYPE ts)
+	void SceneNode::SetTransform(const NodeTransform& tsf)
 	{
-		if (ts == TS_WORLD)
-		{
-			SetTransformWSDirty();
-
-			m_tsfWS = tsf;
-			m_btsfWSDirty = false;
-		}
-		else if (ts == TS_PARENT)
-		{
-			SetTransformWSDirty();
-
-			m_tsfPS = tsf;
-			m_btsfPSDirty = false;
-		}
-		else 
-		{
-			ASSERT(false);
-		}
+		m_tsfWS = tsf;
 	}
 
-	const NodeTransform& SceneNode::GetTransform(TRANSFORM_TYPE ts)
+	const NodeTransform& SceneNode::GetTransform()
 	{
-		if (ts == TS_PARENT)
-		{
-			if (m_btsfPSDirty)
-			{
-				UpdateTransformPS();
-			}
-			return m_tsfPS;
-		}
-		else if (ts == TS_WORLD)
-		{
-			if (m_btsfWSDirty)
-			{
-				UpdateTransformWS();
-			}
-			return m_tsfWS;
-		}
-		else
-		{
-			ASSERT(false);
-			if (m_btsfPSDirty)
-			{
-				UpdateTransformPS();
-			}
-			return m_tsfPS;	
-		}
+		return m_tsfWS;
 	}
 
-
-	void SceneNode::SetPosition(const Vector3& vPos, TRANSFORM_TYPE ts)
-	{		
-		NodeTransform tsf = GetTransform(ts);
-		tsf.m_vPos = vPos;
-		SetTransform(tsf,ts);
+	Vector3	SceneNode::GetForward()
+	{
+		return GetWorldMatrix().GetRow(2);
 	}
 
-	const Vector3&	SceneNode::GetPosition(TRANSFORM_TYPE ts)
+	Vector3	SceneNode::GetRight()
 	{
-		return GetTransform(ts).m_vPos;
-	}
-
-	const Quaternion& SceneNode::GetRotate(TRANSFORM_TYPE ts)
-	{
-		return GetTransform(ts).m_qRot;
-	}
-
-// 	EulerAngleXYZ SceneNode::GetRotate(TRANSFORM_TYPE ts)
-// 	{
-// 		EulerAngleXYZ euler;
-// 		EulerAngleFromQuaternion(&euler,&GetTransform(ts).m_qRot);
-// 		return euler;	
-// 	}
-
-	Vector3	SceneNode::GetDirection(TRANSFORM_TYPE ts)
-	{
-		Quaternion qRotate = GetTransform(ts).m_qRot;
-		Matrix4x4 matRotate;
-		MatrixFromQuaternion(&matRotate,&qRotate);
-		return matRotate.GetRow(3);
-
-	}
-
-	Vector3	SceneNode::GetRight(TRANSFORM_TYPE ts)
-	{
-		Quaternion qRotate = GetTransform(ts).m_qRot;
-		Matrix4x4 matRotate;
-		MatrixFromQuaternion(&matRotate,&qRotate);
-		return matRotate.GetRow(0);
+		return GetWorldMatrix().GetRow(0);
 	}
 	
-	Vector3	SceneNode::GetUp(TRANSFORM_TYPE ts)
+	Vector3	SceneNode::GetUp()
 	{
-		Quaternion qRotate = GetTransform(ts).m_qRot;
-		Matrix4x4 matRotate;
-		MatrixFromQuaternion(&matRotate,&qRotate);
-		return matRotate.GetRow(1);
+		return GetWorldMatrix().GetRow(1);
 	}
 
-	void  SceneNode::Move(float x)
+	void  SceneNode::Forward(float x)
 	{
-		Vector3 vPos = GetPosition(TS_PARENT);
-		vPos += GetDirection(TS_PARENT) * x;
-		SetPosition(vPos,TS_PARENT);
+		m_tsfWS.m_vPos += GetForward() * x;
 	}
 
-	void  SceneNode::Fly(float x)
+	void  SceneNode::Up(float x)
 	{
-		Vector3 vPos = GetPosition(TS_PARENT);
-		vPos += GetUp(TS_PARENT) * x;
-		SetPosition(vPos,TS_PARENT);
-		
+		m_tsfWS.m_vPos += GetUp() * x;	
 	}
 
 	void  SceneNode::Right(float x)
 	{
-		Vector3 vPos = GetPosition(TS_PARENT);
-		vPos += GetRight(TS_PARENT) * x;
-		SetPosition(vPos,TS_PARENT);
+		m_tsfWS.m_vPos += GetRight() * x;
 	}
 
 
-	void SceneNode::Translate(const Vector3& vDir, TRANSFORM_TYPE ts)
+	void SceneNode::Translate(const Vector3& vTrans)
 	{
-		if (ts == TS_WORLD || ts == TS_PARENT)
-		{
-			Vector3 vPos = GetPosition(ts);
-			vPos += vDir;
-			SetPosition(vPos,ts);
-		}
-		else if (ts == TS_LOCAL)
-		{
-			NodeTransform tsfPS = GetTransform(TS_PARENT);
-			Vector3 vDirPS;
-			QuaternionTransformVector(&vDirPS,&vDir,&tsfPS.m_qRot);
-			tsfPS.m_vPos += vDirPS;
-			SetTransform(tsfPS,TS_PARENT);
-		}
+		m_tsfWS.m_vPos += vTrans;
 	}
 
-	void SceneNode::Rotate(const Quaternion& qRot, TRANSFORM_TYPE ts)
-	{
-		if (ts == TS_WORLD || ts == TS_PARENT)
-		{
-			NodeTransform tsf = GetTransform(ts);
-			tsf.m_qRot = qRot * tsf.m_qRot;
-			SetTransform(tsf,ts);
-		}
-		else if (ts == TS_LOCAL)
-		{
-			NodeTransform tsfPS = GetTransform(TS_PARENT);
-			tsfPS.m_qRot = tsfPS.m_qRot * qRot;
-			SetTransform(tsfPS,TS_PARENT);
-		}
-	}	
-
-	void SceneNode::Rotate(float xDegree,float yDegree,float zDegree, TRANSFORM_TYPE ts)
+	void SceneNode::Rotate(float xDegree,float yDegree,float zDegree)
 	{
 		Quaternion qRot;
 		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
 		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
-		Rotate(qRot,ts);
+		Rotate(qRot);
 	}
 
 	const Matrix4x4& SceneNode::GetWorldMatrix()
 	{
-		//if (m_bmatWSDirty)
+		if (m_bmatWSDirty)
 		{
 			UpdateMatWorld();
 		}
 		return m_matWorld;
 	}
 
-	void SceneNode::SetTransformWSDirty()
-	{
-		m_btsfWSDirty = true;
-		m_bmatWSDirty = true;
-		for (UINT i = 0; i < m_arrChildNode.size(); ++i)
-		{
-			m_arrChildNode[i]->SetTransformWSDirty();
-		}
-	}
-
 	void SceneNode::UpdateMatWorld()
 	{
-		MatrixFromTransform(&m_matWorld,&GetTransform(TS_WORLD));
-		m_bmatWSDirty = false;
+		MatrixFromTransform(&m_matWorld,&GetTransform());
+		//m_bmatWSDirty = false;
 	}
-
-	void SceneNode::UpdateTransformWS()
-	{
-		ASSERT(!m_btsfPSDirty);
-		if (m_pParentNode == NULL)
-		{
-			m_tsfWS = m_tsfPS;
-		}
-		else
-		{
-			TransformMul(&m_tsfWS, &m_tsfPS, &m_pParentNode->GetTransform(TS_WORLD));
-		}
-		m_btsfWSDirty = false;
-	}
-
-	void SceneNode::UpdateTransformPS()
-	{
-		ASSERT(!m_btsfWSDirty);
-		if (m_pParentNode == NULL)
-		{
-			m_tsfPS = m_tsfWS;
-		}
-		else
-		{
-			TransformInvMul(&m_tsfPS,&m_tsfWS,&m_pParentNode->GetTransform(TS_PARENT));
-		}
-		m_btsfPSDirty = false;
-	}
-
 
 	void SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)
 	{
-		NodeTransform tsfWorld = GetTransform(TS_WORLD);
+		NodeTransform tsfWorld = GetTransform();
 		NodeTransform tsfWorldInv;
 		TransformInverse(&tsfWorldInv,&tsfWorld);
 		TransformMul(pOutLocal,pWorld,&tsfWorldInv);
 	}
 
+	void SceneNode::Rotate(const Quaternion& qRot)
+	{
+		m_tsfWS.m_qRot = qRot * m_tsfWS.m_qRot;
+	}
 
 	void SceneNode::RotateYAxisLS(float fDegree)
 	{
 		Quaternion qRot;
 		const Vector3 vY(0.0f,1.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
-		Rotate(qRot,TS_WORLD);
+		Rotate(qRot);
 
 	}
 
@@ -301,7 +150,7 @@ namespace ma
 		Quaternion qRot;
 		const Vector3 vZ(0.0f,0.0f,1.0f);
 		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
-		Rotate(qRot,TS_LOCAL);
+		Rotate(qRot);
 	}
 
 	void SceneNode::RotateXAxisLS(float fDegree)
@@ -309,97 +158,12 @@ namespace ma
 		Quaternion qRot;
 		const Vector3 vZ(1.0f,0.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vZ,ToRadian(fDegree));
-		Rotate(qRot,TS_LOCAL);
-	}
-
-	SceneNode* SceneNode::Clone(const char* pName)
-	{
-		SceneNode* pParent = GetParent();
-		ASSERT(pParent);
-		if (pParent == NULL)
-			return NULL;
-
-		XMLOutputArchive xmlout;
-		this->Serialize(xmlout);
-
-		XMLInputArchive xmlin;
-		xmlin.Open(xmlout);
-		SceneNode* pClone = pParent->AddChildNode(pName);
-		pClone->Serialize(xmlin);
-
-		return pClone;
-	}
-
-// 	void					SceneNode::RotateLS(float xDegree,float yDegree,float zDegree)
-// 	{
-// 		Quaternion qRot;
-// 		EulerAngleXYZ qEuler(ToRadian(xDegree), ToRadian(yDegree), ToRadian(xDegree));
-// 		QuaternionFromEulerAngleXYZ(&qRot,&qEuler);
-// 		RotateLS(qRot);
-// 	}
-
-// 	void					SceneNode::RotateLS(const Quaternion& qRot)
-// 	{
-// 		NodeTransform tsfPS = GetTransformPS();
-// 		QuaternionMultiply(&tsfPS.m_qRot,&qRot,&tsfPS.m_qRot);
-// 		SetTransformPS(tsfPS);
-// 	}
-
-// 	EulerAngleXYZ			SceneNode::GetRotateLS()
-// 	{
-// 		EulerAngleXYZ euler;
-// 		EulerAngleFromQuaternion(&euler,&GetTransformPS().m_qRot);
-// 		return euler;
-// 	}
-
-// 	void  SceneNode::Pitch(float x, TRANSFORM_TYPE ts)
-// 	{
-// 
-// 	}
-// 
-// 	void  SceneNode::Yaw(float x, TRANSFORM_TYPE ts)
-// 	{
-// 
-// 	}
-// 	
-// 	void  SceneNode::Roll(float x, TRANSFORM_TYPE ts)
-// 	{
-// 
-// 	}
-// 
-// 	void SceneNode::Move(float x)
-// 	{
-// 		Vector3 dir;
-// 		
-// 	}
-// 
-// 	void SceneNode::Fly(float x)
-// 	{
-// 
-// 	}
-// 
-// 	void SceneNode::Right(float x)
-// 	{
-// 
-// 	}
-
-	GameObject*	SceneNode::CreateGameObject()
-	{
-		ASSERT(m_pGameObject == NULL);
-		m_pGameObject = new GameObject(this,m_sName.c_str());
-		return m_pGameObject;
+		Rotate(qRot);
 	}
 
 	void SceneNode::NotifySetParent(SceneNode* pParentNode)
 	{
 		m_pParentNode = pParentNode;
-	}
-
-	SceneNode*	SceneNode::AddChildNode(const char* pName)
-	{
-		SceneNode* pNode = new SceneNode(m_pScene,pName);
-		AddChildNode(pNode);
-		return pNode;
 	}
 
 	void SceneNode::AddChildNode(SceneNode* pChildNode)
@@ -414,6 +178,20 @@ namespace ma
 		m_arrChildNode.push_back(pChildNode);
 
 		pChildNode->NotifySetParent(this);
+	}
+
+	void SceneNode::RemoveChildNode(SceneNode* pChildNode)
+	{
+		if (pChildNode == NULL)
+			return;
+
+		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
+		if (it == m_arrChildNode.end())
+			return;
+
+		m_arrChildNode.erase(it);
+
+		pChildNode->NotifySetParent(NULL);
 	}
 
 	void SceneNode::UpdateAABB()
@@ -438,15 +216,6 @@ namespace ma
 		if (GetParent()) // !RootNode
 		{
 			sl.Serialize(m_tsfWS);
-
-			if (sl.IsReading())
-			{
-				m_pGameObject = new GameObject(this,m_sName.c_str());
-			}
-
-			ASSERT(m_pGameObject);
-			if (m_pGameObject)
-				m_pGameObject->Serialize(sl,"m_pGameObject");
 		}
 
 		if (sl.IsReading())
@@ -456,8 +225,8 @@ namespace ma
 
 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
 			{
-				SceneNode* pChild = AddChildNode("");
-				pChild->Serialize(sl);
+				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
+				pGameObj->Serialize(sl);
 			}
 		}
 		else
@@ -468,11 +237,15 @@ namespace ma
 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
 			{
 				SceneNode* pChild = m_arrChildNode[nCnt];
-				pChild->Serialize(sl);
+				GameObject* pGameObj = pChild->GetGameObject();
+				ASSERT(pGameObj);
+				if (pGameObj == NULL)
+					continue;
+
+				pGameObj->Serialize(sl);
 			}
 		}
 
 		sl.EndSection();
-
 	}
 }

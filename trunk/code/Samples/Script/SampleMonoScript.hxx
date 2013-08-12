@@ -11,12 +11,12 @@ namespace ma
 	{
 		MonoScriptModuleInit();
 
-		IScriptDevice* pScriptDeveice = GetScriptDevice();
+		IScriptSystem* pScriptDeveice = GetScriptSystem();
 		if (pScriptDeveice == NULL)
 			return;
 
 		pScriptDeveice->ParseScriptAll("../../code/Samples/Script/CSharpTest/CSharpTest/bin/Debug/CSharpTest.dll");
-		m_pTestScript = GetScriptDevice()->CreateScriptObject("MyClass");
+		m_pTestScript = GetScriptSystem()->CreateScriptObject("MyClass");
 
 		pScriptDeveice->Start();
 	}

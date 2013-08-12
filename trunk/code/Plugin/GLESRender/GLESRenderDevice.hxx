@@ -145,14 +145,18 @@ namespace ma
 
 	void GLESRenderDevice::BeginRender()
 	{
-		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
+// 		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
+// 		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
 
 		//GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 		//GL_ASSERT( glDepthMask(GL_TRUE) );
 		//GL_ASSERT( glDisable(GL_CULL_FACE) );
 		//GL_ASSERT( glEnable(GL_CULL_FACE) );
 		//GL_ASSERT( glCullFace(GL_FRONT) );
+
+#if PLATFORM_WIN == 1
+		wglMakeCurrent(m_hDC,m_hGLRC);
+#endif
 	}
 
 	void GLESRenderDevice::EndRender()

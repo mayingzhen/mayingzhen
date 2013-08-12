@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Framwork"
+	Name="EntitySystem"
 	ProjectGUID="{842F0630-D73F-41C6-8EAF-3CD7D9434C03}"
 	RootNamespace="Framwork"
 	Keyword="Win32Proj"
@@ -173,6 +173,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\code\Framwork\EntitySystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Framwork\EntitySystem.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Framwork\GameObj.h"
 				>
 			</File>
@@ -212,11 +220,11 @@
 				Name="Component"
 				>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\AnimPlayComponent.h"
+					RelativePath="..\..\Code\Framwork\Component\AnimComponent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\AnimPlayComponent.hxx"
+					RelativePath="..\..\Code\Framwork\Component\AnimComponent.hxx"
 					>
 				</File>
 				<File

@@ -6,6 +6,7 @@ namespace ma
 	class Sample;
 	class CameraController;
 	class Camera;
+	class Systems;
 
 	class SampleBrowser : public Game,Control::Listener,OIS::KeyListener
 	{
@@ -44,9 +45,6 @@ namespace ma
 
 		Sample*							m_pCurSample;
 
-		Time							m_Timer;
-		Input							m_Input;
-
 		Form*							m_pSampleSelectForm; 
 
 		bool							m_bPause;
@@ -54,6 +52,8 @@ namespace ma
 
 		CameraController*				m_pCameraControl;
 		Camera*							m_pCamera;
+
+		Systems*						m_pSystems;
 	};
 
 	SampleBrowser* GetSampleBrowser();

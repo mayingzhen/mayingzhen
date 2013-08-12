@@ -1,6 +1,6 @@
 #include "BtContactReport.h"
 #include "BtCharacterController.h"
-#include "BtPhysicsDevive.h"
+#include "BtPhysicsSystem.h"
 
 namespace ma
 {
@@ -97,8 +97,7 @@ namespace ma
 
 	void BulletContactReport::Update()
 	{
-		BulletScene* pBulletScene = ((BulletDevice*)GetPhysicsDevice())->GetPhysicsScene();
-		btDiscreteDynamicsWorld* pDynamicsWorld = pBulletScene ? pBulletScene->GetDynamicsWorld() : NULL;
+		btDiscreteDynamicsWorld* pDynamicsWorld = GetDynamicsWorld();
 		ASSERT(pDynamicsWorld);
 		if (pDynamicsWorld == NULL)
 			return;

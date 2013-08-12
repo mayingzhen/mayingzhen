@@ -4,65 +4,38 @@ namespace ma
 {
 	SampleAnimationTree::SampleAnimationTree()
 	{
-		m_pAnimtionPlay = NULL;
-
-		m_pRenderMesh = NULL;
+		m_pGameObj = NULL;
+		m_pClip602 = NULL;
+		m_pClip100 = NULL;
 	}
 
 	void SampleAnimationTree::UnLoad()
 	{
 		GetInput()->RemoveKeyListener(this);
+
+		GetEntitySystem()->DeleteGameObject(m_pGameObj);
 	}
 
 	void SampleAnimationTree::Load()
 	{
 		GetInput()->AddKeyListener(this);
 
-		m_pRenderMesh = new RenderMesh();
-		m_pRenderMesh->Load("magician/Body.skn","magician/Body.tga");
+		m_pGameObj = CreateAnimationGameObject("magician/Body.skn","magician/Body.tga","magician/Body.ske");
 
-		m_pAnimtionPlay = GetAnimationSystem()->CreateAnimationPlay("magician/Body.ske");
-		AnimationSet* pAnimSet = m_pAnimtionPlay->GetAnimationSet();
-		Action*	pAction = pAnimSet->CreateAction("TestAnim");
- 		AnimLayerNode*	pLayerNode = pAction->CreateRootNode<AnimLayerNode>();
-		m_pClip602 = pLayerNode->CreateLayer<AnimClipNode>();
-		m_pClip100 = pLayerNode->CreateLayer<AnimClipNode>();
-		
-		m_pClip602->SetAnimationClip("magician/602/bip01.ska");
-		m_pClip602->SetBoneSet("UpBody");
+		AnimComponent* pAnimComp = m_pGameObj->GetTypeComponentFirst<AnimComponent>();
+		IAnimationSet* pAnimSet = pAnimComp->GetAnimObject()->GetAnimationSet();
+		IAction*	pAction = pAnimSet->CreateAction("TestAnim");
+ 		IAnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
+		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
+		m_pClip100 = pAction->CreateClipNode("gigi/210_run/bip01.ska","LowerBody");
+		pLayerNode->AddLayer(m_pClip100);
+		pLayerNode->AddLayer(m_pClip602);
+		pAction->SetTreeNode(pLayerNode);
 
-		m_pClip100->SetAnimationClip("gigi/210_run/bip01.ska"/*"magician/100/bip01.ska"*/);
-		m_pClip100->SetBoneSet("LowerBody");
+		pAnimComp->GetAnimObject()->PlayAnimation("TestAnim");
 
-		m_pAnimtionPlay->PlayAnimation("TestAnim");
-
-
-	
-	}
-
-
-	void SampleAnimationTree::Update()
-	{
-		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
-
-		m_pAnimtionPlay->AdvanceTime(fTimeElapsed);
-
-		m_pAnimtionPlay->EvaluateAnimation(1.0f);
-
-		Matrix4x4* skinMatrix = m_pAnimtionPlay->GetSkinMatrixArray();
-		UINT nNumber = m_pAnimtionPlay->GetSkinMatrixNumber();
-		m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
-
-		Matrix4x4 matWorld,matRoat;
-		MatrixTranslation(&matWorld,50,120,0);
-		MatrixRotationYawPitchRoll(&matRoat,0,PI * 1.2,0);
-		matWorld = matWorld * matRoat;
-		m_pRenderMesh->SetWorldMatrix(matWorld);
-	}
-
-	void SampleAnimationTree::Render()
-	{
-		m_pRenderMesh->Draw();
+		m_pGameObj->GetSceneNode()->Translate(Vector3(50,-100,0));
+		m_pGameObj->GetSceneNode()->RotateXAxisLS(216);
 	}
 
 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
@@ -82,11 +55,11 @@ namespace ma
 			m_pClip602->SetBoneSet("UpBody");
 			m_pClip100->SetBoneSet("LowerBody");
 		}
-		else if (arg.key == OIS::KC_4)
-		{
-			m_pClip602->SetBoneSet("LowerBody");
-			m_pClip100->SetBoneSet("UpBody");
-		}
+// 		else if (arg.key == OIS::KC_4)
+// 		{
+// 			m_pClip602->SetBoneSet("LowerBody");
+// 			m_pClip100->SetBoneSet("UpBody");
+// 		}
 
 		return true;
 	}

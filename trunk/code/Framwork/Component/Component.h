@@ -16,13 +16,13 @@ namespace ma
 
 		virtual ~Component();
 
-		virtual void	Render();
-
-		virtual void	Update();
-
 		virtual void	Start();
 
 		virtual void	Stop();
+
+		virtual	void	Update();
+
+		virtual void	Render();
 
 		GameObject*		GetGameObject();
 
@@ -37,4 +37,4 @@ namespace ma
 
 
 
-#endif
+#endif // _Component__H__

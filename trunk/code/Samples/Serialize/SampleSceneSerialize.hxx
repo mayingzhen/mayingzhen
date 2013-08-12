@@ -6,7 +6,7 @@ namespace ma
 {
 	SampleSceneSerialize::SampleSceneSerialize()
 	{
-		m_pScene = NULL;
+		//m_pScene = NULL;
 	}
 
 	void SampleSceneSerialize::Load()
@@ -14,12 +14,11 @@ namespace ma
 		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
 		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
 
-		Scene* pScene = new Scene();
+		//Scene* pScene = new Scene();
 
-		pScene->GetPhysicsScene()->SetGravity(Vector3(0,-0.98f,0));
-
+		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f,0));
 		{
-			GameObject* pGameObj = CreateGameObjectWithCollision(pScene,"Fbx/Box.skn","Fbx/Box.tga");
+			GameObject* pGameObj = CreateCollisionGameObject("Fbx/Box.skn","Fbx/Box.tga");
 			pGameObj->SetName("Test");
 
 			//RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
@@ -39,8 +38,7 @@ namespace ma
 			BinaryOutputArchive arOut;
 			bool bOpenOK = arOut.Open("../Tesx.scene");
 			ASSERT(bOpenOK);
-			pScene->Serialize(arOut);
-			SAFE_DELETE(pScene);
+			GetEntitySystem()->Serialize(arOut);
 			arOut.Close();
 		}
 
@@ -48,20 +46,13 @@ namespace ma
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open("../Tesx.scene");
 			ASSERT(bOpenOK);
-			SAFE_DELETE(m_pScene);
-			m_pScene = new Scene();
-			m_pScene->Serialize(arIn);
+			GetEntitySystem()->Serialize(arIn);
 			arIn.Close();
 		}
-
-
-		m_pScene->Start();
 	}
 
 	void SampleSceneSerialize::UnLoad()
 	{
-		m_pScene->Stop();
-		SAFE_DELETE(m_pScene);
 	}
 
 	void SampleSceneSerialize::Update()
@@ -72,8 +63,7 @@ namespace ma
 				XMLOutputArchive arOut;
 				bool bOpenOK = arOut.Open("../Tesx.scene.xml");
 				ASSERT(bOpenOK);
-				m_pScene->Serialize(arOut);
-				SAFE_DELETE(m_pScene);
+				GetEntitySystem()->Serialize(arOut);
 				arOut.Close();
 			}
 
@@ -81,20 +71,17 @@ namespace ma
 				XMLInputArchive arIn;
 				bool bOpenOK = arIn.Open("../Tesx.scene.xml");
 				ASSERT(bOpenOK);
-				SAFE_DELETE(m_pScene);
-				m_pScene = new Scene();
-				m_pScene->Serialize(arIn);
+				GetEntitySystem()->Serialize(arIn);
 				arIn.Close();
-				m_pScene->Start();
 			}
 		}
 
-		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
+		//m_pScene->Update(GetTimer()->GetFrameDeltaTime());
 	}
 
 	void SampleSceneSerialize::Render()
 	{
-		m_pScene->Render(GetCamera());
+		//m_pScene->Render(GetCamera());
 	}
 
 }

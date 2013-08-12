@@ -8,7 +8,9 @@ namespace ma
 	class GameObject;
 	class Scene;
 
-	FRAMWORK_API GameObject* CreateGameObjectWithCollision(Scene* pScene,const char* pSknPath,const char* pTexPath);
+	FRAMWORK_API GameObject* CreateCollisionGameObject(const char* pSknPath,const char* pTexPath);
+	
+	FRAMWORK_API GameObject* CreateAnimationGameObject(const char* psknPath,const char* pTexPath,const char* pSkePth);
 }
 
 

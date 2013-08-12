@@ -10,9 +10,11 @@ namespace ma
 
 		static void ShutDown();
 
-		static void	BeginFrame();
+		static void	Begin();
 
-		static void EndFrame();
+		//static void EndFrame();
+
+		static void Flush();
 
 		static void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
 

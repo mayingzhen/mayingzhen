@@ -6,6 +6,14 @@ namespace ma
 {
 	class ICapsuleCollisionShape;
 
+	enum CollisionFlags
+	{
+		CF_None = 0,
+		CF_Side,
+		CF_Above,
+		CF_Below,
+	};
+
 	class ENGINE_API ICharaControll
 	{
 	public:

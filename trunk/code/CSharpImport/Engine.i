@@ -8,13 +8,13 @@
 %include "../../Code/Engine/Export.h"
 
 %include "../../Code/Engine/Animation/IAnimationSystem.h"
-%include "../../Code/Engine/Animation/AnimationPlay.h"
+%include "../../Code/Engine/Animation/AnimationObject.h"
 %include "../../Code/Engine/Animation/ISkeleton.h"
 %include "../../Code/Engine/Animation/IAnimationSet.h"
 
 %include "../../Code/Engine/Physics/ICharacterController.h"
 %include "../../Code/Engine/Physics/ICollisionShape.h"
-%include "../../Code/Engine/Physics/IPhysicsDevive.h"
+%include "../../Code/Engine/Physics/IPhysicsSystem.h"
 %include "../../Code/Engine/Physics/IPhysicsObject.h"
 %include "../../Code/Engine/Physics/IPhysicsScene.h"
 %include "../../Code/Engine/Physics/IRigidBody.h"

@@ -49,6 +49,7 @@
 #include "Engine/RenderSystem/RenderTarget.h"
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
+#include "Engine/RenderSystem/RenderSystem.h"
 
 // Terrain
 #include "Engine/Terrain/Terrain.h"
@@ -76,15 +77,20 @@
 // Physics
 #include "Engine/Physics/ICharacterController.h"
 #include "Engine/Physics/ICollisionShape.h"
-#include "Engine/Physics/IPhysicsDevive.h"
+#include "Engine/Physics/IPhysicsSystem.h"
 #include "Engine/Physics/IPhysicsObject.h"
-#include "Engine/Physics/IPhysicsScene.h"
 #include "Engine/Physics/IRigidBody.h"
 #include "Engine/Physics/IPhysicsJoint.h"
 
 // script
-#include "Engine/Script/IScriptDevice.h"
+#include "Engine/Script/IScriptSystem.h"
 #include "Engine/Script/IScriptObject.h"
+
+// Animation
+#include "Engine/Animation/IAnimationObject.h"
+#include "Engine/Animation/IAnimationSystem.h"
+#include "Engine/Animation/IAnimationSet.h"
+#include "Engine/Animation/IAction.h"
 
 
 // Input

@@ -9,9 +9,10 @@
 #include "Framwork/SceneNode.h"
 #include "Framwork/SceneVisiter.h"
 #include "Framwork/Util.h"
+#include "Framwork/EntitySystem.h"
 
 #include "Framwork/Component/Component.h"
-#include "Framwork/Component/AnimPlayComponent.h"
+#include "Framwork/Component/AnimComponent.h"
 #include "Framwork/Component/MeshComponent.h"
 #include "Framwork/Component/ParticleComponent.h"
 #include "Framwork/Component/ScriptComponent.h"

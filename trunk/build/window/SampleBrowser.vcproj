@@ -338,6 +338,14 @@
 			RelativePath="..\..\Code\Samples\stdafx.h"
 			>
 		</File>
+		<File
+			RelativePath="..\..\code\Samples\Systems.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Samples\Systems.hxx"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

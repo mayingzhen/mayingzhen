@@ -1,4 +1,4 @@
-#include "ScriptDevice.h"
+#include "ScriptSystem.h"
 #include "IntenalCall.h"
 #include "ScriptObject.h"
 #include "ScriptClass.h"
@@ -6,13 +6,13 @@
 namespace ma
 {
 
-	ScriptDevice::ScriptDevice()
+	ScriptSystem::ScriptSystem()
 	{
 		m_pDomain = NULL;
 		m_pAppDomain = NULL;
 	}
 
-	void ScriptDevice::Init()
+	void ScriptSystem::Init()
 	{
 		std::string strRoot = FileSystem::getResourcePath();
 		std::string strLibDir = strRoot + "mono-2.11.3/lib/";
@@ -32,13 +32,13 @@ namespace ma
 		MonoInternalInit();
 	}
 
-	void ScriptDevice::Shutdown()
+	void ScriptSystem::Shutdown()
 	{
 		mono_jit_cleanup(m_pDomain);
 
 	}
 
-	bool ScriptDevice::Start()
+	bool ScriptSystem::Start()
 	{
 		if (m_pAppDomain != NULL)
 			return false;
@@ -55,16 +55,16 @@ namespace ma
 			LoadScriptDll(m_arrDllName[i].c_str());
 		}
 
-// 		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
-// 		{
-// 			m_arrScriptClass[i].
-// 		}
+
+		//AllScriptObjInvokeMethod("Start");
 
 		return true;
 	}
 
-	void ScriptDevice::Stop()
+	void ScriptSystem::Stop()
 	{
+		//AllScriptObjInvokeMethod("Stop");
+
 		mono_domain_set(m_pDomain,10000);
 
 		if (NULL != m_pAppDomain)
@@ -75,23 +75,54 @@ namespace ma
 		}
 	}
 
-	IScriptObject* ScriptDevice::CreateScriptObject(const char* pszName)
+	void ScriptSystem::Update()
+	{
+		//AllScriptObjInvokeMethod("Update");
+	}
+
+// 	void ScriptSystem::AllScriptObjInvokeMethod(const char* pszMethod,int param_count, void **params)
+// 	{
+// 		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+// 		{
+// 			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
+// 			for (UINT j = 0; j < nScrpitObj; ++i)
+// 			{
+// 				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+// 				pScriptObject->InvokeMethod(pszMethod,param_count,params);
+// 			}
+// 		}
+// 	}
+
+	IScriptObject* ScriptSystem::CreateScriptObject(const char* pszName/*,GameObject* pGameObj*/)
 	{
 		ScriptClass* pScriptClass = GetScriptClass(pszName);
 		ASSERT(pScriptClass);
 		if (pScriptClass == NULL)
 			return NULL;
 
-		return pScriptClass->CreateScriptObject();
+		ScriptObject* pScriptObj = pScriptClass->CreateScriptObject();
+		//pScriptObj->SetGameObject(pGameObj);
+		
+		return pScriptObj;
 	}
 
-	void ScriptDevice::DestoryScriptObject(IScriptObject* pScriptObject)
+	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
 	{
-		SAFE_DELETE(pScriptObject);
+		ScriptObject* pMonoSriptObj = (ScriptObject*)pScriptObject;
+
+		ScriptClass* pScriptClass = pMonoSriptObj->GetScriptClass();
+		ASSERT(pScriptClass);
+		if (pScriptClass == NULL)
+		{
+			SAFE_DELETE(pScriptObject);
+			return;
+		}
+
+		pScriptClass->DeleteScriptObject(pMonoSriptObj);
 	}
 
 	// Parse dll 
-	void ScriptDevice::ParseScriptAll(const char* pScriptDllName)
+	void ScriptSystem::ParseScriptAll(const char* pScriptDllName)
 	{
 		if (pScriptDllName == NULL)
 			return;
@@ -149,7 +180,7 @@ namespace ma
 	}
 
 
-	void ScriptDevice::LoadScriptDll(const char* pScriptDllName)
+	void ScriptSystem::LoadScriptDll(const char* pScriptDllName)
 	{
 		if (pScriptDllName == NULL)
 			return;
@@ -185,7 +216,7 @@ namespace ma
 		}
 	}
 
-	ScriptClass* ScriptDevice::GetScriptClass(const char* pClassName)
+	ScriptClass* ScriptSystem::GetScriptClass(const char* pClassName)
 	{
 		ASSERT(pClassName);
 		if (pClassName == NULL)

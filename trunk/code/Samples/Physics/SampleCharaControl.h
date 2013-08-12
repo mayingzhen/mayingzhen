@@ -28,8 +28,6 @@ namespace ma
 		void			DoMouveTo();
 
 	private:
-		Scene*			m_pScene;	
-
 		GameObject*		m_pCharaObj;
 
 		GameObject*		m_pTerrain;

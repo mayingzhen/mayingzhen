@@ -5,7 +5,7 @@
 namespace ma
 {
 	std::map<std::string, AutoBinding> Material::m_autoDefaultBings;
-	Camera* Material::m_auotBingCamera = NULL;
+	//Camera* Material::m_auotBingCamera = NULL;
 	Light*	Material::m_autoBingLight = NULL;
 
 	Material::Material(const char* pMaterialFlag,const char* pShaderName) 
@@ -369,28 +369,33 @@ namespace ma
 
 	const Matrix4x4& Material::autoBindingGetViewMatrix() const
 	{
-		return m_auotBingCamera ? m_auotBingCamera->GetViewMatrix() : Matrix4x4::identity();
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		return pCamera ? pCamera->GetViewMatrix() : Matrix4x4::identity();
 	}
 
 	const Matrix4x4& Material::autoBindingGetProjectionMatrix() const
 	{
-		return m_auotBingCamera ? m_auotBingCamera->GetProjMatrix() : Matrix4x4::identity();
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		return pCamera ? pCamera->GetProjMatrix() : Matrix4x4::identity();
 	}
 
 	Matrix4x4 Material::autoBindingGetWorldViewMatrix() const
 	{
-		return m_pRenderable && m_auotBingCamera ? m_pRenderable->m_matWorld * m_auotBingCamera->GetViewMatrix(): Matrix4x4::identity();
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		return m_pRenderable && pCamera ? m_pRenderable->m_matWorld * pCamera->GetViewMatrix(): Matrix4x4::identity();
 	}
 
 	Matrix4x4 Material::autoBindingGetViewProjectionMatrix() const
 	{
-		return m_auotBingCamera ? m_auotBingCamera->GetViewProjMatrix() : Matrix4x4::identity();
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		return pCamera ? pCamera->GetViewProjMatrix() : Matrix4x4::identity();
 	}
 
 	Matrix4x4 Material::autoBindingGetWorldViewProjectionMatrix() const
 	{
+		Camera* pCamera = GetRenderSystem()->GetCamera();
 		ASSERT(m_pRenderable);
-		return m_pRenderable && m_auotBingCamera ? m_pRenderable->m_matWorld * m_auotBingCamera->GetViewProjMatrix() : Matrix4x4::identity();
+		return m_pRenderable && pCamera ? m_pRenderable->m_matWorld * pCamera->GetViewProjMatrix() : Matrix4x4::identity();
 	}
 
 	const Matrix4x4& Material::autoBindingGetInverseTransposeWorldMatrix() const
@@ -405,10 +410,11 @@ namespace ma
 		
 	Matrix4x4 Material::autoBindingGetInverseProjectionMatrix() const
 	{
-		if (m_auotBingCamera)
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		if (pCamera)
 		{
 			Matrix4x4 mInvProj;
-			Matrix4x4 matProj = m_auotBingCamera->GetProjMatrix();
+			Matrix4x4 matProj = pCamera->GetProjMatrix();
 			MatrixInverse(&mInvProj, NULL, &matProj);
 			return mInvProj;
 		}
@@ -420,7 +426,8 @@ namespace ma
 
 	Vector3 Material::autoBindingGetCameraWorldPosition() const
 	{
-		return m_auotBingCamera ? m_auotBingCamera->GetTransform().m_vPos : Vec3Zero();
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		return pCamera ? pCamera->GetTransform().m_vPos : Vec3Zero();
 	}
 
 	Vector3 Material::autoBindingGetCameraViewPosition() const
@@ -461,11 +468,12 @@ namespace ma
 
 	Vector4 Material::autoBingingDepthNearFarInvfar() const
 	{
-		if (m_auotBingCamera == NULL)
+		Camera* pCamera = GetRenderSystem()->GetCamera();
+		if (pCamera == NULL)
 			return Vec4One();
 		
-		float fNear = m_auotBingCamera->GetNearClip();
-		float fFar = m_auotBingCamera->GetFarClip();
+		float fNear = pCamera->GetNearClip();
+		float fFar = pCamera->GetFarClip();
 		
 		return Vector4(fNear,fFar,1/fFar,0);
 	}

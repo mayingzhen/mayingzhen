@@ -21,27 +21,27 @@ namespace ma
 		void			TravelScene(SceneVisiter* pVisiter);
 		
  		void			Update(float fElapsedTime);
- 		
- 		void			Render(Camera* pCmera = NULL);
+//  		
+//  		void			Render(Camera* pCmera = NULL);
 	
-		void			Awak();
-
- 		void			Start();
- 
- 		void			Stop();
+// 		void			Awak();
+// 
+  		void			Start();
+  
+  		void			Stop();
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Scene");
 
-		IPhysicsScene*	GetPhysicsScene() {return m_pPhyScene;}
-
 		Camera*			GetCurCamera() {return m_pCurCamera;}
 
-		GameObject*		CreateGameObject(const char* pName);
+		//GameObject*		CreateGameObject(const char* pName);
+		//SceneNode*		GetRootNode() {return m_pRootNode;}
+		void			AddSceneNode(SceneNode* pSceneNode);
+
+		//void			DeleteGameObject(GameObject* pGameObj);
 
 	private:
 		SceneNode*				m_pRootNode;
-
-		IPhysicsScene*			m_pPhyScene;
 
 		Camera*					m_pCurCamera;
 	};

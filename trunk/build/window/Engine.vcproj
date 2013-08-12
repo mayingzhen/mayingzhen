@@ -428,6 +428,14 @@
 				RelativePath="..\..\Code\Engine\RenderSystem\RenderDefine.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.hxx"
+				>
+			</File>
 			<Filter
 				Name="Paticle"
 				>
@@ -629,14 +637,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsDevive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsDevive.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.h"
 				>
 			</File>
@@ -649,6 +649,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Physics\IPhysicsSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\IPhysicsSystem.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Physics\IRigidBody.h"
 				>
 			</File>
@@ -657,15 +665,15 @@
 			Name="Script"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\Script\IScriptDevice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Script\IScriptDevice.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Script\IScriptObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Engine\Script\IScriptSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Engine\Script\IScriptSystem.hxx"
 				>
 			</File>
 		</Filter>
@@ -806,6 +814,34 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Terrain\TerrainSection.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Animation"
+			>
+			<File
+				RelativePath="..\..\code\Engine\Animation\IAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\IAnimationObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\IAnimationSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\IAnimationSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\IAnimationSystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\ISkeleton.h"
 				>
 			</File>
 		</Filter>

@@ -6,26 +6,26 @@ namespace ma
 	class Action;
 	class Skeleton;
 	class PoseModifier;
-	class AnimationPlay;
+	class AnimationObject;
 
-	class ANIMATION_API AnimationSet 
+	class AnimationSet : public IAnimationSet
 	{
 	public:
-		AnimationSet(AnimationPlay* pAniPlay);
+		AnimationSet(AnimationObject* pAniPlay);
 
-		virtual	Action*	CreateAction(const char* actionName);
+		virtual	IAction*	CreateAction(const char* actionName);
 
-		virtual	void	AddAnimClip(const char* pszSkaPath, const char* actionName);
+		virtual	void		AddAnimClip(const char* pszSkaPath, const char* actionName);
 
-		Action*			GetActionByName(const char* pszName);
+		virtual IAction*	GetActionByName(const char* pszName);
 
-		UINT			GetActionNumber() {return m_arrAnimation.size();}
+		virtual UINT		GetActionNumber() {return m_arrAnimation.size();}
 
-		Action*			GetActionByIndex(UINT index);
+		virtual IAction*	GetActionByIndex(UINT index);
 
-		void			RemoveAction(Action* pAction);
+		virtual void		RemoveAction(IAction* pAction);
 
-		void			Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
 
 	private:
 		std::vector<BoneSet*>		m_arrBoneSet;
@@ -34,7 +34,7 @@ namespace ma
 			
 		std::vector<Action*>		m_arrAnimation;
 
-		AnimationPlay*				m_pAnimPlay;
+		AnimationObject*				m_pAnimObject;
 	};
 }
 

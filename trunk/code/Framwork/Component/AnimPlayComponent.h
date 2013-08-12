@@ -21,7 +21,7 @@ namespace ma
 
 		void			Update();
 
-		AnimationPlay*	GetAnimPlay() {return m_pAnimtionPlay;}
+		IAnimationPlay*	GetAnimPlay() {return m_pAnimtionPlay;}
 
 		void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
@@ -30,7 +30,7 @@ namespace ma
 	private:
 		std::vector<RenderMesh*>	m_arrRenderMesh;
 
-		AnimationPlay*				m_pAnimtionPlay;
+		IAnimationPlay*				m_pAnimtionPlay;
 	};
 }
 

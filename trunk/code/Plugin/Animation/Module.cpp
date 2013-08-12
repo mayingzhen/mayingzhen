@@ -9,13 +9,12 @@
 #include "Animation/BoneSet.hxx"
 #include "Animation/AnimationSet.hxx"
 #include "Animation/Action.hxx"
-#include "Animation/AnimationPlay.hxx"
+#include "Animation/AnimationObject.hxx"
 #include "Animation/AnimationDataCover.hxx"
 #include "Animation/AnimationUtil.hxx"
 
 
 // AnimationTree
-#include "Animation/AnimationTree/AnimTreeNode.hxx"
 #include "Animation/AnimationTree/AnimClipNode.hxx"
 #include "Animation/AnimationTree/AnimBlendNode.hxx"
 #include "Animation/AnimationTree/AnimLayerNode.hxx"
@@ -63,7 +62,7 @@ void AnimationModuleInit()
 void AnimationModuleShutdown()
 {
 	// Device
-	AnimationSystem* pAnimationSystem = GetAnimationSystem();
+	AnimationSystem* pAnimationSystem = (AnimationSystem*)GetAnimationSystem();
 	SAFE_DELETE(pAnimationSystem);
 	
 	ResourceSystem::UnregisterResourceFactory("skn",AnimationData_Creator);

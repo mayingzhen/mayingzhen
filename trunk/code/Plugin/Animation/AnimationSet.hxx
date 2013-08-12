@@ -1,28 +1,31 @@
-#include "Animation/AnimationSet.h"
+#include "AnimationSet.h"
+#include "Action.h"
+#include "AnimationObject.h"
+#include "AnimationUtil.h"
 
 namespace ma
 {
-	AnimationSet::AnimationSet(AnimationPlay* pAniPlay)
+	AnimationSet::AnimationSet(AnimationObject* pAniPlay)
 	{
-		m_pAnimPlay = pAniPlay;
+		m_pAnimObject = pAniPlay;
 	}
 
-	Action*	AnimationSet::CreateAction(const char* actionName)
+	IAction*	AnimationSet::CreateAction(const char* actionName)
 	{
 		Action* pAction = new Action(actionName);
 		m_arrAnimation.push_back(pAction);
-		pAction->SetSkeleton(m_pAnimPlay->GetSkeleton());
+		pAction->SetSkeleton(m_pAnimObject->GetSkeleton());
 		return pAction;
 	}
 
 	void AnimationSet::AddAnimClip(const char* pszSkaPath, const char* actionName)
 	{
-		Skeleton* pSkelton = m_pAnimPlay->GetSkeleton();
+		Skeleton* pSkelton = m_pAnimObject->GetSkeleton();
 		Action* pAction = AnimationUtil::CreateAction(pszSkaPath,pSkelton,actionName);
 		m_arrAnimation.push_back(pAction);
 	}
 
-	Action* AnimationSet::GetActionByName(const char* pszName)
+	IAction* AnimationSet::GetActionByName(const char* pszName)
 	{
 		if (pszName == NULL)
 			return NULL;
@@ -39,7 +42,7 @@ namespace ma
 		return NULL;
 	}
 
-	Action* AnimationSet::GetActionByIndex(UINT index)
+	IAction* AnimationSet::GetActionByIndex(UINT index)
 	{
 		if (index < 0 || index >= m_arrAnimation.size())
 			return NULL;
@@ -47,15 +50,7 @@ namespace ma
 		return m_arrAnimation[index];
 	}
 
-// 	void	AnimationSet::AddAction(Action* pAction) 
-// 	{
-// 		if (pAction == NULL)
-// 			return;
-// 
-// 		m_arrAnimation.push_back(pAction);
-// 	}
-
-	void	AnimationSet::RemoveAction(Action* pAction)
+	void AnimationSet::RemoveAction(IAction* pAction)
 	{
 		if (pAction == NULL)
 			return;

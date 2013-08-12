@@ -19,7 +19,7 @@ namespace ma
 		virtual void Render();
 
 	private:
-		Scene*		m_pScene;
+		//Scene*		m_pScene;
 
 	};
 }

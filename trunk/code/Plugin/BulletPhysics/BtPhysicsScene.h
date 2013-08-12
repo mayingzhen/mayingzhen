@@ -33,6 +33,8 @@ namespace ma
 
 		virtual	IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj);
 
+		virtual	void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject);
+
 		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
 
 		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
