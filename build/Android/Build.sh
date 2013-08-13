@@ -27,42 +27,42 @@ rm *.a
 cd ..
 
 echo "1.开始编译libCommon"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libCommon
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Common
 echo "================================================================"
 
 echo "2.开始编译libEngine"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libEngine
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Engine
 echo "================================================================"
 
-echo "3.开始编译libFramwork"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libFramwork
+echo "3.开始编译libEntitySystem"
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C EntitySystem
 echo "================================================================"
 
 echo "4.开始编译libAnimation"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libAnimation
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Animation
 echo "================================================================"
 
 echo "5.开始编译libGLESRender"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libGLESRender
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C GLESRender
 echo "================================================================"
 
 echo "6.开始编译libBulletPhysics"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libBulletPhysics
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C BulletPhysics
 echo "================================================================"
 
 echo "7.开始编译libUI"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C libUI
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C UI
 echo "================================================================"
 
 
 echo "8.复制生成结果到lib目录"
-cp libCommon/obj/local/armeabi/libCommon.a lib/
-cp libEngine/obj/local/armeabi/libEngine.a lib/
-cp libFramwork/obj/local/armeabi/libFramwork.a lib/
-cp libAnimation/obj/local/armeabi/libAnimation.a lib/
-cp libGLESRender/obj/local/armeabi/libGLESRender.a lib/
-cp libBulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/
-cp libUI/obj/local/armeabi/libUI.a lib/
+cp Common/obj/local/armeabi/libCommon.a lib/
+cp Engine/obj/local/armeabi/libEngine.a lib/
+cp EntitySystem/obj/local/armeabi/libEntitySystem.a lib/
+cp Animation/obj/local/armeabi/libAnimation.a lib/
+cp GLESRender/obj/local/armeabi/libGLESRender.a lib/
+cp BulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/
+cp UI/obj/local/armeabi/libUI.a lib/
 
 echo "9.复制Externlib"
 cp ../../extern/Bullet-2.81/build/ndk/libPhyxBullet.a lib/
