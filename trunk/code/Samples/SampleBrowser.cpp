@@ -7,7 +7,7 @@
 
 #if PLATFORM_WIN == 1
 #include "Samples/Serialize/SampleFbxImport.hxx"
-#include "Samples/Script/SampleMonoScript.hxx"
+//#include "Samples/Script/SampleMonoScript.hxx"
 #endif
 
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
@@ -37,8 +37,8 @@ namespace ma
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
 		m_arrSamples["FbxImport"] = pSampleFbxImport;
 
-		SampleMonoScript* pSampleScript = new SampleMonoScript();
-		m_arrSamples["CSharpScript"] = pSampleScript;
+//		SampleMonoScript* pSampleScript = new SampleMonoScript();
+//		m_arrSamples["CSharpScript"] = pSampleScript;
 #endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
@@ -68,7 +68,7 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples["Particle"] = pParticle;
 
-		m_pCurSample = pSampleCharControl;
+		m_pCurSample = pSampleTerrain;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -92,7 +92,7 @@ namespace ma
 		EngineModuleInit();
         AnimationModuleInit();
         BtPhysicsModuleInit();
-		FramworkModuleInit();
+		EntitySystemModuleInit();
 
 		m_pSystems = new Systems();
 		GetInput()->AddKeyListener(this);
@@ -132,7 +132,6 @@ namespace ma
 		m_pCameraControl = new CameraController(m_pCamera);
 
 		GetRenderSystem()->SetCamera(m_pCamera);
-		RenderQueue::SetCamera(m_pCamera);
 
 		ResetCamera();
 	}

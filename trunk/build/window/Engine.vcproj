@@ -460,6 +460,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\MaterialManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\MaterialManager.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.h"
 					>
 				</File>
@@ -600,14 +608,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Engine\RenderSystem\Shadow.h"
 					>
 				</File>
@@ -718,18 +718,6 @@
 			>
 			<File
 				RelativePath="..\..\code\Engine\Thread\AutoLock.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\RenderThread.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\RenderThread.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\RenderThread.inl"
 				>
 			</File>
 			<File
@@ -846,15 +834,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\code\Engine\Device.hxx"
-			>
-		</File>
-		<File
 			RelativePath="..\..\Code\Engine\Export.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Engine\IDevice.h"
 			>
 		</File>
 		<File

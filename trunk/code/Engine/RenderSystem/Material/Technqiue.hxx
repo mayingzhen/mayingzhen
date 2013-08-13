@@ -52,7 +52,13 @@ namespace ma
 		UINT nUniform = m_pShaderProgram->GetUniformCount();
 		for (UINT i = 0; i < nUniform; ++i)
 		{
-			m_pMaterial->UseDefaultBing(m_pShaderProgram->GetUniform(i));
+			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+			ASSERT(pUniform);
+			if (pUniform == NULL)
+				continue;
+
+			MaterialParameter* pParam = m_pMaterial->GetParameter(pUniform->getName());
+			GetMaterialManager()->UseDefaultBing(pParam);
 		}
 	}
 

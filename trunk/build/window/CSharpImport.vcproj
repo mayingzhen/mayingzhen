@@ -191,7 +191,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="echo Invoking SWIG...&#x0D;&#x0A;rmdir /s/q &quot;../../CSharp/GenerateFile&quot;&#x0D;&#x0A;md &quot;../../CSharp/GenerateFile&quot;&#x0D;&#x0A;&quot;../../Tool/Swig/swig.exe&quot; -c++ -csharp -cpperraswarn -dllimport EngineCSharp -outdir &quot;../../CSharp/GenerateFile&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;&#x0D;&#x0A;echo Build CSharp EngineCSharp.dll...&#x0D;&#x0A;csc /target:library /out:..\..\Bin\Managed\EngineCSharp.dll  /recurse:..\..\CSharp\*.cs&#x0D;&#x0A;@echo off"
+					CommandLine="echo Invoking SWIG...&#x0D;&#x0A;rmdir /s/q &quot;../../Code/CSharpImport/CSharp/GenerateFile&quot;&#x0D;&#x0A;md &quot;../../Code/CSharpImport/CSharp/GenerateFile&quot;&#x0D;&#x0A;&quot;../../Tool/Swig/swig.exe&quot; -c++ -csharp -cpperraswarn -dllimport EngineCSharp -outdir &quot;../../Code/CSharpImport/CSharp/GenerateFile&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;&#x0D;&#x0A;echo Build CSharp EngineCSharp.dll...&#x0D;&#x0A;csc /target:library /out:..\..\Bin\Managed\EngineCSharp.dll  /recurse:..\..\Code\CSharpImport\CSharp\*.cs&#x0D;&#x0A;@echo off&#x0D;&#x0A;"
 					Outputs="$(InputName)_wrap.cxx"
 				/>
 			</FileConfiguration>

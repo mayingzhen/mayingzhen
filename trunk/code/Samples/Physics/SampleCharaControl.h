@@ -5,7 +5,7 @@ namespace ma
 {
 	class Scene;
 
-	class SampleCharaControl : public Sample,OIS::MouseListener
+	class SampleCharaControl : public Sample,OIS::MultiTouchListener,OIS::MouseListener
 	{
 	public:
 		SampleCharaControl();
@@ -21,9 +21,13 @@ namespace ma
 		virtual bool	mouseMoved( const OIS::MouseEvent &arg );
 		virtual bool	mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 		virtual bool	mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+		virtual bool	touchMoved( const OIS::MultiTouchEvent &arg );
+		virtual bool	touchPressed( const OIS::MultiTouchEvent &arg );
+		virtual bool	touchReleased( const OIS::MultiTouchEvent &arg );
+		virtual bool	touchCancelled( const OIS::MultiTouchEvent &arg );
 
 	private:
-		void			MoveToWS(Vector3 vMouveTo);
+		void			OnTouch(Vector2 vTouchPos);
 		
 		void			DoMouveTo();
 

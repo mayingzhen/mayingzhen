@@ -62,6 +62,10 @@ namespace ma
 
 		virtual void		SetValue(Uniform* uniform, const Sampler** values, UINT count) = 0;
 
+		virtual void		SetValue(Uniform* uniform, const Texture* sampler) = 0;
+
+		virtual void		SetValue(Uniform* uniform, const Texture** values, UINT count) = 0;
+
 
 		virtual	void		Bind() = 0;
 

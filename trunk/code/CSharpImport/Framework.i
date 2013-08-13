@@ -3,18 +3,18 @@
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
-#include "Framwork/Module.h"
+#include "EntitySystem/Module.h"
 
 
 %}
 
-%include "../../Code/Framwork/Export.h"
-%include "../../Code/Framwork/Component/Component.h"
-%include "../../Code/Framwork/Component/AnimComponent.h"
-%include "../../Code/Framwork/Component/CollisionComponent.h"
-%include "../../Code/Framwork/Component/RigidbodyComponent.h"
-%include "../../Code/Framwork/GameObj.h"
-%include "../../Code/Framwork/SceneNode.h"
+%include "../../Code/EntitySystem/Export.h"
+%include "../../Code/EntitySystem/Component/Component.h"
+%include "../../Code/EntitySystem/Component/AnimComponent.h"
+%include "../../Code/EntitySystem/Component/CollisionComponent.h"
+%include "../../Code/EntitySystem/Component/RigidbodyComponent.h"
+%include "../../Code/EntitySystem/GameObj.h"
+%include "../../Code/EntitySystem/SceneNode.h"
 
 
 //%template(SafeCastAnimComponent) SafeCast<AnimComponent>;

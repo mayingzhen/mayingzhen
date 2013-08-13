@@ -44,6 +44,8 @@
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
 #include "Engine/RenderSystem/RenderSystem.hxx"
+#include "Engine/RenderSystem/DeferredLight.hxx"
+#include "Engine/RenderSystem/Shadow.hxx"
 
 // Terrain
 #include "Engine/Terrain/Terrain.hxx"
@@ -51,7 +53,7 @@
 #include "Engine/Terrain/TerrainLiquid.hxx"
 
 // RenderScheme
-#include "Engine/RenderSystem/RenderQueue.hxx"
+//#include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/ShadowMapFrustum.hxx"
 
 // Util
@@ -64,6 +66,7 @@
 #include "Engine/RenderSystem/Material/ShaderProgram.hxx"
 #include "Engine/RenderSystem/Material/Texture.hxx"
 #include "Engine/RenderSystem/Material/Technqiue.hxx"
+#include "Engine/RenderSystem/Material/MaterialManager.hxx"
 
 
 // Physics
@@ -88,6 +91,9 @@ using namespace ma;
 void EngineModuleInit()
 {
 	EngineRTTIInit();
+
+	MaterialManager* pMaterialMang = new MaterialManager();
+	SetMaterialManager(pMaterialMang);
 
 	RenderSystem* pRenderSystem = new RenderSystem();
 	SetRenderSystem(pRenderSystem);
@@ -115,6 +121,10 @@ void EngineModuleShutdown()
 	RenderSystem* pRenderSystem = GetRenderSystem();
 	SAFE_DELETE(pRenderSystem);
 	SetRenderSystem(NULL);
+
+	MaterialManager* pMaterialMang = GetMaterialManager();
+	SAFE_DELETE(pMaterialMang);
+	SetMaterialManager(NULL);
 
 	EngineRTTIShutdown();
 }

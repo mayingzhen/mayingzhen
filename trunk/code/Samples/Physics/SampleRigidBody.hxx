@@ -1,5 +1,5 @@
 #include "Samples/Physics/SampleRigidBody.h"
-#include "Framwork/Module.h"
+#include "EntitySystem/Module.h"
 #include "BulletPhysics/Module.h"
 
 namespace ma

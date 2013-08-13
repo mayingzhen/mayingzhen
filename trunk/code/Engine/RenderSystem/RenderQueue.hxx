@@ -195,7 +195,7 @@ namespace ma
 		}
 	}
     
-#include <stdio.h>
+//#include <stdio.h>
 
 	void RenderQueue::DeferredShadow()
 	{

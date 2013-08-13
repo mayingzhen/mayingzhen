@@ -120,7 +120,6 @@ namespace ma
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
 			m_arrRenderable[i]->m_pMaterial = pMaterial;
-			m_pMaterial->SetRenderable(m_arrRenderable[i]);
 		}
 	}
 

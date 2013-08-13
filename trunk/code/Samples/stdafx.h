@@ -4,7 +4,7 @@
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
-#include "Framwork/Module.h"
+#include "EntitySystem/Module.h"
 #include "UI/Module.h"
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"

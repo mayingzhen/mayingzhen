@@ -101,9 +101,10 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrSection.size(); ++i)
 		{	
-			m_arrSection[i]->m_pMaterial = m_pMaterial;
-			m_pMaterial->SetRenderable(m_arrSection[i]);
-			GetRenderDevice()->DrawRenderable(m_arrSection[i]);
+ 			m_arrSection[i]->m_pMaterial = m_pMaterial;
+// 			m_pMaterial->SetRenderable(m_arrSection[i]);
+// 			GetRenderDevice()->DrawRenderable(m_arrSection[i]);
+			GetRenderSystem()->AddRenderable(m_arrSection[i]);
 		}
 	}
 
@@ -438,7 +439,7 @@ namespace ma
 		m_pAltasTex->Load(sTextAltasPath.c_str());
 
 		Sampler* pSameler = Sampler::create(m_pAltasTex);
-		pSameler->setWrapMode(Sampler::CLAMP,Sampler::CLAMP);
+		pSameler->setWrapMode(Sampler::CLAMP);
 		pSameler->setFilterMode(Sampler::TFO_TRILINEAR);
 		m_pMaterial = new Material("","terrain");
 		m_pMaterial->GetParameter("TerrainTex")->setSampler(pSameler);

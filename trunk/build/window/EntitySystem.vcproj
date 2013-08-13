@@ -4,7 +4,7 @@
 	Version="9.00"
 	Name="EntitySystem"
 	ProjectGUID="{842F0630-D73F-41C6-8EAF-3CD7D9434C03}"
-	RootNamespace="Framwork"
+	RootNamespace="EntitySystem"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -42,12 +42,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/libpng/include;../../extern/zlib/include;../../extern/oisInput/Include"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;FRAMWORK_EXPORTS"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;EntitySystem_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="Framwork/StdAfx.h"
+				PrecompiledHeaderThrough="EntitySystem/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FRAMWORK_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;EntitySystem_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -173,152 +173,152 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\code\Framwork\EntitySystem.h"
+				RelativePath="..\..\code\EntitySystem\EntitySystem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Framwork\EntitySystem.hxx"
+				RelativePath="..\..\code\EntitySystem\EntitySystem.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\GameObj.h"
+				RelativePath="..\..\Code\EntitySystem\GameObj.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\GameObj.hxx"
+				RelativePath="..\..\Code\EntitySystem\GameObj.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\Scene.h"
+				RelativePath="..\..\Code\EntitySystem\Scene.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\Scene.hxx"
+				RelativePath="..\..\Code\EntitySystem\Scene.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\SceneNode.h"
+				RelativePath="..\..\Code\EntitySystem\SceneNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Framwork\SceneNode.hxx"
+				RelativePath="..\..\Code\EntitySystem\SceneNode.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Framwork\SceneVisiter.h"
+				RelativePath="..\..\code\EntitySystem\SceneVisiter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Framwork\Util.h"
+				RelativePath="..\..\code\EntitySystem\Util.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Framwork\Util.hxx"
+				RelativePath="..\..\code\EntitySystem\Util.hxx"
 				>
 			</File>
 			<Filter
 				Name="Component"
 				>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\AnimComponent.h"
+					RelativePath="..\..\Code\EntitySystem\Component\AnimComponent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\AnimComponent.hxx"
+					RelativePath="..\..\Code\EntitySystem\Component\AnimComponent.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\Component.h"
+					RelativePath="..\..\Code\EntitySystem\Component\Component.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\Component.hxx"
+					RelativePath="..\..\Code\EntitySystem\Component\Component.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\MeshComponent.h"
+					RelativePath="..\..\Code\EntitySystem\Component\MeshComponent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\MeshComponent.hxx"
+					RelativePath="..\..\Code\EntitySystem\Component\MeshComponent.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Framwork\Component\ParticleComponent.h"
+					RelativePath="..\..\code\EntitySystem\Component\ParticleComponent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Framwork\Component\ParticleComponent.hxx"
+					RelativePath="..\..\code\EntitySystem\Component\ParticleComponent.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\ScriptComponent.h"
+					RelativePath="..\..\Code\EntitySystem\Component\ScriptComponent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Framwork\Component\ScriptComponent.hxx"
+					RelativePath="..\..\Code\EntitySystem\Component\ScriptComponent.hxx"
 					>
 				</File>
 				<Filter
 					Name="Physics"
 					>
 					<File
-						RelativePath="..\..\code\Framwork\Component\CharaControlComponent.h"
+						RelativePath="..\..\code\EntitySystem\Component\CharaControlComponent.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\code\Framwork\Component\CharaControlComponent.hxx"
+						RelativePath="..\..\code\EntitySystem\Component\CharaControlComponent.hxx"
 						>
 					</File>
 					<File
-						RelativePath="..\..\Code\Framwork\Component\CollisionComponent.h"
+						RelativePath="..\..\Code\EntitySystem\Component\CollisionComponent.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\Code\Framwork\Component\CollisionComponent.hxx"
+						RelativePath="..\..\Code\EntitySystem\Component\CollisionComponent.hxx"
 						>
 					</File>
 					<File
-						RelativePath="..\..\code\Framwork\Component\JointComponent.h"
+						RelativePath="..\..\code\EntitySystem\Component\JointComponent.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\code\Framwork\Component\JointComponent.hxx"
+						RelativePath="..\..\code\EntitySystem\Component\JointComponent.hxx"
 						>
 					</File>
 					<File
-						RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.h"
+						RelativePath="..\..\Code\EntitySystem\Component\RigidbodyComponent.h"
 						>
 					</File>
 					<File
-						RelativePath="..\..\Code\Framwork\Component\RigidbodyComponent.hxx"
+						RelativePath="..\..\Code\EntitySystem\Component\RigidbodyComponent.hxx"
 						>
 					</File>
 				</Filter>
 			</Filter>
 		</Filter>
 		<File
-			RelativePath="..\..\code\Framwork\CompRTTIDecl.h"
+			RelativePath="..\..\code\EntitySystem\CompRTTIDecl.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\Export.h"
+			RelativePath="..\..\Code\EntitySystem\Export.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\Module.cpp"
+			RelativePath="..\..\Code\EntitySystem\Module.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\Module.h"
+			RelativePath="..\..\Code\EntitySystem\Module.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\RTTIDecl.h"
+			RelativePath="..\..\Code\EntitySystem\RTTIDecl.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\stdAfx.cpp"
+			RelativePath="..\..\Code\EntitySystem\stdAfx.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -330,7 +330,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\Code\Framwork\stdAfx.h"
+			RelativePath="..\..\Code\EntitySystem\stdAfx.h"
 			>
 		</File>
 	</Files>

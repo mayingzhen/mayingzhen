@@ -1,430 +1,1331 @@
-#include "terrain.h"
+#include "Terrain.h"
+#include "TerrainLod.h"
 #include "TerrainSection.h"
-#include "effect_file.h"
-#include "GameApp.h"
-#include "OctreeSceneManager.h"
-#include "tinyxml.h"
+#include "World.h"
+#include "Image.h"
+#include "ResourceManager.h"
+#include "Environment.h"
+#include "RenderEvent.h"
+#include "RenderHelper.h"
 
-#include <fstream>
-#include <cmath>
-#include <algorithm>
+namespace ma {
 
+const int K_Terrain_Version = 0;
+const int K_Terrain_Magic = 'TRN0';
 
-CTerrain::CTerrain()
+#define _POSITION    0
+#define _HEIGHT		 1
+#define _NORMAL      2
+#define _MORPH       3
+
+Terrain::Terrain(const Config & config)
+	: tOnPreVisibleCull(RenderEvent::OnPreVisibleCull, this, &Terrain::OnPreVisibleCull)
 {
-	m_pAltasTex = NULL;
-	m_heightmap = NULL;
-}
+	mInited = false;
+	mLockedData = NULL;
+	mLockedWeightMapData = NULL;
 
-CTerrain::~CTerrain()
-{
-	SAFE_RELEASE(m_pAltasTex);
-	SAFE_DELETE_ARRAY(m_heightmap);
-}
+	mLod = new TerrainLod(kMaxDetailLevel);
 
-void CTerrain::Create(std::string sTerrainName)
-{	
-	LoadTerrain(sTerrainName);
-
-	m_WorldOffset.x = (m_heightMapW - 1) * m_scale.x * 0.5;
-	m_WorldOffset.y = 0;
-	m_WorldOffset.z = (m_heightMapH - 1) * m_scale.z * 0.5;
-
-	int shift = 5;
-	m_sectorShift = shift;
-	m_sectorUnits = 1 << shift;
-	m_sectorVerts = m_sectorUnits + 1; 
-
-	m_sectorCountX = m_heightMapW >> m_sectorShift;
-	m_sectorCountY = m_heightMapH >> m_sectorShift;
-
-	for (int y = 0; y < m_sectorCountY; ++y)
+	for (int i = 0; i < kMaxDetailLevel; ++i)
 	{
-		for (int x = 0; x < m_sectorCountX; ++x)
+		mTech[i] = Environment::Instance()->GetShaderLib()->GetTechnique(TString128("TerrainL") + (i + 1));
+		mTechMirror[i] = Environment::Instance()->GetShaderLib()->GetTechnique(TString128("TerrainM") + (i + 1));
+		
+		d_assert (mTech[i] && mTechMirror[i]);
+	}
+
+	mVertexDecl = VideoBufferManager::Instance()->CreateVertexDeclaration();
+	mVertexDecl->AddElement(_POSITION, 0,  DT_FLOAT2, DU_POSITION, 0);
+	mVertexDecl->AddElement(_HEIGHT, 0,  DT_FLOAT1, DU_TEXCOORD, 0);
+	mVertexDecl->AddElement(_NORMAL, 0,  DT_COLOR, DU_NORMAL, 0);
+	mVertexDecl->AddElement(_MORPH, 0, DT_FLOAT1, DU_BLENDWEIGHT, 0);
+	mVertexDecl->Init();
+
+	_Create(config);
+}
+
+Terrain::Terrain(const char * source)
+	: tOnPreVisibleCull(RenderEvent::OnPreVisibleCull, this, &Terrain::OnPreVisibleCull)
+{
+	mInited = false;
+	mLockedData = NULL;
+	mLockedWeightMapData = NULL;
+
+	mLod = new TerrainLod(kMaxDetailLevel);
+
+	for (int i = 0; i < kMaxDetailLevel; ++i)
+	{
+		mTech[i] = Environment::Instance()->GetShaderLib()->GetTechnique(TString128("TerrainL") + (i + 1));
+		mTechMirror[i] = Environment::Instance()->GetShaderLib()->GetTechnique(TString128("TerrainM") + (i + 1));
+
+		d_assert (mTech[i] && mTechMirror[i]);
+	}
+
+	mVertexDecl = VideoBufferManager::Instance()->CreateVertexDeclaration();
+	mVertexDecl->AddElement(_POSITION, 0,  DT_FLOAT2, DU_POSITION, 0);
+	mVertexDecl->AddElement(_HEIGHT, 0,  DT_FLOAT1, DU_TEXCOORD, 0);
+	mVertexDecl->AddElement(_NORMAL, 0,  DT_COLOR, DU_NORMAL, 0);
+	mVertexDecl->AddElement(_MORPH, 0, DT_FLOAT1, DU_BLENDWEIGHT, 0);
+	mVertexDecl->Init();
+
+	_Load(source);
+}
+
+
+Terrain::~Terrain()
+{
+	d_assert(mLockedData == NULL);
+	d_assert(mLockedWeightMapData == NULL);
+
+	safe_delete (mLod);
+
+	for (int i = 0; i < mSections.Size(); ++i)
+	{
+		delete mSections[i];
+		World::Instance()->DestroySceneNode(mSceneNodes[i]);
+	}
+
+	mSceneNodes.Clear();
+	mSections.Clear();
+
+	safe_delete_array(mHeights);
+	safe_delete_array(mNormals);
+	safe_delete_array(eights);
+}
+
+void Terrain::_init()
+{
+	// create shared x & y stream
+	mXYStream = VideoBufferManager::Instance()->CreateVertexBuffer(8 * kSectionVertexSize * kSectionVertexSize, 8);
+
+	float * vert = (float *)mXYStream->Lock(0, 0, LOCK_NORMAL);
+	{
+		float w = mConfig.xSize / mConfig.xSectionCount;
+		float h = mConfig.zSize / mConfig.zSectionCount;
+
+		for (int j = 0; j < kSectionVertexSize; ++j)
 		{
-			int heightMapX = x << m_sectorShift;
-			int heightMapY = y << m_sectorShift;
-
-			int index = (y * m_sectorCountX) + x;
-			
-			CTerrainSection* pTerrainScetion = new CTerrainSection;
-			pTerrainScetion->Create(this, heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
-			g_SceneMng.AddTerrainScetion(pTerrainScetion);
-		}
-	}
-}
-
-void CTerrain::LoadTerrain(std::string sTerrainName)
-{
-	int nPos = sTerrainName.rfind('\\');
-	std::string strDir = sTerrainName.substr(0,nPos+1);
-
-	TiXmlDocument terrainDoc;
-	bool bLoadSuccess = terrainDoc.LoadFile(sTerrainName);
-	if( !bLoadSuccess ) 
-	{
-		assert(false && "load terrain file failed");
-		return;
-	}
-
-	TiXmlElement* root = terrainDoc.FirstChildElement(); 
-	TiXmlElement* element  = NULL;
-
-	const char* elementValue;
-
-	// sacle
-	element = root->FirstChildElement("scale");
-	m_scale.x = (float)atoi( element->Attribute("x") );
-	m_scale.y = (float)atoi( element->Attribute("y") );
-	m_scale.z = (float)atoi( element->Attribute("z") );
-
-	// heightmap
-	element = root->FirstChildElement("heightmap");
-	const char* heightMapName = element->Attribute("filename");
-	std::string fileName = strDir + heightMapName;
-	LoadHeightMap( fileName.c_str() );
-
-	// gridinfo
-	element = root->FirstChildElement( "gridInfo" );
-	const char* gridInfoFileName = element->Attribute( "filename" );
-	const char* gridInfoType = element->Attribute( "type");
-	fileName = strDir + gridInfoFileName;
-	LoadGridInfo( fileName.c_str() );
-
-	// textures
-	element = root->FirstChildElement( "textures");
-	TiXmlElement* pTxtureElement = element->FirstChildElement();
-	int imageIndex = 0;
-	while( pTxtureElement )
-	{
-		elementValue = pTxtureElement->Attribute( "type");
-		{	
-			//if( cString("image") == elementValue )
-			if ( strcmp(elementValue,"image") == 0 )
+			for (int i = 0; i < kSectionVertexSize; ++i)
 			{
-				elementValue = pTxtureElement->Attribute("filename");
-				elementValue = UTF8ToANSI( elementValue );
-				std::string fileName = strDir + std::string("brush\\") + elementValue;
-				m_vTextureFileNames.push_back( fileName.c_str() );
+				*vert++ = i / (float)(kSectionVertexSize - 1) * w;
+				*vert++ = (1 - j / (float)(kSectionVertexSize - 1)) * h;
 			}
-			pTxtureElement = pTxtureElement->NextSiblingElement();
 		}
 	}
-	m_vTextureFileNames.push_back(strDir + "transparent.tga");
+	mXYStream->Unlock();
 
-	m_TextureAtlas.Create(g_pD3DDevice,m_vTextureFileNames);
-	//m_pAltasTex = m_TextureAtlas.GetAtlasTexture();
-	LoadTexture("TerainTextAltas0.dds");
+	// create sections
+	mSections.Resize(mConfig.xSectionCount * mConfig.zSectionCount);
+	mSceneNodes.Resize(mConfig.xSectionCount * mConfig.zSectionCount);
 
-	element = root->FirstChildElement("pixmaps");
-	TiXmlElement* pPixmapElement = element->FirstChildElement();
-	while( pPixmapElement )
+	int index = 0;
+	for (int j = 0; j < mConfig.zSectionCount; ++j)
 	{
-		Pixmap pixmap;
-		unsigned int res;
-		res = pPixmapElement->QueryFloatAttribute( "top", &pixmap.top );
-		if(TIXML_NO_ATTRIBUTE == res )
-			pixmap.top = 0;
-		res = pPixmapElement->QueryFloatAttribute( "bottom", &pixmap.bottom );
-		if(TIXML_NO_ATTRIBUTE == res )
-			pixmap.bottom = 1.0f;
-		res = pPixmapElement->QueryFloatAttribute( "left", &pixmap.left);
-		if( TIXML_NO_ATTRIBUTE == res )
-			pixmap.left = 0.0f;
-		res = pPixmapElement->QueryFloatAttribute( "right", &pixmap.right );
-		if( TIXML_NO_ATTRIBUTE == res )
-			pixmap.right = 1.0f;
-
-		res = pPixmapElement->QueryIntAttribute( "textureId", &pixmap.textureId );
-
-		m_PixMapArray.push_back(pixmap);
-
-		pPixmapElement = pPixmapElement->NextSiblingElement();
-	}
-}
-
-void CTerrain::LoadHeightMap(const char* pFileName)
-{
-	FILE* pf = fopen(pFileName, "rb");
-	assert(pf);
-	if (pf == NULL)
-		return;
-
-	fseek( pf, 8, SEEK_SET );
-	fread( &m_heightMapW, 4,1, pf );
-	fread( &m_heightMapH, 4,1, pf );
-	m_heightmap = new float[m_heightMapW * m_heightMapH];
-	if (m_heightmap == NULL)
-		return;
-	fread( m_heightmap, sizeof(float) * m_heightMapW * m_heightMapH, 1, pf );
-	fclose(pf);
-}
-
-
-void CTerrain::LoadGridInfo(const char* pFileName)
-{
-	FILE* pf = fopen( pFileName, "rb" );
-	assert(pf);
-	if (pf == NULL)
-		return;
-
-	DWORD nMagic;
-	// 版本号
-	DWORD nVersion;
-	// 地表宽度(横向格子数)
-
-	// 7字节版本
-	bool bLargeVersion = false;
-
-	fread( &nMagic, 4,1, pf );
-	fread( &nVersion, 4, 1, pf );
-
-	int size_x, size_y;
-	fread( &size_x, 4,1, pf );
-	fread( &size_y, 4,1, pf );
-
-	m_GridInfoArray.reserve(size_x * size_y);
-
-	if( nVersion >= 0x00100001 )
-		fread( &bLargeVersion, sizeof( bool ), 1, pf );
-
-	uint8 op1,op0;
-	uint16 layer1 =0,layer0=0;
-	uint8 tr;
-
-	for(int i = 0 ; i < size_x * size_y; ++i)
-	{
-		if( !bLargeVersion )
-			fread( &layer0, 1,1, pf );
-		else 
-			fread( &layer0, 2,1,pf );
-		fread( &op0,1,1, pf );
-		if( !bLargeVersion )
-			fread( &layer1, 1,1,pf );
-		else 
-			fread( &layer1, 2, 1, pf );
-		fread( &op1, 1,1,pf );
-		fread( &tr, 1,1,pf );
-
-		g_info g;
-		g.layer0 = layer0-1;
-		g.layer1 = layer1-1;
-		g.op0 = op0;
-		g.op1 = op1;
-		g.tri = tr;
-		if( tr != 0 )
+		for (int i = 0; i < mConfig.xSectionCount; ++i)
 		{
-			int a = 0;
+			mSections[index] = new TerrainSection(this, i, j);
+			mSceneNodes[index] = World::Instance()->CreateSceneNode();
+
+			mSceneNodes[index]->Attach(mSections[index]);
+
+			++index;
+		}
+	}
+
+	// create weight map.
+	eightMaps.Resize(mConfig.iSectionCount);
+
+	index = 0;
+	
+	for (int j = 0; j < mConfig.zSectionCount; ++j)
+	{
+		for (int i = 0; i < mConfig.xSectionCount; ++i)
+		{
+
+			TString128 texName = TString128("TWeightMap_") + j + "_" + i; 
+			TexturePtr texture = VideoBufferManager::Instance()->CreateTexture(texName, kWeightMapSize, kWeightMapSize, 0, FMT_A8R8G8B8);
+
+			eightMaps[index++] = texture;
+		}
+	}
+
+	for (int i = 0; i < mSections.Size(); ++i)
+	{
+		TerrainSection * section = mSections[i];
+
+		int x = section->GetSectionX();
+		int z = section->GetSectionZ();
+
+		TexturePtr weightMap = GetWeightMap(x, z);
+
+		LockedBox lb;
+		weightMap->Lock(0, &lb, NULL, LOCK_DISCARD);
+
+		Color * data = eights + z * kWeightMapSize * mConfig.xWeightMapSize + x * kWeightMapSize;
+		int * dest = (int *)lb.pData;
+		for (int k = 0; k < kWeightMapSize; ++k)
+		{
+			for (int p = 0; p < kWeightMapSize; ++p)
+				dest[p] = M_RGBA(data[p].r, data[p].g, data[p].b, data[p].a);
+
+			dest += kWeightMapSize;
+			data += mConfig.xWeightMapSize;
 		}
 
-		m_GridInfoArray.push_back( g );
+		weightMap->Unlock(0);
 	}
-	fclose( pf );
+
+	// load default detail map
+	mDefaultDetailMap = VideoBufferManager::Instance()->Load2DTexture("Terrain\\TerrainDefault.png", "Terrain\\TerrainDefault.png");
+	mDefaultNormalMap = RenderHelper::Instance()->GetDefaultNormalTexture();
+
+	for (int i = 0; i < kMaxLayers; ++i)
+	{
+		mDetailMaps[i] = mDefaultDetailMap;
+		mNormalMaps[i] = mDefaultNormalMap;
+		mSpecularMaps[i] = RenderHelper::Instance()->GetWhiteTexture();
+	}
+
+	for (int i = 0; i < kMaxLayers; ++i)
+	{
+		if (mLayer[i].detail != "")
+			mDetailMaps[i] = VideoBufferManager::Instance()->Load2DTexture(mLayer[i].detail, mLayer[i].detail);
+
+		if (mLayer[i].normal != "")
+			mNormalMaps[i] = VideoBufferManager::Instance()->Load2DTexture(mLayer[i].normal, mLayer[i].normal);
+
+		if (mLayer[i].specular != "")
+			mSpecularMaps[i] = VideoBufferManager::Instance()->Load2DTexture(mLayer[i].specular, mLayer[i].specular);
+	}
 }
 
-// 由高度图坐标得到地形世界位置
-void CTerrain::GetPos(int row, int col, D3DXVECTOR3& vWorldPos)
+void Terrain::_calcuNormals()
 {
-// 	if (row >= m_heightMapW)
-// 		row = m_heightMapW - 1;
-// 	if (col >= m_heightMapH)
-// 		col = m_heightMapH - 1;
+	d_assert (mNormals == NULL);
 
-	vWorldPos.x = m_scale.x * row - m_WorldOffset.x;
-	vWorldPos.y = m_scale.y * m_heightmap[col * m_heightMapW + row] - m_WorldOffset.y;
-	vWorldPos.z = m_scale.z * col - m_WorldOffset.z;
+	mNormals = new Color[mConfig.iVertexCount];
+
+	for (int j = 0; j < mConfig.zVertexCount; ++j)
+	{
+		for (int i = 0; i < mConfig.xVertexCount; ++i)
+		{
+			Vector3 a = _getPosition(i - 1, j + 0);
+			Vector3 b = _getPosition(i + 0, j - 1);
+			Vector3 c = _getPosition(i + 1, j + 0);
+			Vector3 d = _getPosition(i + 0, j + 1);
+			Vector3 p = _getPosition(i + 0, j + 0);
+
+			Vector3 L = a - p, T = b - p, R = c - p, B = d - p;
+
+			Vector3 N = Vector3::Zero;
+			float len_L = L.Length(), len_T = T.Length();
+			float len_R = R.Length(), len_B = B.Length();
+
+			if (len_L > 0.01f && len_T > 0.01f)
+			N += L.CrossN(T);
+
+			if (len_T > 0.01f && len_R > 0.01f)
+			N += T.CrossN(R);
+
+			if (len_R > 0.01f && len_B > 0.01f)
+			N += R.CrossN(B);
+
+			if (len_B > 0.01f && len_L > 0.01f)
+			N += B.CrossN(L);
+
+			N.NormalizeL();
+			N = (N + Vector3::Unit) / 2 * 255.0f;
+			
+			unsigned char cr = (unsigned char)N.x;
+			unsigned char cg = (unsigned char)N.y;
+			unsigned char cb = (unsigned char)N.z;
+			unsigned char ca = 255;
+
+			mNormals[j * mConfig.xVertexCount + i] = Color(cr, cg, cb, ca);
+		}
+	}
 }
 
-void CTerrain::GetNormal(int row, int col, D3DXVECTOR3& vNormal)
+void Terrain::_Create(const Config & config)
 {
-	/*
-		   x-1 x x+1
-		z-1 +--+--+
-			| /| /|
-			|/ |/ |
-		z   +--+--+
-			| /| /|
-			|/ |/ |
-		z+1 +--+--+
-	*/
+	d_assert (!mInited);
 
-	
-	D3DXVECTOR3 pos;
-	GetPos(row, col, pos);
-	D3DXVECTOR3 corners[7];
+	mConfig = config;
+
+	int x = config.xVertexCount - 1;
+	int z = config.zVertexCount - 1;
+	int k = kSectionVertexSize - 1;
+
+	if ((x % k) != 0)
+		mConfig.xVertexCount = (x / k + 1) * k + 1;
+
+	if ((z % k) != 0)
+		mConfig.zVertexCount = (z / k + 1) * k + 1;
+
+	mConfig.iVertexCount = mConfig.xVertexCount * mConfig.zVertexCount;
+
+	mConfig.xSectionCount = mConfig.xVertexCount / (kSectionVertexSize - 1);
+	mConfig.zSectionCount = mConfig.zVertexCount / (kSectionVertexSize - 1);
+
+	mConfig.iSectionCount = mConfig.xSectionCount * mConfig.zSectionCount;
+
+	mConfig.xSectionSize = mConfig.xSize / mConfig.xSectionCount;
+	mConfig.zSectionSize = mConfig.zSize / mConfig.zSectionCount;
+
+	// init default heights and normals
+	mHeights = new float[mConfig.iVertexCount];
+	for (int i = 0; i < mConfig.iVertexCount; ++i)
+		mHeights[i] = 0;
+
+	mNormals = new Color[mConfig.iVertexCount];
+	for (int i = 0; i < mConfig.iVertexCount; ++i)
+		mNormals[i] = Color(127, 255, 127);
+
+	// create weight maps
+	mConfig.xWeightMapSize = Terrain::kWeightMapSize * mConfig.xSectionCount;
+	mConfig.zWeightMapSize = Terrain::kWeightMapSize * mConfig.zSectionCount;
+	mConfig.iWeightMapSize = mConfig.xWeightMapSize * mConfig.zWeightMapSize;
+
+	eights = new Color[mConfig.xWeightMapSize * mConfig.zWeightMapSize];
+	for (int i = 0; i < mConfig.xWeightMapSize * mConfig.zWeightMapSize; ++i)
+	{
+		eights[i] = Color(0, 0, 0, 255);
+	}
+
+	mBound.minimum = Vector3(0, 0, 0);
+	mBound.maximum = Vector3(mConfig.xSize, 0, mConfig.zSize);
+
+	_init();
+
+	mInited = true;
+}
+
+void Terrain_ReadConfig(Terrain::Config * cfg, DataStreamPtr file, int version)
+{
+	file->Read(&cfg->xSize, sizeof(int));
+	file->Read(&cfg->zSize, sizeof(int));
+
+	file->Read(&cfg->xVertexCount, sizeof(int));
+	file->Read(&cfg->zVertexCount, sizeof(int));
+
+	file->Read(&cfg->iVertexCount, sizeof(int));
+
+	file->Read(&cfg->morphEnable, sizeof(bool));
+	file->Read(&cfg->morphStart, sizeof(float));
+
+	file->Read(&cfg->xSectionSize, sizeof(int));
+	file->Read(&cfg->zSectionSize, sizeof(int));
+	file->Read(&cfg->xSectionCount, sizeof(int));
+	file->Read(&cfg->zSectionCount, sizeof(int));
+	file->Read(&cfg->iSectionCount, sizeof(int));
+
+	file->Read(&cfg->xWeightMapSize, sizeof(int));
+	file->Read(&cfg->zWeightMapSize, sizeof(int));
+	file->Read(&cfg->iWeightMapSize, sizeof(int));
+
+	file->Read(&cfg->phyFlags, sizeof(BFlag32));
+}
+
+void Terrain::_Load(const char * filename)
+{
+	d_assert (!mInited);
+
+	DataStreamPtr stream = ResourceManager::Instance()->OpenResource(filename);
+
+	d_assert (stream != NULL);
+
+	int magic, version;
+	int * sectionLayers = NULL;
+
+	stream->Read(&magic, sizeof(int));
+
+	d_assert (magic == K_Terrain_Magic);
+
+	stream->Read(&version, sizeof(int));
+
+	if (version == 0)
+	{
+		int count = 0;
+
+		Terrain_ReadConfig(&mConfig, stream, version);
+		count = stream->Read(mLayer, sizeof(Layer), kMaxLayers);
+
+		count = stream->Read(&mBound, sizeof(Aabb));
+
+		mHeights = new float[mConfig.iVertexCount];
+		count = stream->Read(&mHeights[0], sizeof(float), mConfig.iVertexCount);
+
+		mNormals = new Color[mConfig.iVertexCount];
+		count = stream->Read(&mNormals[0], sizeof(Color), mConfig.iVertexCount);
+
+		eights = new Color[mConfig.iWeightMapSize];
+		count = stream->Read(&eights[0], sizeof(Color), mConfig.iWeightMapSize);
+
+		sectionLayers = new int[mConfig.iSectionCount * kMaxBlendLayers];
+
+		count = stream->Read(sectionLayers, kMaxBlendLayers * sizeof(int), mConfig.iSectionCount);
+	}
+	else
+	{
+		d_assert (0);
+	}
+
+	_init();
+
+	if (sectionLayers)
+	{
+		int index = 0;
+		for (int j = 0; j < mConfig.zSectionCount; ++j)
+		{
+			for (int i = 0; i < mConfig.xSectionCount; ++i)
+			{
+				TerrainSection * section = GetSection(i, j);
+
+				for (int l = 0; l < kMaxBlendLayers; ++l)
+					section->SetLayer(l, sectionLayers[index * kMaxBlendLayers + l]);
+
+				++index;
+			}
+		}
+	}
+
+	safe_delete_array (sectionLayers);
+
+	mInited = true;
+}
+
+void Terrain_WriteConfig(File & file, Terrain::Config * cfg)
+{
+	file.Write(&cfg->xSize, sizeof(int));
+	file.Write(&cfg->zSize, sizeof(int));
+
+	file.Write(&cfg->xVertexCount, sizeof(int));
+	file.Write(&cfg->zVertexCount, sizeof(int));
+
+	file.Write(&cfg->iVertexCount, sizeof(int));
+
+	file.Write(&cfg->morphEnable, sizeof(bool));
+	file.Write(&cfg->morphStart, sizeof(float));
+
+	file.Write(&cfg->xSectionSize, sizeof(int));
+	file.Write(&cfg->zSectionSize, sizeof(int));
+	file.Write(&cfg->xSectionCount, sizeof(int));
+	file.Write(&cfg->zSectionCount, sizeof(int));
+	file.Write(&cfg->iSectionCount, sizeof(int));
+
+	file.Write(&cfg->xWeightMapSize, sizeof(int));
+	file.Write(&cfg->zWeightMapSize, sizeof(int));
+	file.Write(&cfg->iWeightMapSize, sizeof(int));
+
+	file.Write(&cfg->phyFlags, sizeof(BFlag32));
+}
+
+void Terrain::Save(const char * filename)
+{
+	File file;
+
 	int count = 0;
 
-#define DIR(i,j)	\
-	{D3DXVECTOR3 TempPos;\
-	GetPos(row + i, col + j, TempPos); \
-	corners[count++] =  TempPos - pos;} 
+	file.Open(filename, OM_WRITE_BINARY);
 
-	if (row == 0)
+	file.Write(&K_Terrain_Magic, sizeof(int));
+	file.Write(&K_Terrain_Version, sizeof(int));
+
+	// write config
+	Terrain_WriteConfig(file, &mConfig);
+
+	// write layers
+	count = file.Write(mLayer, sizeof(Layer), kMaxLayers);
+
+	// write bound
+	count = file.Write(&mBound, sizeof(Aabb));
+
+	// write heights
+	count = file.Write(mHeights, sizeof(float), mConfig.iVertexCount);
+
+	// write normals
+	count = file.Write(mNormals, sizeof(Color), mConfig.iVertexCount);
+	
+	// write weights
+	count = file.Write(eights, sizeof(Color), mConfig.iWeightMapSize);
+
+	// write section layer
+	for (int j = 0; j < mConfig.zSectionCount; ++j)
 	{
-		if (col != m_heightMapH - 1)
+		for (int i = 0; i < mConfig.xSectionCount; ++i)
 		{
-			DIR( 0,+1);
-		}
-		DIR(+1, 0);
-		if (col != 0)
-		{
-			DIR(+1,-1);
-			DIR( 0,-1);
+			TerrainSection * section = GetSection(i, j);
+			
+			for (int l = 0; l < kMaxBlendLayers; ++l)
+			{
+				int layer = section->GetLayer(l);
+				file.Write(&layer, sizeof(int));
+			}
 		}
 	}
-	else if (row == m_heightMapW - 1)
+
+	file.Close();
+}
+
+int	Terrain::AddLayer(const Layer & layer)
+{
+	for (int i = 0; i < kMaxLayers; ++i)
 	{
-		if (col != 0)
+		if (mLayer[i].detail == "")
 		{
-			DIR( 0,-1);
+			mLayer[i] = layer;
+
+			mDetailMaps[i] = VideoBufferManager::Instance()->Load2DTexture(layer.detail, layer.detail);
+			mNormalMaps[i] = VideoBufferManager::Instance()->Load2DTexture(layer.normal, layer.normal);
+			mSpecularMaps[i] = VideoBufferManager::Instance()->Load2DTexture(layer.specular, layer.specular);
+
+			return i;
 		}
-		DIR(-1, 0);
-		if (col != m_heightMapH - 1)
+	}
+
+	return -1;
+}
+
+const Terrain::Layer * Terrain::GetLayer(int index)
+{
+	d_assert (index < kMaxLayers);
+
+	return &mLayer[index];
+}
+
+void Terrain::SetLayer(int index, const Layer & layer)
+{
+	d_assert (index < kMaxLayers);
+
+	Layer & oldLayer = mLayer[index];
+
+	if (oldLayer.detail != layer.detail)
+		mDetailMaps[index] = VideoBufferManager::Instance()->Load2DTexture(layer.detail, layer.detail);
+
+	if (layer.normal != "")
+		mNormalMaps[index] = VideoBufferManager::Instance()->Load2DTexture(layer.normal, layer.normal);
+	else
+		mNormalMaps[index] = mDefaultNormalMap;
+
+	if (layer.specular != "")
+		mSpecularMaps[index] = VideoBufferManager::Instance()->Load2DTexture(layer.specular, layer.specular);
+	else
+		mSpecularMaps[index] = mDefaultSpecularMap;
+
+	oldLayer = layer;
+}
+
+void Terrain::RemoveLayer(int layer)
+{
+	d_assert (layer < kMaxLayers);
+
+	mLayer[layer].detail = "";
+	mLayer[layer].normal = "";
+	mLayer[layer].specular = "";
+	mLayer[layer].material = -1;
+	mLayer[layer].scale = 1;
+
+	mDetailMaps[layer] = mDefaultDetailMap;
+	mNormalMaps[layer] = mDefaultNormalMap;
+	mSpecularMaps[layer] = RenderHelper::Instance()->GetWhiteTexture();
+}
+
+TerrainSection * Terrain::GetSection(int x, int z)
+{
+	d_assert (x < mConfig.xSectionCount && z < mConfig.zSectionCount);
+
+	return mSections[z * mConfig.xSectionCount + x];
+}
+
+TexturePtr Terrain::GetWeightMap(int x, int z)
+{
+	d_assert (x < mConfig.xSectionCount && z < mConfig.zSectionCount);
+
+	return eightMaps[z * mConfig.xSectionCount + x];
+}
+
+Vector3 Terrain::GetPosition(int x, int z)
+{
+	d_assert (x < mConfig.xVertexCount && z < mConfig.zVertexCount);
+
+	float fx = (float)x / (mConfig.xVertexCount - 1) * mConfig.xSize;
+	float fz = (1 - (float)z / (mConfig.zVertexCount - 1)) * mConfig.zSize;
+	float fy = GetHeight(x, z);
+
+	return Vector3(fx, fy, fz);
+}
+
+float Terrain::GetHeight(int x, int z)
+{
+	d_assert (x < mConfig.xVertexCount && z < mConfig.zVertexCount);
+
+	return mHeights[z * mConfig.xVertexCount + x];
+}
+
+Color Terrain::GetNormal(int x, int z)
+{
+	d_assert (x < mConfig.xVertexCount && z < mConfig.zVertexCount);
+
+	return mNormals[z * mConfig.xVertexCount + x];
+}
+
+Color Terrain::GetWeight(int x, int z)
+{
+	d_assert (x < mConfig.xWeightMapSize && z < mConfig.zWeightMapSize);
+
+	return eights[z * mConfig.xWeightMapSize + x];
+}
+
+void Terrain::OnPreVisibleCull(Event * sender)
+{
+	mVisibleSections.Clear();
+}
+
+TexturePtr Terrain::_getDetailMap(int layer)
+{
+	if (layer >= 0 && layer < kMaxLayers)
+		return mDetailMaps[layer];
+	else
+		return mDefaultDetailMap;
+}
+
+TexturePtr Terrain::_getNormalMap(int layer)
+{
+	if (layer >= 0 && layer < kMaxLayers)
+		return mNormalMaps[layer];
+	else
+		return mDefaultNormalMap;
+}
+
+TexturePtr Terrain::_getSpecularMap(int layer)
+{
+	if (layer >= 0 && layer < kMaxLayers)
+		return mSpecularMaps[layer];
+	else
+		return mDefaultSpecularMap;
+}
+
+Vector3 Terrain::_getPosition(int x, int z)
+{
+	x = Math::Maximum(0, x);
+	z = Math::Maximum(0, z);
+
+	x = Math::Minimum(x, mConfig.xVertexCount - 1);
+	z = Math::Minimum(z, mConfig.zVertexCount - 1);
+
+	return GetPosition(x, z);
+}
+
+float Terrain::_getHeight(int x, int z)
+{
+	x = Math::Maximum(0, x);
+	z = Math::Maximum(0, z);
+
+	x = Math::Minimum(x, mConfig.xVertexCount - 1);
+	z = Math::Minimum(z, mConfig.zVertexCount - 1);
+
+	return GetHeight(x, z);
+}
+
+Color Terrain::_getNormal(int x, int z)
+{
+	x = Math::Maximum(0, x);
+	z = Math::Maximum(0, z);
+
+	x = Math::Minimum(x, mConfig.xVertexCount - 1);
+	z = Math::Minimum(z, mConfig.zVertexCount - 1);
+
+	return GetNormal(x, z);
+}
+
+void Terrain::Render()
+{
+	RenderSystem * render = RenderSystem::Instance();
+
+	for (int i = 0; i < mVisibleSections.Size(); ++i)
+	{
+		mVisibleSections[i]->UpdateLod();
+	}
+
+	ShaderParam * uTransform[kMaxDetailLevel];
+	ShaderParam * uUVParam[kMaxDetailLevel];
+	ShaderParam * uUVScale[kMaxDetailLevel];
+	ShaderParam * uMorph[kMaxDetailLevel];
+
+	for (int i = 0; i < kMaxDetailLevel; ++i)
+	{
+		uTransform[i] = mTech[i]->GetVertexShaderParamTable()->GetParam("gTransform");
+		uUVParam[i] = mTech[i]->GetVertexShaderParamTable()->GetParam("gUVParam");
+		uUVScale[i] = mTech[i]->GetVertexShaderParamTable()->GetParam("gUVScale");
+		uMorph[i] = mTech[i]->GetVertexShaderParamTable()->GetParam("gMorph");
+	}
+
+	float xInvSectionSize = 1 / mConfig.xSectionSize;
+	float zInvSectionSize = 1 / mConfig.zSectionSize;
+	float xInvSize = 1 / mConfig.xSize;
+	float zInvSize = 1 / mConfig.zSize;
+
+	for (int i = 0; i < mVisibleSections.Size(); ++i)
+	{
+		TerrainSection * section = mVisibleSections[i];
+		int x = section->GetSectionX();
+		int z = section->GetSectionZ();
+		int layer0 = section->GetLayer(0);
+		int layer1 = section->GetLayer(1);
+		int layer2 = section->GetLayer(2);
+		int layer3 = section->GetLayer(3);
+		float xOff = section->GetOffX();
+		float zOff = section->GetOffZ();
+
+		int techId = _getTechId(layer0, layer1, layer2, layer3);
+
+		layer0 = Math::Maximum(0, layer0);
+		layer1 = Math::Maximum(0, layer1);
+		layer2 = Math::Maximum(0, layer2);
+		layer3 = Math::Maximum(0, layer3);
+
+		TexturePtr weightMap = GetWeightMap(x, z);
+		TexturePtr detailMap0 = _getDetailMap(layer0);
+		TexturePtr detailMap1 = _getDetailMap(layer1);
+		TexturePtr detailMap2 = _getDetailMap(layer2);
+		TexturePtr detailMap3 = _getDetailMap(layer3);
+		TexturePtr normalMap0 = _getNormalMap(layer0);
+		TexturePtr normalMap1 = _getNormalMap(layer1);
+		TexturePtr normalMap2 = _getNormalMap(layer2);
+		TexturePtr normalMap3 = _getNormalMap(layer3);
+
+		float uvScale0 = mLayer[layer0].scale;
+		float uvScale1 = mLayer[layer1].scale;
+		float uvScale2 = mLayer[layer2].scale;
+		float uvScale3 = mLayer[layer3].scale;
+
+		SamplerState state;
+		state.Address = TEXA_CLAMP;
+
+		if (techId > 0)
+			render->SetTexture(0, state, weightMap.c_ptr());
+
+		state.Address = TEXA_WRAP;
+		render->SetTexture(1, state, detailMap0.c_ptr());
+		render->SetTexture(5, state, normalMap0.c_ptr());
+
+		if (techId > 0)
 		{
-			DIR(-1,+1);
-			DIR( 0,+1);
+			render->SetTexture(2, state, detailMap1.c_ptr());
+			render->SetTexture(6, state, normalMap1.c_ptr());
+		}
+
+		if (techId > 1)
+		{
+			render->SetTexture(3, state, detailMap2.c_ptr());
+			render->SetTexture(7, state, normalMap2.c_ptr());
+		}
+
+		if (techId > 2)
+		{
+			render->SetTexture(4, state, detailMap3.c_ptr());
+			render->SetTexture(8, state, normalMap3.c_ptr());
+		}
+
+		uTransform[techId]->SetUnifom(xOff, 0, zOff, 0);
+		uUVParam[techId]->SetUnifom(xInvSectionSize, zInvSectionSize, xInvSize, zInvSize);
+		uUVScale[techId]->SetUnifom(uvScale0, uvScale1, uvScale2, uvScale3);
+
+		section->PreRender();
+
+		render->Render(mTech[techId], &section->mRender);
+	}
+}
+
+int	Terrain::_getTechId(int layer0, int layer1, int layer2, int layer3)
+{
+	int techId = kMaxDetailLevel - 1;
+
+	if (layer3 >= 0)
+		return techId;
+	else if (layer2 >= 0)
+		return techId - 1;
+	else if (layer1 >= 0)
+		return techId - 2;
+	else
+		return techId - 3;
+}
+
+void Terrain::RenderInMirror()
+{
+	RenderSystem * render = RenderSystem::Instance();
+
+	ShaderParam * uTransform[kMaxDetailLevel];
+	ShaderParam * uUVParam[kMaxDetailLevel];
+	ShaderParam * uUVScale[kMaxDetailLevel];
+	ShaderParam * uMorph[kMaxDetailLevel];
+
+	for (int i = 0; i < kMaxDetailLevel; ++i)
+	{
+		uTransform[i] = mTechMirror[i]->GetVertexShaderParamTable()->GetParam("gTransform");
+		uUVParam[i] = mTechMirror[i]->GetVertexShaderParamTable()->GetParam("gUVParam");
+		uUVScale[i] = mTechMirror[i]->GetVertexShaderParamTable()->GetParam("gUVScale");
+		uMorph[i] = mTechMirror[i]->GetVertexShaderParamTable()->GetParam("gMorph");
+	}
+
+	float xInvSectionSize = 1 / mConfig.xSectionSize;
+	float zInvSectionSize = 1 / mConfig.zSectionSize;
+	float xInvSize = 1 / mConfig.xSize;
+	float zInvSize = 1 / mConfig.zSize;
+
+	for (int i = 0; i < mVisibleSections.Size(); ++i)
+	{
+		TerrainSection * section = mVisibleSections[i];
+		int x = section->GetSectionX();
+		int z = section->GetSectionZ();
+		int layer0 = section->GetLayer(0);
+		int layer1 = section->GetLayer(1);
+		int layer2 = section->GetLayer(2);
+		int layer3 = section->GetLayer(3);
+		float xOff = section->GetOffX();
+		float zOff = section->GetOffZ();
+
+		int techId = _getTechId(layer0, layer1, layer2, layer3);
+
+		layer0 = Math::Maximum(0, layer0);
+		layer1 = Math::Maximum(0, layer1);
+		layer2 = Math::Maximum(0, layer2);
+		layer3 = Math::Maximum(0, layer3);
+
+		TexturePtr weightMap = GetWeightMap(x, z);
+		TexturePtr detailMap0 = _getDetailMap(layer0);
+		TexturePtr detailMap1 = _getDetailMap(layer1);
+		TexturePtr detailMap2 = _getDetailMap(layer2);
+		TexturePtr detailMap3 = _getDetailMap(layer3);
+
+		float uvScale0 = mLayer[layer0].scale;
+		float uvScale1 = mLayer[layer1].scale;
+		float uvScale2 = mLayer[layer2].scale;
+		float uvScale3 = mLayer[layer3].scale;
+
+		SamplerState state;
+		state.Address = TEXA_CLAMP;
+
+		if (techId > 0)
+			render->SetTexture(0, state, weightMap.c_ptr());
+
+		state.Address = TEXA_WRAP;
+		render->SetTexture(1, state, detailMap0.c_ptr());
+
+		if (techId > 0)
+		{
+			render->SetTexture(2, state, detailMap1.c_ptr());
+		}
+
+		if (techId > 1)
+		{
+			render->SetTexture(3, state, detailMap2.c_ptr());
+		}
+
+		if (techId > 2)
+		{
+			render->SetTexture(4, state, detailMap3.c_ptr());
+		}
+
+		uTransform[techId]->SetUnifom(xOff, 0, zOff, 0);
+		uUVParam[techId]->SetUnifom(xInvSectionSize, zInvSectionSize, xInvSize, zInvSize);
+		uUVScale[techId]->SetUnifom(uvScale0, uvScale1, uvScale2, uvScale3);
+
+		section->PreRender();
+
+		render->Render(mTechMirror[techId], &section->mRender);
+	}
+}
+
+
+Vector3 Terrain::GetPosition(const Ray & ray)
+{
+	Vector3 result(0, 0, 0);
+	const int iMaxCount = 1000;
+
+	int i = 0;
+	Vector3 pos = ray.origin;
+	float y = 0;
+
+	if ((ray.origin.x < mBound.minimum.x || ray.origin.x > mBound.maximum.x) ||
+		(ray.origin.y < mBound.minimum.y || ray.origin.y > mBound.maximum.y) ||
+		(ray.origin.z < mBound.minimum.z || ray.origin.z > mBound.maximum.z))
+	{
+		RayIntersectionInfo info = ray.Intersection(mBound);
+
+		if (!info.iterscetion)
+			return result;
+
+		pos = ray.origin + (info.distance + 0.1f) * ray.direction;
+	}
+
+	if (ray.direction == Vector3::UnitY)
+	{
+		y = GetHeight(pos.x, pos.z);
+		if (pos.y <= y)
+		{
+			result = Vector3(pos.x, y, pos.z);
+		}
+	}
+	else if (ray.direction == Vector3::NegUnitY)
+	{
+		y = GetHeight(pos.x, pos.z);
+		if (pos.y >= y)
+		{
+			result = Vector3(pos.x, y, pos.z);
 		}
 	}
 	else
 	{
-		if (col != 0)
+		while (pos.x > mBound.minimum.x && pos.x < mBound.maximum.x &&
+			pos.z > mBound.minimum.z && pos.z < mBound.maximum.z &&
+			i++ < iMaxCount)
 		{
-			DIR(+1, 0);
-			DIR(+1,-1);
-			DIR(0 ,-1);
+			y = GetHeight(pos.x, pos.z);
+			if (pos.y <= y)
+			{
+				result = Vector3(pos.x, y, pos.z);
+				break;
+			}
+
+			pos += ray.direction;
 		}
-		DIR(-1, 0);
-		if (col != m_heightMapH - 1)
+	}
+
+	return result;
+}
+
+float Terrain::GetHeight(float x, float z)
+{
+	float sx = 0, sz = mConfig.zSize;
+	float ex = mConfig.zSize, ez = 0;
+
+	float fx = (x - sx) / (ex - sx) * (mConfig.xVertexCount - 1);
+	float fz = (z - sz) / (ez - sz) * (mConfig.zVertexCount - 1);
+
+	int ix = (int) fx;
+	int iz = (int) fz;
+
+	d_assert(ix >= 0 && ix <= mConfig.xVertexCount - 1 &&
+			 iz >= 0 && iz <= mConfig.zVertexCount - 1);
+
+	float dx = fx - ix;
+	float dz = fz - iz;
+
+	int ix1 = ix + 1;
+	int iz1 = iz + 1;
+
+	ix1 = Math::Minimum(ix1, mConfig.xVertexCount - 1);
+	iz1 = Math::Minimum(iz1, mConfig.zVertexCount - 1);
+
+	float a = GetHeight(ix,  iz);
+	float b = GetHeight(ix1, iz);
+	float c = GetHeight(ix,  iz1);
+	float d = GetHeight(ix1, iz1);
+	float m = (b + c) * 0.5f;
+	float h1, h2, final;
+
+	if (dx + dz <= 1.0f)
+	{
+		d = m + (m - a);
+	}
+	else
+	{
+		a = m + (m - d);
+	}
+
+	h1 = a * (1.0f - dx) + b * dx;
+	h2 = c * (1.0f - dx) + d * dx; 
+	final = h1 * (1.0f - dz) + h2 * dz;
+
+	return final;
+}
+
+Vector3 Terrain::GetNormal(float x, float z)
+{
+	float sx = 0, sz = mConfig.zSize;
+	float ex = mConfig.zSize, ez = 0;
+
+	float fx = (x - sx) / (ex - sx) * (mConfig.xVertexCount - 1);
+	float fz = (z - sz) / (ez - sz) * (mConfig.zVertexCount - 1);
+
+	int ix = (int) fx;
+	int iz = (int) fz;
+
+	d_assert(ix >= 0 && ix <= mConfig.xVertexCount - 1 &&
+		iz >= 0 && iz <= mConfig.zVertexCount - 1);
+
+	float dx = fx - ix;
+	float dz = fz - iz;
+
+	int ix1 = ix + 1;
+	int iz1 = iz + 1;
+
+	ix1 = Math::Minimum(ix1, mConfig.xVertexCount - 1);
+	iz1 = Math::Minimum(iz1, mConfig.zVertexCount - 1);
+
+	Color4 a = GetNormal(ix,  iz).ToColor4();
+	Color4 b = GetNormal(ix1, iz).ToColor4();
+	Color4 c = GetNormal(ix,  iz1).ToColor4();
+	Color4 d = GetNormal(ix1, iz1).ToColor4();
+	Color4 m = (b + c) * 0.5f;
+	Color4 h1, h2, final;
+
+	if (dx + dz <= 1.0f)
+	{
+		d = m + (m - a);
+	}
+	else
+	{
+		a = m + (m - d);
+	}
+
+	h1 = a * (1.0f - dx) + b * dx;
+	h2 = c * (1.0f - dx) + d * dx; 
+	final = h1 * (1.0f - dz) + h2 * dz;
+
+	Vector3 normal;
+
+	normal.x = final.r * 2 - 1;
+	normal.y = final.g * 2 - 1;
+	normal.z = final.b * 2 - 1;
+
+	return normal;
+}
+
+float *	Terrain::LockHeight(const Rect & rc)
+{
+	d_assert (mLockedData == NULL);
+
+	int w = rc.x2 - rc.x1 + 1;
+	int h = rc.y2 - rc.y1 + 1;
+
+	d_assert (w > 0 && h > 0);
+
+	mLockedData = new float[w * h];
+
+	int index = 0;
+	for (int j = rc.y1; j <= rc.y2; ++j)
+	{
+		for (int i = rc.x1; i <= rc.x2; ++i)
 		{
-			DIR(-1,+1);
-			DIR( 0,+1);
-			DIR(+1, 0);
+			mLockedData[index++] = GetHeight(i, j);
 		}
 	}
-#undef DIR
 
-	assert(2 <= count && count <= sizeof(corners)/sizeof(*corners));
+	mLockedRect = rc;
 
-	D3DXVECTOR3 sum(0, 0, 0);
-	for (int i = 1; i < count; ++i)
+	return mLockedData;
+}
+
+void Terrain::UnlockHeight()
+{
+	d_assert (mLockedData != NULL);
+
+	mLockedRect.x1 = Math::Maximum(0, mLockedRect.x1);
+	mLockedRect.x2 = Math::Maximum(0, mLockedRect.x2);
+	mLockedRect.x2 = Math::Minimum(mConfig.xVertexCount - 1, mLockedRect.x2);
+	mLockedRect.y2 = Math::Minimum(mConfig.zVertexCount - 1, mLockedRect.y2);
+
+	int index = 0;
+	for (int j = mLockedRect.y1; j <= mLockedRect.y2; ++j)
 	{
-		D3DXVECTOR3 n;
-		D3DXVec3Cross(&n, &corners[i-1], &corners[i]);
-		assert(n.y > 0);
-		D3DXVec3Normalize(&n, &n);
-		sum += n;
+		for (int i = mLockedRect.x1; i <= mLockedRect.x2; ++i)
+		{
+			mHeights[j * mConfig.xVertexCount + i] = mLockedData[index++];
+		}
 	}
-	D3DXVec3Normalize(&sum, &sum);
 
-	vNormal = sum;
+	// need re-calculate normals
+	Rect rcNormal = mLockedRect;
+	rcNormal.x1 -= 2;
+	rcNormal.x2 += 2;
+	rcNormal.y1 -= 2;
+	rcNormal.y2 += 2;
+
+	rcNormal.x1 = Math::Maximum(0, rcNormal.x1);
+	rcNormal.y1 = Math::Maximum(0, rcNormal.y1);
+	rcNormal.x2 = Math::Minimum(mConfig.xVertexCount - 1, rcNormal.x2);
+	rcNormal.y2 = Math::Minimum(mConfig.zVertexCount - 1, rcNormal.y2);
+
+	for (int j = rcNormal.y1; j < rcNormal.y2; ++j)
+	{
+		for (int i = rcNormal.x1; i < rcNormal.x2; ++i)
+		{
+			Vector3 a = _getPosition(i - 1, j + 0);
+			Vector3 b = _getPosition(i + 0, j - 1);
+			Vector3 c = _getPosition(i + 1, j + 0);
+			Vector3 d = _getPosition(i + 0, j + 1);
+			Vector3 p = _getPosition(i + 0, j + 0);
+
+			Vector3 L = a - p, T = b - p, R = c - p, B = d - p;
+
+			Vector3 N = Vector3::Zero;
+			float len_L = L.Length(), len_T = T.Length();
+			float len_R = R.Length(), len_B = B.Length();
+
+			if (len_L > 0.01f && len_T > 0.01f)
+				N += L.CrossN(T);
+
+			if (len_T > 0.01f && len_R > 0.01f)
+				N += T.CrossN(R);
+
+			if (len_R > 0.01f && len_B > 0.01f)
+				N += R.CrossN(B);
+
+			if (len_B > 0.01f && len_L > 0.01f)
+				N += B.CrossN(L);
+
+			N.NormalizeL();
+			N = (N + Vector3::Unit) / 2 * 255.0f;
+
+			unsigned char cr = (unsigned char)N.x;
+			unsigned char cg = (unsigned char)N.y;
+			unsigned char cb = (unsigned char)N.z;
+			unsigned char ca = 255;
+
+			mNormals[j * mConfig.xVertexCount + i] = Color(cr, cg, cb, ca);
+		}
+	}
+
+	// update sections
+	for (int i = 0; i < mSections.Size(); ++i)
+	{
+		mSections[i]->NotifyUnlockHeight();
+	}
+
+	// update bound
+	index = 0;
+	for (int j = mLockedRect.y1; j <= mLockedRect.y2; ++j)
+	{
+		for (int i = mLockedRect.x1; i <= mLockedRect.x2; ++i)
+		{
+			float h = mLockedData[index++];
+			mBound.minimum.y = Math::Minimum(mBound.minimum.y, h);
+			mBound.maximum.y = Math::Maximum(mBound.maximum.y, h);
+		}
+	}
+
+	safe_delete_array(mLockedData);
+}
+
+float * Terrain::LockWeightMap(const Rect & rc)
+{
+	d_assert (!IsLockedWeightMap());
+
+	int w = rc.x2 - rc.x1 + 1;
+	int h = rc.y2 - rc.y1 + 1;
+
+	d_assert (w > 0 && h > 0);
+
+	mLockedWeightMapData = new float[w * h];
+
+	int index = 0;
+	for (int j = rc.y1; j <= rc.y2; ++j)
+	{
+		for (int i = rc.x1; i <= rc.x2; ++i)
+		{
+			mLockedWeightMapData[index++] = 0;
+		}
+	}
+
+	mLockedWeightMapRect = rc;
+
+	return mLockedWeightMapData;
+}
+
+void Terrain::UnlockWeightMap(int layer)
+{
+	d_assert (IsLockedWeightMap());
+
+	int index = 0;
+	for (int j = mLockedWeightMapRect.y1; j <= mLockedWeightMapRect.y2; ++j)
+	{
+		for (int i = mLockedWeightMapRect.x1; i <= mLockedWeightMapRect.x2; ++i)
+		{
+			float weight = mLockedWeightMapData[index++];
+			int xSection = i / kWeightMapSize;
+			int zSection = j / kWeightMapSize;
+
+			TerrainSection * section = GetSection(xSection, zSection);
+
+			int layer0 = section->GetLayer(0);
+			int layer1 = section->GetLayer(1);
+			int layer2 = section->GetLayer(2);
+			int layer3 = section->GetLayer(3);
+
+			Color c = eights[j * mConfig.xWeightMapSize + i];
+			Color4 c4;
+
+			c4.a = c.a / 255.0f;
+			c4.r = c.r / 255.0f;
+			c4.g = c.g / 255.0f;
+			c4.b = c.b / 255.0f;
+
+			if (layer == layer0)
+				c4.a += weight;
+			else if (layer == layer1)
+				c4.r += weight;
+			else if (layer == layer2)
+				c4.g += weight;
+			else if (layer == layer3)
+				c4.b += weight;
+			else
+			{
+				if (layer0 == -1)
+				{
+					c4.a += weight;
+					section->SetLayer(0, layer);
+				}
+				else if (layer1 == -1)
+				{
+					c4.r += weight;
+					section->SetLayer(1, layer);
+				}
+				else if (layer2 == -1)
+				{
+					c4.g += weight;
+					section->SetLayer(2, layer);
+				}
+				else if (layer3 == -1)
+				{
+					c4.b += weight;
+					section->SetLayer(3, layer);
+				}
+			}
+
+			c4 = c4.Normalize();
+
+			c.r = unsigned char(c4.r * 255);
+			c.g = unsigned char(c4.g * 255);
+			c.b = unsigned char(c4.b * 255);
+			c.a = unsigned char(c4.a * 255);
+
+			eights[j * mConfig.xWeightMapSize + i] = c;
+		}
+	}
+
+	// update weight map
+	for (int i = 0; i < mSections.Size(); ++i)
+	{
+		TerrainSection * section = mSections[i];
+
+		int xtile = Terrain::kWeightMapSize;
+		int ztile = Terrain::kWeightMapSize;
+		int x = section->GetSectionX();
+		int z = section->GetSectionZ();
+
+		Rect myRect;
+
+		myRect.x1 = x * xtile;
+		myRect.y1 = z * ztile;
+		myRect.x2 = x * xtile + xtile;
+		myRect.y2 = z * ztile + ztile;
+
+		if (mLockedWeightMapRect.x1 > myRect.x2 || mLockedWeightMapRect.x2 < myRect.x1 ||
+			mLockedWeightMapRect.y1 > myRect.y2 || mLockedWeightMapRect.y2 < myRect.y1)
+			continue ;
+
+		TexturePtr weightMap = GetWeightMap(x, z);
+
+		LockedBox lb;
+		weightMap->Lock(0, &lb, NULL, LOCK_DISCARD);
+
+		Color * data = eights + z * kWeightMapSize * mConfig.xWeightMapSize + x * kWeightMapSize;
+		int * dest = (int *)lb.pData;
+		for (int k = 0; k < kWeightMapSize; ++k)
+		{
+			for (int p = 0; p < kWeightMapSize; ++p)
+				dest[p] = M_RGBA(data[p].r, data[p].g, data[p].b, data[p].a);
+
+			dest += kWeightMapSize;
+			data += mConfig.xWeightMapSize;
+		}
+
+		weightMap->Unlock(0);
+	}
+
+	safe_delete_array(mLockedWeightMapData);
 }
 
 
-float CTerrain::GetHeightmapData(int row, int col)
-{
-	if ( row < 0 || row >= m_heightMapW ||
-		 col < 0 || col >= m_heightMapH )
-	{
-		assert(false && "GetHeightmapData error");
-		return 0;
-	}
+//bool Terrain::RayTrace(PhyHitInfo & info, const Ray & ray, float dist)
+//{
+//	const int iMaxCount = 1000;
+//
+//	int i = 0;
+//	Vector3 pos = ray.origin;
+//	float y = 0;
+//
+//	if ((ray.origin.x < mBound.minimum.x || ray.origin.x > mBound.maximum.x) ||
+//		(ray.origin.y < mBound.minimum.y || ray.origin.y > mBound.maximum.y) ||
+//		(ray.origin.z < mBound.minimum.z || ray.origin.z > mBound.maximum.z))
+//	{
+//		RayIntersectionInfo info = ray.Intersection(mBound);
+//
+//		if (!info.iterscetion)
+//			return false;
+//
+//		pos = ray.origin + (info.distance + 0.1f) * ray.direction;
+//	}
+//
+//	if (ray.direction == Vector3::UnitY)
+//	{
+//		y = GetHeight(pos.x, pos.z);
+//		if (pos.y <= y && y - ray.origin.y < dist)
+//		{
+//			info.Hitted = true;
+//			info.node = NULL;
+//			info.Distance = y - ray.origin.y;
+//			info.Normal = GetNormal(pos.x, pos.z);
+//			info.MaterialId = -1;
+//			return true;
+//		}
+//	}
+//	else if (ray.direction == Vector3::NegUnitY)
+//	{
+//		y = GetHeight(pos.x, pos.z);
+//		if (pos.y >= y && ray.origin.y - y < dist)
+//		{
+//			info.Hitted = true;
+//			info.node = NULL;
+//			info.Distance = ray.origin.y - y;
+//			info.Normal = GetNormal(pos.x, pos.z);
+//			info.MaterialId = -1;
+//			return true;
+//		}
+//	}
+//	else
+//	{
+//		while (pos.x > mBound.minimum.x && pos.x < mBound.maximum.x &&
+//			   pos.z > mBound.minimum.z && pos.z < mBound.maximum.z &&
+//			i++ < iMaxCount)
+//		{
+//			if (pos.Distance(ray.origin) >= dist)
+//				return false;
+//
+//			y = GetHeight(pos.x, pos.z);
+//			float d = ray.origin.Distance(Vector3(pos.x, y, pos.z));
+//
+//			if (pos.y <= y && d < dist)
+//			{
+//				info.Hitted = true;
+//				info.node = NULL;
+//				info.Distance = d;
+//				info.Normal = GetNormal(pos.x, pos.z);
+//				info.MaterialId = -1;
+//
+//				return true;
+//			}
+//
+//			pos += ray.direction;
+//		}
+//	}
+//
+//	return false;
+//}
 
-	return m_heightmap[row * m_heightMapW + col];
-}
-
-bool CTerrain::LoadTexture(std::string fileName)
-{
-	HRESULT hr = 0;
-
-	hr = D3DXCreateTextureFromFileEx(
-		g_pD3DDevice,
-		fileName.c_str(),
-		1024,
-		512,
-		D3DX_DEFAULT,
-		0,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_MANAGED,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		0,
-		NULL,
-		NULL,
-		&m_pAltasTex);
-
-	if(FAILED(hr))
-	{
-		int res = GetLastError();
-		//::MessageBox(0,"D3DXCreateTextureFromFile:Failed",0,0);
-		return false;
-	}
-
-	return true;
-}
 
 
-float CTerrain::GetHeight(float x, float z)
-{
-	x += m_WorldOffset.x;
-	z += m_WorldOffset.z;
-	x /= (float)m_scale.x;
-	z /= (float)m_scale.z;
-
-	// From now on, we will interpret our positive z-axis as
-	// going in the 'down' direction, rather than the 'up' direction.
-	// This allows to extract the row and column simply by 'flooring'
-	// x and z:
-	float col = ::floorf(x);
-	float row = ::floorf(z);
-
-	// get the heights of the quad we're in:
-	// 
-    //  A   B
-    //  *---*
-    //  | / |
-    //  *---*  
-    //  C   D
-
-	float A = GetHeightmapData(row,   col) * m_scale.y;
-	float B = GetHeightmapData(row,   col+1) * m_scale.y;
-	float C = GetHeightmapData(row+1, col) * m_scale.y;
-	float D = GetHeightmapData(row+1, col+1) * m_scale.y;
-
-	//
-	// Find the triangle we are in:
-	//
-
-	// Translate by the transformation that takes the upper-left
-	// corner of the cell we are in to the origin.  Recall that our 
-	// cellspacing was nomalized to 1.  Thus we have a unit square
-	// at the origin of our +x -> 'right' and +z -> 'down' system.
-	float dx = x - col;
-	float dz = z - row;
-
-	// Note the below compuations of u and v are unneccessary, we really
-	// only need the height, but we compute the entire vector to emphasis
-	// the books discussion.
-	float height = 0.0f;
-	if(dz < 1.0f - dx)  // upper triangle ABC
-	{
-		float uy = B - A; // A->B
-		float vy = C - A; // A->C
-
-		// Linearly interpolate on each vector.  The height is the vertex
-		// height the vectors u and v originate from {A}, plus the heights
-		// found by interpolating on each vector u and v.
-		height = A + Lerp(0.0f, uy, dx) + Lerp(0.0f, vy, dz);
-	}
-	else // lower triangle DCB
-	{
-		float uy = C - D; // D->C
-		float vy = B - D; // D->B
-
-		// Linearly interpolate on each vector.  The height is the vertex
-		// height the vectors u and v originate from {D}, plus the heights
-		// found by interpolating on each vector u and v.
-		height = D + Lerp(0.0f, uy, 1.0f - dx) + Lerp(0.0f, vy, 1.0f - dz);
-	}
-
-	return height;
 }

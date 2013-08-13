@@ -1,5 +1,5 @@
-#ifndef MATERIALPARAMETER_H_
-#define MATERIALPARAMETER_H_
+#ifndef _MaterialParameter_H_
+#define _MaterialParameter_H_
 
 #include "ShaderProgram.h"
 

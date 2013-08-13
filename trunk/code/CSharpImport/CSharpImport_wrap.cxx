@@ -291,7 +291,7 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_maEngine(SWIG_CSharpStrin
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
-#include "Framwork/Module.h"
+#include "EntitySystem/Module.h"
 
 
 
@@ -5296,41 +5296,25 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Log__SWIG_1(char * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateSkeleton(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateAnimationObject(void * jarg1, char * jarg2) {
   void * jresult ;
   ma::IAnimationSystem *arg1 = (ma::IAnimationSystem *) 0 ;
-  ma::ISkeleton *result = 0 ;
+  char *arg2 = (char *) 0 ;
+  ma::IAnimationObject *result = 0 ;
   
   arg1 = (ma::IAnimationSystem *)jarg1; 
-  result = (ma::ISkeleton *)(arg1)->CreateSkeleton();
+  arg2 = (char *)jarg2; 
+  result = (ma::IAnimationObject *)(arg1)->CreateAnimationObject((char const *)arg2);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateAnimationObject(void * jarg1) {
-  void * jresult ;
+SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSystem_Update(void * jarg1) {
   ma::IAnimationSystem *arg1 = (ma::IAnimationSystem *) 0 ;
-  ma::AnimationObject *result = 0 ;
   
   arg1 = (ma::IAnimationSystem *)jarg1; 
-  result = (ma::AnimationObject *)(arg1)->CreateAnimationObject();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateAnimationSet(void * jarg1, void * jarg2) {
-  void * jresult ;
-  ma::IAnimationSystem *arg1 = (ma::IAnimationSystem *) 0 ;
-  ma::AnimationObject *arg2 = (ma::AnimationObject *) 0 ;
-  ma::IAnimationSet *result = 0 ;
-  
-  arg1 = (ma::IAnimationSystem *)jarg1; 
-  arg2 = (ma::AnimationObject *)jarg2; 
-  result = (ma::IAnimationSet *)(arg1)->CreateAnimationSet(arg2);
-  jresult = (void *)result; 
-  return jresult;
+  (arg1)->Update();
 }
 
 
@@ -5360,74 +5344,34 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GetAnimationSystem() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkeleton(void * jarg1) {
-  void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
-  ma::ISkeleton *result = 0 ;
-  
-  arg1 = (ma::AnimationObject *)jarg1; 
-  result = (ma::ISkeleton *)(arg1)->GetSkeleton();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetAnimationSet(void * jarg1) {
   void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   ma::IAnimationSet *result = 0 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   result = (ma::IAnimationSet *)(arg1)->GetAnimationSet();
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_CreateSkeleton(void * jarg1, char * jarg2) {
-  void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::ISkeleton *result = 0 ;
-  
-  arg1 = (ma::AnimationObject *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::ISkeleton *)(arg1)->CreateSkeleton((char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_CreateAnimSet(void * jarg1, char * jarg2) {
-  void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::IAnimationSet *result = 0 ;
-  
-  arg1 = (ma::AnimationObject *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::IAnimationSet *)(arg1)->CreateAnimSet((char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_PlayAnimation__SWIG_0(void * jarg1, char * jarg2) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   char *arg2 = (char *) 0 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   arg2 = (char *)jarg2; 
   (arg1)->PlayAnimation((char const *)arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_PlayAnimation__SWIG_1(void * jarg1, void * jarg2) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   UINT arg2 ;
   UINT *argp2 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   argp2 = (UINT *)jarg2; 
   if (!argp2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
@@ -5439,30 +5383,30 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_PlayAnimation__SWIG_1(void *
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_AdvanceTime(void * jarg1, float jarg2) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   float arg2 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   arg2 = (float)jarg2; 
   (arg1)->AdvanceTime(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_EvaluateAnimation(void * jarg1, float jarg2) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   float arg2 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   arg2 = (float)jarg2; 
   (arg1)->EvaluateAnimation(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_SetFrame(void * jarg1, float jarg2) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   float arg2 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   arg2 = (float)jarg2; 
   (arg1)->SetFrame(arg2);
 }
@@ -5470,10 +5414,10 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_SetFrame(void * jarg1, float
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixNumber(void * jarg1) {
   void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   UINT result;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   result = (arg1)->GetSkinMatrixNumber();
   jresult = new UINT((const UINT &)result); 
   return jresult;
@@ -5482,10 +5426,10 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixNumber(void *
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixArray(void * jarg1) {
   void * jresult ;
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   Matrix4x4 *result = 0 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   result = (Matrix4x4 *)(arg1)->GetSkinMatrixArray();
   jresult = (void *)result; 
   return jresult;
@@ -5493,48 +5437,28 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixArray(void * 
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_IAnimationObject(void * jarg1) {
-  ma::AnimationObject *arg1 = (ma::AnimationObject *) 0 ;
+  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   
-  arg1 = (ma::AnimationObject *)jarg1; 
+  arg1 = (ma::IAnimationObject *)jarg1; 
   delete arg1;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ISkeleton_InitWithData(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::ISkeleton *arg1 = (ma::ISkeleton *) 0 ;
-  ma::SkeletonData *arg2 = (ma::SkeletonData *) 0 ;
-  bool result;
-  
-  arg1 = (ma::ISkeleton *)jarg1; 
-  arg2 = (ma::SkeletonData *)jarg2; 
-  result = (bool)(arg1)->InitWithData((ma::SkeletonData const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_ISkeleton_GetSkeletonData(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSet_CreateAction(void * jarg1, char * jarg2) {
   void * jresult ;
-  ma::ISkeleton *arg1 = (ma::ISkeleton *) 0 ;
-  ma::SkeletonData *result = 0 ;
+  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
+  char *arg2 = (char *) 0 ;
+  ma::IAction *result = 0 ;
   
-  arg1 = (ma::ISkeleton *)jarg1; 
-  result = (ma::SkeletonData *)(arg1)->GetSkeletonData();
+  arg1 = (ma::IAnimationSet *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (ma::IAction *)(arg1)->CreateAction((char const *)arg2);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_ISkeleton(void * jarg1) {
-  ma::ISkeleton *arg1 = (ma::ISkeleton *) 0 ;
-  
-  arg1 = (ma::ISkeleton *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_AddAction(void * jarg1, char * jarg2, char * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_AddAnimClip(void * jarg1, char * jarg2, char * jarg3) {
   ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
   char *arg2 = (char *) 0 ;
   char *arg3 = (char *) 0 ;
@@ -5542,7 +5466,63 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_AddAction(void * jarg1, char * 
   arg1 = (ma::IAnimationSet *)jarg1; 
   arg2 = (char *)jarg2; 
   arg3 = (char *)jarg3; 
-  (arg1)->AddAction((char const *)arg2,(char const *)arg3);
+  (arg1)->AddAnimClip((char const *)arg2,(char const *)arg3);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSet_GetActionByName(void * jarg1, char * jarg2) {
+  void * jresult ;
+  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
+  char *arg2 = (char *) 0 ;
+  ma::IAction *result = 0 ;
+  
+  arg1 = (ma::IAnimationSet *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (ma::IAction *)(arg1)->GetActionByName((char const *)arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSet_GetActionNumber(void * jarg1) {
+  void * jresult ;
+  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::IAnimationSet *)jarg1; 
+  result = (arg1)->GetActionNumber();
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSet_GetActionByIndex(void * jarg1, void * jarg2) {
+  void * jresult ;
+  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
+  UINT arg2 ;
+  UINT *argp2 ;
+  ma::IAction *result = 0 ;
+  
+  arg1 = (ma::IAnimationSet *)jarg1; 
+  argp2 = (UINT *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (ma::IAction *)(arg1)->GetActionByIndex(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_RemoveAction(void * jarg1, void * jarg2) {
+  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
+  ma::IAction *arg2 = (ma::IAction *) 0 ;
+  
+  arg1 = (ma::IAnimationSet *)jarg1; 
+  arg2 = (ma::IAction *)jarg2; 
+  (arg1)->RemoveAction(arg2);
 }
 
 
@@ -5758,25 +5738,179 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_ICapsuleCollisionShape(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_CreatePhysicsScene(void * jarg1) {
-  void * jresult ;
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_Init(void * jarg1) {
   ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
-  ma::IPhysicsScene *result = 0 ;
   
   arg1 = (ma::IPhysicsSystem *)jarg1; 
-  result = (ma::IPhysicsScene *)(arg1)->CreatePhysicsScene();
+  (arg1)->Init();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_ShoutDown(void * jarg1) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  (arg1)->ShoutDown();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_Start(void * jarg1) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  (arg1)->Start();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_Stop(void * jarg1) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  (arg1)->Stop();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_Update(void * jarg1) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  (arg1)->Update();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_DebugRender(void * jarg1) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  (arg1)->DebugRender();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_SetLayerCollisionMask(void * jarg1, unsigned char jarg2, unsigned char jarg3, unsigned int jarg4) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  Uint8 arg2 ;
+  Uint8 arg3 ;
+  bool arg4 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (Uint8)jarg2; 
+  arg3 = (Uint8)jarg3; 
+  arg4 = jarg4 ? true : false; 
+  (arg1)->SetLayerCollisionMask(arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_GetGravity(void * jarg1) {
+  void * jresult ;
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  Vector3 result;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  result = ((ma::IPhysicsSystem const *)arg1)->GetGravity();
+  jresult = new Vector3((const Vector3 &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_SetGravity(void * jarg1, void * jarg2) {
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  Vector3 *arg2 = 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->SetGravity((Vector3 const &)*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_CreatePhysicsObject(void * jarg1, void * jarg2) {
+  void * jresult ;
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  ma::GameObject *arg2 = (ma::GameObject *) 0 ;
+  ma::IPhysicsObject *result = 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (ma::GameObject *)jarg2; 
+  result = (ma::IPhysicsObject *)(arg1)->CreatePhysicsObject(arg2);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_DestoryPhysicsScene(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsSystem_DeletePhysicsObject(void * jarg1, void * jarg2) {
   ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
-  ma::IPhysicsScene *arg2 = (ma::IPhysicsScene *) 0 ;
+  ma::IPhysicsObject *arg2 = (ma::IPhysicsObject *) 0 ;
   
   arg1 = (ma::IPhysicsSystem *)jarg1; 
-  arg2 = (ma::IPhysicsScene *)jarg2; 
-  (arg1)->DestoryPhysicsScene(arg2);
+  arg2 = (ma::IPhysicsObject *)jarg2; 
+  (arg1)->DeletePhysicsObject(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_CreatePhysicsGenericJoint(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  ma::IPhysicsObject *arg2 = (ma::IPhysicsObject *) 0 ;
+  ma::IPhysicsObject *arg3 = (ma::IPhysicsObject *) 0 ;
+  ma::IPhysicsGenericJoint *result = 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (ma::IPhysicsObject *)jarg2; 
+  arg3 = (ma::IPhysicsObject *)jarg3; 
+  result = (ma::IPhysicsGenericJoint *)(arg1)->CreatePhysicsGenericJoint(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_CreatePhysicsHingeJoint(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  ma::IPhysicsObject *arg2 = (ma::IPhysicsObject *) 0 ;
+  ma::IPhysicsObject *arg3 = (ma::IPhysicsObject *) 0 ;
+  ma::IPhysicsHingeJoint *result = 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (ma::IPhysicsObject *)jarg2; 
+  arg3 = (ma::IPhysicsObject *)jarg3; 
+  result = (ma::IPhysicsHingeJoint *)(arg1)->CreatePhysicsHingeJoint(arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsSystem_RayCastCloseGameObj(void * jarg1, void * jarg2, void * jarg3, int jarg4, void * jarg5) {
+  void * jresult ;
+  ma::IPhysicsSystem *arg1 = (ma::IPhysicsSystem *) 0 ;
+  Vector3 *arg2 = 0 ;
+  Vector3 *arg3 = 0 ;
+  int arg4 ;
+  Vector3 *arg5 = 0 ;
+  ma::GameObject *result = 0 ;
+  
+  arg1 = (ma::IPhysicsSystem *)jarg1; 
+  arg2 = (Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (Vector3 *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
+    return 0;
+  } 
+  arg4 = (int)jarg4; 
+  arg5 = (Vector3 *)jarg5;
+  if (!arg5) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 & type is null", 0);
+    return 0;
+  } 
+  result = (ma::GameObject *)(arg1)->RayCastCloseGameObj((Vector3 const &)*arg2,(Vector3 const &)*arg3,arg4,*arg5);
+  jresult = (void *)result; 
+  return jresult;
 }
 
 
@@ -6059,170 +6193,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_CollisionListener_collisionEvent(void * jarg1
     return ;
   } 
   (arg1)->collisionEvent((ma::CollisionListener::CollisionData const &)*arg2);
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPhysicsScene_Start(void * jarg1) {
-  unsigned int jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  bool result;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  result = (bool)(arg1)->Start();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsScene_Stop(void * jarg1) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  (arg1)->Stop();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsScene_SetLayerCollisionMask(void * jarg1, unsigned char jarg2, unsigned char jarg3, unsigned int jarg4) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  Uint8 arg2 ;
-  Uint8 arg3 ;
-  bool arg4 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (Uint8)jarg2; 
-  arg3 = (Uint8)jarg3; 
-  arg4 = jarg4 ? true : false; 
-  (arg1)->SetLayerCollisionMask(arg2,arg3,arg4);
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsScene_GetGravity(void * jarg1) {
-  void * jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  Vector3 result;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  result = ((ma::IPhysicsScene const *)arg1)->GetGravity();
-  jresult = new Vector3((const Vector3 &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsScene_SetGravity(void * jarg1, void * jarg2) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  Vector3 *arg2 = 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (Vector3 *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return ;
-  } 
-  (arg1)->SetGravity((Vector3 const &)*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsScene_BeginSimulation(void * jarg1, float jarg2) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  float arg2 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (float)jarg2; 
-  (arg1)->BeginSimulation(arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IPhysicsScene_EndSimulation(void * jarg1) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  (arg1)->EndSimulation();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsScene_CreatePhysicsObject(void * jarg1, void * jarg2) {
-  void * jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  ma::GameObject *arg2 = (ma::GameObject *) 0 ;
-  ma::IPhysicsObject *result = 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (ma::GameObject *)jarg2; 
-  result = (ma::IPhysicsObject *)(arg1)->CreatePhysicsObject(arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsScene_CreatePhysicsGenericJoint(void * jarg1, void * jarg2, void * jarg3) {
-  void * jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  ma::IPhysicsObject *arg2 = (ma::IPhysicsObject *) 0 ;
-  ma::IPhysicsObject *arg3 = (ma::IPhysicsObject *) 0 ;
-  ma::IPhysicsGenericJoint *result = 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (ma::IPhysicsObject *)jarg2; 
-  arg3 = (ma::IPhysicsObject *)jarg3; 
-  result = (ma::IPhysicsGenericJoint *)(arg1)->CreatePhysicsGenericJoint(arg2,arg3);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsScene_CreatePhysicsHingeJoint(void * jarg1, void * jarg2, void * jarg3) {
-  void * jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  ma::IPhysicsObject *arg2 = (ma::IPhysicsObject *) 0 ;
-  ma::IPhysicsObject *arg3 = (ma::IPhysicsObject *) 0 ;
-  ma::IPhysicsHingeJoint *result = 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (ma::IPhysicsObject *)jarg2; 
-  arg3 = (ma::IPhysicsObject *)jarg3; 
-  result = (ma::IPhysicsHingeJoint *)(arg1)->CreatePhysicsHingeJoint(arg2,arg3);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IPhysicsScene_RayCastCloseGameObj(void * jarg1, void * jarg2, void * jarg3, int jarg4, void * jarg5) {
-  void * jresult ;
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  Vector3 *arg2 = 0 ;
-  Vector3 *arg3 = 0 ;
-  int arg4 ;
-  Vector3 *arg5 = 0 ;
-  ma::GameObject *result = 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  arg2 = (Vector3 *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return 0;
-  } 
-  arg3 = (Vector3 *)jarg3;
-  if (!arg3) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return 0;
-  } 
-  arg4 = (int)jarg4; 
-  arg5 = (Vector3 *)jarg5;
-  if (!arg5) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 & type is null", 0);
-    return 0;
-  } 
-  result = (ma::GameObject *)(arg1)->RayCastCloseGameObj((Vector3 const &)*arg2,(Vector3 const &)*arg3,arg4,*arg5);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_IPhysicsScene(void * jarg1) {
-  ma::IPhysicsScene *arg1 = (ma::IPhysicsScene *) 0 ;
-  
-  arg1 = (ma::IPhysicsScene *)jarg1; 
-  delete arg1;
 }
 
 
@@ -7364,6 +7334,28 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Resource_GetClass(void * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Resource__SWIG_0(char * jarg1) {
+  void * jresult ;
+  char *arg1 = (char *) 0 ;
+  ma::Resource *result = 0 ;
+  
+  arg1 = (char *)jarg1; 
+  result = (ma::Resource *)new ma::Resource((char const *)arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Resource__SWIG_1() {
+  void * jresult ;
+  ma::Resource *result = 0 ;
+  
+  result = (ma::Resource *)new ma::Resource();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_Resource(void * jarg1) {
   ma::Resource *arg1 = (ma::Resource *) 0 ;
   
@@ -7372,23 +7364,29 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Resource(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_LoadFileToMemeory(void * jarg1) {
-  unsigned int jresult ;
+SWIGEXPORT void SWIGSTDCALL CSharp_Resource_LoadSync(void * jarg1) {
   ma::Resource *arg1 = (ma::Resource *) 0 ;
-  bool result;
   
   arg1 = (ma::Resource *)jarg1; 
-  result = (bool)(arg1)->LoadFileToMemeory();
-  jresult = result; 
-  return jresult;
+  (arg1)->LoadSync();
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Resource_CreateFromMemeory(void * jarg1) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Resource_LoadAsync(void * jarg1) {
   ma::Resource *arg1 = (ma::Resource *) 0 ;
   
   arg1 = (ma::Resource *)jarg1; 
-  (arg1)->CreateFromMemeory();
+  (arg1)->LoadAsync();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Resource_SaveToFile(void * jarg1, char * jarg2) {
+  ma::Resource *arg1 = (ma::Resource *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  arg1 = (ma::Resource *)jarg1; 
+  arg2 = (char *)jarg2; 
+  (arg1)->SaveToFile((char const *)arg2);
 }
 
 
@@ -7426,14 +7424,26 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Resource_GetResState(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Resource_GetDataStream(void * jarg1) {
-  void * jresult ;
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_LoadFileToMemeory(void * jarg1) {
+  unsigned int jresult ;
   ma::Resource *arg1 = (ma::Resource *) 0 ;
-  ma::DataStream *result = 0 ;
+  bool result;
   
   arg1 = (ma::Resource *)jarg1; 
-  result = (ma::DataStream *)(arg1)->GetDataStream();
-  jresult = (void *)result; 
+  result = (bool)(arg1)->LoadFileToMemeory();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_CreateFromMemeory(void * jarg1) {
+  unsigned int jresult ;
+  ma::Resource *arg1 = (ma::Resource *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Resource *)jarg1; 
+  result = (bool)(arg1)->CreateFromMemeory();
+  jresult = result; 
   return jresult;
 }
 
@@ -7646,68 +7656,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_V_3P_2UV_3N_3T_S(void * jarg1) {
   ma::V_3P_2UV_3N_3T_S *arg1 = (ma::V_3P_2UV_3N_3T_S *) 0 ;
   
   arg1 = (ma::V_3P_2UV_3N_3T_S *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshHeader_m_nIdent_set(void * jarg1, unsigned int jarg2) {
-  ma::MeshHeader *arg1 = (ma::MeshHeader *) 0 ;
-  Uint32 arg2 ;
-  
-  arg1 = (ma::MeshHeader *)jarg1; 
-  arg2 = (Uint32)jarg2; 
-  if (arg1) (arg1)->m_nIdent = arg2;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_MeshHeader_m_nIdent_get(void * jarg1) {
-  unsigned int jresult ;
-  ma::MeshHeader *arg1 = (ma::MeshHeader *) 0 ;
-  Uint32 result;
-  
-  arg1 = (ma::MeshHeader *)jarg1; 
-  result = (Uint32) ((arg1)->m_nIdent);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshHeader_m_nVersion_set(void * jarg1, unsigned int jarg2) {
-  ma::MeshHeader *arg1 = (ma::MeshHeader *) 0 ;
-  Uint32 arg2 ;
-  
-  arg1 = (ma::MeshHeader *)jarg1; 
-  arg2 = (Uint32)jarg2; 
-  if (arg1) (arg1)->m_nVersion = arg2;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_MeshHeader_m_nVersion_get(void * jarg1) {
-  unsigned int jresult ;
-  ma::MeshHeader *arg1 = (ma::MeshHeader *) 0 ;
-  Uint32 result;
-  
-  arg1 = (ma::MeshHeader *)jarg1; 
-  result = (Uint32) ((arg1)->m_nVersion);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_MeshHeader() {
-  void * jresult ;
-  ma::MeshHeader *result = 0 ;
-  
-  result = (ma::MeshHeader *)new ma::MeshHeader();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_MeshHeader(void * jarg1) {
-  ma::MeshHeader *arg1 = (ma::MeshHeader *) 0 ;
-  
-  arg1 = (ma::MeshHeader *)jarg1; 
   delete arg1;
 }
 
@@ -8020,14 +7968,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshData_GetBoundingAABB(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshData_CreateFromMemeory(void * jarg1) {
-  ma::MeshData *arg1 = (ma::MeshData *) 0 ;
-  
-  arg1 = (ma::MeshData *)jarg1; 
-  (arg1)->CreateFromMemeory();
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_MeshData_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
   ma::MeshData *arg1 = (ma::MeshData *) 0 ;
   ma::Serializer *arg2 = 0 ;
@@ -8055,16 +7995,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_MeshData_Serialize__SWIG_1(void * jarg1, void
     return ;
   } 
   (arg1)->Serialize(*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshData_SaveToFile(void * jarg1, char * jarg2) {
-  ma::MeshData *arg1 = (ma::MeshData *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  arg1 = (ma::MeshData *)jarg1; 
-  arg2 = (char *)jarg2; 
-  (arg1)->SaveToFile((char const *)arg2);
 }
 
 
@@ -8310,938 +8240,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_MeshData(void * jarg1) {
   ma::MeshData *arg1 = (ma::MeshData *) 0 ;
   
   arg1 = (ma::MeshData *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationHeader_m_nIden_set(void * jarg1, void * jarg2) {
-  ma::AnimationHeader *arg1 = (ma::AnimationHeader *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::AnimationHeader *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nIden = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationHeader_m_nIden_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationHeader *arg1 = (ma::AnimationHeader *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::AnimationHeader *)jarg1; 
-  result =  ((arg1)->m_nIden);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationHeader_m_nVersion_set(void * jarg1, void * jarg2) {
-  ma::AnimationHeader *arg1 = (ma::AnimationHeader *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::AnimationHeader *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nVersion = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationHeader_m_nVersion_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationHeader *arg1 = (ma::AnimationHeader *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::AnimationHeader *)jarg1; 
-  result =  ((arg1)->m_nVersion);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_AnimationHeader() {
-  void * jresult ;
-  ma::AnimationHeader *result = 0 ;
-  
-  result = (ma::AnimationHeader *)new ma::AnimationHeader();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_AnimationHeader(void * jarg1) {
-  ma::AnimationHeader *arg1 = (ma::AnimationHeader *) 0 ;
-  
-  arg1 = (ma::AnimationHeader *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Vector3TrackData_m_arrFrame_set(void * jarg1, void * jarg2) {
-  ma::Vector3TrackData *arg1 = (ma::Vector3TrackData *) 0 ;
-  std::vector< UINT > arg2 ;
-  std::vector< UINT > *argp2 ;
-  
-  arg1 = (ma::Vector3TrackData *)jarg1; 
-  argp2 = (std::vector< UINT > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::vector< UINT >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_arrFrame = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Vector3TrackData_m_arrFrame_get(void * jarg1) {
-  void * jresult ;
-  ma::Vector3TrackData *arg1 = (ma::Vector3TrackData *) 0 ;
-  std::vector< UINT > result;
-  
-  arg1 = (ma::Vector3TrackData *)jarg1; 
-  result =  ((arg1)->m_arrFrame);
-  jresult = new std::vector< UINT >((const std::vector< UINT > &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Vector3TrackData_m_arrKey_set(void * jarg1, void * jarg2) {
-  ma::Vector3TrackData *arg1 = (ma::Vector3TrackData *) 0 ;
-  std::vector< Vector3 > *arg2 = (std::vector< Vector3 > *) 0 ;
-  
-  arg1 = (ma::Vector3TrackData *)jarg1; 
-  arg2 = (std::vector< Vector3 > *)jarg2; 
-  if (arg1) (arg1)->m_arrKey = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Vector3TrackData_m_arrKey_get(void * jarg1) {
-  void * jresult ;
-  ma::Vector3TrackData *arg1 = (ma::Vector3TrackData *) 0 ;
-  std::vector< Vector3 > *result = 0 ;
-  
-  arg1 = (ma::Vector3TrackData *)jarg1; 
-  result = (std::vector< Vector3 > *)& ((arg1)->m_arrKey);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Vector3TrackData() {
-  void * jresult ;
-  ma::Vector3TrackData *result = 0 ;
-  
-  result = (ma::Vector3TrackData *)new ma::Vector3TrackData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_Vector3TrackData(void * jarg1) {
-  ma::Vector3TrackData *arg1 = (ma::Vector3TrackData *) 0 ;
-  
-  arg1 = (ma::Vector3TrackData *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_QuaternionTrackData_m_arrFrame_set(void * jarg1, void * jarg2) {
-  ma::QuaternionTrackData *arg1 = (ma::QuaternionTrackData *) 0 ;
-  std::vector< UINT > arg2 ;
-  std::vector< UINT > *argp2 ;
-  
-  arg1 = (ma::QuaternionTrackData *)jarg1; 
-  argp2 = (std::vector< UINT > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::vector< UINT >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_arrFrame = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_QuaternionTrackData_m_arrFrame_get(void * jarg1) {
-  void * jresult ;
-  ma::QuaternionTrackData *arg1 = (ma::QuaternionTrackData *) 0 ;
-  std::vector< UINT > result;
-  
-  arg1 = (ma::QuaternionTrackData *)jarg1; 
-  result =  ((arg1)->m_arrFrame);
-  jresult = new std::vector< UINT >((const std::vector< UINT > &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_QuaternionTrackData_m_arrKey_set(void * jarg1, void * jarg2) {
-  ma::QuaternionTrackData *arg1 = (ma::QuaternionTrackData *) 0 ;
-  std::vector< Quaternion > *arg2 = (std::vector< Quaternion > *) 0 ;
-  
-  arg1 = (ma::QuaternionTrackData *)jarg1; 
-  arg2 = (std::vector< Quaternion > *)jarg2; 
-  if (arg1) (arg1)->m_arrKey = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_QuaternionTrackData_m_arrKey_get(void * jarg1) {
-  void * jresult ;
-  ma::QuaternionTrackData *arg1 = (ma::QuaternionTrackData *) 0 ;
-  std::vector< Quaternion > *result = 0 ;
-  
-  arg1 = (ma::QuaternionTrackData *)jarg1; 
-  result = (std::vector< Quaternion > *)& ((arg1)->m_arrKey);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_QuaternionTrackData() {
-  void * jresult ;
-  ma::QuaternionTrackData *result = 0 ;
-  
-  result = (ma::QuaternionTrackData *)new ma::QuaternionTrackData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_QuaternionTrackData(void * jarg1) {
-  ma::QuaternionTrackData *arg1 = (ma::QuaternionTrackData *) 0 ;
-  
-  arg1 = (ma::QuaternionTrackData *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_StaticInitClass() {
-  ma::AnimationData::StaticInitClass();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_StaticShutdownClass() {
-  ma::AnimationData::StaticShutdownClass();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_StaticGetClass() {
-  void * jresult ;
-  ma::RTTIClass *result = 0 ;
-  
-  result = (ma::RTTIClass *)ma::AnimationData::StaticGetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_GetClass(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result = (ma::RTTIClass *)((ma::AnimationData const *)arg1)->GetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_nGlobalSkeletonID_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  maGUID *arg2 = (maGUID *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (maGUID *)jarg2; 
-  if (arg1) (arg1)->m_nGlobalSkeletonID = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_nGlobalSkeletonID_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  maGUID *result = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result = (maGUID *)& ((arg1)->m_nGlobalSkeletonID);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_nFrameNum_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nFrameNum = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_nFrameNum_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result =  ((arg1)->m_nFrameNum);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_nBoneNum_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nBoneNum = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_nBoneNum_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result =  ((arg1)->m_nBoneNum);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_arrScaleTrack_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::Vector3TrackData > *arg2 = (std::vector< ma::Vector3TrackData > *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (std::vector< ma::Vector3TrackData > *)jarg2; 
-  if (arg1) (arg1)->m_arrScaleTrack = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_arrScaleTrack_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::Vector3TrackData > *result = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result = (std::vector< ma::Vector3TrackData > *)& ((arg1)->m_arrScaleTrack);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_arrRotTrack_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::QuaternionTrackData > *arg2 = (std::vector< ma::QuaternionTrackData > *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (std::vector< ma::QuaternionTrackData > *)jarg2; 
-  if (arg1) (arg1)->m_arrRotTrack = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_arrRotTrack_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::QuaternionTrackData > *result = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result = (std::vector< ma::QuaternionTrackData > *)& ((arg1)->m_arrRotTrack);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_arrPosTrack_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::Vector3TrackData > *arg2 = (std::vector< ma::Vector3TrackData > *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (std::vector< ma::Vector3TrackData > *)jarg2; 
-  if (arg1) (arg1)->m_arrPosTrack = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_arrPosTrack_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< ma::Vector3TrackData > *result = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result = (std::vector< ma::Vector3TrackData > *)& ((arg1)->m_arrPosTrack);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_m_arrTransfTrackName_set(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< std::string > arg2 ;
-  std::vector< std::string > *argp2 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  argp2 = (std::vector< std::string > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::vector< std::string >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_arrTransfTrackName = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimationData_m_arrTransfTrackName_get(void * jarg1) {
-  void * jresult ;
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  std::vector< std::string > result;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  result =  ((arg1)->m_arrTransfTrackName);
-  jresult = new std::vector< std::string >((const std::vector< std::string > &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_AnimationData() {
-  void * jresult ;
-  ma::AnimationData *result = 0 ;
-  
-  result = (ma::AnimationData *)new ma::AnimationData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_CreateFromMemeory(void * jarg1) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  (arg1)->CreateFromMemeory();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  char *arg3 = (char *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  arg3 = (char *)jarg3; 
-  (arg1)->Serialize(*arg2,(char const *)arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_Serialize__SWIG_1(void * jarg1, void * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  (arg1)->Serialize(*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimationData_SaveToFile(void * jarg1, char * jarg2) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  arg2 = (char *)jarg2; 
-  (arg1)->SaveToFile((char const *)arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_AnimationData(void * jarg1) {
-  ma::AnimationData *arg1 = (ma::AnimationData *) 0 ;
-  
-  arg1 = (ma::AnimationData *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonHeader_m_nIden_set(void * jarg1, void * jarg2) {
-  ma::SkeletonHeader *arg1 = (ma::SkeletonHeader *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::SkeletonHeader *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nIden = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonHeader_m_nIden_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonHeader *arg1 = (ma::SkeletonHeader *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::SkeletonHeader *)jarg1; 
-  result =  ((arg1)->m_nIden);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonHeader_m_nVersion_set(void * jarg1, void * jarg2) {
-  ma::SkeletonHeader *arg1 = (ma::SkeletonHeader *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::SkeletonHeader *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nVersion = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonHeader_m_nVersion_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonHeader *arg1 = (ma::SkeletonHeader *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::SkeletonHeader *)jarg1; 
-  result =  ((arg1)->m_nVersion);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_SkeletonHeader() {
-  void * jresult ;
-  ma::SkeletonHeader *result = 0 ;
-  
-  result = (ma::SkeletonHeader *)new ma::SkeletonHeader();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_SkeletonHeader(void * jarg1) {
-  ma::SkeletonHeader *arg1 = (ma::SkeletonHeader *) 0 ;
-  
-  arg1 = (ma::SkeletonHeader *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_StaticInitClass() {
-  ma::SkeletonData::StaticInitClass();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_StaticShutdownClass() {
-  ma::SkeletonData::StaticShutdownClass();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_StaticGetClass() {
-  void * jresult ;
-  ma::RTTIClass *result = 0 ;
-  
-  result = (ma::RTTIClass *)ma::SkeletonData::StaticGetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_GetClass(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result = (ma::RTTIClass *)((ma::SkeletonData const *)arg1)->GetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_nGlobalSkeletonID_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  maGUID *arg2 = (maGUID *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (maGUID *)jarg2; 
-  if (arg1) (arg1)->m_nGlobalSkeletonID = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_nGlobalSkeletonID_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  maGUID *result = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result = (maGUID *)& ((arg1)->m_nGlobalSkeletonID);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_nBoneNum_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  UINT arg2 ;
-  UINT *argp2 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  argp2 = (UINT *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_nBoneNum = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_nBoneNum_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result =  ((arg1)->m_nBoneNum);
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_arrBoneName_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< std::string > arg2 ;
-  std::vector< std::string > *argp2 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  argp2 = (std::vector< std::string > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::vector< std::string >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_arrBoneName = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_arrBoneName_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< std::string > result;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result =  ((arg1)->m_arrBoneName);
-  jresult = new std::vector< std::string >((const std::vector< std::string > &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_arrParentIndice_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< UINT > arg2 ;
-  std::vector< UINT > *argp2 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  argp2 = (std::vector< UINT > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::vector< UINT >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
-  if (arg1) (arg1)->m_arrParentIndice = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_arrParentIndice_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< UINT > result;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result =  ((arg1)->m_arrParentIndice);
-  jresult = new std::vector< UINT >((const std::vector< UINT > &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_arrScaleOS_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Vector3 > *arg2 = (std::vector< Vector3 > *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (std::vector< Vector3 > *)jarg2; 
-  if (arg1) (arg1)->m_arrScaleOS = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_arrScaleOS_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Vector3 > *result = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result = (std::vector< Vector3 > *)& ((arg1)->m_arrScaleOS);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_arrRotOS_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Quaternion > *arg2 = (std::vector< Quaternion > *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (std::vector< Quaternion > *)jarg2; 
-  if (arg1) (arg1)->m_arrRotOS = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_arrRotOS_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Quaternion > *result = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result = (std::vector< Quaternion > *)& ((arg1)->m_arrRotOS);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_m_arrPosOS_set(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Vector3 > *arg2 = (std::vector< Vector3 > *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (std::vector< Vector3 > *)jarg2; 
-  if (arg1) (arg1)->m_arrPosOS = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SkeletonData_m_arrPosOS_get(void * jarg1) {
-  void * jresult ;
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  std::vector< Vector3 > *result = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  result = (std::vector< Vector3 > *)& ((arg1)->m_arrPosOS);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_CreateFromMemeory(void * jarg1) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  (arg1)->CreateFromMemeory();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  char *arg3 = (char *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  arg3 = (char *)jarg3; 
-  (arg1)->Serialize(*arg2,(char const *)arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_Serialize__SWIG_1(void * jarg1, void * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  (arg1)->Serialize(*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SkeletonData_SaveToFile(void * jarg1, char * jarg2) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  arg2 = (char *)jarg2; 
-  (arg1)->SaveToFile((char const *)arg2);
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_SkeletonData() {
-  void * jresult ;
-  ma::SkeletonData *result = 0 ;
-  
-  result = (ma::SkeletonData *)new ma::SkeletonData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_SkeletonData(void * jarg1) {
-  ma::SkeletonData *arg1 = (ma::SkeletonData *) 0 ;
-  
-  arg1 = (ma::SkeletonData *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_TextureData_StaticInitClass() {
-  ma::Texture::StaticInitClass();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_TextureData_StaticShutdownClass() {
-  ma::Texture::StaticShutdownClass();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_TextureData_StaticGetClass() {
-  void * jresult ;
-  ma::RTTIClass *result = 0 ;
-  
-  result = (ma::RTTIClass *)ma::Texture::StaticGetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_TextureData_GetClass(void * jarg1) {
-  void * jresult ;
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::Texture *)jarg1; 
-  result = (ma::RTTIClass *)((ma::Texture const *)arg1)->GetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_TextureData__SWIG_0(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  ma::Texture *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  result = (ma::Texture *)new ma::Texture((char const *)arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_TextureData__SWIG_1() {
-  void * jresult ;
-  ma::Texture *result = 0 ;
-  
-  result = (ma::Texture *)new ma::Texture();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_TextureData_CreateFromMemeory(void * jarg1) {
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  
-  arg1 = (ma::Texture *)jarg1; 
-  (arg1)->CreateFromMemeory();
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TextureData_Save__SWIG_0(void * jarg1, char * jarg2) {
-  unsigned int jresult ;
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  char *arg2 = (char *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Texture *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (bool)(arg1)->Save((char const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_TextureData_Save__SWIG_1(void * jarg1) {
-  unsigned int jresult ;
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Texture *)jarg1; 
-  result = (bool)(arg1)->Save();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_TextureData_GetRenderTexture(void * jarg1) {
-  void * jresult ;
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  ma::Texture *result = 0 ;
-  
-  arg1 = (ma::Texture *)jarg1; 
-  result = (ma::Texture *)(arg1)->GetRenderTexture();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_TextureData(void * jarg1) {
-  ma::Texture *arg1 = (ma::Texture *) 0 ;
-  
-  arg1 = (ma::Texture *)jarg1; 
   delete arg1;
 }
 
@@ -11272,25 +10270,25 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_RenderMesh() {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_LoadToMemory(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_LoadFileToMemeory(void * jarg1) {
   unsigned int jresult ;
   ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
   bool result;
   
   arg1 = (ma::RenderMesh *)jarg1; 
-  result = (bool)(arg1)->LoadToMemory();
+  result = (bool)(arg1)->LoadFileToMemeory();
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_LoadImp(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_CreateFromMemeory(void * jarg1) {
   unsigned int jresult ;
   ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
   bool result;
   
   arg1 = (ma::RenderMesh *)jarg1; 
-  result = (bool)(arg1)->LoadImp();
+  result = (bool)(arg1)->CreateFromMemeory();
   jresult = result; 
   return jresult;
 }
@@ -11504,23 +10502,23 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_RenderMesh_m_pMesData_get(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_RenderMesh_m_pTextureData_set(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_RenderMesh_m_pTexture_set(void * jarg1, void * jarg2) {
   ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
   ma::Texture *arg2 = (ma::Texture *) 0 ;
   
   arg1 = (ma::RenderMesh *)jarg1; 
   arg2 = (ma::Texture *)jarg2; 
-  if (arg1) (arg1)->m_pTextureData = arg2;
+  if (arg1) (arg1)->m_pTexture = arg2;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_RenderMesh_m_pTextureData_get(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_RenderMesh_m_pTexture_get(void * jarg1) {
   void * jresult ;
   ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
   ma::Texture *result = 0 ;
   
   arg1 = (ma::RenderMesh *)jarg1; 
-  result = (ma::Texture *) ((arg1)->m_pTextureData);
+  result = (ma::Texture *) ((arg1)->m_pTexture);
   jresult = (void *)result; 
   return jresult;
 }
@@ -11640,22 +10638,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Component(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Component_Render(void * jarg1) {
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  
-  arg1 = (ma::Component *)jarg1; 
-  (arg1)->Render();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Component_Update(void * jarg1) {
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  
-  arg1 = (ma::Component *)jarg1; 
-  (arg1)->Update();
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_Component_Start(void * jarg1) {
   ma::Component *arg1 = (ma::Component *) 0 ;
   
@@ -11669,6 +10651,22 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_Stop(void * jarg1) {
   
   arg1 = (ma::Component *)jarg1; 
   (arg1)->Stop();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Component_Update(void * jarg1) {
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  
+  arg1 = (ma::Component *)jarg1; 
+  (arg1)->Update();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Component_Render(void * jarg1) {
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  
+  arg1 = (ma::Component *)jarg1; 
+  (arg1)->Render();
 }
 
 
@@ -11726,33 +10724,33 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_Serialize__SWIG_1(void * jarg1, voi
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimObjectComponent_StaticInitClass() {
-  ma::AnimObjectComponent::StaticInitClass();
+SWIGEXPORT void SWIGSTDCALL CSharp_AnimComponent_StaticInitClass() {
+  ma::AnimComponent::StaticInitClass();
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_AnimObjectComponent_StaticShutdownClass() {
-  ma::AnimObjectComponent::StaticShutdownClass();
+SWIGEXPORT void SWIGSTDCALL CSharp_AnimComponent_StaticShutdownClass() {
+  ma::AnimComponent::StaticShutdownClass();
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimObjectComponent_StaticGetClass() {
+SWIGEXPORT void * SWIGSTDCALL CSharp_AnimComponent_StaticGetClass() {
   void * jresult ;
   ma::RTTIClass *result = 0 ;
   
-  result = (ma::RTTIClass *)ma::AnimObjectComponent::StaticGetClass();
+  result = (ma::RTTIClass *)ma::AnimComponent::StaticGetClass();
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimObjectComponent_GetClass(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_AnimComponent_GetClass(void * jarg1) {
   void * jresult ;
-  ma::AnimObjectComponent *arg1 = (ma::AnimObjectComponent *) 0 ;
+  ma::AnimComponent *arg1 = (ma::AnimComponent *) 0 ;
   ma::RTTIClass *result = 0 ;
   
-  arg1 = (ma::AnimObjectComponent *)jarg1; 
-  result = (ma::RTTIClass *)((ma::AnimObjectComponent const *)arg1)->GetClass();
+  arg1 = (ma::AnimComponent *)jarg1; 
+  result = (ma::RTTIClass *)((ma::AnimComponent const *)arg1)->GetClass();
   jresult = (void *)result; 
   return jresult;
 }
@@ -11761,17 +10759,17 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_AnimObjectComponent_GetClass(void * jarg1) 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_AnimComponent(void * jarg1) {
   void * jresult ;
   ma::GameObject *arg1 = (ma::GameObject *) 0 ;
-  ma::AnimObjectComponent *result = 0 ;
+  ma::AnimComponent *result = 0 ;
   
   arg1 = (ma::GameObject *)jarg1; 
-  result = (ma::AnimObjectComponent *)new ma::AnimComponent(arg1);
+  result = (ma::AnimComponent *)new ma::AnimComponent(arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_AnimComponent(void * jarg1) {
-  ma::AnimObjectComponent *arg1 = (ma::AnimComponent *) 0 ;
+  ma::AnimComponent *arg1 = (ma::AnimComponent *) 0 ;
   
   arg1 = (ma::AnimComponent *)jarg1; 
   delete arg1;
@@ -11802,13 +10800,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_AnimComponent_Update(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_AnimComponent_GetAnimPlay(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_AnimComponent_GetAnimObject(void * jarg1) {
   void * jresult ;
   ma::AnimComponent *arg1 = (ma::AnimComponent *) 0 ;
-  ma::AnimationObject *result = 0 ;
+  ma::IAnimationObject *result = 0 ;
   
   arg1 = (ma::AnimComponent *)jarg1; 
-  result = (ma::AnimationObject *)(arg1)->GetAnimObject();
+  result = (ma::IAnimationObject *)(arg1)->GetAnimObject();
   jresult = (void *)result; 
   return jresult;
 }
@@ -11942,14 +10940,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_BoxCollisionComponent_Serialize__SWIG_1(void 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_BoxCollisionComponent_Render(void * jarg1) {
-  ma::BoxCollisionComponent *arg1 = (ma::BoxCollisionComponent *) 0 ;
-  
-  arg1 = (ma::BoxCollisionComponent *)jarg1; 
-  (arg1)->Render();
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_BoxCollisionComponent(void * jarg1) {
   ma::BoxCollisionComponent *arg1 = (ma::BoxCollisionComponent *) 0 ;
   
@@ -12044,14 +11034,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SphereCollisionComponent_Serialize__SWIG_1(vo
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SphereCollisionComponent_Render(void * jarg1) {
-  ma::SphereCollisionComponent *arg1 = (ma::SphereCollisionComponent *) 0 ;
-  
-  arg1 = (ma::SphereCollisionComponent *)jarg1; 
-  (arg1)->Render();
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_SphereCollisionComponent(void * jarg1) {
   ma::SphereCollisionComponent *arg1 = (ma::SphereCollisionComponent *) 0 ;
   
@@ -12143,14 +11125,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_CapsuleCollisionComponent_Serialize__SWIG_1(v
     return ;
   } 
   (arg1)->Serialize(*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_CapsuleCollisionComponent_Render(void * jarg1) {
-  ma::CapsuleCollisionComponent *arg1 = (ma::CapsuleCollisionComponent *) 0 ;
-  
-  arg1 = (ma::CapsuleCollisionComponent *)jarg1; 
-  (arg1)->Render();
 }
 
 
@@ -12288,33 +11262,19 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetClass(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_GameObject__SWIG_0(void * jarg1, char * jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_GameObject__SWIG_0(char * jarg1) {
   void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  char *arg2 = (char *) 0 ;
+  char *arg1 = (char *) 0 ;
   ma::GameObject *result = 0 ;
   
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::GameObject *)new ma::GameObject(arg1,(char const *)arg2);
+  arg1 = (char *)jarg1; 
+  result = (ma::GameObject *)new ma::GameObject((char const *)arg1);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_GameObject__SWIG_1(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::GameObject *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::GameObject *)new ma::GameObject(arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_GameObject__SWIG_2() {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_GameObject__SWIG_1() {
   void * jresult ;
   ma::GameObject *result = 0 ;
   
@@ -12584,15 +11544,15 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetClass(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_0(void * jarg1, char * jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_0(void * jarg1, void * jarg2) {
   void * jresult ;
-  ma::Scene *arg1 = (ma::Scene *) 0 ;
-  char *arg2 = (char *) 0 ;
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  ma::Scene *arg2 = (ma::Scene *) 0 ;
   ma::SceneNode *result = 0 ;
   
-  arg1 = (ma::Scene *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::SceneNode *)new ma::SceneNode(arg1,(char const *)arg2);
+  arg1 = (ma::GameObject *)jarg1; 
+  arg2 = (ma::Scene *)jarg2; 
+  result = (ma::SceneNode *)new ma::SceneNode(arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -12600,21 +11560,11 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_0(void * jarg1, char * 
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_1(void * jarg1) {
   void * jresult ;
-  ma::Scene *arg1 = (ma::Scene *) 0 ;
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
   ma::SceneNode *result = 0 ;
   
-  arg1 = (ma::Scene *)jarg1; 
+  arg1 = (ma::GameObject *)jarg1; 
   result = (ma::SceneNode *)new ma::SceneNode(arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_2() {
-  void * jresult ;
-  ma::SceneNode *result = 0 ;
-  
-  result = (ma::SceneNode *)new ma::SceneNode();
   jresult = (void *)result; 
   return jresult;
 }
@@ -12642,23 +11592,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_TravelScene(void * jarg1, v
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetTransform__SWIG_0(void * jarg1, void * jarg2, int jarg3) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  NodeTransform *arg2 = 0 ;
-  ma::TRANSFORM_TYPE arg3 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (NodeTransform *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "NodeTransform const & type is null", 0);
-    return ;
-  } 
-  arg3 = (ma::TRANSFORM_TYPE)jarg3; 
-  (arg1)->SetTransform((NodeTransform const &)*arg2,arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetTransform__SWIG_1(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetTransform(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   NodeTransform *arg2 = 0 ;
   
@@ -12672,21 +11606,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetTransform__SWIG_1(void * jarg1, 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetTransform__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  NodeTransform *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (NodeTransform *) &(arg1)->GetTransform(arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetTransform__SWIG_1(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetTransform(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   NodeTransform *result = 0 ;
@@ -12710,79 +11630,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetWorldMatrix(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetPosition__SWIG_0(void * jarg1, void * jarg2, int jarg3) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Vector3 *arg2 = 0 ;
-  ma::TRANSFORM_TYPE arg3 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (Vector3 *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return ;
-  } 
-  arg3 = (ma::TRANSFORM_TYPE)jarg3; 
-  (arg1)->SetPosition((Vector3 const &)*arg2,arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetPosition__SWIG_1(void * jarg1, void * jarg2) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Vector3 *arg2 = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (Vector3 *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return ;
-  } 
-  (arg1)->SetPosition((Vector3 const &)*arg2);
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetPosition__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  Vector3 *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (Vector3 *) &(arg1)->GetPosition(arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetPosition__SWIG_1(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Vector3 *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (Vector3 *) &(arg1)->GetPosition();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Translate__SWIG_0(void * jarg1, void * jarg2, int jarg3) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Vector3 *arg2 = 0 ;
-  ma::TRANSFORM_TYPE arg3 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (Vector3 *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
-    return ;
-  } 
-  arg3 = (ma::TRANSFORM_TYPE)jarg3; 
-  (arg1)->Translate((Vector3 const &)*arg2,arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Translate__SWIG_1(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Translate(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   Vector3 *arg2 = 0 ;
   
@@ -12796,45 +11644,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Translate__SWIG_1(void * jarg1, voi
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRotate__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_0(void * jarg1, float jarg2, float jarg3, float jarg4) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  Quaternion *result = 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (Quaternion *) &(arg1)->GetRotate(arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRotate__SWIG_1(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Quaternion *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (Quaternion *) &(arg1)->GetRotate();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_0(void * jarg1, void * jarg2, int jarg3) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  Quaternion *arg2 = 0 ;
-  ma::TRANSFORM_TYPE arg3 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (Quaternion *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Quaternion const & type is null", 0);
-    return ;
-  } 
-  arg3 = (ma::TRANSFORM_TYPE)jarg3; 
-  (arg1)->Rotate((Quaternion const &)*arg2,arg3);
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  (arg1)->Rotate(arg2,arg3,arg4);
 }
 
 
@@ -12849,36 +11669,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_1(void * jarg1, void *
     return ;
   } 
   (arg1)->Rotate((Quaternion const &)*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_2(void * jarg1, float jarg2, float jarg3, float jarg4, int jarg5) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  ma::TRANSFORM_TYPE arg5 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  arg5 = (ma::TRANSFORM_TYPE)jarg5; 
-  (arg1)->Rotate(arg2,arg3,arg4,arg5);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_3(void * jarg1, float jarg2, float jarg3, float jarg4) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  (arg1)->Rotate(arg2,arg3,arg4);
 }
 
 
@@ -12912,47 +11702,19 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RotateXAxisLS(void * jarg1, float j
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetDirection__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  Vector3 result;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (arg1)->GetDirection(arg2);
-  jresult = new Vector3((const Vector3 &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetDirection__SWIG_1(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetForward(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   Vector3 result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (arg1)->GetDirection();
+  result = (arg1)->GetForward();
   jresult = new Vector3((const Vector3 &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRight__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  Vector3 result;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (arg1)->GetRight(arg2);
-  jresult = new Vector3((const Vector3 &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRight__SWIG_1(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRight(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   Vector3 result;
@@ -12964,21 +11726,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRight__SWIG_1(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUp__SWIG_0(void * jarg1, int jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::TRANSFORM_TYPE arg2 ;
-  Vector3 result;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (ma::TRANSFORM_TYPE)jarg2; 
-  result = (arg1)->GetUp(arg2);
-  jresult = new Vector3((const Vector3 &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUp__SWIG_1(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUp(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   Vector3 result;
@@ -12990,23 +11738,23 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUp__SWIG_1(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Move(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Forward(void * jarg1, float jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   float arg2 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
   arg2 = (float)jarg2; 
-  (arg1)->Move(arg2);
+  (arg1)->Forward(arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Fly(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Up(void * jarg1, float jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   float arg2 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
   arg2 = (float)jarg2; 
-  (arg1)->Fly(arg2);
+  (arg1)->Up(arg2);
 }
 
 
@@ -13029,20 +11777,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_WorldToLocal(void * jarg1, void * j
   arg2 = (NodeTransform *)jarg2; 
   arg3 = (NodeTransform *)jarg3; 
   (arg1)->WorldToLocal(arg2,(NodeTransform const *)arg3);
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_Clone(void * jarg1, char * jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::SceneNode *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::SceneNode *)(arg1)->Clone((char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
 }
 
 
@@ -13070,18 +11804,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetSene(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_CreateGameObject(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::GameObject *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::GameObject *)(arg1)->CreateGameObject();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetGameObject(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
@@ -13104,27 +11826,23 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_NotifySetParent(void * jarg1, void 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_AddChildNode__SWIG_0(void * jarg1, char * jarg2) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::SceneNode *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::SceneNode *)(arg1)->AddChildNode((char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_AddChildNode__SWIG_1(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_AddChildNode(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
   arg2 = (ma::SceneNode *)jarg2; 
   (arg1)->AddChildNode(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RemoveChildNode(void * jarg1, void * jarg2) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (ma::SceneNode *)jarg2; 
+  (arg1)->RemoveChildNode(arg2);
 }
 
 
@@ -13258,23 +11976,11 @@ SWIGEXPORT ma::Resource * SWIGSTDCALL CSharp_MeshData_SWIGUpcast(ma::MeshData *j
     return (ma::Resource *)jarg1;
 }
 
-SWIGEXPORT ma::Resource * SWIGSTDCALL CSharp_AnimationData_SWIGUpcast(ma::AnimationData *jarg1) {
-    return (ma::Resource *)jarg1;
-}
-
-SWIGEXPORT ma::Resource * SWIGSTDCALL CSharp_SkeletonData_SWIGUpcast(ma::SkeletonData *jarg1) {
-    return (ma::Resource *)jarg1;
-}
-
-SWIGEXPORT ma::Resource * SWIGSTDCALL CSharp_TextureData_SWIGUpcast(ma::Texture *jarg1) {
-    return (ma::Resource *)jarg1;
-}
-
 SWIGEXPORT ma::Object * SWIGSTDCALL CSharp_Component_SWIGUpcast(ma::Component *jarg1) {
     return (ma::Object *)jarg1;
 }
 
-SWIGEXPORT ma::Component * SWIGSTDCALL CSharp_AnimComponent_SWIGUpcast(ma::AnimObjectComponent *jarg1) {
+SWIGEXPORT ma::Component * SWIGSTDCALL CSharp_AnimComponent_SWIGUpcast(ma::AnimComponent *jarg1) {
     return (ma::Component *)jarg1;
 }
 

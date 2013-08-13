@@ -328,9 +328,9 @@ namespace ma
 		GetD3D9DxDevive()->SetTexture(uniform->_index, pTexture->GetD3DTexture());
 		
 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-		D3D9Mapping::GetD3D9Filter(sampler->_filter,minFilter,magFilter,mipFilter);
-		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(sampler->_wrapS);
-		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(sampler->_wrapT);
+		D3D9Mapping::GetD3D9Filter(sampler->m_eFilter,minFilter,magFilter,mipFilter);
+		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(sampler->m_eWrap);
+		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(sampler->m_eWrap);
 
 		//filter mode
 		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_MAGFILTER, magFilter);
@@ -343,37 +343,53 @@ namespace ma
 
 	}
 
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Texture* sampler)
+	{
+		ASSERT(uniform);
+		ASSERT(sampler);
+
+
+		D3D9Texture* pTexture = (D3D9Texture*)sampler;
+		ASSERT(pTexture);
+		if (pTexture == NULL)
+			return;
+
+		GetD3D9DxDevive()->SetTexture(uniform->_index, pTexture->GetD3DTexture());
+
+		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
+		D3D9Mapping::GetD3D9Filter(Sampler::TFO_BILINEAR,minFilter,magFilter,mipFilter);
+		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(Sampler::CLAMP);
+		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(Sampler::CLAMP);
+
+		//filter mode
+		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_MAGFILTER, magFilter);
+		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_MINFILTER, minFilter);
+		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_MIPFILTER, mipFilter);
+
+		//address mode
+		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_ADDRESSU, wrapS);
+		GetD3D9DxDevive()->SetSamplerState(uniform->_index, D3DSAMP_ADDRESSV, wrapT);
+	}
+
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Texture** values, UINT count)
+	{
+
+	}
+
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
 	{
 	     ASSERT(uniform);
 	     //ASSERT(uniform->_type == GL_SAMPLER_2D);
 	     ASSERT(values);
-	 
-
+	
 	}
 
 	void D3D9ShaderProgram::Bind()
 	{
-	   //GL_ASSERT( glUseProgram(m_program) );
-
-		//__currentEffect = this;
 
 		GetD3D9DxDevive()->SetVertexShader(m_pVertexShader);
 
 		GetD3D9DxDevive()->SetPixelShader(m_pPiexelShader);
 	}
-
-	void D3D9ShaderProgram::BindSampler(const Sampler* pSampler)
-	{
-		// Bind the sampler - this binds the texture and applies sampler state
-		//const_cast<Sampler*>(sampler)->Bind();
-		ASSERT(pSampler);
-		if (pSampler == NULL)
-			return;
-
-
-
-	}
-
 
 }

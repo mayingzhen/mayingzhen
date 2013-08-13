@@ -16,6 +16,7 @@ namespace ma
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
+		GetInput()->AddTouchListener(this);
 		GetInput()->AddMouseListener(this);
 
 
@@ -79,6 +80,7 @@ namespace ma
 
 	void SampleCharaControl::UnLoad()
 	{
+		GetInput()->RemoveTouchListener(this);
 		GetInput()->RemoveMouseListener(this);
 	}
 
@@ -86,35 +88,6 @@ namespace ma
 	void SampleCharaControl::Update()
 	{
 		DoMouveTo();
-	}
-
-	void SampleCharaControl::MoveToWS(Vector3 vMouveTo)
-	{
-		SceneNode* pCharNode = m_pCharaObj->GetSceneNode();
-
-		Vector3 curPos = pCharNode->GetTransform().m_vPos;
-		Vector3 vAxisFrom = pCharNode->GetForward();
-		Vector3 vAxisTo = vMouveTo - curPos;
-		Vec3Normalize(vAxisTo,vAxisTo);
-		Vec3Normalize(vAxisFrom,vAxisFrom);
-
-		Vector3 pAxisRot = Vector3(0,1,0);
-		float fTargetRota = 0;
-		QuaternionFromAxisToAxis(&pAxisRot,&fTargetRota,&vAxisFrom,&vAxisTo);
-		fTargetRota *= pAxisRot.y; // y = -1 逆时针转, y=1 顺时针转
-		pCharNode->RotateYAxisLS(ToDegree(fTargetRota));
-
-		m_vMoveTo = vMouveTo;
-		m_bMoveing = true;
-
-		AnimComponent* pAnimComp = m_pCharaObj->GetTypeComponentFirst<AnimComponent>();
-		if (pAnimComp)
-		{
-			pAnimComp->GetAnimObject()->PlayAnimation("Run");
-		}
-
-		Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
-		Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
 	}
 
 	void SampleCharaControl::DoMouveTo()
@@ -142,8 +115,6 @@ namespace ma
 
 		Vector3 vMoveStepWS = vMoveDir * fStepMoveLeng / fDistance;
 
-		//Log("vCurPosWS = %f,%f,%f \n",vCurPosWS.x,vCurPosWS.y,vCurPosWS.z);
-		//Log("m_vMoveTo = %f,%f,%f \n",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
 
 		pCharNode->Translate(vMoveStepWS);
 	}
@@ -159,32 +130,85 @@ namespace ma
 
 	bool SampleCharaControl::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
-		if (id == OIS::MB_Left)
-		{
-			const OIS::MouseState& mouseState = arg.state;
-
-			Vector2 mousePos(mouseState.X.abs,mouseState.Y.abs);
-			Vector2 clientSize( (float)mouseState.width, (float)mouseState.height ); 
-
-			Vector3 rayOrig;
-			Vector3 rayDir;
-			GetCamera()->GetWorldRayCast(clientSize,mousePos,rayOrig,rayDir);
-
-			Vector3 hitPosWS;
-			GameObject* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
-			if (pGameObj == m_pTerrain)
-			{
-				MoveToWS(hitPosWS);
-			}
-		}
-
 		return true;
 	}
 
 	bool SampleCharaControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
+		if (id == OIS::MB_Left)
+		{
+			Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
+
+			OnTouch(mousePos);
+		}
+
 		return true;
 	}
 
+	bool SampleCharaControl::touchMoved( const OIS::MultiTouchEvent &arg )
+	{
+		return true;
+	}
+
+	bool SampleCharaControl::touchPressed( const OIS::MultiTouchEvent &arg )
+	{
+		return true;
+	}
+
+	bool SampleCharaControl::touchReleased( const OIS::MultiTouchEvent &arg )
+	{
+		Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
+
+		OnTouch(mousePos);
+	
+		return true;
+	}
+
+	bool SampleCharaControl::touchCancelled( const OIS::MultiTouchEvent &arg )
+	{
+		return true;
+	}
+
+	void SampleCharaControl::OnTouch(Vector2 vTouchPos)
+	{
+		int width,height;
+		Platform::GetInstance().GetWindowSize(width,height);
+		Vector2 clientSize( (float)width, (float)height ); 
+
+		Vector3 rayOrig;
+		Vector3 rayDir;
+		GetCamera()->GetWorldRayCast(clientSize,vTouchPos,rayOrig,rayDir);
+
+		Vector3 hitPosWS;
+		GameObject* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
+		if (pGameObj == m_pTerrain)
+		{
+			SceneNode* pCharNode = m_pCharaObj->GetSceneNode();
+
+			Vector3 curPos = pCharNode->GetTransform().m_vPos;
+			Vector3 vAxisFrom = pCharNode->GetForward();
+			Vector3 vAxisTo = hitPosWS - curPos;
+			Vec3Normalize(vAxisTo,vAxisTo);
+			Vec3Normalize(vAxisFrom,vAxisFrom);
+
+			Vector3 pAxisRot = Vector3(0,1,0);
+			float fTargetRota = 0;
+			QuaternionFromAxisToAxis(&pAxisRot,&fTargetRota,&vAxisFrom,&vAxisTo);
+			fTargetRota *= pAxisRot.y; // y = -1 逆时针转, y=1 顺时针转
+			pCharNode->RotateYAxisLS(ToDegree(fTargetRota));
+
+			m_vMoveTo = hitPosWS;
+			m_bMoveing = true;
+
+			AnimComponent* pAnimComp = m_pCharaObj->GetTypeComponentFirst<AnimComponent>();
+			if (pAnimComp)
+			{
+				pAnimComp->GetAnimObject()->PlayAnimation("Run");
+			}
+
+			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
+			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
+		}
+	}
 
 }

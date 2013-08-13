@@ -7,14 +7,16 @@
 
 namespace ma
 {
-	typedef void* (*ThreadMain)(void* pParameter);
+	typedef void (*ThreadMain)(void* pParameter);
 
 	class Thread
 	{	
 	public:
 		Thread(ThreadMain pFunPtr,void* pParameter)
 		{
-			pthread_create(&m_hThread, NULL, pFunPtr, pParameter);
+			m_pFunPtr = pFunPtr;
+			m_pParameter = pParameter;
+			pthread_create(&m_hThread, NULL, Thread::pThreadFun, this);
 		}
 
 		~Thread()
@@ -26,9 +28,23 @@ namespace ma
 			}
 		}
 
+		void Run()
+		{
+			m_pFunPtr(m_pParameter);
+		}
+
+		static void* pThreadFun(void* pParameter)
+		{
+			Thread* pThread = (Thread*)pParameter;	
+			pThread->Run();
+		}
+
 
 	public:
-		pthread_t m_hThread;
+		pthread_t	m_hThread;
+
+		ThreadMain	m_pFunPtr;
+		void*		m_pParameter;
 	};
 
 }

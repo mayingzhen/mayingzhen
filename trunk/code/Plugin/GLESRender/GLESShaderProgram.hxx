@@ -332,9 +332,7 @@ namespace ma
 
 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->_index) );
 
-		// Bind the sampler - this binds the texture and applies sampler state
-		//const_cast<Sampler*>(sampler)->Bind();
-		BindSampler(sampler);
+		BindSampler(sampler->getTexture(),sampler->m_eFilter,sampler->m_eWrap);
 
 		GL_ASSERT( glUniform1i(uniform->_location, uniform->_index) );
 	}
@@ -352,7 +350,7 @@ namespace ma
 	         GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->_index + i) );
 	 
 	         // Bind the sampler - this binds the texture and applies sampler state
-	         BindSampler(values[i]);
+	         BindSampler(values[i]->getTexture(),values[i]->m_eFilter,values[i]->m_eWrap);
 	 
 	         units[i] = uniform->_index + i;
 	     }
@@ -361,32 +359,59 @@ namespace ma
 	     GL_ASSERT( glUniform1iv(uniform->_location, count, units) );
 	}
 
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Texture* sampler)
+	{
+		ASSERT(uniform);
+		ASSERT(uniform->_type == GL_SAMPLER_2D);
+		ASSERT(sampler);
+
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->_index) );
+
+		BindSampler(sampler,Sampler::TFO_BILINEAR,Sampler::CLAMP);
+
+		GL_ASSERT( glUniform1i(uniform->_location, uniform->_index) );
+	}
+
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Texture** values, UINT count)
+	{
+		ASSERT(uniform);
+		ASSERT(uniform->_type == GL_SAMPLER_2D);
+		ASSERT(values);
+
+		// Set samplers as active and load texture unit array
+		GLint units[32];
+		for (unsigned int i = 0; i < count; ++i)
+		{
+			GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->_index + i) );
+
+			// Bind the sampler - this binds the texture and applies sampler state
+			BindSampler(values[i],Sampler::TFO_BILINEAR,Sampler::CLAMP);
+
+			units[i] = uniform->_index + i;
+		}
+
+		// Pass texture unit array to GL
+		GL_ASSERT( glUniform1iv(uniform->_location, count, units) );
+	}
+
 	void GLESShaderProgram::Bind()
 	{
 	   GL_ASSERT( glUseProgram(m_program) );
-
-		//__currentEffect = this;
 	}
 
-	void GLESShaderProgram::BindSampler(const Sampler* pSampler)
+	void GLESShaderProgram::BindSampler(const Texture* pTex,Sampler::FilterOptions eFilter,Sampler::Wrap eWrap)
 	{
-		// Bind the sampler - this binds the texture and applies sampler state
-		//const_cast<Sampler*>(sampler)->Bind();
-		ASSERT(pSampler);
-		if (pSampler == NULL)
-			return;
-		
-		GLESTexture* pTexture = (GLESTexture*)pSampler->getTexture();
+		GLESTexture* pTexture = (GLESTexture*)pTex;
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
-
+		
 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
 
 		GLenum minFilter,magFilter;
-		GLESMapping::GetGLESFilter(pSampler->_filter,minFilter,magFilter);
-		GLenum wrapS = GLESMapping::GetGLESWrap(pSampler->_wrapS);
-		GLenum wrapT = GLESMapping::GetGLESWrap(pSampler->_wrapT);
+		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
+		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
+		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
 
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
@@ -394,30 +419,6 @@ namespace ma
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
 
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
-
-// 		if (pTexture->_minFilter != _minFilter)
-// 		{
-// 			_texture->_minFilter = _minFilter;
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLenum)_minFilter) );
-// 		}
-// 
-// 		if (_texture->_magFilter != _magFilter)
-// 		{
-// 			_texture->_magFilter = _magFilter;
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLenum)_magFilter) );
-// 		}
-// 
-// 		if (_texture->_wrapS != _wrapS)
-// 		{
-// 			_texture->_wrapS = _wrapS;
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLenum)_wrapS) );
-// 		}
-// 
-// 		if (_texture->_wrapT != _wrapT)
-// 		{
-// 			_texture->_wrapT = _wrapT;
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLenum)_wrapT) );
-// 		}
 	}
 
 

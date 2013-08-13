@@ -28,6 +28,8 @@ namespace ma
 
 		Matrix4x4		GetProjmatrix()	{return m_mProj;}
 
+		Vector3			GetAmbientColor() {return Vec3Zero();}
+
 		Vector3			GetDiffuse() {return m_vLightDiffuse;}
 
 		float			GetRadius() {return m_fRadius;}
