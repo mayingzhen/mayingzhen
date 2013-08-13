@@ -50,6 +50,8 @@
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
 #include "Engine/RenderSystem/RenderSystem.h"
+#include "Engine/RenderSystem/DeferredLight.h"
+#include "Engine/RenderSystem/Shadow.h"
 
 // Terrain
 #include "Engine/Terrain/Terrain.h"
@@ -58,7 +60,7 @@
 
 
 // RenderScheme
-#include "Engine/RenderSystem/RenderQueue.h"
+//#include "Engine/RenderSystem/RenderQueue.h"
 #include "Engine/RenderSystem/ShadowMapFrustum.h"
 
 // Util
@@ -72,6 +74,7 @@
 #include "Engine/RenderSystem/Material/ShaderProgram.h"
 #include "Engine/RenderSystem/Material/Texture.h"
 #include "Engine/RenderSystem/Material/Technqiue.h"
+#include "Engine/RenderSystem/Material/MaterialManager.h"
 
 
 // Physics

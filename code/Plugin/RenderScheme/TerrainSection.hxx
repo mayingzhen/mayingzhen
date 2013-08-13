@@ -1,357 +1,536 @@
 #include "TerrainSection.h"
-#include "terrain.h"
-#include "effect_file.h"
-#include "GameApp.h"
-#include "OctreeSceneManager.h"
-#include "tinyxml.h"
+#include "Terrain.h"
 
-#include <fstream>
-#include <cmath>
-#include <algorithm>
+namespace ma {
+
+#define _POSITION    0
+#define _HEIGHT		 1
+#define _NORMAL      2
+#define _MORPH       3
 
 
-CTerrainSection::CTerrainSection()
+TerrainSection::TerrainSection(Terrain * pTerrain, int x, int z)
+: Mover("TerrainSection")
+, mTerrain(pTerrain)
+, mSectionX(x)
+, mSectionZ(z)
+, mMorph(0)
 {
-	m_pTerrainSystem = NULL;
+	mOffX = mTerrain->GetConfig().xSectionSize * x;
+	mOffZ = mTerrain->GetConfig().zSize - mTerrain->GetConfig().zSectionSize * (z + 1);
 
-	m_pSectorVerts = NULL;
-	m_pSectorIndex = NULL;
-	m_TerrainVertexDeclaration = NULL;
+    Init();
+
+	mLayer[0] = +0;
+	mLayer[1] = -1;
+	mLayer[2] = -1;
+	mLayer[3] = -1;
 }
 
-CTerrainSection::~CTerrainSection()
+TerrainSection::~TerrainSection()
 {
-	SAFE_RELEASE(m_TerrainVertexDeclaration);
-	SAFE_RELEASE(m_pSectorVerts);
-	SAFE_RELEASE(m_pSectorIndex);
 }
 
-void CTerrainSection::Create(CTerrain* pParentSystem, 
-							 int heightMapX, int heightMapY,
-							 int xVerts, int yVerts)
+void TerrainSection::Init()
 {
-	m_pTerrainSystem = pParentSystem;
-	m_heightMapX = heightMapX;
-	m_heightMapY = heightMapY;
-	m_xVerts = xVerts;
-	m_yVerts = yVerts;
+	CalcuMorphBuffer();
+	CalcuErrorMetrics();
+	CalcuLevelDistance();
 
-	createVertexData();
-	createIndexData();
-	createVertexDeclation();
-}
+    int xSectionVertSize = Terrain::kSectionVertexSize;
+    int zSectionVertSize = Terrain::kSectionVertexSize;
+    int xVertSize = mTerrain->GetConfig().xVertexCount;
+    int xtile = xSectionVertSize - 1;
+    int ztile = zSectionVertSize - 1;
 
-void CTerrainSection::createVertexDeclation()
-{
-	D3DVERTEXELEMENT9 terrainVertexElements[] =
-	{
-		{ 0, 0,  D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 }, 
-		{ 0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },
-		{ 0, 24, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },	
-		{ 0, 32, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1 },	
-		D3DDECL_END()
-	};
+	const float * pHeights = mTerrain->GetHeights();
+    const Color * pNormals = mTerrain->GetNormals();
 
-	V( g_pD3DDevice->CreateVertexDeclaration(terrainVertexElements, &m_TerrainVertexDeclaration) );
-}
+    VertexDeclarationPtr pVertexDecl = mTerrain->GetVertexDecl();
+    //create vertex buffer
+    VideoBufferManager & mgr = *VideoBufferManager::Instance();
 
-void CTerrainSection::createIndexData()
-{
-		/* 顶点顺序
-		    0     1 
-			+-----+
-			|    /|
-			|   / |
-			|  /  |
-			| /   |
-		    +-----+
-			2     3  
-	*/
+    int iVertexCount = xSectionVertSize * zSectionVertSize;
 
-	int total_indexes = (m_xVerts - 1) * (m_yVerts - 1) * 6;
-	WORD* pIndexValues = new WORD[total_indexes];
+    int iStride0 = sizeof(Vec2);
+    VertexBufferPtr pVertexBuffer0 = mTerrain->GetXYVertexBuffer();
 
-	WORD* index = pIndexValues;
+    int iStride1 = sizeof(float);
+    VertexBufferPtr pVertexBuffer1 = mgr.CreateVertexBuffer(iVertexCount * iStride1, iStride1);
 
-	for (int j = 0; j < m_yVerts - 1; ++j)
-	{
-		for (int i = 0; i < m_xVerts - 1; ++i)
-		{
-			int gridx = m_heightMapX + i;
-			int	gridy = m_heightMapY + j;
-			int ngridIndex = gridx + gridy * (m_pTerrainSystem->HeightMapW() - 1);
-			CTerrain::g_info info = m_pTerrainSystem->m_GridInfoArray[ngridIndex];
+    int iStride2 = sizeof(Color);
+    VertexBufferPtr pVertexBuffer2 = mgr.CreateVertexBuffer(iVertexCount * iStride2, iStride2);
 
-			WORD iIndexTopLeft = ( i + j * (m_xVerts - 1) ) * 4;
-			WORD iIndexTopRight = iIndexTopLeft + 1;
-			WORD iIndexBottomLeft = iIndexTopLeft + 2;
-			WORD iIndexBottomRight = iIndexTopLeft + 3;
+    int iSrcOffset = mSectionZ * ztile * xVertSize + mSectionX * xtile;
 
-			if( 0 == info.tri ) 
+    float * heights = (float *)pVertexBuffer1->Lock(0, 0, LOCK_DISCARD);
+    int * normals = (int *)pVertexBuffer2->Lock(0, 0, LOCK_DISCARD);
+    {
+        pHeights += iSrcOffset;
+        pNormals += iSrcOffset;
+
+        for (int i = 0; i < zSectionVertSize; ++i)
+        {
+			for (int j = 0; j < xSectionVertSize; ++j)
 			{
-				*index++ = iIndexTopLeft;     // 0
-				*index++ = iIndexBottomLeft;  // 2
-				*index++ = iIndexTopRight;    // 1
-				*index++ = iIndexBottomLeft;  // 2
-				*index++ = iIndexBottomRight; // 3
-				*index++ = iIndexTopRight;    // 1
-			}
-			else 
-			{
-				*index++ = iIndexBottomLeft;  // 2
-				*index++ = iIndexBottomRight; // 3
-				*index++ = iIndexTopLeft;     // 0
-				*index++ = iIndexBottomRight; // 3
-				*index++ = iIndexTopRight;    // 1
-				*index++ = iIndexTopLeft;     // 0  
-			}						
-		}
-	}
-
-	HRESULT hr = D3D_OK;	
-	hr = g_pD3DDevice->CreateIndexBuffer(total_indexes * sizeof(WORD), 
-		D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&m_pSectorIndex,0);
-	if( FAILED(hr) )
-		return ;
-
-	WORD* indices = 0;
-	m_pSectorIndex->Lock(0, 0, (void**)&indices, 0);
-	memcpy( indices, pIndexValues, total_indexes * sizeof(WORD) );	
-	m_pSectorIndex->Unlock();
-
-	SAFE_DELETE_ARRAY(pIndexValues);
-}
-
-void CTerrainSection::createVertexData()
-{
-	 
-	/* 顶点顺序
-		    0     1 
-			+-----+
-			|    /|
-			|   / |
-			|  /  |
-			| /   |
-		    +-----+
-			2     3  
-	*/
-
-	bool result = true;
-
-	sSectorVertex* pVerts = new sSectorVertex[(m_xVerts - 1) * (m_yVerts - 1) * 4];
-
-	for (int y = 0; y < m_yVerts - 1; y += 1)
-	{
-		for (int x = 0; x < m_xVerts - 1; x += 1)
-		{
-			// 每个格子4个顶点0123 4567 .... 6个索引顶点 021231 465675 .....
-			int base_index = 4 * (y * (m_xVerts - 1)  + x); 
-
-			int nHeightMapX = m_heightMapX + x;
-			int nHeightMapY = m_heightMapY + y;
-
-			m_pTerrainSystem->GetPos( nHeightMapX,	    nHeightMapY,     pVerts[base_index].vPos );
-			m_pTerrainSystem->GetPos( nHeightMapX + 1, nHeightMapY,     pVerts[base_index + 1].vPos );
-			m_pTerrainSystem->GetPos( nHeightMapX,     nHeightMapY + 1, pVerts[base_index + 2].vPos );
-			m_pTerrainSystem->GetPos( nHeightMapX + 1, nHeightMapY + 1, pVerts[base_index + 3].vPos );
-
-			m_WorldAABB.Merge(pVerts[base_index].vPos);
-			m_WorldAABB.Merge(pVerts[base_index + 1].vPos);	
-			m_WorldAABB.Merge(pVerts[base_index + 2].vPos);	
-			m_WorldAABB.Merge(pVerts[base_index + 3].vPos);	
-		
-			m_pTerrainSystem->GetNormal( nHeightMapX,	   nHeightMapY,     pVerts[base_index].Normal );
-			m_pTerrainSystem->GetNormal( nHeightMapX + 1, nHeightMapY,     pVerts[base_index + 1].Normal );
-			m_pTerrainSystem->GetNormal( nHeightMapX,     nHeightMapY + 1, pVerts[base_index + 2].Normal );
-			m_pTerrainSystem->GetNormal( nHeightMapX + 1, nHeightMapY + 1, pVerts[base_index + 3].Normal );
-		
-			int ngridIndex = nHeightMapX + nHeightMapY * (m_pTerrainSystem->HeightMapW() - 1);
-			CTerrain::g_info info = m_pTerrainSystem->m_GridInfoArray[ngridIndex];
-
-			///// 第一层UV
-			{
-				float uOffset = 0,vOffset = 0, uWidth = 0, vHeight = 0;
-				CTerrain::Pixmap lay0 = m_pTerrainSystem->m_PixMapArray[info.layer0];
-				m_pTerrainSystem->m_TextureAtlas.GetInTextureAtlasUV(
-					m_pTerrainSystem->m_vTextureFileNames[lay0.textureId],
-					uOffset,vOffset,uWidth,vHeight);
-				float Left = lay0.left * uWidth + uOffset;
-				float top =  lay0.top  * vHeight + vOffset;
-				float Right = lay0.right * uWidth + uOffset;
-				float bottom = lay0.bottom * vHeight + vOffset;
-
-				pVerts[base_index].VetrexUV1 = D3DXVECTOR2(Left,top); 
-				pVerts[base_index + 1].VetrexUV1 = D3DXVECTOR2(Right,top); 	
-				pVerts[base_index + 2].VetrexUV1 = D3DXVECTOR2(Left,bottom);
-				pVerts[base_index + 3].VetrexUV1 = D3DXVECTOR2(Right,bottom);
-
-				ChangeGridUV( pVerts[base_index].VetrexUV1, 
-					pVerts[base_index + 1].VetrexUV1,
-					pVerts[base_index + 2].VetrexUV1,
-					pVerts[base_index + 3].VetrexUV1, 
-					info.op0, info.tri );
+				heights[j] = pHeights[j];
+				normals[j] = M_RGBA(pNormals[j].r, pNormals[j].g, pNormals[j].b, 255);
 			}
 
-			///// 第二层UV
-			{
-				CTerrain::Pixmap emptyPixMap;
-				emptyPixMap.textureId = m_pTerrainSystem->m_vTextureFileNames.size() - 1;	// 最后一块
-				emptyPixMap.left = 0.1f;
-				emptyPixMap.top = 0.1f;
-				emptyPixMap.right = 0.9f;
-				emptyPixMap.bottom = 0.9f;
-				
-				CTerrain::Pixmap lay1;
-				if (info.layer1 != 0XFFFF)
-				{
-					lay1 = m_pTerrainSystem->m_PixMapArray[info.layer1];
-				}
-				else 
-				{
-					lay1 = emptyPixMap; 
-					continue;
-				}
+            heights += xSectionVertSize;
+            normals += xSectionVertSize;
 
-				float uOffset = 0,vOffset = 0, uWidth = 0, vHeight = 0;
-				m_pTerrainSystem->m_TextureAtlas.GetInTextureAtlasUV(
-					m_pTerrainSystem->m_vTextureFileNames[lay1.textureId],
-					uOffset,vOffset,uWidth,vHeight);
-				float Left = lay1.left * uWidth + uOffset;
-				float top =  lay1.top  * vHeight + vOffset;
-				float Right = lay1.right * uWidth + uOffset;
-				float bottom = lay1.bottom * vHeight + vOffset;
+            pHeights += xVertSize;
+            pNormals += xVertSize;
+        }
+    }
 
-				pVerts[base_index].VetrexUV2 = D3DXVECTOR2(Left,top);
-				pVerts[base_index + 1].VetrexUV2 = D3DXVECTOR2(Right,top);
-				pVerts[base_index + 2].VetrexUV2 = D3DXVECTOR2(Left,bottom);
-				pVerts[base_index + 3].VetrexUV2 = D3DXVECTOR2(Right,bottom);
+    pVertexBuffer0->Unlock();
+    pVertexBuffer1->Unlock();
+    pVertexBuffer2->Unlock();
 
-				ChangeGridUV( pVerts[base_index].VetrexUV2,
-					pVerts[base_index + 1].VetrexUV2,
-					pVerts[base_index + 2].VetrexUV2,
-					pVerts[base_index + 3].VetrexUV2,
-					info.op1, info.tri );
-			}
+	mLevel = 0;
+    mkKey.level = 0;
+    mkKey.north = 0;
+    mkKey.south = 0;
+    mkKey.west = 0;
+    mkKey.east = 0;
 
-		}
-	}
+    mRender.vxStream.SetDeclaration(pVertexDecl);
+    mRender.vxStream.SetCount(iVertexCount);
+    mRender.vxStream.Bind(0, pVertexBuffer0, iStride0);
+    mRender.vxStream.Bind(1, pVertexBuffer1, iStride1);
+    mRender.vxStream.Bind(2, pVertexBuffer2, iStride2);
 
-	HRESULT hr = 0;
-	g_pD3DDevice->CreateVertexBuffer( (m_xVerts - 1) * (m_yVerts - 1) * 4 * sizeof(sSectorVertex),
-		D3DUSAGE_WRITEONLY,0,D3DPOOL_MANAGED,&m_pSectorVerts,0);
-	if( FAILED(hr) )
-		return ;
+    mRender.iPrimCount = 0;
+    mRender.ePrimType = PRIM_TRIANGLESTRIP;
 
-	sSectorVertex* vBuf = 0;
-	m_pSectorVerts->Lock(0, 0, (void**)&vBuf, 0);
-	memcpy( vBuf, pVerts, (m_xVerts - 1) * (m_yVerts - 1) * 4 * sizeof(sSectorVertex) );	
-	m_pSectorVerts->Unlock();
+    //calculate bounds
+    pHeights = mTerrain->GetHeights() + iSrcOffset;
 
-	SAFE_DELETE_ARRAY(pVerts);
+    mAabbLocal = Aabb::Invalid;
+
+	mAabbLocal.minimum.x = 0 + mOffX;
+	mAabbLocal.minimum.z = 0 + mOffZ;
+
+	mAabbLocal.maximum.x = mTerrain->GetConfig().xSectionSize + mOffX;
+	mAabbLocal.maximum.z = mTerrain->GetConfig().zSectionSize + mOffZ;
+
+    for (int j = 0; j < zSectionVertSize; ++j)
+    {
+        for (int i = 0; i < xSectionVertSize; ++i)
+        {
+            mAabbLocal.minimum.y = Math::Minimum(mAabbLocal.minimum.y, pHeights[i]);
+            mAabbLocal.maximum.y = Math::Maximum(mAabbLocal.maximum.y, pHeights[i]);
+        }
+
+        pHeights += xVertSize;
+    }
+
+    mSphLocal.center = mAabbLocal.GetCenter();
+    mSphLocal.radius = Math::VecDistance(mSphLocal.center, mAabbLocal.maximum);
+
+    mAabbWorld = mAabbLocal;
+    mSphWorld = mSphLocal;
+
+	if (mNode)
+		mNode->_NotifyUpdate();
 }
 
-void CTerrainSection::ChangeGridUV( D3DXVECTOR2& topLeft,  D3DXVECTOR2& topRight,
-				  D3DXVECTOR2& botomLeft, D3DXVECTOR2& botomRight,
-				  uint8 op, uint8 tri )
+void TerrainSection::Shutdown()
 {
-	if (op & 1) // 水平翻转
+	for (int i = 0; i < Terrain::kMaxDetailLevel; ++i)
 	{
-		D3DXVECTOR2 temp;
-		temp = topLeft;
-		topLeft= topRight;
-		topRight = temp;
-
-		temp = botomLeft;
-		botomLeft = botomRight;
-		botomRight = temp;	
+		mMorphBuffer[i] = NULL;
 	}
 
-	if (op & 2) // 垂直翻转
-	{
-		D3DXVECTOR2 temp;
-		temp = topLeft;
-		topLeft = botomLeft;
-		botomLeft = temp;
+	mRender.vxStream.Bind(_POSITION, 0, 0);
+	mRender.vxStream.Bind(_HEIGHT, 0, 0);
+	mRender.vxStream.Bind(_NORMAL, 0, 0);
+	mRender.vxStream.Bind(_MORPH, 0, 0);
+	mRender.vxStream.SetCount(0);
 
-		temp = topRight;
-		topRight = botomRight;
-		botomRight = temp;	
-	}
-
-	if (op & 4) // 逆时针旋转90
-	{
-		D3DXVECTOR2 temp0,temp1,temp2,temp3;
-		temp0 = topLeft;
-		temp1 = topRight;
-		temp2 = botomLeft;
-		temp3 = botomRight;
-
-		topLeft = temp1;
-		topRight = temp3;
-		botomLeft = temp0;
-		botomRight = temp2;
-	}
-
-	if (op & 8) // 对角线上方顶点纹理坐标复制到对角线下方顶点。（与对角线垂直的两个顶点）
-	{
-		if (tri == 1)
-		{
-			botomLeft = topRight;
-		}
-		else
-		{
-			botomRight =topLeft;
-		}
-	}
+	mRender.ixStream.Bind(NULL, 0);
+	mRender.ixStream.SetCount(0);
 }
 
-void CTerrainSection::Render()
+void TerrainSection::UpdateLod()
 {
-	HRESULT hr = D3D_OK;
+    Camera * cam = World::Instance()->MainCamera();
 
-	if (g_pD3DDevice == NULL)
-		return;
+    mLevel = 0;
+
+    const Aabb & aabb = GetWorldAabb();
+    float d = Math::VecDistanceSq(aabb.minimum, cam->GetPosition());
+    d = Math::Minimum(d, Math::VecDistanceSq(aabb.minimum, cam->GetPosition()));
+
+    bool finished = false;
+    int max_level = Terrain::kMaxDetailLevel - 1;
+
+    while (!finished && mLevel < max_level)
+    {
+        float d0 = mLevelDistSq[mLevel];
+        float d1 = mLevelDistSq[mLevel + 1];
+
+        if (d > d1)
+        {
+            ++mLevel;
+        }
+        else
+        {
+            finished = true;
+        }
+    }
+
+    if (mTerrain->GetConfig().morphEnable)
+    {
+        float start = mTerrain->GetConfig().morphStart;
+
+        if (mLevel == max_level || d < start)
+        {
+            mMorph = 0.0f;
+        }
+        else
+        {
+            float d0 = mLevelDistSq[mLevel];
+            float d1 = mLevelDistSq[mLevel + 1];
+            mMorph = (d - d0) / (d1 - d0);
+        }
+    }
+}
+
+void TerrainSection::PreRender()
+{
+    TerrainLod::_Key key;
+    key.level = mLevel;
+    key.north = mLevel;
+    key.south = mLevel;
+    key.west = mLevel;
+    key.east = mLevel;
+
+    int x = mSectionX;
+    int z = mSectionZ;
+
+	int xSectionCount = mTerrain->GetConfig().xSectionCount;
+	int zSectionCount = mTerrain->GetConfig().zSectionCount;
+
+    if (z > 0)
+    {
+        TerrainSection * section = mTerrain->GetSection(x, z - 1);
+        key.north = section->GetLevel();
+
+        if (key.north < mLevel)
+            key.north = mLevel;
+    }
+
+    if (z < zSectionCount - 1)
+    {
+        TerrainSection * section = mTerrain->GetSection(x, z + 1);
+        key.south = section->GetLevel();
+
+        if (key.south < mLevel)
+            key.south = mLevel;
+    }
+
+    if (x > 0)
+    {
+        TerrainSection * section = (TerrainSection*)mTerrain->GetSection(x - 1, z);
+        key.west = section->GetLevel();
+
+        if (key.west < mLevel)
+            key.west = mLevel;
+    }
+
+    if (x < xSectionCount - 1)
+    {
+        TerrainSection * section = (TerrainSection*)mTerrain->GetSection(x + 1, z);
+        key.east = section->GetLevel();
+
+        if (key.east < mLevel)
+            key.east = mLevel;
+    }
+
+    if (key != mkKey || mRender.iPrimCount == 0)
+    {
+        const TerrainLod::_IndexData & data = mTerrain->GetTerrainLod()->GetIndexData(key);
+
+        mRender.vxStream.Bind(_MORPH, mMorphBuffer[key.level], sizeof(float));
+
+        mRender.ixStream.Bind(data.index_buffer, data.start);
+        mRender.ixStream.SetCount(data.index_count);
+        mRender.iPrimCount = data.prim_count;
+        mRender.ePrimType = data.prim_type;
+
+        mkKey = key;
+    }
+}
+
+void TerrainSection::AddRenderQueue(RenderQueue * rq)
+{
+    mTerrain->mVisibleSections.PushBack(this);
+}
+
+void TerrainSection::CalcuMorphBuffer()
+{
+    if (mTerrain->GetConfig().morphEnable)
+    {
+        int size = Terrain::kSectionVertexSize * Terrain::kSectionVertexSize * sizeof(float);
+        for (int i = 0; i < Terrain::kMaxDetailLevel - 1; ++i)
+        {
+            mMorphBuffer[i] = VideoBufferManager::Instance()->CreateVertexBuffer(size, sizeof(float));
+            _CalcuMorphBuffer(i);
+        }
+    }
+}
+
+void TerrainSection::_CalcuMorphBuffer(int level)
+{
+    VertexBufferPtr buffer = mMorphBuffer[level++];
+
+    int step = 1 << level;
+
+    int xSectionVertSize = Terrain::kSectionVertexSize;
+    int ySectionVertSize = Terrain::kSectionVertexSize;
+
+    int xOffset = mSectionX * (xSectionVertSize - 1);
+    int yOffset = mSectionZ * (ySectionVertSize - 1);
+
+    int xSides = (xSectionVertSize - 1) >> level;
+    int ySides = (ySectionVertSize - 1) >> level;
+
+    float err = 0.0f;
+
+    float * data = (float *)buffer->Lock(0, 0, LOCK_NORMAL);
+
+    Memzero(data, buffer->GetSize());
+
+    // 求水平方向的误差值
+    for (int y = step; y < ySectionVertSize - step; y += step)
+    {
+        for (int x = 0; x < xSides; ++x)
+        {
+            int x0 = x * step;
+            int x1 = x0 + step;
+
+            int xm = (x1 + x0) / 2;
+
+            float h0 = mTerrain->GetHeight(x0 + xOffset, y + yOffset);
+            float h1 = mTerrain->GetHeight(x1 + xOffset, y + yOffset);
+            float hm = mTerrain->GetHeight(xm + xOffset, y + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = hmi - hm;
+
+            data[y * xSectionVertSize + xm] = delta;
+        }
+    }
+
+    //垂直方向
+    for (int x = step; x < xSectionVertSize - step; x += step)
+    {
+        for (int y = 0; y < ySides; ++y)
+        {
+            int y0 = y * step;
+            int y1 = y0 + step;
+
+            int ym = (y0 + y1) / 2;
+
+            float h0 = mTerrain->GetHeight(x + xOffset, y0 + yOffset);
+            float h1 = mTerrain->GetHeight(x + xOffset, y1 + yOffset);
+            float hm = mTerrain->GetHeight(x + xOffset, ym + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = hmi - hm;
+
+            data[ym * xSectionVertSize + x] = delta;
+        }
+    }
+
+    //中点
+    for (int y = 0; y < ySides; ++y)
+    {
+        int y0 = y * step;
+        int y1 = y0 + step;
+        int ym = (y0 + y1) / 2;
+
+        for (int x = 0; x < xSides; ++x)
+        {
+            int x0 = x * step;
+            int x1 = x0 + step;
+            int xm = (x0 + x1) / 2;
+
+            float h0 = mTerrain->GetHeight(x0 + xOffset, y0 + yOffset);
+            float h1 = mTerrain->GetHeight(x1 + xOffset, y1 + yOffset);
+            float hm = mTerrain->GetHeight(xm + xOffset, ym + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = hmi - hm;
+
+            data[ym * xSectionVertSize + xm] = delta;
+        }
+    }
+
+    buffer->Unlock();
+}
 
 
-	D3DXMATRIX world;
-	D3DXMatrixIdentity(&world);
+void TerrainSection::CalcuErrorMetrics()
+{
+    mErrorMetric[0] = 0;
 
-	if (g_pCurCEffect)
-	{
-		D3DXMATRIX matView,matProj;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW,&matView);
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION,&matProj);
-		D3DXMATRIX matWorldView = world* matView;
-		D3DXMATRIX matWorldViewProj = matWorldView * matProj;
-		g_pCurCEffect->setMatrix(CEffectFile::k_worldViewMatrix,&matWorldView);
-		g_pCurCEffect->setMatrix(CEffectFile::k_worldViewProjMatrix,&matWorldViewProj);
-	}
-	else
-	{
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &world);
-	}
+    for (int i = 1; i < Terrain::kMaxDetailLevel; ++i)
+    {
+        mErrorMetric[i] = _CalcuErrorMetric(i);
+    }
 
-	g_pD3DDevice->SetIndices(m_pSectorIndex);
-	g_pD3DDevice->SetStreamSource( 0, m_pSectorVerts, 0, sizeof(sSectorVertex) );
+    //lod大的必须误差值必须大
+    for (int i = 2; i < Terrain::kMaxDetailLevel; ++i)
+    {
+        mErrorMetric[i] = Math::Maximum(mErrorMetric[i], mErrorMetric[i - 1]);
+    }
+}
 
-	V( g_pD3DDevice->SetFVF(NULL) );
-	V( g_pD3DDevice->SetVertexDeclaration(m_TerrainVertexDeclaration) );
-		
- 	if (g_pCurCEffect)
- 		g_pCurCEffect->SetTexture( "TerrainTex", m_pTerrainSystem->m_pAltasTex );
-	else
- 		g_pD3DDevice->SetTexture( 0, m_pTerrainSystem->m_pAltasTex );
+float TerrainSection::_CalcuErrorMetric(int level)
+{
+    ///////////////////////////////////////////////////////////////////////////
+    // 求每个级别的最大误差值
+    // 对于该栅格求误差值, 取最大值.
+    // 
+    //
 
+    int step = 1 << level;
 
-		// if set effect parm,must be use before every DrawIndexedPrimitive
-	if ( g_pCurCEffect )
-		g_pCurCEffect->CommitChanges(); 
+    int xSectionVertSize = Terrain::kSectionVertexSize;
+    int ySectionVertSize = Terrain::kSectionVertexSize;
 
-	hr =g_pD3DDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
-		0,0,(m_xVerts - 1) * (m_yVerts - 1) * 4, 0, (m_xVerts - 1) * (m_yVerts - 1) * 2);
+    int xOffset = mSectionX * (xSectionVertSize - 1);
+    int yOffset = mSectionZ * (ySectionVertSize - 1);
 
-	if(FAILED(hr))
+    int xSides = (xSectionVertSize - 1) >> level;
+    int ySides = (ySectionVertSize - 1) >> level;
+
+    float err = 0.0f;
+
+    // 求水平方向的误差值
+    for (int y = 0; y < ySectionVertSize; y += step)
+    {
+        for (int x = 0; x < xSides; ++x)
+        {
+            int x0 = x * step;
+            int x1 = x0 + step;
+
+            int xm = (x1 + x0) / 2;
+
+            float h0 = mTerrain->GetHeight(x0 + xOffset, y + yOffset);
+            float h1 = mTerrain->GetHeight(x1 + xOffset, y + yOffset);
+            float hm = mTerrain->GetHeight(xm + xOffset, y + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = Math::Abs(hm - hmi);
+
+            err = Math::Maximum(err, delta);
+        }
+    }
+
+    //垂直方向
+    for (int x = 0; x < xSectionVertSize; x += step)
+    {
+        for (int y = 0; y < ySides; ++y)
+        {
+            int y0 = y * step;
+            int y1 = y0 + step;
+
+            int ym = (y0 + y1) / 2;
+
+            float h0 = mTerrain->GetHeight(x + xOffset, y0 + yOffset);
+            float h1 = mTerrain->GetHeight(x + xOffset, y1 + yOffset);
+            float hm = mTerrain->GetHeight(x + xOffset, ym + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = Math::Abs(hm - hmi);
+
+            err = Math::Maximum(err, delta);
+        }
+    }
+
+    //中点
+    for (int y = 0; y < ySides; ++y)
+    {
+        int y0 = y * step;
+        int y1 = y0 + step;
+        int ym = (y0 + y1) / 2;
+
+        for (int x = 0; x < xSides; ++x)
+        {
+            int x0 = x * step;
+            int x1 = x0 + step;
+            int xm = (x0 + x1) / 2;
+
+            float h0 = mTerrain->GetHeight(x0 + xOffset, y0 + yOffset);
+            float h1 = mTerrain->GetHeight(x1 + xOffset, y1 + yOffset);
+            float hm = mTerrain->GetHeight(xm + xOffset, ym + yOffset);
+            float hmi = (h0 + h1) / 2;
+
+            float delta = Math::Abs(hm - hmi);
+
+            err = Math::Maximum(err, delta);
+        }
+    }
+
+    return err;
+}
+
+void TerrainSection::CalcuLevelDistance()
+{
+    float pixelerr = Terrain::kMaxPixelError;
+    float resolution = Terrain::kMaxResolution;
+
+    float c = 1.0f / (2 * pixelerr / resolution);
+
+    for (int i = 0; i < Terrain::kMaxDetailLevel; ++i)
+    {
+        float e = mErrorMetric[i];
+        float d = e * c;
+        mLevelDistSq[i] = d * d;
+    }
+
+    if (mTerrain->GetConfig().morphEnable)
+    {
+        for (int i = 1; i < Terrain::kMaxDetailLevel - 1; ++i)
+        {
+            float d0 = mLevelDistSq[i - 1];
+            float d1 = mLevelDistSq[i];
+            float d2 = mLevelDistSq[i + 1];
+
+            if (d2 - d1 < Math::EPSILON_E4)
+            {
+                d1 =  d0 + 0.5f * (d2 - d0);
+                mLevelDistSq[i] = d1;
+            }
+        }
+    }
+}
+
+void TerrainSection::NotifyUnlockHeight()
+{
+	const Rect & rc = mTerrain->GetLockedHeightRect();
+	const Terrain::Config & config = mTerrain->GetConfig();
+	int xtile = Terrain::kSectionVertexSize - 1;
+	int ztile = Terrain::kSectionVertexSize - 1;
+
+	Rect myRect;
+
+	myRect.x1 = mSectionX * xtile;
+	myRect.y1 = mSectionZ * ztile;
+	myRect.x2 = mSectionX * xtile + xtile;
+	myRect.y2 = mSectionZ * ztile + ztile;
+
+	if (rc.x1 > myRect.x2 || rc.x2 < myRect.x1 ||
+		rc.y1 > myRect.y2 || rc.y2 < myRect.y1)
 		return ;
 
-	g_pD3DDevice->SetTexture(0, NULL);
+	Shutdown();
+	Init();
+}
+
 }

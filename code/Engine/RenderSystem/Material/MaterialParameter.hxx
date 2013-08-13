@@ -88,181 +88,9 @@ namespace ma
 		return NULL;
 	}
 
-// 	void MaterialParameter::SetValue(float value)
-// 	{
-// 		clearValue();
-// 
-// 		_value.floatValue = value;
-// 		_type = MaterialParameter::FLOAT;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(int value)
-// 	{
-// 		clearValue();
-// 
-// 		_value.intValue = value;
-// 		_type = MaterialParameter::INT;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const float* values, unsigned int count)
-// 	{
-// 		clearValue();
-// 
-// 		_value.floatPtrValue = const_cast<float*> (values);
-// 		_count = count;
-// 		_type = MaterialParameter::FLOAT_ARRAY;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const int* values, unsigned int count)
-// 	{
-// 		clearValue();
-// 
-// 		_value.intPtrValue = const_cast<int*> (values);
-// 		_count = count;
-// 		_type = MaterialParameter::INT_ARRAY;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector2& value)
-// 	{
-// 		clearValue();
-// 
-// 		// Copy data by-value into a dynamic array.
-// 		float* array = new float[2];
-// 		memcpy(array, &value.x, sizeof(float) * 2);
-// 
-// 		_value.floatPtrValue = array;
-// 		_dynamic = true;
-// 		_count = 1;
-// 		_type = MaterialParameter::VECTOR2;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector2* values, unsigned int count)
-// 	{
-// 		ASSERT(values);
-// 		clearValue();
-// 
-// 		_value.floatPtrValue = const_cast<float*> (&values[0].x);
-// 		_count = count;
-// 		_type = MaterialParameter::VECTOR2;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector3& value)
-// 	{
-// 		clearValue();
-// 
-// 		// Copy data by-value into a dynamic array.
-// 		float* array = new float[3];
-// 		memcpy(array, &value.x, sizeof(float) * 3);
-// 
-// 		_value.floatPtrValue = array;
-// 		_dynamic = true;
-// 		_count = 1;
-// 		_type = MaterialParameter::VECTOR3;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector3* values, unsigned int count)
-// 	{
-// 		ASSERT(values);
-// 		clearValue();
-// 
-// 		_value.floatPtrValue = const_cast<float*> (&values[0].x);
-// 		_count = count;
-// 		_type = MaterialParameter::VECTOR3;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector4& value)
-// 	{
-// 		clearValue();
-// 
-// 		// Copy data by-value into a dynamic array.
-// 		float* array = new float[4];
-// 		memcpy(array, &value.x, sizeof(float) * 4);
-// 
-// 		_value.floatPtrValue = array;
-// 		_dynamic = true;
-// 		_count = 1;
-// 		_type = MaterialParameter::VECTOR4;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Vector4* values, unsigned int count)
-// 	{
-// 		ASSERT(values);
-// 		clearValue();
-// 
-// 		_value.floatPtrValue = const_cast<float*> (&values[0].x);
-// 		_count = count;
-// 		_type = MaterialParameter::VECTOR4;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Matrix4x4& value)
-// 	{
-// 		// If this parameter is already storing a single dynamic matrix, no need to clear it.
-// 		if (!(_dynamic && _count == 1 && _type == MaterialParameter::MATRIX && _value.floatPtrValue != NULL))
-// 		{
-// 			clearValue();
-// 
-// 			// Allocate a new dynamic matrix.
-// 			_value.floatPtrValue = new float[16];
-// 		}
-// 
-// 		memcpy(_value.floatPtrValue, value.m, sizeof(float) * 16);
-// 
-// 		_dynamic = true;
-// 		_count = 1;
-// 		_type = MaterialParameter::MATRIX;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Matrix4x4* values, unsigned int count)
-// 	{
-// 		ASSERT(values);
-// 		clearValue();
-// 
-// 		_value.floatPtrValue = const_cast<Matrix4x4&> (values[0]);
-// 		_count = count;
-// 		_type = MaterialParameter::MATRIX;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Sampler* sampler)
-// 	{
-// 		ASSERT(sampler);
-// 		clearValue();
-// 
-// 		//const_cast<Sampler*>(sampler)->IncReference();
-// 		_value.samplerValue = sampler;
-// 		_type = MaterialParameter::SAMPLER;
-// 	}
-// 
-// 	void MaterialParameter::SetValue(const Sampler** samplers, unsigned int count)
-// 	{
-// 		ASSERT(samplers);
-// 		clearValue();
-// 
-// 		for (unsigned int i = 0; i < count; ++i)
-// 		{
-// 			//const_cast<Sampler*>(samplers[i])->IncReference();
-// 		}
-// 		_value.samplerArrayValue = samplers;
-// 		_count = count;
-// 		_type = MaterialParameter::SAMPLER_ARRAY;
-// 	}
-// 
-// 	Sampler* MaterialParameter::SetValue(const char* texturePath, bool generateMipmaps)
-// 	{
-// 		ASSERT(texturePath);
-// 		clearValue();
-// 
-// 		Sampler* sampler = Sampler::create(texturePath, generateMipmaps);
-// 		if (sampler)
-// 		{
-// 			_value.samplerValue = sampler;
-// 			_type = MaterialParameter::SAMPLER;
-// 		}
-// 		return sampler;
-// 	}
 
 	void MaterialParameter::setFloat(float value)
 	{
-		//SetValue(value);
 		clearValue();
 
 		_value.floatValue = value;
@@ -291,7 +119,6 @@ namespace ma
 
 	void MaterialParameter::setInt(int value)
 	{
-		//SetValue(value);
 		clearValue();
 
 		_value.intValue = value;
@@ -320,7 +147,6 @@ namespace ma
 
 	void MaterialParameter::setVector2(const Vector2& value)
 	{
-		//SetValue(value);
 		clearValue();
 
 		// Copy data by-value into a dynamic array.
@@ -355,7 +181,6 @@ namespace ma
 
 	void MaterialParameter::setVector3(const Vector3& value)
 	{
-		//SetValue(value);
 		clearValue();
 
 		// Copy data by-value into a dynamic array.
@@ -390,7 +215,6 @@ namespace ma
 
 	void MaterialParameter::setVector4(const Vector4& value)
 	{
-		//SetValue(value);
 		clearValue();
 
 		// Copy data by-value into a dynamic array.
@@ -474,12 +298,10 @@ namespace ma
 			_type = MaterialParameter::SAMPLER;
 		}
 		return sampler;
-		//return SetValue(texturePath, generateMipmaps);
 	}
 
 	void MaterialParameter::setSampler(const Sampler* value)
 	{
-		//SetValue(value);
 		ASSERT(value);
 		clearValue();
 

@@ -12,7 +12,7 @@ namespace ma
 	{
 		Material* pMaterial = new Material("COLOR","default");
 
-		pMaterial->setParameterAutoBinding("u_worldViewProjectionMatrix",VIEW_PROJECTION_MATRIX);
+		pMaterial->SetParameterAutoBinding("u_worldViewProjectionMatrix",VIEW_PROJECTION_MATRIX);
 
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);

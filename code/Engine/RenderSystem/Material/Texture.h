@@ -35,32 +35,11 @@ namespace ma
 	};
 
 
+
+
+
+
 	/**
-     * Defines the set of supported texture formats.
-     */
-//     enum Format
-//     {
-//         UNKNOWN = 0,
-//         RGB    /* = GL_RGB*/,
-//         RGBA    /*= GL_RGBA*/,
-//         ALPHA   /*= GL_ALPHA*/
-//     };
-
-    /**
-     * Defines the set of supported texture filters.
-     */
-//     enum Filter
-//     {
-//         NEAREST /*= GL_NEAREST*/,
-//         LINEAR /*= GL_LINEAR*/,
-//         NEAREST_MIPMAP_NEAREST /*= GL_NEAREST_MIPMAP_NEAREST*/,
-//         LINEAR_MIPMAP_NEAREST/* = GL_LINEAR_MIPMAP_NEAREST*/,
-//         NEAREST_MIPMAP_LINEAR /*= GL_NEAREST_MIPMAP_LINEAR*/,
-//         LINEAR_MIPMAP_LINEAR /*= GL_LINEAR_MIPMAP_LINEAR*/
-//     };
-
-
-		    /**
      * Defines a texture sampler.
      *
      * A texture sampler is basically an instance of a texture that can be
@@ -91,8 +70,8 @@ namespace ma
 		 */
 		enum Wrap
 		{
-			REPEAT /*= GL_REPEAT*/,
-			CLAMP /*= GL_CLAMP_TO_EDGE*/
+			REPEAT,
+			CLAMP 
 		};
 
 
@@ -128,7 +107,7 @@ namespace ma
          * @param wrapS The horizontal wrap mode.
          * @param wrapT The vertical wrap mode.
          */
-        void setWrapMode(Wrap wrapS, Wrap wrapT);
+        void setWrapMode(Wrap eWrap);
 
         /**
          * Sets the texture filter modes for this sampler.
@@ -145,10 +124,6 @@ namespace ma
          */
         Texture* getTexture() const;
 
-        /**
-         * Binds the texture of this sampler to the renderer and applies the sampler state.
-         */
-        //void Bind();
 
     //private:
 	public:
@@ -163,12 +138,9 @@ namespace ma
          */
         Sampler& operator=(const Sampler&);
 
-        Texture* _texture;
-        Wrap _wrapS;
-        Wrap _wrapT;
-        //Filter _minFilter;
-        //Filter _magFilter;
-		FilterOptions _filter;
+        Texture*		m_pTexture;
+        Wrap			m_eWrap;
+		FilterOptions	m_eFilter;
     };
 
 

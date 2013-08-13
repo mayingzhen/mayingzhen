@@ -1,82 +1,192 @@
-#ifndef C_TERRAIN_H__
-#define C_TERRAIN_H__
+#pragma once
 
+#include "MRenderEntry.h"
+#include "MWRenderSystem.h"
+#include "MWPhysics.h"
 
-#include "public.h"
-#include "effect_file.h"
-#include "TextureAtlas.h"
-#include "CObject.h"
-#include "bit_flags.h"
+namespace Myway {
 
+class TerrainLod;
 
-class CTerrain : public CSingleton<CTerrain>
+class MRENDER_ENTRY Terrain
 {
+    DECLARE_ALLOC();
+
+    friend class TerrainSection;
+
 public:
-	struct g_info
+	enum Consts
 	{
-		uint16 layer0;
-		uint16 layer1;
-		uint8 op0;
-		uint8 op1;
-		uint8 tri;
+		kMaxLayers = 32,
+		kMaxBlendLayers = 4,
+		kSectionVertexSize = 65,
+		kSectionVertexSize_2 =  kSectionVertexSize * kSectionVertexSize,
+		kMaxDetailLevel = 4,
+		kWeightMapSize = 256,
+		kMaxPixelError = 4,
+		kMaxResolution = 768,
 	};
 
-	struct Pixmap 
+	struct Layer
 	{
-		int textureId;           
-		float left;                 
-		float top;                   
-		float right;                
-		float bottom;
-	};               
+		TString128 detail;
+		TString128 normal;
+		TString128 specular;
+		float scale;
+		int material;
+
+		Layer() : scale(100), material(-1) {}
+	};
+
+	struct Config {
+		float xSize, zSize;
+
+		int xVertexCount, zVertexCount;
+		int iVertexCount;
+
+		bool morphEnable;
+		float morphStart;
+
+		// auto calculate
+		float xSectionSize, zSectionSize;
+		int xSectionCount, zSectionCount;
+		int iSectionCount;
+
+		int xWeightMapSize;
+		int zWeightMapSize;
+		int iWeightMapSize;
+
+		BFlag32 phyFlags;
+
+		Config()
+		{
+			xSize = zSize = 1024;
+
+			xVertexCount = zVertexCount = 1025;
+
+			iVertexCount = 0;
+
+			morphEnable = false;
+			morphStart = 0;
+
+			xSectionCount = zSectionCount = 0;
+			xSectionSize = zSectionSize = 0;
+			iSectionCount = 0;
+
+			xWeightMapSize = 0;
+			zWeightMapSize = 0;
+
+			phyFlags.SetFlags(0xFFFFFFFF);
+		}
+	};
 
 public:
-	CTerrain();
-	~CTerrain();
+	Terrain(const Config & config);
+    Terrain(const char * filename);
+    virtual ~Terrain();
 
-	void Create(std::string sTerrainName);
-	void LoadTerrain(std::string sTerrainName);
-	bool Render();
+	void				Save(const char * filename);
 
-	float GetHeight(float x, float z);
+	int					AddLayer(const Layer & layer);
+	const Layer *		GetLayer(int index);
+	void				SetLayer(int index, const Layer & layer);
+	void				RemoveLayer(int layer);
 
-	int HeightMapH() {return m_heightMapW;}
-	int HeightMapW() {return m_heightMapH;}
-	
-	void GetPos(int row, int col, D3DXVECTOR3& vWorldPos);
-	void GetNormal(int row, int col, D3DXVECTOR3& vNormal);
+    const Config &		GetConfig() const { return mConfig; }
+    TerrainLod *        GetTerrainLod() { return mLod; }
 
-private:
-	bool LoadTexture(std::string fileName);
-	void LoadHeightMap(const char* pFileName);
-	void LoadGridInfo(const char* pFileName);
+	TerrainSection *	GetSection(int x, int z);
+	Vector3				GetPosition(int x, int z);
+	float				GetHeight(int x, int z);
+	Color				GetNormal(int x, int z);
+	Color				GetWeight(int x, int z);
+	TexturePtr			GetWeightMap(int x, int z);
 
-	float GetHeightmapData(int row, int col);
+	const float *		GetHeights() const { return mHeights; }
+	const Color *		GetNormals() const { return mNormals; }
 
-public:
-	std::vector<Pixmap> m_PixMapArray;
-	std::vector<g_info> m_GridInfoArray;
+	void				Render();
+	void				RenderInMirror();
 
-	std::vector<std::string> m_vTextureFileNames;
-	CTextureAtlas m_TextureAtlas;
-	IDirect3DTexture9* m_pAltasTex;
+	int					GetVisibleSectionCount() const { return mVisibleSections.Size(); }
+	TerrainSection *	GetVisibleSection(int i) { return mVisibleSections[i]; }
 
-	D3DXVECTOR3 m_scale;
-	D3DXVECTOR3 m_WorldOffset;
+	float				GetHeight(float x, float y);
+	Vector3				GetNormal(float x, float y);
+	Vector3				GetPosition(const Ray & ray);
+	// for editor
+	float *				LockHeight(const Rect & rc);
+	void				UnlockHeight();
+	bool				IsLockedHeight() { return mLockedData != NULL; }
+	const Rect &		GetLockedHeightRect() { return mLockedRect; }
+	const float *		GetLockedHeightData() { return mLockedData; }
 
-	// heightmap 
-	int m_heightMapW;
-	int m_heightMapH;
-	float* m_heightmap;
+	float *				LockWeightMap(const Rect & rc);
+	void				UnlockWeightMap(int layer);
+	bool				IsLockedWeightMap() { return mLockedWeightMapData != NULL; }
+	const Rect &		GetLockedWeightMapRect() { return mLockedWeightMapRect; }
+	const float *		GetLockedWeightmapData() { return mLockedWeightMapData; }
 
-	// sector
-	int m_sectorShift;
-	int m_sectorUnits;
-	int m_sectorVerts;
-	int m_sectorCountX;
-	int m_sectorCountY;
+	TexturePtr			_getDetailMap(int layer);
+	TexturePtr			_getNormalMap(int layer);
+	TexturePtr			_getSpecularMap(int layer);
+
+	// x, z. clamp in (0, vertCount - 1).
+	Vector3				_getPosition(int x, int z);
+	float				_getHeight(int x, int z);
+	Color				_getNormal(int x, int z);
+
+	//bool				RayTrace(PhyHitInfo & info, const Ray & ray, float dist);
+
+protected:
+    void                OnPreVisibleCull(Event * sender);
+	VertexBufferPtr		GetXYVertexBuffer() { return mXYStream; }
+	VertexDeclarationPtr GetVertexDecl() { return mVertexDecl; }
+
+	void				_Create(const Config & config);
+	void				_Load(const char * filename);
+	void				_init();
+	void				_calcuNormals();
+	int					_getTechId(int layer0, int layer1, int layer2, int layer3);
+
+protected:
+	tEventListener<Terrain> tOnPreVisibleCull;
+
+    Config mConfig;
+	bool mInited;
+
+    Array<SceneNode*> mSceneNodes;
+    Array<TerrainSection*> mSections;
+	Array<TerrainSection*> mVisibleSections;
+	Array<TexturePtr> mWeightMaps;
+
+    TerrainLod * mLod;
+    Technique * mTech[kMaxDetailLevel];
+	Technique * mTechMirror[kMaxDetailLevel];
+	VertexBufferPtr mXYStream;
+	VertexDeclarationPtr mVertexDecl;
+
+	float * mHeights;
+	Color * mNormals;
+	Color * mWeights;
+
+	Aabb mBound;
+
+	TexturePtr mDefaultDetailMap;
+	TexturePtr mDefaultNormalMap;
+	TexturePtr mDefaultSpecularMap;
+
+	Layer mLayer[kMaxLayers];
+	TexturePtr mDetailMaps[kMaxLayers];
+	TexturePtr mNormalMaps[kMaxLayers];
+	TexturePtr mSpecularMaps[kMaxLayers];
+
+	// for editor
+	Rect mLockedRect;
+	float * mLockedData;
+
+	Rect mLockedWeightMapRect;
+	float * mLockedWeightMapData;
 };
 
-#endif // __terrainH__
-
-
+}

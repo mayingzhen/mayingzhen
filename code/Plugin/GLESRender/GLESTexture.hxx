@@ -136,11 +136,11 @@ namespace ma
 			}
 			break;
 
-		case IL_DXT1:
-			{
-				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-			}
-			break;
+		//case IL_DXT1:
+//          {
+//				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+//			}
+//			break;
 
 // 		case IL_DXT3:
 // 			{

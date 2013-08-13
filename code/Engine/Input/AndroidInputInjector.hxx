@@ -99,8 +99,7 @@ namespace ma
 				 GetInput()->touchReleased(evt);
 				 break;
 			 case OIS::MT_Moved:
-				 //GetInput()->touchMoved(evt);
-				 Log("touchMoved ...........");
+				 GetInput()->touchMoved(evt);
 				 break;
 			 case OIS::MT_Cancelled:
 				 GetInput()->touchCancelled(evt);

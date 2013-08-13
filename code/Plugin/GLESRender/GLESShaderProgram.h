@@ -46,12 +46,16 @@ namespace ma
 
 		void SetValue(Uniform* uniform, const Sampler** values, unsigned int count);
 
+		void SetValue(Uniform* uniform, const Texture* sampler);
+
+		void SetValue(Uniform* uniform, const Texture** values, UINT count);
+
 		void Bind();
 
 		VertexAttribute getVertexAttribute(const char* name) const;
 
 	private:
-		void BindSampler(const Sampler* pSampler);
+		void BindSampler(const Texture* pTexture,Sampler::FilterOptions eFilter,Sampler::Wrap eWrap);
 
 	private:
 

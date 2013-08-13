@@ -84,7 +84,6 @@ namespace ma
 			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
 
 			m_pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
-			//m_pChargigi->GetSceneNode()->RotateXAxisLS(216);
 		}
 
 		// character B MeshData & skeleton & Animation
@@ -109,7 +108,6 @@ namespace ma
 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
 
  			m_pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
- 			//m_pCharMagic->GetSceneNode()->RotateXAxisLS(216);
 		}
 	}
 

@@ -35,7 +35,6 @@ namespace ma
 		pAnimComp->GetAnimObject()->PlayAnimation("TestAnim");
 
 		m_pGameObj->GetSceneNode()->Translate(Vector3(50,-100,0));
-		m_pGameObj->GetSceneNode()->RotateXAxisLS(216);
 	}
 
 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)

@@ -1,6 +1,6 @@
 #include "Samples/Serialize/SampleSceneSerialize.h"
 #include "BulletPhysics/Module.h"
-#include "Framwork/Module.h"
+#include "EntitySystem/Module.h"
 
 namespace ma
 {

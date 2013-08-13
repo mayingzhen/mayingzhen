@@ -8,15 +8,13 @@
 %include "../../Code/Engine/Export.h"
 
 %include "../../Code/Engine/Animation/IAnimationSystem.h"
-%include "../../Code/Engine/Animation/AnimationObject.h"
-%include "../../Code/Engine/Animation/ISkeleton.h"
+%include "../../Code/Engine/Animation/IAnimationObject.h"
 %include "../../Code/Engine/Animation/IAnimationSet.h"
 
 %include "../../Code/Engine/Physics/ICharacterController.h"
 %include "../../Code/Engine/Physics/ICollisionShape.h"
 %include "../../Code/Engine/Physics/IPhysicsSystem.h"
 %include "../../Code/Engine/Physics/IPhysicsObject.h"
-%include "../../Code/Engine/Physics/IPhysicsScene.h"
 %include "../../Code/Engine/Physics/IRigidBody.h"
 %include "../../Code/Engine/Physics/IPhysicsJoint.h"
 
@@ -28,9 +26,6 @@
 
 %include "../../Code/Engine/Resource/Resource.h"
 %include "../../Code/Engine/Resource/MeshData.h"
-%include "../../Code/Engine/Resource/AnimationData.h"
-%include "../../Code/Engine/Resource/SkeletonData.h"
-%include "../../Code/Engine/Resource/Texture.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"
 
 %include "../../Code/Engine/RenderSystem/RenderDefine.h"

@@ -1,62 +1,65 @@
-#ifndef C_TERRAIN_SECTION_H__
-#define C_TERRAIN_SECTION_H__
+#pragma once
 
-#include "public.h"
-#include "CObject.h"
-#include "bit_flags.h"
+#include "MRenderEntry.h"
+#include "Terrain.h"
+#include "TerrainLod.h"
 
-class CTerrain;
+namespace ma {
 
-class CTerrainSection : public CObject
+class RENDERSYSTEM_API TerrainSection : public Mover
 {
+    DECLARE_ALLOC();
+
+    friend class Terrain;
+
 public:
+    TerrainSection(Terrain * pTerrain, int x, int z);
+    ~TerrainSection();
 
-	CTerrainSection();
-	~CTerrainSection();
+    virtual void AddRenderQueue(RenderQueue * rq);
 
-	void Create(CTerrain* pParentSystem, 
-		int heightMapX, int heightMapY,
-		int xVerts, int yVerts);
+    int GetLevel() const { return mLevel; }
+    int GetSectionX() const { return mSectionX; }
+    int GetSectionZ() const { return mSectionZ; }
+	void SetLayer(int index, int layer) { d_assert (index < Terrain::kMaxBlendLayers); mLayer[index] = layer; }
+	int GetLayer(int index) const { d_assert (index < Terrain::kMaxBlendLayers); return mLayer[index]; }
+	float GetOffX() const { return mOffX; }
+	float GetOffZ() const { return mOffZ; }
 
-	void Render();
+	RenderOp * GetRender() { return &mRender; }
 
-	int GetHeightMapX() {return m_heightMapX;}
-	int GetHeightMapY() {return m_heightMapY;}
+    void UpdateLod();
+    void PreRender();
 
-private:
-	void createVertexData();
-	void createIndexData();
-	void createVertexDeclation();
-	void ChangeGridUV( D3DXVECTOR2& topLeft,  D3DXVECTOR2& topRight,
-		D3DXVECTOR2& botomLeft, D3DXVECTOR2& botomRight,
-		uint8 op, uint8 tri );
+	void NotifyUnlockHeight();
 
-private:
+protected:
+    void                    Init();
+	void					Shutdown();
 
-	struct sSectorVertex
-	{
-		D3DXVECTOR3 vPos;
-		D3DXVECTOR3 Normal;
-		D3DXVECTOR2 VetrexUV1;
-		D3DXVECTOR2 VetrexUV2;
-	};
+    void                    CalcuMorphBuffer();
+    void                    _CalcuMorphBuffer(int level);
+    void                    CalcuErrorMetrics();
+    float                   _CalcuErrorMetric(int level);
 
-	CTerrain* m_pTerrainSystem;
+    void                    CalcuLevelDistance();
 
-	IDirect3DVertexBuffer9* m_pSectorVerts;
-	IDirect3DIndexBuffer9*  m_pSectorIndex;
-	IDirect3DVertexDeclaration9* m_TerrainVertexDeclaration;
+protected:
+    Terrain *               mTerrain;
+    int                     mSectionX;
+    int                     mSectionZ;
+	float					mOffX, mOffZ;
 
-	// 顶点数
-	int m_xVerts; 
-	int m_yVerts; 
+	int						mLayer[Terrain::kMaxBlendLayers];
 
-	// Section在Terrain内的位置
-	int m_heightMapX;
-	int m_heightMapY;	
+    int                     mLevel;
+    float                   mErrorMetric[Terrain::kMaxDetailLevel];
+    float                   mLevelDistSq[Terrain::kMaxDetailLevel];
+    VertexBufferPtr         mMorphBuffer[Terrain::kMaxDetailLevel];
+    TerrainLod::_Key        mkKey;
+	float                   mMorph;
 
+    RenderOp				mRender;
 };
 
-#endif // __terrainH__
-
-
+}

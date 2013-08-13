@@ -1,7 +1,7 @@
 #include "PlatformIos.h"
 
 
-void OutputDebugString(const char* buf)
+void _OutputDebugString(const char* buf)
 {
 	 //NSLog(@"%s",buf);
 }

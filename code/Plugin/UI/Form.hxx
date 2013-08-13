@@ -118,7 +118,10 @@ bool Form::keyReleased(const OIS::KeyEvent &arg)
 
 bool Form::touchMoved( const OIS::MultiTouchEvent &arg )
 {
-	touchEventInternal(Touch::TOUCH_MOVE,arg.state.X.abs,arg.state.Y.abs,0);
+	if (!touchEventInternal(Touch::TOUCH_MOVE,arg.state.X.abs,arg.state.Y.abs,0))
+	{
+		mouseEventInternal(Mouse::MOUSE_MOVE,arg.state.X.abs,arg.state.Y.abs,0);
+	}
 
 	return true;
 }

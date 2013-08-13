@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:EntitySystem.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SampleBrowser/SampleBrowser.xcodeproj">
    </FileRef>
    <Group
@@ -20,9 +23,6 @@
          location = "group:Animation.xcodeproj">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:Framwork.xcodeproj">
-   </FileRef>
    <FileRef
       location = "group:Engine.xcodeproj">
    </FileRef>

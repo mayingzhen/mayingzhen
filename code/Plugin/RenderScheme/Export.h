@@ -1,14 +1,14 @@
-#ifndef  _RenderSchemeExport__H__
-#define  _RenderSchemeExport__H__
+#ifndef  _RenderSystemExport__H__
+#define  _RenderSystemExport__H__
 
 #ifdef _MSC_VER
-#	ifdef RENDERSCHEME_EXPORTS
-#		define RENDERSCHEME_API _declspec (dllexport)
+#	ifdef RENDERSYSTEM_EXPORTS
+#		define RENDERSYSTEM_API _declspec (dllexport)
 #	else
-#		define RENDERSCHEME_API _declspec (dllimport)
+#		define RENDERSYSTEM_API _declspec (dllimport)
 #	endif
 #else 
-#	define RENDERSCHEME_API
+#	define RENDERSYSTEM_API
 #endif
 
 
