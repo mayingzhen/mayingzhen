@@ -20,7 +20,7 @@ namespace ma
 
 	IScriptObject* ScriptComponent::CreatScriptObject(const char* pszName)
 	{
-		m_pScriptObject = GetScriptSystem()->CreateScriptObject(pszName/*,m_pGameObject*/);
+		m_pScriptObject = GetScriptSystem()->CreateScriptObject(pszName);
 		return m_pScriptObject;
 	}
 
@@ -28,7 +28,7 @@ namespace ma
 	{
 		void* params[1];
 		params[0] = &m_pGameObject;
-		m_pScriptObject->InvokeMethod("SetGameObject",1,params);
+		m_pScriptObject->InvokeMethod("SetGameObjPtr",1,params);
 
 		m_pScriptObject->InvokeMethod("Start");
 
@@ -44,7 +44,7 @@ namespace ma
 
 	}
  
-	void ScriptComponent::Update(float fTimeElapsed)
+	void ScriptComponent::Update()
 	{
 		if (m_pScriptObject == NULL)
 			return;

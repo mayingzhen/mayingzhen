@@ -14,9 +14,6 @@ namespace ma
 
 		virtual void Update();
 
-		virtual void Render();
-
-
 	private:
 		IScriptObject*	m_pTestScript;
 

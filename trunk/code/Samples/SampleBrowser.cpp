@@ -7,7 +7,7 @@
 
 #if PLATFORM_WIN == 1
 #include "Samples/Serialize/SampleFbxImport.hxx"
-//#include "Samples/Script/SampleMonoScript.hxx"
+#include "Samples/Script/SampleMonoScript.hxx"
 #endif
 
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
@@ -37,8 +37,8 @@ namespace ma
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
 		m_arrSamples["FbxImport"] = pSampleFbxImport;
 
-		//SampleMonoScript* pSampleScript = new SampleMonoScript();
-		//m_arrSamples["CSharpScript"] = pSampleScript;
+		SampleMonoScript* pSampleScript = new SampleMonoScript();
+		m_arrSamples["CSharpScript"] = pSampleScript;
 #endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
@@ -68,7 +68,7 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples["Particle"] = pParticle;
 
-		m_pCurSample = pSampleAnimRetar;
+		m_pCurSample = pSampleScript;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -87,12 +87,13 @@ namespace ma
 #endif
 	
 		CommonModuleInit();
-		D3D9RenderModuleInit();
-		//GLESRenderModuleInit();
+		//D3D9RenderModuleInit();
+		GLESRenderModuleInit();
 		EngineModuleInit();
-        AnimationModuleInit();
-        BtPhysicsModuleInit();
 		EntitySystemModuleInit();
+		AnimationModuleInit();
+		BtPhysicsModuleInit();
+		MonoScriptModuleInit();
 
 		m_pSystems = new Systems();
 		GetInput()->AddKeyListener(this);
@@ -246,6 +247,11 @@ namespace ma
 
 	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
 	{
+		if (arg.key == OIS::KC_S)
+		{
+			m_pSystems->Start();
+		}
+
 		if (arg.key == OIS::KC_P)
 		{
 			m_bPause = !m_bPause;
