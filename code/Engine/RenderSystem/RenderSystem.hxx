@@ -23,7 +23,7 @@ namespace ma
 		m_pDefferLight = NULL;
 		m_pShadow = NULL;
 		m_bShadow = false;
-		m_bDefferLight = true;
+		m_bDefferLight = false;
 	}
 
 

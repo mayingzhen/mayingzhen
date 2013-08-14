@@ -19,7 +19,7 @@ namespace ma
 
 		virtual void	Stop();
 
-		virtual void	Update(float fTimeElapsed);
+		virtual void	Update();
 
 		virtual void	OnCollisionEnter(const Collision& collData);
 

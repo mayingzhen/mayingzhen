@@ -62,6 +62,7 @@ public class ScriptBase
 
     public void SetGameObjPtr(IntPtr cPtr)
     {
+        maEngine.Log(".......SetGameObjPtr.....");
         m_gameObjPtr = cPtr;
     }
 

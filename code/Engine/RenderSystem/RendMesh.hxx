@@ -81,8 +81,6 @@ namespace ma
 			m_arrRenderable.push_back(pRenderable);
 		}
 
-		m_bSkin = true;
-
 		return true;
 	}
 
