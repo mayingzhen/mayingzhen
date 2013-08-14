@@ -5296,6 +5296,450 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Log__SWIG_1(char * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Input() {
+  void * jresult ;
+  ma::Input *result = 0 ;
+  
+  result = (ma::Input *)new ma::Input();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_Init(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  HWND arg2 ;
+  HWND *argp2 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  argp2 = (HWND *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null HWND", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->Init(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_Shutdown(void * jarg1) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  (arg1)->Shutdown();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_Capture(void * jarg1) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  ((ma::Input const *)arg1)->Capture();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_IsKeyDown(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::KeyCode arg2 ;
+  OIS::KeyCode *argp2 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  argp2 = (OIS::KeyCode *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null OIS::KeyCode", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)((ma::Input const *)arg1)->IsKeyDown(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_IsMouseButtonDown(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseButtonID arg2 ;
+  OIS::MouseButtonID *argp2 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  argp2 = (OIS::MouseButtonID *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null OIS::MouseButtonID", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)((ma::Input const *)arg1)->IsMouseButtonDown(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetMouseState(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseState *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = (OIS::MouseState *) &((ma::Input const *)arg1)->GetMouseState();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetMouse(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::Mouse *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = (OIS::Mouse *)(arg1)->GetMouse();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetKeyboard(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::Keyboard *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = (OIS::Keyboard *)(arg1)->GetKeyboard();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetMultiTouch(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouch *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = (OIS::MultiTouch *)(arg1)->GetMultiTouch();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetTouchStateNumber(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = ((ma::Input const *)arg1)->GetTouchStateNumber();
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetTouchStateByIndex(void * jarg1, int jarg2) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  int arg2 ;
+  OIS::MultiTouchState *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (OIS::MultiTouchState *) &((ma::Input const *)arg1)->GetTouchStateByIndex(arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_OnResize(void * jarg1, int jarg2, int jarg3) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  (arg1)->OnResize(arg2,arg3);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_keyPressed(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::KeyEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::KeyEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::KeyEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->keyPressed((OIS::KeyEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_keyReleased(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::KeyEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::KeyEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::KeyEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->keyReleased((OIS::KeyEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_mouseMoved(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MouseEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MouseEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->mouseMoved((OIS::MouseEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_mousePressed(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseEvent *arg2 = 0 ;
+  OIS::MouseButtonID arg3 ;
+  OIS::MouseButtonID *argp3 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MouseEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MouseEvent const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (OIS::MouseButtonID *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null OIS::MouseButtonID", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (bool)(arg1)->mousePressed((OIS::MouseEvent const &)*arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_mouseReleased(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseEvent *arg2 = 0 ;
+  OIS::MouseButtonID arg3 ;
+  OIS::MouseButtonID *argp3 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MouseEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MouseEvent const & type is null", 0);
+    return 0;
+  } 
+  argp3 = (OIS::MouseButtonID *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null OIS::MouseButtonID", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (bool)(arg1)->mouseReleased((OIS::MouseEvent const &)*arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_touchMoved(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MultiTouchEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->touchMoved((OIS::MultiTouchEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_touchPressed(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MultiTouchEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->touchPressed((OIS::MultiTouchEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_touchReleased(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MultiTouchEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->touchReleased((OIS::MultiTouchEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Input_touchCancelled(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchEvent *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchEvent *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "OIS::MultiTouchEvent const & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->touchCancelled((OIS::MultiTouchEvent const &)*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_AddKeyListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::KeyListener *arg2 = (OIS::KeyListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::KeyListener *)jarg2; 
+  (arg1)->AddKeyListener(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_AddMouseListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseListener *arg2 = (OIS::MouseListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MouseListener *)jarg2; 
+  (arg1)->AddMouseListener(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_AddTouchListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchListener *arg2 = (OIS::MultiTouchListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchListener *)jarg2; 
+  (arg1)->AddTouchListener(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_RemoveKeyListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::KeyListener *arg2 = (OIS::KeyListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::KeyListener *)jarg2; 
+  (arg1)->RemoveKeyListener(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_RemoveMouseListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MouseListener *arg2 = (OIS::MouseListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MouseListener *)jarg2; 
+  (arg1)->RemoveMouseListener(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_RemoveTouchListener(void * jarg1, void * jarg2) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  OIS::MultiTouchListener *arg2 = (OIS::MultiTouchListener *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  arg2 = (OIS::MultiTouchListener *)jarg2; 
+  (arg1)->RemoveTouchListener(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Input_GetAndroidInputInjector(void * jarg1) {
+  void * jresult ;
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  ma::AndroidInputInjector *result = 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  result = (ma::AndroidInputInjector *)(arg1)->GetAndroidInputInjector();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Input(void * jarg1) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SetInput(void * jarg1) {
+  ma::Input *arg1 = (ma::Input *) 0 ;
+  
+  arg1 = (ma::Input *)jarg1; 
+  ma::SetInput(arg1);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_GetInput() {
+  void * jresult ;
+  ma::Input *result = 0 ;
+  
+  result = (ma::Input *)ma::GetInput();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateAnimationObject(void * jarg1, char * jarg2) {
   void * jresult ;
   ma::IAnimationSystem *arg1 = (ma::IAnimationSystem *) 0 ;
@@ -10266,30 +10710,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_RenderMesh() {
   
   result = (ma::RenderMesh *)new ma::RenderMesh();
   jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_LoadFileToMemeory(void * jarg1) {
-  unsigned int jresult ;
-  ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
-  bool result;
-  
-  arg1 = (ma::RenderMesh *)jarg1; 
-  result = (bool)(arg1)->LoadFileToMemeory();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RenderMesh_CreateFromMemeory(void * jarg1) {
-  unsigned int jresult ;
-  ma::RenderMesh *arg1 = (ma::RenderMesh *) 0 ;
-  bool result;
-  
-  arg1 = (ma::RenderMesh *)jarg1; 
-  result = (bool)(arg1)->CreateFromMemeory();
-  jresult = result; 
   return jresult;
 }
 

@@ -34,9 +34,17 @@ namespace ma
 
 		Camera*		GetCamera() {return m_pCamera;}
 
-		Renderable*	GetCurRenderable() {return m_pCurRenderable;}
+// 		Renderable*	GetCurRenderable() {return m_pCurRenderable;}
+// 
+// 		Light*		GetCurLight()	{return m_pCurLight;}
 
-		Light*		GetCurLight()	{return m_pCurLight;}
+		UINT		GetSolidEntryNumber() {return m_arrSolidEntry.size();}
+
+		Renderable*	GetSolidEntryByIndex(UINT i) {return m_arrSolidEntry[i];}
+
+		UINT		GetLightNumber() {return m_arrLight.size();}
+
+		Light*		GetLightByIndex(UINT i) {return m_arrLight[i];}
 
 		RenderMesh*	CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture);
 
@@ -46,8 +54,8 @@ namespace ma
 		std::vector<Renderable*>	m_arrSolidEntry;
 		std::vector<Renderable*>	m_arrTransEntry;
 		std::vector<Light*>			m_arrLight;
-		Renderable*					m_pCurRenderable;
-		Light*						m_pCurLight;
+		//Renderable*					m_pCurRenderable;
+		//Light*						m_pCurLight;
 
 		Camera*						m_pCamera;
 

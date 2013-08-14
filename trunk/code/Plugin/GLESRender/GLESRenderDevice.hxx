@@ -320,6 +320,8 @@ namespace ma
 		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;
 
+		GetMaterialManager()->SetCurRenderable(pRenderable);
+
 		glEnable(GL_DEPTH_TEST);
 		//glDepthMask(TRUE);
 		//glEnable(GL_BLEND);
@@ -400,6 +402,8 @@ namespace ma
 
 		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;
+
+		GetMaterialManager()->SetCurRenderable(pRenderable);
 
 		glEnable(GL_DEPTH_TEST);
 

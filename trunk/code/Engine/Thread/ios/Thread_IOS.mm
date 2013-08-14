@@ -34,8 +34,8 @@ namespace ma
         m_pThreadFunction = pThreadFunction;
         m_pParameter = pParameter;
 
-        m_hThread = [[NSThread alloc] initWithTarget:pThreadFunction selector:@selector(ExecuteThread:) object:nil];
-        [(NSThread*)m_hThread start];
+        //m_hThread = [[NSThread alloc] initWithTarget:pThreadFunction selector:@selector(ExecuteThread:) object:nil];
+        //[(NSThread*)m_hThread start];
     }
 
     Thread::~Thread()

@@ -26,6 +26,9 @@ namespace ma
 		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
 		m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
 		m_autoDefaultBings["u_textureLightSpecular"] =  TextureLightSpecular;
+
+		m_pCurRenderable = NULL;
+		m_pCurLight = NULL;
 	}
 
 	MaterialManager::~MaterialManager()
@@ -141,11 +144,10 @@ namespace ma
 
 	const Matrix4x4& MaterialManager::autoBindingGetWorldMatrix() const
 	{
-		Renderable* pRenderable = GetRenderSystem()->GetCurRenderable();
-		if (pRenderable == NULL)
+		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
-		return pRenderable->m_matWorld;
+		return m_pCurRenderable->m_matWorld;
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetViewMatrix() const
@@ -162,15 +164,14 @@ namespace ma
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewMatrix() const
 	{
-		Renderable* pRenderable = GetRenderSystem()->GetCurRenderable();
-		if (pRenderable == NULL)
+		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
 		Camera* pCamera = GetRenderSystem()->GetCamera();
 		if (pCamera == NULL)
 			return Matrix4x4::identity();
 
-		return pRenderable->m_matWorld * pCamera->GetViewMatrix();
+		return m_pCurRenderable->m_matWorld * pCamera->GetViewMatrix();
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetViewProjectionMatrix() const
@@ -184,15 +185,14 @@ namespace ma
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewProjectionMatrix() const
 	{
-		Renderable* pRenderable = GetRenderSystem()->GetCurRenderable();
-		if (pRenderable == NULL)
+		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
 		Camera* pCamera = GetRenderSystem()->GetCamera();
 		if (pCamera == NULL)
 			return Matrix4x4::identity();
 
-		return pRenderable->m_matWorld * pCamera->GetViewProjMatrix();
+		return m_pCurRenderable->m_matWorld * pCamera->GetViewProjMatrix();
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetInverseTransposeWorldMatrix() const
@@ -234,50 +234,45 @@ namespace ma
 
 	const Matrix4x4* MaterialManager::autoBindingGetMatrixPalette() const
 	{
-		Renderable* pRenderable = GetRenderSystem()->GetCurRenderable();
-		if (pRenderable == NULL)
+		if (m_pCurRenderable == NULL)
 			return NULL;
 
-		if ( pRenderable->m_arrSkinMatrix.empty() )
+		if ( m_pCurRenderable->m_arrSkinMatrix.empty() )
 			return NULL;
 		
-		return &pRenderable->m_arrSkinMatrix[0];
+		return &m_pCurRenderable->m_arrSkinMatrix[0];
 	}
 
 	UINT MaterialManager::autoBindingGetMatrixPaletteSize() const
 	{
-		Renderable* pRenderable = GetRenderSystem()->GetCurRenderable();
-		if (pRenderable == NULL)
+		if (m_pCurRenderable == NULL)
 			return 0;
 
-		return pRenderable ? pRenderable->m_arrSkinMatrix.size() : 0;
+		return m_pCurRenderable->m_arrSkinMatrix.size();
 	}
 
 	const Vector3& MaterialManager::autoBindingGetAmbientColor() const
 	{
-		Light* pLight = GetRenderSystem()->GetCurLight();
-		if (pLight == NULL)
+		if (m_pCurLight == NULL)
 			return Vec3Zero();
 
-		return pLight->GetAmbientColor();
+		return m_pCurLight->GetAmbientColor();
 	}
 
 	const Vector3& MaterialManager::autoBindingGetLightColor() const
 	{
-		Light* pLight = GetRenderSystem()->GetCurLight();
-		if (pLight == NULL)
+		if (m_pCurLight == NULL)
 			return Vec3One();
 
-		return pLight->GetDiffuse();
+		return m_pCurLight->GetDiffuse();
 	}
 
 	const Vector3& MaterialManager::autoBindingGetLightDirection() const
 	{
-		Light* pLight = GetRenderSystem()->GetCurLight();
-		if (pLight == NULL)
+		if (m_pCurLight == NULL)
 			return Vec3One();
 
-		return pLight->GetDirection();
+		return m_pCurLight->GetDirection();
 	}
 
 	Vector4 MaterialManager::autoBingingDepthNearFarInvfar() const
@@ -294,22 +289,34 @@ namespace ma
 
 	Texture* MaterialManager::autoBingingSceneDetph() const
 	{
-		return NULL;
+		if (GetDeferredLight() == NULL)
+			return NULL;
+
+		return GetDeferredLight()->GetSceneDepth();
 	}
 
 	Texture* MaterialManager::autoBindingSceneNormal() const
 	{
-		return NULL;
+		if (GetDeferredLight() == NULL)
+			return NULL;
+
+		return GetDeferredLight()->GetSceneNormal();
 	}
 
 	Texture* MaterialManager::autoBindingTextureLightDiffuse() const
 	{
-		return NULL;
+		if (GetDeferredLight() == NULL)
+			return NULL;
+
+		return GetDeferredLight()->GetTextureLightDiffuse();
 	}
 
 	Texture* MaterialManager::autoBindingTextureightSpecular() const
 	{
-		return NULL;
+		if (GetDeferredLight() == NULL)
+			return NULL;
+
+		return GetDeferredLight()->GetTextureightSpecular();
 	}		
 
 }

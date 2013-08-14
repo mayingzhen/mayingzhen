@@ -7,18 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F1525F617B921F10047EE3A /* gameplay-main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254717B921F10047EE3A /* gameplay-main-ios.mm */; };
 		6F1525F717B921F10047EE3A /* PlatformiOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254817B921F10047EE3A /* PlatformiOS.mm */; };
-		6F1525F817B921F10047EE3A /* gameplay-main-linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254A17B921F10047EE3A /* gameplay-main-linux.cpp */; };
 		6F1525F917B921F10047EE3A /* PlatformLinux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254B17B921F10047EE3A /* PlatformLinux.cpp */; };
-		6F1525FA17B921F10047EE3A /* gameplay-main-macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254D17B921F10047EE3A /* gameplay-main-macosx.mm */; };
-		6F1525FB17B921F10047EE3A /* PlatformMacOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254E17B921F10047EE3A /* PlatformMacOSX.mm */; };
-		6F1525FC17B921F10047EE3A /* gameplay-main-windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15255417B921F10047EE3A /* gameplay-main-windows.cpp */; };
 		6F1525FD17B921F10047EE3A /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15256217B921F10047EE3A /* Module.cpp */; };
 		6F1525FE17B921F10047EE3A /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525D917B921F10047EE3A /* stdAfx.cpp */; };
 		6F1525FF17B921F10047EE3A /* CriticalSection_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EA17B921F10047EE3A /* CriticalSection_IOS.mm */; };
 		6F15260017B921F10047EE3A /* Event_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EC17B921F10047EE3A /* Event_IOS.mm */; };
 		6F15260117B921F10047EE3A /* Thread_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EE17B921F10047EE3A /* Thread_IOS.mm */; };
+		6F9B7A8217BA5161008AF370 /* libOIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9B7A8117BA5161008AF370 /* libOIS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,28 +39,20 @@
 		6F15253C17B921F10047EE3A /* ISkeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISkeleton.h; sourceTree = "<group>"; };
 		6F15253F17B921F10047EE3A /* android_native_app_glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_native_app_glue.h; sourceTree = "<group>"; };
 		6F15254017B921F10047EE3A /* android_native_app_glue.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = android_native_app_glue.hxx; sourceTree = "<group>"; };
-		6F15254117B921F10047EE3A /* PlatformAndroid - 副本.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "PlatformAndroid - 副本.hxx"; sourceTree = "<group>"; };
 		6F15254217B921F10047EE3A /* PlatformAndroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformAndroid.h; sourceTree = "<group>"; };
 		6F15254317B921F10047EE3A /* PlatformAndroid.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformAndroid.hxx; sourceTree = "<group>"; };
 		6F15254417B921F10047EE3A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		6F15254517B921F10047EE3A /* Game.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hxx; sourceTree = "<group>"; };
-		6F15254717B921F10047EE3A /* gameplay-main-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "gameplay-main-ios.mm"; sourceTree = "<group>"; };
 		6F15254817B921F10047EE3A /* PlatformiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformiOS.mm; sourceTree = "<group>"; };
-		6F15254A17B921F10047EE3A /* gameplay-main-linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gameplay-main-linux.cpp"; sourceTree = "<group>"; };
 		6F15254B17B921F10047EE3A /* PlatformLinux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformLinux.cpp; sourceTree = "<group>"; };
-		6F15254D17B921F10047EE3A /* gameplay-main-macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "gameplay-main-macosx.mm"; sourceTree = "<group>"; };
-		6F15254E17B921F10047EE3A /* PlatformMacOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformMacOSX.mm; sourceTree = "<group>"; };
 		6F15254F17B921F10047EE3A /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		6F15255017B921F10047EE3A /* Platform.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Platform.hxx; sourceTree = "<group>"; };
 		6F15255117B921F10047EE3A /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		6F15255217B921F10047EE3A /* Timer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hxx; sourceTree = "<group>"; };
-		6F15255417B921F10047EE3A /* gameplay-main-windows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gameplay-main-windows.cpp"; sourceTree = "<group>"; };
 		6F15255517B921F10047EE3A /* PlatformWin.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformWin.hxx; sourceTree = "<group>"; };
-		6F15255617B921F10047EE3A /* Device.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Device.hxx; sourceTree = "<group>"; };
 		6F15255817B921F10047EE3A /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		6F15255917B921F10047EE3A /* Event.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Event.hxx; sourceTree = "<group>"; };
 		6F15255A17B921F10047EE3A /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
-		6F15255B17B921F10047EE3A /* IDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevice.h; sourceTree = "<group>"; };
 		6F15255D17B921F10047EE3A /* AndroidInputInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AndroidInputInjector.h; sourceTree = "<group>"; };
 		6F15255E17B921F10047EE3A /* AndroidInputInjector.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidInputInjector.hxx; sourceTree = "<group>"; };
 		6F15255F17B921F10047EE3A /* Gesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gesture.h; sourceTree = "<group>"; };
@@ -206,6 +194,7 @@
 		6F1525F317B921F10047EE3A /* Thread_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_win.h; sourceTree = "<group>"; };
 		6F1525F417B921F10047EE3A /* WarningPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningPrefix.h; sourceTree = "<group>"; };
 		6F1525F517B921F10047EE3A /* WarningSuffix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningSuffix.h; sourceTree = "<group>"; };
+		6F9B7A8117BA5161008AF370 /* libOIS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOIS.a; path = ../../extern/oisInput/Lib/IOS/libOIS.a; sourceTree = "<group>"; };
 		6FA78D6017943026005B3CD6 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -214,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F9B7A8217BA5161008AF370 /* libOIS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,10 +215,8 @@
 			children = (
 				6F15253517B921F10047EE3A /* Animation */,
 				6F15253D17B921F10047EE3A /* Application */,
-				6F15255617B921F10047EE3A /* Device.hxx */,
 				6F15255717B921F10047EE3A /* Event */,
 				6F15255A17B921F10047EE3A /* Export.h */,
-				6F15255B17B921F10047EE3A /* IDevice.h */,
 				6F15255C17B921F10047EE3A /* Input */,
 				6F15256217B921F10047EE3A /* Module.cpp */,
 				6F15256317B921F10047EE3A /* Module.h */,
@@ -271,7 +259,6 @@
 				6F15254517B921F10047EE3A /* Game.hxx */,
 				6F15254617B921F10047EE3A /* iOS */,
 				6F15254917B921F10047EE3A /* Linux */,
-				6F15254C17B921F10047EE3A /* MacOSX */,
 				6F15254F17B921F10047EE3A /* Platform.h */,
 				6F15255017B921F10047EE3A /* Platform.hxx */,
 				6F15255117B921F10047EE3A /* Timer.h */,
@@ -286,7 +273,6 @@
 			children = (
 				6F15253F17B921F10047EE3A /* android_native_app_glue.h */,
 				6F15254017B921F10047EE3A /* android_native_app_glue.hxx */,
-				6F15254117B921F10047EE3A /* PlatformAndroid - 副本.hxx */,
 				6F15254217B921F10047EE3A /* PlatformAndroid.h */,
 				6F15254317B921F10047EE3A /* PlatformAndroid.hxx */,
 			);
@@ -296,7 +282,6 @@
 		6F15254617B921F10047EE3A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				6F15254717B921F10047EE3A /* gameplay-main-ios.mm */,
 				6F15254817B921F10047EE3A /* PlatformiOS.mm */,
 			);
 			path = iOS;
@@ -305,25 +290,14 @@
 		6F15254917B921F10047EE3A /* Linux */ = {
 			isa = PBXGroup;
 			children = (
-				6F15254A17B921F10047EE3A /* gameplay-main-linux.cpp */,
 				6F15254B17B921F10047EE3A /* PlatformLinux.cpp */,
 			);
 			path = Linux;
 			sourceTree = "<group>";
 		};
-		6F15254C17B921F10047EE3A /* MacOSX */ = {
-			isa = PBXGroup;
-			children = (
-				6F15254D17B921F10047EE3A /* gameplay-main-macosx.mm */,
-				6F15254E17B921F10047EE3A /* PlatformMacOSX.mm */,
-			);
-			path = MacOSX;
-			sourceTree = "<group>";
-		};
 		6F15255317B921F10047EE3A /* Win */ = {
 			isa = PBXGroup;
 			children = (
-				6F15255417B921F10047EE3A /* gameplay-main-windows.cpp */,
 				6F15255517B921F10047EE3A /* PlatformWin.hxx */,
 			);
 			path = Win;
@@ -571,6 +545,7 @@
 		6FA78D5717943026005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6F9B7A8117BA5161008AF370 /* libOIS.a */,
 				6F15253417B921F10047EE3A /* Engine */,
 				6FA78D6117943026005B3CD6 /* Products */,
 			);
@@ -635,13 +610,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F1525F617B921F10047EE3A /* gameplay-main-ios.mm in Sources */,
 				6F1525F717B921F10047EE3A /* PlatformiOS.mm in Sources */,
-				6F1525F817B921F10047EE3A /* gameplay-main-linux.cpp in Sources */,
 				6F1525F917B921F10047EE3A /* PlatformLinux.cpp in Sources */,
-				6F1525FA17B921F10047EE3A /* gameplay-main-macosx.mm in Sources */,
-				6F1525FB17B921F10047EE3A /* PlatformMacOSX.mm in Sources */,
-				6F1525FC17B921F10047EE3A /* gameplay-main-windows.cpp in Sources */,
 				6F1525FD17B921F10047EE3A /* Module.cpp in Sources */,
 				6F1525FE17B921F10047EE3A /* stdAfx.cpp in Sources */,
 				6F1525FF17B921F10047EE3A /* CriticalSection_IOS.mm in Sources */,
@@ -718,7 +688,10 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -739,7 +712,10 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

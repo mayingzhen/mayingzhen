@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F15253317B91EAF0047EE3A /* libEntitySystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F15253217B91EAF0047EE3A /* libEntitySystem.a */; };
 		6F49EE4C17957FCD00EF1CCE /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F49EE4B17957FCD00EF1CCE /* data */; };
+		6F9B7A8617BA55F3008AF370 /* libEntitySystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9B7A8517BA55F3008AF370 /* libEntitySystem.a */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
@@ -27,8 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F15253217B91EAF0047EE3A /* libEntitySystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEntitySystem.a; path = /Volumes/work/mydemon_svn/build/IOS/../lib/libEntitySystem.a; sourceTree = "<absolute>"; };
 		6F49EE4B17957FCD00EF1CCE /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
+		6F9B7A8517BA55F3008AF370 /* libEntitySystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEntitySystem.a; path = /Volumes/work/mydemon_svn/build/IOS/../lib/libEntitySystem.a; sourceTree = "<absolute>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F15253317B91EAF0047EE3A /* libEntitySystem.a in Frameworks */,
+				6F9B7A8617BA55F3008AF370 /* libEntitySystem.a in Frameworks */,
 				6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */,
 				6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */,
 				6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */,
@@ -94,7 +94,7 @@
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6F15253217B91EAF0047EE3A /* libEntitySystem.a */,
+				6F9B7A8517BA55F3008AF370 /* libEntitySystem.a */,
 				6F49EE4B17957FCD00EF1CCE /* data */,
 				6FDF1AFD1795233B005C7E62 /* libAnimation.a */,
 				6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */,

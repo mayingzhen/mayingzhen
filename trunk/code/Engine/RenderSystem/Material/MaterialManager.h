@@ -43,6 +43,10 @@ namespace ma
 
 		void UseDefaultBing(MaterialParameter* pParam);
 
+		void SetCurRenderable(Renderable* pRenderable) {m_pCurRenderable = pRenderable;}
+
+		void SetCurLight(Light* pLight) {m_pCurLight = pLight;}
+
 	private:
 		// Internal auto binding handler methods.
 		const Matrix4x4&	autoBindingGetWorldMatrix() const;
@@ -69,6 +73,9 @@ namespace ma
 
 	private:	
 		std::map<std::string, AutoBinding>	m_autoDefaultBings;
+
+		Renderable*							m_pCurRenderable;
+		Light*								m_pCurLight;							
 	};
 
 	ENGINE_API MaterialManager*	GetMaterialManager();

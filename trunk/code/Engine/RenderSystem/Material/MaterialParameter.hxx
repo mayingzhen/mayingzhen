@@ -286,19 +286,19 @@ namespace ma
 		_type = MaterialParameter::MATRIX;
 	}
 
-	Sampler* MaterialParameter::setSampler(const char* texturePath, bool generateMipmaps)
-	{
-		ASSERT(texturePath);
-		clearValue();
-
-		Sampler* sampler = Sampler::create(texturePath, generateMipmaps);
-		if (sampler)
-		{
-			_value.samplerValue = sampler;
-			_type = MaterialParameter::SAMPLER;
-		}
-		return sampler;
-	}
+// 	Sampler* MaterialParameter::setSampler(const char* texturePath, bool generateMipmaps)
+// 	{
+// 		ASSERT(texturePath);
+// 		clearValue();
+// 
+// 		Sampler* sampler = Sampler::create(texturePath, generateMipmaps);
+// 		if (sampler)
+// 		{
+// 			_value.samplerValue = sampler;
+// 			_type = MaterialParameter::SAMPLER;
+// 		}
+// 		return sampler;
+// 	}
 
 	void MaterialParameter::setSampler(const Sampler* value)
 	{
@@ -333,6 +333,36 @@ namespace ma
 
 		_count = count;
 		_type = MaterialParameter::SAMPLER_ARRAY;
+	}
+
+	void MaterialParameter::setTexture(const Texture* value)
+	{
+		ASSERT(value);
+		clearValue();
+
+		//const_cast<Sampler*>(sampler)->IncReference();
+		_value.textureValue = value;
+		_type = MaterialParameter::TEXTURE;
+	}
+
+	void MaterialParameter::setTextureArray(const Texture** values, unsigned int count, bool copy)
+	{
+		ASSERT(values);
+		clearValue();
+
+		if (copy)
+		{
+			_value.textureArrayValue = new const Texture*[count];
+			memcpy(_value.textureArrayValue, values, sizeof(Texture*) * count);
+			_dynamic = true;
+		}
+		else
+		{
+			_value.textureArrayValue = values;
+		}
+
+		_count = count;
+		_type = MaterialParameter::TEXTURE_ARRAY;
 	}
 
 	void MaterialParameter::bind(ShaderProgram* effect)
@@ -387,6 +417,12 @@ namespace ma
 			break;
 		case MaterialParameter::SAMPLER_ARRAY:
 			effect->SetValue(_uniform, _value.samplerArrayValue, _count);
+			break;
+		case MaterialParameter::TEXTURE:
+			effect->SetValue(_uniform,_value.textureValue);
+			break;
+		case MaterialParameter::TEXTURE_ARRAY:
+			effect->SetValue(_uniform,_value.textureArrayValue,_count);
 			break;
 		case MaterialParameter::METHOD:
 			ASSERT(_value.method);
