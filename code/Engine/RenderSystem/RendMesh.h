@@ -8,14 +8,10 @@ namespace ma
 	class MeshData;
 	class Material;
 
-	class ENGINE_API RenderMesh : public IDataObj
+	class ENGINE_API RenderMesh 
 	{
 	public:
 		RenderMesh();
-
-		bool		LoadFileToMemeory();
-
-		bool		CreateFromMemeory();
 
 		bool		InitWithData(MeshData* pMeshData);
 

@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:EntitySystem.xcodeproj">
+      location = "group:SampleBrowser/SampleBrowser.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SampleBrowser/SampleBrowser.xcodeproj">
+      location = "group:EntitySystem.xcodeproj">
    </FileRef>
    <Group
       location = "container:"

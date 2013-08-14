@@ -2,6 +2,18 @@
 
 namespace ma
 {
+	static DeferredLight* gpDeferredLight = NULL;
+
+	DeferredLight* GetDeferredLight()
+	{
+		return gpDeferredLight;
+	}
+
+	void SetDeferredLight(DeferredLight* pDeffLight)
+	{
+		gpDeferredLight = gpDeferredLight;
+	}
+
 	void DeferredLight::Init()
 	{
 		m_pDepthTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R32F);
@@ -15,7 +27,11 @@ namespace ma
 
 	void DeferredLight::DoRender()
 	{
+		GBufferPass();
 
+		DefferedLighting();
+
+		ShadingPass();
 	}
 
 	void DeferredLight::GBufferPass()
@@ -25,11 +41,13 @@ namespace ma
 
 		GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
-		for (UINT i = 0; i < m_SolidEntry.size(); ++i)
+		int nSolidEntry = GetRenderSystem()->GetSolidEntryNumber();
+		for (UINT i = 0; i < nSolidEntry; ++i)
 		{
-			Material* pMaterial = m_SolidEntry[i]->m_pMaterial;
+			Renderable* pSolidEntry = GetRenderSystem()->GetSolidEntryByIndex(i);
+			Material* pMaterial = pSolidEntry->m_pMaterial;
 			pMaterial->SetCurTechnqiue("gbuffer",NULL);
-			GetRenderDevice()->DrawRenderable(m_SolidEntry[i]);
+			GetRenderDevice()->DrawRenderable(pSolidEntry);
 		}
 
 		GetRenderDevice()->SetRenderTarget(pPreTar1,0);
@@ -47,14 +65,15 @@ namespace ma
 
 		ScreenQuad::Render(m_pMaterDeferred);	
 
-		for (UINT i = 0; i < m_arrLight.size(); ++i)
+		UINT nLigtNumber = GetRenderSystem()->GetLightNumber();
+		for (UINT i = 0; i < nLigtNumber; ++i)
 		{
-			Light* pLight = m_arrLight[i];
+			Light* pLight = GetRenderSystem()->GetLightByIndex(i);
 			if (pLight == NULL)
 				continue;
 
-			//Material::SetAutoBingLight(pLight);
-
+			GetMaterialManager()->SetCurLight(pLight);
+	
 			if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
 			{
 				//m_pMaterDeferred->SetCurTechnqiue("DirectLight");
@@ -86,15 +105,16 @@ namespace ma
 
 	void DeferredLight::ShadingPass()
 	{
-		//GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
+		GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
-		for (UINT i = 0; i < m_SolidEntry.size(); ++i)
+		int nSolidEntry = GetRenderSystem()->GetSolidEntryNumber();
+		for (UINT i = 0; i < nSolidEntry; ++i)
 		{
-			Material* pMaterial = m_SolidEntry[i]->m_pMaterial;
+			Renderable* pSolidEntry = GetRenderSystem()->GetSolidEntryByIndex(i);
+
+			Material* pMaterial = pSolidEntry->m_pMaterial;
 			pMaterial->SetCurTechnqiue("default","DeferredLight");
-			//pMaterial->GetParameter("u_textureLightDiffuse")->setSampler(m_pDiffuseTex);
-			//pMaterial->GetParameter("u_textureLightSpecular")->setSampler(m_pSpecularTex);
-			GetRenderDevice()->DrawRenderable(m_SolidEntry[i]);
+			GetRenderDevice()->DrawRenderable(pSolidEntry);
 		}
 	}
 

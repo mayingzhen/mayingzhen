@@ -356,6 +356,8 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
+		GetMaterialManager()->SetCurRenderable(pRenderable);
+
 		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;
 
@@ -413,6 +415,8 @@ namespace ma
 	{
 		if (pRenderable == NULL)
 			return;
+
+		GetMaterialManager()->SetCurRenderable(pRenderable);
 
 		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;

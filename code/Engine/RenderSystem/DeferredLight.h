@@ -13,19 +13,26 @@ namespace ma
 	class ENGINE_API  DeferredLight
 	{
 	public:
-		void Init();
+		void		Init();
 
-		void DoRender();
+		void		DoRender();
 
-		void GBufferPass();
+		Texture*	GetSceneDepth() {return m_pDepthTex->GetTexture();}
 
-		void DefferedLighting();
+		Texture*	GetSceneNormal() {return m_pNormalTex->GetTexture();}
 
-		void ShadingPass();
+		Texture*	GetTextureLightDiffuse() {return m_pDiffuse->GetTexture();}
+
+		Texture*	GetTextureightSpecular() {return m_pSpecular->GetTexture();}
+
+	private:
+		void		GBufferPass();
+
+		void		DefferedLighting();
+
+		void		ShadingPass();
 
 	protected:
-		std::vector<Renderable*>	m_SolidEntry;
-		std::vector<Light*>			m_arrLight;
 
 		RenderTarget*				m_pDepthTex;
 		RenderTarget*				m_pNormalTex;
@@ -35,6 +42,9 @@ namespace ma
 		Material*					m_pMaterDeferred;
 	};
 
+	ENGINE_API	DeferredLight*	GetDeferredLight();
+	ENGINE_API	void			SetDeferredLight(DeferredLight* pDeffLight);
 }
 
 #endif
+

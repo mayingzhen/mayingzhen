@@ -7,6 +7,8 @@
 
 %include "../../Code/Engine/Export.h"
 
+%include "../../Code/Engine/Input/Input.h"
+
 %include "../../Code/Engine/Animation/IAnimationSystem.h"
 %include "../../Code/Engine/Animation/IAnimationObject.h"
 %include "../../Code/Engine/Animation/IAnimationSet.h"

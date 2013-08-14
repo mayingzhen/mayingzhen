@@ -66,10 +66,12 @@ namespace ma
 		OIS::ParamList pl;
 		size_t winHandle = 0;
 		std::ostringstream winHandleStr;
-		winHandleStr << winId;
+		winHandleStr << (int)winId;
 		pl.insert(std::make_pair("WINDOW", winHandleStr.str()));
+        
 		mInputMgr = OIS::InputManager::createInputSystem(pl);
-		mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
+		
+        mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
 		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
 		mTouch->setEventCallback(this);
 
@@ -128,11 +130,21 @@ namespace ma
 
 	void Input::OnResize(int w,int h)
 	{
-		if (NULL != mMouse)
+		if (mMouse)
 		{
 			mMouse->getMouseState().width = w;
 			mMouse->getMouseState().height = h;
-		}	
+		}
+        
+        if(mTouch)
+        {
+			const std::vector<OIS::MultiTouchState>& arrTouchState = mTouch->getMultiTouchStates();
+			for (UINT i = 0; i < arrTouchState.size(); ++i)
+			{
+				arrTouchState[i].width = w;
+				arrTouchState[i].height = h;
+			}
+        }
 	}
 
 	

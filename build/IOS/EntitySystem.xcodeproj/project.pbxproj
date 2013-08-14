@@ -7,12 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F15252A17B91D440047EE3A /* Animation.i in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251217B91D440047EE3A /* Animation.i */; };
-		6F15252B17B91D440047EE3A /* Common.i in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251317B91D440047EE3A /* Common.i */; };
-		6F15252C17B91D440047EE3A /* CSharpImport.i in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251417B91D440047EE3A /* CSharpImport.i */; };
-		6F15252D17B91D440047EE3A /* CSharpImport_wrap.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251517B91D440047EE3A /* CSharpImport_wrap.cxx */; };
-		6F15252E17B91D440047EE3A /* Engine.i in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251617B91D440047EE3A /* Engine.i */; };
-		6F15252F17B91D440047EE3A /* Framework.i in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251717B91D440047EE3A /* Framework.i */; };
 		6F15253017B91D440047EE3A /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15251D17B91D440047EE3A /* Module.cpp */; };
 		6F15253117B91D440047EE3A /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15252617B91D440047EE3A /* stdAfx.cpp */; };
 /* End PBXBuildFile section */
@@ -54,12 +48,6 @@
 		6F15250E17B91D440047EE3A /* SkelMeshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkelMeshComponent.h; sourceTree = "<group>"; };
 		6F15250F17B91D440047EE3A /* SkelMeshComponent.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkelMeshComponent.hxx; sourceTree = "<group>"; };
 		6F15251017B91D440047EE3A /* CompRTTIDecl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompRTTIDecl.h; sourceTree = "<group>"; };
-		6F15251217B91D440047EE3A /* Animation.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = Animation.i; sourceTree = "<group>"; };
-		6F15251317B91D440047EE3A /* Common.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = Common.i; sourceTree = "<group>"; };
-		6F15251417B91D440047EE3A /* CSharpImport.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = CSharpImport.i; sourceTree = "<group>"; };
-		6F15251517B91D440047EE3A /* CSharpImport_wrap.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSharpImport_wrap.cxx; sourceTree = "<group>"; };
-		6F15251617B91D440047EE3A /* Engine.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = Engine.i; sourceTree = "<group>"; };
-		6F15251717B91D440047EE3A /* Framework.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = Framework.i; sourceTree = "<group>"; };
 		6F15251817B91D440047EE3A /* EntitySystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntitySystem.h; sourceTree = "<group>"; };
 		6F15251917B91D440047EE3A /* EntitySystem.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntitySystem.hxx; sourceTree = "<group>"; };
 		6F15251A17B91D440047EE3A /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
@@ -112,7 +100,6 @@
 			children = (
 				6F1524F917B91D440047EE3A /* Component */,
 				6F15251017B91D440047EE3A /* CompRTTIDecl.h */,
-				6F15251117B91D440047EE3A /* CSharpImport */,
 				6F15251817B91D440047EE3A /* EntitySystem.h */,
 				6F15251917B91D440047EE3A /* EntitySystem.hxx */,
 				6F15251A17B91D440047EE3A /* Export.h */,
@@ -163,19 +150,6 @@
 				6F15250F17B91D440047EE3A /* SkelMeshComponent.hxx */,
 			);
 			path = Component;
-			sourceTree = "<group>";
-		};
-		6F15251117B91D440047EE3A /* CSharpImport */ = {
-			isa = PBXGroup;
-			children = (
-				6F15251217B91D440047EE3A /* Animation.i */,
-				6F15251317B91D440047EE3A /* Common.i */,
-				6F15251417B91D440047EE3A /* CSharpImport.i */,
-				6F15251517B91D440047EE3A /* CSharpImport_wrap.cxx */,
-				6F15251617B91D440047EE3A /* Engine.i */,
-				6F15251717B91D440047EE3A /* Framework.i */,
-			);
-			path = CSharpImport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,12 +203,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F15252A17B91D440047EE3A /* Animation.i in Sources */,
-				6F15252B17B91D440047EE3A /* Common.i in Sources */,
-				6F15252C17B91D440047EE3A /* CSharpImport.i in Sources */,
-				6F15252D17B91D440047EE3A /* CSharpImport_wrap.cxx in Sources */,
-				6F15252E17B91D440047EE3A /* Engine.i in Sources */,
-				6F15252F17B91D440047EE3A /* Framework.i in Sources */,
 				6F15253017B91D440047EE3A /* Module.cpp in Sources */,
 				6F15253117B91D440047EE3A /* stdAfx.cpp in Sources */,
 			);

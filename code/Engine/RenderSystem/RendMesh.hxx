@@ -9,25 +9,27 @@ namespace ma
 		m_bSkin = false;
 	}
 
-	bool RenderMesh::LoadFileToMemeory()
-	{	
-		ASSERT(m_pMesData);
-		m_pMesData->LoadFileToMemeory();
-		
-		ASSERT(m_pTexture);
-		m_pTexture->LoadFileToMemeory();
 
-		return true;
-	}
-
-	bool RenderMesh::CreateFromMemeory()
+	bool RenderMesh::Load(const char* pMeshPath,const char* pDiffueTexture)
 	{
-		m_pMesData->CreateFromMemeory();
-		m_pTexture->CreateFromMemeory();
+		if (pMeshPath == NULL)
+			return false;
+
+		m_sknPath = pMeshPath;
+		m_texPath = pDiffueTexture;
+
+		m_pMesData = DeclareResource<MeshData>(pMeshPath);
+		ASSERT(m_pMesData);
+		
+		m_pMesData->LoadSync();
 
 		InitWithData(m_pMesData);
-		Sampler* sampler = Sampler::create(m_pTexture); // +ref texture
-			
+
+		m_pTexture = DeclareResource<Texture>(pDiffueTexture);
+		ASSERT(m_pTexture);
+
+		m_pTexture->LoadAsync();
+
 		std::string sMaterFlag;
 		if (m_bSkin)
 		{
@@ -37,41 +39,13 @@ namespace ma
 		{
 			sMaterFlag = "DIFFUSE";
 		}
-		
+
 		Material* pMaterial = new Material(sMaterFlag.c_str(),"default");
-			
-		pMaterial->GetParameter("u_texture")->setSampler(sampler);
+
+		pMaterial->GetParameter("u_texture")->setTexture(m_pTexture);
 
 		SetMaterial(pMaterial);
 
-		return true;
-	}
-	
-	bool RenderMesh::Load(const char* pMeshPath,const char* pDiffueTexture)
-	{
-		if (pMeshPath == NULL)
-			return false;
-
-		m_pMesData = DeclareResource<MeshData>(pMeshPath);
-		ASSERT(m_pMesData);
-
-		m_pTexture = DeclareResource<Texture>(pDiffueTexture);
-		ASSERT(m_pTexture);
-
-		m_sknPath = pMeshPath;
-		m_texPath = pDiffueTexture;
-
-		DataThread* pDataThread = GetResourceSystem()->GetDataThread();
-		if (0/*pDataThread*/)
-		{
-			pDataThread->PushBackDataObj(this);
-		}
-		else
-		{
-			LoadFileToMemeory();
-			CreateFromMemeory();
-		}
-		
 		return true;
 	}
 

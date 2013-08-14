@@ -23,10 +23,7 @@ namespace ma
 		m_pDefferLight = NULL;
 		m_pShadow = NULL;
 		m_bShadow = false;
-		m_bDefferLight = false;
-
-		m_pCurRenderable = NULL;
-		m_pCurLight = NULL;
+		m_bDefferLight = true;
 	}
 
 
@@ -73,8 +70,6 @@ namespace ma
 		m_arrSolidEntry.clear();
 		m_arrTransEntry.clear();
 		m_arrLight.clear();
-		m_pCurRenderable = NULL;
-		m_pCurLight = NULL;
 	}
 
 	RenderMesh*	RenderSystem::CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture)
@@ -122,13 +117,12 @@ namespace ma
 // 				pMaterial->SetCurTechnqiue("default","DeferredLight");
 // 			}
 			
-			m_pCurRenderable = m_arrSolidEntry[i];
+
 			GetRenderDevice()->DrawRenderable(m_arrSolidEntry[i]);
 		}
 
 		for (UINT i = 0; i < m_arrTransEntry.size(); ++i)
 		{
-			m_pCurRenderable = m_arrTransEntry[i];
 			GetRenderDevice()->DrawRenderable(m_arrTransEntry[i]);
 		}
 	}

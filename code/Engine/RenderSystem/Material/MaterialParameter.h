@@ -76,11 +76,15 @@ namespace ma
 
 		void setMatrixArray(const Matrix4x4* values, unsigned int count, bool copy = false);
 
-		Sampler* setSampler(const char* texturePath, bool generateMipmaps);
+		//Sampler* setSampler(const char* texturePath, bool generateMipmaps);
 
 		void setSampler(const Sampler* value);
 
 		void setSamplerArray(const Sampler** values, unsigned int count, bool copy = false);
+
+		void setTexture(const Texture* value);
+
+		void setTextureArray(const Texture** values, unsigned int count, bool copy = false);
 
 		/**
 		 * Binds the return value of a class method to this material parameter.
@@ -199,6 +203,8 @@ namespace ma
 			int*            intPtrValue;
 			const Sampler*  samplerValue;
 			const Sampler** samplerArrayValue;
+			const Texture*	textureValue;
+			const Texture**	textureArrayValue;
 			MethodBinding*  method;
 		} _value;
 	    
@@ -215,6 +221,8 @@ namespace ma
 			MATRIX,
 			SAMPLER,
 			SAMPLER_ARRAY,
+			TEXTURE,
+			TEXTURE_ARRAY,
 			METHOD
 		} _type;
 	    

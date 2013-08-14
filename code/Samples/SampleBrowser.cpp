@@ -37,8 +37,8 @@ namespace ma
 		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
 		m_arrSamples["FbxImport"] = pSampleFbxImport;
 
-//		SampleMonoScript* pSampleScript = new SampleMonoScript();
-//		m_arrSamples["CSharpScript"] = pSampleScript;
+		//SampleMonoScript* pSampleScript = new SampleMonoScript();
+		//m_arrSamples["CSharpScript"] = pSampleScript;
 #endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
@@ -53,8 +53,8 @@ namespace ma
 		SampleJoint* pSampleJoint = new SampleJoint();
 		m_arrSamples["PhysicsJoint"] = pSampleJoint;
 
-		SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
-		m_arrSamples["Ragdoll"] = pSampleRagdoll;
+		//SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
+		//m_arrSamples["Ragdoll"] = pSampleRagdoll;
 
 		SampleTerrain* pSampleTerrain = new SampleTerrain();
 		m_arrSamples["Terrain"] = pSampleTerrain;
@@ -68,7 +68,7 @@ namespace ma
 		SampleParticle* pParticle = new SampleParticle();
 		m_arrSamples["Particle"] = pParticle;
 
-		m_pCurSample = pSampleTerrain;
+		m_pCurSample = pSampleAnimRetar;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -87,8 +87,8 @@ namespace ma
 #endif
 	
 		CommonModuleInit();
-		//D3D9RenderModuleInit();
-		GLESRenderModuleInit();
+		D3D9RenderModuleInit();
+		//GLESRenderModuleInit();
 		EngineModuleInit();
         AnimationModuleInit();
         BtPhysicsModuleInit();
