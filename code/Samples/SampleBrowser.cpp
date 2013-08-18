@@ -19,6 +19,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
+#include "Samples/Render/SampleLighting.hxx"
 
 
 namespace ma
@@ -39,6 +40,9 @@ namespace ma
 
 		SampleMonoScript* pSampleScript = new SampleMonoScript();
 		m_arrSamples["CSharpScript"] = pSampleScript;
+
+		SampleLighting* pSampleLight = new SampleLighting();
+		m_arrSamples["Lighting"] = pSampleLight;
 #endif
 
 		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
@@ -65,16 +69,17 @@ namespace ma
 		SampleAnimationTree* pSampleAniTree = new SampleAnimationTree();
 		m_arrSamples["AnimationTree"] = pSampleAniTree;
 
-		SampleParticle* pParticle = new SampleParticle();
-		m_arrSamples["Particle"] = pParticle;
+		SampleParticle* pSampleParticle = new SampleParticle();
+		m_arrSamples["Particle"] = pSampleParticle;
 
-		m_pCurSample = pSampleScript;
+
+		m_pCurSample = pSampleTerrain;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
 	}
 
-	void SampleBrowser::Init()
+	void SampleBrowser::InitResourcePath()
 	{
 #if PLATFORM_WIN == 1
 		FileSystem::setResourcePath("../../Data/");
@@ -85,17 +90,67 @@ namespace ma
 #elif PLATFORM_ANDROID == 1
 		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
 #endif
-	
+	}
+
+	void SampleBrowser::InitModule()
+	{
 		CommonModuleInit();
-		//D3D9RenderModuleInit();
-		GLESRenderModuleInit();
 		EngineModuleInit();
 		EntitySystemModuleInit();
+
+		
+#if PLATFORM_WIN == 1
+		LoadPlugin();
+#else
+		GLESRenderModuleInit();
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
-		MonoScriptModuleInit();
+#endif
+	}
 
+	
+	void SampleBrowser::LoadPlugin()
+	{
+#if PLATFORM_WIN == 1
+
+		typedef bool (*DLL_START_PLUGIN)(void);
+
+		std::string configPath = FileSystem::getFullPath("config/config.xml");
+		TiXmlDocument doc;
+		bool bLoadOK = doc.LoadFile(configPath.c_str());
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return;
+
+		TiXmlElement* pRootElem = doc.RootElement();
+		ASSERT(pRootElem);
+		if (pRootElem == NULL)
+			return;
+
+		TiXmlElement* pElePlugin = pRootElem->FirstChildElement("Plugin");
+		while(pElePlugin)
+		{
+			const char* pszPath = pElePlugin->Attribute("path");
+			
+			HMODULE hInst = LoadLibraryExA(pszPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
+			DLL_START_PLUGIN pFunPtr = (DLL_START_PLUGIN)GetProcAddress(hInst,"dllStartPlugin");	
+			ASSERT(pFunPtr);
+			if (pFunPtr)
+				pFunPtr();
+
+			pElePlugin = pElePlugin->NextSiblingElement();
+		}
+#endif
+	}
+
+	void SampleBrowser::Init()
+	{
+		InitResourcePath();
+
+		InitModule();
+	
 		m_pSystems = new Systems();
+
 		GetInput()->AddKeyListener(this);
 
 		InitCamera();
@@ -150,9 +205,9 @@ namespace ma
 
 			ResetCamera();
 
-			m_pSystems->Stop();
-
 			GetEntitySystem()->DeleteAll();
+
+			m_pSystems->Stop();
 		}
 
 		Sample* pSameple = it->second;
@@ -219,13 +274,13 @@ namespace ma
 	{
 		GetRenderSystem()->BeginFrame();
 
-		if (m_pCurSample)
-			m_pCurSample->Render();
-
 		GetPhysicsSystem()->DebugRender();
 
 		GetRenderSystem()->Flush();
-		
+				
+		if (m_pCurSample)
+			m_pCurSample->Render();
+
 		LineRender::Flush();
 
 		m_pSampleSelectForm->draw();

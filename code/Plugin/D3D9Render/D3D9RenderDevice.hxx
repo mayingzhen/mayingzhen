@@ -246,17 +246,24 @@ namespace ma
 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
 	{
 
-//		DWORD cullMode = state.cullMode;
+		if (m_curState.m_eCullMode != state.m_eCullMode)
+		{
+			m_curState.m_eCullMode = state.m_eCullMode;
 
-// 		if (mFlipCullMode)
-// 		{
-// 			if (cullMode == D3DCULL_CCW)
-// 				cullMode = D3DCULL_CW;
-// 			else if (cullMode == D3DCULL_CW)
-// 				cullMode = D3DCULL_CCW;
-// 		}
+			if (state.m_eCullMode == CULL_FACE_SIDE_BACK)
+			{
+				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			}
+			else if (state.m_eCullMode == CULL_FACE_SIDE_FRONT)
+			{
+				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);	
+			}
+			else if (state.m_eCullMode == CULL_FACE_SIDE_NONE)
+			{
+				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+			}
+		}
 
-		//GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
 
 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
@@ -327,10 +334,8 @@ namespace ma
 
 			case BM_ADD:
 				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-				//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 				break;
 
 			case BM_MULTIPLY:
@@ -343,13 +348,6 @@ namespace ma
 
 	}
 
-	void D3D9RenderDevice::GetRenderWndSize(int& Width,int& Heigh)
-	{
-		RECT rect;
-		GetWindowRect(m_hWnd,&rect);
-		Width = rect.right - rect.left;
-		Heigh = rect.bottom - rect.top;
-	}
 
 	void D3D9RenderDevice::DrawRenderable(Renderable* pRenderable)
 	{

@@ -61,7 +61,9 @@ namespace ma
 
 		virtual void	SetLinearUpperLimit(const Vector3& limit);
 
-		void			Create();
+		void			Start();
+
+		void			Stop();
 
 	private:
 		Vector3			m_vAngularLowerLimit;
@@ -84,7 +86,9 @@ namespace ma
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 
-		void			Create();
+		void			Start();
+
+		void			Stop();
 
 	private:
 		float			m_fMinAngle;

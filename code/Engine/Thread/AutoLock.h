@@ -2,11 +2,9 @@
 #define _AutoLOCK_H__
 
 #if PLATFORM_WIN == 1
-#include "Win/CriticalSection_win.h"
-#elif PLAFTORM_IOS == 1
-#include "IOS/CriticalSection_IOS.h"
-#elif PLATFORM_ANDROID == 1
-#include "Android/CriticalSection_Android.h"
+#include "WinThread/CriticalSection_win.h"
+#elif PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+#include "pthread/CriticalSection_Android.h"
 #endif
 
 namespace ma

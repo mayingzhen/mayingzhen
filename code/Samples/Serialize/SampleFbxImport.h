@@ -27,8 +27,6 @@ namespace ma
 
 		void LoadSaticMesh(FBXImporter& fbxImpor);
 
-		void LoadBoxMesh(FBXImporter& fbxImpor);
-
 	private:
 
 		// SkelMesh
@@ -39,9 +37,9 @@ namespace ma
 		// staticMesh
 		RenderMesh*		m_pStaticMesh;
 
-
 		RenderMesh*		m_pBoxMesh;
-		Material*       m_pBoxMaterial;
+
+		RenderMesh*		m_pSphereMesh;
 
 		float			m_fFame;
 		

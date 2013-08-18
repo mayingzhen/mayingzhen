@@ -4,17 +4,13 @@
 #include "AutoLock.h"
 
 #if PLATFORM_WIN == 1
-#include "Win/CriticalSection_win.h"
-#include "Win/Event_win.h"
-#include "Win/Thread_win.h"
-#elif PLAFTORM_IOS == 1
-#include "IOS/CriticalSection_ios.h"
-#include "IOS/Event_IOS.h"
-#include "IOS/Thread_IOS.h"
-#elif PLATFORM_ANDROID == 1
-#include "Android/CriticalSection_Android.h"
-#include "Android/Event_Android.h"
-#include "Android/Thread_Android.h"
+#include "WinThread/CriticalSection_win.h"
+#include "WinThread/Event_win.h"
+#include "WinThread/Thread_win.h"
+#elif PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+#include "pthread/CriticalSection_Android.h"
+#include "pthread/Event_Android.h"
+#include "pthread/Thread_Android.h"
 #endif
 
 

@@ -178,6 +178,8 @@ namespace ma
 		if (shName == NULL)
 			return;
 
+		m_name = std::string(shName) + "_" + defines;
+
 		std::string strPath = GetRenderDevice()->GetShaderPath();
 		strPath += shName;
 
@@ -210,11 +212,13 @@ namespace ma
 			//return;
 		}
 
+		m_id = uniqueId;
+
 		std::string strVshSource = prePareShaderSource(vshPath,defines);
 		std::string strFshSource = prePareShaderSource(fshPath,defines);
-		
+
 		CreateFromSource(strVshSource.c_str(), strVshSource.length(), 
-			strFshSource.c_str(), strFshSource.length() );
+			strFshSource.c_str(), strFshSource.length());
 
 		ParseUniform();
 
@@ -253,7 +257,7 @@ namespace ma
 // 	}
 
 	Uniform::Uniform() :
-		_location(-1), /*_type(0),*/ _index(0)
+		m_location(-1), /*_type(0),*/ m_index(0)
 	{
 	}
 
@@ -264,17 +268,17 @@ namespace ma
 
 	const ShaderProgram* Uniform::GetEffect() const
 	{
-		return _effect;
+		return m_effect;
 	}
 
 	const char* Uniform::getName() const
 	{
-		return _name.c_str();
+		return m_name.c_str();
 	}
 
 	int Uniform::getType() const
 	{
-		return _type;
+		return m_type;
 	}
 
 }

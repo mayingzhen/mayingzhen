@@ -6,15 +6,12 @@ namespace ma
 {
 	SampleSceneSerialize::SampleSceneSerialize()
 	{
-		//m_pScene = NULL;
 	}
 
 	void SampleSceneSerialize::Load()
 	{
 		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
 		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
-
-		//Scene* pScene = new Scene();
 
 		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f,0));
 		{
@@ -33,10 +30,11 @@ namespace ma
 			}
 		}
 
-
+		std::string strResPath = FileSystem::getResourcePath();
+		std::string strScenePath = strResPath + "scene/Test.scene";
 		{
 			BinaryOutputArchive arOut;
-			bool bOpenOK = arOut.Open("../Tesx.scene");
+			bool bOpenOK = arOut.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
 			GetEntitySystem()->Serialize(arOut);
 			arOut.Close();
@@ -44,7 +42,7 @@ namespace ma
 
 		{
 			BinaryInputArchive arIn;
-			bool bOpenOK = arIn.Open("../Tesx.scene");
+			bool bOpenOK = arIn.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
 			GetEntitySystem()->Serialize(arIn);
 			arIn.Close();
@@ -57,11 +55,14 @@ namespace ma
 
 	void SampleSceneSerialize::Update()
 	{
+		std::string strResPath = FileSystem::getResourcePath();
+		std::string strScenePath = strResPath + "scene/Test.scene.xml";
+
 		if (GetInput()->IsKeyDown(OIS::KC_X))
 		{
 			{
 				XMLOutputArchive arOut;
-				bool bOpenOK = arOut.Open("../Tesx.scene.xml");
+				bool bOpenOK = arOut.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
 				GetEntitySystem()->Serialize(arOut);
 				arOut.Close();
@@ -69,19 +70,12 @@ namespace ma
 
 			{
 				XMLInputArchive arIn;
-				bool bOpenOK = arIn.Open("../Tesx.scene.xml");
+				bool bOpenOK = arIn.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
 				GetEntitySystem()->Serialize(arIn);
 				arIn.Close();
 			}
 		}
-
-		//m_pScene->Update(GetTimer()->GetFrameDeltaTime());
-	}
-
-	void SampleSceneSerialize::Render()
-	{
-		//m_pScene->Render(GetCamera());
 	}
 
 }

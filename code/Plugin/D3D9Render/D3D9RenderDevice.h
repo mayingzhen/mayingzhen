@@ -53,8 +53,6 @@ namespace ma
 		virtual void				BeginRender();
 	
 		virtual void				EndRender();
-
-		virtual	void				GetRenderWndSize(int& Width,int& Heigh);
 		
 		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
 

@@ -94,7 +94,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     // Create the effect for the font's sprite batch.
     if (__fontMaterial == NULL)
     {
-		__fontMaterial = new Material("DIFFUSE;COLOR;FONT","default");
+		__fontMaterial = new Material(NULL,"font");
 
 		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
 		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_eDepthCheckMode = DCM_NONE;

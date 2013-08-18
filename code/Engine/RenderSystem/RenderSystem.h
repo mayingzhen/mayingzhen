@@ -34,10 +34,6 @@ namespace ma
 
 		Camera*		GetCamera() {return m_pCamera;}
 
-// 		Renderable*	GetCurRenderable() {return m_pCurRenderable;}
-// 
-// 		Light*		GetCurLight()	{return m_pCurLight;}
-
 		UINT		GetSolidEntryNumber() {return m_arrSolidEntry.size();}
 
 		Renderable*	GetSolidEntryByIndex(UINT i) {return m_arrSolidEntry[i];}
@@ -46,16 +42,24 @@ namespace ma
 
 		Light*		GetLightByIndex(UINT i) {return m_arrLight[i];}
 
+		Vector4		GetAmbientColor() {return m_cAmbientColor;}
+
+		void		SetAmbientColor(const Vector4& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+
 		RenderMesh*	CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture);
 
 		void		DeleteRenderMesh(RenderMesh* pRenderMesh);
+
+		void		SetDefferLight(bool bDefferLight) {m_bDefferLight = bDefferLight;}
+
+		void		SetShadow(bool bShadow) {m_bShadow = bShadow;}
+
+		void		SetClearClor(Color cClor) {m_cClearClor = cClor;}
 
 	protected:
 		std::vector<Renderable*>	m_arrSolidEntry;
 		std::vector<Renderable*>	m_arrTransEntry;
 		std::vector<Light*>			m_arrLight;
-		//Renderable*					m_pCurRenderable;
-		//Light*						m_pCurLight;
 
 		Camera*						m_pCamera;
 
@@ -66,6 +70,10 @@ namespace ma
 
 		bool						m_bShadow;
 		bool						m_bDefferLight;
+
+		Vector4						m_cAmbientColor;
+
+		Color						m_cClearClor;
 
 	};
 

@@ -38,6 +38,10 @@ namespace ma
 
 		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
 
+		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint);
+
+		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint);
+
 		virtual GameObject*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 
 		btDiscreteDynamicsWorld*		GetDynamicsWorld() {return m_pDynamicsWorld;}

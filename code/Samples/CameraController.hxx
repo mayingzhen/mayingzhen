@@ -23,7 +23,7 @@ namespace ma
 		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
 
 		//Handle rotation
-		if (GetInput()->IsMouseButtonDown(OIS::MB_Middle) && GetInput()->IsKeyDown(OIS::KC_LMENU))
+		if (GetInput()->IsMouseButtonDown(OIS::MB_Right))
 		{
 			EulerAngleXYZ vRotEuler(0.0f,0.0f,0.0f);	
 			const OIS::MouseState& mouseState = GetInput()->GetMouseState();
@@ -35,7 +35,7 @@ namespace ma
 
 			
 		//Handle pan
-		if (!GetInput()->IsKeyDown(OIS::KC_LMENU) && GetInput()->IsMouseButtonDown(OIS::MB_Middle) )
+		if ( GetInput()->IsMouseButtonDown(OIS::MB_Middle) )
 		{
 			Vector3 vPan(0.0f,0.0f,0.0f);
 			float fPanDist = m_fMoveSpeed * fTimeElapsed;
@@ -61,7 +61,7 @@ namespace ma
 		float fDeltaZoom = GetInput()->GetMouseState().Z.rel;
 		if (fDeltaZoom != 0)
 		{
-			fDeltaZoom *=  m_fZoomSpeed * fTimeElapsed;
+			fDeltaZoom *=  m_fZoomSpeed /** fTimeElapsed*/;
 
 			ZoomCamera(fDeltaZoom);		
 		}	

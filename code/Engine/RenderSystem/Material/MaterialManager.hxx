@@ -18,7 +18,7 @@ namespace ma
 	MaterialManager::MaterialManager() 
 	{
 		m_autoDefaultBings["u_worldViewProjectionMatrix"] = WORLD_VIEW_PROJECTION_MATRIX;
-		m_autoDefaultBings["u_worldviewMatrix"] = WORLD_VIEW_MATRIX;
+		m_autoDefaultBings["u_worldViewMatrix"] = WORLD_VIEW_MATRIX;
 		m_autoDefaultBings["u_matrixPalette"] = MATRIX_PALETTE;
 		m_autoDefaultBings["depth_near_far_invfar"] = DepthNearFarInvfar;
 		m_autoDefaultBings["u_InvProjMatrix"] =  INVERSE_PROJECTION_MATRIX;
@@ -251,28 +251,29 @@ namespace ma
 		return m_pCurRenderable->m_arrSkinMatrix.size();
 	}
 
-	const Vector3& MaterialManager::autoBindingGetAmbientColor() const
+	const Vector4& MaterialManager::autoBindingGetAmbientColor() const
 	{
-		if (m_pCurLight == NULL)
-			return Vec3Zero();
-
-		return m_pCurLight->GetAmbientColor();
+		return GetRenderSystem()->GetAmbientColor();
 	}
 
-	const Vector3& MaterialManager::autoBindingGetLightColor() const
+	const Vector4& MaterialManager::autoBindingGetLightColor() const
 	{
 		if (m_pCurLight == NULL)
-			return Vec3One();
+			return Vec4One();
 
-		return m_pCurLight->GetDiffuse();
+		return m_pCurLight->GetLightColor();
 	}
 
 	const Vector3& MaterialManager::autoBindingGetLightDirection() const
 	{
-		if (m_pCurLight == NULL)
+		if (m_pCurLight == NULL || m_pCurLight->GetLightType() != LIGHT_DIRECTIONAL)
+		{
+			ASSERT(false);
 			return Vec3One();
-
-		return m_pCurLight->GetDirection();
+		}
+		
+		DirectonalLight* pDirLigt = (DirectonalLight*)m_pCurLight;
+		return pDirLigt->GetDirection();
 	}
 
 	Vector4 MaterialManager::autoBingingDepthNearFarInvfar() const
@@ -284,7 +285,7 @@ namespace ma
 		float fNear = pCamera->GetNearClip();
 		float fFar = pCamera->GetFarClip();
 		
-		return Vector4(fNear,fFar,1/fFar,0);
+		return Vector4(fNear,fFar,1.0f/fFar,0);
 	}
 
 	Texture* MaterialManager::autoBingingSceneDetph() const

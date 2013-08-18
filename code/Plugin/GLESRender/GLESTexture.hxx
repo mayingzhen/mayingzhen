@@ -173,7 +173,7 @@ namespace ma
 	{
 		if (nWidth == -1 && nHeight == -1)
 		{
-			GetRenderDevice()->GetRenderWndSize(nWidth,nHeight);
+			Platform::GetInstance().GetWindowSize(nWidth,nHeight);
 		}
 
 		m_nWidth = nWidth;
@@ -220,7 +220,7 @@ namespace ma
 
 	bool GLESTexture::Load(DataStream* pDataStream, bool generateMipmaps)
 	{
-		return Load(pDataStream->GetFilePath(),generateMipmaps);
+		//return Load(pDataStream->GetFilePath(),generateMipmaps);
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
@@ -279,76 +279,19 @@ namespace ma
 			GenerateMipmaps();
 		}
 
-		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
+		//glFlush();
 
 		return true;
 	}
 
 	bool GLESTexture::Load(const char* pszPath,bool generateMipmaps)
 	{
-		ASSERT(pszPath);
-		if (pszPath == NULL)
-			return false;
+		SAFE_DELETE(m_pDataStream);
+		m_pDataStream =  FileSystem::readAll(pszPath);
 
-		ILuint curImage = 0; 
-		ilGenImages(1, &curImage);
-		ilBindImage(curImage);
+		Load(m_pDataStream,generateMipmaps);
 
-		if(!ilLoadImage(pszPath))
-		{ 
-			ASSERT(false);
-			ilDeleteImages(1, &curImage);
-			return false;
-		} 
-	
-
-		m_nWidth = ilGetInteger(IL_IMAGE_WIDTH);
-		m_nHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-		m_nMipLevels = ilGetInteger(IL_NUM_MIPMAPS);
-		ILint imageFormat = ilGetInteger(IL_IMAGE_FORMAT);
-		m_PixelFormat = ChooseBestTextureFormat(imageFormat);
-		bool bCompressFormat = IsCompressedTextureFormat(imageFormat);
-
-		GL_ASSERT( glGenTextures(1, &m_pTex) );
-		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
-
-// 		GLint minFilter = m_nMipLevels > 1 ? GL_NEAREST_MIPMAP_LINEAR : GL_LINEAR;
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter ) );
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE) );
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE) );
-
-		int i = 0;
-		while(ilActiveMipmap(i))
-		{	
-			Uint8* pSrcData= (Uint8*)ilGetData();
-			int unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
-			int unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-
-			ConvertImageData(imageFormat,unLevelWidth * unLevelHeight,pSrcData);
-
-			if(bCompressFormat)
-			{
-				UINT unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
-				GL_ASSERT( glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData) );
-			}	
-			else
-			{
-				GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData) );	
-			}
-
-			ilBindImage(curImage);
-			i++;
-		}
-
-		ilDeleteImages(1, &curImage);
-
-		if (generateMipmaps)
-		{
-			GenerateMipmaps();
-		}
-		
-		glFlush(); // 少了这句会乱,似乎异步建立的OpenGL的顶点缓冲尚未实际建立数据,就被使用了.
+		m_pDataStream->close();
 
 		return true;
 	}

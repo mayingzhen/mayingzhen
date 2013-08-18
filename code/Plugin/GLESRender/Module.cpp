@@ -39,6 +39,12 @@ void GLESRenderModuleInit()
 	ma::SetRenderDevice(pGLESRenderDevice);
 
 	ma::InitTextureSystem();
+
+	ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+
+	ma::GetRenderSystem()->SetDefferLight(false);
+	ma::GetRenderSystem()->SetShadow(false);
+	ma::GetRenderSystem()->Init();
 }
 
 
@@ -50,3 +56,19 @@ void GLESRenderModuleShutdown()
 	SAFE_DELETE(pGLESRenderDevice);
 }
 
+#if PLATFORM_WIN == 1
+extern "C" GLESRENDER_API bool dllStartPlugin()
+{
+	GLESRenderModuleInit();
+
+	return true;
+}
+
+
+extern "C" GLESRENDER_API bool dllStopPlugin()
+{
+	GLESRenderModuleShutdown();
+
+	return true;
+}
+#endif

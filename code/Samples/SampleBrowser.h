@@ -40,6 +40,12 @@ namespace ma
 
 		void				RunSample(const char* pSampleNma);
 
+		void				InitResourcePath();
+
+		void				InitModule();
+
+		void				LoadPlugin();
+
 	private:
 		std::map<std::string,Sample*>	m_arrSamples;
 

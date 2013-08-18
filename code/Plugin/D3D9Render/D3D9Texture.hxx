@@ -18,17 +18,10 @@ namespace ma
 	{
 		if (nWidth == -1 && nHeight == -1)
 		{
-			GetRenderDevice()->GetRenderWndSize(nWidth,nHeight);
+			Platform::GetInstance().GetWindowSize(nWidth,nHeight);
 		}
 
 		ASSERT(nWidth && nHeight);
-		//d_assert (FindTexture(sName).IsNull());
-
-		//if (!RenderSystem::Instance()->CheckRenderTargetFormat(Format))
-		//{
-		//	EXCEPTION("Your device can't support texture format '" + D3D9Mapping::GetFormatString(Format) + 
-		//		"' for render target");
-		//}
 
 		HRESULT hr = D3D_OK;
 		DWORD D3DUsage = D3DUSAGE_RENDERTARGET;
@@ -54,14 +47,6 @@ namespace ma
 
 		ASSERT(hr == D3D_OK);
 
-
-// 		if (FAILED(hr))
-// 		{
-// 			EXCEPTION("D3D Error: CreateTexture failed, desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
-// 		}
-
-		//D3D9Texture * pTexture = new D3D9Texture(mD3D9Device);
-
 		//pTexture->mName = sName;
 		m_pD3DTex = pD3D9Texture;
 		m_nWidth = nWidth;
@@ -70,12 +55,6 @@ namespace ma
 		m_eFormat = Format;
 		m_eType = TEXTYPE_RENDERTARGET;
 		m_nMipLevels = 1;
-
-		//hr = pD3D9Texture->GetSurfaceLevel(0,&mRenderTarget);
-
-		//mTextures.Insert(pTexture->GetName(), pTexture);
-
-		//return TexturePtr(pTexture);
 
 		return true;
 	}
@@ -131,8 +110,8 @@ namespace ma
 			&ImgInfo,
 			NULL,
 			&pD3D9Texture);
+		ASSERT(hr == D3D_OK);
 
-		//D3DErrorExceptionFunction(D3DXCreateTextureFromFileEx, hr);
 
 		D3DSURFACE_DESC desc;
 
@@ -155,42 +134,10 @@ namespace ma
 		if (pszPath == NULL)
 			return false;
 
-		//D3DXCreateTextureFromFile(GetD3D9DxDevive(),pszPath,&m_pD3DTex);
+		SAFE_DELETE(m_pDataStream);
+		m_pDataStream =  FileSystem::readAll(pszPath);
 
-
-		D3DXIMAGE_INFO ImgInfo;
-
-		IDirect3DTexture9 * pD3D9Texture = NULL;
-		HRESULT hr = D3DXCreateTextureFromFileEx(GetD3D9DxDevive(),
-			pszPath,
-			D3DX_DEFAULT,
-			D3DX_DEFAULT,
-			generateMipmaps ? D3DX_DEFAULT : D3DX_FROM_FILE,
-			0,
-			D3DFMT_UNKNOWN,
-			D3DPOOL_MANAGED,
-			D3DX_DEFAULT,
-			D3DX_DEFAULT,
-			0,
-			&ImgInfo,
-			NULL,
-			&pD3D9Texture);
-
-		//D3DErrorExceptionFunction(D3DXCreateTextureFromFileEx, hr);
-
-		D3DSURFACE_DESC desc;
-
-		pD3D9Texture->GetLevelDesc(0, &desc);
-
-		m_pD3DTex = pD3D9Texture;
-		m_nWidth = desc.Width;
-		m_nHeight = desc.Height;
-		//m_eFormat = D3D9Mapping::GetFormat(desc.Format);
-		m_nMipLevels = pD3D9Texture->GetLevelCount();
-
-		//mLoadState = Resource::LOADED;
-
-		return true;
+		return Load(m_pDataStream,generateMipmaps);
 	}
 }
 

@@ -8,6 +8,7 @@
 %include "../../Code/Engine/Export.h"
 
 %include "../../Code/Engine/Input/Input.h"
+%include "../../Code/Engine/Application/Timer.h"
 
 %include "../../Code/Engine/Animation/IAnimationSystem.h"
 %include "../../Code/Engine/Animation/IAnimationObject.h"

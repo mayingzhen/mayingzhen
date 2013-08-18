@@ -27,11 +27,11 @@ namespace ma
 
 		void						Capture() const;
 
-		bool						IsKeyDown(OIS::KeyCode keyCode) const {return mKeyboard->isKeyDown(keyCode);}
+		bool						IsKeyDown(OIS::KeyCode keyCode) const {return mKeyboard ? mKeyboard->isKeyDown(keyCode) : false;}
  
-		bool						IsMouseButtonDown(OIS::MouseButtonID button) const {return GetMouseState().buttonDown(button);}
+		bool						IsMouseButtonDown(OIS::MouseButtonID button) const {return mMouse ? GetMouseState().buttonDown(button) : false;}
 
-		const OIS::MouseState&		GetMouseState() const {return mMouse->getMouseState();}
+		const OIS::MouseState&		GetMouseState() const {return mMouse ? mMouse->getMouseState() : OIS::MouseState();}
 
 		OIS::Mouse*					GetMouse() {return mMouse;}
 

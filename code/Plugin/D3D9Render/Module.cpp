@@ -17,6 +17,10 @@ void D3D9RenderModuleInit()
 {
 	ma::D3D9RenderDevice* pDxRenderDevice = new ma::D3D9RenderDevice();
 	ma::SetRenderDevice(pDxRenderDevice);
+	
+	ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+	
+	ma::GetRenderSystem()->Init();
 }
 
 
@@ -26,3 +30,17 @@ void D3D9RenderModuleShutdown()
 	SAFE_DELETE(pDxRenderDevice);
 }
 
+extern "C" D3D9RENDER_API bool dllStartPlugin()
+{
+	D3D9RenderModuleInit();
+
+	return true;
+}
+
+
+extern "C" D3D9RENDER_API bool dllStopPlugin()
+{
+	D3D9RenderModuleShutdown();
+
+	return true;
+}

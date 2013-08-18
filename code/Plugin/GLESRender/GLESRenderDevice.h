@@ -49,7 +49,6 @@ namespace ma
 
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
-		virtual void				DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor);
 
 		/// Render Pass
 		virtual	void				Init(HWND wndhandle);
@@ -57,9 +56,6 @@ namespace ma
 		virtual void				BeginRender();
 	
 		virtual void				EndRender();
-
-		/// Util
-		virtual	void				GetRenderWndSize(int& Width,int& Heigh);
 		
 		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
 
