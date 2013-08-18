@@ -1,1 +1,0 @@
-#include "RenderScheme/stdafx.h"
