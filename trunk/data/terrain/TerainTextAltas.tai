@@ -1,4 +1,4 @@
-<TextAltas path="TerainTextAltas1.dds">
+<TextAltas path="TerainTextAltas0.dds">
     <Texture fileName="北方/北方山A01.jpg" uOffset="0.000488" vOffset="0.000977" wOffset="0.000000" uWidth="0.249023" vHeight="0.498047" />
     <Texture fileName="北方/北方山A02.jpg" uOffset="0.250488" vOffset="0.000977" wOffset="0.000000" uWidth="0.249023" vHeight="0.498047" />
     <Texture fileName="北方/北方菜地.jpg" uOffset="0.500488" vOffset="0.000977" wOffset="0.000000" uWidth="0.124023" vHeight="0.498047" />

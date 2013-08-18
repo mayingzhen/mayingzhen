@@ -1,4 +1,4 @@
-const float shininess = 16.0h;
+float4 shininess = 16.0f;
 
 struct VS_OUT
 {      
@@ -18,5 +18,5 @@ struct PS_OUT
 void main( VS_OUT vout, out PS_OUT pout ) 
 {
 	pout.Pos = vout.oPos2.z;
-  	pout.normal = float4( (normalize(vout.oNormal) + 1) * 0.5, shininess / 255.0f );
+  	pout.normal = float4( (normalize(vout.oNormal) + 1) * 0.5, shininess.x / 255.0f );
 }
