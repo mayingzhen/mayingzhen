@@ -1,0 +1,356 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6FCAFB7317A698B500156941 /* OISLIRC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB3617A698B500156941 /* OISLIRC.cpp */; };
+		6FCAFB7417A698B500156941 /* OISLIRCFactoryCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB3817A698B500156941 /* OISLIRCFactoryCreator.cpp */; };
+		6FCAFB7517A698B500156941 /* iPhoneAccelerometer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB3C17A698B500156941 /* iPhoneAccelerometer.mm */; };
+		6FCAFB7617A698B500156941 /* iPhoneInputManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB3D17A698B500156941 /* iPhoneInputManager.mm */; };
+		6FCAFB7717A698B500156941 /* iPhoneMultiTouch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB3E17A698B500156941 /* iPhoneMultiTouch.mm */; };
+		6FCAFB8817A698B500156941 /* OISEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5117A698B500156941 /* OISEffect.cpp */; };
+		6FCAFB8917A698B500156941 /* OISException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5217A698B500156941 /* OISException.cpp */; };
+		6FCAFB8A17A698B500156941 /* OISForceFeedback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5317A698B500156941 /* OISForceFeedback.cpp */; };
+		6FCAFB8B17A698B500156941 /* OISInputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5417A698B500156941 /* OISInputManager.cpp */; };
+		6FCAFB8C17A698B500156941 /* OISJoyStick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5517A698B500156941 /* OISJoyStick.cpp */; };
+		6FCAFB8D17A698B500156941 /* OISKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5617A698B500156941 /* OISKeyboard.cpp */; };
+		6FCAFB8E17A698B500156941 /* OISObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FCAFB5717A698B500156941 /* OISObject.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FCAFB1A17A6983E00156941 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6F9B7A8917BA5698008AF370 /* iPhoneAccelerometer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneAccelerometer.h; sourceTree = "<group>"; };
+		6F9B7A8A17BA5698008AF370 /* iPhoneHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneHelpers.h; sourceTree = "<group>"; };
+		6F9B7A8B17BA5698008AF370 /* iPhoneInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneInputManager.h; sourceTree = "<group>"; };
+		6F9B7A8C17BA5698008AF370 /* iPhoneMultiTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneMultiTouch.h; sourceTree = "<group>"; };
+		6F9B7A8D17BA5698008AF370 /* iPhonePrereqs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhonePrereqs.h; sourceTree = "<group>"; };
+		6F9B7AA317BA5698008AF370 /* OIS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OIS.h; sourceTree = "<group>"; };
+		6F9B7AA417BA5698008AF370 /* OISConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISConfig.h; sourceTree = "<group>"; };
+		6F9B7AA517BA5698008AF370 /* OISEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISEffect.h; sourceTree = "<group>"; };
+		6F9B7AA617BA5698008AF370 /* OISEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISEvents.h; sourceTree = "<group>"; };
+		6F9B7AA717BA5698008AF370 /* OISException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISException.h; sourceTree = "<group>"; };
+		6F9B7AA817BA5698008AF370 /* OISFactoryCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISFactoryCreator.h; sourceTree = "<group>"; };
+		6F9B7AA917BA5698008AF370 /* OISForceFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISForceFeedback.h; sourceTree = "<group>"; };
+		6F9B7AAA17BA5698008AF370 /* OISInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISInputManager.h; sourceTree = "<group>"; };
+		6F9B7AAB17BA5698008AF370 /* OISInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISInterface.h; sourceTree = "<group>"; };
+		6F9B7AAC17BA5698008AF370 /* OISJoyStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISJoyStick.h; sourceTree = "<group>"; };
+		6F9B7AAD17BA5698008AF370 /* OISKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISKeyboard.h; sourceTree = "<group>"; };
+		6F9B7AAE17BA5698008AF370 /* OISMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISMouse.h; sourceTree = "<group>"; };
+		6F9B7AAF17BA5698008AF370 /* OISMultiTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISMultiTouch.h; sourceTree = "<group>"; };
+		6F9B7AB017BA5698008AF370 /* OISObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISObject.h; sourceTree = "<group>"; };
+		6F9B7AB117BA5698008AF370 /* OISPrereqs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISPrereqs.h; sourceTree = "<group>"; };
+		6FCAFB1C17A6983E00156941 /* libOIS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOIS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FCAFB3617A698B500156941 /* OISLIRC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISLIRC.cpp; sourceTree = "<group>"; };
+		6FCAFB3717A698B500156941 /* OISLIRC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISLIRC.h; sourceTree = "<group>"; };
+		6FCAFB3817A698B500156941 /* OISLIRCFactoryCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISLIRCFactoryCreator.cpp; sourceTree = "<group>"; };
+		6FCAFB3917A698B500156941 /* OISLIRCFactoryCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISLIRCFactoryCreator.h; sourceTree = "<group>"; };
+		6FCAFB3A17A698B500156941 /* OISLIRCRingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OISLIRCRingBuffer.h; sourceTree = "<group>"; };
+		6FCAFB3C17A698B500156941 /* iPhoneAccelerometer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iPhoneAccelerometer.mm; sourceTree = "<group>"; };
+		6FCAFB3D17A698B500156941 /* iPhoneInputManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iPhoneInputManager.mm; sourceTree = "<group>"; };
+		6FCAFB3E17A698B500156941 /* iPhoneMultiTouch.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iPhoneMultiTouch.mm; sourceTree = "<group>"; };
+		6FCAFB5117A698B500156941 /* OISEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISEffect.cpp; sourceTree = "<group>"; };
+		6FCAFB5217A698B500156941 /* OISException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISException.cpp; sourceTree = "<group>"; };
+		6FCAFB5317A698B500156941 /* OISForceFeedback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISForceFeedback.cpp; sourceTree = "<group>"; };
+		6FCAFB5417A698B500156941 /* OISInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISInputManager.cpp; sourceTree = "<group>"; };
+		6FCAFB5517A698B500156941 /* OISJoyStick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISJoyStick.cpp; sourceTree = "<group>"; };
+		6FCAFB5617A698B500156941 /* OISKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISKeyboard.cpp; sourceTree = "<group>"; };
+		6FCAFB5717A698B500156941 /* OISObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OISObject.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FCAFB1917A6983E00156941 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F9B7A8717BA5698008AF370 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				6F9B7A8817BA5698008AF370 /* iphone */,
+				6F9B7AA317BA5698008AF370 /* OIS.h */,
+				6F9B7AA417BA5698008AF370 /* OISConfig.h */,
+				6F9B7AA517BA5698008AF370 /* OISEffect.h */,
+				6F9B7AA617BA5698008AF370 /* OISEvents.h */,
+				6F9B7AA717BA5698008AF370 /* OISException.h */,
+				6F9B7AA817BA5698008AF370 /* OISFactoryCreator.h */,
+				6F9B7AA917BA5698008AF370 /* OISForceFeedback.h */,
+				6F9B7AAA17BA5698008AF370 /* OISInputManager.h */,
+				6F9B7AAB17BA5698008AF370 /* OISInterface.h */,
+				6F9B7AAC17BA5698008AF370 /* OISJoyStick.h */,
+				6F9B7AAD17BA5698008AF370 /* OISKeyboard.h */,
+				6F9B7AAE17BA5698008AF370 /* OISMouse.h */,
+				6F9B7AAF17BA5698008AF370 /* OISMultiTouch.h */,
+				6F9B7AB017BA5698008AF370 /* OISObject.h */,
+				6F9B7AB117BA5698008AF370 /* OISPrereqs.h */,
+			);
+			path = Include;
+			sourceTree = "<group>";
+		};
+		6F9B7A8817BA5698008AF370 /* iphone */ = {
+			isa = PBXGroup;
+			children = (
+				6F9B7A8917BA5698008AF370 /* iPhoneAccelerometer.h */,
+				6F9B7A8A17BA5698008AF370 /* iPhoneHelpers.h */,
+				6F9B7A8B17BA5698008AF370 /* iPhoneInputManager.h */,
+				6F9B7A8C17BA5698008AF370 /* iPhoneMultiTouch.h */,
+				6F9B7A8D17BA5698008AF370 /* iPhonePrereqs.h */,
+			);
+			path = iphone;
+			sourceTree = "<group>";
+		};
+		6FCAFB1317A6983E00156941 = {
+			isa = PBXGroup;
+			children = (
+				6F9B7A8717BA5698008AF370 /* Include */,
+				6FCAFB3317A698B500156941 /* src */,
+				6FCAFB1D17A6983E00156941 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FCAFB1D17A6983E00156941 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FCAFB1C17A6983E00156941 /* libOIS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FCAFB3317A698B500156941 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6FCAFB3417A698B500156941 /* extras */,
+				6FCAFB3B17A698B500156941 /* iphone */,
+				6FCAFB5117A698B500156941 /* OISEffect.cpp */,
+				6FCAFB5217A698B500156941 /* OISException.cpp */,
+				6FCAFB5317A698B500156941 /* OISForceFeedback.cpp */,
+				6FCAFB5417A698B500156941 /* OISInputManager.cpp */,
+				6FCAFB5517A698B500156941 /* OISJoyStick.cpp */,
+				6FCAFB5617A698B500156941 /* OISKeyboard.cpp */,
+				6FCAFB5717A698B500156941 /* OISObject.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		6FCAFB3417A698B500156941 /* extras */ = {
+			isa = PBXGroup;
+			children = (
+				6FCAFB3517A698B500156941 /* LIRC */,
+			);
+			path = extras;
+			sourceTree = "<group>";
+		};
+		6FCAFB3517A698B500156941 /* LIRC */ = {
+			isa = PBXGroup;
+			children = (
+				6FCAFB3617A698B500156941 /* OISLIRC.cpp */,
+				6FCAFB3717A698B500156941 /* OISLIRC.h */,
+				6FCAFB3817A698B500156941 /* OISLIRCFactoryCreator.cpp */,
+				6FCAFB3917A698B500156941 /* OISLIRCFactoryCreator.h */,
+				6FCAFB3A17A698B500156941 /* OISLIRCRingBuffer.h */,
+			);
+			path = LIRC;
+			sourceTree = "<group>";
+		};
+		6FCAFB3B17A698B500156941 /* iphone */ = {
+			isa = PBXGroup;
+			children = (
+				6FCAFB3C17A698B500156941 /* iPhoneAccelerometer.mm */,
+				6FCAFB3D17A698B500156941 /* iPhoneInputManager.mm */,
+				6FCAFB3E17A698B500156941 /* iPhoneMultiTouch.mm */,
+			);
+			path = iphone;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FCAFB1B17A6983E00156941 /* OIS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FCAFB2A17A6983E00156941 /* Build configuration list for PBXNativeTarget "OIS" */;
+			buildPhases = (
+				6FCAFB1817A6983E00156941 /* Sources */,
+				6FCAFB1917A6983E00156941 /* Frameworks */,
+				6FCAFB1A17A6983E00156941 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OIS;
+			productName = OIS;
+			productReference = 6FCAFB1C17A6983E00156941 /* libOIS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FCAFB1417A6983E00156941 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FCAFB1717A6983E00156941 /* Build configuration list for PBXProject "OIS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FCAFB1317A6983E00156941;
+			productRefGroup = 6FCAFB1D17A6983E00156941 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FCAFB1B17A6983E00156941 /* OIS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FCAFB1817A6983E00156941 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FCAFB7317A698B500156941 /* OISLIRC.cpp in Sources */,
+				6FCAFB7417A698B500156941 /* OISLIRCFactoryCreator.cpp in Sources */,
+				6FCAFB7517A698B500156941 /* iPhoneAccelerometer.mm in Sources */,
+				6FCAFB7617A698B500156941 /* iPhoneInputManager.mm in Sources */,
+				6FCAFB7717A698B500156941 /* iPhoneMultiTouch.mm in Sources */,
+				6FCAFB8817A698B500156941 /* OISEffect.cpp in Sources */,
+				6FCAFB8917A698B500156941 /* OISException.cpp in Sources */,
+				6FCAFB8A17A698B500156941 /* OISForceFeedback.cpp in Sources */,
+				6FCAFB8B17A698B500156941 /* OISInputManager.cpp in Sources */,
+				6FCAFB8C17A698B500156941 /* OISJoyStick.cpp in Sources */,
+				6FCAFB8D17A698B500156941 /* OISKeyboard.cpp in Sources */,
+				6FCAFB8E17A698B500156941 /* OISObject.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FCAFB2817A6983E00156941 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FCAFB2917A6983E00156941 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FCAFB2B17A6983E00156941 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = ./lib/ios;
+				DSTROOT = /tmp/OIS.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = ./include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FCAFB2C17A6983E00156941 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = ./lib/ios;
+				DSTROOT = /tmp/OIS.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = ./include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FCAFB1717A6983E00156941 /* Build configuration list for PBXProject "OIS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FCAFB2817A6983E00156941 /* Debug */,
+				6FCAFB2917A6983E00156941 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FCAFB2A17A6983E00156941 /* Build configuration list for PBXNativeTarget "OIS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FCAFB2B17A6983E00156941 /* Debug */,
+				6FCAFB2C17A6983E00156941 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FCAFB1417A6983E00156941 /* Project object */;
+}
