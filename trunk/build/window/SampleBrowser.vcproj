@@ -63,7 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="d3dx9d.lib d3d9.lib d3dxof.lib dxguid.lib dxerr.lib"
-				OutputFile="$(OutDir)\C3Game_$(ProjectName).exe"
+				OutputFile="$(OutDir)\Unity_$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/lib"
 				GenerateDebugInformation="true"
@@ -294,56 +294,64 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\code\Samples\CameraController.h"
+		<Filter
+			Name="Common"
 			>
-		</File>
-		<File
-			RelativePath="..\..\code\Samples\CameraController.hxx"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Samples\main-windows.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Samples\Sample.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Samples\Sample.hxx"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Samples\SampleBrowser.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Samples\SampleBrowser.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Samples\stdafx.cpp"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
+			<File
+				RelativePath="..\..\code\Samples\CameraController.h"
 				>
-				<Tool
-					Name="VCCLCompilerTool"
-					UsePrecompiledHeader="1"
-				/>
-			</FileConfiguration>
-		</File>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\CameraController.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\main-windows.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\Sample.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\Sample.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\SampleBrowser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\SampleBrowser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\Code\Samples\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Systems.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Systems.hxx"
+				>
+			</File>
+		</Filter>
 		<File
-			RelativePath="..\..\Code\Samples\stdafx.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Samples\Systems.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Samples\Systems.hxx"
+			RelativePath="..\..\data\config\config.xml"
 			>
 		</File>
 	</Files>

@@ -721,58 +721,38 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Thread\TArray.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Thread\Thread.h"
 				>
 			</File>
 			<Filter
-				Name="IOS"
+				Name="pthread"
 				>
 				<File
-					RelativePath="..\..\code\Engine\Thread\ios\CriticalSection_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\CriticalSection_Android.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\ios\Event_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\Event_Android.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\ios\Thread_IOS.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\Thread_Android.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="Android"
+				Name="WinThread"
 				>
 				<File
-					RelativePath="..\..\code\Engine\Thread\android\CriticalSection_Android.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\CriticalSection_win.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\android\Event_Android.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\Event_win.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\android\Thread_Android.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Win"
-				>
-				<File
-					RelativePath="..\..\code\Engine\Thread\win\CriticalSection_win.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Thread\win\Event_win.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Thread\win\Thread_win.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\Thread_win.h"
 					>
 				</File>
 			</Filter>
