@@ -8,12 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6F1525F717B921F10047EE3A /* PlatformiOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254817B921F10047EE3A /* PlatformiOS.mm */; };
-		6F1525F917B921F10047EE3A /* PlatformLinux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15254B17B921F10047EE3A /* PlatformLinux.cpp */; };
 		6F1525FD17B921F10047EE3A /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F15256217B921F10047EE3A /* Module.cpp */; };
 		6F1525FE17B921F10047EE3A /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525D917B921F10047EE3A /* stdAfx.cpp */; };
-		6F1525FF17B921F10047EE3A /* CriticalSection_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EA17B921F10047EE3A /* CriticalSection_IOS.mm */; };
-		6F15260017B921F10047EE3A /* Event_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EC17B921F10047EE3A /* Event_IOS.mm */; };
-		6F15260117B921F10047EE3A /* Thread_IOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F1525EE17B921F10047EE3A /* Thread_IOS.mm */; };
 		6F9B7A8217BA5161008AF370 /* libOIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9B7A8117BA5161008AF370 /* libOIS.a */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +40,6 @@
 		6F15254417B921F10047EE3A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		6F15254517B921F10047EE3A /* Game.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hxx; sourceTree = "<group>"; };
 		6F15254817B921F10047EE3A /* PlatformiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformiOS.mm; sourceTree = "<group>"; };
-		6F15254B17B921F10047EE3A /* PlatformLinux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformLinux.cpp; sourceTree = "<group>"; };
 		6F15254F17B921F10047EE3A /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		6F15255017B921F10047EE3A /* Platform.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Platform.hxx; sourceTree = "<group>"; };
 		6F15255117B921F10047EE3A /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
@@ -178,22 +173,16 @@
 		6F1525DF17B921F10047EE3A /* TerrainLiquid.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainLiquid.hxx; sourceTree = "<group>"; };
 		6F1525E017B921F10047EE3A /* TerrainSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainSection.h; sourceTree = "<group>"; };
 		6F1525E117B921F10047EE3A /* TerrainSection.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainSection.hxx; sourceTree = "<group>"; };
-		6F1525E417B921F10047EE3A /* CriticalSection_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalSection_Android.h; sourceTree = "<group>"; };
-		6F1525E517B921F10047EE3A /* Event_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event_Android.h; sourceTree = "<group>"; };
-		6F1525E617B921F10047EE3A /* Thread_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_Android.h; sourceTree = "<group>"; };
-		6F1525E717B921F10047EE3A /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
-		6F1525E917B921F10047EE3A /* CriticalSection_IOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalSection_IOS.h; sourceTree = "<group>"; };
-		6F1525EA17B921F10047EE3A /* CriticalSection_IOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CriticalSection_IOS.mm; sourceTree = "<group>"; };
-		6F1525EB17B921F10047EE3A /* Event_IOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event_IOS.h; sourceTree = "<group>"; };
-		6F1525EC17B921F10047EE3A /* Event_IOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Event_IOS.mm; sourceTree = "<group>"; };
-		6F1525ED17B921F10047EE3A /* Thread_IOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_IOS.h; sourceTree = "<group>"; };
-		6F1525EE17B921F10047EE3A /* Thread_IOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Thread_IOS.mm; sourceTree = "<group>"; };
-		6F1525EF17B921F10047EE3A /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
-		6F1525F117B921F10047EE3A /* CriticalSection_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalSection_win.h; sourceTree = "<group>"; };
-		6F1525F217B921F10047EE3A /* Event_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event_win.h; sourceTree = "<group>"; };
-		6F1525F317B921F10047EE3A /* Thread_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_win.h; sourceTree = "<group>"; };
 		6F1525F417B921F10047EE3A /* WarningPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningPrefix.h; sourceTree = "<group>"; };
 		6F1525F517B921F10047EE3A /* WarningSuffix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningSuffix.h; sourceTree = "<group>"; };
+		6F420FE017C0B91000D0A4F3 /* AutoLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLock.h; sourceTree = "<group>"; };
+		6F420FE217C0B91000D0A4F3 /* CriticalSection_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalSection_Android.h; sourceTree = "<group>"; };
+		6F420FE317C0B91000D0A4F3 /* Event_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event_Android.h; sourceTree = "<group>"; };
+		6F420FE417C0B91000D0A4F3 /* Thread_Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_Android.h; sourceTree = "<group>"; };
+		6F420FE517C0B91000D0A4F3 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		6F420FE717C0B91000D0A4F3 /* CriticalSection_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CriticalSection_win.h; sourceTree = "<group>"; };
+		6F420FE817C0B91000D0A4F3 /* Event_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event_win.h; sourceTree = "<group>"; };
+		6F420FE917C0B91000D0A4F3 /* Thread_win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread_win.h; sourceTree = "<group>"; };
 		6F9B7A8117BA5161008AF370 /* libOIS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOIS.a; path = ../../extern/oisInput/Lib/IOS/libOIS.a; sourceTree = "<group>"; };
 		6FA78D6017943026005B3CD6 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -258,7 +247,6 @@
 				6F15254417B921F10047EE3A /* Game.h */,
 				6F15254517B921F10047EE3A /* Game.hxx */,
 				6F15254617B921F10047EE3A /* iOS */,
-				6F15254917B921F10047EE3A /* Linux */,
 				6F15254F17B921F10047EE3A /* Platform.h */,
 				6F15255017B921F10047EE3A /* Platform.hxx */,
 				6F15255117B921F10047EE3A /* Timer.h */,
@@ -285,14 +273,6 @@
 				6F15254817B921F10047EE3A /* PlatformiOS.mm */,
 			);
 			path = iOS;
-			sourceTree = "<group>";
-		};
-		6F15254917B921F10047EE3A /* Linux */ = {
-			isa = PBXGroup;
-			children = (
-				6F15254B17B921F10047EE3A /* PlatformLinux.cpp */,
-			);
-			path = Linux;
 			sourceTree = "<group>";
 		};
 		6F15255317B921F10047EE3A /* Win */ = {
@@ -500,46 +480,32 @@
 		6F1525E217B921F10047EE3A /* Thread */ = {
 			isa = PBXGroup;
 			children = (
-				6F1525E317B921F10047EE3A /* android */,
-				6F1525E717B921F10047EE3A /* AutoLock.h */,
-				6F1525E817B921F10047EE3A /* ios */,
-				6F1525EF17B921F10047EE3A /* Thread.h */,
-				6F1525F017B921F10047EE3A /* win */,
+				6F420FE017C0B91000D0A4F3 /* AutoLock.h */,
+				6F420FE117C0B91000D0A4F3 /* pthread */,
+				6F420FE517C0B91000D0A4F3 /* Thread.h */,
+				6F420FE617C0B91000D0A4F3 /* winThread */,
 			);
 			path = Thread;
 			sourceTree = "<group>";
 		};
-		6F1525E317B921F10047EE3A /* android */ = {
+		6F420FE117C0B91000D0A4F3 /* pthread */ = {
 			isa = PBXGroup;
 			children = (
-				6F1525E417B921F10047EE3A /* CriticalSection_Android.h */,
-				6F1525E517B921F10047EE3A /* Event_Android.h */,
-				6F1525E617B921F10047EE3A /* Thread_Android.h */,
+				6F420FE217C0B91000D0A4F3 /* CriticalSection_Android.h */,
+				6F420FE317C0B91000D0A4F3 /* Event_Android.h */,
+				6F420FE417C0B91000D0A4F3 /* Thread_Android.h */,
 			);
-			path = android;
+			path = pthread;
 			sourceTree = "<group>";
 		};
-		6F1525E817B921F10047EE3A /* ios */ = {
+		6F420FE617C0B91000D0A4F3 /* winThread */ = {
 			isa = PBXGroup;
 			children = (
-				6F1525E917B921F10047EE3A /* CriticalSection_IOS.h */,
-				6F1525EA17B921F10047EE3A /* CriticalSection_IOS.mm */,
-				6F1525EB17B921F10047EE3A /* Event_IOS.h */,
-				6F1525EC17B921F10047EE3A /* Event_IOS.mm */,
-				6F1525ED17B921F10047EE3A /* Thread_IOS.h */,
-				6F1525EE17B921F10047EE3A /* Thread_IOS.mm */,
+				6F420FE717C0B91000D0A4F3 /* CriticalSection_win.h */,
+				6F420FE817C0B91000D0A4F3 /* Event_win.h */,
+				6F420FE917C0B91000D0A4F3 /* Thread_win.h */,
 			);
-			path = ios;
-			sourceTree = "<group>";
-		};
-		6F1525F017B921F10047EE3A /* win */ = {
-			isa = PBXGroup;
-			children = (
-				6F1525F117B921F10047EE3A /* CriticalSection_win.h */,
-				6F1525F217B921F10047EE3A /* Event_win.h */,
-				6F1525F317B921F10047EE3A /* Thread_win.h */,
-			);
-			path = win;
+			path = winThread;
 			sourceTree = "<group>";
 		};
 		6FA78D5717943026005B3CD6 = {
@@ -611,12 +577,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F1525F717B921F10047EE3A /* PlatformiOS.mm in Sources */,
-				6F1525F917B921F10047EE3A /* PlatformLinux.cpp in Sources */,
 				6F1525FD17B921F10047EE3A /* Module.cpp in Sources */,
 				6F1525FE17B921F10047EE3A /* stdAfx.cpp in Sources */,
-				6F1525FF17B921F10047EE3A /* CriticalSection_IOS.mm in Sources */,
-				6F15260017B921F10047EE3A /* Event_IOS.mm in Sources */,
-				6F15260117B921F10047EE3A /* Thread_IOS.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

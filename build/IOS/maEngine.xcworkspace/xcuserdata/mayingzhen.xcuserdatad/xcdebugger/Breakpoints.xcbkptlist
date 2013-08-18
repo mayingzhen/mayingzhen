@@ -4,17 +4,80 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../code/Common/Platform/Platform.h"
+         timestampString = "398086616.239876"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "14"
+         endingLineNumber = "14">
+      </FileBreakpoint>
+      <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "../../code/Plugin/GLESRender/Module.cpp"
-         timestampString = "395736682.858359"
+         filePath = "../../code/Plugin/UI/Form.hxx"
+         timestampString = "398092601.49189"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "38"
-         endingLineNumber = "38"
-         landmarkName = "GLESRenderModuleInit()"
-         landmarkType = "7">
+         startingLineNumber = "66"
+         endingLineNumber = "66"
+         landmarkName = "Form::mousePressed( const OIS::MouseEvent &amp;arg, OIS::MouseButtonID id )"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../code/Plugin/UI/Container.hxx"
+         timestampString = "398508589.5089"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1718"
+         endingLineNumber = "1718"
+         landmarkName = "Container::pointerEvent(bool mouse, char evt, int x, int y, int data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../code/Plugin/UI/Container.hxx"
+         timestampString = "398508613.284693"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1752"
+         endingLineNumber = "1752"
+         landmarkName = "Container::pointerEvent(bool mouse, char evt, int x, int y, int data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../code/Plugin/UI/Container.hxx"
+         timestampString = "398508633.740063"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1717"
+         endingLineNumber = "1717"
+         landmarkName = "Container::pointerEvent(bool mouse, char evt, int x, int y, int data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../code/Engine/Input/Input.hxx"
+         timestampString = "398509917.776793"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "66"
+         endingLineNumber = "66"
+         landmarkName = "Input::Init(HWND winId)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

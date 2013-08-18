@@ -256,6 +256,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\GLES\font.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\GLES\font.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Data\Shader\GLES\skinning-none.vert"
 				>
 			</File>
