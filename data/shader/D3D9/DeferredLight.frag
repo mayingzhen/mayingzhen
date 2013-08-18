@@ -1,16 +1,25 @@
-float4 light_pos_es;
-float4 light_dir_es;
-float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
+#ifdef POINT_LIGHT   
+uniform float4 light_pos_es;
+uniform	float4 light_radius;
+#endif
 
-float4 depth_near_far_invfar;
+#ifdef DIRECT_LIGHT
+uniform float4 light_dir_es;
+#endif
+
+uniform float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
+
+
+uniform float4 depth_near_far_invfar;
 
 // Gbuffer
-sampler2D u_TextureSrcPos;
-sampler2D u_TextureSrcNormal;
+sampler2D u_textureSceneDepth;
+sampler2D u_textureSceneNormal;
 
 // shadow
+#ifdef SHADOW
 sampler2D u_TextureShadow;
-
+#endif
       
 struct VS_OUT
 {
@@ -28,13 +37,13 @@ struct PS_OUT
 
 void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float shiness)
 {
-   float depth = tex2D(u_TextureSrcPos, In.oTc).x;
+   float depth = tex2D(u_textureSceneDepth, In.oTc).x;
    depth *= depth_near_far_invfar.y;
    
    float3 view_dir = normalize(In.oViewDir);
    pos_es = view_dir * (depth / view_dir.z);   
    
-   float4 SrcNormal = tex2D( u_TextureSrcNormal, In.oTc);
+   float4 SrcNormal = tex2D( u_textureSceneNormal, In.oTc);
    normal = SrcNormal.xyz * 2 - 1;
    shiness = SrcNormal.w  * 255.0f;
 }
@@ -51,9 +60,15 @@ void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shin
    
    float3 cDiffUse = light.y * light_color;
    float3 cSpecular = light.z * light_color;
-      
-   pOut.Diffuse.xyz = cDiffUse;
-   pOut.Specular.xyz = cSpecular;   
+
+#ifdef POINT_LIGHT      
+   float attenuation = saturate(1.0f - length(lightVec)/light_radius.x); 
+#else 
+   float attenuation = 1.0f; 
+#endif        
+
+   pOut.Diffuse.xyz = attenuation * cDiffUse;
+   pOut.Specular.xyz = attenuation * cSpecular;   
 }
 
 
@@ -69,11 +84,11 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 
 #ifdef POINT_LIGHT   
    float3 vlightVec = light_pos_es.xyz - pos_es.xyz;
-#else
-   #ifdef DIRECT_LIGHT
-   float3 vlightVec = light_dir_es;
-   #endif         
-#endif   
+#else 
+#ifdef DIRECT_LIGHT
+   float3 vlightVec = light_dir_es.xyz;      
+#endif
+#endif  
    
    GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,pOut);
 }
@@ -84,11 +99,8 @@ void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
 {
    pOut = (PS_OUT)0;
    
-   half3 cDiffuse = 0.1f;
-   half3 cSpecular = 0.0f;
-      
-   pOut.Diffuse.xyz = cDiffuse;
-   pOut.Specular.xyz = cSpecular;   
+   pOut.Diffuse.xyz = light_color;
+   pOut.Specular.xyz = 0;   
 }
 
 
@@ -96,18 +108,18 @@ void main( VS_OUT vout, out PS_OUT pout )
 {
 #ifdef AMBIENT_LIGHT
    AmbientLightPS(vout,pout);  
-#else
-	DeferredLightPS(vout,pout);   
+   return;
+#else  
+
+   DeferredLightPS(vout,pout);   
    
-   #ifdef SHADOW
-      half shadow = tex2D(u_SamplerShadow, In.oTc).r;
+#ifdef SHADOW
+   half shadow = tex2D(u_SamplerShadow, In.oTc).r;
    
-      pout.Diffuse *= shadow;
-      pout.Specular *= shadow;
-   #endif
+   pout.Diffuse *= shadow;
+   pout.Specular *= shadow;
+#endif
 
 #endif
-         
 }
-
 

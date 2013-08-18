@@ -23,7 +23,7 @@ struct VS_OUT
 
 void GetPos(VS_OUT In,out float3 pos_es)
 {
-   float depth = tex2D(u_TextureSrcPos, In.oTc).x;
+   float depth = tex2D(u_textureSceneDepth, In.oTc).x;
    depth *= depth_near_far_invfar.y;
    
    float3 view_dir = normalize(In.oViewDir);
