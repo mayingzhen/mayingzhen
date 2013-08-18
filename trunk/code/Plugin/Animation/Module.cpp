@@ -78,3 +78,19 @@ void AnimationModuleShutdown()
 	#undef RTTI_DECL
 }
 
+#if PLATFORM_WIN == 1
+extern "C" ANIMATION_API bool dllStartPlugin()
+{
+	AnimationModuleInit();
+
+	return true;
+}
+
+
+extern "C" ANIMATION_API bool dllStopPlugin()
+{
+	AnimationModuleShutdown();
+
+	return true;
+}
+#endif

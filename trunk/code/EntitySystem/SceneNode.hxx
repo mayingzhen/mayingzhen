@@ -94,6 +94,10 @@ namespace ma
 		m_tsfWS.m_vPos += GetRight() * x;
 	}
 
+	void  SceneNode::Scale(float fScale)
+	{
+		m_tsfWS.m_fScale *= fScale;
+	}
 
 	void SceneNode::Translate(const Vector3& vTrans)
 	{

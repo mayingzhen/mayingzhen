@@ -6,6 +6,16 @@
 
 namespace ma
 {
+	GameObject* CreateMeshGameObject(const char* pSknPath,const char* pTexPath)
+	{
+		GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
+
+		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		pMeshComp->Load(pSknPath,pTexPath);
+
+		return pGameObj;
+	}
+
 	GameObject* CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
 	{
 		GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");

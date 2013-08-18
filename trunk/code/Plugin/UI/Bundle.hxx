@@ -1693,6 +1693,19 @@ Font* Bundle::loadFont(const char* id)
         SAFE_DELETE_ARRAY(glyphs);
         return NULL;
     }
+	
+	// ConvetUV
+// 	for (UINT i = 0; i < glyphCount; ++i)
+// 	{
+// 		//Font::Glyph* glyphs = new Font::Glyph[glyphCount];	
+// 		float fHalftw = GetRenderDevice()->GetHalfPixelOffset(0.5f / width);
+// 		float fHalfth = GetRenderDevice()->GetHalfPixelOffset(0.5f / height);
+// 		glyphs[i].uvs[0] += fHalftw;
+// 		glyphs[i].uvs[1] += fHalfth;
+// 		glyphs[i].uvs[2] += fHalftw;
+// 		glyphs[i].uvs[3] += fHalfth;
+// 	}
+
 
     // Read texture data.
     unsigned char* textureData = new unsigned char[textureByteCount];
@@ -1707,7 +1720,7 @@ Font* Bundle::loadFont(const char* id)
     // Create the texture for the font.
     //Texture* texture = Texture::create(Texture::ALPHA, width, height, textureData, true);
 	Texture* texture = GetRenderDevice()->CreateRendTexture();
-	texture->LoadFromData(FMT_A8, width, height, textureData, textureByteCount, true);
+	texture->LoadFromData(FMT_A8, width, height, textureData, textureByteCount, false);
 	//Texture* texture = 0;
 
     // Free the texture data (no longer needed).

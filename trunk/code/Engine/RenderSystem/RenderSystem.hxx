@@ -23,16 +23,21 @@ namespace ma
 		m_pDefferLight = NULL;
 		m_pShadow = NULL;
 		m_bShadow = false;
-		m_bDefferLight = false;
+		m_bDefferLight = true;
+
+		m_cAmbientColor = Vector4(1,1,1,1);
+
+		m_cClearClor = Color(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
 	}
 
 
 	void RenderSystem::Init()
 	{
-		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
+		
 
 		ScreenQuad::Init();
 		LineRender::Init();
+		UnitSphere::Init();
 
 		if (m_bShadow)
 		{
@@ -43,6 +48,7 @@ namespace ma
 		if (m_bDefferLight)
 		{
 			m_pDefferLight = new DeferredLight();
+			SetDeferredLight(m_pDefferLight);
 			m_pDefferLight->Init();
 		}
 	}
@@ -55,8 +61,7 @@ namespace ma
 
 	void RenderSystem::BeginFrame()
 	{
-		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-		GetRenderDevice()->ClearBuffer(true,true,true,clearColor,1.0f,0);
+		//GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor,1.0f,0);
 
 		GetRenderDevice()->BeginRender();
 
@@ -69,7 +74,7 @@ namespace ma
 
 		m_arrSolidEntry.clear();
 		m_arrTransEntry.clear();
-		m_arrLight.clear();
+		//m_arrLight.clear();
 	}
 
 	RenderMesh*	RenderSystem::CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture)
@@ -108,15 +113,16 @@ namespace ma
 			m_pShadow->DoRender();
 		}
 
+		GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor,1.0f,0);
+
 		// ShadingPass
 		for (UINT i = 0; i < m_arrSolidEntry.size(); ++i)
 		{
-// 			if (m_pDefferLight)
-// 			{
-// 				Material* pMaterial = m_arrSolidEntry[i]->m_pMaterial;
-// 				pMaterial->SetCurTechnqiue("default","DeferredLight");
-// 			}
-			
+			if (m_pDefferLight)
+			{
+				Material* pMaterial = m_arrSolidEntry[i]->m_pMaterial;
+				pMaterial->SetCurTechnqiue("default","DeferredLight");
+			}
 
 			GetRenderDevice()->DrawRenderable(m_arrSolidEntry[i]);
 		}

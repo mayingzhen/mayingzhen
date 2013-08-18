@@ -15,7 +15,7 @@ namespace ma
 
 		// Construct full screen quad
 		int width, Heigh;
-		GetRenderDevice()->GetRenderWndSize(width,Heigh);
+		Platform::GetInstance().GetWindowSize(width,Heigh);
 		Vector2 offset = Vector2(0.5f / width, 0.5f / Heigh);
 
 		//   1    0 
@@ -43,9 +43,12 @@ namespace ma
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); 
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
+		pVertexDec->Active();
 		
 		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(quadVerts,sizeof(quadVerts),sizeof(Vertex));
+		pVertexs->Active();
 		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(indices,sizeof(indices));
+		pIndexs->Active();
 
 		_ScrenQuad->m_pSubMeshData = new SubMeshData();
 

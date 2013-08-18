@@ -261,23 +261,27 @@ Form* Form::create(const char* url)
 
     form->_consumeInputEvents = formProperties->getBool("consumeInputEvents", false);
 
+    int width = 0;
+    int height = 0;
+    Platform::GetInstance().GetWindowSize(width,height);
+    
     // Alignment
     if ((form->_alignment & Control::ALIGN_BOTTOM) == Control::ALIGN_BOTTOM)
     {
-        //form->_bounds.y = Game::getInstance()->getHeight() - form->_bounds.height;
+        form->_bounds.y = height - form->_bounds.height;
     }
     else if ((form->_alignment & Control::ALIGN_VCENTER) == Control::ALIGN_VCENTER)
     {
-        //form->_bounds.y = Game::getInstance()->getHeight() * 0.5f - form->_bounds.height * 0.5f;
+        form->_bounds.y = height * 0.5f - form->_bounds.height * 0.5f;
     }
 
     if ((form->_alignment & Control::ALIGN_RIGHT) == Control::ALIGN_RIGHT)
     {
-        //form->_bounds.x = Game::getInstance()->getWidth() - form->_bounds.width;
+        form->_bounds.x = width - form->_bounds.width;
     }
     else if ((form->_alignment & Control::ALIGN_HCENTER) == Control::ALIGN_HCENTER)
     {
-        //form->_bounds.x = Game::getInstance()->getWidth() * 0.5f - form->_bounds.width * 0.5f;
+        form->_bounds.x = width * 0.5f - form->_bounds.width * 0.5f;
     }
 
     form->_scroll = getScroll(formProperties->getString("scroll"));

@@ -36,7 +36,7 @@ namespace ma
 	{
 		Frustum splitFrustum = m_pCamera->GetSplitFrustum(m_nIndex);
 
-		Matrix4x4 mViewProj = m_pLight->GetViewMatrix() * m_pLight->GetProjmatrix();
+		Matrix4x4 mViewProj ;//= m_pLight->GetViewMatrix() * m_pLight->GetProjmatrix();
 
 		AABB cropAABB;
 		cropAABB.Merge(splitFrustum.vPts,8);

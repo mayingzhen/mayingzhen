@@ -26,7 +26,7 @@
 using namespace std;
 using namespace ma;
 
-// UIScreen bounds are provided as if device was in portrait mode Gameplay defaults to landscape
+// UIScreen bounds are provided as if device was in portrait mode  defaults to landscape
 extern const int WINDOW_WIDTH  = [[UIScreen mainScreen] bounds].size.height * [[UIScreen mainScreen] scale];
 extern const int WINDOW_HEIGHT = [[UIScreen mainScreen] bounds].size.width * [[UIScreen mainScreen] scale];
 extern const int WINDOW_SCALE = [[UIScreen mainScreen] scale];
@@ -43,38 +43,11 @@ static View* __view = NULL;
 
 #define GL_ASSERT(x) x
 
-class TouchPoint
-{
-public:
-    unsigned int hashId;
-    int x;
-    int y;
-    bool down;
-    
-    TouchPoint()
-    {
-        hashId = 0;
-        x = 0;
-        y = 0;
-        down = false;
-    }
-};
 
-// more than we'd ever need, to be safe
-#define TOUCH_POINTS_MAX (10)
-static TouchPoint __touchPoints[TOUCH_POINTS_MAX];
-
-static double __timeStart;
-static double __timeAbsolute;
-static bool __vsync = WINDOW_VSYNC;
 static float __pitch;
 static float __roll;
 
 
-double getMachTimeInMilliseconds();
-
-int getKey(unichar keyCode);
-int getUnicode(int key);
 
 @interface View : UIView <UIKeyInput>
 {
@@ -192,7 +165,6 @@ int getUnicode(int key);
         
         // Set the resource path and initalize the game
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
-        //FileSystem::setResourcePath([bundlePath fileSystemRepresentation]);
         __platform->SetAppPath([bundlePath fileSystemRepresentation]);
     }
     return self;
@@ -426,7 +398,6 @@ int getUnicode(int key);
     if (game == nil)
     {
         game = &Game::GetInstance();
-        __timeStart = getMachTimeInMilliseconds();
         game->Init();
     }
 }
@@ -509,33 +480,6 @@ int getUnicode(int key);
     return [self resignFirstResponder];
 }
 
-
-//- (void)insertText:(NSString*)text
-//{
-//    if([text length] == 0) return;
-//    assert([text length] == 1);
-//    unichar c = [text characterAtIndex:0];
-//    int key = getKey(c);
-    //Platform::keyEventInternal(Keyboard::KEY_PRESS, key);
-//    game->keyEvent(Keyboard::KEY_PRESS, key);
-
-//    int character = getUnicode(key);
-//    if (character)
-//    {
-        //Platform::keyEventInternal(Keyboard::KEY_CHAR, /*character*/c);
-//        game->keyEvent(Keyboard::KEY_CHAR, /*character*/c);
-//    }
-    
-    //Platform::keyEventInternal(Keyboard::KEY_RELEASE, key);
-//    game->keyEvent(Keyboard::KEY_RELEASE, key);
-//}
-
-//- (void)deleteBackward
-//{
-//    game->keyEvent(Keyboard::KEY_PRESS, Keyboard::KEY_BACKSPACE);
-//    game->keyEvent(Keyboard::KEY_CHAR, getUnicode(Keyboard::KEY_BACKSPACE));
-//    game->keyEvent(Keyboard::KEY_RELEASE, Keyboard::KEY_BACKSPACE);
-//}
 
 
 - (BOOL)hasText 
@@ -720,7 +664,7 @@ int getUnicode(int key);
         return UIInterfaceOrientationIsLandscape(interfaceOrientation);
     }
     for(NSString *s in supportedOrientations) {
-        if(interfaceOrientation == UIInterfaceOrientationEnum(s)) return YES;
+        if(interfaceOrientation == UIInterfaceOrientationEnum(s)) return NO;
     }    
     return NO;
 }
@@ -880,19 +824,6 @@ int getUnicode(int key);
 @end
 
 
-double getMachTimeInMilliseconds()
-{
-    static const double kOneMillion = 1000 * 1000;
-    static mach_timebase_info_data_t s_timebase_info;
-    
-    if (s_timebase_info.denom == 0) 
-        (void) mach_timebase_info(&s_timebase_info);
-    
-    // mach_absolute_time() returns billionth of seconds, so divide by one million to get milliseconds
-    ASSERT(s_timebase_info.denom);
-    return ((double)mach_absolute_time() * (double)s_timebase_info.numer) / (kOneMillion * (double)s_timebase_info.denom);
-}
-
 
 namespace ma
 {
@@ -908,16 +839,6 @@ Platform::Platform()
 {
     __platform = this;
 }
-
-//Platform::~Platform()
-//{
-//}
-
-//Platform* Platform::create(Game* game, void* attachToWindow)
-//{
-//    Platform* platform = new Platform(game);
-//    return platform;
-//}
     
 void Platform::Init()
 {
@@ -941,39 +862,6 @@ void Platform::Run()
     //return EXIT_SUCCESS;        
 }
     
-//int Platform::enterMessagePump()
-//{
-//    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-//    [AppDelegate load];
-//    UIApplicationMain(0, nil, NSStringFromClass([AppDelegate class]), NSStringFromClass([AppDelegate class]));
-//    [pool release];
-//    return EXIT_SUCCESS;
-//}
-
-//void Platform::signalShutdown() 
-//{
-//    // Cannot 'exit' an iOS Application
-//    assert(false);
-//    [__view stopUpdating];
-//    exit(0);
-//}
-
-// bool Platform::canExit()
-// {
-//     return false;
-// }
-
-// unsigned int Platform::getDisplayWidth()
-// {
-//     CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
-//     return size.width;
-// }
-// 
-// unsigned int Platform::getDisplayHeight()
-// {
-//     CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
-//     return size.height;
-// }
 
 void Platform::GetWindowSize(int& w, int& h) const
 {
@@ -982,187 +870,18 @@ void Platform::GetWindowSize(int& w, int& h) const
     h = size.height;
 }
 
-// double Platform::getAbsoluteTime()
-// {
-//     __timeAbsolute = getMachTimeInMilliseconds();
-//     return __timeAbsolute;
-// }
-
-// void Platform::setAbsoluteTime(double time)
-// {
-//     __timeAbsolute = time;
-// }
-
-//bool Platform::isVsync()
-//{
-//    return __vsync;
-//}
-
-//void Platform::setVsync(bool enable)
-//{
-//    __vsync = enable;
-//}
 
 void Platform::swapBuffers()
 {
     if (__view)
         [__view swapBuffers];
 }
+    
 void Platform::sleep(long ms)
 {
     usleep(ms * 1000);
 }
-
-//bool Platform::hasAccelerometer()
-//{
-//    return true;
-//}
-
-//void Platform::getAccelerometerValues(float* pitch, float* roll)
-//{
-//    [__appDelegate getAccelerometerPitch:pitch roll:roll];
-//}
-
-//void Platform::getRawSensorValues(float* accelX, float* accelY, float* accelZ, float* gyroX, float* gyroY, float* gyroZ)
-//{
-//    float x, y, z;
-//    [__appDelegate getRawAccelX:&x Y:&y Z:&z];
-//    if (accelX)
-//    {
-//        *accelX = x;
-//    }
-//    if (accelY)
-//    {
-//        *accelY = y;
-//    }
-//    if (accelZ)
-//    {
-//        *accelZ = z;
-//    }
-//
-//    [__appDelegate getRawGyroX:&x Y:&y Z:&z];
-//    if (gyroX)
-//    {
-//        *gyroX = x;
-//    }
-//    if (gyroY)
-//    {
-//        *gyroY = y;
-//    }
-//    if (gyroZ)
-//    {
-//        *gyroZ = z;
-//    }
-//}
-
-//void Platform::getArguments(int* argc, char*** argv)
-//{
-//    if (argc)
-//        *argc = __argc;
-//    if (argv)
-//        *argv = __argv;
-//}
-
-// bool Platform::hasMouse()
-// {
-//     // not supported
-//     return false;
-// }
-// 
-// void Platform::setMouseCaptured(bool captured)
-// {
-//     // not supported
-// }
-// 
-// bool Platform::isMouseCaptured()
-// {
-//     // not supported
-//     return false;
-// }
-// 
-// void Platform::setCursorVisible(bool visible)
-// {
-//     // not supported
-// }
-// 
-// bool Platform::isCursorVisible()
-// {
-//     // not supported
-//     return false;
-// }
-// 
-// void Platform::setMultiSampling(bool enabled)
-// {
-//     //todo
-// }
-// 
-// bool Platform::isMultiSampling()
-// {
-//     return false; //todo
-// }
-// 
-// void Platform::setMultiTouch(bool enabled) 
-// {
-//     __view.multipleTouchEnabled = enabled;
-// }
-
-// bool Platform::isMultiTouch() 
-// {
-//     return __view.multipleTouchEnabled;
-// }
-
-// void Platform::displayKeyboard(bool display) 
-// {
-//     if(__view) 
-//     {
-//         if(display)
-//         {
-//             [__view showKeyboard];
-//         }
-//         else
-//         {
-//             [__view dismissKeyboard];
-//         }
-//     }
-// }
-
-// void Platform::shutdownInternal()
-// {
-//     Game::getInstance()->shutdown();
-// }
-
-// bool Platform::isGestureSupported(Gesture::GestureEvent evt)
-// {
-//     return true;
-// }
-
-// void Platform::registerGesture(Gesture::GestureEvent evt)
-// {
-//     [__view registerGesture:evt];
-// }
-
-// void Platform::unregisterGesture(Gesture::GestureEvent evt)
-// {
-//     [__view unregisterGesture:evt];
-// }
-
-// bool Platform::isGestureRegistered(Gesture::GestureEvent evt)
-// {
-//     return [__view isGestureRegistered:evt];
-// }
-
-// void Platform::pollGamepadState(Gamepad* gamepad)
-// {
-// }
-
-// bool Platform::launchURL(const char *url)
-// {
-//     if (url == NULL || *url == '\0')
-//         return false;
-// 
-//     return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String: url]]];
-// }
-    
+ 
 }
 
 #endif

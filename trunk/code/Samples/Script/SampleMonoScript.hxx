@@ -18,7 +18,8 @@ namespace ma
 		if (pScriptSystem == NULL)
 			return;
 
-		pScriptSystem->ParseScriptAll("../../code/Samples/Script/CSharpTest/CSharpTest/bin/Debug/CSharpTest.dll");
+		std::string	strDllPath = FileSystem::getFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
+		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
 		m_pGameObj =  GetEntitySystem()->CreateGameObject("Test");
 
@@ -26,7 +27,7 @@ namespace ma
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.tga");
 
 		ScriptComponent* pScriptComp = m_pGameObj->CreateComponent<ScriptComponent>();
-		m_pTestScript = pScriptComp->CreatScriptObject("MyClass");
+		m_pTestScript = pScriptComp->CreatScriptObject("SharpTest");
 	}
 
 	void SampleMonoScript::UnLoad()
@@ -38,13 +39,13 @@ namespace ma
 		float fRotSpeed = m_pTestScript->GetFloat("m_fRotSpeed");
 		if ( GetInput()->IsKeyDown(OIS::KC_DOWN) )
 		{
-			fRotSpeed -= 0.1f;
+			fRotSpeed -= 1.0f;
 			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
 		}
 
 		if (GetInput()->IsKeyDown(OIS::KC_UP))
 		{
-			fRotSpeed += 0.1f;
+			fRotSpeed += 1.0f;
 			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
 		}
 		

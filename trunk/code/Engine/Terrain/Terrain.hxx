@@ -102,9 +102,9 @@ namespace ma
 		for (UINT i = 0; i < m_arrSection.size(); ++i)
 		{	
  			m_arrSection[i]->m_pMaterial = m_pMaterial;
-// 			m_pMaterial->SetRenderable(m_arrSection[i]);
-// 			GetRenderDevice()->DrawRenderable(m_arrSection[i]);
-			GetRenderSystem()->AddRenderable(m_arrSection[i]);
+ 			//m_pMaterial->SetRenderable(m_arrSection[i]);
+ 			GetRenderDevice()->DrawRenderable(m_arrSection[i]);
+			//GetRenderSystem()->AddRenderable(m_arrSection[i]);
 		}
 	}
 
@@ -433,7 +433,7 @@ namespace ma
 			return;
 
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
-		std::string sDir = FileSystem::getDirectoryName(sFilPath.c_str());
+		std::string sDir = FileSystem::getDirectoryName(psAltaPath);
 		std::string sTextAltasPath = sDir + pTextAltasPath;
 		m_pAltasTex = GetRenderDevice()->CreateRendTexture();
 		m_pAltasTex->Load(sTextAltasPath.c_str());

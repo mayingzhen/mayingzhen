@@ -43,7 +43,10 @@ namespace ma
 		std::string shaderDefine = m_pMaterial->GetMaterialFlage();
 		if (pDefine)
 		{
-			shaderDefine = shaderDefine + ";" + pDefine;
+			if (shaderDefine == "")
+				shaderDefine = pDefine;
+			else
+				shaderDefine = shaderDefine + ";" + pDefine;
 		}
 
 		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();

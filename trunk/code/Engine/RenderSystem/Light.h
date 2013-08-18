@@ -18,67 +18,85 @@ namespace ma
 	public:
 		Light();
 
-		//virtual	void	Update();
-
 		LightType		GetLightType() {return m_eLightType;}
 
-		void			SetLigtType(LightType eType) {m_eLightType = eType;}
+		Vector4			GetLightColor() {return m_cLightColor;}
+
+		void			SetLightColor(const Vector4& cLightColor) {m_cLightColor = cLightColor;}
+
+		bool			IsCreateShadow() {return m_bCreateShadow;}
+
+		void			SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}	
+
+	protected:
+		LightType		m_eLightType;
+
+		Vector4			m_cLightColor;
+
+		bool			m_bCreateShadow;
+	};
+
+	class ENGINE_API PointLight : public Light
+	{
+	public:
+		PointLight():Light() {m_eLightType = LIGHT_POINT;}
+		
+		Vector3 GetPos() {return m_vPos;}
+
+		void	SetPos(const Vector3& vPos) {m_vPos = vPos;}
+
+		float	GetRadius() {return m_fRadius;}
+
+		void	SetRadius(float fRadius) {m_fRadius = fRadius ? fRadius : 1.0f;}
+
+	private:
+		Vector3		m_vPos;
+
+		float		m_fRadius;
+	};
+
+
+	class ENGINE_API DirectonalLight : public Light
+	{
+	public:
+		DirectonalLight():Light() {m_eLightType = LIGHT_DIRECTIONAL;}
+
+		Vector3 GetDirection() {return m_vDirection;}
+
+		void	SetDirection(const Vector3& vDirection) {Vec3Normalize(&m_vDirection,&vDirection);}
+
+	private:
+		Vector3		m_vDirection;
+	};
+
+
+	class ENGINE_API SpotLight : public Light
+	{
+	public:
+		SpotLight():Light() {m_eLightType = LIGHT_SPOT;}
+
+		NodeTransform	GetTransform() {return m_tsfWS;}
+
+		void			SetTransform(const NodeTransform& tsfWS) {m_tsfWS = tsfWS;}
+
+		void			LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);	
 
 		Matrix4x4		GetViewMatrix() {return m_mView;}
 
 		Matrix4x4		GetProjmatrix()	{return m_mProj;}
 
-		Vector3			GetAmbientColor() {return Vec3Zero();}
+	private:
+		NodeTransform	m_tsfWS;
 
-		Vector3			GetDiffuse() {return m_vLightDiffuse;}
-
-		float			GetRadius() {return m_fRadius;}
-
-		void			SetRadius(float fRadius) {m_fRadius = fRadius;}
-
-		Vector3			GetDirection() {return m_vDirection;}
-
-		bool			IsCreateShadow() {return m_bCreateShadow;}
-
-		void			SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}
-
-		void			LookAt(const Vector3* pEye,const Vector3* pAt = NULL,const Vector3* pUp = NULL);
-
-		//void			InitShadowMapFrustum(Camera* pCamera);
-		//void			ShadowDepthPass();	
-
-	protected:
-// 		void			SyncFromSceneNode();
-// 
-// 		void			SyncToSceneNode();
-
-		void			CalculateCropMatrix(Frustum splitFrustum);
-
-	protected:
-		LightType		m_eLightType;
-
-		Vector3			m_vLightDiffuse;
-
-		Vector3			m_vTarget;
-		Vector3			m_vUpVector;
-		Matrix4x4		m_mView;
-		Matrix4x4		m_mProj;
-		
-
-		// Point Light
-		float			m_fRadius;
-
-		// directional Ligt
-		Vector3			m_vDirection;
-		bool			m_bCreateShadow;
-
-		// spot Light
 		float			m_fAspectRatio;
 		float			m_fNearClip;
 		float			m_fFarClip;
 		float			m_fFOV;
 
-		//std::vector<ShadowMapFrustum*>	m_arrSMF;
+		Vector3			m_vTarget;
+		Vector3			m_vUpVector;
+		Matrix4x4		m_mView;
+		Matrix4x4		m_mProj;
 	};
 
 }

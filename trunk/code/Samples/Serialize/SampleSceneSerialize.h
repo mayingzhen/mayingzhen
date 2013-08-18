@@ -16,11 +16,6 @@ namespace ma
 
 		virtual void Update();
 
-		virtual void Render();
-
-	private:
-		//Scene*		m_pScene;
-
 	};
 }
 

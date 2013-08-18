@@ -5740,6 +5740,94 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GetInput() {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Time() {
+  void * jresult ;
+  ma::Time *result = 0 ;
+  
+  result = (ma::Time *)new ma::Time();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Time(void * jarg1) {
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  
+  arg1 = (ma::Time *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Time_Reset(void * jarg1) {
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  
+  arg1 = (ma::Time *)jarg1; 
+  (arg1)->Reset();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Time_UpdateFrame(void * jarg1) {
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  
+  arg1 = (ma::Time *)jarg1; 
+  (arg1)->UpdateFrame();
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Time_GetMillisceonds(void * jarg1) {
+  float jresult ;
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  float result;
+  
+  arg1 = (ma::Time *)jarg1; 
+  result = (float)((ma::Time const *)arg1)->GetMillisceonds();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Time_GetFrameTotalTime(void * jarg1) {
+  float jresult ;
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  float result;
+  
+  arg1 = (ma::Time *)jarg1; 
+  result = (float)((ma::Time const *)arg1)->GetFrameTotalTime();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Time_GetFrameDeltaTime(void * jarg1) {
+  float jresult ;
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  float result;
+  
+  arg1 = (ma::Time *)jarg1; 
+  result = (float)((ma::Time const *)arg1)->GetFrameDeltaTime();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_GetTimer() {
+  void * jresult ;
+  ma::Time *result = 0 ;
+  
+  result = (ma::Time *)ma::GetTimer();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SetTimer(void * jarg1) {
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  
+  arg1 = (ma::Time *)jarg1; 
+  ma::SetTimer(arg1);
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationSystem_CreateAnimationObject(void * jarg1, char * jarg2) {
   void * jresult ;
   ma::IAnimationSystem *arg1 = (ma::IAnimationSystem *) 0 ;

@@ -1,134 +1,124 @@
 #include "SampleLighting.h"
-#include "Plugin/FbxImport/Module.h"
 
 namespace ma
 {
 	SampleLighting::SampleLighting()
 	{
-		m_pLigt = NULL;
-	}
-
-	void SampleLighting::Init(ApplicationBase* pApplication)
-	{
-		m_fMoveCameraSpeed = 0.80f;
-		//m_pCamera->SetPositionWS( Vector3(0, 2, -3) );
-		//Vector3 vEyePos(-2, 3, -5);
-		//m_pCamera->LookAt(&vEyePos);
-	}
-
-	void SampleLighting::UnLoad()
-	{
 	}
 
 	void SampleLighting::Load()
 	{
-		ASSERT(m_pScene);
-		if (m_pScene == NULL)
-			return;
+		Vector3 vEyePos = Vector3(0, 400, 600);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
-		FBXImporter fbxImpor;
-		fbxImpor.Initialize();
-
-		MeshData* pMeshDataPlat = new MeshData;
-		fbxImpor.LoadStaticMeshData("../Data/Fbx/MovingPlatform.fbx",pMeshDataPlat);
-		SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshDataPlat);
-		SAFE_DELETE(pMeshDataPlat);
-
-		MeshData* pMeshDataBox = new MeshData;
-		fbxImpor.LoadStaticMeshData("../Data/Fbx/Box.fbx",pMeshDataBox);
-		SaveMeshToBinaryFile("../Data/Fbx/Box.skn",pMeshDataBox);
-		SAFE_DELETE(pMeshDataBox);
-
-		SceneNode* pRootNode = m_pScene->GetRootNode(); 
-
+		// Render Mesh
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"Box");
-			pRootNode->AddChildNode(pGameObj);
+			GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
-			pGameObj->AddComponent(pMeshComp);
+			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 
-			Vector3 vMin;
-			Vector3 vMax;
-			pMeshComp->GetBoundingAABB(vMin,vMax);
-			AABB aabb;
-			aabb.m_vMin = vMin;
-			aabb.m_vMax = vMax;
-			m_pCamera->FitAABB(aabb,0.5);
+			AnimComponent* pAnimComp = pCharMagic->CreateComponent<AnimComponent>();
+			pAnimComp->Load(NULL,"magician/Body.ske");
+			IAnimationObject* pAnimObj = pAnimComp->GetAnimObject();
+			IAnimationSet* pAnimSet = pAnimObj->GetAnimationSet();
+			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
+			pAnimObj->PlayAnimation((UINT)0);
+
+			pCharMagic->GetSceneNode()->Right(100);
+
+			GameObject* pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/PlatformTexture.tga");
+
+			GameObject* pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.tga");
+
+			pPlatform->GetSceneNode()->Scale(50);
+
+			pBox->GetSceneNode()->Scale(50);
 		}
 
-// 		{
-// 			GameObject* pGameObj = new GameObject(m_pScene,"Platform");
-// 			pRootNode->AddChildNode(pGameObj);
+		// Light
+		{
+ 	
+			{
+				PointLight* pLight = new PointLight();	
+				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+				pLight->SetPos(Vector3(200, 100, 0));
+				pLight->SetRadius(300);
+				GetRenderSystem()->AddLight(pLight);
+				m_arrPointLight.push_back(pLight);
+			}
+
+			{
+				PointLight* pLight = new PointLight();	
+				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+				pLight->SetPos(Vector3(-200, 200, -200));
+				pLight->SetRadius(300);
+				GetRenderSystem()->AddLight(pLight);
+				m_arrPointLight.push_back(pLight);
+			}
 // 
-// 			MeshComponent* pMeshComp = new MeshComponent();
-// 			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
-// 			pGameObj->AddComponent(pMeshComp);
-// 			//pGameObj->TranslateWS(Vector3(0,0,0));
-// 		}
+//  			
+// 			DirectonalLight* pDirLight = new DirectonalLight();
+// 			pDirLight->SetLightColor(Vector4(0.2f,0.2f,0.2f,1.0f));
+// 			pDirLight->SetDirection(Vector3(10,10,0));
+// 			GetRenderSystem()->AddLight(pDirLight);
 
-		//light
-		{
-			m_pLigt = new Light(m_pScene,"Light");
-			m_pLigt->SetLigtType(LIGHT_POINT);
-			m_pLigt->SetRadius(3.0f);
-			pRootNode->AddChildNode(m_pLigt);
-			//m_pLigt->SetPositionWS(Vector3(2, 1, 0));
-			
-			GetRenderDevice()->AddLight(m_pLigt);
 		}
-		
-		//m_pCamera->FitAABB(m_pScene->GetRootNode()->Get);
 
-		m_pScene->Start();
+		GetRenderSystem()->SetAmbientColor(Vector4(0.0f,0.0f,0.0f,0.0f));
+
+		GetRenderSystem()->SetClearClor(Color(0,0,0,0));
+
 	}
 
-	void SampleLighting::Unload()
+	void SampleLighting::UnLoad()
 	{
-		SAFE_DELETE(m_pLigt);	
+		GetRenderSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));	
+		GetRenderSystem()->SetClearClor(Color(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f));
 	}
 
-	void SampleLighting::Tick(float timeElapsed)
+	void SampleLighting::Update()
 	{
-		__super::Tick(timeElapsed);
-
-		Input* pInput = GetInput();
-		if (pInput == NULL)
-			return;
-
-		float fMoveSpeed = 5;
-		float fMoveDis = fMoveSpeed * timeElapsed;
-
-		Vector3 vLightPos = m_pLigt->GetPositionWS();
-		if ( pInput->IsKeyDown(OIS::KC_W) )
+		for (UINT i = 0; i < m_arrPointLight.size(); ++i)
 		{
-			vLightPos.y += fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_S) )
-		{
-			vLightPos.y -= fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_A) )
-		{
-			vLightPos.x -= fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_D) )
-		{
-			vLightPos.x += fMoveDis;
-		}
-		m_pLigt->SetPositionWS(vLightPos);
+			PointLight* pPointLight = m_arrPointLight[i];
 
+			float fAngle = ToRadian( 30 * GetTimer()->GetFrameDeltaTime() );
+
+			Vector3 vUp(0,1,0);
+			Matrix4x4 matRoat;
+			MatrixRotationAxis(&matRoat,&vUp,fAngle);
+
+			Vector3 vPos = pPointLight->GetPos();
+			Vec3TransformCoord(&vPos,&vPos,&matRoat);
+
+			pPointLight->SetPos(vPos);
+		}
 	}
 
 	void SampleLighting::Render()
 	{
-		__super::Render();
 
-		Matrix4x4 matWS = m_pLigt->GetWorldMatrix();
-		GetRenderDevice()->DrawWireSphere(matWS,m_pLigt->GetRadius(),COLOR_RGBA(255,0,0,255));
+		for (UINT i = 0; i < m_arrPointLight.size(); ++i)
+		{
+			PointLight* pPointLight = m_arrPointLight[i];
+			Matrix4x4 matWS;
+			MatrixTranslation(&matWS,pPointLight->GetPos().x,pPointLight->GetPos().y,pPointLight->GetPos().z);
+			LineRender::DrawWireSphere(matWS,10,Color(1,0,0,0));
+		}
+
+		// Deubug Rraw Light Radius
+// 		for (UINT i = 0; i < m_arrPointLight.size(); ++i)
+// 		{
+// 			PointLight* pPointLight = m_arrPointLight[i];
+// 			Matrix4x4 matWS;
+// 			MatrixTranslation(&matWS,pPointLight->GetPos().x,pPointLight->GetPos().y,pPointLight->GetPos().z);
+// 			LineRender::DrawWireSphere(matWS,pPointLight->GetRadius(),Color(1,0,0,0));
+// 		}
+		
 	}
-
 }
 
 

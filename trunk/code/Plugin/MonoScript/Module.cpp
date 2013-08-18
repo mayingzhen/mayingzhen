@@ -25,3 +25,19 @@ void MonoScriptModuleShutdown()
 	SetScriptSystem(NULL);
 }
 
+#if PLATFORM_WIN == 1
+extern "C" MonoScriptAPI bool dllStartPlugin()
+{
+	MonoScriptModuleInit();
+
+	return true;
+}
+
+
+extern "C" MonoScriptAPI bool dllStopPlugin()
+{
+	MonoScriptModuleShutdown();
+
+	return true;
+}
+#endif

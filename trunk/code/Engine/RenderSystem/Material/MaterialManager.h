@@ -62,8 +62,8 @@ namespace ma
 		Vector3				autoBindingGetCameraViewPosition() const;
 		const Matrix4x4*	autoBindingGetMatrixPalette() const;
 		UINT				autoBindingGetMatrixPaletteSize() const;
-		const Vector3&		autoBindingGetAmbientColor() const;
-		const Vector3&		autoBindingGetLightColor() const;
+		const Vector4&		autoBindingGetAmbientColor() const;
+		const Vector4&		autoBindingGetLightColor() const;
 		const Vector3&		autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;
 		Texture*			autoBingingSceneDetph() const;

@@ -21,7 +21,7 @@ namespace ma
 		
 		virtual void    Unlock() = 0;
 
-		//virtual void	Active() = 0;
+		virtual void	Active() = 0;
 
 		int             GetSize() const; 
 		

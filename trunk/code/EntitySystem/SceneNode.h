@@ -39,6 +39,8 @@ namespace ma
 		void                    Up(float fValue);
 		void                    Right(float fValue);
 
+		void					Scale(float fScale);
+
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
 		SceneNode*				GetParent() {return m_pParentNode;}

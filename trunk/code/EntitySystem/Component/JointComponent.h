@@ -10,6 +10,8 @@ namespace ma
 	public:
 		GenericJointComponent(GameObject* pGameObject);
 
+		~GenericJointComponent();
+
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "GenericJointComponent")
 		{
 			ASSERT(false);
@@ -29,6 +31,8 @@ namespace ma
 	public:
 		FixJointComponent(GameObject* pGameObject);
 
+		~FixJointComponent();
+
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "FixJointComponent");
 
 		IPhysicsJoint*	GetPhysicsFixJoint() {return m_pPhysicsFixJoint;}
@@ -44,6 +48,8 @@ namespace ma
 
 	public:
 		HingJointComponent(GameObject* pGameObject);
+
+		~HingJointComponent();
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "HingJointComponent")
 		{

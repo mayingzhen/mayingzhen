@@ -8,7 +8,7 @@ namespace ma
 	{
 		m_pCurTechnque = NULL;
 
-		m_strMaterialFlag = pMaterialFlag;
+		m_strMaterialFlag = pMaterialFlag ? pMaterialFlag : "";
 		
 		if (pShaderName)
 		{

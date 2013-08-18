@@ -14,6 +14,11 @@ namespace ma
 		}
 	}
 
+	GenericJointComponent::~GenericJointComponent()
+	{
+		GetPhysicsSystem()->DeletePhysicsGenericJoint(m_pPhysicsGenericJoint);
+	}
+
 	IMPL_OBJECT(FixJointComponent,Component)
 
 	FixJointComponent::FixJointComponent(GameObject* pGameObject)
@@ -31,6 +36,11 @@ namespace ma
 		}
 	}
 
+	FixJointComponent::~FixJointComponent()
+	{
+		GetPhysicsSystem()->DeletePhysicsGenericJoint((IPhysicsGenericJoint*)m_pPhysicsFixJoint);
+	}
+
 	void FixJointComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
 		ASSERT(false);
@@ -46,6 +56,11 @@ namespace ma
 		{
 			m_pPhysicsHingeJoint = GetPhysicsSystem()->CreatePhysicsHingeJoint(pGameObject->GetPhyscisObject(),NULL);
 		}
+	}
+
+	HingJointComponent::~HingJointComponent()
+	{
+		GetPhysicsSystem()->DeletePhysicsHingeJoint(m_pPhysicsHingeJoint);
 	}
 
 

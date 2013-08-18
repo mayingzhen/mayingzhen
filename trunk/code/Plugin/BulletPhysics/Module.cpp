@@ -22,3 +22,21 @@ void BtPhysicsModuleShutdown()
 	ma::BtPhysicsSystem* pBtPhysicsSystem = (ma::BtPhysicsSystem*)ma::GetPhysicsSystem();
 	SAFE_DELETE(pBtPhysicsSystem);
 }
+
+
+#if PLATFORM_WIN == 1
+extern "C" BULLETPHYSICS_API bool dllStartPlugin()
+{
+	BtPhysicsModuleInit();
+
+	return true;
+}
+
+
+extern "C" BULLETPHYSICS_API bool dllStopPlugin()
+{
+	BtPhysicsModuleShutdown();
+
+	return true;
+}
+#endif

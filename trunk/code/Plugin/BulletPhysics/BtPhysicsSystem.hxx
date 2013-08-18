@@ -41,13 +41,13 @@ namespace ma
 		// Joint
 		for (UINT i = 0; i < m_vGenericJoint.size(); ++i)
 		{
-			m_vGenericJoint[i]->Create();
+			m_vGenericJoint[i]->Start();
 			m_pDynamicsWorld->addConstraint(m_vGenericJoint[i]->GetBtConstraint(),true);
 		}
 
 		for (UINT i = 0; i < m_vHingeJoint.size(); ++i)
 		{
-			m_vHingeJoint[i]->Create();
+			m_vHingeJoint[i]->Start();
 			m_pDynamicsWorld->addConstraint(m_vHingeJoint[i]->GetBtConstraint(),true);
 		}
 	}
@@ -57,6 +57,16 @@ namespace ma
 		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
 		{
 			m_arrPhysicsObject[i]->Stop();
+		}
+
+		for (UINT i = 0; i < m_vGenericJoint.size(); ++i)
+		{
+			m_vGenericJoint[i]->Stop();
+		}
+
+		for (UINT i = 0; i < m_vHingeJoint.size(); ++i)
+		{
+			m_vHingeJoint[i]->Stop();
 		}
 
 		BulletContactReport::ClearCollisionListener();
@@ -160,6 +170,36 @@ namespace ma
 
 		SAFE_DELETE(pPhysicsObject);
 		m_arrPhysicsObject.erase(it);
+	}
+
+	void BtPhysicsSystem::DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint)
+	{
+		std::vector<BulletPhysicsGenericJoint*>::iterator it;
+		it = std::find(m_vGenericJoint.begin(),m_vGenericJoint.end(),pJoint);
+		ASSERT(it != m_vGenericJoint.end());
+		if (it == m_vGenericJoint.end())
+		{
+			SAFE_DELETE(pJoint);
+			return;
+		}
+
+		SAFE_DELETE(pJoint);
+		m_vGenericJoint.erase(it);
+	}
+
+	void BtPhysicsSystem::DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint)
+	{
+		std::vector<BulletPhysicsHingeJoint*>::iterator it;
+		it = std::find(m_vHingeJoint.begin(),m_vHingeJoint.end(),pJoint);
+		ASSERT(it != m_vHingeJoint.end());
+		if (it == m_vHingeJoint.end())
+		{
+			SAFE_DELETE(pJoint);
+			return;
+		}
+
+		SAFE_DELETE(pJoint);
+		m_vHingeJoint.erase(it);
 	}
 
 	GameObject* BtPhysicsSystem::RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer,Vector3& hitPosWS)

@@ -37,6 +37,10 @@ namespace ma
 
 		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB) = 0;
 
+		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint) = 0;
+
+		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint) = 0;
+
 		virtual GameObject*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS) = 0;
 
 	};

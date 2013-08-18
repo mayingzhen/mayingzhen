@@ -13,6 +13,8 @@ namespace ma
 	class ENGINE_API  DeferredLight
 	{
 	public:
+		DeferredLight();
+
 		void		Init();
 
 		void		DoRender();
@@ -30,7 +32,7 @@ namespace ma
 
 		void		DefferedLighting();
 
-		void		ShadingPass();
+		//void		ShadingPass();
 
 	protected:
 

@@ -145,14 +145,6 @@ namespace ma
 
 	void GLESRenderDevice::BeginRender()
 	{
-// 		Color clearColor(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
-// 		GL_ASSERT( ClearBuffer(true,true,true,clearColor,1.0f,0) );
-
-		//GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-		//GL_ASSERT( glDepthMask(GL_TRUE) );
-		//GL_ASSERT( glDisable(GL_CULL_FACE) );
-		//GL_ASSERT( glEnable(GL_CULL_FACE) );
-		//GL_ASSERT( glCullFace(GL_FRONT) );
 
 #if PLATFORM_WIN == 1
 		wglMakeCurrent(m_hDC,m_hGLRC);
@@ -228,49 +220,44 @@ namespace ma
 // 		// 				cullMode = D3DCULL_CCW;
 // 		// 		}
 // 
-// 		//GetGLESDxDevive()->SetRenderState(D3DRS_CULLMODE, cullMode);
-// 		//GetGLESDxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
-// 
-// 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
-// 
-		//GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
-		
+ 
+		GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
 
-// 		switch (state.m_eDepthCheckMode)
-// 		{
-// 		case DCM_NONE:
-// 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
-// 			break;
-// 
-// 		case DCM_LESS_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
-// 			break;
-// 
-// 		case DCM_LESS:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_LESS) );
-// 			break;
-// 
-// 		case DCM_GREATER_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
-// 			break;
-// 
-// 		case DCM_GREATER:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_GREATER) );
-// 			break;
-// 
-// 		case DCM_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_EQUAL) );
-// 			break;
-// 		default:
-// 			ASSERT(false);
-// 			break;
-// 		}
-// 
+		switch (state.m_eDepthCheckMode)
+		{
+		case DCM_NONE:
+			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
+			break;
+
+		case DCM_LESS_EQUAL:
+			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
+			break;
+
+		case DCM_LESS:
+			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+			GL_ASSERT( glDepthFunc(GL_LESS) );
+			break;
+
+		case DCM_GREATER_EQUAL:
+			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
+			break;
+
+		case DCM_GREATER:
+			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+			GL_ASSERT( glDepthFunc(GL_GREATER) );
+			break;
+
+		case DCM_EQUAL:
+			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+			GL_ASSERT( glDepthFunc(GL_EQUAL) );
+			break;
+		default:
+			ASSERT(false);
+			break;
+		}
+ 
 		switch (state.m_eBlendMode)
 		{
 		case BM_OPATICY:
@@ -280,34 +267,18 @@ namespace ma
 		case BM_TRANSPARENT:
 			GL_ASSERT( glEnable(GL_BLEND) );
 			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 			break;
 
 		case BM_ADD:
 			GL_ASSERT( glEnable(GL_BLEND) );
-			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-// 			GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+			GL_ASSERT( glBlendFunc(GL_ONE, GL_ONE) );
 			break;
 
 		case BM_MULTIPLY:
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-			//GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 			break;
 		}
 	}
 
-
-	void GLESRenderDevice::GetRenderWndSize(int& Width,int& Heigh)
-	{
-// 		RECT rect;
-// 		GetWindowRect(m_hWnd,&rect);
-// 		Width = rect.right - rect.left;
-// 		Heigh = rect.bottom - rect.top;
-	}
 
 
 	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
@@ -321,12 +292,6 @@ namespace ma
 			return;
 
 		GetMaterialManager()->SetCurRenderable(pRenderable);
-
-		glEnable(GL_DEPTH_TEST);
-		//glDepthMask(TRUE);
-		//glEnable(GL_BLEND);
-		//glDisable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 		Material* pMaterial = pRenderable->m_pMaterial;
 		pMaterial->Bind();
@@ -405,8 +370,6 @@ namespace ma
 
 		GetMaterialManager()->SetCurRenderable(pRenderable);
 
-		glEnable(GL_DEPTH_TEST);
-
 		Material* pMaterial = pRenderable->m_pMaterial;
 		pMaterial->Bind();
 
@@ -473,6 +436,8 @@ namespace ma
 		{
 			GL_ASSERT( glClearDepth(z) ); // glClearDepthf 在笔记本上出错
 			mask |= GL_DEPTH_BUFFER_BIT;
+
+			GL_ASSERT( glDepthMask(GL_TRUE) );
 		}
 
 		if (bStencil)
@@ -484,14 +449,6 @@ namespace ma
 		GL_ASSERT( glClear(mask) );
 	}
 
-
-	void GLESRenderDevice::DrawLine(const Vector3& p0,const Vector3& p1,Uint32 dwColor)
-	{
-// 		if (m_pLineRender == NULL)
-// 			return;
-// 
-// 		m_pLineRender->DrawLine(p0,p1,dwColor);
-	}
 
 	Matrix4x4 GLESRenderDevice::MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
 	{

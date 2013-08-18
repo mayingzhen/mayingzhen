@@ -97,7 +97,7 @@ void EngineModuleInit()
 
 	RenderSystem* pRenderSystem = new RenderSystem();
 	SetRenderSystem(pRenderSystem);
-	pRenderSystem->Init();
+	
 
 	ResourceSystem* pRsourceSystem = new ResourceSystem();
 	SetResourceSystem(pRsourceSystem);

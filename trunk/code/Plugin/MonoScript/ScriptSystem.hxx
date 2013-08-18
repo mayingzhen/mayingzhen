@@ -64,6 +64,13 @@ namespace ma
 	void ScriptSystem::Stop()
 	{
 		//AllScriptObjInvokeMethod("Stop");
+		m_arrDllName.clear();
+
+		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		{
+			SAFE_DELETE(m_arrScriptClass[i]);
+		}
+		m_arrScriptClass.clear();
 
 		mono_domain_set(m_pDomain,10000);
 

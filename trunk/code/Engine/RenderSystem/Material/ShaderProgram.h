@@ -74,6 +74,7 @@ namespace ma
 		//static ShaderProgram* GetCurrentEffect();
 
 	protected:
+		std::string	m_name;
 		std::string m_id;
 		std::map<std::string, Uniform*> m_uniforms;
 		//static Uniform _emptyUniform;
@@ -129,18 +130,19 @@ namespace ma
 		 */
 		const ShaderProgram* GetEffect() const;
 
-		void	SetEffect(const ShaderProgram* pEffect) {_effect = pEffect;}
+		void	SetEffect(const ShaderProgram* pEffect) {m_effect = pEffect;}
 
 	//private:
 
 
 
-		std::string _name;
-		int _location;
-		int _type;
-		bool _vshShder;
-		UINT _index;
-		const ShaderProgram* _effect;
+		std::string		m_name;
+		int				m_location;
+		int				m_type;
+		bool			m_vshShder;
+		UINT			m_index;
+		UINT			m_nCount; 
+		const ShaderProgram* m_effect;
 	};
 
 }
