@@ -267,7 +267,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CONFIGURATION_BUILD_DIR = ../lib;
+				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/EntitySystem.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/EntitySystem/stdafx.h;
@@ -286,7 +286,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CONFIGURATION_BUILD_DIR = ../lib;
+				CONFIGURATION_BUILD_DIR = ./lib;
 				DSTROOT = /tmp/EntitySystem.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../code/EntitySystem/stdafx.h;
