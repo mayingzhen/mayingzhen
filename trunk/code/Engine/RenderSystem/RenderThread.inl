@@ -67,6 +67,17 @@ namespace ma
 		*(Int64 *)(m_Commands[m_nCurThreadFill].Grow(sizeof(Int64))) = nVal;
 	}
 
+	inline void RenderThread::AddInt(int nVal)
+	{
+		*(int *)(m_Commands[m_nCurThreadFill].Grow(sizeof(int))) = nVal;
+	}
+
+	inline void RenderThread::AddBool(bool bVal)
+	{
+		*(bool *)(m_Commands[m_nCurThreadFill].Grow(sizeof(bool))) = bVal;
+	}
+
+
 	inline void RenderThread::AddFloat(const float fVal)
 	{
 		*(float *)(m_Commands[m_nCurThreadFill].Grow(sizeof(float))) = fVal;
@@ -94,10 +105,19 @@ namespace ma
 
 	inline void RenderThread::AddData(const void *pData, int nLen)
 	{
-		unsigned pad = 0;
-		AddDWORD(nLen + pad);
-		byte *pDst = m_Commands[m_nCurThreadFill].Grow(nLen + pad);
+		AddDWORD(nLen);
+		byte *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
 		memcpy(pDst, pData, nLen);
+	}
+
+	template<class T>
+	inline void	RenderThread::ReadData(int &nIndex,T& data)
+	{
+		DWORD nLen = ReadCommand<DWORD>(nIndex);
+		ASSERT(nLen == sizeof(T));
+		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex];
+		memcpy(&data,pSrc,nLen);
+		nIndex += nLen;
 	}
 
 	template<class T> 
@@ -141,7 +161,7 @@ namespace ma
 
 	inline bool RenderThread::IsMultithreaded()
 	{
-		return m_pThread != NULL;
+		return true;
 	}
 
 	inline int RenderThread::CurThreadFill() const

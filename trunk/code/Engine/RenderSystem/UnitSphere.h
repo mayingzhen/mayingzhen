@@ -7,7 +7,9 @@ namespace ma
 	{
 	public:
 		static void Init();
-
+		
+		static void ShutDown();
+			
 		static void Render(Material* pMaterial,const Vector3& vPos,float fRadius);
 
 	};

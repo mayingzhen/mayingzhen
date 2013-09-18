@@ -267,6 +267,8 @@ COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float l,float r,
 
 void FrameTransformPoint(Vector3* pOut,const Vector3* pP,const Frame* pFrame);
 
+COMMON_API UINT NextPowerOfTwo(unsigned int v);
+
 
 #ifdef WIN32
 inline float round(float r)

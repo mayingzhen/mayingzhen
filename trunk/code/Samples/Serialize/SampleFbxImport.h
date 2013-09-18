@@ -20,8 +20,6 @@ namespace ma
 
 		virtual void Update();
 
-		virtual void Render();
-
 	private:
 		void LoadSkelMesh(FBXImporter& fbxImpor);
 

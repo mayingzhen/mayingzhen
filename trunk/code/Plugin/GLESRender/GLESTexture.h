@@ -8,17 +8,19 @@ namespace ma
 	class GLESRENDER_API GLESTexture : public Texture
 	{
 	public:
-		GLESTexture();
+		GLESTexture(const char* pszPath);
+
+		GLESTexture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8);
 
 		~GLESTexture();
 
-		virtual bool CreateRT(int nWidth,int nHeight,FORMAT Format = FMT_A8R8G8B8);
+		virtual bool CreateRT();
 
 		virtual bool Load(const char* pszPath = NULL, bool generateMipmaps = false);
 
 		virtual bool Load(DataStream* pDataStream, bool generateMipmaps = false);
 
-		virtual bool LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps = false);
+		virtual bool LoadFromData(Uint8* data,UINT size, bool generateMipmaps = false);
 
 		GLuint GetTexture() {return m_pTex;}
 

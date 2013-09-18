@@ -10,9 +10,12 @@ namespace ma
 	class Camera;
 	class DeferredLight;
 	class Shadow;
+	class RenderThread;
 
 	class ENGINE_API  RenderSystem
 	{
+		friend RenderThread;
+
 	public:
 		RenderSystem();	
 
@@ -28,15 +31,23 @@ namespace ma
 
 		void		EndFrame();
 
-		void		Flush();
+		void		DoRender();
+
+		void		ShadingPass();
+
+		void		OnFlushFrame();
+
+		void		DrawRenderable(Renderable* pRenderable);
+
+		void		DrawDyRenderable(Renderable* pRenderable);
 
 		void		SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 
 		Camera*		GetCamera() {return m_pCamera;}
 
-		UINT		GetSolidEntryNumber() {return m_arrSolidEntry.size();}
+		UINT		GetSolidEntryNumber();
 
-		Renderable*	GetSolidEntryByIndex(UINT i) {return m_arrSolidEntry[i];}
+		Renderable*	GetSolidEntryByIndex(UINT i);
 
 		UINT		GetLightNumber() {return m_arrLight.size();}
 
@@ -57,8 +68,17 @@ namespace ma
 		void		SetClearClor(Color cClor) {m_cClearClor = cClor;}
 
 	protected:
-		std::vector<Renderable*>	m_arrSolidEntry;
-		std::vector<Renderable*>	m_arrTransEntry;
+		void		RT_Init();
+
+		void		RT_BeginFrame();
+
+		void		RT_EndFrame();
+
+		void		RT_Flush();
+
+	protected:
+		std::vector<Renderable*>	m_arrSolidEntry[2];
+		std::vector<Renderable*>	m_arrTransEntry[2];
 		std::vector<Light*>			m_arrLight;
 
 		Camera*						m_pCamera;
@@ -67,9 +87,11 @@ namespace ma
 		
 		DeferredLight*				m_pDefferLight;
 		Shadow*						m_pShadow;
+		RenderThread*				m_pRenderThread;
 
 		bool						m_bShadow;
 		bool						m_bDefferLight;
+		bool						m_bThread;
 
 		Vector4						m_cAmbientColor;
 

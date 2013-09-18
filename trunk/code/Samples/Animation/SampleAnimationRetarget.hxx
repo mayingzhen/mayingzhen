@@ -41,26 +41,26 @@ namespace ma
 
 		// character B MeshData & skeleton & Animation
 		{
-			m_pCharMagic = GetEntitySystem()->CreateGameObject("magic");
-
-			MeshComponent* pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
-
-			AnimComponent* pAnimComp = m_pCharMagic->CreateComponent<AnimComponent>();
-			pAnimComp->Load(NULL,"magician/Body.ske");
-
-			m_pAnimtionObjectB = pAnimComp->GetAnimObject();
-
-			IAnimationSet* pAnimSet = m_pAnimtionObjectB->GetAnimationSet();
-			
-			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
-			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
-			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
-			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
-
-			m_pAnimtionObjectB->PlayAnimation((UINT)0);
-
- 			m_pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
+// 			m_pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+// 
+// 			MeshComponent* pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
+// 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
+// 
+// 			AnimComponent* pAnimComp = m_pCharMagic->CreateComponent<AnimComponent>();
+// 			pAnimComp->Load(NULL,"magician/Body.ske");
+// 
+// 			m_pAnimtionObjectB = pAnimComp->GetAnimObject();
+// 
+// 			IAnimationSet* pAnimSet = m_pAnimtionObjectB->GetAnimationSet();
+// 			
+// 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
+// 			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+// 			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
+// 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
+// 
+// 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
+// 
+//  			m_pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
 		}
 	}
 

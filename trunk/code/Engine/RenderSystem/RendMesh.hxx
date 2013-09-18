@@ -1,4 +1,5 @@
 #include "RendMesh.h"
+#include "RenderThread.h"
 
 namespace ma
 {
@@ -71,11 +72,13 @@ namespace ma
 			pRenderable->m_pSubMeshData = pSubMesh;
 
 			Uint nBone = pSubMesh->m_arrBonePalette.size();
-			pRenderable->m_arrSkinMatrix.resize(nBone);
+			pRenderable->m_arrSkinMatrix[0].resize(nBone);
+			pRenderable->m_arrSkinMatrix[1].resize(nBone);
 			m_bSkin = nBone > 0 ? true : false;
 			for (Uint i = 0; i < nBone; ++i)
 			{
-				pRenderable->m_arrSkinMatrix[i] = Matrix4x4::identity();
+				pRenderable->m_arrSkinMatrix[0][i] = Matrix4x4::identity();
+				pRenderable->m_arrSkinMatrix[1][i] = Matrix4x4::identity();
 			}
 
 			m_arrRenderable.push_back(pRenderable);
@@ -97,6 +100,8 @@ namespace ma
 
 	void RenderMesh::SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount)
 	{
+		int index = GetRenderThread()->m_nCurThreadFill;
+
 		for (UINT iRenderable = 0; iRenderable < m_arrRenderable.size(); ++iRenderable)
 		{
 			Renderable* pRenderable = m_arrRenderable[iRenderable];
@@ -104,9 +109,11 @@ namespace ma
 			if (pRenderable == NULL)
 				continue;
 
+			std::vector<Matrix4x4>& arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
+
 			UINT nBone = pRenderable->m_pSubMeshData->m_arrBonePalette.size();
-			ASSERT(pRenderable->m_arrSkinMatrix.size() == nBone);
-			if (pRenderable->m_arrSkinMatrix.size() != nBone)
+			ASSERT(arrSkinMatrix.size() == nBone);
+			if (arrSkinMatrix.size() != nBone)
 				continue;
 
 			for (Uint iBone = 0; iBone < nBone; ++iBone)
@@ -116,16 +123,18 @@ namespace ma
 				if (boneID < 0 || boneID >= nCount)
 					continue;
 
-				pRenderable->m_arrSkinMatrix[iBone] = arrMatrixs[boneID];
+				arrSkinMatrix[iBone] = arrMatrixs[boneID];
 			}
 		}
 	}
 
 	void RenderMesh::SetWorldMatrix(const Matrix4x4& matWorld)
 	{
+		int index = GetRenderThread()->m_nCurThreadFill;
+
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			m_arrRenderable[i]->m_matWorld = matWorld;
+			m_arrRenderable[i]->m_matWorld[index] = matWorld;
 		}
 	}
 
@@ -134,17 +143,17 @@ namespace ma
 		return m_pMesData->GetBoundingAABB();
 	}
 
-	void RenderMesh::Draw()
-	{
+// 	void RenderMesh::Draw()
+// 	{
+// // 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+// //  		{
+// // 			GetRenderSystem()->AddRenderable(m_arrRenderable[i]);
+// //  		}
+// 		
 // 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-//  		{
-// 			GetRenderSystem()->AddRenderable(m_arrRenderable[i]);
-//  		}
-		
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-		{
-			GetRenderDevice()->DrawRenderable(m_arrRenderable[i]);
-		}
-	}
+// 		{
+// 			GetRenderSystem()->DrawRenderable(m_arrRenderable[i]);
+// 		}
+// 	}
 }
 

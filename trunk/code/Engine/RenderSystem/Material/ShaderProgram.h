@@ -12,11 +12,13 @@ namespace ma
 	{
 	public:
 
-		ShaderProgram();
+		ShaderProgram(const char* shName,const char* defines = NULL);
 
 		virtual ~ShaderProgram();
 
-		void				CreateFromShaderName(const char* shName,const char* defines = NULL);
+		void				Create();
+
+		//void				CreateFromShaderName(const char* shName,const char* defines = NULL);
 
 		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines = NULL);
 
@@ -78,6 +80,9 @@ namespace ma
 		std::string m_id;
 		std::map<std::string, Uniform*> m_uniforms;
 		//static Uniform _emptyUniform;
+
+		std::string m_ShaderName;
+		std::string m_shaderDefine;
 	};
 
 	/**

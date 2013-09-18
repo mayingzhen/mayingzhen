@@ -436,6 +436,22 @@
 				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\TArray.h"
+				>
+			</File>
 			<Filter
 				Name="Paticle"
 				>
@@ -445,6 +461,22 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleManager.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleThread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleThread.hxx"
 					>
 				</File>
 			</Filter>
@@ -728,15 +760,15 @@
 				Name="pthread"
 				>
 				<File
-					RelativePath="..\..\code\Engine\Thread\pthread\CriticalSection_Android.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\PosixCriticalSection.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\pthread\Event_Android.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\PosixEvent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\pthread\Thread_Android.h"
+					RelativePath="..\..\code\Engine\Thread\pthread\PosixThread.h"
 					>
 				</File>
 			</Filter>
@@ -744,15 +776,15 @@
 				Name="WinThread"
 				>
 				<File
-					RelativePath="..\..\code\Engine\Thread\winThread\CriticalSection_win.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\WinCriticalSection.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\winThread\Event_win.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\WinEvent.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Thread\winThread\Thread_win.h"
+					RelativePath="..\..\code\Engine\Thread\winThread\WinThread.h"
 					>
 				</File>
 			</Filter>
@@ -810,6 +842,18 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Animation\ISkeleton.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="UI"
+			>
+			<File
+				RelativePath="..\..\code\Engine\UI\IUISystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\UI\IUISystem.hxx"
 				>
 			</File>
 		</Filter>

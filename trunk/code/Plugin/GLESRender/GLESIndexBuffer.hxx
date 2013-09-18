@@ -5,8 +5,7 @@ namespace ma
 	GLESIndexBuffer::GLESIndexBuffer(void* Data, int size, INDEX_TYPE eIndexType, USAGE Usgae)
 		: IndexBuffer(Data,size,eIndexType,Usgae)
 	{
-		m_hIndexBuffer = -1;
-		Active();
+		m_hIndexBuffer = 0;
 	}
 
 	GLESIndexBuffer::~GLESIndexBuffer()
@@ -39,10 +38,10 @@ namespace ma
 
 	GLuint	GLESIndexBuffer::GetIndexBuffer()
 	{
-// 		if (m_hIndexBuffer < 0)
-// 		{
-// 			Active();
-// 		}
+		if (m_hIndexBuffer <= 0)
+		{
+			Active();
+		}
 
 		return m_hIndexBuffer;
 	}

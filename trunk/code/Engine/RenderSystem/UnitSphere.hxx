@@ -11,9 +11,10 @@ namespace ma
 		Matrix4x4 matScale;
  		MatrixScaling(&matScale,fRadius ,fRadius ,fRadius );
 
-		gpSphere->m_matWorld = matScale * matTras;		
+		gpSphere->m_matWorld[0] = matScale * matTras;
+		gpSphere->m_matWorld[1] = matScale * matTras;		
 		gpSphere->m_pMaterial = pMaterial;
-		GetRenderDevice()->DrawRenderable(gpSphere);
+		GetRenderSystem()->DrawRenderable(gpSphere);
 	}
 
 
@@ -33,5 +34,10 @@ namespace ma
 		return;
 	}
 
+
+	void UnitSphere::ShutDown()
+	{
+
+	}
 }
 

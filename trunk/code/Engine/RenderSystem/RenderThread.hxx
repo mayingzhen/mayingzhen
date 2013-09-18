@@ -1,41 +1,26 @@
 #include "RenderThread.h"
 
 
-
-
-
 namespace ma
 {
 
+	RenderThread* gpRenderThead = NULL;
 
+	RenderThread* GetRenderThread()
+	{
+		return gpRenderThead;
+	}
 
-
-	//void RenderThread::Run()
-	//{
-		//CryThreadSetName(-1, RENDER_THREAD_NAME);
-		//gEnv->pSystem->GetIThreadTaskManager()->MarkThisThreadForDebugging(RENDER_THREAD_NAME,true);
-
-
-
-
-
-		//UINT renderThreadId = ::GetCurrentThreadId();
-		//gRenDev->m_pRT->m_nRenderThread = renderThreadId;
-		//gEnv->pCryPak->SetRenderThreadId( renderThreadId );
-
-		//gRenDev->m_pRT->m_nCurThreadProcess = 1;
-
-		//m_started.Set();
-		//gRenDev->m_pRT->Process();
-		//gEnv->pSystem->GetIThreadTaskManager()->MarkThisThreadForDebugging(RENDER_THREAD_NAME,false);
-	//}
+	void SetRenderThread(RenderThread* pRenderThread)
+	{
+		gpRenderThead = pRenderThread;
+	}
 
 	RenderThread::RenderThread()
 	{
-		Init(2);
 	}
 
-	void RenderThread::Init(int nCPU)
+	void RenderThread::Init()
 	{
 		m_bQuit = false;
 
@@ -43,23 +28,14 @@ namespace ma
 		m_nCurThreadProcess = 0;
 
 		InitFlushCond();
-		m_nRenderThread = ::GetCurrentThreadId();
-		m_nMainThread = m_nRenderThread;
+	
+		m_nMainThread = ::GetCurrentThreadId();
 		m_bSuccessful = true;
-		//m_pThread = new Thread(Process,this);
+		m_nRenderThread = GetThreadId();
+		m_nCurThreadProcess = 1;
+
 		m_Commands[0].Free();
 		m_Commands[1].Free();
-
-		//RenderQueue::m_nProcessThreadID = m_nCurThreadProcess;
-		//RenderQueue:::m_nFillThreadID = m_nCurThreadFill;
-		//m_nProcessThreadID = m_nCurThreadProcess;
-		//gRenDev->m_RP.m_nFillThreadID = m_nCurThreadFill;
-// 		gRenDev->m_fTimeWaitForMain[0] = 0;
-// 		gRenDev->m_fTimeWaitForMain[1] = 0;
-// 		gRenDev->m_fTimeWaitForRender[0] = 0;
-// 		gRenDev->m_fTimeWaitForRender[1] = 0;
-// 		gRenDev->m_fTimeProcessedRT[0] = 0;
-// 		gRenDev->m_fTimeProcessedRT[1] = 0;
 	}
 
 	RenderThread::~RenderThread()
@@ -68,14 +44,14 @@ namespace ma
 	}
 
 
-	void RenderThread::RC_Init(HWND hWnd)
+	void RenderThread::RC_Init()
 	{
 		if (IsRenderThread())
 		{
-			return GetRenderDevice()->Init(hWnd);
+			return GetRenderSystem()->RT_Init();
 		}
+
 		AddCommand(eRC_Init);
-		AddDWORD((DWORD)hWnd);
 
 		FlushAndWait();
 	}
@@ -84,7 +60,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->BeginRender();
+			GetRenderSystem()->RT_BeginFrame();
 			return;
 		}
 
@@ -95,7 +71,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->EndRender();
+			GetRenderSystem()->RT_EndFrame();
 			return;
 		}
 
@@ -103,22 +79,125 @@ namespace ma
 		FlushFrame();
 	}
 
-	void RenderThread::RC_DrawRenderable(Renderable* pRenderable)
+	void RenderThread::RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->DrawRenderable(pRenderable);
+			pTexture->Load(pDataStream);
 			return;
 		}
 
-		AddCommand(eRC_DrawRenderable);
+		AddCommand(eRC_TexStreamComplete);
+		AddPointer(pTexture);
+		AddPointer(pDataStream);
+	}
 
-	}	
+	void RenderThread::RC_Flush()
+	{
+		if (IsRenderThread())
+		{
+			GetRenderSystem()->RT_Flush();
+			return;
+		}
+
+		AddCommand(eRC_Flush);
+	}
+
+	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
+	{
+		if (IsRenderThread())
+		{
+			pShader->Create();
+			return;
+		}
+
+		AddCommand(eRC_CreateShader);
+		AddPointer(pShader);
+
+		FlushAndWait();
+	}
+
+	void RenderThread::RC_CreateRenderTarget(RenderTarget* pRenderTarget)
+	{
+		if (IsRenderThread())
+		{
+			pRenderTarget->Create();
+			return;
+		}
+
+		AddCommand(eRC_CreateRenderTarget);
+		AddPointer(pRenderTarget);
+
+		FlushAndWait();
+	}
+
+	void RenderThread::RC_PushRenderTarget(RenderTarget* pTexture)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PushRenderTarget(pTexture);
+			return;
+		}
+
+		AddCommand(eRC_PushRenderTarget);
+		AddPointer(pTexture);
+	}
+
+	void RenderThread::RC_PushViewPort(Rectangle& viewPort)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PushViewport(viewPort);
+			return;
+		}
+
+		AddCommand(eRC_PushViewPort);
+		AddData(&viewPort,sizeof(Rectangle));
+	}
+
+	void RenderThread::RC_PopRenderTargert()
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PopRenderTarget();
+			return;
+		}
+
+		AddCommand(eRC_PopRenderTarget);
+	}
+
+	void RenderThread::RC_PopViewPort()
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PopViewport();
+			return;
+		}
+
+		AddCommand(eRC_PopViewPort);
+	}
+
+	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+			return;
+		}
+
+		AddCommand(eRC_ClearBuffer);
+		AddBool(bColor);
+		AddBool(bDepth);
+		AddBool(bStencil);
+		AddColor(c);
+		AddFloat(z);
+		AddInt(s);
+	}
 
 	void RenderThread::ProcessCommands()
 	{
-
 		assert (GetCurrentThreadId() == m_nRenderThread);
+
 		if (!CheckFlushCond())
 			return;
 
@@ -132,18 +211,68 @@ namespace ma
 			switch (nC)
 			{
 			case eRC_Init:
-				{
-					HWND hWnd = (HWND)ReadCommand<DWORD>(n);
-					GetRenderDevice()->Init(hWnd);
-				}
+				GetRenderSystem()->RT_Init();
 				break;
 			case eRC_BeginFrame:
-				GetRenderDevice()->BeginRender();
+				GetRenderSystem()->RT_BeginFrame();
 				break;
 			case eRC_EndFrame:
-				GetRenderDevice()->EndRender();
+				GetRenderSystem()->RT_EndFrame();
 				break;
-
+			case  eRC_Flush:
+				GetRenderSystem()->RT_Flush();
+				break;
+			case  eRC_TexStreamComplete:
+				{
+					Texture* pTexture = ReadCommand<Texture*>(n);
+					DataStream* pDataStream = ReadCommand<DataStream*>(n);
+					pTexture->Load(pDataStream);
+				}
+				break;
+			case  eRC_CreateShader:
+				{
+					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
+					pShader->Create();
+				}
+				break;
+			case  eRC_CreateRenderTarget:
+				{
+					RenderTarget* pTarget = ReadCommand<RenderTarget*>(n);
+					pTarget->Create();
+				}
+				break;
+			case eRC_PushRenderTarget:
+				{
+					RenderTarget* pTarget = ReadCommand<RenderTarget*>(n);
+					GetRenderDevice()->PushRenderTarget(pTarget);
+				}
+				break;
+			case  eRC_PopRenderTarget:
+				GetRenderDevice()->PopRenderTarget();
+				break;
+			case  eRC_PushViewPort:
+				{
+					Rectangle viewPort;
+					ReadData(n,viewPort);
+					GetRenderDevice()->PushViewport(viewPort);
+				}
+				break;
+			case  eRC_PopViewPort:
+				{
+					GetRenderDevice()->PopViewport();
+				}
+				break;
+			case  eRC_ClearBuffer:
+				{
+					bool bColor = ReadCommand<bool>(n);
+					bool bDepth = ReadCommand<bool>(n);
+					bool bStencil = ReadCommand<bool>(n);
+					Color c = ReadCommand<Color>(n);
+					float z = ReadCommand<float>(n);
+					int s = ReadCommand<int>(n);
+					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+				}
+				break;
 			default:
 				ASSERT(false);
 				break;
@@ -152,20 +281,20 @@ namespace ma
 		SignalFlushFinishedCond();
 	}
 
-	void RenderThread::Process()
+	void RenderThread::Run()
 	{
 		while(true)
 		{
 			//float fTime = iTimer->GetAsyncCurTime();
-			WaitFlushCond();
-			if(m_bQuit)	
+			this->WaitFlushCond();
+			if(this->m_bQuit)	
 			{
-				SignalFlushFinishedCond();
+				this->SignalFlushFinishedCond();
 				break;//put it here to safely shut down
 			}
 			//float fTimeAfterWait = iTimer->GetAsyncCurTime();
 			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
-			ProcessCommands();
+			this->ProcessCommands();
 			//float fTimeAfterProcess = iTimer->GetAsyncCurTime();
 			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 		}
@@ -175,20 +304,16 @@ namespace ma
 	// Flush current frame and wait for result
 	void RenderThread::FlushAndWait()
 	{
-		if (!m_pThread)
-			return;
-
 		WaitFlushFinishedCond();
 
 		int nCurProcess = m_nCurThreadProcess;
 		m_nCurThreadProcess = m_nCurThreadFill;
-		//gRenDev->m_RP.m_nProcessThreadID = m_nCurThreadProcess;
+
 		SignalFlushCond();
 
 		WaitFlushFinishedCond();
 
 		m_nCurThreadProcess = nCurProcess;
-		//gRenDev->m_RP.m_nProcessThreadID = m_nCurThreadProcess;
 		m_Commands[m_nCurThreadFill].SetUse(0);
 	}
 
@@ -205,16 +330,15 @@ namespace ma
 		//float fTime = iTimer->GetAsyncCurTime();
 		WaitFlushFinishedCond();
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
-		//	gRenDev->ToggleMainThreadAuxGeomCB();
-		//gRenDev->m_RP.m_TI[m_nCurThreadProcess].m_nFrameUpdateID = gRenDev->m_RP.m_TI[m_nCurThreadFill].m_nFrameUpdateID;
-		//gRenDev->m_RP.m_TI[m_nCurThreadProcess].m_nFrameID = gRenDev->m_RP.m_TI[m_nCurThreadFill].m_nFrameID;
+		
 		m_nCurThreadProcess = m_nCurThreadFill;
 		m_nCurThreadFill = (m_nCurThreadProcess+1) & 1;
-		//gRenDev->m_RP.m_nProcessThreadID = m_nCurThreadProcess;
-		//gRenDev->m_RP.m_nFillThreadID = m_nCurThreadFill;
+
 		m_Commands[m_nCurThreadFill].SetUse(0);
 		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] = 0;
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] = 0;
+
+		GetRenderSystem()->OnFlushFrame();
 
 		SignalFlushCond();
 	}
@@ -228,7 +352,6 @@ namespace ma
 			//{
 			//}
 			//m_pThread->WaitForThread();
-			SAFE_DELETE(m_pThread);
 		}
 		m_bQuit = 1;
 	}

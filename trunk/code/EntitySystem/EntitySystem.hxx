@@ -27,49 +27,17 @@ namespace ma
 	void EntitySystem::Update()
 	{
 		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
-// 		for (UINT i = 0; i < m_arrMeshComp.size(); ++i)
-// 		{
-// 			m_arrMeshComp[i]->Update();
-// 		}
 	}
-
-// 	void EntitySystem::Render()
-// 	{
-// 		m_pScene->Render();
-// 	}
 
 	void EntitySystem::Start()
 	{
 		m_pScene->Start();
-// 		if (GetPhysicsSystem())
-// 			GetPhysicsSystem()->Start();
-// 
-// 		if (GetScriptSystem())
-// 			GetScriptSystem()->Start();
-
-// 		for (UINT i = 0; i < m_arrGameObject.size(); ++i)
-// 		{
-// 			int nMeshComp = m_arrGameObject[i]->GetTypeComponentNumber<MeshComponent>();
-// 			for (UINT j = 0; j < nMeshComp; ++j)
-// 			{
-// 				m_arrMeshComp.push_back(m_arrGameObject[i]->GetTypeComponentByIndex<MeshComponent>(j));
-// 			}
-// 		}
 	}
 
 	void EntitySystem::Stop()
 	{
 		m_pScene->Stop();
-// 		if (GetPhysicsSystem())
-// 			GetPhysicsSystem()->Stop();
-// 
-// 		if (GetScriptSystem())
-// 			GetScriptSystem()->Stop();
-
-		//m_arrMeshComp.clear();
 	}
-
-
 
 	void EntitySystem::Serialize(Serializer& sl)
 	{
@@ -82,7 +50,7 @@ namespace ma
 		if (m_pScene == NULL)
 			return NULL;
 
-		GameObject* pGameObj = new GameObject(pName);//m_pScene->CreateGameObject(pName);	
+		GameObject* pGameObj = new GameObject(pName);	
 		m_arrGameObject.push_back(pGameObj);
 
 		m_pScene->AddSceneNode(pGameObj->GetSceneNode());

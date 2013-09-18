@@ -1,6 +1,7 @@
 //#include "Base.h"
 #include "MeshBatch.h"
 #include "Material/Material.h"
+#include "RenderThread.h"
 
 namespace ma
 {
@@ -12,10 +13,10 @@ namespace ma
 	{
  		_indexed = indexed;
  		_capacity = 0;
+		_vertexCapacity = 0;
+		_indexCapacity = 0;
  		_growSize = growSize;
-		_vertices = NULL;
 		_verticesPtr = NULL;
-		_indices = NULL;
 		_indicesPtr = NULL;
 	 
 	 
@@ -33,6 +34,8 @@ namespace ma
 		//SAFE_RELEASE(_material);
 		//SAFE_DELETE_ARRAY(_vertices);
 		//SAFE_DELETE_ARRAY(_indices);
+
+		SAFE_DELETE(m_pSubMeshData);
 	}
 
 	MeshBatch* MeshBatch::create(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, const char* materialPath, bool indexed, unsigned int initialCapacity, unsigned int growSize)
@@ -63,11 +66,13 @@ namespace ma
 
 	void MeshBatch::add(const void* vertices, size_t size, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
 	{
+		SubMeshData* pSubMeshData = m_pSubMeshData;
+
 		ASSERT(vertices);
-	    
-		unsigned int newVertexCount = m_pSubMeshData->m_nVertexCount + vertexCount;
-		unsigned int newIndexCount = m_pSubMeshData->m_nIndexCount + indexCount;
-		if (m_ePrimitiveType == PRIM_TRIANGLESTRIP && m_pSubMeshData->m_nVertexCount > 0)
+
+		unsigned int newVertexCount = pSubMeshData->m_nVertexCount + vertexCount;
+		unsigned int newIndexCount = pSubMeshData->m_nIndexCount + indexCount;
+		if (m_ePrimitiveType == PRIM_TRIANGLESTRIP && pSubMeshData->m_nVertexCount > 0)
 			newIndexCount += 2; // need an extra 2 indices for connecting strips with degenerate triangles
 	    
 		// Do we need to grow the batch?
@@ -94,7 +99,7 @@ namespace ma
 			ASSERT(indices);
 			ASSERT(_indicesPtr);
 
-			if (m_pSubMeshData->m_nVertexCount == 0)
+			if (pSubMeshData->m_nVertexCount == 0)
 			{
 				// Simply copy values directly into the start of the index array.
 				memcpy(_indicesPtr, indices, indexCount * sizeof(unsigned short));
@@ -106,7 +111,7 @@ namespace ma
 					// Create a degenerate triangle to connect separate triangle strips
 					// by duplicating the previous and next vertices.
 					_indicesPtr[0] = *(_indicesPtr - 1);
-					_indicesPtr[1] = m_pSubMeshData->m_nVertexCount;
+					_indicesPtr[1] = pSubMeshData->m_nVertexCount;
 					_indicesPtr += 2;
 				}
 	            
@@ -114,31 +119,33 @@ namespace ma
 				// 'vertexCount' so that they are relative to the first newly inserted vertex.
 				for (unsigned int i = 0; i < indexCount; ++i)
 				{
-					_indicesPtr[i] = indices[i] + m_pSubMeshData->m_nVertexCount;
+					_indicesPtr[i] = indices[i] + pSubMeshData->m_nVertexCount;
 				}
 			}
 
 			_indicesPtr += indexCount;
-			m_pSubMeshData->m_nIndexCount = newIndexCount;
+			pSubMeshData->m_nIndexCount = newIndexCount;
 		}
 
 		_verticesPtr += vBytes;
-		m_pSubMeshData->m_nVertexCount = newVertexCount;
+		pSubMeshData->m_nVertexCount = newVertexCount;
 	    
 	}
 
-	unsigned int MeshBatch::getCapacity() const
-	{
-		return _capacity;
-	}
+// 	unsigned int MeshBatch::getCapacity() const
+// 	{
+// 		return _capacity;
+// 	}
 
-	void MeshBatch::setCapacity(unsigned int capacity)
+	void MeshBatch::setCapacity(UINT capacity)
 	{
 		resize(capacity);
 	}
 
 	bool MeshBatch::resize(unsigned int capacity)
 	{
+		int index = GetRenderThread()->m_nCurThreadProcess;
+
 		if (capacity == 0)
 		{
 			GP_ERROR("Invalid resize capacity (0).");
@@ -149,8 +156,8 @@ namespace ma
 			return true;
 
 		// Store old batch data.
-		unsigned char* oldVertices = _vertices;
-		unsigned short* oldIndices = _indices;
+		unsigned char* oldVertices = m_pVertexBuffers ? (unsigned char*)m_pVertexBuffers->GetData() : NULL;
+		unsigned short* oldIndices = m_pIndexBuffer ? (unsigned short*)m_pIndexBuffer->GetData() : NULL;
 
 		unsigned int vertexCapacity = 0;
 		switch (m_ePrimitiveType)
@@ -185,31 +192,34 @@ namespace ma
 			return false;
 		}
 
+		
 		// Allocate new data and reset pointers.
-		unsigned int voffset = _verticesPtr - _vertices;
-		unsigned int vBytes = vertexCapacity * m_pDeclaration->GetStreanmStride();
-		_vertices = new unsigned char[vBytes];
-		memset(_vertices, 0, vBytes);
+		UINT voffset = _verticesPtr - oldVertices;
+		UINT vBytes = vertexCapacity * m_pDeclaration->GetStreanmStride();
+		unsigned char* newVertices = new unsigned char[vBytes];
+		memset(newVertices, 0, vBytes);
 		if (voffset >= vBytes)
 			voffset = vBytes - 1;
-		_verticesPtr = _vertices + voffset;
+		_verticesPtr = newVertices + voffset;
 
+		unsigned short* newIndices = NULL;
 		if (_indexed)
 		{
-			unsigned int ioffset = _indicesPtr - _indices;
-			_indices = new unsigned short[indexCapacity];
-			memset(_indices, 0, indexCapacity * sizeof(unsigned short) );
+			unsigned int ioffset = _indicesPtr - oldIndices;
+			newIndices = new unsigned short[indexCapacity];
+			memset(newIndices, 0, indexCapacity * sizeof(unsigned short) );
 			if (ioffset >= indexCapacity)
 				ioffset = indexCapacity - 1;
-			_indicesPtr = _indices + ioffset;
+			_indicesPtr = newIndices + ioffset;
 		}
 
 		// Copy old data back in
 		if (oldVertices)
-			memcpy(_vertices, oldVertices, Min(_vertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
+			memcpy(newVertices, oldVertices, Min(_vertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
 		SAFE_DELETE_ARRAY(oldVertices);
+
 		if (oldIndices)
-			memcpy(_indices, oldIndices, Min(_indexCapacity, indexCapacity) * sizeof(unsigned short));
+			memcpy(newIndices, oldIndices, Min(_indexCapacity, indexCapacity) * sizeof(unsigned short));
 		SAFE_DELETE_ARRAY(oldIndices);
 
 		// Assign new capacities
@@ -223,13 +233,11 @@ namespace ma
 		if (_indexed)
 		{
 			SAFE_DELETE(m_pIndexBuffer);
-			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(_indices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC);
-			//m_pIndexBuffer->Active();
+			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(newIndices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC);
 		}
 
 		SAFE_DELETE(m_pVertexBuffers);
-		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(_vertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
-		//m_pVertexBuffers->Active();
+		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 
 		return true;
 	}
@@ -243,8 +251,8 @@ namespace ma
 	{
 		m_pSubMeshData->m_nVertexCount = 0;
 		m_pSubMeshData->m_nIndexCount = 0;
-		_verticesPtr = _vertices;
-		_indicesPtr = _indices;
+		_verticesPtr = m_pVertexBuffers ? (unsigned char*)m_pVertexBuffers->GetData() : NULL;
+		_indicesPtr = m_pIndexBuffer ? (unsigned short*)m_pIndexBuffer->GetData() : NULL;
 	}
 
 	void MeshBatch::finish()
@@ -262,17 +270,14 @@ namespace ma
 // 
  		//m_pSubMeshData->m_nIndexCount = _indexCount;
  		//m_pSubMeshData->m_nVertexCount = _vertexCount;
+
+		GetRenderSystem()->DrawDyRenderable(this);
 	}
 
-	void MeshBatch::draw()
-	{
-		if (m_pSubMeshData->m_nVertexCount == 0 || (_indexed && m_pSubMeshData->m_nIndexCount == 0))
-			return; // nothing to draw
-
-		//GetRenderDevice()->DrawRenderable(this);
-		GetRenderDevice()->DrawDynamicRenderable(this);
-
-	}
+// 	void MeshBatch::draw()
+// 	{
+// 		GetRenderSystem()->DrawDyRenderable(this);
+// 	}
      
 
 }

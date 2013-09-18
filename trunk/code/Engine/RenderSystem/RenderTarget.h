@@ -8,8 +8,9 @@ namespace ma
 	class ENGINE_API RenderTarget 
 	{
 	public:
-		
 		virtual Texture* GetTexture() = 0;
+
+		virtual void	 Create() = 0;
 		
 	};
 

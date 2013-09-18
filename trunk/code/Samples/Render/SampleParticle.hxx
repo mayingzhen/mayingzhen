@@ -16,7 +16,7 @@ namespace ma
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
-		m_pEmitter = ParticleEmitter::create("Particle/fire.particle");
+		m_pEmitter = GetParticleManager()->Create("Particle/fire.particle");//ParticleEmitter::create("Particle/fire.particle");
 		m_pEmitter->start();
 	}
 
@@ -28,21 +28,20 @@ namespace ma
 
 	void SampleParticle::Update()
 	{
-		if (m_pEmitter)
-		{	
-			Matrix4x4 matWorld;
-			MatrixTranslation(&matWorld,-20,0,0);
+// 		if (m_pEmitter)
+// 		{	
+// 			m_pEmitter->update(GetTimer()->GetFrameDeltaTime());
+// 		}
 
-			m_pEmitter->update(GetTimer()->GetFrameDeltaTime(),matWorld);
-		}
+		//GetParticleManager()->A
 	}
 
 	void SampleParticle::Render()
 	{
-		if (m_pEmitter)
-		{
-			m_pEmitter->draw(GetCamera());
-		}		
+// 		if (m_pEmitter)
+// 		{
+// 			m_pEmitter->Render();
+// 		}		
 	}
 
 }

@@ -18,7 +18,7 @@ void D3D9RenderModuleInit()
 	ma::D3D9RenderDevice* pDxRenderDevice = new ma::D3D9RenderDevice();
 	ma::SetRenderDevice(pDxRenderDevice);
 	
-	ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+	//ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
 	
 	ma::GetRenderSystem()->Init();
 }

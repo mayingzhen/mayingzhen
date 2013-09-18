@@ -15,36 +15,24 @@ namespace ma
 			m_pDeclaration = NULL;
 			m_pVertexBuffers = NULL;
 			m_pIndexBuffer = NULL;
-
-// 			m_nVertexStart = 0;
-// 			m_nVertexCount = 0;
-// 			m_nIndexStart = 0;
-// 			m_nIndexCount = 0;
 			m_pSubMeshData = NULL;
-
 			m_pMaterial = NULL;
 
-			MatrixIdentity(&m_matWorld);
+			MatrixIdentity(&m_matWorld[0]);
+			MatrixIdentity(&m_matWorld[1]);
 		}
 		
 		PRIMITIVE_TYPE			m_ePrimitiveType;
 		VertexDeclaration*		m_pDeclaration;
 		VertexBuffer*			m_pVertexBuffers;
 		IndexBuffer*			m_pIndexBuffer;
-
-		//UINT					m_nVertexStart;
-		//UINT					m_nVertexCount;
-		//UINT					m_nIndexStart;
-		//UINT					m_nIndexCount;
-		//std::vector<BoneIndex>	m_arrBonePalette;
 		SubMeshData*			m_pSubMeshData;	
 
-		std::vector<Matrix4x4>  m_arrSkinMatrix;
+		std::vector<Matrix4x4>  m_arrSkinMatrix[2];
 
 		Material*               m_pMaterial;
 
-		Matrix4x4				m_matWorld;
-
+		Matrix4x4				m_matWorld[2];
 	};
 }
 

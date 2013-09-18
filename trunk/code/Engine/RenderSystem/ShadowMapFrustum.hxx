@@ -71,8 +71,8 @@ namespace ma
 
 	void ShadowMapFrustum::ShadowDepthPass()
 	{
-		RenderTarget* prevRT = GetRenderDevice()->SetDepthStencil(m_pShdowDepth);
-		Rectangle prevViewport = GetRenderDevice()->SetViewport(Rectangle(0, 0, 1024, 1024));
+		GetRenderDevice()->PushRenderTarget(m_pShdowDepth);
+		GetRenderDevice()->PushViewport(Rectangle(0, 0, 1024, 1024));
 		
 		for (UINT i = 0; i <  m_arrCasterList.size(); ++i)
 		{
@@ -83,11 +83,11 @@ namespace ma
 			Material* pMaterial = pRenderable->m_pMaterial;
 			pMaterial->SetCurTechnqiue("shadowDepth",NULL);
 			//pMaterial->GetParameter("matWoldViewProjCrop")->setMatrix();
-			GetRenderDevice()->DrawRenderable(pRenderable);
+			GetRenderSystem()->DrawRenderable(pRenderable);
 		}
 
-		GetRenderDevice()->SetDepthStencil(prevRT);
-		GetRenderDevice()->SetViewport(prevViewport);
+		GetRenderDevice()->PopRenderTarget();
+		GetRenderDevice()->PopViewport();
 	}
 
 }

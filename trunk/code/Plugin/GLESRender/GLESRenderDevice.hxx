@@ -17,9 +17,14 @@ namespace ma
 	}
 
 
-	Texture* GLESRenderDevice::CreateRendTexture()
+	Texture* GLESRenderDevice::CreateTexture(const char* pszPath)
 	{
-		return new GLESTexture();
+		return new GLESTexture(pszPath);
+	}
+
+	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format)
+	{
+		return new GLESTexture(nWidth,nHeight,format);
 	}
 
 	VertexDeclaration* GLESRenderDevice::CreateVertexDeclaration()
@@ -37,9 +42,9 @@ namespace ma
 		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*	GLESRenderDevice::CreateShaderProgram()
+	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(const char* pszName,const char* pszDefine)
 	{
-		return new GLESShaderProgram();
+		return new GLESShaderProgram(pszName,pszDefine);
 	}
 
 	const char*	GLESRenderDevice::GetShaderPath()
@@ -124,18 +129,17 @@ namespace ma
 		
 		GLint fbo;
 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
-		m_pCurRenderTarget = new GLESRenderTarget();
-		m_pCurRenderTarget->SetFrameBuffer(fbo);
+		GLESRenderTarget* pRenderTarget = new GLESRenderTarget();
+		pRenderTarget->SetFrameBuffer(fbo);
+		m_pRenderTarget.push(pRenderTarget);
+		
 
 		m_hDefaultFrameBuffer = fbo;
 		GL_ASSERT( glGenFramebuffers(1, &m_hOffecreenFrameBuffer) );
 
 		GLint viewport[4]; 
 		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
-		m_curViewport.x = viewport[0];
-		m_curViewport.y = viewport[1];
-		m_curViewport.width = viewport[2];
-		m_curViewport.height = viewport[3];
+		m_viewport.push(Rectangle(viewport[0],viewport[1],viewport[2],viewport[3]));
 
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 		GLint val;
@@ -163,23 +167,22 @@ namespace ma
 
 	RenderTarget* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
-		GLESRenderTarget* pTarget = new GLESRenderTarget();
-		pTarget->Create(nWidth,nHeight,format);
+		GLESRenderTarget* pTarget = new GLESRenderTarget(nWidth,nHeight,format);
+		pTarget->Create();
 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
 		return pTarget;
 	}
 
-	RenderTarget* GLESRenderDevice::SetRenderTarget(RenderTarget* pTarget,int index)
+	void GLESRenderDevice::PushRenderTarget(RenderTarget* pTarget,int index)
 	{
 		ASSERT(pTarget && index == 0);
 		if (pTarget == NULL || index != 0)
-			return NULL;
+			return ;
 
-		GLESRenderTarget* preTarger = m_pCurRenderTarget;
-		m_pCurRenderTarget = (GLESRenderTarget*)pTarget;
-		GLESTexture* pGLESTexure = (GLESTexture*)m_pCurRenderTarget->GetTexture();
+		GLESRenderTarget* pGLESTargert = (GLESRenderTarget*)pTarget;
+		GLESTexture* pGLESTexure = (GLESTexture*)pGLESTargert->GetTexture();
 
-		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, m_pCurRenderTarget->GetFrameBuffer()) );
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTargert->GetFrameBuffer()) );
 	
 		if (pGLESTexure)
 		{
@@ -191,21 +194,56 @@ namespace ma
 				GP_ERROR("Framebuffer status incomplete: 0x%x", fboStatus);
 			}
 		}
-		return preTarger;
+		
+		m_pRenderTarget.push(pGLESTargert);
 	}
 
-	RenderTarget* GLESRenderDevice::SetDepthStencil(RenderTarget* pTexture)
+	void GLESRenderDevice::PopRenderTarget(int index)
+	{
+		ASSERT(index == 0);
+		if (index != 0)
+			return;
+
+		m_pRenderTarget.pop();
+		GLESRenderTarget* pGLESTargert = m_pRenderTarget.top();
+		GLESTexture* pGLESTexure = (GLESTexture*)pGLESTargert->GetTexture();
+
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTargert->GetFrameBuffer()) );
+
+		if (pGLESTexure && pGLESTexure->GetTexture() > 0)
+		{
+			GLenum attachment = GL_COLOR_ATTACHMENT0 + index;
+			GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pGLESTexure->GetTexture(), 0) );
+			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+			{
+				GP_ERROR("Framebuffer status incomplete: 0x%x", fboStatus);
+			}
+		}
+	}
+
+
+	void GLESRenderDevice::PushDepthStencil(RenderTarget* pTexture)
 	{
 		ASSERT(false);
-		return NULL;
 	}
 
-	Rectangle GLESRenderDevice::SetViewport(const Rectangle& rect)
+	void GLESRenderDevice::PopDepthStencil()
 	{
-		Rectangle preViewport = m_curViewport;
-		m_curViewport = rect;
+		ASSERT(false);
+	}
+
+	void GLESRenderDevice::PushViewport(const Rectangle& rect)
+	{
+		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);	
+		m_viewport.push(rect);
+	}
+
+	void GLESRenderDevice::PopViewport()
+	{
+		m_viewport.pop();
+		Rectangle rect = m_viewport.top();
 		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);
-		return preViewport;
 	}
 
 	void GLESRenderDevice::SetRenderState(const RenderState& state)
@@ -283,34 +321,23 @@ namespace ma
 
 	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
 
-	void GLESRenderDevice::DrawRenderable(Renderable* pRenderable)
+	void GLESRenderDevice::DrawIndexMesh(const IndexMesh& indexMesh)
 	{
-		if (pRenderable == NULL)
-			return;
-
-		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
-			return;
-
-		GetMaterialManager()->SetCurRenderable(pRenderable);
-
-		Material* pMaterial = pRenderable->m_pMaterial;
-		pMaterial->Bind();
-		
-		Technique* pCurTech = pMaterial->GetCurTechnqiue();
+		Technique* pCurTech = indexMesh.m_pTech;
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
-		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
+		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)indexMesh.m_pIndBuf;
 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
 
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers;
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)indexMesh.m_pVerBuf;
 		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
 
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration;
+		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)indexMesh.m_pDecl;
 
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(indexMesh.m_eMeshType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = pRenderable->m_pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = indexMesh.m_nVertexStart * pVertexDeclar->GetStreanmStride();
 
 		int nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
@@ -335,13 +362,11 @@ namespace ma
 
 
 		int indexStride = pIndexBuffer->GetStride();
-		void* pIBufferData = BUFFER_OFFSET(indexStride * pRenderable->m_pSubMeshData->m_nIndexStart);
+		void* pIBufferData = BUFFER_OFFSET(indexStride * indexMesh.m_nIndexStart);
 
-		GL_ASSERT( glDrawElements(ePrimType, pRenderable->m_pSubMeshData->m_nIndexCount, eIndexType, pIBufferData) );
+		GL_ASSERT( glDrawElements(ePrimType, indexMesh.m_nIndexCount, eIndexType, pIBufferData) );
 
 
-
-		//nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
 		{
 			const VertexElement& ve = pVertexDeclar->GetElement(i);
@@ -356,38 +381,27 @@ namespace ma
 
 			GL_ASSERT( glDisableVertexAttribArray(attr) );
 		}
-
-		pMaterial->UnBind();
 	}
 
-	void GLESRenderDevice::DrawDynamicRenderable(Renderable* pRenderable)
+	void GLESRenderDevice::DrawDyIndexMesh(const IndexMesh& indexMesh)
 	{
-		if (pRenderable == NULL)
-			return;
-
-		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
-			return;
-
-		GetMaterialManager()->SetCurRenderable(pRenderable);
-
-		Material* pMaterial = pRenderable->m_pMaterial;
-		pMaterial->Bind();
-
-		Technique* pCurTech = pMaterial->GetCurTechnqiue();
+		Technique* pCurTech = indexMesh.m_pTech;
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
 
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration;
+		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)indexMesh.m_pDecl;
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)indexMesh.m_pVerBuf;
+		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)indexMesh.m_pIndBuf;
 
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
-		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
-		int vertexStartByte = pRenderable->m_pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
-		GLsizei nIndexCount = pRenderable->m_pSubMeshData->m_nIndexCount;
-		GLvoid* pIndices = pRenderable->m_pIndexBuffer->GetData();
-		GLvoid*	pVertex = pRenderable->m_pVertexBuffers->GetData();
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(indexMesh.m_eMeshType);
+		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
+		int vertexStartByte = indexMesh.m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		GLsizei nIndexCount = indexMesh.m_nIndexCount;
+		GLvoid* pIndices = pIndexBuffer->GetData();
+		GLvoid*	pVertex = pVertexBuffer->GetData();
 
 		int nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
@@ -412,7 +426,7 @@ namespace ma
 		}
 
 
-		if (pRenderable->m_pIndexBuffer)
+		if (pIndexBuffer)
 		{
 			GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIndices) );
 		}

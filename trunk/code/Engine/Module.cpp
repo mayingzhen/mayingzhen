@@ -39,13 +39,17 @@
 #include "Engine/RenderSystem/VertexDeclaration.hxx"
 #include "Engine/RenderSystem/MeshBatch.hxx"
 #include "Engine/RenderSystem/RendMesh.hxx"
-#include "Engine/RenderSystem/ParticleEmitter.hxx"
 #include "Engine/RenderSystem/SpriteBatch.hxx"
 #include "Engine/RenderSystem/Camera.hxx"
 #include "Engine/RenderSystem/Light.hxx"
 #include "Engine/RenderSystem/RenderSystem.hxx"
 #include "Engine/RenderSystem/DeferredLight.hxx"
 #include "Engine/RenderSystem/Shadow.hxx"
+#include "Engine/RenderSystem/RenderThread.hxx"
+
+#include "Engine/RenderSystem/ParticleEmitter.hxx"
+#include "Engine/RenderSystem/ParticleThread.hxx"
+#include "Engine/RenderSystem/ParticleManager.hxx"
 
 // Terrain
 #include "Engine/Terrain/Terrain.hxx"
@@ -79,6 +83,9 @@
 // Animation
 #include "Engine/Animation/IAnimationSystem.hxx"
 
+// UI
+#include "Engine/UI/IUISystem.hxx"
+
 // Input
 #include "Engine/Input/Input.hxx"
 
@@ -98,7 +105,6 @@ void EngineModuleInit()
 	RenderSystem* pRenderSystem = new RenderSystem();
 	SetRenderSystem(pRenderSystem);
 	
-
 	ResourceSystem* pRsourceSystem = new ResourceSystem();
 	SetResourceSystem(pRsourceSystem);
 	pRsourceSystem->Init();
@@ -107,17 +113,29 @@ void EngineModuleInit()
 	SetInput(pInput);
 	pInput->Init(Platform::GetInstance().GetWindId());
 
+	ParticleManager* pParticleMang = new ParticleManager();
+	SetParticleManager(pParticleMang);
+
 	Time* pTime = new Time();
 	SetTimer(pTime);
 }
 
 void EngineModuleShutdown()
 {
+	Time* pTime = GetTimer();
+	SAFE_DELETE(pTime);
+	SetTimer(NULL);
+
+	Input* pInput = GetInput();
+	pInput->Shutdown();
+	SAFE_DELETE(pInput);
+	SetInput(NULL);
+
 	ResourceSystem* pRsourceSystem = GetResourceSystem();
+	pRsourceSystem->ShoutDown(); 
 	SAFE_DELETE(pRsourceSystem);
 	SetResourceSystem(NULL);
-	pRsourceSystem->ShoutDown(); 
-
+	
 	RenderSystem* pRenderSystem = GetRenderSystem();
 	SAFE_DELETE(pRenderSystem);
 	SetRenderSystem(NULL);

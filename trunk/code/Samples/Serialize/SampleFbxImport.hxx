@@ -127,24 +127,22 @@ namespace ma
 			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
 		}
 
-	}
-
-	void SampleFbxImport::Render()
-	{
-		if (GetRenderDevice() == NULL)
-			return;
-
 		if (m_pRenderMesh)
 		{
 			Matrix4x4 matWorld;
 			MatrixTranslation(&matWorld,20,0,0);
- 			Matrix4x4 matScale;
- 			MatrixScaling(&matScale, 1.0f / 50.0f, 1.0f / 50.0f, 1.0f / 50.0f); 
- 
- 			matWorld = matScale * matWorld;
+			Matrix4x4 matScale;
+			MatrixScaling(&matScale, 1.0f / 50.0f, 1.0f / 50.0f, 1.0f / 50.0f); 
+
+			matWorld = matScale * matWorld;
 			m_pRenderMesh->SetWorldMatrix(matWorld);
 
-			m_pRenderMesh->Draw();
+			/*m_pRenderMesh->Draw();*/
+			for (UINT i = 0; i < m_pRenderMesh->GetRenderableNumber(); ++i)
+			{
+				GetRenderSystem()->AddRenderable(m_pRenderMesh->GetRenderableByIndex(i));
+			}	
+
 		}
 
 		if (m_pStaticMesh)
@@ -154,7 +152,10 @@ namespace ma
 
 			m_pStaticMesh->SetWorldMatrix(matWorld);
 
-			m_pStaticMesh->Draw();
+			for (UINT i = 0; i < m_pStaticMesh->GetRenderableNumber(); ++i)
+			{
+				GetRenderSystem()->AddRenderable(m_pStaticMesh->GetRenderableByIndex(i));
+			}	
 		}
 
 		if (m_pBoxMesh)
@@ -164,13 +165,16 @@ namespace ma
 			MatrixScaling(&matScale,1,1,1); 
 			MatrixTranslation(&matWorld,0,0,0);
 			matWorld = matScale * matWorld;
-			
+
 			m_pBoxMesh->SetWorldMatrix(matWorld);
 
-			m_pBoxMesh->Draw();
+			for (UINT i = 0; i < m_pBoxMesh->GetRenderableNumber(); ++i)
+			{
+				GetRenderSystem()->AddRenderable(m_pBoxMesh->GetRenderableByIndex(i));
+			}	
 		}
-
 	}
+
 
 }
 

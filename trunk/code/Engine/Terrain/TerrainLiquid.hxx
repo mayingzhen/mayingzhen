@@ -268,7 +268,7 @@ namespace ma
 		}
 
 		UINT nVertSize = m_pTempGridArray.size() * 4 * sizeof(sLiquidVertex);
-		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
+		m_pVertexBuffers[0] = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
 		//m_pVertexBuffers->Active();
 
 		m_pSubMeshData->m_nVertexCount = m_pTempGridArray.size() * 4;
@@ -347,7 +347,7 @@ namespace ma
 		Uint16* pIdx = pIndexValues;
 		Uint16 start_vert = 0;
 
-		for( int i = 0; i < m_pTempGridArray.size(); ++i ) 
+		for( UINT i = 0; i < m_pTempGridArray.size(); ++i ) 
 		{
 			Uint16 iIndexTopLeft = i * 4;
 			Uint16 iIndexTopRight = iIndexTopLeft + 1;

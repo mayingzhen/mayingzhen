@@ -25,7 +25,7 @@ namespace ma
     class Thread;
     class CMyEvent;
 
-	class ENGINE_API DataThread 
+	class ENGINE_API DataThread : public Thread
 	{	
 	public:
 		DataThread();
@@ -49,13 +49,10 @@ namespace ma
 		bool		Process(void);
 		
 		void		SetImmediateExigence(bool bImmediate){m_bImmediate = bImmediate;}
-		
 
-	public:
-		static	void MyDataThread(void* pThis);
 
 	private:
-		void		ProcessLoadRequest();
+		void		Run();
 
 	public:
 		typedef std::deque<IDataObj*> CDataObjQueue;
@@ -67,14 +64,14 @@ namespace ma
 		Thread*				m_pThread;
 		CMyEvent*			m_pReadEvent; // read event, for process read data
 
-		CriticalSection	m_csRequestQueue;	// 加载队列同步锁
-		CriticalSection	m_csLoadedQueue;	// 加载队列同步锁
+		CriticalSection		m_csRequestQueue;	// 加载队列同步锁
+		CriticalSection		m_csLoadedQueue;	// 加载队列同步锁
 
-		bool			m_bImmediate;
-		bool			m_bFree;
-		bool			m_bExit;
-		DWORD			m_dwTlsIndex;
-		DWORD			m_dwThreadAppID;
+		bool				m_bImmediate;
+		bool				m_bFree;
+		bool				m_bExit;
+		DWORD				m_dwTlsIndex;
+		DWORD				m_dwThreadAppID;
 	};
 }
 

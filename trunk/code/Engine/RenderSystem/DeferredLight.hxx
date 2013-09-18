@@ -45,8 +45,8 @@ namespace ma
 
 	void DeferredLight::GBufferPass()
 	{
-		RenderTarget* pPreTar1 = GetRenderDevice()->SetRenderTarget(m_pDepthTex,0);
-		RenderTarget* pPreTar2 = GetRenderDevice()->SetRenderTarget(m_pNormalTex,1);
+		GetRenderDevice()->PushRenderTarget(m_pDepthTex,0);
+		GetRenderDevice()->PushRenderTarget(m_pNormalTex,1);
 
 		GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
@@ -57,18 +57,18 @@ namespace ma
 			Material* pMaterial = pSolidEntry->m_pMaterial;
 			pMaterial->SetCurTechnqiue("gbuffer",NULL);
 			pMaterial->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
-			GetRenderDevice()->DrawRenderable(pSolidEntry);
+			GetRenderSystem()->DrawRenderable(pSolidEntry);
 		}
 
-		GetRenderDevice()->SetRenderTarget(pPreTar1,0);
-		GetRenderDevice()->SetRenderTarget(pPreTar2,1);
+		GetRenderDevice()->PopRenderTarget(0);
+		GetRenderDevice()->PopRenderTarget(1);
 	}
 
 
 	void DeferredLight::DefferedLighting()
 	{
-		RenderTarget* pPreTar1 = GetRenderDevice()->SetRenderTarget(m_pDiffuse,0);
-		RenderTarget* pPreTar2 = GetRenderDevice()->SetRenderTarget(m_pSpecular,1);
+		GetRenderDevice()->PushRenderTarget(m_pDiffuse,0);
+		GetRenderDevice()->PushRenderTarget(m_pSpecular,1);
 
 		GetRenderDevice()->ClearBuffer(true,false,true,Color(0,0,0,0), 1.0f, 0);
 
@@ -142,8 +142,8 @@ namespace ma
 		}
 
 
-		GetRenderDevice()->SetRenderTarget(pPreTar1,0);
-		GetRenderDevice()->SetRenderTarget(pPreTar2,1);
+		GetRenderDevice()->PopRenderTarget(0);
+		GetRenderDevice()->PopRenderTarget(1);
 	}
 
 

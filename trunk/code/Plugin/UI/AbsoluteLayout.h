@@ -14,6 +14,7 @@ class AbsoluteLayout : public Layout
 {
     friend class Form;
     friend class Container;
+	friend class UISystem;
 
 public:
 

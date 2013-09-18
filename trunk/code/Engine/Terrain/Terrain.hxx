@@ -40,48 +40,6 @@ char* UTF8ToANSI(const char* str)
 }
 #endif
 
-// char* UTF8ToANSI(const char* str)
-// {
-// 	unsigned short* toTranscode = (unsigned short*)str; //--> your original UTF-8 string
-// 	unsigned int wLent = wcslen (toTranscode);
-// 	
-// 	//------------------------------------------------------
-// 	// a UTF-8 character can have maximum 6 bytes
-// 	//------------------------------------------------------
-// 	int maxCharLen = 6*wLent;
-// 	wchar_t* pWideCharBuf;
-// 	char* pToFill;
-// 
-// 	//--------------------------------------------------------------
-// 	// alloc memory for variables.
-// 	//--------------------------------------------------------------
-// 	pWideCharBuf = new wchar_t[wLent+1];
-// 	pToFill = new char[maxCharLen+1];
-// 
-// 	for (unsigned int i = 0; i < wLent; ++i)
-// 		pWideCharBuf[i] = toTranscode[i];
-// 	pWideCharBuf[wLent] = 0x00;
-// 
-// 	memset (pToFill, 0, maxCharLen+1);
-// 
-// 	// convert the string
-// 	if (wcstombs(pToFill, pWideCharBuf, maxCharLen) == -1)
-// 	{
-// 		// ALARM ("wcstombs error");
-// 	}
-// 
-// 	// pToFill contains the string
-// 
-// 	//-------------------------------------------------------
-// 	// clean-up
-// 	//-------------------------------------------------------
-// 	delete [] pWideCharBuf ;
-// 
-// 	// don't forget to
-// 	//delete [] pToFill ;
-// 	return pToFill;
-// }
-
 
 namespace ma
 {
@@ -103,7 +61,7 @@ namespace ma
 		{	
  			m_arrSection[i]->m_pMaterial = m_pMaterial;
  			//m_pMaterial->SetRenderable(m_arrSection[i]);
- 			GetRenderDevice()->DrawRenderable(m_arrSection[i]);
+ 			GetRenderSystem()->DrawRenderable(m_arrSection[i]);
 			//GetRenderSystem()->AddRenderable(m_arrSection[i]);
 		}
 	}
@@ -136,7 +94,6 @@ namespace ma
 				TerrainSection* pTerrainScetion = new TerrainSection;
 				pTerrainScetion->Create(this, heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
-				//g_SceneMng.AddTerrainScetion(pTerrainScetion);
 			}
 		}
 	}
@@ -435,7 +392,7 @@ namespace ma
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
 		std::string sDir = FileSystem::getDirectoryName(psAltaPath);
 		std::string sTextAltasPath = sDir + pTextAltasPath;
-		m_pAltasTex = GetRenderDevice()->CreateRendTexture();
+		m_pAltasTex = GetRenderDevice()->CreateTexture();
 		m_pAltasTex->Load(sTextAltasPath.c_str());
 
 		Sampler* pSameler = Sampler::create(m_pAltasTex);

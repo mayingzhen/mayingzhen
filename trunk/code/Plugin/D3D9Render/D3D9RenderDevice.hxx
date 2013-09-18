@@ -22,11 +22,15 @@ namespace ma
 	}
 
 
-	Texture* D3D9RenderDevice::CreateRendTexture()
+	Texture* D3D9RenderDevice::CreateTexture(const char* pszPath)
 	{
-		return new D3D9Texture();
+		return new D3D9Texture(pszPath);
 	}
 
+	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format)
+	{
+		return new D3D9Texture(nWidth,nHeight,format);
+	}
 
 	VertexDeclaration* D3D9RenderDevice::CreateVertexDeclaration()
 	{
@@ -43,9 +47,9 @@ namespace ma
 		return new D3D9IndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram()
+	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(const char* pszName,const char* pszDefine)
 	{
-		return new D3D9ShaderProgram();
+		return new D3D9ShaderProgram(pszName,pszDefine);
 	}
 
 	const char*	D3D9RenderDevice::GetShaderPath()
@@ -69,24 +73,28 @@ namespace ma
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
-			m_pCurRenderTarget[i] =  new D3D9RenderTarget();
+			D3D9RenderTarget* pRenderTarget =  new D3D9RenderTarget();
 			LPDIRECT3DSURFACE9 surface = NULL;
 			m_pD3DDevice->GetRenderTarget(i,&surface);
-			m_pCurRenderTarget[i]->SetD3DSurface(surface);
+			pRenderTarget->SetD3DSurface(surface);
+			m_pRenderTarget[i].push(pRenderTarget);
 		}
 
-		m_pCurDepthStencil =  new D3D9RenderTarget();
+		D3D9RenderTarget* pDepthStencil =  new D3D9RenderTarget();
 		LPDIRECT3DSURFACE9 surface = NULL;
 		m_pD3DDevice->GetDepthStencilSurface(&surface);
-		m_pCurDepthStencil->SetD3DSurface(surface);
+		pDepthStencil->SetD3DSurface(surface);
+		m_pDepthStencil.push(pDepthStencil);
 
 	
 		D3DVIEWPORT9 vp;
 		m_pD3DDevice->GetViewport(&vp);
-		m_curViewport.x = (float)vp.X;
-		m_curViewport.y = (float)vp.Y;
-		m_curViewport.width = (float)vp.Width;
-		m_curViewport.height = (float)vp.Height;
+		Rectangle curViewport;
+		curViewport.x = (float)vp.X;
+		curViewport.y = (float)vp.Y;
+		curViewport.width = (float)vp.Width;
+		curViewport.height = (float)vp.Height;
+		m_viewport.push(curViewport);
 	}
 
 	void D3D9RenderDevice::InitD3D9(HWND hWnd)
@@ -145,10 +153,9 @@ namespace ma
 		if( FAILED(hr) )
 		{
 			ASSERT(FALSE && "m_pD3D->CreateDevice()");
-			return ;
+			return;
 		}
 
-		return ;
 	}
 
 
@@ -171,15 +178,12 @@ namespace ma
 
 	RenderTarget* D3D9RenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
-		D3D9RenderTarget* pRT = new D3D9RenderTarget();
-		pRT->Create(nWidth,nHeight,format);
+		D3D9RenderTarget* pRT = new D3D9RenderTarget(nWidth,nHeight,format);
 		return pRT;
 	}
 
-	RenderTarget* D3D9RenderDevice::SetRenderTarget(RenderTarget* pTexture,int index)
+	void D3D9RenderDevice::PushRenderTarget(RenderTarget* pTexture,int index)
 	{
-		RenderTarget* pPreTarget = m_pCurRenderTarget[index];
-
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
@@ -189,21 +193,37 @@ namespace ma
 			hr = m_pD3DDevice->SetRenderTarget(index, target);
 			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
 
-			m_pCurRenderTarget[index] = pD3D9Target;
+			m_pRenderTarget[index].push(pD3D9Target);
 		}
 		else
 		{
 			m_pD3DDevice->SetRenderTarget(index, NULL);
-			m_pCurRenderTarget[index] = NULL;
-		}
+			m_pRenderTarget[index].push(NULL);
 
-		return pPreTarget;
+		}
 	}
 
-	RenderTarget* D3D9RenderDevice::SetDepthStencil(RenderTarget* pTexture)
+	void D3D9RenderDevice::PopRenderTarget(int index)
 	{
- 		RenderTarget* pPreTarget = m_pCurDepthStencil;
+		m_pRenderTarget[index].pop();
+		D3D9RenderTarget* pD3D9Target = m_pRenderTarget[index].top();
 
+		if (pD3D9Target != NULL)
+		{
+			HRESULT hr = D3D_OK;
+			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
+
+			hr = m_pD3DDevice->SetRenderTarget(index, target);
+			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+		}
+		else
+		{
+			m_pD3DDevice->SetRenderTarget(index, NULL);
+		}
+	}
+
+	void D3D9RenderDevice::PushDepthStencil(RenderTarget* pTexture)
+	{
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
@@ -213,23 +233,37 @@ namespace ma
 			hr = m_pD3DDevice->SetDepthStencilSurface(target);
 			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
 
-			m_pCurDepthStencil = pD3D9Target;
+			m_pDepthStencil.push(pD3D9Target);
 		}
 		else
 		{
 			m_pD3DDevice->SetDepthStencilSurface(NULL);
-			m_pCurDepthStencil = NULL;
+			m_pDepthStencil.push(NULL);
 		}
-
-		return pPreTarget;
 	}
 
-
-	Rectangle D3D9RenderDevice::SetViewport(const Rectangle& rect)
+	void D3D9RenderDevice::PopDepthStencil()
 	{
-		Rectangle preViewport = m_curViewport;
-		m_curViewport = rect;
+		m_pDepthStencil.pop();
+		D3D9RenderTarget* pTexture = m_pDepthStencil.top();
 
+		if (pTexture != NULL)
+		{
+			HRESULT hr = D3D_OK;
+			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
+
+			hr = m_pD3DDevice->SetDepthStencilSurface(target);
+			ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+		}
+		else
+		{
+			m_pD3DDevice->SetDepthStencilSurface(NULL);
+		}
+	}
+
+	void D3D9RenderDevice::PushViewport(const Rectangle& rect)
+	{
 		D3DVIEWPORT9 vp;
 		vp.X      = rect.x;
 		vp.Y      = rect.y;
@@ -240,7 +274,23 @@ namespace ma
 
 		m_pD3DDevice->SetViewport(&vp);
 
-		return preViewport;
+		m_viewport.push(rect);
+	}
+
+	void D3D9RenderDevice::PopViewport()
+	{
+		m_viewport.pop();
+		Rectangle rect = m_viewport.top();
+
+		D3DVIEWPORT9 vp;
+		vp.X      = rect.x;
+		vp.Y      = rect.y;
+		vp.Width  = rect.width;
+		vp.Height = rect.height;
+		vp.MinZ   = 0.0f;
+		vp.MaxZ   = 1.0f;
+
+		m_pD3DDevice->SetViewport(&vp);
 	}
 
 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
@@ -348,126 +398,86 @@ namespace ma
 
 	}
 
-
-	void D3D9RenderDevice::DrawRenderable(Renderable* pRenderable)
+	void D3D9RenderDevice::DrawIndexMesh(const IndexMesh& indexMesh)
 	{
-		if (pRenderable == NULL)
-			return;
-
-		GetMaterialManager()->SetCurRenderable(pRenderable);
-
-		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
-			return;
-
-		Material* pMaterial = pRenderable->m_pMaterial;
-		ASSERT(pMaterial);
-		pMaterial->Bind();
-		//pTech->Bind();
-
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)indexMesh.m_pDecl;
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
-		if (pRenderable->m_pIndexBuffer)
+		if (indexMesh.m_pIndBuf)
 		{	
-			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
+			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)indexMesh.m_pIndBuf;
 			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
 			ASSERT(hr == D3D_OK);
 		}
 
-		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
+		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)indexMesh.m_pVerBuf;
 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
 
-		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
+		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(indexMesh.m_eMeshType);
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 3;
+			nPrimCount = indexMesh.m_nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount - 2;
+			nPrimCount = indexMesh.m_nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 2;
+			nPrimCount = indexMesh.m_nIndexCount / 2;
 		}
 
 		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,
 			0,
-			pRenderable->m_pSubMeshData->m_nVertexStart,
-			pRenderable->m_pSubMeshData->m_nVertexCount,
-			pRenderable->m_pSubMeshData->m_nIndexStart,
+			indexMesh.m_nVertexStart,
+			indexMesh.m_nVertexCount,
+			indexMesh.m_nIndexStart,
 			nPrimCount);
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
 
-		pMaterial->UnBind();
-
 	}
 
-	void D3D9RenderDevice::DrawDynamicRenderable(Renderable* pRenderable)
+	void D3D9RenderDevice::DrawDyIndexMesh(const IndexMesh& indexMesh)
 	{
-		if (pRenderable == NULL)
-			return;
-
-		GetMaterialManager()->SetCurRenderable(pRenderable);
-
-		if (pRenderable->m_pSubMeshData && pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
-			return;
-
-		Material* pMaterial = pRenderable->m_pMaterial;
-		ASSERT(pMaterial);
-		pMaterial->Bind();
-		//pTech->Bind();
-
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)indexMesh.m_pDecl;
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
-// 		if (pRenderable->m_pIndexBuffer)
-// 		{	
-// 			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
-// 			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
-// 			ASSERT(hr == D3D_OK);
-// 		}
 
-// 		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
-// 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
-
-		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
+		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(indexMesh.m_eMeshType);
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 3;
+			nPrimCount = indexMesh.m_nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount - 2;
+			nPrimCount = indexMesh.m_nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = pRenderable->m_pSubMeshData->m_nIndexCount / 2;
+			nPrimCount = indexMesh.m_nIndexCount / 2;
 		}
 
 		hr = m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
-			pRenderable->m_pSubMeshData->m_nVertexStart,
-			pRenderable->m_pSubMeshData->m_nVertexCount,
+			indexMesh.m_nVertexStart,
+			indexMesh.m_nVertexCount,
 			nPrimCount,
-			pRenderable->m_pIndexBuffer->GetData(),
-			D3D9Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
-			pRenderable->m_pVertexBuffers->GetData(),
-			pRenderable->m_pVertexBuffers->GetStride());
+			indexMesh.m_pIndBuf->GetData(),
+			D3D9Mapping::GetD3DIndexType(indexMesh.m_pIndBuf->GetIndexType()),
+			indexMesh.m_pVerBuf->GetData(),
+			indexMesh.m_pVerBuf->GetStride());
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
-
-		pMaterial->UnBind();
 	}
 
 	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)

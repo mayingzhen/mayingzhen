@@ -4,8 +4,10 @@
 
 namespace ma
 {
-	GLESShaderProgram::GLESShaderProgram() : m_program(0)
+	GLESShaderProgram::GLESShaderProgram(const char* pszName,const char* pszDefine)
+		:ShaderProgram(pszName,pszDefine)
 	{
+		m_program = 0;
 	}
 
 	GLESShaderProgram::~GLESShaderProgram()

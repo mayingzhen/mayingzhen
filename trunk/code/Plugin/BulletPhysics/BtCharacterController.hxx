@@ -10,7 +10,6 @@ namespace ma
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_collShape = new btCompoundShape();
-		//m_character = NULL;
 		m_fSetpOffset = 0.5f;
 		m_pCapsuleShape = NULL;
 		m_pPhysicsObject = pPhysicsObject;
@@ -61,20 +60,14 @@ namespace ma
 		if (pbtWorld == NULL)
 			return NULL;
 
-		//btCompoundShape* pCompoundShape = new btCompoundShape();
 		btCapsuleShape* pCapsule = new btCapsuleShape(m_pCapsuleShape->GetRadius(),m_pCapsuleShape->GetHeight());
 		btTransform btTsfLs = ToBulletUnit(m_pCapsuleShape->GetTransformLS());
 		m_collShape->addChildShape(btTsfLs,pCapsule);
 		m_ghostObject->setCollisionShape(m_collShape);
 		m_ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-		//m_ghostObject->setUserPointer(m_pPhysicsObject);
 		m_ghostObject->setWorldTransform( ToBulletUnit( m_pPhysicsObject->GetGameObject()->GetSceneNode()->GetTransform() ) );
 		
-		//m_character = new btKinematicCharacterController(m_ghostObject,pCapsule/*pCompoundShape*/,m_fSetpOffset);
-		//m_character->setGravity(true);
-		
 		pbtWorld->addCollisionObject(m_ghostObject,btBroadphaseProxy::CharacterFilter,btBroadphaseProxy::StaticFilter|btBroadphaseProxy::DefaultFilter);
-		//pbtWorld->addCharacter(m_character);
 		pbtWorld->addAction(this);
 
 		
@@ -88,23 +81,13 @@ namespace ma
 		if (pbtWorld == NULL)
 			return;
 
-		//if (m_character)
-		//{
-			pbtWorld->removeCollisionObject(m_ghostObject);
-		//}
+		pbtWorld->removeCollisionObject(m_ghostObject);
 	}
 
 	void BulletCharacterController::updateAction(btCollisionWorld* collisionWorld, btScalar deltaTimeStep)
 	{
 		RecoverFromPenetration(3);
 	}
-
-// 	void BulletCharacterController::MoveImpl(const Vector3& motion)
-// 	{
-// // 		Vector3 vPosLS = m_pCapsuleShape->GetTransformLS().m_vPos;
-// // 		Vector3 vMotion = motion + Vector3(0,vPosLS.y,0);
-// 		m_character->setWalkDirection(ToBulletUnit(motion));
-// 	}
 
 	void BulletCharacterController::DebugRender()
 	{

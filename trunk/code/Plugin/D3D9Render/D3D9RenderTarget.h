@@ -8,13 +8,14 @@ namespace ma
 	class  D3D9RenderTarget : public RenderTarget
 	{
 	public:
-		D3D9RenderTarget();
+		D3D9RenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
 
 		~D3D9RenderTarget();
 
+
 		virtual Texture*	GetTexture();
 
-		void				Create(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
+		void				Create();
 
 		IDirect3DSurface9*	GetD3DSurface() {return m_pD3D9Surface;}
 

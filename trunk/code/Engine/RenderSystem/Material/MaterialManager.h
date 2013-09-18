@@ -32,7 +32,7 @@ namespace ma
 
 	class MaterialParameter;
 
-	class ENGINE_API MaterialManager
+	class MaterialManager
 	{
 	public:
 		MaterialManager();
@@ -78,8 +78,8 @@ namespace ma
 		Light*								m_pCurLight;							
 	};
 
-	ENGINE_API MaterialManager*	GetMaterialManager();
-	ENGINE_API void				SetMaterialManager(MaterialManager* pMaterialMang);		
+	MaterialManager*	GetMaterialManager();
+	void				SetMaterialManager(MaterialManager* pMaterialMang);		
 
 }
 

@@ -25,8 +25,6 @@ namespace ma
 
 		void			Update();
 
-		//void			Render();
-
 		GameObject*		CreateGameObject(const char* pName);
 
 		void			DeleteGameObject(GameObject*);
