@@ -147,7 +147,8 @@ namespace ma
 		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
-		return m_pCurRenderable->m_matWorld;
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		return m_pCurRenderable->m_matWorld[index];
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetViewMatrix() const
@@ -171,7 +172,8 @@ namespace ma
 		if (pCamera == NULL)
 			return Matrix4x4::identity();
 
-		return m_pCurRenderable->m_matWorld * pCamera->GetViewMatrix();
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		return m_pCurRenderable->m_matWorld[index] * pCamera->GetViewMatrix();
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetViewProjectionMatrix() const
@@ -192,7 +194,8 @@ namespace ma
 		if (pCamera == NULL)
 			return Matrix4x4::identity();
 
-		return m_pCurRenderable->m_matWorld * pCamera->GetViewProjMatrix();
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		return m_pCurRenderable->m_matWorld[index] * pCamera->GetViewProjMatrix();
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetInverseTransposeWorldMatrix() const
@@ -237,10 +240,14 @@ namespace ma
 		if (m_pCurRenderable == NULL)
 			return NULL;
 
-		if ( m_pCurRenderable->m_arrSkinMatrix.empty() )
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		
+		std::vector<Matrix4x4>&  arrSkinMatrix = m_pCurRenderable->m_arrSkinMatrix[index];
+
+		if ( arrSkinMatrix.empty() )
 			return NULL;
 		
-		return &m_pCurRenderable->m_arrSkinMatrix[0];
+		return &arrSkinMatrix[0];
 	}
 
 	UINT MaterialManager::autoBindingGetMatrixPaletteSize() const
@@ -248,7 +255,10 @@ namespace ma
 		if (m_pCurRenderable == NULL)
 			return 0;
 
-		return m_pCurRenderable->m_arrSkinMatrix.size();
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		std::vector<Matrix4x4>&  arrSkinMatrix = m_pCurRenderable->m_arrSkinMatrix[index];
+
+		return arrSkinMatrix.size();
 	}
 
 	const Vector4& MaterialManager::autoBindingGetAmbientColor() const

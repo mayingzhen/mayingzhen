@@ -1,21 +1,9 @@
-#include "Engine/stdAfx.h"
 #include "DataThread.h"
 
 namespace ma
 {
 
-	void DataThread::MyDataThread(void* pThis)
-	{	
-		DataThread* pDataThread = (DataThread*)pThis;
-		if(NULL != pDataThread)
-		{
-			//TlsSetValue(pDataThread->m_dwTlsIndex, (LPVOID)pDataThread->m_dwThreadAppID);
-
-			pDataThread->ProcessLoadRequest();
-		}
-	}
-
-	void DataThread::ProcessLoadRequest()
+	void DataThread::Run()
 	{	
 		// loop waiting for player events. If the exit event is signaled
 		// the thread will exit
@@ -58,15 +46,11 @@ namespace ma
 	{
 		m_bFree = true;
 		m_bExit = false;
-		//m_pThreadExitCallback = NULL;
-		//m_dwTlsIndex = dwTlsIndex;
-		//m_dwThreadAppID = dwThreadAppID;
 		m_bImmediate = false;
-		//m_pThreadExitCallback = NULL;
 
 		m_pReadEvent = new CMyEvent();
 
-		m_pThread = new Thread(MyDataThread,this);
+		//m_pThread = new Thread(MyDataThread,this);
 	}
 
 	DataThread::~DataThread()

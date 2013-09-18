@@ -44,7 +44,6 @@
 #include "Engine/RenderSystem/Renderable.h"
 #include "Engine/RenderSystem/RendMesh.h"
 #include "Engine/RenderSystem/MeshBatch.h"
-#include "Engine/RenderSystem/ParticleEmitter.h"
 #include "Engine/RenderSystem/SpriteBatch.h"
 #include "Engine/RenderSystem/RenderTarget.h"
 #include "Engine/RenderSystem/Camera.h"
@@ -52,6 +51,10 @@
 #include "Engine/RenderSystem/RenderSystem.h"
 #include "Engine/RenderSystem/DeferredLight.h"
 #include "Engine/RenderSystem/Shadow.h"
+#include "Engine/RenderSystem/RenderThread.h"
+
+#include "Engine/RenderSystem/ParticleEmitter.h"
+#include "Engine/RenderSystem/ParticleManager.h"
 
 // Terrain
 #include "Engine/Terrain/Terrain.h"
@@ -74,7 +77,6 @@
 #include "Engine/RenderSystem/Material/ShaderProgram.h"
 #include "Engine/RenderSystem/Material/Texture.h"
 #include "Engine/RenderSystem/Material/Technqiue.h"
-#include "Engine/RenderSystem/Material/MaterialManager.h"
 
 
 // Physics
@@ -94,6 +96,9 @@
 #include "Engine/Animation/IAnimationSystem.h"
 #include "Engine/Animation/IAnimationSet.h"
 #include "Engine/Animation/IAction.h"
+
+// UI
+#include "Engine/UI/IUISystem.h"
 
 
 // Input

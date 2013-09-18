@@ -151,8 +151,10 @@ namespace ma
 
 
 	
-	ShaderProgram::ShaderProgram() 
+	ShaderProgram::ShaderProgram(const char* shName,const char* defines) 
 	{
+		m_ShaderName = shName ? shName : "";
+		m_shaderDefine = defines ? defines : "";
 	}
 
 	ShaderProgram::~ShaderProgram()
@@ -172,22 +174,35 @@ namespace ma
 		}
 	}
 
-	void ShaderProgram::CreateFromShaderName(const char* shName,const char* defines)
+	void ShaderProgram::Create()
 	{
-		ASSERT(shName);
-		if (shName == NULL)
-			return;
-
-		m_name = std::string(shName) + "_" + defines;
+		m_name = m_ShaderName + "_" + m_shaderDefine;
 
 		std::string strPath = GetRenderDevice()->GetShaderPath();
-		strPath += shName;
+		strPath += m_ShaderName;
 
 		std::string strPathVS = strPath + ".vert";
 		std::string strPathFS = strPath + ".frag";
 
-		CreateFromFile(strPathVS.c_str(),strPathFS.c_str(),defines);
+		CreateFromFile(strPathVS.c_str(),strPathFS.c_str(),m_shaderDefine.c_str());
 	}
+
+// 	void ShaderProgram::CreateFromShaderName(const char* shName,const char* defines)
+// 	{
+// 		ASSERT(shName);
+// 		if (shName == NULL)
+// 			return;
+// 
+// 		m_name = std::string(shName) + "_" + defines;
+// 
+// 		std::string strPath = GetRenderDevice()->GetShaderPath();
+// 		strPath += shName;
+// 
+// 		std::string strPathVS = strPath + ".vert";
+// 		std::string strPathFS = strPath + ".frag";
+// 
+// 		CreateFromFile(strPathVS.c_str(),strPathFS.c_str(),defines);
+// 	}
 
 	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines)
 	{

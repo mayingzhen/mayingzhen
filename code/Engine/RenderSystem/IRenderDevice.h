@@ -18,11 +18,30 @@ namespace ma
 	class RenderTarget;
 	class Technique;
 
+	struct IndexMesh
+	{
+		VertexDeclaration*	m_pDecl;
+		IndexBuffer*		m_pIndBuf;
+		VertexBuffer*		m_pVerBuf;
+		PRIMITIVE_TYPE		m_eMeshType;
+		int					m_nVertexStart;
+		int					m_nVertexCount;
+		int					m_nIndexCount;
+		int					m_nIndexStart;
+		Technique*			m_pTech;
+
+		IndexMesh()
+		{
+			memset(this,0,sizeof(IndexMesh));
+		}
+	};
+
 	class ENGINE_API IRenderDevice 
 	{
 	public:
-		// Render Res
-		virtual Texture*			CreateRendTexture() = 0;
+		virtual Texture*			CreateTexture(const char* pszPath = NULL) = 0;
+
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format) = 0;
 
 		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8) = 0;
 
@@ -32,20 +51,26 @@ namespace ma
 
 		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC) = 0;
 	
-		virtual ShaderProgram*		CreateShaderProgram() = 0;
+		virtual ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine) = 0;
 
 		// Set
-		virtual RenderTarget*		SetRenderTarget(RenderTarget* pTexture,int index = 0) = 0;
-		
-		virtual RenderTarget*		SetDepthStencil(RenderTarget* pTexture) = 0;
+		virtual	void				PushRenderTarget(RenderTarget* pTexture,int index = 0) = 0;
 
-		virtual Rectangle			SetViewport(const Rectangle& rect) = 0;
+		virtual void				PopRenderTarget(int index = 0) = 0;
+		
+		virtual	void				PushDepthStencil(RenderTarget* pTexture) = 0;
+
+		virtual void				PopDepthStencil() = 0;
+
+		virtual void				PushViewport(const Rectangle& rect) = 0;
+
+		virtual void				PopViewport() = 0;
 
 		virtual void				SetRenderState(const RenderState& state) = 0;
 
-		virtual	void				DrawRenderable(Renderable* pRenderable) = 0;
+		virtual void				DrawIndexMesh(const IndexMesh& indexMesh) = 0;
 
-		virtual void				DrawDynamicRenderable(Renderable* pRenderable) = 0;
+		virtual void				DrawDyIndexMesh(const IndexMesh& indexMesh) = 0;
 	
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 

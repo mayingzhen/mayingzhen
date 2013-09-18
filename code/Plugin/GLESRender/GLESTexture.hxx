@@ -160,8 +160,17 @@ namespace ma
 		return 0;
 	}	
 
-	GLESTexture::GLESTexture()
+	GLESTexture::GLESTexture(const char* pszPath):Texture(pszPath)
 	{
+		m_pTex = 0;
+		m_PixelFormat = 0;
+	}
+
+	GLESTexture::GLESTexture(int nWidth,int nHeight,FORMAT format)
+		:Texture(nWidth,nHeight,format)
+	{
+		m_pTex = 0;
+		m_PixelFormat = 0;
 	}
 
 	GLESTexture::~GLESTexture()
@@ -169,33 +178,25 @@ namespace ma
 
 	}
 
-	bool GLESTexture::CreateRT(int nWidth,int nHeight,FORMAT Format)
+	bool GLESTexture::CreateRT()
 	{
-		if (nWidth == -1 && nHeight == -1)
+		if (m_nWidth == -1 && m_nHeight == -1)
 		{
-			Platform::GetInstance().GetWindowSize(nWidth,nHeight);
+			Platform::GetInstance().GetWindowSize(m_nWidth,m_nHeight);
 		}
 
-		m_nWidth = nWidth;
-		m_nHeight = nHeight;
-		m_eFormat = Format;
-		m_nMipLevels = 0;
-		m_eUsage = USAGE_DYNAMIC;
-		m_eType = TEXTYPE_RENDERTARGET;
-		m_PixelFormat = GLESMapping::GetGLESFormat(Format);
+		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
 			
 		glGenTextures(1, &m_pTex);
 		glBindTexture(GL_TEXTURE_2D, m_pTex);
-		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, nWidth, nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, NULL);
 		
 		return true;
 	}
 
-	bool GLESTexture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data,UINT size, bool generateMipmaps)
+	bool GLESTexture::LoadFromData(Uint8* data,UINT size, bool generateMipmaps)
 	{
-		m_PixelFormat = GLESMapping::GetGLESFormat(format);
-		m_nWidth = width;
-		m_nHeight = height;
+		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
 		ConvertImageData(m_PixelFormat,m_nWidth * m_nHeight,data);
 		
 		glGenTextures(1, &m_pTex);
@@ -220,10 +221,15 @@ namespace ma
 
 	bool GLESTexture::Load(DataStream* pDataStream, bool generateMipmaps)
 	{
-		//return Load(pDataStream->GetFilePath(),generateMipmaps);
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
+
+		if (std::string(pDataStream->GetFilePath()) == "")
+		{
+			return LoadFromData(pDataStream->GetData(),pDataStream->GetSize());
+		}
+
 
 		ILuint curImage = 0; 
 		ilGenImages(1, &curImage);

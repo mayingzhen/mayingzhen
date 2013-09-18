@@ -40,7 +40,7 @@ void GLESRenderModuleInit()
 
 	ma::InitTextureSystem();
 
-	ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+	//ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
 
 	ma::GetRenderSystem()->SetDefferLight(false);
 	ma::GetRenderSystem()->SetShadow(false);

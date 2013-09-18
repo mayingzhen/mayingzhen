@@ -4,10 +4,10 @@
 namespace ma
 {
 
-	GLESRenderTarget::GLESRenderTarget()
+	GLESRenderTarget::GLESRenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
 		m_handle = 0;
-		m_pTexture = NULL;
+		m_pTexture = new GLESTexture(nWidth,nHeight,format);
 	}
 
 
@@ -16,12 +16,9 @@ namespace ma
 
 	}
 
-	bool GLESRenderTarget::Create(int nWidth,int nHeight,FORMAT format)
+	void GLESRenderTarget::Create()
 	{
-		m_pTexture = new GLESTexture();
-		m_pTexture->CreateRT(nWidth,nHeight,format);
-		
-		return true;
+		m_pTexture->CreateRT();		
 	}
 
 	Texture* GLESRenderTarget::GetTexture()

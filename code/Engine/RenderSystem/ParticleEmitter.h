@@ -243,9 +243,11 @@ public:
 
     void setOrbit(bool orbitPosition, bool orbitVelocity, bool orbitAcceleration);
 
-    void update(float elapsedTime,const Matrix4x4& matWorld);
+    void update(float elapsedTime);
 
-    void draw(Camera* pCamera/*,const Matrix4x4& matWorld*/);
+	//void Render();
+
+    void draw(Camera* pCamera);
 
 	//void setWorldMatrix(const Matrix4x4& matWorld);
 
@@ -352,6 +354,10 @@ private:
     bool _orbitAcceleration;
     float _timePerEmission;
     double _timeRunning;
+
+	CriticalSection		m_csUpdate;	// 
+
+	volatile bool		m_bUpdate;
 };
 
 }

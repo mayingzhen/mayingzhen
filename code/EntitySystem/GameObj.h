@@ -48,10 +48,6 @@ namespace ma
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 
-		void				AddCollisionListener(GameObject* pGameObjB,CollisionListener* pCallBack);
-
-		void				RemoveCollisionListener(GameObject* pGameObjB);
-
 	protected:
 		void				UpdateAABB();
 

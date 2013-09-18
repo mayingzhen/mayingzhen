@@ -13,6 +13,6 @@
 
 	#define ENTITYSYSTEM_API
 
-#endif
+#endif // _MSC_VER
 
-#endif
+#endif // _EntitySystemExport__H__

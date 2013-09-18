@@ -711,6 +711,24 @@ inline void RigidTransformInverse(RigidTransform* pOut,const NodeTransform* pTSF
 	pOut->m_vPos = - pOut->m_vPos;
 }
 
+inline UINT NextPowerOfTwo(unsigned int v)
+{
+	if (!((v & (v - 1)) == 0))
+	{
+		v--;
+		v |= v >> 1;
+		v |= v >> 2;
+		v |= v >> 4;
+		v |= v >> 8;
+		v |= v >> 16;
+		return v + 1;
+	}
+	else
+	{
+		return v;
+	}
+}
+
 
 
 #endif //__S3Math_Inl__

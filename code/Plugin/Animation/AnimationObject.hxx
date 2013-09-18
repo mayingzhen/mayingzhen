@@ -11,7 +11,6 @@ namespace ma
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
-		//m_pGameObj = NULL;
 
 		for (UINT i = 0; i < 256; ++i)
 		{
@@ -24,30 +23,6 @@ namespace ma
 	AnimationObject::~AnimationObject()
 	{
 	}
-
-// 	void AnimationObject::Start()
-// 	{
-// 		//ASSERT(m_pGameObj);
-// 		if (m_pGameObj == NULL)
-// 			return;
-// 
-// 		m_arrRenderMesh.clear();
-// 		UINT nMeshComp = m_pGameObj->GetTypeComponentNumber<MeshComponent>();
-// 		for (UINT i = 0; i < nMeshComp; ++i)
-// 		{
-// 			MeshComponent* pMecomp = m_pGameObj->GetTypeComponentByIndex<MeshComponent>(i);
-// 			ASSERT(pMecomp && pMecomp->GetRendMesh());
-// 			if (pMecomp == NULL || pMecomp->GetRendMesh() == NULL)
-// 				continue;
-// 
-// 			m_arrRenderMesh.push_back(pMecomp->GetRendMesh());
-// 		}
-// 	}
-
-// 	void AnimationObject::Stop()
-// 	{
-// 		m_arrRenderMesh.clear();
-// 	}
 
 	void AnimationObject::CreateSkeleton(const char* pSkePath)
 	{
@@ -132,11 +107,6 @@ namespace ma
 				MatrixIdentity(&m_arrSkinMatrix[i]);
 			}
 		}
-
-// 		for (UINT i = 0; i < m_arrRenderMesh.size(); ++i)
-// 		{
-// 			m_arrRenderMesh[i]->SetSkinMatrix(m_arrSkinMatrix,nBoneNum);
-// 		}
 	}
 
 	void AnimationObject::SetFrame(float fFrame)
@@ -147,8 +117,4 @@ namespace ma
 		}
 	}
 
-// 	void AnimationObject::AddSkinMesh(RenderMesh* pRenderMesh)
-// 	{
-// 		m_arrRenderMesh.push_back(pRenderMesh);
-// 	}
 }

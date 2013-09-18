@@ -1,7 +1,6 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
-#include "Engine/Resource/DataThread.h"
 
 namespace ma
 {
@@ -17,7 +16,7 @@ namespace ma
 
 		bool		Load(const char* pMeshPath,const char* pDiffueTexture);
 		
-		void		Draw();
+		//void		Draw();
 
 		void		SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 

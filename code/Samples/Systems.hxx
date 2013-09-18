@@ -38,6 +38,9 @@ namespace ma
 		if (GetResourceSystem())
 			GetResourceSystem()->Update();
 
+		if (GetParticleManager())
+			GetParticleManager()->Update();
+
 		if (GetAnimationSystem())
 			GetAnimationSystem()->Update();
 
@@ -50,7 +53,8 @@ namespace ma
 		if (GetEntitySystem())
 			GetEntitySystem()->Update();
 
-		Form::updateInternal(GetTimer()->GetFrameDeltaTime());
+		if (GetUISystem())
+			GetUISystem()->Update();
 	}
 
 }

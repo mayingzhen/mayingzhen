@@ -3,13 +3,6 @@
 
 
 #include "Container.h"
-//#include "Mesh.h"
-// #include "Node.h"
-//#include "FrameBuffer.h"
-//#include "Touch.h"
-//#include "Keyboard.h"
-//#include "Mouse.h"
-//#include "Gamepad.h"
 
 namespace ma
 {
@@ -51,7 +44,6 @@ class UI_API Form : public Container,
 {
     friend class Platform;
     friend class Game;
-    friend class Gamepad;
 
 public:
 
@@ -75,7 +67,7 @@ public:
      * @param url The URL pointing to the Properties object defining the form. 
      * @script{create}
      */
-    static Form* create(const char* url);
+	static Form* create(const char* url);
 
     /**
      * Create a new Form.
@@ -92,7 +84,7 @@ public:
 	 /**
      * Updates all visible, enabled forms.
      */
-    static void updateInternal(float elapsedTime);
+    //static void updateInternal(float elapsedTime);
 
     /**
      * Get a form from its ID.
@@ -101,7 +93,7 @@ public:
      *
      * @return A form with the given ID, or null if one was not found.
      */
-    static Form* getForm(const char* id);
+    //static Form* getForm(const char* id);
     
     /**
      * Gets the theme for the form.
@@ -234,45 +226,15 @@ private:
     void updateBounds();
 
 
-
-    /**
-     * Propagate gamepad events to enabled forms.
-     *
-     * @see Control::gamepadEvent
-     */
-    //static void gamepadEventInternal(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex);
-
-    /**
-     * Get the next highest power of two of an integer.  Used when creating framebuffers.
-     *
-     * @param x The number to start with.
-     *
-     * @return The next highest power of two after x, or x if it is already a power of two.
-     */
-    static unsigned int nextPowerOfTwo(unsigned int x);
-
-    /**
-     * Unproject a point (from a mouse or touch event) into the scene and then project it onto the form.
-     *
-     * @param x The x coordinate of the mouse/touch point.
-     * @param y The y coordinate of the mouse/touch point.
-     * @param point A destination vector to populate with the projected point, in the form's plane.
-     *
-     * @return True if the projected point lies within the form's plane, false otherwise.
-     */
-    bool projectPoint(int x, int y, Vector3* point);
-
     Theme* _theme;                      // The Theme applied to this Form.
     RenderTarget* _frameBuffer;          // FBO the Form is rendered into for texturing the quad. 
     SpriteBatch* _spriteBatch;
-    //Node* _node;                        // Node for transforming this Form in world-space.
-    //Model* _nodeQuad;                   // Quad for rendering this Form in 3d space.
     Material* _nodeMaterial;            // Material for rendering this Form in 3d space.
-    float _u2;
-    float _v1;
+    //float _u2;
+    //float _v1;
+	Vector4	m_rRect;
     Matrix4x4 _projectionMatrix;           // Orthographic projection matrix to be set on SpriteBatch objects when rendering into the FBO.
     Matrix4x4 _defaultProjectionMatrix;
-    //bool _isGamepad;
 };
 
 }

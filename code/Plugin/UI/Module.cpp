@@ -20,4 +20,36 @@
 #include "UI/Slider.hxx"
 #include "UI/TextBox.hxx"
 #include "UI/Bundle.hxx"
+#include "UI/UISystem.hxx"
 
+using namespace ma;
+
+void UIModuleInit()
+{
+	UISystem* pUISystem = new UISystem();
+	SetUISystem(pUISystem);
+}
+
+void UIModuleShutdown()
+{
+	IUISystem* pUISystem = GetUISystem();
+	SAFE_DELETE(pUISystem);
+}
+
+
+#if PLATFORM_WIN == 1
+extern "C" UI_API bool dllStartPlugin()
+{
+	UIModuleInit();
+
+	return true;
+}
+
+
+extern "C" UI_API bool dllStopPlugin()
+{
+	UIModuleShutdown();
+
+	return true;
+}
+#endif

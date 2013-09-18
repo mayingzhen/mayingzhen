@@ -8,6 +8,8 @@ namespace ma
 
 	static MeshBatch* _pMeshBatch = NULL;
 
+	std::vector<LineVertex> gpArrLineVertex[2];
+
 	void LineRender::Init()
 	{
 		Material* pMaterial = new Material("COLOR","default");
@@ -35,9 +37,13 @@ namespace ma
 		v[1].pos = p1;
 		v[1].col = dwColor;
 	
-		Uint16 index[2] = {0,1};
+		//Uint16 index[2] = {0,1};
+		//_pMeshBatch->add(v,2,index,2);
+		int index = GetRenderThread()->GetThreadList();
+		std::vector<LineVertex>& arrLineVertex = gpArrLineVertex[index];
 
-		_pMeshBatch->add(v,2,index,2);
+		arrLineVertex.push_back(v[0]);
+		arrLineVertex.push_back(v[1]);
 	}
 
 	void LineRender::DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color)
@@ -128,19 +134,31 @@ namespace ma
 		DrawCircle(20, matrTemp, dwColor, fRadius);
 	}
 
-	void LineRender::Begin()
+	void LineRender::OnFlushFrame()
 	{
-		_pMeshBatch->start();
+		int index = GetRenderThread()->CurThreadFill();
+		gpArrLineVertex[index].clear();
 	}
-
-// 	void LineRender::EndFrame()
-// 	{
-// 		_pMeshBatch->finish();	
-// 	}
 
 	void LineRender::Flush()
 	{
-		_pMeshBatch->draw();
+		_pMeshBatch->start();
+
+		int index = GetRenderThread()->GetThreadList();
+		std::vector<LineVertex>& arrLineVertex = gpArrLineVertex[index];
+
+		for (UINT i = 0; i < arrLineVertex.size(); i += 2)
+		{
+			LineVertex v[2];
+			v[0] = arrLineVertex[i];
+			v[1] = arrLineVertex[i + 1];
+			Uint16 index[2] = {0,1};
+
+			_pMeshBatch->add(v,2,index,2);
+		}
+
+		_pMeshBatch->finish();	
+		//_pMeshBatch->draw();	
 	}
 	
 }

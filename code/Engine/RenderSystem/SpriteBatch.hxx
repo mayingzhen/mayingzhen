@@ -84,7 +84,7 @@ namespace ma
 		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
-		vertexFormat->Active();
+		//vertexFormat->Active();
 
 		// Create the mesh batch
 		MeshBatch* meshBatch = MeshBatch::create(vertexFormat, PRIM_TRIANGLESTRIP, pMaterial, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
@@ -353,7 +353,7 @@ namespace ma
 		
 		// Finish and draw the batch
 		_batch->finish();
-		_batch->draw();
+		//_batch->draw();
 		//RenderQueue::AddRenderable(_batch,this);
 		//GetRenderDevice()->DrawRenderable(_batch);
 	}

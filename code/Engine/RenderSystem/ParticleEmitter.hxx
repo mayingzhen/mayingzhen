@@ -31,6 +31,8 @@ ParticleEmitter::ParticleEmitter(SpriteBatch* batch, unsigned int particleCountM
     //ASSERT(_spriteBatch->getStateBlock());
     _spriteBatch->getStateBlock().m_bDepthWrite = false;
     //_spriteBatch->getStateBlock()->m_bDepthTest = true;
+
+	m_bUpdate = false;
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -761,8 +763,10 @@ BLEND_MODE ParticleEmitter::getTextureBlendingFromString(const char* str)
     }
 }
 
-void ParticleEmitter::update(float elapsedTime,const Matrix4x4& matWorld)
+void ParticleEmitter::update(float elapsedTime)
 {
+	AutoLock lock(m_csUpdate);
+
     if (!isActive())
     {
         return;
@@ -798,7 +802,7 @@ void ParticleEmitter::update(float elapsedTime,const Matrix4x4& matWorld)
     for (unsigned int particlesIndex = 0; particlesIndex < _particleCount; ++particlesIndex)
     {
         Particle* p = &_particles[particlesIndex];
-        p->_energy -= elapsedTime;
+        p->_energy -= elapsedTime * 1000;
 
         if (p->_energy > 0L)
         {
@@ -886,10 +890,23 @@ void ParticleEmitter::update(float elapsedTime,const Matrix4x4& matWorld)
             --_particleCount;
         }
     }
+
+	m_bUpdate = true; 
 }
 
-void ParticleEmitter::draw(Camera* pCamera/*,const Matrix4x4& matWorld*/)
+// void ParticleEmitter::Render()
+// {
+// 	GetRenderThread()->RC_DrawPaticle(this);
+// }
+
+
+void ParticleEmitter::draw(Camera* pCamera)
 {
+	if (!m_bUpdate)
+	{
+		update(GetTimer()->GetFrameDeltaTime());
+	}
+
     if (!isActive())
     {
         return;

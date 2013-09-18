@@ -122,51 +122,18 @@ namespace ma
 
 	GameObject* GameObject::Clone(const char* pName)
 	{
-// 		SceneNode* pParent = m_pScenNode->GetParent();
-// 		ASSERT(pParent);
-// 		if (pParent == NULL)
-// 			return NULL;
-
 		XMLOutputArchive xmlout;
 		this->Serialize(xmlout);
 
 		XMLInputArchive xmlin;
 		xmlin.Open(xmlout);
-		//SceneNode* pClone = pParent->CreateChildNode(pName);
 		GameObject* pClone = GetEntitySystem()->CreateGameObject(pName);
 		pClone->Serialize(xmlin);
 
 		return pClone;
-
-// 		ASSERT(m_pScenNode);
-// 		SceneNode* pClonNode = m_pScenNode->Clone(pName);
-// 		GameObject* pClonGameObj = pClonNode->GetGameObject();
-// 		pClonGameObj->SetName(pName);
-// 
-// 		return pClonGameObj;
 	}
 
 	void GameObject::UpdateAABB()
-	{
-
-	}
-
-// 	ICharaControll* GameObject::GetCharController()
-// 	{
-// 		return NULL;
-// 	}
-
-	void GameObject::AddCollisionListener(GameObject* pGameObjB,CollisionListener* pCallBack)
-	{
-		ASSERT(m_pPhyscisObject);
-		if (m_pPhyscisObject == NULL)
-			return;
-
-		IPhysicsObject* pPhyscisObjectB = pGameObjB ? pGameObjB->GetPhyscisObject() : NULL;
-		m_pPhyscisObject->AddCollisionListener(pPhyscisObjectB,pCallBack);
-	}
-
-	void GameObject::RemoveCollisionListener(GameObject* pGameObjB)
 	{
 
 	}

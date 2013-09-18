@@ -15,10 +15,6 @@ namespace ma
 
 		void		ShoutDown();
 
-// 		void		Start();
-// 
-// 		void		Stop();
-
 		void		Update();
 
 		DataThread*	GetDataThread();

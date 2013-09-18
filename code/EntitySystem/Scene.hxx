@@ -34,29 +34,6 @@ namespace ma
 		TravelScene(&sceneUpdate);
 	}
 
-// 	class SceneRender : public SceneVisiter
-// 	{
-// 		virtual bool VisiteComponent(Component* pComp)
-// 		{
-// 			pComp->Render();
-// 			return true;
-// 		}
-// 	};
-// 
-// 	void Scene::Render(Camera* pCmera)
-// 	{
-// 		m_pCurCamera = pCmera;
-// 		GetRenderSystem()->SetCamera(pCmera);
-// 		
-// 		SceneRender sceneRender;
-// 		TravelScene(&sceneRender);
-// 	}
-
-// 	void Scene::Awak()
-// 	{
-// 		//if (m_pRootNode)
-// 		//	m_pRootNode->Awak();
-// 	}
 
 	class SceneStart : public SceneVisiter
 	{
@@ -105,45 +82,6 @@ namespace ma
 	{
 		m_pRootNode->AddChildNode(pSceneNode);
 	}
-
-// 	GameObject*	Scene::CreateGameObject(const char* pName)
-// 	{
-// 		ASSERT(m_pRootNode);
-// 		if (m_pRootNode == NULL)
-// 			return NULL;
-// 
-// 		SceneNode* pNode = m_pRootNode->CreateChildNode(pName);
-// 		GameObject* pGameObj = pNode->CreateGameObject();		
-// 		return pGameObj;
-// 	}
-// 
-// 	void Scene::DeleteGameObject(GameObject* pGameObj)
-// 	{
-// 		ASSERT(pGameObj);
-// 		if (pGameObj == NULL)
-// 			return;
-// 
-// 		SceneNode* pSceneNode = pGameObj->GetSceneNode();
-// 		ASSERT(pSceneNode);
-// 		if (pSceneNode == NULL)
-// 		{
-// 			SAFE_DELETE(pGameObj);
-// 			return ;
-// 		}
-// 
-// 		SceneNode* pParent = pSceneNode->GetParent();
-// 		ASSERT(pParent);
-// 		if (pParent == NULL)
-// 		{
-// 			SAFE_DELETE(pSceneNode);
-// 			SAFE_DELETE(pGameObj);
-// 			return;
-// 		}
-// 		
-// 		pSceneNode->DeleteGameObject(pGameObj);
-// 		pParent->DeleteChildNode(pSceneNode);
-// 
-// 	}
 }
 
 

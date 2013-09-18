@@ -5,8 +5,8 @@ namespace ma
 	GLESVertexBuffer::GLESVertexBuffer(void* pData, int nsize, int nStride, USAGE Usgae)
 		:VertexBuffer(pData,nsize,nStride,Usgae)
 	{
-		m_hVertexBufffer = -1;
-		Active();
+		m_hVertexBufffer = 0;
+		//Active();
 	}
 
 	GLESVertexBuffer::~GLESVertexBuffer()
@@ -40,10 +40,10 @@ namespace ma
 
 	GLuint GLESVertexBuffer::GetVertexBuffer()
 	{
-// 		if (m_hVertexBufffer < 0)
-// 		{
-// 			Active();
-// 		}
+		if (m_hVertexBufffer <= 0)
+		{
+			Active();
+		}
 		return m_hVertexBufffer;
 	}
 }

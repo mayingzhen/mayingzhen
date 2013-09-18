@@ -23,6 +23,10 @@
 #include "UI/Slider.h"
 #include "UI/TextBox.h"
 #include "UI/Bundle.h"
+#include "UI/UISystem.h"
 
+UI_API void UIModuleInit();
+
+UI_API void UIModuleShutdown();
 
 #endif

@@ -16,10 +16,6 @@ namespace ma
 
 		~AnimationObject();
 
-// 		virtual	void			Start();
-// 
-// 		virtual void			Stop();
-
  		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
 		virtual void			PlayAnimation(const char* pszAnimName); 

@@ -194,7 +194,7 @@ namespace ma
 				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
 				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
 				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7,FEPS,FEPS));
+				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
 		
 		// ******* RIGHT KNEE ******** ///
 				tsfA.m_vPos = Vector3(0,-22.5,0);
@@ -204,7 +204,7 @@ namespace ma
 				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
 				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
 				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7,FEPS,FEPS));
+				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
 
 	}
 

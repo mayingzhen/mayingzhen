@@ -73,7 +73,7 @@ namespace ma
 		m_arrSamples["Particle"] = pSampleParticle;
 
 
-		m_pCurSample = pSampleTerrain;
+		m_pCurSample = pSampleParticle;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -97,7 +97,7 @@ namespace ma
 		CommonModuleInit();
 		EngineModuleInit();
 		EntitySystemModuleInit();
-
+		UIModuleInit();
 		
 #if PLATFORM_WIN == 1
 		LoadPlugin();
@@ -222,12 +222,14 @@ namespace ma
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 
-		Theme* theme = Theme::create("ui/default.theme");
+		Theme* theme =  Theme::create("ui/default.theme");
 		Theme::Style* formStyle = theme->getStyle("basicContainer");
 		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
 		Theme::Style* titleStyle = theme->getStyle("title");	
 
-		m_pSampleSelectForm = Form::create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
+		UISystem* pUISystem = (UISystem*)GetUISystem();
+
+		m_pSampleSelectForm = pUISystem->Create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
 		m_pSampleSelectForm->setConsumeInputEvents(true);
@@ -239,8 +241,8 @@ namespace ma
 			Button* sampleButton = Button::create(pSamepeName, buttonStyle);
 			sampleButton->setText(pSamepeName);
 			sampleButton->setAutoWidth(true);
-			sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
-			sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
+			sampleButton->setHeight(60);      
+			sampleButton->setConsumeInputEvents(false);   
 			sampleButton->addListener(this, Control::Listener::CLICK);
 			m_pSampleSelectForm->addControl(sampleButton);
 		}
@@ -263,8 +265,7 @@ namespace ma
 		m_bStepOneFrame = false;
 		
 		m_pSystems->Update();
-		
-			
+					
 		if (m_pCurSample)
 			m_pCurSample->Update();
 
@@ -274,16 +275,16 @@ namespace ma
 	{
 		GetRenderSystem()->BeginFrame();
 
+		Matrix4x4 mat;
+		MatrixIdentity(&mat);
+		LineRender::DrawBox(mat,Vector3(10,10,10),Color(1,0,0,0));
+
 		GetPhysicsSystem()->DebugRender();
 
-		GetRenderSystem()->Flush();
-				
 		if (m_pCurSample)
 			m_pCurSample->Render();
 
-		LineRender::Flush();
-
-		m_pSampleSelectForm->draw();
+		GetRenderSystem()->DoRender();
 		
 		GetRenderSystem()->EndFrame();
 	}

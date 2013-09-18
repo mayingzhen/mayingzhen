@@ -17,6 +17,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <stack>
 #include <algorithm>
 #include <fstream>
 #include <stdarg.h>

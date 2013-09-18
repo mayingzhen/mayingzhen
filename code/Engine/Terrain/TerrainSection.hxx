@@ -239,7 +239,7 @@ namespace ma
 		}
 
 		UINT nVertSize = (m_xVerts - 1) * (m_yVerts - 1) * 4 * sizeof(sSectorVertex);
-		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
+		m_pVertexBuffers[0] = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
 		//m_pVertexBuffers->Active();
 
 		m_pSubMeshData->m_nVertexCount = (m_xVerts - 1) * (m_yVerts - 1) * 4;

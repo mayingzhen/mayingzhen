@@ -49,8 +49,9 @@ namespace ma
 				shaderDefine = shaderDefine + ";" + pDefine;
 		}
 
-		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram();
-		m_pShaderProgram->CreateFromShaderName(pszName,shaderDefine.c_str());
+		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram(pszName,shaderDefine.c_str());
+		//m_pShaderProgram->CreateFromShaderName(pszName,shaderDefine.c_str());
+		GetRenderThread()->RC_CreateShader(m_pShaderProgram);
 
 		UINT nUniform = m_pShaderProgram->GetUniformCount();
 		for (UINT i = 0; i < nUniform; ++i)

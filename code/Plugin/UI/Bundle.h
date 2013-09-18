@@ -1,10 +1,7 @@
 #ifndef BUNDLE_H_
 #define BUNDLE_H_
 
-//#include "Mesh.h"
 #include "Font.h"
-//#include "Node.h"
-//#include "Game.h"
 
 namespace ma
 {
@@ -32,37 +29,6 @@ public:
      * @script{create}
      */
     static Bundle* create(const char* path);
-
-    /**
-     * Loads the scene with the specified ID from the bundle.
-     * If id is NULL then the first scene found is loaded.
-     * 
-     * @param id The ID of the scene to load (NULL to load the first scene).
-     * 
-     * @return The loaded scene, or NULL if the scene could not be loaded.
-     * @script{create}
-     */
-    //Scene* loadScene(const char* id = NULL);
-
-    /**
-     * Loads a node with the specified ID from the bundle.
-     *
-     * @param id The ID of the node to load in the bundle.
-     * 
-     * @return The loaded node, or NULL if the node could not be loaded.
-     * @script{create}
-     */
-    //Node* loadNode(const char* id);
-
-    /**
-     * Loads a mesh with the specified ID from the bundle.
-     *
-     * @param id The ID of the mesh to load.
-     * 
-     * @return The loaded mesh, or NULL if the mesh could not be loaded.
-     * @script{create}
-     */
-   // Mesh* loadMesh(const char* id);
 
     /**
      * Loads a font with the specified ID from the bundle.
@@ -117,37 +83,6 @@ private:
         ~Reference();
     };
 
-    struct MeshSkinData
-    {
-        //MeshSkin* skin;
-        std::vector<std::string> joints;
-        //std::vector<Matrix> inverseBindPoseMatrices;
-    };
-
-    struct MeshPartData
-    {
-        MeshPartData();
-        ~MeshPartData();
-
-        //Mesh::PrimitiveType primitiveType;
-        //Mesh::IndexFormat indexFormat;
-        unsigned int indexCount;
-        unsigned char* indexData;
-    };
-
-    struct MeshData
-    {
-        MeshData(/*const VertexFormat& vertexFormat*/);
-        ~MeshData();
-
-        //VertexFormat vertexFormat;
-        unsigned int vertexCount;
-        unsigned char* vertexData;
-        //BoundingBox boundingBox;
-        //BoundingSphere boundingSphere;
-        //Mesh::PrimitiveType primitiveType;
-        std::vector<MeshPartData*> parts;
-    };
 
     Bundle(const char* path);
 
@@ -166,10 +101,6 @@ private:
      */
     Reference* find(const char* id) const;
 
-    /**
-     * Resets any load session specific state for the bundle.
-     */
-    void clearLoadSession();
 
     /**
      * Returns the ID of the object at the current file position.
@@ -216,27 +147,6 @@ private:
      */
     Reference* seekToFirstType(unsigned int type);
 
-    /**
-     * Internal method to load a node.
-     *
-     * Only one of node or scene should be passed as non-NULL (or neither).
-     */
-    //Node* loadNode(const char* id, Scene* sceneContext, Node* nodeContext);
-
-    /**
-     * Internal method for SceneLoader to load a node into a scene.
-     */
-    //Node* loadNode(const char* id, Scene* sceneContext);
-
-    /**
-     * Loads a mesh with the specified ID from the bundle.
-     *
-     * @param id The ID of the mesh to load.
-     * @param nodeId The id of the mesh's model's parent node.
-     * 
-     * @return The loaded mesh, or NULL if the mesh could not be loaded.
-     */
-    //Mesh* loadMesh(const char* id, const char* nodeId);
 
     /**
      * Reads an unsigned int from the current file position.
@@ -317,113 +227,6 @@ private:
      */
     bool readXref(std::string& id);
 
-    /**
-     * Recursively reads nodes from the current file position.
-     * This method will load cameras, lights and models in the nodes.
-     * 
-     * @return A pointer to new node or NULL if there was an error.
-     */
-    //Node* readNode(Scene* sceneContext, Node* nodeContext);
-
-    /**
-     * Reads a camera from the current file position.
-     *
-     * @return A pointer to a new camera or NULL if there was an error.
-     */
-    Camera* readCamera();
-
-    /**
-     * Reads a light from the current file position.
-     *
-     * @return A pointer to a new light or NULL if there was an error.
-     */
-    Light* readLight();
-
-    /**
-     * Reads a model from the current file position.
-     * 
-     * @return A pointer to a new model or NULL if there was an error.
-     */
-    //Model* readModel(const char* nodeId);
-
-    /**
-     * Reads mesh data from the current file position.
-     */
-    MeshData* readMeshData();
-
-    /**
-     * Reads mesh data for the specified URL.
-     *
-     * The specified URL should be formatted as 'bundle#id', where
-     * 'bundle' is the bundle file containing the mesh and 'id' is the ID
-     * of the mesh to read data for.
-     *
-     * @param url The URL to read mesh data from.
-     *
-     * @return The mesh rigid body data.
-     */
-    static MeshData* readMeshData(const char* url);
-
-    /**
-     * Reads a mesh skin from the current file position.
-     *
-     * @return A pointer to a new mesh skin or NULL if there was an error.
-     */
-    //MeshSkin* readMeshSkin();
-
-    /**
-     * Reads an animation from the current file position.
-     * 
-     * @param scene The scene to load the animations into.
-     */
-    //void readAnimation(Scene* scene);
-
-    /**
-     * Reads an "animations" object from the current file position and all of the animations contained in it.
-     * 
-     * @param scene The scene to load the animations into.
-     */
-    //void readAnimations(Scene* scene);
-
-    /**
-     * Reads an animation channel at the current file position into the given animation.
-     * 
-     * @param scene The scene that the animation is in.
-     * @param animation The animation to the load channel into.
-     * @param animationId The ID of the animation that this channel is loaded into.
-     * 
-     * @return The animation that the channel was loaded into.
-     */
-    //Animation* readAnimationChannel(Scene* scene, Animation* animation, const char* animationId);
-
-    /**
-     * Reads the animation channel data at the current file position into the given animation
-     * (with the given animation target and target attribute).
-     * 
-     * Note: this is used by Bundle::loadNode(const char*, Scene*) and Bundle::readAnimationChannel(Scene*, Animation*, const char*).
-     * 
-     * @param animation The animation to the load channel into.
-     * @param id The ID of the animation that this channel is loaded into.
-     * @param target The animation target.
-     * @param targetAttribute The target attribute being animated.
-     * 
-     * @return The animation that the channel was loaded into.
-     */
-    //Animation* readAnimationChannelData(Animation* animation, const char* id, AnimationTarget* target, unsigned int targetAttribute);
-
-    /**
-     * Sets the transformation matrix.
-     *
-     * @param values A pointer to array of 16 floats.
-     * @param transform The transform to set the values in.
-     */
-    //void setTransform(const float* values, Transform* transform);
-
-    /**
-     * Resolves joint references for all pending mesh skins.
-     */
-    //void resolveJointReferences(Scene* sceneContext, Node* nodeContext);
-
 private:
 
     /**
@@ -438,9 +241,6 @@ private:
     unsigned int _referenceCount;
     Reference* _references;
     Stream* _stream;
-
-    //std::vector<MeshSkinData*> _meshSkins;
-    //std::map<std::string, Node*>* _trackedNodes;
 };
 
 }

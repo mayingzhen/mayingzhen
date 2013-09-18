@@ -10,9 +10,9 @@ using namespace ma;
 #undef RTTI_DECL
 
 Resource* MeshData_Creator() {return new MeshData();}
-Resource* TextureData_Creator() {return GetRenderDevice()->CreateRendTexture();}
+Resource* TextureData_Creator() {return GetRenderDevice()->CreateTexture(NULL);}
 
-Object*		Texture_Creator() {return GetRenderDevice()->CreateRendTexture();}
+Object*		Texture_Creator() {return GetRenderDevice()->CreateTexture(NULL);}
 
 void EngineRTTIInit()
 {

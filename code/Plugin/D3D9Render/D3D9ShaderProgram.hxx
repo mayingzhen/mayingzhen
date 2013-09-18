@@ -4,9 +4,13 @@
 
 namespace ma
 {
-	D3D9ShaderProgram::D3D9ShaderProgram() : m_pVertexShader(0),m_pPiexelShader(0),
-		m_pVShConstantTable(0),m_pPShConstantTable(0)
+	D3D9ShaderProgram::D3D9ShaderProgram(const char* shName,const char* defines)
+		:ShaderProgram(shName,defines)
 	{
+		m_pVertexShader = NULL;
+		m_pPiexelShader = NULL;
+		m_pVertexShader = NULL;
+		m_pPShConstantTable = NULL;
 	}
 
 	D3D9ShaderProgram::~D3D9ShaderProgram()

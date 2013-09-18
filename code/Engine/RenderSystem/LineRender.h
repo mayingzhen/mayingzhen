@@ -3,16 +3,17 @@
 
 namespace ma
 {
+
 	class ENGINE_API LineRender
 	{
+		friend class RenderThread;
+
 	public:
 		static void Init();
 
 		static void ShutDown();
 
-		static void	Begin();
-
-		//static void EndFrame();
+		static void OnFlushFrame();
 
 		static void Flush();
 
@@ -25,6 +26,7 @@ namespace ma
 		static void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
 
 		static void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
+
 	};
 }
 

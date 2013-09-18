@@ -4,7 +4,14 @@
 
 namespace ma
 {
-	D3D9Texture::D3D9Texture()
+	D3D9Texture::D3D9Texture(const char* pszPath)
+		:Texture(pszPath)
+	{
+		m_pD3DTex = NULL;
+	}
+
+	D3D9Texture::D3D9Texture(int nWidth,int nHeight,FORMAT format)
+		:Texture(nWidth,nHeight,format)
 	{
 		m_pD3DTex = NULL;
 	}
@@ -14,19 +21,19 @@ namespace ma
 
 	}
 
-	bool D3D9Texture::CreateRT(int nWidth,int nHeight,FORMAT Format)
+	bool D3D9Texture::CreateRT()
 	{
-		if (nWidth == -1 && nHeight == -1)
+		if (m_nWidth == -1 && m_nHeight == -1)
 		{
-			Platform::GetInstance().GetWindowSize(nWidth,nHeight);
+			Platform::GetInstance().GetWindowSize(m_nWidth,m_nHeight);
 		}
 
-		ASSERT(nWidth && nHeight);
+		ASSERT(m_nWidth && m_nHeight);
 
 		HRESULT hr = D3D_OK;
 		DWORD D3DUsage = D3DUSAGE_RENDERTARGET;
 		D3DPOOL D3DPool = D3DPOOL_DEFAULT;
-		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(Format);
+		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(m_eFormat);
 		IDirect3DTexture9 * pD3D9Texture = NULL;
 
 		if (D3DFormat == D3DFMT_D24S8)
@@ -37,8 +44,8 @@ namespace ma
 		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 
 		hr = GetD3D9DxDevive()->CreateTexture(
-			nWidth, 
-			nHeight, 
+			m_nWidth, 
+			m_nHeight, 
 			1,
 			D3DUsage, 
 			D3DFormat, 
@@ -49,29 +56,19 @@ namespace ma
 
 		//pTexture->mName = sName;
 		m_pD3DTex = pD3D9Texture;
-		m_nWidth = nWidth;
-		m_nHeight = nHeight;
-		m_eUsage = USAGE_DYNAMIC;
-		m_eFormat = Format;
-		m_eType = TEXTYPE_RENDERTARGET;
-		m_nMipLevels = 1;
 
 		return true;
 	}
 
-	bool D3D9Texture::LoadFromData(FORMAT format,UINT width,UINT height,Uint8* data, UINT size, bool generateMipmaps )
+	bool D3D9Texture::LoadFromData(Uint8* data, UINT size, bool generateMipmaps )
 	{	
-		m_nWidth = width;
-		m_nHeight = height;
-		m_eFormat = format;
-
 		HRESULT hr = D3D_OK;
 		hr = GetD3D9DxDevive()->CreateTexture(
 			m_nWidth,
 			m_nHeight,
 			generateMipmaps ? 0 : 1,
 			D3DUSAGE_DYNAMIC,
-			D3D9Mapping::GetD3DFormat(format),
+			D3D9Mapping::GetD3DFormat(m_eFormat),
 			D3DPOOL_DEFAULT,
 			&m_pD3DTex,
 			NULL
@@ -91,6 +88,11 @@ namespace ma
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
+
+		if (std::string(pDataStream->GetFilePath()) == "")
+		{
+			return LoadFromData(pDataStream->GetData(),pDataStream->GetSize());
+		}
 
 		D3DXIMAGE_INFO ImgInfo;
 

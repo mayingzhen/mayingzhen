@@ -4,10 +4,10 @@
 namespace ma
 {
 
-	D3D9RenderTarget::D3D9RenderTarget()
+	D3D9RenderTarget::D3D9RenderTarget(int nWidth,int nHeight,FORMAT format)
 	{
 		m_pTexture = NULL;
-		m_pD3D9Surface = NULL;
+		m_pTexture = new D3D9Texture(nWidth,nHeight,format);
 	}
 
 
@@ -16,10 +16,9 @@ namespace ma
 
 	}
 
-	void D3D9RenderTarget::Create(int nWidth,int nHeight,FORMAT format)
+	void D3D9RenderTarget::Create()
 	{
-		m_pTexture = new D3D9Texture();
-		m_pTexture->CreateRT(nWidth,nHeight,format);
+		m_pTexture->CreateRT();
 
 		IDirect3DTexture9* pD3D9Texture = ((D3D9Texture*)m_pTexture)->GetD3DTexture();
 		pD3D9Texture->GetSurfaceLevel(0,&m_pD3D9Surface);

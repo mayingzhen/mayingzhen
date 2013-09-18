@@ -3,25 +3,18 @@
 #include "AbsoluteLayout.h"
 #include "FlowLayout.h"
 #include "VerticalLayout.h"
-//#include "Game.h"
 #include "Theme.h"
 #include "Label.h"
 #include "Button.h"
 #include "CheckBox.h"
-//#include "Scene.h"
 
-// Default form shaders
-#define FORM_VSH "res/shaders/form.vert"
-#define FORM_FSH "res/shaders/form.frag"
 
 namespace ma
 {
 
-static ShaderProgram* __formEffect = NULL;
-static std::vector<Form*> __forms;
 
-Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),/* _node(NULL),*/
-   /* _nodeQuad(NULL),*/ _nodeMaterial(NULL) , _u2(0), _v1(0)/*, _isGamepad(false)*/
+Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),
+    _nodeMaterial(NULL) , m_rRect(0,0,0,0)
 {
 	GetInput()->AddKeyListener(this);
 	GetInput()->AddMouseListener(this);
@@ -33,22 +26,6 @@ Form::~Form()
     SAFE_DELETE(_spriteBatch);
     //SAFE_DEC_REF(_frameBuffer);
     SAFE_DEC_REF(_theme);
-
-    if (__formEffect)
-    {
-//         if (__formEffect->getRefCount() == 1)
-//         {
-//             __formEffect->release();
-//             __formEffect = NULL;
-//         }
-    }
-
-    // Remove this Form from the global list.
-    std::vector<Form*>::iterator it = std::find(__forms.begin(), __forms.end(), this);
-    if (it != __forms.end())
-    {
-        __forms.erase(it);
-    }
 }
 
 bool Form::mouseMoved( const OIS::MouseEvent &arg )
@@ -174,18 +151,12 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
     form->_theme = style->getTheme();
     form->_theme->IncReference();
 
-    // Get default projection matrix.
-    //Game* game = Game::getInstance();
-    //Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &form->_defaultProjectionMatrix);
 	Platform& platform = Platform::GetInstance();
 	int w,h;
 	platform.GetWindowSize(w, h);
 	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
-	//GetRenderDevice()->MakeOrthoMatrix(&form->_defaultProjectionMatrix, w, h, 0.0f, 1.0f);
 
     form->updateBounds();
-
-    __forms.push_back(form);
 
     return form;
 }
@@ -298,25 +269,10 @@ Form* Form::create(const char* url)
     
     form->updateBounds();
 
-    __forms.push_back(form);
-
     return form;
 }
 
-Form* Form::getForm(const char* id)
-{
-    std::vector<Form*>::const_iterator it;
-    for (it = __forms.begin(); it < __forms.end(); ++it)
-    {
-        Form* f = *it;
-        ASSERT(f);
-        if (strcmp(id, f->GetId()) == 0)
-        {
-            return f;
-        }
-    }
-    return NULL;
-}
+
 
 Theme* Form::getTheme() const
 {
@@ -325,65 +281,66 @@ Theme* Form::getTheme() const
 
 void Form::setSize(float width, float height)
 {
+	int nGameW = 0; 
+	int nGameH = 0;
+	Platform::GetInstance().GetWindowSize(nGameW,nGameH);
+
     if (_autoWidth)
     {
-        //width = Game::getInstance()->getWidth();
+		width = nGameW;
     }
 
     if (_autoHeight)
     {
-        //height = Game::getInstance()->getHeight();
+        height = nGameH;
     }
 
     if (width != 0.0f && height != 0.0f &&
         (width != _bounds.width || height != _bounds.height))
     {
         // Width and height must be powers of two to create a texture.
-        unsigned int w = nextPowerOfTwo(width);
-        unsigned int h = nextPowerOfTwo(height);
-        _u2 = width / (float)w;
-        _v1 = height / (float)h;
+        unsigned int w = NextPowerOfTwo(width);
+        unsigned int h = NextPowerOfTwo(height);
+		
+		float fHalftw = GetRenderDevice()->GetHalfPixelOffset(0.5f / w);
+		float fHalfth = GetRenderDevice()->GetHalfPixelOffset(0.5f / h);
+		m_rRect.x = fHalftw;
+		m_rRect.y = fHalftw;
+		m_rRect.z = width / (float)w + fHalftw;
+		m_rRect.w = height / (float)h + fHalfth;
+        //_u2 = width / (float)w;
+        //_v1 = height / (float)h;
 
-        // Create framebuffer if necessary. TODO: Use pool to cache.
-        //if (_frameBuffer)
-        //    SAFE_DEC_REF(_frameBuffer)
-        
-        //_frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
 		_frameBuffer = GetRenderDevice()->CreateRenderTarget(w,h);
-		//_frameBuffer->Create(w,h);
+		GetRenderThread()->RC_CreateRenderTarget(_frameBuffer);
         ASSERT(_frameBuffer);
 
         // Re-create projection matrix.
-        //Matrix4x4::createOrthographicOffCenter(0, width, height, 0, 0, 1, &_projectionMatrix);
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&_projectionMatrix, 0, width, height, 0, 0.0f, 1.0f);
-		//GetRenderDevice()->MakeOrthoMatrix(&_projectionMatrix,width,height,0,1);
 
         // Re-create sprite batch.
-        //SAFE_DEC_REF(_spriteBatch);
-		//Texture* pTest = GetRenderDevice()->CreateRendTexture();
-		//pTest->Load("../../data/ui/default-theme.png");
-        _spriteBatch = SpriteBatch::create(/*pTest*/_frameBuffer->GetTexture());
+        _spriteBatch = SpriteBatch::create(_frameBuffer->GetTexture());
         ASSERT(_spriteBatch);
 
 		_spriteBatch->getStateBlock().m_bDepthWrite = false;
 		_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
 
         // Clear the framebuffer black
-        //Game* game = Game::getInstance();
-        //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
-		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(_frameBuffer);
-        Rectangle previousViewport = GetRenderDevice()->SetViewport(Rectangle(0, 0, width, height));
+		GetRenderThread()->RC_PushRenderTarget(_frameBuffer);
+		GetRenderThread()->RC_PushViewPort(Rectangle(0, 0, width, height));
+		//GetRenderDevice()->PushRenderTarget(_frameBuffer);
+        //GetRenderDevice()->PushViewport(Rectangle(0, 0, width, height));
 
-        //game->setViewport(Rectangle(0, 0, width, height));
         _theme->setProjectionMatrix(_projectionMatrix);
-        //game->clear(Game::CLEAR_COLOR, Vector4::zero(), 1.0, 0);
 		Color clearColor(0.0f,0.0f,0.0f,0.0f);
-		GetRenderDevice()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
+		//GetRenderDevice()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
+		GetRenderThread()->RC_ClearBuffer(true,false,false,clearColor, 1.0f, 0);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-        //previousFrameBuffer->bind();
-		GetRenderDevice()->SetRenderTarget(previousFrameBuffer);
-        GetRenderDevice()->SetViewport(previousViewport);
+		//GetRenderDevice()->PopRenderTarget();
+        //GetRenderDevice()->PopViewport();
+		GetRenderThread()->RC_PopRenderTargert();
+		GetRenderThread()->RC_PopViewPort();
     }
     _bounds.width = width;
     _bounds.height = height;
@@ -434,86 +391,6 @@ void Form::setAutoHeight(bool autoHeight)
     }
 }
 
-static ShaderProgram* createEffect()
-{
-    ShaderProgram* effect = NULL;
-    if (__formEffect == NULL)
-    {
-        //__formEffect = Effect::createFromFile(FORM_VSH, FORM_FSH);
-		__formEffect = GetRenderDevice()->CreateShaderProgram();
-		__formEffect->CreateFromShaderName("form");
-        if (__formEffect == NULL)
-        {
-            GP_ERROR("Unable to load form effect.");
-            return NULL;
-        }
-        effect = __formEffect;
-    }
-    else
-    {
-        effect = __formEffect;
-    }
-    return effect;
-}
-
-// void Form::setNode(Node* node)
-// {
-//     // If the user wants a custom node then we need to create a 3D quad
-//     if (node && node != _node)
-//     {
-//         // Set this Form up to be 3D by initializing a quad.
-//         float x2 = _bounds.width;
-//         float y2 = _bounds.height;
-//         float vertices[] =
-//         {
-//             0, y2, 0,   0, _v1,
-//             0, 0, 0,    0, 0,
-//             x2, y2, 0,  _u2, _v1,
-//             x2, 0, 0,   _u2, 0
-//         };
-//         VertexFormat::Element elements[] =
-//         {
-//             VertexFormat::Element(VertexFormat::POSITION, 3),
-//             VertexFormat::Element(VertexFormat::TEXCOORD0, 2)
-//         };
-//         Mesh* mesh = Mesh::createMesh(VertexFormat(elements, 2), 4, false);
-//         ASSERT(mesh);
-//         mesh->setPrimitiveType(Mesh::TRIANGLE_STRIP);
-//         mesh->setVertexData(vertices, 0, 4);
-// 
-//         _nodeQuad = Model::create(mesh);
-//         SAFE_RELEASE(mesh);
-//         ASSERT(_nodeQuad);
-// 
-//         // Create the effect and material
-//         Effect* effect = createEffect();
-//         ASSERT(effect);
-//         _nodeMaterial = Material::create(effect);
-// 
-//         ASSERT(_nodeMaterial);
-//         _nodeQuad->setMaterial(_nodeMaterial);
-//         _nodeMaterial->release();
-//         node->setModel(_nodeQuad);
-//         _nodeQuad->release();
-// 
-//         // Bind the WorldViewProjection matrix.
-//         _nodeMaterial->setParameterAutoBinding("u_worldViewProjectionMatrix", RenderState::WORLD_VIEW_PROJECTION_MATRIX);
-// 
-//         // Bind the texture from the framebuffer and set the texture to clamp
-//         Texture::Sampler* sampler = Texture::Sampler::create(_frameBuffer->getRenderTarget()->getTexture());
-//         ASSERT(sampler);
-//         sampler->setWrapMode(Texture::CLAMP, Texture::CLAMP);
-//         _nodeMaterial->GetParameter("u_texture")->setValue(sampler);
-//         sampler->release();
-// 
-//         RenderState::StateBlock* rsBlock = _nodeMaterial->getStateBlock();
-//         rsBlock->setDepthWrite(true);
-//         rsBlock->setBlend(true);
-//         rsBlock->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-//         rsBlock->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
-//     }
-//     _node = node;
-// }
 
 void Form::update(float elapsedTime)
 {
@@ -665,9 +542,9 @@ void Form::draw()
     if (isDirty())
     {
         ASSERT(_frameBuffer);
-        //FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
-		RenderTarget* previousFrameBuffer = GetRenderDevice()->SetRenderTarget(_frameBuffer);
-        Rectangle prevViewport = GetRenderDevice()->SetViewport(Rectangle(0, 0, _bounds.width, _bounds.height));
+
+		GetRenderDevice()->PushRenderTarget(_frameBuffer);
+		GetRenderDevice()->PushViewport(Rectangle(0, 0, _bounds.width, _bounds.height));
 
         ASSERT(_theme);
         _theme->setProjectionMatrix(_projectionMatrix);
@@ -676,60 +553,33 @@ void Form::draw()
         // that have changed is disabled.  Currently, repositioning controls can result in areas of the screen being cleared
         // after another control has been drawn there.  This should probably be done in two passes -- one to clear areas where
         // dirty controls were last frame, and another to draw them where they are now.
-        Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),
-                        /*_skin != NULL*/ true, false, _bounds.height);
+        Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),true, false, _bounds.height);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-        // Restore the previous game viewport.
-        GetRenderDevice()->SetViewport(prevViewport);
-        // Rebind the previous framebuffer and game viewport.
-        //previousFrameBuffer->bind();
-		GetRenderDevice()->SetRenderTarget(previousFrameBuffer);
+		GetRenderDevice()->PopViewport();
+		GetRenderDevice()->PopRenderTarget();
     }
 
-    // Draw either with a 3D quad or sprite batch.
-    //if (_node)
-    //{
-    //     // If we have the node set, then draw a 3D quad model.
-    //    _nodeQuad->draw();
-    //}
-    //else
-    //{
-        // Otherwise we draw the framebuffer in ortho space with a spritebatch.
-        if (!_spriteBatch)
-        {
-            _spriteBatch = SpriteBatch::create(_frameBuffer->GetTexture());
-            ASSERT(_spriteBatch);
-        }
-        _spriteBatch->start();
-		float fTop = 0;
-		float fLeft = 0;
-		float fRight = _u2;
-		float fBottom = _v1;
-		GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
-        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
-        _spriteBatch->finish();
-    //}
+
+	if (!_spriteBatch)
+    {
+        _spriteBatch = SpriteBatch::create(_frameBuffer->GetTexture());
+        ASSERT(_spriteBatch);
+    }
+
+    _spriteBatch->start();
+	float fTop = m_rRect.x;
+	float fLeft = m_rRect.y;
+	float fRight = m_rRect.z;
+	float fBottom = m_rRect.w;
+	GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
+    _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
+    _spriteBatch->finish();
 }
 
 const char* Form::getType() const
 {
     return "form";
-}
-
-void Form::updateInternal(float elapsedTime)
-{
-    size_t size = __forms.size();
-    for (size_t i = 0; i < size; ++i)
-    {
-        Form* form = __forms[i];
-        ASSERT(form);
-
-        if (form->isEnabled() && form->isVisible())
-        {
-            form->update(elapsedTime);
-        }
-    }
 }
 
 static bool shouldPropagateTouchEvent(Control::State state, Touch::TouchEvent evt, const Rectangle& bounds, int x, int y)
@@ -744,58 +594,28 @@ static bool shouldPropagateTouchEvent(Control::State state, Touch::TouchEvent ev
 
 bool Form::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
 {
-    // Check for a collision with each Form in __forms.
-    // Pass the event on.
-    //size_t size = __forms.size();
-    //for (size_t i = 0; i < size; ++i)
-    //{
-       // Form* form = __forms[i];
-        //ASSERT(form);
-
-        if (this->isEnabled() && this->isVisible())
+    if (this->isEnabled() && this->isVisible())
+    {
+        // Simply compare with the form's bounds.
+        const Rectangle& bounds = this->getBounds();
+        if (shouldPropagateTouchEvent(this->getState(), evt, bounds, x, y))
         {
-//             if (form->_node)
-//             {
-//                 Vector3 point;
-//                 if (form->projectPoint(x, y, &point))
-//                 {
-//                     const Rectangle& bounds = form->getBounds();
-//                     if (shouldPropagateTouchEvent(form->getState(), evt, bounds, point.x, point.y))
-//                     {
-//                         if (form->touchEvent(evt, point.x - bounds.x, bounds.height - point.y - bounds.y, contactIndex))
-//                             return true;
-//                     }
-//                 }
-//             }
-//            else
-            {
-                // Simply compare with the form's bounds.
-                const Rectangle& bounds = this->getBounds();
-                if (shouldPropagateTouchEvent(this->getState(), evt, bounds, x, y))
-                {
-                    // Pass on the event's position relative to the form.
-                    if (this->touchEvent(evt, x - bounds.x, y - bounds.y, contactIndex))
-                        return true;
-                }
-            }
+            // Pass on the event's position relative to the form.
+            if (this->touchEvent(evt, x - bounds.x, y - bounds.y, contactIndex))
+                return true;
         }
-   // }
+      
+    }
     return false;
 }
 
 bool Form::keyEventInternal(Keyboard::KeyEvent evt, int key)
 {
-    //size_t size = __forms.size();
-    //for (size_t i = 0; i < size; ++i)
-    //{
-        //Form* form = __forms[i];
-       // ASSERT(form);
-        if (this->isEnabled() && this->isVisible() && this->hasFocus() /*&& !this->_isGamepad*/)
-        {
-            if (this->keyEvent(evt, key))
-                return true;
-        }
-   // }
+    if (this->isEnabled() && this->isVisible() && this->hasFocus())
+    {
+        if (this->keyEvent(evt, key))
+            return true;
+    }
     return false;
 }
 
@@ -815,114 +635,21 @@ static bool shouldPropagateMouseEvent(Control::State state, Mouse::MouseEvent ev
 
 bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 {
-    //for (size_t i = 0; i < __forms.size(); ++i)
-    //{
-     //   Form* form = __forms[i];
-      //  ASSERT(form);
-
-        if (this->isEnabled() && this->isVisible())
+    if (this->isEnabled() && this->isVisible())
+    {
+	    // Simply compare with the form's bounds.
+        const Rectangle& bounds = this->getBounds();
+        if (shouldPropagateMouseEvent(this->getState(), evt, bounds, x, y))
         {
-//             if (form->_node)
-//             {
-//                 Vector3 point;
-//                 if (form->projectPoint(x, y, &point))
-//                 {
-//                     const Rectangle& bounds = form->getBounds();
-//                     if (shouldPropagateMouseEvent(form->getState(), evt, bounds, point.x, point.y))
-//                     {
-//                         if (form->mouseEvent(evt, point.x - bounds.x, bounds.height - point.y - bounds.y, wheelDelta))
-//                             return true;
-//                     }
-//                 }
-//             }
-//            else
-            {
-                // Simply compare with the form's bounds.
-                const Rectangle& bounds = this->getBounds();
-                if (shouldPropagateMouseEvent(this->getState(), evt, bounds, x, y))
-                {
-                    // Pass on the event's position relative to the form.
-                    if (this->mouseEvent(evt, x - bounds.x, y - bounds.y, wheelDelta))
-                        return true;
-                }
-            }
+            // Pass on the event's position relative to the form.
+            if (this->mouseEvent(evt, x - bounds.x, y - bounds.y, wheelDelta))
+                return true;
         }
-    //}
+     
+    }
     return false;
 }
 
-// void Form::gamepadEventInternal(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex)
-// {
-//     for (size_t i = 0; i < __forms.size(); ++i)
-//     {
-//         Form* form = __forms[i];
-//         ASSERT(form);
-// 
-//         if (form->isEnabled() && form->isVisible() && form->hasFocus())
-//         {
-//             if (form->gamepadEvent(evt, gamepad, analogIndex))
-//                 return;
-//         }
-//     }
-// }
 
-bool Form::projectPoint(int x, int y, Vector3* point)
-{
-//     Scene* scene = _node->getScene();
-//     Camera* camera;
-// 
-//     if (scene && (camera = scene->getActiveCamera()))
-//     {
-//         // Get info about the form's position.
-//         Matrix4x4 m = _node->getWorldMatrix();
-//         Vector3 pointOnPlane(0, 0, 0);
-//         m.transformPoint(&pointOnPlane);
-// 
-//         // Unproject point into world space.
-//         Ray ray;
-//         camera->pickRay(Game::getInstance()->getViewport(), x, y, &ray);
-// 
-//         // Find the quad's plane.  We know its normal is the quad's forward vector.
-//         Vector3 normal = _node->getForwardVectorWorld().normalize();
-// 
-//         // To get the plane's distance from the origin, we project a point on the
-//         // plane onto the plane's normal vector.
-//         const float distance = fabs(Vector3::dot(pointOnPlane, normal));
-//         Plane plane(normal, -distance);
-// 
-//         // Check for collision with plane.
-//         float collisionDistance = ray.intersects(plane);
-//         if (collisionDistance != Ray::INTERSECTS_NONE)
-//         {
-//             // Multiply the ray's direction vector by collision distance and add that to the ray's origin.
-//             point->set(ray.getOrigin() + collisionDistance*ray.getDirection());
-// 
-//             // Project this point into the plane.
-//             m.invert();
-//             m.transformPoint(point);
-// 
-//             return true;
-//         }
-//     }
-    return false;
-}
-
-unsigned int Form::nextPowerOfTwo(unsigned int v)
-{
-    if (!((v & (v - 1)) == 0))
-    {
-        v--;
-        v |= v >> 1;
-        v |= v >> 2;
-        v |= v >> 4;
-        v |= v >> 8;
-        v |= v >> 16;
-        return v + 1;
-    }
-    else
-    {
-        return v;
-    }
-}
 
 }
