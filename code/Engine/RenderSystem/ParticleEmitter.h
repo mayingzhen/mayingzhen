@@ -1,6 +1,7 @@
 #ifndef PARTICLEEMITTER_H_
 #define PARTICLEEMITTER_H_
 
+#include "Engine/RenderSystem/RenderObject.h"
 
 namespace ma
 {
@@ -126,7 +127,7 @@ class SpriteBatch;
  * values.  Accepts the same symbolic constants as glBlendFunc().
  *
  */
-class ENGINE_API ParticleEmitter /*: public RefCountObject*/
+class ENGINE_API ParticleEmitter : public RenderObject
 {
  
 public:
@@ -243,17 +244,19 @@ public:
 
     void setOrbit(bool orbitPosition, bool orbitVelocity, bool orbitAcceleration);
 
-    void update(float elapsedTime);
+    void Update();
 
-	//void Render();
+    virtual	void		Render();
 
-    void draw(Camera* pCamera);
+	virtual Material*	GetMaterial();
 
-	//void setWorldMatrix(const Matrix4x4& matWorld);
+	void SetWorldMatrix(const Matrix4x4& matWorld);
 
     static BLEND_MODE getTextureBlendingFromString(const char* src);
 
     void setTextureBlending(BLEND_MODE blending);
+
+	void	SetUpdate(bool bUpadate) {m_bUpdate = bUpadate;}
 
 private:
 
@@ -278,6 +281,10 @@ private:
 
     // Generates a color within the domain defined by a base vector and its variance.
     void generateColor(const Vector4& base, const Vector4& variance, Vector4* dst);
+
+	void	UpdateParticles();
+
+	void	UpdateMeshBatch();
 
     /**
      * Defines the data for a single particle in the system.

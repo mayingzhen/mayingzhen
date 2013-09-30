@@ -7,12 +7,11 @@ namespace ma
 		m_pMonoClas = NULL;
 	}
 
-	ScriptObject* ScriptClass::CreateScriptObject()
+	ScriptObject* ScriptClass::CreateScriptObject(GameObject* pGameObj)
 	{
-		ScriptObject* pScriptObject = new ScriptObject(this);
+		ScriptObject* pScriptObject = new ScriptObject(this,pGameObj);
 		m_arrObjectInstance.push_back(pScriptObject);
 
-		//pScriptObject->InitWithScriptClass(this);
 		return pScriptObject;
 	}
 

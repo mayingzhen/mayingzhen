@@ -15,7 +15,7 @@ namespace ma
 		eRC_TexStreamComplete,
 		eRC_BeginFrame,
 		eRC_EndFrame,
-		eRC_Flush,
+		eRC_Render,
 		eRC_CreateShader,
 		eRC_CreateRenderTarget,
  		eRC_ClearBuffer,
@@ -93,7 +93,7 @@ namespace ma
 		void	RC_BeginFrame();
 		void	RC_EndFrame();
 		void	RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream);
-		void	RC_Flush();
+		void	RC_Render();
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateRenderTarget(RenderTarget* pRenderTarget);
 		void	RC_PushRenderTarget(RenderTarget* pTexture);

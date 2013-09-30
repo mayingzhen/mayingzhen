@@ -10,16 +10,10 @@ namespace ma
 
 		if (GetScriptSystem())
 			GetScriptSystem()->Start();
-
-		if (GetEntitySystem())
-			GetEntitySystem()->Start();
 	}
 
 	void Systems::Stop()
 	{
-		if (GetEntitySystem())
-			GetEntitySystem()->Stop();
-
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Stop();
 
@@ -29,32 +23,36 @@ namespace ma
 
 	void Systems::Update()
 	{
-		if (GetInput())
-			GetInput()->Capture();
-
 		if (GetTimer())
 			GetTimer()->UpdateFrame();
+
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->BeginUpdate();
 
 		if (GetResourceSystem())
 			GetResourceSystem()->Update();
 
-		if (GetParticleManager())
-			GetParticleManager()->Update();
-
 		if (GetAnimationSystem())
 			GetAnimationSystem()->Update();
-
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->Update();
 
 		if (GetScriptSystem())
 			GetScriptSystem()->Update();
 
+		if (GetUISystem())
+			GetUISystem()->Update();
+
+		if (GetTerrain())
+			GetTerrain()->Update();
+
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->EndUpdate();
+
 		if (GetEntitySystem())
 			GetEntitySystem()->Update();
 
-		if (GetUISystem())
-			GetUISystem()->Update();
+		// Update particle system as late as possible, only renderer is dependent on it.
+		if (GetParticleSystem())
+			GetParticleSystem()->Update();
 	}
 
 }

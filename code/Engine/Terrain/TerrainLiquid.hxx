@@ -22,7 +22,7 @@ namespace ma
 
 		m_pDepthTex = NULL;
 
-		m_pSubMeshData = new SubMeshData();
+		//m_pSubMeshData = new SubMeshData();
 	}
 
 	TerrainLiquid::~TerrainLiquid()
@@ -273,18 +273,7 @@ namespace ma
 
 		m_pSubMeshData->m_nVertexCount = m_pTempGridArray.size() * 4;
 
-// 		HRESULT hr = 0;
-// 		hr = g_pD3DDevice->CreateVertexBuffer( m_pTempGridArray.size() * 4 * sizeof(sLiquidVertex),
-// 			D3DUSAGE_WRITEONLY,0,D3DPOOL_MANAGED,&m_pVertex,0);
-// 		if( FAILED(hr) )
-// 			return ;
-// 
-// 		sLiquidVertex* vBuf = 0;
-// 		m_pVertex->Lock(0, 0, (void**)&vBuf, 0);
-// 		memcpy( vBuf, pVerts, m_pTempGridArray.size() * 4 * sizeof(sLiquidVertex) );	
-// 		m_pVertex->Unlock();
-// 
-// 		SAFE_DELETE_ARRAY(pVerts);
+
 	}
 
 	bool TerrainLiquid::isValidGrid( int x, int z, int dir )
@@ -366,18 +355,6 @@ namespace ma
 		m_pIndexBuffer->Active();
 
 		m_pSubMeshData->m_nIndexCount = total_indexes;
-// 		HRESULT hr = D3D_OK;	
-// 		hr = g_pD3DDevice->CreateIndexBuffer(total_indexes * sizeof(WORD), 
-// 			D3DUSAGE_WRITEONLY,D3DFMT_INDEX16,D3DPOOL_MANAGED,&m_pIndex,0);
-// 		if( FAILED(hr) )
-// 			return ;
-// 
-// 		WORD* indices = 0;
-// 		m_pIndex->Lock(0, 0, (void**)&indices, 0);
-// 		memcpy( indices, pIndexValues, total_indexes * sizeof(WORD) );	
-// 		m_pIndex->Unlock();
-// 
-// 		delete [] pIndexValues;
 	}
 
 

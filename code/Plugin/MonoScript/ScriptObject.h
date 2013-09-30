@@ -9,9 +9,15 @@ namespace ma
 	class ScriptObject : public IScriptObject
 	{
 	public:
-		ScriptObject(ScriptClass* pScriptClass);
+		ScriptObject(ScriptClass* pScriptClass,GameObject* pGameObject);
 
 		~ScriptObject();
+
+		void					Start();
+
+		void					Stop();
+
+		void					Update();
 
 		virtual	const char*		GetName();
 
@@ -36,10 +42,7 @@ namespace ma
 		MonoObject*				GetMonoObject() {return m_pMonoObj;}
 
 		ScriptClass*			GetScriptClass() {return m_pScriptClass;}
-
-		//GameObject*				GetGameObject() {return m_pGameObj;}
-
-		//void					SetGameObject(GameObject* pGameObj) {m_pGameObj = pGameObj;}
+	
 
 	private:
 		void					DestoryScript();
@@ -57,7 +60,7 @@ namespace ma
 
 		std::vector<ClassField*>		m_arrFields;
 
-		//GameObject*						m_pGameObj;
+		GameObject*						m_pGameObject;
 	};
 
 

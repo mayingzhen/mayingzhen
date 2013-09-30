@@ -3,7 +3,6 @@
 namespace ma
 {
 
-
 	SampleRagdoll::SampleRagdoll()
 	{
 	}
@@ -31,7 +30,7 @@ namespace ma
 		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
 
-		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f * 30,0));
+		GetPhysicsSystem()->SetGravity(Vector3(0,-600/*-0.98f * 100*/,0));
 
 		{
 			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
@@ -62,18 +61,21 @@ namespace ma
 
 		arrTsf[BODYPART_RIGHT_LOWER_LEG].m_vPos = Vector3(18,20,0);
 	
-		Vector3 vAxiZ(0,0,1);
 		arrTsf[BODYPART_LEFT_UPPER_ARM].m_vPos = Vector3(-35,145,0);
-		QuaternionRotationAxis(&arrTsf[BODYPART_LEFT_UPPER_ARM].m_qRot,&vAxiZ,PI * 0.5f);
+		EulerAngleXYZ euler(0,0,HALF_PI);
+		QuaternionFromEulerAngle(&arrTsf[BODYPART_LEFT_UPPER_ARM].m_qRot,(float*)&euler);
 		
 		arrTsf[BODYPART_LEFT_LOWER_ARM].m_vPos = Vector3(-70,145,0);
-		QuaternionRotationAxis(&arrTsf[BODYPART_LEFT_LOWER_ARM].m_qRot,&vAxiZ,PI * 0.5f);
+		euler = EulerAngleXYZ(0,0,HALF_PI);
+		QuaternionFromEulerAngle(&arrTsf[BODYPART_LEFT_LOWER_ARM].m_qRot,(float*)&euler);
 		
 		arrTsf[BODYPART_RIGHT_UPPER_ARM].m_vPos = Vector3(35,145,0);
-		QuaternionRotationAxis(&arrTsf[BODYPART_RIGHT_UPPER_ARM].m_qRot,&vAxiZ,-PI  * 0.5f);
+		euler = EulerAngleXYZ(0,0,-HALF_PI);
+		QuaternionFromEulerAngle(&arrTsf[BODYPART_RIGHT_UPPER_ARM].m_qRot,(float*)&euler);
 		
 		arrTsf[BODYPART_RIGHT_LOWER_ARM].m_vPos = Vector3(70,145,0);
-		QuaternionRotationAxis(&arrTsf[BODYPART_RIGHT_LOWER_ARM].m_qRot,&vAxiZ,-PI * 0.5f);
+		euler = EulerAngleXYZ(0,0,-HALF_PI);
+		QuaternionFromEulerAngle(&arrTsf[BODYPART_RIGHT_LOWER_ARM].m_qRot,(float*)&euler);
 			
 
 		m_arrObject[BODYPART_PELVIS] = CreateCapsule(15,20,arrTsf[BODYPART_PELVIS],"BODYPART_PELVIS");
@@ -105,8 +107,8 @@ namespace ma
 		// ******* LEFT SHOULDER ******** ///
 				tsfA.m_vPos = Vector3(-20,15,0);
 
-				tsfB.m_vPos = Vector3(0,18,0);
-				EulerAngleXYZ euler(-HALF_PI,0,0/*HALF_PI*/);
+				tsfB.m_vPos = Vector3(0,-18,0);
+				euler = EulerAngleXYZ(HALF_PI,0,-HALF_PI);
 				QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
 				
 				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<GenericJointComponent>();
@@ -120,7 +122,7 @@ namespace ma
 				tsfA.m_vPos = Vector3(20,15,0);
 
 				tsfB.m_vPos = Vector3(0,-18,0);
-				euler = EulerAngleXYZ (HALF_PI,0,0);
+				euler = EulerAngleXYZ (0,0,HALF_PI);
 				QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
 				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<GenericJointComponent>();
 				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_ARM]->GetPhyscisObject());

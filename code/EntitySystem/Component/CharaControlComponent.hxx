@@ -36,25 +36,4 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void CharaControlComponent::Render()
-	{	
-		if (m_pCharaControll == NULL)
-			return;
-
-		ICapsuleCollisionShape* pCapusle = m_pCharaControll->GetCollisionShape();
-		
-		NodeTransform tsfWS = m_pGameObject->GetPhyscisObject()->GetTransformWS();
-		NodeTransform tsfLS = pCapusle->GetTransformLS();
-		
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		float fRadius = pCapusle->GetRadius();
-		float fHeight = pCapusle->GetHeight();
-		Vector3 boxSize = Vector3(fRadius * 2, fHeight + 2 * fRadius, fRadius * 2);
-		LineRender::DrawBox(matWS,boxSize,Color(1,0,0,0));
-	}
-
 }

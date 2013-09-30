@@ -34,7 +34,7 @@ namespace ma
 			
 		std::vector<Action*>		m_arrAnimation;
 
-		AnimationObject*				m_pAnimObject;
+		AnimationObject*			m_pAnimObject;
 	};
 }
 

@@ -14,37 +14,22 @@ namespace ma
 
 	}
 
-	void ParticlComponent::Render()
+	void ParticlComponent::BuildRenderItem()
 	{
-		SceneNode* pSceneNode = m_pGameObject->GetSceneNode();
-		Camera* pCamera = pSceneNode->GetSene()->GetCurCamera();
-		Matrix4x4 matWorld = pSceneNode->GetWorldMatrix();
-		//m_pParticleEmit->draw(pCamera,matWorld);
+		if (m_pParticleEmit == NULL || m_pGameObject == NULL)
+			return;	
 
-		//RenderQueue::AddRenderable(m_pParticleEmit->GetRenderable());
+		GetParticleSystem()->AddParticleEmitter(m_pParticleEmit);
+
+		m_pParticleEmit->SetWorldMatrix( m_pGameObject->GetSceneNode()->GetWorldMatrix() );
+
+		GetRenderQueue()->AddRenderObj(RL_Trans,m_pParticleEmit);
 	}
 
-	void ParticlComponent::Update()
-	{
-		//m_pParticleEmit->update(GetTimer()->GetFrameDeltaTime());
-	}
-
-	void ParticlComponent::Start()
-	{
-
-	}
-
-	void ParticlComponent::Stop()
-	{
-	}
 
 	void ParticlComponent::Load(const char* pszPath)
 	{
-		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
-		if (pRenderDevice == NULL)
-			return;
-
-		m_pParticleEmit = ParticleEmitter::create(pszPath);
+		m_pParticleEmit = GetParticleSystem()->Create(pszPath); // ParticleEmitter::create(pszPath);
 		m_pParticleEmit->start();
 	}	
 

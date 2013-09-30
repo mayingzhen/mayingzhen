@@ -11,6 +11,7 @@ namespace ma
 	class DeferredLight;
 	class Shadow;
 	class RenderThread;
+	class RenderQueue;
 
 	class ENGINE_API  RenderSystem
 	{
@@ -19,75 +20,81 @@ namespace ma
 	public:
 		RenderSystem();	
 
-		void		Init();
+		void				Init();
 
-		void		ShoutDown();
+		void				ShoutDown();
 
-		void		AddRenderable(Renderable* pRenderable,bool bTrans = false);
-
-		void		AddLight(Light* pLight);
+		void				AddLight(Light* pLight);
 		
-		void		BeginFrame();
+		void				BeginFrame();
 
-		void		EndFrame();
+		void				EndFrame();
 
-		void		DoRender();
+		void				Render();
 
-		void		ShadingPass();
+		void				OnFlushFrame();
 
-		void		OnFlushFrame();
+		void				SetCamera(Camera* pCamera); 
 
-		void		DrawRenderable(Renderable* pRenderable);
+		const Matrix4x4&	GetViewMatrix() const {return m_matView;}
 
-		void		DrawDyRenderable(Renderable* pRenderable);
+		const Matrix4x4&	GetProjMatrix() const {return m_matProj;}
 
-		void		SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
+		Matrix4x4			GetViewProjMatrix() const {return GetViewMatrix() * GetProjMatrix();}
 
-		Camera*		GetCamera() {return m_pCamera;}
+		float				GetNearClip() {return m_fNear;}
 
-		UINT		GetSolidEntryNumber();
+		float				GetFarClip() {return m_fFar;}
 
-		Renderable*	GetSolidEntryByIndex(UINT i);
+		UINT				GetLightNumber() {return m_arrLight.size();}
 
-		UINT		GetLightNumber() {return m_arrLight.size();}
+		Light*				GetLightByIndex(UINT i) {return m_arrLight[i];}
 
-		Light*		GetLightByIndex(UINT i) {return m_arrLight[i];}
+		const Vector4&		GetAmbientColor() {return m_cAmbientColor;}
 
-		Vector4		GetAmbientColor() {return m_cAmbientColor;}
+		void				SetAmbientColor(const Vector4& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
 
-		void		SetAmbientColor(const Vector4& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+		RenderMesh*			CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture);
 
-		RenderMesh*	CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture);
+		void				DeleteRenderMesh(RenderMesh* pRenderMesh);
+	
+		void				SetDefferLight(bool bDefferLight) {m_bDefferLight = bDefferLight;}
 
-		void		DeleteRenderMesh(RenderMesh* pRenderMesh);
+		void				SetShadow(bool bShadow) {m_bShadow = bShadow;}
 
-		void		SetDefferLight(bool bDefferLight) {m_bDefferLight = bDefferLight;}
+		void				SetClearClor(Color cClor) {m_cClearClor = cClor;}
 
-		void		SetShadow(bool bShadow) {m_bShadow = bShadow;}
+		void				DrawRenderable(Renderable* pRenderable);
 
-		void		SetClearClor(Color cClor) {m_cClearClor = cClor;}
+		void				DrawDyRenderable(Renderable* pRenderable);
+	
+	protected: // Rendrt Thread
+		void				RT_Init();
+
+		void				RT_BeginFrame();
+
+		void				RT_EndFrame();
+
+		void				RT_Render();
 
 	protected:
-		void		RT_Init();
-
-		void		RT_BeginFrame();
-
-		void		RT_EndFrame();
-
-		void		RT_Flush();
+		void				ShadingPass();
 
 	protected:
-		std::vector<Renderable*>	m_arrSolidEntry[2];
-		std::vector<Renderable*>	m_arrTransEntry[2];
 		std::vector<Light*>			m_arrLight;
 
-		Camera*						m_pCamera;
+		//Camera*						m_pCamera;
+		Matrix4x4					m_matView;
+		Matrix4x4					m_matProj;
+		float						m_fNear;
+		float						m_fFar;
 
 		std::vector<RenderMesh*>	m_arrRenderMesh;
 		
 		DeferredLight*				m_pDefferLight;
 		Shadow*						m_pShadow;
 		RenderThread*				m_pRenderThread;
+		RenderQueue*				m_pRenderQueue;
 
 		bool						m_bShadow;
 		bool						m_bDefferLight;

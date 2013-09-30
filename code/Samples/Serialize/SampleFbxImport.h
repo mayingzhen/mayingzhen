@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void UnLoad();
 
-		virtual void Update();
+		virtual void Render();
 
 	private:
 		void LoadSkelMesh(FBXImporter& fbxImpor);

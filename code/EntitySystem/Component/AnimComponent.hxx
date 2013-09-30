@@ -13,36 +13,21 @@ namespace ma
 	{
 	}
 
-	void AnimComponent::Start()
+
+	void AnimComponent::BuildRenderItem()
 	{
 		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<MeshComponent>();
 		for (UINT i = 0; i < nMeshComp; ++i)
 		{
 			MeshComponent* pMeshComp = m_pGameObject->GetTypeComponentByIndex<MeshComponent>(i);
-			ASSERT(pMeshComp->GetRendMesh());
-			if (pMeshComp->GetRendMesh() == NULL)
+			RenderMesh* pRenderMesh = pMeshComp ? pMeshComp->GetRendMesh() : NULL;
+			ASSERT(pRenderMesh);
+			if (pRenderMesh == NULL)
 				continue;
 
-			m_arrRenderMesh.push_back(pMeshComp->GetRendMesh())	;
-		}
-
-	}
-
-	void AnimComponent::Stop()
-	{
-		m_arrRenderMesh.clear();
-	}
-
-	void AnimComponent::Update()
-	{
-		Matrix4x4* skinMatrix = m_pAnimtionObject->GetSkinMatrixArray();
- 		UINT nNumber = m_pAnimtionObject->GetSkinMatrixNumber();
-		for (UINT i = 0; i < m_arrRenderMesh.size(); ++i)
-		{
-			if (m_arrRenderMesh[i] == NULL)
-				continue;
-
-			m_arrRenderMesh[i]->SetSkinMatrix(skinMatrix,nNumber);
+			Matrix4x4* skinMatrix = m_pAnimtionObject->GetSkinMatrixArray();
+			UINT nNumber = m_pAnimtionObject->GetSkinMatrixNumber();
+			pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
 		}
 	}
 
@@ -51,38 +36,32 @@ namespace ma
 	{
 		if (GetAnimationSystem() == NULL)
 			return;
+
+		m_strAnimaSetPath = pszAniSetPath ? pszAniSetPath : "";
+		m_strSkeletonPath = pszSkeletonPath ? pszSkeletonPath : "";
 		
 		if (pszSkeletonPath)
 		{
  			m_pAnimtionObject = GetAnimationSystem()->CreateAnimationObject(pszSkeletonPath);
+		}
+
+		if (pszAniSetPath)
+		{
+			//m_strAnimaSetPath = GetAnimationSystem()->C
 		}
 	}
 
 	void AnimComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
+				
+		sl.Serialize(m_strAnimaSetPath);
+		sl.Serialize(m_strSkeletonPath);
 
- 		std::string sAniSetPath,sSkeletonPath;
- 	
- 		IAnimationSet* pAnimationSet = m_pAnimtionObject->GetAnimationSet();
-// 		if (pAnimationSet)
- //		{
-// 			sAniSetPath = pAnimationSet->GetResPath();
-// 		}
-// 
-// 		ISkeleton* pSkeleton = m_pAnimtionObject->GetSkeleton();
-// 		if (pSkeleton && pSkeleton->GetSkeletonData())
-// 		{
-// 			sSkeletonPath = pSkeleton->GetSkeletonData()->GetResPath();
-// 		}
-// 				
-// 		sl.Serialize(sAniSetPath);
-// 		sl.Serialize(sSkeletonPath);
-// 
-// 		if ( sl.IsReading() )
-// 		{
-// 			Load(sAniSetPath.c_str(),sSkeletonPath.c_str());
-// 		}
+		if ( sl.IsReading() )
+		{
+			Load(m_strAnimaSetPath.c_str(),m_strSkeletonPath.c_str());
+		}
 
 		sl.EndSection();
 	}

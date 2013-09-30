@@ -18,7 +18,7 @@ namespace ma
 
 		~MeshComponent();
 
-		virtual	void	Update();
+		virtual	void	BuildRenderItem();
 
 		void			Load(const char* pszMeshPath,const char* pszTexPath);
 

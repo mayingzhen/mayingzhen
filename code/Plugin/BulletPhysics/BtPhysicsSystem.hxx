@@ -1,14 +1,18 @@
 #include "BulletPhysics/BtPhysicsSystem.h"
+#include "BulletPhysics/BtPhysicsThread.h"
 
 namespace ma
 {
 	BtPhysicsSystem::BtPhysicsSystem()
 	{
 		m_pDynamicsWorld = NULL;
+		m_pPhysicsThread = NULL;
+		m_vGravity = btVector3(0,-9.8f,0);
 	}
 
 	void BtPhysicsSystem::Init()
 	{
+		m_pPhysicsThread = new PhysicsThread();
 	}
 
 	void BtPhysicsSystem::ShoutDown()
@@ -78,7 +82,7 @@ namespace ma
 		SAFE_DELETE(m_pCollisionConfiguration);
 	}
 
-	void BtPhysicsSystem::Update()
+	void BtPhysicsSystem::BeginUpdate()
 	{
 		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
 		for (UINT i = 0; i < nActNum; ++i)
@@ -95,12 +99,18 @@ namespace ma
 			{
 				pPhysicsObj->SyncToPhysics();
 			}
-		}
+		}	
+
+		m_pPhysicsThread->BeginUpdate();
 
 
-		m_pDynamicsWorld->stepSimulation(GetTimer()->GetFrameDeltaTime());
+	}
 
+	void BtPhysicsSystem::EndUpdate() 
+	{
+		m_pPhysicsThread->EndUpdate();
 
+		UINT nActNum = m_pDynamicsWorld->getNumCollisionObjects();
 		for (UINT i = 0; i < nActNum; ++i)
 		{
 			btCollisionObject* pObj = m_pDynamicsWorld->getCollisionObjectArray()[i];
@@ -118,7 +128,6 @@ namespace ma
 		}
 
 		BulletContactReport::Update();
-		
 	}
 
 	void BtPhysicsSystem::DebugRender()

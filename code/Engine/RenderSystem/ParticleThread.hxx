@@ -3,61 +3,71 @@
 
 namespace ma
 {
-// 	static ParticleThread* gpParticleThread;
-// 
-// 	ParticleThread* GetParticleThread()
-// 	{
-// 		return gpParticleThread;
-// 	}
-// 
-// 	void SetParticleThread(ParticleThread* pParticleThread)
-// 	{
-// 		gpParticleThread = ParticleThread;
-// 	}
-
 	void ParticleThread::Run()
 	{
 		while (1)
 		{
 			m_pEvent->Wait();
 
-			while (!m_quePaticleEmit.empty())
+			int index = GetRenderThread()->CurThreadFill();
+			ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+			while (!quePaticleEmit.empty())
 			{
-				ParticleEmitter* pEmit = m_quePaticleEmit.front();
-				m_quePaticleEmit.pop_front();
+				m_csQueue.Lock();
+				ParticleEmitter* pEmit = quePaticleEmit.front();
+				quePaticleEmit.pop_front();
+				m_csQueue.Unlock();
 
-				pEmit->update(GetTimer()->GetFrameDeltaTime());
+				pEmit->Update();
 			}
 		}
 	}
 
-	
-
-
 	ParticleThread::ParticleThread()
-	{
-		m_pEvent = NULL;
-	}
-
-	ParticleThread::~ParticleThread()
-	{
-
-	}
-
-	void ParticleThread::Init()
 	{
 		m_pEvent = new CMyEvent();
 	}
 
-	void ParticleThread::ShoutDown()
+	ParticleThread::~ParticleThread()
 	{
 		SAFE_DELETE(m_pEvent);
 	}
 
 	void ParticleThread::AddEmitter(ParticleEmitter* pEmit)
 	{
-		m_quePaticleEmit.push_back(pEmit);
+		int index = GetRenderThread()->GetThreadList();
+		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+
+		m_csQueue.Lock();
+		quePaticleEmit.push_back(pEmit);
+		m_csQueue.Unlock();	
 
 		m_pEvent->Signal();
+	}
+
+	void ParticleThread::OnFlushFrame()
+	{
+		int index = GetRenderThread()->CurThreadFill();
+		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+
+		m_csQueue.Lock();
+		quePaticleEmit.clear();
+		m_csQueue.Unlock();
+	}
+
+	void ParticleThread::FlushRenderQueue()
+	{
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+
+		while (!quePaticleEmit.empty())
+		{
+			m_csQueue.Lock();
+			ParticleEmitter* pEmit = quePaticleEmit.front();
+			quePaticleEmit.pop_front();
+			m_csQueue.Unlock();
+
+			pEmit->Update();
+		}
 	}
 }

@@ -92,15 +92,15 @@ namespace ma
 		AddPointer(pDataStream);
 	}
 
-	void RenderThread::RC_Flush()
+	void RenderThread::RC_Render()
 	{
 		if (IsRenderThread())
 		{
-			GetRenderSystem()->RT_Flush();
+			GetRenderSystem()->RT_Render();
 			return;
 		}
 
-		AddCommand(eRC_Flush);
+		AddCommand(eRC_Render);
 	}
 
 	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
@@ -204,7 +204,6 @@ namespace ma
 		int n = 0;
 		m_bSuccessful = true;
 		m_hResult = S_OK;
-		byte *pP;
 		while (n < (int)m_Commands[m_nCurThreadProcess].Num())
 		{
 			byte nC = m_Commands[m_nCurThreadProcess][n++];
@@ -219,8 +218,8 @@ namespace ma
 			case eRC_EndFrame:
 				GetRenderSystem()->RT_EndFrame();
 				break;
-			case  eRC_Flush:
-				GetRenderSystem()->RT_Flush();
+			case  eRC_Render:
+				GetRenderSystem()->RT_Render();
 				break;
 			case  eRC_TexStreamComplete:
 				{
@@ -326,9 +325,10 @@ namespace ma
 		if (!IsMultithreaded())
 			return;
 
-		//	gRenDev->FlushMainThreadAuxGeomCB();
-		//float fTime = iTimer->GetAsyncCurTime();
+		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
+		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
+		Log("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;

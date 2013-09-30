@@ -16,25 +16,24 @@ namespace ma
 
 		~ParticleThread();
 
-		void				Init();
-
-		void				ShoutDown();
-
 		void				AddEmitter(ParticleEmitter* pEmit);
+
+		void				FlushRenderQueue();
+	
+		void				OnFlushFrame();
 
 	private:
 		void				Run();
 	
 
 	private:
-		std::deque<ParticleEmitter*>	m_quePaticleEmit;
+		typedef std::deque<ParticleEmitter*> ParticleEmitterQueue;
+		ParticleEmitterQueue			m_quePaticleEmit[2];
 
 		CMyEvent*						m_pEvent; 
+
+		CriticalSection					m_csQueue;	
 	};
-
-	//ParticleThread*	GetParticleThread();
-
-	//void				SetParticleThread(ParticleThread* pParticleThread);	
 }
 
 #endif // _ParticleThread_H_

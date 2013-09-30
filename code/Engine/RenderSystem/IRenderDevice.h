@@ -18,24 +18,6 @@ namespace ma
 	class RenderTarget;
 	class Technique;
 
-	struct IndexMesh
-	{
-		VertexDeclaration*	m_pDecl;
-		IndexBuffer*		m_pIndBuf;
-		VertexBuffer*		m_pVerBuf;
-		PRIMITIVE_TYPE		m_eMeshType;
-		int					m_nVertexStart;
-		int					m_nVertexCount;
-		int					m_nIndexCount;
-		int					m_nIndexStart;
-		Technique*			m_pTech;
-
-		IndexMesh()
-		{
-			memset(this,0,sizeof(IndexMesh));
-		}
-	};
-
 	class ENGINE_API IRenderDevice 
 	{
 	public:
@@ -53,7 +35,6 @@ namespace ma
 	
 		virtual ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine) = 0;
 
-		// Set
 		virtual	void				PushRenderTarget(RenderTarget* pTexture,int index = 0) = 0;
 
 		virtual void				PopRenderTarget(int index = 0) = 0;
@@ -68,9 +49,9 @@ namespace ma
 
 		virtual void				SetRenderState(const RenderState& state) = 0;
 
-		virtual void				DrawIndexMesh(const IndexMesh& indexMesh) = 0;
+		virtual void				DrawRenderable(const Renderable* pRenderable) = 0;
 
-		virtual void				DrawDyIndexMesh(const IndexMesh& indexMesh) = 0;
+		virtual void				DrawDyRenderable(const Renderable* pRenderable) = 0;
 	
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 

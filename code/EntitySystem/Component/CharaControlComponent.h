@@ -17,8 +17,6 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "CharaControlComponent");
 
-		virtual	void		Render();
-
 	private:
 		ICharaControll*		m_pCharaControll;
 	};

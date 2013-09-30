@@ -395,88 +395,96 @@ namespace ma
 				break;
 			}
 		}
-
 	}
 
-	void D3D9RenderDevice::DrawIndexMesh(const IndexMesh& indexMesh)
+	void D3D9RenderDevice::DrawRenderable(const Renderable* pRenderable)
 	{
+		if (pRenderable == NULL)
+			return;
+
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)indexMesh.m_pDecl;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
-		if (indexMesh.m_pIndBuf)
+		if (pRenderable->m_pIndexBuffer)
 		{	
-			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)indexMesh.m_pIndBuf;
+			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
 			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
 			ASSERT(hr == D3D_OK);
 		}
 
-		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)indexMesh.m_pVerBuf;
+		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
 
-		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(indexMesh.m_eMeshType);
+		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
+
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = indexMesh.m_nIndexCount / 3;
+			nPrimCount = pSubMeshData->m_nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = indexMesh.m_nIndexCount - 2;
+			nPrimCount = pSubMeshData->m_nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = indexMesh.m_nIndexCount / 2;
+			nPrimCount = pSubMeshData->m_nIndexCount / 2;
 		}
 
 		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,
 			0,
-			indexMesh.m_nVertexStart,
-			indexMesh.m_nVertexCount,
-			indexMesh.m_nIndexStart,
+			pSubMeshData->m_nVertexStart,
+			pSubMeshData->m_nVertexCount,
+			pSubMeshData->m_nIndexStart,
 			nPrimCount);
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
 
 	}
 
-	void D3D9RenderDevice::DrawDyIndexMesh(const IndexMesh& indexMesh)
+	void D3D9RenderDevice::DrawDyRenderable(const Renderable* pRenderable)
 	{
+		if (pRenderable == NULL)
+			return;
+
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)indexMesh.m_pDecl;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
+		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
-		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(indexMesh.m_eMeshType);
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = indexMesh.m_nIndexCount / 3;
+			nPrimCount = pSubMeshData->m_nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = indexMesh.m_nIndexCount - 2;
+			nPrimCount = pSubMeshData->m_nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = indexMesh.m_nIndexCount / 2;
+			nPrimCount = pSubMeshData->m_nIndexCount / 2;
 		}
 
 		hr = m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
-			indexMesh.m_nVertexStart,
-			indexMesh.m_nVertexCount,
+			pSubMeshData->m_nVertexStart,
+			pSubMeshData->m_nVertexCount,
 			nPrimCount,
-			indexMesh.m_pIndBuf->GetData(),
-			D3D9Mapping::GetD3DIndexType(indexMesh.m_pIndBuf->GetIndexType()),
-			indexMesh.m_pVerBuf->GetData(),
-			indexMesh.m_pVerBuf->GetStride());
+			pRenderable->m_pIndexBuffer->GetData(),
+			D3D9Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
+			pRenderable->m_pVertexBuffers->GetData(),
+			pRenderable->m_pVertexBuffers->GetStride());
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
 	}
 

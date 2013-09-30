@@ -19,23 +19,13 @@ namespace ma
 		~Scene();
 
 		void			TravelScene(SceneVisiter* pVisiter);
-		
- 		void			Update(float fElapsedTime);
  		
-  		void			Start();
-  
-  		void			Stop();
-
 		void			Serialize(Serializer& sl, const char* pszLable = "Scene");
-
-		Camera*			GetCurCamera() {return m_pCurCamera;}
 
 		void			AddSceneNode(SceneNode* pSceneNode);
 
 	private:
 		SceneNode*		m_pRootNode;
-
-		Camera*			m_pCurCamera;
 	};
 
 

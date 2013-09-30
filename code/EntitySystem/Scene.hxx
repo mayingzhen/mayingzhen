@@ -19,56 +19,6 @@ namespace ma
 		m_pRootNode->TravelScene(pVisiter);
 	}
 
-	class SceneUpdate : public SceneVisiter
-	{
-		virtual bool VisiteComponent(Component* pComp)
-		{
-			pComp->Update();
-			return true;
-		}
-	};
-
-	void Scene::Update(float fElapsedTime)
-	{
-		SceneUpdate sceneUpdate;
-		TravelScene(&sceneUpdate);
-	}
-
-
-	class SceneStart : public SceneVisiter
-	{
-		virtual bool VisiteComponent(Component* pComp)
-		{
-			if (pComp)
-				pComp->Start();
-			
-			return true;
-		}
-	};
-
-	class SceneStop : public SceneVisiter
-	{
-		virtual bool VisiteComponent(Component* pComp)
-		{
-			if (pComp)
-				pComp->Stop();
-			
-			return true;
-		}
-	};
-
-	void Scene::Start()
-	{
-		SceneStart sceneStart;
-		TravelScene(&sceneStart);
-	}	
-
-	void Scene::Stop()
-	{
-		SceneStop sceneStop;
-		TravelScene(&sceneStop);
-	}
-
 	void Scene::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);

@@ -15,15 +15,9 @@ namespace ma
 
 		~ScriptComponent();
 
-		virtual void	Start();
-
-		virtual void	Stop();
-
-		virtual void	Update();
-
-		virtual void	OnCollisionEnter(const Collision& collData);
-
-		virtual void	OnCollisionExit(const Collision& collData);
+// 		virtual void	OnCollisionEnter(const Collision& collData);
+// 
+// 		virtual void	OnCollisionExit(const Collision& collData);
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "ScriptComponent");
 

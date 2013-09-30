@@ -105,10 +105,8 @@ namespace ma
 	}
 
 
-	void SampleFbxImport::Update()
+	void SampleFbxImport::Render()
 	{
-		float fTimeElapsed = GetTimer()->GetFrameDeltaTime();
-
 		if (m_pAnimtionObject)
 		{
 			//m_pAnimtionObject->AdvanceTime(fTimeElapsed);
@@ -117,7 +115,7 @@ namespace ma
 			//if (GetInput()->IsKeyDown(OIS::KC_D))
 			//	m_pAnimtionObject->SetFrame(--m_fFame);
 
-			m_pAnimtionObject->AdvanceTime(fTimeElapsed);
+			m_pAnimtionObject->AdvanceTime(GetTimer()->GetFrameDeltaTime());
 			m_pAnimtionObject->EvaluateAnimation(1.0f);
 		
 
@@ -137,11 +135,7 @@ namespace ma
 			matWorld = matScale * matWorld;
 			m_pRenderMesh->SetWorldMatrix(matWorld);
 
-			/*m_pRenderMesh->Draw();*/
-			for (UINT i = 0; i < m_pRenderMesh->GetRenderableNumber(); ++i)
-			{
-				GetRenderSystem()->AddRenderable(m_pRenderMesh->GetRenderableByIndex(i));
-			}	
+			m_pRenderMesh->Render();
 
 		}
 
@@ -152,10 +146,7 @@ namespace ma
 
 			m_pStaticMesh->SetWorldMatrix(matWorld);
 
-			for (UINT i = 0; i < m_pStaticMesh->GetRenderableNumber(); ++i)
-			{
-				GetRenderSystem()->AddRenderable(m_pStaticMesh->GetRenderableByIndex(i));
-			}	
+			m_pStaticMesh->Render();
 		}
 
 		if (m_pBoxMesh)
@@ -168,13 +159,9 @@ namespace ma
 
 			m_pBoxMesh->SetWorldMatrix(matWorld);
 
-			for (UINT i = 0; i < m_pBoxMesh->GetRenderableNumber(); ++i)
-			{
-				GetRenderSystem()->AddRenderable(m_pBoxMesh->GetRenderableByIndex(i));
-			}	
+			m_pBoxMesh->Render();
 		}
 	}
-
 
 }
 

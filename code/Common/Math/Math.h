@@ -86,9 +86,9 @@ void Normalize(float* pOut,const float* pIn);
 //------------------------------------------------------------------------------
 //Vector3
 //------------------------------------------------------------------------------
-Vector3 Vec3One();
+const Vector3& Vec3One();
 
-Vector3 Vec3Zero();
+const Vector3& Vec3Zero();
 
 Vector3 Vec3PositiveX();
 

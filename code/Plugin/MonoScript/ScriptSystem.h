@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void			Update();
 
-		virtual IScriptObject*	CreateScriptObject(const char* pszName/*,GameObject* pGameObj*/);
+		virtual IScriptObject*	CreateScriptObject(const char* pszName,GameObject* pGameObj);
 
 		virtual void			DeleteScriptObject(IScriptObject* pScriptObject);
 
@@ -34,9 +34,6 @@ namespace ma
 		MonoDomain*				GetAppDomain() {return m_pAppDomain;}
 
 		ScriptClass*			GetScriptClass(const char* pClassName);
-
-	private:
-		//void					AllScriptObjInvokeMethod(const char* pszMethod,int param_count = 0, void **params = NULL);
 	
 	private:
 		MonoDomain*				m_pDomain;

@@ -25,7 +25,6 @@
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/MeshData.h"
 #include "Engine/Resource/ResourceSystem.h"
-#include "Engine/Resource/DataThread.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h"
 #include "Engine/Resource/Serialize/BinaryInputArchive.h"
@@ -52,14 +51,13 @@
 #include "Engine/RenderSystem/DeferredLight.h"
 #include "Engine/RenderSystem/Shadow.h"
 #include "Engine/RenderSystem/RenderThread.h"
+#include "Engine/RenderSystem/RenderQueue.h"
 
 #include "Engine/RenderSystem/ParticleEmitter.h"
-#include "Engine/RenderSystem/ParticleManager.h"
+#include "Engine/RenderSystem/ParticleSystem.h"
 
 // Terrain
-#include "Engine/Terrain/Terrain.h"
-#include "Engine/Terrain/TerrainSection.h"
-#include "Engine/Terrain/TerrainLiquid.h"
+#include "Engine/Terrain/ITerrain.h"
 
 
 // RenderScheme
@@ -86,6 +84,7 @@
 #include "Engine/Physics/IPhysicsObject.h"
 #include "Engine/Physics/IRigidBody.h"
 #include "Engine/Physics/IPhysicsJoint.h"
+//#include "Engine/Physics/Ragdoll.h"
 
 // script
 #include "Engine/Script/IScriptSystem.h"

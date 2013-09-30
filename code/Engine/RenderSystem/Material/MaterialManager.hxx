@@ -153,14 +153,12 @@ namespace ma
 
 	const Matrix4x4& MaterialManager::autoBindingGetViewMatrix() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		return pCamera ? pCamera->GetViewMatrix() : Matrix4x4::identity();
+		return GetRenderSystem()->GetViewMatrix();
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetProjectionMatrix() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		return pCamera ? pCamera->GetProjMatrix() : Matrix4x4::identity();
+		return GetRenderSystem()->GetProjMatrix();
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewMatrix() const
@@ -168,21 +166,13 @@ namespace ma
 		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		if (pCamera == NULL)
-			return Matrix4x4::identity();
-
 		int index = GetRenderThread()->m_nCurThreadProcess;
-		return m_pCurRenderable->m_matWorld[index] * pCamera->GetViewMatrix();
+		return m_pCurRenderable->m_matWorld[index] * GetRenderSystem()->GetViewMatrix();
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetViewProjectionMatrix() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		if (pCamera == NULL)
-			return Matrix4x4::identity();
-
-		return pCamera->GetViewProjMatrix();
+		return GetRenderSystem()->GetViewProjMatrix();
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewProjectionMatrix() const
@@ -190,12 +180,8 @@ namespace ma
 		if (m_pCurRenderable == NULL)
 			return Matrix4x4::identity();
 
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		if (pCamera == NULL)
-			return Matrix4x4::identity();
-
 		int index = GetRenderThread()->m_nCurThreadProcess;
-		return m_pCurRenderable->m_matWorld[index] * pCamera->GetViewProjMatrix();
+		return m_pCurRenderable->m_matWorld[index] * GetRenderSystem()->GetViewProjMatrix();
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetInverseTransposeWorldMatrix() const
@@ -210,24 +196,17 @@ namespace ma
 		
 	Matrix4x4 MaterialManager::autoBindingGetInverseProjectionMatrix() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		if (pCamera)
-		{
-			Matrix4x4 mInvProj;
-			Matrix4x4 matProj = pCamera->GetProjMatrix();
-			MatrixInverse(&mInvProj, NULL, &matProj);
-			return mInvProj;
-		}
-		else
-		{
-			return Matrix4x4::identity();
-		}
+		Matrix4x4 mInvProj;
+		Matrix4x4 matProj = GetRenderSystem()->GetProjMatrix();
+		MatrixInverse(&mInvProj, NULL, &matProj);
+		return mInvProj;
 	}
 
 	Vector3 MaterialManager::autoBindingGetCameraWorldPosition() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		return pCamera ? pCamera->GetTransform().m_vPos : Vec3Zero();
+		Matrix4x4 matWS;
+		MatrixInverse(&matWS,NULL,&GetRenderSystem()->GetViewMatrix());
+		return matWS.GetRow(3);
 	}
 
 	Vector3 MaterialManager::autoBindingGetCameraViewPosition() const
@@ -288,12 +267,8 @@ namespace ma
 
 	Vector4 MaterialManager::autoBingingDepthNearFarInvfar() const
 	{
-		Camera* pCamera = GetRenderSystem()->GetCamera();
-		if (pCamera == NULL)
-			return Vec4One();
-		
-		float fNear = pCamera->GetNearClip();
-		float fFar = pCamera->GetFarClip();
+		float fNear = GetRenderSystem()->GetNearClip();
+		float fFar = GetRenderSystem()->GetFarClip();
 		
 		return Vector4(fNear,fFar,1.0f/fFar,0);
 	}

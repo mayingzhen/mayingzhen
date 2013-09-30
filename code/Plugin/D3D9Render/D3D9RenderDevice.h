@@ -50,9 +50,9 @@ namespace ma
 
 		virtual void				SetRenderState(const RenderState& state);
 
-		virtual void				DrawIndexMesh(const IndexMesh& indexMesh);
-		
-		virtual void				DrawDyIndexMesh(const IndexMesh& indexMesh);
+		virtual void				DrawRenderable(const Renderable* pRenderable);
+
+		virtual void				DrawDyRenderable(const Renderable* pRenderable);
 
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 

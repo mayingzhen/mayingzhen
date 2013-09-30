@@ -5,7 +5,6 @@ namespace ma
 {
 	SampleTerrain::SampleTerrain()
 	{
-		m_pTerrain = NULL;
 	}
 
 
@@ -23,13 +22,49 @@ namespace ma
 		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 7);
 		GetCameraControll()->SetMoveSpeed(fMoveCameraSpeed * 5);
 
-		m_pTerrain = new Terrain();
-		m_pTerrain->Create("terrain/shaolin.Terrain");
+		GetTerrain()->Create("terrain/shaolin.Terrain");
+
+		//
+		for (UINT i = 0; i < 5; ++i)
+		{
+			for (UINT j = 0; j < 5; ++j)
+			{
+				GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+				MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+				pMeshComp->Load("magician/Body.skn","magician/Body.tga");
+
+				AnimComponent* pAnimComp = pCharMagic->CreateComponent<AnimComponent>();
+				pAnimComp->Load(NULL,"magician/Body.ske");
+				IAnimationObject* pAnimationObject = pAnimComp->GetAnimObject();
+				IAnimationSet* pAnimSet = pAnimationObject->GetAnimationSet();
+				pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
+				pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+				pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
+				pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
+				pAnimationObject->PlayAnimation((UINT)0);
+
+				pCharMagic->GetSceneNode()->Translate(Vector3(i * 300.0f,100.0f,j * 300.0f));
+
+				GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
+				ParticlComponent* pPaticleComp = pFire->CreateComponent<ParticlComponent>();
+				pPaticleComp->Load("Particle/fire.particle");
+
+				pFire->GetSceneNode()->Translate(Vector3(i * 300.0f,100.0f,j * 300.0f));
+				pFire->GetSceneNode()->Scale(10.0f);
+
+			}
+
+		}
+
+// 		GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
+// 		ParticlComponent* pPaticleComp = pFire->CreateComponent<ParticlComponent>();
+// 		pPaticleComp->Load("Particle/fire.particle");
+
 	}
 
 	void SampleTerrain::UnLoad()
 	{
-		SAFE_DELETE(m_pTerrain);
+					
 	}
 
 
@@ -39,7 +74,7 @@ namespace ma
 
 	void SampleTerrain::Render()
 	{
-		m_pTerrain->Render();
+		//m_pTerrain->Render();
 	}
 
 }

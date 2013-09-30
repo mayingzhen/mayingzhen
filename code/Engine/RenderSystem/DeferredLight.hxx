@@ -34,15 +34,6 @@ namespace ma
 		m_pMaterDeferred = new Material(NULL,NULL);
 	}
 
-	void DeferredLight::DoRender()
-	{
-		GBufferPass();
-
-		DefferedLighting();
-
-		//ShadingPass();
-	}
-
 	void DeferredLight::GBufferPass()
 	{
 		GetRenderDevice()->PushRenderTarget(m_pDepthTex,0);
@@ -50,15 +41,15 @@ namespace ma
 
 		GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
-		int nSolidEntry = GetRenderSystem()->GetSolidEntryNumber();
-		for (UINT i = 0; i < nSolidEntry; ++i)
-		{
-			Renderable* pSolidEntry = GetRenderSystem()->GetSolidEntryByIndex(i);
-			Material* pMaterial = pSolidEntry->m_pMaterial;
-			pMaterial->SetCurTechnqiue("gbuffer",NULL);
-			pMaterial->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
-			GetRenderSystem()->DrawRenderable(pSolidEntry);
-		}
+// 		int nSolidEntry = GetRenderSystem()->GetSolidEntryNumber();
+// 		for (UINT i = 0; i < nSolidEntry; ++i)
+// 		{
+// 			Renderable* pSolidEntry = GetRenderSystem()->GetSolidEntryByIndex(i);
+// 			Material* pMaterial = pSolidEntry->m_pMaterial;
+// 			pMaterial->SetCurTechnqiue("gbuffer",NULL);
+// 			pMaterial->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
+// 			GetRenderSystem()->DrawRenderable(pSolidEntry);
+// 		}
 
 		GetRenderDevice()->PopRenderTarget(0);
 		GetRenderDevice()->PopRenderTarget(1);
@@ -79,7 +70,7 @@ namespace ma
 		m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
 		ScreenQuad::Render(m_pMaterDeferred);	
 
-		Matrix4x4 matView = GetRenderSystem()->GetCamera()->GetViewMatrix();
+		Matrix4x4 matView = GetRenderSystem()->GetViewMatrix();
 
 		UINT nLigtNumber = GetRenderSystem()->GetLightNumber();
 		for (UINT i = 0; i < nLigtNumber; ++i)
