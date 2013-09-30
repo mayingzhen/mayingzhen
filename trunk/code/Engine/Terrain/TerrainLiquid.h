@@ -6,7 +6,7 @@ namespace ma
 {
 	class Terrain;
 
-	class TerrainLiquid : public Renderable
+	class TerrainLiquid : public RenderObject
 	{
 
 		struct sLiquidVertex

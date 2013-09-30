@@ -6,6 +6,7 @@ namespace ma
 	class BulletPhysicsGenericJoint;
 	class BulletPhysicsHingeJoint;
 	class BulletPhysicsObject;
+	class PhysicsThread;
 
 	class BtPhysicsSystem : public IPhysicsSystem
 	{
@@ -20,7 +21,9 @@ namespace ma
 
 		virtual void					Stop();
 
-		virtual void					Update();
+		virtual void					BeginUpdate();
+
+		virtual	void					EndUpdate() ;
 
 		virtual void					DebugRender();
 
@@ -59,6 +62,8 @@ namespace ma
 		std::vector<BulletPhysicsHingeJoint*>		m_vHingeJoint;
 
 		btVector3									m_vGravity;
+
+		PhysicsThread*								m_pPhysicsThread;
 	};
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld()

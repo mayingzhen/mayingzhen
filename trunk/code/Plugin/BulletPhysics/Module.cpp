@@ -9,18 +9,23 @@
 #include "BulletPhysics/BtPhysicsObject.hxx"
 #include "BulletPhysics/BtPhysicsJoint.hxx"
 #include "BulletPhysics/BtPhysicsSystem.hxx"
+#include "BulletPhysics/BtPhysicsThread.hxx"
 
 
 void BtPhysicsModuleInit()
 {
 	ma::BtPhysicsSystem* pBtPhysicsSystem = new ma::BtPhysicsSystem();
 	ma::SetPhysicsSystem(pBtPhysicsSystem); 
+
+	pBtPhysicsSystem->Init();
 }
 
 void BtPhysicsModuleShutdown()
 {
 	ma::BtPhysicsSystem* pBtPhysicsSystem = (ma::BtPhysicsSystem*)ma::GetPhysicsSystem();
 	SAFE_DELETE(pBtPhysicsSystem);
+
+	pBtPhysicsSystem->ShoutDown();
 }
 
 

@@ -321,23 +321,25 @@ namespace ma
 
 	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
 
-	void GLESRenderDevice::DrawIndexMesh(const IndexMesh& indexMesh)
+	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable)
 	{
-		Technique* pCurTech = indexMesh.m_pTech;
+		Technique* pCurTech = pRenderable->m_pMaterial->GetCurTechnqiue();
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
-		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)indexMesh.m_pIndBuf;
+		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
 
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)indexMesh.m_pVerBuf;
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers;
 		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
 
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)indexMesh.m_pDecl;
+		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration;
 
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(indexMesh.m_eMeshType);
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
+
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = indexMesh.m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
 
 		int nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
@@ -362,9 +364,9 @@ namespace ma
 
 
 		int indexStride = pIndexBuffer->GetStride();
-		void* pIBufferData = BUFFER_OFFSET(indexStride * indexMesh.m_nIndexStart);
+		void* pIBufferData = BUFFER_OFFSET(indexStride * pSubMeshData->m_nIndexStart);
 
-		GL_ASSERT( glDrawElements(ePrimType, indexMesh.m_nIndexCount, eIndexType, pIBufferData) );
+		GL_ASSERT( glDrawElements(ePrimType, pSubMeshData->m_nIndexCount, eIndexType, pIBufferData) );
 
 
 		for (int i = 0; i < nSteam; ++i)
@@ -383,23 +385,28 @@ namespace ma
 		}
 	}
 
-	void GLESRenderDevice::DrawDyIndexMesh(const IndexMesh& indexMesh)
+	void GLESRenderDevice::DrawDyRenderable(const Renderable* pRenderable)
 	{
-		Technique* pCurTech = indexMesh.m_pTech;
+		if (pRenderable == NULL)
+			return;
+
+		Technique* pCurTech = pRenderable->m_pMaterial->GetCurTechnqiue();
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
 
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)indexMesh.m_pDecl;
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)indexMesh.m_pVerBuf;
-		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)indexMesh.m_pIndBuf;
+		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration;
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers;
+		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
 
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(indexMesh.m_eMeshType);
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
+
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = indexMesh.m_nVertexStart * pVertexDeclar->GetStreanmStride();
-		GLsizei nIndexCount = indexMesh.m_nIndexCount;
+		int vertexStartByte = pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		GLsizei nIndexCount = pSubMeshData->m_nIndexCount;
 		GLvoid* pIndices = pIndexBuffer->GetData();
 		GLvoid*	pVertex = pVertexBuffer->GetData();
 

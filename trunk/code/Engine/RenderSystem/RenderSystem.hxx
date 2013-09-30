@@ -2,6 +2,7 @@
 #include "DeferredLight.h"
 #include "Shadow.h"
 #include "RenderThread.h"
+#include "RenderQueue.h"
 
 
 namespace ma
@@ -20,11 +21,10 @@ namespace ma
 
 	RenderSystem::RenderSystem()
 	{
-		m_pCamera = NULL;
-
 		m_pDefferLight = NULL;
 		m_pShadow = NULL;
 		m_pRenderThread = NULL;
+		m_pRenderQueue = NULL;
 
 		m_bShadow = false; 
 		m_bDefferLight = false;
@@ -44,6 +44,9 @@ namespace ma
 			SetRenderThread(m_pRenderThread);
 			m_pRenderThread->Init();
 		}
+
+		m_pRenderQueue = new RenderQueue();
+		SetRenderQueue(m_pRenderQueue);
 
 		GetRenderThread()->RC_Init();
 	}
@@ -89,13 +92,11 @@ namespace ma
 
 	void RenderSystem::OnFlushFrame()
 	{
-		int index = GetRenderThread()->CurThreadFill();
-		m_arrSolidEntry[index].clear();
-		m_arrTransEntry[index].clear();
+		m_pRenderQueue->Clear();
 
 		LineRender::OnFlushFrame();
 
-		GetParticleManager()->OnFlushFrame();
+		GetParticleSystem()->OnFlushFrame();
 	}
 
 	void RenderSystem::RT_BeginFrame()
@@ -108,6 +109,14 @@ namespace ma
 	void RenderSystem::RT_EndFrame()
 	{
 		GetRenderDevice()->EndRender();
+	}
+
+	void RenderSystem::SetCamera(Camera* pCamera)
+	{
+		m_matView = pCamera->GetViewMatrix();
+		m_matProj = pCamera->GetProjMatrix();
+		m_fFar = pCamera->GetFarClip();
+		m_fNear = pCamera->GetNearClip();
 	}
 
 	RenderMesh*	RenderSystem::CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture)
@@ -134,76 +143,63 @@ namespace ma
 		m_arrRenderMesh.erase(it);	
 	}
 
-	UINT		RenderSystem::GetSolidEntryNumber()
+	void RenderSystem::Render()
 	{
-		int index = m_pRenderThread->GetThreadList();
-		return m_arrSolidEntry[index].size();
+		m_pRenderThread->RC_Render();
 	}
 
-	Renderable*	RenderSystem::GetSolidEntryByIndex(UINT i) 
+	void RenderSystem::RT_Render()
 	{
-		int index = m_pRenderThread->GetThreadList();
-		return m_arrSolidEntry[index][i];
-	}
+		if (m_pShadow)
+		{
+			m_pShadow->ShadowDepthPass();
+		}
 
-	void RenderSystem::DoRender()
-	{
-		m_pRenderThread->RC_Flush();
-	}
-
-	void RenderSystem::RT_Flush()
-	{
 		if (m_pDefferLight)
 		{
-			m_pDefferLight->DoRender();	
+			m_pDefferLight->GBufferPass();
+
+			m_pDefferLight->DefferedLighting();
 		}
 
 		if (m_pShadow)
 		{
-			m_pShadow->DoRender();
+			m_pShadow->DeferredShadow();
 		}
 
 		ShadingPass();
 
-		GetParticleManager()->Render();
-
-		LineRender::Flush();
+		LineRender::Render();
 
 		GetUISystem()->Render();
 	}
 
 	void RenderSystem::ShadingPass()
 	{
-		int index = m_pRenderThread->m_nCurThreadProcess;
-		std::vector<Renderable*>& arrEntry = m_arrSolidEntry[index];
-		for (UINT i = 0; i < arrEntry.size(); ++i)
+		UINT nSolid = m_pRenderQueue->GetRenderObjNumber(RL_Solid);
+		for (UINT i = 0; i < nSolid; ++i)
 		{
+			RenderObject* pRenderObj = m_pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
+			if (pRenderObj == NULL)
+				continue;
+
 			if (m_pDefferLight)
 			{
-				Material* pMaterial = arrEntry[i]->m_pMaterial;
+				Material* pMaterial = pRenderObj->GetMaterial();
 				pMaterial->SetCurTechnqiue("default","DeferredLight");
 			}
 
-			DrawRenderable(arrEntry[i]);
+			pRenderObj->Render();	
 		}
 
-		arrEntry = m_arrTransEntry[index];
-		for (UINT i = 0; i < arrEntry.size(); ++i)
+		UINT nTrans = m_pRenderQueue->GetRenderObjNumber(RL_Trans);
+		for (UINT i = 0; i < nTrans; ++i)
 		{
-			DrawRenderable(arrEntry[i]);
-		}
-	}
-
-	void RenderSystem::AddRenderable(Renderable* pRenderable,bool bTrans)
-	{
-		int index = m_pRenderThread->m_nCurThreadFill;
-		if (bTrans)
-		{
-			m_arrTransEntry[index].push_back(pRenderable);
-		}
-		else
-		{
-			m_arrSolidEntry[index].push_back(pRenderable);
+			RenderObject* pRenderObj = m_pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
+			if (pRenderObj == NULL)
+				continue;
+			
+			pRenderObj->Render();	
 		}
 	}
 
@@ -229,18 +225,7 @@ namespace ma
 		ASSERT(pMaterial);
 		pMaterial->Bind();
 
-		IndexMesh indexMesh;
-		indexMesh.m_eMeshType = pRenderable->m_ePrimitiveType;
-		indexMesh.m_nIndexCount = pSubMeshData->m_nIndexCount;
-		indexMesh.m_nVertexCount = pSubMeshData->m_nVertexCount;
-		indexMesh.m_nVertexStart = pSubMeshData->m_nVertexStart;
-		indexMesh.m_nIndexStart = pSubMeshData->m_nIndexStart;
-		indexMesh.m_pDecl = pRenderable->m_pDeclaration;
-		indexMesh.m_pIndBuf = pRenderable->m_pIndexBuffer;
-		indexMesh.m_pVerBuf = pRenderable->m_pVertexBuffers;
-		indexMesh.m_pTech = pRenderable->m_pMaterial->GetCurTechnqiue();
-
-		GetRenderDevice()->DrawIndexMesh(indexMesh);
+		GetRenderDevice()->DrawRenderable(pRenderable);
 
 		pMaterial->UnBind();
 
@@ -263,18 +248,7 @@ namespace ma
 		ASSERT(pMaterial);
 		pMaterial->Bind();
 
-		IndexMesh indexMesh;
-		indexMesh.m_eMeshType = pRenderable->m_ePrimitiveType;
-		indexMesh.m_nIndexCount = pSubMeshData->m_nIndexCount;
-		indexMesh.m_nVertexCount = pSubMeshData->m_nVertexCount;
-		indexMesh.m_nVertexStart = pSubMeshData->m_nVertexStart;
-		indexMesh.m_nIndexStart = pSubMeshData->m_nIndexStart;
-		indexMesh.m_pDecl = pRenderable->m_pDeclaration;
-		indexMesh.m_pIndBuf = pRenderable->m_pIndexBuffer;
-		indexMesh.m_pVerBuf = pRenderable->m_pVertexBuffers;
-		indexMesh.m_pTech = pRenderable->m_pMaterial->GetCurTechnqiue();
-
-		GetRenderDevice()->DrawDyIndexMesh(indexMesh);
+		GetRenderDevice()->DrawDyRenderable(pRenderable);
 
 		pMaterial->UnBind();
 	}

@@ -4,8 +4,6 @@
 namespace ma
 {
 	class GameObject;
-	class SceneVisiter;
-	class SceneNode;
 
 	class ENTITYSYSTEM_API Component : public Object
 	{
@@ -16,13 +14,7 @@ namespace ma
 
 		virtual ~Component();
 
-		virtual void	Start();
-
-		virtual void	Stop();
-
-		virtual	void	Update();
-
-		virtual void	Render();
+		virtual	void	BuildRenderItem();
 
 		GameObject*		GetGameObject();
 
@@ -31,7 +23,7 @@ namespace ma
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component") = 0;
 
 	protected:
-		GameObject* m_pGameObject;
+		GameObject*		m_pGameObject;
 	};
 }
 

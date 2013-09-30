@@ -19,6 +19,7 @@ namespace ma
 
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
 	{	
+
 		AABB aabbCS = aabb;
 		aabbCS.Transform(m_matView);
 
@@ -108,6 +109,8 @@ namespace ma
 
 	void Camera::CalculateFrustum()
 	{
+		int index = GetRenderThread()->GetThreadList();
+
 		m_frustum = Frustum(m_matView * m_matProj);
 
 		for (UINT i = 0; i < NUM_PSSM; ++i)
@@ -120,6 +123,8 @@ namespace ma
 
 	Frustum Camera::CalculateFrustum(float fNear, float fFar)
 	{
+		int index = GetRenderThread()->GetThreadList();
+
 		Matrix4x4 matProj;
 		MatrixPerspectiveFovLH(&matProj,m_fFOV,m_fAspect,fNear,fFar);
 		Frustum frustum(m_matView * matProj);
@@ -153,6 +158,8 @@ namespace ma
 
 	Vector3	Camera::ProjToWorldNormal(const Vector2* pVec) const
 	{
+		int index = GetRenderThread()->GetThreadList();
+
         Vector3 vDir = m_vLookAtPt - m_vEyePt;
 		float fDepth = Vec3Length(&vDir);
 

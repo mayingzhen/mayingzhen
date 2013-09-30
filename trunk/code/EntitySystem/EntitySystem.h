@@ -19,10 +19,6 @@ namespace ma
 
 		void			ShoutDown();
 
-		void			Start();
-		 
-		void			Stop();
-
 		void			Update();
 
 		GameObject*		CreateGameObject(const char* pName);
@@ -38,8 +34,6 @@ namespace ma
 
 		std::vector<GameObject*>	m_arrGameObject;
 
-		// cach
-		std::vector<MeshComponent*>	m_arrMeshComp;
 	};
 
 	ENTITYSYSTEM_API EntitySystem*	GetEntitySystem();

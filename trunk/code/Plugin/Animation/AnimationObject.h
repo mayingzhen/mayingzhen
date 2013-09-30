@@ -36,10 +36,6 @@ namespace ma
 
 		Skeleton*				GetSkeleton() {return m_pSkeleton;}
 
-		void					AddSkinMesh(RenderMesh* pRenderMesh);
-
-		//void					SetGameObject(GameObject* pGameObj) {m_pGameObj = pGameObj;}
-
 	protected:
 		void					CreateSkeleton(const char* pSkePath);
 

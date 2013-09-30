@@ -8,7 +8,7 @@ namespace ma
 	public:
 		ScriptClass();
 
-		ScriptObject*			CreateScriptObject();
+		ScriptObject*			CreateScriptObject(GameObject* pGameObj);
 
 		void					DeleteScriptObject(ScriptObject* pScriptObject);
 

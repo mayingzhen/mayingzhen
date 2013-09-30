@@ -20,7 +20,7 @@ namespace ma
 
 	private:
 
-		ParticleEmitter* m_pEmitter;
+		//ParticleEmitter* m_pEmitter;
 	};
 }
 

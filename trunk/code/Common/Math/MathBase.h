@@ -153,12 +153,12 @@ public:
 
 
 //LHS system
-inline Vector3 Vec3Right() { return Vector3(1.0f,0.0f,0.0f); }
-inline Vector3 Vec3Up() { return Vector3(0.0f,1.0f,0.0f); }
-inline Vector3 Vec3Forward() { return Vector3(0.0f,0.0f,1.0f); }
+inline const Vector3& Vec3Right() { static Vector3 temp(1.0f,0.0f,0.0f); return temp; }
+inline const Vector3& Vec3Up() {  static Vector3 temp(0.0f,1.0f,0.0f); return temp;}
+inline const Vector3& Vec3Forward() { static Vector3 temp(0.0f,0.0f,1.0f); return temp;}
 
-inline Vector3 Vec3Zero() { return Vector3(0.0f,0.0f,0.0f); }
-inline Vector3 Vec3One() { return Vector3(1.0f,1.0f,1.0f); }
+inline const Vector3& Vec3Zero() { static Vector3 temp(0.0f,0.0f,0.0f); return temp; }
+inline const Vector3& Vec3One() { static Vector3 temp(1.0f,1.0f,1.0f); return temp;}
 
 inline Vector3 Vec3fromColor(unsigned int color)
 {
@@ -218,8 +218,17 @@ public:
 };
 
 
-inline Vector4 Vec4One() { return Vector4(1.0f,1.0f,1.0f,1.0f); }
-inline Vector4 Vec4Zero() { return Vector4(0.0f,0.0f,0.0f,0.0f); }
+inline const Vector4& Vec4One() 
+{
+	static Vector4 vOne(1.0f,1.0f,1.0f,1.0f);
+	return vOne;
+}
+
+inline const Vector4& Vec4Zero() 
+{ 
+	static Vector4 vZero(0.0f,0.0f,0.0f,0.0f);
+	return vZero;
+}
 
 inline Vector4 Vec4fromColor(unsigned int color)
 {

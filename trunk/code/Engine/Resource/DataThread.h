@@ -11,7 +11,7 @@ namespace ma
 		DATA_THREAD_EXIGENCE_IMMEDIATE = 1,	
 	};
 
-	class ENGINE_API IDataObj
+	class IDataObj
 	{
 	public:
 		//virtual  int64_t GetID()	=	0;
@@ -25,7 +25,7 @@ namespace ma
     class Thread;
     class CMyEvent;
 
-	class ENGINE_API DataThread : public Thread
+	class DataThread : public Thread
 	{	
 	public:
 		DataThread();

@@ -1,4 +1,5 @@
 #include "EntitySystem.h"
+#include "RenderQueueBuilder.h"
 
 namespace ma
 {
@@ -26,17 +27,8 @@ namespace ma
 
 	void EntitySystem::Update()
 	{
-		m_pScene->Update(GetTimer()->GetFrameDeltaTime());
-	}
-
-	void EntitySystem::Start()
-	{
-		m_pScene->Start();
-	}
-
-	void EntitySystem::Stop()
-	{
-		m_pScene->Stop();
+		RenderQueueBuilder sceneUpdate;
+		m_pScene->TravelScene(&sceneUpdate);
 	}
 
 	void EntitySystem::Serialize(Serializer& sl)

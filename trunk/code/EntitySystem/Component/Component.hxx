@@ -14,25 +14,10 @@ namespace ma
 
 	}
 
-	void Component::Update()
+	void Component::BuildRenderItem()
 	{
 
 	}
-
-	void Component::Render()
-	{
-
-	}
-
-	void Component::Start()
-	{
-
-	}
-
-	void Component::Stop()
-	{
-
- 	}
 	
 	GameObject*	Component::GetGameObject()
 	{

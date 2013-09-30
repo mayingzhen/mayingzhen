@@ -18,19 +18,15 @@ namespace ma
 
 		~ParticlComponent();
 
-		void			Render();
+		void				BuildRenderItem();
 
-		void			Update();
+		void				Load(const char* pszPath);
 
-		void			Start();
+		void				GetBoundingAABB(Vector3& vMin,Vector3& vMax);
 
-		void			Stop();
+		ParticleEmitter*	GetParticleEmitter() {return m_pParticleEmit;}
 
-		void			Load(const char* pszPath);
-
-		void			GetBoundingAABB(Vector3& vMin,Vector3& vMax);
-
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "ParticlComponent");
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "ParticlComponent");
 
 	private:
 		ParticleEmitter*	m_pParticleEmit;

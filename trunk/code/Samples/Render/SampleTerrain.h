@@ -20,7 +20,6 @@ namespace ma
 
 	private:
 
-		Terrain*	m_pTerrain;
 	};
 }
 

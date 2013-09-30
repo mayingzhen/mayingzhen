@@ -5,78 +5,35 @@
 
 namespace ma
 {
-	class UnitSphere;
-	class ScreenQuad;
-	class Technique;
-	class Sampler;
-	class Light;
-	class ShadowMapFrustum;
+	class RenderObject;
+
+	enum RenderListType
+	{
+		RL_Solid,
+		RL_Trans,
+		RL_Count,
+	};
 
 	class ENGINE_API  RenderQueue
 	{
 	public:
-		static void Init();
+		void			AddRenderObj(RenderListType eRLType,RenderObject* pRenderObj);	
 
-		static void AddRenderable(Renderable* pRenderable,bool bTrans = false);
-		
-		static void Clear();
+		UINT			GetRenderObjNumber(RenderListType eRLType);
 
-		static void Fulsh();
+		RenderObject*	GetRenderObjByIndex(RenderListType eRLType,int index);
 
-		static void SetCamera(Camera* pCamera);
+		void			Clear();
 
 	private:
-		static void ShadowDepthPass();
-		static void ShadowDepthPass(Light* pLight);
-			
-		static void DeferredRending();
-		static void GBufferPass();
-		static void DeferredShadow();
-		static void DefferedLighting();
-		static void DefferedShading();
 
-		static void ForwarRending();
-
-	protected:
-		static std::vector<Renderable*>   m_SolidEntry;
-		static std::vector<Renderable*>   m_TransEntry;
-		
-		static RenderTarget*	m_pShadowTex;	
-
-		static RenderTarget*	m_pDepthTex;
-		static RenderTarget*	m_pNormalTex;
-
-		static RenderTarget*	m_pDiffuse;
-		static RenderTarget*	m_pSpecular;
-
-		static Sampler*			m_pDiffuseTex;
-		static Sampler*			m_pSpecularTex;
-
-
-		static ScreenQuad*		m_pScreenQuad;
-
-		static UnitSphere*		m_pUnitSphere;
-
-		static Material*		m_pMaterDeferred;
-		static Technique*		m_pTechGBuffer;
-		static Technique*		m_pTechShading;
-
-		static std::vector<Light*>	m_arrLight;
-
-		static Light*				m_pSun;
-
-		static Camera*				m_pCamera;
-
-		static ShadowMapFrustum*	m_arrSMF[4];
-
-
-		static	bool m_bUseDeferred;
-
-
-		static   int m_nProcessThreadID;
-		static   int m_nFillThreadID;
+		std::vector<RenderObject*>		m_arrRenderList[2][RL_Count];
 	};
+
+	ENGINE_API RenderQueue*	GetRenderQueue();
+
+	ENGINE_API void			SetRenderQueue(RenderQueue* pRenderQueue);
 
 }
 
-#endif
+#endif // _RenderQueue__H__

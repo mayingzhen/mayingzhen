@@ -31,6 +31,7 @@ namespace ma
 			return true;
 		}
 	};
+
 }
 
 #endif // __SceneVisiter_H__

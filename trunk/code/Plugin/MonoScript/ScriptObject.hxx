@@ -5,8 +5,9 @@
 
 namespace ma
 {
-	ScriptObject::ScriptObject(ScriptClass* pScriptClass)
+	ScriptObject::ScriptObject(ScriptClass* pScriptClass,GameObject* pGameObject)
 	{
+		m_pGameObject = pGameObject;
 		m_pScriptClass = NULL;
 		m_pMonoClass = NULL;
 		m_pMonoObj = NULL;
@@ -32,6 +33,24 @@ namespace ma
 		DestoryScript();
 	}
 
+	void ScriptObject::Start()
+	{
+		void* params[1];
+		params[0] = &m_pGameObject;
+		InvokeMethod("SetGameObjPtr",1,params);
+		 
+		InvokeMethod("Start");
+	}
+
+	void ScriptObject::Stop()
+	{
+		InvokeMethod("Stop");
+	}
+
+	void ScriptObject::Update()
+	{
+		InvokeMethod("Update");
+	}
 
 	float ScriptObject::GetFloat(const char* pszName)
 	{

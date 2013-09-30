@@ -57,8 +57,8 @@ namespace ma
 		SampleJoint* pSampleJoint = new SampleJoint();
 		m_arrSamples["PhysicsJoint"] = pSampleJoint;
 
-		//SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
-		//m_arrSamples["Ragdoll"] = pSampleRagdoll;
+		SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
+		m_arrSamples["Ragdoll"] = pSampleRagdoll;
 
 		SampleTerrain* pSampleTerrain = new SampleTerrain();
 		m_arrSamples["Terrain"] = pSampleTerrain;
@@ -73,7 +73,7 @@ namespace ma
 		m_arrSamples["Particle"] = pSampleParticle;
 
 
-		m_pCurSample = pSampleParticle;
+		m_pCurSample = pSampleTerrain;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -256,6 +256,9 @@ namespace ma
 
 	void SampleBrowser::Update()
 	{
+		if (GetInput())
+			GetInput()->Capture();
+
 		m_pCameraControl->UpdateInput();
 
 		if (m_bPause && !m_bStepOneFrame)
@@ -273,18 +276,16 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
-		GetRenderSystem()->BeginFrame();
+		GetRenderSystem()->SetCamera(m_pCamera);
 
-		Matrix4x4 mat;
-		MatrixIdentity(&mat);
-		LineRender::DrawBox(mat,Vector3(10,10,10),Color(1,0,0,0));
+		GetRenderSystem()->BeginFrame();
 
 		GetPhysicsSystem()->DebugRender();
 
 		if (m_pCurSample)
 			m_pCurSample->Render();
 
-		GetRenderSystem()->DoRender();
+		GetRenderSystem()->Render();
 		
 		GetRenderSystem()->EndFrame();
 	}

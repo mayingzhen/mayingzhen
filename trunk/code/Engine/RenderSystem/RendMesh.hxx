@@ -143,17 +143,13 @@ namespace ma
 		return m_pMesData->GetBoundingAABB();
 	}
 
-// 	void RenderMesh::Draw()
-// 	{
-// // 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-// //  		{
-// // 			GetRenderSystem()->AddRenderable(m_arrRenderable[i]);
-// //  		}
-// 		
-// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-// 		{
-// 			GetRenderSystem()->DrawRenderable(m_arrRenderable[i]);
-// 		}
-// 	}
+	void RenderMesh::Render()
+	{
+		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+		{
+			GetRenderSystem()->DrawRenderable(m_arrRenderable[i]);
+		}
+	}
+
 }
 

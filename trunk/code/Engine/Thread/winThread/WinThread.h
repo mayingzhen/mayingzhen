@@ -21,19 +21,19 @@ namespace ma
 			::CloseHandle(m_hThread);
 			m_hThread	=NULL;
 		}
+
 		
-		DWORD GetThreadId() {return ::GetThreadId(m_hThread);}
+		DWORD			GetThreadId() {return m_dwThreadID;}
 
 protected:
 
-		virtual void Run() = 0;
+		virtual void	Run() = 0;
 
-		static void ThreadFun(void* pParameter)
+		static void		ThreadFun(void* pParameter)
 		{
 			Thread* pThread = (Thread*)pParameter;
 			pThread->Run();
 		}
-
 
 	public:
 		HANDLE	m_hThread;

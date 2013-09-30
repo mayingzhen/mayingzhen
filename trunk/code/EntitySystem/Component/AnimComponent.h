@@ -15,11 +15,7 @@ namespace ma
 
 		~AnimComponent();
 
-		virtual void		Start();
-
-		virtual void		Stop();
-
-		void				Update();
+		void				BuildRenderItem();
 
 		IAnimationObject*	GetAnimObject() {return m_pAnimtionObject;}
 
@@ -28,9 +24,10 @@ namespace ma
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
 
 	private:
-		std::vector<RenderMesh*>	m_arrRenderMesh;
-
 		IAnimationObject*				m_pAnimtionObject;
+
+		std::string						m_strSkeletonPath;
+		std::string						m_strAnimaSetPath;
 	};
 }
 

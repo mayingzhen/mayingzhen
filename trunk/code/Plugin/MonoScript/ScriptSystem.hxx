@@ -56,14 +56,32 @@ namespace ma
 		}
 
 
-		//AllScriptObjInvokeMethod("Start");
+		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		{
+			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
+			for (UINT j = 0; j < nScrpitObj; ++i)
+			{
+				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				pScriptObject->Start();
+			}
+		}
 
 		return true;
 	}
 
 	void ScriptSystem::Stop()
 	{
-		//AllScriptObjInvokeMethod("Stop");
+		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		{
+			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
+			for (UINT j = 0; j < nScrpitObj; ++i)
+			{
+				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				pScriptObject->Stop();
+			}
+		}
+		
+
 		m_arrDllName.clear();
 
 		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
@@ -84,31 +102,25 @@ namespace ma
 
 	void ScriptSystem::Update()
 	{
-		//AllScriptObjInvokeMethod("Update");
+		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		{
+			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
+			for (UINT j = 0; j < nScrpitObj; ++i)
+			{
+				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				pScriptObject->Update();
+			}
+		}
 	}
 
-// 	void ScriptSystem::AllScriptObjInvokeMethod(const char* pszMethod,int param_count, void **params)
-// 	{
-// 		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
-// 		{
-// 			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
-// 			for (UINT j = 0; j < nScrpitObj; ++i)
-// 			{
-// 				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
-// 				pScriptObject->InvokeMethod(pszMethod,param_count,params);
-// 			}
-// 		}
-// 	}
-
-	IScriptObject* ScriptSystem::CreateScriptObject(const char* pszName/*,GameObject* pGameObj*/)
+	IScriptObject* ScriptSystem::CreateScriptObject(const char* pszName,GameObject* pGameObj)
 	{
 		ScriptClass* pScriptClass = GetScriptClass(pszName);
 		ASSERT(pScriptClass);
 		if (pScriptClass == NULL)
 			return NULL;
 
-		ScriptObject* pScriptObj = pScriptClass->CreateScriptObject();
-		//pScriptObj->SetGameObject(pGameObj);
+		ScriptObject* pScriptObj = pScriptClass->CreateScriptObject(pGameObj);
 		
 		return pScriptObj;
 	}

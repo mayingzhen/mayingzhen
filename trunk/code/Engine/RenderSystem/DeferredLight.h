@@ -17,7 +17,9 @@ namespace ma
 
 		void		Init();
 
-		void		DoRender();
+		void		GBufferPass();
+
+		void		DefferedLighting();
 
 		Texture*	GetSceneDepth() {return m_pDepthTex->GetTexture();}
 
@@ -27,12 +29,6 @@ namespace ma
 
 		Texture*	GetTextureightSpecular() {return m_pSpecular->GetTexture();}
 
-	private:
-		void		GBufferPass();
-
-		void		DefferedLighting();
-
-		//void		ShadingPass();
 
 	protected:
 

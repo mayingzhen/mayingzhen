@@ -20,7 +20,7 @@ namespace ma
 
 		LightType		GetLightType() {return m_eLightType;}
 
-		Vector4			GetLightColor() {return m_cLightColor;}
+		const Vector4&	GetLightColor() {return m_cLightColor;}
 
 		void			SetLightColor(const Vector4& cLightColor) {m_cLightColor = cLightColor;}
 
@@ -61,12 +61,12 @@ namespace ma
 	public:
 		DirectonalLight():Light() {m_eLightType = LIGHT_DIRECTIONAL;}
 
-		Vector3 GetDirection() {return m_vDirection;}
+		const Vector3&	GetDirection() {return m_vDirection;}
 
-		void	SetDirection(const Vector3& vDirection) {Vec3Normalize(&m_vDirection,&vDirection);}
+		void			SetDirection(const Vector3& vDirection) {Vec3Normalize(&m_vDirection,&vDirection);}
 
 	private:
-		Vector3		m_vDirection;
+		Vector3			m_vDirection;
 	};
 
 

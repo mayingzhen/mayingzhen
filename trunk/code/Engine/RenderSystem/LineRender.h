@@ -15,7 +15,7 @@ namespace ma
 
 		static void OnFlushFrame();
 
-		static void Flush();
+		static void Render();
 
 		static void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
 

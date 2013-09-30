@@ -53,16 +53,18 @@ namespace ma
 	{
 		//SAFE_RELEASE(m_pAltasTex);
 		SAFE_DELETE_ARRAY(m_heightmap);
+
+		for (UINT i = 0; i < m_arrSection.size(); ++i)
+		{	
+			SAFE_DELETE(m_arrSection[i]);
+		}
 	}
 
-	void Terrain::Render()
+	void Terrain::Update()
 	{
 		for (UINT i = 0; i < m_arrSection.size(); ++i)
 		{	
- 			m_arrSection[i]->m_pMaterial = m_pMaterial;
- 			//m_pMaterial->SetRenderable(m_arrSection[i]);
- 			GetRenderSystem()->DrawRenderable(m_arrSection[i]);
-			//GetRenderSystem()->AddRenderable(m_arrSection[i]);
+			GetRenderQueue()->AddRenderObj(RL_Solid,m_arrSection[i]);
 		}
 	}
 
@@ -70,9 +72,9 @@ namespace ma
 	{	
 		LoadTerrain(pPath);
 
-		m_WorldOffset.x = (m_heightMapW - 1) * m_scale.x * 0.5;
+		m_WorldOffset.x = (m_heightMapW - 1) * m_scale.x * 0.5f;
 		m_WorldOffset.y = 0;
-		m_WorldOffset.z = (m_heightMapH - 1) * m_scale.z * 0.5;
+		m_WorldOffset.z = (m_heightMapH - 1) * m_scale.z * 0.5f;
 
 		int shift = 5;
 		m_sectorShift = shift;
@@ -92,7 +94,7 @@ namespace ma
 				int index = (y * m_sectorCountX) + x;
 				
 				TerrainSection* pTerrainScetion = new TerrainSection;
-				pTerrainScetion->Create(this, heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
+				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
 			}
 		}
@@ -162,7 +164,7 @@ namespace ma
 		TiXmlElement* pPixmapElement = element->FirstChildElement();
 		while( pPixmapElement )
 		{
-			Pixmap pixmap;
+			PixMap pixmap;
 			unsigned int res;
 			res = pPixmapElement->QueryFloatAttribute( "top", &pixmap.top );
 			if(TIXML_NO_ATTRIBUTE == res )
@@ -248,7 +250,7 @@ namespace ma
 			fread( &op1, 1,1,pf );
 			fread( &tr, 1,1,pf );
 
-			g_info g;
+			GridInfo g;
 			g.layer0 = layer0-1;
 			g.layer1 = layer1-1;
 			g.op0 = op0;
@@ -265,19 +267,18 @@ namespace ma
 	}
 
 	// 由高度图坐标得到地形世界位置
-	void Terrain::GetPos(int row, int col, Vector3& vWorldPos)
+	Vector3 Terrain::GetPos(int row, int col)
 	{
-	// 	if (row >= m_heightMapW)
-	// 		row = m_heightMapW - 1;
-	// 	if (col >= m_heightMapH)
-	// 		col = m_heightMapH - 1;
+		Vector3 vWorldPos;
 
 		vWorldPos.x = m_scale.x * row - m_WorldOffset.x;
 		vWorldPos.y = m_scale.y * m_heightmap[col * m_heightMapW + row] - m_WorldOffset.y;
 		vWorldPos.z = m_scale.z * col - m_WorldOffset.z;
+
+		return  vWorldPos;
 	}
 
-	void Terrain::GetNormal(int row, int col, Vector3& vNormal)
+	Vector3 Terrain::GetNormal(int row, int col)
 	{
 		/*
 			   x-1 x x+1
@@ -290,16 +291,13 @@ namespace ma
 			z+1 +--+--+
 		*/
 
+		Vector3 vNormal;
 		
-		Vector3 pos;
-		GetPos(row, col, pos);
+		Vector3 pos = GetPos(row, col);
 		Vector3 corners[7];
 		int count = 0;
 
-	#define DIR(i,j)	\
-		{Vector3 TempPos;\
-		GetPos(row + i, col + j, TempPos); \
-		corners[count++] =  TempPos - pos;} 
+		#define DIR(i,j) {Vector3 TempPos = GetPos(row + i, col + j); corners[count++] =  TempPos - pos;} 
 
 		if (row == 0)
 		{
@@ -359,6 +357,8 @@ namespace ma
 		Vec3Normalize(&sum, &sum);
 
 		vNormal = sum;
+
+		return vNormal;
 	}
 
 
@@ -496,7 +496,7 @@ namespace ma
 
 	bool Terrain::GetInTextureAtlasUV(int textureID,float& texU, float& texV,float& texW, float& texH)
 	{
-		for (int i = 0; i < m_TextureAtlas.size(); ++i)
+		for (UINT i = 0; i < m_TextureAtlas.size(); ++i)
 		{
 			if (m_vTextureFileNames[textureID] ==  m_TextureAtlas[i].mpFilename) 
 			{

@@ -19,17 +19,14 @@ namespace ma
 		}
 	}
 
-	void MeshComponent::Update()
+	void MeshComponent::BuildRenderItem()
 	{
 		if (m_pRendMesh == NULL || m_pGameObject == NULL)
 			return;	
 
 		m_pRendMesh->SetWorldMatrix( m_pGameObject->GetSceneNode()->GetWorldMatrix() );	
 
-		for (UINT i = 0; i < m_pRendMesh->GetRenderableNumber(); ++i)
-		{
-			GetRenderSystem()->AddRenderable(m_pRendMesh->GetRenderableByIndex(i));
-		}
+		GetRenderQueue()->AddRenderObj(RL_Solid,m_pRendMesh);
 	}
 
 	void MeshComponent::Load(const char* pszMeshPath,const char* pszTexPath)
@@ -59,10 +56,6 @@ namespace ma
 
 	void MeshComponent::Serialize(Serializer& sl, const char* pszLable)
 	{
-		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
-		if (pRenderDevice == NULL)
-			return;
-
 		sl.BeginSection(pszLable);
 
 		sl.Serialize(m_strMeshPath);

@@ -140,7 +140,7 @@ namespace ma
 		gpArrLineVertex[index].clear();
 	}
 
-	void LineRender::Flush()
+	void LineRender::Render()
 	{
 		_pMeshBatch->start();
 

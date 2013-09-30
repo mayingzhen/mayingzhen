@@ -1,36 +1,37 @@
 #ifndef  _IRENDMESH__H__
 #define  _IRENDMESH__H__
 
+#include "Engine/RenderSystem/RenderObject.h"
 
 namespace ma
 {
 	class MeshData;
 	class Material;
 
-	class ENGINE_API RenderMesh 
+	class ENGINE_API RenderMesh : public RenderObject
 	{
 	public:
 		RenderMesh();
 
-		bool		InitWithData(MeshData* pMeshData);
+		virtual void	Render();
 
-		bool		Load(const char* pMeshPath,const char* pDiffueTexture);
-		
-		//void		Draw();
+		bool			InitWithData(MeshData* pMeshData);
 
-		void		SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
+		bool			Load(const char* pMeshPath,const char* pDiffueTexture);
 
-		void		SetWorldMatrix(const Matrix4x4& matWorld);
+		void			SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
+	
+		void			SetWorldMatrix(const Matrix4x4& matWorld);
 
-		void		SetMaterial(Material* pMaterial);
+		void			SetMaterial(Material* pMaterial);
 
-		Material*	GetMaterial() {return m_pMaterial;}
+		Material*		GetMaterial() {return m_pMaterial;}
 
-		UINT		GetRenderableNumber() {return m_arrRenderable.size();}
+		UINT			GetRenderableNumber() {return m_arrRenderable.size();}
 
-		Renderable*	GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
+		Renderable*		GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
-		AABB		GetBoundingAABB();
+		AABB			GetBoundingAABB();
 
 	public:
 		std::string				m_sknPath;

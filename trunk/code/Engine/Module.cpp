@@ -46,18 +46,19 @@
 #include "Engine/RenderSystem/DeferredLight.hxx"
 #include "Engine/RenderSystem/Shadow.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
+#include "Engine/RenderSystem/RenderQueue.hxx"
 
 #include "Engine/RenderSystem/ParticleEmitter.hxx"
 #include "Engine/RenderSystem/ParticleThread.hxx"
-#include "Engine/RenderSystem/ParticleManager.hxx"
+#include "Engine/RenderSystem/ParticleSystem.hxx"
 
 // Terrain
+#include "Engine/Terrain/ITerrain.hxx"
 #include "Engine/Terrain/Terrain.hxx"
 #include "Engine/Terrain/TerrainSection.hxx"
-#include "Engine/Terrain/TerrainLiquid.hxx"
+//#include "Engine/Terrain/TerrainLiquid.hxx"
 
 // RenderScheme
-//#include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/ShadowMapFrustum.hxx"
 
 // Util
@@ -75,6 +76,7 @@
 
 // Physics
 #include "Engine/Physics/IPhysicsSystem.hxx"
+//#include "Engine/Physics/Ragdoll.hxx"
 
 
 // script
@@ -113,8 +115,12 @@ void EngineModuleInit()
 	SetInput(pInput);
 	pInput->Init(Platform::GetInstance().GetWindId());
 
-	ParticleManager* pParticleMang = new ParticleManager();
-	SetParticleManager(pParticleMang);
+	ParticleSystem* pParticleMang = new ParticleSystem();
+	SetParticleSystem(pParticleMang);
+	pParticleMang->Init();
+
+	Terrain* pTerrain = new Terrain();
+	SetTerrain(pTerrain);
 
 	Time* pTime = new Time();
 	SetTimer(pTime);
@@ -125,6 +131,10 @@ void EngineModuleShutdown()
 	Time* pTime = GetTimer();
 	SAFE_DELETE(pTime);
 	SetTimer(NULL);
+
+	Terrain* pTerrain = (Terrain*)GetTerrain();
+	SAFE_DELETE(pTerrain);
+	SetTerrain(NULL);
 
 	Input* pInput = GetInput();
 	pInput->Shutdown();
