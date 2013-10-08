@@ -3,6 +3,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(AnimClipNode,IAnimClipNode)
+
 	AnimClipNode::AnimClipNode()
 	{
 		m_pBoneSet = NULL;
@@ -48,7 +50,7 @@ namespace ma
 			SAFE_DELETE(m_pAnimClip);
 		}
 
-		Animation* pAnim = DeclareResource<Animation>(pszSkaPath);
+		Animation* pAnim = LoadResourceSync<Animation>(pszSkaPath);
 		m_pAnimClip = new AnimationClip(pAnim,m_pSkeleton);
 	}
 
@@ -61,11 +63,41 @@ namespace ma
 			return;
 
 		BoneSet* pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
-		ASSERT(pBoneSet);
+		//ASSERT(pBoneSet);
 		if (pBoneSet == NULL)
 			return;
 
 		m_pBoneSet = pBoneSet;
 
+	}
+
+	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+		if (sl.IsReading())
+		{
+			std::string strAnimClipName;
+			std::string strBonSetName;
+
+			SAFE_DELETE(m_pBoneSet);
+			SAFE_DELETE(m_pAnimClip);
+
+			sl.Serialize(strAnimClipName);
+			sl.Serialize(strBonSetName);
+
+			SetAnimationClip(strAnimClipName.c_str());
+			SetBoneSet(strBonSetName.c_str());
+		}
+		else
+		{
+			std::string strAnimClipName = m_pAnimClip->GetAnimation()->GetResPath();
+			std::string strBonSetName = m_pBoneSet ? m_pBoneSet->GetBoneSetName() : "";
+
+			sl.Serialize(strAnimClipName);
+			sl.Serialize(strBonSetName);
+		}
+
+		sl.EndSection();
 	}
 }

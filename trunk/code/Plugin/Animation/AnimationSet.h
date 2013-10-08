@@ -31,9 +31,8 @@ namespace ma
 		std::vector<BoneSet*>		m_arrBoneSet;
 
 		std::vector<PoseModifier*>	m_arrPoseModifier;
-			
-		std::vector<Action*>		m_arrAnimation;
 
+		std::vector<Action*>		m_arrAnimation;
 		AnimationObject*			m_pAnimObject;
 	};
 }

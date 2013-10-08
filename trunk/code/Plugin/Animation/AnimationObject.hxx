@@ -5,23 +5,23 @@
 
 namespace ma
 {
-	AnimationObject::AnimationObject(const char* pszSkePath)
+	AnimationObject::AnimationObject(const char* pszSkePath,const char* pszAniSetPath)
 	{
 		m_pSkelAnim = NULL;
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
+		m_arrSkinMatrix = NULL;
 
-		for (UINT i = 0; i < 256; ++i)
-		{
-			MatrixIdentity(&m_arrSkinMatrix[i]);
-		}
+		m_pAnimSet = new AnimationSet(this);
 
 		CreateSkeleton(pszSkePath);
+		CreateAniSet(pszAniSetPath);
 	}
 
 	AnimationObject::~AnimationObject()
 	{
+		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
 	}
 
 	void AnimationObject::CreateSkeleton(const char* pSkePath)
@@ -30,13 +30,41 @@ namespace ma
 		if (pSkePath == NULL)
 			return ;
 
-		m_pSkeleton =  DeclareResource<Skeleton>(pSkePath);
-		m_pSkeleton->LoadSync();
+		m_pSkeleton = LoadResourceSync<Skeleton>(pSkePath);
 
 		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 
+		int nBone = m_pSkeleton->GetBoneNumer();
+		m_arrSkinMatrix = new Matrix4x4[nBone];
+		for (UINT i = 0; i < nBone; ++i)
+		{
+			MatrixIdentity(&m_arrSkinMatrix[i]);
+		}
+	}
+
+	void AnimationObject::CreateAniSet(const char* pszAniSetPath)
+	{
+		//ASSERT(pszAniSetPath);
+		if (pszAniSetPath == NULL)
+			return;
+
+		std::string fullPath = FileSystem::getFullPath(pszAniSetPath);
+
+		XMLInputArchive inAr;
+		bool res = inAr.Open(fullPath.c_str());
+		if (!res)
+		{
+			inAr.Close();
+			return;
+		}
+
+
+		SAFE_DELETE(m_pAnimSet);
 		m_pAnimSet = new AnimationSet(this);
+		m_pAnimSet->Serialize(inAr);
+		
+		inAr.Close();
 	}
 
 	void AnimationObject::PlayAnimation(Action* pSkelAnim)

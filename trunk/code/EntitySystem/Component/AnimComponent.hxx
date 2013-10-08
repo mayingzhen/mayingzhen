@@ -40,15 +40,7 @@ namespace ma
 		m_strAnimaSetPath = pszAniSetPath ? pszAniSetPath : "";
 		m_strSkeletonPath = pszSkeletonPath ? pszSkeletonPath : "";
 		
-		if (pszSkeletonPath)
-		{
- 			m_pAnimtionObject = GetAnimationSystem()->CreateAnimationObject(pszSkeletonPath);
-		}
-
-		if (pszAniSetPath)
-		{
-			//m_strAnimaSetPath = GetAnimationSystem()->C
-		}
+ 		m_pAnimtionObject = GetAnimationSystem()->CreateAnimationObject(pszSkeletonPath,pszAniSetPath);
 	}
 
 	void AnimComponent::Serialize(Serializer& sl, const char* pszLable)

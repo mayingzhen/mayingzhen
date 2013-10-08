@@ -2,6 +2,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(AnimLayerNode,IAnimLayerNode)
+
 	void AnimLayerNode::AddLayer(IAnimTreeNode* pAnimTreeNode)
 	{
 		if (pAnimTreeNode == NULL)
@@ -48,6 +50,15 @@ namespace ma
 		{
 			m_arrAnimNode[i]->SetFrame(fFrame);
 		}
+	}
+
+	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+
+
+		sl.EndSection();
 	}
 }
 

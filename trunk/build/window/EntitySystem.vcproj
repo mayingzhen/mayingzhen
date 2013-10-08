@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\EntitySystem\RenderQueueBuilder.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\EntitySystem\Scene.h"
 				>
 			</File>

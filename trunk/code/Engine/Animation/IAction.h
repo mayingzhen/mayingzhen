@@ -7,9 +7,10 @@ namespace ma
 	class IAnimLayerNode;
 	class IAnimClipNode;
 	class IAnimBlendNode;
+	class Skeleton;
 
 
-	class ENGINE_API IAnimTreeNode
+	class ENGINE_API IAnimTreeNode : public Object
 	{
 	public:
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;
@@ -17,6 +18,10 @@ namespace ma
 		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight) = 0;
 
 		virtual	void		SetFrame(float fFrame) = 0;
+
+		virtual void		SetSkeleton(Skeleton* pSkeleton) = 0;
+
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimTreeNode" ) = 0;
 	};
 
 
@@ -48,7 +53,7 @@ namespace ma
 		virtual void	SetBoneSet(const char* pBoneSetName) = 0;
 	};
 
-	class ENGINE_API IPoseModifier 
+	class ENGINE_API IPoseModifier : public Object
 	{
 	public:
 		virtual void	Enable(bool bEnable = true) = 0;
@@ -80,6 +85,8 @@ namespace ma
 		virtual IAnimBlendNode*		CreateBlendNode() = 0;
 
 		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName) = 0;
+
+		virtual void				Serialize(Serializer& sl, const char* pszLable = "Action") = 0;
 	};
 }
 

@@ -10,13 +10,9 @@ namespace ma
 	class ENGINE_API IAnimationSystem 
 	{
 	public:
-		virtual IAnimationObject*	CreateAnimationObject(const char* pszSkePath) = 0;
+		virtual IAnimationObject*	CreateAnimationObject(const char* pszSkePath,const char* pszAniSetPath) = 0;
 
 		virtual	void				Update() = 0;
-
-// 		virtual void			Start() = 0;
-// 
-// 		virtual	void			Stop() = 0;
 	};
 
 	ENGINE_API void SetAnimationSystem(IAnimationSystem* pAnimationSystem);

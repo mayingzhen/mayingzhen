@@ -230,14 +230,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Samples\Physics\SampleRagdoll.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Samples\Physics\SampleRagdoll.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Samples\Physics\SampleRigidBody.h"
 				>
 			</File>

@@ -2,3 +2,6 @@
 //RTTI_DECL(LookAtModifier)
 RTTI_DECL(Animation)
 RTTI_DECL(Skeleton)
+RTTI_DECL(AnimClipNode)
+RTTI_DECL(AnimBlendNode)
+RTTI_DECL(AnimLayerNode)

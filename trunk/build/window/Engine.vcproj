@@ -429,6 +429,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.h"
 				>
 			</File>
@@ -464,11 +476,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleManager.h"
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleSystem.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleManager.hxx"
+					RelativePath="..\..\code\Engine\RenderSystem\ParticleSystem.hxx"
 					>
 				</File>
 				<File
@@ -792,6 +804,14 @@
 		<Filter
 			Name="Terrain"
 			>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\ITerrain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Terrain\ITerrain.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Engine\Terrain\Terrain.h"
 				>

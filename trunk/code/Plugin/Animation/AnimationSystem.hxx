@@ -2,9 +2,9 @@
 
 namespace ma
 {
-	IAnimationObject*	AnimationSystem::CreateAnimationObject(const char* pszSkePath)
+	IAnimationObject*	AnimationSystem::CreateAnimationObject(const char* pszSkePath,const char* pszAniSetPath)
 	{
-		AnimationObject* pAnimObject = new AnimationObject(pszSkePath);
+		AnimationObject* pAnimObject = new AnimationObject(pszSkePath,pszAniSetPath);
 		m_arrAnimObject.push_back(pAnimObject);
 		return pAnimObject;
 	}

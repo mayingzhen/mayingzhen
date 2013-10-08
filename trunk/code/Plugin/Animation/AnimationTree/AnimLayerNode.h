@@ -8,6 +8,7 @@ namespace ma
 
 	class AnimLayerNode : public IAnimLayerNode
 	{
+		DECL_OBJECT(AnimLayerNode)
 
 	public:
 		virtual void AddLayer(IAnimTreeNode* pAnimTreeNode);
@@ -19,6 +20,10 @@ namespace ma
 		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
 		virtual void SetFrame(float fFrame);
+
+		virtual void SetSkeleton(Skeleton* pSkeleton) {}
+
+		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimLayerNode" );
 
 	private:
 		std::vector<IAnimTreeNode*> m_arrAnimNode;
