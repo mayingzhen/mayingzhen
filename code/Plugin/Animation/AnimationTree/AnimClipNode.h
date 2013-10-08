@@ -11,6 +11,7 @@ namespace ma
 
 	class ANIMATION_API AnimClipNode : public IAnimClipNode
 	{
+		DECL_OBJECT(AnimClipNode)
 
 	public:
 		AnimClipNode();
@@ -34,6 +35,8 @@ namespace ma
 		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
 
 		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
 
 	private:
 		AnimationClip*	m_pAnimClip;

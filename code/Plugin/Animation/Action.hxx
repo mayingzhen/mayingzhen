@@ -91,7 +91,56 @@ namespace ma
 
 	void Action::Serialize(Serializer& sl, const char* pszLable)
 	{
+		sl.BeginSection(pszLable);
 
+		sl.Serialize(m_sAnimName);
+
+		if (sl.IsReading())
+		{
+			std::string strTreeNodeType;
+			sl.Serialize(strTreeNodeType,"AniTreeNodeType");
+
+			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
+			m_pAnimaNode = static_cast<IAnimTreeNode*>(objFac.CreateObject(strTreeNodeType.c_str()));
+			m_pAnimaNode->SetSkeleton(m_pSkeleton);
+
+			m_pAnimaNode->Serialize(sl);
+
+// 			UINT nPMSize;
+// 			sl.Serialize(nPMSize,"arrPoseModifier");
+// 			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
+// 			{
+// 				std::string strPMName;
+// 				sl.Serialize(strPMName,"PoseModifierName");
+// 
+// 				PoseModifier* pPoseModifier = m_pAnimstionSet->GetPoseModifierByName(strPMName.c_str());
+// 				m_arrPoseModifier.push_back(pPoseModifier);
+// 			}
+
+		}
+		else
+		{
+			std::string strTreeNodeType = m_pAnimaNode->GetClass()->GetName();
+			sl.Serialize(strTreeNodeType,"AniTreeNodeType");
+
+			m_pAnimaNode->Serialize(sl);
+
+// 			UINT nPMSize = m_arrPoseModifier.size();
+// 			sl.Serialize(nPMSize,"arrPoseModifier");
+// 			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
+// 			{
+// 				PoseModifier* pPoseModifier = m_arrPoseModifier[nCnt];
+// 
+// 				std::string strPMName = pPoseModifier->GetName();
+// 				sl.Serialize(strPMName,"PoseModifierName");
+// 
+// 				pPoseModifier->Serialize(sl);
+// 			}
+
+
+		}
+
+		sl.EndSection();
 	}
 
 	IAnimLayerNode*		Action::CreateLayerNode()

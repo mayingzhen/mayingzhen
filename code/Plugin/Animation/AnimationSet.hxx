@@ -2,6 +2,7 @@
 #include "Action.h"
 #include "AnimationObject.h"
 #include "AnimationUtil.h"
+#include "PoseModifier/PoseModifier.h"
 
 namespace ma
 {
@@ -66,11 +67,70 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_arrBoneSet);
+		if (sl.IsReading())
+		{
+			UINT nBoneSetSize;
+			sl.Serialize(nBoneSetSize,"arrBoneSetSize");
+			for (UINT nCnt = 0;nCnt < nBoneSetSize; ++nCnt)
+			{
+				BoneSet* pBoneSet = new BoneSet();
+				pBoneSet->Serialize(sl);
+				m_arrBoneSet.push_back(pBoneSet);
+			}
 
-		//sl.SerializeObjectArray(m_arrPoseModifier);
+			UINT nPMSize;
+			sl.Serialize(nPMSize,"arrPoseModifier");
+			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
+			{
+				std::string strTypeName;
+				sl.Serialize(strTypeName,"PoseModifierType");
 
-		sl.Serialize(m_arrAnimation);
+				ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
+				PoseModifier* pPoseModifier = SafeCast<PoseModifier>(objFac.CreateObject(strTypeName.c_str()));
+				m_arrPoseModifier.push_back(pPoseModifier);
+
+				pPoseModifier->Serialize(sl);
+			}
+
+			UINT nAnimationSize;
+			sl.Serialize(nAnimationSize,"arrAnimationSize");
+			for (UINT nCnt = 0;nCnt < nAnimationSize; ++nCnt)
+			{
+				IAction* pAction = CreateAction("");
+				pAction->Serialize(sl);
+			}
+		}
+		else
+		{
+
+			UINT nBoneSetSize = m_arrBoneSet.size();
+			sl.Serialize(nBoneSetSize,"arrBoneSetSize");
+			for (UINT nCnt = 0;nCnt < nBoneSetSize; ++nCnt)
+			{
+				BoneSet* pBoneSet = m_arrBoneSet[nCnt];
+				pBoneSet->Serialize(sl);
+			}
+
+			UINT nPMSize = m_arrPoseModifier.size();
+			sl.Serialize(nPMSize,"arrPoseModifier");
+			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
+			{
+				PoseModifier* pPoseModifier = m_arrPoseModifier[nCnt];
+
+				std::string strTypeName = pPoseModifier->GetClass()->GetName();
+				sl.Serialize(strTypeName,"PoseModifierType");
+
+				pPoseModifier->Serialize(sl);
+			}
+
+			UINT nAnimationSize = m_arrAnimation.size();
+			sl.Serialize(nAnimationSize,"arrAnimationSize");
+			for (UINT nCnt = 0;nCnt < nAnimationSize; ++nCnt)
+			{
+				Action* pAction = m_arrAnimation[nCnt];
+				pAction->Serialize(sl);
+			}
+		}
 
 		sl.EndSection();
 	}

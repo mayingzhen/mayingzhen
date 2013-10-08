@@ -3,6 +3,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(AnimBlendNode,IAnimBlendNode)
+
 	AnimBlendNode::AnimBlendNode()
 	{
 		m_pSrcAnimNode = NULL;
@@ -51,6 +53,15 @@ namespace ma
 		{
 			m_pDestAnimNode->SetFrame(fFrame);
 		}
+	}
+
+	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+
+
+		sl.EndSection();
 	}
 }
 

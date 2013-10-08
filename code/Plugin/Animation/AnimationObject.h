@@ -12,7 +12,7 @@ namespace ma
 	class AnimationObject : public IAnimationObject
 	{
 	public:
-		AnimationObject(const char* pszSkePath);
+		AnimationObject(const char* pszSkePath,const char* pszAniSetPath);
 
 		~AnimationObject();
 
@@ -39,6 +39,8 @@ namespace ma
 	protected:
 		void					CreateSkeleton(const char* pSkePath);
 
+		void					CreateAniSet(const char* pszAniSetPath);
+
 		void					PlayAnimation(Action* pSkelAnim);
 	
 	private:
@@ -50,11 +52,7 @@ namespace ma
 
 		Action*					m_pSkelAnim;
 
-		Matrix4x4				m_arrSkinMatrix[256];
-
-		//std::vector<RenderMesh*>	m_arrRenderMesh;
-
-		//GameObject*				m_pGameObj;
+		Matrix4x4*				m_arrSkinMatrix;
 	};
 }
 

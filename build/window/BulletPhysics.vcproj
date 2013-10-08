@@ -223,6 +223,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\BulletPhysics\BtPhysicsThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\BulletPhysics\BtPhysicsThread.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\BulletPhysics\BtRigidBody.h"
 				>
 			</File>

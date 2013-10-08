@@ -9,7 +9,7 @@ namespace ma
 	{
 	public:
 
-		virtual IAnimationObject*	CreateAnimationObject(const char* pszSkePath);
+		virtual IAnimationObject*	CreateAnimationObject(const char* pszSkePath,const char* pszAniSetPath);
 
 		virtual	void				Update();
 

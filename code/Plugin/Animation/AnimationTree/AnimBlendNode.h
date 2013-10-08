@@ -8,6 +8,7 @@ namespace ma
 
 	class ANIMATION_API AnimBlendNode : public IAnimBlendNode
 	{
+		DECL_OBJECT(AnimBlendNode)
 
 	public:
 		AnimBlendNode();
@@ -25,6 +26,10 @@ namespace ma
 		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
 		virtual	void	SetFrame(float fFrame);
+
+		virtual void	SetSkeleton(Skeleton* pSkeleton) {}
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimBlendNode" );
 
 	private:
 		IAnimTreeNode*	m_pSrcAnimNode;

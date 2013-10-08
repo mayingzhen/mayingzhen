@@ -38,7 +38,7 @@ namespace ma
 		m_pRenderMesh = new RenderMesh();
 		m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");        
 
-		m_pAnimtionObject =  GetAnimationSystem()->CreateAnimationObject("FBX/TestBull.ske");
+		m_pAnimtionObject =  GetAnimationSystem()->CreateAnimationObject("FBX/TestBull.ske",NULL);
 		IAnimationSet* pAnimSet = m_pAnimtionObject->GetAnimationSet();
 		pAnimSet->AddAnimClip("FBX/TestBull.ska","TestAction");
 		m_pAnimtionObject->PlayAnimation("TestAction");
