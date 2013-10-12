@@ -4,18 +4,13 @@
 
 namespace ma
 {
-	Material::Material(const char* pMaterialFlag,const char* pShaderName) 
+
+	Material::Material() 
 	{
-		m_pCurTechnque = NULL;
-
-		m_strMaterialFlag = pMaterialFlag ? pMaterialFlag : "";
-		
-		if (pShaderName)
-		{
-			m_pCurTechnque = CreateTechnique(pShaderName,pShaderName);
-		}
-			
-
+		m_pEffect = NULL;
+		m_pDiffuse = NULL;
+		m_pBumpmap = NULL;
+		m_pCustom = NULL;
 	}
 
 	Material::~Material()
@@ -23,64 +18,6 @@ namespace ma
 		//SAFE_DELETE(m_pShaderProgram);
 	}
 
-	Technique*	Material::CreateTechnique(const char* pTechName,const char* pShadrName, const char* pDefine)
-	{
-		ASSERT(pTechName);
-		if (pTechName == NULL)
-			return NULL;
-
-		Technique* pTechnique = new Technique(this,pTechName);
-		m_arrTechnique.push_back(pTechnique);
-		pTechnique->CreateShaderProgram(pShadrName,pDefine);
-		return pTechnique;
-	}
-
-	void Material::SetCurTechnqiue(const char* pShaderName,const char* pDefine)
-	{
-		std::string sTechName = pShaderName;
-		if (pDefine && strcmp(pDefine,"") != 0)
-		{
-			sTechName += std::string("_") + pDefine;
-		}
-
-		for (Uint i = 0; i < m_arrTechnique.size(); ++i)
-		{
-			Technique* pTech = m_arrTechnique[i];
-			ASSERT(pTech);
-			if (pTech == NULL)
-				continue;
-
-			if ( strcmp(sTechName.c_str(),pTech->GetTechName()) == 0 )
-			{
-				m_pCurTechnque = m_arrTechnique[i];
-				return;
-			}
-		}
-
-		Technique* pTech = CreateTechnique(sTechName.c_str(),pShaderName,pDefine);
-		m_pCurTechnque = pTech;
-
-		//ASSERT(false);
-	}
-
-	void Material::Bind()
-	{
-		ASSERT(m_pCurTechnque);
-		if (m_pCurTechnque == NULL)
-			return;
-
-		m_pCurTechnque->Bind();
-
-		for (UINT i = 0; i < m_parameters.size(); ++i)
-		{
-			m_parameters[i]->bind(m_pCurTechnque->GetShaderProgram());
-		}
-	}
-
-	void Material::UnBind()
-	{
-		//m_pShaderProgram->UnBind();
-	}
 
 	MaterialParameter* Material::GetParameter(const char* name) 
 	{
@@ -98,34 +35,163 @@ namespace ma
 			}
 		}
 
-		// Create a new parameter and store it in our list.
-		param = new MaterialParameter(name);
-		m_parameters.push_back(param);
-
-		return param;
+		//ASSERT(false);
+		return NULL;
 	}
 
-	void Material::ClearParameter(const char* name)
+	MaterialParameter*	Material::AddParameter(const char* name)
 	{
-		for (size_t i = 0, count = m_parameters.size(); i < count; ++i)
+		MaterialParameter* pParame = GetParameter(name);
+		if (pParame)
+			return pParame;
+
+		pParame = new MaterialParameter(name);
+		m_parameters.push_back(pParame);
+		
+		return pParame;
+	}
+
+
+	void Material::SaveToFile(const char* pszPath)
+	{
+		std::string strSavePath = pszPath ? pszPath : m_sResPath;
+
+		XMLOutputArchive ar;
+		bool bLoadOK = ar.Open(strSavePath.c_str());
+		if (!bLoadOK)
 		{
-			MaterialParameter* p = m_parameters[i];
-			if (p->_name == name)
-			{
-				m_parameters.erase(m_parameters.begin() + i);
-				//SAFE_RELEASE(p);
-				break;
-			}
+			ASSERT(false && "Fail to save to file");
+			return ;
+		}
+
+		Serialize(ar);
+
+		ar.Close();
+	}
+
+	bool Material::LoadFileToMemeory()
+	{
+		return true;
+	}
+
+	bool Material::CreateFromMemeory()
+	{
+		std::string strPath = FileSystem::getFullPath(m_sResPath.c_str());
+
+		XMLInputArchive ar;
+		bool bLoadOK = ar.Open(strPath.c_str());
+		if (!bLoadOK)
+		{
+			ASSERT(false && "Fail to Load to file");
+			return  false;
+		}
+
+		Serialize(ar);
+
+		ar.Close();
+
+		return true;
+	}
+
+	void Material::LoadEffect(const std::string& sShaderName,const std::string& sMatFlag)
+	{
+		m_strMaterialFlag = sMatFlag;
+
+		std::string strShaderDefine = sMatFlag;
+
+		if ( GetRenderSystem()->IsDefferLight() )
+		{
+			strShaderDefine += ";DeferredLight;";
+		}
+
+		SAFE_DELETE(m_pEffect);
+		m_pEffect = new Effect(sShaderName.c_str());
+		m_pEffect->AddTechnique("Shading",sShaderName.c_str(),strShaderDefine.c_str());
+
+		if ( GetRenderSystem()->IsShadow() )
+		{
+			//m_pEffect->AddTechnique("ShadowDepth","ShadowDepth",strShaderDefine.c_str());
+		}
+
+		if ( GetRenderSystem()->IsDefferLight() )
+		{
+			m_pEffect->AddTechnique("Gbuffer","Gbuffer",strShaderDefine.c_str());
 		}
 	}
 
-
-	void Material::SetParameterAutoBinding(const char* name, AutoBinding autoBinding)
+	void Material::SetDiffuse(const char* pDiffPath, Wrap eWrap, FilterOptions eFilter)
 	{
-		MaterialParameter* param = GetParameter(name);
-		ASSERT(param);
+		if (m_pDiffuse == NULL)
+		{
+			m_pDiffuse = new SamplerState();
+		}
 
-		GetMaterialManager()->SetParameterAutoBinding(param,autoBinding);
+		m_pDiffuse->SetTexture(pDiffPath);
+		m_pDiffuse->SetWrapMode(eWrap);
+		m_pDiffuse->SetFilterMode(eFilter);
 
+		m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+	}
+
+	void Material::Serialize(Serializer& sl, const char* pszLable/* = "Material"*/)
+	{
+		sl.BeginSection(pszLable);
+		
+		if (sl.IsReading())
+		{
+			// shader
+			std::string strShader;
+
+			sl.Serialize(strShader,"Shader");
+			sl.Serialize(m_strMaterialFlag,"MaterialFlag");
+
+			LoadEffect(strShader,m_strMaterialFlag);
+	
+			// Texture
+			SAFE_DELETE(m_pDiffuse);
+			m_pDiffuse = new SamplerState();
+			m_pDiffuse->Serialize(sl,"Diffuse");
+			
+			m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+
+			// Param
+			UINT nSize = 0;
+			sl.Serialize(nSize,"arrParamSize");
+			for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
+			{
+				std::string sParamName;
+				sl.Serialize(sParamName,"ParameterName");
+
+				MaterialParameter* pParam = m_pEffect->GetParameter(sParamName.c_str());
+				m_parameters.push_back(pParam);
+
+				pParam->Serialize(sl,"ParamValue");
+			}
+		}
+		else
+		{	
+			std::string strShader = m_pEffect->GetEffectName();
+
+			sl.Serialize(strShader,"Shader");
+			sl.Serialize(m_strMaterialFlag,"MaterialFlag");
+			
+			m_pDiffuse->Serialize(sl,"Diffuse");
+
+			UINT nSize = m_parameters.size();
+			sl.Serialize(nSize,"arrParamSize");
+			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+			{
+				MaterialParameter* pParam = m_parameters[nCnt];
+
+				std::string sParamName = pParam->getName();
+				sl.Serialize(sParamName,"ParameterName");
+
+				pParam->Serialize(sl,"ParamValue");
+			}
+	
+		}
+
+
+		sl.EndSection();
 	}
 }

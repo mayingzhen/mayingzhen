@@ -117,24 +117,24 @@ namespace ma
 
 	}
 
-	void GLESMapping::GetGLESFilter(Sampler::FilterOptions type,GLenum& minFilter,GLenum& magFilter)
+	void GLESMapping::GetGLESFilter(FilterOptions type,GLenum& minFilter,GLenum& magFilter)
 	{
-		if (type == Sampler::TFO_POINT)
+		if (type == TFO_POINT)
 		{
 			minFilter = GL_NEAREST;
 			magFilter = GL_NEAREST;
 		}
-		else if (type == Sampler::TFO_BILINEAR)
+		else if (type == TFO_BILINEAR)
 		{
 			minFilter = GL_LINEAR;
 			magFilter = GL_LINEAR;
 		}
-		else if (type == Sampler::TFO_TRILINEAR)
+		else if (type == TFO_TRILINEAR)
 		{
 			minFilter = GL_NEAREST_MIPMAP_LINEAR;
 			magFilter = GL_LINEAR;
 		}
-		else if (type == Sampler::TFO_ANISOTROPIC)
+		else if (type == TFO_ANISOTROPIC)
 		{
 			minFilter = GL_LINEAR_MIPMAP_LINEAR;
 			magFilter = GL_LINEAR;
@@ -147,13 +147,13 @@ namespace ma
 		}
 	}
 
-	GLenum GLESMapping::GetGLESWrap(Sampler::Wrap type)
+	GLenum GLESMapping::GetGLESWrap(Wrap type)
 	{
-		if (type == Sampler::REPEAT)
+		if (type == REPEAT)
 		{
 			return GL_REPEAT;
 		}
-		else if (type == Sampler::CLAMP)
+		else if (type == CLAMP)
 		{
 			return GL_CLAMP_TO_EDGE;
 		}

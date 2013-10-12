@@ -311,36 +311,30 @@ void Form::setSize(float width, float height)
         //_u2 = width / (float)w;
         //_v1 = height / (float)h;
 
-		_frameBuffer = GetRenderDevice()->CreateRenderTarget(w,h);
-		GetRenderThread()->RC_CreateRenderTarget(_frameBuffer);
+		_frameBuffer = GetRenderSystem()->CreateRenderTarget(w,h);
         ASSERT(_frameBuffer);
 
         // Re-create projection matrix.
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&_projectionMatrix, 0, width, height, 0, 0.0f, 1.0f);
 
         // Re-create sprite batch.
-        _spriteBatch = SpriteBatch::create(_frameBuffer->GetTexture());
+        _spriteBatch = new SpriteBatch(_frameBuffer->GetTexture());
         ASSERT(_spriteBatch);
 
 		_spriteBatch->getStateBlock().m_bDepthWrite = false;
 		_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
 
         // Clear the framebuffer black
-		GetRenderThread()->RC_PushRenderTarget(_frameBuffer);
-		GetRenderThread()->RC_PushViewPort(Rectangle(0, 0, width, height));
-		//GetRenderDevice()->PushRenderTarget(_frameBuffer);
-        //GetRenderDevice()->PushViewport(Rectangle(0, 0, width, height));
+		GetRenderSystem()->PushRenderTarget(_frameBuffer);
+		GetRenderSystem()->PushViewPort(Rectangle(0, 0, width, height));
 
         _theme->setProjectionMatrix(_projectionMatrix);
 		Color clearColor(0.0f,0.0f,0.0f,0.0f);
-		//GetRenderDevice()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
-		GetRenderThread()->RC_ClearBuffer(true,false,false,clearColor, 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-		//GetRenderDevice()->PopRenderTarget();
-        //GetRenderDevice()->PopViewport();
-		GetRenderThread()->RC_PopRenderTargert();
-		GetRenderThread()->RC_PopViewPort();
+		GetRenderSystem()->PopRenderTargert();
+		GetRenderSystem()->PopViewPort();
     }
     _bounds.width = width;
     _bounds.height = height;
@@ -563,7 +557,7 @@ void Form::draw()
 
 	if (!_spriteBatch)
     {
-        _spriteBatch = SpriteBatch::create(_frameBuffer->GetTexture());
+        _spriteBatch = new SpriteBatch(_frameBuffer->GetTexture());
         ASSERT(_spriteBatch);
     }
 

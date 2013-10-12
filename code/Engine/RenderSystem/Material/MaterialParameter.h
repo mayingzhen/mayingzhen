@@ -6,51 +6,21 @@
 
 namespace ma
 {
-	//class ShaderProgram;
-	//struct Uniform;
 
-	/**
-	 * Defines a material parameter.
-	 *
-	 * This class represents a parameter that can be set for a material.
-	 * The methods in this class provide a mechanism to set parameters
-	 * of all supported types. Some types support setting by value,
-	 * while others only support setting by reference/pointer.
-	 *
-	 * Setting a parameter by reference/pointer provides the ability to
-	 * pass an array of values as well as a convenient way to support
-	 * auto-binding of values to a material parameter. For example, by
-	 * setting the parameter value to a pointer to a Matrix4x4, any changes
-	 * to the Matrix4x4 will automatically be reflected in the technique the
-	 * next time the parameter is applied to the render state.
-	 *
-	 * Note that for parameter values to arrays or pointers, the 
-	 * MaterialParameter will keep a long-lived reference to the passed
-	 * in array/pointer. Therefore, you must ensure that the pointers
-	 * you pass in are valid for the lifetime of the MaterialParameter
-	 * object.
-	 */
 	class ENGINE_API MaterialParameter 
 	{
 		friend class Material;
+		friend class Technique;
 
 	public:
 
-		/**
-		 * Returns the name of this material parameter.
-		 */
+		MaterialParameter(const char* name = NULL);
+
+		~MaterialParameter();
+
 		const char* getName() const;
 
-		/**
-		 * Returns the texture sampler or NULL if this MaterialParameter is not a sampler type.
-		 * 
-		 * @param index Index of the sampler (if the parameter is a sampler array),
-		 *      or zero if it is a single sampler value.
-		 *
-		 * @return The texture sampler or NULL if this MaterialParameter is not a sampler type.
-		 */
-		Sampler* getSampler(unsigned int index = 0) const;
-
+		//SamplerState* getSampler(unsigned int index = 0) const;
 
 		void setFloat(float value);
 
@@ -76,15 +46,15 @@ namespace ma
 
 		void setMatrixArray(const Matrix4x4* values, unsigned int count, bool copy = false);
 
-		//Sampler* setSampler(const char* texturePath, bool generateMipmaps);
+		void setSampler(const SamplerState* value);
 
-		void setSampler(const Sampler* value);
-
-		void setSamplerArray(const Sampler** values, unsigned int count, bool copy = false);
+		void setSamplerArray(const SamplerState** values, unsigned int count, bool copy = false);
 
 		void setTexture(const Texture* value);
 
 		void setTextureArray(const Texture** values, unsigned int count, bool copy = false);
+
+		void Serialize(Serializer& sl, const char* pszLable = "Parameter");
 
 		/**
 		 * Binds the return value of a class method to this material parameter.
@@ -110,15 +80,6 @@ namespace ma
 
 	private:
 	   
-		/**
-		 * Constructor.
-		 */
-		MaterialParameter(const char* name);
-	    
-		/**
-		 * Destructor.
-		 */
-		~MaterialParameter();
 
 		/**
 		 * Hidden copy assignment operator.
@@ -134,7 +95,7 @@ namespace ma
 
 		public:
 
-			virtual void SetValue(ShaderProgram* effect) = 0;
+			virtual void SetValue(Uniform* pUniform,ShaderProgram* effect) = 0;
 
 		protected:
 
@@ -166,7 +127,7 @@ namespace ma
 			typedef ParameterType (ClassType::*ValueMethod)() const;
 		public:
 			MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod);
-			void SetValue(ShaderProgram* effect);
+			void SetValue(Uniform* pUniform,ShaderProgram* effect);
 		private:
 			ClassType* _instance;
 			ValueMethod _valueMethod;
@@ -183,7 +144,7 @@ namespace ma
 			typedef unsigned int (ClassType::*CountMethod)() const;
 		public:
 			MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
-			void SetValue(ShaderProgram* effect);
+			void SetValue(Uniform* pUniform,ShaderProgram* effect);
 		private:
 			ClassType* _instance;
 			ValueMethod _valueMethod;
@@ -192,7 +153,9 @@ namespace ma
 
 		void clearValue();
 
-		void bind(ShaderProgram* effect);
+		//void bind(ShaderProgram* effect);
+
+		void Bind(Uniform* pUniform);
 
 	    
 		union
@@ -201,8 +164,8 @@ namespace ma
 			int             intValue;
 			float*          floatPtrValue;
 			int*            intPtrValue;
-			const Sampler*  samplerValue;
-			const Sampler** samplerArrayValue;
+			const SamplerState*  samplerValue;
+			const SamplerState** samplerArrayValue;
 			const Texture*	textureValue;
 			const Texture**	textureArrayValue;
 			MethodBinding*  method;
@@ -229,7 +192,7 @@ namespace ma
 		unsigned int _count;
 		bool _dynamic;
 		std::string _name;
-		Uniform* _uniform;
+		//Uniform* _uniform;
 	};
 
 	template <class ClassType, class ParameterType>
@@ -259,9 +222,9 @@ namespace ma
 	}
 
 	template <class ClassType, class ParameterType>
-	void MaterialParameter::MethodValueBinding<ClassType, ParameterType>::SetValue(ShaderProgram* effect)
+	void MaterialParameter::MethodValueBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
 	{
-		effect->SetValue(_parameter->_uniform, (_instance->*_valueMethod)());
+		effect->SetValue(pUniform, (_instance->*_valueMethod)());
 	}
 
 	template <class ClassType, class ParameterType>
@@ -271,9 +234,9 @@ namespace ma
 	}
 
 	template <class ClassType, class ParameterType>
-	void MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::SetValue(ShaderProgram* effect)
+	void MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
 	{
-		effect->SetValue(_parameter->_uniform, (_instance->*_valueMethod)(), (_instance->*_countMethod)());
+		effect->SetValue(pUniform, (_instance->*_valueMethod)(), (_instance->*_countMethod)());
 	}
 
 }

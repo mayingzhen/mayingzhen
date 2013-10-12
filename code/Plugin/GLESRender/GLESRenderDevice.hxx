@@ -139,7 +139,7 @@ namespace ma
 
 		GLint viewport[4]; 
 		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
-		m_viewport.push(Rectangle(viewport[0],viewport[1],viewport[2],viewport[3]));
+		m_viewport.push(Rectangle((float)viewport[0],(float)viewport[1],(float)viewport[2],(float)viewport[3]));
 
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 		GLint val;
@@ -323,7 +323,7 @@ namespace ma
 
 	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable)
 	{
-		Technique* pCurTech = pRenderable->m_pMaterial->GetCurTechnqiue();
+		Technique* pCurTech = pRenderable->m_pMaterial->GetEffect()->GetCurTechnqiue();
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 
@@ -390,7 +390,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		Technique* pCurTech = pRenderable->m_pMaterial->GetCurTechnqiue();
+		Technique* pCurTech = pRenderable->m_pMaterial->GetEffect()->GetCurTechnqiue();
 		ASSERT(pCurTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
 

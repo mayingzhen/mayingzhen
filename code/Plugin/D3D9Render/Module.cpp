@@ -19,6 +19,9 @@ void D3D9RenderModuleInit()
 	ma::SetRenderDevice(pDxRenderDevice);
 	
 	//ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+
+	ma::GetRenderSystem()->SetDefferLight(true);
+	ma::GetRenderSystem()->SetShadow(false);
 	
 	ma::GetRenderSystem()->Init();
 }
@@ -29,6 +32,7 @@ void D3D9RenderModuleShutdown()
 	ma::D3D9RenderDevice* pDxRenderDevice = (ma::D3D9RenderDevice*)ma::GetRenderDevice();
 	SAFE_DELETE(pDxRenderDevice);
 }
+
 
 extern "C" D3D9RENDER_API bool dllStartPlugin()
 {

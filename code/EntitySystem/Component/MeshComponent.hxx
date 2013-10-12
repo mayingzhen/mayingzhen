@@ -8,15 +8,11 @@ namespace ma
 	:Component(pGameObj)
 	{
 		m_pRendMesh = NULL;
-		m_pMaterial = NULL;
 	}
 
 	MeshComponent::~MeshComponent()
 	{
-		if (m_pRendMesh)
-		{
-			GetRenderSystem()->DeleteRenderMesh(m_pRendMesh);
-		}
+		SAFE_DELETE(m_pRendMesh);
 	}
 
 	void MeshComponent::BuildRenderItem()
@@ -29,16 +25,15 @@ namespace ma
 		GetRenderQueue()->AddRenderObj(RL_Solid,m_pRendMesh);
 	}
 
-	void MeshComponent::Load(const char* pszMeshPath,const char* pszTexPath)
+	void MeshComponent::Load(const char* pszSknPath,const char* pszMatPath)
 	{
 		IRenderDevice* pRenderDevice = ma::GetRenderDevice();
 		if (pRenderDevice == NULL)
 			return;
 
-		m_strMeshPath = pszMeshPath;
-		m_strMaterialPath = pszTexPath;
-
-		m_pRendMesh = GetRenderSystem()->CreatRenderMesh(pszMeshPath,pszTexPath);
+		SAFE_DELETE(m_pRendMesh);
+		m_pRendMesh = new RenderMesh();
+		m_pRendMesh->Load(pszSknPath,pszMatPath);
 	}	
 
 	AABB MeshComponent::GetBoundingAABB()
@@ -58,12 +53,25 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_strMeshPath);
-		sl.Serialize(m_strMaterialPath);
-
 		if ( sl.IsReading() )
 		{
-			Load(m_strMeshPath.c_str(),m_strMaterialPath.c_str());
+			std::string strSknPath;
+			std::string strMatPath;
+
+			sl.Serialize(strSknPath);
+			sl.Serialize(strMatPath);
+
+			Load(strSknPath.c_str(),strMatPath.c_str());
+		}
+		else
+		{
+			ASSERT(m_pRendMesh && m_pRendMesh->GetMeshData() && m_pRendMesh->GetMaterial());
+	
+			std::string strSknPath = m_pRendMesh->GetMeshData()->GetResPath();
+			std::string strMatPath = m_pRendMesh->GetMaterial()->GetResPath();
+
+			sl.Serialize(strSknPath);
+			sl.Serialize(strMatPath);
 		}
 
 		sl.EndSection();

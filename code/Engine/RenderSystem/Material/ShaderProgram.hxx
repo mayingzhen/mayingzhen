@@ -9,19 +9,48 @@ namespace ma
 	static std::map<std::string, ShaderProgram*> __effectCache;
 	static ShaderProgram* __currentEffect = NULL;
 
+	
+	void Tokenize(const std::string& str, std::vector<std::string>& tokens, 
+		const std::string& delimiters = " ", const bool trimEmpty = false) 
+	{ 
+		std::string::size_type pos, lastPos = 0; 
+		while(true) 
+		{ 
+			pos = str.find_first_of(delimiters, lastPos); 
+			if(pos == std::string::npos) 
+			{ 
+				pos = str.length(); 
+
+				if(pos != lastPos || !trimEmpty) 
+				{
+					tokens.push_back( std::string( str.data() + lastPos, pos - lastPos ) ); 
+				}
+
+				break; 
+			} 
+			else 
+			{ 
+				if(pos != lastPos || !trimEmpty) 
+				{
+					tokens.push_back( std::string( str.data() + lastPos, pos - lastPos ) );
+				} 
+			} 
+
+			lastPos = pos + 1; 
+		} 
+	} 
+
 	static void replaceDefines(const char* defines, std::string& out)
 	{
-		if (defines && strlen(defines) != 0)
+		
+		std::vector<std::string> arrTok;
+		Tokenize(defines,arrTok,";",true);
+
+		for (UINT i = 0; i < arrTok.size(); ++i)
 		{
-			out = defines;
-			size_t pos;
-			out.insert(0, "#define ");
-			while ((pos = out.find(';')) != std::string::npos)
-			{
-				out.replace(pos, 1, "\n#define ");
-			}
-			out += "\n";
+			out += "#define " + arrTok[i] + "\n";
 		}
+
 #if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
 		out.insert(0, "#define OPENGL_ES\n");
 #endif
@@ -281,7 +310,7 @@ namespace ma
 		// hidden
 	}
 
-	const ShaderProgram* Uniform::GetEffect() const
+	ShaderProgram* Uniform::GetEffect() const
 	{
 		return m_effect;
 	}

@@ -23,7 +23,7 @@ namespace ma
 	class Technique
 	{
 	public:
-		Technique(Material* pMaterial,const char* pName);
+		Technique(Effect* pEffect,const char* pName);
 
 		~Technique();
 		
@@ -40,7 +40,7 @@ namespace ma
 		RenderState&	GetRenderState() {return m_renderState;}
 
 	private:
-		Material*		m_pMaterial;
+		Effect*			m_pEffect;
 		
 		std::string		m_stName;
 

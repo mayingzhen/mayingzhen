@@ -1,0 +1,18 @@
+<Material>
+    <Shader Shader="default" />
+    <MaterialFlag MaterialFlag="DIFFUSE" />
+    <Diffuse>
+        <Texture Texture="Fbx/Box.tga" />
+    </Diffuse>
+    <arrParamSize arrParamSize="1" />
+    <ParameterName ParameterName="u_cDiffuseColor" />
+    <ParamValue>
+        <ValueType ValueType="7" />
+        <Vector4>
+            <x x="1.000000" />
+            <y y="1.000000" />
+            <z z="1.000000" />
+            <w w="1.000000" />
+        </Vector4>
+    </ParamValue>
+</Material>

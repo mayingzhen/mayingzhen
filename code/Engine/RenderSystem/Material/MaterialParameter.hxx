@@ -5,7 +5,7 @@ namespace ma
 {
 
 	MaterialParameter::MaterialParameter(const char* name) :
-		_type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(name ? name : ""), _uniform(NULL)
+		_type(MaterialParameter::NONE), _count(1), _dynamic(false), _name(name ? name : "")/*, _uniform(NULL)*/
 	{
 		clearValue();
 	}
@@ -22,14 +22,14 @@ namespace ma
 		{
 		case MaterialParameter::SAMPLER:
 			//if (_value.samplerValue)
-			//    const_cast<Sampler*>(_value.samplerValue)->release();
+			//    const_cast<SamplerState*>(_value.samplerValue)->release();
 			break;
 		case MaterialParameter::SAMPLER_ARRAY:
 			if (_value.samplerArrayValue)
 			{
 				for (unsigned int i = 0; i < _count; ++i)
 				{
-					//const_cast<Sampler*>(_value.samplerArrayValue[i])->release();
+					//const_cast<SamplerState*>(_value.samplerArrayValue[i])->release();
 				}
 			}
 			break;
@@ -77,15 +77,6 @@ namespace ma
 	const char* MaterialParameter::getName() const
 	{
 		return _name.c_str();
-	}
-
-	Sampler* MaterialParameter::getSampler(unsigned int index) const
-	{
-		if (_type == MaterialParameter::SAMPLER)
-			return const_cast<Sampler*>(_value.samplerValue);
-		if (_type == MaterialParameter::SAMPLER_ARRAY && index < _count)
-			return const_cast<Sampler*>(_value.samplerArrayValue[index]);
-		return NULL;
 	}
 
 
@@ -286,39 +277,26 @@ namespace ma
 		_type = MaterialParameter::MATRIX;
 	}
 
-// 	Sampler* MaterialParameter::setSampler(const char* texturePath, bool generateMipmaps)
-// 	{
-// 		ASSERT(texturePath);
-// 		clearValue();
-// 
-// 		Sampler* sampler = Sampler::create(texturePath, generateMipmaps);
-// 		if (sampler)
-// 		{
-// 			_value.samplerValue = sampler;
-// 			_type = MaterialParameter::SAMPLER;
-// 		}
-// 		return sampler;
-// 	}
 
-	void MaterialParameter::setSampler(const Sampler* value)
+	void MaterialParameter::setSampler(const SamplerState* value)
 	{
 		ASSERT(value);
 		clearValue();
 
-		//const_cast<Sampler*>(sampler)->IncReference();
+		//const_cast<SamplerState*>(sampler)->IncReference();
 		_value.samplerValue = value;
 		_type = MaterialParameter::SAMPLER;
 	}
 
-	void MaterialParameter::setSamplerArray(const Sampler** values, unsigned int count, bool copy)
+	void MaterialParameter::setSamplerArray(const SamplerState** values, unsigned int count, bool copy)
 	{
 		ASSERT(values);
 		clearValue();
 
 		if (copy)
 		{
-			_value.samplerArrayValue = new const Sampler*[count];
-			memcpy(_value.samplerArrayValue, values, sizeof(Sampler*) * count);
+			_value.samplerArrayValue = new const SamplerState*[count];
+			memcpy(_value.samplerArrayValue, values, sizeof(SamplerState*) * count);
 			_dynamic = true;
 		}
 		else
@@ -328,7 +306,7 @@ namespace ma
 
 		for (unsigned int i = 0; i < count; ++i)
 		{
-			//const_cast<Sampler*>(_value.samplerArrayValue[i])->IncReference();
+			//const_cast<SamplerState*>(_value.samplerArrayValue[i])->IncReference();
 		}
 
 		_count = count;
@@ -340,7 +318,7 @@ namespace ma
 		ASSERT(value);
 		clearValue();
 
-		//const_cast<Sampler*>(sampler)->IncReference();
+		//const_cast<SamplerState*>(sampler)->IncReference();
 		_value.textureValue = value;
 		_type = MaterialParameter::TEXTURE;
 	}
@@ -365,68 +343,106 @@ namespace ma
 		_type = MaterialParameter::TEXTURE_ARRAY;
 	}
 
-	void MaterialParameter::bind(ShaderProgram* effect)
+	void MaterialParameter::Serialize(Serializer& sl, const char* pszLable/* = "Parameter"*/)
 	{
-		ASSERT(effect);
-		if (effect == NULL)
-			return;
+		sl.BeginSection(pszLable);
 
-		// If we had a Uniform cached that is not from the passed in effect,
-		// we need to update our uniform to point to the new effect's uniform.
-		if (!_uniform || _uniform->GetEffect() != effect)
-		{
-			_uniform = effect->GetUniform(_name.c_str());
-
-			if (!_uniform)
-			{
-				//ASSERT(false);
-				// This parameter was not found in the specified effect, so do nothing.
-				//GP_WARN("Warning: Material parameter '%s' not found in effect '%s'.", _name.c_str(), effect->GetId());
-				return;
-			}
-		}
+		//sl.Serialize(_name);
+		
+		sl.Serialize(*(int*)&_type,"ValueType");
 
 		switch (_type)
 		{
 		case MaterialParameter::FLOAT:
-			effect->SetValue(_uniform, _value.floatValue);
-			break;
-		case MaterialParameter::FLOAT_ARRAY:
-			effect->SetValue(_uniform, _value.floatPtrValue, _count);
+			sl.Serialize(_value.floatValue);
 			break;
 		case MaterialParameter::INT:
-			effect->SetValue(_uniform, _value.intValue);
-			break;
-		case MaterialParameter::INT_ARRAY:
-			effect->SetValue(_uniform, _value.intPtrValue, _count);
+			sl.Serialize(_value.intValue);
 			break;
 		case MaterialParameter::VECTOR2:
-			effect->SetValue(_uniform, reinterpret_cast<Vector2*>(_value.floatPtrValue), _count);
+			{
+				Vector2& temValue = *((Vector2*)_value.floatPtrValue);
+				//sl.Serialize(temValue);
+			}
 			break;
 		case MaterialParameter::VECTOR3:
-			effect->SetValue(_uniform, reinterpret_cast<Vector3*>(_value.floatPtrValue), _count);
+			{
+				Vector3& temValue = *((Vector3*)_value.floatPtrValue);
+				//sl.Serialize(temValue);
+			}
 			break;
 		case MaterialParameter::VECTOR4:
-			effect->SetValue(_uniform, reinterpret_cast<Vector4*>(_value.floatPtrValue), _count);
+			{
+				if ( sl.IsReading() )
+				{
+					Vector4 tempValue;
+					sl.Serialize(tempValue);
+
+					setVector4(tempValue);
+				}
+				else
+				{
+					sl.Serialize(*((Vector4*)_value.floatPtrValue));
+				}
+			}
+			break;
+		default:
+			break;
+		}
+
+		sl.EndSection();
+	}
+
+	void MaterialParameter::Bind(Uniform* pUniform)
+	{
+		ASSERT(pUniform && pUniform->GetEffect());
+		if (pUniform == NULL || pUniform->GetEffect() == NULL)
+			return;
+	
+		//_uniform = pUniform;
+		ShaderProgram* effect = pUniform->GetEffect();
+		
+		switch (_type)
+		{
+		case MaterialParameter::FLOAT:
+			effect->SetValue(pUniform, _value.floatValue);
+			break;
+		case MaterialParameter::FLOAT_ARRAY:
+			effect->SetValue(pUniform, _value.floatPtrValue, _count);
+			break;
+		case MaterialParameter::INT:
+			effect->SetValue(pUniform, _value.intValue);
+			break;
+		case MaterialParameter::INT_ARRAY:
+			effect->SetValue(pUniform, _value.intPtrValue, _count);
+			break;
+		case MaterialParameter::VECTOR2:
+			effect->SetValue(pUniform, reinterpret_cast<Vector2*>(_value.floatPtrValue), _count);
+			break;
+		case MaterialParameter::VECTOR3:
+			effect->SetValue(pUniform, reinterpret_cast<Vector3*>(_value.floatPtrValue), _count);
+			break;
+		case MaterialParameter::VECTOR4:
+			effect->SetValue(pUniform, reinterpret_cast<Vector4*>(_value.floatPtrValue), _count);
 			break;
 		case MaterialParameter::MATRIX:
-			effect->SetValue(_uniform, reinterpret_cast<Matrix4x4*>(_value.floatPtrValue), _count);
+			effect->SetValue(pUniform, reinterpret_cast<Matrix4x4*>(_value.floatPtrValue), _count);
 			break;
 		case MaterialParameter::SAMPLER:
-			effect->SetValue(_uniform, _value.samplerValue);
+			effect->SetValue(pUniform, _value.samplerValue);
 			break;
 		case MaterialParameter::SAMPLER_ARRAY:
-			effect->SetValue(_uniform, _value.samplerArrayValue, _count);
+			effect->SetValue(pUniform, _value.samplerArrayValue, _count);
 			break;
 		case MaterialParameter::TEXTURE:
-			effect->SetValue(_uniform,_value.textureValue);
+			effect->SetValue(pUniform,_value.textureValue);
 			break;
 		case MaterialParameter::TEXTURE_ARRAY:
-			effect->SetValue(_uniform,_value.textureArrayValue,_count);
+			effect->SetValue(pUniform,_value.textureArrayValue,_count);
 			break;
 		case MaterialParameter::METHOD:
 			ASSERT(_value.method);
-			_value.method->SetValue(effect);
+			_value.method->SetValue(pUniform,effect);
 			break;
 		default:
 			GP_ERROR("Unsupported material parameter type (%d).", _type);
@@ -439,5 +455,7 @@ namespace ma
 		_parameter(param), _autoBinding(false)
 	{
 	}
+
+		
 
 }

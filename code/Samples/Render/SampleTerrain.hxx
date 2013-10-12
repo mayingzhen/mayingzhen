@@ -24,39 +24,40 @@ namespace ma
 
 		GetTerrain()->Create("terrain/shaolin.Terrain");
 
+		GetRenderSystem()->SetAmbientColor(Vector4(0.2f,0.2f,0.2f,0.2f));
+
+
 		//
-		for (UINT i = 0; i < 5; ++i)
+		for (UINT i = 0; i < 2; ++i)
 		{
-			for (UINT j = 0; j < 5; ++j)
+			for (UINT j = 0; j < 2; ++j)
 			{
-				GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
-				MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
-				pMeshComp->Load("magician/Body.skn","magician/Body.tga");
+				{
+					GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+					MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+					pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-				AnimComponent* pAnimComp = pCharMagic->CreateComponent<AnimComponent>();
-				pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
- 				IAnimationObject* pAnimationObject = pAnimComp->GetAnimObject();
- 				IAnimationSet* pAnimSet = pAnimationObject->GetAnimationSet();
-// 				pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
-// 				pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
-// 				pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
-// 				pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
-				int nAnimation = pAnimSet->GetActionNumber();
-				pAnimationObject->PlayAnimation( 2/*rand() % nAnimation*/ );
+					AnimComponent* pAnimComp = pCharMagic->CreateComponent<AnimComponent>();
+					pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+ 					IAnimationObject* pAnimationObject = pAnimComp->GetAnimObject();
+					pAnimationObject->PlayAnimation("Mag602");
 
-// 				XMLOutputArchive outAr;
-// 				bool res = outAr.Open("E:/work/mydemon_svn/data/magician/Body.Aniset");
-// 				pAnimSet->Serialize(outAr);
-// 				outAr.Close();
+					pCharMagic->GetSceneNode()->Translate(Vector3(i * 300.0f,100.0f,j * 300.0f));
+				}
 
-				pCharMagic->GetSceneNode()->Translate(Vector3(i * 300.0f,100.0f,j * 300.0f));
 
-				GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
-				ParticlComponent* pPaticleComp = pFire->CreateComponent<ParticlComponent>();
-				pPaticleComp->Load("Particle/fire.particle");
+				{
+					GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
+					ParticlComponent* pPaticleComp = pFire->CreateComponent<ParticlComponent>();
+					pPaticleComp->Load("Particle/fire.particle");
 
-				pFire->GetSceneNode()->Translate(Vector3(i * 300.0f,100.0f,j * 300.0f));
-				pFire->GetSceneNode()->Scale(10.0f);
+					PointLightComponent* pPointLightComp = pFire->CreateComponent<PointLightComponent>();
+					pPointLightComp->GetLight()->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+					pPointLightComp->GetLight()->SetRadius(100);
+
+					pFire->GetSceneNode()->Translate(Vector3(i * 350.0f,100.0f,j * 300.0f));
+					pFire->GetSceneNode()->Scale(10.0f);
+				}
 
 			}
 

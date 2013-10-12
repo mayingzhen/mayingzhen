@@ -101,9 +101,9 @@ Theme* Theme::create(const char* url)
 	theme->_texture = pTexture;
 	//theme->_texture->Load();
     ASSERT(theme->_texture);
-    theme->_spriteBatch = SpriteBatch::create(theme->_texture);
+    theme->_spriteBatch = new SpriteBatch(theme->_texture);
     ASSERT(theme->_spriteBatch);
-    theme->_spriteBatch->getSampler()->setFilterMode(Sampler::TFO_POINT/*Texture::NEAREST, Texture::NEAREST*/);
+    theme->_spriteBatch->getSampler()->SetFilterMode(TFO_POINT);
 
 	theme->_spriteBatch->getStateBlock().m_bDepthWrite = false;
 	theme->_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;

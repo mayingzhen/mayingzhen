@@ -496,6 +496,14 @@
 				Name="Material"
 				>
 				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\Effect.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\Effect.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.h"
 					>
 				</File>
@@ -517,6 +525,14 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\SamplerState.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\Material\SamplerState.hxx"
 					>
 				</File>
 				<File

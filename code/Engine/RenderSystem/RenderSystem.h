@@ -20,77 +20,70 @@ namespace ma
 	public:
 		RenderSystem();	
 
-		void				Init();
-
-		void				ShoutDown();
-
-		void				AddLight(Light* pLight);
-		
-		void				BeginFrame();
-
-		void				EndFrame();
-
-		void				Render();
-
-		void				OnFlushFrame();
-
+		// Camera
 		void				SetCamera(Camera* pCamera); 
-
 		const Matrix4x4&	GetViewMatrix() const {return m_matView;}
-
 		const Matrix4x4&	GetProjMatrix() const {return m_matProj;}
-
 		Matrix4x4			GetViewProjMatrix() const {return GetViewMatrix() * GetProjMatrix();}
-
 		float				GetNearClip() {return m_fNear;}
-
 		float				GetFarClip() {return m_fFar;}
 
+		// Light
+		void				AddLight(Light* pLight);
 		UINT				GetLightNumber() {return m_arrLight.size();}
-
 		Light*				GetLightByIndex(UINT i) {return m_arrLight[i];}
-
 		const Vector4&		GetAmbientColor() {return m_cAmbientColor;}
-
 		void				SetAmbientColor(const Vector4& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
-
-		RenderMesh*			CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture);
-
-		void				DeleteRenderMesh(RenderMesh* pRenderMesh);
-	
 		void				SetDefferLight(bool bDefferLight) {m_bDefferLight = bDefferLight;}
+		bool				IsDefferLight() {return m_bDefferLight;}
 
+		// Shadow
 		void				SetShadow(bool bShadow) {m_bShadow = bShadow;}
-
+		bool				IsShadow() {return m_bShadow;}
+		
 		void				SetClearClor(Color cClor) {m_cClearClor = cClor;}
 
 		void				DrawRenderable(Renderable* pRenderable);
-
 		void				DrawDyRenderable(Renderable* pRenderable);
+
+		// Render Command
+		void				Init();
+		void				ShoutDown();
+		void				BeginFrame();
+		void				EndFrame();
+		void				Render();
+		RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
+		ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine);
+		void				PushRenderTarget(RenderTarget* pTexture);
+		void				PushViewPort(Rectangle& viewPort);
+		void				PopRenderTargert();
+		void				PopViewPort();
+		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
+		void				TexStreamComplete(Texture* pTexture,DataStream* pDataStream);		
+
+		void				OnFlushFrame();
 	
 	protected: // Rendrt Thread
 		void				RT_Init();
-
 		void				RT_BeginFrame();
-
 		void				RT_EndFrame();
-
 		void				RT_Render();
 
 	protected:
 		void				ShadingPass();
 
+		
+
 	protected:
 		std::vector<Light*>			m_arrLight;
+		Vector4						m_cAmbientColor;
 
-		//Camera*						m_pCamera;
+		// Camera
 		Matrix4x4					m_matView;
 		Matrix4x4					m_matProj;
 		float						m_fNear;
 		float						m_fFar;
 
-		std::vector<RenderMesh*>	m_arrRenderMesh;
-		
 		DeferredLight*				m_pDefferLight;
 		Shadow*						m_pShadow;
 		RenderThread*				m_pRenderThread;
@@ -99,8 +92,6 @@ namespace ma
 		bool						m_bShadow;
 		bool						m_bDefferLight;
 		bool						m_bThread;
-
-		Vector4						m_cAmbientColor;
 
 		Color						m_cClearClor;
 

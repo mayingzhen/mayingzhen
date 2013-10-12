@@ -12,8 +12,8 @@ namespace ma
 		static GLenum GetGLESIndexType(INDEX_TYPE type);
 		static void	  GetGLESDeclType(DECL_USAGE Usage, GLenum& type, 
 			GLint& typeCount,GLboolean& normalized,std::string& name);
-		static void	  GetGLESFilter(Sampler::FilterOptions type, GLenum& minFilter, GLenum& magFilter);
-		static GLenum GetGLESWrap(Sampler::Wrap type);
+		static void	  GetGLESFilter(FilterOptions type, GLenum& minFilter, GLenum& magFilter);
+		static GLenum GetGLESWrap(Wrap type);
 		static GLenum GetGLESFormat(FORMAT format);
 	};
 

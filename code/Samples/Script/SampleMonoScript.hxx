@@ -23,8 +23,9 @@ namespace ma
 		
 		m_pGameObj =  GetEntitySystem()->CreateGameObject("Test");
 
+
 		MeshComponent* pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.tga");
+		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
 		ScriptComponent* pScriptComp = m_pGameObj->CreateComponent<ScriptComponent>();
 		m_pTestScript = pScriptComp->CreatScriptObject("SharpTest");

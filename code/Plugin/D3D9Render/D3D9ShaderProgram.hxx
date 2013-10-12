@@ -373,14 +373,14 @@ namespace ma
 	
 	}
 
-	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Sampler* sampler)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const SamplerState* sampler)
 	{
 		ASSERT(uniform);
 		//ASSERT(uniform->m_type == GL_SAMPLER_2D);
 		ASSERT(sampler);
 
 
-		D3D9Texture* pTexture = (D3D9Texture*)sampler->getTexture();
+		D3D9Texture* pTexture = (D3D9Texture*)sampler->GetTexture();
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
@@ -388,9 +388,9 @@ namespace ma
 		GetD3D9DxDevive()->SetTexture(uniform->m_index, pTexture->GetD3DTexture());
 		
 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-		D3D9Mapping::GetD3D9Filter(sampler->m_eFilter,minFilter,magFilter,mipFilter);
-		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(sampler->m_eWrap);
-		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(sampler->m_eWrap);
+		D3D9Mapping::GetD3D9Filter(sampler->GetFilterMode(),minFilter,magFilter,mipFilter);
+		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(sampler->GetWrapMode());
+		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(sampler->GetWrapMode());
 
 		//filter mode
 		GetD3D9DxDevive()->SetSamplerState(uniform->m_index, D3DSAMP_MAGFILTER, magFilter);
@@ -417,9 +417,9 @@ namespace ma
 		GetD3D9DxDevive()->SetTexture(uniform->m_index, pTexture->GetD3DTexture());
 
 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-		D3D9Mapping::GetD3D9Filter(Sampler::TFO_BILINEAR,minFilter,magFilter,mipFilter);
-		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(Sampler::CLAMP);
-		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(Sampler::CLAMP);
+		D3D9Mapping::GetD3D9Filter(TFO_BILINEAR,minFilter,magFilter,mipFilter);
+		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(CLAMP);
+		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(CLAMP);
 
 		//filter mode
 		GetD3D9DxDevive()->SetSamplerState(uniform->m_index, D3DSAMP_MAGFILTER, magFilter);
@@ -436,7 +436,7 @@ namespace ma
 
 	}
 
-	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const SamplerState** values, unsigned int count)
 	{
 	     ASSERT(uniform);
 	     //ASSERT(uniform->m_type == GL_SAMPLER_2D);

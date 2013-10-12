@@ -81,7 +81,7 @@ namespace ma
 				continue;
 
 			Material* pMaterial = pRenderable->m_pMaterial;
-			pMaterial->SetCurTechnqiue("shadowDepth",NULL);
+			//pMaterial->SetCurTechnqiue("shadowDepth",NULL);
 			//pMaterial->GetParameter("matWoldViewProjCrop")->setMatrix();
 			GetRenderSystem()->DrawRenderable(pRenderable);
 		}

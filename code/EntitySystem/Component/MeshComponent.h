@@ -20,13 +20,9 @@ namespace ma
 
 		virtual	void	BuildRenderItem();
 
-		void			Load(const char* pszMeshPath,const char* pszTexPath);
+		void			Load(const char* pszSknPath,const char* pszMatPath);
 
 		RenderMesh*		GetRendMesh() {return m_pRendMesh;}
-
-		Material*		GetMaterial() {return m_pMaterial;}
-
-		void			SetMaterial(Material* pMaterial) {m_pMaterial = pMaterial;}
 
 		AABB			GetBoundingAABB();
 
@@ -35,10 +31,6 @@ namespace ma
 	private:
 		RenderMesh*		m_pRendMesh;
 
-		Material*		m_pMaterial;
-
-		std::string		m_strMeshPath;
-		std::string		m_strMaterialPath;
 	};
 }
 

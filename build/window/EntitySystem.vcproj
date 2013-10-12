@@ -240,6 +240,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\EntitySystem\Component\LightComponent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\EntitySystem\Component\LightComponent.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\Code\EntitySystem\Component\MeshComponent.h"
 					>
 				</File>

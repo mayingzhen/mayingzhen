@@ -326,7 +326,7 @@ namespace ma
 		GL_ASSERT( glUniform4fv(uniform->m_location, count, (GLfloat*)values) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Sampler* sampler)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState* sampler)
 	{
 		ASSERT(uniform);
 		ASSERT(uniform->m_type == GL_SAMPLER_2D);
@@ -334,12 +334,12 @@ namespace ma
 
 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
 
-		BindSampler(sampler->getTexture(),sampler->m_eFilter,sampler->m_eWrap);
+		BindSampler(sampler->GetTexture(),sampler->GetFilterMode(),sampler->GetWrapMode());
 
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Sampler** values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState** values, unsigned int count)
 	{
 	     ASSERT(uniform);
 	     ASSERT(uniform->m_type == GL_SAMPLER_2D);
@@ -352,7 +352,7 @@ namespace ma
 	         GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
 	 
 	         // Bind the sampler - this binds the texture and applies sampler state
-	         BindSampler(values[i]->getTexture(),values[i]->m_eFilter,values[i]->m_eWrap);
+	         BindSampler(values[i]->GetTexture(),values[i]->GetFilterMode(),values[i]->GetWrapMode());
 	 
 	         units[i] = uniform->m_index + i;
 	     }
@@ -369,7 +369,7 @@ namespace ma
 
 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
 
-		BindSampler(sampler,Sampler::TFO_BILINEAR,Sampler::CLAMP);
+		BindSampler(sampler,TFO_BILINEAR,CLAMP);
 
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}
@@ -387,7 +387,7 @@ namespace ma
 			GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
 
 			// Bind the sampler - this binds the texture and applies sampler state
-			BindSampler(values[i],Sampler::TFO_BILINEAR,Sampler::CLAMP);
+			BindSampler(values[i],TFO_BILINEAR,CLAMP);
 
 			units[i] = uniform->m_index + i;
 		}
@@ -401,7 +401,7 @@ namespace ma
 	   GL_ASSERT( glUseProgram(m_program) );
 	}
 
-	void GLESShaderProgram::BindSampler(const Texture* pTex,Sampler::FilterOptions eFilter,Sampler::Wrap eWrap)
+	void GLESShaderProgram::BindSampler(const Texture* pTex,FilterOptions eFilter,Wrap eWrap)
 	{
 		GLESTexture* pTexture = (GLESTexture*)pTex;
 		ASSERT(pTexture);

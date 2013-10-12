@@ -395,11 +395,13 @@ namespace ma
 		m_pAltasTex = GetRenderDevice()->CreateTexture();
 		m_pAltasTex->Load(sTextAltasPath.c_str());
 
-		Sampler* pSameler = Sampler::create(m_pAltasTex);
-		pSameler->setWrapMode(Sampler::CLAMP);
-		pSameler->setFilterMode(Sampler::TFO_TRILINEAR);
-		m_pMaterial = new Material("","terrain");
-		m_pMaterial->GetParameter("TerrainTex")->setSampler(pSameler);
+		SamplerState* pSameler = new SamplerState();
+		pSameler->SetWrapMode(CLAMP);
+		pSameler->SetFilterMode(TFO_TRILINEAR);
+		pSameler->SetTexture(m_pAltasTex);
+		m_pMaterial = new Material();
+		m_pMaterial->LoadEffect("terrain","");
+		m_pMaterial->GetEffect()->GetParameter("TerrainTex")->setSampler(pSameler);
 		
 		TiXmlElement* pEleTexture = pELeTextAltas->FirstChildElement("Texture");
 		while (pEleTexture)

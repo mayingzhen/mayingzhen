@@ -9,12 +9,13 @@
 %}
 
 %include "../../Code/EntitySystem/Export.h"
+%include "../../Code/EntitySystem/SceneNode.h"
 %include "../../Code/EntitySystem/Component/Component.h"
 %include "../../Code/EntitySystem/Component/AnimComponent.h"
 %include "../../Code/EntitySystem/Component/CollisionComponent.h"
 %include "../../Code/EntitySystem/Component/RigidbodyComponent.h"
 %include "../../Code/EntitySystem/GameObj.h"
-%include "../../Code/EntitySystem/SceneNode.h"
+
 
 
 //%template(SafeCastAnimComponent) SafeCast<AnimComponent>;

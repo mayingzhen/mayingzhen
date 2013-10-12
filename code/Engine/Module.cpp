@@ -72,6 +72,8 @@
 #include "Engine/RenderSystem/Material/Texture.hxx"
 #include "Engine/RenderSystem/Material/Technqiue.hxx"
 #include "Engine/RenderSystem/Material/MaterialManager.hxx"
+#include "Engine/RenderSystem/Material/Effect.hxx"
+#include "Engine/RenderSystem/Material/SamplerState.hxx"
 
 
 // Physics

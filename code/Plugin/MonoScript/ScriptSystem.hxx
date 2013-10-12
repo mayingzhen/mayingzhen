@@ -56,12 +56,19 @@ namespace ma
 		}
 
 
-		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
-			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
-			for (UINT j = 0; j < nScrpitObj; ++i)
+			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
+			if (pScriptClass == NULL)
+				continue;
+			
+			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
-				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
+				if (pScriptObject == NULL)
+					continue;
+
 				pScriptObject->Start();
 			}
 		}
@@ -71,16 +78,23 @@ namespace ma
 
 	void ScriptSystem::Stop()
 	{
-		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
-			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
-			for (UINT j = 0; j < nScrpitObj; ++i)
+			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
+			if (pScriptClass == NULL)
+				continue;
+
+			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
-				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
+				if (pScriptObject == NULL)
+					continue;
+
 				pScriptObject->Stop();
 			}
 		}
-		
+
 
 		m_arrDllName.clear();
 
@@ -102,15 +116,23 @@ namespace ma
 
 	void ScriptSystem::Update()
 	{
-		for (UINT i = 0; i < m_arrScriptClass.size(); ++i)
+		for (UINT iClass = 0; iClass < m_arrScriptClass.size(); ++iClass)
 		{
-			UINT nScrpitObj = m_arrScriptClass[i]->GetObjectInsNumber();
-			for (UINT j = 0; j < nScrpitObj; ++i)
+			ScriptClass* pScriptClass = m_arrScriptClass[iClass];
+			if (pScriptClass == NULL)
+				continue;
+
+			UINT nScrpitObj = pScriptClass->GetObjectInsNumber();
+			for (UINT iObj = 0; iObj < nScrpitObj; ++iObj)
 			{
-				ScriptObject* pScriptObject = m_arrScriptClass[i]->GetObjectInsByIndex(j);
+				ScriptObject* pScriptObject = pScriptClass->GetObjectInsByIndex(iObj);
+				if (pScriptObject == NULL)
+					continue;
+
 				pScriptObject->Update();
 			}
 		}
+
 	}
 
 	IScriptObject* ScriptSystem::CreateScriptObject(const char* pszName,GameObject* pGameObj)

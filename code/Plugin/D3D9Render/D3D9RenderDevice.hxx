@@ -265,10 +265,10 @@ namespace ma
 	void D3D9RenderDevice::PushViewport(const Rectangle& rect)
 	{
 		D3DVIEWPORT9 vp;
-		vp.X      = rect.x;
-		vp.Y      = rect.y;
-		vp.Width  = rect.width;
-		vp.Height = rect.height;
+		vp.X      = (DWORD)rect.x;
+		vp.Y      = (DWORD)rect.y;
+		vp.Width  = (DWORD)rect.width;
+		vp.Height = (DWORD)rect.height;
 		vp.MinZ   = 0.0f;
 		vp.MaxZ   = 1.0f;
 
@@ -283,10 +283,10 @@ namespace ma
 		Rectangle rect = m_viewport.top();
 
 		D3DVIEWPORT9 vp;
-		vp.X      = rect.x;
-		vp.Y      = rect.y;
-		vp.Width  = rect.width;
-		vp.Height = rect.height;
+		vp.X      = (DWORD)rect.x;
+		vp.Y      = (DWORD)rect.y;
+		vp.Width  = (DWORD)rect.width;
+		vp.Height = (DWORD)rect.height;
 		vp.MinZ   = 0.0f;
 		vp.MaxZ   = 1.0f;
 
