@@ -16,6 +16,7 @@
 #include "EntitySystem/Component/MeshComponent.h"
 #include "EntitySystem/Component/ParticleComponent.h"
 #include "EntitySystem/Component/ScriptComponent.h"
+#include "EntitySystem/Component/LightComponent.h"
 
 // Physics
 #include "EntitySystem/Component/RigidbodyComponent.h"

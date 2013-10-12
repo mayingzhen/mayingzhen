@@ -2,9 +2,9 @@
 
 namespace ma
 {
-	Technique::Technique(Material* pMaterial,const char* pName)
+	Technique::Technique(Effect* pEffect,const char* pName)
 	{
-		m_pMaterial = pMaterial;
+		m_pEffect = pEffect;
 		m_stName = pName;
 		m_pShaderProgram = NULL;
 	}
@@ -23,6 +23,14 @@ namespace ma
 		m_pShaderProgram->Bind();
 
 		GetRenderDevice()->SetRenderState(m_renderState);
+	
+		UINT nUnifom = m_pShaderProgram->GetUniformCount();
+		for (UINT i = 0; i < nUnifom; ++i)
+		{
+			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+			MaterialParameter* pMatPar = m_pEffect->GetParameter(pUniform->getName());
+			pMatPar->Bind(pUniform);
+		}
 	}
 
 	void Technique::UnBind()
@@ -32,26 +40,7 @@ namespace ma
 
 	void Technique::CreateShaderProgram(const char* pszName,const char* pDefine)
 	{
-		ASSERT(pszName);
-		if (pszName == NULL)
-			return;
-
-		ASSERT(m_pMaterial);
-		if (m_pMaterial == NULL)
-			return;
-
-		std::string shaderDefine = m_pMaterial->GetMaterialFlage();
-		if (pDefine)
-		{
-			if (shaderDefine == "")
-				shaderDefine = pDefine;
-			else
-				shaderDefine = shaderDefine + ";" + pDefine;
-		}
-
-		m_pShaderProgram = GetRenderDevice()->CreateShaderProgram(pszName,shaderDefine.c_str());
-		//m_pShaderProgram->CreateFromShaderName(pszName,shaderDefine.c_str());
-		GetRenderThread()->RC_CreateShader(m_pShaderProgram);
+		m_pShaderProgram = GetRenderSystem()->CreateShaderProgram(pszName,pDefine);
 
 		UINT nUniform = m_pShaderProgram->GetUniformCount();
 		for (UINT i = 0; i < nUniform; ++i)
@@ -61,7 +50,7 @@ namespace ma
 			if (pUniform == NULL)
 				continue;
 
-			MaterialParameter* pParam = m_pMaterial->GetParameter(pUniform->getName());
+			MaterialParameter* pParam = m_pEffect->GetParameter(pUniform->getName());
 			GetMaterialManager()->UseDefaultBing(pParam);
 		}
 	}

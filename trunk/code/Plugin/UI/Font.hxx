@@ -7,7 +7,7 @@ namespace ma
 
 static std::vector<Font*> __fontCache;
 
-static Material* __fontMaterial = NULL;
+static Effect* __fontEffect = NULL;
 
 Font::Font() :
     _style(PLAIN), _size(0), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL)
@@ -92,12 +92,14 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     ASSERT(texture);
 
     // Create the effect for the font's sprite batch.
-    if (__fontMaterial == NULL)
+    if (__fontEffect == NULL)
     {
-		__fontMaterial = new Material(NULL,"font");
+		__fontEffect = new Effect("font");
 
-		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
-		__fontMaterial->GetCurTechnqiue()->GetRenderState().m_eDepthCheckMode = DCM_NONE;
+		Technique* pTech = __fontEffect->AddTechnique("Shading","font","");
+
+		pTech->GetRenderState().m_bDepthWrite = false;
+		pTech->GetRenderState().m_eDepthCheckMode = DCM_NONE;
     }
     else
     {
@@ -105,7 +107,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
 
     // Create batch for the font.
-    SpriteBatch* batch = SpriteBatch::create(texture, __fontMaterial, 128);
+    SpriteBatch* batch = new SpriteBatch(texture, __fontEffect, 128);
     
     // Release __fontMaterial since the SpriteBatch keeps a reference to it
     //SAFE_DEC_REF(__fontMaterial);
@@ -116,8 +118,8 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
 
     // Add linear filtering for better font quality.
-    Sampler* sampler = batch->getSampler();
-    sampler->setFilterMode(Sampler::TFO_BILINEAR);
+    SamplerState* sampler = batch->getSampler();
+    sampler->SetFilterMode(TFO_BILINEAR);
 
     // Increase the ref count of the texture to retain it.
     texture->IncReference();

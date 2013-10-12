@@ -11,41 +11,24 @@ namespace ma
 	}
 
 
-	bool RenderMesh::Load(const char* pMeshPath,const char* pDiffueTexture)
+	bool RenderMesh::Load(const char* pszSknPath,const char* pszMatPath)
 	{
-		if (pMeshPath == NULL)
+		if (pszSknPath == NULL)
 			return false;
 
-		m_sknPath = pMeshPath;
-		m_texPath = pDiffueTexture;
-
-		m_pMesData = DeclareResource<MeshData>(pMeshPath);
+		m_pMesData = DeclareResource<MeshData>(pszSknPath);
 		ASSERT(m_pMesData);
 		
 		m_pMesData->LoadSync();
 
 		InitWithData(m_pMesData);
 
-		m_pTexture = DeclareResource<Texture>(pDiffueTexture);
-		ASSERT(m_pTexture);
+		m_pMaterial = DeclareResource<Material>(pszMatPath);
+		ASSERT(m_pMaterial);
 
-		m_pTexture->LoadAsync();
+		m_pMaterial->LoadSync();
 
-		std::string sMaterFlag;
-		if (m_bSkin)
-		{
-			sMaterFlag = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55";
-		}
-		else
-		{
-			sMaterFlag = "DIFFUSE";
-		}
-
-		Material* pMaterial = new Material(sMaterFlag.c_str(),"default");
-
-		pMaterial->GetParameter("u_texture")->setTexture(m_pTexture);
-
-		SetMaterial(pMaterial);
+		SetMaterial(m_pMaterial);
 
 		return true;
 	}

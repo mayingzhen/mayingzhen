@@ -50,7 +50,6 @@
 #include "Engine/RenderSystem/RenderSystem.h"
 #include "Engine/RenderSystem/DeferredLight.h"
 #include "Engine/RenderSystem/Shadow.h"
-#include "Engine/RenderSystem/RenderThread.h"
 #include "Engine/RenderSystem/RenderQueue.h"
 
 #include "Engine/RenderSystem/ParticleEmitter.h"
@@ -74,8 +73,9 @@
 #include "Engine/RenderSystem/Material/MaterialParameter.h"
 #include "Engine/RenderSystem/Material/ShaderProgram.h"
 #include "Engine/RenderSystem/Material/Texture.h"
+#include "Engine/RenderSystem/Material/SamplerState.h"
 #include "Engine/RenderSystem/Material/Technqiue.h"
-
+#include "Engine/RenderSystem/Material/Effect.h"
 
 // Physics
 #include "Engine/Physics/ICharacterController.h"

@@ -7,6 +7,7 @@
 #include "Component/MeshComponent.hxx"
 #include "Component/ParticleComponent.hxx"
 #include "Component/ScriptComponent.hxx"
+#include "Component/LightComponent.hxx"
 
 // Physics
 #include "Component/RigidbodyComponent.hxx"

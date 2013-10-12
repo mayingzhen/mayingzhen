@@ -73,7 +73,7 @@ namespace ma
 		m_arrSamples["Particle"] = pSampleParticle;
 
 
-		m_pCurSample = pSampleTerrain;
+		m_pCurSample = pSampleScript;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;

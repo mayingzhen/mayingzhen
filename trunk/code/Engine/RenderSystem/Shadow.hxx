@@ -4,13 +4,13 @@ namespace ma
 {
 	void Shadow::Init()
 	{
-		m_pShadowTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R16F);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_R16F);
 
-		for (UINT i = 0; i < Camera::NUM_PSSM; ++i)
-		{
-			m_arrSMF[i] = new ShadowMapFrustum();
-			m_arrSMF[i]->Init();
-		}
+// 		for (UINT i = 0; i < Camera::NUM_PSSM; ++i)
+// 		{
+// 			m_arrSMF[i] = new ShadowMapFrustum();
+// 			m_arrSMF[i]->Init();
+// 		}
 	}
 
 	void Shadow::DoRender()

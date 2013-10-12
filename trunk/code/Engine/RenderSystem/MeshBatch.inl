@@ -4,10 +4,10 @@
 namespace ma
 {
 
-	Material* MeshBatch::getMaterial() const
-	{
-		return m_pMaterial;
-	}
+// 	Material* MeshBatch::getMaterial() const
+// 	{
+// 		return m_pMaterial;
+// 	}
 
 	template <class T>
 	void MeshBatch::add(const T* vertices, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)

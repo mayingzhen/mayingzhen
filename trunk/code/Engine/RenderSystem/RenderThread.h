@@ -25,7 +25,7 @@ namespace ma
  		eRC_PopViewPort,
 	};
 
-	class ENGINE_API RenderThread : public Thread
+	class /*ENGINE_API*/ RenderThread : public Thread
 	{
 	public:
 		bool			m_bQuit;

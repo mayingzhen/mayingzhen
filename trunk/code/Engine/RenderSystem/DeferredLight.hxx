@@ -21,17 +21,30 @@ namespace ma
 		m_pDiffuse = NULL;
 		m_pSpecular = NULL;
 		m_pMaterDeferred = NULL;
+		m_pDeferredEffect = NULL;
 	}
 
 	void DeferredLight::Init()
 	{
-		m_pDepthTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R32F);
-		m_pNormalTex = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pDepthTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_R32F);
+		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pDiffuse = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pSpecular = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
 
-		m_pDiffuse = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
-		m_pSpecular = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
+		m_pMaterDeferred = new Material();
+		m_pDeferredEffect = new Effect("DeferredLight");
+		m_pMaterDeferred->SetEffect(m_pDeferredEffect);
 
-		m_pMaterDeferred = new Material(NULL,NULL);
+		Technique* pAmbientTech = m_pDeferredEffect->AddTechnique("AmbientLight","DeferredLight","AMBIENT_LIGHT");
+		pAmbientTech->GetRenderState().m_bDepthWrite = false;
+
+		Technique* pDirTech = m_pDeferredEffect->AddTechnique("DirectLight","DeferredLight","DIRECT_LIGHT");
+		pDirTech->GetRenderState().m_bDepthWrite = false;
+		pDirTech->GetRenderState().m_eBlendMode = BM_ADD;
+
+		Technique* pPointTech = m_pDeferredEffect->AddTechnique("PointLight","DeferredLight","POINT_LIGHT");
+		pPointTech->GetRenderState().m_bDepthWrite = false;
+		pPointTech->GetRenderState().m_eBlendMode = BM_ADD;
 	}
 
 	void DeferredLight::GBufferPass()
@@ -41,15 +54,18 @@ namespace ma
 
 		GetRenderDevice()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
-// 		int nSolidEntry = GetRenderSystem()->GetSolidEntryNumber();
-// 		for (UINT i = 0; i < nSolidEntry; ++i)
-// 		{
-// 			Renderable* pSolidEntry = GetRenderSystem()->GetSolidEntryByIndex(i);
-// 			Material* pMaterial = pSolidEntry->m_pMaterial;
-// 			pMaterial->SetCurTechnqiue("gbuffer",NULL);
-// 			pMaterial->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
-// 			GetRenderSystem()->DrawRenderable(pSolidEntry);
-// 		}
+		UINT nSolid = GetRenderQueue()->GetRenderObjNumber(RL_Solid);
+		for (UINT i = 0; i < nSolid; ++i)
+		{
+			RenderObject* pSolidEntry = GetRenderQueue()->GetRenderObjByIndex(RL_Solid,i);
+			Material* pMaterial = pSolidEntry->GetMaterial();
+			Effect* pEffect = pMaterial->GetEffect();
+			pEffect->SetCurCurTechnqiue("Gbuffer");
+			pEffect->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
+			pSolidEntry->Render();
+
+			/*pEffect->End();*/
+		}
 
 		GetRenderDevice()->PopRenderTarget(0);
 		GetRenderDevice()->PopRenderTarget(1);
@@ -64,11 +80,11 @@ namespace ma
 		GetRenderDevice()->ClearBuffer(true,false,true,Color(0,0,0,0), 1.0f, 0);
 
 		// AmbientLight
-		m_pMaterDeferred->SetCurTechnqiue("DeferredLight","AMBIENT_LIGHT");
-		Vector4 cAmbientColor = GetRenderSystem()->GetAmbientColor();
-		m_pMaterDeferred->GetParameter("light_color")->setVector4(cAmbientColor);
-		m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
+		m_pDeferredEffect->SetCurCurTechnqiue("AmbientLight");
+ 		Vector4 cAmbientColor = GetRenderSystem()->GetAmbientColor();
+ 		m_pDeferredEffect->GetParameter("light_color")->setVector4(cAmbientColor);
 		ScreenQuad::Render(m_pMaterDeferred);	
+		/*m_pDeferredEffect->End();*/
 
 		Matrix4x4 matView = GetRenderSystem()->GetViewMatrix();
 
@@ -85,17 +101,17 @@ namespace ma
 			{
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
 
-				m_pMaterDeferred->SetCurTechnqiue("DeferredLight","DIRECT_LIGHT");
-				m_pMaterDeferred->GetParameter("light_color")->setVector4(pLight->GetLightColor());
+				m_pDeferredEffect->SetCurCurTechnqiue("DirectLight");
+				m_pDeferredEffect->GetParameter("light_color")->setVector4(pLight->GetLightColor());
 
 				Vector3 vDirWS = pDirLight->GetDirection();
 				Vector3 vDirES;
 				Vec3TransformNormal(&vDirES,&vDirWS,&matView);
-				m_pMaterDeferred->GetParameter("light_dir_es")->setVector4(Vector4(vDirES.x,vDirES.y,vDirES.z,0));
+				m_pDeferredEffect->GetParameter("light_dir_es")->setVector4(Vector4(vDirES.x,vDirES.y,vDirES.z,0));
 				
-				m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
-				m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_eBlendMode = BM_ADD;
 				ScreenQuad::Render(m_pMaterDeferred);		
+
+				/*m_pDeferredEffect->End();*/
 			}
 			else if (pLight->GetLightType() == LIGHT_POINT)
 			{
@@ -103,30 +119,28 @@ namespace ma
 				float fRadius = pPointLight->GetRadius();
 				Vector3 vPos = pPointLight->GetPos();
 
-
-				m_pMaterDeferred->SetCurTechnqiue("DeferredLight","POINT_LIGHT");
-				m_pMaterDeferred->GetParameter("light_color")->setVector4(pLight->GetLightColor());
+				m_pDeferredEffect->SetCurCurTechnqiue("PointLight");
+				m_pDeferredEffect->GetParameter("light_color")->setVector4(pLight->GetLightColor());
 
 				Vector3 vPosES;
 				Vec3TransformCoord(&vPosES,&vPos,&matView);
-				m_pMaterDeferred->GetParameter("light_pos_es")->setVector4(Vector4(vPosES.x,vPosES.y,vPosES.z,1));	
-				m_pMaterDeferred->GetParameter("light_radius")->setVector4(Vector4(fRadius,0,0,0));
-	
-				m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_bDepthWrite = false;
-				m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_eBlendMode = BM_ADD;
+				m_pDeferredEffect->GetParameter("light_pos_es")->setVector4(Vector4(vPosES.x,vPosES.y,vPosES.z,1));	
+				m_pDeferredEffect->GetParameter("light_radius")->setVector4(Vector4(fRadius,0,0,0));
 							
 				float cameraToCenter = Vec3Length(&vPosES);
 				if (cameraToCenter < fRadius)
 				{
-					m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;	
+					m_pDeferredEffect->GetCurTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;	
 				}
 				else
 				{
-					m_pMaterDeferred->GetCurTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;
+					m_pDeferredEffect->GetCurTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
 				
 				UnitSphere::Render(m_pMaterDeferred,pPointLight->GetPos(),fRadius);
+
+				/*m_pDeferredEffect->End();*/
 			}
 
 			GetMaterialManager()->SetCurLight(NULL);

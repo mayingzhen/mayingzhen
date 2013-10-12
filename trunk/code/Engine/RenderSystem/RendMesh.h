@@ -17,7 +17,7 @@ namespace ma
 
 		bool			InitWithData(MeshData* pMeshData);
 
-		bool			Load(const char* pMeshPath,const char* pDiffueTexture);
+		bool			Load(const char* pszSknPath,const char* pszMatPath);
 
 		void			SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 	
@@ -27,19 +27,25 @@ namespace ma
 
 		Material*		GetMaterial() {return m_pMaterial;}
 
+		MeshData*		GetMeshData() {return m_pMesData;}
+
 		UINT			GetRenderableNumber() {return m_arrRenderable.size();}
 
 		Renderable*		GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
 		AABB			GetBoundingAABB();
 
+// 		const char*		GetSknPath() {return m_pMesData ? m_pMesData->GetResPath() : NULL;}
+// 
+// 		const char*     GetMatPath() {return m_pMaterial ? m_pMaterial->GetResPath() : NULL;}
+
 	public:
-		std::string				m_sknPath;
-		std::string				m_texPath;	
+		//std::string				m_sknPath;
+		//std::string				m_matPath;	
 		
  		MeshData*				m_pMesData;
 
-		Texture*				m_pTexture;
+		//Texture*				m_pTexture;
 
 		Material*				m_pMaterial;
 

@@ -42,9 +42,9 @@ namespace ma
 
 		void SetValue(Uniform* uniform, const Vector4* values, unsigned int count = 1);
 
-		void SetValue(Uniform* uniform, const Sampler* sampler);
+		void SetValue(Uniform* uniform, const SamplerState* sampler);
 
-		void SetValue(Uniform* uniform, const Sampler** values, unsigned int count);
+		void SetValue(Uniform* uniform, const SamplerState** values, unsigned int count);
 
 		void SetValue(Uniform* uniform, const Texture* sampler);
 
@@ -55,7 +55,7 @@ namespace ma
 		VertexAttribute getVertexAttribute(const char* name) const;
 
 	private:
-		void BindSampler(const Texture* pTexture,Sampler::FilterOptions eFilter,Sampler::Wrap eWrap);
+		void BindSampler(const Texture* pTexture,FilterOptions eFilter,Wrap eWrap);
 
 	private:
 

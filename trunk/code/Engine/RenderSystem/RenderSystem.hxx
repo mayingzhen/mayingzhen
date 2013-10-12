@@ -119,29 +119,6 @@ namespace ma
 		m_fNear = pCamera->GetNearClip();
 	}
 
-	RenderMesh*	RenderSystem::CreatRenderMesh(const char* pMeshPath,const char* pDiffueTexture)
-	{
-		RenderMesh* pRenderMesh = new RenderMesh();
-		pRenderMesh->Load(pMeshPath,pDiffueTexture);
-		m_arrRenderMesh.push_back(pRenderMesh);
-
-		return pRenderMesh;
-	}
-
-	void RenderSystem::DeleteRenderMesh(RenderMesh* pRenderMesh)
-	{
-		std::vector<RenderMesh*>::iterator it;
-		it = std::find(m_arrRenderMesh.begin(),m_arrRenderMesh.end(),pRenderMesh);
-		ASSERT(it != m_arrRenderMesh.end());
-		if (it == m_arrRenderMesh.end())
-		{
-			SAFE_DELETE(pRenderMesh);
-			return;
-		}
-
-		SAFE_DELETE(pRenderMesh);
-		m_arrRenderMesh.erase(it);	
-	}
 
 	void RenderSystem::Render()
 	{
@@ -176,6 +153,8 @@ namespace ma
 
 	void RenderSystem::ShadingPass()
 	{
+		GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor, 1.0f, 0);
+
 		UINT nSolid = m_pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
@@ -183,13 +162,14 @@ namespace ma
 			if (pRenderObj == NULL)
 				continue;
 
-			if (m_pDefferLight)
-			{
-				Material* pMaterial = pRenderObj->GetMaterial();
-				pMaterial->SetCurTechnqiue("default","DeferredLight");
-			}
+			Material* pMaterial = pRenderObj->GetMaterial();
+			Effect* pEffect = pMaterial->GetEffect();
 
-			pRenderObj->Render();	
+			pEffect->SetCurCurTechnqiue("Shading");
+
+			pRenderObj->Render();
+
+			/*pEffect->End();*/
 		}
 
 		UINT nTrans = m_pRenderQueue->GetRenderObjNumber(RL_Trans);
@@ -198,8 +178,15 @@ namespace ma
 			RenderObject* pRenderObj = m_pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
 			if (pRenderObj == NULL)
 				continue;
+
+			Material* pMaterial = pRenderObj->GetMaterial();
+			Effect* pEffect = pMaterial->GetEffect();
+
+			pEffect->SetCurCurTechnqiue("Shading");
 			
 			pRenderObj->Render();	
+
+			/*pEffect->End();*/
 		}
 	}
 
@@ -221,14 +208,14 @@ namespace ma
 
 		GetMaterialManager()->SetCurRenderable(pRenderable);
 
-		Material* pMaterial = pRenderable->m_pMaterial;
-		ASSERT(pMaterial);
-		pMaterial->Bind();
+ 		Material* pMaterial = pRenderable->m_pMaterial;
+ 		ASSERT(pMaterial);
+ 		Effect* pEffect = pMaterial->GetEffect();
+		pEffect->Bind();
 
 		GetRenderDevice()->DrawRenderable(pRenderable);
 
-		pMaterial->UnBind();
-
+		pEffect->UnBind();
 	}
 
 
@@ -246,11 +233,56 @@ namespace ma
 
 		Material* pMaterial = pRenderable->m_pMaterial;
 		ASSERT(pMaterial);
-		pMaterial->Bind();
+		Effect* pEffect = pMaterial->GetEffect();
+		pEffect->Bind();
 
 		GetRenderDevice()->DrawDyRenderable(pRenderable);
 
-		pMaterial->UnBind();
+		pEffect->UnBind();
+	}
+
+	RenderTarget* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
+	{
+		RenderTarget* pTarget = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R32F);
+		GetRenderThread()->RC_CreateRenderTarget(pTarget);
+		return pTarget;
+	}
+
+	ShaderProgram* RenderSystem::CreateShaderProgram(const char* pszName,const char* pszDefine)
+	{
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pszName,pszDefine);
+		GetRenderThread()->RC_CreateShader(pShaderProgram);
+		return pShaderProgram;
+	}
+
+	void RenderSystem::PushRenderTarget(RenderTarget* pTexture)
+	{
+		GetRenderThread()->RC_PushRenderTarget(pTexture);
+	}
+
+	void RenderSystem::PushViewPort(Rectangle& viewPort)
+	{
+		GetRenderThread()->RC_PushViewPort(viewPort);
+	}
+
+	void RenderSystem::PopRenderTargert()
+	{
+		GetRenderThread()->RC_PopRenderTargert();
+	}
+
+	void RenderSystem::PopViewPort()
+	{
+		GetRenderThread()->RC_PopViewPort();
+	}
+
+	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	{
+		GetRenderThread()->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+	}
+
+	void RenderSystem::TexStreamComplete(Texture* pTexture,DataStream* pDataStream)
+	{
+		GetRenderThread()->RC_TexStreamComplete(pTexture,pDataStream);
 	}
 
 }

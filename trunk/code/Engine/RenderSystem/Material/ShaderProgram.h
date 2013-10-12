@@ -60,9 +60,9 @@ namespace ma
 
 		virtual void		SetValue(Uniform* uniform, const Vector4* values, UINT count = 1) = 0;
 
-		virtual void		SetValue(Uniform* uniform, const Sampler* sampler) = 0;
+		virtual void		SetValue(Uniform* uniform, const SamplerState* sampler) = 0;
 
-		virtual void		SetValue(Uniform* uniform, const Sampler** values, UINT count) = 0;
+		virtual void		SetValue(Uniform* uniform, const SamplerState** values, UINT count) = 0;
 
 		virtual void		SetValue(Uniform* uniform, const Texture* sampler) = 0;
 
@@ -133,9 +133,9 @@ namespace ma
 		 *
 		 * @return The uniform's effect.
 		 */
-		const ShaderProgram* GetEffect() const;
+		ShaderProgram* GetEffect() const;
 
-		void	SetEffect(const ShaderProgram* pEffect) {m_effect = pEffect;}
+		void	SetEffect( ShaderProgram* pEffect) {m_effect = pEffect;}
 
 	//private:
 
@@ -147,7 +147,7 @@ namespace ma
 		bool			m_vshShder;
 		UINT			m_index;
 		UINT			m_nCount; 
-		const ShaderProgram* m_effect;
+		ShaderProgram*	m_effect;
 	};
 
 }

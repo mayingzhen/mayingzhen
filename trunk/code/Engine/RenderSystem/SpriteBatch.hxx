@@ -1,5 +1,7 @@
 #include "SpriteBatch.h"
 #include "Material/Material.h"
+#include "Material/Effect.h"
+#include "Material/SamplerState.h"
 
 // Default size of a newly created sprite batch
 #define SPRITE_BATCH_DEFAULT_SIZE 128
@@ -17,109 +19,65 @@
 namespace ma
 {
 
-	static Material* __spriteMaterial = NULL;
-
-	SpriteBatch::SpriteBatch()
-		: _batch(NULL), _sampler(NULL), _textureWidthRatio(0.0f), _textureHeightRatio(0.0f)
-	{
-	}
-
-	SpriteBatch::~SpriteBatch()
-	{
-		SAFE_DELETE(_batch);
-		//SAFE_RELEASE(_sampler);
-		if (!_customEffect)
-		{
-			//if (__spriteMaterial && __spriteMaterial->getRefCount() == 1)
-			//{
-			//    __spriteMaterial->release();
-			//    __spriteMaterial = NULL;
-			//}
-			//else
-			//{
-			//    __spriteMaterial->release();
-			//}
-		}
-	}
-
-// 	SpriteBatch* SpriteBatch::create(const char* texturePath, Material* pMaterial, unsigned int initialCapacity)
-// 	{
-// 		Texture* texture =  ResourceSystem::DeclareResource(texturePath);
-// 		texture->Load();
-// 		SpriteBatch* batch = SpriteBatch::create(texture, pMaterial, initialCapacity);
-// 		return batch;
-// 	}
-
-	SpriteBatch* SpriteBatch::create(Texture* texture, Material* pMaterial, unsigned int initialCapacity)
+	SpriteBatch::SpriteBatch(Texture* texture, Effect* pEffect /*= NULL*/, UINT initialCapacity/* = 0*/)
+		: m_pMeshBatch(NULL), m_pSampler(NULL), m_fTextureWidthRatio(0.0f), m_fTextureHeightRatio(0.0f)
 	{
 		ASSERT(texture != NULL);
 
-		bool customEffect = (pMaterial != NULL);
-		if (!customEffect)
-		{
-			// Create our static sprite effect.
-			if (__spriteMaterial == NULL)
-			{
-				__spriteMaterial = new Material("DIFFUSE;COLOR","default");
+		m_fTextureWidthRatio = 1.0f / (float)texture->getWidth();
+		m_fTextureHeightRatio = 1.0f / (float)texture->getHeight();
 
-				pMaterial = __spriteMaterial;
-			}
-			else
-			{
-				pMaterial = new Material("DIFFUSE;COLOR","default"); //__spriteMaterial;
-			}
+		if (pEffect == NULL)
+		{
+			pEffect = new Effect("sprite");
+			pEffect->AddTechnique("Shading","default","DIFFUSE;COLOR");
 		}
 
-		
-		Technique* pTech = pMaterial->GetCurTechnqiue();
+		Technique* pTech = pEffect->GetTechnqiue("Shading");
+		ASSERT(pTech);
+		if (pTech == NULL)
+			return;
+
 		pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
-		// Bind the texture to the material as a sampler
-		Sampler* sampler = Sampler::create(texture); // +ref texture
-		//material->GetParameter(samplerUniform->getName())->SetValue(sampler);
-		pMaterial->GetParameter("u_texture")->setSampler(sampler);
-	    
+		m_pSampler = new SamplerState();
+		m_pSampler->SetTexture(texture);
+		pEffect->GetParameter("u_texture")->setSampler(m_pSampler);
+
 
 		VertexDeclaration* vertexFormat = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
-		//vertexFormat->Active();
 
-		// Create the mesh batch
-		MeshBatch* meshBatch = MeshBatch::create(vertexFormat, PRIM_TRIANGLESTRIP, pMaterial, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
-		//material->release(); // don't call SAFE_RELEASE since material is used below
+		m_pMeshBatch = new MeshBatch(vertexFormat, PRIM_TRIANGLESTRIP, pEffect, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
 
-		// Create the batch
-		SpriteBatch* batch = new SpriteBatch();
-		batch->_sampler = sampler;
-		batch->_customEffect = customEffect;
-		batch->_batch = meshBatch;
-		batch->_textureWidthRatio = 1.0f / (float)texture->getWidth();
-		batch->_textureHeightRatio = 1.0f / (float)texture->getHeight();
 
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 		Platform& platform = Platform::GetInstance();
 		int w,h;
 		platform.GetWindowSize(w, h);
-		GetRenderDevice()->MakeOrthoMatrixOffCenter(&batch->_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
-		pMaterial->GetParameter("u_worldViewProjectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
-		
-		return batch;
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
+		pEffect->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::getProjectionMatrix);
+	}
+
+	SpriteBatch::~SpriteBatch()
+	{
+		SAFE_DELETE(m_pMeshBatch);
 	}
 
 	void SpriteBatch::start()
 	{
-		_batch->start();
+		m_pMeshBatch->start();
 	}
 
 	void SpriteBatch::draw(const Rectangle& dst, const Rectangle& src, const Vector4& color)
 	{
 		// Calculate uvs.
-		float u1 = _textureWidthRatio * src.x;
-		float v1 = 1.0f - _textureHeightRatio * src.y;
-		float u2 = u1 + _textureWidthRatio * src.width;
-		float v2 = v1 - _textureHeightRatio * src.height;
+		float u1 = m_fTextureWidthRatio * src.x;
+		float v1 = 1.0f - m_fTextureHeightRatio * src.y;
+		float u2 = u1 + m_fTextureWidthRatio * src.width;
+		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
 		draw(dst.x, dst.y, dst.width, dst.height, u1, v1, u2, v2, color);
 	}
@@ -127,10 +85,10 @@ namespace ma
 	void SpriteBatch::draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color)
 	{
 		// Calculate uvs.
-		float u1 = _textureWidthRatio * src.x;
-		float v1 = 1.0f - _textureHeightRatio * src.y;
-		float u2 = u1 + _textureWidthRatio * src.width;
-		float v2 = v1 - _textureHeightRatio * src.height;
+		float u1 = m_fTextureWidthRatio * src.x;
+		float v1 = 1.0f - m_fTextureHeightRatio * src.y;
+		float u2 = u1 + m_fTextureWidthRatio * src.width;
+		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
 		draw(dst.x, dst.y, dst.z, scale.x, scale.y, u1, v1, u2, v2, color);
 	}
@@ -139,10 +97,10 @@ namespace ma
 						   const Vector2& rotationPoint, float rotationAngle)
 	{
 		// Calculate uvs.
-		float u1 = _textureWidthRatio * src.x;
-		float v1 = 1.0f - _textureHeightRatio * src.y;
-		float u2 = u1 + _textureWidthRatio * src.width;
-		float v2 = v1 - _textureHeightRatio * src.height;
+		float u1 = m_fTextureWidthRatio * src.x;
+		float v1 = 1.0f - m_fTextureHeightRatio * src.y;
+		float u2 = u1 + m_fTextureWidthRatio * src.width;
+		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
 		draw(dst, scale.x, scale.y, u1, v1, u2, v2, color, rotationPoint, rotationAngle);
 	}
@@ -193,7 +151,7 @@ namespace ma
 		//static unsigned short indices[4] = { 0, 1, 2, 3 };
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
-		_batch->add(v, 4, indices, 4);
+		m_pMeshBatch->add(v, 4, indices, 4);
 	}
 
 	void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vector3& forward, float width, float height,
@@ -268,7 +226,7 @@ namespace ma
 		//   |	   |
 	    // 0 ------- 1
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
-		_batch->add(v, 4, const_cast<unsigned short*>(indices), 4);
+		m_pMeshBatch->add(v, 4, const_cast<unsigned short*>(indices), 4);
 	}
 
 	void SpriteBatch::draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color)
@@ -316,7 +274,7 @@ namespace ma
 		ASSERT(vertices);
 		ASSERT(indices);
 
-		_batch->add(vertices, vertexCount, indices, indexCount);
+		m_pMeshBatch->add(vertices, vertexCount, indices, indexCount);
 	}
 
 	void SpriteBatch::draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter)
@@ -345,48 +303,43 @@ namespace ma
 		//static unsigned short indices[4] = { 0, 1, 2, 3 };
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
-		_batch->add(v, 4, indices, 4);
+		m_pMeshBatch->add(v, 4, indices, 4);
 	}
 
 	void SpriteBatch::finish()
 	{
-		
-		// Finish and draw the batch
-		_batch->finish();
-		//_batch->draw();
-		//RenderQueue::AddRenderable(_batch,this);
-		//GetRenderDevice()->DrawRenderable(_batch);
+		m_pMeshBatch->finish();
 	}
 
 	RenderState& SpriteBatch::getStateBlock() const
 	{
-		ASSERT(_batch);
-		ASSERT(_batch->getMaterial());
-		ASSERT(_batch->getMaterial()->GetCurTechnqiue());
-		//if (_batch || _batch->getMaterial() || _batch->getMaterial()->GetCurTechnqiue())
+		ASSERT(m_pMeshBatch);
+		ASSERT(m_pMeshBatch->m_pMaterial->GetEffect());
+		ASSERT(m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue());
+		//if (m_pMeshBatch || m_pMeshBatch->getMaterial() || m_pMeshBatch->getMaterial()->GetCurTechnqiue())
 		//	return 
 
-		return _batch->getMaterial()->GetCurTechnqiue()->GetRenderState();
+		return m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue()->GetRenderState();
 	}
 
-	Sampler* SpriteBatch::getSampler() const
+	SamplerState* SpriteBatch::getSampler() const
 	{
-		return _sampler;
+		return m_pSampler;
 	}
 
-	Material* SpriteBatch::getMaterial() const
-	{
-		return _batch->getMaterial();
-	}
+// 	Material* SpriteBatch::getMaterial() const
+// 	{
+// 		return m_pMeshBatch->m_pMaterial;
+// 	}
 
 	void SpriteBatch::setProjectionMatrix(const Matrix4x4& matrix)
 	{
-		_projectionMatrix = matrix;
+		m_projectionMatrix = matrix;
 	}
 
 	const Matrix4x4& SpriteBatch::getProjectionMatrix() const
 	{
-		return _projectionMatrix;
+		return m_projectionMatrix;
 	}
 
 	bool SpriteBatch::clipSprite(const Rectangle& clip, float& x, float& y, float& width, float& height, float& u1, float& v1, float& u2, float& v2)

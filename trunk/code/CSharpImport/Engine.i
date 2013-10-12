@@ -10,16 +10,6 @@
 %include "../../Code/Engine/Input/Input.h"
 %include "../../Code/Engine/Application/Timer.h"
 
-%include "../../Code/Engine/Animation/IAnimationSystem.h"
-%include "../../Code/Engine/Animation/IAnimationObject.h"
-%include "../../Code/Engine/Animation/IAnimationSet.h"
-
-%include "../../Code/Engine/Physics/ICharacterController.h"
-%include "../../Code/Engine/Physics/ICollisionShape.h"
-%include "../../Code/Engine/Physics/IPhysicsSystem.h"
-%include "../../Code/Engine/Physics/IPhysicsObject.h"
-%include "../../Code/Engine/Physics/IRigidBody.h"
-%include "../../Code/Engine/Physics/IPhysicsJoint.h"
 
 %include "../../Code/Engine/Resource/Stream.h"
 %include "../../Code/Engine/Resource/DataStream.h"
@@ -38,6 +28,17 @@
 %include "../../Code/Engine/RenderSystem/VertexDeclaration.h"
 %include "../../Code/Engine/RenderSystem/Renderable.h"
 %include "../../Code/Engine/RenderSystem/RendMesh.h"
+
+%include "../../Code/Engine/Animation/IAnimationSystem.h"
+%include "../../Code/Engine/Animation/IAnimationObject.h"
+%include "../../Code/Engine/Animation/IAnimationSet.h"
+
+%include "../../Code/Engine/Physics/ICharacterController.h"
+%include "../../Code/Engine/Physics/ICollisionShape.h"
+%include "../../Code/Engine/Physics/IPhysicsSystem.h"
+%include "../../Code/Engine/Physics/IPhysicsObject.h"
+%include "../../Code/Engine/Physics/IRigidBody.h"
+%include "../../Code/Engine/Physics/IPhysicsJoint.h"
 
 
 

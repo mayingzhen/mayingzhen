@@ -12,15 +12,21 @@ namespace ma
 
 	void LineRender::Init()
 	{
-		Material* pMaterial = new Material("COLOR","default");
+		Effect*	pEffect = new Effect("Line");
+		pEffect->AddTechnique("Shading","default","COLOR");
 
-		pMaterial->SetParameterAutoBinding("u_worldViewProjectionMatrix",VIEW_PROJECTION_MATRIX);
-
+		MaterialParameter* pParam = pEffect->GetParameter("u_worldViewProjectionMatrix");
+		GetMaterialManager()->SetParameterAutoBinding(pParam,VIEW_PROJECTION_MATRIX);
+		
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT4,DU_COLOR,0);
-		pVertexDec->Active();
-		_pMeshBatch = MeshBatch::create(pVertexDec, PRIM_LINELIST, pMaterial, true, 1024);
+		//pVertexDec->Active();
+		_pMeshBatch = new MeshBatch(pVertexDec, PRIM_LINELIST, pEffect, true, 1024);
+
+		//Material* pMaterial = new Material(); 
+		//pMaterial->SetEffect(pEffect);
+		//_pMeshBatch->
 	}
 
 	void LineRender::ShutDown()

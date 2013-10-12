@@ -357,6 +357,25 @@ namespace ma
 		PROJTYPE_ORTHO,
 		PROJTYPE_PROJECTION,
 	};
+
+	enum FilterOptions
+	{
+		/// Equal to: min=FO_POINT, mag=FO_POINT, mip=FO_NONE
+		TFO_POINT,
+		/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_POINT
+		TFO_BILINEAR,
+		/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_LINEAR
+		TFO_TRILINEAR,
+		/// Equal to: min=FO_ANISOTROPIC, max=FO_ANISOTROPIC, mip=FO_LINEAR
+		TFO_ANISOTROPIC
+	};
+
+	enum Wrap
+	{
+		REPEAT,
+		CLAMP 
+	};
+
 }
 
 #endif

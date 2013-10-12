@@ -42,9 +42,9 @@ namespace ma
 
 		void SetValue(Uniform* uniform, const Vector4* values, unsigned int count = 1);
 
-		void SetValue(Uniform* uniform, const Sampler* sampler);
+		void SetValue(Uniform* uniform, const SamplerState* sampler);
 
-		void SetValue(Uniform* uniform, const Sampler** values, unsigned int count);
+		void SetValue(Uniform* uniform, const SamplerState** values, unsigned int count);
 
 		void SetValue(Uniform* uniform, const Texture* sampler);
 

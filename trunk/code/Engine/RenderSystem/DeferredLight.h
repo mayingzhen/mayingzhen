@@ -9,6 +9,7 @@ namespace ma
 	class ScreenQuad;
 	class Light;
 	class ShadowMapFrustum;
+	class Effect;
 
 	class ENGINE_API  DeferredLight
 	{
@@ -38,6 +39,7 @@ namespace ma
 		RenderTarget*				m_pSpecular;
 
 		Material*					m_pMaterDeferred;
+		Effect*						m_pDeferredEffect;
 	};
 
 	ENGINE_API	DeferredLight*	GetDeferredLight();

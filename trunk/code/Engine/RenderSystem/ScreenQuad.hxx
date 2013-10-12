@@ -24,7 +24,7 @@ namespace ma
 		//   |  \ |
 		//   +----+
 		//   3    2
-		Vertex	quadVerts[4];
+		Vertex*	quadVerts = new Vertex[4];
 		quadVerts[0].position = Vector3(1, 1, 0);
 		quadVerts[1].position = Vector3(-1, +1, 0);
 		quadVerts[2].position = Vector3(1, -1, 0);
@@ -35,7 +35,11 @@ namespace ma
  		quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
  		quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;
 
-		unsigned short indices[4] = { 0, 2, 1, 3 };
+		unsigned short* indices = new unsigned short[4];
+		indices[0]= 0;
+		indices[1]= 2;
+		indices[2]= 1;
+		indices[3]= 3;
 
 		// Init Renderable
 		_ScrenQuad = new Renderable();
@@ -45,9 +49,10 @@ namespace ma
 		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		//pVertexDec->Active();
 		
-		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(quadVerts,sizeof(quadVerts),sizeof(Vertex));
+		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
+
 		//pVertexs->Active();
-		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(indices,sizeof(indices));
+		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(indices,sizeof(unsigned short) * 4);
 		//pIndexs->Active();
 
 		_ScrenQuad->m_pSubMeshData = new SubMeshData();

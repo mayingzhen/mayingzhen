@@ -1,62 +1,60 @@
-# ifndef MATERIAL_H_
-# define MATERIAL_H_
+#ifndef _Material_H_
+#define _Material_H_
 
 #include "MaterialManager.h"
 
 namespace ma
 {
 	class MaterialParameter;
-	class Camera;
-	class Light;
-	struct Renderable;
-	class Technique;
-	struct Uniform;
+	class Effect;
+	class SamplerState;
 
 
-	class ENGINE_API Material
+	class ENGINE_API Material : public Resource
 	{
 	public:
 
-		Material(const char* pMaterialFlag,const char* pShaderName = NULL);
+		Material();
 
 		~Material();
 
-		Technique*			CreateTechnique(const char* pTechName,const char* pShadrName, const char* pDefine = NULL);
-
-		void				Bind();
-
-		void				UnBind();
-
 		MaterialParameter*	GetParameter(const char* name);
 
-		void				ClearParameter(const char* name);
+		MaterialParameter*	AddParameter(const char* name);
 
-		UINT				GetParameterNumber() {return m_parameters.size();}
+		// Resource
+		virtual void		SaveToFile(const char* pszPath);
 
-		MaterialParameter*	GetParameterByIndex(UINT index) {return m_parameters[index];}
+		virtual bool		LoadFileToMemeory();
 
-		void				SetParameterAutoBinding(const char* name, AutoBinding autoBinding);
+		virtual bool		CreateFromMemeory();
 
-		void				SetMaterialFlage(const char* pszFlage) {m_strMaterialFlag = pszFlage;}
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "Material");
 
-		const char*			GetMaterialFlage() {return m_strMaterialFlag.c_str();}
+		Effect*				GetEffect() {return m_pEffect;}
 
-		Technique*			GetCurTechnqiue() {return m_pCurTechnque;}
+		void				SetEffect(Effect* pEffect) {m_pEffect = pEffect;}
 
-		void				SetCurTechnqiue(const char* pShaderName,const char* pDefine);
+		void				LoadEffect(const std::string& sShaderName,const std::string& sMatFlag);
+
+		void				SetDiffuse(const char* pDiffPath, Wrap eWrap = CLAMP, FilterOptions eFilter = TFO_BILINEAR);
 
 	private:
 
-		std::vector<Technique*>		m_arrTechnique;
-
-		std::string					m_strMaterialFlag;
-			
 		std::vector<MaterialParameter*> m_parameters;
 
-		Technique*					m_pCurTechnque;
+		std::string					m_strMaterialFlag;
+
+		Effect*						m_pEffect;
+
+		SamplerState*				m_pDiffuse;
+		SamplerState*				m_pBumpmap;
+		SamplerState*				m_pCustom;
 		
 	};
 
 }
 
-#endif
+#endif // _Material_H_
+
+
