@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Plugins>
-  <!--Plugin path="GLESRender.dll" /-->
-  <Plugin path="D3D9Render.dll" /> 
+  <Plugin path="GLESRender.dll" />
+  <!--Plugin path="D3D9Render.dll" /--> 
   <Plugin path="MonoScript.dll" />
   <Plugin path="BulletPhysics.dll"/>
   <Plugin path="Animation.dll"/>  

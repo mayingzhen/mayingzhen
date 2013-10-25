@@ -7,7 +7,7 @@ namespace ma
 
 	Material::Material() 
 	{
-		m_pEffect = NULL;
+		//m_pEffect = NULL;
 		m_pDiffuse = NULL;
 		m_pBumpmap = NULL;
 		m_pCustom = NULL;
@@ -15,9 +15,14 @@ namespace ma
 
 	Material::~Material()
 	{
-		//SAFE_DELETE(m_pShaderProgram);
+		//SAFE_DELETE(m_pEffect);
 	}
 
+// 	Effect*	Material::CreateEffect(const char* pszEffectName)
+// 	{
+// 		m_pEffect = new Effect(pszEffectName);
+// 		return m_pEffect;
+// 	}
 
 	MaterialParameter* Material::GetParameter(const char* name) 
 	{
@@ -93,45 +98,105 @@ namespace ma
 		return true;
 	}
 
-	void Material::LoadEffect(const std::string& sShaderName,const std::string& sMatFlag)
+	Technique*	Material::GetTechnqiue(const char* pTechName)
+	{
+		ASSERT(pTechName);
+		if (pTechName == NULL)
+			return NULL;
+
+		for (Uint i = 0; i < m_arrTechnique.size(); ++i)
+		{
+			Technique* pTech = m_arrTechnique[i];
+			ASSERT(pTech);
+			if (pTech == NULL)
+				continue;
+
+			if ( strcmp(pTechName,pTech->GetTechName()) == 0 )
+			{
+				return pTech;
+			}
+		}
+
+		return NULL;
+	}
+
+	void Material::AddTechnique(Technique* pTechnique)
+	{
+		m_arrTechnique.push_back(pTechnique);
+	}
+
+	Technique* Material::LoadTechnique(const std::string& sShaderName,const std::string& sMatFlag)
 	{
 		m_strMaterialFlag = sMatFlag;
 
-		std::string strShaderDefine = sMatFlag;
-
+		std::string strShadingDefine = sMatFlag;
 		if ( GetRenderSystem()->IsDefferLight() )
 		{
-			strShaderDefine += ";DeferredLight;";
+			strShadingDefine += ";DeferredLight;";
 		}
-
-		SAFE_DELETE(m_pEffect);
-		m_pEffect = new Effect(sShaderName.c_str());
-		m_pEffect->AddTechnique("Shading",sShaderName.c_str(),strShaderDefine.c_str());
 
 		if ( GetRenderSystem()->IsShadow() )
 		{
-			//m_pEffect->AddTechnique("ShadowDepth","ShadowDepth",strShaderDefine.c_str());
+			if ( GetShadowSystem()->IsHWShadowMap() )
+			{
+				std::string strShaderDefine = sMatFlag + ";HWPCF";
+				Technique* pTech = AddTechnique("ShadowDepth","ShadowDepth",strShaderDefine.c_str());
+				pTech->GetRenderState().m_bColorWrite = false;
+			}
+			else
+			{
+				AddTechnique("ShadowDepth","ShadowDepth",sMatFlag.c_str());
+			}
 		}
 
 		if ( GetRenderSystem()->IsDefferLight() )
 		{
-			m_pEffect->AddTechnique("Gbuffer","Gbuffer",strShaderDefine.c_str());
+			AddTechnique("Gbuffer","Gbuffer",sMatFlag.c_str());
 		}
+
+		return AddTechnique("Shading",sShaderName.c_str(),strShadingDefine.c_str());
+	}
+
+	Technique*	Material::AddTechnique(const char* pTechName,const char* pShadrName, const char* pDefine)
+	{
+		Technique* pTechnique = new Technique(pTechName,pShadrName,pDefine);
+		m_arrTechnique.push_back(pTechnique);
+		return pTechnique;
 	}
 
 	void Material::SetDiffuse(const char* pDiffPath, Wrap eWrap, FilterOptions eFilter)
+	{
+		Texture* pTexture = LoadResourceASync<Texture>(pDiffPath);
+		SetDiffuse(pTexture,eWrap,eFilter);
+
+// 		if (m_pDiffuse == NULL)
+// 		{
+// 			m_pDiffuse = new SamplerState();
+// 		}
+// 
+// 		m_pDiffuse->SetTexture(pDiffPath);
+// 		m_pDiffuse->SetWrapMode(eWrap);
+// 		m_pDiffuse->SetFilterMode(eFilter);
+// 
+// 		m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+	}
+
+	void Material::SetDiffuse(Texture* pTexture, Wrap eWrap, FilterOptions eFilter)
 	{
 		if (m_pDiffuse == NULL)
 		{
 			m_pDiffuse = new SamplerState();
 		}
 
-		m_pDiffuse->SetTexture(pDiffPath);
+		m_pDiffuse->SetTexture(pTexture);
 		m_pDiffuse->SetWrapMode(eWrap);
 		m_pDiffuse->SetFilterMode(eFilter);
 
-		m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+		//m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+		Technique* pTech = GetTechnqiue("Shading");
+		pTech->GetParameter("u_texture")->setSampler(m_pDiffuse);
 	}
+
 
 	void Material::Serialize(Serializer& sl, const char* pszLable/* = "Material"*/)
 	{
@@ -145,14 +210,14 @@ namespace ma
 			sl.Serialize(strShader,"Shader");
 			sl.Serialize(m_strMaterialFlag,"MaterialFlag");
 
-			LoadEffect(strShader,m_strMaterialFlag);
+			Technique* pTech = LoadTechnique(strShader,m_strMaterialFlag);
 	
 			// Texture
 			SAFE_DELETE(m_pDiffuse);
 			m_pDiffuse = new SamplerState();
 			m_pDiffuse->Serialize(sl,"Diffuse");
-			
-			m_pEffect->GetParameter("u_texture")->setSampler(m_pDiffuse);
+		
+			pTech->GetParameter("u_texture")->setSampler(m_pDiffuse);
 
 			// Param
 			UINT nSize = 0;
@@ -162,7 +227,7 @@ namespace ma
 				std::string sParamName;
 				sl.Serialize(sParamName,"ParameterName");
 
-				MaterialParameter* pParam = m_pEffect->GetParameter(sParamName.c_str());
+				MaterialParameter* pParam = new MaterialParameter( sParamName.c_str() );//m_pEffect->AddParameter(sParamName.c_str());
 				m_parameters.push_back(pParam);
 
 				pParam->Serialize(sl,"ParamValue");
@@ -170,7 +235,7 @@ namespace ma
 		}
 		else
 		{	
-			std::string strShader = m_pEffect->GetEffectName();
+			std::string strShader;
 
 			sl.Serialize(strShader,"Shader");
 			sl.Serialize(m_strMaterialFlag,"MaterialFlag");

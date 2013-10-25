@@ -2,67 +2,101 @@
 
 namespace ma
 {
+	Shadow*	gpShadow = NULL;
+
+	Shadow*	GetShadowSystem()
+	{
+		return gpShadow;
+	}
+
 	void Shadow::Init()
 	{
+		gpShadow = this;
+
+		m_fShadowMapSize = 2048.0f;
+
 		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_R16F);
 
-// 		for (UINT i = 0; i < Camera::NUM_PSSM; ++i)
-// 		{
-// 			m_arrSMF[i] = new ShadowMapFrustum();
-// 			m_arrSMF[i]->Init();
-// 		}
+		m_bHWShadowMap = GetRenderDevice()->CheckTextureFormat(FMT_D24S8,USAGE_DEPTHSTENCIL);
+
+
+		m_pDefferedShadow = new Technique("DeferredShadow","DefferedShadow","SCEERN_LIGHT");
+
+		m_pDefferedShadow->GetRenderState().m_bDepthWrite = false;
 	}
 
-	void Shadow::DoRender()
-	{
-
-	}
-
-	void Shadow::Update()
-	{
-		for (UINT i = 0; i < m_arrSMF.size(); ++i)
-		{
-			m_arrSMF[i]->Update();
-		}
-	}
 
 	void Shadow::ShadowDepthPass()
 	{
-		for (UINT i = 0; i < m_arrSMF.size(); ++i)
+		RENDER_PROFILE(ShadowDepthPass);
+
+		UINT nLight = GetRenderSystem()->GetLightNumber();
+		for (UINT iLight = 0; iLight < nLight; ++iLight)
 		{
-			m_arrSMF[i]->ShadowDepthPass();
+			Light* pLight = GetRenderSystem()->GetLightByIndex(iLight);
+			if ( !pLight->IsCreateShadow() )
+				continue;
+			
+			int nSMF = pLight->GetShadowFrustumNumber();
+			for (UINT iSMF = 0; iSMF < nSMF; ++iSMF)
+			{
+				ShadowMapFrustum* pSMF = pLight->GetShadowFrustumByIndex(iSMF);
+				pSMF->ShadowDepthPass();
+			}
 		}
 	}
 
 	void Shadow::DeferredShadow()
 	{
-// 		RenderTarget* pPreRT = GetRenderDevice()->SetRenderTarget(m_pShadowTex);
-// 
-// 		GetRenderDevice()->ClearBuffer(true,true,true,Color(1,1,1,0),1,0);
-// 
-// 		Matrix4x4 invView;
-// 		MatrixInverse(&invView, NULL, &m_pCamera->GetViewMatrix());
-// 
-// 		Matrix4x4 viwToLightProjArray[Camera::NUM_PSSM];
-// 		Matrix4x4 wordToLightView[Camera::NUM_PSSM];
-// 
-// 		for (UINT i = 0; i < Camera::NUM_PSSM; ++i)
-// 		{
-// 			ShadowMapFrustum* pSMF = m_arrSMF[i];
-// 			if (m_arrSMF == NULL)
-// 				continue;
-// 
-// 			viwToLightProjArray[i] = invView * pSMF->GetViewProjMarix() * pSMF->GetTexScaleBiasMatrix();
-// 
-// 			char strTexShadowMap[MAX_PATH] = {0};
-// 			_snprintf(strTexShadowMap, sizeof(strTexShadowMap), "TexShadowMap%d", i);
-// 			//hr = pCurEffect->SetTexture( strTexShadowMap, pShadowMap->GetDepthTexture() ) ;
-// 		}
-// 
-// 		m_pScreenQuad->Render(m_pMaterDeferred);
-// 
-// 
-// 		GetRenderDevice()->SetRenderTarget(pPreRT);
+		RENDER_PROFILE(DeferredShadow);
+
+		GetRenderSystem()->PushRenderTarget(m_pShadowTex);
+
+		GetRenderSystem()->ClearBuffer(true,true,true,Color(1,1,1,0),1,0);
+
+		Matrix4x4 invView;
+		MatrixInverse(&invView, NULL, &GetRenderSystem()->GetViewMatrix());
+
+		UINT nLight = GetRenderSystem()->GetLightNumber();
+		for (UINT iLight = 0; iLight < nLight; ++iLight)
+		{
+			Light* pLight = GetRenderSystem()->GetLightByIndex(iLight);
+			if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
+			{
+				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
+
+				Matrix4x4 viwToLightProjArray[DirectonalLight::NUM_PSSM];
+				//Matrix4x4 wordToLightView[DirectonalLight::NUM_PSSM];
+
+				int nSMF = pLight->GetShadowFrustumNumber();
+				for (UINT iSMF = 0; iSMF < nSMF; ++iSMF)
+				{
+					ShadowMapFrustum* pSMF = pLight->GetShadowFrustumByIndex(iSMF);
+
+					viwToLightProjArray[iSMF] = invView * pSMF->GetViewMarix() * pSMF->GetProjMatrix() * pSMF->GetTexScaleBiasMat();
+					//wordToLightView[iSMF] = invView * pSMF->GetViewMarix();
+
+					char pszTexShadowMap[MAX_PATH] = {0};
+					_snprintf(pszTexShadowMap, sizeof(pszTexShadowMap), "SamplerShadowMap%d", iSMF);
+					m_pDefferedShadow->GetParameter(pszTexShadowMap)->setTexture( pSMF->GetDepthTexture() );
+				}
+
+				float fShadowMapSize = GetShadowMapSize();
+				Vector4 uShadowMapTexelSize(fShadowMapSize, 1.0f / fShadowMapSize, 0, 0);
+				m_pDefferedShadow->GetParameter("u_shadowMapTexelSize")->setFloatArray(uShadowMapTexelSize,4);
+
+				m_pDefferedShadow->GetParameter("viwToLightProjArray")->setMatrixArray(viwToLightProjArray,nSMF);
+				//m_pEffect->GetParameter("wordLightView")->setMatrixArray(wordToLightView,nSMF);
+				m_pDefferedShadow->GetParameter("splitPos")->setFloatArray(pDirLight->GetSplitPos(),nSMF);
+
+				ScreenQuad::Render(m_pDefferedShadow);
+
+				break;
+			}
+
+		}
+
+		GetRenderSystem()->PopRenderTargert();
 	}
 
 	void Shadow::ShadowBlur()

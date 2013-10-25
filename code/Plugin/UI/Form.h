@@ -227,7 +227,7 @@ private:
 
 
     Theme* _theme;                      // The Theme applied to this Form.
-    RenderTarget* _frameBuffer;          // FBO the Form is rendered into for texturing the quad. 
+    Texture* _frameBuffer;          // FBO the Form is rendered into for texturing the quad. 
     SpriteBatch* _spriteBatch;
     Material* _nodeMaterial;            // Material for rendering this Form in 3d space.
     //float _u2;

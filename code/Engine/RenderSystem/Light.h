@@ -5,6 +5,9 @@
 
 namespace ma
 {
+	class ShadowMapFrustum;
+	class Camera;
+
 	enum LightType
 	{
 		LIGHT_DIRECTIONAL,
@@ -13,44 +16,56 @@ namespace ma
 	};
 
 
-	class ENGINE_API Light 
+	class ENGINE_API Light : public Component
 	{
+		DECL_OBJECT(Light)
+
 	public:
-		Light();
+		Light(GameObject* pGameObj);
 
-		LightType		GetLightType() {return m_eLightType;}
+		LightType					GetLightType() {return m_eLightType;}
 
-		const Vector4&	GetLightColor() {return m_cLightColor;}
+		const Vector4&				GetLightColor() {return m_cLightColor;}
 
-		void			SetLightColor(const Vector4& cLightColor) {m_cLightColor = cLightColor;}
+		void						SetLightColor(const Vector4& cLightColor) {m_cLightColor = cLightColor;}
 
-		bool			IsCreateShadow() {return m_bCreateShadow;}
+		bool						IsCreateShadow() {return m_bCreateShadow;}
 
-		void			SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}	
+		virtual void				SetCreateShadow(bool bCreateShaow) {m_bCreateShadow = bCreateShaow;}
+
+		virtual void				UpdateShadowFrustum(Camera* pCamera) {}
+
+		UINT						GetShadowFrustumNumber() {return m_arrShadowFrustum.size();}
+
+		ShadowMapFrustum*			GetShadowFrustumByIndex(UINT index) {return m_arrShadowFrustum[index];}
 
 	protected:
-		LightType		m_eLightType;
+		LightType					m_eLightType;
 
-		Vector4			m_cLightColor;
+		Vector4						m_cLightColor;
 
-		bool			m_bCreateShadow;
+		bool						m_bCreateShadow;
+
+		std::vector<ShadowMapFrustum*>	m_arrShadowFrustum;
 	};
 
 	class ENGINE_API PointLight : public Light
 	{
+		DECL_OBJECT(PointLight)
+
 	public:
-		PointLight():Light() {m_eLightType = LIGHT_POINT;}
+		PointLight(GameObject* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_POINT;}
 		
-		Vector3 GetPos() {return m_vPos;}
+		Vector3			GetPos();// {return m_vPos;}
 
-		void	SetPos(const Vector3& vPos) {m_vPos = vPos;}
+		//void			SetPos(const Vector3& vPos) {m_vPos = vPos;}
 
-		float	GetRadius() {return m_fRadius;}
+		float			GetRadius() {return m_fRadius;}
 
-		void	SetRadius(float fRadius) {m_fRadius = fRadius ? fRadius : 1.0f;}
+		void			SetRadius(float fRadius) {m_fRadius = fRadius ? fRadius : 1.0f;}
 
 	private:
-		Vector3		m_vPos;
+		//Vector3		m_vPos;
 
 		float		m_fRadius;
 	};
@@ -58,22 +73,43 @@ namespace ma
 
 	class ENGINE_API DirectonalLight : public Light
 	{
+		DECL_OBJECT(DirectonalLight)
+
 	public:
-		DirectonalLight():Light() {m_eLightType = LIGHT_DIRECTIONAL;}
+		enum {NUM_PSSM = 4};
 
-		const Vector3&	GetDirection() {return m_vDirection;}
+	public:
+		DirectonalLight(GameObject* pGameObj);
 
-		void			SetDirection(const Vector3& vDirection) {Vec3Normalize(&m_vDirection,&vDirection);}
+		virtual	void	UpdateTransform();
+
+		Vector3			GetDirection(); // {return m_vDirection;}
+
+		//void			SetDirection(const Vector3& vDirection) {Vec3Normalize(&m_vDirection,&vDirection);}
+
+		virtual void	SetCreateShadow(bool bCreateShaow);
+
+		virtual void	UpdateShadowFrustum(Camera* pCamera);
+
+		float*			GetSplitPos();
 
 	private:
-		Vector3			m_vDirection;
+		Matrix4x4		CalculateCropMatrix(const AABB& cropAABB);
+
+	private:
+		float			m_fSplitPos[2][NUM_PSSM + 1];
+
+		float			m_fShadowOffset;
+		
 	};
 
 
 	class ENGINE_API SpotLight : public Light
 	{
+		DECL_OBJECT(SpotLight)
+
 	public:
-		SpotLight():Light() {m_eLightType = LIGHT_SPOT;}
+		SpotLight(GameObject* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_SPOT;}
 
 		NodeTransform	GetTransform() {return m_tsfWS;}
 

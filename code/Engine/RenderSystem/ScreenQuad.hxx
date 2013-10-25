@@ -72,15 +72,9 @@ namespace ma
 		SAFE_DELETE(_ScrenQuad);
 	}
 
-	void ScreenQuad::Render(Material* pMaterial)
+	void ScreenQuad::Render(Technique* pTechnique)
 	{
-		_ScrenQuad->m_pMaterial = pMaterial;
-
-// 		Matrix4x4 mInvProj;
-// 		MatrixInverse(&mInvProj, NULL, &m_matProj);
-// 		pMaterial->GetParameter("u_InvProjMatrix")->setMatrix(mInvProj);
-
-		GetRenderSystem()->DrawRenderable(_ScrenQuad);
+		GetRenderSystem()->DrawRenderable(_ScrenQuad,pTechnique);
 	}
 }
 

@@ -1,37 +1,36 @@
 namespace ma
 {
-	struct LineVertex
+	static LineRender* gpLineRender = NULL;
+
+	LineRender*	GetLineRender()
 	{
-	 	Vector3 pos;
-	 	Color   col;
- 	};
+		return gpLineRender;
+	}
 
-	static MeshBatch* _pMeshBatch = NULL;
-
-	std::vector<LineVertex> gpArrLineVertex[2];
+	void SetLineRender(LineRender* pLineRender)
+	{
+		gpLineRender = pLineRender;
+	}
 
 	void LineRender::Init()
 	{
-		Effect*	pEffect = new Effect("Line");
-		pEffect->AddTechnique("Shading","default","COLOR");
+		m_pLinTech =  new Technique("Line","default","COLOR");
+		//Effect*	pEffect = new Effect("Line");
+		//pEffect->AddTechnique("Shading","default","COLOR");
 
-		MaterialParameter* pParam = pEffect->GetParameter("u_worldViewProjectionMatrix");
+		MaterialParameter* pParam = m_pLinTech->GetParameter("u_worldViewProjectionMatrix");
 		GetMaterialManager()->SetParameterAutoBinding(pParam,VIEW_PROJECTION_MATRIX);
 		
-		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
+		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration();
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT4,DU_COLOR,0);
-		//pVertexDec->Active();
-		_pMeshBatch = new MeshBatch(pVertexDec, PRIM_LINELIST, pEffect, true, 1024);
 
-		//Material* pMaterial = new Material(); 
-		//pMaterial->SetEffect(pEffect);
-		//_pMeshBatch->
+		m_pMeshBatch = new MeshBatch(pVertexDec, PRIM_LINELIST, /*pEffect, */true, 1024);
 	}
 
 	void LineRender::ShutDown()
 	{
-		SAFE_DELETE(_pMeshBatch);
+		SAFE_DELETE(m_pMeshBatch);
 	}
 
 
@@ -43,10 +42,8 @@ namespace ma
 		v[1].pos = p1;
 		v[1].col = dwColor;
 	
-		//Uint16 index[2] = {0,1};
-		//_pMeshBatch->add(v,2,index,2);
 		int index = GetRenderThread()->GetThreadList();
-		std::vector<LineVertex>& arrLineVertex = gpArrLineVertex[index];
+		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
 		arrLineVertex.push_back(v[0]);
 		arrLineVertex.push_back(v[1]);
@@ -143,15 +140,15 @@ namespace ma
 	void LineRender::OnFlushFrame()
 	{
 		int index = GetRenderThread()->CurThreadFill();
-		gpArrLineVertex[index].clear();
+		m_arrLineVertex[index].clear();
 	}
 
 	void LineRender::Render()
 	{
-		_pMeshBatch->start();
+		m_pMeshBatch->start();
 
 		int index = GetRenderThread()->GetThreadList();
-		std::vector<LineVertex>& arrLineVertex = gpArrLineVertex[index];
+		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
 		for (UINT i = 0; i < arrLineVertex.size(); i += 2)
 		{
@@ -160,11 +157,10 @@ namespace ma
 			v[1] = arrLineVertex[i + 1];
 			Uint16 index[2] = {0,1};
 
-			_pMeshBatch->add(v,2,index,2);
+			m_pMeshBatch->add(v,2,index,2);
 		}
 
-		_pMeshBatch->finish();	
-		//_pMeshBatch->draw();	
+		m_pMeshBatch->finish(m_pLinTech);	
 	}
 	
 }

@@ -8,12 +8,14 @@ namespace ma
 		:Texture(pszPath)
 	{
 		m_pD3DTex = NULL;
+		m_pD3D9Surface = NULL;
 	}
 
-	D3D9Texture::D3D9Texture(int nWidth,int nHeight,FORMAT format)
-		:Texture(nWidth,nHeight,format)
+	D3D9Texture::D3D9Texture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
+		:Texture(nWidth,nHeight,format,bDepthStencil)
 	{
 		m_pD3DTex = NULL;
+		m_pD3D9Surface = NULL; 
 	}
 
 	D3D9Texture::~D3D9Texture()
@@ -31,31 +33,49 @@ namespace ma
 		ASSERT(m_nWidth && m_nHeight);
 
 		HRESULT hr = D3D_OK;
-		DWORD D3DUsage = D3DUSAGE_RENDERTARGET;
 		D3DPOOL D3DPool = D3DPOOL_DEFAULT;
 		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(m_eFormat);
-		IDirect3DTexture9 * pD3D9Texture = NULL;
 
-		if (D3DFormat == D3DFMT_D24S8)
+		if ( m_eUsage == USAGE_RENDERTARGET )
 		{
-			D3DUsage = D3DUSAGE_DEPTHSTENCIL;
+			DWORD D3DUsage = D3DUSAGE_RENDERTARGET;
+			if (D3DFormat == D3DFMT_D24S8)
+			{
+				D3DUsage = D3DUSAGE_DEPTHSTENCIL;
+			}
+
+			hr = GetD3D9DxDevive()->CreateTexture(
+				m_nWidth, 
+				m_nHeight, 
+				1,
+				D3DUsage, 
+				D3DFormat, 
+				D3DPool,
+				&m_pD3DTex, NULL);
+
+			ASSERT(hr == D3D_OK);
+
+			m_pD3DTex->GetSurfaceLevel(0,&m_pD3D9Surface);
 		}
-		
-		D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
+		else if(m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			hr = GetD3D9DxDevive()->CreateDepthStencilSurface(
+				m_nWidth, 
+				m_nHeight, 
+				D3DFormat,
+				D3DMULTISAMPLE_NONE, 
+				0,
+				TRUE,
+				&m_pD3D9Surface, 
+				NULL);
 
-		hr = GetD3D9DxDevive()->CreateTexture(
-			m_nWidth, 
-			m_nHeight, 
-			1,
-			D3DUsage, 
-			D3DFormat, 
-			D3DPool,
-			&pD3D9Texture, NULL);
+			ASSERT(hr == D3D_OK);
+		}
+		else
+		{
+			ASSERT(false);
+		}
 
-		ASSERT(hr == D3D_OK);
-
-		//pTexture->mName = sName;
-		m_pD3DTex = pD3D9Texture;
 
 		return true;
 	}

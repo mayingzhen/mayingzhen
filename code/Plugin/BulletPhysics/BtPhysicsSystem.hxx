@@ -181,6 +181,56 @@ namespace ma
 		m_arrPhysicsObject.erase(it);
 	}
 
+	IRigidBody*	BtPhysicsSystem::CreateRigidBody(GameObject* pGameObj)
+	{
+		return pGameObj->GetPhyscisObject()->CreateRigidBody();
+	}
+
+	IBoxCollisionShape*	BtPhysicsSystem::CreateBoxCollisionShape(GameObject* pGameObj)
+	{
+		return pGameObj->GetPhyscisObject()->CreateBoxCollisionShape();
+	}
+
+	ISphereCollisionShape* BtPhysicsSystem::CreateSphereCollisionShape(GameObject* pGameObj)
+	{
+		return pGameObj->GetPhyscisObject()->CreateSphereCollisionShape();
+	}
+
+	ICapsuleCollisionShape* BtPhysicsSystem::CreateCapsuleCollisionShape(GameObject* pGameObj)
+	{
+		return pGameObj->GetPhyscisObject()->CreateCapsuleCollisionShape();
+	}
+
+	ICharaControll*	BtPhysicsSystem::CreateCharaControll(GameObject* pGameObj)
+	{
+		return pGameObj->GetPhyscisObject()->CreateCharaControll();
+	}
+
+	void BtPhysicsSystem::DeleteRigidBody(IRigidBody* pRigidBody)
+	{
+		//pRigidBody->GetGameObject()->GetPhyscisObject()->
+	}
+
+	void BtPhysicsSystem::DeleteBoxCollisionShape(IBoxCollisionShape*	pBox)
+	{
+
+	}
+
+	void BtPhysicsSystem::DeleteSphereCollisionShape(ISphereCollisionShape* pSphere)
+	{
+
+	}
+
+	void BtPhysicsSystem::DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule)
+	{
+
+	}
+
+	void BtPhysicsSystem::DeleteCharaControll(ICharaControll* pCharcontrol)
+	{
+
+	}
+
 	void BtPhysicsSystem::DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint)
 	{
 		std::vector<BulletPhysicsGenericJoint*>::iterator it;
@@ -233,17 +283,17 @@ namespace ma
 		return pPhysicsObject ? pPhysicsObject->GetGameObject() : NULL;
 	}
 
-	IPhysicsGenericJoint*	BtPhysicsSystem::CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
+	IPhysicsGenericJoint*	BtPhysicsSystem::CreatePhysicsGenericJoint(GameObject* pGameObj)
 	{
-		BulletPhysicsGenericJoint* pGenericJoint = new BulletPhysicsGenericJoint((BulletPhysicsObject*)pPhyObjA,(BulletPhysicsObject*)pPhyObjB);
+		BulletPhysicsGenericJoint* pGenericJoint = new BulletPhysicsGenericJoint(pGameObj);
 		m_vGenericJoint.push_back(pGenericJoint);
 		return pGenericJoint;
 	}
 
 
-	IPhysicsHingeJoint*		BtPhysicsSystem::CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA,IPhysicsObject* pPhyObjB)
+	IPhysicsHingeJoint*		BtPhysicsSystem::CreatePhysicsHingeJoint(GameObject* pGameObj)
 	{
-		BulletPhysicsHingeJoint* pHingeJoint = new BulletPhysicsHingeJoint((BulletPhysicsObject*)pPhyObjA,(BulletPhysicsObject*)pPhyObjB);
+		BulletPhysicsHingeJoint* pHingeJoint = new BulletPhysicsHingeJoint(pGameObj);
 		m_vHingeJoint.push_back(pHingeJoint);
 		return pHingeJoint;
 	}

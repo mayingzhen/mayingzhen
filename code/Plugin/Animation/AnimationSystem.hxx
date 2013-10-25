@@ -2,11 +2,23 @@
 
 namespace ma
 {
-	IAnimationObject*	AnimationSystem::CreateAnimationObject(const char* pszSkePath,const char* pszAniSetPath)
+	IAnimationObject*	AnimationSystem::CreateAnimationObject(GameObject* pGameObj)
 	{
-		AnimationObject* pAnimObject = new AnimationObject(pszSkePath,pszAniSetPath);
+		AnimationObject* pAnimObject = new AnimationObject(pGameObj);
 		m_arrAnimObject.push_back(pAnimObject);
 		return pAnimObject;
+	}
+
+	void AnimationSystem::DeleteAnimationObject(IAnimationObject* pAnimObj)
+	{
+		std::vector<AnimationObject*>::iterator it = 
+			std::find(m_arrAnimObject.begin(),m_arrAnimObject.end(),pAnimObj);
+		if (it != m_arrAnimObject.end())
+		{
+			m_arrAnimObject.erase(it);
+		}
+
+		SAFE_DELETE(pAnimObj);
 	}
 
 

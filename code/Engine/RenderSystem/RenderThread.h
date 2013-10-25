@@ -20,8 +20,10 @@ namespace ma
 		eRC_CreateRenderTarget,
  		eRC_ClearBuffer,
  		eRC_PushRenderTarget,
+		eRC_PushDepthStencil,
  		eRC_PushViewPort,
  		eRC_PopRenderTarget,
+		eRC_PopDepthStencil,
  		eRC_PopViewPort,
 	};
 
@@ -95,10 +97,12 @@ namespace ma
 		void	RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream);
 		void	RC_Render();
 		void	RC_CreateShader(ShaderProgram* pShader);
-		void	RC_CreateRenderTarget(RenderTarget* pRenderTarget);
-		void	RC_PushRenderTarget(RenderTarget* pTexture);
+		void	RC_CreateRenderTarget(Texture* pRenderTarget);
+		void	RC_PushRenderTarget(Texture* pTexture);
+		void	RC_PushDepthStencil(Texture* pTexture);
 		void	RC_PushViewPort(Rectangle& viewPort);
 		void	RC_PopRenderTargert();
+		void	RC_PopDepthStencil();
 		void	RC_PopViewPort();
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 

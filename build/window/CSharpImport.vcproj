@@ -176,10 +176,6 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\code\CSharpImport\Animation.i"
-			>
-		</File>
-		<File
 			RelativePath="..\..\code\CSharpImport\Common.i"
 			>
 		</File>
@@ -202,10 +198,6 @@
 		</File>
 		<File
 			RelativePath="..\..\code\CSharpImport\Engine.i"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\CSharpImport\Framework.i"
 			>
 		</File>
 	</Files>

@@ -7,7 +7,11 @@ DWORD D3D9Mapping::GetD3DUsage(USAGE Usage)
 {
     DWORD D3D9Usage = 0;
 
-    if (Usage == USAGE_DYNAMIC)
+	if (Usage == D3DUSAGE_RENDERTARGET)
+		D3D9Usage = D3DUSAGE_RENDERTARGET;
+	else if (Usage == USAGE_DEPTHSTENCIL)
+		D3D9Usage = D3DUSAGE_DEPTHSTENCIL;
+    else if (Usage == USAGE_DYNAMIC)
         D3D9Usage = D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY;
 
     return D3D9Usage;
@@ -399,7 +403,7 @@ void D3D9Mapping::GetD3DDeclUsage(DECL_USAGE DeclUsage,BYTE& d3dUse,BYTE& index)
 		break;
 
 	case DU_TEXCOORD1:
-		d3dUse = D3DDECLUSAGE_COLOR;
+		d3dUse = D3DDECLUSAGE_TEXCOORD;
 		index = 1;
 		break;
 

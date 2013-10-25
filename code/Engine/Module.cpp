@@ -47,6 +47,7 @@
 #include "Engine/RenderSystem/Shadow.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
 #include "Engine/RenderSystem/RenderQueue.hxx"
+#include "Engine/RenderSystem/RenderObject.hxx"
 
 #include "Engine/RenderSystem/ParticleEmitter.hxx"
 #include "Engine/RenderSystem/ParticleThread.hxx"
@@ -72,19 +73,24 @@
 #include "Engine/RenderSystem/Material/Texture.hxx"
 #include "Engine/RenderSystem/Material/Technqiue.hxx"
 #include "Engine/RenderSystem/Material/MaterialManager.hxx"
-#include "Engine/RenderSystem/Material/Effect.hxx"
 #include "Engine/RenderSystem/Material/SamplerState.hxx"
 
 
 // Physics
+#include "Engine/Physics/ICollisionShape.hxx"
+#include "Engine/Physics/ICharacterController.hxx"
+#include "Engine/Physics/IRigidBody.hxx"
+#include "Engine/Physics/IPhysicsJoint.hxx"
 #include "Engine/Physics/IPhysicsSystem.hxx"
 //#include "Engine/Physics/Ragdoll.hxx"
 
 
 // script
+#include "Engine/Script/IScriptObject.hxx"
 #include "Engine/Script/IScriptSystem.hxx"
 
 // Animation
+#include "Engine/Animation/IAnimationObject.hxx"
 #include "Engine/Animation/IAnimationSystem.hxx"
 
 // UI
@@ -93,6 +99,14 @@
 // Input
 #include "Engine/Input/Input.hxx"
 
+// Entity System
+#include "Engine/EntitySystem/Component.hxx"
+#include "Engine/EntitySystem/GameObj.hxx"
+#include "Engine/EntitySystem/Scene.hxx"
+#include "Engine/EntitySystem/SceneNode.hxx"
+#include "Engine/EntitySystem/SceneVisiter.hxx"
+#include "Engine/EntitySystem/EntitySystem.hxx"
+#include "Engine/EntitySystem/Util.hxx"
 
 
 using namespace ma;
@@ -126,6 +140,10 @@ void EngineModuleInit()
 
 	Time* pTime = new Time();
 	SetTimer(pTime);
+
+	EntitySystem* pEntitySystem = new EntitySystem();
+	SetEntitySystem(pEntitySystem);
+	pEntitySystem->Init();
 }
 
 void EngineModuleShutdown()

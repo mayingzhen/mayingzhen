@@ -14,10 +14,12 @@ namespace ma
 		CF_Below,
 	};
 
-	class ENGINE_API ICharaControll
+	class ENGINE_API ICharaControll : public Component
 	{
+		DECL_OBJECT(ICharaControll)
+
 	public:
-		//virtual void						SetCollisionShape(ICapsuleCollisionShape* pCapsule) = 0;
+		ICharaControll(GameObject* pGameObj);
 
 		virtual ICapsuleCollisionShape*		GetCollisionShape() = 0;
 

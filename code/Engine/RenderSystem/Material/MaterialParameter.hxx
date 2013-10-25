@@ -270,10 +270,10 @@ namespace ma
 		}
 		else
 		{
-			//_value.floatPtrValue = const_cast<Matrix4x4&> (values[0]).m;
+			_value.floatPtrValue = const_cast<float*> (&values[0]._11);
 		}
 
-		_count = count;
+		_count = count * 16;
 		_type = MaterialParameter::MATRIX;
 	}
 
@@ -395,12 +395,12 @@ namespace ma
 
 	void MaterialParameter::Bind(Uniform* pUniform)
 	{
-		ASSERT(pUniform && pUniform->GetEffect());
-		if (pUniform == NULL || pUniform->GetEffect() == NULL)
+		ASSERT(pUniform && pUniform->m_pShader);
+		if (pUniform == NULL || pUniform->m_pShader == NULL)
 			return;
 	
 		//_uniform = pUniform;
-		ShaderProgram* effect = pUniform->GetEffect();
+		ShaderProgram* effect = pUniform->m_pShader;
 		
 		switch (_type)
 		{

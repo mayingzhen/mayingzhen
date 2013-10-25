@@ -160,14 +160,15 @@ namespace ma
 		return 0;
 	}	
 
-	GLESTexture::GLESTexture(const char* pszPath):Texture(pszPath)
+	GLESTexture::GLESTexture(const char* pszPath)
+		:Texture(pszPath)
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;
 	}
 
-	GLESTexture::GLESTexture(int nWidth,int nHeight,FORMAT format)
-		:Texture(nWidth,nHeight,format)
+	GLESTexture::GLESTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
+		:Texture(nWidth,nHeight,format,bDepthStencil)
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;

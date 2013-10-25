@@ -22,24 +22,28 @@ namespace ma
 
 		void		DefferedLighting();
 
-		Texture*	GetSceneDepth() {return m_pDepthTex->GetTexture();}
+		Texture*	GetSceneDepth() {return m_pDepthTex/*->GetTexture()*/;}
 
-		Texture*	GetSceneNormal() {return m_pNormalTex->GetTexture();}
+		Texture*	GetSceneNormal() {return m_pNormalTex/*->GetTexture()*/;}
 
-		Texture*	GetTextureLightDiffuse() {return m_pDiffuse->GetTexture();}
+		Texture*	GetTextureLightDiffuse() {return m_pDiffuse/*->GetTexture()*/;}
 
-		Texture*	GetTextureightSpecular() {return m_pSpecular->GetTexture();}
+		Texture*	GetTextureightSpecular() {return m_pSpecular/*->GetTexture()*/;}
 
 
 	protected:
 
-		RenderTarget*				m_pDepthTex;
-		RenderTarget*				m_pNormalTex;
-		RenderTarget*				m_pDiffuse;
-		RenderTarget*				m_pSpecular;
+		Texture*				m_pDepthTex;
+		Texture*				m_pNormalTex;
+		Texture*				m_pDiffuse;
+		Texture*				m_pSpecular;
 
-		Material*					m_pMaterDeferred;
-		Effect*						m_pDeferredEffect;
+		//Material*				m_pMaterDeferred;
+		//Effect*					m_pDeferredEffect;
+
+		Technique*				m_pAmbientLight;
+		Technique*				m_pDirLight;
+		Technique*				m_pPointLight;
 	};
 
 	ENGINE_API	DeferredLight*	GetDeferredLight();

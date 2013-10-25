@@ -8,7 +8,7 @@ namespace ma
 	class ENGINE_API IndexBuffer : public RefCountObject
 	{
 	public:
-		IndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC) 
+		IndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO) 
 		{
 			m_pData = Data;
 			m_nSize = size;

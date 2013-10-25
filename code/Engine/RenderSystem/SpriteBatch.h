@@ -14,7 +14,7 @@ namespace ma
 
 	public:
 
-		SpriteBatch(Texture* texture, Effect* pEffect = NULL, UINT initialCapacity = 0);
+		SpriteBatch(Texture* texture, Technique* pTech = NULL, UINT initialCapacity = 0);
 
 		virtual ~SpriteBatch();
 
@@ -42,12 +42,14 @@ namespace ma
 
 		void draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter = false);
 
-		void finish();
+		void finish(Technique* pTech = NULL);
 
 
 		SamplerState*		getSampler() const;
 
 		RenderState&		getStateBlock() const;
+
+		Technique*			GetTechnique() {return m_pTechnique;}
 
 		void				setProjectionMatrix(const Matrix4x4& matrix);
 
@@ -85,6 +87,8 @@ namespace ma
 
 	private:
 		MeshBatch*		m_pMeshBatch;
+
+		Technique*		m_pTechnique;
 
 		SamplerState*	m_pSampler;
 		

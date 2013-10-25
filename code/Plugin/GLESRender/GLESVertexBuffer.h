@@ -8,7 +8,7 @@ namespace ma
 	{
 
 	public:
-		GLESVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_STATIC);
+		GLESVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
 
 		~GLESVertexBuffer();
 

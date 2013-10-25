@@ -16,7 +16,7 @@ namespace ma
 			m_pVertexBuffers = NULL;
 			m_pIndexBuffer = NULL;
 			m_pSubMeshData = NULL;
-			m_pMaterial = NULL;
+			//m_pMaterial = NULL;
 
 			MatrixIdentity(&m_matWorld[0]);
 			MatrixIdentity(&m_matWorld[1]);
@@ -30,7 +30,7 @@ namespace ma
 
 		std::vector<Matrix4x4>  m_arrSkinMatrix[2];
 
-		Material*               m_pMaterial;
+		//Material*               m_pMaterial;
 
 		Matrix4x4				m_matWorld[2];
 	};

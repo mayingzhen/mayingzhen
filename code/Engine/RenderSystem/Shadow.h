@@ -3,30 +3,42 @@
 
 namespace ma
 {
-	class RenderTarget;
 	class ShadowMapFrustum;
 
 	class Shadow
 	{
 	public:
-		void Init();
+		void		Init();
 
-		void DoRender();
+		void		ShadowDepthPass();
 
-		void Update();
+		void		DeferredShadow();
 
-		void ShadowDepthPass();
+		void		ShadowBlur();
 
-		void DeferredShadow();
+		Texture*	GetShadowTexture() {return m_pShadowTex/*->GetTexture()*/;}
 
-		void ShadowBlur();
+		float		GetShadowMapSize() {return m_fShadowMapSize;}
+		
+		bool		IsHWShadowMap() {return m_bHWShadowMap;}
 
 	protected:
 
-		RenderTarget*					m_pShadowTex;	
+		Texture*					m_pShadowTex;	
 
 		std::vector<ShadowMapFrustum*>	m_arrSMF;
+
+		//Material*						 m_pMaterial;
+		//Effect*							 m_pEffect;
+		Technique*						m_pDefferedShadow;
+
+		float						     m_fShadowMapSize;
+
+		bool							 m_bHWShadowMap;
 	};
+
+	Shadow*		GetShadowSystem();
+
 }
 
 

@@ -6,7 +6,7 @@ namespace ma
 {
 
 	MeshBatch::MeshBatch(VertexDeclaration* vertexFormat, 
-						 PRIMITIVE_TYPE primitiveType, Effect* pEffect, 
+						 PRIMITIVE_TYPE primitiveType,/* Effect* pEffect,*/ 
 						 bool indexed, UINT initialCapacity, 
 						 UINT growSize)
 	{
@@ -21,8 +21,8 @@ namespace ma
 	 
  		m_pDeclaration = vertexFormat;
  		m_ePrimitiveType = primitiveType;
- 		m_pMaterial = new Material();
-		m_pMaterial->SetEffect(pEffect);
+ 		//m_pMaterial = NULL;//new Material();
+		//m_pMaterial->SetEffect(pEffect);
 
 		resize(initialCapacity);
 
@@ -31,7 +31,7 @@ namespace ma
 
 	MeshBatch::~MeshBatch()
 	{
-		SAFE_DELETE(m_pMaterial);
+		//SAFE_DELETE(m_pMaterial);
 		SAFE_DELETE(m_pSubMeshData);
 	}
 
@@ -225,8 +225,8 @@ namespace ma
 		m_pIndicesPtr = m_pIndexBuffer ? (unsigned short*)m_pIndexBuffer->GetData() : NULL;
 	}
 
-	void MeshBatch::finish()
+	void MeshBatch::finish(Technique* pTech)
 	{
-		GetRenderSystem()->DrawDyRenderable(this);
+		GetRenderSystem()->DrawDyRenderable(this,pTech);
 	}
 }

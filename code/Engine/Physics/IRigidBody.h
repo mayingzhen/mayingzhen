@@ -4,9 +4,13 @@
 
 namespace ma
 {
-	class ENGINE_API IRigidBody
+	class ENGINE_API IRigidBody : public Component
 	{
+		DECL_OBJECT(IRigidBody)
+
 	public:
+		IRigidBody(GameObject* pGameObj);
+
 		virtual void			SetUseGravity(bool bUseGravity) = 0;
 
 		virtual bool			IsUseGravity() = 0;

@@ -5,32 +5,22 @@
 
 namespace ma
 {
-	ScriptObject::ScriptObject(ScriptClass* pScriptClass,GameObject* pGameObject)
+	ScriptObject::ScriptObject(GameObject* pGameObject)
+		:IScriptObject(pGameObject)
 	{
-		m_pGameObject = pGameObject;
 		m_pScriptClass = NULL;
 		m_pMonoClass = NULL;
 		m_pMonoObj = NULL;
-		m_handle = -1;
-
-		if (pScriptClass)
-		{
-			m_pScriptClass = pScriptClass;
-
-			UINT nFieldNumber = pScriptClass->GetClassFieldNumber();
-			for (UINT i = 0; i < nFieldNumber; ++i)
-			{
-				ClassField* pField = pScriptClass->GetClassFieldByIndex(i);
-				ClassField* pFieldInstace = pField->Clone();
-				m_arrFields.push_back(pFieldInstace);
-			}
-		}
-
+		m_handle = -1;	
 	}
+
 
 	ScriptObject::~ScriptObject()
 	{
 		DestoryScript();
+
+		if (m_pScriptClass)
+			m_pScriptClass->RemoveScriptObjectIns(this);
 	}
 
 	void ScriptObject::Start()
@@ -111,6 +101,35 @@ namespace ma
 	{
 		ASSERT(m_pScriptClass);
 		return m_pScriptClass->GetClassName();
+	}
+
+	void ScriptObject::SetName(const char* pName)
+	{
+		ASSERT(pName);
+		if (pName == NULL)
+			return;
+
+		if (m_pScriptClass)
+		{
+			m_pScriptClass->RemoveScriptObjectIns(this);
+		}
+
+		ScriptSystem* pScriptSystem = (ScriptSystem*)GetScriptSystem();
+
+		m_pScriptClass = pScriptSystem->GetScriptClass(pName);
+		ASSERT(m_pScriptClass);
+		if (m_pScriptClass == NULL)
+			return;
+
+		UINT nFieldNumber = m_pScriptClass->GetClassFieldNumber();
+		for (UINT i = 0; i < nFieldNumber; ++i)
+		{
+			ClassField* pField = m_pScriptClass->GetClassFieldByIndex(i);
+			ClassField* pFieldInstace = pField->Clone();
+			m_arrFields.push_back(pFieldInstace);
+		}
+
+		m_pScriptClass->AddScriptObjectIns(this);
 	}
 
 	void ScriptObject::InvokeMethod(const char* pszMethod,int param_count,void **params)

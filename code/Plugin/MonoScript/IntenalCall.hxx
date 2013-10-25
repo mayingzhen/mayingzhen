@@ -8,26 +8,22 @@ static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNa
 	GameObject* pGameObj = (GameObject*)gameObjPtr;
 	std::string strScriptName = mono_string_to_utf8(pScriptNameM);
 
-	IScriptObject* pRetScriptObject = NULL;
+	IScriptObject* pScriptObj = NULL;
 	for (UINT nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
 	{
 		Component* pComp = pGameObj->GetComponentByIndex(nCnt);
-		ScriptComponent* pScriptComp = SafeCast<ScriptComponent>(pComp);
-		if (pScriptComp == NULL)
+		pScriptObj = SafeCast<IScriptObject>(pComp);
+		if (pScriptObj == NULL)
 			continue;
 
-		pRetScriptObject = pScriptComp->GetScriptObject();
-		if (pRetScriptObject == NULL)
-			continue;
-
-		if ( stricmp(pRetScriptObject->GetName(),strScriptName.c_str()) == 0)
+		if ( stricmp(pScriptObj->GetName(),strScriptName.c_str()) == 0)
 		{
 			break;
 		}
 	}
 
-	ScriptObject* pMonoScriptObject = (ScriptObject*)pRetScriptObject;
-	return NULL != pMonoScriptObject ? pMonoScriptObject->GetMonoObject() : NULL;
+	ScriptObject* pMonoScriptObject = (ScriptObject*)pScriptObj;
+	return pMonoScriptObject ? pMonoScriptObject->GetMonoObject() : NULL;
 }
 
 static void AddCollisionListener(int scriptObjPtr, int gameObjPtr)

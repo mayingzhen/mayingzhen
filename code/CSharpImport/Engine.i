@@ -21,6 +21,10 @@
 %include "../../Code/Engine/Resource/MeshData.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"
 
+%include "../../Code/Engine/EntitySystem/SceneNode.h"
+%include "../../Code/Engine/EntitySystem/Component.h"
+%include "../../Code/Engine/EntitySystem/GameObj.h"
+
 %include "../../Code/Engine/RenderSystem/RenderDefine.h"
 %include "../../Code/Engine/RenderSystem/IRenderDevice.h"
 %include "../../Code/Engine/RenderSystem/IndexBuffer.h"
@@ -39,6 +43,15 @@
 %include "../../Code/Engine/Physics/IPhysicsObject.h"
 %include "../../Code/Engine/Physics/IRigidBody.h"
 %include "../../Code/Engine/Physics/IPhysicsJoint.h"
+
+
+
+
+
+
+//%template(SafeCastAnimComponent) SafeCast<AnimComponent>;
+//%template(SafeCastRigidBodyComponent) SafeCast<RigidbodyComponent>;
+
 
 
 

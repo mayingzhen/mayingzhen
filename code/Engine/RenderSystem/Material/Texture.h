@@ -11,7 +11,7 @@ namespace ma
 	public:
 		Texture(const char* pszPath = NULL);
 
-		Texture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8);
+		Texture(int nWidth,int nHeight,FORMAT eFormat,bool bDepthStencil); // RenderTarget
 			
 		virtual void LoadSync();
 
@@ -21,9 +21,9 @@ namespace ma
 
 		virtual bool Load(DataStream* pDataStream, bool generateMipmaps = false) = 0;
 
-		virtual bool CreateFromMemeory();
-
 		virtual bool LoadFromData(Uint8* data,UINT size, bool generateMipmaps = false) = 0;
+
+		virtual bool CreateFromMemeory();
 
 		int getWidth() {return m_nWidth;}
 

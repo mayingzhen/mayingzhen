@@ -1,6 +1,5 @@
 #include "SpriteBatch.h"
 #include "Material/Material.h"
-#include "Material/Effect.h"
 #include "Material/SamplerState.h"
 
 // Default size of a newly created sprite batch
@@ -19,46 +18,41 @@
 namespace ma
 {
 
-	SpriteBatch::SpriteBatch(Texture* texture, Effect* pEffect /*= NULL*/, UINT initialCapacity/* = 0*/)
+	SpriteBatch::SpriteBatch(Texture* texture, Technique* pTech, UINT initialCapacity/* = 0*/)
 		: m_pMeshBatch(NULL), m_pSampler(NULL), m_fTextureWidthRatio(0.0f), m_fTextureHeightRatio(0.0f)
 	{
 		ASSERT(texture != NULL);
 
 		m_fTextureWidthRatio = 1.0f / (float)texture->getWidth();
 		m_fTextureHeightRatio = 1.0f / (float)texture->getHeight();
-
-		if (pEffect == NULL)
-		{
-			pEffect = new Effect("sprite");
-			pEffect->AddTechnique("Shading","default","DIFFUSE;COLOR");
-		}
-
-		Technique* pTech = pEffect->GetTechnqiue("Shading");
-		ASSERT(pTech);
+		
+		m_pTechnique = pTech;
 		if (pTech == NULL)
-			return;
-
-		pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
+		{
+			m_pTechnique = new Technique("Shading","default","DIFFUSE;COLOR");
+		}
+		
+		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
 		m_pSampler = new SamplerState();
 		m_pSampler->SetTexture(texture);
-		pEffect->GetParameter("u_texture")->setSampler(m_pSampler);
 
+		m_pTechnique->GetParameter("u_texture")->setSampler(m_pSampler);
 
 		VertexDeclaration* vertexFormat = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
 		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
 		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
 
-		m_pMeshBatch = new MeshBatch(vertexFormat, PRIM_TRIANGLESTRIP, pEffect, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+		m_pMeshBatch = new MeshBatch(vertexFormat, PRIM_TRIANGLESTRIP, /*pEffect,*/ true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
 
 
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 		Platform& platform = Platform::GetInstance();
 		int w,h;
 		platform.GetWindowSize(w, h);
-		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
-		pEffect->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::getProjectionMatrix);
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, (float)w, (float)h, 0, 0.0f, 1.0f);
+		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::getProjectionMatrix);
 	}
 
 	SpriteBatch::~SpriteBatch()
@@ -306,20 +300,26 @@ namespace ma
 		m_pMeshBatch->add(v, 4, indices, 4);
 	}
 
-	void SpriteBatch::finish()
+	void SpriteBatch::finish(Technique* pTech)
 	{
-		m_pMeshBatch->finish();
+		if (pTech == NULL)
+		{
+			pTech = m_pTechnique;
+		}
+
+		m_pMeshBatch->finish(pTech);
 	}
 
 	RenderState& SpriteBatch::getStateBlock() const
 	{
-		ASSERT(m_pMeshBatch);
-		ASSERT(m_pMeshBatch->m_pMaterial->GetEffect());
-		ASSERT(m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue());
+		//ASSERT(m_pMeshBatch);
+		//ASSERT(m_pMeshBatch->m_pMaterial->GetEffect());
+		//ASSERT(m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue());
 		//if (m_pMeshBatch || m_pMeshBatch->getMaterial() || m_pMeshBatch->getMaterial()->GetCurTechnqiue())
 		//	return 
 
-		return m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue()->GetRenderState();
+		//return m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue()->GetRenderState();
+		return m_pTechnique->GetRenderState();
 	}
 
 	SamplerState* SpriteBatch::getSampler() const

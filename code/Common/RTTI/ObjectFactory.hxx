@@ -18,6 +18,7 @@ namespace ma
 		}
 		else
 		{
+			ASSERT(false);
 			Log("Object factory conflict : %s %p",pCls,funCreator);
 		}
 	}
@@ -50,6 +51,34 @@ namespace ma
 		return pObj;
 	}
 
+	void ObjectFactoryManager::RegisterObjectDeleteFactory(const char* pCls,ObjectDelete funDelete)
+	{
+		ObjDeleteFunFactoryMap::iterator iter = m_objDeleteFunMap.find(pCls);
+		if (iter == m_objDeleteFunMap.end())
+		{
+			m_objDeleteFunMap[pCls] = funDelete;
+		}
+		else
+		{
+			ASSERT(false);
+			Log("Object factory conflict : %s %p",pCls,funDelete);
+		}
+	}
+
+	void ObjectFactoryManager::DeleteObject(const char* clsName,Object* pObject)
+	{
+		Object* pObj = NULL;
+		ObjDeleteFunFactoryMap::iterator funIter = m_objDeleteFunMap.find(clsName);
+		if (funIter != m_objDeleteFunMap.end())
+		{
+			funIter->second(pObject);
+		}
+		else
+		{
+			Log("Object factory not found for type %s",clsName);
+		}
+	}
+
 	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
 	{
 		ObjFunArgFactoryMap::iterator iter = m_objFunArgFactoryMap.find(pCls);
@@ -59,6 +88,7 @@ namespace ma
 		}
 		else
 		{
+			ASSERT(false);
 			Log("Object factory conflict : %s %p",pCls,funArgCreator);
 		}
 	}
@@ -86,6 +116,7 @@ namespace ma
 		}
 		else
 		{
+			ASSERT(false);
 			Log("Object factory not found for type %s",pCls);
 		}
 		return pObj;

@@ -8,9 +8,9 @@ namespace ma
 	public:
 		ScriptClass();
 
-		ScriptObject*			CreateScriptObject(GameObject* pGameObj);
+		void					AddScriptObjectIns(ScriptObject* pScriptObj);
 
-		void					DeleteScriptObject(ScriptObject* pScriptObject);
+		void					RemoveScriptObjectIns(ScriptObject* pScriptObj);
 
 		void					ParseMonoClass(MonoClass* pMonoClass);
 

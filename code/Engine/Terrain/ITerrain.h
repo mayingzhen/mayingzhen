@@ -8,8 +8,10 @@ namespace ma
 	{
 	public:
 		virtual void	Create(const char* pPath) = 0;
-		
+
 		virtual void	Update() = 0;
+
+		virtual	float	GetHeight(float x, float z) = 0;
 	};
 
 	ENGINE_API ITerrain*	GetTerrain();

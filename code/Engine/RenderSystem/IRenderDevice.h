@@ -15,7 +15,6 @@ namespace ma
 	struct Renderable;
 	class ShaderProgram;
 	struct RenderState;
-	class RenderTarget;
 	class Technique;
 
 	class ENGINE_API IRenderDevice 
@@ -23,23 +22,21 @@ namespace ma
 	public:
 		virtual Texture*			CreateTexture(const char* pszPath = NULL) = 0;
 
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format) = 0;
-
-		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8) = 0;
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil) = 0;
 
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 
-		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_STATIC) = 0;
+		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO) = 0;
 
-		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC) = 0;
+		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO) = 0;
 	
-		virtual ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine) = 0;
+		virtual ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine) = 0;
 
-		virtual	void				PushRenderTarget(RenderTarget* pTexture,int index = 0) = 0;
+		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0) = 0;
 
 		virtual void				PopRenderTarget(int index = 0) = 0;
 		
-		virtual	void				PushDepthStencil(RenderTarget* pTexture) = 0;
+		virtual	void				PushDepthStencil(Texture* pTexture) = 0;
 
 		virtual void				PopDepthStencil() = 0;
 
@@ -49,9 +46,9 @@ namespace ma
 
 		virtual void				SetRenderState(const RenderState& state) = 0;
 
-		virtual void				DrawRenderable(const Renderable* pRenderable) = 0;
+		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
 
-		virtual void				DrawDyRenderable(const Renderable* pRenderable) = 0;
+		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
 	
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
 
@@ -75,6 +72,14 @@ namespace ma
 		virtual	Matrix4x4			MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf) = 0;
 		
 		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf) = 0;
+	
+		virtual	void				BeginProfile(const char* pszLale) = 0;
+
+		virtual	void				EndProfile() = 0;
+
+		//CheckDevice
+		virtual	bool				CheckTextureFormat(FORMAT eFormat,USAGE eUsage) = 0;
+
 	};
 
 	ENGINE_API void SetRenderDevice(IRenderDevice* pRenderDevice);

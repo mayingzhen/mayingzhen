@@ -70,13 +70,19 @@ namespace ma
 				szAppName, MB_ICONERROR) ;
 			return;
 		}
+
+		DWORD dwWindowStyle = WS_OVERLAPPEDWINDOW;
+		RECT rc;
+		SetRect( &rc, 0, 0, 800, 600 );        
+		AdjustWindowRect( &rc, dwWindowStyle, false );
+
 		m_windId = CreateWindow(szAppName,                  // window class name
 			"ApplicationWin",			// window caption
 			WS_OVERLAPPEDWINDOW,        // window style
 			CW_USEDEFAULT,              // initial x position
 			CW_USEDEFAULT,              // initial y position
-			800/*CW_USEDEFAULT*/,              // initial x size
-			600/*CW_USEDEFAULT*/,              // initial y size
+			rc.right-rc.left, /*CW_USEDEFAULT*/       // initial x size
+			rc.bottom-rc.top, /*CW_USEDEFAULT*/       // initial y size
 			NULL,                       // parent window handle
 			NULL,                       // window menu handle
 			hInstance,                  // program instance handle

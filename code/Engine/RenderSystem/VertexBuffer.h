@@ -9,7 +9,7 @@ namespace ma
 	class ENGINE_API VertexBuffer : public RefCountObject
 	{
 	public:
-		VertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_STATIC)
+		VertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO)
 		{
 			m_pData = pData;
 			m_Size = nsize;

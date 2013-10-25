@@ -1,6 +1,4 @@
 #include "Samples/Physics/SampleRigidBody.h"
-#include "EntitySystem/Module.h"
-#include "BulletPhysics/Module.h"
 
 namespace ma
 {
@@ -23,11 +21,10 @@ namespace ma
 			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("physics");
 			pGameObjA = pGameObj;
 
-			BoxCollisionComponent* pBoxCollisionComp = pGameObj->CreateComponent<BoxCollisionComponent>();
- 			pBoxCollisionComp->GetBoxCollisionShape()->SetSize(Vector3(5,5,5));
+			IBoxCollisionShape* pBoxCollisionComp = pGameObj->CreateComponent<IBoxCollisionShape>();
+ 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
-			RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
-			m_pRigidBody = pRigidBodyComp->GetRigidBody();
+			m_pRigidBody = pGameObj->CreateComponent<IRigidBody>();
 			m_pRigidBody->SetUseGravity(false);
 
 			pGameObj->GetSceneNode()->Translate(Vector3(0,40,0));
@@ -44,9 +41,9 @@ namespace ma
 
 			{
 				GameObject* pGameObjSphere = GetEntitySystem()->CreateGameObject("Sphere");
-				SphereCollisionComponent* pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionComponent>();
-				pSphereComp->GetSphereCollisionShape()->SetRadius(20);
-				pGameObjSphere->CreateComponent<RigidBodyComponent>();
+				ISphereCollisionShape* pSphereComp = pGameObjSphere->CreateComponent<ISphereCollisionShape>();
+				pSphereComp->SetRadius(20);
+				pGameObjSphere->CreateComponent<IRigidBody>();
 
 				pGameObjSphere->GetSceneNode()->Translate(Vector3(10,80,0));
 			}
@@ -58,8 +55,8 @@ namespace ma
 			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
 			pGameObjB = pGameObj;
 
-			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
-			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(Vector3(100,5,100));
+			IBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionShape->SetSize(Vector3(100,5,100));
 
 			//pGameObj->GetSceneNode()->Translate(vCenter,TS_WORLD);
 		}

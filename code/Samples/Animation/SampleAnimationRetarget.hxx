@@ -14,18 +14,17 @@ namespace ma
 		{
 			// MeshData B (b f h)
 			m_pChargigi = GetEntitySystem()->CreateGameObject("gigi");
-			MeshComponent* pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
+			RenderMesh* pMesCompb = m_pChargigi->CreateComponent<RenderMesh>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.tga");
 
-			MeshComponent* pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
+			RenderMesh* pMesComph = m_pChargigi->CreateComponent<RenderMesh>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.tga");
 
-			MeshComponent* pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
+			RenderMesh* pMesCompf = m_pChargigi->CreateComponent<RenderMesh>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
 			
-			AnimComponent* pAnimComp = m_pChargigi->CreateComponent<AnimComponent>();
-			pAnimComp->Load(NULL,"gigi/gigi/body.ske");
-			m_pAnimtionObjectA = pAnimComp->GetAnimObject();
+			m_pAnimtionObjectA = m_pChargigi->CreateComponent<IAnimationObject>();
+			m_pAnimtionObjectA->Load(NULL,"gigi/gigi/body.ske");
 
 			IAnimationSet* pAnimSet = m_pAnimtionObjectA->GetAnimationSet();
 

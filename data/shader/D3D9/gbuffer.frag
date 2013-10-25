@@ -4,15 +4,15 @@ struct VS_OUT
 {      
 	float4 oPos : POSITION;
   	float4 oPos2 : TEXCOORD0;
-  	float2 oTex : TEXCOORD1;
+  	//float2 oTex : TEXCOORD1;
   	float3 oNormal : TEXCOORD2;	
 };
 
 
 struct PS_OUT
 {
-	half4 Pos : COLOR0;
-  	half4 normal : COLOR1;
+	float4 Pos : COLOR0;
+  	float4 normal : COLOR1;
 };
 
 void main( VS_OUT vout, out PS_OUT pout ) 

@@ -3,7 +3,6 @@
 
 namespace ma
 {
-	class RigidBodyComponent;
 	class Scene;
 
 	class SampleRigidBody : public Sample, public CollisionListener

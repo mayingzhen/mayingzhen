@@ -4,38 +4,47 @@
 
 namespace ma
 {
-	class ShadowMapFrustum
+	class ENGINE_API ShadowMapFrustum
 	{
 	public:
-		ShadowMapFrustum();
+		ShadowMapFrustum(Light* pLight,int nIndex);
 		
 		~ShadowMapFrustum();
+		
+		void				SetViewMatrix(const Matrix4x4& matView); 
 
-		void				Init();
+		void				SetProjMatrix(const Matrix4x4& matPoj); 
 
-		void				Update();
+		const Matrix4x4&	GetViewMarix();  
 
-		const Matrix4x4&	GetViewProjMarix()  {return m_viewProjCropMat;}
+		const Matrix4x4&	GetProjMatrix(); 
 
-		const Matrix4x4&	GetTexScaleBiasMatrix() {return m_TexScaleBiasMat;}
+		const Matrix4x4&	GetTexScaleBiasMat() {return m_TexScaleBiasMat;}
 
 		void				ShadowDepthPass();
-	
+
+		Texture*			GetDepthTexture() {return m_pShdowDepth/*->GetTexture()*/;}
+
+		void				ClearCasterList(); 
+
+		void				AddCaster(RenderObject* pRenderObj); 
 
 	private:
-		Matrix4x4			CalculateCropMatrix();
+		Texture*					m_pShdowDepth;
 
-	private:
-		RenderTarget*				m_pShdowDepth;
+		Texture*					m_pDepthStencil;
+
+		Matrix4x4					m_matView[2];
+
+		Matrix4x4					m_matPoj[2];
 
 		Matrix4x4					m_TexScaleBiasMat;
-		Matrix4x4					m_viewProjCropMat;
 
 		Light*						m_pLight; 
-		Camera*						m_pCamera;
 		
 		int							m_nIndex; 
-		std::vector<Renderable*>	m_arrCasterList;
+
+		std::vector<RenderObject*>	m_arrCasterList[2];
 	};
 }
 

@@ -7,7 +7,10 @@
 namespace ma
 {
 
-	ParticleEmitter::ParticleEmitter()
+	IMPL_OBJECT(ParticleEmitter,RenderObject)
+
+	ParticleEmitter::ParticleEmitter(GameObject* pGameObj)
+		:RenderObject(pGameObj)
 	{
 		m_pSpriteBatch = NULL;
 		m_pParticles = NULL;
@@ -49,12 +52,16 @@ namespace ma
 		if (pTexture == NULL)
 			return;
 
+		setSpriteFrameCoords( pTexture->getWidth(), pTexture->getHeight());
+
 		SAFE_DELETE(m_pSpriteBatch);
 		m_pSpriteBatch = new SpriteBatch(pTexture);
 
 		m_pSpriteBatch->getStateBlock().m_eBlendMode = info.m_eTextureBlending;
 
-		setSpriteFrameCoords( pTexture->getWidth(), pTexture->getHeight());
+
+		m_pMaterial = new Material();
+		m_pMaterial->AddTechnique(m_pSpriteBatch->GetTechnique());
 	}
 
 
@@ -277,7 +284,7 @@ namespace ma
 			for (int j = 0; j < cols; ++j)
 			{
 				x = j * nSpriteWidth;
-				frameCoords[i*cols + j] = Rectangle(x, y, nSpriteWidth, nSpriteHeight);
+				frameCoords[i*cols + j] = Rectangle((float)x, (float)y, (float)nSpriteWidth, (float)nSpriteHeight);
 				if (++n == nFrameCount)
 				{
 					break;
@@ -447,7 +454,7 @@ namespace ma
 		for (UINT particlesIndex = 0; particlesIndex < m_nParticleCount; ++particlesIndex)
 		{
 			Particle* p = &m_pParticles[particlesIndex];
-			p->_energy -= elapsedSecs * 1000;
+			p->_energy -= (long)(elapsedSecs * 1000);
 
 			if (p->_energy > 0L)
 			{
@@ -557,7 +564,7 @@ namespace ma
 	}
 
 
-	void ParticleEmitter::Render()
+	void ParticleEmitter::Render(Technique* pTech)
 	{
 		if (!m_bUpdate)
 		{
@@ -613,12 +620,27 @@ namespace ma
 			}
 		}
 
-		m_pSpriteBatch->finish();
+		m_pSpriteBatch->finish(pTech);
 	}
 
 	Material*	ParticleEmitter::GetMaterial()
 	{
-		return GetRenderable()->m_pMaterial;
+		return  m_pMaterial;
+	}
+
+	void ParticleEmitter::SetMaterial(Material* pMaterial)
+	{
+
+	}
+
+	void ParticleEmitter::AddToRenderQueue() 
+	{
+		GetRenderQueue()->AddRenderObj(RL_Trans,this);
+	}
+
+	AABB ParticleEmitter::GetAABB()
+	{
+		return AABB();
 	}
 
 	void ParticleEmitter::SetWorldMatrix(const Matrix4x4& matWorld)
@@ -631,6 +653,11 @@ namespace ma
 			return;
 
 		pRenderable->m_matWorld[index] = matWorld;
+	}
+
+	void ParticleEmitter::Serialize(Serializer& sl, const char* pszLable/* = "ParticleEmitter"*/)
+	{
+
 	}
 
 }

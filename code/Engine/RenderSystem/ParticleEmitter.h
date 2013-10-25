@@ -85,9 +85,10 @@ namespace ma
 
 	class ENGINE_API ParticleEmitter : public RenderObject
 	{
+		DECL_OBJECT(ParticleEmitter)
 
 	public:
-		ParticleEmitter();
+		ParticleEmitter(GameObject* pGameObj);
 
 		~ParticleEmitter();
 
@@ -105,16 +106,25 @@ namespace ma
 
 		void				Update();
 
-		virtual	void		Render();
+		virtual	void		Render(Technique* pTech);
 
 		virtual Material*	GetMaterial();
 
-		void				SetWorldMatrix(const Matrix4x4& matWorld);
+		virtual void		SetMaterial(Material* pMaterial);
+
+		virtual	void		AddToRenderQueue();
+
+		virtual AABB		GetAABB();
+
+		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
+
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "ParticleEmitter");
 
 		void				SetUpdate(bool bUpadate) {m_bUpdate = bUpadate;}
 
 		static BLEND_MODE	getTextureBlendingFromString(const char* src);
 
+	
 	private:
 
 		// Load
@@ -148,7 +158,9 @@ namespace ma
 		Particle*			m_pParticles;
 
 		SpriteBatch*		m_pSpriteBatch;
-	   
+
+		Material*			m_pMaterial;
+
 		bool				m_bStarted;
 	 
 		float*				m_pSpriteTextureCoords;

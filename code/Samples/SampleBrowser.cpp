@@ -73,7 +73,7 @@ namespace ma
 		m_arrSamples["Particle"] = pSampleParticle;
 
 
-		m_pCurSample = pSampleScript;
+		m_pCurSample = pSampleTerrain;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -96,7 +96,7 @@ namespace ma
 	{
 		CommonModuleInit();
 		EngineModuleInit();
-		EntitySystemModuleInit();
+		//EntitySystemModuleInit();
 		UIModuleInit();
 		
 #if PLATFORM_WIN == 1
@@ -153,7 +153,8 @@ namespace ma
 
 		GetInput()->AddKeyListener(this);
 
-		InitCamera();
+		m_pCameraControl = new CameraController(GetEntitySystem()->GetCamera());
+		ResetCamera();
 
 		LoadUI();
 
@@ -170,7 +171,7 @@ namespace ma
 		Vector3 vEyePos = Vector3(0, 200, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		m_pCamera->LookAt(vEyePos,VAtPos,vUp);
+		GetEntitySystem()->GetCamera()->LookAt(vEyePos,VAtPos,vUp);
 
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
@@ -178,18 +179,8 @@ namespace ma
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 1.0f;
 		float fFarClip = 30000.0f;
-		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+		GetEntitySystem()->GetCamera()->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
-	}
-
-	void SampleBrowser::InitCamera()
-	{
-		m_pCamera = new Camera();
-		m_pCameraControl = new CameraController(m_pCamera);
-
-		GetRenderSystem()->SetCamera(m_pCamera);
-
-		ResetCamera();
 	}
 
 	void SampleBrowser::RunSample(const char* pSampleNma)
@@ -276,7 +267,7 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
-		GetRenderSystem()->SetCamera(m_pCamera);
+		GetRenderSystem()->SetCamera(GetEntitySystem()->GetCamera());
 
 		GetRenderSystem()->BeginFrame();
 

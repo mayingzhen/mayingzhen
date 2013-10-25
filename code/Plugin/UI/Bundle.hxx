@@ -467,7 +467,7 @@ Font* Bundle::loadFont(const char* id)
     }
 
     // Create the texture for the font.
-	Texture* texture = GetRenderDevice()->CreateTexture(width,height,FMT_A8);
+	Texture* texture = GetRenderDevice()->CreateTexture(width,height,FMT_A8,false);
 	DataStream* pDataSteam = new DataStream(textureData,textureByteCount);
 	GetRenderSystem()->TexStreamComplete(texture,pDataSteam);
 

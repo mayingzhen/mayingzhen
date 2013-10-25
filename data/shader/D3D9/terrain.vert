@@ -4,7 +4,7 @@ uniform float4x4 u_worldViewProjectionMatrix;
 
 struct VS_INPUT
 {
-	float4	Pos		: POSITION0;
+	float3	Pos		: POSITION;
 	float2	UV1		: TEXCOORD0;
 	float2	UV2		: TEXCOORD1;
 };
@@ -25,7 +25,7 @@ VS_OUTPUT main(const VS_INPUT v)
 {
 	VS_OUTPUT Out = (VS_OUTPUT)0;
 
-	Out.Pos = mul(u_worldViewProjectionMatrix, v.Pos);
+	Out.Pos = mul(u_worldViewProjectionMatrix, float4(v.Pos,1));
 	Out.vTex0 = v.UV1;
 	Out.vTex1 = v.UV2;
 	

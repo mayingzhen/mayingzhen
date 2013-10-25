@@ -12,7 +12,7 @@ namespace ma
 	class BulletRigidBody : public IRigidBody
 	{
 	public:
-		BulletRigidBody();
+		BulletRigidBody(GameObject* pGameObj);
 
 		virtual void			SetUseGravity(bool bUseGravity);
 

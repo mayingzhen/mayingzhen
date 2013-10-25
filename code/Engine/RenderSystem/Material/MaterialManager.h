@@ -26,6 +26,7 @@ namespace ma
 		DepthNearFarInvfar,
 		TextureLightDiffuse,
 		TextureLightSpecular,
+		TextureLightShadow,
 		TextureSceneDepth,
 		TextureSceneNormal,
 	};
@@ -46,6 +47,8 @@ namespace ma
 		void SetCurRenderable(Renderable* pRenderable) {m_pCurRenderable = pRenderable;}
 
 		void SetCurLight(Light* pLight) {m_pCurLight = pLight;}
+
+		void SetCurViewPojectMat(const Matrix4x4& matView,const Matrix4x4& matProj); 
 
 	private:
 		// Internal auto binding handler methods.
@@ -70,12 +73,16 @@ namespace ma
 		Texture*			autoBindingSceneNormal() const;
 		Texture*			autoBindingTextureLightDiffuse() const;
 		Texture*			autoBindingTextureightSpecular() const;
+		Texture*			autoBindingTextureLightShadow() const;
 
 	private:	
 		std::map<std::string, AutoBinding>	m_autoDefaultBings;
 
 		Renderable*							m_pCurRenderable;
 		Light*								m_pCurLight;							
+	
+		Matrix4x4							m_matView;
+		Matrix4x4							m_matProj;	
 	};
 
 	MaterialManager*	GetMaterialManager();

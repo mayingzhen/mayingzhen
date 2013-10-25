@@ -27,9 +27,9 @@ namespace ma
 		return new D3D9Texture(pszPath);
 	}
 
-	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format)
+	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
 	{
-		return new D3D9Texture(nWidth,nHeight,format);
+		return new D3D9Texture(nWidth,nHeight,format,bDepthStencil);
 	}
 
 	VertexDeclaration* D3D9RenderDevice::CreateVertexDeclaration()
@@ -47,9 +47,9 @@ namespace ma
 		return new D3D9IndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(const char* pszName,const char* pszDefine)
+	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
 	{
-		return new D3D9ShaderProgram(pszName,pszDefine);
+		return new D3D9ShaderProgram(pTech,pszName,pszDefine);
 	}
 
 	const char*	D3D9RenderDevice::GetShaderPath()
@@ -73,14 +73,14 @@ namespace ma
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
-			D3D9RenderTarget* pRenderTarget =  new D3D9RenderTarget();
+			D3D9Texture* pRenderTarget =  new D3D9Texture(-1,-1);
 			LPDIRECT3DSURFACE9 surface = NULL;
 			m_pD3DDevice->GetRenderTarget(i,&surface);
 			pRenderTarget->SetD3DSurface(surface);
 			m_pRenderTarget[i].push(pRenderTarget);
 		}
 
-		D3D9RenderTarget* pDepthStencil =  new D3D9RenderTarget();
+		D3D9Texture* pDepthStencil =  new D3D9Texture(-1,-1);
 		LPDIRECT3DSURFACE9 surface = NULL;
 		m_pD3DDevice->GetDepthStencilSurface(&surface);
 		pDepthStencil->SetD3DSurface(surface);
@@ -109,7 +109,7 @@ namespace ma
 		}
 
 		RECT rect;
-		GetWindowRect(hWnd,&rect);
+		GetClientRect(hWnd,&rect);
 
 		ZeroMemory( &m_d3dpp, sizeof(m_d3dpp) );
 		m_d3dpp.Windowed = TRUE;
@@ -122,7 +122,7 @@ namespace ma
 		m_d3dpp.BackBufferWidth = rect.right - rect.left;
 		m_d3dpp.BackBufferHeight = rect.bottom - rect.top;
 
-		UINT AdapterToUse = D3DADAPTER_DEFAULT;
+		m_nAdapterToUse = D3DADAPTER_DEFAULT;
 		D3DDEVTYPE DeviceType = D3DDEVTYPE_HAL;
 
 #if SHIPPING_VERSION
@@ -137,7 +137,7 @@ namespace ma
 			Res = m_pD3D->GetAdapterIdentifier(Adapter, 0, &Identifier);
 			if ( strcmp(Identifier.Description, "NVIDIA NVPerfHUD") == 0 )
 			{
-				AdapterToUse = Adapter;
+				m_nAdapterToUse = Adapter;
 				DeviceType = D3DDEVTYPE_REF;
 				//Logger::info(String("Using ") + Identifier.Description + " adapter for debug purposes.");
 				break;
@@ -146,7 +146,7 @@ namespace ma
 #endif
 
 		HRESULT hr = S_OK;
-		hr = m_pD3D->CreateDevice(AdapterToUse,DeviceType,hWnd,
+		hr = m_pD3D->CreateDevice(m_nAdapterToUse,DeviceType,hWnd,
 			D3DCREATE_HARDWARE_VERTEXPROCESSING,
 			&m_d3dpp,&m_pD3DDevice);
 
@@ -176,18 +176,12 @@ namespace ma
 		ASSERT( SUCCEEDED(hr) );
 	}
 
-	RenderTarget* D3D9RenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
-	{
-		D3D9RenderTarget* pRT = new D3D9RenderTarget(nWidth,nHeight,format);
-		return pRT;
-	}
-
-	void D3D9RenderDevice::PushRenderTarget(RenderTarget* pTexture,int index)
+	void D3D9RenderDevice::PushRenderTarget(Texture* pTexture,int index)
 	{
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
-			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			D3D9Texture* pD3D9Target = static_cast<D3D9Texture*>(pTexture);
 			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
 
 			hr = m_pD3DDevice->SetRenderTarget(index, target);
@@ -206,7 +200,7 @@ namespace ma
 	void D3D9RenderDevice::PopRenderTarget(int index)
 	{
 		m_pRenderTarget[index].pop();
-		D3D9RenderTarget* pD3D9Target = m_pRenderTarget[index].top();
+		D3D9Texture* pD3D9Target = m_pRenderTarget[index].top();
 
 		if (pD3D9Target != NULL)
 		{
@@ -222,12 +216,12 @@ namespace ma
 		}
 	}
 
-	void D3D9RenderDevice::PushDepthStencil(RenderTarget* pTexture)
+	void D3D9RenderDevice::PushDepthStencil(Texture* pTexture)
 	{
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
-			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			D3D9Texture* pD3D9Target = static_cast<D3D9Texture*>(pTexture);
 			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
 
 			hr = m_pD3DDevice->SetDepthStencilSurface(target);
@@ -245,12 +239,12 @@ namespace ma
 	void D3D9RenderDevice::PopDepthStencil()
 	{
 		m_pDepthStencil.pop();
-		D3D9RenderTarget* pTexture = m_pDepthStencil.top();
+		D3D9Texture* pTexture = m_pDepthStencil.top();
 
 		if (pTexture != NULL)
 		{
 			HRESULT hr = D3D_OK;
-			D3D9RenderTarget* pD3D9Target = static_cast<D3D9RenderTarget*>(pTexture);
+			D3D9Texture* pD3D9Target = static_cast<D3D9Texture*>(pTexture);
 			IDirect3DSurface9* target = pD3D9Target->GetD3DSurface();
 
 			hr = m_pD3DDevice->SetDepthStencilSurface(target);
@@ -397,7 +391,7 @@ namespace ma
 		}
 	}
 
-	void D3D9RenderDevice::DrawRenderable(const Renderable* pRenderable)
+	void D3D9RenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
 		if (pRenderable == NULL)
 			return;
@@ -447,7 +441,7 @@ namespace ma
 
 	}
 
-	void D3D9RenderDevice::DrawDyRenderable(const Renderable* pRenderable)
+	void D3D9RenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
 		if (pRenderable == NULL)
 			return;
@@ -524,6 +518,35 @@ namespace ma
 	{
 		D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)pOut,left,right,bottom,top,zn,zf);
 		return *pOut;
+	}
+
+	void D3D9RenderDevice::BeginProfile(const char* pszLale)
+	{
+		wchar_t buf[128]; 
+		size_t outCount=0; 
+		mbstowcs_s(&outCount, buf, pszLale, _countof(buf)-1); 
+		D3DPERF_BeginEvent(0xff00ff00, buf); 
+	}
+
+	void D3D9RenderDevice::EndProfile()
+	{
+		D3DPERF_EndEvent();
+	}
+
+	bool D3D9RenderDevice::CheckTextureFormat(FORMAT eFormat,USAGE eUsage)
+	{
+		DWORD D3DUsage =  D3D9Mapping::GetD3DUsage(eUsage); 
+		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(eFormat);
+
+		HRESULT hr = D3D_OK;
+		hr = m_pD3D->CheckDeviceFormat(m_nAdapterToUse, D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8,
+			D3DUsage, D3DRTYPE_TEXTURE, D3DFormat);
+		if (hr == D3D_OK || hr == D3DOK_NOAUTOGEN)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
 

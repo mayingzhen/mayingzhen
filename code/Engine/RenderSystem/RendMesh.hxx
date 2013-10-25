@@ -3,7 +3,10 @@
 
 namespace ma
 {
-	RenderMesh::RenderMesh()
+	IMPL_OBJECT(RenderMesh,RenderObject)
+
+	RenderMesh::RenderMesh(GameObject* pGameObj):
+		RenderObject(pGameObj)
 	{
 		m_pMesData = NULL;
 		m_pMaterial = NULL;
@@ -75,10 +78,52 @@ namespace ma
 	{
 		m_pMaterial = pMaterial;
 
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+// 		{
+// 			m_arrRenderable[i]->m_pMaterial = pMaterial;
+// 		}
+	}
+
+	void RenderMesh::AddToRenderQueue()
+	{
+		//for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+		//{
+		//	GetRenderQueue()->AddRenderObj(RL_Solid,m_arrRenderable[i]);
+		//}
+		GetRenderQueue()->AddRenderObj(RL_Solid,this);
+	}
+
+	AABB RenderMesh::GetAABB()
+	{
+		return m_pMesData->GetBoundingAABB();
+	}
+
+	void RenderMesh::Serialize(Serializer& sl, const char* pszLable/* = "RenderMesh"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		if ( sl.IsReading() )
 		{
-			m_arrRenderable[i]->m_pMaterial = pMaterial;
+			std::string strSknPath;
+			std::string strMatPath;
+
+			sl.Serialize(strSknPath);
+			sl.Serialize(strMatPath);
+
+			Load(strSknPath.c_str(),strMatPath.c_str());
 		}
+		else
+		{
+			ASSERT( m_pMesData && m_pMaterial);
+
+			std::string strSknPath = m_pMesData->GetResPath();
+			std::string strMatPath = m_pMaterial->GetResPath();
+
+			sl.Serialize(strSknPath);
+			sl.Serialize(strMatPath);
+		}
+
+		sl.EndSection();
 	}
 
 	void RenderMesh::SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount)
@@ -121,16 +166,11 @@ namespace ma
 		}
 	}
 
-	AABB RenderMesh::GetBoundingAABB()
-	{
-		return m_pMesData->GetBoundingAABB();
-	}
-
-	void RenderMesh::Render()
+	void RenderMesh::Render(Technique* pTech)
 	{
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			GetRenderSystem()->DrawRenderable(m_arrRenderable[i]);
+			GetRenderSystem()->DrawRenderable(m_arrRenderable[i],pTech);
 		}
 	}
 

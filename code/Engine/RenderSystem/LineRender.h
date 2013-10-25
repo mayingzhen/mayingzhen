@@ -6,28 +6,44 @@ namespace ma
 
 	class ENGINE_API LineRender
 	{
-		friend class RenderThread;
 
 	public:
-		static void Init();
+		void Init();
 
-		static void ShutDown();
+		void ShutDown();
 
-		static void OnFlushFrame();
+		void OnFlushFrame();
 
-		static void Render();
+		void Render();
 
-		static void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
+		void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
 
-		static void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
+		void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
 
-		static void DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color);
+		void DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color);
 
-		static void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
+		void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
 
-		static void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
+		void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
+
+	private:
+		MeshBatch*	m_pMeshBatch;
+
+		Technique*	m_pLinTech;
+
+		struct LineVertex
+		{
+			Vector3 pos;
+			Color   col;
+		};
+
+		std::vector<LineVertex> m_arrLineVertex[2];
 
 	};
+
+	ENGINE_API LineRender*	GetLineRender();
+
+	ENGINE_API void			SetLineRender(LineRender* pLineRender);
 }
 
 #endif

@@ -9,7 +9,7 @@ namespace ma
 	class ScriptObject : public IScriptObject
 	{
 	public:
-		ScriptObject(ScriptClass* pScriptClass,GameObject* pGameObject);
+		ScriptObject(GameObject* pGameObject);
 
 		~ScriptObject();
 
@@ -20,6 +20,8 @@ namespace ma
 		void					Update();
 
 		virtual	const char*		GetName();
+
+		virtual	void			SetName(const char* pName);
 
 		virtual float			GetFloat(const char* pszName);
 
@@ -59,8 +61,6 @@ namespace ma
 		uint32_t						m_handle;
 
 		std::vector<ClassField*>		m_arrFields;
-
-		GameObject*						m_pGameObject;
 	};
 
 
