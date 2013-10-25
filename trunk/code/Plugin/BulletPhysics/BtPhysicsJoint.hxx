@@ -2,10 +2,11 @@
 
 namespace ma
 {
-	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB)
+	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(GameObject* pGameObj)
+		:IPhysicsGenericJoint(pGameObj)
 	{
-		m_pPhyObjA = pPhyObjA;
-		m_pPhyObjB = pPhyObjB;
+		m_pPhyObjA = (BulletPhysicsObject*)pGameObj->GetPhyscisObject();
+		m_pPhyObjB = NULL;
 		m_pConstraint = NULL;
 		m_bEnabled = true;
 		TransformSetIdentity(&m_AtsfLS);
@@ -115,11 +116,13 @@ namespace ma
 
 	}
 
-	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(BulletPhysicsObject* pPhyObjA,BulletPhysicsObject* pPhyObjB)
+	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(GameObject* pGameObj)
+		:IPhysicsHingeJoint(pGameObj)
 	{
+		m_pPhyObjA = (BulletPhysicsObject*)pGameObj->GetPhyscisObject();
 		m_pConstraint = NULL;
-		m_pPhyObjA = pPhyObjA;
-		m_pPhyObjB = pPhyObjB;
+		m_pPhyObjA = NULL;
+		m_pPhyObjB = NULL;
 	}
 
 	void BulletPhysicsHingeJoint::SetLimits(float minAngle, float maxAngle, float bounciness)

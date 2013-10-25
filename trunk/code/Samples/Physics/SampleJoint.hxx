@@ -18,12 +18,12 @@ namespace ma
 		{
 			pGameObjA = GetEntitySystem()->CreateGameObject("physicsA");
 
-			BoxCollisionComponent* pBoxCollisionComp = pGameObjA->CreateComponent<BoxCollisionComponent>();
-			pBoxCollisionComp->GetBoxCollisionShape()->SetSize(Vector3(5,5,5));
+			IBoxCollisionShape* pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
-			RigidBodyComponent* pRigidBodyComp = pGameObjA->CreateComponent<RigidBodyComponent>();
+			IRigidBody* pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
 			//pRigidBodyComp->GetRigidBody()->SetUseGravity(false);
-			pRigidBodyComp->GetRigidBody()->SetKinematic(true);
+			pRigidBodyComp->SetKinematic(true);
 
 			pGameObjA->GetSceneNode()->Translate(vPosA);
 
@@ -33,32 +33,32 @@ namespace ma
 		{
 			pGameObjB = GetEntitySystem()->CreateGameObject("physicsB");
 
-			BoxCollisionComponent* pBoxCollisionShape = pGameObjB->CreateComponent<BoxCollisionComponent>();
-			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(Vector3(5,5,5));
+			IBoxCollisionShape* pBoxCollisionShape = pGameObjB->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionShape->SetSize(Vector3(5,5,5));
 		
-			RigidBodyComponent* pRigidBodyComp = pGameObjB->CreateComponent<RigidBodyComponent>();
+			IRigidBody* pRigidBodyComp = pGameObjB->CreateComponent<IRigidBody>();
 
 			pGameObjB->GetSceneNode()->Translate(vPosB);
 		}
 
-		GenericJointComponent* pJointComp = pGameObjA->CreateComponent<GenericJointComponent>();
-		pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(pGameObjB->GetPhyscisObject());
+		IPhysicsGenericJoint* pJointComp = pGameObjA->CreateComponent<IPhysicsGenericJoint>();
+		pJointComp->SetPysicsObjectB(pGameObjB->GetPhyscisObject());
 		NodeTransform tsfA,tsfB;
 		TransformSetIdentity(&tsfA);
 		TransformSetIdentity(&tsfB);
 		tsfB.m_vPos = vPosA - vPosB;
-		pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-		pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-		//pJointComp->GetPhysicsGenericJoint()->SetLinearLowerLimit(Vector3(0,0,0));
-		//pJointComp->GetPhysicsGenericJoint()->SetLinearUpperLimit(Vector3(0,0,0));
-		//pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(0,0,0));
-		//pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(0,0,0));	
+		pJointComp->SetATransformLS(tsfA);
+		pJointComp->SetBTransformLS(tsfB);
+		//pJointComp->SetLinearLowerLimit(Vector3(0,0,0));
+		//pJointComp->SetLinearUpperLimit(Vector3(0,0,0));
+		//pJointComp->SetAngularLowerLimit(Vector3(0,0,0));
+		//pJointComp->SetAngularUpperLimit(Vector3(0,0,0));	
 
 // 		GenericJointComponent* pJointComp = pGameObjB->CreateComponent<GenericJointComponent>();
 // 		NodeTransform tsfA;
 // 		TransformSetIdentity(&tsfA);
 // 		tsfA.m_vPos = Vector3(5,0,0);
-// 		pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
+// 		pJointComp->SetATransformLS(tsfA);
 // 
  		//GetPhysicsSystem()->Start();
 	}

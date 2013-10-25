@@ -28,7 +28,6 @@ GLenum __gl_error_code = GL_NO_ERROR;
 #include "GLESRender/GLESMapping.hxx"
 #include "GLESRender/GLESVertexDeclaration.hxx"
 #include "GLESRender/GLESShaderProgram.hxx"
-#include "GLESRender/GLESRenderTarget.hxx"
 #include "GLESRender/GLESRenderDevice.hxx"
 
 

@@ -1,1 +1,0 @@
-RTTI_DECL(GameObject)

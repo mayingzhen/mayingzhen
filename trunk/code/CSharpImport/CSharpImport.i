@@ -12,7 +12,6 @@ SWIG_CSBODY_TYPEWRAPPER(public, public, public, SWIGTYPE)
 
 %include Common.i
 %include Engine.i
-%include Framework.i
 
 
 

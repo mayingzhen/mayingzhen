@@ -6,8 +6,8 @@ namespace ma
 {
 
 	// Cache of unique effects.
-	static std::map<std::string, ShaderProgram*> __effectCache;
-	static ShaderProgram* __currentEffect = NULL;
+	//static std::map<std::string, ShaderProgram*> __effectCache;
+	//static ShaderProgram* __currentEffect = NULL;
 
 	
 	void Tokenize(const std::string& str, std::vector<std::string>& tokens, 
@@ -148,6 +148,9 @@ namespace ma
 		// Read source from file.
 		//char* shSource = FileSystem::readAll(shPath);
 		DataStream* pDataStream = FileSystem::readAll(shPath);
+		if (pDataStream == NULL)
+			return "";
+
 		const char* shSource = (const char*)pDataStream->GetData();
 		if (shSource == NULL)
 		{
@@ -180,8 +183,9 @@ namespace ma
 
 
 	
-	ShaderProgram::ShaderProgram(const char* shName,const char* defines) 
+	ShaderProgram::ShaderProgram(Technique* pTech,const char* shName,const char* defines) 
 	{
+		m_pTech = pTech;
 		m_ShaderName = shName ? shName : "";
 		m_shaderDefine = defines ? defines : "";
 	}
@@ -189,23 +193,24 @@ namespace ma
 	ShaderProgram::~ShaderProgram()
 	{
 		// Remove this effect from the cache.
-		__effectCache.erase(m_id);
-
-		// Free uniforms.
-		for (std::map<std::string, Uniform*>::iterator itr = m_uniforms.begin(); itr != m_uniforms.end(); ++itr)
-		{
-			SAFE_DELETE(itr->second);
-		}
-
-		if (__currentEffect == this)
-		{
-			__currentEffect = NULL;
-		}
+// 		__effectCache.erase(m_name);
+// 
+// 		// Free uniforms.
+// 		for (std::map<std::string, Uniform*>::iterator itr = m_uniforms.begin(); itr != m_uniforms.end(); ++itr)
+// 		{
+// 			SAFE_DELETE(itr->second);
+// 		}
+// 
+// 		if (__currentEffect == this)
+// 		{
+// 			__currentEffect = NULL;
+// 		}
 	}
 
 	void ShaderProgram::Create()
 	{
-		m_name = m_ShaderName + "_" + m_shaderDefine;
+		std::string sEffectName = m_pTech->GetTechName(); 
+		m_name = sEffectName + "_" + m_ShaderName + "_" + m_shaderDefine;
 
 		std::string strPath = GetRenderDevice()->GetShaderPath();
 		strPath += m_ShaderName;
@@ -239,24 +244,24 @@ namespace ma
 		ASSERT(fshPath);
 
 		// Search the effect cache for an identical effect that is already loaded.
-		std::string uniqueId = vshPath;
-		uniqueId += ';';
-		uniqueId += fshPath;
-		uniqueId += ';';
-		if (defines)
-		{
-			uniqueId += defines;
-		}
-		std::map<std::string, ShaderProgram*>::const_iterator itr = __effectCache.find(uniqueId);
-		if (itr != __effectCache.end())
-		{
-			// Found an exiting effect with this id, so increase its ref count and return it.
-			ASSERT(itr->second);
-			//itr->second->IncReference();
-			//return;
-		}
-
-		m_id = uniqueId;
+// 		std::string uniqueId = vshPath;
+// 		uniqueId += ';';
+// 		uniqueId += fshPath;
+// 		uniqueId += ';';
+// 		if (defines)
+// 		{
+// 			uniqueId += defines;
+// 		}
+// 		std::map<std::string, ShaderProgram*>::const_iterator itr = __effectCache.find(uniqueId);
+// 		if (itr != __effectCache.end())
+// 		{
+// 			// Found an exiting effect with this id, so increase its ref count and return it.
+// 			ASSERT(itr->second);
+// 			//itr->second->IncReference();
+// 			//return;
+// 		}
+// 
+// 		m_id = uniqueId;
 
 		std::string strVshSource = prePareShaderSource(vshPath,defines);
 		std::string strFshSource = prePareShaderSource(fshPath,defines);
@@ -266,7 +271,7 @@ namespace ma
 
 		ParseUniform();
 
-		__effectCache[uniqueId] = this;
+		//__effectCache[uniqueId] = this;
 	}
 
 
@@ -292,37 +297,6 @@ namespace ma
 	UINT ShaderProgram::GetUniformCount() const
 	{
 		return m_uniforms.size();
-	}
-
-
-// 	ShaderProgram* ShaderProgram::GetCurrentEffect()
-// 	{
-// 		return __currentEffect;
-// 	}
-
-	Uniform::Uniform() :
-		m_location(-1), /*_type(0),*/ m_index(0)
-	{
-	}
-
-	Uniform::~Uniform()
-	{
-		// hidden
-	}
-
-	ShaderProgram* Uniform::GetEffect() const
-	{
-		return m_effect;
-	}
-
-	const char* Uniform::getName() const
-	{
-		return m_name.c_str();
-	}
-
-	int Uniform::getType() const
-	{
-		return m_type;
 	}
 
 }

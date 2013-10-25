@@ -318,7 +318,7 @@ void Form::setSize(float width, float height)
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&_projectionMatrix, 0, width, height, 0, 0.0f, 1.0f);
 
         // Re-create sprite batch.
-        _spriteBatch = new SpriteBatch(_frameBuffer->GetTexture());
+        _spriteBatch = new SpriteBatch(_frameBuffer/*->GetTexture()*/);
         ASSERT(_spriteBatch);
 
 		_spriteBatch->getStateBlock().m_bDepthWrite = false;
@@ -537,8 +537,8 @@ void Form::draw()
     {
         ASSERT(_frameBuffer);
 
-		GetRenderDevice()->PushRenderTarget(_frameBuffer);
-		GetRenderDevice()->PushViewport(Rectangle(0, 0, _bounds.width, _bounds.height));
+		GetRenderSystem()->PushRenderTarget(_frameBuffer);
+		GetRenderSystem()->PushViewPort(Rectangle(0, 0, _bounds.width, _bounds.height));
 
         ASSERT(_theme);
         _theme->setProjectionMatrix(_projectionMatrix);
@@ -550,14 +550,14 @@ void Form::draw()
         Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),true, false, _bounds.height);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-		GetRenderDevice()->PopViewport();
-		GetRenderDevice()->PopRenderTarget();
+		GetRenderSystem()->PopViewPort();
+		GetRenderSystem()->PopRenderTargert();
     }
 
 
 	if (!_spriteBatch)
     {
-        _spriteBatch = new SpriteBatch(_frameBuffer->GetTexture());
+        _spriteBatch = new SpriteBatch(_frameBuffer/*->GetTexture()*/);
         ASSERT(_spriteBatch);
     }
 

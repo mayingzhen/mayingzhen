@@ -5,11 +5,12 @@ namespace ma
 {
 	SampleMonoScript::SampleMonoScript()
 	{
+		m_pTestScript = NULL;
 	}
 
 	void SampleMonoScript::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 6, 8);
+		Vector3 vEyePos = Vector3(0, 1.5f, 2);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
@@ -23,12 +24,11 @@ namespace ma
 		
 		m_pGameObj =  GetEntitySystem()->CreateGameObject("Test");
 
-
-		MeshComponent* pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
+		RenderMesh* pMeshComp = m_pGameObj->CreateComponent<RenderMesh>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
-		ScriptComponent* pScriptComp = m_pGameObj->CreateComponent<ScriptComponent>();
-		m_pTestScript = pScriptComp->CreatScriptObject("SharpTest");
+		m_pTestScript = m_pGameObj->CreateComponent<IScriptObject>();
+		m_pTestScript->SetName("SharpTest");
 	}
 
 	void SampleMonoScript::UnLoad()
@@ -37,6 +37,9 @@ namespace ma
 
 	void SampleMonoScript::Update()
 	{
+		if (m_pTestScript == NULL)
+			return;
+
 		float fRotSpeed = m_pTestScript->GetFloat("m_fRotSpeed");
 		if ( GetInput()->IsKeyDown(OIS::KC_DOWN) )
 		{

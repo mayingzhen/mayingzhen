@@ -19,15 +19,13 @@ struct VS_OUTPUT
 };
 
 
+
 float4 main(VS_OUTPUT In) : COLOR
 {	 
-	In.vTex0 = saturate(In.vTex0);
-	In.vTex1 = saturate(In.vTex1);
-	float4 texColor0 = tex2Dgrad(TerrainTex, In.vTex0, ddx(In.vTex0), ddy(In.vTex0) ); 
-	float4 texColor1 = tex2Dgrad(TerrainTex, In.vTex1, ddx(In.vTex1), ddy(In.vTex1) ); 
+	float4 texColor0 = tex2D(TerrainTex, In.vTex0); 
+	float4 texColor1 = tex2D(TerrainTex, In.vTex1);
 	
-	float3 texColor = lerp(texColor0.rgb, texColor1.rgb, texColor1.a);														
-	//return float4(texColor,texColor1.a);
+	float3 texColor = texColor0.xyz + texColor1.a * (texColor1.xyz - texColor0.xyz);  										
 	
 #ifdef DeferredLight
    float3 LightDiffuse = tex2D(u_textureLightDiffuse, In.v_defTc);

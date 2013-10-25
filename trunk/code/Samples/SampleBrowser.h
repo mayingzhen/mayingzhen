@@ -29,12 +29,12 @@ namespace ma
 
 		CameraController*	GetCameraController() {return m_pCameraControl;}
 
-		Camera*				GetCamera() {return m_pCamera;}
+		//Camera*				GetCamera() {return m_pCamera;}
 
 	private:
 		void				LoadUI();
 
-		void				InitCamera();
+		//void				InitCamera();
 
 		void				ResetCamera();
 
@@ -57,7 +57,7 @@ namespace ma
 		bool							m_bStepOneFrame;
 
 		CameraController*				m_pCameraControl;
-		Camera*							m_pCamera;
+		//Camera*							m_pCamera;
 
 		Systems*						m_pSystems;
 	};

@@ -6,6 +6,7 @@ namespace ma
 	class IPhysicsObject;
 	class IPhysicsGenericJoint;
 	class IPhysicsHingeJoint;
+	class IRigidBody;
 	class GameObject;
 
 	class ENGINE_API IPhysicsSystem 
@@ -18,8 +19,6 @@ namespace ma
 		virtual	void					Start() = 0;
 
 		virtual void					Stop() = 0;
-
-		//virtual void					Update() = 0;
 
 		virtual void					BeginUpdate() = 0;
 
@@ -35,11 +34,31 @@ namespace ma
 
  		virtual IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj) = 0;
 
+		virtual	IRigidBody*				CreateRigidBody(GameObject* pGameObj) = 0;
+
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape(GameObject* pGameObj) = 0;
+
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape(GameObject* pGameObj) = 0;
+
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(GameObject* pGameObj) = 0;
+
+		virtual ICharaControll*			CreateCharaControll(GameObject* pGameObj) = 0;
+
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(GameObject* pGameObj) = 0;
+
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(GameObject* pGameObj) = 0;
+
 		virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject) = 0;
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB) = 0;
+		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody) = 0;
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB) = 0;
+		virtual void					DeleteBoxCollisionShape(IBoxCollisionShape*	pBox) = 0;
+
+		virtual void					DeleteSphereCollisionShape(ISphereCollisionShape* pSphere) = 0;
+
+		virtual	void					DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule)  = 0;
+
+		virtual void					DeleteCharaControll(ICharaControll* pCharcontrol) = 0;
 
 		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint) = 0;
 

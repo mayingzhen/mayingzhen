@@ -4,7 +4,7 @@ namespace ma
 {
 	static Renderable* gpSphere = NULL;
 
-	void UnitSphere::Render(Material* pMaterial,const Vector3& vPos,float fRadius)
+	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius)
 	{
 		Matrix4x4 matTras;
 		MatrixTranslation(&matTras,vPos.x,vPos.y,vPos.z);
@@ -13,8 +13,8 @@ namespace ma
 
 		gpSphere->m_matWorld[0] = matScale * matTras;
 		gpSphere->m_matWorld[1] = matScale * matTras;		
-		gpSphere->m_pMaterial = pMaterial;
-		GetRenderSystem()->DrawRenderable(gpSphere);
+		//gpSphere->m_pMaterial = pMaterial;
+		GetRenderSystem()->DrawRenderable(gpSphere,pTech);
 	}
 
 

@@ -35,10 +35,10 @@ namespace ma
 		SAFE_DELETE(pAnimData);
 
 
-		m_pRenderMesh = new RenderMesh();
-		m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");        
+		//m_pRenderMesh = new RenderMesh();
+		//m_pRenderMesh->Load("FBX/TestBull.skn","FBX/TestBull_DM.png");        
 
-		m_pAnimtionObject =  GetAnimationSystem()->CreateAnimationObject("FBX/TestBull.ske",NULL);
+		//m_pAnimtionObject =  GetAnimationSystem()->CreateAnimationObject("FBX/TestBull.ske",NULL);
 		IAnimationSet* pAnimSet = m_pAnimtionObject->GetAnimationSet();
 		pAnimSet->AddAnimClip("FBX/TestBull.ska","TestAction");
 		m_pAnimtionObject->PlayAnimation("TestAction");
@@ -51,7 +51,7 @@ namespace ma
 		pMeshData->SaveToFile("../../Data/Fbx/MovingPlatform.skn");
 		SAFE_DELETE(pMeshData);
 
-		m_pStaticMesh = new RenderMesh();
+		//m_pStaticMesh = new RenderMesh();
 		m_pStaticMesh->Load("Fbx/MovingPlatform.skn","Fbx/PlatformTexture.tga");
 
 		{
@@ -60,7 +60,7 @@ namespace ma
 			pBoxData->SaveToFile("../../Data/Fbx/Box.skn");
 			SAFE_DELETE(pBoxData);
 
-			m_pBoxMesh = new RenderMesh();
+			//m_pBoxMesh = new RenderMesh();
 			m_pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.tga");
 		}
 
@@ -70,7 +70,7 @@ namespace ma
 			pSphereData->SaveToFile("../../Data/Fbx/shpere.skn");
 			SAFE_DELETE(pSphereData);
 
-			m_pSphereMesh = new RenderMesh();
+			//m_pSphereMesh = new RenderMesh();
 			m_pSphereMesh->Load("Fbx/shpere.skn","Fbx/Box.tga");
 		}
 
@@ -135,7 +135,7 @@ namespace ma
 			matWorld = matScale * matWorld;
 			m_pRenderMesh->SetWorldMatrix(matWorld);
 
-			m_pRenderMesh->Render();
+			//m_pRenderMesh->Render();
 
 		}
 
@@ -146,7 +146,7 @@ namespace ma
 
 			m_pStaticMesh->SetWorldMatrix(matWorld);
 
-			m_pStaticMesh->Render();
+			//m_pStaticMesh->Render();
 		}
 
 		if (m_pBoxMesh)
@@ -159,7 +159,7 @@ namespace ma
 
 			m_pBoxMesh->SetWorldMatrix(matWorld);
 
-			m_pBoxMesh->Render();
+			//m_pBoxMesh->Render();
 		}
 	}
 

@@ -117,11 +117,11 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_CreateRenderTarget(RenderTarget* pRenderTarget)
+	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->Create();
+			pRenderTarget->CreateRT();
 			return;
 		}
 
@@ -131,7 +131,7 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_PushRenderTarget(RenderTarget* pTexture)
+	void RenderThread::RC_PushRenderTarget(Texture* pTexture)
 	{
 		if (IsRenderThread())
 		{
@@ -140,6 +140,18 @@ namespace ma
 		}
 
 		AddCommand(eRC_PushRenderTarget);
+		AddPointer(pTexture);
+	}
+
+	void RenderThread::RC_PushDepthStencil(Texture* pTexture)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PushDepthStencil(pTexture);
+			return;
+		}
+
+		AddCommand(eRC_PushDepthStencil);
 		AddPointer(pTexture);
 	}
 
@@ -164,6 +176,17 @@ namespace ma
 		}
 
 		AddCommand(eRC_PopRenderTarget);
+	}
+
+	void RenderThread::RC_PopDepthStencil()
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->PopDepthStencil();
+			return;
+		}
+
+		AddCommand(eRC_PopDepthStencil);
 	}
 
 	void RenderThread::RC_PopViewPort()
@@ -236,18 +259,27 @@ namespace ma
 				break;
 			case  eRC_CreateRenderTarget:
 				{
-					RenderTarget* pTarget = ReadCommand<RenderTarget*>(n);
-					pTarget->Create();
+					Texture* pTarget = ReadCommand<Texture*>(n);
+					pTarget->CreateRT();
 				}
 				break;
 			case eRC_PushRenderTarget:
 				{
-					RenderTarget* pTarget = ReadCommand<RenderTarget*>(n);
+					Texture* pTarget = ReadCommand<Texture*>(n);
 					GetRenderDevice()->PushRenderTarget(pTarget);
+				}
+				break;
+			case  eRC_PushDepthStencil:
+				{
+					Texture* pTarget = ReadCommand<Texture*>(n);
+					GetRenderDevice()->PushDepthStencil(pTarget);
 				}
 				break;
 			case  eRC_PopRenderTarget:
 				GetRenderDevice()->PopRenderTarget();
+				break;
+			case eRC_PopDepthStencil:
+				GetRenderDevice()->PopDepthStencil();
 				break;
 			case  eRC_PushViewPort:
 				{
@@ -328,7 +360,7 @@ namespace ma
 		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
 		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
-		Log("fTimeWaitForRender = %f",fTimeWaitForRender);
+		//Log("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;

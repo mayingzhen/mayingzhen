@@ -12,7 +12,7 @@ namespace ma
 	class BulletCharacterController : public ICharaControll , public btActionInterface
 	{
 	public:
-		BulletCharacterController(BulletPhysicsObject* pPhysicsObject);
+		BulletCharacterController(GameObject* pGameObj/*BulletPhysicsObject* pPhysicsObject*/);
 
 		~BulletCharacterController();
 

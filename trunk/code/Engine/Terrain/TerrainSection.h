@@ -5,14 +5,26 @@ namespace ma
 {
 	class TerrainSection : public RenderObject
 	{
+		DECL_OBJECT(TerrainSection)
+
 	public:
-		TerrainSection();
+		TerrainSection(GameObject* pGameObj);
 
 		~TerrainSection();
 
-		virtual void		Render();
+		virtual void		Render(Technique* pTech);
+
+		virtual	void		AddToRenderQueue();
 
 		virtual Material*	GetMaterial();
+
+		virtual void		SetMaterial(Material* pMaterial);
+
+		virtual AABB		GetAABB();
+
+		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
+
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "TerrainSection");
 
 		void				Create(int heightMapX, int heightMapY, int xVerts, int yVerts);
 
@@ -41,6 +53,8 @@ namespace ma
 		int				m_heightMapY;	
 
 		Renderable*		m_pRenderable;
+
+		AABB			m_WorldAABB;
 
 	};
 }

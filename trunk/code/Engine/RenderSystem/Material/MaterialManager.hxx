@@ -24,6 +24,7 @@ namespace ma
 		m_autoDefaultBings["u_InvProjMatrix"] =  INVERSE_PROJECTION_MATRIX;
 		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
 		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
+		m_autoDefaultBings["u_TextureSceneShadow"] =  TextureLightShadow;
 		m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
 		m_autoDefaultBings["u_textureLightSpecular"] =  TextureLightSpecular;
 
@@ -49,6 +50,11 @@ namespace ma
 		}
 	}
 
+	void MaterialManager::SetCurViewPojectMat(const Matrix4x4& matView,const Matrix4x4& matProj)
+	{
+		m_matView = matView;
+		m_matProj = matProj;
+	}
 
 	void MaterialManager::SetParameterAutoBinding(MaterialParameter* pParam,AutoBinding autoBinding)
 	{
@@ -136,6 +142,10 @@ namespace ma
 		{
 			pParam->bindValue(this, &MaterialManager::autoBindingTextureightSpecular);
 		}
+		else if (autoBinding == TextureLightShadow)
+		{
+			pParam->bindValue(this,&MaterialManager::autoBindingTextureLightShadow);
+		}
 		else
 		{
 			ASSERT("Unsupported auto binding type " && autoBinding);
@@ -153,12 +163,12 @@ namespace ma
 
 	const Matrix4x4& MaterialManager::autoBindingGetViewMatrix() const
 	{
-		return GetRenderSystem()->GetViewMatrix();
+		return m_matView;
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetProjectionMatrix() const
 	{
-		return GetRenderSystem()->GetProjMatrix();
+		return m_matProj;
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewMatrix() const
@@ -167,12 +177,12 @@ namespace ma
 			return Matrix4x4::identity();
 
 		int index = GetRenderThread()->m_nCurThreadProcess;
-		return m_pCurRenderable->m_matWorld[index] * GetRenderSystem()->GetViewMatrix();
+		return m_pCurRenderable->m_matWorld[index] * m_matView;
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetViewProjectionMatrix() const
 	{
-		return GetRenderSystem()->GetViewProjMatrix();
+		return m_matView * m_matProj;
 	}
 
 	Matrix4x4 MaterialManager::autoBindingGetWorldViewProjectionMatrix() const
@@ -181,7 +191,7 @@ namespace ma
 			return Matrix4x4::identity();
 
 		int index = GetRenderThread()->m_nCurThreadProcess;
-		return m_pCurRenderable->m_matWorld[index] * GetRenderSystem()->GetViewProjMatrix();
+		return m_pCurRenderable->m_matWorld[index] * m_matView * m_matProj;
 	}
 
 	const Matrix4x4& MaterialManager::autoBindingGetInverseTransposeWorldMatrix() const
@@ -197,15 +207,14 @@ namespace ma
 	Matrix4x4 MaterialManager::autoBindingGetInverseProjectionMatrix() const
 	{
 		Matrix4x4 mInvProj;
-		Matrix4x4 matProj = GetRenderSystem()->GetProjMatrix();
-		MatrixInverse(&mInvProj, NULL, &matProj);
+		MatrixInverse(&mInvProj, NULL, &m_matProj);
 		return mInvProj;
 	}
 
 	Vector3 MaterialManager::autoBindingGetCameraWorldPosition() const
 	{
 		Matrix4x4 matWS;
-		MatrixInverse(&matWS,NULL,&GetRenderSystem()->GetViewMatrix());
+		MatrixInverse(&matWS,NULL,&m_matView);
 		return matWS.GetRow(3);
 	}
 
@@ -303,6 +312,14 @@ namespace ma
 			return NULL;
 
 		return GetDeferredLight()->GetTextureightSpecular();
-	}		
+	}	
+
+	Texture* MaterialManager::autoBindingTextureLightShadow() const
+	{
+		if (GetShadowSystem() == NULL)
+			return NULL;
+
+		return GetShadowSystem()->GetShadowTexture();
+	}
 
 }

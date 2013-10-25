@@ -8,7 +8,6 @@
 #include "D3D9Render/D3D9Mapping.hxx"
 #include "D3D9Render/D3D9VertexDeclaration.hxx"
 #include "D3D9Render/D3D9ShaderProgram.hxx"
-#include "D3D9Render/D3D9RenderTarget.hxx"
 #include "D3D9Render/D3D9RenderDevice.hxx"
 
 
@@ -21,7 +20,7 @@ void D3D9RenderModuleInit()
 	//ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
 
 	ma::GetRenderSystem()->SetDefferLight(true);
-	ma::GetRenderSystem()->SetShadow(false);
+	ma::GetRenderSystem()->SetShadow(true);
 	
 	ma::GetRenderSystem()->Init();
 }

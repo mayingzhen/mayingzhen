@@ -10,34 +10,36 @@ namespace ma
 
 	class ENGINE_API RenderMesh : public RenderObject
 	{
+		DECL_OBJECT(RenderMesh)
+
 	public:
-		RenderMesh();
+		RenderMesh(GameObject* pGameObj);
 
-		virtual void	Render();
+		virtual void			Render(Technique* pTech);
 
-		bool			InitWithData(MeshData* pMeshData);
+		virtual void			SetWorldMatrix(const Matrix4x4& matWorld);
 
-		bool			Load(const char* pszSknPath,const char* pszMatPath);
+		virtual void			SetMaterial(Material* pMaterial);
 
-		void			SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
+		virtual Material*		GetMaterial() {return m_pMaterial;}
+
+		virtual	void			AddToRenderQueue();
+
+		virtual AABB			GetAABB();
+
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "RenderMesh");
+
+		bool					InitWithData(MeshData* pMeshData);
+
+		bool					Load(const char* pszSknPath,const char* pszMatPath);
 	
-		void			SetWorldMatrix(const Matrix4x4& matWorld);
+		void					SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount);
 
-		void			SetMaterial(Material* pMaterial);
+		MeshData*				GetMeshData() {return m_pMesData;}
 
-		Material*		GetMaterial() {return m_pMaterial;}
-
-		MeshData*		GetMeshData() {return m_pMesData;}
-
-		UINT			GetRenderableNumber() {return m_arrRenderable.size();}
-
-		Renderable*		GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
-
-		AABB			GetBoundingAABB();
-
-// 		const char*		GetSknPath() {return m_pMesData ? m_pMesData->GetResPath() : NULL;}
-// 
-// 		const char*     GetMatPath() {return m_pMaterial ? m_pMaterial->GetResPath() : NULL;}
+		UINT					GetRenderableNumber() {return m_arrRenderable.size();}
+	
+		Renderable*				GetRenderableByIndex(UINT index) {return m_arrRenderable[index];}
 
 	public:
 		//std::string				m_sknPath;

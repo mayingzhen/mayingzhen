@@ -18,9 +18,14 @@ namespace ma
 
 	void Resource::LoadSync()
 	{
+		if (m_eResState == ResLoaded)
+			return ;
+
 		LoadFileToMemeory();
 
 		CreateFromMemeory();
+
+		m_eResState = ResLoaded;
 	}
 
 	void Resource::LoadAsync()

@@ -20,7 +20,8 @@ namespace ma
 		std::map<std::string,RTTIClass*>::iterator nameIter = m_nameMap.find(pCls->GetName());
 		if (nameIter != m_nameMap.end())
 		{
-			Log("\nClass name conflict %s",pCls);
+			ASSERT(false);
+			Log("Class name conflict %s",pCls);
 		}
 		else 
 		{

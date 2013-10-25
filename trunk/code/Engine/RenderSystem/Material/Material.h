@@ -31,13 +31,24 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "Material");
 
-		Effect*				GetEffect() {return m_pEffect;}
+		//Effect*				CreateEffect(const char* pszEffectName);
 
-		void				SetEffect(Effect* pEffect) {m_pEffect = pEffect;}
+		//Effect*				GetEffect() {return m_pEffect;}
 
-		void				LoadEffect(const std::string& sShaderName,const std::string& sMatFlag);
+		//void				SetEffect(Effect* pEffect) {m_pEffect = pEffect;}
+
+		void				AddTechnique(Technique* pTechnique);
+
+		Technique*			GetTechnqiue(const char* pTechName);
+
+		Technique*			LoadTechnique(const std::string& sShaderName,const std::string& sMatFlag);
 
 		void				SetDiffuse(const char* pDiffPath, Wrap eWrap = CLAMP, FilterOptions eFilter = TFO_BILINEAR);
+
+		void				SetDiffuse(Texture* pTexture, Wrap eWrap = CLAMP, FilterOptions eFilter = TFO_BILINEAR);
+
+	private:
+		Technique*			AddTechnique(const char* pTechName,const char* pShadrName,const char* pDefine);
 
 	private:
 
@@ -45,7 +56,7 @@ namespace ma
 
 		std::string					m_strMaterialFlag;
 
-		Effect*						m_pEffect;
+		std::vector<Technique*>		m_arrTechnique;
 
 		SamplerState*				m_pDiffuse;
 		SamplerState*				m_pBumpmap;

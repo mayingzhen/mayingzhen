@@ -12,12 +12,15 @@ namespace ma
 		Vector2 VetrexUV2;
 	};
 
-	TerrainSection::TerrainSection()
+	IMPL_OBJECT(TerrainSection,RenderObject)
+
+	TerrainSection::TerrainSection(GameObject* pGameObj):
+		RenderObject(pGameObj)
 	{
 		m_pRenderable = new Renderable();
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 		m_pRenderable->m_pSubMeshData = new SubMeshData();
-		m_pRenderable->m_pMaterial = GetMaterial();
+		//m_pRenderable->m_pMaterial = GetMaterial();
 	}
 
 	TerrainSection::~TerrainSection()
@@ -26,9 +29,9 @@ namespace ma
 		SAFE_DELETE(m_pRenderable);
 	}
 
-	void TerrainSection::Render()
+	void TerrainSection::Render(Technique* pTech)
 	{
-		GetRenderSystem()->DrawRenderable(m_pRenderable);
+		GetRenderSystem()->DrawRenderable(m_pRenderable,pTech);
 	}
 
 	Material* TerrainSection::GetMaterial()
@@ -38,6 +41,31 @@ namespace ma
 			return NULL;
 
 		return pTerrain->GetMaterial();
+	}
+
+	void TerrainSection::AddToRenderQueue()
+	{
+		GetRenderQueue()->AddRenderObj(RL_Solid,this);
+	}
+
+	void TerrainSection::SetMaterial(Material* pMaterial)
+	{
+
+	}
+
+	AABB TerrainSection::GetAABB()
+	{
+		return AABB();
+	}
+
+	void TerrainSection::SetWorldMatrix(const Matrix4x4& matWS)
+	{
+
+	}
+
+	void TerrainSection::Serialize(Serializer& sl, const char* pszLable/* = "TerrainSection"*/)
+	{
+
 	}
 
 	void TerrainSection::Create(int heightMapX, int heightMapY,int xVerts, int yVerts)
@@ -59,7 +87,6 @@ namespace ma
 		m_pRenderable->m_pDeclaration->AddElement(0,12,DT_FLOAT3,DU_NORMAL,0);
 		m_pRenderable->m_pDeclaration->AddElement(0,24,DT_FLOAT2,DU_TEXCOORD0,0);
 		m_pRenderable->m_pDeclaration->AddElement(0,32,DT_FLOAT2,DU_TEXCOORD1,0);
-		m_pRenderable->m_pDeclaration->Active();
 	}
 
 	void TerrainSection::CreateIndexData()
@@ -153,10 +180,10 @@ namespace ma
 				pVerts[base_index + 2].vPos = pTerrain->GetPos(nHeightMapX,nHeightMapY + 1);
 				pVerts[base_index + 3].vPos = pTerrain->GetPos(nHeightMapX + 1, nHeightMapY + 1);
 
-				//m_WorldAABB.Merge(pVerts[base_index].vPos);
-				//m_WorldAABB.Merge(pVerts[base_index + 1].vPos);	
-				//m_WorldAABB.Merge(pVerts[base_index + 2].vPos);	
-				//m_WorldAABB.Merge(pVerts[base_index + 3].vPos);	
+				m_WorldAABB.Merge(pVerts[base_index].vPos);
+				m_WorldAABB.Merge(pVerts[base_index + 1].vPos);	
+				m_WorldAABB.Merge(pVerts[base_index + 2].vPos);	
+				m_WorldAABB.Merge(pVerts[base_index + 3].vPos);	
 			
 				pVerts[base_index].Normal = pTerrain->GetNormal( nHeightMapX,	   nHeightMapY);
 				pVerts[base_index + 1].Normal = pTerrain->GetNormal( nHeightMapX + 1, nHeightMapY);

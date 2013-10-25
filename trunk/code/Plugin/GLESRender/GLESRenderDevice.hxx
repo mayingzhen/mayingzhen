@@ -22,9 +22,11 @@ namespace ma
 		return new GLESTexture(pszPath);
 	}
 
-	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format)
+	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
 	{
-		return new GLESTexture(nWidth,nHeight,format);
+		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,bDepthStencil);
+		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
+		return pTarget;
 	}
 
 	VertexDeclaration* GLESRenderDevice::CreateVertexDeclaration()
@@ -42,9 +44,9 @@ namespace ma
 		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(const char* pszName,const char* pszDefine)
+	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
 	{
-		return new GLESShaderProgram(pszName,pszDefine);
+		return new GLESShaderProgram(pTech,pszName,pszDefine);
 	}
 
 	const char*	GLESRenderDevice::GetShaderPath()
@@ -129,7 +131,7 @@ namespace ma
 		
 		GLint fbo;
 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
-		GLESRenderTarget* pRenderTarget = new GLESRenderTarget();
+		GLESTexture* pRenderTarget = new GLESTexture(-1,-1);
 		pRenderTarget->SetFrameBuffer(fbo);
 		m_pRenderTarget.push(pRenderTarget);
 		
@@ -165,24 +167,15 @@ namespace ma
 #endif
 	}
 
-	RenderTarget* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
-	{
-		GLESRenderTarget* pTarget = new GLESRenderTarget(nWidth,nHeight,format);
-		pTarget->Create();
-		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
-		return pTarget;
-	}
-
-	void GLESRenderDevice::PushRenderTarget(RenderTarget* pTarget,int index)
+	void GLESRenderDevice::PushRenderTarget(Texture* pTarget,int index)
 	{
 		ASSERT(pTarget && index == 0);
 		if (pTarget == NULL || index != 0)
 			return ;
 
-		GLESRenderTarget* pGLESTargert = (GLESRenderTarget*)pTarget;
-		GLESTexture* pGLESTexure = (GLESTexture*)pGLESTargert->GetTexture();
+		GLESTexture* pGLESTexure = (GLESTexture*)pTarget;
 
-		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTargert->GetFrameBuffer()) );
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTexure->GetFrameBuffer()) );
 	
 		if (pGLESTexure)
 		{
@@ -195,7 +188,7 @@ namespace ma
 			}
 		}
 		
-		m_pRenderTarget.push(pGLESTargert);
+		m_pRenderTarget.push(pGLESTexure);
 	}
 
 	void GLESRenderDevice::PopRenderTarget(int index)
@@ -205,10 +198,8 @@ namespace ma
 			return;
 
 		m_pRenderTarget.pop();
-		GLESRenderTarget* pGLESTargert = m_pRenderTarget.top();
-		GLESTexture* pGLESTexure = (GLESTexture*)pGLESTargert->GetTexture();
-
-		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTargert->GetFrameBuffer()) );
+		GLESTexture* pGLESTexure = m_pRenderTarget.top();				
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTexure->GetFrameBuffer()) );
 
 		if (pGLESTexure && pGLESTexure->GetTexture() > 0)
 		{
@@ -223,7 +214,7 @@ namespace ma
 	}
 
 
-	void GLESRenderDevice::PushDepthStencil(RenderTarget* pTexture)
+	void GLESRenderDevice::PushDepthStencil(Texture* pTexture)
 	{
 		ASSERT(false);
 	}
@@ -321,11 +312,10 @@ namespace ma
 
 	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
 
-	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable)
+	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
-		Technique* pCurTech = pRenderable->m_pMaterial->GetEffect()->GetCurTechnqiue();
-		ASSERT(pCurTech);
-		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
+		ASSERT(pTech);
+		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
 
 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer;
 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
@@ -385,14 +375,13 @@ namespace ma
 		}
 	}
 
-	void GLESRenderDevice::DrawDyRenderable(const Renderable* pRenderable)
+	void GLESRenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
 		if (pRenderable == NULL)
 			return;
 
-		Technique* pCurTech = pRenderable->m_pMaterial->GetEffect()->GetCurTechnqiue();
-		ASSERT(pCurTech);
-		GLESShaderProgram* pProgram = (GLESShaderProgram*)pCurTech->GetShaderProgram();
+		ASSERT(pTech);
+		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
 
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
@@ -489,6 +478,20 @@ namespace ma
 		return *pOut;
 	}
 
+	void GLESRenderDevice::BeginProfile(const char* pszLale)
+	{
+
+	}
+
+	void GLESRenderDevice::EndProfile()
+	{
+
+	}
+
+	bool GLESRenderDevice::CheckTextureFormat(FORMAT eFormat,USAGE eUsage)
+	{
+		return true;
+	}
 
 }
 

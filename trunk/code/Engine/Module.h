@@ -34,6 +34,16 @@
 #include "Engine/Resource/Serialize/XMLOutputArchive.h"
 
 
+// Entity System
+#include "Engine/EntitySystem/Component.h"
+#include "Engine/EntitySystem/GameObj.h"
+#include "Engine/EntitySystem/Scene.h"
+#include "Engine/EntitySystem/SceneNode.h"
+#include "Engine/EntitySystem/SceneVisiter.h"
+#include "Engine/EntitySystem/EntitySystem.h"
+#include "Engine/EntitySystem/Util.h"
+
+
 // RenderSystem
 #include "Engine/RenderSystem/RenderDefine.h"
 #include "Engine/RenderSystem/IRenderDevice.h"
@@ -44,7 +54,6 @@
 #include "Engine/RenderSystem/RendMesh.h"
 #include "Engine/RenderSystem/MeshBatch.h"
 #include "Engine/RenderSystem/SpriteBatch.h"
-#include "Engine/RenderSystem/RenderTarget.h"
 #include "Engine/RenderSystem/Camera.h"
 #include "Engine/RenderSystem/Light.h"
 #include "Engine/RenderSystem/RenderSystem.h"
@@ -75,7 +84,6 @@
 #include "Engine/RenderSystem/Material/Texture.h"
 #include "Engine/RenderSystem/Material/SamplerState.h"
 #include "Engine/RenderSystem/Material/Technqiue.h"
-#include "Engine/RenderSystem/Material/Effect.h"
 
 // Physics
 #include "Engine/Physics/ICharacterController.h"
@@ -105,6 +113,8 @@
 
 // Thread
 #include "Engine/Thread/Thread.h"
+
+
 
 
 #include "WarningSuffix.h"

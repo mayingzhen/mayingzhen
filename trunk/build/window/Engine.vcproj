@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_d.lib "
+				AdditionalDependencies="OIS_d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/OISInput/Lib"
 				GenerateDebugInformation="true"
@@ -280,6 +280,10 @@
 				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\RTTI.h"
+				>
+			</File>
 			<Filter
 				Name="Serialize"
 				>
@@ -433,6 +437,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderObject.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
 				>
 			</File>
@@ -458,6 +466,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RTTI.h"
 				>
 			</File>
 			<File
@@ -495,14 +507,6 @@
 			<Filter
 				Name="Material"
 				>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\Effect.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\Effect.hxx"
-					>
-				</File>
 				<File
 					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.h"
 					>
@@ -693,11 +697,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Physics\ICharacterController.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Physics\ICollisionShape.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Physics\ICollisionShape.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.hxx"
 				>
 			</File>
 			<File
@@ -720,12 +736,24 @@
 				RelativePath="..\..\code\Engine\Physics\IRigidBody.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\IRigidBody.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\RTTI.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Script"
 			>
 			<File
 				RelativePath="..\..\Code\Engine\Script\IScriptObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Script\IScriptObject.hxx"
 				>
 			</File>
 			<File
@@ -865,6 +893,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Animation\IAnimationObject.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Animation\IAnimationSet.h"
 				>
 			</File>
@@ -893,6 +925,78 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="EntitySystem"
+			>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Component.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Component.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\CompRTTIDecl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\EntitySystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\EntitySystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\GameObj.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\GameObj.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\RenderQueueBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\RTTIDecl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Scene.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Scene.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\SceneNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\SceneNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\SceneVisiter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\SceneVisiter.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Util.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\..\Code\Engine\Export.h"
 			>
@@ -907,10 +1011,6 @@
 		</File>
 		<File
 			RelativePath="..\..\code\Engine\RTTI.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Engine\RTTIDecl.h"
 			>
 		</File>
 		<File

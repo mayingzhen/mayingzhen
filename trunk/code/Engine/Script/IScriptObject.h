@@ -3,10 +3,16 @@
 
 namespace ma
 {
-	class ENGINE_API IScriptObject
+	class ENGINE_API IScriptObject : public Component
 	{
+		DECL_OBJECT(IScriptObject);
+
 	public:
+		IScriptObject(GameObject* pGameObj);
+
 		virtual	const char* GetName() = 0;
+
+		virtual	void		SetName(const char* pName) = 0;
 
 		virtual float		GetFloat(const char* pszName) = 0;
 

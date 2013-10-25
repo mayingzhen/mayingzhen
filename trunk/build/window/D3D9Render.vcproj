@@ -198,14 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\D3D9Render\D3D9RenderTarget.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\D3D9Render\D3D9RenderTarget.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9ShaderProgram.h"
 				>
 			</File>
@@ -258,6 +250,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\D3D9\DefferedShadow.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\D3D9\DefferedShadow.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\D3D9\font.frag"
 				>
 			</File>
@@ -271,6 +271,10 @@
 			</File>
 			<File
 				RelativePath="..\..\data\shader\D3D9\gbuffer.vert"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\D3D9\shadowDepth.frag"
 				>
 			</File>
 			<File

@@ -51,7 +51,7 @@ namespace ma
 
 	ParticleEmitter* ParticleSystem::Create(const char* url)
 	{
-		ParticleEmitter* pEmit = new ParticleEmitter();
+		ParticleEmitter* pEmit = new ParticleEmitter(NULL);
 		pEmit->Load(url);
 		m_arrPaticleEmit.push_back(pEmit);
 		return pEmit;

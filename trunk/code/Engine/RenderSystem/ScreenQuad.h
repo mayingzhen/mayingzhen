@@ -11,7 +11,7 @@ namespace ma
 		
 		static void ShoutDown();
 
-		static void Render(Material* pMaterial);
+		static void Render(Technique* pTechnique);
 	};
 
 }

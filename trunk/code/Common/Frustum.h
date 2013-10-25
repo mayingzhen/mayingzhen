@@ -10,6 +10,8 @@ namespace ma
 
 		Frustum(const Matrix4x4& mViewProj); 
 
+		bool IsCull(const AABB& aabb) {return false;}
+
 	public:
 		Vector3	vPts[8];
 

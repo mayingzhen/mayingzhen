@@ -10,7 +10,7 @@ namespace ma
 
 	Camera*	Sample::GetCamera()
 	{
-		return GetSampleBrowser()->GetCamera();
+		return GetEntitySystem()->GetCamera();
 	}
 
 }

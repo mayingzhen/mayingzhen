@@ -4,12 +4,29 @@
 
 namespace ma
 {
-	class RenderObject
+	class Material;
+	class Material;
+
+	class ENGINE_API RenderObject : public Component
 	{
+		DECL_OBJECT(RenderObject)
+
 	public:
-		virtual void		Render() = 0;
+		RenderObject(GameObject* pGameObj);
+
+		virtual	void		UpdateTransform();
+
+		virtual void		Render(Technique* pTech) = 0;
+
+		virtual	void		AddToRenderQueue() = 0;
 	
 		virtual Material*	GetMaterial() = 0;
+
+		virtual void		SetMaterial(Material* pMaterial) = 0;
+
+		virtual AABB		GetAABB() = 0;
+
+		virtual void		SetWorldMatrix(const Matrix4x4& matWS) = 0;
 	};
 }
 

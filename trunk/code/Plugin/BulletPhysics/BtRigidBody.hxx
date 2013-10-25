@@ -3,7 +3,8 @@
 
 namespace ma
 {
-	BulletRigidBody::BulletRigidBody()
+	BulletRigidBody::BulletRigidBody(GameObject* pGameObj)
+		:IRigidBody(pGameObj)
 	{
 		m_pRigidBody = NULL;
 		m_pBtDynamicsWorld = NULL;

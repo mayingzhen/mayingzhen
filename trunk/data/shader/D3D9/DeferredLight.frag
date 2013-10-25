@@ -18,7 +18,7 @@ sampler2D u_textureSceneNormal;
 
 // shadow
 #ifdef SHADOW
-sampler2D u_TextureShadow;
+sampler2D u_TextureSceneShadow;
 #endif
       
 struct VS_OUT
@@ -46,6 +46,7 @@ void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float
    float4 SrcNormal = tex2D( u_textureSceneNormal, In.oTc);
    normal = SrcNormal.xyz * 2 - 1;
    shiness = SrcNormal.w  * 255.0f;
+   shiness = 16.0f;
 }
 
 void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out PS_OUT pOut)
@@ -86,7 +87,7 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
    float3 vlightVec = light_pos_es.xyz - pos_es.xyz;
 #else 
 #ifdef DIRECT_LIGHT
-   float3 vlightVec = light_dir_es.xyz;      
+   float3 vlightVec = -light_dir_es.xyz;      
 #endif
 #endif  
    
@@ -114,7 +115,7 @@ void main( VS_OUT vout, out PS_OUT pout )
    DeferredLightPS(vout,pout);   
    
 #ifdef SHADOW
-   half shadow = tex2D(u_SamplerShadow, In.oTc).r;
+   float shadow = tex2D(u_TextureSceneShadow, vout.oTc).r;
    
    pout.Diffuse *= shadow;
    pout.Specular *= shadow;

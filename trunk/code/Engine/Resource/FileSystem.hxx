@@ -357,7 +357,7 @@ namespace ma
 		std::auto_ptr<Stream> stream(open(filePath));
 		if (stream.get() == NULL)
 		{
-			GP_ERROR("Failed to load file: %s", filePath);
+			//GP_ERROR("Failed to load file: %s", filePath);
 			return NULL;
 		}
 		size_t size = stream->length();

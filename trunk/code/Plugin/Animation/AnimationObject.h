@@ -12,9 +12,13 @@ namespace ma
 	class AnimationObject : public IAnimationObject
 	{
 	public:
-		AnimationObject(const char* pszSkePath,const char* pszAniSetPath);
+		AnimationObject(GameObject* pGameObj);
 
 		~AnimationObject();
+
+		virtual	void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
+
+		void					Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
 
  		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
@@ -53,6 +57,9 @@ namespace ma
 		Action*					m_pSkelAnim;
 
 		Matrix4x4*				m_arrSkinMatrix;
+
+		std::string				m_strSkeletonPath;
+		std::string				m_strAnimaSetPath;
 	};
 }
 

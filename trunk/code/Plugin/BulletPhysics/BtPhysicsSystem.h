@@ -37,9 +37,29 @@ namespace ma
 
 		virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject);
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
+		virtual	IRigidBody*				CreateRigidBody(GameObject* pGameObj);
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(IPhysicsObject* pPhyObjA, IPhysicsObject* pPhyObjB);
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape(GameObject* pGameObj);
+
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape(GameObject* pGameObj);
+
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(GameObject* pGameObj);
+
+		virtual ICharaControll*			CreateCharaControll(GameObject* pGameObj);
+
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(GameObject* pGameObj);
+
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(GameObject* pGameObj);
+
+		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody);
+
+		virtual void					DeleteBoxCollisionShape(IBoxCollisionShape*	pBox);
+
+		virtual void					DeleteSphereCollisionShape(ISphereCollisionShape* pSphere);
+
+		virtual	void					DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule);
+
+		virtual void					DeleteCharaControll(ICharaControll* pCharcontrol);
 
 		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint);
 

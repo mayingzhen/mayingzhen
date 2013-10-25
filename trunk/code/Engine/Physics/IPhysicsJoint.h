@@ -3,9 +3,13 @@
 
 namespace ma
 {
-	class ENGINE_API IPhysicsJoint
+	class ENGINE_API IPhysicsJoint : public Component
 	{
+		DECL_OBJECT(IPhysicsJoint)
+
 	public:
+		IPhysicsJoint(GameObject* pGameObj);
+
 		virtual float			GetBreakingImpulse() = 0;
 
 		virtual void			SetBreakingImpulse(float impulse) = 0;
@@ -28,7 +32,11 @@ namespace ma
 
 	class ENGINE_API IPhysicsGenericJoint : public IPhysicsJoint
 	{
+		DECL_OBJECT(IPhysicsGenericJoint)
+
 	public:
+		IPhysicsGenericJoint(GameObject* pGameObj);
+
 		virtual void			SetAngularLowerLimit(const Vector3& limits) = 0;
  
 		virtual void			SetAngularUpperLimit(const Vector3& limits) = 0;
@@ -41,7 +49,11 @@ namespace ma
 
 	class ENGINE_API IPhysicsHingeJoint : public IPhysicsJoint
 	{
+		DECL_OBJECT(IPhysicsHingeJoint)
+
 	public:
+		IPhysicsHingeJoint(GameObject* pGameObj);
+
 		virtual void			SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f) = 0;
 	};
 

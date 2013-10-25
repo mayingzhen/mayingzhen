@@ -10,7 +10,7 @@ namespace ma
 			某些纹理一行的实际大小可能和定义时不同.
 	----------------------------------------------------------
 	*/
-	struct ENGINE_API LockedRect
+	struct LockedRect
 	{
 		int  Pitch;
 		void * pData;
@@ -24,7 +24,7 @@ namespace ma
 			某些纹理一行的实际大小可能和定义时不同.       
 	----------------------------------------------------------
 	*/
-	struct ENGINE_API LockedBox
+	struct LockedBox
 	{
 		int  RowPitch;
 		int  SlicePitch;
@@ -41,7 +41,9 @@ namespace ma
 	*/
 	enum USAGE
 	{
-		USAGE_STATIC,
+		USAGE_NO,
+		USAGE_RENDERTARGET,
+		USAGE_DEPTHSTENCIL,
 		USAGE_DYNAMIC,
 	};
 
@@ -167,7 +169,7 @@ namespace ma
 		TEXTYPE_2D,                 // normal texture
 		TEXTYPE_3D,                 // volume texture
 		TEXTYPE_CUBE,               // cube texture
-		TEXTYPE_RENDERTARGET,       // render target
+		//TEXTYPE_RENDERTARGET,       // render target
 	};
 
 	/* enum: DECL_TYPE

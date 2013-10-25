@@ -1,6 +1,10 @@
 // Uniforms
 uniform float4x4 u_worldViewProjectionMatrix;
 
+#ifndef HWPCF
+uniform float4x4 u_worldViewMatrix; 
+#endif
+
 #ifdef SKIN
 uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
 #endif
@@ -17,38 +21,49 @@ struct VS_IN
 #endif   
 };
 
+struct VS_OUT
+{
+	float4 oPos : POSITION;
+	
+#ifndef HWPCF
+	float2 oDepth : TEXCOORD0;
+#endif	
+};
 
 #ifdef SKIN
 void SkinPos(float3 pos,
-           float4 BlendWeights , 
-           int4 BlendIndices,
+           float4 a_blendWeights , 
+           int4 	a_blendIndices,
            out float3 wPos)
 {
-   wPos = 0;
-   int   IndexArray[4]   = (int[4])BlendIndices; 
-   float WeightArray[4] = (float[4])BlendWeights;
-   for (int iBone = 0; iBone < 4; ++iBone)
-   {
-      wPos += mul( u_matrixPalette[IndexArray[iBone]], float4(pos,1) ).xyz * WeightArray[iBone];
-   }
+    wPos = 0;
+	wPos += mul(u_matrixPalette[a_blendIndices.x], float4(pos,1.0)).xyz * a_blendWeights.x;
+	wPos += mul(u_matrixPalette[a_blendIndices.y], float4(pos,1.0)).xyz * a_blendWeights.y;
+	wPos += mul(u_matrixPalette[a_blendIndices.z], float4(pos,1.0)).xyz * a_blendWeights.z;
+	wPos += mul(u_matrixPalette[a_blendIndices.w], float4(pos,1.0)).xyz * a_blendWeights.w;  
 }
 #endif
 
 
-void main( float4 Pos : POSITION,
-				 float4 BlendWeights :BLENDWEIGHT, 
-				 float4 BlendIndices :BLENDINDICES,	
-				 out float4 oPos : POSITION )
+VS_OUT main( VS_IN In)
 {
-
-   float3 wPos = Pos;
-
+	VS_OUT Out = (VS_OUT)0;
+ 
+   float3 wPos = In.a_position;
+   
 #ifdef SKIN
    SkinPos(In.a_position,In.a_blendWeights,In.a_blendIndices,wPos);
 #endif
 
-	oPos = mul( u_worldViewProjectionMatrix, float4(wPos.xyz,1.0f) );
+	Out.oPos = mul( u_worldViewProjectionMatrix, float4(wPos,1.0f) );
+
+#ifndef HWPCF
+	Out.oDepth = Out.oPos.zw;  
+#endif	
+
+	return Out;  
 }
+
 
 
 

@@ -20,8 +20,6 @@ namespace ma
 
 		const char* getName() const;
 
-		//SamplerState* getSampler(unsigned int index = 0) const;
-
 		void setFloat(float value);
 
 		void setFloatArray(const float* values, unsigned int count, bool copy = false);

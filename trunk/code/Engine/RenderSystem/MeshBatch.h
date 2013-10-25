@@ -10,7 +10,7 @@ namespace ma
 	class ENGINE_API MeshBatch : public Renderable
 	{
 	public:
-		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, Effect* pEffect, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
+		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType/*, Effect* pEffect*/, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
 
 		~MeshBatch();
 
@@ -21,7 +21,7 @@ namespace ma
 
 		void add(const float* vertices, UINT vertexCount, const unsigned short* indices = NULL, UINT indexCount = 0);
 
-		void finish();
+		void finish(Technique* pTech);
 
 	private:
 

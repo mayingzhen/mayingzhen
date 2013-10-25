@@ -68,15 +68,22 @@ namespace ma
 			m_pDefferLight->Init();
 		}
 
+		LineRender* pLineRender = new LineRender();
+		SetLineRender(pLineRender);
+		pLineRender->Init();
+
 		ScreenQuad::Init();
-		LineRender::Init();
 		UnitSphere::Init();
 	}
 
 	void RenderSystem::ShoutDown()
 	{
+		LineRender* pLineRender = GetLineRender();
+		GetLineRender()->ShutDown();
+		SetLineRender(NULL);
+		SAFE_DELETE(pLineRender);
+
 		ScreenQuad::ShoutDown();
-		LineRender::ShutDown();
 		UnitSphere::ShutDown();
 	}
 
@@ -94,7 +101,7 @@ namespace ma
 	{
 		m_pRenderQueue->Clear();
 
-		LineRender::OnFlushFrame();
+		GetLineRender()->OnFlushFrame();
 
 		GetParticleSystem()->OnFlushFrame();
 	}
@@ -132,11 +139,11 @@ namespace ma
 			m_pShadow->ShadowDepthPass();
 		}
 
+		GetMaterialManager()->SetCurViewPojectMat(m_matView,m_matProj);
+
 		if (m_pDefferLight)
 		{
 			m_pDefferLight->GBufferPass();
-
-			m_pDefferLight->DefferedLighting();
 		}
 
 		if (m_pShadow)
@@ -144,15 +151,22 @@ namespace ma
 			m_pShadow->DeferredShadow();
 		}
 
+		if (m_pDefferLight)
+		{
+			m_pDefferLight->DefferedLighting();
+		}
+
 		ShadingPass();
 
-		LineRender::Render();
+		GetLineRender()->Render();
 
 		GetUISystem()->Render();
 	}
 
 	void RenderSystem::ShadingPass()
 	{
+		RENDER_PROFILE(ShadingPass);
+
 		GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor, 1.0f, 0);
 
 		UINT nSolid = m_pRenderQueue->GetRenderObjNumber(RL_Solid);
@@ -163,13 +177,10 @@ namespace ma
 				continue;
 
 			Material* pMaterial = pRenderObj->GetMaterial();
-			Effect* pEffect = pMaterial->GetEffect();
 
-			pEffect->SetCurCurTechnqiue("Shading");
+			Technique* pTech = pMaterial->GetTechnqiue("Shading");
 
-			pRenderObj->Render();
-
-			/*pEffect->End();*/
+			pRenderObj->Render(pTech);
 		}
 
 		UINT nTrans = m_pRenderQueue->GetRenderObjNumber(RL_Trans);
@@ -180,13 +191,10 @@ namespace ma
 				continue;
 
 			Material* pMaterial = pRenderObj->GetMaterial();
-			Effect* pEffect = pMaterial->GetEffect();
 
-			pEffect->SetCurCurTechnqiue("Shading");
-			
-			pRenderObj->Render();	
+			Technique* pTech = pMaterial->GetTechnqiue("Shading");
 
-			/*pEffect->End();*/
+			pRenderObj->Render(pTech);
 		}
 	}
 
@@ -196,7 +204,7 @@ namespace ma
 	}
 
 
-	void RenderSystem::DrawRenderable(Renderable* pRenderable)
+	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
 	{
 		if (pRenderable == NULL)
 			return;
@@ -208,18 +216,15 @@ namespace ma
 
 		GetMaterialManager()->SetCurRenderable(pRenderable);
 
- 		Material* pMaterial = pRenderable->m_pMaterial;
- 		ASSERT(pMaterial);
- 		Effect* pEffect = pMaterial->GetEffect();
-		pEffect->Bind();
+		pTechnique->Bind();
 
-		GetRenderDevice()->DrawRenderable(pRenderable);
+		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
 
-		pEffect->UnBind();
+		pTechnique->UnBind();
 	}
 
 
-	void RenderSystem::DrawDyRenderable(Renderable* pRenderable)
+	void RenderSystem::DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
 	{
 		if (pRenderable == NULL)
 			return;
@@ -231,33 +236,35 @@ namespace ma
 		if (pSubMeshData && pSubMeshData->m_nVertexCount <= 0)
 			return;
 
-		Material* pMaterial = pRenderable->m_pMaterial;
-		ASSERT(pMaterial);
-		Effect* pEffect = pMaterial->GetEffect();
-		pEffect->Bind();
+		pTechnique->Bind();
 
-		GetRenderDevice()->DrawDyRenderable(pRenderable);
+		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
-		pEffect->UnBind();
+		pTechnique->UnBind();
 	}
 
-	RenderTarget* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,FORMAT format)
+	Texture* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,FORMAT format,bool bDepthStencil/* = false*/)
 	{
-		RenderTarget* pTarget = GetRenderDevice()->CreateRenderTarget(-1,-1,FMT_R32F);
+		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,bDepthStencil);
 		GetRenderThread()->RC_CreateRenderTarget(pTarget);
 		return pTarget;
 	}
 
-	ShaderProgram* RenderSystem::CreateShaderProgram(const char* pszName,const char* pszDefine)
+	ShaderProgram* RenderSystem::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
 	{
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pszName,pszDefine);
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pTech,pszName,pszDefine);
 		GetRenderThread()->RC_CreateShader(pShaderProgram);
 		return pShaderProgram;
 	}
 
-	void RenderSystem::PushRenderTarget(RenderTarget* pTexture)
+	void RenderSystem::PushRenderTarget(Texture* pTexture)
 	{
 		GetRenderThread()->RC_PushRenderTarget(pTexture);
+	}
+
+	void RenderSystem::PushDepthStencil(Texture* pTexture)
+	{
+		GetRenderThread()->RC_PushDepthStencil(pTexture);
 	}
 
 	void RenderSystem::PushViewPort(Rectangle& viewPort)
@@ -268,6 +275,11 @@ namespace ma
 	void RenderSystem::PopRenderTargert()
 	{
 		GetRenderThread()->RC_PopRenderTargert();
+	}
+	
+	void RenderSystem::PopDepthStencil()
+	{
+		GetRenderThread()->RC_PopDepthStencil();
 	}
 
 	void RenderSystem::PopViewPort()

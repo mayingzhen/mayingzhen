@@ -2,7 +2,8 @@
 
 namespace ma
 {	
-	BulletBoxCollisionShape::BulletBoxCollisionShape()
+	BulletBoxCollisionShape::BulletBoxCollisionShape(GameObject* pGameObj)
+		:IBoxCollisionShape(pGameObj)
 	{
 		TransformSetIdentity(&m_tsfLS);
 		m_vSize = Vector3(0,0,0);
@@ -32,11 +33,12 @@ namespace ma
 		Matrix4x4 matWS;
 		MatrixFromTransform(&matWS,&tsfBoxWS);
 
-		LineRender::DrawBox(matWS,GetSize(),Color(1,0,0,0));
+		GetLineRender()->DrawBox(matWS,GetSize(),Color(1,0,0,0));
 	}
 
 
-	BulletSphereCollisionShape::BulletSphereCollisionShape()
+	BulletSphereCollisionShape::BulletSphereCollisionShape(GameObject* pGameObj)
+		:ISphereCollisionShape(pGameObj)
 	{
 		TransformSetIdentity(&m_tsfLS);
 		m_fRadius = 0;
@@ -66,12 +68,13 @@ namespace ma
 		Matrix4x4 matWS;
 		MatrixFromTransform(&matWS,&tsfBoxWS);
 
-		LineRender::DrawWireSphere(matWS,GetRadius(),Color(1,0,0,0));
+		GetLineRender()->DrawWireSphere(matWS,GetRadius(),Color(1,0,0,0));
 	}
 
 
 
-	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape()
+	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape(GameObject* pGameObj)
+		:ICapsuleCollisionShape(pGameObj)
 	{
 		TransformSetIdentity(&m_tsfLS);
 		m_fRadius = 0;
@@ -115,6 +118,6 @@ namespace ma
 		float fRadius = GetRadius();
 		float fHeight = GetHeight();
 		Vector3 boxSize = Vector3(fRadius * 2, fHeight + 2 * fRadius, fRadius * 2);
-		LineRender::DrawBox(matWS,boxSize,Color(1,0,0,0));
+		GetLineRender()->DrawBox(matWS,boxSize,Color(1,0,0,0));
 	}
 }

@@ -135,31 +135,16 @@ namespace ma
 
 	}
 
-	IScriptObject* ScriptSystem::CreateScriptObject(const char* pszName,GameObject* pGameObj)
+	IScriptObject* ScriptSystem::CreateScriptObject(GameObject* pGameObj)
 	{
-		ScriptClass* pScriptClass = GetScriptClass(pszName);
-		ASSERT(pScriptClass);
-		if (pScriptClass == NULL)
-			return NULL;
+		ScriptObject* pScriptObj = new ScriptObject(pGameObj);
 
-		ScriptObject* pScriptObj = pScriptClass->CreateScriptObject(pGameObj);
-		
 		return pScriptObj;
 	}
 
 	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
 	{
-		ScriptObject* pMonoSriptObj = (ScriptObject*)pScriptObject;
-
-		ScriptClass* pScriptClass = pMonoSriptObj->GetScriptClass();
-		ASSERT(pScriptClass);
-		if (pScriptClass == NULL)
-		{
-			SAFE_DELETE(pScriptObject);
-			return;
-		}
-
-		pScriptClass->DeleteScriptObject(pMonoSriptObj);
+		SAFE_DELETE(pScriptObject);
 	}
 
 	// Parse dll 

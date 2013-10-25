@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	GLESShaderProgram::GLESShaderProgram(const char* pszName,const char* pszDefine)
-		:ShaderProgram(pszName,pszDefine)
+	GLESShaderProgram::GLESShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
+		:ShaderProgram(pTech,pszName,pszDefine)
 	{
 		m_program = 0;
 	}
@@ -221,7 +221,7 @@ namespace ma
 			GL_ASSERT( uniformLocation = glGetUniformLocation(m_program, uniformName) );
 
 			Uniform* uniform = new Uniform();
-			uniform->m_effect = this;
+			uniform->m_pShader = this;
 			uniform->m_name = uniformName;
 			uniform->m_location = uniformLocation;
 			uniform->m_type = uniformType;

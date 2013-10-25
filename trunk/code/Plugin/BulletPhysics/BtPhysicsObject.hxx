@@ -270,27 +270,27 @@ namespace ma
 	{
 		ASSERT(m_pRigidBody == NULL);
 
-		m_pRigidBody = new BulletRigidBody();
+		m_pRigidBody = new BulletRigidBody(m_pGameObject);
 		return m_pRigidBody;
 	}
 
 	IBoxCollisionShape*		BulletPhysicsObject::CreateBoxCollisionShape()
 	{
-		BulletBoxCollisionShape* pBoxColl = new BulletBoxCollisionShape();
+		BulletBoxCollisionShape* pBoxColl = new BulletBoxCollisionShape(m_pGameObject);
 		m_vBoxCollisionShape.push_back(pBoxColl);
 		return pBoxColl;
 	}
 
 	ISphereCollisionShape*	BulletPhysicsObject::CreateSphereCollisionShape()
 	{
-		BulletSphereCollisionShape* pSpherColl = new BulletSphereCollisionShape();
+		BulletSphereCollisionShape* pSpherColl = new BulletSphereCollisionShape(m_pGameObject);
 		m_vSphereCollisionShape.push_back(pSpherColl);
 		return pSpherColl;
 	}
 
 	ICapsuleCollisionShape* BulletPhysicsObject::CreateCapsuleCollisionShape()
 	{
-		BulletCapsuleCollisionShape* pCapsuleShape = new BulletCapsuleCollisionShape();
+		BulletCapsuleCollisionShape* pCapsuleShape = new BulletCapsuleCollisionShape(m_pGameObject);
 		m_vCapsuleCollisionShape.push_back(pCapsuleShape);
 		return pCapsuleShape;
 	}
@@ -298,7 +298,7 @@ namespace ma
 	ICharaControll*	BulletPhysicsObject::CreateCharaControll()
 	{
 		ASSERT(m_pCharaControll == NULL);
-		BulletCharacterController* pBtCharater = new BulletCharacterController(this);
+		BulletCharacterController* pBtCharater = new BulletCharacterController(m_pGameObject);
 		m_pCharaControll = pBtCharater;
 		return pBtCharater;
 	}

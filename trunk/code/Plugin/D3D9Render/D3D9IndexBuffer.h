@@ -9,7 +9,7 @@ namespace ma
 		DeclareD3DResource();
 
 	public:
-		D3D9IndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC);
+		D3D9IndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO);
 
 		~D3D9IndexBuffer();
 	

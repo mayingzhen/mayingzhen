@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void			Update();
 
-		virtual IScriptObject*	CreateScriptObject(const char* pszName,GameObject* pGameObj);
+		virtual IScriptObject*	CreateScriptObject(GameObject* pGameObj);
 
 		virtual void			DeleteScriptObject(IScriptObject* pScriptObject);
 

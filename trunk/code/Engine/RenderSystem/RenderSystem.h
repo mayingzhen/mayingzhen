@@ -43,8 +43,8 @@ namespace ma
 		
 		void				SetClearClor(Color cClor) {m_cClearClor = cClor;}
 
-		void				DrawRenderable(Renderable* pRenderable);
-		void				DrawDyRenderable(Renderable* pRenderable);
+		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
+		void				DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 
 		// Render Command
 		void				Init();
@@ -52,11 +52,13 @@ namespace ma
 		void				BeginFrame();
 		void				EndFrame();
 		void				Render();
-		RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
-		ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine);
-		void				PushRenderTarget(RenderTarget* pTexture);
+		Texture*			CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
+		ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine);
+		void				PushRenderTarget(Texture* pTexture);
+		void				PushDepthStencil(Texture* pTexture);
 		void				PushViewPort(Rectangle& viewPort);
 		void				PopRenderTargert();
+		void				PopDepthStencil();
 		void				PopViewPort();
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		void				TexStreamComplete(Texture* pTexture,DataStream* pDataStream);		
@@ -100,6 +102,24 @@ namespace ma
 	ENGINE_API RenderSystem*	GetRenderSystem();
 
 	ENGINE_API void				SetRenderSystem(RenderSystem* pRenderSystem);
+
+
+	struct ENGINE_API RenderProfile
+	{
+		RenderProfile(const char * str)
+		{
+			GetRenderDevice()->BeginProfile(str);
+		}
+
+		~RenderProfile()
+		{
+			GetRenderDevice()->EndProfile();
+		}
+	};
+
+
+	#define RENDER_PROFILE(name) RenderProfile __re_##name(#name)
+
 }
 
 #endif

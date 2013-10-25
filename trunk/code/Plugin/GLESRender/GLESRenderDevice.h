@@ -5,7 +5,6 @@ namespace ma
 {
 	class IndexBuffer;
 	class VertexBuffer;
-	class GLESRenderTarget;
 	class GLESTechnique;
 
 	class  GLESRenderDevice : public IRenderDevice
@@ -17,15 +16,15 @@ namespace ma
 
 		virtual Texture*			CreateTexture(const char* pszPath = NULL);
 
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil);
 
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 
-		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_STATIC);
+		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
 
-		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_STATIC);
+		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO);
 
-		virtual	ShaderProgram*		CreateShaderProgram(const char* pszName,const char* pszDefine);
+		virtual	ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine);
 
 		virtual const char*			GetShaderPath();
 
@@ -34,13 +33,11 @@ namespace ma
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		
 		//// Render
-		virtual RenderTarget*		CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8);
-
-		virtual	void				PushRenderTarget(RenderTarget* pTexture,int index = 0);
+		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0);
 
 		virtual void				PopRenderTarget(int index = 0);
 
-		virtual void				PushDepthStencil(RenderTarget* pTexture);
+		virtual void				PushDepthStencil(Texture* pTexture);
 
 		virtual void				PopDepthStencil();
 
@@ -50,9 +47,9 @@ namespace ma
 
 		virtual void				SetRenderState(const RenderState& state);
 
-		virtual void				DrawRenderable(const Renderable* pRenderable);
+		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
 
-		virtual void				DrawDyRenderable(const Renderable* pRenderable);
+		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech);
 
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
@@ -70,13 +67,19 @@ namespace ma
 
 		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf);
 
+		virtual	void				BeginProfile(const char* pszLale);
+
+		virtual	void				EndProfile();
+
+		virtual	bool				CheckTextureFormat(FORMAT eFormat,USAGE eUsage);
+
 		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
 
 	private:
 		FrameBufferHandle				m_hDefaultFrameBuffer;
 		FrameBufferHandle				m_hOffecreenFrameBuffer;	
 
-		std::stack<GLESRenderTarget*> 	m_pRenderTarget;
+		std::stack<GLESTexture*> 		m_pRenderTarget;
 		std::stack<Rectangle>			m_viewport;
 
 

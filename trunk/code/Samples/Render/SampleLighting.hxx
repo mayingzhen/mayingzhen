@@ -17,12 +17,11 @@ namespace ma
 		{
 			GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			RenderMesh* pMeshComp = pCharMagic->CreateComponent<RenderMesh>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 
-			AnimComponent* pAnimComp = pCharMagic->CreateComponent<AnimComponent>();
-			pAnimComp->Load(NULL,"magician/Body.ske");
-			IAnimationObject* pAnimObj = pAnimComp->GetAnimObject();
+			IAnimationObject* pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
+			pAnimObj->Load(NULL,"magician/Body.ske");
 			IAnimationSet* pAnimSet = pAnimObj->GetAnimationSet();
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
 			pAnimObj->PlayAnimation((UINT)0);
@@ -42,21 +41,21 @@ namespace ma
 		{
  	
 			{
-				PointLight* pLight = new PointLight();	
-				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
-				pLight->SetPos(Vector3(200, 100, 0));
-				pLight->SetRadius(300);
-				GetRenderSystem()->AddLight(pLight);
-				m_arrPointLight.push_back(pLight);
+// 				PointLight* pLight = new PointLight(NULL);	
+// 				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+// 				pLight->SetPos(Vector3(200, 100, 0));
+// 				pLight->SetRadius(300);
+// 				GetRenderSystem()->AddLight(pLight);
+// 				m_arrPointLight.push_back(pLight);
 			}
 
 			{
-				PointLight* pLight = new PointLight();	
-				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
-				pLight->SetPos(Vector3(-200, 200, -200));
-				pLight->SetRadius(300);
-				GetRenderSystem()->AddLight(pLight);
-				m_arrPointLight.push_back(pLight);
+// 				PointLight* pLight = new PointLight(NULL);	
+// 				pLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+// 				pLight->SetPos(Vector3(-200, 200, -200));
+// 				pLight->SetRadius(300);
+// 				GetRenderSystem()->AddLight(pLight);
+// 				m_arrPointLight.push_back(pLight);
 			}
 // 
 //  			
@@ -94,7 +93,7 @@ namespace ma
 			Vector3 vPos = pPointLight->GetPos();
 			Vec3TransformCoord(&vPos,&vPos,&matRoat);
 
-			pPointLight->SetPos(vPos);
+			//pPointLight->SetPos(vPos);
 		}
 	}
 
@@ -106,7 +105,7 @@ namespace ma
 			PointLight* pPointLight = m_arrPointLight[i];
 			Matrix4x4 matWS;
 			MatrixTranslation(&matWS,pPointLight->GetPos().x,pPointLight->GetPos().y,pPointLight->GetPos().z);
-			LineRender::DrawWireSphere(matWS,10,Color(1,0,0,0));
+			GetLineRender()->DrawWireSphere(matWS,10,Color(1,0,0,0));
 		}
 
 		// Deubug Rraw Light Radius

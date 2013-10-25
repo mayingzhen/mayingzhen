@@ -12,7 +12,7 @@ namespace ma
 		DeclareD3DResource();
 
 	public:
-		D3D9VertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_STATIC);
+		D3D9VertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
 
 		~D3D9VertexBuffer();
 

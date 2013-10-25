@@ -24,29 +24,31 @@ namespace ma
 
 		{
 			m_pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
-			CharaControlComponent* pCharComp = m_pCharaObj->CreateComponent<CharaControlComponent>();
-			ICapsuleCollisionShape* pCapsule = pCharComp->GetCharaControll()->GetCollisionShape();
+			ICharaControll* pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
+			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
-			MeshComponent* pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
+			RenderMesh* pMeshComp = m_pCharaObj->CreateComponent<RenderMesh>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 		
-			Vector3 vSize = pMeshComp->GetBoundingAABB().Size();
+			AABB aabb = pMeshComp->GetAABB();
+
+			Vector3 vSize = aabb.Size();
 			float fRadius = abs(vSize.x) / 2.0f;
 			pCapsule->SetHeight(abs(vSize.y) - 2 * fRadius);
 			pCapsule->SetRadius(fRadius);
 	
 			NodeTransform tsfLS;
 			TransformSetIdentity(&tsfLS);
-			tsfLS.m_vPos = pMeshComp->GetBoundingAABB().Center();
+			tsfLS.m_vPos = aabb.Center();
 			pCapsule->SetTransformLS(tsfLS);
 
 
-			AnimComponent* pAnimComp = m_pCharaObj->CreateComponent<AnimComponent>();
+			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
 			pAnimComp->Load(NULL,"magician/Body.ske");
-			IAnimationSet* pAnimSet = pAnimComp->GetAnimObject()->GetAnimationSet();
+			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
-			pAnimComp->GetAnimObject()->PlayAnimation("Idle");
+			pAnimComp->PlayAnimation("Idle");
 
 			m_pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
 			//m_pCharaObj->GetSceneNode()->RotateYAxisLS(90);
@@ -55,22 +57,22 @@ namespace ma
 		{
 			m_pTerrain = GetEntitySystem()->CreateGameObject("Terrain");
 	
-			BoxCollisionComponent* pBoxCollisionShape = m_pTerrain->CreateComponent<BoxCollisionComponent>();
-			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(Vector3(1800,20,1800));
+			IBoxCollisionShape* pBoxCollisionShape = m_pTerrain->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionShape->SetSize(Vector3(1800,20,1800));
 
 			{
 				GameObject* pObje = GetEntitySystem()->CreateGameObject("Box1");
-				BoxCollisionComponent* pComp = pObje->CreateComponent<BoxCollisionComponent>();
-				pComp->GetBoxCollisionShape()->SetSize(Vector3(200,200,200));
+				IBoxCollisionShape* pBox = pObje->CreateComponent<IBoxCollisionShape>();
+				pBox->SetSize(Vector3(200,200,200));
 				pObje->GetSceneNode()->Translate(Vector3(-100,20,0));
 			}
 
 
 			{
 				GameObject* pObje2 = GetEntitySystem()->CreateGameObject("Box2");
-				BoxCollisionComponent* pComp2 = pObje2->CreateComponent<BoxCollisionComponent>();
-				pComp2->GetBoxCollisionShape()->SetSize(Vector3(200,200,200));
-				RigidBodyComponent* pRigidBodyComp = pObje2->CreateComponent<RigidBodyComponent>();
+				IBoxCollisionShape* pBox = pObje2->CreateComponent<IBoxCollisionShape>();
+				pBox->SetSize(Vector3(200,200,200));
+				IRigidBody* pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();
 				pObje2->GetSceneNode()->Translate(Vector3(140,40,0));
 			}
 
@@ -105,10 +107,10 @@ namespace ma
 		if (fDistance <= fStepMoveLeng)
 		{
 			m_bMoveing = false;
-			AnimComponent* pAnimComp = m_pCharaObj->GetTypeComponentFirst<AnimComponent>();
+			IAnimationObject* pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
 			if (pAnimComp)
 			{
-				pAnimComp->GetAnimObject()->PlayAnimation("Idle");
+				pAnimComp->PlayAnimation("Idle");
 			}
 			return;
 		}	
@@ -200,10 +202,10 @@ namespace ma
 			m_vMoveTo = hitPosWS;
 			m_bMoveing = true;
 
-			AnimComponent* pAnimComp = m_pCharaObj->GetTypeComponentFirst<AnimComponent>();
+			IAnimationObject* pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
 			if (pAnimComp)
 			{
-				pAnimComp->GetAnimObject()->PlayAnimation("Run");
+				pAnimComp->PlayAnimation("Run");
 			}
 
 			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));

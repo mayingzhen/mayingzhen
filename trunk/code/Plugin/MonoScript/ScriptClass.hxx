@@ -7,26 +7,29 @@ namespace ma
 		m_pMonoClas = NULL;
 	}
 
-	ScriptObject* ScriptClass::CreateScriptObject(GameObject* pGameObj)
-	{
-		ScriptObject* pScriptObject = new ScriptObject(this,pGameObj);
-		m_arrObjectInstance.push_back(pScriptObject);
-
-		return pScriptObject;
-	}
-
-	void ScriptClass::DeleteScriptObject(ScriptObject* pScriptObject)
+	void ScriptClass::AddScriptObjectIns(ScriptObject* pScriptObj)
 	{
 		std::vector<ScriptObject*>::iterator it;
-		it = std::find(m_arrObjectInstance.begin(),m_arrObjectInstance.end(),pScriptObject);
-		ASSERT(it != m_arrObjectInstance.end());
-		if (it == m_arrObjectInstance.end())
+		it = std::find(m_arrObjectInstance.begin(),m_arrObjectInstance.end(),pScriptObj);
+		ASSERT(it == m_arrObjectInstance.end());
+		if (it != m_arrObjectInstance.end())
 		{
-			SAFE_DELETE(pScriptObject);
 			return;
 		}
 
-		SAFE_DELETE(pScriptObject);
+		m_arrObjectInstance.push_back(pScriptObj);
+	}
+
+	void ScriptClass::RemoveScriptObjectIns(ScriptObject* pScriptObj)
+	{
+		std::vector<ScriptObject*>::iterator it;
+		it = std::find(m_arrObjectInstance.begin(),m_arrObjectInstance.end(),pScriptObj);
+		ASSERT(it != m_arrObjectInstance.end());
+		if (it == m_arrObjectInstance.end())
+		{
+			return;
+		}
+
 		m_arrObjectInstance.erase(it);
 	}
 

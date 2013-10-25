@@ -10,11 +10,11 @@ namespace ma
 	GameObject* SampleRagdoll::CreateCapsule(float fRadius,float fHeight,NodeTransform tsf,const char* pName)
 	{
 		GameObject* pObj = GetEntitySystem()->CreateGameObject(pName);
-		CapsuleCollisionComponent* pCapuleComp = pObj->CreateComponent<CapsuleCollisionComponent>();
-		pCapuleComp->GetCapsuleCollisionShape()->SetRadius(fRadius);
-		pCapuleComp->GetCapsuleCollisionShape()->SetHeight(fHeight);
+		ICapsuleCollisionShape* pCapuleComp = pObj->CreateComponent<ICapsuleCollisionShape>();
+		pCapuleComp->SetRadius(fRadius);
+		pCapuleComp->SetHeight(fHeight);
 
-		RigidBodyComponent* pRigidComp = pObj->CreateComponent<RigidBodyComponent>();
+		IRigidBody* pRigidComp = pObj->CreateComponent<IRigidBody>();
 		//pRigidComp->GetRigidBody()->SetKinematic(true);
 
 		pObj->GetSceneNode()->SetTransform(tsf);
@@ -35,8 +35,8 @@ namespace ma
 		{
 			GameObject* pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
 		
-			BoxCollisionComponent* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionComponent>();
-			pBoxCollisionShape->GetBoxCollisionShape()->SetSize(Vector3(400,5,400));
+			IBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionShape->SetSize(Vector3(400,5,400));
 
 			pGameObj->GetSceneNode()->Translate(Vector3(0,-50,0));
 		}
@@ -97,12 +97,12 @@ namespace ma
 		// ******* SPINE HEAD ******** ///
 				tsfA.m_vPos = Vector3(0,30,0);
 				tsfB.m_vPos = Vector3(0,-14,0);
-				GenericJointComponent* pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_HEAD]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-PI*0.3f,-FEPS,-PI*0.3f));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.5f,FEPS,PI*0.3f));
+				IPhysicsGenericJoint* pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_HEAD]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-PI*0.3f,-FEPS,-PI*0.3f));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.5f,FEPS,PI*0.3f));
 				
 		// ******* LEFT SHOULDER ******** ///
 				tsfA.m_vPos = Vector3(-20,15,0);
@@ -111,12 +111,12 @@ namespace ma
 				euler = EulerAngleXYZ(HALF_PI,0,-HALF_PI);
 				QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
 				
-				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_ARM]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
+				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_ARM]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
 		
 		// ******* RIGHT SHOULDER ******** ///
 				tsfA.m_vPos = Vector3(20,15,0);
@@ -124,32 +124,32 @@ namespace ma
 				tsfB.m_vPos = Vector3(0,-18,0);
 				euler = EulerAngleXYZ (0,0,HALF_PI);
 				QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
-				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_ARM]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
+				pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_ARM]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
 		
 		// ******* LEFT ELBOW ******** ///
 				tsfA.m_vPos = Vector3(0,18,0);
 				tsfB.m_vPos = Vector3(0,-14,0);
-				pJointComp = m_arrObject[BODYPART_LEFT_UPPER_ARM]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_ARM]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
+				pJointComp = m_arrObject[BODYPART_LEFT_UPPER_ARM]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_ARM]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
 			
 		// ******* RIGHT ELBOW ******** ///
 				tsfA.m_vPos = Vector3(0,18,0);
 				tsfB.m_vPos = Vector3(0,-14,0);
-				pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_ARM]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_ARM]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
+				pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_ARM]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_ARM]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
 		
 		// ******* PELVIS ******** ///
 				tsfA.m_vPos = Vector3(0,15,0);
@@ -160,53 +160,53 @@ namespace ma
 				euler = EulerAngleXYZ(0,HALF_PI,0);
 				QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
 
-				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_SPINE]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-PI*0.2f,-FEPS,-PI*0.3f));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.2f,FEPS,PI*0.6f));	
+				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_SPINE]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-PI*0.2f,-FEPS,-PI*0.3f));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.2f,FEPS,PI*0.6f));	
 		
 		// ******* LEFT HIP ******** ///
 				tsfA.m_vPos = Vector3(-18,-10,0);
 				tsfB.m_vPos = Vector3(0,22.5,0);
-				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_LEG]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
+				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_LEG]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
 		
 		
 		// ******* RIGHT HIP ******** ///
 				tsfA.m_vPos = Vector3(18,-10,0);
 				tsfB.m_vPos = Vector3(0,22.5,0);
-				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_LEG]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
+				pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_LEG]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
 		
 		// ******* LEFT KNEE ******** ///
 				tsfA.m_vPos = Vector3(0,-22.5,0);
 				tsfB.m_vPos = Vector3(0,18.5,0);
-				pJointComp = m_arrObject[BODYPART_LEFT_UPPER_LEG]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_LEG]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
+				pJointComp = m_arrObject[BODYPART_LEFT_UPPER_LEG]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_LEG]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
 		
 		// ******* RIGHT KNEE ******** ///
 				tsfA.m_vPos = Vector3(0,-22.5,0);
 				tsfB.m_vPos = Vector3(0,18.5,0);
-				pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_LEG]->CreateComponent<GenericJointComponent>();
-				pJointComp->GetPhysicsGenericJoint()->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_LEG]->GetPhyscisObject());
-				pJointComp->GetPhysicsGenericJoint()->SetATransformLS(tsfA);
-				pJointComp->GetPhysicsGenericJoint()->SetBTransformLS(tsfB);
-				pJointComp->GetPhysicsGenericJoint()->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-				pJointComp->GetPhysicsGenericJoint()->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
+				pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_LEG]->CreateComponent<IPhysicsGenericJoint>();
+				pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_LEG]->GetPhyscisObject());
+				pJointComp->SetATransformLS(tsfA);
+				pJointComp->SetBTransformLS(tsfB);
+				pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
+				pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
 
 	}
 

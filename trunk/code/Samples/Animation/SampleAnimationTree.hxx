@@ -22,8 +22,8 @@ namespace ma
 
 		m_pGameObj = CreateAnimationGameObject("magician/Body.skn","magician/Body.tga","magician/Body.ske");
 
-		AnimComponent* pAnimComp = m_pGameObj->GetTypeComponentFirst<AnimComponent>();
-		IAnimationSet* pAnimSet = pAnimComp->GetAnimObject()->GetAnimationSet();
+		IAnimationObject* pAnimComp = m_pGameObj->GetTypeComponentFirst<IAnimationObject>();
+		IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
 		IAction*	pAction = pAnimSet->CreateAction("TestAnim");
  		IAnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
 		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
@@ -32,7 +32,7 @@ namespace ma
 		pLayerNode->AddLayer(m_pClip602);
 		pAction->SetTreeNode(pLayerNode);
 
-		pAnimComp->GetAnimObject()->PlayAnimation("TestAnim");
+		pAnimComp->PlayAnimation("TestAnim");
 
 		m_pGameObj->GetSceneNode()->Translate(Vector3(50,-100,0));
 	}

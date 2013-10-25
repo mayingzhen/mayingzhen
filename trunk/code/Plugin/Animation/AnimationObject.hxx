@@ -5,23 +5,58 @@
 
 namespace ma
 {
-	AnimationObject::AnimationObject(const char* pszSkePath,const char* pszAniSetPath)
+// 	AnimationObject::AnimationObject(const char* pszSkePath,const char* pszAniSetPath)
+// 	{
+// 		m_pSkelAnim = NULL;
+// 		m_pAnimSet = NULL;
+// 		m_pSkeleton = NULL;
+// 		m_pose = NULL;
+// 		m_arrSkinMatrix = NULL;
+// 
+// 		m_pAnimSet = new AnimationSet(this);
+// 
+// 		CreateSkeleton(pszSkePath);
+// 		CreateAniSet(pszAniSetPath);
+// 	}
+
+	AnimationObject::AnimationObject(GameObject* pGameObj):
+	IAnimationObject(pGameObj)
 	{
 		m_pSkelAnim = NULL;
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
 		m_arrSkinMatrix = NULL;
-
-		m_pAnimSet = new AnimationSet(this);
-
-		CreateSkeleton(pszSkePath);
-		CreateAniSet(pszAniSetPath);
 	}
 
 	AnimationObject::~AnimationObject()
 	{
 		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
+	}
+
+	void AnimationObject::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
+	{
+		m_strAnimaSetPath = pszAniSetPath;
+		m_strSkeletonPath = pszSkeletonPath;
+
+		CreateSkeleton(pszSkeletonPath);
+
+		CreateAniSet(pszAniSetPath);
+	}
+
+	void AnimationObject::Serialize(Serializer& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_strAnimaSetPath);
+		sl.Serialize(m_strSkeletonPath);
+
+		if ( sl.IsReading() )
+		{
+			Load(m_strAnimaSetPath.c_str(),m_strSkeletonPath.c_str());
+		}
+
+		sl.EndSection();
 	}
 
 	void AnimationObject::CreateSkeleton(const char* pSkePath)
@@ -134,6 +169,17 @@ namespace ma
 			{
 				MatrixIdentity(&m_arrSkinMatrix[i]);
 			}
+		}
+
+		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<RenderMesh>();
+		for (UINT i = 0; i < nMeshComp; ++i)
+		{
+			RenderMesh* pMeshComp = m_pGameObject->GetTypeComponentByIndex<RenderMesh>(i);
+			ASSERT(pMeshComp);
+			if (pMeshComp == NULL)
+				continue;
+
+			pMeshComp->SetSkinMatrix(m_arrSkinMatrix,nBoneNum);
 		}
 	}
 

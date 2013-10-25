@@ -54,18 +54,18 @@ namespace ma
 		//SAFE_RELEASE(m_pAltasTex);
 		SAFE_DELETE_ARRAY(m_heightmap);
 
-		for (UINT i = 0; i < m_arrSection.size(); ++i)
-		{	
-			SAFE_DELETE(m_arrSection[i]);
-		}
+// 		for (UINT i = 0; i < m_arrSection.size(); ++i)
+// 		{	
+// 			SAFE_DELETE(m_arrSection[i]);
+// 		}
 	}
 
 	void Terrain::Update()
 	{
-		for (UINT i = 0; i < m_arrSection.size(); ++i)
-		{	
-			GetRenderQueue()->AddRenderObj(RL_Solid,m_arrSection[i]);
-		}
+// 		for (UINT i = 0; i < m_arrSection.size(); ++i)
+// 		{	
+// 			GetRenderQueue()->AddRenderObj(RL_Solid,m_arrSection[i]);
+// 		}
 	}
 
 	void Terrain::Create(const char* pPath)
@@ -92,10 +92,14 @@ namespace ma
 				int heightMapY = y << m_sectorShift;
 
 				int index = (y * m_sectorCountX) + x;
+			
+
+				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
 				
-				TerrainSection* pTerrainScetion = new TerrainSection;
+				TerrainSection* pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
 				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
+				m_arrGameObj.push_back(pGameObj);
 			}
 		}
 	}
@@ -392,16 +396,15 @@ namespace ma
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
 		std::string sDir = FileSystem::getDirectoryName(psAltaPath);
 		std::string sTextAltasPath = sDir + pTextAltasPath;
-		m_pAltasTex = GetRenderDevice()->CreateTexture();
-		m_pAltasTex->Load(sTextAltasPath.c_str());
+		m_pAltasTex = LoadResourceASync<Texture>(sTextAltasPath.c_str());
 
 		SamplerState* pSameler = new SamplerState();
 		pSameler->SetWrapMode(CLAMP);
 		pSameler->SetFilterMode(TFO_TRILINEAR);
 		pSameler->SetTexture(m_pAltasTex);
 		m_pMaterial = new Material();
-		m_pMaterial->LoadEffect("terrain","");
-		m_pMaterial->GetEffect()->GetParameter("TerrainTex")->setSampler(pSameler);
+		Technique* pTechnique = m_pMaterial->LoadTechnique("terrain","");
+		pTechnique->GetParameter("TerrainTex")->setSampler(pSameler);
 		
 		TiXmlElement* pEleTexture = pELeTextAltas->FirstChildElement("Texture");
 		while (pEleTexture)
@@ -417,10 +420,10 @@ namespace ma
 			pFileName = UTF8ToANSI(pFileName);
 
 			inAlta.mpFilename = pFileName ? pFileName : "";
-			inAlta.uOffset = puOffset ? atof(puOffset) : 0;
-			inAlta.vOffset = pvOffset ? atof(pvOffset) : 0;
-			inAlta.uWidth = puWidth ? atof(puWidth) : 0;
-			inAlta.vHeight = pvHeight ? atof(pvHeight) : 0;
+			inAlta.uOffset = puOffset ? (float)atof(puOffset) : 0;
+			inAlta.vOffset = pvOffset ? (float)atof(pvOffset) : 0;
+			inAlta.uWidth = puWidth ? (float)atof(puWidth) : 0;
+			inAlta.vHeight = pvHeight ? (float)atof(pvHeight) : 0;
 
 			m_TextureAtlas.push_back(inAlta);
 
@@ -452,10 +455,10 @@ namespace ma
 		//  *---*  
 		//  C   D
 
-		float A = GetHeightmapData(row,   col) * m_scale.y;
-		float B = GetHeightmapData(row,   col+1) * m_scale.y;
-		float C = GetHeightmapData(row+1, col) * m_scale.y;
-		float D = GetHeightmapData(row+1, col+1) * m_scale.y;
+		float A = GetHeightmapData((int)row,   (int)col) * m_scale.y;
+		float B = GetHeightmapData((int)row,   (int)col+1) * m_scale.y;
+		float C = GetHeightmapData((int)row+1, (int)col) * m_scale.y;
+		float D = GetHeightmapData((int)row+1, (int)col+1) * m_scale.y;
 
 		//
 		// Find the triangle we are in:

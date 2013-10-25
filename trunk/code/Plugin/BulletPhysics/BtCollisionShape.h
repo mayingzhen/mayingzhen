@@ -22,7 +22,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletBoxCollisionShape();
+		BulletBoxCollisionShape(GameObject* pGameObj);
 
 		~BulletBoxCollisionShape();
 
@@ -43,7 +43,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletSphereCollisionShape();
+		BulletSphereCollisionShape(GameObject* pGameObj);
 
 		~BulletSphereCollisionShape();
 
@@ -63,7 +63,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:
-		BulletCapsuleCollisionShape();	
+		BulletCapsuleCollisionShape(GameObject* pGameObj);	
 
 		~BulletCapsuleCollisionShape();
 

@@ -1,5 +1,5 @@
-#ifndef D3D9EFFECT_H_
-#define D3D9EFFECT_H_
+#ifndef _D3D9ShaderProgram_H_
+#define _D3D9ShaderProgram_H_
 
 
 
@@ -10,7 +10,7 @@ namespace ma
 	{
 	public:
 
-		D3D9ShaderProgram(const char* shName,const char* defines);
+		D3D9ShaderProgram(Technique* pTech,const char* shName,const char* defines);
 
 		~D3D9ShaderProgram();
 
@@ -64,4 +64,4 @@ namespace ma
 
 }
 
-#endif
+#endif // _D3D9ShaderProgram_H_

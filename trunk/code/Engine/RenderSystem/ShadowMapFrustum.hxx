@@ -2,92 +2,130 @@
 
 namespace ma
 {
-	ShadowMapFrustum::ShadowMapFrustum()
+	ShadowMapFrustum::ShadowMapFrustum(Light* pLight,int nIndex)
 	{
-	}
+		m_pLight = pLight;
+		m_nIndex = nIndex;
 
-	ShadowMapFrustum::~ShadowMapFrustum()
-	{
-	}
+		MatrixIdentity(&m_matView[0]);
+		MatrixIdentity(&m_matView[1]);
+		MatrixIdentity(&m_matPoj[0]);
+		MatrixIdentity(&m_matPoj[1]);
 
+		
+		float fShadowMapSize = GetShadowSystem()->GetShadowMapSize();
 
-	void ShadowMapFrustum::Init()
-	{
-		int iSizeX = 1024;
-		int iSizeY = 1024;
-
-		m_pShdowDepth = GetRenderDevice()->CreateRenderTarget(iSizeX,iSizeY,FMT_D24S8);
+		if ( GetShadowSystem()->IsHWShadowMap() )
+		{
+			m_pShdowDepth = GetRenderSystem()->CreateRenderTarget(fShadowMapSize,fShadowMapSize,FMT_D24S8);
+			m_pDepthStencil = NULL;
+		}
+		else
+		{
+			m_pShdowDepth = GetRenderSystem()->CreateRenderTarget(fShadowMapSize,fShadowMapSize,FMT_R32F);
+			m_pDepthStencil = GetRenderSystem()->CreateRenderTarget(fShadowMapSize,fShadowMapSize,FMT_D24S8,true);
+		}
 
 		// TexScaleBiasMat
-		float fOffsetX = 0.5f + (0.5f / (float)iSizeX);
-		float fOffsetY = 0.5f + (0.5f / (float)iSizeY);
+		float fOffsetX = 0.5f + (0.5f / (float)fShadowMapSize);
+		float fOffsetY = 0.5f + (0.5f / (float)fShadowMapSize);
 		unsigned int range = 1;            //note different scale in DX9!
 		float fBias    = 0.0f;
 		m_TexScaleBiasMat = Matrix4x4
 			( 0.5f,     0.0f,     0.0f,         0.0f,
-			  0.0f,    -0.5f,     0.0f,         0.0f,
-			  0.0f,     0.0f,     (float)range, 0.0f,
-			  fOffsetX, fOffsetY, fBias,        1.0f );
-
-		return ;
-	} 
-
-	void ShadowMapFrustum::Update()
-	{
-		Frustum splitFrustum = m_pCamera->GetSplitFrustum(m_nIndex);
-
-		Matrix4x4 mViewProj ;//= m_pLight->GetViewMatrix() * m_pLight->GetProjmatrix();
-
-		AABB cropAABB;
-		cropAABB.Merge(splitFrustum.vPts,8);
-		cropAABB.Transform(mViewProj); 
-		cropAABB.m_vMin.z = 0.0f; // use default near plane
-
-		// finally, create matrix
-		//return BuildCropMatrix(cropBB.vMin, cropBB.vMax);
-		Vector3 vMax = cropAABB.m_vMax;
-		Vector3 vMin = cropAABB.m_vMin;
-
-		float fScaleX, fScaleY, fScaleZ;
-		float fOffsetX, fOffsetY, fOffsetZ;
-
-		fScaleX = 2.0f / (vMax.x - vMin.x);
-		fScaleY = 2.0f / (vMax.y - vMin.y);
-
-		fOffsetX = -0.5f * (vMax.x + vMin.x) * fScaleX;
-		fOffsetY = -0.5f * (vMax.y + vMin.y) * fScaleY;
-
-		fScaleZ = 1.0f / (vMax.z - vMin.z);
-		fOffsetZ = -vMin.z * fScaleZ;
-
-		// crop volume matrix
-		Matrix4x4 matCrop = Matrix4x4(   fScaleX,     0.0f,     0.0f,   0.0f,
-			0.0f,  fScaleY,     0.0f,   0.0f,
-			0.0f,     0.0f,  fScaleZ,   0.0f,
-			fOffsetX, fOffsetY, fOffsetZ,   1.0f  );
-
-		m_viewProjCropMat = mViewProj * matCrop;
+			0.0f,    -0.5f,     0.0f,         0.0f,
+			0.0f,     0.0f,     (float)range, 0.0f,
+			fOffsetX, fOffsetY, fBias,        1.0f );
 	}
+
+	ShadowMapFrustum::~ShadowMapFrustum()
+	{
+
+	}
+
+	void ShadowMapFrustum::SetViewMatrix(const Matrix4x4& matView) 
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		m_matView[index] = matView;
+	}
+
+	void ShadowMapFrustum::SetProjMatrix(const Matrix4x4& matPoj) 
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		m_matPoj[index] = matPoj;
+	}
+
+	const Matrix4x4& ShadowMapFrustum::GetViewMarix()  
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		return m_matView[index];
+	}
+
+	const Matrix4x4& ShadowMapFrustum::GetProjMatrix() 
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		return m_matPoj[index];
+	}
+
+	void ShadowMapFrustum::ClearCasterList() 
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		m_arrCasterList[index].clear();
+	}
+
+	void ShadowMapFrustum::AddCaster(RenderObject* pRenderObj) 
+	{
+		int index = GetRenderThread()->GetThreadList(); 
+		m_arrCasterList[index].push_back(pRenderObj);
+	}
+
 
 	void ShadowMapFrustum::ShadowDepthPass()
 	{
-		GetRenderDevice()->PushRenderTarget(m_pShdowDepth);
-		GetRenderDevice()->PushViewport(Rectangle(0, 0, 1024, 1024));
-		
-		for (UINT i = 0; i <  m_arrCasterList.size(); ++i)
-		{
-			Renderable* pRenderable =m_arrCasterList[i];
-			if (pRenderable == NULL)
-				continue;
+		GetRenderSystem()->PushViewPort(Rectangle(0, 0, 1024, 1024));
 
-			Material* pMaterial = pRenderable->m_pMaterial;
-			//pMaterial->SetCurTechnqiue("shadowDepth",NULL);
-			//pMaterial->GetParameter("matWoldViewProjCrop")->setMatrix();
-			GetRenderSystem()->DrawRenderable(pRenderable);
+		if ( GetShadowSystem()->IsHWShadowMap() )
+		{
+			GetRenderSystem()->PushDepthStencil(m_pShdowDepth);
+		}
+		else
+		{
+			GetRenderSystem()->PushRenderTarget(m_pShdowDepth);
+			GetRenderSystem()->PushDepthStencil(m_pDepthStencil);
 		}
 
-		GetRenderDevice()->PopRenderTarget();
-		GetRenderDevice()->PopViewport();
+		GetRenderSystem()->ClearBuffer(true,true,true,Color(1,1,1,0), 1.0f, 0);
+
+		int index = GetRenderThread()->m_nCurThreadProcess;
+		GetMaterialManager()->SetCurViewPojectMat(m_matView[index], m_matPoj[index]);
+		
+		for (UINT i = 0; i <  m_arrCasterList[index].size(); ++i)
+		{
+			RenderObject* pRenderObj = m_arrCasterList[index][i];
+			if (pRenderObj == NULL)
+				continue;
+
+			if ( SafeCast<TerrainSection>(pRenderObj) )
+				continue;
+
+			Material* pMaterial = pRenderObj->GetMaterial();
+
+			Technique* pTech = pMaterial->GetTechnqiue("ShadowDepth");
+
+			pRenderObj->Render(pTech);
+		}
+
+		if ( GetShadowSystem()->IsHWShadowMap() )
+		{
+			GetRenderSystem()->PopDepthStencil();
+		}
+		else
+		{	
+			GetRenderSystem()->PopDepthStencil();
+			GetRenderSystem()->PopRenderTargert();
+		}
+
+		GetRenderSystem()->PopViewPort();
 	}
 
 }
