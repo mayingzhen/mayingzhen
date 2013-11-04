@@ -9,35 +9,41 @@ namespace ma
 	{
 
 	public:
-		CameraController(Camera* pCamera);
+		CameraController(Camera* pCamObj);
 
 		void		UpdateInput();		
-					
-		void		SetZoomSpeed(float fZoomSpeed) {m_fZoomSpeed = fZoomSpeed;}
+		
+		void		SetMoveStep(float fMoveStep) {m_fMoveStep = fMoveStep;}
 
-		float		GetZoomSpeed() const {return m_fZoomSpeed;}
-
-		void		SetMoveSpeed(float fMoveSpeed) {m_fMoveSpeed = fMoveSpeed;}
-
-		float		GetMoveSpeed() const {return m_fMoveSpeed;}
+		float		GetMoveStep() const {return m_fMoveStep;}
 
 	private:
 
-		void		MoveCamera(const Vector3& vDeltaLS);
+		void		RotateMoveCamera();
 
-		void		RotateCamera(const EulerAngleXYZ& vDeltaAngle);
+		void		MoveCamera();
+
+		void		RotateCamera();
 
 		void		ZoomCamera(float fDeltaZoom);
 
 		void		ComputeRotationCenter(Matrix4x4* pOut) const;
 
+		void		UpdateTarget();
+
+		void		UpdateTargetDis();
+
 
 	private:
-		float		m_fZoomSpeed;
+		float			m_fMoveStep;
 
-		float		m_fMoveSpeed;
+		Vector3			m_vTarget;	
 
-		Camera*		m_pCamera;
+		float			m_fTargetDis;
+
+		//GameObject*		m_pCameraObj;
+
+		Camera*			m_pCamera;
 	};
 }
 

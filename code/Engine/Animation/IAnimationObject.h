@@ -28,10 +28,6 @@ namespace ma
 		virtual void			EvaluateAnimation(float fWeight) = 0;
 
 		virtual	void			SetFrame(float fFrame) = 0;
-
-		virtual UINT			GetSkinMatrixNumber() = 0;
-
-		virtual Matrix4x4*		GetSkinMatrixArray() = 0;
 	};
 }
 

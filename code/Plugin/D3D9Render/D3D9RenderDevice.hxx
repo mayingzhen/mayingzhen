@@ -318,6 +318,18 @@ namespace ma
 			m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
 			
 		}
+
+		if (m_curState.m_bColorWrite != state.m_bColorWrite)
+		{
+			m_curState.m_bColorWrite = state.m_bColorWrite;
+			m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE,state.m_bColorWrite);
+		}
+
+		if ( abs(m_curState.m_fDepthBias - state.m_fDepthBias) > 0.0001f )
+		{
+			m_curState.m_fDepthBias = state.m_fDepthBias;
+			m_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS,*(DWORD*)&m_curState.m_fDepthBias);
+		}
 		
 		if (m_curState.m_eDepthCheckMode != state.m_eDepthCheckMode)
 		{

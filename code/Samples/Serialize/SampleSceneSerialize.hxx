@@ -8,8 +8,8 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
-		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
-		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
+		//float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
+		//GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
 
 		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f,0));
 		{
@@ -34,7 +34,7 @@ namespace ma
 			BinaryOutputArchive arOut;
 			bool bOpenOK = arOut.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetEntitySystem()->Serialize(arOut);
+			GetSceneSystem()->Serialize(arOut);
 			arOut.Close();
 		}
 
@@ -42,7 +42,7 @@ namespace ma
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetEntitySystem()->Serialize(arIn);
+			GetSceneSystem()->Serialize(arIn);
 			arIn.Close();
 		}
 	}
@@ -62,7 +62,7 @@ namespace ma
 				XMLOutputArchive arOut;
 				bool bOpenOK = arOut.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetEntitySystem()->Serialize(arOut);
+				GetSceneSystem()->Serialize(arOut);
 				arOut.Close();
 			}
 
@@ -70,7 +70,7 @@ namespace ma
 				XMLInputArchive arIn;
 				bool bOpenOK = arIn.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetEntitySystem()->Serialize(arIn);
+				GetSceneSystem()->Serialize(arIn);
 				arIn.Close();
 			}
 		}

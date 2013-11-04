@@ -7,7 +7,6 @@
 // #include <dxerr.h>
 // #include <cg/cg.h>
 
-#include "Engine/RenderSystem/RenderDefine.h"
 
 #define safe_release_com(p) { if (p) { p->Release(); p = NULL; } }
 

@@ -32,10 +32,6 @@ namespace ma
 
 		virtual	void			SetFrame(float fFrame);
 
-		virtual UINT			GetSkinMatrixNumber() {return m_pSkeleton->GetBoneNumer();}
-
-		virtual Matrix4x4*		GetSkinMatrixArray()  {return m_arrSkinMatrix;}	
-
 		SkeletonPose*			GetAnimationPose() {return m_pose;}
 
 		Skeleton*				GetSkeleton() {return m_pSkeleton;}

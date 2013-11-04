@@ -13,7 +13,7 @@ namespace ma
 		DECL_OBJECT(SceneNode)
 
 	public:
-		SceneNode(GameObject* pGameObj,Scene* pSene = NULL);
+		SceneNode(GameObject* pGameObj);
 
 		~SceneNode();
 
@@ -23,6 +23,10 @@ namespace ma
 		void					SetTransform(const NodeTransform& tsf);	
 		const NodeTransform&	GetTransform();
 		const Matrix4x4&		GetWorldMatrix();
+
+		void					LookAt(const Vector3& vPos, const Vector3& vTarget,const Vector3& vUp);
+
+		void					LookAt(const Vector3& vTarget,const Vector3& vUp);
 
 		void					Translate(const Vector3& vDir);
 		void					Rotate(float xDegree,float yDegree,float zDegree);
@@ -45,8 +49,6 @@ namespace ma
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
 		SceneNode*				GetParent() {return m_pParentNode;}
-
-		Scene*					GetSene() {return m_pScene;}
 
 		GameObject*				GetGameObject() {return m_pGameObject;}
 		
@@ -74,7 +76,6 @@ namespace ma
 	protected:
 		std::vector<SceneNode*>	m_arrChildNode;
 		SceneNode*				m_pParentNode;
-		Scene*					m_pScene;
 
 		GameObject*				m_pGameObject;
 		

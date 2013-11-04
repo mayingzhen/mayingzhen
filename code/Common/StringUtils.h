@@ -1,20 +1,6 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//	Crytek Character Animation source code
-//	
-//	History:
-//	10 Feb. 2003 :- Created by Sergiy Migdalskiy
-//
-//  Contains:
-//    Generic inline implementations of miscellaneous string manipulation utilities,
-//    including path manipulation
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #ifndef _CRY_ENGINE_STRING_UTILS_HDR_
 #define _CRY_ENGINE_STRING_UTILS_HDR_
 
-#include <CryString.h>
 #include <algorithm>				// std::replace
 #include <time.h>
 

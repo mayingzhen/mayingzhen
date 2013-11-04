@@ -78,6 +78,13 @@
 		return *Vec3Normalize(&vOut,&vIn);
 	}
 
+	Vector3  Vec3Normalize(const Vector3& vIn)
+	{
+		Vector3 vOut; 
+		Vec3Normalize(vOut,vIn);
+		return vOut;
+	}
+
 	// Hermite interpolation between position V1, tangent T1 (when s == 0)
 	// and position V2, tangent T2 (when s == 1).
 	Vector3*  Vec3Hermite

@@ -21,25 +21,15 @@ namespace ma
 
 		void			Update();
 
-		GameObject*		GetCameraObject() {return m_pCameraObject;}
-
-		Camera*			GetCamera() {return m_pCamera;}
-
 		GameObject*		CreateGameObject(const char* pName);
 
 		void			DeleteGameObject(GameObject*);
 
 		void			DeleteAll();
 
-		void			Serialize(Serializer& sl);
-
 	private:
-		Scene*						m_pScene;
 
 		std::vector<GameObject*>	m_arrGameObject;
-
-		GameObject*					m_pCameraObject;
-		Camera*						m_pCamera;
 	};
 
 	ENGINE_API EntitySystem*	GetEntitySystem();

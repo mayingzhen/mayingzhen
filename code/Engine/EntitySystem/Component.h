@@ -17,8 +17,6 @@ namespace ma
 
 		virtual	void	UpdateTransform();
 
-		//virtual	void	BuildRenderItem();
-
 		GameObject*		GetGameObject();
 
 		SceneNode*		GetSceneNode();
@@ -27,6 +25,7 @@ namespace ma
 
 	protected:
 		GameObject*		m_pGameObject;
+		SceneNode*		m_pSceneNode;
 	};
 }
 

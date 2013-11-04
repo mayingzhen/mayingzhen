@@ -83,10 +83,10 @@ namespace ma
 		Vector3 vEyePos = Vector3(0, 40, 40);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
-		float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
-		GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.1);
+		//float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
+		//GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.1);
 
 		FBXImporter fbxImpor;
 		fbxImpor.Initialize();
@@ -119,10 +119,10 @@ namespace ma
 			m_pAnimtionObject->EvaluateAnimation(1.0f);
 		
 
-			Matrix4x4* skinMatrix = m_pAnimtionObject->GetSkinMatrixArray();
-			UINT nNumber = m_pAnimtionObject->GetSkinMatrixNumber();
-
-			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
+// 			Matrix4x4* skinMatrix = m_pAnimtionObject->GetSkinMatrixArray();
+// 			UINT nNumber = m_pAnimtionObject->GetSkinMatrixNumber();
+// 
+// 			m_pRenderMesh->SetSkinMatrix(skinMatrix,nNumber);
 		}
 
 		if (m_pRenderMesh)

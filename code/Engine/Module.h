@@ -14,7 +14,6 @@
 #include "Engine/Application/Game.h"
 
 
-
 // Resource
 #include "Engine/Resource/Stream.h"
 #include "Engine/Resource/DataStream.h"
@@ -23,7 +22,6 @@
 #include "Engine/Resource/FileSystem.h"
 #include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
-#include "Engine/Resource/MeshData.h"
 #include "Engine/Resource/ResourceSystem.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h"
@@ -44,46 +42,9 @@
 #include "Engine/EntitySystem/Util.h"
 
 
-// RenderSystem
-#include "Engine/RenderSystem/RenderDefine.h"
-#include "Engine/RenderSystem/IRenderDevice.h"
-#include "Engine/RenderSystem/IndexBuffer.h"
-#include "Engine/RenderSystem/VertexBuffer.h"
-#include "Engine/RenderSystem/VertexDeclaration.h"
-#include "Engine/RenderSystem/Renderable.h"
-#include "Engine/RenderSystem/RendMesh.h"
-#include "Engine/RenderSystem/MeshBatch.h"
-#include "Engine/RenderSystem/SpriteBatch.h"
-#include "Engine/RenderSystem/Camera.h"
-#include "Engine/RenderSystem/Light.h"
-#include "Engine/RenderSystem/RenderSystem.h"
-#include "Engine/RenderSystem/DeferredLight.h"
-#include "Engine/RenderSystem/Shadow.h"
-#include "Engine/RenderSystem/RenderQueue.h"
-
-#include "Engine/RenderSystem/ParticleEmitter.h"
-#include "Engine/RenderSystem/ParticleSystem.h"
-
 // Terrain
 #include "Engine/Terrain/ITerrain.h"
 
-
-// RenderScheme
-//#include "Engine/RenderSystem/RenderQueue.h"
-#include "Engine/RenderSystem/ShadowMapFrustum.h"
-
-// Util
-#include "Engine/RenderSystem/LineRender.h"
-#include "Engine/RenderSystem/ScreenQuad.h"
-#include "Engine/RenderSystem/UnitSphere.h"
-
-// Material
-#include "Engine/RenderSystem/Material/Material.h"
-#include "Engine/RenderSystem/Material/MaterialParameter.h"
-#include "Engine/RenderSystem/Material/ShaderProgram.h"
-#include "Engine/RenderSystem/Material/Texture.h"
-#include "Engine/RenderSystem/Material/SamplerState.h"
-#include "Engine/RenderSystem/Material/Technqiue.h"
 
 // Physics
 #include "Engine/Physics/ICharacterController.h"
@@ -92,11 +53,11 @@
 #include "Engine/Physics/IPhysicsObject.h"
 #include "Engine/Physics/IRigidBody.h"
 #include "Engine/Physics/IPhysicsJoint.h"
-//#include "Engine/Physics/Ragdoll.h"
 
 // script
 #include "Engine/Script/IScriptSystem.h"
 #include "Engine/Script/IScriptObject.h"
+
 
 // Animation
 #include "Engine/Animation/IAnimationObject.h"
@@ -104,12 +65,14 @@
 #include "Engine/Animation/IAnimationSet.h"
 #include "Engine/Animation/IAction.h"
 
+
 // UI
 #include "Engine/UI/IUISystem.h"
 
 
 // Input
 #include "Engine/Input/Input.h"
+
 
 // Thread
 #include "Engine/Thread/Thread.h"

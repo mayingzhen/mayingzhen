@@ -2,7 +2,6 @@
 #define  _D3D9VertexBuffer__H__
 
 #include "D3D9Mapping.h"
-#include "Engine/RenderSystem/VertexBuffer.h"
 
 namespace ma
 {

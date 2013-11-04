@@ -8,7 +8,7 @@ namespace ma
 	GameObject::GameObject(const char* pName)
 	{
 		m_sName = pName;
-		m_pScenNode = new SceneNode(this);
+		m_pScenNode = GetSceneSystem() ? GetSceneSystem()->CreateSceneNode(this) : NULL;
 		m_pPhyscisObject = GetPhysicsSystem() ? GetPhysicsSystem()->CreatePhysicsObject(this) : NULL;
 	}
 

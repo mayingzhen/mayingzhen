@@ -25,8 +25,7 @@ namespace ma
 	private:
 
 		GameObject* m_pSun;
-		Vector3		m_vRotae;
-
+		
 	};
 }
 

@@ -4,9 +4,8 @@ namespace ma
 {
 	IMPL_OBJECT(SceneNode,Object)
 
-	SceneNode::SceneNode(GameObject* pGameObj,Scene* pSene)
+	SceneNode::SceneNode(GameObject* pGameObj)
 	{
-		m_pScene = pSene;	
 		m_pParentNode = NULL;
 		m_pGameObject = pGameObj;
 
@@ -111,6 +110,25 @@ namespace ma
 		SetTransform(tsf);
 	}
 
+	void SceneNode::LookAt(const Vector3& vPos, const Vector3& vTarget,const Vector3& vUp)
+	{
+		Matrix4x4 matView;
+		Vector3 vSource = vPos;
+		MatrixLookAtLH(&matView,&vSource,&vTarget,&vUp);
+		Matrix4x4 matWorld;
+		MatrixInverse(&matWorld,NULL,&matView);
+		NodeTransform tsfWS;
+		TransformFromMatrix(&tsfWS,&matWorld);
+		SetTransform(tsfWS);
+	}
+
+	void SceneNode::LookAt(const Vector3& vTarget,const Vector3& vUp)
+	{
+		Vector3 vSource = GetTransform().m_vPos;
+
+		LookAt(vSource,vTarget,vUp);
+	}
+
 	void SceneNode::Translate(const Vector3& vTrans)
 	{
 		NodeTransform tsf = GetTransform(); 
@@ -162,8 +180,6 @@ namespace ma
 		const Vector3 vY(0.0f,1.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
 		//Rotate(qRot);
-		
-
 	}
 
 	void SceneNode::RotateZAxisLS(float fDegree)
