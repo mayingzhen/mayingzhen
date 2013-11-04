@@ -29,7 +29,7 @@ namespace ma
 
 		CameraController*	GetCameraController() {return m_pCameraControl;}
 
-		//Camera*				GetCamera() {return m_pCamera;}
+		Camera*				GetCamera();
 
 	private:
 		void				LoadUI();

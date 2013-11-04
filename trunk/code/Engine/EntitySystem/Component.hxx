@@ -7,6 +7,7 @@ namespace ma
 	Component::Component(GameObject* pGameObj)
 	{
 		m_pGameObject = pGameObj;
+		m_pSceneNode = pGameObj ? pGameObj->GetSceneNode() : NULL;
 	}
 
 	Component::~Component()

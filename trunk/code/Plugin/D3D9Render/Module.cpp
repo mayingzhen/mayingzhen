@@ -17,10 +17,11 @@ void D3D9RenderModuleInit()
 	ma::D3D9RenderDevice* pDxRenderDevice = new ma::D3D9RenderDevice();
 	ma::SetRenderDevice(pDxRenderDevice);
 	
-	//ma::GetRenderDevice()->Init(ma::Platform::GetInstance().GetWindId());
+	ma::GetRenderSetting()->m_bDefferLight = true;
+	ma::GetRenderSetting()->m_bShadow = true; 
 
-	ma::GetRenderSystem()->SetDefferLight(true);
-	ma::GetRenderSystem()->SetShadow(true);
+	ma::DefferredRender* pDefferRender = new ma::DefferredRender();
+	ma::SetRenderScheme(pDefferRender);
 	
 	ma::GetRenderSystem()->Init();
 }

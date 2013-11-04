@@ -18,17 +18,25 @@ namespace ma
 
 		~Scene();
 
+		void			Update();
+
+		void			Render();
+
 		void			TravelScene(SceneVisiter* pVisiter);
  		
 		void			Serialize(Serializer& sl, const char* pszLable = "Scene");
 
 		void			AddSceneNode(SceneNode* pSceneNode);
 
+		SceneNode*		CreateSceneNode(GameObject* pGameObj);
+
 	private:
 		SceneNode*		m_pRootNode;
 	};
 
+	ENGINE_API Scene*	GetSceneSystem();
 
+	ENGINE_API void		SetSceneSystem(Scene* pScene);
 
 
 }

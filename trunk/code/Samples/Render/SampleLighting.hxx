@@ -11,7 +11,7 @@ namespace ma
 		Vector3 vEyePos = Vector3(0, 400, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
 		// Render Mesh
 		{
@@ -66,16 +66,16 @@ namespace ma
 
 		}
 
-		GetRenderSystem()->SetAmbientColor(Vector4(0.0f,0.0f,0.0f,0.0f));
+		GetLightSystem()->SetAmbientColor(Vector4(0.0f,0.0f,0.0f,0.0f));
 
-		GetRenderSystem()->SetClearClor(Color(0,0,0,0));
+		//GetRenderSystem()->SetClearClor(Color(0,0,0,0));
 
 	}
 
 	void SampleLighting::UnLoad()
 	{
-		GetRenderSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));	
-		GetRenderSystem()->SetClearClor(Color(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f));
+		//GetRenderSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));	
+		//GetRenderSystem()->SetClearClor(Color(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f));
 	}
 
 	void SampleLighting::Update()

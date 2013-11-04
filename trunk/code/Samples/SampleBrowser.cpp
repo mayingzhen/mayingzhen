@@ -96,7 +96,7 @@ namespace ma
 	{
 		CommonModuleInit();
 		EngineModuleInit();
-		//EntitySystemModuleInit();
+		RenderModuleInit();
 		UIModuleInit();
 		
 #if PLATFORM_WIN == 1
@@ -153,7 +153,7 @@ namespace ma
 
 		GetInput()->AddKeyListener(this);
 
-		m_pCameraControl = new CameraController(GetEntitySystem()->GetCamera());
+		m_pCameraControl = new CameraController( GetCamera() );
 		ResetCamera();
 
 		LoadUI();
@@ -171,15 +171,15 @@ namespace ma
 		Vector3 vEyePos = Vector3(0, 200, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		GetEntitySystem()->GetCamera()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 		float fFOV = PI / 4;
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 1.0f;
-		float fFarClip = 30000.0f;
-		GetEntitySystem()->GetCamera()->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+		float fFarClip = 20000.0f;
+		GetCamera()->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
 	}
 
@@ -265,10 +265,13 @@ namespace ma
 
 	}
 
+	Camera*	SampleBrowser::GetCamera()
+	{
+		return  GetRenderSystem()->GetMainCamera();
+	}
+
 	void SampleBrowser::Render()
 	{
-		GetRenderSystem()->SetCamera(GetEntitySystem()->GetCamera());
-
 		GetRenderSystem()->BeginFrame();
 
 		GetPhysicsSystem()->DebugRender();

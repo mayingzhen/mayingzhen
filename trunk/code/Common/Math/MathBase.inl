@@ -1339,8 +1339,7 @@ inline float Vec3LengthSq
 	return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z;
 }
 
-inline float Vec3Dot
-( const Vector3 *pV1, const Vector3 *pV2 )
+inline float Vec3Dot( const Vector3 *pV1, const Vector3 *pV2 )
 {
 #ifdef _DEBUG
 	if(!pV1 || !pV2)
@@ -1350,8 +1349,13 @@ inline float Vec3Dot
 	return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z;
 }
 
-inline Vector3* Vec3Cross
-( Vector3 *pOut, const Vector3 *pV1, const Vector3 *pV2 )
+inline float Vec3Dot( const Vector3& V1, const Vector3& V2 )
+{
+	return V1.x * V2.x + V1.y * V2.y + V1.z * V2.z;
+}
+
+
+inline Vector3* Vec3Cross( Vector3 *pOut, const Vector3 *pV1, const Vector3 *pV2 )
 {
 	Vector3 v;
 
@@ -1366,6 +1370,17 @@ inline Vector3* Vec3Cross
 
 	*pOut = v;
 	return pOut;
+}
+
+inline Vector3 Vec3Cross(const Vector3& V1, const Vector3& V2 )
+{
+	Vector3 v;
+
+	v.x = V1.y * V2.z - V1.z * V2.y;
+	v.y = V1.z * V2.x - V1.x * V2.z;
+	v.z = V1.x * V2.y - V1.y * V2.x;
+
+	return v;
 }
 
 inline Vector3* Vec3Add

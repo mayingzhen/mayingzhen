@@ -1,9 +1,6 @@
 #ifndef __Bullet_PhysicsObject_H__
 #define __Bullet_PhysicsObject_H__
 
-#include "Engine/Physics/IPhysicsObject.h"
-
-
 namespace ma
 {
 	class BulletRigidBody;

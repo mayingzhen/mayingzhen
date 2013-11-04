@@ -7,11 +7,13 @@ namespace ma
 	class ENGINE_API ITerrain
 	{
 	public:
-		virtual void	Create(const char* pPath) = 0;
+		virtual void			Create(const char* pPath) = 0;
 
-		virtual void	Update() = 0;
+		virtual void			Update() = 0;
 
-		virtual	float	GetHeight(float x, float z) = 0;
+		virtual	float			GetHeight(float x, float z) = 0;
+
+		virtual	const AABB&		GetWorldAABB() = 0;
 	};
 
 	ENGINE_API ITerrain*	GetTerrain();

@@ -55,7 +55,7 @@ namespace ma
 		if (m_pData)
 		{
 			free(m_pData);
-			m_pData == NULL;
+			m_pData = NULL;
 		}
 	}
 

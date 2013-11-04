@@ -1,7 +1,6 @@
 #ifndef __BulletRigidBody_H__
 #define __BulletRigidBody_H__
 
-#include "Engine/Physics/IRigidBody.h"
 
 class btRigidBody;
 class btCompoundShape;

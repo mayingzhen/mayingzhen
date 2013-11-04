@@ -1,6 +1,8 @@
 #ifndef  _UI_Module__H__
 #define  _UI_Module__H__
 
+#include "Common/WarningPrefix.h"
+
 #include "UI/Export.h"
 #include "UI/Mouse.h"
 #include "UI/Keyboard.h"
@@ -24,6 +26,8 @@
 #include "UI/TextBox.h"
 #include "UI/Bundle.h"
 #include "UI/UISystem.h"
+
+#include "Common/WarningSuffix.h"
 
 UI_API void UIModuleInit();
 

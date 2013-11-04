@@ -27,7 +27,7 @@ namespace ma
 		Vector3 vEyePos = Vector3(0, 300, 400);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
 
 		GetPhysicsSystem()->SetGravity(Vector3(0,-600/*-0.98f * 100*/,0));

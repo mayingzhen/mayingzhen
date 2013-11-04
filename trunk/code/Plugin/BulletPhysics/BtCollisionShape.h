@@ -1,7 +1,6 @@
 #ifndef __Bullet_CollisionShape_H__
 #define __Bullet_CollisionShape_H__
 
-#include "Engine/Physics/ICollisionShape.h"
 
 namespace ma
 {

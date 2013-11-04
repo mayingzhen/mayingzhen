@@ -178,7 +178,7 @@ inline Vector3 Vec3fromColor(unsigned int color)
 //--------------------------
 // 4D Vector
 //--------------------------
-struct Vector4
+struct COMMON_API Vector4
 {
 
 public:
@@ -645,6 +645,8 @@ Vector3* Vec3Lerp
 	COMMON_API Vector3* Vec3Normalize( Vector3 *pOut, const Vector3 *pV );
     
     COMMON_API Vector3& Vec3Normalize( Vector3& vOut, const Vector3& vIn );
+
+	COMMON_API Vector3  Vec3Normalize(const Vector3& vIn);
 
 	//// Hermite interpolation between position V1, tangent T1 (when s == 0)
 	//// and position V2, tangent T2 (when s == 1).

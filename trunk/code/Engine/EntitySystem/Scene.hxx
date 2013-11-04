@@ -1,12 +1,25 @@
 #include "Scene.h"
 
+
 namespace ma
 {
 	IMPL_OBJECT(Scene,Object)
 
+	static Scene* gpScene = NULL; 
+
+	Scene* GetSceneSystem()
+	{
+		return gpScene;
+	}
+
+	void SetSceneSystem(Scene* pScene)
+	{
+		gpScene = pScene;
+	}
+
 	Scene::Scene()
 	{
-		m_pRootNode = new SceneNode(NULL,this);
+		m_pRootNode = new SceneNode(NULL);
 	}
 
 	Scene::~Scene()
@@ -17,6 +30,10 @@ namespace ma
 	void Scene::TravelScene(SceneVisiter* pVisiter)
 	{	
 		m_pRootNode->TravelScene(pVisiter);
+	}
+
+	void Scene::Update()
+	{
 	}
 
 	void Scene::Serialize(Serializer& sl, const char* pszLable)
@@ -31,6 +48,13 @@ namespace ma
 	void Scene::AddSceneNode(SceneNode* pSceneNode)
 	{
 		m_pRootNode->AddChildNode(pSceneNode);
+	}
+
+	SceneNode* Scene::CreateSceneNode(GameObject* pGameObj)
+	{
+		SceneNode* pSceneNode = new SceneNode(pGameObj);
+		m_pRootNode->AddChildNode(pSceneNode);
+		return pSceneNode;
 	}
 }
 

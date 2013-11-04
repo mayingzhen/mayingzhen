@@ -2,9 +2,6 @@
 #define __BulletCharacterController_H__
 
 
-#include "Engine/Physics/ICharacterController.h"
-
-
 namespace ma
 {
 	class BulletPhysicsObject;

@@ -50,6 +50,15 @@ namespace ma
 		if (GetEntitySystem())
 			GetEntitySystem()->Update();
 
+		if ( GetSceneSystem() )
+			GetSceneSystem()->Update();
+
+		if ( GetRenderSystem() )
+			GetRenderSystem()->Update();
+
+		if ( GetLightSystem() )
+			GetLightSystem()->Update();
+
 		// Update particle system as late as possible, only renderer is dependent on it.
 		if (GetParticleSystem())
 			GetParticleSystem()->Update();
