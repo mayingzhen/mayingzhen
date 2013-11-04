@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="RenderScheme"
+	Name="Render"
 	ProjectGUID="{514D465F-4D3E-4956-8102-EE224AF03E62}"
 	RootNamespace="Application"
 	Keyword="Win32Proj"
@@ -41,13 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../extern/libpng/include;../extern/zlib/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RENDERSCHEME_EXPORTS"
+				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/oisInput/Include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;RENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="RenderScheme/StdAfx.h"
+				PrecompiledHeaderThrough="Render/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_d.lib "
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/lib"
 				GenerateDebugInformation="true"
@@ -170,22 +169,178 @@
 	</References>
 	<Files>
 		<Filter
-			Name="PostProcess"
+			Name="Material"
 			>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\HDRPostProcess.h"
+				RelativePath="..\..\code\Render\Material\Material.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\HDRPostProcess.hxx"
+				RelativePath="..\..\code\Render\Material\Material.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\PostProcess.h"
+				RelativePath="..\..\code\Render\Material\MaterialParameter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\PostProcess.hxx"
+				RelativePath="..\..\code\Render\Material\MaterialParameter.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\ParameterManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\ParameterManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\SamplerState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\SamplerState.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\ShaderProgram.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\ShaderProgram.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\Technqiue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\Technqiue.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\Texture.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Util"
+			>
+			<File
+				RelativePath="..\..\code\Render\Util\LineRender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\LineRender.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\ScreenQuad.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\ScreenQuad.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\UnitSphere.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\UnitSphere.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="RenderDevice"
+			>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\IndexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\IRenderDevice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\IRenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\RenderDefine.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\VertexBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\VertexDeclaration.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\IRenderDevice\VertexDeclaration.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Renderable"
+			>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshBatch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshBatch.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshBatch.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshData.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshDataSerialize.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\Renderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\RenderObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\RenderObject.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\RendMesh.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\RendMesh.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\SpriteBatch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\SpriteBatch.hxx"
 				>
 			</File>
 		</Filter>
@@ -193,63 +348,111 @@
 			Name="RenderScheme"
 			>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\DeferredLighting.h"
+				RelativePath="..\..\code\Render\RenderScheme\DeferredLightPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\DeferredLighting.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\DeferredLightPass.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\GBufferPass.h"
+				RelativePath="..\..\code\Render\RenderScheme\DeferredShadowPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\GBufferPass.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\DeferredShadowPass.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\RenderPipeline.h"
+				RelativePath="..\..\code\Render\RenderScheme\DefferredRender.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\RenderQueue.h"
+				RelativePath="..\..\code\Render\RenderScheme\DefferredRender.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\RenderQueue.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\GBufferPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\RenderScheme.h"
+				RelativePath="..\..\code\Render\RenderScheme\GBufferPass.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\RenderScheme.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\RenderPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowDepthPass.h"
+				RelativePath="..\..\code\Render\RenderScheme\RenderScheme.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowDepthPass.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\RenderScheme.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowMap.h"
+				RelativePath="..\..\code\Render\RenderScheme\ShadingPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowMap.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\ShadingPass.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowMapRender.h"
+				RelativePath="..\..\code\Render\RenderScheme\ShadowDepthPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\ShadowMapRender.hxx"
+				RelativePath="..\..\code\Render\RenderScheme\ShadowDepthPass.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Paticle"
+			>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleEmitter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleEmitter.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleSystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleThread.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Light"
+			>
+			<File
+				RelativePath="..\..\code\Render\Light\Light.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Light\Light.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Light\LightSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Light\LightSystem.hxx"
 				>
 			</File>
 		</Filter>
@@ -257,44 +460,120 @@
 			Name="Terrain"
 			>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\Terrain.h"
+				RelativePath="..\..\code\Render\Terrain\Terrain.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\Terrain.hxx"
+				RelativePath="..\..\code\Render\Terrain\Terrain.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\TerrainLiquid .hxx"
+				RelativePath="..\..\code\Render\Terrain\TerrainLiquid.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\TerrainLiquid.h"
+				RelativePath="..\..\code\Render\Terrain\TerrainLiquid.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\TerrainSection.h"
+				RelativePath="..\..\code\Render\Terrain\TerrainSection.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\RenderScheme\TerrainSection.hxx"
+				RelativePath="..\..\code\Render\Terrain\TerrainSection.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="RenderSystem"
+			>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\Camera.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderContext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderContext.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderProfile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderQueue.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderQueueBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderSetting.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderSetting.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderSystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderThread.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\ShadowMapFrustum.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\ShadowMapFrustum.hxx"
 				>
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\code\Plugin\RenderScheme\Export.h"
+			RelativePath="..\..\code\Render\Export.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\code\Plugin\RenderScheme\Module.cpp"
+			RelativePath="..\..\code\Render\Module.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\code\Plugin\RenderScheme\Module.h"
+			RelativePath="..\..\code\Render\Module.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\code\Plugin\RenderScheme\stdAfx.cpp"
+			RelativePath="..\..\code\Render\RTTI.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Render\stdAfx.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -306,7 +585,15 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\code\Plugin\RenderScheme\stdAfx.h"
+			RelativePath="..\..\code\Render\stdAfx.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Render\WarningPrefix.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Render\WarningSuffix.h"
 			>
 		</File>
 	</Files>

@@ -7,9 +7,9 @@ float4 splitPos;
 float4 u_shadowMapTexelSize;
 
 
-#ifndef HWPCF
-float4x4 wordLightView[4];
-#endif
+//#ifndef HWPCF
+//float4x4 wordLightView[4];
+//#endif
 
 sampler2D SamplerShadowMap0;
 sampler2D SamplerShadowMap1;
@@ -34,16 +34,21 @@ float SamplePCF(sampler2D sam, float4 vTexCoord)
 
   // 2x2 PCF Filtering
   // 
-  float fShadow[4];
-  fShadow[0] = (vTexCoord.z < tex2D(sam, vTexCoord + float2(                    0,                     0)));
-  fShadow[1] = (vTexCoord.z < tex2D(sam, vTexCoord + float2(u_shadowMapTexelSize.y,                     0)));
-  fShadow[2] = (vTexCoord.z < tex2D(sam, vTexCoord + float2(                    0, u_shadowMapTexelSize.y)));
-  fShadow[3] = (vTexCoord.z < tex2D(sam, vTexCoord + float2(u_shadowMapTexelSize.y, u_shadowMapTexelSize.y)));
+  //float fShadow[4];
+  float fDepth0 = tex2D(sam, vTexCoord);
+  float fDepth1 = tex2D(sam, vTexCoord + float2(u_shadowMapTexelSize.y,						0));
+  float fDepth2 = tex2D(sam, vTexCoord + float2(                    0,  u_shadowMapTexelSize.y));
+  float fDepth3 = tex2D(sam, vTexCoord + float2(u_shadowMapTexelSize.y, u_shadowMapTexelSize.y));
+  
+  float fShadow0 = vTexCoord.z < fDepth0;
+  float fShadow1 = vTexCoord.z < fDepth1;
+  float fShadow2 = vTexCoord.z < fDepth2;
+  float fShadow3 = vTexCoord.z < fDepth3;
 
   float2 vLerpFactor = frac(u_shadowMapTexelSize.x * vTexCoord.xy);
 
-  return lerp( lerp(fShadow[0], fShadow[1], vLerpFactor.x),
-               lerp(fShadow[2], fShadow[3], vLerpFactor.x),
+  return lerp( lerp(fShadow0, fShadow1, vLerpFactor.x),
+               lerp(fShadow2, fShadow3, vLerpFactor.x),
                     vLerpFactor.y);
 }
 
