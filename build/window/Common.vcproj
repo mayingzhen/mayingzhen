@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\IntersectionTests.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Common\Log.h"
 				>
 			</File>
@@ -214,6 +218,10 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Common\Macro.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\MatViewProj.h"
 				>
 			</File>
 			<File
@@ -245,7 +253,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\StringUtils.h"
+				RelativePath="..\..\code\Common\TArray.h"
 				>
 			</File>
 			<Filter

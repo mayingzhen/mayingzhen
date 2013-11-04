@@ -1,9 +1,9 @@
 // Uniforms
 uniform float4x4 u_worldViewProjectionMatrix;
 
-#ifndef HWPCF
-uniform float4x4 u_worldViewMatrix; 
-#endif
+//#ifndef HWPCF
+//uniform float4x4 u_worldViewMatrix; 
+//#endif
 
 #ifdef SKIN
 uniform float4x4 u_matrixPalette[SKIN_MATRIX_COUNT] : WORLDMATRIXARRAY;
@@ -26,7 +26,7 @@ struct VS_OUT
 	float4 oPos : POSITION;
 	
 #ifndef HWPCF
-	float2 oDepth : TEXCOORD0;
+	float4 oDepth : TEXCOORD0;
 #endif	
 };
 
@@ -58,7 +58,7 @@ VS_OUT main( VS_IN In)
 	Out.oPos = mul( u_worldViewProjectionMatrix, float4(wPos,1.0f) );
 
 #ifndef HWPCF
-	Out.oDepth = Out.oPos.zw;  
+	Out.oDepth = Out.oPos;  
 #endif	
 
 	return Out;  

@@ -245,18 +245,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\MeshData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\MeshData.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\MeshDataSerialize.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Engine\Resource\Properties.h"
 				>
 			</File>
@@ -410,286 +398,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="RenderSystem"
-			>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\Camera.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\Light.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\Light.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\RenderSystem\RenderDefine.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderObject.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.inl"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RTTI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\TArray.h"
-				>
-			</File>
-			<Filter
-				Name="Paticle"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\ParticleEmitter.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleSystem.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleSystem.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleThread.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ParticleThread.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Material"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\Material.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\MaterialManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\MaterialManager.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\MaterialParameter.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\SamplerState.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\SamplerState.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\ShaderProgram.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\ShaderProgram.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\Technqiue.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Material\Technqiue.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Material\Texture.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Util"
-				>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\LineRender.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\LineRender.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ScreenQuad.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ScreenQuad.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\UnitSphere.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\UnitSphere.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="RenderDevice"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\IndexBuffer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\IRenderDevice.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\RenderTarget.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\VertexBuffer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\VertexDeclaration.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Renderable"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\MeshBatch.inl"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\Renderable.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\RendMesh.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\RendMesh.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\RenderSystem\SpriteBatch.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="RenderScheme"
-				>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\DeferredLight.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\DeferredLight.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Shadow.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\Shadow.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ShadowMapFrustum.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\ShadowMapFrustum.hxx"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="Physics"
 			>
 			<File
@@ -721,10 +429,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsScene.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Physics\IPhysicsSystem.h"
 				>
 			</File>
@@ -741,6 +445,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Physics\Ragdoll.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Physics\Ragdoll.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Physics\RTTI.h"
 				>
 			</File>
@@ -749,7 +461,7 @@
 			Name="Script"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\Script\IScriptObject.h"
+				RelativePath="..\..\code\Engine\Script\IScriptObject.h"
 				>
 			</File>
 			<File
@@ -757,11 +469,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Script\IScriptSystem.h"
+				RelativePath="..\..\code\Engine\Script\IScriptSystem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Script\IScriptSystem.hxx"
+				RelativePath="..\..\code\Engine\Script\IScriptSystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Script\RTTI.h"
 				>
 			</File>
 		</Filter>
@@ -856,30 +572,6 @@
 				RelativePath="..\..\code\Engine\Terrain\ITerrain.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\Terrain.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\Terrain.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\TerrainLiquid.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\TerrainLiquid.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\TerrainSection.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\TerrainSection.hxx"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Animation"
@@ -912,6 +604,10 @@
 				RelativePath="..\..\code\Engine\Animation\ISkeleton.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Animation\RTTI.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="UI"
@@ -937,10 +633,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\CompRTTIDecl.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\EntitySystem\EntitySystem.h"
 				>
 			</File>
@@ -954,14 +646,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\EntitySystem\GameObj.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\EntitySystem\RenderQueueBuilder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\EntitySystem\RTTIDecl.h"
 				>
 			</File>
 			<File

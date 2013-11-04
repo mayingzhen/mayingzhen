@@ -1,9 +1,15 @@
-//float4 depth_near_far_invfar;
 
-void main( in float2 oDepth : TEXCOORD0,
-				  out float4 Color : COLOR )
+float4 main( 
+	#ifndef HWPCF
+	in float4 oDepth : TEXCOORD0
+	#endif
+	) : COLOR
 {
-	//Color = pos2.z * depth_near_far_invfar.z;
-	Color = oDepth.x / oDepth.y;
+#ifndef HWPCF
+	return oDepth.z / oDepth.w;
+#else
+	return float4(0,0,0,0);
+#endif
 }
+
 
