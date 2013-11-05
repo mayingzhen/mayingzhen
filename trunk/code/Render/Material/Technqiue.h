@@ -27,7 +27,7 @@ namespace ma
 	class RENDER_API Technique
 	{
 	public:
-		Technique(/*Effect* pEffect,*/const char* pTechName,const char* pShadrName, const char* pDefine);
+		Technique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 
 		~Technique();
 		
@@ -48,6 +48,9 @@ namespace ma
 		MaterialParameter*	GetParameter(const char* pszName);
 
 		MaterialParameter*	AddParameter(const char* pszName);
+
+
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "Technique");
 
 
 	private:

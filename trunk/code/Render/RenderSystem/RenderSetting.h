@@ -24,6 +24,8 @@ namespace ma
 		float	m_fShadowMapSize;
 
 		bool	m_bHWShadowMap;	
+
+		bool	m_bIsHDRRending;
 	};
 
 	RENDER_API RenderSetting*	GetRenderSetting();

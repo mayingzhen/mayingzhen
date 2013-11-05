@@ -14,7 +14,7 @@ namespace ma
 		m_pDiffuse = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
 		m_pSpecular = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
 
-		m_pAmbientLight = new Technique("AmbientLight","DeferredLight","AMBIENT_LIGHT");
+		m_pAmbientLight = new Technique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;
 
 		std::string strShaderDefine = "DIRECT_LIGHT";
@@ -22,11 +22,11 @@ namespace ma
 		{
 			strShaderDefine += ";SHADOW";
 		}
-		m_pDirLight = new Technique("DirectLight","DeferredLight",strShaderDefine.c_str());
+		m_pDirLight = new Technique("DirectLight","DeferredLight","DeferredLight",strShaderDefine.c_str());
 		m_pDirLight->GetRenderState().m_bDepthWrite = false;
 		m_pDirLight->GetRenderState().m_eBlendMode = BM_ADD;
 
-		m_pPointLight = new Technique("PointLight","DeferredLight","POINT_LIGHT");
+		m_pPointLight = new Technique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
 		m_pPointLight->GetRenderState().m_bDepthWrite = false;
 		m_pPointLight->GetRenderState().m_eBlendMode = BM_ADD;
 	}

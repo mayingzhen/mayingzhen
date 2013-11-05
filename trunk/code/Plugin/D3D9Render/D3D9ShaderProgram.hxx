@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	D3D9ShaderProgram::D3D9ShaderProgram(Technique* pTech,const char* shName,const char* defines)
-		:ShaderProgram(pTech,shName,defines)
+	D3D9ShaderProgram::D3D9ShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* defines)
+		:ShaderProgram(pTech,pVSFile,pPSFile,defines)
 	{
 		m_pVertexShader = NULL;
 		m_pPiexelShader = NULL;
@@ -42,8 +42,8 @@ namespace ma
 		std::string strDir = FileSystem::getResourcePath();
 		strDir += "/shader/D3D9/Cach/";
 		std::ofstream saveFile;
-		std::string strVshName = strDir + m_name + ".vsh";
-		std::string strFshName = strDir + m_name + ".fsh";
+		std::string strVshName = strDir + m_strVSFile + ".vsh";
+		std::string strFshName = strDir + m_strPSFile + ".fsh";
 
 		if (vshSize > 0)
 		{
@@ -442,10 +442,13 @@ namespace ma
 
 	void D3D9ShaderProgram::Bind()
 	{
+		HRESULT hr = D3D_OK;
 
-		GetD3D9DxDevive()->SetVertexShader(m_pVertexShader);
+		hr = GetD3D9DxDevive()->SetVertexShader(m_pVertexShader);
+		ASSERT(hr == D3D_OK);
 
-		GetD3D9DxDevive()->SetPixelShader(m_pPiexelShader);
+		hr = GetD3D9DxDevive()->SetPixelShader(m_pPiexelShader);
+		ASSERT(hr == D3D_OK);
 
 	}
 

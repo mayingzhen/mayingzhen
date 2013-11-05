@@ -29,7 +29,7 @@ namespace ma
 		m_pTechnique = pTech;
 		if (pTech == NULL)
 		{
-			m_pTechnique = new Technique("Shading","default","DIFFUSE;COLOR");
+			m_pTechnique = new Technique("Shading","default","default","DIFFUSE;COLOR");
 		}
 		
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;

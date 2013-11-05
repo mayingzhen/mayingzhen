@@ -274,6 +274,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\D3D9\Screen.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\D3D9\shadowDepth.frag"
 				>
 			</File>
@@ -289,6 +293,58 @@
 				RelativePath="..\..\data\shader\D3D9\terrain.vert"
 				>
 			</File>
+			<Filter
+				Name="HDR"
+				>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\AdaptedLum.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\BrightPass.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\DownSample.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\SumLuminanceFinal.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\SumLuminanceIterative.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\SumLuminanceLog.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\HDR\ToneMaping.frag"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Blur"
+				>
+				<File
+					RelativePath="..\..\data\shader\D3D9\Blur\Blur.frag"
+					>
+				</File>
+				<File
+					RelativePath="..\..\data\shader\D3D9\Blur\Blur.vert"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="DownScale"
+				>
+				<File
+					RelativePath="..\..\data\shader\D3D9\DownScale\DownScale.frag"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath="..\..\Code\Plugin\D3D9Render\Export.h"

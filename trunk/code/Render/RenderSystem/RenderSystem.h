@@ -46,7 +46,7 @@ namespace ma
 
 		Texture*			CreateRenderTarget(int nWidth = -1,int nHeight = -1,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
 		
-		ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine);
+		ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile, const char* pPSFile,const char* pszDefine);
 		
 		void				PushRenderTarget(Texture* pTexture,int index = 0);
 		

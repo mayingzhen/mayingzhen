@@ -213,9 +213,9 @@ namespace ma
 		return pTarget;
 	}
 
-	ShaderProgram* RenderSystem::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
+	ShaderProgram* RenderSystem::CreateShaderProgram(Technique* pTech,const char* pVSFile, const char* pPSFile,const char* pszDefine)
 	{
-		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pTech,pszName,pszDefine);
+		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
 		GetRenderThread()->RC_CreateShader(pShaderProgram);
 		return pShaderProgram;
 	}

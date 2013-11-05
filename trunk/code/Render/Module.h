@@ -45,6 +45,9 @@
 #include "Render/RenderScheme/RenderScheme.h"
 #include "Render/RenderScheme/DefferredRender.h"
 
+#include "Render/RenderScheme/PostProcess.h"
+
+
 // Util
 #include "Render/Util/LineRender.h"
 

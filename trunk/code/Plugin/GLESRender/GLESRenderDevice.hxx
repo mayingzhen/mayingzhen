@@ -44,9 +44,9 @@ namespace ma
 		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
+	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
 	{
-		return new GLESShaderProgram(pTech,pszName,pszDefine);
+		return new GLESShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
 	}
 
 	const char*	GLESRenderDevice::GetShaderPath()

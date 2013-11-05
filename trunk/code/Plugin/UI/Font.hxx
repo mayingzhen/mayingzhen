@@ -94,7 +94,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     // Create the effect for the font's sprite batch.
     if (__fontTechnique == NULL)
     {
-		__fontTechnique = new Technique("font","font","");
+		__fontTechnique = new Technique("font","font","font","");
 
 		__fontTechnique->GetRenderState().m_bDepthWrite = false;
 		__fontTechnique->GetRenderState().m_eDepthCheckMode = DCM_NONE;

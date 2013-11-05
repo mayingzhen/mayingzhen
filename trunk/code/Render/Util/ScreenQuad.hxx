@@ -30,7 +30,7 @@ namespace ma
 		quadVerts[2].position = Vector3(1, -1, 0);
 		quadVerts[3].position = Vector3(-1, -1, 0);
 
-		quadVerts[0].texCoords = Vector2(0.0f, 1.0f) + offset;
+		quadVerts[0].texCoords = Vector2(1.0f, 0.0f) + offset;
  		quadVerts[1].texCoords = Vector2(0.0f, 0.0f) + offset;
  		quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
  		quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;

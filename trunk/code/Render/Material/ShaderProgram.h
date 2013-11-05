@@ -12,7 +12,7 @@ namespace ma
 	{
 	public:
 
-		ShaderProgram(Technique* pTech,const char* shName,const char* defines = NULL);
+		ShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* defines = NULL);
 
 		virtual ~ShaderProgram();
 
@@ -66,11 +66,13 @@ namespace ma
 
 
 	protected:
-		std::string							m_name;
+		//std::string							m_name;
 
 		std::map<std::string, Uniform*>		m_uniforms;
 
-		std::string							m_ShaderName;
+		//std::string							m_ShaderName;
+		std::string							m_strVSFile;
+		std::string							m_strPSFile;
 		std::string							m_shaderDefine;
 
 		Technique*							m_pTech;

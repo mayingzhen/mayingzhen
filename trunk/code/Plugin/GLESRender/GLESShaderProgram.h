@@ -10,7 +10,7 @@ namespace ma
 	{
 	public:
 
-		GLESShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine);
+		GLESShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine);
 
 		~GLESShaderProgram();
 

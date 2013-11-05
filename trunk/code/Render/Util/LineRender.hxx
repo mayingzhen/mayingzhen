@@ -17,7 +17,7 @@ namespace ma
 
 	void LineRender::Init()
 	{
-		m_pLinTech =  new Technique("Line","default","COLOR");
+		m_pLinTech =  new Technique("Line","default","default","COLOR");
 		//Effect*	pEffect = new Effect("Line");
 		//pEffect->AddTechnique("Shading","default","COLOR");
 

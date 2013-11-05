@@ -1,16 +1,25 @@
 #include "ShadingPass.h"
 #include "../RenderSystem/RenderSetting.h"
+#include "HDRPostProcess.h"
 
 namespace ma
 {
 	void ShadingPass::Init()
 	{
+		m_pShadingTex = NULL;
 
+		if ( GetRenderSetting()->m_bIsHDRRending )
+		{
+			m_pShadingTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A16B16G16R16F);	
+
+			m_pHdrPostprocess = new HDRPostProcess(m_pShadingTex,NULL);
+			m_pHdrPostprocess->Init();
+		}
 	}
 
-	void ShadingPass::Render()
+	void ShadingPass::RenderObjecList()
 	{
-		RENDER_PROFILE(ShadingPass);
+		RENDER_PROFILE(RenderObjecList);
 
 		Color cClearClor = GetRenderSetting()->m_cClearClor;
 
@@ -44,6 +53,25 @@ namespace ma
 			Technique* pTech = pMaterial->GetTechnqiue("Shading");
 
 			pRenderObj->Render(pTech);
+		}
+	}
+
+	void ShadingPass::Render()
+	{
+		RENDER_PROFILE(ShadingPass);
+
+		if ( GetRenderSetting()->m_bIsHDRRending )
+		{
+			GetRenderSystem()->PushRenderTarget(m_pShadingTex);
+		}
+
+		RenderObjecList();
+
+		if ( GetRenderSetting()->m_bIsHDRRending )
+		{
+			GetRenderSystem()->PopRenderTargert();
+
+			m_pHdrPostprocess->Render();
 		}
 	}
 
