@@ -163,7 +163,7 @@ namespace ma
 
 	Technique*	Material::AddTechnique(const char* pTechName,const char* pShadrName, const char* pDefine)
 	{
-		Technique* pTechnique = new Technique(pTechName,pShadrName,pDefine);
+		Technique* pTechnique = new Technique(pTechName,pShadrName,pShadrName,pDefine);
 		m_arrTechnique.push_back(pTechnique);
 		return pTechnique;
 	}

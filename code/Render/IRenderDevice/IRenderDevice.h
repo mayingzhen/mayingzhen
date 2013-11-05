@@ -30,7 +30,7 @@ namespace ma
 
 		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO) = 0;
 	
-		virtual ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine) = 0;
+		virtual ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine) = 0;
 
 		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0) = 0;
 

@@ -47,9 +47,9 @@ namespace ma
 		return new D3D9IndexBuffer(Data,nSize,eIndexType,Usgae);
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
+	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
 	{
-		return new D3D9ShaderProgram(pTech,pszName,pszDefine);
+		return new D3D9ShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
 	}
 
 	const char*	D3D9RenderDevice::GetShaderPath()

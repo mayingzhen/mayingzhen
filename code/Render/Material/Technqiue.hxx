@@ -2,11 +2,11 @@
 
 namespace ma
 {
-	Technique::Technique(const char* pName,const char* pShadrName, const char* pDefine)
+	Technique::Technique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine)
 	{
-		m_stName = pName;
+		m_stName = pTechName;
 
-		m_pShaderProgram = GetRenderSystem()->CreateShaderProgram(this,pShadrName,pDefine);
+		m_pShaderProgram = GetRenderSystem()->CreateShaderProgram(this,pVSFile,pPSFile,pDefine);
 		UINT nUniform = m_pShaderProgram->GetUniformCount();
 		for (UINT i = 0; i < nUniform; ++i)
 		{
@@ -79,5 +79,18 @@ namespace ma
 	const char*	Technique::GetTechName()
 	{
 		return m_stName.c_str();
+	}
+
+	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_stName);
+
+		//m_pShaderProgram->
+
+		//m_renderState
+
+		sl.EndSection();
 	}
 }

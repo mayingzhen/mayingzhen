@@ -55,6 +55,9 @@
 #include "Render/RenderScheme/RenderScheme.hxx"
 #include "Render/RenderScheme/DefferredRender.hxx"
 
+#include "Render/RenderScheme/BlurPostProcess.hxx"
+#include "Render/RenderScheme/HDRPostProcess.hxx"
+
 #include "Render/Terrain/Terrain.hxx"
 #include "Render/Terrain/TerrainSection.hxx"
 

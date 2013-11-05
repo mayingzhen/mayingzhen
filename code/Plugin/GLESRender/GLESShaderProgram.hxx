@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	GLESShaderProgram::GLESShaderProgram(Technique* pTech,const char* pszName,const char* pszDefine)
-		:ShaderProgram(pTech,pszName,pszDefine)
+	GLESShaderProgram::GLESShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
+		:ShaderProgram(pTech,pVSFile,pPSFile,pszDefine)
 	{
 		m_program = 0;
 	}

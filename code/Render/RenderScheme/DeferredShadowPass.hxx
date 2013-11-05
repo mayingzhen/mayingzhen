@@ -20,7 +20,7 @@ namespace ma
 			strShaderDefine += ";HWPCF";
 		}
 
-		m_pDefferedShadow = new Technique("DeferredShadow","DefferedShadow",strShaderDefine.c_str());
+		m_pDefferedShadow = new Technique("DeferredShadow","DefferedShadow","DefferedShadow",strShaderDefine.c_str());
 
 		m_pDefferedShadow->GetRenderState().m_bDepthWrite = false;
 	}

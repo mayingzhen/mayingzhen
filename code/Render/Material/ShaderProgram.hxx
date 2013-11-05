@@ -183,85 +183,37 @@ namespace ma
 
 
 	
-	ShaderProgram::ShaderProgram(Technique* pTech,const char* shName,const char* defines) 
+	ShaderProgram::ShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* defines) 
 	{
 		m_pTech = pTech;
-		m_ShaderName = shName ? shName : "";
-		m_shaderDefine = defines ? defines : "";
+		//m_ShaderName = shName ? shName : "";
+		m_strVSFile = pVSFile ? pVSFile : "";
+		m_strPSFile = pPSFile ? pPSFile : "";
+		m_shaderDefine = defines ? defines: "";
 	}
 
 	ShaderProgram::~ShaderProgram()
 	{
-		// Remove this effect from the cache.
-// 		__effectCache.erase(m_name);
-// 
-// 		// Free uniforms.
-// 		for (std::map<std::string, Uniform*>::iterator itr = m_uniforms.begin(); itr != m_uniforms.end(); ++itr)
-// 		{
-// 			SAFE_DELETE(itr->second);
-// 		}
-// 
-// 		if (__currentEffect == this)
-// 		{
-// 			__currentEffect = NULL;
-// 		}
 	}
 
 	void ShaderProgram::Create()
 	{
-		std::string sEffectName = m_pTech->GetTechName(); 
-		m_name = sEffectName + "_" + m_ShaderName + "_" + m_shaderDefine;
+		//std::string sTechName = m_pTech->GetTechName(); 
+		//m_name = sTechName + "_" + m_strVSFile + "_" + m_shaderDefine;
 
 		std::string strPath = GetRenderDevice()->GetShaderPath();
-		strPath += m_ShaderName;
+		//strPath += m_ShaderName;
 
-		std::string strPathVS = strPath + ".vert";
-		std::string strPathFS = strPath + ".frag";
+		std::string strPathVS = strPath + m_strVSFile + ".vert";
+		std::string strPathFS = strPath + m_strPSFile + ".frag";
 
 		CreateFromFile(strPathVS.c_str(),strPathFS.c_str(),m_shaderDefine.c_str());
 	}
-
-// 	void ShaderProgram::CreateFromShaderName(const char* shName,const char* defines)
-// 	{
-// 		ASSERT(shName);
-// 		if (shName == NULL)
-// 			return;
-// 
-// 		m_name = std::string(shName) + "_" + defines;
-// 
-// 		std::string strPath = GetRenderDevice()->GetShaderPath();
-// 		strPath += shName;
-// 
-// 		std::string strPathVS = strPath + ".vert";
-// 		std::string strPathFS = strPath + ".frag";
-// 
-// 		CreateFromFile(strPathVS.c_str(),strPathFS.c_str(),defines);
-// 	}
 
 	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines)
 	{
 		ASSERT(vshPath);
 		ASSERT(fshPath);
-
-		// Search the effect cache for an identical effect that is already loaded.
-// 		std::string uniqueId = vshPath;
-// 		uniqueId += ';';
-// 		uniqueId += fshPath;
-// 		uniqueId += ';';
-// 		if (defines)
-// 		{
-// 			uniqueId += defines;
-// 		}
-// 		std::map<std::string, ShaderProgram*>::const_iterator itr = __effectCache.find(uniqueId);
-// 		if (itr != __effectCache.end())
-// 		{
-// 			// Found an exiting effect with this id, so increase its ref count and return it.
-// 			ASSERT(itr->second);
-// 			//itr->second->IncReference();
-// 			//return;
-// 		}
-// 
-// 		m_id = uniqueId;
 
 		std::string strVshSource = prePareShaderSource(vshPath,defines);
 		std::string strFshSource = prePareShaderSource(fshPath,defines);
@@ -270,8 +222,6 @@ namespace ma
 			strFshSource.c_str(), strFshSource.length());
 
 		ParseUniform();
-
-		//__effectCache[uniqueId] = this;
 	}
 
 

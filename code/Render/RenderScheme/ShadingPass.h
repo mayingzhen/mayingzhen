@@ -3,14 +3,24 @@
 
 namespace ma
 {
+	class HDRPostProcess;
+
 	class ShadingPass : public RenderPass
 	{
 	public:
-		void Init();
+		void	Init();
 
-		void Render();
+		void	Render();
 
-		void ShoutDown();
+		void	ShoutDown();
+
+	private:
+		void	RenderObjecList();
+
+	protected:
+		Texture*			m_pShadingTex;
+
+		HDRPostProcess*		m_pHdrPostprocess;
 	};
 
 }

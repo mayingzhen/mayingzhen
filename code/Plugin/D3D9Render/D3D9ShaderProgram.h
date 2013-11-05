@@ -10,7 +10,7 @@ namespace ma
 	{
 	public:
 
-		D3D9ShaderProgram(Technique* pTech,const char* shName,const char* defines);
+		D3D9ShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* defines);
 
 		~D3D9ShaderProgram();
 

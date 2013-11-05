@@ -380,6 +380,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Render\RenderScheme\PostProcess.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\RenderScheme\RenderPass.h"
 				>
 			</File>
@@ -407,6 +411,34 @@
 				RelativePath="..\..\code\Render\RenderScheme\ShadowDepthPass.hxx"
 				>
 			</File>
+			<Filter
+				Name="Postprocess"
+				>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\BlurPostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\BlurPostProcess.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\DownSacalePostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\DownSacalePostProcess.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\HDRPostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Render\RenderScheme\HDRPostProcess.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Paticle"
