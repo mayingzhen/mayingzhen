@@ -7,7 +7,7 @@
 #include "WinThread/WinCriticalSection.h"
 #include "WinThread/WinEvent.h"
 #include "WinThread/WinThread.h"
-#elif PLAFTORM_IOS == 1 || PLATFORM_ANDROID == 1
+#else
 #include "pthread/PosixCriticalSection.h"
 #include "pthread/PosixEvent.h"
 #include "pthread/PosixThread.h"

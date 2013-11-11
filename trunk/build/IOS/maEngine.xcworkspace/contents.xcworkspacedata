@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:SampleBrowser/SampleBrowser.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:EntitySystem.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Sample">
+      <FileRef
+         location = "group:SampleBrowser/SampleBrowser.xcodeproj">
+      </FileRef>
+   </Group>
    <Group
       location = "container:"
       name = "Plugin">
       <FileRef
-         location = "group:GLESRender.xcodeproj">
+         location = "group:Animation.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:BulletPhysics.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:UI.xcodeproj">
+         location = "group:GLESRender.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:Animation.xcodeproj">
+         location = "group:UI.xcodeproj">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:Render.xcodeproj">
+   </FileRef>
    <FileRef
       location = "group:Engine.xcodeproj">
    </FileRef>

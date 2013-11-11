@@ -54,7 +54,7 @@ namespace ma
 					viwToLightProjArray[iSMF] = invView * pSMF->GetViewProjMatrix() * pSMF->GetTexScaleBiasMat();
 
 					char pszTexShadowMap[MAX_PATH] = {0};
-					_snprintf(pszTexShadowMap, sizeof(pszTexShadowMap), "SamplerShadowMap%d", iSMF);
+					snprintf(pszTexShadowMap, sizeof(pszTexShadowMap), "SamplerShadowMap%d", iSMF);
 					m_pDefferedShadow->GetParameter(pszTexShadowMap)->setTexture( pSMF->GetDepthTexture() );
 				}
 

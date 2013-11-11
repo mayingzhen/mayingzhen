@@ -128,7 +128,7 @@ namespace ma
 
 	void RenderMesh::SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount)
 	{
-		int index = GetRenderThread()->m_nCurThreadFill;
+		int index = GetRenderThread() ? GetRenderThread()->GetThreadList()  : 0;
 
 		for (UINT iRenderable = 0; iRenderable < m_arrRenderable.size(); ++iRenderable)
 		{
@@ -158,7 +158,7 @@ namespace ma
 
 	void RenderMesh::SetWorldMatrix(const Matrix4x4& matWorld)
 	{
-		int index = GetRenderThread()->m_nCurThreadFill;
+		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
 
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{

@@ -32,27 +32,25 @@ namespace ma
 
 		~DataThread();
 
-		void		Start();
+		virtual	void	Update();
 
-		void		Stop();
+		void			SetThreadPriority(ULONG	uData);
 
-		void		SetThreadPriority(ULONG	uData);
-
-		IDataObj*	PopUpDataObj(void);	
+		IDataObj*		PopUpDataObj(void);	
 		
-		IDataObj*	PushBackDataObj(IDataObj* pObj);
+		IDataObj*		PushBackDataObj(IDataObj* pObj);
 		
-		ULONG		Release(void){delete this; return 0;}
+		ULONG			Release(void){delete this; return 0;}
 		
-		bool		IsFree(void);
+		bool			IsFree(void);
 		
-		bool		Process(void);
+		bool			Process(void);
 		
-		void		SetImmediateExigence(bool bImmediate){m_bImmediate = bImmediate;}
+		void			SetImmediateExigence(bool bImmediate){m_bImmediate = bImmediate;}
 
 
 	private:
-		void		Run();
+		//void		Run();
 
 	public:
 		typedef std::deque<IDataObj*> CDataObjQueue;
@@ -69,7 +67,7 @@ namespace ma
 
 		bool				m_bImmediate;
 		bool				m_bFree;
-		bool				m_bExit;
+		//bool				m_bExit;
 		DWORD				m_dwTlsIndex;
 		DWORD				m_dwThreadAppID;
 	};

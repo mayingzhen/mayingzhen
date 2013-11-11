@@ -295,7 +295,11 @@ namespace ma
 // 			return FileStreamAndroid::create(path, modeStr);
 // 		}
 // 	#else
-		std::string fullPath = getFullPath(path);
+        
+        std::string strPath = path;
+        std::transform(strPath.begin(),strPath.end(),strPath.begin(),tolower);
+        
+		std::string fullPath = getFullPath(strPath.c_str());
 	     
 		FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
 		return stream;

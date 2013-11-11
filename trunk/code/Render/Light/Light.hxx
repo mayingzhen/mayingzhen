@@ -133,7 +133,7 @@ namespace ma
 		if (pCamera == NULL)
 			return;
 
-		int index = GetRenderThread()->GetThreadList();
+		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
 
 		Matrix4x4 matLightView;
 
@@ -181,12 +181,12 @@ namespace ma
 
 			AABB cropAABB;
 
-			cropAABB.m_vMin.x = max(max(aabbCasters.m_vMin.x, aabbReceivers.m_vMin.x), aabbSplit.m_vMin.x);
-			cropAABB.m_vMax.x = min(min(aabbCasters.m_vMax.x, aabbReceivers.m_vMax.x), aabbSplit.m_vMax.x);
-			cropAABB.m_vMin.y = max(max(aabbCasters.m_vMin.y, aabbReceivers.m_vMin.y), aabbSplit.m_vMin.y);
-			cropAABB.m_vMax.y = min(min(aabbCasters.m_vMax.y, aabbReceivers.m_vMax.y), aabbSplit.m_vMax.y);
+			cropAABB.m_vMin.x = Max(Max(aabbCasters.m_vMin.x, aabbReceivers.m_vMin.x), aabbSplit.m_vMin.x);
+			cropAABB.m_vMax.x = Min(Min(aabbCasters.m_vMax.x, aabbReceivers.m_vMax.x), aabbSplit.m_vMax.x);
+			cropAABB.m_vMin.y = Max(Max(aabbCasters.m_vMin.y, aabbReceivers.m_vMin.y), aabbSplit.m_vMin.y);
+			cropAABB.m_vMax.y = Min(Min(aabbCasters.m_vMax.y, aabbReceivers.m_vMax.y), aabbSplit.m_vMax.y);
 			cropAABB.m_vMin.z = aabbCasters.m_vMin.z;
-			cropAABB.m_vMax.z = min(aabbReceivers.m_vMax.z, aabbSplit.m_vMax.z);
+			cropAABB.m_vMax.z = Min(aabbReceivers.m_vMax.z, aabbSplit.m_vMax.z);
 
 			Matrix4x4 matCrop = CalculateCropMatrix(cropAABB);
 

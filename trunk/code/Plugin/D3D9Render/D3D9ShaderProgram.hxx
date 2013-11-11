@@ -1,5 +1,5 @@
 #include "D3D9ShaderProgram.h"
-
+#include <shlobj.h>
 
 
 namespace ma
@@ -19,7 +19,6 @@ namespace ma
 		SAFE_RELEASE(m_pVertexShader);
 		SAFE_RELEASE(m_pPiexelShader);
 	}
-
 
 	void D3D9ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
@@ -47,6 +46,9 @@ namespace ma
 
 		if (vshSize > 0)
 		{
+			std::string strDir = FileSystem::getDirectoryName(strVshName.c_str());
+			::SHCreateDirectoryExA(NULL,strDir.c_str(),NULL);
+
 			saveFile.open(strVshName.c_str());
 			saveFile << vshSource;
 			saveFile.close();
@@ -73,6 +75,9 @@ namespace ma
 
 		if (fshSize > 0)
 		{
+			std::string strDir = FileSystem::getDirectoryName(strFshName.c_str());
+			::SHCreateDirectoryExA(NULL,strDir.c_str(),NULL);
+
 			saveFile.open(strFshName.c_str());
 			saveFile << fshSource;
 			saveFile.close();

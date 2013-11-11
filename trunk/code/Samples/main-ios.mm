@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#include "SampleBrowser.h"
 
 using namespace ma;
 
@@ -15,7 +16,10 @@ int main(int argc, char** argv)
     __argv = argv;
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     
+    SampleBrowser sampleBrowser("SampleBrowser");
+    
     Platform app;
+    
 	app.Init();
 	app.Run();
 	app.Shutdown();

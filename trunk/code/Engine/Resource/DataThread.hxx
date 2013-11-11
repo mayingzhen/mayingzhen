@@ -3,39 +3,39 @@
 namespace ma
 {
 
-	void DataThread::Run()
-	{	
-		// loop waiting for player events. If the exit event is signaled
-		// the thread will exit
-		while(!m_bExit)
-		{	
-			m_pReadEvent->Wait();
-
-			if(m_bExit) 
-				break;
-
-			m_bFree = false;
-			while(!m_queUnloaded.empty())
-			{	
-				// 队列锁
-				m_csRequestQueue.Lock();
-				IDataObj* pObj = m_queUnloaded.front();
-				m_queUnloaded.pop_front();
-				m_csRequestQueue.Unlock();
-
-				pObj->LoadFileToMemeory();
-
-				// 使用单独的锁控制m_queLoaded的操作,使得lock控制的时间段更短.
-				m_csLoadedQueue.Lock();
-				m_queLoaded.push_back(pObj);
-				m_csLoadedQueue.Unlock();
-			}
-
-			m_bFree = true;
-		}
-
-		m_bFree = true;
-	} 
+// 	void DataThread::Run()
+// 	{	
+// 		// loop waiting for player events. If the exit event is signaled
+// 		// the thread will exit
+// 		while(!m_bExit)
+// 		{	
+// 			m_pReadEvent->Wait();
+// 
+// 			if(m_bExit) 
+// 				break;
+// 
+// 			m_bFree = false;
+// 			while(!m_queUnloaded.empty())
+// 			{	
+// 				// 队列锁
+// 				m_csRequestQueue.Lock();
+// 				IDataObj* pObj = m_queUnloaded.front();
+// 				m_queUnloaded.pop_front();
+// 				m_csRequestQueue.Unlock();
+// 
+// 				pObj->LoadFileToMemeory();
+// 
+// 				// 使用单独的锁控制m_queLoaded的操作,使得lock控制的时间段更短.
+// 				m_csLoadedQueue.Lock();
+// 				m_queLoaded.push_back(pObj);
+// 				m_csLoadedQueue.Unlock();
+// 			}
+// 
+// 			m_bFree = true;
+// 		}
+// 
+// 		m_bFree = true;
+// 	} 
 
 	bool DataThread::IsFree(void)
 	{
@@ -45,7 +45,7 @@ namespace ma
 	DataThread::DataThread()
 	{
 		m_bFree = true;
-		m_bExit = false;
+		//m_bExit = false;
 		m_bImmediate = false;
 
 		m_pReadEvent = new CMyEvent();
@@ -59,14 +59,30 @@ namespace ma
 		SAFE_DELETE(m_pReadEvent);
 	}
 
-	void DataThread::Start()
+
+	void DataThread::Update()
 	{
+		m_pReadEvent->Wait();
 
-	}
+		m_bFree = false;
 
-	void DataThread::Stop()
-	{
+		while(!m_queUnloaded.empty())
+		{	
+			// 队列锁
+			m_csRequestQueue.Lock();
+			IDataObj* pObj = m_queUnloaded.front();
+			m_queUnloaded.pop_front();
+			m_csRequestQueue.Unlock();
 
+			pObj->LoadFileToMemeory();
+
+			// 使用单独的锁控制m_queLoaded的操作,使得lock控制的时间段更短.
+			m_csLoadedQueue.Lock();
+			m_queLoaded.push_back(pObj);
+			m_csLoadedQueue.Unlock();
+		}
+
+		m_bFree = true;
 	}
 
 	IDataObj* DataThread::PopUpDataObj(void)

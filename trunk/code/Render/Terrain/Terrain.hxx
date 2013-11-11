@@ -91,9 +91,6 @@ namespace ma
 				int heightMapX = x << m_sectorShift;
 				int heightMapY = y << m_sectorShift;
 
-				int index = (y * m_sectorCountX) + x;
-			
-
 				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
 				
 				TerrainSection* pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
@@ -139,14 +136,12 @@ namespace ma
 		// gridinfo
 		element = root->FirstChildElement( "gridInfo" );
 		const char* gridInfoFileName = element->Attribute( "filename" );
-		const char* gridInfoType = element->Attribute( "type");
 		fileName = strDir + gridInfoFileName;
 		LoadGridInfo( fileName.c_str() );
 
 		// textures
 		element = root->FirstChildElement( "textures");
 		TiXmlElement* pTxtureElement = element->FirstChildElement();
-		int imageIndex = 0;
 		while( pTxtureElement )
 		{
 			elementValue = pTxtureElement->Attribute( "type");
@@ -163,7 +158,7 @@ namespace ma
 		}
 		m_vTextureFileNames.push_back(strDir + "transparent.tga");
 
-		std::string altasPath = strDir + "/TerainTextAltas.tai";
+		std::string altasPath = strDir + "/teraintextaltas.tai";
 		LoadTextAltas(altasPath.c_str());
 
 		element = root->FirstChildElement("pixmaps");
@@ -264,7 +259,6 @@ namespace ma
 			g.tri = tr;
 			if( tr != 0 )
 			{
-				int a = 0;
 			}
 
 			m_GridInfoArray.push_back( g );

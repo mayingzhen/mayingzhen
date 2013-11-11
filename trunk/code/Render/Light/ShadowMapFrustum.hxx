@@ -96,13 +96,15 @@ namespace ma
 	{
 		float fShadowMapSize = GetRenderSetting()->m_fShadowMapSize;
 
-		GetRenderSystem()->PushViewPort(Rectangle(0, 0, fShadowMapSize, fShadowMapSize));
+		Rectangle viewPort(0, 0, fShadowMapSize, fShadowMapSize);
+
+		GetRenderSystem()->PushViewPort(viewPort);
 		GetRenderSystem()->PushRenderTarget(m_pShdowDepth);
 		GetRenderSystem()->PushDepthStencil(m_pDepthStencil);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(1,1,1,0), 1.0f, 0);
 
-		int index = GetRenderThread()->m_nCurThreadProcess;
+		int index = GetRenderThread()->CurThreadProcess();
 		GetRenderContext()->SetViewMatrix(m_matViewProj[index].GetMatView());
 		GetRenderContext()->SetProjMatrix(m_matViewProj[index].GetMatProj());
 		

@@ -32,7 +32,8 @@ namespace ma
 
 		CreateFromMemeory();
 
-		GetRenderThread()->FlushAndWait();
+		if (GetRenderThread())
+			GetRenderThread()->FlushAndWait();
 	}
 
 	bool Texture::CreateFromMemeory()
@@ -40,7 +41,7 @@ namespace ma
 		if (m_eResState == ResLoaded)
 			return true;
 
-		GetRenderThread()->RC_TexStreamComplete(this,m_pDataStream);
+		GetRenderSystem()->TexStreamComplete(this,m_pDataStream);
 
 		return true;
 	}

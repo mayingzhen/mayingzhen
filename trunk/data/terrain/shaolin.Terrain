@@ -3,9 +3,9 @@
 
   <scale x="100" y="100" z="100"/>
 
-  <heightmap filename="shaolin.Heightmap" type="standard"/>
+  <heightmap filename="shaolin.heightmap" type="standard"/>
 
-  <gridInfo filename="shaolin.GridInfo" type="standard"/>
+  <gridInfo filename="shaolin.gridinfo" type="standard"/>
 
   <lightmap filename="shaolin.lightmap.png" type="image"/>
 

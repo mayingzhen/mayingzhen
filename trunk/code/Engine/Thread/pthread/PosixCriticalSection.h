@@ -1,7 +1,7 @@
 #ifndef _PosixCriticalSection_H__
 #define _PosixCriticalSection_H__
 
-#include "pthread.h"
+#include <pthread.h>
 
 namespace ma
 {
@@ -11,31 +11,26 @@ namespace ma
 	public:
 		CriticalSection()
 		{
-			pthread_mutex_t* pMutex = new pthread_mutex_t;
-			pthread_mutex_init(pMutex, NULL);
-			m_ptrNSLock = pMutex;
+			pthread_mutex_init(&m_mutex, NULL);
 		}
 
 		~CriticalSection()
 		{
-			pthread_mutex_t* pMutex = (pthread_mutex_t*)m_ptrNSLock;
-			pthread_mutex_destroy(pMutex);
-			delete pMutex;
-			m_ptrNSLock = NULL;
+			pthread_mutex_destroy(&m_mutex);
 		}
 
 		void Lock()
 		{
-			pthread_mutex_lock((pthread_mutex_t*)m_ptrNSLock);
+			pthread_mutex_lock(&m_mutex);
 		}
 
 		void Unlock()
 		{
-			pthread_mutex_unlock((pthread_mutex_t*)m_ptrNSLock);
+			pthread_mutex_unlock(&m_mutex);
 		}
 
 	public:
-		void* m_ptrNSLock;
+		pthread_mutex_t m_mutex;
 	};
 
 }

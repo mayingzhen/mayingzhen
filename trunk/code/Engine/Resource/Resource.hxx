@@ -47,6 +47,7 @@ namespace ma
 
 		SAFE_DELETE(m_pDataStream);
 		m_pDataStream =  FileSystem::readAll(m_sResPath.c_str());
+        ASSERT(m_pDataStream);
 
 		return true;
 	}

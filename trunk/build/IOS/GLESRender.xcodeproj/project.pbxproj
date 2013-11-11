@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F32FB3617A5106300B1DFCC /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F32FB3517A5106300B1DFCC /* libDevIL.a */; };
-		6FB7D7991796760B00D771E5 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7951796760B00D771E5 /* Module.cpp */; };
-		6FB7D79A1796760B00D771E5 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FB7D7971796760B00D771E5 /* stdafx.cpp */; };
+		6F2042AF182A5EED0022C67C /* GLESDeviceContextIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F204298182A5EED0022C67C /* GLESDeviceContextIOS.mm */; };
+		6F2042B0182A5EED0022C67C /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F2042AB182A5EED0022C67C /* Module.cpp */; };
+		6F2042B1182A5EED0022C67C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F2042AD182A5EED0022C67C /* stdafx.cpp */; };
+		6F6B394318308A55003846E6 /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B394218308A55003846E6 /* libDevIL.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,30 +26,36 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6F32FB3517A5106300B1DFCC /* libDevIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDevIL.a; path = ../../extern/DevIL/lib/IOS/libDevIL.a; sourceTree = "<group>"; };
+		6F204293182A5EED0022C67C /* GLESDeviceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContext.h; sourceTree = "<group>"; };
+		6F204294182A5EED0022C67C /* GLESDeviceContext.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESDeviceContext.hxx; sourceTree = "<group>"; };
+		6F204295182A5EED0022C67C /* GLESDeviceContextAndroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContextAndroid.h; sourceTree = "<group>"; };
+		6F204296182A5EED0022C67C /* GLESDeviceContextAndroid.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESDeviceContextAndroid.hxx; sourceTree = "<group>"; };
+		6F204297182A5EED0022C67C /* GLESDeviceContextIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContextIOS.h; sourceTree = "<group>"; };
+		6F204298182A5EED0022C67C /* GLESDeviceContextIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLESDeviceContextIOS.mm; sourceTree = "<group>"; };
+		6F204299182A5EED0022C67C /* GLESDeviceContextWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContextWindows.h; sourceTree = "<group>"; };
+		6F20429A182A5EED0022C67C /* GLESDeviceContextWindows.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESDeviceContextWindows.hxx; sourceTree = "<group>"; };
+		6F20429B182A5EED0022C67C /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6F20429C182A5EED0022C67C /* GLESBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESBase.h; sourceTree = "<group>"; };
+		6F20429D182A5EED0022C67C /* GLESIndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESIndexBuffer.h; sourceTree = "<group>"; };
+		6F20429E182A5EED0022C67C /* GLESIndexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESIndexBuffer.hxx; sourceTree = "<group>"; };
+		6F20429F182A5EED0022C67C /* GLESMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMapping.h; sourceTree = "<group>"; };
+		6F2042A0182A5EED0022C67C /* GLESMapping.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESMapping.hxx; sourceTree = "<group>"; };
+		6F2042A1182A5EED0022C67C /* GLESRenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderDevice.h; sourceTree = "<group>"; };
+		6F2042A2182A5EED0022C67C /* GLESRenderDevice.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESRenderDevice.hxx; sourceTree = "<group>"; };
+		6F2042A3182A5EED0022C67C /* GLESShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESShaderProgram.h; sourceTree = "<group>"; };
+		6F2042A4182A5EED0022C67C /* GLESShaderProgram.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESShaderProgram.hxx; sourceTree = "<group>"; };
+		6F2042A5182A5EED0022C67C /* GLESTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESTexture.h; sourceTree = "<group>"; };
+		6F2042A6182A5EED0022C67C /* GLESTexture.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESTexture.hxx; sourceTree = "<group>"; };
+		6F2042A7182A5EED0022C67C /* GLESVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexBuffer.h; sourceTree = "<group>"; };
+		6F2042A8182A5EED0022C67C /* GLESVertexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexBuffer.hxx; sourceTree = "<group>"; };
+		6F2042A9182A5EED0022C67C /* GLESVertexDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexDeclaration.h; sourceTree = "<group>"; };
+		6F2042AA182A5EED0022C67C /* GLESVertexDeclaration.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexDeclaration.hxx; sourceTree = "<group>"; };
+		6F2042AB182A5EED0022C67C /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6F2042AC182A5EED0022C67C /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6F2042AD182A5EED0022C67C /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		6F2042AE182A5EED0022C67C /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6F6B394218308A55003846E6 /* libDevIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDevIL.a; path = ../../extern/DevIL/lib/IOS/libDevIL.a; sourceTree = "<group>"; };
 		6FA78E5A179430A1005B3CD6 /* libGLESRender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGLESRender.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6FB7D7831796760B00D771E5 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
-		6FB7D7841796760B00D771E5 /* GLESBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESBase.h; sourceTree = "<group>"; };
-		6FB7D7851796760B00D771E5 /* GLESIndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESIndexBuffer.h; sourceTree = "<group>"; };
-		6FB7D7861796760B00D771E5 /* GLESIndexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESIndexBuffer.hxx; sourceTree = "<group>"; };
-		6FB7D7871796760B00D771E5 /* GLESMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMapping.h; sourceTree = "<group>"; };
-		6FB7D7881796760B00D771E5 /* GLESMapping.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESMapping.hxx; sourceTree = "<group>"; };
-		6FB7D7891796760B00D771E5 /* GLESRenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderDevice.h; sourceTree = "<group>"; };
-		6FB7D78A1796760B00D771E5 /* GLESRenderDevice.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESRenderDevice.hxx; sourceTree = "<group>"; };
-		6FB7D78B1796760B00D771E5 /* GLESRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESRenderTarget.h; sourceTree = "<group>"; };
-		6FB7D78C1796760B00D771E5 /* GLESRenderTarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESRenderTarget.hxx; sourceTree = "<group>"; };
-		6FB7D78D1796760B00D771E5 /* GLESShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESShaderProgram.h; sourceTree = "<group>"; };
-		6FB7D78E1796760B00D771E5 /* GLESShaderProgram.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESShaderProgram.hxx; sourceTree = "<group>"; };
-		6FB7D78F1796760B00D771E5 /* GLESTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESTexture.h; sourceTree = "<group>"; };
-		6FB7D7901796760B00D771E5 /* GLESTexture.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESTexture.hxx; sourceTree = "<group>"; };
-		6FB7D7911796760B00D771E5 /* GLESVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexBuffer.h; sourceTree = "<group>"; };
-		6FB7D7921796760B00D771E5 /* GLESVertexBuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexBuffer.hxx; sourceTree = "<group>"; };
-		6FB7D7931796760B00D771E5 /* GLESVertexDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESVertexDeclaration.h; sourceTree = "<group>"; };
-		6FB7D7941796760B00D771E5 /* GLESVertexDeclaration.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESVertexDeclaration.hxx; sourceTree = "<group>"; };
-		6FB7D7951796760B00D771E5 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
-		6FB7D7961796760B00D771E5 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
-		6FB7D7971796760B00D771E5 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
-		6FB7D7981796760B00D771E5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,18 +63,62 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F32FB3617A5106300B1DFCC /* libDevIL.a in Frameworks */,
+				6F6B394318308A55003846E6 /* libDevIL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F204291182A5EED0022C67C /* GLESRender */ = {
+			isa = PBXGroup;
+			children = (
+				6F204292182A5EED0022C67C /* DeviceContext */,
+				6F20429B182A5EED0022C67C /* Export.h */,
+				6F20429C182A5EED0022C67C /* GLESBase.h */,
+				6F20429D182A5EED0022C67C /* GLESIndexBuffer.h */,
+				6F20429E182A5EED0022C67C /* GLESIndexBuffer.hxx */,
+				6F20429F182A5EED0022C67C /* GLESMapping.h */,
+				6F2042A0182A5EED0022C67C /* GLESMapping.hxx */,
+				6F2042A1182A5EED0022C67C /* GLESRenderDevice.h */,
+				6F2042A2182A5EED0022C67C /* GLESRenderDevice.hxx */,
+				6F2042A3182A5EED0022C67C /* GLESShaderProgram.h */,
+				6F2042A4182A5EED0022C67C /* GLESShaderProgram.hxx */,
+				6F2042A5182A5EED0022C67C /* GLESTexture.h */,
+				6F2042A6182A5EED0022C67C /* GLESTexture.hxx */,
+				6F2042A7182A5EED0022C67C /* GLESVertexBuffer.h */,
+				6F2042A8182A5EED0022C67C /* GLESVertexBuffer.hxx */,
+				6F2042A9182A5EED0022C67C /* GLESVertexDeclaration.h */,
+				6F2042AA182A5EED0022C67C /* GLESVertexDeclaration.hxx */,
+				6F2042AB182A5EED0022C67C /* Module.cpp */,
+				6F2042AC182A5EED0022C67C /* Module.h */,
+				6F2042AD182A5EED0022C67C /* stdafx.cpp */,
+				6F2042AE182A5EED0022C67C /* stdafx.h */,
+			);
+			name = GLESRender;
+			path = ../../code/Plugin/GLESRender;
+			sourceTree = "<group>";
+		};
+		6F204292182A5EED0022C67C /* DeviceContext */ = {
+			isa = PBXGroup;
+			children = (
+				6F204293182A5EED0022C67C /* GLESDeviceContext.h */,
+				6F204294182A5EED0022C67C /* GLESDeviceContext.hxx */,
+				6F204295182A5EED0022C67C /* GLESDeviceContextAndroid.h */,
+				6F204296182A5EED0022C67C /* GLESDeviceContextAndroid.hxx */,
+				6F204297182A5EED0022C67C /* GLESDeviceContextIOS.h */,
+				6F204298182A5EED0022C67C /* GLESDeviceContextIOS.mm */,
+				6F204299182A5EED0022C67C /* GLESDeviceContextWindows.h */,
+				6F20429A182A5EED0022C67C /* GLESDeviceContextWindows.hxx */,
+			);
+			path = DeviceContext;
+			sourceTree = "<group>";
+		};
 		6FA78E51179430A1005B3CD6 = {
 			isa = PBXGroup;
 			children = (
-				6F32FB3517A5106300B1DFCC /* libDevIL.a */,
-				6FB7D7821796760B00D771E5 /* GLESRender */,
+				6F6B394218308A55003846E6 /* libDevIL.a */,
+				6F204291182A5EED0022C67C /* GLESRender */,
 				6FA78E5B179430A1005B3CD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,36 +129,6 @@
 				6FA78E5A179430A1005B3CD6 /* libGLESRender.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6FB7D7821796760B00D771E5 /* GLESRender */ = {
-			isa = PBXGroup;
-			children = (
-				6FB7D7831796760B00D771E5 /* Export.h */,
-				6FB7D7841796760B00D771E5 /* GLESBase.h */,
-				6FB7D7851796760B00D771E5 /* GLESIndexBuffer.h */,
-				6FB7D7861796760B00D771E5 /* GLESIndexBuffer.hxx */,
-				6FB7D7871796760B00D771E5 /* GLESMapping.h */,
-				6FB7D7881796760B00D771E5 /* GLESMapping.hxx */,
-				6FB7D7891796760B00D771E5 /* GLESRenderDevice.h */,
-				6FB7D78A1796760B00D771E5 /* GLESRenderDevice.hxx */,
-				6FB7D78B1796760B00D771E5 /* GLESRenderTarget.h */,
-				6FB7D78C1796760B00D771E5 /* GLESRenderTarget.hxx */,
-				6FB7D78D1796760B00D771E5 /* GLESShaderProgram.h */,
-				6FB7D78E1796760B00D771E5 /* GLESShaderProgram.hxx */,
-				6FB7D78F1796760B00D771E5 /* GLESTexture.h */,
-				6FB7D7901796760B00D771E5 /* GLESTexture.hxx */,
-				6FB7D7911796760B00D771E5 /* GLESVertexBuffer.h */,
-				6FB7D7921796760B00D771E5 /* GLESVertexBuffer.hxx */,
-				6FB7D7931796760B00D771E5 /* GLESVertexDeclaration.h */,
-				6FB7D7941796760B00D771E5 /* GLESVertexDeclaration.hxx */,
-				6FB7D7951796760B00D771E5 /* Module.cpp */,
-				6FB7D7961796760B00D771E5 /* Module.h */,
-				6FB7D7971796760B00D771E5 /* stdafx.cpp */,
-				6FB7D7981796760B00D771E5 /* stdafx.h */,
-			);
-			name = GLESRender;
-			path = ../../code/Plugin/GLESRender;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +182,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FB7D7991796760B00D771E5 /* Module.cpp in Sources */,
-				6FB7D79A1796760B00D771E5 /* stdafx.cpp in Sources */,
+				6F2042AF182A5EED0022C67C /* GLESDeviceContextIOS.mm in Sources */,
+				6F2042B0182A5EED0022C67C /* Module.cpp in Sources */,
+				6F2042B1182A5EED0022C67C /* stdafx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +214,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -214,7 +236,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -238,10 +260,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -263,10 +288,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};

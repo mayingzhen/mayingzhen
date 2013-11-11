@@ -16,7 +16,7 @@ namespace ma
 		void EndUpdate();
 
 	private:
-		virtual void Run();
+		virtual void Update();
 
 	public:
 		CMyEvent*	m_pBeginEvent;

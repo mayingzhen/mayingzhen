@@ -12,6 +12,7 @@
 // Event
 #include "Engine/Event/Event.hxx"
 
+#include "Engine/Thread/Thread.hxx"
 
 // Resource
 #include "Engine/Resource/DataStream.hxx"

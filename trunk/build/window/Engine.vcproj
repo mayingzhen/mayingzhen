@@ -224,10 +224,6 @@
 				Name="ios"
 				>
 				<File
-					RelativePath="..\..\Code\Engine\Application\iOS\gameplay-main-ios.mm"
-					>
-				</File>
-				<File
 					RelativePath="..\..\Code\Engine\Application\iOS\PlatformiOS.mm"
 					>
 				</File>
@@ -528,6 +524,10 @@
 				RelativePath="..\..\code\Engine\Thread\Thread.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\Thread.hxx"
+				>
+			</File>
 			<Filter
 				Name="pthread"
 				>
@@ -541,6 +541,10 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Thread\pthread\PosixThread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Thread\pthread\PosixThread.hxx"
 					>
 				</File>
 			</Filter>
@@ -557,6 +561,10 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Thread\winThread\WinThread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Thread\winThread\WinThread.hxx"
 					>
 				</File>
 			</Filter>

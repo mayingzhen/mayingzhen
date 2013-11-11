@@ -16,15 +16,14 @@ namespace ma
 
 		~ParticleThread();
 
+		void				Update();
+
 		void				AddEmitter(ParticleEmitter* pEmit);
 
 		void				FlushRenderQueue();
 	
 		void				OnFlushFrame();
 
-	private:
-		void				Run();
-	
 
 	private:
 		typedef std::deque<ParticleEmitter*> ParticleEmitterQueue;

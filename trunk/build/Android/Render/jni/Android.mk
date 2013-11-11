@@ -5,11 +5,11 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := EntitySystem
+LOCAL_MODULE := Render
 
 LOCAL_SRC_FILES := \
-		../../../../code/EntitySystem/Module.cpp \
-    ../../../../code/EntitySystem/stdafx.cpp \
+		../../../../code/Render/Module.cpp \
+    ../../../../code/Render/stdafx.cpp \
 
 LOCAL_C_INCLUDES := \
 			$(LOCAL_PATH)/../../../../code/ \

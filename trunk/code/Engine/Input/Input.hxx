@@ -63,17 +63,17 @@ namespace ma
 		mMouse->setEventCallback(this);
 
 #elif PLAFTORM_IOS == 1
-		OIS::ParamList pl;
-		size_t winHandle = 0;
-		std::ostringstream winHandleStr;
-		winHandleStr << (int)winId;
-		pl.insert(std::make_pair("WINDOW", winHandleStr.str()));
-        
-		mInputMgr = OIS::InputManager::createInputSystem(pl);
+//		OIS::ParamList pl;
+//		size_t winHandle = 0;
+//		std::ostringstream winHandleStr;
+//		winHandleStr << (int)winId;
+//		pl.insert(std::make_pair("WINDOW", winHandleStr.str()));
+//
+//		mInputMgr = OIS::InputManager::createInputSystem(pl);
 		
-        mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
-		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
-		mTouch->setEventCallback(this);
+//        mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
+//		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
+//		mTouch->setEventCallback(this);
 
 #elif PLATFORM_ANDROID == 1	
 		mTouch = new AndroidMultiTouch();

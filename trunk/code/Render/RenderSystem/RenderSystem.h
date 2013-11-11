@@ -13,9 +13,9 @@ namespace ma
 	class RenderContext;
 
 
-	class RENDER_API  RenderSystem
+	class RENDER_API  RenderSystem 
 	{
-		friend RenderThread;
+		friend class RenderThread;
 
 	public:
 		RenderSystem();	
