@@ -4,40 +4,26 @@
 
 namespace ma
 {
-	class Thread
+	class ENGINE_API Thread
 	{	
 	public:
-		Thread()
-		{
-			m_hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFun, this, CREATE_SUSPENDED, &m_dwThreadID);
+		Thread();
 
-			::ResumeThread(m_hThread);//Æô¶¯Ïß³Ì
-		}
+		virtual	void	Update() = 0;
 
-		~Thread()
-		{
-			::WaitForSingleObject(m_hThread, 0xFFFFFFFF);
+		virtual void	Start();
 
-			::CloseHandle(m_hThread);
-			m_hThread	=NULL;
-		}
+		virtual void	Stop();
 
-		
-		DWORD			GetThreadId() {return m_dwThreadID;}
+		virtual void	ThreadLoop();
 
-protected:
-
-		virtual void	Run() = 0;
-
-		static void		ThreadFun(void* pParameter)
-		{
-			Thread* pThread = (Thread*)pParameter;
-			pThread->Run();
-		}
+		DWORD			GetThreadId();
 
 	public:
-		HANDLE	m_hThread;
-		DWORD	m_dwThreadID;
+		HANDLE		m_hThread;
+		DWORD		m_dwThreadID;
+
+		bool		m_bExit;
 	};
 
 }

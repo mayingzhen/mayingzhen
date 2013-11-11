@@ -324,9 +324,11 @@ void Form::setSize(float width, float height)
 		_spriteBatch->getStateBlock().m_bDepthWrite = false;
 		_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
 
+		Rectangle viewPort(0, 0, width, height);
+
         // Clear the framebuffer black
 		GetRenderSystem()->PushRenderTarget(_frameBuffer);
-		GetRenderSystem()->PushViewPort(Rectangle(0, 0, width, height));
+		GetRenderSystem()->PushViewPort(viewPort);
 
         _theme->setProjectionMatrix(_projectionMatrix);
 		Color clearColor(0.0f,0.0f,0.0f,0.0f);
@@ -537,8 +539,10 @@ void Form::draw()
     {
         ASSERT(_frameBuffer);
 
+		Rectangle viewPort(0, 0, _bounds.width, _bounds.height);
+
 		GetRenderSystem()->PushRenderTarget(_frameBuffer);
-		GetRenderSystem()->PushViewPort(Rectangle(0, 0, _bounds.width, _bounds.height));
+		GetRenderSystem()->PushViewPort(viewPort);
 
         ASSERT(_theme);
         _theme->setProjectionMatrix(_projectionMatrix);

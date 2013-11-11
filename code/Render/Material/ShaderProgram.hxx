@@ -132,16 +132,16 @@ namespace ma
 		}
 	}
 
-	static void writeShaderToErrorFile(const char* filePath, const char* source)
-	{
-		std::string path = filePath;
-		path += ".err";
-		std::auto_ptr<Stream> stream(FileSystem::open(path.c_str(), FileSystem::WRITE));
-		if (stream.get() != NULL && stream->canWrite())
-		{
-			stream->write(source, 1, strlen(source));
-		}
-	}
+// 	static void writeShaderToErrorFile(const char* filePath, const char* source)
+// 	{
+// 		std::string path = filePath;
+// 		path += ".err";
+// 		std::auto_ptr<Stream> stream(FileSystem::open(path.c_str(), FileSystem::WRITE));
+// 		if (stream.get() != NULL && stream->canWrite())
+// 		{
+// 			stream->write(source, 1, strlen(source));
+// 		}
+// 	}
 
 	static std::string prePareShaderSource(const char* shPath,const char* defines)
 	{

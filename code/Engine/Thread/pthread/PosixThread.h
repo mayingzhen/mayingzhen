@@ -7,36 +7,32 @@
 
 namespace ma
 {
-	class Thread
+	class ENGINE_API Thread
 	{	
 	public:
-		Thread()
-		{
-			pthread_create(&m_hThread, NULL, ThreadFun, this);
-		}
+		Thread();
 
-		~Thread()
-		{
-			if (m_hThread)
-			{
-				pthread_join(m_hThread, NULL);
-				m_hThread = NULL;
-			}
-		}
+		virtual void	Update() = 0;
+  
+        virtual void	Start();
+  
+        virtual void	Stop();
 
-		virtual void Run() = 0;
+		virtual void	ThreadLoop();
 
-		void* ThreadFun(void* pParameter)
-		{
-			Thread* pThread = (Thread*)pParameter;
-			pThread->Run();
-		}
+		DWORD			GetThreadId();
 
-
-	public:
+	protected:
 		pthread_t	m_hThread;
+        
+        bool        m_bExit;
 	};
 
+
+	inline DWORD GetCurrentThreadId()
+	{
+		return DWORD(pthread_self());
+	}
 }
 
 

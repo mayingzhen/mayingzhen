@@ -6,6 +6,7 @@ namespace ma
 	class IndexBuffer;
 	class VertexBuffer;
 	class GLESTechnique;
+	class GLESDeviceContext;
 
 	class  GLESRenderDevice : public IRenderDevice
 	{
@@ -76,17 +77,14 @@ namespace ma
 		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
 
 	private:
-		FrameBufferHandle				m_hDefaultFrameBuffer;
+		//FrameBufferHandle				m_hDefaultFrameBuffer;
 		FrameBufferHandle				m_hOffecreenFrameBuffer;	
 
 		std::stack<GLESTexture*> 		m_pRenderTarget;
 		std::stack<Rectangle>			m_viewport;
 
 
-#if PLATFORM_WIN == 1
-		HDC		m_hDC;
-		HGLRC	m_hGLRC;
-#endif
+		GLESDeviceContext*				m_pDeviceContext;	
 
 	};
 }

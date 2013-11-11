@@ -18,29 +18,40 @@ namespace ma
 
 	RenderThread::RenderThread()
 	{
-	}
-
-	void RenderThread::Init()
-	{
-		m_bQuit = false;
-
 		m_nCurThreadFill = 0;
 		m_nCurThreadProcess = 0;
-
-		InitFlushCond();
-	
-		m_nMainThread = ::GetCurrentThreadId();
+		
+		m_nFlush = 0; 
+		
+		m_nMainThread = GetCurrentThreadId();
+		
 		m_bSuccessful = true;
-		m_nRenderThread = GetThreadId();
-		m_nCurThreadProcess = 1;
 
-		m_Commands[0].Free();
-		m_Commands[1].Free();
+		m_bMultithread = false;
 	}
 
 	RenderThread::~RenderThread()
 	{
-		Quit();
+
+	}
+
+	void RenderThread::Start()
+	{
+		Thread::Start();
+
+		m_bMultithread = true;
+		m_nCurThreadProcess = 1;
+	}
+
+	void RenderThread::Update()
+	{
+		//float fTime = iTimer->GetAsyncCurTime();
+		WaitFlushCond();
+		//float fTimeAfterWait = iTimer->GetAsyncCurTime();
+		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
+		ProcessCommands();
+		//float fTimeAfterProcess = iTimer->GetAsyncCurTime();
+		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 	}
 
 
@@ -221,7 +232,7 @@ namespace ma
 
 	void RenderThread::ProcessCommands()
 	{
-		assert (GetCurrentThreadId() == m_nRenderThread);
+		ASSERT(GetCurrentThreadId() == GetThreadId());
 
 		if (!CheckFlushCond())
 			return;
@@ -318,29 +329,13 @@ namespace ma
 		SignalFlushFinishedCond();
 	}
 
-	void RenderThread::Run()
-	{
-		while(true)
-		{
-			//float fTime = iTimer->GetAsyncCurTime();
-			this->WaitFlushCond();
-			if(this->m_bQuit)	
-			{
-				this->SignalFlushFinishedCond();
-				break;//put it here to safely shut down
-			}
-			//float fTimeAfterWait = iTimer->GetAsyncCurTime();
-			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
-			this->ProcessCommands();
-			//float fTimeAfterProcess = iTimer->GetAsyncCurTime();
-			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
-		}
-	}
-
 
 	// Flush current frame and wait for result
 	void RenderThread::FlushAndWait()
 	{
+		if (!m_bMultithread)
+			return;
+
 		WaitFlushFinishedCond();
 
 		int nCurProcess = m_nCurThreadProcess;
@@ -360,12 +355,12 @@ namespace ma
 	{
 		//FUNCTION_PROFILER_FAST( GetISystem(),PROFILE_RENDERER,g_bProfilerEnabled );
 
-		if (!IsMultithreaded())
-			return;
+		//if (!IsMultithreaded())
+		//	return;
 
-		float fTime = GetTimer()->GetMillisceonds();
+		//float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
-		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
+		//float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
 		//Log("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
@@ -381,18 +376,6 @@ namespace ma
 		SignalFlushCond();
 	}
 
-	void RenderThread::Quit()
-	{
-		if (IsMultithreaded())
-		{
-			SignalQuitCond();
-			//while (m_pThread->IsRunning()) 
-			//{
-			//}
-			//m_pThread->WaitForThread();
-		}
-		m_bQuit = 1;
-	}
 
 	bool RenderThread::IsFailed()
 	{

@@ -144,8 +144,8 @@ namespace ma
 		AABB aabbView = aabbWorld;
 		aabbView.Transform( m_matViewProj.GetMatView() );
 
-		float fNear = max(aabbView.m_vMin.z, m_fNearMin);
-		float fFar = max(aabbView.m_vMax.z, fNear + 1.0f);
+		float fNear = Max(aabbView.m_vMin.z, m_fNearMin);
+		float fFar = Max(aabbView.m_vMax.z, fNear + 1.0f);
 
 		SetPerspective(m_fFOV, m_fAspect,fNear,fFar);
 	}

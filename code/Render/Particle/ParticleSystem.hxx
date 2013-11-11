@@ -16,7 +16,13 @@ namespace ma
 
 	ParticleSystem::ParticleSystem()
 	{	
-		m_pParticleThread = new ParticleThread();
+		m_pParticleThread = NULL;
+
+		if (0)
+		{		
+			m_pParticleThread = new ParticleThread();
+			m_pParticleThread->Start();
+		}
 	}
 
 	ParticleSystem::~ParticleSystem()
@@ -26,18 +32,23 @@ namespace ma
 
 	void ParticleSystem::OnFlushFrame()
 	{
-		m_pParticleThread->OnFlushFrame();
+		if (m_pParticleThread)
+			m_pParticleThread->OnFlushFrame();
 	}
 
 	void ParticleSystem::Update()
 	{
-		m_pParticleThread->FlushRenderQueue();
+		if (m_pParticleThread)
+			m_pParticleThread->FlushRenderQueue();
 	}
 
 	void ParticleSystem::AddParticleEmitter(ParticleEmitter* pParticle)
 	{
-		pParticle->SetUpdate(false);
-		m_pParticleThread->AddEmitter(pParticle);
+		if (m_pParticleThread)
+		{
+			pParticle->SetUpdate(false);
+			m_pParticleThread->AddEmitter(pParticle);
+		}
 	}
 
 	ParticleEmitter* ParticleSystem::Create(const char* url)

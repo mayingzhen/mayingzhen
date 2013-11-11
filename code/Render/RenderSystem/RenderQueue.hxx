@@ -17,8 +17,6 @@ namespace ma
 
 	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderObject* pRenderObj)
 	{
-		int index = GetRenderThread()->m_nCurThreadFill;
-
 		std::vector<RenderObject*>& arrRenderObj = m_arrRenderList[eRLType];
 		
 		arrRenderObj.push_back(pRenderObj);
@@ -26,8 +24,6 @@ namespace ma
 
 	UINT RenderQueue::GetRenderObjNumber(RenderListType eRLType)
 	{
-		int index = GetRenderThread()->m_nCurThreadProcess;
-
 		std::vector<RenderObject*>& arrRenderObj = m_arrRenderList[eRLType];
 
 		return arrRenderObj.size();

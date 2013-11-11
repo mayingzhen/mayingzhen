@@ -161,8 +161,6 @@ namespace ma
 
 		Terrain* pTerrain = (Terrain*)GetTerrain();
 
-		bool result = true;
-
 		sSectorVertex* pVerts = new sSectorVertex[(m_xVerts - 1) * (m_yVerts - 1) * 4];
 
 		for (int y = 0; y < m_yVerts - 1; y += 1)
@@ -190,7 +188,6 @@ namespace ma
 				pVerts[base_index + 2].Normal = pTerrain->GetNormal( nHeightMapX,     nHeightMapY + 1);
 				pVerts[base_index + 3].Normal = pTerrain->GetNormal( nHeightMapX + 1, nHeightMapY + 1);
 			
-				int ngridIndex = nHeightMapX + nHeightMapY * (pTerrain->HeightMapW() - 1);
 				Terrain::GridInfo info = pTerrain->GetGridInfo(nHeightMapX,nHeightMapY);
 
 				///// µÚÒ»²ãUV

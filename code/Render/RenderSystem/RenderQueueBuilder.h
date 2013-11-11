@@ -25,8 +25,6 @@ namespace ma
 			RenderObject* pRenderObj = SafeCast<RenderObject>(pComp);
 			if (pRenderObj)
 			{
-				AABB aabb = pRenderObj->GetAABB();
-
 				if ( !m_pCamera->IsCull(pRenderObj->GetAABB()) )
 				{
 					m_arrRenderObject.push_back(pRenderObj);

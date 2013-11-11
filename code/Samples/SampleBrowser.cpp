@@ -21,14 +21,20 @@
 #include "Samples/Render/SampleParticle.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 
+//#if PLATFORM_WIN != 1
+#include "Animation/Module.h"
+#include "GLESRender/Module.h"
+//#include "BulletPhysics/Module.h"
+//#endif
+
 
 namespace ma
 {
-	static SampleBrowser __sampleBrowser("SampleBrowser");
+	//static SampleBrowser __sampleBrowser("SampleBrowser");
 
 	SampleBrowser* GetSampleBrowser()
 	{
-		return &__sampleBrowser;
+		return (SampleBrowser*)&Game::GetInstance();
 	}
 
 	SampleBrowser::SampleBrowser(const char* pGameName)
@@ -82,10 +88,12 @@ namespace ma
 	void SampleBrowser::InitResourcePath()
 	{
 #if PLATFORM_WIN == 1
-		FileSystem::setResourcePath("../../Data/");
+		char pszPath[MAX_PATH] = {0};
+		GetFullPathName("../../Data/",MAX_PATH,pszPath,NULL);
+		FileSystem::setResourcePath(pszPath);
 #elif PLAFTORM_IOS == 1
 		std::string sDataDir = Platform::GetInstance().GetAppPath();
-		sDataDir += "/Data/";
+		sDataDir += "/data/";
 		FileSystem::setResourcePath(sDataDir.c_str());
 #elif PLATFORM_ANDROID == 1
 		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
@@ -99,13 +107,13 @@ namespace ma
 		RenderModuleInit();
 		UIModuleInit();
 		
-#if PLATFORM_WIN == 1
-		LoadPlugin();
-#else
+//#if PLATFORM_WIN == 1
+//		LoadPlugin();
+//#else
+        AnimationModuleInit();
 		GLESRenderModuleInit();
-		AnimationModuleInit();
-		BtPhysicsModuleInit();
-#endif
+		//BtPhysicsModuleInit();
+//#endif
 	}
 
 	
@@ -274,7 +282,8 @@ namespace ma
 	{
 		GetRenderSystem()->BeginFrame();
 
-		GetPhysicsSystem()->DebugRender();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->DebugRender();
 
 		if (m_pCurSample)
 			m_pCurSample->Render();

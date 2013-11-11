@@ -34,8 +34,8 @@ echo "2.开始编译libEngine"
 ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Engine
 echo "================================================================"
 
-echo "3.开始编译libEntitySystem"
-ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C EntitySystem
+echo "3.开始编译Render"
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Render
 echo "================================================================"
 
 echo "4.开始编译libAnimation"
@@ -58,7 +58,7 @@ echo "================================================================"
 echo "8.复制生成结果到lib目录"
 cp Common/obj/local/armeabi/libCommon.a lib/
 cp Engine/obj/local/armeabi/libEngine.a lib/
-cp EntitySystem/obj/local/armeabi/libEntitySystem.a lib/
+cp Render/obj/local/armeabi/libRender.a lib/
 cp Animation/obj/local/armeabi/libAnimation.a lib/
 cp GLESRender/obj/local/armeabi/libGLESRender.a lib/
 cp BulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/

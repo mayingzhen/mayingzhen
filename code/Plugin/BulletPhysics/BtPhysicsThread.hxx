@@ -2,16 +2,13 @@
 
 namespace ma
 {
-	void PhysicsThread::Run()
+	void PhysicsThread::Update()
 	{
-		while(true)
-		{
-			m_pBeginEvent->Wait();
+		m_pBeginEvent->Wait();
 
-			GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
+		GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
 
-			m_pEndEvent->Signal();
-		}
+		m_pEndEvent->Signal();
 	}
 
 	PhysicsThread::PhysicsThread()
@@ -22,7 +19,8 @@ namespace ma
 
 	PhysicsThread::~PhysicsThread()
 	{
-
+        SAFE_DELETE(m_pBeginEvent);
+        SAFE_DELETE(m_pEndEvent);
 	}
 
 	void PhysicsThread::BeginUpdate()

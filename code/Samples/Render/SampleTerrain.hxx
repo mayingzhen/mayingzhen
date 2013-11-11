@@ -19,7 +19,7 @@ namespace ma
 		eyePos.z = lookAtPos.z + 1200;
 		GetCamera()->GetSceneNode()->LookAt(eyePos,lookAtPos,Vector3(0,1,0));
 
-		GetTerrain()->Create("terrain/shaolin.Terrain");
+		GetTerrain()->Create("terrain/shaolin.terrain");
 
 		GetLightSystem()->SetAmbientColor(Vector4(0.1f,0.1f,0.1f,0.1f));
 
@@ -50,10 +50,10 @@ namespace ma
 					GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
 					RenderMesh* pMeshComp = pCharMagic->CreateComponent<RenderMesh>();
-					pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+					pMeshComp->Load("magician/Body.skn","magician/body.mat");
 
 					IAnimationObject* pAnimationObject = pCharMagic->CreateComponent<IAnimationObject>();
-					pAnimationObject->Load("magician/Body.Aniset","magician/Body.ske");
+					pAnimationObject->Load("magician/body.aniset","magician/body.ske");
 					pAnimationObject->PlayAnimation("Mag602");
 
 					Vector3 vCharPos(500 + i * 500,0,300 + j * 500);

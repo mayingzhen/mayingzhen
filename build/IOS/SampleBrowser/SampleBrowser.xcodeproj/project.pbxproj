@@ -7,17 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F49EE4C17957FCD00EF1CCE /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F49EE4B17957FCD00EF1CCE /* data */; };
-		6F97CDC017C0FB0600E8A54C /* libEntitySystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F97CDBF17C0FB0600E8A54C /* libEntitySystem.a */; };
+		6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */; };
+		6F1A642F182A061000EE9F74 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F1A642E182A061000EE9F74 /* data */; };
+		6F6B393B18308989003846E6 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393418308989003846E6 /* libAnimation.a */; };
+		6F6B393C18308989003846E6 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393518308989003846E6 /* libBulletPhysics.a */; };
+		6F6B393D18308989003846E6 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393618308989003846E6 /* libCommon.a */; };
+		6F6B393E18308989003846E6 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393718308989003846E6 /* libEngine.a */; };
+		6F6B393F18308989003846E6 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393818308989003846E6 /* libGLESRender.a */; };
+		6F6B394018308989003846E6 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393918308989003846E6 /* libRender.a */; };
+		6F6B394118308989003846E6 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393A18308989003846E6 /* libUI.a */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
-		6FDF1B041795233B005C7E62 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFD1795233B005C7E62 /* libAnimation.a */; };
-		6FDF1B051795233B005C7E62 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */; };
-		6FDF1B061795233B005C7E62 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1AFF1795233B005C7E62 /* libCommon.a */; };
-		6FDF1B071795233B005C7E62 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B001795233B005C7E62 /* libEngine.a */; };
-		6FDF1B091795233B005C7E62 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B021795233B005C7E62 /* libGLESRender.a */; };
-		6FDF1B0A1795233B005C7E62 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B031795233B005C7E62 /* libUI.a */; };
 		6FDF1B0C179524FB005C7E62 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0B179524FB005C7E62 /* OpenGLES.framework */; };
 		6FDF1B0E1795250B005C7E62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0D1795250B005C7E62 /* Foundation.framework */; };
 		6FDF1B1017952519005C7E62 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF1B0F17952519005C7E62 /* CoreGraphics.framework */; };
@@ -27,9 +28,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F49EE4B17957FCD00EF1CCE /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
-		6F97CDBF17C0FB0600E8A54C /* libEntitySystem.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libEntitySystem.a; path = .././lib/libEntitySystem.a; sourceTree = "<group>"; };
-		6F9B7A8517BA55F3008AF370 /* libEntitySystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEntitySystem.a; path = /Volumes/work/mydemon_svn/build/IOS/../lib/libEntitySystem.a; sourceTree = "<absolute>"; };
+		6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6F1A642E182A061000EE9F74 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
+		6F6B393418308989003846E6 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
+		6F6B393518308989003846E6 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
+		6F6B393618308989003846E6 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
+		6F6B393718308989003846E6 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
+		6F6B393818308989003846E6 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
+		6F6B393918308989003846E6 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
+		6F6B393A18308989003846E6 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -54,12 +61,6 @@
 		6FDF1AB417951DF3005C7E62 /* SampleSceneSerialize.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleSceneSerialize.hxx; sourceTree = "<group>"; };
 		6FDF1AB517951DF3005C7E62 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
 		6FDF1AB617951DF3005C7E62 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
-		6FDF1AFD1795233B005C7E62 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
-		6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
-		6FDF1AFF1795233B005C7E62 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
-		6FDF1B001795233B005C7E62 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
-		6FDF1B021795233B005C7E62 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
-		6FDF1B031795233B005C7E62 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
 		6FDF1B0B179524FB005C7E62 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		6FDF1B0D1795250B005C7E62 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6FDF1B0F17952519005C7E62 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -73,37 +74,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F97CDC017C0FB0600E8A54C /* libEntitySystem.a in Frameworks */,
+				6F6B393B18308989003846E6 /* libAnimation.a in Frameworks */,
+				6F6B393C18308989003846E6 /* libBulletPhysics.a in Frameworks */,
+				6F6B393D18308989003846E6 /* libCommon.a in Frameworks */,
+				6F6B393E18308989003846E6 /* libEngine.a in Frameworks */,
+				6F6B393F18308989003846E6 /* libGLESRender.a in Frameworks */,
+				6F6B394018308989003846E6 /* libRender.a in Frameworks */,
+				6F6B394118308989003846E6 /* libUI.a in Frameworks */,
 				6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */,
 				6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */,
 				6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */,
 				6FDF1B1017952519005C7E62 /* CoreGraphics.framework in Frameworks */,
 				6FDF1B0E1795250B005C7E62 /* Foundation.framework in Frameworks */,
 				6FDF1B0C179524FB005C7E62 /* OpenGLES.framework in Frameworks */,
-				6FDF1B041795233B005C7E62 /* libAnimation.a in Frameworks */,
-				6FDF1B051795233B005C7E62 /* libBulletPhysics.a in Frameworks */,
-				6FDF1B061795233B005C7E62 /* libCommon.a in Frameworks */,
-				6FDF1B071795233B005C7E62 /* libEngine.a in Frameworks */,
-				6FDF1B091795233B005C7E62 /* libGLESRender.a in Frameworks */,
-				6FDF1B0A1795233B005C7E62 /* libUI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6FBCFA7C182B823900AD0B8A /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Lib;
+			sourceTree = "<group>";
+		};
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6F97CDBF17C0FB0600E8A54C /* libEntitySystem.a */,
-				6F9B7A8517BA55F3008AF370 /* libEntitySystem.a */,
-				6F49EE4B17957FCD00EF1CCE /* data */,
-				6FDF1AFD1795233B005C7E62 /* libAnimation.a */,
-				6FDF1AFE1795233B005C7E62 /* libBulletPhysics.a */,
-				6FDF1AFF1795233B005C7E62 /* libCommon.a */,
-				6FDF1B001795233B005C7E62 /* libEngine.a */,
-				6FDF1B021795233B005C7E62 /* libGLESRender.a */,
-				6FDF1B031795233B005C7E62 /* libUI.a */,
+				6F6B393418308989003846E6 /* libAnimation.a */,
+				6F6B393518308989003846E6 /* libBulletPhysics.a */,
+				6F6B393618308989003846E6 /* libCommon.a */,
+				6F6B393718308989003846E6 /* libEngine.a */,
+				6F6B393818308989003846E6 /* libGLESRender.a */,
+				6F6B393918308989003846E6 /* libRender.a */,
+				6F6B393A18308989003846E6 /* libUI.a */,
+				6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */,
+				6FBCFA7C182B823900AD0B8A /* Lib */,
+				6F1A642E182A061000EE9F74 /* data */,
 				6FDF1A9517951DF3005C7E62 /* Samples */,
 				6FDF1A7717951DA5005C7E62 /* Frameworks */,
 				6FDF1A7617951DA5005C7E62 /* Products */,
@@ -261,7 +270,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F49EE4C17957FCD00EF1CCE /* data in Resources */,
+				6F1A642F182A061000EE9F74 /* data in Resources */,
+				6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +352,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -351,11 +363,19 @@
 					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../lib\"",
 					"\"$(SRCROOT)/../../lib\"",
+					"\"$(SRCROOT)/../Lib\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -365,6 +385,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -374,11 +396,19 @@
 					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../lib\"",
 					"\"$(SRCROOT)/../../lib\"",
+					"\"$(SRCROOT)/../Lib\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -13,10 +13,13 @@ namespace ma
 	void BtPhysicsSystem::Init()
 	{
 		m_pPhysicsThread = new PhysicsThread();
+        m_pPhysicsThread->Start();
 	}
 
 	void BtPhysicsSystem::ShoutDown()
 	{
+        m_pPhysicsThread->Stop();
+        SAFE_DELETE(m_pPhysicsThread);
 	}
 
 	void BtPhysicsSystem::Start()

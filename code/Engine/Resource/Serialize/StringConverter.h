@@ -173,7 +173,7 @@ inline void StringConverter::ToValue(long& val,const char* pszVal)
 
 inline void StringConverter::ToValue(unsigned long& val,const char* pszVal)
 {
-	sscanf(pszVal,"%u",&val);
+	sscanf(pszVal,"%lu",&val);
 }
 
 inline void StringConverter::ToValue(Uint64& val,const char* pszVal)

@@ -235,6 +235,42 @@
 				RelativePath="..\..\Code\Plugin\GLESRender\GLESVertexDeclaration.hxx"
 				>
 			</File>
+			<Filter
+				Name="DeviceContext"
+				>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContext.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContext.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextAndroid.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextAndroid.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextIOS.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextIOS.mm"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextWindows.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextWindows.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Shder"

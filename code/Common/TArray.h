@@ -112,7 +112,7 @@ public:
 		if (!_Ptr)
 			return;
 		int nOffset = ((int*)_Ptr)[-1];
-		assert (nOffset >= -16 && nOffset <= -4);
+		ASSERT (nOffset >= -16 && nOffset <= -4);
 #if defined(_DEBUG) && defined(_INC_CRTDBG) && !defined(WIN64) && !defined(PS3)
 		_free_dbg (((char*)_Ptr)+nOffset, _NORMAL_BLOCK);
 #else
@@ -254,7 +254,7 @@ public:
   {
     if (m_nCount == 0 || m_nAllocatedCount == 0)
       return;
-    assert(m_nAllocatedCount>=m_nCount);
+    ASSERT(m_nAllocatedCount>=m_nCount);
     if( m_nAllocatedCount != m_nCount )
     {
       m_nAllocatedCount = m_nCount;
@@ -264,9 +264,9 @@ public:
 
   void _Remove(unsigned int Index,unsigned int Count)
   {
-    assert ( Index>=0 );
-    assert ( Index<=m_nCount );
-    assert ( (Index+Count)<=m_nCount );
+    ASSERT ( Index>=0 );
+    ASSERT ( Index<=m_nCount );
+    ASSERT ( (Index+Count)<=m_nCount );
 
     Remove(Index, Count);
   }
@@ -346,13 +346,13 @@ public:
 
 	TArray<T> operator()(unsigned int Start)							
 	{ 
-		assert(Start < m_nCount); 
+		ASSERT(Start < m_nCount); 
 		return TArray<T>(m_pElements+Start, m_nCount-Start); 
 	}
 	TArray<T> operator()(unsigned int Start, unsigned int Count)	
 	{ 
-		assert(Start < m_nCount); 
-		assert(Start+Count <= m_nCount); 
+		ASSERT(Start < m_nCount); 
+		ASSERT(Start+Count <= m_nCount); 
 		return TArray<T>(m_pElements+Start, Count); 
 	}
 
@@ -381,7 +381,7 @@ public:
 
   void AddString(const char *szStr)
   {
-    assert(szStr);
+    ASSERT(szStr);
     int nLen = strlen(szStr)+1;
     T *pDst = Grow(nLen);
     memcpy(pDst, szStr, nLen);
@@ -549,13 +549,13 @@ public:
     // copy size of element
     int nElemSize = 0;
     memcpy(&nElemSize,(void*)&pBuffer[nPos],4);
-    assert(nElemSize == sizeof(T));
+    ASSERT(nElemSize == sizeof(T));
     nPos+=4;
 
     // copy count
     int nNewCount=0;
     memcpy((void*)&nNewCount,&pBuffer[nPos],4);
-    assert(nNewCount>=0 && nNewCount<1000000);
+    ASSERT(nNewCount>=0 && nNewCount<1000000);
     nPos+=4;
 
     // copy data

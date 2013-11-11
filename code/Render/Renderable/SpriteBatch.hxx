@@ -1,6 +1,4 @@
 #include "SpriteBatch.h"
-#include "Material/Material.h"
-#include "Material/SamplerState.h"
 
 // Default size of a newly created sprite batch
 #define SPRITE_BATCH_DEFAULT_SIZE 128

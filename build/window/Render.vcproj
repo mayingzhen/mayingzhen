@@ -576,10 +576,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\RenderSystem\RenderThread.inl"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Render\RenderSystem\ShadowMapFrustum.h"
 				>
 			</File>

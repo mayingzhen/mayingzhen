@@ -41,6 +41,14 @@ namespace ma
 
 		LineRender* pLineRender = new LineRender();
 		SetLineRender(pLineRender);
+
+		m_pRenderThread = new RenderThread();
+		SetRenderThread(m_pRenderThread);
+
+		if ( GetRenderSetting()->m_bThread )
+		{
+			m_pRenderThread->Start();
+		}
 	}
 
 	RenderSystem::~RenderSystem()
@@ -68,16 +76,7 @@ namespace ma
 
 	void RenderSystem::Init()
 	{
-		if ( GetRenderSetting()->m_bThread )
-		{
-			m_pRenderThread = new RenderThread();
-			SetRenderThread(m_pRenderThread);
-			m_pRenderThread->Init();
-		}
-
-		GetRenderThread()->RC_Init();
-
-		GetRenderSetting()->Init();
+		m_pRenderThread->RC_Init();
 	}
 
 	void RenderSystem::Update()
@@ -90,17 +89,6 @@ namespace ma
 		m_pMainCamera->AdjustPlanes( rqBuilder.GetWorldAABB() );
 	}
 
-	void RenderSystem::RT_Init()
-	{
-		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
-
-		GetRenderScheme()->Init();
-
-		GetLineRender()->Init();
-
-		ScreenQuad::Init();
-		UnitSphere::Init();
-	}
 
 	void RenderSystem::ShoutDown()
 	{
@@ -128,6 +116,11 @@ namespace ma
 		m_pRenderThread->RC_EndFrame();
 	}
 
+	void RenderSystem::Render()
+	{
+		m_pRenderThread->RC_Render();
+	}
+
 	void RenderSystem::OnFlushFrame()
 	{
 		GetRenderQueue()->Clear();
@@ -138,22 +131,28 @@ namespace ma
 	}
 
 
+	void RenderSystem::RT_Init()
+	{
+		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
+
+		GetRenderSetting()->Init();
+
+		GetRenderScheme()->Init();
+
+		GetLineRender()->Init();
+
+		ScreenQuad::Init();
+		UnitSphere::Init();
+	}
 
 	void RenderSystem::RT_BeginFrame()
 	{
 		GetRenderDevice()->BeginRender();	
-
-		//GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor,1.0f,0);
 	}
 
 	void RenderSystem::RT_EndFrame()
 	{
 		GetRenderDevice()->EndRender();
-	}
-
-	void RenderSystem::Render()
-	{
-		m_pRenderThread->RC_Render();
 	}
 
 	void RenderSystem::RT_Render()
@@ -164,7 +163,7 @@ namespace ma
  		
  		GetLineRender()->Render();
 
-		GetUISystem()->Render();
+		//GetUISystem()->Render();
 	}
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
@@ -209,55 +208,55 @@ namespace ma
 	Texture* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,FORMAT format,bool bDepthStencil/* = false*/)
 	{
 		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,bDepthStencil);
-		GetRenderThread()->RC_CreateRenderTarget(pTarget);
+		m_pRenderThread->RC_CreateRenderTarget(pTarget);
 		return pTarget;
 	}
 
 	ShaderProgram* RenderSystem::CreateShaderProgram(Technique* pTech,const char* pVSFile, const char* pPSFile,const char* pszDefine)
 	{
 		ShaderProgram* pShaderProgram = GetRenderDevice()->CreateShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
-		GetRenderThread()->RC_CreateShader(pShaderProgram);
+		m_pRenderThread->RC_CreateShader(pShaderProgram);
 		return pShaderProgram;
 	}
 
 	void RenderSystem::PushRenderTarget(Texture* pTexture,int index)
 	{
-		GetRenderThread()->RC_PushRenderTarget(pTexture,index);
+		m_pRenderThread->RC_PushRenderTarget(pTexture,index);
 	}
 
 	void RenderSystem::PushDepthStencil(Texture* pTexture)
 	{
-		GetRenderThread()->RC_PushDepthStencil(pTexture);
+		m_pRenderThread->RC_PushDepthStencil(pTexture);
 	}
 
 	void RenderSystem::PushViewPort(Rectangle& viewPort)
 	{
-		GetRenderThread()->RC_PushViewPort(viewPort);
+		m_pRenderThread->RC_PushViewPort(viewPort);
 	}
 
 	void RenderSystem::PopRenderTargert(int index)
 	{
-		GetRenderThread()->RC_PopRenderTargert(index);
+		m_pRenderThread->RC_PopRenderTargert(index);
 	}
 	
 	void RenderSystem::PopDepthStencil()
 	{
-		GetRenderThread()->RC_PopDepthStencil();
+		m_pRenderThread->RC_PopDepthStencil();
 	}
 
 	void RenderSystem::PopViewPort()
 	{
-		GetRenderThread()->RC_PopViewPort();
+		m_pRenderThread->RC_PopViewPort();
 	}
 
 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
-		GetRenderThread()->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
+		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
 	}
 
 	void RenderSystem::TexStreamComplete(Texture* pTexture,DataStream* pDataStream)
 	{
-		GetRenderThread()->RC_TexStreamComplete(pTexture,pDataStream);
+		m_pRenderThread->RC_TexStreamComplete(pTexture,pDataStream);
 	}
 
 }

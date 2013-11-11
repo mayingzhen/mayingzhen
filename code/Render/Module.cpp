@@ -68,6 +68,9 @@ void RenderModuleInit()
 {
 	RenderSystemRTTIInit();
 
+	RenderSetting*	pRenderSetting = new RenderSetting();
+	SetRenderSetting(pRenderSetting);
+
 	ParameterManager* pMaterialMang = new ParameterManager();
 	SetParameterManager(pMaterialMang);
 
@@ -82,10 +85,6 @@ void RenderModuleInit()
 
 	LightSystem* pLightSystem = new LightSystem();
 	SetLightSystem(pLightSystem);
-
-	RenderSetting*	pRenderSetting = new RenderSetting();
-	SetRenderSetting(pRenderSetting);
-
 }
 
 void RenderModuleShutdown()

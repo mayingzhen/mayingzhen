@@ -50,10 +50,11 @@ COMMON_API int AssertMsg(bool bOK, const char* exper, const char* description,
 		#define ASSERT(expr) AssertMsg(!!(expr),#expr,"",__FILE__, __LINE__)
 		#define ASSERT_MSG(expr,MSG) AssertMsg(!!(expr),#expr,MSG,__FILE__, __LINE__)
 	
-	#else
+	#elif PLAFTORM_IOS == 1
+        #include <assert.h>
 		
-		#define ASSERT(expr) 
-		#define ASSERT_MSG(expr,MSG)
+		#define ASSERT(expr)  assert(expr)
+		#define ASSERT_MSG(expr,MSG) assert(expr && MSG);
 
 	#endif	//PLATFORM_WIN == 1
 

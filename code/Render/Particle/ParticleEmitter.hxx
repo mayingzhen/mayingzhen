@@ -297,7 +297,7 @@ namespace ma
 			}
 		}
 
-		float fSpritePercentPerFrame = 1.0f / (float)nFrameCount;
+		//float fSpritePercentPerFrame = 1.0f / (float)nFrameCount;
 
 		SAFE_DELETE_ARRAY(m_pSpriteTextureCoords);
 		m_pSpriteTextureCoords = new float[nFrameCount * 4];
@@ -582,7 +582,7 @@ namespace ma
 		// Set our node's view projection matrix to this emitter's effect.
 		if (GetRenderSystem())
 		{
-			int index = GetRenderThread()->GetThreadList();
+			int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
 			Matrix4x4 matWorld = GetRenderable()->m_matWorld[index];
 			Matrix4x4 matVP = GetRenderContext()->GetViewProjMatrix();
 			m_pSpriteBatch->setProjectionMatrix(matWorld * matVP);
@@ -645,7 +645,7 @@ namespace ma
 
 	void ParticleEmitter::SetWorldMatrix(const Matrix4x4& matWorld)
 	{
-		int index = GetRenderThread()->GetThreadList();
+		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
 
 		Renderable* pRenderable = GetRenderable();
 		ASSERT(pRenderable);
