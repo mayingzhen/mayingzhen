@@ -2,6 +2,8 @@
 #include <windowsx.h>
 #include <shellapi.h>
 
+#include "../Profile/CodeTimer.h"
+
 
 namespace ma
 {
@@ -158,6 +160,8 @@ namespace ma
 				//{
 					Game::GetInstance().Render();
 				//}
+
+				output_all_code_time();
 			}
 		}
 	}

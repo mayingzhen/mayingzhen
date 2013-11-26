@@ -151,7 +151,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4x4::identity();
 
-		int index =  GetRenderThread() ? GetRenderThread()->CurThreadProcess() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		return pRenderable->m_matWorld[index];
 	}
 
@@ -171,7 +171,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4x4::identity();
 
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadProcess() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		return pRenderable->m_matWorld[index] * GetRenderContext()->GetViewMatrix();
 	}
 
@@ -186,7 +186,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4x4::identity();
 
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadProcess() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		return pRenderable->m_matWorld[index] * GetRenderContext()->GetViewProjMatrix();
 	}
 
@@ -225,7 +225,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return NULL;
 
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadProcess() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		
 		std::vector<Matrix4x4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
 
@@ -241,7 +241,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return 0;
 
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadProcess() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		std::vector<Matrix4x4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
 
 		return arrSkinMatrix.size();

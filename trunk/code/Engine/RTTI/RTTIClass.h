@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	class COMMON_API RTTIClass
+	class ENGINE_API RTTIClass
 	{
 		std::string m_className;
 		const RTTIClass* m_pParentNode;
@@ -25,7 +25,7 @@ namespace ma
 
 	};
 
-	class COMMON_API ClassManager : public Singleton<ClassManager>
+	class ENGINE_API ClassManager : public Singleton<ClassManager>
 	{
 	public:
 

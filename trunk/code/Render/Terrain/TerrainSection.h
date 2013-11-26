@@ -20,7 +20,7 @@ namespace ma
 
 		virtual void		SetMaterial(Material* pMaterial);
 
-		virtual AABB		GetAABB();
+		virtual AABB		GetAABBWS();
 
 		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 

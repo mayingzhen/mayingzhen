@@ -231,12 +231,38 @@ namespace ma
 		pChildNode->NotifySetParent(NULL);
 	}
 
+
+// 	m_localBound.SetNull();
+// 	if (NULL != m_pGameObj)
+// 	{
+// 		m_pGameObj->UpdateLocalBounds();
+// 		m_localBound.Merge(* m_pGameObj->GetLocalBounds());
+// 	}
+// 
+// 
+// 	const xmMatrix4x4& matWorld = GetWorldMatrix();
+// 	m_aabbBound = m_localBound;
+// 	m_aabbBound.Transform(matWorld);
+// 
+// 	for (xmUint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 	{
+// 		m_arrChildNode[nCnt]->UpdateBounds();
+// 		m_aabbBound.Merge(*m_arrChildNode[nCnt]->GetBounds());
+// 	}
+
 	void SceneNode::UpdateAABB()
 	{
-		const Matrix4x4& matWorld = GetWorldMatrix();
-		m_aabbWS = m_aabbLS;
-		m_aabbWS.Transform(matWorld);
+		if (m_pGameObject)
+		{
+			for (UINT i = 0; i < m_pGameObject->GetComponentNumber(); ++i)
+			{
+				Component* pComponent = m_pGameObject->GetComponentByIndex(i);
+				if (pComponent == NULL)
+					continue;
 
+				m_aabbWS.Merge( pComponent->GetAABBWS() );
+			}
+		}
 
 		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
 		{

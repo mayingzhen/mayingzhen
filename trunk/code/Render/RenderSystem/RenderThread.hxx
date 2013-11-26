@@ -4,17 +4,17 @@
 namespace ma
 {
 
-	RenderThread* gpRenderThead = NULL;
-
-	RenderThread* GetRenderThread()
-	{
-		return gpRenderThead;
-	}
-
-	void SetRenderThread(RenderThread* pRenderThread)
-	{
-		gpRenderThead = pRenderThread;
-	}
+// 	RenderThread* gpRenderThead = NULL;
+// 
+// 	RenderThread* GetRenderThread()
+// 	{
+// 		return gpRenderThead;
+// 	}
+// 
+// 	void SetRenderThread(RenderThread* pRenderThread)
+// 	{
+// 		gpRenderThead = pRenderThread;
+// 	}
 
 	RenderThread::RenderThread()
 	{
@@ -45,12 +45,16 @@ namespace ma
 
 	void RenderThread::Update()
 	{
-		//float fTime = iTimer->GetAsyncCurTime();
+		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushCond();
-		//float fTimeAfterWait = iTimer->GetAsyncCurTime();
+		float fTimeAfterWait = GetTimer()->GetMillisceonds();
+		float fTimeWaitForMain = fTimeAfterWait - fTime;
+		Log("fTimeWaitForMain = %f",fTimeWaitForMain);
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 		ProcessCommands();
-		//float fTimeAfterProcess = iTimer->GetAsyncCurTime();
+		float fTimeAfterProcess = GetTimer()->GetMillisceonds();
+		float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
+		Log("fTimeProcessedRT = %f",fTimeProcessedRT);
 		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 	}
 
@@ -142,76 +146,76 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_PushRenderTarget(Texture* pTexture,int index)
+	void RenderThread::RC_SetRenderTarget(Texture* pTexture,int index)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->PushRenderTarget(pTexture,index);
+			GetRenderDevice()->SetRenderTarget(pTexture,index);
 			return;
 		}
 
-		AddCommand(eRC_PushRenderTarget);
+		AddCommand(eRC_SetRenderTarget);
 		AddPointer(pTexture);
 		AddInt(index);
 	}
 
-	void RenderThread::RC_PushDepthStencil(Texture* pTexture)
+	void RenderThread::RC_SetDepthStencil(Texture* pTexture)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->PushDepthStencil(pTexture);
+			GetRenderDevice()->SetDepthStencil(pTexture);
 			return;
 		}
 
-		AddCommand(eRC_PushDepthStencil);
+		AddCommand(eRC_SetDepthStencil);
 		AddPointer(pTexture);
 	}
 
-	void RenderThread::RC_PushViewPort(Rectangle& viewPort)
+	void RenderThread::RC_SetViewPort(const Rectangle& viewPort)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->PushViewport(viewPort);
+			GetRenderDevice()->SetViewport(viewPort);
 			return;
 		}
 
-		AddCommand(eRC_PushViewPort);
+		AddCommand(eRC_SetViewPort);
 		AddData(&viewPort,sizeof(Rectangle));
 	}
 
-	void RenderThread::RC_PopRenderTargert(int index)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->PopRenderTarget(index);
-			return;
-		}
+// 	void RenderThread::RC_PopRenderTargert(int index)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->PopRenderTarget(index);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_PopRenderTarget);
+// 		AddInt(index);
+// 	}
 
-		AddCommand(eRC_PopRenderTarget);
-		AddInt(index);
-	}
+// 	void RenderThread::RC_PopDepthStencil()
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->PopDepthStencil();
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_PopDepthStencil);
+// 	}
 
-	void RenderThread::RC_PopDepthStencil()
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->PopDepthStencil();
-			return;
-		}
-
-		AddCommand(eRC_PopDepthStencil);
-	}
-
-	void RenderThread::RC_PopViewPort()
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->PopViewport();
-			return;
-		}
-
-		AddCommand(eRC_PopViewPort);
-	}
+// 	void RenderThread::RC_PopViewPort()
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->PopViewport();
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_PopViewPort);
+// 	}
 
 	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
@@ -276,40 +280,40 @@ namespace ma
 					pTarget->CreateRT();
 				}
 				break;
-			case eRC_PushRenderTarget:
+			case eRC_SetRenderTarget:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
 					int index = ReadCommand<int>(n);
-					GetRenderDevice()->PushRenderTarget(pTarget,index);
+					GetRenderDevice()->SetRenderTarget(pTarget,index);
 				}
 				break;
-			case  eRC_PushDepthStencil:
+			case  eRC_SetDepthStencil:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
-					GetRenderDevice()->PushDepthStencil(pTarget);
+					GetRenderDevice()->SetDepthStencil(pTarget);
 				}
 				break;
-			case  eRC_PopRenderTarget:
-				{
-					int index = ReadCommand<int>(n);
-					GetRenderDevice()->PopRenderTarget(index);
-				}
-				break;
-			case eRC_PopDepthStencil:
-				GetRenderDevice()->PopDepthStencil();
-				break;
-			case  eRC_PushViewPort:
+// 			case  eRC_PopRenderTarget:
+// 				{
+// 					int index = ReadCommand<int>(n);
+// 					GetRenderDevice()->PopRenderTarget(index);
+// 				}
+// 				break;
+// 			case eRC_PopDepthStencil:
+// 				GetRenderDevice()->PopDepthStencil();
+// 				break;
+			case  eRC_SetViewPort:
 				{
 					Rectangle viewPort;
 					ReadData(n,viewPort);
-					GetRenderDevice()->PushViewport(viewPort);
+					GetRenderDevice()->SetViewport(viewPort);
 				}
 				break;
-			case  eRC_PopViewPort:
-				{
-					GetRenderDevice()->PopViewport();
-				}
-				break;
+// 			case  eRC_PopViewPort:
+// 				{
+// 					GetRenderDevice()->PopViewport();
+// 				}
+// 				break;
 			case  eRC_ClearBuffer:
 				{
 					bool bColor = ReadCommand<bool>(n);
@@ -358,10 +362,10 @@ namespace ma
 		//if (!IsMultithreaded())
 		//	return;
 
-		//float fTime = GetTimer()->GetMillisceonds();
+		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
-		//float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
-		//Log("fTimeWaitForRender = %f",fTimeWaitForRender);
+		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
+		Log("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;
@@ -370,8 +374,6 @@ namespace ma
 		m_Commands[m_nCurThreadFill].SetUse(0);
 		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] = 0;
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] = 0;
-
-		GetRenderSystem()->OnFlushFrame();
 
 		SignalFlushCond();
 	}

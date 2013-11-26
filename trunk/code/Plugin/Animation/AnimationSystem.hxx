@@ -24,10 +24,20 @@ namespace ma
 
 	void AnimationSystem::Update()
 	{
+		profile_code();
+
 		for (UINT i = 0; i < m_arrAnimObject.size(); ++i)
 		{
-			m_arrAnimObject[i]->AdvanceTime(GetTimer()->GetFrameDeltaTime());
-			m_arrAnimObject[i]->EvaluateAnimation(1.0f);
+			AnimationObject* pAnimObj = m_arrAnimObject[i];
+			if (pAnimObj == NULL)
+				continue;
+
+			pAnimObj->AdvanceTime(GetTimer()->GetFrameDeltaTime());
+
+			if ( !GetRenderSystem()->GetMainCamera()->IsCull( pAnimObj->GetSceneNode()->GetAABBWS() ) )
+			{
+				pAnimObj->EvaluateAnimation(1.0f);
+			}
 		}
 	}
 

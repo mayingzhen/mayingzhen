@@ -3,6 +3,7 @@
 #define  _RenderSystem__H__
 
 
+#include "Render/RenderSystem/RenderThread.h"
 
 namespace ma
 {
@@ -48,17 +49,13 @@ namespace ma
 		
 		ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile, const char* pPSFile,const char* pszDefine);
 		
-		void				PushRenderTarget(Texture* pTexture,int index = 0);
+		Texture*			SetRenderTarget(Texture* pTexture,int index = 0);
+
+		Texture*			GetRenderTarget(int index = 0);
+
+		Texture*			SetDepthStencil(Texture* pTexture);
 		
-		void				PushDepthStencil(Texture* pTexture);
-		
-		void				PushViewPort(Rectangle& viewPort);
-		
-		void				PopRenderTargert(int index = 0);
-		
-		void				PopDepthStencil();
-		
-		void				PopViewPort();
+		Rectangle			SetViewPort(const Rectangle& viewPort);
 		
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
@@ -67,6 +64,14 @@ namespace ma
 		void				OnFlushFrame();
 
 		RenderQueue*		GetRenderQueue();
+
+		int					CurThreadFill() const {return m_pRenderThread->CurThreadFill();}
+
+		int					CurThreadProcess() const {return m_pRenderThread->CurThreadProcess();}
+
+		int					GetThreadList() {return m_pRenderThread->GetThreadList();}
+
+		void				FlushAndWait() {return m_pRenderThread->FlushAndWait();}
 
 	protected: 
 		void				RT_Init();
@@ -86,6 +91,13 @@ namespace ma
 		RenderQueue*				m_pRenderQueue[2];
 
 		Camera*						m_pMainCamera;
+
+		Texture*					m_pDepthStencil;
+
+		enum {MAX_RENDER_TARGET = 4};
+		Texture*					m_pRenderTarget[MAX_RENDER_TARGET];
+		
+		Rectangle					m_viewport;
 	};
 
 	RENDER_API RenderSystem*		GetRenderSystem();

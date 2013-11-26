@@ -80,7 +80,7 @@ namespace ma
 
 	float* DirectonalLight::GetSplitPos() 
 	{
-		int index = GetRenderThread()->GetThreadList();
+		int index = GetRenderSystem()->GetThreadList();
 
 		return m_fSplitPos[index];
 	}
@@ -102,12 +102,12 @@ namespace ma
 			RenderObject* pRenderObj = SafeCast<RenderObject>(pComp);
 			if (pRenderObj)
 			{
-				AABB aabb = pRenderObj->GetAABB();
+				AABB aabb = pRenderObj->GetAABBWS();
 
 				if ( SweepIntersectionTest(aabb,m_splitFrustum,m_vLightDir) )
 				{
 					m_pSMF->AddCaster(pRenderObj);
-					m_aabb.Merge( pRenderObj->GetAABB() );
+					m_aabb.Merge( pRenderObj->GetAABBWS() );
 				}
 			}
 
@@ -133,7 +133,7 @@ namespace ma
 		if (pCamera == NULL)
 			return;
 
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->GetThreadList();
 
 		Matrix4x4 matLightView;
 

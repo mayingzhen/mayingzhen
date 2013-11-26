@@ -327,16 +327,16 @@ void Form::setSize(float width, float height)
 		Rectangle viewPort(0, 0, width, height);
 
         // Clear the framebuffer black
-		GetRenderSystem()->PushRenderTarget(_frameBuffer);
-		GetRenderSystem()->PushViewPort(viewPort);
+	 	Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(_frameBuffer);
+		Rectangle preViewPort = GetRenderSystem()->SetViewPort(viewPort);
 
         _theme->setProjectionMatrix(_projectionMatrix);
 		Color clearColor(0.0f,0.0f,0.0f,0.0f);
 		GetRenderSystem()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-		GetRenderSystem()->PopRenderTargert();
-		GetRenderSystem()->PopViewPort();
+		GetRenderSystem()->SetRenderTarget(pPreTarget);
+		GetRenderSystem()->SetViewPort(preViewPort);
     }
     _bounds.width = width;
     _bounds.height = height;
@@ -535,14 +535,14 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (isDirty())
+    if (1/*isDirty()*/)
     {
         ASSERT(_frameBuffer);
 
 		Rectangle viewPort(0, 0, _bounds.width, _bounds.height);
 
-		GetRenderSystem()->PushRenderTarget(_frameBuffer);
-		GetRenderSystem()->PushViewPort(viewPort);
+		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(_frameBuffer);
+		Rectangle preViewProt = GetRenderSystem()->SetViewPort(viewPort);
 
         ASSERT(_theme);
         _theme->setProjectionMatrix(_projectionMatrix);
@@ -554,8 +554,8 @@ void Form::draw()
         Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),true, false, _bounds.height);
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-		GetRenderSystem()->PopViewPort();
-		GetRenderSystem()->PopRenderTargert();
+		GetRenderSystem()->SetViewPort(preViewProt);
+		GetRenderSystem()->SetRenderTarget(pPreTarget);
     }
 
 

@@ -184,7 +184,7 @@ namespace ma
 		return active;
 	}
 
-	void ParticleEmitter::emitOnce(unsigned int particleCount)
+	void ParticleEmitter::emitOnce(UINT particleCount)
 	{
 		// Limit particleCount so as not to go over _particleCountMax.
 		if (particleCount + m_nParticleCount > m_particleEmitInfo.m_nParticleCountMax)
@@ -582,7 +582,7 @@ namespace ma
 		// Set our node's view projection matrix to this emitter's effect.
 		if (GetRenderSystem())
 		{
-			int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+			int index = GetRenderSystem()->CurThreadProcess();
 			Matrix4x4 matWorld = GetRenderable()->m_matWorld[index];
 			Matrix4x4 matVP = GetRenderContext()->GetViewProjMatrix();
 			m_pSpriteBatch->setProjectionMatrix(matWorld * matVP);
@@ -635,17 +635,15 @@ namespace ma
 
 	void ParticleEmitter::AddToRenderQueue() 
 	{
+		GetParticleSystem()->AddParticleEmitter(this);
+
 		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Trans,this);
 	}
 
-	AABB ParticleEmitter::GetAABB()
-	{
-		return AABB();
-	}
 
 	void ParticleEmitter::SetWorldMatrix(const Matrix4x4& matWorld)
 	{
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->CurThreadFill();
 
 		Renderable* pRenderable = GetRenderable();
 		ASSERT(pRenderable);

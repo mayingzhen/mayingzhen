@@ -141,6 +141,9 @@ namespace ma
 
 	void Camera::AdjustPlanes(const AABB& aabbWorld)
 	{
+		if ( aabbWorld.IsNull() )
+			return;
+
 		AABB aabbView = aabbWorld;
 		aabbView.Transform( m_matViewProj.GetMatView() );
 

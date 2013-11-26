@@ -45,7 +45,7 @@ namespace ma
 		v[1].pos = p1;
 		v[1].col = dwColor;
 	
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->GetThreadList();
 		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
 		arrLineVertex.push_back(v[0]);
@@ -142,7 +142,7 @@ namespace ma
 
 	void LineRender::OnFlushFrame()
 	{
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadFill() : 0;
+		int index = GetRenderSystem()->CurThreadFill();
 		m_arrLineVertex[index].clear();
 	}
 
@@ -150,7 +150,7 @@ namespace ma
 	{
 		m_pMeshBatch->start();
 
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->CurThreadProcess();
 		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
 		for (UINT i = 0; i < arrLineVertex.size(); i += 2)

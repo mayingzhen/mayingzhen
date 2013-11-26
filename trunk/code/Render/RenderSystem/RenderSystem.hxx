@@ -25,6 +25,12 @@ namespace ma
 
 	RenderSystem::RenderSystem()
 	{
+		m_pDepthStencil = NULL;
+		for (UINT i = 0; i < MAX_RENDER_TARGET; ++i)
+		{
+			m_pRenderTarget[i] = NULL;
+		}
+
 		m_pRenderContext = NULL;
 		m_pRenderThread = NULL;
 		m_pRenderQueue[0] = NULL;
@@ -43,9 +49,9 @@ namespace ma
 		SetLineRender(pLineRender);
 
 		m_pRenderThread = new RenderThread();
-		SetRenderThread(m_pRenderThread);
+		//SetRenderThread(m_pRenderThread);
 
-		if ( GetRenderSetting()->m_bThread )
+		if ( GetRenderSetting()->m_bRenderThread )
 		{
 			m_pRenderThread->Start();
 		}
@@ -81,6 +87,8 @@ namespace ma
 
 	void RenderSystem::Update()
 	{
+		profile_code();
+
 		RenderQueueBuilder rqBuilder(m_pMainCamera);
 		GetSceneSystem()->TravelScene(&rqBuilder);
 
@@ -113,7 +121,11 @@ namespace ma
 
 	void RenderSystem::EndFrame()
 	{
+		profile_code();
+
 		m_pRenderThread->RC_EndFrame();
+
+		OnFlushFrame();
 	}
 
 	void RenderSystem::Render()
@@ -127,6 +139,8 @@ namespace ma
 
 		GetLineRender()->OnFlushFrame();
 
+		GetUISystem()->OnFlushFrame();
+
 		GetParticleSystem()->OnFlushFrame();
 	}
 
@@ -135,11 +149,22 @@ namespace ma
 	{
 		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
 
+		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
+		{
+			m_pRenderTarget[i] = GetRenderDevice()->GetRenderTarget(i);
+		}
+
+		m_pDepthStencil = GetRenderDevice()->GetDepthStencil();
+
+		m_viewport = GetRenderDevice()->GetViewport();
+	
 		GetRenderSetting()->Init();
 
 		GetRenderScheme()->Init();
 
 		GetLineRender()->Init();
+
+		GetUISystem()->Init();
 
 		ScreenQuad::Init();
 		UnitSphere::Init();
@@ -148,6 +173,8 @@ namespace ma
 	void RenderSystem::RT_BeginFrame()
 	{
 		GetRenderDevice()->BeginRender();	
+
+		GetRenderDevice()->ClearBuffer(true,true,true,GetRenderSetting()->m_cClearClor,1,0);
 	}
 
 	void RenderSystem::RT_EndFrame()
@@ -163,7 +190,7 @@ namespace ma
  		
  		GetLineRender()->Render();
 
-		//GetUISystem()->Render();
+		GetUISystem()->Render();
 	}
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
@@ -219,35 +246,44 @@ namespace ma
 		return pShaderProgram;
 	}
 
-	void RenderSystem::PushRenderTarget(Texture* pTexture,int index)
+	Texture* RenderSystem::SetRenderTarget(Texture* pTexture,int index)
 	{
-		m_pRenderThread->RC_PushRenderTarget(pTexture,index);
+		Texture* pPreTarget = m_pRenderTarget[index];
+		
+		m_pRenderThread->RC_SetRenderTarget(pTexture,index);
+		
+		m_pRenderTarget[index] = pTexture;
+
+		return pPreTarget;
 	}
 
-	void RenderSystem::PushDepthStencil(Texture* pTexture)
+	Texture* RenderSystem::GetRenderTarget(int index)
 	{
-		m_pRenderThread->RC_PushDepthStencil(pTexture);
+		return m_pRenderTarget[index];
 	}
 
-	void RenderSystem::PushViewPort(Rectangle& viewPort)
+	Texture* RenderSystem::SetDepthStencil(Texture* pTexture)
 	{
-		m_pRenderThread->RC_PushViewPort(viewPort);
+		Texture* pPreDepth = m_pDepthStencil;
+		
+		m_pRenderThread->RC_SetDepthStencil(pTexture);
+
+		m_pDepthStencil = pTexture;
+
+		return pPreDepth;
 	}
 
-	void RenderSystem::PopRenderTargert(int index)
+	Rectangle RenderSystem::SetViewPort(const Rectangle& viewPort)
 	{
-		m_pRenderThread->RC_PopRenderTargert(index);
+		Rectangle preViewPort = m_viewport;
+
+		m_pRenderThread->RC_SetViewPort(viewPort);
+
+		m_viewport = viewPort;
+
+		return preViewPort;
 	}
 	
-	void RenderSystem::PopDepthStencil()
-	{
-		m_pRenderThread->RC_PopDepthStencil();
-	}
-
-	void RenderSystem::PopViewPort()
-	{
-		m_pRenderThread->RC_PopViewPort();
-	}
 
 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{

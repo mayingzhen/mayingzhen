@@ -137,6 +137,8 @@ namespace ma
 
 	void AnimationObject::EvaluateAnimation(float fWeight)
 	{
+		profile_code();
+
 		if (m_pSkeleton == NULL)
 			return;
 

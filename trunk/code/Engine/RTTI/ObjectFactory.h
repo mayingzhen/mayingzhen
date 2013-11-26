@@ -2,7 +2,7 @@
 #define __ObjectFactory_H__
 
 #include "Common/Singleton.h"
-#include "Common/RTTI/Object.h"
+#include "Engine/RTTI/Object.h"
 
 namespace ma
 {
@@ -11,7 +11,7 @@ namespace ma
 
 	typedef void	(*ObjectDelete)(Object* pObject);
 
-	class COMMON_API ObjectFactoryManager : public Singleton<ObjectFactoryManager>
+	class ENGINE_API ObjectFactoryManager : public Singleton<ObjectFactoryManager>
 	{
 		typedef std::map<std::string,ObjectCreator> ObjFunFactoryMap;
 		typedef std::map<std::string,ObjectCreatorArg> ObjFunArgFactoryMap;

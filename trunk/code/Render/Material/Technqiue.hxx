@@ -39,7 +39,7 @@ namespace ma
 		for (UINT i = 0; i < nUnifom; ++i)
 		{
 			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-			MaterialParameter* pMatPar =/* m_pEffect->*/GetParameter(pUniform->m_name.c_str());
+			MaterialParameter* pMatPar = GetParameter(pUniform->m_name.c_str());
 			pMatPar->Bind(pUniform);
 		}
 	}

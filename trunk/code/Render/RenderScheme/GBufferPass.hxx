@@ -18,8 +18,8 @@ namespace ma
 	{
 		RENDER_PROFILE(GBufferPass);
 
-		GetRenderSystem()->PushRenderTarget(m_pDepthTex,0);
-		GetRenderSystem()->PushRenderTarget(m_pNormalTex,1);
+		Texture* pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDepthTex,0);
+		Texture* pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pNormalTex,1);
 
 		RenderQueue* pRenderQueue = GetRenderSystem()->GetRenderQueue();
 
@@ -35,8 +35,8 @@ namespace ma
 			pSolidEntry->Render(pTech);
 		}
 
-		GetRenderSystem()->PopRenderTargert(0);
-		GetRenderSystem()->PopRenderTargert(1);
+		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
+		GetRenderSystem()->SetRenderTarget(pPreTarget1,1);
 	}
 
 	void GBufferPass::ShoutDown()

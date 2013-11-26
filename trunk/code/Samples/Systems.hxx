@@ -23,6 +23,8 @@ namespace ma
 
 	void Systems::Update()
 	{
+		profile_code();
+
 		if (GetTimer())
 			GetTimer()->UpdateFrame();
 

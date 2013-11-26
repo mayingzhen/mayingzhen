@@ -20,6 +20,7 @@
 #include "UI/Slider.hxx"
 #include "UI/TextBox.hxx"
 #include "UI/Bundle.hxx"
+#include "UI/StringRender.hxx"
 #include "UI/UISystem.hxx"
 
 using namespace ma;

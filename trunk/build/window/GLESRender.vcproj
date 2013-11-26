@@ -94,10 +94,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -119,10 +119,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/DevIL/include;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="GLESRender/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -137,7 +139,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="OpenGL32.lib glew32.lib DevIL.lib libjpeg.lib libpng.lib zlib.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="../../extern/glew/lib/windows/x86;../../extern/DevIL/lib/windows/"
+				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -325,6 +330,14 @@
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

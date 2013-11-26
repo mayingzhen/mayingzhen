@@ -15,8 +15,6 @@
 %include "../../code/Common/Export.h"
 %include "../../code/Common/Macro.h"
 %include "../../code/Common/BaseType.h"
-%include "../../code/Common/RTTI/Object.h"
-%include "../../code/Common/RTTI/RTTIClass.h"
 %include "../../code/Common/Math/MathBase.h"
 %include "../../code/Common/Math/Math.h"
 %include "../../code/Common/AABB.h"

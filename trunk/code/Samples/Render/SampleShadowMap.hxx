@@ -1,5 +1,4 @@
 #include "SampleShadowMap.h"
-#include "Plugin/FbxImport/Module.h"
 
 namespace ma
 {

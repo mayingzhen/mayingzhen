@@ -1,26 +1,9 @@
 #ifndef __Track_H__
 #define __Track_H__
 
-// #include <Animation/Animation/KeyFrameHelper.h>
-// #include <Animation/Animation/AnimationConfig.h>
-// #include <Animation/Interface/ITrack.h>
-// #include <Animation/Animation/KeyFrameHelper.h>
 
 namespace ma
 {
-// 	inline float Clamp(float fVal,float fMin,float fMax)
-// 	{
-// 		fVal = fVal > fMin ? fVal : fMin;
-// 		fVal = fVal < fMax ? fVal : fMax;
-// 		return fVal;
-// 	}
-
-// 	template<class T>
-// 	inline void Lerp(T& out, const T& v0,const T& v1,float factor)
-// 	{
-// 		out = v0*(1.0f-factor)+v1*factor;
-// 	}
-
 
 	inline void WrapFrameClamp(float& frame,float maxFrame)
 	{
@@ -29,6 +12,8 @@ namespace ma
 
 	inline void DecomposeFrame( float frame,const std::vector<UINT>& keyFrame,UINT& key0,UINT& key1,float& factor )
 	{
+		profile_code();
+
 		//ASSERT(keyFrame.size() > 0);
 		WrapFrameClamp(frame,(float)keyFrame.back());
 		std::vector<UINT>::const_iterator iter = std::lower_bound(keyFrame.begin(),keyFrame.end(),(UINT)(frame+1.0f));
@@ -275,6 +260,8 @@ namespace ma
 
 	inline void Vector3Track::SampleFrame( float frame,Vector3& val ) const
 	{
+		profile_code();
+
 		UINT key0;
 		UINT key1;
 		float factor; 
@@ -369,6 +356,8 @@ namespace ma
 
 	inline void QuaternionTrack::SampleFrame( float frame,Quaternion& val ) const
 	{
+		profile_code();
+
 		UINT key0;
 		UINT key1;
 		float factor; 

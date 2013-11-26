@@ -74,18 +74,17 @@ namespace ma
 	{
 		m_pDeviceContext->Init(wndhandle);
 
-		GLint fbo;
-		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
-		GLESTexture* pRenderTarget = new GLESTexture(-1,-1);
-		pRenderTarget->SetFrameBuffer(fbo);
-		m_pRenderTarget.push(pRenderTarget);
-		
-		GLint hDefaultFrameBuffer = fbo;
-		GL_ASSERT( glGenFramebuffers(1, &m_hOffecreenFrameBuffer) );
-
-		GLint viewport[4]; 
-		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
-		m_viewport.push(Rectangle((float)viewport[0],(float)viewport[1],(float)viewport[2],(float)viewport[3]));
+// 		GLint fbo;
+// 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
+// 		m_pRenderTarget = new GLESTexture(-1,-1);
+// 		m_pRenderTarget->SetFrameBuffer(fbo);
+// 		
+// 		GLint hDefaultFrameBuffer = fbo;
+ 		GL_ASSERT( glGenFramebuffers(1, &m_hOffecreenFrameBuffer) );
+// 
+// 		GLint viewport[4]; 
+// 		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
+// 		m_viewport.push(Rectangle((float)viewport[0],(float)viewport[1],(float)viewport[2],(float)viewport[3]));
 
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 		GLint val;
@@ -108,44 +107,20 @@ namespace ma
 		m_pDeviceContext->SwapBuffers();
 	}
 
-	void GLESRenderDevice::PushRenderTarget(Texture* pTarget,int index)
+	void GLESRenderDevice::SetRenderTarget(Texture* pTexture,int index)
 	{
-		ASSERT(pTarget && index == 0);
-		if (pTarget == NULL || index != 0)
+		ASSERT(pTexture && index == 0);
+		if (pTexture == NULL || index != 0)
 			return ;
 
-		GLESTexture* pGLESTexure = (GLESTexture*)pTarget;
+		GLESTexture* pGLESTarget = (GLESTexture*)pTexture;
 
-		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTexure->GetFrameBuffer()) );
-	
-		if (pGLESTexure)
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTarget->GetFrameBuffer()) );
+
+		if (pGLESTarget->GetTexture() > 0)
 		{
 			GLenum attachment = GL_COLOR_ATTACHMENT0 + index;
-			GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pGLESTexure->GetTexture(), 0) );
-			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
-			{
-				GP_ERROR("Framebuffer status incomplete: 0x%x", fboStatus);
-			}
-		}
-		
-		m_pRenderTarget.push(pGLESTexure);
-	}
-
-	void GLESRenderDevice::PopRenderTarget(int index)
-	{
-		ASSERT(index == 0);
-		if (index != 0)
-			return;
-
-		m_pRenderTarget.pop();
-		GLESTexture* pGLESTexure = m_pRenderTarget.top();				
-		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTexure->GetFrameBuffer()) );
-
-		if (pGLESTexure && pGLESTexure->GetTexture() > 0)
-		{
-			GLenum attachment = GL_COLOR_ATTACHMENT0 + index;
-			GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pGLESTexure->GetTexture(), 0) );
+			GL_ASSERT( glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pGLESTarget->GetTexture(), 0) );
 			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
 			{
@@ -154,43 +129,55 @@ namespace ma
 		}
 	}
 
+	Texture* GLESRenderDevice::GetRenderTarget(int index)
+	{
+		if (index > 0)
+			 return NULL;
 
-	void GLESRenderDevice::PushDepthStencil(Texture* pTexture)
+		GLESTexture* pGLESTarget = new GLESTexture(-1,-1);
+
+		GLint hFboBinding;
+		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &hFboBinding) );
+
+		pGLESTarget->SetFrameBuffer(hFboBinding);
+
+		return pGLESTarget;
+	}
+
+
+	void GLESRenderDevice::SetDepthStencil(Texture* pTexture)
 	{
 		ASSERT(false);
 	}
 
-	void GLESRenderDevice::PopDepthStencil()
+	Texture* GLESRenderDevice::GetDepthStencil()
 	{
-		ASSERT(false);
+		//ASSERT(false);
+		return NULL;
 	}
 
-	void GLESRenderDevice::PushViewport(const Rectangle& rect)
+	void GLESRenderDevice::SetViewport(const Rectangle& rect)
 	{
-		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);	
-		m_viewport.push(rect);
-	}
-
-	void GLESRenderDevice::PopViewport()
-	{
-		m_viewport.pop();
-		Rectangle rect = m_viewport.top();
 		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);
+	}
+
+	Rectangle GLESRenderDevice::GetViewport()
+	{
+		Rectangle rect;
+
+		GLint viewport[4]; 
+ 		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
+		
+		rect.x = (float)viewport[0];
+		rect.y = (float)viewport[1];
+		rect.width = (float)viewport[2];
+		rect.height = (float)viewport[3];
+
+		return rect;
 	}
 
 	void GLESRenderDevice::SetRenderState(const RenderState& state)
 	{
-// 		//		DWORD cullMode = state.cullMode;
-// 
-// 		// 		if (mFlipCullMode)
-// 		// 		{
-// 		// 			if (cullMode == D3DCULL_CCW)
-// 		// 				cullMode = D3DCULL_CW;
-// 		// 			else if (cullMode == D3DCULL_CW)
-// 		// 				cullMode = D3DCULL_CCW;
-// 		// 		}
-// 
- 
 		GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
 
 		switch (state.m_eDepthCheckMode)
@@ -255,6 +242,8 @@ namespace ma
 
 	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
+		profile_code();
+
 		ASSERT(pTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
 

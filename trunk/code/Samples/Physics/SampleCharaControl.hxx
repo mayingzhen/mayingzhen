@@ -30,7 +30,7 @@ namespace ma
 			RenderMesh* pMeshComp = m_pCharaObj->CreateComponent<RenderMesh>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 		
-			AABB aabb = pMeshComp->GetAABB();
+			AABB aabb = pMeshComp->GetAABBWS();
 
 			Vector3 vSize = aabb.Size();
 			float fRadius = abs(vSize.x) / 2.0f;

@@ -6,7 +6,8 @@
 
 namespace ma
 {
-	template <typename T> class COMMON_API Singleton
+	template <typename T> 
+	class Singleton
 	{
 	protected:
 

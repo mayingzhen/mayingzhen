@@ -61,6 +61,8 @@ namespace ma
 
 	void AnimationClip::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight,BoneSet* pBoneSet)
 	{
+		profile_code();
+
 		if (m_pAnimation == NULL || pEvalContext == NULL)
 			return;
 		

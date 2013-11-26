@@ -22,7 +22,7 @@ namespace ma
 	public:
 		virtual Texture*			CreateTexture(const char* pszPath = NULL) = 0;
 
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil) = 0;
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false) = 0;
 
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 
@@ -32,17 +32,17 @@ namespace ma
 	
 		virtual ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine) = 0;
 
-		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0) = 0;
+		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0) = 0;
 
-		virtual void				PopRenderTarget(int index = 0) = 0;
+		virtual	Texture*			GetRenderTarget(int index = 0) = 0;
 		
-		virtual	void				PushDepthStencil(Texture* pTexture) = 0;
+		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
 
-		virtual void				PopDepthStencil() = 0;
+		virtual	Texture*			GetDepthStencil() = 0;
 
-		virtual void				PushViewport(const Rectangle& rect) = 0;
+		virtual void				SetViewport(const Rectangle& rect) = 0;
 
-		virtual void				PopViewport() = 0;
+		virtual Rectangle			GetViewport() = 0;
 
 		virtual void				SetRenderState(const RenderState& state) = 0;
 

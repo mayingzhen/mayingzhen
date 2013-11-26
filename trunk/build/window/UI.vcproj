@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -92,10 +91,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -117,10 +116,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/oisInput/Include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;UI_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="UI/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -294,6 +295,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\UI\StringRender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\UI\StringRender.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Plugin\UI\TextBox.h"
 				>
 			</File>
@@ -355,6 +364,14 @@
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

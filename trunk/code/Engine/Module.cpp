@@ -2,6 +2,10 @@
 #include "Engine/Module.h"
 #include "Engine/RTTI.h"
 
+// RTTI
+#include "Engine/RTTI/RTTIClass.hxx"
+#include "Engine/RTTI/Object.hxx"
+#include "Engine/RTTI/ObjectFactory.hxx"
 
 // Platform
 #include "Engine/Application/Timer.hxx"
@@ -70,6 +74,7 @@
 #include "Engine/EntitySystem/EntitySystem.hxx"
 #include "Engine/EntitySystem/Util.hxx"
 
+#include "Engine/Profile/CodeTimer.hxx"
 
 
 
@@ -80,6 +85,9 @@ using namespace ma;
 void EngineModuleInit()
 {
 	EngineRTTIInit();
+
+	CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
+	SetCodeTimeMng(pCodeTimeMng);
 
 	ResourceSystem* pRsourceSystem = new ResourceSystem();
 	SetResourceSystem(pRsourceSystem);

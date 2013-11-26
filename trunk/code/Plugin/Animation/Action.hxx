@@ -53,6 +53,8 @@ namespace ma
 
 	void Action::EvaluateAnimation(AnimEvalContext* pAnimContext,float fWeight)
 	{
+		profile_code();
+
 		if (m_pAnimaNode)
 		{
 			m_pAnimaNode->EvaluateAnimation(pAnimContext,fWeight);

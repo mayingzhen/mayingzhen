@@ -7,9 +7,11 @@
 
 %include "../../Code/Engine/Export.h"
 
+%include "../../code/Engine/RTTI/Object.h"
+%include "../../code/Engine/RTTI/RTTIClass.h"
+
 %include "../../Code/Engine/Input/Input.h"
 %include "../../Code/Engine/Application/Timer.h"
-
 
 %include "../../Code/Engine/Resource/Stream.h"
 %include "../../Code/Engine/Resource/DataStream.h"

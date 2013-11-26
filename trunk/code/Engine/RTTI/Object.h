@@ -2,7 +2,7 @@
 #define  _Object__H__
 
 #include "Common/RefCountObject.h"
-#include "Common/RTTI/RTTIClass.h"
+#include "Engine/RTTI/RTTIClass.h"
 
 
 #define DECL_OBJECT(ClassName) private:\
@@ -36,7 +36,7 @@ namespace ma
 {
 	class RTTIClass;
 
-	class COMMON_API Object : public RefCountObject
+	class ENGINE_API Object : public RefCountObject
 	{
 		DECL_OBJECT(Object)
 

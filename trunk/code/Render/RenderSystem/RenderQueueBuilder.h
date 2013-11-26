@@ -25,10 +25,10 @@ namespace ma
 			RenderObject* pRenderObj = SafeCast<RenderObject>(pComp);
 			if (pRenderObj)
 			{
-				if ( !m_pCamera->IsCull(pRenderObj->GetAABB()) )
+				if ( !m_pCamera->IsCull(pRenderObj->GetAABBWS()) )
 				{
 					m_arrRenderObject.push_back(pRenderObj);
-					m_aabb.Merge( pRenderObj->GetAABB() );
+					m_aabb.Merge( pRenderObj->GetAABBWS() );
 				}
 			}
 

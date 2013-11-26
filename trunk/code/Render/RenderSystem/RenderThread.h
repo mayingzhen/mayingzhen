@@ -17,12 +17,12 @@ namespace ma
 		eRC_CreateShader,
 		eRC_CreateRenderTarget,
  		eRC_ClearBuffer,
- 		eRC_PushRenderTarget,
-		eRC_PushDepthStencil,
- 		eRC_PushViewPort,
- 		eRC_PopRenderTarget,
-		eRC_PopDepthStencil,
- 		eRC_PopViewPort,
+ 		eRC_SetRenderTarget,
+		eRC_SetDepthStencil,
+ 		eRC_SetViewPort,
+ 		//eRC_PopRenderTarget,
+		//eRC_PopDepthStencil,
+ 		//eRC_PopViewPort,
 	};
 
 	class RenderThread : public Thread
@@ -80,12 +80,12 @@ namespace ma
 		void	RC_Render();
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateRenderTarget(Texture* pRenderTarget);
-		void	RC_PushRenderTarget(Texture* pTexture,int index);
-		void	RC_PushDepthStencil(Texture* pTexture);
-		void	RC_PushViewPort(Rectangle& viewPort);
-		void	RC_PopRenderTargert(int index);
-		void	RC_PopDepthStencil();
-		void	RC_PopViewPort();
+		void	RC_SetRenderTarget(Texture* pTexture,int index);
+		void	RC_SetDepthStencil(Texture* pTexture);
+		void	RC_SetViewPort(const Rectangle& viewPort);
+		//void	RC_PopRenderTargert(int index);
+		//void	RC_PopDepthStencil();
+		//void	RC_PopViewPort();
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 
 
@@ -136,7 +136,7 @@ namespace ma
 	inline void RenderThread::AddFloat(float fVal)
 	{
         Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(float));
-        memcpy(pDest,&fVal,sizeof(float));
+        memcpy(pDest,&fVal,sizeof(float)); // ARM 下不能使用指针强转赋值
 	}
     
 	inline void RenderThread::AddVec3(const Vector3& vVal)
@@ -148,7 +148,7 @@ namespace ma
 	inline void RenderThread::AddColor(const Color& cVal)
 	{
 		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Color));
-        memcpy(pDest,&cVal,sizeof(Color));
+        memcpy(pDest,&cVal,sizeof(Color));  
 	}
     
 	inline void RenderThread::AddPointer(const void *pVal)
@@ -168,7 +168,7 @@ namespace ma
 	{
 		DWORD nLen = ReadCommand<DWORD>(nIndex);
 		ASSERT(nLen == sizeof(T));
-		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex];
+		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(&data,pSrc,nLen);
 		nIndex += nLen;
 	}
@@ -249,9 +249,9 @@ namespace ma
 		return m_nCurThreadProcess;
 	}
 
-	RenderThread* GetRenderThread();
+	//RenderThread* GetRenderThread();
 
-	void SetRenderThread(RenderThread* pRenderThread);
+	//void SetRenderThread(RenderThread* pRenderThread);
 
 }
 

@@ -18,7 +18,7 @@ namespace ma
 	{	
 		m_pParticleThread = NULL;
 
-		if (0)
+		if (GetRenderSetting()->m_bPartcleThread)
 		{		
 			m_pParticleThread = new ParticleThread();
 			m_pParticleThread->Start();
@@ -38,15 +38,16 @@ namespace ma
 
 	void ParticleSystem::Update()
 	{
-		if (m_pParticleThread)
-			m_pParticleThread->FlushRenderQueue();
+		//if (m_pParticleThread)
+		//	m_pParticleThread->FlushRenderQueue();
 	}
 
 	void ParticleSystem::AddParticleEmitter(ParticleEmitter* pParticle)
 	{
+		pParticle->SetUpdate(false);
+		
 		if (m_pParticleThread)
-		{
-			pParticle->SetUpdate(false);
+		{	
 			m_pParticleThread->AddEmitter(pParticle);
 		}
 	}
