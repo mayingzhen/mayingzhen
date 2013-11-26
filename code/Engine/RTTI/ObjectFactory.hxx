@@ -1,4 +1,4 @@
-#include "Common/RTTI/ObjectFactory.h"
+#include "ObjectFactory.h"
 
 namespace ma
 {

@@ -93,7 +93,7 @@ namespace ma
 		m_aabbWS.Transform( GetGameObject()->GetSceneNode()->GetWorldMatrix() );
 	}
 
-	AABB RenderMesh::GetAABB()
+	AABB RenderMesh::GetAABBWS()
 	{
 		return m_aabbWS;
 	}
@@ -128,7 +128,9 @@ namespace ma
 
 	void RenderMesh::SetSkinMatrix(const Matrix4x4* arrMatrixs,Uint nCount)
 	{
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList()  : 0;
+		profile_code();
+
+		int index = GetRenderSystem()->CurThreadFill();
 
 		for (UINT iRenderable = 0; iRenderable < m_arrRenderable.size(); ++iRenderable)
 		{
@@ -158,7 +160,7 @@ namespace ma
 
 	void RenderMesh::SetWorldMatrix(const Matrix4x4& matWorld)
 	{
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->CurThreadFill();
 
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{

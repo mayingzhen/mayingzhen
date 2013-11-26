@@ -97,7 +97,8 @@ namespace ma
 	{
 		RENDER_PROFILE(MeasureLuminance);
 
-		GetRenderSystem()->PushRenderTarget(m_lumTexs[0]);
+		GetRenderSystem()->SetRenderTarget(m_lumTexs[0]);
+		//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[0]->getWidth(),m_lumTexs[0]->getHeight()))
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
@@ -109,13 +110,14 @@ namespace ma
 
 		ScreenQuad::Render(m_SumLogTech);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 
 		for (int i = 1; i < NUM_SUM_LUM; ++i)
 		{
-			GetRenderSystem()->PushRenderTarget(m_lumTexs[i]);
+			GetRenderSystem()->SetRenderTarget(m_lumTexs[i]);
 
 			GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
+			//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[i]->getWidth(),m_lumTexs[i]->getHeight()));
 
 			GetSampleOffsets2x2(m_lumTexs[i -1]->getWidth(), m_lumTexs[i -1]->getHeight(), texCoordOffset);
 
@@ -124,12 +126,13 @@ namespace ma
 
 			ScreenQuad::Render(m_SumLumIterativeTech);
 
-			GetRenderSystem()->PopRenderTargert();
+			//GetRenderSystem()->PopRenderTargert();
 		}
 
-		GetRenderSystem()->PushRenderTarget(m_lumTexs[NUM_SUM_LUM]);
+		GetRenderSystem()->SetRenderTarget(m_lumTexs[NUM_SUM_LUM]);
 		
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
+		//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[NUM_SUM_LUM]->getWidth(),m_lumTexs[NUM_SUM_LUM]->getHeight()));
 		
 		GetSampleOffsets2x2(m_lumTexs[NUM_SUM_LUM -1]->getWidth(), m_lumTexs[NUM_SUM_LUM -1]->getHeight(), texCoordOffset);
 		
@@ -138,7 +141,7 @@ namespace ma
 
 		ScreenQuad::Render(m_SumLumFinal);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 	}
 
 	void HDRPostProcess::AdaptedLum()
@@ -150,7 +153,7 @@ namespace ma
 		m_AdaptedTex[AdaptedTex_LAST] = m_AdaptedTex[AdaptedTex_CUR];
 		m_AdaptedTex[AdaptedTex_CUR] = pTexSwap;	
 
-		GetRenderSystem()->PushRenderTarget(m_AdaptedTex[AdaptedTex_CUR]);
+		GetRenderSystem()->SetRenderTarget(m_AdaptedTex[AdaptedTex_CUR]);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
 
@@ -160,14 +163,14 @@ namespace ma
 
 		ScreenQuad::Render(m_AdaptedLumTech);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 	}
 
 	void HDRPostProcess::BrightPassDownSample()
 	{
 		RENDER_PROFILE(BrightPassDownSample);
 
-		GetRenderSystem()->PushRenderTarget(m_DownSampleTex[0]);
+		GetRenderSystem()->SetRenderTarget(m_DownSampleTex[0]);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
 
@@ -176,11 +179,11 @@ namespace ma
 
 		ScreenQuad::Render(m_BrightPassTech);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 
 		for (int i = 0; i < 2; ++i)
 		{
-			GetRenderSystem()->PushRenderTarget(m_DownSampleTex[i + 1]);
+			GetRenderSystem()->SetRenderTarget(m_DownSampleTex[i + 1]);
 
 			GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
 
@@ -188,7 +191,7 @@ namespace ma
 
 			ScreenQuad::Render(m_DownSamplersTech);
 
-			GetRenderSystem()->PopRenderTargert();
+			//GetRenderSystem()->PopRenderTargert();
 		}
 	}
 
@@ -222,7 +225,7 @@ namespace ma
 		RENDER_PROFILE(ToneMapping);
 
 		if (m_pOutputTex)
-			GetRenderSystem()->PushRenderTarget(m_pOutputTex);
+			GetRenderSystem()->SetRenderTarget(m_pOutputTex);
 
 		m_ToneMappingTech->GetParameter("gTex_Scene")->setTexture(m_pInputTex);
 		m_ToneMappingTech->GetParameter("gTex_Lum")->setTexture(m_AdaptedTex[AdaptedTex_CUR]);
@@ -236,8 +239,8 @@ namespace ma
 
 		ScreenQuad::Render(m_ToneMappingTech);
 
-		if (m_pOutputTex)
-			GetRenderSystem()->PopRenderTargert();
+		//if (m_pOutputTex)
+		//	GetRenderSystem()->PopRenderTargert();
 	}
 
 	void HDRPostProcess::GetSampleOffsets2x2(int width, int height, Vector4 texCoordOffSet[])

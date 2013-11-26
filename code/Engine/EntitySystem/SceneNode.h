@@ -64,8 +64,6 @@ namespace ma
 			
 		const AABB&				GetAABBWS() {return m_aabbWS;}	
 
-		const AABB&				GetAABBLS() {return m_aabbLS;}
-
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "SceneNode");
 
 		virtual void			UpdateAABB();
@@ -84,7 +82,6 @@ namespace ma
 		bool					m_bmatWSDirty;
 
 		AABB					m_aabbWS;	
-		AABB					m_aabbLS;
 	};
 
 }

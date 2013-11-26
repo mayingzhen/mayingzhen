@@ -93,10 +93,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -118,10 +118,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;APPLICATION_EXPORTS"
+				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/oisInput/Include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Engine/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -136,7 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="OIS.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="../../extern/OISInput/Lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -232,6 +236,14 @@
 		<Filter
 			Name="Resource"
 			>
+			<File
+				RelativePath="..\..\code\Engine\Resource\Bundle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\Bundle.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Engine\Resource\DataThread.h"
 				>
@@ -657,6 +669,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Util.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Scene"
+			>
+			<File
 				RelativePath="..\..\code\Engine\EntitySystem\Scene.h"
 				>
 			</File>
@@ -680,12 +704,48 @@
 				RelativePath="..\..\code\Engine\EntitySystem\SceneVisiter.hxx"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Profile"
+			>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Util.h"
+				RelativePath="..\..\code\Engine\Profile\CodeTimer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Util.hxx"
+				RelativePath="..\..\code\Engine\Profile\CodeTimer.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Profile\CodeTimer.inl"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="RTTI"
+			>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Object.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Object.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\ObjectFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\ObjectFactory.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\RTTIClass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\RTTIClass.hxx"
 				>
 			</File>
 		</Filter>
@@ -710,6 +770,14 @@
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

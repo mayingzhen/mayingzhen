@@ -25,6 +25,7 @@
 #include "UI/Slider.h"
 #include "UI/TextBox.h"
 #include "UI/Bundle.h"
+#include "UI/StringRender.h"
 #include "UI/UISystem.h"
 
 #include "Common/WarningSuffix.h"

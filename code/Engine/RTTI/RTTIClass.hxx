@@ -1,4 +1,4 @@
-#include "Common/RTTI/RTTIClass.h"
+#include "RTTIClass.h"
 
 namespace ma
 {

@@ -28,6 +28,8 @@ namespace ma
 
 	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
+		profile_code();
+
 		if (m_pAnimClip == NULL)
 			return;
 

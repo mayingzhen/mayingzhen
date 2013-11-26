@@ -48,7 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderThrough="GamePlayer/GamePlayerPCH.h"
+				PrecompiledHeaderThrough=""
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -64,7 +64,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\Lib\$(ConfigurationName)\&quot;;&quot;$(ProjectDir)..\Extern\Lib\md90&quot;;&quot;$(ProjectDir)..\Extern\DXSDK\Lib\&quot;;&quot;$(ProjectDir)..\Extern\NVIDIA PhysX SDK\v2.8.1\SDKs\lib\Win32&quot;"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="libcp.lib;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -94,8 +94,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ProjectDir)..\Bin\$(ConfigurationName)\"
-			IntermediateDirectory="$(ProjectDir)..\Obj\$(ConfigurationName)\$(ProjectName)\"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -119,12 +119,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\Code\Project\&quot;;&quot;$(ProjectDir)..\Code\&quot;;&quot;$(ProjectDir)..\Extern\Include\&quot;;&quot;$(ProjectDir)..\Extern\S3AnimationSDK\code\&quot;;&quot;$(ProjectDir)..\Extern\DXSDK\Include\&quot;;&quot;$(ProjectDir)..\Extern\&quot;;&quot;$(ProjectDir)..\Extern\DXUT\Common\&quot;;&quot;$(ProjectDir)..\Extern\PlatformRoleCmd\&quot;"
+				AdditionalIncludeDirectories="../../code;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="GamePlayer/GamePlayerPCH.h"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderThrough=""
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -139,9 +139,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib S3AUT.lib S3ACommon.lib S3Animation.lib S3Locomotion.lib S3AUTRendererGL.lib NxCharacter.lib NxCooking.lib PhysXLoader.lib ois.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)..\Lib\$(ConfigurationName)\&quot;;&quot;$(ProjectDir)..\Extern\Lib\md90&quot;;&quot;$(ProjectDir)..\Extern\DXSDK\Lib\&quot;;&quot;$(ProjectDir)..\Extern\NVIDIA PhysX SDK\v2.8.1\SDKs\lib\Win32&quot;;&quot;E:\mono-2.11.3\lib&quot;"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="libcp.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"

@@ -60,26 +60,27 @@ namespace ma
 					//vPos.y = GetTerrain()->GetHeight(vPos.x,vPos.z);
 					pCharMagic->GetSceneNode()->Translate(vCharPos);
 
-// 					GameObject* pBox = GetEntitySystem()->CreateGameObject("Box");
-// 					RenderMesh* pBoxMesh = pBox->CreateComponent<RenderMesh>();
-// 					pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-// 					Vector3 vBoxPos(500 + i * 500,0,500 + j * 500);
-// 					pBox->GetSceneNode()->Translate(vBoxPos);
-// 					pBox->GetSceneNode()->Scale(60.0f);
+					GameObject* pBox = GetEntitySystem()->CreateGameObject("Box");
+					RenderMesh* pBoxMesh = pBox->CreateComponent<RenderMesh>();
+					pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
+					Vector3 vBoxPos(500 + i * 500,0,500 + j * 500);
+					pBox->GetSceneNode()->Translate(vBoxPos);
+					pBox->GetSceneNode()->Scale(60.0f);
 				}
 
 
 				{
-// 					GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
-// 					//ParticleEmitter* pPaticleComp = pFire->CreateComponent<ParticleEmitter>();
-// 					//pPaticleComp->Load("Particle/fire.particle");
-// 
+					GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
+					ParticleEmitter* pPaticleComp = pFire->CreateComponent<ParticleEmitter>();
+					pPaticleComp->Load("Particle/fire.particle");
+ 					pPaticleComp->start();
+
 // 					PointLight* pPointLight = pFire->CreateComponent<PointLight>();
 // 					pPointLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
 // 					pPointLight->SetRadius(500);
-// 
-// 					pFire->GetSceneNode()->Translate(Vector3(i * 350.0f,100.0f,j * 300.0f));
-// 					pFire->GetSceneNode()->Scale(10.0f);
+
+					pFire->GetSceneNode()->Translate(Vector3(i * 350.0f,100.0f,j * 300.0f));
+					pFire->GetSceneNode()->Scale(10.0f);
 				}
 
 			}

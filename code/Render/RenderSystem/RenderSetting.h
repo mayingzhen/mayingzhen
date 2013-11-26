@@ -17,7 +17,9 @@ namespace ma
 		
 		bool	m_bDefferLight;
 		
-		bool	m_bThread;
+		bool	m_bRenderThread;
+
+		bool	m_bPartcleThread;
 
 		Color	m_cClearClor;
 

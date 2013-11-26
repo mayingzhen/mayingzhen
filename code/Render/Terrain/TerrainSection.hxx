@@ -53,7 +53,7 @@ namespace ma
 
 	}
 
-	AABB TerrainSection::GetAABB()
+	AABB TerrainSection::GetAABBWS()
 	{
 		return m_WorldAABB;
 	}

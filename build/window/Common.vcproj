@@ -91,10 +91,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -116,6 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../code"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -256,42 +257,6 @@
 				RelativePath="..\..\code\Common\TArray.h"
 				>
 			</File>
-			<Filter
-				Name="RTTI"
-				>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\Class.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\Class.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\Object.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\Object.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\ObjectFactory.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\ObjectFactory.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\RTTIClass.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\RTTI\RTTIClass.hxx"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Math"
 				>

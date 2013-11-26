@@ -92,10 +92,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -117,10 +117,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;APPLICATION_EXPORTS"
+				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/oisInput/Include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;RENDER_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Render/StdAfx.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -231,6 +233,14 @@
 		<Filter
 			Name="Util"
 			>
+			<File
+				RelativePath="..\..\code\Render\Util\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Util\Font.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Render\Util\LineRender.h"
 				>
@@ -487,6 +497,14 @@
 				RelativePath="..\..\code\Render\Light\LightSystem.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Render\Light\ShadowMapFrustum.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Light\ShadowMapFrustum.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Terrain"
@@ -575,14 +593,6 @@
 				RelativePath="..\..\code\Render\RenderSystem\RenderThread.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\code\Render\RenderSystem\ShadowMapFrustum.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\RenderSystem\ShadowMapFrustum.hxx"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\code\Render\Export.h"
@@ -605,6 +615,14 @@
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

@@ -35,7 +35,7 @@ namespace ma
 		RENDER_PROFILE(BlurPostProcess);
 
 		/// x
-		GetRenderSystem()->PushRenderTarget(m_BureTempTex);
+		GetRenderSystem()->SetRenderTarget(m_BureTempTex);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
 
@@ -56,10 +56,10 @@ namespace ma
 	
 		ScreenQuad::Render(m_BlurXTech);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 
 		/// y
-		GetRenderSystem()->PushRenderTarget(m_pOutputTex);
+		GetRenderSystem()->SetRenderTarget(m_pOutputTex);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
 
@@ -74,7 +74,7 @@ namespace ma
 
 		ScreenQuad::Render(m_BlurYTech);
 
-		GetRenderSystem()->PopRenderTargert();
+		//GetRenderSystem()->PopRenderTargert();
 	}
 
 

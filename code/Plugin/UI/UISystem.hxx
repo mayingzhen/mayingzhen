@@ -2,6 +2,28 @@
 
 namespace ma
 {
+	UISystem::UISystem()
+	{
+		m_pStringRender = new StringRender();
+		SetStringRender(m_pStringRender);
+	}
+
+	UISystem::~UISystem()
+	{
+		SAFE_DELETE(m_pStringRender);
+		SetStringRender(NULL);
+	}
+
+	void UISystem::Init()
+	{
+		m_pStringRender->Init();
+	}
+
+	void UISystem::Shutdown()
+	{
+		m_pStringRender->ShutDown();
+	}
+
 	void UISystem::Update()
 	{
 		UINT size = m_arrForms.size();
@@ -30,6 +52,13 @@ namespace ma
 				form->draw();
 			}
 		}
+
+		m_pStringRender->Render();
+	}
+
+	void UISystem::OnFlushFrame()
+	{
+		m_pStringRender->OnFlushFrame();
 	}
 
 	Form* UISystem::Create(const char* url)

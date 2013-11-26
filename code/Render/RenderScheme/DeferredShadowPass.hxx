@@ -29,7 +29,7 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadowPass);
 
-		GetRenderSystem()->PushRenderTarget(m_pShadowTex);
+		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1,0);
 
@@ -72,7 +72,7 @@ namespace ma
 
 		}
 
-		GetRenderSystem()->PopRenderTargert();
+		GetRenderSystem()->SetRenderTarget(pPreTarget);
 	}
 
 	void DeferredShadowPass::ShoutDown()

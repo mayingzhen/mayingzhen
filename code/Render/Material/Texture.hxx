@@ -32,8 +32,7 @@ namespace ma
 
 		CreateFromMemeory();
 
-		if (GetRenderThread())
-			GetRenderThread()->FlushAndWait();
+		GetRenderSystem()->FlushAndWait();
 	}
 
 	bool Texture::CreateFromMemeory()

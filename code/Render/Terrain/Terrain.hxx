@@ -98,7 +98,7 @@ namespace ma
 				m_arrSection.push_back(pTerrainScetion);
 				m_arrGameObj.push_back(pGameObj);
 
-				m_aabbWorld.Merge( pTerrainScetion->GetAABB() );
+				m_aabbWorld.Merge( pTerrainScetion->GetAABBWS() );
 			}
 		}
 	}

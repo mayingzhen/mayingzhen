@@ -18,7 +18,7 @@ namespace ma
 	{
 		m_pEvent->Wait();
 
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadFill() : 0;
+		int index = GetRenderSystem()->CurThreadFill();
 		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
 		while (!quePaticleEmit.empty())
 		{
@@ -33,7 +33,7 @@ namespace ma
 
 	void ParticleThread::AddEmitter(ParticleEmitter* pEmit)
 	{
-		int index = GetRenderThread() ? GetRenderThread()->GetThreadList() : 0;
+		int index = GetRenderSystem()->GetThreadList();
 		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
 
 		m_csQueue.Lock();
@@ -45,7 +45,7 @@ namespace ma
 
 	void ParticleThread::OnFlushFrame()
 	{
-		int index = GetRenderThread() ? GetRenderThread()->CurThreadFill() : 0;
+		int index = GetRenderSystem()->CurThreadFill();
 		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
 
 		m_csQueue.Lock();
@@ -55,7 +55,7 @@ namespace ma
 
 	void ParticleThread::FlushRenderQueue()
 	{
-		int index = GetRenderThread()->CurThreadProcess();
+		int index = GetRenderSystem()->CurThreadProcess();
 		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
 
 		while (!quePaticleEmit.empty())

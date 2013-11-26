@@ -17,7 +17,7 @@ namespace ma
 
 		virtual Texture*			CreateTexture(const char* pszPath = NULL);
 
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
 
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 
@@ -34,17 +34,17 @@ namespace ma
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		
 		//// Render
-		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0);
+		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
 
-		virtual void				PopRenderTarget(int index = 0);
+		virtual	Texture*			GetRenderTarget(int index = 0);
 
-		virtual void				PushDepthStencil(Texture* pTexture);
+		virtual void				SetDepthStencil(Texture* pTexture);
 
-		virtual void				PopDepthStencil();
+		virtual Texture*			GetDepthStencil();
 
-		virtual void				PushViewport(const Rectangle& rect);
+		virtual void				SetViewport(const Rectangle& rect);
 
-		virtual void				PopViewport();
+		virtual Rectangle			GetViewport();
 
 		virtual void				SetRenderState(const RenderState& state);
 
@@ -80,12 +80,7 @@ namespace ma
 		//FrameBufferHandle				m_hDefaultFrameBuffer;
 		FrameBufferHandle				m_hOffecreenFrameBuffer;	
 
-		std::stack<GLESTexture*> 		m_pRenderTarget;
-		std::stack<Rectangle>			m_viewport;
-
-
 		GLESDeviceContext*				m_pDeviceContext;	
-
 	};
 }
 

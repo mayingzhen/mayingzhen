@@ -16,7 +16,7 @@ namespace ma
 		/// Vido Buffer 
 		virtual Texture*			CreateTexture(const char* pszPath = NULL);
 
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
 
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 
@@ -32,17 +32,17 @@ namespace ma
 
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 
-		virtual	void				PushRenderTarget(Texture* pTexture,int index = 0);
+		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
 
-		virtual void				PopRenderTarget(int index = 0);
+		virtual	Texture*			GetRenderTarget(int index = 0);
 
-		virtual void				PushDepthStencil(Texture* pTexture);
+		virtual void				SetDepthStencil(Texture* pTexture);
 
-		virtual void				PopDepthStencil();
+		virtual Texture*			GetDepthStencil();
 
-		virtual void				PushViewport(const Rectangle& rect);
+		virtual void				SetViewport(const Rectangle& rect);
 
-		virtual void				PopViewport();
+		virtual Rectangle			GetViewport();
 
 		virtual void				SetRenderState(const RenderState& state);
 
@@ -73,20 +73,12 @@ namespace ma
 		LPDIRECT3DDEVICE9			GetDXDevive() {return m_pD3DDevice;}
 	
 	private:
-		void						InitD3D9(HWND hWnd);
-
-	private:
 		LPDIRECT3D9						m_pD3D;			 // The main D3D object
 		UINT							m_nAdapterToUse;
 		D3DPRESENT_PARAMETERS			m_d3dpp;         // Parameters for CreateDevice/Reset
 		LPDIRECT3DDEVICE9				m_pD3DDevice;
 		HWND							m_hWnd;
 
-		enum {MAX_RENDER_TARGET = 4};
-		std::stack<D3D9Texture*>		m_pDepthStencil;
-		std::stack<D3D9Texture*>		m_pRenderTarget[MAX_RENDER_TARGET];
-		std::stack<Rectangle>			m_viewport;
-	
 		RenderState						m_curState;
 	};
 

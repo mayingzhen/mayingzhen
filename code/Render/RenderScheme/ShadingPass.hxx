@@ -12,7 +12,9 @@ namespace ma
 		{
 			m_pShadingTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A16B16G16R16F);	
 
-			m_pHdrPostprocess = new HDRPostProcess(m_pShadingTex,NULL);
+			Texture* pOutTagget = GetRenderSystem()->GetRenderTarget(0);
+
+			m_pHdrPostprocess = new HDRPostProcess(m_pShadingTex,pOutTagget);
 			m_pHdrPostprocess->Init();
 		}
 	}
@@ -60,16 +62,17 @@ namespace ma
 	{
 		RENDER_PROFILE(ShadingPass);
 
+		Texture* pPreTarget = NULL;
 		if ( GetRenderSetting()->m_bIsHDRRending )
 		{
-			GetRenderSystem()->PushRenderTarget(m_pShadingTex);
+			pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadingTex);
 		}
 
 		RenderObjecList();
 
 		if ( GetRenderSetting()->m_bIsHDRRending )
 		{
-			GetRenderSystem()->PopRenderTargert();
+			GetRenderSystem()->SetRenderTarget(pPreTarget);
 
 			m_pHdrPostprocess->Render();
 		}

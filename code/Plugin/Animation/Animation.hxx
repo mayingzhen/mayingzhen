@@ -21,9 +21,12 @@ namespace ma
 
 	void Animation::SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
-		Vector3 vLocalScale;
-		m_arrScaleTrack[nTrackID].SampleFrame(fFrame,vLocalScale);
-		pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
+		profile_code();
+
+		//Vector3 vLocalScale;
+		//m_arrScaleTrack[nTrackID].SampleFrame(fFrame,vLocalScale);
+		//pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
+		pTSF->m_fScale = 1.0f;
 
 		//pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
 

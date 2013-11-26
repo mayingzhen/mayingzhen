@@ -110,7 +110,6 @@
 		6F6B39091830815A003846E6 /* RenderSystem.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderSystem.hxx; sourceTree = "<group>"; };
 		6F6B390A1830815A003846E6 /* RenderThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderThread.h; sourceTree = "<group>"; };
 		6F6B390B1830815A003846E6 /* RenderThread.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderThread.hxx; sourceTree = "<group>"; };
-		6F6B390C1830815A003846E6 /* RenderThread.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RenderThread.inl; sourceTree = "<group>"; };
 		6F6B390D1830815A003846E6 /* RTTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTTI.h; sourceTree = "<group>"; };
 		6F6B390E1830815A003846E6 /* stdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdAfx.cpp; sourceTree = "<group>"; };
 		6F6B390F1830815A003846E6 /* stdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdAfx.h; sourceTree = "<group>"; };
@@ -309,7 +308,6 @@
 				6F6B39091830815A003846E6 /* RenderSystem.hxx */,
 				6F6B390A1830815A003846E6 /* RenderThread.h */,
 				6F6B390B1830815A003846E6 /* RenderThread.hxx */,
-				6F6B390C1830815A003846E6 /* RenderThread.inl */,
 			);
 			path = RenderSystem;
 			sourceTree = "<group>";

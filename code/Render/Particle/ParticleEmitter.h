@@ -113,8 +113,6 @@ namespace ma
 
 		virtual	void		AddToRenderQueue();
 
-		virtual AABB		GetAABB();
-
 		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "ParticleEmitter");
@@ -136,7 +134,7 @@ namespace ma
 		//  Update
 		void				UpdateParticles();
 
-		void				emitOnce(unsigned int particleCount);
+		void				emitOnce(UINT particleCount);
 
 		// Generates Data
 		float				generateScalar(float min, float max);

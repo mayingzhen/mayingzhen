@@ -21,6 +21,8 @@ namespace ma
 
 		SceneNode*		GetSceneNode();
 
+		virtual AABB	GetAABBWS() {return AABB();}
+
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component");
 
 	protected:

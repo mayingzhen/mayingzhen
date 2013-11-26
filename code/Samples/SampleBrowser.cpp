@@ -6,7 +6,7 @@
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #endif
 
@@ -21,11 +21,11 @@
 #include "Samples/Render/SampleParticle.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 
-//#if PLATFORM_WIN != 1
+#if PLATFORM_WIN != 1
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"
-//#include "BulletPhysics/Module.h"
-//#endif
+#include "BulletPhysics/Module.h"
+#endif
 
 
 namespace ma
@@ -41,8 +41,8 @@ namespace ma
 		:Game(pGameName)
 	{
 #if PLATFORM_WIN == 1
-		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-		m_arrSamples["FbxImport"] = pSampleFbxImport;
+//		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
+//		m_arrSamples["FbxImport"] = pSampleFbxImport;
 
 		SampleMonoScript* pSampleScript = new SampleMonoScript();
 		m_arrSamples["CSharpScript"] = pSampleScript;
@@ -102,18 +102,17 @@ namespace ma
 
 	void SampleBrowser::InitModule()
 	{
-		CommonModuleInit();
 		EngineModuleInit();
 		RenderModuleInit();
 		UIModuleInit();
 		
-//#if PLATFORM_WIN == 1
-//		LoadPlugin();
-//#else
+#if PLATFORM_WIN == 1
+		LoadPlugin();
+#else
         AnimationModuleInit();
 		GLESRenderModuleInit();
-		//BtPhysicsModuleInit();
-//#endif
+		BtPhysicsModuleInit();
+#endif
 	}
 
 	
@@ -271,6 +270,8 @@ namespace ma
 		if (m_pCurSample)
 			m_pCurSample->Update();
 
+
+		
 	}
 
 	Camera*	SampleBrowser::GetCamera()
@@ -280,7 +281,16 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
+		profile_code();
+
 		GetRenderSystem()->BeginFrame();
+
+		if ( GetStringRender() )
+		{
+			char buffer[MAX_PATH];
+			sprintf(buffer, "%u", (UINT)(1.0f / GetTimer()->GetFrameDeltaTime()) );
+			GetStringRender()->DrawScreenString(buffer,500,1,Vector4(1,1,1,1));
+		}
 
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->DebugRender();
@@ -289,9 +299,10 @@ namespace ma
 			m_pCurSample->Render();
 
 		GetRenderSystem()->Render();
-		
+
 		GetRenderSystem()->EndFrame();
 	}
+
 
 	void SampleBrowser::controlEvent(Control* control, EventType evt)
 	{

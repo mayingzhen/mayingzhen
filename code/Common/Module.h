@@ -22,11 +22,6 @@
 #include "Common/Rectangle.h"
 #include "Common/IntersectionTests.h"
 
-// RTTI
-#include "Common/RTTI/Object.h"
-#include "Common/RTTI/RTTIClass.h"
-#include "Common/RTTI/ObjectFactory.h"
-
 // Utile
 #include "Common/Singleton.h"
 #include "Common/RefCountObject.h"
@@ -35,11 +30,6 @@
 #include "Common/TArray.h"
 
 #include "Common/WarningSuffix.h"
-
-
-COMMON_API void CommonModuleInit();
-
-COMMON_API void CommonModuleShutdown();
 
 
 

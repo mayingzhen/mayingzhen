@@ -26,7 +26,7 @@ namespace ma
 
 		virtual	void			UpdateTransform();
 
-		virtual AABB			GetAABB();
+		virtual AABB			GetAABBWS();
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "RenderMesh");
 

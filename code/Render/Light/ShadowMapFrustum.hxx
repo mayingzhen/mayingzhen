@@ -40,43 +40,43 @@ namespace ma
 
 	void ShadowMapFrustum::SetViewMatrix(const Matrix4x4& matView) 
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->CurThreadFill(); 
 		m_matViewProj[index].SetMatView(matView);
 	}
 
 	void ShadowMapFrustum::SetProjMatrix(const Matrix4x4& matPoj) 
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->CurThreadFill(); 
 		m_matViewProj[index].SetMatProj(matPoj);
 	}
 
 	const Matrix4x4& ShadowMapFrustum::GetViewMarix()  
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatView();
 	}
 
 	const Matrix4x4& ShadowMapFrustum::GetProjMatrix() 
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatProj();
 	}
 
 	const Matrix4x4& ShadowMapFrustum::GetViewProjMatrix()
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatViewProj();
 	}
 
 	void ShadowMapFrustum::ClearCasterList() 
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->GetThreadList(); 
 		m_arrCasterList[index].clear();
 	}
 
 	void ShadowMapFrustum::AddCaster(RenderObject* pRenderObj) 
 	{
-		int index = GetRenderThread()->GetThreadList(); 
+		int index = GetRenderSystem()->GetThreadList(); 
 		m_arrCasterList[index].push_back(pRenderObj);
 	}
 
@@ -98,13 +98,13 @@ namespace ma
 
 		Rectangle viewPort(0, 0, fShadowMapSize, fShadowMapSize);
 
-		GetRenderSystem()->PushViewPort(viewPort);
-		GetRenderSystem()->PushRenderTarget(m_pShdowDepth);
-		GetRenderSystem()->PushDepthStencil(m_pDepthStencil);
+		Rectangle preViewPort =	GetRenderSystem()->SetViewPort(viewPort);
+		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShdowDepth);
+		Texture* pPreDeptStencil = GetRenderSystem()->SetDepthStencil(m_pDepthStencil);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,Color(1,1,1,0), 1.0f, 0);
 
-		int index = GetRenderThread()->CurThreadProcess();
+		int index = GetRenderSystem()->CurThreadProcess();
 		GetRenderContext()->SetViewMatrix(m_matViewProj[index].GetMatView());
 		GetRenderContext()->SetProjMatrix(m_matViewProj[index].GetMatProj());
 		
@@ -125,9 +125,9 @@ namespace ma
 		}
 
 
-		GetRenderSystem()->PopDepthStencil();
-		GetRenderSystem()->PopRenderTargert();
-		GetRenderSystem()->PopViewPort();
+		GetRenderSystem()->SetDepthStencil(pPreDeptStencil);
+		GetRenderSystem()->SetRenderTarget(pPreTarget);
+		GetRenderSystem()->SetViewPort(preViewPort);
 	}
 
 }

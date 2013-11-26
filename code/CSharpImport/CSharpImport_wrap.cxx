@@ -562,232 +562,6 @@ SWIGEXPORT int SWIGSTDCALL CSharp_NULL_get() {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Object_StaticInitClass() {
-  ma::Object::StaticInitClass();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Object_StaticShutdownClass() {
-  ma::Object::StaticShutdownClass();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Object_StaticGetClass() {
-  void * jresult ;
-  ma::RTTIClass *result = 0 ;
-  
-  result = (ma::RTTIClass *)ma::Object::StaticGetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Object_GetClass(void * jarg1) {
-  void * jresult ;
-  ma::Object *arg1 = (ma::Object *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::Object *)jarg1; 
-  result = (ma::RTTIClass *)((ma::Object const *)arg1)->GetClass();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Object__SWIG_0(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  ma::Object *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  result = (ma::Object *)new ma::Object((char const *)arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Object__SWIG_1() {
-  void * jresult ;
-  ma::Object *result = 0 ;
-  
-  result = (ma::Object *)new ma::Object();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_Object(void * jarg1) {
-  ma::Object *arg1 = (ma::Object *) 0 ;
-  
-  arg1 = (ma::Object *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_Object_GetName(void * jarg1) {
-  char * jresult ;
-  ma::Object *arg1 = (ma::Object *) 0 ;
-  char *result = 0 ;
-  
-  arg1 = (ma::Object *)jarg1; 
-  result = (char *)(arg1)->GetName();
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Object_SetName(void * jarg1, char * jarg2) {
-  ma::Object *arg1 = (ma::Object *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  arg1 = (ma::Object *)jarg1; 
-  arg2 = (char *)jarg2; 
-  (arg1)->SetName((char const *)arg2);
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Object_IsA(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::Object *arg1 = (ma::Object *) 0 ;
-  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Object *)jarg1; 
-  arg2 = (ma::RTTIClass *)jarg2; 
-  result = (bool)((ma::Object const *)arg1)->IsA((ma::RTTIClass const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_RTTIClass(char * jarg1, void * jarg2) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  arg2 = (ma::RTTIClass *)jarg2; 
-  result = (ma::RTTIClass *)new ma::RTTIClass((char const *)arg1,(ma::RTTIClass const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_RTTIClass_GetName(void * jarg1) {
-  char * jresult ;
-  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
-  char *result = 0 ;
-  
-  arg1 = (ma::RTTIClass *)jarg1; 
-  result = (char *)((ma::RTTIClass const *)arg1)->GetName();
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_RTTIClass_GetParent(void * jarg1) {
-  void * jresult ;
-  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::RTTIClass *)jarg1; 
-  result = (ma::RTTIClass *)((ma::RTTIClass const *)arg1)->GetParent();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RTTIClass_IsA(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
-  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
-  bool result;
-  
-  arg1 = (ma::RTTIClass *)jarg1; 
-  arg2 = (ma::RTTIClass *)jarg2; 
-  result = (bool)((ma::RTTIClass const *)arg1)->IsA((ma::RTTIClass const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_RTTIClass(void * jarg1) {
-  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
-  
-  arg1 = (ma::RTTIClass *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_ClassManager() {
-  void * jresult ;
-  ma::ClassManager *result = 0 ;
-  
-  result = (ma::ClassManager *)new ma::ClassManager();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_ClassManager_Shutdown(void * jarg1) {
-  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
-  
-  arg1 = (ma::ClassManager *)jarg1; 
-  (arg1)->Shutdown();
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ClassManager_RegisterRTTIClass(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
-  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
-  bool result;
-  
-  arg1 = (ma::ClassManager *)jarg1; 
-  arg2 = (ma::RTTIClass *)jarg2; 
-  result = (bool)(arg1)->RegisterRTTIClass(arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ClassManager_UnRegisterRTTIClass(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
-  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
-  bool result;
-  
-  arg1 = (ma::ClassManager *)jarg1; 
-  arg2 = (ma::RTTIClass *)jarg2; 
-  result = (bool)(arg1)->UnRegisterRTTIClass(arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_ClassManager_GetClassByName(void * jarg1, char * jarg2) {
-  void * jresult ;
-  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::RTTIClass *result = 0 ;
-  
-  arg1 = (ma::ClassManager *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::RTTIClass *)(arg1)->GetClassByName((char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_ClassManager(void * jarg1) {
-  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
-  
-  arg1 = (ma::ClassManager *)jarg1; 
-  delete arg1;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_Viewport_X_set(void * jarg1, unsigned int jarg2) {
   Viewport *arg1 = (Viewport *) 0 ;
   Uint32 arg2 ;
@@ -5316,6 +5090,232 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Log__SWIG_1(char * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Object_StaticInitClass() {
+  ma::Object::StaticInitClass();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Object_StaticShutdownClass() {
+  ma::Object::StaticShutdownClass();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Object_StaticGetClass() {
+  void * jresult ;
+  ma::RTTIClass *result = 0 ;
+  
+  result = (ma::RTTIClass *)ma::Object::StaticGetClass();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Object_GetClass(void * jarg1) {
+  void * jresult ;
+  ma::Object *arg1 = (ma::Object *) 0 ;
+  ma::RTTIClass *result = 0 ;
+  
+  arg1 = (ma::Object *)jarg1; 
+  result = (ma::RTTIClass *)((ma::Object const *)arg1)->GetClass();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Object__SWIG_0(char * jarg1) {
+  void * jresult ;
+  char *arg1 = (char *) 0 ;
+  ma::Object *result = 0 ;
+  
+  arg1 = (char *)jarg1; 
+  result = (ma::Object *)new ma::Object((char const *)arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Object__SWIG_1() {
+  void * jresult ;
+  ma::Object *result = 0 ;
+  
+  result = (ma::Object *)new ma::Object();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Object(void * jarg1) {
+  ma::Object *arg1 = (ma::Object *) 0 ;
+  
+  arg1 = (ma::Object *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_Object_GetName(void * jarg1) {
+  char * jresult ;
+  ma::Object *arg1 = (ma::Object *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (ma::Object *)jarg1; 
+  result = (char *)(arg1)->GetName();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Object_SetName(void * jarg1, char * jarg2) {
+  ma::Object *arg1 = (ma::Object *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  arg1 = (ma::Object *)jarg1; 
+  arg2 = (char *)jarg2; 
+  (arg1)->SetName((char const *)arg2);
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Object_IsA(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::Object *arg1 = (ma::Object *) 0 ;
+  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Object *)jarg1; 
+  arg2 = (ma::RTTIClass *)jarg2; 
+  result = (bool)((ma::Object const *)arg1)->IsA((ma::RTTIClass const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_RTTIClass(char * jarg1, void * jarg2) {
+  void * jresult ;
+  char *arg1 = (char *) 0 ;
+  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
+  ma::RTTIClass *result = 0 ;
+  
+  arg1 = (char *)jarg1; 
+  arg2 = (ma::RTTIClass *)jarg2; 
+  result = (ma::RTTIClass *)new ma::RTTIClass((char const *)arg1,(ma::RTTIClass const *)arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_RTTIClass_GetName(void * jarg1) {
+  char * jresult ;
+  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (ma::RTTIClass *)jarg1; 
+  result = (char *)((ma::RTTIClass const *)arg1)->GetName();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_RTTIClass_GetParent(void * jarg1) {
+  void * jresult ;
+  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
+  ma::RTTIClass *result = 0 ;
+  
+  arg1 = (ma::RTTIClass *)jarg1; 
+  result = (ma::RTTIClass *)((ma::RTTIClass const *)arg1)->GetParent();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_RTTIClass_IsA(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
+  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
+  bool result;
+  
+  arg1 = (ma::RTTIClass *)jarg1; 
+  arg2 = (ma::RTTIClass *)jarg2; 
+  result = (bool)((ma::RTTIClass const *)arg1)->IsA((ma::RTTIClass const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_RTTIClass(void * jarg1) {
+  ma::RTTIClass *arg1 = (ma::RTTIClass *) 0 ;
+  
+  arg1 = (ma::RTTIClass *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ClassManager() {
+  void * jresult ;
+  ma::ClassManager *result = 0 ;
+  
+  result = (ma::ClassManager *)new ma::ClassManager();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ClassManager_Shutdown(void * jarg1) {
+  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
+  
+  arg1 = (ma::ClassManager *)jarg1; 
+  (arg1)->Shutdown();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ClassManager_RegisterRTTIClass(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
+  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
+  bool result;
+  
+  arg1 = (ma::ClassManager *)jarg1; 
+  arg2 = (ma::RTTIClass *)jarg2; 
+  result = (bool)(arg1)->RegisterRTTIClass(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_ClassManager_UnRegisterRTTIClass(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
+  ma::RTTIClass *arg2 = (ma::RTTIClass *) 0 ;
+  bool result;
+  
+  arg1 = (ma::ClassManager *)jarg1; 
+  arg2 = (ma::RTTIClass *)jarg2; 
+  result = (bool)(arg1)->UnRegisterRTTIClass(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_ClassManager_GetClassByName(void * jarg1, char * jarg2) {
+  void * jresult ;
+  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  ma::RTTIClass *result = 0 ;
+  
+  arg1 = (ma::ClassManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (ma::RTTIClass *)(arg1)->GetClassByName((char const *)arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ClassManager(void * jarg1) {
+  ma::ClassManager *arg1 = (ma::ClassManager *) 0 ;
+  
+  arg1 = (ma::ClassManager *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_Input() {
   void * jresult ;
   ma::Input *result = 0 ;
@@ -8435,30 +8435,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_SetFrame(void * jarg1, float
   arg1 = (ma::IAnimationObject *)jarg1; 
   arg2 = (float)jarg2; 
   (arg1)->SetFrame(arg2);
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixNumber(void * jarg1) {
-  void * jresult ;
-  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
-  UINT result;
-  
-  arg1 = (ma::IAnimationObject *)jarg1; 
-  result = (arg1)->GetSkinMatrixNumber();
-  jresult = new UINT((const UINT &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetSkinMatrixArray(void * jarg1) {
-  void * jresult ;
-  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
-  Matrix4x4 *result = 0 ;
-  
-  arg1 = (ma::IAnimationObject *)jarg1; 
-  result = (Matrix4x4 *)(arg1)->GetSkinMatrixArray();
-  jresult = (void *)result; 
-  return jresult;
 }
 
 

@@ -10,6 +10,12 @@ namespace ma
 {
 	void EngineRTTIInit()
 	{
+		// RTII
+		ClassManager* pClsMan = new ClassManager();
+		ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
+		Object::StaticInitClass();
+
+
 		IScriptSystemRTTIInit();
 
 		IPhysicsSystemRTTIInit();
@@ -28,6 +34,12 @@ namespace ma
 		IScriptSystemRTTIShoutdown();
 
 		IAnimationSystemRTTIShoutdown();
+
+		Object::StaticShutdownClass();
+		ObjectFactoryManager::GetInstance().Shutdown();
+		delete ObjectFactoryManager::GetInstancePtr();
+		ClassManager::GetInstance().Shutdown();
+		delete ClassManager::GetInstancePtr();
 	}
 }
 

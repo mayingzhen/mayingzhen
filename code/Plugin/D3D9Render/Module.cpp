@@ -19,7 +19,7 @@ void D3D9RenderModuleInit()
 	
 	ma::GetRenderSetting()->m_bDefferLight = true;
 	ma::GetRenderSetting()->m_bShadow = true; 
-	ma::GetRenderSetting()->m_bIsHDRRending = true;
+	ma::GetRenderSetting()->m_bIsHDRRending = false;
 
 	ma::DefferredRender* pDefferRender = new ma::DefferredRender();
 	ma::SetRenderScheme(pDefferRender);
