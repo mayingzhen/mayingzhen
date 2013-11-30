@@ -237,14 +237,6 @@
 			Name="Resource"
 			>
 			<File
-				RelativePath="..\..\code\Engine\Resource\Bundle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\Bundle.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Resource\DataThread.h"
 				>
 			</File>

@@ -234,14 +234,6 @@
 			Name="Util"
 			>
 			<File
-				RelativePath="..\..\code\Render\Util\Font.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\Util\Font.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Render\Util\LineRender.h"
 				>
 			</File>
