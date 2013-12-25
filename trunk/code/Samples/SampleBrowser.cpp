@@ -254,6 +254,9 @@ namespace ma
 
 	void SampleBrowser::Update()
 	{
+		Log("................. Update() ..................");
+
+
 		if (GetInput())
 			GetInput()->Capture();
 
@@ -281,6 +284,8 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
+		Log("................. Render() ..................");
+
 		profile_code();
 
 		GetRenderSystem()->BeginFrame();

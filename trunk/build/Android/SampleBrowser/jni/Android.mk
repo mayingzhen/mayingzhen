@@ -11,7 +11,7 @@ LOCAL_MODULE := SampleBrowser
 				
 
 LOCAL_SRC_FILES := \
-		../../../../code/Samples/main-windows.cpp \
+		../../../../code/Samples/main-Android.cpp \
 		../../../../code/Samples/SampleBrowser.cpp \
 		../../../../code/Samples/stdafx.cpp\
 

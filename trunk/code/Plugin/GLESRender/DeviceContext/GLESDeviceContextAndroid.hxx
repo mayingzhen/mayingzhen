@@ -1,5 +1,7 @@
 #include "GLESDeviceContextAndroid.h"
 
+#include <android/log.h>
+
 namespace ma
 {
 	static EGLDisplay	__eglDisplay = EGL_NO_DISPLAY;
@@ -8,7 +10,13 @@ namespace ma
 	static EGLConfig	__eglConfig = 0;
 	static int			__orientationAngle = 90;
 
-	extern void print(const char* format, ...)
+	static const char* __glExtensions;
+
+	bool g_bHardwareETCSupported = false;
+	bool g_bHardwareATCSupported = false;
+	bool g_bHardwareDDSSupported = false;
+
+	void print(const char* format, ...)
 	{
 		ASSERT(format);
 		va_list argptr;
@@ -88,13 +96,13 @@ namespace ma
 			if (__eglDisplay == EGL_NO_DISPLAY)
 			{
 				checkErrorEGL("eglGetDisplay");
-				return false;
+				return ;
 			}
 
 			if (eglInitialize(__eglDisplay, NULL, NULL) != EGL_TRUE)
 			{
 				checkErrorEGL("eglInitialize");
-				return false;
+				return ;
 			}
 
 			// Try both 24 and 16-bit depth sizes since some hardware (i.e. Tegra) does not support 24-bit depth
@@ -143,14 +151,14 @@ namespace ma
 			if (!validConfig)
 			{
 				checkErrorEGL("eglChooseConfig");
-				return false;
+				return ;
 			}
 
 			__eglContext = eglCreateContext(__eglDisplay, __eglConfig, EGL_NO_CONTEXT, eglContextAttrs);
 			if (__eglContext == EGL_NO_CONTEXT)
 			{
 				checkErrorEGL("eglCreateContext");
-				return false;
+				return ;
 			}
 		}
 
@@ -160,19 +168,19 @@ namespace ma
 		// ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID.
 		EGLint format;
 		eglGetConfigAttrib(__eglDisplay, __eglConfig, EGL_NATIVE_VISUAL_ID, &format);
-		ANativeWindow_setBuffersGeometry(wndHandle, 0, 0, format);
+		ANativeWindow_setBuffersGeometry((ANativeWindow*)wndHandle, 0, 0, format);
 
-		__eglSurface = eglCreateWindowSurface(__eglDisplay, __eglConfig, wndHandle, eglSurfaceAttrs);
+		__eglSurface = eglCreateWindowSurface(__eglDisplay, __eglConfig, (ANativeWindow*)wndHandle, eglSurfaceAttrs);
 		if (__eglSurface == EGL_NO_SURFACE)
 		{
 			checkErrorEGL("eglCreateWindowSurface");
-			return false;
+			return ;
 		}
 
 		if (eglMakeCurrent(__eglDisplay, __eglSurface, __eglSurface, __eglContext) != EGL_TRUE)
 		{
 			checkErrorEGL("eglMakeCurrent");
-			return false;
+			return ;
 		}
 
 		//eglQuerySurface(__eglDisplay, __eglSurface, EGL_WIDTH, &__width);
@@ -192,10 +200,10 @@ namespace ma
 		if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
 		{
 			// Disable VAO extension for now.
-			glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-			glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArrays");
-			glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-			glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
+			//glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+			//glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArrays");
+			//glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+			//glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
 		}
 
 		char szLog[151] = "";
@@ -208,7 +216,7 @@ namespace ma
 			nCurLen += 150;
 		}
 
-		return true;
+		return ;
 	}
 
 	void GLESDeviceContext::SwapBuffers()
@@ -218,41 +226,4 @@ namespace ma
 	}
 
 
-// 	static void destroyEGLSurface()
-// 	{
-// 		if (__eglDisplay != EGL_NO_DISPLAY)
-// 		{
-// 			eglMakeCurrent(__eglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-// 		}
-// 
-// 		if (__eglSurface != EGL_NO_SURFACE)
-// 		{
-// 			eglDestroySurface(__eglDisplay, __eglSurface);
-// 			__eglSurface = EGL_NO_SURFACE;
-// 		}
-// 	}
-
-// 	static void destroyEGLMain()
-// 	{
-// 		destroyEGLSurface();
-// 
-// 		if (__eglContext != EGL_NO_CONTEXT)
-// 		{
-// 			eglDestroyContext(__eglDisplay, __eglContext);
-// 			__eglContext = EGL_NO_CONTEXT;
-// 		}
-// 
-// 		if (__eglDisplay != EGL_NO_DISPLAY)
-// 		{
-// 			eglTerminate(__eglDisplay);
-// 			__eglDisplay = EGL_NO_DISPLAY;
-// 		}
-// 	}
-
-
-
-
-
 }
-
-#endif

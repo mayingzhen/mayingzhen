@@ -635,7 +635,8 @@ namespace ma
 
 	void ParticleEmitter::AddToRenderQueue() 
 	{
-		GetParticleSystem()->AddParticleEmitter(this);
+		if ( GetParticleSystem() )
+			GetParticleSystem()->AddParticleEmitter(this);
 
 		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Trans,this);
 	}

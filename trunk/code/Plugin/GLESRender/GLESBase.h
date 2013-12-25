@@ -17,12 +17,14 @@
 	#define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
 	#define glClearDepth glClearDepthf
 	#define OPENGL_ES
+	#define  glPushGroupMarkerEXT(x,y)
+	#define  glPopGroupMarkerEXT()
 #elif WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#define GLEW_STATIC
 	#include <GL/glew.h>
 	#define USE_VAO
-	#define  glPushGroupMarkerEXT()
+	#define  glPushGroupMarkerEXT(x,y)
 	#define  glPopGroupMarkerEXT()
 #elif __linux__
 	#define GLEW_STATIC
