@@ -141,7 +141,8 @@ namespace ma
 
 		GetUISystem()->OnFlushFrame();
 
-		GetParticleSystem()->OnFlushFrame();
+		if ( GetParticleSystem() )
+			GetParticleSystem()->OnFlushFrame();
 	}
 
 

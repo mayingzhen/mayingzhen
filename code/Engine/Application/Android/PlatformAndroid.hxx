@@ -24,9 +24,7 @@ TouchPointerData __pointer1;
 namespace ma
 {
 
-	bool g_bHardwareETCSupported = false;
-	bool g_bHardwareATCSupported = false;
-	bool g_bHardwareDDSSupported = false;
+
 
 	static Platform*	__platformIns = NULL;
 	static bool			_bRunning = false;
@@ -37,7 +35,7 @@ namespace ma
 	static bool __multiTouch = false;
 
 	// OpenGL VAO functions.
-	static const char* __glExtensions;
+	
 	PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = NULL;
 	PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = NULL;
 	PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
@@ -119,14 +117,14 @@ namespace ma
 
 	}
 
-	extern void print(const char* format, ...)
-	{
-		ASSERT(format);
-		va_list argptr;
-		va_start(argptr, format);
-		__android_log_vprint(ANDROID_LOG_INFO, "native-activity", format, argptr);
-		va_end(argptr);
-	}
+// 	extern void print(const char* format, ...)
+// 	{
+// 		ASSERT(format);
+// 		va_list argptr;
+// 		va_start(argptr, format);
+// 		__android_log_vprint(ANDROID_LOG_INFO, "native-activity", format, argptr);
+// 		va_end(argptr);
+// 	}
 
 
 	void Sleep(unsigned nTime)
@@ -173,6 +171,7 @@ namespace ma
 	{
 		// Get the android application's activity.
 		ANativeActivity* activity = get_app()->activity;
+		ASSERT(activity);
 		JavaVM* jvm = activity->vm;
 		JNIEnv* env = NULL;
 		jvm->GetEnv((void **)&env, JNI_VERSION_1_6);
@@ -216,7 +215,7 @@ namespace ma
 			} while ((NULL == m_windId) && (ident >= 0));
 		}
 
-		Sleep(4);
+		Sleep(3);
 			
 
 		Game::GetInstance().Init();
@@ -274,10 +273,6 @@ namespace ma
 			{
 				Game::GetInstance().Render();
 			}
-
-			int rc = eglSwapBuffers(__eglDisplay, __eglSurface);
-			ASSERT(rc == EGL_TRUE);
-
 		}
 	}
 

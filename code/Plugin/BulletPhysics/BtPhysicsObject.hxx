@@ -233,7 +233,12 @@ namespace ma
 		if (pSceneNode == NULL)
 			return;
 
-		pSceneNode->SetTransform(GetTransformWS());
+		//pSceneNode->SetTransform(GetTransformWS());
+		NodeTransform tsfPhysics = GetTransformWS();
+		NodeTransform tsfScene = pSceneNode->GetTransform();
+		tsfScene.m_qRot = tsfPhysics.m_qRot;
+		tsfScene.m_vPos = tsfPhysics.m_vPos;
+		pSceneNode->SetTransform(tsfScene);
 	}
 
 	void BulletPhysicsObject::SetTransformWS(const NodeTransform& tsfWS)

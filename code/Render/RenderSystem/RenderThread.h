@@ -215,6 +215,8 @@ namespace ma
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
+#else
+			::usleep(0);
 #endif
 		}
 	}

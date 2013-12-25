@@ -7,7 +7,7 @@ void _OutputDebugString(const char* buf)
 	if (buf == NULL)
 		return;
        
-	__android_log_write(ANDROID_LOG_DEBUG,"",buf);
+	__android_log_print(ANDROID_LOG_INFO,"MaEngine",buf);
 	
 }
 

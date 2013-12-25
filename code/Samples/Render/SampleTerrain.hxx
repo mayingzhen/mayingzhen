@@ -47,25 +47,31 @@ namespace ma
 			for (UINT j = 0; j < 2; ++j)
 			{
 				{
-					GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
-
-					RenderMesh* pMeshComp = pCharMagic->CreateComponent<RenderMesh>();
-					pMeshComp->Load("magician/Body.skn","magician/body.mat");
-
-					IAnimationObject* pAnimationObject = pCharMagic->CreateComponent<IAnimationObject>();
-					pAnimationObject->Load("magician/body.aniset","magician/body.ske");
-					pAnimationObject->PlayAnimation("Mag602");
-
-					Vector3 vCharPos(500 + i * 500,0,300 + j * 500);
-					//vPos.y = GetTerrain()->GetHeight(vPos.x,vPos.z);
-					pCharMagic->GetSceneNode()->Translate(vCharPos);
+// 					GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+// 
+// 					RenderMesh* pMeshComp = pCharMagic->CreateComponent<RenderMesh>();
+// 					pMeshComp->Load("magician/Body.skn","magician/body.mat");
+// 
+// 					IAnimationObject* pAnimationObject = pCharMagic->CreateComponent<IAnimationObject>();
+// 					pAnimationObject->Load("magician/body.aniset","magician/body.ske");
+// 					pAnimationObject->PlayAnimation("Mag602");
+// 
+// 					Vector3 vCharPos(500 + i * 500,0,300 + j * 500);
+// 					//vPos.y = GetTerrain()->GetHeight(vPos.x,vPos.z);
+// 					pCharMagic->GetSceneNode()->Translate(vCharPos);
 
 					GameObject* pBox = GetEntitySystem()->CreateGameObject("Box");
 					RenderMesh* pBoxMesh = pBox->CreateComponent<RenderMesh>();
 					pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-					Vector3 vBoxPos(500 + i * 500,0,500 + j * 500);
+					Vector3 vBoxPos(500 + i * 500,200,500 + j * 500);
 					pBox->GetSceneNode()->Translate(vBoxPos);
 					pBox->GetSceneNode()->Scale(60.0f);
+
+					IBoxCollisionShape* pBoxCollisionComp = pBox->CreateComponent<IBoxCollisionShape>();
+					pBoxCollisionComp->SetSize(Vector3(5,5,5));
+
+					IRigidBody* pRigidBody = pBox->CreateComponent<IRigidBody>();
+					pRigidBody->SetUseGravity(true);
 				}
 
 

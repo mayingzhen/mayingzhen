@@ -19,8 +19,10 @@ namespace ma
 		virtual void Update();
 
 	public:
-		CMyEvent*	m_pBeginEvent;
-		CMyEvent*	m_pEndEvent;
+		CMyEvent*		m_pBeginEvent;
+	
+		volatile bool	m_bEnd;
+	
 	};
 }
 

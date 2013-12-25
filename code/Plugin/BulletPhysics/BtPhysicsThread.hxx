@@ -6,21 +6,21 @@ namespace ma
 	{
 		m_pBeginEvent->Wait();
 
+		m_bEnd = false;
+
 		GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
 
-		m_pEndEvent->Signal();
+		m_bEnd = true;
 	}
 
 	PhysicsThread::PhysicsThread()
 	{
 		m_pBeginEvent = new CMyEvent();
-		m_pEndEvent = new CMyEvent();
 	}
 
 	PhysicsThread::~PhysicsThread()
 	{
         SAFE_DELETE(m_pBeginEvent);
-        SAFE_DELETE(m_pEndEvent);
 	}
 
 	void PhysicsThread::BeginUpdate()
@@ -30,6 +30,18 @@ namespace ma
 
 	void PhysicsThread::EndUpdate()
 	{
-		m_pEndEvent->Wait();
+		while(!m_bEnd)
+		{
+#ifdef WIN32
+			MSG msg;
+			while (PeekMessage(&msg, Platform::GetInstance().GetWindId(), 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+#else
+			::usleep(1);
+#endif
+		}
 	}
 }
