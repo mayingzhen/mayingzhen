@@ -22,7 +22,7 @@ namespace ma
 
 		virtual bool VisiteComponent(Component* pComp)
 		{
-			RenderObject* pRenderObj = SafeCast<RenderObject>(pComp);
+			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
 			if (pRenderObj)
 			{
 				if ( !m_pCamera->IsCull(pRenderObj->GetAABBWS()) )
@@ -41,7 +41,7 @@ namespace ma
 		{
 			for (UINT i = 0; i < m_arrRenderObject.size(); ++i)
 			{
-				m_arrRenderObject[i]->UpdateTransform();
+				//m_arrRenderObject[i]->UpdateTransform();
 				m_arrRenderObject[i]->AddToRenderQueue();
 			}
 		}
@@ -50,7 +50,7 @@ namespace ma
 	private:
 		Camera*						m_pCamera;
 
-		std::vector<RenderObject*>	m_arrRenderObject;
+		std::vector<RenderComponent*>	m_arrRenderObject;
 
 		AABB						m_aabb;
 	};

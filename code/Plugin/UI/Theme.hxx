@@ -60,7 +60,7 @@ Theme* Theme::create(const char* url)
         if (t->_url == url)
         {
             // Found a match.
-            t->IncReference();
+            t->ref();
 
             return t;
         }
@@ -283,7 +283,7 @@ Theme* Theme::create(const char* url)
                     {
                         font = normal->getFont();
                         if (font)
-                            font->IncReference();
+                            font->ref();
                     }
 
                     unsigned int fontSize;
@@ -435,13 +435,13 @@ Theme* Theme::create(const char* url)
             if (!focus)
             {
                 focus = normal;
-                focus->IncReference();
+                focus->ref();
             }
 
             if (!disabled)
             {
                 disabled = normal;
-                disabled->IncReference();
+                disabled->ref();
             }
 
             // Note: The hover and active states have their overlay left NULL if unspecified.
@@ -486,8 +486,8 @@ Theme::Style* Theme::getEmptyStyle()
     if (!emptyStyle)
     {
         Theme::Style::Overlay* overlay = Theme::Style::Overlay::create();
-        overlay->IncReference();
-        overlay->IncReference();
+        overlay->ref();
+        overlay->ref();
         emptyStyle = new Theme::Style(const_cast<Theme*>(this), "EMPTY_STYLE", 1.0f / _texture->getWidth(), 1.0f / _texture->getHeight(),
             Theme::Margin::empty(), Theme::Border::empty(), overlay, overlay, NULL, overlay, NULL);
 

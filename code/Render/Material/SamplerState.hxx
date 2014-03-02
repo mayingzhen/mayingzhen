@@ -53,8 +53,8 @@ namespace ma
 			sl.Serialize(sTexurePath,"Texture");
 		}
 
-		//sl.Serialize(m_eFilter);
-		//sl.Serialize(m_eWrap);
+		//sl.Serialize(m_eFilter,"Filter");
+		//sl.Serialize(m_eWrap,"Wrap");
 
 		sl.EndSection();
 	}

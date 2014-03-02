@@ -15,7 +15,7 @@ namespace ma
 			if (pUniform == NULL)
 				continue;
 
-			MaterialParameter* pParam = /*m_pEffect->*/AddParameter( pUniform->m_name.c_str() );
+			MaterialParameter* pParam = AddParameter( pUniform->m_name.c_str() );
 			GetParameterManager()->UseDefaultBing(pParam);
 		}
 	}
@@ -54,7 +54,7 @@ namespace ma
 		ASSERT(pszName);
 		for (UINT i = 0; i < m_parameters.size(); ++i)
 		{
-			if (m_parameters[i] && strcmp(m_parameters[i]->getName(), pszName) == 0)
+			if (m_parameters[i] && strcmp(m_parameters[i]->GetName(), pszName) == 0)
 			{
 				return m_parameters[i];
 			}

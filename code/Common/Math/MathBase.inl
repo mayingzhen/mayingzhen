@@ -860,112 +860,112 @@ Quaternion::operator != ( const Quaternion& q ) const
 // Plane
 //--------------------------
 
-inline
-Plane::Plane( const float* pf )
-{
-#ifdef _DEBUG
-	if(!pf)
-		return;
-#endif
-
-	a = pf[0];
-	b = pf[1];
-	c = pf[2];
-	d = pf[3];
-}
-
-inline
-Plane::Plane( float fa, float fb, float fc, float fd )
-{
-	a = fa;
-	b = fb;
-	c = fc;
-	d = fd;
-}
-
-
-// casting
-inline
-Plane::operator float* ()
-{
-	return (float *) &a;
-}
-
-inline
-Plane::operator const float* () const
-{
-	return (const float *) &a;
-}
-
-
-// assignment operators
-inline Plane&
-Plane::operator *= ( float f )
-{
-	a *= f;
-	b *= f;
-	c *= f;
-	d *= f;
-	return *this;
-}
-
-inline Plane&
-Plane::operator /= ( float f )
-{
-	float fInv = 1.0f / f;
-	a *= fInv;
-	b *= fInv;
-	c *= fInv;
-	d *= fInv;
-	return *this;
-}
-
-
-// unary operators
-inline Plane
-Plane::operator + () const
-{
-	return *this;
-}
-
-inline Plane
-Plane::operator - () const
-{
-	return Plane(-a, -b, -c, -d);
-}
-
-
-// binary operators
-inline Plane
-Plane::operator * ( float f ) const
-{
-	return Plane(a * f, b * f, c * f, d * f);
-}
-
-inline Plane
-Plane::operator / ( float f ) const
-{
-	float fInv = 1.0f / f;
-	return Plane(a * fInv, b * fInv, c * fInv, d * fInv);
-}
-
-inline Plane
-operator * (float f, const Plane& p )
-{
-	return Plane(f * p.a, f * p.b, f * p.c, f * p.d);
-}
-
-inline bool
-Plane::operator == ( const Plane& p ) const
-{
-	return a == p.a && b == p.b && c == p.c && d == p.d;
-}
-
-inline bool
-Plane::operator != ( const Plane& p ) const
-{
-	return a != p.a || b != p.b || c != p.c || d != p.d;
-}
+// inline
+// Plane::Plane( const float* pf )
+// {
+// #ifdef _DEBUG
+// 	if(!pf)
+// 		return;
+// #endif
+// 
+// 	a = pf[0];
+// 	b = pf[1];
+// 	c = pf[2];
+// 	d = pf[3];
+// }
+// 
+// inline
+// Plane::Plane( float fa, float fb, float fc, float fd )
+// {
+// 	a = fa;
+// 	b = fb;
+// 	c = fc;
+// 	d = fd;
+// }
+// 
+// 
+// // casting
+// inline
+// Plane::operator float* ()
+// {
+// 	return (float *) &a;
+// }
+// 
+// inline
+// Plane::operator const float* () const
+// {
+// 	return (const float *) &a;
+// }
+// 
+// 
+// // assignment operators
+// inline Plane&
+// Plane::operator *= ( float f )
+// {
+// 	a *= f;
+// 	b *= f;
+// 	c *= f;
+// 	d *= f;
+// 	return *this;
+// }
+// 
+// inline Plane&
+// Plane::operator /= ( float f )
+// {
+// 	float fInv = 1.0f / f;
+// 	a *= fInv;
+// 	b *= fInv;
+// 	c *= fInv;
+// 	d *= fInv;
+// 	return *this;
+// }
+// 
+// 
+// // unary operators
+// inline Plane
+// Plane::operator + () const
+// {
+// 	return *this;
+// }
+// 
+// inline Plane
+// Plane::operator - () const
+// {
+// 	return Plane(-a, -b, -c, -d);
+// }
+// 
+// 
+// // binary operators
+// inline Plane
+// Plane::operator * ( float f ) const
+// {
+// 	return Plane(a * f, b * f, c * f, d * f);
+// }
+// 
+// inline Plane
+// Plane::operator / ( float f ) const
+// {
+// 	float fInv = 1.0f / f;
+// 	return Plane(a * fInv, b * fInv, c * fInv, d * fInv);
+// }
+// 
+// inline Plane
+// operator * (float f, const Plane& p )
+// {
+// 	return Plane(f * p.a, f * p.b, f * p.c, f * p.d);
+// }
+// 
+// inline bool
+// Plane::operator == ( const Plane& p ) const
+// {
+// 	return a == p.a && b == p.b && c == p.c && d == p.d;
+// }
+// 
+// inline bool
+// Plane::operator != ( const Plane& p ) const
+// {
+// 	return a != p.a || b != p.b || c != p.c || d != p.d;
+// }
 
 
 
@@ -1328,15 +1328,25 @@ inline float Vec3Length
 #endif
 }
 
-inline float Vec3LengthSq
-( const Vector3 *pV )
+inline float Vec3LengthSq(const Vector3 *pV)
 {
 #ifdef _DEBUG
-	if(!pV)
+ 	if(!pV)
 		return 0.0f;
-#endif
+ #endif
 
 	return pV->x * pV->x + pV->y * pV->y + pV->z * pV->z;
+}
+
+
+inline float Vec3LengthSq( const Vector3& V )
+{
+// #ifdef _DEBUG
+// 	if(!pV)
+// 		return 0.0f;
+// #endif
+
+	return V.x * V.x + V.y * V.y + V.z * V.z;
 }
 
 inline float Vec3Dot( const Vector3 *pV1, const Vector3 *pV2 )
@@ -1908,53 +1918,53 @@ inline void  EulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const Vector3* pAxis)
 // Plane
 //--------------------------
 
-inline float PlaneDot
-( const Plane *pP, const Vector4 *pV)
-{
-#ifdef _DEBUG
-	if(!pP || !pV)
-		return 0.0f;
-#endif
-
-	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d * pV->w;
-}
-
-inline float PlaneDotCoord
-( const Plane *pP, const Vector3 *pV)
-{
-#ifdef _DEBUG
-	if(!pP || !pV)
-		return 0.0f;
-#endif
-
-	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d;
-}
-
-inline float PlaneDotNormal
-( const Plane *pP, const Vector3 *pV)
-{
-#ifdef _DEBUG
-	if(!pP || !pV)
-		return 0.0f;
-#endif
-
-	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z;
-}
-
-inline Plane* PlaneScale
-(Plane *pOut, const Plane *pP, float s)
-{
-#ifdef _DEBUG
-	if(!pOut || !pP)
-		return NULL;
-#endif
-
-	pOut->a = pP->a * s;
-	pOut->b = pP->b * s;
-	pOut->c = pP->c * s;
-	pOut->d = pP->d * s;
-	return pOut;
-}
+// inline float PlaneDot
+// ( const Plane *pP, const Vector4 *pV)
+// {
+// #ifdef _DEBUG
+// 	if(!pP || !pV)
+// 		return 0.0f;
+// #endif
+// 
+// 	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d * pV->w;
+// }
+// 
+// inline float PlaneDotCoord
+// ( const Plane *pP, const Vector3 *pV)
+// {
+// #ifdef _DEBUG
+// 	if(!pP || !pV)
+// 		return 0.0f;
+// #endif
+// 
+// 	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z + pP->d;
+// }
+// 
+// inline float PlaneDotNormal
+// ( const Plane *pP, const Vector3 *pV)
+// {
+// #ifdef _DEBUG
+// 	if(!pP || !pV)
+// 		return 0.0f;
+// #endif
+// 
+// 	return pP->a * pV->x + pP->b * pV->y + pP->c * pV->z;
+// }
+// 
+// inline Plane* PlaneScale
+// (Plane *pOut, const Plane *pP, float s)
+// {
+// #ifdef _DEBUG
+// 	if(!pOut || !pP)
+// 		return NULL;
+// #endif
+// 
+// 	pOut->a = pP->a * s;
+// 	pOut->b = pP->b * s;
+// 	pOut->c = pP->c * s;
+// 	pOut->d = pP->d * s;
+// 	return pOut;
+// }
 
 
 //--------------------------

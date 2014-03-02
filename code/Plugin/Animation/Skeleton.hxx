@@ -20,48 +20,6 @@ namespace ma
 	}
 
 
-// 	bool Skeleton::InitWithData(const SkeletonData* pSkelData)
-// 	{
-// 		if (pSkelData == NULL)
-// 			return false;
-// 
-// 		//m_pSkeleonData = pSkelData;
-// 
-// 		UINT nBoneNum = pSkelData->m_nBoneNum;
-// 
-// 		std::vector<NodeTransform> arrNodeOS;
-// 		arrNodeOS.resize(nBoneNum);
-// 		m_arrBoneName.resize(nBoneNum);
-// 		m_arrParentInd.resize(nBoneNum);
-// 		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
-// 		{
-// 			TransformSetIdentity(&arrNodeOS[nBoneCnt]);
-// 
-// 			arrNodeOS[nBoneCnt].m_vPos = pSkelData->m_arrPosOS[nBoneCnt];
-// 			//arrNodeOS[nBoneCnt].m_qRot = pSkelData->m_arrRotOS[nBoneCnt];
-// 			QuaternionNormalize(&arrNodeOS[nBoneCnt].m_qRot,&pSkelData->m_arrRotOS[nBoneCnt]);
-// 			arrNodeOS[nBoneCnt].m_fScale = 1.0f;//pSkelData->m_arrScaleOS[nBoneCnt].x;
-// 			m_arrBoneName[nBoneCnt] = pSkelData->m_arrBoneName[nBoneCnt];
-// 			m_arrParentInd[nBoneCnt] = pSkelData->m_arrParentIndice[nBoneCnt];
-// 		}
-// 
-// 		m_refPose->InitObjectSpace(arrNodeOS, m_arrParentInd);
-// 
-// 		m_arrRefPosePS.resize(nBoneNum);
-// 		m_arrRefPoseOS.resize(nBoneNum);
-// 		m_arrRefPoseOSInv.resize(nBoneNum);
-// 
-// 		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNum; ++uBoneCunt)
-// 		{
-// 			MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
-// 			MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
-// 			MatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
-// 		}
-// 
-// 		return true;
-// 	}
-
-
 	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
 	{
 		if (pszBoneName == NULL)

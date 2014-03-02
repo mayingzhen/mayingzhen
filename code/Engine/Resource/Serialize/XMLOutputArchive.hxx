@@ -24,6 +24,10 @@ namespace ma
 	bool XMLOutputArchive::Open(const char* pszFilename)
 	{
 		m_strFilename = pszFilename;
+
+		m_pRootElem = new TiXmlElement("Root");	
+		m_pCurElem = m_pRootElem;
+
 		return true;
 	}
 
@@ -37,6 +41,7 @@ namespace ma
 
 	void XMLOutputArchive::BeginSection(const char* pszLable)
 	{
+		ASSERT(m_pRootElem);
 		if (m_pRootElem == NULL)
 		{
 			m_pRootElem = new TiXmlElement(pszLable);
@@ -65,86 +70,86 @@ namespace ma
 		//TiXmlText text(StringConverter::ToString(val).c_str());
 		//elem.InsertEndChild(text);
 		//m_pParentElem->InsertEndChild(elem);
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(char& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(short& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(unsigned short& val, const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(unsigned int& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(int& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(unsigned long &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(long &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(Uint64& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(float& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(unsigned char& val, const char* pszLabel)
 	{
-		BeginSection(pszLabel);
+		//BeginSection(pszLabel);
 		m_pCurElem->SetAttribute(pszLabel,StringConverter::ToString(val).c_str());
-		EndSection();
+		//EndSection();
 	}
 
 	void XMLOutputArchive::Serialize(std::string& val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		m_pCurElem->SetAttribute(pszLable,val.c_str());
-		EndSection();
+		//EndSection();
 	}
 }
 

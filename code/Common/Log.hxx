@@ -1,42 +1,47 @@
 #include "Log.h"
 
-ILogListener* g_pLogListener = NULL;
-
-void SetLogListener(ILogListener* pLog)
+namespace ma
 {
-	g_pLogListener = pLog;
-}
+	static ILogListener* g_pLogListener = NULL;
 
-void Log(Uint msgType,Uint msgSource,const char* fmt,...)
-{
-	if (fmt)
+	void SetLogListener(ILogListener* pLog)
 	{
-		const int len = 1024;
-		char buffer[len];
-		va_list args;
-		va_start( args, fmt );
-		vsprintf( buffer, fmt, args );
+		g_pLogListener = pLog;
+	}
 
-		if (NULL != g_pLogListener)
+	void Log(Uint msgType,Uint msgSource,const char* fmt,...)
+	{
+		if (fmt)
 		{
-			g_pLogListener->OnLog(msgType,msgSource,buffer);
+			const int len = 1024;
+			char buffer[len];
+			va_list args;
+			va_start( args, fmt );
+			vsprintf( buffer, fmt, args );
+
+			if (NULL != g_pLogListener)
+			{
+				g_pLogListener->OnLog(msgType,msgSource,buffer);
+			}
+			else
+			{
+				_OutputDebugString(buffer);
+			}	
 		}
-		else
+	}
+
+	void Log(const char* fmt,...)
+	{
+		if (fmt)
 		{
-			_OutputDebugString(buffer);
-		}	
+			const int len = 1024;
+			char buffer[len];
+			va_list args;
+			va_start( args, fmt );
+			vsprintf( buffer, fmt, args );
+			Log(0,0,buffer);
+		}
 	}
 }
 
-void Log(const char* fmt,...)
-{
-	if (fmt)
-	{
-		const int len = 1024;
-		char buffer[len];
-		va_list args;
-		va_start( args, fmt );
-		vsprintf( buffer, fmt, args );
-		Log(0,0,buffer);
-	}
-}
+

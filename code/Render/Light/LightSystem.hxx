@@ -21,6 +21,9 @@ namespace ma
 
 	void LightSystem::Update()
 	{
+		if (!GetRenderSetting()->m_bShadow)
+			return;
+
 		UINT nLight = m_arrLight.size();
 		for (UINT i = 0; i < nLight; ++i)
 		{

@@ -2,11 +2,9 @@
 
 namespace ma
 {
-	GLESVertexBuffer::GLESVertexBuffer(void* pData, int nsize, int nStride, USAGE Usgae)
-		:VertexBuffer(pData,nsize,nStride,Usgae)
+	GLESVertexBuffer::GLESVertexBuffer()
 	{
 		m_hVertexBufffer = 0;
-		//Active();
 	}
 
 	GLESVertexBuffer::~GLESVertexBuffer()

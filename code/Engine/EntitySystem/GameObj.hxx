@@ -1,5 +1,6 @@
 #include "GameObj.h"
 #include "Component.h"
+#include "CullTree/CullTree.h"
 
 namespace ma
 {
@@ -10,6 +11,9 @@ namespace ma
 		m_sName = pName;
 		m_pScenNode = GetSceneSystem() ? GetSceneSystem()->CreateSceneNode(this) : NULL;
 		m_pPhyscisObject = GetPhysicsSystem() ? GetPhysicsSystem()->CreatePhysicsObject(this) : NULL;
+		m_pCullNode = NULL;
+
+		GetCullTree() ? GetCullTree()->AddObject(this) : NULL;
 	}
 
 	GameObject::~GameObject()

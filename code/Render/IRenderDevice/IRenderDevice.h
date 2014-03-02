@@ -10,7 +10,7 @@ namespace ma
 	class Camera;
 	class Light;
 	class VertexStream;
-	class RenderMesh; 
+	class MeshComponent; 
 	class MeshBatch;
 	struct Renderable;
 	class ShaderProgram;
@@ -26,9 +26,9 @@ namespace ma
 
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 
-		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO) = 0;
+		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 
-		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO) = 0;
+		virtual IndexBuffer*		CreateIndexBuffer() = 0;
 	
 		virtual ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine) = 0;
 

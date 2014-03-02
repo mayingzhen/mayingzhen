@@ -9,6 +9,7 @@
 #include "Render/Light/LightSystem.h"
 
 #include "Render/IRenderDevice/RenderDefine.h"
+#include "Render/IRenderDevice/HardwareBuffer.h"
 #include "Render/IRenderDevice/IRenderDevice.h"
 #include "Render/IRenderDevice/IndexBuffer.h"
 #include "Render/IRenderDevice/VertexBuffer.h"
@@ -18,8 +19,8 @@
 #include "Render/Renderable/MeshBatch.h"
 #include "Render/Renderable/MeshData.h"
 #include "Render/Renderable/Renderable.h"
-#include "Render/Renderable/RenderObject.h"
-#include "Render/Renderable/RendMesh.h"
+#include "Render/Renderable/RenderComponent.h"
+#include "Render/Renderable/MeshComponent.h"
 #include "Render/Renderable/SpriteBatch.h"
 
 
@@ -28,6 +29,8 @@
 
 
 // Material
+#include "Render/Material/RenderState.h"
+#include "Render/Material/MaterialData.h"
 #include "Render/Material/Material.h"
 #include "Render/Material/MaterialParameter.h"
 #include "Render/Material/ShaderProgram.h"
@@ -43,7 +46,6 @@
 
 #include "Render/RenderScheme/RenderPass.h"
 #include "Render/RenderScheme/RenderScheme.h"
-#include "Render/RenderScheme/DefferredRender.h"
 
 #include "Render/RenderScheme/PostProcess.h"
 

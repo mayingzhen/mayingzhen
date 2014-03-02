@@ -24,9 +24,7 @@ namespace ma
 		std::list<RenderPass*>	m_arrRenderPass;
 	};
 
-	RENDER_API	RenderScheme*	GetRenderScheme();
 
-	RENDER_API	void			SetRenderScheme(RenderScheme* pRenderScheme);
 }
 
 #endif

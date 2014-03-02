@@ -1,13 +1,13 @@
 #include "Samples/stdafx.h"
 #include "SampleBrowser.h"
 
-#include "Systems.hxx"
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-//#include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
+#include "Samples/Render/SampleLighting.hxx"
 #endif
 
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
@@ -19,7 +19,6 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
-#include "Samples/Render/SampleLighting.hxx"
 
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
@@ -41,8 +40,8 @@ namespace ma
 		:Game(pGameName)
 	{
 #if PLATFORM_WIN == 1
-//		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-//		m_arrSamples["FbxImport"] = pSampleFbxImport;
+		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
+		m_arrSamples["FbxImport"] = pSampleFbxImport;
 
 		SampleMonoScript* pSampleScript = new SampleMonoScript();
 		m_arrSamples["CSharpScript"] = pSampleScript;
@@ -79,10 +78,12 @@ namespace ma
 		m_arrSamples["Particle"] = pSampleParticle;
 
 
-		m_pCurSample = pSampleTerrain;
+		m_pCurSample = pSampleFbxImport;
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
+
+		m_pSystems = new Systems();
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -106,15 +107,44 @@ namespace ma
 		RenderModuleInit();
 		UIModuleInit();
 		
-#if PLATFORM_WIN == 1
 		LoadPlugin();
-#else
-        AnimationModuleInit();
-		GLESRenderModuleInit();
-		BtPhysicsModuleInit();
-#endif
 	}
 
+	void SampleBrowser::LoadRenderScheme()
+	{
+	#if PLATFORM_WIN == 1
+		std::string configPath = FileSystem::getFullPath("config/RenderScheme_PC.xml");
+	#else 
+		std::string configPath = FileSystem::getFullPath("config/RenderScheme_mobile.xml");
+	#endif
+
+		RenderScheme* pRenderScheme = new RenderScheme();
+
+		GetRenderSystem()->SetRenderScheme(pRenderScheme);
+
+		TiXmlDocument doc;
+		bool bLoadOK = doc.LoadFile(configPath.c_str());
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return;
+
+		TiXmlElement* pRootElem = doc.RootElement();
+		ASSERT(pRootElem);
+		if (pRootElem == NULL)
+			return;
+
+		TiXmlElement* pElePass = pRootElem->FirstChildElement("Pass");
+		while(pElePass)
+		{
+			const char* pszPassName = pElePass->Attribute("name");
+
+			RenderPass* pRenderPass = CreateObject<RenderPass>(pszPassName);
+
+			pRenderScheme->AddRenderPass(pRenderPass);
+
+			pElePass = pElePass->NextSiblingElement();
+		}
+	}
 	
 	void SampleBrowser::LoadPlugin()
 	{
@@ -122,7 +152,7 @@ namespace ma
 
 		typedef bool (*DLL_START_PLUGIN)(void);
 
-		std::string configPath = FileSystem::getFullPath("config/config.xml");
+		std::string configPath = FileSystem::getFullPath("config/Plugins.xml");
 		TiXmlDocument doc;
 		bool bLoadOK = doc.LoadFile(configPath.c_str());
 		ASSERT(bLoadOK);
@@ -147,7 +177,12 @@ namespace ma
 
 			pElePlugin = pElePlugin->NextSiblingElement();
 		}
+#else
+		AnimationModuleInit();
+		GLESRenderModuleInit();
+		BtPhysicsModuleInit();
 #endif
+
 	}
 
 	void SampleBrowser::Init()
@@ -155,12 +190,15 @@ namespace ma
 		InitResourcePath();
 
 		InitModule();
-	
-		m_pSystems = new Systems();
 
+		LoadRenderScheme();
+
+		m_pSystems->Init();
+	
 		GetInput()->AddKeyListener(this);
 
 		m_pCameraControl = new CameraController( GetCamera() );
+		
 		ResetCamera();
 
 		LoadUI();
@@ -323,10 +361,10 @@ namespace ma
 
 	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
 	{
-		if (arg.key == OIS::KC_S)
-		{
-			m_pSystems->Start();
-		}
+// 		if (arg.key == OIS::KC_S)
+// 		{
+// 			m_pSystems->Start();
+// 		}
 
 		if (arg.key == OIS::KC_P)
 		{

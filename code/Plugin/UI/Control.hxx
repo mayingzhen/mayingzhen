@@ -912,7 +912,7 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
     // This method runs untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this control, we
     // need to keep it alive until the method returns.
-    IncReference();
+    ref();
 
     if (_listeners)
     {
@@ -931,7 +931,7 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
     //fireScriptEvent<void>("controlEvent", this, eventType);
 
     //release();
-	DecReference();
+	unref();
 }
 
 void Control::update(const Control* container, const Vector2& offset)
@@ -1395,7 +1395,7 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
         Font* font = Font::create(properties->getString("font"));
         setFont(font, states);
         //font->release();
-		font->DecReference();
+		font->unref();
     }
 
     if (properties->exists("fontSize"))

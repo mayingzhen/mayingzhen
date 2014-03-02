@@ -205,7 +205,7 @@ void Container::addControls(Theme* theme, Properties* properties)
         if (control)
         {
             addControl(control);
-            control->DecReference();
+            //control->unref();
         }
 
         // Get the next control.
@@ -247,7 +247,7 @@ unsigned int Container::addControl(Control* control)
     if (control->_parent != this)
     {
         _controls.push_back(control);
-        control->IncReference();
+        //control->ref();
         control->_parent = this;
         sortControls();
         return (unsigned int)(_controls.size() - 1);
@@ -285,7 +285,7 @@ void Container::insertControl(Control* control, unsigned int index)
     {
         std::vector<Control*>::iterator it = _controls.begin() + index;
         _controls.insert(it, control);
-        control->IncReference();
+        //control->ref();
         control->_parent = this;
     }
 }
@@ -641,7 +641,7 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
     // This event may run untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this container, we
     // need to keep it alive until the method returns.
-    IncReference();
+    //ref();
 
     bool eventConsumed = false;
 
@@ -728,7 +728,7 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
         }
     }
 
-    DecReference();
+    //unref();
     return eventConsumed;
 }
 
@@ -974,7 +974,7 @@ bool Container::moveFocus(Direction direction, Control* outsideControl)
 
         //_focusChangeStartTime = Game::getAbsoluteTime();
         _focusChangeRepeat = true;
-        IncReference();
+        //ref();
         //Game::getInstance()->schedule(_focusChangeRepeatDelay, this);
 
         return true;
@@ -1002,7 +1002,7 @@ void Container::timeEvent(long timeDiff, void* cookie)
         _focusChangeRepeatDelay = FOCUS_CHANGE_REPEAT_DELAY;
     }
 
-    DecReference();
+    //unref();
 }
 
 void Container::startScrolling(float x, float y, bool resetTime)
@@ -1033,7 +1033,7 @@ void Container::stopScrolling()
 
 // bool Container::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex)
 // {
-//     IncReference();
+//     ref();
 // 
 //     bool eventConsumed = false;
 // 
@@ -1664,7 +1664,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
     // This event may run untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this container, we
     // need to keep it alive until the method returns.
-    IncReference();
+    //ref();
 
     bool eventConsumed = false;
     const Theme::Border& border = getBorder(_state);
@@ -1725,7 +1725,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         _scrolling = false;
         _scrollingMouseVertically = _scrollingMouseHorizontally = false;
 
-        DecReference();
+        //unref();
         return (_consumeInputEvents | eventConsumed);
     }
 
@@ -1742,7 +1742,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         {
             setState(Control::NORMAL);
             _contactIndex = INVALID_CONTACT_INDEX;
-            DecReference();
+            //unref();
             return false;
         }
         if (!mouse)
@@ -1764,7 +1764,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
             }
             else if (_state != HOVER)
             {
-                DecReference();
+                //unref();
                 return false;
             }
         }
@@ -1772,7 +1772,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
     case Mouse::MOUSE_WHEEL:
         if (!withinClipBounds && !_scrollWheelRequiresFocus)
         {
-            DecReference();
+            //unref();
             return false;
         }
         break;
@@ -1804,7 +1804,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         }
     }
 
-    DecReference();
+    //unref();
     return (_consumeInputEvents | eventConsumed);
 }
 

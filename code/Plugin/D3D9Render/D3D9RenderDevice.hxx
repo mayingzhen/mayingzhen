@@ -37,14 +37,14 @@ namespace ma
 		return new D3D9VertexDeclaration(m_pD3DDevice);
 	}
 
-	VertexBuffer*	D3D9RenderDevice::CreateVertexBuffer(void* pData, int nsize, int nStride, USAGE Usgae)
+	VertexBuffer*	D3D9RenderDevice::CreateVertexBuffer()
 	{
-		return new D3D9VertexBuffer(pData,nsize,nStride,Usgae);
+		return new D3D9VertexBuffer();
 	}
 
-	IndexBuffer*	D3D9RenderDevice::CreateIndexBuffer(void* Data, int nSize, INDEX_TYPE eIndexType, USAGE Usgae)
+	IndexBuffer*	D3D9RenderDevice::CreateIndexBuffer()
 	{
-		return new D3D9IndexBuffer(Data,nSize,eIndexType,Usgae);
+		return new D3D9IndexBuffer();
 	}
 
 	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)

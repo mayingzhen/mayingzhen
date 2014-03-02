@@ -5,7 +5,7 @@
 namespace ma
 {
 
-	struct RENDER_API V_3P_2UV_3N_3T
+	struct  V_3P_2UV_3N_3T
 	{
 		Vector3  m_position;			// position
 		Vector2	 m_uv;					// Texture Coordinate
@@ -21,7 +21,7 @@ namespace ma
 		}
 	};
 
-	struct RENDER_API V_3P_2UV_3N_3T_S
+	struct  V_3P_2UV_3N_3T_S
 	{
 		Vector3  m_position;			// position
 		Vector2	 m_uv;					// Texture Coordinate
@@ -40,7 +40,7 @@ namespace ma
 	};
 
 
-	struct RENDER_API SubMeshData 
+	struct SubMeshData 
 	{
 
 		UINT					m_nIndexStart;
@@ -72,43 +72,39 @@ namespace ma
 	public:
 		MeshData();
 		
-		UINT				GetSubMeshNumber() {return m_arrSubMesh.size();}
+		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 
-		SubMeshData*		GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
+		SubMeshData*			GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
 
-		IndexBuffer*		GetIndexBuffer() {return m_pIndexBuffer;}
+		IndexBuffer*			GetIndexBuffer() {return m_pIndexBuffer;}
 
-		VertexBuffer*		GetVertexBuffer() {return m_pVertexBuffer;}
+		VertexBuffer*			GetVertexBuffer() {return m_pVertexBuffer;}
 
-		VertexDeclaration*	GetVertexDeclar() {return m_pDeclaration;}
+		VertexDeclaration*		GetVertexDeclar() {return m_pDeclaration;}
 
-		AABB				GetBoundingAABB() {return m_meshBound;}
+		AABB					GetBoundingAABB() {return m_meshBound;}
 
-		//virtual bool		CreateFromMemeory();
-
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "MeshData");
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
 	private:
-		bool				InitRendable();
+		bool					InitRendable();
 
-		int					GetVertexStride();
+		int						GetVertexStride();
 
 	public:
 		
 		UINT						m_nIndexType;
-		Uint						m_nVertexType;
-		std::vector<Uint8>			m_arrIndexBuffer;
-		std::vector<Uint8>			m_arrVertexBuffer;
-
+		UINT						m_nVertexType;
 		IndexBuffer*				m_pIndexBuffer;
 		VertexBuffer*				m_pVertexBuffer;
 		VertexDeclaration*			m_pDeclaration; 
 
+		std::vector<SubMeshData*>	m_arrSubMesh;	
+
 		AABB						m_meshBound;		
-		std::vector<SubMeshData*>	m_arrSubMesh;
-		maGUID						m_nSkelGUID;
-	
 	};
+
+	DeclareRefPtr(MeshData);
 	
 }
 

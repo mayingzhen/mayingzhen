@@ -17,19 +17,15 @@ void D3D9RenderModuleInit()
 	ma::D3D9RenderDevice* pDxRenderDevice = new ma::D3D9RenderDevice();
 	ma::SetRenderDevice(pDxRenderDevice);
 	
-	ma::GetRenderSetting()->m_bDefferLight = true;
-	ma::GetRenderSetting()->m_bShadow = true; 
-	ma::GetRenderSetting()->m_bIsHDRRending = false;
-
-	ma::DefferredRender* pDefferRender = new ma::DefferredRender();
-	ma::SetRenderScheme(pDefferRender);
-	
-	ma::GetRenderSystem()->Init();
+	//ASSERT(false);
+	//ma::GetRenderSystem()->Init();
 }
 
 
 void D3D9RenderModuleShutdown()
 {
+	ma::GetRenderSystem()->ShoutDown();
+
 	ma::D3D9RenderDevice* pDxRenderDevice = (ma::D3D9RenderDevice*)ma::GetRenderDevice();
 	SAFE_DELETE(pDxRenderDevice);
 }

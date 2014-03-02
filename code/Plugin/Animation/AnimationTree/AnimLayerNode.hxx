@@ -52,13 +52,6 @@ namespace ma
 		}
 	}
 
-	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
-	{
-		sl.BeginSection(pszLable);
 
-
-
-		sl.EndSection();
-	}
 }
 

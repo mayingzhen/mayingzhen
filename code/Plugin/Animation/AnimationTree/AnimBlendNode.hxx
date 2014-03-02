@@ -55,14 +55,7 @@ namespace ma
 		}
 	}
 
-	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
-	{
-		sl.BeginSection(pszLable);
 
-
-
-		sl.EndSection();
-	}
 }
 
 

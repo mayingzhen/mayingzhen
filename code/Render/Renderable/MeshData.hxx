@@ -12,22 +12,24 @@ namespace ma
 	{
 		m_nIndexType = 0;
 		m_nVertexType = 0;
+		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
+		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
 	}
 
 	bool MeshData::InitRendable()
 	{
-		void* pIndexData =  &m_arrIndexBuffer[0];
-		int nIndexSize = m_arrIndexBuffer.size();
-		INDEX_TYPE eIndexType = m_nIndexType == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
-		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
-
-		void* pVertexData =  &m_arrVertexBuffer[0];
-		int nVertexDataSize = m_arrVertexBuffer.size();
-		int nVertexStride = GetVertexStride();
-		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
-
-		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
-		m_pDeclaration->Init(m_nVertexType);
+// 		void* pIndexData =  &m_arrIndexBuffer[0];
+// 		int nIndexSize = m_arrIndexBuffer.size();
+// 		INDEX_TYPE eIndexType = m_nIndexType == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
+// 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
+// 
+// 		void* pVertexData =  &m_arrVertexBuffer[0];
+// 		int nVertexDataSize = m_arrVertexBuffer.size();
+// 		int nVertexStride = GetVertexStride();
+// 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
+// 
+ 		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
+ 		m_pDeclaration->Init(m_nVertexType);
 
 		return true;
 	}

@@ -175,23 +175,55 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\Code\Plugin\FbxImport\FBXImporter.h"
+			RelativePath="..\..\code\Plugin\FbxImport\Export.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\FbxImport\FBXImporter.hxx"
+			RelativePath="..\..\code\Plugin\FbxImport\FBXImportBase.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\FbxImport\FbxImportUtil.h"
+			RelativePath="..\..\code\Plugin\FbxImport\FBXImporterVertex.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\FbxImport\Module.cpp"
+			RelativePath="..\..\code\Plugin\FbxImport\FbxImportParm.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\FbxImport\Module.h"
+			RelativePath="..\..\code\Plugin\FbxImport\FbxImportUtil.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToAnimation.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToAnimation.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToSkeletonMesh.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToSkeletonMesh.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToStaticMesh.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\FBXToStaticMesh.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\FbxImport\Module.h"
 			>
 		</File>
 		<File

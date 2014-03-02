@@ -1,7 +1,6 @@
 #ifndef  _Object__H__
 #define  _Object__H__
 
-#include "Common/RefCountObject.h"
 #include "Engine/RTTI/RTTIClass.h"
 
 
@@ -36,7 +35,7 @@ namespace ma
 {
 	class RTTIClass;
 
-	class ENGINE_API Object : public RefCountObject
+	class ENGINE_API Object : public Referenced
 	{
 		DECL_OBJECT(Object)
 

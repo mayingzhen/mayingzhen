@@ -30,13 +30,13 @@ namespace ma
 
 		Skeleton*		GetSkeleton() {return m_pSkeleton;}
 		
-		virtual void	SetSkeleton(Skeleton* pSkeleton) {m_pSkeleton = pSkeleton;}
+		virtual void	SetSkeleton(Skeleton* pSkeleton); 
 
-		void			SetAnimationClip(AnimationClip* pAnimClip) {m_pAnimClip = pAnimClip;}
+		void			SetAnimationClip(AnimationClip* pAnimClip); 
 
 		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
+		//virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
 
 	private:
 		AnimationClip*	m_pAnimClip;

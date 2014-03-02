@@ -7,7 +7,6 @@ namespace ma
 	class Skeleton;
 	class MeshData;
 	class Texture;
-	class FBXImporter;
 
 	class SampleFbxImport : public Sample
 	{
@@ -18,29 +17,11 @@ namespace ma
 
 		virtual void UnLoad();
 
-		virtual void Render();
-
 	private:
-		void LoadSkelMesh(FBXImporter& fbxImpor);
+		void LoadSkelMesh();
 
-		void LoadSaticMesh(FBXImporter& fbxImpor);
+		void LoadSaticMesh();
 
-	private:
-
-		// SkelMesh
-		IAnimationObject*	m_pAnimtionObject;
-		Skeleton*		m_pSkeleton;
-		RenderMesh*		m_pRenderMesh;
-	
-		// staticMesh
-		RenderMesh*		m_pStaticMesh;
-
-		RenderMesh*		m_pBoxMesh;
-
-		RenderMesh*		m_pSphereMesh;
-
-		float			m_fFame;
-		
 	};
 }
 

@@ -11,7 +11,7 @@
 %include "../../code/Engine/RTTI/RTTIClass.h"
 
 %include "../../Code/Engine/Input/Input.h"
-%include "../../Code/Engine/Application/Timer.h"
+%include "../../Code/Engine/Time/Timer.h"
 
 %include "../../Code/Engine/Resource/Stream.h"
 %include "../../Code/Engine/Resource/DataStream.h"

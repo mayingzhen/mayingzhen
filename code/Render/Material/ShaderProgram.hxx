@@ -1,44 +1,9 @@
 #include "ShaderProgram.h"
 
-//#define OPENGL_ES_DEFINE  "#define OPENGL_ES\n"
 
 namespace ma
 {
 
-	// Cache of unique effects.
-	//static std::map<std::string, ShaderProgram*> __effectCache;
-	//static ShaderProgram* __currentEffect = NULL;
-
-	
-	void Tokenize(const std::string& str, std::vector<std::string>& tokens, 
-		const std::string& delimiters = " ", const bool trimEmpty = false) 
-	{ 
-		std::string::size_type pos, lastPos = 0; 
-		while(true) 
-		{ 
-			pos = str.find_first_of(delimiters, lastPos); 
-			if(pos == std::string::npos) 
-			{ 
-				pos = str.length(); 
-
-				if(pos != lastPos || !trimEmpty) 
-				{
-					tokens.push_back( std::string( str.data() + lastPos, pos - lastPos ) ); 
-				}
-
-				break; 
-			} 
-			else 
-			{ 
-				if(pos != lastPos || !trimEmpty) 
-				{
-					tokens.push_back( std::string( str.data() + lastPos, pos - lastPos ) );
-				} 
-			} 
-
-			lastPos = pos + 1; 
-		} 
-	} 
 
 	static void replaceDefines(const char* defines, std::string& out)
 	{
@@ -131,17 +96,6 @@ namespace ma
 			}
 		}
 	}
-
-// 	static void writeShaderToErrorFile(const char* filePath, const char* source)
-// 	{
-// 		std::string path = filePath;
-// 		path += ".err";
-// 		std::auto_ptr<Stream> stream(FileSystem::open(path.c_str(), FileSystem::WRITE));
-// 		if (stream.get() != NULL && stream->canWrite())
-// 		{
-// 			stream->write(source, 1, strlen(source));
-// 		}
-// 	}
 
 	static std::string prePareShaderSource(const char* shPath,const char* defines)
 	{

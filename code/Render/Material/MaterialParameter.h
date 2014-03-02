@@ -2,7 +2,7 @@
 #define _MaterialParameter_H_
 
 #include "ShaderProgram.h"
-
+#include "MethodBinding.h"
 
 namespace ma
 {
@@ -18,39 +18,41 @@ namespace ma
 
 		~MaterialParameter();
 
-		const char* getName() const;
+		const char* GetName() const;
+
+		void setParameter(MaterialParameter* pParam);
 
 		void setFloat(float value);
 
-		void setFloatArray(const float* values, unsigned int count, bool copy = false);
+		void setFloatArray(const float* values, UINT count, bool copy = false);
 
 		void setInt(int value);
 
-		void setIntArray(const int* values, unsigned int count, bool copy = false);
+		void setIntArray(const int* values, UINT count, bool copy = false);
 
 		void setVector2(const Vector2& value);
 
-		void setVector2Array(const Vector2* values, unsigned int count, bool copy = false);
+		void setVector2Array(const Vector2* values, UINT count, bool copy = false);
 
 		void setVector3(const Vector3& value);
 
-		void setVector3Array(const Vector3* values, unsigned int count, bool copy = false);
+		void setVector3Array(const Vector3* values, UINT count, bool copy = false);
 
 		void setVector4(const Vector4& value);
 
-		void setVector4Array(const Vector4* values, unsigned int count, bool copy = false);
+		void setVector4Array(const Vector4* values, UINT count, bool copy = false);
 
 		void setMatrix(const Matrix4x4& value);
 
-		void setMatrixArray(const Matrix4x4* values, unsigned int count, bool copy = false);
+		void setMatrixArray(const Matrix4x4* values, UINT count, bool copy = false);
 
 		void setSampler(const SamplerState* value);
 
-		void setSamplerArray(const SamplerState** values, unsigned int count, bool copy = false);
+		//void setSamplerArray(const SamplerState** values, UINT count, bool copy = false);
 
 		void setTexture(const Texture* value);
 
-		void setTextureArray(const Texture** values, unsigned int count, bool copy = false);
+		//void setTextureArray(const Texture** values, UINT count, bool copy = false);
 
 		void Serialize(Serializer& sl, const char* pszLable = "Parameter");
 
@@ -74,9 +76,9 @@ namespace ma
 		 * the value returned from valueMethod.
 		 */
 		template <class ClassType, class ParameterType>
-		void bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const);
+		void bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, UINT (ClassType::*countMethod)() const);
 
-	private:
+	//private:
 	   
 
 		/**
@@ -84,113 +86,45 @@ namespace ma
 		 */
 		MaterialParameter& operator=(const MaterialParameter&);
 	    
-		/**
-		 * Interface implemented by templated method bindings for simple storage and iteration.
-		 */
-		class MethodBinding 
-		{
-			friend struct RenderState;
-
-		public:
-
-			virtual void SetValue(Uniform* pUniform,ShaderProgram* effect) = 0;
-
-		protected:
-
-			/**
-			 * Constructor.
-			 */
-			MethodBinding(MaterialParameter* param);
-
-			/**
-			 * Destructor.
-			 */
-			virtual ~MethodBinding() { }
-
-			/**
-			 * Hidden copy assignment operator.
-			 */
-			MethodBinding& operator=(const MethodBinding&);
-
-			MaterialParameter* _parameter;
-			bool _autoBinding;
-		};
-
-		/**
-		 * Defines a method parameter binding for a single value.
-		 */
-		template <class ClassType, class ParameterType>
-		class MethodValueBinding : public MethodBinding
-		{
-			typedef ParameterType (ClassType::*ValueMethod)() const;
-		public:
-			MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod);
-			void SetValue(Uniform* pUniform,ShaderProgram* effect);
-		private:
-			ClassType* _instance;
-			ValueMethod _valueMethod;
-
-		};
-
-		/**
-		 * Defines a method parameter binding for an array of values.
-		 */
-		template <class ClassType, class ParameterType>
-		class MethodArrayBinding : public MethodBinding
-		{
-			typedef ParameterType (ClassType::*ValueMethod)() const;
-			typedef unsigned int (ClassType::*CountMethod)() const;
-		public:
-			MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
-			void SetValue(Uniform* pUniform,ShaderProgram* effect);
-		private:
-			ClassType* _instance;
-			ValueMethod _valueMethod;
-			CountMethod _countMethod;
-		};
-
 		void clearValue();
-
-		//void bind(ShaderProgram* effect);
 
 		void Bind(Uniform* pUniform);
 
 	    
-		union
+		union DataValue
 		{
-			float           floatValue;
-			int             intValue;
+			//float           floatValue;
+			//int             intValue;
 			float*          floatPtrValue;
 			int*            intPtrValue;
 			const SamplerState*  samplerValue;
-			const SamplerState** samplerArrayValue;
+			//const SamplerState** samplerArrayValue;
 			const Texture*	textureValue;
-			const Texture**	textureArrayValue;
+			//const Texture**	textureArrayValue;
 			MethodBinding*  method;
-		} _value;
+		}; 
 	    
-		enum
+		enum DataType
 		{
 			NONE,
 			FLOAT,
-			FLOAT_ARRAY,
 			INT,
-			INT_ARRAY,
-			VECTOR2,
-			VECTOR3,
-			VECTOR4,
-			MATRIX,
 			SAMPLER,
-			SAMPLER_ARRAY,
+			//SAMPLER_ARRAY,
 			TEXTURE,
-			TEXTURE_ARRAY,
+			//TEXTURE_ARRAY,
 			METHOD
-		} _type;
-	    
-		unsigned int _count;
-		bool _dynamic;
+		};
+
+		DataType	_type;
+
+		DataValue	_value;
+
+		UINT		_count;
+
+		bool		_dynamic;
+
 		std::string _name;
-		//Uniform* _uniform;
 	};
 
 	template <class ClassType, class ParameterType>
@@ -204,37 +138,13 @@ namespace ma
 	}
 
 	template <class ClassType, class ParameterType>
-	void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const)
+	void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, UINT (ClassType::*countMethod)() const)
 	{
 		clearValue();
 
 		_value.method = new MethodArrayBinding<ClassType, ParameterType>(this, classInstance, valueMethod, countMethod);
 		_dynamic = true;
 		_type = MaterialParameter::METHOD;
-	}
-
-	template <class ClassType, class ParameterType>
-	MaterialParameter::MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod) :
-		MethodBinding(param), _instance(instance), _valueMethod(valueMethod)
-	{
-	}
-
-	template <class ClassType, class ParameterType>
-	void MaterialParameter::MethodValueBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
-	{
-		effect->SetValue(pUniform, (_instance->*_valueMethod)());
-	}
-
-	template <class ClassType, class ParameterType>
-	MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
-		MethodBinding(param), _instance(instance), _valueMethod(valueMethod), _countMethod(countMethod)
-	{
-	}
-
-	template <class ClassType, class ParameterType>
-	void MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
-	{
-		effect->SetValue(pUniform, (_instance->*_valueMethod)(), (_instance->*_countMethod)());
 	}
 
 }

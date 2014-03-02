@@ -48,14 +48,13 @@ namespace ma
 		
 		SkeletonPose*			m_pose;
 
+		AnimationSetData*		m_pAnimSetData;
+
 		AnimationSet*			m_pAnimSet;
 
-		Action*					m_pSkelAnim;
+		Action*					m_pCurAction;
 
 		Matrix4x4*				m_arrSkinMatrix;
-
-		std::string				m_strSkeletonPath;
-		std::string				m_strAnimaSetPath;
 	};
 }
 

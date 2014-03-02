@@ -4,6 +4,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(ShadingPass,RenderPass);
+
 	void ShadingPass::Init()
 	{
 		m_pShadingTex = NULL;
@@ -32,7 +34,7 @@ namespace ma
 		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
-			RenderObject* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
+			RenderComponent* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
 			if (pRenderObj == NULL)
 				continue;
 
@@ -46,7 +48,7 @@ namespace ma
 		UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
 		for (UINT i = 0; i < nTrans; ++i)
 		{
-			RenderObject* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
+			RenderComponent* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
 			if (pRenderObj == NULL)
 				continue;
 

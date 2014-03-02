@@ -12,8 +12,13 @@ namespace ma
 		//Close();
 	}
 
-	bool BinaryInputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
+	bool BinaryInputArchive::SerializeByte(Uint8* &pData,UINT nSizeToRead,const char* pszLable)
 	{
+		if (pData == NULL)
+		{
+			pData = new Uint8[nSizeToRead];
+		}
+
  		return m_pStream->read(pData,nSizeToRead,1) == 1;
 	}
 

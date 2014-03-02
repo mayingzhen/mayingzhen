@@ -29,7 +29,7 @@ namespace ma
 
 		virtual void	SetSkeleton(Skeleton* pSkeleton) {}
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimBlendNode" );
+		
 
 	private:
 		IAnimTreeNode*	m_pSrcAnimNode;

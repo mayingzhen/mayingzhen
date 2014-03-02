@@ -21,7 +21,7 @@ namespace ma
 
 		virtual void		SetSkeleton(Skeleton* pSkeleton) = 0;
 
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimTreeNode" ) = 0;
+		//virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimTreeNode" ) = 0;
 	};
 
 
@@ -65,7 +65,7 @@ namespace ma
 		virtual float	GetGain()  = 0;
 	};
 
-	class ENGINE_API IAction 
+	class ENGINE_API IAction : public Object
 	{
 	public:
 		virtual void				SetTreeNode(IAnimTreeNode* pAnimNode) = 0;
@@ -80,13 +80,13 @@ namespace ma
 
 		virtual const char*			GetAnimName()  = 0;
 
-		virtual IAnimLayerNode*		CreateLayerNode() = 0;
+// 		virtual IAnimLayerNode*		CreateLayerNode() = 0;
+// 
+// 		virtual IAnimBlendNode*		CreateBlendNode() = 0;
+// 
+// 		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName) = 0;
 
-		virtual IAnimBlendNode*		CreateBlendNode() = 0;
-
-		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName) = 0;
-
-		virtual void				Serialize(Serializer& sl, const char* pszLable = "Action") = 0;
+		//virtual void				Serialize(Serializer& sl, const char* pszLable = "Action") = 0;
 	};
 }
 

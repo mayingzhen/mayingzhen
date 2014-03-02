@@ -26,6 +26,11 @@ namespace ma
 			::LeaveCriticalSection(&m_cs); 
 		}
 
+		bool TryLock()
+		{
+			return ::TryEnterCriticalSection(&m_cs);
+		}
+
 	private:
 		CRITICAL_SECTION	m_cs;	
 	};

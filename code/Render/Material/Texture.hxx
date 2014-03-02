@@ -41,6 +41,8 @@ namespace ma
 			return true;
 
 		GetRenderSystem()->TexStreamComplete(this,m_pDataStream);
+		
+		m_eResState = ResLoaded;
 
 		return true;
 	}

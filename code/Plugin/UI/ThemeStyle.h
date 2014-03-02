@@ -52,7 +52,7 @@ private:
     /**
      * This class represents a control's overlay for one of its states.
      */
-    class UI_API Overlay : public RefCountObject/*, public AnimationTarget*/
+    class UI_API Overlay : public Referenced/*, public AnimationTarget*/
     {
         friend class Theme;
         friend class Theme::Style;

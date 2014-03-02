@@ -182,6 +182,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Render\Material\MaterialData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\MaterialData.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\Material\MaterialParameter.h"
 				>
 			</File>
@@ -190,11 +198,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Render\Material\MethodBinding.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\Material\ParameterManager.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\Render\Material\ParameterManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\RenderState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Material\RenderState.hxx"
 				>
 			</File>
 			<File
@@ -262,6 +282,10 @@
 			Name="RenderDevice"
 			>
 			<File
+				RelativePath="..\..\code\Render\IRenderDevice\HardwareBuffer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\IRenderDevice\IndexBuffer.h"
 				>
 			</File>
@@ -306,6 +330,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Render\Renderable\MeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\MeshComponent.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\Renderable\MeshData.h"
 				>
 			</File>
@@ -322,19 +354,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\Renderable\RenderObject.h"
+				RelativePath="..\..\code\Render\Renderable\RenderComponent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\Renderable\RenderObject.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\Renderable\RendMesh.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\Renderable\RendMesh.hxx"
+				RelativePath="..\..\code\Render\Renderable\RenderComponent.hxx"
 				>
 			</File>
 			<File
@@ -366,14 +390,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\RenderScheme\DefferredRender.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\RenderScheme\DefferredRender.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Render\RenderScheme\GBufferPass.h"
 				>
 			</File>
@@ -387,6 +403,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Render\RenderScheme\RenderPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderScheme\RenderPass.hxx"
 				>
 			</File>
 			<File
@@ -596,6 +616,10 @@
 		</File>
 		<File
 			RelativePath="..\..\code\Render\Module.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Render\ResourceRTTI.h"
 			>
 		</File>
 		<File

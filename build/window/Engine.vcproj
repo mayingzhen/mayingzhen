@@ -174,64 +174,16 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Application"
+			Name="Time"
 			>
 			<File
-				RelativePath="..\..\Code\Engine\Application\Game.h"
+				RelativePath="..\..\code\Engine\Time\Timer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Application\Game.hxx"
+				RelativePath="..\..\code\Engine\Time\Timer.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Application\Platform.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Application\Platform.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Application\Timer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Application\Timer.hxx"
-				>
-			</File>
-			<Filter
-				Name="Android"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\Application\Android\android_native_app_glue.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Application\Android\android_native_app_glue.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Application\Android\PlatformAndroid.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Win"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\Application\Win\PlatformWin.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="ios"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\Application\iOS\PlatformiOS.mm"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource"
@@ -525,6 +477,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Thread\ReadModifyLock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Thread\Thread.h"
 				>
 			</File>
@@ -738,6 +694,38 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\RTTIClass.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="CullTree"
+			>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\CullNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\CullTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\CullTree.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\Octree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\Octree.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\OctreeNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\CullTree\OctreeNode.hxx"
 				>
 			</File>
 		</Filter>

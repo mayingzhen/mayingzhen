@@ -7,7 +7,9 @@
 #include "Animation/SkeletonPose.hxx"
 #include "Animation/BoneMap.hxx"
 #include "Animation/BoneSet.hxx"
+#include "Animation/AnimationSetData.hxx"
 #include "Animation/AnimationSet.hxx"
+#include "Animation/ActionData.hxx"
 #include "Animation/Action.hxx"
 #include "Animation/AnimationObject.hxx"
 #include "Animation/AnimationDataCover.hxx"
@@ -38,6 +40,7 @@ using namespace ma;
 
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}
+Resource* AnimationSetData_Creator() {return new AnimationSetData();}
 
 void AnimationModuleInit()
 {
@@ -52,6 +55,7 @@ void AnimationModuleInit()
 
 	ResourceSystem::RegisterResourceFactory("ska",AnimationData_Creator);
 	ResourceSystem::RegisterResourceFactory("ske",SkeletonData_Creator);
+	ResourceSystem::RegisterResourceFactory("aniset",AnimationSetData_Creator);
 
 
 	// Device
@@ -65,6 +69,7 @@ void AnimationModuleShutdown()
 	AnimationSystem* pAnimationSystem = (AnimationSystem*)GetAnimationSystem();
 	SAFE_DELETE(pAnimationSystem);
 	
+	ResourceSystem::UnregisterResourceFactory("aniset",AnimationSetData_Creator);
 	ResourceSystem::UnregisterResourceFactory("skn",AnimationData_Creator);
 	ResourceSystem::UnregisterResourceFactory("ske",SkeletonData_Creator);
 

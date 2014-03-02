@@ -27,7 +27,7 @@ namespace ma
 			ICharaControll* pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
 			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
-			RenderMesh* pMeshComp = m_pCharaObj->CreateComponent<RenderMesh>();
+			MeshComponent* pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 		
 			AABB aabb = pMeshComp->GetAABBWS();
@@ -43,12 +43,12 @@ namespace ma
 			pCapsule->SetTransformLS(tsfLS);
 
 
-			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
-			pAnimComp->Load(NULL,"magician/Body.ske");
-			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
-			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
-			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
-			pAnimComp->PlayAnimation("Idle");
+// 			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
+// 			pAnimComp->Load(NULL,"magician/Body.ske");
+// 			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
+// 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
+// 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
+// 			pAnimComp->PlayAnimation("Idle");
 
 			m_pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
 			//m_pCharaObj->GetSceneNode()->RotateYAxisLS(90);

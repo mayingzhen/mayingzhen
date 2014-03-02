@@ -10,6 +10,7 @@ namespace ma
 	class Scene;
 	class IPhysicsObject;
 	class SceneVisiter;
+	class CullNode;
 
 
 	class ENGINE_API GameObject : public Object
@@ -48,6 +49,10 @@ namespace ma
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 
+		void				SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
+
+		CullNode*			GetCullNode() {return m_pCullNode;}
+
 	protected:
 		void				UpdateAABB();
 
@@ -61,6 +66,8 @@ namespace ma
 		SceneNode*					m_pScenNode;
 
 		std::vector<Component*>		m_arrComp;
+
+		CullNode*					m_pCullNode;
 	};
 
 // 	template<class T>
@@ -99,7 +106,7 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
+			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
 			{
 				return SafeCast<T>(m_arrComp[i]);
 			}
@@ -113,7 +120,7 @@ namespace ma
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
+			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
 			{
 				++nNumber;
 			}
@@ -127,7 +134,7 @@ namespace ma
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (T::StaticGetClass() == m_arrComp[i]->GetClass())
+			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
 			{
 				if (nNumber == index)
 				{

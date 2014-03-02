@@ -12,8 +12,7 @@ namespace ma
 	}
 
 	Resource::~Resource()
-	{
-
+	{	
 	}
 
 	void Resource::LoadSync()
@@ -68,7 +67,7 @@ namespace ma
 		inAr.Close();
 
 		m_eResState = ResLoaded;
-
+	
 		return true;
 	}
 

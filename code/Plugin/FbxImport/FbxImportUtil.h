@@ -25,6 +25,21 @@ namespace ma
 		return Vector4((float)cFbx.mRed,(float)cFbx.mGreen,(float)cFbx.mBlue,(float)cFbx.mAlpha);
 	}
 
+	inline NodeTransform ToMaUnit(const FbxMatrix& vFbx)
+	{
+		KFbxXMatrix matrix4x4 = *(KFbxXMatrix*)(double*)&vFbx;
+
+		FbxVector4 LocalLinkT = matrix4x4.GetT();
+		FbxQuaternion LocalLinkQ = matrix4x4.GetQ();
+		FbxVector4 LocalLinkS = matrix4x4.GetS();
+
+		NodeTransform tsf;
+		tsf.m_fScale = ToMaUnit(LocalLinkS).x;
+		tsf.m_qRot = ToMaUnit(LocalLinkQ);
+		tsf.m_vPos = ToMaUnit(LocalLinkT);
+
+		return tsf;
+	}
 
 	inline void ToMaUnit(const FbxVector4& vFbx,Vector4& maVector4)
 	{

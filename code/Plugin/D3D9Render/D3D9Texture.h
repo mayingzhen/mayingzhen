@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class D3D9RENDER_API D3D9Texture : public Texture
+	class D3D9Texture : public Texture
 	{
 	public:
 		D3D9Texture(const char* pszPath);

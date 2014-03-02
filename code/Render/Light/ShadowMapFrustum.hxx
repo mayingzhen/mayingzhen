@@ -74,7 +74,7 @@ namespace ma
 		m_arrCasterList[index].clear();
 	}
 
-	void ShadowMapFrustum::AddCaster(RenderObject* pRenderObj) 
+	void ShadowMapFrustum::AddCaster(RenderComponent* pRenderObj) 
 	{
 		int index = GetRenderSystem()->GetThreadList(); 
 		m_arrCasterList[index].push_back(pRenderObj);
@@ -110,16 +110,16 @@ namespace ma
 		
 		for (UINT i = 0; i <  m_arrCasterList[index].size(); ++i)
 		{
-			RenderObject* pRenderObj = m_arrCasterList[index][i];
+			RenderComponent* pRenderObj = m_arrCasterList[index][i];
 			if (pRenderObj == NULL)
 				continue;
 
 			//if ( SafeCast<TerrainSection>(pRenderObj) )
 			//	continue;
 
-			Material* pMaterial = pRenderObj->GetMaterial();
+			Material* pMaterialInst = pRenderObj->GetMaterial();
 
-			Technique* pTech = pMaterial->GetTechnqiue("ShadowDepth");
+			Technique* pTech = pMaterialInst->GetTechnqiue("ShadowDepth");
 
 			pRenderObj->Render(pTech);
 		}

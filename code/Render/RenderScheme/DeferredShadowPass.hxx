@@ -6,6 +6,8 @@ namespace ma
 
 	DeferredShadowPass*	GetDeferredShadowPass() { return gpDeferredShadowPass; }
 
+	IMPL_OBJECT(DeferredShadowPass,RenderPass);
+
 	void DeferredShadowPass::Init()
 	{
 		gpDeferredShadowPass = this;

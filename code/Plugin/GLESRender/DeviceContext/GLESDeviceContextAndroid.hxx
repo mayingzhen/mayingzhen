@@ -108,7 +108,7 @@ namespace ma
 			// Try both 24 and 16-bit depth sizes since some hardware (i.e. Tegra) does not support 24-bit depth
 			bool validConfig = false;
 			EGLint depthSizes[] = { 24, 16 };
-			for (unsigned int i = 0; i < 2; ++i)
+			for (UINT i = 0; i < 2; ++i)
 			{
 				eglConfigAttrs[1] = 1;//samples > 0 ? 1 : 0;
 				eglConfigAttrs[3] = 1;//samples;

@@ -3,19 +3,6 @@
 
 namespace ma
 {
-
-// 	RenderThread* gpRenderThead = NULL;
-// 
-// 	RenderThread* GetRenderThread()
-// 	{
-// 		return gpRenderThead;
-// 	}
-// 
-// 	void SetRenderThread(RenderThread* pRenderThread)
-// 	{
-// 		gpRenderThead = pRenderThread;
-// 	}
-
 	RenderThread::RenderThread()
 	{
 		m_nCurThreadFill = 0;
@@ -49,24 +36,25 @@ namespace ma
 		WaitFlushCond();
 		float fTimeAfterWait = GetTimer()->GetMillisceonds();
 		float fTimeWaitForMain = fTimeAfterWait - fTime;
-		Log("fTimeWaitForMain = %f",fTimeWaitForMain);
+		//Log("fTimeWaitForMain = %f",fTimeWaitForMain);
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 		ProcessCommands();
 		float fTimeAfterProcess = GetTimer()->GetMillisceonds();
 		float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
-		Log("fTimeProcessedRT = %f",fTimeProcessedRT);
+		//Log("fTimeProcessedRT = %f",fTimeProcessedRT);
 		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 	}
 
 
-	void RenderThread::RC_Init()
+	void RenderThread::RC_Init(HWND wndhandle)
 	{
 		if (IsRenderThread())
 		{
-			return GetRenderSystem()->RT_Init();
+			return GetRenderSystem()->RT_Init(wndhandle);
 		}
 
 		AddCommand(eRC_Init);
+		AddPointer(wndhandle);
 
 		FlushAndWait();
 	}
@@ -250,7 +238,10 @@ namespace ma
 			switch (nC)
 			{
 			case eRC_Init:
-				GetRenderSystem()->RT_Init();
+				{
+					HWND wndhandle = ReadCommand<HWND>(n);
+					GetRenderSystem()->RT_Init(wndhandle);
+				}
 				break;
 			case eRC_BeginFrame:
 				GetRenderSystem()->RT_BeginFrame();
@@ -365,7 +356,7 @@ namespace ma
 		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
 		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
-		Log("fTimeWaitForRender = %f",fTimeWaitForRender);
+		//Log("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;

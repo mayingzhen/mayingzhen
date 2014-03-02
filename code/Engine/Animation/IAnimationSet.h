@@ -20,8 +20,6 @@ namespace ma
 		virtual	IAction*	GetActionByIndex(UINT index) = 0;
 
 		virtual	void		RemoveAction(IAction* pAction) = 0;
-
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimationSet") = 0;
 	};
 }
 

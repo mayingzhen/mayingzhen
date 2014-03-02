@@ -12,7 +12,6 @@
 
 #include "Common/Assert.hxx"
 #include "Common/Log.hxx"
-#include "Common/RefCountObject.hxx"
 
 
 

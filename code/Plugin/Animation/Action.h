@@ -6,10 +6,15 @@ namespace ma
 	class IAnimTreeNode;
 	class PoseModifier;
 
+
 	class Action : public IAction
 	{
+		//DECL_OBJECT(Action)
+
 	public:
 		Action(const char* pName = NULL);
+
+		Action(ActionData* pActionData,Skeleton* pSkeleton);
 
 		~Action();
 
@@ -29,18 +34,22 @@ namespace ma
 
 		const char*		GetAnimName() {return m_sAnimName.c_str();}
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "Action");
+		//virtual void	Serialize(Serializer& sl, const char* pszLable = "Action");
 
 		Skeleton*		GetSkeleton() {return m_pSkeleton;}
 
-		void			SetSkeleton(Skeleton* pSkeleton) {m_pSkeleton = pSkeleton;}
+		void			SetSkeleton(Skeleton* pSkeleton); 
 
-		virtual IAnimLayerNode*		CreateLayerNode();
+		IAnimLayerNode*		CreateLayerNode(AnimLayerNodeData* pLayerData);
 
-		virtual IAnimBlendNode*		CreateBlendNode();
+		IAnimBlendNode*		CreateBlendNode(AnimBlendNodData* pBlendData);
 
-		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+		IAnimClipNode*		CreateClipNode(AnimClipNodeData* pClipData);
 
+		//IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+
+	private:
+		IAnimTreeNode*		CreateAnimNode(AnimNodeData* pAnimNodeData);
 
 	private:
 		std::string		m_sAnimName;
@@ -50,6 +59,8 @@ namespace ma
 		std::vector<PoseModifier*> m_arrPoseModifier;
 
 		Skeleton*		m_pSkeleton;
+
+		ActionData*		m_pActionData;
 	};
 }
 

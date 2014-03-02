@@ -25,7 +25,7 @@ FlowLayout* FlowLayout::create()
     }
     else
     {
-        __FlowLayOutInstance->IncReference();
+        __FlowLayOutInstance->ref();
     }
 
     return __FlowLayOutInstance;

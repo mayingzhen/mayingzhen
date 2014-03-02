@@ -77,6 +77,8 @@ namespace ma
 		 */
 		static std::string	getExtension(const char* path);
 
+		static std::string  ReplaceFileExt(const std::string& strFile,const std::string& strNewExt);
+
 	private:
 
 		FileSystem();

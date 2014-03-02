@@ -2,8 +2,8 @@
 #include "Common/Module.h"
 %}
 
-%feature("ref") RefCountObject "$this->IncReference();"
-%feature("unref") RefCountObject "$this->DecReference();"
+%feature("ref") Referenced "$this->ref();"
+%feature("unref") Referenced "$this->unRef();"
 
 %rename(Add) Vector3::operator +;
 %rename(Subtract) Vector3::operator -;

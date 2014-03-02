@@ -38,14 +38,13 @@ namespace ma
 			len *= 4;
 		}
 
-		int width = 0;
-		int height = 0;
-		Platform::GetInstance().GetWindowSize(width,height);
+
+		Rectangle rect = GetRenderSystem()->GetViewPort();
 
 		for (int i = 0; i < 3; ++i)
 		{
-			int nWidth = width / (2 << i);
-			int nHeight = height / (2 << i);
+			int nWidth = rect.width / (2 << i);
+			int nHeight = rect.height / (2 << i);
 
 			m_DownSampleTex[i] = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,FMT_A16B16G16R16F);
 

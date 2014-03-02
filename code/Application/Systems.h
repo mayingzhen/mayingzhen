@@ -3,9 +3,13 @@
 
 namespace ma
 {
-	class Systems
+	class APP_API Systems
 	{
 	public:
+		void Init();
+
+		void Shutdown();
+
 		void Start();
 
 		void Stop();

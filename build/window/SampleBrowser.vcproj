@@ -343,19 +343,23 @@
 				RelativePath="..\..\Code\Samples\stdafx.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="config"
+			>
 			<File
-				RelativePath="..\..\code\Samples\Systems.h"
+				RelativePath="..\..\data\config\Plugins.xml"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Samples\Systems.hxx"
+				RelativePath="..\..\data\config\RenderScheme_mobile.xml"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\config\RenderScheme_PC.xml"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\data\config\config.xml"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

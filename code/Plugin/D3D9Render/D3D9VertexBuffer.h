@@ -6,12 +6,12 @@
 namespace ma
 {
 
-	class D3D9RENDER_API D3D9VertexBuffer : public VertexBuffer
+	class D3D9VertexBuffer : public VertexBuffer
 	{
 		DeclareD3DResource();
 
 	public:
-		D3D9VertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
+		D3D9VertexBuffer();
 
 		~D3D9VertexBuffer();
 
@@ -26,8 +26,9 @@ namespace ma
 		virtual void	Active();
 
 	protected:
-		IDirect3DDevice9 *          mD3D9Device;
-		IDirect3DVertexBuffer9 *    mD3D9VertexBuffer;
+		IDirect3DDevice9*          mD3D9Device;
+
+		IDirect3DVertexBuffer9*    mD3D9VertexBuffer;
 	};
 
 }

@@ -7,6 +7,8 @@ namespace ma
 
 	DeferredLightPass* GetDeferredLightPass() {return gpDeferredLightPass;}
 
+	IMPL_OBJECT(DeferredLightPass,RenderPass);
+
 	void DeferredLightPass::Init()
 	{
 		gpDeferredLightPass = this;

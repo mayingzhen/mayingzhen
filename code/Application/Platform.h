@@ -5,7 +5,7 @@
 namespace ma
 {
     
-	class ENGINE_API Platform 
+	class APP_API Platform 
 	{
 
 	public:
@@ -29,9 +29,9 @@ namespace ma
 
 		void		SetAppPath(const char* pAppPath) {m_strAppPath = pAppPath;}
 
-		static void		swapBuffers();
+		//static void		swapBuffers();
 
-		static void		sleep(long ms);
+		//static void		sleep(long ms);
 
 		static Platform&	GetInstance();
 

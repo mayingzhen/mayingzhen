@@ -2,14 +2,28 @@
 #define  _FbxImport_Module__H__
 
 
-#ifdef FBXImporter_EXPORTS
-#define FBXImporter_API _declspec (dllexport)
-#else
-#define FBXImporter_API _declspec (dllimport)
-#endif
+#include "Export.h"
+#include "FbxImportParm.h"
 
+namespace ma
+{
+	class Skeleton;
 
-#include "Plugin/FbxImport/FBXImporter.h"
+	FBXIMPORT_API void	FBXImporterModuleInit();
+
+	FBXIMPORT_API void	FBXImporterModuleShutdown();
+
+	FBXIMPORT_API bool	LoadStaticMeshData(const char* pFileName, ImportParm* pImportParm = NULL,
+		const char* pOutMeshFile = NULL, const char* pOutMatFile = NULL);
+
+	FBXIMPORT_API bool	LoadSkeletonMeshData(const char* pFileName,ImportParm* pImportParm = NULL,
+		const char* pOutMeshFile = NULL, const char* pOutMatFile = NULL, 
+		const char* pOutSkeFile = NULL, const char* pOutSkaFile = NULL);
+
+	FBXIMPORT_API bool	LoadAnimationData(const char* pFileName,const Skeleton& skeData,
+		const char* pOutSkaFile = NULL);
+}
+
 
 
 #endif

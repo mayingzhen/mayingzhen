@@ -81,9 +81,10 @@ namespace ma
 		mAndroidInputInjector = new AndroidInputInjector((AndroidMultiTouch*)mTouch, (AndroidKeyboard*)mKeyboard);
 #endif
 
-		int w,h;
-		Platform::GetInstance().GetWindowSize(w,h);
-		OnResize(w,h);
+//		ASSERT(false);
+// 		int w,h;
+// 		Platform::GetInstance().GetWindowSize(w,h);
+// 		OnResize(w,h);
 	}
 
 	void Input::Shutdown()

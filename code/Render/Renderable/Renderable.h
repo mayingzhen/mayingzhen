@@ -7,7 +7,7 @@ namespace ma
 	class Material;
 	struct SubMeshData;
 
-	struct Renderable
+	struct Renderable 
 	{
 	public:
 		Renderable()
@@ -22,16 +22,18 @@ namespace ma
 			MatrixIdentity(&m_matWorld[1]);
 		}
 		
-		PRIMITIVE_TYPE			m_ePrimitiveType;
-		VertexDeclaration*		m_pDeclaration;
-		VertexBuffer*			m_pVertexBuffers;
-		IndexBuffer*			m_pIndexBuffer;
-		SubMeshData*			m_pSubMeshData;	
+		PRIMITIVE_TYPE					m_ePrimitiveType;
+		VertexDeclaration*				m_pDeclaration;
+		VertexBuffer*					m_pVertexBuffers;
+		IndexBuffer*					m_pIndexBuffer;
+		SubMeshData*					m_pSubMeshData;	
 
-		std::vector<Matrix4x4>  m_arrSkinMatrix[2];
+		std::vector<Matrix4x4>			m_arrSkinMatrix[2];
 
-		Matrix4x4				m_matWorld[2];
+		Matrix4x4						m_matWorld[2];
 	};
+
+	DeclareRefPtr(Renderable);
 }
 
 #endif

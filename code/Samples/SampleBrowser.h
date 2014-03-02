@@ -46,6 +46,8 @@ namespace ma
 
 		void				LoadPlugin();
 
+		void				LoadRenderScheme();
+
 	private:
 		std::map<std::string,Sample*>	m_arrSamples;
 

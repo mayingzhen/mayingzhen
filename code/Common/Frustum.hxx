@@ -2,7 +2,12 @@
 
 namespace ma
 {
-	Frustum::Frustum(const Matrix4x4 &mViewProj)
+	Frustum::Frustum()
+	{
+
+	}
+
+	void Frustum::Update(const Matrix4x4 &mViewProj)
 	{
 		float nearZ = 0.0f;
 		float farZ = 1.0f; // gl -1 ~ 1
@@ -38,5 +43,70 @@ namespace ma
 		m_pPoints[5] = _far_left_bottom_world;
 		m_pPoints[6] = _far_right_top_world;
 		m_pPoints[7] = _far_right_bottom_world;
+	}
+
+	Frustum::Visibility Frustum::Intersect(const AABB& box) const
+	{
+		return Visibility_FULL;
+// 		if (box.isNull())
+// 		{
+// 			return Visibility_NONE;
+// 		}
+// 
+// 		Vector3 vCenter = box.getCenter();
+// 		Vector3 vHalfSize = box.getHalfSize();
+// 
+// 		bool bAllInSide = true;
+// 		for (int i = 0;i< 6;++i)
+// 		{
+// 			const Plane& plane = m_rgPlane[i];
+// 			Plane::Side side = plane.getSide(vCenter, vHalfSize);
+// 			if (side == Plane::NEGATIVE_SIDE)
+// 			{
+// 				return Visibility_NONE;
+// 			}
+// 
+// 			if (side == Plane::BOTH_SIDE)
+// 			{
+// 				bAllInSide = false;
+// 			}
+// 		}
+// 
+// 		if (bAllInSide)
+// 		{
+// 			return Visibility_FULL;
+// 		}
+// 		else
+// 		{
+// 			return Visibility_PARTITAL;
+// 		}
+	}
+
+	bool Frustum::isVisible(const AABB& bound) const
+	{
+// 		// Null boxes always invisible
+// 		if (bound.isNull()) return false;
+// 
+// 		// Infinite boxes always visible
+// 		if (bound.isInfinite()) return true;
+// 
+// 		// Get centre of the box
+// 		Vector3 centre = bound.getCenter();
+// 		// Get the half-size of the box
+// 		Vector3 halfSize = bound.getHalfSize();
+// 
+// 		// For each plane, see if all points are on the negative side
+// 		// If so, object is not visible
+// 		for (int plane = 0; plane < 6; ++plane)
+// 		{
+// 			Plane::Side side = m_rgPlane[plane].getSide(centre, halfSize);
+// 			if (side == Plane::NEGATIVE_SIDE)
+// 			{
+// 				return false;
+// 			}
+// 
+// 		}
+
+		return true;
 	}
 }

@@ -15,7 +15,7 @@ namespace ma
 			
 		virtual void	LoadSync();
 
-		virtual bool	CreateRT() = 0;
+		virtual bool	CreateRT() =	 0;
 
 		virtual bool	Load(const char* pszPath = NULL, bool generateMipmaps = false) = 0;
 

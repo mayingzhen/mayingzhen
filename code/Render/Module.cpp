@@ -8,9 +8,9 @@
 #include "Render/IRenderDevice/VertexDeclaration.hxx"
 
 #include "Render/Renderable/MeshBatch.hxx"
-#include "Render/Renderable/RendMesh.hxx"
 #include "Render/Renderable/SpriteBatch.hxx"
-#include "Render/Renderable/RenderObject.hxx"
+#include "Render/Renderable/RenderComponent.hxx"
+#include "Render/Renderable/MeshComponent.hxx"
 #include "Render/Renderable/MeshData.hxx"
 
 #include "Render/RenderSystem/Camera.hxx"
@@ -35,6 +35,8 @@
 #include "Render/Util/ScreenQuad.hxx"
 #include "Render/Util/UnitSphere.hxx"
 
+#include "Render/Material/RenderState.hxx"
+#include "Render/Material/MaterialData.hxx"
 #include "Render/Material/Material.hxx"
 #include "Render/Material/MaterialParameter.hxx"
 #include "Render/Material/ShaderProgram.hxx"
@@ -47,13 +49,13 @@
 #include "Render/RenderSystem/RenderSetting.hxx"
 #include "Render/RenderSystem/RenderContext.hxx"
 
+#include "Render/RenderScheme/RenderPass.hxx"
 #include "Render/RenderScheme/DeferredLightPass.hxx"
 #include "Render/RenderScheme/DeferredShadowPass.hxx"
 #include "Render/RenderScheme/GBufferPass.hxx"
 #include "Render/RenderScheme/ShadowDepthPass.hxx"
 #include "Render/RenderScheme/ShadingPass.hxx"
 #include "Render/RenderScheme/RenderScheme.hxx"
-#include "Render/RenderScheme/DefferredRender.hxx"
 
 #include "Render/RenderScheme/BlurPostProcess.hxx"
 #include "Render/RenderScheme/HDRPostProcess.hxx"

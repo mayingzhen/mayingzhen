@@ -125,7 +125,7 @@ Theme::Style::Overlay::Overlay(const Overlay& copy) : _skin(NULL), _cursor(NULL)
 
     if (_font)
     {
-        _font->IncReference();
+        _font->ref();
     }
 }
 
@@ -229,7 +229,7 @@ void Theme::Style::Overlay::setFont(Font* font)
 
         if (_font)
         {
-            _font->IncReference();
+            _font->ref();
         }
     }
 }
@@ -395,7 +395,7 @@ void Theme::Style::Overlay::setSkin(Skin* skin)
 
         if (skin)
         {
-            skin->IncReference();
+            skin->ref();
         }
     }
 }
@@ -414,7 +414,7 @@ void Theme::Style::Overlay::setCursor(ThemeImage* cursor)
 
         if (cursor)
         {
-            cursor->IncReference();
+            cursor->ref();
         }
     }
 }
@@ -433,7 +433,7 @@ void Theme::Style::Overlay::setImageList(ImageList* imageList)
 
         if (imageList)
         {
-            imageList->IncReference();
+            imageList->ref();
         }
     }
 }

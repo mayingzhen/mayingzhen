@@ -29,7 +29,7 @@ namespace ma
 
 		void				ClearCasterList(); 
 
-		void				AddCaster(RenderObject* pRenderObj); 
+		void				AddCaster(RenderComponent* pRenderObj); 
 
 	private:
 		Texture*					m_pShdowDepth;
@@ -44,7 +44,7 @@ namespace ma
 		
 		int							m_nIndex; 
 
-		std::vector<RenderObject*>	m_arrCasterList[2];
+		std::vector<RenderComponent*>	m_arrCasterList[2];
 	};
 }
 

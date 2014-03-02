@@ -9,15 +9,10 @@ class TiXmlElement;
 namespace ma
 {
 	class XMLOutputArchive;
+	class DataStream;
 
 	class ENGINE_API XMLInputArchive : public Serializer 
 	{
-		TiXmlDocument*	m_pDoc;
-
-		TiXmlElement*	m_pRootElem;
-		
-		TiXmlElement*	m_pCurElem;
-
 	public:
 		XMLInputArchive();
 
@@ -28,6 +23,8 @@ namespace ma
 		bool Open(const char* pszFilename);
 
 		bool Open(XMLOutputArchive& xmlOutAr);
+
+		bool Open(DataStream* pDataStream);
 
 		bool Close();
 
@@ -43,7 +40,7 @@ namespace ma
 
 		void Serialize(unsigned short& val, const char* pszLabel);
 
-		void Serialize(unsigned int&val,const char* pszLable = "unsigned int");
+		void Serialize(UINT&val,const char* pszLable = "UINT");
 
 		void Serialize(int&val,const char* pszLable = "int");
 
@@ -57,7 +54,18 @@ namespace ma
 
 		void Serialize(std::string& val,const char* pszLable = "string");
 
+	private:
+		TiXmlDocument*	m_pDoc;
+
+		TiXmlElement*	m_pRootElem;
+
+		TiXmlElement*	m_pCurElem;
+
+		TiXmlAttribute* m_pCurAttri;
+
 	};
+
+
 }
 
 

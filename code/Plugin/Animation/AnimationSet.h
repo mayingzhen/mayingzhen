@@ -11,7 +11,7 @@ namespace ma
 	class AnimationSet : public IAnimationSet
 	{
 	public:
-		AnimationSet(AnimationObject* pAniPlay);
+		AnimationSet(AnimationObject* pAniPlay,AnimationSetData* pAniSetData);
 
 		virtual	IAction*	CreateAction(const char* actionName);
 
@@ -19,21 +19,18 @@ namespace ma
 
 		virtual IAction*	GetActionByName(const char* pszName);
 
-		virtual UINT		GetActionNumber() {return m_arrAnimation.size();}
+		virtual UINT		GetActionNumber() {return m_arrAction.size();}
 
 		virtual IAction*	GetActionByIndex(UINT index);
 
 		virtual void		RemoveAction(IAction* pAction);
 
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
-
 	private:
-		std::vector<BoneSet*>		m_arrBoneSet;
+		std::vector<Action*>		m_arrAction;
 
-		std::vector<PoseModifier*>	m_arrPoseModifier;
-
-		std::vector<Action*>		m_arrAnimation;
 		AnimationObject*			m_pAnimObject;
+
+		AnimationSetData*			m_pAniSetData;
 	};
 }
 

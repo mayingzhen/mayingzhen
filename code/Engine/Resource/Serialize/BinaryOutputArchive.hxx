@@ -23,7 +23,7 @@ namespace ma
 	}
 
 
-	bool BinaryOutputArchive::SerializeByte(Uint8* pData,UINT nSizeToRead,const char* pszLable)
+	bool BinaryOutputArchive::SerializeByte(Uint8* &pData,UINT nSizeToRead,const char* pszLable)
 	{
 		m_file.write((char*)pData,nSizeToRead);
 		return ! m_file.fail();
