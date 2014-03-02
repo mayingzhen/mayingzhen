@@ -1,37 +1,23 @@
-<AnimationSet>
-    <arrBoneSetSize arrBoneSetSize="0" />
-    <arrPoseModifier arrPoseModifier="0" />
-    <arrAnimationSize arrAnimationSize="4" />
-    <Action>
-        <string string="gigi_Run" />
-        <AniTreeNodeType AniTreeNodeType="AnimClipNode" />
-        <AnimTreeNode>
-            <string string="gigi/210_run/bip01.ska" />
-            <string string="" />
-        </AnimTreeNode>
-    </Action>
-    <Action>
-        <string string="gigi_jump" />
-        <AniTreeNodeType AniTreeNodeType="AnimClipNode" />
-        <AnimTreeNode>
-            <string string="gigi/281_run_jump_start/bip01.ska" />
-            <string string="" />
-        </AnimTreeNode>
-    </Action>
-    <Action>
-        <string string="Mag602" />
-        <AniTreeNodeType AniTreeNodeType="AnimClipNode" />
-        <AnimTreeNode>
-            <string string="magician/602/bip01.ska" />
-            <string string="" />
-        </AnimTreeNode>
-    </Action>
-    <Action>
-        <string string="mag100" />
-        <AniTreeNodeType AniTreeNodeType="AnimClipNode" />
-        <AnimTreeNode>
-            <string string="magician/100/bip01.ska" />
-            <string string="" />
-        </AnimTreeNode>
-    </Action>
-</AnimationSet>
+<Root>
+    <AnimationSet>
+        <arrBoneSet size="0" />
+        <arrPoseModifier size="0" />
+        <arrAnimation size="3">
+            <Element_0 ActionName="602">
+                <AnimationNode ClassName="AnimClipNodeData">
+                    <AnimationNode ClipName="magician/602/bip01.ska" BonsetName="" />
+                </AnimationNode>
+            </Element_0>
+            <Element_1 ActionName="120">
+                <AnimationNode ClassName="AnimClipNodeData">
+                    <AnimationNode ClipName="magician/602/bip01.ska" BonsetName="" />
+                </AnimationNode>
+            </Element_1>
+            <Element_2 ActionName="100">
+                <AnimationNode ClassName="AnimClipNodeData">
+                    <AnimationNode ClipName="magician/602/bip01.ska" BonsetName="" />
+                </AnimationNode>
+            </Element_2>
+        </arrAnimation>
+    </AnimationSet>
+</Root>

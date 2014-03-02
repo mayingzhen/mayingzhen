@@ -2,6 +2,23 @@
 #define __BaseType_h__
 
 
+#include <string>
+#include <vector>
+#include <queue>
+#include <list>
+#include <map>
+#include <set>
+#include <stack>
+#include <algorithm>
+#include <fstream>
+#include <stdarg.h>
+#include <memory.h>
+#include <time.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <memory.h>
+#include <assert.h>
+#include <limits>
 
 typedef unsigned char		Uint8;
 typedef unsigned short		Uint16;

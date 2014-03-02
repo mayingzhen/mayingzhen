@@ -41,6 +41,29 @@ namespace ma
 		virtual void	DeleteObject(const char* clsName,Object* pObject);
 
 	};
+
+	template <class T>
+	T*	CreateObject(const char* pszClassName)
+	{
+		Object* pObject = ObjectFactoryManager::GetInstance().CreateObject(pszClassName);
+		ASSERT(pObject);
+		
+		T* pTypeObject = SafeCast<T>(pObject);
+ 		ASSERT(pTypeObject);
+ 		return pTypeObject;
+	}
+
+	template <class T>
+	T*	CreateObjectArg(const char* pszClassName,Object* pObject)
+	{
+		Object* pObject = ObjectFactoryManager::GetInstance().CreateObjectArg(pszClassName,pObject);
+		ASSERT(pObject);
+
+		T* pTypeObject = SafeCast<T>(pObject);
+		ASSERT(pTypeObject);
+		return pTypeObject;
+	}
+
 }
 
 #endif //__ObjectFactory_H__

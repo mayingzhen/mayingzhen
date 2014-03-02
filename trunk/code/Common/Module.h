@@ -24,8 +24,8 @@
 
 // Utile
 #include "Common/Singleton.h"
-#include "Common/RefCountObject.h"
-#include "Common/SmartPointer.h"
+#include "Common/Referenced.h"
+#include "Common/RefPtr.h"
 #include "Common/BitField.h"
 #include "Common/TArray.h"
 

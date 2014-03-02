@@ -17,7 +17,7 @@ namespace ma
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "AnimationObject") = 0;
 
- 		virtual IAnimationSet*	GetAnimationSet() = 0;
+ 		//virtual IAnimationSet*	GetAnimationSet() = 0;
 
 		virtual void			PlayAnimation(const char* pszAnimName) = 0;
 

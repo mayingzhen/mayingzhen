@@ -20,6 +20,11 @@ namespace ma
 		}
 	}
 
+	void AnimationClip::SetSkeleton(Skeleton* pSkeleton)
+	{
+		m_pNodeLink->Build(pSkeleton,m_pAnimation);	
+	}
+
 	AnimationClip::~AnimationClip()
 	{
 		SAFE_DELETE(m_pNodeLink);

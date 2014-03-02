@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class D3D9RENDER_API D3D9VertexDeclaration : public VertexDeclaration
+	class D3D9VertexDeclaration : public VertexDeclaration
 	{
 
 	public: 

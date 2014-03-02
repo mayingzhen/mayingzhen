@@ -6,6 +6,8 @@
 #include "Animation/Skeleton.h"
 #include "Animation/Animation.h"
 #include "Animation/AnimationDataCover.h"
+#include "Animation/AnimationSetData.h"
+#include "Animation/ActionData.h"
 
 
 

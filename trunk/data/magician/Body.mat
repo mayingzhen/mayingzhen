@@ -1,18 +1,12 @@
-<Material>
-    <Shader Shader="default" />
-    <MaterialFlag MaterialFlag="DIFFUSE;SKIN; SKIN_MATRIX_COUNT 47;" />
-    <Diffuse>
-        <Texture Texture="magician/Body.tga" />
-    </Diffuse>
-    <arrParamSize arrParamSize="1" />
-    <ParameterName ParameterName="u_cDiffuseColor" />
-    <ParamValue>
-        <ValueType ValueType="7" />
-        <Vector4>
-            <x x="1.000000" />
-            <y y="0.000000" />
-            <z z="0.000000" />
-            <w w="0.000000" />
-        </Vector4>
-    </ParamValue>
-</Material>
+<Root>
+    <Material>
+        <Shader Name="default" Macro="DIFFUSE;SKIN; SKIN_MATRIX_COUNT 47" />
+        <RenderState />
+        <Parameters size="2">
+            <Element_0 name="u_texture" type="SAMPLER" count="1">
+                <SamplerState Texture="magician/Body.tga" />
+            </Element_0>
+            <Element_1 name="u_cDiffuseColor" type="FLOAT" count="4" value="1.000000 0.000000 0.000000 0.000000 " />
+        </Parameters>
+    </Material>
+</Root>

@@ -25,7 +25,7 @@ namespace ma
 
 		virtual void Serialize(unsigned short& val, const char* pszLabel = "unsigned short");
 
-		virtual void Serialize(unsigned int&val,const char* pszLable = "unsigned int");
+		virtual void Serialize(UINT&val,const char* pszLable = "UINT");
 
 		virtual void Serialize(int&val,const char* pszLable = "int");
 
@@ -39,15 +39,17 @@ namespace ma
 
 		virtual void Serialize(std::string& val,const char* pszLable = "string");
 
-		//virtual void Serialize(IStringWrapper* val,const char* pszLable = "string");
-
 		virtual void Serialize(Vector2 &val,const char* pszLable = "Vector2");
 
 		virtual void Serialize(maGUID &val,const char* pszLable = "GUID");
 
+		//virtual void Serialize(const float* arrFloat, UINT nCount,const char* pszLable = "arrFloat");
+
 		virtual void Serialize(Vector3 &val,const char* pszLable = "Vector3");
 
 		virtual void Serialize(Vector4 &val,const char* pszLable = "Vector4");
+
+		virtual void Serialize(float* &arrVal, UINT &nCount, const char* pszLable = "arrFloat");
 
 		virtual void Serialize(Quaternion &val,const char* pszLable = "Quaternion");
 
@@ -83,8 +85,7 @@ namespace ma
 		//virtual const char* GetNextChildName();
 
 		////////////////////
-		
-		virtual bool SerializeByte(Uint8* pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
+		virtual bool SerializeByte(Uint8* &pData,UINT nSizeInByte,const char* pszLable = "Bytes") {return false;}
 
 		//------------------------------------------------------------------------------
 		//
@@ -138,7 +139,7 @@ namespace ma
 		{
 			val.resize(nSize);
 		}
-		BeginSection("element");
+		//BeginSection("element");
 
 		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
 		{
@@ -150,7 +151,7 @@ namespace ma
 			}
 			Serialize(*(val[nCnt]),buf);
 		}
-		EndSection();
+		//EndSection();
 
 		EndSection();
 	}

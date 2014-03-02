@@ -2,7 +2,6 @@
 #include <windowsx.h>
 #include <shellapi.h>
 
-#include "../Profile/CodeTimer.h"
 
 
 namespace ma
@@ -29,7 +28,7 @@ namespace ma
 
 		case WM_SIZE:
 			// Window was resized.
-			//Game::GetInstance().resizeEvent((unsigned int)(short)LOWORD(lParam), (unsigned int)(short)HIWORD(lParam));
+			//Game::GetInstance().resizeEvent((UINT)(short)LOWORD(lParam), (UINT)(short)HIWORD(lParam));
 			break;
 		}
 

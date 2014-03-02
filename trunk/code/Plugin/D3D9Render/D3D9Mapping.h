@@ -27,7 +27,7 @@ protected: \
 namespace ma
 {
 
-	struct D3D9RENDER_API D3D9RenderState
+	struct D3D9RenderState
 	{
 		DWORD       CullMode;
 		DWORD       FillMode;
@@ -44,7 +44,7 @@ namespace ma
 		DWORD       AlphaRef;
 	};
 
-	struct D3D9RENDER_API D3D9DisplayDevice
+	struct D3D9DisplayDevice
 	{
 		UINT                    AdapterNumber;
 		D3DADAPTER_IDENTIFIER9  Identifier;

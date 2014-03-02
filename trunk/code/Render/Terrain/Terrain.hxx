@@ -98,6 +98,8 @@ namespace ma
 				m_arrSection.push_back(pTerrainScetion);
 				m_arrGameObj.push_back(pGameObj);
 
+				//GetCullTree()->UpdateObject(pGameObj);
+
 				m_aabbWorld.Merge( pTerrainScetion->GetAABBWS() );
 			}
 		}
@@ -166,7 +168,7 @@ namespace ma
 		while( pPixmapElement )
 		{
 			PixMap pixmap;
-			unsigned int res;
+			UINT res;
 			res = pPixmapElement->QueryFloatAttribute( "top", &pixmap.top );
 			if(TIXML_NO_ATTRIBUTE == res )
 				pixmap.top = 0;

@@ -174,11 +174,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\Code\Common\AABB.h"
+				RelativePath="..\..\code\Common\AABB.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\AABB.hxx"
+				RelativePath="..\..\code\Common\AABB.hxx"
 				>
 			</File>
 			<File
@@ -198,11 +198,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\Frustum.h"
+				RelativePath="..\..\code\Common\Frustum.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\Frustum.hxx"
+				RelativePath="..\..\code\Common\Frustum.hxx"
 				>
 			</File>
 			<File
@@ -226,19 +226,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\Rectangle.h"
+				RelativePath="..\..\code\Common\Referenced.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\Rectangle.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Common\RefCountObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Common\RefCountObject.hxx"
+				RelativePath="..\..\code\Common\RefPtr.h"
 				>
 			</File>
 			<File
@@ -246,45 +238,9 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Common\SmartPointer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Common\SmartPointer.inl"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Common\TArray.h"
 				>
 			</File>
-			<Filter
-				Name="Math"
-				>
-				<File
-					RelativePath="..\..\Code\Common\Math\Math.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\Math\Math.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\Math\Math.inl"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\Math\MathBase.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\Math\MathBase.inl"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Common\Math\MathBase_Portable.hxx"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Platform"
 				>
@@ -332,6 +288,34 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="Math"
+				>
+				<File
+					RelativePath="..\..\code\Common\Math\Math.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Math.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Math.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\MathBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\MathBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\MathBase_Portable.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<File

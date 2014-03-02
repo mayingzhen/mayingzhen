@@ -15,11 +15,6 @@ namespace ma
 
 	}
 
-// 	void Component::BuildRenderItem()
-// 	{
-// 
-// 	}
-
 	void Component::UpdateTransform()
 	{
 

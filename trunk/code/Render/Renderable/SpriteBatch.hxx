@@ -46,10 +46,8 @@ namespace ma
 
 
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
-		Platform& platform = Platform::GetInstance();
-		int w,h;
-		platform.GetWindowSize(w, h);
-		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, (float)w, (float)h, 0, 0.0f, 1.0f);
+		Rectangle rect = GetRenderSystem()->GetViewPort();
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
 		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::getProjectionMatrix);
 	}
 
@@ -261,7 +259,7 @@ namespace ma
 		}
 	}
 
-	void SpriteBatch::draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount, unsigned short* indices, unsigned int indexCount)
+	void SpriteBatch::draw(SpriteBatch::SpriteVertex* vertices, UINT vertexCount, unsigned short* indices, UINT indexCount)
 	{
 		ASSERT(vertices);
 		ASSERT(indices);

@@ -12,6 +12,8 @@ namespace ma
 
 		AABB();
 
+		AABB(const Vector3& vMin, const Vector3 vMax);
+
 		void SetNull();
 
 		bool IsNull() const;
@@ -35,6 +37,12 @@ namespace ma
 	inline AABB::AABB()
 	{
 		SetNull();
+	}
+
+	inline AABB::AABB(const Vector3& vMin, const Vector3 vMax)
+	{
+		m_vMin = vMin;
+		m_vMax = vMax;
 	}
 
 	inline void AABB::SetNull()

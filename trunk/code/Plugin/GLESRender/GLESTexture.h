@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class GLESRENDER_API GLESTexture : public Texture
+	class GLESTexture : public Texture
 	{
 	public:
 		GLESTexture(const char* pszPath);

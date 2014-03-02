@@ -2,6 +2,27 @@
 
 namespace ma
 {
+	void Systems::Init()
+	{
+		Input* pInput = new Input();
+		SetInput(pInput);
+		pInput->Init(Platform::GetInstance().GetWindId());
+		int w,h;
+		Platform::GetInstance().GetWindowSize(w,h);
+		pInput->OnResize(w,h);
+
+		GetRenderSystem()->Init(Platform::GetInstance().GetWindId());
+	}
+
+	void Systems::Shutdown()
+	{
+		GetRenderSystem()->ShoutDown();
+
+		Input* pInput = GetInput();
+		pInput->Shutdown();
+		SAFE_DELETE(pInput);
+		SetInput(NULL);
+	}
 
 	void Systems::Start()
 	{

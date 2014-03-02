@@ -5,25 +5,9 @@
 
 namespace ma
 {
-	enum
-	{
-		DATA_THREAD_EXIGENCE_NORMAL = 0,
-		DATA_THREAD_EXIGENCE_IMMEDIATE = 1,	
-	};
-
-	class IDataObj
-	{
-	public:
-		//virtual  int64_t GetID()	=	0;
-		virtual  bool	LoadFileToMemeory() = 0;
-
-		virtual	 bool	CreateFromMemeory() = 0;
-		//virtual  DWORD	GetExigence()			=	0;
-		//virtual void	DataThreadRelease()		=	0;
-	};
-
-    class Thread;
-    class CMyEvent;
+	class Thread;
+	class CMyEvent;
+	class Resource;
 
 	class DataThread : public Thread
 	{	
@@ -34,42 +18,27 @@ namespace ma
 
 		virtual	void	Update();
 
-		void			SetThreadPriority(ULONG	uData);
-
-		IDataObj*		PopUpDataObj(void);	
+		Resource*		PopUpDataObj();	
 		
-		IDataObj*		PushBackDataObj(IDataObj* pObj);
-		
-		ULONG			Release(void){delete this; return 0;}
+		void			PushBackDataObj(Resource* pObj);
 		
 		bool			IsFree(void);
 		
 		bool			Process(void);
-		
-		void			SetImmediateExigence(bool bImmediate){m_bImmediate = bImmediate;}
-
-
-	private:
-		//void		Run();
 
 	public:
-		typedef std::deque<IDataObj*> CDataObjQueue;
-		CDataObjQueue	m_queLoaded;
-		CDataObjQueue	m_queUnloaded;
-		CDataObjQueue	m_queUnloadedBuffer;
+		typedef std::deque<Resource*> DataObjQueue;
+		DataObjQueue		m_queLoaded;
+		DataObjQueue		m_queUnloaded;
+		DataObjQueue		m_queUnloadedBuffer;
 
-	public:
 		Thread*				m_pThread;
 		CMyEvent*			m_pReadEvent; // read event, for process read data
 
 		CriticalSection		m_csRequestQueue;	// 加载队列同步锁
 		CriticalSection		m_csLoadedQueue;	// 加载队列同步锁
 
-		bool				m_bImmediate;
 		bool				m_bFree;
-		//bool				m_bExit;
-		DWORD				m_dwTlsIndex;
-		DWORD				m_dwThreadAppID;
 	};
 }
 

@@ -17,14 +17,14 @@ namespace ma
 		{
 			GameObject* pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			RenderMesh* pMeshComp = pCharMagic->CreateComponent<RenderMesh>();
+			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
 
-			IAnimationObject* pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
-			pAnimObj->Load(NULL,"magician/Body.ske");
-			IAnimationSet* pAnimSet = pAnimObj->GetAnimationSet();
-			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
-			pAnimObj->PlayAnimation((UINT)0);
+// 			IAnimationObject* pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
+// 			pAnimObj->Load(NULL,"magician/Body.ske");
+// 			IAnimationSet* pAnimSet = pAnimObj->GetAnimationSet();
+// 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
+// 			pAnimObj->PlayAnimation((UINT)0);
 
 			pCharMagic->GetSceneNode()->Right(100);
 

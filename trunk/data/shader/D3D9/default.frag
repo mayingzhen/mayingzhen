@@ -7,7 +7,7 @@ uniform sampler2D u_textureLightDiffuse;
 uniform sampler2D u_textureLightSpecular;
 #endif
 
-uniform float4 u_cDiffuseColor = float4(1.0,1.0,1.0,1.0); 
+uniform float4 u_cDiffuseColor; 
 
 // Varyings
 struct PS_IN
@@ -28,7 +28,7 @@ struct PS_IN
 
 float4 main(PS_IN In) : COLOR0
 {
-   float4 flagColor = float4(1.0,1.0,1.0,1.0); //u_cDiffuseColor;
+   float4 flagColor = u_cDiffuseColor;
    
 #ifdef COLOR   
    flagColor = In.v_color;   

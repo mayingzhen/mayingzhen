@@ -12,10 +12,10 @@ namespace ma
 		Vector2 VetrexUV2;
 	};
 
-	IMPL_OBJECT(TerrainSection,RenderObject)
+	IMPL_OBJECT(TerrainSection,RenderComponent)
 
 	TerrainSection::TerrainSection(GameObject* pGameObj):
-		RenderObject(pGameObj)
+		RenderComponent(pGameObj)
 	{
 		m_pRenderable = new Renderable();
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
@@ -25,7 +25,7 @@ namespace ma
 
 	TerrainSection::~TerrainSection()
 	{
-		SAFE_DELETE(m_pRenderable->m_pSubMeshData);
+		//SAFE_DELETE(m_pRenderable->m_pSubMeshData);
 		SAFE_DELETE(m_pRenderable);
 	}
 
@@ -58,10 +58,10 @@ namespace ma
 		return m_WorldAABB;
 	}
 
-	void TerrainSection::SetWorldMatrix(const Matrix4x4& matWS)
-	{
-
-	}
+// 	void TerrainSection::SetWorldMatrix(const Matrix4x4& matWS)
+// 	{
+// 
+// 	}
 
 	void TerrainSection::Serialize(Serializer& sl, const char* pszLable/* = "TerrainSection"*/)
 	{
@@ -141,7 +141,8 @@ namespace ma
 			}
 		}
 
-		m_pRenderable->m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexValues,total_indexes * sizeof(WORD));
+		m_pRenderable->m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(/*pIndexValues,total_indexes * sizeof(WORD)*/);
+		m_pRenderable->m_pIndexBuffer->SetData(pIndexValues,total_indexes * sizeof(WORD),sizeof(WORD));
 		m_pRenderable->m_pSubMeshData->m_nIndexCount  = total_indexes;
 	}
 
@@ -255,7 +256,8 @@ namespace ma
 		}
 
 		UINT nVertSize = (m_xVerts - 1) * (m_yVerts - 1) * 4 * sizeof(sSectorVertex);
-		m_pRenderable->m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(pVerts,nVertSize);
+		m_pRenderable->m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(/*pVerts,nVertSize*/);
+		m_pRenderable->m_pVertexBuffers->SetData(pVerts,nVertSize,sizeof(sSectorVertex));
 		m_pRenderable->m_pSubMeshData->m_nVertexCount = (m_xVerts - 1) * (m_yVerts - 1) * 4;
 
 	}

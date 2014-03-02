@@ -3,8 +3,7 @@
 namespace ma
 {
 
-	D3D9VertexBuffer::D3D9VertexBuffer(void* pData, int nsize, int nStride, USAGE Usgae)
-		:VertexBuffer(pData,nsize,nStride,Usgae)
+	D3D9VertexBuffer::D3D9VertexBuffer()
 	{
 		mD3D9Device = NULL;
 		mD3D9VertexBuffer = NULL;

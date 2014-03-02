@@ -998,6 +998,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Vector3_Equals(void * jarg1, void * j
 }
 
 
+SWIGEXPORT float SWIGSTDCALL CSharp_Vector3_normalise(void * jarg1) {
+  float jresult ;
+  Vector3 *arg1 = (Vector3 *) 0 ;
+  float result;
+  
+  arg1 = (Vector3 *)jarg1; 
+  result = (float)(arg1)->normalise();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_x_set(void * jarg1, float jarg2) {
   Vector3 *arg1 = (Vector3 *) 0 ;
   float arg2 ;
@@ -1122,12 +1134,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Vec3One() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Vec3fromColor(unsigned int jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Vec3fromColor(void * jarg1) {
   void * jresult ;
-  unsigned int arg1 ;
+  UINT arg1 ;
+  UINT *argp1 ;
   Vector3 result;
   
-  arg1 = (unsigned int)jarg1; 
+  argp1 = (UINT *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
   result = Vec3fromColor(arg1);
   jresult = new Vector3((const Vector3 &)result); 
   return jresult;
@@ -1308,12 +1326,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Vec4Zero() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Vec4fromColor(unsigned int jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Vec4fromColor(void * jarg1) {
   void * jresult ;
-  unsigned int arg1 ;
+  UINT arg1 ;
+  UINT *argp1 ;
   Vector4 result;
   
-  arg1 = (unsigned int)jarg1; 
+  argp1 = (UINT *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
   result = Vec4fromColor(arg1);
   jresult = new Vector4((const Vector4 &)result); 
   return jresult;
@@ -1676,142 +1700,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_EulerAngleXYZ(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_0() {
-  void * jresult ;
-  Plane *result = 0 ;
-  
-  result = (Plane *)new Plane();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_1(void * jarg1) {
-  void * jresult ;
-  float *arg1 = (float *) 0 ;
-  Plane *result = 0 ;
-  
-  arg1 = (float *)jarg1; 
-  result = (Plane *)new Plane((float const *)arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_2(float jarg1, float jarg2, float jarg3, float jarg4) {
-  void * jresult ;
-  float arg1 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  Plane *result = 0 ;
-  
-  arg1 = (float)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  result = (Plane *)new Plane(arg1,arg2,arg3,arg4);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Plane_a_set(void * jarg1, float jarg2) {
-  Plane *arg1 = (Plane *) 0 ;
-  float arg2 ;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->a = arg2;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Plane_a_get(void * jarg1) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  result = (float) ((arg1)->a);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Plane_b_set(void * jarg1, float jarg2) {
-  Plane *arg1 = (Plane *) 0 ;
-  float arg2 ;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->b = arg2;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Plane_b_get(void * jarg1) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  result = (float) ((arg1)->b);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Plane_c_set(void * jarg1, float jarg2) {
-  Plane *arg1 = (Plane *) 0 ;
-  float arg2 ;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->c = arg2;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Plane_c_get(void * jarg1) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  result = (float) ((arg1)->c);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Plane_d_set(void * jarg1, float jarg2) {
-  Plane *arg1 = (Plane *) 0 ;
-  float arg2 ;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->d = arg2;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Plane_d_get(void * jarg1) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  result = (float) ((arg1)->d);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_Plane(void * jarg1) {
-  Plane *arg1 = (Plane *) 0 ;
-  
-  arg1 = (Plane *)jarg1; 
-  delete arg1;
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_Color__SWIG_0() {
   void * jresult ;
   Color *result = 0 ;
@@ -2122,7 +2010,7 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Vec3Length(void * jarg1) {
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Vec3LengthSq(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Vec3LengthSq__SWIG_0(void * jarg1) {
   float jresult ;
   Vector3 *arg1 = (Vector3 *) 0 ;
   float result;
@@ -3097,64 +2985,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_EulerAngleFromQuaternion__SWIG_0(void * jarg1
   arg1 = (EulerAngleXYZ *)jarg1; 
   arg2 = (Quaternion *)jarg2; 
   EulerAngleFromQuaternion(arg1,(Quaternion const *)arg2);
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_PlaneDot(void * jarg1, void * jarg2) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  Vector4 *arg2 = (Vector4 *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (Vector4 *)jarg2; 
-  result = (float)PlaneDot((Plane const *)arg1,(Vector4 const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_PlaneDotCoord(void * jarg1, void * jarg2) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  Vector3 *arg2 = (Vector3 *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (Vector3 *)jarg2; 
-  result = (float)PlaneDotCoord((Plane const *)arg1,(Vector3 const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_PlaneDotNormal(void * jarg1, void * jarg2) {
-  float jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  Vector3 *arg2 = (Vector3 *) 0 ;
-  float result;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (Vector3 *)jarg2; 
-  result = (float)PlaneDotNormal((Plane const *)arg1,(Vector3 const *)arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_PlaneScale(void * jarg1, void * jarg2, float jarg3) {
-  void * jresult ;
-  Plane *arg1 = (Plane *) 0 ;
-  Plane *arg2 = (Plane *) 0 ;
-  float arg3 ;
-  Plane *result = 0 ;
-  
-  arg1 = (Plane *)jarg1; 
-  arg2 = (Plane *)jarg2; 
-  arg3 = (float)jarg3; 
-  result = (Plane *)PlaneScale(arg1,(Plane const *)arg2,arg3);
-  jresult = (void *)result; 
-  return jresult;
 }
 
 
@@ -4520,11 +4350,35 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_AABB_m_vMax_get(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_AABB() {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_AABB__SWIG_0() {
   void * jresult ;
   ma::AABB *result = 0 ;
   
   result = (ma::AABB *)new ma::AABB();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_AABB__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  Vector3 *arg1 = 0 ;
+  Vector3 arg2 ;
+  Vector3 const *argp2 ;
+  ma::AABB *result = 0 ;
+  
+  arg1 = (Vector3 *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Vector3 const & type is null", 0);
+    return 0;
+  } 
+  argp2 = (Vector3 *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null Vector3 const", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (ma::AABB *)new ma::AABB((Vector3 const &)*arg1,arg2);
   jresult = (void *)result; 
   return jresult;
 }
@@ -5039,12 +4893,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_inflate(void * jarg1, float jarg2, 
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_ILogListener_OnLog(void * jarg1, unsigned int jarg2, unsigned int jarg3, char * jarg4) {
-  ILogListener *arg1 = (ILogListener *) 0 ;
+  ma::ILogListener *arg1 = (ma::ILogListener *) 0 ;
   Uint arg2 ;
   Uint arg3 ;
   char *arg4 = (char *) 0 ;
   
-  arg1 = (ILogListener *)jarg1; 
+  arg1 = (ma::ILogListener *)jarg1; 
   arg2 = (Uint)jarg2; 
   arg3 = (Uint)jarg3; 
   arg4 = (char *)jarg4; 
@@ -5053,18 +4907,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_ILogListener_OnLog(void * jarg1, unsigned int
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_ILogListener(void * jarg1) {
-  ILogListener *arg1 = (ILogListener *) 0 ;
+  ma::ILogListener *arg1 = (ma::ILogListener *) 0 ;
   
-  arg1 = (ILogListener *)jarg1; 
+  arg1 = (ma::ILogListener *)jarg1; 
   delete arg1;
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SetLogListener(void * jarg1) {
-  ILogListener *arg1 = (ILogListener *) 0 ;
+  ma::ILogListener *arg1 = (ma::ILogListener *) 0 ;
   
-  arg1 = (ILogListener *)jarg1; 
-  SetLogListener(arg1);
+  arg1 = (ma::ILogListener *)jarg1; 
+  ma::SetLogListener(arg1);
 }
 
 
@@ -5077,7 +4931,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Log__SWIG_0(unsigned int jarg1, unsigned int 
   arg1 = (Uint)jarg1; 
   arg2 = (Uint)jarg2; 
   arg3 = (char *)jarg3; 
-  Log(arg1,arg2,(char const *)arg3,arg4);
+  ma::Log(arg1,arg2,(char const *)arg3,arg4);
 }
 
 
@@ -5086,7 +4940,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Log__SWIG_1(char * jarg1) {
   void *arg2 = 0 ;
   
   arg1 = (char *)jarg1; 
-  Log((char const *)arg1,arg2);
+  ma::Log((char const *)arg1,arg2);
 }
 
 
@@ -6608,6 +6462,28 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_getExtension(char * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_ReplaceFileExt(void * jarg1, void * jarg2) {
+  void * jresult ;
+  std::string *arg1 = 0 ;
+  std::string *arg2 = 0 ;
+  std::string result;
+  
+  arg1 = (std::string *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (std::string *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
+    return 0;
+  } 
+  result = ma::FileSystem::ReplaceFileExt((std::string const &)*arg1,(std::string const &)*arg2);
+  jresult = new std::string((const std::string &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Resource_StaticInitClass() {
   ma::Resource::StaticInitClass();
 }
@@ -6884,13 +6760,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_7(void * jarg1, vo
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_8(void * jarg1, void * jarg2, char * jarg3) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  unsigned int *arg2 = 0 ;
+  UINT *arg2 = 0 ;
   char *arg3 = (char *) 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (unsigned int *)jarg2;
+  arg2 = (UINT *)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "unsigned int & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "UINT & type is null", 0);
     return ;
   } 
   arg3 = (char *)jarg3; 
@@ -6900,12 +6776,12 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_8(void * jarg1, vo
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_9(void * jarg1, void * jarg2) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  unsigned int *arg2 = 0 ;
+  UINT *arg2 = 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (unsigned int *)jarg2;
+  arg2 = (UINT *)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "unsigned int & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "UINT & type is null", 0);
     return ;
   } 
   (arg1)->Serialize(*arg2);
@@ -7212,45 +7088,57 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_29(void * jarg1, v
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_30(void * jarg1, void * jarg2, char * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_30(void * jarg1, void * jarg2, void * jarg3, char * jarg4) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  Quaternion *arg2 = 0 ;
-  char *arg3 = (char *) 0 ;
+  float **arg2 = 0 ;
+  UINT *arg3 = 0 ;
+  char *arg4 = (char *) 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (Quaternion *)jarg2;
+  arg2 = (float **)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Quaternion & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "float *& type is null", 0);
     return ;
   } 
-  arg3 = (char *)jarg3; 
-  (arg1)->Serialize(*arg2,(char const *)arg3);
+  arg3 = (UINT *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "UINT & type is null", 0);
+    return ;
+  } 
+  arg4 = (char *)jarg4; 
+  (arg1)->Serialize(*arg2,*arg3,(char const *)arg4);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_31(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_31(void * jarg1, void * jarg2, void * jarg3) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  Quaternion *arg2 = 0 ;
+  float **arg2 = 0 ;
+  UINT *arg3 = 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (Quaternion *)jarg2;
+  arg2 = (float **)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Quaternion & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "float *& type is null", 0);
     return ;
   } 
-  (arg1)->Serialize(*arg2);
+  arg3 = (UINT *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "UINT & type is null", 0);
+    return ;
+  } 
+  (arg1)->Serialize(*arg2,*arg3);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_32(void * jarg1, void * jarg2, char * jarg3) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  Matrix4x4 *arg2 = 0 ;
+  Quaternion *arg2 = 0 ;
   char *arg3 = (char *) 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (Matrix4x4 *)jarg2;
+  arg2 = (Quaternion *)jarg2;
   if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Matrix4x4 & type is null", 0);
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Quaternion & type is null", 0);
     return ;
   } 
   arg3 = (char *)jarg3; 
@@ -7260,6 +7148,36 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_32(void * jarg1, v
 
 SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_33(void * jarg1, void * jarg2) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
+  Quaternion *arg2 = 0 ;
+  
+  arg1 = (ma::Serializer *)jarg1; 
+  arg2 = (Quaternion *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Quaternion & type is null", 0);
+    return ;
+  } 
+  (arg1)->Serialize(*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_34(void * jarg1, void * jarg2, char * jarg3) {
+  ma::Serializer *arg1 = (ma::Serializer *) 0 ;
+  Matrix4x4 *arg2 = 0 ;
+  char *arg3 = (char *) 0 ;
+  
+  arg1 = (ma::Serializer *)jarg1; 
+  arg2 = (Matrix4x4 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Matrix4x4 & type is null", 0);
+    return ;
+  } 
+  arg3 = (char *)jarg3; 
+  (arg1)->Serialize(*arg2,(char const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_35(void * jarg1, void * jarg2) {
+  ma::Serializer *arg1 = (ma::Serializer *) 0 ;
   Matrix4x4 *arg2 = 0 ;
   
   arg1 = (ma::Serializer *)jarg1; 
@@ -7272,7 +7190,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_33(void * jarg1, v
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_34(void * jarg1, void * jarg2, char * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_36(void * jarg1, void * jarg2, char * jarg3) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
   NodeTransform *arg2 = 0 ;
   char *arg3 = (char *) 0 ;
@@ -7288,7 +7206,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_34(void * jarg1, v
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_35(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_Serialize__SWIG_37(void * jarg1, void * jarg2) {
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
   NodeTransform *arg2 = 0 ;
   
@@ -7323,14 +7241,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Serializer_EndSection(void * jarg1) {
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Serializer_SerializeByte__SWIG_0(void * jarg1, void * jarg2, void * jarg3, char * jarg4) {
   unsigned int jresult ;
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  Uint8 *arg2 = (Uint8 *) 0 ;
+  Uint8 **arg2 = 0 ;
   UINT arg3 ;
   char *arg4 = (char *) 0 ;
   UINT *argp3 ;
   bool result;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (Uint8 *)jarg2; 
+  arg2 = (Uint8 **)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Uint8 *& type is null", 0);
+    return 0;
+  } 
   argp3 = (UINT *)jarg3; 
   if (!argp3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
@@ -7338,7 +7260,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Serializer_SerializeByte__SWIG_0(void
   }
   arg3 = *argp3; 
   arg4 = (char *)jarg4; 
-  result = (bool)(arg1)->SerializeByte(arg2,arg3,(char const *)arg4);
+  result = (bool)(arg1)->SerializeByte(*arg2,arg3,(char const *)arg4);
   jresult = result; 
   return jresult;
 }
@@ -7347,20 +7269,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Serializer_SerializeByte__SWIG_0(void
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Serializer_SerializeByte__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
   unsigned int jresult ;
   ma::Serializer *arg1 = (ma::Serializer *) 0 ;
-  Uint8 *arg2 = (Uint8 *) 0 ;
+  Uint8 **arg2 = 0 ;
   UINT arg3 ;
   UINT *argp3 ;
   bool result;
   
   arg1 = (ma::Serializer *)jarg1; 
-  arg2 = (Uint8 *)jarg2; 
+  arg2 = (Uint8 **)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Uint8 *& type is null", 0);
+    return 0;
+  } 
   argp3 = (UINT *)jarg3; 
   if (!argp3) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
     return 0;
   }
   arg3 = *argp3; 
-  result = (bool)(arg1)->SerializeByte(arg2,arg3);
+  result = (bool)(arg1)->SerializeByte(*arg2,arg3);
   jresult = result; 
   return jresult;
 }
@@ -7814,18 +7740,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetAABBWS(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetAABBLS(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::AABB *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::AABB *) &(arg1)->GetAABBLS();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   ma::Serializer *arg2 = 0 ;
@@ -7944,6 +7858,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
   arg1 = (ma::Component *)jarg1; 
   result = (ma::SceneNode *)(arg1)->GetSceneNode();
   jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetAABBWS(void * jarg1) {
+  void * jresult ;
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  ma::AABB result;
+  
+  arg1 = (ma::Component *)jarg1; 
+  result = (arg1)->GetAABBWS();
+  jresult = new ma::AABB((const ma::AABB &)result); 
   return jresult;
 }
 
@@ -8149,6 +8075,28 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetPhyscisObject(void * jarg1) {
   
   arg1 = (ma::GameObject *)jarg1; 
   result = (ma::IPhysicsObject *)(arg1)->GetPhyscisObject();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_SetCullNode(void * jarg1, void * jarg2) {
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  ma::CullNode *arg2 = (ma::CullNode *) 0 ;
+  
+  arg1 = (ma::GameObject *)jarg1; 
+  arg2 = (ma::CullNode *)jarg2; 
+  (arg1)->SetCullNode(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetCullNode(void * jarg1) {
+  void * jresult ;
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  ma::CullNode *result = 0 ;
+  
+  arg1 = (ma::GameObject *)jarg1; 
+  result = (ma::CullNode *)(arg1)->GetCullNode();
   jresult = (void *)result; 
   return jresult;
 }
@@ -8370,18 +8318,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_Serialize__SWIG_1(void * jar
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAnimationObject_GetAnimationSet(void * jarg1) {
-  void * jresult ;
-  ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
-  ma::IAnimationSet *result = 0 ;
-  
-  arg1 = (ma::IAnimationObject *)jarg1; 
-  result = (ma::IAnimationSet *)(arg1)->GetAnimationSet();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationObject_PlayAnimation__SWIG_0(void * jarg1, char * jarg2) {
   ma::IAnimationObject *arg1 = (ma::IAnimationObject *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -8525,36 +8461,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_RemoveAction(void * jarg1, void
   arg1 = (ma::IAnimationSet *)jarg1; 
   arg2 = (ma::IAction *)jarg2; 
   (arg1)->RemoveAction(arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
-  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  char *arg3 = (char *) 0 ;
-  
-  arg1 = (ma::IAnimationSet *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  arg3 = (char *)jarg3; 
-  (arg1)->Serialize(*arg2,(char const *)arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_IAnimationSet_Serialize__SWIG_1(void * jarg1, void * jarg2) {
-  ma::IAnimationSet *arg1 = (ma::IAnimationSet *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  
-  arg1 = (ma::IAnimationSet *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  (arg1)->Serialize(*arg2);
 }
 
 

@@ -134,7 +134,7 @@ namespace ma
 @endverbatim
  *
  */
-class UI_API Theme: public RefCountObject
+class UI_API Theme: public Referenced
 {
     friend class Control;
     friend class Form;
@@ -259,7 +259,7 @@ public:
      * An image has a region and a blend color in addition to an ID.
      * UV coordinates are calculated from the region and can be retrieved.
      */
-    class ThemeImage : public RefCountObject
+    class ThemeImage : public Referenced
     {
         friend class Theme;
         friend class Control;
@@ -337,7 +337,7 @@ private:
      * can be assigned to each overlay of a style, and controls
      * using the style can then retrieve images by ID in order to draw themselves.
      */
-    class UI_API ImageList : public RefCountObject
+    class UI_API ImageList : public Referenced
     {
         friend class Theme;
         friend class Control;
@@ -371,7 +371,7 @@ private:
     /**
      * A skin defines the border and background of a control.
      */
-    class UI_API Skin : public RefCountObject
+    class UI_API Skin : public Referenced
     {
         friend class Theme;
 

@@ -10,59 +10,69 @@ namespace ma
 
 	void Serializer::Serialize(bool& val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(short& val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 	void Serializer::Serialize(unsigned char& val, const char* pszLabel)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLabel);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLabel);
 	}
 
 	void Serializer::Serialize(unsigned short& val, const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
-	void Serializer::Serialize(unsigned int&val,const char* pszLable)
+	void Serializer::Serialize(UINT&val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(int&val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(unsigned long &val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(long &val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(Uint64&val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(float& val,const char* pszLable)
 	{
-		SerializeByte((Uint8*)&val,sizeof(val),pszLable);
+		Uint8* pTemp = (Uint8*)&val;
+		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
 
@@ -81,19 +91,19 @@ namespace ma
 
 	void Serializer::Serialize(Vector2 &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		Serialize(val.x,"x");
 		Serialize(val.y,"y");
-		EndSection();
+		//EndSection();
 	}
 
 
 	void Serializer::Serialize(maGUID &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
+		//BeginSection(pszLable);
 		Serialize(val.m_a,"a");
 		Serialize(val.m_b,"b");
-		EndSection();
+		//EndSection();
 	}
 
 	void Serializer::Serialize(Vector3 &val,const char* pszLable)
@@ -103,18 +113,70 @@ namespace ma
 		Serialize(val.y,"y");
 		Serialize(val.z,"z");
 		EndSection();
+		//Serialize(StringConverter::ToString(val),pszLable);
 	}
 
 
 	void Serializer::Serialize(Vector4 &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		Serialize(val.z,"z");
-		Serialize(val.w,"w");
-		EndSection();
+		//BeginSection(pszLable);
+		//Serialize(val.x,"x");
+		//Serialize(val.y,"y");
+		//Serialize(val.z,"z");
+		//Serialize(val.w,"w");
+		//EndSection();
+		if (IsReading())
+		{
+			std::string strValue;
+			
+			Serialize(strValue,pszLable);
+
+			StringConverter::ToValue(val,strValue.c_str());
+		}
+		else
+		{
+			std::string strValue = StringConverter::ToString(val);
+			
+			Serialize(strValue,pszLable);
+		}
+		//Serialize(StringConverter::ToString(val),pszLable);
 	}
+
+	void Serializer::Serialize(float* &arrVal, UINT &nCount, const char* pszLable/* = "arrFloat"*/)
+	{
+		if (IsReading())
+		{
+			std::string strValue;
+
+			Serialize(strValue,pszLable);
+
+			StringConverter::ToValue(arrVal,nCount,strValue.c_str());
+		}
+		else
+		{
+			std::string strValue = StringConverter::ToString(arrVal,nCount);
+
+			Serialize(strValue,pszLable);
+		}
+	}
+
+// 	void Serializer::Serialize(const float* arrFloat, UINT nCount,const char* pszLable = "arrFloat")
+// 	{
+// 		if (IsReading())
+// 		{
+// 			std::string strValue;
+// 
+// 			Serialize(strValue,pszLable);
+// 
+// 			StringConverter::ToValue(val,strValue.c_str());
+// 		}
+// 		else
+// 		{
+// 			std::string strValue = StringConverter::ToString(val);
+// 
+// 			Serialize(strValue,pszLable);
+// 		}
+// 	}
 
 
 	void Serializer::Serialize(Quaternion &val,const char* pszLable)

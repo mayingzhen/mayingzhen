@@ -65,7 +65,6 @@ namespace ma
 			return;
 
 		BoneSet* pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
-		//ASSERT(pBoneSet);
 		if (pBoneSet == NULL)
 			return;
 
@@ -73,33 +72,51 @@ namespace ma
 
 	}
 
-	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
+// 	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		if (sl.IsReading())
+// 		{
+// 			std::string strAnimClipName;
+// 			std::string strBonSetName;
+// 
+// 			SAFE_DELETE(m_pBoneSet);
+// 			SAFE_DELETE(m_pAnimClip);
+// 
+// 			sl.Serialize(strAnimClipName,"ClipName");
+// 			sl.Serialize(strBonSetName,"BonsetName");
+// 
+// 			SetAnimationClip(strAnimClipName.c_str());
+// 			SetBoneSet(strBonSetName.c_str());
+// 		}
+// 		else
+// 		{
+// 			std::string strAnimClipName = m_pAnimClip->GetAnimation()->GetResPath();
+// 			std::string strBonSetName = m_pBoneSet ? m_pBoneSet->GetBoneSetName() : "";
+// 
+// 			sl.Serialize(strAnimClipName,"ClipName");
+// 			sl.Serialize(strBonSetName,"BonsetName");
+// 		}
+// 
+// 		sl.EndSection();
+// 	}
+
+	void AnimClipNode::SetSkeleton(Skeleton* pSkeleton) 
 	{
-		sl.BeginSection(pszLable);
-
-		if (sl.IsReading())
+		if (m_pSkeleton != pSkeleton)
 		{
-			std::string strAnimClipName;
-			std::string strBonSetName;
-
-			SAFE_DELETE(m_pBoneSet);
-			SAFE_DELETE(m_pAnimClip);
-
-			sl.Serialize(strAnimClipName);
-			sl.Serialize(strBonSetName);
-
-			SetAnimationClip(strAnimClipName.c_str());
-			SetBoneSet(strBonSetName.c_str());
+			m_pSkeleton = pSkeleton;
+			m_pAnimClip->SetSkeleton(pSkeleton);
 		}
-		else
+	}
+
+	void AnimClipNode::SetAnimationClip(AnimationClip* pAnimClip) 
+	{
+		if (m_pAnimClip != pAnimClip)
 		{
-			std::string strAnimClipName = m_pAnimClip->GetAnimation()->GetResPath();
-			std::string strBonSetName = m_pBoneSet ? m_pBoneSet->GetBoneSetName() : "";
-
-			sl.Serialize(strAnimClipName);
-			sl.Serialize(strBonSetName);
+			m_pAnimClip = pAnimClip;
+			m_pAnimClip->SetSkeleton(m_pSkeleton);
 		}
-
-		sl.EndSection();
 	}
 }

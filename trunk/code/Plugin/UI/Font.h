@@ -1,7 +1,7 @@
 #ifndef FONT_H_
 #define FONT_H_
 
-//#include "RefCountObject.h"
+//#include "Referenced.h"
 //#include "SpriteBatch.h"
 
 namespace ma
@@ -10,7 +10,7 @@ namespace ma
 /**
  * Defines a font for text rendering.
  */
-class Font : public RefCountObject
+class Font : public Referenced
 {
     friend class Bundle;
     friend class TextBox;

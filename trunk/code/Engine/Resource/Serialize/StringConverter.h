@@ -15,7 +15,7 @@ public:
 
 	static std::string ToString(int val);
 
-	static std::string ToString(unsigned int val);
+	static std::string ToString(UINT val);
 
 	static std::string ToString(long val);
 
@@ -26,6 +26,9 @@ public:
 	static std::string ToString(float val);
 
 	//static std::string ToString(maGUID val);
+	static std::string ToString(Vector4 val);
+
+	static std::string ToString(float* arrVal, UINT nCount);
 
 	static void ToValue(bool& val,const char* pszVal);
 
@@ -37,7 +40,7 @@ public:
 
 	static void ToValue(int& val,const char* pszVal);
 
-	static void ToValue(unsigned int& val,const char* pszVal);
+	static void ToValue(UINT& val,const char* pszVal);
 
 	static void ToValue(long& val,const char* pszVal);
 	
@@ -47,9 +50,9 @@ public:
 
 	static void ToValue(float& val,const char* pszVal);
 
+	static void ToValue(Vector4& val,const char* pszVal);
 
-
-
+	static void ToValue(float* &arrVal, UINT &nCount,const char* pszVal);
 };
 
 inline std::string StringConverter::ToString(bool val)
@@ -75,13 +78,13 @@ inline  std::string StringConverter::ToString(short val)
 
 inline  std::string StringConverter::ToString(unsigned short val)
 {
-	unsigned int iVal = val;
+	UINT iVal = val;
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%u",iVal);
 	return buf;
 }
 
-inline std::string StringConverter::ToString(unsigned int val)
+inline std::string StringConverter::ToString(UINT val)
 {
 	char buf[STRING_BUFFER_SIZE];
 	sprintf(&buf[0],"%u",val);
@@ -125,7 +128,22 @@ inline std::string StringConverter::ToString(float val)
 	return buf;
 }
 
+inline std::string StringConverter::ToString(Vector4 val)
+{
+	char buf[STRING_BUFFER_SIZE];
+	sprintf(&buf[0],"%f %f %f %f",val.x,val.y,val.z,val.w);
+	return buf;
+}
 
+inline std::string StringConverter::ToString(float* arrVal, UINT nCount)
+{
+	std::string str;
+	for (UINT i = 0; i < nCount; ++i)
+	{
+		str += ToString(arrVal[i]) + " ";
+	}
+	return str;
+}
 
 
 inline void StringConverter::ToValue(bool& val,const char* pszVal)
@@ -150,7 +168,7 @@ inline void StringConverter::ToValue(short& val,const char* pszVal)
 
 inline void StringConverter::ToValue(unsigned short& val,const char* pszVal)
 {
-	unsigned int iVal;
+	UINT iVal;
 	sscanf(pszVal,"%u",&iVal);
 	val = (unsigned short)iVal;
 }
@@ -161,7 +179,7 @@ inline void StringConverter::ToValue(int& val,const char* pszVal)
 	val = atoi(pszVal);
 }
 
-inline void StringConverter::ToValue(unsigned int& val,const char* pszVal)
+inline void StringConverter::ToValue(UINT& val,const char* pszVal)
 {
 	sscanf(pszVal,"%u",&val);
 }
@@ -185,6 +203,24 @@ inline void StringConverter::ToValue(Uint64& val,const char* pszVal)
 inline void StringConverter::ToValue(float& val,const char* pszVal)
 {
 	val = (float)atof(pszVal);
+}
+
+inline void StringConverter::ToValue(Vector4& val,const char* pszVal)
+{
+	sscanf(pszVal,"%f %f %f %f",&val.x,&val.y,&val.z,&val.w);
+}
+
+inline void StringConverter::ToValue(float* &arrVal, UINT &nCount,const char* pszVal)
+{
+	std::vector<std::string> arrTok;
+	Tokenize(pszVal,arrTok);
+	
+	nCount = arrTok.size();
+	arrVal = new float[nCount];
+	for (UINT i = 0; i < nCount; ++i)
+	{
+		ToValue(arrVal[i],arrTok[i].c_str());
+	}
 }
 
 // std::string StringConverter::ToString(maGUID val)

@@ -19,7 +19,7 @@ class Container;
 /**
  * Base class for UI controls.
  */
-class UI_API Control : public RefCountObject/*, public AnimationTarget, public ScriptTarget*/
+class UI_API Control : public Referenced/*, public AnimationTarget, public ScriptTarget*/
 {
     friend class Form;
     friend class Container;

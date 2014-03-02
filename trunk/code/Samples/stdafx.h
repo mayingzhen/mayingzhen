@@ -6,7 +6,8 @@
 #include "Engine/Module.h"
 #include "Render/Module.h"
 #include "UI/Module.h"
-
+#include "Application/Module.h"
+#include "Animation/Module.h"
 
 
 

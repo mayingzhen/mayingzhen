@@ -7,6 +7,8 @@ namespace ma
 
 	class ShadingPass : public RenderPass
 	{
+		DECL_OBJECT(ShadingPass)
+
 	public:
 		void	Init();
 

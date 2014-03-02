@@ -149,12 +149,10 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
     form->_style = style;
     form->_layout = layout;
     form->_theme = style->getTheme();
-    form->_theme->IncReference();
+    form->_theme->ref();
 
-	Platform& platform = Platform::GetInstance();
-	int w,h;
-	platform.GetWindowSize(w, h);
-	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
+	Rectangle rect = GetRenderSystem()->GetViewPort();
+	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
 
     form->updateBounds();
 
@@ -210,13 +208,8 @@ Form* Form::create(const char* url)
     form->_theme = theme;
 
     // Get default projection matrix.
-    //Game* game = Game::GetInstance();
-    //Matrix4x4::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &form->_defaultProjectionMatrix);
-	Platform& platform = Platform::GetInstance();
-	int w,h;
-	platform.GetWindowSize(w, h);
-	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, w, h, 0, 0.0f, 1.0f);
-	//GetRenderDevice()->MakeOrthoMatrix(&form->_defaultProjectionMatrix,w,h,0,1);
+	Rectangle rect = GetRenderSystem()->GetViewPort();
+	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
 
     Theme::Style* style = NULL;
     const char* styleName = formProperties->getString("style");
@@ -232,27 +225,23 @@ Form* Form::create(const char* url)
 
     form->_consumeInputEvents = formProperties->getBool("consumeInputEvents", false);
 
-    int width = 0;
-    int height = 0;
-    Platform::GetInstance().GetWindowSize(width,height);
-    
     // Alignment
     if ((form->_alignment & Control::ALIGN_BOTTOM) == Control::ALIGN_BOTTOM)
     {
-        form->_bounds.y = height - form->_bounds.height;
+        form->_bounds.y = rect.height - form->_bounds.height;
     }
     else if ((form->_alignment & Control::ALIGN_VCENTER) == Control::ALIGN_VCENTER)
     {
-        form->_bounds.y = height * 0.5f - form->_bounds.height * 0.5f;
+        form->_bounds.y = rect.height * 0.5f - form->_bounds.height * 0.5f;
     }
 
     if ((form->_alignment & Control::ALIGN_RIGHT) == Control::ALIGN_RIGHT)
     {
-        form->_bounds.x = width - form->_bounds.width;
+        form->_bounds.x = rect.width - form->_bounds.width;
     }
     else if ((form->_alignment & Control::ALIGN_HCENTER) == Control::ALIGN_HCENTER)
     {
-        form->_bounds.x = width * 0.5f - form->_bounds.width * 0.5f;
+        form->_bounds.x = rect.width * 0.5f - form->_bounds.width * 0.5f;
     }
 
     form->_scroll = getScroll(formProperties->getString("scroll"));
@@ -281,18 +270,16 @@ Theme* Form::getTheme() const
 
 void Form::setSize(float width, float height)
 {
-	int nGameW = 0; 
-	int nGameH = 0;
-	Platform::GetInstance().GetWindowSize(nGameW,nGameH);
+	Rectangle rect = GetRenderSystem()->GetViewPort();
 
     if (_autoWidth)
     {
-		width = nGameW;
+		width = rect.width;
     }
 
     if (_autoHeight)
     {
-        height = nGameH;
+        height = rect.height;
     }
 
     if (width != 0.0f && height != 0.0f &&
@@ -535,7 +522,7 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (1/*isDirty()*/)
+    if (isDirty())
     {
         ASSERT(_frameBuffer);
 

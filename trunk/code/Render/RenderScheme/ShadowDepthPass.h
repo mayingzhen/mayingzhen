@@ -5,6 +5,8 @@ namespace ma
 {
 	class ShadowDepthPass : public RenderPass
 	{
+		DECL_OBJECT(ShadowDepthPass)
+
 	public:
 		void Init();
 

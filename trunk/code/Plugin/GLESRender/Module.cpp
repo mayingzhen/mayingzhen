@@ -39,20 +39,15 @@ void GLESRenderModuleInit()
 
 	ma::InitTextureSystem();
 
-	ma::GetRenderSetting()->m_bDefferLight = false;
-	ma::GetRenderSetting()->m_bShadow = false;
-	ma::GetRenderSetting()->m_bIsHDRRending = false;
-	//ma::GetRenderSetting()->m_bRenderThread = false;
-
-	ma::DefferredRender* pDefferRender = new ma::DefferredRender();
-	ma::SetRenderScheme(pDefferRender);
-
-	ma::GetRenderSystem()->Init();
+	//ASSERT(false);
+	//ma::GetRenderSystem()->Init();
 }
 
 
 void GLESRenderModuleShutdown()
 {
+	//ma::GetRenderSystem()->ShoutDown();
+
 	ma::ShundownTextureSystem();
 
 	ma::GLESRenderDevice* pGLESRenderDevice = (ma::GLESRenderDevice*)ma::GetRenderDevice();

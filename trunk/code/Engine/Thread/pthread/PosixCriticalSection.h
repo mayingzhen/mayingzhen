@@ -29,6 +29,11 @@ namespace ma
 			pthread_mutex_unlock(&m_mutex);
 		}
 
+		bool TryLock()
+		{
+			//return ::TryEnterCriticalSection(&m_cs);
+		}
+
 	public:
 		pthread_mutex_t m_mutex;
 	};

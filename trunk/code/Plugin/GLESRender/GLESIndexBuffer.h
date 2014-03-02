@@ -5,11 +5,11 @@
 namespace ma
 {
 
-	class GLESRENDER_API GLESIndexBuffer : public IndexBuffer
+	class GLESIndexBuffer : public IndexBuffer
 	{
 
 	public:
-		GLESIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO);
+		GLESIndexBuffer();
 		
 		~GLESIndexBuffer();
 

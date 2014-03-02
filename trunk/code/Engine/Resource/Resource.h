@@ -14,7 +14,7 @@ namespace ma
 
 	class Serializer;
 
-	class ENGINE_API Resource : public Object, IDataObj
+	class ENGINE_API Resource : public Object
 	{
 		DECL_OBJECT(Resource)
 

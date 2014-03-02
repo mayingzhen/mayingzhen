@@ -36,14 +36,14 @@ namespace ma
 		return new GLESVertexDeclaration();
 	}
 
-	VertexBuffer*	GLESRenderDevice::CreateVertexBuffer(void* pData, int nsize, int nStride, USAGE Usgae)
+	VertexBuffer*	GLESRenderDevice::CreateVertexBuffer()
 	{
-		return new GLESVertexBuffer(pData,nsize,nStride,Usgae);
+		return new GLESVertexBuffer();
 	}
 
-	IndexBuffer*	GLESRenderDevice::CreateIndexBuffer(void* Data, int nSize, INDEX_TYPE eIndexType, USAGE Usgae)
+	IndexBuffer*	GLESRenderDevice::CreateIndexBuffer()
 	{
-		return new GLESIndexBuffer(Data,nSize,eIndexType,Usgae);
+		return new GLESIndexBuffer();
 	}
 
 	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)

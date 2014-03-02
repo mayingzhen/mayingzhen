@@ -1,6 +1,8 @@
 #ifndef __RenderThread_H__
 #define __RenderThread_H__
 
+// #include "Render/Export.h"
+// #include "Render/RenderSystem/RenderSystem.h"
 
 namespace ma
 {
@@ -73,7 +75,7 @@ namespace ma
 		int		CurThreadFill() const;
 		int		CurThreadProcess() const;
 
-		void	RC_Init();
+		void	RC_Init(HWND wndhandle);
 		void	RC_BeginFrame();
 		void	RC_EndFrame();
 		void	RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream);
@@ -209,12 +211,14 @@ namespace ma
 		while(*(volatile int*)&m_nFlush)
 		{
 #ifdef WIN32
-			MSG msg;
-			while (PeekMessage(&msg, Platform::GetInstance().GetWindId(), 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+			Sleep(0);
+// 			MSG msg;
+// 		
+// 			while (PeekMessage(&msg, GetRenderSystem()->GetMainWnd(), 0, 0, PM_REMOVE))
+// 			{
+// 				TranslateMessage(&msg);
+// 				DispatchMessage(&msg);
+// 			}
 #else
 			::usleep(0);
 #endif

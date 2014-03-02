@@ -58,7 +58,7 @@
 
 	Vector3* Vec3Normalize( Vector3 *pOut, const Vector3 *pV )
 	{
-		float fLenSq = Vec3LengthSq(pV);
+		float fLenSq = Vec3LengthSq(*pV);
 		if( fLenSq > FEPS )
 		{
 			const float Scale = InvSqrt(fLenSq);
@@ -1091,13 +1091,13 @@ Matrix4x4*  MatrixOrthoOffCenterLH
 
 // Build a matrix which flattens geometry into a plane, as if casting
 // a shadow from a light.
-Matrix4x4*  MatrixShadow
-( Matrix4x4 *pOut, const Vector4 *pLight,
- const Plane *pPlane );
+//Matrix4x4*  MatrixShadow
+//( Matrix4x4 *pOut, const Vector4 *pLight,
+// const Plane *pPlane );
 
 // Build a matrix which reflects the coordinate system about a plane
-Matrix4x4*  MatrixReflect
-( Matrix4x4 *pOut, const Plane *pPlane );
+//Matrix4x4*  MatrixReflect
+//( Matrix4x4 *pOut, const Plane *pPlane );
 
 
 // #ifdef __cplusplus

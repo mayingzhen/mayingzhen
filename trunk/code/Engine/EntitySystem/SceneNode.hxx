@@ -1,4 +1,5 @@
 #include "SceneNode.h"
+#include "CullTree/CullTree.h"
 
 namespace ma
 {
@@ -157,6 +158,14 @@ namespace ma
 	{
 		MatrixFromTransform(&m_matWorld,&GetTransform());
 		//m_bmatWSDirty = false;
+
+		UpdateAABB();
+
+		//if (bNeedUpdate && m_pCullTree != NULL)
+		{
+			GetCullTree()->UpdateObject(m_pGameObject);
+			//m_nAABBChangeType &= ~ACT_NOTIFY;
+		}
 	}
 
 	void SceneNode::WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld)

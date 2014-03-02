@@ -29,6 +29,8 @@ namespace ma
 
 		~AnimationClip();
 
+		void		SetSkeleton(Skeleton* pSkeleton = NULL);
+
 		void		EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f,BoneSet* pBoneSet = NULL);
 
 		void		AdvanceTime(float fTimeElapsed);
@@ -48,9 +50,11 @@ namespace ma
 		BoneMap*	m_pNodeLink;
 
 		float		m_fLocalFrame;
+		
 		float		m_fPlaySpeed;
 
 		ePlaybackMode m_playbackMode;
+
 		ePlayerStatus m_playerStatus;
 
 	};

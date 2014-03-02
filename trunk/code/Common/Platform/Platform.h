@@ -11,21 +11,7 @@
 #endif
 
 
-#include <string>
-#include <vector>
-#include <queue>
-#include <list>
-#include <map>
-#include <set>
-#include <stack>
-#include <algorithm>
-#include <fstream>
-#include <stdarg.h>
-#include <memory.h>
-#include <time.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <memory.h>
+
 
 
 
@@ -48,7 +34,8 @@ COMMON_API int DisplayError(const char * title,
 
 
 
-
+COMMON_API void Tokenize(const std::string& str, std::vector<std::string>& tokens, 
+			  const std::string& delimiters = " ", const bool trimEmpty = false);
 
 
 #endif //__Platform_H__

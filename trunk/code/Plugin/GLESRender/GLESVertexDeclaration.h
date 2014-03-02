@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class GLESRENDER_API GLESVertexDeclaration : public VertexDeclaration
+	class GLESVertexDeclaration : public VertexDeclaration
 	{
 
 	public: 

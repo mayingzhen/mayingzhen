@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class RenderObject;
+	class RenderComponent;
 
 	enum RenderListType
 	{
@@ -17,17 +17,17 @@ namespace ma
 	class  RenderQueue
 	{
 	public:
-		void			AddRenderObj(RenderListType eRLType,RenderObject* pRenderObj);	
+		void			AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj);	
 
 		UINT			GetRenderObjNumber(RenderListType eRLType);
 
-		RenderObject*	GetRenderObjByIndex(RenderListType eRLType,int index);
+		RenderComponent*	GetRenderObjByIndex(RenderListType eRLType,int index);
 
 		void			Clear();
 
 	private:
 
-		std::vector<RenderObject*>		m_arrRenderList[RL_Count];
+		std::vector<RenderComponent*>		m_arrRenderList[RL_Count];
 	};
 }
 

@@ -184,6 +184,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\Animation\ActionData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\ActionData.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\Animation\Animation.h"
 				>
 			</File>
@@ -220,11 +228,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSet.h"
+				RelativePath="..\..\code\Plugin\Animation\AnimationSet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSet.hxx"
+				RelativePath="..\..\code\Plugin\Animation\AnimationSet.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationSetData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationSetData.hxx"
 				>
 			</File>
 			<File

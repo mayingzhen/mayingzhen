@@ -15,23 +15,23 @@ namespace ma
 		gpRenderQueue = pRenderQueue;
 	}
 
-	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderObject* pRenderObj)
+	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj)
 	{
-		std::vector<RenderObject*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
 		
 		arrRenderObj.push_back(pRenderObj);
 	}
 
 	UINT RenderQueue::GetRenderObjNumber(RenderListType eRLType)
 	{
-		std::vector<RenderObject*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
 
 		return arrRenderObj.size();
 	}
 
-	RenderObject* RenderQueue::GetRenderObjByIndex(RenderListType eRLType,int index)
+	RenderComponent* RenderQueue::GetRenderObjByIndex(RenderListType eRLType,int index)
 	{
-		std::vector<RenderObject*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
 
 		return arrRenderObj[index];
 	}

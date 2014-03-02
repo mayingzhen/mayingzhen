@@ -2,8 +2,7 @@
 
 namespace ma
 {
-	GLESIndexBuffer::GLESIndexBuffer(void* Data, int size, INDEX_TYPE eIndexType, USAGE Usgae)
-		: IndexBuffer(Data,size,eIndexType,Usgae)
+	GLESIndexBuffer::GLESIndexBuffer()
 	{
 		m_hIndexBuffer = 0;
 	}
@@ -15,7 +14,7 @@ namespace ma
 	void * GLESIndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
-		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,NULL,GL_STATIC_DRAW) );
+		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
 		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ; 
 		ASSERT(glGetError() == GL_NO_ERROR); 
 		return pLock;
@@ -29,11 +28,11 @@ namespace ma
 
 	void GLESIndexBuffer::Active()
 	{
-		GLenum glUsage = GLESMapping::GetGLESUSage(m_eUsage);
+		GLenum glUsage = GLESMapping::GetGLESUSage(m_Usage);
 
 		GL_ASSERT( glGenBuffers(1,& m_hIndexBuffer) );
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
-		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_nSize,m_pData,glUsage) );
+		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
 	}
 
 	GLuint	GLESIndexBuffer::GetIndexBuffer()

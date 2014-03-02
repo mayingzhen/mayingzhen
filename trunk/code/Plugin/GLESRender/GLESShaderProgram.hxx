@@ -22,7 +22,7 @@ namespace ma
 		ASSERT(vshSource);
 		ASSERT(fshSource);
 
-		//const unsigned int SHADER_SOURCE_LENGTH = 3;
+		//const UINT SHADER_SOURCE_LENGTH = 3;
 		const GLchar* shaderSource[1];
 		char* infoLog = NULL;
 		GLuint vertexShader;
@@ -198,7 +198,7 @@ namespace ma
 		GLint uniformSize;
 		GLenum uniformType;
 		GLint uniformLocation;
-		unsigned int samplerIndex = 0;
+		UINT samplerIndex = 0;
 		for (int i = 0; i < activeUniforms; ++i)
 		{
 			// Query uniform info.
@@ -267,7 +267,7 @@ namespace ma
 		GL_ASSERT( glUniform1i(uniform->m_location, value) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const int* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const int* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -280,7 +280,7 @@ namespace ma
 		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, 1, GL_FALSE, (GLfloat*)&value) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -293,7 +293,7 @@ namespace ma
 		GL_ASSERT( glUniform2f(uniform->m_location, value.x, value.y) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -306,7 +306,7 @@ namespace ma
 		GL_ASSERT( glUniform3f(uniform->m_location, value.x, value.y, value.z) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -319,7 +319,7 @@ namespace ma
 		GL_ASSERT( glUniform4f(uniform->m_location, value.x, value.y, value.z, value.w) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4* values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -339,7 +339,7 @@ namespace ma
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState** values, unsigned int count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState** values, UINT count)
 	{
 	     ASSERT(uniform);
 	     ASSERT(uniform->m_type == GL_SAMPLER_2D);
@@ -347,7 +347,7 @@ namespace ma
 	 
 	     // Set samplers as active and load texture unit array
 	     GLint units[32];
-	     for (unsigned int i = 0; i < count; ++i)
+	     for (UINT i = 0; i < count; ++i)
 	     {
 	         GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
 	 
@@ -382,7 +382,7 @@ namespace ma
 
 		// Set samplers as active and load texture unit array
 		GLint units[32];
-		for (unsigned int i = 0; i < count; ++i)
+		for (UINT i = 0; i < count; ++i)
 		{
 			GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
 

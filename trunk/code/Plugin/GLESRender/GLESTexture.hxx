@@ -183,7 +183,9 @@ namespace ma
 	{
 		if (m_nWidth == -1 && m_nHeight == -1)
 		{
-			Platform::GetInstance().GetWindowSize(m_nWidth,m_nHeight);
+			Rectangle rect = GetRenderSystem()->GetViewPort();
+			m_nWidth = rect.width;
+			m_nHeight = rect.height;
 		}
 
 		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);

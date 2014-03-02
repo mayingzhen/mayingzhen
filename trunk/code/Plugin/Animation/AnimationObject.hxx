@@ -22,7 +22,7 @@ namespace ma
 	AnimationObject::AnimationObject(GameObject* pGameObj):
 	IAnimationObject(pGameObj)
 	{
-		m_pSkelAnim = NULL;
+		m_pCurAction = NULL;
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
@@ -36,9 +36,6 @@ namespace ma
 
 	void AnimationObject::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
-		m_strAnimaSetPath = pszAniSetPath;
-		m_strSkeletonPath = pszSkeletonPath;
-
 		CreateSkeleton(pszSkeletonPath);
 
 		CreateAniSet(pszAniSetPath);
@@ -48,12 +45,15 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_strAnimaSetPath);
-		sl.Serialize(m_strSkeletonPath);
+		std::string strAnimSetPath = m_pAnimSetData ? m_pAnimSetData->GetResPath() : "";
+		std::string strSkeletonPath = m_pSkeleton ? m_pSkeleton->GetResPath() : "";
+
+		sl.Serialize(strAnimSetPath);
+		sl.Serialize(strSkeletonPath);
 
 		if ( sl.IsReading() )
 		{
-			Load(m_strAnimaSetPath.c_str(),m_strSkeletonPath.c_str());
+			Load(strAnimSetPath.c_str(),strSkeletonPath.c_str());
 		}
 
 		sl.EndSection();
@@ -70,7 +70,7 @@ namespace ma
 		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 
-		int nBone = m_pSkeleton->GetBoneNumer();
+		UINT nBone = m_pSkeleton->GetBoneNumer();
 		m_arrSkinMatrix = new Matrix4x4[nBone];
 		for (UINT i = 0; i < nBone; ++i)
 		{
@@ -80,31 +80,19 @@ namespace ma
 
 	void AnimationObject::CreateAniSet(const char* pszAniSetPath)
 	{
-		//ASSERT(pszAniSetPath);
 		if (pszAniSetPath == NULL)
 			return;
 
-		std::string fullPath = FileSystem::getFullPath(pszAniSetPath);
-
-		XMLInputArchive inAr;
-		bool res = inAr.Open(fullPath.c_str());
-		if (!res)
-		{
-			inAr.Close();
-			return;
-		}
-
+		m_pAnimSetData = LoadResourceSync<AnimationSetData>(pszAniSetPath);
 
 		SAFE_DELETE(m_pAnimSet);
-		m_pAnimSet = new AnimationSet(this);
-		m_pAnimSet->Serialize(inAr);
-		
-		inAr.Close();
+		m_pAnimSet = new AnimationSet(this,m_pAnimSetData);
 	}
 
 	void AnimationObject::PlayAnimation(Action* pSkelAnim)
 	{
-		m_pSkelAnim = pSkelAnim;
+		m_pCurAction = pSkelAnim;
+		m_pCurAction->SetSkeleton(m_pSkeleton);
 	}
 
 	void AnimationObject::PlayAnimation(ActionID actionID)
@@ -115,7 +103,7 @@ namespace ma
 		if (actionID < 0 || actionID >= m_pAnimSet->GetActionNumber())
 			return;
 
-		m_pSkelAnim = (Action*)m_pAnimSet->GetActionByIndex(actionID);
+		PlayAnimation( (Action*)m_pAnimSet->GetActionByIndex(actionID) );
 	}
 
 
@@ -124,14 +112,14 @@ namespace ma
 		if (m_pAnimSet == NULL)
 			return;
 
-		m_pSkelAnim = (Action*)m_pAnimSet->GetActionByName(pszAnimName);
+		PlayAnimation( (Action*)m_pAnimSet->GetActionByName(pszAnimName) );
 	}
 
 	void AnimationObject::AdvanceTime(float fTimeElepse)
 	{
-		if (m_pSkelAnim)
+		if (m_pCurAction)
 		{
-			m_pSkelAnim->AdvanceTime(fTimeElepse);
+			m_pCurAction->AdvanceTime(fTimeElepse);
 		}
 	}
 
@@ -154,9 +142,9 @@ namespace ma
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
 
-		if (m_pSkelAnim)
+		if (m_pCurAction)
 		{
-			m_pSkelAnim->EvaluateAnimation(&evalContext,fWeight);
+			m_pCurAction->EvaluateAnimation(&evalContext,fWeight);
 		}
 
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
@@ -173,10 +161,10 @@ namespace ma
 			}
 		}
 
-		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<RenderMesh>();
+		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<MeshComponent>();
 		for (UINT i = 0; i < nMeshComp; ++i)
 		{
-			RenderMesh* pMeshComp = m_pGameObject->GetTypeComponentByIndex<RenderMesh>(i);
+			MeshComponent* pMeshComp = m_pGameObject->GetTypeComponentByIndex<MeshComponent>(i);
 			ASSERT(pMeshComp);
 			if (pMeshComp == NULL)
 				continue;
@@ -187,9 +175,9 @@ namespace ma
 
 	void AnimationObject::SetFrame(float fFrame)
 	{
-		if (m_pSkelAnim)
+		if (m_pCurAction)
 		{
-			m_pSkelAnim->SetFrame(fFrame);
+			m_pCurAction->SetFrame(fFrame);
 		}
 	}
 

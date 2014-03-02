@@ -4,11 +4,11 @@
 namespace ma
 {
 
-	class GLESRENDER_API GLESVertexBuffer : public VertexBuffer
+	class GLESVertexBuffer : public VertexBuffer
 	{
 
 	public:
-		GLESVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
+		GLESVertexBuffer();
 
 		~GLESVertexBuffer();
 

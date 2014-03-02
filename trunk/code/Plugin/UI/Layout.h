@@ -17,7 +17,7 @@ class Control;
  * Implementations of this interface are responsible for positioning, resizing
  * and then calling update on all the controls within a container.
  */
-class Layout : public RefCountObject
+class Layout : public Referenced
 {
     friend class Container;
     friend class Form;

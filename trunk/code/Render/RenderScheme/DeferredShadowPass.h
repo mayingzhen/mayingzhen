@@ -5,6 +5,8 @@ namespace ma
 {
 	class DeferredShadowPass : public RenderPass
 	{
+		DECL_OBJECT(DeferredShadowPass)
+
 	public:
 		void Init();
 

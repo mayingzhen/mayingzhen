@@ -152,15 +152,15 @@ namespace ma
 		//m_bRunning = false;
 	}
 
-	void		Platform::swapBuffers()
-	{
-
-	}
-
-	void		Platform::sleep(long ms)
-	{
-
-	}
+// 	void		Platform::swapBuffers()
+// 	{
+// 
+// 	}
+// 
+// 	void		Platform::sleep(long ms)
+// 	{
+// 
+// 	}
 
 	Platform&	Platform::GetInstance()
 	{

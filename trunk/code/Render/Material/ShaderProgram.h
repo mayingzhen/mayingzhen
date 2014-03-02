@@ -66,11 +66,8 @@ namespace ma
 
 
 	protected:
-		//std::string							m_name;
-
 		std::map<std::string, Uniform*>		m_uniforms;
 
-		//std::string							m_ShaderName;
 		std::string							m_strVSFile;
 		std::string							m_strPSFile;
 		std::string							m_shaderDefine;

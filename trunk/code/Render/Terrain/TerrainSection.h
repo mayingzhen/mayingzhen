@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class TerrainSection : public RenderObject
+	class TerrainSection : public RenderComponent
 	{
 		DECL_OBJECT(TerrainSection)
 
@@ -22,7 +22,7 @@ namespace ma
 
 		virtual AABB		GetAABBWS();
 
-		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
+		//virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "TerrainSection");
 

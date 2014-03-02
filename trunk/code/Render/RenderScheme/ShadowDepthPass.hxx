@@ -2,10 +2,11 @@
 
 namespace ma
 {
+	IMPL_OBJECT(ShadowDepthPass,RenderPass);
 
 	void ShadowDepthPass::Init()
 	{
-
+		GetRenderSetting()->m_bShadow = true;
 	}
 
 	void ShadowDepthPass::Render()

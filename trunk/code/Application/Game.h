@@ -7,7 +7,7 @@ namespace ma
 {	
 	class Platform;
 
-	class ENGINE_API Game 
+	class APP_API Game 
 	{
 	public:	
 		Game(const char* pGameName);

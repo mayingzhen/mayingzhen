@@ -10,7 +10,7 @@ namespace ma
  * Represents a ma bundle file (.gpb) that contains a
  * collection of binary game assets that can be loaded.
  */
-class Bundle : public RefCountObject
+class Bundle : public Referenced
 {
     friend class PhysicsController;
     friend class SceneLoader;

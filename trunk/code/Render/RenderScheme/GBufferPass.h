@@ -5,7 +5,11 @@ namespace ma
 {
 	class GBufferPass : public RenderPass
 	{
+		DECL_OBJECT(GBufferPass)
+
 	public:
+		GBufferPass();
+
 		void		Init();
 
 		void		Render();

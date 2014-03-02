@@ -4,7 +4,7 @@
 namespace ma
 {
 	class IAnimationObject;
-	class RenderMesh;
+	class MeshComponent;
 
 	class SampleAnimationRetarget : public Sample
 	{

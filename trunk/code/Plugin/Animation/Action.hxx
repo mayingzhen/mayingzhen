@@ -3,13 +3,25 @@
 #include "AnimationTree/AnimBlendNode.h"
 #include "AnimationTree/AnimClipNode.h"
 #include "AnimationTree/AnimLayerNode.h"
+#include "ActionData.h"
 
 namespace ma
 {
+	//IMPL_OBJECT(Action,Object)
+
 	Action::Action(const char* pName)
 	{
 		m_sAnimName = pName ? pName : "";
 		m_pAnimaNode = NULL;
+	}
+
+	Action::Action(ActionData* pActionData,Skeleton* pSkeleton)
+	{
+		m_pSkeleton = pSkeleton;
+
+		m_sAnimName = pActionData->m_sAnimName;
+
+		m_pAnimaNode = CreateAnimNode(pActionData->m_pAnimNodeData);
 	}
 
 	Action::~Action()
@@ -91,77 +103,69 @@ namespace ma
 		}
 	}
 
-	void Action::Serialize(Serializer& sl, const char* pszLable)
+	void Action::SetSkeleton(Skeleton* pSkeleton)
 	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_sAnimName);
-
-		if (sl.IsReading())
-		{
-			std::string strTreeNodeType;
-			sl.Serialize(strTreeNodeType,"AniTreeNodeType");
-
-			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
-			m_pAnimaNode = static_cast<IAnimTreeNode*>(objFac.CreateObject(strTreeNodeType.c_str()));
-			m_pAnimaNode->SetSkeleton(m_pSkeleton);
-
-			m_pAnimaNode->Serialize(sl);
-
-// 			UINT nPMSize;
-// 			sl.Serialize(nPMSize,"arrPoseModifier");
-// 			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
-// 			{
-// 				std::string strPMName;
-// 				sl.Serialize(strPMName,"PoseModifierName");
-// 
-// 				PoseModifier* pPoseModifier = m_pAnimstionSet->GetPoseModifierByName(strPMName.c_str());
-// 				m_arrPoseModifier.push_back(pPoseModifier);
-// 			}
-
-		}
-		else
-		{
-			std::string strTreeNodeType = m_pAnimaNode->GetClass()->GetName();
-			sl.Serialize(strTreeNodeType,"AniTreeNodeType");
-
-			m_pAnimaNode->Serialize(sl);
-
-// 			UINT nPMSize = m_arrPoseModifier.size();
-// 			sl.Serialize(nPMSize,"arrPoseModifier");
-// 			for (UINT nCnt = 0; nCnt < nPMSize; ++nCnt)
-// 			{
-// 				PoseModifier* pPoseModifier = m_arrPoseModifier[nCnt];
-// 
-// 				std::string strPMName = pPoseModifier->GetName();
-// 				sl.Serialize(strPMName,"PoseModifierName");
-// 
-// 				pPoseModifier->Serialize(sl);
-// 			}
-
-
-		}
-
-		sl.EndSection();
+		m_pAnimaNode->SetSkeleton(pSkeleton);	
 	}
 
-	IAnimLayerNode*		Action::CreateLayerNode()
+	IAnimTreeNode* Action::CreateAnimNode(AnimNodeData* pAnimNodeData)
 	{
-		return new AnimLayerNode();
+		IAnimTreeNode* pAnimNode = NULL;
+
+		if ( pAnimNodeData->IsA( AnimClipNodeData::StaticGetClass() ) )
+		{
+			AnimClipNodeData* pClipNodeData = SafeCast<AnimClipNodeData>(pAnimNodeData);
+			pAnimNode = CreateClipNode(pClipNodeData);
+		}
+		else if ( pAnimNodeData->IsA( AnimLayerNodeData::StaticGetClass() ) )
+		{
+			AnimLayerNodeData* pLayerNodeData = SafeCast<AnimLayerNodeData>(pAnimNodeData);
+			pAnimNode = CreateLayerNode(pLayerNodeData);
+		}
+		else if ( pAnimNodeData->IsA( AnimBlendNodData::StaticGetClass() ) )
+		{
+			AnimBlendNodData* pBlendNodeData = SafeCast<AnimBlendNodData>(pAnimNodeData);
+			pAnimNode = CreateBlendNode(pBlendNodeData);
+		}
+
+		ASSERT(pAnimNode);
+		if (pAnimNode)
+			pAnimNode->SetSkeleton(m_pSkeleton);
+
+		return pAnimNode;
 	}
 
-	IAnimClipNode*		Action::CreateClipNode(const char* pSkaPath,const char* pBonsetNam)
+	IAnimLayerNode*	Action::CreateLayerNode(AnimLayerNodeData* pLayerData)
+	{
+		AnimLayerNode* pLayerNode = new AnimLayerNode();
+
+		for (UINT i = 0; i < pLayerData->m_arrAnimNodeData.size(); ++i)
+		{
+			pLayerNode->AddLayer( CreateAnimNode(pLayerData->m_arrAnimNodeData[i]) );
+		}
+
+		return pLayerNode;
+	}
+
+	IAnimBlendNode*	Action::CreateBlendNode(AnimBlendNodData* pBlendData)
+	{
+		AnimBlendNode* pBlendNode = new AnimBlendNode();
+
+		pBlendNode->SetSrcAnimNode( CreateAnimNode(pBlendData->m_pSrcAnimNodeData) );
+		pBlendNode->SetDestAnimNode( CreateAnimNode(pBlendData->m_pDestAnimNodeData) );
+		pBlendNode->SetWeight(pBlendData->m_fWeight);
+
+		return pBlendNode;
+	}
+
+	IAnimClipNode*	Action::CreateClipNode(AnimClipNodeData* pClipData)
 	{
 		AnimClipNode* pClipNode = new AnimClipNode();
-		pClipNode->SetSkeleton(m_pSkeleton);
-		pClipNode->SetAnimationClip(pSkaPath);
-		pClipNode->SetBoneSet(pBonsetNam);
-		return pClipNode;
-	}
 
-	IAnimBlendNode*		Action::CreateBlendNode()
-	{
-		return new AnimBlendNode();
+		pClipNode->SetAnimationClip(pClipData->m_sClipPath.c_str());
+		pClipNode->SetBoneSet(pClipData->m_sBoneSetName.c_str());
+
+		return pClipNode;
 	}
 }
 

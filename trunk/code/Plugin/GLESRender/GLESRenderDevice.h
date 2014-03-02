@@ -21,9 +21,9 @@ namespace ma
 
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 
-		virtual VertexBuffer*		CreateVertexBuffer(void* pData = NULL, int nsize = 0, int nStride = 0, USAGE Usgae = USAGE_NO);
+		virtual VertexBuffer*		CreateVertexBuffer();
 
-		virtual IndexBuffer*		CreateIndexBuffer(void* Data = NULL, int size = 0, INDEX_TYPE eIndexType = INDEX_TYPE_U16, USAGE Usgae = USAGE_NO);
+		virtual IndexBuffer*		CreateIndexBuffer();
 
 		virtual	ShaderProgram*		CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine);
 

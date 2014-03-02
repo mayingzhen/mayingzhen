@@ -7,11 +7,8 @@
 #include "Engine/RTTI/Object.hxx"
 #include "Engine/RTTI/ObjectFactory.hxx"
 
-// Platform
-#include "Engine/Application/Timer.hxx"
-#include "Engine/Application/Platform.hxx"
-#include "Engine/Application/Game.hxx"
 
+#include "Engine/Time/Timer.hxx"
 
 // Event
 #include "Engine/Event/Event.hxx"
@@ -74,6 +71,12 @@
 #include "Engine/EntitySystem/EntitySystem.hxx"
 #include "Engine/EntitySystem/Util.hxx"
 
+// CullTree
+#include "Engine/CullTree/CullTree.hxx"
+#include "Engine/CullTree/OctreeNode.hxx"
+#include "Engine/CullTree/Octree.hxx"
+
+
 #include "Engine/Profile/CodeTimer.hxx"
 
 
@@ -93,15 +96,19 @@ void EngineModuleInit()
 	SetResourceSystem(pRsourceSystem);
 	pRsourceSystem->Init();
 
-	Input* pInput = new Input();
-	SetInput(pInput);
-	pInput->Init(Platform::GetInstance().GetWindId());
+//	ASSERT(false);
+// 	Input* pInput = new Input();
+// 	SetInput(pInput);
+// 	pInput->Init(Platform::GetInstance().GetWindId());
 
 	Time* pTime = new Time();
 	SetTimer(pTime);
 
 	Scene*	pSceneSystem = new Scene();
 	SetSceneSystem(pSceneSystem);
+
+	Octree* pOctree = new Octree();
+	SetCullTree(pOctree);
 
 	EntitySystem* pEntitySystem = new EntitySystem();
 	SetEntitySystem(pEntitySystem);
@@ -114,10 +121,10 @@ void EngineModuleShutdown()
 	SAFE_DELETE(pTime);
 	SetTimer(NULL);
 
-	Input* pInput = GetInput();
-	pInput->Shutdown();
-	SAFE_DELETE(pInput);
-	SetInput(NULL);
+// 	Input* pInput = GetInput();
+// 	pInput->Shutdown();
+// 	SAFE_DELETE(pInput);
+// 	SetInput(NULL);
 
 	ResourceSystem* pRsourceSystem = GetResourceSystem();
 	pRsourceSystem->ShoutDown(); 

@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void SetSkeleton(Skeleton* pSkeleton) {}
 
-		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimLayerNode" );
+		
 
 	private:
 		std::vector<IAnimTreeNode*> m_arrAnimNode;

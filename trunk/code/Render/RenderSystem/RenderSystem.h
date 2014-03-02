@@ -12,6 +12,7 @@ namespace ma
 	class RenderQueue;
 	class RenderPass;
 	class RenderContext;
+	class RenderScheme;
 
 
 	class RENDER_API  RenderSystem 
@@ -32,8 +33,12 @@ namespace ma
 
 		void				DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 
+		RenderScheme*		GetRenderScheme();
+
+		void				SetRenderScheme(RenderScheme* pRenderScheme);
+
 		// Render Command
-		void				Init();
+		void				Init(HWND wndhandle);
 
 		void				Update();
 
@@ -56,6 +61,10 @@ namespace ma
 		Texture*			SetDepthStencil(Texture* pTexture);
 		
 		Rectangle			SetViewPort(const Rectangle& viewPort);
+
+		Rectangle			GetViewPort() {return m_viewport;}
+
+		HWND				GetMainWnd() {return m_hWnd;}
 		
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
@@ -74,7 +83,7 @@ namespace ma
 		void				FlushAndWait() {return m_pRenderThread->FlushAndWait();}
 
 	protected: 
-		void				RT_Init();
+		void				RT_Init(HWND wndhandle);
 
 		void				RT_BeginFrame();
 
@@ -84,6 +93,8 @@ namespace ma
 
 		
 	protected:
+		RenderScheme*				m_pRenderScheme;
+		
 		RenderContext*				m_pRenderContext;
 
  		RenderThread*				m_pRenderThread;
@@ -98,6 +109,8 @@ namespace ma
 		Texture*					m_pRenderTarget[MAX_RENDER_TARGET];
 		
 		Rectangle					m_viewport;
+
+		HWND						m_hWnd;
 	};
 
 	RENDER_API RenderSystem*		GetRenderSystem();
@@ -106,3 +119,4 @@ namespace ma
 }
 
 #endif
+

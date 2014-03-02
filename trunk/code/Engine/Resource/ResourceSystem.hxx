@@ -85,7 +85,7 @@ namespace ma
 		if (pRes == NULL)
 			return NULL;
 
-		gpDataThread->PushBackDataObj((IDataObj*)pRes);
+		gpDataThread->PushBackDataObj(pRes);
 
 		return pRes;	
 	}

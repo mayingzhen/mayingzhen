@@ -42,7 +42,7 @@ namespace ma
 		if (pParam == NULL)
 			return;
 
-		std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pParam->getName());
+		std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pParam->GetName());
 		if (itr != m_autoDefaultBings.end())
 		{
 			SetParameterAutoBinding(pParam,itr->second);

@@ -411,6 +411,12 @@ namespace ma
 	  return true;
 	}
 
+
+// 	bool contains(const AABB& box,const AABB &def) const
+// 	{
+// 		return (def.left >= left && def.top >= top && def.front >= front &&
+// 			def.right <= right && def.bottom <= bottom && def.back <= back);
+// 	}
 }
 
 

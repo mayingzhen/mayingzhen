@@ -4,7 +4,7 @@
 namespace ma
 {
 	class IAnimationObject;
-	class RenderMesh;
+	class MeshComponent;
 
 
 	class SampleAnimationTree : public Sample,OIS::KeyListener

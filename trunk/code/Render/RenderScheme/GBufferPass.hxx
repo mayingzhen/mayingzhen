@@ -6,9 +6,19 @@ namespace ma
 
 	GBufferPass* GetBuffferPass() {return gpGBufferPass;}
 
+	IMPL_OBJECT(GBufferPass,RenderPass);
+
+	GBufferPass::GBufferPass()
+	{
+		m_pDepthTex = NULL;
+		m_pNormalTex = NULL;
+	}
+
 	void GBufferPass::Init()
 	{
 		gpGBufferPass = this;
+
+		GetRenderSetting()->m_bDefferLight = true;
 
 		m_pDepthTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_R32F);
 		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1,-1,FMT_A8R8G8B8);
@@ -28,7 +38,7 @@ namespace ma
 		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
-			RenderObject* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
+			RenderComponent* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
 			Material* pMaterial = pSolidEntry->GetMaterial();
 			Technique* pTech =  pMaterial->GetTechnqiue("Gbuffer");
 			pTech->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 

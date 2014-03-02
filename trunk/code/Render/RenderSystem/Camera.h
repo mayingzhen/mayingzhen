@@ -17,7 +17,7 @@ namespace ma
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
-		const MatViewProj&	GetMatViewProj() {return m_matViewProj;}
+		MatViewProj&		GetMatViewProj() {return m_matViewProj;}
 		
 		float				GetNearClip() {return m_fNear;}
 

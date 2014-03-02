@@ -99,12 +99,12 @@ namespace ma
 
 		virtual bool VisiteComponent(Component* pComp)
 		{
-			RenderObject* pRenderObj = SafeCast<RenderObject>(pComp);
+			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
 			if (pRenderObj)
 			{
 				AABB aabb = pRenderObj->GetAABBWS();
 
-				if ( SweepIntersectionTest(aabb,m_splitFrustum,m_vLightDir) )
+				if ( 1/*SweepIntersectionTest(aabb,m_splitFrustum,m_vLightDir)*/ )
 				{
 					m_pSMF->AddCaster(pRenderObj);
 					m_aabb.Merge( pRenderObj->GetAABBWS() );
@@ -164,7 +164,8 @@ namespace ma
 				pCamera->GetAspect(),m_fSplitPos[index][i],m_fSplitPos[index][i + 1]);
 
 			Matrix4x4 matView = pCamera->GetMatViewProj().GetMatView();
-			Frustum splitFrustum(matView * matSplitProj);
+			Frustum splitFrustum;
+			splitFrustum.Update(matView * matSplitProj);
 
 			CastersBuilder casterBuild(pSMF,splitFrustum,GetDirection());
 			GetSceneSystem()->TravelScene(&casterBuild);
@@ -176,8 +177,9 @@ namespace ma
 			aabbReceivers.Transform(matLightView);
 
 			AABB aabbSplit;
-			aabbSplit.Merge(splitFrustum.m_pPoints,8);
-			aabbSplit.Transform(matLightView);
+			ASSERT(false);
+			//aabbSplit.Merge(splitFrustum.m_pPoints,8);
+			//aabbSplit.Transform(matLightView);
 
 			AABB cropAABB;
 

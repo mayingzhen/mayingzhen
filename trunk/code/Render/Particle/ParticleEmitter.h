@@ -82,7 +82,7 @@ namespace ma
 	};
 
 
-	class RENDER_API ParticleEmitter : public RenderObject
+	class RENDER_API ParticleEmitter : public RenderComponent
 	{
 		DECL_OBJECT(ParticleEmitter)
 
@@ -109,11 +109,11 @@ namespace ma
 
 		virtual Material*	GetMaterial();
 
-		virtual void		SetMaterial(Material* pMaterial);
+		//virtual void		SetMaterial(Material* pMaterial);
 
 		virtual	void		AddToRenderQueue();
 
-		virtual void		SetWorldMatrix(const Matrix4x4& matWS);
+		//virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "ParticleEmitter");
 

@@ -63,13 +63,12 @@ namespace ma
 	{
 		sl.BeginSection(pszLabel);
 
-		sl.Serialize(meshData.m_nIndexType);
-		sl.Serialize(meshData.m_nVertexType);
-		sl.Serialize(meshData.m_arrIndexBuffer);
-		sl.Serialize(meshData.m_arrVertexBuffer);	
+		sl.Serialize(meshData.m_nIndexType,"IndexType");
+		sl.Serialize(meshData.m_nVertexType,"VertexType");
+		sl.Serialize(*meshData.m_pVertexBuffer,"VertexBuffer");
+		sl.Serialize(*meshData.m_pIndexBuffer,"IndexBuffer");
 		sl.Serialize(meshData.m_meshBound,"MeshBound");
 		sl.Serialize(meshData.m_arrSubMesh,"SubMesh");
-		sl.Serialize(meshData.m_nSkelGUID,"SkeletonGUID");
 
 		sl.EndSection();
 	}

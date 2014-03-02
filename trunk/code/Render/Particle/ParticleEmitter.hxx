@@ -7,10 +7,10 @@
 namespace ma
 {
 
-	IMPL_OBJECT(ParticleEmitter,RenderObject)
+	IMPL_OBJECT(ParticleEmitter,RenderComponent)
 
 	ParticleEmitter::ParticleEmitter(GameObject* pGameObj)
-		:RenderObject(pGameObj)
+		:RenderComponent(pGameObj)
 	{
 		m_pSpriteBatch = NULL;
 		m_pParticles = NULL;
@@ -172,7 +172,7 @@ namespace ma
 
 		ASSERT(m_pParticles);
 		bool active = false;
-		for (unsigned int i = 0; i < m_nParticleCount; i++)
+		for (UINT i = 0; i < m_nParticleCount; i++)
 		{
 			if (m_pParticles[i]._energy > 0)
 			{
@@ -193,7 +193,7 @@ namespace ma
 		}
 
 		// Emit the new particles.
-		for (unsigned int i = 0; i < particleCount; i++)
+		for (UINT i = 0; i < particleCount; i++)
 		{
 			Particle* p = &m_pParticles[m_nParticleCount];
 			p->_visible = true;
@@ -277,7 +277,7 @@ namespace ma
 		int cols = nTextureWidth / nSpriteWidth;
 		int rows = nTextureHeight / nSpriteHeight;
 
-		unsigned int n = 0;
+		UINT n = 0;
 		for (int i = 0; i < rows; ++i)
 		{
 			y = i * nSpriteHeight;
@@ -320,7 +320,7 @@ namespace ma
 	{
 		// Note: this is not a very good RNG, but it should be suitable for our purposes.
 		long r = 0;
-		for (unsigned int i = 0; i < sizeof(long)/sizeof(int); i++)
+		for (UINT i = 0; i < sizeof(long)/sizeof(int); i++)
 		{
 			r = r << 8; // sizeof(int) * CHAR_BITS
 			r |= rand();
@@ -434,7 +434,7 @@ namespace ma
 
 			// How many particles should we emit this frame?
 			ASSERT(ftimePerEmission);
-			unsigned int emitCount = (unsigned int)(m_fTimeRunning / ftimePerEmission);
+			UINT emitCount = (UINT)(m_fTimeRunning / ftimePerEmission);
 
 			if (emitCount)
 			{
@@ -503,7 +503,7 @@ namespace ma
 						float fSpritePercentPerFrame = 1.0f / (float)m_spriteTextureInfo.m_nSpriteFrameCount;
 						// The last frame should finish exactly when the particle dies.
 						float percentSpent = 0.0f;
-						for (unsigned int i = 0; i < p->_frame; i++)
+						for (UINT i = 0; i < p->_frame; i++)
 						{
 							percentSpent += fSpritePercentPerFrame;
 						}
@@ -563,6 +563,10 @@ namespace ma
 		m_bUpdate = true; 
 	}
 
+	Material* ParticleEmitter::GetMaterial()
+	{
+		return m_pMaterial;
+	}
 
 	void ParticleEmitter::Render(Technique* pTech)
 	{
@@ -605,7 +609,7 @@ namespace ma
 		//cameraWorldMatrix.getUpVector(&up);
 		up = cameraWorldMatrix.GetRow(1);
 
-		for (unsigned int i = 0; i < m_nParticleCount; i++)
+		for (UINT i = 0; i < m_nParticleCount; i++)
 		{
 			Particle* p = &m_pParticles[i];
 
@@ -623,15 +627,15 @@ namespace ma
 		m_pSpriteBatch->finish(pTech);
 	}
 
-	Material*	ParticleEmitter::GetMaterial()
-	{
-		return  m_pMaterial;
-	}
-
-	void ParticleEmitter::SetMaterial(Material* pMaterial)
-	{
-
-	}
+// 	Material*	ParticleEmitter::GetMaterial()
+// 	{
+// 		return  m_pMaterial;
+// 	}
+// 
+// 	void ParticleEmitter::SetMaterial(Material* pMaterial)
+// 	{
+// 
+// 	}
 
 	void ParticleEmitter::AddToRenderQueue() 
 	{
@@ -639,11 +643,8 @@ namespace ma
 			GetParticleSystem()->AddParticleEmitter(this);
 
 		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Trans,this);
-	}
+	
 
-
-	void ParticleEmitter::SetWorldMatrix(const Matrix4x4& matWorld)
-	{
 		int index = GetRenderSystem()->CurThreadFill();
 
 		Renderable* pRenderable = GetRenderable();
@@ -651,8 +652,21 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		pRenderable->m_matWorld[index] = matWorld;
+		pRenderable->m_matWorld[index] = m_pGameObject->GetSceneNode()->GetWorldMatrix();
 	}
+
+
+// 	void ParticleEmitter::SetWorldMatrix(const Matrix4x4& matWorld)
+// 	{
+// 		int index = GetRenderSystem()->CurThreadFill();
+// 
+// 		Renderable* pRenderable = GetRenderable();
+// 		ASSERT(pRenderable);
+// 		if (pRenderable == NULL)
+// 			return;
+// 
+// 		pRenderable->m_matWorld[index] = matWorld;
+// 	}
 
 	void ParticleEmitter::Serialize(Serializer& sl, const char* pszLable/* = "ParticleEmitter"*/)
 	{

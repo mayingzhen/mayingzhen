@@ -14,26 +14,26 @@ namespace ma
 		{
 			// MeshData B (b f h)
 			m_pChargigi = GetEntitySystem()->CreateGameObject("gigi");
-			RenderMesh* pMesCompb = m_pChargigi->CreateComponent<RenderMesh>();
+			MeshComponent* pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.tga");
 
-			RenderMesh* pMesComph = m_pChargigi->CreateComponent<RenderMesh>();
+			MeshComponent* pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.tga");
 
-			RenderMesh* pMesCompf = m_pChargigi->CreateComponent<RenderMesh>();
+			MeshComponent* pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.tga");
 			
 			m_pAnimtionObjectA = m_pChargigi->CreateComponent<IAnimationObject>();
 			m_pAnimtionObjectA->Load(NULL,"gigi/gigi/body.ske");
 
-			IAnimationSet* pAnimSet = m_pAnimtionObjectA->GetAnimationSet();
-
-			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
-			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
-			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
-			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
-
-			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
+// 			IAnimationSet* pAnimSet = m_pAnimtionObjectA->GetAnimationSet();
+// 
+// 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","gigi_Run");
+// 			pAnimSet->AddAnimClip("gigi/281_run_jump_start/bip01.ska","gigi_jump");
+// 			pAnimSet->AddAnimClip("magician/602/bip01.ska","Mag602");
+// 			pAnimSet->AddAnimClip("magician/100/bip01.ska","mag100");
+// 
+// 			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
 
 			m_pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
 		}

@@ -144,6 +144,31 @@ public:
 	bool operator == ( const Vector3& ) const;
 	bool operator != ( const Vector3& ) const;
 
+	        /** Normalises the vector.
+            @remarks
+                This method normalises the vector such that it's
+                length / magnitude is 1. The result is called a unit vector.
+            @note
+                This function will not crash for zero-sized vectors, but there
+                will be no changes made to their components.
+            @returns The previous length of the vector.
+        */
+        inline float normalise()
+        {
+			float fLength = sqrt( x * x + y * y + z * z );
+
+            // Will also work for zero-sized vectors, but will change nothing
+            if ( fLength > 1e-08 )
+            {
+                float fInvLength = 1.0f / fLength;
+                x *= fInvLength;
+                y *= fInvLength;
+                z *= fInvLength;
+            }
+
+			return fLength;
+		}
+
 public:
 	float x;
 	float y;
@@ -160,7 +185,7 @@ inline const Vector3& Vec3Forward() { static Vector3 temp(0.0f,0.0f,1.0f); retur
 inline const Vector3& Vec3Zero() { static Vector3 temp(0.0f,0.0f,0.0f); return temp; }
 inline const Vector3& Vec3One() { static Vector3 temp(1.0f,1.0f,1.0f); return temp;}
 
-inline Vector3 Vec3fromColor(unsigned int color)
+inline Vector3 Vec3fromColor(UINT color)
 {
 	float components[3];
 	int componentIndex = 0;
@@ -230,7 +255,7 @@ inline const Vector4& Vec4Zero()
 	return vZero;
 }
 
-inline Vector4 Vec4fromColor(unsigned int color)
+inline Vector4 Vec4fromColor(UINT color)
 {
 	float components[4];
 	int componentIndex = 0;
@@ -406,38 +431,38 @@ struct EulerAngleXYZ
 // Planes
 //
 //===========================================================================
-struct Plane
-{
-
-public:
-	Plane() {}
-	Plane( const float* );
-	Plane( float a, float b, float c, float d );
-
-	// casting
-	operator float* ();
-	operator const float* () const;
-
-	// assignment operators
-	Plane& operator *= ( float );
-	Plane& operator /= ( float );
-
-	// unary operators
-	Plane operator + () const;
-	Plane operator - () const;
-
-	// binary operators
-	Plane operator * ( float ) const;
-	Plane operator / ( float ) const;
-
-	friend Plane operator * ( float, const Plane& );
-
-	bool operator == ( const Plane& ) const;
-	bool operator != ( const Plane& ) const;
-
-
-	float a, b, c, d;
-};
+// struct Plane
+// {
+// 
+// public:
+// 	Plane() {}
+// 	Plane( const float* );
+// 	Plane( float a, float b, float c, float d );
+// 
+// 	// casting
+// 	operator float* ();
+// 	operator const float* () const;
+// 
+// 	// assignment operators
+// 	Plane& operator *= ( float );
+// 	Plane& operator /= ( float );
+// 
+// 	// unary operators
+// 	Plane operator + () const;
+// 	Plane operator - () const;
+// 
+// 	// binary operators
+// 	Plane operator * ( float ) const;
+// 	Plane operator / ( float ) const;
+// 
+// 	friend Plane operator * ( float, const Plane& );
+// 
+// 	bool operator == ( const Plane& ) const;
+// 	bool operator != ( const Plane& ) const;
+// 
+// 
+// 	float a, b, c, d;
+// };
 
 
 //===========================================================================
@@ -603,17 +628,15 @@ extern "C" {
 
 // inline
 
-float Vec3Length
-( const Vector3 *pV );
+float Vec3Length( const Vector3 *pV );
 
-float Vec3LengthSq
-( const Vector3 *pV );
+float Vec3LengthSq( const Vector3* pV);
 
-float Vec3Dot
-( const Vector3 *pV1, const Vector3 *pV2 );
+float Vec3LengthSq( const Vector3& V );
 
-Vector3* Vec3Cross
-( Vector3 *pOut, const Vector3 *pV1, const Vector3 *pV2 );
+float Vec3Dot( const Vector3 *pV1, const Vector3 *pV2 );
+
+Vector3* Vec3Cross( Vector3 *pOut, const Vector3 *pV1, const Vector3 *pV2 );
 
 Vector3* Vec3Add
 ( Vector3 *pOut, const Vector3 *pV1, const Vector3 *pV2 );
@@ -1157,19 +1180,19 @@ void  EulerAngleFromQuaternion(EulerAngleXYZ* pEuler,const Quaternion* pQua);
 // inline
 
 // ax + by + cz + dw
-float PlaneDot
-( const Plane *pP, const Vector4 *pV);
+//float PlaneDot
+//( const Plane *pP, const Vector4 *pV);
 
 // ax + by + cz + d
-float PlaneDotCoord
-( const Plane *pP, const Vector3 *pV);
+//float PlaneDotCoord
+//( const Plane *pP, const Vector3 *pV);
 
 // ax + by + cz
-float PlaneDotNormal
-( const Plane *pP, const Vector3 *pV);
+//float PlaneDotNormal
+//( const Plane *pP, const Vector3 *pV);
 
-Plane* PlaneScale
-(Plane *pOut, const Plane *pP, float s);
+//Plane* PlaneScale
+//(Plane *pOut, const Plane *pP, float s);
 
 // non-inline
 #ifdef __cplusplus

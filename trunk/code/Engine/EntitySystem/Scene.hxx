@@ -34,7 +34,7 @@ namespace ma
 
 	void Scene::Update()
 	{
-		m_pRootNode->UpdateAABB();
+		//m_pRootNode->UpdateAABB();
 	}
 
 	void Scene::Serialize(Serializer& sl, const char* pszLable)

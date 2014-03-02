@@ -6,7 +6,6 @@
 #include "../RenderScheme/RenderScheme.h"
 #include "../Util/ScreenQuad.h"
 #include "../Util/UnitSphere.h"
-#include "RenderQueueBuilder.h"
 
 
 namespace ma
@@ -39,6 +38,8 @@ namespace ma
 		m_pRenderContext = new RenderContext();
 		SetRenderContext(m_pRenderContext);
 
+		m_pRenderScheme = new RenderScheme();
+
 		GameObject* pCameraObj = GetEntitySystem()->CreateGameObject("MainCamera");
 		m_pMainCamera =  pCameraObj->CreateComponent<Camera>();
 
@@ -49,7 +50,6 @@ namespace ma
 		SetLineRender(pLineRender);
 
 		m_pRenderThread = new RenderThread();
-		//SetRenderThread(m_pRenderThread);
 
 		if ( GetRenderSetting()->m_bRenderThread )
 		{
@@ -80,27 +80,57 @@ namespace ma
 		m_pMainCamera = pCamera;
 	}
 
-	void RenderSystem::Init()
+	RenderScheme* RenderSystem::GetRenderScheme()
 	{
-		m_pRenderThread->RC_Init();
+		return m_pRenderScheme;
+	}
+
+	void RenderSystem::SetRenderScheme(RenderScheme* pRenderScheme)
+	{
+		SAFE_DELETE(m_pRenderScheme);
+		m_pRenderScheme = pRenderScheme;
+	}
+
+	void RenderSystem::Init(HWND wndhandle)
+	{
+		m_pRenderThread->RC_Init(wndhandle);
 	}
 
 	void RenderSystem::Update()
 	{
 		profile_code();
 
-		RenderQueueBuilder rqBuilder(m_pMainCamera);
-		GetSceneSystem()->TravelScene(&rqBuilder);
+// 		RenderQueueBuilder rqBuilder(m_pMainCamera);
+// 		GetSceneSystem()->TravelScene(&rqBuilder);
+// 
+// 		rqBuilder.AddToRenderQueue();
+		std::vector<GameObject*> arrGameObjs;
 
-		rqBuilder.AddToRenderQueue();
+		// 1.裁剪得到视锥体内的所有物体
+		Frustum camaeraFrustum;
+		camaeraFrustum.Update( (m_pMainCamera->GetMatViewProj()).GetMatViewProj() );
+		GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
 
-		m_pMainCamera->AdjustPlanes( rqBuilder.GetWorldAABB() );
+		for (UINT i = 0; i < arrGameObjs.size(); ++i)
+		{
+			//arrGameObjs[i]->UpdateTransform();
+
+			RenderComponent* pRenderObj = arrGameObjs[i]->GetTypeComponentFirst<RenderComponent>();
+			if (pRenderObj)
+			{
+				//pRenderObj->UpdateTransform();
+				pRenderObj->AddToRenderQueue();
+			}
+		}
+
+		//m_pMainCamera->AdjustPlanes( rqBuilder.GetWorldAABB() );
 	}
 
 
 	void RenderSystem::ShoutDown()
 	{
-		GetRenderScheme()->ShoutDown();
+		if (m_pRenderScheme)
+			m_pRenderScheme->ShoutDown();
 
 		GetLineRender()->ShutDown();
 
@@ -146,9 +176,11 @@ namespace ma
 	}
 
 
-	void RenderSystem::RT_Init()
+	void RenderSystem::RT_Init(HWND wndhandle)
 	{
-		GetRenderDevice()->Init(Platform::GetInstance().GetWindId());
+		m_hWnd = wndhandle;
+
+		GetRenderDevice()->Init(wndhandle);
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
@@ -161,7 +193,8 @@ namespace ma
 	
 		GetRenderSetting()->Init();
 
-		GetRenderScheme()->Init();
+		if (m_pRenderScheme)
+			m_pRenderScheme->Init();
 
 		GetLineRender()->Init();
 
@@ -187,7 +220,8 @@ namespace ma
 	{
 		GetRenderContext()->SetCamera(m_pMainCamera);
 
-		GetRenderScheme()->Render();
+		if (m_pRenderScheme)
+			m_pRenderScheme->Render();
  		
  		GetLineRender()->Render();
 
@@ -201,7 +235,7 @@ namespace ma
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
 
-		if (pSubMeshData && pSubMeshData->m_nVertexCount <= 0)
+		if (pSubMeshData->m_nVertexCount <= 0)
 			return;
 
 		m_pRenderContext->SetCurRenderObj(pRenderable);
