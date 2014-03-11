@@ -8,6 +8,7 @@ namespace ma
 	class IPhysicsScene;
 	class Camera;
 	class MeshComponent;
+	class CullTree;
 
 
 	class ENGINE_API EntitySystem 
@@ -15,26 +16,35 @@ namespace ma
 	
 	public:
 
-		void			Init();
+		void					Init();
 
-		void			ShoutDown();
+		void					ShoutDown();
 
-		void			Update();
+		void					Update();
 
-		GameObject*		CreateGameObject(const char* pName);
+		ref_ptr<GameObject>		CreateGameObject(const char* pName);
 
-		void			DeleteGameObject(GameObject*);
+		//void					DeleteGameObject(GameObject*);
 
-		void			DeleteAll();
+		//void					DeleteAll();
+	
+		void					Reset();
+
+		void					Serialize(Serializer& sl, const char* pszLable = "Scene");
+
+		CullTree*				GetCullTree() {return m_pCullTree.get();}
+
+		ref_ptr<GameObject>		GetRootGameObject() {return m_pRootGameObject;}	
 
 	private:
+		ref_ptr<GameObject>		m_pRootGameObject;	
 
-		std::vector<GameObject*>	m_arrGameObject;
+		ref_ptr<CullTree>		m_pCullTree;
 	};
 
 	ENGINE_API EntitySystem*	GetEntitySystem();
 
-	ENGINE_API void			SetEntitySystem(EntitySystem* pEntitySystem);
+	ENGINE_API void				SetEntitySystem(EntitySystem* pEntitySystem);
 
 
 }

@@ -2,8 +2,8 @@
 #define __Macro_h__
 
 #define SAFE_SET(r,l)		{ if(l)	{(l)->AddRef();} SAFE_RELEASE(r); (r) = (l); }
-#define SAFE_INC_REF(p)			{ if(p){ (p)->ref();} }
-#define SAFE_DEC_REF(p)			{ if(p){ (p)->unref();} (p) = NULL;}
+#define SAFE_INC_REF(p)			{ if(p){ (p)->Ref();} }
+#define SAFE_DEC_REF(p)			{ if(p){ (p)->Unref();} (p) = NULL;}
 #define SAFE_SET_REF(pl,pr)		{ SAFE_INC_REF(pr); SAFE_DEC_REF(pl); (pl) = (pr);}
 
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }

@@ -1,581 +1,87 @@
-<Scene>
-    <RootObject>
-        <size size="12" />
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
+<Root>
+    <Scene>
+        <RootObject m_sName="RootGameObject">
             <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
+                <NodeTransform PropScale="1.000000">
+                    <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                    <Position x="0.000000" y="0.000000" z="0.000000" />
                 </NodeTransform>
-                <size size="0" />
             </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="10.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="20.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="30.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="40.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="10.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="20.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="30.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-        <GameObject>
-            <m_sName m_sName="Test" />
-            <arrCompSize arrCompSize="2" />
-            <classType classType="MeshComponent" />
-            <MeshComponent>
-                <string string="Fbx/Box.skn" />
-                <string string="Fbx/Box.tga" />
-            </MeshComponent>
-            <classType classType="BoxCollisionComponent" />
-            <BoxCollisionComponent>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="0.000000" />
-                        <y y="0.501443" />
-                        <z z="0.000001" />
-                    </Position>
-                </NodeTransform>
-                <Vector3>
-                    <x x="0.998830" />
-                    <y y="0.998829" />
-                    <z z="0.998829" />
-                </Vector3>
-            </BoxCollisionComponent>
-            <SceneNode>
-                <NodeTransform>
-                    <PropScale PropScale="1.000000" />
-                    <Rotation>
-                        <x x="0.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                        <w w="1.000000" />
-                    </Rotation>
-                    <Position>
-                        <x x="40.000000" />
-                        <y y="0.000000" />
-                        <z z="0.000000" />
-                    </Position>
-                </NodeTransform>
-                <size size="0" />
-            </SceneNode>
-        </GameObject>
-    </RootObject>
-</Scene>
+            <arrComp size="0" />
+            <arrChild size="6">
+                <Element_0 m_sName="Test">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="0.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_0>
+                <Element_1 m_sName="Test_clone0">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="0.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_1>
+                <Element_2 m_sName="Test_clone1">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="10.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_2>
+                <Element_3 m_sName="Test_clone2">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="20.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_3>
+                <Element_4 m_sName="Test_clone3">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="30.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_4>
+                <Element_5 m_sName="Test_clone4">
+                    <SceneNode>
+                        <NodeTransform PropScale="1.000000">
+                            <Rotation x="0.000000" y="0.000000" z="0.000000" w="1.000000" />
+                            <Position x="40.000000" y="0.000000" z="0.000000" />
+                        </NodeTransform>
+                    </SceneNode>
+                    <arrComp size="1" ClassName="MeshComponent">
+                        <Element_0 SknPath="Fbx/Box.skn" MatPath="Fbx/box.mat" />
+                    </arrComp>
+                    <arrChild size="0" />
+                </Element_5>
+            </arrChild>
+        </RootObject>
+    </Scene>
+</Root>

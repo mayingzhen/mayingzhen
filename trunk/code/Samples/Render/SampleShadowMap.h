@@ -17,7 +17,7 @@ namespace ma
 		virtual void Render();
 
 	private:
-		Light* m_pLigt;
+		DirectonalLight*	m_pDirectLight;
 	};
 }
 

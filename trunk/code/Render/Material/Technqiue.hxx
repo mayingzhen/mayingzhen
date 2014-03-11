@@ -22,7 +22,13 @@ namespace ma
 
 	Technique::~Technique()
 	{
-
+		for (UINT i = 0; i < m_parameters.size(); ++i)
+		{
+			SAFE_DELETE(m_parameters[i]);
+		}
+		m_parameters.clear();
+	
+		SAFE_DELETE(m_pShaderProgram);
 	}
 
 	void Technique::Bind()
@@ -81,16 +87,16 @@ namespace ma
 		return m_stName.c_str();
 	}
 
-	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_stName);
-
-		//m_pShaderProgram->
-
-		//m_renderState
-
-		sl.EndSection();
-	}
+// 	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		sl.Serialize(m_stName);
+// 
+// 		//m_pShaderProgram->
+// 
+// 		//m_renderState
+// 
+// 		sl.EndSection();
+// 	}
 }

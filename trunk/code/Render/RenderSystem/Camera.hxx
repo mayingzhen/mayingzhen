@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "../Render/IRenderDevice/IRenderDevice.h"
 
 namespace ma
 {
@@ -12,11 +13,48 @@ namespace ma
 		m_fNearMin = 0.1f;
 		m_fFar = 300.0f;
 		m_fFOV = ToRadian(45.0f);
+
+		m_bMatViewDirty = true;
 	}
 
 	Camera::~Camera()
 	{
 
+	}
+
+	void Camera::UpdateMatView()
+	{
+		Matrix4x4 matView;
+		MatrixInverse(&matView,NULL,&GetGameObject()->GetSceneNode()->GetWorldMatrix());
+		m_matViewProj.SetMatView(matView);
+
+		//m_bMatViewDirty = false;
+	}
+
+
+	const Matrix4x4& Camera::GetMatView()
+	{
+		if (m_bMatViewDirty)
+		{
+			UpdateMatView();	
+		}
+
+		return m_matViewProj.GetMatView();
+	}
+
+	const Matrix4x4& Camera::GetMatProj()
+	{
+		return m_matViewProj.GetMatProj();
+	}
+
+	const Matrix4x4& Camera::GetMatViewProj()
+	{
+		if (m_bMatViewDirty)
+		{
+			UpdateMatView();
+		}
+
+		return m_matViewProj.GetMatViewProj();
 	}
 
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
@@ -113,12 +151,12 @@ namespace ma
 		m_matViewProj.SetMatProj(matProj);
 	}
 
-	void Camera::UpdateTransform()
-	{
-		Matrix4x4 matView;
-		MatrixInverse(&matView,NULL,&GetGameObject()->GetSceneNode()->GetWorldMatrix());
-		m_matViewProj.SetMatView(matView);
-	}
+// 	void Camera::UpdateTransform()
+// 	{
+// 		Matrix4x4 matView;
+// 		MatrixInverse(&matView,NULL,&GetGameObject()->GetSceneNode()->GetWorldMatrix());
+// 		m_matViewProj.SetMatView(matView);
+// 	}
 
 	void Camera::GetWorldRayCast(const Vector2& clientSize,const Vector2& point, Vector3& worldOrig, Vector3& worldDir)
 	{

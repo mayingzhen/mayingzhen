@@ -31,6 +31,8 @@ namespace ma
 
 		virtual void			DebugRender(NodeTransform tsfWS);
 
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "IBoxCollisionShape");
+
 	private:
 
 		Vector3					m_vSize;
@@ -51,6 +53,8 @@ namespace ma
 		virtual	float			GetRadius(); 
 
 		virtual void			DebugRender(NodeTransform tsfWS);
+
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "ISphereCollisionShape");
 
 	private:
 
@@ -75,6 +79,8 @@ namespace ma
 		virtual float			GetRadius() const;
 
 		virtual void			DebugRender(NodeTransform tsfWS);
+
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "ICapsuleCollisionShape");
 
 	private:
 		float					m_fHeight;

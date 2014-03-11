@@ -19,6 +19,8 @@ Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),
 	GetInput()->AddKeyListener(this);
 	GetInput()->AddMouseListener(this);
 	GetInput()->AddTouchListener(this);
+
+	Ref();
 }
 
 Form::~Form()
@@ -149,7 +151,7 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
     form->_style = style;
     form->_layout = layout;
     form->_theme = style->getTheme();
-    form->_theme->ref();
+    form->_theme->Ref();
 
 	Rectangle rect = GetRenderSystem()->GetViewPort();
 	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);

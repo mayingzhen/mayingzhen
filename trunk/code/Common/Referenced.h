@@ -24,13 +24,13 @@ namespace ma
 
 		/** Increment the reference count by one, indicating that 
 			this object has another pointer which is referencing it.*/
-		inline int ref() const {return ++_refCount;}
+		inline int Ref() const {return ++_refCount;}
 	    
 		/** Decrement the reference count by one, indicating that 
 			a pointer to this object is referencing it.  If the
 			reference count goes to zero, it is assumed that this object
 			is no longer referenced and is automatically deleted.*/
-		inline int unref() const
+		inline int Unref() const
 		{
 			int newRef = --_refCount;
 			bool needDelete = (newRef == 0);

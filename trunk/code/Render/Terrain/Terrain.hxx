@@ -91,12 +91,12 @@ namespace ma
 				int heightMapX = x << m_sectorShift;
 				int heightMapY = y << m_sectorShift;
 
-				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
+				GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
 				
 				TerrainSection* pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
 				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
-				m_arrGameObj.push_back(pGameObj);
+				//m_arrGameObj.push_back(pGameObj);
 
 				//GetCullTree()->UpdateObject(pGameObj);
 

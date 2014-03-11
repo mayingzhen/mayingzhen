@@ -29,7 +29,7 @@ namespace ma
 		MaterialParameter*	AddParameter(const char* pszName);
 
 
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "Technique");
+		//virtual void		Serialize(Serializer& sl, const char* pszLable = "Technique");
 
 
 	private:

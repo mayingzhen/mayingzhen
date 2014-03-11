@@ -63,6 +63,8 @@ Container::Container()
       _initializedWithScroll(false), _scrollWheelRequiresFocus(false)
 {
 	clearContacts();
+
+	Ref();
 }
 
 Container::~Container()
@@ -205,7 +207,7 @@ void Container::addControls(Theme* theme, Properties* properties)
         if (control)
         {
             addControl(control);
-            //control->unref();
+            control->Unref();
         }
 
         // Get the next control.
@@ -247,7 +249,7 @@ unsigned int Container::addControl(Control* control)
     if (control->_parent != this)
     {
         _controls.push_back(control);
-        //control->ref();
+        control->Ref();
         control->_parent = this;
         sortControls();
         return (unsigned int)(_controls.size() - 1);
@@ -285,7 +287,7 @@ void Container::insertControl(Control* control, unsigned int index)
     {
         std::vector<Control*>::iterator it = _controls.begin() + index;
         _controls.insert(it, control);
-        //control->ref();
+        control->Ref();
         control->_parent = this;
     }
 }
@@ -641,7 +643,7 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
     // This event may run untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this container, we
     // need to keep it alive until the method returns.
-    //ref();
+    Ref();
 
     bool eventConsumed = false;
 
@@ -728,7 +730,7 @@ bool Container::keyEvent(Keyboard::KeyEvent evt, int key)
         }
     }
 
-    //unref();
+    Unref();
     return eventConsumed;
 }
 
@@ -974,7 +976,7 @@ bool Container::moveFocus(Direction direction, Control* outsideControl)
 
         //_focusChangeStartTime = Game::getAbsoluteTime();
         _focusChangeRepeat = true;
-        //ref();
+        Ref();
         //Game::getInstance()->schedule(_focusChangeRepeatDelay, this);
 
         return true;
@@ -1002,7 +1004,7 @@ void Container::timeEvent(long timeDiff, void* cookie)
         _focusChangeRepeatDelay = FOCUS_CHANGE_REPEAT_DELAY;
     }
 
-    //unref();
+    Unref();
 }
 
 void Container::startScrolling(float x, float y, bool resetTime)
@@ -1033,7 +1035,7 @@ void Container::stopScrolling()
 
 // bool Container::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex)
 // {
-//     ref();
+//     Ref();
 // 
 //     bool eventConsumed = false;
 // 
@@ -1664,7 +1666,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
     // This event may run untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this container, we
     // need to keep it alive until the method returns.
-    //ref();
+    Ref();
 
     bool eventConsumed = false;
     const Theme::Border& border = getBorder(_state);
@@ -1725,7 +1727,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         _scrolling = false;
         _scrollingMouseVertically = _scrollingMouseHorizontally = false;
 
-        //unref();
+        Unref();
         return (_consumeInputEvents | eventConsumed);
     }
 
@@ -1742,7 +1744,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         {
             setState(Control::NORMAL);
             _contactIndex = INVALID_CONTACT_INDEX;
-            //unref();
+            Unref();
             return false;
         }
         if (!mouse)
@@ -1764,7 +1766,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
             }
             else if (_state != HOVER)
             {
-                //unref();
+                Unref();
                 return false;
             }
         }
@@ -1772,7 +1774,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
     case Mouse::MOUSE_WHEEL:
         if (!withinClipBounds && !_scrollWheelRequiresFocus)
         {
-            //unref();
+            Unref();
             return false;
         }
         break;
@@ -1804,7 +1806,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         }
     }
 
-    //unref();
+    Unref();
     return (_consumeInputEvents | eventConsumed);
 }
 

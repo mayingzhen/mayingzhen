@@ -7,25 +7,6 @@ namespace ma
 	IMPL_OBJECT(AnimLayerNodeData,AnimNodeData)
 	IMPL_OBJECT(AnimBlendNodData,AnimNodeData)
 
-	template<class T>
-	void SerializeObject(Serializer& sl, T* &pObject, const char* pszLable)
-	{
-		sl.BeginSection(pszLable);
-
-		std::string strClassName = pObject ? pObject->GetClass()->GetName() : "";
-		sl.Serialize(strClassName,"ClassName");
-
-		if (pObject == NULL)
-		{
-			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
-			pObject = SafeCast<T>( objFac.CreateObject(strClassName.c_str()) );
-		}
-		sl.Serialize(*(pObject),pszLable);
-
-		sl.EndSection();
-	}
-
-
 	void AnimNodeData::Serialize(Serializer& sl, const char* pszLable/* = "AnimNode" */)
 	{
 		ASSERT(false);
@@ -46,7 +27,7 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		SerializeArrObj(sl,m_arrAnimNodeData,"arrAnimNode");
+		SerializeArrObj<AnimNodeData>(sl,m_arrAnimNodeData,"arrAnimNode");
 
 		sl.EndSection();
 	}

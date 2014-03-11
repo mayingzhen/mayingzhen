@@ -8,18 +8,27 @@ namespace ma
 	class IAnimClipNode;
 	class IAnimBlendNode;
 	class Skeleton;
+	class AnimLayerNodeData;
+	class AnimBlendNodData;
+	class AnimClipNodeData;
 
+
+	enum EBlendMode
+	{
+		BLENDMODE_OVERWRITE	= 0,	/**< Overwrite mode. This can be used to switch from for example walk into run. */
+		BLENDMODE_ADDITIVE	= 1		/**< Additive mode. This can be used to add the given motion relatively to the current result. */
+	};
 
 	class ENGINE_API IAnimTreeNode : public Object
 	{
 	public:
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;
 
-		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight) = 0;
+		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode) = 0;
 
 		virtual	void		SetFrame(float fFrame) = 0;
 
-		virtual void		SetSkeleton(Skeleton* pSkeleton) = 0;
+		//virtual void		SetSkeleton(Skeleton* pSkeleton) = 0;
 
 		//virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimTreeNode" ) = 0;
 	};
@@ -80,13 +89,14 @@ namespace ma
 
 		virtual const char*			GetAnimName()  = 0;
 
-// 		virtual IAnimLayerNode*		CreateLayerNode() = 0;
-// 
-// 		virtual IAnimBlendNode*		CreateBlendNode() = 0;
-// 
-// 		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName) = 0;
+		virtual IAnimLayerNode*		CreateLayerNode(AnimLayerNodeData* pLayerData = NULL) = 0;
 
-		//virtual void				Serialize(Serializer& sl, const char* pszLable = "Action") = 0;
+		virtual IAnimBlendNode*		CreateBlendNode(AnimBlendNodData* pBlendData = NULL) = 0;
+
+		virtual IAnimClipNode*		CreateClipNode(AnimClipNodeData* pClipData = NULL) = 0;
+
+		virtual IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName) = 0;
+
 	};
 }
 

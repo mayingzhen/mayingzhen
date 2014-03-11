@@ -156,6 +156,95 @@ namespace ma
 		EndSection();
 	}
 
+
+	template<class T>
+	inline void SerializeObject(Serializer& sl, T* &pObject, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		std::string strClassName = pObject ? pObject->GetClass()->GetName() : "";
+		sl.Serialize(strClassName,"ClassName");
+
+		if (pObject == NULL)
+		{
+			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
+			pObject = SafeCast<T>( objFac.CreateObject(strClassName.c_str()) );
+		}
+		sl.Serialize(*(pObject),pszLable);
+
+		sl.EndSection();
+	}
+
+	template<class T>
+	inline void SerializeObjectArg(Serializer& sl, T* &pObject, void* arg,const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		std::string strClassName = pObject ? pObject->GetClass()->GetName() : "";
+		sl.Serialize(strClassName,"ClassName");
+
+		if (pObject == NULL)
+		{
+			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
+			pObject = SafeCast<T>( objFac.CreateObjectArg(strClassName.c_str(),arg) );
+		}
+		sl.Serialize(*(pObject),pszLable);
+
+		sl.EndSection();
+	}
+
+
+	template<class T>
+	inline void SerializeArrObj(Serializer& sl,std::vector<T*>& arrObject,const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		UINT nSize = arrObject.size();
+		sl.Serialize(nSize,"size");
+
+		if (nSize != arrObject.size())
+		{
+			arrObject.resize(nSize);
+		}
+
+
+		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+
+			SerializeObject<T>(sl,arrObject[nCnt], buf);
+		}
+
+		sl.EndSection();
+	}
+
+	template<class T>
+	inline void SerializeArrObjArg(Serializer& sl,std::vector<T*>& arrObject,void* arg,const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		UINT nSize = arrObject.size();
+		sl.Serialize(nSize,"size");
+
+		if (nSize != arrObject.size())
+		{
+			arrObject.resize(nSize);
+		}
+
+		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+
+			SerializeObjectArg<T>(sl,arrObject[nCnt],arg,buf);
+		}
+
+		sl.EndSection();
+	}
+
+
+
                                            
 }
 

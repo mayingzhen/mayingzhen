@@ -466,7 +466,7 @@ private:
     void lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** mouseCursor, Skin** skin);
 
     std::string _url;
-    Texture* _texture;
+    ref_ptr<Texture> _texture;
     SpriteBatch* _spriteBatch;
     std::vector<Style*> _styles;
     std::vector<ThemeImage*> _images;

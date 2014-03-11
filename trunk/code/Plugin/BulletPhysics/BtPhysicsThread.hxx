@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	void PhysicsThread::Update()
+	void PhysicsThread::ThreadUpdate()
 	{
 		m_pBeginEvent->Wait();
 

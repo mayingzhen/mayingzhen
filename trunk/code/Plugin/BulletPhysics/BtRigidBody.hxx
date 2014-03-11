@@ -137,6 +137,16 @@ namespace ma
 		}
 	}
 
+	void BulletRigidBody::Serialize(Serializer& sl, const char* pszLable/* = "IRigidBody"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_bUseGravity,"UseGravity");
+		sl.Serialize(m_bKinematic,"Kinematic");
+
+		sl.EndSection();
+	}
+
 	btRigidBody* BulletRigidBody::CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pBtDynamicsWorld)
 	{
 		btVector3 localInertia(0,0,0);

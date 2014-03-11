@@ -17,11 +17,11 @@ namespace ma
 
 		virtual void AdvanceTime(float fTimeElapsed);
 
-		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
+		virtual void EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode);
 
 		virtual void SetFrame(float fFrame);
 
-		virtual void SetSkeleton(Skeleton* pSkeleton) {}
+		//virtual void SetSkeleton(Skeleton* pSkeleton);
 
 		
 

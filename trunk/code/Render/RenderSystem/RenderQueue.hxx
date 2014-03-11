@@ -18,8 +18,10 @@ namespace ma
 	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj)
 	{
 		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
-		
 		arrRenderObj.push_back(pRenderObj);
+
+		std::vector<GameObjectPtr>& arrGameObj = m_arrGameObject[eRLType];
+		arrGameObj.push_back(pRenderObj->GetGameObject());
 	}
 
 	UINT RenderQueue::GetRenderObjNumber(RenderListType eRLType)
@@ -40,7 +42,8 @@ namespace ma
 	{
 		for (UINT i = 0; i < RL_Count; ++i)
 		{
-			m_arrRenderList[i].clear();	
+			m_arrRenderList[i].clear();
+			m_arrGameObject[i].clear();
 		}
 	}
 }

@@ -28,7 +28,7 @@ struct PS_IN
 
 float4 main(PS_IN In) : COLOR0
 {
-   float4 flagColor = u_cDiffuseColor;
+    float4 flagColor = u_cDiffuseColor;
    
 #ifdef COLOR   
    flagColor = In.v_color;   
@@ -39,13 +39,12 @@ float4 main(PS_IN In) : COLOR0
    flagColor *= tex2D(u_texture, In.v_texCoord);
 #endif 
 
-	//return flagColor; 
 
 #ifdef DeferredLight
    float3 LightDiffuse = tex2D(u_textureLightDiffuse, In.v_defTc);
    float3 LightSpecular = tex2D(u_textureLightSpecular, In.v_defTc);
    
-   flagColor = float4( LightDiffuse.rgb * flagColor.rgb + LightSpecular.rgb * 0.5f, 1.0f );
+   flagColor = float4( LightDiffuse.rgb * flagColor.rgb + LightSpecular.rgb, 1.0f );
 #endif
 
    return flagColor; 

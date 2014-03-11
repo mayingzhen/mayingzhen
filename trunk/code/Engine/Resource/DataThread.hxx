@@ -21,7 +21,7 @@ namespace ma
 		SAFE_DELETE(m_pReadEvent);
 	}
 
-	void DataThread::Update()
+	void DataThread::ThreadUpdate()
 	{
 		m_pReadEvent->Wait();
 
@@ -31,7 +31,7 @@ namespace ma
 		{	
 			// ¶ÓÁÐËø
 			m_csRequestQueue.Lock();
-			Resource* pObj = m_queUnloaded.front();
+			ResourcePtr pObj = m_queUnloaded.front();
 			m_queUnloaded.pop_front();
 			m_csRequestQueue.Unlock();
 
@@ -46,22 +46,22 @@ namespace ma
 		m_bFree = true;
 	}
 
-	Resource* DataThread::PopUpDataObj(void)
-	{	
-		AutoLock lock(m_csLoadedQueue);
-		if(!m_queLoaded.empty())
-		{	
-			Resource* pObj = m_queLoaded.front();
-			m_queLoaded.pop_front();
-			return pObj;
-		}
-		else 
-		{
-			return NULL;
-		}
-	}	
+// 	Resource* DataThread::PopUpDataObj(void)
+// 	{	
+// 		AutoLock lock(m_csLoadedQueue);
+// 		if(!m_queLoaded.empty())
+// 		{	
+// 			ResourcePtr pObj = m_queLoaded.front();
+// 			m_queLoaded.pop_front();
+// 			return pObj;
+// 		}
+// 		else 
+// 		{
+// 			return NULL;
+// 		}
+// 	}	
 
-	void DataThread::PushBackDataObj(Resource* pObj)
+	void DataThread::PushBackDataObj(ResourcePtr pObj)
 	{	
 		m_queUnloadedBuffer.push_back(pObj);
 	}
@@ -72,7 +72,7 @@ namespace ma
 		while(!m_queLoaded.empty())
 		{	
 			m_csLoadedQueue.Lock();
-			Resource* pObj = m_queLoaded.front();
+			ResourcePtr pObj = m_queLoaded.front();
 			m_queLoaded.pop_front();
 			m_csLoadedQueue.Unlock();	
 			

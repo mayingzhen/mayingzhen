@@ -11,7 +11,7 @@ namespace ma
 	 * 
 	 * @script{ignore}
 	 */
-	class ENGINE_API Stream
+	class ENGINE_API Stream : public Referenced
 	{
 	public:
 

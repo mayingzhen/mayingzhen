@@ -30,23 +30,25 @@ namespace ma
 		GetSkeletonData(pRootBone,pBindPose,skeData);
 		//skeData.m_nBoneNum = skeData.m_arrBoneName.size();
 
+		skeData.InitResPose();
+
 		skeData.SaveToFile(strOutSkeFile.c_str());
 
 		// Mesh
-		MeshData* pMeshData = new MeshData();
-		pMeshData->m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL | DUM_BLENDWEIGHT | DUM_BLENDINDICES;
-		pMeshData->m_nIndexType  = INDEX_TYPE_U16;
+		MeshData meshData;
+		meshData.m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL | DUM_BLENDWEIGHT | DUM_BLENDINDICES;
+		meshData.m_nIndexType  = INDEX_TYPE_U16;
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetSkinMeshData<V_3P_3N_2UV_S,Uint16>(pFbxMesh,pMeshData,skeData,pImportParm);
+		GetSkinMeshData<V_3P_2UV_3N_3T_S,Uint16>(pFbxMesh,&meshData,skeData,pImportParm);
 
 		//ref_ptr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
 
-		pMeshData->SaveToFile(strOutMeshFile.c_str());
+		meshData.SaveToFile(strOutMeshFile.c_str());
 
-		SAFE_DELETE(pMeshData);
+		//SAFE_DELETE(pMeshData);
 
 		// Animation
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
@@ -270,6 +272,8 @@ namespace ma
 			std::vector<int>& arrTriangle = it->second;
 			for (int i = 0; i < arrTriangle.size(); ++i)
 			{
+				FBXSDK_printf("Parase triangle %d/%d .....\n",i,arrTriangle.size());
+
 				int nTriangleIndex = arrTriangle[i];
 
 				assert(pMesh->GetPolygonSize(nTriangleIndex) == 3); 

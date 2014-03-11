@@ -41,6 +41,8 @@ namespace ma
 
 		float m_fGain;
 	};
+
+	DeclareRefPtr(PoseModifier)
 }
 
 

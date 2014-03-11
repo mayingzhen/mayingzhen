@@ -17,50 +17,60 @@ namespace ma
 
 		~SceneNode();
 
-		bool					TravelScene(SceneVisiter* pVisiter);
+		//bool					TravelScene(SceneVisiter* pVisiter);
 
 		// Transform
 		void					SetTransform(const NodeTransform& tsf);	
+		
 		const NodeTransform&	GetTransform();
+		
 		const Matrix4x4&		GetWorldMatrix();
 
 		void					LookAt(const Vector3& vPos, const Vector3& vTarget,const Vector3& vUp);
 
 		void					LookAt(const Vector3& vTarget,const Vector3& vUp);
-
+		
 		void					Translate(const Vector3& vDir);
+
 		void					Rotate(float xDegree,float yDegree,float zDegree);
+		
 		void					Rotate(const Quaternion& qRot);
 
 		void					RotateYAxisLS(float fDegree);
+		
 		void					RotateZAxisLS(float fDegree);
+		
 		void					RotateXAxisLS(float fDegree);
 
 		Vector3					GetForward();
+		
 		Vector3					GetRight();
+		
 		Vector3					GetUp();
 
 		void                    Forward(float fValue);
+		
 		void                    Up(float fValue);
+		
 		void                    Right(float fValue);
 
 		void					Scale(float fScale);
 
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
-		SceneNode*				GetParent() {return m_pParentNode;}
+		//SceneNode*				GetParent() {return m_pParentNode;}
 
 		GameObject*				GetGameObject() {return m_pGameObject;}
 		
-		void					NotifySetParent(SceneNode* pParentNode);
+		//void					NotifySetParent(SceneNode* pParentNode);
 		
-		void					AddChildNode(SceneNode* pChildNode);
+		//void					AddChildNode(SceneNode* pChildNode);
 
-		void					RemoveChildNode(SceneNode* pChildNode);
+		//void					RemoveChildNode(SceneNode* pChildNode);
 
-		UINT					GetChildNumber() {return m_arrChildNode.size();}
+		//UINT					GetChildNumber() {return m_arrChildNode.size();}
 			
-		SceneNode*				GetChildByIndex(UINT index) {return m_arrChildNode[index];}
+		//SceneNode*				GetChildByIndex(UINT index) {return m_arrChildNode[index];}
 			
 		const AABB&				GetAABBWS() {return m_aabbWS;}	
 
@@ -68,17 +78,20 @@ namespace ma
 
 		virtual void			UpdateAABB();
 
-	private:
+	//private:
 		void					UpdateMatWorld();
 
 	protected:
-		std::vector<SceneNode*>	m_arrChildNode;
-		SceneNode*				m_pParentNode;
+		//std::vector<SceneNode*>	m_arrChildNode;
+
+		//SceneNode*				m_pParentNode;
 
 		GameObject*				m_pGameObject;
 		
 		Matrix4x4				m_matWorld;	//relate to world
+		
 		NodeTransform			m_tsfWS;
+		
 		bool					m_bmatWSDirty;
 
 		AABB					m_aabbWS;	

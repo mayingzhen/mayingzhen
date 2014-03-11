@@ -14,7 +14,7 @@ namespace ma
 
 	public:
 
-		SpriteBatch(Texture* texture, Technique* pTech = NULL, UINT initialCapacity = 0);
+		SpriteBatch(ref_ptr<Texture> texture, Technique* pTech = NULL, UINT initialCapacity = 0);
 
 		virtual ~SpriteBatch();
 

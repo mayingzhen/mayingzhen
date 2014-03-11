@@ -65,17 +65,12 @@
 // Entity System
 #include "Engine/EntitySystem/Component.hxx"
 #include "Engine/EntitySystem/GameObj.hxx"
-#include "Engine/EntitySystem/Scene.hxx"
 #include "Engine/EntitySystem/SceneNode.hxx"
 #include "Engine/EntitySystem/SceneVisiter.hxx"
 #include "Engine/EntitySystem/EntitySystem.hxx"
-#include "Engine/EntitySystem/Util.hxx"
-
-// CullTree
-#include "Engine/CullTree/CullTree.hxx"
-#include "Engine/CullTree/OctreeNode.hxx"
-#include "Engine/CullTree/Octree.hxx"
-
+#include "Engine/EntitySystem/CullTree.hxx"
+#include "Engine/EntitySystem/OctreeNode.hxx"
+#include "Engine/EntitySystem/Octree.hxx"
 
 #include "Engine/Profile/CodeTimer.hxx"
 
@@ -96,19 +91,14 @@ void EngineModuleInit()
 	SetResourceSystem(pRsourceSystem);
 	pRsourceSystem->Init();
 
-//	ASSERT(false);
-// 	Input* pInput = new Input();
-// 	SetInput(pInput);
-// 	pInput->Init(Platform::GetInstance().GetWindId());
-
 	Time* pTime = new Time();
 	SetTimer(pTime);
 
-	Scene*	pSceneSystem = new Scene();
-	SetSceneSystem(pSceneSystem);
+ 	//Scene*	pSceneSystem = new Scene();
+ 	//SetSceneSystem(pSceneSystem);
 
-	Octree* pOctree = new Octree();
-	SetCullTree(pOctree);
+// 	Octree* pOctree = new Octree();
+// 	SetCullTree(pOctree);
 
 	EntitySystem* pEntitySystem = new EntitySystem();
 	SetEntitySystem(pEntitySystem);
@@ -120,11 +110,6 @@ void EngineModuleShutdown()
 	Time* pTime = GetTimer();
 	SAFE_DELETE(pTime);
 	SetTimer(NULL);
-
-// 	Input* pInput = GetInput();
-// 	pInput->Shutdown();
-// 	SAFE_DELETE(pInput);
-// 	SetInput(NULL);
 
 	ResourceSystem* pRsourceSystem = GetResourceSystem();
 	pRsourceSystem->ShoutDown(); 

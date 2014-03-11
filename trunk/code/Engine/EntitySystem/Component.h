@@ -5,6 +5,7 @@ namespace ma
 {
 	class GameObject;
 	class SceneNode;
+	class Camera;
 
 	class ENGINE_API Component : public Object
 	{
@@ -15,7 +16,15 @@ namespace ma
 
 		virtual ~Component();
 
-		virtual	void	UpdateTransform();
+		virtual	void	Update() {}
+
+		virtual void	BeginShow(Camera* pCamera) {}
+
+		virtual void	Show(Camera* pCamera) {}
+
+		virtual void	EndShow(Camera* pCamera) {}
+
+		//virtual	void	UpdateTransform();
 
 		GameObject*		GetGameObject();
 
@@ -27,6 +36,7 @@ namespace ma
 
 	protected:
 		GameObject*		m_pGameObject;
+
 		SceneNode*		m_pSceneNode;
 	};
 }

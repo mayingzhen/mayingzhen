@@ -19,7 +19,7 @@ namespace ma
 
 		void			SetTexture(const char* pTexPath);
 
-		void			SetTexture(Texture* pTextute);
+		void			SetTexture(ref_ptr<Texture> pTextute);
 
         Texture*		GetTexture() const;
 
@@ -27,11 +27,11 @@ namespace ma
 
 
     private:
-        Texture*		m_pTexture;
+        ref_ptr<Texture>		m_pTexture;
        
-		Wrap			m_eWrap;
+		Wrap					m_eWrap;
 
-		FilterOptions	m_eFilter;
+		FilterOptions			m_eFilter;
     };
 
 

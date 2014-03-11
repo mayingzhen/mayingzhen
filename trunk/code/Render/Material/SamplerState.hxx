@@ -20,18 +20,17 @@ namespace ma
 		m_eFilter = ficationFilter;
 	}
 
-	Texture* SamplerState::GetTexture() const
-	{
-		return m_pTexture;
-	}
+ 	Texture* SamplerState::GetTexture() const
+ 	{
+ 		return m_pTexture.get();
+ 	}
 
 	void SamplerState::SetTexture(const char* pTexPath)
 	{
-		Texture* pTexture = LoadResourceASync<Texture>(pTexPath);
-		SetTexture(pTexture);
+		m_pTexture = LoadResourceASync<Texture>(pTexPath);
 	}
 
-	void SamplerState::SetTexture(Texture* pTextute)
+	void SamplerState::SetTexture(ref_ptr<Texture> pTextute)
 	{
 		m_pTexture = pTextute;
 	}

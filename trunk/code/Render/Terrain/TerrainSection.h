@@ -14,7 +14,7 @@ namespace ma
 
 		virtual void		Render(Technique* pTech);
 
-		virtual	void		AddToRenderQueue();
+		virtual	void		Show(Camera* pCamera);
 
 		virtual Material*	GetMaterial();
 

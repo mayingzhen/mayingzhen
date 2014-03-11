@@ -2,8 +2,8 @@
 #include "Common/Module.h"
 %}
 
-%feature("ref") Referenced "$this->ref();"
-%feature("unref") Referenced "$this->unRef();"
+%feature("ref") Referenced "$this->Ref();"
+%feature("unref") Referenced "$this->Unref();"
 
 %rename(Add) Vector3::operator +;
 %rename(Subtract) Vector3::operator -;
@@ -20,3 +20,9 @@
 %include "../../code/Common/AABB.h"
 %include "../../code/Common/Rectangle.h"
 %include "../../code/Common/Log.h"
+%include "../../code/Common/Referenced.h"
+%include "../../code/Common/RefPtr.h"
+
+//%template(SafeCastAnimComponent) SafeCast<AnimComponent>;
+
+

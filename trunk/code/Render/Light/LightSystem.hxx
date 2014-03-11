@@ -19,6 +19,20 @@ namespace ma
 		m_cAmbientColor = Vector4(1,1,1,1);
 	}
 
+	void LightSystem::AddLight(Light* pLight)
+	{
+		m_arrLight.push_back(pLight);
+	}
+
+	void LightSystem::RemoveLight(Light* pLight)
+	{
+		std::vector<Light*>::iterator it = std::find(m_arrLight.begin(),m_arrLight.end(),pLight);
+		if ( it != m_arrLight.end() )
+		{
+			m_arrLight.erase(it);
+		}
+	}
+
 	void LightSystem::Update()
 	{
 		if (!GetRenderSetting()->m_bShadow)

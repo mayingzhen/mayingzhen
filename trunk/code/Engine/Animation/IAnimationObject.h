@@ -28,6 +28,8 @@ namespace ma
 		virtual void			EvaluateAnimation(float fWeight) = 0;
 
 		virtual	void			SetFrame(float fFrame) = 0;
+
+		virtual IAnimationSet*	GetAnimationSet()  = 0;
 	};
 }
 

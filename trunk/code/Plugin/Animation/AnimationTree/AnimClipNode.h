@@ -14,8 +14,8 @@ namespace ma
 		DECL_OBJECT(AnimClipNode)
 
 	public:
-		AnimClipNode();
-		
+		AnimClipNode(Skeleton* pSkeleton);
+	
 		~AnimClipNode();
 
 		virtual void	SetAnimationClip(const char* pszSkaPath);
@@ -24,19 +24,17 @@ namespace ma
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
+		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode);
 
 		virtual	void	SetFrame(float fFrame);
 
 		Skeleton*		GetSkeleton() {return m_pSkeleton;}
 		
-		virtual void	SetSkeleton(Skeleton* pSkeleton); 
+		//virtual void	SetSkeleton(Skeleton* pSkeleton); 
 
 		void			SetAnimationClip(AnimationClip* pAnimClip); 
 
 		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
-
-		//virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
 
 	private:
 		AnimationClip*	m_pAnimClip;

@@ -6,23 +6,23 @@
 namespace ma
 {
 
-	AnimationClip::AnimationClip(Animation* pAnimation,Skeleton* pSkeleton)
+	AnimationClip::AnimationClip(ref_ptr<Animation> pAnimation,Skeleton* pSkeleton)
 	{
 		m_pAnimation = pAnimation;
 		m_fLocalFrame = 0;
 		m_fPlaySpeed = 1.0f;
-		m_playbackMode = S3L_PLAYBACK_LOOP;
-		m_playerStatus = S3L_PLAYER_PLAYING;
+		m_playbackMode = PLAYBACK_LOOP;
+		m_playerStatus = PLAYER_PLAYING;
 		m_pNodeLink = new BoneMap;
 		if (pSkeleton)
 		{
-			m_pNodeLink->Build(pSkeleton,pAnimation);
+			m_pNodeLink->Build(pSkeleton,pAnimation.get());
 		}
 	}
 
 	void AnimationClip::SetSkeleton(Skeleton* pSkeleton)
 	{
-		m_pNodeLink->Build(pSkeleton,m_pAnimation);	
+		m_pNodeLink->Build(pSkeleton,m_pAnimation.get());	
 	}
 
 	AnimationClip::~AnimationClip()
@@ -53,18 +53,18 @@ namespace ma
 		UINT uFrameNumber = m_pAnimation->GetFrameNumber();
 		if (m_fLocalFrame > uFrameNumber)
 		{
-			if (m_playbackMode == S3L_PLAYBACK_LOOP)
+			if (m_playbackMode == PLAYBACK_LOOP)
 			{
 				m_fLocalFrame = fmod((float)m_fLocalFrame,(float)uFrameNumber);
 			}
 			else
 			{
-				m_playerStatus = S3L_PLAYER_STOP;
+				m_playerStatus = PLAYER_STOP;
 			}
 		}
 	}
 
-	void AnimationClip::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight,BoneSet* pBoneSet)
+	void AnimationClip::EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight,BoneSet* pBoneSet,EBlendMode eBlendMode)
 	{
 		profile_code();
 
@@ -76,18 +76,43 @@ namespace ma
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
 			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
-			NodeTransform tsfLS;
+
+			NodeTransform source;
 			if ( IsInvalidID<BoneIndex>(nTrackInd) )
 			{
-				TransformSetIdentity(&tsfLS);
+				TransformSetIdentity(&source);
 			}
 			else
 			{
-				m_pAnimation->SampleSingleTrackByFrame(&tsfLS,nTrackInd,m_fLocalFrame);
+				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fLocalFrame);
 			}
 
-			//pEvalContext->m_arrTSFLS[uBoneId] = tsfLS;
-			TransformMad(&pEvalContext->m_arrTSFLS[uBoneId], &pEvalContext->m_arrTSFLS[uBoneId], fWeight, &tsfLS);	
+			// calculate the blend value, based on cosine interpolation
+			//float finalWeight = (1.0f - std::cos(fWeight * PI)) * 0.5f;
+
+			NodeTransform result;
+			const NodeTransform& dest = pEvalContext->m_arrTSFLS[uBoneId];
+			if (eBlendMode == BLENDMODE_ADDITIVE)
+			{
+				Quaternion addRot;
+				Quaternion indet = QuaternionIden();
+				QuaternionSlerp(&addRot,&indet,&source.m_qRot,fWeight);
+
+				// apply relative addition to the result of the previous layer
+				result.m_vPos = dest.m_vPos + (source.m_vPos * fWeight);
+				result.m_qRot = dest.m_qRot * addRot;
+				result.m_fScale	 = dest.m_fScale; //+ (relScale * fWeight);
+			}
+			else if (eBlendMode == BLENDMODE_OVERWRITE)
+			{
+				// just blend between the previous and current result, so make no additions
+				result.m_vPos = dest.m_vPos + (source.m_vPos - dest.m_vPos) * fWeight;
+				//result.m_qRot =  dest.mRotation.Slerp(source.mRotation, fWeight);
+				QuaternionSlerp(&result.m_qRot,&dest.m_qRot,&source.m_qRot,fWeight);
+				result.m_fScale	 = dest.m_fScale + (source.m_fScale - dest.m_fScale) * fWeight;
+			}
+
+			pEvalContext->m_arrTSFLS[uBoneId] = result;
 		}
 	}
 }

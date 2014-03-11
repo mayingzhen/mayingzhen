@@ -111,7 +111,7 @@ namespace ma
 
 		//virtual void		SetMaterial(Material* pMaterial);
 
-		virtual	void		AddToRenderQueue();
+		virtual	void		Show(Camera* pCamera);
 
 		//virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 

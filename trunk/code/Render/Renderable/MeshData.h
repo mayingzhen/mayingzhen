@@ -70,7 +70,9 @@ namespace ma
 		DECL_OBJECT(MeshData)
 
 	public:
-		MeshData();
+		MeshData(const char* pszPath = NULL);
+
+		~MeshData();
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 

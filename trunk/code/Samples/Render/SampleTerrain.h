@@ -14,18 +14,9 @@ namespace ma
 
 		virtual	void UnLoad();
 
-		virtual void Update();
-
-		virtual void Render();
-
 		virtual bool keyPressed(const OIS::KeyEvent &arg);
 
 		virtual bool keyReleased(const OIS::KeyEvent &arg);	
-
-	private:
-
-		GameObject* m_pSun;
-		
 	};
 }
 

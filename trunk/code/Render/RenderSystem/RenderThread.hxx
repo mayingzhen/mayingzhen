@@ -30,7 +30,7 @@ namespace ma
 		m_nCurThreadProcess = 1;
 	}
 
-	void RenderThread::Update()
+	void RenderThread::ThreadUpdate()
 	{
 		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushCond();

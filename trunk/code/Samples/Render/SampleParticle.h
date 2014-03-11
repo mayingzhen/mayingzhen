@@ -16,8 +16,6 @@ namespace ma
 
 		virtual void Update();
 
-		virtual void Render();
-
 	private:
 
 		//ParticleEmitter* m_pEmitter;

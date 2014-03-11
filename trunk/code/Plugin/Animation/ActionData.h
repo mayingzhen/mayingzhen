@@ -3,6 +3,12 @@
 
 namespace ma
 {
+// 	DeclareRefPtr(AnimNodeData)
+// 	DeclareRefPtr(AnimClipNodeData)
+// 	DeclareRefPtr(AnimLayerNodeData)
+// 	DeclareRefPtr(AnimBlendNodData)
+// 	DeclareRefPtr(ActionData)
+
 	struct ANIMATION_API AnimNodeData : public Object
 	{
 		DECL_OBJECT(AnimNodeData)
@@ -31,6 +37,15 @@ namespace ma
 		
 	public:	
 
+		~AnimLayerNodeData()
+		{
+			for (UINT i = 0; i < m_arrAnimNodeData.size(); ++i)
+			{
+				SAFE_DELETE(m_arrAnimNodeData[i]);
+			}
+			m_arrAnimNodeData.clear();
+		}
+
 		std::vector<AnimNodeData*>	m_arrAnimNodeData;
 
 		virtual void Serialize(Serializer& sl, const char* pszLable = "AnimLayerNode" );
@@ -49,6 +64,12 @@ namespace ma
 			m_fWeight = 0;
 		}
 
+		~AnimBlendNodData()
+		{
+			SAFE_DELETE(m_pSrcAnimNodeData);
+			SAFE_DELETE(m_pDestAnimNodeData);
+		}
+
 		AnimNodeData*		m_pSrcAnimNodeData;
 		
 		AnimNodeData*		m_pDestAnimNodeData;
@@ -58,11 +79,16 @@ namespace ma
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
 	};
 
-	struct ANIMATION_API ActionData
+	struct ANIMATION_API ActionData 
 	{
 		ActionData()
 		{
 			m_pAnimNodeData = NULL;
+		}
+
+		~ActionData()
+		{
+			SAFE_DELETE(m_pAnimNodeData);
 		}
 
 		std::string					m_sAnimName;
@@ -73,6 +99,8 @@ namespace ma
 
 		virtual void				Serialize(Serializer& sl, const char* pszLable = "ActionData");
 	};
+
+
 }
 
 #endif

@@ -15,7 +15,8 @@ namespace ma
 		ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
 		Object::StaticInitClass();
 
-
+		Component::StaticInitClass();
+	
 		IScriptSystemRTTIInit();
 
 		IPhysicsSystemRTTIInit();
@@ -34,6 +35,8 @@ namespace ma
 		IScriptSystemRTTIShoutdown();
 
 		IAnimationSystemRTTIShoutdown();
+
+		Component::StaticShutdownClass();
 
 		Object::StaticShutdownClass();
 		ObjectFactoryManager::GetInstance().Shutdown();

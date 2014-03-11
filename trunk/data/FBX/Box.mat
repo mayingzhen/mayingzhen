@@ -1,11 +1,12 @@
 <Root>
-  <Material>
-    <Shader Name="default" Macro="DIFFUSE" />
-     <Parameters size="2">
-       <Element_0 name="u_texture" type="SAMPLER" count="1">
-         <SamplerState Texture="Fbx/Box.tga" Wrap="CLAMP" FilterOptions="TFO_POINT" />
-       </Element_0>
-       <Element_1 name="u_cDiffuseColor" type="FLOAT" count="4" value="1.0 1.0 1.0 1.0"/>
-     </Parameters>    
-  </Material>
+    <Material>
+        <Shader Name="default" Macro="DIFFUSE" />
+        <RenderState />
+        <Parameters size="2">
+            <Element_0 name="u_texture" type="SAMPLER" count="1">
+                <SamplerState Texture="FBX/Box.tga" />
+            </Element_0>
+            <Element_1 name="u_cDiffuseColor" type="FLOAT" count="4" value="1.000000 1.000000 1.000000 1.000000 " />
+        </Parameters>
+    </Material>
 </Root>

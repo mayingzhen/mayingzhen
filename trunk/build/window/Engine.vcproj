@@ -593,11 +593,31 @@
 			Name="EntitySystem"
 			>
 			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\Camera.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\EntitySystem\Component.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\EntitySystem\Component.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\CullNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\CullTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\CullTree.hxx"
 				>
 			</File>
 			<File
@@ -617,23 +637,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Util.h"
+				RelativePath="..\..\code\Engine\EntitySystem\Octree.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Util.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Scene"
-			>
-			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Scene.h"
+				RelativePath="..\..\code\Engine\EntitySystem\Octree.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Scene.hxx"
+				RelativePath="..\..\code\Engine\EntitySystem\OctreeNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\EntitySystem\OctreeNode.hxx"
 				>
 			</File>
 			<File
@@ -694,38 +710,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\RTTIClass.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="CullTree"
-			>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\CullNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\CullTree.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\CullTree.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\Octree.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\Octree.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\OctreeNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\CullTree\OctreeNode.hxx"
 				>
 			</File>
 		</Filter>

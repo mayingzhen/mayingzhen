@@ -9,6 +9,7 @@ static std::vector<Theme*> __themeCache;
 
 Theme::Theme()
 {
+	Ref();
 }
 
 Theme::~Theme()
@@ -60,7 +61,7 @@ Theme* Theme::create(const char* url)
         if (t->_url == url)
         {
             // Found a match.
-            t->ref();
+            t->Ref();
 
             return t;
         }
@@ -93,7 +94,7 @@ Theme* Theme::create(const char* url)
 	//theme->_texture = GetRenderDevice()->CreateRendTexture();
 	//std::string strPath = std::string(FileSystem::getResourcePath()) + textureFile;
 	//theme->_texture->Load(strPath.c_str());
-	Texture* pTexture = DeclareResource<Texture>(textureFile);
+	ref_ptr<Texture> pTexture = DeclareResource<Texture>(textureFile);
 	ASSERT(pTexture);
 	pTexture->LoadSync();
 
@@ -283,7 +284,7 @@ Theme* Theme::create(const char* url)
                     {
                         font = normal->getFont();
                         if (font)
-                            font->ref();
+                            font->Ref();
                     }
 
                     unsigned int fontSize;
@@ -435,13 +436,13 @@ Theme* Theme::create(const char* url)
             if (!focus)
             {
                 focus = normal;
-                focus->ref();
+                focus->Ref();
             }
 
             if (!disabled)
             {
                 disabled = normal;
-                disabled->ref();
+                disabled->Ref();
             }
 
             // Note: The hover and active states have their overlay left NULL if unspecified.
@@ -486,8 +487,8 @@ Theme::Style* Theme::getEmptyStyle()
     if (!emptyStyle)
     {
         Theme::Style::Overlay* overlay = Theme::Style::Overlay::create();
-        overlay->ref();
-        overlay->ref();
+        overlay->Ref();
+        overlay->Ref();
         emptyStyle = new Theme::Style(const_cast<Theme*>(this), "EMPTY_STYLE", 1.0f / _texture->getWidth(), 1.0f / _texture->getHeight(),
             Theme::Margin::empty(), Theme::Border::empty(), overlay, overlay, NULL, overlay, NULL);
 

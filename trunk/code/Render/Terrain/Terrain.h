@@ -82,7 +82,7 @@ namespace ma
 	private:
 
 		std::vector<TerrainSection*>	m_arrSection;
-		std::vector<GameObject*>		m_arrGameObj;
+		//std::vector<GameObject*>		m_arrGameObj;
 
 		std::vector<PixMap>				m_PixMapArray;
 
@@ -92,7 +92,7 @@ namespace ma
 
 		std::vector<TextureInAlta>		m_TextureAtlas;
 		
-		Texture*						m_pAltasTex;
+		ref_ptr<Texture>				m_pAltasTex;
 		
 		Material*						m_pMaterial;
 

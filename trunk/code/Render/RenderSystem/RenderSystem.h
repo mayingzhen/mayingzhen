@@ -40,7 +40,7 @@ namespace ma
 		// Render Command
 		void				Init(HWND wndhandle);
 
-		void				Update();
+		void				Update(Camera* pCamera);
 
 		void				ShoutDown();
 
@@ -100,6 +100,8 @@ namespace ma
  		RenderThread*				m_pRenderThread;
  		
 		RenderQueue*				m_pRenderQueue[2];
+
+		GameObjectPtr				m_pCameraObj;
 
 		Camera*						m_pMainCamera;
 

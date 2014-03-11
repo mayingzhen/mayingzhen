@@ -25,7 +25,7 @@ AbsoluteLayout* AbsoluteLayout::create()
     }
     else
     {
-        __instance->ref();
+        __instance->Ref();
     }
 
     return __instance;

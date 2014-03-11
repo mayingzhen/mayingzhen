@@ -8,6 +8,7 @@
 #include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
+#include "Samples/Render/SampleShadowMap.hxx"
 #endif
 
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
@@ -19,6 +20,7 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
+#include "Samples/Serialize/SampleS3Import.hxx"
 
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
@@ -40,45 +42,32 @@ namespace ma
 		:Game(pGameName)
 	{
 #if PLATFORM_WIN == 1
-		SampleFbxImport* pSampleFbxImport = new SampleFbxImport();
-		m_arrSamples["FbxImport"] = pSampleFbxImport;
+		m_arrSamples["FbxImport"] = new SampleFbxImport();
+		m_arrSamples["S3Import"] = new SampleS3Import();
 
-		SampleMonoScript* pSampleScript = new SampleMonoScript();
-		m_arrSamples["CSharpScript"] = pSampleScript;
-
-		SampleLighting* pSampleLight = new SampleLighting();
-		m_arrSamples["Lighting"] = pSampleLight;
+		m_arrSamples["CSharpScript"] = new SampleMonoScript();
+		
+		m_arrSamples["Lighting"] = new SampleLighting();
+		m_arrSamples["ShadowMap"] = new SampleShadowMap();
 #endif
 
-		SampleSceneSerialize* pSceneSerial = new SampleSceneSerialize();
-		m_arrSamples["SceneSerialize"] = pSceneSerial;
+		m_arrSamples["Terrain"] = new SampleTerrain();
 
-		SampleRigidBody* pSampleRigidBody = new SampleRigidBody();
-		m_arrSamples["RigidBody"] = pSampleRigidBody;
+		m_arrSamples["Particle"] = new SampleParticle();
 
-		SampleCharaControl* pSampleCharControl = new SampleCharaControl();
-		m_arrSamples["CharControl"] = pSampleCharControl;
+		m_arrSamples["SceneSerialize"] = new SampleSceneSerialize();
+		
+		// Physics
+		m_arrSamples["RigidBody"] = new SampleRigidBody();
+		m_arrSamples["CharControl"] = new SampleCharaControl();
+		m_arrSamples["PhysicsJoint"] = new SampleJoint();
+		m_arrSamples["Ragdoll"] = new SampleRagdoll();
+		
+		// Animation
+		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
+		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		SampleJoint* pSampleJoint = new SampleJoint();
-		m_arrSamples["PhysicsJoint"] = pSampleJoint;
-
-		SampleRagdoll* pSampleRagdoll = new SampleRagdoll();
-		m_arrSamples["Ragdoll"] = pSampleRagdoll;
-
-		SampleTerrain* pSampleTerrain = new SampleTerrain();
-		m_arrSamples["Terrain"] = pSampleTerrain;
-
-		SampleAnimationRetarget* pSampleAnimRetar = new SampleAnimationRetarget();
-		m_arrSamples["AnimationRetarget"] = pSampleAnimRetar;
-
-		SampleAnimationTree* pSampleAniTree = new SampleAnimationTree();
-		m_arrSamples["AnimationTree"] = pSampleAniTree;
-
-		SampleParticle* pSampleParticle = new SampleParticle();
-		m_arrSamples["Particle"] = pSampleParticle;
-
-
-		m_pCurSample = pSampleFbxImport;
+		m_pCurSample = m_arrSamples["CSharpScript"];
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -241,7 +230,7 @@ namespace ma
 
 			ResetCamera();
 
-			GetEntitySystem()->DeleteAll();
+			GetEntitySystem()->Reset();
 
 			m_pSystems->Stop();
 		}
@@ -292,7 +281,7 @@ namespace ma
 
 	void SampleBrowser::Update()
 	{
-		Log("................. Update() ..................");
+		//Log("................. Update() ..................");
 
 
 		if (GetInput())
@@ -322,7 +311,7 @@ namespace ma
 
 	void SampleBrowser::Render()
 	{
-		Log("................. Render() ..................");
+		//Log("................. Render() ..................");
 
 		profile_code();
 
