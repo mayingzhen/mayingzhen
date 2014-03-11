@@ -8,22 +8,17 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
-		//float fZoomSpeed = GetCameraControll()->GetZoomSpeed();
-		//GetCameraControll()->SetZoomSpeed(fZoomSpeed * 0.5);
-
-		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f,0));
 		{
-			GameObject* pGameObj = CreateCollisionGameObject("Fbx/Box.skn","Fbx/Box.tga");
-			pGameObj->SetName("Test");
-
-			//RigidBodyComponent* pRigidBodyComp = pGameObj->CreateComponent<RigidBodyComponent>();
+			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Test");  
+			MeshComponent* pMehBox = pGameObj->CreateComponent<MeshComponent>();
+			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
 
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
 				std::string pName = pGameObj->GetName();
 				pName += std::string("_clone") + StringConverter::ToString(i);
-				GameObject* pClone = pGameObj->Clone(pName.c_str());
+				GameObjectPtr pClone = pGameObj->Clone(pName.c_str());
 				pClone->GetSceneNode()->Translate(Vector3(10 * i,0,0));
 			}
 		}
@@ -34,7 +29,7 @@ namespace ma
 			BinaryOutputArchive arOut;
 			bool bOpenOK = arOut.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetSceneSystem()->Serialize(arOut);
+			GetEntitySystem()->Serialize(arOut);
 			arOut.Close();
 		}
 
@@ -42,7 +37,7 @@ namespace ma
 			BinaryInputArchive arIn;
 			bool bOpenOK = arIn.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetSceneSystem()->Serialize(arIn);
+			GetEntitySystem()->Serialize(arIn);
 			arIn.Close();
 		}
 	}
@@ -62,7 +57,7 @@ namespace ma
 				XMLOutputArchive arOut;
 				bool bOpenOK = arOut.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetSceneSystem()->Serialize(arOut);
+				GetEntitySystem()->Serialize(arOut);
 				arOut.Close();
 			}
 
@@ -70,7 +65,7 @@ namespace ma
 				XMLInputArchive arIn;
 				bool bOpenOK = arIn.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetSceneSystem()->Serialize(arIn);
+				GetEntitySystem()->Serialize(arIn);
 				arIn.Close();
 			}
 		}

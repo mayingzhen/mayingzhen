@@ -40,8 +40,8 @@ namespace ma
 
 		m_pRenderScheme = new RenderScheme();
 
-		GameObject* pCameraObj = GetEntitySystem()->CreateGameObject("MainCamera");
-		m_pMainCamera =  pCameraObj->CreateComponent<Camera>();
+		m_pCameraObj = new GameObject("MainCamera");	//GetEntitySystem()->CreateGameObject("MainCamera");
+		m_pMainCamera =  m_pCameraObj->CreateComponent<Camera>();
 
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
@@ -61,7 +61,7 @@ namespace ma
 	{
 		SAFE_DELETE(m_pRenderContext);
 
-		GetEntitySystem()->DeleteGameObject(m_pMainCamera->GetGameObject());
+		//GetEntitySystem()->DeleteGameObject(m_pMainCamera->GetGameObject());
 
 		SAFE_DELETE(m_pRenderQueue[0]);
 		SAFE_DELETE(m_pRenderQueue[1]);
@@ -96,34 +96,25 @@ namespace ma
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
-	void RenderSystem::Update()
+	void RenderSystem::Update(Camera* pCamera)
 	{
 		profile_code();
 
-// 		RenderQueueBuilder rqBuilder(m_pMainCamera);
-// 		GetSceneSystem()->TravelScene(&rqBuilder);
-// 
-// 		rqBuilder.AddToRenderQueue();
 		std::vector<GameObject*> arrGameObjs;
 
 		// 1.裁剪得到视锥体内的所有物体
 		Frustum camaeraFrustum;
-		camaeraFrustum.Update( (m_pMainCamera->GetMatViewProj()).GetMatViewProj() );
-		GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
+		camaeraFrustum.Update( pCamera->GetMatViewProj() );
+		GetEntitySystem()->GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
 
 		for (UINT i = 0; i < arrGameObjs.size(); ++i)
 		{
-			//arrGameObjs[i]->UpdateTransform();
+			GameObject* pGameObj = arrGameObjs[i];
 
-			RenderComponent* pRenderObj = arrGameObjs[i]->GetTypeComponentFirst<RenderComponent>();
-			if (pRenderObj)
-			{
-				//pRenderObj->UpdateTransform();
-				pRenderObj->AddToRenderQueue();
-			}
+			pGameObj->BeginShow(pCamera);
+			pGameObj->Show(pCamera, false);
+			pGameObj->EndShow(pCamera);
 		}
-
-		//m_pMainCamera->AdjustPlanes( rqBuilder.GetWorldAABB() );
 	}
 
 

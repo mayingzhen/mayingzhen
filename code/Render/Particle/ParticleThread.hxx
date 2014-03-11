@@ -14,7 +14,7 @@ namespace ma
 		SAFE_DELETE(m_pEvent);
 	}
 
-	void ParticleThread::Update()
+	void ParticleThread::ThreadUpdate()
 	{
 		m_pEvent->Wait();
 

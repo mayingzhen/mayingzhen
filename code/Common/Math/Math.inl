@@ -102,7 +102,7 @@ inline void  TransformMul(NodeTransform* pOut,const NodeTransform* pTSFA,const N
 
 	QuaternionMultiply(&pOut->m_qRot,&pTSFA->m_qRot,&pTSFB->m_qRot);
 
-	pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale; 
+	pOut->m_fScale = 1.0f;//pTSFA->m_fScale * pTSFB->m_fScale; 
 
 	//It is local scale use A
 	//pOut->m_vLocalScale = pTSFA->m_vLocalScale;
@@ -666,7 +666,7 @@ inline void  TransformMad(NodeTransform* pOut,const NodeTransform* pA,float f,co
 	Vec3Mad(&pOut->m_vPos,&pA->m_vPos,f,&pB->m_vPos);
 	QuaternionMad(&pOut->m_qRot,&pB->m_qRot,&pA->m_qRot,f);
 	//Vec3Mad(&pOut->m_vLocalScale,&pA->m_vLocalScale,f,&pB->m_vLocalScale);
-	pOut->m_fScale = pA->m_fScale * f + pB->m_fScale;
+	//pOut->m_fScale = pA->m_fScale * f + pB->m_fScale;
 }
 
 

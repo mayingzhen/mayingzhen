@@ -61,7 +61,7 @@ namespace ma
 		template<class T> 
 		T		ReadCommand(int& nIndex);
 
-		void	Update();
+		void	ThreadUpdate();
 
 		void	Start();
 

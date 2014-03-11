@@ -1,5 +1,5 @@
 #include "SceneNode.h"
-#include "CullTree/CullTree.h"
+#include "CullTree.h"
 
 namespace ma
 {
@@ -7,7 +7,7 @@ namespace ma
 
 	SceneNode::SceneNode(GameObject* pGameObj)
 	{
-		m_pParentNode = NULL;
+		//m_pParentNode = NULL;
 		m_pGameObject = pGameObj;
 
 		MatrixIdentity(&m_matWorld);
@@ -20,53 +20,55 @@ namespace ma
 
 	}
 
-	bool SceneNode::TravelScene(SceneVisiter* pVisiter)
-	{
-		bool bTraveling = pVisiter->VisiteSceneNodeBegin(this);
-
-		if (bTraveling)
-		{
-			if (NULL != m_pGameObject)
-			{
-				bTraveling = m_pGameObject->TravelScene(pVisiter);
-				if(!bTraveling)
-				{
-					//break;
-				}
-			}
-		}
-
-		if (bTraveling)
-		{
-			for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
-			{
-				bTraveling = m_arrChildNode[nCnt]->TravelScene(pVisiter);
-				if (!bTraveling)
-				{
-					break;
-				}
-			}
-		}
-
-		pVisiter->VisiteSceneNodeEnd(this);
-
-		return bTraveling;
-	}
+// 	bool SceneNode::TravelScene(SceneVisiter* pVisiter)
+// 	{
+// 		bool bTraveling = pVisiter->VisiteSceneNodeBegin(this);
+// 
+// 		if (bTraveling)
+// 		{
+// 			if (NULL != m_pGameObject)
+// 			{
+// 				bTraveling = m_pGameObject->TravelScene(pVisiter);
+// 				if(!bTraveling)
+// 				{
+// 					//break;
+// 				}
+// 			}
+// 		}
+// 
+// 		if (bTraveling)
+// 		{
+// 			for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 			{
+// 				bTraveling = m_arrChildNode[nCnt]->TravelScene(pVisiter);
+// 				if (!bTraveling)
+// 				{
+// 					break;
+// 				}
+// 			}
+// 		}
+// 
+// 		pVisiter->VisiteSceneNodeEnd(this);
+// 
+// 		return bTraveling;
+// 	}
 
 
 	void SceneNode::SetTransform(const NodeTransform& tsf)
 	{
 		m_tsfWS = tsf;
 
-		UINT nComp = m_pGameObject->GetComponentNumber();
-		for (UINT i = 0; i < nComp; ++i)
-		{
-			Component* pComp = m_pGameObject->GetComponentByIndex(i);
-			if (pComp == NULL)
-				continue;
+		m_bmatWSDirty = true;
 
-			pComp->UpdateTransform();
-		}
+// 		UINT nComp = m_pGameObject->GetComponentNumber();
+// 		for (UINT i = 0; i < nComp; ++i)
+// 		{
+// 			Component* pComp = m_pGameObject->GetComponentByIndex(i);
+// 			if (pComp == NULL)
+// 				continue;
+// 
+// 			pComp->UpdateTransform();
+// 		}
 	}
 
 	const NodeTransform& SceneNode::GetTransform()
@@ -157,13 +159,13 @@ namespace ma
 	void SceneNode::UpdateMatWorld()
 	{
 		MatrixFromTransform(&m_matWorld,&GetTransform());
-		//m_bmatWSDirty = false;
+		m_bmatWSDirty = false;
 
 		UpdateAABB();
 
-		//if (bNeedUpdate && m_pCullTree != NULL)
+		if (/*bNeedUpdate && */m_pGameObject && m_pGameObject->GetCullTree() )
 		{
-			GetCullTree()->UpdateObject(m_pGameObject);
+			m_pGameObject->GetCullTree()->UpdateObject(m_pGameObject);
 			//m_nAABBChangeType &= ~ACT_NOTIFY;
 		}
 	}
@@ -178,9 +180,13 @@ namespace ma
 
 	void SceneNode::Rotate(const Quaternion& qRot)
 	{
-		NodeTransform tsf = GetTransform();
-		tsf.m_qRot = qRot /** tsf.m_qRot*/;
-		SetTransform(tsf);
+		NodeTransform tsfRot;
+		TransformSetIdentity(&tsfRot);
+		tsfRot.m_qRot = qRot;
+		NodeTransform newTsf;
+		TransformMul(&newTsf,&GetTransform(),&tsfRot);
+
+		SetTransform(newTsf);
 	}
 
 	void SceneNode::RotateYAxisLS(float fDegree)
@@ -188,7 +194,7 @@ namespace ma
 		Quaternion qRot;
 		const Vector3 vY(0.0f,1.0f,0.0f);
 		QuaternionRotationAxis(&qRot,&vY,ToRadian(fDegree));
-		//Rotate(qRot);
+		Rotate(qRot);
 	}
 
 	void SceneNode::RotateZAxisLS(float fDegree)
@@ -207,38 +213,38 @@ namespace ma
 		Rotate(qRot);
 	}
 
-	void SceneNode::NotifySetParent(SceneNode* pParentNode)
-	{
-		m_pParentNode = pParentNode;
-	}
-
-	void SceneNode::AddChildNode(SceneNode* pChildNode)
-	{
-		if (pChildNode == NULL)
-			return;
-
-		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
-		if (it != m_arrChildNode.end())
-			return;
-
-		m_arrChildNode.push_back(pChildNode);
-
-		pChildNode->NotifySetParent(this);
-	}
-
-	void SceneNode::RemoveChildNode(SceneNode* pChildNode)
-	{
-		if (pChildNode == NULL)
-			return;
-
-		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
-		if (it == m_arrChildNode.end())
-			return;
-
-		m_arrChildNode.erase(it);
-
-		pChildNode->NotifySetParent(NULL);
-	}
+// 	void SceneNode::NotifySetParent(SceneNode* pParentNode)
+// 	{
+// 		m_pParentNode = pParentNode;
+// 	}
+// 
+// 	void SceneNode::AddChildNode(SceneNode* pChildNode)
+// 	{
+// 		if (pChildNode == NULL)
+// 			return;
+// 
+// 		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
+// 		if (it != m_arrChildNode.end())
+// 			return;
+// 
+// 		m_arrChildNode.push_back(pChildNode);
+// 
+// 		pChildNode->NotifySetParent(this);
+// 	}
+// 
+// 	void SceneNode::RemoveChildNode(SceneNode* pChildNode)
+// 	{
+// 		if (pChildNode == NULL)
+// 			return;
+// 
+// 		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
+// 		if (it == m_arrChildNode.end())
+// 			return;
+// 
+// 		m_arrChildNode.erase(it);
+// 
+// 		pChildNode->NotifySetParent(NULL);
+// 	}
 
 
 // 	m_localBound.SetNull();
@@ -272,12 +278,12 @@ namespace ma
 				m_aabbWS.Merge( pComponent->GetAABBWS() );
 			}
 		}
-
-		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
-		{
-			m_arrChildNode[nCnt]->UpdateAABB();
-			m_aabbWS.Merge(m_arrChildNode[nCnt]->GetAABBWS());
-		}
+ 
+// 		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 		{
+// 			m_arrChildNode[nCnt]->UpdateAABB();
+// 			m_aabbWS.Merge(m_arrChildNode[nCnt]->GetAABBWS());
+// 		}
 
 	}
 
@@ -285,38 +291,38 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		if (GetParent()) // !RootNode
-		{
+		//if ( GetParent() ) // !RootNode
+		//{
 			sl.Serialize(m_tsfWS);
-		}
+		//}
 
-		if (sl.IsReading())
-		{
-			UINT nSize;;
-			sl.Serialize(nSize,"size");
-
-			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-			{
-				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
-				pGameObj->Serialize(sl);
-			}
-		}
-		else
-		{
-			UINT nSize = m_arrChildNode.size();
-			sl.Serialize(nSize,"size");
-
-			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-			{
-				SceneNode* pChild = m_arrChildNode[nCnt];
-				GameObject* pGameObj = pChild->GetGameObject();
-				ASSERT(pGameObj);
-				if (pGameObj == NULL)
-					continue;
-
-				pGameObj->Serialize(sl);
-			}
-		}
+// 		if (sl.IsReading())
+// 		{
+// 			UINT nSize;;
+// 			sl.Serialize(nSize,"size");
+// 
+// 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+// 			{
+// 				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
+// 				pGameObj->Serialize(sl);
+// 			}
+// 		}
+// 		else
+// 		{
+// 			UINT nSize = m_arrChildNode.size();
+// 			sl.Serialize(nSize,"size");
+// 
+// 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+// 			{
+// 				SceneNode* pChild = m_arrChildNode[nCnt];
+// 				GameObject* pGameObj = pChild->GetGameObject();
+// 				ASSERT(pGameObj);
+// 				if (pGameObj == NULL)
+// 					continue;
+// 
+// 				pGameObj->Serialize(sl);
+// 			}
+// 		}
 
 		sl.EndSection();
 	}

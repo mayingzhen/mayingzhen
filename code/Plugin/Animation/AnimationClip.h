@@ -10,28 +10,30 @@ namespace ma
 
 	enum ePlaybackMode
 	{
-		S3L_PLAYBACK_ONCE = 0,
-		S3L_PLAYBACK_LOOP
+		PLAYBACK_ONCE = 0,
+		PLAYBACK_LOOP
 	};
 
 	enum ePlayerStatus
 	{
-		S3L_PLAYER_STOP = 0,
-		S3L_PLAYER_PLAYING,
-		S3L_PLAYER_PAUSE,
-		S3L_PLAYER_STATUS_NUM,
+		PLAYER_STOP = 0,
+		PLAYER_PLAYING,
+		PLAYER_PAUSE,
+		PLAYER_STATUS_NUM,
 	};
+
 
 	class ANIMATION_API AnimationClip
 	{
 	public:
-		AnimationClip(Animation* pAnimation,Skeleton* pSkeleton = NULL);
+		AnimationClip(ref_ptr<Animation> pAnimation,Skeleton* pSkeleton = NULL);
 
 		~AnimationClip();
 
 		void		SetSkeleton(Skeleton* pSkeleton = NULL);
 
-		void		EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f,BoneSet* pBoneSet = NULL);
+		void		EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f,
+			BoneSet* pBoneSet = NULL,EBlendMode eBlendMode = BLENDMODE_ADDITIVE);
 
 		void		AdvanceTime(float fTimeElapsed);
 
@@ -39,21 +41,21 @@ namespace ma
 
 		BoneMap*	GetNodeLink() {return m_pNodeLink;}
 
-		Animation*	GetAnimation() {return m_pAnimation;}
+		//Animation*	GetAnimation() {return m_pAnimation;}
 
 	private:
 		void		WrapLocalFrame();
 
 	private:
-		Animation*	m_pAnimation;
+		ref_ptr<Animation>	m_pAnimation;
 
-		BoneMap*	m_pNodeLink;
+		BoneMap*			m_pNodeLink;
 
-		float		m_fLocalFrame;
+		float				m_fLocalFrame;
 		
-		float		m_fPlaySpeed;
+		float				m_fPlaySpeed;
 
-		ePlaybackMode m_playbackMode;
+		ePlaybackMode		m_playbackMode;
 
 		ePlayerStatus m_playerStatus;
 

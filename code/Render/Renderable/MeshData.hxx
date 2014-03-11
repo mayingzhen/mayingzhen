@@ -8,12 +8,26 @@ namespace ma
 {
 	IMPL_OBJECT(MeshData,Resource)
 
-	MeshData::MeshData()
+	MeshData::MeshData(const char* pszPath)
+	:Resource(pszPath)
 	{
 		m_nIndexType = 0;
 		m_nVertexType = 0;
 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
+		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
+	}
+
+	MeshData::~MeshData()
+	{
+		SAFE_DELETE(m_pIndexBuffer);
+		SAFE_DELETE(m_pVertexBuffer);
+		SAFE_DELETE(m_pDeclaration);
+		for (UINT i = 0; i < m_arrSubMesh.size(); ++i)
+		{
+			SAFE_DELETE(m_arrSubMesh[i]);
+		}
+		m_arrSubMesh.clear();
 	}
 
 	bool MeshData::InitRendable()
@@ -28,7 +42,7 @@ namespace ma
 // 		int nVertexStride = GetVertexStride();
 // 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
 // 
- 		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration();	
+ 		
  		m_pDeclaration->Init(m_nVertexType);
 
 		return true;

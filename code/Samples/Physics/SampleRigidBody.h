@@ -16,14 +16,10 @@ namespace ma
 
 		virtual void Update();
 
-		virtual void Render();
-
 		virtual void collisionEvent(const CollisionData& eventData);
 
 	private:
 		IRigidBody* m_pRigidBody;
-
-		//Scene*	m_pScene;
 	};
 }
 

@@ -40,7 +40,7 @@ Font* Font::create(const char* path, const char* id)
         if (f->_path == path && (id == NULL || f->_id == id))
         {
             // Found a match.
-            f->ref();
+            f->Ref();
             return f;
         }
     }
@@ -101,7 +101,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
     else
     {
-        //__fontMaterial->ref();
+        //__fontMaterial->Ref();
     }
 
     // Create batch for the font.
@@ -120,7 +120,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     sampler->SetFilterMode(TFO_BILINEAR);
 
     // Increase the ref count of the texture to retain it.
-    texture->ref();
+    texture->Ref();
 
     Font* font = new Font();
     font->_family = family;

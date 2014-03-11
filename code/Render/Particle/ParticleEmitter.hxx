@@ -47,7 +47,7 @@ namespace ma
 		info.m_nSpriteFrameRandomOffset = pSpriteProp->getInt("frameRandomOffset");
 		info.m_fSpriteFrameDuration = pSpriteProp->getFloat("frameDuration");
 
-		Texture* pTexture = LoadResourceSync<Texture>(info.m_sTexturePath.c_str());
+		ref_ptr<Texture> pTexture = LoadResourceSync<Texture>(info.m_sTexturePath.c_str());
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
@@ -55,7 +55,7 @@ namespace ma
 		setSpriteFrameCoords( pTexture->getWidth(), pTexture->getHeight());
 
 		SAFE_DELETE(m_pSpriteBatch);
-		m_pSpriteBatch = new SpriteBatch(pTexture);
+		m_pSpriteBatch = new SpriteBatch(pTexture.get());
 
 		m_pSpriteBatch->getStateBlock().m_eBlendMode = info.m_eTextureBlending;
 
@@ -637,7 +637,7 @@ namespace ma
 // 
 // 	}
 
-	void ParticleEmitter::AddToRenderQueue() 
+	void ParticleEmitter::Show(Camera* pCamera) 
 	{
 		if ( GetParticleSystem() )
 			GetParticleSystem()->AddParticleEmitter(this);

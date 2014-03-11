@@ -43,7 +43,7 @@ namespace ma
 		return pTerrain->GetMaterial();
 	}
 
-	void TerrainSection::AddToRenderQueue()
+	void TerrainSection::Show(Camera* pCamera)
 	{
 		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,this);
 	}

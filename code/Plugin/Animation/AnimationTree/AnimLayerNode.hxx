@@ -36,11 +36,11 @@ namespace ma
 		}
 	}
 
-	void AnimLayerNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
+	void AnimLayerNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode)
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
-			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,1.0f);
+			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,1.0f,BLENDMODE_ADDITIVE);
 		}
 	}
 
@@ -51,6 +51,14 @@ namespace ma
 			m_arrAnimNode[i]->SetFrame(fFrame);
 		}
 	}
+
+// 	void AnimLayerNode::SetSkeleton(Skeleton* pSkeleton)
+// 	{
+// 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+// 		{
+// 			m_arrAnimNode[i]->SetSkeleton(pSkeleton);
+// 		}
+// 	}
 
 
 }

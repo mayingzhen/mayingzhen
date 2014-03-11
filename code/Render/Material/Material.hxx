@@ -15,11 +15,11 @@ namespace ma
 
 		if (pMatData)
 		{
-			Technique* pTech = LoadTechnique(pMatData->m_strShaderName,pMatData->m_strShaderMacro);
+			Technique* pTech = LoadTechnique(pMatData->GetShaderName(),pMatData->GetShaderMacro());
 
-			for (UINT i = 0; i < pMatData->m_arrParameters.size(); ++i)
+			for (UINT i = 0; i < pMatData->GetParameterNumber(); ++i)
 			{
-				MaterialParameter* pParmMat = pMatData->m_arrParameters[i];
+				MaterialParameter* pParmMat = pMatData->GetParameterByIndex(i);
 
 				MaterialParameter* pParmTech = pTech->GetParameter( pParmMat->GetName() );
 				if (pParmTech)

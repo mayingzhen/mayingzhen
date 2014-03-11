@@ -13,11 +13,16 @@ namespace ma
 	
 		~Camera();
 
-		virtual	void		UpdateTransform();
+		//virtual	void		UpdateTransform();
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
-		MatViewProj&		GetMatViewProj() {return m_matViewProj;}
+		//MatViewProj&		GetMatViewProj() {return m_matViewProj;}
+		const Matrix4x4&	GetMatView();
+
+		const Matrix4x4&	GetMatProj();
+
+		const Matrix4x4&	GetMatViewProj();
 		
 		float				GetNearClip() {return m_fNear;}
 
@@ -41,8 +46,12 @@ namespace ma
 
 		Vector2				GetNearPlaneSize() const;
 
+		void				UpdateMatView();
+
 	private:
 		MatViewProj			m_matViewProj;
+
+		bool				m_bMatViewDirty;
 
 		float				m_fAspect;
 		float				m_fFOV;	

@@ -19,16 +19,13 @@ namespace ma
 		GetInput()->AddTouchListener(this);
 		GetInput()->AddMouseListener(this);
 
-
-		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f * 10,0));
-
 		{
 			m_pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
 			ICharaControll* pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
 			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
 			MeshComponent* pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.tga");
+			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 		
 			AABB aabb = pMeshComp->GetAABBWS();
 
@@ -43,15 +40,14 @@ namespace ma
 			pCapsule->SetTransformLS(tsfLS);
 
 
-// 			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
-// 			pAnimComp->Load(NULL,"magician/Body.ske");
-// 			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
-// 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
-// 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
-// 			pAnimComp->PlayAnimation("Idle");
+			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
+			pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
+			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
+			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
+			pAnimComp->PlayAnimation("Idle");
 
 			m_pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
-			//m_pCharaObj->GetSceneNode()->RotateYAxisLS(90);
 		}
 
 		{
@@ -61,7 +57,7 @@ namespace ma
 			pBoxCollisionShape->SetSize(Vector3(1800,20,1800));
 
 			{
-				GameObject* pObje = GetEntitySystem()->CreateGameObject("Box1");
+				GameObjectPtr pObje = GetEntitySystem()->CreateGameObject("Box1");
 				IBoxCollisionShape* pBox = pObje->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				pObje->GetSceneNode()->Translate(Vector3(-100,20,0));
@@ -69,7 +65,7 @@ namespace ma
 
 
 			{
-				GameObject* pObje2 = GetEntitySystem()->CreateGameObject("Box2");
+				GameObjectPtr pObje2 = GetEntitySystem()->CreateGameObject("Box2");
 				IBoxCollisionShape* pBox = pObje2->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				IRigidBody* pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();

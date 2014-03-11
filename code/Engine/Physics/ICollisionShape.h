@@ -55,6 +55,20 @@ namespace ma
 
 		virtual float			GetRadius() const = 0;
 	};
+
+	struct ENGINE_API Collision
+	{
+		GameObject* m_pGameEntity;
+		Vector3	m_vContactsPointWS;
+		Vector3	m_vContactsNormalWS;
+
+		Collision()
+		{
+			m_pGameEntity = NULL;
+			m_vContactsPointWS = Vector3(0,0,0);
+			m_vContactsNormalWS = Vector3(0,0,0);
+		}
+	};
 }
 
 #endif

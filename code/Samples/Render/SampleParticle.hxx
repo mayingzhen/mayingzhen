@@ -15,7 +15,7 @@ namespace ma
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
-		GameObject* pFire = GetEntitySystem()->CreateGameObject("Fire");
+		GameObjectPtr pFire = GetEntitySystem()->CreateGameObject("Fire");
 		ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
 		pPaticComp->Load("Particle/fire.particle");
 		pPaticComp->start();
@@ -31,9 +31,6 @@ namespace ma
 	{
 	}
 
-	void SampleParticle::Render()
-	{	
-	}
 
 }
 

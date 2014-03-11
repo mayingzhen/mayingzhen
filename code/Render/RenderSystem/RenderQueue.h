@@ -17,15 +17,16 @@ namespace ma
 	class  RenderQueue
 	{
 	public:
-		void			AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj);	
+		void				AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj);	
 
-		UINT			GetRenderObjNumber(RenderListType eRLType);
+		UINT				GetRenderObjNumber(RenderListType eRLType);
 
 		RenderComponent*	GetRenderObjByIndex(RenderListType eRLType,int index);
 
-		void			Clear();
+		void				Clear();
 
 	private:
+		std::vector<GameObjectPtr>			m_arrGameObject[RL_Count];
 
 		std::vector<RenderComponent*>		m_arrRenderList[RL_Count];
 	};

@@ -369,6 +369,14 @@
 				RelativePath="..\..\code\Render\Renderable\SpriteBatch.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\Util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\Util.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="RenderScheme"

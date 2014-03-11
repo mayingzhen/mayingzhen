@@ -107,7 +107,6 @@ namespace ma
 			skaData.m_arrScaleTrack[i] = it->second.scaleTrack;
 			int nFrame = it->second.posTrack.m_arrFrame.size();
 			skaData.m_nFrameNumber = skaData.m_nFrameNumber < nFrame ? nFrame : skaData.m_nFrameNumber;
-
 		}
 	}
 
@@ -137,6 +136,8 @@ namespace ma
 
 			break;
 		}
+
+		ConverteAnimDataParentToLocalSpaceAnimation(&skaData,&skeData);
 
 		skaData.SaveToFile(pOutSkaFile);
 	}

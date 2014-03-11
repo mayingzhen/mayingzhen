@@ -9,7 +9,7 @@ namespace ma
 	public:
 		Thread();
 
-		virtual	void	Update() = 0;
+		virtual	void	ThreadUpdate() = 0;
 
 		virtual void	Start();
 

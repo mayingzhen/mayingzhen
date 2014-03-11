@@ -4,119 +4,68 @@ namespace ma
 {
 	SampleShadowMap::SampleShadowMap()
 	{
-		m_pLigt = NULL;
-	}
-
-	void SampleShadowMap::Init(ApplicationBase* pApplication)
-	{
-		m_fMoveCameraSpeed = 1.0f;
-		
-		//m_pCamera->LookAt( &Vector3(-7, 2, -3) );	
-	}
-
-	void SampleShadowMap::Shutdown()
-	{
+		m_pDirectLight = NULL;
 	}
 
 	void SampleShadowMap::Load()
 	{
-		ASSERT(m_pScene);
-		if (m_pScene == NULL)
-			return;
+		Vector3 vEyePos = Vector3(0, 400, 600);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
-		FBXImporter fbxImpor;
-		fbxImpor.Initialize();
-
-		MeshData* pMeshDataPlat = new MeshData;
-		fbxImpor.LoadStaticMeshData("../Data/Fbx/MovingPlatform.fbx",pMeshDataPlat);
-		SaveMeshToBinaryFile("../Data/Fbx/MovingPlatform.skn",pMeshDataPlat);
-		SAFE_DELETE(pMeshDataPlat);
-
-		MeshData* pMeshDataBox = new MeshData;
-		fbxImpor.LoadStaticMeshData("../Data/Fbx/Box.fbx",pMeshDataBox);
-		SaveMeshToBinaryFile("../Data/Fbx/Box.skn",pMeshDataBox);
-		SAFE_DELETE(pMeshDataBox);
-
-		SceneNode* pRootNode = m_pScene->GetRootNode(); 
-
+		// Render Mesh
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"Box");
-			pRootNode->AddChildNode(pGameObj);
+			GameObjectPtr pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/Box.skn","../Data/Fbx/Box.tga");
-			pGameObj->AddComponent(pMeshComp);
+			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+
+			IAnimationObject* pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
+			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
+			pAnimObj->PlayAnimation((UINT)0);
+
+			pCharMagic->GetSceneNode()->Right(100);
+
+			GameObjectPtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+
+			GameObjectPtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
+
+			pPlatform->GetSceneNode()->Scale(50);
+
+			pBox->GetSceneNode()->Scale(50);
 		}
 
+		// Light
 		{
-			GameObject* pGameObj = new GameObject(m_pScene,"Platform");
-			pRootNode->AddChildNode(pGameObj);
+			GameObjectPtr pLightObj = GetEntitySystem()->CreateGameObject("Light");
+			pLightObj->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0),Vector3(0,1,0));
+			m_pDirectLight = pLightObj->CreateComponent<DirectonalLight>();
+			m_pDirectLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
 
-			MeshComponent* pMeshComp = new MeshComponent();
-			pMeshComp->Load("../Data/Fbx/MovingPlatform.skn","../Data/Fbx/PlatformTexture.tga");
-			pGameObj->AddComponent(pMeshComp);
-			pGameObj->TranslateWS(Vector3(0,-1,0));
+			m_pDirectLight->SetCreateShadow(true);
 		}
 
-		//light
-		{
-			m_pLigt = new Light(m_pScene,"Light");
-			m_pLigt->SetCreateShadow(true);
-			m_pLigt->SetLigtType(LIGHT_DIRECTIONAL);
-			pRootNode->AddChildNode(m_pLigt);
-			//m_pLigt->LookAt(&Vector3(2, 1, 0));
-			m_pLigt->LookAt(&Vector3(-1.6, 10, -3));
-			
-			GetRenderDevice()->AddLight(m_pLigt);
-		}
+		GetLightSystem()->SetAmbientColor(Vector4(0.2f,0.2f,0.2f,0.0f));
 
-
-		m_pScene->Start();
 	}
 
-	void SampleShadowMap::Unload()
+	void SampleShadowMap::UnLoad()
 	{
-		SAFE_DELETE(m_pLigt);	
+		GetLightSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));			
 	}
 
-	void SampleShadowMap::Tick(float timeElapsed)
+	void SampleShadowMap::Update()
 	{
-		Sample::Tick(timeElapsed);
-
-		Input* pInput = GetInput();
-		if (pInput == NULL)
-			return;
-
-		float fMoveSpeed = 5;
-		float fMoveDis = fMoveSpeed * timeElapsed;
-
-		Vector3 vLightPos = m_pLigt->GetPositionWS();
-		if ( pInput->IsKeyDown(OIS::KC_W) )
-		{
-			vLightPos.y += fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_S) )
-		{
-			vLightPos.y -= fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_A) )
-		{
-			vLightPos.x -= fMoveDis;
-		}
-		if ( pInput->IsKeyDown(OIS::KC_D) )
-		{
-			vLightPos.x += fMoveDis;
-		}
-		m_pLigt->LookAt(&vLightPos);
-
+// 		float fDegree = 30 * GetTimer()->GetFrameDeltaTime();
+// 		m_pDirectLight->GetSceneNode()->RotateYAxisLS(fDegree);
 	}
 
 	void SampleShadowMap::Render()
 	{
-		__super::Render();
-
-		Matrix4x4 matWS = m_pLigt->GetWorldMatrix();
-		GetRenderDevice()->DrawWireSphere(matWS,0.2,COLOR_RGBA(255,0,0,255));
+		Vector3 vSrc = Vector3(0,0,0);
+		Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetDirection();
+		GetLineRender()->DrawLine(vSrc,vDir,Color(1,0,0,0));
 	}
 
 }

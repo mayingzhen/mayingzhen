@@ -73,11 +73,8 @@ namespace ma
 		if (GetEntitySystem())
 			GetEntitySystem()->Update();
 
-		if ( GetSceneSystem() )
-			GetSceneSystem()->Update();
-
 		if ( GetRenderSystem() )
-			GetRenderSystem()->Update();
+			GetRenderSystem()->Update( GetRenderSystem()->GetMainCamera() );
 
 		if ( GetLightSystem() )
 			GetLightSystem()->Update();

@@ -12,41 +12,39 @@ namespace ma
 		//DECL_OBJECT(Action)
 
 	public:
-		Action(const char* pName = NULL);
+		Action(const char* pName,Skeleton* pSkeleton);
 
 		Action(ActionData* pActionData,Skeleton* pSkeleton);
 
 		~Action();
 
-		void			SetTreeNode(IAnimTreeNode* pAnimNode);
+		void				SetTreeNode(IAnimTreeNode* pAnimNode);
 
-		void			AddPoseModifier(IPoseModifier* pPoseModifier);
+		void				AddPoseModifier(IPoseModifier* pPoseModifier);
 
-		void			RemovePoseModifier(IPoseModifier* pPoseModifier);
+		void				RemovePoseModifier(IPoseModifier* pPoseModifier);
 
-		void			AdvanceTime(float fTimeElepse);
+		void				AdvanceTime(float fTimeElepse);
 
-		void			EvaluateAnimation(AnimEvalContext* pAnimContext,float fWeight);
+		void				EvaluateAnimation(AnimEvalContext* pAnimContext,float fWeight);
 
-		void			SetFrame(float fFrame);
+		void				SetFrame(float fFrame);
 
-		void			SetAnimName(const char* pszAnimName) {m_sAnimName = pszAnimName;}
+		void				SetAnimName(const char* pszAnimName) {m_sAnimName = pszAnimName;}
 
-		const char*		GetAnimName() {return m_sAnimName.c_str();}
+		const char*			GetAnimName() {return m_sAnimName.c_str();}
 
-		//virtual void	Serialize(Serializer& sl, const char* pszLable = "Action");
+		Skeleton*			GetSkeleton() {return m_pSkeleton;}
 
-		Skeleton*		GetSkeleton() {return m_pSkeleton;}
+		//void				SetSkeleton(Skeleton* pSkeleton); 
 
-		void			SetSkeleton(Skeleton* pSkeleton); 
+		IAnimLayerNode*		CreateLayerNode(AnimLayerNodeData* pLayerData = NULL);
 
-		IAnimLayerNode*		CreateLayerNode(AnimLayerNodeData* pLayerData);
+		IAnimBlendNode*		CreateBlendNode(AnimBlendNodData* pBlendData = NULL);
 
-		IAnimBlendNode*		CreateBlendNode(AnimBlendNodData* pBlendData);
+		IAnimClipNode*		CreateClipNode(AnimClipNodeData* pClipData = NULL);
 
-		IAnimClipNode*		CreateClipNode(AnimClipNodeData* pClipData);
-
-		//IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+		IAnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
 
 	private:
 		IAnimTreeNode*		CreateAnimNode(AnimNodeData* pAnimNodeData);

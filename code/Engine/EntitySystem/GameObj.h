@@ -11,22 +11,48 @@ namespace ma
 	class IPhysicsObject;
 	class SceneVisiter;
 	class CullNode;
+	class CullTree;
 
+	DeclareRefPtr(GameObject);
 
 	class ENGINE_API GameObject : public Object
 	{
 		DECL_OBJECT(GameObject)
 
 	public:
+		class  CCallback
+		{
+		public:
+			CCallback(){}
+			virtual ~CCallback(){}
+			virtual void OnNodeProcessed(const GameObject* pNode){}
+			virtual void OnNodeBeginShow(const GameObject* pNode){}
+			virtual void OnNodeEndShow(const GameObject* pNode){}
+			virtual void OnNodeDestroyed(const GameObject* pNode){}
+			virtual void OnNodeAttached(const GameObject* pNode){}
+			virtual void OnNodeDetached(const GameObject* pNode){}
+			virtual void OnNodeEndMatrix(const GameObject* pNode){}
+			virtual void OnNodeLoadOver(GameObject* pNode){}
+		};
+
+	public:
 		GameObject(const char* pName = NULL);
 
 		~GameObject();
+
+		void				Update();
+
+		void				BeginShow(Camera* pCamera);
+
+		void				Show(Camera* pCamera, bool bCascade);
+
+		void				EndShow(Camera* pCamera);
 
 		bool				TravelScene(SceneVisiter* pVisiter);
 
 		SceneNode*			GetSceneNode() {return m_pScenNode;}
 
-		GameObject*			Clone(const char* pName);
+		GameObjectPtr		Clone(const char* pName);
 
 		template<class T>
 		T*					CreateComponent();
@@ -53,12 +79,54 @@ namespace ma
 
 		CullNode*			GetCullNode() {return m_pCullNode;}
 
+		void				SetCullTree(CullTree* pCullTree);
+
+		CullTree*			GetCullTree() const{return m_pCullTree;}
+
+		// 
+		GameObject*			GetParent() {return m_pParent;}
+
+		void				AddChild(GameObjectPtr pChild);
+
+		void				RemoveChild(GameObjectPtr pChild);
+
+		void				RemoveAllChild();	
+
 	protected:
 		void				UpdateAABB();
 
 		void				SetScene(Scene* pScene);
 
 		void				AddComponent(Component* pComponent);
+
+		void				SetParent(GameObject* pParent);
+
+	private:
+		void				SerializeChild(Serializer& sl, std::vector<GameObjectPtr>& arrChild,
+			GameObject* pParent,const char* pszLable);
+
+
+// 		enum CHANGE_TYPE
+// 		{
+// 			CT_NONE = 0x00,
+// 			CT_PART = 0x01,
+// 			CT_FROMPARENT = 0x02,
+// 			CT_NOTIFY = 0x04,
+// 		};
+// 		void				SetNeedChange(CHANGE_TYPE eChangeType);
+//
+// 		enum AABB_CHANGE_TYPE
+// 		{
+// 			ACT_NONE = 0x00,
+// 			ACT_SELF_MATRIX = 0x01,
+// 			ACT_SELF_CUSTOM = 0x02,//自定义包围盒
+// 			ACT_NOTIFY = 0x04,
+// 		};
+// 		
+// 		void				UpdateWorldMatrix();
+// 
+// 		void				UpdateWorldBoundingBox();
+
 
 	private:
 		IPhysicsObject*				m_pPhyscisObject;
@@ -67,7 +135,25 @@ namespace ma
 
 		std::vector<Component*>		m_arrComp;
 
+		GameObject*					m_pParent;
+
+		std::vector<GameObjectPtr>	m_arrChild;
+
 		CullNode*					m_pCullNode;
+		
+		CullTree*					m_pCullTree;
+
+		CCallback*					m_pCallback;
+
+//		int							m_nNeedChange;
+//
+// 		int							m_nAABBChangeType;	
+// 
+// 		AABB						m_AABB;
+// 
+// 		AABB						m_worldAABB;
+// 
+// 		Matrix4x4					m_matWorld;
 	};
 
 // 	template<class T>
@@ -146,20 +232,6 @@ namespace ma
 		}
 		return NULL;
 	}
-
-	struct ENGINE_API Collision
-	{
-		GameObject* m_pGameEntity;
-		Vector3	m_vContactsPointWS;
-		Vector3	m_vContactsNormalWS;
-
-		Collision()
-		{
-			m_pGameEntity = NULL;
-			m_vContactsPointWS = Vector3(0,0,0);
-			m_vContactsNormalWS = Vector3(0,0,0);
-		}
-	};
 
 
 }

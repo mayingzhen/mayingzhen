@@ -30,6 +30,8 @@ namespace ma
  
  		void Close();
 
+		void Save(const char* pszFileName);
+
 		TiXmlElement*	GetRootElement() {return m_pRootElem;}
 
 		void BeginSection(const char* pszLable);

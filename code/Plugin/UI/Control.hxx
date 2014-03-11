@@ -11,6 +11,8 @@ Control::Control()
     _zIndex(-1), _contactIndex(INVALID_CONTACT_INDEX), _focusIndex(-1), _parent(NULL), _styleOverridden(false), _skin(NULL), _previousState(NORMAL)
 {
     //addScriptEvent("controlEvent", "<Control>[Control::Listener::EventType]");
+
+	Ref();
 }
 
 Control::~Control()
@@ -912,7 +914,7 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
     // This method runs untrusted code by notifying listeners of events.
     // If the user calls exit() or otherwise releases this control, we
     // need to keep it alive until the method returns.
-    ref();
+    Ref();
 
     if (_listeners)
     {
@@ -930,8 +932,7 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
 
     //fireScriptEvent<void>("controlEvent", this, eventType);
 
-    //release();
-	unref();
+    Unref();
 }
 
 void Control::update(const Control* container, const Vector2& offset)
@@ -1395,7 +1396,7 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
         Font* font = Font::create(properties->getString("font"));
         setFont(font, states);
         //font->release();
-		font->unref();
+		font->Unref();
     }
 
     if (properties->exists("fontSize"))

@@ -8,13 +8,11 @@ namespace ma
 
 	void SampleJoint::Load()
 	{
-	
-		GetPhysicsSystem()->SetGravity(Vector3(0,-0.98f * 10,0));
 
 		Vector3 vPosA(20,40,0);
 		Vector3 vPosB(0,40,0);
 
-		GameObject* pGameObjA = NULL;
+		GameObjectPtr pGameObjA = NULL;
 		{
 			pGameObjA = GetEntitySystem()->CreateGameObject("physicsA");
 
@@ -22,14 +20,13 @@ namespace ma
 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
 			IRigidBody* pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
-			//pRigidBodyComp->GetRigidBody()->SetUseGravity(false);
 			pRigidBodyComp->SetKinematic(true);
 
 			pGameObjA->GetSceneNode()->Translate(vPosA);
 
 		}
 
-		GameObject* pGameObjB = NULL;
+		GameObjectPtr pGameObjB = NULL;
 		{
 			pGameObjB = GetEntitySystem()->CreateGameObject("physicsB");
 
@@ -59,13 +56,12 @@ namespace ma
 // 		TransformSetIdentity(&tsfA);
 // 		tsfA.m_vPos = Vector3(5,0,0);
 // 		pJointComp->SetATransformLS(tsfA);
-// 
- 		//GetPhysicsSystem()->Start();
+
 	}
 
 	void SampleJoint::UnLoad()
 	{
-		//GetPhysicsSystem()->Stop();
+
 	}
 
 	void SampleJoint::Update()

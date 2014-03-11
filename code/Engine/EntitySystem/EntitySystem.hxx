@@ -1,4 +1,5 @@
 #include "EntitySystem.h"
+#include "Octree.h"
 
 namespace ma
 {
@@ -16,48 +17,53 @@ namespace ma
 
 	void EntitySystem::Init()
 	{
+		Reset();
 	}
 
 	void EntitySystem::ShoutDown()
 	{
-
 	}
 
 	void EntitySystem::Update()
 	{
-
+		profile_code();
+	
+		m_pRootGameObject->Update();
 	}
 
-	GameObject*	EntitySystem::CreateGameObject(const char* pName)
-	{
-		GameObject* pGameObj = new GameObject(pName);	
-		m_arrGameObject.push_back(pGameObj);
 
-		return pGameObj;
+	ref_ptr<GameObject>	EntitySystem::CreateGameObject(const char* pName)
+	{
+		ref_ptr<GameObject>	 pGameObject = new GameObject(pName);	
+		m_pRootGameObject->AddChild(pGameObject);
+		return pGameObject;
 	}
 
-	void EntitySystem::DeleteGameObject(GameObject* pObject)
+	void EntitySystem::Reset()
 	{
-		std::vector<GameObject*>::iterator it;
-		it = std::find(m_arrGameObject.begin(),m_arrGameObject.end(),pObject);
-		ASSERT(it != m_arrGameObject.end());
-		if (it == m_arrGameObject.end())
-			return;
+		m_pRootGameObject = NULL;
+		m_pCullTree = NULL;
 
-		m_arrGameObject.erase(it);
+		m_pCullTree = new Octree();
 
-		SAFE_DELETE(pObject);
+		m_pRootGameObject = new GameObject("RootGameObject");		
+		m_pRootGameObject->SetCullTree( m_pCullTree.get() );
 	}
 
-	void EntitySystem::DeleteAll()
+	void EntitySystem::Serialize(Serializer& sl, const char* pszLable)
 	{
-		for (UINT i = 0; i < m_arrGameObject.size(); ++i)
+		if ( sl.IsReading() )
 		{
-			SAFE_DELETE(m_arrGameObject[i]);
+			Reset();
 		}
 
-		m_arrGameObject.clear();
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(*m_pRootGameObject,"RootObject");
+
+		sl.EndSection();
 	}
+
 }
 
 

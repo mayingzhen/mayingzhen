@@ -15,6 +15,11 @@ namespace ma
 		GetLightSystem()->AddLight(this);
 	}
 
+	Light::~Light()
+	{
+		GetLightSystem()->RemoveLight(this);
+	}
+
 	IMPL_OBJECT(PointLight,Light)
 	
 	Vector3 PointLight::GetPos()
@@ -163,12 +168,12 @@ namespace ma
 			GetRenderDevice()->MakePerspectiveMatrix(&matSplitProj,pCamera->GetFov(),
 				pCamera->GetAspect(),m_fSplitPos[index][i],m_fSplitPos[index][i + 1]);
 
-			Matrix4x4 matView = pCamera->GetMatViewProj().GetMatView();
+			Matrix4x4 matView = pCamera->GetMatView();
 			Frustum splitFrustum;
 			splitFrustum.Update(matView * matSplitProj);
 
 			CastersBuilder casterBuild(pSMF,splitFrustum,GetDirection());
-			GetSceneSystem()->TravelScene(&casterBuild);
+			GetEntitySystem()->GetRootGameObject()->TravelScene(&casterBuild);
 
 			AABB aabbCasters = casterBuild.GetCastersAABB();
 			aabbCasters.Transform(matLightView);
@@ -177,9 +182,8 @@ namespace ma
 			aabbReceivers.Transform(matLightView);
 
 			AABB aabbSplit;
-			ASSERT(false);
-			//aabbSplit.Merge(splitFrustum.m_pPoints,8);
-			//aabbSplit.Transform(matLightView);
+			aabbSplit.Merge(splitFrustum.m_pPoints,8);
+			aabbSplit.Transform(matLightView);
 
 			AABB cropAABB;
 

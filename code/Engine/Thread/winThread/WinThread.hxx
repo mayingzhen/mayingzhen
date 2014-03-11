@@ -43,7 +43,7 @@ namespace ma
 	{
 		while(!m_bExit)
 		{
-			Update();
+			ThreadUpdate();
 		}
 	}
 }

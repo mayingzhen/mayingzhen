@@ -1,5 +1,5 @@
-#ifndef _ref_ptr__
-#define _ref_ptr__ 
+#ifndef _MaRef_ptr__
+#define _MaRef_ptr__ 
 
 
 #include "Referenced.h"
@@ -17,11 +17,11 @@ namespace ma
 			typedef T element_type;
 
 			ref_ptr() : _ptr(0) {}
-			ref_ptr(T* ptr) : _ptr(ptr) { if (_ptr) _ptr->ref(); }
-			ref_ptr(const ref_ptr& rp) : _ptr(rp._ptr) { if (_ptr) _ptr->ref(); }
-			template<class Other> ref_ptr(const ref_ptr<Other>& rp) : _ptr(rp._ptr) { if (_ptr) _ptr->ref(); }
+			ref_ptr(T* ptr) : _ptr(ptr) { if (_ptr) _ptr->Ref(); }
+			ref_ptr(const ref_ptr& rp) : _ptr(rp._ptr) { if (_ptr) _ptr->Ref(); }
+			template<class Other> ref_ptr(const ref_ptr<Other>& rp) : _ptr(rp._ptr) { if (_ptr) _ptr->Ref(); }
 			ref_ptr(observer_ptr<T>& optr) : _ptr(0) { optr.lock(*this); }
-			~ref_ptr() { if (_ptr) _ptr->unref();  _ptr = 0; }
+			~ref_ptr() { if (_ptr) _ptr->Unref();  _ptr = 0; }
 
 			ref_ptr& operator = (const ref_ptr& rp)
 			{
@@ -40,11 +40,11 @@ namespace ma
 				if (_ptr==ptr) return *this;
 				T* tmp_ptr = _ptr;
 				_ptr = ptr;
-				if (_ptr) _ptr->ref();
+				if (_ptr) _ptr->Ref();
 				// unref second to prevent any deletion of any object which might
 				// be referenced by the other object. i.e rp is child of the
 				// original _ptr.
-				if (tmp_ptr) tmp_ptr->unref();
+				if (tmp_ptr) tmp_ptr->Unref();
 				return *this;
 			}
 
@@ -94,11 +94,11 @@ namespace ma
 				if (_ptr==rp._ptr) return;
 				T* tmp_ptr = _ptr;
 				_ptr = rp._ptr;
-				if (_ptr) _ptr->ref();
+				if (_ptr) _ptr->Ref();
 				// unref second to prevent any deletion of any object which might
 				// be referenced by the other object. i.e rp is child of the
 				// original _ptr.
-				if (tmp_ptr) tmp_ptr->unref();
+				if (tmp_ptr) tmp_ptr->Unref();
 			}
 
 			template<class Other> friend class ref_ptr;

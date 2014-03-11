@@ -11,44 +11,37 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (1)
+		if (0)
 		{
-			{
-				LoadSkeletonMeshData("../../Data/Fbx/TestBull.fbx");
-			}
+			
+			LoadSkeletonMeshData("../../Data/Fbx/TestBull.fbx");
 
 
 			// Material
 			{
-				MaterialData* pMatData = new MaterialData();
-				pMatData->m_strShaderName = "default";
-				pMatData->m_strShaderMacro = "DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55";
-
-				MaterialParameter* pMatParmTex = new MaterialParameter("u_texture");
+				MaterialData matData;
+				matData.SetShader("default","DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55");
+				
 				SamplerState diff;
-				diff.SetTexture("FBX/TestBull_DM.png");
-				pMatParmTex->setSampler(&diff);
-				pMatData->m_arrParameters.push_back(pMatParmTex);
+ 				diff.SetTexture("FBX/TestBull_DM.png");
+				matData.SetParameter("u_texture",diff);
+				matData.SetParameter("u_cDiffuseColor",Vector4(1,1,1,1));
 
-				MaterialParameter* pMatColor = new MaterialParameter("u_cDiffuseColor");
-				pMatColor->setVector4(Vector4(1,1,1,1));
-				pMatData->m_arrParameters.push_back(pMatColor);
-
-				pMatData->SaveToFile("../../Data/Fbx/TestBull.mat");
+				matData.SaveToFile("../../Data/Fbx/TestBull.mat");
 			}
 
 			// AnimationSet
 			{
-				AnimationSetData* pAniSetData = new AnimationSetData();
+				AnimationSetData animSetData;
 
-				pAniSetData->AddAnimClip("Fbx/TestBull.ska","TestAnim");
+				animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
 
-				pAniSetData->SaveToFile("../../Data/Fbx/TestBull.aniset");
+				animSetData.SaveToFile("../../Data/Fbx/TestBull.aniset");
 			}
 		}
 
 
-		GameObject* pTestBull = GetEntitySystem()->CreateGameObject("testBull");
+		GameObjectPtr pTestBull = GetEntitySystem()->CreateGameObject("testBull");
 
 		MeshComponent* pMeshComp = pTestBull->CreateComponent<MeshComponent>();
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
@@ -60,39 +53,44 @@ namespace ma
 		pTestBull->GetSceneNode()->Scale(1.0f / 50.0f);
 	}
 
+	void CreateMaterialData(const char* pszTexture,const char* pMatPath)
+	{
+		MaterialData matData;
+		matData.SetShader("default","DIFFUSE");
+
+		SamplerState diff;
+		diff.SetTexture(pszTexture);
+		matData.SetParameter("u_texture",diff);
+		matData.SetParameter("u_cDiffuseColor",Vector4(1,1,1,1));
+
+		matData.SaveToFile(pMatPath);
+	}
+
 	void SampleFbxImport::LoadSaticMesh()
 	{
 		if (1)
 		{
-			//LoadStaticMeshData("../../Data/FBX/shpere.FBX");
+			LoadStaticMeshData("../../Data/FBX/shpere.FBX");
+				
+			LoadStaticMeshData("../../Data/FBX/Box.FBX");
 
 			LoadStaticMeshData("../../Data/FBX/MovingPlatform.fbx");
 
-			// Material
-			{
-				MaterialData* pMatData = new MaterialData();
-				pMatData->m_strShaderName = "default";
-				pMatData->m_strShaderMacro = "DIFFUSE";
 
-				MaterialParameter* pMatParmTex = new MaterialParameter("u_texture");
-				SamplerState diff;
-				diff.SetTexture("Fbx/PlatformTexture.tga");
-				pMatParmTex->setSampler(&diff);
-				pMatData->m_arrParameters.push_back(pMatParmTex);
-
-				MaterialParameter* pMatColor = new MaterialParameter("u_cDiffuseColor");
-				pMatColor->setVector4(Vector4(1,1,1,1));
-				pMatData->m_arrParameters.push_back(pMatColor);
-
-				pMatData->SaveToFile("../../Data/Fbx/MovingPlatform.mat");
-			}
+			CreateMaterialData("FBX/Box.tga","../../Data/FBX/Box.mat");
+			
+			CreateMaterialData("FBX/PlatformTexture.tga","../../Data/FBX/MovingPlatform.mat");
 		}
 
 		
-		GameObject* pPlatform = GetEntitySystem()->CreateGameObject("Platform");
-
+		GameObjectPtr pPlatform = GetEntitySystem()->CreateGameObject("Platform");
 		MeshComponent* pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+
+		GameObjectPtr pBox = GetEntitySystem()->CreateGameObject("Box");
+		MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
+
 	}
 
 
@@ -110,7 +108,7 @@ namespace ma
 
 		LoadSaticMesh();
 
-		//LoadSkelMesh();
+		LoadSkelMesh();
 		
 	}
 

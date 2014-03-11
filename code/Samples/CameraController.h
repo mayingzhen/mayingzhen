@@ -41,8 +41,6 @@ namespace ma
 
 		float			m_fTargetDis;
 
-		//GameObject*		m_pCameraObj;
-
 		Camera*			m_pCamera;
 	};
 }

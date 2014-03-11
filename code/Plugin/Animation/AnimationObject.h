@@ -34,7 +34,7 @@ namespace ma
 
 		SkeletonPose*			GetAnimationPose() {return m_pose;}
 
-		Skeleton*				GetSkeleton() {return m_pSkeleton;}
+		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
 
 	protected:
 		void					CreateSkeleton(const char* pSkePath);
@@ -44,17 +44,17 @@ namespace ma
 		void					PlayAnimation(Action* pSkelAnim);
 	
 	private:
-		Skeleton*				m_pSkeleton;
+		ref_ptr<Skeleton>			m_pSkeleton;
 		
-		SkeletonPose*			m_pose;
+		SkeletonPose*				m_pose;
 
-		AnimationSetData*		m_pAnimSetData;
+		ref_ptr<AnimationSetData>	m_pAnimSetData;
 
-		AnimationSet*			m_pAnimSet;
+		AnimationSet*				m_pAnimSet;
 
-		Action*					m_pCurAction;
+		Action*						m_pCurAction;
 
-		Matrix4x4*				m_arrSkinMatrix;
+		Matrix4x4*					m_arrSkinMatrix;
 	};
 }
 

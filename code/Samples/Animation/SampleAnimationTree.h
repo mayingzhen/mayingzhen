@@ -21,10 +21,10 @@ namespace ma
 		virtual bool keyReleased(const OIS::KeyEvent &arg);	
 
 	private:
-		GameObject*			m_pGameObj;
+		GameObjectPtr		m_pGameObj;
 
 		IAnimClipNode*		m_pClip602;
-		IAnimClipNode*		m_pClip100;
+		IAnimClipNode*		m_pClip120;
 	};
 }
 

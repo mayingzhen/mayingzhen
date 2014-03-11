@@ -17,7 +17,9 @@ namespace ma
 		virtual void Render();
 
 	private:
-		std::vector<PointLight*> m_arrPointLight;
+		PointLight*			m_pPointLight;
+
+		DirectonalLight*	m_pDirectLight;
 	};
 }
 

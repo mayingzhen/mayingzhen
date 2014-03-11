@@ -24,6 +24,17 @@ namespace ma
 		return m_vSize;
 	}
 
+	void BulletBoxCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
+	{
+		sl.BeginSection(pszLable);
+		
+		sl.Serialize(m_tsfLS,"tsfLS");
+
+		sl.Serialize(m_vSize,"vSize");
+
+		sl.EndSection();
+	}
+
 	void BulletBoxCollisionShape::DebugRender(NodeTransform tsfWS)
 	{
 		NodeTransform tsfLS = GetTransformLS();
@@ -58,6 +69,18 @@ namespace ma
 	{
 		return m_fRadius;
 	}
+
+	void BulletSphereCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_tsfLS,"tsfLS");
+
+		sl.Serialize(m_fRadius,"fRadius");
+
+		sl.EndSection();
+	}
+
 
 	void BulletSphereCollisionShape::DebugRender(NodeTransform tsfWS)
 	{
@@ -104,6 +127,19 @@ namespace ma
 	float BulletCapsuleCollisionShape::GetRadius() const
 	{
 		return m_fRadius;
+	}
+
+	void BulletCapsuleCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_tsfLS,"tsfLS");
+
+		sl.Serialize(m_fRadius,"fRadius");
+
+		sl.Serialize(m_fHeight,"fHeight");
+
+		sl.EndSection();
 	}
 
 	void BulletCapsuleCollisionShape::DebugRender(NodeTransform tsfWS)

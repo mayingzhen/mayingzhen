@@ -1,7 +1,6 @@
 #include "FBXToStaticMesh.h"
 #include "FbxImportUtil.h"
 #include "FBXImportBase.h"
-#include "FBXImporterVertex.h"
 
 
 namespace ma
@@ -107,7 +106,7 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetMeshData<V_3P_3N_2UV,Uint16>(pFbxMesh,&meshData,pImportParm);
+		GetMeshData<V_3P_2UV_3N_3T,Uint16>(pFbxMesh,&meshData,pImportParm);
 
 		//MaterialData* pMaterialData = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());

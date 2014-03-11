@@ -49,6 +49,8 @@ namespace ma
 		ResState		m_eResState;
 		DataStream*		m_pDataStream;
 	};
+
+	DeclareRefPtr(Resource);
 }
 
 

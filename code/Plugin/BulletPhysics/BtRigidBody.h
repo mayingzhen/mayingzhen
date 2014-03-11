@@ -35,6 +35,8 @@ namespace ma
 
 		virtual	void			ApplyForce(Vector3 vForce);
 
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "IRigidBody");
+
 		btRigidBody*			CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pm_pBtDynamicsWorld); 
 
 		void					SetbtRigidBody(btRigidBody* pbtRigidBody); 

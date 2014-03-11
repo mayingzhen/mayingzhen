@@ -32,9 +32,9 @@ namespace ma
 		void			DoMouveTo();
 
 	private:
-		GameObject*		m_pCharaObj;
+		GameObjectPtr	m_pCharaObj;
 
-		GameObject*		m_pTerrain;
+		GameObjectPtr	m_pTerrain;
 	
 		Vector3			m_vMoveTo;
 

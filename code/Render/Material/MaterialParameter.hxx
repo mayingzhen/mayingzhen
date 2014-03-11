@@ -181,7 +181,7 @@ namespace ma
 		ASSERT(value);
 		clearValue();
 
-		//const_cast<SamplerState*>(sampler)->ref();
+		//const_cast<SamplerState*>(sampler)->Ref();
 		_value.samplerValue = value;
 		_type = MaterialParameter::SAMPLER;
 	}

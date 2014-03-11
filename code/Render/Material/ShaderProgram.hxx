@@ -148,6 +148,12 @@ namespace ma
 
 	ShaderProgram::~ShaderProgram()
 	{
+		std::map<std::string, Uniform*>::iterator itr;
+		for (itr = m_uniforms.begin(); itr != m_uniforms.end(); ++itr)
+		{
+			SAFE_DELETE(itr->second);
+		}
+		m_uniforms.clear();
 	}
 
 	void ShaderProgram::Create()

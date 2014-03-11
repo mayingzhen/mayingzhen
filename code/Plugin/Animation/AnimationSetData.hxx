@@ -6,37 +6,27 @@ namespace ma
 {
 	IMPL_OBJECT(AnimationSetData,Resource)
 
-	template<class T>
-	void SerializeArrObj(Serializer& sl,std::vector<T*>& arrObject,const char* pszLable)
+
+	AnimationSetData::~AnimationSetData()
 	{
-		sl.BeginSection(pszLable);
-
-		UINT nSize = arrObject.size();
-		sl.Serialize(nSize,"size");
-
-		if (nSize != arrObject.size())
+		for (UINT i = 0; i < m_arrBoneSet.size(); ++i)
 		{
-			arrObject.resize(nSize);
+			SAFE_DELETE(m_arrBoneSet[i]);
 		}
+		m_arrBoneSet.clear();
 
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		for (UINT i = 0; i < m_arrPoseModifier.size(); ++i)
 		{
-			std::string strClassName = T::StaticGetClass()->GetName();
-			sl.Serialize(strClassName,"ClassName");
-
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-			if (arrObject[nCnt] == NULL)
-			{
-				ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
-				arrObject[nCnt] = SafeCast<T>( objFac.CreateObject(strClassName.c_str()) );
-			}
-			sl.Serialize(*(arrObject[nCnt]),buf);
+			SAFE_DELETE(m_arrPoseModifier[i]);
 		}
+		m_arrPoseModifier.clear();
 
-		sl.EndSection();
+		for (UINT i = 0; i < m_arrActionData.size(); ++i)
+		{
+			SAFE_DELETE(m_arrActionData[i]);
+		}
+		m_arrActionData.clear();
 	}
-
 
 	void AnimationSetData::SaveToFile(const char* pszPath)
 	{
@@ -90,13 +80,13 @@ namespace ma
 	void AnimationSetData::AddAnimClip(const char* skaPath,const char* pszActionName)
 	{
 		AnimClipNodeData* pAnmClip = new AnimClipNodeData();
-		pAnmClip->m_sClipPath = "magician/602/bip01.ska";
+		pAnmClip->m_sClipPath = skaPath;
 
-		ActionData* pAction = new ActionData();
-		pAction->m_sAnimName = pszActionName;
-		pAction->m_pAnimNodeData = pAnmClip;
+		ActionData* pActionData = new ActionData();
+		pActionData->m_sAnimName = pszActionName;
+		pActionData->m_pAnimNodeData = pAnmClip;
 
-		m_arrActionData.push_back(pAction);
+		m_arrActionData.push_back(pActionData);
 	}
 
 }

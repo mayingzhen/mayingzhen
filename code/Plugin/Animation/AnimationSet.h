@@ -11,7 +11,7 @@ namespace ma
 	class AnimationSet : public IAnimationSet
 	{
 	public:
-		AnimationSet(AnimationObject* pAniPlay,AnimationSetData* pAniSetData);
+		AnimationSet(AnimationObject* pAniPlay,ref_ptr<AnimationSetData> pAniSetData);
 
 		virtual	IAction*	CreateAction(const char* actionName);
 
@@ -30,7 +30,7 @@ namespace ma
 
 		AnimationObject*			m_pAnimObject;
 
-		AnimationSetData*			m_pAniSetData;
+		ref_ptr<AnimationSetData>	m_pAniSetData;
 	};
 }
 

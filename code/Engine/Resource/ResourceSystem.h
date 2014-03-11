@@ -19,11 +19,11 @@ namespace ma
 
 		DataThread*	GetDataThread();
 
-		Resource*	DeclareResource(const char* pszRelPath);
+		ResourcePtr	DeclareResource(const char* pszRelPath);
 
-		Resource*	LoadResourceSync(const char* pszRelPath); 
+		ResourcePtr	LoadResourceSync(const char* pszRelPath); 
 
-		Resource*	LoadResourceASync(const char* pszRelPath);
+		ResourcePtr	LoadResourceASync(const char* pszRelPath);
 
 		static void	RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
@@ -36,34 +36,34 @@ namespace ma
 	ENGINE_API	void			SetResourceSystem(ResourceSystem* pResSystem);
 
 	template <class T>
-	T*	DeclareResource(const char* pszRelPath)
+	ref_ptr<T>	DeclareResource(const char* pszRelPath)
 	{
-		Resource* pRes = GetResourceSystem()->DeclareResource(pszRelPath);
+		ref_ptr<Resource> pRes = GetResourceSystem()->DeclareResource(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = SafeCast<T>(pRes.get());
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
 
 	template <class T>
-	T*	LoadResourceSync(const char* pszRelPath)
+	ref_ptr<T>	LoadResourceSync(const char* pszRelPath)
 	{
-		Resource* pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
+		ref_ptr<Resource> pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = SafeCast<T>(pRes.get());
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
 
 	template <class T>
-	T*	LoadResourceASync(const char* pszRelPath)
+	ref_ptr<T>	LoadResourceASync(const char* pszRelPath)
 	{
-		Resource* pRes = GetResourceSystem()->LoadResourceASync(pszRelPath);
+		ref_ptr<Resource> pRes = GetResourceSystem()->LoadResourceASync(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = SafeCast<T>(pRes.get());
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}

@@ -16,7 +16,7 @@
 namespace ma
 {
 
-	SpriteBatch::SpriteBatch(Texture* texture, Technique* pTech, UINT initialCapacity/* = 0*/)
+	SpriteBatch::SpriteBatch(ref_ptr<Texture> texture, Technique* pTech, UINT initialCapacity/* = 0*/)
 		: m_pMeshBatch(NULL), m_pSampler(NULL), m_fTextureWidthRatio(0.0f), m_fTextureHeightRatio(0.0f)
 	{
 		ASSERT(texture != NULL);

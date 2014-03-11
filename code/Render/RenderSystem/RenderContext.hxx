@@ -21,8 +21,8 @@ namespace ma
 	void RenderContext::SetCamera(Camera* pCamera)
 	{
 		//m_pCamera = pCamera;
-
-		m_matViewProj = pCamera->GetMatViewProj();
+		m_matViewProj.SetMatView( pCamera->GetMatView() );
+		m_matViewProj.SetMatProj( pCamera->GetMatProj() );
 
 		m_fFar = pCamera->GetFarClip();
 		m_fNear = pCamera->GetNearClip();

@@ -92,7 +92,6 @@ namespace ma
 	void AnimationObject::PlayAnimation(Action* pSkelAnim)
 	{
 		m_pCurAction = pSkelAnim;
-		m_pCurAction->SetSkeleton(m_pSkeleton);
 	}
 
 	void AnimationObject::PlayAnimation(ActionID actionID)
@@ -136,8 +135,8 @@ namespace ma
 
 		AnimEvalContext evalContext;
 		NodeTransform tsfIdent;
-		//TransformSetIdentity(&tsfIdent);
-		memset(&tsfIdent,0,sizeof(NodeTransform));
+		TransformSetIdentity(&tsfIdent);
+		//memset(&tsfIdent,0,sizeof(NodeTransform));
 		evalContext.m_arrTSFLS.resize(pRefPose->GetNodeNumber(),tsfIdent);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;

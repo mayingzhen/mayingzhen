@@ -17,7 +17,7 @@ namespace ma
 	private:
 		IScriptObject*	m_pTestScript;
 
-		GameObject*		m_pGameObj;
+		GameObjectPtr	m_pGameObj;
 	};
 
 }

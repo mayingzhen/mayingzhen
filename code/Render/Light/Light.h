@@ -23,6 +23,8 @@ namespace ma
 	public:
 		Light(GameObject* pGameObj);
 
+		~Light();
+
 		LightType					GetLightType() {return m_eLightType;}
 
 		const Vector4&				GetLightColor() {return m_cLightColor;}

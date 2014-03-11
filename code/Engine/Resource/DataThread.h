@@ -16,18 +16,18 @@ namespace ma
 
 		~DataThread();
 
-		virtual	void	Update();
+		virtual	void	ThreadUpdate();
 
-		Resource*		PopUpDataObj();	
+		//Resource*		PopUpDataObj();	
 		
-		void			PushBackDataObj(Resource* pObj);
+		void			PushBackDataObj(ref_ptr<Resource> pObj);
 		
 		bool			IsFree(void);
 		
 		bool			Process(void);
 
 	public:
-		typedef std::deque<Resource*> DataObjQueue;
+		typedef std::deque< ref_ptr<Resource> > DataObjQueue;
 		DataObjQueue		m_queLoaded;
 		DataObjQueue		m_queUnloaded;
 		DataObjQueue		m_queUnloadedBuffer;

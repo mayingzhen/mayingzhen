@@ -272,11 +272,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Samples\Render\SampleShadowMap.h"
+				RelativePath="..\..\code\Samples\Render\SampleShadowMap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Samples\Render\SampleShadowMap.hxx"
+				RelativePath="..\..\code\Samples\Render\SampleShadowMap.hxx"
 				>
 			</File>
 			<File

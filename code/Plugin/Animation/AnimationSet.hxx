@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	AnimationSet::AnimationSet(AnimationObject* pAniPlay,AnimationSetData* pAniSetData)
+	AnimationSet::AnimationSet(AnimationObject* pAniPlay,ref_ptr<AnimationSetData> pAniSetData)
 	{
 		m_pAnimObject = pAniPlay;
 		m_pAniSetData = pAniSetData;
@@ -22,9 +22,8 @@ namespace ma
 
 	IAction*	AnimationSet::CreateAction(const char* actionName)
 	{
-		Action* pAction = new Action(actionName);
+		Action* pAction = new Action(actionName,m_pAnimObject->GetSkeleton());
 		m_arrAction.push_back(pAction);
-		pAction->SetSkeleton(m_pAnimObject->GetSkeleton());
 		return pAction;
 	}
 

@@ -11,7 +11,9 @@ namespace ma
 
 		void				Update();
 
-		void				AddLight(Light* pLight) {m_arrLight.push_back(pLight);}
+		void				AddLight(Light* pLight);
+
+		void				RemoveLight(Light* pLight);
 
 		UINT				GetLightNumber() {return m_arrLight.size();}
 

@@ -6,13 +6,16 @@ namespace ma
 {
 	XMLOutputArchive::XMLOutputArchive()
 	{
-		m_pRootElem = NULL;
-		m_pCurElem = NULL;
+		//m_pRootElem = NULL;
+		//m_pCurElem = NULL;
+		m_pRootElem = new TiXmlElement("Root");	
+		m_pCurElem = m_pRootElem;
 	}
 
 	XMLOutputArchive::~XMLOutputArchive()
 	{
 		//Close();
+		SAFE_DELETE(m_pRootElem);
 	}
 
 	bool XMLOutputArchive::IsReading() const
@@ -25,10 +28,18 @@ namespace ma
 	{
 		m_strFilename = pszFilename;
 
-		m_pRootElem = new TiXmlElement("Root");	
-		m_pCurElem = m_pRootElem;
+// 		m_pRootElem = new TiXmlElement("Root");	
+// 		m_pCurElem = m_pRootElem;
 
 		return true;
+	}
+
+	void XMLOutputArchive::Save(const char* pszFileName)
+	{
+		TiXmlDocument document;
+		document.LinkEndChild( m_pRootElem->Clone() );
+		bool bSaveOK = document.SaveFile(pszFileName);
+		ASSERT(bSaveOK);
 	}
 
 	void XMLOutputArchive::Close()
@@ -37,6 +48,7 @@ namespace ma
 		document.LinkEndChild(m_pRootElem);
 		bool bSaveOK = document.SaveFile(m_strFilename.c_str());
 		ASSERT(bSaveOK);
+		m_pRootElem = NULL;
 	}
 
 	void XMLOutputArchive::BeginSection(const char* pszLable)

@@ -14,15 +14,17 @@ namespace ma
 	{
 
 	}
-
-	void Component::UpdateTransform()
-	{
-
-	}
+// 
+// 	void Component::UpdateTransform()
+// 	{
+// 
+// 	}
 	
 	void Component::Serialize(Serializer& sl, const char* pszLable /*= "Component"*/)
 	{
+		sl.BeginSection(pszLable);
 
+		sl.EndSection();
 	}
 
 	GameObject*	Component::GetGameObject()

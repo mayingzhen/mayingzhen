@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class BoneSet
+	class BoneSet : public Referenced
 	{
 	public:
 		BoneSet(const char* pszName = NULL){m_sName = pszName ? pszName : "";}
@@ -27,6 +27,8 @@ namespace ma
 
 		std::vector<BoneIndex> m_arrBone;
 	};
+
+	DeclareRefPtr(BoneSet)
 }
 
 #endif

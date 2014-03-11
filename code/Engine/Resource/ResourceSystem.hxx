@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	typedef std::map<std::string,Resource*> ResourceMap;
+	typedef std::map<std::string,ResourcePtr> ResourceMap;
 	typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
 
 	static ResourceMap		_resMap;
@@ -44,7 +44,7 @@ namespace ma
 		return gpDataThread;
 	}
 
-	Resource* ResourceSystem::DeclareResource(const char* pszRelPath)
+	ResourcePtr ResourceSystem::DeclareResource(const char* pszRelPath)
 	{
 		if (pszRelPath == NULL)
 			return NULL;
@@ -66,9 +66,9 @@ namespace ma
 		return pResource;
 	}
 	
-	Resource* ResourceSystem::LoadResourceSync(const char* pszRelPath)
+	ResourcePtr ResourceSystem::LoadResourceSync(const char* pszRelPath)
 	{
-		Resource* pRes = DeclareResource(pszRelPath);
+		ResourcePtr pRes = DeclareResource(pszRelPath);
 		ASSERT(pRes);
 		if (pRes == NULL)
 			return NULL;
@@ -78,9 +78,9 @@ namespace ma
 		return pRes;
 	}
 
-	Resource* ResourceSystem::LoadResourceASync(const char* pszRelPath)
+	ResourcePtr ResourceSystem::LoadResourceASync(const char* pszRelPath)
 	{
-		Resource* pRes = DeclareResource(pszRelPath);
+		ResourcePtr pRes = DeclareResource(pszRelPath);
 		ASSERT(pRes);
 		if (pRes == NULL)
 			return NULL;

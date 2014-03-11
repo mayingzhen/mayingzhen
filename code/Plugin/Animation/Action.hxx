@@ -9,10 +9,12 @@ namespace ma
 {
 	//IMPL_OBJECT(Action,Object)
 
-	Action::Action(const char* pName)
+	Action::Action(const char* pName,Skeleton* pSkeleton)
 	{
 		m_sAnimName = pName ? pName : "";
 		m_pAnimaNode = NULL;
+		m_pSkeleton = pSkeleton;
+		m_pActionData = NULL;
 	}
 
 	Action::Action(ActionData* pActionData,Skeleton* pSkeleton)
@@ -69,18 +71,11 @@ namespace ma
 
 		if (m_pAnimaNode)
 		{
-			m_pAnimaNode->EvaluateAnimation(pAnimContext,fWeight);
+			m_pAnimaNode->EvaluateAnimation(pAnimContext,fWeight,BLENDMODE_OVERWRITE);
 		}
 
 		// ApplyLocalSpaceAnimation
-		UINT nBoneNumber = pAnimContext->m_pNodePos->GetNodeNumber();
-		std::vector<NodeTransform> arrTSfPS;
-		arrTSfPS.resize(nBoneNumber);
-		for (UINT i = 0; i < nBoneNumber; ++i)
-		{
-		 	TransformMul(&arrTSfPS[i],&pAnimContext->m_arrTSFLS[i],&pAnimContext->m_refNodePos->GetTransformPS(i));
-		}
-		pAnimContext->m_pNodePos->SetTransformPSAll(arrTSfPS);
+		pAnimContext->m_pNodePos->InitLocalSpace(pAnimContext->m_arrTSFLS,pAnimContext->m_refNodePos);
 		 
 
 		for (UINT i = 0; i < m_arrPoseModifier.size(); ++i)
@@ -103,10 +98,15 @@ namespace ma
 		}
 	}
 
-	void Action::SetSkeleton(Skeleton* pSkeleton)
-	{
-		m_pAnimaNode->SetSkeleton(pSkeleton);	
-	}
+// 	void Action::SetSkeleton(Skeleton* pSkeleton)
+// 	{
+// 		m_pSkeleton = pSkeleton;
+// 
+// 		if (m_pAnimaNode)
+// 		{
+// 			m_pAnimaNode->SetSkeleton(pSkeleton);
+// 		}	
+// 	}
 
 	IAnimTreeNode* Action::CreateAnimNode(AnimNodeData* pAnimNodeData)
 	{
@@ -128,10 +128,6 @@ namespace ma
 			pAnimNode = CreateBlendNode(pBlendNodeData);
 		}
 
-		ASSERT(pAnimNode);
-		if (pAnimNode)
-			pAnimNode->SetSkeleton(m_pSkeleton);
-
 		return pAnimNode;
 	}
 
@@ -139,9 +135,12 @@ namespace ma
 	{
 		AnimLayerNode* pLayerNode = new AnimLayerNode();
 
-		for (UINT i = 0; i < pLayerData->m_arrAnimNodeData.size(); ++i)
+		if (pLayerData)
 		{
-			pLayerNode->AddLayer( CreateAnimNode(pLayerData->m_arrAnimNodeData[i]) );
+			for (UINT i = 0; i < pLayerData->m_arrAnimNodeData.size(); ++i)
+			{
+				pLayerNode->AddLayer( CreateAnimNode(pLayerData->m_arrAnimNodeData[i]) );
+			}
 		}
 
 		return pLayerNode;
@@ -151,20 +150,36 @@ namespace ma
 	{
 		AnimBlendNode* pBlendNode = new AnimBlendNode();
 
-		pBlendNode->SetSrcAnimNode( CreateAnimNode(pBlendData->m_pSrcAnimNodeData) );
-		pBlendNode->SetDestAnimNode( CreateAnimNode(pBlendData->m_pDestAnimNodeData) );
-		pBlendNode->SetWeight(pBlendData->m_fWeight);
+		if (pBlendData)
+		{
+			pBlendNode->SetSrcAnimNode( CreateAnimNode(pBlendData->m_pSrcAnimNodeData) );
+			pBlendNode->SetDestAnimNode( CreateAnimNode(pBlendData->m_pDestAnimNodeData) );
+			pBlendNode->SetWeight(pBlendData->m_fWeight);
+		}
 
 		return pBlendNode;
 	}
 
 	IAnimClipNode*	Action::CreateClipNode(AnimClipNodeData* pClipData)
 	{
-		AnimClipNode* pClipNode = new AnimClipNode();
+		AnimClipNode* pClipNode = new AnimClipNode(m_pSkeleton);
 
-		pClipNode->SetAnimationClip(pClipData->m_sClipPath.c_str());
-		pClipNode->SetBoneSet(pClipData->m_sBoneSetName.c_str());
+		if (pClipData)
+		{
+			pClipNode->SetAnimationClip(pClipData->m_sClipPath.c_str());
+			pClipNode->SetBoneSet(pClipData->m_sBoneSetName.c_str());
+		}
 
+		return pClipNode;
+	}
+
+	IAnimClipNode*	Action::CreateClipNode(const char* pSkaPath,const char* pBonsetName)
+	{
+		AnimClipNode* pClipNode = new AnimClipNode(m_pSkeleton);
+
+		pClipNode->SetAnimationClip(pSkaPath);
+		pClipNode->SetBoneSet(pBonsetName);
+	
 		return pClipNode;
 	}
 }

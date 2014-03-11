@@ -273,32 +273,32 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_strName);
+		sl.Serialize(m_strName,"strName");
 
 		if (sl.IsReading())
 		{
 			std::string strType;
-			sl.Serialize(strType);
+			sl.Serialize(strType,"strType");
 			m_eType = ToEType(strType);
 		}
 		else
 		{
 			std::string strType = ToStringType(m_eType);
-			sl.Serialize(strType);
+			sl.Serialize(strType,"strType");
 		}
 
 		if (m_eType == INT_TYPE)
 		{
-			sl.Serialize(m_value.m_iInt);
+			sl.Serialize(m_value.m_iInt,"value");
 		}
 		else if (m_eType == FLOAT_TYPE)
 		{
-			sl.Serialize(m_value.m_fFloat);
+			sl.Serialize(m_value.m_fFloat,"value");
 		}
 		else if (m_eType == VECTOR3_TYPE)
 		{
 			Vector3 vector(m_value.m_vVector3);
-			sl.Serialize(vector);
+			sl.Serialize(vector,"value");
 
 			if (sl.IsReading())
 			{
@@ -313,16 +313,24 @@ namespace ma
 
 	ClassField* ClassField::Clone()
 	{
-		XMLOutputArchive xmlout;
-		this->Serialize(xmlout);
-
-		XMLInputArchive xmlin;
-		xmlin.Open(xmlout);
-
 		ClassField* pClone = new ClassField();
-		pClone->Serialize(xmlin);
+		
+		pClone->m_strName = this->m_strName;
+		pClone->m_eType = this->m_eType;
+		pClone->m_value = this->m_value;
 
 		return pClone;
+
+// 		XMLOutputArchive xmlout;
+// 		this->Serialize(xmlout);
+// 
+// 		XMLInputArchive xmlin;
+// 		xmlin.Open(xmlout);
+// 
+// 		ClassField* pClone = new ClassField();
+// 		pClone->Serialize(xmlin);
+// 
+// 		return pClone;
 	}
 }
 

@@ -42,6 +42,9 @@ namespace ma
 		for (UINT iLight = 0; iLight < nLight; ++iLight)
 		{
 			Light* pLight = GetLightSystem()->GetLightByIndex(iLight);
+			if ( !pLight->IsCreateShadow() )
+				continue;
+
 			if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
 			{
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;

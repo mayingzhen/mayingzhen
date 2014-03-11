@@ -6,35 +6,50 @@ namespace ma
 	{
 		m_pGameObj = NULL;
 		m_pClip602 = NULL;
-		m_pClip100 = NULL;
+		m_pClip120 = NULL;
 	}
 
 	void SampleAnimationTree::UnLoad()
 	{
 		GetInput()->RemoveKeyListener(this);
-
-		GetEntitySystem()->DeleteGameObject(m_pGameObj);
 	}
 
 	void SampleAnimationTree::Load()
 	{
 		GetInput()->AddKeyListener(this);
 
-		m_pGameObj = CreateAnimationGameObject("magician/Body.skn","magician/Body.tga","magician/Body.ske");
+		m_pGameObj =  GetEntitySystem()->CreateGameObject("magician");
 
-// 		IAnimationObject* pAnimComp = m_pGameObj->GetTypeComponentFirst<IAnimationObject>();
-// 		IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
-// 		IAction*	pAction = pAnimSet->CreateAction("TestAnim");
-//  		IAnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
-// 		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
-// 		m_pClip100 = pAction->CreateClipNode("gigi/210_run/bip01.ska","LowerBody");
-// 		pLayerNode->AddLayer(m_pClip100);
-// 		pLayerNode->AddLayer(m_pClip602);
-// 		pAction->SetTreeNode(pLayerNode);
-// 
-// 		pAnimComp->PlayAnimation("TestAnim");
+		MeshComponent* pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
+		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-		m_pGameObj->GetSceneNode()->Translate(Vector3(50,-100,0));
+		IAnimationObject* pAnimComp = m_pGameObj->CreateComponent<IAnimationObject>();
+		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+
+// 		ActionData actionData;
+// 		AnimLayerNodeData animLayerData;
+// 		AnimClipNodeData clip602Data;
+// 		clip602Data.m_sClipPath = "magician/602/bip01.ska";
+// 		clip602Data.m_sBoneSetName = "UpBody";
+// 		AnimClipNodeData clip120Data;
+// 		clip120Data.m_sClipPath = "magician/120/bip01.ska";
+// 		clip120Data.m_sBoneSetName = "LowerBody";
+// 		animLayerData.m_arrAnimNodeData.push_back(&clip120Data);
+// 		animLayerData.m_arrAnimNodeData.push_back(&clip602Data);
+// 		actionData.m_pAnimNodeData = &animLayerData;
+
+		
+		IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
+		IAction*	pAction = pAnimSet->CreateAction("TestAnim");
+		IAnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
+		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
+		m_pClip120 = pAction->CreateClipNode("magician/120/bip01.ska","LowerBody");
+		pLayerNode->AddLayer(m_pClip120);
+		pLayerNode->AddLayer(m_pClip602);
+		pAction->SetTreeNode(pLayerNode);
+			
+		pAnimComp->PlayAnimation("TestAnim");
+		
 	}
 
 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
@@ -42,23 +57,18 @@ namespace ma
 		if (arg.key == OIS::KC_1)
 		{
 			m_pClip602->SetBoneSet("FullBody");
-			m_pClip100->SetBoneSet("EmptyBody");
+			m_pClip120->SetBoneSet("EmptyBody");
 		}
 		else if (arg.key == OIS::KC_2)
 		{
 			m_pClip602->SetBoneSet("EmptyBody");
-			m_pClip100->SetBoneSet("FullBody");
+			m_pClip120->SetBoneSet("FullBody");
 		}
 		else if (arg.key == OIS::KC_3)
 		{
 			m_pClip602->SetBoneSet("UpBody");
-			m_pClip100->SetBoneSet("LowerBody");
+			m_pClip120->SetBoneSet("LowerBody");
 		}
-// 		else if (arg.key == OIS::KC_4)
-// 		{
-// 			m_pClip602->SetBoneSet("LowerBody");
-// 			m_pClip100->SetBoneSet("UpBody");
-// 		}
 
 		return true;
 	}

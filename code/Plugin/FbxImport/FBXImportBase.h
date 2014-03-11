@@ -25,9 +25,9 @@ namespace ma
 		if (!importStatus)
 			return false;
 
- 		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
-		FbxAxisSystem maAxis(FbxAxisSystem::eDirectX);
-		maAxis.ConvertScene(pFbxScene);
+//  		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
+// 		FbxAxisSystem maAxis(FbxAxisSystem::eDirectX);
+// 		maAxis.ConvertScene(pFbxScene);
 
 
 		return pFbxScene;

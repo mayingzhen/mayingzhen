@@ -16,7 +16,7 @@ namespace ma
 
 		~ParticleThread();
 
-		void				Update();
+		void				ThreadUpdate();
 
 		void				AddEmitter(ParticleEmitter* pEmit);
 

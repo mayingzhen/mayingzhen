@@ -20,7 +20,7 @@ namespace ma
 
 	void UnitSphere::Init()
 	{
-		MeshData* pMeshData = DeclareResource<MeshData>("FBX/shpere.skn");
+		ref_ptr<MeshData> pMeshData = DeclareResource<MeshData>("FBX/shpere.skn");
 		pMeshData->LoadSync();
 	
 		SubMeshData* pSubMesh = pMeshData->GetSubMeshByIndex(0);

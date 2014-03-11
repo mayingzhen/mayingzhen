@@ -36,14 +36,11 @@
 // Entity System
 #include "Engine/EntitySystem/Component.h"
 #include "Engine/EntitySystem/GameObj.h"
-#include "Engine/EntitySystem/Scene.h"
+//#include "Engine/EntitySystem/Scene.h"
 #include "Engine/EntitySystem/SceneNode.h"
 #include "Engine/EntitySystem/SceneVisiter.h"
 #include "Engine/EntitySystem/EntitySystem.h"
-#include "Engine/EntitySystem/Util.h"
-
-// CullTree
-#include "CullTree/CullTree.h"
+#include "Engine/EntitySystem/CullTree.h"
 
 // Terrain
 #include "Engine/Terrain/ITerrain.h"
