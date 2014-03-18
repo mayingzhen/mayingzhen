@@ -5,31 +5,28 @@
 
 namespace ma
 {
-	class Effect;
-
 	class RENDER_API MeshBatch : public Renderable
 	{
 	public:
-		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType/*, Effect* pEffect*/, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
+		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
 
 		~MeshBatch();
 
-		void start();
+		virtual void	Render(Technique* pTech);
+
+		void			Reset();
 
 		template <class T>
-		void add(const T* vertices, UINT vertexCount, const unsigned short* indices = NULL, UINT indexCount = 0);
+		void			Add(const T* vertices, UINT vertexCount, const Uint16* indices = NULL, UINT indexCount = 0);
 
-		void add(const float* vertices, UINT vertexCount, const unsigned short* indices = NULL, UINT indexCount = 0);
+		void			Add(const float* vertices, UINT vertexCount, const Uint16* indices = NULL, UINT indexCount = 0);
 
-		void finish(Technique* pTech);
+	protected:
+		void			Add(const void* vertices, size_t size, UINT vertexCount, const Uint16* indices, UINT indexCount);
 
-	private:
+		bool			Resize(UINT capacity);
 
-		void add(const void* vertices, size_t size, UINT vertexCount, const unsigned short* indices, UINT indexCount);
-
-		bool resize(UINT capacity);
-
-	private:
+	protected:
 		bool			m_bIndexed;
 		UINT			m_nGrowSize;
 
@@ -37,12 +34,18 @@ namespace ma
 		UINT			m_nVertexCapacity;
 		UINT			m_nIndexCapacity;
 
-		unsigned char*	m_pVerticesPtr;
-		unsigned short* m_pIndicesPtr;
+		Uint8*			m_pVerticesPtr;
+		Uint16*			m_pIndicesPtr;
 	};
 
+	template <class T>
+	void MeshBatch::Add(const T* vertices, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
+	{
+		ASSERT(sizeof(T) == m_pDeclaration->GetStreanmStride());
+		Add(vertices, sizeof(T), vertexCount, indices, indexCount);
+	}
 }
 
-#include "MeshBatch.inl"
+
 
 #endif // _MeshBatch_H_

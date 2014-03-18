@@ -310,8 +310,8 @@ void Form::setSize(float width, float height)
         _spriteBatch = new SpriteBatch(_frameBuffer/*->GetTexture()*/);
         ASSERT(_spriteBatch);
 
-		_spriteBatch->getStateBlock().m_bDepthWrite = false;
-		_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
+		_spriteBatch->GetStateBlock().m_bDepthWrite = false;
+		_spriteBatch->GetStateBlock().m_eDepthCheckMode = DCM_NONE;
 
 		Rectangle viewPort(0, 0, width, height);
 
@@ -554,14 +554,14 @@ void Form::draw()
         ASSERT(_spriteBatch);
     }
 
-    _spriteBatch->start();
+    _spriteBatch->Reset();
 	float fTop = m_rRect.x;
 	float fLeft = m_rRect.y;
 	float fRight = m_rRect.z;
 	float fBottom = m_rRect.w;
 	GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
-    _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
-    _spriteBatch->finish();
+    _spriteBatch->Draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
+    _spriteBatch->Render(NULL);
 }
 
 const char* Form::getType() const

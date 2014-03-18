@@ -17,27 +17,38 @@ namespace ma
 	void ParticleThread::ThreadUpdate()
 	{
 		m_pEvent->Wait();
-
+		
 		int index = GetRenderSystem()->CurThreadFill();
-		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
-		while (!quePaticleEmit.empty())
+		ParticleBatchQueue& quePaticleBatch = m_quePaticleBatch[index];
+
+		while (true)
 		{
 			m_csQueue.Lock();
-			ParticleEmitter* pEmit = quePaticleEmit.front();
-			quePaticleEmit.pop_front();
+			if ( quePaticleBatch.empty() ) 
+			{
+				m_csQueue.Unlock();
+				break;
+			}
+			
+			ParticleBatch* pParticleBatch = quePaticleBatch.front();
+			quePaticleBatch.pop_front();
 			m_csQueue.Unlock();
+		
+			if (pParticleBatch)
+			{
+				pParticleBatch->Calculate(false);
+			}
 
-			pEmit->Update();
 		}
 	}
 
-	void ParticleThread::AddEmitter(ParticleEmitter* pEmit)
+	void ParticleThread::AddParticleBatch(ParticleBatch* pEmit)
 	{
-		int index = GetRenderSystem()->GetThreadList();
-		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+		int index = GetRenderSystem()->CurThreadFill();
+		ParticleBatchQueue& quePaticleBatch = m_quePaticleBatch[index];
 
 		m_csQueue.Lock();
-		quePaticleEmit.push_back(pEmit);
+		quePaticleBatch.push_back(pEmit);
 		m_csQueue.Unlock();	
 
 		m_pEvent->Signal();
@@ -46,26 +57,35 @@ namespace ma
 	void ParticleThread::OnFlushFrame()
 	{
 		int index = GetRenderSystem()->CurThreadFill();
-		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+		ParticleBatchQueue& quePaticleBatch = m_quePaticleBatch[index];
 
 		m_csQueue.Lock();
-		quePaticleEmit.clear();
+		quePaticleBatch.clear();
 		m_csQueue.Unlock();
 	}
 
 	void ParticleThread::FlushRenderQueue()
 	{
-		int index = GetRenderSystem()->CurThreadProcess();
-		ParticleEmitterQueue& quePaticleEmit = m_quePaticleEmit[index];
+		int index = GetRenderSystem()->CurThreadFill();
+		ParticleBatchQueue& quePaticleBatch = m_quePaticleBatch[index];
 
-		while (!quePaticleEmit.empty())
+		while (true)
 		{
 			m_csQueue.Lock();
-			ParticleEmitter* pEmit = quePaticleEmit.front();
-			quePaticleEmit.pop_front();
+			if ( quePaticleBatch.empty() ) 
+			{
+				m_csQueue.Unlock();
+				break;
+			}
+
+			ParticleBatch* pParticleBatch = quePaticleBatch.front();
+			quePaticleBatch.pop_front();
 			m_csQueue.Unlock();
 
-			pEmit->Update();
+			if (pParticleBatch)
+			{
+				pParticleBatch->Calculate(false);
+			}
 		}
 	}
 }

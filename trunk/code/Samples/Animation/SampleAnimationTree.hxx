@@ -20,10 +20,10 @@ namespace ma
 
 		m_pGameObj =  GetEntitySystem()->CreateGameObject("magician");
 
-		MeshComponent* pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
+		MeshComponentPtr pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-		IAnimationObject* pAnimComp = m_pGameObj->CreateComponent<IAnimationObject>();
+		IAnimationObjectPtr pAnimComp = m_pGameObj->CreateComponent<IAnimationObject>();
 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 
 // 		ActionData actionData;

@@ -39,6 +39,8 @@ namespace ma
 		FORMAT			m_eFormat;
 		TEXTURE_TYPE	m_eType;
 	};
+
+	DeclareRefPtr(Texture);
 }
 
 #endif

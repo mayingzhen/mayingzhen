@@ -9,7 +9,7 @@ using namespace ma;
 
 #define RTTI_DECL(ClassType) \
 	Object* Create_##ClassType(void* arg) { return new ClassType((GameObject*)arg);} \
-	void Delete_##ClassType(Object* pObj) { SAFE_DELETE(pObj);}
+	void Delete_##ClassType(Object* pObj) { /*SAFE_DELETE(pObj);*/}
 
 RTTI_DECL(MeshComponent);
 RTTI_DECL(ParticleEmitter);
@@ -24,7 +24,7 @@ RTTI_DECL(TerrainSection);
 
 #define RTTI_DECL(ClassType) \
 	Object* Create_##ClassType() { return new ClassType();} \
-	void Delete_##ClassType(Object* pObj) { SAFE_DELETE(pObj);}
+	void Delete_##ClassType(Object* pObj) { /*SAFE_DELETE(pObj)*/;}
 
 RTTI_DECL(ShadowDepthPass);
 RTTI_DECL(GBufferPass);

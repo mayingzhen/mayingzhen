@@ -7,7 +7,6 @@ namespace ma
 
 	SceneNode::SceneNode(GameObject* pGameObj)
 	{
-		//m_pParentNode = NULL;
 		m_pGameObject = pGameObj;
 
 		MatrixIdentity(&m_matWorld);
@@ -20,55 +19,11 @@ namespace ma
 
 	}
 
-// 	bool SceneNode::TravelScene(SceneVisiter* pVisiter)
-// 	{
-// 		bool bTraveling = pVisiter->VisiteSceneNodeBegin(this);
-// 
-// 		if (bTraveling)
-// 		{
-// 			if (NULL != m_pGameObject)
-// 			{
-// 				bTraveling = m_pGameObject->TravelScene(pVisiter);
-// 				if(!bTraveling)
-// 				{
-// 					//break;
-// 				}
-// 			}
-// 		}
-// 
-// 		if (bTraveling)
-// 		{
-// 			for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
-// 			{
-// 				bTraveling = m_arrChildNode[nCnt]->TravelScene(pVisiter);
-// 				if (!bTraveling)
-// 				{
-// 					break;
-// 				}
-// 			}
-// 		}
-// 
-// 		pVisiter->VisiteSceneNodeEnd(this);
-// 
-// 		return bTraveling;
-// 	}
-
-
 	void SceneNode::SetTransform(const NodeTransform& tsf)
 	{
 		m_tsfWS = tsf;
 
 		m_bmatWSDirty = true;
-
-// 		UINT nComp = m_pGameObject->GetComponentNumber();
-// 		for (UINT i = 0; i < nComp; ++i)
-// 		{
-// 			Component* pComp = m_pGameObject->GetComponentByIndex(i);
-// 			if (pComp == NULL)
-// 				continue;
-// 
-// 			pComp->UpdateTransform();
-// 		}
 	}
 
 	const NodeTransform& SceneNode::GetTransform()
@@ -161,12 +116,9 @@ namespace ma
 		MatrixFromTransform(&m_matWorld,&GetTransform());
 		m_bmatWSDirty = false;
 
-		UpdateAABB();
-
-		if (/*bNeedUpdate && */m_pGameObject && m_pGameObject->GetCullTree() )
+		if (m_pGameObject && m_pGameObject->GetCullTree() )
 		{
 			m_pGameObject->GetCullTree()->UpdateObject(m_pGameObject);
-			//m_nAABBChangeType &= ~ACT_NOTIFY;
 		}
 	}
 
@@ -213,117 +165,34 @@ namespace ma
 		Rotate(qRot);
 	}
 
-// 	void SceneNode::NotifySetParent(SceneNode* pParentNode)
+// 	void SceneNode::UpdateAABB()
 // 	{
-// 		m_pParentNode = pParentNode;
-// 	}
-// 
-// 	void SceneNode::AddChildNode(SceneNode* pChildNode)
-// 	{
-// 		if (pChildNode == NULL)
-// 			return;
-// 
-// 		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
-// 		if (it != m_arrChildNode.end())
-// 			return;
-// 
-// 		m_arrChildNode.push_back(pChildNode);
-// 
-// 		pChildNode->NotifySetParent(this);
-// 	}
-// 
-// 	void SceneNode::RemoveChildNode(SceneNode* pChildNode)
-// 	{
-// 		if (pChildNode == NULL)
-// 			return;
-// 
-// 		std::vector<SceneNode*>::iterator it = find(m_arrChildNode.begin(),m_arrChildNode.end(),pChildNode);
-// 		if (it == m_arrChildNode.end())
-// 			return;
-// 
-// 		m_arrChildNode.erase(it);
-// 
-// 		pChildNode->NotifySetParent(NULL);
-// 	}
-
-
-// 	m_localBound.SetNull();
-// 	if (NULL != m_pGameObj)
-// 	{
-// 		m_pGameObj->UpdateLocalBounds();
-// 		m_localBound.Merge(* m_pGameObj->GetLocalBounds());
-// 	}
-// 
-// 
-// 	const xmMatrix4x4& matWorld = GetWorldMatrix();
-// 	m_aabbBound = m_localBound;
-// 	m_aabbBound.Transform(matWorld);
-// 
-// 	for (xmUint nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
-// 	{
-// 		m_arrChildNode[nCnt]->UpdateBounds();
-// 		m_aabbBound.Merge(*m_arrChildNode[nCnt]->GetBounds());
-// 	}
-
-	void SceneNode::UpdateAABB()
-	{
-		if (m_pGameObject)
-		{
-			for (UINT i = 0; i < m_pGameObject->GetComponentNumber(); ++i)
-			{
-				Component* pComponent = m_pGameObject->GetComponentByIndex(i);
-				if (pComponent == NULL)
-					continue;
-
-				m_aabbWS.Merge( pComponent->GetAABBWS() );
-			}
-		}
- 
-// 		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// 		if (m_pGameObject)
 // 		{
-// 			m_arrChildNode[nCnt]->UpdateAABB();
-// 			m_aabbWS.Merge(m_arrChildNode[nCnt]->GetAABBWS());
+// 			for (UINT i = 0; i < m_pGameObject->GetComponentNumber(); ++i)
+// 			{
+// 				Component* pComponent = m_pGameObject->GetComponentByIndex(i);
+// 				if (pComponent == NULL)
+// 					continue;
+// 
+// 				m_aabbWS.Merge( pComponent->GetAABBWS() );
+// 			}
 // 		}
-
-	}
+//  
+// // 		for (UINT nCnt = 0; nCnt < m_arrChildNode.size(); ++nCnt)
+// // 		{
+// // 			m_arrChildNode[nCnt]->UpdateAABB();
+// // 			m_aabbWS.Merge(m_arrChildNode[nCnt]->GetAABBWS());
+// // 		}
+// 
+// 	}
 
 	void SceneNode::Serialize(Serializer& sl, const char* pszLable)
 	{
-		sl.BeginSection(pszLable);
+		//sl.BeginSection(pszLable);
 
-		//if ( GetParent() ) // !RootNode
-		//{
-			sl.Serialize(m_tsfWS);
-		//}
+		sl.Serialize(m_tsfWS,"tsfWS");
 
-// 		if (sl.IsReading())
-// 		{
-// 			UINT nSize;;
-// 			sl.Serialize(nSize,"size");
-// 
-// 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-// 			{
-// 				GameObject* pGameObj = GetEntitySystem()->CreateGameObject("");
-// 				pGameObj->Serialize(sl);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			UINT nSize = m_arrChildNode.size();
-// 			sl.Serialize(nSize,"size");
-// 
-// 			for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-// 			{
-// 				SceneNode* pChild = m_arrChildNode[nCnt];
-// 				GameObject* pGameObj = pChild->GetGameObject();
-// 				ASSERT(pGameObj);
-// 				if (pGameObj == NULL)
-// 					continue;
-// 
-// 				pGameObj->Serialize(sl);
-// 			}
-// 		}
-
-		sl.EndSection();
+		//sl.EndSection();
 	}
 }

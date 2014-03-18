@@ -116,7 +116,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
 
     // Add linear filtering for better font quality.
-    SamplerState* sampler = batch->getSampler();
+    SamplerState* sampler = batch->GetSampler();
     sampler->SetFilterMode(TFO_BILINEAR);
 
     // Increase the ref count of the texture to retain it.
@@ -145,7 +145,7 @@ unsigned int Font::getSize()
 void Font::start()
 {
     ASSERT(_batch);
-    _batch->start();
+    _batch->Reset();
 }
 
 Font::Text* Font::createText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size, Justify justify,
@@ -271,11 +271,11 @@ Font::Text* Font::createText(const char* text, const Rectangle& area, const Vect
                     {
                         if (clip)
                         {
-                            _batch->addSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip, &batch->_vertices[batch->_vertexCount]);
+                            _batch->AddSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip, &batch->_vertices[batch->_vertexCount]);
                         }
                         else
                         {
-                            _batch->addSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
+                            _batch->AddSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
                         }
 
                         if (batch->_vertexCount == 0)
@@ -383,7 +383,7 @@ void Font::drawText(Text* text)
     ASSERT(_batch);
     ASSERT(text->_vertices);
     ASSERT(text->_indices);
-    _batch->draw(text->_vertices, text->_vertexCount, text->_indices, text->_indexCount);
+    _batch->Draw(text->_vertices, text->_vertexCount, text->_indices, text->_indexCount);
 }
 
 void Font::drawText(const char* text, int x, int y, const Vector4& color, unsigned int size, bool rightToLeft)
@@ -487,7 +487,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                 if (index >= 0 && index < (int)_glyphCount)
                 {
                     Glyph& g = _glyphs[index];
-                    _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                    _batch->Draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                     xPos += floor(g.width * scale + (float)(size >> 3));
                     break;
                 }
@@ -630,11 +630,11 @@ void Font::drawText(const char* text, const Rectangle& area, const Vector4& colo
                     {
                         if (clip)
                         {
-                            _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
+                            _batch->Draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
                         }
                         else
                         {
-                            _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                            _batch->Draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                         }
                     }
                 }
@@ -709,7 +709,7 @@ void Font::drawText(const char* text, const Rectangle& area, const Vector4& colo
 void Font::finish()
 {
     ASSERT(_batch);
-    _batch->finish();
+    _batch->Render(NULL);
 }
 
 void Font::measureText(const char* text, unsigned int size, unsigned int* width, unsigned int* height)

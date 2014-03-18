@@ -34,28 +34,26 @@ namespace ma
 		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
-			RenderComponent* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
+			Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
 			if (pRenderObj == NULL)
 				continue;
 
-			Material* pMaterial = pRenderObj->GetMaterial();
+			Technique* pTech = pRenderObj->m_pMaterial->GetTechnqiue("Shading");
 
-			Technique* pTech = pMaterial->GetTechnqiue("Shading");
-
+			//GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
 			pRenderObj->Render(pTech);
 		}
 
 		UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
 		for (UINT i = 0; i < nTrans; ++i)
 		{
-			RenderComponent* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
+			Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
 			if (pRenderObj == NULL)
 				continue;
 
-			Material* pMaterial = pRenderObj->GetMaterial();
+			Technique* pTech = pRenderObj->m_pMaterial->GetTechnqiue("Shading");
 
-			Technique* pTech = pMaterial->GetTechnqiue("Shading");
-
+			//GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
 			pRenderObj->Render(pTech);
 		}
 	}

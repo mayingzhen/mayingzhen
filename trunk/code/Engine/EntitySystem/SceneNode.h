@@ -17,8 +17,6 @@ namespace ma
 
 		~SceneNode();
 
-		//bool					TravelScene(SceneVisiter* pVisiter);
-
 		// Transform
 		void					SetTransform(const NodeTransform& tsf);	
 		
@@ -58,43 +56,26 @@ namespace ma
 
 		void					WorldToLocal(NodeTransform* pOutLocal,const NodeTransform* pWorld);
 
-		//SceneNode*				GetParent() {return m_pParentNode;}
-
 		GameObject*				GetGameObject() {return m_pGameObject;}
+
+		void					Serialize(Serializer& sl, const char* pszLable = "SceneNode");
 		
-		//void					NotifySetParent(SceneNode* pParentNode);
-		
-		//void					AddChildNode(SceneNode* pChildNode);
+		bool					IsMatrixWSDirty() {return m_bmatWSDirty;}
 
-		//void					RemoveChildNode(SceneNode* pChildNode);
-
-		//UINT					GetChildNumber() {return m_arrChildNode.size();}
-			
-		//SceneNode*				GetChildByIndex(UINT index) {return m_arrChildNode[index];}
-			
-		const AABB&				GetAABBWS() {return m_aabbWS;}	
-
-		virtual void			Serialize(Serializer& sl, const char* pszLable = "SceneNode");
-
-		virtual void			UpdateAABB();
-
-	//private:
+	private:
 		void					UpdateMatWorld();
 
 	protected:
-		//std::vector<SceneNode*>	m_arrChildNode;
-
-		//SceneNode*				m_pParentNode;
 
 		GameObject*				m_pGameObject;
 		
-		Matrix4x4				m_matWorld;	//relate to world
+		Matrix4x4				m_matWorld;	
 		
 		NodeTransform			m_tsfWS;
 		
 		bool					m_bmatWSDirty;
 
-		AABB					m_aabbWS;	
+		//AABB					m_aabbWS;	
 	};
 
 }

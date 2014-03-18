@@ -33,6 +33,8 @@ namespace ma
 
 		virtual	void			ApplyForce(Vector3 vForce) = 0;
 	};
+
+	DeclareRefPtr(IRigidBody);
 }
 
 #endif

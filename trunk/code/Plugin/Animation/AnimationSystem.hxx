@@ -18,7 +18,7 @@ namespace ma
 			m_arrAnimObject.erase(it);
 		}
 
-		SAFE_DELETE(pAnimObj);
+		//SAFE_DELETE(pAnimObj);
 	}
 
 
@@ -34,7 +34,7 @@ namespace ma
 
 			pAnimObj->AdvanceTime(GetTimer()->GetFrameDeltaTime());
 
-			if ( !GetRenderSystem()->GetMainCamera()->IsCull( pAnimObj->GetSceneNode()->GetAABBWS() ) )
+			//if ( !GetRenderSystem()->GetMainCamera()->IsCull( pAnimObj->GetSceneNode()->GetAABBWS() ) )
 			{
 				pAnimObj->EvaluateAnimation(1.0f);
 			}

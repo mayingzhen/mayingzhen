@@ -40,7 +40,7 @@ namespace ma
 	};
 
 
-	struct SubMeshData 
+	struct SubMeshData : public Referenced
 	{
 
 		UINT					m_nIndexStart;

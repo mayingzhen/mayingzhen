@@ -7,7 +7,7 @@ namespace ma
 	class MeshComponent;
 
 
-	class SampleAnimationTree : public Sample,OIS::KeyListener
+	class SampleAnimationTree : public Sample
 	{
 	public:
 		SampleAnimationTree();

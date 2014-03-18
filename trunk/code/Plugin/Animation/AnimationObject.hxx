@@ -5,20 +5,6 @@
 
 namespace ma
 {
-// 	AnimationObject::AnimationObject(const char* pszSkePath,const char* pszAniSetPath)
-// 	{
-// 		m_pSkelAnim = NULL;
-// 		m_pAnimSet = NULL;
-// 		m_pSkeleton = NULL;
-// 		m_pose = NULL;
-// 		m_arrSkinMatrix = NULL;
-// 
-// 		m_pAnimSet = new AnimationSet(this);
-// 
-// 		CreateSkeleton(pszSkePath);
-// 		CreateAniSet(pszAniSetPath);
-// 	}
-
 	AnimationObject::AnimationObject(GameObject* pGameObj):
 	IAnimationObject(pGameObj)
 	{
@@ -36,9 +22,21 @@ namespace ma
 
 	void AnimationObject::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
-		CreateSkeleton(pszSkeletonPath);
+		SAFE_DELETE(m_pose);
+		SAFE_DELETE(m_pAnimSet);
 
-		CreateAniSet(pszAniSetPath);
+		m_pSkeleton = LoadResourceSync<Skeleton>(pszSkeletonPath);
+		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
+		m_pose = pRefPose ? pRefPose->Clone() : NULL;
+		UINT nBone = m_pSkeleton->GetBoneNumer();
+		m_arrSkinMatrix = new Matrix4x4[nBone];
+		for (UINT i = 0; i < nBone; ++i)
+		{
+			MatrixIdentity(&m_arrSkinMatrix[i]);
+		}
+
+		m_pAnimSetData = LoadResourceSync<AnimationSetData>(pszAniSetPath);
+		m_pAnimSet = new AnimationSet(this,m_pAnimSetData);
 	}
 
 	void AnimationObject::Serialize(Serializer& sl, const char* pszLable)
@@ -59,35 +57,26 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void AnimationObject::CreateSkeleton(const char* pSkePath)
-	{
-		ASSERT(pSkePath);
-		if (pSkePath == NULL)
-			return ;
-
-		m_pSkeleton = LoadResourceSync<Skeleton>(pSkePath);
-
-		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
-		m_pose = pRefPose ? pRefPose->Clone() : NULL;
-
-		UINT nBone = m_pSkeleton->GetBoneNumer();
-		m_arrSkinMatrix = new Matrix4x4[nBone];
-		for (UINT i = 0; i < nBone; ++i)
-		{
-			MatrixIdentity(&m_arrSkinMatrix[i]);
-		}
-	}
-
-	void AnimationObject::CreateAniSet(const char* pszAniSetPath)
-	{
-		if (pszAniSetPath == NULL)
-			return;
-
-		m_pAnimSetData = LoadResourceSync<AnimationSetData>(pszAniSetPath);
-
-		SAFE_DELETE(m_pAnimSet);
-		m_pAnimSet = new AnimationSet(this,m_pAnimSetData);
-	}
+// 	void AnimationObject::Update()
+// 	{
+// 		if (m_pSkeleton->GetResState() == ResLoaded && m_pose == NULL)
+// 		{
+// 			const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
+// 			m_pose = pRefPose ? pRefPose->Clone() : NULL;
+// 
+// 			UINT nBone = m_pSkeleton->GetBoneNumer();
+// 			m_arrSkinMatrix = new Matrix4x4[nBone];
+// 			for (UINT i = 0; i < nBone; ++i)
+// 			{
+// 				MatrixIdentity(&m_arrSkinMatrix[i]);
+// 			}
+// 		}
+// 
+// 		if (m_pAnimSetData->GetResState() == ResLoaded && m_pAnimSet == NULL)
+// 		{
+// 			m_pAnimSet = new AnimationSet(this,m_pAnimSetData);
+// 		}
+// 	}
 
 	void AnimationObject::PlayAnimation(Action* pSkelAnim)
 	{
@@ -116,17 +105,17 @@ namespace ma
 
 	void AnimationObject::AdvanceTime(float fTimeElepse)
 	{
-		if (m_pCurAction)
-		{
-			m_pCurAction->AdvanceTime(fTimeElepse);
-		}
+		if (m_pCurAction == NULL)
+			return;
+
+		m_pCurAction->AdvanceTime(fTimeElepse);
 	}
 
 	void AnimationObject::EvaluateAnimation(float fWeight)
 	{
 		profile_code();
 
-		if (m_pSkeleton == NULL)
+		if (m_pSkeleton == NULL  || m_pCurAction == NULL)
 			return;
 
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
@@ -136,7 +125,6 @@ namespace ma
 		AnimEvalContext evalContext;
 		NodeTransform tsfIdent;
 		TransformSetIdentity(&tsfIdent);
-		//memset(&tsfIdent,0,sizeof(NodeTransform));
 		evalContext.m_arrTSFLS.resize(pRefPose->GetNodeNumber(),tsfIdent);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
@@ -163,7 +151,7 @@ namespace ma
 		UINT nMeshComp = m_pGameObject->GetTypeComponentNumber<MeshComponent>();
 		for (UINT i = 0; i < nMeshComp; ++i)
 		{
-			MeshComponent* pMeshComp = m_pGameObject->GetTypeComponentByIndex<MeshComponent>(i);
+			MeshComponentPtr pMeshComp = m_pGameObject->GetTypeComponentByIndex<MeshComponent>(i);
 			ASSERT(pMeshComp);
 			if (pMeshComp == NULL)
 				continue;

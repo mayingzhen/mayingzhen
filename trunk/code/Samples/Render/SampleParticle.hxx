@@ -16,9 +16,9 @@ namespace ma
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
 
 		GameObjectPtr pFire = GetEntitySystem()->CreateGameObject("Fire");
-		ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
+		ParticleEmitterPtr pPaticComp = pFire->CreateComponent<ParticleEmitter>();
 		pPaticComp->Load("Particle/fire.particle");
-		pPaticComp->start();
+		pPaticComp->Start();
 	}
 
 	void SampleParticle::UnLoad()

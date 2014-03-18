@@ -60,6 +60,8 @@ namespace ma
 
 		float				m_fNearMin;		
 	};
+
+	DeclareRefPtr(Camera);
 }
 
 #endif

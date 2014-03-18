@@ -6,7 +6,7 @@ namespace ma
 	class CameraController;
 	class Camera;
 
-	class Sample
+	class Sample : public OIS::KeyListener 
 	{
 	public:
 		virtual void		Load() = 0;
@@ -20,6 +20,10 @@ namespace ma
 		CameraController*	GetCameraControll();
 
 		Camera*				GetCamera();
+
+		virtual bool		keyPressed(const OIS::KeyEvent &arg) {return true;}
+
+		virtual bool		keyReleased(const OIS::KeyEvent &arg) {return true;}	
 
 	};
 }

@@ -42,33 +42,33 @@ namespace ma
 		//	m_pParticleThread->FlushRenderQueue();
 	}
 
-	void ParticleSystem::AddParticleEmitter(ParticleEmitter* pParticle)
+	void ParticleSystem::AddParticleBatch(ParticleBatch* pParticle)
 	{
 		pParticle->SetUpdate(false);
 		
 		if (m_pParticleThread)
 		{	
-			m_pParticleThread->AddEmitter(pParticle);
+			m_pParticleThread->AddParticleBatch(pParticle);
 		}
 	}
 
-	ParticleEmitter* ParticleSystem::Create(const char* url)
-	{
-		ParticleEmitter* pEmit = new ParticleEmitter(NULL);
-		pEmit->Load(url);
-		m_arrPaticleEmit.push_back(pEmit);
-		return pEmit;
-	}
+// 	ParticleEmitter* ParticleSystem::Create(const char* url)
+// 	{
+// 		ParticleEmitter* pEmit = new ParticleEmitter(NULL);
+// 		pEmit->Load(url);
+// 		m_arrPaticleEmit.push_back(pEmit);
+// 		return pEmit;
+// 	}
 
-	void ParticleSystem::Delete(ParticleEmitter* pEmit)
-	{
-		std::vector<ParticleEmitter*>::iterator it = std::find(m_arrPaticleEmit.begin(),m_arrPaticleEmit.end(),pEmit);
-		if (it != m_arrPaticleEmit.end())
-		{
-			m_arrPaticleEmit.erase(it);
-		}
-		//SAFE_DELETE(pEmit);
-	}
+// 	void ParticleSystem::Delete(ParticleEmitter* pEmit)
+// 	{
+// 		std::vector<ParticleEmitter*>::iterator it = std::find(m_arrPaticleEmit.begin(),m_arrPaticleEmit.end(),pEmit);
+// 		if (it != m_arrPaticleEmit.end())
+// 		{
+// 			m_arrPaticleEmit.erase(it);
+// 		}
+// 		//SAFE_DELETE(pEmit);
+// 	}
 
 
 }

@@ -16,10 +16,10 @@ namespace ma
 		{
 			pGameObjA = GetEntitySystem()->CreateGameObject("physicsA");
 
-			IBoxCollisionShape* pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
+			IBoxCollisionShapePtr pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
-			IRigidBody* pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
+			IRigidBodyPtr pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
 			pRigidBodyComp->SetKinematic(true);
 
 			pGameObjA->GetSceneNode()->Translate(vPosA);
@@ -30,15 +30,15 @@ namespace ma
 		{
 			pGameObjB = GetEntitySystem()->CreateGameObject("physicsB");
 
-			IBoxCollisionShape* pBoxCollisionShape = pGameObjB->CreateComponent<IBoxCollisionShape>();
+			IBoxCollisionShapePtr pBoxCollisionShape = pGameObjB->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(5,5,5));
 		
-			IRigidBody* pRigidBodyComp = pGameObjB->CreateComponent<IRigidBody>();
+			IRigidBodyPtr pRigidBodyComp = pGameObjB->CreateComponent<IRigidBody>();
 
 			pGameObjB->GetSceneNode()->Translate(vPosB);
 		}
 
-		IPhysicsGenericJoint* pJointComp = pGameObjA->CreateComponent<IPhysicsGenericJoint>();
+		IPhysicsGenericJointPtr pJointComp = pGameObjA->CreateComponent<IPhysicsGenericJoint>();
 		pJointComp->SetPysicsObjectB(pGameObjB->GetPhyscisObject());
 		NodeTransform tsfA,tsfB;
 		TransformSetIdentity(&tsfA);

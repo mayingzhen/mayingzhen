@@ -121,29 +121,29 @@ const char* ImageControl::getType() const
 
 void ImageControl::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
 {
-    spriteBatch->finish();
+    spriteBatch->Render(NULL);
 
     // An ImageControl is not part of the texture atlas but should use the same projection matrix.
-    _batch->setProjectionMatrix(spriteBatch->getProjectionMatrix());
+    _batch->SetProjectionMatrix(spriteBatch->GetProjectionMatrix());
 
     Vector4 color = Vec4One();
     color.w *= _opacity;
 
-    _batch->start();
+    _batch->Reset();
     if (_dstRegion.isEmpty())
     {
-        _batch->draw(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height,
+        _batch->Draw(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height,
             _uvs.u1, _uvs.v1, _uvs.u2, _uvs.v2, color, _viewportClipBounds);
     }
     else
     {
-        _batch->draw(_viewportBounds.x + _dstRegion.x, _viewportBounds.y + _dstRegion.y,
+        _batch->Draw(_viewportBounds.x + _dstRegion.x, _viewportBounds.y + _dstRegion.y,
             _dstRegion.width, _dstRegion.height,
             _uvs.u1, _uvs.v1, _uvs.u2, _uvs.v2, color, _viewportClipBounds);
     }
-    _batch->finish();
+    _batch->Render(NULL);
 
-    spriteBatch->start();
+    spriteBatch->Reset();
 }
 
 }

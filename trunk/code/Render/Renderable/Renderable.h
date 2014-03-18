@@ -5,35 +5,51 @@
 namespace ma
 {
 	class Material;
-	struct SubMeshData;
+	class Technique;
+	class SubMeshData;
 
-	struct Renderable 
+	class Renderable : public Referenced
 	{
 	public:
-		Renderable()
-		{
-			m_ePrimitiveType = PRIM_TRIANGLESTRIP;
-			m_pDeclaration = NULL;
-			m_pVertexBuffers = NULL;
-			m_pIndexBuffer = NULL;
-			m_pSubMeshData = NULL;
+		Renderable();
 
-			MatrixIdentity(&m_matWorld[0]);
-			MatrixIdentity(&m_matWorld[1]);
-		}
-		
+		virtual void					Render(Technique* pTech);
+
+		void							SetWorldMatrix(const Matrix4x4& matWS);
+
+		void							SetSkinMatrix(const Matrix4x4* arrMatrixs, Uint nCount);
+
+	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
-		VertexDeclaration*				m_pDeclaration;
-		VertexBuffer*					m_pVertexBuffers;
-		IndexBuffer*					m_pIndexBuffer;
-		SubMeshData*					m_pSubMeshData;	
-
-		std::vector<Matrix4x4>			m_arrSkinMatrix[2];
-
+		ref_ptr<VertexDeclaration>		m_pDeclaration;
+		ref_ptr<VertexBuffer>			m_pVertexBuffers;	
+		ref_ptr<IndexBuffer>			m_pIndexBuffer;
+// 		UINT							m_nIndexStart;
+// 		UINT							m_nIndexCount;
+// 		UINT							m_nVertexStart;
+// 		UINT							m_nVertexCount;
+		ref_ptr<SubMeshData>			m_pSubMeshData;
+		ref_ptr<Material>				m_pMaterial;
 		Matrix4x4						m_matWorld[2];
+		std::vector<Matrix4x4>			m_arrSkinMatrix[2];
 	};
 
 	DeclareRefPtr(Renderable);
+
+
+// 	class SkinRenderable : public Renderable
+// 	{
+// 	public:
+// 		void					SetSkinMatrix(const Matrix4x4* arrMatrixs, Uint nCount);
+// 		
+// 	public:
+// 
+// 		std::vector<BoneIndex>	m_arrBonePalette;
+// 
+// 		std::vector<Matrix4x4>	m_arrSkinMatrix[2];
+// 	};
+// 
+// 	DeclareRefPtr(SkinRenderable);
 }
 
 #endif

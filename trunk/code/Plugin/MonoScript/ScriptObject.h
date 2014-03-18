@@ -63,7 +63,7 @@ namespace ma
 		std::vector<ClassField*>		m_arrFields;
 	};
 
-
+	DeclareRefPtr(ScriptObject);
 
 }
 

@@ -55,9 +55,6 @@ namespace ma
 		if (GetResourceSystem())
 			GetResourceSystem()->Update();
 
-		if (GetAnimationSystem())
-			GetAnimationSystem()->Update();
-
 		if (GetScriptSystem())
 			GetScriptSystem()->Update();
 
@@ -74,7 +71,10 @@ namespace ma
 			GetEntitySystem()->Update();
 
 		if ( GetRenderSystem() )
-			GetRenderSystem()->Update( GetRenderSystem()->GetMainCamera() );
+			GetRenderSystem()->Update( GetRenderSystem()->GetMainCamera().get() );
+
+		if (GetAnimationSystem())
+			GetAnimationSystem()->Update();
 
 		if ( GetLightSystem() )
 			GetLightSystem()->Update();

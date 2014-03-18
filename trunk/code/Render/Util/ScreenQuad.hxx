@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	static Renderable* _ScrenQuad;
+	static Renderable* gpScrenQuad;
 
 	struct Vertex
 	{
@@ -41,41 +41,38 @@ namespace ma
 		indices[3]= 3;
 
 		// Init Renderable
-		_ScrenQuad = new Renderable();
+		gpScrenQuad = new Renderable();
 
 		VertexDeclaration* pVertexDec = GetRenderDevice()->CreateVertexDeclaration(); 
 		pVertexDec->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		pVertexDec->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
-		//pVertexDec->Active();
 		
 		VertexBuffer* pVertexs = GetRenderDevice()->CreateVertexBuffer(/*quadVerts,sizeof(Vertex) * 4,sizeof(Vertex)*/);
 		pVertexs->SetData(quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
-		//pVertexs->Active();
 		IndexBuffer* pIndexs = GetRenderDevice()->CreateIndexBuffer(/*indices,sizeof(unsigned short) * 4*/);
 		pIndexs->SetData(indices,sizeof(unsigned short) * 4,sizeof(unsigned short));
-		//pIndexs->Active();
 
-		_ScrenQuad->m_pSubMeshData = new SubMeshData();
+		gpScrenQuad->m_pSubMeshData = new SubMeshData();
 
-		_ScrenQuad->m_pDeclaration = pVertexDec;
-		_ScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
-		_ScrenQuad->m_pIndexBuffer = pIndexs;
-		_ScrenQuad->m_pVertexBuffers = pVertexs;
-		_ScrenQuad->m_pSubMeshData->m_nVertexStart = 0;
-		_ScrenQuad->m_pSubMeshData->m_nVertexCount = 4;
-		_ScrenQuad->m_pSubMeshData->m_nIndexStart = 0;
-		_ScrenQuad->m_pSubMeshData->m_nIndexCount = 4;
+		gpScrenQuad->m_pDeclaration = pVertexDec;
+		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
+		gpScrenQuad->m_pIndexBuffer = pIndexs;
+		gpScrenQuad->m_pVertexBuffers = pVertexs;
+		gpScrenQuad->m_pSubMeshData->m_nVertexStart = 0;
+		gpScrenQuad->m_pSubMeshData->m_nVertexCount = 4;
+		gpScrenQuad->m_pSubMeshData->m_nIndexStart = 0;
+		gpScrenQuad->m_pSubMeshData->m_nIndexCount = 4;
 	}
 
 	void ScreenQuad::ShoutDown()
 	{
-		SAFE_DELETE(_ScrenQuad);
+		SAFE_DELETE(gpScrenQuad);
 	}
 
 	void ScreenQuad::Render(Technique* pTechnique)
 	{
-		GetRenderSystem()->DrawRenderable(_ScrenQuad,pTechnique);
+		GetRenderSystem()->DrawRenderable(gpScrenQuad,pTechnique);
 	}
 }
 

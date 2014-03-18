@@ -25,9 +25,7 @@ namespace ma
 		~RenderSystem();
 
 		// Camra
-		Camera*				GetMainCamera();
-
-		void				SetMainCamera(Camera* pCamera);
+		ref_ptr<Camera>		GetMainCamera();
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 
@@ -101,9 +99,9 @@ namespace ma
  		
 		RenderQueue*				m_pRenderQueue[2];
 
-		GameObjectPtr				m_pCameraObj;
+		ref_ptr<GameObject>			m_pCameraObj;
 
-		Camera*						m_pMainCamera;
+		ref_ptr<Camera>				m_pMainCamera;
 
 		Texture*					m_pDepthStencil;
 

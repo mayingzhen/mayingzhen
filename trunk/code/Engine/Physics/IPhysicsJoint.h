@@ -65,6 +65,9 @@ namespace ma
 // 
 // 		virtual void			Init(ISkeleton* pSkeleton) = 0;
 // 	};
+
+	DeclareRefPtr(IPhysicsGenericJoint);
+	DeclareRefPtr(IPhysicsHingeJoint);
 }
 
 

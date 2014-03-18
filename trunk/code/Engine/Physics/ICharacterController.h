@@ -30,6 +30,8 @@ namespace ma
 		virtual bool						IsGrounded() const = 0;
 
 	};
+
+	DeclareRefPtr(ICharaControll);
 }
 
 

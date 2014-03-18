@@ -43,10 +43,11 @@ namespace ma
 
 		GameObjectPtr pTestBull = GetEntitySystem()->CreateGameObject("testBull");
 
-		MeshComponent* pMeshComp = pTestBull->CreateComponent<MeshComponent>();
+		MeshComponentPtr pMeshComp = pTestBull->CreateComponent<MeshComponent>();
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
-
-		IAnimationObject* pAnimationObject = pTestBull->CreateComponent<IAnimationObject>();
+		
+		
+		IAnimationObjectPtr pAnimationObject = pTestBull->CreateComponent<IAnimationObject>();
 		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
 		pAnimationObject->PlayAnimation("TestAnim");
 
@@ -84,11 +85,11 @@ namespace ma
 
 		
 		GameObjectPtr pPlatform = GetEntitySystem()->CreateGameObject("Platform");
-		MeshComponent* pMesh = pPlatform->CreateComponent<MeshComponent>();
+		MeshComponentPtr pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
 
 		GameObjectPtr pBox = GetEntitySystem()->CreateGameObject("Box");
-		MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+		MeshComponentPtr pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
 
 	}
@@ -101,8 +102,6 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
-
-		GetLightSystem()->SetAmbientColor(Vector4(0.1f,0.1f,0.1f,0.1f));
 
 		FBXImporterModuleInit();
 

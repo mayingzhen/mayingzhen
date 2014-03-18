@@ -411,6 +411,61 @@ namespace ma
 	  return true;
 	}
 
+	enum Side
+	{
+		POSITIVE_SIDE,
+		NEGATIVE_SIDE,
+		BOTH_SIDE
+	};
+
+	Side IntersectionTest(const Plane& plane,const AABB& box)
+	{
+		float minD,maxD;
+		if (plane.a > 0.0f)
+		{
+			minD = plane.a * box.m_vMin.x;
+			maxD = plane.a * box.m_vMax.x;
+		}
+		else
+		{
+			minD = plane.a * box.m_vMax.x;
+			maxD = plane.a * box.m_vMin.x;
+		}
+
+		if (plane.b > 0.0f)
+		{
+			minD += plane.b * box.m_vMin.y;
+			maxD += plane.b * box.m_vMax.y;
+		}
+		else
+		{
+			minD = plane.b * box.m_vMax.y;
+			maxD = plane.b * box.m_vMin.y;
+		}
+
+		if (plane.c > 0.0f)
+		{
+			minD = plane.c * box.m_vMin.z;
+			maxD = plane.c * box.m_vMax.z;
+		}
+		else
+		{
+			minD = plane.c * box.m_vMax.z;
+			maxD = plane.c * box.m_vMin.z;
+		}
+
+		if (minD >= plane.d)
+		{
+			return POSITIVE_SIDE;
+		}
+
+		if (maxD <= plane.d)
+		{
+			return NEGATIVE_SIDE;
+		}
+
+		return BOTH_SIDE;
+	}
 
 // 	bool contains(const AABB& box,const AABB &def) const
 // 	{

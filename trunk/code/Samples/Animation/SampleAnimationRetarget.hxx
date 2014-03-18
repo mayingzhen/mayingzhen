@@ -14,13 +14,13 @@ namespace ma
 		{
 			// MeshData B (b f h)
 			m_pChargigi = GetEntitySystem()->CreateGameObject("gigi");
-			MeshComponent* pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
 
-			MeshComponent* pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mat");
 
-			MeshComponent* pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
 			
 			m_pAnimtionObjectA = m_pChargigi->CreateComponent<IAnimationObject>();
@@ -35,7 +35,7 @@ namespace ma
 		{
 			m_pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponent* pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
 			m_pAnimtionObjectB = m_pCharMagic->CreateComponent<IAnimationObject>();

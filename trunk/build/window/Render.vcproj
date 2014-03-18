@@ -326,10 +326,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\Renderable\MeshBatch.inl"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Render\Renderable\MeshComponent.h"
 				>
 			</File>
@@ -351,6 +347,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Render\Renderable\Renderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Renderable\Renderable.hxx"
 				>
 			</File>
 			<File
@@ -473,6 +473,22 @@
 		<Filter
 			Name="Paticle"
 			>
+			<File
+				RelativePath="..\..\code\Render\Particle\GenerateData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\Particle.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleBatch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\Particle\ParticleBatch.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Render\Particle\ParticleEmitter.h"
 				>

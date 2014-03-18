@@ -24,7 +24,9 @@
 #include "Render/Renderable/SpriteBatch.h"
 #include "Render/Renderable/Util.h"
 
-
+#include "Render/Particle/Particle.h"
+#include "Render/Particle/GenerateData.h"
+#include "Render/Particle/ParticleBatch.h"
 #include "Render/Particle/ParticleEmitter.h"
 #include "Render/Particle/ParticleSystem.h"
 

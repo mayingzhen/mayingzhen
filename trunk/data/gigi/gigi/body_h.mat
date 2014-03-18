@@ -1,0 +1,12 @@
+<Root>
+    <Material>
+        <Shader Name="default" Macro="DIFFUSE;SKIN; SKIN_MATRIX_COUNT 55" />
+        <RenderState />
+        <Parameters size="2">
+            <Element_0 name="u_texture" type="SAMPLER" count="1">
+                <SamplerState Texture="gigi/gigi/body_h.tga" />
+            </Element_0>
+            <Element_1 name="u_cDiffuseColor" type="FLOAT" count="4" value="1.000000 1.000000 1.000000 1.000000 " />
+        </Parameters>
+    </Material>
+</Root>

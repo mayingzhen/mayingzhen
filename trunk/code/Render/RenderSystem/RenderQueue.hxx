@@ -15,27 +15,24 @@ namespace ma
 		gpRenderQueue = pRenderQueue;
 	}
 
-	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderComponent* pRenderObj)
+	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderablePtr pRenderObj)
 	{
-		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderablePtr>& arrRenderObj = m_arrRenderList[eRLType];
 		arrRenderObj.push_back(pRenderObj);
-
-		std::vector<GameObjectPtr>& arrGameObj = m_arrGameObject[eRLType];
-		arrGameObj.push_back(pRenderObj->GetGameObject());
 	}
 
 	UINT RenderQueue::GetRenderObjNumber(RenderListType eRLType)
 	{
-		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderablePtr>& arrRenderObj = m_arrRenderList[eRLType];
 
 		return arrRenderObj.size();
 	}
 
-	RenderComponent* RenderQueue::GetRenderObjByIndex(RenderListType eRLType,int index)
+	Renderable* RenderQueue::GetRenderObjByIndex(RenderListType eRLType,int index)
 	{
-		std::vector<RenderComponent*>& arrRenderObj = m_arrRenderList[eRLType];
+		std::vector<RenderablePtr>& arrRenderObj = m_arrRenderList[eRLType];
 
-		return arrRenderObj[index];
+		return arrRenderObj[index].get();
 	}
 
 	void RenderQueue::Clear()
@@ -43,7 +40,6 @@ namespace ma
 		for (UINT i = 0; i < RL_Count; ++i)
 		{
 			m_arrRenderList[i].clear();
-			m_arrGameObject[i].clear();
 		}
 	}
 }

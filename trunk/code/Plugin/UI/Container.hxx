@@ -507,9 +507,9 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
     if (!_visible)
         return;
 
-    spriteBatch->start();
+    spriteBatch->Reset();
     Control::drawBorder(spriteBatch, clip);
-    spriteBatch->finish();
+    spriteBatch->Render(NULL);
 
     std::vector<Control*>::const_iterator it;
     Rectangle boundsUnion = Rectangle::empty();
@@ -529,7 +529,7 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
         // Draw scroll bars.
         Rectangle clipRegion(_viewportClipBounds);
 
-        spriteBatch->start();
+        spriteBatch->Reset();
 
         if (_scrollBarBounds.height > 0 && ((_scroll & SCROLL_VERTICAL) == SCROLL_VERTICAL))
         {
@@ -551,15 +551,15 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
             clipRegion.width += verticalRegion.width;
 
             Rectangle bounds(_viewportBounds.x + _viewportBounds.width - verticalRegion.width, _viewportBounds.y + _scrollBarBounds.y, topRegion.width, topRegion.height);
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, topUVs.u1, topUVs.v1, topUVs.u2, topUVs.v2, topColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, topUVs.u1, topUVs.v1, topUVs.u2, topUVs.v2, topColor, clipRegion);
 
             bounds.y += topRegion.height;
             bounds.height = _scrollBarBounds.height - topRegion.height - bottomRegion.height;
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, verticalUVs.u1, verticalUVs.v1, verticalUVs.u2, verticalUVs.v2, verticalColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, verticalUVs.u1, verticalUVs.v1, verticalUVs.u2, verticalUVs.v2, verticalColor, clipRegion);
 
             bounds.y += bounds.height;
             bounds.height = bottomRegion.height;
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, bottomUVs.u1, bottomUVs.v1, bottomUVs.u2, bottomUVs.v2, bottomColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, bottomUVs.u1, bottomUVs.v1, bottomUVs.u2, bottomUVs.v2, bottomColor, clipRegion);
         }
 
         if (_scrollBarBounds.width > 0 && ((_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL))
@@ -582,18 +582,18 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
             clipRegion.height += horizontalRegion.height;
         
             Rectangle bounds(_viewportBounds.x + _scrollBarBounds.x, _viewportBounds.y + _viewportBounds.height - horizontalRegion.height, leftRegion.width, leftRegion.height);
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, leftUVs.u1, leftUVs.v1, leftUVs.u2, leftUVs.v2, leftColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, leftUVs.u1, leftUVs.v1, leftUVs.u2, leftUVs.v2, leftColor, clipRegion);
 
             bounds.x += leftRegion.width;
             bounds.width = _scrollBarBounds.width - leftRegion.width - rightRegion.width;
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, horizontalUVs.u1, horizontalUVs.v1, horizontalUVs.u2, horizontalUVs.v2, horizontalColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, horizontalUVs.u1, horizontalUVs.v1, horizontalUVs.u2, horizontalUVs.v2, horizontalColor, clipRegion);
 
             bounds.x += bounds.width;
             bounds.width = rightRegion.width;
-            spriteBatch->draw(bounds.x, bounds.y, bounds.width, bounds.height, rightUVs.u1, rightUVs.v1, rightUVs.u2, rightUVs.v2, rightColor, clipRegion);
+            spriteBatch->Draw(bounds.x, bounds.y, bounds.width, bounds.height, rightUVs.u1, rightUVs.v1, rightUVs.u2, rightUVs.v2, rightColor, clipRegion);
         }
 
-        spriteBatch->finish();
+        spriteBatch->Render(NULL);
 
         if (_scrollingVelocity.isZero())
         {

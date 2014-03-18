@@ -17,7 +17,7 @@ namespace ma
 		{
 			pGameObjA = GetEntitySystem()->CreateGameObject("physics");
 
-			IBoxCollisionShape* pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
+			IBoxCollisionShapePtr pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
  			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
 			m_pRigidBody = pGameObjA->CreateComponent<IRigidBody>();
@@ -37,7 +37,7 @@ namespace ma
 
 			{
 				GameObjectPtr pGameObjSphere = GetEntitySystem()->CreateGameObject("Sphere");
-				ISphereCollisionShape* pSphereComp = pGameObjSphere->CreateComponent<ISphereCollisionShape>();
+				ISphereCollisionShapePtr pSphereComp = pGameObjSphere->CreateComponent<ISphereCollisionShape>();
 				pSphereComp->SetRadius(20);
 				pGameObjSphere->CreateComponent<IRigidBody>();
 
@@ -49,7 +49,7 @@ namespace ma
 		{
 			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
 
-			IBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			IBoxCollisionShapePtr pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(100,5,100));
 		}
 

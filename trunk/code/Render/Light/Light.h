@@ -136,6 +136,10 @@ namespace ma
 		Matrix4x4		m_mProj;
 	};
 
+
+	DeclareRefPtr(PointLight);
+	DeclareRefPtr(DirectonalLight);
+
 }
 
 #endif

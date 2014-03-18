@@ -176,11 +176,11 @@ namespace ma
 		ASSERT(it != m_arrPhysicsObject.end());
 		if (it == m_arrPhysicsObject.end())
 		{
-			SAFE_DELETE(pPhysicsObject);
+			//SAFE_DELETE(pPhysicsObject);
 			return;
 		}
 
-		SAFE_DELETE(pPhysicsObject);
+		//SAFE_DELETE(pPhysicsObject);
 		m_arrPhysicsObject.erase(it);
 	}
 
@@ -245,7 +245,7 @@ namespace ma
 			return;
 		}
 
-		SAFE_DELETE(pJoint);
+		//SAFE_DELETE(pJoint);
 		m_vGenericJoint.erase(it);
 	}
 
@@ -256,11 +256,11 @@ namespace ma
 		ASSERT(it != m_vHingeJoint.end());
 		if (it == m_vHingeJoint.end())
 		{
-			SAFE_DELETE(pJoint);
+			//SAFE_DELETE(pJoint);
 			return;
 		}
 
-		SAFE_DELETE(pJoint);
+		//SAFE_DELETE(pJoint);
 		m_vHingeJoint.erase(it);
 	}
 

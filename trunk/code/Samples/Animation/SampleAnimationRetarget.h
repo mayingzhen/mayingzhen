@@ -19,10 +19,10 @@ namespace ma
 
 	private:
 		GameObjectPtr			m_pChargigi;
-		IAnimationObject*		m_pAnimtionObjectA;
+		IAnimationObjectPtr		m_pAnimtionObjectA;
 		
 		GameObjectPtr			m_pCharMagic;
-		IAnimationObject*		m_pAnimtionObjectB;
+		IAnimationObjectPtr		m_pAnimtionObjectB;
 	};
 }
 

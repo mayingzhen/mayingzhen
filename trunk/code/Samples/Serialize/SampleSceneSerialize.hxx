@@ -8,9 +8,11 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
+		GetInput()->AddKeyListener(this);
+
 		{
 			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Test");  
-			MeshComponent* pMehBox = pGameObj->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMehBox = pGameObj->CreateComponent<MeshComponent>();
 			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
 
 			int nClone = 5;
@@ -44,14 +46,15 @@ namespace ma
 
 	void SampleSceneSerialize::UnLoad()
 	{
+		GetInput()->RemoveKeyListener(this);
 	}
 
-	void SampleSceneSerialize::Update()
+	bool SampleSceneSerialize::keyPressed(const OIS::KeyEvent &arg)
 	{
 		std::string strResPath = FileSystem::getResourcePath();
 		std::string strScenePath = strResPath + "scene/Test.scene.xml";
 
-		if (GetInput()->IsKeyDown(OIS::KC_X))
+		if (arg.key == OIS::KC_X)
 		{
 			{
 				XMLOutputArchive arOut;
@@ -69,8 +72,9 @@ namespace ma
 				arIn.Close();
 			}
 		}
-	}
 
+		return true;
+	}
 }
 
 

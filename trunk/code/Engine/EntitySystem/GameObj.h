@@ -52,29 +52,29 @@ namespace ma
 
 		SceneNode*			GetSceneNode() {return m_pScenNode;}
 
-		GameObjectPtr		Clone(const char* pName);
+		const AABB&			GetAABBWS();
 
+		// Component
 		template<class T>
-		T*					CreateComponent();
+		ref_ptr<T>			CreateComponent();
 
 		UINT				GetComponentNumber() {return m_arrComp.size();}
 
-		Component*			GetComponentByIndex(UINT index) {return m_arrComp[index];}
+		ComponentPtr		GetComponentByIndex(UINT index) {return m_arrComp[index];}
 
 		template<class T>
-		T*					GetTypeComponentFirst();
+		ref_ptr<T>			GetTypeComponentFirst();
 
 		template<class T>
 		UINT				GetTypeComponentNumber();
 
 		template<class T>
-		T*					GetTypeComponentByIndex(UINT index);
-
-		void				Serialize(Serializer& sl, const char* pszLable = "GameObject");
+		ref_ptr<T>			GetTypeComponentByIndex(UINT index);
 
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 
+		// CullNode
 		void				SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
 
 		CullNode*			GetCullNode() {return m_pCullNode;}
@@ -83,7 +83,7 @@ namespace ma
 
 		CullTree*			GetCullTree() const{return m_pCullTree;}
 
-		// 
+		// Child Parent
 		GameObject*			GetParent() {return m_pParent;}
 
 		void				AddChild(GameObjectPtr pChild);
@@ -92,48 +92,30 @@ namespace ma
 
 		void				RemoveAllChild();	
 
+		GameObjectPtr		Clone(const char* pName);
+
+		void				Serialize(Serializer& sl, const char* pszLable = "GameObject");
+
 	protected:
 		void				UpdateAABB();
 
 		void				SetScene(Scene* pScene);
 
-		void				AddComponent(Component* pComponent);
+		void				AddComponent(ComponentPtr pComponent);
 
 		void				SetParent(GameObject* pParent);
 
 	private:
-		void				SerializeChild(Serializer& sl, std::vector<GameObjectPtr>& arrChild,
-			GameObject* pParent,const char* pszLable);
+		void				SerializeChild(Serializer& sl,const char* pszLable);
 
-
-// 		enum CHANGE_TYPE
-// 		{
-// 			CT_NONE = 0x00,
-// 			CT_PART = 0x01,
-// 			CT_FROMPARENT = 0x02,
-// 			CT_NOTIFY = 0x04,
-// 		};
-// 		void				SetNeedChange(CHANGE_TYPE eChangeType);
-//
-// 		enum AABB_CHANGE_TYPE
-// 		{
-// 			ACT_NONE = 0x00,
-// 			ACT_SELF_MATRIX = 0x01,
-// 			ACT_SELF_CUSTOM = 0x02,//自定义包围盒
-// 			ACT_NOTIFY = 0x04,
-// 		};
-// 		
-// 		void				UpdateWorldMatrix();
-// 
-// 		void				UpdateWorldBoundingBox();
-
+		void				SerializeComp(Serializer& sl,const char* pszLable);
 
 	private:
 		IPhysicsObject*				m_pPhyscisObject;
 
 		SceneNode*					m_pScenNode;
 
-		std::vector<Component*>		m_arrComp;
+		std::vector<ComponentPtr>	m_arrComp;
 
 		GameObject*					m_pParent;
 
@@ -145,15 +127,9 @@ namespace ma
 
 		CCallback*					m_pCallback;
 
-//		int							m_nNeedChange;
-//
-// 		int							m_nAABBChangeType;	
-// 
-// 		AABB						m_AABB;
-// 
-// 		AABB						m_worldAABB;
-// 
-// 		Matrix4x4					m_matWorld;
+		AABB						m_AABB;
+
+		AABB						m_worldAABB;
 	};
 
 // 	template<class T>
@@ -165,7 +141,7 @@ namespace ma
 // 	}
 
 	template<class T>
-	inline T*	GameObject::CreateComponent()
+	inline ref_ptr<T>	GameObject::CreateComponent()
 	{
 		const RTTIClass* pClass = T::StaticGetClass();
 		ASSERT(pClass);
@@ -188,13 +164,13 @@ namespace ma
 
 
 	template<class T>
-	inline T*	GameObject::GetTypeComponentFirst()
+	inline ref_ptr<T>	GameObject::GetTypeComponentFirst()
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
 			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
 			{
-				return SafeCast<T>(m_arrComp[i]);
+				return SafeCast<T>(m_arrComp[i].get());
 			}
 		}
 		return NULL;
@@ -215,7 +191,7 @@ namespace ma
 	}
 
 	template<class T>
-	inline T*	GameObject::GetTypeComponentByIndex(UINT index)
+	inline ref_ptr<T>	GameObject::GetTypeComponentByIndex(UINT index)
 	{
 		UINT nNumber = 0;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
@@ -224,7 +200,7 @@ namespace ma
 			{
 				if (nNumber == index)
 				{
-					return SafeCast<T>(m_arrComp[i]);
+					return SafeCast<T>(m_arrComp[i].get());
 				}
 
 				nNumber++;

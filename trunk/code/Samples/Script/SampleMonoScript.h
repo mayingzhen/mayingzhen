@@ -8,16 +8,14 @@ namespace ma
 	public:
 		SampleMonoScript();
 
-		virtual void Load();
+		virtual void		Load();
 
-		virtual void UnLoad();
+		virtual void		UnLoad();
 
-		virtual void Update();
+		virtual void		Update();
 
 	private:
-		IScriptObject*	m_pTestScript;
-
-		GameObjectPtr	m_pGameObj;
+		IScriptObjectPtr	m_pTestScript;
 	};
 
 }

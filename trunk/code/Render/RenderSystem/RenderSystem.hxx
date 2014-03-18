@@ -40,7 +40,7 @@ namespace ma
 
 		m_pRenderScheme = new RenderScheme();
 
-		m_pCameraObj = new GameObject("MainCamera");	//GetEntitySystem()->CreateGameObject("MainCamera");
+		m_pCameraObj = new GameObject("MainCamera");
 		m_pMainCamera =  m_pCameraObj->CreateComponent<Camera>();
 
 		m_pRenderQueue[0] = new RenderQueue();
@@ -61,8 +61,6 @@ namespace ma
 	{
 		SAFE_DELETE(m_pRenderContext);
 
-		//GetEntitySystem()->DeleteGameObject(m_pMainCamera->GetGameObject());
-
 		SAFE_DELETE(m_pRenderQueue[0]);
 		SAFE_DELETE(m_pRenderQueue[1]);
 
@@ -70,14 +68,9 @@ namespace ma
 		SAFE_DELETE(pLineRender);
 	}
 
-	Camera*	RenderSystem::GetMainCamera()
+	CameraPtr RenderSystem::GetMainCamera()
 	{
 		return m_pMainCamera;
-	}
-
-	void RenderSystem::SetMainCamera(Camera* pCamera)
-	{
-		m_pMainCamera = pCamera;
 	}
 
 	RenderScheme* RenderSystem::GetRenderScheme()
@@ -102,7 +95,6 @@ namespace ma
 
 		std::vector<GameObject*> arrGameObjs;
 
-		// 1.裁剪得到视锥体内的所有物体
 		Frustum camaeraFrustum;
 		camaeraFrustum.Update( pCamera->GetMatViewProj() );
 		GetEntitySystem()->GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
@@ -209,7 +201,7 @@ namespace ma
 
 	void RenderSystem::RT_Render()
 	{
-		GetRenderContext()->SetCamera(m_pMainCamera);
+		GetRenderContext()->SetCamera(m_pMainCamera.get());
 
 		if (m_pRenderScheme)
 			m_pRenderScheme->Render();
@@ -224,9 +216,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
-
-		if (pSubMeshData->m_nVertexCount <= 0)
+		if (pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;
 
 		m_pRenderContext->SetCurRenderObj(pRenderable);
@@ -244,12 +234,10 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		m_pRenderContext->SetCurRenderObj(pRenderable);
-
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
-
-		if (pSubMeshData && pSubMeshData->m_nVertexCount <= 0)
+		if (pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
 			return;
+
+		m_pRenderContext->SetCurRenderObj(pRenderable);
 
 		pTechnique->Bind();
 

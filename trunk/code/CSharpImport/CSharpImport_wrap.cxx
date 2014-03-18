@@ -1700,6 +1700,142 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_EulerAngleXYZ(void * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_0() {
+  void * jresult ;
+  Plane *result = 0 ;
+  
+  result = (Plane *)new Plane();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_1(void * jarg1) {
+  void * jresult ;
+  float *arg1 = (float *) 0 ;
+  Plane *result = 0 ;
+  
+  arg1 = (float *)jarg1; 
+  result = (Plane *)new Plane((float const *)arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Plane__SWIG_2(float jarg1, float jarg2, float jarg3, float jarg4) {
+  void * jresult ;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  Plane *result = 0 ;
+  
+  arg1 = (float)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  result = (Plane *)new Plane(arg1,arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Plane_a_set(void * jarg1, float jarg2) {
+  Plane *arg1 = (Plane *) 0 ;
+  float arg2 ;
+  
+  arg1 = (Plane *)jarg1; 
+  arg2 = (float)jarg2; 
+  if (arg1) (arg1)->a = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Plane_a_get(void * jarg1) {
+  float jresult ;
+  Plane *arg1 = (Plane *) 0 ;
+  float result;
+  
+  arg1 = (Plane *)jarg1; 
+  result = (float) ((arg1)->a);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Plane_b_set(void * jarg1, float jarg2) {
+  Plane *arg1 = (Plane *) 0 ;
+  float arg2 ;
+  
+  arg1 = (Plane *)jarg1; 
+  arg2 = (float)jarg2; 
+  if (arg1) (arg1)->b = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Plane_b_get(void * jarg1) {
+  float jresult ;
+  Plane *arg1 = (Plane *) 0 ;
+  float result;
+  
+  arg1 = (Plane *)jarg1; 
+  result = (float) ((arg1)->b);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Plane_c_set(void * jarg1, float jarg2) {
+  Plane *arg1 = (Plane *) 0 ;
+  float arg2 ;
+  
+  arg1 = (Plane *)jarg1; 
+  arg2 = (float)jarg2; 
+  if (arg1) (arg1)->c = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Plane_c_get(void * jarg1) {
+  float jresult ;
+  Plane *arg1 = (Plane *) 0 ;
+  float result;
+  
+  arg1 = (Plane *)jarg1; 
+  result = (float) ((arg1)->c);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Plane_d_set(void * jarg1, float jarg2) {
+  Plane *arg1 = (Plane *) 0 ;
+  float arg2 ;
+  
+  arg1 = (Plane *)jarg1; 
+  arg2 = (float)jarg2; 
+  if (arg1) (arg1)->d = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Plane_d_get(void * jarg1) {
+  float jresult ;
+  Plane *arg1 = (Plane *) 0 ;
+  float result;
+  
+  arg1 = (Plane *)jarg1; 
+  result = (float) ((arg1)->d);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Plane(void * jarg1) {
+  Plane *arg1 = (Plane *) 0 ;
+  
+  arg1 = (Plane *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_Color__SWIG_0() {
   void * jresult ;
   Color *result = 0 ;
@@ -2985,6 +3121,24 @@ SWIGEXPORT void SWIGSTDCALL CSharp_EulerAngleFromQuaternion__SWIG_0(void * jarg1
   arg1 = (EulerAngleXYZ *)jarg1; 
   arg2 = (Quaternion *)jarg2; 
   EulerAngleFromQuaternion(arg1,(Quaternion const *)arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_PlaneFromPoints(void * jarg1, void * jarg2, void * jarg3, void * jarg4) {
+  void * jresult ;
+  Plane *arg1 = (Plane *) 0 ;
+  Vector3 *arg2 = (Vector3 *) 0 ;
+  Vector3 *arg3 = (Vector3 *) 0 ;
+  Vector3 *arg4 = (Vector3 *) 0 ;
+  Plane *result = 0 ;
+  
+  arg1 = (Plane *)jarg1; 
+  arg2 = (Vector3 *)jarg2; 
+  arg3 = (Vector3 *)jarg3; 
+  arg4 = (Vector3 *)jarg4; 
+  result = (Plane *)PlaneFromPoints(arg1,(Vector3 const *)arg2,(Vector3 const *)arg3,(Vector3 const *)arg4);
+  jresult = (void *)result; 
+  return jresult;
 }
 
 
@@ -7720,18 +7874,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetGameObject(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetAABBWS(void * jarg1) {
-  void * jresult ;
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  ma::AABB *result = 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::AABB *) &(arg1)->GetAABBWS();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   ma::Serializer *arg2 = 0 ;
@@ -7762,19 +7904,15 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Serialize__SWIG_1(void * jarg1, voi
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_UpdateAABB(void * jarg1) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_IsMatrixWSDirty(void * jarg1) {
+  unsigned int jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  bool result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  (arg1)->UpdateAABB();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_UpdateMatWorld(void * jarg1) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  (arg1)->UpdateMatWorld();
+  result = (bool)(arg1)->IsMatrixWSDirty();
+  jresult = result; 
+  return jresult;
 }
 
 
@@ -7889,18 +8027,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
   arg1 = (ma::Component *)jarg1; 
   result = (ma::SceneNode *)(arg1)->GetSceneNode();
   jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetAABBWS(void * jarg1) {
-  void * jresult ;
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  ma::AABB result;
-  
-  arg1 = (ma::Component *)jarg1; 
-  result = (arg1)->GetAABBWS();
-  jresult = new ma::AABB((const ma::AABB &)result); 
   return jresult;
 }
 
@@ -8065,16 +8191,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetSceneNode(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_Clone(void * jarg1, char * jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetAABBWS(void * jarg1) {
   void * jresult ;
   ma::GameObject *arg1 = (ma::GameObject *) 0 ;
-  char *arg2 = (char *) 0 ;
-  SwigValueWrapper< ma::ref_ptr< ma::GameObject > > result;
+  ma::AABB *result = 0 ;
   
   arg1 = (ma::GameObject *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (arg1)->Clone((char const *)arg2);
-  jresult = new ma::GameObjectPtr((const ma::GameObjectPtr &)result); 
+  result = (ma::AABB *) &(arg1)->GetAABBWS();
+  jresult = (void *)result; 
   return jresult;
 }
 
@@ -8096,7 +8220,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetComponentByIndex(void * jarg1
   ma::GameObject *arg1 = (ma::GameObject *) 0 ;
   UINT arg2 ;
   UINT *argp2 ;
-  ma::Component *result = 0 ;
+  SwigValueWrapper< ma::ref_ptr< ma::Component > > result;
   
   arg1 = (ma::GameObject *)jarg1; 
   argp2 = (UINT *)jarg2; 
@@ -8105,39 +8229,9 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_GetComponentByIndex(void * jarg1
     return 0;
   }
   arg2 = *argp2; 
-  result = (ma::Component *)(arg1)->GetComponentByIndex(arg2);
-  jresult = (void *)result; 
+  result = (arg1)->GetComponentByIndex(arg2);
+  jresult = new ma::ComponentPtr((const ma::ComponentPtr &)result); 
   return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
-  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  char *arg3 = (char *) 0 ;
-  
-  arg1 = (ma::GameObject *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  arg3 = (char *)jarg3; 
-  (arg1)->Serialize(*arg2,(char const *)arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_Serialize__SWIG_1(void * jarg1, void * jarg2) {
-  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
-  ma::Serializer *arg2 = 0 ;
-  
-  arg1 = (ma::GameObject *)jarg1; 
-  arg2 = (ma::Serializer *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
-    return ;
-  } 
-  (arg1)->Serialize(*arg2);
 }
 
 
@@ -8246,6 +8340,50 @@ SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_RemoveAllChild(void * jarg1) {
   
   arg1 = (ma::GameObject *)jarg1; 
   (arg1)->RemoveAllChild();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_GameObject_Clone(void * jarg1, char * jarg2) {
+  void * jresult ;
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  char *arg2 = (char *) 0 ;
+  SwigValueWrapper< ma::ref_ptr< ma::GameObject > > result;
+  
+  arg1 = (ma::GameObject *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (arg1)->Clone((char const *)arg2);
+  jresult = new ma::GameObjectPtr((const ma::GameObjectPtr &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_Serialize__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  ma::Serializer *arg2 = 0 ;
+  char *arg3 = (char *) 0 ;
+  
+  arg1 = (ma::GameObject *)jarg1; 
+  arg2 = (ma::Serializer *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
+    return ;
+  } 
+  arg3 = (char *)jarg3; 
+  (arg1)->Serialize(*arg2,(char const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_GameObject_Serialize__SWIG_1(void * jarg1, void * jarg2) {
+  ma::GameObject *arg1 = (ma::GameObject *) 0 ;
+  ma::Serializer *arg2 = 0 ;
+  
+  arg1 = (ma::GameObject *)jarg1; 
+  arg2 = (ma::Serializer *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Serializer & type is null", 0);
+    return ;
+  } 
+  (arg1)->Serialize(*arg2);
 }
 
 

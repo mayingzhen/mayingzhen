@@ -7,6 +7,7 @@
 #include "Render/IRenderDevice/IRenderDevice.hxx"
 #include "Render/IRenderDevice/VertexDeclaration.hxx"
 
+#include "Render/Renderable/Renderable.hxx"
 #include "Render/Renderable/MeshBatch.hxx"
 #include "Render/Renderable/SpriteBatch.hxx"
 #include "Render/Renderable/RenderComponent.hxx"
@@ -19,6 +20,7 @@
 #include "Render/RenderSystem/RenderQueue.hxx"
 #include "Render/RenderSystem/Camera.hxx"
 
+#include "Render/Particle/ParticleBatch.hxx"
 #include "Render/Particle/ParticleEmitter.hxx"
 #include "Render/Particle/ParticleThread.hxx"
 #include "Render/Particle/ParticleSystem.hxx"
