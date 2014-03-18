@@ -10,12 +10,11 @@ namespace ma
 	public:
 		SampleSceneSerialize();
 
-		virtual void Load();
+		virtual void	Load();
 
-		virtual void UnLoad();
+		virtual void	UnLoad();
 
-		virtual void Update();
-
+		virtual bool	keyPressed(const OIS::KeyEvent &arg);
 	};
 }
 

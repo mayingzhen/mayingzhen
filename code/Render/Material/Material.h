@@ -7,7 +7,7 @@ namespace ma
 	class MaterialParameter;
 	class SamplerState;
 
-	class RENDER_API Material 
+	class RENDER_API Material : public Referenced
 	{
 	public:
 		Material();
@@ -24,7 +24,6 @@ namespace ma
 
 		Technique*			LoadTechnique(const std::string& sShaderName,const std::string& sMatFlag);
 
-	private:
 		Technique*			AddTechnique(const char* pTechName,const char* pShadrName,const char* pDefine);
 
 	private:

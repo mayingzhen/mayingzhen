@@ -56,6 +56,11 @@ namespace ma
 		virtual float			GetRadius() const = 0;
 	};
 
+
+	DeclareRefPtr(IBoxCollisionShape);
+	DeclareRefPtr(ISphereCollisionShape);
+	DeclareRefPtr(ICapsuleCollisionShape);
+
 	struct ENGINE_API Collision
 	{
 		GameObject* m_pGameEntity;

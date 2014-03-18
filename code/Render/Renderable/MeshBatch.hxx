@@ -5,43 +5,44 @@ namespace ma
 {
 
 	MeshBatch::MeshBatch(VertexDeclaration* vertexFormat, 
-						 PRIMITIVE_TYPE primitiveType,/* Effect* pEffect,*/ 
+						 PRIMITIVE_TYPE primitiveType,
 						 bool indexed, UINT initialCapacity, 
 						 UINT growSize)
 	{
  		m_bIndexed = indexed;
- 		m_nCapacity = 0;
+ 		m_nCapacity = initialCapacity;
 		m_nVertexCapacity = 0;
 		m_nIndexCapacity = 0;
  		m_nGrowSize = growSize;
 		m_pVerticesPtr = NULL;
 		m_pIndicesPtr = NULL;
 	 
-	 
  		m_pDeclaration = vertexFormat;
  		m_ePrimitiveType = primitiveType;
- 		//m_pMaterial = NULL;//new Material();
-		//m_pMaterial->SetEffect(pEffect);
 
-		resize(initialCapacity);
+		if (m_pDeclaration)
+		{
+			Resize(initialCapacity);
+		}
 
-		m_pSubMeshData = new SubMeshData();
+		m_pSubMeshData = new SubMeshData;
 	}
 
 	MeshBatch::~MeshBatch()
 	{
-		//SAFE_DELETE(m_pMaterial);
-		//SAFE_DELETE(m_pSubMeshData);
 	}
 
-	void MeshBatch::add(const void* vertices, size_t size, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
+	void MeshBatch::Render(Technique* pTech)
 	{
-		//SubMeshData* pSubMeshData = m_pSubMeshData;
+		GetRenderSystem()->DrawDyRenderable(this,pTech);
+	}
 
+	void MeshBatch::Add(const void* vertices, size_t size, UINT vertexCount, const Uint16* indices, UINT indexCount)
+	{
 		ASSERT(vertices);
 
-		unsigned int newVertexCount = m_pSubMeshData->m_nVertexCount + vertexCount;
-		unsigned int newIndexCount = m_pSubMeshData->m_nIndexCount + indexCount;
+		UINT newVertexCount = m_pSubMeshData->m_nVertexCount + vertexCount;
+		UINT newIndexCount = m_pSubMeshData->m_nIndexCount + indexCount;
 		if (m_ePrimitiveType == PRIM_TRIANGLESTRIP && m_pSubMeshData->m_nVertexCount > 0)
 			newIndexCount += 2; // need an extra 2 indices for connecting strips with degenerate triangles
 	    
@@ -51,14 +52,14 @@ namespace ma
 			if (m_nGrowSize == 0)
 				return; // growing disabled, just clip batch
 
-			if (!resize(m_nCapacity + m_nGrowSize))
+			if (!Resize(m_nCapacity + m_nGrowSize))
 				return; // failed to grow
 
 		}
 	    
 		// Copy vertex data.
 		ASSERT(m_pVerticesPtr);
-		unsigned int vBytes = vertexCount * m_pDeclaration->GetStreanmStride();
+		UINT vBytes = vertexCount * m_pDeclaration->GetStreanmStride();
 		memcpy(m_pVerticesPtr, vertices, vBytes);
 
 	    
@@ -101,17 +102,8 @@ namespace ma
 	    
 	}
 
-// 	unsigned int MeshBatch::getCapacity() const
-// 	{
-// 		return m_nCapacity;
-// 	}
 
-// 	void MeshBatch::setCapacity(UINT capacity)
-// 	{
-// 		resize(capacity);
-// 	}
-
-	bool MeshBatch::resize(unsigned int capacity)
+	bool MeshBatch::Resize(UINT capacity)
 	{
 		if (capacity == 0)
 		{
@@ -123,8 +115,8 @@ namespace ma
 			return true;
 
 		// Store old batch data.
-		unsigned char* oldVertices = m_pVertexBuffers ? (unsigned char*)m_pVertexBuffers->GetData() : NULL;
-		unsigned short* oldIndices = m_pIndexBuffer ? (unsigned short*)m_pIndexBuffer->GetData() : NULL;
+		Uint8* oldVertices = m_pVertexBuffers ? (Uint8*)m_pVertexBuffers->GetData() : NULL;
+		Uint16* oldIndices = m_pIndexBuffer ? (Uint16*)m_pIndexBuffer->GetData() : NULL;
 
 		unsigned int vertexCapacity = 0;
 		switch (m_ePrimitiveType)
@@ -195,37 +187,33 @@ namespace ma
 		m_nIndexCapacity = indexCapacity;
 
 		// Update our vertex attribute bindings now that our client array pointers have changed
-		//updateVertexAttributeBinding();
 		//UpdateVB IB
 		if (m_bIndexed)
 		{
 			//SAFE_DELETE(m_pIndexBuffer);
-			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(/*newIndices,indexCapacity * sizeof(unsigned short),INDEX_TYPE_U16,USAGE_DYNAMIC*/);
+			m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
 			m_pIndexBuffer->SetData(newIndices,indexCapacity * sizeof(unsigned short),sizeof(unsigned short),USAGE_DYNAMIC);
 		}
 
 		//SAFE_DELETE(m_pVertexBuffers);
-		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(/*newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC*/);
+		m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer();
 		m_pVertexBuffers->SetData(newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 
 		return true;
 	}
 
-	void MeshBatch::add(const float* vertices, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
+	void MeshBatch::Add(const float* vertices, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
 	{
-		add(vertices, sizeof(float), vertexCount, indices, indexCount);
+		Add(vertices, sizeof(float), vertexCount, indices, indexCount);
 	}
 	    
-	void MeshBatch::start()
+	void MeshBatch::Reset()
 	{
+		m_pSubMeshData->m_nVertexStart = 0;
+		m_pSubMeshData->m_nIndexStart = 0;
 		m_pSubMeshData->m_nVertexCount = 0;
 		m_pSubMeshData->m_nIndexCount = 0;
-		m_pVerticesPtr = m_pVertexBuffers ? (unsigned char*)m_pVertexBuffers->GetData() : NULL;
-		m_pIndicesPtr = m_pIndexBuffer ? (unsigned short*)m_pIndexBuffer->GetData() : NULL;
-	}
-
-	void MeshBatch::finish(Technique* pTech)
-	{
-		GetRenderSystem()->DrawDyRenderable(this,pTech);
+		m_pVerticesPtr = m_pVertexBuffers ? (Uint8*)m_pVertexBuffers->GetData() : NULL;
+		m_pIndicesPtr = m_pIndexBuffer ? (Uint16*)m_pIndexBuffer->GetData() : NULL;
 	}
 }

@@ -93,7 +93,7 @@ namespace ma
 
 				GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
 				
-				TerrainSection* pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
+				TerrainSectionPtr pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
 				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
 				//m_arrGameObj.push_back(pGameObj);

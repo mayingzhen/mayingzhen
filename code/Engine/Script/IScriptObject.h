@@ -30,6 +30,8 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "ScriptObject") = 0;
 	};
+
+	DeclareRefPtr(IScriptObject);
 }
 
 #endif

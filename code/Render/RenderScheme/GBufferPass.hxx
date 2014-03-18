@@ -38,11 +38,11 @@ namespace ma
 		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
-			RenderComponent* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
-			Material* pMaterial = pSolidEntry->GetMaterial();
-			Technique* pTech =  pMaterial->GetTechnqiue("Gbuffer");
+			Renderable* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
+			Technique* pTech =  pSolidEntry->m_pMaterial->GetTechnqiue("Gbuffer");
 			pTech->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
-			pSolidEntry->Render(pTech);
+	
+			GetRenderSystem()->DrawRenderable(pSolidEntry,pTech);
 		}
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);

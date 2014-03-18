@@ -16,9 +16,11 @@ namespace ma
 
 		~AnimationObject();
 
+		//virtual	void			Update();
+
 		virtual	void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
-		void					Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
+		virtual	void			Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
 
  		virtual IAnimationSet*	GetAnimationSet() {return m_pAnimSet;}
 
@@ -37,10 +39,6 @@ namespace ma
 		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
 
 	protected:
-		void					CreateSkeleton(const char* pSkePath);
-
-		void					CreateAniSet(const char* pszAniSetPath);
-
 		void					PlayAnimation(Action* pSkelAnim);
 	
 	private:

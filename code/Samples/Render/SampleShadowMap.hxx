@@ -18,10 +18,10 @@ namespace ma
 		{
 			GameObjectPtr pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			ref_ptr<MeshComponent> pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-			IAnimationObject* pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
+			IAnimationObjectPtr pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
 

@@ -431,38 +431,38 @@ struct EulerAngleXYZ
 // Planes
 //
 //===========================================================================
-// struct Plane
-// {
-// 
-// public:
-// 	Plane() {}
-// 	Plane( const float* );
-// 	Plane( float a, float b, float c, float d );
-// 
-// 	// casting
-// 	operator float* ();
-// 	operator const float* () const;
-// 
-// 	// assignment operators
-// 	Plane& operator *= ( float );
-// 	Plane& operator /= ( float );
-// 
-// 	// unary operators
-// 	Plane operator + () const;
-// 	Plane operator - () const;
-// 
-// 	// binary operators
-// 	Plane operator * ( float ) const;
-// 	Plane operator / ( float ) const;
-// 
-// 	friend Plane operator * ( float, const Plane& );
-// 
-// 	bool operator == ( const Plane& ) const;
-// 	bool operator != ( const Plane& ) const;
-// 
-// 
-// 	float a, b, c, d;
-// };
+struct Plane
+{
+
+public:
+	Plane() {}
+	Plane( const float* );
+	Plane( float a, float b, float c, float d );
+
+	// casting
+	operator float* ();
+	operator const float* () const;
+
+	// assignment operators
+	Plane& operator *= ( float );
+	Plane& operator /= ( float );
+
+	// unary operators
+	Plane operator + () const;
+	Plane operator - () const;
+
+	// binary operators
+	Plane operator * ( float ) const;
+	Plane operator / ( float ) const;
+
+	friend Plane operator * ( float, const Plane& );
+
+	bool operator == ( const Plane& ) const;
+	bool operator != ( const Plane& ) const;
+
+
+	float a, b, c, d;
+};
 
 
 //===========================================================================
@@ -1214,9 +1214,26 @@ extern "C" {
 	//	( Plane *pOut, const Vector3 *pPoint, const Vector3 *pNormal);
 
 	//// Construct a plane from 3 points
-	//Plane*  PlaneFromPoints
-	//	( Plane *pOut, const Vector3 *pV1, const Vector3 *pV2,
-	//	const Vector3 *pV3);
+	inline Plane*  PlaneFromPoints
+		( Plane *pOut, const Vector3 *pV1, const Vector3 *pV2,
+		const Vector3 *pV3)
+	{
+		Vector3 kEdge3 = *pV2 - *pV1;
+		Vector3 kEdge1 = *pV3 - *pV1;
+		Vector3 normal;
+		
+		Vec3Cross(&normal,&kEdge3,&kEdge1);
+		Vec3Normalize(&normal,&normal);	
+
+		float d = Vec3Dot(&normal,pV1);
+
+		pOut->a = normal.x;
+		pOut->b = normal.y;
+		pOut->c = normal.z;
+		pOut->d = d;
+
+		return pOut;
+	}
 
 	//// Transform a plane by a matrix.  The vector (a,b,c) must be normal.
 	//// M should be the inverse transpose of the transformation desired.

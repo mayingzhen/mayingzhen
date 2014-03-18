@@ -144,7 +144,10 @@ namespace ma
 
 	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
 	{
-		SAFE_DELETE(pScriptObject);
+		ScriptObject* pTemp = (ScriptObject*)pScriptObject;
+
+		ScriptClass* pScriptClass = pTemp->GetScriptClass();
+		pScriptClass->RemoveScriptObjectIns(pTemp);
 	}
 
 	// Parse dll 

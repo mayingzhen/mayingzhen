@@ -104,10 +104,10 @@ Theme* Theme::create(const char* url)
     ASSERT(theme->_texture);
     theme->_spriteBatch = new SpriteBatch(theme->_texture);
     ASSERT(theme->_spriteBatch);
-    theme->_spriteBatch->getSampler()->SetFilterMode(TFO_POINT);
+    theme->_spriteBatch->GetSampler()->SetFilterMode(TFO_POINT);
 
-	theme->_spriteBatch->getStateBlock().m_bDepthWrite = false;
-	theme->_spriteBatch->getStateBlock().m_eDepthCheckMode = DCM_NONE;
+	theme->_spriteBatch->GetStateBlock().m_bDepthWrite = false;
+	theme->_spriteBatch->GetStateBlock().m_eDepthCheckMode = DCM_NONE;
 
     float tw = 1.0f / theme->_texture->getWidth();
     float th = 1.0f / theme->_texture->getHeight();
@@ -501,7 +501,7 @@ Theme::Style* Theme::getEmptyStyle()
 void Theme::setProjectionMatrix(const Matrix4x4& matrix)
 {
     ASSERT(_spriteBatch);
-    _spriteBatch->setProjectionMatrix(matrix);
+    _spriteBatch->SetProjectionMatrix(matrix);
 
     // Set the matrix on each Font used by the style.
     std::set<Font*>::const_iterator it;
@@ -510,7 +510,7 @@ void Theme::setProjectionMatrix(const Matrix4x4& matrix)
         Font* font = *it;
         ASSERT(font);
         ASSERT(font->getSpriteBatch());
-        font->getSpriteBatch()->setProjectionMatrix(matrix);
+        font->getSpriteBatch()->SetProjectionMatrix(matrix);
     }
 }
 

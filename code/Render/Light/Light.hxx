@@ -104,17 +104,17 @@ namespace ma
 
 		virtual bool VisiteComponent(Component* pComp)
 		{
-			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
-			if (pRenderObj)
-			{
-				AABB aabb = pRenderObj->GetAABBWS();
-
-				if ( 1/*SweepIntersectionTest(aabb,m_splitFrustum,m_vLightDir)*/ )
-				{
-					m_pSMF->AddCaster(pRenderObj);
-					m_aabb.Merge( pRenderObj->GetAABBWS() );
-				}
-			}
+// 			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
+// 			if (pRenderObj)
+// 			{
+// 				AABB aabb = pRenderObj->GetGameObject()->GetAABBWS();
+// 
+// 				if ( SweepIntersectionTest(aabb,m_splitFrustum,m_vLightDir) )
+// 				{
+// 					m_pSMF->AddCaster(pRenderObj);
+// 					m_aabb.Merge(aabb);
+// 				}
+// 			}
 
 			return true;
 		}

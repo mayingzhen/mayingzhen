@@ -12,7 +12,9 @@ namespace ma
 
 		~TerrainSection();
 
-		virtual void		Render(Technique* pTech);
+		virtual UINT		GetRenderableNumber() {return 1;}
+
+		virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pRenderable.get();}
 
 		virtual	void		Show(Camera* pCamera);
 
@@ -52,11 +54,13 @@ namespace ma
 		int				m_heightMapX;
 		int				m_heightMapY;	
 
-		Renderable*		m_pRenderable;
+		RenderablePtr	m_pRenderable;
 
 		AABB			m_WorldAABB;
 
 	};
+
+	DeclareRefPtr(TerrainSection);
 }
 
 

@@ -10,7 +10,7 @@ namespace ma
 
 	Camera*	Sample::GetCamera()
 	{
-		return GetRenderSystem()->GetMainCamera();
+		return GetRenderSystem()->GetMainCamera().get();
 	}
 
 }

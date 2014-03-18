@@ -260,10 +260,6 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\code\Plugin\BulletPhysics\Interface\RTTI.h"
-			>
-		</File>
-		<File
 			RelativePath="..\..\Code\Plugin\BulletPhysics\stdafx.cpp"
 			>
 			<FileConfiguration

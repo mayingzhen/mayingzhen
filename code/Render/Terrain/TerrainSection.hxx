@@ -20,19 +20,19 @@ namespace ma
 		m_pRenderable = new Renderable();
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 		m_pRenderable->m_pSubMeshData = new SubMeshData();
-		//m_pRenderable->m_pMaterial = GetMaterial();
+		m_pRenderable->m_pMaterial = GetMaterial();
 	}
 
 	TerrainSection::~TerrainSection()
 	{
 		//SAFE_DELETE(m_pRenderable->m_pSubMeshData);
-		SAFE_DELETE(m_pRenderable);
+		//SAFE_DELETE(m_pRenderable);
 	}
 
-	void TerrainSection::Render(Technique* pTech)
-	{
-		GetRenderSystem()->DrawRenderable(m_pRenderable,pTech);
-	}
+// 	void TerrainSection::Render(Technique* pTech)
+// 	{
+// 		GetRenderSystem()->DrawRenderable(m_pRenderable,pTech);
+// 	}
 
 	Material* TerrainSection::GetMaterial()
 	{
@@ -45,7 +45,7 @@ namespace ma
 
 	void TerrainSection::Show(Camera* pCamera)
 	{
-		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,this);
+		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,m_pRenderable);
 	}
 
 	void TerrainSection::SetMaterial(Material* pMaterial)

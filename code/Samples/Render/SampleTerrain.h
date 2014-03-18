@@ -5,7 +5,7 @@ namespace ma
 {
 	class Terrain;
 	
-	class SampleTerrain : public Sample,OIS::KeyListener
+	class SampleTerrain : public Sample
 	{
 	public:
 		SampleTerrain();

@@ -18,7 +18,7 @@ namespace ma
 
 		void				ThreadUpdate();
 
-		void				AddEmitter(ParticleEmitter* pEmit);
+		void				AddParticleBatch(ParticleBatch* pEmit);
 
 		void				FlushRenderQueue();
 	
@@ -26,8 +26,8 @@ namespace ma
 
 
 	private:
-		typedef std::deque<ParticleEmitter*> ParticleEmitterQueue;
-		ParticleEmitterQueue			m_quePaticleEmit[2];
+		typedef std::deque<ParticleBatch*> ParticleBatchQueue;
+		ParticleBatchQueue				m_quePaticleBatch[2];
 
 		CMyEvent*						m_pEvent; 
 

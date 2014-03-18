@@ -15,53 +15,76 @@
 
 namespace ma
 {
+// 	SpriteBatch::SpriteBatch()
+// 		::MeshBatch(NULL,PRIM_TRIANGLESTRIP, true, SPRITE_BATCH_DEFAULT_SIZE)
+// 	{
+// 
+// 	}
 
 	SpriteBatch::SpriteBatch(ref_ptr<Texture> texture, Technique* pTech, UINT initialCapacity/* = 0*/)
-		: m_pMeshBatch(NULL), m_pSampler(NULL), m_fTextureWidthRatio(0.0f), m_fTextureHeightRatio(0.0f)
+		:MeshBatch(NULL,PRIM_TRIANGLESTRIP, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE)
 	{
-		ASSERT(texture != NULL);
-
-		m_fTextureWidthRatio = 1.0f / (float)texture->getWidth();
-		m_fTextureHeightRatio = 1.0f / (float)texture->getHeight();
+		m_pSampler = NULL;
 		
+		m_pMaterial = new Material();
+
 		m_pTechnique = pTech;
 		if (pTech == NULL)
 		{
-			m_pTechnique = new Technique("Shading","default","default","DIFFUSE;COLOR");
+			m_pTechnique= m_pMaterial->AddTechnique("Shading","default","DIFFUSE;COLOR");
 		}
-		
+		m_pMaterial->AddTechnique(m_pTechnique);
+
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
-		m_pSampler = new SamplerState();
-		m_pSampler->SetTexture(texture);
+		if (texture != NULL)
+		{
+			SetTexture(texture);
+		}
 
-		m_pTechnique->GetParameter("u_texture")->setSampler(m_pSampler);
-
-		VertexDeclaration* vertexFormat = GetRenderDevice()->CreateVertexDeclaration(); //(vertexElements, 3);
-		vertexFormat->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		vertexFormat->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
-		vertexFormat->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
-
-		m_pMeshBatch = new MeshBatch(vertexFormat, PRIM_TRIANGLESTRIP, /*pEffect,*/ true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+		m_pDeclaration = GetRenderDevice()->CreateVertexDeclaration(); 
+		m_pDeclaration->AddElement(0,0,DT_FLOAT3,DU_POSITION,0);
+		m_pDeclaration->AddElement(0,12,DT_FLOAT2,DU_TEXCOORD0,0);
+		m_pDeclaration->AddElement(0,20,DT_FLOAT4,DU_COLOR,0);
+		
+		Resize(m_nCapacity);
 
 
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 		Rectangle rect = GetRenderSystem()->GetViewPort();
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
-		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::getProjectionMatrix);
+		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::GetProjectionMatrix);
 	}
 
 	SpriteBatch::~SpriteBatch()
 	{
-		SAFE_DELETE(m_pMeshBatch);
 	}
 
-	void SpriteBatch::start()
+	void SpriteBatch::SetTexture(TexturePtr pTexture)
 	{
-		m_pMeshBatch->start();
+		ASSERT(pTexture != NULL);
+
+		m_fTextureWidthRatio = 1.0f / (float)pTexture->getWidth();
+		m_fTextureHeightRatio = 1.0f / (float)pTexture->getHeight();
+
+		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
+
+		if (m_pSampler == NULL)
+			m_pSampler = new SamplerState();
+		m_pSampler->SetTexture(pTexture);
+
+		m_pTechnique->GetParameter("u_texture")->setSampler(m_pSampler);
 	}
 
-	void SpriteBatch::draw(const Rectangle& dst, const Rectangle& src, const Vector4& color)
+	void SpriteBatch::Render(Technique* pTech)
+	{
+		if (pTech == NULL)
+			MeshBatch::Render(m_pTechnique);
+		else
+			MeshBatch::Render(pTech);
+	}
+
+	void SpriteBatch::Draw(const Rectangle& dst, const Rectangle& src, const Vector4& color)
 	{
 		// Calculate uvs.
 		float u1 = m_fTextureWidthRatio * src.x;
@@ -69,10 +92,10 @@ namespace ma
 		float u2 = u1 + m_fTextureWidthRatio * src.width;
 		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
-		draw(dst.x, dst.y, dst.width, dst.height, u1, v1, u2, v2, color);
+		Draw(dst.x, dst.y, dst.width, dst.height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color)
+	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color)
 	{
 		// Calculate uvs.
 		float u1 = m_fTextureWidthRatio * src.x;
@@ -80,10 +103,10 @@ namespace ma
 		float u2 = u1 + m_fTextureWidthRatio * src.width;
 		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
-		draw(dst.x, dst.y, dst.z, scale.x, scale.y, u1, v1, u2, v2, color);
+		Draw(dst.x, dst.y, dst.z, scale.x, scale.y, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color,
+	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color,
 						   const Vector2& rotationPoint, float rotationAngle)
 	{
 		// Calculate uvs.
@@ -92,16 +115,16 @@ namespace ma
 		float u2 = u1 + m_fTextureWidthRatio * src.width;
 		float v2 = v1 - m_fTextureHeightRatio * src.height;
 
-		draw(dst, scale.x, scale.y, u1, v1, u2, v2, color, rotationPoint, rotationAngle);
+		Draw(dst, scale.x, scale.y, u1, v1, u2, v2, color, rotationPoint, rotationAngle);
 	}
 
-	void SpriteBatch::draw(const Vector3& dst, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
+	void SpriteBatch::Draw(const Vector3& dst, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
 						   const Vector2& rotationPoint, float rotationAngle, bool positionIsCenter)
 	{
-		draw(dst.x, dst.y, dst.z, width, height, u1, v1, u2, v2, color, rotationPoint, rotationAngle, positionIsCenter);
+		Draw(dst.x, dst.y, dst.z, width, height, u1, v1, u2, v2, color, rotationPoint, rotationAngle, positionIsCenter);
 	}
 
-	void SpriteBatch::draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
+	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
 			  const Vector2& rotationPoint, float rotationAngle, bool positionIsCenter)
 	{
 		// Treat the given position as the center if the user specified it as such.
@@ -141,10 +164,10 @@ namespace ma
 		//static unsigned short indices[4] = { 0, 1, 2, 3 };
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
-		m_pMeshBatch->add(v, 4, indices, 4);
+		Add(v, 4, indices, 4);
 	}
 
-	void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vector3& forward, float width, float height,
+	void SpriteBatch::Draw(const Vector3& position, const Vector3& right, const Vector3& forward, float width, float height,
 		float u1, float v1, float u2, float v2, const Vector4& color, const Vector2& rotationPoint, float rotationAngle)
 	{
 		// Calculate the vertex positions.
@@ -216,22 +239,22 @@ namespace ma
 		//   |	   |
 	    // 0 ------- 1
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
-		m_pMeshBatch->add(v, 4, const_cast<unsigned short*>(indices), 4);
+		Add(v, 4, const_cast<unsigned short*>(indices), 4);
 	}
 
-	void SpriteBatch::draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color)
+	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color)
 	{
-		draw(x, y, 0, width, height, u1, v1, u2, v2, color);
+		Draw(x, y, 0, width, height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip)
+	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip)
 	{
 		// Only draw if at least part of the sprite is within the clip region.
-		if (clipSprite(clip, x, y, width, height, u1, v1, u2, v2))
-			draw(x, y, 0, width, height, u1, v1, u2, v2, color);
+		if (ClipSprite(clip, x, y, width, height, u1, v1, u2, v2))
+			Draw(x, y, 0, width, height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::addSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, SpriteBatch::SpriteVertex* vertices)
+	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, SpriteBatch::SpriteVertex* vertices)
 	{
 		ASSERT(vertices);
 
@@ -243,12 +266,12 @@ namespace ma
 		SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
 	}
 
-	void SpriteBatch::addSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip, SpriteBatch::SpriteVertex* vertices)
+	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip, SpriteBatch::SpriteVertex* vertices)
 	{
 		ASSERT(vertices);
 
 		// Only add a sprite if at least part of the sprite is within the clip region.
-		if (clipSprite(clip, x, y, width, height, u1, v1, u2, v2))
+		if (ClipSprite(clip, x, y, width, height, u1, v1, u2, v2))
 		{
 			const float x2 = x + width;
 			const float y2 = y + height;
@@ -259,15 +282,15 @@ namespace ma
 		}
 	}
 
-	void SpriteBatch::draw(SpriteBatch::SpriteVertex* vertices, UINT vertexCount, unsigned short* indices, UINT indexCount)
+	void SpriteBatch::Draw(SpriteBatch::SpriteVertex* vertices, UINT vertexCount, unsigned short* indices, UINT indexCount)
 	{
 		ASSERT(vertices);
 		ASSERT(indices);
 
-		m_pMeshBatch->add(vertices, vertexCount, indices, indexCount);
+		Add(vertices, vertexCount, indices, indexCount);
 	}
 
-	void SpriteBatch::draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter)
+	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter)
 	{
 		// Treat the given position as the center if the user specified it as such.
 		if (positionIsCenter)
@@ -293,52 +316,25 @@ namespace ma
 		//static unsigned short indices[4] = { 0, 1, 2, 3 };
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
-		m_pMeshBatch->add(v, 4, indices, 4);
+		Add(v, 4, indices, 4);
 	}
 
-	void SpriteBatch::finish(Technique* pTech)
+	RenderState& SpriteBatch::GetStateBlock() const
 	{
-		if (pTech == NULL)
-		{
-			pTech = m_pTechnique;
-		}
-
-		m_pMeshBatch->finish(pTech);
-	}
-
-	RenderState& SpriteBatch::getStateBlock() const
-	{
-		//ASSERT(m_pMeshBatch);
-		//ASSERT(m_pMeshBatch->m_pMaterial->GetEffect());
-		//ASSERT(m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue());
-		//if (m_pMeshBatch || m_pMeshBatch->getMaterial() || m_pMeshBatch->getMaterial()->GetCurTechnqiue())
-		//	return 
-
-		//return m_pMeshBatch->m_pMaterial->GetEffect()->GetCurTechnqiue()->GetRenderState();
 		return m_pTechnique->GetRenderState();
 	}
 
-	SamplerState* SpriteBatch::getSampler() const
-	{
-		return m_pSampler;
-	}
-
-// 	Material* SpriteBatch::getMaterial() const
-// 	{
-// 		return m_pMeshBatch->m_pMaterial;
-// 	}
-
-	void SpriteBatch::setProjectionMatrix(const Matrix4x4& matrix)
+	void SpriteBatch::SetProjectionMatrix(const Matrix4x4& matrix)
 	{
 		m_projectionMatrix = matrix;
 	}
 
-	const Matrix4x4& SpriteBatch::getProjectionMatrix() const
+	const Matrix4x4& SpriteBatch::GetProjectionMatrix() const
 	{
 		return m_projectionMatrix;
 	}
 
-	bool SpriteBatch::clipSprite(const Rectangle& clip, float& x, float& y, float& width, float& height, float& u1, float& v1, float& u2, float& v2)
+	bool SpriteBatch::ClipSprite(const Rectangle& clip, float& x, float& y, float& width, float& height, float& u1, float& v1, float& u2, float& v2)
 	{
 		// Clip the rectangle given by { x, y, width, height } into clip.
 		// We need to scale the uvs accordingly as we do this.

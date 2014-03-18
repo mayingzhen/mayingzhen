@@ -81,7 +81,7 @@ namespace ma
 
 	private:
 
-		std::vector<TerrainSection*>	m_arrSection;
+		std::vector<TerrainSectionPtr>	m_arrSection;
 		//std::vector<GameObject*>		m_arrGameObj;
 
 		std::vector<PixMap>				m_PixMapArray;

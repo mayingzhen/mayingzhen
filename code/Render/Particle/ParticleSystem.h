@@ -19,14 +19,14 @@ namespace ma
 
 		void				OnFlushFrame();
 
-		void				AddParticleEmitter(ParticleEmitter* pParticle);
+		void				AddParticleBatch(ParticleBatch* pParticle);
 
-		ParticleEmitter*	Create(const char* url);
+		//ParticleEmitter*	Create(const char* url);
 
-		void				Delete(ParticleEmitter* pEmit);
+		//void				Delete(ParticleEmitter* pEmit);
 	
 	private:
-		std::vector<ParticleEmitter*>	m_arrPaticleEmit;
+	//	std::vector<ParticleBatch*>		m_arrPaticleEmit;
 
 		ParticleThread*					m_pParticleThread;
 

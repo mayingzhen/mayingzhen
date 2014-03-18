@@ -8,16 +8,16 @@ namespace ma
 	public:
 		SampleShadowMap();
 
-		virtual void Load();
+		virtual void		Load();
 
-		virtual void UnLoad();
+		virtual void		UnLoad();
 
-		virtual void Update();
+		virtual void		Update();
 
-		virtual void Render();
+		virtual void		Render();
 
 	private:
-		DirectonalLight*	m_pDirectLight;
+		DirectonalLightPtr	m_pDirectLight;
 	};
 }
 

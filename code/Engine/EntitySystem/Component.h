@@ -24,13 +24,9 @@ namespace ma
 
 		virtual void	EndShow(Camera* pCamera) {}
 
-		//virtual	void	UpdateTransform();
-
 		GameObject*		GetGameObject();
 
 		SceneNode*		GetSceneNode();
-
-		virtual AABB	GetAABBWS() {return AABB();}
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component");
 
@@ -39,6 +35,8 @@ namespace ma
 
 		SceneNode*		m_pSceneNode;
 	};
+
+	DeclareRefPtr(Component);
 }
 
 

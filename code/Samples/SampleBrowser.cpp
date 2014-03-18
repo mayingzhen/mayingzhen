@@ -15,12 +15,12 @@
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Physics/SampleCharaControl.hxx"
 #include "Samples/Physics/SampleJoint.hxx"
-#include "Samples/Physics/SampleRagdoll.hxx"
+//#include "Samples/Physics/SampleRagdoll.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
-#include "Samples/Serialize/SampleS3Import.hxx"
+//#include "Samples/Serialize/SampleS3Import.hxx"
 
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
@@ -43,7 +43,7 @@ namespace ma
 	{
 #if PLATFORM_WIN == 1
 		m_arrSamples["FbxImport"] = new SampleFbxImport();
-		m_arrSamples["S3Import"] = new SampleS3Import();
+		//m_arrSamples["S3Import"] = new SampleS3Import();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 		
@@ -61,13 +61,13 @@ namespace ma
 		m_arrSamples["RigidBody"] = new SampleRigidBody();
 		m_arrSamples["CharControl"] = new SampleCharaControl();
 		m_arrSamples["PhysicsJoint"] = new SampleJoint();
-		m_arrSamples["Ragdoll"] = new SampleRagdoll();
+		//m_arrSamples["Ragdoll"] = new SampleRagdoll();
 		
 		// Animation
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		m_pCurSample = m_arrSamples["CSharpScript"];
+		m_pCurSample = m_arrSamples["AnimationRetarget"];
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -306,7 +306,7 @@ namespace ma
 
 	Camera*	SampleBrowser::GetCamera()
 	{
-		return  GetRenderSystem()->GetMainCamera();
+		return  GetRenderSystem()->GetMainCamera().get();
 	}
 
 	void SampleBrowser::Render()

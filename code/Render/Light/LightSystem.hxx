@@ -45,7 +45,7 @@ namespace ma
 			if ( !pLight->IsCreateShadow() )
 				continue;
 
-			pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera() );
+			pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera().get() );
 		}
 	}
 }

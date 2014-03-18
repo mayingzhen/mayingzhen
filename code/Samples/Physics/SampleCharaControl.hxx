@@ -21,10 +21,10 @@ namespace ma
 
 		{
 			m_pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
-			ICharaControll* pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
+			ICharaControllPtr pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
 			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
-			MeshComponent* pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 		
 			AABB aabb = pMeshComp->GetAABBWS();
@@ -40,7 +40,7 @@ namespace ma
 			pCapsule->SetTransformLS(tsfLS);
 
 
-			IAnimationObject* pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
+			IAnimationObjectPtr pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
 			pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
@@ -53,12 +53,12 @@ namespace ma
 		{
 			m_pTerrain = GetEntitySystem()->CreateGameObject("Terrain");
 	
-			IBoxCollisionShape* pBoxCollisionShape = m_pTerrain->CreateComponent<IBoxCollisionShape>();
+			IBoxCollisionShapePtr pBoxCollisionShape = m_pTerrain->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(1800,20,1800));
 
 			{
 				GameObjectPtr pObje = GetEntitySystem()->CreateGameObject("Box1");
-				IBoxCollisionShape* pBox = pObje->CreateComponent<IBoxCollisionShape>();
+				IBoxCollisionShapePtr pBox = pObje->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				pObje->GetSceneNode()->Translate(Vector3(-100,20,0));
 			}
@@ -66,9 +66,9 @@ namespace ma
 
 			{
 				GameObjectPtr pObje2 = GetEntitySystem()->CreateGameObject("Box2");
-				IBoxCollisionShape* pBox = pObje2->CreateComponent<IBoxCollisionShape>();
+				IBoxCollisionShapePtr pBox = pObje2->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
-				IRigidBody* pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();
+				IRigidBodyPtr pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();
 				pObje2->GetSceneNode()->Translate(Vector3(140,40,0));
 			}
 
@@ -103,7 +103,7 @@ namespace ma
 		if (fDistance <= fStepMoveLeng)
 		{
 			m_bMoveing = false;
-			IAnimationObject* pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
+			IAnimationObjectPtr pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
 			if (pAnimComp)
 			{
 				pAnimComp->PlayAnimation("Idle");
@@ -198,7 +198,7 @@ namespace ma
 			m_vMoveTo = hitPosWS;
 			m_bMoveing = true;
 
-			IAnimationObject* pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
+			IAnimationObjectPtr pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
 			if (pAnimComp)
 			{
 				pAnimComp->PlayAnimation("Run");

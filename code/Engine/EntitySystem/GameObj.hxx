@@ -30,13 +30,13 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			Component* pComp = m_arrComp[i];
+			Component* pComp = m_arrComp[i].get();
 			ObjectFactoryManager::GetInstance().DeleteObject(pComp->GetClass()->GetName(), pComp);
 		}
 		m_arrComp.clear();
 
 		m_pCullTree = NULL;
-		
+
 		this->RemoveAllChild();
 		
 		if (m_pParent)
@@ -123,16 +123,6 @@ namespace ma
 	}
 
 
-// 	void GameObject::SetNeedChange(CHANGE_TYPE eChangeType)
-// 	{
-// 		m_nNeedChange |= eChangeType;
-// 
-// 		for (std::vector<GameObjectPtr>::iterator iter = m_arrChild.begin();iter != m_arrChild.end();iter++)
-// 		{
-// 			(*iter)->SetNeedChange(eChangeType);
-// 		}
-// 	}
-
 	bool GameObject::TravelScene(SceneVisiter* pVisiter)
 	{
 		bool bTraveling = pVisiter->VisiteGameObjectBegin(this);
@@ -141,7 +131,7 @@ namespace ma
 		{
 			for (UINT nCnt = 0; nCnt < m_arrComp.size(); ++nCnt)
 			{
-				bTraveling = pVisiter->VisiteComponent(m_arrComp[nCnt]);
+				bTraveling = pVisiter->VisiteComponent(m_arrComp[nCnt].get());
 				if (!bTraveling)
 				{
 					break;
@@ -164,12 +154,12 @@ namespace ma
 	}
 
 
-	void GameObject::AddComponent(Component* pComponent)
+	void GameObject::AddComponent(ComponentPtr pComponent)
 	{
 		if (pComponent == NULL)
 			return;
 
-		std::vector<Component*>::iterator it = find(m_arrComp.begin(),m_arrComp.end(),pComponent);
+		std::vector<ComponentPtr>::iterator it = find(m_arrComp.begin(),m_arrComp.end(),pComponent);
 		if (it != m_arrComp.end())
 			return;
 
@@ -177,29 +167,55 @@ namespace ma
 	}
 
 
-	void GameObject::SerializeChild(Serializer& sl, std::vector<GameObjectPtr>& arrChild,GameObject* pParent,const char* pszLable)
+	void GameObject::SerializeChild(Serializer& sl,const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
-		UINT nSize = (UINT)arrChild.size();
+		UINT nSize = (UINT)m_arrChild.size();
 		sl.Serialize(nSize,"size");
 
-		if (nSize != arrChild.size())
+		if (nSize != m_arrChild.size())
 		{
-			arrChild.resize(nSize);
+			m_arrChild.resize(nSize);
 		}
 
 		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
 		{
 			char buf[32];
 			sprintf(&buf[0],"Element_%u",nCnt);
-			if (arrChild[nCnt] == NULL)
+			if (m_arrChild[nCnt] == NULL)
 			{
-				arrChild[nCnt] = new GameObject();
-				arrChild[nCnt]->SetParent(pParent);
-				//pParent->AddChild(arrChild[nCnt]);
+				m_arrChild[nCnt] = new GameObject();
+				m_arrChild[nCnt]->SetParent(this);
 			}
-			sl.Serialize(*(arrChild[nCnt]),buf);
+			sl.Serialize(*(m_arrChild[nCnt]),buf);
+		}
+
+		sl.EndSection();
+	}
+
+	void GameObject::SerializeComp(Serializer& sl,const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		UINT nSize = m_arrComp.size();
+		sl.Serialize(nSize,"size");
+
+		if (nSize != m_arrComp.size())
+		{
+			m_arrComp.resize(nSize);
+		}
+
+		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			
+			Component* pComp = m_arrComp[nCnt].get();
+
+			SerializeObjectArg<Component>(sl,pComp,this,buf);
+
+			m_arrComp[nCnt] = pComp;
 		}
 
 		sl.EndSection();
@@ -213,9 +229,9 @@ namespace ma
 
 		sl.Serialize(*m_pScenNode,"SceneNode");
 
-		SerializeArrObjArg<Component>(sl,m_arrComp,this,"arrComp");
+		SerializeComp(sl,"arrComp");
 
-		SerializeChild(sl,m_arrChild,this,"arrChild");
+		SerializeChild(sl,"arrChild");
 
 		sl.EndSection();
 	}
@@ -334,11 +350,16 @@ namespace ma
 
 	}
 
-	void GameObject::UpdateAABB()
+	const AABB&	GameObject::GetAABBWS()
 	{
+		if ( m_pScenNode->IsMatrixWSDirty() )
+		{
+			m_worldAABB = m_AABB;
+			m_worldAABB.Transform( m_pScenNode->GetWorldMatrix() );
+		}
 
+		return m_worldAABB;
 	}
-
 }
 
 

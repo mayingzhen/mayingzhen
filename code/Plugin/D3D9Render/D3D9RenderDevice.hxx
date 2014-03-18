@@ -348,24 +348,24 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration.get();
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
 		if (pRenderable->m_pIndexBuffer)
 		{	
-			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer;
+			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer.get();
 			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
 			ASSERT(hr == D3D_OK);
 		}
 
-		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers;
+		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers.get();
 		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
 
 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
@@ -398,14 +398,14 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration;
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration.get();
 
 		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
 		ASSERT(hr == D3D_OK);
 
 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData;
+		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)

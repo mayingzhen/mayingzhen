@@ -35,51 +35,55 @@ namespace ma
 		Vec3TransformCoord(&_far_right_top_world,&_far_right_top,&invProjViewMatrix);
 		Vec3TransformCoord(&_far_right_bottom_world,&_far_right_bottom,&invProjViewMatrix);
 
-		m_pPoints[0] = _near_left_top_world;
-		m_pPoints[1] = _near_left_bottom_world;
-		m_pPoints[2] = _near_right_top_world;
-		m_pPoints[3] = _near_right_bottom_world;
-		m_pPoints[4] = _far_left_top_world;
-		m_pPoints[5] = _far_left_bottom_world;
-		m_pPoints[6] = _far_right_top_world;
-		m_pPoints[7] = _far_right_bottom_world;
+		m_pPoints[near_left_top] = _near_left_top_world;
+		m_pPoints[near_left_bottom] = _near_left_bottom_world;
+		m_pPoints[near_right_top] = _near_right_top_world;
+		m_pPoints[near_right_bottom] = _near_right_bottom_world;
+		m_pPoints[far_left_top] = _far_left_top_world;
+		m_pPoints[far_left_bottom] = _far_left_bottom_world;
+		m_pPoints[far_right_top] = _far_right_top_world;
+		m_pPoints[far_right_bottom] = _far_right_bottom_world;
+
+		PlaneFromPoints(&m_pPlane[near_Plane],&m_pPoints[near_left_top],&m_pPoints[near_right_top],&m_pPoints[near_right_bottom]); 
+		PlaneFromPoints(&m_pPlane[far_Plane],&m_pPoints[far_left_top],&m_pPoints[far_right_top],&m_pPoints[far_right_bottom]); 
+		PlaneFromPoints(&m_pPlane[Left_Plane],&m_pPoints[near_left_top],&m_pPoints[far_left_top],&m_pPoints[far_left_bottom]); 
+		PlaneFromPoints(&m_pPlane[Right_Plane],&m_pPoints[far_right_top],&m_pPoints[near_right_top],&m_pPoints[near_right_bottom]);
+		PlaneFromPoints(&m_pPlane[top_Plane],&m_pPoints[near_right_top],&m_pPoints[far_right_top],&m_pPoints[far_left_top]);
+		PlaneFromPoints(&m_pPlane[bottom_Plane],&m_pPoints[far_left_bottom],&m_pPoints[far_right_bottom],&m_pPoints[near_right_bottom]);
+
 	}
 
 	Frustum::Visibility Frustum::Intersect(const AABB& box) const
 	{
-		return Visibility_FULL;
-// 		if (box.isNull())
-// 		{
-// 			return Visibility_NONE;
-// 		}
-// 
-// 		Vector3 vCenter = box.getCenter();
-// 		Vector3 vHalfSize = box.getHalfSize();
-// 
-// 		bool bAllInSide = true;
-// 		for (int i = 0;i< 6;++i)
-// 		{
-// 			const Plane& plane = m_rgPlane[i];
-// 			Plane::Side side = plane.getSide(vCenter, vHalfSize);
-// 			if (side == Plane::NEGATIVE_SIDE)
-// 			{
-// 				return Visibility_NONE;
-// 			}
-// 
-// 			if (side == Plane::BOTH_SIDE)
-// 			{
-// 				bAllInSide = false;
-// 			}
-// 		}
-// 
-// 		if (bAllInSide)
-// 		{
-// 			return Visibility_FULL;
-// 		}
-// 		else
-// 		{
-// 			return Visibility_PARTITAL;
-// 		}
+		//return Visibility_FULL;
+		//if (box.isNull())
+		//{
+		//	return Visibility_NONE;
+		//}
+
+		bool bAllInSide = true;
+		for (int i = 0; i < 6; ++i)
+		{
+			Side side = IntersectionTest(m_pPlane[i],box);
+			if (side == NEGATIVE_SIDE)
+			{
+				return Visibility_NONE;
+			}
+
+			if (side == BOTH_SIDE)
+			{
+				bAllInSide = false;
+			}
+		}
+
+		if (bAllInSide)
+		{
+			return Visibility_FULL;
+		}
+		else
+		{
+			return Visibility_PARTITAL;
+		}
 	}
 
 	bool Frustum::isVisible(const AABB& bound) const

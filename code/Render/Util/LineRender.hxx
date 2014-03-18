@@ -18,8 +18,6 @@ namespace ma
 	void LineRender::Init()
 	{
 		m_pLinTech =  new Technique("Line","default","default","COLOR");
-		//Effect*	pEffect = new Effect("Line");
-		//pEffect->AddTechnique("Shading","default","COLOR");
 
 		MaterialParameter* pParam = m_pLinTech->GetParameter("u_worldViewProjectionMatrix");
 		GetParameterManager()->SetParameterAutoBinding(pParam,VIEW_PROJECTION_MATRIX);
@@ -34,6 +32,7 @@ namespace ma
 	void LineRender::ShutDown()
 	{
 		SAFE_DELETE(m_pMeshBatch);
+		SAFE_DELETE(m_pLinTech);
 	}
 
 
@@ -148,7 +147,7 @@ namespace ma
 
 	void LineRender::Render()
 	{
-		m_pMeshBatch->start();
+		m_pMeshBatch->Reset();
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
@@ -160,10 +159,10 @@ namespace ma
 			v[1] = arrLineVertex[i + 1];
 			Uint16 index[2] = {0,1};
 
-			m_pMeshBatch->add(v,2,index,2);
+			m_pMeshBatch->Add(v,2,index,2);
 		}
 
-		m_pMeshBatch->finish(m_pLinTech);	
+		m_pMeshBatch->Render(m_pLinTech);	
 	}
 	
 }

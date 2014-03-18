@@ -22,12 +22,12 @@ namespace ma
 		std::string	strDllPath = FileSystem::getFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
-		m_pGameObj =  GetEntitySystem()->CreateGameObject("Test");
+		GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("Test");
 
-		MeshComponent* pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
+		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
-		m_pTestScript = m_pGameObj->CreateComponent<IScriptObject>();
+		m_pTestScript = pGameObj->CreateComponent<IScriptObject>();
 		m_pTestScript->SetName("SharpTest");
 	}
 
