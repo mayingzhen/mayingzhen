@@ -20,14 +20,6 @@ namespace ma
 
 	MeshData::~MeshData()
 	{
-		SAFE_DELETE(m_pIndexBuffer);
-		SAFE_DELETE(m_pVertexBuffer);
-		SAFE_DELETE(m_pDeclaration);
-		for (UINT i = 0; i < m_arrSubMesh.size(); ++i)
-		{
-			SAFE_DELETE(m_arrSubMesh[i]);
-		}
-		m_arrSubMesh.clear();
 	}
 
 	bool MeshData::InitRendable()

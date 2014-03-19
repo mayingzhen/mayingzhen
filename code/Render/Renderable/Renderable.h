@@ -24,10 +24,6 @@ namespace ma
 		ref_ptr<VertexDeclaration>		m_pDeclaration;
 		ref_ptr<VertexBuffer>			m_pVertexBuffers;	
 		ref_ptr<IndexBuffer>			m_pIndexBuffer;
-// 		UINT							m_nIndexStart;
-// 		UINT							m_nIndexCount;
-// 		UINT							m_nVertexStart;
-// 		UINT							m_nVertexCount;
 		ref_ptr<SubMeshData>			m_pSubMeshData;
 		ref_ptr<Material>				m_pMaterial;
 		Matrix4x4						m_matWorld[2];
@@ -36,20 +32,6 @@ namespace ma
 
 	DeclareRefPtr(Renderable);
 
-
-// 	class SkinRenderable : public Renderable
-// 	{
-// 	public:
-// 		void					SetSkinMatrix(const Matrix4x4* arrMatrixs, Uint nCount);
-// 		
-// 	public:
-// 
-// 		std::vector<BoneIndex>	m_arrBonePalette;
-// 
-// 		std::vector<Matrix4x4>	m_arrSkinMatrix[2];
-// 	};
-// 
-// 	DeclareRefPtr(SkinRenderable);
 }
 
 #endif

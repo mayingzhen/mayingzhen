@@ -13,43 +13,44 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)
-			m_pChargigi = GetEntitySystem()->CreateGameObject("gigi");
-			MeshComponentPtr pMesCompb = m_pChargigi->CreateComponent<MeshComponent>();
+			GameObjectPtr pChargigi = GetEntitySystem()->CreateGameObject("gigi");
+			MeshComponentPtr pMesCompb = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
 
-			MeshComponentPtr pMesComph = m_pChargigi->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMesComph = pChargigi->CreateComponent<MeshComponent>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mat");
 
-			MeshComponentPtr pMesCompf = m_pChargigi->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMesCompf = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
 			
-			m_pAnimtionObjectA = m_pChargigi->CreateComponent<IAnimationObject>();
+			m_pAnimtionObjectA = pChargigi->CreateComponent<IAnimationObject>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
  			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
 
-			m_pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
+			pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
 		}
 
 		// character B MeshData & skeleton & Animation
 		{
-			m_pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+			GameObjectPtr pCharMagic = GetEntitySystem()->CreateGameObject("magic");
 
-			MeshComponentPtr pMeshComp = m_pCharMagic->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-			m_pAnimtionObjectB = m_pCharMagic->CreateComponent<IAnimationObject>();
+			m_pAnimtionObjectB = pCharMagic->CreateComponent<IAnimationObject>();
 			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
 
 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
 
- 			m_pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
+ 			pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
 		}
 	}
 
 	void SampleAnimationRetarget::UnLoad()
 	{
-
+		m_pAnimtionObjectA = NULL;
+		m_pAnimtionObjectB = NULL;
 	}
 
 	void SampleAnimationRetarget::Update()

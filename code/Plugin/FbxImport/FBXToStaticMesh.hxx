@@ -83,7 +83,7 @@ namespace ma
 			pSubmesh->m_nIndexCount = arrIndex.size() - nIndexSize;
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->m_pVertexBuffer, pMeshData->m_pIndexBuffer);
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
 
 		pMesh->ComputeBBox();
 		pMeshData->m_meshBound.m_vMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );

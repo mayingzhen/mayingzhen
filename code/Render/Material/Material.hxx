@@ -13,13 +13,13 @@ namespace ma
 	{
 		m_pMatData = pMatData;
 
-		if (pMatData)
+		if (m_pMatData)
 		{
-			Technique* pTech = LoadTechnique(pMatData->GetShaderName(),pMatData->GetShaderMacro());
+			Technique* pTech = LoadTechnique(m_pMatData->GetShaderName(),m_pMatData->GetShaderMacro());
 
-			for (UINT i = 0; i < pMatData->GetParameterNumber(); ++i)
+			for (UINT i = 0; i < m_pMatData->GetParameterNumber(); ++i)
 			{
-				MaterialParameter* pParmMat = pMatData->GetParameterByIndex(i);
+				MaterialParameter* pParmMat = m_pMatData->GetParameterByIndex(i);
 
 				MaterialParameter* pParmTech = pTech->GetParameter( pParmMat->GetName() );
 				if (pParmTech)
@@ -57,7 +57,7 @@ namespace ma
 		m_arrTechnique.push_back(pTechnique);
 	}
 
-	Technique* Material::LoadTechnique(const std::string& sShaderName,const std::string& sMatFlag)
+	Technique* Material::LoadTechnique(const char* sShaderName,const char* sMatFlag)
 	{
 		std::string strShadingDefine = sMatFlag;
 		if ( GetRenderSetting()->m_bDefferLight )
@@ -70,13 +70,13 @@ namespace ma
 			Technique* pTech = NULL;
 			if ( GetRenderSetting()->m_bHWShadowMap )
 			{
-				std::string strShaderDefine = sMatFlag + ";HWPCF";
-				pTech = AddTechnique("ShadowDepth","ShadowDepth",strShaderDefine.c_str());
+				strShadingDefine += ";HWPCF";
+				pTech = AddTechnique("ShadowDepth","ShadowDepth",strShadingDefine.c_str());
 				pTech->GetRenderState().m_bColorWrite = false;
 			}
 			else
 			{
-				pTech = AddTechnique("ShadowDepth","ShadowDepth",sMatFlag.c_str());
+				pTech = AddTechnique("ShadowDepth","ShadowDepth",sMatFlag);
 			}
 			pTech->GetRenderState().m_fDepthBias = 0.002f;
 			pTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT; 
@@ -84,10 +84,10 @@ namespace ma
 
 		if ( GetRenderSetting()->m_bDefferLight )
 		{
-			AddTechnique("Gbuffer","Gbuffer",sMatFlag.c_str());
+			AddTechnique("Gbuffer","Gbuffer",sMatFlag);
 		}
 
-		return AddTechnique("Shading",sShaderName.c_str(),strShadingDefine.c_str());
+		return AddTechnique("Shading",sShaderName,strShadingDefine.c_str());
 	}
 
 	Technique*	Material::AddTechnique(const char* pTechName,const char* pShadrName, const char* pDefine)

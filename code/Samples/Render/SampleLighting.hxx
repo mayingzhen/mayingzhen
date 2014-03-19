@@ -56,6 +56,9 @@ namespace ma
 	void SampleLighting::UnLoad()
 	{
 		GetLightSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));	
+
+		m_pDirectLight = NULL;
+		m_pPointLight = NULL;
 	}
 
 	void SampleLighting::Update()

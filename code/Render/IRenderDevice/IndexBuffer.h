@@ -17,6 +17,8 @@ namespace ma
 	//protected:
 	//	INDEX_TYPE				m_eIndexType;
 	};
+
+	DeclareRefPtr(IndexBuffer);
 }
 
 #endif

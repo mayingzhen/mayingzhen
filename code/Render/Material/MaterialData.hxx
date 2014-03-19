@@ -21,7 +21,6 @@ namespace ma
 
 	void MaterialData::SetShader(const char* pShaderName,const char* pShaderMacro)
 	{
-		SAFE_DELETE(m_pTechnique);
 		m_strShaderName = pShaderName;
 		m_strShaderMacro = pShaderMacro;
 		SAFE_DELETE(m_pTechnique);

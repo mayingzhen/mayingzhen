@@ -18,10 +18,8 @@ namespace ma
 		virtual void	Update();
 
 	private:
-		GameObjectPtr			m_pChargigi;
 		IAnimationObjectPtr		m_pAnimtionObjectA;
 		
-		GameObjectPtr			m_pCharMagic;
 		IAnimationObjectPtr		m_pAnimtionObjectB;
 	};
 }

@@ -308,7 +308,7 @@ namespace ma
 			}
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->m_pVertexBuffer, pMeshData->m_pIndexBuffer);
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
 
 		// Bound Box
 		pMesh->ComputeBBox();

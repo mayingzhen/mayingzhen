@@ -33,6 +33,7 @@ namespace ma
 
 	void SampleMonoScript::UnLoad()
 	{
+		m_pTestScript = NULL;
 	}
 
 	void SampleMonoScript::Update()

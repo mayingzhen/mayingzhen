@@ -9,6 +9,7 @@ namespace ma
 
 	void SampleRigidBody::UnLoad()
 	{
+		m_pRigidBody = NULL;
 	}	
 
 	void SampleRigidBody::Load()

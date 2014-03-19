@@ -52,7 +52,9 @@ namespace ma
 
 	void SampleShadowMap::UnLoad()
 	{
-		GetLightSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));			
+		GetLightSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));		
+
+		m_pDirectLight = NULL;
 	}
 
 	void SampleShadowMap::Update()

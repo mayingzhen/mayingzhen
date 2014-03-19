@@ -4,7 +4,6 @@ namespace ma
 {
 	SampleCharaControl::SampleCharaControl()
 	{
-		m_pCharaObj = NULL;
 		m_fMoveSpeed = 200;
 		m_bMoveing = false;
 	}
@@ -20,11 +19,11 @@ namespace ma
 		GetInput()->AddMouseListener(this);
 
 		{
-			m_pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
-			ICharaControllPtr pCharComp = m_pCharaObj->CreateComponent<ICharaControll>();
+			GameObjectPtr pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
+			ICharaControllPtr pCharComp = pCharaObj->CreateComponent<ICharaControll>();
 			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
-			MeshComponentPtr pMeshComp = m_pCharaObj->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 		
 			AABB aabb = pMeshComp->GetAABBWS();
@@ -40,14 +39,14 @@ namespace ma
 			pCapsule->SetTransformLS(tsfLS);
 
 
-			IAnimationObjectPtr pAnimComp = m_pCharaObj->CreateComponent<IAnimationObject>();
-			pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
-			IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
+			m_pCharaAnim = pCharaObj->CreateComponent<IAnimationObject>();
+			m_pCharaAnim->Load("magician/Body.Aniset","magician/Body.ske");
+			IAnimationSet* pAnimSet = m_pCharaAnim->GetAnimationSet();
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
-			pAnimComp->PlayAnimation("Idle");
+			m_pCharaAnim->PlayAnimation("Idle");
 
-			m_pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
+			pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
 		}
 
 		{
@@ -80,6 +79,9 @@ namespace ma
 	{
 		GetInput()->RemoveTouchListener(this);
 		GetInput()->RemoveMouseListener(this);
+
+		m_pTerrain = NULL;
+		m_pCharaAnim = NULL;
 	}
 
 
@@ -93,7 +95,7 @@ namespace ma
 		if (!m_bMoveing)
 			return;
 
-		SceneNode* pCharNode = m_pCharaObj->GetSceneNode();
+		SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
 
 		float fStepMoveLeng =  m_fMoveSpeed * GetTimer()->GetFrameDeltaTime();
 
@@ -103,16 +105,11 @@ namespace ma
 		if (fDistance <= fStepMoveLeng)
 		{
 			m_bMoveing = false;
-			IAnimationObjectPtr pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
-			if (pAnimComp)
-			{
-				pAnimComp->PlayAnimation("Idle");
-			}
+			m_pCharaAnim->PlayAnimation("Idle");
 			return;
 		}	
 
 		Vector3 vMoveStepWS = vMoveDir * fStepMoveLeng / fDistance;
-
 
 		pCharNode->Translate(vMoveStepWS);
 	}
@@ -121,15 +118,6 @@ namespace ma
 	{
 	}
 
-	bool SampleCharaControl::mouseMoved( const OIS::MouseEvent &arg )
-	{
-		return true;
-	}
-
-	bool SampleCharaControl::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-	{
-		return true;
-	}
 
 	bool SampleCharaControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	{
@@ -143,27 +131,12 @@ namespace ma
 		return true;
 	}
 
-	bool SampleCharaControl::touchMoved( const OIS::MultiTouchEvent &arg )
-	{
-		return true;
-	}
-
-	bool SampleCharaControl::touchPressed( const OIS::MultiTouchEvent &arg )
-	{
-		return true;
-	}
-
 	bool SampleCharaControl::touchReleased( const OIS::MultiTouchEvent &arg )
 	{
 		Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
 
 		OnTouch(mousePos);
 	
-		return true;
-	}
-
-	bool SampleCharaControl::touchCancelled( const OIS::MultiTouchEvent &arg )
-	{
 		return true;
 	}
 
@@ -181,7 +154,7 @@ namespace ma
 		GameObject* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
 		if (pGameObj == m_pTerrain)
 		{
-			SceneNode* pCharNode = m_pCharaObj->GetSceneNode();
+			SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
 
 			Vector3 curPos = pCharNode->GetTransform().m_vPos;
 			Vector3 vAxisFrom = pCharNode->GetForward();
@@ -198,11 +171,7 @@ namespace ma
 			m_vMoveTo = hitPosWS;
 			m_bMoveing = true;
 
-			IAnimationObjectPtr pAnimComp = m_pCharaObj->GetTypeComponentFirst<IAnimationObject>();
-			if (pAnimComp)
-			{
-				pAnimComp->PlayAnimation("Run");
-			}
+			m_pCharaAnim->PlayAnimation("Run");
 
 			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
 			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
