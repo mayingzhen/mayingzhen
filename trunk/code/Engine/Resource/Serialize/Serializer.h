@@ -64,6 +64,9 @@ namespace ma
 		void Serialize(std::vector<T*>& val,const char* pszLable = "array");
 
 		template<class T>
+		void Serialize(std::vector< ref_ptr<T> >& val,const char* pszLable = "array");
+
+		template<class T>
 		void Serialize(T& val,const char* pszLable = "")
 		{
 			SerializeData(*this,val,pszLable);
@@ -129,6 +132,35 @@ namespace ma
 
 	template<class T>
 	void Serializer::Serialize(std::vector<T*>& val,const char* pszLable)
+	{
+		BeginSection(pszLable);
+
+		UINT nSize = (UINT)val.size();
+		Serialize(nSize,"size");
+
+		if (nSize != val.size())
+		{
+			val.resize(nSize);
+		}
+		//BeginSection("element");
+
+		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			if (val[nCnt] == NULL)
+			{
+				val[nCnt] = new T();
+			}
+			Serialize(*(val[nCnt]),buf);
+		}
+		//EndSection();
+
+		EndSection();
+	}
+
+	template<class T>
+	void Serializer::Serialize(std::vector< ref_ptr<T> >& val,const char* pszLable /*= "array"*/)
 	{
 		BeginSection(pszLable);
 

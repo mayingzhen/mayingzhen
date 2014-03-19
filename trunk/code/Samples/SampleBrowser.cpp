@@ -67,7 +67,7 @@ namespace ma
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		m_pCurSample = m_arrSamples["AnimationRetarget"];
+		m_pCurSample = m_arrSamples["AnimationTree"];
 
 		m_bPause = false;
 		m_bStepOneFrame = false;
@@ -230,7 +230,7 @@ namespace ma
 
 			ResetCamera();
 
-			GetEntitySystem()->Reset();
+ 			GetEntitySystem()->Reset();
 
 			m_pSystems->Stop();
 		}

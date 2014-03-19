@@ -19,8 +19,8 @@ namespace ma
 	{
 		DestoryScript();
 
-		if (m_pScriptClass)
-			m_pScriptClass->RemoveScriptObjectIns(this);
+// 		if (m_pScriptClass)
+// 			m_pScriptClass->RemoveScriptObjectIns(this);
 	}
 
 	void ScriptObject::Start()

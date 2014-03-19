@@ -22,7 +22,7 @@ namespace ma
 
 		Technique*			GetTechnqiue(const char* pTechName);
 
-		Technique*			LoadTechnique(const std::string& sShaderName,const std::string& sMatFlag);
+		Technique*			LoadTechnique(const char* sShaderName,const char* sMatFlag);
 
 		Technique*			AddTechnique(const char* pTechName,const char* pShadrName,const char* pDefine);
 

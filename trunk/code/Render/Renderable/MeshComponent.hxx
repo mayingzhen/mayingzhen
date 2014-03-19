@@ -9,33 +9,33 @@ namespace ma
 	MeshComponent::MeshComponent(GameObject* pGameObj):
 		RenderComponent(pGameObj)
 	{
-		m_pMesData = NULL;
 		m_pMaterial = NULL;
-		m_pMatData = NULL;
 		m_bSkin = false;
 	}
 
-
 	bool MeshComponent::Load(const char* pszSknPath,const char* pszMatPath)
 	{
-		m_pMesData = LoadResourceASync<MeshData>(pszSknPath);
+		m_pMesData = LoadResourceSync<MeshData>(pszSknPath);
 
-		m_pMatData = LoadResourceASync<MaterialData>(pszMatPath);
+		CreateRenderable(m_pMesData);
+
+		m_pMatData = LoadResourceSync<MaterialData>(pszMatPath);
+		m_pMaterial = new Material(m_pMatData);
 	
 		return true;
 	}
 
 	void MeshComponent::Update()
 	{
-		if (m_pMesData->GetResState() == ResLoaded && m_arrRenderable.empty() )
-		{
-			CreateRenderable(m_pMesData);
-		}
-		
-		if (m_pMatData->GetResState() == ResLoaded && m_pMaterial == NULL)
-		{
-			m_pMaterial = new Material(m_pMatData);
-		}	
+// 		if (m_pMesData->GetResState() == ResLoaded && m_arrRenderable.empty() )
+// 		{
+// 			CreateRenderable(m_pMesData);
+// 		}
+// 		
+// 		if (m_pMatData->GetResState() == ResLoaded && m_pMaterial == NULL)
+// 		{
+// 			m_pMaterial = new Material(m_pMatData);
+// 		}	
 	}
 
 	bool MeshComponent::CreateRenderable(ref_ptr<MeshData> pMeshData)

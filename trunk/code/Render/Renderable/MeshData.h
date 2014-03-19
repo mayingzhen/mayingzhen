@@ -60,6 +60,8 @@ namespace ma
 		}
 	};
 
+	DeclareRefPtr(SubMeshData);
+
 
 	class IndexBuffer;
 	class VertexBuffer;
@@ -76,13 +78,13 @@ namespace ma
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 
-		SubMeshData*			GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index];}
+		SubMeshData*			GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index].get();}
 
-		IndexBuffer*			GetIndexBuffer() {return m_pIndexBuffer;}
+		IndexBuffer*			GetIndexBuffer() {return m_pIndexBuffer.get();}
 
-		VertexBuffer*			GetVertexBuffer() {return m_pVertexBuffer;}
+		VertexBuffer*			GetVertexBuffer() {return m_pVertexBuffer.get();}
 
-		VertexDeclaration*		GetVertexDeclar() {return m_pDeclaration;}
+		VertexDeclaration*		GetVertexDeclar() {return m_pDeclaration.get();}
 
 		AABB					GetBoundingAABB() {return m_meshBound;}
 
@@ -95,15 +97,15 @@ namespace ma
 
 	public:
 		
-		UINT						m_nIndexType;
-		UINT						m_nVertexType;
-		IndexBuffer*				m_pIndexBuffer;
-		VertexBuffer*				m_pVertexBuffer;
-		VertexDeclaration*			m_pDeclaration; 
+		UINT							m_nIndexType;
+		UINT							m_nVertexType;
+		IndexBufferPtr					m_pIndexBuffer;
+		VertexBufferPtr					m_pVertexBuffer;
+		VertexDeclarationPtr			m_pDeclaration; 
 
-		std::vector<SubMeshData*>	m_arrSubMesh;	
+		std::vector<SubMeshDataPtr>		m_arrSubMesh;	
 
-		AABB						m_meshBound;		
+		AABB							m_meshBound;		
 	};
 
 	DeclareRefPtr(MeshData);

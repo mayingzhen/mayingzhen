@@ -4,7 +4,6 @@ namespace ma
 {
 	SampleAnimationTree::SampleAnimationTree()
 	{
-		m_pGameObj = NULL;
 		m_pClip602 = NULL;
 		m_pClip120 = NULL;
 	}
@@ -12,18 +11,21 @@ namespace ma
 	void SampleAnimationTree::UnLoad()
 	{
 		GetInput()->RemoveKeyListener(this);
+
+		m_pClip602 = NULL;
+		m_pClip120 = NULL;
 	}
 
 	void SampleAnimationTree::Load()
 	{
 		GetInput()->AddKeyListener(this);
 
-		m_pGameObj =  GetEntitySystem()->CreateGameObject("magician");
+		GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("magician");
 
-		MeshComponentPtr pMeshComp = m_pGameObj->CreateComponent<MeshComponent>();
+		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-		IAnimationObjectPtr pAnimComp = m_pGameObj->CreateComponent<IAnimationObject>();
+		IAnimationObjectPtr pAnimComp = pGameObj->CreateComponent<IAnimationObject>();
 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 
 // 		ActionData actionData;
@@ -70,11 +72,6 @@ namespace ma
 			m_pClip120->SetBoneSet("LowerBody");
 		}
 
-		return true;
-	}
-
-	bool SampleAnimationTree::keyReleased(const OIS::KeyEvent &arg)
-	{
 		return true;
 	}
 }
