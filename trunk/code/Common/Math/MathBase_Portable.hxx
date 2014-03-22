@@ -358,8 +358,7 @@
 		const float Angle = acos(CosAngle);
 
 		//debugf( TEXT("CosAngle: %f Angle: %f"), CosAngle, Angle );
-
-		if ( abs(Angle) < FEPS )
+		if ( Abs(Angle) < FEPS)
 		{
 			*pOut = *pQ1;
 			return pOut;
