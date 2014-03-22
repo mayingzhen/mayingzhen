@@ -54,6 +54,10 @@ echo "7.开始编译libUI"
 ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C UI
 echo "================================================================"
 
+echo "8.开始编译Application"
+ndk-build NDK_DEBUG=$DEBUG_BUILD $CLEAN_BUILD -C Application
+echo "================================================================"
+
 
 echo "8.复制生成结果到lib目录"
 cp Common/obj/local/armeabi/libCommon.a lib/
@@ -63,6 +67,7 @@ cp Animation/obj/local/armeabi/libAnimation.a lib/
 cp GLESRender/obj/local/armeabi/libGLESRender.a lib/
 cp BulletPhysics/obj/local/armeabi/libBulletPhysics.a lib/
 cp UI/obj/local/armeabi/libUI.a lib/
+cp Application/obj/local/armeabi/libApplication.a lib/
 
 echo "9.复制Externlib"
 cp ../../extern/Bullet-2.81/build/ndk/libPhyxBullet.a lib/

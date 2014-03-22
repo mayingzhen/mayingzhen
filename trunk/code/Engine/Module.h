@@ -18,7 +18,7 @@
 // Resource
 #include "Engine/Resource/Stream.h"
 #include "Engine/Resource/DataStream.h"
-#include "Engine/Resource/AAssetFileStream.h"
+//#include "Engine/Resource/AAssetFileStream.h"
 #include "Engine/Resource/FileStream.h"
 #include "Engine/Resource/FileSystem.h"
 #include "Engine/Resource/Properties.h"

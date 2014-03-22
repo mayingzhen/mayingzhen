@@ -1,5 +1,5 @@
-#ifndef _FileStreamAndroid_H_
-#define _FileStreamAndroid_H_
+#ifndef _AAssetFileStream_H_
+#define _AAssetFileStream_H_
 
 #include "Stream.h"
 
@@ -7,17 +7,15 @@ class AAsset;
 
 namespace ma
 {
+	// Android AAsset
 
-#ifdef __ANDROID__
-
-	
-
-	class FileStreamAndroid : public Stream
+	class AAssetFileStream : public Stream 
 	{
 	public:
 		friend class FileSystem;
 	    
-		~FileStreamAndroid();
+		~AAssetFileStream();
+
 		virtual bool canRead();
 		virtual bool canWrite();
 		virtual bool canSeek();
@@ -31,18 +29,21 @@ namespace ma
 		virtual bool seek(long int offset, int origin);
 		virtual bool rewind();
 
-		static FileStreamAndroid* create(const char* filePath, const char* mode);
+		static AAssetFileStream*	create(const char* filePath, const char* mode);
+
+		static void					setAAssetManager(AAssetManager* pAAssetManager);
+
+		static AAssetManager*		getAAssetManager();
 
 	private:
-		FileStreamAndroid(AAsset* asset);
+		AAssetFileStream(AAsset* asset);
 
 	private:
 		AAsset* _asset;
 	};
-
-#endif
-
-
 }
 
 #endif //_FileStreamAndroid_H_
+
+
+

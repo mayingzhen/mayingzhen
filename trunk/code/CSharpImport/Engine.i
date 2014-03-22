@@ -15,7 +15,6 @@
 
 %include "../../Code/Engine/Resource/Stream.h"
 %include "../../Code/Engine/Resource/DataStream.h"
-%include "../../Code/Engine/Resource/AAssetFileStream.h"
 %include "../../Code/Engine/Resource/FileStream.h"
 %include "../../Code/Engine/Resource/FileSystem.h"
 

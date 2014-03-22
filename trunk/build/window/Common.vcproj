@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\StringUtils.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Common\TArray.h"
 				>
 			</File>

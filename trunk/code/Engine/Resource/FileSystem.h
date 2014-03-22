@@ -20,11 +20,6 @@ namespace ma
 
 		~FileSystem();
 
-#ifdef __ANDROID__
-		static void				setAAssetManager(AAssetManager* pAAssetManager);	
-		static AAssetManager*	getAAssetManager();
-#endif
-
 		static void			setResourcePath(const char* path);
 
 		static const char*	getResourcePath();
@@ -45,7 +40,7 @@ namespace ma
 
 		static bool			isAbsolutePath(const char* filePath);
 
-		static void			createFileFromAsset(const char* path);
+		//static void			createFileFromAsset(const char* path);
 
 		/**
 		 * Returns the directory name up to and including the trailing '/'.
@@ -78,6 +73,8 @@ namespace ma
 		static std::string	getExtension(const char* path);
 
 		static std::string  ReplaceFileExt(const std::string& strFile,const std::string& strNewExt);
+
+		static void			makepath(std::string path, int mode);
 
 	private:
 

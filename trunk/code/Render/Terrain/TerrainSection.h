@@ -16,6 +16,8 @@ namespace ma
 
 		virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pRenderable.get();}
 
+		virtual	void		Update();
+
 		virtual	void		Show(Camera* pCamera);
 
 		virtual Material*	GetMaterial();

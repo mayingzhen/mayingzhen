@@ -34,8 +34,4 @@ COMMON_API int DisplayError(const char * title,
 
 
 
-COMMON_API void Tokenize(const std::string& str, std::vector<std::string>& tokens, 
-			  const std::string& delimiters = " ", const bool trimEmpty = false);
-
-
 #endif //__Platform_H__

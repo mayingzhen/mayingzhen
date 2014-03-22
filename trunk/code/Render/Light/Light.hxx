@@ -170,7 +170,10 @@ namespace ma
 
 			Matrix4x4 matView = pCamera->GetMatView();
 			Frustum splitFrustum;
-			splitFrustum.Update(matView * matSplitProj);
+			float nearZ = 0;
+			float farZ = 1;
+			GetRenderDevice()->GetProjectionNearFar(nearZ,farZ);
+			splitFrustum.Update(matView * matSplitProj,nearZ,farZ);
 
 			CastersBuilder casterBuild(pSMF,splitFrustum,GetDirection());
 			GetEntitySystem()->GetRootGameObject()->TravelScene(&casterBuild);

@@ -21,12 +21,12 @@ namespace ma
 		return r;
 	}
 
-	float GenerateScalar(float min, float max)
+	inline float GenerateScalar(float min, float max)
 	{
 		return min + (max - min) * MATH_RANDOM_0_1();
 	}
 
-	void GenerateVectorInRect(const Vector3& base, const Vector3& variance, Vector3* dst)
+	inline void GenerateVectorInRect(const Vector3& base, const Vector3& variance, Vector3* dst)
 	{
 		ASSERT(dst);
 
@@ -37,7 +37,7 @@ namespace ma
 		dst->z = base.z + variance.z * MATH_RANDOM_MINUS1_1();
 	}
 
-	void GenerateVectorInEllipsoid(const Vector3& center, const Vector3& scale, Vector3* dst)
+	inline void GenerateVectorInEllipsoid(const Vector3& center, const Vector3& scale, Vector3* dst)
 	{
 		ASSERT(dst);
 
@@ -58,7 +58,7 @@ namespace ma
 		*dst += center;
 	}
 
-	void GenerateVector(const Vector3& base, const Vector3& variance, Vector3* dst, bool ellipsoid)
+	inline void GenerateVector(const Vector3& base, const Vector3& variance, Vector3* dst, bool ellipsoid)
 	{
 		if (ellipsoid)
 		{
@@ -70,7 +70,7 @@ namespace ma
 		}
 	}
 
-	void GenerateColor(const Vector4& base, const Vector4& variance, Vector4* dst)
+	inline void GenerateColor(const Vector4& base, const Vector4& variance, Vector4* dst)
 	{
 		ASSERT(dst);
 

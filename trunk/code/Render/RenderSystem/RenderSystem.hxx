@@ -96,7 +96,10 @@ namespace ma
 		std::vector<GameObject*> arrGameObjs;
 
 		Frustum camaeraFrustum;
-		camaeraFrustum.Update( pCamera->GetMatViewProj() );
+		float nearZ = 0;
+		float farZ = 1;
+		GetRenderDevice()->GetProjectionNearFar(nearZ,farZ);
+		camaeraFrustum.Update( pCamera->GetMatViewProj(),nearZ,farZ);
 		GetEntitySystem()->GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
 
 		for (UINT i = 0; i < arrGameObjs.size(); ++i)
