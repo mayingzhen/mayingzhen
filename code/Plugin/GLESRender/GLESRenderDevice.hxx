@@ -408,6 +408,12 @@ namespace ma
 		return *pOut;
 	}
 
+	void GLESRenderDevice::GetProjectionNearFar(float& fProjNear, float& fProjFar)
+	{
+		fProjNear = -1.0f;
+		fProjFar = 1.0f;
+	}
+
 	void GLESRenderDevice::BeginProfile(const char* pszLale)
 	{
         glPushGroupMarkerEXT(0,pszLale);

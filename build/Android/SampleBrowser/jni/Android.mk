@@ -23,7 +23,7 @@ LOCAL_C_INCLUDES := \
 
 LOCAL_LDLIBS := -lGLESv2 -llog -ldl -landroid -lEGL
 
-LOCAL_STATIC_LIBRARIES := Common Engine Render GLESRender BulletPhysics Animation UI
+LOCAL_STATIC_LIBRARIES := Common Engine Render GLESRender BulletPhysics Animation UI Application
   
 
 include $(BUILD_SHARED_LIBRARY)
@@ -61,5 +61,10 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := UI
 LOCAL_SRC_FILES := ../../lib/libUI.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := Application
+LOCAL_SRC_FILES := ../../lib/libApplication.a
 include $(PREBUILT_STATIC_LIBRARY)
 

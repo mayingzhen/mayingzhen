@@ -28,6 +28,7 @@
 #include "Common/RefPtr.h"
 #include "Common/BitField.h"
 #include "Common/TArray.h"
+#include "Common/StringUtils.h"
 
 #include "Common/WarningSuffix.h"
 

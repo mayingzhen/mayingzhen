@@ -418,7 +418,7 @@ namespace ma
 		BOTH_SIDE
 	};
 
-	Side IntersectionTest(const Plane& plane,const AABB& box)
+	inline Side IntersectionTest(const Plane& plane,const AABB& box)
 	{
 		float minD,maxD;
 		if (plane.a > 0.0f)

@@ -54,9 +54,9 @@ namespace ma
 	}
 
 	template <class T>
-	T*	CreateObjectArg(const char* pszClassName,Object* pObject)
+	T*	CreateObjectArg(const char* pszClassName,void* pArg)
 	{
-		Object* pObject = ObjectFactoryManager::GetInstance().CreateObjectArg(pszClassName,pObject);
+		Object* pObject = ObjectFactoryManager::GetInstance().CreateObjectArg(pszClassName,pArg);
 		ASSERT(pObject);
 
 		T* pTypeObject = SafeCast<T>(pObject);

@@ -25,14 +25,7 @@ namespace ma
 
 	TerrainSection::~TerrainSection()
 	{
-		//SAFE_DELETE(m_pRenderable->m_pSubMeshData);
-		//SAFE_DELETE(m_pRenderable);
 	}
-
-// 	void TerrainSection::Render(Technique* pTech)
-// 	{
-// 		GetRenderSystem()->DrawRenderable(m_pRenderable,pTech);
-// 	}
 
 	Material* TerrainSection::GetMaterial()
 	{
@@ -41,6 +34,11 @@ namespace ma
 			return NULL;
 
 		return pTerrain->GetMaterial();
+	}
+
+	void TerrainSection::Update()
+	{
+		int i = 4;
 	}
 
 	void TerrainSection::Show(Camera* pCamera)

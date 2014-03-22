@@ -73,6 +73,8 @@ namespace ma
 		
 		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf) = 0;
 	
+		virtual	void				GetProjectionNearFar(float& fProjNear, float& fProjFar) = 0;
+
 		virtual	void				BeginProfile(const char* pszLale) = 0;
 
 		virtual	void				EndProfile() = 0;

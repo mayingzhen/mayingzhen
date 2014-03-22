@@ -1,4 +1,5 @@
 #include "Assert.h"
+#include "Log.h"
 
 #if PLATFORM_WIN == 1
 
@@ -49,7 +50,7 @@ int AssertMsg(bool bOK, const char* text, const char* description, const char* f
 	return DEBUG_CONTINUE;
 }
 
-#elif PLATFORM_ANDROID == 1
+#elif PLATFORM_ANDROID == 1 
 
 int AssertMsg(bool bOk, const char* exper, const char* description, 
 				const char* file, int line)
@@ -70,7 +71,7 @@ int AssertMsg(bool bOk, const char* exper, const char* description,
 		"Line:         %d\n",		
 		exper, description, file, line);
 
-	Log(buffer);
+	ma::Log(buffer);
 
 	return 0;
 }

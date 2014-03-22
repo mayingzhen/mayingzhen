@@ -7,10 +7,11 @@ namespace ma
 
 	}
 
-	void Frustum::Update(const Matrix4x4 &mViewProj)
+	void Frustum::Update(const Matrix4x4 &mViewProj,float nearZ, float farZ)
 	{
-		float nearZ = 0.0f;
-		float farZ = 1.0f; // gl -1 ~ 1
+// 		float nearZ = 0.0f;
+// 		float farZ = 1.0f; // gl -1 ~ 1
+// 		GetRenderDevice()->GetProjectionNearFar(nearZ,farZ);
 		Vector3 _near_left_top(-1,1,nearZ),_near_left_top_world;
 		Vector3 _near_left_bottom(-1,-1,nearZ),_near_left_bottom_world;
 		Vector3 _near_right_top(1,1,nearZ),_near_right_top_world;
@@ -55,7 +56,7 @@ namespace ma
 
 	Frustum::Visibility Frustum::Intersect(const AABB& box) const
 	{
-		//return Visibility_FULL;
+		return Visibility_FULL;
 		//if (box.isNull())
 		//{
 		//	return Visibility_NONE;

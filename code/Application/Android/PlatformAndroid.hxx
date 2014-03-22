@@ -215,7 +215,7 @@ namespace ma
 			} while ((NULL == m_windId) && (ident >= 0));
 		}
 
-		Sleep(3);
+		Sleep(6);
 			
 
 		Game::GetInstance().Init();

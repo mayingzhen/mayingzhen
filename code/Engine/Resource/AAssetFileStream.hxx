@@ -3,79 +3,109 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifdef WIN32
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <direct.h>
-#define gp_stat _stat
-#define gp_stat_struct struct stat
-#else
-#define __EXT_POSIX2
-#include <libgen.h>
-#include <dirent.h>
-#define gp_stat stat
-#define gp_stat_struct struct stat
-#endif
+#include <android/asset_manager.h>
+#include <unistd.h>
+
+// #ifdef WIN32
+// #include <windows.h>
+// #include <tchar.h>
+// #include <stdio.h>
+// #include <direct.h>
+// #define gp_stat _stat
+// #define gp_stat_struct struct stat
+// #else
+// #define __EXT_POSIX2
+// #include <libgen.h>
+// #include <dirent.h>
+// #define gp_stat stat
+// #define gp_stat_struct struct stat
+// #endif
 
 
 namespace ma
 {
 
-	////////////////////////////////
-#ifdef __ANDROID__
+	AAssetManager* __assetManager;
 
-	FileStreamAndroid::FileStreamAndroid(AAsset* asset)
+	void AAssetFileStream::setAAssetManager(AAssetManager* pAAssetManager)
+	{
+		__assetManager = pAAssetManager;
+	}
+
+	AAssetManager*	AAssetFileStream::getAAssetManager()
+	{
+		return __assetManager;
+	}
+
+		/**
+	 * Returns true if the file exists in the android read-only asset directory.
+	 */
+	static bool androidFileExists(const char* filePath)
+	{
+		AAsset* asset = AAssetManager_open(__assetManager, filePath, AASSET_MODE_RANDOM);
+		if (asset)
+		{
+			int length = AAsset_getLength(asset);
+			AAsset_close(asset);
+			return length > 0;
+		}
+		return false;
+	}
+
+
+	////////////////////////////////
+
+	AAssetFileStream::AAssetFileStream(AAsset* asset)
 		: _asset(asset)
 	{
 	}
 
-	FileStreamAndroid::~FileStreamAndroid()
+	AAssetFileStream::~AAssetFileStream()
 	{
 		if (_asset)
 			close();
 	}
 
-	FileStreamAndroid* FileStreamAndroid::create(const char* filePath, const char* mode)
+	AAssetFileStream* AAssetFileStream::create(const char* filePath, const char* mode)
 	{
-		AAsset* asset = AAssetManager_open(FileSystem::getAAssetManager(), filePath, AASSET_MODE_RANDOM);
+		AAsset* asset = AAssetManager_open(AAssetFileStream::getAAssetManager(), filePath, AASSET_MODE_RANDOM);
 		if (asset)
 		{
-			FileStreamAndroid* stream = new FileStreamAndroid(asset);
+			AAssetFileStream* stream = new AAssetFileStream(asset);
 			return stream;
 		}
 		return NULL;
 	}
 
-	bool FileStreamAndroid::canRead()
+	bool AAssetFileStream::canRead()
 	{
 		return true;
 	}
 
-	bool FileStreamAndroid::canWrite()
+	bool AAssetFileStream::canWrite()
 	{
 		return false;
 	}
 
-	bool FileStreamAndroid::canSeek()
+	bool AAssetFileStream::canSeek()
 	{
 		return true;
 	}
 
-	void FileStreamAndroid::close()
+	void AAssetFileStream::close()
 	{
 		if (_asset)
 			AAsset_close(_asset);
 		_asset = NULL;
 	}
 
-	size_t FileStreamAndroid::read(void* ptr, size_t size, size_t count)
+	size_t AAssetFileStream::read(void* ptr, size_t size, size_t count)
 	{
 		int result = AAsset_read(_asset, ptr, size * count);
 		return result > 0 ? ((size_t)result) / size : 0;
 	}
 
-	char* FileStreamAndroid::readLine(char* str, int num)
+	char* AAssetFileStream::readLine(char* str, int num)
 	{
 		if (num <= 0)
 			return NULL;
@@ -134,32 +164,32 @@ namespace ma
 		return str; // what if first read failed?
 	}
 
-	size_t FileStreamAndroid::write(const void* ptr, size_t size, size_t count)
+	size_t AAssetFileStream::write(const void* ptr, size_t size, size_t count)
 	{
 		return 0;
 	}
 
-	bool FileStreamAndroid::eof()
+	bool AAssetFileStream::eof()
 	{
 		return position() >= length();
 	}
 
-	size_t FileStreamAndroid::length()
+	size_t AAssetFileStream::length()
 	{
 		return (size_t)AAsset_getLength(_asset);
 	}
 
-	long int FileStreamAndroid::position()
+	long int AAssetFileStream::position()
 	{
 		return AAsset_getLength(_asset) - AAsset_getRemainingLength(_asset);
 	}
 
-	bool FileStreamAndroid::seek(long int offset, int origin)
+	bool AAssetFileStream::seek(long int offset, int origin)
 	{
 		return AAsset_seek(_asset, offset, origin) != -1;
 	}
 
-	bool FileStreamAndroid::rewind()
+	bool AAssetFileStream::rewind()
 	{
 		if (canSeek())
 		{
@@ -167,7 +197,5 @@ namespace ma
 		}
 		return false;
 	}
-
-#endif
 
 }

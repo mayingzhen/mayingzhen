@@ -17,7 +17,7 @@
 
 // Resource
 #include "Engine/Resource/DataStream.hxx"
-#include "Engine/Resource/AAssetFileStream.hxx"
+//#include "Engine/Resource/AAssetFileStream.hxx"
 #include "Engine/Resource/FileStream.hxx"
 #include "Engine/Resource/FileSystem.hxx"
 #include "Engine/Resource/Properties.hxx"

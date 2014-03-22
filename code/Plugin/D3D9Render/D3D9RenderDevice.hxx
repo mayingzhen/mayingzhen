@@ -470,6 +470,12 @@ namespace ma
 		return *pOut;
 	}
 
+	void D3D9RenderDevice::GetProjectionNearFar(float& fProjNear, float& fProjFar)
+	{
+		fProjNear = 0.0f;
+		fProjFar = 1.0f;
+	}
+
 	void D3D9RenderDevice::BeginProfile(const char* pszLale)
 	{
 		wchar_t buf[128]; 

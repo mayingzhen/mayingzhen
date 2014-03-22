@@ -1,7 +1,5 @@
 #include "Samples/stdafx.h"
 
-#include "Engine/Application/Platform.h"
-
 #include "SampleBrowser.h"
 
 

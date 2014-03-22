@@ -44,7 +44,7 @@ namespace ma
 	public:
 		Frustum();
 
-		void		Update(const Matrix4x4& mViewProj);
+		void		Update(const Matrix4x4& mViewProj,float nearZ, float farZ);
 
 		Visibility	Intersect(const AABB& box) const;
 

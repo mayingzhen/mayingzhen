@@ -1,25 +1,20 @@
 #include "AndroidInputInjector.h"
-//#include "OIS.h"
-//#include "Input.h"
+#include "OIS.h"
+#include <android/input.h>
 
 namespace ma
 {
 
 	AndroidMultiTouch::AndroidMultiTouch():OIS::MultiTouch("DWM", false, 0, 0)
 	{
-
+		mStates.resize(1);
 	}
        
 	OIS::MultiTouchState& AndroidMultiTouch::getMultiTouchState(int i)
 	{
 		while(i >= mStates.size())
 		{
-			if(Platform::GetInstance().GetWindId())
-            {
-				OIS::MultiTouchState state;
-				Platform::GetInstance().GetWindowSize(state.width,state.height);
-                mStates.push_back(state);
-            }
+			mStates.resize(i);
 		}
 		return mStates[i];
 	}
