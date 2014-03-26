@@ -1,0 +1,303 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6B45188A18DFD7BE000640D9 /* PlatformiOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B45187F18DFD7BE000640D9 /* PlatformiOS.mm */; };
+		6B45188B18DFD7BE000640D9 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B45188018DFD7BE000640D9 /* Module.cpp */; };
+		6B45188C18DFD7BE000640D9 /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B45188418DFD7BE000640D9 /* stdAfx.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6B45186218DFD764000640D9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6B45186418DFD764000640D9 /* libApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplication.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B45187718DFD7BE000640D9 /* android_native_app_glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_native_app_glue.h; sourceTree = "<group>"; };
+		6B45187818DFD7BE000640D9 /* android_native_app_glue.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = android_native_app_glue.hxx; sourceTree = "<group>"; };
+		6B45187918DFD7BE000640D9 /* PlatformAndroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformAndroid.h; sourceTree = "<group>"; };
+		6B45187A18DFD7BE000640D9 /* PlatformAndroid.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformAndroid.hxx; sourceTree = "<group>"; };
+		6B45187B18DFD7BE000640D9 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6B45187C18DFD7BE000640D9 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		6B45187D18DFD7BE000640D9 /* Game.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hxx; sourceTree = "<group>"; };
+		6B45187F18DFD7BE000640D9 /* PlatformiOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformiOS.mm; sourceTree = "<group>"; };
+		6B45188018DFD7BE000640D9 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
+		6B45188118DFD7BE000640D9 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
+		6B45188218DFD7BE000640D9 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		6B45188318DFD7BE000640D9 /* Platform.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Platform.hxx; sourceTree = "<group>"; };
+		6B45188418DFD7BE000640D9 /* stdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdAfx.cpp; sourceTree = "<group>"; };
+		6B45188518DFD7BE000640D9 /* stdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdAfx.h; sourceTree = "<group>"; };
+		6B45188618DFD7BE000640D9 /* Systems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Systems.h; sourceTree = "<group>"; };
+		6B45188718DFD7BE000640D9 /* Systems.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Systems.hxx; sourceTree = "<group>"; };
+		6B45188918DFD7BE000640D9 /* PlatformWin.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformWin.hxx; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6B45186118DFD764000640D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6B45185B18DFD762000640D9 = {
+			isa = PBXGroup;
+			children = (
+				6B45187518DFD7BE000640D9 /* Application */,
+				6B45186518DFD764000640D9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6B45186518DFD764000640D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B45186418DFD764000640D9 /* libApplication.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B45187518DFD7BE000640D9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				6B45187618DFD7BE000640D9 /* Android */,
+				6B45187B18DFD7BE000640D9 /* Export.h */,
+				6B45187C18DFD7BE000640D9 /* Game.h */,
+				6B45187D18DFD7BE000640D9 /* Game.hxx */,
+				6B45187E18DFD7BE000640D9 /* iOS */,
+				6B45188018DFD7BE000640D9 /* Module.cpp */,
+				6B45188118DFD7BE000640D9 /* Module.h */,
+				6B45188218DFD7BE000640D9 /* Platform.h */,
+				6B45188318DFD7BE000640D9 /* Platform.hxx */,
+				6B45188418DFD7BE000640D9 /* stdAfx.cpp */,
+				6B45188518DFD7BE000640D9 /* stdAfx.h */,
+				6B45188618DFD7BE000640D9 /* Systems.h */,
+				6B45188718DFD7BE000640D9 /* Systems.hxx */,
+				6B45188818DFD7BE000640D9 /* Win */,
+			);
+			name = Application;
+			path = ../../code/Application;
+			sourceTree = "<group>";
+		};
+		6B45187618DFD7BE000640D9 /* Android */ = {
+			isa = PBXGroup;
+			children = (
+				6B45187718DFD7BE000640D9 /* android_native_app_glue.h */,
+				6B45187818DFD7BE000640D9 /* android_native_app_glue.hxx */,
+				6B45187918DFD7BE000640D9 /* PlatformAndroid.h */,
+				6B45187A18DFD7BE000640D9 /* PlatformAndroid.hxx */,
+			);
+			path = Android;
+			sourceTree = "<group>";
+		};
+		6B45187E18DFD7BE000640D9 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6B45187F18DFD7BE000640D9 /* PlatformiOS.mm */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		6B45188818DFD7BE000640D9 /* Win */ = {
+			isa = PBXGroup;
+			children = (
+				6B45188918DFD7BE000640D9 /* PlatformWin.hxx */,
+			);
+			path = Win;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6B45186318DFD764000640D9 /* Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B45187218DFD765000640D9 /* Build configuration list for PBXNativeTarget "Application" */;
+			buildPhases = (
+				6B45186018DFD764000640D9 /* Sources */,
+				6B45186118DFD764000640D9 /* Frameworks */,
+				6B45186218DFD764000640D9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Application;
+			productName = Application;
+			productReference = 6B45186418DFD764000640D9 /* libApplication.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6B45185C18DFD762000640D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = myz;
+			};
+			buildConfigurationList = 6B45185F18DFD762000640D9 /* Build configuration list for PBXProject "Application" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6B45185B18DFD762000640D9;
+			productRefGroup = 6B45186518DFD764000640D9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6B45186318DFD764000640D9 /* Application */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6B45186018DFD764000640D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B45188A18DFD7BE000640D9 /* PlatformiOS.mm in Sources */,
+				6B45188B18DFD7BE000640D9 /* Module.cpp in Sources */,
+				6B45188C18DFD7BE000640D9 /* stdAfx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6B45187018DFD765000640D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6B45187118DFD765000640D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6B45187318DFD765000640D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/Application.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/Application/stdAfx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/oisinput/include/,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Debug;
+		};
+		6B45187418DFD765000640D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/Application.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/Application/stdAfx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/oisinput/include/,
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6B45185F18DFD762000640D9 /* Build configuration list for PBXProject "Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B45187018DFD765000640D9 /* Debug */,
+				6B45187118DFD765000640D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B45187218DFD765000640D9 /* Build configuration list for PBXNativeTarget "Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B45187318DFD765000640D9 /* Debug */,
+				6B45187418DFD765000640D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6B45185C18DFD762000640D9 /* Project object */;
+}

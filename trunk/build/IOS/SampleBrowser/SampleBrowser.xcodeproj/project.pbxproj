@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B4519D318DFDDD7000640D9 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CB18DFDDD7000640D9 /* libAnimation.a */; };
+		6B4519D418DFDDD7000640D9 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CC18DFDDD7000640D9 /* libApplication.a */; };
+		6B4519D518DFDDD7000640D9 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */; };
+		6B4519D618DFDDD7000640D9 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CE18DFDDD7000640D9 /* libCommon.a */; };
+		6B4519D718DFDDD7000640D9 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CF18DFDDD7000640D9 /* libEngine.a */; };
+		6B4519D818DFDDD7000640D9 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D018DFDDD7000640D9 /* libGLESRender.a */; };
+		6B4519D918DFDDD7000640D9 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D118DFDDD7000640D9 /* libRender.a */; };
+		6B4519DA18DFDDD7000640D9 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D218DFDDD7000640D9 /* libUI.a */; };
 		6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */; };
 		6F1A642F182A061000EE9F74 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F1A642E182A061000EE9F74 /* data */; };
-		6F6B393B18308989003846E6 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393418308989003846E6 /* libAnimation.a */; };
-		6F6B393C18308989003846E6 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393518308989003846E6 /* libBulletPhysics.a */; };
-		6F6B393D18308989003846E6 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393618308989003846E6 /* libCommon.a */; };
-		6F6B393E18308989003846E6 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393718308989003846E6 /* libEngine.a */; };
-		6F6B393F18308989003846E6 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393818308989003846E6 /* libGLESRender.a */; };
-		6F6B394018308989003846E6 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393918308989003846E6 /* libRender.a */; };
-		6F6B394118308989003846E6 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B393A18308989003846E6 /* libUI.a */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
@@ -28,15 +29,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B4519CB18DFDDD7000640D9 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
+		6B4519CC18DFDDD7000640D9 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
+		6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
+		6B4519CE18DFDDD7000640D9 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
+		6B4519CF18DFDDD7000640D9 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
+		6B4519D018DFDDD7000640D9 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
+		6B4519D118DFDDD7000640D9 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
+		6B4519D218DFDDD7000640D9 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
 		6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6F1A642E182A061000EE9F74 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
-		6F6B393418308989003846E6 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
-		6F6B393518308989003846E6 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
-		6F6B393618308989003846E6 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
-		6F6B393718308989003846E6 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
-		6F6B393818308989003846E6 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
-		6F6B393918308989003846E6 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
-		6F6B393A18308989003846E6 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -74,13 +76,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F6B393B18308989003846E6 /* libAnimation.a in Frameworks */,
-				6F6B393C18308989003846E6 /* libBulletPhysics.a in Frameworks */,
-				6F6B393D18308989003846E6 /* libCommon.a in Frameworks */,
-				6F6B393E18308989003846E6 /* libEngine.a in Frameworks */,
-				6F6B393F18308989003846E6 /* libGLESRender.a in Frameworks */,
-				6F6B394018308989003846E6 /* libRender.a in Frameworks */,
-				6F6B394118308989003846E6 /* libUI.a in Frameworks */,
+				6B4519D318DFDDD7000640D9 /* libAnimation.a in Frameworks */,
+				6B4519D418DFDDD7000640D9 /* libApplication.a in Frameworks */,
+				6B4519D518DFDDD7000640D9 /* libBulletPhysics.a in Frameworks */,
+				6B4519D618DFDDD7000640D9 /* libCommon.a in Frameworks */,
+				6B4519D718DFDDD7000640D9 /* libEngine.a in Frameworks */,
+				6B4519D818DFDDD7000640D9 /* libGLESRender.a in Frameworks */,
+				6B4519D918DFDDD7000640D9 /* libRender.a in Frameworks */,
+				6B4519DA18DFDDD7000640D9 /* libUI.a in Frameworks */,
 				6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */,
 				6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */,
 				6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */,
@@ -103,13 +106,14 @@
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6F6B393418308989003846E6 /* libAnimation.a */,
-				6F6B393518308989003846E6 /* libBulletPhysics.a */,
-				6F6B393618308989003846E6 /* libCommon.a */,
-				6F6B393718308989003846E6 /* libEngine.a */,
-				6F6B393818308989003846E6 /* libGLESRender.a */,
-				6F6B393918308989003846E6 /* libRender.a */,
-				6F6B393A18308989003846E6 /* libUI.a */,
+				6B4519CB18DFDDD7000640D9 /* libAnimation.a */,
+				6B4519CC18DFDDD7000640D9 /* libApplication.a */,
+				6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */,
+				6B4519CE18DFDDD7000640D9 /* libCommon.a */,
+				6B4519CF18DFDDD7000640D9 /* libEngine.a */,
+				6B4519D018DFDDD7000640D9 /* libGLESRender.a */,
+				6B4519D118DFDDD7000640D9 /* libRender.a */,
+				6B4519D218DFDDD7000640D9 /* libUI.a */,
 				6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */,
 				6FBCFA7C182B823900AD0B8A /* Lib */,
 				6F1A642E182A061000EE9F74 /* data */,
@@ -372,10 +376,10 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -405,10 +409,10 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
