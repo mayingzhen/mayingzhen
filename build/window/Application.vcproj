@@ -182,7 +182,31 @@
 			Name="IOS"
 			>
 			<File
+				RelativePath="..\..\code\Application\iOS\AppDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\iOS\AppDelegate.mm"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Application\iOS\PlatformiOS.mm"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\iOS\View.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\iOS\View.mm"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\iOS\ViewController.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\iOS\ViewController.mm"
 				>
 			</File>
 		</Filter>
