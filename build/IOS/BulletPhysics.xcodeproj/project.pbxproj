@@ -7,12 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F09DFE11795434100BC748A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFDE1795434100BC748A /* libBulletCollision.a */; };
-		6F09DFE21795434100BC748A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFDF1795434100BC748A /* libBulletDynamics.a */; };
-		6F09DFE31795434100BC748A /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F09DFE01795434100BC748A /* libLinerMath.a */; };
+		6B00251818E18A2400613454 /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00250B18E189F900613454 /* libLinerMath.a */; };
+		6B00251918E18A2900613454 /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00251718E18A0400613454 /* libBulletCollision.a */; };
+		6B00251A18E18A2D00613454 /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00251118E18A0100613454 /* libBulletDynamics.a */; };
 		6F173706182AA3F800004669 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F173702182AA3F800004669 /* Module.cpp */; };
 		6F173707182AA3F800004669 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F173704182AA3F800004669 /* stdafx.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6B00250A18E189F900613454 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B00250618E189F900613454 /* LinerMath.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F38046517953497005195B3;
+			remoteInfo = LinerMath;
+		};
+		6B00251018E18A0100613454 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F380607179535AD005195B3;
+			remoteInfo = BulletDynamics;
+		};
+		6B00251618E18A0400613454 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B00251218E18A0300613454 /* BulletCollision.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6F3804AC17953529005195B3;
+			remoteInfo = BulletCollision;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6FDF1AC517951F1D005C7E62 /* CopyFiles */ = {
@@ -27,9 +51,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6F09DFDE1795434100BC748A /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libBulletCollision.a"; sourceTree = "<group>"; };
-		6F09DFDF1795434100BC748A /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libBulletDynamics.a"; sourceTree = "<group>"; };
-		6F09DFE01795434100BC748A /* libLinerMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinerMath.a; path = "../../extern/Bullet-2.81/build/xCode/Lib/libLinerMath.a"; sourceTree = "<group>"; };
+		6B00250618E189F900613454 /* LinerMath.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LinerMath.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/LinerMath.xcodeproj"; sourceTree = "<group>"; };
+		6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletDynamics.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/BulletDynamics.xcodeproj"; sourceTree = "<group>"; };
+		6B00251218E18A0300613454 /* BulletCollision.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletCollision.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/BulletCollision.xcodeproj"; sourceTree = "<group>"; };
 		6F1736ED182AA3F800004669 /* BtCharacterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCharacterController.h; sourceTree = "<group>"; };
 		6F1736EE182AA3F800004669 /* BtCharacterController.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtCharacterController.hxx; sourceTree = "<group>"; };
 		6F1736EF182AA3F800004669 /* BtCollisionListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCollisionListener.h; sourceTree = "<group>"; };
@@ -63,15 +87,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F09DFE11795434100BC748A /* libBulletCollision.a in Frameworks */,
-				6F09DFE21795434100BC748A /* libBulletDynamics.a in Frameworks */,
-				6F09DFE31795434100BC748A /* libLinerMath.a in Frameworks */,
+				6B00251A18E18A2D00613454 /* libBulletDynamics.a in Frameworks */,
+				6B00251918E18A2900613454 /* libBulletCollision.a in Frameworks */,
+				6B00251818E18A2400613454 /* libLinerMath.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B00250718E189F900613454 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B00250B18E189F900613454 /* libLinerMath.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B00250D18E18A0000613454 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B00251118E18A0100613454 /* libBulletDynamics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B00251318E18A0300613454 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B00251718E18A0400613454 /* libBulletCollision.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6F1736EC182AA3F800004669 /* BulletPhysics */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,10 +156,10 @@
 		6FDF1ABE17951F1C005C7E62 = {
 			isa = PBXGroup;
 			children = (
+				6B00251218E18A0300613454 /* BulletCollision.xcodeproj */,
+				6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */,
+				6B00250618E189F900613454 /* LinerMath.xcodeproj */,
 				6F1736EC182AA3F800004669 /* BulletPhysics */,
-				6F09DFDE1795434100BC748A /* libBulletCollision.a */,
-				6F09DFDF1795434100BC748A /* libBulletDynamics.a */,
-				6F09DFE01795434100BC748A /* libLinerMath.a */,
 				6FDF1AC817951F1D005C7E62 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,12 +211,50 @@
 			mainGroup = 6FDF1ABE17951F1C005C7E62;
 			productRefGroup = 6FDF1AC817951F1D005C7E62 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6B00251318E18A0300613454 /* Products */;
+					ProjectRef = 6B00251218E18A0300613454 /* BulletCollision.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B00250D18E18A0000613454 /* Products */;
+					ProjectRef = 6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B00250718E189F900613454 /* Products */;
+					ProjectRef = 6B00250618E189F900613454 /* LinerMath.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6FDF1AC617951F1D005C7E62 /* BulletPhysics */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6B00250B18E189F900613454 /* libLinerMath.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLinerMath.a;
+			remoteRef = 6B00250A18E189F900613454 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B00251118E18A0100613454 /* libBulletDynamics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBulletDynamics.a;
+			remoteRef = 6B00251018E18A0100613454 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B00251718E18A0400613454 /* libBulletCollision.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBulletCollision.a;
+			remoteRef = 6B00251618E18A0400613454 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6FDF1AC317951F1D005C7E62 /* Sources */ = {
@@ -258,7 +344,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -286,7 +372,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
