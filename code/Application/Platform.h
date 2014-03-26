@@ -44,4 +44,4 @@ namespace ma
 
 
 
-#endif //__S3AUTApplication_h__
+#endif //__Platform_h__
