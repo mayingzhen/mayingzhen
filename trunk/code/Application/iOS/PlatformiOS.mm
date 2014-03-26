@@ -1,7 +1,8 @@
 #ifdef __APPLE__
 
-#include "Common/Module.h"
-#include "Engine/Module.h"
+#include "Export.h"
+#include "Platform.h"
+#include "Game.h"
 #include <unistd.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -445,16 +446,16 @@ void Platform::GetWindowSize(int& w, int& h) const
 }
 
 
-void Platform::swapBuffers()
-{
+//void Platform::swapBuffers()
+//{
     //if (__view)
     //    [__view swapBuffers];
-}
+//}
     
-void Platform::sleep(long ms)
-{
-    usleep(ms * 1000);
-}
+//void Platform::sleep(long ms)
+//{
+//    usleep(ms * 1000);
+//}
  
 }
 
