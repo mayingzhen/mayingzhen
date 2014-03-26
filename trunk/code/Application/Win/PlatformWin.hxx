@@ -35,16 +35,16 @@ namespace ma
 		return DefWindowProc(hwnd, message, wParam, lParam); 
 	}
 
-	static Platform* __platformInstance = NULL;
+	static Platform* gplatform = NULL;
 
 	Platform&	Platform::GetInstance()
 	{
-		return *__platformInstance;
+		return *gplatform;
 	}
 
 	Platform::Platform()
 	{
-		__platformInstance = this;
+		gplatform = this;
 	}
 
 	void Platform::Init()
