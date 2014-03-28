@@ -9,8 +9,18 @@
 /* Begin PBXBuildFile section */
 		6B0025AA18E18CA700613454 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B00254118E18CA700613454 /* Module.cpp */; };
 		6B0025AB18E18CA700613454 /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B00258E18E18CA700613454 /* stdAfx.cpp */; };
-		6F9B7A8217BA5161008AF370 /* libOIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F9B7A8117BA5161008AF370 /* libOIS.a */; };
+		6BBDAEE518E3CE240041D433 /* libOIS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEE418E3CE050041D433 /* libOIS.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6BBDAEE318E3CE050041D433 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BBDAEDF18E3CE050041D433 /* OIS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6FCAFB1C17A6983E00156941;
+			remoteInfo = OIS;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6FA78D5E17943026005B3CD6 /* CopyFiles */ = {
@@ -137,7 +147,6 @@
 		6B00259718E18CA700613454 /* PosixEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosixEvent.h; sourceTree = "<group>"; };
 		6B00259818E18CA700613454 /* PosixThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PosixThread.h; sourceTree = "<group>"; };
 		6B00259918E18CA700613454 /* PosixThread.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PosixThread.hxx; sourceTree = "<group>"; };
-		6B00259A18E18CA700613454 /* ReadModifyLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadModifyLock.h; sourceTree = "<group>"; };
 		6B00259B18E18CA700613454 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
 		6B00259C18E18CA700613454 /* Thread.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Thread.hxx; sourceTree = "<group>"; };
 		6B00259E18E18CA700613454 /* WinCriticalSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinCriticalSection.h; sourceTree = "<group>"; };
@@ -150,7 +159,7 @@
 		6B0025A718E18CA700613454 /* IUISystem.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IUISystem.hxx; sourceTree = "<group>"; };
 		6B0025A818E18CA700613454 /* WarningPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningPrefix.h; sourceTree = "<group>"; };
 		6B0025A918E18CA700613454 /* WarningSuffix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningSuffix.h; sourceTree = "<group>"; };
-		6F9B7A8117BA5161008AF370 /* libOIS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOIS.a; path = ../../extern/oisInput/Lib/IOS/libOIS.a; sourceTree = "<group>"; };
+		6BBDAEDF18E3CE050041D433 /* OIS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OIS.xcodeproj; path = ../../extern/oisInput/OIS.xcodeproj; sourceTree = "<group>"; };
 		6FA78D6017943026005B3CD6 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -159,7 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F9B7A8217BA5161008AF370 /* libOIS.a in Frameworks */,
+				6BBDAEE518E3CE240041D433 /* libOIS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,7 +396,6 @@
 			children = (
 				6B00259418E18CA700613454 /* AutoLock.h */,
 				6B00259518E18CA700613454 /* pthread */,
-				6B00259A18E18CA700613454 /* ReadModifyLock.h */,
 				6B00259B18E18CA700613454 /* Thread.h */,
 				6B00259C18E18CA700613454 /* Thread.hxx */,
 				6B00259D18E18CA700613454 /* winThread */,
@@ -435,11 +443,19 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		6BBDAEE018E3CE050041D433 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BBDAEE418E3CE050041D433 /* libOIS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6FA78D5717943026005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6BBDAEDF18E3CE050041D433 /* OIS.xcodeproj */,
 				6B00251B18E18CA700613454 /* Engine */,
-				6F9B7A8117BA5161008AF370 /* libOIS.a */,
 				6FA78D6117943026005B3CD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -491,12 +507,28 @@
 			mainGroup = 6FA78D5717943026005B3CD6;
 			productRefGroup = 6FA78D6117943026005B3CD6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6BBDAEE018E3CE050041D433 /* Products */;
+					ProjectRef = 6BBDAEDF18E3CE050041D433 /* OIS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6FA78D5F17943026005B3CD6 /* Engine */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6BBDAEE418E3CE050041D433 /* libOIS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOIS.a;
+			remoteRef = 6BBDAEE318E3CE050041D433 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6FA78D5C17943026005B3CD6 /* Sources */ = {
@@ -576,7 +608,7 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
@@ -585,7 +617,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 ";
 			};
 			name = Debug;
 		};
@@ -603,7 +635,7 @@
 					../../code/plugin/,
 					../../extern/oisinput/include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
@@ -612,7 +644,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 ";
 			};
 			name = Release;
 		};

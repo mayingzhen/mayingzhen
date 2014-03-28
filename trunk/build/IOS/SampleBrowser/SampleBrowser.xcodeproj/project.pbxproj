@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B4519D318DFDDD7000640D9 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CB18DFDDD7000640D9 /* libAnimation.a */; };
-		6B4519D418DFDDD7000640D9 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CC18DFDDD7000640D9 /* libApplication.a */; };
-		6B4519D518DFDDD7000640D9 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */; };
-		6B4519D618DFDDD7000640D9 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CE18DFDDD7000640D9 /* libCommon.a */; };
-		6B4519D718DFDDD7000640D9 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519CF18DFDDD7000640D9 /* libEngine.a */; };
-		6B4519D818DFDDD7000640D9 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D018DFDDD7000640D9 /* libGLESRender.a */; };
-		6B4519D918DFDDD7000640D9 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D118DFDDD7000640D9 /* libRender.a */; };
-		6B4519DA18DFDDD7000640D9 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4519D218DFDDD7000640D9 /* libUI.a */; };
+		6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF418E3F2440041D433 /* libAnimation.a */; };
+		6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF618E3F24A0041D433 /* libApplication.a */; };
+		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
+		6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */; };
+		6BBDAEFF18E3F26D0041D433 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFE18E3F26D0041D433 /* libEngine.a */; };
+		6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0018E3F2760041D433 /* libGLESRender.a */; };
+		6BBDAF0318E3F27D0041D433 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0218E3F27D0041D433 /* libRender.a */; };
+		6BBDAF0618E3F3A20041D433 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0518E3F3A20041D433 /* libUI.a */; };
 		6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */; };
-		6F1A642F182A061000EE9F74 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6F1A642E182A061000EE9F74 /* data */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
@@ -29,16 +28,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B4519CB18DFDDD7000640D9 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
-		6B4519CC18DFDDD7000640D9 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
-		6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
-		6B4519CE18DFDDD7000640D9 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
-		6B4519CF18DFDDD7000640D9 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
-		6B4519D018DFDDD7000640D9 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
-		6B4519D118DFDDD7000640D9 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
-		6B4519D218DFDDD7000640D9 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
+		6B31D44618E4239C006363BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
+		6BBDAEF418E3F2440041D433 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
+		6BBDAEF618E3F24A0041D433 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
+		6BBDAEFA18E3F2590041D433 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
+		6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
+		6BBDAEFE18E3F26D0041D433 /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
+		6BBDAF0018E3F2760041D433 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
+		6BBDAF0218E3F27D0041D433 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
+		6BBDAF0518E3F3A20041D433 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
 		6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		6F1A642E182A061000EE9F74 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -76,14 +75,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B4519D318DFDDD7000640D9 /* libAnimation.a in Frameworks */,
-				6B4519D418DFDDD7000640D9 /* libApplication.a in Frameworks */,
-				6B4519D518DFDDD7000640D9 /* libBulletPhysics.a in Frameworks */,
-				6B4519D618DFDDD7000640D9 /* libCommon.a in Frameworks */,
-				6B4519D718DFDDD7000640D9 /* libEngine.a in Frameworks */,
-				6B4519D818DFDDD7000640D9 /* libGLESRender.a in Frameworks */,
-				6B4519D918DFDDD7000640D9 /* libRender.a in Frameworks */,
-				6B4519DA18DFDDD7000640D9 /* libUI.a in Frameworks */,
+				6BBDAF0618E3F3A20041D433 /* libUI.a in Frameworks */,
+				6BBDAF0318E3F27D0041D433 /* libRender.a in Frameworks */,
+				6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */,
+				6BBDAEFF18E3F26D0041D433 /* libEngine.a in Frameworks */,
+				6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */,
+				6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */,
+				6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */,
+				6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */,
 				6FDF1B1617952552005C7E62 /* CoreMotion.framework in Frameworks */,
 				6FDF1B1417952541005C7E62 /* QuartzCore.framework in Frameworks */,
 				6FDF1B1217952521005C7E62 /* UIKit.framework in Frameworks */,
@@ -96,27 +95,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6FBCFA7C182B823900AD0B8A /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Lib;
-			sourceTree = "<group>";
-		};
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6B4519CB18DFDDD7000640D9 /* libAnimation.a */,
-				6B4519CC18DFDDD7000640D9 /* libApplication.a */,
-				6B4519CD18DFDDD7000640D9 /* libBulletPhysics.a */,
-				6B4519CE18DFDDD7000640D9 /* libCommon.a */,
-				6B4519CF18DFDDD7000640D9 /* libEngine.a */,
-				6B4519D018DFDDD7000640D9 /* libGLESRender.a */,
-				6B4519D118DFDDD7000640D9 /* libRender.a */,
-				6B4519D218DFDDD7000640D9 /* libUI.a */,
+				6B31D44618E4239C006363BF /* data */,
 				6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */,
-				6FBCFA7C182B823900AD0B8A /* Lib */,
-				6F1A642E182A061000EE9F74 /* data */,
 				6FDF1A9517951DF3005C7E62 /* Samples */,
 				6FDF1A7717951DA5005C7E62 /* Frameworks */,
 				6FDF1A7617951DA5005C7E62 /* Products */,
@@ -134,6 +117,14 @@
 		6FDF1A7717951DA5005C7E62 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BBDAF0518E3F3A20041D433 /* libUI.a */,
+				6BBDAF0218E3F27D0041D433 /* libRender.a */,
+				6BBDAF0018E3F2760041D433 /* libGLESRender.a */,
+				6BBDAEFE18E3F26D0041D433 /* libEngine.a */,
+				6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */,
+				6BBDAEFA18E3F2590041D433 /* libCommon.a */,
+				6BBDAEF618E3F24A0041D433 /* libApplication.a */,
+				6BBDAEF418E3F2440041D433 /* libAnimation.a */,
 				6FDF1B1517952552005C7E62 /* CoreMotion.framework */,
 				6FDF1B1317952541005C7E62 /* QuartzCore.framework */,
 				6FDF1B1117952521005C7E62 /* UIKit.framework */,
@@ -233,6 +224,7 @@
 				6FDF1A7117951DA5005C7E62 /* Sources */,
 				6FDF1A7217951DA5005C7E62 /* Frameworks */,
 				6FDF1A7317951DA5005C7E62 /* Resources */,
+				6BD7C95518E429C9000F3A32 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -274,12 +266,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F1A642F182A061000EE9F74 /* data in Resources */,
 				6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6BD7C95518E429C9000F3A32 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\ncd \"$PROJECT_DIR\"\ncp -Rf \"../../../data\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\nif [ \"$PLATFORM_NAME\" == \"iphonesimulator\" ]\nthen cp -f \"$PROJECT_DIR\"/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/\"\n                          fi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6FDF1A7117951DA5005C7E62 /* Sources */ = {
@@ -319,7 +326,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -343,7 +350,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -367,19 +374,23 @@
 					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../lib\"",
-					"\"$(SRCROOT)/../../lib\"",
-					"\"$(SRCROOT)/../Lib\"",
-					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
+					"\\\"$(SRCROOT)/../lib\\\"",
+					"\\\"$(SRCROOT)/../../lib\\\"",
+					"\\\"$(SRCROOT)/../Lib\\\"",
+					"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos",
+					"$(SRCROOT)/../lib",
+					"$(SRCROOT)/../../../extern/Bullet-2.81/build/xCode/lib",
+					"$(SRCROOT)/../Lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -400,19 +411,23 @@
 					../../../extern/oisInput/include/,
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../lib\"",
-					"\"$(SRCROOT)/../../lib\"",
-					"\"$(SRCROOT)/../Lib\"",
-					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
+					"\\\"$(SRCROOT)/../lib\\\"",
+					"\\\"$(SRCROOT)/../../lib\\\"",
+					"\\\"$(SRCROOT)/../Lib\\\"",
+					"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos",
+					"$(SRCROOT)/../lib",
+					"$(SRCROOT)/../../../extern/Bullet-2.81/build/xCode/lib",
+					"$(SRCROOT)/../Lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
