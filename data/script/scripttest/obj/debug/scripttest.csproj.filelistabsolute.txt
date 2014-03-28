@@ -1,0 +1,6 @@
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\ScriptTest.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\ScriptTest.pdb
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\EngineCSharp.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ResolveAssemblyReference.cache
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ScriptTest.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ScriptTest.pdb
