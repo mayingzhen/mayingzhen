@@ -1,8 +1,6 @@
 #ifndef __RenderThread_H__
 #define __RenderThread_H__
 
-// #include "Render/Export.h"
-// #include "Render/RenderSystem/RenderSystem.h"
 
 namespace ma
 {
@@ -22,9 +20,6 @@ namespace ma
  		eRC_SetRenderTarget,
 		eRC_SetDepthStencil,
  		eRC_SetViewPort,
- 		//eRC_PopRenderTarget,
-		//eRC_PopDepthStencil,
- 		//eRC_PopViewPort,
 	};
 
 	class RenderThread : public Thread
@@ -85,9 +80,6 @@ namespace ma
 		void	RC_SetRenderTarget(Texture* pTexture,int index);
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);
-		//void	RC_PopRenderTargert(int index);
-		//void	RC_PopDepthStencil();
-		//void	RC_PopViewPort();
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 
 
@@ -212,8 +204,7 @@ namespace ma
 		{
 #ifdef WIN32
 			Sleep(0);
-// 			MSG msg;
-// 		
+// 			MSG msg;		
 // 			while (PeekMessage(&msg, GetRenderSystem()->GetMainWnd(), 0, 0, PM_REMOVE))
 // 			{
 // 				TranslateMessage(&msg);

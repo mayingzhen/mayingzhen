@@ -117,17 +117,9 @@ namespace ma
 
 	}
 
-// 	extern void print(const char* format, ...)
-// 	{
-// 		ASSERT(format);
-// 		va_list argptr;
-// 		va_start(argptr, format);
-// 		__android_log_vprint(ANDROID_LOG_INFO, "native-activity", format, argptr);
-// 		va_end(argptr);
-// 	}
 
 
-	void Sleep(unsigned nTime)
+	void DebugSleep(unsigned nTime)
 	{
 		Log("............begine Sleep..............");
 
@@ -149,18 +141,8 @@ namespace ma
 	Platform::Platform()
 	{
 		__platformIns = this;
-		//m_bRunning = false;
 	}
 
-// 	void		Platform::swapBuffers()
-// 	{
-// 
-// 	}
-// 
-// 	void		Platform::sleep(long ms)
-// 	{
-// 
-// 	}
 
 	Platform&	Platform::GetInstance()
 	{
@@ -215,7 +197,7 @@ namespace ma
 			} while ((NULL == m_windId) && (ident >= 0));
 		}
 
-		Sleep(6);
+		DebugSleep(6);
 			
 
 		Game::GetInstance().Init();

@@ -237,7 +237,10 @@ namespace ma
 		collisionInfo->_status &= ~CollisionInfo::DIRTY;
 		collisionInfo->_status |= CollisionInfo::COLLISION;
 		return 0.0f;
-	}
+	}
+
+
+
 	bool MyClosestRayResultCallbackCallback::needsCollision(btBroadphaseProxy* proxy0) const
 	{
 		if (proxy0 == NULL)
@@ -255,6 +258,7 @@ namespace ma
 		}
 
 		return false;
-	}
+	}
+
 }
 

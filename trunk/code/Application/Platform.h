@@ -29,10 +29,6 @@ namespace ma
 
 		void		SetAppPath(const char* pAppPath) {m_strAppPath = pAppPath;}
 
-		//static void		swapBuffers();
-
-		//static void		sleep(long ms);
-
 		static Platform&	GetInstance();
 
 	protected:
