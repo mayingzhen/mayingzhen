@@ -6661,14 +6661,6 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileSystem_isAbsolutePath(char * jarg
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_FileSystem_createFileFromAsset(char * jarg1) {
-  char *arg1 = (char *) 0 ;
-  
-  arg1 = (char *)jarg1; 
-  ma::FileSystem::createFileFromAsset((char const *)arg1);
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_getDirectoryName(char * jarg1) {
   void * jresult ;
   char *arg1 = (char *) 0 ;
@@ -6712,6 +6704,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_ReplaceFileExt(void * jarg1, voi
   result = ma::FileSystem::ReplaceFileExt((std::string const &)*arg1,(std::string const &)*arg2);
   jresult = new std::string((const std::string &)result); 
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileSystem_makepath(void * jarg1, int jarg2) {
+  std::string arg1 ;
+  int arg2 ;
+  std::string *argp1 ;
+  
+  argp1 = (std::string *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::string", 0);
+    return ;
+  }
+  arg1 = *argp1; 
+  arg2 = (int)jarg2; 
+  ma::FileSystem::makepath(arg1,arg2);
 }
 
 
