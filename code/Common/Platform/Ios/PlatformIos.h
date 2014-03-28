@@ -3,6 +3,7 @@
 
 #include <sys/time.h>
 #include <time.h>
+#include <unistd.h>
 
 typedef unsigned long ULONG;
 typedef unsigned int  UINT;

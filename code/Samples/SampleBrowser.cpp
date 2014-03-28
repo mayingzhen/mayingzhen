@@ -83,7 +83,7 @@ namespace ma
 		FileSystem::setResourcePath(pszPath);
 #elif PLAFTORM_IOS == 1
 		std::string sDataDir = Platform::GetInstance().GetAppPath();
-		sDataDir += "/data/";
+		sDataDir += "data/";
 		FileSystem::setResourcePath(sDataDir.c_str());
 #elif PLATFORM_ANDROID == 1
 		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
@@ -102,9 +102,9 @@ namespace ma
 	void SampleBrowser::LoadRenderScheme()
 	{
 	#if PLATFORM_WIN == 1
-		std::string configPath = FileSystem::getFullPath("config/RenderScheme_PC.xml");
+		std::string configPath = FileSystem::getFullPath("config/renderscheme_pc.xml");
 	#else 
-		std::string configPath = FileSystem::getFullPath("config/RenderScheme_mobile.xml");
+		std::string configPath = FileSystem::getFullPath("config/renderscheme_mobile.xml");
 	#endif
 
 		RenderScheme* pRenderScheme = new RenderScheme();

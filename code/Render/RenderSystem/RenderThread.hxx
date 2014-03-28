@@ -171,40 +171,6 @@ namespace ma
 		AddData(&viewPort,sizeof(Rectangle));
 	}
 
-// 	void RenderThread::RC_PopRenderTargert(int index)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->PopRenderTarget(index);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_PopRenderTarget);
-// 		AddInt(index);
-// 	}
-
-// 	void RenderThread::RC_PopDepthStencil()
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->PopDepthStencil();
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_PopDepthStencil);
-// 	}
-
-// 	void RenderThread::RC_PopViewPort()
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->PopViewport();
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_PopViewPort);
-// 	}
-
 	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
 	{
 		if (IsRenderThread())
@@ -284,15 +250,6 @@ namespace ma
 					GetRenderDevice()->SetDepthStencil(pTarget);
 				}
 				break;
-// 			case  eRC_PopRenderTarget:
-// 				{
-// 					int index = ReadCommand<int>(n);
-// 					GetRenderDevice()->PopRenderTarget(index);
-// 				}
-// 				break;
-// 			case eRC_PopDepthStencil:
-// 				GetRenderDevice()->PopDepthStencil();
-// 				break;
 			case  eRC_SetViewPort:
 				{
 					Rectangle viewPort;
@@ -300,11 +257,6 @@ namespace ma
 					GetRenderDevice()->SetViewport(viewPort);
 				}
 				break;
-// 			case  eRC_PopViewPort:
-// 				{
-// 					GetRenderDevice()->PopViewport();
-// 				}
-// 				break;
 			case  eRC_ClearBuffer:
 				{
 					bool bColor = ReadCommand<bool>(n);

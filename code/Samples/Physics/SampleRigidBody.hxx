@@ -73,7 +73,6 @@ namespace ma
 
 	void SampleRigidBody::collisionEvent(const CollisionData& eventData)
 	{
-		int i = 5;
 	}
 
 }
