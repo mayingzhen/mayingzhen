@@ -2,15 +2,11 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SampleBrowser/SampleBrowser.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Application.xcodeproj">
    </FileRef>
-   <Group
-      location = "container:"
-      name = "Sample">
-      <FileRef
-         location = "group:SampleBrowser/SampleBrowser.xcodeproj">
-      </FileRef>
-   </Group>
    <Group
       location = "container:"
       name = "Plugin">
