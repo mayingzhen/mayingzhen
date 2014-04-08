@@ -96,9 +96,6 @@ namespace ma
 				TerrainSectionPtr pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
 				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
-				//m_arrGameObj.push_back(pGameObj);
-
-				//GetCullTree()->UpdateObject(pGameObj);
 
 				m_aabbWorld.Merge( pTerrainScetion->GetAABBWS() );
 			}
@@ -107,8 +104,8 @@ namespace ma
 
 	void Terrain::LoadTerrain(const char* pPath)
 	{
-		std::string sTerrainName = FileSystem::getFullPath(pPath);
-		std::string strDir = FileSystem::getDirectoryName(pPath);
+		std::string sTerrainName = GetArchiveMananger()->GetFullPath(pPath);
+		std::string strDir = StringUtil::getDirectoryName(pPath);
 
 		TiXmlDocument terrainDoc;
 		bool bLoadSuccess = terrainDoc.LoadFile(sTerrainName.c_str());
@@ -192,27 +189,23 @@ namespace ma
 
 	void Terrain::LoadHeightMap(const char* pFileName)
 	{
-		FILE* pf = FileSystem::openFile(pFileName,"rb");//fopen(pFileName, "rb");
-		assert(pf);
-		if (pf == NULL)
+		StreamPtr pStream = GetArchiveMananger()->Open(pFileName);
+		if (pStream == NULL)
 			return;
 
-		fseek( pf, 8, SEEK_SET );
-		fread( &m_heightMapW, 4,1, pf );
-		fread( &m_heightMapH, 4,1, pf );
+		pStream->Seek(8);
+		pStream->Read(&m_heightMapW,4);
+		pStream->Read(&m_heightMapH,4);
 		m_heightmap = new float[m_heightMapW * m_heightMapH];
-		if (m_heightmap == NULL)
-			return;
-		fread( m_heightmap, sizeof(float) * m_heightMapW * m_heightMapH, 1, pf );
-		fclose(pf);
+		pStream->Read( m_heightmap, 4 * m_heightMapW * m_heightMapH);
+		pStream->Close();
 	}
 
 
 	void Terrain::LoadGridInfo(const char* pFileName)
 	{
-		FILE* pf =  FileSystem::openFile(pFileName, "rb" );//fopen( pFileName, "rb" );
-		assert(pf);
-		if (pf == NULL)
+		StreamPtr pStream = GetArchiveMananger()->Open(pFileName);
+		if (pStream == NULL)
 			return;
 
 		DWORD nMagic;
@@ -223,17 +216,17 @@ namespace ma
 		// 7字节版本
 		bool bLargeVersion = false;
 
-		fread( &nMagic, 4,1, pf );
-		fread( &nVersion, 4, 1, pf );
+		pStream->Read(&nMagic, 4);
+		pStream->Read(&nVersion, 4);
 
 		int size_x, size_y;
-		fread( &size_x, 4,1, pf );
-		fread( &size_y, 4,1, pf );
+		pStream->Read(&size_x, 4);
+		pStream->Read(&size_y, 4);
 
 		m_GridInfoArray.reserve(size_x * size_y);
 
 		if( nVersion >= 0x00100001 )
-			fread( &bLargeVersion, sizeof( bool ), 1, pf );
+			pStream->Read( &bLargeVersion, 1);
 
 		Uint8 op1,op0;
 		Uint16 layer1 =0,layer0=0;
@@ -242,16 +235,16 @@ namespace ma
 		for(int i = 0 ; i < size_x * size_y; ++i)
 		{
 			if( !bLargeVersion )
-				fread( &layer0, 1,1, pf );
+				pStream->Read(&layer0, 1);
 			else 
-				fread( &layer0, 2,1,pf );
-			fread( &op0,1,1, pf );
+				pStream->Read(&layer0, 2);
+			pStream->Read(&op0,1);
 			if( !bLargeVersion )
-				fread( &layer1, 1,1,pf );
+				pStream->Read(&layer1, 1);
 			else 
-				fread( &layer1, 2, 1, pf );
-			fread( &op1, 1,1,pf );
-			fread( &tr, 1,1,pf );
+				pStream->Read(&layer1, 2);
+			pStream->Read(&op1, 1);
+			pStream->Read(&tr, 1);
 
 			GridInfo g;
 			g.layer0 = layer0-1;
@@ -265,7 +258,7 @@ namespace ma
 
 			m_GridInfoArray.push_back( g );
 		}
-		fclose( pf );
+		pStream->Close();
 	}
 
 	// 由高度图坐标得到地形世界位置
@@ -378,7 +371,7 @@ namespace ma
 
 	void Terrain::LoadTextAltas(const char* psAltaPath)
 	{
-		std::string sFilPath = FileSystem::getFullPath(psAltaPath);
+		std::string sFilPath = GetArchiveMananger()->GetFullPath(psAltaPath);
 
 		TiXmlDocument alta;
 		bool bLoadSuccess = alta.LoadFile(sFilPath.c_str());
@@ -391,9 +384,11 @@ namespace ma
 		if (pELeTextAltas == NULL)
 			return;
 
+		std::string outBasename, outPath;
+		StringUtil::splitFilename(psAltaPath,outBasename,outPath);
+
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
-		std::string sDir = FileSystem::getDirectoryName(psAltaPath);
-		std::string sTextAltasPath = sDir + pTextAltasPath;
+		std::string sTextAltasPath = outPath + pTextAltasPath;
 		m_pAltasTex = LoadResourceASync<Texture>(sTextAltasPath.c_str());
 
 		SamplerState* pSameler = new SamplerState();

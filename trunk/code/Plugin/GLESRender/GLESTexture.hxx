@@ -197,23 +197,6 @@ namespace ma
 		return true;
 	}
 
-	bool GLESTexture::LoadFromData(Uint8* data,UINT size, bool generateMipmaps)
-	{
-		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
-		ConvertImageData(m_PixelFormat,m_nWidth * m_nHeight,data);
-		
-		glGenTextures(1, &m_pTex);
-		glBindTexture(GL_TEXTURE_2D, m_pTex);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, data);	
-
-		if (generateMipmaps)
-		{
-			GenerateMipmaps();
-		}
-
-		return true;
-	}
 
 	struct IMAGE_INFO
 	{
@@ -222,15 +205,28 @@ namespace ma
 		GLuint PixelFormat;
 	};
 
-	bool GLESTexture::Load(DataStream* pDataStream, bool generateMipmaps)
+	bool GLESTexture::Load(MemoryStream* pDataStream, bool generateMipmaps)
 	{
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
 
-		if (std::string(pDataStream->GetFilePath()) == "")
+		if (std::string( pDataStream->GetName() ) == "")
 		{
-			return LoadFromData(pDataStream->GetData(),pDataStream->GetSize());
+			m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
+			ConvertImageData(m_PixelFormat,m_nWidth * m_nHeight,pDataStream->GetPtr());
+
+			glGenTextures(1, &m_pTex);
+			glBindTexture(GL_TEXTURE_2D, m_pTex);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pDataStream->GetPtr());	
+
+			if (generateMipmaps)
+			{
+				GenerateMipmaps();
+			}
+
+			return true;
 		}
 
 
@@ -238,9 +234,9 @@ namespace ma
 		ilGenImages(1, &curImage);
 		ilBindImage(curImage);
 		
-		ILenum ilImageType = ilTypeFromExt(pDataStream->GetFilePath());
+		ILenum ilImageType = ilTypeFromExt(pDataStream->GetName());
 		
-		if( !ilLoadL( ilImageType, pDataStream->GetData(), pDataStream->GetSize() ) )
+		if( !ilLoadL( ilImageType, pDataStream->GetPtr(), pDataStream->GetSize() ) )
 		{ 
 			ASSERT(false);
 			ilDeleteImages(1, &curImage);
@@ -293,17 +289,6 @@ namespace ma
 		return true;
 	}
 
-	bool GLESTexture::Load(const char* pszPath,bool generateMipmaps)
-	{
-		SAFE_DELETE(m_pDataStream);
-		m_pDataStream =  FileSystem::readAll(pszPath);
-
-		Load(m_pDataStream,generateMipmaps);
-
-		m_pDataStream->close();
-
-		return true;
-	}
 
 	void GLESTexture::GenerateMipmaps()
 	{

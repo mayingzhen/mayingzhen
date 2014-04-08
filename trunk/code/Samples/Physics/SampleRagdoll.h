@@ -36,16 +36,12 @@ namespace ma
 
 		virtual	void UnLoad();
 
-		virtual void Update();
-
-		virtual void Render();
-
 	private:
-		GameObject* CreateCapsule(float fRadius,float fHeight,NodeTransform tsf,const char* pName);
+		GameObjectPtr CreateCapsule(float fRadius,float fHeight,NodeTransform tsf,const char* pName);
 
 	private:
 
-		GameObject*	m_arrObject[BODYPART_COUNT];
+		GameObjectPtr	m_arrObject[BODYPART_COUNT];
 	};
 }
 

@@ -9,7 +9,7 @@ class TiXmlElement;
 namespace ma
 {
 	class XMLOutputArchive;
-	class DataStream;
+	class Stream;
 
 	class ENGINE_API XMLInputArchive : public Serializer 
 	{
@@ -24,7 +24,7 @@ namespace ma
 
 		bool Open(XMLOutputArchive& xmlOutAr);
 
-		bool Open(DataStream* pDataStream);
+		bool Open(MemoryStream* pDataStream);
 
 		bool Close();
 

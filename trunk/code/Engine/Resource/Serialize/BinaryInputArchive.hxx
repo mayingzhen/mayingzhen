@@ -19,7 +19,7 @@ namespace ma
 			pData = new Uint8[nSizeToRead];
 		}
 
- 		return m_pStream->read(pData,nSizeToRead,1) == 1;
+ 		return m_pStream->Read(pData,nSizeToRead) == nSizeToRead;
 	}
 
 	bool BinaryInputArchive::Open(Stream* pStream)
@@ -30,15 +30,7 @@ namespace ma
 
 	bool BinaryInputArchive::Open(const char* pszFilename)
 	{
-// 		m_file.open(pszFilename,std::ios::in | std::ios::binary);
-// 
-// 		bool resFail =  m_file.fail(); 
-// 		if (resFail)
-// 		{
-// 			Log("fail to open file %s\n",pszFilename);
-// 			return false;
-// 		}
-		m_pStream = FileStream::create(pszFilename,"rb");
+		m_pStream = GetArchiveMananger()->Open(pszFilename,false);
 		ASSERT(m_pStream);
 
 		return m_pStream != NULL;	
@@ -47,7 +39,7 @@ namespace ma
 
 	void BinaryInputArchive::Close()
 	{
-		m_pStream->close();
+		m_pStream->Close();
 	}
 
 	bool BinaryInputArchive::IsReading() const

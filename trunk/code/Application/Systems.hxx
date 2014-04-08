@@ -11,12 +11,26 @@ namespace ma
 		Platform::GetInstance().GetWindowSize(w,h);
 		pInput->OnResize(w,h);
 
-		GetRenderSystem()->Init(Platform::GetInstance().GetWindId());
+		if ( GetRenderSystem() )
+			GetRenderSystem()->Init(Platform::GetInstance().GetWindId());
+
+		if ( GetScriptSystem() )
+			GetScriptSystem()->Init();
+
+		if ( GetPhysicsSystem() )
+			GetPhysicsSystem()->Init();
 	}
 
 	void Systems::Shutdown()
 	{
-		GetRenderSystem()->ShoutDown();
+		if ( GetPhysicsSystem() )
+			GetPhysicsSystem()->ShoutDown();
+
+		if ( GetScriptSystem() )
+			GetScriptSystem()->Shutdown();
+
+		if ( GetRenderSystem() )
+			GetRenderSystem()->ShoutDown();
 
 		Input* pInput = GetInput();
 		pInput->Shutdown();

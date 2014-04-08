@@ -30,7 +30,7 @@ namespace ma
 
 		RTTI_DECL(IBoxCollisionShape,BoxCollisionShape);
 		RTTI_DECL(ISphereCollisionShape,SphereCollisionShape);
-		RTTI_DECL(ICapsuleCollisionShape,SphereCollisionShape);
+		RTTI_DECL(ICapsuleCollisionShape,CapsuleCollisionShape);
 		RTTI_DECL(IRigidBody,RigidBody);
 		RTTI_DECL(ICharaControll,CharaControll);
 		RTTI_DECL(IPhysicsGenericJoint,PhysicsGenericJoint);

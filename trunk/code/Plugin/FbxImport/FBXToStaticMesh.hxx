@@ -93,8 +93,8 @@ namespace ma
 	bool LoadStaticMeshData(const char* pFileName,ImportParm* pImportParm,
 		const char* pOutMeshFile, const char* pOutMatFile)
 	{
-		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : FileSystem::ReplaceFileExt(pFileName,"skn");
-		std::string strOutMatFile = pOutMatFile ? pOutMatFile : FileSystem::ReplaceFileExt(pFileName,"mat");
+		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
+		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
 	
 		MeshData meshData;
 		meshData.m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL /*| DUM_TANGENT*/;

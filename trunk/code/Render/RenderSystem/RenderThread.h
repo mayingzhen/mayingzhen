@@ -73,7 +73,7 @@ namespace ma
 		void	RC_Init(HWND wndhandle);
 		void	RC_BeginFrame();
 		void	RC_EndFrame();
-		void	RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream);
+		void	RC_TexStreamComplete(Texture* pTexture,MemoryStream* pDataStream);
 		void	RC_Render();
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateRenderTarget(Texture* pRenderTarget);

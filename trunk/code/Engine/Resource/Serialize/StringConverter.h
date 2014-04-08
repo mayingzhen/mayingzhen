@@ -214,8 +214,7 @@ namespace ma
 
 	inline void StringConverter::ToValue(float* &arrVal, UINT &nCount,const char* pszVal)
 	{
-		std::vector<std::string> arrTok;
-		Tokenize(pszVal,arrTok);
+		std::vector<std::string> arrTok = StringUtil::split(pszVal);
 
 		nCount = arrTok.size();
 		arrVal = new float[nCount];

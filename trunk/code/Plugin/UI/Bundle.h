@@ -125,7 +125,7 @@ private:
      * 
      * @return The bundle's default material path. Returns an empty string if the default material does not exist.
      */
-    const std::string& getMaterialPath();
+    //const std::string& getMaterialPath();
 
     /**
      * Seeks the file pointer to the object with the given ID and type
@@ -183,8 +183,8 @@ private:
      * 
      * @return True if successful, false if an error occurred.
      */
-    template <class T>
-    bool readArray(unsigned int* length, T** ptr);
+    //template <class T>
+    //bool readArray(unsigned int* length, T** ptr);
 
     /**
      * Reads an array of values and the array length from the current file position.
@@ -194,8 +194,8 @@ private:
      * 
      * @return True if successful, false if an error occurred.
      */
-    template <class T>
-    bool readArray(unsigned int* length, std::vector<T>* values);
+    //template <class T>
+    //bool readArray(unsigned int* length, std::vector<T>* values);
 
     /**
      * Reads an array of values and the array length from the current file position.
@@ -206,8 +206,8 @@ private:
      * 
      * @return True if successful, false if an error occurred.
      */
-    template <class T>
-    bool readArray(unsigned int* length, std::vector<T>* values, unsigned int readSize);
+    //template <class T>
+    //bool readArray(unsigned int* length, std::vector<T>* values, unsigned int readSize);
     
     /**
      * Reads 16 floats from the current file position.
@@ -240,7 +240,7 @@ private:
     std::string _materialPath;
     unsigned int _referenceCount;
     Reference* _references;
-    Stream* _stream;
+    StreamPtr _stream;
 };
 
 }

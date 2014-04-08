@@ -1,0 +1,348 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6B3C17D418F2E66F006AE3BB /* autoconf.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7618F2DDD9000A5951 /* autoconf.h */; };
+		6B3C17D518F2E66F006AE3BB /* conf.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7718F2DDD9000A5951 /* conf.h */; };
+		6B3C17D618F2E66F006AE3BB /* dir.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7818F2DDD9000A5951 /* dir.c */; };
+		6B3C17D718F2E66F006AE3BB /* err.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7918F2DDD9000A5951 /* err.c */; };
+		6B3C17D818F2E66F006AE3BB /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7A18F2DDD9000A5951 /* fetch.c */; };
+		6B3C17D918F2E66F006AE3BB /* fetch.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7B18F2DDD9000A5951 /* fetch.h */; };
+		6B3C17DA18F2E66F006AE3BB /* file.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7C18F2DDD9000A5951 /* file.c */; };
+		6B3C17DB18F2E66F006AE3BB /* file.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7D18F2DDD9000A5951 /* file.h */; };
+		6B3C17DC18F2E66F006AE3BB /* format.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7E18F2DDD9000A5951 /* format.h */; };
+		6B3C17DD18F2E66F006AE3BB /* fseeko.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A7F18F2DDD9000A5951 /* fseeko.h */; };
+		6B3C17DE18F2E66F006AE3BB /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8018F2DDD9000A5951 /* info.c */; };
+		6B3C17DF18F2E66F006AE3BB /* info.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8118F2DDD9000A5951 /* info.h */; };
+		6B3C17E018F2E66F006AE3BB /* lib.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8218F2DDD9000A5951 /* lib.h */; };
+		6B3C17E118F2E66F006AE3BB /* memdisk.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8318F2DDD9000A5951 /* memdisk.h */; };
+		6B3C17E218F2E66F006AE3BB /* mmapped.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8418F2DDD9000A5951 /* mmapped.h */; };
+		6B3C17E318F2E66F006AE3BB /* plugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8518F2DDD9000A5951 /* plugin.c */; };
+		6B3C17E418F2E66F006AE3BB /* plugin.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8618F2DDD9000A5951 /* plugin.h */; };
+		6B3C17E518F2E66F006AE3BB /* stat.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8718F2DDD9000A5951 /* stat.c */; };
+		6B3C17E618F2E66F006AE3BB /* stdint.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8818F2DDD9000A5951 /* stdint.h */; };
+		6B3C17E718F2E66F006AE3BB /* types.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8918F2DDD9000A5951 /* types.h */; };
+		6B3C17E818F2E66F006AE3BB /* write.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8A18F2DDD9000A5951 /* write.h */; };
+		6B3C17E918F2E66F006AE3BB /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8B18F2DDD9000A5951 /* zip.c */; };
+		6B3C17EA18F2E66F006AE3BB /* zzip.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8C18F2DDD9000A5951 /* zzip.h */; };
+		6B3C17EB18F2E66F006AE3BB /* _config.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8D18F2DDD9000A5951 /* _config.h */; };
+		6B3C17EC18F2E66F006AE3BB /* _msvc.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8E18F2DDD9000A5951 /* _msvc.h */; };
+		6B3C17ED18F2E66F006AE3BB /* __debug.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A8F18F2DDD9000A5951 /* __debug.h */; };
+		6B3C17EE18F2E66F006AE3BB /* __dirent.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A9018F2DDD9000A5951 /* __dirent.h */; };
+		6B3C17EF18F2E66F006AE3BB /* __fnmatch.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A9118F2DDD9000A5951 /* __fnmatch.h */; };
+		6B3C17F018F2E66F006AE3BB /* __hints.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A9218F2DDD9000A5951 /* __hints.h */; };
+		6B3C17F118F2E66F006AE3BB /* __mmap.h in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F8A9318F2DDD9000A5951 /* __mmap.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6B7F8A7618F2DDD9000A5951 /* autoconf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = autoconf.h; sourceTree = "<group>"; };
+		6B7F8A7718F2DDD9000A5951 /* conf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		6B7F8A7818F2DDD9000A5951 /* dir.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = dir.c; sourceTree = "<group>"; };
+		6B7F8A7918F2DDD9000A5951 /* err.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = err.c; sourceTree = "<group>"; };
+		6B7F8A7A18F2DDD9000A5951 /* fetch.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fetch.c; sourceTree = "<group>"; };
+		6B7F8A7B18F2DDD9000A5951 /* fetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fetch.h; sourceTree = "<group>"; };
+		6B7F8A7C18F2DDD9000A5951 /* file.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = file.c; sourceTree = "<group>"; };
+		6B7F8A7D18F2DDD9000A5951 /* file.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
+		6B7F8A7E18F2DDD9000A5951 /* format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = format.h; sourceTree = "<group>"; };
+		6B7F8A7F18F2DDD9000A5951 /* fseeko.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fseeko.h; sourceTree = "<group>"; };
+		6B7F8A8018F2DDD9000A5951 /* info.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = info.c; sourceTree = "<group>"; };
+		6B7F8A8118F2DDD9000A5951 /* info.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = info.h; sourceTree = "<group>"; };
+		6B7F8A8218F2DDD9000A5951 /* lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lib.h; sourceTree = "<group>"; };
+		6B7F8A8318F2DDD9000A5951 /* memdisk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memdisk.h; sourceTree = "<group>"; };
+		6B7F8A8418F2DDD9000A5951 /* mmapped.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mmapped.h; sourceTree = "<group>"; };
+		6B7F8A8518F2DDD9000A5951 /* plugin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = plugin.c; sourceTree = "<group>"; };
+		6B7F8A8618F2DDD9000A5951 /* plugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = plugin.h; sourceTree = "<group>"; };
+		6B7F8A8718F2DDD9000A5951 /* stat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = stat.c; sourceTree = "<group>"; };
+		6B7F8A8818F2DDD9000A5951 /* stdint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stdint.h; sourceTree = "<group>"; };
+		6B7F8A8918F2DDD9000A5951 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		6B7F8A8A18F2DDD9000A5951 /* write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = write.h; sourceTree = "<group>"; };
+		6B7F8A8B18F2DDD9000A5951 /* zip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		6B7F8A8C18F2DDD9000A5951 /* zzip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zzip.h; sourceTree = "<group>"; };
+		6B7F8A8D18F2DDD9000A5951 /* _config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _config.h; sourceTree = "<group>"; };
+		6B7F8A8E18F2DDD9000A5951 /* _msvc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _msvc.h; sourceTree = "<group>"; };
+		6B7F8A8F18F2DDD9000A5951 /* __debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = __debug.h; sourceTree = "<group>"; };
+		6B7F8A9018F2DDD9000A5951 /* __dirent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = __dirent.h; sourceTree = "<group>"; };
+		6B7F8A9118F2DDD9000A5951 /* __fnmatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = __fnmatch.h; sourceTree = "<group>"; };
+		6B7F8A9218F2DDD9000A5951 /* __hints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = __hints.h; sourceTree = "<group>"; };
+		6B7F8A9318F2DDD9000A5951 /* __mmap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = __mmap.h; sourceTree = "<group>"; };
+		C7393ED915CA7C9C00205F7C /* libZZiplib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZZiplib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C7393ED615CA7C9C00205F7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6B7F8A7518F2DDD9000A5951 /* zzip */ = {
+			isa = PBXGroup;
+			children = (
+				6B7F8A7618F2DDD9000A5951 /* autoconf.h */,
+				6B7F8A7718F2DDD9000A5951 /* conf.h */,
+				6B7F8A7818F2DDD9000A5951 /* dir.c */,
+				6B7F8A7918F2DDD9000A5951 /* err.c */,
+				6B7F8A7A18F2DDD9000A5951 /* fetch.c */,
+				6B7F8A7B18F2DDD9000A5951 /* fetch.h */,
+				6B7F8A7C18F2DDD9000A5951 /* file.c */,
+				6B7F8A7D18F2DDD9000A5951 /* file.h */,
+				6B7F8A7E18F2DDD9000A5951 /* format.h */,
+				6B7F8A7F18F2DDD9000A5951 /* fseeko.h */,
+				6B7F8A8018F2DDD9000A5951 /* info.c */,
+				6B7F8A8118F2DDD9000A5951 /* info.h */,
+				6B7F8A8218F2DDD9000A5951 /* lib.h */,
+				6B7F8A8318F2DDD9000A5951 /* memdisk.h */,
+				6B7F8A8418F2DDD9000A5951 /* mmapped.h */,
+				6B7F8A8518F2DDD9000A5951 /* plugin.c */,
+				6B7F8A8618F2DDD9000A5951 /* plugin.h */,
+				6B7F8A8718F2DDD9000A5951 /* stat.c */,
+				6B7F8A8818F2DDD9000A5951 /* stdint.h */,
+				6B7F8A8918F2DDD9000A5951 /* types.h */,
+				6B7F8A8A18F2DDD9000A5951 /* write.h */,
+				6B7F8A8B18F2DDD9000A5951 /* zip.c */,
+				6B7F8A8C18F2DDD9000A5951 /* zzip.h */,
+				6B7F8A8D18F2DDD9000A5951 /* _config.h */,
+				6B7F8A8E18F2DDD9000A5951 /* _msvc.h */,
+				6B7F8A8F18F2DDD9000A5951 /* __debug.h */,
+				6B7F8A9018F2DDD9000A5951 /* __dirent.h */,
+				6B7F8A9118F2DDD9000A5951 /* __fnmatch.h */,
+				6B7F8A9218F2DDD9000A5951 /* __hints.h */,
+				6B7F8A9318F2DDD9000A5951 /* __mmap.h */,
+			);
+			name = zzip;
+			path = ../zzip;
+			sourceTree = "<group>";
+		};
+		C7393ECE15CA7C9C00205F7C = {
+			isa = PBXGroup;
+			children = (
+				6B7F8A7518F2DDD9000A5951 /* zzip */,
+				C7393EDA15CA7C9C00205F7C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C7393EDA15CA7C9C00205F7C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C7393ED915CA7C9C00205F7C /* libZZiplib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C7393ED715CA7C9C00205F7C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C7393ED815CA7C9C00205F7C /* ZZiplib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7393EDD15CA7C9C00205F7C /* Build configuration list for PBXNativeTarget "ZZiplib" */;
+			buildPhases = (
+				C7393ED515CA7C9C00205F7C /* Sources */,
+				C7393ED615CA7C9C00205F7C /* Frameworks */,
+				C7393ED715CA7C9C00205F7C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZZiplib;
+			productName = ZZiplib;
+			productReference = C7393ED915CA7C9C00205F7C /* libZZiplib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C7393ED015CA7C9C00205F7C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = C7393ED315CA7C9C00205F7C /* Build configuration list for PBXProject "ZZiplib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C7393ECE15CA7C9C00205F7C;
+			productRefGroup = C7393EDA15CA7C9C00205F7C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C7393ED815CA7C9C00205F7C /* ZZiplib */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C7393ED515CA7C9C00205F7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B3C17D418F2E66F006AE3BB /* autoconf.h in Sources */,
+				6B3C17D518F2E66F006AE3BB /* conf.h in Sources */,
+				6B3C17D618F2E66F006AE3BB /* dir.c in Sources */,
+				6B3C17D718F2E66F006AE3BB /* err.c in Sources */,
+				6B3C17D818F2E66F006AE3BB /* fetch.c in Sources */,
+				6B3C17D918F2E66F006AE3BB /* fetch.h in Sources */,
+				6B3C17DA18F2E66F006AE3BB /* file.c in Sources */,
+				6B3C17DB18F2E66F006AE3BB /* file.h in Sources */,
+				6B3C17DC18F2E66F006AE3BB /* format.h in Sources */,
+				6B3C17DD18F2E66F006AE3BB /* fseeko.h in Sources */,
+				6B3C17DE18F2E66F006AE3BB /* info.c in Sources */,
+				6B3C17DF18F2E66F006AE3BB /* info.h in Sources */,
+				6B3C17E018F2E66F006AE3BB /* lib.h in Sources */,
+				6B3C17E118F2E66F006AE3BB /* memdisk.h in Sources */,
+				6B3C17E218F2E66F006AE3BB /* mmapped.h in Sources */,
+				6B3C17E318F2E66F006AE3BB /* plugin.c in Sources */,
+				6B3C17E418F2E66F006AE3BB /* plugin.h in Sources */,
+				6B3C17E518F2E66F006AE3BB /* stat.c in Sources */,
+				6B3C17E618F2E66F006AE3BB /* stdint.h in Sources */,
+				6B3C17E718F2E66F006AE3BB /* types.h in Sources */,
+				6B3C17E818F2E66F006AE3BB /* write.h in Sources */,
+				6B3C17E918F2E66F006AE3BB /* zip.c in Sources */,
+				6B3C17EA18F2E66F006AE3BB /* zzip.h in Sources */,
+				6B3C17EB18F2E66F006AE3BB /* _config.h in Sources */,
+				6B3C17EC18F2E66F006AE3BB /* _msvc.h in Sources */,
+				6B3C17ED18F2E66F006AE3BB /* __debug.h in Sources */,
+				6B3C17EE18F2E66F006AE3BB /* __dirent.h in Sources */,
+				6B3C17EF18F2E66F006AE3BB /* __fnmatch.h in Sources */,
+				6B3C17F018F2E66F006AE3BB /* __hints.h in Sources */,
+				6B3C17F118F2E66F006AE3BB /* __mmap.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C7393EDB15CA7C9C00205F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../src/zlib-1.2.3",
+					"../../src/zziplib-0.13.57",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos6.1;
+			};
+			name = Debug;
+		};
+		C7393EDC15CA7C9C00205F7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../src/zlib-1.2.3",
+					"../../src/zziplib-0.13.57",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = iphoneos6.1;
+			};
+			name = Release;
+		};
+		C7393EDE15CA7C9C00205F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = ../;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "CFCDE6BD-CBF3-4243-B060-7C3C35B76AE8";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Debug;
+		};
+		C7393EDF15CA7C9C00205F7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = ../;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "CFCDE6BD-CBF3-4243-B060-7C3C35B76AE8";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C7393ED315CA7C9C00205F7C /* Build configuration list for PBXProject "ZZiplib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7393EDB15CA7C9C00205F7C /* Debug */,
+				C7393EDC15CA7C9C00205F7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C7393EDD15CA7C9C00205F7C /* Build configuration list for PBXNativeTarget "ZZiplib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7393EDE15CA7C9C00205F7C /* Debug */,
+				C7393EDF15CA7C9C00205F7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C7393ED015CA7C9C00205F7C /* Project object */;
+}

@@ -53,7 +53,7 @@ namespace ma
 		if (itRes != _resMap.end())
 			return itRes->second;
 
-		std::string fileExt = FileSystem::getExtension(pszRelPath);
+		std::string fileExt = StringUtil::getFileExt(pszRelPath);
 		ResCreateFunMap::iterator itFun = _resCreateFunMap.find(fileExt);
 		if (itFun == _resCreateFunMap.end())
 			return NULL;

@@ -71,8 +71,7 @@ void ImageControl::initialize(Theme::Style* style, Properties* properties)
 void ImageControl::setImage(const char* path)
 {
     SAFE_DELETE(_batch);
-    Texture* texture = GetRenderDevice()->CreateTexture();//Texture::create(path);
-	texture->Load(path);
+    TexturePtr texture = LoadResourceSync<Texture>(path);
     _batch = new SpriteBatch(texture);
     _tw = 1.0f / texture->getWidth();
     _th = 1.0f / texture->getHeight();

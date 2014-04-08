@@ -1,24 +1,25 @@
 #include "ShaderProgram.h"
 
-
 namespace ma
 {
 
 
 	static void replaceDefines(const char* defines, std::string& out)
 	{
-		
-		std::vector<std::string> arrTok;
-		Tokenize(defines,arrTok,";",true);
+        
+#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
+		out.insert(0, "#define OPENGL_ES\n");
+#endif
+        
+		if (defines == NULL || strcmp(defines,"") == 0 )
+			return;
+
+		std::vector<std::string> arrTok = StringUtil::split(defines,";");
 
 		for (UINT i = 0; i < arrTok.size(); ++i)
 		{
 			out += "#define " + arrTok[i] + "\n";
 		}
-
-#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
-		out.insert(0, "#define OPENGL_ES\n");
-#endif
 	}
 
 	static void replaceIncludes(const char* filepath, const char* source, std::string& out)
@@ -75,8 +76,8 @@ namespace ma
 				size_t len = endQuote - (startQuote);
 				std::string includeStr = str.substr(startQuote, len);
 				directoryPath.append(includeStr);
-				DataStream* pDataStream = FileSystem::readAll(directoryPath.c_str());
-				const char* includedSource = (const char*)pDataStream->GetData();
+				MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( directoryPath.c_str() , 1 );	
+				char* includedSource = (char*)pDataStream->GetPtr();
 				if (includedSource == NULL)
 				{
 					GP_ERROR("Compile failed for shader '%s' invalid filepath.", filepathStr.c_str());
@@ -86,7 +87,7 @@ namespace ma
 				{
 					// Valid file so lets attempt to see if we need to append anything to it too (recurse...)
 					replaceIncludes(directoryPath.c_str(), includedSource, out);
-					SAFE_DELETE_ARRAY(includedSource);
+					//SAFE_DELETE_ARRAY(includedSource);
 				}
 			}
 			else
@@ -100,12 +101,11 @@ namespace ma
 	static std::string prePareShaderSource(const char* shPath,const char* defines)
 	{
 		// Read source from file.
-		//char* shSource = FileSystem::readAll(shPath);
-		DataStream* pDataStream = FileSystem::readAll(shPath);
+		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll(shPath,1); 
 		if (pDataStream == NULL)
 			return "";
 
-		const char* shSource = (const char*)pDataStream->GetData();
+		char* shSource = (char*)pDataStream->GetPtr();
 		if (shSource == NULL)
 		{
 			GP_ERROR("Failed to read vertex shader from file '%s'.", vshPath);
@@ -158,11 +158,7 @@ namespace ma
 
 	void ShaderProgram::Create()
 	{
-		//std::string sTechName = m_pTech->GetTechName(); 
-		//m_name = sTechName + "_" + m_strVSFile + "_" + m_shaderDefine;
-
 		std::string strPath = GetRenderDevice()->GetShaderPath();
-		//strPath += m_ShaderName;
 
 		std::string strPathVS = strPath + m_strVSFile + ".vert";
 		std::string strPathFS = strPath + m_strPSFile + ".frag";

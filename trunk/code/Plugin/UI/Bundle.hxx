@@ -42,91 +42,86 @@ Bundle::~Bundle()
     }
 
     SAFE_DELETE_ARRAY(_references);
-
-    if (_stream)
-    {
-        SAFE_DELETE(_stream);
-    }
 }
 
-template <class T>
-bool Bundle::readArray(unsigned int* length, T** ptr)
-{
-    ASSERT(length);
-    ASSERT(ptr);
-    ASSERT(_stream);
-
-    if (!read(length))
-    {
-        GP_ERROR("Failed to read the length of an array of data (to be read into an array).");
-        return false;
-    }
-    if (*length > 0)
-    {
-        *ptr = new T[*length];
-        if (_stream->read(*ptr, sizeof(T), *length) != *length)
-        {
-            GP_ERROR("Failed to read an array of data from bundle (into an array).");
-            SAFE_DELETE_ARRAY(*ptr);
-            return false;
-        }
-    }
-    return true;
-}
-
-template <class T>
-bool Bundle::readArray(unsigned int* length, std::vector<T>* values)
-{
-    ASSERT(length);
-    ASSERT(_stream);
-
-    if (!read(length))
-    {
-        GP_ERROR("Failed to read the length of an array of data (to be read into a std::vector).");
-        return false;
-    }
-    if (*length > 0 && values)
-    {
-        values->resize(*length);
-        if (_stream->read(&(*values)[0], sizeof(T), *length) != *length)
-        {
-            GP_ERROR("Failed to read an array of data from bundle (into a std::vector).");
-            return false;
-        }
-    }
-    return true;
-}
-
-template <class T>
-bool Bundle::readArray(unsigned int* length, std::vector<T>* values, unsigned int readSize)
-{
-    ASSERT(length);
-    ASSERT(_stream);
-    ASSERT(sizeof(T) >= readSize);
-
-    if (!read(length))
-    {
-        GP_ERROR("Failed to read the length of an array of data (to be read into a std::vector with a specified single element read size).");
-        return false;
-    }
-    if (*length > 0 && values)
-    {
-        values->resize(*length);
-        if (_stream->read(&(*values)[0], readSize, *length) != *length)
-        {
-            GP_ERROR("Failed to read an array of data from bundle (into a std::vector with a specified single element read size).");
-            return false;
-        }
-    }
-    return true;
-}
+// template <class T>
+// bool Bundle::readArray(unsigned int* length, T** ptr)
+// {
+//     ASSERT(length);
+//     ASSERT(ptr);
+//     ASSERT(_stream);
+// 
+//     if (!read(length))
+//     {
+//         GP_ERROR("Failed to read the length of an array of data (to be read into an array).");
+//         return false;
+//     }
+//     if (*length > 0)
+//     {
+//         *ptr = new T[*length];
+//         if (_stream->read(*ptr, sizeof(T), *length) != *length)
+//         {
+//             GP_ERROR("Failed to read an array of data from bundle (into an array).");
+//             SAFE_DELETE_ARRAY(*ptr);
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// 
+// template <class T>
+// bool Bundle::readArray(unsigned int* length, std::vector<T>* values)
+// {
+//     ASSERT(length);
+//     ASSERT(_stream);
+// 
+//     if (!read(length))
+//     {
+//         GP_ERROR("Failed to read the length of an array of data (to be read into a std::vector).");
+//         return false;
+//     }
+//     if (*length > 0 && values)
+//     {
+//         values->resize(*length);
+//         if (_stream->read(&(*values)[0], sizeof(T), *length) != *length)
+//         {
+//             GP_ERROR("Failed to read an array of data from bundle (into a std::vector).");
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// 
+// template <class T>
+// bool Bundle::readArray(unsigned int* length, std::vector<T>* values, unsigned int readSize)
+// {
+//     ASSERT(length);
+//     ASSERT(_stream);
+//     ASSERT(sizeof(T) >= readSize);
+// 
+//     if (!read(length))
+//     {
+//         GP_ERROR("Failed to read the length of an array of data (to be read into a std::vector with a specified single element read size).");
+//         return false;
+//     }
+//     if (*length > 0 && values)
+//     {
+//         values->resize(*length);
+//         if (_stream->read(&(*values)[0], readSize, *length) != *length)
+//         {
+//             GP_ERROR("Failed to read an array of data from bundle (into a std::vector with a specified single element read size).");
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
 static std::string readString(Stream* stream)
 {
     ASSERT(stream);
 
     unsigned int length;
-    if (stream->read(&length, 4, 1) != 1)
+    if (stream->Read(&length, 4) != 4)
     {
         GP_ERROR("Failed to read the length of a string from a bundle.");
         return std::string();
@@ -136,15 +131,16 @@ static std::string readString(Stream* stream)
     ASSERT(length < BUNDLE_MAX_STRING_LENGTH);
 
     std::string str;
-    if (length > 0)
-    {
-        str.resize(length);
-        if (stream->read(&str[0], 1, length) != length)
-        {
-            GP_ERROR("Failed to read string from bundle.");
-            return std::string();
-        }
-    }
+	char* buf = new char[length + 1];
+	if ( stream->Read(buf,length) != length )
+	{
+		GP_ERROR("Failed to read string from bundle.");
+		return std::string();
+	}
+	buf[length] = '\0';
+	str = buf;
+	SAFE_DELETE_ARRAY(buf);
+
     return str;
 }
 
@@ -166,7 +162,7 @@ Bundle* Bundle::create(const char* path)
     }
 
     // Open the bundle.
-    Stream* stream = FileSystem::open(path);
+    StreamPtr stream = GetArchiveMananger()->Open(path);
     if (!stream)
     {
         GP_ERROR("Failed to open file '%s'.", path);
@@ -175,33 +171,29 @@ Bundle* Bundle::create(const char* path)
 
     // Read the GPB header info.
     char sig[9];
-    if (stream->read(sig, 1, 9) != 9 || memcmp(sig, "\xABGPB\xBB\r\n\x1A\n", 9) != 0)
+    if (stream->Read(sig, 9) != 9 || memcmp(sig, "\xABGPB\xBB\r\n\x1A\n", 9) != 0)
     {
-        SAFE_DELETE(stream);
         GP_ERROR("Invalid GPB header for bundle '%s'.", path);
         return NULL;
     }
 
     // Read version.
     unsigned char ver[2];
-    if (stream->read(ver, 1, 2) != 2)
+    if (stream->Read(ver,2) != 2)
     {
-        SAFE_DELETE(stream);
         GP_ERROR("Failed to read GPB version for bundle '%s'.", path);
         return NULL;
     }
     if (ver[0] != BUNDLE_VERSION_MAJOR || ver[1] != BUNDLE_VERSION_MINOR)
     {
-        SAFE_DELETE(stream);
         GP_ERROR("Unsupported version (%d.%d) for bundle '%s' (expected %d.%d).", (int)ver[0], (int)ver[1], path, BUNDLE_VERSION_MAJOR, BUNDLE_VERSION_MINOR);
         return NULL;
     }
 
     // Read ref table.
     unsigned int refCount;
-    if (stream->read(&refCount, 4, 1) != 1)
+    if (stream->Read(&refCount, 4) != 4)
     {
-        SAFE_DELETE(stream);
         GP_ERROR("Failed to read ref table for bundle '%s'.", path);
         return NULL;
     }
@@ -210,11 +202,10 @@ Bundle* Bundle::create(const char* path)
     Reference* refs = new Reference[refCount];
     for (unsigned int i = 0; i < refCount; ++i)
     {
-        if ((refs[i].id = readString(stream)).empty() ||
-            stream->read(&refs[i].type, 4, 1) != 1 ||
-            stream->read(&refs[i].offset, 4, 1) != 1)
+        if ((refs[i].id = readString(stream.get())).empty() ||
+            stream->Read(&refs[i].type, 4) != 4 ||
+            stream->Read(&refs[i].offset, 4) != 4)
         {
-            SAFE_DELETE(stream);
             GP_ERROR("Failed to read ref number %d for bundle '%s'.", i, path);
             SAFE_DELETE_ARRAY(refs);
             return NULL;
@@ -235,7 +226,7 @@ Bundle::Reference* Bundle::find(const char* id) const
     ASSERT(id);
     ASSERT(_references);
 
-    // Search the ref table for the given id (case-sensitive).
+    // Search the ref table f or the given id (case-sensitive).
     for (unsigned int i = 0; i < _referenceCount; ++i)
     {
         if (_references[i].id == id)
@@ -252,7 +243,7 @@ Bundle::Reference* Bundle::find(const char* id) const
 const char* Bundle::getIdFromOffset() const
 {
     ASSERT(_stream);
-    return getIdFromOffset((unsigned int) _stream->position());
+    return getIdFromOffset((unsigned int) _stream->Tell());
 }
 
 const char* Bundle::getIdFromOffset(unsigned int offset) const
@@ -272,23 +263,23 @@ const char* Bundle::getIdFromOffset(unsigned int offset) const
     return NULL;
 }
 
-const std::string& Bundle::getMaterialPath()
-{
-    if (_materialPath.empty())
-    {
-        int pos = _path.find_last_of('.');
-        if (pos > 2)
-        {
-            _materialPath = _path.substr(0, pos);
-            _materialPath.append(".material");
-            if (!FileSystem::fileExists(_materialPath.c_str()))
-            {
-                _materialPath.clear();
-            }
-        }
-    }
-    return _materialPath;
-}
+// const std::string& Bundle::getMaterialPath()
+// {
+//     if (_materialPath.empty())
+//     {
+//         int pos = _path.find_last_of('.');
+//         if (pos > 2)
+//         {
+//             _materialPath = _path.substr(0, pos);
+//             _materialPath.append(".material");
+//             if (!StringUtil::getFileExt(_materialPath.c_str()))
+//             {
+//                 _materialPath.clear();
+//             }
+//         }
+//     }
+//     return _materialPath;
+// }
 
 Bundle::Reference* Bundle::seekTo(const char* id, unsigned int type)
 {
@@ -307,11 +298,7 @@ Bundle::Reference* Bundle::seekTo(const char* id, unsigned int type)
 
     // Seek to the offset of this object.
     ASSERT(_stream);
-    if (_stream->seek(ref->offset, SEEK_SET) == false)
-    {
-        GP_ERROR("Failed to seek to object '%s' in bundle '%s'.", id, _path.c_str());
-        return NULL;
-    }
+	_stream->Seek(ref->offset);
 
     return ref;
 }
@@ -327,11 +314,12 @@ Bundle::Reference* Bundle::seekToFirstType(unsigned int type)
         if (ref->type == type)
         {
             // Found a match.
-            if (_stream->seek(ref->offset, SEEK_SET) == false)
-            {
-                GP_ERROR("Failed to seek to object '%s' in bundle '%s'.", ref->id.c_str(), _path.c_str());
-                return NULL;
-            }
+			 _stream->Seek(ref->offset);
+//             if (_stream->Seek(ref->offset, SEEK_SET) == false)
+//             {
+//                 GP_ERROR("Failed to seek to object '%s' in bundle '%s'.", ref->id.c_str(), _path.c_str());
+//                 return NULL;
+//             }
             return ref;
         }
     }
@@ -340,22 +328,22 @@ Bundle::Reference* Bundle::seekToFirstType(unsigned int type)
 
 bool Bundle::read(unsigned int* ptr)
 {
-    return _stream->read(ptr, sizeof(unsigned int), 1) == 1;
+    return _stream->Read(ptr, sizeof(unsigned int)) == sizeof(unsigned int);
 }
 
 bool Bundle::read(unsigned char* ptr)
 {
-    return _stream->read(ptr, sizeof(unsigned char), 1) == 1;
+    return _stream->Read(ptr, sizeof(unsigned char)) == sizeof(unsigned char);
 }
 
 bool Bundle::read(float* ptr)
 {
-    return _stream->read(ptr, sizeof(float), 1) == 1;
+    return _stream->Read(ptr, sizeof(float)) == sizeof(float);
 }
 
 bool Bundle::readMatrix(float* m)
 {
-    return _stream->read(m, sizeof(float), 16) == 16;
+    return _stream->Read(m, sizeof(float) * 16) == 16 * sizeof(float);
 }
 
 Font* Bundle::loadFont(const char* id)
@@ -372,7 +360,7 @@ Font* Bundle::loadFont(const char* id)
     }
 
     // Read font family.
-    std::string family = readString(_stream);
+    std::string family = readString(_stream.get());
     if (family.empty())
     {
         GP_ERROR("Failed to read font family for font '%s'.", id);
@@ -381,23 +369,23 @@ Font* Bundle::loadFont(const char* id)
 
     // Read font style and size.
     unsigned int style, size;
-    if (_stream->read(&style, 4, 1) != 1)
+    if (_stream->Read(&style, 4) != 4)
     {
         GP_ERROR("Failed to read style for font '%s'.", id);
         return NULL;
     }
-    if (_stream->read(&size, 4, 1) != 1)
+    if (_stream->Read(&size, 4) != 4)
     {
         GP_ERROR("Failed to read size for font '%s'.", id);
         return NULL;
     }
 
     // Read character set.
-    std::string charset = readString(_stream);
+    std::string charset = readString(_stream.get());
 
     // Read font glyphs.
     unsigned int glyphCount;
-    if (_stream->read(&glyphCount, 4, 1) != 1)
+    if (_stream->Read(&glyphCount, 4) != 4)
     {
         GP_ERROR("Failed to read glyph count for font '%s'.", id);
         return NULL;
@@ -409,7 +397,7 @@ Font* Bundle::loadFont(const char* id)
     }
 
     Font::Glyph* glyphs = new Font::Glyph[glyphCount];
-    if (_stream->read(glyphs, sizeof(Font::Glyph), glyphCount) != glyphCount)
+    if (_stream->Read(glyphs, sizeof(Font::Glyph) * glyphCount) != sizeof(Font::Glyph) * glyphCount)
     {
         GP_ERROR("Failed to read glyphs for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
@@ -418,19 +406,19 @@ Font* Bundle::loadFont(const char* id)
 
     // Read texture attributes.
     unsigned int width, height, textureByteCount;
-    if (_stream->read(&width, 4, 1) != 1)
+    if (_stream->Read(&width, 4) != 4)
     {
         GP_ERROR("Failed to read texture width for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
         return NULL;
     }
-    if (_stream->read(&height, 4, 1) != 1)
+    if (_stream->Read(&height, 4) != 4)
     {
         GP_ERROR("Failed to read texture height for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
         return NULL;
     }
-    if (_stream->read(&textureByteCount, 4, 1) != 1)
+    if (_stream->Read(&textureByteCount, 4) != 4)
     {
         GP_ERROR("Failed to read texture byte count for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
@@ -458,7 +446,7 @@ Font* Bundle::loadFont(const char* id)
 
     // Read texture data.
     unsigned char* textureData = new unsigned char[textureByteCount];
-    if (_stream->read(textureData, 1, textureByteCount) != textureByteCount)
+    if (_stream->Read(textureData, textureByteCount) != textureByteCount)
     {
         GP_ERROR("Failed to read texture data for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
@@ -468,7 +456,7 @@ Font* Bundle::loadFont(const char* id)
 
     // Create the texture for the font.
 	Texture* texture = GetRenderDevice()->CreateTexture(width,height,FMT_A8,false);
-	DataStream* pDataSteam = new DataStream(textureData,textureByteCount);
+	MemoryStream* pDataSteam = new MemoryStream(textureData,textureByteCount);
 	GetRenderSystem()->TexStreamComplete(texture,pDataSteam);
 
     // Free the texture data (no longer needed).

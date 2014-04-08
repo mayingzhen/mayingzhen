@@ -23,7 +23,7 @@ TouchPointerData __pointer1;
 
 namespace ma
 {
-
+	AAssetManager* __assetManager;
 
 
 	static Platform*	__platformIns = NULL;
@@ -164,6 +164,8 @@ namespace ma
 			return; 
 		}
 		ASSERT(env);
+
+		__assetManager = activity->assetManager; 
 
 		android_app* pAppState = get_app();
 		pAppState->userData = this;

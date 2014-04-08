@@ -40,9 +40,9 @@ namespace ma
 	};
 
 
-	struct SubMeshData : public Referenced
+	class SubMeshData : public Referenced
 	{
-
+	public:
 		UINT					m_nIndexStart;
 		UINT					m_nIndexCount;
 		UINT					m_nVertexStart;

@@ -42,7 +42,7 @@ namespace ma
 
 		void				InitResourcePath();
 
-		void				InitModule();
+		void				InitBaseModule();
 
 		void				LoadPlugin();
 

@@ -20,6 +20,25 @@ namespace ma
 		SAFE_RELEASE(m_pPiexelShader);
 	}
 
+	void D3D9ShaderProgram::CachShaderFile(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+	{
+		char pszPath[MAX_PATH] = {0};
+		GetFullPathName("ShaderCach/D3D9/",MAX_PATH,pszPath,NULL);
+		std::string strDir = pszPath;
+		std::string strVshName = strDir + m_strVSFile + ".vsh";
+		std::string strFshName = strDir + m_strPSFile + ".fsh";
+
+		std::ofstream saveFile;
+
+		saveFile.open(strVshName.c_str());
+		saveFile << vshSource;
+		saveFile.close();
+
+		saveFile.open(strFshName.c_str());
+		saveFile << fshSource;
+		saveFile.close();
+	}
+
 	void D3D9ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
 		ASSERT(vshSource);
@@ -38,23 +57,13 @@ namespace ma
 #endif // _DEBUG
 
 
-		std::string strDir = FileSystem::getResourcePath();
-		strDir += "/shader/D3D9/Cach/";
-		std::ofstream saveFile;
-		std::string strVshName = strDir + m_strVSFile + ".vsh";
-		std::string strFshName = strDir + m_strPSFile + ".fsh";
+		CachShaderFile(vshSource,vshSize,fshSource,fshSize);
 
 		if (vshSize > 0)
-		{
-			std::string strDir = FileSystem::getDirectoryName(strVshName.c_str());
-			::SHCreateDirectoryExA(NULL,strDir.c_str(),NULL);
-
-			saveFile.open(strVshName.c_str());
-			saveFile << vshSource;
-			saveFile.close();
-			
-			hr = D3DXCompileShaderFromFile( 
-				strVshName.c_str(), 
+		{	
+			hr = D3DXCompileShader( 
+				vshSource, 
+				vshSize,
 				NULL, 
 				NULL,
 				"main",
@@ -75,15 +84,9 @@ namespace ma
 
 		if (fshSize > 0)
 		{
-			std::string strDir = FileSystem::getDirectoryName(strFshName.c_str());
-			::SHCreateDirectoryExA(NULL,strDir.c_str(),NULL);
-
-			saveFile.open(strFshName.c_str());
-			saveFile << fshSource;
-			saveFile.close();
-
-			hr = D3DXCompileShaderFromFile( 
-				strFshName.c_str(), 
+			hr = D3DXCompileShader( 
+				fshSource, 
+				fshSize,
 				NULL, 
 				NULL,
 				"main",
@@ -99,51 +102,6 @@ namespace ma
 				&m_pPiexelShader );
 			ASSERT(hr == D3D_OK);
 		}
-
-
-// 		HRESULT hr = D3D_OK;
-// 
-// 		DWORD dwShaderFlags = 0;
-// #ifdef _DEBUG
-// 		dwShaderFlags |= D3DXSHADER_DEBUG | D3DXSHADER_SKIPOPTIMIZATION;
-// #endif // _DEBUG
-// 
-// 		LPD3DXBUFFER pCode = NULL;
-// 		LPD3DXBUFFER error = NULL;
-// 
-// 		hr = D3DXCompileShader( 
-// 			vshSource, 
-// 			vshSize,
-// 			NULL, 
-// 			NULL,
-// 			"main",
-// 			"vs_3_0", 
-// 			dwShaderFlags, 
-// 			&pCode,
-// 			&error, 
-// 			&m_pVShConstantTable ) ;
-// 		ASSERT(hr == D3D_OK);
-// 		
-
-
-
-
-// 		hr = D3DXCompileShader( 
-// 			fshSource, 
-// 			fshSize,
-// 			NULL, 
-// 			NULL,
-// 			"main",
-// 			"ps_3_0", 
-// 			dwShaderFlags, 
-// 			&pCode,
-// 			&error, 
-// 			&m_pPShConstantTable ) ;
-// 		ASSERT(hr == D3D_OK);
-
-
-
-
 
 		return;
 	}

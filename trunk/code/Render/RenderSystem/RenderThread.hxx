@@ -82,7 +82,7 @@ namespace ma
 		FlushFrame();
 	}
 
-	void RenderThread::RC_TexStreamComplete(Texture* pTexture,DataStream* pDataStream)
+	void RenderThread::RC_TexStreamComplete(Texture* pTexture,MemoryStream* pDataStream)
 	{
 		if (IsRenderThread())
 		{
@@ -221,7 +221,7 @@ namespace ma
 			case  eRC_TexStreamComplete:
 				{
 					Texture* pTexture = ReadCommand<Texture*>(n);
-					DataStream* pDataStream = ReadCommand<DataStream*>(n);
+					MemoryStream* pDataStream = ReadCommand<MemoryStream*>(n);
 					pTexture->Load(pDataStream);
 				}
 				break;

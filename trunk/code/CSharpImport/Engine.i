@@ -14,9 +14,7 @@
 %include "../../Code/Engine/Time/Timer.h"
 
 %include "../../Code/Engine/Resource/Stream.h"
-%include "../../Code/Engine/Resource/DataStream.h"
-%include "../../Code/Engine/Resource/FileStream.h"
-%include "../../Code/Engine/Resource/FileSystem.h"
+%include "../../Code/Engine/Resource/FileInfo.h"
 
 %include "../../Code/Engine/Resource/Resource.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"

@@ -19,7 +19,7 @@ namespace ma
 		if (pScriptSystem == NULL)
 			return;
 
-		std::string	strDllPath = FileSystem::getFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
+		std::string	strDllPath = GetArchiveMananger()->GetFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
 		GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("Test");

@@ -38,16 +38,11 @@ void GLESRenderModuleInit()
 	ma::SetRenderDevice(pGLESRenderDevice);
 
 	ma::InitTextureSystem();
-
-	//ASSERT(false);
-	//ma::GetRenderSystem()->Init();
 }
 
 
 void GLESRenderModuleShutdown()
 {
-	//ma::GetRenderSystem()->ShoutDown();
-
 	ma::ShundownTextureSystem();
 
 	ma::GLESRenderDevice* pGLESRenderDevice = (ma::GLESRenderDevice*)ma::GetRenderDevice();

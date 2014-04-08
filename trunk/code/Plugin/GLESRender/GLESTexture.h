@@ -16,11 +16,7 @@ namespace ma
 
 		virtual bool		CreateRT();
 
-		virtual bool		Load(const char* pszPath = NULL, bool generateMipmaps = false);
-
-		virtual bool		Load(DataStream* pDataStream, bool generateMipmaps = false);
-
-		virtual bool		LoadFromData(Uint8* data,UINT size, bool generateMipmaps = false);
+		virtual bool		Load(MemoryStream* pDataStream, bool generateMipmaps = false);
 
 		GLuint				GetTexture() {return m_pTex;}
 

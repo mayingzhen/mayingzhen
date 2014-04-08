@@ -9,10 +9,10 @@ namespace ma
 		const char* pOutMeshFile, const char* pOutMatFile, 
 		const char* pOutSkeFile, const char* pOutSkaFile)
 	{
-		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : FileSystem::ReplaceFileExt(pFileName,"skn");
-		std::string strOutMatFile = pOutMatFile ? pOutMatFile : FileSystem::ReplaceFileExt(pFileName,"mat");
-		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : FileSystem::ReplaceFileExt(pFileName,"ske");
-		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : FileSystem::ReplaceFileExt(pFileName,"ska");
+		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
+		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
+		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : StringUtil::replaceFileExt(pFileName,"ske");
+		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : StringUtil::replaceFileExt(pFileName,"ska");
 
 		FbxScene* pFbxScene = GetFbxScene(pFileName);
 		if (pFbxScene == NULL)

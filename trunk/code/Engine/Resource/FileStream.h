@@ -3,38 +3,66 @@
 
 #include "Stream.h"
 
-
 namespace ma
 {
-
 	class ENGINE_API FileStream : public Stream
 	{
 	public:
-		friend class FileSystem;
-	    
-		~FileStream();
-		virtual bool canRead();
-		virtual bool canWrite();
-		virtual bool canSeek();
-		virtual void close();
-		virtual size_t read(void* ptr, size_t size, size_t count);
-		virtual char* readLine(char* str, int num);
-		virtual size_t write(const void* ptr, size_t size, size_t count);
-		virtual bool eof();
-		virtual size_t length();
-		virtual long int position();
-		virtual bool seek(long int offset, int origin);
-		virtual bool rewind();
+		FileStream(std::ifstream* s, bool freeOnClose = true);
+		FileStream(const char* pszName, std::ifstream* s, bool freeOnClose = true);
+		FileStream(std::ifstream* s, UINT nSize, bool freeOnClose = true);
+		FileStream(const char* pszName, std::ifstream* s, UINT nSize, bool freeOnClose = true);
+		FileStream(std::fstream* s, bool freeOnClose = true);
+		FileStream(const char* pszName, std::fstream* s, bool freeOnClose = true);
+		FileStream(std::fstream* s, UINT nSize, bool freeOnClose = true);
+		FileStream(const char* pszName, std::fstream* s, UINT nSize, bool freeOnClose = true);
 
-		static FileStream* create(const char* filePath, const char* mode);
+		~FileStream(void);
+
+		// ---------------------------------------------------------------------
+		// virtual function
+		// ---------------------------------------------------------------------
+		// Read the requisite number of bytes from the stream, stopping at the end of the file.
+		virtual UINT Read(IN OUT void* pBuffer, UINT nCount);
+
+		// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
+		virtual UINT Write(const void* pBuffer, UINT nCount);
+
+		virtual UINT ReadLine(char* buf, UINT maxCount, const std::string& delim = "\n");
+
+		/** Skip a defined number of bytes. This can also be a negative value, in which case
+		the file pointer rewinds a defined number of bytes*/
+		virtual void Skip(int nCount);
+
+		// Repositions the read point to a specified byte.
+		virtual void Seek(UINT nPos);
+
+		// Returns the current byte offset from beginning
+		virtual UINT Tell() const;
+
+		// Returns true if the stream has reached the end.
+		virtual bool Eof() const;
+
+		// Close the stream; this makes further operations invalid.
+		virtual void Close();
+
+		// ---------------------------------------------------------------------
+		// Self
+		// ---------------------------------------------------------------------
+	private:
+		void DetermineAccess();
 
 	private:
-		FileStream(FILE* file);
+		/// Reference to source stream (read)
+		std::istream* mpInStream;
 
-	private:
-		FILE* _file;
-		bool _canRead;
-		bool _canWrite;
+		/// Reference to source file stream (read-only)
+		std::ifstream* mpFStreamRO;
+
+		/// Reference to source file stream (read-write)
+		std::fstream* mpFStream;
+
+		bool m_bFreeOnClose;
 	};
 
 }

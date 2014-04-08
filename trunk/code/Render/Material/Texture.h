@@ -17,11 +17,7 @@ namespace ma
 
 		virtual bool	CreateRT() =	 0;
 
-		virtual bool	Load(const char* pszPath = NULL, bool generateMipmaps = false) = 0;
-
-		virtual bool	Load(DataStream* pDataStream, bool generateMipmaps = false) = 0;
-
-		virtual bool	LoadFromData(Uint8* data,UINT size, bool generateMipmaps = false) = 0;
+		virtual bool	Load(MemoryStream* pDataStream, bool generateMipmaps = false) = 0;
 
 		virtual bool	CreateFromMemeory();
 

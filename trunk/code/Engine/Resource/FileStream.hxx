@@ -1,151 +1,226 @@
 #include "FileStream.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#ifdef WIN32
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <direct.h>
-#define gp_stat _stat
-#define gp_stat_struct struct stat
-#else
-#define __EXT_POSIX2
-#include <libgen.h>
-#include <dirent.h>
-#define gp_stat stat
-#define gp_stat_struct struct stat
-#endif
-
-
 namespace ma
 {
-
-
-	FileStream::FileStream(FILE* file)
-		: _file(file), _canRead(false), _canWrite(false)
+	FileStream::FileStream(std::ifstream* s, bool freeOnClose)
+		: Stream(AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
 	{
-	    
+		// calculate the size
+		mpInStream->seekg(0, std::ios_base::end);
+		m_nSize = (UINT)mpInStream->tellg();
+		mpInStream->seekg(0, std::ios_base::beg);
+		this->DetermineAccess();
 	}
 
-	FileStream::~FileStream()
+	FileStream::FileStream(const char* pszName, std::ifstream* s, bool freeOnClose)
+		: Stream(pszName, AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
 	{
-		if (_file)
+		// calculate the size
+		mpInStream->seekg(0, std::ios_base::end);
+		m_nSize = (UINT)mpInStream->tellg();
+		mpInStream->seekg(0, std::ios_base::beg);
+		this->DetermineAccess();
+	}
+
+	FileStream::FileStream(std::ifstream* s, UINT nSize, bool freeOnClose)
+		: Stream(AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
+	{
+		m_nSize = nSize;
+		this->DetermineAccess();
+	}
+
+	FileStream::FileStream(const char* pszName, std::ifstream* s, UINT nSize, bool freeOnClose)
+		: Stream(pszName, AM_READ), mpInStream(s), mpFStream(NULL), mpFStreamRO(s), m_bFreeOnClose(freeOnClose)
+	{
+		m_nSize = nSize;
+		this->DetermineAccess();
+	}
+
+	// 
+	FileStream::FileStream(std::fstream* s, bool freeOnClose)
+		: Stream(AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
+	{
+		// calculate the size
+		mpInStream->seekg(0, std::ios_base::end);
+		m_nSize = (size_t)mpInStream->tellg();
+		mpInStream->seekg(0, std::ios_base::beg);
+		this->DetermineAccess();
+	}
+
+	FileStream::FileStream(const char* pszName, std::fstream* s, bool freeOnClose)
+		: Stream(pszName, AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
+	{
+		// calculate the size
+		mpInStream->seekg(0, std::ios_base::end);
+		m_nSize = (size_t)mpInStream->tellg();
+		mpInStream->seekg(0, std::ios_base::beg);
+		this->DetermineAccess();
+	}
+
+	FileStream::FileStream(std::fstream* s, UINT nSize, bool freeOnClose)
+		: Stream(AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
+	{
+		m_nSize = nSize;
+		this->DetermineAccess();
+	}
+
+	FileStream::FileStream(const char* pszName, std::fstream* s, UINT nSize, bool freeOnClose)
+		: Stream(pszName, AM_READ|AM_WRITE), mpInStream(s), mpFStream(s), mpFStreamRO(NULL), m_bFreeOnClose(freeOnClose)
+	{
+		m_nSize = nSize;
+		this->DetermineAccess();
+	}
+
+	FileStream::~FileStream(void)
+	{
+		this->Close();
+	}
+
+	// ---------------------------------------------------------------------
+	// virtual function
+	// ---------------------------------------------------------------------
+	// Read the requisite number of bytes from the stream, stopping at the end of the file.
+	UINT FileStream::Read(IN OUT void* pBuffer, UINT nCount)
+	{
+		mpInStream->read(static_cast<char*>(pBuffer), static_cast<std::streamsize>(nCount));
+		return mpInStream->gcount();
+	}
+
+	// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
+	UINT FileStream::Write(const void* pBuffer, UINT nCount)
+	{
+		size_t written = 0;
+		if (this->IsWritable() && mpFStream)
 		{
-			close();
+			mpFStream->write(static_cast<const char*>(pBuffer), static_cast<std::streamsize>(nCount));
+			written = nCount;
 		}
+		return written;
 	}
 
-	FileStream* FileStream::create(const char* filePath, const char* mode)
+	UINT FileStream::ReadLine( char* buf, UINT maxCount, const std::string& delim /*= "\n"*/ )
 	{
-		FILE* file = fopen(filePath, mode);
-		if (file)
+		if (delim.empty())
 		{
-			FileStream* stream = new FileStream(file);
-			const char* s = mode;
-			while (s != NULL && *s != '\0')
+			ASSERT(false&&"No delimiter provided");
+		}
+		if (delim.size() > 1)
+		{
+			//LogManager::getSingleton().logMessage(
+			//	"WARNING: FileStreamDataStream::readLine - using only first delimeter");
+		}
+		// Deal with both Unix & Windows LFs
+		bool trimCR = false;
+		if (delim.at(0) == '\n') 
+		{
+			trimCR = true;
+		}
+		// maxCount + 1 since count excludes terminator in getline
+		mpInStream->getline(buf, static_cast<std::streamsize>(maxCount+1), delim.at(0));
+		size_t ret = mpInStream->gcount();
+		// three options
+		// 1) we had an eof before we read a whole line
+		// 2) we ran out of buffer space
+		// 3) we read a whole line - in this case the delim character is taken from the stream but not written in the buffer so the read data is of length ret-1 and thus ends at index ret-2
+		// in all cases the buffer will be null terminated for us
+
+		if (mpInStream->eof()) 
+		{
+			// no problem
+		}
+		else if (mpInStream->fail())
+		{
+			// Did we fail because of maxCount hit? No - no terminating character
+			// in included in the count in this case
+			if (ret == maxCount)
 			{
-				if (*s == 'r')
-					stream->_canRead = true;
-				else if (*s == 'w')
-					stream->_canWrite = true;
-				++s;
+				// clear failbit for next time 
+				mpInStream->clear();
+			}
+			else
+			{
+				ASSERT(false && "Streaming error occurred");
+			}
+		}
+		else 
+		{
+			// we need to adjust ret because we want to use it as a
+			// pointer to the terminating null character and it is
+			// currently the length of the data read from the stream
+			// i.e. 1 more than the length of the data in the buffer and
+			// hence 1 more than the _index_ of the NULL character
+			--ret;
+		}
+
+		// trim off CR if we found CR/LF
+		if (trimCR && buf[ret-1] == '\r')
+		{
+			--ret;
+			buf[ret] = '\0';
+		}
+		return ret;
+	}
+
+	/** Skip a defined number of bytes. This can also be a negative value, in which case
+	the file pointer rewinds a defined number of bytes*/
+	void FileStream::Skip(int nCount)
+	{
+		mpInStream->clear(); //Clear fail status in case eof was set
+		mpInStream->seekg(static_cast<std::ifstream::pos_type>(nCount), std::ios::cur);
+	}
+
+	// Repositions the read point to a specified byte.
+	void FileStream::Seek(UINT nPos)
+	{
+		mpInStream->clear(); //Clear fail status in case eof was set
+		mpInStream->seekg(static_cast<std::streamoff>(nPos), std::ios::beg);
+	}
+
+	// Returns the current byte offset from beginning
+	UINT FileStream::Tell() const
+	{
+		mpInStream->clear(); //Clear fail status in case eof was set
+		return (size_t)mpInStream->tellg();
+	}
+
+	// Returns true if the stream has reached the end.
+	bool FileStream::Eof() const
+	{
+		return mpInStream->eof();
+	}
+
+	// Close the stream; this makes further operations invalid.
+	void FileStream::Close()
+	{
+		if (mpInStream)
+		{
+			if (mpFStream)
+			{
+				mpFStream->flush();
+				mpFStream->close();
 			}
 
-			return stream;
-		}
-		return NULL;
-	}
+			if (mpFStreamRO)
+				mpFStreamRO->close();
 
-	bool FileStream::canRead()
-	{
-		return _file && _canRead;
-	}
-
-	bool FileStream::canWrite()
-	{
-		return _file && _canWrite;
-	}
-
-	bool FileStream::canSeek()
-	{
-		return _file != NULL;
-	}
-
-	void FileStream::close()
-	{
-		if (_file)
-			fclose(_file);
-		_file = NULL;
-	}
-
-	size_t FileStream::read(void* ptr, size_t size, size_t count)
-	{
-		if (!_file)
-			return 0;
-		return fread(ptr, size, count, _file);
-	}
-
-	char* FileStream::readLine(char* str, int num)
-	{
-		if (!_file)
-			return 0;
-		return fgets(str, num, _file);
-	}
-
-	size_t FileStream::write(const void* ptr, size_t size, size_t count)
-	{
-		if (!_file)
-			return 0;
-		return fwrite(ptr, size, count, _file);
-	}
-
-	bool FileStream::eof()
-	{
-		if (!_file || feof(_file))
-			return true;
-		return ((size_t)position()) >= length();
-	}
-
-	size_t FileStream::length()
-	{
-		size_t len = 0;
-		if (canSeek())
-		{
-			long int pos = position();
-			if (seek(0, SEEK_END))
+			if (m_bFreeOnClose)
 			{
-				len = position();
+				SAFE_DELETE(mpFStream);
+				SAFE_DELETE(mpFStreamRO);
 			}
-			seek(pos, SEEK_SET);
 		}
-		return len;
 	}
 
-	long int FileStream::position()
+	// ---------------------------------------------------------------------
+	// Self
+	// ---------------------------------------------------------------------
+	void FileStream::DetermineAccess()
 	{
-		if (!_file)
-			return -1;
-		return ftell(_file);
+		m_eAccessMode = 0;
+		if (mpInStream)
+			m_eAccessMode |= AM_READ;
+		if (mpFStream)
+			m_eAccessMode |= AM_WRITE;
 	}
-
-	bool FileStream::seek(long int offset, int origin)
-	{
-		if (!_file)
-			return false;
-		return fseek(_file, offset, origin) == 0;
-	}
-
-	bool FileStream::rewind()
-	{
-		if (canSeek())
-		{
-			::rewind(_file);
-			return true;
-		}
-		return false;
-	}
-
 
 }

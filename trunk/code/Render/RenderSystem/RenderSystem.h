@@ -66,7 +66,7 @@ namespace ma
 		
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
 		
-		void				TexStreamComplete(Texture* pTexture,DataStream* pDataStream);		
+		void				TexStreamComplete(Texture* pTexture,MemoryStream* pDataStream);		
 
 		void				OnFlushFrame();
 

@@ -307,7 +307,7 @@ namespace ma
 		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
 	}
 
-	void RenderSystem::TexStreamComplete(Texture* pTexture,DataStream* pDataStream)
+	void RenderSystem::TexStreamComplete(Texture* pTexture,MemoryStream* pDataStream)
 	{
 		m_pRenderThread->RC_TexStreamComplete(pTexture,pDataStream);
 	}

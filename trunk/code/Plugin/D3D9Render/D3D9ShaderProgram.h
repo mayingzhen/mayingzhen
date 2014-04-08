@@ -51,6 +51,9 @@ namespace ma
 		void SetValue(Uniform* uniform, const Texture** values, UINT count) ;
 
 		void Bind();
+		
+	private:
+		void CachShaderFile(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
 	private:
 
