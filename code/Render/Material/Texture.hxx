@@ -40,7 +40,7 @@ namespace ma
 		if (m_eResState == ResLoaded)
 			return true;
 
-		GetRenderSystem()->TexStreamComplete(this,m_pDataStream);
+		GetRenderSystem()->TexStreamComplete(this,m_pDataStream.get());
 		
 		m_eResState = ResLoaded;
 

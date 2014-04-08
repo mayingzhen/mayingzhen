@@ -26,8 +26,7 @@ namespace ma
 		void Close();
 
 	private:
-		//std::ifstream m_file;
-		Stream*			m_pStream;
+		StreamPtr			m_pStream;
 	};
 }
 

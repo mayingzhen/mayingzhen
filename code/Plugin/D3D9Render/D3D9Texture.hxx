@@ -78,49 +78,42 @@ namespace ma
 			ASSERT(false);
 		}
 
-
 		return true;
 	}
 
-	bool D3D9Texture::LoadFromData(Uint8* data, UINT size, bool generateMipmaps )
-	{	
-		HRESULT hr = D3D_OK;
-		hr = GetD3D9DxDevive()->CreateTexture(
-			m_nWidth,
-			m_nHeight,
-			generateMipmaps ? 0 : 1,
-			D3DUSAGE_DYNAMIC,
-			D3D9Mapping::GetD3DFormat(m_eFormat),
-			D3DPOOL_DEFAULT,
-			&m_pD3DTex,
-			NULL
-			);
-		ASSERT(hr == D3D_OK);
-		
-		D3DLOCKED_RECT lock;
-		hr = m_pD3DTex->LockRect(0,&lock,NULL,0);
-		memcpy(lock.pBits,data,size);
-		hr = m_pD3DTex->UnlockRect(0);
-
-		return true;
-	}
-
-	bool D3D9Texture::Load(DataStream* pDataStream, bool generateMipmaps)
+	bool D3D9Texture::Load(MemoryStream* pDataStream, bool generateMipmaps)
 	{
 		ASSERT(pDataStream);
 		if (pDataStream == NULL)
 			return false;
 
-		if (std::string(pDataStream->GetFilePath()) == "")
+		if (std::string( pDataStream->GetName() ) == "")
 		{
-			return LoadFromData(pDataStream->GetData(),pDataStream->GetSize());
+			HRESULT hr = GetD3D9DxDevive()->CreateTexture(
+				m_nWidth,
+				m_nHeight,
+				generateMipmaps ? 0 : 1,
+				D3DUSAGE_DYNAMIC,
+				D3D9Mapping::GetD3DFormat(m_eFormat),
+				D3DPOOL_DEFAULT,
+				&m_pD3DTex,
+				NULL
+				);
+			ASSERT(hr == D3D_OK);
+			
+			D3DLOCKED_RECT lock;
+			hr = m_pD3DTex->LockRect(0,&lock,NULL,0);
+			memcpy(lock.pBits,pDataStream->GetPtr(),pDataStream->GetSize());
+			hr = m_pD3DTex->UnlockRect(0);
+
+			return;
 		}
 
 		D3DXIMAGE_INFO ImgInfo;
 
 		IDirect3DTexture9 * pD3D9Texture = NULL;
 		HRESULT hr = D3DXCreateTextureFromFileInMemoryEx(GetD3D9DxDevive(),
-			pDataStream->GetData(),
+			pDataStream->GetPtr(),
 			pDataStream->GetSize(),
 			D3DX_DEFAULT,
 			D3DX_DEFAULT,
@@ -152,17 +145,6 @@ namespace ma
 		return true;
 	}
 
-	bool D3D9Texture::Load(const char* pszPath,bool generateMipmaps)
-	{
-		ASSERT(pszPath);
-		if (pszPath == NULL)
-			return false;
-
-		SAFE_DELETE(m_pDataStream);
-		m_pDataStream =  FileSystem::readAll(pszPath);
-
-		return Load(m_pDataStream,generateMipmaps);
-	}
 }
 
 

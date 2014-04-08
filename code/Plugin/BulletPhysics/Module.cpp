@@ -16,16 +16,12 @@ void BtPhysicsModuleInit()
 {
 	ma::BtPhysicsSystem* pBtPhysicsSystem = new ma::BtPhysicsSystem();
 	ma::SetPhysicsSystem(pBtPhysicsSystem); 
-
-	pBtPhysicsSystem->Init();
 }
 
 void BtPhysicsModuleShutdown()
 {
 	ma::BtPhysicsSystem* pBtPhysicsSystem = (ma::BtPhysicsSystem*)ma::GetPhysicsSystem();
 	SAFE_DELETE(pBtPhysicsSystem);
-
-	pBtPhysicsSystem->ShoutDown();
 }
 
 

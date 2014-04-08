@@ -5938,788 +5938,395 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Stream(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_canRead(void * jarg1) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (bool)(arg1)->canRead();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_canWrite(void * jarg1) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (bool)(arg1)->canWrite();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_canSeek(void * jarg1) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (bool)(arg1)->canSeek();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Stream_close(void * jarg1) {
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  (arg1)->close();
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Stream_read(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->read(arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_Stream_readLine(void * jarg1, char * jarg2, int jarg3) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_Stream_GetName(void * jarg1) {
   char * jresult ;
   ma::Stream *arg1 = (ma::Stream *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
   char *result = 0 ;
   
   arg1 = (ma::Stream *)jarg1; 
-  arg2 = (char *)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (char *)(arg1)->readLine(arg2,arg3);
+  result = (char *)((ma::Stream const *)arg1)->GetName();
   jresult = SWIG_csharp_string_callback((const char *)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Stream_write(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
+SWIGEXPORT unsigned short SWIGSTDCALL CSharp_Stream_GetAccessMode(void * jarg1) {
+  unsigned short jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  Uint16 result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = (Uint16)((ma::Stream const *)arg1)->GetAccessMode();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_GetSize(void * jarg1) {
+  void * jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = ((ma::Stream const *)arg1)->GetSize();
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_IsReadable(void * jarg1) {
+  unsigned int jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = (bool)((ma::Stream const *)arg1)->IsReadable();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_IsWritable(void * jarg1) {
+  unsigned int jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = (bool)((ma::Stream const *)arg1)->IsWritable();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_Read(void * jarg1, void * jarg2, void * jarg3) {
+  void * jresult ;
   ma::Stream *arg1 = (ma::Stream *) 0 ;
   void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
+  UINT arg3 ;
+  UINT *argp3 ;
+  UINT result;
   
   arg1 = (ma::Stream *)jarg1; 
   arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->write((void const *)arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_eof(void * jarg1) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (bool)(arg1)->eof();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Stream_length(void * jarg1) {
-  unsigned long jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  size_t result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (arg1)->length();
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT long SWIGSTDCALL CSharp_Stream_position(void * jarg1) {
-  long jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  long result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (long)(arg1)->position();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_seek(void * jarg1, long jarg2, int jarg3) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  long arg2 ;
-  int arg3 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (bool)(arg1)->seek(arg2,arg3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_rewind(void * jarg1) {
-  unsigned int jresult ;
-  ma::Stream *arg1 = (ma::Stream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Stream *)jarg1; 
-  result = (bool)(arg1)->rewind();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_DataStream__SWIG_0(void * jarg1, unsigned long jarg2, char * jarg3) {
-  void * jresult ;
-  Byte *arg1 = (Byte *) 0 ;
-  size_t arg2 ;
-  char *arg3 = (char *) 0 ;
-  ma::DataStream *result = 0 ;
-  
-  arg1 = (Byte *)jarg1; 
-  arg2 = (size_t)jarg2; 
-  arg3 = (char *)jarg3; 
-  result = (ma::DataStream *)new ma::DataStream(arg1,arg2,(char const *)arg3);
-  jresult = (void *)result; 
-  result->Ref();
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_DataStream__SWIG_1(void * jarg1, unsigned long jarg2) {
-  void * jresult ;
-  Byte *arg1 = (Byte *) 0 ;
-  size_t arg2 ;
-  ma::DataStream *result = 0 ;
-  
-  arg1 = (Byte *)jarg1; 
-  arg2 = (size_t)jarg2; 
-  result = (ma::DataStream *)new ma::DataStream(arg1,arg2);
-  jresult = (void *)result; 
-  result->Ref();
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_DataStream__SWIG_2(unsigned long jarg1) {
-  void * jresult ;
-  size_t arg1 ;
-  ma::DataStream *result = 0 ;
-  
-  arg1 = (size_t)jarg1; 
-  result = (ma::DataStream *)new ma::DataStream(arg1);
-  jresult = (void *)result; 
-  result->Ref();
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_DataStream(void * jarg1) {
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  arg1->Unref();
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_canRead(void * jarg1) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (bool)(arg1)->canRead();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_canWrite(void * jarg1) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (bool)(arg1)->canWrite();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_canSeek(void * jarg1) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (bool)(arg1)->canSeek();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_DataStream_close(void * jarg1) {
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  (arg1)->close();
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_DataStream_read(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->read(arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_DataStream_readLine(void * jarg1, char * jarg2, int jarg3) {
-  char * jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  char *result = 0 ;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  arg2 = (char *)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (char *)(arg1)->readLine(arg2,arg3);
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_DataStream_write(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->write((void const *)arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_eof(void * jarg1) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (bool)(arg1)->eof();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_DataStream_length(void * jarg1) {
-  unsigned long jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  size_t result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (arg1)->length();
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT long SWIGSTDCALL CSharp_DataStream_position(void * jarg1) {
-  long jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  long result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (long)(arg1)->position();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_seek(void * jarg1, long jarg2, int jarg3) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  long arg2 ;
-  int arg3 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (bool)(arg1)->seek(arg2,arg3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DataStream_rewind(void * jarg1) {
-  unsigned int jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (bool)(arg1)->rewind();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_DataStream_GetData(void * jarg1) {
-  void * jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  Byte *result = 0 ;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (Byte *)(arg1)->GetData();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_DataStream_GetSize(void * jarg1) {
-  unsigned long jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  size_t result;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (arg1)->GetSize();
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_DataStream_GetFilePath(void * jarg1) {
-  char * jresult ;
-  ma::DataStream *arg1 = (ma::DataStream *) 0 ;
-  char *result = 0 ;
-  
-  arg1 = (ma::DataStream *)jarg1; 
-  result = (char *)(arg1)->GetFilePath();
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_FileStream(void * jarg1) {
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  arg1->Unref();
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_canRead(void * jarg1) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (bool)(arg1)->canRead();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_canWrite(void * jarg1) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (bool)(arg1)->canWrite();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_canSeek(void * jarg1) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (bool)(arg1)->canSeek();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_FileStream_close(void * jarg1) {
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  (arg1)->close();
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_FileStream_read(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->read(arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_FileStream_readLine(void * jarg1, char * jarg2, int jarg3) {
-  char * jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  char *result = 0 ;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  arg2 = (char *)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (char *)(arg1)->readLine(arg2,arg3);
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_FileStream_write(void * jarg1, void * jarg2, unsigned long jarg3, unsigned long jarg4) {
-  unsigned long jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  void *arg2 = (void *) 0 ;
-  size_t arg3 ;
-  size_t arg4 ;
-  size_t result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  arg2 = (void *)jarg2; 
-  arg3 = (size_t)jarg3; 
-  arg4 = (size_t)jarg4; 
-  result = (arg1)->write((void const *)arg2,arg3,arg4);
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_eof(void * jarg1) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (bool)(arg1)->eof();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_FileStream_length(void * jarg1) {
-  unsigned long jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  size_t result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (arg1)->length();
-  jresult = (unsigned long)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT long SWIGSTDCALL CSharp_FileStream_position(void * jarg1) {
-  long jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  long result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (long)(arg1)->position();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_seek(void * jarg1, long jarg2, int jarg3) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  long arg2 ;
-  int arg3 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  arg2 = (long)jarg2; 
-  arg3 = (int)jarg3; 
-  result = (bool)(arg1)->seek(arg2,arg3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileStream_rewind(void * jarg1) {
-  unsigned int jresult ;
-  ma::FileStream *arg1 = (ma::FileStream *) 0 ;
-  bool result;
-  
-  arg1 = (ma::FileStream *)jarg1; 
-  result = (bool)(arg1)->rewind();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileStream_create(char * jarg1, char * jarg2) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  ma::FileStream *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (ma::FileStream *)ma::FileStream::create((char const *)arg1,(char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_FileSystem(void * jarg1) {
-  ma::FileSystem *arg1 = (ma::FileSystem *) 0 ;
-  
-  arg1 = (ma::FileSystem *)jarg1; 
-  delete arg1;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_FileSystem_setResourcePath(char * jarg1) {
-  char *arg1 = (char *) 0 ;
-  
-  arg1 = (char *)jarg1; 
-  ma::FileSystem::setResourcePath((char const *)arg1);
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_FileSystem_getResourcePath() {
-  char * jresult ;
-  char *result = 0 ;
-  
-  result = (char *)ma::FileSystem::getResourcePath();
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_getFullPath(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  std::string result;
-  
-  arg1 = (char *)jarg1; 
-  result = ma::FileSystem::getFullPath((char const *)arg1);
-  jresult = new std::string((const std::string &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileSystem_listFiles(char * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  char *arg1 = (char *) 0 ;
-  std::vector< std::string > *arg2 = 0 ;
-  bool result;
-  
-  arg1 = (char *)jarg1; 
-  arg2 = (std::vector< std::string > *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::vector< std::string > & type is null", 0);
+  argp3 = (UINT *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
     return 0;
-  } 
-  result = (bool)ma::FileSystem::listFiles((char const *)arg1,*arg2);
-  jresult = result; 
+  }
+  arg3 = *argp3; 
+  result = (arg1)->Read(arg2,arg3);
+  jresult = new UINT((const UINT &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileSystem_fileExists(char * jarg1) {
-  unsigned int jresult ;
-  char *arg1 = (char *) 0 ;
-  bool result;
-  
-  arg1 = (char *)jarg1; 
-  result = (bool)ma::FileSystem::fileExists((char const *)arg1);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_open__SWIG_0(char * jarg1, unsigned long jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_Write(void * jarg1, void * jarg2, void * jarg3) {
   void * jresult ;
-  char *arg1 = (char *) 0 ;
-  size_t arg2 ;
-  ma::Stream *result = 0 ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  void *arg2 = (void *) 0 ;
+  UINT arg3 ;
+  UINT *argp3 ;
+  UINT result;
   
-  arg1 = (char *)jarg1; 
-  arg2 = (size_t)jarg2; 
-  result = (ma::Stream *)ma::FileSystem::open((char const *)arg1,arg2);
-  jresult = (void *)result; 
+  arg1 = (ma::Stream *)jarg1; 
+  arg2 = (void *)jarg2; 
+  argp3 = (UINT *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (arg1)->Write((void const *)arg2,arg3);
+  jresult = new UINT((const UINT &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_open__SWIG_1(char * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_ReadLine__SWIG_0(void * jarg1, char * jarg2, void * jarg3, void * jarg4) {
   void * jresult ;
-  char *arg1 = (char *) 0 ;
-  ma::Stream *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  result = (ma::Stream *)ma::FileSystem::open((char const *)arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_openFile(char * jarg1, char * jarg2) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
   char *arg2 = (char *) 0 ;
-  FILE *result = 0 ;
+  UINT arg3 ;
+  std::string *arg4 = 0 ;
+  UINT *argp3 ;
+  UINT result;
   
-  arg1 = (char *)jarg1; 
+  arg1 = (ma::Stream *)jarg1; 
   arg2 = (char *)jarg2; 
-  result = (FILE *)ma::FileSystem::openFile((char const *)arg1,(char const *)arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_readAll(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  ma::DataStream *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  result = (ma::DataStream *)ma::FileSystem::readAll((char const *)arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FileSystem_isAbsolutePath(char * jarg1) {
-  unsigned int jresult ;
-  char *arg1 = (char *) 0 ;
-  bool result;
-  
-  arg1 = (char *)jarg1; 
-  result = (bool)ma::FileSystem::isAbsolutePath((char const *)arg1);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_getDirectoryName(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  std::string result;
-  
-  arg1 = (char *)jarg1; 
-  result = ma::FileSystem::getDirectoryName((char const *)arg1);
-  jresult = new std::string((const std::string &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_getExtension(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  std::string result;
-  
-  arg1 = (char *)jarg1; 
-  result = ma::FileSystem::getExtension((char const *)arg1);
-  jresult = new std::string((const std::string &)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FileSystem_ReplaceFileExt(void * jarg1, void * jarg2) {
-  void * jresult ;
-  std::string *arg1 = 0 ;
-  std::string *arg2 = 0 ;
-  std::string result;
-  
-  arg1 = (std::string *)jarg1;
-  if (!arg1) {
+  argp3 = (UINT *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  arg4 = (std::string *)jarg4;
+  if (!arg4) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
     return 0;
   } 
-  arg2 = (std::string *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::string const & type is null", 0);
-    return 0;
-  } 
-  result = ma::FileSystem::ReplaceFileExt((std::string const &)*arg1,(std::string const &)*arg2);
-  jresult = new std::string((const std::string &)result); 
+  result = (arg1)->ReadLine(arg2,arg3,(std::string const &)*arg4);
+  jresult = new UINT((const UINT &)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_FileSystem_makepath(void * jarg1, int jarg2) {
-  std::string arg1 ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_ReadLine__SWIG_1(void * jarg1, char * jarg2, void * jarg3) {
+  void * jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  char *arg2 = (char *) 0 ;
+  UINT arg3 ;
+  UINT *argp3 ;
+  UINT result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  arg2 = (char *)jarg2; 
+  argp3 = (UINT *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (arg1)->ReadLine(arg2,arg3);
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Stream_Skip(void * jarg1, int jarg2) {
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
   int arg2 ;
-  std::string *argp1 ;
   
-  argp1 = (std::string *)jarg1; 
-  if (!argp1) {
+  arg1 = (ma::Stream *)jarg1; 
+  arg2 = (int)jarg2; 
+  (arg1)->Skip(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Stream_Seek(void * jarg1, void * jarg2) {
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  UINT arg2 ;
+  UINT *argp2 ;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  argp2 = (UINT *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->Seek(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Stream_Tell(void * jarg1) {
+  void * jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = ((ma::Stream const *)arg1)->Tell();
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Stream_Eof(void * jarg1) {
+  unsigned int jresult ;
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  result = (bool)((ma::Stream const *)arg1)->Eof();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Stream_Close(void * jarg1) {
+  ma::Stream *arg1 = (ma::Stream *) 0 ;
+  
+  arg1 = (ma::Stream *)jarg1; 
+  (arg1)->Close();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_archive_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  ma::Archive *arg2 = (ma::Archive *) 0 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  arg2 = (ma::Archive *)jarg2; 
+  if (arg1) (arg1)->archive = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_archive_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  ma::Archive *result = 0 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result = (ma::Archive *) ((arg1)->archive);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_filename_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string arg2 ;
+  std::string *argp2 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  argp2 = (std::string *)jarg2; 
+  if (!argp2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::string", 0);
     return ;
   }
-  arg1 = *argp1; 
-  arg2 = (int)jarg2; 
-  ma::FileSystem::makepath(arg1,arg2);
+  arg2 = *argp2; 
+  if (arg1) (arg1)->filename = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_filename_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string result;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result =  ((arg1)->filename);
+  jresult = new std::string((const std::string &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_path_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string arg2 ;
+  std::string *argp2 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  argp2 = (std::string *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::string", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->path = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_path_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string result;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result =  ((arg1)->path);
+  jresult = new std::string((const std::string &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_basename_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string arg2 ;
+  std::string *argp2 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  argp2 = (std::string *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::string", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->basename = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_basename_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  std::string result;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result =  ((arg1)->basename);
+  jresult = new std::string((const std::string &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_compressedSize_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  UINT arg2 ;
+  UINT *argp2 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  argp2 = (UINT *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->compressedSize = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_compressedSize_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result =  ((arg1)->compressedSize);
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_FileInfo_uncompressedSize_set(void * jarg1, void * jarg2) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  UINT arg2 ;
+  UINT *argp2 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  argp2 = (UINT *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null UINT", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->uncompressedSize = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_FileInfo_uncompressedSize_get(void * jarg1) {
+  void * jresult ;
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  UINT result;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  result =  ((arg1)->uncompressedSize);
+  jresult = new UINT((const UINT &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_FileInfo() {
+  void * jresult ;
+  ma::FileInfo *result = 0 ;
+  
+  result = (ma::FileInfo *)new ma::FileInfo();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_FileInfo(void * jarg1) {
+  ma::FileInfo *arg1 = (ma::FileInfo *) 0 ;
+  
+  arg1 = (ma::FileInfo *)jarg1; 
+  delete arg1;
 }
 
 
@@ -10223,14 +9830,6 @@ SWIGEXPORT ma::Referenced * SWIGSTDCALL CSharp_Object_SWIGUpcast(ma::Object *jar
 
 SWIGEXPORT ma::Referenced * SWIGSTDCALL CSharp_Stream_SWIGUpcast(ma::Stream *jarg1) {
     return (ma::Referenced *)jarg1;
-}
-
-SWIGEXPORT ma::Stream * SWIGSTDCALL CSharp_DataStream_SWIGUpcast(ma::DataStream *jarg1) {
-    return (ma::Stream *)jarg1;
-}
-
-SWIGEXPORT ma::Stream * SWIGSTDCALL CSharp_FileStream_SWIGUpcast(ma::FileStream *jarg1) {
-    return (ma::Stream *)jarg1;
 }
 
 SWIGEXPORT ma::Object * SWIGSTDCALL CSharp_Resource_SWIGUpcast(ma::Resource *jarg1) {

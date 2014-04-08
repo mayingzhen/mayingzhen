@@ -1,5 +1,5 @@
 #include "Properties.h"
-#include "FileSystem.h"
+#include "ArchiveManager.h"
 
 namespace ma
 {
@@ -9,10 +9,10 @@ namespace ma
  */
 static signed char readChar(Stream* stream)
 {
-    if (stream->eof())
+    if (stream->Eof())
         return EOF;
     signed char c;
-    if (stream->read(&c, 1, 1) != 1)
+    if (stream->Read(&c, 1) != 1)
         return EOF;
     return c;
 }
@@ -79,16 +79,17 @@ Properties* Properties::create(const char* url)
     std::vector<std::string> namespacePath;
     calculateNamespacePath(urlString, fileString, namespacePath);
 
-    std::auto_ptr<Stream> stream(FileSystem::open(fileString.c_str()));
-    if (stream.get() == NULL)
+    //std::auto_ptr<Stream> stream(FileSystem::open(fileString.c_str()));
+	StreamPtr pStream = GetArchiveMananger()->Open( fileString.c_str() );
+    if (pStream == NULL)
     {
         GP_ERROR("Failed to open file '%s'.", fileString.c_str());
         return NULL;
     }
 
-    Properties* properties = new Properties(stream.get());
+    Properties* properties = new Properties( pStream.get() );
     properties->resolveInheritance();
-    stream->close();
+    pStream->Close();
 
     // Get the specified properties object.
     Properties* p = getPropertiesFromNamespacePath(properties, namespacePath);
@@ -106,7 +107,8 @@ Properties* Properties::create(const char* url)
         p = p->clone();
         SAFE_DELETE(properties);
     }
-    p->setDirectoryPath(FileSystem::getDirectoryName(fileString.c_str()));
+
+    p->setDirectoryPath( StringUtil::getDirectoryName( fileString.c_str() ) );
     return p;
 }
 
@@ -128,16 +130,18 @@ void Properties::readProperties(Stream* stream)
         skipWhiteSpace(stream);
 
         // Stop when we have reached the end of the file.
-        if (stream->eof())
+        if (stream->Eof())
             break;
 
         // Read the next line.
-        rc = stream->readLine(line, 2048);
-        if (rc == NULL)
+        UINT nRead = stream->ReadLine(line, 2048);
+        if (nRead <= 0)
         {
             GP_ERROR("Error reading line from file.");
             return;
         }
+
+		rc = line;
 
         // Ignore comment, skip line.
         if (strncmp(line, "//", 2) != 0)
@@ -227,41 +231,27 @@ void Properties::readProperties(Stream* stream)
 
                 if (value != NULL && value[0] == '{')
                 {
-                    // If the namespace ends on this line, seek back to right before the '}' character.
+                    // If the namespace ends on this line, Skip back to right before the '}' character.
                     if (rccc && rccc == lineEnd)
                     {
-                        if (stream->seek(-1, SEEK_CUR) == false)
-                        {
-                            GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                            return;
-                        }
+                        stream->Skip(-1);
+                
                         while (readChar(stream) != '}')
                         {
-                            if (stream->seek(-2, SEEK_CUR) == false)
-                            {
-                                GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                                return;
-                            }
+                           stream->Skip(-2);
                         }
-                        if (stream->seek(-1, SEEK_CUR) == false)
-                        {
-                            GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                            return;
-                        }
+
+                        stream->Skip(-1);
                     }
 
                     // New namespace without an ID.
                     Properties* space = new Properties(stream, name, NULL, parentID, this);
                     _namespaces.push_back(space);
 
-                    // If the namespace ends on this line, seek to right after the '}' character.
+                    // If the namespace ends on this line, Skip to right after the '}' character.
                     if (rccc && rccc == lineEnd)
                     {
-                        if (stream->seek(1, SEEK_CUR) == false)
-                        {
-                            GP_ERROR("Failed to seek to immediately after a '}' character in properties file.");
-                            return;
-                        }
+						stream->Skip(1);
                     }
                 }
                 else
@@ -269,41 +259,27 @@ void Properties::readProperties(Stream* stream)
                     // If '{' appears on the same line.
                     if (rc != NULL)
                     {
-                        // If the namespace ends on this line, seek back to right before the '}' character.
+                        // If the namespace ends on this line, Skip back to right before the '}' character.
                         if (rccc && rccc == lineEnd)
                         {
-                            if (stream->seek(-1, SEEK_CUR) == false)
-                            {
-                                GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                                return;
-                            }
+							stream->Skip(-1);
+                       
                             while (readChar(stream) != '}')
                             {
-                                if (stream->seek(-2, SEEK_CUR) == false)
-                                {
-                                    GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                                    return;
-                                }
+                               stream->Skip(-2);
                             }
-                            if (stream->seek(-1, SEEK_CUR) == false)
-                            {
-                                GP_ERROR("Failed to seek back to before a '}' character in properties file.");
-                                return;
-                            }
+
+							stream->Skip(-1);
                         }
 
                         // Create new namespace.
                         Properties* space = new Properties(stream, name, value, parentID, this);
                         _namespaces.push_back(space);
 
-                        // If the namespace ends on this line, seek to right after the '}' character.
+                        // If the namespace ends on this line, Skip to right after the '}' character.
                         if (rccc && rccc == lineEnd)
                         {
-                            if (stream->seek(1, SEEK_CUR) == false)
-                            {
-                                GP_ERROR("Failed to seek to immediately after a '}' character in properties file.");
-                                return;
-                            }
+                           stream->Skip(1);
                         }
                     }
                     else
@@ -320,8 +296,7 @@ void Properties::readProperties(Stream* stream)
                         else
                         {
                             // Back up from fgetc()
-                            if (stream->seek(-1, SEEK_CUR) == false)
-                                GP_ERROR("Failed to seek backwards a single character after testing if the next line starts with '{'.");
+                           stream->Skip(-1);  
 
                             // Store "name value" as a name/value pair, or even just "name".
                             if (value != NULL)
@@ -361,10 +336,7 @@ void Properties::skipWhiteSpace(Stream* stream)
     // non-whitespace character, we put the cursor back in front of it.
     if (c != EOF)
     {
-        if (stream->seek(-1, SEEK_CUR) == false)
-        {
-            GP_ERROR("Failed to seek backwards one character after skipping whitespace.");
-        }
+      stream->Skip(-1);
     }
 }
 
@@ -975,7 +947,7 @@ bool Properties::getPath(const char* name, std::string* path) const
     const char* valueString = getString(name);
     if (valueString)
     {
-        if (FileSystem::fileExists(valueString))
+        if ( GetArchiveMananger()->Exists(valueString) )
         {
             path->assign(valueString);
             return true;
@@ -991,7 +963,7 @@ bool Properties::getPath(const char* name, std::string* path) const
                 {
                     std::string relativePath = *dirPath;
                     relativePath.append(valueString);
-                    if (FileSystem::fileExists(relativePath.c_str()))
+                    if ( GetArchiveMananger()->Exists(relativePath.c_str()) )
                     {
                         path->assign(relativePath);
                         return true;

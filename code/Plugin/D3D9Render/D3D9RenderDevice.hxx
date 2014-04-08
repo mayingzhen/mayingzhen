@@ -54,7 +54,7 @@ namespace ma
 
 	const char*	D3D9RenderDevice::GetShaderPath()
 	{
-		return "/shader/d3d9/";
+		return "shader/d3d9/";
 	}
 
 	void D3D9RenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)

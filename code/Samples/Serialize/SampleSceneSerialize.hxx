@@ -8,6 +8,11 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
+		Vector3 vEyePos = Vector3(0, 150, 200);
+		Vector3 VAtPos = Vector3(0,0,0); 
+		Vector3 vUp = Vector3(0,1,0);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+
 		GetInput()->AddKeyListener(this);
 
 		{
@@ -25,8 +30,7 @@ namespace ma
 			}
 		}
 
-		std::string strResPath = FileSystem::getResourcePath();
-		std::string strScenePath = strResPath + "scene/Test.scene";
+		std::string strScenePath = "scene/Test.scene";
 		{
 			BinaryOutputArchive arOut;
 			bool bOpenOK = arOut.Open(strScenePath.c_str());
@@ -51,8 +55,7 @@ namespace ma
 
 	bool SampleSceneSerialize::keyPressed(const OIS::KeyEvent &arg)
 	{
-		std::string strResPath = FileSystem::getResourcePath();
-		std::string strScenePath = strResPath + "scene/Test.scene.xml";
+		std::string strScenePath = "scene/Test.scene";
 
 		if (arg.key == OIS::KC_X)
 		{

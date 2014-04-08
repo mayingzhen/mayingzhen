@@ -24,10 +24,6 @@ namespace ma
 
 		ref_ptr<GameObject>		CreateGameObject(const char* pName);
 
-		//void					DeleteGameObject(GameObject*);
-
-		//void					DeleteAll();
-	
 		void					Reset();
 
 		void					Serialize(Serializer& sl, const char* pszLable = "Scene");

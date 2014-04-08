@@ -16,11 +16,13 @@
 #include "Engine/Time/Timer.h"
 
 // Resource
+#include "Engine/Resource/FileInfo.h"
 #include "Engine/Resource/Stream.h"
-#include "Engine/Resource/DataStream.h"
-//#include "Engine/Resource/AAssetFileStream.h"
-#include "Engine/Resource/FileStream.h"
-#include "Engine/Resource/FileSystem.h"
+#include "Engine/Resource/MemoryStream.h"
+#include "Engine/Resource/ZipArchive.h"
+#include "Engine/Resource/FileArchive.h"
+#include "Engine/Resource/AAssetArchive.h"
+#include "Engine/Resource/ArchiveManager.h"
 #include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/ResourceSystem.h"

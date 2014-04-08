@@ -14,8 +14,9 @@ LOCAL_SRC_FILES := \
 
 
 LOCAL_C_INCLUDES := \
-	$(LOCAL_PATH)/../../../../code/ \
-	$(LOCAL_PATH)/../../../../extern/oisInput/Include
+	$(LOCAL_PATH)/../../../../code \
+	$(LOCAL_PATH)/../../../../extern/oisInput/Include \
+	$(LOCAL_PATH)/../../../../extern/zziplib-0.13.57
 
 
 include $(BUILD_STATIC_LIBRARY)

@@ -76,6 +76,7 @@ cp ../../extern/DevIL/lib/Android/libjpeg.a lib/
 cp ../../extern/DevIL/lib/Android/libPNG.a lib/
 cp ../../extern/DevIL/lib/Android/libzlib.a lib/
 cp ../../extern/oisInput/Lib/Android/libOIS.a lib/
+cp ../../extern/zziplib-0.13.57/Android/libzzip.a lib/
 echo "================================================================"
 
 
@@ -101,15 +102,15 @@ rm libDevIL.a libjpeg.a libPNG.a libzlib.a
 mv libGLESRende2.a libGLESRender.a
 ranlib libGLESRender.a
 
-echo "12.开始合并libEngine.a libOIS.a"
+echo "12.开始合并libEngine.a libOIS.a libzzip.a"
 ar -x libEngine.a
 ar -x libOIS.a
+ar -x libzzip.a
 ar cru libEngine2.a *.o
 rm *.o
-rm libOIS.a
+rm libOIS.a libzzip.a
 mv libEngine2.a libEngine.a
 ranlib libEngine.a
-
 
 
 echo "================================================================"

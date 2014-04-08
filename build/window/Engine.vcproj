@@ -41,11 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/oisInput/Include;../../extern/DevIL/extlibs;&quot;../../extern/zziplib-0.13.57&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Engine/StdAfx.h"
 				WarningLevel="3"
@@ -62,9 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_d.lib"
+				AdditionalDependencies="OIS_d.lib zziplibd.lib zlibd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/OISInput/Lib"
+				AdditionalLibraryDirectories="../../extern/OISInput/Lib;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;../../extern/DevIL/lib/windows/"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -305,22 +306,46 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="FileSystem"
+				Name="Archive"
 				>
 				<File
-					RelativePath="..\..\code\Engine\Resource\AAssetFileStream.h"
+					RelativePath="..\..\code\Engine\Resource\AAssetArchive.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Resource\AAssetFileStream.hxx"
+					RelativePath="..\..\code\Engine\Resource\AAssetArchive.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Resource\DataStream.h"
+					RelativePath="..\..\code\Engine\Resource\AAssetStream.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Resource\DataStream.hxx"
+					RelativePath="..\..\code\Engine\Resource\AAssetStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Archive.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ArchiveManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ArchiveManager.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\FileArchive.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\FileArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\FileInfo.h"
 					>
 				</File>
 				<File
@@ -332,11 +357,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\FileSystem.h"
+					RelativePath="..\..\code\Engine\Resource\MemoryStream.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\FileSystem.hxx"
+					RelativePath="..\..\code\Engine\Resource\MemoryStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\StaticCache.h"
 					>
 				</File>
 				<File
@@ -345,6 +374,22 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Resource\Stream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ZipArchive.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ZipArchive.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ZipDataStream.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\ZipDataStream.hxx"
 					>
 				</File>
 			</Filter>

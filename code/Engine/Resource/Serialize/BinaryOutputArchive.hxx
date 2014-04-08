@@ -5,11 +5,11 @@ namespace ma
 
 	BinaryOutputArchive::BinaryOutputArchive()
 	{
+		m_pStream = NULL;
 	}
 
 	BinaryOutputArchive::~BinaryOutputArchive()
 	{
-		//Close();
 	}
 
 	bool BinaryOutputArchive::IsReading() const
@@ -19,28 +19,33 @@ namespace ma
 
 	void BinaryOutputArchive::Close()
 	{
-		m_file.close();
+		ASSERT(m_pStream);
+		if (m_pStream == NULL)
+			return;
+
+		m_pStream->Close();
 	}
 
 
 	bool BinaryOutputArchive::SerializeByte(Uint8* &pData,UINT nSizeToRead,const char* pszLable)
 	{
-		m_file.write((char*)pData,nSizeToRead);
-		return ! m_file.fail();
+		ASSERT(m_pStream);
+		if (m_pStream == NULL)
+			return false;
+
+		return m_pStream->Write(pData,nSizeToRead) == nSizeToRead;
 	}
 
 	bool BinaryOutputArchive::Open(const char* pszFilename)
 	{
-		m_file.open(pszFilename,std::ios::out | std::ios::binary);
-
-		if ( m_file.fail() )
+		m_pStream = GetArchiveMananger()->Open(pszFilename,false);
+		if (m_pStream == NULL)
 		{
 			Log("fail to open file %s\n",pszFilename);
 			return false;
 		}
 
 		return true;
-
 	}
 }
 

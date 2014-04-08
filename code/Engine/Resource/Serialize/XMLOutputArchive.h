@@ -11,12 +11,6 @@ namespace ma
 {
 	class ENGINE_API XMLOutputArchive : public Serializer 
 	{
-		std::string		m_strFilename;
-
-		TiXmlElement*	m_pCurElem;
-
-		TiXmlElement*	m_pRootElem;
-
 	public:
 		XMLOutputArchive();
 
@@ -62,6 +56,12 @@ namespace ma
 
 		void Serialize(std::string& val,const char* pszLable = "string");
 
+	private:
+		std::string		m_strFilename;
+
+		TiXmlElement*	m_pCurElem;
+
+		TiXmlElement*	m_pRootElem;
 	};
 }
 

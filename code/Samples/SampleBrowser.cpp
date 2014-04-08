@@ -15,7 +15,7 @@
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Physics/SampleCharaControl.hxx"
 #include "Samples/Physics/SampleJoint.hxx"
-//#include "Samples/Physics/SampleRagdoll.hxx"
+#include "Samples/Physics/SampleRagdoll.hxx"
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
@@ -61,7 +61,7 @@ namespace ma
 		m_arrSamples["RigidBody"] = new SampleRigidBody();
 		m_arrSamples["CharControl"] = new SampleCharaControl();
 		m_arrSamples["PhysicsJoint"] = new SampleJoint();
-		//m_arrSamples["Ragdoll"] = new SampleRagdoll();
+		m_arrSamples["Ragdoll"] = new SampleRagdoll();
 		
 		// Animation
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
@@ -79,40 +79,50 @@ namespace ma
 	{
 #if PLATFORM_WIN == 1
 		char pszPath[MAX_PATH] = {0};
-		GetFullPathName("../../Data/",MAX_PATH,pszPath,NULL);
-		FileSystem::setResourcePath(pszPath);
+		
+		GetFullPathName("../../data/data.zip",MAX_PATH,pszPath,NULL);
+		GetArchiveMananger()->AddArchive( CreateZipArchive(pszPath).get() );
+		
+ 		GetFullPathName("../../data",MAX_PATH,pszPath,NULL);
+ 		GetArchiveMananger()->AddArchive( CreateFileArchive(pszPath).get() );
+
 #elif PLAFTORM_IOS == 1
-		std::string sDataDir = Platform::GetInstance().GetAppPath();
-		sDataDir += "data/";
-		FileSystem::setResourcePath(sDataDir.c_str());
+		std::string sAppDir = Platform::GetInstance().GetAppPath();
+
+		sDataDir = sAppDir + "data/data.zip";
+		GetArchiveMananger()->AddArchive( CreateZipArchive(sDataDir.c_str()).get() );
+
+        std::string sDataDir = sAppDir + "data";
+		GetArchiveMananger()->AddArchive( CreateFileArchive(sDataDir.c_str()).get() );
+
 #elif PLATFORM_ANDROID == 1
-		FileSystem::setResourcePath("/sdcard/MyData/Data/");    
+		GetArchiveMananger()->AddArchive( new AAssetArchive("data") );
 #endif
 	}
 
-	void SampleBrowser::InitModule()
+	void SampleBrowser::InitBaseModule()
 	{
 		EngineModuleInit();
 		RenderModuleInit();
 		UIModuleInit();
-		
-		LoadPlugin();
 	}
 
 	void SampleBrowser::LoadRenderScheme()
 	{
 	#if PLATFORM_WIN == 1
-		std::string configPath = FileSystem::getFullPath("config/renderscheme_pc.xml");
+		std::string configPath = "config/renderscheme_pc.xml";
 	#else 
-		std::string configPath = FileSystem::getFullPath("config/renderscheme_mobile.xml");
+		std::string configPath = "config/renderscheme_mobile.xml";
 	#endif
 
 		RenderScheme* pRenderScheme = new RenderScheme();
 
 		GetRenderSystem()->SetRenderScheme(pRenderScheme);
 
+		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( configPath.c_str() );
+		
 		TiXmlDocument doc;
-		bool bLoadOK = doc.LoadFile(configPath.c_str());
+		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
 		ASSERT(bLoadOK);
 		if (!bLoadOK)
 			return;
@@ -138,12 +148,12 @@ namespace ma
 	void SampleBrowser::LoadPlugin()
 	{
 #if PLATFORM_WIN == 1
-
 		typedef bool (*DLL_START_PLUGIN)(void);
 
-		std::string configPath = FileSystem::getFullPath("config/Plugins.xml");
+		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll("config/Plugins.xml");
+
 		TiXmlDocument doc;
-		bool bLoadOK = doc.LoadFile(configPath.c_str());
+		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
 		ASSERT(bLoadOK);
 		if (!bLoadOK)
 			return;
@@ -160,7 +170,7 @@ namespace ma
 			
 			HMODULE hInst = LoadLibraryExA(pszPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
 			DLL_START_PLUGIN pFunPtr = (DLL_START_PLUGIN)GetProcAddress(hInst,"dllStartPlugin");	
-			ASSERT(pFunPtr);
+			ASSERT(pFunPtr); 
 			if (pFunPtr)
 				pFunPtr();
 
@@ -176,11 +186,13 @@ namespace ma
 
 	void SampleBrowser::Init()
 	{
+		InitBaseModule();
+
 		InitResourcePath();
 
-		InitModule();
-
 		LoadRenderScheme();
+
+		LoadPlugin();
 
 		m_pSystems->Init();
 	

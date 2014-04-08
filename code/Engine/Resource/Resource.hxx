@@ -1,4 +1,5 @@
 #include "Resource.h"
+#include "ArchiveManager.h"
 
 namespace ma
 {
@@ -44,9 +45,13 @@ namespace ma
 			
 		m_eResState = ResLoadIng;
 
-		SAFE_DELETE(m_pDataStream);
-		m_pDataStream =  FileSystem::readAll(m_sResPath.c_str());
-        ASSERT(m_pDataStream);
+		m_pDataStream = NULL;
+		m_pDataStream = GetArchiveMananger()->ReadAll( m_sResPath.c_str() );
+		if (m_pDataStream == NULL)
+		{
+			m_eResState = ResLoadError;
+			return false;
+		}
 
 		return true;
 	}
@@ -61,9 +66,8 @@ namespace ma
 			return false;
 
 		BinaryInputArchive inAr;
-		inAr.Open(m_pDataStream);
+		inAr.Open(m_pDataStream.get());
 		Serialize(inAr);
-		m_pDataStream->rewind();
 		inAr.Close();
 
 		m_eResState = ResLoaded;

@@ -10,9 +10,11 @@ namespace ma
 		ResUnLoad,
 		ResLoadIng,
 		ResLoaded,
+		ResLoadError,
 	};
 
 	class Serializer;
+	class MemoryStream;
 
 	class ENGINE_API Resource : public Object
 	{
@@ -42,12 +44,12 @@ namespace ma
 	protected:
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
 
-		DataStream*		GetDataStream() {return m_pDataStream;}
+		//MemoryStream*	GetMemoryStream() {return m_pDataStream;}
 
 	protected:
-		std::string		m_sResPath;
-		ResState		m_eResState;
-		DataStream*		m_pDataStream;
+		std::string				m_sResPath;
+		ResState				m_eResState;
+		ref_ptr<MemoryStream>	m_pDataStream;
 	};
 
 	DeclareRefPtr(Resource);

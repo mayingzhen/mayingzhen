@@ -48,7 +48,7 @@ namespace ma
 	bool AnimationSetData::CreateFromMemeory()
 	{
 		XMLInputArchive arIn;
-		bool bLoadOk = arIn.Open(m_pDataStream);
+		bool bLoadOk = arIn.Open(m_pDataStream.get());
 		if (!bLoadOk)
 		{
 			ASSERT(false && "Fail to Load to file");

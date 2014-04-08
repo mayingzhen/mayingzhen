@@ -5,7 +5,6 @@
 
 namespace ma
 {
-
 	class ENGINE_API BinaryOutputArchive : public Serializer
 	{
 	
@@ -24,7 +23,7 @@ namespace ma
 		void Close();
 
 	private:
-		std::ofstream m_file;
+		StreamPtr		m_pStream;
 
 	};
 
