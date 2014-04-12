@@ -2,16 +2,16 @@
 
 namespace ma
 {
-	IAnimationObject*	AnimationSystem::CreateAnimationObject(GameObject* pGameObj)
+	AnimationComponent*	AnimationSystem::CreateAnimationObject(GameObject* pGameObj)
 	{
-		AnimationObject* pAnimObject = new AnimationObject(pGameObj);
+		AnimationComponent* pAnimObject = new AnimationComponent(pGameObj);
 		m_arrAnimObject.push_back(pAnimObject);
 		return pAnimObject;
 	}
 
-	void AnimationSystem::DeleteAnimationObject(IAnimationObject* pAnimObj)
+	void AnimationSystem::DeleteAnimationObject(AnimationComponent* pAnimObj)
 	{
-		std::vector<AnimationObject*>::iterator it = 
+		std::vector<AnimationComponent*>::iterator it = 
 			std::find(m_arrAnimObject.begin(),m_arrAnimObject.end(),pAnimObj);
 		if (it != m_arrAnimObject.end())
 		{
@@ -28,7 +28,7 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrAnimObject.size(); ++i)
 		{
-			AnimationObject* pAnimObj = m_arrAnimObject[i];
+			AnimationComponent* pAnimObj = m_arrAnimObject[i];
 			if (pAnimObj == NULL)
 				continue;
 

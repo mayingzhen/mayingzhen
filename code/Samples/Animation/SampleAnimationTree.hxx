@@ -25,7 +25,7 @@ namespace ma
 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-		IAnimationObjectPtr pAnimComp = pGameObj->CreateComponent<IAnimationObject>();
+		AnimationComponentPtr pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 
 // 		ActionData actionData;
@@ -41,9 +41,9 @@ namespace ma
 // 		actionData.m_pAnimNodeData = &animLayerData;
 
 		
-		IAnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
-		IAction*	pAction = pAnimSet->CreateAction("TestAnim");
-		IAnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
+		AnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
+		SkelAnimtion*	pAction = pAnimSet->CreateSkelAnim("TestAnim");
+		AnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
 		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
 		m_pClip120 = pAction->CreateClipNode("magician/120/bip01.ska","LowerBody");
 		pLayerNode->AddLayer(m_pClip120);

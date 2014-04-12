@@ -23,7 +23,7 @@ namespace ma
 			MeshComponentPtr pMesCompf = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
 			
-			m_pAnimtionObjectA = pChargigi->CreateComponent<IAnimationObject>();
+			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
  			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
@@ -38,7 +38,7 @@ namespace ma
 			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-			m_pAnimtionObjectB = pCharMagic->CreateComponent<IAnimationObject>();
+			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
 
 			m_pAnimtionObjectB->PlayAnimation((UINT)0);

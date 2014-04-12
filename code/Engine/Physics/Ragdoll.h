@@ -44,6 +44,17 @@ namespace ma
 		JOINT_COUNT
 	};
 
+	struct BodyPart
+	{
+		std::string				m_sPartName;
+
+		std::vector<BoneIndex>	m_arrBoneID;
+
+		float					m_fHight;
+
+		float					m_fRadius;
+	};
+
 	class BodyPartMap
 	{
 	public:
@@ -51,21 +62,10 @@ namespace ma
 
 		void		Build(Skeleton* pSkeleton);	
 
-		BoneIndex	GetMapBoneFirst(BODYPART eBodyPart);
-
-		BoneIndex	GetMapBoneEnd(BODYPART eBodyPart);
-
-		BODYPART	GetMapBody(BoneIndex boneID);
-
 	private:
 		Skeleton*				m_pSkeleton;
 
-		std::vector<BODYPART>	m_arrMapBody;
-
-		BoneIndex				m_arrBoneID[BODYPART_COUNT];
-
-		std::string				m_arrBodyName[BODYPART_COUNT];	
-
+		BodyPart				m_arrBodyPart[BODYPART_COUNT];	
 	};
 
 	class Ragdoll

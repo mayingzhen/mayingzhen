@@ -14,6 +14,7 @@
 #include "Engine/Event/Event.hxx"
 
 #include "Engine/Thread/Thread.hxx"
+#include "Engine/Thread/WorkQueue.hxx"
 
 // Resource
 #include "Engine/Resource/Stream.hxx"
@@ -53,7 +54,6 @@
 #include "Engine/Physics/IRigidBody.hxx"
 #include "Engine/Physics/IPhysicsJoint.hxx"
 #include "Engine/Physics/IPhysicsSystem.hxx"
-//#include "Engine/Physics/Ragdoll.hxx"
 
 
 // script
@@ -61,8 +61,8 @@
 #include "Engine/Script/IScriptSystem.hxx"
 
 // Animation
-#include "Engine/Animation/IAnimationObject.hxx"
-#include "Engine/Animation/IAnimationSystem.hxx"
+// #include "Engine/Animation/AnimationComponent.hxx"
+// #include "Engine/Animation/IAnimationSystem.hxx"
 
 // UI
 #include "Engine/UI/IUISystem.hxx"
@@ -76,7 +76,6 @@
 #include "Engine/EntitySystem/SceneNode.hxx"
 #include "Engine/EntitySystem/SceneVisiter.hxx"
 #include "Engine/EntitySystem/EntitySystem.hxx"
-#include "Engine/EntitySystem/CullTree.hxx"
 #include "Engine/EntitySystem/OctreeNode.hxx"
 #include "Engine/EntitySystem/Octree.hxx"
 

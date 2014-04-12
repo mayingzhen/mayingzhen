@@ -9,7 +9,7 @@ namespace ma
 	class BoneSet;
 
 
-	class ANIMATION_API AnimClipNode : public IAnimClipNode
+	class ANIMATION_API AnimClipNode : public AnimTreeNode
 	{
 		DECL_OBJECT(AnimClipNode)
 
@@ -29,9 +29,7 @@ namespace ma
 		virtual	void	SetFrame(float fFrame);
 
 		Skeleton*		GetSkeleton() {return m_pSkeleton;}
-		
-		//virtual void	SetSkeleton(Skeleton* pSkeleton); 
-
+	
 		void			SetAnimationClip(AnimationClip* pAnimClip); 
 
 		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}

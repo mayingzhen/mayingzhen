@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class IAnimationObject;
+	class AnimationComponent;
 	class MeshComponent;
 
 	class SampleAnimationRetarget : public Sample
@@ -18,9 +18,9 @@ namespace ma
 		virtual void	Update();
 
 	private:
-		IAnimationObjectPtr		m_pAnimtionObjectA;
+		AnimationComponentPtr		m_pAnimtionObjectA;
 		
-		IAnimationObjectPtr		m_pAnimtionObjectB;
+		AnimationComponentPtr		m_pAnimtionObjectB;
 	};
 }
 

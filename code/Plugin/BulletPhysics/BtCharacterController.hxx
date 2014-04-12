@@ -90,13 +90,6 @@ namespace ma
 		RecoverFromPenetration(3);
 	}
 
-	void BulletCharacterController::DebugRender()
-	{
-		NodeTransform tsfws = m_pPhysicsObject->GetTransformWS();
-
-		m_pCapsuleShape->DebugRender(tsfws);
-	}
-
 
 	bool BulletCharacterController::RecoverFromPenetration(int nMaxSubStep)
 	{

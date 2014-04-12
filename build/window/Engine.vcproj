@@ -522,15 +522,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Thread\ReadModifyLock.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Thread\Thread.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Thread\Thread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\WorkQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\WorkQueue.hxx"
 				>
 			</File>
 			<Filter
@@ -614,10 +618,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Animation\ISkeleton.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Animation\RTTI.h"
 				>
 			</File>
@@ -638,14 +638,6 @@
 			Name="EntitySystem"
 			>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Camera.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\EntitySystem\Component.h"
 				>
 			</File>
@@ -659,10 +651,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\EntitySystem\CullTree.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\EntitySystem\CullTree.hxx"
 				>
 			</File>
 			<File

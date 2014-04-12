@@ -23,6 +23,11 @@ namespace ma
 		return *(Vector3*)(&v);
 	}
 
+// 	inline Color ToMaUnit(const btVector3& v)
+// 	{
+// 
+// 	}
+
 	inline Quaternion ToMaUnit(const btQuaternion& q)
 	{
 		return Quaternion( q.x(),q.y(),q.z(),q.w() );

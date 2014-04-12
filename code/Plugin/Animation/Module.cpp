@@ -9,9 +9,9 @@
 #include "Animation/BoneSet.hxx"
 #include "Animation/AnimationSetData.hxx"
 #include "Animation/AnimationSet.hxx"
-#include "Animation/ActionData.hxx"
-#include "Animation/Action.hxx"
-#include "Animation/AnimationObject.hxx"
+#include "Animation/SkelAnimtionData.hxx"
+#include "Animation/SkelAnimtion.hxx"
+#include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
 #include "Animation/AnimationUtil.hxx"
 
@@ -27,15 +27,15 @@
 #include "Animation/PoseModifier/LookAtModifier.hxx"
 
 
-// Device
-#include "Animation/AnimationSystem.hxx"
-
-
 using namespace ma;
 
 #define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
 #include <Animation/RTTIDecl.h>
 #undef RTTI_DECL
+
+
+Object* Create_AnimationComponent(void* arg) { return new AnimationComponent((GameObject*)arg);} \
+void Delete_AnimationComponent(Object* pObj) {}
 
 
 Resource* AnimationData_Creator() {return new Animation();}
@@ -44,6 +44,11 @@ Resource* AnimationSetData_Creator() {return new AnimationSetData();}
 
 void AnimationModuleInit()
 {
+	AnimationComponent::StaticInitClass(); 
+	ObjectFactoryManager::GetInstance().RegisterObjectFactory("AnimationComponent",Create_AnimationComponent); \
+	ObjectFactoryManager::GetInstance().RegisterObjectDeleteFactory("AnimationComponent",Delete_AnimationComponent);
+
+
 	/// RTTI
 	#define RTTI_DECL(ClassType) ClassType::StaticInitClass();
 	#include <Animation/RTTIDecl.h>
@@ -57,18 +62,10 @@ void AnimationModuleInit()
 	ResourceSystem::RegisterResourceFactory("ske",SkeletonData_Creator);
 	ResourceSystem::RegisterResourceFactory("aniset",AnimationSetData_Creator);
 
-
-	// Device
-	AnimationSystem* pAnimationSystem = new AnimationSystem();
-	SetAnimationSystem(pAnimationSystem); 
 }
 
 void AnimationModuleShutdown()
 {
-	// Device
-	AnimationSystem* pAnimationSystem = (AnimationSystem*)GetAnimationSystem();
-	SAFE_DELETE(pAnimationSystem);
-	
 	ResourceSystem::UnregisterResourceFactory("aniset",AnimationSetData_Creator);
 	ResourceSystem::UnregisterResourceFactory("skn",AnimationData_Creator);
 	ResourceSystem::UnregisterResourceFactory("ske",SkeletonData_Creator);

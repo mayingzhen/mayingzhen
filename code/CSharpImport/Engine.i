@@ -23,10 +23,6 @@
 %include "../../Code/Engine/EntitySystem/Component.h"
 %include "../../Code/Engine/EntitySystem/GameObj.h"
 
-%include "../../Code/Engine/Animation/IAnimationSystem.h"
-%include "../../Code/Engine/Animation/IAnimationObject.h"
-%include "../../Code/Engine/Animation/IAnimationSet.h"
-
 %include "../../Code/Engine/Physics/ICharacterController.h"
 %include "../../Code/Engine/Physics/ICollisionShape.h"
 %include "../../Code/Engine/Physics/IPhysicsSystem.h"

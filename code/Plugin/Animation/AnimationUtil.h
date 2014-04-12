@@ -3,12 +3,12 @@
 
 namespace ma
 {
-	class Action;
+	class SkelAnimtion;
 	class Skeleton;
 
 	namespace AnimationUtil
 	{
-		Action* CreateAction(const char* pszAnimPath,Skeleton* pSkeleton,const char* pszActionName = NULL);	
+		SkelAnimtion* CreateAction(const char* pszAnimPath,Skeleton* pSkeleton,const char* pszActionName = NULL);	
 	}
 }
 

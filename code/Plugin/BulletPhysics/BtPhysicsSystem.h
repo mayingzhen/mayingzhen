@@ -8,7 +8,7 @@ namespace ma
 	class BulletPhysicsObject;
 	class PhysicsThread;
 
-	class BtPhysicsSystem : public IPhysicsSystem
+	class BtPhysicsSystem : public IPhysicsSystem, public btIDebugDraw
 	{
 	public:
 		BtPhysicsSystem();
@@ -69,6 +69,22 @@ namespace ma
 
 		btDiscreteDynamicsWorld*		GetDynamicsWorld() {return m_pDynamicsWorld;}
 
+		// btIDebugDraw
+		//////////////////////////////////////////////////////////////////////////
+		virtual bool					isVisible(const btVector3& aabbMin, const btVector3& aabbMax);
+
+		virtual void					drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
+
+		virtual void					reportErrorWarning(const char* warningString);
+
+		virtual void					drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color) {}
+
+		virtual void					draw3dText(const btVector3& location,const char* textString) {}
+
+		virtual void					setDebugMode(int debugMode) {m_debugMode = debugMode;}
+
+		virtual int						getDebugMode() const { return m_debugMode; }
+
 	private:
 		btDefaultCollisionConfiguration*			m_pCollisionConfiguration;
 		btCollisionDispatcher*						m_pDispatcher;
@@ -84,6 +100,8 @@ namespace ma
 		btVector3									m_vGravity;
 
 		PhysicsThread*								m_pPhysicsThread;
+
+		int											m_debugMode;
 	};
 
 	btDiscreteDynamicsWorld* GetDynamicsWorld()

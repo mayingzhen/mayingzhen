@@ -30,7 +30,7 @@ namespace ma
 	private:
 		GameObjectPtr			m_pTerrain;
 
-		IAnimationObjectPtr		m_pCharaAnim;
+		AnimationComponentPtr	m_pCharaAnim;
 	
 		Vector3					m_vMoveTo;
 

@@ -20,7 +20,6 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
-//#include "Samples/Serialize/SampleS3Import.hxx"
 
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
@@ -43,7 +42,6 @@ namespace ma
 	{
 #if PLATFORM_WIN == 1
 		m_arrSamples["FbxImport"] = new SampleFbxImport();
-		//m_arrSamples["S3Import"] = new SampleS3Import();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 		

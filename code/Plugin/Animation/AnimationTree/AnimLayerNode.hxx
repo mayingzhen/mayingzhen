@@ -1,27 +1,27 @@
-#include "Animation/AnimationTree/AnimLayerNode.h"
+#include "AnimLayerNode.h"
 
 namespace ma
 {
-	IMPL_OBJECT(AnimLayerNode,IAnimLayerNode)
+	IMPL_OBJECT(AnimLayerNode,AnimTreeNode)
 
-	void AnimLayerNode::AddLayer(IAnimTreeNode* pAnimTreeNode)
+	void AnimLayerNode::AddLayer(AnimTreeNode* pAnimTreeNode)
 	{
 		if (pAnimTreeNode == NULL)
 			return;
 
-		std::vector<IAnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
+		std::vector<AnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
 		if ( it != m_arrAnimNode.end() )
 			return;
 
 		m_arrAnimNode.push_back(pAnimTreeNode);
 	}
 
-	void AnimLayerNode::RemoveLayer(IAnimTreeNode* pAnimTreeNode)
+	void AnimLayerNode::RemoveLayer(AnimTreeNode* pAnimTreeNode)
 	{
 		if (pAnimTreeNode == NULL)
 			return;
 
-		std::vector<IAnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
+		std::vector<AnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
 		if ( it == m_arrAnimNode.end() )
 			return;
 
@@ -51,15 +51,6 @@ namespace ma
 			m_arrAnimNode[i]->SetFrame(fFrame);
 		}
 	}
-
-// 	void AnimLayerNode::SetSkeleton(Skeleton* pSkeleton)
-// 	{
-// 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
-// 		{
-// 			m_arrAnimNode[i]->SetSkeleton(pSkeleton);
-// 		}
-// 	}
-
 
 }
 

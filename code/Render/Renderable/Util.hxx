@@ -33,19 +33,19 @@ namespace ma
 		return pGameObj;
 	}
 
-	GameObjectPtr CreateAnimationGameObject(const char* psknPath,const char* pTexPath,
-		const char* pSkePth,const char* pAnimSetPath)
-	{
-		GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("");
-
-		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load(psknPath,pTexPath);
-
-		IAnimationObjectPtr pAnimComp = pGameObj->CreateComponent<IAnimationObject>();
-		pAnimComp->Load(pAnimSetPath,pSkePth);
-
-		return pGameObj;
-	}
+// 	GameObjectPtr CreateAnimationGameObject(const char* psknPath,const char* pTexPath,
+// 		const char* pSkePth,const char* pAnimSetPath)
+// 	{
+// 		GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("");
+// 
+// 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+// 		pMeshComp->Load(psknPath,pTexPath);
+// 
+// 		AnimationObjectPtr pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
+// 		pAnimComp->Load(pAnimSetPath,pSkePth);
+// 
+// 		return pGameObj;
+// 	}
 }
 
 

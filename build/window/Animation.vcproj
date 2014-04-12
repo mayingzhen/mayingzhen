@@ -176,22 +176,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\Action.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\Action.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\ActionData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\ActionData.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\Animation\Animation.h"
 				>
 			</File>
@@ -208,19 +192,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationComponent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\AnimationComponent.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationDataCover.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationDataCover.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationObject.hxx"
 				>
 			</File>
 			<File
@@ -285,6 +269,26 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\BoneSet.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\SkelAnimtion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\SkelAnimtionData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\SkelAnimtionData.hxx"
 				>
 			</File>
 			<File
@@ -356,6 +360,10 @@
 				</File>
 				<File
 					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimLayerNode.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.h"
 					>
 				</File>
 			</Filter>

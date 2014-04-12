@@ -62,4 +62,14 @@ namespace ma
 		return m_fFrameDeltaTime;
 	}
 
+	void Time::Sleep(unsigned mSec)
+	{
+#ifdef WIN32
+		::Sleep(mSec);
+#else
+		usleep(mSec * 1000);
+#endif
+	}
+
+
 }

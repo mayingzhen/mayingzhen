@@ -87,9 +87,6 @@ namespace ma
 		if ( GetRenderSystem() )
 			GetRenderSystem()->Update( GetRenderSystem()->GetMainCamera().get() );
 
-		if (GetAnimationSystem())
-			GetAnimationSystem()->Update();
-
 		if ( GetLightSystem() )
 			GetLightSystem()->Update();
 
