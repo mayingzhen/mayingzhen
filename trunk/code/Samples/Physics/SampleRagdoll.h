@@ -42,6 +42,14 @@ namespace ma
 	private:
 
 		GameObjectPtr	m_arrObject[BODYPART_COUNT];
+
+		//GameObjectPtr	m_pChar;
+
+		Skeleton*		m_pSkeleton;
+
+		SkeletonPose*	m_pSkeletonPose;
+
+		
 	};
 }
 

@@ -1,5 +1,5 @@
 #include "AnimationSetData.h"
-#include "ActionData.h"
+#include "SkelAnimtionData.h"
 #include "PoseModifier/PoseModifier.h"
 
 namespace ma
@@ -82,7 +82,7 @@ namespace ma
 		AnimClipNodeData* pAnmClip = new AnimClipNodeData();
 		pAnmClip->m_sClipPath = skaPath;
 
-		ActionData* pActionData = new ActionData();
+		SkelAnimData* pActionData = new SkelAnimData();
 		pActionData->m_sAnimName = pszActionName;
 		pActionData->m_pAnimNodeData = pAnmClip;
 

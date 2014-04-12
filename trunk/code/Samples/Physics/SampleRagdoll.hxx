@@ -15,7 +15,7 @@ namespace ma
 		pCapuleComp->SetHeight(fHeight);
 
 		IRigidBodyPtr pRigidComp = pObj->CreateComponent<IRigidBody>();
-		//pRigidComp->GetRigidBody()->SetKinematic(true);
+		pRigidComp->SetKinematic(true);
 
 		pObj->GetSceneNode()->SetTransform(tsf);
 		
@@ -28,9 +28,25 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		Vector3 vUp = Vector3(0,1,0);
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+
+		{
+			GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("magician");
+
+			MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+
+			AnimationComponentPtr pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
+			pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+
+			m_pSkeleton = pAnimComp->GetSkeleton();
+
+			//pGameObj->GetSceneNode()->Scale(0.01f);
+			pGameObj->GetSceneNode()->Right(100);
+		}
+
  
  
-		GetPhysicsSystem()->SetGravity(Vector3(0,-600/*-0.98f * 100*/,0));
+		//GetPhysicsSystem()->SetGravity(Vector3(0,-600/*-0.98f * 100*/,0));
 
 		{
 			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Terrain");

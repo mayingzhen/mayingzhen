@@ -6,7 +6,7 @@ namespace ma
 {
 	struct AnimEvalContext;
 
-	class ANIMATION_API AnimBlendNode : public IAnimBlendNode
+	class ANIMATION_API AnimBlendNode : public AnimTreeNode
 	{
 		DECL_OBJECT(AnimBlendNode)
 
@@ -15,25 +15,21 @@ namespace ma
 		
 		~AnimBlendNode();
 
-		virtual void	SetSrcAnimNode(IAnimTreeNode* pAnimNode) {m_pSrcAnimNode = pAnimNode;}
+		virtual void	SetSrcAnimNode(AnimTreeNode* pAnimNode) {m_pSrcAnimNode = pAnimNode;}
 
-		virtual void	SetDestAnimNode(IAnimTreeNode* pAnimNode) {m_pDestAnimNode = pAnimNode;}
+		virtual void	SetDestAnimNode(AnimTreeNode* pAnimNode) {m_pDestAnimNode = pAnimNode;}
 
 		virtual void	SetWeight(float fWeight) { m_fWeight = fWeight;}
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode);
+		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, EBlendMode eBlendMode);
 
 		virtual	void	SetFrame(float fFrame);
 
-		//virtual void	SetSkeleton(Skeleton* pSkeleton) {}
-
-		
-
 	private:
-		IAnimTreeNode*	m_pSrcAnimNode;
-		IAnimTreeNode*	m_pDestAnimNode;
+		AnimTreeNode*	m_pSrcAnimNode;
+		AnimTreeNode*	m_pDestAnimNode;
 		float			m_fWeight;	
 	};
 }

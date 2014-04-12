@@ -4,17 +4,6 @@ namespace ma
 {
 	BodyPartMap::BodyPartMap()
 	{
-		m_arrBodyName[BODYPART_PELVIS] = "pelvis";
-		m_arrBodyName[BODYPART_SPINE] = "spine";
-		m_arrBodyName[BODYPART_HEAD] = "head";
-		m_arrBodyName[BODYPART_LEFT_UPPER_LEG] = "left upper leg";
-		m_arrBodyName[BODYPART_LEFT_LOWER_LEG] = "left lower leg";
-		m_arrBodyName[BODYPART_RIGHT_UPPER_LEG] = "right upper leg";
-		m_arrBodyName[BODYPART_RIGHT_LOWER_LEG] = "right lower leg";
-		m_arrBodyName[BODYPART_LEFT_UPPER_ARM] = "left upper arm";
-		m_arrBodyName[BODYPART_LEFT_LOWER_ARM] = "left lower arm";
-		m_arrBodyName[BODYPART_RIGHT_UPPER_ARM] = "right lower arm";
-		m_arrBodyName[BODYPART_RIGHT_LOWER_ARM] = "right lower arm";
 	}
 
 	void BodyPartMap::Build(Skeleton* pSkeleton)
@@ -25,26 +14,65 @@ namespace ma
 
 		m_pSkeleton = pSkeleton;
 
-		m_arrMapBody.resize(pSkeleton->GetBoneNumer());
+		const char* arrBodyName[BODYPART_COUNT];
+		arrBodyName[BODYPART_PELVIS] = "pelvis";
+		arrBodyName[BODYPART_SPINE] = "spine";
+		arrBodyName[BODYPART_HEAD] = "head";
+		arrBodyName[BODYPART_LEFT_UPPER_LEG] = "left upper leg";
+		arrBodyName[BODYPART_LEFT_LOWER_LEG] = "left lower leg";
+		arrBodyName[BODYPART_RIGHT_UPPER_LEG] = "right upper leg";
+		arrBodyName[BODYPART_RIGHT_LOWER_LEG] = "right lower leg";
+		arrBodyName[BODYPART_LEFT_UPPER_ARM] = "left upper arm";
+		arrBodyName[BODYPART_LEFT_LOWER_ARM] = "left lower arm";
+		arrBodyName[BODYPART_RIGHT_UPPER_ARM] = "right lower arm";
+		arrBodyName[BODYPART_RIGHT_LOWER_ARM] = "right lower arm";
+		
+		float arrHight[BODYPART_COUNT];
+		arrHight[BODYPART_PELVIS] = 0.02f;
+		arrHight[BODYPART_SPINE] = 0.28f;
+		arrHight[BODYPART_HEAD] = 0.05f;
+		arrHight[BODYPART_LEFT_UPPER_LEG] = 0.45f;
+		arrHight[BODYPART_LEFT_LOWER_LEG] = 0.37f;
+		arrHight[BODYPART_RIGHT_UPPER_LEG] = 0.45f;
+		arrHight[BODYPART_RIGHT_LOWER_LEG] = 0.37f;
+		arrHight[BODYPART_LEFT_UPPER_ARM] = 0.33f;
+		arrHight[BODYPART_LEFT_LOWER_ARM] = 0.25f;
+		arrHight[BODYPART_RIGHT_UPPER_ARM] = 0.33f;
+		arrHight[BODYPART_RIGHT_LOWER_ARM] = 0.25f;
+
+		float arrRadius[BODYPART_COUNT];
+		arrRadius[BODYPART_PELVIS] = 0.15f;
+		arrRadius[BODYPART_SPINE] = 0.15f;
+		arrRadius[BODYPART_HEAD] = 0.10f;
+		arrRadius[BODYPART_LEFT_UPPER_LEG] = 0.07f;
+		arrRadius[BODYPART_LEFT_LOWER_LEG] = 0.05f;
+		arrRadius[BODYPART_RIGHT_UPPER_LEG] = 0.07f;
+		arrRadius[BODYPART_RIGHT_LOWER_LEG] = 0.05f;
+		arrRadius[BODYPART_LEFT_UPPER_ARM] = 0.05f;
+		arrRadius[BODYPART_LEFT_LOWER_ARM] = 0.04f;
+		arrRadius[BODYPART_RIGHT_UPPER_ARM] = 0.05f;
+		arrRadius[BODYPART_RIGHT_LOWER_ARM] = 0.04f;
 
 		for (UINT iBody = 0; iBody < BODYPART_COUNT; ++iBody)
 		{
-			BoneIndex boneID = pSkeleton->GetBoneIdByName(m_arrBodyName[iBody].c_str());
+			BoneIndex boneID = pSkeleton->GetBoneIdByName(arrBodyName[iBody]);
 			ASSERT(IsValidID<BoneIndex>(boneID));
 			if (!IsValidID<BoneIndex>(boneID))
 				continue;
+
+			m_arrBodyPart[iBody].m_sPartName = arrBodyName[iBody];
 
 			for (UINT iBone = 0; iBone < pSkeleton->GetBoneNumer(); ++iBone)
 			{
 				if (iBone == boneID)
 				{
-					m_arrMapBody[iBone] = iBody;	
+					m_arrBodyPart[iBody].m_arrBoneID.push_back(boneID);
 				}
 				else if ( pSkeleton->IsAncestorOf(boneID,iBone) )
 				{
-					m_arrMapBody[iBone] = iBody;	
+					m_arrBodyPart[iBody].m_arrBoneID.push_back(boneID);
 				}
-			}			
+			}	
 		}
 	}
 
@@ -54,20 +82,20 @@ namespace ma
 		ASSERT(IsValidID<BoneIndex>(boneID));
 		return boneID;
 	}
+// 
+// 	BoneIndex	BodyPartMap::GetMapBoneEnd(BODYPART eBodyPart)
+// 	{
+// 
+// 	}
 
-	BoneIndex	BodyPartMap::GetMapBoneEnd(BODYPART eBodyPart)
-	{
-
-	}
-
-	BODYPART	BodyPartMap::GetMapBody(BoneIndex boneID)
-	{
-		ASSERT(boneID >=0 && boneID < m_arrMapBody.size());
-		if (boneID < 0 || boneID >= m_arrMapBody.size())
-			return BODYPART_PELVIS;
-
-		return m_arrMapBody[boneID];
-	}
+// 	BODYPART	BodyPartMap::GetMapBody(BoneIndex boneID)
+// 	{
+// 		ASSERT(boneID >=0 && boneID < m_arrMapBody.size());
+// 		if (boneID < 0 || boneID >= m_arrMapBody.size())
+// 			return BODYPART_PELVIS;
+// 
+// 		return m_arrMapBody[boneID];
+// 	}
 
 	Ragdoll::Ragdoll()
 	{

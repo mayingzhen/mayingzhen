@@ -60,17 +60,11 @@ namespace ma
 
 		UINT				GetComponentNumber() {return m_arrComp.size();}
 
-		ComponentPtr		GetComponentByIndex(UINT index) {return m_arrComp[index];}
+		ref_ptr<Component>	GetComponentByIndex(UINT index) {return m_arrComp[index];}
 
 		template<class T>
-		ref_ptr<T>			GetTypeComponentFirst();
-
-		template<class T>
-		UINT				GetTypeComponentNumber();
-
-		template<class T>
-		ref_ptr<T>			GetTypeComponentByIndex(UINT index);
-
+		void				GetTypeComponent(std::vector<T*>& arrTyeComp);
+	
 		// physic
 		IPhysicsObject*		GetPhyscisObject() {return m_pPhyscisObject;}
 
@@ -132,13 +126,6 @@ namespace ma
 		AABB						m_worldAABB;
 	};
 
-// 	template<class T>
-// 	inline T*	GameObject::CreateComponent()
-// 	{
-// 		T* pComponent = new T(this);
-// 		AddComponent(pComponent);
-// 		return pComponent;
-// 	}
 
 	template<class T>
 	inline ref_ptr<T>	GameObject::CreateComponent()
@@ -162,54 +149,18 @@ namespace ma
 		return pComponent;
 	}
 
-
 	template<class T>
-	inline ref_ptr<T>	GameObject::GetTypeComponentFirst()
+	inline void GameObject::GetTypeComponent(std::vector<T*>& arrTyeComp)
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
+			T* pComponent = SafeCast<T>( m_arrComp[i].get() );
+			if (pComponent != NULL)
 			{
-				return SafeCast<T>(m_arrComp[i].get());
+				arrTyeComp.push_back(pComponent);
 			}
 		}
-		return NULL;
 	}
-
-	template<class T>
-	inline UINT	GameObject::GetTypeComponentNumber()
-	{
-		UINT nNumber = 0;
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
-		{
-			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
-			{
-				++nNumber;
-			}
-		}
-		return nNumber;
-	}
-
-	template<class T>
-	inline ref_ptr<T>	GameObject::GetTypeComponentByIndex(UINT index)
-	{
-		UINT nNumber = 0;
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
-		{
-			if ( m_arrComp[i]->GetClass()->IsA( T::StaticGetClass() ) )
-			{
-				if (nNumber == index)
-				{
-					return SafeCast<T>(m_arrComp[i].get());
-				}
-
-				nNumber++;
-			}
-		}
-		return NULL;
-	}
-
-
 }
 
 

@@ -39,9 +39,9 @@ namespace ma
 			pCapsule->SetTransformLS(tsfLS);
 
 
-			m_pCharaAnim = pCharaObj->CreateComponent<IAnimationObject>();
+			m_pCharaAnim = pCharaObj->CreateComponent<AnimationComponent>();
 			m_pCharaAnim->Load("magician/Body.Aniset","magician/Body.ske");
-			IAnimationSet* pAnimSet = m_pCharaAnim->GetAnimationSet();
+			AnimationSet* pAnimSet = m_pCharaAnim->GetAnimationSet();
 			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
 			m_pCharaAnim->PlayAnimation("Idle");

@@ -21,7 +21,7 @@ namespace ma
 			ref_ptr<MeshComponent> pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-			IAnimationObjectPtr pAnimObj = pCharMagic->CreateComponent<IAnimationObject>();
+			AnimationComponentPtr pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
 

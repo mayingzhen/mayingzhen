@@ -172,32 +172,6 @@ namespace ma
 		return true;
 	}
 
-	void BulletPhysicsObject::DebugRender()
-	{
-		NodeTransform tsfWS = GetTransformWS();
-
-		for (UINT i = 0; i < m_vBoxCollisionShape.size(); ++i)
-		{
-			m_vBoxCollisionShape[i]->DebugRender(tsfWS);
-		}
-
-		for (UINT i = 0; i < m_vSphereCollisionShape.size(); ++i)
-		{
-			m_vSphereCollisionShape[i]->DebugRender(tsfWS);
-		}
-
-		for (UINT i = 0; i < m_vCapsuleCollisionShape.size(); ++i)
-		{
-			m_vCapsuleCollisionShape[i]->DebugRender(tsfWS);
-		}
-		
-		if (m_pCharaControll)
-		{
-			m_pCharaControll->DebugRender();
-		}
-
-	}
-
 	void BulletPhysicsObject::SyncToPhysics()
 	{
 		ASSERT(m_pGameObject);

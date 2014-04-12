@@ -1,9 +1,9 @@
-#include "Animation/AnimationTree/AnimClipNode.h"
+#include "AnimClipNode.h"
 
 
 namespace ma
 {
-	IMPL_OBJECT(AnimClipNode,IAnimClipNode)
+	IMPL_OBJECT(AnimClipNode,AnimTreeNode)
 
 	AnimClipNode::AnimClipNode(Skeleton* pSkeleton)
 	{
@@ -72,45 +72,6 @@ namespace ma
 		m_pBoneSet = pBoneSet;
 
 	}
-
-// 	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		if (sl.IsReading())
-// 		{
-// 			std::string strAnimClipName;
-// 			std::string strBonSetName;
-// 
-// 			SAFE_DELETE(m_pBoneSet);
-// 			SAFE_DELETE(m_pAnimClip);
-// 
-// 			sl.Serialize(strAnimClipName,"ClipName");
-// 			sl.Serialize(strBonSetName,"BonsetName");
-// 
-// 			SetAnimationClip(strAnimClipName.c_str());
-// 			SetBoneSet(strBonSetName.c_str());
-// 		}
-// 		else
-// 		{
-// 			std::string strAnimClipName = m_pAnimClip->GetAnimation()->GetResPath();
-// 			std::string strBonSetName = m_pBoneSet ? m_pBoneSet->GetBoneSetName() : "";
-// 
-// 			sl.Serialize(strAnimClipName,"ClipName");
-// 			sl.Serialize(strBonSetName,"BonsetName");
-// 		}
-// 
-// 		sl.EndSection();
-// 	}
-
-// 	void AnimClipNode::SetSkeleton(Skeleton* pSkeleton) 
-// 	{
-// 		if (m_pSkeleton != pSkeleton)
-// 		{
-// 			m_pSkeleton = pSkeleton;
-// 			m_pAnimClip->SetSkeleton(pSkeleton);
-// 		}
-// 	}
 
 	void AnimClipNode::SetAnimationClip(AnimationClip* pAnimClip) 
 	{

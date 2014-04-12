@@ -29,10 +29,6 @@ namespace ma
 		
 		//virtual void FindObjectsIn(const Ray& ray, OUT vector<std::pair<CNode*, float> >& vecObj) const = 0;
 	};
-	
-//	ENGINE_API CullTree*	GetCullTree();
-// 
-// 	ENGINE_API void			SetCullTree(CullTree* pCullTree);	
 }
 
 #endif

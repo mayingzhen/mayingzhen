@@ -3,34 +3,36 @@
 
 namespace ma
 {
-	class Action;
+	class SkelAnimtion;
 	class Skeleton;
 	class PoseModifier;
-	class AnimationObject;
+	class AnimationComponent;
 
-	class AnimationSet : public IAnimationSet
+	class ANIMATION_API AnimationSet : public Object
 	{
 	public:
-		AnimationSet(AnimationObject* pAniPlay,ref_ptr<AnimationSetData> pAniSetData);
+		AnimationSet(ref_ptr<Skeleton> pSkeleton, ref_ptr<AnimationSetData> pAniSetData);
 
-		virtual	IAction*	CreateAction(const char* actionName);
+		~AnimationSet();
 
-		virtual	void		AddAnimClip(const char* pszSkaPath, const char* actionName);
+		virtual	SkelAnimtion*		CreateSkelAnim(const char* actionName);
 
-		virtual IAction*	GetActionByName(const char* pszName);
+		virtual	void				AddAnimClip(const char* pszSkaPath, const char* actionName);
 
-		virtual UINT		GetActionNumber() {return m_arrAction.size();}
+		virtual SkelAnimtion*		GetSkelAnimByName(const char* pszName);
 
-		virtual IAction*	GetActionByIndex(UINT index);
+		virtual UINT				GetSkelAnimNumber() {return m_arrSkelAnim.size();}
 
-		virtual void		RemoveAction(IAction* pAction);
+		virtual SkelAnimtion*		GetSkelAnimByIndex(UINT index);
+
+		virtual void				RemoveSkelAnim(SkelAnimtion* pAction);
 
 	private:
-		std::vector<Action*>		m_arrAction;
+		std::vector<SkelAnimtion*>		m_arrSkelAnim;
 
-		AnimationObject*			m_pAnimObject;
+		ref_ptr<Skeleton>				m_pSkeleton;
 
-		ref_ptr<AnimationSetData>	m_pAniSetData;
+		ref_ptr<AnimationSetData>		m_pAniSetData;
 	};
 }
 

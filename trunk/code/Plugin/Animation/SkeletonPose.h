@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class SkeletonPose
+	class ANIMATION_API SkeletonPose
 	{
 	public:
 		struct DirtyByte

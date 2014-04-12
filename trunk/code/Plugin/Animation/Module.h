@@ -4,10 +4,18 @@
 #include "Animation/Export.h"
 
 #include "Animation/Skeleton.h"
+#include "Animation/SkeletonPose.h"
 #include "Animation/Animation.h"
 #include "Animation/AnimationDataCover.h"
 #include "Animation/AnimationSetData.h"
-#include "Animation/ActionData.h"
+#include "Animation/AnimationSet.h"
+#include "Animation/SkelAnimtionData.h"
+#include "Animation/AnimationTree/AnimTreeNode.h"
+#include "Animation/AnimationTree/AnimClipNode.h"
+#include "Animation/AnimationTree/AnimLayerNode.h"
+#include "Animation/AnimationTree/AnimBlendNode.h"
+#include "Animation/SkelAnimtion.h"
+#include "Animation/AnimationComponent.h"
 
 
 

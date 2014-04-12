@@ -1,9 +1,9 @@
-#include "Animation/AnimationTree/AnimBlendNode.h"
+#include "AnimBlendNode.h"
 
 
 namespace ma
 {
-	IMPL_OBJECT(AnimBlendNode,IAnimBlendNode)
+	IMPL_OBJECT(AnimBlendNode,AnimTreeNode)
 
 	AnimBlendNode::AnimBlendNode()
 	{

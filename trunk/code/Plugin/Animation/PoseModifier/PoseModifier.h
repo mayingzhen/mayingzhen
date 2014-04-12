@@ -15,7 +15,7 @@ namespace ma
 	};
 
 
-	class ANIMATION_API PoseModifier : public IPoseModifier
+	class ANIMATION_API PoseModifier : public Object
 	{
 		DECL_OBJECT(PoseModifier)
 

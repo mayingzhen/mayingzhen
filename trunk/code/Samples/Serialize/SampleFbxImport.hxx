@@ -47,7 +47,7 @@ namespace ma
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 		
 		
-		IAnimationObjectPtr pAnimationObject = pTestBull->CreateComponent<IAnimationObject>();
+		AnimationComponentPtr pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
 		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
 		pAnimationObject->PlayAnimation("TestAnim");
 

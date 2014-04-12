@@ -8,6 +8,7 @@ namespace ma
 		m_pDynamicsWorld = NULL;
 		m_pPhysicsThread = NULL;
 		m_vGravity = btVector3(0,-9.8f,0);
+		m_debugMode = btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawConstraints | btIDebugDraw::DBG_DrawConstraintLimits;
 	}
 
 	void BtPhysicsSystem::Init()
@@ -37,6 +38,7 @@ namespace ma
 		m_pSolver = new btSequentialImpulseConstraintSolver;
 
 		m_pDynamicsWorld = new btDiscreteDynamicsWorld(m_pDispatcher,m_pOverlappingPairCache,m_pSolver,m_pCollisionConfiguration);
+		m_pDynamicsWorld->setDebugDrawer(this);
 
 		m_pDynamicsWorld->setGravity(m_vGravity);
 
@@ -135,10 +137,8 @@ namespace ma
 
 	void BtPhysicsSystem::DebugRender()
 	{
-		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
-		{
-			m_arrPhysicsObject[i]->DebugRender();
-		}
+		if (m_pDynamicsWorld)
+			m_pDynamicsWorld->debugDrawWorld();
 	}
 
 	void BtPhysicsSystem::SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide)
@@ -301,6 +301,21 @@ namespace ma
 		return pHingeJoint;
 	}
 
+	bool BtPhysicsSystem::isVisible(const btVector3& aabbMin, const btVector3& aabbMax)
+	{
+		return true;
+	}
+
+	void BtPhysicsSystem::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+	{
+		Color dcolor(color.getX(),color.getY(),color.getZ(),1.0f);
+		GetLineRender()->DrawLine(ToMaUnit(from),ToMaUnit(to),dcolor);
+	}
+
+	void BtPhysicsSystem::reportErrorWarning(const char* warningString)
+	{
+
+	}
 
 }
 

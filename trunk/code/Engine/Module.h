@@ -38,7 +38,6 @@
 // Entity System
 #include "Engine/EntitySystem/Component.h"
 #include "Engine/EntitySystem/GameObj.h"
-//#include "Engine/EntitySystem/Scene.h"
 #include "Engine/EntitySystem/SceneNode.h"
 #include "Engine/EntitySystem/SceneVisiter.h"
 #include "Engine/EntitySystem/EntitySystem.h"
@@ -62,10 +61,10 @@
 
 
 // Animation
-#include "Engine/Animation/IAnimationObject.h"
-#include "Engine/Animation/IAnimationSystem.h"
-#include "Engine/Animation/IAnimationSet.h"
-#include "Engine/Animation/IAction.h"
+// #include "Engine/Animation/IAnimationObject.h"
+// #include "Engine/Animation/IAnimationSystem.h"
+// #include "Engine/Animation/IAnimationSet.h"
+// #include "Engine/Animation/IAction.h"
 
 
 // UI
@@ -78,6 +77,7 @@
 
 // Thread
 #include "Engine/Thread/Thread.h"
+#include "Engine/Thread/WorkQueue.h"
 
 
 #include "Engine/Profile/CodeTimer.h"

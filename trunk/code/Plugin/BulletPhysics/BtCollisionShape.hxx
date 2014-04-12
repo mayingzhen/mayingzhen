@@ -35,19 +35,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void BulletBoxCollisionShape::DebugRender(NodeTransform tsfWS)
-	{
-		NodeTransform tsfLS = GetTransformLS();
-
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		GetLineRender()->DrawBox(matWS,GetSize(),Color(1,0,0,0));
-	}
-
-
 	BulletSphereCollisionShape::BulletSphereCollisionShape(GameObject* pGameObj)
 		:ISphereCollisionShape(pGameObj)
 	{
@@ -80,20 +67,6 @@ namespace ma
 
 		sl.EndSection();
 	}
-
-
-	void BulletSphereCollisionShape::DebugRender(NodeTransform tsfWS)
-	{
-		NodeTransform tsfLS = GetTransformLS();
-
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		GetLineRender()->DrawWireSphere(matWS,GetRadius(),Color(1,0,0,0));
-	}
-
 
 
 	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape(GameObject* pGameObj)
@@ -142,18 +115,4 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void BulletCapsuleCollisionShape::DebugRender(NodeTransform tsfWS)
-	{
-		NodeTransform tsfLS = GetTransformLS();
-
-		NodeTransform tsfBoxWS;
-		TransformMul(&tsfBoxWS,&tsfWS,&tsfLS);
-		Matrix4x4 matWS;
-		MatrixFromTransform(&matWS,&tsfBoxWS);
-
-		float fRadius = GetRadius();
-		float fHeight = GetHeight();
-		Vector3 boxSize = Vector3(fRadius * 2, fHeight + 2 * fRadius, fRadius * 2);
-		GetLineRender()->DrawBox(matWS,boxSize,Color(1,0,0,0));
-	}
 }

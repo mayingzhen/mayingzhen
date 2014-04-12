@@ -29,7 +29,8 @@ namespace ma
 		float	GetFrameTotalTime()const;
 
 		float	GetFrameDeltaTime()const;
-
+		
+		static void	Sleep(UINT mSec);
 		
 	};
 
