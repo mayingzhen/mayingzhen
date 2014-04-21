@@ -1,0 +1,12 @@
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\ScriptTest.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\ScriptTest.pdb
+E:\work\mydemon_svn\data\Script\ScriptTest\bin\Debug\EngineCSharp.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ResolveAssemblyReference.cache
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ScriptTest.dll
+E:\work\mydemon_svn\data\Script\ScriptTest\obj\Debug\ScriptTest.pdb
+E:\work\mydemon_old\trunk\data\script\scripttest\bin\Debug\ScriptTest.dll
+E:\work\mydemon_old\trunk\data\script\scripttest\bin\Debug\ScriptTest.pdb
+E:\work\mydemon_old\trunk\data\script\scripttest\bin\Debug\EngineCSharp.dll
+E:\work\mydemon_old\trunk\data\script\scripttest\obj\Debug\ResolveAssemblyReference.cache
+E:\work\mydemon_old\trunk\data\script\scripttest\obj\Debug\ScriptTest.dll
+E:\work\mydemon_old\trunk\data\script\scripttest\obj\Debug\ScriptTest.pdb
