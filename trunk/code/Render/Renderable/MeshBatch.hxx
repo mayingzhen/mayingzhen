@@ -54,7 +54,7 @@ namespace ma
 
 			if (!Resize(m_nCapacity + m_nGrowSize))
 				return; // failed to grow
-
+	
 		}
 	    
 		// Copy vertex data.

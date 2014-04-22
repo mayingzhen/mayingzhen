@@ -125,10 +125,7 @@ namespace ma
 		setSpriteFrameCoords( pTexture->getWidth(), pTexture->getHeight());
 
 		GetStateBlock().m_eBlendMode = info.m_eTextureBlending;
-
-// 		m_pMaterial = new Material();
-// 		m_pMaterial->AddTechnique(m_pTechnique);
-// 		m_pMaterial = m_pMaterial;
+		GetStateBlock().m_bDepthWrite = false;
 	}
 
 

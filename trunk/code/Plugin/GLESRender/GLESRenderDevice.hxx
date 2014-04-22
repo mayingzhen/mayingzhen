@@ -228,7 +228,7 @@ namespace ma
 
 		case BM_ADD:
 			GL_ASSERT( glEnable(GL_BLEND) );
-			GL_ASSERT( glBlendFunc(GL_ONE, GL_ONE) );
+			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
 			break;
 
 		case BM_MULTIPLY:
