@@ -7,7 +7,7 @@ namespace ma
 	{
 		SkelAnimtion* CreateAction(const char* pszAnimPath,Skeleton* pSkeleton,const char* pszActionName)	
 		{
-			ref_ptr<Animation> pAnimation = DeclareResource<Animation>(pszAnimPath);
+			RefPtr<Animation> pAnimation = DeclareResource<Animation>(pszAnimPath);
 			pAnimation->LoadSync();
 
 			AnimationClip* pAnimationInst = new AnimationClip(pAnimation,pSkeleton);

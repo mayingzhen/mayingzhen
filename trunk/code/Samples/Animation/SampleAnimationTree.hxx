@@ -20,7 +20,7 @@ namespace ma
 	{
 		GetInput()->AddKeyListener(this);
 
-		GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("magician");
+		SceneNodePtr pGameObj =  m_pScene->CreateNode("magician");
 
 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");

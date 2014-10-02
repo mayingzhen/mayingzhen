@@ -21,6 +21,9 @@
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
 
+#include "Samples/Serialize/SampleS3Import.hxx"
+#include "S3Serialize/Module.h"
+
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"
@@ -30,47 +33,51 @@
 
 namespace ma
 {
-	//static SampleBrowser __sampleBrowser("SampleBrowser");
-
 	SampleBrowser* GetSampleBrowser()
 	{
 		return (SampleBrowser*)&Game::GetInstance();
 	}
 
+
 	SampleBrowser::SampleBrowser(const char* pGameName)
 		:Game(pGameName)
+	{
+		m_bPause = false;
+		m_bStepOneFrame = false;
+
+		m_pSystems = NULL;
+	}
+
+	void SampleBrowser::InitSampleList()
 	{
 #if PLATFORM_WIN == 1
 		m_arrSamples["FbxImport"] = new SampleFbxImport();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
-		
+
 		m_arrSamples["Lighting"] = new SampleLighting();
 		m_arrSamples["ShadowMap"] = new SampleShadowMap();
 #endif
 
 		m_arrSamples["Terrain"] = new SampleTerrain();
-
 		m_arrSamples["Particle"] = new SampleParticle();
 
+		// Serialize
 		m_arrSamples["SceneSerialize"] = new SampleSceneSerialize();
-		
+
 		// Physics
 		m_arrSamples["RigidBody"] = new SampleRigidBody();
-		m_arrSamples["CharControl"] = new SampleCharaControl();
+		//m_arrSamples["CharControl"] = new SampleCharaControl();
 		m_arrSamples["PhysicsJoint"] = new SampleJoint();
 		m_arrSamples["Ragdoll"] = new SampleRagdoll();
-		
+
 		// Animation
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		m_pCurSample = m_arrSamples["AnimationRetarget"];
+		m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		m_bPause = false;
-		m_bStepOneFrame = false;
-
-		m_pSystems = new Systems();
+		m_pCurSample = m_arrSamples["SceneSerialize"];
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -78,8 +85,8 @@ namespace ma
 #if PLATFORM_WIN == 1
 		char pszPath[MAX_PATH] = {0};
 		
-		GetFullPathName("../../data/data.zip",MAX_PATH,pszPath,NULL);
-		GetArchiveMananger()->AddArchive( CreateZipArchive(pszPath).get() );
+// 		GetFullPathName("../../data/data.zip",MAX_PATH,pszPath,NULL);
+// 		GetArchiveMananger()->AddArchive( CreateZipArchive(pszPath).get() );
 		
  		GetFullPathName("../../data",MAX_PATH,pszPath,NULL);
  		GetArchiveMananger()->AddArchive( CreateFileArchive(pszPath).get() );
@@ -120,9 +127,9 @@ namespace ma
 		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( configPath.c_str() );
 		
 		TiXmlDocument doc;
-		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
-		ASSERT(bLoadOK);
-		if (!bLoadOK)
+		const char* pszLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
+		ASSERT(pszLoadOK);
+		if (!pszLoadOK)
 			return;
 
 		TiXmlElement* pRootElem = doc.RootElement();
@@ -192,15 +199,18 @@ namespace ma
 
 		LoadPlugin();
 
+		m_pSystems = new Systems();
 		m_pSystems->Init();
-	
+		
+		InitSampleList();
+
 		GetInput()->AddKeyListener(this);
 
 		m_pCameraControl = new CameraController( GetCamera() );
 		
 		ResetCamera();
 
-		LoadUI();
+		//LoadUI();
 
 		if (m_pCurSample)
 		{
@@ -212,18 +222,16 @@ namespace ma
 
 	void SampleBrowser::ResetCamera()
 	{
-		Vector3 vEyePos = Vector3(0, 200, 300);
-		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		Camera* pCamera = GetCamera();
+		pCamera->GetSceneNode()->LookAt(Vector3(0, -300, 200), Vector3(0,0,0));
 
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-		float fFOV = PI / 4;
+		float fFOV = Math::PI / 4;
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 1.0f;
 		float fFarClip = 20000.0f;
-		GetCamera()->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+		pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
 	}
 
@@ -240,12 +248,16 @@ namespace ma
 
 			ResetCamera();
 
- 			GetEntitySystem()->Reset();
+ 			m_pCurSample->GetScene()->Reset();
 
 			m_pSystems->Stop();
 		}
-
+		
+	
 		Sample* pSameple = it->second;
+
+		//m_pSystems->SetCurScene(pSameple->GetScene());
+
 		pSameple->Load();
 		m_pCurSample = pSameple;
 
@@ -309,14 +321,12 @@ namespace ma
 					
 		if (m_pCurSample)
 			m_pCurSample->Update();
-
-
-		
+	
 	}
 
 	Camera*	SampleBrowser::GetCamera()
 	{
-		return  GetRenderSystem()->GetMainCamera().get();
+		return  GetRenderSystem()->GetView(0)->GetCamera();
 	}
 
 	void SampleBrowser::Render()
@@ -331,7 +341,7 @@ namespace ma
 		{
 			char buffer[MAX_PATH];
 			sprintf(buffer, "%u", (UINT)(1.0f / GetTimer()->GetFrameDeltaTime()) );
-			GetStringRender()->DrawScreenString(buffer,500,1,Vector4(1,1,1,1));
+			GetStringRender()->DrawScreenString(buffer,500,1,ColourValue::White);
 		}
 
 		if (GetPhysicsSystem())

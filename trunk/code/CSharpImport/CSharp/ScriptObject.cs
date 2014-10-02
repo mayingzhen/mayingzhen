@@ -5,17 +5,12 @@ using System.Runtime.InteropServices;
 public class ScriptBase 
 {
     private IntPtr m_scriptObjPtr;
-    private IntPtr m_gameObjPtr;
+    private IntPtr m_sceneNodePtr;
 
-    public GameObject m_gameObj
+    public SceneNode m_sceneNode
 	{
-        get { return new GameObject(m_gameObjPtr, false); }
+        get { return new SceneNode(m_sceneNodePtr, false); }
 	}
-
-    public SceneNode m_node
-    {
-        get { return m_gameObj.GetSceneNode(); }
-    }
 
 
     public Input  m_input
@@ -28,9 +23,9 @@ public class ScriptBase
         EngineInternal.AddCollisionListener(m_scriptObjPtr.ToInt32(),0);
     }
 
-    public void AddCollisionListener(GameObject gameObj)
+    public void AddCollisionListener(SceneNode gameObj)
     {
-        HandleRef handle = GameObject.getCPtr(gameObj);
+        HandleRef handle = SceneNode.getCPtr(gameObj);
         IntPtr gamePtr = HandleRef.ToIntPtr(handle);
         EngineInternal.AddCollisionListener(m_scriptObjPtr.ToInt32(), gamePtr.ToInt32());
     }
@@ -40,21 +35,21 @@ public class ScriptBase
         EngineInternal.RemoveCollisionListener(m_scriptObjPtr.ToInt32(),0);
     }
 
-    public void RemoveCollisionListener(GameObject gameObj)
+    public void RemoveCollisionListener(SceneNode gameObj)
     {
-        HandleRef handle = GameObject.getCPtr(gameObj);
+        HandleRef handle = SceneNode.getCPtr(gameObj);
         IntPtr gamePtr = HandleRef.ToIntPtr(handle);
         EngineInternal.RemoveCollisionListener(m_scriptObjPtr.ToInt32(),gamePtr.ToInt32()); 
     }
 
     public ScriptBase GetScript(string name)
 	{
-        return EngineInternal.MonoGameObject_GetScript(m_gameObjPtr.ToInt32(), name);
+        return EngineInternal.MonoGameObject_GetScript(m_sceneNodePtr.ToInt32(), name);
 	}
 
-    public ScriptBase GetScript(GameObject gameObj, string name)
+    public ScriptBase GetScript(SceneNode gameObj, string name)
     {
-		HandleRef handle = GameObject.getCPtr(gameObj);
+        HandleRef handle = SceneNode.getCPtr(gameObj);
         IntPtr gamePtr = HandleRef.ToIntPtr(handle);
         return EngineInternal.MonoGameObject_GetScript(gamePtr.ToInt32(), name);
     }
@@ -63,7 +58,7 @@ public class ScriptBase
     public void SetGameObjPtr(IntPtr cPtr)
     {
         maEngine.Log(".......SetGameObjPtr.....");
-        m_gameObjPtr = cPtr;
+        m_sceneNodePtr = cPtr;
     }
 
     public void SetScriptObjPtr(IntPtr cPtr)

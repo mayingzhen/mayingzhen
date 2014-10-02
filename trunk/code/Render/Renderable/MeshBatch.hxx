@@ -25,7 +25,7 @@ namespace ma
 			Resize(initialCapacity);
 		}
 
-		m_pSubMeshData = new SubMeshData;
+		m_pSubMeshData = new SubMeshData();
 	}
 
 	MeshBatch::~MeshBatch()
@@ -174,11 +174,11 @@ namespace ma
 
 		// Copy old data back in
 		if (oldVertices)
-			memcpy(newVertices, oldVertices, Min(m_nVertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
+			memcpy(newVertices, oldVertices, Math::Min(m_nVertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
 		SAFE_DELETE_ARRAY(oldVertices);
 
 		if (oldIndices)
-			memcpy(newIndices, oldIndices, Min(m_nIndexCapacity, indexCapacity) * sizeof(unsigned short));
+			memcpy(newIndices, oldIndices, Math::Min(m_nIndexCapacity, indexCapacity) * sizeof(unsigned short));
 		SAFE_DELETE_ARRAY(oldIndices);
 
 		// Assign new capacities

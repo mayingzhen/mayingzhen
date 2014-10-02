@@ -3,18 +3,17 @@
 
 namespace ma
 {
+	class Terrain;
+
 	class TerrainSection : public RenderComponent
 	{
 		DECL_OBJECT(TerrainSection)
 
 	public:
-		TerrainSection(GameObject* pGameObj);
+		TerrainSection(Terrain* pTerrain);
 
 		~TerrainSection();
 
-		virtual UINT		GetRenderableNumber() {return 1;}
-
-		virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pRenderable.get();}
 
 		virtual	void		Update();
 
@@ -23,10 +22,6 @@ namespace ma
 		virtual Material*	GetMaterial();
 
 		virtual void		SetMaterial(Material* pMaterial);
-
-		virtual AABB		GetAABBWS();
-
-		//virtual void		SetWorldMatrix(const Matrix4x4& matWS);
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "TerrainSection");
 
@@ -58,7 +53,9 @@ namespace ma
 
 		RenderablePtr	m_pRenderable;
 
-		AABB			m_WorldAABB;
+		//AABB			m_WorldAABB;
+
+		Terrain*		m_pParent;
 
 	};
 

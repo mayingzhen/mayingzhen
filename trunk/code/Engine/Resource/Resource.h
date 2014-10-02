@@ -27,8 +27,6 @@ namespace ma
 
 		virtual void	LoadSync();
 
-		virtual void	LoadAsync();
-
 		virtual void	SaveToFile(const char* pszPath);
 
 		const char*		GetResPath() const {return m_sResPath.c_str();}
@@ -44,12 +42,10 @@ namespace ma
 	protected:
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
 
-		//MemoryStream*	GetMemoryStream() {return m_pDataStream;}
-
 	protected:
 		std::string				m_sResPath;
 		ResState				m_eResState;
-		ref_ptr<MemoryStream>	m_pDataStream;
+		RefPtr<MemoryStream>	m_pDataStream;			
 	};
 
 	DeclareRefPtr(Resource);

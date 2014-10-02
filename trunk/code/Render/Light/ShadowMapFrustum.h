@@ -11,17 +11,17 @@ namespace ma
 		
 		~ShadowMapFrustum();
 		
-		void				SetViewMatrix(const Matrix4x4& matView); 
+		void				SetViewMatrix(const Matrix4& matView); 
 
-		void				SetProjMatrix(const Matrix4x4& matPoj); 
+		void				SetProjMatrix(const Matrix4& matPoj); 
 
-		const Matrix4x4&	GetViewMarix();  
+		const Matrix4&	GetViewMarix();  
 
-		const Matrix4x4&	GetProjMatrix(); 
+		const Matrix4&	GetProjMatrix(); 
 
-		const Matrix4x4&	GetViewProjMatrix();
+		const Matrix4&	GetViewProjMatrix();
 
-		const Matrix4x4&	GetTexScaleBiasMat() {return m_TexScaleBiasMat;}
+		const Matrix4&	GetTexScaleBiasMat() {return m_TexScaleBiasMat;}
 
 		void				RenderShadowMap();
 
@@ -38,7 +38,7 @@ namespace ma
 
 		MatViewProj					m_matViewProj[2];
 
-		Matrix4x4					m_TexScaleBiasMat;
+		Matrix4					m_TexScaleBiasMat;
 
 		Light*						m_pLight; 
 		

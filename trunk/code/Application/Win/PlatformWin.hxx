@@ -3,7 +3,6 @@
 #include <shellapi.h>
 
 
-
 namespace ma
 {
 
@@ -21,7 +20,6 @@ namespace ma
 			return 0;
 
 		case WM_DESTROY:
-			//ApplicationBase::shutdownInternal();
 			Game::GetInstance().Shutdown();
 			PostQuitMessage(0);
 			return 0;

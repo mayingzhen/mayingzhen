@@ -2,15 +2,12 @@
 
 namespace ma
 {
-	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(GameObject* pGameObj)
+	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(SceneNode* pGameObj)
 		:IPhysicsGenericJoint(pGameObj)
 	{
-		m_pPhyObjA = (BulletPhysicsObject*)pGameObj->GetPhyscisObject();
 		m_pPhyObjB = NULL;
 		m_pConstraint = NULL;
 		m_bEnabled = true;
-		TransformSetIdentity(&m_AtsfLS);
-		TransformSetIdentity(&m_BtsfLS);
 
 		m_vAngularLowerLimit = Vector3(0,0,0);
 		m_vAngularUpperLimit = Vector3(0,0,0);
@@ -63,23 +60,21 @@ namespace ma
 		}
 	}
 
-	btRigidBody*	GetbtRigidBody(BulletPhysicsObject* pPhyObj)
+	btRigidBody* GetbtRigidBody(SceneNode* pPhyObj)
 	{
-		//ASSERT(pPhyObj && pPhyObj->GetbtCollisionObject());
-		if (pPhyObj == NULL || pPhyObj->GetbtCollisionObject() == NULL)
+		if (pPhyObj == NULL)
 			return NULL;
 
-		btRigidBody* pRigidBody = btRigidBody::upcast(pPhyObj->GetbtCollisionObject());
-		ASSERT(pRigidBody);
+		BulletRigidBody* pRigidBody = pPhyObj->GetTypeComponent<BulletRigidBody>();
 		if (pRigidBody == NULL)
 			return NULL;
 
-		return pRigidBody;
+		return pRigidBody->GetbtRigidBody();
 	}
 
 	void	BulletPhysicsGenericJoint::Start()
 	{
-		btRigidBody* pRigidBodyA = GetbtRigidBody(m_pPhyObjA);
+		btRigidBody* pRigidBodyA = GetbtRigidBody(m_pSceneNode);
 		btRigidBody* pRigidBodyB = GetbtRigidBody(m_pPhyObjB);
 		ASSERT(pRigidBodyA);
 		if (pRigidBodyA == NULL)
@@ -116,12 +111,10 @@ namespace ma
 
 	}
 
-	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(GameObject* pGameObj)
+	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(SceneNode* pGameObj)
 		:IPhysicsHingeJoint(pGameObj)
 	{
-		m_pPhyObjA = (BulletPhysicsObject*)pGameObj->GetPhyscisObject();
 		m_pConstraint = NULL;
-		m_pPhyObjA = NULL;
 		m_pPhyObjB = NULL;
 	}
 

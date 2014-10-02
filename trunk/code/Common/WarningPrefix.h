@@ -7,6 +7,7 @@
 #   pragma warning( disable : 4996)
 #   pragma warning( disable : 4244)
 #   pragma warning( disable : 4275)
+#	pragma warning(	disable : 4305)
 
 
 

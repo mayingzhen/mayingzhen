@@ -12,13 +12,12 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 20, 30);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
-		GameObjectPtr pFire = GetEntitySystem()->CreateGameObject("Fire");
-		ParticleEmitterPtr pPaticComp = pFire->CreateComponent<ParticleEmitter>();
-		pPaticComp->Load("Particle/fire.particle");
-		pPaticComp->Start();
+// 		SceneNodePtr pFire = GetEntitySystem()->CreateGameObject("Fire");
+// 		ParticleEmitterPtr pPaticComp = pFire->CreateComponent<ParticleEmitter>();
+// 		pPaticComp->Load("Particle/fire.particle");
+// 		pPaticComp->Start();
 	}
 
 	void SampleParticle::UnLoad()

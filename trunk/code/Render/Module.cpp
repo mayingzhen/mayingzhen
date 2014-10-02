@@ -10,15 +10,16 @@
 #include "Render/Renderable/Renderable.hxx"
 #include "Render/Renderable/MeshBatch.hxx"
 #include "Render/Renderable/SpriteBatch.hxx"
-#include "Render/Renderable/RenderComponent.hxx"
 #include "Render/Renderable/MeshComponent.hxx"
 #include "Render/Renderable/MeshData.hxx"
 #include "Render/Renderable/Util.hxx"
 
+#include "Render/RenderSystem/FrustumCullQuery.hxx"
 #include "Render/RenderSystem/RenderSystem.hxx"
 #include "Render/RenderSystem/RenderThread.hxx"
 #include "Render/RenderSystem/RenderQueue.hxx"
 #include "Render/RenderSystem/Camera.hxx"
+#include "Render/RenderSystem/RenderView.hxx"
 
 #include "Render/Particle/ParticleBatch.hxx"
 #include "Render/Particle/ParticleEmitter.hxx"
@@ -84,8 +85,8 @@ void RenderModuleInit()
 	ParticleSystem* pParticleMang = new ParticleSystem();
 	SetParticleSystem(pParticleMang);
 
-	Terrain* pTerrain = new Terrain();
-	SetTerrain(pTerrain);
+// 	Terrain* pTerrain = new Terrain();
+// 	SetTerrain(pTerrain);
 
 	LightSystem* pLightSystem = new LightSystem();
 	SetLightSystem(pLightSystem);
@@ -93,9 +94,9 @@ void RenderModuleInit()
 
 void RenderModuleShutdown()
 {
-	Terrain* pTerrain = (Terrain*)GetTerrain();
-	SAFE_DELETE(pTerrain);
-	SetTerrain(NULL);
+// 	Terrain* pTerrain = (Terrain*)GetTerrain();
+// 	SAFE_DELETE(pTerrain);
+// 	SetTerrain(NULL);
 
 	RenderSystem* pRenderSystem = GetRenderSystem();
 	SAFE_DELETE(pRenderSystem);

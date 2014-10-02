@@ -78,21 +78,19 @@ namespace ma
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 
-		SubMeshData*			GetSubMeshByIndex(UINT index) {return m_arrSubMesh[index].get();}
+		SubMeshDataPtr			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index];} 
 
-		IndexBuffer*			GetIndexBuffer() {return m_pIndexBuffer.get();}
+		IndexBufferPtr			GetIndexBuffer() const {return m_pIndexBuffer;} 
 
-		VertexBuffer*			GetVertexBuffer() {return m_pVertexBuffer.get();}
+		VertexBufferPtr			GetVertexBuffer() const {return m_pVertexBuffer;} 
 
-		VertexDeclaration*		GetVertexDeclar() {return m_pDeclaration.get();}
+		VertexDeclarationPtr	GetVertexDeclar() const {return m_pDeclaration;}
 
-		AABB					GetBoundingAABB() {return m_meshBound;}
+		AABB					GetBoundingAABB() const {return m_meshBound;} 
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
 	private:
-		bool					InitRendable();
-
 		int						GetVertexStride();
 
 	public:

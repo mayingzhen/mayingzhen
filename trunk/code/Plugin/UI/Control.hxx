@@ -362,7 +362,7 @@ const Rectangle& Control::getSkinRegion(State state) const
     return overlay->getSkinRegion();
 }
 
-void Control::setSkinColor(const Vector4& color, unsigned char states)
+void Control::setSkinColor(const ColourValue& color, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -376,7 +376,7 @@ void Control::setSkinColor(const Vector4& color, unsigned char states)
     _dirty = true;
 }
 
-const Vector4& Control::getSkinColor(State state) const
+const ColourValue& Control::getSkinColor(State state) const
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     ASSERT(overlay);
@@ -432,7 +432,7 @@ const Rectangle& Control::getImageRegion(const char* id, State state) const
     return overlay->getImageRegion(id);
 }
 
-void Control::setImageColor(const char* id, const Vector4& color, unsigned char states)
+void Control::setImageColor(const char* id, const ColourValue& color, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -446,7 +446,7 @@ void Control::setImageColor(const char* id, const Vector4& color, unsigned char 
     _dirty = true;
 }
 
-const Vector4& Control::getImageColor(const char* id, State state) const
+const ColourValue& Control::getImageColor(const char* id, State state) const
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     ASSERT(overlay);
@@ -481,7 +481,7 @@ const Rectangle& Control::getCursorRegion(State state) const
     return overlay->getCursorRegion();
 }
 
-void Control::setCursorColor(const Vector4& color, unsigned char states)
+void Control::setCursorColor(const ColourValue& color, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -495,7 +495,7 @@ void Control::setCursorColor(const Vector4& color, unsigned char states)
     _dirty = true;
 }
 
-const Vector4& Control::getCursorColor(State state)
+const ColourValue& Control::getCursorColor(State state)
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     ASSERT(overlay);
@@ -551,7 +551,7 @@ unsigned int Control::getFontSize(State state) const
     return overlay->getFontSize();
 }
 
-void Control::setTextColor(const Vector4& color, unsigned char states)
+void Control::setTextColor(const ColourValue& color, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -565,7 +565,7 @@ void Control::setTextColor(const Vector4& color, unsigned char states)
     _dirty = true;
 }
 
-const Vector4& Control::getTextColor(State state) const
+const ColourValue& Control::getTextColor(State state) const
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     ASSERT(overlay);
@@ -1028,7 +1028,7 @@ void Control::update(const Control* container, const Vector2& offset)
 
     width += border.left + padding.left + border.right + padding.right;
     height += border.top + padding.top + border.bottom + padding.bottom;
-    _absoluteClipBounds.set(x - border.left - padding.left, y - border.top - padding.top, Max(width, 0.0f), Max(height, 0.0f));
+    _absoluteClipBounds.set(x - border.left - padding.left, y - border.top - padding.top, Math::Max(width, 0.0f), Math::Max(height, 0.0f));
     if (_clearBounds.isEmpty())
     {
         _clearBounds.set(_absoluteClipBounds);
@@ -1060,8 +1060,8 @@ void Control::drawBorder(SpriteBatch* spriteBatch, const Rectangle& clip)
     // Calculate screen-space positions.
     const Theme::Border& border = getBorder(_state);
     const Theme::Padding& padding = getPadding();
-    Vector4 skinColor = _skin->getColor();
-    skinColor.w *= _opacity;
+    ColourValue skinColor = _skin->getColor();
+    skinColor.a *= _opacity;
 
     float midWidth = _bounds.width - border.left - border.right;
     float midHeight = _bounds.height - border.top - border.bottom;
@@ -1406,7 +1406,7 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
 
     if (properties->exists("textColor"))
     {
-        Vector4 textColor(0, 0, 0, 1);
+        ColourValue textColor(0, 0, 0, 1);
         properties->getColor("textColor", &textColor);
         setTextColor(textColor, states);
     }

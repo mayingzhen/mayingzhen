@@ -7,7 +7,7 @@ namespace ma
 
 	inline void WrapFrameClamp(float& frame,float maxFrame)
 	{
-		frame = Clamp(frame,0.0f,maxFrame);
+		frame = Math::Clamp(frame,0.0f,maxFrame);
 	}
 
 	inline void DecomposeFrame( float frame,const std::vector<UINT>& keyFrame,UINT& key0,UINT& key1,float& factor )
@@ -267,8 +267,7 @@ namespace ma
 		float factor; 
 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
-		Vec3Lerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
-
+		val = Math::Lerp(m_arrValue[key0],m_arrValue[key1],factor);
 	}
 
 	inline void	Vector3Track::DbgDump() const
@@ -362,11 +361,7 @@ namespace ma
 		UINT key1;
 		float factor; 
 		DecomposeFrame(frame,m_arrFrame,key0,key1,factor);
-//#ifdef _TRACK_SAMPLE_USE_SLERP
-		//QuaternionSlerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
-//#else
-		QuaternionLerp(&val,&m_arrValue[key0],&m_arrValue[key1],factor);
-//#endif
+		val = Quaternion::Slerp(factor,m_arrValue[key0],m_arrValue[key1],true);
 	}
 
 	inline void	QuaternionTrack::DbgDump() const

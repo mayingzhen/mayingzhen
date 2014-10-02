@@ -7,13 +7,14 @@ namespace ma
 
 #define  DECL_CollisionShape \
 	public : \
-		virtual NodeTransform	GetTransformLS() {return m_tsfLS;} \
-		virtual void			SetTransformLS(const NodeTransform& tsfLS)\
+		virtual Transform	GetTransformLS() {return m_tsfLS;} \
+		virtual void			SetTransformLS(const Transform& tsfLS)\
 		{\
 			m_tsfLS = tsfLS;\
 		}\
-	private: \
-		NodeTransform	m_tsfLS;\
+	protected: \
+		Transform			m_tsfLS;\
+		btCollisionShape*	m_pBtShape; \
     private: 
 
 	class BulletBoxCollisionShape : public IBoxCollisionShape
@@ -21,7 +22,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletBoxCollisionShape(GameObject* pGameObj);
+		BulletBoxCollisionShape(SceneNode* pGameObj);
 
 		~BulletBoxCollisionShape();
 
@@ -30,6 +31,8 @@ namespace ma
 		virtual	Vector3			GetSize(); 
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "IBoxCollisionShape");
+
+		virtual	void*			Create();
 
 	private:
 
@@ -42,7 +45,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletSphereCollisionShape(GameObject* pGameObj);
+		BulletSphereCollisionShape(SceneNode* pGameObj);
 
 		~BulletSphereCollisionShape();
 
@@ -51,6 +54,8 @@ namespace ma
 		virtual	float			GetRadius(); 
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "ISphereCollisionShape");
+		
+		virtual	void*			Create();
 
 	private:
 
@@ -62,7 +67,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:
-		BulletCapsuleCollisionShape(GameObject* pGameObj);	
+		BulletCapsuleCollisionShape(SceneNode* pGameObj);	
 
 		~BulletCapsuleCollisionShape();
 
@@ -76,10 +81,46 @@ namespace ma
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "ICapsuleCollisionShape");
 
+		virtual	void*			Create();
+
 	private:
 		float					m_fHeight;
 		float					m_fRadius;
-	};		
+	};	
+
+	class BulletCollisionMaterial : public ICollisionMaterial
+	{
+		DECL_OBJECT(BulletCollisionMaterial)
+
+	public:
+		BulletCollisionMaterial(SceneNode* pGameObj);
+
+		virtual void			SetCollLayer(int nLayer) {m_nCollLayer = nLayer;}
+
+		virtual	int				GetCollLayer() {return m_nCollLayer;}
+
+		virtual	void			SetFriction(float fFriction) {m_friction = fFriction;}
+
+		virtual	float			GetFriction() {return m_friction;}
+
+		virtual void			SetRestitution(float fRestitution) {m_restitution = fRestitution;}
+
+		virtual float			GetRestitution() {return m_restitution;}
+
+		virtual void			SetRollingFriction(float fRollingFriction) {m_rollingFriction = fRollingFriction;}
+
+		virtual float			GetRollingFriction() {return m_rollingFriction;}
+		
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "ICollisionMaterial");
+
+		void					Start(btCollisionObject* pBtCollObject);
+
+	private:
+		int						m_nCollLayer;
+		float					m_friction;
+		float					m_restitution;
+		float					m_rollingFriction;
+	};
 
 }
 

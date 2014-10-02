@@ -5,24 +5,6 @@ namespace ma
 {
 	class ClassField 
 	{
-		union Value
-		{
-			float           m_fFloat;
-			int             m_iInt;
-			UINT			m_uInt;
-			//Vector3			m_vVector3;
-			float			m_vVector3[3];
-		};
-
-		enum Type
-		{
-			NONE_TYPE,
-			FLOAT_TYPE,
-			INT_TYPE,
-			VECTOR3_TYPE,
-		};
-
-
 	public:
 		ClassField();
 
@@ -47,17 +29,11 @@ namespace ma
 		const char* GetFieldName() {return m_strName.c_str();}
 
 		ClassField* Clone();
-
-	private:
-		std::string ToStringType(Type eType);
-		Type		ToEType(std::string stType);
-		Type		ToEType(MonoType* pMonoType);
 			
 	private:
 
-		std::string			m_strName;
-		Type				m_eType;
-		Value				m_value;		
+		std::string			m_strName;	
+		Any					m_anyValue;
 		MonoClassField*		m_pMonoField;
 		MonoObject*			m_pMonoObject;
 	};

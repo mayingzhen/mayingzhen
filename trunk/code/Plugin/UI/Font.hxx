@@ -148,7 +148,7 @@ void Font::start()
     _batch->Reset();
 }
 
-Font::Text* Font::createText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size, Justify justify,
+Font::Text* Font::createText(const char* text, const Rectangle& area, const ColourValue& color, unsigned int size, Justify justify,
     bool wrap, bool rightToLeft, const Rectangle* clip)
 {
     ASSERT(text);
@@ -386,7 +386,7 @@ void Font::drawText(Text* text)
     _batch->Draw(text->_vertices, text->_vertexCount, text->_indices, text->_indexCount);
 }
 
-void Font::drawText(const char* text, int x, int y, const Vector4& color, unsigned int size, bool rightToLeft)
+void Font::drawText(const char* text, int x, int y, const ColourValue& color, unsigned int size, bool rightToLeft)
 {
     if (size == 0)
         size = _size;
@@ -508,10 +508,10 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
 
 void Font::drawText(const char* text, int x, int y, float red, float green, float blue, float alpha, unsigned int size, bool rightToLeft)
 {
-    drawText(text, x, y, Vector4(red, green, blue, alpha), size, rightToLeft);
+    drawText(text, x, y, ColourValue(red, green, blue, alpha), size, rightToLeft);
 }
 
-void Font::drawText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip)
+void Font::drawText(const char* text, const Rectangle& area, const ColourValue& color, unsigned int size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip)
 {
     ASSERT(text);
 

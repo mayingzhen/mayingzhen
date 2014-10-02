@@ -36,58 +36,39 @@ namespace ma
 			m_arrDirtyByte[uBoneCnt].m_bOSDirty = false;
 			m_arrDirtyByte[uBoneCnt].m_bPSDirty = false;
 			m_arrParentIndice[uBoneCnt] = arrParentIndice[uBoneCnt];
-			TransformSetIdentity(&m_arrTSF_OS[uBoneCnt]);
-			TransformSetIdentity(&m_arrTSF_PS[uBoneCnt]);
 		}
 
 		m_bPSSynced = true;
 		m_bOSSynced = true;
 	}
 
-	void SkeletonPose::InitParentSpace(const std::vector<NodeTransform>& arrTSF_PS, const std::vector<BoneIndex>& arrParentIndice)
+	void SkeletonPose::InitParentSpace(const std::vector<Transform>& arrTSF_PS, const std::vector<BoneIndex>& arrParentIndice)
 	{
 		InitWithParentIndice(arrParentIndice);
 		SetTransformPSAll(arrTSF_PS);
 	}
 
-	void SkeletonPose::InitObjectSpace(const std::vector<NodeTransform>& arrTSF_OS, const std::vector<BoneIndex>& arrParentIndice)
+	void SkeletonPose::InitObjectSpace(const std::vector<Transform>& arrTSF_OS, const std::vector<BoneIndex>& arrParentIndice)
 	{
 		InitWithParentIndice(arrParentIndice);
 		SetTransformOSAll(arrTSF_OS);
 	}
 
-	// void SkeletonPose::InitLocalSpace(const std::vector<NodeTransform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice)
-	// {
-	// 
-	// }
-// 	void  TransformMulLocalScale(NodeTransform* pOut,const NodeTransform* pTSFA,const NodeTransform* pTSFB)
-// 	{
-// 		Vector3 vOPos = pTSFA->m_vPos*pTSFB->m_fScale;
-// 		QuaternionTransformVector(&vOPos,&vOPos,&pTSFB->m_qRot);
-// 		pOut->m_vPos = vOPos + pTSFB->m_vPos;
-// 
-// 		QuaternionMultiply(&pOut->m_qRot,&pTSFA->m_qRot,&pTSFB->m_qRot);
-// 
-// 		pOut->m_fScale = pTSFA->m_fScale * pTSFB->m_fScale; 
-// 
-// 		//Vec3Mul(&pOut->m_vLocalScale,&pTSFA->m_vLocalScale,&pTSFB->m_vLocalScale);
-// 
-// 	}
 
-	void SkeletonPose::InitLocalSpace(const std::vector<NodeTransform>& arrTSF_LS,const SkeletonPose* pRefPose)
+	void SkeletonPose::InitLocalSpace(const std::vector<Transform>& arrTSF_LS,const SkeletonPose* pRefPose)
 	{
-		std::vector<NodeTransform> arrTSF_PS;
+		std::vector<Transform> arrTSF_PS;
 		const UINT nBoneNum = pRefPose->GetNodeNumber();
 		arrTSF_PS.resize(nBoneNum);
 
 		for (UINT nBoneCnt = 0; nBoneCnt < nBoneNum; ++nBoneCnt)
 		{
-			TransformMulLocalScale(&arrTSF_PS[nBoneCnt],&arrTSF_LS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt));
+			TransformMul(&arrTSF_PS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt),&arrTSF_LS[nBoneCnt]);
 		}
 		SetTransformPSAll(arrTSF_PS);
 	}
 
-	void SkeletonPose::SetTransformPSAll(const std::vector<NodeTransform>& arrTSF_PS)
+	void SkeletonPose::SetTransformPSAll(const std::vector<Transform>& arrTSF_PS)
 	{
 		ASSERT(arrTSF_PS.size() == m_arrParentIndice.size());
 		UINT uBoneNum = m_arrParentIndice.size();
@@ -99,9 +80,9 @@ namespace ma
 			m_arrTSF_PS[uBoneCnt] = arrTSF_PS[uBoneCnt];
 
 			BoneIndex nParentInd = m_arrParentIndice[uBoneCnt];
-			if ( IsValidID(nParentInd) )
+			if ( Math::IsValidID(nParentInd) )
 			{
-				TransformMul(&m_arrTSF_OS[uBoneCnt],&arrTSF_PS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
+				TransformMul(&m_arrTSF_OS[uBoneCnt],&m_arrTSF_OS[nParentInd],&arrTSF_PS[uBoneCnt]);
 			}	
 			else 
 			{
@@ -113,7 +94,7 @@ namespace ma
 		m_bOSSynced = true;
 	}
 
-	void SkeletonPose::SetTransformOSAll(const std::vector<NodeTransform>& arrTSF_OS)
+	void SkeletonPose::SetTransformOSAll(const std::vector<Transform>& arrTSF_OS)
 	{
 		ASSERT(arrTSF_OS.size() == m_arrParentIndice.size());
 		UINT uBoneNum = m_arrParentIndice.size();
@@ -125,9 +106,12 @@ namespace ma
 			m_arrTSF_OS[uBoneCnt] = arrTSF_OS[uBoneCnt];
 
 			BoneIndex nParentInd = m_arrParentIndice[uBoneCnt];
-			if ( IsValidID(nParentInd) )
+			if ( Math::IsValidID(nParentInd) )
 			{
-				TransformInvMul(&m_arrTSF_PS[uBoneCnt],&arrTSF_OS[uBoneCnt],&m_arrTSF_OS[nParentInd]);
+				Transform tsfInvParentTsfOS;
+				TransformInverse(&tsfInvParentTsfOS,&m_arrTSF_OS[nParentInd]);
+
+				TransformMul(&m_arrTSF_PS[uBoneCnt],&tsfInvParentTsfOS,&arrTSF_OS[uBoneCnt]);
 			}	
 			else 
 			{
@@ -170,7 +154,7 @@ namespace ma
 		}
 	}
 
-	void SkeletonPose::SetTransformPS(const NodeTransform* pTSF, BoneIndex nBoneInd)
+	void SkeletonPose::SetTransformPS(const Transform* pTSF, BoneIndex nBoneInd)
 	{
 		SyncAllChildPS(nBoneInd);
 		m_arrTSF_PS[nBoneInd] = *pTSF;
@@ -180,7 +164,7 @@ namespace ma
 		m_bOSSynced = false;
 	}
 
-	void SkeletonPose::SetTransformOS(const NodeTransform* pTSF, BoneIndex nBoneInd)
+	void SkeletonPose::SetTransformOS(const Transform* pTSF, BoneIndex nBoneInd)
 	{
 		SyncAllChildPS(nBoneInd);
 		m_arrTSF_OS[nBoneInd] = *pTSF;
@@ -190,7 +174,7 @@ namespace ma
 		m_bOSSynced = false;
 	}
 
-	const NodeTransform& SkeletonPose::GetTransformOS(BoneIndex nBoneInd) const
+	const Transform& SkeletonPose::GetTransformOS(BoneIndex nBoneInd) const
 	{
 		if (m_arrDirtyByte[nBoneInd].m_bOSDirty)
 		{
@@ -199,7 +183,7 @@ namespace ma
 		return m_arrTSF_OS[nBoneInd];
 	}
 
-	const NodeTransform& SkeletonPose::GetTransformPS(BoneIndex nBoneInd) const
+	const Transform& SkeletonPose::GetTransformPS(BoneIndex nBoneInd) const
 	{
 		if (m_arrDirtyByte[nBoneInd].m_bPSDirty)
 		{
@@ -215,10 +199,14 @@ namespace ma
 			ASSERT(!m_arrDirtyByte[nBoneInd].m_bOSDirty);
 
 			BoneIndex nParentInd = m_arrParentIndice[nBoneInd];
-			if ( IsValidID(nParentInd) )
+			if ( Math::IsValidID(nParentInd) )
 			{
-				const NodeTransform& parentTSF = GetTransformOS(nParentInd);
-				TransformInvMul(&m_arrTSF_PS[nBoneInd], &m_arrTSF_OS[nBoneInd], &parentTSF);
+				const Transform& parentTsfOS = GetTransformOS(nParentInd);
+
+				Transform tsfInvParentTsfOS;
+				TransformInverse(&tsfInvParentTsfOS,&parentTsfOS);
+
+				TransformMul(&m_arrTSF_PS[nBoneInd],&tsfInvParentTsfOS,&m_arrTSF_OS[nBoneInd]);
 			}
 			else
 			{
@@ -236,12 +224,12 @@ namespace ma
 			ASSERT(!m_arrDirtyByte[nBoneInd].m_bPSDirty);
 
 			BoneIndex nParentInd = m_arrParentIndice[nBoneInd];
-			if ( IsValidID(nParentInd) )
+			if ( Math::IsValidID(nParentInd) )
 			{
-				const NodeTransform& patentTSF = GetTransformOS(nParentInd);
-				TransformMul(&m_arrTSF_OS[nBoneInd], &m_arrTSF_PS[nBoneInd], &patentTSF);
+				const Transform& patentTsfOS = GetTransformOS(nParentInd);
+				TransformMul(&m_arrTSF_OS[nBoneInd], &patentTsfOS, &m_arrTSF_PS[nBoneInd]);
 
-				QuaternionNormalize(&m_arrTSF_OS[nBoneInd].m_qRot, &m_arrTSF_OS[nBoneInd].m_qRot);
+				m_arrTSF_OS[nBoneInd].m_qRot.normalise();
 			}
 			else 
 			{
@@ -272,20 +260,56 @@ namespace ma
 	bool SkeletonPose::IsAncestor(BoneIndex nAncestorInd,BoneIndex nDescendantInd) const
 	{
 		BoneIndex nParentInd = m_arrParentIndice[nDescendantInd];
-		while ( IsValidID(nParentInd) && nAncestorInd < nParentInd )
+		while ( Math::IsValidID(nParentInd) && nAncestorInd < nParentInd )
 		{
 			nParentInd = m_arrParentIndice[nParentInd];
 		}
 		return nParentInd == nAncestorInd;
 	}
 
-	void SkeletonPose::ApplyTransformLS(const NodeTransform* pTSF, BoneIndex nBoneInd)
+	void SkeletonPose::ApplyTransformLS(const Transform* pTSF, BoneIndex nBoneInd)
 	{
-		NodeTransform tsf = GetTransformPS(nBoneInd);
-		TransformMul(&tsf,pTSF,&tsf);
+		Transform tsf = GetTransformPS(nBoneInd);
+		TransformMul(&tsf,&tsf,pTSF);
 		SetTransformPS(&tsf,nBoneInd);
 	}
 
+
+	void SkeletonPose::DebugRender(const Matrix4& matWS,bool bDrawBoneName /*= false*/,Skeleton* pSkeleton/* = NULL*/) 
+	{
+		Transform tsfWS;
+		TransformFromMatrix(&tsfWS,&matWS);
+		GetLineRender()->DrawTransform(tsfWS);
+
+		Rectangle rec = GetRenderSystem()->GetViewPort();
+
+		UINT nBoneNumeber = m_arrParentIndice.size();
+		for (UINT i = 0; i < nBoneNumeber; ++i)
+		{
+			Transform boneTsfWS;
+			TransformMul(&boneTsfWS,&tsfWS,&this->GetTransformOS(i));
+			GetLineRender()->DrawTransform(boneTsfWS);
+
+			Vector3 vP0 = matWS * this->GetTransformOS(i).m_vPos;
+
+// 			if (bDrawBoneName)
+// 			{
+// 				Vector3 vPos = GetRenderSystem()->GetMainCamera()->GetMatViewProj() * vP0; 
+// 				float srceenX = (vPos.x + 1.0f) * 0.5f * rec.width;
+// 				float srceenY = (1.0f - vPos.y) * 0.5f * rec.height;
+// 				const char* pBoneName = pSkeleton->GetBoneNameByIndex(i);
+// 				GetStringRender()->DrawScreenString(pBoneName,srceenX,srceenY,ColourValue::Red);
+// 			}
+		
+			BoneIndex parentID = m_arrParentIndice[i];
+			if ( Math::IsValidID<BoneIndex>(parentID) )
+			{
+				Vector3 vP1 = matWS * this->GetTransformOS(parentID).m_vPos;
+
+				GetLineRender()->DrawLine(vP0,vP1,ColourValue::Red);
+			}
+		}
+	}
 }
 
 

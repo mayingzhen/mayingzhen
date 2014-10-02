@@ -171,7 +171,7 @@ namespace ma
 		AddData(&viewPort,sizeof(Rectangle));
 	}
 
-	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	void RenderThread::RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
 		if (IsRenderThread())
 		{
@@ -262,7 +262,7 @@ namespace ma
 					bool bColor = ReadCommand<bool>(n);
 					bool bDepth = ReadCommand<bool>(n);
 					bool bStencil = ReadCommand<bool>(n);
-					Color c = ReadCommand<Color>(n);
+					ColourValue c = ReadCommand<ColourValue>(n);
 					float z = ReadCommand<float>(n);
 					int s = ReadCommand<int>(n);
 					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);

@@ -274,13 +274,13 @@ namespace ma
 		GL_ASSERT( glUniform1iv(uniform->m_location, count, values) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4& value)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4& value)
 	{
 		ASSERT(uniform);
 		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, 1, GL_FALSE, (GLfloat*)&value) );
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, UINT count)
+	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
@@ -324,6 +324,12 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(values);
 		GL_ASSERT( glUniform4fv(uniform->m_location, count, (GLfloat*)values) );
+	}
+
+	void GLESShaderProgram::SetValue(Uniform* uniform, const ColourValue& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform4f(uniform->m_location, value.r, value.g, value.b, value.a) );
 	}
 
 	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState* sampler)

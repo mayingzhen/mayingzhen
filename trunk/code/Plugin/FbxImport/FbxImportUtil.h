@@ -17,7 +17,7 @@ namespace ma
 
 	inline Quaternion ToMaUnit(const FbxQuaternion& qFbx)
 	{
-		return Quaternion((float)qFbx[0],(float)qFbx[1],(float)qFbx[2],(float)qFbx[3]);
+		return Quaternion((float)qFbx[3],(float)qFbx[0],(float)qFbx[1],(float)qFbx[2]);
 	}
 
 	inline Vector4 ToMaUnit(const FbxColor& cFbx)
@@ -25,7 +25,7 @@ namespace ma
 		return Vector4((float)cFbx.mRed,(float)cFbx.mGreen,(float)cFbx.mBlue,(float)cFbx.mAlpha);
 	}
 
-	inline NodeTransform ToMaUnit(const FbxMatrix& vFbx)
+	inline Transform ToMaUnit(const FbxMatrix& vFbx)
 	{
 		KFbxXMatrix matrix4x4 = *(KFbxXMatrix*)(double*)&vFbx;
 
@@ -33,8 +33,8 @@ namespace ma
 		FbxQuaternion LocalLinkQ = matrix4x4.GetQ();
 		FbxVector4 LocalLinkS = matrix4x4.GetS();
 
-		NodeTransform tsf;
-		tsf.m_fScale = ToMaUnit(LocalLinkS).x;
+		Transform tsf;
+		tsf.m_vScale = ToMaUnit(LocalLinkS);
 		tsf.m_qRot = ToMaUnit(LocalLinkQ);
 		tsf.m_vPos = ToMaUnit(LocalLinkT);
 

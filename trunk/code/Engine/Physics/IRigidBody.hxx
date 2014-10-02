@@ -4,7 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(IRigidBody,Component);
 
-	IRigidBody::IRigidBody(GameObject* pGameObj)
+	IRigidBody::IRigidBody(SceneNode* pGameObj)
 		:Component(pGameObj)
 	{
 

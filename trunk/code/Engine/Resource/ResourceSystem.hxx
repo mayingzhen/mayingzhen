@@ -77,15 +77,19 @@ namespace ma
 
 		return pRes;
 	}
-
-	ResourcePtr ResourceSystem::LoadResourceASync(const char* pszRelPath)
+	
+	ResourcePtr ResourceSystem::LoadResourceASync(const char* pszRelPath,EventListener* pCallBack)
 	{
 		ResourcePtr pRes = DeclareResource(pszRelPath);
 		ASSERT(pRes);
 		if (pRes == NULL)
 			return NULL;
 
-		gpDataThread->PushBackDataObj(pRes);
+		ResData dataObj;
+		dataObj.m_pRes = pRes;
+		dataObj.m_pCallBack = pCallBack;
+
+		gpDataThread->PushBackDataObj(dataObj);
 
 		return pRes;	
 	}

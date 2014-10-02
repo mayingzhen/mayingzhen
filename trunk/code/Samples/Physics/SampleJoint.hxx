@@ -8,13 +8,12 @@ namespace ma
 
 	void SampleJoint::Load()
 	{
+		Vector3 vPosA(20,0,40);
+		Vector3 vPosB(0,0,40);
 
-		Vector3 vPosA(20,40,0);
-		Vector3 vPosB(0,40,0);
-
-		GameObjectPtr pGameObjA = NULL;
+		SceneNodePtr pGameObjA = NULL;
 		{
-			pGameObjA = GetEntitySystem()->CreateGameObject("physicsA");
+			pGameObjA = m_pScene->CreateNode("physicsA");
 
 			IBoxCollisionShapePtr pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
@@ -22,27 +21,25 @@ namespace ma
 			IRigidBodyPtr pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
 			pRigidBodyComp->SetKinematic(true);
 
-			pGameObjA->GetSceneNode()->Translate(vPosA);
+			pGameObjA->Translate(vPosA);
 
 		}
 
-		GameObjectPtr pGameObjB = NULL;
+		SceneNodePtr pGameObjB = NULL;
 		{
-			pGameObjB = GetEntitySystem()->CreateGameObject("physicsB");
+			pGameObjB = m_pScene->CreateNode("physicsB");
 
 			IBoxCollisionShapePtr pBoxCollisionShape = pGameObjB->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(5,5,5));
 		
 			IRigidBodyPtr pRigidBodyComp = pGameObjB->CreateComponent<IRigidBody>();
 
-			pGameObjB->GetSceneNode()->Translate(vPosB);
+			pGameObjB->Translate(vPosB);
 		}
 
 		IPhysicsGenericJointPtr pJointComp = pGameObjA->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(pGameObjB->GetPhyscisObject());
-		NodeTransform tsfA,tsfB;
-		TransformSetIdentity(&tsfA);
-		TransformSetIdentity(&tsfB);
+		pJointComp->SetPysicsObjectB(pGameObjB.get());
+		Transform tsfA,tsfB;
 		tsfB.m_vPos = vPosA - vPosB;
 		pJointComp->SetATransformLS(tsfA);
 		pJointComp->SetBTransformLS(tsfB);
@@ -52,7 +49,7 @@ namespace ma
 		//pJointComp->SetAngularUpperLimit(Vector3(0,0,0));	
 
 // 		GenericJointComponent* pJointComp = pGameObjB->CreateComponent<GenericJointComponent>();
-// 		NodeTransform tsfA;
+// 		Transform tsfA;
 // 		TransformSetIdentity(&tsfA);
 // 		tsfA.m_vPos = Vector3(5,0,0);
 // 		pJointComp->SetATransformLS(tsfA);

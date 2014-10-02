@@ -363,7 +363,7 @@ namespace ma
 	}
 
 
-	void GLESRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	void GLESRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
 		GLbitfield mask = 0;
 		if (bColor)
@@ -390,28 +390,57 @@ namespace ma
 	}
 
 
-	Matrix4x4 GLESRenderDevice::MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
+	Matrix4 GLESRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
-		 MatrixPerspectiveFovGL_LH(pOut,fovy,Aspect,zn,zf);
-		 return *pOut;
+		Radian thetaY(fovy / 2.0f);
+		float factor = 1.f/Math::Tan(thetaY);
+		float f_n = 1.f/(zf-zn);
+
+		// Calc matrix elements
+		float w = factor / Aspect;
+		float h = factor;
+		float q = -(zf + zn)*f_n;
+		float qn = -2 * (zf * zn)*f_n;
+
+		// NB This creates Z in range [-1,1]
+		//
+		// [ w   0   0   0  ]
+		// [ 0   h   0   0  ]
+		// [ 0   0   q   qn ]
+		// [ 0   0   -1  0  ]
+
+		out = Matrix4::ZERO;
+		out[0][0] = w;
+		out[1][1] = h;
+		out[2][2] = q;
+		out[2][3] = qn;
+		out[3][2] = -1;
+
+		return out;
 	}
 
-	Matrix4x4 GLESRenderDevice::MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf)
+	Matrix4 GLESRenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
 	{
-		MatrixOrthoGL_LH(pOut,width,height,zn,zf);
-		return *pOut;
+		float halfWidth = width*0.5f;
+		float halfHeight = height*0.5f;
+		return MakeOrthoMatrixOffCenter(out, -halfWidth, halfWidth, -halfHeight, halfHeight, zn, zf);
 	}
 
-	Matrix4x4 GLESRenderDevice::MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf)
+	Matrix4 GLESRenderDevice::MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf)
 	{
-		MatrixOrthoOffCenterGL_LH(pOut,left,right,bottom,top,zn,zf);
-		return *pOut;
-	}
+		float r_l = 1.0f / (right - left);
+		float t_b = 1.0f / (top - bottom);
+		float f_n = 1.0f / (zf - zn);
+		out = Matrix4::ZERO;
+		out[0][0] = 2 * r_l;
+		out[1][1] = 2 * t_b;
+		out[2][2] = -2 * f_n;
+		out[0][3] = -(right + left) * r_l;
+		out[1][3] = -(top + bottom) * t_b;
+		out[2][3] = -(zf+zn)*f_n;
+		out[3][3] = 1.f;
 
-	void GLESRenderDevice::GetProjectionNearFar(float& fProjNear, float& fProjFar)
-	{
-		fProjNear = -1.0f;
-		fProjFar = 1.0f;
+		return out;
 	}
 
 	void GLESRenderDevice::BeginProfile(const char* pszLale)

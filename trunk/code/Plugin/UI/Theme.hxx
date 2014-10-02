@@ -94,7 +94,7 @@ Theme* Theme::create(const char* url)
 	//theme->_texture = GetRenderDevice()->CreateRendTexture();
 	//std::string strPath = std::string(FileSystem::getResourcePath()) + textureFile;
 	//theme->_texture->Load(strPath.c_str());
-	ref_ptr<Texture> pTexture = DeclareResource<Texture>(textureFile);
+	RefPtr<Texture> pTexture = DeclareResource<Texture>(textureFile);
 	ASSERT(pTexture);
 	pTexture->LoadSync();
 
@@ -109,8 +109,8 @@ Theme* Theme::create(const char* url)
 	theme->_spriteBatch->GetStateBlock().m_bDepthWrite = false;
 	theme->_spriteBatch->GetStateBlock().m_eDepthCheckMode = DCM_NONE;
 
-    float tw = 1.0f / theme->_texture->getWidth();
-    float th = 1.0f / theme->_texture->getHeight();
+    float tw = 1.0f / theme->_texture->GetWidth();
+    float th = 1.0f / theme->_texture->GetHeight();
 
     Properties* space = themeProperties->getNextNamespace();
     while (space != NULL)
@@ -120,7 +120,7 @@ Theme* Theme::create(const char* url)
             
         if (strcmp(spacename, "image") == 0)
         {
-            theme->_images.push_back(ThemeImage::create(tw, th, space, Vec4One()));
+			theme->_images.push_back(ThemeImage::create(tw, th, space, ColourValue::White));
         }
         else if (strcmp(spacename, "imageList") == 0)
         {
@@ -146,7 +146,7 @@ Theme* Theme::create(const char* url)
             space->getVector4("region", &regionVector);
             const Rectangle region(regionVector.x, regionVector.y, regionVector.z, regionVector.w);
 
-            Vector4 color(1, 1, 1, 1);
+            ColourValue color(1, 1, 1, 1);
             if (space->exists("color"))
             {
                 space->getColor("color", &color);
@@ -184,7 +184,7 @@ Theme* Theme::create(const char* url)
                 const char* innerSpacename = innerSpace->getNamespace();
                 if (strcmp(innerSpacename, "stateNormal") == 0)
                 {
-                    Vector4 textColor(0, 0, 0, 1);
+                    ColourValue textColor(0, 0, 0, 1);
                     if (innerSpace->exists("textColor"))
                     {
                         innerSpace->getColor("textColor", &textColor);
@@ -268,7 +268,7 @@ Theme* Theme::create(const char* url)
                 {
                     // Either OVERLAY_FOCUS or OVERLAY_ACTIVE.
                     // If a property isn't specified, it inherits from OVERLAY_NORMAL.
-                    Vector4 textColor;
+                    ColourValue textColor;
                     if (!innerSpace->getColor("textColor", &textColor))
                     {
                         textColor = normal->getTextColor();
@@ -489,7 +489,7 @@ Theme::Style* Theme::getEmptyStyle()
         Theme::Style::Overlay* overlay = Theme::Style::Overlay::create();
         overlay->Ref();
         overlay->Ref();
-        emptyStyle = new Theme::Style(const_cast<Theme*>(this), "EMPTY_STYLE", 1.0f / _texture->getWidth(), 1.0f / _texture->getHeight(),
+        emptyStyle = new Theme::Style(const_cast<Theme*>(this), "EMPTY_STYLE", 1.0f / _texture->GetWidth(), 1.0f / _texture->GetHeight(),
             Theme::Margin::empty(), Theme::Border::empty(), overlay, overlay, NULL, overlay, NULL);
 
         _styles.push_back(emptyStyle);
@@ -498,7 +498,7 @@ Theme::Style* Theme::getEmptyStyle()
     return emptyStyle;
 }
 
-void Theme::setProjectionMatrix(const Matrix4x4& matrix)
+void Theme::setProjectionMatrix(const Matrix4& matrix)
 {
     ASSERT(_spriteBatch);
     _spriteBatch->SetProjectionMatrix(matrix);
@@ -556,7 +556,7 @@ const Theme::SideRegions& Theme::SideRegions::empty()
 /*********************
  * Theme::ThemeImage *
  *********************/
-Theme::ThemeImage::ThemeImage(float tw, float th, const Rectangle& region, const Vector4& color)
+Theme::ThemeImage::ThemeImage(float tw, float th, const Rectangle& region, const ColourValue& color)
     : _region(region), _color(color)
 {
     generateUVs(tw, th, region.x, region.y, region.width, region.height, &_uvs);
@@ -566,7 +566,7 @@ Theme::ThemeImage::~ThemeImage()
 {
 }
 
-Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* properties, const Vector4& defaultColor)
+Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* properties, const ColourValue& defaultColor)
 {
     ASSERT(properties);
 
@@ -574,7 +574,7 @@ Theme::ThemeImage* Theme::ThemeImage::create(float tw, float th, Properties* pro
     properties->getVector4("region", &regionVector);
     const Rectangle region(regionVector.x, regionVector.y, regionVector.z, regionVector.w);
 
-    Vector4 color;
+    ColourValue color;
     if (properties->exists("color"))
     {
         properties->getColor("color", &color);
@@ -609,7 +609,7 @@ const Rectangle& Theme::ThemeImage::getRegion() const
     return _region;
 }
 
-const Vector4& Theme::ThemeImage::getColor() const
+const ColourValue& Theme::ThemeImage::getColor() const
 {
     return _color;
 }
@@ -617,7 +617,7 @@ const Vector4& Theme::ThemeImage::getColor() const
 /********************
  * Theme::ImageList *
  ********************/
-Theme::ImageList::ImageList(const Vector4& color) : _color(color)
+Theme::ImageList::ImageList(const ColourValue& color) : _color(color)
 {
 }
 
@@ -647,7 +647,7 @@ Theme::ImageList* Theme::ImageList::create(float tw, float th, Properties* prope
 {
     ASSERT(properties);
 
-    Vector4 color(1, 1, 1, 1);
+    ColourValue color(1, 1, 1, 1);
     if (properties->exists("color"))
     {
         properties->getColor("color", &color);
@@ -700,7 +700,7 @@ Theme::ThemeImage* Theme::ImageList::getImage(const char* imageId) const
 /***************
  * Theme::Skin *
  ***************/
-Theme::Skin* Theme::Skin::create(const char* id, float tw, float th, const Rectangle& region, const Theme::Border& border, const Vector4& color)
+Theme::Skin* Theme::Skin::create(const char* id, float tw, float th, const Rectangle& region, const Theme::Border& border, const ColourValue& color)
 {
     Skin* skin = new Skin(tw, th, region, border, color);
 
@@ -712,7 +712,7 @@ Theme::Skin* Theme::Skin::create(const char* id, float tw, float th, const Recta
     return skin;
 }
 
-Theme::Skin::Skin(float tw, float th, const Rectangle& region, const Theme::Border& border, const Vector4& color)
+Theme::Skin::Skin(float tw, float th, const Rectangle& region, const Theme::Border& border, const ColourValue& color)
     : _border(border), _color(color), _region(region)
 {
     setRegion(region, tw, th);
@@ -805,7 +805,7 @@ const Theme::UVs& Theme::Skin::getUVs(SkinArea area) const
     return _uvs[area];
 }
 
-const Vector4& Theme::Skin::getColor() const
+const ColourValue& Theme::Skin::getColor() const
 {
     return _color;
 }

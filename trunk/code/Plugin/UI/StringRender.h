@@ -16,15 +16,15 @@ namespace ma
 
 		void Render();
 
-		void DrawScreenString(const char* pszText,int x,int y,Vector4 cClor);
+		void DrawScreenString(const char* pszText,int x,int y,ColourValue cClor);
 
 	private:
 		struct TextInfo
 		{
-			std::string m_sString;
-			int			m_nPosX;
-			int			m_nPosY;
-			Vector4		m_cColor;
+			std::string		m_sString;
+			int				m_nPosX;
+			int				m_nPosY;
+			ColourValue		m_cColor;
 		};
 
 		std::vector<TextInfo> m_arrTextInfo[2];
@@ -35,7 +35,7 @@ namespace ma
 
 	UI_API StringRender*	GetStringRender();
 
-	UI_API void			SetStringRender(StringRender* pStringRender);
+	UI_API void				SetStringRender(StringRender* pStringRender);
 }
 
 #endif

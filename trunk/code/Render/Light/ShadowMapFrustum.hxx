@@ -26,7 +26,7 @@ namespace ma
 		float fOffsetY = 0.5f + (0.5f / (float)nShadowMapSize);
 		unsigned int range = 1;            //note different scale in DX9!
 		float fBias    = 0.0f;
-		m_TexScaleBiasMat = Matrix4x4
+		m_TexScaleBiasMat = Matrix4
 			( 0.5f,     0.0f,     0.0f,         0.0f,
 			 0.0f,     -0.5f,     0.0f,         0.0f,
 			 0.0f,      0.0f,     (float)range, 0.0f,
@@ -38,31 +38,31 @@ namespace ma
 
 	}
 
-	void ShadowMapFrustum::SetViewMatrix(const Matrix4x4& matView) 
+	void ShadowMapFrustum::SetViewMatrix(const Matrix4& matView) 
 	{
 		int index = GetRenderSystem()->CurThreadFill(); 
 		m_matViewProj[index].SetMatView(matView);
 	}
 
-	void ShadowMapFrustum::SetProjMatrix(const Matrix4x4& matPoj) 
+	void ShadowMapFrustum::SetProjMatrix(const Matrix4& matPoj) 
 	{
 		int index = GetRenderSystem()->CurThreadFill(); 
 		m_matViewProj[index].SetMatProj(matPoj);
 	}
 
-	const Matrix4x4& ShadowMapFrustum::GetViewMarix()  
+	const Matrix4& ShadowMapFrustum::GetViewMarix()  
 	{
 		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatView();
 	}
 
-	const Matrix4x4& ShadowMapFrustum::GetProjMatrix() 
+	const Matrix4& ShadowMapFrustum::GetProjMatrix() 
 	{
 		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatProj();
 	}
 
-	const Matrix4x4& ShadowMapFrustum::GetViewProjMatrix()
+	const Matrix4& ShadowMapFrustum::GetViewProjMatrix()
 	{
 		int index = GetRenderSystem()->GetThreadList(); 
 		return m_matViewProj[index].GetMatViewProj();
@@ -102,7 +102,7 @@ namespace ma
 		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShdowDepth);
 		Texture* pPreDeptStencil = GetRenderSystem()->SetDepthStencil(m_pDepthStencil);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(1,1,1,0), 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		GetRenderContext()->SetViewMatrix(m_matViewProj[index].GetMatView());

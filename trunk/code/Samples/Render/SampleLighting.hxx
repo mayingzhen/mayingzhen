@@ -10,12 +10,11 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 400, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
 		// Render Mesh
 		{
-			GameObjectPtr pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
 
 			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -24,38 +23,38 @@ namespace ma
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
 
-			pCharMagic->GetSceneNode()->Right(100);
+			pCharMagic->Right(100);
 
-			GameObjectPtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+			SceneNodePtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
 
-			GameObjectPtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
+			SceneNodePtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
 
-			pPlatform->GetSceneNode()->Scale(50);
+			pPlatform->Scale(50);
 
-			pBox->GetSceneNode()->Scale(50);
+			pBox->Scale(50);
 		}
 
 		// Light
 		{
  	
-			GameObjectPtr pLightObj1 = GetEntitySystem()->CreateGameObject("Light1");
-			pLightObj1->GetSceneNode()->Translate(Vector3(200, 100, 0));
+			SceneNodePtr pLightObj1 = m_pScene->CreateNode("Light1");
+			pLightObj1->Translate(Vector3(200, 0, 100));
 			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();
-			m_pPointLight->SetLightColor(Vector4(1.0f,1.0f,1.0f,1.0f));
+			m_pPointLight->SetLightColor(ColourValue::White);
 			m_pPointLight->SetRadius(300);
  
-			GameObjectPtr pLightObj3 = GetEntitySystem()->CreateGameObject("Light2");
-			pLightObj3->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0),Vector3(0,1,0));
+			SceneNodePtr pLightObj3 = m_pScene->CreateNode("Light2");
+			pLightObj3->LookAt(Vector3(10,10,10),Vector3(0,0,0));
 			m_pDirectLight = pLightObj3->CreateComponent<DirectonalLight>();
-			m_pDirectLight->SetLightColor(Vector4(0.2f,0.2f,0.2f,1.0f));
+			m_pDirectLight->SetLightColor(ColourValue(0.2f,0.2f,0.2f,1.0f));
 		}
 
-		GetLightSystem()->SetAmbientColor(Vector4(0.0f,0.0f,0.0f,0.0f));
+		GetLightSystem()->SetAmbientColor(ColourValue::Black);
 	}
 
 	void SampleLighting::UnLoad()
 	{
-		GetLightSystem()->SetAmbientColor(Vector4(1.0f,1.0f,1.0f,1.0f));	
+		GetLightSystem()->SetAmbientColor(ColourValue::White);	
 
 		m_pDirectLight = NULL;
 		m_pPointLight = NULL;
@@ -64,17 +63,17 @@ namespace ma
 	void SampleLighting::Update()
 	{
 		float fDegree = 30 * GetTimer()->GetFrameDeltaTime();
-		m_pPointLight->GetSceneNode()->RotateYAxisLS(fDegree);
+		m_pPointLight->GetSceneNode()->RotateAround(Vector3::ZERO,Vector3::UNIT_Z,fDegree);
 	}
 
 	void SampleLighting::Render()
 	{
-		Matrix4x4 matWS = m_pPointLight->GetSceneNode()->GetWorldMatrix();
-		GetLineRender()->DrawWireSphere(matWS,m_pPointLight->GetRadius(),Color(1,0,0,0));
+		Matrix4 matWS = m_pPointLight->GetSceneNode()->GetWorldMatrix();
+		GetLineRender()->DrawWireSphere(matWS,m_pPointLight->GetRadius(),ColourValue(1,0,0,0));
 
 		Vector3 vSrc = Vector3(0,0,0);
 		Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetDirection();
-		GetLineRender()->DrawLine(vSrc,vDir,Color(1,0,0,0));
+		GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		
 	}
 }

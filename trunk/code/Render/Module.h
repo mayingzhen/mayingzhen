@@ -19,7 +19,6 @@
 #include "Render/Renderable/MeshBatch.h"
 #include "Render/Renderable/MeshData.h"
 #include "Render/Renderable/Renderable.h"
-#include "Render/Renderable/RenderComponent.h"
 #include "Render/Renderable/MeshComponent.h"
 #include "Render/Renderable/SpriteBatch.h"
 #include "Render/Renderable/Util.h"
@@ -46,11 +45,14 @@
 #include "Render/RenderSystem/RenderSystem.h"
 #include "Render/RenderSystem/RenderContext.h"
 #include "Render/RenderSystem/Camera.h"
+#include "Render/RenderSystem/RenderView.h"
 
 #include "Render/RenderScheme/RenderPass.h"
 #include "Render/RenderScheme/RenderScheme.h"
 
 #include "Render/RenderScheme/PostProcess.h"
+
+#include "Render/Terrain/Terrain.h"
 
 
 // Util

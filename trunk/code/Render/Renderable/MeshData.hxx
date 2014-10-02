@@ -22,29 +22,10 @@ namespace ma
 	{
 	}
 
-	bool MeshData::InitRendable()
-	{
-// 		void* pIndexData =  &m_arrIndexBuffer[0];
-// 		int nIndexSize = m_arrIndexBuffer.size();
-// 		INDEX_TYPE eIndexType = m_nIndexType == INDEX_TYPE_U16 ? INDEX_TYPE_U16 : INDEX_TYPE_U32; 
-// 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer(pIndexData,nIndexSize,eIndexType);
-// 
-// 		void* pVertexData =  &m_arrVertexBuffer[0];
-// 		int nVertexDataSize = m_arrVertexBuffer.size();
-// 		int nVertexStride = GetVertexStride();
-// 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer(pVertexData,nVertexDataSize, nVertexStride);
-// 
- 		
- 		m_pDeclaration->Init(m_nVertexType);
-
-		return true;
-	}
-
-
 	void MeshData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		MeshHeader header;
-		sl.Serialize(header);
+		sl.Serialize(header,"MeshHeader");
 		if (header.m_nIdent != 'MAMD')
 			return;
 
@@ -55,7 +36,7 @@ namespace ma
 
 		if (sl.IsReading())
 		{
-			InitRendable();
+			m_pDeclaration->Init(m_nVertexType);
 		}
 	}
 

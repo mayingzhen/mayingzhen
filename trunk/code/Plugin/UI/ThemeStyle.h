@@ -87,9 +87,9 @@ private:
 
         const Theme::Border& getBorder() const;
 
-        void setSkinColor(const Vector4& color);
+        void setSkinColor(const ColourValue& color);
 
-        const Vector4& getSkinColor() const;
+        const ColourValue& getSkinColor() const;
 
         void setSkinRegion(const Rectangle& region, float tw, float th);
 
@@ -113,17 +113,17 @@ private:
 
         void setTextRightToLeft(bool rightToLeft);
 
-        const Vector4& getTextColor() const;
+        const ColourValue& getTextColor() const;
 
-        void setTextColor(const Vector4& color); 
+        void setTextColor(const ColourValue& color); 
 
         const Rectangle& getImageRegion(const char* id) const;
 
         void setImageRegion(const char* id, const Rectangle& region, float tw, float th);
 
-        const Vector4& getImageColor(const char* id) const;
+        const ColourValue& getImageColor(const char* id) const;
 
-        void setImageColor(const char* id, const Vector4& color);
+        void setImageColor(const char* id, const ColourValue& color);
 
         const Theme::UVs& getImageUVs(const char* id) const;
 
@@ -131,9 +131,9 @@ private:
 
         void setCursorRegion(const Rectangle& region, float tw, float th);
 
-        const Vector4& getCursorColor() const;
+        const ColourValue& getCursorColor() const;
 
-        void setCursorColor(const Vector4& color);
+        void setCursorColor(const ColourValue& color);
 
         const Theme::UVs& getCursorUVs() const;
 
@@ -171,7 +171,7 @@ private:
         unsigned int _fontSize;
         Font::Justify _alignment;
         bool _textRightToLeft;
-        Vector4 _textColor;
+        ColourValue _textColor;
         float _opacity;
     };
 

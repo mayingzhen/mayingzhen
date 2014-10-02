@@ -10,10 +10,9 @@ namespace ma
 
 	void SampleMonoScript::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 1.5f, 2);
+		Vector3 vEyePos = Vector3(0, 3, 3);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
 		IScriptSystem* pScriptSystem = GetScriptSystem();
 		if (pScriptSystem == NULL)
@@ -22,7 +21,7 @@ namespace ma
 		std::string	strDllPath = GetArchiveMananger()->GetFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
-		GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("Test");
+		SceneNodePtr pGameObj =  m_pScene->CreateNode("Test");
 
 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");

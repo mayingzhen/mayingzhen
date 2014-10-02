@@ -25,7 +25,7 @@ namespace ma
 	{
 		RENDER_PROFILE(RenderObjecList);
 
-		Color cClearClor = GetRenderSetting()->m_cClearClor;
+		ColourValue cClearClor = GetRenderSetting()->m_cClearClor;
 
 		GetRenderSystem()->ClearBuffer(true,true,true,cClearClor, 1.0f, 0);
 
@@ -40,7 +40,6 @@ namespace ma
 
 			Technique* pTech = pRenderObj->m_pMaterial->GetTechnqiue("Shading");
 
-			//GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
 			pRenderObj->Render(pTech);
 		}
 

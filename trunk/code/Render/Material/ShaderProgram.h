@@ -38,9 +38,9 @@ namespace ma
 
 		virtual void		SetValue(Uniform* uniform, const int* values, UINT count = 1) = 0;
 
-		virtual void		SetValue(Uniform* uniform, const Matrix4x4& value) = 0;
+		virtual void		SetValue(Uniform* uniform, const Matrix4& value) = 0;
 
-		virtual void		SetValue(Uniform* uniform, const Matrix4x4* values, UINT count = 1) = 0;
+		virtual void		SetValue(Uniform* uniform, const Matrix4* values, UINT count = 1) = 0;
 
 		virtual void		SetValue(Uniform* uniform, const Vector2& value) = 0;
 
@@ -53,6 +53,8 @@ namespace ma
 		virtual void		SetValue(Uniform* uniform, const Vector4& value) = 0;
 
 		virtual void		SetValue(Uniform* uniform, const Vector4* values, UINT count = 1) = 0;
+
+		virtual void		SetValue(Uniform* uniform, const ColourValue& value) = 0;
 
 		virtual void		SetValue(Uniform* uniform, const SamplerState* sampler) = 0;
 

@@ -8,7 +8,7 @@ namespace ma
 		DECL_OBJECT(IPhysicsJoint)
 
 	public:
-		IPhysicsJoint(GameObject* pGameObj);
+		IPhysicsJoint(SceneNode* pGameObj);
 
 		virtual float			GetBreakingImpulse() = 0;
 
@@ -18,16 +18,17 @@ namespace ma
 
 		virtual void			SetEnabled(bool enabled) = 0;
 
-		virtual NodeTransform	GetATransformLS() = 0;
+		virtual Transform	GetATransformLS() = 0;
 
-		virtual void			SetATransformLS(const NodeTransform& tsfLS) = 0;
+		virtual void			SetATransformLS(const Transform& tsfLS) = 0;
 
-		virtual NodeTransform	GetBTransformLS() = 0;
+		virtual Transform	GetBTransformLS() = 0;
 
-		virtual void			SetBTransformLS(const NodeTransform& tsfLS) = 0;
+		virtual void			SetBTransformLS(const Transform& tsfLS) = 0;
 
-		virtual void			SetPysicsObjectB(IPhysicsObject* pPhyObjB) = 0;
+		virtual void			SetPysicsObjectB(SceneNode* pPhyObjB) = 0;
 		
+		virtual	void			Start() = 0;
 	};
 
 	class ENGINE_API IPhysicsGenericJoint : public IPhysicsJoint
@@ -35,7 +36,7 @@ namespace ma
 		DECL_OBJECT(IPhysicsGenericJoint)
 
 	public:
-		IPhysicsGenericJoint(GameObject* pGameObj);
+		IPhysicsGenericJoint(SceneNode* pGameObj);
 
 		virtual void			SetAngularLowerLimit(const Vector3& limits) = 0;
  
@@ -52,7 +53,7 @@ namespace ma
 		DECL_OBJECT(IPhysicsHingeJoint)
 
 	public:
-		IPhysicsHingeJoint(GameObject* pGameObj);
+		IPhysicsHingeJoint(SceneNode* pGameObj);
 
 		virtual void			SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f) = 0;
 	};

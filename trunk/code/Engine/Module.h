@@ -28,30 +28,30 @@
 #include "Engine/Resource/ResourceSystem.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h"
-#include "Engine/Resource/Serialize/BinaryInputArchive.h"
-#include "Engine/Resource/Serialize/BinaryOutputArchive.h"
-#include "Engine/Resource/Serialize/StringConverter.h"
-#include "Engine/Resource/Serialize/XMLInputArchive.h"
-#include "Engine/Resource/Serialize/XMLOutputArchive.h"
+#include "Engine/Resource/Serialize/BinaryInputSerializer.h"
+#include "Engine/Resource/Serialize/BinaryOutputSerializer.h"
+#include "Engine/Resource/Serialize/XMLInputSerializer.h"
+#include "Engine/Resource/Serialize/XMLOutputSerializer.h"
 
 
-// Entity System
-#include "Engine/EntitySystem/Component.h"
-#include "Engine/EntitySystem/GameObj.h"
-#include "Engine/EntitySystem/SceneNode.h"
-#include "Engine/EntitySystem/SceneVisiter.h"
-#include "Engine/EntitySystem/EntitySystem.h"
-#include "Engine/EntitySystem/CullTree.h"
+// Scene
+#include "Engine/Scene/Component.h"
+#include "Engine/Scene/RenderComponent.h"
+#include "Engine/Scene/SceneNode.h"
+#include "Engine/Scene/NodeTransform.h"
+#include "Engine/Scene/SceneVisiter.h"
+#include "Engine/Scene/Scene.h"
+#include "Engine/Scene/CullNode.h"
+#include "Engine/Scene/CullTree.h"
 
 // Terrain
-#include "Engine/Terrain/ITerrain.h"
+//#include "Engine/Terrain/ITerrain.h"
 
 
 // Physics
 #include "Engine/Physics/ICharacterController.h"
 #include "Engine/Physics/ICollisionShape.h"
 #include "Engine/Physics/IPhysicsSystem.h"
-#include "Engine/Physics/IPhysicsObject.h"
 #include "Engine/Physics/IRigidBody.h"
 #include "Engine/Physics/IPhysicsJoint.h"
 
@@ -59,12 +59,6 @@
 #include "Engine/Script/IScriptSystem.h"
 #include "Engine/Script/IScriptObject.h"
 
-
-// Animation
-// #include "Engine/Animation/IAnimationObject.h"
-// #include "Engine/Animation/IAnimationSystem.h"
-// #include "Engine/Animation/IAnimationSet.h"
-// #include "Engine/Animation/IAction.h"
 
 
 // UI

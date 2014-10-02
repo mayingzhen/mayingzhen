@@ -8,8 +8,8 @@ namespace ma
 	public : \
 		virtual float			GetBreakingImpulse() {return m_fBreakingImpulse;} \
 		virtual bool			IsEnabled() const {return m_bEnabled;} \
-		virtual NodeTransform	GetATransformLS() {return m_AtsfLS;} \
-		virtual NodeTransform	GetBTransformLS() {return m_BtsfLS;} \
+		virtual Transform	GetATransformLS() {return m_AtsfLS;} \
+		virtual Transform	GetBTransformLS() {return m_BtsfLS;} \
 		virtual void			SetBreakingImpulse(float impulse)\
 		{ \
 			m_fBreakingImpulse = impulse; \
@@ -22,27 +22,26 @@ namespace ma
 			if (m_pConstraint)\
 				m_pConstraint->setEnabled(enabled);\
 		}\
-		virtual void			SetATransformLS(const NodeTransform& tsfLS)\
+		virtual void			SetATransformLS(const Transform& tsfLS)\
 		{\
 			m_AtsfLS = tsfLS;\
 		}\
-		virtual void			SetBTransformLS(const NodeTransform& tsfLS)\
+		virtual void			SetBTransformLS(const Transform& tsfLS)\
 		{\
 			m_BtsfLS = tsfLS;\
 		}\
-		virtual void			SetPysicsObjectB(IPhysicsObject* pPhyObjB)\
+		virtual void			SetPysicsObjectB(SceneNode* pPhyObjB)\
 		{\
-			m_pPhyObjB = (BulletPhysicsObject*)pPhyObjB; \
+			m_pPhyObjB = pPhyObjB; \
 		}\
 		btTypedConstraint*		GetBtConstraint() {return m_pConstraint;} \
 	private: \
-		BulletPhysicsObject*	m_pPhyObjA;\
-		BulletPhysicsObject*	m_pPhyObjB;\
+		SceneNode*				m_pPhyObjB;\
 		btTypedConstraint*		m_pConstraint;\
 		float					m_fBreakingImpulse;\
 		bool					m_bEnabled;\
-		NodeTransform			m_AtsfLS;\
-		NodeTransform			m_BtsfLS;\
+		Transform			m_AtsfLS;\
+		Transform			m_BtsfLS;\
     private: 
 
 
@@ -51,7 +50,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsGenericJoint(GameObject* pGameObj);
+		BulletPhysicsGenericJoint(SceneNode* pGameObj);
 
 		virtual void	SetAngularLowerLimit(const Vector3& limit); 
 
@@ -82,7 +81,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsHingeJoint(GameObject* pGameObj);
+		BulletPhysicsHingeJoint(SceneNode* pGameObj);
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 

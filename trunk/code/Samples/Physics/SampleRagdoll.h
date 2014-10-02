@@ -4,52 +4,41 @@
 namespace ma
 {
 	class Scene;
-
-	enum BODYPART
-	{
-		BODYPART_PELVIS = 0,
-		BODYPART_SPINE,
-		BODYPART_HEAD,
-
-		BODYPART_LEFT_UPPER_LEG,
-		BODYPART_LEFT_LOWER_LEG,
-
-		BODYPART_RIGHT_UPPER_LEG,
-		BODYPART_RIGHT_LOWER_LEG,
-
-		BODYPART_LEFT_UPPER_ARM,
-		BODYPART_LEFT_LOWER_ARM,
-
-		BODYPART_RIGHT_UPPER_ARM,
-		BODYPART_RIGHT_LOWER_ARM,
-
-		BODYPART_COUNT
-	};
-
+	class Ragdoll;
 
 	class SampleRagdoll : public Sample
 	{
 	public:
 		SampleRagdoll();
 
-		virtual void Load();
+		virtual void	Load();
 
-		virtual	void UnLoad();
+		virtual	void	UnLoad();
+
+		virtual void	Update();
+
+		virtual void	Render();
+
+		virtual bool	keyPressed(const OIS::KeyEvent &arg);
 
 	private:
-		GameObjectPtr CreateCapsule(float fRadius,float fHeight,NodeTransform tsf,const char* pName);
+		SceneNode*		CreateCapsule(float fRadius,float fHeight,const char* pBoneName);
+
+		void			CreateJoint(int eBone,int eParentBone,Vector3 vLowerLimit,Vector3 vUpLimit);
 
 	private:
 
-		GameObjectPtr	m_arrObject[BODYPART_COUNT];
+		//GameObject*				m_arrObject[BODYPART_COUNT];
 
-		//GameObjectPtr	m_pChar;
+		AnimationComponent*		m_pAnimationComp;
 
-		Skeleton*		m_pSkeleton;
+		//Skeleton*				m_pSkeleton;
+	
+		//SkeletonPose*			m_pAnimPose;
 
-		SkeletonPose*	m_pSkeletonPose;
+		bool					m_bStart;
 
-		
+		Ragdoll*				m_pRagdoll;	
 	};
 }
 

@@ -14,9 +14,10 @@ namespace ma
 
 	IMPL_OBJECT(TerrainSection,RenderComponent)
 
-	TerrainSection::TerrainSection(GameObject* pGameObj):
-		RenderComponent(pGameObj)
+	TerrainSection::TerrainSection(Terrain* pTerrain)
+	:RenderComponent(NULL)
 	{
+		m_pParent = pTerrain;
 		m_pRenderable = new Renderable();
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 		m_pRenderable->m_pSubMeshData = new SubMeshData();
@@ -29,11 +30,7 @@ namespace ma
 
 	Material* TerrainSection::GetMaterial()
 	{
-		Terrain* pTerrain = (Terrain*)GetTerrain();
-		if (pTerrain == NULL)
-			return NULL;
-
-		return pTerrain->GetMaterial();
+		return m_pParent->GetMaterial();
 	}
 
 	void TerrainSection::Update()
@@ -50,16 +47,6 @@ namespace ma
 	{
 
 	}
-
-	AABB TerrainSection::GetAABBWS()
-	{
-		return m_WorldAABB;
-	}
-
-// 	void TerrainSection::SetWorldMatrix(const Matrix4x4& matWS)
-// 	{
-// 
-// 	}
 
 	void TerrainSection::Serialize(Serializer& sl, const char* pszLable/* = "TerrainSection"*/)
 	{
@@ -89,7 +76,7 @@ namespace ma
 
 	void TerrainSection::CreateIndexData()
 	{
-		Terrain* pTerrain = (Terrain*)GetTerrain();
+		Terrain* pTerrain = m_pParent;
 
 			/* ¶¥µãË³Ðò
 				0     1 
@@ -158,7 +145,7 @@ namespace ma
 				2     3  
 		*/
 
-		Terrain* pTerrain = (Terrain*)GetTerrain();
+		Terrain* pTerrain = m_pParent;
 
 		sSectorVertex* pVerts = new sSectorVertex[(m_xVerts - 1) * (m_yVerts - 1) * 4];
 
@@ -177,10 +164,10 @@ namespace ma
 				pVerts[base_index + 2].vPos = pTerrain->GetPos(nHeightMapX,nHeightMapY + 1);
 				pVerts[base_index + 3].vPos = pTerrain->GetPos(nHeightMapX + 1, nHeightMapY + 1);
 
-				m_WorldAABB.Merge(pVerts[base_index].vPos);
-				m_WorldAABB.Merge(pVerts[base_index + 1].vPos);	
-				m_WorldAABB.Merge(pVerts[base_index + 2].vPos);	
-				m_WorldAABB.Merge(pVerts[base_index + 3].vPos);	
+				m_AABB.merge(pVerts[base_index].vPos);
+				m_AABB.merge(pVerts[base_index + 1].vPos);	
+				m_AABB.merge(pVerts[base_index + 2].vPos);	
+				m_AABB.merge(pVerts[base_index + 3].vPos);	
 			
 				pVerts[base_index].Normal = pTerrain->GetNormal( nHeightMapX,	   nHeightMapY);
 				pVerts[base_index + 1].Normal = pTerrain->GetNormal( nHeightMapX + 1, nHeightMapY);
@@ -252,6 +239,8 @@ namespace ma
 
 			}
 		}
+
+		m_worldAABB = m_AABB;
 
 		UINT nVertSize = (m_xVerts - 1) * (m_yVerts - 1) * 4 * sizeof(sSectorVertex);
 		m_pRenderable->m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer(/*pVerts,nVertSize*/);

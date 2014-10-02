@@ -14,7 +14,7 @@
 #include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
 #include "Animation/AnimationUtil.hxx"
-
+#include "Animation/AnimationSystem.hxx"
 
 // AnimationTree
 #include "Animation/AnimationTree/AnimClipNode.hxx"
@@ -27,6 +27,8 @@
 #include "Animation/PoseModifier/LookAtModifier.hxx"
 
 
+
+
 using namespace ma;
 
 #define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
@@ -34,7 +36,7 @@ using namespace ma;
 #undef RTTI_DECL
 
 
-Object* Create_AnimationComponent(void* arg) { return new AnimationComponent((GameObject*)arg);} \
+Object* Create_AnimationComponent(void* arg) { return GetAnimationSystem()->CreateAnimationObject((SceneNode*)arg);} 
 void Delete_AnimationComponent(Object* pObj) {}
 
 
@@ -45,7 +47,7 @@ Resource* AnimationSetData_Creator() {return new AnimationSetData();}
 void AnimationModuleInit()
 {
 	AnimationComponent::StaticInitClass(); 
-	ObjectFactoryManager::GetInstance().RegisterObjectFactory("AnimationComponent",Create_AnimationComponent); \
+	ObjectFactoryManager::GetInstance().RegisterObjectFactory("AnimationComponent",Create_AnimationComponent); 
 	ObjectFactoryManager::GetInstance().RegisterObjectDeleteFactory("AnimationComponent",Delete_AnimationComponent);
 
 
@@ -62,10 +64,16 @@ void AnimationModuleInit()
 	ResourceSystem::RegisterResourceFactory("ske",SkeletonData_Creator);
 	ResourceSystem::RegisterResourceFactory("aniset",AnimationSetData_Creator);
 
+	AnimationSystem* pAniSystem = new AnimationSystem();
+	SetAnimationSystem(pAniSystem);
 }
 
 void AnimationModuleShutdown()
 {
+	AnimationSystem* pAniSystem = GetAnimationSystem();
+	SAFE_DELETE(pAniSystem);
+	SetAnimationSystem(NULL);
+
 	ResourceSystem::UnregisterResourceFactory("aniset",AnimationSetData_Creator);
 	ResourceSystem::UnregisterResourceFactory("skn",AnimationData_Creator);
 	ResourceSystem::UnregisterResourceFactory("ske",SkeletonData_Creator);
@@ -96,3 +104,4 @@ extern "C" ANIMATION_API bool dllStopPlugin()
 	return true;
 }
 #endif
+

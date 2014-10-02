@@ -28,8 +28,27 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 		
-		sl.Serialize(val.m_vMin,"m_vMin");
-		sl.Serialize(val.m_vMax,"m_vMax");
+		//ASSERT(false);
+
+		if ( sl.IsReading() )
+		{
+			Vector3 vMin;
+			Vector3 vMax;
+
+			sl.Serialize(vMin,"m_vMin");
+			sl.Serialize(vMax,"m_vMax");
+
+			val.setMinimum(vMin);
+			val.setMaximum(vMax);
+		}
+		else
+		{
+			Vector3 vMin = val.getMinimum();
+			Vector3 vMax = val.getMaximum();
+
+			sl.Serialize(vMin,"m_vMin");
+			sl.Serialize(vMax,"m_vMax");
+		}
 
 		sl.EndSection();
 	}

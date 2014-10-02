@@ -134,7 +134,7 @@ namespace ma
 
 	}
 
-	IScriptObject* ScriptSystem::CreateScriptObject(GameObject* pGameObj)
+	IScriptObject* ScriptSystem::CreateScriptObject(SceneNode* pGameObj)
 	{
 		ScriptObject* pScriptObj = new ScriptObject(pGameObj);
 

@@ -15,7 +15,7 @@ namespace ma
 	}
 
 	Time::Time()
-		:m_frameCnt(0)
+		:m_nFameCnt(0)
 		,m_fFrameTotalTime(0.0)
 		,m_fFrameDeltaTime(0.0f)
 	{
@@ -28,7 +28,7 @@ namespace ma
 
 	void	Time::Reset()
 	{
-		m_frameCnt = 0;
+		m_nFameCnt = 0;
 		m_fFrameTotalTime = 0.0;
 		m_fFrameDeltaTime = 0.0f;
 		gettimeofday(&m_lastReset,0);
@@ -36,7 +36,6 @@ namespace ma
 
 	float	Time::GetMillisceonds() const
 	{
-
 		timeval t;
 		gettimeofday(&t, 0);
 		return (t.tv_sec - m_lastReset.tv_sec) * 1000 + (t.tv_usec - m_lastReset.tv_usec) * 0.001f;
@@ -47,7 +46,7 @@ namespace ma
 		float curTime = GetMillisceonds() * 0.001f;
 		m_fFrameDeltaTime = curTime - m_fFrameTotalTime;
 		m_fFrameTotalTime = curTime;
-		++m_frameCnt;
+		++m_nFameCnt;
 	}
 
 
@@ -55,7 +54,11 @@ namespace ma
 	{
 		return m_fFrameTotalTime;
 	}
-
+		
+	UINT	Time::GetFrameCount() const
+	{
+		return m_nFameCnt;
+	}
 
 	float	Time::GetFrameDeltaTime()const
 	{

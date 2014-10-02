@@ -4,7 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(IScriptObject,Component);
 
-	IScriptObject::IScriptObject(GameObject* pGameObj):
+	IScriptObject::IScriptObject(SceneNode* pGameObj):
 	  Component(pGameObj)
 	{
 

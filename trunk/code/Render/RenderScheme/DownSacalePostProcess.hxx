@@ -19,6 +19,15 @@ namespace ma
 		sprintf(pszDefine,MAX_PATH,"SCALE %d",m_nScale);
 
 		m_DownScaleTech = new Technique("DownSacle","Screen.vert","DownScale/DownScale",pszDefine); 
+
+// 		float width = m_pInputTex->GetWidth();
+// 		float heigh = m_pInputTex->GetWidth();
+// 
+// 		m_BlurXTech->GetParameter("color_weight")->setFloatArray( &(color_weight[0]), 8 );
+// 		m_BlurXTech->GetParameter("tex_coord_offset")->setFloatArray( &(tex_coord_offset[0]), 8 );
+// 		m_BlurXTech->GetParameter("src_tex_size")->setFloatArray( texSize, 2 );
+// 
+// 		m_BlurXTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
 	}
 
 	void DownScalePostProcess::Shutdown()
@@ -33,19 +42,19 @@ namespace ma
 		/// x
 		GetRenderSystem()->PushRenderTarget(m_pOutputTex);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-		float width = m_pInputTex->getWidth();
-		float heigh = m_pInputTex->getWidth();
+// 		float width = m_pInputTex->GetWidth();
+// 		float heigh = m_pInputTex->GetWidth();
+// 
+// 
+// 		m_BlurXTech->GetParameter("color_weight")->setFloatArray( &(color_weight[0]), 8 );
+// 		m_BlurXTech->GetParameter("tex_coord_offset")->setFloatArray( &(tex_coord_offset[0]), 8 );
+// 		m_BlurXTech->GetParameter("src_tex_size")->setFloatArray( texSize, 2 );
+// 
+// 		m_BlurXTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
 
-
-		m_BlurXTech->GetParameter("color_weight")->setFloatArray( &(color_weight[0]), 8 );
-		m_BlurXTech->GetParameter("tex_coord_offset")->setFloatArray( &(tex_coord_offset[0]), 8 );
-		m_BlurXTech->GetParameter("src_tex_size")->setFloatArray( texSize, 2 );
-
-		m_BlurXTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
-
-		ScreenQuad::Render(m_BlurXTech);
+		ScreenQuad::Render(m_DownScaleTech);
 
 		GetRenderSystem()->PopRenderTargert();
 	}

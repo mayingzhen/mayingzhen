@@ -12,7 +12,7 @@ namespace ma
 		}
 
 		char tmpBuf[128];
-		size_t chunkSize = Min(maxCount, (UINT)128-1);
+		size_t chunkSize = Math::Min(maxCount, (UINT)128-1);
 		size_t totalCount = 0;
 		size_t readCount; 
 		while (chunkSize && (readCount = Read(tmpBuf, chunkSize)) != 0)
@@ -49,7 +49,7 @@ namespace ma
 			}
 
 			// Adjust chunkSize for next time
-			chunkSize = Min(maxCount-totalCount, (size_t)128-1);
+			chunkSize = Math::Min(maxCount-totalCount, (size_t)128-1);
 		}
 
 		// Terminate

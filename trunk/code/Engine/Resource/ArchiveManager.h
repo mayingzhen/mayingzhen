@@ -14,6 +14,8 @@ namespace ma
 
 		StreamPtr			Open(const char* pszFile, bool readOnly = true) const;
 
+		StreamPtr			Create(const char* pszFile) const;
+
 		MemoryStreamPtr		ReadAll(const char* pszFile,UINT nExtenSiz = 0) const;
 
 		void				AddArchive(Archive* pArchive);
@@ -23,7 +25,7 @@ namespace ma
 		std::string			GetFullPath(const char* pszFile) const;
 
 	private:
-		typedef std::vector< ref_ptr<Archive> > VEC_ARCHIVE;
+		typedef std::vector< RefPtr<Archive> > VEC_ARCHIVE;
 
 		VEC_ARCHIVE		m_vecArchive;
 	};

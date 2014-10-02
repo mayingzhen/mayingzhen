@@ -8,9 +8,9 @@ namespace ma
 	LookAtModifier::LookAtModifier()
 		:m_vGoalOS(0.0,1.0,0.0)
 		,m_qPivotLS(0.0f,0.0f,0.0f,1.0f)
-		,m_nBoneID(InvalidID<UINT>())
+		,m_nBoneID(Math::InvalidID<BoneIndex>())
 		,m_fGoalDistThreshold(1.0f)
-		,m_fMaxYaw(PI/2.0f)
+		,m_fMaxYaw(Math::HALF_PI)
 	{
 
 	}
@@ -24,14 +24,14 @@ namespace ma
 		if (!m_bEnable)
 			return;
 
-		NodeTransform pivotOS;
-		NodeTransform pivotInvOS;
+		Transform pivotOS;
+		Transform pivotInvOS;
 		pivotOS = pNodePose->GetTransformOS(m_nBoneID);
 		TransformInverse(&pivotInvOS,&pivotOS);
 
 		Vector3 vGoalPivotSpace;
 		//TransformPoint(&vGoalPivotSpace,&m_vGoalOS,&pivotInvOS);
-		float fGoalLenPivotSpace = Vec3Length(&vGoalPivotSpace);
+		float fGoalLenPivotSpace = vGoalPivotSpace.length();
 		Vector3 vGoalDirPivotSpace = vGoalPivotSpace / fGoalLenPivotSpace;
 		//maEulerAngleFromXToAxis()
 
@@ -39,8 +39,8 @@ namespace ma
 
 
 
-// 		NodeTransform pivotOS;
-// 		NodeTransform pivotInvOS;
+// 		Transform pivotOS;
+// 		Transform pivotInvOS;
 // 
 // 		pivotOS = pNodePose->GetTransformOS(m_nBoneID); //GetBoneTransformOS(m_nBoneID);
 // 		pivotOS.m_qRot = m_qPivotLS * pivotOS.m_qRot;
@@ -74,7 +74,7 @@ namespace ma
 // 		QuaternionIdentity(&iden);
 // 		QuaternionSlerp(&qRotLS,&iden,&qRotLS,m_fGain);
 // 			
-// 		NodeTransform offsetTSFLS;
+// 		Transform offsetTSFLS;
 // 		TransformSetIdentity(&offsetTSFLS);
 // 		offsetTSFLS.m_qRot = qRotLS;
 // 
@@ -93,29 +93,19 @@ namespace ma
 
 	void LookAtModifier::CalculatePovitLs(const Vector3& vFowardLS,const Vector3& vUpLS)
 	{
-		Matrix4x4 matPovitLS;
-		Vector3 vSide;
-		Vector3 vUp;
-		Vec3Cross(&vSide,&vUpLS,&vFowardLS);
-		Vec3Normalize(&vSide,&vSide);
-		Vec3Cross(&vUp,&vFowardLS,&vSide);
-		MatrixAxis(&matPovitLS,&vFowardLS,&vSide,&vUp);
-		QuaternionRotationMatrix(&m_qPivotLS,&matPovitLS);
+		Vector3 vFoward = vFowardLS.normalisedCopy();
+		Vector3 vSide = vUpLS.crossProduct(vFoward).normalisedCopy();
+		Vector3 vUp = vFowardLS.crossProduct(vSide).normalisedCopy();
+		m_qPivotLS.FromAxes(vSide,vFoward,vUp);
 	}
 
 	Vector3	LookAtModifier::GetFowardLS() const
 	{
-		Matrix4x4 matOldPPovitLS;
-		MatrixRotationQuaternion(&matOldPPovitLS, &m_qPivotLS);
-		Vector3 vOldFowardLS = Vector3(matOldPPovitLS._11, matOldPPovitLS._12, matOldPPovitLS._13);
-		return vOldFowardLS;
+		return m_qPivotLS.yAxis();
 	}
 	Vector3	LookAtModifier::GetUpLS() const
 	{
-		Matrix4x4 matOldPPovitLS;
-		MatrixRotationQuaternion(&matOldPPovitLS, &m_qPivotLS);
-		Vector3 vOldUpLS = Vector3(matOldPPovitLS._31, matOldPPovitLS._32, matOldPPovitLS._33);
-		return vOldUpLS;
+		return m_qPivotLS.zAxis();
 	}
 	void LookAtModifier::SetBoneID( UINT nBoneID )
 	{
@@ -141,7 +131,7 @@ namespace ma
 
 	void				LookAtModifier::SetMaxYaw(float fMaxYaw)
 	{
-		m_fMaxYaw = Clamp(fMaxYaw,0.0f,PI);
+		m_fMaxYaw = Math::Clamp(fMaxYaw,0.0f,Math::PI);
 	}
 
 	float				LookAtModifier::GetMaxYaw() const
@@ -149,9 +139,9 @@ namespace ma
 		return m_fMaxYaw;
 	}
 
-	//Matrix4x4 LookAtModifier::ApplyLimit(const Matrix4x4* pBonePS)const
+	//Matrix4 LookAtModifier::ApplyLimit(const Matrix4* pBonePS)const
 	//{
-	//	Matrix4x4 ret;
+	//	Matrix4 ret;
 	//	EulerAngleXYZ eRotPS;
 	//	EulerAngleXYZFromMatrix(&eRotPS,pBonePS);
 	//	eRotPS.x = Clamp(eRotPS.x,m_vAngleMin.x,m_vAngleMax.x);

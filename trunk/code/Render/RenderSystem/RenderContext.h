@@ -19,15 +19,15 @@ namespace ma
 
 		Light*					GetCurLight() {return m_pCurLight;}
 		
-		void					SetViewMatrix(const Matrix4x4& matView) {m_matViewProj.SetMatView(matView);}
+		void					SetViewMatrix(const Matrix4& matView) {m_matViewProj.SetMatView(matView);}
 
-		const Matrix4x4&		GetViewMatrix()  {return m_matViewProj.GetMatView();}
+		const Matrix4&			GetViewMatrix()  {return m_matViewProj.GetMatView();}
 
-		void					SetProjMatrix(const Matrix4x4& matProj) {m_matViewProj.SetMatProj(matProj);}
+		void					SetProjMatrix(const Matrix4& matProj) {m_matViewProj.SetMatProj(matProj);}
 
-		const Matrix4x4&		GetProjMatrix()  {return m_matViewProj.GetMatProj();}
+		const Matrix4&			GetProjMatrix()  {return m_matViewProj.GetMatProj();}
 
-		const Matrix4x4&		GetViewProjMatrix()  {return m_matViewProj.GetMatViewProj();}
+		const Matrix4&			GetViewProjMatrix()  {return m_matViewProj.GetMatViewProj();}
 
 		float					GetNearClip() {return m_fNear;}
 

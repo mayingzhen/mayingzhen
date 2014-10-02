@@ -33,7 +33,6 @@ namespace ma
 
 		std::vector<ClassField*>	m_arrFields;
 
-
 		std::vector<ScriptObject*>	m_arrObjectInstance;
 	};
 

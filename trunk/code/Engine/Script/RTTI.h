@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	Object*	Create_ScriptObject(void* arg) {return GetScriptSystem()->CreateScriptObject( (GameObject*)arg );}
+	Object*	Create_ScriptObject(void* arg) {return GetScriptSystem()->CreateScriptObject( (SceneNode*)arg );}
 	void	Delete_ScriptObject(Object* pObj) {GetScriptSystem()->DeleteScriptObject( (IScriptObject*)pObj );}
 
 	void IScriptSystemRTTIInit()

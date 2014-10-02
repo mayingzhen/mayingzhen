@@ -9,7 +9,7 @@ namespace ma
 		DECL_OBJECT(IRigidBody)
 
 	public:
-		IRigidBody(GameObject* pGameObj);
+		IRigidBody(SceneNode* pGameObj);
 
 		virtual void			SetUseGravity(bool bUseGravity) = 0;
 
@@ -30,6 +30,10 @@ namespace ma
 		virtual void			SetAngularDamping(float fAngularDamping) = 0;
 
 		virtual float			GetAngularDamping() = 0;
+
+		virtual	void			SetDeactivationTime(float fTime) = 0;
+
+		virtual	void			SetSleepingThresholds(float fLinear,float fAngular) = 0;
 
 		virtual	void			ApplyForce(Vector3 vForce) = 0;
 	};

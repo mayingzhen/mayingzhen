@@ -8,7 +8,7 @@ using namespace ma;
 
 
 #define RTTI_DECL(ClassType) \
-	Object* Create_##ClassType(void* arg) { return new ClassType((GameObject*)arg);} \
+	Object* Create_##ClassType(void* arg) { return new ClassType((SceneNode*)arg);} \
 	void Delete_##ClassType(Object* pObj) { /*SAFE_DELETE(pObj);*/}
 
 RTTI_DECL(MeshComponent);
@@ -17,7 +17,7 @@ RTTI_DECL(PointLight);
 RTTI_DECL(SpotLight);
 RTTI_DECL(DirectonalLight);
 RTTI_DECL(Camera);
-RTTI_DECL(TerrainSection);
+//RTTI_DECL(TerrainSection);
 
 #undef RTTI_DECL
 
@@ -37,7 +37,6 @@ RTTI_DECL(ShadingPass);
 
 void RenderSystemRTTIInit()
 {
-	RenderComponent::StaticInitClass();
 	Light::StaticInitClass();
 
 	RenderPass::StaticInitClass();
@@ -53,7 +52,7 @@ void RenderSystemRTTIInit()
 	RTTI_DECL(SpotLight);
 	RTTI_DECL(Camera);
 	RTTI_DECL(DirectonalLight);
-	RTTI_DECL(TerrainSection);
+	//RTTI_DECL(TerrainSection);
 
 	RTTI_DECL(ShadowDepthPass);
 	RTTI_DECL(GBufferPass);

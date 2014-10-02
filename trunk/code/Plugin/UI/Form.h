@@ -226,15 +226,15 @@ private:
     void updateBounds();
 
 
-    Theme* _theme;                      // The Theme applied to this Form.
-    Texture* _frameBuffer;          // FBO the Form is rendered into for texturing the quad. 
-    SpriteBatch* _spriteBatch;
-    Material* _nodeMaterial;            // Material for rendering this Form in 3d space.
+    Theme* m_pTheme;                      // The Theme applied to this Form.
+    Texture* m_pFrameBuffer;          // FBO the Form is rendered into for texturing the quad. 
+    SpriteBatch* m_pSpriteBatch;
+    Material* m_pNodeMaterial;            // Material for rendering this Form in 3d space.
     //float _u2;
     //float _v1;
 	Vector4	m_rRect;
-    Matrix4x4 _projectionMatrix;           // Orthographic projection matrix to be set on SpriteBatch objects when rendering into the FBO.
-    Matrix4x4 _defaultProjectionMatrix;
+    Matrix4 m_matProjection;           // Orthographic projection matrix to be set on SpriteBatch objects when rendering into the FBO.
+    Matrix4 m_matDefaultProjection;
 };
 
 }

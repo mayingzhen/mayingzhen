@@ -170,7 +170,7 @@ void RadioButton::update(const Control* container, const Vector2& offset)
     Label::update(container, offset);
 
     Vector2 size;
-    if (_imageSize.isZero())
+    if (_imageSize == Vector2::ZERO)
     {
         if (_selected)
         {
@@ -211,11 +211,11 @@ void RadioButton::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
     // TODO: Set an alignment for radio button images.   
     const Rectangle& region = _image->getRegion();
     const Theme::UVs& uvs = _image->getUVs();
-    Vector4 color = _image->getColor();
-    color.w *= _opacity;
+    ColourValue color = _image->getColor();
+    color.a *= _opacity;
 
     Vector2 size;
-    if (_imageSize.isZero())
+    if (_imageSize == Vector2::ZERO)
     {
         size = Vector2(region.width, region.height);
     }

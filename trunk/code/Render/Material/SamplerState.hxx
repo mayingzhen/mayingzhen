@@ -3,6 +3,22 @@
 
 namespace ma
 {
+	static const char* strWrap[] =
+	{
+		"REPEAT",
+		"CLAMP", 
+		0
+	};
+
+	static const char* strFilterOptions[] =
+	{
+		"TFO_POINT",
+		"TFO_BILINEAR",
+		"TFO_TRILINEAR",
+		"TFO_ANISOTROPIC",
+		0
+	};
+
 	SamplerState::SamplerState()
 	{
 		m_pTexture = NULL;
@@ -25,12 +41,17 @@ namespace ma
  		return m_pTexture.get();
  	}
 
-	void SamplerState::SetTexture(const char* pTexPath)
+	const char* SamplerState::GetTexturePath() const
 	{
-		m_pTexture = LoadResourceASync<Texture>(pTexPath);
+		return m_pTexture ? m_pTexture->GetResPath() : "";
 	}
 
-	void SamplerState::SetTexture(ref_ptr<Texture> pTextute)
+	void SamplerState::SetTexturePath(const char* pTexPath)
+	{
+		m_pTexture = LoadResourceASync<Texture>(pTexPath,NULL);
+	}
+
+	void SamplerState::SetTexture(RefPtr<Texture> pTextute)
 	{
 		m_pTexture = pTextute;
 	}
@@ -38,22 +59,17 @@ namespace ma
 	void SamplerState::Serialize(Serializer& sl, const char* pszLable/* = "SamplerState"*/)
 	{
 		sl.BeginSection(pszLable);
-	
-		if (sl.IsReading())
-		{
-			std::string sTexurePath;
-			sl.Serialize(sTexurePath,"Texture");
 
-			SetTexture(sTexurePath.c_str());
-		}
-		else
-		{
-			std::string sTexurePath = m_pTexture->GetResPath();
-			sl.Serialize(sTexurePath,"Texture");
-		}
+ 		std::string sTexurePath = GetTexturePath();
 
-		//sl.Serialize(m_eFilter,"Filter");
-		//sl.Serialize(m_eWrap,"Wrap");
+ 		sl.Serialize(sTexurePath,"TexturePath");
+ 		sl.Serialize(m_eFilter,strFilterOptions,"Filter");
+ 		sl.Serialize(m_eWrap,strWrap,"Wrap");
+
+		if ( sl.IsReading() )
+		{
+			SetTexturePath(sTexurePath.c_str());
+		}
 
 		sl.EndSection();
 	}

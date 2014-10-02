@@ -39,7 +39,7 @@ namespace ma
 		void CalculatePovitLs(const Vector3& vFowardLS,const Vector3& vUpLS);
 
 	private:
-		Vector3 m_vGoalOS;		//goal in object space
+		Vector3		m_vGoalOS;		//goal in object space
 
 		Quaternion	m_qPivotLS;
 

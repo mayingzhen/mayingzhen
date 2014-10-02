@@ -94,7 +94,7 @@ float Slider::getValue() const
 
 void Slider::setValue(float value)
 {
-    _value = MATH_CLAMP(value, _min, _max);
+	_value = Math::Clamp(value, _min, _max);
 }
 
 void Slider::setValueTextVisible(bool valueTextVisible)
@@ -218,7 +218,7 @@ bool Slider::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contac
             _value = (markerPosition * (_max - _min)) + _min;
             if (_step > 0.0f)
             {            
-                int numSteps = round(_value / _step);
+				int numSteps = Math::round(_value / _step);
                 _value = _step * numSteps;
             }
 
@@ -275,7 +275,7 @@ bool Slider::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 
                 if (_step > 0.0f)
                 {            
-                    int numSteps = round(_value / _step);
+					int numSteps = Math::round(_value / _step);
                     _value = _step * numSteps;
                 }
 
@@ -463,7 +463,7 @@ void Slider::update(const Control* container, const Vector2& offset)
         if (_step > 0.0f)
         {
             _gamepadValue += (total * GAMEPAD_FRACTION) * _delta;
-            int numSteps = round(_gamepadValue / _step);
+			int numSteps = Math::round(_gamepadValue / _step);
             _value = _step * numSteps;
         }
         else
@@ -531,15 +531,15 @@ void Slider::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
     const Theme::UVs& marker = _markerImage->getUVs();
     const Theme::UVs& track = _trackImage->getUVs();
 
-    Vector4 minCapColor = _minImage->getColor();
-    Vector4 maxCapColor = _maxImage->getColor();
-    Vector4 markerColor = _markerImage->getColor();
-    Vector4 trackColor = _trackImage->getColor();
+    ColourValue minCapColor = _minImage->getColor();
+    ColourValue maxCapColor = _maxImage->getColor();
+    ColourValue markerColor = _markerImage->getColor();
+    ColourValue trackColor = _trackImage->getColor();
 
-    minCapColor.w *= _opacity;
-    maxCapColor.w *= _opacity;
-    markerColor.w *= _opacity;
-    trackColor.w *= _opacity;
+    minCapColor.a *= _opacity;
+    maxCapColor.a *= _opacity;
+    markerColor.a *= _opacity;
+    trackColor.a *= _opacity;
 
     // Draw order: track, caps, marker.
     float midY = _viewportBounds.y + (_viewportBounds.height) * 0.5f;

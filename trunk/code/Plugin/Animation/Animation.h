@@ -17,7 +17,7 @@ namespace ma
 
 		UINT							GetFrameNumber() {return m_nFrameNumber;}
 
-		void							SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const;
+		void							SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
 		void							Serialize(Serializer& sl, const char* pszLable);
 
@@ -26,14 +26,6 @@ namespace ma
 		const char*						GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}
 
 		UINT							GetTransfTrackIndexByName(const char* pszName);
-
-// 		std::vector<Vector3Track*>&		GetArrScaleTrack() {return m_arrScaleTrack;}
-// 
-// 		std::vector<QuaternionTrack*>&	GetArrRotTrack() {return m_arrRotTrack;}
-// 
-// 		std::vector<Vector3Track*>&		GetArrPosTrack() {return m_arrPosTrack;}
-// 		
-// 		std::vector<std::string>		GetArrTransfTrackName() {return m_arrTransfTrackName;}
 
 	public:
 		std::vector<std::string>		m_arrTransfTrackName;

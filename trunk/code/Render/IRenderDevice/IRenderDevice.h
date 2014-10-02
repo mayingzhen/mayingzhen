@@ -12,7 +12,7 @@ namespace ma
 	class VertexStream;
 	class MeshComponent; 
 	class MeshBatch;
-	struct Renderable;
+	class Renderable;
 	class ShaderProgram;
 	struct RenderState;
 	class Technique;
@@ -50,7 +50,7 @@ namespace ma
 
 		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
 	
-		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s) = 0;
+		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s) = 0;
 
 		/// Render pass
 		virtual	void				Init(HWND wndhandle) = 0;
@@ -67,13 +67,11 @@ namespace ma
 
 		virtual float				GetHalfPixelOffset(float fHalfPiexl) = 0;
 
-		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf) = 0;
+		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 
-		virtual	Matrix4x4			MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf) = 0;
+		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;
 		
-		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf) = 0;
-	
-		virtual	void				GetProjectionNearFar(float& fProjNear, float& fProjFar) = 0;
+		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf) = 0;
 
 		virtual	void				BeginProfile(const char* pszLale) = 0;
 

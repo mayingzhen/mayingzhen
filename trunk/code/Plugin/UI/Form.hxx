@@ -13,8 +13,8 @@ namespace ma
 {
 
 
-Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),
-    _nodeMaterial(NULL) , m_rRect(0,0,0,0)
+Form::Form() : m_pTheme(NULL), m_pFrameBuffer(NULL), m_pSpriteBatch(NULL),
+    m_pNodeMaterial(NULL) , m_rRect(0,0,0,0)
 {
 	GetInput()->AddKeyListener(this);
 	GetInput()->AddMouseListener(this);
@@ -25,9 +25,9 @@ Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL),
 
 Form::~Form()
 {
-    SAFE_DELETE(_spriteBatch);
+    SAFE_DELETE(m_pSpriteBatch);
     //SAFE_DEC_REF(_frameBuffer);
-    SAFE_DEC_REF(_theme);
+    SAFE_DEC_REF(m_pTheme);
 }
 
 bool Form::mouseMoved( const OIS::MouseEvent &arg )
@@ -150,11 +150,11 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
         form->_id = id;
     form->_style = style;
     form->_layout = layout;
-    form->_theme = style->getTheme();
-    form->_theme->Ref();
+    form->m_pTheme = style->getTheme();
+    form->m_pTheme->Ref();
 
 	Rectangle rect = GetRenderSystem()->GetViewPort();
-	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
+	GetRenderDevice()->MakeOrthoMatrixOffCenter(form->m_matDefaultProjection, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
 
     form->updateBounds();
 
@@ -207,11 +207,11 @@ Form* Form::create(const char* url)
 
     Form* form = new Form();
     form->_layout = layout;
-    form->_theme = theme;
+    form->m_pTheme = theme;
 
     // Get default projection matrix.
 	Rectangle rect = GetRenderSystem()->GetViewPort();
-	GetRenderDevice()->MakeOrthoMatrixOffCenter(&form->_defaultProjectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
+	GetRenderDevice()->MakeOrthoMatrixOffCenter(form->m_matDefaultProjection, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
 
     Theme::Style* style = NULL;
     const char* styleName = formProperties->getString("style");
@@ -267,7 +267,7 @@ Form* Form::create(const char* url)
 
 Theme* Form::getTheme() const
 {
-    return _theme;
+    return m_pTheme;
 }
 
 void Form::setSize(float width, float height)
@@ -288,8 +288,8 @@ void Form::setSize(float width, float height)
         (width != _bounds.width || height != _bounds.height))
     {
         // Width and height must be powers of two to create a texture.
-        unsigned int w = NextPowerOfTwo(width);
-        unsigned int h = NextPowerOfTwo(height);
+		unsigned int w = Math::NextPowerOfTwo(width);
+        unsigned int h = Math::NextPowerOfTwo(height);
 		
 		float fHalftw = GetRenderDevice()->GetHalfPixelOffset(0.5f / w);
 		float fHalfth = GetRenderDevice()->GetHalfPixelOffset(0.5f / h);
@@ -300,29 +300,29 @@ void Form::setSize(float width, float height)
         //_u2 = width / (float)w;
         //_v1 = height / (float)h;
 
-		_frameBuffer = GetRenderSystem()->CreateRenderTarget(w,h);
-        ASSERT(_frameBuffer);
+		m_pFrameBuffer = GetRenderSystem()->CreateRenderTarget(w,h);
+        ASSERT(m_pFrameBuffer);
 
         // Re-create projection matrix.
-		GetRenderDevice()->MakeOrthoMatrixOffCenter(&_projectionMatrix, 0, width, height, 0, 0.0f, 1.0f);
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(m_matProjection, 0, width, height, 0, 0.0f, 1.0f);
 
         // Re-create sprite batch.
-        _spriteBatch = new SpriteBatch(_frameBuffer/*->GetTexture()*/);
-        ASSERT(_spriteBatch);
+        m_pSpriteBatch = new SpriteBatch(m_pFrameBuffer/*->GetTexture()*/);
+        ASSERT(m_pSpriteBatch);
 
-		_spriteBatch->GetStateBlock().m_bDepthWrite = false;
-		_spriteBatch->GetStateBlock().m_eDepthCheckMode = DCM_NONE;
+		m_pSpriteBatch->GetStateBlock().m_bDepthWrite = false;
+		m_pSpriteBatch->GetStateBlock().m_eDepthCheckMode = DCM_NONE;
 
 		Rectangle viewPort(0, 0, width, height);
 
         // Clear the framebuffer black
-	 	Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(_frameBuffer);
+	 	Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
 		Rectangle preViewPort = GetRenderSystem()->SetViewPort(viewPort);
 
-        _theme->setProjectionMatrix(_projectionMatrix);
-		Color clearColor(0.0f,0.0f,0.0f,0.0f);
+        m_pTheme->setProjectionMatrix(m_matProjection);
+		ColourValue clearColor(0.0f,0.0f,0.0f,0.0f);
 		GetRenderSystem()->ClearBuffer(true,false,false,clearColor, 1.0f, 0);
-        _theme->setProjectionMatrix(_defaultProjectionMatrix);
+        m_pTheme->setProjectionMatrix(m_matDefaultProjection);
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget);
 		GetRenderSystem()->SetViewPort(preViewPort);
@@ -394,7 +394,7 @@ void Form::update(float elapsedTime)
         }
         else
         {
-            _layout->update(this, Vector2::zero());
+            _layout->update(this, Vector2::ZERO);
         }
     }
 }
@@ -526,42 +526,42 @@ void Form::draw()
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
     if (isDirty())
     {
-        ASSERT(_frameBuffer);
+        ASSERT(m_pFrameBuffer);
 
 		Rectangle viewPort(0, 0, _bounds.width, _bounds.height);
 
-		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(_frameBuffer);
+		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
 		Rectangle preViewProt = GetRenderSystem()->SetViewPort(viewPort);
 
-        ASSERT(_theme);
-        _theme->setProjectionMatrix(_projectionMatrix);
+        ASSERT(m_pTheme);
+        m_pTheme->setProjectionMatrix(m_matProjection);
         
         // By setting needsClear to true here, an optimization meant to clear and redraw only areas of the form
         // that have changed is disabled.  Currently, repositioning controls can result in areas of the screen being cleared
         // after another control has been drawn there.  This should probably be done in two passes -- one to clear areas where
         // dirty controls were last frame, and another to draw them where they are now.
-        Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),true, false, _bounds.height);
-        _theme->setProjectionMatrix(_defaultProjectionMatrix);
+        Container::draw(m_pTheme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),true, false, _bounds.height);
+        m_pTheme->setProjectionMatrix(m_matDefaultProjection);
 
 		GetRenderSystem()->SetViewPort(preViewProt);
 		GetRenderSystem()->SetRenderTarget(pPreTarget);
     }
 
 
-	if (!_spriteBatch)
+	if (!m_pSpriteBatch)
     {
-        _spriteBatch = new SpriteBatch(_frameBuffer/*->GetTexture()*/);
-        ASSERT(_spriteBatch);
+        m_pSpriteBatch = new SpriteBatch(m_pFrameBuffer/*->GetTexture()*/);
+        ASSERT(m_pSpriteBatch);
     }
 
-    _spriteBatch->Reset();
+    m_pSpriteBatch->Reset();
 	float fTop = m_rRect.x;
 	float fLeft = m_rRect.y;
 	float fRight = m_rRect.z;
 	float fBottom = m_rRect.w;
 	GetRenderDevice()->ConvertUV(fTop,fLeft,fRight,fBottom);
-    _spriteBatch->Draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, Vec4One());
-    _spriteBatch->Render(NULL);
+	m_pSpriteBatch->Draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, fLeft, fTop, fRight, fBottom, ColourValue::White);
+    m_pSpriteBatch->Render(NULL);
 }
 
 const char* Form::getType() const

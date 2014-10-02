@@ -9,7 +9,6 @@ namespace ma
 		memset(m_lumTexs, 0, sizeof(m_lumTexs) ); 
 		memset(m_DownSampleTex, 0, sizeof(m_DownSampleTex) );
 		memset(m_GlowTex, 0, sizeof(m_GlowTex) );
-		//m_GlowMergedTex = NULL;
 		memset(m_AdaptedTex, 0, sizeof(m_AdaptedTex) );
 	}
 
@@ -38,10 +37,9 @@ namespace ma
 			len *= 4;
 		}
 
-
 		Rectangle rect = GetRenderSystem()->GetViewPort();
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < NUM_DownSamplers + 1; ++i)
 		{
 			int nWidth = rect.width / (2 << i);
 			int nHeight = rect.height / (2 << i);
@@ -54,26 +52,58 @@ namespace ma
 			m_pBlurPP[i]->Init();
 		}
 
-		//m_GlowMergedTex = GetRenderSystem()->CreateRenderTarget(width / 2, height / 2,FMT_A16B16G16R16F);
-
 		for (int i = 0; i < AdaptedTex_NUM; ++i)
 		{
 			m_AdaptedTex[i] = GetRenderSystem()->CreateRenderTarget( 1, 1,FMT_R32F);
 		}
-
 	}
 
 	void HDRPostProcess::LoadShader()
 	{
+		std::vector<Vector4> texCoordOffset;
+		GetSampleOffsets2x2(m_pInputTex->GetWidth(), m_pInputTex->GetHeight(), texCoordOffset);
+
 		m_SumLogTech = new Technique("SumLuminanceLog","Screen","HDR/SumLuminanceLog",NULL); 
-		m_SumLumIterativeTech = new Technique("SumLuminanceIterative","Screen","HDR/SumLuminanceIterative",NULL);
+		m_SumLogTech->SetParameter("g_SamplerSrc",Any(m_pInputTex));
+		m_SumLogTech->SetParameter("tex_coord_offset",Any(texCoordOffset)); 
+
+		for (UINT i = 0; i < NUM_SUM_LUM; ++i)
+		{
+			GetSampleOffsets2x2(m_lumTexs[i -1]->GetWidth(), m_lumTexs[i -1]->GetHeight(), texCoordOffset);
+
+			m_SumLumIterativeTech[i] = new Technique("SumLuminanceIterative","Screen","HDR/SumLuminanceIterative",NULL);
+			m_SumLumIterativeTech[i]->SetParameter("g_SamplerSrc",Any(m_lumTexs[i -1]));
+			m_SumLumIterativeTech[i]->SetParameter("tex_coord_offset",Any(texCoordOffset));
+		}
+		
+		GetSampleOffsets2x2(m_lumTexs[NUM_SUM_LUM -1]->GetWidth(), m_lumTexs[NUM_SUM_LUM -1]->GetHeight(), texCoordOffset);	
+		
 		m_SumLumFinal = new Technique("SumLuminanceFinal","Screen","HDR/SumLuminanceFinal",NULL);
+		m_SumLumFinal->SetParameter("g_SamplerSrc",Any(m_lumTexs[NUM_SUM_LUM -1]));
+		m_SumLumFinal->SetParameter("tex_coord_offset",Any(texCoordOffset));
 
 		m_AdaptedLumTech = new Technique("AdaptedLum","Screen","HDR/AdaptedLum",NULL); 
+		m_AdaptedLumTech->SetParameter("g_SamplerSrc",Any(m_lumTexs[NUM_SUM_LUM]));
+		m_AdaptedLumTech->SetParameter("g_SamplerLastLum",Any(m_AdaptedTex[AdaptedTex_LAST]));
+		m_AdaptedLumTech->GetParameter("frame_delta")->BindMethod( GetTimer(), &Time::GetFrameDeltaTime );	
+
 		m_BrightPassTech = new Technique("BrightPass","Screen","HDR/BrightPass",NULL); 
-		m_DownSamplersTech = new Technique("DownSample","Screen","HDR/DownSample",NULL); 
-		//m_GlowMergeTech = new Technique("GlowMerge","Screen","HDR/GlowMerge",NULL); 
+		m_BrightPassTech->SetParameter("g_SamplerSrc",Any(m_pInputTex));
+
+		for (UINT i = 0; i < NUM_DownSamplers; ++i)
+		{
+			m_DownSamplersTech[i] = new Technique("DownSample","Screen","HDR/DownSample",NULL); 
+			m_DownSamplersTech[i]->SetParameter("g_SamplerSrc",Any(m_DownSampleTex[i]));
+		}
+
 		m_ToneMappingTech = new Technique("ToneMaping","Screen","HDR/ToneMaping",NULL);
+		m_ToneMappingTech->SetParameter("gTex_Scene",Any(m_pInputTex));
+		m_ToneMappingTech->SetParameter("gTex_Lum",Any(m_AdaptedTex[AdaptedTex_CUR]));
+		m_ToneMappingTech->SetParameter("gTex_Bright0",Any(m_GlowTex[0]));
+		m_ToneMappingTech->SetParameter("gTex_Bright1",Any(m_GlowTex[1]));
+		m_ToneMappingTech->SetParameter("gTex_Bright2",Any(m_GlowTex[2]));
+		m_ToneMappingTech->SetParameter("gExposure",Any(3.0f));
+		m_ToneMappingTech->SetParameter("gBloomWeight",Any(Vector4(0.5f,0.3f,0.2f,0)));
 	}
 
 
@@ -97,50 +127,25 @@ namespace ma
 		RENDER_PROFILE(MeasureLuminance);
 
 		GetRenderSystem()->SetRenderTarget(m_lumTexs[0]);
-		//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[0]->getWidth(),m_lumTexs[0]->getHeight()))
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
-
-		Vector4 texCoordOffset[2];
-		GetSampleOffsets2x2(m_pInputTex->getWidth(), m_pInputTex->getHeight(), texCoordOffset);
-
-		m_SumLogTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
-		m_SumLogTech->GetParameter("tex_coord_offset")->setVector4Array(texCoordOffset,2); 
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_SumLogTech);
-
-		//GetRenderSystem()->PopRenderTargert();
 
 		for (int i = 1; i < NUM_SUM_LUM; ++i)
 		{
 			GetRenderSystem()->SetRenderTarget(m_lumTexs[i]);
 
-			GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
-			//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[i]->getWidth(),m_lumTexs[i]->getHeight()));
+			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
-			GetSampleOffsets2x2(m_lumTexs[i -1]->getWidth(), m_lumTexs[i -1]->getHeight(), texCoordOffset);
-
-			m_SumLumIterativeTech->GetParameter("g_SamplerSrc")->setTexture(m_lumTexs[i -1]);
-			m_SumLumIterativeTech->GetParameter("tex_coord_offset")->setVector4Array(texCoordOffset,2);
-
-			ScreenQuad::Render(m_SumLumIterativeTech);
-
-			//GetRenderSystem()->PopRenderTargert();
+			ScreenQuad::Render(m_SumLumIterativeTech[i]);
 		}
 
 		GetRenderSystem()->SetRenderTarget(m_lumTexs[NUM_SUM_LUM]);
 		
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
-		//GetRenderSystem()->SetViewPort(Rectangle(0,0,m_lumTexs[NUM_SUM_LUM]->getWidth(),m_lumTexs[NUM_SUM_LUM]->getHeight()));
-		
-		GetSampleOffsets2x2(m_lumTexs[NUM_SUM_LUM -1]->getWidth(), m_lumTexs[NUM_SUM_LUM -1]->getHeight(), texCoordOffset);
-		
-		m_SumLumFinal->GetParameter("g_SamplerSrc")->setTexture(m_lumTexs[NUM_SUM_LUM -1]);
-		m_SumLumFinal->GetParameter("tex_coord_offset")->setVector4Array(texCoordOffset,2);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_SumLumFinal);
-
-		//GetRenderSystem()->PopRenderTargert();
 	}
 
 	void HDRPostProcess::AdaptedLum()
@@ -154,15 +159,10 @@ namespace ma
 
 		GetRenderSystem()->SetRenderTarget(m_AdaptedTex[AdaptedTex_CUR]);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
-
-		m_AdaptedLumTech->GetParameter("g_SamplerSrc")->setTexture(m_lumTexs[NUM_SUM_LUM]);
-		m_AdaptedLumTech->GetParameter("g_SamplerLastLum")->setTexture(m_AdaptedTex[AdaptedTex_LAST]);
-		m_AdaptedLumTech->GetParameter("frame_delta")->setFloat( GetTimer()->GetFrameDeltaTime() );
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		ScreenQuad::Render(m_AdaptedLumTech);
 
-		//GetRenderSystem()->PopRenderTargert();
 	}
 
 	void HDRPostProcess::BrightPassDownSample()
@@ -171,26 +171,17 @@ namespace ma
 
 		GetRenderSystem()->SetRenderTarget(m_DownSampleTex[0]);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
-
-		m_BrightPassTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
-		//m_BrightPassTech->GetParameter("g_SamplerLum")->setTexture(m_AdaptedTex[AdaptedTex_CUR]);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 		ScreenQuad::Render(m_BrightPassTech);
 
-		//GetRenderSystem()->PopRenderTargert();
-
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < NUM_DownSamplers; ++i)
 		{
 			GetRenderSystem()->SetRenderTarget(m_DownSampleTex[i + 1]);
 
-			GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1.0f,0);
+			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-			m_DownSamplersTech->GetParameter("g_SamplerSrc")->setTexture(m_DownSampleTex[i]);
-
-			ScreenQuad::Render(m_DownSamplersTech);
-
-			//GetRenderSystem()->PopRenderTargert();
+			ScreenQuad::Render(m_DownSamplersTech[i]);
 		}
 	}
 
@@ -203,20 +194,6 @@ namespace ma
 		{
 			m_pBlurPP[i]->Render();
 		}
-
-// 		GetRenderSystem()->PushRenderTarget(m_GlowMergedTex);
-// 
-// 		GetRenderSystem()->ClearBuffer(true,false,false,Color(0,0,0,0),1.0f,0);
-// 
-// 		m_GlowMergeTech->GetParameter("g_SamplerGlowTex0")->setTexture(m_GlowTex[0]);
-// 		m_GlowMergeTech->GetParameter("g_SamplerGlowTex1")->setTexture(m_GlowTex[1]);
-// 		m_GlowMergeTech->GetParameter("g_SamplerGlowTex2")->setTexture(m_GlowTex[2]);
-// 
-// 
-// 		ScreenQuad::Render(m_GlowMergeTech);
-// 
-// 		GetRenderSystem()->PopRenderTargert();
-
 	}
 
 	void HDRPostProcess::ToneMapping()
@@ -226,27 +203,15 @@ namespace ma
 		if (m_pOutputTex)
 			GetRenderSystem()->SetRenderTarget(m_pOutputTex);
 
-		m_ToneMappingTech->GetParameter("gTex_Scene")->setTexture(m_pInputTex);
-		m_ToneMappingTech->GetParameter("gTex_Lum")->setTexture(m_AdaptedTex[AdaptedTex_CUR]);
-		//m_ToneMappingTech->GetParameter("g_SamplerBloom")->setTexture(m_GlowMergedTex);
-		m_ToneMappingTech->GetParameter("gTex_Bright0")->setTexture(m_GlowTex[0]);
-		m_ToneMappingTech->GetParameter("gTex_Bright1")->setTexture(m_GlowTex[1]);
-		m_ToneMappingTech->GetParameter("gTex_Bright2")->setTexture(m_GlowTex[2]);
-
-		m_ToneMappingTech->GetParameter("gExposure")->setFloat(3.0f);
-		m_ToneMappingTech->GetParameter("gBloomWeight")->setVector4(Vector4(0.5f,0.3f,0.2f,0));
-
 		ScreenQuad::Render(m_ToneMappingTech);
-
-		//if (m_pOutputTex)
-		//	GetRenderSystem()->PopRenderTargert();
 	}
 
-	void HDRPostProcess::GetSampleOffsets2x2(int width, int height, Vector4 texCoordOffSet[])
+	void HDRPostProcess::GetSampleOffsets2x2(int width, int height, std::vector<Vector4>& texCoordOffSet)
 	{
 		float const tu = 1.0f / width;
  		float const tv = 1.0f / height;
 
+		texCoordOffSet.resize(2);
 		texCoordOffSet[0] = Vector4(-tu, -tv, -tu,  tv);
 		texCoordOffSet[1] = Vector4(tu,   tv,  tu, -tv);	
 	}

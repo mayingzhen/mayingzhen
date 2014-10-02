@@ -6,13 +6,12 @@ namespace ma
 {
 	class MaterialParameter;
 	class SamplerState;
+	struct SubMaterialData;
 
 	class RENDER_API Material : public Referenced
 	{
 	public:
-		Material();
-
-		Material(ref_ptr<MaterialData> pMatData);
+		void				InitWithSubMatData(const SubMaterialData& subMatData);
 
 		MaterialParameter*	GetParameter(const char* name);
 
@@ -27,12 +26,7 @@ namespace ma
 		Technique*			AddTechnique(const char* pTechName,const char* pShadrName,const char* pDefine);
 
 	private:
-
-		//std::vector<MaterialParameter*> m_parameters;
-
 		std::vector<Technique*>			m_arrTechnique;
-
-		ref_ptr<MaterialData>			m_pMatData;
 	};
 
 	DeclareRefPtr(Material);

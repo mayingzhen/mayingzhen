@@ -2,7 +2,6 @@
 #define __BulletContactReport_H__
 
 #include "BtCharacterController.h"
-#include "BtPhysicsObject.h"
 
 namespace ma
 {
@@ -10,9 +9,9 @@ namespace ma
 	class BulletContactReport
 	{
 	public:
-		static void AddCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener = NULL);
+		static void AddCollisionListener(SceneNode* objectA, SceneNode* objectB,CollisionListener* listener = NULL);
 
-		static void RemoveCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener = NULL);
+		static void RemoveCollisionListener(SceneNode* objectA, SceneNode* objectB,CollisionListener* listener = NULL);
 		
 		static void ClearCollisionListener();
 

@@ -1,13 +1,12 @@
 #ifndef _Terrain_H__
 #define _Terrain_H__
 
-#include "Engine/Terrain/ITerrain.h"
 
 namespace ma
 {
 	class TerrainSection;
 
-	class  Terrain : public ITerrain
+	class RENDER_API Terrain : public Object
 	{
 	public:
 		struct GridInfo
@@ -42,7 +41,7 @@ namespace ma
 
 		~Terrain();
 
-		void		Create(const char* pPath);
+		void		Create(const char* pPath,Scene* pScene);
 		
 		void		Update();
 
@@ -51,8 +50,6 @@ namespace ma
 		int			HeightMapH() {return m_heightMapW;}
 
 		int			HeightMapW() {return m_heightMapH;}
-
-		const AABB&	GetWorldAABB() {return m_aabbWorld;}
 	
 		GridInfo	GetGridInfo(int xGrid,int yGrid) {return m_GridInfoArray[xGrid + yGrid * (m_heightMapW - 1)];}
 
@@ -81,8 +78,7 @@ namespace ma
 
 	private:
 
-		std::vector<TerrainSectionPtr>	m_arrSection;
-		//std::vector<GameObject*>		m_arrGameObj;
+		std::vector< RefPtr<TerrainSection> >	m_arrSection;
 
 		std::vector<PixMap>				m_PixMapArray;
 
@@ -92,7 +88,7 @@ namespace ma
 
 		std::vector<TextureInAlta>		m_TextureAtlas;
 		
-		ref_ptr<Texture>				m_pAltasTex;
+		RefPtr<Texture>					m_pAltasTex;
 		
 		Material*						m_pMaterial;
 
@@ -111,8 +107,6 @@ namespace ma
 		int								m_sectorVerts;
 		int								m_sectorCountX;
 		int								m_sectorCountY;
-
-		AABB							m_aabbWorld;
 	};
 }
 

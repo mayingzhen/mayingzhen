@@ -339,8 +339,8 @@ void TextBox::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
         {
             ASSERT(spriteBatch);
             const Theme::UVs uvs = _caretImage->getUVs();
-            Vector4 color = _caretImage->getColor();
-            color.w *= _opacity;
+            ColourValue color = _caretImage->getColor();
+            color.a *= _opacity;
 
             spriteBatch->Draw(_caretLocation.x - (region.width / 2.0f), _caretLocation.y, region.width, _fontSize, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
         }

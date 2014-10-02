@@ -9,20 +9,17 @@ namespace ma
 
 	public:
 
-		Camera(GameObject* pGameObj);
+		Camera(SceneNode* pGameObj);
 	
 		~Camera();
 
-		//virtual	void		UpdateTransform();
-
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
-		//MatViewProj&		GetMatViewProj() {return m_matViewProj;}
-		const Matrix4x4&	GetMatView();
+		const Matrix4&		GetMatView();
 
-		const Matrix4x4&	GetMatProj();
+		const Matrix4&		GetMatProj();
 
-		const Matrix4x4&	GetMatViewProj();
+		const Matrix4&		GetMatViewProj();
 		
 		float				GetNearClip() {return m_fNear;}
 
@@ -36,11 +33,11 @@ namespace ma
 
 		Vector3				ProjToWorldNormal(const Vector2* pVec,float fDepth);
 
-		bool				IsCull(AABB aabb);
-
 		void				AdjustPlanes(const AABB& aabbWorld);
 
 		void				GetWorldRayCast(const Vector2& clientSize,const Vector2& mousePos, Vector3& worldOrig, Vector3& worldDir);
+
+		const Frustum&		GetFrustum() const {return m_frustum;}
 
 	protected:
 
@@ -59,6 +56,8 @@ namespace ma
 		float				m_fFar;
 
 		float				m_fNearMin;		
+
+		Frustum				m_frustum;
 	};
 
 	DeclareRefPtr(Camera);

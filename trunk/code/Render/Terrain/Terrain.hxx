@@ -68,13 +68,17 @@ namespace ma
 // 		}
 	}
 
-	void Terrain::Create(const char* pPath)
+	void Terrain::Create(const char* pPath,Scene* pScene)
 	{	
+		ASSERT(pScene);
+		if (pScene == NULL)
+			return;
+
 		LoadTerrain(pPath);
 
 		m_WorldOffset.x = (m_heightMapW - 1) * m_scale.x * 0.5f;
-		m_WorldOffset.y = 0;
-		m_WorldOffset.z = (m_heightMapH - 1) * m_scale.z * 0.5f;
+		m_WorldOffset.y = (m_heightMapH - 1) * m_scale.y * 0.5f;
+		m_WorldOffset.z = 0;
 
 		int shift = 5;
 		m_sectorShift = shift;
@@ -91,13 +95,14 @@ namespace ma
 				int heightMapX = x << m_sectorShift;
 				int heightMapY = y << m_sectorShift;
 
-				GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("TerrainSection");
+				SceneNodePtr pGameObj = pScene->CreateNode("TerrainSection");
 				
-				TerrainSectionPtr pTerrainScetion =  pGameObj->CreateComponent<TerrainSection>();//new TerrainSection(NULL);
+				TerrainSection* pTerrainScetion =  new TerrainSection(this);
+				pGameObj->AddComponent(pTerrainScetion);
 				pTerrainScetion->Create(heightMapX, heightMapY, m_sectorVerts, m_sectorVerts);
 				m_arrSection.push_back(pTerrainScetion);
 
-				m_aabbWorld.Merge( pTerrainScetion->GetAABBWS() );
+				pScene->GetCullTree()->AddObject(pTerrainScetion);
 			}
 		}
 	}
@@ -105,7 +110,7 @@ namespace ma
 	void Terrain::LoadTerrain(const char* pPath)
 	{
 		std::string sTerrainName = GetArchiveMananger()->GetFullPath(pPath);
-		std::string strDir = StringUtil::getDirectoryName(pPath);
+		std::string strDir = StringUtil::getDirectoryName(pPath) + "/";
 
 		TiXmlDocument terrainDoc;
 		bool bLoadSuccess = terrainDoc.LoadFile(sTerrainName.c_str());
@@ -267,14 +272,15 @@ namespace ma
 		Vector3 vWorldPos;
 
 		vWorldPos.x = m_scale.x * row - m_WorldOffset.x;
-		vWorldPos.y = m_scale.y * m_heightmap[col * m_heightMapW + row] - m_WorldOffset.y;
-		vWorldPos.z = m_scale.z * col - m_WorldOffset.z;
-
+		vWorldPos.y = m_scale.y * col - m_WorldOffset.y;
+		vWorldPos.z = m_scale.y * m_heightmap[col * m_heightMapW + row] - m_WorldOffset.y;
+		
 		return  vWorldPos;
 	}
 
 	Vector3 Terrain::GetNormal(int row, int col)
 	{
+		return Vector3::UNIT_Z;
 		/*
 			   x-1 x x+1
 			z-1 +--+--+
@@ -343,13 +349,12 @@ namespace ma
 		Vector3 sum(0, 0, 0);
 		for (int i = 1; i < count; ++i)
 		{
-			Vector3 n;
-			Vec3Cross(&n, &corners[i-1], &corners[i]);
+			Vector3 n = corners[i-1].crossProduct(corners[i]);
 			assert(n.y > 0);
-			Vec3Normalize(&n, &n);
+			n.normalise();
 			sum += n;
 		}
-		Vec3Normalize(&sum, &sum);
+		sum.normalise();
 
 		vNormal = sum;
 
@@ -389,15 +394,15 @@ namespace ma
 
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
 		std::string sTextAltasPath = outPath + pTextAltasPath;
-		m_pAltasTex = LoadResourceASync<Texture>(sTextAltasPath.c_str());
+		m_pAltasTex = LoadResourceASync<Texture>(sTextAltasPath.c_str(),NULL);
 
-		SamplerState* pSameler = new SamplerState();
+		SamplerStatePtr pSameler = new SamplerState();
 		pSameler->SetWrapMode(CLAMP);
 		pSameler->SetFilterMode(TFO_TRILINEAR);
 		pSameler->SetTexture(m_pAltasTex);
 		m_pMaterial = new Material();
 		Technique* pTechnique = m_pMaterial->LoadTechnique("terrain","");
-		pTechnique->GetParameter("TerrainTex")->setSampler(pSameler);
+		pTechnique->SetParameter("TerrainTex",Any(pSameler));
 		
 		TiXmlElement* pEleTexture = pELeTextAltas->FirstChildElement("Texture");
 		while (pEleTexture)
@@ -476,7 +481,7 @@ namespace ma
 			// Linearly interpolate on each vector.  The height is the vertex
 			// height the vectors u and v originate from {A}, plus the heights
 			// found by interpolating on each vector u and v.
-			height = A + Lerp(0.0f, uy, dx) + Lerp(0.0f, vy, dz);
+			height = A + Math::Lerp(0.0f, uy, dx) + Math::Lerp(0.0f, vy, dz);
 		}
 		else // lower triangle DCB
 		{
@@ -486,7 +491,7 @@ namespace ma
 			// Linearly interpolate on each vector.  The height is the vertex
 			// height the vectors u and v originate from {D}, plus the heights
 			// found by interpolating on each vector u and v.
-			height = D + Lerp(0.0f, uy, 1.0f - dx) + Lerp(0.0f, vy, 1.0f - dz);
+			height = D + Math::Lerp(0.0f, uy, 1.0f - dx) + Math::Lerp(0.0f, vy, 1.0f - dz);
 		}
 
 		return height;

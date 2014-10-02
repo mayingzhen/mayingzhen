@@ -12,14 +12,13 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 600, 800);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
 		GetInput()->AddTouchListener(this);
 		GetInput()->AddMouseListener(this);
 
 		{
-			GameObjectPtr pCharaObj = GetEntitySystem()->CreateGameObject("Chara");		
+			SceneNodePtr pCharaObj = m_pScene->CreateNode("Chara");		
 			ICharaControllPtr pCharComp = pCharaObj->CreateComponent<ICharaControll>();
 			ICapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
@@ -28,14 +27,13 @@ namespace ma
 		
 			AABB aabb = pMeshComp->GetAABBWS();
 
-			Vector3 vSize = aabb.Size();
+			Vector3 vSize = aabb.getSize();
 			float fRadius = abs(vSize.x) / 2.0f;
 			pCapsule->SetHeight(abs(vSize.y) - 2 * fRadius);
 			pCapsule->SetRadius(fRadius);
 	
-			NodeTransform tsfLS;
-			TransformSetIdentity(&tsfLS);
-			tsfLS.m_vPos = aabb.Center();
+			Transform tsfLS;
+			tsfLS.m_vPos = aabb.getCenter();
 			pCapsule->SetTransformLS(tsfLS);
 
 
@@ -46,29 +44,29 @@ namespace ma
 			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
 			m_pCharaAnim->PlayAnimation("Idle");
 
-			pCharaObj->GetSceneNode()->Translate(Vector3(0,20,0));
+			pCharaObj->Translate(Vector3(0,20,0));
 		}
 
 		{
-			m_pTerrain = GetEntitySystem()->CreateGameObject("Terrain");
+			m_pTerrain = m_pScene->CreateNode("Terrain");
 	
 			IBoxCollisionShapePtr pBoxCollisionShape = m_pTerrain->CreateComponent<IBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(1800,20,1800));
 
 			{
-				GameObjectPtr pObje = GetEntitySystem()->CreateGameObject("Box1");
+				SceneNodePtr pObje = m_pScene->CreateNode("Box1");
 				IBoxCollisionShapePtr pBox = pObje->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
-				pObje->GetSceneNode()->Translate(Vector3(-100,20,0));
+				pObje->Translate(Vector3(-100,20,0));
 			}
 
 
 			{
-				GameObjectPtr pObje2 = GetEntitySystem()->CreateGameObject("Box2");
+				SceneNodePtr pObje2 = m_pScene->CreateNode("Box2");
 				IBoxCollisionShapePtr pBox = pObje2->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				IRigidBodyPtr pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();
-				pObje2->GetSceneNode()->Translate(Vector3(140,40,0));
+				pObje2->Translate(Vector3(140,40,0));
 			}
 
 		}
@@ -95,13 +93,10 @@ namespace ma
 		if (!m_bMoveing)
 			return;
 
-		SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
-
 		float fStepMoveLeng =  m_fMoveSpeed * GetTimer()->GetFrameDeltaTime();
 
-		Vector3 vCurPosWS = pCharNode->GetTransform().m_vPos;
-		Vector3 vMoveDir = m_vMoveTo - vCurPosWS;
-		float fDistance = Vec3Length(&vMoveDir);
+		Vector3 vMoveDir = m_vMoveTo - m_pCharaAnim->GetSceneNode()->GetPos();
+		float fDistance = vMoveDir.length();
 		if (fDistance <= fStepMoveLeng)
 		{
 			m_bMoveing = false;
@@ -109,9 +104,10 @@ namespace ma
 			return;
 		}	
 
+		vMoveDir.normalise();
 		Vector3 vMoveStepWS = vMoveDir * fStepMoveLeng / fDistance;
 
-		pCharNode->Translate(vMoveStepWS);
+		m_pCharaAnim->GetSceneNode()->Translate(vMoveStepWS);
 	}
 
 	void SampleCharaControl::Render()
@@ -151,30 +147,28 @@ namespace ma
 		GetCamera()->GetWorldRayCast(clientSize,vTouchPos,rayOrig,rayDir);
 
 		Vector3 hitPosWS;
-		GameObject* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
+		SceneNode* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
 		if (pGameObj == m_pTerrain)
 		{
-			SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
+//			Vector3 curPos = pCharNode->GetPos();
+//			Vector3 vAxisFrom = pCharNode->GetForward();
+//			Vector3 vAxisTo = hitPosWS - curPos;
+// 			vAxisTo.normalise;
+// 			vAxisFrom.normalise();
 
-			Vector3 curPos = pCharNode->GetTransform().m_vPos;
-			Vector3 vAxisFrom = pCharNode->GetForward();
-			Vector3 vAxisTo = hitPosWS - curPos;
-			Vec3Normalize(vAxisTo,vAxisTo);
-			Vec3Normalize(vAxisFrom,vAxisFrom);
-
-			Vector3 pAxisRot = Vector3(0,1,0);
-			float fTargetRota = 0;
-			QuaternionFromAxisToAxis(&pAxisRot,&fTargetRota,&vAxisFrom,&vAxisTo);
-			fTargetRota *= pAxisRot.y; // y = -1 逆时针转, y=1 顺时针转
-			pCharNode->RotateYAxisLS(ToDegree(fTargetRota));
-
-			m_vMoveTo = hitPosWS;
-			m_bMoveing = true;
-
-			m_pCharaAnim->PlayAnimation("Run");
-
-			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
-			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
+// 			Vector3 pAxisRot = Vector3(0,1,0);
+// 			float fTargetRota = 0;
+// 			QuaternionFromAxisToAxis(&pAxisRot,&fTargetRota,&vAxisFrom,&vAxisTo);
+// 			fTargetRota *= pAxisRot.y; // y = -1 逆时针转, y=1 顺时针转
+// 			pCharNode->RotateYAxisLS(ToDegree(fTargetRota));
+// 
+// 			m_vMoveTo = hitPosWS;
+// 			m_bMoveing = true;
+// 
+// 			m_pCharaAnim->PlayAnimation("Run");
+// 
+// 			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
+// 			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
 		}
 	}
 

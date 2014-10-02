@@ -382,7 +382,7 @@ public:
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setSkinColor(const Vector4& color, unsigned char states = STATE_ALL);
+    void setSkinColor(const ColourValue& color, unsigned char states = STATE_ALL);
 
     /**
      * Get the blend color of this control's skin for a given state.
@@ -391,7 +391,7 @@ public:
      *
      * @return The blend color of this control's skin.
      */
-    const Vector4& getSkinColor(State state = NORMAL) const;
+    const ColourValue& getSkinColor(State state = NORMAL) const;
 
     /**
      * Set this control's margin.
@@ -455,7 +455,7 @@ public:
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setImageColor(const char* id, const Vector4& color, unsigned char states = STATE_ALL);
+    void setImageColor(const char* id, const ColourValue& color, unsigned char states = STATE_ALL);
 
     /**
      * Get the blend color of an image used by this control for a given state.
@@ -465,7 +465,7 @@ public:
      *
      * @return The blend color of the specified image.
      */
-    const Vector4& getImageColor(const char* id, State state) const;
+    const ColourValue& getImageColor(const char* id, State state) const;
 
     /**
      * Get the texture coordinates of an image used by this control for a given state.
@@ -502,7 +502,7 @@ public:
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setCursorColor(const Vector4& color, unsigned char states);
+    void setCursorColor(const ColourValue& color, unsigned char states);
 
     /**
      * Get the blend color of this control's cursor for a given state.
@@ -511,7 +511,7 @@ public:
      *
      * @return The blend color of this control's cursor.
      */
-    const Vector4& getCursorColor(State state);
+    const ColourValue& getCursorColor(State state);
     
     /**
      * Get the texture coordinates of this control's cursor for a given state.
@@ -565,7 +565,7 @@ public:
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setTextColor(const Vector4& color, unsigned char states = STATE_ALL);
+    void setTextColor(const ColourValue& color, unsigned char states = STATE_ALL);
 
     /**
      * Get this control's text color for a given state.
@@ -574,7 +574,7 @@ public:
      *
      * @return This control's text color.
      */
-    const Vector4& getTextColor(State state = NORMAL) const;
+    const ColourValue& getTextColor(State state = NORMAL) const;
 
     /**
      * Set this control's text alignment.

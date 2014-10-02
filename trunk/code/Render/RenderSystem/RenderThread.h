@@ -46,7 +46,7 @@ namespace ma
 		void	AddBool(bool bVal);
 		void	AddFloat(float fVal);
 		void	AddVec3(const Vector3& cVal);
-		void	AddColor(const Color& cVal);
+		void	AddColor(const ColourValue& cVal);
 		void	AddPointer(const void *pVal);
 		void	AddData(const void *pData, int nLen);
 
@@ -80,7 +80,7 @@ namespace ma
 		void	RC_SetRenderTarget(Texture* pTexture,int index);
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);
-		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
+		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
 
 	private:
@@ -139,10 +139,10 @@ namespace ma
         memcpy(pDest,&vVal,sizeof(Vector3));
 	}
     
-	inline void RenderThread::AddColor(const Color& cVal)
+	inline void RenderThread::AddColor(const ColourValue& cVal)
 	{
-		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(Color));
-        memcpy(pDest,&cVal,sizeof(Color));  
+		Byte* pDest = m_Commands[m_nCurThreadFill].Grow(sizeof(ColourValue));
+        memcpy(pDest,&cVal,sizeof(ColourValue));  
 	}
     
 	inline void RenderThread::AddPointer(const void *pVal)

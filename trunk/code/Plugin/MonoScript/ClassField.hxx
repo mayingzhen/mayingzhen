@@ -10,26 +10,24 @@ namespace ma
 
 	void ClassField::ParseMonoFiled(MonoClassField* pMonoField,MonoObject* pMonoObject)
 	{
-		m_strName = mono_field_get_name(pMonoField);
-		m_eType = ToEType( mono_field_get_type(pMonoField) );
-
 		m_pMonoField = pMonoField;
 		m_pMonoObject = pMonoObject;
+		m_strName = mono_field_get_name(pMonoField);
+		MonoType* pMonoType = mono_field_get_type(pMonoField);
+		const char* pszTypeName  = mono_type_get_name(pMonoType);
+		int nMonoType = mono_type_get_type(pMonoType);
 
-		if (m_eType == INT_TYPE)
+		if (nMonoType == MONO_TYPE_I4)
 		{
-			m_value.m_iInt = GetInt();
+			m_anyValue = Any( GetInt() );
 		}
-		else if (m_eType == FLOAT_TYPE)
+		else if (nMonoType == MONO_TYPE_R4)
 		{
-			m_value.m_fFloat = GetFloat();
+			m_anyValue = Any( GetFloat() );
 		}
-		else if (m_eType == VECTOR3_TYPE)
+		else if ( strcmp(pszTypeName, "Vector3") == 0 )
 		{
-			Vector3 vector = GetVector3();
-			m_value.m_vVector3[0] = vector[0];
-			m_value.m_vVector3[1] = vector[1];
-			m_value.m_vVector3[2] = vector[2];
+			m_anyValue = Any( GetVector3() );
 		}
 
 		m_pMonoField = NULL;
@@ -41,26 +39,24 @@ namespace ma
 		m_pMonoField = pMonoField;
 		m_pMonoObject = pMonoObject;
 
-		if (m_eType == INT_TYPE)
+		std::string strType = GetStrTypeAny(m_anyValue);
+
+		if (strType == "int")
 		{
-			SetInt(m_value.m_iInt);
+			SetInt(any_cast<int>(m_anyValue));
 		}
-		else if (m_eType == FLOAT_TYPE)
+		else if (strType == "float")
 		{
-			SetFloat(m_value.m_fFloat);
+			SetFloat(any_cast<float>(m_anyValue));
 		}
-		else if (m_eType == VECTOR3_TYPE)
+		else if (strType == "Vector3")
 		{
-			SetVector3(m_value.m_vVector3);
+			SetVector3(any_cast<Vector3>(m_anyValue));
 		}
 	}
 
 	float ClassField::GetFloat()
 	{
-		ASSERT(m_eType == FLOAT_TYPE);
-		if (m_eType != FLOAT_TYPE)
-			return 0;
-		
 		if (m_pMonoField)
 		{	
 			float fValue;
@@ -69,17 +65,13 @@ namespace ma
 		}
 		else
 		{
-			return m_value.m_fFloat;
+			return any_cast<float>(m_anyValue);
 		}
 	}
 
 	void ClassField::SetFloat(float fValue)
 	{
-		ASSERT(m_eType == FLOAT_TYPE);
-		if (m_eType != FLOAT_TYPE)
-			return ;
-
-		m_value.m_fFloat = fValue;
+		m_anyValue = Any(fValue);
 
 		if (m_pMonoField)
 		{
@@ -89,10 +81,6 @@ namespace ma
 
 	int	ClassField::GetInt()
 	{
-		ASSERT(m_eType == INT_TYPE);
-		if (m_eType != INT_TYPE)
-			return 0;
-
 		if (m_pMonoField)
 		{	
 			int iValue;
@@ -101,18 +89,14 @@ namespace ma
 		}
 		else
 		{
-			return m_value.m_iInt;
+			return any_cast<int>(m_anyValue);
 		}
 		
 	}
 
 	void ClassField::SetInt(int nValue)
 	{
-		ASSERT(m_eType == INT_TYPE);
-		if (m_eType != INT_TYPE)
-			return;
-
-		m_value.m_iInt = nValue;
+		m_anyValue = Any(nValue);
 
 		if (m_pMonoField)
 		{
@@ -122,12 +106,8 @@ namespace ma
 
 	Vector3 ClassField::GetVector3()
 	{
-		ASSERT(m_eType == VECTOR3_TYPE);
-		if (m_eType != VECTOR3_TYPE)
-			return Vector3(0,0,0);
-
 		if (m_pMonoField == NULL)
-			return m_value.m_vVector3;
+			return any_cast<Vector3>(m_anyValue);
 
 		Vector3 value(0,0,0);
 
@@ -174,14 +154,7 @@ namespace ma
 
 	void ClassField::SetVector3(const Vector3& vecotr3)
 	{
-		ASSERT(m_eType == VECTOR3_TYPE);
-		if (m_eType != VECTOR3_TYPE)
-			return;	
-
-		//m_value.m_vVector3 = vecotr3;
-		m_value.m_vVector3[0] = vecotr3[0];
-		m_value.m_vVector3[1] = vecotr3[1];
-		m_value.m_vVector3[2] = vecotr3[2];
+		m_anyValue = Any(vecotr3);
 
 		if (m_pMonoField)
 		{
@@ -221,92 +194,15 @@ namespace ma
 		}
 	}
 
-
-	std::string ClassField::ToStringType(Type eType)
-	{
-		if (eType == FLOAT_TYPE)
-			return "float";
-		else if (eType == INT_TYPE)
-			return "int";
-		else if (eType == VECTOR3_TYPE)
-			return "Vector3";
-		else 
-			return "";
-	}
-
-	ClassField::Type ClassField::ToEType(std::string stType)
-	{
-		if (stType == "float")
-			return FLOAT_TYPE;
-		else if (stType == "int")
-			return INT_TYPE;
-		else if (stType == "Vector3")
-			return VECTOR3_TYPE;
-
-		return NONE_TYPE;
-	}
-
-	ClassField::Type ClassField::ToEType(MonoType* pMonoType)
-	{
-		const char* pszTypeName  = mono_type_get_name(pMonoType);
-		int nMonoType = mono_type_get_type(pMonoType);
-
-		if (nMonoType == MONO_TYPE_I4)
-		{
-			return INT_TYPE;
-		}
-		else if (nMonoType == MONO_TYPE_R4)
-		{
-			return FLOAT_TYPE;
-		}
-		else 
-		{
-			if ( strcmp(pszTypeName, "Vector3") == 0 )
-				return VECTOR3_TYPE;
-		}
-	
-		ASSERT(false);
-		return NONE_TYPE;
-	}
-
 	void ClassField::Serialize(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
 		sl.Serialize(m_strName,"strName");
+		
+		std::string strType = GetStrTypeAny(m_anyValue);
 
-		if (sl.IsReading())
-		{
-			std::string strType;
-			sl.Serialize(strType,"strType");
-			m_eType = ToEType(strType);
-		}
-		else
-		{
-			std::string strType = ToStringType(m_eType);
-			sl.Serialize(strType,"strType");
-		}
-
-		if (m_eType == INT_TYPE)
-		{
-			sl.Serialize(m_value.m_iInt,"value");
-		}
-		else if (m_eType == FLOAT_TYPE)
-		{
-			sl.Serialize(m_value.m_fFloat,"value");
-		}
-		else if (m_eType == VECTOR3_TYPE)
-		{
-			Vector3 vector(m_value.m_vVector3);
-			sl.Serialize(vector,"value");
-
-			if (sl.IsReading())
-			{
-				m_value.m_vVector3[0] = vector[0];
-				m_value.m_vVector3[1] = vector[1];
-				m_value.m_vVector3[2] = vector[2];
-			}
-		}
+		SerializeAnyValue(sl,strType,m_anyValue);
 
 		sl.EndSection();
 	}
@@ -316,21 +212,9 @@ namespace ma
 		ClassField* pClone = new ClassField();
 		
 		pClone->m_strName = this->m_strName;
-		pClone->m_eType = this->m_eType;
-		pClone->m_value = this->m_value;
+		pClone->m_anyValue = this->m_anyValue;
 
 		return pClone;
-
-// 		XMLOutputArchive xmlout;
-// 		this->Serialize(xmlout);
-// 
-// 		XMLInputArchive xmlin;
-// 		xmlin.Open(xmlout);
-// 
-// 		ClassField* pClone = new ClassField();
-// 		pClone->Serialize(xmlin);
-// 
-// 		return pClone;
 	}
 }
 

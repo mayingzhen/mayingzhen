@@ -258,7 +258,7 @@ namespace ma
 	}
 
 
-	ref_ptr<Archive> CreateFileArchive( const char* pszFile )
+	RefPtr<Archive> CreateFileArchive( const char* pszFile )
 	{
 		return new FileArchive(pszFile);
 	}

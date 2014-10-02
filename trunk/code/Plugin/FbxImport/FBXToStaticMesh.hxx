@@ -83,16 +83,18 @@ namespace ma
 			pSubmesh->m_nIndexCount = arrIndex.size() - nIndexSize;
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer().get(), pMeshData->GetIndexBuffer().get());
 
 		pMesh->ComputeBBox();
-		pMeshData->m_meshBound.m_vMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
-		pMeshData->m_meshBound.m_vMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
+		pMeshData->m_meshBound.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+		pMeshData->m_meshBound.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
 	}
 
 	bool LoadStaticMeshData(const char* pFileName,ImportParm* pImportParm,
 		const char* pOutMeshFile, const char* pOutMatFile)
 	{
+		std::string strMeshFile = GetArchiveMananger()->GetFullPath(pFileName);
+
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
 	
@@ -100,7 +102,8 @@ namespace ma
 		meshData.m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL /*| DUM_TANGENT*/;
 		meshData.m_nIndexType  = INDEX_TYPE_U16;
 
-		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		FbxScene* pFbxScene = GetFbxScene( strMeshFile.c_str() );
+		ASSERT(pFbxScene);
 		if (pFbxScene == NULL)
 			return false;
 
@@ -112,8 +115,6 @@ namespace ma
 		//pMaterial->Save(strOutMatFile.c_str());
 
 		meshData.SaveToFile(strOutMeshFile.c_str());	
-
-		//SAFE_DELETE(pMeshData);
 
 		return true;
 	}

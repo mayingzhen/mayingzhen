@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	AnimationSet::AnimationSet(ref_ptr<Skeleton> pSkeleton,ref_ptr<AnimationSetData> pAniSetData)
+	AnimationSet::AnimationSet(RefPtr<Skeleton> pSkeleton,RefPtr<AnimationSetData> pAniSetData)
 	{
 		m_pSkeleton = pSkeleton;
 		m_pAniSetData = pAniSetData;

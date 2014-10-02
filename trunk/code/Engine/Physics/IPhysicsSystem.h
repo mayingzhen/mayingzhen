@@ -7,7 +7,7 @@ namespace ma
 	class IPhysicsGenericJoint;
 	class IPhysicsHingeJoint;
 	class IRigidBody;
-	class GameObject;
+	class SceneNode;
 
 	class ENGINE_API IPhysicsSystem 
 	{
@@ -32,23 +32,25 @@ namespace ma
 
 		virtual void					SetGravity(const Vector3& g) = 0;
 
- 		virtual IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj) = 0;
+ 		//virtual IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj) = 0;
 
-		virtual	IRigidBody*				CreateRigidBody(GameObject* pGameObj) = 0;
+		virtual	IRigidBody*				CreateRigidBody(SceneNode* pGameObj) = 0;
 
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape(GameObject* pGameObj) = 0;
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape(SceneNode* pGameObj) = 0;
 
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape(GameObject* pGameObj) = 0;
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape(SceneNode* pGameObj) = 0;
 
-		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(GameObject* pGameObj) = 0;
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(SceneNode* pGameObj) = 0;
 
-		virtual ICharaControll*			CreateCharaControll(GameObject* pGameObj) = 0;
+		virtual ICollisionMaterial*		CreateCollisionMaterial(SceneNode* pGameObj) = 0;
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(GameObject* pGameObj) = 0;
+		virtual ICharaControll*			CreateCharaControll(SceneNode* pGameObj) = 0;
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(GameObject* pGameObj) = 0;
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(SceneNode* pGameObj) = 0;
 
-		virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject) = 0;
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(SceneNode* pGameObj) = 0;
+
+		//virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject) = 0;
 
 		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody) = 0;
 
@@ -64,7 +66,7 @@ namespace ma
 
 		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint) = 0;
 
-		virtual GameObject*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS) = 0;
+		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS) = 0;
 
 	};
 

@@ -17,10 +17,15 @@ namespace ma
 
 		virtual void UnLoad();
 
+		virtual void Render();
+
 	private:
 		void LoadSkelMesh();
 
 		void LoadSaticMesh();
+
+	private:
+		AnimationComponent* m_pAnimComponent;
 
 	};
 }

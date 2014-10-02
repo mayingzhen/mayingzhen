@@ -33,23 +33,21 @@ namespace ma
 
 		virtual void					SetGravity(const Vector3& g);
 
-		virtual IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj);
+		virtual	IRigidBody*				CreateRigidBody(SceneNode* pGameObj);
 
-		virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject);
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape(SceneNode* pGameObj);
 
-		virtual	IRigidBody*				CreateRigidBody(GameObject* pGameObj);
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape(SceneNode* pGameObj);
 
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape(GameObject* pGameObj);
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(SceneNode* pGameObj);
+		
+		virtual ICollisionMaterial*		CreateCollisionMaterial(SceneNode* pGameObj);
 
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape(GameObject* pGameObj);
+		virtual ICharaControll*			CreateCharaControll(SceneNode* pGameObj);
 
-		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(GameObject* pGameObj);
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(SceneNode* pGameObj);
 
-		virtual ICharaControll*			CreateCharaControll(GameObject* pGameObj);
-
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(GameObject* pGameObj);
-
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(GameObject* pGameObj);
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(SceneNode* pGameObj);
 
 		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody);
 
@@ -65,7 +63,7 @@ namespace ma
 
 		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint);
 
-		virtual GameObject*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 
 		btDiscreteDynamicsWorld*		GetDynamicsWorld() {return m_pDynamicsWorld;}
 
@@ -85,6 +83,13 @@ namespace ma
 
 		virtual int						getDebugMode() const { return m_debugMode; }
 
+	protected:
+		void							AddPhysicsObject(SceneNode* pGameObj);
+
+		btCollisionObject*				InitCollObject(SceneNode* pGameObj);
+
+		void							StartPhysicsObject(SceneNode* pGameObj);	
+
 	private:
 		btDefaultCollisionConfiguration*			m_pCollisionConfiguration;
 		btCollisionDispatcher*						m_pDispatcher;
@@ -92,10 +97,7 @@ namespace ma
 		btSequentialImpulseConstraintSolver*		m_pSolver;
 		btDiscreteDynamicsWorld*					m_pDynamicsWorld;
 
-		std::vector<BulletPhysicsObject*>			m_arrPhysicsObject;
-
-		std::vector<BulletPhysicsGenericJoint*>		m_vGenericJoint;
-		std::vector<BulletPhysicsHingeJoint*>		m_vHingeJoint;
+		std::vector<SceneNode*>					m_arrPhysicsObject;
 
 		btVector3									m_vGravity;
 

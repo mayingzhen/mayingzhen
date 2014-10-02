@@ -16,7 +16,7 @@ namespace ma
 
 	LightSystem::LightSystem()
 	{
-		m_cAmbientColor = Vector4(1,1,1,1);
+		m_cAmbientColor = ColourValue::White;
 	}
 
 	void LightSystem::AddLight(Light* pLight)
@@ -45,7 +45,7 @@ namespace ma
 			if ( !pLight->IsCreateShadow() )
 				continue;
 
-			pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera().get() );
+			//pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera().get() );
 		}
 	}
 }

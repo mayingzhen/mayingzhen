@@ -5,11 +5,11 @@ namespace ma
 {
 	IMPL_OBJECT(Light,Component)
 
-	Light::Light(GameObject* pGameObj)
+	Light::Light(SceneNode* pGameObj)
 		:Component(pGameObj)
 	{
 		m_bCreateShadow = false;
-		m_cLightColor = Vector4(1,1,1,1);
+		m_cLightColor = ColourValue::White;
 		m_fLightIntensity = 1.0f;
 	
 		GetLightSystem()->AddLight(this);
@@ -24,32 +24,31 @@ namespace ma
 	
 	Vector3 PointLight::GetPos()
 	{
-		return m_pGameObject->GetSceneNode()->GetTransform().m_vPos;
+		return m_pSceneNode->GetTransform().m_vPos;
 	}
 
 	IMPL_OBJECT(SpotLight,Light)
 
-	void SpotLight::LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp)
-	{
-		m_vTarget = vAt;
-		m_vUpVector = vUp;
-
-		// view matrix
-		MatrixLookAtLH(&m_mView, &vEye, &vAt, &vUp);
-
-		// MatWorld
-		Matrix4x4 matInv;
-		MatrixInverse(&matInv,NULL,&m_mView);
-		TransformFromMatrix(&m_tsfWS,&matInv);
-		
-		// projection matrix
-		GetRenderDevice()->MakePerspectiveMatrix(&m_mProj, m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
-	}
+// 	void SpotLight::LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp)
+// 	{
+// 		m_vTarget = vAt;
+// 		m_vUpVector = vUp;
+// 
+// 		// view matrix
+// 		MatrixLookAtRH(&m_mView, &vEye, &vAt, &vUp);
+// 
+// 		// MatWorld
+// 		Matrix4 matInv = m_mView.inverseAffine();
+// 		TransformFromMatrix(&m_tsfWS,&matInv);
+// 		
+// 		// projection matrix
+// 		GetRenderDevice()->MakePerspectiveMatrix(&m_mProj, m_fFOV, m_fAspectRatio, m_fNearClip, m_fFarClip);
+// 	}
 
 	
 	IMPL_OBJECT(DirectonalLight,Light)
 
-	DirectonalLight::DirectonalLight(GameObject* pGameObj)
+	DirectonalLight::DirectonalLight(SceneNode* pGameObj)
 		:Light(pGameObj) 
 	{
 		m_eLightType = LIGHT_DIRECTIONAL;
@@ -58,12 +57,7 @@ namespace ma
 
 	Vector3 DirectonalLight::GetDirection()
 	{
-// 		Vector3 vSource(-10000,10000,-10000);
-// 		Vector3 vTarget(0,1,0);
-// 		Vector3 vDir = vSource - vTarget;
-// 		Vec3Normalize(vDir);
-// 		return  vDir;
-		return m_pGameObject->GetSceneNode()->GetWorldMatrix().GetRow(2);
+		return m_pSceneNode->GetForward();
 	}
 
 	void DirectonalLight::SetCreateShadow(bool bCreateShaow)
@@ -140,9 +134,7 @@ namespace ma
 
 		int index = GetRenderSystem()->GetThreadList();
 
-		Matrix4x4 matLightView;
-
-		MatrixInverse(&matLightView,NULL,&m_pSceneNode->GetWorldMatrix());
+		Matrix4 matLightView = m_pSceneNode->GetWorldMatrix().inverseAffine(); 
 
 		//CalculateSplitPositions
 		float fNear = pCamera->GetNearClip();
@@ -164,40 +156,38 @@ namespace ma
 		{
 			ShadowMapFrustum* pSMF = m_arrShadowFrustum[i];
 
-			Matrix4x4 matSplitProj;
-			GetRenderDevice()->MakePerspectiveMatrix(&matSplitProj,pCamera->GetFov(),
+			Matrix4 matSplitProj;
+			GetRenderDevice()->MakePerspectiveMatrix(matSplitProj,pCamera->GetFov(),
 				pCamera->GetAspect(),m_fSplitPos[index][i],m_fSplitPos[index][i + 1]);
 
-			Matrix4x4 matView = pCamera->GetMatView();
+			Matrix4 matView = pCamera->GetMatView();
 			Frustum splitFrustum;
-			float nearZ = 0;
-			float farZ = 1;
-			GetRenderDevice()->GetProjectionNearFar(nearZ,farZ);
-			splitFrustum.Update(matView * matSplitProj,nearZ,farZ);
+			splitFrustum.Update(matView * matSplitProj,false);
 
 			CastersBuilder casterBuild(pSMF,splitFrustum,GetDirection());
-			GetEntitySystem()->GetRootGameObject()->TravelScene(&casterBuild);
+			//this->GetRootGameObject()->TravelScene(&casterBuild);
 
 			AABB aabbCasters = casterBuild.GetCastersAABB();
-			aabbCasters.Transform(matLightView);
+			aabbCasters.transform(matLightView);
 
-			AABB aabbReceivers = GetTerrain()->GetWorldAABB();
-			aabbReceivers.Transform(matLightView);
+			//AABB aabbReceivers = GetTerrain()->GetWorldAABB();
+			//aabbReceivers.transform(matLightView);
 
 			AABB aabbSplit;
-			aabbSplit.Merge(splitFrustum.m_pPoints,8);
-			aabbSplit.Transform(matLightView);
+			//aabbSplit.Merge(splitFrustum.m_pPoints,8);
+			aabbSplit.transform(matLightView);
 
 			AABB cropAABB;
 
-			cropAABB.m_vMin.x = Max(Max(aabbCasters.m_vMin.x, aabbReceivers.m_vMin.x), aabbSplit.m_vMin.x);
-			cropAABB.m_vMax.x = Min(Min(aabbCasters.m_vMax.x, aabbReceivers.m_vMax.x), aabbSplit.m_vMax.x);
-			cropAABB.m_vMin.y = Max(Max(aabbCasters.m_vMin.y, aabbReceivers.m_vMin.y), aabbSplit.m_vMin.y);
-			cropAABB.m_vMax.y = Min(Min(aabbCasters.m_vMax.y, aabbReceivers.m_vMax.y), aabbSplit.m_vMax.y);
-			cropAABB.m_vMin.z = aabbCasters.m_vMin.z;
-			cropAABB.m_vMax.z = Min(aabbReceivers.m_vMax.z, aabbSplit.m_vMax.z);
+			ASSERT(false);
+// 			cropAABB.m_vMin.x = Max(Max(aabbCasters.m_vMin.x, aabbReceivers.m_vMin.x), aabbSplit.m_vMin.x);
+// 			cropAABB.m_vMax.x = Min(Min(aabbCasters.m_vMax.x, aabbReceivers.m_vMax.x), aabbSplit.m_vMax.x);
+// 			cropAABB.m_vMin.y = Max(Max(aabbCasters.m_vMin.y, aabbReceivers.m_vMin.y), aabbSplit.m_vMin.y);
+// 			cropAABB.m_vMax.y = Min(Min(aabbCasters.m_vMax.y, aabbReceivers.m_vMax.y), aabbSplit.m_vMax.y);
+// 			cropAABB.m_vMin.z = aabbCasters.m_vMin.z;
+// 			cropAABB.m_vMax.z = Min(aabbReceivers.m_vMax.z, aabbSplit.m_vMax.z);
 
-			Matrix4x4 matCrop = CalculateCropMatrix(cropAABB);
+			Matrix4 matCrop = CalculateCropMatrix(cropAABB);
 
 			pSMF->SetViewMatrix(matLightView);
 
@@ -205,27 +195,28 @@ namespace ma
 		}
 	}
 
-	Matrix4x4 DirectonalLight::CalculateCropMatrix(const AABB& cropAABB)
+	Matrix4 DirectonalLight::CalculateCropMatrix(const AABB& cropAABB)
 	{
+		ASSERT(false);
 		// finally, create matrix
 		//return BuildCropMatrix(cropBB.vMin, cropBB.vMax);
-		Vector3 vMax = cropAABB.m_vMax;
-		Vector3 vMin = cropAABB.m_vMin;
-
+// 		Vector3 vMax = cropAABB.m_vMax;
+// 		Vector3 vMin = cropAABB.m_vMin;
+// 
 		float fScaleX, fScaleY, fScaleZ;
 		float fOffsetX, fOffsetY, fOffsetZ;
-
-		fScaleX = 2.0f / (vMax.x - vMin.x);
-		fScaleY = 2.0f / (vMax.y - vMin.y);
-
-		fOffsetX = -0.5f * (vMax.x + vMin.x) * fScaleX;
-		fOffsetY = -0.5f * (vMax.y + vMin.y) * fScaleY;
-
-		fScaleZ = 1.0f / (vMax.z - vMin.z);
-		fOffsetZ = -vMin.z * fScaleZ;
+// 
+// 		fScaleX = 2.0f / (vMax.x - vMin.x);
+// 		fScaleY = 2.0f / (vMax.y - vMin.y);
+// 
+// 		fOffsetX = -0.5f * (vMax.x + vMin.x) * fScaleX;
+// 		fOffsetY = -0.5f * (vMax.y + vMin.y) * fScaleY;
+// 
+// 		fScaleZ = 1.0f / (vMax.z - vMin.z);
+// 		fOffsetZ = -vMin.z * fScaleZ;
 
 		// crop volume matrix
-		Matrix4x4 matCrop = Matrix4x4(   fScaleX,     0.0f,     0.0f,   0.0f,
+		Matrix4 matCrop = Matrix4(   fScaleX,     0.0f,     0.0f,   0.0f,
 			0.0f,  fScaleY,     0.0f,   0.0f,
 			0.0f,     0.0f,  fScaleZ,   0.0f,
 			fOffsetX, fOffsetY, fOffsetZ,   1.0f  );

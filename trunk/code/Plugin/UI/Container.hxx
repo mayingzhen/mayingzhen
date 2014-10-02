@@ -48,11 +48,11 @@ void Container::clearContacts()
 Container::Container()
     : _layout(NULL), _scrollBarTopCap(NULL), _scrollBarVertical(NULL), _scrollBarBottomCap(NULL),
       _scrollBarLeftCap(NULL), _scrollBarHorizontal(NULL), _scrollBarRightCap(NULL),
-      _scroll(SCROLL_NONE), _scrollBarBounds(Rectangle::empty()), _scrollPosition(Vector2::zero()),
+      _scroll(SCROLL_NONE), _scrollBarBounds(Rectangle::empty()), _scrollPosition(Vector2::ZERO),
       _scrollBarsAutoHide(false), _scrollBarOpacity(1.0f), _scrolling(false),
       _scrollingVeryFirstX(0), _scrollingVeryFirstY(0), _scrollingFirstX(0), _scrollingFirstY(0), _scrollingLastX(0), _scrollingLastY(0),
       _scrollingStartTimeX(0), _scrollingStartTimeY(0), _scrollingLastTime(0),
-      _scrollingVelocity(Vector2::zero()), _scrollingFriction(1.0f), _scrollWheelSpeed(400.0f),
+      _scrollingVelocity(Vector2::ZERO), _scrollingFriction(1.0f), _scrollWheelSpeed(400.0f),
       _scrollingRight(false), _scrollingDown(false),
       _scrollingMouseVertically(false), _scrollingMouseHorizontally(false),
       /*_scrollBarOpacityClip(NULL),*/ _zIndexDefault(0), _focusIndexDefault(0), _focusIndexMax(0),
@@ -482,7 +482,7 @@ void Container::update(const Control* container, const Vector2& offset)
     }
     else
     {
-        _layout->update(this, Vector2::zero());
+        _layout->update(this, Vector2::ZERO);
     }
 }
 
@@ -494,7 +494,7 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
         //float clearY = targetHeight - _clearBounds.y - _clearBounds.height;
         //GL_ASSERT( glScissor(_clearBounds.x, clearY, _clearBounds.width, _clearBounds.height) );
         //Game::getInstance()->clear(Game::CLEAR_COLOR, Vector4::zero(), 1.0f, 0);
-		GetRenderDevice()->ClearBuffer(true,false,false,Color(0, 0, 0, 0), 1.0f, 0);
+		GetRenderDevice()->ClearBuffer(true,false,false,ColourValue(0, 0, 0, 0), 1.0f, 0);
         //GL_ASSERT( glDisable(GL_SCISSOR_TEST) );
         needsClear = false;
         cleared = true;
@@ -535,18 +535,18 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
         {
             const Rectangle& topRegion = _scrollBarTopCap->getRegion();
             const Theme::UVs& topUVs = _scrollBarTopCap->getUVs();
-            Vector4 topColor = _scrollBarTopCap->getColor();
-            topColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue topColor = _scrollBarTopCap->getColor();
+            topColor.a *= _scrollBarOpacity * _opacity;
 
             const Rectangle& verticalRegion = _scrollBarVertical->getRegion();
             const Theme::UVs& verticalUVs = _scrollBarVertical->getUVs();
-            Vector4 verticalColor = _scrollBarVertical->getColor();
-            verticalColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue verticalColor = _scrollBarVertical->getColor();
+            verticalColor.a *= _scrollBarOpacity * _opacity;
 
             const Rectangle& bottomRegion = _scrollBarBottomCap->getRegion();
             const Theme::UVs& bottomUVs = _scrollBarBottomCap->getUVs();
-            Vector4 bottomColor = _scrollBarBottomCap->getColor();
-            bottomColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue bottomColor = _scrollBarBottomCap->getColor();
+            bottomColor.a *= _scrollBarOpacity * _opacity;
 
             clipRegion.width += verticalRegion.width;
 
@@ -566,18 +566,18 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
         {
             const Rectangle& leftRegion = _scrollBarLeftCap->getRegion();
             const Theme::UVs& leftUVs = _scrollBarLeftCap->getUVs();
-            Vector4 leftColor = _scrollBarLeftCap->getColor();
-            leftColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue leftColor = _scrollBarLeftCap->getColor();
+            leftColor.a *= _scrollBarOpacity * _opacity;
 
             const Rectangle& horizontalRegion = _scrollBarHorizontal->getRegion();
             const Theme::UVs& horizontalUVs = _scrollBarHorizontal->getUVs();
-            Vector4 horizontalColor = _scrollBarHorizontal->getColor();
-            horizontalColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue horizontalColor = _scrollBarHorizontal->getColor();
+            horizontalColor.a *= _scrollBarOpacity * _opacity;
 
             const Rectangle& rightRegion = _scrollBarRightCap->getRegion();
             const Theme::UVs& rightUVs = _scrollBarRightCap->getUVs();
-            Vector4 rightColor = _scrollBarRightCap->getColor();
-            rightColor.w *= _scrollBarOpacity * _opacity;
+            ColourValue rightColor = _scrollBarRightCap->getColor();
+            rightColor.a *= _scrollBarOpacity * _opacity;
 
             clipRegion.height += horizontalRegion.height;
         
@@ -595,7 +595,7 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
 
         spriteBatch->Render(NULL);
 
-        if (_scrollingVelocity.isZero())
+        if (_scrollingVelocity == Vector2::ZERO)
         {
             _dirty = false;
         }
@@ -846,8 +846,7 @@ bool Container::moveFocus(Direction direction, Control* outsideControl)
                     break;
                 }
 
-				Vector2 temp = vStart - vNext;
-                float nextDistance = Vec2Length(&temp); //vStart.distance(vNext);
+                float nextDistance = vStart.distance(vNext);
                 if (abs(nextDistance) < distance)
                 {
                     distance = nextDistance;
@@ -1330,7 +1329,7 @@ void Container::updateScroll()
     float clipHeight = _bounds.height - containerBorder.top - containerBorder.bottom - containerPadding.top - containerPadding.bottom - hHeight;
 
     // Apply and dampen inertia.
-    if (!_scrollingVelocity.isZero())
+    if (_scrollingVelocity != Vector2::ZERO)
     {
         // Calculate the time passed since last update.
         float elapsedSecs = (float)elapsedTime * 0.001f;
@@ -1389,7 +1388,7 @@ void Container::updateScroll()
                          scrollWidth, scrollHeight);
 
     // If scroll velocity is 0 and scrollbars are not always visible, trigger fade-out animation.
-    if (!_scrolling && _scrollingVelocity.isZero() && _scrollBarsAutoHide && _scrollBarOpacity == 1.0f)
+    if (!_scrolling && _scrollingVelocity == Vector2::ZERO && _scrollBarsAutoHide && _scrollBarOpacity == 1.0f)
     {
         float to = 0;
         _scrollBarOpacity = 0.99f;
@@ -1623,7 +1622,7 @@ bool Container::mouseEventScroll(Mouse::MouseEvent evt, int x, int y, int wheelD
             if ((_state == HOVER && (!_scrollWheelRequiresFocus || _previousState == FOCUS)) ||
                 _state == FOCUS && _scrollWheelRequiresFocus)
             {
-                if (_scrollingVelocity.isZero())
+                if (_scrollingVelocity == Vector2::ZERO)
                 {
                     //_lastFrameTime = Game::getGameTime();
                 }

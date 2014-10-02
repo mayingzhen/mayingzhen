@@ -16,15 +16,17 @@ namespace ma
 
 		void Render();
 
-		void DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor);
+		void DrawLine(const Vector3& p0,const Vector3& p1,ColourValue dwColor);
 
-		void DrawBox(const Matrix4x4& wordMat,const Vector3& boxSize, Color color);
+		void DrawBox(const Matrix4& wordMat,const Vector3& boxSize, ColourValue color);
 
-		void DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color);
+		void DrawCapsule(const Matrix4& wordMat,float fRadius, float Height, ColourValue color);
 
-		void DrawCircle(UINT nbSegments, const Matrix4x4& world, Color dwColor, float radius, bool semicircle = false);
+		void DrawCircle(UINT nbSegments, const Matrix4& world, ColourValue dwColor, float radius, bool semicircle = false);
 
-		void DrawWireSphere(const Matrix4x4& wordMat,float fRadius, Color color);
+		void DrawWireSphere(const Matrix4& wordMat,float fRadius, ColourValue color);
+
+		void DrawTransform(const Transform& tsf, float fCenterScale = 1.0f, float fAxisScale = 1.0f);
 
 	private:
 		MeshBatch*	m_pMeshBatch;
@@ -34,7 +36,7 @@ namespace ma
 		struct LineVertex
 		{
 			Vector3 pos;
-			Color   col;
+			ColourValue   col;
 		};
 
 		std::vector<LineVertex> m_arrLineVertex[2];

@@ -24,6 +24,7 @@ namespace ma
 		{
 			strShaderDefine += ";SHADOW";
 		}
+
 		m_pDirLight = new Technique("DirectLight","DeferredLight","DeferredLight",strShaderDefine.c_str());
 		m_pDirLight->GetRenderState().m_bDepthWrite = false;
 		m_pDirLight->GetRenderState().m_eBlendMode = BM_ADD;
@@ -40,14 +41,14 @@ namespace ma
 		Texture* pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDiffuse,0); 
 		Texture* pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pSpecular,1);
 
-		GetRenderSystem()->ClearBuffer(true,false,true,Color(0,0,0,0), 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,false,true,ColourValue::White, 1.0f, 0);
 
 		// AmbientLight
-		Vector4 cAmbientColor = GetLightSystem()->GetAmbientColor();
-		m_pAmbientLight->GetParameter("light_color")->setVector4(cAmbientColor);
+		ColourValue cAmbientColor = GetLightSystem()->GetAmbientColor();
+		m_pAmbientLight->SetParameter("light_color",Any(cAmbientColor));
 		ScreenQuad::Render(m_pAmbientLight);	
 
-		Matrix4x4 matView = GetRenderContext()->GetViewMatrix();
+		Matrix4 matView = GetRenderContext()->GetViewMatrix();
 
 		UINT nLigtNumber = GetLightSystem()->GetLightNumber();
 		for (UINT i = 0; i < nLigtNumber; ++i)
@@ -62,36 +63,32 @@ namespace ma
 			{
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
 
-				m_pDirLight->GetParameter("light_color")->setVector4(pLight->GetLightColor());
-
-				Vector3 vDirWS = pDirLight->GetDirection();
-				Vector3 vDirES;
-				Vec3TransformNormal(&vDirES,&vDirWS,&matView);
-				m_pDirLight->GetParameter("light_dir_es")->setVector4(Vector4(vDirES.x,vDirES.y,vDirES.z,0));
+				m_pDirLight->SetParameter("light_color",Any(pLight->GetLightColor()));
+			
+				Vector3 vDirES = matView * pDirLight->GetDirection();
+				m_pDirLight->SetParameter("light_dir_es",Any(vDirES));
 
 				ScreenQuad::Render(m_pDirLight);		
 			}
 			else if (pLight->GetLightType() == LIGHT_POINT)
 			{
 				PointLight* pPointLight = (PointLight*)pLight;
+	
+				m_pPointLight->SetParameter("light_color",Any(pLight->GetLightColor()));
+
+				Vector3 vPosES = matView * pPointLight->GetPos();
 				float fRadius = pPointLight->GetRadius();
-				Vector3 vPos = pPointLight->GetPos();
+				m_pPointLight->SetParameter("light_pos_es",Any(vPosES));
+				m_pPointLight->SetParameter("light_radius",Any(fRadius));
 
-				m_pPointLight->GetParameter("light_color")->setVector4(pLight->GetLightColor());
-
-				Vector3 vPosES;
-				Vec3TransformCoord(&vPosES,&vPos,&matView);
-				m_pPointLight->GetParameter("light_pos_es")->setVector4(Vector4(vPosES.x,vPosES.y,vPosES.z,1));	
-				m_pPointLight->GetParameter("light_radius")->setVector4(Vector4(fRadius,0,0,0));
-
-				float cameraToCenter = Vec3Length(&vPosES);
+				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < fRadius)
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;	
+					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;	
 				}
 				else
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;
+					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 				}
 
 

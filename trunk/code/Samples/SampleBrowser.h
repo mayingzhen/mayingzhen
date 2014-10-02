@@ -7,8 +7,11 @@ namespace ma
 	class CameraController;
 	class Camera;
 	class Systems;
+	class Sample;
 
-	class SampleBrowser : public Game,Control::Listener,OIS::KeyListener
+	typedef Sample* (*SampleCreator)();
+
+	class SampleBrowser : public Game, Control::Listener,OIS::KeyListener
 	{
 	public:
 		SampleBrowser(const char* pGameName);
@@ -34,8 +37,6 @@ namespace ma
 	private:
 		void				LoadUI();
 
-		//void				InitCamera();
-
 		void				ResetCamera();
 
 		void				RunSample(const char* pSampleNma);
@@ -48,6 +49,8 @@ namespace ma
 
 		void				LoadRenderScheme();
 
+		void				InitSampleList();
+
 	private:
 		std::map<std::string,Sample*>	m_arrSamples;
 
@@ -59,7 +62,6 @@ namespace ma
 		bool							m_bStepOneFrame;
 
 		CameraController*				m_pCameraControl;
-		//Camera*							m_pCamera;
 
 		Systems*						m_pSystems;
 	};

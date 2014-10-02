@@ -131,7 +131,7 @@ public:
      * @param size The size to draw text (0 for default size).
      * @param rightToLeft Whether to draw text from right to left.
      */
-    void drawText(const char* text, int x, int y, const Vector4& color, unsigned int size = 0, bool rightToLeft = false);
+    void drawText(const char* text, int x, int y, const ColourValue& color, unsigned int size = 0, bool rightToLeft = false);
 
     /**
      * Draws the specified text in a solid color, with a scaling factor.
@@ -161,7 +161,7 @@ public:
      * @param rightToLeft Whether to draw text from right to left.
      * @param clip A region to clip text within after applying justification to the viewport area.
      */
-    void drawText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size = 0, 
+    void drawText(const char* text, const Rectangle& area, const ColourValue& color, unsigned int size = 0, 
                   Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL);
 
     /**
@@ -188,7 +188,7 @@ public:
      *
      * @return A Text object.
      */
-    Text* createText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size = 0,
+    Text* createText(const char* text, const Rectangle& area, const ColourValue& color, unsigned int size = 0,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL);
 
     /**

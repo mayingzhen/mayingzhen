@@ -19,7 +19,7 @@ namespace ma
 		INVERSE_PROJECTION_MATRIX,
 		CAMERA_WORLD_POSITION,
 		CAMERA_VIEW_POSITION,
-		MATRIX_PALETTE,			// matrix palette of MeshSkin
+		MATRIX_PALETTE,			
 		SCENE_AMBIENT_COLOR,
 		SCENE_LIGHT_COLOR,
 		SCENE_LIGHT_DIRECTION,
@@ -46,21 +46,21 @@ namespace ma
 
 	private:
 		// Internal auto binding handler methods.
-		const Matrix4x4&	autoBindingGetWorldMatrix() const;
-		const Matrix4x4&	autoBindingGetViewMatrix() const;
-		const Matrix4x4&	autoBindingGetProjectionMatrix() const;
-		Matrix4x4			autoBindingGetWorldViewMatrix() const;
-		Matrix4x4			autoBindingGetViewProjectionMatrix() const;
-		Matrix4x4			autoBindingGetWorldViewProjectionMatrix() const;
-		const Matrix4x4&	autoBindingGetInverseTransposeWorldMatrix() const;
-		const Matrix4x4&	autoBindingGetInverseTransposeWorldViewMatrix() const;
-		Matrix4x4			autoBindingGetInverseProjectionMatrix() const;
+		const Matrix4&		autoBindingGetWorldMatrix() const;
+		const Matrix4&		autoBindingGetViewMatrix() const;
+		const Matrix4&		autoBindingGetProjectionMatrix() const;
+		Matrix4				autoBindingGetWorldViewMatrix() const;
+		Matrix4				autoBindingGetViewProjectionMatrix() const;
+		Matrix4				autoBindingGetWorldViewProjectionMatrix() const;
+		const Matrix4&		autoBindingGetInverseTransposeWorldMatrix() const;
+		const Matrix4&		autoBindingGetInverseTransposeWorldViewMatrix() const;
+		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
-		const Matrix4x4*	autoBindingGetMatrixPalette() const;
+		const Matrix4*		autoBindingGetMatrixPalette() const;
 		UINT				autoBindingGetMatrixPaletteSize() const;
-		const Vector4&		autoBindingGetAmbientColor() const;
-		const Vector4&		autoBindingGetLightColor() const;
+		const ColourValue&	autoBindingGetAmbientColor() const;
+		const ColourValue&	autoBindingGetLightColor() const;
 		const Vector3&		autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;
 		Texture*			autoBingingSceneDetph() const;

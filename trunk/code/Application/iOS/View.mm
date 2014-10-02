@@ -137,15 +137,13 @@
     {
         m_bInited = TRUE;
         
-        ma::Game::GetInstance().Init();
-        
+        ma::Game::GetInstance().Init();  
     }
 
     // Execute a single game frame
     ma::Game::GetInstance().Update();
         
-    ma::Game::GetInstance().Render();
-    
+    ma::Game::GetInstance().Render(); 
 }
 
 

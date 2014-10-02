@@ -15,17 +15,17 @@ namespace ma
 			
 		virtual void	LoadSync();
 
-		virtual bool	CreateRT() =	 0;
+		virtual bool	CreateRT() = 0;
 
 		virtual bool	Load(MemoryStream* pDataStream, bool generateMipmaps = false) = 0;
 
 		virtual bool	CreateFromMemeory();
 
-		int				getWidth() {return m_nWidth;}
+		int				GetWidth() {return m_nWidth;}
 
-		int				getHeight() {return m_nHeight;}
+		int				GetHeight() {return m_nHeight;}
 
-		FORMAT			getFormat() {return m_eFormat;}
+		FORMAT			GetFormat() {return m_eFormat;}
 
 	protected:
 		int				m_nWidth;

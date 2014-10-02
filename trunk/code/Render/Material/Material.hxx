@@ -4,30 +4,24 @@
 
 namespace ma
 {
-	Material::Material()
+
+	void Material::InitWithSubMatData(const SubMaterialData& subMatData)
 	{
+		Technique* pTech = LoadTechnique(subMatData.m_strShaderName.c_str(),subMatData.m_strShaderMacro.c_str());
 
-	}
+		pTech->SetRenderState(subMatData.m_renderState);
 
-	Material::Material(ref_ptr<MaterialData> pMatData)
-	{
-		m_pMatData = pMatData;
-
-		if (m_pMatData)
+		for (UINT i = 0; i < subMatData.m_arrParameters.size(); ++i)
 		{
-			Technique* pTech = LoadTechnique(m_pMatData->GetShaderName(),m_pMatData->GetShaderMacro());
+			const MaterialParameter& matParam = subMatData.m_arrParameters[i];
 
-			for (UINT i = 0; i < m_pMatData->GetParameterNumber(); ++i)
+			MaterialParameter* pParmTech = pTech->GetParameter( matParam.GetName() );
+			ASSERT(pParmTech);
+			if (pParmTech)
 			{
-				MaterialParameter* pParmMat = m_pMatData->GetParameterByIndex(i);
-
-				MaterialParameter* pParmTech = pTech->GetParameter( pParmMat->GetName() );
-				if (pParmTech)
-				{
-					pParmTech->setParameter(pParmMat);
-				}
-			}	
-		}
+				pParmTech->SetValue( matParam.GetValue() );
+			}
+		}	
 	}
 
 	Technique* Material::GetTechnqiue(const char* pTechName)

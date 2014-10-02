@@ -3,91 +3,45 @@
 
 namespace ma
 {
+	void SubMaterialData::Serialize(Serializer& sl, const char* pszLable/* = "SubMaterial"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.BeginSection("Shader");
+		sl.Serialize(m_strShaderName,"Name");
+		sl.Serialize(m_strShaderMacro,"Macro");
+		sl.EndSection();
+
+		sl.Serialize(m_renderState,"RenderState");
+
+		sl.Serialize(m_arrParameters,"Parameters");
+
+		sl.EndSection();
+	}
+
+	/////////////////// MaterialData
+
 	IMPL_OBJECT(MaterialData,Resource);
 
-	MaterialData::MaterialData(const char* pszPath)
+	MaterialData::MaterialData(const char* pszPath/* = NULL*/):Resource(pszPath)
 	{
-		m_pTechnique = NULL;
 	}
 
 	MaterialData::~MaterialData()
 	{
-		SAFE_DELETE(m_pTechnique);
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
-		{
-			SAFE_DELETE(m_arrParameters[i]);
-		}
+
 	}
 
-	void MaterialData::SetShader(const char* pShaderName,const char* pShaderMacro)
+	void MaterialData::AddSubMatData(const SubMaterialData& subMatData)
 	{
-		m_strShaderName = pShaderName;
-		m_strShaderMacro = pShaderMacro;
-		SAFE_DELETE(m_pTechnique);
-		m_pTechnique = new Technique("",pShaderName,pShaderName,pShaderMacro);
-	}
-
-	void MaterialData::SetParameter(const char* pParmName,Vector4 value)
-	{
-		ASSERT(m_pTechnique);
-		if (m_pTechnique == NULL)
-			return;
-
-		MaterialParameter* pMatDataParm = GetParameter(pParmName);
-		if (pMatDataParm == NULL)
-		{
-			MaterialParameter* pMatParm = m_pTechnique->GetParameter(pParmName);
-			ASSERT(pMatParm);
-			if (pMatParm == NULL)
-				return;
-
-			pMatDataParm = new MaterialParameter(pParmName);
-			m_arrParameters.push_back(pMatDataParm);
-		}
-
-		pMatDataParm->setVector4(value);
-	}
-
-	void MaterialData::SetParameter(const char* pParmName,SamplerState& sampler)
-	{
-		ASSERT(m_pTechnique);
-		if (m_pTechnique == NULL)
-			return;
-
-		MaterialParameter* pMatDataParm = GetParameter(pParmName);
-		if (pMatDataParm == NULL)
-		{
-			MaterialParameter* pMatParm = m_pTechnique->GetParameter(pParmName);
-			ASSERT(pMatParm);
-			if (pMatParm == NULL)
-				return;
-
-			pMatDataParm = new MaterialParameter(pParmName);
-			m_arrParameters.push_back(pMatDataParm);
-		}
-
-
-		pMatDataParm->setSampler(&sampler);
-	}
-
-	MaterialParameter* MaterialData::GetParameter(const char* pszName)
-	{
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
-		{
-			if (m_arrParameters[i] && strcmp(m_arrParameters[i]->GetName(), pszName) == 0)
-			{
-				return m_arrParameters[i];
-			}
-		}
-
-		return NULL;
+		m_arrSubMatData.push_back(subMatData);
 	}
 
 	void MaterialData::SaveToFile(const char* pszPath)
 	{
 		std::string strSavePath = pszPath ? pszPath : m_sResPath;
 
-		XMLOutputArchive ar;
+		XMLOutputSerializer ar;
 		bool bLoadOK = ar.Open(strSavePath.c_str());
 		if (!bLoadOK)
 		{
@@ -102,7 +56,10 @@ namespace ma
 
 	bool MaterialData::CreateFromMemeory()
 	{
-		XMLInputArchive arIn;
+		if (m_eResState == ResLoaded)
+			return true;
+
+		XMLInputSerializer arIn;
 		bool bLoadOk = arIn.Open(m_pDataStream.get());
 		if (!bLoadOk)
 		{
@@ -124,15 +81,8 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		sl.BeginSection("Shader");
-		sl.Serialize(m_strShaderName,"Name");
-		sl.Serialize(m_strShaderMacro,"Macro");
-		sl.EndSection();
-
-		sl.Serialize(m_renderState,"RenderState");
-
-		sl.Serialize(m_arrParameters,"Parameters");
-
+		sl.Serialize(m_arrSubMatData,"SubMaterial");
+		
 		sl.EndSection();
 	}
 }

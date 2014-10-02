@@ -10,13 +10,12 @@ namespace ma
 	public:
 		SampleTerrain();
 
-		virtual void Load();
+		virtual void		Load();
 
-		virtual	void UnLoad();
+		virtual void		UnLoad();
 
-		virtual bool keyPressed(const OIS::KeyEvent &arg);
-
-		virtual bool keyReleased(const OIS::KeyEvent &arg);	
+	private:
+		RefPtr<Terrain>	m_pTerrain;
 	};
 }
 

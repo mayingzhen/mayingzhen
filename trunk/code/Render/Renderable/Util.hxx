@@ -4,39 +4,44 @@
 
 namespace ma
 {
-	GameObjectPtr CreateMeshGameObject(const char* pSknPath,const char* pTexPath)
+	SceneNodePtr CreateMeshGameObject(const char* pSknPath,const char* pTexPath)
 	{
-		GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("");
+		ASSERT(false);
+		return NULL;
 
-		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load(pSknPath,pTexPath);
+		//SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
 
-		return pGameObj;
+		//MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		//pMeshComp->Load(pSknPath,pTexPath);
+
+		//return pGameObj;
 	}
 
-	GameObjectPtr CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
+	SceneNodePtr CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
 	{
-		GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("");
+		ASSERT(false);
+		return NULL;
 
-		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load(pSknPath,pTexPath);
-		
-		AABB aabb = pMeshComp->GetAABBWS();
-		NodeTransform tsf;
-		TransformSetIdentity(&tsf);
-		tsf.m_vPos = aabb.Center();
-		
-		IBoxCollisionShapePtr pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
-		pBoxCollisionShape->SetSize(aabb.Size());
-		pBoxCollisionShape->SetTransformLS(tsf);
-		
-		return pGameObj;
+// 		SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
+// 
+// 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+// 		pMeshComp->Load(pSknPath,pTexPath);
+// 		
+// 		AABB aabb = pMeshComp->GetAABBWS();
+// 		Transform tsf;
+// 		tsf.m_vPos = aabb.getCenter();
+// 		
+// 		IBoxCollisionShapePtr pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+// 		pBoxCollisionShape->SetSize(aabb.getSize());
+// 		pBoxCollisionShape->SetTransformLS(tsf);
+// 		
+// 		return pGameObj;
 	}
 
-// 	GameObjectPtr CreateAnimationGameObject(const char* psknPath,const char* pTexPath,
+// 	SceneNodePtr CreateAnimationGameObject(const char* psknPath,const char* pTexPath,
 // 		const char* pSkePth,const char* pAnimSetPath)
 // 	{
-// 		GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("");
+// 		SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
 // 
 // 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 // 		pMeshComp->Load(psknPath,pTexPath);

@@ -17,9 +17,9 @@ namespace ma
 		virtual void Render();
 
 	private:
-		PointLightPtr			m_pPointLight;
+		PointLight*			m_pPointLight;
 
-		DirectonalLightPtr		m_pDirectLight;
+		DirectonalLight*	m_pDirectLight;
 	};
 }
 

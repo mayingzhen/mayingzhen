@@ -1,237 +1,112 @@
 #include "SampleRagdoll.h"
+#include "Ragdoll.hxx"
 
 namespace ma
 {
 
 	SampleRagdoll::SampleRagdoll()
 	{
+		m_bStart = false;
+		m_pRagdoll = NULL;
 	}
 
-	GameObjectPtr SampleRagdoll::CreateCapsule(float fRadius,float fHeight,NodeTransform tsf,const char* pName)
-	{
-		GameObjectPtr pObj = GetEntitySystem()->CreateGameObject(pName);
-		ICapsuleCollisionShapePtr pCapuleComp = pObj->CreateComponent<ICapsuleCollisionShape>();
-		pCapuleComp->SetRadius(fRadius);
-		pCapuleComp->SetHeight(fHeight);
-
-		IRigidBodyPtr pRigidComp = pObj->CreateComponent<IRigidBody>();
-		pRigidComp->SetKinematic(true);
-
-		pObj->GetSceneNode()->SetTransform(tsf);
-		
-		return pObj;
-	}
 
 	void SampleRagdoll::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 300, 400);
+		m_bStart = false;
+		GetInput()->AddKeyListener(this);
+
+		Vector3 vEyePos = Vector3(100, -400, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+
+		GetPhysicsSystem()->SetGravity(Vector3(0,0,-98));
 
 		{
-			GameObjectPtr pGameObj =  GetEntitySystem()->CreateGameObject("magician");
+			SceneNode* pGameObj = m_pScene->CreateNode("magician");
 
-			MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+ 			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+ 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-			AnimationComponentPtr pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
-			pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
-
-			m_pSkeleton = pAnimComp->GetSkeleton();
-
-			//pGameObj->GetSceneNode()->Scale(0.01f);
-			pGameObj->GetSceneNode()->Right(100);
+			m_pAnimationComp = pGameObj->CreateComponent<AnimationComponent>();
+			m_pAnimationComp->Load("magician/body.Aniset","magician/body.ske");
 		}
 
- 
- 
-		//GetPhysicsSystem()->SetGravity(Vector3(0,-600/*-0.98f * 100*/,0));
+		m_pAnimationComp->PlayAnimation(1);
 
 		{
-			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Terrain");
+			RefPtr<SceneNode> pGameObj = m_pScene->CreateNode("Terrain");
 		
-			IBoxCollisionShapePtr pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
-			pBoxCollisionShape->SetSize(Vector3(400,5,400));
+			IBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			pBoxCollisionShape->SetSize(Vector3(800,800,10));
 
-			pGameObj->GetSceneNode()->Translate(Vector3(0,-50,0));
+			pGameObj->Translate(Vector3(0,0,-50));
 		}
- 
-		NodeTransform arrTsf[BODYPART_COUNT];
-		for (int i = 0; i < BODYPART_COUNT; ++i)
-		{
-			TransformSetIdentity(&arrTsf[i]);
-		}
- 
-		arrTsf[BODYPART_PELVIS].m_vPos = Vector3(0,100,0);
-
-		arrTsf[BODYPART_SPINE].m_vPos = Vector3(0,120,0); 
-
-		arrTsf[BODYPART_HEAD].m_vPos = Vector3(0,160,0);
-
-		arrTsf[BODYPART_LEFT_UPPER_LEG].m_vPos = Vector3(-18,65,0); 
-
-		arrTsf[BODYPART_LEFT_LOWER_LEG].m_vPos = Vector3(-18,20,0); 
-
-		arrTsf[BODYPART_RIGHT_UPPER_LEG].m_vPos = Vector3(18,65,0);
-
-		arrTsf[BODYPART_RIGHT_LOWER_LEG].m_vPos = Vector3(18,20,0);
-	
-		arrTsf[BODYPART_LEFT_UPPER_ARM].m_vPos = Vector3(-35,145,0);
-		EulerAngleXYZ euler(0,0,HALF_PI);
-		QuaternionFromEulerAngle(&arrTsf[BODYPART_LEFT_UPPER_ARM].m_qRot,(float*)&euler);
 		
-		arrTsf[BODYPART_LEFT_LOWER_ARM].m_vPos = Vector3(-70,145,0);
-		euler = EulerAngleXYZ(0,0,HALF_PI);
-		QuaternionFromEulerAngle(&arrTsf[BODYPART_LEFT_LOWER_ARM].m_qRot,(float*)&euler);
-		
-		arrTsf[BODYPART_RIGHT_UPPER_ARM].m_vPos = Vector3(35,145,0);
-		euler = EulerAngleXYZ(0,0,-HALF_PI);
-		QuaternionFromEulerAngle(&arrTsf[BODYPART_RIGHT_UPPER_ARM].m_qRot,(float*)&euler);
-		
-		arrTsf[BODYPART_RIGHT_LOWER_ARM].m_vPos = Vector3(70,145,0);
-		euler = EulerAngleXYZ(0,0,-HALF_PI);
-		QuaternionFromEulerAngle(&arrTsf[BODYPART_RIGHT_LOWER_ARM].m_qRot,(float*)&euler);
-			
+		std::vector<std::string> arrBoneName;
+		arrBoneName.push_back("Bip01 Pelvis");
+		arrBoneName.push_back("Bip01 Spine");
+		arrBoneName.push_back("Bip01 Head");
+		arrBoneName.push_back("Bip01 L UpperArm");
+		arrBoneName.push_back("Bip01 R UpperArm");
+		arrBoneName.push_back("Bip01 L Forearm");
+		arrBoneName.push_back("Bip01 R Forearm");
+		arrBoneName.push_back("Bip01 L Thigh");
+		arrBoneName.push_back("Bip01 R Thigh");
+		arrBoneName.push_back("Bip01 L Calf");
+		arrBoneName.push_back("Bip01 R Calf");
 
-		m_arrObject[BODYPART_PELVIS] = CreateCapsule(15,20,arrTsf[BODYPART_PELVIS],"BODYPART_PELVIS");
-		m_arrObject[BODYPART_SPINE] = CreateCapsule(15,28,arrTsf[BODYPART_SPINE],"BODYPART_SPINE");
-		m_arrObject[BODYPART_HEAD] = CreateCapsule(10,5,arrTsf[BODYPART_HEAD],"BODYPART_HEAD");
-		m_arrObject[BODYPART_LEFT_UPPER_LEG] = CreateCapsule(7,45,arrTsf[BODYPART_LEFT_UPPER_LEG],"BODYPART_LEFT_UPPER_LEG");
-		m_arrObject[BODYPART_LEFT_LOWER_LEG] = CreateCapsule(5,37,arrTsf[BODYPART_LEFT_LOWER_LEG],"BODYPART_LEFT_LOWER_LEG");
-		m_arrObject[BODYPART_RIGHT_UPPER_LEG] = CreateCapsule(7,45,arrTsf[BODYPART_RIGHT_UPPER_LEG],"BODYPART_RIGHT_UPPER_LEG");
-		m_arrObject[BODYPART_RIGHT_LOWER_LEG] = CreateCapsule(5,37,arrTsf[BODYPART_RIGHT_LOWER_LEG],"BODYPART_RIGHT_LOWER_LEG");
-		m_arrObject[BODYPART_LEFT_UPPER_ARM] = CreateCapsule(5,33,arrTsf[BODYPART_LEFT_UPPER_ARM],"BODYPART_LEFT_UPPER_ARM");
-		m_arrObject[BODYPART_LEFT_LOWER_ARM] = CreateCapsule(4,25,arrTsf[BODYPART_LEFT_LOWER_ARM],"BODYPART_LEFT_LOWER_ARM");
-		m_arrObject[BODYPART_RIGHT_UPPER_ARM] = CreateCapsule(5,33,arrTsf[BODYPART_RIGHT_UPPER_ARM],"BODYPART_RIGHT_UPPER_ARM");
-		m_arrObject[BODYPART_RIGHT_LOWER_ARM] = CreateCapsule(4,25,arrTsf[BODYPART_RIGHT_LOWER_ARM],"BODYPART_RIGHT_LOWER_ARM");
+		std::vector<Vector2> arrSize;
+		arrSize.push_back(Vector2(15,5));
+		arrSize.push_back(Vector2(15,5));
+		arrSize.push_back(Vector2(10,5));
+		arrSize.push_back(Vector2(5,20));
+		arrSize.push_back(Vector2(5,20));
+		arrSize.push_back(Vector2(4,20));
+		arrSize.push_back(Vector2(4,20));
+		arrSize.push_back(Vector2(7,30));
+		arrSize.push_back(Vector2(7,30));
+		arrSize.push_back(Vector2(5,30));
+		arrSize.push_back(Vector2(5,30));
 
-		NodeTransform tsfA,tsfB;
-		TransformSetIdentity(&tsfA);
-		TransformSetIdentity(&tsfB);
-
-// ******* SPINE HEAD ******** ///
-		tsfA.m_vPos = Vector3(0,30,0);
-		tsfB.m_vPos = Vector3(0,-14,0);
-		IPhysicsGenericJointPtr pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_HEAD]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-PI*0.3f,-FEPS,-PI*0.3f));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.5f,FEPS,PI*0.3f));
-		
-// ******* LEFT SHOULDER ******** ///
-		tsfA.m_vPos = Vector3(-20,15,0);
-
-		tsfB.m_vPos = Vector3(0,-18,0);
-		euler = EulerAngleXYZ(HALF_PI,0,-HALF_PI);
-		QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
-		
-		pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_ARM]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
-
-// ******* RIGHT SHOULDER ******** ///
-		tsfA.m_vPos = Vector3(20,15,0);
-
-		tsfB.m_vPos = Vector3(0,-18,0);
-		euler = EulerAngleXYZ (0,0,HALF_PI);
-		QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
-		pJointComp = m_arrObject[BODYPART_SPINE]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_ARM]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-PI*0.8f,-FEPS,-PI*0.5f));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.8f,FEPS,PI*0.5f));
-
-// ******* LEFT ELBOW ******** ///
-		tsfA.m_vPos = Vector3(0,18,0);
-		tsfB.m_vPos = Vector3(0,-14,0);
-		pJointComp = m_arrObject[BODYPART_LEFT_UPPER_ARM]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_ARM]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
-	
-// ******* RIGHT ELBOW ******** ///
-		tsfA.m_vPos = Vector3(0,18,0);
-		tsfB.m_vPos = Vector3(0,-14,0);
-		pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_ARM]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_ARM]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));	
-
-// ******* PELVIS ******** ///
-		tsfA.m_vPos = Vector3(0,15,0);
-		euler = EulerAngleXYZ(0,HALF_PI,0);
-		QuaternionFromEulerAngle(&tsfA.m_qRot,(float*)&euler);
-
-		tsfB.m_vPos = Vector3(0,-15,0);
-		euler = EulerAngleXYZ(0,HALF_PI,0);
-		QuaternionFromEulerAngle(&tsfB.m_qRot,(float*)&euler);
-
-		pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_SPINE]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-PI*0.2f,-FEPS,-PI*0.3f));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.2f,FEPS,PI*0.6f));	
-
-// ******* LEFT HIP ******** ///
-		tsfA.m_vPos = Vector3(-18,-10,0);
-		tsfB.m_vPos = Vector3(0,22.5,0);
-		pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_UPPER_LEG]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
-
-
-// ******* RIGHT HIP ******** ///
-		tsfA.m_vPos = Vector3(18,-10,0);
-		tsfB.m_vPos = Vector3(0,22.5,0);
-		pJointComp = m_arrObject[BODYPART_PELVIS]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_UPPER_LEG]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-HALF_PI * 0.5,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(HALF_PI*0.8,FEPS,HALF_PI*0.6));	
-
-// ******* LEFT KNEE ******** ///
-		tsfA.m_vPos = Vector3(0,-22.5,0);
-		tsfB.m_vPos = Vector3(0,18.5,0);
-		pJointComp = m_arrObject[BODYPART_LEFT_UPPER_LEG]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_LEFT_LOWER_LEG]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
-
-// ******* RIGHT KNEE ******** ///
-		tsfA.m_vPos = Vector3(0,-22.5,0);
-		tsfB.m_vPos = Vector3(0,18.5,0);
-		pJointComp = m_arrObject[BODYPART_RIGHT_UPPER_LEG]->CreateComponent<IPhysicsGenericJoint>();
-		pJointComp->SetPysicsObjectB(m_arrObject[BODYPART_RIGHT_LOWER_LEG]->GetPhyscisObject());
-		pJointComp->SetATransformLS(tsfA);
-		pJointComp->SetBTransformLS(tsfB);
-		pJointComp->SetAngularLowerLimit(Vector3(-FEPS,-FEPS,-FEPS));
-		pJointComp->SetAngularUpperLimit(Vector3(PI*0.7f,FEPS,FEPS));
+		m_pRagdoll = new Ragdoll();
+		m_pRagdoll->Init(m_pAnimationComp,arrBoneName,arrSize);
 
 	}
 
 	void SampleRagdoll::UnLoad()
 	{
+		GetInput()->RemoveKeyListener(this);
 	}
 
+	void SampleRagdoll::Update()
+	{
+		if (m_bStart)
+		{
+			m_pRagdoll->SyncFromPhysics();
+		}
+		else
+		{
+			m_pRagdoll->SyncToPhysics();
+		}
+	}
 
+	void SampleRagdoll::Render()
+	{
+		m_pAnimationComp->DebugRender(false);
+	}
 
+	bool SampleRagdoll::keyPressed(const OIS::KeyEvent &arg)
+	{
+		if (arg.key == OIS::KC_R)
+		{
+			m_bStart = true;
+			
+			m_pRagdoll->Start();
+		}
+
+		return true;
+	}
 
 }
 

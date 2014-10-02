@@ -1,10 +1,23 @@
 #ifndef _MaterialData_H_
 #define _MaterialData_H_
 
+#include "MaterialParameter.h"
 
 namespace ma
 {
-	class MaterialParameter;
+	struct RENDER_API SubMaterialData 
+	{
+		std::string							m_strShaderMacro;
+
+		std::string							m_strShaderName;
+
+		RenderState							m_renderState;
+
+		std::vector<MaterialParameter>		m_arrParameters;
+
+		virtual void						Serialize(Serializer& sl, const char* pszLable = "SubMaterial");
+	};
+
 
 	class RENDER_API MaterialData : public Resource
 	{
@@ -15,44 +28,20 @@ namespace ma
 
 		~MaterialData();
 
- 		UINT				GetParameterNumber() {return m_arrParameters.size();}
- 		
- 		MaterialParameter*	GetParameterByIndex(UINT index) {return m_arrParameters[index];}
- 
-		const char*			GetShaderName() {return m_strShaderName.c_str();}
+		UINT							GetSubMatDataNumber() {return m_arrSubMatData.size();}
 
-		const char*			GetShaderMacro() {return m_strShaderMacro.c_str();}
+		const SubMaterialData&			GetSubMatDataByIndex(int index) {return m_arrSubMatData[index];}
 
-		void				SetShader(const char* pShaderName,const char* pShaderMacro);
+		void							AddSubMatData(const SubMaterialData& subMatData);
 
-		void				SetParameter(const char* pParmName,Vector4 value);
+		virtual void					SaveToFile(const char* pszPath);
 
-		void				SetParameter(const char* pParmName,SamplerState& sampler);
- 
- 		RenderState&		GetRenderState() {return m_renderState;}
-			
-		virtual void		SaveToFile(const char* pszPath);
+		virtual bool					CreateFromMemeory();
 
-		virtual bool		CreateFromMemeory();
-
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "Material");
+		virtual void					Serialize(Serializer& sl, const char* pszLable = "Material");
 
 	private:
-
-		MaterialParameter*	GetParameter(const char* pszName);
-
-
-	private:
-
-		std::string							m_strShaderMacro;
-
-		std::string							m_strShaderName;
-
-		Technique*							m_pTechnique;
-
-		RenderState							m_renderState;
-		
-		std::vector<MaterialParameter*>		m_arrParameters;
+		std::vector<SubMaterialData>	m_arrSubMatData;
 	};
 
 	DeclareRefPtr(MaterialData);

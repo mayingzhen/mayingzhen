@@ -1,283 +1,499 @@
-#ifndef __Math_h__
-#define __Math_h__
+/*
+-----------------------------------------------------------------------------
+This source file is part of OGRE
+    (Object-oriented Graphics Rendering Engine)
+For the latest info, see http://www.ogre3d.org/
 
-#include "MathBase.h"
+Copyright (c) 2000-2009 Torus Knot Software Ltd
 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-----------------------------------------------------------------------------
+*/
+#ifndef __Math_H__
+#define __Math_H__
 
+#include "../BaseType.h"
+#include "../Macro.h"
+#include "Angle.h"
 
-#define MIN_NODE_SCALE 0.0001f
-
-
-struct COMMON_API maGUID
+namespace ma
 {
-	Uint64 m_a;
-	Uint64 m_b;
-
-
-	void Clear();
-
-	bool operator ==(const maGUID& rhs) const;
-
-	bool operator !=(const maGUID& rhs) const;
-
-	bool operator <(const maGUID& rhs) const;
-};
-
-
-struct COMMON_API RigidTransform
-{
-	Vector3		m_vPos;
-	Quaternion	m_qRot;
-};
-
-
-
-struct COMMON_API  BoneTransform
-{
-	Vector3		m_vPos;
-	Quaternion	m_qRot;
-	float			m_fPropScale;
-};
-
-
-struct COMMON_API NodeTransform
-{
-	Vector3		m_vPos;
-	Quaternion	m_qRot;
-	float		m_fScale; //propagative scale
-
-	//Vector3		m_vLocalScale;
-
-	static NodeTransform Identity();
-
-};
-
-
-struct COMMON_API Frame
-{
-	Vector3		m_vPos;
-	Quaternion	m_qRot;
-	float			m_fScale;
-
-	void SetIdentity();
-
-	void Zero();
-};
-
-
-
-inline void Lerp(Quaternion& out, const Quaternion& v0, const Quaternion& v1,float factor);
-
-
-inline bool FloatEqual(float fa,float fb,float eps = FEPS);
-
-inline bool IsNaN(Matrix4x4* pMat);
-
-void Normalize(Vector3* pOut,const Vector3* pIn);
-
-void Normalize(Quaternion* pOut,const Quaternion* pIn);
-
-void Normalize(float* pOut,const float* pIn);
-
-//COMMON_API  void DbgDump(const RigidTransform& val);
-
-//------------------------------------------------------------------------------
-//Vector3
-//------------------------------------------------------------------------------
-const Vector3& Vec3One();
-
-const Vector3& Vec3Zero();
-
-Vector3 Vec3PositiveX();
-
-Vector3 Vec3PositiveY();
-
-Vector3 Vec3PositiveZ();
-
-void Vec3Recip(Vector3* pOut,const Vector3* pIn);
-
-void Vec3Add(Vector3* pOut,const Vector3* pV,float fVal);
-
-void Vec3Mul(Vector3* pOut,const Vector3* pA,const Vector3* pB);
-
-void Vec3Min(Vector3* pOut,const Vector3* pA,const Vector3* pB);
-
-void Vec3Max(Vector3* pOut,const Vector3* pA,const Vector3* pB);
-
-void Vec3Mad(Vector3* pV,const Vector3* pA,float f,const Vector3* pB);
-
-void S3AVecClampLength(Vector3* outVec,const Vector3* inVec,float fMaxLen);
-
-void Vec3TransformCoord(Vector3* pOut,const Vector3* pV,const RigidTransform* pRT);
-
-void Vec3TransformNormal(Vector3* pOut,const Vector3* pV,const RigidTransform* pRT);
-
-void Vec3TransformCoord(Vector3* pOut,const Vector3* pV,const NodeTransform* pRT);
-
-void Vec3TransformNormal(Vector3* pOut,const Vector3* pV,const NodeTransform* pNode);
-
-
-
-
-//------------------------------------------------------------------------------
-//Vector4
-//------------------------------------------------------------------------------
-void Vec4SetPoint(Vector4* pVec4, const Vector3* pVec3);
-
-void Vec4SetVector(Vector4* pVec4, const Vector3* pVec3);
-
-
-//------------------------------------------------------------------------------
-//EulerAngle
-//------------------------------------------------------------------------------
-COMMON_API void EulerAngleFromQuaternion(float* eulerVal,const Quaternion* pRot);
-//
-///*!
-//\param fRoll
-//alone Z axis
-//\param fPitch
-//alone X axis
-//\param fYaw
-//alone Y axis
-//*/
-//void EulerAngleFromQuaternion(float& fRoll,float& fPitch, float& fYaw,const Quaternion* inQua);
-
-//axis is non zero
-//x-roll = 0, y-pitch, z-yaw
-void EulerAngleFromXToAxis(EulerAngleXYZ* pEuler,const Vector3* pAxis);
-
-//------------------------------------------------------------------------------
-//Quaternion
-//------------------------------------------------------------------------------
-Quaternion QuaternionIden();
-
-COMMON_API void QuaternionFromEulerAngle(Quaternion* pRot,const float* eulerVal);
-
-void QuaternionMad(Quaternion* pOut, const Quaternion* pQ1, const Quaternion* pQ2,float fWeight);
-
-void QuaternionAdd(Quaternion* pOut, const Quaternion* pQ1, const Quaternion* pQ2);
-
-void QuaternionTransformVector(Vector3* pOut,const Vector3* pV,const Quaternion* pQuat);
-
-void TransformQuaternion(Quaternion* outQuat,const Quaternion* inQuat,const Matrix4x4* inMat);
-
-void QuaternionLerp(Quaternion* out,const Quaternion* q0,const Quaternion* q1,float factor);
-
-
-//pAxisFrom, pAxisTo should be normalized
-void QuaternionFromAxisToAxis(Quaternion* pRot,const Vector3* pAxisFrom,const Vector3* pAxisTo);
-
-void QuaternionFromAxisToAxis(Quaternion* pRot,const Vector3* pAxisFrom,const Vector3* pAxisTo,float fMaxAngle);
-
-
-void QuaternionFromAxisToAxis(Quaternion* pRot,const Vector3* pAxisFrom,const Vector3* pAxisTo,const Vector3* pTangent);
-
-void QuaternionFromAxisToAxis(Vector3* pAxisRot,float* pAngle,const Vector3* pAxisFrom,const Vector3* pAxisTo);
-
-
-
-//------------------------------------------------------------------------------
-//Node Transform
-//------------------------------------------------------------------------------
-void TransformSetIdentity(NodeTransform* pTSF);
-
-void TransformFromMatrix(NodeTransform* pTSF,const Matrix4x4* pMat);
-
-void TransformMul(NodeTransform* pOut,const NodeTransform* pTSFA,const NodeTransform* pTSFB);
-
-void TransformMulLocalScale(NodeTransform* pOut,const NodeTransform* pTSFA,const NodeTransform* pTSFB);
-
-//------------------------------------------------------------------------------
-//Rigid Transform
-//------------------------------------------------------------------------------
-void TransformSetIdentity(RigidTransform* pRT);
-
-void TransformFromMatrix(RigidTransform* pRT,const Matrix4x4* pMat);
-
-void TransformInverse(RigidTransform* pOut,const RigidTransform* pRT);
-
-void TransformMul(RigidTransform* pRT,const RigidTransform* pRTA,const RigidTransform* pRTB);
-
-void Vec3TransformNormal(Vector3* pOut,const Vector3* pV,const NodeTransform* pNode);
-
-
-
-//------------------------------------------------------------------------------
-//Matrix4x4
-//------------------------------------------------------------------------------
-Matrix4x4 MatrixIdentity();
-
-void MatrixAxis(Matrix4x4* pMat,const Vector3* pX,const Vector3* pY, const Vector3* pZ);
-
-void MatrixTransform(Matrix4x4* outMat,const Quaternion* inRot,const Vector3* inPos);
-
-COMMON_API bool MatrixDecompose(Vector3 *pOutScale, Quaternion *pOutRotation, Vector3 *pOutTranslation, const Matrix4x4 *pM);
-
-void MatrixTransform(Matrix4x4* pOut,const Vector3* pScale,const Quaternion* pRot,const Vector3* pPos);
-
-void MatrixTransform(Matrix4x4* outMat,const Quaternion* inRot,const Vector3* inPos);
-
-void MatrixFromQuaternion(Matrix4x4* pMat,const Quaternion* pRot);
-
-void MatrixFromFrame(Matrix4x4* pOut,const Frame* pFrame);
-
-
-void BoneMatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF);
-
-void NodeMatrixFromTransform( Matrix4x4* pMat,const NodeTransform* pTSF);
-
-
-Vector3*		MatrixAsTranslation3(Matrix4x4* pMat);
-
-const Vector3*	MatrixAsTranslation3(const Matrix4x4* pMat);
-
-Vector3*		MatrixAsVector3(Matrix4x4* pMat,Uint nCol);
-
-const Vector3*	MatrixAsVector3(const Matrix4x4* pMat,Uint nCol);
-
-Vector4*		MatrixAsVector4(Matrix4x4* pMat,Uint nCol);
-
-const Vector4*	MatrixAsVector4(const Matrix4x4* pMat,Uint nCol);
-
-const Vector3*	MatrixAsTranslation(const Matrix4x4* pMat);
-
-Vector3*		MatrixAsTranslation(Matrix4x4* pMat);
-
-
-//------------------------------------------------------------------------------
-//None inline Matrix4x4
-//------------------------------------------------------------------------------
-COMMON_API Matrix4x4* MatrixPerspectiveGL_RH(Matrix4x4* pOut,float w,float h,float zn,float zf);
-
-COMMON_API Matrix4x4* MatrixPerspectiveFovGL_RH(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
-
-COMMON_API Matrix4x4* MatrixPerspectiveGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
-
-COMMON_API Matrix4x4* MatrixPerspectiveFovGL_LH(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
-
-COMMON_API Matrix4x4* MatrixOrthoGL_LH(Matrix4x4* pOut,float w,float h,float zn,float zf);
-
-COMMON_API Matrix4x4* MatrixOrthoOffCenterGL_LH(Matrix4x4* pOut,float l,float r, float b, float t, float zn,float zf);
-
-//------------------------------------------------------------------------------
-//Frame
-//------------------------------------------------------------------------------
-
-void FrameTransformPoint(Vector3* pOut,const Vector3* pP,const Frame* pFrame);
-
-COMMON_API UINT NextPowerOfTwo(unsigned int v);
+	/** \addtogroup Core
+	*  @{
+	*/
+	/** \addtogroup Math
+	*  @{
+	*/
+	/** Wrapper class which indicates a given angle value is in Radians.
+    @remarks
+        Radian values are interchangeable with Degree values, and conversions
+        will be done automatically between them.
+    */
+	class Vector2;
+	class Vector3;
+	class Vector4;
+	class Ray;
+	class Matrix3;
+	class Matrix4;
+	class Plane;
+	class PlaneBoundedVolume;
+	class Quaternion;
+	class Radian;
+	class Sphere;
+	class AABB;
+
+    /** Class to provide access to common mathematical functions.
+        @remarks
+            Most of the maths functions are aliased versions of the C runtime
+            library functions. They are aliased here to provide future
+            optimisation opportunities, either from faster RTLs or custom
+            math approximations.
+        @note
+            <br>This is based on MgcMath.h from
+            <a href="http://www.geometrictools.com/">Wild Magic</a>.
+    */
+    class COMMON_API Math 
+    {
+   public:
+       /** The angular units used by the API. This functionality is now deprecated in favor
+	       of discreet angular unit types ( see Degree and Radian above ). The only place
+		   this functionality is actually still used is when parsing files. Search for
+		   usage of the Angle class for those instances
+       */
+
+    protected:
+
+        /// Size of the trig tables as determined by constructor.
+        static int mTrigTableSize;
+
+        /// Radian -> index factor value ( mTrigTableSize / 2 * PI )
+        static float mTrigTableFactor;
+        static float* mSinTable;
+        static float* mTanTable;
+
+        /** Private function to build trig tables.
+        */
+        void buildTrigTables();
+
+		static float SinTable (float fValue);
+		static float TanTable (float fValue);
+    public:
+        /** Default constructor.
+            @param
+                trigTableSize Optional parameter to set the size of the
+                tables used to implement Sin, Cos, Tan
+        */
+        Math(unsigned int trigTableSize = 4096);
+
+        /** Default destructor.
+        */
+        ~Math();
+
+		static inline int IAbs (int iValue) { return ( iValue >= 0 ? iValue : -iValue ); }
+		static inline int ICeil (float fValue) { return int(ceil(fValue)); }
+		static inline int IFloor (float fValue) { return int(floor(fValue)); }
+        static int ISign (int iValue);
+
+		static inline float Abs (float fValue) { return float(fabs(fValue)); }
+		static inline Degree Abs (const Degree& dValue) { return Degree(fabs(dValue.valueDegrees())); }
+		static inline Radian Abs (const Radian& rValue) { return Radian(fabs(rValue.valueRadians())); }
+		static Radian ACos (float fValue);
+		static Radian ASin (float fValue);
+		static inline Radian ATan (float fValue) { return Radian(atan(fValue)); }
+		static inline Radian ATan2 (float fY, float fX) { return Radian(atan2(fY,fX)); }
+		static inline float Ceil (float fValue) { return float(ceil(fValue)); }
+		static inline bool isNaN(float f)
+		{
+			// std::isnan() is C99, not supported by all compilers
+			// However NaN always fails this next test, no other number does.
+			return f != f;
+		}
+
+        /** Cosine function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+        static inline float Cos (const Radian& fValue, bool useTables = false) {
+			return (!useTables) ? float(cos(fValue.valueRadians())) : SinTable(fValue.valueRadians() + HALF_PI);
+		}
+        /** Cosine function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+        static inline float Cos (float fValue, bool useTables = false) {
+			return (!useTables) ? float(cos(fValue)) : SinTable(fValue + HALF_PI);
+		}
+
+		static inline float Exp (float fValue) { return float(exp(fValue)); }
+
+		static inline float Floor (float fValue) { return float(floor(fValue)); }
+
+		static inline float Log (float fValue) { return float(log(fValue)); }
+
+		/// Stored value of log(2) for frequent use
+		static const float LOG2;
+
+		static inline float Log2 (float fValue) { return float(log(fValue)/LOG2); }
+
+		static inline float LogN (float base, float fValue) { return float(log(fValue)/log(base)); }
+
+		static inline float Pow (float fBase, float fExponent) { return float(pow(fBase,fExponent)); }
+
+        static float Sign (float fValue);
+		static inline Radian Sign ( const Radian& rValue )
+		{
+			return Radian(Sign(rValue.valueRadians()));
+		}
+		static inline Degree Sign ( const Degree& dValue )
+		{
+			return Degree(Sign(dValue.valueDegrees()));
+		}
+
+        /** Sine function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+        static inline float Sin (const Radian& fValue, bool useTables = false) {
+			return (!useTables) ? float(sin(fValue.valueRadians())) : SinTable(fValue.valueRadians());
+		}
+        /** Sine function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+        static inline float Sin (float fValue, bool useTables = false) {
+			return (!useTables) ? float(sin(fValue)) : SinTable(fValue);
+		}
+
+		static inline float Sqr (float fValue) { return fValue*fValue; }
+
+		static inline float Sqrt (float fValue) { return float(sqrt(fValue)); }
+
+        static inline Radian Sqrt (const Radian& fValue) { return Radian(sqrt(fValue.valueRadians())); }
+
+        static inline Degree Sqrt (const Degree& fValue) { return Degree(sqrt(fValue.valueDegrees())); }
+
+        /** Inverse square root i.e. 1 / Sqrt(x), good for vector
+            normalisation.
+        */
+		static float InvSqrt(float fValue);
+
+        static float UnitRandom ();  // in [0,1]
+
+        static float RangeRandom (float fLow, float fHigh);  // in [fLow,fHigh]
+
+        static float SymmetricRandom ();  // in [-1,1]
+
+        /** Tangent function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+		static inline float Tan (const Radian& fValue, bool useTables = false) {
+			return (!useTables) ? float(tan(fValue.valueRadians())) : TanTable(fValue.valueRadians());
+		}
+        /** Tangent function.
+            @param
+                fValue Angle in radians
+            @param
+                useTables If true, uses lookup tables rather than
+                calculation - faster but less accurate.
+        */
+		static inline float Tan (float fValue, bool useTables = false) {
+			return (!useTables) ? float(tan(fValue)) : TanTable(fValue);
+		}
+
+
+       /** Checks whether a given point is inside a triangle, in a
+            2-dimensional (Cartesian) space.
+            @remarks
+                The vertices of the triangle must be given in either
+                trigonometrical (anticlockwise) or inverse trigonometrical
+                (clockwise) order.
+            @param
+                p The point.
+            @param
+                a The triangle's first vertex.
+            @param
+                b The triangle's second vertex.
+            @param
+                c The triangle's third vertex.
+            @returns
+                If the point resides in the triangle, <b>true</b> is
+                returned.
+            @par
+                If the point is outside the triangle, <b>false</b> is
+                returned.
+        */
+        static bool pointInTri2D(const Vector2& p, const Vector2& a, 
+			const Vector2& b, const Vector2& c);
+
+       /** Checks whether a given 3D point is inside a triangle.
+       @remarks
+            The vertices of the triangle must be given in either
+            trigonometrical (anticlockwise) or inverse trigonometrical
+            (clockwise) order, and the point must be guaranteed to be in the
+			same plane as the triangle
+        @param
+            p The point.
+        @param
+            a The triangle's first vertex.
+        @param
+            b The triangle's second vertex.
+        @param
+            c The triangle's third vertex.
+		@param 
+			normal The triangle plane's normal (passed in rather than calculated
+				on demand since the caller may already have it)
+        @returns
+            If the point resides in the triangle, <b>true</b> is
+            returned.
+        @par
+            If the point is outside the triangle, <b>false</b> is
+            returned.
+        */
+        static bool pointInTri3D(const Vector3& p, const Vector3& a, 
+			const Vector3& b, const Vector3& c, const Vector3& normal);
+        /** Ray / plane intersection, returns boolean result and distance. */
+        static std::pair<bool, float> intersects(const Ray& ray, const Plane& plane);
+
+        /** Ray / sphere intersection, returns boolean result and distance. */
+        static std::pair<bool, float> intersects(const Ray& ray, const Sphere& sphere, 
+            bool discardInside = true);
+        
+        /** Ray / box intersection, returns boolean result and distance. */
+        static std::pair<bool, float> intersects(const Ray& ray, const AABB& box);
+
+        /** Ray / box intersection, returns boolean result and two intersection distance.
+        @param
+            ray The ray.
+        @param
+            box The box.
+        @param
+            d1 A real pointer to retrieve the near intersection distance
+                from the ray origin, maybe <b>null</b> which means don't care
+                about the near intersection distance.
+        @param
+            d2 A real pointer to retrieve the far intersection distance
+                from the ray origin, maybe <b>null</b> which means don't care
+                about the far intersection distance.
+        @returns
+            If the ray is intersects the box, <b>true</b> is returned, and
+            the near intersection distance is return by <i>d1</i>, the
+            far intersection distance is return by <i>d2</i>. Guarantee
+            <b>0</b> <= <i>d1</i> <= <i>d2</i>.
+        @par
+            If the ray isn't intersects the box, <b>false</b> is returned, and
+            <i>d1</i> and <i>d2</i> is unmodified.
+        */
+        static bool intersects(const Ray& ray, const AABB& box,
+            float* d1, float* d2);
+
+        /** Ray / triangle intersection, returns boolean result and distance.
+        @param
+            ray The ray.
+        @param
+            a The triangle's first vertex.
+        @param
+            b The triangle's second vertex.
+        @param
+            c The triangle's third vertex.
+		@param 
+			normal The triangle plane's normal (passed in rather than calculated
+				on demand since the caller may already have it), doesn't need
+                normalised since we don't care.
+        @param
+            positiveSide Intersect with "positive side" of the triangle
+        @param
+            negativeSide Intersect with "negative side" of the triangle
+        @returns
+            If the ray is intersects the triangle, a pair of <b>true</b> and the
+            distance between intersection point and ray origin returned.
+        @par
+            If the ray isn't intersects the triangle, a pair of <b>false</b> and
+            <b>0</b> returned.
+        */
+        static std::pair<bool, float> intersects(const Ray& ray, const Vector3& a,
+            const Vector3& b, const Vector3& c, const Vector3& normal,
+            bool positiveSide = true, bool negativeSide = true);
+
+        /** Ray / triangle intersection, returns boolean result and distance.
+        @param
+            ray The ray.
+        @param
+            a The triangle's first vertex.
+        @param
+            b The triangle's second vertex.
+        @param
+            c The triangle's third vertex.
+        @param
+            positiveSide Intersect with "positive side" of the triangle
+        @param
+            negativeSide Intersect with "negative side" of the triangle
+        @returns
+            If the ray is intersects the triangle, a pair of <b>true</b> and the
+            distance between intersection point and ray origin returned.
+        @par
+            If the ray isn't intersects the triangle, a pair of <b>false</b> and
+            <b>0</b> returned.
+        */
+        static std::pair<bool, float> intersects(const Ray& ray, const Vector3& a,
+            const Vector3& b, const Vector3& c,
+            bool positiveSide = true, bool negativeSide = true);
+
+        /** Sphere / box intersection test. */
+        static bool intersects(const Sphere& sphere, const AABB& box);
+
+        /** Plane / box intersection test. */
+        static bool intersects(const Plane& plane, const AABB& box);
+
+        /** Ray / convex plane list intersection test. 
+        @param ray The ray to test with
+        @param plaeList List of planes which form a convex volume
+        @param normalIsOutside Does the normal point outside the volume
+        */
+        static std::pair<bool, float> intersects(
+            const Ray& ray, const vector<Plane>& planeList, 
+            bool normalIsOutside);
+        /** Ray / convex plane list intersection test. 
+        @param ray The ray to test with
+        @param plaeList List of planes which form a convex volume
+        @param normalIsOutside Does the normal point outside the volume
+        */
+        static std::pair<bool, float> intersects(
+            const Ray& ray, const list<Plane>& planeList, 
+            bool normalIsOutside);
+
+        /** Sphere / plane intersection test. 
+        @remarks NB just do a plane.getDistance(sphere.getCenter()) for more detail!
+        */
+        static bool intersects(const Sphere& sphere, const Plane& plane);
+
+        /** Compare 2 reals, using tolerance for inaccuracies.
+        */
+        static bool RealEqual(float a, float b,
+            float tolerance = std::numeric_limits<float>::epsilon());
+
+        /** Calculates the tangent space vector for a given set of positions / texture coords. */
+        static Vector3 calculateTangentSpaceVector(
+            const Vector3& position1, const Vector3& position2, const Vector3& position3,
+            float u1, float v1, float u2, float v2, float u3, float v3);
+
+        /** Build a reflection matrix for the passed in plane. */
+        static Matrix4 buildReflectionMatrix(const Plane& p);
+        /** Calculate a face normal, including the w component which is the offset from the origin. */
+        static Vector4 calculateFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        /** Calculate a face normal, no w-information. */
+        static Vector3 calculateBasicFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        /** Calculate a face normal without normalize, including the w component which is the offset from the origin. */
+        static Vector4 calculateFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+        /** Calculate a face normal without normalize, no w-information. */
+        static Vector3 calculateBasicFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3);
+
+		/** Generates a value based on the Gaussian (normal) distribution function
+			with the given offset and scale parameters.
+		*/
+		static float gaussianDistribution(float x, float offset = 0.0f, float scale = 1.0f);
+
+		/** Clamp a value within an inclusive range. */
+		template <typename T>
+		static T Clamp(T val, T minval, T maxval)
+		{
+			assert (minval < maxval && "Invalid clamp range");
+			return max(min(val, maxval), minval);
+		}
+
+		template <typename T>
+		static T Lerp(const T& v0, const T& v1, float s) {return v0 + (v1-v0)*s;}
+
+		template <typename T>
+		static T Min(const T& v0, const T& v1) { return v0 < v1 ? v0 : v1; }
+
+		template <typename T>
+		static T Max(const T& v0, const T& v1) { return v0 > v1 ? v0 : v1;}
+
+		static UINT NextPowerOfTwo(UINT v);
+
+		template<class T>
+		inline static T InvalidID() { return T(-1); }
+
+		template<class T>
+		inline static bool IsValidID(T ind) { return ind != (T)(-1); }
+
+		template<class T>
+		inline static bool IsInvalidID(T ind) { return ind == (T)(-1);}
 
 
 #ifdef WIN32
-inline float round(float r)
-{
-	return (r > 0.0f) ? floor(r + 0.5f) : ceil(r - 0.5f);
-}
+		inline static float round(float r)
+		{
+			return (r > 0.0f) ? floor(r + 0.5f) : ceil(r - 0.5f);
+		}
 #endif
 
-#include "Math.inl"
+		static Matrix4 makeViewMatrix(const Vector3& position, const Quaternion& orientation, 
+			const Matrix4* reflectMatrix = 0);
+
+		/** Get a bounding radius value from a bounding box. */
+		static float boundingRadiusFromAABB(const AABB& aabb);
 
 
-#endif //__Math_h__
+		static Matrix4 MakeLookAtMatrixLH(const Vector3& vEye, const Vector3& vAt, const Vector3& vUp);
+		static Matrix4 MakeLookAtMatrixRH(const Vector3& vEye, const Vector3& vAt, const Vector3& vUp);
+
+		// result = v0 + (v1-v0)*s
+		//static Vector3 Lerp(const Vector3& v0, const Vector3& v1, Real s);
+		// check if sphere contains box
+		static bool Contains(const Sphere& sphere, const AABB& box);
+
+		// 判断ray是否与线段v0、v1相交，若ray与线段的距离小于fMaxDistance则返回true
+		static bool Intersects(const Ray& ray, const Vector3& v0, const Vector3& v1, float fMaxDistance);
+
+
+        static const float POS_INFINITY;
+        static const float NEG_INFINITY;
+        static const float PI;
+        static const float TWO_PI;
+        static const float HALF_PI;
+		static const float FEPS;
+		static const float FMAX;
+
+
+};
+
+static const int M_MIN_INT = 0x80000000;
+static const int M_MAX_INT = 0x7fffffff;
+static const UINT M_MIN_UNSIGNED = 0x00000000;
+static const UINT M_MAX_UNSIGNED = 0xffffffff;
+
+}
+#endif

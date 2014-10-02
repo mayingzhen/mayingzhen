@@ -19,14 +19,13 @@
 %include "../../Code/Engine/Resource/Resource.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"
 
-%include "../../Code/Engine/EntitySystem/SceneNode.h"
-%include "../../Code/Engine/EntitySystem/Component.h"
-%include "../../Code/Engine/EntitySystem/GameObj.h"
+%include "../../Code/Engine/Scene/NodeTransform.h"
+%include "../../Code/Engine/Scene/Component.h"
+%include "../../Code/Engine/Scene/SceneNode.h"
 
 %include "../../Code/Engine/Physics/ICharacterController.h"
 %include "../../Code/Engine/Physics/ICollisionShape.h"
 %include "../../Code/Engine/Physics/IPhysicsSystem.h"
-%include "../../Code/Engine/Physics/IPhysicsObject.h"
 %include "../../Code/Engine/Physics/IRigidBody.h"
 %include "../../Code/Engine/Physics/IPhysicsJoint.h"
 

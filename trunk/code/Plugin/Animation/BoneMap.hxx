@@ -8,7 +8,7 @@ namespace ma
 			return;
 
 		UINT uBoneNumber = pSkeleton->GetBoneNumer();
-		m_arrMapBoneInd.resize(uBoneNumber,InvalidID<BoneIndex>());
+		m_arrMapBoneInd.resize(uBoneNumber,Math::InvalidID<BoneIndex>());
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
 			const char* pszBoneName = pSkeleton->GetBoneNameByIndex(i); 
@@ -20,7 +20,7 @@ namespace ma
 	BoneIndex BoneMap::MapNode(BoneIndex uBoneInd)
 	{
 		if (uBoneInd >= m_arrMapBoneInd.size() || uBoneInd < 0)
-			return InvalidID<BoneIndex>();
+			return Math::InvalidID<BoneIndex>();
 
 		return m_arrMapBoneInd[uBoneInd];
 	}

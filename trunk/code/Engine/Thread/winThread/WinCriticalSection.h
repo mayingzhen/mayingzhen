@@ -28,7 +28,7 @@ namespace ma
 
 		bool TryLock()
 		{
-			return ::TryEnterCriticalSection(&m_cs);
+			return ::TryEnterCriticalSection(&m_cs) == TRUE;
 		}
 
 	private:

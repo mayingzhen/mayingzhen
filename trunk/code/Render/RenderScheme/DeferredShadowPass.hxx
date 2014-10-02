@@ -33,10 +33,9 @@ namespace ma
 
 		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0),1,0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black,1,0);
 
-		Matrix4x4 invView;
-		MatrixInverse(&invView, NULL, &GetRenderContext()->GetViewMatrix());
+		Matrix4 invView = GetRenderContext()->GetViewMatrix().inverse();
 
 		UINT nLight = GetLightSystem()->GetLightNumber();
 		for (UINT iLight = 0; iLight < nLight; ++iLight)
@@ -49,26 +48,27 @@ namespace ma
 			{
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
 
-				Matrix4x4 viwToLightProjArray[DirectonalLight::NUM_PSSM];
+				Matrix4 viwToLightProjArray[DirectonalLight::NUM_PSSM];
 
 				UINT nSMF = pLight->GetShadowFrustumNumber();
 				for (UINT iSMF = 0; iSMF < nSMF; ++iSMF)
 				{
 					ShadowMapFrustum* pSMF = pLight->GetShadowFrustumByIndex(iSMF);
 
-					viwToLightProjArray[iSMF] = invView * pSMF->GetViewProjMatrix() * pSMF->GetTexScaleBiasMat();
+					viwToLightProjArray[iSMF] = pSMF->GetTexScaleBiasMat() * pSMF->GetViewProjMatrix() * invView;
 
 					char pszTexShadowMap[MAX_PATH] = {0};
 					snprintf(pszTexShadowMap, sizeof(pszTexShadowMap), "SamplerShadowMap%d", iSMF);
-					m_pDefferedShadow->GetParameter(pszTexShadowMap)->setTexture( pSMF->GetDepthTexture() );
+					m_pDefferedShadow->SetParameter(pszTexShadowMap,Any(pSMF->GetDepthTexture()));
 				}
 
 				float fShadowMapSize = GetRenderSetting()->m_fShadowMapSize;
 				Vector4 uShadowMapTexelSize(fShadowMapSize, 1.0f / fShadowMapSize, 0, 0);
-				m_pDefferedShadow->GetParameter("u_shadowMapTexelSize")->setFloatArray(uShadowMapTexelSize,4);
+				m_pDefferedShadow->SetParameter("u_shadowMapTexelSize",Any(uShadowMapTexelSize));
 
-				m_pDefferedShadow->GetParameter("viwToLightProjArray")->setMatrixArray(viwToLightProjArray,nSMF);
-				m_pDefferedShadow->GetParameter("splitPos")->setFloatArray(pDirLight->GetSplitPos(),nSMF);
+				ASSERT(false);
+				//m_pDefferedShadow->GetParameter("viwToLightProjArray")->setMatrixArray(viwToLightProjArray,nSMF);
+				//m_pDefferedShadow->GetParameter("splitPos")->setFloatArray(pDirLight->GetSplitPos(),nSMF);
 
 				ScreenQuad::Render(m_pDefferedShadow);
 

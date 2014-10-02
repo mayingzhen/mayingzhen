@@ -20,7 +20,7 @@ namespace ma
 		m_bDefferLight = false;
 		m_bRenderThread = true;
 		m_bPartcleThread = true;
-		m_cClearClor = Color(0,45.0f / 255.0f,50.0f/255.0f,170.0f/255.0f);
+		m_cClearClor = ColourValue::Black;
 		m_fShadowMapSize = 2048.0f;
 		m_bHWShadowMap = false;
 		m_bIsHDRRending = false;

@@ -9,16 +9,19 @@ namespace ma
 		const char* pOutMeshFile, const char* pOutMatFile, 
 		const char* pOutSkeFile, const char* pOutSkaFile)
 	{
+		std::string strMeshFile = GetArchiveMananger()->GetFullPath(pFileName);
+
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
 		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : StringUtil::replaceFileExt(pFileName,"ske");
 		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : StringUtil::replaceFileExt(pFileName,"ska");
 
-		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		FbxScene* pFbxScene = GetFbxScene(strMeshFile.c_str());
 		if (pFbxScene == NULL)
 			return false;
 	
 		// Ske
+		int nPoseCount = pFbxScene->GetPoseCount();
 		FbxPose* pBindPose = pFbxScene->GetPose(0);
 		ASSERT(pBindPose && pBindPose->IsBindPose());
 		if (pBindPose == NULL)
@@ -92,10 +95,10 @@ namespace ma
  			return;
  
 		FbxNode* pNode = pSkeleton->GetNode();
-		FbxString  name = pNode->GetName();
+		const char*  pName = pNode->GetName();
 		FbxNode* pParentNode = pNode->GetParent();
 
-		UINT parentID = InvalidID<UINT>();
+		UINT parentID = Math::InvalidID<UINT>();
 		const char* pPrentName = pParentNode->GetName();
 		std::vector<std::string>::iterator it = std::find(skeData.m_arrBoneName.begin(),skeData.m_arrBoneName.end(),pPrentName);
 		if (it != skeData.m_arrBoneName.end())
@@ -103,11 +106,12 @@ namespace ma
 			parentID = it - skeData.m_arrBoneName.begin(); 
 		}
 		
+		UINT nCount = pBindPose->GetCount();
 		int PoseLinkIndex = pBindPose->Find(pNode);
 		ASSERT(PoseLinkIndex >= 0);
 		FbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
 
-		skeData.m_arrBoneName.push_back( name.Buffer() );
+		skeData.m_arrBoneName.push_back(pName);
 		skeData.m_arrParentIndice.push_back(parentID);
 		skeData.m_arrTsfOS.push_back( ToMaUnit(NoneAffineMatrix) );
 
@@ -157,7 +161,7 @@ namespace ma
 
 				const char* pszName = pLinkNode->GetName();
 
-				UINT boneIndex = InvalidID<UINT>();
+				UINT boneIndex = Math::InvalidID<UINT>();
 				for (UINT index = 0; index < skeData.m_arrBoneName.size(); ++index)
 				{
 					const char*	strBoneName = skeData.m_arrBoneName[index].c_str();
@@ -167,7 +171,7 @@ namespace ma
 						break;
 					}
 				}
-				ASSERT( IsValidID(boneIndex) );
+				ASSERT( Math::IsValidID(boneIndex) );
 
 				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
 				int* pCtrlPointIndices = pCluster->GetControlPointIndices();  
@@ -308,12 +312,12 @@ namespace ma
 			}
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer().get(), pMeshData->GetIndexBuffer().get());
 
 		// Bound Box
 		pMesh->ComputeBBox();
-		pMeshData->m_meshBound.m_vMin = ToMaUnit( (FbxDouble3)pMesh->BBoxMin );
-		pMeshData->m_meshBound.m_vMax = ToMaUnit( (FbxDouble3)pMesh->BBoxMax );
+		pMeshData->m_meshBound.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+		pMeshData->m_meshBound.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
 	}
 
 	template<class VertexType>

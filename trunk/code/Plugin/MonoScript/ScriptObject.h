@@ -9,7 +9,7 @@ namespace ma
 	class ScriptObject : public IScriptObject
 	{
 	public:
-		ScriptObject(GameObject* pGameObject);
+		ScriptObject(SceneNode* pGameObject);
 
 		~ScriptObject();
 
