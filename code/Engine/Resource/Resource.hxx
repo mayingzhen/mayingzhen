@@ -28,16 +28,6 @@ namespace ma
 		m_eResState = ResLoaded;
 	}
 
-	void Resource::LoadAsync()
-	{
-		DataThread* pDataThrea = GetResourceSystem()->GetDataThread();
-		ASSERT(pDataThrea);
-		if (pDataThrea == NULL)
-			return;
-
-		pDataThrea->PushBackDataObj(this);
-	}
-
 	bool Resource::LoadFileToMemeory()
 	{
 		if (m_eResState == ResLoadIng || m_eResState == ResLoaded)
@@ -65,7 +55,7 @@ namespace ma
 		if (m_pDataStream == NULL)
 			return false;
 
-		BinaryInputArchive inAr;
+		BinaryInputSerializer inAr;
 		inAr.Open(m_pDataStream.get());
 		Serialize(inAr);
 		inAr.Close();
@@ -80,7 +70,7 @@ namespace ma
 	{
 		std::string strSavePath = pszPath ? pszPath : m_sResPath;
 
-		BinaryOutputArchive ar;
+		BinaryOutputSerializer ar;
 		bool bLoadOK = ar.Open(strSavePath.c_str());
 		if (!bLoadOK)
 		{
@@ -89,6 +79,8 @@ namespace ma
 		}
 
 		Serialize(ar);
+
+		ar.Close();
 
 		return ;
 	}

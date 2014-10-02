@@ -227,7 +227,6 @@ namespace ma
 
 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
 	{
-
 		if (m_curState.m_eCullMode != state.m_eCullMode)
 		{
 			m_curState.m_eCullMode = state.m_eCullMode;
@@ -432,12 +431,12 @@ namespace ma
 		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
 	}
 
-	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
 		HRESULT hr;
 
 		DWORD Flags = 0;
-		D3DCOLOR cVal = c;
+		D3DCOLOR cVal = c.getAsARGB();
 		float zVal = z;
 		DWORD sVal = (DWORD)s;
 
@@ -452,28 +451,66 @@ namespace ma
 		ASSERT(hr == D3D_OK && "Clear buffer failed.");
 	}
 
-	Matrix4x4 D3D9RenderDevice::MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf)
+	Matrix4 D3D9RenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
-		 MatrixPerspectiveFovLH(pOut,fovy,Aspect,zn,zf);
-		 return *pOut;
+// 		float fHalf = fovy * 0.5f;
+// 		float sine = Math::Sin(fHalf), cosi = Math::Cos(fHalf);
+// 		float fCotangent = cosi / sine;
+// 
+// 		out[0][0] = fCotangent / Aspect;
+// 		out[1][1] = fCotangent;
+// 
+// 		out[2][2] =  (zn + zf) / (zn - zf);
+// 		out[3][2] = -1.0f;
+// 		out[2][3] =  2.0f * zn * zf / (zn - zf);
+// 
+// 		out[1][0] = out[2][0] = out[3][0] = 
+// 			out[0][1] = out[2][1] = out[3][1] = 
+// 			out[0][2] = out[1][2] =
+// 			out[0][3] = out[1][3] = out[3][3] = 0.0f;
+		float yScale = Math::Tan(Math::HALF_PI - fovy*0.5f);
+		float xScale = yScale/Aspect;
+		float inv = 1.f/(zn - zf);
+
+		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;    out[0][3] = 0.f;
+		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;    out[1][3] = 0.f;
+		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zf*inv; out[2][3] = zn*zf*inv;
+		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+
+		 return out;
 	}
 
-	Matrix4x4 D3D9RenderDevice::MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf)
+	Matrix4 D3D9RenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
 	{
-		D3DXMatrixOrthoLH((D3DXMATRIX*)pOut,width,height,zn,zf);
-		return *pOut;
+		out[0][0] = 2/width;
+		out[1][1] = 2/height;
+		out[2][2] = 1/(zn-zf);
+		out[3][3] = 1.f;
+		out[2][3] = zn/(zn-zf);
+		out[1][0] = out[2][0] = out[3][0] = 
+			out[0][1] = out[0][2] = out[0][3] =
+			out[1][2] = out[1][3] =
+			out[2][1] = 
+			out[3][1] = out[3][2] = 0;
+
+		return out;
 	}
 
-	Matrix4x4 D3D9RenderDevice::MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf)
+	Matrix4 D3D9RenderDevice::MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf)
 	{
-		D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)pOut,left,right,bottom,top,zn,zf);
-		return *pOut;
-	}
-
-	void D3D9RenderDevice::GetProjectionNearFar(float& fProjNear, float& fProjFar)
-	{
-		fProjNear = 0.0f;
-		fProjFar = 1.0f;
+		out[0][0] = 2/(right-left);
+		out[1][1] = 2/(top-bottom);
+		out[2][2] = 1/(zn-zf);
+		out[3][3] = 1.f;
+		out[2][3] = zn/(zn-zf);
+		out[1][0] = out[2][0] = out[3][0] = 
+			out[0][1] = out[0][2] = 
+			out[1][2] = 
+			out[2][1] = 
+			out[3][1] = out[3][2] = 0;
+		out[0][3] = (left+right)/(left-right);
+		out[1][3] = (top+bottom)/(bottom-top);
+		return out;
 	}
 
 	void D3D9RenderDevice::BeginProfile(const char* pszLale)

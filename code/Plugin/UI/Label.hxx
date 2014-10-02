@@ -91,7 +91,7 @@ void Label::update(const Control* container, const Vector2& offset)
 
     _font = getFont(_state);
     _textColor = getTextColor(_state);
-    _textColor.w *= _opacity;
+    _textColor.a *= _opacity;
 }
 
 void Label::drawText(const Rectangle& clip)

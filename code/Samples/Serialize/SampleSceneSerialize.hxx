@@ -10,13 +10,12 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 150, 200);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		Vector3 vUp = Vector3(0,1,0);
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos,vUp);
+		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
 		GetInput()->AddKeyListener(this);
 
 		{
-			GameObjectPtr pGameObj = GetEntitySystem()->CreateGameObject("Test");  
+			SceneNodePtr pGameObj = m_pScene->CreateNode("Test");  
 			MeshComponentPtr pMehBox = pGameObj->CreateComponent<MeshComponent>();
 			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
 
@@ -24,26 +23,26 @@ namespace ma
 			for (int i = 0; i < nClone; ++i)
 			{
 				std::string pName = pGameObj->GetName();
-				pName += std::string("_clone") + StringConverter::ToString(i);
-				GameObjectPtr pClone = pGameObj->Clone(pName.c_str());
-				pClone->GetSceneNode()->Translate(Vector3(10 * i,0,0));
+				pName += std::string("_clone") + StringConverter::toString(i);
+				SceneNodePtr pClone = pGameObj->Clone(pName.c_str());
+				pClone->Translate(Vector3(10 * i,0,0));
 			}
 		}
 
 		std::string strScenePath = "scene/Test.scene";
 		{
-			BinaryOutputArchive arOut;
+			BinaryOutputSerializer arOut;
 			bool bOpenOK = arOut.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetEntitySystem()->Serialize(arOut);
+			m_pScene->Serialize(arOut);
 			arOut.Close();
 		}
 
 		{
-			BinaryInputArchive arIn;
+			BinaryInputSerializer arIn;
 			bool bOpenOK = arIn.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
-			GetEntitySystem()->Serialize(arIn);
+			m_pScene->Serialize(arIn);
 			arIn.Close();
 		}
 	}
@@ -60,18 +59,18 @@ namespace ma
 		if (arg.key == OIS::KC_X)
 		{
 			{
-				XMLOutputArchive arOut;
+				XMLOutputSerializer arOut;
 				bool bOpenOK = arOut.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetEntitySystem()->Serialize(arOut);
+				m_pScene->Serialize(arOut);
 				arOut.Close();
 			}
 
 			{
-				XMLInputArchive arIn;
+				XMLInputSerializer arIn;
 				bool bOpenOK = arIn.Open(strScenePath.c_str());
 				ASSERT(bOpenOK);
-				GetEntitySystem()->Serialize(arIn);
+				m_pScene->Serialize(arIn);
 				arIn.Close();
 			}
 		}

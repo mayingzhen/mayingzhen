@@ -15,18 +15,19 @@ namespace ma
 			if (pUniform == NULL)
 				continue;
 
-			MaterialParameter* pParam = AddParameter( pUniform->m_name.c_str() );
+			MaterialParameter* pParam = new MaterialParameter(pUniform->m_name.c_str() );
+			m_arrParameters.push_back(pParam);
 			GetParameterManager()->UseDefaultBing(pParam);
 		}
 	}
 
 	Technique::~Technique()
 	{
-		for (UINT i = 0; i < m_parameters.size(); ++i)
+		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			SAFE_DELETE(m_parameters[i]);
+			SAFE_DELETE(m_arrParameters[i]);
 		}
-		m_parameters.clear();
+		m_arrParameters.clear();
 	
 		SAFE_DELETE(m_pShaderProgram);
 	}
@@ -45,7 +46,7 @@ namespace ma
 		for (UINT i = 0; i < nUnifom; ++i)
 		{
 			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-			MaterialParameter* pMatPar = GetParameter(pUniform->m_name.c_str());
+			MaterialParameter* pMatPar = GetParameter( pUniform->m_name.c_str() );
 			pMatPar->Bind(pUniform);
 		}
 	}
@@ -55,48 +56,37 @@ namespace ma
 		
 	}
 
+	void Technique::SetParameter(const char* pszName,const Any& value)	
+	{
+		MaterialParameter* pParame = GetParameter(pszName);
+		ASSERT(pParame);
+		if (pParame == NULL)
+			return;
+
+		pParame->SetValue(value);
+	}
+
 	MaterialParameter* Technique::GetParameter(const char* pszName)
 	{
 		ASSERT(pszName);
-		for (UINT i = 0; i < m_parameters.size(); ++i)
+		if (pszName == NULL)
+			return NULL;
+
+		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			if (m_parameters[i] && strcmp(m_parameters[i]->GetName(), pszName) == 0)
+			if (m_arrParameters[i] && strcmp(m_arrParameters[i]->GetName(), pszName) == 0)
 			{
-				return m_parameters[i];
+				return m_arrParameters[i];
 			}
 		}
 
 		return NULL;
 	}
 
-	MaterialParameter*	Technique::AddParameter(const char* pszName)
-	{
-		MaterialParameter* pParm = GetParameter(pszName);
-		ASSERT(!pParm && "Parameter finded");
-		if (pParm)
-			return pParm;
-
-		pParm = new MaterialParameter(pszName);
-		m_parameters.push_back(pParm);
-		return pParm;
-	}
-
-
 	const char*	Technique::GetTechName()
 	{
 		return m_stName.c_str();
 	}
 
-// 	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		sl.Serialize(m_stName);
-// 
-// 		//m_pShaderProgram->
-// 
-// 		//m_renderState
-// 
-// 		sl.EndSection();
-// 	}
+
 }

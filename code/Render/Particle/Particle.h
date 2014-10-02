@@ -9,9 +9,9 @@ namespace ma
 		Vector3 _position;
 		Vector3 _velocity;
 		Vector3 _acceleration;
-		Vector4 _colorStart;
-		Vector4 _colorEnd;
-		Vector4 _color;
+		ColourValue _colorStart;
+		ColourValue _colorEnd;
+		ColourValue _color;
 		float _rotationPerParticleSpeed;
 		Vector3 _rotationAxis;
 		float _rotationSpeed;
@@ -21,7 +21,7 @@ namespace ma
 		float _sizeStart;
 		float _sizeEnd;
 		float _size;
-		unsigned int _frame;
+		UINT _frame;
 		float _timeOnCurrentFrame;
 		bool _visible;
 	};
@@ -42,36 +42,36 @@ namespace ma
 
 	struct ParticleEmitInfo
 	{
-		UINT		m_nParticleCountMax;
-		UINT		m_nEmissionRate;
-		bool		m_bEllipsoid;
-		float		m_fSizeStartMin;
-		float		m_fSizeStartMax;
-		float		m_fSizeEndMin;
-		float		m_fSizeEndMax; 
-		long		m_nEnergyMin;
-		long		m_nEnergyMax; 
+		UINT			m_nParticleCountMax;
+		UINT			m_nEmissionRate;
+		bool			m_bEllipsoid;
+		float			m_fSizeStartMin;
+		float			m_fSizeStartMax;
+		float			m_fSizeEndMin;
+		float			m_fSizeEndMax; 
+		long			m_nEnergyMin;
+		long			m_nEnergyMax; 
 
-		Vector4		m_colorStart;
-		Vector4		m_colorStartVar;
-		Vector4		m_colorEnd;
-		Vector4		m_colorEndVar;
+		ColourValue		m_colorStart;
+		ColourValue		m_colorStartVar;
+		ColourValue		m_colorEnd;
+		ColourValue		m_colorEndVar;
 
-		Vector3		m_position;
-		Vector3		m_positionVar;
-		Vector3		m_velocity;
-		Vector3		m_velocityVar;
-		Vector3		m_acceleration;
-		Vector3		m_accelerationVar;
-		Vector3		m_rotationAxis;
-		Vector3		m_rotationAxisVar;
-		float		m_fRotationPerParticleSpeedMin;
-		float		m_fRotationPerParticleSpeedMax; 
-		float		m_fRotationSpeedMin; 
-		float		m_fRotationSpeedMax;
-		bool		m_bOrbitPosition; 
-		bool		m_bOrbitVelocity; 
-		bool		m_bOrbitAcceleration; 
+		Vector3			m_position;
+		Vector3			m_positionVar;
+		Vector3			m_velocity;
+		Vector3			m_velocityVar;
+		Vector3			m_acceleration;
+		Vector3			m_accelerationVar;
+		Vector3			m_rotationAxis;
+		Vector3			m_rotationAxisVar;
+		float			m_fRotationPerParticleSpeedMin;
+		float			m_fRotationPerParticleSpeedMax; 
+		float			m_fRotationSpeedMin; 
+		float			m_fRotationSpeedMax;
+		bool			m_bOrbitPosition; 
+		bool			m_bOrbitVelocity; 
+		bool			m_bOrbitAcceleration; 
 
 	};
 

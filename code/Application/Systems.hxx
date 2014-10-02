@@ -72,20 +72,17 @@ namespace ma
 		if (GetScriptSystem())
 			GetScriptSystem()->Update();
 
-		if (GetUISystem())
-			GetUISystem()->Update();
-
-		if (GetTerrain())
-			GetTerrain()->Update();
+		//if (GetUISystem())
+		//	GetUISystem()->Update();
 
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->EndUpdate();
 
-		if (GetEntitySystem())
-			GetEntitySystem()->Update();
-
 		if ( GetRenderSystem() )
-			GetRenderSystem()->Update( GetRenderSystem()->GetMainCamera().get() );
+			GetRenderSystem()->Update();
+
+		if (GetAnimationSystem())
+			GetAnimationSystem()->Update();
 
 		if ( GetLightSystem() )
 			GetLightSystem()->Update();

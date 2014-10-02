@@ -8,7 +8,7 @@ namespace ma
 
 	class Event;
 
-	class ENGINE_API EventListener
+	class ENGINE_API EventListener : public Referenced
 	{
 		friend class Event;
 
@@ -85,12 +85,15 @@ namespace ma
 		virtual void OnCall(Event * sender, void * param0, void * param1)
 		{
 			if (sender == evt)
-				(listener->*func)(param0, param1);
+			{
+				T* listenerPtr = listener.get();
+				(listenerPtr->*func)(param0, param1);
+			}
 		}
 
 	protected:
-		Event * evt;
-		T * listener;
+		Event* evt;
+		RefPtr<T> listener;
 		F func;
 	};
 

@@ -31,54 +31,44 @@ namespace ma
 		{	
 			// 队列锁
 			m_csRequestQueue.Lock();
-			ResourcePtr pObj = m_queUnloaded.front();
+			ResData resData = m_queUnloaded.front();
 			m_queUnloaded.pop_front();
 			m_csRequestQueue.Unlock();
 
-			pObj->LoadFileToMemeory();
+			resData.m_pRes->LoadFileToMemeory();
 
 			// 使用单独的锁控制m_queLoaded的操作,使得lock控制的时间段更短.
 			m_csLoadedQueue.Lock();
-			m_queLoaded.push_back(pObj);
+			m_queLoaded.push_back(resData);
 			m_csLoadedQueue.Unlock();
 		}
 
 		m_bFree = true;
 	}
 
-// 	Resource* DataThread::PopUpDataObj(void)
-// 	{	
-// 		AutoLock lock(m_csLoadedQueue);
-// 		if(!m_queLoaded.empty())
-// 		{	
-// 			ResourcePtr pObj = m_queLoaded.front();
-// 			m_queLoaded.pop_front();
-// 			return pObj;
-// 		}
-// 		else 
-// 		{
-// 			return NULL;
-// 		}
-// 	}	
-
-	void DataThread::PushBackDataObj(ResourcePtr pObj)
+	void DataThread::PushBackDataObj(const ResData& pObj)
 	{	
 		m_queUnloadedBuffer.push_back(pObj);
 	}
-
 
 	bool DataThread::Process()
 	{	
 		while(!m_queLoaded.empty())
 		{	
 			m_csLoadedQueue.Lock();
-			ResourcePtr pObj = m_queLoaded.front();
+			ResData resData = m_queLoaded.front();
 			m_queLoaded.pop_front();
 			m_csLoadedQueue.Unlock();	
 			
-			if (pObj)
+			ASSERT(resData.m_pRes)
+			if (resData.m_pRes)
 			{
-				pObj->CreateFromMemeory();
+				resData.m_pRes->CreateFromMemeory();
+			}
+
+			if (resData.m_pCallBack)
+			{
+				resData.m_pCallBack->OnCall(NULL,NULL,NULL);
 			}
 		}
 

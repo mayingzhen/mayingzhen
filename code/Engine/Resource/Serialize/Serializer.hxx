@@ -119,47 +119,42 @@ namespace ma
 
 	void Serializer::Serialize(Vector4 &val,const char* pszLable)
 	{
-		//BeginSection(pszLable);
-		//Serialize(val.x,"x");
-		//Serialize(val.y,"y");
-		//Serialize(val.z,"z");
-		//Serialize(val.w,"w");
-		//EndSection();
-		if (IsReading())
-		{
-			std::string strValue;
-			
-			Serialize(strValue,pszLable);
-
-			StringConverter::ToValue(val,strValue.c_str());
-		}
-		else
-		{
-			std::string strValue = StringConverter::ToString(val);
-			
-			Serialize(strValue,pszLable);
-		}
-		//Serialize(StringConverter::ToString(val),pszLable);
+		Serialize(val.x,"x");
+		Serialize(val.y,"y");
+		Serialize(val.z,"z");
+		Serialize(val.w,"w");
+// 		if (IsReading())
+// 		{
+// 			std::string strValue;
+// 			Serialize(strValue,pszLable);
+// 			val = StringConverter::parseVector4(strValue);
+// 		}
+// 		else
+// 		{
+// 			std::string strValue = StringConverter::toString(val);
+// 			Serialize(strValue,pszLable);
+// 		}
 	}
 
 	void Serializer::Serialize(float* &arrVal, UINT &nCount, const char* pszLable/* = "arrFloat"*/)
 	{
+		ASSERT(false);
+
 		if (IsReading())
 		{
 			std::string strValue;
 
-			Serialize(strValue,pszLable);
+			//Serialize(strValue,pszLable);
 
-			StringConverter::ToValue(arrVal,nCount,strValue.c_str());
+			//StringConverter::ToValue(arrVal,nCount,strValue.c_str());
 		}
 		else
 		{
-			std::string strValue = StringConverter::ToString(arrVal,nCount);
+			//std::string strValue = StringConverter::ToString(arrVal,nCount);
 
-			Serialize(strValue,pszLable);
+			//Serialize(strValue,pszLable);
 		}
 	}
-
 // 	void Serializer::Serialize(const float* arrFloat, UINT nCount,const char* pszLable = "arrFloat")
 // 	{
 // 		if (IsReading())
@@ -190,13 +185,15 @@ namespace ma
 	}
 
 
-	void Serializer::Serialize(Matrix4x4 &val,const char* pszLable)
+	void Serializer::Serialize(Matrix4 &val,const char* pszLable)
 	{
 		BeginSection(pszLable);
-		Serialize(*reinterpret_cast<Vector4*>(&val._11),"X");
-		Serialize(*reinterpret_cast<Vector4*>(&val._21),"Y");
-		Serialize(*reinterpret_cast<Vector4*>(&val._31),"Z");
-		Serialize(*reinterpret_cast<Vector4*>(&val._41),"T");
+//		ASSERT(false);
+		Vector4 vXAxis,vYAxis,vZAxis,vTAxis;
+		Serialize(vXAxis,"X");
+		Serialize(vYAxis,"Y");
+		Serialize(vZAxis,"Z");
+		Serialize(vTAxis,"T");
 		EndSection();
 	}
 
@@ -204,10 +201,19 @@ namespace ma
 	{
 		BeginSection(pszLable);
 		//Serialize(val.m_vLocalScale,"NonPropScale");
-		Serialize(val.m_fScale,"PropScale");
+		Serialize(val.m_vScale,"PropScale");
 		Serialize(val.m_qRot,"Rotation");
 		Serialize(val.m_vPos,"Position");
 		EndSection();
+	}
+
+	void Serializer::Serialize(Any& val,const char *pszLable/* = "AnyValue"*/)
+	{
+		BeginSection(pszLable);
+		
+		
+
+		EndSection();	
 	}
 
 	void Serializer::BeginSection(const char* pszLable)

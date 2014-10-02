@@ -52,7 +52,7 @@ namespace ma
 
 		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech);
 
-		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s);
+		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
 
 		/// Render Pass
@@ -62,13 +62,11 @@ namespace ma
 	
 		virtual void				EndRender();
 		
-		virtual	Matrix4x4			MakePerspectiveMatrix(Matrix4x4 *pOut, float fovy, float Aspect, float zn, float zf);
+		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf);
 
-		virtual	Matrix4x4			MakeOrthoMatrix(Matrix4x4 *pOut, float width, float height, float zn, float zf);
+		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf);
 
-		virtual Matrix4x4			MakeOrthoMatrixOffCenter(Matrix4x4 *pOut, float left, float right, float bottom, float top, float zn, float zf);
-
-		virtual	void				GetProjectionNearFar(float& fProjNear, float& fProjFar);
+		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf);
 
 		virtual	void				BeginProfile(const char* pszLale);
 

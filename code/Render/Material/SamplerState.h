@@ -4,36 +4,39 @@
 
 namespace ma
 {
-    class RENDER_API SamplerState 
+	class RENDER_API SamplerState : public Referenced 
     {
     public:
 		SamplerState();
 
-        void			SetWrapMode(Wrap eWrap);
+        void					SetWrapMode(Wrap eWrap);
 
-		Wrap			GetWrapMode() const {return m_eWrap;}
+		Wrap					GetWrapMode() const {return m_eWrap;}
 
-        void			SetFilterMode(FilterOptions ficationFilter);
+        void					SetFilterMode(FilterOptions ficationFilter);
 
-		FilterOptions	GetFilterMode() const {return m_eFilter;} 
+		FilterOptions			GetFilterMode() const {return m_eFilter;} 
 
-		void			SetTexture(const char* pTexPath);
+		void					SetTexture(RefPtr<Texture> pTextute);
 
-		void			SetTexture(ref_ptr<Texture> pTextute);
+		Texture*				GetTexture() const;
 
-        Texture*		GetTexture() const;
+		void					SetTexturePath(const char* pTexPath);
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "SamplerState");
+		const char*				GetTexturePath() const;
+
+		virtual void			Serialize(Serializer& sl, const char* pszLable = "SamplerState");
 
 
     private:
-        ref_ptr<Texture>		m_pTexture;
+        RefPtr<Texture>		m_pTexture;
        
 		Wrap					m_eWrap;
 
 		FilterOptions			m_eFilter;
     };
 
+	DeclareRefPtr(SamplerState);
 
 }
 

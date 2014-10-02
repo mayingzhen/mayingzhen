@@ -21,7 +21,7 @@ namespace ma
 // 
 // 	}
 
-	SpriteBatch::SpriteBatch(ref_ptr<Texture> texture, Technique* pTech, UINT initialCapacity/* = 0*/)
+	SpriteBatch::SpriteBatch(RefPtr<Texture> texture, Technique* pTech, UINT initialCapacity/* = 0*/)
 		:MeshBatch(NULL,PRIM_TRIANGLESTRIP, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE)
 	{
 		m_pSampler = NULL;
@@ -33,7 +33,7 @@ namespace ma
 		{
 			m_pTechnique= m_pMaterial->AddTechnique("Shading","default","DIFFUSE;COLOR");
 		}
-		m_pMaterial->AddTechnique(m_pTechnique);
+		m_pMaterial->AddTechnique(m_pTechnique.get());
 
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
@@ -52,8 +52,8 @@ namespace ma
 
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 		Rectangle rect = GetRenderSystem()->GetViewPort();
-		GetRenderDevice()->MakeOrthoMatrixOffCenter(&m_projectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
-		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->bindValue(this, &SpriteBatch::GetProjectionMatrix);
+		GetRenderDevice()->MakeOrthoMatrixOffCenter(m_projectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
+		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->BindMethod(this, &SpriteBatch::GetProjectionMatrix);
 	}
 
 	SpriteBatch::~SpriteBatch()
@@ -64,8 +64,8 @@ namespace ma
 	{
 		ASSERT(pTexture != NULL);
 
-		m_fTextureWidthRatio = 1.0f / (float)pTexture->getWidth();
-		m_fTextureHeightRatio = 1.0f / (float)pTexture->getHeight();
+		m_fTextureWidthRatio = 1.0f / (float)pTexture->GetWidth();
+		m_fTextureHeightRatio = 1.0f / (float)pTexture->GetHeight();
 
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
@@ -73,18 +73,18 @@ namespace ma
 			m_pSampler = new SamplerState();
 		m_pSampler->SetTexture(pTexture);
 
-		m_pTechnique->GetParameter("u_texture")->setSampler(m_pSampler);
+		m_pTechnique->SetParameter("u_texture",Any(m_pSampler));
 	}
 
 	void SpriteBatch::Render(Technique* pTech)
 	{
 		if (pTech == NULL)
-			MeshBatch::Render(m_pTechnique);
+			MeshBatch::Render(m_pTechnique.get());
 		else
 			MeshBatch::Render(pTech);
 	}
 
-	void SpriteBatch::Draw(const Rectangle& dst, const Rectangle& src, const Vector4& color)
+	void SpriteBatch::Draw(const Rectangle& dst, const Rectangle& src, const ColourValue& color)
 	{
 		// Calculate uvs.
 		float u1 = m_fTextureWidthRatio * src.x;
@@ -95,7 +95,7 @@ namespace ma
 		Draw(dst.x, dst.y, dst.width, dst.height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color)
+	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const ColourValue& color)
 	{
 		// Calculate uvs.
 		float u1 = m_fTextureWidthRatio * src.x;
@@ -106,7 +106,7 @@ namespace ma
 		Draw(dst.x, dst.y, dst.z, scale.x, scale.y, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const Vector4& color,
+	void SpriteBatch::Draw(const Vector3& dst, const Rectangle& src, const Vector2& scale, const ColourValue& color,
 						   const Vector2& rotationPoint, float rotationAngle)
 	{
 		// Calculate uvs.
@@ -118,13 +118,13 @@ namespace ma
 		Draw(dst, scale.x, scale.y, u1, v1, u2, v2, color, rotationPoint, rotationAngle);
 	}
 
-	void SpriteBatch::Draw(const Vector3& dst, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
+	void SpriteBatch::Draw(const Vector3& dst, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color,
 						   const Vector2& rotationPoint, float rotationAngle, bool positionIsCenter)
 	{
 		Draw(dst.x, dst.y, dst.z, width, height, u1, v1, u2, v2, color, rotationPoint, rotationAngle, positionIsCenter);
 	}
 
-	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color,
+	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color,
 			  const Vector2& rotationPoint, float rotationAngle, bool positionIsCenter)
 	{
 		// Treat the given position as the center if the user specified it as such.
@@ -149,17 +149,17 @@ namespace ma
 		pivotPoint.y *= height;
 		pivotPoint.x += x;
 		pivotPoint.y += y;
-		upLeft.rotate(pivotPoint, rotationAngle);
-		upRight.rotate(pivotPoint, rotationAngle);
-		downLeft.rotate(pivotPoint, rotationAngle);
-		downRight.rotate(pivotPoint, rotationAngle);
+		upLeft.rotate(Radian(rotationAngle), pivotPoint);
+		upRight.rotate(Radian(rotationAngle), pivotPoint);
+		downLeft.rotate(Radian(rotationAngle), pivotPoint);
+		downRight.rotate(Radian(rotationAngle), pivotPoint);
 
 		// Write sprite vertex data.
 		static SpriteVertex v[4];
-		SPRITE_ADD_VERTEX(v[0], downLeft.x, downLeft.y, z, u1, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[1], upLeft.x, upLeft.y, z, u1, v2, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[2], downRight.x, downRight.y, z, u2, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[3], upRight.x, upRight.y, z, u2, v2, color.x, color.y, color.z, color.w);
+		SPRITE_ADD_VERTEX(v[0], downLeft.x, downLeft.y, z, u1, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[1], upLeft.x, upLeft.y, z, u1, v2, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[2], downRight.x, downRight.y, z, u2, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[3], upRight.x, upRight.y, z, u2, v2, color.r, color.g, color.b, color.a);
 	    
 		//static unsigned short indices[4] = { 0, 1, 2, 3 };
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
@@ -168,7 +168,7 @@ namespace ma
 	}
 
 	void SpriteBatch::Draw(const Vector3& position, const Vector3& right, const Vector3& forward, float width, float height,
-		float u1, float v1, float u2, float v2, const Vector4& color, const Vector2& rotationPoint, float rotationAngle)
+		float u1, float v1, float u2, float v2, const ColourValue& color, const Vector2& rotationPoint, float rotationAngle)
 	{
 		// Calculate the vertex positions.
 		Vector3 tRight(right);
@@ -202,37 +202,39 @@ namespace ma
 		// Rotate all points the specified amount about the given point (about the up vector).
 		static Vector3 u;
 		//Vector3::cross(right, forward, &u);
-		Vec3Cross(&u, &right, &forward);
-		static Matrix4x4 rotation;
-		//Matrix4x4::createRotation(u, rotationAngle, &rotation);
-		MatrixRotationAxis(&rotation, &u, rotationAngle);
+		//Vec3Cross(&u, &right, &forward);
+		u = right.crossProduct(forward);
+		static Matrix3 rotation;
+		//Matrix4::createRotation(u, rotationAngle, &rotation);
+		//MatrixRotationAxis(&rotation, &u, rotationAngle);
+		rotation.FromAxisAngle(u,Radian(rotationAngle));
 
 		p0 -= rp;
-		//p0 *= rotation;
-		Vec3TransformNormal(&p0,&p0,&rotation);
+		p0 = rotation * p0;
+		//Vec3TransformNormal(&p0,&p0,&rotation);
 		p0 += rp;
 
 		p1 -= rp;
-		//p1 *= rotation;
-		Vec3TransformNormal(&p1,&p1,&rotation);
+		p1 = rotation * p1;
+		//Vec3TransformNormal(&p1,&p1,&rotation);
 		p1 += rp;
 
 		p2 -= rp;
-		//p2 *= rotation;
-		Vec3TransformNormal(&p2,&p2,&rotation);
+		p2 = rotation * p2;
+		//Vec3TransformNormal(&p2,&p2,&rotation);
 		p2 += rp;
 
 		p3 -= rp;
-		//p3 *= rotation;
-		Vec3TransformNormal(&p3,&p3,&rotation);
+		p3 = rotation * p3;
+		//Vec3TransformNormal(&p3,&p3,&rotation);
 		p3 += rp;
 
 		// Add the sprite vertex data to the batch.
 		static SpriteVertex v[4];
-		SPRITE_ADD_VERTEX(v[0], p0.x, p0.y, p0.z, u1, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[1], p1.x, p1.y, p1.z, u2, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[2], p2.x, p2.y, p2.z, u1, v2, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[3], p3.x, p3.y, p3.z, u2, v2, color.x, color.y, color.z, color.w);
+		SPRITE_ADD_VERTEX(v[0], p0.x, p0.y, p0.z, u1, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[1], p1.x, p1.y, p1.z, u2, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[2], p2.x, p2.y, p2.z, u1, v2, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[3], p3.x, p3.y, p3.z, u2, v2, color.r, color.g, color.b, color.a);
 
 		// 2 ------- 3
 		//   |	   |
@@ -242,31 +244,31 @@ namespace ma
 		Add(v, 4, const_cast<unsigned short*>(indices), 4);
 	}
 
-	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color)
+	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color)
 	{
 		Draw(x, y, 0, width, height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip)
+	void SpriteBatch::Draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color, const Rectangle& clip)
 	{
 		// Only draw if at least part of the sprite is within the clip region.
 		if (ClipSprite(clip, x, y, width, height, u1, v1, u2, v2))
 			Draw(x, y, 0, width, height, u1, v1, u2, v2, color);
 	}
 
-	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, SpriteBatch::SpriteVertex* vertices)
+	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color, SpriteBatch::SpriteVertex* vertices)
 	{
 		ASSERT(vertices);
 
 		const float x2 = x + width;
 		const float y2 = y + height;
-		SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
+		SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.r, color.g, color.b, color.a);
 	}
 
-	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip, SpriteBatch::SpriteVertex* vertices)
+	void SpriteBatch::AddSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color, const Rectangle& clip, SpriteBatch::SpriteVertex* vertices)
 	{
 		ASSERT(vertices);
 
@@ -275,10 +277,10 @@ namespace ma
 		{
 			const float x2 = x + width;
 			const float y2 = y + height;
-			SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.x, color.y, color.z, color.w);
-			SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.x, color.y, color.z, color.w);
-			SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.x, color.y, color.z, color.w);
-			SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
+			SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.r, color.g, color.b, color.a);
+			SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.r, color.g, color.b, color.a);
+			SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.r, color.g, color.b, color.a);
+			SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.r, color.g, color.b, color.a);
 		}
 	}
 
@@ -290,7 +292,7 @@ namespace ma
 		Add(vertices, vertexCount, indices, indexCount);
 	}
 
-	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter)
+	void SpriteBatch::Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color, bool positionIsCenter)
 	{
 		// Treat the given position as the center if the user specified it as such.
 		if (positionIsCenter)
@@ -303,10 +305,10 @@ namespace ma
 		const float x2 = x + width;
 		const float y2 = y + height;
 		static SpriteVertex v[4];
-		SPRITE_ADD_VERTEX(v[0], x, y, z, u1, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[1], x, y2, z, u1, v2, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[2], x2, y, z, u2, v1, color.x, color.y, color.z, color.w);
-		SPRITE_ADD_VERTEX(v[3], x2, y2, z, u2, v2, color.x, color.y, color.z, color.w);
+		SPRITE_ADD_VERTEX(v[0], x, y, z, u1, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[1], x, y2, z, u1, v2, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[2], x2, y, z, u2, v1, color.r, color.g, color.b, color.a);
+		SPRITE_ADD_VERTEX(v[3], x2, y2, z, u2, v2, color.r, color.g, color.b, color.a);
 
 		// 0 ------- 2
 		//   |	   |
@@ -324,12 +326,12 @@ namespace ma
 		return m_pTechnique->GetRenderState();
 	}
 
-	void SpriteBatch::SetProjectionMatrix(const Matrix4x4& matrix)
+	void SpriteBatch::SetProjectionMatrix(const Matrix4& matrix)
 	{
 		m_projectionMatrix = matrix;
 	}
 
-	const Matrix4x4& SpriteBatch::GetProjectionMatrix() const
+	const Matrix4& SpriteBatch::GetProjectionMatrix() const
 	{
 		return m_projectionMatrix;
 	}

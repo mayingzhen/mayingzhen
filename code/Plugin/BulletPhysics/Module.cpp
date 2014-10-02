@@ -6,7 +6,6 @@
 #include "BulletPhysics/BtRigidBody.hxx"
 #include "BulletPhysics/BtCharacterController.hxx"
 #include "BulletPhysics/BtContactReport.hxx"
-#include "BulletPhysics/BtPhysicsObject.hxx"
 #include "BulletPhysics/BtPhysicsJoint.hxx"
 #include "BulletPhysics/BtPhysicsSystem.hxx"
 #include "BulletPhysics/BtPhysicsThread.hxx"

@@ -285,7 +285,7 @@ namespace ma
 		}
 	}
 
-	ref_ptr<Archive> CreateZipArchive( const char* pszFile )
+	RefPtr<Archive> CreateZipArchive( const char* pszFile )
 	{
 		return new ZipArchive(pszFile);
 	}

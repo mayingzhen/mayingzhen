@@ -26,14 +26,13 @@ namespace ma
 	class ANIMATION_API AnimationClip
 	{
 	public:
-		AnimationClip(ref_ptr<Animation> pAnimation,Skeleton* pSkeleton = NULL);
+		AnimationClip(RefPtr<Animation> pAnimation,Skeleton* pSkeleton = NULL);
 
 		~AnimationClip();
 
 		void		SetSkeleton(Skeleton* pSkeleton = NULL);
 
-		void		EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f,
-			BoneSet* pBoneSet = NULL,EBlendMode eBlendMode = BLENDMODE_ADDITIVE);
+		void		EvaluateAnimation(AnimEvalContext* pEvalContext,float fWeight = 1.0f, BoneSet* pBoneSet = NULL,EBlendMode eBlendMode = BLENDMODE_ADDITIVE);
 
 		void		AdvanceTime(float fTimeElapsed);
 
@@ -41,15 +40,17 @@ namespace ma
 
 		BoneMap*	GetNodeLink() {return m_pNodeLink;}
 
-		//Animation*	GetAnimation() {return m_pAnimation;}
+		void		SetPlaybackMode(ePlaybackMode playMode) {m_playbackMode = playMode;}
 
 	private:
 		void		WrapLocalFrame();
 
 	private:
-		ref_ptr<Animation>	m_pAnimation;
+		RefPtr<Animation>	m_pAnimation;
 
 		BoneMap*			m_pNodeLink;
+
+		Skeleton*			m_pSkeleton;
 
 		float				m_fLocalFrame;
 		
@@ -57,7 +58,9 @@ namespace ma
 
 		ePlaybackMode		m_playbackMode;
 
-		ePlayerStatus m_playerStatus;
+		ePlayerStatus		m_playerStatus;
+
+		bool				m_bInit;
 
 	};
 }

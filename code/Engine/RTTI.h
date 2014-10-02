@@ -16,6 +16,7 @@ namespace ma
 		Object::StaticInitClass();
 
 		Component::StaticInitClass();
+		RenderComponent::StaticInitClass();
 	
 		IScriptSystemRTTIInit();
 
@@ -36,6 +37,7 @@ namespace ma
 
 		//IAnimationSystemRTTIShoutdown();
 
+		RenderComponent::StaticShutdownClass();
 		Component::StaticShutdownClass();
 
 		Object::StaticShutdownClass();

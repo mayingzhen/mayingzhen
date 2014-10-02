@@ -7,7 +7,7 @@ namespace ma
 
 	IMPL_OBJECT(ParticleEmitter,RenderComponent)
 
-	ParticleEmitter::ParticleEmitter(GameObject* pGameObj)
+	ParticleEmitter::ParticleEmitter(SceneNode* pGameObj)
 		:RenderComponent(pGameObj)
 	{
 		m_pParticleBatch = NULL;

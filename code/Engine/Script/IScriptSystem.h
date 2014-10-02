@@ -6,7 +6,7 @@
 namespace ma
 {
 	class IScriptObject;
-	class GameObject;
+	class SceneNode;
 
 	class ENGINE_API IScriptSystem
 	{
@@ -21,7 +21,7 @@ namespace ma
 
 		virtual void			Update() = 0;
 
-		virtual IScriptObject*	CreateScriptObject(GameObject* pGameObj) = 0;
+		virtual IScriptObject*	CreateScriptObject(SceneNode* pGameObj) = 0;
 
 		virtual void			DeleteScriptObject(IScriptObject* pScriptObject) = 0;
 

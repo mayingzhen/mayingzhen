@@ -36,7 +36,7 @@ namespace ma
 	}
 
 
-	void LineRender::DrawLine(const Vector3& p0,const Vector3& p1,Color dwColor)
+	void LineRender::DrawLine(const Vector3& p0,const Vector3& p1,ColourValue dwColor)
 	{
 		LineVertex v[2];
 		v[0].pos = p0;
@@ -51,12 +51,12 @@ namespace ma
 		arrLineVertex.push_back(v[1]);
 	}
 
-	void LineRender::DrawCapsule(const Matrix4x4& wordMat,float fRadius, float Height, Color color)
+	void LineRender::DrawCapsule(const Matrix4& wordMat,float fRadius, float Height, ColourValue color)
 	{
 
 	}
 
-	void LineRender::DrawBox(const Matrix4x4& wordMat,const Vector3& size, Color dwcolor)
+	void LineRender::DrawBox(const Matrix4& wordMat,const Vector3& size, ColourValue dwcolor)
 	{
 		float fHalfWidth = 0.5f  * size.x;
 		float fHalfHeight = 0.5f  * size.y;
@@ -76,7 +76,7 @@ namespace ma
 
 		for (UINT nCnt = 0; nCnt < 8; ++nCnt)
 		{
-			Vec3TransformCoord(&arrVec[nCnt],&arrVec[nCnt],&wordMat);
+			arrVec[nCnt] = wordMat * arrVec[nCnt];
 		}
 
 		for (UINT nCnt = 0; nCnt < 4; ++nCnt)
@@ -88,8 +88,8 @@ namespace ma
 		}
 	}
 
-	void LineRender::DrawCircle(UINT nbSegments, const Matrix4x4& world, 
-		Color dwColor, float radius, bool semicircle)
+	void LineRender::DrawCircle(UINT nbSegments, const Matrix4& world, 
+		ColourValue dwColor, float radius, bool semicircle)
 	{
 		static const float NxTwoPiF32	= 6.28318530717958647692f;
 
@@ -109,34 +109,50 @@ namespace ma
 			float angle0 = float(i) * step;
 			float angle1 = float(j) * step;
 
-			Vector3 p0,p1;
-			Vector3 pTemp0(radius * sinf(angle0), radius * cosf(angle0), 0.0f);
-			Vector3 pTemp1(radius * sinf(angle1), radius * cosf(angle1), 0.0f);
-			Vec3TransformCoord(&p0, &pTemp0, &world);
-			Vec3TransformCoord(&p1, &pTemp1, &world);
+			Vector3 p0 = world * Vector3(radius * sinf(angle0), radius * cosf(angle0), 0.0f);
+			Vector3 p1 = world * Vector3(radius * sinf(angle1), radius * cosf(angle1), 0.0f);
 
 			DrawLine(p0, p1, dwColor);
 		}
 	}
 
-	void LineRender::DrawWireSphere(const Matrix4x4& world,float fRadius, Color dwColor)
+	void LineRender::DrawWireSphere(const Matrix4& world,float fRadius, ColourValue dwColor)
 	{
-		Vector3 c0 = *(Vector3*)&world._11;
-		Vector3 c1 = *(Vector3*)&world._21;
-		Vector3 c2 = *(Vector3*)&world._31;	
-
 		DrawCircle(20, world, dwColor, fRadius);
 
-		Matrix4x4 matrTemp = world;
-		matrTemp._11 = c1.x; matrTemp._12 = c1.y; matrTemp._13 = c1.z;
-		matrTemp._21 = c2.x; matrTemp._22 = c2.y; matrTemp._23 = c2.z;
-		matrTemp._31 = c0.x; matrTemp._32 = c0.y; matrTemp._33 = c0.z;
-		DrawCircle(20, matrTemp, dwColor, fRadius);
+		Matrix4 matTemp = world.transpose();
 
-		matrTemp._11 = c2.x; matrTemp._12 = c2.y; matrTemp._13 = c2.z;
-		matrTemp._21 = c0.x; matrTemp._22 = c0.y; matrTemp._23 = c0.z;
-		matrTemp._31 = c1.x; matrTemp._32 = c1.y; matrTemp._33 = c1.z;
-		DrawCircle(20, matrTemp, dwColor, fRadius);
+		Vector3 c0 = Vector3(matTemp[0]);
+		Vector3 c1 = Vector3(matTemp[1]);
+		Vector3 c2 = Vector3(matTemp[2]);
+		
+		memcpy(matTemp[0],&c1,sizeof(Vector3));
+		memcpy(matTemp[1],&c2,sizeof(Vector3));
+		memcpy(matTemp[2],&c0,sizeof(Vector3));
+
+		DrawCircle(20, matTemp.transpose(), dwColor, fRadius);
+
+		memcpy(matTemp[0],&c2,sizeof(Vector3));
+		memcpy(matTemp[1],&c0,sizeof(Vector3));
+		memcpy(matTemp[2],&c1,sizeof(Vector3));
+
+		DrawCircle(20, matTemp.transpose(), dwColor, fRadius);
+	}
+
+	void LineRender::DrawTransform(const Transform& tsf, float fCenterScale/* = 1.0f*/, float fAxisScale/* = 1.0f*/)
+	{
+		Vector3 vX,vY,vZ;
+		tsf.m_qRot.ToAxes(vX,vY,vZ);
+
+		vX = vX * fAxisScale;
+		vY = vY * fAxisScale;
+		vZ = vZ * fAxisScale;
+
+		Vector3 vCenter = tsf.m_vPos * fCenterScale;
+
+		DrawLine(tsf.m_vPos,tsf.m_vPos + vX,ColourValue::Red);
+		DrawLine(tsf.m_vPos,tsf.m_vPos + vY,ColourValue::Green);
+		DrawLine(tsf.m_vPos,tsf.m_vPos + vZ,ColourValue::Blue);
 	}
 
 	void LineRender::OnFlushFrame()

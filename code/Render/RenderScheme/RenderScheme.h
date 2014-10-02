@@ -7,7 +7,7 @@ namespace ma
 {
 	class ShadingPass;
 
-	class RENDER_API  RenderScheme
+	class RENDER_API  RenderScheme : public Referenced
 	{
 	public:
 		RenderScheme();

@@ -9,7 +9,7 @@ namespace ma
 	class BulletCharacterController : public ICharaControll , public btActionInterface
 	{
 	public:
-		BulletCharacterController(GameObject* pGameObj/*BulletPhysicsObject* pPhysicsObject*/);
+		BulletCharacterController(SceneNode* pGameObj);
 
 		~BulletCharacterController();
 
@@ -40,8 +40,6 @@ namespace ma
 
 
 	private:
-		
-		//btKinematicCharacterController*		m_character;
 		btPairCachingGhostObject*			m_ghostObject;
 		btCompoundShape*					m_collShape;
 		
@@ -49,7 +47,7 @@ namespace ma
 
 		BulletCapsuleCollisionShape*		m_pCapsuleShape;
 		
-		BulletPhysicsObject*				m_pPhysicsObject;
+		//BulletPhysicsObject*				m_pPhysicsObject;
 
 		float								m_touchSkin;	//Margin used for stay on ground
 		bool								m_bTouched;

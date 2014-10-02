@@ -5,7 +5,7 @@ namespace ma
 	
 	IMPL_OBJECT(IPhysicsJoint,Component);
 
-	IPhysicsJoint::IPhysicsJoint(GameObject* pGameObj)
+	IPhysicsJoint::IPhysicsJoint(SceneNode* pGameObj)
 		:Component(pGameObj)
 	{
 
@@ -13,7 +13,7 @@ namespace ma
 
 	IMPL_OBJECT(IPhysicsGenericJoint,IPhysicsJoint);
 
-	IPhysicsGenericJoint::IPhysicsGenericJoint(GameObject* pGameObj)
+	IPhysicsGenericJoint::IPhysicsGenericJoint(SceneNode* pGameObj)
 		:IPhysicsJoint(pGameObj)
 	{
 
@@ -21,7 +21,7 @@ namespace ma
 
 	IMPL_OBJECT(IPhysicsHingeJoint,IPhysicsJoint);
 
-	IPhysicsHingeJoint::IPhysicsHingeJoint(GameObject* pGameObj)
+	IPhysicsHingeJoint::IPhysicsHingeJoint(SceneNode* pGameObj)
 		:IPhysicsJoint(pGameObj)
 	{
 

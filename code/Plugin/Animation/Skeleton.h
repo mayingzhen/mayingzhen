@@ -1,10 +1,6 @@
 #ifndef  _SKELETON__H__
 #define  _SKELETON__H__
 
-//#include "Animation/SkeletonPose.h"
-
-
-
 namespace ma
 {
 	struct SkeletonData;
@@ -23,7 +19,7 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
 
-		const Matrix4x4&	GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
+		const Matrix4&		GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
 		const SkeletonPose* GetResPose() const {return m_refPose;} 
 
@@ -48,15 +44,13 @@ namespace ma
 	public:
 		std::vector<std::string>	m_arrBoneName;
 		std::vector<BoneIndex>		m_arrParentIndice;
-		std::vector<NodeTransform>	m_arrTsfOS;
+		std::vector<Transform>		m_arrTsfOS;
 
 	private:
 		SkeletonPose*				m_refPose;
 
-		// Matrix4x4
-		std::vector<Matrix4x4>		m_arrRefPosePS;
-		std::vector<Matrix4x4>		m_arrRefPoseOS;
-		std::vector<Matrix4x4>		m_arrRefPoseOSInv;
+		// Matrix4
+		std::vector<Matrix4>		m_arrRefPoseOSInv;
 
 		// ¹Ç÷À¼¯
 		std::vector<BoneSet*>		m_arrBoneSet;

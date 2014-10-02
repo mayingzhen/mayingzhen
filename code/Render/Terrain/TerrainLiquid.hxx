@@ -69,8 +69,8 @@ namespace ma
 // 		HRESULT hr = S_OK;
 // 
 // 		// Get the current view and projection matrix
-// 		Matrix4x4 OriginalViewMatrix = g_Camera.m_mView;
-// 		Matrix4x4 OriginalProjectionMatrix = g_Camera.m_mProj;
+// 		Matrix4 OriginalViewMatrix = g_Camera.m_mView;
+// 		Matrix4 OriginalProjectionMatrix = g_Camera.m_mProj;
 // 
 // 		// Set mirror camera
 // 		D3DXMATRIX MirrorViewMatrix;

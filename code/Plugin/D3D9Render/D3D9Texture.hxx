@@ -106,7 +106,7 @@ namespace ma
 			memcpy(lock.pBits,pDataStream->GetPtr(),pDataStream->GetSize());
 			hr = m_pD3DTex->UnlockRect(0);
 
-			return;
+			return true;
 		}
 
 		D3DXIMAGE_INFO ImgInfo;

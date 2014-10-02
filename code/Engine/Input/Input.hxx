@@ -19,6 +19,7 @@ namespace ma
 
 	Input*	GetInput()
 	{
+		ASSERT(gs_input);
 		return gs_input;
 	}
 

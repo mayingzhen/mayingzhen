@@ -8,7 +8,6 @@ namespace ma
 		bool				m_bDepthWrite;
 		bool				m_bColorWrite;
 		float				m_fDepthBias;
-		//bool				m_bDepthTest;
 		DEPTH_CHECK_MODE	m_eDepthCheckMode;
 		BLEND_MODE			m_eBlendMode;
 		CULL_MODE			m_eCullMode;

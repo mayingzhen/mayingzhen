@@ -4,14 +4,14 @@ namespace ma
 {
 	IMPL_OBJECT(Camera,Component)
 
-	Camera::Camera(GameObject* pGameObj)
+	Camera::Camera(SceneNode* pGameObj)
 	:Component(pGameObj)
 	{
 		m_fAspect = 1.0f;
 		m_fNear = 0.1f;
 		m_fNearMin = 0.1f;
 		m_fFar = 300.0f;
-		m_fFOV = ToRadian(45.0f);
+		m_fFOV = DegreesToRadians(45.0f);
 
 		m_bMatViewDirty = true;
 	}
@@ -23,15 +23,12 @@ namespace ma
 
 	void Camera::UpdateMatView()
 	{
-		Matrix4x4 matView;
-		MatrixInverse(&matView,NULL,&GetGameObject()->GetSceneNode()->GetWorldMatrix());
+		Matrix4 matView = m_pSceneNode->GetWorldMatrix().inverse();
 		m_matViewProj.SetMatView(matView);
-
-		//m_bMatViewDirty = false;
 	}
 
 
-	const Matrix4x4& Camera::GetMatView()
+	const Matrix4& Camera::GetMatView()
 	{
 		if (m_bMatViewDirty)
 		{
@@ -41,12 +38,12 @@ namespace ma
 		return m_matViewProj.GetMatView();
 	}
 
-	const Matrix4x4& Camera::GetMatProj()
+	const Matrix4& Camera::GetMatProj()
 	{
 		return m_matViewProj.GetMatProj();
 	}
 
-	const Matrix4x4& Camera::GetMatViewProj()
+	const Matrix4& Camera::GetMatViewProj()
 	{
 		if (m_bMatViewDirty)
 		{
@@ -60,12 +57,12 @@ namespace ma
 	{	
 
 		AABB aabbCS = aabb;
-		aabbCS.Transform( m_matViewProj.GetMatView() );
+		aabbCS.transform( m_matViewProj.GetMatView() );
 
 		//Center object
-		Vector3 aabbSize = aabbCS.Size();
+		Vector3 aabbSize = aabbCS.getSize();
 		bool bUseWidth = false;
-		if (aabbSize.y <= FEPS)
+		if (aabbSize.y <= Math::FEPS)
 		{
 			bUseWidth = true;
 		}
@@ -88,47 +85,27 @@ namespace ma
 			vPosCS.z = m_fNear * aabbSize.y / vNearSize.y;
 		}
 
-		Matrix4x4 matViewInv;
-		MatrixInverse(&matViewInv,NULL,& m_matViewProj.GetMatView());
-		Vector3 vDummyPosWS;
-		Vec3TransformCoord(&vDummyPosWS,&vPosCS,&matViewInv);
+		Matrix4 matViewInv = m_matViewProj.GetMatView().inverseAffine();
+		Vector3 vDummyPosWS = matViewInv * vPosCS;
 
-		Vector3 vPosOffsetWS = aabb.Center() - vDummyPosWS;
+		Vector3 vPosOffsetWS = aabb.getCenter() - vDummyPosWS;
 
-		Vector3* vPos = (Vector3*)(&matViewInv._41);
-		*vPos += vPosOffsetWS;
-		//MatrixInverse(& m_matViewProj.GetMatView(),NULL,&matViewInv);
+		Vector3 vPos = matViewInv.getTrans();
+		vPos += vPosOffsetWS;
+		matViewInv.setTrans(vPos);
 	}
 
 	Vector3	Camera::ProjToWorldNormal(const Vector2* pVec,float fDepth) 
 	{
 		Vector3 vRet;
-		Matrix4x4 matVPInv;
-		MatrixInverse(&matVPInv,NULL,& m_matViewProj.GetMatViewProj());
+		Matrix4 matVPInv = m_matViewProj.GetMatViewProj().inverse();
 		Vector3 p0(0.0f,0.0f,-1.0f);
-		Vector3 p1(pVec->x ,pVec->y ,-1.0f);	
-		Vec3TransformCoord(&p0,&p0,&matVPInv);
-		Vec3TransformCoord(&p1,&p1,&matVPInv);
+		Vector3 p1(pVec->x ,pVec->y ,-1.0f);
+		p0 = matVPInv * p0;
+		p1 = matVPInv * p1;
 		vRet = p1 - p0;
-		vRet *= fDepth / GetNearClip();
+		vRet *= fDepth / m_fNear;
 		return vRet;
-	}
-
-	bool Camera::IsCull(AABB aabb)
-	{
-		if ( aabb.IsNull() )
-			return false;
-
-		aabb.Transform( m_matViewProj.GetMatViewProj() );
-
-		if (aabb.m_vMax.x < -1 || aabb.m_vMin.x > +1 ||
-			aabb.m_vMax.y < -1 || aabb.m_vMin.y > +1 ||
-			aabb.m_vMax.z < -1 || aabb.m_vMin.z > +1) // gl -1 ~ 1;
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	Vector2 Camera::GetNearPlaneSize() const
@@ -145,47 +122,38 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		Matrix4x4 matProj;
-		GetRenderDevice()->MakePerspectiveMatrix(&matProj,fFOV,fAspect,fNear,fFar);
+		Matrix4 matProj = Matrix4::IDENTITY;
+		GetRenderDevice()->MakePerspectiveMatrix(matProj,fFOV,fAspect,fNear,fFar);
 		m_matViewProj.SetMatProj(matProj);
 	}
 
-// 	void Camera::UpdateTransform()
-// 	{
-// 		Matrix4x4 matView;
-// 		MatrixInverse(&matView,NULL,&GetGameObject()->GetSceneNode()->GetWorldMatrix());
-// 		m_matViewProj.SetMatView(matView);
-// 	}
 
 	void Camera::GetWorldRayCast(const Vector2& clientSize,const Vector2& point, Vector3& worldOrig, Vector3& worldDir)
 	{
 		float viewportW = clientSize.x;
 		float viewPortH = clientSize.y;
 
-		Matrix4x4 matVPInv = m_matViewProj.GetMatViewProj();
-		MatrixInverse(&matVPInv,NULL,&matVPInv);
+		Matrix4 matVPInv = m_matViewProj.GetMatViewProj().inverse();
 
 		Vector3 vProj0( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, -1.0f);
 		Vector3 vProj1( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, 0.0f);
-		Vector3 vWorld0,vWorld1;
+		Vector3 vWorld0 = matVPInv * vProj0;
+		Vector3 vWorld1 = matVPInv * vProj1;
 
-		Vec3TransformCoord(&vWorld0,&vProj0,&matVPInv);
-		Vec3TransformCoord(&vWorld1,&vProj1,&matVPInv);
 		worldOrig = vWorld0;
-		worldDir = vWorld1 - vWorld0;
-		Vec3Normalize(&worldDir,&worldDir);
+		worldDir = (vWorld1 - vWorld0).normalisedCopy();
 	}
 
 	void Camera::AdjustPlanes(const AABB& aabbWorld)
 	{
-		if ( aabbWorld.IsNull() )
+		if ( aabbWorld.isInfinite() )
 			return;
 
 		AABB aabbView = aabbWorld;
-		aabbView.Transform( m_matViewProj.GetMatView() );
+		aabbView.transform( m_matViewProj.GetMatView() );
 
-		float fNear = Max(aabbView.m_vMin.z, m_fNearMin);
-		float fFar = Max(aabbView.m_vMax.z, fNear + 1.0f);
+		float fNear = Math::Max(aabbView.getMinimum().z, m_fNearMin);
+		float fFar = Math::Max(aabbView.getMaximum().z, fNear + 1.0f);
 
 		SetPerspective(m_fFOV, m_fAspect,fNear,fFar);
 	}

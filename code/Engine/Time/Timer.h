@@ -6,12 +6,6 @@ namespace ma
 
 	class ENGINE_API Time
 	{
-		long	m_frameCnt;	  //time of update called
-		float	m_fFrameTotalTime; //total time since last reset
-		float	m_fFrameDeltaTime; //last frame's delta time in seconds
-
-		timeval m_lastReset;
-
 	public:
 
 		Time();
@@ -29,9 +23,17 @@ namespace ma
 		float	GetFrameTotalTime()const;
 
 		float	GetFrameDeltaTime()const;
+
+		UINT	GetFrameCount() const;
 		
 		static void	Sleep(UINT mSec);
-		
+
+	private:
+		UINT	m_nFameCnt;		   //time of update called
+		float	m_fFrameTotalTime; //total time since last reset
+		float	m_fFrameDeltaTime; //last frame's delta time in seconds
+
+		timeval m_lastReset;
 	};
 
 	ENGINE_API Time* GetTimer();

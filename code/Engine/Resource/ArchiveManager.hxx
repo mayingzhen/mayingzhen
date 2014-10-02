@@ -23,6 +23,26 @@ namespace ma
 	{
 	}
 
+	StreamPtr ArchiveManager::Create(const char* pszFile) const
+	{
+		ASSERT(pszFile);
+		if (pszFile == NULL)
+			return NULL;
+
+		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
+		{
+			StreamPtr data = (*iter)->create(pszFile);
+			if (data != NULL)
+			{
+				return data;
+			}
+		}
+
+		ASSERT(false);
+		Log("Ceate file :%s", pszFile);
+		return NULL;
+	}
+
 	StreamPtr ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
 	{
 		ASSERT(pszFile);

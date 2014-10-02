@@ -21,15 +21,15 @@ namespace ma
 		DECL_OBJECT(Light)
 
 	public:
-		Light(GameObject* pGameObj);
+		Light(SceneNode* pGameObj);
 
 		~Light();
 
 		LightType					GetLightType() {return m_eLightType;}
 
-		const Vector4&				GetLightColor() {return m_cLightColor;}
+		const ColourValue&			GetLightColor() {return m_cLightColor;}
 
-		void						SetLightColor(const Vector4& cLightColor) {m_cLightColor = cLightColor;}
+		void						SetLightColor(const ColourValue& cLightColor) {m_cLightColor = cLightColor;}
 
 		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}
 
@@ -48,7 +48,7 @@ namespace ma
 	protected:
 		LightType					m_eLightType;
 
-		Vector4						m_cLightColor;
+		ColourValue					m_cLightColor;
 
 		float						m_fLightIntensity;
 
@@ -62,7 +62,7 @@ namespace ma
 		DECL_OBJECT(PointLight)
 
 	public:
-		PointLight(GameObject* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_POINT;}
+		PointLight(SceneNode* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_POINT;}
 		
 		Vector3			GetPos();
 
@@ -84,7 +84,7 @@ namespace ma
 		enum {NUM_PSSM = 4};
 
 	public:
-		DirectonalLight(GameObject* pGameObj);
+		DirectonalLight(SceneNode* pGameObj);
 
 		Vector3			GetDirection();
 
@@ -95,7 +95,7 @@ namespace ma
 		float*			GetSplitPos();
 
 	private:
-		Matrix4x4		CalculateCropMatrix(const AABB& cropAABB);
+		Matrix4		CalculateCropMatrix(const AABB& cropAABB);
 
 	private:
 		float			m_fSplitPos[2][NUM_PSSM + 1];
@@ -110,20 +110,20 @@ namespace ma
 		DECL_OBJECT(SpotLight)
 
 	public:
-		SpotLight(GameObject* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_SPOT;}
+		SpotLight(SceneNode* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_SPOT;}
 
-		NodeTransform	GetTransform() {return m_tsfWS;}
+		Transform	GetTransform() {return m_tsfWS;}
 
-		void			SetTransform(const NodeTransform& tsfWS) {m_tsfWS = tsfWS;}
+		void			SetTransform(const Transform& tsfWS) {m_tsfWS = tsfWS;}
 
-		void			LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);	
+		//void			LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);	
 
-		Matrix4x4		GetViewMatrix() {return m_mView;}
+		Matrix4			GetViewMatrix() {return m_mView;}
 
-		Matrix4x4		GetProjmatrix()	{return m_mProj;}
+		Matrix4			GetProjmatrix()	{return m_mProj;}
 
 	private:
-		NodeTransform	m_tsfWS;
+		Transform	m_tsfWS;
 
 		float			m_fAspectRatio;
 		float			m_fNearClip;
@@ -132,8 +132,8 @@ namespace ma
 
 		Vector3			m_vTarget;
 		Vector3			m_vUpVector;
-		Matrix4x4		m_mView;
-		Matrix4x4		m_mProj;
+		Matrix4		m_mView;
+		Matrix4		m_mProj;
 	};
 
 

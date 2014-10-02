@@ -22,7 +22,7 @@ namespace ma
 
 		UINT				GetActionDataNumber() {return m_arrActionData.size();}
 
-		SkelAnimData*			GetActionDataByIndex(UINT index) {return m_arrActionData[index];}
+		SkelAnimData*		GetActionDataByIndex(UINT index) {return m_arrActionData[index];}
 
 		void				AddAnimClip(const char* skaPath,const char* pszActionName);
 

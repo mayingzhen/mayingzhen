@@ -115,17 +115,16 @@ namespace ma
 		info.m_nSpriteFrameRandomOffset = pSpriteProp->getInt("frameRandomOffset");
 		info.m_fSpriteFrameDuration = pSpriteProp->getFloat("frameDuration");
 
-		ref_ptr<Texture> pTexture = LoadResourceSync<Texture>(info.m_sTexturePath.c_str());
+		RefPtr<Texture> pTexture = LoadResourceSync<Texture>(info.m_sTexturePath.c_str());
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
 
 		SetTexture(pTexture);
 
-		setSpriteFrameCoords( pTexture->getWidth(), pTexture->getHeight());
+		setSpriteFrameCoords( pTexture->GetWidth(), pTexture->GetHeight());
 
 		GetStateBlock().m_eBlendMode = info.m_eTextureBlending;
-		GetStateBlock().m_bDepthWrite = false;
 	}
 
 
@@ -153,10 +152,10 @@ namespace ma
 		info.m_nEnergyMax = pProperties->getLong("energyMax");
 
 		// color
-		pProperties->getVector4("colorStart", &info.m_colorStart);
-		pProperties->getVector4("colorStartVar", &info.m_colorStartVar);
-		pProperties->getVector4("colorEnd", &info.m_colorEnd);
-		pProperties->getVector4("colorEndVar", &info.m_colorEndVar);
+// 		pProperties->getColor("colorStart", &info.m_colorStart);
+// 		pProperties->getColor("colorStartVar", &info.m_colorStartVar);
+// 		pProperties->getColor("colorEnd", &info.m_colorEnd);
+// 		pProperties->getColor("colorEndVar", &info.m_colorEndVar);
 
 		// pos
 		pProperties->getVector3("position", &info.m_position);
@@ -331,7 +330,7 @@ namespace ma
 			}
 
 			// The rotation axis always orbits the node.
-			if (p->_rotationSpeed != 0.0f && p->_rotationAxis != Vec3Zero() )
+			if (p->_rotationSpeed != 0.0f && p->_rotationAxis != Vector3::ZERO )
 			{
 				//Vec3TransformCoord(&p->_rotationAxis,&p->_rotationAxis,&world);
 				//world.transformPoint(p->_rotationAxis, &p->_rotationAxis);
@@ -395,14 +394,13 @@ namespace ma
 
 			if (p->_energy > 0L)
 			{
-				if (p->_rotationSpeed != 0.0f && p->_rotationAxis != Vec3Zero())
+				if (p->_rotationSpeed != 0.0f && p->_rotationAxis != Vector3::ZERO)
 				{
-					Matrix4x4 matRotation;
+					Matrix3 matRotation;
+					matRotation.FromAxisAngle(p->_rotationAxis,Radian(p->_rotationSpeed * elapsedSecs));
 
-					MatrixRotationAxis(&matRotation,&p->_rotationAxis, p->_rotationSpeed * elapsedSecs);
-
-					Vec3TransformNormal(&p->_velocity,&p->_velocity,&matRotation);
-					Vec3TransformNormal(&p->_acceleration,&p->_acceleration,&matRotation);
+					p->_velocity = matRotation * p->_velocity;
+					p->_acceleration = matRotation * p->_acceleration;
 				}
 
 				// Particle is still alive.
@@ -425,10 +423,10 @@ namespace ma
 				// Simple linear interpolation of color and size.
 				float percent = 1.0f - ((float)p->_energy / (float)p->_energyStart);
 
-				p->_color.x = p->_colorStart.x + (p->_colorEnd.x - p->_colorStart.x) * percent;
-				p->_color.y = p->_colorStart.y + (p->_colorEnd.y - p->_colorStart.y) * percent;
-				p->_color.z = p->_colorStart.z + (p->_colorEnd.z - p->_colorStart.z) * percent;
-				p->_color.w = p->_colorStart.w + (p->_colorEnd.w - p->_colorStart.w) * percent;
+// 				p->_color.x = p->_colorStart.x + (p->_colorEnd.x - p->_colorStart.x) * percent;
+// 				p->_color.y = p->_colorStart.y + (p->_colorEnd.y - p->_colorStart.y) * percent;
+// 				p->_color.z = p->_colorStart.z + (p->_colorEnd.z - p->_colorStart.z) * percent;
+// 				p->_color.w = p->_colorStart.w + (p->_colorEnd.w - p->_colorStart.w) * percent;
 
 				p->_size = p->_sizeStart + (p->_sizeEnd - p->_sizeStart) * percent;
 
@@ -496,8 +494,8 @@ namespace ma
 		if (GetRenderSystem())
 		{
 			int index = GetRenderSystem()->CurThreadProcess();
-			Matrix4x4 matWorld = m_matWorld[index];
-			Matrix4x4 matVP = GetRenderContext()->GetViewProjMatrix();
+			Matrix4 matWorld = m_matWorld[index];
+			Matrix4 matVP = GetRenderContext()->GetViewProjMatrix();
 			SetProjectionMatrix(matWorld * matVP);
 		}
 
@@ -508,11 +506,10 @@ namespace ma
 		static const Vector2 pivot(0.5f, 0.5f);
 
 		// 3D Rotation so that particles always face the camera.
-		Matrix4x4 cameraWorldMatrix ;
-		MatrixInverse(&cameraWorldMatrix,NULL,&GetRenderContext()->GetViewMatrix());
+		Matrix4 matView = GetRenderContext()->GetViewMatrix().inverseAffine();
 
-		Vector3 right = cameraWorldMatrix.GetRow(0);
-		Vector3 up = cameraWorldMatrix.GetRow(1);
+		Vector3 right = Vector3(matView[0][0], matView[0][1], matView[0][2]);
+		Vector3 up = Vector3(matView[1][0], matView[1][1], matView[1][2]);
 
 		for (UINT i = 0; i < m_nParticleCount; i++)
 		{

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	ScriptObject::ScriptObject(GameObject* pGameObject)
+	ScriptObject::ScriptObject(SceneNode* pGameObject)
 		:IScriptObject(pGameObject)
 	{
 		m_pScriptClass = NULL;
@@ -26,7 +26,7 @@ namespace ma
 	void ScriptObject::Start()
 	{
 		void* params[1];
-		params[0] = &m_pGameObject;
+		params[0] = &m_pSceneNode;
 		InvokeMethod("SetGameObjPtr",1,params);
 		 
 		InvokeMethod("Start");
@@ -196,7 +196,7 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 		
-		sl.Serialize(m_arrFields);
+		sl.Serialize(m_arrFields,"Fields");
 
 		sl.EndSection();
 	}

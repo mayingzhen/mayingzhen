@@ -5,6 +5,7 @@
 #include "Common/Module.h"
 #include "Engine/Module.h"
 #include "Render/Module.h"
+#include "Animation/Module.h"
 
 #endif
 

@@ -33,14 +33,14 @@ namespace ma
 
 		RenderQueue* pRenderQueue = GetRenderSystem()->GetRenderQueue();
 
-		GetRenderSystem()->ClearBuffer(true,true,true,Color(0,0,0,0), 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
 		for (UINT i = 0; i < nSolid; ++i)
 		{
 			Renderable* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
 			Technique* pTech =  pSolidEntry->m_pMaterial->GetTechnqiue("Gbuffer");
-			pTech->GetParameter("shininess")->setVector4(Vector4(6.0f,0,0,0)); 
+			pTech->SetParameter("shininess",Any(6.0f));
 	
 			GetRenderSystem()->DrawRenderable(pSolidEntry,pTech);
 		}

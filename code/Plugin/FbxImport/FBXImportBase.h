@@ -25,10 +25,10 @@ namespace ma
 		if (!importStatus)
 			return false;
 
-//  		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
-// 		FbxAxisSystem maAxis(FbxAxisSystem::eDirectX);
-// 		maAxis.ConvertScene(pFbxScene);
-
+		FbxAxisSystem::EFrontVector FrontVector = (FbxAxisSystem::EFrontVector)-FbxAxisSystem::eParityOdd;
+		FbxAxisSystem maAxisSystem(KFbxAxisSystem::eZAxis, FrontVector, KFbxAxisSystem::eRightHanded);
+		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
+		maAxisSystem.ConvertScene(pFbxScene);
 
 		return pFbxScene;
 	}

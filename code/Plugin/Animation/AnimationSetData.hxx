@@ -32,7 +32,7 @@ namespace ma
 	{
 		std::string strSavePath = pszPath ? pszPath : m_sResPath;
 
-		XMLOutputArchive ar;
+		XMLOutputSerializer ar;
 		bool bLoadOK = ar.Open(strSavePath.c_str());
 		if (!bLoadOK)
 		{
@@ -47,7 +47,10 @@ namespace ma
 
 	bool AnimationSetData::CreateFromMemeory()
 	{
-		XMLInputArchive arIn;
+		if (m_eResState == ResLoaded)
+			return true;
+
+		XMLInputSerializer arIn;
 		bool bLoadOk = arIn.Open(m_pDataStream.get());
 		if (!bLoadOk)
 		{

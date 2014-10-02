@@ -15,25 +15,25 @@ namespace ma
 			m_pCamera = pCamera;
 		}
 
-		virtual bool VisiteSceneNodeBegin(SceneNode* pSceneNode)
+		virtual bool VisiteSceneNodeBegin(NodeTransform* pSceneNode)
 		{
 			return true;
 		}
 
-		virtual bool VisiteComponent(Component* pComp)
-		{
-			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
-			if (pRenderObj)
-			{
-				if ( !m_pCamera->IsCull(pRenderObj->GetAABBWS()) )
-				{
-					m_arrRenderObject.push_back(pRenderObj);
-					m_aabb.Merge( pRenderObj->GetAABBWS() );
-				}
-			}
-
-			return true;
-		}
+// 		virtual bool VisiteComponent(Component* pComp)
+// 		{
+// 			RenderComponent* pRenderObj = SafeCast<RenderComponent>(pComp);
+// 			if (pRenderObj)
+// 			{
+// 				if ( !m_pCamera->IsCull(pRenderObj->GetAABBWS()) )
+// 				{
+// 					m_arrRenderObject.push_back(pRenderObj);
+// 					m_aabb.Merge( pRenderObj->GetAABBWS() );
+// 				}
+// 			}
+// 
+// 			return true;
+// 		}
 
 		const AABB& GetWorldAABB() {return m_aabb;}
 

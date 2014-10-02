@@ -253,14 +253,12 @@ namespace ma
 			//Update();
 			Game::GetInstance().Update();
 
-			if( _bRunning)
+			if(_bRunning)
 			{
 				Game::GetInstance().Render();
 			}
 		}
 	}
-
-
 }
 
 

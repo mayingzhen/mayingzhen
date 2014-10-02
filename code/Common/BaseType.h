@@ -19,6 +19,7 @@
 #include <memory.h>
 #include <assert.h>
 #include <limits>
+using namespace std;
 
 typedef unsigned char		Uint8;
 typedef unsigned short		Uint16;
@@ -29,6 +30,8 @@ typedef short				Int16;
 typedef unsigned char       Byte;
 typedef unsigned short      WORD;
 typedef unsigned long		DWORD;
+typedef unsigned short		BoneIndex;
+
 
 #ifdef _WIN32
 typedef __int64				Int64;
@@ -55,12 +58,13 @@ extern "C" {
 
 #ifdef  __cplusplus
 }
+
 #endif
 
 
 
 
-typedef unsigned short BoneIndex;
+
 
 
 

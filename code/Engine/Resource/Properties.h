@@ -282,7 +282,7 @@ public:
     long getLong(const char* name = NULL) const;
 
     /**
-     * Interpret the value of the given property as a Matrix4x4.
+     * Interpret the value of the given property as a Matrix4.
      * If the property does not exist, out will be set to the identity matrix.
      * If the property exists but could not be scanned, an error will be logged and out will be set
      * to the identity matrix.
@@ -292,7 +292,7 @@ public:
      * 
      * @return True on success, false if the property does not exist or could not be scanned.
      */
-    bool getMatrix(const char* name, Matrix4x4* out) const;
+    //bool getMatrix(const char* name, Matrix4* out) const;
 
     /**
      * Interpret the value of the given property as a Vector2.
@@ -344,7 +344,7 @@ public:
      * 
      * @return True on success, false if the property does not exist or could not be scanned.
      */
-    bool getQuaternionFromAxisAngle(const char* name, Quaternion* out) const;
+    //bool getQuaternionFromAxisAngle(const char* name, Quaternion* out) const;
 
     /**
      * Interpret the value of the given property as an RGB color in hex and write this color to a Vector3.
@@ -358,7 +358,7 @@ public:
      * 
      * @return True on success, false if the property does not exist or could not be scanned.
      */
-    bool getColor(const char* name, Vector3* out) const;
+    bool getColor(const char* name, ColourValue* out) const;
 
     /**
      * Interpret the value of the given property as an RGBA color in hex and write this color to a Vector4.
@@ -372,7 +372,7 @@ public:
      * 
      * @return True on success, false if the property does not exist or could not be scanned.
      */
-    bool getColor(const char* name, Vector4* out) const;
+    //bool getColor(const char* name, Vector4* out) const;
 
     /**
      * Gets the file path for the given property if the file exists.

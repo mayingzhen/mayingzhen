@@ -73,8 +73,8 @@ void ImageControl::setImage(const char* path)
     SAFE_DELETE(_batch);
     TexturePtr texture = LoadResourceSync<Texture>(path);
     _batch = new SpriteBatch(texture);
-    _tw = 1.0f / texture->getWidth();
-    _th = 1.0f / texture->getHeight();
+    _tw = 1.0f / texture->GetWidth();
+    _th = 1.0f / texture->GetHeight();
     //texture->release();
 }
 
@@ -125,8 +125,8 @@ void ImageControl::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
     // An ImageControl is not part of the texture atlas but should use the same projection matrix.
     _batch->SetProjectionMatrix(spriteBatch->GetProjectionMatrix());
 
-    Vector4 color = Vec4One();
-    color.w *= _opacity;
+	ColourValue color = ColourValue::White;
+    color.a *= _opacity;
 
     _batch->Reset();
     if (_dstRegion.isEmpty())

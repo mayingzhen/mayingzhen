@@ -34,14 +34,15 @@ namespace ma
 
 		void	ToneMapping();
 
-		void	GetSampleOffsets2x2(int width, int height,Vector4 texCoordOffSet[]);
+		void	GetSampleOffsets2x2(int width, int height,std::vector<Vector4>& texCoordOffSet);
 
 
 	public:
 
 		enum
 		{
-			NUM_SUM_LUM = 3
+			NUM_SUM_LUM = 3,
+			NUM_DownSamplers = 2
 		};
 
 		enum
@@ -52,22 +53,19 @@ namespace ma
 		};
 
 		Texture*			m_lumTexs[NUM_SUM_LUM + 1]; 
-		Texture*			m_DownSampleTex[3];
-		Texture*			m_GlowTex[3];
-		//Texture*			m_GlowMergedTex;
-
+		Texture*			m_DownSampleTex[NUM_DownSamplers + 1];
+		Texture*			m_GlowTex[NUM_DownSamplers + 1];
 		Texture*			m_AdaptedTex[AdaptedTex_NUM];
 
-		BlurPostProcess*	m_pBlurPP[3];
+		BlurPostProcess*	m_pBlurPP[NUM_DownSamplers + 1];
 
 		Technique*			m_SumLogTech;
-		Technique*			m_SumLumIterativeTech;
+		Technique*			m_SumLumIterativeTech[NUM_SUM_LUM];
 		Technique*			m_SumLumFinal;
 
 		Technique*			m_AdaptedLumTech;
 		Technique*			m_BrightPassTech;
-		Technique*			m_DownSamplersTech;
-		//Technique*			m_GlowMergeTech;
+		Technique*			m_DownSamplersTech[NUM_DownSamplers];
 		Technique*			m_ToneMappingTech;
 
 	};

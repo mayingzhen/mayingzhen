@@ -284,20 +284,20 @@ public:
         /** 
          * Gets the color of the ThemeImage in a Vector4.
          */
-        const Vector4& getColor() const;
+        const ColourValue& getColor() const;
 
     private:
 
-        ThemeImage(float tw, float th, const Rectangle& region, const Vector4& color);
+        ThemeImage(float tw, float th, const Rectangle& region, const ColourValue& color);
 
         ~ThemeImage();
 
-        static ThemeImage* create(float tw, float th, Properties* properties, const Vector4& defaultColor);
+        static ThemeImage* create(float tw, float th, Properties* properties, const ColourValue& defaultColor);
 
-        std::string _id;
-        UVs _uvs;
-        Rectangle _region;
-        Vector4 _color;
+        std::string		_id;
+        UVs				_uvs;
+        Rectangle		_region;
+        ColourValue		_color;
     };
 
     /**
@@ -350,7 +350,7 @@ private:
 
     private:
 
-        ImageList(const Vector4& color);
+        ImageList(const ColourValue& color);
 
         ImageList(const ImageList& copy);
 
@@ -365,7 +365,7 @@ private:
 
         std::string _id;
         std::vector<ThemeImage*> _images;
-        Vector4 _color;
+        ColourValue _color;
     };
 
     /**
@@ -412,11 +412,11 @@ private:
          *
          * @return This skin's color.
          */
-        const Vector4& getColor() const;
+        const ColourValue& getColor() const;
 
     private:
 
-        Skin(float tw, float th, const Rectangle& region, const Theme::Border& border, const Vector4& color);
+        Skin(float tw, float th, const Rectangle& region, const Theme::Border& border, const ColourValue& color);
         
         ~Skin();
 
@@ -425,14 +425,14 @@ private:
          */
         Skin& operator=(const Skin&);
 
-        static Skin* create(const char* id, float tw, float th, const Rectangle& region, const Theme::Border& border, const Vector4& color);
+        static Skin* create(const char* id, float tw, float th, const Rectangle& region, const Theme::Border& border, const ColourValue& color);
 
         void setRegion(const Rectangle& region, float tw, float th);
     
         std::string _id;
         Theme::Border _border;
         UVs _uvs[9];
-        Vector4 _color;
+        ColourValue _color;
         Rectangle _region;
         float _tw, _th;
     };
@@ -457,7 +457,7 @@ private:
      */
     Theme& operator=(const Theme&);
 
-    void setProjectionMatrix(const Matrix4x4& matrix);
+    void setProjectionMatrix(const Matrix4& matrix);
 
     SpriteBatch* getSpriteBatch() const;
 
@@ -466,7 +466,7 @@ private:
     void lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** mouseCursor, Skin** skin);
 
     std::string _url;
-    ref_ptr<Texture> _texture;
+    RefPtr<Texture> _texture;
     SpriteBatch* _spriteBatch;
     std::vector<Style*> _styles;
     std::vector<ThemeImage*> _images;

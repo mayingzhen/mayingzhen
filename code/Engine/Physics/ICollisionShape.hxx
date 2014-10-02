@@ -4,7 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(ICollisionShape,Component);
 
-	ICollisionShape::ICollisionShape(GameObject* pGameObj)
+	ICollisionShape::ICollisionShape(SceneNode* pGameObj)
 		:Component(pGameObj)
 	{
 
@@ -12,7 +12,7 @@ namespace ma
 
 	IMPL_OBJECT(IBoxCollisionShape,ICollisionShape);
 
-	IBoxCollisionShape::IBoxCollisionShape(GameObject* pGameObj):
+	IBoxCollisionShape::IBoxCollisionShape(SceneNode* pGameObj):
 		ICollisionShape(pGameObj)
 	{
 
@@ -20,7 +20,7 @@ namespace ma
 
 	IMPL_OBJECT(ISphereCollisionShape,ICollisionShape);
 
-	ISphereCollisionShape::ISphereCollisionShape(GameObject* pGameObj)
+	ISphereCollisionShape::ISphereCollisionShape(SceneNode* pGameObj)
 		:ICollisionShape(pGameObj)
 	{
 
@@ -28,8 +28,16 @@ namespace ma
 
 	IMPL_OBJECT(ICapsuleCollisionShape,ICollisionShape);
 
-	ICapsuleCollisionShape::ICapsuleCollisionShape(GameObject* pGameObj)
+	ICapsuleCollisionShape::ICapsuleCollisionShape(SceneNode* pGameObj)
 		:ICollisionShape(pGameObj)
+	{
+
+	}
+
+	IMPL_OBJECT(ICollisionMaterial,Component);
+
+	ICollisionMaterial::ICollisionMaterial(SceneNode* pGameObj)
+		:Component(pGameObj)
 	{
 
 	}

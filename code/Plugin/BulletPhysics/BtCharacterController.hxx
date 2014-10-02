@@ -2,24 +2,23 @@
 #include "BulletUtil.h"
 #include "BtPhysicsSystem.h"
 #include "BtCollisionShape.h"
-#include "BtPhysicsObject.h"
+//#include "BtPhysicsObject.h"
 
 namespace ma
 {
-	BulletCharacterController::BulletCharacterController(GameObject* pGameObj)
+	BulletCharacterController::BulletCharacterController(SceneNode* pGameObj)
 		:ICharaControll(pGameObj)
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_collShape = new btCompoundShape();
 		m_fSetpOffset = 0.5f;
 		m_pCapsuleShape = NULL;
-		m_pPhysicsObject = (BulletPhysicsObject*)pGameObj->GetPhyscisObject();
 
-		 m_pCapsuleShape = new BulletCapsuleCollisionShape(NULL);
+		m_pCapsuleShape = new BulletCapsuleCollisionShape(NULL);
 
-		 m_touchSkin = 0.01f;
-		 m_bTouched = false;
-		 memset(&m_touchNorm,0,sizeof(m_touchNorm));
+		m_touchSkin = 0.01f;
+		m_bTouched = false;
+		memset(&m_touchNorm,0,sizeof(m_touchNorm));
 	
 		m_colState = CF_None;	
 	}	
@@ -66,7 +65,7 @@ namespace ma
 		m_collShape->addChildShape(btTsfLs,pCapsule);
 		m_ghostObject->setCollisionShape(m_collShape);
 		m_ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-		m_ghostObject->setWorldTransform( ToBulletUnit( m_pPhysicsObject->GetGameObject()->GetSceneNode()->GetTransform() ) );
+		//m_ghostObject->setWorldTransform( ToBulletUnit( GetSceneNode()->GetTransform() ) );
 		
 		pbtWorld->addCollisionObject(m_ghostObject,btBroadphaseProxy::CharacterFilter,btBroadphaseProxy::StaticFilter|btBroadphaseProxy::DefaultFilter);
 		pbtWorld->addAction(this);
@@ -177,12 +176,12 @@ namespace ma
 				float yy = m_touchNorm.y * m_touchNorm.y;
 				if (xz < yy)
 				{
-					if (btFabs(m_touchNorm.y) > FEPS)
+					if (btFabs(m_touchNorm.y) > Math::FEPS)
 					{
 						m_colState = m_touchNorm.y > 0.0f ? CF_Above : CF_Below;
 					}
 				}else{
-					if (sqrtf(xz) > FEPS)
+					if (sqrtf(xz) > Math::FEPS)
 					{
 						m_colState = CF_Side;
 					}

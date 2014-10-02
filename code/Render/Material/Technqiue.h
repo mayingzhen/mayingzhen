@@ -3,34 +3,28 @@
 
 namespace ma
 {
-	class RENDER_API Technique
+	class RENDER_API Technique : public Referenced
 	{
 	public:
 		Technique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 
 		~Technique();
 		
-		void			Bind();
+		void				Bind();
 
-		void			UnBind();
+		void				UnBind();
 
-		//void			CreateShaderProgram(const char* pszName,const char* pDefine = NULL);
+		const char*			GetTechName();
 
-		const char*		GetTechName();
+		ShaderProgram*		GetShaderProgram() {return m_pShaderProgram;}
 
-		ShaderProgram*	GetShaderProgram() {return m_pShaderProgram;}
+		RenderState&		GetRenderState() {return m_renderState;}
 
-		RenderState&	GetRenderState() {return m_renderState;}
+		void				SetRenderState(const RenderState& renderState) {m_renderState = renderState;}
 
-		//Effect*			GetEffect() {return m_pEffect;}
-
+		void				SetParameter(const char* pszName,const Any& value);
+		
 		MaterialParameter*	GetParameter(const char* pszName);
-
-		MaterialParameter*	AddParameter(const char* pszName);
-
-
-		//virtual void		Serialize(Serializer& sl, const char* pszLable = "Technique");
-
 
 	private:
 		std::string						m_stName;
@@ -39,9 +33,10 @@ namespace ma
 	
 		RenderState						m_renderState;
 
-		std::vector<MaterialParameter*> m_parameters;
+		std::vector<MaterialParameter*> m_arrParameters;
 	};
-		
+	
+	DeclareRefPtr(Technique);
 }
 
 

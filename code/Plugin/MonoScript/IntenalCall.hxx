@@ -5,7 +5,7 @@ using namespace ma;
 
 static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNameM)
 {
-	GameObject* pGameObj = (GameObject*)gameObjPtr;
+	SceneNode* pGameObj = (SceneNode*)gameObjPtr;
 	std::string strScriptName = mono_string_to_utf8(pScriptNameM);
 
 	IScriptObject* pScriptObj = NULL;

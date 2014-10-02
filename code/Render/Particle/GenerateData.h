@@ -47,7 +47,7 @@ namespace ma
 			dst->x = MATH_RANDOM_MINUS1_1();
 			dst->y = MATH_RANDOM_MINUS1_1();
 			dst->z = MATH_RANDOM_MINUS1_1();
-		} while ( Vec3Length(dst) > 1.0f);
+		} while ( dst->length() > 1.0f);
 
 		// Scale this point by the scaling vector.
 		dst->x *= scale.x;
@@ -70,16 +70,16 @@ namespace ma
 		}
 	}
 
-	inline void GenerateColor(const Vector4& base, const Vector4& variance, Vector4* dst)
+	inline void GenerateColor(const ColourValue& base, const ColourValue& variance, ColourValue* dst)
 	{
 		ASSERT(dst);
 
 		// Scale each component of the variance color by a random float
 		// between -1 and 1, then add this to the corresponding base component.
-		dst->x = base.x + variance.x * MATH_RANDOM_MINUS1_1();
-		dst->y = base.y + variance.y * MATH_RANDOM_MINUS1_1();
-		dst->z = base.z + variance.z * MATH_RANDOM_MINUS1_1();
-		dst->w = base.w + variance.w * MATH_RANDOM_MINUS1_1();
+		dst->a = base.a + variance.a * MATH_RANDOM_MINUS1_1();
+		dst->r = base.r + variance.r * MATH_RANDOM_MINUS1_1();
+		dst->g = base.g + variance.g * MATH_RANDOM_MINUS1_1();
+		dst->b = base.b + variance.b * MATH_RANDOM_MINUS1_1();
 	}
 }
 

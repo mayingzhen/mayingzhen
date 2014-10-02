@@ -19,14 +19,14 @@ namespace ma
 
 		Light*				GetLightByIndex(UINT i) {return m_arrLight[i];}
 
-		const Vector4&		GetAmbientColor() {return m_cAmbientColor;}
+		const ColourValue&	GetAmbientColor() {return m_cAmbientColor;}
 
-		void				SetAmbientColor(const Vector4& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+		void				SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
 
 	private:
 		std::vector<Light*>			m_arrLight;
 
-		Vector4						m_cAmbientColor;
+		ColourValue					m_cAmbientColor;
 	};
 
 

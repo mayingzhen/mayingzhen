@@ -6,37 +6,26 @@
 namespace ma
 {
 	struct Uniform;
+	class MaterialParameter;
     
-
 	// Interface implemented by templated method bindings for simple storage and iteration.
 	class MethodBinding 
 	{
-		friend struct RenderState;
-
 	public:
-
-		virtual void SetValue(Uniform* pUniform,ShaderProgram* effect) = 0;
-
-	protected:
-
-		MethodBinding(MaterialParameter* param):
-		m_pParameter(param), m_bAutoBinding(false)
+		MethodBinding(MaterialParameter* param)
 		{
+			m_pParameter = param;
 		}
 
 		virtual ~MethodBinding() 
 		{
-		}
 
-		MethodBinding& operator=(const MethodBinding&);
+		}
+		virtual void SetValue(Uniform* pUniform,ShaderProgram* effect) = 0;
 
 	protected:
-
 		MaterialParameter*	m_pParameter;
-
-		bool				m_bAutoBinding;
 	};
-
 
 
 	// Defines a method parameter binding for a single value.
@@ -56,7 +45,6 @@ namespace ma
 		
 		ValueMethod		m_pValueMethod;
 	};
-
 
 
 	// Defines a method parameter binding for an array of values.
@@ -89,9 +77,9 @@ namespace ma
 	}
 
 	template <class ClassType, class ParameterType>
-	void MethodValueBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
+	void MethodValueBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* pShader)
 	{
-		effect->SetValue(pUniform, (m_pInstance->*m_pValueMethod)());
+		pShader->SetValue( pUniform, (m_pInstance->*m_pValueMethod)() );
 	}
 
 	template <class ClassType, class ParameterType>
@@ -101,9 +89,9 @@ namespace ma
 	}
 
 	template <class ClassType, class ParameterType>
-	void MethodArrayBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* effect)
+	void MethodArrayBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform,ShaderProgram* pShader)
 	{
-		effect->SetValue(pUniform, (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)());
+		pShader->SetValue( pUniform, (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
 	}
 
 }

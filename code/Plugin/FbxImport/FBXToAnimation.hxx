@@ -115,7 +115,9 @@ namespace ma
 		if (pFileName == NULL)
 			return false;
 
-		FbxScene* pFbxScene = GetFbxScene(pFileName);
+		std::string strAnimFile = GetArchiveMananger()->GetFullPath(pFileName);
+
+		FbxScene* pFbxScene = GetFbxScene(strAnimFile.c_str());
 		if (pFbxScene == NULL)
 			return false;
 
@@ -140,6 +142,8 @@ namespace ma
 		ConverteAnimDataParentToLocalSpaceAnimation(&skaData,&skeData);
 
 		skaData.SaveToFile(pOutSkaFile);
+
+		return true;
 	}
 
 	bool LoadAnimationData(const char* pFileName, Animation& skaData,const Skeleton& skeData)

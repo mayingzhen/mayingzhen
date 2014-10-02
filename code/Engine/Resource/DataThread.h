@@ -9,6 +9,13 @@ namespace ma
 	class CMyEvent;
 	class Resource;
 
+	struct ResData
+	{
+		RefPtr<Resource>		m_pRes;
+
+		RefPtr<EventListener>	m_pCallBack;
+	};
+
 	class DataThread : public Thread
 	{	
 	public:
@@ -17,17 +24,15 @@ namespace ma
 		~DataThread();
 
 		virtual	void	ThreadUpdate();
-
-		//Resource*		PopUpDataObj();	
 		
-		void			PushBackDataObj(ref_ptr<Resource> pObj);
+		void			PushBackDataObj(const ResData& pObj);
 		
 		bool			IsFree(void);
 		
 		bool			Process(void);
 
 	public:
-		typedef std::deque< ref_ptr<Resource> > DataObjQueue;
+		typedef std::deque< ResData > DataObjQueue;
 		DataObjQueue		m_queLoaded;
 		DataObjQueue		m_queUnloaded;
 		DataObjQueue		m_queUnloadedBuffer;

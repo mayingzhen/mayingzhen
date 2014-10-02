@@ -13,21 +13,21 @@ namespace ma
 	
 	public:
 
-		bool	m_bShadow;
+		bool			m_bShadow;
 		
-		bool	m_bDefferLight;
+		bool			m_bDefferLight;
 		
-		bool	m_bRenderThread;
+		bool			m_bRenderThread;
 
-		bool	m_bPartcleThread;
+		bool			m_bPartcleThread;
 
-		Color	m_cClearClor;
+		ColourValue		m_cClearClor;
 
-		float	m_fShadowMapSize;
+		float			m_fShadowMapSize;
 
-		bool	m_bHWShadowMap;	
+		bool			m_bHWShadowMap;	
 
-		bool	m_bIsHDRRending;
+		bool			m_bIsHDRRending;
 	};
 
 	RENDER_API RenderSetting*	GetRenderSetting();

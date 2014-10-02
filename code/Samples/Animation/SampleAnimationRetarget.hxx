@@ -13,7 +13,7 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)
-			GameObjectPtr pChargigi = GetEntitySystem()->CreateGameObject("gigi");
+			SceneNodePtr pChargigi = m_pScene->CreateNode("gigi");
 			MeshComponentPtr pMesCompb = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
 
@@ -26,14 +26,14 @@ namespace ma
 			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
- 			m_pAnimtionObjectA->PlayAnimation((UINT)0);	
+ 			m_pAnimtionObjectA->PlayAnimation((UINT)1);	
 
-			pChargigi->GetSceneNode()->Translate(Vector3(-50,-100,0));
+			pChargigi->Translate(Vector3(-50,0,-100));
 		}
 
 		// character B MeshData & skeleton & Animation
 		{
-			GameObjectPtr pCharMagic = GetEntitySystem()->CreateGameObject("magic");
+			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
 
 			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -43,7 +43,7 @@ namespace ma
 
 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
 
- 			pCharMagic->GetSceneNode()->Translate(Vector3(50,-100,0));
+ 			pCharMagic->Translate(Vector3(50,0,-100));
 		}
 	}
 
@@ -53,8 +53,16 @@ namespace ma
 		m_pAnimtionObjectB = NULL;
 	}
 
+	void SampleAnimationRetarget::Render()
+	{
+		m_pAnimtionObjectA->DebugRender();
+		m_pAnimtionObjectB->DebugRender();
+	}
+
 	void SampleAnimationRetarget::Update()
 	{
+		//m_pAnimtionObjectA->SetFrame(5);
+
 		Input* pInput = GetInput();
 		if (pInput == NULL)
 			return;

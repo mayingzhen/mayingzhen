@@ -3,6 +3,7 @@
 #include "RenderQueue.h"
 #include "RenderContext.h"
 #include "RenderSetting.h"
+#include "RenderView.h"
 #include "../RenderScheme/RenderScheme.h"
 #include "../Util/ScreenQuad.h"
 #include "../Util/UnitSphere.h"
@@ -40,8 +41,8 @@ namespace ma
 
 		m_pRenderScheme = new RenderScheme();
 
-		m_pCameraObj = new GameObject("MainCamera");
-		m_pMainCamera =  m_pCameraObj->CreateComponent<Camera>();
+		//m_pCameraObj = new GameObject(NULL,"MainCamera");
+		//m_pMainCamera =  m_pCameraObj->CreateComponent<Camera>();
 
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
@@ -68,10 +69,10 @@ namespace ma
 		SAFE_DELETE(pLineRender);
 	}
 
-	CameraPtr RenderSystem::GetMainCamera()
-	{
-		return m_pMainCamera;
-	}
+// 	CameraPtr RenderSystem::GetMainCamera()
+// 	{
+// 		return m_pMainCamera;
+// 	}
 
 	RenderScheme* RenderSystem::GetRenderScheme()
 	{
@@ -89,26 +90,13 @@ namespace ma
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
-	void RenderSystem::Update(Camera* pCamera)
+	void RenderSystem::Update()
 	{
 		profile_code();
 
-		std::vector<GameObject*> arrGameObjs;
-
-		Frustum camaeraFrustum;
-		float nearZ = 0;
-		float farZ = 1;
-		GetRenderDevice()->GetProjectionNearFar(nearZ,farZ);
-		camaeraFrustum.Update( pCamera->GetMatViewProj(),nearZ,farZ);
-		GetEntitySystem()->GetCullTree()->FindObjectsIn(&camaeraFrustum, arrGameObjs);
-
-		for (UINT i = 0; i < arrGameObjs.size(); ++i)
+		for (UINT i = 0; i < m_arrView.size(); ++i)
 		{
-			GameObject* pGameObj = arrGameObjs[i];
-
-			pGameObj->BeginShow(pCamera);
-			pGameObj->Show(pCamera, false);
-			pGameObj->EndShow(pCamera);
+			m_arrView[i]->Update();
 		}
 	}
 
@@ -160,7 +148,7 @@ namespace ma
 		if ( GetParticleSystem() )
 			GetParticleSystem()->OnFlushFrame();
 	}
-
+	
 
 	void RenderSystem::RT_Init(HWND wndhandle)
 	{
@@ -188,6 +176,9 @@ namespace ma
 
 		ScreenQuad::Init();
 		UnitSphere::Init();
+
+		RenderView* pViw = new RenderView(NULL,NULL,m_pRenderScheme,m_pRenderTarget[0],m_viewport);
+		m_arrView.push_back(pViw);
 	}
 
 	void RenderSystem::RT_BeginFrame()
@@ -204,14 +195,18 @@ namespace ma
 
 	void RenderSystem::RT_Render()
 	{
-		GetRenderContext()->SetCamera(m_pMainCamera.get());
-
-		if (m_pRenderScheme)
-			m_pRenderScheme->Render();
- 		
- 		GetLineRender()->Render();
-
-		GetUISystem()->Render();
+		for (UINT i = 0; i < m_arrView.size(); ++i)
+		{
+			m_arrView[i]->Render();
+		}
+// 		GetRenderContext()->SetCamera(m_pMainCamera.get());
+// 
+// 		if (m_pRenderScheme)
+// 			m_pRenderScheme->Render();
+//  		
+//  		GetLineRender()->Render();
+// 
+// 		GetUISystem()->Render();
 	}
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
@@ -223,6 +218,8 @@ namespace ma
 			return;
 
 		m_pRenderContext->SetCurRenderObj(pRenderable);
+
+		//pTechnique->GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
 
 		pTechnique->Bind();
 
@@ -302,7 +299,7 @@ namespace ma
 	}
 	
 
-	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const Color & c, float z, int s)
+	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
 		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
 	}

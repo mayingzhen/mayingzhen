@@ -20,6 +20,11 @@ namespace ma
 		return ms_pObjectClass;
 	}
 	//IMPL_OBJECT(Object)
+	
+	Object::Object()
+	{
+
+	}
 
 	Object::Object(const char* pName)
 	{

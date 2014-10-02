@@ -27,11 +27,11 @@ namespace ma
 
 		void		ZoomCamera(float fDeltaZoom);
 
-		void		ComputeRotationCenter(Matrix4x4* pOut) const;
-
 		void		UpdateTarget();
 
 		void		UpdateTargetDis();
+
+		Vector2		GetMouseScreenOffset();
 
 
 	private:

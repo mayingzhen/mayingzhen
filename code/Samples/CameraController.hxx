@@ -9,12 +9,12 @@ namespace ma
 	{
 		m_fMoveStep = 100.0f;
 
-		m_vTarget = Vec3Zero();
+		m_vTarget = Vector3::ZERO;
 
 
-		Vector3 vCameraPos = pCamera->GetSceneNode()->GetTransform().m_vPos;
+		Vector3 vCameraPos = pCamera->GetSceneNode()->GetPos();
 		
-		m_fTargetDis = Vec3Length(&vCameraPos);
+		m_fTargetDis = vCameraPos.length();
 
 		m_pCamera = pCamera;
 	}
@@ -64,22 +64,16 @@ namespace ma
 
 	void CameraController::UpdateTarget()
 	{
-		Matrix4x4 matCamera;
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
-		MatrixFromTransform(&matCamera,&tsfCamera);
-
-		Vector3 vCameraPos = matCamera.GetRow(3);
-		Vector3 vCameraForward = matCamera.GetRow(2);
-		Vec3Normalize(&vCameraForward,&vCameraForward);
+		Vector3 vCameraPos = m_pCamera->GetSceneNode()->GetPos();
+		Vector3 vCameraForward = m_pCamera->GetSceneNode()->GetForward();
 
 		m_vTarget = vCameraPos + vCameraForward * m_fTargetDis;
 	}
 
 	void CameraController::UpdateTargetDis()
 	{
-		Vector3 vCameraPos = m_pCamera->GetSceneNode()->GetTransform().m_vPos;
-		Vector3 vDis = vCameraPos - m_vTarget;
-		m_fTargetDis = Vec3Length(&vDis);
+		Vector3 vCameraPos = m_pCamera->GetSceneNode()->GetPos();
+		m_fTargetDis = (vCameraPos - m_vTarget).length();
 		if (m_fTargetDis <= 10.0f)
 			m_fTargetDis = 10.0f;
 	}
@@ -87,140 +81,74 @@ namespace ma
 
 	void CameraController::RotateMoveCamera()
 	{
+		Vector2 vScreenOffset = GetMouseScreenOffset();
+		
+		Vector3 vAxis;
+		float fAngle;
+		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
+		{
+			vAxis = m_pCamera->GetSceneNode()->GetUp();
+			fAngle = RadiansToDegrees(vScreenOffset.x);
+		}
+		else
+		{
+			vAxis = m_pCamera->GetSceneNode()->GetRight();
+			fAngle = RadiansToDegrees(vScreenOffset.y);	
+		}
+
+		m_pCamera->GetSceneNode()->RotateAround(m_vTarget,vAxis,fAngle);
+	}
+
+	Vector2	CameraController::GetMouseScreenOffset()
+	{
 		const OIS::MouseState& mouseState = GetInput()->GetMouseState();
 
-		EulerAngleXYZ vRotEuler(0.0f,0.0f,0.0f);	
-		vRotEuler.y = mouseState.X.rel / 512.0f;
-		vRotEuler.x = mouseState.Y.rel / 512.0f;
+		int w,h;
+		Platform::GetInstance().GetWindowSize(w,h);
 
+		Vector2 vScreenOffset(mouseState.X.rel, mouseState.Y.rel);
+		vScreenOffset.x = -vScreenOffset.x * 2.f / w;
+		vScreenOffset.y = vScreenOffset.y * 2.f / h;
 
-		Quaternion qRot;
-		QuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
-
-
-		Matrix4x4 matRotCenter;
-		ComputeRotationCenter(&matRotCenter);
-
-
-		NodeTransform tsfRotCenter;
-		NodeTransform tsfRotCenterInv;
-		NodeTransform tsfRot;
-
-		TransformFromMatrix(&tsfRotCenter,&matRotCenter);
-		TransformInverse(&tsfRotCenterInv,&tsfRotCenter);
-		TransformSetIdentity(&tsfRot);
-		tsfRot.m_qRot = qRot;
-
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
-
-		TransformMul(&tsfCamera,&tsfCamera,&tsfRotCenterInv);
-		TransformMul(&tsfCamera,&tsfCamera,&tsfRot);
-		TransformMul(&tsfCamera,&tsfCamera,&tsfRotCenter);
-
-		m_pCamera->GetSceneNode()->SetTransform(tsfCamera);
+		return vScreenOffset;
 	}
 
 	void CameraController::MoveCamera()
 	{
-		const OIS::MouseState& mouseState = GetInput()->GetMouseState();
-
-		Vector3 vDeltaLS(0.0f,0.0f,0.0f);
-
-		float fPanDist = m_fMoveStep / 100.0f;
-
-		Vector2 vPanHS(mouseState.X.rel / 512.0f, mouseState.Y.rel / 512.0f);
-
-		Vector3 vPanMouse = m_pCamera->ProjToWorldNormal(&vPanHS,m_fTargetDis);
-		fPanDist *= Vec3Length(&vPanMouse);				
-
-		float fPanDirLenHS = Vec2Length(&vPanHS);
-		if (fPanDirLenHS > FEPS)
-		{
-			fPanDist /= fPanDirLenHS;
-			vDeltaLS.x -= vPanHS.x * fPanDist; 
-			vDeltaLS.y = vPanHS.y * fPanDist;
-		}
-
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
-
-		Vector3 vDeltaWS;
-		Vec3TransformNormal(&vDeltaWS,&vDeltaLS,&tsfCamera);
-		tsfCamera.m_vPos += vDeltaWS;
-
-		m_pCamera->GetSceneNode()->SetTransform(tsfCamera);
+		Vector2 vScreenOffset = GetMouseScreenOffset();
+	
+		Vector3 v = m_pCamera->ProjToWorldNormal(&vScreenOffset, m_fTargetDis);
+		m_pCamera->GetSceneNode()->Translate(v);
 	}
 
 	void CameraController::RotateCamera()
 	{
-		const OIS::MouseState& mouseState = GetInput()->GetMouseState();
+		Vector2 vScreenOffset = GetMouseScreenOffset();
 
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
-
-		Quaternion qRot;
-		QuaternionIdentity(&qRot);
-
-		EulerAngleXYZ vRotEuler(0.0f,0.0f,0.0f);	
-		if ( Abs(mouseState.X.rel) > Abs(mouseState.Y.rel) )
+		Matrix3 matEuler;
+		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
 		{
-			vRotEuler.y = mouseState.X.rel / 512.0f;
-
-			QuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
-
-			QuaternionMultiply(&tsfCamera.m_qRot,&tsfCamera.m_qRot,&qRot);
-
-			m_pCamera->GetSceneNode()->SetTransform(tsfCamera);
+			matEuler.FromEulerAnglesXZY(Radian(0), Radian(0), Radian(vScreenOffset.x));
 		}
 		else
 		{
-			vRotEuler.x = mouseState.Y.rel / 512.0f;
-
-			QuaternionFromEulerAngleXYZ(&qRot,&vRotEuler);
-
-			QuaternionMultiply(&tsfCamera.m_qRot,&qRot,&tsfCamera.m_qRot);
-
-			m_pCamera->GetSceneNode()->SetTransform(tsfCamera);
+			matEuler.FromEulerAnglesXZY(Radian(vScreenOffset.y), Radian(0), Radian(0));
 		}
+
+		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransform();
+		tsfWS.m_qRot = tsfWS.m_qRot * Quaternion(matEuler) ;
+
+		m_pCamera->GetSceneNode()->SetTransform(tsfWS);
 	}
 
 	void CameraController::ZoomCamera(float fDeltaZoom)
 	{
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
+ 		fDeltaZoom *= m_fTargetDis * 0.01f / m_fMoveStep;
 
-		fDeltaZoom *= m_fTargetDis * 0.1f / m_fMoveStep;
+		m_pCamera->GetSceneNode()->Forward(fDeltaZoom);
 
-		Vector3 vDist(0.0f,0.0f,fDeltaZoom);
-		Vec3TransformNormal(&vDist,&vDist,&tsfCamera);
-		tsfCamera.m_vPos += vDist;
-
-		m_pCamera->GetSceneNode()->SetTransform(tsfCamera);
+		std::string deubg = "fDeltaZoom = " + StringConverter::toString(fDeltaZoom);
+		_OutputDebugString(deubg.c_str());
 	}
-
-
-	void CameraController::ComputeRotationCenter(Matrix4x4* pOut) const
-	{
-		Vector3& vXAxis = *MatrixAsVector3(pOut,0);
-		Vector3& vYAxis = *MatrixAsVector3(pOut,1);
-		Vector3& vZAxis = *MatrixAsVector3(pOut,2);
-		Vector3& vPos = *MatrixAsVector3(pOut,3);
-
-		MatrixIdentity(pOut);
-
-		const Vector3 vUp(0.0f,1.0f,0.0f);
-
-		NodeTransform tsfCamera = m_pCamera->GetSceneNode()->GetTransform();
-
-		//Get X Axis
-		vXAxis = Vector3(1.0f,0.0f,0.0f);
-		Vec3TransformNormal(&vXAxis,&vXAxis,&tsfCamera);
-
-
-		vYAxis = vUp;
-		Vec3Cross(&vZAxis,&vXAxis,&vYAxis);
-		Vec3Normalize(&vZAxis,&vZAxis);
-		Vec3Cross(&vXAxis,&vYAxis,&vZAxis);
-
-		vPos = m_vTarget;
-	}
-
 
 }

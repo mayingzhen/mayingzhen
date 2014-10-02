@@ -23,7 +23,7 @@ namespace ma
 	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
 	{
 		if (pszBoneName == NULL)
-			return InvalidID<BoneIndex>();
+			return Math::InvalidID<BoneIndex>();
 
 		for (UINT i = 0; i < m_arrBoneName.size(); ++i)
 		{
@@ -33,7 +33,7 @@ namespace ma
 			}
 		}
 
-		return InvalidID<BoneIndex>();
+		return Math::InvalidID<BoneIndex>();
 	}
 
 	BoneIndex Skeleton::GetParentIndice(BoneIndex nBoneID)
@@ -43,7 +43,7 @@ namespace ma
 
 	bool Skeleton::IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID)
 	{
-		for (BoneIndex nParentID = GetParentIndice(nChildBoneID); IsValidID(nParentID); nParentID = GetParentIndice(nParentID))
+		for (BoneIndex nParentID = GetParentIndice(nChildBoneID); Math::IsValidID(nParentID); nParentID = GetParentIndice(nParentID))
 		{
 			if (nParentID == nAncestorBoneID)
 			{
@@ -71,7 +71,7 @@ namespace ma
 			return;
 
 		BoneIndex nSplitBone = GetBoneIdByName(pszSplitBone);
-		if ( InvalidID<BoneIndex>() == nSplitBone )
+		if ( Math::InvalidID<BoneIndex>() == nSplitBone )
 			return;
 
 		BoneSet* pUperBody = new BoneSet(pszUpBody);
@@ -105,7 +105,7 @@ namespace ma
 	void Skeleton::Serialize(Serializer& sl, const char* pszLable)
 	{
 		SkeletonHeader header;
-		sl.Serialize(header);
+		sl.Serialize(header,"SkeletonHeader");
 		if (header.m_nIden != 'MAED')
 			return;
 
@@ -125,15 +125,17 @@ namespace ma
 		m_refPose->InitObjectSpace(m_arrTsfOS, m_arrParentIndice);
 
 		UINT nBoneNumer = m_arrBoneName.size();
-		m_arrRefPosePS.resize(nBoneNumer);
-		m_arrRefPoseOS.resize(nBoneNumer);
+		//m_arrRefPosePS.resize(nBoneNumer);
+		//m_arrRefPoseOS.resize(nBoneNumer);
 		m_arrRefPoseOSInv.resize(nBoneNumer);
 
 		for (UINT uBoneCunt = 0; uBoneCunt < nBoneNumer; ++uBoneCunt)
 		{
-			MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
-			MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
-			MatrixInverse( &m_arrRefPoseOSInv[uBoneCunt], NULL, &m_arrRefPoseOS[uBoneCunt] );
+			//MatrixFromTransform( &m_arrRefPoseOS[uBoneCunt], &m_refPose->GetTransformOS(uBoneCunt) );
+			//MatrixFromTransform( &m_arrRefPosePS[uBoneCunt], &m_refPose->GetTransformPS(uBoneCunt) );
+			Matrix4 matRefPoseOS;
+			MatrixFromTransform( &matRefPoseOS, &m_refPose->GetTransformOS(uBoneCunt) );
+			m_arrRefPoseOSInv[uBoneCunt] = matRefPoseOS.inverse();
 		}
 
 		InitUpLowerBoneSet();

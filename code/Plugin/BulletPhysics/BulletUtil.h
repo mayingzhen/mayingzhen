@@ -13,7 +13,7 @@ namespace ma
 	 	return btQuaternion(q.x,q.y,q.z,q.w);
 	}
 
-	inline btTransform ToBulletUnit(const NodeTransform& tsf)
+	inline btTransform ToBulletUnit(const Transform& tsf)
 	{
 		return btTransform(ToBulletUnit(tsf.m_qRot),ToBulletUnit(tsf.m_vPos));
 	}
@@ -23,22 +23,15 @@ namespace ma
 		return *(Vector3*)(&v);
 	}
 
-// 	inline Color ToMaUnit(const btVector3& v)
-// 	{
-// 
-// 	}
-
 	inline Quaternion ToMaUnit(const btQuaternion& q)
 	{
-		return Quaternion( q.x(),q.y(),q.z(),q.w() );
+		return Quaternion( q.w(), q.x(), q.y(), q.z() );
 	
 	}
 
-	inline NodeTransform ToMaUnit(const btTransform& btTsf)
+	inline Transform ToMaUnit(const btTransform& btTsf)
 	{
-		NodeTransform tsf;
-		TransformSetIdentity(&tsf);
-		tsf.m_fScale = 1.0f;
+		Transform tsf;
 		tsf.m_vPos = ToMaUnit( btTsf.getOrigin() );
 		tsf.m_qRot = ToMaUnit( btTsf.getRotation() );
 		return tsf;

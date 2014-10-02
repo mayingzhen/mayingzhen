@@ -19,17 +19,11 @@ namespace ma
 
 	}
 
-	void Animation::SampleSingleTrackByFrame(NodeTransform* pTSF, BoneIndex nTrackID,float fFrame) const
+	void Animation::SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
 		profile_code();
 
-		//Vector3 vLocalScale;
-		//m_arrScaleTrack[nTrackID].SampleFrame(fFrame,vLocalScale);
-		//pTSF->m_fScale = ( vLocalScale.x + vLocalScale.y + vLocalScale.z ) / 3.0f;
-		pTSF->m_fScale = 1.0f;
-
-		//pTSF->m_vLocalScale = pTSF->m_fScale > FEPS ? (pTSF->m_vLocalScale / pTSF->m_fScale) : Vec3Zero();
-
+		m_arrScaleTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vScale);
 		m_arrRotTrack[nTrackID].SampleFrame(fFrame,pTSF->m_qRot);
 		m_arrPosTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vPos);
 	}
@@ -37,7 +31,7 @@ namespace ma
 	UINT Animation::GetTransfTrackIndexByName(const char* pszName)
 	{
 		if (pszName == NULL)
-			return InvalidID<UINT>();
+			return Math::InvalidID<BoneIndex>();
 
 		for (UINT i = 0; i < m_arrTransfTrackName.size(); ++i)
 		{
@@ -48,14 +42,14 @@ namespace ma
 			}
 		}
 
-		return InvalidID<UINT>();
+		return Math::InvalidID<BoneIndex>();
 	}
 
 
 	void Animation::Serialize(Serializer& sl, const char* pszLable)
 	{
 		AnimationHeader header;
-		sl.Serialize(header);
+		sl.Serialize(header,"AnimationHeader");
 		if (header.m_nIden != 'MAAD')
 			return;
 

@@ -40,7 +40,9 @@ namespace ma
 		DECL_OBJECT(Object)
 
 	public:
-		Object(const char* pName = NULL);
+		Object();
+
+		Object(const char* pName);
 		
 		virtual ~Object();
 	

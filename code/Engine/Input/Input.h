@@ -31,7 +31,7 @@ namespace ma
  
 		bool						IsMouseButtonDown(OIS::MouseButtonID button) const {return mMouse ? GetMouseState().buttonDown(button) : false;}
 
-		const OIS::MouseState&		GetMouseState() const {return mMouse ? mMouse->getMouseState() : OIS::MouseState();}
+		const OIS::MouseState&		GetMouseState() const {return mMouse->getMouseState();}
 
 		OIS::Mouse*					GetMouse() {return mMouse;}
 

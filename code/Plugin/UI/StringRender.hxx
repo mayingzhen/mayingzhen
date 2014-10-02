@@ -25,7 +25,7 @@ namespace ma
 		//SAFE_DELETE(m_pFont);
 	}
 
-	void StringRender::DrawScreenString(const char* pszText,int x,int y,Vector4 cClor)
+	void StringRender::DrawScreenString(const char* pszText,int x,int y,ColourValue cClor)
 	{
 		TextInfo textInfo;
 		textInfo.m_sString = pszText;

@@ -16,6 +16,7 @@
 #include "Animation/AnimationTree/AnimBlendNode.h"
 #include "Animation/SkelAnimtion.h"
 #include "Animation/AnimationComponent.h"
+#include "Animation/AnimationSystem.h"
 
 
 

@@ -52,7 +52,7 @@ namespace ma
 			SAFE_DELETE(m_pAnimClip);
 		}
 
-		ref_ptr<Animation> pAnim = LoadResourceSync<Animation>(pszSkaPath);
+		RefPtr<Animation> pAnim = DeclareResource<Animation>(pszSkaPath);
 		m_pAnimClip = new AnimationClip(pAnim,m_pSkeleton);
 	}
 

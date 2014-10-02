@@ -25,7 +25,7 @@ namespace ma
 	class CollisionPair
 	{
 	public:
-		CollisionPair(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB)
+		CollisionPair(SceneNode* objectA, SceneNode* objectB)
 		{
 			m_pObjectA = objectA;
 			m_pObjectB = objectB;
@@ -49,9 +49,9 @@ namespace ma
 
 		}
 
-		BulletPhysicsObject* m_pObjectA;
+		SceneNode* m_pObjectA;
 
-		BulletPhysicsObject* m_pObjectB;
+		SceneNode* m_pObjectB;
 	};
 
 
@@ -59,7 +59,7 @@ namespace ma
 	static std::map<CollisionPair, CollisionInfo> _collisionStatus;
 	static CollisionCallback _collisionCallback;
 
-	void BulletContactReport::AddCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener)
+	void BulletContactReport::AddCollisionListener(SceneNode* objectA, SceneNode* objectB,CollisionListener* listener)
 	{
 // 		btCollisionObject* pBtObjectA = objectA->GetbtCollisionObject();
 // 		btCollisionObject* pBtObjectB = objectB->GetbtCollisionObject();
@@ -74,7 +74,7 @@ namespace ma
 		info._status |= CollisionInfo::REGISTEREDD;
 	}
 
-	void BulletContactReport::RemoveCollisionListener(BulletPhysicsObject* objectA, BulletPhysicsObject* objectB,CollisionListener* listener)
+	void BulletContactReport::RemoveCollisionListener(SceneNode* objectA, SceneNode* objectB,CollisionListener* listener)
 	{
 		//btCollisionObject* pBtObjectA = objectA->GetbtCollisionObject();
 		//btCollisionObject* pBtObjectB = objectB->GetbtCollisionObject();
@@ -88,6 +88,20 @@ namespace ma
 		{
 			_collisionStatus[pair]._status |= CollisionInfo::REMOVE;
 		}
+	}
+
+	SceneNode* GetBulletPhysicsObject(const btCollisionObject* collisionObject)
+	{
+		ASSERT(collisionObject);
+		return reinterpret_cast<SceneNode*>(collisionObject->getUserPointer());
+	}
+
+	btCollisionObject* GetBtCollisionObject(SceneNode* pGameObject)
+	{
+		if (pGameObject == NULL)
+			return NULL;
+
+		return (btCollisionObject*)pGameObject->GetUserData("btCollisionObject");
 	}
 
 	void BulletContactReport::ClearCollisionListener()
@@ -130,8 +144,8 @@ namespace ma
 		iter = _collisionStatus.begin();
 		for (; iter != _collisionStatus.end(); iter++)
 		{
-			btCollisionObject* pBtObjectA = iter->first.m_pObjectA->GetbtCollisionObject();
-			btCollisionObject* pBtObjectB = iter->first.m_pObjectB->GetbtCollisionObject();
+			btCollisionObject* pBtObjectA = GetBtCollisionObject(iter->first.m_pObjectA);
+			btCollisionObject* pBtObjectB = GetBtCollisionObject(iter->first.m_pObjectB);
 
 			// If this collision pair was one that was registered for listening, then perform the collision test.
 			// (In the case where we register for all collisions with a rigid body, there will be a lot
@@ -170,18 +184,12 @@ namespace ma
 		}
 	}
 
-	BulletPhysicsObject* GetBulletPhysicsObject(const btCollisionObject* collisionObject)
-	{
-		ASSERT(collisionObject);
-		return reinterpret_cast<BulletPhysicsObject*>(collisionObject->getUserPointer());
-	}
-
 	btScalar CollisionCallback::addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* a, int partIdA, int indexA, 
 		const btCollisionObjectWrapper* b, int partIdB, int indexB)
 	{
 		// Get pointers to the PhysicsCollisionObject objects.
-		BulletPhysicsObject* objectA = GetBulletPhysicsObject(a->m_collisionObject);
-		BulletPhysicsObject* objectB = GetBulletPhysicsObject(b->m_collisionObject);
+		SceneNode* objectA = GetBulletPhysicsObject(a->m_collisionObject);
+		SceneNode* objectB = GetBulletPhysicsObject(b->m_collisionObject);
 
 		// If the given collision object pair has collided in the past, then
 		// we notify the listeners only if the pair was not colliding
@@ -251,8 +259,9 @@ namespace ma
 
 		btCollisionObject* pbtCollObj = (btCollisionObject*)proxy0->m_clientObject;
 		
-		BulletPhysicsObject* pBulletPhysObj = (BulletPhysicsObject*)pbtCollObj->getUserPointer();
-		if (pBulletPhysObj && pBulletPhysObj->GetCollisionMaterial()->m_nCollLayer == m_nTestLayer)
+		SceneNode* pBulletPhysObj = (SceneNode*)pbtCollObj->getUserPointer();
+		BulletCollisionMaterial* pMaterial = pBulletPhysObj->GetTypeComponent<BulletCollisionMaterial>();
+		if (pBulletPhysObj && pMaterial && pMaterial->GetCollLayer() == m_nTestLayer)
 		{
 			return true;
 		}

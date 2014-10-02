@@ -1,13 +1,13 @@
 #include "BulletPhysics/BtRigidBody.h"
 #include "BulletUtil.h"
+#include "BtPhysicsSystem.h"
 
 namespace ma
 {
-	BulletRigidBody::BulletRigidBody(GameObject* pGameObj)
+	BulletRigidBody::BulletRigidBody(SceneNode* pGameObj)
 		:IRigidBody(pGameObj)
 	{
 		m_pRigidBody = NULL;
-		m_pBtDynamicsWorld = NULL;
 		m_bUseGravity = true;
 		m_bKinematic = false;
 		m_rbInfo = new btRigidBody::btRigidBodyConstructionInfo(1.0f,NULL,NULL);
@@ -20,7 +20,7 @@ namespace ma
 			if (!bUseGravity)
 				m_pRigidBody->setGravity(btVector3(0,0,0));
 			else
-				m_pRigidBody->setGravity(m_pBtDynamicsWorld->getGravity());
+				m_pRigidBody->setGravity( GetDynamicsWorld()->getGravity() );
 
 			m_pRigidBody->activate();
 		}
@@ -129,6 +129,31 @@ namespace ma
 		}
 	}
 
+	void BulletRigidBody::SetDeactivationTime(float fTime)
+	{
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->setDeactivationTime(fTime);
+		}
+		else
+		{
+			m_fDeactivationTime = fTime;
+		}
+	}
+
+	void BulletRigidBody::SetSleepingThresholds(float fLinear,float fAngular)
+	{
+		if (m_pRigidBody)
+		{
+			m_pRigidBody->setSleepingThresholds(fLinear,fAngular);
+		}
+		else
+		{
+			m_rbInfo->m_linearSleepingThreshold = fLinear;
+			m_rbInfo->m_angularSleepingThreshold = fAngular;
+		}
+	}
+
 	void BulletRigidBody::ApplyForce(Vector3 vForce)
 	{		
 		if (m_pRigidBody)
@@ -164,10 +189,9 @@ namespace ma
 
 		pBtDynamicsWorld->addRigidBody(m_pRigidBody);	
 
-		m_pBtDynamicsWorld = pBtDynamicsWorld;
-
 		SetUseGravity(m_bUseGravity);
 		SetKinematic(m_bKinematic);
+		SetDeactivationTime(m_fDeactivationTime);
 		return m_pRigidBody;
 	}
 

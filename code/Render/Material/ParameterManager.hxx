@@ -57,87 +57,87 @@ namespace ma
 
 		if (autoBinding == WORLD_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetWorldMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldMatrix);
 		}
 		else if (autoBinding == VIEW_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetViewMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewMatrix);
 		}
 		else if (autoBinding == PROJECTION_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetProjectionMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetProjectionMatrix);
 		}
 		else if (autoBinding == WORLD_VIEW_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetWorldViewMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewMatrix);
 		}
 		else if (autoBinding == VIEW_PROJECTION_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetViewProjectionMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewProjectionMatrix);
 		}
 		else if (autoBinding == WORLD_VIEW_PROJECTION_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
 		}
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetInverseTransposeWorldMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldMatrix);
 		}
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix);
 		}
 		else if (autoBinding == INVERSE_PROJECTION_MATRIX)
 		{
-			pParam->bindValue(this,&ParameterManager::autoBindingGetInverseProjectionMatrix);
+			pParam->BindMethod(this,&ParameterManager::autoBindingGetInverseProjectionMatrix);
 		}
 		else if (autoBinding == CAMERA_WORLD_POSITION)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetCameraWorldPosition);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraWorldPosition);
 		}
 		else if (autoBinding == CAMERA_VIEW_POSITION)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetCameraViewPosition);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraViewPosition);
 		}
 		else if (autoBinding == MATRIX_PALETTE)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
 		}
 		else if (autoBinding == SCENE_AMBIENT_COLOR)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetAmbientColor);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetAmbientColor);
 		}
 		else if (autoBinding == SCENE_LIGHT_COLOR)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetLightColor);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightColor);
 		}
 		else if (autoBinding == SCENE_LIGHT_DIRECTION)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingGetLightDirection);
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightDirection);
 		}
 		else if (autoBinding == DepthNearFarInvfar)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBingingDepthNearFarInvfar);
+			pParam->BindMethod(this, &ParameterManager::autoBingingDepthNearFarInvfar);
 		}
 		else if (autoBinding == TextureSceneDepth)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBingingSceneDetph);
+			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDetph);
 		}
 		else if (autoBinding == TextureSceneNormal)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingSceneNormal);
+			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
 		}
 		else if (autoBinding == TextureLightDiffuse)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingTextureLightDiffuse);
+			pParam->BindMethod(this, &ParameterManager::autoBindingTextureLightDiffuse);
 		}
 		else if (autoBinding == TextureLightSpecular)
 		{
-			pParam->bindValue(this, &ParameterManager::autoBindingTextureightSpecular);
+			pParam->BindMethod(this, &ParameterManager::autoBindingTextureightSpecular);
 		}
 		else if (autoBinding == TextureLightShadow)
 		{
-			pParam->bindValue(this,&ParameterManager::autoBindingTextureLightShadow);
+			pParam->BindMethod(this,&ParameterManager::autoBindingTextureLightShadow);
 		}
 		else
 		{
@@ -145,81 +145,77 @@ namespace ma
 		}
 	}
 
-	const Matrix4x4& ParameterManager::autoBindingGetWorldMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetWorldMatrix() const
 	{
 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
-			return Matrix4x4::identity();
+			return Matrix4::IDENTITY;
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		return pRenderable->m_matWorld[index];
 	}
 
-	const Matrix4x4& ParameterManager::autoBindingGetViewMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetViewMatrix() const
 	{
 		return GetRenderContext()->GetViewMatrix();
 	}
 
-	const Matrix4x4& ParameterManager::autoBindingGetProjectionMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetProjectionMatrix() const
 	{
 		return GetRenderContext()->GetProjMatrix();;
 	}
 
-	Matrix4x4 ParameterManager::autoBindingGetWorldViewMatrix() const
+	Matrix4 ParameterManager::autoBindingGetWorldViewMatrix() const
 	{
 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
-			return Matrix4x4::identity();
+			return Matrix4::IDENTITY;
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		return pRenderable->m_matWorld[index] * GetRenderContext()->GetViewMatrix();
 	}
 
-	Matrix4x4 ParameterManager::autoBindingGetViewProjectionMatrix() const
+	Matrix4 ParameterManager::autoBindingGetViewProjectionMatrix() const
 	{
 		return GetRenderContext()->GetViewProjMatrix();
 	}
 
-	Matrix4x4 ParameterManager::autoBindingGetWorldViewProjectionMatrix() const
+	Matrix4 ParameterManager::autoBindingGetWorldViewProjectionMatrix() const
 	{
 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
-			return Matrix4x4::identity();
+			return Matrix4::IDENTITY;
 
 		int index = GetRenderSystem()->CurThreadProcess();
-		return pRenderable->m_matWorld[index] * GetRenderContext()->GetViewProjMatrix();
+		return GetRenderContext()->GetViewProjMatrix() * pRenderable->m_matWorld[index];
 	}
 
-	const Matrix4x4& ParameterManager::autoBindingGetInverseTransposeWorldMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldMatrix() const
 	{
-		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldMatrix() :*/ Matrix4x4::identity();
+		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldMatrix() :*/ Matrix4::IDENTITY;
 	}
 
-	const Matrix4x4& ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix() const
+	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix() const
 	{
-		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldViewMatrix() :*/ Matrix4x4::identity();
+		return /*_nodeBinding ? _nodeBinding->getInverseTransposeWorldViewMatrix() :*/ Matrix4::IDENTITY;
 	}
 		
-	Matrix4x4 ParameterManager::autoBindingGetInverseProjectionMatrix() const
+	Matrix4 ParameterManager::autoBindingGetInverseProjectionMatrix() const
 	{
-		Matrix4x4 mInvProj;
-		MatrixInverse(&mInvProj, NULL, & GetRenderContext()->GetProjMatrix() );
-		return mInvProj;
+		return GetRenderContext()->GetProjMatrix().inverse();
 	}
 
 	Vector3 ParameterManager::autoBindingGetCameraWorldPosition() const
 	{
-		Matrix4x4 matWS;
-		MatrixInverse(&matWS,NULL,& GetRenderContext()->GetViewMatrix() );
-		return matWS.GetRow(3);
+		return GetRenderContext()->GetViewMatrix().inverse().getTrans();
 	}
 
 	Vector3 ParameterManager::autoBindingGetCameraViewPosition() const
 	{
-		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vec3Zero();
+		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vector3::ZERO;
 	}
 
-	const Matrix4x4* ParameterManager::autoBindingGetMatrixPalette() const
+	const Matrix4* ParameterManager::autoBindingGetMatrixPalette() const
 	{
 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
@@ -227,7 +223,7 @@ namespace ma
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		
-		std::vector<Matrix4x4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
+		std::vector<Matrix4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
 
 		if ( arrSkinMatrix.empty() )
 			return NULL;
@@ -242,21 +238,21 @@ namespace ma
 			return 0;
 
 		int index = GetRenderSystem()->CurThreadProcess();
-		std::vector<Matrix4x4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
+		std::vector<Matrix4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
 
 		return arrSkinMatrix.size();
 	}
 
-	const Vector4& ParameterManager::autoBindingGetAmbientColor() const
+	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const
 	{
 		return GetLightSystem()->GetAmbientColor();
 	}
 
-	const Vector4& ParameterManager::autoBindingGetLightColor() const
+	const ColourValue& ParameterManager::autoBindingGetLightColor() const
 	{
 		Light* pCurLight = GetRenderContext()->GetCurLight();
 		if (pCurLight == NULL)
-			return Vec4One();
+			return ColourValue::White;
 
 		return pCurLight->GetLightColor();
 	}
@@ -267,7 +263,7 @@ namespace ma
 		if (pCurLight == NULL || pCurLight->GetLightType() != LIGHT_DIRECTIONAL)
 		{
 			ASSERT(false);
-			return Vec3One();
+			return Vector3::UNIT_SCALE;
 		}
 		
 		DirectonalLight* pDirLigt = (DirectonalLight*)pCurLight;

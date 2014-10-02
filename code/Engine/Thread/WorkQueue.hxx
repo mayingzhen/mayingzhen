@@ -4,6 +4,9 @@
 
 namespace ma
 {
+	static WorkQueue* gpWorkQueue = NULL;
+	WorkQueue* GetWorkQueue() {return gpWorkQueue;}
+	void SetWorkQueue(WorkQueue* pWorkQueue) {gpWorkQueue = pWorkQueue;};
 
 	const UINT MAX_NONTHREADED_WORK_USEC = 1000;
 
@@ -44,7 +47,9 @@ namespace ma
 		//Object(context),
 		shutDown_(false),
 		pausing_(false),
-		paused_(false)
+    	paused_(false),
+    	tolerance_(10),
+    	lastSize_(0)
 	{
 		//SubscribeToEvent(E_BEGINFRAME, HANDLER(WorkQueue, HandleBeginFrame));
 	}
@@ -71,19 +76,44 @@ namespace ma
 	    
 		for (UINT i = 0; i < numThreads; ++i)
 		{
-			ref_ptr<WorkerThread> pThread = new WorkerThread(this, i + 1);
+			RefPtr<WorkerThread> pThread = new WorkerThread(this, i + 1);
 			pThread->Start();
 			threads_.push_back(pThread);
 		}
 	}
+	
 
-	void WorkQueue::AddWorkItem(const WorkItem& item)
+	RefPtr<WorkItem> WorkQueue::GetFreeItem()
 	{
+    	if (poolItems_.size() > 0)
+    	{
+        	RefPtr<WorkItem> item = poolItems_.front();
+        	poolItems_.pop_front();
+        	return item;
+    	}
+    	else
+    	{
+        	// No usable items found, create a new one set it as pooled and return it.
+        	RefPtr<WorkItem> item(new WorkItem());
+        	item->pooled_ = true;
+        	return item;
+    	}
+	}
+
+	void WorkQueue::AddWorkItem(RefPtr<WorkItem> item)
+	{
+    	if (!item)
+    	{
+       		ASSERT("Null work item submitted to the work queue" && false);
+        	return;
+    	}
+
+    	// Check for duplicate items.
+		assert( std::find(workItems_.begin(),workItems_.end(),item) == workItems_.end() );
 		// Push to the main thread list to keep item alive
 		// Clear completed flag in case item is reused
 		workItems_.push_back(item);
-		WorkItem* itemPtr = &workItems_.back();
-		itemPtr->completed_ = false;
+    	item->completed_ = false;
 	    
 		// Make sure worker threads' list is safe to modify
 		if (threads_.size() && !paused_)
@@ -91,14 +121,14 @@ namespace ma
 	    
 		// Find position for new item
 		if (queue_.empty())
-			queue_.push_back(itemPtr);
+			queue_.push_back(item.get());
 		else
 		{
 			for (std::list<WorkItem*>::iterator i = queue_.begin(); i != queue_.end(); ++i)
 			{
-				if ((*i)->priority_ <= itemPtr->priority_)
+				if ((*i)->priority_ <= item->priority_)
 				{
-					queue_.insert(i, itemPtr);
+					queue_.insert(i, item.get());
 					break;
 				}
 			}
@@ -180,14 +210,14 @@ namespace ma
 			}
 		}
 	    
-		PurgeCompleted();
+		PurgeCompleted(priority);
 	}
 
 	bool WorkQueue::IsCompleted(UINT priority) const
 	{
-		for (std::list<WorkItem>::const_iterator i = workItems_.begin(); i != workItems_.end(); ++i)
+		for (std::list< RefPtr<WorkItem> >::const_iterator i = workItems_.begin(); i != workItems_.end(); ++i)
 		{
-			if (i->priority_ >= priority && !i->completed_)
+        	if ((*i)->priority_ >= priority && !(*i)->completed_)
 				return false;
 		}
 	    
@@ -229,29 +259,61 @@ namespace ma
 		//}
 	}
 
-	void WorkQueue::PurgeCompleted()
+	void WorkQueue::PurgeCompleted(UINT priority)
 	{
-		//using namespace WorkItemCompleted;
-	    
-		//VariantMap& eventData = GetEventDataMap();
-	    
-		// Purge completed work items and send completion events.
-		for (std::list<WorkItem>::iterator i = workItems_.begin(); i != workItems_.end();)
+		// Purge completed work items and send completion events. Do not signal items lower than priority threshold,
+		// as those may be user submitted and lead to eg. scene manipulation that could happen in the middle of the
+		// render update, which is not allowed
+		for (std::list< RefPtr<WorkItem> >::iterator i = workItems_.begin(); i != workItems_.end();)
 		{
-			if (i->completed_)
+        if ((*i)->completed_ && (*i)->priority_ >= priority)
 			{
-				if (i->sendEvent_)
-				{
-					//eventData[P_ITEM] = (void*)(&(*i));
-					//SendEvent(E_WORKITEMCOMPLETED, eventData);
+            if ((*i)->sendEvent_)
+            {
+                	//using namespace WorkItemCompleted;
+                
+                	//VariantMap& eventData = GetEventDataMap();
+                	//eventData[P_ITEM] = i->Get();
+                	//SendEvent(E_WORKITEMCOMPLETED, eventData);
 				}
 	            
+            	// Check if this was a pooled item and set it to usable
+            	if ((*i)->pooled_)
+            	{
+                	// Reset the values to their defaults. This should 
+                	// be safe to do here as the completed event has 
+                	// already been handled and this is part of the 
+               	 	// internal pool.
+                	(*i)->start_ = NULL;
+                	(*i)->end_ = NULL;
+               		(*i)->aux_ = NULL;
+                	(*i)->workFunction_ = NULL;
+                	(*i)->priority_ = M_MAX_UNSIGNED;
+                	(*i)->sendEvent_ = false;
+                	(*i)->completed_ = false;
+
+                	poolItems_.push_back(*i);
+            	}
 				i = workItems_.erase(i);
 			}
 			else
 				++i;
 		}
 	}
+	
+	void WorkQueue::PurgePool()
+	{
+    	unsigned int currentSize = poolItems_.size();
+    	int difference = lastSize_ - currentSize;
+
+    	// Difference tolerance, should be fairly significant to reduce the pool size.
+    	for (unsigned i = 0; poolItems_.size() > 0 && difference > tolerance_ && i < (unsigned)difference; i++)
+        	poolItems_.pop_front();
+
+    	lastSize_ = currentSize;
+	}
+
+	
 
 	void WorkQueue::HandleBeginFrame(/*StringHashstd::string eventType, VariantMap& eventData*/)
 	{
@@ -271,7 +333,8 @@ namespace ma
 			}
 		}
 	    
-		PurgeCompleted();
+    	PurgeCompleted(0);
+    	PurgePool();
 	}
 
 }

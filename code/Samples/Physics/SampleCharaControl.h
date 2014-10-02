@@ -28,7 +28,7 @@ namespace ma
 		void			DoMouveTo();
 
 	private:
-		GameObjectPtr			m_pTerrain;
+		SceneNodePtr			m_pTerrain;
 
 		AnimationComponentPtr	m_pCharaAnim;
 	

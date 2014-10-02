@@ -130,7 +130,7 @@ void CheckBox::update(const Control* container, const Vector2& offset)
     Label::update(container, offset);
 
     Vector2 size;
-    if (_imageSize.isZero())
+	if (_imageSize == Vector2::ZERO)
     {
         if (_checked)
         {
@@ -172,11 +172,11 @@ void CheckBox::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
     
     const Rectangle& region = _image->getRegion();
     const Theme::UVs& uvs = _image->getUVs();
-    Vector4 color = _image->getColor();
-    color.w *= _opacity;
+    ColourValue color = _image->getColor();
+    color.a *= _opacity;
 
     Vector2 size;
-    if (_imageSize.isZero())
+    if (_imageSize == Vector2::ZERO)
     {
         size = Vector2(region.width, region.height);
     }

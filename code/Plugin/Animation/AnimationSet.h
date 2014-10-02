@@ -11,7 +11,7 @@ namespace ma
 	class ANIMATION_API AnimationSet : public Object
 	{
 	public:
-		AnimationSet(ref_ptr<Skeleton> pSkeleton, ref_ptr<AnimationSetData> pAniSetData);
+		AnimationSet(RefPtr<Skeleton> pSkeleton, RefPtr<AnimationSetData> pAniSetData);
 
 		~AnimationSet();
 
@@ -30,9 +30,9 @@ namespace ma
 	private:
 		std::vector<SkelAnimtion*>		m_arrSkelAnim;
 
-		ref_ptr<Skeleton>				m_pSkeleton;
+		RefPtr<Skeleton>				m_pSkeleton;
 
-		ref_ptr<AnimationSetData>		m_pAniSetData;
+		RefPtr<AnimationSetData>		m_pAniSetData;
 	};
 }
 

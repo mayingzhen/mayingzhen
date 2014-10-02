@@ -3,15 +3,13 @@
 
 
 class btRigidBody;
-class btCompoundShape;
-
 
 namespace ma
 {
 	class BulletRigidBody : public IRigidBody
 	{
 	public:
-		BulletRigidBody(GameObject* pGameObj);
+		BulletRigidBody(SceneNode* pGameObj);
 
 		virtual void			SetUseGravity(bool bUseGravity);
 
@@ -33,6 +31,10 @@ namespace ma
 
 		virtual float			GetAngularDamping();
 
+		virtual	void			SetDeactivationTime(float fTime);
+
+		virtual	void			SetSleepingThresholds(float fLinear,float fAngular);
+
 		virtual	void			ApplyForce(Vector3 vForce);
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "IRigidBody");
@@ -48,9 +50,8 @@ namespace ma
 
 		bool		   m_bUseGravity;
 		bool		   m_bKinematic;
+		float		   m_fDeactivationTime;
 		btRigidBody::btRigidBodyConstructionInfo* m_rbInfo;
-
-		btDiscreteDynamicsWorld* m_pBtDynamicsWorld;
 	};
 
 

@@ -15,13 +15,13 @@ namespace ma
 		DECL_OBJECT(ParticleEmitter)
 
 	public:
-		ParticleEmitter(GameObject* pGameObj);
+		ParticleEmitter(SceneNode* pGameObj);
 
 		~ParticleEmitter();
 
-		virtual UINT		GetRenderableNumber() {return 1;}
+		//virtual UINT		GetRenderableNumber() {return 1;}
 
-		virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pParticleBatch.get();}
+		//virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pParticleBatch.get();}
 
 		void				Load(const char* pParticleEmitPath);
 	

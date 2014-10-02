@@ -72,13 +72,16 @@ namespace ma
 				&pCode,
 				&error, 
 				&m_pVShConstantTable ) ;
-			ASSERT(hr == D3D_OK);
-
-			hr = GetD3D9DxDevive()->CreateVertexShader( 
-				( DWORD* )pCode->GetBufferPointer(),
-				&m_pVertexShader );
-			ASSERT(hr == D3D_OK);
-
+			if (hr != D3D_OK)
+			{
+				const char* pErrCode = (const char*)error->GetBufferPointer();	
+				ASSERT(false);
+			}
+			else
+			{
+				hr = GetD3D9DxDevive()->CreateVertexShader( (DWORD*)pCode->GetBufferPointer(),&m_pVertexShader );
+				ASSERT(hr == D3D_OK);
+			}
 		}
 
 
@@ -95,12 +98,16 @@ namespace ma
 				&pCode,
 				&error, 
 				&m_pPShConstantTable ) ;
-			ASSERT(hr == D3D_OK);
-
-			hr = GetD3D9DxDevive()->CreatePixelShader( 
-				( DWORD* )pCode->GetBufferPointer(),
-				&m_pPiexelShader );
-			ASSERT(hr == D3D_OK);
+			if (hr != D3D_OK)
+			{
+				const char* pErrCode = (const char*)error->GetBufferPointer();	
+				ASSERT(false);
+			}
+			else
+			{
+				hr = GetD3D9DxDevive()->CreatePixelShader( (DWORD*)pCode->GetBufferPointer(), &m_pPiexelShader );
+				ASSERT(hr == D3D_OK);
+			}
 		}
 
 		return;
@@ -172,16 +179,7 @@ namespace ma
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, float value)
 	{
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, &value, 1);
-// 		else
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, &value, 1);
-// 		ASSERT(hr == D3D_OK);
 		SetValue(uniform,&value);
-		
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const float* values, UINT count)
@@ -200,16 +198,7 @@ namespace ma
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, int value)
 	{
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantI(uniform->m_location, &value, 1);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantI(uniform->m_location, &value, 1);
-// 		ASSERT(hr == D3D_OK);
-		SetValue(uniform,&value);
-		
+		SetValue(uniform,&value);	
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const int* values, UINT count)
@@ -226,124 +215,49 @@ namespace ma
 		
 	}
 
-	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4x4& value)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4& value)
 	{
 		SetValue(uniform,(const float*)&value);
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)&value, uniform->m_nCount);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)&value, uniform->m_nCount);
-// 		ASSERT(hr == D3D_OK);
-		
 	}
 
-	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4x4* values, UINT count)
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values);
-// 		ASSERT(uniform);
-// 		//ASSERT(values);
-// 		if (values == NULL)
-// 			return;
-// 		
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)values, uniform->m_nCount);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)values, uniform->m_nCount);
-// 		ASSERT(hr == D3D_OK);
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector2& value)
 	{
 		SetValue(uniform,(const float*)&value);
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		ASSERT(hr == D3D_OK);
-		
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector2* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values);
-
-// 		ASSERT(uniform);
-// 		ASSERT(values);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)values, count);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)values, count);
-// 		ASSERT(hr == D3D_OK);
-		
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector3& value)
 	{
 		SetValue(uniform,(const float*)&value);
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		ASSERT(hr == D3D_OK);
-		
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector3* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values);
-
-// 		ASSERT(uniform);
-// 		ASSERT(values);
-// 		
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)values, count);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)values, count);
-// 		ASSERT(hr == D3D_OK);
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector4& value)
 	{
 		SetValue(uniform,(const float*)&value);
-
-// 		ASSERT(uniform);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)&value, 1);
-// 		ASSERT(hr == D3D_OK);
-		
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values);
+	}
 
-// 		ASSERT(uniform);
-// 		ASSERT(values);
-// 
-// 		HRESULT hr = D3D_OK;
-// 		if (uniform->m_vshShder)
-// 			hr = GetD3D9DxDevive()->SetVertexShaderConstantF(uniform->m_location, (const float*)values, uniform->m_nCount);
-// 		else 
-// 			hr = GetD3D9DxDevive()->SetPixelShaderConstantF(uniform->m_location, (const float*)values, uniform->m_nCount);
-// 		ASSERT(hr == D3D_OK);
-	
+	void D3D9ShaderProgram::SetValue(Uniform* uniform, const ColourValue& value)
+	{
+		SetValue(uniform,(const float*)&value);
 	}
 
 	void D3D9ShaderProgram::SetValue(Uniform* uniform, const SamplerState* sampler)

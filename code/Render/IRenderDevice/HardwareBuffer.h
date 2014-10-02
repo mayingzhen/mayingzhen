@@ -87,7 +87,7 @@ namespace ma
 
 		sl.Serialize(m_Stride,"Stride");
 		sl.Serialize(m_Size,"Size");
-		sl.SerializeByte(pTemp,m_Size);
+		sl.SerializeByte(pTemp,m_Size,"Data");
 
 		m_pData = pTemp;
 

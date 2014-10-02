@@ -13,8 +13,8 @@ namespace ma
 	{
 		RENDER_PROFILE(ShadowDepthPass);
 
-		Matrix4x4 matView = GetRenderContext()->GetViewMatrix();
-		Matrix4x4 matProj = GetRenderContext()->GetProjMatrix();
+		Matrix4 matView = GetRenderContext()->GetViewMatrix();
+		Matrix4 matProj = GetRenderContext()->GetProjMatrix();
 
 		UINT nLight = GetLightSystem()->GetLightNumber();
 		for (UINT iLight = 0; iLight < nLight; ++iLight)

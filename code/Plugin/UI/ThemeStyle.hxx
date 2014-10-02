@@ -97,7 +97,7 @@ Theme::Style::Overlay* Theme::Style::Overlay::create()
 
 Theme::Style::Overlay::Overlay()
     : _skin(NULL), _cursor(NULL), _imageList(NULL), _font(NULL),
-    _fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textRightToLeft(false), _textColor(Vec4One()), _opacity(1.0f)
+	_fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textRightToLeft(false), _textColor(ColourValue::White), _opacity(1.0f)
 {
 }
 
@@ -120,7 +120,7 @@ Theme::Style::Overlay::Overlay(const Overlay& copy) : _skin(NULL), _cursor(NULL)
     _fontSize = copy._fontSize;
     _alignment = copy._alignment;
     _textRightToLeft = copy._textRightToLeft;
-    _textColor = Vector4(copy._textColor);
+    _textColor = copy._textColor;
     _opacity = copy._opacity;
 
     if (_font)
@@ -170,22 +170,22 @@ const Theme::Border& Theme::Style::Overlay::getBorder() const
     }
 }
 
-void Theme::Style::Overlay::setSkinColor(const Vector4& color)
+void Theme::Style::Overlay::setSkinColor(const ColourValue& color)
 {
     if (_skin)
     {
-        _skin->_color  = Vector4(color);
+        _skin->_color  = color;
     }
 }
 
-const Vector4& Theme::Style::Overlay::getSkinColor() const
+const ColourValue& Theme::Style::Overlay::getSkinColor() const
 {
     if (_skin)
     {
         return _skin->getColor();
     }
 
-    return Vec4One();
+	return ColourValue::White;
 }
 
 void Theme::Style::Overlay::setSkinRegion(const Rectangle& region, float tw, float th)
@@ -264,12 +264,12 @@ void Theme::Style::Overlay::setTextRightToLeft(bool rightToLeft)
     _textRightToLeft = rightToLeft;
 }
 
-const Vector4& Theme::Style::Overlay::getTextColor() const
+const ColourValue& Theme::Style::Overlay::getTextColor() const
 {
     return _textColor;
 }
 
-void Theme::Style::Overlay::setTextColor(const Vector4& color)
+void Theme::Style::Overlay::setTextColor(const ColourValue& color)
 {
     _textColor = color;
 }
@@ -301,7 +301,7 @@ void Theme::Style::Overlay::setImageRegion(const char* id, const Rectangle& regi
     generateUVs(tw, th, region.x, region.y, region.width, region.height, &(image->_uvs));
 }
 
-const Vector4& Theme::Style::Overlay::getImageColor(const char* id) const
+const ColourValue& Theme::Style::Overlay::getImageColor(const char* id) const
 {
     ASSERT(_imageList);
     ThemeImage* image = _imageList->getImage(id);
@@ -311,11 +311,11 @@ const Vector4& Theme::Style::Overlay::getImageColor(const char* id) const
     }
     else
     {
-        return Vec4Zero();
+        return ColourValue::Black;
     }
 }
 
-void Theme::Style::Overlay::setImageColor(const char* id, const Vector4& color)
+void Theme::Style::Overlay::setImageColor(const char* id, const ColourValue& color)
 {
     ASSERT(_imageList);
     ThemeImage* image = _imageList->getImage(id);
@@ -356,7 +356,7 @@ void Theme::Style::Overlay::setCursorRegion(const Rectangle& region, float tw, f
     generateUVs(tw, th, region.x, region.y, region.width, region.height, &(_cursor->_uvs));
 }
 
-const Vector4& Theme::Style::Overlay::getCursorColor() const
+const ColourValue& Theme::Style::Overlay::getCursorColor() const
 {
     if (_cursor)
     {
@@ -364,11 +364,11 @@ const Vector4& Theme::Style::Overlay::getCursorColor() const
     }
     else
     {
-        return Vec4Zero();
+		return ColourValue::Black;
     }
 }
 
-void Theme::Style::Overlay::setCursorColor(const Vector4& color)
+void Theme::Style::Overlay::setCursorColor(const ColourValue& color)
 {
     ASSERT(_cursor);
     _cursor->_color = color;

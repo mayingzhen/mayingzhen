@@ -15,47 +15,58 @@ namespace ma
 		DECL_OBJECT(AnimationComponent)
 
 	public:
-		AnimationComponent(GameObject* pGameObj);
+		AnimationComponent(SceneNode* pGameObj);
 
 		~AnimationComponent();
 
-		virtual	void			Update();
-
-		virtual	void			Load(const char* pszAniSetPath, const char* pszSkeletonPath);
+		void					Update();
 
 		virtual	void			Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
 
- 		virtual AnimationSet*	GetAnimationSet() {return m_pAnimSet;}
+		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
-		virtual void			PlayAnimation(const char* pszAnimName); 
+ 		AnimationSet*			GetAnimationSet() {return m_pAnimSet;}
 
-		virtual void			PlayAnimation(ActionID actionID);
+		void					Stop();
 
-		virtual void			AdvanceTime(float fTimeElepse);
+		void					PlayAnimation(const char* pszAnimName); 
+		void					PlayAnimation(ActionID actionID);
 
-		virtual void			EvaluateAnimation(float fWeight);
+		void					SetFrame(float fFrame);
 
-		virtual	void			SetFrame(float fFrame);
+		void					DebugRender(bool bDrawBoneName = false);
 
 		SkeletonPose*			GetAnimationPose() {return m_pose;}
+		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
 
-		virtual Skeleton*		GetSkeleton() {return m_pSkeleton.get();}
+		void					UpdateSkinMatrix();
 
 	protected:
-		void					PlayAnimation(SkelAnimtion* pSkelAnim);
+		void					PlayAnimation(SkelAnimtion* pSkelAnim,float fFadeTime = 0.0f);
+
+		void					CreateAniSet(void* parm1,void* parm2);
+		void					CreateSkeletonPose(void* parm1,void* parm2);
+
+		void					AdvanceTime(float fTimeElepse);
+		void					EvaluateAnimation();
 	
 	private:
-		ref_ptr<Skeleton>			m_pSkeleton;
-		
+		RefPtr<Skeleton>			m_pSkeleton;		
 		SkeletonPose*				m_pose;
 
-		ref_ptr<AnimationSetData>	m_pAnimSetData;
-
+		RefPtr<AnimationSetData>	m_pAnimSetData;
 		AnimationSet*				m_pAnimSet;
 
 		SkelAnimtion*				m_pCurAction;
+		SkelAnimtion*				m_pPreAction;
+		float						m_fCurFadeTime;
+		float						m_fFadeTime;
 
-		Matrix4x4*					m_arrSkinMatrix;
+		Matrix4*					m_arrSkinMatrix;
+
+		typedef tEventListener<AnimationComponent> ELAnimationComponent;
+		RefPtr< ELAnimationComponent >	m_pElAniSetLoaded;
+		RefPtr< ELAnimationComponent >	m_pElSkeletonLoaded;
 	};
 
 	DeclareRefPtr(AnimationComponent);

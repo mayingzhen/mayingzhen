@@ -23,7 +23,7 @@ namespace ma
 
 		ResourcePtr	LoadResourceSync(const char* pszRelPath); 
 
-		ResourcePtr	LoadResourceASync(const char* pszRelPath);
+		ResourcePtr	LoadResourceASync(const char* pszRelPath,EventListener* pCallBack);
 
 		static void	RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
@@ -36,9 +36,9 @@ namespace ma
 	ENGINE_API	void			SetResourceSystem(ResourceSystem* pResSystem);
 
 	template <class T>
-	ref_ptr<T>	DeclareResource(const char* pszRelPath)
+	RefPtr<T>	DeclareResource(const char* pszRelPath)
 	{
-		ref_ptr<Resource> pRes = GetResourceSystem()->DeclareResource(pszRelPath);
+		RefPtr<Resource> pRes = GetResourceSystem()->DeclareResource(pszRelPath);
 		ASSERT(pRes);
 
 		T* pTypeRes = SafeCast<T>(pRes.get());
@@ -47,9 +47,9 @@ namespace ma
 	}
 
 	template <class T>
-	ref_ptr<T>	LoadResourceSync(const char* pszRelPath)
+	RefPtr<T>	LoadResourceSync(const char* pszRelPath)
 	{
-		ref_ptr<Resource> pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
+		RefPtr<Resource> pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
 		ASSERT(pRes);
 
 		T* pTypeRes = SafeCast<T>(pRes.get());
@@ -58,9 +58,9 @@ namespace ma
 	}
 
 	template <class T>
-	ref_ptr<T>	LoadResourceASync(const char* pszRelPath)
+	RefPtr<T>	LoadResourceASync(const char* pszRelPath,EventListener* pCallBack)
 	{
-		ref_ptr<Resource> pRes = GetResourceSystem()->LoadResourceASync(pszRelPath);
+		RefPtr<Resource> pRes = GetResourceSystem()->LoadResourceASync(pszRelPath,pCallBack);
 		ASSERT(pRes);
 
 		T* pTypeRes = SafeCast<T>(pRes.get());
