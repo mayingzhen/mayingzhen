@@ -204,6 +204,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Samples\Serialize\SampleS3Import.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Serialize\SampleS3Import.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Samples\Serialize\SampleSceneSerialize.h"
 				>
 			</File>
@@ -215,6 +223,14 @@
 		<Filter
 			Name="Physics"
 			>
+			<File
+				RelativePath="..\..\code\Samples\Physics\Ragdoll.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Physics\Ragdoll.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\Code\Samples\Physics\SampleCharaControl.h"
 				>

@@ -229,19 +229,27 @@
 				Name="Serialize"
 				>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputArchive.h"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputSerializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputArchive.hxx"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputSerializer.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputArchive.h"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputSerializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputArchive.hxx"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputSerializer.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Serialize\BinarySerializer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Serialize\BinarySerializer.hxx"
 					>
 				</File>
 				<File
@@ -249,31 +257,27 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\Serializer.hxx"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputSerializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\StringConverter.h"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputSerializer.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\StringConverter.hxx"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputSerializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputArchive.h"
+					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputSerializer.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputArchive.hxx"
+					RelativePath="..\..\code\Engine\Resource\Serialize\XMLSerializer.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputArchive.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputArchive.hxx"
+					RelativePath="..\..\code\Engine\Resource\Serialize\XMLSerializer.hxx"
 					>
 				</File>
 				<Filter
@@ -579,50 +583,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Terrain"
-			>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\ITerrain.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Terrain\ITerrain.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Animation"
-			>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAnimationObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAnimationObject.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAnimationSet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAnimationSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\IAnimationSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Animation\RTTI.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="UI"
 			>
 			<File
@@ -635,70 +595,74 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="EntitySystem"
+			Name="Scene"
 			>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Component.h"
+				RelativePath="..\..\code\Engine\Scene\Component.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Component.hxx"
+				RelativePath="..\..\code\Engine\Scene\Component.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\CullNode.h"
+				RelativePath="..\..\code\Engine\Scene\CullNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\CullTree.h"
+				RelativePath="..\..\code\Engine\Scene\CullTree.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\EntitySystem.h"
+				RelativePath="..\..\code\Engine\Scene\NodeTransform.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\EntitySystem.hxx"
+				RelativePath="..\..\code\Engine\Scene\NodeTransform.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\GameObj.h"
+				RelativePath="..\..\code\Engine\Scene\Octree.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\GameObj.hxx"
+				RelativePath="..\..\code\Engine\Scene\Octree.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Octree.h"
+				RelativePath="..\..\code\Engine\Scene\OctreeNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\Octree.hxx"
+				RelativePath="..\..\code\Engine\Scene\OctreeNode.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\OctreeNode.h"
+				RelativePath="..\..\code\Engine\Scene\RenderComponent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\OctreeNode.hxx"
+				RelativePath="..\..\code\Engine\Scene\RenderComponent.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\SceneNode.h"
+				RelativePath="..\..\code\Engine\Scene\Scene.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\SceneNode.hxx"
+				RelativePath="..\..\code\Engine\Scene\Scene.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\SceneVisiter.h"
+				RelativePath="..\..\code\Engine\Scene\SceneNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\EntitySystem\SceneVisiter.hxx"
+				RelativePath="..\..\code\Engine\Scene\SceneNode.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\SceneVisiter.h"
 				>
 			</File>
 		</Filter>

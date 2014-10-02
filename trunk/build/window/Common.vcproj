@@ -174,14 +174,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\code\Common\AABB.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\AABB.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Common\Assert.h"
 				>
 			</File>
@@ -195,18 +187,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Common\BitField.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\Frustum.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\Frustum.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\IntersectionTests.h"
 				>
 			</File>
 			<File
@@ -235,6 +215,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Common\Singleton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\StringConverter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\StringConverter.hxx"
 				>
 			</File>
 			<File
@@ -301,6 +289,78 @@
 				Name="Math"
 				>
 				<File
+					RelativePath="..\..\code\Common\Math\AABB.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\AABB.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Angle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Any.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\asm_math.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Bitwise.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Capsule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Capsule.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\ColourValue.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\ColourValue.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\ConvexBody.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\ConvexBody.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\DualQuaternion.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\DualQuaternion.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Frustum.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Frustum.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\GUID.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Line3D.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Common\Math\Math.h"
 					>
 				</File>
@@ -309,19 +369,131 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\Math\Math.inl"
+					RelativePath="..\..\code\Common\Math\Matrix3.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\Math\MathBase.h"
+					RelativePath="..\..\code\Common\Math\Matrix3.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\Math\MathBase.inl"
+					RelativePath="..\..\code\Common\Math\Matrix4.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\Math\MathBase_Portable.hxx"
+					RelativePath="..\..\code\Common\Math\Matrix4.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Numerics.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Numerics.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Plane.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Plane.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\PlaneBoundedVolume.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Polygon.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Polygon.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Quaternion.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Quaternion.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Randomizer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Randomizer.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Ray.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\RotationalSpline.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\RotationalSpline.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Segment.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Segment.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\SimpleSpline.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\SimpleSpline.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\SmallVector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\SmallVector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Transform.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Triangle3D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector2.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector3.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Vector4.hxx"
 					>
 				</File>
 			</Filter>
