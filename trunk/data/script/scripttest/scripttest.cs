@@ -11,7 +11,7 @@ public class SharpTest : ScriptBase
 
     public void Update()
     {
-	    m_node.RotateYAxisLS(m_fRotSpeed * maEngine.GetTimer().GetFrameDeltaTime());
+	    m_sceneNode.RotateAround(Vector3.ZERO,Vector3.UNIT_Z, m_fRotSpeed * maEngine.GetTimer().GetFrameDeltaTime());
     }
 }
 
