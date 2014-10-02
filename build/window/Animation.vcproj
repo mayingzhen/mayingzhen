@@ -276,10 +276,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.hxx"
 				>
 			</File>

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.81/src&quot;;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BULLETPHYSICS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="BulletCollision_vs2008_debug.lib BulletDynamics_vs2008_debug.lib LinearMath_vs2008_debug.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/Bullet-2.81/build/vs2008/Lib"
+				AdditionalLibraryDirectories="../../extern/Bullet-2.82/build/vs2008/Lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -208,14 +208,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Plugin\BulletPhysics\BtPhysicsJoint.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\BulletPhysics\BtPhysicsObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\BulletPhysics\BtPhysicsObject.hxx"
 				>
 			</File>
 			<File

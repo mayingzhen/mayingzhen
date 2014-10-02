@@ -354,14 +354,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Render\Renderable\RenderComponent.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Render\Renderable\RenderComponent.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Render\Renderable\SpriteBatch.h"
 				>
 			</File>
@@ -582,6 +574,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Render\RenderSystem\FrustumCullQuery.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\FrustumCullQuery.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Render\RenderSystem\RenderContext.h"
 				>
 			</File>
@@ -627,6 +627,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Render\RenderSystem\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Render\RenderSystem\RenderView.hxx"
 				>
 			</File>
 		</Filter>
