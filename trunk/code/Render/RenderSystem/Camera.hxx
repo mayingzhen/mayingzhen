@@ -25,6 +25,8 @@ namespace ma
 	{
 		Matrix4 matView = m_pSceneNode->GetWorldMatrix().inverse();
 		m_matViewProj.SetMatView(matView);
+	
+		m_frustum.Update(m_matViewProj.GetMatViewProj(),false);
 	}
 
 
@@ -156,6 +158,25 @@ namespace ma
 		float fFar = Math::Max(aabbView.getMaximum().z, fNear + 1.0f);
 
 		SetPerspective(m_fFOV, m_fAspect,fNear,fFar);
+	}
+
+	void Camera::Serialize(Serializer& sl, const char* pszLable/* = "Camera"*/)
+	{
+		sl.BeginSection(pszLable);
+		
+		sl.Serialize(m_fAspect,"m_fAspect");
+		sl.Serialize(m_fFOV,"m_fFOV");
+		sl.Serialize(m_fNear,"m_fNear");
+		sl.Serialize(m_fFar,"m_fFar");
+
+		if (sl.IsReading())
+		{
+			m_bMatViewDirty = true;
+
+			SetPerspective(m_fFOV,m_fAspect,m_fNear,m_fFar);
+		}
+
+		sl.EndSection();
 	}
 }
 

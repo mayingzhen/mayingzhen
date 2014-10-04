@@ -4,23 +4,23 @@
 
 namespace ma
 {
-	SceneNodePtr CreateMeshGameObject(const char* pSknPath,const char* pTexPath)
-	{
-		ASSERT(false);
-		return NULL;
+// 	SceneNodePtr CreateMeshGameObject(const char* pSknPath,const char* pTexPath)
+// 	{
+// 		ASSERT(false);
+// 		return NULL;
+// 
+// 		//SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
+// 
+// 		//MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+// 		//pMeshComp->Load(pSknPath,pTexPath);
+// 
+// 		//return pGameObj;
+// 	}
 
-		//SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
-
-		//MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		//pMeshComp->Load(pSknPath,pTexPath);
-
-		//return pGameObj;
-	}
-
-	SceneNodePtr CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
-	{
-		ASSERT(false);
-		return NULL;
+// 	SceneNodePtr CreateCollisionGameObject(const char* pSknPath,const char* pTexPath)
+// 	{
+// 		ASSERT(false);
+// 		return NULL;
 
 // 		SceneNodePtr pGameObj = GetEntitySystem()->CreateGameObject("");
 // 
@@ -36,7 +36,7 @@ namespace ma
 // 		pBoxCollisionShape->SetTransformLS(tsf);
 // 		
 // 		return pGameObj;
-	}
+//	}
 
 // 	SceneNodePtr CreateAnimationGameObject(const char* psknPath,const char* pTexPath,
 // 		const char* pSkePth,const char* pAnimSetPath)

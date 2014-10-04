@@ -46,6 +46,17 @@ namespace ma
 		{
 			StartPhysicsObject(m_arrPhysicsObject[i]);
 		}
+	
+		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
+		{
+			SceneNode* pGameObj = m_arrPhysicsObject[i];
+			std::vector<IPhysicsJoint*> arrJoint;
+			pGameObj->GetTypeComponent<IPhysicsJoint>(arrJoint);
+			for (UINT j = 0; j < arrJoint.size(); ++j)
+			{
+				arrJoint[j]->Start();
+			}
+		}
 	}
 
 	void BtPhysicsSystem::Stop()
@@ -117,14 +128,6 @@ namespace ma
 		{
 			pBtCollisionMaterial->Start(pBtCollObject);
 		}
-
-		std::vector<IPhysicsJoint*> arrJoint;
-		pGameObj->GetTypeComponent<IPhysicsJoint>(arrJoint);
-		for (UINT i=0; i < arrJoint.size(); ++i)
-		{
-			arrJoint[i]->Start();
-		}
-
 	}
 
 	void BtPhysicsSystem::BeginUpdate()

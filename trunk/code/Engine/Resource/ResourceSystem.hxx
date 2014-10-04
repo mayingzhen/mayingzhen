@@ -22,15 +22,19 @@ namespace ma
 		gpResourceSystem = pResSystem;
 	}
 
-	void ResourceSystem::Init()
+	void ResourceSystem::Init(bool bDataThreadEnable/* = true*/)
 	{
-		gpDataThread = new DataThread();
-		gpDataThread->Start();
+		if (bDataThreadEnable)
+		{
+			gpDataThread = new DataThread();
+			gpDataThread->Start();
+		}
 	}
 
 	void ResourceSystem::ShoutDown()
 	{
-		gpDataThread->Stop();
+		if (gpDataThread)
+			gpDataThread->Stop();
 		SAFE_DELETE(gpDataThread);
 	}
 
@@ -44,14 +48,14 @@ namespace ma
 		return gpDataThread;
 	}
 
-	ResourcePtr ResourceSystem::DeclareResource(const char* pszRelPath)
+	Resource* ResourceSystem::DeclareResource(const char* pszRelPath)
 	{
 		if (pszRelPath == NULL)
 			return NULL;
 
 		ResourceMap::iterator itRes = _resMap.find(pszRelPath);
 		if (itRes != _resMap.end())
-			return itRes->second;
+			return itRes->second.get();
 
 		std::string fileExt = StringUtil::getFileExt(pszRelPath);
 		ResCreateFunMap::iterator itFun = _resCreateFunMap.find(fileExt);
@@ -65,10 +69,10 @@ namespace ma
 
 		return pResource;
 	}
-	
-	ResourcePtr ResourceSystem::LoadResourceSync(const char* pszRelPath)
+
+	Resource* ResourceSystem::LoadResourceSync(const char* pszRelPath)
 	{
-		ResourcePtr pRes = DeclareResource(pszRelPath);
+		Resource* pRes = DeclareResource(pszRelPath);
 		ASSERT(pRes);
 		if (pRes == NULL)
 			return NULL;
@@ -78,21 +82,18 @@ namespace ma
 		return pRes;
 	}
 	
-	ResourcePtr ResourceSystem::LoadResourceASync(const char* pszRelPath,EventListener* pCallBack)
+	Resource* ResourceSystem::LoadResource(const char* pszRelPath)
 	{
-		ResourcePtr pRes = DeclareResource(pszRelPath);
+		Resource* pRes = DeclareResource(pszRelPath);
 		ASSERT(pRes);
 		if (pRes == NULL)
 			return NULL;
 
-		ResData dataObj;
-		dataObj.m_pRes = pRes;
-		dataObj.m_pCallBack = pCallBack;
+		pRes->Load();
 
-		gpDataThread->PushBackDataObj(dataObj);
-
-		return pRes;	
+		return pRes;
 	}
+	
 
 	void ResourceSystem::RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator)
 	{

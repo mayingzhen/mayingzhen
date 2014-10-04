@@ -33,7 +33,7 @@ namespace ma
 		m_pParent = NULL;
 	}
  
-	void SceneNode::AddComponent(ComponentPtr pComponent)
+	void SceneNode::AddComponent(Component* pComponent)
 	{
 		if (pComponent == NULL)
 			return;
@@ -47,7 +47,7 @@ namespace ma
 		pComponent->OnAddToSceneNode(this);
 	}
 
-	void SceneNode::RemoveComponent(RefPtr<Component> pComponent)
+	void SceneNode::RemoveComponent(Component* pComponent)
 	{
 		if (pComponent == NULL)
 			return;
@@ -101,17 +101,35 @@ namespace ma
 			m_arrComp.resize(nSize);
 		}
 
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
 		{
 			char buf[32];
 			sprintf(&buf[0],"Element_%u",nCnt);
-			
+
 			Component* pComp = m_arrComp[nCnt].get();
 
-			SerializeObjectArg<Component>(sl,pComp,this,buf);
+			SerializeObjectArg(sl,pComp,this,buf);
 
 			m_arrComp[nCnt] = pComp;
-		}
+
+// 			sl.BeginSection(buf);
+// 
+// 			
+// 
+// 			std::string strClassName = pComp ? pComp->GetClass()->GetName() : "";
+// 			sl.Serialize(strClassName,"ClassName");
+// 
+// 			if (pComp == NULL)
+// 			{
+// 				ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
+// 				pComp = SafeCast<Component>( objFac.CreateObjectArg(strClassName.c_str(),this) );
+// 				m_arrComp[nCnt] = pComp;
+// 			}
+// 
+// 			sl.Serialize(*pComp,strClassName.c_str());
+// 
+// 			sl.EndSection();
+ 		}
 
 		sl.EndSection();
 	}
@@ -122,8 +140,7 @@ namespace ma
 
 		sl.Serialize(m_sName,"m_sName");
 
-		//sl.Serialize(*m_pNodeTransform,"SceneNode");
-		NodeTransform::Serialize(sl,"NodeTransform");
+		sl.Serialize(m_tsfWS,"m_tsfWS");
 
 		SerializeComp(sl,"arrComp");
 
@@ -142,7 +159,7 @@ namespace ma
 		return m_mapUserData[pszKey];
 	}
 
-	SceneNodePtr SceneNode::Clone(const char* pName)
+	SceneNode* SceneNode::Clone(const char* pName)
 	{
 		XMLOutputSerializer xmlout;
 		this->Serialize(xmlout);
@@ -150,7 +167,7 @@ namespace ma
 		
 		XMLInputSerializer xmlin;
 		xmlin.Open(xmlout);
-		SceneNodePtr pClone = m_pScene->CreateNode("");
+		SceneNode* pClone = m_pScene->CreateNode("");
 		pClone->Serialize(xmlin);
 		
 		pClone->SetName(pName);
@@ -168,7 +185,7 @@ namespace ma
 		m_pParent = pParent;
 	}
 
-	void SceneNode::AddChild(SceneNodePtr pChild)
+	void SceneNode::AddChild(SceneNode* pChild)
 	{
 		if (pChild == NULL)
 			return;
@@ -189,22 +206,22 @@ namespace ma
 
 	void SceneNode::RemoveAllChild()
 	{
-		for (std::vector<SceneNodePtr>::iterator iter = m_arrChild.begin();iter != m_arrChild.end();iter++)
+		for (VEC_CHILD::iterator iter = m_arrChild.begin();iter != m_arrChild.end();iter++)
 		{
-			SceneNodePtr pGameObject = *iter;
+			RefPtr<SceneNode> pGameObject = *iter;
 			pGameObject->SetParent(NULL);
 		}
 		m_arrChild.clear();
 	}
 
-	void SceneNode::RemoveChild(SceneNodePtr pChild)
+	void SceneNode::RemoveChild(SceneNode* pChild)
 	{
 		if (pChild == NULL)	
 		{
 			return;
 		}
 
-		std::vector<SceneNodePtr>::iterator iter = find(m_arrChild.begin(), m_arrChild.end(), pChild);
+		VEC_CHILD::iterator iter = find(m_arrChild.begin(), m_arrChild.end(), pChild);
 		if (iter == m_arrChild.end())
 		{
 			return;
@@ -213,6 +230,36 @@ namespace ma
 		m_arrChild.erase(iter);
 		pChild->SetParent(NULL);
 
+	}
+
+	SceneNode* SceneNode::FindChildNode(const char* pszName)
+	{
+		ASSERT(pszName);
+		if (pszName == NULL)
+			return NULL;
+
+		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		{
+			if (strcmp(pszName,m_arrChild[i]->GetName()) == 0)
+			{
+				return m_arrChild[i].get();
+			}
+		}
+
+		return NULL;
+	}
+
+	void SceneNode::Update()
+	{
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			m_arrComp[i]->Update();
+		}
+
+		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		{
+			m_arrChild[i]->Update();
+		}			
 	}
 
 	void SceneNode::OnTransformChange()

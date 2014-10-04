@@ -17,6 +17,8 @@ namespace ma
 	public:
 		Scene(const char* pszName = NULL);
 
+		void					Update();	
+
 		SceneNode*				CreateNode(const char* pName);
 
 		void					Reset();
@@ -26,6 +28,8 @@ namespace ma
 		CullTree*				GetCullTree() {return m_pCullTree.get();}
 
 		SceneNode*				GetRootNode() {return m_pRootNode.get();}
+
+		SceneNode*				FindNode(const char* pszName);	
 		
 	private:
 		RefPtr<SceneNode>		m_pRootNode;	

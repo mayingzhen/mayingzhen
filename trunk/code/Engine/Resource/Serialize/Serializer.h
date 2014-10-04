@@ -58,10 +58,6 @@ namespace ma
 		template<class EnumType>
 		void			Serialize(EnumType& type,const char** pEnumNames,const char *pszLable);
 
-		//template<class ClassType,class ValueType>
-		//void Serialize(const ClassType* classIns, const ValueType& (ClassType::*GetValue)() const, 
-		//	void (ClassType::*SetValue)(const ValueType&), char *pszLable = "Value");
-
 		template<class T>
 		void			Serialize(std::vector<T>& val,const char* pszLable);
 
@@ -77,23 +73,6 @@ namespace ma
 		template<class T>
 		void			Serialize(T* val,const char* pszLable);
 	};
-
-// 	template<class ClassType,class ValueType>
-// 	void Serializer::Serialize(const ClassType* classIns, const ValueType& (ClassType::*GetValue)() const, 
-// 		void (ClassType::*SetValue)(const ValueType&), char *pszLable)
-// 	{
-// 		if ( IsReading() )
-// 		{
-// 			const ValueType& value = (classIns->*GetValue)();
-// 			Serialize(value,pszLable);
-// 		}
-// 		else
-// 		{
-// 			ValueType value;
-// 			Serialize(value,pszLable);
-// 			//(classIns->*SetValue)(value);
-// 		}
-// 	}
 
 	template<class EnumType>
 	void Serializer::Serialize(EnumType& type,const char** pEnumNames,const char *pszLable/* = "Enum"*/)
@@ -231,7 +210,7 @@ namespace ma
 			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
 			pObject = SafeCast<T>( objFac.CreateObject(strClassName.c_str()) );
 		}
-		sl.Serialize(*(pObject),pszLable);
+		sl.Serialize(*(pObject),strClassName.c_str());
 
 		sl.EndSection();
 	}
@@ -249,7 +228,7 @@ namespace ma
 			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
 			pObject = SafeCast<T>( objFac.CreateObjectArg(strClassName.c_str(),arg) );
 		}
-		sl.Serialize(*(pObject),pszLable);
+		sl.Serialize(*(pObject),strClassName.c_str());
 
 		sl.EndSection();
 	}

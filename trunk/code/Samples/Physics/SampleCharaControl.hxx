@@ -25,16 +25,16 @@ namespace ma
 			MeshComponentPtr pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 		
-			AABB aabb = pMeshComp->GetAABBWS();
-
-			Vector3 vSize = aabb.getSize();
-			float fRadius = abs(vSize.x) / 2.0f;
-			pCapsule->SetHeight(abs(vSize.y) - 2 * fRadius);
-			pCapsule->SetRadius(fRadius);
-	
-			Transform tsfLS;
-			tsfLS.m_vPos = aabb.getCenter();
-			pCapsule->SetTransformLS(tsfLS);
+// 			AABB aabb = pMeshComp->GetAABBWS();
+// 
+// 			Vector3 vSize = aabb.getSize();
+// 			float fRadius = abs(vSize.x) / 2.0f;
+// 			pCapsule->SetHeight(abs(vSize.y) - 2 * fRadius);
+// 			pCapsule->SetRadius(fRadius);
+// 	
+// 			Transform tsfLS;
+// 			tsfLS.m_vPos = aabb.getCenter();
+// 			pCapsule->SetTransformLS(tsfLS);
 
 
 			m_pCharaAnim = pCharaObj->CreateComponent<AnimationComponent>();
@@ -51,13 +51,13 @@ namespace ma
 			m_pTerrain = m_pScene->CreateNode("Terrain");
 	
 			IBoxCollisionShapePtr pBoxCollisionShape = m_pTerrain->CreateComponent<IBoxCollisionShape>();
-			pBoxCollisionShape->SetSize(Vector3(1800,20,1800));
+			pBoxCollisionShape->SetSize(Vector3(1800,1800,20));
 
 			{
 				SceneNodePtr pObje = m_pScene->CreateNode("Box1");
 				IBoxCollisionShapePtr pBox = pObje->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
-				pObje->Translate(Vector3(-100,20,0));
+				pObje->Translate(Vector3(-100,0,20));
 			}
 
 
@@ -66,7 +66,7 @@ namespace ma
 				IBoxCollisionShapePtr pBox = pObje2->CreateComponent<IBoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				IRigidBodyPtr pRigidBodyComp = pObje2->CreateComponent<IRigidBody>();
-				pObje2->Translate(Vector3(140,40,0));
+				pObje2->Translate(Vector3(140,0,40));
 			}
 
 		}
@@ -145,30 +145,35 @@ namespace ma
 		Vector3 rayOrig;
 		Vector3 rayDir;
 		GetCamera()->GetWorldRayCast(clientSize,vTouchPos,rayOrig,rayDir);
+		
+		SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
 
 		Vector3 hitPosWS;
 		SceneNode* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
 		if (pGameObj == m_pTerrain)
 		{
-//			Vector3 curPos = pCharNode->GetPos();
-//			Vector3 vAxisFrom = pCharNode->GetForward();
-//			Vector3 vAxisTo = hitPosWS - curPos;
-// 			vAxisTo.normalise;
-// 			vAxisFrom.normalise();
+			Vector3 curPos = pCharNode->GetPos();
+			Vector3 vAxisFrom = pCharNode->GetForward();
+			Vector3 vAxisTo = hitPosWS - curPos;
+			vAxisTo.normalise();
+			vAxisFrom.normalise();
 
-// 			Vector3 pAxisRot = Vector3(0,1,0);
+// 			Quaternion quat;
+// 			quat.FromAngleAxis()
+// 
+// 			Vector3 pAxisRot = Vector3::UNIT_Z;
 // 			float fTargetRota = 0;
 // 			QuaternionFromAxisToAxis(&pAxisRot,&fTargetRota,&vAxisFrom,&vAxisTo);
 // 			fTargetRota *= pAxisRot.y; // y = -1 逆时针转, y=1 顺时针转
 // 			pCharNode->RotateYAxisLS(ToDegree(fTargetRota));
-// 
-// 			m_vMoveTo = hitPosWS;
-// 			m_bMoveing = true;
-// 
-// 			m_pCharaAnim->PlayAnimation("Run");
-// 
-// 			Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
-// 			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
+
+			m_vMoveTo = hitPosWS;
+			m_bMoveing = true;
+
+			m_pCharaAnim->PlayAnimation("Run");
+
+			//Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
+			Log("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);
 		}
 	}
 

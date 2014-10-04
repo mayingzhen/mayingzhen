@@ -31,6 +31,5 @@ namespace ma
 
 		return m_worldAABB;
 	}
-
-
 }
+

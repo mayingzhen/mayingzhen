@@ -19,8 +19,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-	/////////////////// MaterialData
-
 	IMPL_OBJECT(MaterialData,Resource);
 
 	MaterialData::MaterialData(const char* pszPath/* = NULL*/):Resource(pszPath)
@@ -56,8 +54,9 @@ namespace ma
 
 	bool MaterialData::CreateFromMemeory()
 	{
-		if (m_eResState == ResLoaded)
-			return true;
+		ASSERT(m_eResState == ResLoaded);
+		if (m_eResState != ResLoaded)
+			return false;
 
 		XMLInputSerializer arIn;
 		bool bLoadOk = arIn.Open(m_pDataStream.get());
@@ -71,7 +70,7 @@ namespace ma
  
  		arIn.Close();
 
-		m_eResState = ResLoaded;
+		m_eResState = ResInited;
 
 		return true;
 	}

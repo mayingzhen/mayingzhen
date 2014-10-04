@@ -37,12 +37,13 @@ namespace ma
 
 	bool Texture::CreateFromMemeory()
 	{
-		if (m_eResState == ResLoaded)
-			return true;
+		ASSERT(m_eResState == ResLoaded);
+		if (m_eResState != ResLoaded)
+			return false;
 
 		GetRenderSystem()->TexStreamComplete(this,m_pDataStream.get());
 		
-		m_eResState = ResLoaded;
+		m_eResState = ResInited;
 
 		return true;
 	}

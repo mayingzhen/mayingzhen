@@ -10492,11 +10492,35 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Resource(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_Load(void * jarg1) {
+  unsigned int jresult ;
+  ma::Resource *arg1 = (ma::Resource *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Resource *)jarg1; 
+  result = (bool)(arg1)->Load();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Resource_LoadSync(void * jarg1) {
   ma::Resource *arg1 = (ma::Resource *) 0 ;
   
   arg1 = (ma::Resource *)jarg1; 
   (arg1)->LoadSync();
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_OnLoadOver(void * jarg1) {
+  unsigned int jresult ;
+  ma::Resource *arg1 = (ma::Resource *) 0 ;
+  bool result;
+  
+  arg1 = (ma::Resource *)jarg1; 
+  result = (bool)(arg1)->OnLoadOver();
+  jresult = result; 
+  return jresult;
 }
 
 
@@ -10539,30 +10563,6 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Resource_GetResState(void * jarg1) {
   
   arg1 = (ma::Resource *)jarg1; 
   result = (ma::ResState)(arg1)->GetResState();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_LoadFileToMemeory(void * jarg1) {
-  unsigned int jresult ;
-  ma::Resource *arg1 = (ma::Resource *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Resource *)jarg1; 
-  result = (bool)(arg1)->LoadFileToMemeory();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Resource_CreateFromMemeory(void * jarg1) {
-  unsigned int jresult ;
-  ma::Resource *arg1 = (ma::Resource *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Resource *)jarg1; 
-  result = (bool)(arg1)->CreateFromMemeory();
   jresult = result; 
   return jresult;
 }
@@ -11270,6 +11270,14 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Component(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Component_Update(void * jarg1) {
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  
+  arg1 = (ma::Component *)jarg1; 
+  (arg1)->Update();
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Component_OnAddToSceneNode(void * jarg1, void * jarg2) {
   ma::Component *arg1 = (ma::Component *) 0 ;
   ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
@@ -11295,18 +11303,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_OnTransformChange(void * jarg1) {
   
   arg1 = (ma::Component *)jarg1; 
   (arg1)->OnTransformChange();
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
-  void * jresult ;
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  ma::SceneNode *result = 0 ;
-  
-  arg1 = (ma::Component *)jarg1; 
-  result = (ma::SceneNode *)(arg1)->GetSceneNode();
-  jresult = (void *)result; 
-  return jresult;
 }
 
 
@@ -11337,6 +11333,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_Serialize__SWIG_1(void * jarg1, voi
     return ;
   } 
   (arg1)->Serialize(*arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
+  void * jresult ;
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  ma::SceneNode *result = 0 ;
+  
+  arg1 = (ma::Component *)jarg1; 
+  result = (ma::SceneNode *)(arg1)->GetSceneNode();
+  jresult = (void *)result; 
+  return jresult;
 }
 
 
@@ -11408,6 +11416,14 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_SceneNode(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Update(void * jarg1) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  (arg1)->Update();
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetComponentNumber(void * jarg1) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
@@ -11442,32 +11458,20 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetComponentByIndex(void * jarg1,
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_AddComponent(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  SwigValueWrapper< ma::RefPtr< ma::Component > > arg2 ;
-  ma::RefPtr< ma::Component > *argp2 ;
+  ma::Component *arg2 = (ma::Component *) 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (ma::RefPtr< ma::Component > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::RefPtr< ma::Component >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
+  arg2 = (ma::Component *)jarg2; 
   (arg1)->AddComponent(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RemoveComponent(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  SwigValueWrapper< ma::RefPtr< ma::Component > > arg2 ;
-  ma::RefPtr< ma::Component > *argp2 ;
+  ma::Component *arg2 = (ma::Component *) 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (ma::RefPtr< ma::Component > *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::RefPtr< ma::Component >", 0);
-    return ;
-  }
-  arg2 = *argp2; 
+  arg2 = (ma::Component *)jarg2; 
   (arg1)->RemoveComponent(arg2);
 }
 
@@ -11486,32 +11490,20 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetParent(void * jarg1) {
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_AddChild(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  SwigValueWrapper< ma::RefPtr< ma::SceneNode > > arg2 ;
-  ma::SceneNodePtr *argp2 ;
+  ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (ma::SceneNodePtr *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::SceneNodePtr", 0);
-    return ;
-  }
-  arg2 = *argp2; 
+  arg2 = (ma::SceneNode *)jarg2; 
   (arg1)->AddChild(arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RemoveChild(void * jarg1, void * jarg2) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  SwigValueWrapper< ma::RefPtr< ma::SceneNode > > arg2 ;
-  ma::SceneNodePtr *argp2 ;
+  ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  argp2 = (ma::SceneNodePtr *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::SceneNodePtr", 0);
-    return ;
-  }
-  arg2 = *argp2; 
+  arg2 = (ma::SceneNode *)jarg2; 
   (arg1)->RemoveChild(arg2);
 }
 
@@ -11521,6 +11513,20 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RemoveAllChild(void * jarg1) {
   
   arg1 = (ma::SceneNode *)jarg1; 
   (arg1)->RemoveAllChild();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_FindChildNode(void * jarg1, char * jarg2) {
+  void * jresult ;
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  char *arg2 = (char *) 0 ;
+  ma::SceneNode *result = 0 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (ma::SceneNode *)(arg1)->FindChildNode((char const *)arg2);
+  jresult = (void *)result; 
+  return jresult;
 }
 
 
@@ -11540,12 +11546,12 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_Clone(void * jarg1, char * jarg2)
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   char *arg2 = (char *) 0 ;
-  SwigValueWrapper< ma::RefPtr< ma::SceneNode > > result;
+  ma::SceneNode *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
   arg2 = (char *)jarg2; 
-  result = (arg1)->Clone((char const *)arg2);
-  jresult = new ma::SceneNodePtr((const ma::SceneNodePtr &)result); 
+  result = (ma::SceneNode *)(arg1)->Clone((char const *)arg2);
+  jresult = (void *)result; 
   return jresult;
 }
 

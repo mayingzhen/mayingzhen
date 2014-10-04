@@ -16,22 +16,51 @@ namespace ma
 	{	
 	}
 
+	bool Resource::Load()
+	{
+		ASSERT(m_sResPath != "");
+		if (m_sResPath == "")
+			return false;
+
+ 		if (m_eResState == ResInited)
+ 			return true;
+
+		if (m_eResState != ResUnLoad)
+			return false;
+		
+		ASSERT(m_eResState == ResUnLoad);
+		if ( GetResourceSystem()->GetDataThread() )
+		{
+			GetResourceSystem()->GetDataThread()->PushBackDataObj(this);
+
+			return false;
+		}
+		else
+		{
+			LoadSync();
+
+			return true;
+		}
+	}
+
+
 	void Resource::LoadSync()
 	{
-		if (m_eResState == ResLoaded)
-			return ;
+		if (m_eResState == ResInited)
+			return;
 
 		LoadFileToMemeory();
 
 		CreateFromMemeory();
 
-		m_eResState = ResLoaded;
+		m_eResState = ResInited;
 	}
 
 	bool Resource::LoadFileToMemeory()
 	{
-		if (m_eResState == ResLoadIng || m_eResState == ResLoaded)
-			return true;
+		ASSERT(m_eResState == ResUnLoad);
+		//if (m_eResState == ResLoadIng || m_eResState == ResLoaded)
+		//	return true;
 			
 		m_eResState = ResLoadIng;
 
@@ -43,13 +72,14 @@ namespace ma
 			return false;
 		}
 
+		m_eResState = ResLoaded;
+
 		return true;
 	}
 
 	bool Resource::CreateFromMemeory()
 	{
-		if (m_eResState == ResLoaded)
-			return true;
+		ASSERT(m_eResState == ResLoaded);
 
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
@@ -60,7 +90,9 @@ namespace ma
 		Serialize(inAr);
 		inAr.Close();
 
-		m_eResState = ResLoaded;
+		m_pDataStream = NULL;
+
+		m_eResState = ResInited;
 	
 		return true;
 	}

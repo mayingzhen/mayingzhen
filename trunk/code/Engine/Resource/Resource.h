@@ -10,6 +10,7 @@ namespace ma
 		ResUnLoad,
 		ResLoadIng,
 		ResLoaded,
+		ResInited,
 		ResLoadError,
 	};
 
@@ -25,6 +26,8 @@ namespace ma
 
 		virtual ~Resource();
 
+		virtual	bool	Load();
+
 		virtual void	LoadSync();
 
 		virtual void	SaveToFile(const char* pszPath);
@@ -35,17 +38,19 @@ namespace ma
 
 		ResState		GetResState() {return m_eResState;}
 
+	protected:
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
+
 		virtual bool	LoadFileToMemeory();
 
 		virtual bool	CreateFromMemeory();
 
 	protected:
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
-
-	protected:
 		std::string				m_sResPath;
 		ResState				m_eResState;
-		RefPtr<MemoryStream>	m_pDataStream;			
+		RefPtr<MemoryStream>	m_pDataStream;		
+
+		friend class DataThread;
 	};
 
 	DeclareRefPtr(Resource);

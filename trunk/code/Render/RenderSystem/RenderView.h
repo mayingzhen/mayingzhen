@@ -14,7 +14,9 @@ namespace ma
 		void	Update();
 		void	Render();
 
+		void	SetScene(Scene* pScene) {m_pScene = pScene;}
 		Scene*	GetScene() {return m_pScene.get();}
+		void	SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*	GetCamera() {return m_pCamera.get();}
 
 		UINT	GetRenderCompCount() {return m_arrRenderComp.size();}

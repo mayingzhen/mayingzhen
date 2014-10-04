@@ -6,22 +6,7 @@ namespace ma
 	class ENGINE_API SceneVisiter
 	{
 	public:
-		virtual bool VisiteSceneNodeBegin(NodeTransform* pSceneNode)
-		{
-			return true;
-		}
-
-		virtual bool VisiteSceneNodeEnd(NodeTransform* pSceneNode)
-		{
-			return true;
-		}
-
-		virtual bool VisiteGameObjectBegin(SceneNode* pGameObj)
-		{
-			return true;
-		}
-
-		virtual bool VisiteGameObjectEnd(SceneNode* pGameObj)
+		virtual bool VisiteSceneNode(SceneNode* pGameObj)
 		{
 			return true;
 		}

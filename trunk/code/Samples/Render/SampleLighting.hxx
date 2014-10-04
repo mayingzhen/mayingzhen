@@ -25,13 +25,13 @@ namespace ma
 
 			pCharMagic->Right(100);
 
-			SceneNodePtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
-
-			SceneNodePtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
-
-			pPlatform->Scale(50);
-
-			pBox->Scale(50);
+// 			SceneNodePtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+// 
+// 			SceneNodePtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
+// 
+// 			pPlatform->Scale(50);
+// 
+// 			pBox->Scale(50);
 		}
 
 		// Light

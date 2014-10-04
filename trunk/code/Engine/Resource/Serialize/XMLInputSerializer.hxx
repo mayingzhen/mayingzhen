@@ -53,7 +53,7 @@ namespace ma
 		ASSERT(pDataStream);
 
 		m_pDoc = new TiXmlDocument();
-		bool bLoadOK = m_pDoc->Parse( (const char*)pDataStream->GetPtr() );
+		bool bLoadOK = m_pDoc->Parse( (const char*)pDataStream->GetPtr() ) != NULL;
 		ASSERT(bLoadOK);
 		if (!bLoadOK)
 			return false;

@@ -8,7 +8,7 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 150, 200);
+		Vector3 vEyePos = Vector3(0, 15, 20);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
@@ -25,13 +25,13 @@ namespace ma
 				std::string pName = pGameObj->GetName();
 				pName += std::string("_clone") + StringConverter::toString(i);
 				SceneNodePtr pClone = pGameObj->Clone(pName.c_str());
-				pClone->Translate(Vector3(10 * i,0,0));
+				pClone->Translate(Vector3(1 * i,0,0));
 			}
 		}
 
-		std::string strScenePath = "scene/Test.scene";
+		std::string strScenePath = "scene/Test.scene.xml";
 		{
-			BinaryOutputSerializer arOut;
+			XMLOutputSerializer arOut;
 			bool bOpenOK = arOut.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
 			m_pScene->Serialize(arOut);
@@ -39,12 +39,24 @@ namespace ma
 		}
 
 		{
-			BinaryInputSerializer arIn;
+			XMLInputSerializer arIn;
 			bool bOpenOK = arIn.Open(strScenePath.c_str());
 			ASSERT(bOpenOK);
 			m_pScene->Serialize(arIn);
 			arIn.Close();
 		}
+
+		SceneNode* pCamaerNode = m_pScene->FindNode("defaultCamera");
+		ASSERT(pCamaerNode);
+		if (pCamaerNode == NULL)
+			 return;
+
+		Camera* pCamera = pCamaerNode->GetTypeComponent<Camera>();
+		ASSERT(pCamera);
+		GetCameraControll()->SetCamera(pCamera);
+		
+		m_pCamera = pCamera;
+		GetRenderSystem()->GetView(0)->SetCamera(pCamera);
 	}
 
 	void SampleSceneSerialize::UnLoad()

@@ -18,11 +18,11 @@ namespace ma
 
 		virtual void			SetEnabled(bool enabled) = 0;
 
-		virtual Transform	GetATransformLS() = 0;
+		virtual Transform		GetATransformLS() = 0;
 
 		virtual void			SetATransformLS(const Transform& tsfLS) = 0;
 
-		virtual Transform	GetBTransformLS() = 0;
+		virtual Transform		GetBTransformLS() = 0;
 
 		virtual void			SetBTransformLS(const Transform& tsfLS) = 0;
 

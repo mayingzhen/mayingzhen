@@ -11,7 +11,7 @@ namespace ma
 	class ENGINE_API ResourceSystem
 	{
 	public:
-		void		Init();
+		void		Init(bool bDataThreadEnable = true);
 
 		void		ShoutDown();
 
@@ -19,11 +19,11 @@ namespace ma
 
 		DataThread*	GetDataThread();
 
-		ResourcePtr	DeclareResource(const char* pszRelPath);
+		Resource*	DeclareResource(const char* pszRelPath);
 
-		ResourcePtr	LoadResourceSync(const char* pszRelPath); 
+		Resource*	LoadResource(const char* pszRelPath); 
 
-		ResourcePtr	LoadResourceASync(const char* pszRelPath,EventListener* pCallBack);
+		Resource*	LoadResourceSync(const char* pszRelPath);
 
 		static void	RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
@@ -36,34 +36,34 @@ namespace ma
 	ENGINE_API	void			SetResourceSystem(ResourceSystem* pResSystem);
 
 	template <class T>
-	RefPtr<T>	DeclareResource(const char* pszRelPath)
+	T*	DeclareResource(const char* pszRelPath)
 	{
-		RefPtr<Resource> pRes = GetResourceSystem()->DeclareResource(pszRelPath);
+		Resource* pRes = GetResourceSystem()->DeclareResource(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes.get());
+		T* pTypeRes = SafeCast<T>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
 
 	template <class T>
-	RefPtr<T>	LoadResourceSync(const char* pszRelPath)
+	T*	LoadResource(const char* pszRelPath)
 	{
-		RefPtr<Resource> pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
+		Resource* pRes = GetResourceSystem()->LoadResource(pszRelPath);
 		ASSERT(pRes);
-
-		T* pTypeRes = SafeCast<T>(pRes.get());
+	
+		T* pTypeRes = SafeCast<T>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
 
 	template <class T>
-	RefPtr<T>	LoadResourceASync(const char* pszRelPath,EventListener* pCallBack)
+	T*	LoadResourceSync(const char* pszRelPath)
 	{
-		RefPtr<Resource> pRes = GetResourceSystem()->LoadResourceASync(pszRelPath,pCallBack);
+		Resource* pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes.get());
+		T* pTypeRes = SafeCast<T>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}

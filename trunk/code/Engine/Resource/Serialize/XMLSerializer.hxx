@@ -14,18 +14,6 @@ namespace ma
 		}	
 	}
 
-// 	void XMLSerializer::Serialize(unsigned short& val, const char* pszLable)
-// 	{
-// 		if ( IsReading() )
-// 		{
-// 			val = StringConverter::parseInt(m_pCurElem->Attribute(pszLable));
-// 		}
-// 		else
-// 		{
-// 			m_pCurElem->SetAttribute(pszLable,StringConverter::toString(val).c_str());
-// 		}
-// 	}
-
 	void XMLSerializer::Serialize(UINT& val,const char* pszLable)
 	{
 		if ( IsReading() )
@@ -106,47 +94,59 @@ namespace ma
 
 	void XMLSerializer::Serialize(Vector2 &val,const char* pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.x,"x");
 		Serialize(val.y,"y");
+		EndSection();
 	}
 
 
 	void XMLSerializer::Serialize(maGUID &val,const char* pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.m_a,"a");
 		Serialize(val.m_b,"b");
+		EndSection();
 	}
 
 	void XMLSerializer::Serialize(Vector3 &val,const char* pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.x,"x");
 		Serialize(val.y,"y");
 		Serialize(val.z,"z");
+		EndSection();
 	}
 
 
 	void XMLSerializer::Serialize(Vector4 &val,const char* pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.x,"x");
 		Serialize(val.y,"y");
 		Serialize(val.z,"z");
 		Serialize(val.w,"w");
+		EndSection();
 	}
 
 
 	void XMLSerializer::Serialize(Quaternion &val,const char* pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.x,"x");
 		Serialize(val.y,"y");
 		Serialize(val.z,"z");
 		Serialize(val.w,"w");
+		EndSection();
 	}
 
 	void XMLSerializer::Serialize(Transform& val,const char *pszLable)
 	{
+		BeginSection(pszLable);
 		Serialize(val.m_vScale,"Scale");
 		Serialize(val.m_qRot,"Rotation");
 		Serialize(val.m_vPos,"Position");
+		EndSection();
 	}
 
 	void XMLSerializer::SerializeByte(Uint8* &pData,UINT nSizeInByte,const char* pszLable)

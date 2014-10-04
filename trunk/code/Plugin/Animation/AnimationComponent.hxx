@@ -82,7 +82,7 @@ namespace ma
 	{
 		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
 
-		if (m_pSceneNode->GetLastVisibleFrame() == GetTimer()->GetFrameCount())
+		if (m_pSceneNode->GetLastVisibleFrame() + 1 == GetTimer()->GetFrameCount())
 		{
 			EvaluateAnimation();
 		}
