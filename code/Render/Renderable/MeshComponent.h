@@ -26,9 +26,9 @@ namespace ma
 	
 		void						SetSkinMatrix(const Matrix4* arrMatrixs,Uint nCount);
 
-		RefPtr<MeshData>			GetMeshData() {return m_pMesData;}
-
 	private:
+		bool						OnLoadOver();
+	
 		void						CreateRenderable(void* parm1,void* parm2);
 		void						CreateMaterial(void* parm1,void* parm2);
 
@@ -39,9 +39,11 @@ namespace ma
 		std::vector< RefPtr<Material> >		m_arrMaterial;
 		std::vector< RefPtr<Renderable> >	m_arrRenderable;
 
-		typedef tEventListener<MeshComponent> ELMeshComponent;
-		RefPtr< ELMeshComponent >			m_pElMeshLoaded;
-		RefPtr< ELMeshComponent >			m_pElMaterialLoaded;
+		bool								m_bOnLoadOver;
+
+// 		typedef tEventListener<MeshComponent> ELMeshComponent;
+// 		RefPtr< ELMeshComponent >			m_pElMeshLoaded;
+// 		RefPtr< ELMeshComponent >			m_pElMaterialLoaded;
 	};
 
 	DeclareRefPtr(MeshComponent);

@@ -9,30 +9,24 @@ namespace ma
 	MeshComponent::MeshComponent(SceneNode* pGameObj):
 		RenderComponent(pGameObj)
 	{
-		m_pElMeshLoaded = new ELMeshComponent(this,&MeshComponent::CreateRenderable);
-		m_pElMaterialLoaded = new ELMeshComponent(this,&MeshComponent::CreateMaterial);
+		//m_pElMeshLoaded = new ELMeshComponent(this,&MeshComponent::CreateRenderable);
+		//m_pElMaterialLoaded = new ELMeshComponent(this,&MeshComponent::CreateMaterial);
+
+		m_bOnLoadOver = false;
 	}
 
 	bool MeshComponent::Load(const char* pszSknPath,const char* pszMatPath)
 	{
-		m_pMesData = LoadResourceASync<MeshData>(pszSknPath,m_pElMeshLoaded.get());
+		m_pMesData = LoadResource<MeshData>(pszSknPath);
 
-		m_pMatData = LoadResourceASync<MaterialData>(pszMatPath,m_pElMaterialLoaded.get());
+		m_pMatData = LoadResource<MaterialData>(pszMatPath);
 
 		return true;
 	}
 
 	void MeshComponent::Update()
 	{
-// 		if (m_pMesData->GetResState() == ResLoaded && m_arrRenderable.empty() )
-// 		{
-// 			CreateRenderable(m_pMesData);
-// 		}
-// 		
-// 		if (m_pMatData->GetResState() == ResLoaded && m_pMaterial == NULL)
-// 		{
-// 			m_pMaterial = new Material(m_pMatData);
-// 		}	
+		this->OnLoadOver();
 	}
 
 
@@ -67,9 +61,28 @@ namespace ma
 
 		m_AABB = m_pMesData->GetBoundingAABB();
 		m_worldAABB = m_AABB;
-		m_worldAABB = m_AABB;
-		//m_worldAABB.transform( m_pSceneNode->GetWorldMatrix() );
+		m_worldAABB.transform( m_pSceneNode->GetWorldMatrix() );
+
+		OnTransformChange();
 	}
+
+	bool MeshComponent::OnLoadOver()
+	{
+		if (m_bOnLoadOver)
+			return true;
+
+		if (m_pMesData->GetResState() != ResInited || m_pMatData->GetResState() != ResInited)
+			return false;
+
+		CreateRenderable(NULL,NULL);
+
+		CreateMaterial(NULL,NULL);
+
+		m_bOnLoadOver = true;
+
+		return true;
+	}
+
 
 	void MeshComponent::Show(Camera* pCamera)
 	{
@@ -106,7 +119,7 @@ namespace ma
 		if ( sl.IsReading() )
 		{
 			Load(strSknPath.c_str(),strMatPath.c_str());
-		}
+		}	
 
 		sl.EndSection();
 	}

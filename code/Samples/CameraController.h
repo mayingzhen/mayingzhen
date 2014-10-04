@@ -17,6 +17,8 @@ namespace ma
 
 		float		GetMoveStep() const {return m_fMoveStep;}
 
+		void		SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
+
 	private:
 
 		void		RotateMoveCamera();

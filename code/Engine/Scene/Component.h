@@ -15,6 +15,8 @@ namespace ma
 		Component(SceneNode* pGameObj);
 
 		virtual ~Component();
+		
+		virtual	void	Update() {}
 
 		virtual	void	OnAddToSceneNode(SceneNode* pGameObj);
 
@@ -22,9 +24,9 @@ namespace ma
 
 		virtual void	OnTransformChange() {}
 
-		SceneNode*		GetSceneNode();
-
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component");
+
+		SceneNode*		GetSceneNode();
 
 	protected:
 		SceneNode*		m_pSceneNode;

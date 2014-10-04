@@ -8,8 +8,8 @@ namespace ma
 
 	void SampleJoint::Load()
 	{
-		Vector3 vPosA(20,0,40);
-		Vector3 vPosB(0,0,40);
+		Vector3 vPosA(20,0,0);
+		Vector3 vPosB(0,0,0);
 
 		SceneNodePtr pGameObjA = NULL;
 		{
@@ -43,10 +43,10 @@ namespace ma
 		tsfB.m_vPos = vPosA - vPosB;
 		pJointComp->SetATransformLS(tsfA);
 		pJointComp->SetBTransformLS(tsfB);
-		//pJointComp->SetLinearLowerLimit(Vector3(0,0,0));
-		//pJointComp->SetLinearUpperLimit(Vector3(0,0,0));
-		//pJointComp->SetAngularLowerLimit(Vector3(0,0,0));
-		//pJointComp->SetAngularUpperLimit(Vector3(0,0,0));	
+		pJointComp->SetLinearLowerLimit(Vector3(0,0,0));
+		pJointComp->SetLinearUpperLimit(Vector3(0,0,0));
+		pJointComp->SetAngularLowerLimit(Vector3(0,0,0));
+		pJointComp->SetAngularUpperLimit(Vector3(0,0,0));	
 
 // 		GenericJointComponent* pJointComp = pGameObjB->CreateComponent<GenericJointComponent>();
 // 		Transform tsfA;

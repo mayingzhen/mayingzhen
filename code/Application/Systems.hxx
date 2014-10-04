@@ -66,8 +66,8 @@ namespace ma
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->BeginUpdate();
 
-		if (GetResourceSystem())
-			GetResourceSystem()->Update();
+ 		if (GetResourceSystem())
+ 			GetResourceSystem()->Update();
 
 		if (GetScriptSystem())
 			GetScriptSystem()->Update();

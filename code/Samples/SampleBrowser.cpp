@@ -67,7 +67,7 @@ namespace ma
 
 		// Physics
 		m_arrSamples["RigidBody"] = new SampleRigidBody();
-		//m_arrSamples["CharControl"] = new SampleCharaControl();
+		m_arrSamples["CharControl"] = new SampleCharaControl();
 		m_arrSamples["PhysicsJoint"] = new SampleJoint();
 		m_arrSamples["Ragdoll"] = new SampleRagdoll();
 
@@ -77,7 +77,7 @@ namespace ma
 
 		m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		m_pCurSample = m_arrSamples["SceneSerialize"];
+		m_pCurSample = m_arrSamples["AnimationRetarget"];
 	}
 
 	void SampleBrowser::InitResourcePath()

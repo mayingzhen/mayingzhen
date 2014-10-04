@@ -95,7 +95,7 @@ namespace ma
 				int heightMapX = x << m_sectorShift;
 				int heightMapY = y << m_sectorShift;
 
-				SceneNodePtr pGameObj = pScene->CreateNode("TerrainSection");
+				SceneNode* pGameObj = pScene->CreateNode("TerrainSection");
 				
 				TerrainSection* pTerrainScetion =  new TerrainSection(this);
 				pGameObj->AddComponent(pTerrainScetion);
@@ -394,7 +394,7 @@ namespace ma
 
 		const char* pTextAltasPath = pELeTextAltas->Attribute("path");
 		std::string sTextAltasPath = outPath + pTextAltasPath;
-		m_pAltasTex = LoadResourceASync<Texture>(sTextAltasPath.c_str(),NULL);
+		m_pAltasTex = LoadResource<Texture>(sTextAltasPath.c_str());
 
 		SamplerStatePtr pSameler = new SamplerState();
 		pSameler->SetWrapMode(CLAMP);

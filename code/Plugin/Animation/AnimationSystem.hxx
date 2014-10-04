@@ -25,14 +25,19 @@ namespace ma
 	{
 		profile_code();
 
-		for (UINT i = 0; i < m_arrAnimObject.size(); ++i)
-		{
-			AnimationComponent* pAnimObj = m_arrAnimObject[i].get();
-			if (pAnimObj == NULL)
-				continue;
-			
-			pAnimObj->Update();
-		}
+// 		for (UINT i = 0; i < m_arrAnimObject.size(); ++i)
+// 		{
+// 			AnimationComponent* pAnimObj = m_arrAnimObject[i].get();
+// 			if (pAnimObj == NULL)
+// 				continue;
+// 			
+// 			pAnimObj->AdvanceTime( GetTimer()->GetFrameDeltaTime() );
+// 
+// 			if (pAnimObj->GetSceneNode()->GetLastVisibleFrame() == GetTimer()->GetFrameCount())
+// 			{
+// 				pAnimObj->EvaluateAnimation();
+// 			}
+// 		}
 	}
 
 }

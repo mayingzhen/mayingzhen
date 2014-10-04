@@ -17,10 +17,11 @@ namespace ma
 		}
 	}
 
-
 	void RenderView::Update()
 	{
 		profile_code();
+
+		m_pScene->Update();	
 
 		ASSERT(m_pCamera && m_pScene && m_pScene->GetCullTree());
 		if (m_pCamera == NULL || m_pScene == NULL || m_pScene->GetCullTree() == NULL)
@@ -32,9 +33,9 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
 		{
-			RenderComponent* pGameObj = m_arrRenderComp[i];
+			RenderComponent* pRenderComp = m_arrRenderComp[i];
 
-			pGameObj->Show(m_pCamera.get());
+			pRenderComp->Show(m_pCamera.get());
 		}
 	}
 

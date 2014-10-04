@@ -97,7 +97,7 @@ namespace ma
 		btSequentialImpulseConstraintSolver*		m_pSolver;
 		btDiscreteDynamicsWorld*					m_pDynamicsWorld;
 
-		std::vector<SceneNode*>					m_arrPhysicsObject;
+		std::vector<SceneNode*>						m_arrPhysicsObject;
 
 		btVector3									m_vGravity;
 

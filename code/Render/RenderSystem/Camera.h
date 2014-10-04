@@ -39,6 +39,8 @@ namespace ma
 
 		const Frustum&		GetFrustum() const {return m_frustum;}
 
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "Camera");
+
 	protected:
 
 		Vector2				GetNearPlaneSize() const;

@@ -48,7 +48,7 @@ namespace ma
 
 	void SamplerState::SetTexturePath(const char* pTexPath)
 	{
-		m_pTexture = LoadResourceASync<Texture>(pTexPath,NULL);
+		m_pTexture = LoadResource<Texture>(pTexPath);
 	}
 
 	void SamplerState::SetTexture(RefPtr<Texture> pTextute)

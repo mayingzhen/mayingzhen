@@ -13,8 +13,6 @@ namespace ma
 	class CullNode;
 	class CullTree;
 
-	DeclareRefPtr(SceneNode);
-
 	class ENGINE_API SceneNode : public NodeTransform
 	{
 		DECL_OBJECT(SceneNode)
@@ -23,6 +21,8 @@ namespace ma
 		SceneNode(Scene* pScene,const char* pName = NULL);
 
 		~SceneNode();
+
+		void				Update();
 
 		// Component
 		template<class T>
@@ -33,18 +33,20 @@ namespace ma
 		void				GetTypeComponent(std::vector<T*>& arrTyeComp);
 		template<class T>
 		T*					GetTypeComponent();
-		void				AddComponent(RefPtr<Component> pComponent);
-		void				RemoveComponent(RefPtr<Component> pComponent);
+		void				AddComponent(Component* pComponent);
+		void				RemoveComponent(Component* pComponent);
+						
 
 		// Child Parent
 		SceneNode*			GetParent() {return m_pParent;}
-		void				AddChild(SceneNodePtr pChild);
-		void				RemoveChild(SceneNodePtr pChild);
+		void				AddChild(SceneNode* pChild);
+		void				RemoveChild(SceneNode* pChild);
 		void				RemoveAllChild();	
+		SceneNode*			FindChildNode(const char* pszName);	
 
 		Scene*				GetScene() {return m_pScene;}
 
-		SceneNodePtr		Clone(const char* pName);
+		SceneNode*			Clone(const char* pName);
 
 		void				Serialize(Serializer& sl, const char* pszLable = "GameObject");
 
@@ -66,13 +68,16 @@ namespace ma
 		std::vector<ComponentPtr>	m_arrComp;
 		SceneNode*					m_pParent;
 		Scene*						m_pScene;
-		std::vector<SceneNodePtr>	m_arrChild;
+		typedef std::vector< RefPtr<SceneNode> > VEC_CHILD;
+		VEC_CHILD					m_arrChild;
 
 		UINT						m_nLastVisibleFrame;
 
 		typedef std::map<std::string, void*> MAP_USER_DATA;
 		MAP_USER_DATA				m_mapUserData;
 	};
+
+	DeclareRefPtr(SceneNode);
 
 
 	template<class T>
