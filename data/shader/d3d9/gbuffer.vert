@@ -1,4 +1,4 @@
-#include "skinning.vert"
+#include "skin.h"
 
 
 uniform float4 depth_near_far_invfar;
@@ -38,8 +38,7 @@ VS_OUT main(VS_IN In)
    float3 wNormal = In.a_normal;  
    
 #ifdef SKIN
-   SkinPos(In.a_position,In.a_blendWeights,In.a_blendIndices,wPos);
-   SkinNormal(In.a_normal,In.a_blendWeights,In.a_blendIndices,wNormal);
+   SkinPosNormal(In.a_position,In.a_normal,In.a_blendIndices,In.a_blendWeights,wPos,wNormal);
 #endif
 
    vout.oPos = mul( float4(wPos.xyz,1.0f), u_worldViewProjectionMatrix  );
