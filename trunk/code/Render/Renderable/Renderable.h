@@ -30,7 +30,9 @@ namespace ma
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<Material>				m_pMaterial;
 		Matrix4							m_matWorld[2];
-		std::vector<Matrix4>			m_arrSkinMatrix[2];
+		//std::vector<Matrix4>			m_arrSkinMatrix[2];
+		typedef std::vector<DualQuaternion>	VEC_DQ;
+		VEC_DQ							m_arrSkinDQ[2];
 	};
 
 	DeclareRefPtr(Renderable);
