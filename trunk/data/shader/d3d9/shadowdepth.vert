@@ -1,4 +1,4 @@
-#include "skinning.vert"
+#include "skin.h"
 
 
 // Uniforms
@@ -36,13 +36,13 @@ VS_OUT main( VS_IN In)
 {
 	VS_OUT Out = (VS_OUT)0;
  
-   float3 wPos = In.a_position;
-   
+	float3 iPos  = In.a_position;
+
 #ifdef SKIN
-   SkinPos(In.a_position,In.a_blendWeights,In.a_blendIndices,wPos);
+	iPos  =  SkinPos(In.a_position,In.a_blendIndices,In.a_blendWeights);
 #endif
 
-	Out.oPos = mul( float4(wPos,1.0f), u_worldViewProjectionMatrix);
+	Out.oPos = mul( float4(iPos,1.0f), u_worldViewProjectionMatrix);
 
 #ifndef HWPCF
 	Out.oDepth = Out.oPos;  
