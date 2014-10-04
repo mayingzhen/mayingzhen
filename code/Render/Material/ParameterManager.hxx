@@ -21,7 +21,7 @@ namespace ma
 	{
 		m_autoDefaultBings["u_worldViewProjectionMatrix"] = WORLD_VIEW_PROJECTION_MATRIX;
 		m_autoDefaultBings["u_worldViewMatrix"] = WORLD_VIEW_MATRIX;
-		m_autoDefaultBings["u_matrixPalette"] = MATRIX_PALETTE;
+		m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
 		m_autoDefaultBings["depth_near_far_invfar"] = DepthNearFarInvfar;
 		m_autoDefaultBings["u_InvProjMatrix"] =  INVERSE_PROJECTION_MATRIX;
 		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
@@ -215,7 +215,7 @@ namespace ma
 		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vector3::ZERO;
 	}
 
-	const Matrix4* ParameterManager::autoBindingGetMatrixPalette() const
+	const Vector4* ParameterManager::autoBindingGetMatrixPalette() const
 	{
 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
 		if (pRenderable == NULL)
@@ -223,12 +223,12 @@ namespace ma
 
 		int index = GetRenderSystem()->CurThreadProcess();
 		
-		std::vector<Matrix4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
+		std::vector<DualQuaternion>& arrSkinDQ = pRenderable->m_arrSkinDQ[index];
 
-		if ( arrSkinMatrix.empty() )
+		if ( arrSkinDQ.empty() )
 			return NULL;
 		
-		return &arrSkinMatrix[0];
+		return (const Vector4*)&arrSkinDQ[0];
 	}
 
 	UINT ParameterManager::autoBindingGetMatrixPaletteSize() const
@@ -238,9 +238,9 @@ namespace ma
 			return 0;
 
 		int index = GetRenderSystem()->CurThreadProcess();
-		std::vector<Matrix4>&  arrSkinMatrix = pRenderable->m_arrSkinMatrix[index];
+		std::vector<DualQuaternion>& arrSkinDQ = pRenderable->m_arrSkinDQ[index];
 
-		return arrSkinMatrix.size();
+		return arrSkinDQ.size() * 2;
 	}
 
 	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const

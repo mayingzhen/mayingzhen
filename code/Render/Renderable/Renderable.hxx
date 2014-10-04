@@ -18,13 +18,8 @@ namespace ma
 		m_pSubMeshData = meshData.GetSubMeshByIndex(index);
 
 		Uint nBone = m_pSubMeshData->m_arrBonePalette.size();
-		m_arrSkinMatrix[0].resize(nBone);
-		m_arrSkinMatrix[1].resize(nBone);
-		for (Uint i = 0; i < nBone; ++i)
-		{
-			m_arrSkinMatrix[0][i] = Matrix4::IDENTITY;
-			m_arrSkinMatrix[1][i] = Matrix4::IDENTITY;
-		}
+		m_arrSkinDQ[0].resize(nBone);
+		m_arrSkinDQ[1].resize(nBone);
 	}
 
 	void Renderable::Render(Technique* pTech)
@@ -45,11 +40,11 @@ namespace ma
 
 		int index = GetRenderSystem()->CurThreadFill();
 
-		std::vector<Matrix4>& arrSkinMatrix = m_arrSkinMatrix[index];
+		VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
 
 		UINT nBone = m_pSubMeshData->m_arrBonePalette.size();
-		ASSERT(arrSkinMatrix.size() == nBone);
-		if (arrSkinMatrix.size() != nBone)
+		ASSERT(arrSkinDQ.size() == nBone);
+		if (arrSkinDQ.size() != nBone)
 			return;
 
 		for (Uint iBone = 0; iBone < nBone; ++iBone)
@@ -59,7 +54,14 @@ namespace ma
 			if (boneID < 0 || boneID >= nCount)
 				continue;
 
-			arrSkinMatrix[iBone] = arrMatrixs[boneID];
+			Matrix4 matSkin = arrMatrixs[boneID];
+			matSkin[3][3] = 1.f;
+
+			Vector3 pos;
+			Vector3 scale;
+			Quaternion rot;
+			matSkin.decomposition(pos, scale, rot);
+			arrSkinDQ[iBone] = DualQuaternion(rot, pos);
 		}
 	}
 }
