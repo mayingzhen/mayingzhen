@@ -1,0 +1,1024 @@
+// !$*UTF8*$!
+{
+       archiveVersion = 1;
+       classes = {
+       };
+       objectVersion = 46;
+       objects = {
+
+/* Begin PBXAggregateTarget section */
+              EF969AA60F81454C90D134AD /* ALL_BUILD */ = {
+                     isa = PBXAggregateTarget;
+                     buildConfigurationList = C020EDA42BFE4ED286956C17 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+                     buildPhases = (
+                            AA7EBC96768A4D048938B0A0 /* CMake Rules */,
+                     );
+                     dependencies = (
+                            3E8D425DB2C948BCAE966524 /* PBXTargetDependency */,
+                            A7CF0B47C5194EEAB6C98DE6 /* PBXTargetDependency */,
+                     );
+                     name = ALL_BUILD;
+                     productName = ALL_BUILD;
+              };
+              0644065B0F65458B9FA7B16D /* ZERO_CHECK */ = {
+                     isa = PBXAggregateTarget;
+                     buildConfigurationList = 61FCD24E491D433EA71F511D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+                     buildPhases = (
+                            6F645E93A11D4FACAD1C7EC7 /* CMake Rules */,
+                     );
+                     dependencies = (
+                     );
+                     name = ZERO_CHECK;
+                     productName = ZERO_CHECK;
+              };
+              9556AA9FCFAA41369F1600F8 /* install */ = {
+                     isa = PBXAggregateTarget;
+                     buildConfigurationList = 74255694CF7043119866A251 /* Build configuration list for PBXAggregateTarget "install" */;
+                     buildPhases = (
+                            39C82E6DC3954F38B4855A2E /* CMake PostBuild Rules */,
+                     );
+                     dependencies = (
+                            E9876B0E856E470EA5352709 /* PBXTargetDependency */,
+                     );
+                     name = install;
+                     productName = install;
+              };
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+AC6F6B76AEE94441A6CD3861 /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = E187C096D243469A941250EF /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */; settings = { COMPILER_FLAGS = ""; }; };
+04AF4B93F6AD4189869A7A93 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OIS.h */ = {isa = PBXBuildFile; fileRef = 483504BEA2194F7DBF7472CA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OIS.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+86F2E938F3CF478789C5BBE4 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISConfig.h */ = {isa = PBXBuildFile; fileRef = 8B057DF543124BCA9E3A8A15 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISConfig.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+7DBDE1763EFD4459AE4E76C2 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEffect.h */ = {isa = PBXBuildFile; fileRef = 23FD6418942C47D8A4E47E44 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEffect.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+FC5381B14E61455CA442E5C2 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEvents.h */ = {isa = PBXBuildFile; fileRef = EF002FB2225543DB919D9F5C /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEvents.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+BD2E7BD5CE5941F3992A14B3 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISException.h */ = {isa = PBXBuildFile; fileRef = BB3CADB85F8B434EAC5D4C9D /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISException.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+BFF5BAD60D2E448493C40476 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISFactoryCreator.h */ = {isa = PBXBuildFile; fileRef = 227DB1AD9ED346ECA895EAEB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISFactoryCreator.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+8C84040BCE784009A3A1E1D1 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISForceFeedback.h */ = {isa = PBXBuildFile; fileRef = 75D4826FF7314BCDBF4E1A65 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISForceFeedback.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+F7BCF18CDF7647EC87CD755B /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInputManager.h */ = {isa = PBXBuildFile; fileRef = F9268C3652F44D34A4B95F06 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInputManager.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+667864ECE2F64900A5147A19 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInterface.h */ = {isa = PBXBuildFile; fileRef = 910EA8A6145F4D7A992B1523 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInterface.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+60C8ED3B9FC74C36920F284F /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISJoyStick.h */ = {isa = PBXBuildFile; fileRef = BE8A66C5A1D04B3888632525 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISJoyStick.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+9A312F2742094D7AAFBA42E8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISKeyboard.h */ = {isa = PBXBuildFile; fileRef = A7B2914BE47346D59F82B4AB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISKeyboard.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+BC232EA1115946048F0BDCCF /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMouse.h */ = {isa = PBXBuildFile; fileRef = BB9A09E56A164227A240BB89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMouse.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+2935EF4A46174E08880B90F3 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMultiTouch.h */ = {isa = PBXBuildFile; fileRef = A8B956AC991F467C9B279D37 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMultiTouch.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+1B93E2F136264C0CA1827ECF /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISObject.h */ = {isa = PBXBuildFile; fileRef = F761B3668133487986566DB8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISObject.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+0E80CC7E4B6F406AA95BE9BA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISPrereqs.h */ = {isa = PBXBuildFile; fileRef = CBCC83E5E6E2416582AC7D00 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISPrereqs.h */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+793C1C44D8054FE58BAFEA1D /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaHelpers.h */ = {isa = PBXBuildFile; fileRef = 0D169639AF3A42A18C43EF34 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaHelpers.h */; settings = { COMPILER_FLAGS = ""; }; };
+F2B16A36DA204AD9B6FABE07 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaInputManager.h */ = {isa = PBXBuildFile; fileRef = D6C2A578321240CF89349556 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaInputManager.h */; settings = { COMPILER_FLAGS = ""; }; };
+872597E69913416B8F3FAFCE /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaJoyStick.h */ = {isa = PBXBuildFile; fileRef = 34FE8CD42949438F89C1DC94 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaJoyStick.h */; settings = { COMPILER_FLAGS = ""; }; };
+A82F672616EE4F1C8894D0E8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaKeyBoard.h */ = {isa = PBXBuildFile; fileRef = 90F0E932685B4673BBCF35DA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaKeyBoard.h */; settings = { COMPILER_FLAGS = ""; }; };
+BF57083298774465A63B84A4 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaMouse.h */ = {isa = PBXBuildFile; fileRef = 60839FF8AA0643E59C78C8E7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaMouse.h */; settings = { COMPILER_FLAGS = ""; }; };
+F79582F0257E4371A9631D73 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHIDManager.h */ = {isa = PBXBuildFile; fileRef = D6A3259815824364888E45BB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHIDManager.h */; settings = { COMPILER_FLAGS = ""; }; };
+DFE562AE9097467096CB0FEF /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHelpers.h */ = {isa = PBXBuildFile; fileRef = 3CC03B616F1D44EE8E61C576 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHelpers.h */; settings = { COMPILER_FLAGS = ""; }; };
+5064809AAB3B400E88F915BD /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacInputManager.h */ = {isa = PBXBuildFile; fileRef = 9354A69B7B3B403BAAF61531 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacInputManager.h */; settings = { COMPILER_FLAGS = ""; }; };
+E062213D20CD4BA589FA6CB9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacJoyStick.h */ = {isa = PBXBuildFile; fileRef = 7052655DECD44865AD772496 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacJoyStick.h */; settings = { COMPILER_FLAGS = ""; }; };
+FB95108DF8F64741871960A9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacKeyboard.h */ = {isa = PBXBuildFile; fileRef = 4CDC8373B5364115A6AC0912 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacKeyboard.h */; settings = { COMPILER_FLAGS = ""; }; };
+D6878C2E78B9445B8E16F3AA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacMouse.h */ = {isa = PBXBuildFile; fileRef = A32689B3F7FF4E40865C569A /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacMouse.h */; settings = { COMPILER_FLAGS = ""; }; };
+208FF16DB8994BEA8AE252A9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacPrereqs.h */ = {isa = PBXBuildFile; fileRef = EF3C84DD75C34765AF3CBBF0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacPrereqs.h */; settings = { COMPILER_FLAGS = ""; }; };
+13FEED5B86064D2B95C6D9B8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISEffect.cpp */ = {isa = PBXBuildFile; fileRef = 7CD22B61738647AC8EF37018 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISEffect.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+0CB94EB6400D494BA58E2DE0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISException.cpp */ = {isa = PBXBuildFile; fileRef = A30975334B2F43BE88321B46 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISException.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+DB465DCEE44845D29173B1B2 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISForceFeedback.cpp */ = {isa = PBXBuildFile; fileRef = 84491C8702024295B96C395B /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISForceFeedback.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+8E07E49AA70B43FCB07989AE /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISInputManager.cpp */ = {isa = PBXBuildFile; fileRef = 214D4B17CC284C63BD5E8CDA /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISInputManager.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+644FBA42E70E43BDAF3AB7BB /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISJoyStick.cpp */ = {isa = PBXBuildFile; fileRef = 9A7942002A084D02A1D56CD7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISJoyStick.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+EC7805A98F0C477D9379257E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISKeyboard.cpp */ = {isa = PBXBuildFile; fileRef = 538747A0709142029F1D290C /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISKeyboard.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+F3E97E3FC5C34E28A641891F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISObject.cpp */ = {isa = PBXBuildFile; fileRef = 8174CF0FACA943F8892D2473 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISObject.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+E27794BD7FE04190A0CDE415 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRC.cpp */ = {isa = PBXBuildFile; fileRef = 1E291E5A52D54921A26ABB22 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRC.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+ECC2E4D58ABD4498B2F7E524 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRCFactoryCreator.cpp */ = {isa = PBXBuildFile; fileRef = 93ABB22940CD44808800FBA0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRCFactoryCreator.cpp */; settings = { COMPILER_FLAGS = "-x objective-c++"; }; };
+530482D0B6A94198AADA7347 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaInputManager.mm */ = {isa = PBXBuildFile; fileRef = 780B1873CE2847309AE7FD03 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaInputManager.mm */; settings = { COMPILER_FLAGS = ""; }; };
+AB28657AB349492087BE5A3F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaJoyStick.mm */ = {isa = PBXBuildFile; fileRef = 28DC695B8DBB41DC948F1047 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaJoyStick.mm */; settings = { COMPILER_FLAGS = ""; }; };
+2540DA83880A4C0FB23AF270 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaKeyBoard.mm */ = {isa = PBXBuildFile; fileRef = 234D82A877714ECB8D80B4CF /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaKeyBoard.mm */; settings = { COMPILER_FLAGS = ""; }; };
+313B064C38774F6B9FB92C0E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaMouse.mm */ = {isa = PBXBuildFile; fileRef = C88A35D4D23F4DC9978C275E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaMouse.mm */; settings = { COMPILER_FLAGS = ""; }; };
+C4F6A0624E0A4C5C80EA8E27 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHIDManager.cpp */ = {isa = PBXBuildFile; fileRef = EA0BC25D040F49DF84EDD440 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHIDManager.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+9A09249D2FAA4850AF61589C /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHelpers.cpp */ = {isa = PBXBuildFile; fileRef = E883689A0DEC488D89FC1BB1 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHelpers.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+DD234B8A36BA4A2DAA0D68D5 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacInputManager.cpp */ = {isa = PBXBuildFile; fileRef = 1A4FBFF6F105499C87D2C7F5 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacInputManager.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+4AE1E55BA57E469F93BEAFC9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacJoyStick.cpp */ = {isa = PBXBuildFile; fileRef = 5D493C438F664A289CAF25B7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacJoyStick.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+1B59A89F59EB4DE38923328F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacKeyboard.cpp */ = {isa = PBXBuildFile; fileRef = 5829C12F2DF84E3FB48C5B89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacKeyboard.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+BBAD551E1DCA498683F42F39 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacMouse.cpp */ = {isa = PBXBuildFile; fileRef = 57852EC6365B489E898F18A9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacMouse.cpp */; settings = { COMPILER_FLAGS = ""; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+              B7CDE03924204BF6B2C56BF6 /*  */ = {
+                     isa = PBXBuildStyle;
+              };
+              B0D13E52205A4F34A50CFCC6 /* Debug */ = {
+                     isa = PBXBuildStyle;
+                     buildSettings = {
+                            COPY_PHASE_STRIP = NO;
+                     };
+                     name = Debug;
+              };
+              2C0123D8B2A3428BB9C6B91A /* Release */ = {
+                     isa = PBXBuildStyle;
+                     buildSettings = {
+                            COPY_PHASE_STRIP = NO;
+                     };
+                     name = Release;
+              };
+              6A52991D8E3F45A48906C1BD /* MinSizeRel */ = {
+                     isa = PBXBuildStyle;
+                     buildSettings = {
+                            COPY_PHASE_STRIP = NO;
+                     };
+                     name = MinSizeRel;
+              };
+              697A1C328FDB470FB03B4B49 /* RelWithDebInfo */ = {
+                     isa = PBXBuildStyle;
+                     buildSettings = {
+                            COPY_PHASE_STRIP = NO;
+                     };
+                     name = RelWithDebInfo;
+              };
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+              8339C0882D28406988463B18 /* PBXContainerItemProxy */ = {
+                     isa = PBXContainerItemProxy;
+                     containerPortal = 7D22A81F2D14409BAA09FB0A /* Project object */;
+                     proxyType = 1;
+                     remoteGlobalIDString = 0644065B0F65458B9FA7B16D;
+                     remoteInfo = ZERO_CHECK;
+              };
+              AFF8569632F64CAB90E36119 /* PBXContainerItemProxy */ = {
+                     isa = PBXContainerItemProxy;
+                     containerPortal = 7D22A81F2D14409BAA09FB0A /* Project object */;
+                     proxyType = 1;
+                     remoteGlobalIDString = 2704468BDBE849CDBCA7DAC0;
+                     remoteInfo = OIS;
+              };
+              C00C48E0CEC54DDC92DADCFC /* PBXContainerItemProxy */ = {
+                     isa = PBXContainerItemProxy;
+                     containerPortal = 7D22A81F2D14409BAA09FB0A /* Project object */;
+                     proxyType = 1;
+                     remoteGlobalIDString = 0644065B0F65458B9FA7B16D;
+                     remoteInfo = ZERO_CHECK;
+              };
+              588AB33724854241A01CA2E4 /* PBXContainerItemProxy */ = {
+                     isa = PBXContainerItemProxy;
+                     containerPortal = 7D22A81F2D14409BAA09FB0A /* Project object */;
+                     proxyType = 1;
+                     remoteGlobalIDString = EF969AA60F81454C90D134AD;
+                     remoteInfo = ALL_BUILD;
+              };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+E187C096D243469A941250EF /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text"; name = "CMakeLists.txt"; path = "CMakeLists.txt"; sourceTree = SOURCE_ROOT; };
+483504BEA2194F7DBF7472CA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OIS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OIS.h"; path = "includes/OIS.h"; sourceTree = SOURCE_ROOT; };
+8B057DF543124BCA9E3A8A15 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISConfig.h"; path = "includes/OISConfig.h"; sourceTree = SOURCE_ROOT; };
+23FD6418942C47D8A4E47E44 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISEffect.h"; path = "includes/OISEffect.h"; sourceTree = SOURCE_ROOT; };
+EF002FB2225543DB919D9F5C /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISEvents.h"; path = "includes/OISEvents.h"; sourceTree = SOURCE_ROOT; };
+BB3CADB85F8B434EAC5D4C9D /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISException.h"; path = "includes/OISException.h"; sourceTree = SOURCE_ROOT; };
+227DB1AD9ED346ECA895EAEB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISFactoryCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISFactoryCreator.h"; path = "includes/OISFactoryCreator.h"; sourceTree = SOURCE_ROOT; };
+75D4826FF7314BCDBF4E1A65 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISForceFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISForceFeedback.h"; path = "includes/OISForceFeedback.h"; sourceTree = SOURCE_ROOT; };
+F9268C3652F44D34A4B95F06 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISInputManager.h"; path = "includes/OISInputManager.h"; sourceTree = SOURCE_ROOT; };
+910EA8A6145F4D7A992B1523 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISInterface.h"; path = "includes/OISInterface.h"; sourceTree = SOURCE_ROOT; };
+BE8A66C5A1D04B3888632525 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISJoyStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISJoyStick.h"; path = "includes/OISJoyStick.h"; sourceTree = SOURCE_ROOT; };
+A7B2914BE47346D59F82B4AB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISKeyboard.h"; path = "includes/OISKeyboard.h"; sourceTree = SOURCE_ROOT; };
+BB9A09E56A164227A240BB89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISMouse.h"; path = "includes/OISMouse.h"; sourceTree = SOURCE_ROOT; };
+A8B956AC991F467C9B279D37 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMultiTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISMultiTouch.h"; path = "includes/OISMultiTouch.h"; sourceTree = SOURCE_ROOT; };
+F761B3668133487986566DB8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISObject.h"; path = "includes/OISObject.h"; sourceTree = SOURCE_ROOT; };
+CBCC83E5E6E2416582AC7D00 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISPrereqs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "OISPrereqs.h"; path = "includes/OISPrereqs.h"; sourceTree = SOURCE_ROOT; };
+0D169639AF3A42A18C43EF34 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "CocoaHelpers.h"; path = "includes/mac/CocoaHelpers.h"; sourceTree = SOURCE_ROOT; };
+D6C2A578321240CF89349556 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "CocoaInputManager.h"; path = "includes/mac/CocoaInputManager.h"; sourceTree = SOURCE_ROOT; };
+34FE8CD42949438F89C1DC94 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaJoyStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "CocoaJoyStick.h"; path = "includes/mac/CocoaJoyStick.h"; sourceTree = SOURCE_ROOT; };
+90F0E932685B4673BBCF35DA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaKeyBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "CocoaKeyBoard.h"; path = "includes/mac/CocoaKeyBoard.h"; sourceTree = SOURCE_ROOT; };
+60839FF8AA0643E59C78C8E7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "CocoaMouse.h"; path = "includes/mac/CocoaMouse.h"; sourceTree = SOURCE_ROOT; };
+D6A3259815824364888E45BB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacHIDManager.h"; path = "includes/mac/MacHIDManager.h"; sourceTree = SOURCE_ROOT; };
+3CC03B616F1D44EE8E61C576 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacHelpers.h"; path = "includes/mac/MacHelpers.h"; sourceTree = SOURCE_ROOT; };
+9354A69B7B3B403BAAF61531 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacInputManager.h"; path = "includes/mac/MacInputManager.h"; sourceTree = SOURCE_ROOT; };
+7052655DECD44865AD772496 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacJoyStick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacJoyStick.h"; path = "includes/mac/MacJoyStick.h"; sourceTree = SOURCE_ROOT; };
+4CDC8373B5364115A6AC0912 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacKeyboard.h"; path = "includes/mac/MacKeyboard.h"; sourceTree = SOURCE_ROOT; };
+A32689B3F7FF4E40865C569A /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacMouse.h"; path = "includes/mac/MacMouse.h"; sourceTree = SOURCE_ROOT; };
+EF3C84DD75C34765AF3CBBF0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacPrereqs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.c.h"; name = "MacPrereqs.h"; path = "includes/mac/MacPrereqs.h"; sourceTree = SOURCE_ROOT; };
+7CD22B61738647AC8EF37018 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISEffect.cpp"; path = "src/OISEffect.cpp"; sourceTree = SOURCE_ROOT; };
+A30975334B2F43BE88321B46 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISException.cpp"; path = "src/OISException.cpp"; sourceTree = SOURCE_ROOT; };
+84491C8702024295B96C395B /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISForceFeedback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISForceFeedback.cpp"; path = "src/OISForceFeedback.cpp"; sourceTree = SOURCE_ROOT; };
+214D4B17CC284C63BD5E8CDA /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISInputManager.cpp"; path = "src/OISInputManager.cpp"; sourceTree = SOURCE_ROOT; };
+9A7942002A084D02A1D56CD7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISJoyStick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISJoyStick.cpp"; path = "src/OISJoyStick.cpp"; sourceTree = SOURCE_ROOT; };
+538747A0709142029F1D290C /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISKeyboard.cpp"; path = "src/OISKeyboard.cpp"; sourceTree = SOURCE_ROOT; };
+8174CF0FACA943F8892D2473 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISObject.cpp"; path = "src/OISObject.cpp"; sourceTree = SOURCE_ROOT; };
+1E291E5A52D54921A26ABB22 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISLIRC.cpp"; path = "src/extras/LIRC/OISLIRC.cpp"; sourceTree = SOURCE_ROOT; };
+93ABB22940CD44808800FBA0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRCFactoryCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "OISLIRCFactoryCreator.cpp"; path = "src/extras/LIRC/OISLIRCFactoryCreator.cpp"; sourceTree = SOURCE_ROOT; };
+780B1873CE2847309AE7FD03 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaInputManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.objcpp"; name = "CocoaInputManager.mm"; path = "src/mac/CocoaInputManager.mm"; sourceTree = SOURCE_ROOT; };
+28DC695B8DBB41DC948F1047 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaJoyStick.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.objcpp"; name = "CocoaJoyStick.mm"; path = "src/mac/CocoaJoyStick.mm"; sourceTree = SOURCE_ROOT; };
+234D82A877714ECB8D80B4CF /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaKeyBoard.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.objcpp"; name = "CocoaKeyBoard.mm"; path = "src/mac/CocoaKeyBoard.mm"; sourceTree = SOURCE_ROOT; };
+C88A35D4D23F4DC9978C275E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaMouse.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.objcpp"; name = "CocoaMouse.mm"; path = "src/mac/CocoaMouse.mm"; sourceTree = SOURCE_ROOT; };
+EA0BC25D040F49DF84EDD440 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHIDManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacHIDManager.cpp"; path = "src/mac/MacHIDManager.cpp"; sourceTree = SOURCE_ROOT; };
+E883689A0DEC488D89FC1BB1 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacHelpers.cpp"; path = "src/mac/MacHelpers.cpp"; sourceTree = SOURCE_ROOT; };
+1A4FBFF6F105499C87D2C7F5 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacInputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacInputManager.cpp"; path = "src/mac/MacInputManager.cpp"; sourceTree = SOURCE_ROOT; };
+5D493C438F664A289CAF25B7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacJoyStick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacJoyStick.cpp"; path = "src/mac/MacJoyStick.cpp"; sourceTree = SOURCE_ROOT; };
+5829C12F2DF84E3FB48C5B89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacKeyboard.cpp"; path = "src/mac/MacKeyboard.cpp"; sourceTree = SOURCE_ROOT; };
+57852EC6365B489E898F18A9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacMouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.cpp.cpp"; name = "MacMouse.cpp"; path = "src/mac/MacMouse.cpp"; sourceTree = SOURCE_ROOT; };
+A5704FC4B75440598F66F1DE /* OIS */ = {isa = PBXFileReference; explicitFileType = "archive.ar"; path = "libOIS.a"; refType = 0; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+              C8490CA547A440FDAE34395D  = {
+                     isa = PBXGroup;
+                     children = (
+                            4E5CF4F682C64E699AA17C61 /* Sources */,
+                            07390AA7A6C24302B3930F60 /* Resources */,
+                            EC8B5501765D4D2B8541F6C7 /* Products */,
+                     );
+                     sourceTree = "<group>";
+              };
+              4E5CF4F682C64E699AA17C61 /* Sources */ = {
+                     isa = PBXGroup;
+                     children = (
+                            D20586FE48F84E148E36C749 /* ALL_BUILD */,
+                            8E7582323D0D4AFC86ED33F8 /* OIS */,
+                            70208842FACB45D0B0AE2780 /* ZERO_CHECK */,
+                     );
+                     name = Sources;
+                     sourceTree = "<group>";
+              };
+              07390AA7A6C24302B3930F60 /* Resources */ = {
+                     isa = PBXGroup;
+                     children = (
+                     );
+                     name = Resources;
+                     sourceTree = "<group>";
+              };
+              D20586FE48F84E148E36C749 /* ALL_BUILD */ = {
+                     isa = PBXGroup;
+                     children = (
+                            A6FF34FD9F8C453B854F3ABA /* CMake Rules */,
+                            E187C096D243469A941250EF /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */,
+                     );
+                     name = ALL_BUILD;
+                     sourceTree = "<group>";
+              };
+              A6FF34FD9F8C453B854F3ABA /* CMake Rules */ = {
+                     isa = PBXGroup;
+                     children = (
+                     );
+                     name = "CMake Rules";
+                     sourceTree = "<group>";
+              };
+              8E7582323D0D4AFC86ED33F8 /* OIS */ = {
+                     isa = PBXGroup;
+                     children = (
+                            838BCA68A098488C9819C497 /* Header Files */,
+                            590BB076A94B482F93A52B61 /* Source Files */,
+                            E187C096D243469A941250EF /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */,
+                     );
+                     name = OIS;
+                     sourceTree = "<group>";
+              };
+              838BCA68A098488C9819C497 /* Header Files */ = {
+                     isa = PBXGroup;
+                     children = (
+                            483504BEA2194F7DBF7472CA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OIS.h */,
+                            8B057DF543124BCA9E3A8A15 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISConfig.h */,
+                            23FD6418942C47D8A4E47E44 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEffect.h */,
+                            EF002FB2225543DB919D9F5C /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISEvents.h */,
+                            BB3CADB85F8B434EAC5D4C9D /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISException.h */,
+                            227DB1AD9ED346ECA895EAEB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISFactoryCreator.h */,
+                            75D4826FF7314BCDBF4E1A65 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISForceFeedback.h */,
+                            F9268C3652F44D34A4B95F06 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInputManager.h */,
+                            910EA8A6145F4D7A992B1523 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISInterface.h */,
+                            BE8A66C5A1D04B3888632525 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISJoyStick.h */,
+                            A7B2914BE47346D59F82B4AB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISKeyboard.h */,
+                            BB9A09E56A164227A240BB89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMouse.h */,
+                            A8B956AC991F467C9B279D37 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISMultiTouch.h */,
+                            F761B3668133487986566DB8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISObject.h */,
+                            CBCC83E5E6E2416582AC7D00 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/OISPrereqs.h */,
+                            0D169639AF3A42A18C43EF34 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaHelpers.h */,
+                            D6C2A578321240CF89349556 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaInputManager.h */,
+                            34FE8CD42949438F89C1DC94 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaJoyStick.h */,
+                            90F0E932685B4673BBCF35DA /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaKeyBoard.h */,
+                            60839FF8AA0643E59C78C8E7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/CocoaMouse.h */,
+                            D6A3259815824364888E45BB /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHIDManager.h */,
+                            3CC03B616F1D44EE8E61C576 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacHelpers.h */,
+                            9354A69B7B3B403BAAF61531 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacInputManager.h */,
+                            7052655DECD44865AD772496 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacJoyStick.h */,
+                            4CDC8373B5364115A6AC0912 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacKeyboard.h */,
+                            A32689B3F7FF4E40865C569A /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacMouse.h */,
+                            EF3C84DD75C34765AF3CBBF0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/includes/mac/MacPrereqs.h */,
+                     );
+                     name = "Header Files";
+                     sourceTree = "<group>";
+              };
+              590BB076A94B482F93A52B61 /* Source Files */ = {
+                     isa = PBXGroup;
+                     children = (
+                            7CD22B61738647AC8EF37018 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISEffect.cpp */,
+                            A30975334B2F43BE88321B46 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISException.cpp */,
+                            84491C8702024295B96C395B /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISForceFeedback.cpp */,
+                            214D4B17CC284C63BD5E8CDA /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISInputManager.cpp */,
+                            9A7942002A084D02A1D56CD7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISJoyStick.cpp */,
+                            538747A0709142029F1D290C /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISKeyboard.cpp */,
+                            8174CF0FACA943F8892D2473 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISObject.cpp */,
+                            1E291E5A52D54921A26ABB22 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRC.cpp */,
+                            93ABB22940CD44808800FBA0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRCFactoryCreator.cpp */,
+                            780B1873CE2847309AE7FD03 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaInputManager.mm */,
+                            28DC695B8DBB41DC948F1047 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaJoyStick.mm */,
+                            234D82A877714ECB8D80B4CF /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaKeyBoard.mm */,
+                            C88A35D4D23F4DC9978C275E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaMouse.mm */,
+                            EA0BC25D040F49DF84EDD440 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHIDManager.cpp */,
+                            E883689A0DEC488D89FC1BB1 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHelpers.cpp */,
+                            1A4FBFF6F105499C87D2C7F5 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacInputManager.cpp */,
+                            5D493C438F664A289CAF25B7 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacJoyStick.cpp */,
+                            5829C12F2DF84E3FB48C5B89 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacKeyboard.cpp */,
+                            57852EC6365B489E898F18A9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacMouse.cpp */,
+                     );
+                     name = "Source Files";
+                     sourceTree = "<group>";
+              };
+              70208842FACB45D0B0AE2780 /* ZERO_CHECK */ = {
+                     isa = PBXGroup;
+                     children = (
+                            501C1BEDFA724AA59D36385E /* CMake Rules */,
+                            E187C096D243469A941250EF /* /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt */,
+                     );
+                     name = ZERO_CHECK;
+                     sourceTree = "<group>";
+              };
+              501C1BEDFA724AA59D36385E /* CMake Rules */ = {
+                     isa = PBXGroup;
+                     children = (
+                     );
+                     name = "CMake Rules";
+                     sourceTree = "<group>";
+              };
+              EC8B5501765D4D2B8541F6C7 /* Products */ = {
+                     isa = PBXGroup;
+                     children = (
+                            A5704FC4B75440598F66F1DE /* OIS */,
+                     );
+                     name = Products;
+                     sourceTree = "<group>";
+              };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+              2704468BDBE849CDBCA7DAC0 /* OIS */ = {
+                     isa = PBXNativeTarget;
+                     buildConfigurationList = 04732A77A8074247B72622CB /* Build configuration list for PBXNativeTarget "OIS" */;
+                     buildPhases = (
+                            C7ABAC8C51BF44E3AE595664 /* Sources */,
+                            7D8D21F994184204AD808F6C /* CMake PostBuild Rules */,
+                     );
+                     buildRules = (
+                     );
+                     dependencies = (
+                            8FFC6C16F1C84156B2F29F47 /* PBXTargetDependency */,
+                     );
+                     name = OIS;
+                     productName = OIS;
+                     productReference = A5704FC4B75440598F66F1DE /* OIS */;
+                     productType = "com.apple.product-type.library.static";
+              };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+              7D22A81F2D14409BAA09FB0A /* Project object */ = {
+                     isa = PBXProject;
+                     attributes = {
+                            BuildIndependentTargetsInParallel = YES;
+                     };
+                     buildConfigurationList = 4348E18466C642A7AE7AEFBA /* Build configuration list for PBXProject  "OIS" */;
+                     buildSettings = {
+                     };
+                     buildStyles = (
+                            B0D13E52205A4F34A50CFCC6 /* Debug */,
+                            2C0123D8B2A3428BB9C6B91A /* Release */,
+                            6A52991D8E3F45A48906C1BD /* MinSizeRel */,
+                            697A1C328FDB470FB03B4B49 /* RelWithDebInfo */,
+                     );
+                     compatibilityVersion = "Xcode 3.2";
+                     hasScannedForEncodings = 0;
+                     mainGroup = C8490CA547A440FDAE34395D;
+                     projectDirPath = ".";
+                     projectRoot = "";
+                     targets = (
+                            EF969AA60F81454C90D134AD /* ALL_BUILD */,
+                            2704468BDBE849CDBCA7DAC0 /* OIS */,
+                            0644065B0F65458B9FA7B16D /* ZERO_CHECK */,
+                            9556AA9FCFAA41369F1600F8 /* install */,
+                     );
+              };
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+              DB75859DFF0D4DC6A262E48E /*  */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     inputPaths = (
+                     );
+                     outputPaths = (
+                     );
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "# shell script goes here
+exit 0";
+                     showEnvVarsInLog = 0;
+              };
+              AA7EBC96768A4D048938B0A0 /* CMake Rules */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     name = "CMake Rules";
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "make -C /Volumes/work/ogre/Dependenices_hg/src/ois -f /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+                     showEnvVarsInLog = 0;
+              };
+              7D8D21F994184204AD808F6C /* CMake PostBuild Rules */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     name = "CMake PostBuild Rules";
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "make -C /Volumes/work/ogre/Dependenices_hg/src/ois -f /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeScripts/OIS_postBuildPhase.make$CONFIGURATION all";
+                     showEnvVarsInLog = 0;
+              };
+              4D9062DA221145419E32CFB7 /*  */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     inputPaths = (
+                     );
+                     outputPaths = (
+                     );
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "# shell script goes here
+exit 0";
+                     showEnvVarsInLog = 0;
+              };
+              6F645E93A11D4FACAD1C7EC7 /* CMake Rules */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     name = "CMake Rules";
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "make -C /Volumes/work/ogre/Dependenices_hg/src/ois -f /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+                     showEnvVarsInLog = 0;
+              };
+              9D7133D740E5462B82994954 /*  */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     inputPaths = (
+                     );
+                     outputPaths = (
+                     );
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "# shell script goes here
+exit 0";
+                     showEnvVarsInLog = 0;
+              };
+              39C82E6DC3954F38B4855A2E /* CMake PostBuild Rules */ = {
+                     isa = PBXShellScriptBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                     );
+                     name = "CMake PostBuild Rules";
+                     runOnlyForDeploymentPostprocessing = 0;
+                     shellPath = /bin/sh;
+                     shellScript = "make -C /Volumes/work/ogre/Dependenices_hg/src/ois -f /Volumes/work/ogre/Dependenices_hg/src/ois/CMakeScripts/install_postBuildPhase.make$CONFIGURATION all";
+                     showEnvVarsInLog = 0;
+              };
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+              C7ABAC8C51BF44E3AE595664 /* Sources */ = {
+                     isa = PBXSourcesBuildPhase;
+                     buildActionMask = 2147483647;
+                     files = (
+                            13FEED5B86064D2B95C6D9B8 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISEffect.cpp */,
+                            0CB94EB6400D494BA58E2DE0 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISException.cpp */,
+                            DB465DCEE44845D29173B1B2 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISForceFeedback.cpp */,
+                            8E07E49AA70B43FCB07989AE /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISInputManager.cpp */,
+                            644FBA42E70E43BDAF3AB7BB /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISJoyStick.cpp */,
+                            EC7805A98F0C477D9379257E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISKeyboard.cpp */,
+                            F3E97E3FC5C34E28A641891F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/OISObject.cpp */,
+                            E27794BD7FE04190A0CDE415 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRC.cpp */,
+                            ECC2E4D58ABD4498B2F7E524 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/extras/LIRC/OISLIRCFactoryCreator.cpp */,
+                            530482D0B6A94198AADA7347 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaInputManager.mm */,
+                            AB28657AB349492087BE5A3F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaJoyStick.mm */,
+                            2540DA83880A4C0FB23AF270 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaKeyBoard.mm */,
+                            313B064C38774F6B9FB92C0E /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/CocoaMouse.mm */,
+                            C4F6A0624E0A4C5C80EA8E27 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHIDManager.cpp */,
+                            9A09249D2FAA4850AF61589C /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacHelpers.cpp */,
+                            DD234B8A36BA4A2DAA0D68D5 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacInputManager.cpp */,
+                            4AE1E55BA57E469F93BEAFC9 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacJoyStick.cpp */,
+                            1B59A89F59EB4DE38923328F /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacKeyboard.cpp */,
+                            BBAD551E1DCA498683F42F39 /* /Volumes/work/ogre/Dependenices_hg/src/ois/src/mac/MacMouse.cpp */,
+                     );
+                     runOnlyForDeploymentPostprocessing = 0;
+              };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+              3E8D425DB2C948BCAE966524 /* PBXTargetDependency */ = {
+                     isa = PBXTargetDependency;
+                     target = 0644065B0F65458B9FA7B16D /* ZERO_CHECK */;
+                     targetProxy = 8339C0882D28406988463B18 /* PBXContainerItemProxy */;
+              };
+              A7CF0B47C5194EEAB6C98DE6 /* PBXTargetDependency */ = {
+                     isa = PBXTargetDependency;
+                     target = 2704468BDBE849CDBCA7DAC0 /* OIS */;
+                     targetProxy = AFF8569632F64CAB90E36119 /* PBXContainerItemProxy */;
+              };
+              8FFC6C16F1C84156B2F29F47 /* PBXTargetDependency */ = {
+                     isa = PBXTargetDependency;
+                     target = 0644065B0F65458B9FA7B16D /* ZERO_CHECK */;
+                     targetProxy = C00C48E0CEC54DDC92DADCFC /* PBXContainerItemProxy */;
+              };
+              E9876B0E856E470EA5352709 /* PBXTargetDependency */ = {
+                     isa = PBXTargetDependency;
+                     target = EF969AA60F81454C90D134AD /* ALL_BUILD */;
+                     targetProxy = 588AB33724854241A01CA2E4 /* PBXContainerItemProxy */;
+              };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+              9046D2AD47564B458CB7A6DF /* Debug */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+                            MACOSX_DEPLOYMENT_TARGET = "10.6";
+                            ONLY_ACTIVE_ARCH = YES;
+                            SDKROOT = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois/build;
+                     };
+                     name = Debug;
+              };
+              0FCB4266B3E64BD0BEDA3FA3 /* Release */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+                            MACOSX_DEPLOYMENT_TARGET = "10.6";
+                            ONLY_ACTIVE_ARCH = YES;
+                            SDKROOT = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois/build;
+                     };
+                     name = Release;
+              };
+              D19BB02398DB4BAE9E4FD6FB /* MinSizeRel */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+                            MACOSX_DEPLOYMENT_TARGET = "10.6";
+                            ONLY_ACTIVE_ARCH = YES;
+                            SDKROOT = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois/build;
+                     };
+                     name = MinSizeRel;
+              };
+              4C80AAA3B42A47CFBDB201F9 /* RelWithDebInfo */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+                            MACOSX_DEPLOYMENT_TARGET = "10.6";
+                            ONLY_ACTIVE_ARCH = YES;
+                            SDKROOT = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois/build;
+                     };
+                     name = RelWithDebInfo;
+              };
+              21FAD7D830B54DF2A5C85E12 /* Debug */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ALL_BUILD;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Debug;
+              };
+              8239D8AE73FB427AB1EF32FB /* Release */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ALL_BUILD;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Release;
+              };
+              F21859862F1A488CBEFD1B17 /* MinSizeRel */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ALL_BUILD;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = MinSizeRel;
+              };
+              13EF7A5FD86C4BDC8AC99CF2 /* RelWithDebInfo */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ALL_BUILD;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = RelWithDebInfo;
+              };
+              BA53D9850969443681BEC59D /* Debug */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            EXECUTABLE_PREFIX = lib;
+                            EXECUTABLE_SUFFIX = ".a";
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            LIBRARY_STYLE = STATIC;
+                            ONLY_ACTIVE_ARCH = NO;
+                            OTHER_CFLAGS = "    ";
+                            OTHER_CPLUSPLUSFLAGS = "    ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = OIS;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Debug;
+              };
+              074C562AD89640F79E7267BB /* Release */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            EXECUTABLE_PREFIX = lib;
+                            EXECUTABLE_SUFFIX = ".a";
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 3;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            LIBRARY_STYLE = STATIC;
+                            ONLY_ACTIVE_ARCH = NO;
+                            OTHER_CFLAGS = "    -DNDEBUG  ";
+                            OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = OIS;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Release;
+              };
+              8D846B98E3884A3C9DD93D73 /* MinSizeRel */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            EXECUTABLE_PREFIX = lib;
+                            EXECUTABLE_SUFFIX = ".a";
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = s;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            LIBRARY_STYLE = STATIC;
+                            ONLY_ACTIVE_ARCH = NO;
+                            OTHER_CFLAGS = "    -DNDEBUG  ";
+                            OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = OIS;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = MinSizeRel;
+              };
+              8769B55669E84DCFBCE1E86E /* RelWithDebInfo */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            EXECUTABLE_PREFIX = lib;
+                            EXECUTABLE_SUFFIX = ".a";
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 2;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            LIBRARY_STYLE = STATIC;
+                            ONLY_ACTIVE_ARCH = NO;
+                            OTHER_CFLAGS = "       -DNDEBUG  ";
+                            OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = OIS;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = RelWithDebInfo;
+              };
+              D754B34F408A48879BD8BCE3 /* Debug */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ZERO_CHECK;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Debug;
+              };
+              24B3E9ABD21D441487FD9FD2 /* Release */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ZERO_CHECK;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Release;
+              };
+              D474E3132E514711B8844E29 /* MinSizeRel */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ZERO_CHECK;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = MinSizeRel;
+              };
+              82DA7E57CA734A9692FB7914 /* RelWithDebInfo */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = ZERO_CHECK;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = RelWithDebInfo;
+              };
+              0E82BCE3C1E949678843B31A /* Debug */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = install;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Debug;
+              };
+              D0B91259EFF04488B253801A /* Release */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = install;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = Release;
+              };
+              F62B7CF893764A35ACE5B454 /* MinSizeRel */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = install;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = MinSizeRel;
+              };
+              39A65DBE372B439ABE3EC53A /* RelWithDebInfo */ = {
+                     isa = XCBuildConfiguration;
+                     buildSettings = {
+                            COMBINE_HIDPI_IMAGES = YES;
+                            GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+                            GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+                            GCC_OPTIMIZATION_LEVEL = 0;
+                            GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", OIS_NONCLIENT_BUILD, );
+                            GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                            HEADER_SEARCH_PATHS = (/Volumes/work/ogre/Dependenices_hg/src/ois/includes, );
+                            INSTALL_PATH = "";
+                            OTHER_CFLAGS = "  ";
+                            OTHER_LDFLAGS = "";
+                            OTHER_REZFLAGS = "";
+                            PRODUCT_NAME = install;
+                            SECTORDER_FLAGS = "";
+                            SYMROOT = /Volumes/work/ogre/Dependenices_hg/src/ois;
+                            USE_HEADERMAP = NO;
+                            WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", );
+                     };
+                     name = RelWithDebInfo;
+              };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+              4348E18466C642A7AE7AEFBA /* Build configuration list for PBXProject  "OIS" */ = {
+                     isa = XCConfigurationList;
+                     buildConfigurations = (
+                            9046D2AD47564B458CB7A6DF /* Debug */,
+                            0FCB4266B3E64BD0BEDA3FA3 /* Release */,
+                            D19BB02398DB4BAE9E4FD6FB /* MinSizeRel */,
+                            4C80AAA3B42A47CFBDB201F9 /* RelWithDebInfo */,
+                     );
+                     defaultConfigurationIsVisible = 0;
+                     defaultConfigurationName = Debug;
+              };
+              C020EDA42BFE4ED286956C17 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+                     isa = XCConfigurationList;
+                     buildConfigurations = (
+                            21FAD7D830B54DF2A5C85E12 /* Debug */,
+                            8239D8AE73FB427AB1EF32FB /* Release */,
+                            F21859862F1A488CBEFD1B17 /* MinSizeRel */,
+                            13EF7A5FD86C4BDC8AC99CF2 /* RelWithDebInfo */,
+                     );
+                     defaultConfigurationIsVisible = 0;
+                     defaultConfigurationName = Debug;
+              };
+              04732A77A8074247B72622CB /* Build configuration list for PBXNativeTarget "OIS" */ = {
+                     isa = XCConfigurationList;
+                     buildConfigurations = (
+                            BA53D9850969443681BEC59D /* Debug */,
+                            074C562AD89640F79E7267BB /* Release */,
+                            8D846B98E3884A3C9DD93D73 /* MinSizeRel */,
+                            8769B55669E84DCFBCE1E86E /* RelWithDebInfo */,
+                     );
+                     defaultConfigurationIsVisible = 0;
+                     defaultConfigurationName = Debug;
+              };
+              61FCD24E491D433EA71F511D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+                     isa = XCConfigurationList;
+                     buildConfigurations = (
+                            D754B34F408A48879BD8BCE3 /* Debug */,
+                            24B3E9ABD21D441487FD9FD2 /* Release */,
+                            D474E3132E514711B8844E29 /* MinSizeRel */,
+                            82DA7E57CA734A9692FB7914 /* RelWithDebInfo */,
+                     );
+                     defaultConfigurationIsVisible = 0;
+                     defaultConfigurationName = Debug;
+              };
+              74255694CF7043119866A251 /* Build configuration list for PBXAggregateTarget "install" */ = {
+                     isa = XCConfigurationList;
+                     buildConfigurations = (
+                            0E82BCE3C1E949678843B31A /* Debug */,
+                            D0B91259EFF04488B253801A /* Release */,
+                            F62B7CF893764A35ACE5B454 /* MinSizeRel */,
+                            39A65DBE372B439ABE3EC53A /* RelWithDebInfo */,
+                     );
+                     defaultConfigurationIsVisible = 0;
+                     defaultConfigurationName = Debug;
+              };
+/* End XCConfigurationList section */
+       };
+       rootObject = 7D22A81F2D14409BAA09FB0A;
+}
