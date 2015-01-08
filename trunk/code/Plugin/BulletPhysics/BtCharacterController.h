@@ -9,7 +9,7 @@ namespace ma
 	class BulletCharacterController : public ICharaControll , public btActionInterface
 	{
 	public:
-		BulletCharacterController(SceneNode* pGameObj);
+		BulletCharacterController();
 
 		~BulletCharacterController();
 

@@ -19,7 +19,6 @@ namespace ma
 		DECL_OBJECT(ICharaControll)
 
 	public:
-		ICharaControll(SceneNode* pGameObj);
 
 		virtual ICapsuleCollisionShape*		GetCollisionShape() = 0;
 

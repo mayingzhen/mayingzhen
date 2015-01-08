@@ -4,8 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(RenderComponent,Component)
 
-	RenderComponent::RenderComponent(SceneNode* pGameObj)
-		:Component(pGameObj)
+	RenderComponent::RenderComponent()
 	{
 		m_pCullNode = NULL;
 		m_bVisible = true;

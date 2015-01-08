@@ -3,19 +3,17 @@
 
 namespace ma
 {
-	TerrainTrunk::TerrainTrunk(SceneNode* pGameObj):RenderComponent(pGameObj)
+	TerrainTrunk::TerrainTrunk(Terrain* pTerrain)
 	{
 		m_nX = 0;
 		m_nY = 0;
 		m_uLodIndex = 0;
-		m_pTerrain = (Terrain*)pGameObj;
+		m_pTerrain = pTerrain;
 	}
 
 	TerrainTrunk::~TerrainTrunk()
 	{
-
 	}
-
 
 	void TerrainTrunk::Show(Camera* pCamera)
 	{

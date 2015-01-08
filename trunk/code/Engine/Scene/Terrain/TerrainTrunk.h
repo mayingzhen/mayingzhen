@@ -10,7 +10,7 @@ namespace ma
 	class TerrainTrunk : public RenderComponent
 	{
 	public:
-		TerrainTrunk(SceneNode* pGameObj);
+		TerrainTrunk(Terrain* pTerrain);
 
 		~TerrainTrunk();
 

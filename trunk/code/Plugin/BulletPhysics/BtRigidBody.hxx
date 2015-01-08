@@ -4,8 +4,7 @@
 
 namespace ma
 {
-	BulletRigidBody::BulletRigidBody(SceneNode* pGameObj)
-		:IRigidBody(pGameObj)
+	BulletRigidBody::BulletRigidBody()
 	{
 		m_pRigidBody = NULL;
 		m_bUseGravity = true;

@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	Object*	Create_ScriptObject(void* arg) {return GetScriptSystem()->CreateScriptObject( (SceneNode*)arg );}
+	Object*	Create_ScriptObject() {return GetScriptSystem()->CreateScriptObject();}
 
 	void IScriptSystemRTTIInit()
 	{
@@ -18,7 +18,7 @@ namespace ma
 	void IScriptSystemRTTIShoutdown()
 	{
 #define RTTI_DECL(ClassType,showType) \
-	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##showType);  
+		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##showType);  
 
 		RTTI_DECL(IScriptObject,ScriptObject);
 #undef RTTI_DECL

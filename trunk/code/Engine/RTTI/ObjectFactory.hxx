@@ -14,11 +14,6 @@ namespace ma
 		gpObjectFactoryManager = pClassMang;
 	}
 
-	void ObjectFactoryManager::Shutdown()
-	{
-
-	}
-
 	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreator funCreator)
 	{
 		ObjFunFactoryMap::iterator iter = m_objFunFactoryMap.find(pCls);
@@ -60,50 +55,5 @@ namespace ma
 		}
 		return pObj;
 	}
-
-
-	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
-	{
-		ObjFunArgFactoryMap::iterator iter = m_objFunArgFactoryMap.find(pCls);
-		if (iter == m_objFunArgFactoryMap.end())
-		{
-			m_objFunArgFactoryMap[pCls] = funArgCreator;
-		}
-		else
-		{
-			ASSERT(false);
-			LogError("Object factory conflict : %s %p",pCls,funArgCreator);
-		}
-	}
-
-	void ObjectFactoryManager::UnRegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
-	{
-		ObjFunArgFactoryMap::iterator iter = m_objFunArgFactoryMap.find(pCls);
-		if (iter != m_objFunArgFactoryMap.end() && iter->second == funArgCreator)
-		{
-			m_objFunArgFactoryMap.erase(iter);
-		}
-		else
-		{
-			LogError("Fail to unregister object factory");
-		}
-	}
-
-	Object*	ObjectFactoryManager::CreateObjectArg(const char* pCls,void* arg)
-	{
-		Object* pObj = NULL;
-		ObjFunArgFactoryMap::iterator funIter = m_objFunArgFactoryMap.find(pCls);
-		if (funIter != m_objFunArgFactoryMap.end())
-		{
-			pObj = funIter->second(arg);
-		}
-		else
-		{
-			ASSERT(false);
-			LogError("Object factory not found for type %s",pCls);
-		}
-		return pObj;
-	}
-
 }
 

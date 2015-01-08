@@ -6,15 +6,14 @@
 
 namespace ma
 {
-	BulletCharacterController::BulletCharacterController(SceneNode* pGameObj)
-		:ICharaControll(pGameObj)
+	BulletCharacterController::BulletCharacterController()
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_collShape = new btCompoundShape();
 		m_fSetpOffset = 0.5f;
 		m_pCapsuleShape = NULL;
 
-		m_pCapsuleShape = new BulletCapsuleCollisionShape(NULL);
+		m_pCapsuleShape = new BulletCapsuleCollisionShape();
 
 		m_touchSkin = 0.01f;
 		m_bTouched = false;
@@ -33,7 +32,7 @@ namespace ma
 	{
 		ASSERT(m_pCapsuleShape);
 		if (m_pCapsuleShape == NULL)
-			m_pCapsuleShape = new BulletCapsuleCollisionShape(NULL);
+			m_pCapsuleShape = new BulletCapsuleCollisionShape();
 
 		return m_pCapsuleShape;
 	}

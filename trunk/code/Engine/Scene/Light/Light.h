@@ -39,7 +39,7 @@ namespace ma
 		DECL_OBJECT(Light)
 
 	public:
-		Light(SceneNode* pGameObj);
+		Light();
 
 		~Light();
 
@@ -104,7 +104,7 @@ namespace ma
 		DECL_OBJECT(PointLight)
 
 	public:
-		PointLight(SceneNode* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_POINT;}
+		PointLight() {m_eLightType = LIGHT_POINT;}
 		
 		Vector3			GetPos();
 
@@ -122,7 +122,7 @@ namespace ma
 		DECL_OBJECT(DirectonalLight)
 
 	public:
-		DirectonalLight(SceneNode* pGameObj);
+		DirectonalLight();
 
 		Vector3			GetDirection();
 
@@ -166,7 +166,7 @@ namespace ma
 		DECL_OBJECT(SpotLight)
 
 	public:
-		SpotLight(SceneNode* pGameObj):Light(pGameObj) {m_eLightType = LIGHT_SPOT;}
+		SpotLight()	{m_eLightType = LIGHT_SPOT;}
 
 		Transform		GetTransform() {return m_tsfWS;}
 

@@ -147,12 +147,7 @@ namespace ma
 		if (pClass == NULL)
 			return NULL;
 
-		Object* pObject = GetObjectFactoryManager()->CreateObjectArg(pClass->GetName(), this);
-		ASSERT(pObject);
-		if (pObject == NULL)
-			return NULL;
-
-		T* pComponent = SafeCast<T>(pObject);
+		T* pComponent = CreateObject<T>( pClass->GetName() );
 		ASSERT(pComponent);
 		if (pComponent == NULL)
 			return NULL;

@@ -72,7 +72,6 @@ namespace ma
 		// set boundingbox for terrain
 		//this->SetBoundingBox(box);
 
-
 		return;
 	}
 

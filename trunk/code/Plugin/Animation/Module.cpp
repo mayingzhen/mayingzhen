@@ -34,9 +34,7 @@ using namespace ma;
 #undef RTTI_DECL
 
 
-Object* Create_AnimationComponent(void* arg) { return GetAnimationSystem()->CreateAnimationObject((SceneNode*)arg);} 
-void Delete_AnimationComponent(Object* pObj) {}
-
+Object* Create_AnimationComponent() { return GetAnimationSystem()->CreateAnimationObject();} 
 
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}

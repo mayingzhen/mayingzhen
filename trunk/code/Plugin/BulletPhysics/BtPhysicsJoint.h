@@ -50,7 +50,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsGenericJoint(SceneNode* pGameObj);
+		BulletPhysicsGenericJoint();
 
 		virtual void	SetAngularLowerLimit(const Vector3& limit); 
 
@@ -81,7 +81,7 @@ namespace ma
 		DECL_PhysicsJoint
 
 	public:
-		BulletPhysicsHingeJoint(SceneNode* pGameObj);
+		BulletPhysicsHingeJoint();
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 

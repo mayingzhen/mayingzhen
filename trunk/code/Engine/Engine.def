@@ -64,7 +64,6 @@ EXPORTS
 ?Open@XMLInputSerializer@ma@@QAE_NPAVMemoryStream@2@@Z
 ??0XMLInputSerializer@ma@@QAE@XZ
 ?StaticGetClass@Component@ma@@SAPBVRTTIClass@2@XZ
-??0Component@ma@@QAE@PAVSceneNode@1@@Z
 ?GetFrameCount@Time@ma@@QBEIXZ
 ?GetFrameDeltaTime@Time@ma@@QBEMXZ
 ?GetTimer@ma@@YAPAVTime@1@XZ
@@ -76,23 +75,15 @@ EXPORTS
 ?LoadResource@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
 ?StaticGetClass@MeshComponent@ma@@SAPBVRTTIClass@2@XZ
 ?SetSkinMatrix@MeshComponent@ma@@QAEXPBVMatrix4@2@I@Z
-??0IBoxCollisionShape@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@IBoxCollisionShape@ma@@UBEPAVRTTIClass@2@XZ
-??0ISphereCollisionShape@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@ISphereCollisionShape@ma@@UBEPAVRTTIClass@2@XZ
-??0ICapsuleCollisionShape@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@ICapsuleCollisionShape@ma@@UBEPAVRTTIClass@2@XZ
 ?StaticGetClass@ICollisionMaterial@ma@@SAPBVRTTIClass@2@XZ
-??0ICollisionMaterial@ma@@QAE@PAVSceneNode@1@@Z
 ?GetPhysicsSystem@ma@@YAPAVIPhysicsSystem@1@XZ
-??0IRigidBody@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@IRigidBody@ma@@UBEPAVRTTIClass@2@XZ
-??0ICharaControll@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@ICharaControll@ma@@UBEPAVRTTIClass@2@XZ
 ?GetUserData@SceneNode@ma@@QAEPAXPBD@Z
-??0IPhysicsGenericJoint@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@IPhysicsGenericJoint@ma@@UBEPAVRTTIClass@2@XZ
-??0IPhysicsHingeJoint@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@IPhysicsHingeJoint@ma@@UBEPAVRTTIClass@2@XZ
 ?SetUserData@SceneNode@ma@@QAEXPBDPAX@Z
 ?GetTransformWS@SceneNode@ma@@QBEABUTransform@2@XZ
@@ -108,7 +99,6 @@ EXPORTS
 ?StaticGetClass@ICollisionShape@ma@@SAPBVRTTIClass@2@XZ
 ??1MeshData@ma@@UAE@XZ
 ??0MeshData@ma@@QAE@PBD@Z
-??0IScriptObject@ma@@QAE@PAVSceneNode@1@@Z
 ?GetClass@IScriptObject@ma@@UBEPAVRTTIClass@2@XZ
 ?GetScriptSystem@ma@@YAPAVIScriptSystem@1@XZ
 ?SetScriptSystem@ma@@YAXPAVIScriptSystem@1@@Z
@@ -279,3 +269,7 @@ EXPORTS
 ?GetShadingTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
 ?StaticInitClass@Resource@ma@@SAXXZ
+??0Component@ma@@QAE@XZ
+?GetClass@ICollisionShape@ma@@UBEPAVRTTIClass@2@XZ
+?GetClass@ICollisionMaterial@ma@@UBEPAVRTTIClass@2@XZ
+?GetClass@IPhysicsJoint@ma@@UBEPAVRTTIClass@2@XZ

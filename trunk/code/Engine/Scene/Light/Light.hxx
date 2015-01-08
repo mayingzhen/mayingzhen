@@ -6,8 +6,7 @@ namespace ma
 {
 	IMPL_OBJECT(Light,RenderComponent)
 
-	Light::Light(SceneNode* pGameObj)
-		:RenderComponent(pGameObj)
+	Light::Light()
 	{
 		m_bCreateShadow = false;
 		m_cLightColor = ColourValue::White;
@@ -45,8 +44,7 @@ namespace ma
 	
 	IMPL_OBJECT(DirectonalLight,Light)
 
-	DirectonalLight::DirectonalLight(SceneNode* pGameObj)
-		:Light(pGameObj) 
+	DirectonalLight::DirectonalLight()
 	{
 		m_eLightType = LIGHT_DIRECTIONAL;
 	}

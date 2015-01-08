@@ -33,35 +33,21 @@ namespace ma
 
 		virtual void					SetGravity(const Vector3& g);
 
-		virtual	IRigidBody*				CreateRigidBody(SceneNode* pGameObj);
+		virtual	IRigidBody*				CreateRigidBody();
 
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape(SceneNode* pGameObj);
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
 
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape(SceneNode* pGameObj);
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
 
-		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(SceneNode* pGameObj);
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape();
 		
-		virtual ICollisionMaterial*		CreateCollisionMaterial(SceneNode* pGameObj);
+		virtual ICollisionMaterial*		CreateCollisionMaterial();
 
-		virtual ICharaControll*			CreateCharaControll(SceneNode* pGameObj);
+		virtual ICharaControll*			CreateCharaControll();
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(SceneNode* pGameObj);
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint();
 
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(SceneNode* pGameObj);
-
-// 		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody);
-// 
-// 		virtual void					DeleteBoxCollisionShape(IBoxCollisionShape*	pBox);
-// 
-// 		virtual void					DeleteSphereCollisionShape(ISphereCollisionShape* pSphere);
-// 
-// 		virtual	void					DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule);
-// 
-// 		virtual void					DeleteCharaControll(ICharaControll* pCharcontrol);
-// 
-// 		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint);
-// 
-// 		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint);
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint();
 
 		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 

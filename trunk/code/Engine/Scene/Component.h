@@ -11,7 +11,7 @@ namespace ma
 		DECL_OBJECT(Component)
 
 	public:
-		Component(SceneNode* pGameObj);
+		Component();
 
 		virtual ~Component();
 		

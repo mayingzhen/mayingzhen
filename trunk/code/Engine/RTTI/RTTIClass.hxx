@@ -59,7 +59,6 @@ namespace ma
 
 	}
 
-
 	const RTTIClass* ClassManager::GetClassByName(const char* clsName)
 	{
 		ClassNameMap::iterator iter = m_nameMap.find(clsName);
@@ -80,10 +79,7 @@ namespace ma
 
 	bool RTTIClass::IsA(const RTTIClass* pAnisister) const
 	{
-		for (const RTTIClass* pCurParent = this; 
-			pCurParent != NULL;
-			pCurParent = pCurParent->GetParent()
-			)
+		for (const RTTIClass* pCurParent = this; pCurParent != NULL; pCurParent = pCurParent->GetParent() )
 		{
 			if (pCurParent == pAnisister)
 			{

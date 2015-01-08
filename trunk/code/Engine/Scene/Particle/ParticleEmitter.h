@@ -15,7 +15,7 @@ namespace ma
 		DECL_OBJECT(ParticleEmitter)
 
 	public:
-		ParticleEmitter(SceneNode* pGameObj);
+		ParticleEmitter();
 
 		~ParticleEmitter();
 

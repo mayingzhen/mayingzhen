@@ -21,9 +21,7 @@ namespace ma
 
 		virtual void			Update() = 0;
 
-		virtual IScriptObject*	CreateScriptObject(SceneNode* pGameObj) = 0;
-
-		virtual void			DeleteScriptObject(IScriptObject* pScriptObject) = 0;
+		virtual IScriptObject*	CreateScriptObject() = 0;
 
 		virtual	void			ParseScriptAll(const char* pDllName) = 0;
 	};

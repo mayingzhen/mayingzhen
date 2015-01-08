@@ -7,8 +7,7 @@ namespace ma
 {
 	IMPL_OBJECT(AnimationComponent,Component);
 
-	AnimationComponent::AnimationComponent(SceneNode* pGameObj):
-	Component(pGameObj)
+	AnimationComponent::AnimationComponent()
 	{
 		m_pCurAction = NULL;
 		m_pPreAction = NULL;
@@ -264,7 +263,7 @@ namespace ma
 
 	AnimationComponentPtr CreateAnimationComponent(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
-		AnimationComponent* pAnimComp = new AnimationComponent(NULL);
+		AnimationComponent* pAnimComp = new AnimationComponent();
 		pAnimComp->SetSkeletonPath(pszSkeletonPath);
 		pAnimComp->SetAnimSetPath(pszAniSetPath);
 		return pAnimComp;

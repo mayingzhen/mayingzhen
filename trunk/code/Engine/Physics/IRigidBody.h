@@ -9,7 +9,6 @@ namespace ma
 		DECL_OBJECT(IRigidBody)
 
 	public:
-		IRigidBody(SceneNode* pGameObj);
 
 		virtual void			SetUseGravity(bool bUseGravity) = 0;
 
