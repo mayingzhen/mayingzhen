@@ -12,6 +12,8 @@ class COMMON_API Rectangle
 {
 public:
 
+	static const Rectangle ZERO;
+
     /**
      * Specifies the x-coordinate of the rectangle.
      */

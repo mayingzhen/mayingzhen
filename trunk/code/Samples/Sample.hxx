@@ -4,8 +4,8 @@ namespace ma
 {
 	Sample::Sample(const char* pszName)
 	{
-		m_pScene = GetRenderSystem()->GetView(0)->GetScene();
-		m_pCamera = GetRenderSystem()->GetView(0)->GetCamera();
+		m_pScene = GetRenderSystem()->GetScene();
+		m_pCamera = m_pScene->GetCamera();
 		//m_pScene = new Scene(pszName);
 
 // 		GetInput()->AddKeyListener(this);

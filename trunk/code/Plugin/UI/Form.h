@@ -229,7 +229,7 @@ private:
     Theme* m_pTheme;                      // The Theme applied to this Form.
     Texture* m_pFrameBuffer;          // FBO the Form is rendered into for texturing the quad. 
     SpriteBatch* m_pSpriteBatch;
-    Material* m_pNodeMaterial;            // Material for rendering this Form in 3d space.
+    SubMaterial* m_pNodeMaterial;            // Material for rendering this Form in 3d space.
     //float _u2;
     //float _v1;
 	Vector4	m_rRect;

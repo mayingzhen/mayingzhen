@@ -5,7 +5,7 @@
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
@@ -21,13 +21,19 @@
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
 
-#include "Samples/Serialize/SampleS3Import.hxx"
+//#include "Samples/Serialize/SampleS3Import.hxx"
 #include "S3Serialize/Module.h"
 
 #if PLATFORM_WIN != 1
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"
 #include "BulletPhysics/Module.h"
+#else
+#include "D3D9Render/Module.h"
+#include "GLESRender/Module.h"
+#include "MonoScript/Module.h"
+#include "BulletPhysics/Module.h"
+#include "Animation/Module.h"
 #endif
 
 
@@ -48,10 +54,15 @@ namespace ma
 		m_pSystems = NULL;
 	}
 
+	SampleBrowser::~SampleBrowser()
+	{
+		SAFE_DELETE(m_pSystems);
+	}
+
 	void SampleBrowser::InitSampleList()
 	{
 #if PLATFORM_WIN == 1
-		m_arrSamples["FbxImport"] = new SampleFbxImport();
+		//m_arrSamples["FbxImport"] = new SampleFbxImport();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 
@@ -75,7 +86,7 @@ namespace ma
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		m_arrSamples["SampleS3Import"] = new SampleS3Import();
+		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
 		m_pCurSample = m_arrSamples["AnimationRetarget"];
 	}
@@ -88,8 +99,10 @@ namespace ma
 // 		GetFullPathName("../../data/data.zip",MAX_PATH,pszPath,NULL);
 // 		GetArchiveMananger()->AddArchive( CreateZipArchive(pszPath).get() );
 		
- 		GetFullPathName("../../data",MAX_PATH,pszPath,NULL);
+ 		GetFullPathName("../../data/",MAX_PATH,pszPath,NULL);
  		GetArchiveMananger()->AddArchive( CreateFileArchive(pszPath).get() );
+
+		GetArchiveMananger()->SetSaveDir(pszPath);
 
 #elif PLAFTORM_IOS == 1
 		std::string sAppDir = Platform::GetInstance().GetAppPath();
@@ -105,11 +118,16 @@ namespace ma
 #endif
 	}
 
+	void SampleBrowser::UnInitBaseModule()
+	{
+		//UIModuleShutdown();
+		EngineModuleShutdown();
+	}
+
 	void SampleBrowser::InitBaseModule()
 	{
 		EngineModuleInit();
-		RenderModuleInit();
-		UIModuleInit();
+		//UIModuleInit();
 	}
 
 	void SampleBrowser::LoadRenderScheme()
@@ -120,67 +138,90 @@ namespace ma
 		std::string configPath = "config/renderscheme_mobile.xml";
 	#endif
 
-		RenderScheme* pRenderScheme = new RenderScheme();
+		RefPtr<RenderScheme> pRenderScheme = CreateRenderScheme();
+		pRenderScheme->AddRenderPass( CreateObject<RenderPass>("ShadingPass") );
 
-		GetRenderSystem()->SetRenderScheme(pRenderScheme);
+		GetRenderSystem()->GetScene()->SetRenderScheme(pRenderScheme.get());
 
-		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( configPath.c_str() );
-		
-		TiXmlDocument doc;
-		const char* pszLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
-		ASSERT(pszLoadOK);
-		if (!pszLoadOK)
-			return;
+// 		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( configPath.c_str() );
+// 		
+// 		TiXmlDocument doc;
+// 		const char* pszLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
+// 		ASSERT(pszLoadOK);
+// 		if (!pszLoadOK)
+// 			return;
+// 
+// 		TiXmlElement* pRootElem = doc.RootElement();
+// 		ASSERT(pRootElem);
+// 		if (pRootElem == NULL)
+// 			return;
+// 
+// 		TiXmlElement* pElePass = pRootElem->FirstChildElement("Pass");
+// 		while(pElePass)
+// 		{
+// 			const char* pszPassName = pElePass->Attribute("name");
+// 
+// 			RenderPass* pRenderPass = CreateObject<RenderPass>(pszPassName);
+// 
+// 			pRenderScheme->AddRenderPass(pRenderPass);
+// 
+// 			pElePass = pElePass->NextSiblingElement();
+// 		}
 
-		TiXmlElement* pRootElem = doc.RootElement();
-		ASSERT(pRootElem);
-		if (pRootElem == NULL)
-			return;
+		pRenderScheme->Init();
+	}
 
-		TiXmlElement* pElePass = pRootElem->FirstChildElement("Pass");
-		while(pElePass)
-		{
-			const char* pszPassName = pElePass->Attribute("name");
-
-			RenderPass* pRenderPass = CreateObject<RenderPass>(pszPassName);
-
-			pRenderScheme->AddRenderPass(pRenderPass);
-
-			pElePass = pElePass->NextSiblingElement();
-		}
+	void SampleBrowser::UnLoadPlugin()
+	{
+#if PLATFORM_WIN == 1
+		AnimationModuleShutdown();
+		//BtPhysicsModuleShutdown();
+		//MonoScriptModuleShutdown();
+		D3D9RenderModuleShutdown();
+#else
+		AnimationModuleShutdown();
+		GLESRenderModuleShutdown();
+		BtPhysicsModuleShutdown();
+#endif	
 	}
 	
 	void SampleBrowser::LoadPlugin()
 	{
 #if PLATFORM_WIN == 1
-		typedef bool (*DLL_START_PLUGIN)(void);
-
-		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll("config/Plugins.xml");
-
-		TiXmlDocument doc;
-		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
-		ASSERT(bLoadOK);
-		if (!bLoadOK)
-			return;
-
-		TiXmlElement* pRootElem = doc.RootElement();
-		ASSERT(pRootElem);
-		if (pRootElem == NULL)
-			return;
-
-		TiXmlElement* pElePlugin = pRootElem->FirstChildElement("Plugin");
-		while(pElePlugin)
-		{
-			const char* pszPath = pElePlugin->Attribute("path");
-			
-			HMODULE hInst = LoadLibraryExA(pszPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
-			DLL_START_PLUGIN pFunPtr = (DLL_START_PLUGIN)GetProcAddress(hInst,"dllStartPlugin");	
-			ASSERT(pFunPtr); 
-			if (pFunPtr)
-				pFunPtr();
-
-			pElePlugin = pElePlugin->NextSiblingElement();
-		}
+		D3D9RenderModuleInit();
+		//GLESRenderModuleInit();
+		//MonoScriptModuleInit();
+		//BtPhysicsModuleInit();
+		AnimationModuleInit();
+ 
+// 		typedef bool (*DLL_START_PLUGIN)(void);
+// 
+// 		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll("config/Plugins.xml");
+// 
+// 		TiXmlDocument doc;
+// 		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
+// 		ASSERT(bLoadOK);
+// 		if (!bLoadOK)
+// 			return;
+// 
+// 		TiXmlElement* pRootElem = doc.RootElement();
+// 		ASSERT(pRootElem);
+// 		if (pRootElem == NULL)
+// 			return;
+// 
+// 		TiXmlElement* pElePlugin = pRootElem->FirstChildElement("Plugin");
+// 		while(pElePlugin)
+// 		{
+// 			const char* pszPath = pElePlugin->Attribute("path");
+// 			
+// 			HMODULE hInst = LoadLibraryExA(pszPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
+// 			DLL_START_PLUGIN pFunPtr = (DLL_START_PLUGIN)GetProcAddress(hInst,"dllStartPlugin");	
+// 			ASSERT(pFunPtr); 
+// 			if (pFunPtr)
+// 				pFunPtr();
+// 
+// 			pElePlugin = pElePlugin->NextSiblingElement();
+// 		}
 #else
 		AnimationModuleInit();
 		GLESRenderModuleInit();
@@ -189,19 +230,48 @@ namespace ma
 
 	}
 
+	void SampleBrowser::Shutdown()
+	{
+		m_pSystems->Stop();
+
+		if (m_pCurSample)
+		{
+			m_pCurSample->UnLoad();
+		}
+
+		SAFE_DELETE(m_pCameraControl);
+		
+		GetInput()->RemoveKeyListener(this);
+		
+		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
+		for (; it != m_arrSamples.end(); ++it)
+		{
+			SAFE_DELETE(it->second);
+		}
+		m_arrSamples.clear();
+ 
+ 		m_pSystems->Shutdown();
+		SAFE_DELETE(m_pSystems);
+
+ 		UnLoadPlugin();
+
+		UnInitBaseModule();
+
+	}
+
 	void SampleBrowser::Init()
 	{
 		InitBaseModule();
 
-		InitResourcePath();
-
-		LoadRenderScheme();
-
-		LoadPlugin();
-
+ 		InitResourcePath();
+ 
+ 		LoadPlugin();
+ 
 		m_pSystems = new Systems();
 		m_pSystems->Init();
-		
+  		
+		LoadRenderScheme();
+
 		InitSampleList();
 
 		GetInput()->AddKeyListener(this);
@@ -216,7 +286,7 @@ namespace ma
 		{
 			m_pCurSample->Load();
 		}
-
+	
 		m_pSystems->Start();
 	}
 
@@ -229,10 +299,9 @@ namespace ma
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 		float fFOV = Math::PI / 4;
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
-		float fNearClip = 1.0f;
+		float fNearClip = 0.10f;
 		float fFarClip = 20000.0f;
 		pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
-
 	}
 
 	void SampleBrowser::RunSample(const char* pSampleNma)
@@ -264,42 +333,37 @@ namespace ma
 		m_pSystems->Start();
 	}
 
-	void SampleBrowser::LoadUI()
-	{
-		int nWndWidth,nWndHeigh;
-		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-
-		Theme* theme =  Theme::create("ui/default.theme");
-		Theme::Style* formStyle = theme->getStyle("basicContainer");
-		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
-		Theme::Style* titleStyle = theme->getStyle("title");	
-
-		UISystem* pUISystem = (UISystem*)GetUISystem();
-
-		m_pSampleSelectForm = pUISystem->Create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
-		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
-		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
-		m_pSampleSelectForm->setConsumeInputEvents(true);
-
-		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
-		for (; it != m_arrSamples.end(); ++it)
-		{
-			const char* pSamepeName = it->first.c_str();
-			Button* sampleButton = Button::create(pSamepeName, buttonStyle);
-			sampleButton->setText(pSamepeName);
-			sampleButton->setAutoWidth(true);
-			sampleButton->setHeight(60);      
-			sampleButton->setConsumeInputEvents(false);   
-			sampleButton->addListener(this, Control::Listener::CLICK);
-			m_pSampleSelectForm->addControl(sampleButton);
-		}
-
-	}
-
-	void SampleBrowser::Shutdown()
-	{
-		
-	}
+// 	void SampleBrowser::LoadUI()
+// 	{
+// 		int nWndWidth,nWndHeigh;
+// 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
+// 
+// 		Theme* theme =  Theme::create("ui/default.theme");
+// 		Theme::Style* formStyle = theme->getStyle("basicContainer");
+// 		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
+// 		Theme::Style* titleStyle = theme->getStyle("title");	
+// 
+// 		UISystem* pUISystem = (UISystem*)GetUISystem();
+// 
+// 		m_pSampleSelectForm = pUISystem->Create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
+// 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
+// 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
+// 		m_pSampleSelectForm->setConsumeInputEvents(true);
+// 
+// 		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
+// 		for (; it != m_arrSamples.end(); ++it)
+// 		{
+// 			const char* pSamepeName = it->first.c_str();
+// 			Button* sampleButton = Button::create(pSamepeName, buttonStyle);
+// 			sampleButton->setText(pSamepeName);
+// 			sampleButton->setAutoWidth(true);
+// 			sampleButton->setHeight(60);      
+// 			sampleButton->setConsumeInputEvents(false);   
+// 			sampleButton->addListener(this, Control::Listener::CLICK);
+// 			m_pSampleSelectForm->addControl(sampleButton);
+// 		}
+// 
+// 	}
 
 	void SampleBrowser::Update()
 	{
@@ -326,7 +390,7 @@ namespace ma
 
 	Camera*	SampleBrowser::GetCamera()
 	{
-		return  GetRenderSystem()->GetView(0)->GetCamera();
+		return  GetRenderSystem()->GetScene()->GetCamera();
 	}
 
 	void SampleBrowser::Render()
@@ -337,12 +401,12 @@ namespace ma
 
 		GetRenderSystem()->BeginFrame();
 
-		if ( GetStringRender() )
-		{
-			char buffer[MAX_PATH];
-			sprintf(buffer, "%u", (UINT)(1.0f / GetTimer()->GetFrameDeltaTime()) );
-			GetStringRender()->DrawScreenString(buffer,500,1,ColourValue::White);
-		}
+// 		if ( GetStringRender() )
+// 		{
+// 			char buffer[MAX_PATH];
+// 			sprintf(buffer, "%u", (UINT)(1.0f / GetTimer()->GetFrameDeltaTime()) );
+// 			GetStringRender()->DrawScreenString(buffer,500,1,ColourValue::White);
+// 		}
 
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->DebugRender();
@@ -356,17 +420,17 @@ namespace ma
 	}
 
 
-	void SampleBrowser::controlEvent(Control* control, EventType evt)
-	{
-		Log("..............controlEvent.............");
-
-		Button* pButton = static_cast<Button*>(control);
-		if (pButton == NULL)
-			return;
-
-		const char* pText = pButton->getText();
-		RunSample(pText);
-	}
+// 	void SampleBrowser::controlEvent(Control* control, EventType evt)
+// 	{
+// 		Log("..............controlEvent.............");
+// 
+// 		Button* pButton = static_cast<Button*>(control);
+// 		if (pButton == NULL)
+// 			return;
+// 
+// 		const char* pText = pButton->getText();
+// 		RunSample(pText);
+// 	}
 
 	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
 	{

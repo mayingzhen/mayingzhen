@@ -455,9 +455,10 @@ Font* Bundle::loadFont(const char* id)
     }
 
     // Create the texture for the font.
-	Texture* texture = GetRenderDevice()->CreateTexture(width,height,FMT_A8,false);
+	ASSERT(false);
+	Texture* texture = GetRenderDevice()->CreateTexture(width,height,PF_A8);
 	MemoryStream* pDataSteam = new MemoryStream(textureData,textureByteCount);
-	GetRenderSystem()->TexStreamComplete(texture,pDataSteam);
+	GetRenderSystem()->TexStreamComplete(texture);
 
     // Free the texture data (no longer needed).
     //SAFE_DELETE_ARRAY(textureData);

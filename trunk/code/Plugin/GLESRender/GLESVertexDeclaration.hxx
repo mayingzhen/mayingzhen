@@ -10,9 +10,9 @@ namespace ma
 	{
 	}
 
-	void GLESVertexDeclaration::Active()
+	void GLESVertexDeclaration::RT_StreamComplete()
 	{
-
+		m_bActive = true;
 	}
 
 }

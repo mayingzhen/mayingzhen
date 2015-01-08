@@ -1,15 +1,13 @@
 #ifndef  _D3D9VertexBuffer__H__
 #define  _D3D9VertexBuffer__H__
 
-#include "D3D9Mapping.h"
+#include "D3D9Resource.h"
 
 namespace ma
 {
 
-	class D3D9VertexBuffer : public VertexBuffer
+	class D3D9VertexBuffer : public VertexBuffer, public D3D9Resource
 	{
-		DeclareD3DResource();
-
 	public:
 		D3D9VertexBuffer();
 
@@ -23,7 +21,7 @@ namespace ma
 		
 		virtual void	Unlock();
 
-		virtual void	Active();
+		virtual void	RT_StreamComplete();
 
 	protected:
 		IDirect3DDevice9*          mD3D9Device;

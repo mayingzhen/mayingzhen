@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/oisInput/Include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;FBXImporter_EXPORTS"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/ois/Includes"
+				PreprocessorDefinitions="WIN32;_DEBUG;FBXImporter_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="plugin/FbxImport/StdAfx.h"
 				WarningLevel="3"
@@ -62,11 +62,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fbxsdk-2013.2-mdd.lib d3dx9d.lib"
+				AdditionalDependencies="fbxsdk-2013.2-mtd.lib d3dx9d.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/FBX/lib"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="fbxsdk-2013.2-mdd.lib "
+				AdditionalDependencies="fbxsdk-2013.2-mt.lib "
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../../extern/FBX/lib"
 				IgnoreDefaultLibraryNames=""

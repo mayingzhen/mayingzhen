@@ -16,6 +16,8 @@ namespace ma
 
 		~DataThread();
 
+		virtual void	Stop();
+
 		virtual	void	ThreadUpdate();
 
 		void			Process();

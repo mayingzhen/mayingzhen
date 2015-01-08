@@ -2,13 +2,6 @@
 
 namespace ma
 {
-	typedef std::map<std::string,ResourcePtr> ResourceMap;
-	typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
-
-	static ResourceMap		_resMap;
-	static ResCreateFunMap	_resCreateFunMap;
-
-	static	DataThread*		gpDataThread = NULL;
 	static  ResourceSystem*	gpResourceSystem = NULL;
 
 	ResourceSystem*	GetResourceSystem()
@@ -22,30 +15,54 @@ namespace ma
 		gpResourceSystem = pResSystem;
 	}
 
-	void ResourceSystem::Init(bool bDataThreadEnable/* = true*/)
+	ResourceSystem::ResourceSystem()
 	{
-		if (bDataThreadEnable)
-		{
-			gpDataThread = new DataThread();
-			gpDataThread->Start();
-		}
+		m_pDataThread = NULL;
+	}
+
+	void ResourceSystem::Init()
+	{
+		
 	}
 
 	void ResourceSystem::ShoutDown()
 	{
-		if (gpDataThread)
-			gpDataThread->Stop();
-		SAFE_DELETE(gpDataThread);
+		m_resMap.clear();
+		m_resCreateFunMap.clear();
+
+		if (m_pDataThread)
+		{
+			m_pDataThread->Stop();
+			SAFE_DELETE(m_pDataThread);
+		}
+	}
+
+	void ResourceSystem::SetDataThreadEnable(bool b)
+	{
+		if (b)
+		{
+			m_pDataThread = new DataThread();
+			m_pDataThread->Start();
+		}
+		else
+		{
+			if (m_pDataThread)
+			{
+				m_pDataThread->Stop();
+				SAFE_DELETE(m_pDataThread);
+			}
+		}
 	}
 
 	void ResourceSystem::Update()
 	{
-		gpDataThread->Process();
+		if (m_pDataThread)
+			m_pDataThread->Process();
 	}
 
 	DataThread*	ResourceSystem::GetDataThread()
 	{	
-		return gpDataThread;
+		return m_pDataThread;
 	}
 
 	Resource* ResourceSystem::DeclareResource(const char* pszRelPath)
@@ -53,19 +70,26 @@ namespace ma
 		if (pszRelPath == NULL)
 			return NULL;
 
-		ResourceMap::iterator itRes = _resMap.find(pszRelPath);
-		if (itRes != _resMap.end())
+		ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
+		if (itRes != m_resMap.end())
 			return itRes->second.get();
 
+		Resource* pResource = NULL;
+
 		std::string fileExt = StringUtil::getFileExt(pszRelPath);
-		ResCreateFunMap::iterator itFun = _resCreateFunMap.find(fileExt);
-		if (itFun == _resCreateFunMap.end())
-			return NULL;
-	
-		Resource* pResource = itFun->second();
+		ResCreateFunMap::iterator itFun = m_resCreateFunMap.find(fileExt);
+		if (itFun == m_resCreateFunMap.end())
+		{
+			pResource = new Resource(NULL);
+		}
+		else
+		{
+			pResource = itFun->second();
+		}
+		
 		pResource->SetResPath(pszRelPath);
 
-		_resMap[pszRelPath] = pResource;
+		m_resMap[pszRelPath] = pResource;
 
 		return pResource;
 	}
@@ -100,10 +124,10 @@ namespace ma
 		if (fileExt == NULL)
 			return;
 
-		ResCreateFunMap::iterator it = _resCreateFunMap.find(fileExt);
-		if (it == _resCreateFunMap.end())
+		ResCreateFunMap::iterator it = m_resCreateFunMap.find(fileExt);
+		if (it == m_resCreateFunMap.end())
 		{
-			_resCreateFunMap[fileExt] = pResCreator;
+			m_resCreateFunMap[fileExt] = pResCreator;
 		}
 	}
 
@@ -112,10 +136,10 @@ namespace ma
 		if (fileExt == NULL)
 			return;
 
-		ResCreateFunMap::iterator it = _resCreateFunMap.find(fileExt);
-		if (it != _resCreateFunMap.end() && it->second == pResCreator)
+		ResCreateFunMap::iterator it = m_resCreateFunMap.find(fileExt);
+		if (it != m_resCreateFunMap.end() && it->second == pResCreator)
 		{
-			_resCreateFunMap.erase(it);
+			m_resCreateFunMap.erase(it);
 		}
 	}
 

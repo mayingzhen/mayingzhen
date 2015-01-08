@@ -1,7 +1,7 @@
 #ifndef  _D3D9RendTexture__H__
 #define  _D3D9RendTexture__H__
 
-
+#include "Engine/Material/Texture.h"
 
 namespace ma
 {
@@ -10,24 +10,29 @@ namespace ma
 	public:
 		D3D9Texture(const char* pszPath);
 
-		D3D9Texture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
+		D3D9Texture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_NO);
 
 		~D3D9Texture();
-
-		virtual bool			CreateRT();
-
-		virtual bool			Load(MemoryStream* pDataStream, bool generateMipmaps = false);
 
 		IDirect3DTexture9*		GetD3DTexture() {return m_pD3DTex;}
 
 		IDirect3DSurface9*		GetD3DSurface() {return m_pD3D9Surface;}
 
 		void					SetD3DSurface(IDirect3DSurface9* pD3D9Surface) {m_pD3D9Surface = pD3D9Surface;}
+
+	private:
+		virtual	bool			RT_Create();		
+
+		virtual	bool			SetLevelData(int level, const PixelBox& src);
+
+		virtual bool			GenerateMipmaps();
 		
 	private:
 		IDirect3DTexture9*			m_pD3DTex;
 
 		IDirect3DSurface9*			m_pD3D9Surface;
+
+		D3DPOOL						m_D3DPool;
 	};
 
 }

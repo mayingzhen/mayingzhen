@@ -20,7 +20,7 @@ attribute vec4 a_blendWeights;
  
 
 #ifdef COLOR   
-attribute vec4 a_color;
+attribute vec4 a_color0;
 #endif
 
 
@@ -59,7 +59,7 @@ void main()
 #endif
     
 #ifdef COLOR    
-    v_color = a_color;
+    v_color = a_color0;
 #endif
     
 }

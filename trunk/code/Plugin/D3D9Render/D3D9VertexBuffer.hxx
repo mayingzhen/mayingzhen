@@ -11,7 +11,7 @@ namespace ma
 
 	D3D9VertexBuffer::~D3D9VertexBuffer()
 	{
-		safe_release_com(mD3D9VertexBuffer);
+		SAFE_RELEASE(mD3D9VertexBuffer);
 	}
 
 	// void D3D9VertexBuffer::DeleteSelf()
@@ -23,7 +23,7 @@ namespace ma
 	{
 		if (!mD3D9VertexBuffer)
 		{
-			Active();
+			RT_StreamComplete();
 		}
 
 		void * pData = NULL;
@@ -50,7 +50,7 @@ namespace ma
 		ASSERT(hr == D3D_OK);
 	}
 
-	void D3D9VertexBuffer::Active()
+	void D3D9VertexBuffer::RT_StreamComplete()
 	{
 		mD3D9Device = GetD3D9DxDevive();
 
@@ -80,7 +80,8 @@ namespace ma
 		memcpy(pLockData,m_pData,m_Size);
 
 		mD3D9VertexBuffer->Unlock();
-
+		
+		m_bActive = true;
 	}
 
 
@@ -88,35 +89,35 @@ namespace ma
 	{
 		if (!mD3D9VertexBuffer)
 		{
-			Active();
+			RT_StreamComplete();
 		}
 
 		return mD3D9VertexBuffer;
 	}
 
-	void D3D9VertexBuffer::LostDevice()
-	{
-		if (m_Usage == USAGE_DYNAMIC)
-		{
-			safe_release_com(mD3D9VertexBuffer);
-		}
-	}
-
-	void D3D9VertexBuffer::ResetDevice()
-	{
-		if (m_Usage == USAGE_DYNAMIC)
-		{
-			HRESULT hr = D3D_OK;
-			DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
-
-			hr = mD3D9Device->CreateVertexBuffer(m_Size, D3DUsage, 0, D3DPOOL_DEFAULT, &mD3D9VertexBuffer, NULL);
-
-			if (FAILED(hr))
-			{
-				//EXCEPTION("D3D Error: CreateVertexBuffer failed, desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
-			}
-		}
-	}
+// 	void D3D9VertexBuffer::LostDevice()
+// 	{
+// 		if (m_Usage == USAGE_DYNAMIC)
+// 		{
+// 			SAFE_RELEASE(mD3D9VertexBuffer);
+// 		}
+// 	}
+// 
+// 	void D3D9VertexBuffer::ResetDevice()
+// 	{
+// 		if (m_Usage == USAGE_DYNAMIC)
+// 		{
+// 			HRESULT hr = D3D_OK;
+// 			DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
+// 
+// 			hr = mD3D9Device->CreateVertexBuffer(m_Size, D3DUsage, 0, D3DPOOL_DEFAULT, &mD3D9VertexBuffer, NULL);
+// 
+// 			if (FAILED(hr))
+// 			{
+// 				//EXCEPTION("D3D Error: CreateVertexBuffer failed, desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
+// 			}
+// 		}
+// 	}
 
 
 }

@@ -21,6 +21,9 @@ namespace ma
 
 	void CameraController::UpdateInput()
 	{
+		if (m_pCamera == NULL)
+			return;
+
 #if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
 		return;
 #endif
@@ -81,7 +84,7 @@ namespace ma
 
 	void CameraController::RotateMoveCamera()
 	{
-		Vector2 vScreenOffset = GetMouseScreenOffset();
+		Vector2 vScreenOffset = GetMouseProjVec();
 		
 		Vector3 vAxis;
 		float fAngle;
@@ -99,7 +102,7 @@ namespace ma
 		m_pCamera->GetSceneNode()->RotateAround(m_vTarget,vAxis,fAngle);
 	}
 
-	Vector2	CameraController::GetMouseScreenOffset()
+	Vector2	CameraController::GetMouseProjVec()
 	{
 		const OIS::MouseState& mouseState = GetInput()->GetMouseState();
 
@@ -113,17 +116,30 @@ namespace ma
 		return vScreenOffset;
 	}
 
+	Vector3	CameraController::ProjToWorldNormal(const Vector2* pVec,float fDepth) 
+	{
+		Vector3 vRet;
+		Matrix4 matVPInv = m_pCamera->GetMatViewProj().inverse();
+		Vector3 p0(0.0f,0.0f,-1.0f);
+		Vector3 p1(pVec->x ,pVec->y ,-1.0f);
+		p0 = matVPInv * p0;
+		p1 = matVPInv * p1;
+		vRet = p1 - p0;
+		vRet *= fDepth / m_pCamera->GetNearClip();
+		return vRet;
+	}
+
 	void CameraController::MoveCamera()
 	{
-		Vector2 vScreenOffset = GetMouseScreenOffset();
+		Vector2 vScreenOffset = GetMouseProjVec();
 	
-		Vector3 v = m_pCamera->ProjToWorldNormal(&vScreenOffset, m_fTargetDis);
+		Vector3 v = ProjToWorldNormal(&vScreenOffset, m_fTargetDis);
 		m_pCamera->GetSceneNode()->Translate(v);
 	}
 
 	void CameraController::RotateCamera()
 	{
-		Vector2 vScreenOffset = GetMouseScreenOffset();
+		Vector2 vScreenOffset = GetMouseProjVec();
 
 		Matrix3 matEuler;
 		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
@@ -135,10 +151,10 @@ namespace ma
 			matEuler.FromEulerAnglesXZY(Radian(vScreenOffset.y), Radian(0), Radian(0));
 		}
 
-		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransform();
+		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransformWS();
 		tsfWS.m_qRot = tsfWS.m_qRot * Quaternion(matEuler) ;
 
-		m_pCamera->GetSceneNode()->SetTransform(tsfWS);
+		m_pCamera->GetSceneNode()->SetTransformWS(tsfWS);
 	}
 
 	void CameraController::ZoomCamera(float fDeltaZoom)
@@ -147,8 +163,7 @@ namespace ma
 
 		m_pCamera->GetSceneNode()->Forward(fDeltaZoom);
 
-		std::string deubg = "fDeltaZoom = " + StringConverter::toString(fDeltaZoom);
-		_OutputDebugString(deubg.c_str());
+		LogInfo("fDeltaZoom = %f",fDeltaZoom);
 	}
 
 }

@@ -88,6 +88,8 @@ namespace ma
 			{
 				m_arrTSF_OS[uBoneCnt] = arrTSF_PS[uBoneCnt];
 			}
+
+			m_arrTSF_OS[uBoneCnt].m_qRot.normalise();
 		}
 
 		m_bPSSynced = true;
@@ -117,6 +119,8 @@ namespace ma
 			{
 				m_arrTSF_PS[uBoneCnt] = arrTSF_OS[uBoneCnt];
 			}
+
+			m_arrTSF_OS[uBoneCnt].m_qRot.normalise();
 		}
 
 		m_bPSSynced = true;
@@ -281,7 +285,7 @@ namespace ma
 		TransformFromMatrix(&tsfWS,&matWS);
 		GetLineRender()->DrawTransform(tsfWS);
 
-		Rectangle rec = GetRenderSystem()->GetViewPort();
+		//Rectangle rec = GetRenderSystem()->GetViewPort();
 
 		UINT nBoneNumeber = m_arrParentIndice.size();
 		for (UINT i = 0; i < nBoneNumeber; ++i)

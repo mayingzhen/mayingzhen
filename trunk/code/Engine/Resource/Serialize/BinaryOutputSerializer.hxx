@@ -27,7 +27,7 @@ namespace ma
 	}
 
 
-	void BinaryOutputSerializer::SerializeByte(Uint8* &pData,UINT nSizeToWrite,const char* pszLable)
+	void BinaryOutputSerializer::SerializeByte(uint8* &pData,UINT nSizeToWrite,const char* pszLable)
 	{
 		ASSERT(m_pStream);
 		if (m_pStream == NULL)
@@ -39,10 +39,13 @@ namespace ma
 
 	bool BinaryOutputSerializer::Open(const char* pszFilename)
 	{
-		m_pStream = GetArchiveMananger()->Create(pszFilename);
+		string strFullName = GetArchiveMananger()->GetSaveDir();
+		strFullName += pszFilename;
+
+		m_pStream = GetArchiveMananger()->Create(strFullName.c_str());
 		if (m_pStream == NULL)
 		{
-			Log("fail to open file %s\n",pszFilename);
+			LogError("fail to open file %s\n",strFullName.c_str());
 			return false;
 		}
 

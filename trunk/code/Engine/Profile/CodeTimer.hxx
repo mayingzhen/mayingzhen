@@ -61,7 +61,7 @@ namespace ma
 
 	void CodeTimer::Output() const
 	{
-		Log("---------------------------------------------------------\n"  \
+		LogInfo("---------------------------------------------------------\n"  \
 			"fuction:\t  %s\n" \
 			"total time:\t  %f\n" \
 			"current time:\t  %f\n" \

@@ -111,7 +111,18 @@ namespace ma
 
 		static std::string getFileExt(const char* path);
 
-		static std::string replaceFileExt(const std::string& strFile,const std::string& strNewExt);
+		static std::string replaceFileExt(const std::string& strFile,const std::string& strNewExt)
+		{
+			std::string strNewFile = strFile;
+
+			int index = strNewFile.find_last_of(".");
+			if (index>=0)
+			{
+				strNewFile = strNewFile.replace(index + 1, strNewFile.size() - index,strNewExt);
+			}
+
+			return strNewFile;
+		}
 
 		static std::string getDirectoryName(const char* pFullName);
 

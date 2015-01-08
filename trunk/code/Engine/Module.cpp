@@ -6,7 +6,8 @@
 #include "Engine/RTTI/RTTIClass.hxx"
 #include "Engine/RTTI/Object.hxx"
 #include "Engine/RTTI/ObjectFactory.hxx"
-
+#include "Engine/RTTI/Context.hxx"
+#include "Engine/RTTI/Serializable.hxx"
 
 #include "Engine/Time/Timer.hxx"
 
@@ -45,6 +46,55 @@
 #endif // PLATFORM_ANDROID
 
 
+// Render
+#include "Engine/ImageData/PixelFormat.hxx"
+#include "Engine/ImageData/ImageCodec.hxx"
+#include "Engine/ImageData/DDSCodec.hxx"
+#include "Engine/ImageData/ETC1Codec.hxx"
+#include "Engine/ImageData/PVRTCCodec.hxx"
+#include "Engine/ImageData/PVRTCDecompress.hxx"
+
+
+#include "Engine/Renderable/Renderable.hxx"
+#include "Engine/Renderable/MeshBatch.hxx"
+#include "Engine/Renderable/SpriteBatch.hxx"
+#include "Engine/Renderable/MeshData.hxx"
+#include "Engine/Renderable/LineRender.hxx"
+#include "Engine/Renderable/ScreenQuad.hxx"
+#include "Engine/Renderable/UnitSphere.hxx"
+
+
+#include "Engine/RenderSystem/RenderSystem.hxx"
+#include "Engine/RenderSystem/RenderThread.hxx"
+#include "Engine/RenderSystem/RenderQueue.hxx"
+#include "Engine/RenderSystem/RenderSetting.hxx"
+#include "Engine/RenderSystem/RenderContext.hxx"
+#include "Engine/RenderSystem/DeviceCapabilities.hxx"
+#include "Engine/RenderSystem/IRenderDevice/IRenderDevice.hxx"
+#include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.hxx"
+
+
+#include "Engine/Material/RenderState.hxx"
+#include "Engine/Material/MaterialData.hxx"
+#include "Engine/Material/Material.hxx"
+#include "Engine/Material/MaterialParameter.hxx"
+#include "Engine/Material/ShaderProgram.hxx"
+#include "Engine/Material/Texture.hxx"
+#include "Engine/Material/Technqiue.hxx"
+#include "Engine/Material/ParameterManager.hxx"
+#include "Engine/Material/SamplerState.hxx"
+
+#include "Engine/RenderScheme/RenderPass.hxx"
+#include "Engine/RenderScheme/DeferredLightPass.hxx"
+#include "Engine/RenderScheme/DeferredShadowPass.hxx"
+#include "Engine/RenderScheme/GBufferPass.hxx"
+#include "Engine/RenderScheme/ShadowDepthPass.hxx"
+#include "Engine/RenderScheme/ShadingPass.hxx"
+#include "Engine/RenderScheme/RenderScheme.hxx"
+#include "Engine/RenderScheme/BlurPostProcess.hxx"
+#include "Engine/RenderScheme/HDRPostProcess.hxx"
+
+
 // Physics
 #include "Engine/Physics/ICollisionShape.hxx"
 #include "Engine/Physics/ICharacterController.hxx"
@@ -57,20 +107,36 @@
 #include "Engine/Script/IScriptObject.hxx"
 #include "Engine/Script/IScriptSystem.hxx"
 
-// UI
-#include "Engine/UI/IUISystem.hxx"
-
 // Input
 #include "Engine/Input/Input.hxx"
+
+// UI
+#include "Engine/UI/IUISystem.hxx"
 
 // Scene
 #include "Engine/Scene/Component.hxx"
 #include "Engine/Scene/RenderComponent.hxx"
+#include "Engine/Scene/MeshComponent.hxx"
 #include "Engine/Scene/SceneNode.hxx"
-#include "Engine/Scene/NodeTransform.hxx"
 #include "Engine/Scene/Scene.hxx"
 #include "Engine/Scene/OctreeNode.hxx"
 #include "Engine/Scene/Octree.hxx"
+#include "Engine/Scene/FrustumCullQuery.hxx"
+#include "Engine/Scene/Camera.hxx"
+#include "Engine/Scene/Light/Light.hxx"
+#include "Engine/Scene/Light/LightSystem.hxx"
+#include "Engine/Scene/Light/ShadowMapFrustum.hxx"
+#include "Engine/Scene/Light/ShadowCasterQuery.hxx"
+#include "Engine/Scene/Particle/ParticleBatch.hxx"
+#include "Engine/Scene/Particle/ParticleEmitter.hxx"
+#include "Engine/Scene/Particle/ParticleThread.hxx"
+#include "Engine/Scene/Particle/ParticleSystem.hxx"
+#include "Engine/Scene/Terrain/Terrain.hxx"
+#include "Engine/Scene/Terrain/TerrainTrunk.hxx"
+#include "Engine/Scene/Terrain/TerrainRenderable.hxx"
+
+
+
 
 #include "Engine/Profile/CodeTimer.hxx"
 
@@ -84,26 +150,34 @@ void EngineModuleInit()
 {
 	EngineRTTIInit();
 
+	CImageCodec::Startup();
+
 	CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
 	SetCodeTimeMng(pCodeTimeMng);
 
 	ArchiveManager* pArchiveMang = new ArchiveManager();
 	SetArchiveManager(pArchiveMang);
 
-	ResourceSystem* pRsourceSystem = new ResourceSystem();
-	SetResourceSystem(pRsourceSystem);
-	pRsourceSystem->Init();
-
 	Time* pTime = new Time();
 	SetTimer(pTime);
 
-// 	WorkQueue* pWorkQueue = new WorkQueue();
-// 	SetWorkQueue(pWorkQueue);
-// 	pWorkQueue->CreateThreads(3);
+	RenderSetting*	pRenderSetting = new RenderSetting();
+	SetRenderSetting(pRenderSetting);
 
-	//Scene* pEntitySystem = new Scene();
-	//SetEntitySystem(pEntitySystem);
-	//pEntitySystem->Init();
+	ParameterManager* pMaterialMang = new ParameterManager();
+	SetParameterManager(pMaterialMang);
+
+	DeviceCapabilitie* pDevCap = new DeviceCapabilitie();
+	SetDeviceCapabilities(pDevCap);
+
+	RenderSystem* pRenderSystem = new RenderSystem();
+	SetRenderSystem(pRenderSystem);
+
+	ParticleSystem* pParticleMang = new ParticleSystem();
+	SetParticleSystem(pParticleMang);
+
+	LightSystem* pLightSystem = new LightSystem();
+	SetLightSystem(pLightSystem);
 }
 
 void EngineModuleShutdown()
@@ -112,20 +186,40 @@ void EngineModuleShutdown()
 	SAFE_DELETE(pTime);
 	SetTimer(NULL);
 
-	//Scene* pEntitySystem = GetEntitySystem();
-	//pEntitySystem->ShoutDown();
-	//SAFE_DELETE(pEntitySystem);
-	//SetEntitySystem(NULL);
-
-	ResourceSystem* pRsourceSystem = GetResourceSystem();
-	pRsourceSystem->ShoutDown(); 
-	SAFE_DELETE(pRsourceSystem);
-	SetResourceSystem(NULL);
-
 	ArchiveManager* pArchiveManager = GetArchiveMananger();
 	SAFE_DELETE(pArchiveManager);
 	SetArchiveManager(NULL);
+
+	CodeTimerManager* pCodeTimeMng = GetCodetTimeMng();
+	SAFE_DELETE(pCodeTimeMng);
+	SetCodeTimeMng(NULL);
+
+	LightSystem* pLightSystem = GetLightSystem();
+	SAFE_DELETE(pLightSystem);
+	SetLightSystem(NULL);	
+
+	ParticleSystem* pParticleMang = GetParticleSystem();
+	SAFE_DELETE(pParticleMang)
+	SetParticleSystem(NULL);
+
+	RenderSystem* pRenderSystem = GetRenderSystem();
+	SAFE_DELETE(pRenderSystem);
+	SetRenderSystem(NULL);
+
+	DeviceCapabilitie* pDevCap = GetDeviceCapabilities();
+	SAFE_DELETE(pDevCap);
+	SetDeviceCapabilities(NULL);
+
+	ParameterManager* pMaterialMang = GetParameterManager();
+	SAFE_DELETE(pMaterialMang);
+	SetParameterManager(NULL);
+
+	RenderSetting*	pRenderSetting = GetRenderSetting();
+	SAFE_DELETE(pRenderSetting);
+	SetRenderSetting(NULL);
 	
 	EngineRTTIShutdown();
+
+	CImageCodec::Shutdown();
 }
 

@@ -26,7 +26,7 @@ namespace ma
 
 		virtual void					DebugRender() = 0;
 
-		virtual void					SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide) = 0;
+		virtual void					SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide) = 0;
 
 		virtual Vector3					GetGravity() const = 0;
 
@@ -49,22 +49,6 @@ namespace ma
 		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(SceneNode* pGameObj) = 0;
 
 		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(SceneNode* pGameObj) = 0;
-
-		//virtual void					DeletePhysicsObject(IPhysicsObject* pPhysicsObject) = 0;
-
-		virtual	void					DeleteRigidBody(IRigidBody* pRigidBody) = 0;
-
-		virtual void					DeleteBoxCollisionShape(IBoxCollisionShape*	pBox) = 0;
-
-		virtual void					DeleteSphereCollisionShape(ISphereCollisionShape* pSphere) = 0;
-
-		virtual	void					DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule)  = 0;
-
-		virtual void					DeleteCharaControll(ICharaControll* pCharcontrol) = 0;
-
-		virtual	void					DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint) = 0;
-
-		virtual	void					DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint) = 0;
 
 		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS) = 0;
 

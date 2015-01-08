@@ -2,7 +2,17 @@
 
 namespace ma
 {
-	template<> ClassManager* Singleton<ClassManager>::ms_singleton = NULL;
+	static ClassManager* gpClassManager = NULL;
+
+	ClassManager* GetClassManager()
+	{
+		return gpClassManager;
+	}
+
+	void SetClassManager(ClassManager* pClassMang)
+	{
+		gpClassManager = pClassMang;
+	}
 
 	ClassManager::ClassManager()
 	{
@@ -17,11 +27,11 @@ namespace ma
 	bool ClassManager::RegisterRTTIClass(RTTIClass* pCls)
 	{
 		bool bAddOK = false;
-		std::map<std::string,RTTIClass*>::iterator nameIter = m_nameMap.find(pCls->GetName());
+		std::map<std::string,RTTIClass*>::iterator nameIter = m_nameMap.find( string( pCls->GetName() ) );
 		if (nameIter != m_nameMap.end())
 		{
 			ASSERT(false);
-			Log("Class name conflict %s",pCls);
+			LogError("Class name conflict %s",pCls);
 		}
 		else 
 		{
@@ -43,16 +53,44 @@ namespace ma
 		}
 		else
 		{
-			Log("Fail to unregister class %s",pCls->GetName());
+			LogError("Fail to unregister class %s",pCls->GetName());
 		}
 		return bOK;
 
 	}
 
+
 	const RTTIClass* ClassManager::GetClassByName(const char* clsName)
 	{
 		ClassNameMap::iterator iter = m_nameMap.find(clsName);
 		return iter != m_nameMap.end() ? iter->second : NULL;
+	}
+
+	RTTIClass::RTTIClass(const char* className,const RTTIClass* pParent)
+		:m_className(className)
+		,m_pParentNode(pParent)
+	{
+
+	}
+
+	const char* RTTIClass::GetName() const
+	{
+		return m_className.c_str();
+	}
+
+	bool RTTIClass::IsA(const RTTIClass* pAnisister) const
+	{
+		for (const RTTIClass* pCurParent = this; 
+			pCurParent != NULL;
+			pCurParent = pCurParent->GetParent()
+			)
+		{
+			if (pCurParent == pAnisister)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

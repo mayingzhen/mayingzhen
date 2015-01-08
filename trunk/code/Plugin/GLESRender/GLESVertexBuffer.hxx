@@ -28,19 +28,21 @@ namespace ma
 		GL_ASSERT( glUnmapBuffer(GL_ARRAY_BUFFER) );
 	}
 
-	void GLESVertexBuffer::Active()
+	void GLESVertexBuffer::RT_StreamComplete()
 	{
 		GLenum glUsage = GLESMapping::GetGLESUSage(m_Usage);
 		GL_ASSERT( glGenBuffers(1,& m_hVertexBufffer) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
 		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
+
+		m_bActive = true;
 	}
 
 	GLuint GLESVertexBuffer::GetVertexBuffer()
 	{
 		if (m_hVertexBufffer <= 0)
 		{
-			Active();
+			RT_StreamComplete();
 		}
 		return m_hVertexBufffer;
 	}

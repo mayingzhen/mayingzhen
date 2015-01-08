@@ -9,7 +9,7 @@ namespace ma
 		
 	public:	
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimNode" ) ;
+		virtual void	Serialize(Serializer& sl, const char* pszLable = "AnimTreeNode" ) ;
 	};
 
 	struct ANIMATION_API AnimClipNodeData : public AnimNodeData
@@ -70,7 +70,7 @@ namespace ma
 
 		float				m_fWeight;
 
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimClipNode" ) ;
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "AnimBlendNode" ) ;
 	};
 
 	struct ANIMATION_API SkelAnimData 
@@ -91,7 +91,7 @@ namespace ma
 
 		AnimNodeData*				m_pAnimNodeData;
 
-		virtual void				Serialize(Serializer& sl, const char* pszLable = "ActionData");
+		virtual void				Serialize(Serializer& sl, const char* pszLable = "SkelAnimtion");
 	};
 
 

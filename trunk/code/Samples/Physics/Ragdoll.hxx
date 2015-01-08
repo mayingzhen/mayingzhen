@@ -68,7 +68,7 @@ namespace ma
 			BoneIndex boneID = pSkeleton->GetBoneIdByName( m_arrObject[i]->GetName() );
 
 			const Transform& tsfOS = pAnimPose->GetTransformOS(boneID);
-			m_arrObject[i]->SetTransform(tsfOS);
+			m_arrObject[i]->SetTransformWS(tsfOS);
 		}
 	}
 
@@ -81,7 +81,7 @@ namespace ma
 		{
 			BoneIndex boneID = pSkeleton->GetBoneIdByName( m_arrObject[i]->GetName() );
 
-			const Transform tsfOS = m_arrObject[i]->GetTransform();
+			const Transform tsfOS = m_arrObject[i]->GetTransformWS();
 			pAnimPose->SetTransformOS(&tsfOS,boneID);
 		}
 
@@ -105,7 +105,7 @@ namespace ma
 
 		ASSERT(false);
 		SceneNode* pBoneNode = NULL;//CreateGameObject(pBoneName).get();
-		pBoneNode->SetTransform(tsfBone);
+		pBoneNode->SetTransformWS(tsfBone);
 
 		ICapsuleCollisionShape* pCapuleComp = pBoneNode->CreateComponent<ICapsuleCollisionShape>();
 		pCapuleComp->SetRadius(fRadius);
@@ -131,11 +131,11 @@ namespace ma
 		Vector3 vPosWS = pBoneObjB->GetPos();
 
 		Transform tsfALS,tsfBLS;
-		tsfALS.m_vPos = pBoneObjA->GetWorldMatrix().inverse() * vPosWS;
-		tsfALS.m_qRot = pBoneObjA->GetRotate().Inverse();
+		tsfALS.m_vPos = pBoneObjA->GetMatrixWS().inverse() * vPosWS;
+		tsfALS.m_qRot = pBoneObjA->GetRotationWS().Inverse();
 
-		tsfBLS.m_vPos = pBoneObjB->GetWorldMatrix().inverse() * vPosWS;
-		tsfBLS.m_qRot = pBoneObjB->GetRotate().Inverse();
+		tsfBLS.m_vPos = pBoneObjB->GetMatrixWS().inverse() * vPosWS;
+		tsfBLS.m_qRot = pBoneObjB->GetRotationWS().Inverse();
 
 		IPhysicsGenericJoint* pJointComp = pBoneObjA->CreateComponent<IPhysicsGenericJoint>();
 		pJointComp->SetPysicsObjectB(pBoneObjB);

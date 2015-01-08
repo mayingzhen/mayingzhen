@@ -38,9 +38,9 @@
 #include "Common/Math/DualQuaternion.h"
 #include "Common/Math/Frustum.h"
 #include "Common/Math/Rectangle.h"
+#include "Common/Math/Bitwise.h"
 
 // Utile
-#include "Common/Singleton.h"
 #include "Common/Referenced.h"
 #include "Common/RefPtr.h"
 #include "Common/BitField.h"

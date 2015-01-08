@@ -10,13 +10,9 @@ namespace ma
 	public:
 		GLESTexture(const char* pszPath);
 
-		GLESTexture(int nWidth,int nHeight,FORMAT format = FMT_A8R8G8B8,bool bDepthStencil = false);
+		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_NO);
 
 		~GLESTexture();
-
-		virtual bool		CreateRT();
-
-		virtual bool		Load(MemoryStream* pDataStream, bool generateMipmaps = false);
 
 		GLuint				GetTexture() {return m_pTex;}
 
@@ -24,15 +20,21 @@ namespace ma
 
 		FrameBufferHandle	GetFrameBuffer() {return m_handle;}
 
-		
 	private:
-		void				GenerateMipmaps();
+		virtual	bool		RT_Create();			
 
-		void				ConvertImageData(int pixelFormat,int nPixelCount,Uint8* pPixel);
+		virtual	bool		SetLevelData(int level, const PixelBox& src);
+
+		virtual bool		GenerateMipmaps();
+
+		PixelFormat			getNativeFormat(PixelFormat format);
+
+		//void				ConvertImageData(int pixelFormat,int nPixelCount,uint8* pPixel);
 		
 	private:
 		GLuint				m_pTex;			// 贴图地址
 		GLuint				m_PixelFormat;	// 内部像素格式
+		GLuint				m_DataType;
 
 		FrameBufferHandle	m_handle;
 	};

@@ -19,13 +19,13 @@ namespace ma
 
 		~AnimationComponent();
 
-		void					Update();
+		static void				RegisterObject(Context* context);	
 
-		virtual	void			Serialize(Serializer& sl, const char* pszLable = "AnimComponent");
+		void					Update();
 
 		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
- 		AnimationSet*			GetAnimationSet() {return m_pAnimSet;}
+ 		AnimationSet*			GetAnimationSet() {return m_pAnimSet.get();}
 
 		void					Stop();
 
@@ -41,11 +41,18 @@ namespace ma
 
 		void					UpdateSkinMatrix();
 
+		bool					OnLoadOver();
+
+		const char*				GetSkeletonPath() const;
+		void					SetSkeletonPath(const char* pSkePath);
+
+		const char*				GetAnimSetPath() const;
+		void					SetAnimSetPath(const char* pAniSetPath);
+
 	protected:
 		void					PlayAnimation(SkelAnimtion* pSkelAnim,float fFadeTime = 0.0f);
 
-		void					CreateAniSet(void* parm1,void* parm2);
-		void					CreateSkeletonPose(void* parm1,void* parm2);
+		void					CreateSkeletonPose();
 
 		void					AdvanceTime(float fTimeElepse);
 		void					EvaluateAnimation();
@@ -54,9 +61,11 @@ namespace ma
 		RefPtr<Skeleton>			m_pSkeleton;		
 		SkeletonPose*				m_pose;
 
-		RefPtr<AnimationSetData>	m_pAnimSetData;
-		AnimationSet*				m_pAnimSet;
-
+		RefPtr<AnimationSet>		m_pAnimSet;
+		std::string					m_strAnimSetPath;
+	
+		std::string					m_strCurAction;
+		ActionID					m_nCurAction;
 		SkelAnimtion*				m_pCurAction;
 		SkelAnimtion*				m_pPreAction;
 		float						m_fCurFadeTime;
@@ -64,12 +73,12 @@ namespace ma
 
 		Matrix4*					m_arrSkinMatrix;
 
-		typedef tEventListener<AnimationComponent> ELAnimationComponent;
-		RefPtr< ELAnimationComponent >	m_pElAniSetLoaded;
-		RefPtr< ELAnimationComponent >	m_pElSkeletonLoaded;
+		bool						m_bLoadOver;	
 	};
 
 	DeclareRefPtr(AnimationComponent);
+
+	AnimationComponentPtr CreateAnimationComponent(const char* pszAniSetPath, const char* pszSkeletonPath);
 }
 
 #endif

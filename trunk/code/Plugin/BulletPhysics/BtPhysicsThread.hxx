@@ -8,7 +8,8 @@ namespace ma
 
 		m_bEnd = false;
 
-		GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
+		if ( GetDynamicsWorld() )
+			GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
 
 		m_bEnd = true;
 	}
@@ -21,6 +22,14 @@ namespace ma
 	PhysicsThread::~PhysicsThread()
 	{
         SAFE_DELETE(m_pBeginEvent);
+	}
+
+	void PhysicsThread::Stop()
+	{
+		m_bExit = true;
+		m_pBeginEvent->Signal();
+
+		Thread::Stop();
 	}
 
 	void PhysicsThread::BeginUpdate()

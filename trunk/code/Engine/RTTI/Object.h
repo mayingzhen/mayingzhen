@@ -17,10 +17,10 @@
 	void ClassName::StaticInitClass(){\
 	/*std::string*/const char* className = #ClassName;\
 	ms_p##ClassName##Class = new RTTIClass(className,ParentName::StaticGetClass());\
-	ClassManager::GetInstance().RegisterRTTIClass(ms_p##ClassName##Class); \
+	GetClassManager()->RegisterRTTIClass(ms_p##ClassName##Class); \
 	}\
 	void ClassName::StaticShutdownClass(){ \
-	ClassManager::GetInstance().UnRegisterRTTIClass(ms_p##ClassName##Class); \
+	GetClassManager()->UnRegisterRTTIClass(ms_p##ClassName##Class); \
 	SAFE_DELETE(ms_p##ClassName##Class);\
 	}\
 	const RTTIClass*		ClassName::StaticGetClass(){\
@@ -46,7 +46,7 @@ namespace ma
 		
 		virtual ~Object();
 	
-		const char*		GetName() {return m_sName.c_str();}
+		const char*		GetName() const {return m_sName.c_str();}
 
 		void			SetName(const char* pName) {m_sName = pName;}
 

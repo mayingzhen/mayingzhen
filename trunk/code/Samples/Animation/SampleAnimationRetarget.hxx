@@ -6,9 +6,30 @@ namespace ma
 	{
 	}
 
+	void CreateMaterialData_(const char* pszTexture,const char* pMatPath)
+	{
+		MaterialData matData;
+
+		SubMaterialData& subMatData = matData.AddSubMatData();
+		subMatData.SetShaderName("default");
+		subMatData.SetShderMacro("DIFFUSE;SKIN");
+		subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+
+		RefPtr<SamplerState> pDiff = CreateSamplerState();
+		pDiff->SetTexturePath(pszTexture);
+
+		subMatData.AddParameter("u_texture", Any(pDiff) );
+
+		matData.SaveToXML(pMatPath);
+	}
 
 	void SampleAnimationRetarget::Load()
 	{	
+		CreateMaterialData_("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat");
+		CreateMaterialData_("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat");
+		CreateMaterialData_("gigi/gigi/body_h.tga","gigi/gigi/body_h.mat");
+
+		CreateMaterialData_("magician/body.tga","magician/Body.mat");
 
 		// character A MeshData & skeleton & Animation
 		{
@@ -55,8 +76,8 @@ namespace ma
 
 	void SampleAnimationRetarget::Render()
 	{
-		m_pAnimtionObjectA->DebugRender();
-		m_pAnimtionObjectB->DebugRender();
+		//m_pAnimtionObjectA->DebugRender();
+		//m_pAnimtionObjectB->DebugRender();
 	}
 
 	void SampleAnimationRetarget::Update()

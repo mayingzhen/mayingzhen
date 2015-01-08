@@ -12,11 +12,11 @@ namespace ma
 		//Close();
 	}
 
-	void BinaryInputSerializer::SerializeByte(Uint8* &pData,UINT nSizeToRead,const char* pszLable)
+	void BinaryInputSerializer::SerializeByte(uint8* &pData,UINT nSizeToRead,const char* pszLable)
 	{
 		if (pData == NULL)
 		{
-			pData = new Uint8[nSizeToRead];
+			pData = new uint8[nSizeToRead];
 		}
 
  		int nRead = m_pStream->Read(pData,nSizeToRead);

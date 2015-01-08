@@ -11,37 +11,12 @@ namespace ma
 	const UINT MAX_NONTHREADED_WORK_USEC = 1000;
 
 	/// Worker thread managed by the work queue.
-	class WorkerThread : public Thread, public Referenced
-	{
-	public:
-		/// Construct.
-		WorkerThread(WorkQueue* owner, UINT index) :
-			owner_(owner),
-			index_(index)
-		{
-		}
-	    
-		/// Process work items until stopped.
-// 		virtual void ThreadFunction()
-// 		{
-// 			// Init FPU state first
-// 			InitFPU();
-// 		}
 
-		virtual	void	ThreadUpdate()
-		{
-			owner_->ProcessItems(index_);
-		}
-	    
-		/// Return thread index.
-		UINT GetIndex() const { return index_; }
-	    
-	private:
-		/// Work queue.
-		WorkQueue* owner_;
-		/// Thread index.
-		UINT index_;
-	};
+	void WorkerThread::ThreadUpdate()
+	{
+		owner_->ProcessItems(index_);
+	}
+
 
 	WorkQueue::WorkQueue(/*Context* context*/) :
 		//Object(context),

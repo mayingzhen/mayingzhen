@@ -9,11 +9,11 @@ namespace ma
 	class ANIMATION_API SkelAnimtion : public Object
 	{
 	public:
-		SkelAnimtion(const char* pName,Skeleton* pSkeleton);
-
-		SkelAnimtion(SkelAnimData* pSkelAnimData,Skeleton* pSkeleton);
+		SkelAnimtion();
 
 		~SkelAnimtion();
+
+		void				SetSkeletion(Skeleton* pSkeleton);
 
 		void				SetTreeNode(AnimTreeNode* pAnimNode);
 
@@ -31,18 +31,13 @@ namespace ma
 
 		const char*			GetAnimName() {return m_sAnimName.c_str();}
 
-		Skeleton*			GetSkeleton() {return m_pSkeleton;}
-
-		AnimLayerNode*		CreateLayerNode(AnimLayerNodeData* pLayerData = NULL);
-
-		AnimBlendNode*		CreateBlendNode(AnimBlendNodData* pBlendData = NULL);
-
-		AnimClipNode*		CreateClipNode(AnimClipNodeData* pClipData = NULL);
+		Skeleton*			GetSkeleton() {return m_pSkeleton.get();}
 
 		AnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+		
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "SkelAnimtion");
 
-	private:
-		AnimTreeNode*		CreateAnimNode(AnimNodeData* pAnimNodeData);
+		bool				OnLoadOver();
 
 	private:
 		std::string					m_sAnimName;
@@ -51,9 +46,7 @@ namespace ma
 
 		std::vector<PoseModifier*>	m_arrPoseModifier;
 
-		Skeleton*					m_pSkeleton;
-
-		SkelAnimData*				m_pSkelAnimData;
+		RefPtr<Skeleton>			m_pSkeleton;
 	};
 }
 

@@ -326,18 +326,18 @@ namespace ma
 		return ext;
 	}
 
-	std::string StringUtil::replaceFileExt(const std::string& strFile,const std::string& strNewExt)
-	{
-		std::string strNewFile = strFile;
-
-		int index = strNewFile.find_last_of(".");
-		if (index>=0)
-		{
-			strNewFile = strNewFile.replace(index + 1, strNewFile.size() - index,strNewExt);
-		}
-
-		return strNewFile;
-	}
+// 	std::string StringUtil::replaceFileExt(const std::string& strFile,const std::string& strNewExt)
+// 	{
+// 		std::string strNewFile = strFile;
+// 
+// 		int index = strNewFile.find_last_of(".");
+// 		if (index>=0)
+// 		{
+// 			strNewFile = strNewFile.replace(index + 1, strNewFile.size() - index,strNewExt);
+// 		}
+// 
+// 		return strNewFile;
+// 	}
 
 	std::string StringUtil::getDirectoryName(const char* pFullName)
 	{

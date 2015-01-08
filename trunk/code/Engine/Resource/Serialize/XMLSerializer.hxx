@@ -62,7 +62,7 @@ namespace ma
 		}
 	}
 
-	void XMLSerializer::Serialize(Uint64& val,const char* pszLable)
+	void XMLSerializer::Serialize(uint64& val,const char* pszLable)
 	{
 		ASSERT(false);
 	}
@@ -94,10 +94,15 @@ namespace ma
 
 	void XMLSerializer::Serialize(Vector2 &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		EndSection();
+		if ( IsReading() )
+		{
+			const char* pszValue = m_pCurElem->Attribute(pszLable);
+			val = StringConverter::parseVector2(pszValue);
+		}
+		else
+		{
+			m_pCurElem->SetAttribute(pszLable,StringConverter::toString(val).c_str());
+		}
 	}
 
 
@@ -111,33 +116,43 @@ namespace ma
 
 	void XMLSerializer::Serialize(Vector3 &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		Serialize(val.z,"z");
-		EndSection();
+		if ( IsReading() )
+		{
+			const char* pszValue = m_pCurElem->Attribute(pszLable);
+			val = StringConverter::parseVector3(pszValue);
+		}
+		else
+		{
+			m_pCurElem->SetAttribute(pszLable,StringConverter::toString(val).c_str());
+		}
 	}
 
 
 	void XMLSerializer::Serialize(Vector4 &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		Serialize(val.z,"z");
-		Serialize(val.w,"w");
-		EndSection();
+		if ( IsReading() )
+		{
+			const char* pszValue = m_pCurElem->Attribute(pszLable);
+			val = StringConverter::parseVector4(pszValue);
+		}
+		else
+		{
+			m_pCurElem->SetAttribute(pszLable,StringConverter::toString(val).c_str());
+		}
 	}
 
 
 	void XMLSerializer::Serialize(Quaternion &val,const char* pszLable)
 	{
-		BeginSection(pszLable);
-		Serialize(val.x,"x");
-		Serialize(val.y,"y");
-		Serialize(val.z,"z");
-		Serialize(val.w,"w");
-		EndSection();
+		if ( IsReading() )
+		{
+			const char* pszValue = m_pCurElem->Attribute(pszLable);
+			val = StringConverter::parseQuaternion(pszValue);
+		}
+		else
+		{
+			m_pCurElem->SetAttribute(pszLable,StringConverter::toString(val).c_str());
+		}
 	}
 
 	void XMLSerializer::Serialize(Transform& val,const char *pszLable)
@@ -149,7 +164,7 @@ namespace ma
 		EndSection();
 	}
 
-	void XMLSerializer::SerializeByte(Uint8* &pData,UINT nSizeInByte,const char* pszLable)
+	void XMLSerializer::SerializeByte(uint8* &pData,UINT nSizeInByte,const char* pszLable)
 	{
 		ASSERT(false);
 	}

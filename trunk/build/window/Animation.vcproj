@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Animation/StdAfx.h"
 				WarningLevel="3"
@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -220,14 +219,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSetData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSetData.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationSystem.h"
 				>
 			</File>
@@ -277,14 +268,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\SkelAnimtionData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\SkelAnimtionData.hxx"
 				>
 			</File>
 			<File

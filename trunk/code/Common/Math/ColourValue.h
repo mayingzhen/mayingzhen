@@ -43,10 +43,10 @@ namespace ma {
 	*  @{
 	*/
 
-    typedef Uint32 RGBA;
-    typedef Uint32 ARGB;
-    typedef Uint32 ABGR;
-	typedef Uint32 BGRA;
+    typedef uint32 RGBA;
+    typedef uint32 ARGB;
+    typedef uint32 ABGR;
+	typedef uint32 BGRA;
 
     /** Class representing colour.
 	    @remarks

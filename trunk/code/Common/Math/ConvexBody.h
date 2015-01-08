@@ -35,6 +35,7 @@ THE SOFTWARE.
 
 namespace ma
 {
+	class Frustum;
 
 	/** \addtogroup Core
 	*  @{
@@ -69,7 +70,7 @@ namespace ma
 
 		/** Build a new polygon representation from a frustum.
 		*/
-		//void define(const Frustum& frustum);
+		void define(const Frustum& frustum);
 
 		/** Build a new polygon representation from an AAB.
 		*/
@@ -100,6 +101,8 @@ namespace ma
 			method.
 		*/
 		void extend(const Vector3& pt);
+
+		void transformed(Matrix4 matTrans);
 
 		/** Resets the object.
 		*/

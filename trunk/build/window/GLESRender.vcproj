@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/DevIL/include;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;&quot;../../extern/glew-1.11.0/include&quot;;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="GLESRender/StdAfx.h"
 				WarningLevel="3"
@@ -62,10 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenGL32.lib glew32.lib DevIL.lib libjpeg.lib libpng.lib zlib.lib"
+				AdditionalDependencies="OpenGL32.lib glew32sd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/glew/lib/windows/x86;../../extern/DevIL/lib/windows/"
-				IgnoreDefaultLibraryNames="LIBCMT.lib"
+				AdditionalLibraryDirectories="../../extern/glew-1.11.0/lib"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

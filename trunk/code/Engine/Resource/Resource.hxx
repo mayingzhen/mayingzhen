@@ -10,10 +10,62 @@ namespace ma
 		m_sResPath = pszPath ? pszPath : ""; 
 		m_eResState = ResUnLoad;
 		m_pDataStream = NULL;
+		m_eCreateType = MEM_RES;
 	}
 
 	Resource::~Resource()
-	{	
+	{
+		m_pDataStream = NULL;
+	}
+
+	bool Resource::LoadFromXML(const char* pFilePath)
+	{
+		m_sResPath = pFilePath ? pFilePath  : "";
+		m_eResState = ResUnLoad;
+		m_pDataStream = NULL;
+		m_eCreateType = XML_RES;
+
+		return Load();
+	}
+
+	bool Resource::SaveToXML(const char* pFilePath)
+	{
+		std::string strSavePath = pFilePath ? pFilePath : m_sResPath;
+
+		XMLOutputSerializer ar;
+
+		Serialize(ar,this->GetClass()->GetName());
+
+		return ar.Save(strSavePath.c_str());
+	}
+
+	bool Resource::LoadFromFile(const char* pFilePath)
+	{
+		m_sResPath = pFilePath ? pFilePath : "";
+		m_eResState = ResUnLoad;
+		m_pDataStream = NULL;
+		m_eCreateType = BIN_RES;
+
+		return Load();
+	}
+
+	bool Resource::SaveToFile(const char* pszPath)
+	{
+		std::string strSavePath = pszPath ? pszPath : m_sResPath;
+
+		BinaryOutputSerializer ar;
+		bool bLoadOK = ar.Open(strSavePath.c_str());
+		if (!bLoadOK)
+		{
+			ASSERT(false && "Fail to save mesh from file");
+			return false;
+		}
+
+		Serialize(ar,this->GetClass()->GetName());
+
+		ar.Close();
+
+		return true;
 	}
 
 	bool Resource::Load()
@@ -59,12 +111,9 @@ namespace ma
 	bool Resource::LoadFileToMemeory()
 	{
 		ASSERT(m_eResState == ResUnLoad);
-		//if (m_eResState == ResLoadIng || m_eResState == ResLoaded)
-		//	return true;
-			
+
 		m_eResState = ResLoadIng;
 
-		m_pDataStream = NULL;
 		m_pDataStream = GetArchiveMananger()->ReadAll( m_sResPath.c_str() );
 		if (m_pDataStream == NULL)
 		{
@@ -84,37 +133,45 @@ namespace ma
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return false;
+	
+		if (m_eCreateType == XML_RES)
+		{
+			XMLInputSerializer inAr;
+			inAr.Open(m_pDataStream.get());
+			Serialize(inAr,this->GetClass()->GetName());
+			inAr.Close();
 
-		BinaryInputSerializer inAr;
-		inAr.Open(m_pDataStream.get());
-		Serialize(inAr);
-		inAr.Close();
+			m_pDataStream = NULL;
+		}
+		else if (m_eCreateType == BIN_RES)
+		{
+			BinaryInputSerializer inAr;
+			inAr.Open(m_pDataStream.get());
+			Serialize(inAr,this->GetClass()->GetName());
+			inAr.Close();
 
-		m_pDataStream = NULL;
+			m_pDataStream = NULL;
+		}
 
 		m_eResState = ResInited;
 	
 		return true;
 	}
-
-
-	void Resource::SaveToFile(const char* pszPath)
+	
+	bool Resource::IsInited()
 	{
-		std::string strSavePath = pszPath ? pszPath : m_sResPath;
+// 		if (m_pDataStream == NULL)
+// 			return false;
 
-		BinaryOutputSerializer ar;
-		bool bLoadOK = ar.Open(strSavePath.c_str());
-		if (!bLoadOK)
-		{
-			ASSERT(false && "Fail to save mesh from file");
-			return ;
-		}
+		if (m_eResState == ResInited)
+			return true;
 
-		Serialize(ar);
-
-		ar.Close();
-
-		return ;
+// 		if (m_eResState == ResLoaded)
+// 		{
+// 			return CreateFromMemeory();
+// 		}
+	
+		return false;
 	}
 
 	void Resource::Serialize(Serializer& sl, const char* pszLable)
@@ -122,5 +179,11 @@ namespace ma
 
 	}
 
-
+	RefPtr<Resource> CreateResource(const char* pszPath)
+	{
+		Resource* pRes = new Resource(pszPath);
+		pRes->Load();
+		return pRes;
+	}
 }
+

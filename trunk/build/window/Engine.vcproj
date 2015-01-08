@@ -41,15 +41,17 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/oisInput/Include;../../extern/DevIL/extlibs;&quot;../../extern/zziplib-0.13.57&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS"
+				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;&quot;../../extern/zziplib-0.13.57&quot;;&quot;../../extern/FreeImage-3.13.1/Source&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Engine/StdAfx.h"
 				WarningLevel="3"
+				WarnAsError="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -63,9 +65,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_d.lib zziplibd.lib zlibd.lib"
+				AdditionalDependencies="zziplibd.lib FreeImaged.lib OIS_D.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/OISInput/Lib;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;../../extern/DevIL/lib/windows/"
+				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;"
+				ModuleDefinitionFile="../../code/Engine/Engine.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -139,9 +142,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS.lib"
+				AdditionalDependencies="OIS.lib FreeImage.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../../extern/OISInput/Lib"
+				AdditionalLibraryDirectories="../../extern/OISInput/Lib;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Release&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -506,7 +509,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Input\Gesture.h"
+				RelativePath="..\..\code\Engine\Input\Gesture.h"
 				>
 			</File>
 			<File
@@ -614,11 +617,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Scene\NodeTransform.h"
+				RelativePath="..\..\code\Engine\Scene\FrustumCullQuery.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Scene\NodeTransform.hxx"
+				RelativePath="..\..\code\Engine\Scene\FrustumCullQuery.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\MeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\MeshComponent.hxx"
 				>
 			</File>
 			<File
@@ -665,6 +676,122 @@
 				RelativePath="..\..\code\Engine\Scene\SceneVisiter.h"
 				>
 			</File>
+			<Filter
+				Name="Light"
+				>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\Light.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\Light.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\LightSystem.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\LightSystem.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\ShadowCasterQuery.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\ShadowCasterQuery.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\ShadowMapFrustum.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\ShadowMapFrustum.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Terrain"
+				>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\Terrain.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\Terrain.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainLiquid.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainLiquid.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainRenderable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainRenderable.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainTrunk.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainTrunk.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Paticle"
+				>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\GenerateData.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\Particle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleThread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleThread.hxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Profile"
@@ -685,6 +812,18 @@
 		<Filter
 			Name="RTTI"
 			>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Attribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Context.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\Object.h"
 				>
@@ -709,7 +848,435 @@
 				RelativePath="..\..\code\Engine\RTTI\RTTIClass.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Serializable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Serializable.hxx"
+				>
+			</File>
 		</Filter>
+		<Filter
+			Name="ImageData"
+			>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\DDSCodec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\DDSCodec.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\ETC1Codec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\ETC1Codec.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\ImageCodec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\ImageCodec.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\ImageCodecResampler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PixelConversions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PixelFormat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PixelFormat.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PVRTCCodec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PVRTCCodec.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PVRTCDecompress.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\ImageData\PVRTCDecompress.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Material"
+			>
+			<File
+				RelativePath="..\..\code\Engine\Material\Material.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Material.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\MaterialData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\MaterialData.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\MaterialParameter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\MaterialParameter.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\MethodBinding.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\ParameterManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\ParameterManager.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\PrePareShaderSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\RenderState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\RenderState.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\SamplerState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\SamplerState.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\ShaderProgram.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\ShaderProgram.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Technqiue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Technqiue.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Texture.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="RenderSystem"
+			>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\DeviceCapabilities.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\DeviceCapabilities.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderContext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderContext.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderProfile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderQueue.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSetting.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSetting.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RenderView.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RTTI.h"
+				>
+			</File>
+			<Filter
+				Name="IRenderDevice"
+				>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\DeptStencil.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\IndexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\IRenderDevice.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\IRenderDevice.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\RenderDefine.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\VertexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.hxx"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="RenderScheme"
+			>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredLightPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredLightPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredShadowPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredShadowPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\GBufferPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\GBufferPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\PostProcess.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\RenderPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\RenderPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\RenderScheme.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\RenderScheme.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\ShadingPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\ShadingPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\ShadowDepthPass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\ShadowDepthPass.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Renderable"
+			>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\LineRender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\LineRender.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshBatch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshBatch.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshBatch.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshData.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshData.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshDataSerialize.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\Renderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\Renderable.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\ScreenQuad.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\ScreenQuad.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\SpriteBatch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\SpriteBatch.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\UnitSphere.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\UnitSphere.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\Util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\Util.hxx"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\..\code\Engine\Engine.def"
+			>
+		</File>
 		<File
 			RelativePath="..\..\Code\Engine\Export.h"
 			>

@@ -12,19 +12,15 @@ D3D9IndexBuffer::D3D9IndexBuffer()
 
 D3D9IndexBuffer::~D3D9IndexBuffer()
 {
-    safe_release_com(mD3D9IndexBuffer);
+    SAFE_RELEASE(mD3D9IndexBuffer);
 }
 
-// void D3D9IndexBuffer::DeleteSelf()
-// {
-//     VideoBufferManager::Instance()->DestroyIndexBuffer(this);
-// }
 
 void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
 	if (!mD3D9IndexBuffer)
 	{
-		Active();
+		RT_StreamComplete();
 	}
 
     void * pData = NULL;
@@ -52,7 +48,7 @@ void D3D9IndexBuffer::Unlock()
 	ASSERT(hr == D3D_OK);
 }
 
-void D3D9IndexBuffer::Active()
+void D3D9IndexBuffer::RT_StreamComplete()
 {
 	mD3D9Device = GetD3D9DxDevive();
 
@@ -78,43 +74,38 @@ void D3D9IndexBuffer::Active()
 	memcpy(pLockData,m_pData,m_Size);
 
 	mD3D9IndexBuffer->Unlock();
-
+	
+	m_bActive = true;
 }
 
-void D3D9IndexBuffer::LostDevice()
+
+void D3D9IndexBuffer::NotifyOnDeviceDestroy()
 {
-    if (m_Usage == USAGE_DYNAMIC)
-        safe_release_com(mD3D9IndexBuffer);
+	SAFE_RELEASE(mD3D9IndexBuffer);
 }
 
-void D3D9IndexBuffer::ResetDevice()
+void D3D9IndexBuffer::NotifyOnDeviceLost()
 {
-    if (m_Usage == USAGE_DYNAMIC)
-    {
-        ASSERT(mD3D9IndexBuffer == NULL);
+	if (m_descBuffer.Pool == D3DPOOL_DEFAULT)
+	{
+		SAFE_RELEASE(mD3D9IndexBuffer);
+	}
+}
 
-        HRESULT hr;
-        DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
-        D3DFORMAT D3DFormat = D3DFMT_INDEX16;
-
-        hr = mD3D9Device->CreateIndexBuffer(m_Size,
-                                              D3DUsage,
-                                              D3DFormat,
-                                              D3DPOOL_DEFAULT,
-                                              &mD3D9IndexBuffer,
-                                              NULL);
-        if (FAILED(hr))
-        {
-            //EXCEPTION("D3D Error: CreateIndexBuffer failed. desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
-        }
-    }
+void D3D9IndexBuffer::NotifyOnDeviceReset()
+{
+	if (m_descBuffer.Pool == D3DPOOL_DEFAULT)
+	{
+		ASSERT(mD3D9IndexBuffer == NULL);
+		//this->CreateBuffer()
+	}
 }
 
 IDirect3DIndexBuffer9 * D3D9IndexBuffer::GetD3DIndexBuffer() 
 {
 	if (!mD3D9IndexBuffer)
 	{
-		Active();
+		RT_StreamComplete();
 	}
 
     return mD3D9IndexBuffer;

@@ -1,165 +1,9 @@
 #include "GLESTexture.h"
 #include "GLESMapping.h"
 
-#include "il/il.h"
 
 namespace ma
 {
-
-#if !defined(__APPLE__)  &&  !defined(_WIN32)
-	extern bool g_bHardwareETCSupported;
-	extern bool g_bHardwareDDSSupported;
-#endif
-
-	bool InitTextureSystem()
-	{
-		ilInit();
-		ilEnable(IL_CONV_PAL);// 转换调色板数据
-		ilClearColour(0.0f, 0.0f, 0.0f, 1.0f);
-
-		// 定义图像原点为左上角,这样载入的图像在数据上是从上至下的.
-		// 这与DX的纹理寻址方式一致,但与OpenGL的方式相反!
-		ilEnable(IL_ORIGIN_SET);
-		ilSetInteger(IL_ORIGIN_MODE, IL_ORIGIN_UPPER_LEFT);
-
-		// Delete the stupid first one image.
-		ILuint image = 1;
-		ilDeleteImages(1, &image);
-
-#if defined(_WIN32)
-		//ilSetEtcDecompress(IL_TRUE);
-		//ilSetInteger(IL_DXT_DONT_DECOMP, IL_TRUE);
-		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
-#elif defined(__APPLE__)
-#if defined(TARGET_OS_IPHONE)
-		ilSetInteger(IL_DXT_DONT_DECOMP, IL_FALSE);
-		ilSetInteger(IL_KEEP_DXTC_DATA, IL_FALSE);
-#else
-		ilSetInteger(IL_DXT_DONT_DECOMP, IL_TRUE);
-		ilSetInteger(IL_KEEP_DXTC_DATA, IL_TRUE);
-#endif//TARGET_OS_IPHONE
-#elif defined(__ANDROID__)
-		ilSetEtcDecompress(g_bHardwareETCSupported? IL_FALSE : IL_TRUE);
-		ilSetInteger(IL_KEEP_DXTC_DATA, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
-		ilSetInteger(IL_DXT_DONT_DECOMP, g_bHardwareDDSSupported? IL_TRUE : IL_FALSE);
-#endif
-
-		return true;
-	}
-
-	bool ShundownTextureSystem()
-	{
-		// 留空概念备用
-		ilShutDown();
-		return true;
-	}
-
-	bool IsCompressedTextureFormat(ILenum format)
-	{
-		return((format == IL_PVRTCRGB2)
-			|| (format == IL_PVRTCRGBA2)
-			|| (format == IL_PVRTCRGB4)
-			|| (format == IL_PVRTCRGBA4) 
-			|| (format == IL_ETC_FORMAT)
-			|| (format == IL_DXT1) 
-			|| (format == IL_DXT3) 
-			|| (format == IL_DXT5)
-			|| (format == IL_ATC_FORMAT) 
-			|| (format == IL_ATCA_FORMAT) 
-			|| (format == IL_ATCI_FORMAT));
-	}
-
-	GLenum ChooseBestTextureFormat(GLenum srcImageFormat)
-	{	
-		switch(srcImageFormat)
-		{	
-		case IL_RGB:
-		case IL_BGR:// Note: OpenGL ES NOT support GL_BGR
-			{
-				return GL_RGB;
-			}
-			break;
-
-		case IL_RGBA:
-		case IL_BGRA:
-		//case IL_PVR_RGBA4444:
-			{
-				return GL_RGBA;
-			}
-			break;
-
-		case IL_PVRTCRGB2:
-			{
-				return GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG;
-			}
-			break;
-
-		case IL_PVRTCRGBA2:
-			{
-				return GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
-			}
-			break;
-
-		case IL_PVRTCRGB4:
-			{
-				return GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
-			}
-			break;
-
-		case IL_PVRTCRGBA4:
-			{
-				return GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
-			}
-			break;
-
-		case IL_ETC_FORMAT:
-			{
-				return GL_ETC1_RGB8_OES;
-			}
-			break;
-
-		case IL_ATC_FORMAT:
-			{
-				return GL_ATC_RGB_AMD;
-			}
-			break;
-
-		case IL_ATCA_FORMAT:
-			{
-				return GL_ATC_RGBA_EXPLICIT_ALPHA_AMD;
-			}
-			break;
-
-		case IL_ATCI_FORMAT:
-			{
-				return GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD;
-			}
-			break;
-
-		//case IL_DXT1:
-//          {
-//				return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-//			}
-//			break;
-
-// 		case IL_DXT3:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-// 			}
-// 			break;
-
-// 		case IL_DXT5:
-// 			{
-// 				return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-// 			}
-// 			break;
-			
-		default:
-			ASSERT(false);
-		}
-		return 0;
-	}	
-
 	GLESTexture::GLESTexture(const char* pszPath)
 		:Texture(pszPath)
 	{
@@ -167,11 +11,12 @@ namespace ma
 		m_PixelFormat = 0;
 	}
 
-	GLESTexture::GLESTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
-		:Texture(nWidth,nHeight,format,bDepthStencil)
+	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage)
+		:Texture(nWidth,nHeight,eFormat,eUsage)
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;
+		m_DataType = 0;
 	}
 
 	GLESTexture::~GLESTexture()
@@ -179,150 +24,149 @@ namespace ma
 
 	}
 
-	bool GLESTexture::CreateRT()
+	PixelFormat GLESTexture::getNativeFormat(PixelFormat format)
 	{
-		if (m_nWidth == -1 && m_nHeight == -1)
+		bool bSupportDXT = false;//GetDeviceCapabilities()->GetTextureDXTSupported();
+		bool bSupportPVRTC = false;//GetDeviceCapabilities()->GetTexturePVRTCSupported();
+		bool bSupportETC1 = false;//GetDeviceCapabilities()->GetTextureETC1Supported();
+		bool bSupportFloat = false;//GetDeviceCapabilities()->getFloatTexturesSupported();
+
+		// Check compressed texture support
+		// if a compressed format not supported, revert to PF_A8R8G8B8
+		if (PixelUtil::isCompressed(format) && !bSupportDXT && !bSupportPVRTC && !bSupportETC1)
 		{
-			Rectangle rect = GetRenderSystem()->GetViewPort();
-			m_nWidth = rect.width;
-			m_nHeight = rect.height;
+			return PF_A8R8G8B8;
 		}
+
+		// if floating point textures not supported, revert to PF_A8R8G8B8
+		if (PixelUtil::isFloatingPoint(format) && !bSupportFloat)
+		{
+			return PF_A8R8G8B8;
+		}
+
+		// Supported
+		return format;
+	}
+
+	size_t getMaxMipmaps(size_t width, size_t height)
+    {
+		size_t count = 0;
+        if((width > 0) && (height > 0))
+        {
+            do {
+                if(width>1)		width = width/2;
+                if(height>1)	height = height/2;
+                
+                count ++;
+            } while(!(width == 1 && height == 1));
+        }		
+		return count;
+    }
+
+	bool GLESTexture::RT_Create()
+	{
+		ASSERT(m_pTex == 0);
+
+		// Convert to nearest power-of-two size if required
+		m_nWidth = Math::NextPowerOfTwo(m_nWidth);
+		m_nHeight = Math::NextPowerOfTwo(m_nHeight);
+
+		// Adjust format if required
+		m_eFormat = this->getNativeFormat(m_eFormat);
 
 		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
-			
-		glGenTextures(1, &m_pTex);
-		glBindTexture(GL_TEXTURE_2D, m_pTex);
-		glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, NULL);
+		m_DataType = GLESMapping::GetGLESDataType(m_eFormat);
+
+		// Check requested number of mipmaps
+		size_t maxMips = getMaxMipmaps(m_nWidth, m_nHeight);
+
+		// Generate texture name
+		GL_ASSERT( glGenTextures(1, &m_pTex) );
+
+		// Set texture type
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
+
+		GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, m_DataType, NULL) );
+
+#if GL_APPLE_texture_max_level
+		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
+#endif
+
+		// Set some misc default parameters, these can of course be changed later
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST) );
 		
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST) );
+		
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE) );
+		
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE) );
+	
+	
 		return true;
 	}
 
-
-	struct IMAGE_INFO
+	bool GLESTexture::SetLevelData(int level, const PixelBox& src)
 	{
-		GLuint Width;
-		GLuint Height;
-		GLuint PixelFormat;
-	};
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 
-	bool GLESTexture::Load(MemoryStream* pDataStream, bool generateMipmaps)
-	{
-		ASSERT(pDataStream);
-		if (pDataStream == NULL)
-			return false;
-
-		if (std::string( pDataStream->GetName() ) == "")
-		{
-			m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
-			ConvertImageData(m_PixelFormat,m_nWidth * m_nHeight,pDataStream->GetPtr());
-
-			glGenTextures(1, &m_pTex);
-			glBindTexture(GL_TEXTURE_2D, m_pTex);
-
-			glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pDataStream->GetPtr());	
-
-			if (generateMipmaps)
-			{
-				GenerateMipmaps();
-			}
-
-			return true;
-		}
-
-
-		ILuint curImage = 0; 
-		ilGenImages(1, &curImage);
-		ilBindImage(curImage);
+		int width = m_nWidth >> level;
+		int height = m_nHeight >> level;
 		
-		ILenum ilImageType = ilTypeFromExt(pDataStream->GetName());
-		
-		if( !ilLoadL( ilImageType, pDataStream->GetPtr(), pDataStream->GetSize() ) )
-		{ 
-			ASSERT(false);
-			ilDeleteImages(1, &curImage);
-			return false;
-		} 
-
-
-		m_nWidth = ilGetInteger(IL_IMAGE_WIDTH);
-		m_nHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-		m_nMipLevels = ilGetInteger(IL_NUM_MIPMAPS);
-		ILint imageFormat = ilGetInteger(IL_IMAGE_FORMAT);
-		m_PixelFormat = ChooseBestTextureFormat(imageFormat);
-		bool bCompressFormat = IsCompressedTextureFormat(imageFormat);
-
-		glGenTextures(1, &m_pTex);
-		glBindTexture(GL_TEXTURE_2D, m_pTex);
-
-		int i = 0;
-		while(ilActiveMipmap(i))
+		PixelBox conver = src;
+		PixelFormat closestFomat = GLESMapping::GetClosestFormat(m_PixelFormat,m_DataType);
+		if (closestFomat != src.format)
 		{	
-			Uint8* pSrcData= (Uint8*)ilGetData();
-			int unLevelWidth = ilGetInteger(IL_IMAGE_WIDTH);
-			int unLevelHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-
-			ConvertImageData(imageFormat,unLevelWidth * unLevelHeight,pSrcData);
-
-			if(bCompressFormat)
-			{
-				UINT unDataLength = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
-				glCompressedTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, unDataLength, pSrcData);
-			}	
-			else
-			{
-				glTexImage2D(GL_TEXTURE_2D, i, m_PixelFormat, unLevelWidth, unLevelHeight, 0, m_PixelFormat, GL_UNSIGNED_BYTE, pSrcData);	
-			}
-
-			ilBindImage(curImage);
-			i++;
+			conver.format = closestFomat;
+			PixelUtil::bulkPixelConversion(src,conver);
 		}
 
-		ilDeleteImages(1, &curImage);
-
-		if (generateMipmaps)
+		if (PixelUtil::isCompressed(m_eFormat))
 		{
-			GenerateMipmaps();
-		}
+			UINT size = PixelUtil::getMemorySize(width, height, 1, m_eFormat);
 
-		//glFlush();
+			GL_ASSERT( glCompressedTexImage2D(GL_TEXTURE_2D,level,m_PixelFormat,width,height,0,size,conver.data) );
+		}
+		else
+		{
+			GL_ASSERT( glTexImage2D(GL_TEXTURE_2D,level,m_PixelFormat,width,height,0,m_PixelFormat,m_DataType,conver.data) );
+		}
 
 		return true;
 	}
 
-
-	void GLESTexture::GenerateMipmaps()
+	bool GLESTexture::GenerateMipmaps()
 	{
-		//if (m_nMipLevels <= 1)
-		//{
-			GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
-			GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
-			GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
-		//}
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
+		GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
+		GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
+
+		return true;
 	}
 
-	void GLESTexture::ConvertImageData(int pixelFormat,int nPixelCount,Uint8* pPixel)
-	{
-		int nPixelSize = 1;
-		if(pixelFormat == IL_BGR)
-		{
-			nPixelSize = 3;
-		}
-		else if(pixelFormat == IL_BGRA)
-		{
-			nPixelSize = 4;
-		}
-		else 
-		{
-			return;
-		}
+// 	void GLESTexture::ConvertImageData(int pixelFormat,int nPixelCount,uint8* pPixel)
+// 	{
+// 		int nPixelSize = 1;
+// 		if(pixelFormat == IL_BGR)
+// 		{
+// 			nPixelSize = 3;
+// 		}
+// 		else if(pixelFormat == IL_BGRA)
+// 		{
+// 			nPixelSize = 4;
+// 		}
+// 		else 
+// 		{
+// 			return;
+// 		}
+// 
+// 		for(int i = 0; i < nPixelCount; ++i)
+// 		{
+// 			const int nIndex = i * nPixelSize;
+// 			uint8 a = pPixel[nIndex];
+// 			pPixel[nIndex] = pPixel[nIndex+2];
+// 			pPixel[nIndex+2] = a;
+// 		}
+// 	}
 
-		for(int i = 0; i < nPixelCount; ++i)
-		{
-			const int nIndex = i * nPixelSize;
-			Uint8 a = pPixel[nIndex];
-			pPixel[nIndex] = pPixel[nIndex+2];
-			pPixel[nIndex+2] = a;
-		}
-	}
 }
 

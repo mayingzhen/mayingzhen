@@ -10,10 +10,12 @@ namespace ma
 			RefPtr<Animation> pAnimation = DeclareResource<Animation>(pszAnimPath);
 			pAnimation->LoadSync();
 
-			AnimationClip* pAnimationInst = new AnimationClip(pAnimation,pSkeleton);
-			AnimClipNode* pClipNode = new AnimClipNode(pSkeleton);
+			AnimationClip* pAnimationInst = new AnimationClip();
+			AnimClipNode* pClipNode = new AnimClipNode();
 			pClipNode->SetAnimationClip(pAnimationInst);
-			SkelAnimtion* pAction = new SkelAnimtion(pszActionName,pSkeleton);
+			SkelAnimtion* pAction = new SkelAnimtion();
+			pAction->SetAnimName(pszAnimPath);
+			pAction->SetSkeletion(pSkeleton);
 			pAction->SetTreeNode(pClipNode);
 
 			return pAction;

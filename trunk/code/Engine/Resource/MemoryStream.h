@@ -48,18 +48,18 @@ namespace ma
 		// Self
 		// ---------------------------------------------------------------------
 	public:
-		Uint8* GetPtr() const{return m_pData;}
-		Uint8* GetCurrentPtr() const{return m_pPos;}
+		uint8* GetPtr() const{return m_pData;}
+		uint8* GetCurrentPtr() const{return m_pPos;}
 
 	private:
 		// Pointer to the start of the data area
-		Uint8* m_pData;
+		uint8* m_pData;
 
 		// Pointer to the current position in the memory
-		Uint8* m_pPos;
+		uint8* m_pPos;
 
 		// Pointer to the end of the memory
-		Uint8* m_pEnd;
+		uint8* m_pEnd;
 
 		// Do we delete the memory on close
 		bool m_bFreeOnClose;
@@ -67,6 +67,10 @@ namespace ma
 
 
 	DeclareRefPtr(MemoryStream);
+
+	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly);
+	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly);
+	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly);
 
 }
 

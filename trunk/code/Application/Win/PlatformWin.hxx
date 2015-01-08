@@ -10,27 +10,24 @@ namespace ma
 	{
 		Platform* pCurApp = reinterpret_cast<Platform*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-		static bool shiftDown = false;
-		static bool capsOn = false;
-
 		switch (message)
 		{
 		case WM_CLOSE:
 			DestroyWindow(hwnd);
 			return 0;
-
 		case WM_DESTROY:
-			Game::GetInstance().Shutdown();
+			//Game::GetInstance().Shutdown();
 			PostQuitMessage(0);
-			return 0;
+			break;
 
 		case WM_SIZE:
 			// Window was resized.
 			//Game::GetInstance().resizeEvent((UINT)(short)LOWORD(lParam), (UINT)(short)HIWORD(lParam));
 			break;
+		default:
+			return DefWindowProc(hwnd, message, wParam, lParam); 
 		}
-
-		return DefWindowProc(hwnd, message, wParam, lParam); 
+		return 0;
 	}
 
 	static Platform* gplatform = NULL;
@@ -98,7 +95,7 @@ namespace ma
 
 	void Platform::Shutdown()
 	{
-
+		Game::GetInstance().Shutdown();	
 	}
 
 	void Platform::GetWindowSize(int& w, int& h) const

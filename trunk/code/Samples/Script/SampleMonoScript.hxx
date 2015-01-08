@@ -17,8 +17,10 @@ namespace ma
 		IScriptSystem* pScriptSystem = GetScriptSystem();
 		if (pScriptSystem == NULL)
 			return;
+		
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string	strDllPath = strDir + "/Script/ScriptTest/bin/Debug/ScriptTest.dll";
 
-		std::string	strDllPath = GetArchiveMananger()->GetFullPath("Script/ScriptTest/bin/Debug/ScriptTest.dll");
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
 		SceneNodePtr pGameObj =  m_pScene->CreateNode("Test");

@@ -23,6 +23,16 @@ namespace ma
 	{
 	}
 
+	void ArchiveManager::SetSaveDir(const char* pSaveDir)
+	{
+		m_saveDir = pSaveDir ? pSaveDir : "";
+	}
+
+	const char*	ArchiveManager::GetSaveDir() const
+	{
+		return m_saveDir.c_str();
+	}
+
 	StreamPtr ArchiveManager::Create(const char* pszFile) const
 	{
 		ASSERT(pszFile);
@@ -39,7 +49,7 @@ namespace ma
 		}
 
 		ASSERT(false);
-		Log("Ceate file :%s", pszFile);
+		LogError("Ceate file :%s", pszFile);
 		return NULL;
 	}
 
@@ -59,7 +69,7 @@ namespace ma
 		}
 
 		ASSERT(false);
-		Log("Cannot open file :%s", pszFile);
+		LogError("Cannot open file :%s", pszFile);
 		return NULL;
 	}
 
@@ -81,6 +91,16 @@ namespace ma
 		m_vecArchive.insert(m_vecArchive.begin(), pArchive);
 	}
 
+	UINT ArchiveManager::GetArchiveNumber()
+	{
+		return m_vecArchive.size();
+	}
+
+	Archive* ArchiveManager::GetArchiveByIndex(UINT index)
+	{
+		return m_vecArchive[index].get();
+	}
+
 	bool ArchiveManager::Exists( const char* pszFile ) const
 	{
 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
@@ -94,18 +114,18 @@ namespace ma
 		return false;
 	}
 
-	std::string	ArchiveManager::GetFullPath(const char* pszFile) const
-	{
-		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
-		{
-			if( (*iter)->exists(pszFile) )
-			{
-				return std::string( (*iter)->GetName() ) + "/" + pszFile; 
-			}
-		}
-
-		return "";
-	}
+// 	std::string	ArchiveManager::GetFullPath(const char* pszFile) const
+// 	{
+// 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
+// 		{
+// 			if( (*iter)->exists(pszFile) )
+// 			{
+// 				return std::string( (*iter)->GetName() ) + "/" + pszFile; 
+// 			}
+// 		}
+// 
+// 		return "";
+// 	}
 
 
 }

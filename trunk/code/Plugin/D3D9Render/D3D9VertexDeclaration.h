@@ -17,7 +17,7 @@ namespace ma
 
 	private:
 
-		virtual void Active();
+		virtual void RT_StreamComplete();
 
 	protected:
 		IDirect3DDevice9 *                      mD3D9Device;

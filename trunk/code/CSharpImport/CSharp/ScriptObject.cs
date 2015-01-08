@@ -57,7 +57,7 @@ public class ScriptBase
 
     public void SetGameObjPtr(IntPtr cPtr)
     {
-        maEngine.Log(".......SetGameObjPtr.....");
+        maEngine.LogInfo(".......SetGameObjPtr.....");
         m_sceneNodePtr = cPtr;
     }
 

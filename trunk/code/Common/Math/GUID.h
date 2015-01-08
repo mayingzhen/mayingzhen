@@ -4,8 +4,8 @@ namespace ma
 {
 	struct maGUID
 	{
-		Uint64 m_a;
-		Uint64 m_b;
+		uint64 m_a;
+		uint64 m_b;
 
 		maGUID()
 		{

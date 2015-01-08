@@ -7,7 +7,7 @@ namespace ma
 
 static std::vector<Font*> __fontCache;
 
-static Technique* __fontTechnique = NULL;
+static RefPtr<Technique> __fontTechnique = NULL;
 
 Font::Font() :
     _style(PLAIN), _size(0), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL)
@@ -94,7 +94,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     // Create the effect for the font's sprite batch.
     if (__fontTechnique == NULL)
     {
-		__fontTechnique = new Technique("font","font","font","");
+		__fontTechnique = CreateTechnique("font","font","font","");
 
 		__fontTechnique->GetRenderState().m_bDepthWrite = false;
 		__fontTechnique->GetRenderState().m_eDepthCheckMode = DCM_NONE;
@@ -105,7 +105,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
 
     // Create batch for the font.
-    SpriteBatch* batch = new SpriteBatch(texture, __fontTechnique, 128);
+    SpriteBatch* batch = new SpriteBatch(texture, __fontTechnique.get(), 128);
     
     // Release __fontMaterial since the SpriteBatch keeps a reference to it
     //SAFE_DEC_REF(__fontMaterial);

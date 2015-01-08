@@ -4,10 +4,8 @@
 namespace ma
 {
 
-	class D3D9IndexBuffer : public IndexBuffer
+	class D3D9IndexBuffer : public IndexBuffer , public D3D9Resource
 	{
-		DeclareD3DResource();
-
 	public:
 		D3D9IndexBuffer();
 
@@ -20,11 +18,16 @@ namespace ma
 		
 		virtual void	Unlock();
 
-		virtual void	Active();
+		virtual void	RT_StreamComplete();
+
+		void NotifyOnDeviceDestroy();
+		void NotifyOnDeviceLost();
+		void NotifyOnDeviceReset();
 
 	protected:
 		IDirect3DDevice9 *          mD3D9Device;
 		IDirect3DIndexBuffer9 *     mD3D9IndexBuffer;
+		D3DINDEXBUFFER_DESC			m_descBuffer;
 	};
 
 }

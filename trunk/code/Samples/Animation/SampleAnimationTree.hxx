@@ -43,12 +43,14 @@ namespace ma
 		
 		AnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
 		SkelAnimtion*	pAction = pAnimSet->CreateSkelAnim("TestAnim");
-		AnimLayerNode*	pLayerNode = pAction->CreateLayerNode();
+		AnimLayerNode*	pLayerNode = new AnimLayerNode();
 		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
 		m_pClip120 = pAction->CreateClipNode("magician/120/bip01.ska","LowerBody");
 		pLayerNode->AddLayer(m_pClip120);
 		pLayerNode->AddLayer(m_pClip602);
 		pAction->SetTreeNode(pLayerNode);
+
+		pAnimSet->SetSkeleton(pAnimComp->GetSkeleton());
 			
 		pAnimComp->PlayAnimation("TestAnim");
 		

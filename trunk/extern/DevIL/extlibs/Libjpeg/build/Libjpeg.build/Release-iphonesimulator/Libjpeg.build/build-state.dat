@@ -1,1430 +1,0 @@
-TLibjpeg
-v7
-r0
-t381897838.264355
-cCheck dependencies
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcdctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jchuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcinit.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcomapi.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcparam.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcprepct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jctrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatadst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatasrc.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jddctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdhuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdinput.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmerge.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdpostct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctred.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemnobs.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant1.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant2.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c normal i386 c com.apple.compilers.gcc.4_2
-cCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jutils.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c normal i386 c com.apple.compilers.gcc.4_2
-cLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/libLibjpeg.a normal i386
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk
-c000000004F45CFA20000000000000132
-t1329975202
-s306
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdio.h
-c000000004748A1330000000000003D1D
-t1195942195
-s15645
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdlib.h
-c000000004748A1330000000000002A79
-t1195942195
-s10873
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/string.h
-c000000004748A1330000000000001731
-t1195942195
-s5937
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/strings.h
-c000000004748A1310000000000000DA4
-t1195942193
-s3492
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/sys/types.h
-c00000000476344C1000000000000290F
-t1197688001
-s10511
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h
-c000000004748AF950000000000003197
-t1195945877
-s12695
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk
-c000000004CC128950000000000000110
-t1287727253
-s272
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdio.h
-c000000004CB3E48600000000000040AC
-t1286857862
-s16556
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdlib.h
-c000000004CB3E4860000000000002DF5
-t1286857862
-s11765
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/string.h
-c000000004CB3E4860000000000001731
-t1286857862
-s5937
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/strings.h
-c000000004CB3E4860000000000000DA4
-t1286857862
-s3492
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/sys/types.h
-c000000004CBFACAC0000000000002905
-t1287629996
-s10501
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/stddef.h
-c000000004A1198340000000000003197
-t1242667060
-s12695
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/Libjpeg.LinkFileList
-c00000000511314710000000000001BC3
-t1360204913
-s7107
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapimin.o
-t1360204913
-s17208
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapistd.o
-t1360204913
-s14436
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccoefct.o
-t1360204913
-s19476
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccolor.o
-t1360204913
-s19004
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcdctmgr.o
-t1360204914
-s18912
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jchuff.o
-t1360204914
-s30496
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcinit.o
-t1360204914
-s13108
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmainct.o
-t1360204914
-s14332
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmarker.o
-t1360204914
-s23036
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmaster.o
-t1360204914
-s20508
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcomapi.o
-t1360204914
-s12608
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcparam.o
-t1360204914
-s26052
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcphuff.o
-t1360204914
-s33772
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcprepct.o
-t1360204915
-s18960
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcsample.o
-t1360204915
-s23600
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jctrans.o
-t1360204915
-s22904
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapimin.o
-t1360204915
-s19556
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapistd.o
-t1360204915
-s17912
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatadst.o
-t1360204915
-s14000
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatasrc.o
-t1360204915
-s15228
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcoefct.o
-t1360204915
-s22972
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcolor.o
-t1360204915
-s20048
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jddctmgr.o
-t1360204915
-s16808
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdhuff.o
-t1360204915
-s25472
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdinput.o
-t1360204915
-s18316
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmainct.o
-t1360204916
-s20840
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmarker.o
-t1360204916
-s37992
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmaster.o
-t1360204916
-s20476
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmerge.o
-t1360204916
-s18096
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdphuff.o
-t1360204916
-s26252
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdpostct.o
-t1360204916
-s17992
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdsample.o
-t1360204916
-s22156
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdtrans.o
-t1360204916
-s14936
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jerror.o
-t1360204916
-s17888
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctflt.o
-t1360204916
-s4068
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctfst.o
-t1360204916
-s3720
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctint.o
-t1360204917
-s3916
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctflt.o
-t1360204917
-s14044
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctfst.o
-t1360204917
-s14164
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctint.o
-t1360204917
-s14476
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctred.o
-t1360204917
-s15480
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemmgr.o
-t1360204917
-s25352
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemnobs.o
-t1360204917
-s10624
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant1.o
-t1360204917
-s27480
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant2.o
-t1360204917
-s32528
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jutils.o
-t1360204917
-s4896
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/libLibjpeg.a
-t1360204917
-s873832
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c
-c000000004D8AA89F00000000000024B9
-t1300932767
-s9401
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c
-c000000004D8AA89F000000000000179A
-t1300932767
-s6042
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c
-c000000004D8AA89F00000000000041D1
-t1300932767
-s16849
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c
-c000000004D8AA89F0000000000003BCB
-t1300932767
-s15307
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c
-c000000004D8AA89F0000000000003238
-t1300932767
-s12856
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c
-c000000004D8AA89F00000000000071CB
-t1300932767
-s29131
-i"jinclude.h"
-i"jpeglib.h"
-i"jchuff.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.h
-c000000004D8AA89F0000000000000656
-t1300932767
-s1622
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c
-c000000004D8AA89F0000000000000975
-t1300932767
-s2421
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c
-c000000004D8AA89F00000000000024F5
-t1300932767
-s9461
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c
-c000000004D8AA89F00000000000045F5
-t1300932767
-s17909
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c
-c000000004D8AA89F0000000000004FFF
-t1300932767
-s20479
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c
-c000000004D8AA89F0000000000000C90
-t1300932767
-s3216
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jconfig.h
-c000000004D8AA89F00000000000004DC
-t1300932767
-s1244
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c
-c000000004D8AA89F000000000000557D
-t1300932767
-s21885
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c
-c000000004D8AA89F000000000000655C
-t1300932767
-s25948
-i"jinclude.h"
-i"jpeglib.h"
-i"jchuff.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c
-c000000004D8AA89F000000000000308B
-t1300932767
-s12427
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c
-c000000004D8AA89F0000000000004BB2
-t1300932767
-s19378
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c
-c000000004D8AA89F000000000000381D
-t1300932767
-s14365
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c
-c000000004D8AA89F00000000000032E8
-t1300932767
-s13032
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c
-c000000004D8AA89F0000000000002597
-t1300932767
-s9623
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c
-c000000004D8AA89F0000000000001496
-t1300932767
-s5270
-i"jinclude.h"
-i"jpeglib.h"
-i"jerror.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c
-c000000004D8AA89F0000000000001E88
-t1300932767
-s7816
-i"jinclude.h"
-i"jpeglib.h"
-i"jerror.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c
-c000000004D8AA89F0000000000006523
-t1300932767
-s25891
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c
-c000000004D8AA8A0000000000000342E
-t1300932768
-s13358
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdct.h
-c000000004D8AA89F0000000000001C31
-t1300932767
-s7217
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c
-c000000004D8AA89F0000000000002172
-t1300932767
-s8562
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c
-c000000004D8AA89F000000000000540D
-t1300932767
-s21517
-i"jinclude.h"
-i"jpeglib.h"
-i"jdhuff.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.h
-c000000004D8AA89F0000000000002093
-t1300932767
-s8339
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c
-c000000004D8AA89F0000000000003639
-t1300932767
-s13881
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c
-c000000004D8AA89F000000000000518E
-t1300932767
-s20878
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c
-c000000004D8AA89F000000000000A5EE
-t1300932767
-s42478
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c
-c000000004D8AA89F0000000000004F2B
-t1300932767
-s20267
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c
-c000000004D8AA89F00000000000037EC
-t1300932767
-s14316
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c
-c000000004D8AA89F00000000000052EB
-t1300932767
-s21227
-i"jinclude.h"
-i"jpeglib.h"
-i"jdhuff.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c
-c000000004D8AA89F000000000000271D
-t1300932767
-s10013
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c
-c000000004D8AA89F00000000000041DB
-t1300932767
-s16859
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c
-c000000004D8AA89F0000000000001471
-t1300932767
-s5233
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c
-c000000004D8AA89F0000000000001F75
-t1300932767
-s8053
-i"jinclude.h"
-i"jpeglib.h"
-i"jversion.h"
-i"jerror.h"
-i<windows.h>
-i"jerror.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.h
-c000000004D8AA89F0000000000003793
-t1300932767
-s14227
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c
-c000000004D8AA89F0000000000001616
-t1300932767
-s5654
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c
-c000000004D8AA89F0000000000001E7A
-t1300932767
-s7802
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c
-c000000004D8AA89F0000000000002C55
-t1300932767
-s11349
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c
-c000000004D8AA89F00000000000021F5
-t1300932767
-s8693
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c
-c000000004D8AA89F00000000000034E2
-t1300932767
-s13538
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c
-c000000004D8AA89F0000000000003B64
-t1300932767
-s15204
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c
-c000000004D8AA8A00000000000003666
-t1300932768
-s13926
-i"jinclude.h"
-i"jpeglib.h"
-i"jdct.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jinclude.h
-c000000004D8AA89F0000000000000D0D
-t1300932767
-s3341
-i"jconfig.h"
-i<stddef.h>
-i<stdlib.h>
-i<sys/types.h>
-i<stdio.h>
-i<strings.h>
-i<string.h>
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c
-c000000004D8AA89F000000000000A47A
-t1300932767
-s42106
-i"jinclude.h"
-i"jpeglib.h"
-i"jmemsys.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c
-c000000004D8AA89F0000000000000B41
-t1300932767
-s2881
-i"jinclude.h"
-i"jpeglib.h"
-i"jmemsys.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemsys.h
-c000000004D8AA89F00000000000020EC
-t1300932767
-s8428
-i<Files.h>
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmorecfg.h
-c000000004D8AA89F000000000000321B
-t1300932767
-s12827
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jpegint.h
-c000000004D8AA89F0000000000003EE8
-t1300932767
-s16104
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jpeglib.h
-c000000004D8AA89F000000000000B8C5
-t1300932767
-s47301
-i"jconfig.h"
-i"jmorecfg.h"
-i"jpegint.h"
-i"jerror.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c
-c000000004D8AA89F0000000000007D96
-t1300932767
-s32150
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c
-c000000004D8AA89F000000000000C24B
-t1300932767
-s49739
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c
-c000000004D8AA89F000000000000152B
-t1300932767
-s5419
-i"jinclude.h"
-i"jpeglib.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jversion.h
-c000000004D8AA89F0000000000000176
-t1300932767
-s374
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies381897838#381897838#0(0"0(0#1#0"8617449184#0"0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.632551
-e381897713.811126
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapimin.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c381897713#381897713#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c8620703232#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapimin.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapimin.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.633516
-e381897713.789155
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapistd.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c381897713#381897713#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c8617019776#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcapistd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcapistd.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.789265
-e381897713.963815
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccoefct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c381897713#381897713#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c8618110784#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccoefct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccoefct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.811226
-e381897713.969773
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccolor.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c381897713#381897713#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c8617720800#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jccolor.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jccolor.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcdctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.963914
-e381897714.208593
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcdctmgr.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c381897713#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c8616415104#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcdctmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcdctmgr.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jchuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c normal i386 c com.apple.compilers.gcc.4_2
-s381897713.969965
-e381897714.404855
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jchuff.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c381897713#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c8615890688#2044"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jchuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jchuff.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcinit.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.208702
-e381897714.309273
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcinit.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c8614587072#2044"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcinit.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcinit.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.309413
-e381897714.410624
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmainct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c8613665984#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmainct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmainct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.404972
-e381897714.588807
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmarker.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c8617826144#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmarker.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmarker.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.410727
-e381897714.651075
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmaster.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c8617463488#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcmaster.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcmaster.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcomapi.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.588913
-e381897714.649839
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcomapi.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c8615400928#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcomapi.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcomapi.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcparam.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.649945
-e381897714.853871
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcparam.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c8613363232#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcparam.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcparam.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.651151
-e381897714.995091
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcphuff.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c381897714#381897714#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c8612997440#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcphuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcphuff.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcprepct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.853972
-e381897715.059872
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcprepct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c381897714#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c8619111840#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcprepct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcprepct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c normal i386 c com.apple.compilers.gcc.4_2
-s381897714.995195
-e381897715.201388
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcsample.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c381897714#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c8617111680#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jcsample.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jcsample.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jctrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.059971
-e381897715.213891
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jctrans.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c8615406784#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jctrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jctrans.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapimin.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.201576
-e381897715.368236
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapimin.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c8613565568#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapimin.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapimin.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapistd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.213997
-e381897715.359067
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapistd.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c8612989920#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdapistd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdapistd.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatadst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.359172
-e381897715.455863
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatadst.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c8618878080#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatadst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatadst.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatasrc.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.368341
-e381897715.475987
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatasrc.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c8618337920#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdatasrc.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdatasrc.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcoefct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.455967
-e381897715.769618
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcoefct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c8616839776#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcoefct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcoefct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcolor.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.476097
-e381897715.615464
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcolor.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c8616436064#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdcolor.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdcolor.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jddctmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.615584
-e381897715.723407
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jddctmgr.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c8614427232#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jddctmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jddctmgr.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdhuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.723508
-e381897715.982436
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdhuff.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c8612938528#2044"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdhuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdhuff.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdinput.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.769716
-e381897715.888383
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdinput.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c381897715#381897715#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c8618696864#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdinput.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdinput.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmainct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.888486
-e381897716.113164
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmainct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c381897715#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c8617086464#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmainct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmainct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmarker.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c normal i386 c com.apple.compilers.gcc.4_2
-s381897715.982534
-e381897716.556279
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmarker.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c381897715#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c8615720000#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmarker.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmarker.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmaster.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.113266
-e381897716.255637
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmaster.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c8614239936#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmaster.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmaster.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmerge.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.255729
-e381897716.395370
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmerge.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c8590417216#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdmerge.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdmerge.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdphuff.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.395465
-e381897716.664492
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdphuff.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c8617405632#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdphuff.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdphuff.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdpostct.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.556389
-e381897716.647718
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdpostct.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c8615678304#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdpostct.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdpostct.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdsample.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.647816
-e381897716.834025
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdsample.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c8614104544#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdsample.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdsample.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.664623
-e381897716.730049
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdtrans.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c8613193536#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jdtrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jdtrans.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.730239
-e381897716.832636
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jerror.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c8612500832#2044"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jerror.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jerror.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.832745
-e381897716.957651
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctflt.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c8607835552#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctflt.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctflt.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.834108
-e381897716.952119
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctfst.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c381897716#381897716#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c8613252064#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctfst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctfst.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.952224
-e381897717.070562
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctint.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c381897716#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c8617474400#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jfdctint.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jfdctint.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctflt.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c normal i386 c com.apple.compilers.gcc.4_2
-s381897716.957770
-e381897717.096641
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctflt.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c381897716#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c8616671072#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctflt.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctflt.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctfst.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.070666
-e381897717.180640
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctfst.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c8615568288#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctfst.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctfst.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctint.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.096740
-e381897717.212672
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctint.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c8614354432#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctint.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctint.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctred.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.180742
-e381897717.322271
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctred.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c8612998144#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jidctred.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jidctred.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemmgr.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.212775
-e381897717.473817
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemmgr.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c8612733728#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemmgr.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemmgr.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemnobs.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.322375
-e381897717.378108
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemnobs.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@84"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#76"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c8617461376#2048"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jmemnobs.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jmemnobs.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant1.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.378203
-e381897717.672305
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant1.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c8615755360#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant1.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant1.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant2.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.473915
-e381897717.797694
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant2.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@83"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#75"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c8614368608#2046"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jquant2.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jquant2.o0#
-
-CCompileC build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jutils.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c normal i386 c com.apple.compilers.gcc.4_2
-s381897717.672404
-e381897717.731304
-r1
-xCompileC
-xbuild/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jutils.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@82"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c381897717#381897717#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#74"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c8619587136#2044"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Libjpeg-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/jutils.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/jutils.o0#
-
-CLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/libLibjpeg.a normal i386
-s381897717.797797
-e381897717.830207
-r1
-xLibtool
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/libLibjpeg.a
-xnormal
-xi386
-lSLF07#2@62"Libtool build/Release-iphonesimulator/libLibjpeg.a normal i386381897717#381897717#0(0"0(0#0#0"8619782784#838"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool -static -arch_only i386 -syslibroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -L/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator -filelist /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Libjpeg.build/Release-iphonesimulator/Libjpeg.build/Objects-normal/i386/Libjpeg.LinkFileList -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/Libjpeg/build/Release-iphonesimulator/libLibjpeg.a0#
-

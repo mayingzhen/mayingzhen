@@ -12,9 +12,32 @@ namespace ma
 // 	{
 // 		PARAM(P_ITEM, Item);                        // WorkItem ptr
 // 	}
+
+	class WorkQueue;
 	
 
-	class WorkerThread;
+	/// Worker thread managed by the work queue.
+	class WorkerThread : public Thread, public Referenced
+	{
+	public:
+		/// Construct.
+		WorkerThread(WorkQueue* owner, UINT index) :
+		  owner_(owner),
+			  index_(index)
+		  {
+		  }
+
+		  virtual	void	ThreadUpdate();
+
+		  /// Return thread index.
+		  UINT GetIndex() const { return index_; }
+
+	private:
+		/// Work queue.
+		WorkQueue* owner_;
+		/// Thread index.
+		UINT index_;
+	};
 
 	/// Work queue item.
 	struct WorkItem : public Referenced

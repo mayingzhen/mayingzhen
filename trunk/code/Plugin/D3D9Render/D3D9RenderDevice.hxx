@@ -15,11 +15,37 @@ namespace ma
 
 	D3D9RenderDevice::D3D9RenderDevice()
 	{
+		ClearAllStates();
 	}
 
 	D3D9RenderDevice::~D3D9RenderDevice()
 	{
 	}
+
+	void D3D9RenderDevice::ClearAllStates()
+	{
+		for (int i = 0; i < MAX_CONSTANTS_VS; ++i)
+		{
+			m_CurVSParams[i].x = -99999.9f;
+			m_CurVSParams[i].y = -99999.9f;
+			m_CurVSParams[i].z = -99999.9f;
+			m_CurVSParams[i].w = -99999.9f;
+			m_VSParamsToCommit[i] = 0;
+		}
+
+		for (int i=0; i<MAX_CONSTANTS_PS; ++i)
+		{
+			m_CurPSParams[i].x = -99999.9f;
+			m_CurPSParams[i].y = -99999.9f;
+			m_CurPSParams[i].z = -99999.9f;
+			m_CurPSParams[i].w = -99999.9f;
+			m_PSParamsToCommit[i] = 0;
+		}
+
+		m_NumVSParamsToCommit = 0;
+		m_NumPSParamsToCommit = 0;
+	}
+
 
 
 	Texture* D3D9RenderDevice::CreateTexture(const char* pszPath)
@@ -27,9 +53,9 @@ namespace ma
 		return new D3D9Texture(pszPath);
 	}
 
-	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
+	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
 	{
-		return new D3D9Texture(nWidth,nHeight,format,bDepthStencil);
+		return new D3D9Texture(nWidth,nHeight,format,eUsage);
 	}
 
 	VertexDeclaration* D3D9RenderDevice::CreateVertexDeclaration()
@@ -47,14 +73,9 @@ namespace ma
 		return new D3D9IndexBuffer();
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
+	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(/*const char* pVSFile,const char* pPSFile,const char* pszDefine*/)
 	{
-		return new D3D9ShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
-	}
-
-	const char*	D3D9RenderDevice::GetShaderPath()
-	{
-		return "shader/d3d9/";
+		return new D3D9ShaderProgram(/*pVSFile,pPSFile,pszDefine*/);
 	}
 
 	void D3D9RenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
@@ -67,12 +88,20 @@ namespace ma
 		return fHalfPiexl;
 	}
 
+	void D3D9RenderDevice::ShutDown()
+	{
+		m_hWnd = NULL;
+
+		SAFE_RELEASE(m_pD3DDevice);
+		SAFE_RELEASE(m_pD3D9);
+	}
+
 	void D3D9RenderDevice::Init(HWND wndhandle)
 	{
 		m_hWnd = wndhandle;
 
-		m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-		if(NULL == m_pD3D)
+		m_pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
+		if(NULL == m_pD3D9)
 		{
 			ASSERT(FALSE && "Direct3DCreate9(D3D_SDK_VERSION)");
 			return ;
@@ -100,11 +129,11 @@ namespace ma
 #else
 		// Look for 'NVIDIA NVPerfHUD' adapter
 		// If it is present, override default settings
-		for (UINT Adapter = 0; Adapter < m_pD3D->GetAdapterCount(); Adapter++)
+		for (UINT Adapter = 0; Adapter < m_pD3D9->GetAdapterCount(); Adapter++)
 		{
 			D3DADAPTER_IDENTIFIER9 Identifier;
 			HRESULT Res;
-			Res = m_pD3D->GetAdapterIdentifier(Adapter, 0, &Identifier);
+			Res = m_pD3D9->GetAdapterIdentifier(Adapter, 0, &Identifier);
 			if ( strcmp(Identifier.Description, "NVIDIA NVPerfHUD") == 0 )
 			{
 				m_nAdapterToUse = Adapter;
@@ -116,7 +145,7 @@ namespace ma
 #endif
 
 		HRESULT hr = S_OK;
-		hr = m_pD3D->CreateDevice(m_nAdapterToUse,DeviceType,m_hWnd,
+		hr = m_pD3D9->CreateDevice(m_nAdapterToUse,DeviceType,m_hWnd,
 			D3DCREATE_HARDWARE_VERTEXPROCESSING,
 			&m_d3dpp,&m_pD3DDevice);
 
@@ -125,8 +154,49 @@ namespace ma
 			ASSERT(FALSE && "m_pD3D->CreateDevice()");
 			return;
 		}
+
+		BuildDeviceCapabilities();
+	}
+	
+	bool D3D9RenderDevice::TestDeviceLost()
+	{
+		HRESULT hr = m_pD3DDevice->TestCooperativeLevel();
+		if (hr == D3DERR_DEVICELOST)
+		{
+			return true;
+		}
+
+		if (hr == D3DERR_DEVICENOTRESET)
+		{
+			Rest();
+			hr = m_pD3DDevice->TestCooperativeLevel();
+		}
+
+		return FAILED(hr);
 	}
 
+	bool D3D9RenderDevice::Rest()
+	{
+		// reset resources
+		for (VEC_D3D9RESOURCE::iterator iter = m_vecD3D9Resource.begin();iter != m_vecD3D9Resource.end();++iter)
+		{
+			(*iter)->NotifyOnDeviceLost();
+		}
+
+		if(FAILED(m_pD3DDevice->Reset(&m_d3dpp)))
+		{
+			ASSERT(false && "failed to reset a D3D device");
+			return false;
+		}
+
+		// reset resources
+		for (VEC_D3D9RESOURCE::iterator iter = m_vecD3D9Resource.begin();iter != m_vecD3D9Resource.end();++iter)
+		{
+			(*iter)->NotifyOnDeviceReset();
+		}
+
+		return true;
+	}
 
 	void D3D9RenderDevice::BeginRender()
 	{
@@ -225,119 +295,413 @@ namespace ma
 		return rect;
 	}
 
-	void D3D9RenderDevice::SetRenderState(const RenderState& state)
+	void D3D9RenderDevice::SetDepthBias(float constantBias, float slopeScaleBias/* = 0.0f*/)
 	{
-		if (m_curState.m_eCullMode != state.m_eCullMode)
-		{
-			m_curState.m_eCullMode = state.m_eCullMode;
 
-			if (state.m_eCullMode == CULL_FACE_SIDE_BACK)
+	}
+
+	void D3D9RenderDevice::SetCullingMode(CULL_MODE mode)
+	{
+		if (mode== CULL_FACE_SIDE_BACK)
+		{
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW) );
+		}
+		else if (mode == CULL_FACE_SIDE_FRONT)
+		{
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW) );	
+		}
+		else if (mode == CULL_FACE_SIDE_NONE)
+		{
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE) );
+		}
+	}
+
+	void D3D9RenderDevice::SetBlendMode(BLEND_MODE mode)
+	{
+		switch (mode)
+		{
+		case BM_OPATICY:
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE) );
+			break;
+
+		case BM_TRANSPARENT:
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA) );
+			break;
+
+		case BM_ADD:
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE) );
+			break;
+
+		case BM_MULTIPLY:
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO) );
+			break;
+		}
+	}
+
+	void D3D9RenderDevice::SetDepthWrite(bool b)
+	{
+		m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, b?TRUE:FALSE);
+	}
+
+	void D3D9RenderDevice::SetColorWrite(bool b)
+	{
+		uint32 val = 0;
+		if (b/*red*/) 
+			val |= D3DCOLORWRITEENABLE_RED;
+		if (b/*green*/)
+			val |= D3DCOLORWRITEENABLE_GREEN;
+		if (b/*blue*/)
+			val |= D3DCOLORWRITEENABLE_BLUE;
+		if (b/*alpha*/)
+			val |= D3DCOLORWRITEENABLE_ALPHA;
+
+		m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, val); 
+	}
+
+	void D3D9RenderDevice::SetDepthCheckMode(DEPTH_CHECK_MODE mode)
+	{
+		switch (mode)
+		{
+		case DCM_NONE:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+			break;
+
+		case DCM_LESS_EQUAL:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+			break;
+
+		case DCM_LESS:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+			break;
+
+		case DCM_GREATER_EQUAL:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+			break;
+
+		case DCM_GREATER:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+			break;
+
+		case DCM_EQUAL:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+			break;
+
+		case DCM_ALWAYS:
+			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+			break;
+		}
+	}
+
+	void D3D9RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
+	{
+		D3D9Texture* pD3D9Texture = (D3D9Texture*)pTexture;
+
+ 		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
+	}
+
+	void D3D9RenderDevice::SetTextureWrap(int index,Wrap eWrap)
+	{
+		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(eWrap);
+		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(eWrap);
+
+		//address mode
+		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_ADDRESSU, wrapS) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_ADDRESSV, wrapT) );
+	}
+
+	void D3D9RenderDevice::SetTextureFilter(int index,FilterOptions eFilter)
+	{
+		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
+		D3D9Mapping::GetD3D9Filter(eFilter,minFilter,magFilter,mipFilter);
+
+		//filter mode
+		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MAGFILTER, magFilter) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MINFILTER, minFilter) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MIPFILTER, mipFilter) );
+	}
+
+	void D3D9RenderDevice::mfSetPSConst(int nReg, const float *vData, const int nParams)
+	{
+#ifndef MERGE_SHADER_PARAMETERS
+		D3D9Verify(m_pD3DDevice->SetPixelShaderConstantF(nReg,vData,nParams));
+#else
+		int i, nID;
+		if ( (nID = m_NumPSParamsToCommit) + nParams > MAX_CONSTANTS_PS)
+		{
+			ASSERT(false);
+			return;
+		}
+
+		const Vector4 *vSrc = (Vector4 *)vData;
+		Vector4 *vDst = &m_CurPSParams[nReg];
+		for (i=0; i<nParams; i++)
+		{
+			if (vSrc[i] != vDst[i])
 			{
-				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+				memcpy(vDst, vSrc, sizeof(Vector4)*nParams);
+
+				if (nID+nParams < MAX_CONSTANTS_PS)
+				{
+					for (i = 0; i < nParams; i++)
+					{
+						m_PSParamsToCommit[nID++] = i + nReg;
+					}
+					m_NumPSParamsToCommit = nID;
+				}
+
+				break;
 			}
-			else if (state.m_eCullMode == CULL_FACE_SIDE_FRONT)
+		}
+#endif
+	}
+
+	void D3D9RenderDevice::mfSetVSConst(int nReg, const float *vData, const int nParams)
+	{
+#ifndef MERGE_SHADER_PARAMETERS
+		D3D9Verify(m_pD3DDevice->SetVertexShaderConstantF(nReg,vData,nParams));
+#else
+		int i, nID;
+		if ( (nID = m_NumVSParamsToCommit) + nParams > MAX_CONSTANTS_VS)
+		{
+			ASSERT(false);
+			return;
+		}
+
+		const Vector4 *vSrc = (Vector4 *)vData;
+		Vector4 *vDst = &m_CurVSParams[nReg];
+		for (i = 0; i<nParams; i++)
+		{
+			assert(nReg + i >= 0 && nReg + i < MAX_CONSTANTS_VS);
+			if (vSrc[i] != vDst[i])
 			{
-				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);	
+				memcpy(vDst, vSrc, sizeof(Vector4)*nParams);
+
+				for (i = 0; i < nParams; i++)
+				{
+					m_VSParamsToCommit[nID++] = nReg+i;
+				}
+				m_NumVSParamsToCommit = nID;
+
+				break;
 			}
-			else if (state.m_eCullMode == CULL_FACE_SIDE_NONE)
+		}
+#endif
+	}
+	
+	void D3D9RenderDevice::CommitChanges()
+	{
+#ifndef MERGE_SHADER_PARAMETERS
+		return;
+#else	
+		int i;
+		if (m_NumPSParamsToCommit > 0)
+		{
+			int nFirst = m_PSParamsToCommit[0];
+			int nParams = 1;
+			assert(nFirst < MAX_CONSTANTS_PS);
+			const int nCommitParms = m_NumPSParamsToCommit;
+			for (i=1; i<nCommitParms; i++)
 			{
-				GetD3D9DxDevive()->SetRenderState(D3DRS_CULLMODE,D3DCULL_NONE);
+				if (m_PSParamsToCommit[i] != m_PSParamsToCommit[i-1]+1)
+				{
+					D3D9Verify(m_pD3DDevice->SetPixelShaderConstantF(nFirst, &m_CurPSParams[nFirst].x, nParams));
+					nFirst = m_PSParamsToCommit[i];
+					nParams = 1;
+				}
+				else
+				{
+					nParams++;
+				}
 			}
+
+			assert(nFirst < MAX_CONSTANTS_PS);
+			D3D9Verify(m_pD3DDevice->SetPixelShaderConstantF(nFirst, &m_CurPSParams[nFirst].x, nParams));
+
+			m_NumPSParamsToCommit = 0;
 		}
 
-		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
-
-		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
-
-		if (m_curState.m_bDepthWrite != state.m_bDepthWrite)
+		if (m_NumVSParamsToCommit > 0)
 		{
-			m_curState.m_bDepthWrite = state.m_bDepthWrite;
-			m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
-			
-		}
-
-		if (m_curState.m_bColorWrite != state.m_bColorWrite)
-		{
-			m_curState.m_bColorWrite = state.m_bColorWrite;
-			m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE,state.m_bColorWrite);
-		}
-
-		if ( abs(m_curState.m_fDepthBias - state.m_fDepthBias) > 0.0001f )
-		{
-			m_curState.m_fDepthBias = state.m_fDepthBias;
-			m_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS,*(DWORD*)&m_curState.m_fDepthBias);
-		}
-		
-		if (m_curState.m_eDepthCheckMode != state.m_eDepthCheckMode)
-		{
-			m_curState.m_eDepthCheckMode = state.m_eDepthCheckMode;
-			switch (state.m_eDepthCheckMode)
+			int nFirst = m_VSParamsToCommit[0];
+			int nParams = 1;
+			assert(nFirst < MAX_CONSTANTS_VS);
+			const int nCommitParms = m_NumVSParamsToCommit;
+			for (i=1; i<nCommitParms; i++)
 			{
-			case DCM_NONE:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-				break;
-
-			case DCM_LESS_EQUAL:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-				break;
-
-			case DCM_LESS:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-				break;
-
-			case DCM_GREATER_EQUAL:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
-				break;
-
-			case DCM_GREATER:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
-				break;
-
-			case DCM_EQUAL:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
-				break;
-
-			case DCM_ALWAYS:
-				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-				break;
+				if (m_VSParamsToCommit[i] != m_VSParamsToCommit[i-1]+1)
+				{
+					D3D9Verify(m_pD3DDevice->SetVertexShaderConstantF(nFirst, &m_CurVSParams[nFirst].x, nParams));
+					nFirst = m_VSParamsToCommit[i];
+					nParams = 1;
+				}
+				else
+				{
+					nParams++;
+				}
 			}
+
+			assert(nFirst < MAX_CONSTANTS_VS);
+			D3D9Verify(m_pD3DDevice->SetVertexShaderConstantF(nFirst, &m_CurVSParams[nFirst].x, nParams));
+
+			m_NumVSParamsToCommit = 0;
 		}
+#endif
+	}
 
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const float* values, UINT count)
+	{
+		ASSERT(uniform);
+		ASSERT(values);
 
-		if (m_curState.m_eBlendMode != state.m_eBlendMode)
+		UINT nCount = count > uniform->m_nCount ? uniform->m_nCount : count;
+
+		if (uniform->m_vshShder)
 		{
-			m_curState.m_eBlendMode = state.m_eBlendMode;
-			switch (state.m_eBlendMode)
-			{
-			case BM_OPATICY:
-				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-				break;
-
-			case BM_TRANSPARENT:
-				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-				break;
-
-			case BM_ADD:
-				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-				break;
-
-			case BM_MULTIPLY:
-				GetD3D9DxDevive()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-				GetD3D9DxDevive()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-				break;
-			}
+			mfSetVSConst(uniform->m_location, values, count);
 		}
+		else 
+		{
+			mfSetPSConst(uniform->m_location, values, count);
+		}
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, float value)
+	{
+		SetValue(uniform,(const float*)&value,1);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Matrix4& value)
+	{
+		SetValue(uniform,(const float*)&value,4);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector2& value)
+	{
+		SetValue(uniform,(const float*)&value,1);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector3& value)
+	{
+		SetValue(uniform,(const float*)&value,1);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector4& value)
+	{
+		SetValue(uniform,(const float*)&value,1);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
+	{
+		SetValue(uniform,(const float*)values,count);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
+	{
+		SetValue(uniform,(const float*)&value,1);
+	}
+
+// 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
+// 	{
+// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
+// 
+// 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
+// 
+// 		if (m_curState.m_bDepthWrite != state.m_bDepthWrite)
+// 		{
+// 			m_curState.m_bDepthWrite = state.m_bDepthWrite;
+// 			m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
+// 			
+// 		}
+// 
+// 		if (m_curState.m_bColorWrite != state.m_bColorWrite)
+// 		{
+// 			m_curState.m_bColorWrite = state.m_bColorWrite;
+// 			m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE,state.m_bColorWrite);
+// 		}
+// 
+// 		if ( abs(m_curState.m_fDepthBias - state.m_fDepthBias) > 0.0001f )
+// 		{
+// 			m_curState.m_fDepthBias = state.m_fDepthBias;
+// 			m_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS,*(DWORD*)&m_curState.m_fDepthBias);
+// 		}
+// 		
+// 		if (m_curState.m_eDepthCheckMode != state.m_eDepthCheckMode)
+// 		{
+// 			m_curState.m_eDepthCheckMode = state.m_eDepthCheckMode;
+// 			switch (state.m_eDepthCheckMode)
+// 			{
+// 			case DCM_NONE:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+// 				break;
+// 
+// 			case DCM_LESS_EQUAL:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+// 				break;
+// 
+// 			case DCM_LESS:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
+// 				break;
+// 
+// 			case DCM_GREATER_EQUAL:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
+// 				break;
+// 
+// 			case DCM_GREATER:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
+// 				break;
+// 
+// 			case DCM_EQUAL:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
+// 				break;
+// 
+// 			case DCM_ALWAYS:
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+// 				break;
+// 			}
+// 		}
+// 
+// 
+// 
+// 	}
+
+	void D3D9RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
+	{
+		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pDec;
+
+		D3D9Verify( m_pD3DDevice->SetVertexDeclaration( d3dvd->GetD3DVertexDeclaration() ) ) ;
+	}
+
+	void D3D9RenderDevice::SetIndexBuffer(IndexBuffer* pIB)
+	{
+		D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pIB;
+
+		D3D9Verify( m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer() ) );
+	}
+
+	void D3D9RenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
+	{
+		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pVB;
+		IDirect3DVertexBuffer9* pD3D9VB = pVertexBuffer->GetD3DVertexBuffer();
+
+		D3D9Verify( m_pD3DDevice->SetStreamSource(index, pD3D9VB, 0, pVertexBuffer->GetStride() ) );
 	}
 
 	void D3D9RenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
@@ -345,49 +709,35 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
+		CommitChanges();	
+
 		HRESULT hr = D3D_OK;
-
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration.get();
-
-		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
-		ASSERT(hr == D3D_OK);
-
-		if (pRenderable->m_pIndexBuffer)
-		{	
-			D3D9IndexBuffer* pIndxBuffer = (D3D9IndexBuffer*)pRenderable->m_pIndexBuffer.get();
-			hr = m_pD3DDevice->SetIndices(pIndxBuffer->GetD3DIndexBuffer());
-			ASSERT(hr == D3D_OK);
-		}
-
-		D3D9VertexBuffer* pVertexBuffer =(D3D9VertexBuffer*)pRenderable->m_pVertexBuffers.get();
-		hr = m_pD3DDevice->SetStreamSource(0,pVertexBuffer->GetD3DVertexBuffer(), 0, d3dvd->GetStreanmStride() );
 
 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
+		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
+
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+		
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		UINT nPrimCount = 0;
 		if (ePrimitiveType == D3DPT_TRIANGLELIST)
 		{
-			nPrimCount = pSubMeshData->m_nIndexCount / 3;
+			nPrimCount = nIndexCount / 3;
 		}
 		else if (ePrimitiveType == D3DPT_TRIANGLESTRIP)
 		{
-			nPrimCount = pSubMeshData->m_nIndexCount - 2;
+			nPrimCount = nIndexCount - 2;
 		}
 		else if (ePrimitiveType == D3DPT_LINELIST)
 		{
-			nPrimCount = pSubMeshData->m_nIndexCount / 2;
+			nPrimCount = nIndexCount / 2;
 		}
 
-		hr = m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,
-			0,
-			pSubMeshData->m_nVertexStart,
-			pSubMeshData->m_nVertexCount,
-			pSubMeshData->m_nIndexStart,
-			nPrimCount);
-		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
-
+		D3D9Verify( m_pD3DDevice->DrawIndexedPrimitive(ePrimitiveType,0,nVertexStart,nVertexCount,nIndexStart,nPrimCount) );
 	}
 
 	void D3D9RenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)
@@ -395,12 +745,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		HRESULT hr = D3D_OK;
-
-		D3D9VertexDeclaration* d3dvd = (D3D9VertexDeclaration*)pRenderable->m_pDeclaration.get();
-
-		hr = m_pD3DDevice->SetVertexDeclaration(d3dvd->GetD3DVertexDeclaration());
-		ASSERT(hr == D3D_OK);
+		CommitChanges();	
 
 		D3DPRIMITIVETYPE ePrimitiveType = D3D9Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
@@ -420,15 +765,14 @@ namespace ma
 			nPrimCount = pSubMeshData->m_nIndexCount / 2;
 		}
 
-		hr = m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
+		D3D9Verify( m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
 			pSubMeshData->m_nVertexStart,
 			pSubMeshData->m_nVertexCount,
 			nPrimCount,
 			pRenderable->m_pIndexBuffer->GetData(),
 			D3D9Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
 			pRenderable->m_pVertexBuffers->GetData(),
-			pRenderable->m_pVertexBuffers->GetStride());
-		ASSERT(hr == D3D_OK && "DrawIndexedPrimitive");
+			pRenderable->m_pVertexBuffers->GetStride()) );
 	}
 
 	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
@@ -453,21 +797,6 @@ namespace ma
 
 	Matrix4 D3D9RenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
-// 		float fHalf = fovy * 0.5f;
-// 		float sine = Math::Sin(fHalf), cosi = Math::Cos(fHalf);
-// 		float fCotangent = cosi / sine;
-// 
-// 		out[0][0] = fCotangent / Aspect;
-// 		out[1][1] = fCotangent;
-// 
-// 		out[2][2] =  (zn + zf) / (zn - zf);
-// 		out[3][2] = -1.0f;
-// 		out[2][3] =  2.0f * zn * zf / (zn - zf);
-// 
-// 		out[1][0] = out[2][0] = out[3][0] = 
-// 			out[0][1] = out[2][1] = out[3][1] = 
-// 			out[0][2] = out[1][2] =
-// 			out[0][3] = out[1][3] = out[3][3] = 0.0f;
 		float yScale = Math::Tan(Math::HALF_PI - fovy*0.5f);
 		float xScale = yScale/Aspect;
 		float inv = 1.f/(zn - zf);
@@ -526,20 +855,167 @@ namespace ma
 		D3DPERF_EndEvent();
 	}
 
-	bool D3D9RenderDevice::CheckTextureFormat(FORMAT eFormat,USAGE eUsage)
+	bool D3D9RenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)
 	{
 		DWORD D3DUsage =  D3D9Mapping::GetD3DUsage(eUsage); 
 		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(eFormat);
 
-		HRESULT hr = D3D_OK;
-		hr = m_pD3D->CheckDeviceFormat(m_nAdapterToUse, D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8,
-			D3DUsage, D3DRTYPE_TEXTURE, D3DFormat);
-		if (hr == D3D_OK || hr == D3DOK_NOAUTOGEN)
+		HRESULT hr = D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, D3DUsage, &D3DFormat, D3DPOOL_DEFAULT);
+		return hr == D3D_OK;
+	}
+
+	void D3D9RenderDevice::NotifyResourceCreated(D3D9Resource* pResource)
+	{
+		ASSERT(pResource != NULL);
+		m_vecD3D9Resource.push_back(pResource);
+	}
+
+	void D3D9RenderDevice::NotifyResourceDestroyed(D3D9Resource* pResource)
+	{
+		ASSERT(pResource != NULL);
+		VEC_D3D9RESOURCE::iterator iter = std::find(m_vecD3D9Resource.begin(), m_vecD3D9Resource.end(), pResource);
+		if (iter == m_vecD3D9Resource.end())
 		{
-			return true;
+			ASSERT(false && "cannot find pResource in CD3D9ResourceManager::_notifyResourceDestroyed");
+			return;
 		}
 
-		return false;
+		m_vecD3D9Resource.erase(iter);
+	}
+
+	bool D3D9RenderDevice::BuildDeviceCapabilities()
+	{
+		// Get current device caps.
+		HRESULT hr = m_pD3DDevice->GetDeviceCaps(&m_d3dcaps);
+		if( FAILED( hr ) )
+		{
+			LogError("Cannot get device caps!");
+			return false;
+		}
+
+		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+		D3DDISPLAYMODE d3ddm;
+		D3DCAPS9 d3dcaps9 = m_d3dcaps;
+		D3D9Verify(m_pD3D9->GetAdapterIdentifier( 0, 0, &adapterIdentifier ));
+		D3D9Verify(m_pD3D9->GetAdapterDisplayMode( 0, &d3ddm ));
+
+		// driver version
+// 		DriverVersion mDriverVersion;
+// 		mDriverVersion.major = HIWORD(adapterIdentifier.DriverVersion.HighPart);
+// 		mDriverVersion.minor = LOWORD(adapterIdentifier.DriverVersion.HighPart);
+// 		mDriverVersion.release = HIWORD(adapterIdentifier.DriverVersion.LowPart);
+// 		mDriverVersion.build = LOWORD(adapterIdentifier.DriverVersion.LowPart);
+
+		// driver description
+// 		stringstream strTemp;
+// 		strTemp << "Monitor-"  << "-" << adapterIdentifier.Description;
+// 		string driverDescription(strTemp.str());
+// 		StringUtil::trim(driverDescription);
+
+		// build capabilities
+
+		// determine vendor
+		// Full list of vendors here: http://www.pcidatabase.com/vendors.php?sort=id
+// 		switch(adapterIdentifier.VendorId)
+// 		{
+// 		case 0x10DE:
+// 			GetDeviceCapabilities()->setVendor(GPU_NVIDIA);
+// 			break;
+// 		case 0x1002:
+// 			GetDeviceCapabilities()->setVendor(GPU_ATI);
+// 			break;
+// 		case 0x163C:
+// 		case 0x8086:
+// 			GetDeviceCapabilities()->setVendor(GPU_INTEL);
+// 			break;
+// 		case 0x5333:
+// 			GetDeviceCapabilities()->setVendor(GPU_S3);
+// 			break;
+// 		case 0x3D3D:
+// 			GetDeviceCapabilities()->setVendor(GPU_3DLABS);
+// 			break;
+// 		case 0x102B:
+// 			GetDeviceCapabilities()->setVendor(GPU_MATROX);
+// 			break;
+// 		case 0x1039:
+// 			GetDeviceCapabilities()->setVendor(GPU_SIS);
+// 			break;
+// 		default:
+// 			GetDeviceCapabilities()->setVendor(GPU_UNKNOWN);
+// 			break;
+// 		};
+
+		//GetDeviceCapabilities()->setDriverVersion(mDriverVersion);
+		//GetDeviceCapabilities()->setDeviceName(driverDescription.c_str());
+		
+// 		GetDeviceCapabilities()->setNumMultiRenderTargets(__min((uint8)d3dcaps9.NumSimultaneousRTs, (uint8)OGRE_MAX_MULTIPLE_RENDER_TARGETS));
+// 		if(d3dcaps9.MaxPointSize < m_pDeviceCapabilities->getMaxPointSize())
+// 			m_pDeviceCapabilities->setMaxPointSize(d3dcaps9.MaxPointSize);
+
+		
+		// Determine if any floating point texture format is supported
+		D3DFORMAT floatFormats[6] = {D3DFMT_R16F, D3DFMT_G16R16F, 
+			D3DFMT_A16B16G16R16F, D3DFMT_R32F, D3DFMT_G32R32F, 
+			D3DFMT_A32B32G32R32F};
+// 		IDirect3DSurface9* bbSurf;
+// 		_pMainWindow->getCustomAttribute("DDBACKBUFFER", &bbSurf);
+// 		D3DSURFACE_DESC bbSurfDesc;
+// 		bbSurf->GetDesc(&bbSurfDesc);
+		LPDIRECT3DSURFACE9 surface = NULL;
+		hr = m_pD3DDevice->GetRenderTarget(0,&surface);
+		if (hr != D3D_OK)
+			return false;
+		D3DSURFACE_DESC bbSurfDesc;
+ 		surface->GetDesc(&bbSurfDesc);
+
+		for (int i = 0; i < 6; ++i)
+		{
+			if (SUCCEEDED(m_pD3D9->CheckDeviceFormat(D3DADAPTER_DEFAULT, 
+				D3DDEVTYPE_HAL, bbSurfDesc.Format, 
+				0, D3DRTYPE_TEXTURE, floatFormats[i])))
+			{
+				GetDeviceCapabilities()->setFloatTexturesSupported(true);
+				break;
+			}
+		}
+
+		if ((m_d3dcaps.PrimitiveMiscCaps & D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS) != 0)
+		{
+			GetDeviceCapabilities()->setMRTIndependentBitDepths(true);
+		}
+		else
+		{
+			GetDeviceCapabilities()->setMRTIndependentBitDepths(false);
+		}
+
+		// vs version && ps version
+		if (d3dcaps9.VertexShaderVersion >= D3DVS_VERSION(3,0) && d3dcaps9.PixelShaderVersion >= D3DPS_VERSION(3,0))
+		{
+		}
+		else if(d3dcaps9.VertexShaderVersion >= D3DVS_VERSION(2,0) && d3dcaps9.PixelShaderVersion >= D3DPS_VERSION(2,0))
+		{
+			LogInfo("Change into D3D9A as shader version < 3.0");
+		}
+		else
+		{
+			LogError("vs>=2.0 && ps>=2.0 not supported!!!");
+			return false;
+		}
+
+		// vs texture
+		if (SUCCEEDED(m_pD3D9->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, bbSurfDesc.Format, D3DUSAGE_QUERY_VERTEXTEXTURE, D3DRTYPE_TEXTURE, D3D9Mapping::GetD3DFormat(PF_FLOAT32_R)))
+			&& SUCCEEDED(m_pD3D9->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, bbSurfDesc.Format, D3DUSAGE_QUERY_VERTEXTEXTURE, D3DRTYPE_TEXTURE, D3D9Mapping::GetD3DFormat(PF_FLOAT32_RGBA))))
+		{
+			GetDeviceCapabilities()->SetVSTextureSupported(true);
+		}
+		else
+		{
+			GetDeviceCapabilities()->SetVSTextureSupported(false);
+		}
+
+
+		GetDeviceCapabilities()->log();
+		return true;
 	}
 }
 

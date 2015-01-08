@@ -103,7 +103,7 @@ public:
 		float z = x+y-ac_bb;
 
 		// return sign(z) && !(sign(x)||sign(y))
-		return (( (Uint32(z)) & ~((Uint32(x))|(Uint32(y))) ) & 0x80000000)!=0;
+		return (( (uint32(z)) & ~((uint32(x))|(uint32(y))) ) & 0x80000000)!=0;
 	}
 
 	//! Get an intersection with a 3d line.

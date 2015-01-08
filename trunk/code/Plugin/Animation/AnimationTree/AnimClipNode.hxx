@@ -4,18 +4,23 @@
 namespace ma
 {
 	IMPL_OBJECT(AnimClipNode,AnimTreeNode)
-
-	AnimClipNode::AnimClipNode(Skeleton* pSkeleton)
+	
+	AnimClipNode::AnimClipNode()
 	{
 		m_pBoneSet = NULL;
 		m_pAnimClip = NULL;
 
-		m_pSkeleton = pSkeleton;
+		m_pSkeleton = NULL;
+
+		m_bClipInit = false;
+
+		m_pAnimClip = new AnimationClip();
 	}
+
 
 	AnimClipNode::~AnimClipNode()
 	{
-
+		SAFE_DELETE(m_pAnimClip);
 	}
 
 	void AnimClipNode::AdvanceTime(float fTimeElapsed)
@@ -44,6 +49,17 @@ namespace ma
 		m_pAnimClip->SetFrame(fFrame);
 	}
 
+	void AnimClipNode::SetSkeletion(Skeleton* pSkeletion)
+	{
+		m_pSkeleton = pSkeletion;
+	
+		if (m_pBoneSet == NULL)
+			SetBoneSet(m_strBoneSetName.c_str());
+
+		//if (m_pAnimClip == NULL)
+		//	SetAnimationClip(m_strClipName.c_str());
+	}
+
 	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
 	{
 		ASSERT(m_pAnimClip == NULL);
@@ -52,8 +68,8 @@ namespace ma
 			SAFE_DELETE(m_pAnimClip);
 		}
 
-		RefPtr<Animation> pAnim = DeclareResource<Animation>(pszSkaPath);
-		m_pAnimClip = new AnimationClip(pAnim,m_pSkeleton);
+		m_pAnimClip->Init(pszSkaPath);
+		m_pAnimClip->SetSkeleton(m_pSkeleton.get());
 	}
 
 	void AnimClipNode::SetBoneSet(const char* pBoneSetName)
@@ -78,7 +94,34 @@ namespace ma
 		if (m_pAnimClip != pAnimClip)
 		{
 			m_pAnimClip = pAnimClip;
-			m_pAnimClip->SetSkeleton(m_pSkeleton);
+			m_pAnimClip->SetSkeleton(m_pSkeleton.get());
 		}
 	}
+
+	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_strClipName,"ClipName");
+		sl.Serialize(m_strBoneSetName,"BonsetName");
+
+		sl.EndSection();
+	}
+
+	bool AnimClipNode::OnLoadOver()
+	{
+		if (!m_bClipInit)
+		{
+			m_pAnimClip->Init(m_strClipName.c_str());
+			m_pAnimClip->SetSkeleton(m_pSkeleton.get());
+			m_pAnimClip->Instance();
+			m_bClipInit = true;
+		}
+
+		if (m_pAnimClip && !m_pAnimClip->OnLoadOver())
+			return false;
+		
+		return true;
+	}
+
 }

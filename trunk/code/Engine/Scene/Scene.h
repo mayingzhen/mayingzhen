@@ -9,34 +9,57 @@ namespace ma
 	class Camera;
 	class MeshComponent;
 	class CullTree;
+	class RenderScheme;
+	class RenderComponent;
+	class Texture;
 
 
-	class ENGINE_API Scene  : public Referenced
+	class ENGINE_API Scene  : public SceneNode
 	{
 	
 	public:
 		Scene(const char* pszName = NULL);
 
-		void					Update();	
+		void					Init();
 
-		SceneNode*				CreateNode(const char* pName);
+		void					ShutDown();
+
+		void					Render();
+
+		void					Update();	
 
 		void					Reset();
 
-		void					Serialize(Serializer& sl, const char* pszLable = "Scene");
+		CullTree*				GetCullTree() const {return m_pCullTree.get();}
+		SceneNode*				CreateNode(const char* pName);
 
-		CullTree*				GetCullTree() {return m_pCullTree.get();}
+		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
+		Camera*					GetCamera() const {return m_pCamera.get();}
 
-		SceneNode*				GetRootNode() {return m_pRootNode.get();}
+		void					SetViewport(const Rectangle& viewPort) {m_viewport = viewPort;}
+		const Rectangle&		GetViewport() const {return m_viewport;}
 
-		SceneNode*				FindNode(const char* pszName);	
-		
+		RenderScheme*			GetRenderScheme() const {return m_pRenderScheme.get();}
+		void					SetRenderScheme(RenderScheme* pScheme) {m_pRenderScheme = pScheme;}			
+
+		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
+		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index];}
+
 	private:
-		RefPtr<SceneNode>		m_pRootNode;	
-
 		RefPtr<CullTree>		m_pCullTree;
 
 		std::string				m_sName;
+
+		RefPtr<RenderScheme>	m_pRenderScheme;
+
+		RefPtr<Camera>			m_pCamera;
+
+		Rectangle				m_viewport;
+
+		RefPtr<Texture>			m_pRenderTarget;
+
+		typedef std::vector<RenderComponent*> VEC_RENDERCOMP;
+		VEC_RENDERCOMP			m_arrRenderComp;
 	};
 
 	DeclareRefPtr(Scene);

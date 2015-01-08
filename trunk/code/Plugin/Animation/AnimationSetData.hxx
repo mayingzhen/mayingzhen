@@ -30,7 +30,7 @@ namespace ma
 
 	void AnimationSetData::SaveToFile(const char* pszPath)
 	{
-		std::string strSavePath = pszPath ? pszPath : m_sResPath;
+		std::string strSavePath = pszPath ? pszPath : this->GetResPath();
 
 		XMLOutputSerializer ar;
 		bool bLoadOK = ar.Open(strSavePath.c_str());

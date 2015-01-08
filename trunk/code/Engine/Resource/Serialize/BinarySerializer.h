@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void	Serialize(long& val,const char* pszLable);
 
-		virtual void	Serialize(Uint64& val,const char* pszLable);
+		virtual void	Serialize(uint64& val,const char* pszLable);
 
 		virtual void	Serialize(float& val,const char* pszLable);
 

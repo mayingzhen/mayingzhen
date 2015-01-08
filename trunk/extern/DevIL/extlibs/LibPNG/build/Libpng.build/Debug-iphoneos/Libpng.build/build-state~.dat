@@ -1,919 +1,0 @@
-TLibpng
-v7
-r0
-t390449371.510750
-cCheck dependencies
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/png.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngget.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngmem.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngpread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngset.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwrite.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c normal armv7 c com.apple.compilers.gcc.4_2
-cCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c normal armv7 c com.apple.compilers.gcc.4_2
-cLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/libLibpng.a normal armv7
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk
-c000000004CC7DC9E0000000000000110
-t1288166558
-s272
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/math.h
-c000000004CB3E44400000000000004F1
-t1286857796
-s1265
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/setjmp.h
-c000000004CB3E4B80000000000000438
-t1286857912
-s1080
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/stdio.h
-c000000004CB3E4B800000000000040AC
-t1286857912
-s16556
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/stdlib.h
-c000000004CB3E4B80000000000002DF5
-t1286857912
-s11765
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/string.h
-c000000004CB3E4B80000000000001731
-t1286857912
-s5937
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/strings.h
-c000000004CB3E4B80000000000000DA4
-t1286857912
-s3492
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/sys/types.h
-c000000004CBFACD90000000000002905
-t1287630041
-s10501
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/time.h
-c000000004CB3E4B8000000000000178E
-t1286857912
-s6030
-
-N/Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk/usr/include/zlib.h
-c000000004CC1053F00000000000102A5
-t1287718207
-s66213
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk
-c000000004F45CFA20000000000000132
-t1329975202
-s306
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/math.h
-c000000004748A10600000000000004B7
-t1195942150
-s1207
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/setjmp.h
-c000000004748A1310000000000000438
-t1195942193
-s1080
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdio.h
-c000000004748A1330000000000003D1D
-t1195942195
-s15645
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/stdlib.h
-c000000004748A1330000000000002A79
-t1195942195
-s10873
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/string.h
-c000000004748A1330000000000001731
-t1195942195
-s5937
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/strings.h
-c000000004748A1310000000000000DA4
-t1195942193
-s3492
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/sys/types.h
-c00000000476344C1000000000000290F
-t1197688001
-s10511
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/time.h
-c000000004748A133000000000000178E
-t1195942195
-s6030
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk/usr/include/zlib.h
-c000000004748ECC900000000000102A5
-t1195961545
-s66213
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk
-c000000004CC128950000000000000110
-t1287727253
-s272
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/math.h
-c000000004A5C14A000000000000004F1
-t1247548576
-s1265
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/setjmp.h
-c000000004CB3E4860000000000000438
-t1286857862
-s1080
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdio.h
-c000000004CB3E48600000000000040AC
-t1286857862
-s16556
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/stdlib.h
-c000000004CB3E4860000000000002DF5
-t1286857862
-s11765
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/string.h
-c000000004CB3E4860000000000001731
-t1286857862
-s5937
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/strings.h
-c000000004CB3E4860000000000000DA4
-t1286857862
-s3492
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/sys/types.h
-c000000004CBFACAC0000000000002905
-t1287629996
-s10501
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/time.h
-c000000004CB3E486000000000000178E
-t1286857862
-s6030
-
-N/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/usr/include/zlib.h
-c000000004CC109BF00000000000102A5
-t1287719359
-s66213
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c
-c000000004D8AA89C0000000000005FFA
-t1300932764
-s24570
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c
-c000000004D8AA89600000000000022C7
-t1300932758
-s8903
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c
-c000000004D8AA89C0000000000006945
-t1300932764
-s26949
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c
-c000000004D8AA89C000000000000432E
-t1300932764
-s17198
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c
-c000000004D8AA896000000000000B9C9
-t1300932758
-s47561
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c
-c000000004D8AA89C000000000000BB07
-t1300932764
-s47879
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c
-c000000004D8AA896000000000000158B
-t1300932758
-s5515
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c
-c000000004D8AA89C0000000000023DB0
-t1300932764
-s146864
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c
-c000000004D8AA8960000000000016FFE
-t1300932758
-s94206
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c
-c000000004D8AA8960000000000009BC1
-t1300932758
-s39873
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c
-c000000004D8AA89C0000000000005224
-t1300932764
-s21028
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c
-c000000004D8AA8960000000000023F75
-t1300932758
-s147317
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c
-c000000004D8AA8960000000000001DF3
-t1300932758
-s7667
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c
-c000000004D8AA896000000000000C0C6
-t1300932758
-s49350
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c
-c000000004D8AA89600000000000044C5
-t1300932758
-s17605
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c
-c000000004D8AA89700000000000151D0
-t1300932759
-s86480
-i"png.h"
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/libLibpng.a
-t1368756571
-s513944
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/libLibpng.a
-t1368755624
-s547720
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/Libpng.LinkFileList
-c000000005195915900000000000008EF
-t1368756569
-s2287
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/png.o
-t1368756569
-s28144
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngerror.o
-t1368756569
-s18384
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngget.o
-t1368756569
-s29952
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngmem.o
-t1368756569
-s17812
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngpread.o
-t1368756570
-s38768
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngread.o
-t1368756570
-s38600
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrio.o
-t1368756570
-s14020
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrtran.o
-t1368756570
-s70596
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrutil.o
-t1368756570
-s60104
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngset.o
-t1368756570
-s35448
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngtrans.o
-t1368756570
-s21144
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o
-t1368756570
-s1820
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwio.o
-t1368756571
-s14740
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwrite.o
-t1368756571
-s37404
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwtran.o
-t1368756571
-s20420
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwutil.o
-t1368756571
-s55568
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/Libpng.LinkFileList
-c000000005191E3A0000000000000094F
-t1368515488
-s2383
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/png.o
-t1368755622
-s29184
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngerror.o
-t1368755622
-s18716
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngget.o
-t1368755622
-s32032
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngmem.o
-t1368755622
-s17636
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngpread.o
-t1368755622
-s40616
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngread.o
-t1368755622
-s38712
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrio.o
-t1368755622
-s14200
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrtran.o
-t1368755623
-s76820
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrutil.o
-t1368755623
-s65808
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngset.o
-t1368755623
-s37856
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngtrans.o
-t1368755623
-s21412
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o
-t1368755623
-s1608
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwio.o
-t1368755623
-s15088
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwrite.o
-t1368755623
-s38520
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwtran.o
-t1368755623
-s19972
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwutil.o
-t1368755623
-s63804
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/png.h
-c000000004D8AA89C000000000002393D
-t1300932764
-s145725
-i"zlib.h"
-i"pngconf.h"
-i<crtdbg.h>
-
-N/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/pngconf.h
-c000000004D8AA896000000000000B01C
-t1300932758
-s45084
-i"pngusr.h"
-i<windows.h>
-i<stdio.h>
-i<stdio.h>
-i<sys/types.h>
-i<setjmp.h>
-i<strings.h>
-i<string.h>
-i<stdlib.h>
-i<fp.h>
-i<math.h>
-i<m68881.h>
-i<mem.h>
-i<alloc.h>
-i<malloc.h>
-i<time.h>
-i<dos.h>
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies390449369#390449369#0(0"0(0#1#0"8644710176#0"0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/png.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.628245
-e390449369.765606
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/png.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@88"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c390449369#390449369#0(0"0(0#0#80"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c8615514752#1833"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/png.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.629372
-e390449369.709419
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngerror.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c390449369#390449369#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c8614373824#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngerror.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngget.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.709526
-e390449369.863815
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngget.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c390449369#390449369#0(0"0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c8640992704#1839"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngget.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngmem.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.765702
-e390449369.873556
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngmem.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c390449369#390449369#0(0"0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c8639812160#1839"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngmem.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngpread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.863917
-e390449370.074883
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngpread.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c390449369#390449370#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c8644373344#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngpread.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449369.873659
-e390449370.032671
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngread.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@92"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c390449369#390449370#0(0"0(0#0#84"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c8643754336#1841"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngread.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.032776
-e390449370.139749
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrio.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c390449370#390449370#0(0"0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c8640095648#1839"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrio.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.074984
-e390449370.598445
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrtran.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c390449370#390449370#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c8619885056#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrtran.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.139845
-e390449370.418336
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrutil.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c390449370#390449370#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c8613812544#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngrutil.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngset.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.418437
-e390449370.567035
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngset.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c390449370#390449370#0(0"0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c8645428736#1839"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngset.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.567140
-e390449370.943583
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngtrans.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c390449370#390449370#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c8616061792#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngtrans.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.598548
-e390449370.684885
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@92"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c390449370#390449370#0(0"0(0#0#84"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c8642609248#1841"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.684996
-e390449371.262453
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwio.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c390449370#390449371#0(0"0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c8628182944#1839"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwio.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwrite.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449370.943685
-e390449371.263807
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwrite.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c390449370#390449371#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c8639634272#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwrite.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449371.262641
-e390449371.373325
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwtran.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c390449371#390449371#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c8646925152#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwtran.o0#
-
-CCompileC build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c normal armv7 c com.apple.compilers.gcc.4_2
-s390449371.263888
-e390449371.493084
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwutil.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c
-xnormal
-xarmv7
-xc
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c390449371#390449371#0(0"0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c8644859200#1843"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 -x c -arch armv7 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -isysroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -mfix-and-continue -gdwarf-2 -mthumb -miphoneos-version-min=3.0 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources/armv7 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngwutil.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/png.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c normal i386 c com.apple.compilers.gcc.4_2
-s390448421.773596
-e390448422.162467
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/png.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@88"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c390448421#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#80"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c8635996960#2020"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/png.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/png.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngerror.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c normal i386 c com.apple.compilers.gcc.4_2
-s390448421.774888
-e390448422.164825
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngerror.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c390448421#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c8632851808#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngerror.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngerror.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngget.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.162559
-e390448422.359432
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngget.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c390448422#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c8628665024#2026"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngget.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngget.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngmem.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.164909
-e390448422.335002
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngmem.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c390448422#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c8640337664#2026"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngmem.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngmem.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngpread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.335106
-e390448422.601428
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngpread.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c390448422#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c8632684960#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngpread.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngpread.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngread.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.359534
-e390448422.611840
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngread.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@92"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c390448422#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#84"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c8640531296#2028"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngread.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngread.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.601526
-e390448422.701724
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrio.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c390448422#390448422#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c8616578208#2026"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrio.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrio.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.611938
-e390448423.197846
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrtran.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c390448422#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c8639733184#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrtran.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrtran.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c normal i386 c com.apple.compilers.gcc.4_2
-s390448422.701829
-e390448423.020603
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrutil.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c390448422#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c8640098912#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngrutil.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngrutil.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngset.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.020698
-e390448423.167009
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngset.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c8640041504#2026"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngset.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngset.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngtrans.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.167118
-e390448423.303521
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngtrans.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c8620294368#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngtrans.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngtrans.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.197948
-e390448423.258170
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@92"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#84"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c8616541568#2028"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngvcrd.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwio.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.258266
-e390448423.356777
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwio.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@91"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#83"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c8617988800#2026"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwio.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwio.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwrite.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.303703
-e390448423.577798
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwrite.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c8639919264#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwrite.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwrite.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwtran.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.356922
-e390448423.477796
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwtran.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c8616473216#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwtran.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwtran.o0#
-
-CCompileC build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwutil.o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c normal i386 c com.apple.compilers.gcc.4_2
-s390448423.478238
-e390448423.754961
-r1
-xCompileC
-xbuild/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwutil.o
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c
-xnormal
-xi386
-xc
-xcom.apple.compilers.gcc.4_2
-o<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined
-o<command-line>: warning: this is the location of the previous definition
-lSLF07#2@93"Compile /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c390448423#390448423#0(143"<command-line>: warning: "__IPHONE_OS_VERSION_MIN_REQUIRED" redefined<command-line>: warning: this is the location of the previous definition0(0#0#85"/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c8610328544#2030"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv LANG en_US.US-ASCII    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x c -arch i386 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -D__IPHONE_OS_VERSION_MIN_REQUIRED=30200 -isysroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.5 -gdwarf-2 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30000 -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-generated-files.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-own-target-headers.hmap -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-all-target-headers.hmap -iquote /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Libpng-project-headers.hmap -F/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/include -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources/i386 -I/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/DerivedSources -c /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/../LibPNG/pngwutil.c -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngwutil.o0#
-
-CLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/libLibpng.a normal armv7
-s390449371.493189
-e390449371.510686
-r1
-xLibtool
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/libLibpng.a
-xnormal
-xarmv7
-o/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/libtool: file: /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o has no symbols
-lSLF07#2@53"Libtool build/Debug-iphoneos/libLibpng.a normal armv7390449371#390449371#0(233"/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/libtool: file: /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/pngvcrd.o has no symbols0(0#0#0"8627823456#778"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv IPHONEOS_DEPLOYMENT_TARGET 3.0    setenv PATH "/Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneOS.platform/Developer/usr/bin/libtool -static -arch_only armv7 -syslibroot /Developer4.2/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk -L/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos -filelist /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphoneos/Libpng.build/Objects-normal/armv7/Libpng.LinkFileList -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphoneos/libLibpng.a0#
-
-CLibtool /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/libLibpng.a normal i386
-s390448423.755056
-e390448424.027751
-r1
-xLibtool
-x/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/libLibpng.a
-xnormal
-xi386
-o/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool: file: /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o has no symbols
-lSLF07#2@59"Libtool build/Debug-iphonesimulator/libLibpng.a normal i386390448423#390448424#0(246"/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool: file: /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/pngvcrd.o has no symbols0(0#0#0"8639631968#824"    cd /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG    setenv MACOSX_DEPLOYMENT_TARGET 10.5    setenv PATH "/Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer4.2/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool -static -arch_only i386 -syslibroot /Developer4.2/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.2.sdk -L/Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator -filelist /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Libpng.build/Debug-iphonesimulator/Libpng.build/Objects-normal/i386/Libpng.LinkFileList -o /Users/linghuye/Projects/C3Engine_OpenGLES2/DevIL/extlibs/LibPNG/build/Debug-iphonesimulator/libLibpng.a0#
-

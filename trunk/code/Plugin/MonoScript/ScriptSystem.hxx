@@ -14,8 +14,10 @@ namespace ma
 
 	void ScriptSystem::Init()
 	{
-		std::string strLibDir = GetArchiveMananger()->GetFullPath("mono-2.11.3/lib"); 
-		std::string strEtcDir = GetArchiveMananger()->GetFullPath("mono-2.11.3/etc");
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string strLibDir = strDir + "/mono-2.11.3/lib"; 
+		std::string strEtcDir = strDir + "/mono-2.11.3/etc";
+
 		mono_set_dirs(strLibDir.c_str(), strEtcDir.c_str());
 
 		int port = (int)(56000 + (GetCurrentProcessId() % 1000));

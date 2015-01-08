@@ -16,23 +16,21 @@ namespace ma
 		// Render Mesh
 		{
 			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
-
-			RefPtr<MeshComponent> pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
-
 			AnimationComponentPtr pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
-
 			pCharMagic->Right(100);
 
-			//SceneNodePtr pPlatform = m_pScene->CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+			SceneNodePtr pPlatform = m_pScene->CreateNode("platform");			
+			MeshComponentPtr pPlatformMesh = pPlatform->CreateComponent<MeshComponent>();
+			pPlatformMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
 
-			//SceneNodePtr pBox = m_pScene->CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
-
-			//pPlatform->GetSceneNode()->Scale(50);
-
-			//pBox->GetSceneNode()->Scale(50);
+			SceneNodePtr pBox = m_pScene->CreateNode("box");			
+			MeshComponentPtr pBoxMesh = pBox->CreateComponent<MeshComponent>();
+			pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
+			pBox->SetScale(Vector3(50));
 		}
 
 		// Light

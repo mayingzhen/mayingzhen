@@ -316,7 +316,7 @@ void Form::setSize(float width, float height)
 		Rectangle viewPort(0, 0, width, height);
 
         // Clear the framebuffer black
-	 	Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
+	 	RefPtr<Texture>	 pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
 		Rectangle preViewPort = GetRenderSystem()->SetViewPort(viewPort);
 
         m_pTheme->setProjectionMatrix(m_matProjection);
@@ -530,7 +530,7 @@ void Form::draw()
 
 		Rectangle viewPort(0, 0, _bounds.width, _bounds.height);
 
-		Texture* pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
+		RefPtr<Texture>	 pPreTarget = GetRenderSystem()->SetRenderTarget(m_pFrameBuffer);
 		Rectangle preViewProt = GetRenderSystem()->SetViewPort(viewPort);
 
         ASSERT(m_pTheme);
