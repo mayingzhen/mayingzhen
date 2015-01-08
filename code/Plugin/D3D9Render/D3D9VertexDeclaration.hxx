@@ -11,7 +11,7 @@ namespace ma
 
 	D3D9VertexDeclaration::~D3D9VertexDeclaration()
 	{
-		safe_release_com(mD3D9VertexDecl);
+		SAFE_RELEASE(mD3D9VertexDecl);
 	}
 
 	// void D3D9VertexDeclaration::DeleteSelf()
@@ -19,7 +19,7 @@ namespace ma
 	//     VideoBufferManager::Instance()->DestroyVertexDeclaration(this);
 	// }
 
-	void D3D9VertexDeclaration::Active()
+	void D3D9VertexDeclaration::RT_StreamComplete()
 	{
 		D3DVERTEXELEMENT9 d3dve[MAX_ELEMENT];
 
@@ -29,7 +29,8 @@ namespace ma
 			d3dve[i].Offset = m_Elements[i].Offset;
 			d3dve[i].Type   = D3D9Mapping::GetD3DDeclType(m_Elements[i].Type);
 			d3dve[i].Method = D3DDECLMETHOD_DEFAULT;
-			D3D9Mapping::GetD3DDeclUsage(m_Elements[i].Usage,d3dve[i].Usage,d3dve[i].UsageIndex);
+			d3dve[i].Usage = D3D9Mapping::GetD3DDeclUsage(m_Elements[i].Usage);
+			d3dve[i].UsageIndex = m_Elements[i].UsageIndex;
 		}
 	    
 		d3dve[m_ElementCount].Stream = 0xFF;
@@ -41,13 +42,15 @@ namespace ma
 
 		HRESULT hr = mD3D9Device->CreateVertexDeclaration(d3dve, &mD3D9VertexDecl);
 		ASSERT(hr == D3D_OK);
+
+		m_bActive = true;
 	}
 
 	IDirect3DVertexDeclaration9 * D3D9VertexDeclaration::GetD3DVertexDeclaration()  
 	{ 
 		if (!mD3D9VertexDecl)
 		{
-			Active();
+			RT_StreamComplete();
 		}
 		return mD3D9VertexDecl; 
 	}

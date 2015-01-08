@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BULLETPHYSICS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="BulletPhysics\StdAfx.h"
 				WarningLevel="3"

@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;D3D9RENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="D3D9Render/StdAfx.h"
 				WarningLevel="3"
@@ -198,6 +198,14 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\D3D9Render\D3D9RenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D9Render\D3D9Resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D9Render\D3D9Resource.hxx"
 				>
 			</File>
 			<File

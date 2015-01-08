@@ -7,8 +7,11 @@
 
 %include "../../Code/Engine/Export.h"
 
+%include "../../code/Engine/RTTI/Attribute.h"
+%include "../../code/Engine/RTTI/Context.h"
 %include "../../code/Engine/RTTI/Object.h"
 %include "../../code/Engine/RTTI/RTTIClass.h"
+
 
 %include "../../Code/Engine/Input/Input.h"
 %include "../../Code/Engine/Time/Timer.h"
@@ -19,7 +22,6 @@
 %include "../../Code/Engine/Resource/Resource.h"
 %include "../../Code/Engine/Resource/Serialize/Serializer.h"
 
-%include "../../Code/Engine/Scene/NodeTransform.h"
 %include "../../Code/Engine/Scene/Component.h"
 %include "../../Code/Engine/Scene/SceneNode.h"
 

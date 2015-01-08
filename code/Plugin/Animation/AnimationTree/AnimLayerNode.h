@@ -21,6 +21,12 @@ namespace ma
 
 		virtual void SetFrame(float fFrame);
 
+		virtual void SetSkeletion(Skeleton* pSkeletion);
+
+		virtual void Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */);
+		
+		virtual bool OnLoadOver();
+
 	private:
 		std::vector<AnimTreeNode*> m_arrAnimNode;
 	};

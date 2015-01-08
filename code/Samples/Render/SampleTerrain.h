@@ -15,7 +15,7 @@ namespace ma
 		virtual void		UnLoad();
 
 	private:
-		RefPtr<Terrain>	m_pTerrain;
+		//RefPtr<Terrain>		m_pTerrain;
 	};
 }
 

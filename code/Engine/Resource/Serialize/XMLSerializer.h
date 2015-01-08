@@ -21,7 +21,7 @@ namespace ma
 
 		virtual void	Serialize(long &val,const char* pszLable);
 		
-		virtual void	Serialize(Uint64& val,const char* pszLable);
+		virtual void	Serialize(uint64& val,const char* pszLable);
 
 		virtual void	Serialize(float& val,const char* pszLable);
 
@@ -39,7 +39,7 @@ namespace ma
 
 		virtual void	Serialize(Transform& val,const char *pszLable);
 
-		virtual void	SerializeByte(Uint8* &pData,UINT nSizeInByte,const char* pszLable);
+		virtual void	SerializeByte(uint8* &pData,UINT nSizeInByte,const char* pszLable);
 
 	protected:
 		TiXmlElement*	m_pCurElem;

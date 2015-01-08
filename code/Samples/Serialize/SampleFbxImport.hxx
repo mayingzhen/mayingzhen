@@ -22,42 +22,36 @@ namespace ma
 
 			// Material
 			{
-				SamplerState diff;
-				diff.SetTexturePath("FBX/TestBull_DM.png");
-
-				MaterialParameter texureParam("u_texture");
-				texureParam.SetValue(Any(diff));
-
-				MaterialParameter colorParam("u_cDiffuseColor");
-				colorParam.SetValue(Any(Vector4(1,1,1,1)));
-
-				SubMaterialData subMatData;
-				subMatData.m_strShaderName = "default";
-				subMatData.m_strShaderMacro = "DIFFUSE;DIFFUSECOLOR;SKIN";
-				subMatData.m_renderState.m_eCullMode = CULL_FACE_SIDE_FRONT;
-				subMatData.m_arrParameters.push_back(texureParam);
-				subMatData.m_arrParameters.push_back(colorParam);
-
 				MaterialData matData;
-				matData.AddSubMatData(subMatData);
+			
+				SubMaterialData& subMatData = matData.AddSubMatData();
+				subMatData.SetShaderName("default");
+				subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR;SKIN");
+				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
-				matData.SaveToFile("Fbx/TestBull.mat");
+				RefPtr<SamplerState> pDiff = CreateSamplerState();
+				pDiff->SetTexturePath("FBX/TestBull_DM.png");
+
+				subMatData.AddParameter("u_texture", Any(pDiff) );
+				subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
+		
+				matData.SaveToXML("Fbx/TestBull.mat");
 			}
 
 			// AnimationSet
 			{
-				AnimationSetData animSetData;
+				//AnimationSetData animSetData;
 
-				animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
+				//animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
 
-				animSetData.SaveToFile("Fbx/TestBull.aniset");
+				//animSetData.SaveToFile("Fbx/TestBull.aniset");
 			}
 		}
 
 
 		SceneNodePtr pTestBull = m_pScene->CreateNode("testBull");
 
-		MeshComponentPtr pMeshComp = pTestBull->CreateComponent<MeshComponent>();
+		RefPtr<MeshComponent>  pMeshComp = pTestBull->CreateComponent<MeshComponent>();
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 			
 		AnimationComponentPtr pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
@@ -66,7 +60,7 @@ namespace ma
 
 		m_pAnimComponent = pAnimationObject.get();
 
-		pTestBull->Scale(1.0f / 50.0f);
+		pTestBull->SetScale(Vector3(1.0f / 50.0f));
 	}
 
 	void CreateMaterialData(const char* pszTexture,const char* pMatPath)

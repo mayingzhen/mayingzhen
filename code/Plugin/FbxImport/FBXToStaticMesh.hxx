@@ -93,7 +93,8 @@ namespace ma
 	bool LoadStaticMeshData(const char* pFileName,ImportParm* pImportParm,
 		const char* pOutMeshFile, const char* pOutMatFile)
 	{
-		std::string strMeshFile = GetArchiveMananger()->GetFullPath(pFileName);
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string strMeshFile = strDir + "/" + string(pFileName);
 
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
@@ -109,7 +110,7 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetMeshData<V_3P_2UV_3N_3T,Uint16>(pFbxMesh,&meshData,pImportParm);
+		GetMeshData<V_3P_2UV_3N_3T,uint16>(pFbxMesh,&meshData,pImportParm);
 
 		//MaterialData* pMaterialData = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
@@ -141,14 +142,14 @@ namespace ma
 
 	MaterialData*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
 	{
-// 		ref_ptr<CGpuProgram> shader;
+// 		RefPtr<CGpuProgram> shader;
 // 
 // 		if (bSkin)
 // 			shader = CreateGpuProgram("wxskinstd");
 // 		else
 // 			shader = CreateGpuProgram("objectstd+DIFF");
 // 		
-// 		ref_ptr<CMaterial> pMaterial = CreateMaterial(shader);//material;
+// 		RefPtr<CMaterial> pMaterial = CreateMaterial(shader);//material;
 // 
 // 		std::string strDiff;
 // 		std::string strNormal;
@@ -156,13 +157,13 @@ namespace ma
 // 
 // 		if (strDiff != "")
 // 		{
-// 			ref_ptr<CTexture> tDiff = CreateTexture(strDiff.c_str(), shader->GetTextureType("tDiff"), shader->GetTextureMipmap("tDiff"));
+// 			RefPtr<CTexture> tDiff = CreateTexture(strDiff.c_str(), shader->GetTextureType("tDiff"), shader->GetTextureMipmap("tDiff"));
 // 			pMaterial->SetParameter("tDiff", Any(tDiff));
 // 		}
 // 
 // 		if (strNormal != "")
 // 		{
-// 			ref_ptr<CTexture> tNormal = CreateTexture(strNormal.c_str(), shader->GetTextureType("tNormal"), shader->GetTextureMipmap("tNormal"));
+// 			RefPtr<CTexture> tNormal = CreateTexture(strNormal.c_str(), shader->GetTextureType("tNormal"), shader->GetTextureMipmap("tNormal"));
 // 			pMaterial->SetParameter("tNormal",Any(tNormal));
 // 		}
 // 
@@ -209,7 +210,7 @@ namespace ma
 		int nVertexStride = sizeof(VertexType);
 		int nVertexCount = arrVertex.size();
 		{
-			void* pSrcData = new Uint8[nVertexStride * nVertexCount];
+			void* pSrcData = new uint8[nVertexStride * nVertexCount];
 			memcpy(pSrcData, &arrVertex[0], nVertexStride * nVertexCount);
 			vertexBuffer->SetData(pSrcData,nVertexStride * nVertexCount,nVertexStride);
 		}
@@ -217,7 +218,7 @@ namespace ma
 		int nIndexStride = sizeof(IndexType);
 		int nIndexCount = arrIndex.size();
 		{
-			void* pIndexSrcData = new Uint8[nIndexStride * nIndexCount]; 
+			void* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
 			memcpy(pIndexSrcData, &arrIndex[0], nIndexStride * nIndexCount);
 			indexBuffer->SetData(pIndexSrcData,nIndexStride * nIndexCount,nIndexStride);
 		}

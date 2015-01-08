@@ -115,7 +115,8 @@ namespace ma
 		if (pFileName == NULL)
 			return false;
 
-		std::string strAnimFile = GetArchiveMananger()->GetFullPath(pFileName);
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string strAnimFile = strDir + "/" + string(pFileName);
 
 		FbxScene* pFbxScene = GetFbxScene(strAnimFile.c_str());
 		if (pFbxScene == NULL)

@@ -17,7 +17,7 @@ namespace ma
 
 		bool IsReading() const;
 
-		void SerializeByte(Uint8* &pData,UINT nSizeToRead,const char* pszLable);
+		void SerializeByte(uint8* &pData,UINT nSizeToRead,const char* pszLable);
 
 		bool Open(const char* pszFilename);
 

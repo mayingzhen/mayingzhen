@@ -9,7 +9,8 @@ namespace ma
 		const char* pOutMeshFile, const char* pOutMatFile, 
 		const char* pOutSkeFile, const char* pOutSkaFile)
 	{
-		std::string strMeshFile = GetArchiveMananger()->GetFullPath(pFileName);
+		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string strMeshFile = strDir + "/" + string(pFileName);
 
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
@@ -44,9 +45,9 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetSkinMeshData<V_3P_2UV_3N_3T_S,Uint16>(pFbxMesh,&meshData,skeData,pImportParm);
+		GetSkinMeshData<V_3P_2UV_3N_3T_S,uint16>(pFbxMesh,&meshData,skeData,pImportParm);
 
-		//ref_ptr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
+		//RefPtr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
 
 		meshData.SaveToFile(strOutMeshFile.c_str());

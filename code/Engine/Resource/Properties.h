@@ -387,7 +387,7 @@ public:
      *
      * @script{ignore}
      */
-    bool getPath(const char* name, std::string* path) const;
+	bool getPath(const char* name, char path[256]) const;
 
 private:
     

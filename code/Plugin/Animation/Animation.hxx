@@ -11,12 +11,12 @@ namespace ma
 
 	Animation::Animation()
 	{
+		m_eCreateType = BIN_RES;
 		m_nFrameNumber = 0;	
 	}
 
 	Animation::~Animation()
 	{
-
 	}
 
 	void Animation::SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const
@@ -58,4 +58,5 @@ namespace ma
 			SerializeDataV0(sl,*this,pszLable);
 		}
 	}
+
 }

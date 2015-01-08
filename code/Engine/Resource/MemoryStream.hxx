@@ -7,7 +7,7 @@ namespace ma
 	MemoryStream::MemoryStream(void* pMem, UINT nSize, bool bReadOnly)
 		: Stream(bReadOnly ? AM_READ : (AM_READ | AM_WRITE))
 	{
-		m_pData = m_pPos = static_cast<Uint8*>(pMem);
+		m_pData = m_pPos = static_cast<uint8*>(pMem);
 		m_nSize = nSize;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);
@@ -17,7 +17,7 @@ namespace ma
 	MemoryStream::MemoryStream(const char* pszName, void* pMem, UINT nSize, bool bReadOnly)
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
-		m_pData = m_pPos = static_cast<Uint8*>(pMem);
+		m_pData = m_pPos = static_cast<uint8*>(pMem);
 		m_nSize = nSize;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);
@@ -28,7 +28,7 @@ namespace ma
 		: Stream(bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new Uint8[m_nSize];
+		m_pData = new uint8[m_nSize];
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
 		ASSERT(m_pEnd >= m_pPos);
@@ -39,7 +39,7 @@ namespace ma
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new Uint8[m_nSize];
+		m_pData = new uint8[m_nSize];
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
 		ASSERT(m_pEnd >= m_pPos);
@@ -50,7 +50,7 @@ namespace ma
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = nSize;
-		m_pData = new Uint8[m_nSize];
+		m_pData = new uint8[m_nSize];
 		m_pPos = m_pData;
 
 		if (m_nSize > srcStream->GetSize())
@@ -67,10 +67,10 @@ namespace ma
 	}
 
 	MemoryStream::MemoryStream(size_t size, bool readOnly)
-		:Stream(static_cast<Uint16>(readOnly ? AM_READ : (AM_READ | AM_WRITE)))
+		:Stream(static_cast<uint16>(readOnly ? AM_READ : (AM_READ | AM_WRITE)))
 	{
 		m_nSize = size;
-		m_pData = new Uint8[m_nSize];
+		m_pData = new uint8[m_nSize];
 		m_pPos = m_pData;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);
@@ -199,8 +199,19 @@ namespace ma
 		}
 	}
 
-	// ---------------------------------------------------------------------
-	// Self
-	// ---------------------------------------------------------------------
+	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly)
+	{
+		return new MemoryStream(pszName,srcStream,nSize,bReadOnly);
+	}
+
+	RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly)
+	{
+		return new MemoryStream(pszName,pMem,nSize,bReadOnly);
+	}
+
+	RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly)
+	{
+		return new MemoryStream(size,readOnly);
+	}
 
 }

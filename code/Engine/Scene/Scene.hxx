@@ -1,65 +1,93 @@
 #include "Scene.h"
 #include "Octree.h"
+#include "FrustumCullQuery.h"
 
 namespace ma
 {
 	Scene::Scene(const char* pszName)
+		:SceneNode(this,pszName)
 	{
 		m_sName = pszName ? pszName : "";
 
-		Reset();
+		SceneNode* pCamera = this->CreateNode("defaultCamera");
+		m_pCamera = pCamera->CreateComponent<Camera>();
+
+		m_pCullTree = new Octree();
 	}
 
-	SceneNode*	Scene::CreateNode(const char* pName)
+	SceneNode* Scene::CreateNode(const char* pName)
 	{
 		SceneNode* pSceneNode = new SceneNode(this,pName);	
-		m_pRootNode->AddChild(pSceneNode);
+		this->AddChild(pSceneNode);
 		return pSceneNode;
-	}
-
-	SceneNode*	Scene::FindNode(const char* pszName)
-	{
-		ASSERT(pszName);
-		if (pszName == NULL)
-			return NULL;
-
-		if ( strcmp(pszName, m_pRootNode->GetName() ) == 0)
-			return m_pRootNode.get();
-	
-		return m_pRootNode->FindChildNode(pszName);
 	}
 
 	void Scene::Reset()
 	{
-		m_pRootNode = NULL;
-		m_pCullTree = NULL;
+		m_eResState = ResUnLoad;
+
+		this->RemoveAllChild();
 
 		m_pCullTree = new Octree();
+	}
 
-		m_pRootNode = new SceneNode(this,"RootGameObject");		
+	void Scene::Init()
+	{
+		ASSERT(m_pRenderScheme)
+		if (m_pRenderScheme)
+			m_pRenderScheme->Init();
+	}
+
+	void Scene::ShutDown()
+	{
+		ASSERT(m_pRenderScheme);
+		if (m_pRenderScheme)
+			m_pRenderScheme->ShoutDown();
 	}
 
 	void Scene::Update()
 	{
-		ASSERT(m_pRootNode);
-		if (m_pRootNode == NULL)
-			return;
+		profile_code();
 
-		m_pRootNode->Update();
-	}
-
-	void Scene::Serialize(Serializer& sl, const char* pszLable)
-	{
-		if ( sl.IsReading() )
+		for (uint32 i = 0; i < m_arrChild.size(); ++i)
 		{
-			Reset();
+			m_arrChild[i]->Update();
 		}
 
-		sl.BeginSection(pszLable);
+		if (m_pCamera == NULL || m_pCullTree == NULL)
+			return;
 
-		sl.Serialize(*m_pRootNode,"RootObject");
+		m_arrRenderComp.clear();
+		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
+		m_pCullTree->FindObjectsIn(frustumQuery);
 
-		sl.EndSection();
+		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
+		{
+			RenderComponent* pRenderComp = m_arrRenderComp[i];
+
+			pRenderComp->Show(m_pCamera.get());
+		}
+	}
+
+	void Scene::Render()
+	{
+		if (m_pCamera == NULL)
+			return;
+
+		if (m_pRenderTarget)
+		{
+			GetRenderSystem()->SetRenderTarget(m_pRenderTarget.get());
+		}
+
+		GetRenderSystem()->SetViewPort(m_viewport);
+
+		GetRenderContext()->SetCamera(m_pCamera.get());
+
+		if (m_pRenderScheme)
+			m_pRenderScheme->Render();
+
+		if (GetLineRender())
+			GetLineRender()->Render();
 	}
 
 }

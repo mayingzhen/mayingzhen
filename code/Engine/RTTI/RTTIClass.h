@@ -2,30 +2,27 @@
 #define __RTTIClass_H__
 
 
-#include <Common/Singleton.h>
-
 namespace ma
 {
 	class ENGINE_API RTTIClass
 	{
-		std::string m_className;
-		const RTTIClass* m_pParentNode;
-
 	public:
 
 		RTTIClass(const char* className,const RTTIClass* pParent);
 
 		const char* GetName() const;
 
-		const RTTIClass* GetParent() const;
+		const RTTIClass* GetParent() const {return m_pParentNode;};
 
 		bool IsA(const RTTIClass* pAnisister) const;
 
-		//void DbgLog() const;
+	private:	
+		std::string			m_className;
 
+		const RTTIClass*	m_pParentNode;
 	};
 
-	class ENGINE_API ClassManager : public Singleton<ClassManager>
+	class ENGINE_API ClassManager 
 	{
 	public:
 
@@ -41,44 +38,14 @@ namespace ma
 
 	private:
 		typedef std::map<std::string,RTTIClass*> ClassNameMap;
+
 		ClassNameMap m_nameMap;
 
 	};
 
-	inline RTTIClass::RTTIClass(const char* className,const RTTIClass* pParent)
-		:m_className(className)
-		,m_pParentNode(pParent)
-	{
+	ClassManager* GetClassManager();
 
-	}
-
-	inline const char* RTTIClass::GetName() const
-	{
-		return m_className.c_str();
-	}
-
-
-	inline const RTTIClass* RTTIClass::GetParent() const
-	{
-		return m_pParentNode;
-	}
-
-
-	inline bool RTTIClass::IsA(const RTTIClass* pAnisister) const
-	{
-		for (const RTTIClass* pCurParent = this; 
-			pCurParent != NULL;
-			pCurParent = pCurParent->GetParent()
-			)
-		{
-			if (pCurParent == pAnisister)
-			{
-				return true;
-			}
-		}
-		return false;
-
-	}
+	void SetClassManager(ClassManager* pClassMang);
 
 }
 

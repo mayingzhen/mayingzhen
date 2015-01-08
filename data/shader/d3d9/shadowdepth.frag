@@ -8,7 +8,7 @@ float4 main(
 #ifndef HWPCF
 	return oDepth.z / oDepth.w;
 #else
-	return float4(0,0,0,0);
+	return 1.0f;
 #endif
 }
 

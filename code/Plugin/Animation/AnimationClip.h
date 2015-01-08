@@ -1,6 +1,8 @@
 #ifndef  _AnimationClip__H__
 #define  _AnimationClip__H__
 
+#include "BoneMap.h"
+
 namespace ma
 {
 	class Animation;
@@ -26,9 +28,15 @@ namespace ma
 	class ANIMATION_API AnimationClip
 	{
 	public:
-		AnimationClip(RefPtr<Animation> pAnimation,Skeleton* pSkeleton = NULL);
+		AnimationClip();
 
 		~AnimationClip();
+		
+		void		Init(const char* pszSka);
+
+		void		Instance();
+
+		bool		OnLoadOver();
 
 		void		SetSkeleton(Skeleton* pSkeleton = NULL);
 
@@ -38,8 +46,6 @@ namespace ma
 
 		void		SetFrame(float fFrame);
 
-		BoneMap*	GetNodeLink() {return m_pNodeLink;}
-
 		void		SetPlaybackMode(ePlaybackMode playMode) {m_playbackMode = playMode;}
 
 	private:
@@ -48,9 +54,9 @@ namespace ma
 	private:
 		RefPtr<Animation>	m_pAnimation;
 
-		BoneMap*			m_pNodeLink;
+		BoneMap				m_NodeLink;
 
-		Skeleton*			m_pSkeleton;
+		RefPtr<Skeleton>	m_pSkeleton;
 
 		float				m_fLocalFrame;
 		
@@ -60,7 +66,7 @@ namespace ma
 
 		ePlayerStatus		m_playerStatus;
 
-		bool				m_bInit;
+		bool				m_bLoadOver;
 
 	};
 }

@@ -33,7 +33,9 @@ namespace ma
 
 		void		UpdateTargetDis();
 
-		Vector2		GetMouseScreenOffset();
+		Vector2		GetMouseProjVec();
+
+		Vector3		ProjToWorldNormal(const Vector2* pVec,float fDepth); 
 
 
 	private:

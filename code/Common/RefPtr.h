@@ -1,5 +1,5 @@
-#ifndef _MaRef_ptr__
-#define _MaRef_ptr__ 
+#ifndef _MaRefPtr__
+#define _MaRefPtr__ 
 
 
 #include "Referenced.h"
@@ -48,11 +48,11 @@ namespace ma
 				return *this;
 			}
 
-	#ifdef OSG_USE_REF_PTR_IMPLICIT_OUTPUT_CONVERSION
+	#ifdef OSG_USE_RefPtr_IMPLICIT_OUTPUT_CONVERSION
 			// implicit output conversion
 			operator T*() const { return _ptr; }
 	#else
-			// comparison operators for ref_ptr.
+			// comparison operators for RefPtr.
 			bool operator == (const RefPtr& rp) const { return (_ptr==rp._ptr); }
 			bool operator == (const T* ptr) const { return (_ptr==ptr); }
 			friend bool operator == (const T* ptr, const RefPtr& rp) { return (ptr==rp._ptr); }

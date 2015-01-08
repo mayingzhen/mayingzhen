@@ -19,29 +19,16 @@ namespace ma
 		return false;
 	}
 
-
-	bool XMLOutputSerializer::Open(const char* pszFilename)
+	bool XMLOutputSerializer::Save(const char* pszFileName)
 	{
-		m_strFilename = GetArchiveMananger()->GetFullPath(pszFilename);
+		string strFullName = GetArchiveMananger()->GetSaveDir();
+		strFullName += pszFileName;
 
-		return true;
-	}
-
-	void XMLOutputSerializer::Save(const char* pszFileName)
-	{
 		TiXmlDocument document;
 		document.LinkEndChild( m_pRootElem->Clone() );
-		bool bSaveOK = document.SaveFile(pszFileName);
+		bool bSaveOK = document.SaveFile(strFullName.c_str());
 		ASSERT(bSaveOK);
-	}
-
-	void XMLOutputSerializer::Close()
-	{
-		TiXmlDocument document;
-		document.LinkEndChild(m_pRootElem);
-		bool bSaveOK = document.SaveFile(m_strFilename.c_str());
-		ASSERT(bSaveOK);
-		m_pRootElem = NULL;
+		return bSaveOK;
 	}
 
 	void XMLOutputSerializer::BeginSection(const char* pszLable)

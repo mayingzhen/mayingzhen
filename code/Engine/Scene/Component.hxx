@@ -14,12 +14,12 @@ namespace ma
 
 	}
 
-	void Component::Serialize(Serializer& sl, const char* pszLable /*= "Component"*/)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.EndSection();
-	}
+// 	void Component::Serialize(Serializer& sl, const char* pszLable /*= "Component"*/)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		sl.EndSection();
+// 	}
 
 	void Component::OnAddToSceneNode(SceneNode* pGameObj)
 	{

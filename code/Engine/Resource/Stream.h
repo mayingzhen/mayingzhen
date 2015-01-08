@@ -14,14 +14,14 @@ namespace ma
 
 
 	public:
-		Stream(Uint16 eAccessMode = AM_READ)
+		Stream(uint16 eAccessMode = AM_READ)
 		{
 			m_nSize = 0;
 			m_eAccessMode = eAccessMode;
 			m_strName = "";
 		}
 
-		Stream(const char* pszName, Uint16 eAccessMode = AM_READ)
+		Stream(const char* pszName, uint16 eAccessMode = AM_READ)
 		{
 			m_nSize = 0;
 			m_eAccessMode = eAccessMode;
@@ -36,7 +36,7 @@ namespace ma
 		// Get Attribute
 		// ---------------------------------------------------------------------
 		const char*		GetName() const{return m_strName.c_str();}
-		Uint16			GetAccessMode() const{return m_eAccessMode;}
+		uint16			GetAccessMode() const{return m_eAccessMode;}
 		UINT			GetSize() const{return m_nSize;}
 
 		bool			IsReadable() const{return (m_eAccessMode&AM_READ) != 0;}
@@ -84,7 +84,7 @@ namespace ma
 
 	protected:
 		UINT			m_nSize;
-		Uint16			m_eAccessMode;
+		uint16			m_eAccessMode;
 		std::string		m_strName;
 
 		#define OGRE_STREAM_TEMP_SIZE 128

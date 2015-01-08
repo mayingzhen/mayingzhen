@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/include/Bullet;../../extern/glew/include;../../extern/oisInput/Include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/include/Bullet;../../extern/glew/include;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Samples/StdAfx.h"
 				WarningLevel="3"
@@ -62,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="d3dx9d.lib d3d9.lib d3dxof.lib dxguid.lib dxerr.lib"
 				OutputFile="$(OutDir)\Unity_$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/lib"

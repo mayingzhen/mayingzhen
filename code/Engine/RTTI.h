@@ -5,6 +5,7 @@
 #include "Script/RTTI.h"
 #include "Physics/RTTI.h"
 #include "Resource/RTTI.h"
+#include "RenderSystem/RTTI.h"
 
 namespace ma
 {
@@ -12,8 +13,23 @@ namespace ma
 	{
 		// RTII
 		ClassManager* pClsMan = new ClassManager();
+		SetClassManager(pClsMan);
+
 		ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
+		SetObjectFactoryManager(pObjMan);
+
+		ResourceSystem* pRsourceSystem = new ResourceSystem();
+		SetResourceSystem(pRsourceSystem);
+		pRsourceSystem->Init();
+
 		Object::StaticInitClass();
+		
+		SceneNode::StaticInitClass();
+
+		Context* pContexMan = new Context();
+		SetContext(pContexMan);
+
+		SceneNode::RegisterObject(pContexMan);
 
 		Component::StaticInitClass();
 		RenderComponent::StaticInitClass();
@@ -25,10 +41,14 @@ namespace ma
 		//IAnimationSystemRTTIInit();
 
 		ResourceSystemRTTIInit();
+
+		RenderSystemRTTIInit();
 	}
 
 	void EngineRTTIShutdown()
 	{
+		RenderSystemRTTIShutdown();
+
 		ResourceSystemRTTIShutdown();
 
 		IPhysicsSystemRTTIShutdown();
@@ -41,10 +61,15 @@ namespace ma
 		Component::StaticShutdownClass();
 
 		Object::StaticShutdownClass();
-		ObjectFactoryManager::GetInstance().Shutdown();
-		delete ObjectFactoryManager::GetInstancePtr();
-		ClassManager::GetInstance().Shutdown();
-		delete ClassManager::GetInstancePtr();
+
+		ResourceSystem* pRsourceSystem = GetResourceSystem();
+		pRsourceSystem->ShoutDown(); 
+		SAFE_DELETE(pRsourceSystem);
+		SetResourceSystem(NULL);
+
+		delete GetObjectFactoryManager();
+		
+		delete GetClassManager();
 	}
 }
 

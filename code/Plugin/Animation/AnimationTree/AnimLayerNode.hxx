@@ -40,7 +40,7 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
-			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,1.0f,BLENDMODE_ADDITIVE);
+			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,fWeight,BLENDMODE_ADDITIVE);
 		}
 	}
 
@@ -50,6 +50,34 @@ namespace ma
 		{
 			m_arrAnimNode[i]->SetFrame(fFrame);
 		}
+	}
+
+	void AnimLayerNode::SetSkeletion(Skeleton* pSkeletion)
+	{
+		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+		{
+			m_arrAnimNode[i]->SetSkeletion(pSkeletion);
+		}
+	}
+
+	bool AnimLayerNode::OnLoadOver()
+	{
+		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+		{
+			if ( !m_arrAnimNode[i]->OnLoadOver() )
+				return false;
+		}
+
+		return true;
+	}
+
+	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+		SerializeArrObj<AnimTreeNode>(sl,m_arrAnimNode,"arrAnimNode");
+
+		sl.EndSection();
 	}
 
 }

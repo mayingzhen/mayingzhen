@@ -14,7 +14,7 @@ namespace ma
 		DECL_OBJECT(AnimClipNode)
 
 	public:
-		AnimClipNode(Skeleton* pSkeleton);
+		AnimClipNode();
 	
 		~AnimClipNode();
 
@@ -28,7 +28,13 @@ namespace ma
 
 		virtual	void	SetFrame(float fFrame);
 
-		Skeleton*		GetSkeleton() {return m_pSkeleton;}
+		virtual void	SetSkeletion(Skeleton* pSkeletion);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */);
+
+		virtual bool	OnLoadOver();
+
+		Skeleton*		GetSkeleton() {return m_pSkeleton.get();}
 	
 		void			SetAnimationClip(AnimationClip* pAnimClip); 
 
@@ -36,10 +42,14 @@ namespace ma
 
 	private:
 		AnimationClip*	m_pAnimClip;
+		std::string		m_strClipName;
 
 		BoneSet*		m_pBoneSet;
+		std::string     m_strBoneSetName;
 	
-		Skeleton*		m_pSkeleton;
+		RefPtr<Skeleton>	m_pSkeleton;
+
+		bool			m_bClipInit;
 	};
 }
 

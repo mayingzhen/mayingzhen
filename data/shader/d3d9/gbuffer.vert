@@ -24,7 +24,10 @@ struct VS_IN
 struct VS_OUT
 {      
    float4 oPos : POSITION;
+  
+#ifndef HWDEPTH
      float4 oPos2 : TEXCOORD0;
+#endif     
      //float2 oTex : TEXCOORD1;
      float3 oNormal : TEXCOORD2;   
 };
@@ -43,7 +46,11 @@ VS_OUT main(VS_IN In)
 
    vout.oPos = mul( float4(wPos.xyz,1.0f), u_worldViewProjectionMatrix  );
    vout.oNormal = mul(float4(wNormal.xyz,0), u_worldViewMatrix).xyz;
-   vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
+#ifndef HWDEPTH   
+   float3 viewPos = mul(float4(wPos.xyz,1.0f), u_worldViewMatrix).xyz;
+   vout.oPos2 = float4(0,0,viewPos.z * depth_near_far_invfar.z,0);
+   //vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
+#endif   
    //vout.oTex = In.a_texcoord;
       
    return vout;

@@ -4,10 +4,9 @@
 namespace ma
 {
 	class SceneNode;
-	class NodeTransform;
 	class Camera;
 
-	class ENGINE_API Component : public Object
+	class ENGINE_API Component : public Serializable
 	{
 		DECL_OBJECT(Component)
 
@@ -23,8 +22,6 @@ namespace ma
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pGameObj);
 
 		virtual void	OnTransformChange() {}
-
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "Component");
 
 		SceneNode*		GetSceneNode();
 

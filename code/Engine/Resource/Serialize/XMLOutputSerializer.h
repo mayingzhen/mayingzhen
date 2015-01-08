@@ -20,11 +20,7 @@ namespace ma
 
 		bool IsReading() const;
 
- 		bool Open(const char* pszFilename);
- 
- 		void Close();
-
-		void Save(const char* pszFileName);
+		bool Save(const char* pszFileName);
 
 		TiXmlElement*	GetRootElement() {return m_pRootElem;}
 
@@ -33,8 +29,6 @@ namespace ma
 		void EndSection();
 
 	private:
-		std::string		m_strFilename;
-
 		TiXmlElement*	m_pRootElem;
 	};
 }

@@ -26,20 +26,22 @@ namespace ma
 		GL_ASSERT( glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) );	
 	}
 
-	void GLESIndexBuffer::Active()
+	void GLESIndexBuffer::RT_StreamComplete()
 	{
 		GLenum glUsage = GLESMapping::GetGLESUSage(m_Usage);
 
 		GL_ASSERT( glGenBuffers(1,& m_hIndexBuffer) );
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
 		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
+	
+		m_bActive = true;
 	}
 
 	GLuint	GLESIndexBuffer::GetIndexBuffer()
 	{
 		if (m_hIndexBuffer <= 0)
 		{
-			Active();
+			RT_StreamComplete();
 		}
 
 		return m_hIndexBuffer;

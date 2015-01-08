@@ -120,7 +120,7 @@ namespace ma
 		btCollisionObject* pBtCollObject = InitCollObject(pGameObj);
 
 		pBtCollObject->setUserPointer(pGameObj);
-		pBtCollObject->setWorldTransform( ToBulletUnit( pGameObj->GetTransform() ) );
+		pBtCollObject->setWorldTransform( ToBulletUnit( pGameObj->GetTransformWS() ) );
 		pGameObj->SetUserData("btCollisionObject",pBtCollObject);
 
 		BulletCollisionMaterial* pBtCollisionMaterial = pGameObj->GetTypeComponent<BulletCollisionMaterial>();
@@ -146,7 +146,7 @@ namespace ma
 			if ( pObj->isKinematicObject()  || IsCharacterController(pObj) )
 			{
 				// SyncToPhysics
-				pObj->setWorldTransform( ToBulletUnit( pPhysicsObj->GetTransform() ) );
+				pObj->setWorldTransform( ToBulletUnit( pPhysicsObj->GetTransformWS() ) );
 
 			}
 		}	
@@ -172,7 +172,7 @@ namespace ma
 			if ( !pObj->isStaticOrKinematicObject() || IsCharacterController(pObj) )
 			{
 				// SyncFromPhysics
-				pPhysicsObj->SetTransform( ToMaUnit( pObj->getWorldTransform() ) );
+				pPhysicsObj->SetTransformWS( ToMaUnit( pObj->getWorldTransform() ) );
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace ma
 			m_pDynamicsWorld->debugDrawWorld();
 	}
 
-	void BtPhysicsSystem::SetLayerCollisionMask(Uint8 nLayer,Uint8 nColLayer,bool bCollide)
+	void BtPhysicsSystem::SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide)
 	{
 
 	}
@@ -247,34 +247,33 @@ namespace ma
 		return new BulletCharacterController(pGameObj);
 	}
 
-	void BtPhysicsSystem::DeleteRigidBody(IRigidBody* pRigidBody)
-	{
-	}
-
-	void BtPhysicsSystem::DeleteBoxCollisionShape(IBoxCollisionShape*	pBox)	{
-
-	}
-
-	void BtPhysicsSystem::DeleteSphereCollisionShape(ISphereCollisionShape* pSphere)
-	{
-	}
-
-	void BtPhysicsSystem::DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule)
-	{
-	}
-
-	void BtPhysicsSystem::DeleteCharaControll(ICharaControll* pCharcontrol)
-	{
-
-	}
-
-	void BtPhysicsSystem::DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint)
-	{
-	}
-
-	void BtPhysicsSystem::DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint)
-	{
-	}
+// 	void BtPhysicsSystem::DeleteRigidBody(IRigidBody* pRigidBody)
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeleteBoxCollisionShape(IBoxCollisionShape*	pBox)	
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeleteSphereCollisionShape(ISphereCollisionShape* pSphere)
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeleteCapsuleCollisionShape(ICapsuleCollisionShape* pCapsule)
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeleteCharaControll(ICharaControll* pCharcontrol)
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeletePhysicsGenericJoint(IPhysicsGenericJoint* pJoint)
+// 	{
+// 	}
+// 
+// 	void BtPhysicsSystem::DeletePhysicsHingeJoint(IPhysicsHingeJoint* pJoint)
+// 	{
+//	}
 
 	SceneNode* BtPhysicsSystem::RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer,Vector3& hitPosWS)
 	{

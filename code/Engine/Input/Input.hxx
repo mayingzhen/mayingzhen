@@ -23,7 +23,6 @@ namespace ma
 		return gs_input;
 	}
 
-
 	Input::Input()
 	{
         mInputMgr = NULL;
@@ -31,11 +30,12 @@ namespace ma
 		mMouse = NULL;
 		mAccelerometer = NULL;
 		mTouch = NULL;
-#if PLATFORM_ANDROID == 1	
 		mAndroidInputInjector = NULL;
-#endif
 	}
 
+	Input::~Input()
+	{
+	}
 
 	void Input::Init(HWND winId)
 	{
@@ -64,17 +64,17 @@ namespace ma
 		mMouse->setEventCallback(this);
 
 #elif PLAFTORM_IOS == 1
-//		OIS::ParamList pl;
-//		size_t winHandle = 0;
-//		std::ostringstream winHandleStr;
-//		winHandleStr << (int)winId;
-//		pl.insert(std::make_pair("WINDOW", winHandleStr.str()));
-//
-//		mInputMgr = OIS::InputManager::createInputSystem(pl);
+		OIS::ParamList pl;
+		size_t winHandle = 0;
+		std::ostringstream winHandleStr;
+		winHandleStr << (int)winId;
+		pl.insert(std::make_pair("WINDOW", winHandleStr.str()));
+
+		mInputMgr = OIS::InputManager::createInputSystem(pl);
 		
-//        mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
-//		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
-//		mTouch->setEventCallback(this);
+       mTouch = static_cast<OIS::MultiTouch*>(mInputMgr->createInputObject(OIS::OISMultiTouch, true));
+		mAccelerometer = static_cast<OIS::JoyStick*>(mInputMgr->createInputObject(OIS::OISJoyStick, true));
+		mTouch->setEventCallback(this);
 
 #elif PLATFORM_ANDROID == 1	
 		mTouch = new AndroidMultiTouch();
@@ -90,10 +90,17 @@ namespace ma
 
 	void Input::Shutdown()
 	{
-		//if(mInputMgr)
-		//{
-		//	OIS::InputManager::destroyInputSystem(mInputMgr);
-		//}
+		ASSERT(mInputMgr);
+		if (mInputMgr == NULL)
+			return;
+		
+		mInputMgr->destroyInputObject(mKeyboard);
+		mInputMgr->destroyInputObject(mMouse);
+		OIS::InputManager::destroyInputSystem(mInputMgr);
+
+		mKeyboard = NULL;
+		mMouse = NULL;
+		mInputMgr = NULL;
 	}
 
 	void Input::Capture() const
@@ -238,6 +245,21 @@ namespace ma
 		}
 
 		return true;
+	}
+
+	void Input::AddKeyListener(OIS::KeyListener* pKeyListen)
+	{
+		m_arrKeyListener.push_back(pKeyListen);
+	}
+
+	void Input::AddMouseListener(OIS::MouseListener* pMouseListen) 
+	{
+		m_arrMouseListener.push_back(pMouseListen);
+	}
+
+	void Input::AddTouchListener(OIS::MultiTouchListener* pTouchListen) 
+	{
+		m_arrTouchListener.push_back(pTouchListen);
 	}
 
 	void Input::RemoveKeyListener(OIS::KeyListener* pListen)

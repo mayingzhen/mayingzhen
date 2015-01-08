@@ -36,15 +36,11 @@ void GLESRenderModuleInit()
 {
 	ma::GLESRenderDevice* pGLESRenderDevice = new ma::GLESRenderDevice();
 	ma::SetRenderDevice(pGLESRenderDevice);
-
-	ma::InitTextureSystem();
 }
 
 
 void GLESRenderModuleShutdown()
 {
-	ma::ShundownTextureSystem();
-
 	ma::GLESRenderDevice* pGLESRenderDevice = (ma::GLESRenderDevice*)ma::GetRenderDevice();
 	SAFE_DELETE(pGLESRenderDevice);
 }

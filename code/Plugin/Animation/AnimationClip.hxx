@@ -6,38 +6,71 @@
 namespace ma
 {
 
-	AnimationClip::AnimationClip(RefPtr<Animation> pAnimation,Skeleton* pSkeleton)
+	AnimationClip::AnimationClip()
 	{
-		m_pAnimation = pAnimation;
+		m_pAnimation = NULL;
 		m_fLocalFrame = 0;
 		m_fPlaySpeed = 1.0f;
 		m_playbackMode = PLAYBACK_LOOP;
 		m_playerStatus = PLAYER_PLAYING;
- 		m_pNodeLink = new BoneMap;
-		m_pSkeleton = pSkeleton;
-		m_bInit = false;
+		m_pSkeleton = NULL;
+		m_bLoadOver = false;
 	}
 
 	void AnimationClip::SetSkeleton(Skeleton* pSkeleton)
 	{
 		m_pSkeleton = pSkeleton;
-
+		
+		if (m_pAnimation->IsInited())
+		{
+			m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());
+		}
 	}
 
 	AnimationClip::~AnimationClip()
 	{
-		SAFE_DELETE(m_pNodeLink);
+	}
+
+	void AnimationClip::Init(const char* pszSka)
+	{
+		m_pAnimation = DeclareResource<Animation>(pszSka);
+	}
+
+	void AnimationClip::Instance()
+	{
+		ASSERT(m_pAnimation);
+		if (m_pAnimation == NULL)
+			return;
+
+		m_pAnimation->Load();
+		
+		OnLoadOver();
+	}
+
+	bool AnimationClip::OnLoadOver()
+	{
+		if (m_bLoadOver)
+			return true;
+
+		ASSERT(m_pAnimation && m_pSkeleton);
+		if (m_pAnimation == NULL || m_pSkeleton == NULL)
+			return false;
+
+		if (!m_pAnimation->IsInited() )
+			return false;
+
+		if (!m_pSkeleton->IsInited() )
+			return false;
+
+		m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());
+
+		m_bLoadOver = true;
+
+		return true;
 	}
 
 	void AnimationClip::AdvanceTime(float fTimeElapsed)
 	{	
-		if (!m_bInit)
-		{
-			m_pAnimation->LoadSync();
-			m_pNodeLink->Build(m_pSkeleton,m_pAnimation.get());
-			m_bInit = true;
-		}
-
 		float fFrameRate = 30.0f;
 		m_fLocalFrame += fTimeElapsed * fFrameRate * m_fPlaySpeed;
 		
@@ -81,7 +114,7 @@ namespace ma
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
 			BoneIndex uBoneId = pBoneSet ? pBoneSet->GetBoneIdByIndex(i) : i;
-			BoneIndex nTrackInd = m_pNodeLink->MapNode(uBoneId);
+			BoneIndex nTrackInd = m_NodeLink.MapNode(uBoneId);
 
 			Transform source;
 			if ( Math::IsValidID<BoneIndex>(nTrackInd) )

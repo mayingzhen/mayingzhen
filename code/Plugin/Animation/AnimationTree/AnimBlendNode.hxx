@@ -55,6 +55,41 @@ namespace ma
 		}
 	}
 
+	void AnimBlendNode::SetSkeletion(Skeleton* pSkeletion)
+	{
+		if (m_pSrcAnimNode)
+		{
+			m_pSrcAnimNode->SetSkeletion(pSkeletion);
+		}
+
+		if (m_pDestAnimNode)
+		{
+			m_pDestAnimNode->SetSkeletion(pSkeletion);
+		}
+	}
+
+	bool AnimBlendNode::OnLoadOver()
+	{
+		if (m_pSrcAnimNode && !m_pSrcAnimNode->OnLoadOver())
+			return false;
+
+		if (m_pDestAnimNode && !m_pDestAnimNode->OnLoadOver())
+			return false;
+
+		return true;
+	}
+
+	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
+	{
+		sl.BeginSection(pszLable);
+
+		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"SrcAnimNode");
+		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"DestAnimNode");
+		sl.Serialize(m_fWeight,"Weight");
+
+		sl.EndSection();
+	}
+
 
 }
 

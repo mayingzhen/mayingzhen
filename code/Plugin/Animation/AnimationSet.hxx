@@ -6,18 +6,10 @@
 
 namespace ma
 {
-	AnimationSet::AnimationSet(RefPtr<Skeleton> pSkeleton,RefPtr<AnimationSetData> pAniSetData)
-	{
-		m_pSkeleton = pSkeleton;
-		m_pAniSetData = pAniSetData;
+	IMPL_OBJECT(AnimationSet,Serializable)
 
-		for (UINT i = 0; i < pAniSetData->GetActionDataNumber(); ++i)
-		{
-			SkelAnimData* pActionData = pAniSetData->GetActionDataByIndex(i);
-			
-			SkelAnimtion* pAction = new SkelAnimtion(pActionData,m_pSkeleton.get());
-			m_arrSkelAnim.push_back(pAction);
-		}
+	AnimationSet::AnimationSet()
+	{
 	}
 
 	AnimationSet::~AnimationSet()
@@ -29,9 +21,11 @@ namespace ma
 		m_arrSkelAnim.clear();	
 	}
 
-	SkelAnimtion*	AnimationSet::CreateSkelAnim(const char* actionName)
+	SkelAnimtion* AnimationSet::CreateSkelAnim(const char* actionName)
 	{
-		SkelAnimtion* pAction = new SkelAnimtion(actionName,m_pSkeleton.get());
+		SkelAnimtion* pAction = new SkelAnimtion();
+		pAction->SetAnimName(actionName);
+		pAction->SetSkeletion(m_pSkeleton.get());
 		m_arrSkelAnim.push_back(pAction);
 		return pAction;
 	}
@@ -78,6 +72,33 @@ namespace ma
 
 		m_arrSkelAnim.erase(it);
 	}
+
+	void AnimationSet::Serialize(Serializer& sl, const char* pszLable)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_arrSkelAnim,"arrAnimation");
+
+		SerializeArrObj<PoseModifier>(sl,m_arrPoseModifier,"arrPoseModifier");
+
+		sl.EndSection();
+	}
+
+	void AnimationSet::SetSkeleton(Skeleton* pSkeleton)
+	{
+		m_pSkeleton = pSkeleton;
+	
+		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
+		{
+			m_arrSkelAnim[i]->SetSkeletion(pSkeleton);
+		}
+	}
+
+// 	RefPtr<AnimationSet> AnimationSet::CreateAnimationSet(const char* pAniSetFile)
+// 	{
+// 		AnimationSet* pAniSet = new AnimationSet();
+// 		pAniSet->Load(pAniSetFile);
+// 	}
 
 }
 

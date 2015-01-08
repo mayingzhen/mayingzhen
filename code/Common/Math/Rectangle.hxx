@@ -1,8 +1,9 @@
-//#include "Base.h"
 #include "Rectangle.h"
 
 namespace ma
 {
+
+const Rectangle Rectangle::ZERO = Rectangle(0,0,0,0);
 
 Rectangle::Rectangle()
     : x(0), y(0), width(0), height(0)

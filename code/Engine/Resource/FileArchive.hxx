@@ -20,7 +20,10 @@ namespace ma
 
 	static bool is_absolute_path(const char* path)
 	{
-		return path[0] == '/' || path[0] == '\\';
+		if (path == NULL)
+			return false;
+
+		return path[0] == '/' || path[0] == '\\' || (strlen(path) > 1 && path[1] == ':');
 	}
 
 	static std::string concatenate_path(const std::string& base, const std::string& name)

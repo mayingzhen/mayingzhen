@@ -29,7 +29,7 @@ namespace ma
 
 		virtual void	Serialize(long& val,const char* pszLable) = 0;
 
-		virtual void	Serialize(Uint64& val,const char* pszLable) = 0;
+		virtual void	Serialize(uint64& val,const char* pszLable) = 0;
 
 		virtual void	Serialize(float& val,const char* pszLable) = 0;
 
@@ -47,7 +47,7 @@ namespace ma
 
 		virtual void	Serialize(Transform& val,const char *pszLable) = 0;
 
-		virtual void	SerializeByte(Uint8* &pData,UINT nSizeInByte,const char* pszLable) = 0;
+		virtual void	SerializeByte(uint8* &pData,UINT nSizeInByte,const char* pszLable) = 0;
 
 		virtual void	BeginSection(const char* pszLable) = 0;
 
@@ -70,8 +70,6 @@ namespace ma
 		template<class T>
 		void			Serialize(T& val,const char* pszLable);
 
-		template<class T>
-		void			Serialize(T* val,const char* pszLable);
 	};
 
 	template<class EnumType>
@@ -109,12 +107,6 @@ namespace ma
 
 	template<class T>
 	void Serializer::Serialize(T& val,const char* pszLable)
-	{
-		SerializeData(*this,val,pszLable);
-	}
-
-	template<class T>
-	void Serializer::Serialize(T* val,const char* pszLable)
 	{
 		SerializeData(*this,val,pszLable);
 	}
@@ -207,32 +199,12 @@ namespace ma
 
 		if (pObject == NULL)
 		{
-			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
-			pObject = SafeCast<T>( objFac.CreateObject(strClassName.c_str()) );
+			pObject = CreateObject<T>(strClassName.c_str());
 		}
 		sl.Serialize(*(pObject),strClassName.c_str());
 
 		sl.EndSection();
 	}
-
-	template<class T>
-	inline void SerializeObjectArg(Serializer& sl, T* &pObject, void* arg,const char* pszLable)
-	{
-		sl.BeginSection(pszLable);
-
-		std::string strClassName = pObject ? pObject->GetClass()->GetName() : "";
-		sl.Serialize(strClassName,"ClassName");
-
-		if (pObject == NULL)
-		{
-			ObjectFactoryManager& objFac = ObjectFactoryManager::GetInstance();
-			pObject = SafeCast<T>( objFac.CreateObjectArg(strClassName.c_str(),arg) );
-		}
-		sl.Serialize(*(pObject),strClassName.c_str());
-
-		sl.EndSection();
-	}
-
 
 	template<class T>
 	inline void SerializeArrObj(Serializer& sl,std::vector<T*>& arrObject,const char* pszLable)
@@ -259,29 +231,6 @@ namespace ma
 		sl.EndSection();
 	}
 
-	template<class T>
-	inline void SerializeArrObjArg(Serializer& sl,std::vector<T*>& arrObject,void* arg,const char* pszLable)
-	{
-		sl.BeginSection(pszLable);
-
-		UINT nSize = arrObject.size();
-		sl.Serialize(nSize,"size");
-
-		if (nSize != arrObject.size())
-		{
-			arrObject.resize(nSize);
-		}
-
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-		{
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-
-			SerializeObjectArg<T>(sl,arrObject[nCnt],arg,buf);
-		}
-
-		sl.EndSection();
-	}
    
 	template<class T>
 	inline void SerializeAnyTypeValue(Serializer& sl, Any& anyValue)

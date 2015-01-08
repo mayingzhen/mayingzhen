@@ -32,7 +32,7 @@ namespace ma
 			for (int i = 0; i < 5; ++i)
 			{
 				std::string pName = pGameObjA->GetName();
-				pName += std::string("_clone") + StringConverter::toString(i);
+				pName += std::string("_clone"); //+ StringConverter::toString(i);
 				SceneNodePtr pClone = pGameObjA->Clone(pName.c_str());
 				pClone->Translate(Vector3(1 * i,0,1));
 			}

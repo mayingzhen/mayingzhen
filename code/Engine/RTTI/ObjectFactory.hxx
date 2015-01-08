@@ -2,7 +2,17 @@
 
 namespace ma
 {
-	template<> ObjectFactoryManager* Singleton<ObjectFactoryManager>::ms_singleton = NULL;
+	static ObjectFactoryManager* gpObjectFactoryManager = NULL;
+
+	ObjectFactoryManager* GetObjectFactoryManager()
+	{
+		return gpObjectFactoryManager;
+	}
+
+	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang)
+	{
+		gpObjectFactoryManager = pClassMang;
+	}
 
 	void ObjectFactoryManager::Shutdown()
 	{
@@ -19,7 +29,7 @@ namespace ma
 		else
 		{
 			ASSERT(false);
-			Log("Object factory conflict : %s %p",pCls,funCreator);
+			LogError("Object factory conflict : %s %p",pCls,funCreator);
 		}
 	}
 
@@ -32,7 +42,7 @@ namespace ma
 		}
 		else
 		{
-			Log("Fail to unregister object factory");
+			LogError("Fail to unregister object factory");
 		}
 	}
 
@@ -46,38 +56,11 @@ namespace ma
 		}
 		else
 		{
-			Log("Object factory not found for type %s",pCls);
+			LogError("Object factory not found for type %s",pCls);
 		}
 		return pObj;
 	}
 
-	void ObjectFactoryManager::RegisterObjectDeleteFactory(const char* pCls,ObjectDelete funDelete)
-	{
-		ObjDeleteFunFactoryMap::iterator iter = m_objDeleteFunMap.find(pCls);
-		if (iter == m_objDeleteFunMap.end())
-		{
-			m_objDeleteFunMap[pCls] = funDelete;
-		}
-		else
-		{
-			ASSERT(false);
-			Log("Object factory conflict : %s %p",pCls,funDelete);
-		}
-	}
-
-	void ObjectFactoryManager::DeleteObject(const char* clsName,Object* pObject)
-	{
-		Object* pObj = NULL;
-		ObjDeleteFunFactoryMap::iterator funIter = m_objDeleteFunMap.find(clsName);
-		if (funIter != m_objDeleteFunMap.end())
-		{
-			funIter->second(pObject);
-		}
-		else
-		{
-			Log("Object factory not found for type %s",clsName);
-		}
-	}
 
 	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator)
 	{
@@ -89,7 +72,7 @@ namespace ma
 		else
 		{
 			ASSERT(false);
-			Log("Object factory conflict : %s %p",pCls,funArgCreator);
+			LogError("Object factory conflict : %s %p",pCls,funArgCreator);
 		}
 	}
 
@@ -102,7 +85,7 @@ namespace ma
 		}
 		else
 		{
-			Log("Fail to unregister object factory");
+			LogError("Fail to unregister object factory");
 		}
 	}
 
@@ -117,7 +100,7 @@ namespace ma
 		else
 		{
 			ASSERT(false);
-			Log("Object factory not found for type %s",pCls);
+			LogError("Object factory not found for type %s",pCls);
 		}
 		return pObj;
 	}

@@ -20,7 +20,7 @@ namespace ma
 
 		bool IsReading() const;
 
-		bool Open(const char* pszFilename);
+		//bool Open(const char* pszFilename);
 
 		bool Open(XMLOutputSerializer& xmlOutAr);
 

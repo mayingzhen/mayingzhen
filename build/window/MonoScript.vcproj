@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/mono/Inlude/;../../extern/oisinput/include/"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/mono/Inlude/;../../extern/ois/Includes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MONOSCRIPT_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="MonoScript/StdAfx.h"
 				WarningLevel="3"

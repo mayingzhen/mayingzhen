@@ -27,6 +27,12 @@ namespace ma
 
 		virtual	void	SetFrame(float fFrame);
 
+		virtual void	SetSkeletion(Skeleton* pSkeletion);
+
+		virtual void	Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */);
+
+		virtual bool	OnLoadOver();
+
 	private:
 		AnimTreeNode*	m_pSrcAnimNode;
 		AnimTreeNode*	m_pDestAnimNode;

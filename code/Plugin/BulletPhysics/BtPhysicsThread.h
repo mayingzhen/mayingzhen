@@ -10,6 +10,8 @@ namespace ma
 		PhysicsThread();
 
 		~PhysicsThread();
+		
+		void Stop();
 
 		void BeginUpdate();
 

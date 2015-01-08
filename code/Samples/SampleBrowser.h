@@ -11,10 +11,12 @@ namespace ma
 
 	typedef Sample* (*SampleCreator)();
 
-	class SampleBrowser : public Game, Control::Listener,OIS::KeyListener
+	class SampleBrowser : public Game, /*Control::Listener,*/OIS::KeyListener
 	{
 	public:
 		SampleBrowser(const char* pGameName);
+
+		~SampleBrowser();
 
 		virtual void		Init();
 
@@ -24,7 +26,7 @@ namespace ma
 
 		virtual void		Render();
 
- 		virtual void		controlEvent(Control* control, EventType evt);
+ 		//virtual void		controlEvent(Control* control, EventType evt);
 
 		virtual bool		keyPressed(const OIS::KeyEvent &arg);
 
@@ -44,8 +46,10 @@ namespace ma
 		void				InitResourcePath();
 
 		void				InitBaseModule();
+		void				UnInitBaseModule();
 
 		void				LoadPlugin();
+		void				UnLoadPlugin();
 
 		void				LoadRenderScheme();
 
@@ -56,7 +60,7 @@ namespace ma
 
 		Sample*							m_pCurSample;
 
-		Form*							m_pSampleSelectForm; 
+		//Form*							m_pSampleSelectForm; 
 
 		bool							m_bPause;
 		bool							m_bStepOneFrame;

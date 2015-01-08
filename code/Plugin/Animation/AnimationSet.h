@@ -8,10 +8,12 @@ namespace ma
 	class PoseModifier;
 	class AnimationComponent;
 
-	class ANIMATION_API AnimationSet : public Object
+	class ANIMATION_API AnimationSet : public Serializable
 	{
+		DECL_OBJECT(AnimationSet)	
+
 	public:
-		AnimationSet(RefPtr<Skeleton> pSkeleton, RefPtr<AnimationSetData> pAniSetData);
+		AnimationSet();
 
 		~AnimationSet();
 
@@ -27,13 +29,18 @@ namespace ma
 
 		virtual void				RemoveSkelAnim(SkelAnimtion* pAction);
 
-	private:
-		std::vector<SkelAnimtion*>		m_arrSkelAnim;
+		void						Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
+		
+		void						SetSkeleton(Skeleton* pSkeleton);
 
+	private:
 		RefPtr<Skeleton>				m_pSkeleton;
 
-		RefPtr<AnimationSetData>		m_pAniSetData;
+		std::vector<SkelAnimtion*>		m_arrSkelAnim;
+		std::vector<PoseModifier*>		m_arrPoseModifier;
 	};
+
+	//ANIMATION_API RefPtr<AnimationSet> CreateAnimationSet(const char* pAniSetFile);
 }
 
 

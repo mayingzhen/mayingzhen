@@ -11,6 +11,14 @@ namespace ma
 	{
 	}
 
+	void DataThread::Stop()
+	{
+		m_bExit = true;
+		m_readEvent.Signal();
+		
+		Thread::Stop();
+	}
+
 	void DataThread::ThreadUpdate()
 	{
 		m_readEvent.Wait();

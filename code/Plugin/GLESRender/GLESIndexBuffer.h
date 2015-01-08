@@ -17,7 +17,7 @@ namespace ma
 		
 		virtual void	Unlock();
 
-		virtual void	Active();
+		virtual void	RT_StreamComplete();
 
 		GLuint			GetIndexBuffer();
 

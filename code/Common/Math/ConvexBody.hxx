@@ -128,7 +128,7 @@ namespace ma
 		}
 	}
 	//-----------------------------------------------------------------------
-	/*void ConvexBody::define(const Frustum& frustum)
+	void ConvexBody::define(const Frustum& frustum)
 	{
 		// ordering of the points:
 		// near (0-3), far (4-7); each (top-right, top-left, bottom-left, bottom-right)
@@ -141,7 +141,7 @@ namespace ma
 		//	|/    |/
 		//	2-----3
 		
-		const Vector3 *pts = frustum.getWorldSpaceCorners();
+		const Vector3 *pts = frustum.GetPoint();
 
 		/// reset ConvexBody
 		reset();
@@ -196,7 +196,7 @@ namespace ma
 		poly->insertVertex( pts[1] );
 		poly->insertVertex( pts[0] );
 		mPolygons.push_back( poly ); 
-	}*/
+	}
 	//-----------------------------------------------------------------------
 	void ConvexBody::define(const AABB& aab)
 	{
@@ -471,6 +471,19 @@ namespace ma
 		}
 		mPolygons.clear();
 	}
+
+	void ConvexBody::transformed(Matrix4 matTrans)
+	{
+		for (PolygonList::iterator it = mPolygons.begin(); it != mPolygons.end(); ++it)
+		{
+			Polygon* pPolygon = *it;
+			for (size_t i = 0; i < pPolygon->getVertexCount(); ++i )
+			{
+				pPolygon->setVertex( matTrans * pPolygon->getVertex(i), i );
+			}
+		}
+	}
+
 	//-----------------------------------------------------------------------
 	size_t ConvexBody::getPolygonCount( void ) const
 	{
@@ -952,7 +965,16 @@ namespace ma
 			// - side is clipSide: vertex will be clipped
 			// - side is !clipSide: vertex will be untouched
 			// - side is NOSIDE:   vertex will be untouched
-			Plane::Side *side = new Plane::Side[vertexCount];
+			Plane::Side *side = NULL;
+			Plane::Side maxSide[10];
+			if (vertexCount > 10)
+			{
+				side = new Plane::Side[vertexCount];	
+			}
+			else
+			{
+				side = maxSide;	
+			}
 			for ( size_t iVertex = 0; iVertex < vertexCount; ++iVertex )
 			{
 				side[ iVertex ] = pl.getSide( p.getVertex( iVertex ) );
@@ -1077,7 +1099,10 @@ namespace ma
 			pIntersect = 0;
 
 			// delete side info
-			delete[] side;
+			if (vertexCount > 10)
+			{
+				delete[] side;
+			}
 			side = 0;
 		}
 

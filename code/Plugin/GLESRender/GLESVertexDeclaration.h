@@ -11,7 +11,7 @@ namespace ma
 
 		~GLESVertexDeclaration();
 
-		virtual void Active();
+		virtual void RT_StreamComplete();
 	};
 
 }

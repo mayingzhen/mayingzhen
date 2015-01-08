@@ -1,7 +1,6 @@
 #ifndef  _SceneNode__H__
 #define  _SceneNode__H__
 
-#include "NodeTransform.h"
 #include "Component.h"
 
 namespace ma
@@ -13,16 +12,62 @@ namespace ma
 	class CullNode;
 	class CullTree;
 
-	class ENGINE_API SceneNode : public NodeTransform
+	class ENGINE_API SceneNode : public Serializable
 	{
 		DECL_OBJECT(SceneNode)
 
 	public:
 		SceneNode(Scene* pScene,const char* pName = NULL);
 
-		~SceneNode();
+		virtual ~SceneNode();
 
-		void				Update();
+		static void			RegisterObject(Context* context);
+
+		virtual void		ApplyAttributes();
+
+		virtual void		Update();
+
+		bool				GetEnabled() const {return m_bEnable;}
+		void				SetEnabled(bool b) {m_bEnable = b;}
+
+		// Transform
+		const Vector3&		GetPos() const; 
+		void				SetPos(const Vector3& vPos);
+
+		const Vector3&		GetScale() const;
+		void				SetScale(const Vector3& vScale);
+
+		const Quaternion&	GetRotation() const;
+		void				SetRotation(const Quaternion& qRot);
+
+		const Vector3&		GetPosWS() const;
+		void				SetPosWS(const Vector3& vPos);
+
+		const Quaternion&	GetRotationWS() const;
+		void				SetRotationWS(const Quaternion& qRot);
+
+		const Vector3&		GetScaleWS() const;
+		void				SetScaleWS(const Vector3& vScale);
+
+		Vector3				GetForward();
+		Vector3				GetRight();		
+		Vector3				GetUp();
+
+		void                Forward(float fValue);
+		void                Up(float fValue);
+		void				Right(float fValue);
+
+		void				Translate(const Vector3& vDir);
+
+		void				LookAt(const Vector3& vPos, const Vector3& vTarget);
+		void				LookAt(const Vector3& vTarget);
+
+		const Transform&    GetTransformWS() const;
+		void				SetTransformWS(const Transform& tsfWS);
+
+		const Matrix4&		GetMatrixWS() const;
+
+		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
 
 		// Component
 		template<class T>
@@ -46,11 +91,11 @@ namespace ma
 
 		Scene*				GetScene() {return m_pScene;}
 
+		virtual void		Serialize(Serializer& sl, const char* pszLable = "SceneNode");
+		
 		SceneNode*			Clone(const char* pName);
 
-		void				Serialize(Serializer& sl, const char* pszLable = "GameObject");
-
-		void				OnTransformChange();
+		virtual	void		OnTransformChange();
 
 		void				SetUserData(const char* pszKey,void* pData);
 		void*				GetUserData(const char* pszKey);
@@ -64,17 +109,31 @@ namespace ma
 
 		void				SetParent(SceneNode* pParent);
 
-	private:
-		std::vector<ComponentPtr>	m_arrComp;
+		void				UpdateMatWorld() const;
+
+		void				MarkDirty();
+
+	protected:
+		typedef std::vector< RefPtr<Component> > VEC_COMP;
+		typedef std::vector< RefPtr<SceneNode> > VEC_CHILD;
+		typedef std::map<std::string, void*> MAP_USER_DATA;
+
+		VEC_COMP					m_arrComp;
 		SceneNode*					m_pParent;
 		Scene*						m_pScene;
-		typedef std::vector< RefPtr<SceneNode> > VEC_CHILD;
 		VEC_CHILD					m_arrChild;
 
 		UINT						m_nLastVisibleFrame;
 
-		typedef std::map<std::string, void*> MAP_USER_DATA;
+		mutable Transform			m_tsfPS;
+		mutable Transform			m_tsfWS;
+		mutable Matrix4				m_matWS;	
+		mutable bool				m_bmatWSDirty;
+
+		bool						m_bEnable;
+
 		MAP_USER_DATA				m_mapUserData;
+	
 	};
 
 	DeclareRefPtr(SceneNode);
@@ -88,7 +147,7 @@ namespace ma
 		if (pClass == NULL)
 			return NULL;
 
-		Object* pObject = ObjectFactoryManager::GetInstance().CreateObjectArg(pClass->GetName(), this);
+		Object* pObject = GetObjectFactoryManager()->CreateObjectArg(pClass->GetName(), this);
 		ASSERT(pObject);
 		if (pObject == NULL)
 			return NULL;

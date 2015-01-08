@@ -21,26 +21,19 @@
 #include <limits>
 using namespace std;
 
-typedef unsigned char		Uint8;
-typedef unsigned short		Uint16;
-typedef unsigned int		Uint;
-typedef unsigned int		Uint32;
-typedef char				Int8;
-typedef short				Int16;
+typedef unsigned char		uint8;
+typedef unsigned short		uint16;
+typedef unsigned int		uint32;
+typedef unsigned long long	uint64;
+typedef char				int8;
+typedef short				int16;
 typedef unsigned char       Byte;
 typedef unsigned short      WORD;
 typedef unsigned long		DWORD;
 typedef unsigned short		BoneIndex;
+typedef float				Real;
 
 
-#ifdef _WIN32
-typedef __int64				Int64;
-typedef unsigned __int64	Uint64;
-#else
-#include <stdint.h>
-typedef int64_t				Int64;
-typedef uint64_t			Uint64;
-#endif
 
 
 #ifdef  __cplusplus

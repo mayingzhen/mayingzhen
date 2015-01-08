@@ -26,7 +26,7 @@
 #define WINDOW_VSYNC        1
 
 
-COMMON_API int DisplayError(const char * title, 
+int DisplayError(const char * title, 
 							const char * text, 
 							const char * description, 
 							const char * file, 

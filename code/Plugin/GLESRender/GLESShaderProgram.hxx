@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	GLESShaderProgram::GLESShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
-		:ShaderProgram(pTech,pVSFile,pPSFile,pszDefine)
+	GLESShaderProgram::GLESShaderProgram()
+		:ShaderProgram(NULL)
 	{
 		m_program = 0;
 	}
@@ -220,9 +220,8 @@ namespace ma
 			// Query the pre-assigned uniform location.
 			GL_ASSERT( uniformLocation = glGetUniformLocation(m_program, uniformName) );
 
-			Uniform* uniform = new Uniform();
+			RefPtr<Uniform> uniform = this->AddUniform(uniformName);
 			uniform->m_pShader = this;
-			uniform->m_name = uniformName;
 			uniform->m_location = uniformLocation;
 			uniform->m_type = uniformType;
 			if (uniformType == GL_SAMPLER_2D)
@@ -234,8 +233,6 @@ namespace ma
 			{
 				uniform->m_index = 0;
 			}
-
-			m_uniforms[uniformName] = uniform;
 		}
 		SAFE_DELETE_ARRAY(uniformName);
 	
@@ -248,186 +245,8 @@ namespace ma
 		return (itr == m_vertexAttributes.end() ? -1 : itr->second);
 	}
 
-	void GLESShaderProgram::SetValue(Uniform* uniform, float value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform1f(uniform->m_location, value) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const float* values, unsigned int count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniform1fv(uniform->m_location, count, values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, int value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform1i(uniform->m_location, value) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const int* values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniform1iv(uniform->m_location, count, values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, 1, GL_FALSE, (GLfloat*)&value) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, count, GL_FALSE, (GLfloat*)values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform2f(uniform->m_location, value.x, value.y) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector2* values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniform2fv(uniform->m_location, count, (GLfloat*)values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform3f(uniform->m_location, value.x, value.y, value.z) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector3* values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniform3fv(uniform->m_location, count, (GLfloat*)values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform4f(uniform->m_location, value.x, value.y, value.z, value.w) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
-		GL_ASSERT( glUniform4fv(uniform->m_location, count, (GLfloat*)values) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const ColourValue& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform4f(uniform->m_location, value.r, value.g, value.b, value.a) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState* sampler)
-	{
-		ASSERT(uniform);
-		ASSERT(uniform->m_type == GL_SAMPLER_2D);
-		ASSERT(sampler);
-
-		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
-
-		BindSampler(sampler->GetTexture(),sampler->GetFilterMode(),sampler->GetWrapMode());
-
-		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const SamplerState** values, UINT count)
-	{
-	     ASSERT(uniform);
-	     ASSERT(uniform->m_type == GL_SAMPLER_2D);
-	     ASSERT(values);
-	 
-	     // Set samplers as active and load texture unit array
-	     GLint units[32];
-	     for (UINT i = 0; i < count; ++i)
-	     {
-	         GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
-	 
-	         // Bind the sampler - this binds the texture and applies sampler state
-	         BindSampler(values[i]->GetTexture(),values[i]->GetFilterMode(),values[i]->GetWrapMode());
-	 
-	         units[i] = uniform->m_index + i;
-	     }
-	 
-	     // Pass texture unit array to GL
-	     GL_ASSERT( glUniform1iv(uniform->m_location, count, units) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Texture* sampler)
-	{
-		ASSERT(uniform);
-		ASSERT(uniform->m_type == GL_SAMPLER_2D);
-		ASSERT(sampler);
-
-		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
-
-		BindSampler(sampler,TFO_BILINEAR,CLAMP);
-
-		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
-	}
-
-	void GLESShaderProgram::SetValue(Uniform* uniform, const Texture** values, UINT count)
-	{
-		ASSERT(uniform);
-		ASSERT(uniform->m_type == GL_SAMPLER_2D);
-		ASSERT(values);
-
-		// Set samplers as active and load texture unit array
-		GLint units[32];
-		for (UINT i = 0; i < count; ++i)
-		{
-			GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index + i) );
-
-			// Bind the sampler - this binds the texture and applies sampler state
-			BindSampler(values[i],TFO_BILINEAR,CLAMP);
-
-			units[i] = uniform->m_index + i;
-		}
-
-		// Pass texture unit array to GL
-		GL_ASSERT( glUniform1iv(uniform->m_location, count, units) );
-	}
-
 	void GLESShaderProgram::Bind()
 	{
 	   GL_ASSERT( glUseProgram(m_program) );
 	}
-
-	void GLESShaderProgram::BindSampler(const Texture* pTex,FilterOptions eFilter,Wrap eWrap)
-	{
-		GLESTexture* pTexture = (GLESTexture*)pTex;
-		ASSERT(pTexture);
-		if (pTexture == NULL)
-			return;
-		
-		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
-
-		GLenum minFilter,magFilter;
-		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
-		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
-		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
-
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
-
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
-	}
-
-
 }

@@ -3,30 +3,28 @@
 #include "AnimationTree/AnimBlendNode.h"
 #include "AnimationTree/AnimClipNode.h"
 #include "AnimationTree/AnimLayerNode.h"
-#include "SkelAnimtionData.h"
 
 namespace ma
 {
-	SkelAnimtion::SkelAnimtion(const char* pName,Skeleton* pSkeleton)
+	SkelAnimtion::SkelAnimtion()
 	{
-		m_sAnimName = pName ? pName : "";
 		m_pAnimaNode = NULL;
-		m_pSkeleton = pSkeleton;
-		m_pSkelAnimData = NULL;
-	}
-
-	SkelAnimtion::SkelAnimtion(SkelAnimData* pSkelAnimData,Skeleton* pSkeleton)
-	{
-		m_pSkeleton = pSkeleton;
-
-		m_sAnimName = pSkelAnimData->m_sAnimName;
-
-		m_pAnimaNode = CreateAnimNode(pSkelAnimData->m_pAnimNodeData);
 	}
 
 	SkelAnimtion::~SkelAnimtion()
 	{
-		SAFE_DELETE(m_pAnimaNode);
+		m_pAnimaNode = NULL;
+	}
+
+	void SkelAnimtion::SetSkeletion(Skeleton* pSkeleton)
+	{
+		ASSERT(m_pAnimaNode);
+		if (m_pAnimaNode == NULL)
+			return;
+
+		m_pSkeleton = pSkeleton;
+
+		m_pAnimaNode->SetSkeletion(pSkeleton);
 	}
 
 	void SkelAnimtion::SetTreeNode(AnimTreeNode* pAnimNode)
@@ -96,79 +94,34 @@ namespace ma
 		}
 	}
 
-	AnimTreeNode* SkelAnimtion::CreateAnimNode(AnimNodeData* pAnimNodeData)
-	{
-		AnimTreeNode* pAnimNode = NULL;
-
-		if ( pAnimNodeData->IsA( AnimClipNodeData::StaticGetClass() ) )
-		{
-			AnimClipNodeData* pClipNodeData = SafeCast<AnimClipNodeData>(pAnimNodeData);
-			pAnimNode = CreateClipNode(pClipNodeData);
-		}
-		else if ( pAnimNodeData->IsA( AnimLayerNodeData::StaticGetClass() ) )
-		{
-			AnimLayerNodeData* pLayerNodeData = SafeCast<AnimLayerNodeData>(pAnimNodeData);
-			pAnimNode = CreateLayerNode(pLayerNodeData);
-		}
-		else if ( pAnimNodeData->IsA( AnimBlendNodData::StaticGetClass() ) )
-		{
-			AnimBlendNodData* pBlendNodeData = SafeCast<AnimBlendNodData>(pAnimNodeData);
-			pAnimNode = CreateBlendNode(pBlendNodeData);
-		}
-
-		return pAnimNode;
-	}
-
-	AnimLayerNode*	SkelAnimtion::CreateLayerNode(AnimLayerNodeData* pLayerData)
-	{
-		AnimLayerNode* pLayerNode = new AnimLayerNode();
-
-		if (pLayerData)
-		{
-			for (UINT i = 0; i < pLayerData->m_arrAnimNodeData.size(); ++i)
-			{
-				pLayerNode->AddLayer( CreateAnimNode(pLayerData->m_arrAnimNodeData[i]) );
-			}
-		}
-
-		return pLayerNode;
-	}
-
-	AnimBlendNode*	SkelAnimtion::CreateBlendNode(AnimBlendNodData* pBlendData)
-	{
-		AnimBlendNode* pBlendNode = new AnimBlendNode();
-
-		if (pBlendData)
-		{
-			pBlendNode->SetSrcAnimNode( CreateAnimNode(pBlendData->m_pSrcAnimNodeData) );
-			pBlendNode->SetDestAnimNode( CreateAnimNode(pBlendData->m_pDestAnimNodeData) );
-			pBlendNode->SetWeight(pBlendData->m_fWeight);
-		}
-
-		return pBlendNode;
-	}
-
-	AnimClipNode*	SkelAnimtion::CreateClipNode(AnimClipNodeData* pClipData)
-	{
-		AnimClipNode* pClipNode = new AnimClipNode(m_pSkeleton);
-
-		if (pClipData)
-		{
-			pClipNode->SetAnimationClip(pClipData->m_sClipPath.c_str());
-			pClipNode->SetBoneSet(pClipData->m_sBoneSetName.c_str());
-		}
-
-		return pClipNode;
-	}
 
 	AnimClipNode*	SkelAnimtion::CreateClipNode(const char* pSkaPath,const char* pBonsetName)
 	{
-		AnimClipNode* pClipNode = new AnimClipNode(m_pSkeleton);
+		AnimClipNode* pClipNode = new AnimClipNode();
 
 		pClipNode->SetAnimationClip(pSkaPath);
 		pClipNode->SetBoneSet(pBonsetName);
 	
 		return pClipNode;
+	}
+
+	void SkelAnimtion::Serialize(Serializer& sl, const char* pszLable/* = "ActionData"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.Serialize(m_sAnimName,"ActionName");
+
+		SerializeObject<AnimTreeNode>(sl,m_pAnimaNode,"AnimationNode");
+
+		sl.EndSection();
+	}
+
+	bool SkelAnimtion::OnLoadOver()
+	{
+		if (m_pAnimaNode && !m_pAnimaNode->OnLoadOver())
+			return false;
+
+		return true;
 	}
 }
 

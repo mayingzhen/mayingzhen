@@ -1,7 +1,6 @@
 #ifndef __ObjectFactory_H__
 #define __ObjectFactory_H__
 
-#include "Common/Singleton.h"
 #include "Engine/RTTI/Object.h"
 
 namespace ma
@@ -11,15 +10,8 @@ namespace ma
 
 	typedef void	(*ObjectDelete)(Object* pObject);
 
-	class ENGINE_API ObjectFactoryManager : public Singleton<ObjectFactoryManager>
+	class ENGINE_API ObjectFactoryManager
 	{
-		typedef std::map<std::string,ObjectCreator> ObjFunFactoryMap;
-		typedef std::map<std::string,ObjectCreatorArg> ObjFunArgFactoryMap;
-		typedef std::map<std::string,ObjectDelete> ObjDeleteFunFactoryMap;
-		ObjFunFactoryMap	m_objFunFactoryMap;
-		ObjFunArgFactoryMap	m_objFunArgFactoryMap;
-		ObjDeleteFunFactoryMap m_objDeleteFunMap;
-
 	public:
 
 		virtual void Shutdown();
@@ -32,20 +24,22 @@ namespace ma
 
 		virtual void UnRegisterObjectFactory(const char* pCls,ObjectCreatorArg funArgCreator);
 
-		virtual void RegisterObjectDeleteFactory(const char* pCls,ObjectDelete funDelete);
-
 		virtual Object* CreateObject(const char* clsName);
 
 		virtual Object*	CreateObjectArg(const char* claName,void* arg);
 
-		virtual void	DeleteObject(const char* clsName,Object* pObject);
+	private:
+		typedef std::map<std::string,ObjectCreator> ObjFunFactoryMap;
+		typedef std::map<std::string,ObjectCreatorArg> ObjFunArgFactoryMap;
 
+		ObjFunFactoryMap	m_objFunFactoryMap;
+		ObjFunArgFactoryMap	m_objFunArgFactoryMap;
 	};
 
 	template <class T>
 	T*	CreateObject(const char* pszClassName)
 	{
-		Object* pObject = ObjectFactoryManager::GetInstance().CreateObject(pszClassName);
+		Object* pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
 		ASSERT(pObject);
 		
 		T* pTypeObject = SafeCast<T>(pObject);
@@ -56,13 +50,17 @@ namespace ma
 	template <class T>
 	T*	CreateObjectArg(const char* pszClassName,void* pArg)
 	{
-		Object* pObject = ObjectFactoryManager::GetInstance().CreateObjectArg(pszClassName,pArg);
+		Object* pObject = GetObjectFactoryManager()->CreateObjectArg(pszClassName,pArg);
 		ASSERT(pObject);
 
 		T* pTypeObject = SafeCast<T>(pObject);
 		ASSERT(pTypeObject);
 		return pTypeObject;
 	}
+
+	ObjectFactoryManager* GetObjectFactoryManager();
+
+	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang);
 
 }
 

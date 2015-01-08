@@ -20,7 +20,7 @@ struct VS_IN
 #endif
 
 #ifdef COLOR   
-   float4 a_color : COLOR0;
+   float4 a_color0 : COLOR0;
 #endif
 
 };
@@ -65,13 +65,13 @@ VS_OUT main(VS_IN In)
 #endif
 
 #ifdef DeferredLight
-   Out.v_defTc = Out.v_position.xy / Out.v_position.w;
+   Out.v_defTc = Out.v_position.xy / Out.v_position.w * 0.5f;
    Out.v_defTc.y *= -1;
-   Out.v_defTc = Out.v_defTc * 0.5f + 0.5f;
+   Out.v_defTc += 0.5f;
 #endif   
     
 #ifdef COLOR    
-    Out.v_color = In.a_color;
+    Out.v_color = In.a_color0;
 #endif
     
     return Out;

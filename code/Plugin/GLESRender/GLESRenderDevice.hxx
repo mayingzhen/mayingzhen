@@ -24,9 +24,9 @@ namespace ma
 		return new GLESTexture(pszPath);
 	}
 
-	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,FORMAT format,bool bDepthStencil)
+	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
 	{
-		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,bDepthStencil);
+		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,eUsage);
 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
 		return pTarget;
 	}
@@ -46,15 +46,11 @@ namespace ma
 		return new GLESIndexBuffer();
 	}
 
-	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(Technique* pTech,const char* pVSFile,const char* pPSFile,const char* pszDefine)
+	ShaderProgram*	GLESRenderDevice::CreateShaderProgram(/*const char* pVSFile,const char* pPSFile,const char* pszDefine*/)
 	{
-		return new GLESShaderProgram(pTech,pVSFile,pPSFile,pszDefine);
+		return new GLESShaderProgram(/*pVSFile,pPSFile,pszDefine*/);
 	}
 
-	const char*	GLESRenderDevice::GetShaderPath()
-	{
-		return "shader/gles/";
-	}
 
 	void	GLESRenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
 	{
@@ -68,6 +64,11 @@ namespace ma
 	float	GLESRenderDevice::GetHalfPixelOffset(float fHalfPiexl)
 	{
 		return 0;
+	}
+
+	void GLESRenderDevice::ShutDown()
+	{
+
 	}
 
 	void GLESRenderDevice::Init(HWND wndhandle)
@@ -94,10 +95,6 @@ namespace ma
 
 	void GLESRenderDevice::BeginRender()
 	{
-// #if PLATFORM_WIN == 1
-// 		wglMakeCurrent(m_hDC,m_hGLRC);
-// #endif
-        //m_pDeviceContext->MakeCurrent();
 	}
 
 	void GLESRenderDevice::EndRender()
@@ -176,11 +173,42 @@ namespace ma
 		return rect;
 	}
 
-	void GLESRenderDevice::SetRenderState(const RenderState& state)
+	void GLESRenderDevice::SetDepthBias(float constantBias, float slopeScaleBias)
 	{
-		GL_ASSERT( glDepthMask(state.m_bDepthWrite ? GL_TRUE : GL_FALSE) );
+		ASSERT(false);
+	}
 
-		switch (state.m_eDepthCheckMode)
+	void GLESRenderDevice::SetCullingMode(CULL_MODE mode)
+	{
+		switch( mode )
+		{
+		case CULL_FACE_SIDE_NONE:
+			GL_ASSERT( glDisable(GL_CULL_FACE) );
+			return;
+		case CULL_FACE_SIDE_BACK:
+			GL_ASSERT( glEnable(GL_CULL_FACE) );	
+			GL_ASSERT( glCullFace(GL_BACK) );
+			return;
+		case CULL_FACE_SIDE_FRONT:
+			GL_ASSERT( glEnable(GL_CULL_FACE) );	
+			GL_ASSERT( glCullFace(GL_FRONT) );
+			return;
+		}
+	}
+
+	void GLESRenderDevice::SetDepthWrite(bool b)
+	{
+		GL_ASSERT( glDepthMask(b) );
+	}
+
+	void GLESRenderDevice::SetColorWrite(bool b)
+	{
+		GL_ASSERT( glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/) );
+	}
+
+	void GLESRenderDevice::SetDepthCheckMode(DEPTH_CHECK_MODE mode)
+	{
+		switch (mode)
 		{
 		case DCM_NONE:
 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
@@ -214,8 +242,11 @@ namespace ma
 			ASSERT(false);
 			break;
 		}
- 
-		switch (state.m_eBlendMode)
+	}
+
+	void GLESRenderDevice::SetBlendMode(BLEND_MODE mode)
+	{
+		switch (mode)
 		{
 		case BM_OPATICY:
 			GL_ASSERT( glDisable(GL_BLEND) );
@@ -236,9 +267,118 @@ namespace ma
 		}
 	}
 
+	void GLESRenderDevice::SetTexture(Uniform* uniform,Texture* sampler)
+	{
+		ASSERT(uniform);
+		ASSERT(uniform->m_type == GL_SAMPLER_2D);
+		ASSERT(sampler);
+
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_location) );
+
+		GLESTexture* pTexture = (GLESTexture*)sampler;
+		ASSERT(pTexture);
+		if (pTexture == NULL)
+			return;
+
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
+
+// 		GLenum minFilter,magFilter;
+// 		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
+// 		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
+// 		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
+// 
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+// 
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+// 
+// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+
+		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
+	}
+
+	void GLESRenderDevice::SetTextureWrap(int index,Wrap eWrap)
+	{
+		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
+		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
+
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+	}
+
+	void GLESRenderDevice::SetTextureFilter(int index,FilterOptions eFilter)
+	{
+		GLenum minFilter,magFilter;
+		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
+
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, float value)
+	{
+ 		ASSERT(uniform);
+ 		GL_ASSERT( glUniform1f(uniform->m_location, value) );
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Matrix4& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, 1, GL_FALSE, (GLfloat*)&value) );
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform2f(uniform->m_location, value.x, value.y) );
+	}
 
 
-	#define BUFFER_OFFSET(offset) ((Int8 *) NULL + offset)
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform3f(uniform->m_location, value.x, value.y, value.z) );
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector4& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform4f(uniform->m_location, value.x, value.y, value.z, value.w) );
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
+	{
+		ASSERT(uniform);
+		ASSERT(values);
+		GL_ASSERT( glUniform4fv(uniform->m_location, count, (GLfloat*)values) );
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform4f(uniform->m_location, value.r, value.g, value.b, value.a) );
+	}
+
+	void GLESRenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
+	{
+
+	}
+
+	void GLESRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
+	{
+		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pIB;
+		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
+	}
+
+	void GLESRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
+	{
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pVB;
+		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
+	}
+
+
+
+	#define BUFFER_OFFSET(offset) ((int8 *) NULL + offset)
 
 	void GLESRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
@@ -247,18 +387,18 @@ namespace ma
 		ASSERT(pTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
 
-		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
-		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
+// 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
+// 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
 
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers.get();
-		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
+// 		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers.get();
+// 		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
 
 		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
-		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
+		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
 		int vertexStartByte = pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
 
 		int nSteam = pVertexDeclar->GetElementCount();
@@ -270,7 +410,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
@@ -283,7 +423,7 @@ namespace ma
 		}
 
 
-		int indexStride = pIndexBuffer->GetStride();
+		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
 		void* pIBufferData = BUFFER_OFFSET(indexStride * pSubMeshData->m_nIndexStart);
 
 		GL_ASSERT( glDrawElements(ePrimType, pSubMeshData->m_nIndexCount, eIndexType, pIBufferData) );
@@ -296,7 +436,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
@@ -338,7 +478,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
@@ -392,37 +532,22 @@ namespace ma
 
 	Matrix4 GLESRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
-		Radian thetaY(fovy / 2.0f);
-		float factor = 1.f/Math::Tan(thetaY);
-		float f_n = 1.f/(zf-zn);
+		float yScale = Math::Tan(Math::HALF_PI - fovy * 0.5f);
+		float xScale = yScale/Aspect;
+		float inv = 1.f/(zn - zf);
 
-		// Calc matrix elements
-		float w = factor / Aspect;
-		float h = factor;
-		float q = -(zf + zn)*f_n;
-		float qn = -2 * (zf * zn)*f_n;
-
-		// NB This creates Z in range [-1,1]
-		//
-		// [ w   0   0   0  ]
-		// [ 0   h   0   0  ]
-		// [ 0   0   q   qn ]
-		// [ 0   0   -1  0  ]
-
-		out = Matrix4::ZERO;
-		out[0][0] = w;
-		out[1][1] = h;
-		out[2][2] = q;
-		out[2][3] = qn;
-		out[3][2] = -1;
+		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;            out[0][3] = 0.f;
+		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;            out[1][3] = 0.f;
+		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = (zn+zf)*inv;    out[2][3] = 2.f*zn*zf*inv;
+		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;             out[3][3] = 0.f;
 
 		return out;
 	}
 
 	Matrix4 GLESRenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
 	{
-		float halfWidth = width*0.5f;
-		float halfHeight = height*0.5f;
+		float halfWidth = width * 0.5f;
+		float halfHeight = height * 0.5f;
 		return MakeOrthoMatrixOffCenter(out, -halfWidth, halfWidth, -halfHeight, halfHeight, zn, zf);
 	}
 
@@ -453,7 +578,7 @@ namespace ma
         glPopGroupMarkerEXT();
 	}
 
-	bool GLESRenderDevice::CheckTextureFormat(FORMAT eFormat,USAGE eUsage)
+	bool GLESRenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)
 	{
 		return true;
 	}

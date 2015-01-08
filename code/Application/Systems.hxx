@@ -4,7 +4,7 @@ namespace ma
 {
 	void Systems::Init()
 	{
-		Input* pInput = new Input();
+		Input* pInput = new Input;
 		SetInput(pInput);
 		pInput->Init(Platform::GetInstance().GetWindId());
 		int w,h;
@@ -28,6 +28,9 @@ namespace ma
 
 		if ( GetScriptSystem() )
 			GetScriptSystem()->Shutdown();
+
+		if (GetResourceSystem())
+			GetResourceSystem()->ShoutDown();
 
 		if ( GetRenderSystem() )
 			GetRenderSystem()->ShoutDown();

@@ -50,7 +50,7 @@ namespace ma
 		*/
 		bool isVisible(const Vector3& vert) const;
 
-		const AABB&	GetAABB() const;
+		const AABB&	GetAABB() const {return m_aabb;}
 
 		enum Points
 		{ 

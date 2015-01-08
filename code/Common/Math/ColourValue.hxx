@@ -45,26 +45,26 @@ namespace ma {
     RGBA ColourValue::getAsRGBA(void) const
 #endif
     {
-        Uint8 val8;
-        Uint32 val32 = 0;
+        uint8 val8;
+        uint32 val32 = 0;
 
         // Convert to 32bit pattern
         // (RGBA = 8888)
 
         // Red
-        val8 = static_cast<Uint8>(r * 255);
+        val8 = static_cast<uint8>(r * 255);
         val32 = val8 << 24;
 
         // Green
-        val8 = static_cast<Uint8>(g * 255);
+        val8 = static_cast<uint8>(g * 255);
         val32 += val8 << 16;
 
         // Blue
-        val8 = static_cast<Uint8>(b * 255);
+        val8 = static_cast<uint8>(b * 255);
         val32 += val8 << 8;
 
         // Alpha
-        val8 = static_cast<Uint8>(a * 255);
+        val8 = static_cast<uint8>(a * 255);
         val32 += val8;
 
         return val32;
@@ -76,26 +76,26 @@ namespace ma {
     ARGB ColourValue::getAsARGB(void) const
 #endif
     {
-        Uint8 val8;
-        Uint32 val32 = 0;
+        uint8 val8;
+        uint32 val32 = 0;
 
         // Convert to 32bit pattern
         // (ARGB = 8888)
 
         // Alpha
-        val8 = static_cast<Uint8>(a * 255);
+        val8 = static_cast<uint8>(a * 255);
         val32 = val8 << 24;
 
         // Red
-        val8 = static_cast<Uint8>(r * 255);
+        val8 = static_cast<uint8>(r * 255);
         val32 += val8 << 16;
 
         // Green
-        val8 = static_cast<Uint8>(g * 255);
+        val8 = static_cast<uint8>(g * 255);
         val32 += val8 << 8;
 
         // Blue
-        val8 = static_cast<Uint8>(b * 255);
+        val8 = static_cast<uint8>(b * 255);
         val32 += val8;
 
 
@@ -108,26 +108,26 @@ namespace ma {
 	BGRA ColourValue::getAsBGRA(void) const
 #endif
 	{
-		Uint8 val8;
-		Uint32 val32 = 0;
+		uint8 val8;
+		uint32 val32 = 0;
 
 		// Convert to 32bit pattern
 		// (ARGB = 8888)
 
 		// Blue
-		val8 = static_cast<Uint8>(b * 255);
+		val8 = static_cast<uint8>(b * 255);
 		val32 = val8 << 24;
 
 		// Green
-		val8 = static_cast<Uint8>(g * 255);
+		val8 = static_cast<uint8>(g * 255);
 		val32 += val8 << 16;
 
 		// Red
-		val8 = static_cast<Uint8>(r * 255);
+		val8 = static_cast<uint8>(r * 255);
 		val32 += val8 << 8;
 
 		// Alpha
-		val8 = static_cast<Uint8>(a * 255);
+		val8 = static_cast<uint8>(a * 255);
 		val32 += val8;
 
 
@@ -140,26 +140,26 @@ namespace ma {
     ABGR ColourValue::getAsABGR(void) const
 #endif
     {
-        Uint8 val8;
-        Uint32 val32 = 0;
+        uint8 val8;
+        uint32 val32 = 0;
 
         // Convert to 32bit pattern
         // (ABRG = 8888)
 
         // Alpha
-        val8 = static_cast<Uint8>(a * 255);
+        val8 = static_cast<uint8>(a * 255);
         val32 = val8 << 24;
 
         // Blue
-        val8 = static_cast<Uint8>(b * 255);
+        val8 = static_cast<uint8>(b * 255);
         val32 += val8 << 16;
 
         // Green
-        val8 = static_cast<Uint8>(g * 255);
+        val8 = static_cast<uint8>(g * 255);
         val32 += val8 << 8;
 
         // Red
-        val8 = static_cast<Uint8>(r * 255);
+        val8 = static_cast<uint8>(r * 255);
         val32 += val8;
 
 
@@ -172,7 +172,7 @@ namespace ma {
     void ColourValue::setAsRGBA(const RGBA val)
 #endif
     {
-        Uint32 val32 = val;
+        uint32 val32 = val;
 
         // Convert from 32bit pattern
         // (RGBA = 8888)
@@ -196,7 +196,7 @@ namespace ma {
     void ColourValue::setAsARGB(const ARGB val)
 #endif
     {
-        Uint32 val32 = val;
+        uint32 val32 = val;
 
         // Convert from 32bit pattern
         // (ARGB = 8888)
@@ -220,7 +220,7 @@ namespace ma {
 	void ColourValue::setAsBGRA(const BGRA val)
 #endif
 	{
-		Uint32 val32 = val;
+		uint32 val32 = val;
 
 		// Convert from 32bit pattern
 		// (ARGB = 8888)
@@ -244,7 +244,7 @@ namespace ma {
     void ColourValue::setAsABGR(const ABGR val)
 #endif
     {
-        Uint32 val32 = val;
+        uint32 val32 = val;
 
         // Convert from 32bit pattern
         // (ABGR = 8888)

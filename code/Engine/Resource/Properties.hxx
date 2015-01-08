@@ -956,7 +956,7 @@ bool Properties::getColor(const char* name, ColourValue* out) const
 //     return false;
 // }
 
-bool Properties::getPath(const char* name, std::string* path) const
+bool Properties::getPath(const char* name, char path[256]) const
 {
     ASSERT(name && path);
     const char* valueString = getString(name);
@@ -964,7 +964,9 @@ bool Properties::getPath(const char* name, std::string* path) const
     {
         if ( GetArchiveMananger()->Exists(valueString) )
         {
-            path->assign(valueString);
+            //path->assign(valueString);
+			std::string strTemp = valueString;
+			memcpy(path,strTemp.c_str(),strTemp.length());
             return true;
         }
         else
@@ -980,7 +982,9 @@ bool Properties::getPath(const char* name, std::string* path) const
                     relativePath.append(valueString);
                     if ( GetArchiveMananger()->Exists(relativePath.c_str()) )
                     {
-                        path->assign(relativePath);
+                        //path->assign(relativePath);
+						std::string strTemp = valueString;
+						memcpy(path,strTemp.c_str(),strTemp.length());
                         return true;
                     }
                 }

@@ -11,9 +11,13 @@ namespace ma
 	class ENGINE_API ResourceSystem
 	{
 	public:
-		void		Init(bool bDataThreadEnable = true);
+		ResourceSystem();
+
+		void		Init();
 
 		void		ShoutDown();
+
+		void		SetDataThreadEnable(bool b);
 
 		void		Update();
 
@@ -25,10 +29,18 @@ namespace ma
 
 		Resource*	LoadResourceSync(const char* pszRelPath);
 
-		static void	RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		void		RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
-		static void	UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		void		UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
+	private:
+		typedef std::map<std::string,ResourcePtr> ResourceMap;
+		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
+
+		ResourceMap			m_resMap;
+		ResCreateFunMap		m_resCreateFunMap;
+
+		DataThread*			m_pDataThread;
 	};
 
 	ENGINE_API ResourceSystem*	GetResourceSystem();

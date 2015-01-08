@@ -15,11 +15,9 @@ namespace ma
 	{
 
 	public:
-
-		//------------------------------------------------------------------------------
-		//
-		//------------------------------------------------------------------------------
 		Input();
+
+		virtual ~Input();
 
 		void						Init(HWND winId);
 
@@ -59,16 +57,11 @@ namespace ma
 		virtual bool				touchCancelled( const OIS::MultiTouchEvent &arg );
 
 		// Input Listen	
-		void						AddKeyListener(OIS::KeyListener* pKeyListen) {m_arrKeyListener.push_back(pKeyListen);}
-		
-		void						AddMouseListener(OIS::MouseListener* pMouseListen) {m_arrMouseListener.push_back(pMouseListen);}
-		
-		void						AddTouchListener(OIS::MultiTouchListener* pTouchListen) {m_arrTouchListener.push_back(pTouchListen);}
-	
+		void						AddKeyListener(OIS::KeyListener* pKeyListen); 	
+		void						AddMouseListener(OIS::MouseListener* pMouseListen); 		
+		void						AddTouchListener(OIS::MultiTouchListener* pTouchListen);	
 		void						RemoveKeyListener(OIS::KeyListener* pListen); 
-
 		void						RemoveMouseListener(OIS::MouseListener* pListen); 
-
 		void						RemoveTouchListener(OIS::MultiTouchListener* pListen); 
 
 		AndroidInputInjector*		GetAndroidInputInjector() {return mAndroidInputInjector;}
@@ -95,7 +88,6 @@ namespace ma
 	ENGINE_API void		SetInput(Input* pInput);
 
 	ENGINE_API Input*	GetInput();
-
 }
 
 

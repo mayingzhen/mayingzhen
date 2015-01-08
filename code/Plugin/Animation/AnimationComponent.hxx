@@ -16,9 +16,10 @@ namespace ma
 		m_pSkeleton = NULL;
 		m_pose = NULL;
 		m_arrSkinMatrix = NULL;
-
-		m_pElAniSetLoaded = new ELAnimationComponent(this,&AnimationComponent::CreateAniSet);
-		m_pElSkeletonLoaded = new ELAnimationComponent(this,&AnimationComponent::CreateSkeletonPose);
+		
+		m_bLoadOver = false;
+	
+		m_nCurAction = -1;
 	}
 
 	AnimationComponent::~AnimationComponent()
@@ -26,27 +27,47 @@ namespace ma
 		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
 	}
 
+	void AnimationComponent::RegisterObject(Context* context)
+	{
+		ACCESSOR_ATTRIBUTE(AnimationComponent, "AnimSetPath", GetAnimSetPath, SetAnimSetPath, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimationComponent, "SkeletonPath", GetSkeletonPath, SetSkeletonPath, const char*, NULL, AM_DEFAULT);
+	}
+
+	const char* AnimationComponent::GetSkeletonPath() const
+	{
+		return m_pSkeleton->GetResPath();
+	}
+
+	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
+	{
+		m_pSkeleton = LoadResource<Skeleton>(pSkePath);
+	}
+
+	const char* AnimationComponent::GetAnimSetPath() const
+	{
+		return m_strAnimSetPath.c_str();
+	}
+
+	void AnimationComponent::SetAnimSetPath(const char* pAniSetPath)
+	{
+		m_strAnimSetPath = pAniSetPath ? pAniSetPath : "";
+
+		m_pAnimSet = new AnimationSet();
+		m_pAnimSet->LoadFromXML(pAniSetPath);
+	}
+
 	void AnimationComponent::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
 		SAFE_DELETE(m_pose);
-		SAFE_DELETE(m_pAnimSet);
 
-		m_pSkeleton = LoadResourceSync<Skeleton>(pszSkeletonPath/*,m_pElSkeletonLoaded.get()*/);
-		CreateSkeletonPose(NULL,NULL);	
+		SetSkeletonPath(pszSkeletonPath);
 
-		m_pAnimSetData = LoadResourceSync<AnimationSetData>(pszAniSetPath/*,m_pElAniSetLoaded.get()*/);	
-		CreateAniSet(NULL,NULL);
+		SetAnimSetPath(pszAniSetPath);
+
+		OnLoadOver();
 	}
 
-	void AnimationComponent::CreateAniSet(void* parm1,void* parm2)
-	{
-		ASSERT(m_pSkeleton);
-		ASSERT(m_pAnimSetData);
-
-		m_pAnimSet = new AnimationSet(m_pSkeleton,m_pAnimSetData);
-	}
-
-	void AnimationComponent::CreateSkeletonPose(void* parm1,void* parm2)
+	void AnimationComponent::CreateSkeletonPose()
 	{
 		ASSERT(m_pSkeleton);
 
@@ -60,26 +81,41 @@ namespace ma
 		}
 	}
 
-	void AnimationComponent::Serialize(Serializer& sl, const char* pszLable)
+	bool AnimationComponent::OnLoadOver()
 	{
-		sl.BeginSection(pszLable);
+		if (m_bLoadOver)
+			return true;
 
-		std::string strAnimSetPath = m_pAnimSetData ? m_pAnimSetData->GetResPath() : "";
-		std::string strSkeletonPath = m_pSkeleton ? m_pSkeleton->GetResPath() : "";
+		ASSERT(m_pSkeleton && m_pAnimSet);
 
-		sl.Serialize(strAnimSetPath,"AnimSetPath");
-		sl.Serialize(strSkeletonPath,"SkeletonPath");
+		if ( m_pSkeleton && !m_pSkeleton->IsInited() )
+			return false;
 
-		if ( sl.IsReading() )
-		{
-			Load(strAnimSetPath.c_str(),strSkeletonPath.c_str());
-		}
+		if ( m_pAnimSet && !m_pAnimSet->IsInited() )
+			return false;
 
-		sl.EndSection();
+		CreateSkeletonPose();
+
+		m_pAnimSet->SetSkeleton(m_pSkeleton.get());
+
+		if (m_pCurAction == NULL && m_strCurAction != "")
+			PlayAnimation(m_strCurAction.c_str());
+		else if (m_pCurAction == NULL && m_nCurAction >= 0)
+			PlayAnimation(m_nCurAction);
+		
+		m_bLoadOver = true;
+
+		return true;
 	}
 
 	void AnimationComponent::Update()
 	{
+		if ( !OnLoadOver() )
+			return;
+
+		if ( m_pCurAction && !m_pCurAction->OnLoadOver() )
+			return;
+
 		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
 
 		if (m_pSceneNode->GetLastVisibleFrame() + 1 == GetTimer()->GetFrameCount())
@@ -92,6 +128,8 @@ namespace ma
 	{
 		m_pCurAction = NULL;
 		m_pPreAction = NULL;
+		m_strCurAction = "";
+		m_nCurAction = -1; 
 	}
 
 	void AnimationComponent::PlayAnimation(SkelAnimtion* pSkelAnim,float fFadeTime)
@@ -105,6 +143,8 @@ namespace ma
 
 	void AnimationComponent::PlayAnimation(ActionID actionID)
 	{
+		m_nCurAction = actionID;
+
 		if (m_pAnimSet == NULL)
 			return;
 
@@ -117,6 +157,8 @@ namespace ma
 
 	void AnimationComponent::PlayAnimation(const char* pszAnimName)
 	{
+		m_strCurAction = pszAnimName ? pszAnimName : "";
+
 		if (m_pAnimSet == NULL)
 			return;
 
@@ -169,7 +211,7 @@ namespace ma
 
 		if (m_pCurAction)
 		{
-			m_pCurAction->EvaluateAnimation(&evalContext,fBlendFactor);
+			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fBlendFactor);
 		}
 
 		UpdateSkinMatrix();	
@@ -216,8 +258,16 @@ namespace ma
 	{
 		if (m_pose)
 		{
-			m_pose->DebugRender(m_pSceneNode->GetWorldMatrix(),bDrawBoneName,m_pSkeleton.get());
+			m_pose->DebugRender(m_pSceneNode->GetMatrixWS(),bDrawBoneName,m_pSkeleton.get());
 		}
+	}
+
+	AnimationComponentPtr CreateAnimationComponent(const char* pszAniSetPath, const char* pszSkeletonPath)
+	{
+		AnimationComponent* pAnimComp = new AnimationComponent(NULL);
+		pAnimComp->SetSkeletonPath(pszSkeletonPath);
+		pAnimComp->SetAnimSetPath(pszAniSetPath);
+		return pAnimComp;
 	}
 
 }
