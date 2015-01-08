@@ -11,6 +11,7 @@ namespace ma
 
 	Skeleton::Skeleton()
 	{
+		m_eCreateType = BIN_RES;
 		m_refPose = new SkeletonPose;
 	}
 
