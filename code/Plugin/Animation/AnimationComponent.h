@@ -15,7 +15,7 @@ namespace ma
 		DECL_OBJECT(AnimationComponent)
 
 	public:
-		AnimationComponent(SceneNode* pGameObj);
+		AnimationComponent();
 
 		~AnimationComponent();
 

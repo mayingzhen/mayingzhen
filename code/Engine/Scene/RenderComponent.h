@@ -13,7 +13,7 @@ namespace ma
 		DECL_OBJECT(RenderComponent)
 
 	public:
-		RenderComponent(SceneNode* pGameObj);
+		RenderComponent();
 
 		virtual void	Show(Camera* pCamera); 
 

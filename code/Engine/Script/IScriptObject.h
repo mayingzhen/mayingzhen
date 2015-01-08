@@ -8,7 +8,6 @@ namespace ma
 		DECL_OBJECT(IScriptObject);
 
 	public:
-		IScriptObject(SceneNode* pGameObj);
 
 		virtual	const char* GetName() = 0;
 

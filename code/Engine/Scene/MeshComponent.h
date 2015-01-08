@@ -15,7 +15,7 @@ namespace ma
 		DECL_OBJECT(MeshComponent)	
 
 	public:
-		MeshComponent(SceneNode* pGameObj);
+		MeshComponent();
 
 		static void					RegisterObject(Context* context);
 

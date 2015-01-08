@@ -9,7 +9,7 @@ namespace ma
 	class BulletRigidBody : public IRigidBody
 	{
 	public:
-		BulletRigidBody(SceneNode* pGameObj);
+		BulletRigidBody();
 
 		virtual void			SetUseGravity(bool bUseGravity);
 

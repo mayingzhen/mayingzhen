@@ -32,23 +32,21 @@ namespace ma
 
 		virtual void					SetGravity(const Vector3& g) = 0;
 
- 		//virtual IPhysicsObject*			CreatePhysicsObject(GameObject* pGameObj) = 0;
+		virtual	IRigidBody*				CreateRigidBody() = 0;
 
-		virtual	IRigidBody*				CreateRigidBody(SceneNode* pGameObj) = 0;
+		virtual IBoxCollisionShape*		CreateBoxCollisionShape() = 0;
 
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape(SceneNode* pGameObj) = 0;
+		virtual ISphereCollisionShape*	CreateSphereCollisionShape() = 0;
 
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape(SceneNode* pGameObj) = 0;
+		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape() = 0;
 
-		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape(SceneNode* pGameObj) = 0;
+		virtual ICollisionMaterial*		CreateCollisionMaterial() = 0;
 
-		virtual ICollisionMaterial*		CreateCollisionMaterial(SceneNode* pGameObj) = 0;
+		virtual ICharaControll*			CreateCharaControll() = 0;
 
-		virtual ICharaControll*			CreateCharaControll(SceneNode* pGameObj) = 0;
+		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint() = 0;
 
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint(SceneNode* pGameObj) = 0;
-
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint(SceneNode* pGameObj) = 0;
+		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint() = 0;
 
 		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS) = 0;
 

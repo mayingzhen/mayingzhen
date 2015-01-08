@@ -3,8 +3,7 @@
 
 namespace ma
 {	
-	BulletBoxCollisionShape::BulletBoxCollisionShape(SceneNode* pGameObj)
-		:IBoxCollisionShape(pGameObj)
+	BulletBoxCollisionShape::BulletBoxCollisionShape()
 	{
 		m_vSize = Vector3(0,0,0);
 		m_pBtShape = NULL;
@@ -41,8 +40,7 @@ namespace ma
 		return m_pBtShape;
 	}
 
-	BulletSphereCollisionShape::BulletSphereCollisionShape(SceneNode* pGameObj)
-		:ISphereCollisionShape(pGameObj)
+	BulletSphereCollisionShape::BulletSphereCollisionShape()
 	{
 		m_fRadius = 0;
 		m_pBtShape = NULL;
@@ -80,8 +78,7 @@ namespace ma
 	}
 
 
-	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape(SceneNode* pGameObj)
-		:ICapsuleCollisionShape(pGameObj)
+	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape()
 	{
 		m_fRadius = 0;
 		m_fHeight = 0;
@@ -132,8 +129,7 @@ namespace ma
 
 	IMPL_OBJECT(BulletCollisionMaterial,ICollisionMaterial)
 	
-	BulletCollisionMaterial::BulletCollisionMaterial(SceneNode* pGameObj)
-		:ICollisionMaterial(pGameObj)
+	BulletCollisionMaterial::BulletCollisionMaterial()
 	{
 		m_nCollLayer = 0;
 		m_friction = 0;

@@ -8,7 +8,6 @@ namespace ma
 		DECL_OBJECT(IPhysicsJoint)
 
 	public:
-		IPhysicsJoint(SceneNode* pGameObj);
 
 		virtual float			GetBreakingImpulse() = 0;
 
@@ -36,7 +35,6 @@ namespace ma
 		DECL_OBJECT(IPhysicsGenericJoint)
 
 	public:
-		IPhysicsGenericJoint(SceneNode* pGameObj);
 
 		virtual void			SetAngularLowerLimit(const Vector3& limits) = 0;
  
@@ -53,19 +51,9 @@ namespace ma
 		DECL_OBJECT(IPhysicsHingeJoint)
 
 	public:
-		IPhysicsHingeJoint(SceneNode* pGameObj);
 
 		virtual void			SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f) = 0;
 	};
-
-// 	class ENGINE_API IRagDoll 
-// 	{
-// 		virtual bool			IsEnabled() const = 0;
-// 
-// 		virtual void			SetEnabled(bool enabled) = 0;
-// 
-// 		virtual void			Init(ISkeleton* pSkeleton) = 0;
-// 	};
 
 	DeclareRefPtr(IPhysicsGenericJoint);
 	DeclareRefPtr(IPhysicsHingeJoint);

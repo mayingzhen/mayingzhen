@@ -4,8 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(Camera,Component)
 
-	Camera::Camera(SceneNode* pGameObj)
-	:Component(pGameObj)
+	Camera::Camera()
 	{
 		m_fAspect = 1.0f;
 		m_fNear = 0.1f;

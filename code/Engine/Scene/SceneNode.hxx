@@ -129,11 +129,10 @@ namespace ma
 				std::string strClassName;
 				sl.Serialize(strClassName,"ClassName");
 
-				Component* pComp = CreateObjectArg<Component>(strClassName.c_str(),this);
-				m_arrComp[nCnt] = pComp;
+				Component* pComp = CreateObject<Component>(strClassName.c_str());
+				AddComponent(pComp);
 
 				pComp->Serialize(sl,buf);
-
 			}
 			else
 			{

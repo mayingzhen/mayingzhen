@@ -4,7 +4,7 @@
 namespace ma
 {
 #define RTTI_DECL(ClassType,ShowType) \
-	Object* Create_##ShowType(void* arg) { return GetPhysicsSystem()->Create##ShowType((SceneNode*)arg);} 
+	Object* Create_##ShowType() { return GetPhysicsSystem()->Create##ShowType();} 
 
 	RTTI_DECL(IBoxCollisionShape,BoxCollisionShape);
 	RTTI_DECL(ISphereCollisionShape,SphereCollisionShape);

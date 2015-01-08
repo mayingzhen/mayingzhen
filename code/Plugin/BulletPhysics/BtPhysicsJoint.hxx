@@ -2,8 +2,7 @@
 
 namespace ma
 {
-	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint(SceneNode* pGameObj)
-		:IPhysicsGenericJoint(pGameObj)
+	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint()
 	{
 		m_pPhyObjB = NULL;
 		m_pConstraint = NULL;
@@ -111,8 +110,7 @@ namespace ma
 
 	}
 
-	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint(SceneNode* pGameObj)
-		:IPhysicsHingeJoint(pGameObj)
+	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint()
 	{
 		m_pConstraint = NULL;
 		m_pPhyObjB = NULL;

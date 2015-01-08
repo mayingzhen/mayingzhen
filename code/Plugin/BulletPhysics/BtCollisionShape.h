@@ -22,7 +22,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletBoxCollisionShape(SceneNode* pGameObj);
+		BulletBoxCollisionShape();
 
 		~BulletBoxCollisionShape();
 
@@ -45,7 +45,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:	
-		BulletSphereCollisionShape(SceneNode* pGameObj);
+		BulletSphereCollisionShape();
 
 		~BulletSphereCollisionShape();
 
@@ -67,7 +67,7 @@ namespace ma
 		DECL_CollisionShape
 
 	public:
-		BulletCapsuleCollisionShape(SceneNode* pGameObj);	
+		BulletCapsuleCollisionShape();	
 
 		~BulletCapsuleCollisionShape();
 
@@ -93,7 +93,7 @@ namespace ma
 		DECL_OBJECT(BulletCollisionMaterial)
 
 	public:
-		BulletCollisionMaterial(SceneNode* pGameObj);
+		BulletCollisionMaterial();
 
 		virtual void			SetCollLayer(int nLayer) {m_nCollLayer = nLayer;}
 

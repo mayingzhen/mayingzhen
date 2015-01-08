@@ -4,22 +4,15 @@ namespace ma
 {
 	IMPL_OBJECT(Component,Object);
 
-	Component::Component(SceneNode* pGameObj)
+	Component::Component()
 	{
-		m_pSceneNode = pGameObj;
+		m_pSceneNode = NULL;
 	}
 
 	Component::~Component()
 	{
 
 	}
-
-// 	void Component::Serialize(Serializer& sl, const char* pszLable /*= "Component"*/)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		sl.EndSection();
-// 	}
 
 	void Component::OnAddToSceneNode(SceneNode* pGameObj)
 	{
@@ -36,7 +29,7 @@ namespace ma
 		m_pSceneNode = NULL;
 	}
 
-	SceneNode*	Component::GetSceneNode()
+	SceneNode* Component::GetSceneNode()
 	{
 		return m_pSceneNode;
 	}

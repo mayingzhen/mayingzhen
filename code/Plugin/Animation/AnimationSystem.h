@@ -9,7 +9,7 @@ namespace ma
 	{
 	public:
 
-		virtual AnimationComponent*	CreateAnimationObject(SceneNode* pGameObj);
+		virtual AnimationComponent*	CreateAnimationObject();
 
 		virtual	void				Update();
 

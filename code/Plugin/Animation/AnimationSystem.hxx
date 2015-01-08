@@ -14,9 +14,9 @@ namespace ma
 		return gPAnimationSystem;
 	}
 
-	AnimationComponent*	AnimationSystem::CreateAnimationObject(SceneNode* pGameObj)
+	AnimationComponent*	AnimationSystem::CreateAnimationObject()
 	{
-		AnimationComponent* pAnimObject = new AnimationComponent(pGameObj);
+		AnimationComponent* pAnimObject = new AnimationComponent();
 		m_arrAnimObject.push_back(pAnimObject);
 		return pAnimObject;
 	}

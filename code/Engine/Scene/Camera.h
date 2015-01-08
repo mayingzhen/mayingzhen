@@ -9,7 +9,7 @@ namespace ma
 
 	public:
 
-		Camera(SceneNode* pGameObj);
+		Camera();
 	
 		~Camera();
 

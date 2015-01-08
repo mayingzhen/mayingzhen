@@ -22,21 +22,13 @@ using namespace ma;
 
 
 #define RTTI_DECL(ClassType) \
-	Object* Create_##ClassType(void* arg) { return new ClassType((SceneNode*)arg);} \
-	void Delete_##ClassType(Object* pObj) { /*SAFE_DELETE(pObj);*/}
+	Object* Create_##ClassType() { return new ClassType();} 
 RTTI_DECL(MeshComponent);
 RTTI_DECL(ParticleEmitter);
 RTTI_DECL(PointLight);
 RTTI_DECL(SpotLight);
 RTTI_DECL(DirectonalLight);
 RTTI_DECL(Camera);
-//RTTI_DECL(TerrainSection);
-#undef RTTI_DECL
-
-
-#define RTTI_DECL(ClassType) \
-	Object* Create_##ClassType() { return new ClassType();} \
-	void Delete_##ClassType(Object* pObj) { /*SAFE_DELETE(pObj)*/;}
 RTTI_DECL(ShadowDepthPass);
 RTTI_DECL(GBufferPass);
 RTTI_DECL(DeferredLightPass);
@@ -54,7 +46,6 @@ Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram
 
 void RenderSystemRTTIInit()
 {
-
 	Light::StaticInitClass();
 
 	RenderPass::StaticInitClass();
@@ -67,10 +58,8 @@ void RenderSystemRTTIInit()
 	RTTI_DECL(ParticleEmitter);
 	RTTI_DECL(PointLight);
 	RTTI_DECL(SpotLight);
-	RTTI_DECL(Camera);
 	RTTI_DECL(DirectonalLight);
-	//RTTI_DECL(TerrainSection);
-
+	RTTI_DECL(Camera);
 	RTTI_DECL(ShadowDepthPass);
 	RTTI_DECL(GBufferPass);
 	RTTI_DECL(DeferredLightPass);
@@ -85,7 +74,6 @@ void RenderSystemRTTIInit()
 	MeshComponent::RegisterObject( GetContext() );
 	Camera::RegisterObject( GetContext() );
 	Terrain::RegisterObject( GetContext() );
-	//MaterialParameter::RegisterObject( GetContext() );
 
 	MeshData::StaticInitClass();
 	MaterialData::StaticInitClass();
@@ -130,16 +118,13 @@ void RenderSystemRTTIShutdown()
 	RTTI_DECL(ParticleEmitter);
 	RTTI_DECL(PointLight);
 	RTTI_DECL(SpotLight);
-	RTTI_DECL(Camera);
 	RTTI_DECL(DirectonalLight);
-	//RTTI_DECL(TerrainSection);
-
+	RTTI_DECL(Camera);
 	RTTI_DECL(ShadowDepthPass);
 	RTTI_DECL(GBufferPass);
 	RTTI_DECL(DeferredLightPass);
 	RTTI_DECL(DeferredShadowPass);
 	RTTI_DECL(ShadingPass);
-
 #undef RTTI_DECL
 
 

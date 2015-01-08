@@ -7,8 +7,7 @@ namespace ma
 	IMPL_OBJECT(MeshComponent,RenderComponent)	
 
 
-	MeshComponent::MeshComponent(SceneNode* pGameObj):
-		RenderComponent(pGameObj)
+	MeshComponent::MeshComponent()
 	{
 		m_bOnLoadOver = false;
 	}
@@ -145,7 +144,7 @@ namespace ma
 
 	MeshComponentPtr CreateMeshComponent(const char* pszSknPath,const char* pszMatPath)
 	{
-		MeshComponent* pMeshcop = new MeshComponent(NULL);
+		MeshComponent* pMeshcop = new MeshComponent();
 		pMeshcop->Load(pszSknPath,pszMatPath);
 		return pMeshcop;
 	}

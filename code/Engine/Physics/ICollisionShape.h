@@ -9,11 +9,9 @@ namespace ma
 		DECL_OBJECT(ICollisionShape)
 
 	public:
-		ICollisionShape(SceneNode* pGameObj);
-
 		virtual void			SetTransformLS(const Transform& tsfLS) = 0;
 
-		virtual Transform	GetTransformLS() = 0;
+		virtual Transform		GetTransformLS() = 0;
 
 		virtual void*			Create() = 0;
 	};
@@ -23,8 +21,6 @@ namespace ma
 		DECL_OBJECT(IBoxCollisionShape)
 
 	public:
-		IBoxCollisionShape(SceneNode* pGameObj);
-
 		virtual void			SetSize(const Vector3& vSize) = 0;
 
 		virtual	Vector3			GetSize() = 0;
@@ -35,8 +31,6 @@ namespace ma
 		DECL_OBJECT(ISphereCollisionShape)
 
 	public:
-		ISphereCollisionShape(SceneNode* pGameObj);
-
 		virtual void			SetRadius(float fRadius) = 0;
 
 		virtual	float			GetRadius() = 0;
@@ -47,8 +41,6 @@ namespace ma
 		DECL_OBJECT(ICapsuleCollisionShape)
 
 	public:
-		ICapsuleCollisionShape(SceneNode* pGameObj);
-
 		virtual void			SetHeight(float fHeight) = 0;
 
 		virtual float			GetHeight() const = 0;
@@ -63,8 +55,6 @@ namespace ma
 		DECL_OBJECT(ICollisionMaterial)
 
 	public:
-		ICollisionMaterial(SceneNode* pGameObj);	
-
 		virtual void			SetCollLayer(int nLayer) = 0;
 
 		virtual	int				GetCollLayer() = 0;

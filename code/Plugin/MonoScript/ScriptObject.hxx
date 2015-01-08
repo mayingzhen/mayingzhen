@@ -5,8 +5,7 @@
 
 namespace ma
 {
-	ScriptObject::ScriptObject(SceneNode* pGameObject)
-		:IScriptObject(pGameObject)
+	ScriptObject::ScriptObject()
 	{
 		m_pScriptClass = NULL;
 		m_pMonoClass = NULL;

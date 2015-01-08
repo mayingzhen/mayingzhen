@@ -133,23 +133,22 @@ namespace ma
 				pScriptObject->Update();
 			}
 		}
-
 	}
 
-	IScriptObject* ScriptSystem::CreateScriptObject(SceneNode* pGameObj)
+	IScriptObject* ScriptSystem::CreateScriptObject()
 	{
-		ScriptObject* pScriptObj = new ScriptObject(pGameObj);
+		ScriptObject* pScriptObj = new ScriptObject();
 
 		return pScriptObj;
 	}
 
-	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
-	{
-		ScriptObject* pTemp = (ScriptObject*)pScriptObject;
-
-		ScriptClass* pScriptClass = pTemp->GetScriptClass();
-		pScriptClass->RemoveScriptObjectIns(pTemp);
-	}
+// 	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
+// 	{
+// 		ScriptObject* pTemp = (ScriptObject*)pScriptObject;
+// 
+// 		ScriptClass* pScriptClass = pTemp->GetScriptClass();
+// 		pScriptClass->RemoveScriptObjectIns(pTemp);
+// 	}
 
 	// Parse dll 
 	void ScriptSystem::ParseScriptAll(const char* pScriptDllName)
