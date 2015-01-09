@@ -19,7 +19,7 @@ namespace ma
 		virtual void collisionEvent(const CollisionData& eventData);
 
 	private:
-		IRigidBodyPtr m_pRigidBody;
+		RefPtr<BulletRigidBody> m_pRigidBody;
 	};
 }
 

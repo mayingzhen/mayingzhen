@@ -485,7 +485,6 @@ namespace ma
 
 	void ParticleBatch::UpdateRenderable()
 	{
-
 		if (m_nParticleCount <= 0)
 			return;
 
@@ -495,8 +494,7 @@ namespace ma
 		// Set our node's view projection matrix to this emitter's effect.
 		if (GetRenderSystem())
 		{
-			int index = GetRenderSystem()->CurThreadProcess();
-			Matrix4 matWorld = m_matWorld[index];
+			Matrix4 matWorld = this->GetWorldMatrix();
 			Matrix4 matVP = GetRenderContext()->GetViewProjMatrix();
 			SetProjectionMatrix(matWorld * matVP);
 		}

@@ -7,7 +7,7 @@
 namespace ma
 {
 
-	class  ScriptSystem: public IScriptSystem
+	class MonoScriptAPI ScriptSystem
 	{
 	public:
 
@@ -23,9 +23,7 @@ namespace ma
 
 		virtual void			Update();
 
-		virtual IScriptObject*	CreateScriptObject();
-
-		//virtual void			DeleteScriptObject(IScriptObject* pScriptObject);
+		//virtual void			DeleteScriptObject(ScriptObject* pScriptObject);
 
 		virtual	void			ParseScriptAll(const char* pDllName);
 
@@ -44,6 +42,10 @@ namespace ma
 		std::vector<ScriptClass*>	m_arrScriptClass;
 		
 	};
+
+	MonoScriptAPI ScriptSystem*	GetScriptSystem();
+
+	MonoScriptAPI void	SetScriptSystem(ScriptSystem* pScriptSystem);
 
 }
 

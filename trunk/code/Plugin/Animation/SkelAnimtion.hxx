@@ -83,7 +83,6 @@ namespace ma
 		}
 
 		pAnimContext->m_pNodePos->SyncObjectSpace();
-
 	}
 
 	void SkelAnimtion::SetFrame(float fFrame)

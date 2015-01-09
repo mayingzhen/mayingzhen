@@ -5,6 +5,17 @@
 
 namespace ma
 {
+	ScriptSystem* gpScriptSystem = NULL;
+
+	ScriptSystem* GetScriptSystem()
+	{
+		return gpScriptSystem;
+	}
+
+	void SetScriptSystem(ScriptSystem* pScriptSystem)
+	{
+		gpScriptSystem = pScriptSystem;
+	}
 
 	ScriptSystem::ScriptSystem()
 	{
@@ -135,14 +146,8 @@ namespace ma
 		}
 	}
 
-	IScriptObject* ScriptSystem::CreateScriptObject()
-	{
-		ScriptObject* pScriptObj = new ScriptObject();
 
-		return pScriptObj;
-	}
-
-// 	void ScriptSystem::DeleteScriptObject(IScriptObject* pScriptObject)
+// 	void ScriptSystem::DeleteScriptObject(ScriptObject* pScriptObject)
 // 	{
 // 		ScriptObject* pTemp = (ScriptObject*)pScriptObject;
 // 

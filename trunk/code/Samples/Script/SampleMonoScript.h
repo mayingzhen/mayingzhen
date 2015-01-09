@@ -15,7 +15,7 @@ namespace ma
 		virtual void		Update();
 
 	private:
-		IScriptObjectPtr	m_pTestScript;
+		ScriptObjectPtr	m_pTestScript;
 	};
 
 }

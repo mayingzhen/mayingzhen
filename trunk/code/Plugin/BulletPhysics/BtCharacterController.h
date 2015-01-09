@@ -6,7 +6,15 @@ namespace ma
 {
 	class BulletPhysicsObject;
 
-	class BulletCharacterController : public ICharaControll , public btActionInterface
+	enum CollisionFlags
+	{
+		CF_None = 0,
+		CF_Side,
+		CF_Above,
+		CF_Below,
+	};
+
+	class BulletCharacterController : public Component , public btActionInterface
 	{
 	public:
 		BulletCharacterController();
@@ -15,7 +23,7 @@ namespace ma
 
 		//virtual void						SetCollisionShape(ICapsuleCollisionShape* pCapsule) = 0;
 
-		virtual ICapsuleCollisionShape*		GetCollisionShape();
+		virtual BulletCapsuleCollisionShape*		GetCollisionShape();
 
 		virtual void						SetStepOffset(float fStepOffset);
 

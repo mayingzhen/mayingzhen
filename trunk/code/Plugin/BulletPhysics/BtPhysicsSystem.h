@@ -8,7 +8,7 @@ namespace ma
 	class BulletPhysicsObject;
 	class PhysicsThread;
 
-	class BtPhysicsSystem : public IPhysicsSystem, public btIDebugDraw
+	class BtPhysicsSystem :  public btIDebugDraw
 	{
 	public:
 		BtPhysicsSystem();
@@ -33,21 +33,21 @@ namespace ma
 
 		virtual void					SetGravity(const Vector3& g);
 
-		virtual	IRigidBody*				CreateRigidBody();
-
-		virtual IBoxCollisionShape*		CreateBoxCollisionShape();
-
-		virtual ISphereCollisionShape*	CreateSphereCollisionShape();
-
-		virtual ICapsuleCollisionShape* CreateCapsuleCollisionShape();
-		
-		virtual ICollisionMaterial*		CreateCollisionMaterial();
-
-		virtual ICharaControll*			CreateCharaControll();
-
-		virtual	IPhysicsGenericJoint*	CreatePhysicsGenericJoint();
-
-		virtual	IPhysicsHingeJoint*		CreatePhysicsHingeJoint();
+// 		virtual	BulletRigidBody*		CreateRigidBody();
+// 
+// 		virtual BulletBoxCollisionShape*		CreateBoxCollisionShape();
+// 
+// 		virtual BulletSphereCollisionShape*	CreateSphereCollisionShape();
+// 
+// 		virtual BulletCapsuleCollisionShape* CreateCapsuleCollisionShape();
+// 		
+// 		virtual BulletCollisionMaterial*		CreateCollisionMaterial();
+// 
+// 		virtual BulletCharacterController*			CreateCharaControll();
+// 
+// 		virtual	BulletPhysicsGenericJoint*	CreatePhysicsGenericJoint();
+// 
+// 		virtual	BulletPhysicsHingeJoint*		CreatePhysicsHingeJoint();
 
 		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
 
@@ -92,9 +92,13 @@ namespace ma
 		int											m_debugMode;
 	};
 
+	BULLETPHYSICS_API void SetPhysicsSystem(BtPhysicsSystem* pPhysicsSystem);
+
+	BULLETPHYSICS_API BtPhysicsSystem* GetPhysicsSystem();
+
 	btDiscreteDynamicsWorld* GetDynamicsWorld()
 	{
-		return ((BtPhysicsSystem*)GetPhysicsSystem())->GetDynamicsWorld();
+		return GetPhysicsSystem()->GetDynamicsWorld();
 	}
 }
 

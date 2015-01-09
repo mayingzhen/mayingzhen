@@ -14,7 +14,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
-		IScriptSystem* pScriptSystem = GetScriptSystem();
+		ScriptSystem* pScriptSystem = GetScriptSystem();
 		if (pScriptSystem == NULL)
 			return;
 		
@@ -28,7 +28,7 @@ namespace ma
 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
-		m_pTestScript = pGameObj->CreateComponent<IScriptObject>();
+		m_pTestScript = pGameObj->CreateComponent<ScriptObject>();
 		m_pTestScript->SetName("SharpTest");
 	}
 

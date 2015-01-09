@@ -4,50 +4,42 @@
 namespace ma
 {
 
-#define  DECL_PhysicsJoint \
-	public : \
-		virtual float			GetBreakingImpulse() {return m_fBreakingImpulse;} \
-		virtual bool			IsEnabled() const {return m_bEnabled;} \
-		virtual Transform	GetATransformLS() {return m_AtsfLS;} \
-		virtual Transform	GetBTransformLS() {return m_BtsfLS;} \
-		virtual void			SetBreakingImpulse(float impulse)\
-		{ \
-			m_fBreakingImpulse = impulse; \
-			if (m_pConstraint) \
-				m_pConstraint->setBreakingImpulseThreshold(impulse);\
-		}\
-		virtual void			SetEnabled(bool enabled)\
-		{\
-			m_bEnabled = enabled;\
-			if (m_pConstraint)\
-				m_pConstraint->setEnabled(enabled);\
-		}\
-		virtual void			SetATransformLS(const Transform& tsfLS)\
-		{\
-			m_AtsfLS = tsfLS;\
-		}\
-		virtual void			SetBTransformLS(const Transform& tsfLS)\
-		{\
-			m_BtsfLS = tsfLS;\
-		}\
-		virtual void			SetPysicsObjectB(SceneNode* pPhyObjB)\
-		{\
-			m_pPhyObjB = pPhyObjB; \
-		}\
-		btTypedConstraint*		GetBtConstraint() {return m_pConstraint;} \
-	private: \
-		SceneNode*				m_pPhyObjB;\
-		btTypedConstraint*		m_pConstraint;\
-		float					m_fBreakingImpulse;\
-		bool					m_bEnabled;\
-		Transform			m_AtsfLS;\
-		Transform			m_BtsfLS;\
-    private: 
-
-
-	class BulletPhysicsGenericJoint : public IPhysicsGenericJoint
+	class BulletPhysicsJoint : public Component
 	{
-		DECL_PhysicsJoint
+
+	public: 
+		float			GetBreakingImpulse() {return m_fBreakingImpulse;} 
+		void			SetBreakingImpulse(float impulse);
+
+		bool			IsEnabled() const {return m_bEnabled;} 
+		void			SetEnabled(bool enabled);
+
+		void			SetATransformLS(const Transform& tsfLS){m_AtsfLS = tsfLS;}
+		Transform		GetATransformLS() {return m_AtsfLS;} 
+		
+		Transform		GetBTransformLS() {return m_BtsfLS;} 
+		void			SetBTransformLS(const Transform& tsfLS) {m_BtsfLS = tsfLS;}
+		
+		void			SetPysicsObjectB(SceneNode* pPhyObjB) {m_pPhyObjB = pPhyObjB;}
+
+		btTypedConstraint*	GetBtConstraint() {return m_pConstraint;}
+		
+		virtual void	Start();
+
+		virtual void	Stop();
+
+	protected: 
+		SceneNode*				m_pPhyObjB;
+		btTypedConstraint*		m_pConstraint;
+		float					m_fBreakingImpulse;
+		bool					m_bEnabled;
+		Transform				m_AtsfLS;
+		Transform				m_BtsfLS;
+	};
+
+
+	class BulletPhysicsGenericJoint : public BulletPhysicsJoint
+	{
 
 	public:
 		BulletPhysicsGenericJoint();
@@ -76,10 +68,8 @@ namespace ma
 		bool			m_bLinearUpperLimit;
 	};
 
-	class BulletPhysicsHingeJoint : public IPhysicsHingeJoint
+	class BulletPhysicsHingeJoint : public BulletPhysicsJoint
 	{
-		DECL_PhysicsJoint
-
 	public:
 		BulletPhysicsHingeJoint();
 

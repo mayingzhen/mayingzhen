@@ -2,15 +2,15 @@
 
 namespace ma
 {
-	IMPL_OBJECT(ShadowDepthPass,RenderPass);
-
 	void ShadowDepthPass::Init()
 	{
-		GetRenderSetting()->m_bShadow = true;
 	}
 
 	void ShadowDepthPass::Render()
 	{
+		if (!GetRenderSetting()->m_bShadow)
+			return;
+
 		RENDER_PROFILE(ShadowDepthPass);
 
 		Matrix4 matView = GetRenderContext()->GetViewMatrix();

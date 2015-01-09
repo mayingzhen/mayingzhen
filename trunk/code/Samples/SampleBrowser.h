@@ -8,15 +8,20 @@ namespace ma
 	class Camera;
 	class Systems;
 	class Sample;
+	class Scene;
 
 	typedef Sample* (*SampleCreator)();
 
-	class SampleBrowser : public Game, /*Control::Listener,*/OIS::KeyListener
+	class SampleBrowser : public Game, /*Control::Listener,*/OIS::KeyListener, Scene::CCallback
 	{
 	public:
 		SampleBrowser(const char* pGameName);
 
 		~SampleBrowser();
+
+		virtual void		ModuleInit();
+
+		virtual void		ModuleShutdown();
 
 		virtual void		Init();
 
@@ -24,13 +29,17 @@ namespace ma
 
 		virtual void		Update();
 
-		virtual void		Render();
+		//virtual void		Render();
 
  		//virtual void		controlEvent(Control* control, EventType evt);
 
 		virtual bool		keyPressed(const OIS::KeyEvent &arg);
-
 		virtual bool		keyReleased(const OIS::KeyEvent &arg);	
+
+		virtual void		OnPreUpdate(Scene* pScene);
+		virtual void		OnPostUpdate(Scene* pScene);
+		virtual void		OnPreRender(Scene* pScene);
+		virtual void		OnPosRender(Scene* pScene);
 
 		CameraController*	GetCameraController() {return m_pCameraControl;}
 
@@ -39,17 +48,9 @@ namespace ma
 	private:
 		void				LoadUI();
 
-		void				ResetCamera();
-
 		void				RunSample(const char* pSampleNma);
 
 		void				InitResourcePath();
-
-		void				InitBaseModule();
-		void				UnInitBaseModule();
-
-		void				LoadPlugin();
-		void				UnLoadPlugin();
 
 		void				LoadRenderScheme();
 
@@ -66,8 +67,6 @@ namespace ma
 		bool							m_bStepOneFrame;
 
 		CameraController*				m_pCameraControl;
-
-		Systems*						m_pSystems;
 	};
 
 	SampleBrowser* GetSampleBrowser();

@@ -50,13 +50,44 @@ namespace ma
 	{
 		m_bPause = false;
 		m_bStepOneFrame = false;
-
-		m_pSystems = NULL;
 	}
 
 	SampleBrowser::~SampleBrowser()
 	{
-		SAFE_DELETE(m_pSystems);
+	}
+
+	void SampleBrowser::ModuleInit()
+	{
+		Game::ModuleInit();
+
+#if PLATFORM_WIN == 1
+		D3D9RenderModuleInit();
+		//GLESRenderModuleInit();
+		//MonoScriptModuleInit();
+		//BtPhysicsModuleInit();
+		AnimationModuleInit();
+
+#else
+		AnimationModuleInit();
+		GLESRenderModuleInit();
+		BtPhysicsModuleInit();
+#endif
+	}
+
+	void SampleBrowser::ModuleShutdown()
+	{
+#if PLATFORM_WIN == 1
+		AnimationModuleShutdown();
+		//BtPhysicsModuleShutdown();
+		//MonoScriptModuleShutdown();
+		D3D9RenderModuleShutdown();
+#else
+		AnimationModuleShutdown();
+		GLESRenderModuleShutdown();
+		BtPhysicsModuleShutdown();
+#endif	
+
+		Game::ModuleShutdown();
 	}
 
 	void SampleBrowser::InitSampleList()
@@ -96,9 +127,6 @@ namespace ma
 #if PLATFORM_WIN == 1
 		char pszPath[MAX_PATH] = {0};
 		
-// 		GetFullPathName("../../data/data.zip",MAX_PATH,pszPath,NULL);
-// 		GetArchiveMananger()->AddArchive( CreateZipArchive(pszPath).get() );
-		
  		GetFullPathName("../../data/",MAX_PATH,pszPath,NULL);
  		GetArchiveMananger()->AddArchive( CreateFileArchive(pszPath).get() );
 
@@ -118,122 +146,17 @@ namespace ma
 #endif
 	}
 
-	void SampleBrowser::UnInitBaseModule()
-	{
-		//UIModuleShutdown();
-		EngineModuleShutdown();
-	}
-
-	void SampleBrowser::InitBaseModule()
-	{
-		EngineModuleInit();
-		//UIModuleInit();
-	}
-
 	void SampleBrowser::LoadRenderScheme()
 	{
 	#if PLATFORM_WIN == 1
-		std::string configPath = "config/renderscheme_pc.xml";
-	#else 
-		std::string configPath = "config/renderscheme_mobile.xml";
+		//RefPtr<RenderScheme> pRenderShceme = CreateRenderScheme(RenderScheme::DeferredLighting);	
+		//pRenderShceme->Init();
+		//GetRenderSystem()->GetScene(0)->SetRenderScheme(pRenderShceme.get());
 	#endif
-
-		RefPtr<RenderScheme> pRenderScheme = CreateRenderScheme();
-		pRenderScheme->AddRenderPass( CreateObject<RenderPass>("ShadingPass") );
-
-		GetRenderSystem()->GetScene()->SetRenderScheme(pRenderScheme.get());
-
-// 		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( configPath.c_str() );
-// 		
-// 		TiXmlDocument doc;
-// 		const char* pszLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
-// 		ASSERT(pszLoadOK);
-// 		if (!pszLoadOK)
-// 			return;
-// 
-// 		TiXmlElement* pRootElem = doc.RootElement();
-// 		ASSERT(pRootElem);
-// 		if (pRootElem == NULL)
-// 			return;
-// 
-// 		TiXmlElement* pElePass = pRootElem->FirstChildElement("Pass");
-// 		while(pElePass)
-// 		{
-// 			const char* pszPassName = pElePass->Attribute("name");
-// 
-// 			RenderPass* pRenderPass = CreateObject<RenderPass>(pszPassName);
-// 
-// 			pRenderScheme->AddRenderPass(pRenderPass);
-// 
-// 			pElePass = pElePass->NextSiblingElement();
-// 		}
-
-		pRenderScheme->Init();
-	}
-
-	void SampleBrowser::UnLoadPlugin()
-	{
-#if PLATFORM_WIN == 1
-		AnimationModuleShutdown();
-		//BtPhysicsModuleShutdown();
-		//MonoScriptModuleShutdown();
-		D3D9RenderModuleShutdown();
-#else
-		AnimationModuleShutdown();
-		GLESRenderModuleShutdown();
-		BtPhysicsModuleShutdown();
-#endif	
-	}
-	
-	void SampleBrowser::LoadPlugin()
-	{
-#if PLATFORM_WIN == 1
-		D3D9RenderModuleInit();
-		//GLESRenderModuleInit();
-		//MonoScriptModuleInit();
-		//BtPhysicsModuleInit();
-		AnimationModuleInit();
- 
-// 		typedef bool (*DLL_START_PLUGIN)(void);
-// 
-// 		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll("config/Plugins.xml");
-// 
-// 		TiXmlDocument doc;
-// 		bool bLoadOK = doc.Parse( (const char*)pDataStream->GetPtr() );
-// 		ASSERT(bLoadOK);
-// 		if (!bLoadOK)
-// 			return;
-// 
-// 		TiXmlElement* pRootElem = doc.RootElement();
-// 		ASSERT(pRootElem);
-// 		if (pRootElem == NULL)
-// 			return;
-// 
-// 		TiXmlElement* pElePlugin = pRootElem->FirstChildElement("Plugin");
-// 		while(pElePlugin)
-// 		{
-// 			const char* pszPath = pElePlugin->Attribute("path");
-// 			
-// 			HMODULE hInst = LoadLibraryExA(pszPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
-// 			DLL_START_PLUGIN pFunPtr = (DLL_START_PLUGIN)GetProcAddress(hInst,"dllStartPlugin");	
-// 			ASSERT(pFunPtr); 
-// 			if (pFunPtr)
-// 				pFunPtr();
-// 
-// 			pElePlugin = pElePlugin->NextSiblingElement();
-// 		}
-#else
-		AnimationModuleInit();
-		GLESRenderModuleInit();
-		BtPhysicsModuleInit();
-#endif
-
 	}
 
 	void SampleBrowser::Shutdown()
 	{
-		m_pSystems->Stop();
-
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
@@ -249,59 +172,33 @@ namespace ma
 			SAFE_DELETE(it->second);
 		}
 		m_arrSamples.clear();
- 
- 		m_pSystems->Shutdown();
-		SAFE_DELETE(m_pSystems);
 
- 		UnLoadPlugin();
-
-		UnInitBaseModule();
-
+		Game::Shutdown();
 	}
 
 	void SampleBrowser::Init()
 	{
-		InitBaseModule();
-
- 		InitResourcePath();
- 
- 		LoadPlugin();
- 
-		m_pSystems = new Systems();
-		m_pSystems->Init();
-  		
+		InitResourcePath();
+		
+		Game::Init();
+	
 		LoadRenderScheme();
 
 		InitSampleList();
 
 		GetInput()->AddKeyListener(this);
-
-		m_pCameraControl = new CameraController( GetCamera() );
 		
-		ResetCamera();
+		Scene* pScene = GetRenderSystem()->GetScene();
+		pScene->SetCallback(this);
 
+		m_pCameraControl = new CameraController( pScene->GetCamera() );
+	
 		//LoadUI();
 
 		if (m_pCurSample)
 		{
 			m_pCurSample->Load();
 		}
-	
-		m_pSystems->Start();
-	}
-
-	void SampleBrowser::ResetCamera()
-	{
-		Camera* pCamera = GetCamera();
-		pCamera->GetSceneNode()->LookAt(Vector3(0, -300, 200), Vector3(0,0,0));
-
-		int nWndWidth,nWndHeigh;
-		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-		float fFOV = Math::PI / 4;
-		float fAspect = (float)nWndWidth / (float)nWndHeigh;
-		float fNearClip = 0.10f;
-		float fFarClip = 20000.0f;
-		pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 	}
 
 	void SampleBrowser::RunSample(const char* pSampleNma)
@@ -315,22 +212,15 @@ namespace ma
 		{
 			m_pCurSample->UnLoad();
 
-			ResetCamera();
+			m_pCameraControl->ResetCamera();
 
  			m_pCurSample->GetScene()->Reset();
-
-			m_pSystems->Stop();
 		}
 		
-	
 		Sample* pSameple = it->second;
-
-		//m_pSystems->SetCurScene(pSameple->GetScene());
 
 		pSameple->Load();
 		m_pCurSample = pSameple;
-
-		m_pSystems->Start();
 	}
 
 // 	void SampleBrowser::LoadUI()
@@ -369,9 +259,7 @@ namespace ma
 	{
 		//Log("................. Update() ..................");
 
-
-		if (GetInput())
-			GetInput()->Capture();
+		Game::Update();
 
 		m_pCameraControl->UpdateInput();
 
@@ -380,8 +268,7 @@ namespace ma
 			return;				
 		}
 		m_bStepOneFrame = false;
-		
-		m_pSystems->Update();
+
 					
 		if (m_pCurSample)
 			m_pCurSample->Update();
@@ -393,31 +280,7 @@ namespace ma
 		return  GetRenderSystem()->GetScene()->GetCamera();
 	}
 
-	void SampleBrowser::Render()
-	{
-		//Log("................. Render() ..................");
 
-		profile_code();
-
-		GetRenderSystem()->BeginFrame();
-
-// 		if ( GetStringRender() )
-// 		{
-// 			char buffer[MAX_PATH];
-// 			sprintf(buffer, "%u", (UINT)(1.0f / GetTimer()->GetFrameDeltaTime()) );
-// 			GetStringRender()->DrawScreenString(buffer,500,1,ColourValue::White);
-// 		}
-
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->DebugRender();
-
-		if (m_pCurSample)
-			m_pCurSample->Render();
-
-		GetRenderSystem()->Render();
-
-		GetRenderSystem()->EndFrame();
-	}
 
 
 // 	void SampleBrowser::controlEvent(Control* control, EventType evt)
@@ -457,6 +320,32 @@ namespace ma
 	bool SampleBrowser::keyReleased(const OIS::KeyEvent &arg)
 	{
 		return false;
+	}
+
+	void SampleBrowser::OnPreUpdate(Scene* pScene)
+	{
+
+	}
+
+	void SampleBrowser::OnPostUpdate(Scene* pScene)
+	{
+
+	}
+
+	void SampleBrowser::OnPreRender(Scene* pScene)
+	{
+
+	}
+
+	void SampleBrowser::OnPosRender(Scene* pScene)
+	{
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->DebugRender();
+
+		if (m_pCurSample)
+			m_pCurSample->Render();
+
+		//GetUISystem()->Render();
 	}
 }
 

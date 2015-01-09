@@ -19,6 +19,8 @@ namespace ma
 
 		void		SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 
+		void		ResetCamera();
+
 	private:
 
 		void		RotateMoveCamera();

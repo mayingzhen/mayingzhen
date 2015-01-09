@@ -16,6 +16,18 @@ namespace ma
 
 	class ENGINE_API Scene  : public SceneNode
 	{
+	public:
+		class  CCallback
+		{
+		public:
+			CCallback(){}
+			virtual ~CCallback(){}
+
+			virtual void OnPreUpdate(Scene* pScene) = 0;
+			virtual void OnPostUpdate(Scene* pScene) = 0;
+			virtual void OnPreRender(Scene* pScene) = 0;
+			virtual void OnPosRender(Scene* pScene) = 0;
+		};
 	
 	public:
 		Scene(const char* pszName = NULL);
@@ -45,6 +57,9 @@ namespace ma
 		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index];}
 
+		void					SetCallback(CCallback* pCallback){m_pCallback = pCallback;}
+		CCallback*				GetCallback() const{return m_pCallback;}
+
 	private:
 		RefPtr<CullTree>		m_pCullTree;
 
@@ -60,6 +75,8 @@ namespace ma
 
 		typedef std::vector<RenderComponent*> VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
+
+		CCallback*				m_pCallback;
 	};
 
 	DeclareRefPtr(Scene);

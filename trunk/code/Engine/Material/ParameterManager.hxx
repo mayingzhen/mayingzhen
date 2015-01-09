@@ -152,8 +152,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
-		int index = GetRenderSystem()->CurThreadProcess();
-		return pRenderable->m_matWorld[index];
+		return pRenderable->GetWorldMatrix();
 	}
 
 	const Matrix4& ParameterManager::autoBindingGetViewMatrix() const
@@ -172,8 +171,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
-		int index = GetRenderSystem()->CurThreadProcess();
-		return GetRenderContext()->GetViewMatrix() * pRenderable->m_matWorld[index];
+		return GetRenderContext()->GetViewMatrix() * pRenderable->GetWorldMatrix();
 	}
 
 	Matrix4 ParameterManager::autoBindingGetViewProjectionMatrix() const
@@ -187,8 +185,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return Matrix4::IDENTITY;
 
-		int index = GetRenderSystem()->CurThreadProcess();
-		return GetRenderContext()->GetViewProjMatrix() * pRenderable->m_matWorld[index];
+		return GetRenderContext()->GetViewProjMatrix() * pRenderable->GetWorldMatrix();
 	}
 
 	const Matrix4& ParameterManager::autoBindingGetInverseTransposeWorldMatrix() const
@@ -222,14 +219,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return NULL;
 
-		int index = GetRenderSystem()->CurThreadProcess();
-		
-		std::vector<DualQuaternion>& arrSkinDQ = pRenderable->m_arrSkinDQ[index];
-
-		if ( arrSkinDQ.empty() )
-			return NULL;
-		
-		return (const Vector4*)&arrSkinDQ[0];
+		return (const Vector4*)pRenderable->GetSkinDQ();
 	}
 
 	UINT ParameterManager::autoBindingGetMatrixPaletteSize() const
@@ -238,10 +228,7 @@ namespace ma
 		if (pRenderable == NULL)
 			return 0;
 
-		int index = GetRenderSystem()->CurThreadProcess();
-		std::vector<DualQuaternion>& arrSkinDQ = pRenderable->m_arrSkinDQ[index];
-
-		return arrSkinDQ.size() * 2;
+		return pRenderable->GetSkinDQCount() * 2;
 	}
 
 	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const

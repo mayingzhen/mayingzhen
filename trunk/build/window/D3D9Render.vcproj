@@ -245,6 +245,10 @@
 			Name="Shader"
 			>
 			<File
+				RelativePath="..\..\data\shader\d3d9\common.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\Shader\D3D9\default.frag"
 				>
 			</File>
@@ -289,6 +293,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\d3d9\shadow_jitterin.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\D3D9\shadowDepth.frag"
 				>
 			</File>
@@ -297,11 +305,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\d3d9\shadowmap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\d3d9\skin.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\D3D9\terrain.frag"
 				>
 			</File>
 			<File
 				RelativePath="..\..\data\shader\D3D9\terrain.vert"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\d3d9\uniform.h"
 				>
 			</File>
 			<Filter

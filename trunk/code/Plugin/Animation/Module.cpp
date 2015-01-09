@@ -33,14 +33,14 @@ using namespace ma;
 #include <Animation/RTTIDecl.h>
 #undef RTTI_DECL
 
-
-Object* Create_AnimationComponent() { return GetAnimationSystem()->CreateAnimationObject();} 
-
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}
 
 void AnimationModuleInit()
 {
+	AnimationSystem* pAniSystem = new AnimationSystem();
+	SetAnimationSystem(pAniSystem);
+
 	GetResourceSystem()->RegisterResourceFactory("ske",SkeletonData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("ska",AnimationData_Creator);
 
@@ -51,33 +51,25 @@ void AnimationModuleInit()
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 
-	AnimationComponent::StaticInitClass();
-	GetObjectFactoryManager()->RegisterObjectFactory("AnimationComponent",Create_AnimationComponent);
-
 	AnimationComponent::RegisterObject( GetContext() );
-
-	AnimationSystem* pAniSystem = new AnimationSystem();
-	SetAnimationSystem(pAniSystem);
 }
 
 void AnimationModuleShutdown()
 {
-	AnimationSystem* pAniSystem = GetAnimationSystem();
-	SAFE_DELETE(pAniSystem);
-	SetAnimationSystem(NULL);
-
 	// RTTI
 	#define RTTI_DECL(ClassType) \
 		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 
-	AnimationComponent::StaticShutdownClass(); 
-	GetObjectFactoryManager()->UnRegisterObjectFactory("AnimationComponent",Create_AnimationComponent); 
-
 	GetResourceSystem()->UnregisterResourceFactory("ske",SkeletonData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("ska",AnimationData_Creator);
+
+	AnimationSystem* pAniSystem = GetAnimationSystem();
+	SAFE_DELETE(pAniSystem);
+	SetAnimationSystem(NULL);
 }
+
 
 #if PLATFORM_WIN == 1
 extern "C" ANIMATION_API bool dllStartPlugin()

@@ -3,6 +3,18 @@
 
 namespace ma
 {
+	static BtPhysicsSystem* gpPhysicsSystem = NULL;
+
+	void SetPhysicsSystem(BtPhysicsSystem* pPhysicsSystem)
+	{
+		gpPhysicsSystem = pPhysicsSystem;
+	}
+
+	BtPhysicsSystem* GetPhysicsSystem()
+	{
+		return gpPhysicsSystem;
+	}
+
 	BtPhysicsSystem::BtPhysicsSystem()
 	{
 		m_pDynamicsWorld = NULL;
@@ -50,8 +62,8 @@ namespace ma
 		for (UINT i = 0; i < m_arrPhysicsObject.size(); ++i)
 		{
 			SceneNode* pGameObj = m_arrPhysicsObject[i];
-			std::vector<IPhysicsJoint*> arrJoint;
-			pGameObj->GetTypeComponent<IPhysicsJoint>(arrJoint);
+			std::vector<BulletPhysicsJoint*> arrJoint;
+			pGameObj->GetTypeComponent<BulletPhysicsJoint>(arrJoint);
 			for (UINT j = 0; j < arrJoint.size(); ++j)
 			{
 				arrJoint[j]->Start();
@@ -81,8 +93,8 @@ namespace ma
 		}
 		else
 		{
-			std::vector<ICollisionShape*> arrCollisionShape;
-			pGameObj->GetTypeComponent<ICollisionShape>(arrCollisionShape);
+			std::vector<BulletCollisionShape*> arrCollisionShape;
+			pGameObj->GetTypeComponent<BulletCollisionShape>(arrCollisionShape);
 
 			BulletRigidBody* pRigidBody = pGameObj->GetTypeComponent<BulletRigidBody>();
 
@@ -210,41 +222,41 @@ namespace ma
 		m_arrPhysicsObject.push_back(pGameObj);
 	}
 
-	IRigidBody*	BtPhysicsSystem::CreateRigidBody()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletRigidBody();
-	}
-
-	IBoxCollisionShape*	BtPhysicsSystem::CreateBoxCollisionShape()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletBoxCollisionShape();
-	}
-
-	ISphereCollisionShape* BtPhysicsSystem::CreateSphereCollisionShape()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletSphereCollisionShape();
-	}
-
-	ICapsuleCollisionShape* BtPhysicsSystem::CreateCapsuleCollisionShape()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletCapsuleCollisionShape();
-	}
-
-	ICollisionMaterial* BtPhysicsSystem::CreateCollisionMaterial()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletCollisionMaterial();
-	}
-
-	ICharaControll*	BtPhysicsSystem::CreateCharaControll()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletCharacterController();
-	}
+// 	IRigidBody*	BtPhysicsSystem::CreateRigidBody()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletRigidBody();
+// 	}
+// 
+// 	IBoxCollisionShape*	BtPhysicsSystem::CreateBoxCollisionShape()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletBoxCollisionShape();
+// 	}
+// 
+// 	ISphereCollisionShape* BtPhysicsSystem::CreateSphereCollisionShape()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletSphereCollisionShape();
+// 	}
+// 
+// 	ICapsuleCollisionShape* BtPhysicsSystem::CreateCapsuleCollisionShape()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletCapsuleCollisionShape();
+// 	}
+// 
+// 	ICollisionMaterial* BtPhysicsSystem::CreateCollisionMaterial()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletCollisionMaterial();
+// 	}
+// 
+// 	ICharaControll*	BtPhysicsSystem::CreateCharaControll()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletCharacterController();
+// 	}
 
 	SceneNode* BtPhysicsSystem::RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer,Vector3& hitPosWS)
 	{
@@ -267,18 +279,18 @@ namespace ma
 		return (SceneNode*)( pBtObject->getUserPointer() );
 	}
 
-	IPhysicsGenericJoint*	BtPhysicsSystem::CreatePhysicsGenericJoint()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletPhysicsGenericJoint();
-	}
-
-
-	IPhysicsHingeJoint*		BtPhysicsSystem::CreatePhysicsHingeJoint()
-	{
-		//AddPhysicsObject(pGameObj);
-		return new BulletPhysicsHingeJoint();
-	}
+// 	IPhysicsGenericJoint*	BtPhysicsSystem::CreatePhysicsGenericJoint()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletPhysicsGenericJoint();
+// 	}
+// 
+// 
+// 	IPhysicsHingeJoint*		BtPhysicsSystem::CreatePhysicsHingeJoint()
+// 	{
+// 		//AddPhysicsObject(pGameObj);
+// 		return new BulletPhysicsHingeJoint();
+// 	}
 
 	bool BtPhysicsSystem::isVisible(const btVector3& aabbMin, const btVector3& aabbMax)
 	{

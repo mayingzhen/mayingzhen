@@ -133,8 +133,8 @@ namespace ma
 		if ( GetLineRender() )
 			GetLineRender()->OnFlushFrame();
 
-		if ( GetUISystem() )
-			GetUISystem()->OnFlushFrame();
+		//if ( GetUISystem() )
+		//	GetUISystem()->OnFlushFrame();
 
 		if ( GetParticleSystem() )
 			GetParticleSystem()->OnFlushFrame();
@@ -279,6 +279,11 @@ namespace ma
 
 	Texture* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bDepthStencil/* = false*/)
 	{
+		if (nWidth == -1 || nHeight == -1)
+		{
+			nWidth = m_viewport.width;
+			nHeight = m_viewport.height;
+		}
 		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,bDepthStencil ? USAGE_DEPTHSTENCIL : USAGE_RENDERTARGET);
 		m_pRenderThread->RC_CreateRenderTarget(pTarget);
 		return pTarget;

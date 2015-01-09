@@ -51,26 +51,6 @@
 #include "Engine/Scene/Terrain/Terrain.h"
 
 
-
-// Physics
-#include "Engine/Physics/ICharacterController.h"
-#include "Engine/Physics/ICollisionShape.h"
-#include "Engine/Physics/IPhysicsSystem.h"
-#include "Engine/Physics/IRigidBody.h"
-#include "Engine/Physics/IPhysicsJoint.h"
-
-// script
-#include "Engine/Script/IScriptSystem.h"
-#include "Engine/Script/IScriptObject.h"
-
-// Input
-#include "Engine/Input/Input.h"
-
-// UI
-#include "Engine/UI/IUISystem.h"
-
-
-
 // Thread
 #include "Engine/Thread/Thread.h"
 #include "Engine/Thread/WorkQueue.h"

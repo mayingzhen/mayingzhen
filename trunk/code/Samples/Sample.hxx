@@ -6,20 +6,10 @@ namespace ma
 	{
 		m_pScene = GetRenderSystem()->GetScene();
 		m_pCamera = m_pScene->GetCamera();
-		//m_pScene = new Scene(pszName);
-
-// 		GetInput()->AddKeyListener(this);
-// 		GetInput()->AddMouseListener(this);
-// 		GetInput()->AddTouchListener(this);
 	}
 
 	Sample::~Sample()
 	{
-// 		GetInput()->RemoveKeyListener(this);
-// 		GetInput()->RemoveMouseListener(this);
-// 		GetInput()->RemoveTouchListener(this);	
-
-		//m_pScene = NULL;
 	}
 
 	CameraController* Sample::GetCameraControll()
