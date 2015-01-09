@@ -6,6 +6,8 @@
 #include "Engine/Module.h"
 #include "Application/Module.h"
 #include "Animation/Module.h"
+#include "MonoScript/Module.h"
+#include "BulletPhysics/Module.h"
 
 
 

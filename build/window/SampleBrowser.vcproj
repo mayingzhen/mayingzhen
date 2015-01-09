@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/include/Bullet;../../extern/glew/include;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/glew/include;../../extern/ois/Includes;../../extern/mono/Inlude/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -308,22 +308,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Samples\Render\SampleTerrain.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="config"
-			>
-			<File
-				RelativePath="..\..\data\config\Plugins.xml"
-				>
-			</File>
-			<File
-				RelativePath="..\..\data\config\RenderScheme_mobile.xml"
-				>
-			</File>
-			<File
-				RelativePath="..\..\data\config\RenderScheme_PC.xml"
 				>
 			</File>
 		</Filter>

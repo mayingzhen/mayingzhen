@@ -8,11 +8,11 @@ static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNa
 	SceneNode* pGameObj = (SceneNode*)gameObjPtr;
 	std::string strScriptName = mono_string_to_utf8(pScriptNameM);
 
-	IScriptObject* pScriptObj = NULL;
+	ScriptObject* pScriptObj = NULL;
 	for (UINT nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
 	{
 		ComponentPtr pComp = pGameObj->GetComponentByIndex(nCnt);
-		pScriptObj = SafeCast<IScriptObject>(pComp.get());
+		pScriptObj = SafeCast<ScriptObject>(pComp.get());
 		if (pScriptObj == NULL)
 			continue;
 

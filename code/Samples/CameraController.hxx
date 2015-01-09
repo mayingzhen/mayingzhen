@@ -17,6 +17,24 @@ namespace ma
 		m_fTargetDis = vCameraPos.length();
 
 		m_pCamera = pCamera;
+
+		ResetCamera();
+	}
+
+	void CameraController::ResetCamera()
+	{
+		if (m_pCamera == NULL)
+			return;
+
+		m_pCamera->GetSceneNode()->LookAt(Vector3(0, -300, 200), Vector3(0,0,0));
+
+		int nWndWidth,nWndHeigh;
+		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
+		float fFOV = Math::PI / 4;
+		float fAspect = (float)nWndWidth / (float)nWndHeigh;
+		float fNearClip = 0.10f;
+		float fFarClip = 20000.0f;
+		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 	}
 
 	void CameraController::UpdateInput()

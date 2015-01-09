@@ -15,10 +15,10 @@ namespace ma
 		{
 			pGameObjA = m_pScene->CreateNode("physicsA");
 
-			IBoxCollisionShapePtr pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
+			RefPtr<BulletBoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BulletBoxCollisionShape>();
 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
 
-			IRigidBodyPtr pRigidBodyComp = pGameObjA->CreateComponent<IRigidBody>();
+			RefPtr<BulletRigidBody> pRigidBodyComp = pGameObjA->CreateComponent<BulletRigidBody>();
 			pRigidBodyComp->SetKinematic(true);
 
 			pGameObjA->Translate(vPosA);
@@ -29,15 +29,15 @@ namespace ma
 		{
 			pGameObjB = m_pScene->CreateNode("physicsB");
 
-			IBoxCollisionShapePtr pBoxCollisionShape = pGameObjB->CreateComponent<IBoxCollisionShape>();
+			RefPtr<BulletBoxCollisionShape> pBoxCollisionShape = pGameObjB->CreateComponent<BulletBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(5,5,5));
 		
-			IRigidBodyPtr pRigidBodyComp = pGameObjB->CreateComponent<IRigidBody>();
+			RefPtr<BulletRigidBody> pRigidBodyComp = pGameObjB->CreateComponent<BulletRigidBody>();
 
 			pGameObjB->Translate(vPosB);
 		}
 
-		IPhysicsGenericJointPtr pJointComp = pGameObjA->CreateComponent<IPhysicsGenericJoint>();
+		RefPtr<BulletPhysicsGenericJoint> pJointComp = pGameObjA->CreateComponent<BulletPhysicsGenericJoint>();
 		pJointComp->SetPysicsObjectB(pGameObjB.get());
 		Transform tsfA,tsfB;
 		tsfB.m_vPos = vPosA - vPosB;

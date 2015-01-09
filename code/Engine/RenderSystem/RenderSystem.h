@@ -32,8 +32,8 @@ namespace ma
 		// Render Command
 		void				Init(HWND wndhandle);
 		void				ShoutDown();
-		void				BeginFrame();
-		void				EndFrame();
+ 		void				BeginFrame();
+ 		void				EndFrame();
 		void				Render();
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
@@ -93,8 +93,8 @@ namespace ma
 	protected: 
 		void				RT_Init(HWND wndhandle);
 		void				RT_ShutDown();
-		void				RT_BeginFrame();
-		void				RT_EndFrame();
+ 		void				RT_BeginFrame();
+ 		void				RT_EndFrame();
 		void				RT_Render();
 		
 	protected:

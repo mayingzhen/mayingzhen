@@ -6,7 +6,7 @@ class btRigidBody;
 
 namespace ma
 {
-	class BulletRigidBody : public IRigidBody
+	class BulletRigidBody : public Component
 	{
 	public:
 		BulletRigidBody();

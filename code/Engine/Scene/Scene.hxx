@@ -11,6 +11,8 @@ namespace ma
 
 		SceneNode* pCamera = this->CreateNode("defaultCamera");
 		m_pCamera = pCamera->CreateComponent<Camera>();
+		
+		m_pRenderScheme = CreateRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
 	}
@@ -49,6 +51,11 @@ namespace ma
 	{
 		profile_code();
 
+		if (m_pCallback)
+		{
+			m_pCallback->OnPreUpdate(this);
+		}
+
 		for (uint32 i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->Update();
@@ -67,12 +74,24 @@ namespace ma
 
 			pRenderComp->Show(m_pCamera.get());
 		}
+
+		if (m_pCallback)
+		{
+			m_pCallback->OnPostUpdate(this);
+		}
 	}
 
 	void Scene::Render()
 	{
 		if (m_pCamera == NULL)
 			return;
+
+		if (m_pCallback)
+		{
+			m_pCallback->OnPreUpdate(this);
+		}
+		
+		GetRenderSystem()->BeginFrame();
 
 		if (m_pRenderTarget)
 		{
@@ -88,6 +107,14 @@ namespace ma
 
 		if (GetLineRender())
 			GetLineRender()->Render();
+
+
+		if (m_pCallback)
+		{
+			m_pCallback->OnPostUpdate(this);
+		}
+
+		GetRenderSystem()->EndFrame();
 	}
 
 }

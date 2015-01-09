@@ -10,8 +10,7 @@ namespace ma
 		matTras.setTrans(vPos);
 		matTras.setScale(Vector3(fRadius ,fRadius ,fRadius));
 
-		gpSphere->m_matWorld[0] = matTras;
-		gpSphere->m_matWorld[1] = matTras;		
+		gpSphere->SetWorldMatrix(matTras);
 
 		GetRenderSystem()->DrawRenderable(gpSphere,pTech);
 	}
@@ -26,7 +25,6 @@ namespace ma
 		gpSphere->m_pDeclaration = pMeshData->GetVertexDeclar(); 
 		gpSphere->m_pVertexBuffers = pMeshData->GetVertexBuffer(); 
 		gpSphere->m_pIndexBuffer =  pMeshData->GetIndexBuffer();
-		//gpSphere->m_pSubMeshData = pMeshData->GetSubMeshByIndex(0);
 
 		return;
 	}

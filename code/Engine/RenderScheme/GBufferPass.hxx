@@ -6,8 +6,6 @@ namespace ma
 
 	GBufferPass* GetBuffferPass() {return gpGBufferPass;}
 
-	IMPL_OBJECT(GBufferPass,RenderPass);
-
 	GBufferPass::GBufferPass()
 	{
 		m_pDepthTex = NULL;

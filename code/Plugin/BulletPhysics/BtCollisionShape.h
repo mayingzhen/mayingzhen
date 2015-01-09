@@ -4,22 +4,23 @@
 
 namespace ma
 {
+	class BulletCollisionShape : public Component
+	{
 
-#define  DECL_CollisionShape \
-	public : \
-		virtual Transform	GetTransformLS() {return m_tsfLS;} \
-		virtual void			SetTransformLS(const Transform& tsfLS)\
-		{\
-			m_tsfLS = tsfLS;\
-		}\
-	protected: \
-		Transform			m_tsfLS;\
-		btCollisionShape*	m_pBtShape; \
-    private: 
+	public : 
+		virtual Transform	GetTransformLS() {return m_tsfLS;} 
+		virtual void		SetTransformLS(const Transform& tsfLS) { m_tsfLS = tsfLS; }
 
-	class BulletBoxCollisionShape : public IBoxCollisionShape
+		virtual void*		Create() {return NULL;}
+
+	protected: 
+		Transform			m_tsfLS;
+
+		btCollisionShape*	m_pBtShape; 
+	};
+
+	class BulletBoxCollisionShape : public BulletCollisionShape
 	{	
-		DECL_CollisionShape
 
 	public:	
 		BulletBoxCollisionShape();
@@ -40,9 +41,8 @@ namespace ma
 	};
 
 	
-	class BulletSphereCollisionShape : public ISphereCollisionShape
+	class BulletSphereCollisionShape : public BulletCollisionShape
 	{
-		DECL_CollisionShape
 
 	public:	
 		BulletSphereCollisionShape();
@@ -62,9 +62,8 @@ namespace ma
 		float					m_fRadius;
 	};
 
-	class BulletCapsuleCollisionShape : public ICapsuleCollisionShape
+	class BulletCapsuleCollisionShape : public BulletCollisionShape
 	{
-		DECL_CollisionShape
 
 	public:
 		BulletCapsuleCollisionShape();	
@@ -88,7 +87,7 @@ namespace ma
 		float					m_fRadius;
 	};	
 
-	class BulletCollisionMaterial : public ICollisionMaterial
+	class BulletCollisionMaterial : public Component
 	{
 		DECL_OBJECT(BulletCollisionMaterial)
 
@@ -120,6 +119,58 @@ namespace ma
 		float					m_friction;
 		float					m_restitution;
 		float					m_rollingFriction;
+	};
+
+
+	struct  Collision
+	{
+		SceneNode* m_pGameEntity;
+		Vector3	m_vContactsPointWS;
+		Vector3	m_vContactsNormalWS;
+
+		Collision()
+		{
+			m_pGameEntity = NULL;
+			m_vContactsPointWS = Vector3(0,0,0);
+			m_vContactsNormalWS = Vector3(0,0,0);
+		}
+	};
+
+	class  CollisionListener
+	{
+	public:
+		enum EventType
+		{
+			COLLIDING,		// Event fired when the two rigid bodies start colliding.
+			NOT_COLLIDING	// Event fired when the two rigid bodies no longer collide.
+		};
+
+
+		struct CollisionData
+		{
+			EventType		m_eType;
+			SceneNode*		m_pObjectA;
+			SceneNode*		m_pObjectB;
+			Vector3			m_vContactPointA;  // world space
+			Vector3			m_vContactPointB;  // world space
+			Vector3			m_vContactNoramlA; // world space
+			Vector3			m_vContactNoramlB; // world space
+
+			CollisionData()
+			{
+				m_pObjectA = NULL;
+				m_pObjectB = NULL;
+				m_vContactPointA = Vector3(0,0,0);
+				m_vContactPointB = Vector3(0,0,0);
+				m_vContactNoramlA = Vector3(0,0,0);
+				m_vContactNoramlB = Vector3(0,0,0);
+			}
+		};
+
+		virtual ~CollisionListener() { }
+
+
+		virtual void collisionEvent(const CollisionData& eventData) = 0;
 	};
 
 }

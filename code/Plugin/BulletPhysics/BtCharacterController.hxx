@@ -28,7 +28,7 @@ namespace ma
 		SAFE_DELETE(m_pCapsuleShape);
 	}
 
-	ICapsuleCollisionShape* BulletCharacterController::GetCollisionShape()
+	BulletCapsuleCollisionShape* BulletCharacterController::GetCollisionShape()
 	{
 		ASSERT(m_pCapsuleShape);
 		if (m_pCapsuleShape == NULL)

@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class Uniform;
+	struct Uniform;
 	class SamplerState;
 	
 	enum ERenderCommand

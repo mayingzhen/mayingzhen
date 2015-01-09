@@ -114,10 +114,10 @@ namespace ma
 		UINT nSize = m_arrComp.size();
 		sl.Serialize(nSize,"size");
 
-		if (nSize != m_arrComp.size())
-		{
-			m_arrComp.resize(nSize);
-		}
+// 		if (nSize != m_arrComp.size())
+// 		{
+// 			m_arrComp.resize(nSize);
+// 		}
 
 		for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
 		{

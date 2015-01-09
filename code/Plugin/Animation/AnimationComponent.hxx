@@ -189,7 +189,7 @@ namespace ma
 	{
 		profile_code();
 
-		if (m_pSkeleton == NULL  || m_pCurAction == NULL)
+		if (m_pSkeleton == NULL  || m_pCurAction == NULL || m_pose == NULL)
 			return;
 
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
@@ -201,16 +201,16 @@ namespace ma
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
 
-		float fBlendFactor = m_fFadeTime <= 0 ? 1.0f : 1.0f - (m_fCurFadeTime / m_fFadeTime);
+		float fFadeFactor = m_fFadeTime <= 0 ? 0.0f : (m_fCurFadeTime / m_fFadeTime);
 
-		if (m_pPreAction && fBlendFactor < 1.0f)
+		if (m_pPreAction && fFadeFactor > 0)
 		{
-			m_pPreAction->EvaluateAnimation(&evalContext,fBlendFactor);
+			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor);
 		}
 
 		if (m_pCurAction)
 		{
-			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fBlendFactor);
+			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
 		}
 
 		UpdateSkinMatrix();	
@@ -221,15 +221,10 @@ namespace ma
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
-			if (m_pose)
-			{
-				MatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
-				m_arrSkinMatrix[i] = m_arrSkinMatrix[i] * m_pSkeleton->GetBoneMatrixOSInv(i);
-			}
-			else
-			{
-				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
-			}
+			MatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
+			m_arrSkinMatrix[i] = m_arrSkinMatrix[i] * m_pSkeleton->GetBoneMatrixOSInv(i);
+	
+			//m_arrSkinMatrix[i] = Matrix4::IDENTITY;
 		}
 
 		std::vector<MeshComponent*> arrMeshComp;

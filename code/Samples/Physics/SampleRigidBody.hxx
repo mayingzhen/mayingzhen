@@ -20,10 +20,10 @@ namespace ma
 		{
 			pGameObjA = m_pScene->CreateNode("physics");
 
-			IBoxCollisionShapePtr pBoxCollisionComp = pGameObjA->CreateComponent<IBoxCollisionShape>();
+			RefPtr<BulletBoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BulletBoxCollisionShape>();
  			pBoxCollisionComp->SetSize(Vector3(0.5,0.5,0.5));
 
-			m_pRigidBody = pGameObjA->CreateComponent<IRigidBody>();
+			m_pRigidBody = pGameObjA->CreateComponent<BulletRigidBody>();
 			m_pRigidBody->SetUseGravity(false);
 
 			pGameObjA->Translate(Vector3(0,0,4));
@@ -40,9 +40,9 @@ namespace ma
 
 			{
 				SceneNodePtr pGameObjSphere = m_pScene->CreateNode("Sphere");
-				ISphereCollisionShapePtr pSphereComp = pGameObjSphere->CreateComponent<ISphereCollisionShape>();
+				RefPtr<BulletSphereCollisionShape> pSphereComp = pGameObjSphere->CreateComponent<BulletSphereCollisionShape>();
 				pSphereComp->SetRadius(2);
-				pGameObjSphere->CreateComponent<IRigidBody>();
+				pGameObjSphere->CreateComponent<BulletRigidBody>();
 
 				pGameObjSphere->Translate(Vector3(1,0,8));
 			}
@@ -52,7 +52,7 @@ namespace ma
 		{
 			SceneNodePtr pGameObj = m_pScene->CreateNode("Terrain");
 
-			IBoxCollisionShapePtr pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			RefPtr<BulletBoxCollisionShape>  pBoxCollisionShape = pGameObj->CreateComponent<BulletBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(10,10,0.5));
 		}
 

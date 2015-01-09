@@ -13,16 +13,20 @@ namespace ma
 		Game(const char* pGameName);
 
 		virtual ~Game();
+		
+		virtual void	ModuleInit();
 
-		virtual void	Init() = 0;
+		virtual void	ModuleShutdown();
 
-		virtual void	Shutdown() = 0;
+		virtual void	Init();
 
-		virtual void	Update() = 0;
+		virtual void	Shutdown();
 
-		virtual void	Render() = 0;
+		virtual void	Update();
 
-		const char*		GetGameName() {return m_sGameName.c_str();}
+		virtual void	Render();
+
+		const char*		GetGameName();
 
 		static Game&	GetInstance();
 

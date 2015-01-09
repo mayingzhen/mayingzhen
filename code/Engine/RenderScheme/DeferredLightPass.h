@@ -8,7 +8,6 @@ namespace ma
 
 	class DeferredLightPass : public RenderPass
 	{
-		DECL_OBJECT(DeferredLightPass)
 
 	public:
 

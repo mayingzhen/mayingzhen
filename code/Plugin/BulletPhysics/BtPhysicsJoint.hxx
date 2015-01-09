@@ -2,6 +2,31 @@
 
 namespace ma
 {
+	void BulletPhysicsJoint::SetEnabled(bool enabled)
+	{
+		m_bEnabled = enabled;
+		if (m_pConstraint)
+			m_pConstraint->setEnabled(enabled);
+	}
+
+	void BulletPhysicsJoint::SetBreakingImpulse(float impulse)
+	{ 
+		m_fBreakingImpulse = impulse; 
+		if (m_pConstraint) 
+			m_pConstraint->setBreakingImpulseThreshold(impulse);
+	}
+
+	void BulletPhysicsJoint::Start()
+	{
+
+	}
+
+	void BulletPhysicsJoint::Stop()
+	{
+
+	}
+
+
 	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint()
 	{
 		m_pPhyObjB = NULL;

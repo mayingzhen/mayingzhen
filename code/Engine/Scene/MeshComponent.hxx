@@ -86,10 +86,6 @@ namespace ma
 				pRenderable->m_pMaterial->InitWithSubMatData(subMaterData);
 			}
 
-			uint32 nBone = pRenderable->m_pSubMeshData->m_arrBonePalette.size();
-			pRenderable->m_arrSkinDQ[0].resize(nBone);
-			pRenderable->m_arrSkinDQ[1].resize(nBone);
-
 			m_arrRenderable.push_back(pRenderable);
 		}
 

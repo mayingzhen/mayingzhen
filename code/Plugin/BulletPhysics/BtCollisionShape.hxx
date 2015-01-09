@@ -127,7 +127,7 @@ namespace ma
 		return m_pBtShape;
 	}
 
-	IMPL_OBJECT(BulletCollisionMaterial,ICollisionMaterial)
+	IMPL_OBJECT(BulletCollisionMaterial,Component)
 	
 	BulletCollisionMaterial::BulletCollisionMaterial()
 	{

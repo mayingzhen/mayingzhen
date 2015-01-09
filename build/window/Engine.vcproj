@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zziplibd.lib FreeImaged.lib OIS_D.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="zziplibd.lib FreeImaged.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;"
 				ModuleDefinitionFile="../../code/Engine/Engine.def"
@@ -222,10 +222,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Resource\RTTI.h"
 				>
 			</File>
 			<Filter
@@ -402,90 +398,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Physics"
-			>
-			<File
-				RelativePath="..\..\code\Engine\Physics\ICharacterController.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\ICharacterController.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\ICollisionShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\ICollisionShape.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsJoint.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IPhysicsSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IRigidBody.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\IRigidBody.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\Ragdoll.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\Ragdoll.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Physics\RTTI.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Script"
-			>
-			<File
-				RelativePath="..\..\code\Engine\Script\IScriptObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Script\IScriptObject.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Script\IScriptSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Script\IScriptSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Script\RTTI.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Event"
 			>
 			<File
@@ -494,30 +406,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Engine\Event\Event.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Input"
-			>
-			<File
-				RelativePath="..\..\code\Engine\Input\AndroidInputInjector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Input\AndroidInputInjector.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Input\Gesture.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Input\Input.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Input\Input.hxx"
 				>
 			</File>
 		</Filter>
@@ -1113,14 +1001,6 @@
 			Name="RenderScheme"
 			>
 			<File
-				RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderScheme\DeferredLightPass.h"
 				>
 			</File>
@@ -1137,14 +1017,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderScheme\GBufferPass.h"
 				>
 			</File>
@@ -1153,23 +1025,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\PostProcess.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderScheme\RenderPass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\RenderPass.hxx"
 				>
 			</File>
 			<File
@@ -1196,6 +1052,38 @@
 				RelativePath="..\..\code\Engine\RenderScheme\ShadowDepthPass.hxx"
 				>
 			</File>
+			<Filter
+				Name="PostProcess"
+				>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\DownSacalePostProcess.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\HDRPostProcess.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\PostProcess.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Renderable"

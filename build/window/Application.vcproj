@@ -63,8 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="OIS_D.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/ois/Debug"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -243,6 +244,30 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Input"
+			>
+			<File
+				RelativePath="..\..\code\Application\Input\AndroidInputInjector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\Input\AndroidInputInjector.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\Input\Gesture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\Input\Input.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\Input\Input.hxx"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\..\code\Application\Export.h"
 			>
@@ -253,14 +278,6 @@
 		</File>
 		<File
 			RelativePath="..\..\code\Application\Game.hxx"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Application\Input.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Application\Input.hxx"
 			>
 		</File>
 		<File
@@ -293,14 +310,6 @@
 		</File>
 		<File
 			RelativePath="..\..\code\Application\stdAfx.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Application\Systems.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Application\Systems.hxx"
 			>
 		</File>
 	</Files>

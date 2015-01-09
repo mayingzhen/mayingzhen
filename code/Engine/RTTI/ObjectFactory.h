@@ -11,9 +11,9 @@ namespace ma
 	{
 	public:
 
-		virtual void RegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
+		virtual void	RegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
 
-		virtual void UnRegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
+		virtual void	UnRegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
 
 		virtual Object* CreateObject(const char* clsName);
 
@@ -24,9 +24,14 @@ namespace ma
 	};
 
 	template <class T>
-	T*	CreateObject(const char* pszClassName)
+	T*	CreateObject(const char* pszClassName = NULL)
 	{
-		Object* pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
+		Object* pObject = NULL;
+		if (pszClassName)
+			 pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
+		else
+			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetClass()->GetName() );
+
 		ASSERT(pObject);
 		
 		T* pTypeObject = SafeCast<T>(pObject);

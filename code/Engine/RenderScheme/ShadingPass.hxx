@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(ShadingPass,RenderPass);
-
 	void ShadingPass::Init()
 	{
 		m_pShadingTex = NULL;
@@ -83,6 +81,5 @@ namespace ma
 		m_pShadingTex = NULL;
 		SAFE_DELETE(m_pHdrPostprocess);
 	}
-
 }
 

@@ -84,7 +84,6 @@
 #include "Engine/Material/ParameterManager.hxx"
 #include "Engine/Material/SamplerState.hxx"
 
-#include "Engine/RenderScheme/RenderPass.hxx"
 #include "Engine/RenderScheme/DeferredLightPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
 #include "Engine/RenderScheme/GBufferPass.hxx"
@@ -94,24 +93,6 @@
 #include "Engine/RenderScheme/BlurPostProcess.hxx"
 #include "Engine/RenderScheme/HDRPostProcess.hxx"
 
-
-// Physics
-#include "Engine/Physics/ICollisionShape.hxx"
-#include "Engine/Physics/ICharacterController.hxx"
-#include "Engine/Physics/IRigidBody.hxx"
-#include "Engine/Physics/IPhysicsJoint.hxx"
-#include "Engine/Physics/IPhysicsSystem.hxx"
-
-
-// script
-#include "Engine/Script/IScriptObject.hxx"
-#include "Engine/Script/IScriptSystem.hxx"
-
-// Input
-#include "Engine/Input/Input.hxx"
-
-// UI
-#include "Engine/UI/IUISystem.hxx"
 
 // Scene
 #include "Engine/Scene/Component.hxx"
@@ -135,9 +116,6 @@
 #include "Engine/Scene/Terrain/TerrainTrunk.hxx"
 #include "Engine/Scene/Terrain/TerrainRenderable.hxx"
 
-
-
-
 #include "Engine/Profile/CodeTimer.hxx"
 
 
@@ -148,9 +126,19 @@ using namespace ma;
 
 void EngineModuleInit()
 {
-	EngineRTTIInit();
-
 	CImageCodec::Startup();
+
+	ClassManager* pClsMan = new ClassManager();
+	SetClassManager(pClsMan);
+
+	ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
+	SetObjectFactoryManager(pObjMan);
+
+	Context* pContexMan = new Context();
+	SetContext(pContexMan);
+
+	ResourceSystem* pRsourceSystem = new ResourceSystem();
+	SetResourceSystem(pRsourceSystem);
 
 	CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
 	SetCodeTimeMng(pCodeTimeMng);
@@ -178,10 +166,14 @@ void EngineModuleInit()
 
 	LightSystem* pLightSystem = new LightSystem();
 	SetLightSystem(pLightSystem);
+
+	EngineRTTIInit();
 }
 
 void EngineModuleShutdown()
 {
+	EngineRTTIShutdown();
+
 	Time* pTime = GetTimer();
 	SAFE_DELETE(pTime);
 	SetTimer(NULL);
@@ -217,8 +209,15 @@ void EngineModuleShutdown()
 	RenderSetting*	pRenderSetting = GetRenderSetting();
 	SAFE_DELETE(pRenderSetting);
 	SetRenderSetting(NULL);
-	
-	EngineRTTIShutdown();
+
+	ResourceSystem* pRsourceSystem = GetResourceSystem();
+	pRsourceSystem->ShoutDown(); 
+	SAFE_DELETE(pRsourceSystem);
+	SetResourceSystem(NULL);
+
+	delete GetObjectFactoryManager();
+
+	delete GetClassManager();
 
 	CImageCodec::Shutdown();
 }

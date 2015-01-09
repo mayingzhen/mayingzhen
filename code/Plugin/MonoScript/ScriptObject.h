@@ -1,12 +1,13 @@
 #ifndef __MonoScriptObject_h__
 #define __MonoScriptObject_h__
 
+
 namespace ma
 {
 	class ScriptClass;
 	class ClassField;
 
-	class ScriptObject : public IScriptObject
+	class ScriptObject : public Component
 	{
 	public:
 		ScriptObject();

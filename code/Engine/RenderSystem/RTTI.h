@@ -29,11 +29,6 @@ RTTI_DECL(PointLight);
 RTTI_DECL(SpotLight);
 RTTI_DECL(DirectonalLight);
 RTTI_DECL(Camera);
-RTTI_DECL(ShadowDepthPass);
-RTTI_DECL(GBufferPass);
-RTTI_DECL(DeferredLightPass);
-RTTI_DECL(DeferredShadowPass);
-RTTI_DECL(ShadingPass);
 #undef RTTI_DECL
 
 
@@ -60,12 +55,6 @@ void RenderSystemRTTIInit()
 	RTTI_DECL(SpotLight);
 	RTTI_DECL(DirectonalLight);
 	RTTI_DECL(Camera);
-	RTTI_DECL(ShadowDepthPass);
-	RTTI_DECL(GBufferPass);
-	RTTI_DECL(DeferredLightPass);
-	RTTI_DECL(DeferredShadowPass);
-	RTTI_DECL(ShadingPass);
-
 #undef RTTI_DECL
 	
 	MaterialParameter::StaticInitClass();
@@ -112,19 +101,14 @@ void RenderSystemRTTIShutdown()
 
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticShutdownClass(); \
-	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); \
-	
+	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
+
 	RTTI_DECL(MeshComponent);
 	RTTI_DECL(ParticleEmitter);
 	RTTI_DECL(PointLight);
 	RTTI_DECL(SpotLight);
 	RTTI_DECL(DirectonalLight);
 	RTTI_DECL(Camera);
-	RTTI_DECL(ShadowDepthPass);
-	RTTI_DECL(GBufferPass);
-	RTTI_DECL(DeferredLightPass);
-	RTTI_DECL(DeferredShadowPass);
-	RTTI_DECL(ShadingPass);
 #undef RTTI_DECL
 
 

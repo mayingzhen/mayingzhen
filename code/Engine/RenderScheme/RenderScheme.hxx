@@ -43,17 +43,24 @@ namespace ma
 		m_arrRenderPass.push_back(pPass);
 	}
 
-	void RenderScheme::Serialize(Serializer& sl, const char* pszLable/* = "RenderScheme"*/)
+	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType)
 	{
-		sl.BeginSection(pszLable);
-
-		//SerializeArrObj<RenderPass>(sl,m_arrRenderPass,"arrAnimNode");
-
-		sl.EndSection();
-	}
-
-	RefPtr<RenderScheme> CreateRenderScheme()
-	{
-		return new RenderScheme();
+ 		RenderScheme* pRenderScheme = new RenderScheme();
+		
+		if (eType == RenderScheme::Forward)
+		{
+			pRenderScheme->AddRenderPass( new ShadowDepthPass() );
+			pRenderScheme->AddRenderPass( new ShadingPass() );
+		}
+		else if (eType == RenderScheme::DeferredLighting)
+		{
+	 		pRenderScheme->AddRenderPass( new ShadowDepthPass() );
+	 		pRenderScheme->AddRenderPass( new GBufferPass() );
+	 		pRenderScheme->AddRenderPass( new DeferredShadowPass() );
+	 		pRenderScheme->AddRenderPass( new DeferredLightPass() );
+	 		pRenderScheme->AddRenderPass( new ShadingPass() );	
+		}
+		
+ 		return pRenderScheme;
 	}
 }

@@ -5,7 +5,6 @@ namespace ma
 {
 	class RENDER_API RenderPass : public Object
 	{
-		DECL_OBJECT(RenderPass)
 
 	public:
 		virtual void Init() = 0;

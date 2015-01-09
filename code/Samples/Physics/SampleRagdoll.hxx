@@ -37,7 +37,7 @@ namespace ma
 		{
 			RefPtr<SceneNode> pGameObj = m_pScene->CreateNode("Terrain");
 		
-			IBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<IBoxCollisionShape>();
+			BulletBoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<BulletBoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(800,800,10));
 
 			pGameObj->Translate(Vector3(0,0,-50));
