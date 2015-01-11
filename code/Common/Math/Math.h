@@ -230,6 +230,23 @@ namespace ma
 
 		static inline float Pow (float fBase, float fExponent) { return float(pow(fBase,fExponent)); }
 
+		template <typename T>
+		static T PowInt(T val, int nTimes)
+		{
+			unsigned int N;
+			if (nTimes >= 0)
+				N = (unsigned int)nTimes;
+			else
+				N = (unsigned int)(-nTimes);
+			for (int Z = 1; ; val *= val)
+			{
+				if ((N & 1) != 0)
+					Z *= val;
+				if ((N >>= 1) == 0)
+					return (nTimes < 0 ? 1/Z : Z); 
+			}
+		}
+
         static float Sign (float fValue);
 		static inline Radian Sign ( const Radian& rValue )
 		{

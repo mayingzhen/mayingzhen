@@ -25,9 +25,9 @@ namespace ma
 
 		void		SetWindId(HWND hWnd) {m_windId = hWnd;} 
 
-		const char*	GetAppPath() {return m_strAppPath.c_str();}
+		const char*	GetAppPath() const;
 
-		void		SetAppPath(const char* pAppPath) {m_strAppPath = pAppPath;}
+		void		SetAppPath(const char* pAppPath);
 
 		static Platform&	GetInstance();
 

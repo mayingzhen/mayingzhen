@@ -15,7 +15,7 @@ namespace ma
 		m_nTrunkSize = 0;
 		m_fLodParamDiv = 0;
 		m_uNumLods = 1;
-		m_nBlendingMultiple = 1.0f;
+		m_nBlendingMultiple = 1;
 		m_bBlendMapToVertex = false;
 		m_bLoadOver = false;
 	}
@@ -371,14 +371,14 @@ namespace ma
 
 		if (m_pMaterialResource)
 		{
-			uint32 matW, matH;
+			int matW, matH;
 			ResourceMapToData<uint8>(m_pMaterialResource.get(),m_vecVertexMatID,matW,matH);
 			m_pMaterialResource = NULL;
 		}
 
 		if (m_pBlendResource)
 		{
-			uint32 blendW,blenH;
+			int blendW,blenH;
 			ResourceMapToData<uint32>(m_pBlendResource.get(),m_vecBlenData,blendW,blenH);
 			m_nBlendingMultiple = blendW / m_nXCellsAmount;
 			m_pBlendResource = NULL;
@@ -413,7 +413,7 @@ namespace ma
 		fY = (fY - m_vStartpoint.y)/m_fCellSpacing;
 		int i = (int)fX;
 		int j = (int)fY;
-		if (i < 0 || i >= m_nXCellsAmount || j < 0 || j >= m_nYCellsAmount)
+		if (i < 0 || i >= (int)m_nXCellsAmount || j < 0 || j >= (int)m_nYCellsAmount)
 		{
 			i = (i<0?0:i);
 			i = (i>=m_nXCellsAmount?m_nXCellsAmount:i);
@@ -458,7 +458,7 @@ namespace ma
 	}
 
 	template<class T>
-	void Terrain::ResourceMapToData(Resource* pSrcResource,vector<T>& vecDestData,uint32& nWidth,uint32& nHeight)
+	void Terrain::ResourceMapToData(Resource* pSrcResource,vector<T>& vecDestData,int& nWidth,int& nHeight)
 	{
 		ASSERT(pSrcResource && pSrcResource->GetDataStream());
 		if (pSrcResource == NULL || pSrcResource->GetDataStream() == NULL)
@@ -481,17 +481,17 @@ namespace ma
 
 		vecDestData.resize((nWidth + 1) * (nHeight + 1));
 
-		for (uint32 i = 0; i < nWidth + 1;++i)
+		for (int i = 0; i < nWidth + 1;++i)
 		{
-			uint32 m = i;
+			int m = i;
 			if (i >= nWidth)
 			{
 				m = nWidth - 1;
 			}
 
-			for (uint32 j = 0; j < nHeight + 1;++j)
+			for (int j = 0; j < nHeight + 1;++j)
 			{
-				uint32 n = j;
+				int n = j;
 				if (j >= nHeight)
 				{
 					n = nHeight - 1;

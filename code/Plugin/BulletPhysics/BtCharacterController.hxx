@@ -6,14 +6,15 @@
 
 namespace ma
 {
-	BulletCharacterController::BulletCharacterController()
+	IMPL_OBJECT(CharacterController,Component)
+	CharacterController::CharacterController()
 	{
 		m_ghostObject = new btPairCachingGhostObject();
 		m_collShape = new btCompoundShape();
 		m_fSetpOffset = 0.5f;
 		m_pCapsuleShape = NULL;
 
-		m_pCapsuleShape = new BulletCapsuleCollisionShape();
+		m_pCapsuleShape = new CapsuleCollisionShape();
 
 		m_touchSkin = 0.01f;
 		m_bTouched = false;
@@ -23,38 +24,43 @@ namespace ma
 	}	
 
 
-	BulletCharacterController::~BulletCharacterController()
+	CharacterController::~CharacterController()
 	{
 		SAFE_DELETE(m_pCapsuleShape);
 	}
 
-	BulletCapsuleCollisionShape* BulletCharacterController::GetCollisionShape()
+	void CharacterController::RegisterObject(Context* context)
+	{
+
+	}
+
+	CapsuleCollisionShape* CharacterController::GetCollisionShape()
 	{
 		ASSERT(m_pCapsuleShape);
 		if (m_pCapsuleShape == NULL)
-			m_pCapsuleShape = new BulletCapsuleCollisionShape();
+			m_pCapsuleShape = new CapsuleCollisionShape();
 
 		return m_pCapsuleShape;
 	}
 
-	void BulletCharacterController::SetStepOffset(float fStepOffset)
+	void CharacterController::SetStepOffset(float fStepOffset)
 	{
 		m_fSetpOffset = fStepOffset;
 	}
 
-	float BulletCharacterController::GetStepOffset()
+	float CharacterController::GetStepOffset()
 	{
 		return m_fSetpOffset;
 	}
 
-	bool BulletCharacterController::IsGrounded() const
+	bool CharacterController::IsGrounded() const
 	{
 		return m_colState == CF_Above;
 	}
 
-	btCollisionObject* BulletCharacterController::Start()
+	btCollisionObject* CharacterController::Start()
 	{
-		btDiscreteDynamicsWorld* pbtWorld = GetDynamicsWorld();
+		btDiscreteDynamicsWorld* pbtWorld = GetPhysicsSystem()->GetDynamicsWorld();
 		ASSERT(pbtWorld);
 		if (pbtWorld == NULL)
 			return NULL;
@@ -73,9 +79,9 @@ namespace ma
 		return m_ghostObject;
 	}
 
-	void BulletCharacterController::Stop()
+	void CharacterController::Stop()
 	{
-		btDiscreteDynamicsWorld* pbtWorld = GetDynamicsWorld();
+		btDiscreteDynamicsWorld* pbtWorld = GetPhysicsSystem()->GetDynamicsWorld();
 		ASSERT(pbtWorld);
 		if (pbtWorld == NULL)
 			return;
@@ -83,13 +89,13 @@ namespace ma
 		pbtWorld->removeCollisionObject(m_ghostObject);
 	}
 
-	void BulletCharacterController::updateAction(btCollisionWorld* collisionWorld, btScalar deltaTimeStep)
+	void CharacterController::updateAction(btCollisionWorld* collisionWorld, btScalar deltaTimeStep)
 	{
 		RecoverFromPenetration(3);
 	}
 
 
-	bool BulletCharacterController::RecoverFromPenetration(int nMaxSubStep)
+	bool CharacterController::RecoverFromPenetration(int nMaxSubStep)
 	{
 		// Here we must refresh the overlapping paircache as the penetrating movement itself or the
 		// previous recovery iteration might have used setWorldTransform and pushed us into an object
@@ -108,7 +114,7 @@ namespace ma
 			m_bTouched = false;
 			memset(&m_touchNorm,0,sizeof(m_touchNorm));
 
-			btCollisionWorld* collisionWorld = GetDynamicsWorld();
+			btCollisionWorld* collisionWorld = GetPhysicsSystem()->GetDynamicsWorld();
 
 
 			btVector3 minAabb, maxAabb;

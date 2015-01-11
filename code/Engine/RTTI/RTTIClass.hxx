@@ -21,7 +21,7 @@ namespace ma
 
 	void ClassManager::Shutdown()
 	{
-		ASSERT_MSG(m_nameMap.size() == 0,"Some class not clean up properly");
+		ASSERT(m_nameMap.size() == 0,"Some class not clean up properly");
 	}
 
 	bool ClassManager::RegisterRTTIClass(RTTIClass* pCls)

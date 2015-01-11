@@ -24,8 +24,12 @@
 	#define GLEW_STATIC
 	#include <GL/glew.h>
 	#define USE_VAO
-	#define  glPushGroupMarkerEXT(x,y)
-	#define  glPopGroupMarkerEXT()
+#ifndef glPushGroupMarkerEXT
+	#define glPushGroupMarkerEXT(x,y)
+#endif
+#ifndef glPopGroupMarkerEXT
+	#define glPopGroupMarkerEXT()
+#endif
 #elif __linux__
 	#define GLEW_STATIC
 	#include <GL/glew.h>

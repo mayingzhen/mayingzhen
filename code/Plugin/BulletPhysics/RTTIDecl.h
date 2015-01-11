@@ -1,0 +1,10 @@
+RTTI_DECL(CollisionShape)
+RTTI_DECL(BoxCollisionShape)
+RTTI_DECL(SphereCollisionShape)
+RTTI_DECL(CapsuleCollisionShape)
+RTTI_DECL(RigidBody)
+RTTI_DECL(PhysicsJoint)
+RTTI_DECL(PhysicsGenericJoint)
+RTTI_DECL(PhysicsHingeJoint)
+RTTI_DECL(CharacterController)
+

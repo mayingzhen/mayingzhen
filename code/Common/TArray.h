@@ -1,41 +1,8 @@
 #ifndef __TARRAY_H__
 #define __TARRAY_H__
 
-//#include <ILog.h>
-//#include <ICryPak.h> //impl of fxopen
-
-#ifndef CLAMP
-#define CLAMP(X, mn, mx) ((X)<(mn) ? (mn) : ((X)<(mx) ? (X) : (mx)))
-#endif
-
-#ifndef SATURATE
-#define SATURATE(X) CLAMP(X, 0.f, 1.f)
-#endif
-
-#ifndef SATURATEB
-#define SATURATEB(X) CLAMP(X, 0, 255)
-#endif
-
-#ifndef LERP
-#define LERP(A, B, Alpha) (A + Alpha * (B-A))
-#endif
-
-// Safe memory freeing
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(p)			{ if(p) { delete (p);		(p)=NULL; } }
-#endif
-
-#ifndef SAFE_DELETE_ARRAY
-#define SAFE_DELETE_ARRAY(p)	{ if(p) { delete[] (p);		(p)=NULL; } }
-#endif
-
-#ifndef SAFE_RELEASE
-#define SAFE_RELEASE(p)			{ if(p) { (p)->Release();	(p)=NULL; } }
-#endif
-
-// #ifndef SAFE_RELEASE_FORCE
-// #define SAFE_RELEASE_FORCE(p)			{ if(p) { (p)->ReleaseForce();	(p)=NULL; } }
-// #endif
+namespace ma
+{
 
 // this is an allocator that's allocates 16-byte-aligned blocks,
 // using the normal mem manager. The overhead of allocation is always 16 byte more,
@@ -230,10 +197,6 @@ public:
 			m_pElements = NULL;
 		else
 		{
-
-
-
-
 			//PREFAST_SUPPRESS_WARNING(6308) 
 			m_pElements = (T *)realloc(m_pElements, m_nAllocatedCount*sizeof(T));
 
@@ -329,16 +292,6 @@ public:
     m_nAllocatedCount = fa.m_nAllocatedCount;
   }
 	
-
-  /*const TArray operator=(TArray fa) const
-  {
-    TArray<T> t = TArray(fa.m_nCount,fa.m_nAllocatedCount);
-    for ( int i=0; i<fa.Num(); i++ )
-    {
-      t.AddElem(fa[i]);
-    }
-    return t;
-  }*/
 
   const T& operator[](unsigned int i) const { ASSERT(i < m_nAllocatedCount); return m_pElements[i]; }
         T& operator[](unsigned int i)       { ASSERT(i < m_nAllocatedCount); return m_pElements[i]; }
@@ -461,65 +414,7 @@ public:
     _Remove(n, 1);
   }
 
-//   void Load(const char * file_name)
-//   {
-//     Clear();
-//     FILE * f = fxopen(file_name, "rb");
-//     if(!f)
-//       return;
-//     
-//     int size = 0;
-//     fread(&size, 4, 1, f);
-//     
-//     while(!feof(f) && sizeof(T)==size)
-//     {
-//       T tmp;
-//       if(fread(&tmp, 1, sizeof(T), f) == sizeof(T))
-//         AddElem(tmp);
-//     }
-//     
-//     fclose(f);
-//   }
 
-
-  /* LINUX - port [MG], this is not needed and does not compile with gcc under linux
-  // Sorting
-  static int Cmp_Ptrs1(const void* v1, const void* v2)
-  {
-    T* p1 = (T*)v1;
-    T* p2 = (T*)v2;
-    
-    if(p1->distance > p2->distance)
-      return 1;
-    else if(p1->distance < p2->distance)
-      return -1;
-    
-    return 0;
-  }
-  
-  static int Cmp_Ptrs2(const void* v1, const void* v2)
-  {
-    T* p1 = (T*)v1;
-    T* p2 = (T*)v2;
-    
-    if(p1->distance > p2->distance)
-      return -1;
-    else if(p1->distance < p2->distance)
-      return 1;
-    
-    return 0;
-  }
-  
-  void SortByDistanceMember(bool front_to_back = true)
-  {
-    if(front_to_back)
-      qsort(&m_pElements[0], m_nCount, sizeof(T), Cmp_Ptrs1);
-    else
-      qsort(&m_pElements[0], m_nCount, sizeof(T), Cmp_Ptrs2);
-  }
-*/
-
-  // Save/Load
   void SaveToBuffer(const unsigned char * pBuffer, int & nPos)
   {
     // copy size of element
@@ -593,6 +488,8 @@ template <class T> inline void Exchange(T& X, T& Y)
   const T Tmp = X;
   X = Y;
   Y = Tmp;
+}
+
 }
 
 #endif // __TARRAY_H__

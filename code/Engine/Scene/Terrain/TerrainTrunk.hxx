@@ -22,7 +22,7 @@ namespace ma
 		if (m_pTerrain->GetNumLod() > 1)
 		{
 			float fDistance = (this->GetAABBWS().getCenter() - pCamera->GetSceneNode()->GetPos()).length();
-			m_uLodIndex = (UINT)Math::Log2(__max(1, min(fDistance/m_fLodParam, Math::Pow(2, (m_pTerrain->GetNumLod()-1)))));
+			m_uLodIndex = (UINT)Math::Log2(__max(1, min(fDistance/m_fLodParam, Math::PowInt(2, (m_pTerrain->GetNumLod()-1)))));
 
 			m_uLodIndex = Math::Clamp<UINT>(m_uLodIndex, 0, m_pTerrain->GetNumLod() - 1);
 		}

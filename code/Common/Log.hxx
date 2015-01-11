@@ -13,40 +13,6 @@ namespace ma
 		g_pLogListener = pLog;
 	}
 
-// 	void Log(uint32 msgType,uint32 msgSource,const char* fmt,...)
-// 	{
-// 		if (fmt)
-// 		{
-// 			const int len = 1024;
-// 			char buffer[len];
-// 			va_list args;
-// 			va_start( args, fmt );
-// 			vsprintf( buffer, fmt, args );
-// 
-// 			if (NULL != g_pLogListener)
-// 			{
-// 				g_pLogListener->OnLog(msgType,msgSource,buffer);
-// 			}
-// 			else
-// 			{
-// 				_OutputDebugString(buffer);
-// 			}	
-// 		}
-// 	}
-// 
-// 	void Log(const char* fmt,...)
-// 	{
-// 		if (fmt)
-// 		{
-// 			const int len = 1024;
-// 			char buffer[len];
-// 			va_list args;
-// 			va_start( args, fmt );
-// 			vsprintf( buffer, fmt, args );
-// 			Log(0,0,buffer);
-// 		}
-// 	}
-
 #ifdef __ANDROID__
 	void android_print(android_LogPriority e, const char* format, ...)
 	{

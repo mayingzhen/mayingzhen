@@ -3,7 +3,7 @@
 
 #include "Common/Export.h"
 
-#include "Common/WarningPrefix.h"
+#include "Common/Warningfix.h"
 
 #include "Common/BaseType.h"
 #include "Common/Macro.h"
@@ -48,9 +48,6 @@
 
 #include "Common/StringUtils.h"
 #include "Common/StringConverter.h"
-
-#include "Common/WarningSuffix.h"
-
 
 
 #endif

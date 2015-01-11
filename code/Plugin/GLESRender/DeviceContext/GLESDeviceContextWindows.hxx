@@ -56,7 +56,7 @@ namespace ma
 		{
 			wglDeleteContext(m_hGLRC);
 			DestroyWindow(wndhandle);
-			GP_ERROR("Failed to initialize GLEW.");
+			LogError("Failed to initialize GLEW.");
 			return ;
 		}
 	}

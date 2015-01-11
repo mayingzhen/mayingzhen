@@ -18,6 +18,8 @@ namespace ma
 		virtual void	Show(Camera* pCamera); 
 
 		virtual	void	OnTransformChange();
+
+		virtual	void	OnAddToSceneNode(SceneNode* pGameObj);
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}

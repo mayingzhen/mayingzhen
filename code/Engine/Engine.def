@@ -229,3 +229,5 @@ EXPORTS
 ?StaticInitClass@Resource@ma@@SAXXZ
 ??0Component@ma@@QAE@XZ
 ?Init@ResourceSystem@ma@@QAEXXZ
+?StaticInitClass@Component@ma@@SAXXZ
+?CopyBaseAttributes@Context@ma@@QAEXPBD0@Z

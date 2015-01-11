@@ -2,134 +2,170 @@
 #include "BulletPhysics/BulletUtil.h"
 
 namespace ma
-{	
-	BulletBoxCollisionShape::BulletBoxCollisionShape()
+{
+	IMPL_OBJECT(CollisionShape,Component)
+
+	void CollisionShape::RegisterObject(Context* context)
+	{
+		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Position", GetPosLS, SetPosLS, Vector3, Vector3::ZERO, AM_DEFAULT);
+		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Rotation", GetRotateLS, SetRotateLS, Quaternion, Quaternion::IDENTITY, AM_DEFAULT);
+		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Scale", GetScaleLS, SetScaleLS, Vector3, Vector3::UNIT_SCALE, AM_DEFAULT);
+	}
+
+	void CollisionShape::SetTransformLS(const Transform& tsfLS)
+	{
+		m_tsfLS = tsfLS;
+	}
+
+	void CollisionShape::SetPosLS(const Vector3& vPos)
+	{
+		Transform tsf = m_tsfLS;
+		tsf.m_vPos = vPos;
+		SetTransformLS(tsf);
+	}
+
+	void CollisionShape::SetRotateLS(const Quaternion& qRot)
+	{
+		Transform tsf = m_tsfLS;
+		tsf.m_qRot = qRot;
+		SetTransformLS(tsf);
+	}
+
+	void CollisionShape::SetScaleLS(const Vector3& vScale)
+	{
+		Transform tsf = m_tsfLS;
+		tsf.m_vScale = vScale;
+		SetTransformLS(tsf);
+	}
+
+	void CollisionShape::OnAddToSceneNode(SceneNode* pGameObj)
+	{
+		GetPhysicsSystem()->AddPhysicsObject(pGameObj);
+	}
+
+	IMPL_OBJECT(BoxCollisionShape,CollisionShape)
+	BoxCollisionShape::BoxCollisionShape()
 	{
 		m_vSize = Vector3(0,0,0);
 		m_pBtShape = NULL;
 	}
 
-	BulletBoxCollisionShape::~BulletBoxCollisionShape()
+	BoxCollisionShape::~BoxCollisionShape()
 	{
 
 	}
 
-	void BulletBoxCollisionShape::SetSize(const Vector3& vSize)
+	void BoxCollisionShape::RegisterObject(Context* context)
+	{
+		COPY_BASE_ATTRIBUTES(BoxCollisionShape,CollisionShape);
+
+		REF_ACCESSOR_ATTRIBUTE(BoxCollisionShape, "Size", GetSize, SetSize, Vector3, Vector3::UNIT_SCALE, AM_DEFAULT);
+	}
+
+	void BoxCollisionShape::SetSize(const Vector3& vSize)
 	{
 		m_vSize = vSize;
 	}
 
-	Vector3 BulletBoxCollisionShape::GetSize()
+	const Vector3& BoxCollisionShape::GetSize() const
 	{
 		return m_vSize;
 	}
 
-	void BulletBoxCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
-	{
-		sl.BeginSection(pszLable);
-		
-		sl.Serialize(m_tsfLS,"tsfLS");
-		sl.Serialize(m_vSize,"vSize");
-
-		sl.EndSection();
-	}
-
-	void* BulletBoxCollisionShape::Create()
+	void* BoxCollisionShape::Create()
 	{
 		m_pBtShape = new btBoxShape( ToBulletUnit( GetSize() ) * 0.5f );
 		return m_pBtShape;
 	}
 
-	BulletSphereCollisionShape::BulletSphereCollisionShape()
+	IMPL_OBJECT(SphereCollisionShape,CollisionShape)
+
+	SphereCollisionShape::SphereCollisionShape()
 	{
 		m_fRadius = 0;
 		m_pBtShape = NULL;
 	}
 
-	BulletSphereCollisionShape::~BulletSphereCollisionShape()
+	SphereCollisionShape::~SphereCollisionShape()
 	{
 
 	}
 
-	void BulletSphereCollisionShape::SetRadius(float fRadius)
+	void SphereCollisionShape::RegisterObject(Context* context)
+	{
+		COPY_BASE_ATTRIBUTES(SphereCollisionShape,CollisionShape);
+
+		ACCESSOR_ATTRIBUTE(SphereCollisionShape, "Radius", GetRadius, SetRadius, float, 0, AM_DEFAULT);
+	}
+
+	void SphereCollisionShape::SetRadius(float fRadius)
 	{
 		m_fRadius = fRadius;
 	}
 
-	float BulletSphereCollisionShape::GetRadius()
+	float SphereCollisionShape::GetRadius() const
 	{
 		return m_fRadius;
 	}
 
-	void BulletSphereCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_tsfLS,"tsfLS");
-		sl.Serialize(m_fRadius,"fRadius");
-
-		sl.EndSection();
-	}
-
-	void* BulletSphereCollisionShape::Create()
+	void* SphereCollisionShape::Create()
 	{
 		m_pBtShape = new btSphereShape( GetRadius() );
 		return m_pBtShape;
 	}
 
+		
+	IMPL_OBJECT(CapsuleCollisionShape,CollisionShape)
 
-	BulletCapsuleCollisionShape::BulletCapsuleCollisionShape()
+	CapsuleCollisionShape::CapsuleCollisionShape()
 	{
 		m_fRadius = 0;
 		m_fHeight = 0;
 		m_pBtShape = NULL;
 	}
 
-	BulletCapsuleCollisionShape::~BulletCapsuleCollisionShape()
+	CapsuleCollisionShape::~CapsuleCollisionShape()
 	{
 
 	}
 
-	void BulletCapsuleCollisionShape::SetHeight(float fHeight)
+	void CapsuleCollisionShape::RegisterObject(Context* context)
+	{
+		COPY_BASE_ATTRIBUTES(CapsuleCollisionShape,CollisionShape);
+
+		ACCESSOR_ATTRIBUTE(CapsuleCollisionShape, "Radius", GetRadius, SetRadius, float, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(CapsuleCollisionShape, "Height", GetHeight, SetHeight, float, 0, AM_DEFAULT);
+	}
+
+	void CapsuleCollisionShape::SetHeight(float fHeight)
 	{
 		m_fHeight = fHeight;
 	}
 
-	float BulletCapsuleCollisionShape::GetHeight() const
+	float CapsuleCollisionShape::GetHeight() const
 	{
 		return m_fHeight;
 	}
 
-	void BulletCapsuleCollisionShape::SetRadius(float fRadius)
+	void CapsuleCollisionShape::SetRadius(float fRadius)
 	{
 		m_fRadius = fRadius;
 	}
 
-	float BulletCapsuleCollisionShape::GetRadius() const
+	float CapsuleCollisionShape::GetRadius() const
 	{
 		return m_fRadius;
 	}
 
-	void BulletCapsuleCollisionShape::Serialize(Serializer& sl, const char* pszLable /* = "IBoxCollisionShape" */)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_tsfLS,"tsfLS");
-		sl.Serialize(m_fRadius,"fRadius");
-		sl.Serialize(m_fHeight,"fHeight");
-
-		sl.EndSection();
-	}
-
-	void* BulletCapsuleCollisionShape::Create()
+	void* CapsuleCollisionShape::Create()
 	{
 		m_pBtShape = new btCapsuleShape( GetRadius(), GetHeight() );
 		return m_pBtShape;
 	}
 
-	IMPL_OBJECT(BulletCollisionMaterial,Component)
+	IMPL_OBJECT(CollisionMaterial,Component)
 	
-	BulletCollisionMaterial::BulletCollisionMaterial()
+	CollisionMaterial::CollisionMaterial()
 	{
 		m_nCollLayer = 0;
 		m_friction = 0;
@@ -137,19 +173,15 @@ namespace ma
 		m_rollingFriction = 0;
 	}
 
-	void BulletCollisionMaterial::Serialize(Serializer& sl, const char* pszLable/* = "ICollisionMaterial"*/)
+	void CollisionMaterial::RegisterObject(Context* context)
 	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_nCollLayer,"CollLayer");
-		sl.Serialize(m_friction,"friction");
-		sl.Serialize(m_restitution,"restitution");
-		sl.Serialize(m_rollingFriction,"rollingFriction");
-
-		sl.EndSection();
+		ACCESSOR_ATTRIBUTE(CollisionMaterial, "CollLayer", GetCollLayer, SetCollLayer, int, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(CollisionMaterial, "Friction", GetFriction, SetFriction, float, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(CollisionMaterial, "Restitution", GetRestitution, SetRestitution, float, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(CollisionMaterial, "RollingFriction", GetRollingFriction, SetRollingFriction, float, 0, AM_DEFAULT);
 	}
 
-	void BulletCollisionMaterial::Start(btCollisionObject* pBtCollObject)
+	void CollisionMaterial::Start(btCollisionObject* pBtCollObject)
 	{
 		if (pBtCollObject == NULL)
 			return;

@@ -6,7 +6,7 @@
 
 #if PLATFORM_WIN == 1
 //#include "Samples/Serialize/SampleFbxImport.hxx"
-#include "Samples/Script/SampleMonoScript.hxx"
+//#include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
 #endif
@@ -50,6 +50,8 @@ namespace ma
 	{
 		m_bPause = false;
 		m_bStepOneFrame = false;
+		m_pCurSample = NULL;
+		m_pCameraControl = NULL;
 	}
 
 	SampleBrowser::~SampleBrowser()
@@ -64,7 +66,7 @@ namespace ma
 		D3D9RenderModuleInit();
 		//GLESRenderModuleInit();
 		//MonoScriptModuleInit();
-		//BtPhysicsModuleInit();
+		BtPhysicsModuleInit();
 		AnimationModuleInit();
 
 #else
@@ -78,7 +80,7 @@ namespace ma
 	{
 #if PLATFORM_WIN == 1
 		AnimationModuleShutdown();
-		//BtPhysicsModuleShutdown();
+		BtPhysicsModuleShutdown();
 		//MonoScriptModuleShutdown();
 		D3D9RenderModuleShutdown();
 #else
@@ -95,7 +97,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		//m_arrSamples["FbxImport"] = new SampleFbxImport();
 
-		m_arrSamples["CSharpScript"] = new SampleMonoScript();
+		//m_arrSamples["CSharpScript"] = new SampleMonoScript();
 
 		m_arrSamples["Lighting"] = new SampleLighting();
 		m_arrSamples["ShadowMap"] = new SampleShadowMap();
@@ -119,7 +121,8 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		m_pCurSample = m_arrSamples["AnimationRetarget"];
+		//m_pCurSample = m_arrSamples["RigidBody"];
+		RunSample("RigidBody");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -172,6 +175,9 @@ namespace ma
 			SAFE_DELETE(it->second);
 		}
 		m_arrSamples.clear();
+		
+		GetPhysicsSystem()->Stop();
+		GetPhysicsSystem()->ShoutDown();
 
 		Game::Shutdown();
 	}
@@ -181,10 +187,10 @@ namespace ma
 		InitResourcePath();
 		
 		Game::Init();
+
+		GetPhysicsSystem()->Init();
 	
 		LoadRenderScheme();
-
-		InitSampleList();
 
 		GetInput()->AddKeyListener(this);
 		
@@ -195,10 +201,7 @@ namespace ma
 	
 		//LoadUI();
 
-		if (m_pCurSample)
-		{
-			m_pCurSample->Load();
-		}
+		InitSampleList();
 	}
 
 	void SampleBrowser::RunSample(const char* pSampleNma)
@@ -211,6 +214,7 @@ namespace ma
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
+			GetPhysicsSystem()->Stop();
 
 			m_pCameraControl->ResetCamera();
 
@@ -220,6 +224,8 @@ namespace ma
 		Sample* pSameple = it->second;
 
 		pSameple->Load();
+		GetPhysicsSystem()->Start();
+
 		m_pCurSample = pSameple;
 	}
 
@@ -324,12 +330,12 @@ namespace ma
 
 	void SampleBrowser::OnPreUpdate(Scene* pScene)
 	{
-
+		GetPhysicsSystem()->BeginUpdate();
 	}
 
 	void SampleBrowser::OnPostUpdate(Scene* pScene)
 	{
-
+		GetPhysicsSystem()->EndUpdate();
 	}
 
 	void SampleBrowser::OnPreRender(Scene* pScene)

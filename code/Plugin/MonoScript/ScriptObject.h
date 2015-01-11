@@ -7,8 +7,10 @@ namespace ma
 	class ScriptClass;
 	class ClassField;
 
-	class ScriptObject : public Component
+	class MonoScriptAPI ScriptObject : public Component
 	{
+		DECL_OBJECT(ScriptObject)
+
 	public:
 		ScriptObject();
 

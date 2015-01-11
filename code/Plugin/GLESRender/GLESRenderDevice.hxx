@@ -121,7 +121,7 @@ namespace ma
 			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
 			{
-				GP_ERROR("Framebuffer status incomplete: 0x%x", fboStatus);
+				LogError("Framebuffer status incomplete: 0x%x", fboStatus);
 			}
 		}
 	}

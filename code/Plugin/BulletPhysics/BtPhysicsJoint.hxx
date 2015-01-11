@@ -2,32 +2,39 @@
 
 namespace ma
 {
-	void BulletPhysicsJoint::SetEnabled(bool enabled)
+	IMPL_OBJECT(PhysicsJoint,Component)
+
+	void PhysicsJoint::RegisterObject(Context* context)
+	{
+
+	}
+
+	void PhysicsJoint::SetEnabled(bool enabled)
 	{
 		m_bEnabled = enabled;
 		if (m_pConstraint)
 			m_pConstraint->setEnabled(enabled);
 	}
 
-	void BulletPhysicsJoint::SetBreakingImpulse(float impulse)
+	void PhysicsJoint::SetBreakingImpulse(float impulse)
 	{ 
 		m_fBreakingImpulse = impulse; 
 		if (m_pConstraint) 
 			m_pConstraint->setBreakingImpulseThreshold(impulse);
 	}
 
-	void BulletPhysicsJoint::Start()
+	void PhysicsJoint::Start()
 	{
 
 	}
 
-	void BulletPhysicsJoint::Stop()
+	void PhysicsJoint::Stop()
 	{
 
 	}
 
-
-	BulletPhysicsGenericJoint::BulletPhysicsGenericJoint()
+	IMPL_OBJECT(PhysicsGenericJoint,PhysicsJoint)
+	PhysicsGenericJoint::PhysicsGenericJoint()
 	{
 		m_pPhyObjB = NULL;
 		m_pConstraint = NULL;
@@ -43,8 +50,13 @@ namespace ma
 		m_bLinearLowerLimit = false;
 		m_bLinearUpperLimit = false;
 	}
+
+	void PhysicsGenericJoint::RegisterObject(Context* context)
+	{
+
+	}
 	
-	void	BulletPhysicsGenericJoint::SetAngularLowerLimit(const Vector3& limit)
+	void	PhysicsGenericJoint::SetAngularLowerLimit(const Vector3& limit)
 	{
 		m_bAngularLowerLimit= true;
 		m_vAngularLowerLimit= limit;
@@ -54,7 +66,7 @@ namespace ma
 		}
 	}
 
-	void	BulletPhysicsGenericJoint::SetAngularUpperLimit(const Vector3& limit)
+	void	PhysicsGenericJoint::SetAngularUpperLimit(const Vector3& limit)
 	{
 		m_bAngularUpperLimit = true;
 		m_vAngularUpperLimit = limit;
@@ -64,7 +76,7 @@ namespace ma
 		}
 	}
 
-	void	BulletPhysicsGenericJoint::SetLinearLowerLimit(const Vector3& limit)
+	void	PhysicsGenericJoint::SetLinearLowerLimit(const Vector3& limit)
 	{	
 		m_bLinearLowerLimit = true;
 		m_vLinearLowerLimit = limit;
@@ -74,7 +86,7 @@ namespace ma
 		}
 	}
 
-	void	BulletPhysicsGenericJoint::SetLinearUpperLimit(const Vector3& limit)
+	void	PhysicsGenericJoint::SetLinearUpperLimit(const Vector3& limit)
 	{
 		m_bLinearUpperLimit = true;
 		m_vLinearUpperLimit = limit;
@@ -89,14 +101,14 @@ namespace ma
 		if (pPhyObj == NULL)
 			return NULL;
 
-		BulletRigidBody* pRigidBody = pPhyObj->GetTypeComponent<BulletRigidBody>();
+		RigidBody* pRigidBody = pPhyObj->GetTypeComponent<RigidBody>();
 		if (pRigidBody == NULL)
 			return NULL;
 
 		return pRigidBody->GetbtRigidBody();
 	}
 
-	void	BulletPhysicsGenericJoint::Start()
+	void	PhysicsGenericJoint::Start()
 	{
 		btRigidBody* pRigidBodyA = GetbtRigidBody(m_pSceneNode);
 		btRigidBody* pRigidBodyB = GetbtRigidBody(m_pPhyObjB);
@@ -130,18 +142,24 @@ namespace ma
 			SetAngularUpperLimit(m_vAngularUpperLimit);
 	}
 
-	void BulletPhysicsGenericJoint::Stop()
+	void PhysicsGenericJoint::Stop()
 	{
 
 	}
 
-	BulletPhysicsHingeJoint::BulletPhysicsHingeJoint()
+	IMPL_OBJECT(PhysicsHingeJoint,PhysicsJoint)
+	PhysicsHingeJoint::PhysicsHingeJoint()
 	{
 		m_pConstraint = NULL;
 		m_pPhyObjB = NULL;
 	}
 
-	void BulletPhysicsHingeJoint::SetLimits(float minAngle, float maxAngle, float bounciness)
+	void PhysicsHingeJoint::RegisterObject(Context* context)
+	{
+
+	}
+
+	void PhysicsHingeJoint::SetLimits(float minAngle, float maxAngle, float bounciness)
 	{
 		m_fMinAngle = minAngle;
 		m_fMaxAngle = maxAngle;
@@ -152,12 +170,12 @@ namespace ma
 		}
 	}
 
-	void BulletPhysicsHingeJoint::Start()
+	void PhysicsHingeJoint::Start()
 	{
 
 	}
 
-	void BulletPhysicsHingeJoint::Stop()
+	void PhysicsHingeJoint::Stop()
 	{
 
 	}

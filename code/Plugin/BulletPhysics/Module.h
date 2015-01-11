@@ -7,6 +7,7 @@
 #include "BulletCollision/CollisionDispatch/btGhostObject.h"
 
 #include "BulletPhysics/Export.h"
+
 #include "BulletPhysics/BtCollisionShape.h"
 #include "BulletPhysics/BtCharacterController.h"
 #include "BulletPhysics/BtPhysicsJoint.h"

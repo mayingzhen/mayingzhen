@@ -54,7 +54,7 @@ namespace ma
 				if (startQuote == std::string::npos)
 				{
 					// We have started an "#include" but missing the leading quote "
-					GP_ERROR("Compile failed for shader '%s' missing leading \".", filepath);
+					LogError("Compile failed for shader '%s' missing leading \".", filepath);
 					return;
 				}
 				// find the end quote "
@@ -62,7 +62,7 @@ namespace ma
 				if (endQuote == std::string::npos)
 				{
 					// We have a start quote but missing the trailing quote "
-					GP_ERROR("Compile failed for shader '%s' missing trailing \".", filepath);
+					LogError("Compile failed for shader '%s' missing trailing \".", filepath);
 					return;
 				}
 
@@ -79,7 +79,7 @@ namespace ma
 				char* includedSource = (char*)pDataStream->GetPtr();
 				if (includedSource == NULL)
 				{
-					GP_ERROR("Compile failed for shader '%s' invalid filepath.", filepathStr.c_str());
+					LogError("Compile failed for shader '%s' invalid filepath.", filepathStr.c_str());
 					return;
 				}
 				else
@@ -107,7 +107,7 @@ namespace ma
 		char* shSource = (char*)pDataStream->GetPtr();
 		if (shSource == NULL)
 		{
-			GP_ERROR("Failed to read vertex shader from file '%s'.", vshPath);
+			LogError("Failed to read vertex shader from file '%s'.", shPath);
 			return NULL;
 		}
 

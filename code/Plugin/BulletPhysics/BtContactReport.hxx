@@ -111,7 +111,7 @@ namespace ma
 
 	void BulletContactReport::Update()
 	{
-		btDiscreteDynamicsWorld* pDynamicsWorld = GetDynamicsWorld();
+		btDiscreteDynamicsWorld* pDynamicsWorld = GetPhysicsSystem()->GetDynamicsWorld();
 		ASSERT(pDynamicsWorld);
 		if (pDynamicsWorld == NULL)
 			return;
@@ -260,7 +260,7 @@ namespace ma
 		btCollisionObject* pbtCollObj = (btCollisionObject*)proxy0->m_clientObject;
 		
 		SceneNode* pBulletPhysObj = (SceneNode*)pbtCollObj->getUserPointer();
-		BulletCollisionMaterial* pMaterial = pBulletPhysObj->GetTypeComponent<BulletCollisionMaterial>();
+		CollisionMaterial* pMaterial = pBulletPhysObj->GetTypeComponent<CollisionMaterial>();
 		if (pBulletPhysObj && pMaterial && pMaterial->GetCollLayer() == m_nTestLayer)
 		{
 			return true;
