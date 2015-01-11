@@ -72,6 +72,28 @@ namespace ma
 		mD3D9VertexBuffer->Unlock();
 	}
 
+	void D3D9VertexBuffer::NotifyOnDeviceDestroy()
+	{
+		SAFE_RELEASE(mD3D9VertexBuffer);
+	}
+
+	void D3D9VertexBuffer::NotifyOnDeviceLost()
+	{
+		if (m_descBuffer.Pool == D3DPOOL_DEFAULT)
+		{
+			SAFE_RELEASE(mD3D9VertexBuffer);
+		}
+	}
+
+	void D3D9VertexBuffer::NotifyOnDeviceReset()
+	{
+		if (m_descBuffer.Pool == D3DPOOL_DEFAULT)
+		{
+			ASSERT(mD3D9VertexBuffer == NULL);
+		}
+	}
+
+
 
 	IDirect3DVertexBuffer9 * D3D9VertexBuffer::GetD3DVertexBuffer()
 	{
