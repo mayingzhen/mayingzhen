@@ -42,13 +42,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../code"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="Common/stdafx.h"
 				WarningLevel="3"
+				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -497,11 +499,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Common\WarningPrefix.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Common\WarningSuffix.h"
+			RelativePath="..\..\code\Common\Warningfix.h"
 			>
 		</File>
 	</Files>

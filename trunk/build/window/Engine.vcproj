@@ -51,7 +51,7 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Engine/StdAfx.h"
 				WarningLevel="3"
-				WarnAsError="false"
+				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
