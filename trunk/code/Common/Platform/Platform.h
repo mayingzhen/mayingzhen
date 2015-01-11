@@ -26,11 +26,11 @@
 #define WINDOW_VSYNC        1
 
 
-int DisplayError(const char * title, 
-							const char * text, 
-							const char * description, 
-							const char * file, 
-							int line);
+// int DisplayError(const char * title, 
+// 							const char * text, 
+// 							const char * description, 
+// 							const char * file, 
+// 							int line);
 
 
 

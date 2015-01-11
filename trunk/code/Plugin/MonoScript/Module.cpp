@@ -10,14 +10,22 @@
 
 using namespace ma;
 
+Object* Create_ScriptObject() { return new ScriptObject();}
+
 void MonoScriptModuleInit()
 {
 	ScriptSystem* pScriptDevive = new ScriptSystem();
 	SetScriptSystem(pScriptDevive);
+
+	ScriptObject::StaticInitClass();
+	GetObjectFactoryManager()->RegisterObjectFactory("ScriptObject",Create_ScriptObject);
 }
 
 void MonoScriptModuleShutdown()
 {
+	ScriptObject::StaticShutdownClass();
+	GetObjectFactoryManager()->UnRegisterObjectFactory("ScriptObject",Create_ScriptObject);
+
 	ScriptSystem* pScriptDevive = (ScriptSystem*)GetScriptSystem();
 	delete pScriptDevive;
 	SetScriptSystem(NULL);

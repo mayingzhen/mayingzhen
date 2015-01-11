@@ -20,10 +20,10 @@ namespace ma
 		{
 			pGameObjA = m_pScene->CreateNode("physics");
 
-			RefPtr<BulletBoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BulletBoxCollisionShape>();
+			RefPtr<BoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BoxCollisionShape>();
  			pBoxCollisionComp->SetSize(Vector3(0.5,0.5,0.5));
 
-			m_pRigidBody = pGameObjA->CreateComponent<BulletRigidBody>();
+			m_pRigidBody = pGameObjA->CreateComponent<RigidBody>();
 			m_pRigidBody->SetUseGravity(false);
 
 			pGameObjA->Translate(Vector3(0,0,4));
@@ -32,7 +32,7 @@ namespace ma
 			for (int i = 0; i < 5; ++i)
 			{
 				std::string pName = pGameObjA->GetName();
-				pName += std::string("_clone"); //+ StringConverter::toString(i);
+				pName += std::string("_clone") + StringConverter::toString(i);
 				SceneNodePtr pClone = pGameObjA->Clone(pName.c_str());
 				pClone->Translate(Vector3(1 * i,0,1));
 			}
@@ -40,9 +40,9 @@ namespace ma
 
 			{
 				SceneNodePtr pGameObjSphere = m_pScene->CreateNode("Sphere");
-				RefPtr<BulletSphereCollisionShape> pSphereComp = pGameObjSphere->CreateComponent<BulletSphereCollisionShape>();
+				RefPtr<SphereCollisionShape> pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionShape>();
 				pSphereComp->SetRadius(2);
-				pGameObjSphere->CreateComponent<BulletRigidBody>();
+				pGameObjSphere->CreateComponent<RigidBody>();
 
 				pGameObjSphere->Translate(Vector3(1,0,8));
 			}
@@ -52,7 +52,7 @@ namespace ma
 		{
 			SceneNodePtr pGameObj = m_pScene->CreateNode("Terrain");
 
-			RefPtr<BulletBoxCollisionShape>  pBoxCollisionShape = pGameObj->CreateComponent<BulletBoxCollisionShape>();
+			RefPtr<BoxCollisionShape>  pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(10,10,0.5));
 		}
 

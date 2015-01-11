@@ -4,10 +4,13 @@
 namespace ma
 {
 
-	class BulletPhysicsJoint : public Component
+	class BULLETPHYSICS_API PhysicsJoint : public Component
 	{
+		DECL_OBJECT(PhysicsJoint)
 
 	public: 
+		static void		RegisterObject(Context* context);		
+		
 		float			GetBreakingImpulse() {return m_fBreakingImpulse;} 
 		void			SetBreakingImpulse(float impulse);
 
@@ -38,11 +41,14 @@ namespace ma
 	};
 
 
-	class BulletPhysicsGenericJoint : public BulletPhysicsJoint
+	class BULLETPHYSICS_API PhysicsGenericJoint : public PhysicsJoint
 	{
+		DECL_OBJECT(PhysicsGenericJoint)
 
 	public:
-		BulletPhysicsGenericJoint();
+		PhysicsGenericJoint();
+
+		static void		RegisterObject(Context* context);	
 
 		virtual void	SetAngularLowerLimit(const Vector3& limit); 
 
@@ -68,10 +74,14 @@ namespace ma
 		bool			m_bLinearUpperLimit;
 	};
 
-	class BulletPhysicsHingeJoint : public BulletPhysicsJoint
+	class BULLETPHYSICS_API PhysicsHingeJoint : public PhysicsJoint
 	{
+		DECL_OBJECT(PhysicsHingeJoint)
+
 	public:
-		BulletPhysicsHingeJoint();
+		PhysicsHingeJoint();
+
+		static void		RegisterObject(Context* context);	
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 

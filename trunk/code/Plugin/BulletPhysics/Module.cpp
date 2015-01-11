@@ -10,17 +10,37 @@
 #include "BulletPhysics/BtPhysicsSystem.hxx"
 #include "BulletPhysics/BtPhysicsThread.hxx"
 
+using namespace ma;
+
+#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
+#include <BulletPhysics/RTTIDecl.h>
+#undef RTTI_DECL
 
 void BtPhysicsModuleInit()
 {
-	ma::BtPhysicsSystem* pBtPhysicsSystem = new ma::BtPhysicsSystem();
-	ma::SetPhysicsSystem(pBtPhysicsSystem); 
+	PhysicsSystem* pBtPhysicsSystem = new PhysicsSystem();
+	SetPhysicsSystem(pBtPhysicsSystem); 
+
+#define RTTI_DECL(ClassType) \
+	ClassType::StaticInitClass(); \
+	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); \
+	ClassType::RegisterObject( GetContext() );
+#include <BulletPhysics/RTTIDecl.h>
+#undef RTTI_DECL
+
 }
 
 void BtPhysicsModuleShutdown()
 {
-	ma::BtPhysicsSystem* pBtPhysicsSystem = (ma::BtPhysicsSystem*)ma::GetPhysicsSystem();
+#define RTTI_DECL(ClassType) \
+	ClassType::StaticInitClass(); \
+	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);
+#include <BulletPhysics/RTTIDecl.h>
+#undef RTTI_DECL
+
+	PhysicsSystem* pBtPhysicsSystem = GetPhysicsSystem();
 	SAFE_DELETE(pBtPhysicsSystem);
+	SetPhysicsSystem(NULL);
 }
 
 

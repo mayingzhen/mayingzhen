@@ -281,8 +281,8 @@ namespace ma
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
-			nWidth = m_viewport.width;
-			nHeight = m_viewport.height;
+			nWidth = (int)m_viewport.width;
+			nHeight = (int)m_viewport.height;
 		}
 		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,bDepthStencil ? USAGE_DEPTHSTENCIL : USAGE_RENDERTARGET);
 		m_pRenderThread->RC_CreateRenderTarget(pTarget);

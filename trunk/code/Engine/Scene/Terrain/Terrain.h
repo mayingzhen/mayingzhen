@@ -124,7 +124,7 @@ namespace ma
 		bool WorldToCell(float x, float y, OUT int& i, OUT int& j) const;
 
 		template<class T>
-		void ResourceMapToData(Resource* pSrcResource,vector<T>& vecDestData,uint32& nWidth,uint32& nHeight);
+		void ResourceMapToData(Resource* pSrcResource,vector<T>& vecDestData,int& nWidth,int& nHeight);
 
 		int CalcIndex(int nXVert, int nYVert) const;
 
@@ -133,8 +133,8 @@ namespace ma
 		
 		VEC_TRUNK m_vecTrunk;
 
-		uint32 m_nXCellsAmount;
-		uint32 m_nYCellsAmount;
+		int m_nXCellsAmount;
+		int m_nYCellsAmount;
 
 		float m_fCellSpacing;
 		float m_fHeightSpacing;

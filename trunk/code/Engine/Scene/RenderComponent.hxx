@@ -17,6 +17,15 @@ namespace ma
 		m_pSceneNode->SetLastVisibleFrame(GetTimer()->GetFrameCount());
 	}
 
+	void RenderComponent::OnAddToSceneNode(SceneNode* pNode)
+	{
+		Component::OnAddToSceneNode(pNode);
+		
+		ASSERT(pNode && pNode->GetScene());
+		if (pNode && pNode->GetScene())
+			pNode->GetScene()->GetCullTree()->UpdateObject(this);
+	}
+		
 	void RenderComponent::OnTransformChange()
 	{
 		m_worldAABB = m_AABB;

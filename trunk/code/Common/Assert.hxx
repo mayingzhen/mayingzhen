@@ -1,79 +1,36 @@
 #include "Assert.h"
 #include "Log.h"
 
-#if PLATFORM_WIN == 1
-
-int AssertMsg(bool bOK, const char* text, const char* description, const char* file,int line)
+namespace ma
 {
-	if (bOK)
-		return DEBUG_CONTINUE;
-
-	HWND hwnd = GetActiveWindow();
-	if (!hwnd)
-		hwnd = GetLastActivePopup(hwnd);
-
-	const int BUFFER_SIZE = 1024;
-	const int MODULE_NAME_SIZE = 255;
-	char buffer[BUFFER_SIZE] = {0};
-	char program[MODULE_NAME_SIZE];
-
-	if (!GetModuleFileName(NULL, program, MODULE_NAME_SIZE))
+	void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,UINT nLine,const char* fmt,...)
 	{
-		strcpy(program, "<unknow application>");
+		if (!bOK)
+		{
+			const int len = 10240;
+			char buffer[len];
+
+			if (fmt)
+			{
+				va_list args;
+				va_start( args, fmt );
+				vsprintf( buffer, fmt, args );
+				va_end(args);
+			}
+			else
+			{
+				buffer[0] = '\0';
+			}
+
+			char szNum[16];
+			itoa(nLine, szNum, 10);
+			
+			DebugMsg("Assert Expr: %s, Occur: %s(%d), Desc: %s",pszExpr,pszFile,nLine,buffer);
+			assert(false);
+		}
 	}
-
-	_snprintf(buffer, BUFFER_SIZE, 
-		"Assert Failed \n\n"		\
-		"Program:      %s\n"		\
-		"File:         %s\n"		\
-		"Line:         %d\n"		\
-		"Error:        %s\n"		\
-		"Description:  %s\n",
-		program, file, line, text, description);
-
-	int iRet = ::MessageBox(hwnd, buffer, "xmEngine Run Time", 
-		MB_SYSTEMMODAL | MB_TOPMOST | MB_SETFOREGROUND | MB_ABORTRETRYIGNORE | MB_ICONERROR);
-	switch (iRet)
-	{
-	case IDABORT:
-		ExitProcess(-1);
-		return 0;
-
-	case IDRETRY:
-		return DEBUG_BACKPOINT;
-
-	case IDIGNORE:
-		return DEBUG_IGNORE;
-
-	}
-
-	return DEBUG_CONTINUE;
 }
 
-#elif PLATFORM_ANDROID == 1 
 
-int AssertMsg(bool bOk, const char* exper, const char* description, 
-				const char* file, int line)
-{
-	if (bOk)
-		return 0;
 
-	const int BUFFER_SIZE = 1024;
-	const int MODULE_NAME_SIZE = 255;
-	char buffer[BUFFER_SIZE] = {0};
-	char program[MODULE_NAME_SIZE];
 
-	snprintf(buffer, BUFFER_SIZE, 
-		"Assert Failed   \n"	    \
-		"exper:        %s\n"		\
-		"description:  %s\n"		\
-		"File:         %s\n"		\
-		"Line:         %d\n",		
-		exper, description, file, line);
-
-	ma::Log(buffer);
-
-	return 0;
-}
-
-#endif

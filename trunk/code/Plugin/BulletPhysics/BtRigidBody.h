@@ -6,38 +6,35 @@ class btRigidBody;
 
 namespace ma
 {
-	class BulletRigidBody : public Component
+	class BULLETPHYSICS_API RigidBody : public Component
 	{
+		DECL_OBJECT(RigidBody)
+
 	public:
-		BulletRigidBody();
+		RigidBody();
+
+		static void				RegisterObject(Context* context);
 
 		virtual void			SetUseGravity(bool bUseGravity);
-
-		virtual bool			IsUseGravity();
-
-		virtual bool			IsKinematic();
-
+		virtual bool			IsUseGravity() const;
+	
 		virtual	void			SetKinematic(bool bKinematic);
+		virtual bool			IsKinematic() const;
 
 		virtual void			SetMass(float fMass);
-
-		virtual float			GetMass();
+		virtual float			GetMass() const;
 
 		virtual void			SetLinearDamping(float fLinearDamping);
-
-		virtual float			GetLinearDamping();
+		virtual float			GetLinearDamping() const;
 
 		virtual void			SetAngularDamping(float fAngularDamping);
-
-		virtual float			GetAngularDamping();
+		virtual float			GetAngularDamping() const;
 
 		virtual	void			SetDeactivationTime(float fTime);
 
 		virtual	void			SetSleepingThresholds(float fLinear,float fAngular);
 
 		virtual	void			ApplyForce(Vector3 vForce);
-
-		virtual void			Serialize(Serializer& sl, const char* pszLable = "IRigidBody");
 
 		btRigidBody*			CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pm_pBtDynamicsWorld); 
 

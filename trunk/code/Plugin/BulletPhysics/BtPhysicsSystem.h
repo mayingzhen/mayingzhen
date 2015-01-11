@@ -3,53 +3,39 @@
 
 namespace ma
 {
-	class BulletPhysicsGenericJoint;
-	class BulletPhysicsHingeJoint;
+	class PhysicsGenericJoint;
+	class PhysicsHingeJoint;
 	class BulletPhysicsObject;
 	class PhysicsThread;
 
-	class BtPhysicsSystem :  public btIDebugDraw
+	class BULLETPHYSICS_API PhysicsSystem :  public btIDebugDraw
 	{
 	public:
-		BtPhysicsSystem();
+		PhysicsSystem();
 
-		virtual	void					Init();
+		void							Init();
 
-		virtual void					ShoutDown();
+		void							ShoutDown();
 
-		virtual	void					Start();
+		void							Start();
 
-		virtual void					Stop();
+		void							Stop();
 
-		virtual void					BeginUpdate();
+		void							BeginUpdate();
 
-		virtual	void					EndUpdate() ;
+		void							EndUpdate() ;
 
-		virtual void					DebugRender();
+		void							DebugRender();
 
-		virtual void					SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide);
+		void							SetLayerCollisionMask(uint8 nLayer,uint8 nColLayer,bool bCollide);
 
-		virtual Vector3					GetGravity() const;
+		Vector3							GetGravity() const;
 
-		virtual void					SetGravity(const Vector3& g);
+		void							SetGravity(const Vector3& g);
 
-// 		virtual	BulletRigidBody*		CreateRigidBody();
-// 
-// 		virtual BulletBoxCollisionShape*		CreateBoxCollisionShape();
-// 
-// 		virtual BulletSphereCollisionShape*	CreateSphereCollisionShape();
-// 
-// 		virtual BulletCapsuleCollisionShape* CreateCapsuleCollisionShape();
-// 		
-// 		virtual BulletCollisionMaterial*		CreateCollisionMaterial();
-// 
-// 		virtual BulletCharacterController*			CreateCharaControll();
-// 
-// 		virtual	BulletPhysicsGenericJoint*	CreatePhysicsGenericJoint();
-// 
-// 		virtual	BulletPhysicsHingeJoint*		CreatePhysicsHingeJoint();
-
-		virtual SceneNode*				RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+		SceneNode*						RayCastCloseGameObj(const Vector3& rayOrig, const Vector3& rayDir, int nCollLayer, Vector3& hitPosWS);
+		
+		void							AddPhysicsObject(SceneNode* pGameObj);
 
 		btDiscreteDynamicsWorld*		GetDynamicsWorld() {return m_pDynamicsWorld;}
 
@@ -70,7 +56,6 @@ namespace ma
 		virtual int						getDebugMode() const { return m_debugMode; }
 
 	protected:
-		void							AddPhysicsObject(SceneNode* pGameObj);
 
 		btCollisionObject*				InitCollObject(SceneNode* pGameObj);
 
@@ -92,14 +77,9 @@ namespace ma
 		int											m_debugMode;
 	};
 
-	BULLETPHYSICS_API void SetPhysicsSystem(BtPhysicsSystem* pPhysicsSystem);
+	BULLETPHYSICS_API void SetPhysicsSystem(PhysicsSystem* pPhysicsSystem);
 
-	BULLETPHYSICS_API BtPhysicsSystem* GetPhysicsSystem();
-
-	btDiscreteDynamicsWorld* GetDynamicsWorld()
-	{
-		return GetPhysicsSystem()->GetDynamicsWorld();
-	}
+	BULLETPHYSICS_API PhysicsSystem* GetPhysicsSystem();
 }
 
 #endif

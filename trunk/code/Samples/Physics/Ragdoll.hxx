@@ -53,7 +53,7 @@ namespace ma
 		{
 			SceneNode* pBoneObj = m_arrObject[i];
 
-			BulletRigidBody* pRigidBody = pBoneObj->GetTypeComponent<BulletRigidBody>();
+			RigidBody* pRigidBody = pBoneObj->GetTypeComponent<RigidBody>();
 			pRigidBody->SetKinematic(false);
 		}
 	}
@@ -107,12 +107,12 @@ namespace ma
 		SceneNode* pBoneNode = NULL;//CreateGameObject(pBoneName).get();
 		pBoneNode->SetTransformWS(tsfBone);
 
-		BulletCapsuleCollisionShape* pCapuleComp = pBoneNode->CreateComponent<BulletCapsuleCollisionShape>();
+		CapsuleCollisionShape* pCapuleComp = pBoneNode->CreateComponent<CapsuleCollisionShape>();
 		pCapuleComp->SetRadius(fRadius);
 		pCapuleComp->SetHeight(fHeight);
 		pCapuleComp->SetTransformLS(tsfOffset);
 
-		BulletRigidBody* pRigidComp = pBoneNode->CreateComponent<BulletRigidBody>();
+		RigidBody* pRigidComp = pBoneNode->CreateComponent<RigidBody>();
 		pRigidComp->SetMass(1.0f);
 		pRigidComp->SetLinearDamping(0.05f);
 		pRigidComp->SetAngularDamping(0.85f);
@@ -137,7 +137,7 @@ namespace ma
 		tsfBLS.m_vPos = pBoneObjB->GetMatrixWS().inverse() * vPosWS;
 		tsfBLS.m_qRot = pBoneObjB->GetRotationWS().Inverse();
 
-		BulletPhysicsGenericJoint* pJointComp = pBoneObjA->CreateComponent<BulletPhysicsGenericJoint>();
+		PhysicsGenericJoint* pJointComp = pBoneObjA->CreateComponent<PhysicsGenericJoint>();
 		pJointComp->SetPysicsObjectB(pBoneObjB);
 		pJointComp->SetATransformLS(tsfALS);
 		pJointComp->SetBTransformLS(tsfBLS);

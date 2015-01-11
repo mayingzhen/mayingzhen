@@ -4,7 +4,8 @@
 
 namespace ma
 {
-	BulletRigidBody::BulletRigidBody()
+	IMPL_OBJECT(RigidBody,Component)
+	RigidBody::RigidBody()
 	{
 		m_pRigidBody = NULL;
 		m_bUseGravity = true;
@@ -12,21 +13,30 @@ namespace ma
 		m_rbInfo = new btRigidBody::btRigidBodyConstructionInfo(1.0f,NULL,NULL);
 	}
 
-	void BulletRigidBody::SetUseGravity(bool bUseGravity)
+	void RigidBody::RegisterObject(Context* context)
+	{
+		ACCESSOR_ATTRIBUTE(RigidBody, "UseGravity", IsUseGravity, SetUseGravity, bool, true, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(RigidBody, "Kinematic", IsKinematic, SetKinematic, bool, false, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(RigidBody, "Mass", GetMass, SetMass, float, 1.0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(RigidBody, "LinearDamping", GetLinearDamping, SetLinearDamping, float, 0.0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(RigidBody, "AngularDamping", GetAngularDamping, SetAngularDamping, float, 0.0, AM_DEFAULT);
+	}
+
+	void RigidBody::SetUseGravity(bool bUseGravity)
 	{
 		if (m_pRigidBody)
 		{
 			if (!bUseGravity)
 				m_pRigidBody->setGravity(btVector3(0,0,0));
 			else
-				m_pRigidBody->setGravity( GetDynamicsWorld()->getGravity() );
+				m_pRigidBody->setGravity( GetPhysicsSystem()->GetDynamicsWorld()->getGravity() );
 
 			m_pRigidBody->activate();
 		}
 		m_bUseGravity = bUseGravity;
 	}
 
-	bool BulletRigidBody::IsUseGravity()
+	bool RigidBody::IsUseGravity() const
 	{
 		if (m_pRigidBody)
 		{
@@ -39,7 +49,7 @@ namespace ma
 		}
 	}
 
-	bool BulletRigidBody::IsKinematic()
+	bool RigidBody::IsKinematic() const
 	{
 		if (m_pRigidBody)
 		{
@@ -51,7 +61,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::SetKinematic(bool bKinematic)
+	void RigidBody::SetKinematic(bool bKinematic)
 	{	
 		if (m_pRigidBody)
 		{
@@ -65,7 +75,7 @@ namespace ma
 		m_bKinematic = bKinematic;
 	}
 
-	void BulletRigidBody::SetMass(float fMass)
+	void RigidBody::SetMass(float fMass)
 	{
 		if (m_pRigidBody)
 		{
@@ -74,7 +84,7 @@ namespace ma
 		m_rbInfo->m_mass = fMass;
 	}
 
-	float BulletRigidBody::GetMass()
+	float RigidBody::GetMass() const
 	{
 		if (m_pRigidBody)
 		{
@@ -86,7 +96,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::SetLinearDamping(float fLinearDamping)
+	void RigidBody::SetLinearDamping(float fLinearDamping)
 	{
 		if (m_pRigidBody)
 		{
@@ -95,7 +105,7 @@ namespace ma
 		m_rbInfo->m_linearDamping = fLinearDamping;
 	}
 
-	float BulletRigidBody::GetLinearDamping()
+	float RigidBody::GetLinearDamping() const
 	{
 		if (m_pRigidBody)
 		{
@@ -107,7 +117,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::SetAngularDamping(float fAngularDamping)
+	void RigidBody::SetAngularDamping(float fAngularDamping)
 	{
 		if (m_pRigidBody)
 		{
@@ -116,7 +126,7 @@ namespace ma
 		m_rbInfo->m_angularDamping = fAngularDamping;
 	}
 
-	float BulletRigidBody::GetAngularDamping()
+	float RigidBody::GetAngularDamping() const
 	{
 		if (m_pRigidBody)
 		{
@@ -128,7 +138,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::SetDeactivationTime(float fTime)
+	void RigidBody::SetDeactivationTime(float fTime)
 	{
 		if (m_pRigidBody)
 		{
@@ -140,7 +150,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::SetSleepingThresholds(float fLinear,float fAngular)
+	void RigidBody::SetSleepingThresholds(float fLinear,float fAngular)
 	{
 		if (m_pRigidBody)
 		{
@@ -153,7 +163,7 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::ApplyForce(Vector3 vForce)
+	void RigidBody::ApplyForce(Vector3 vForce)
 	{		
 		if (m_pRigidBody)
 		{
@@ -161,17 +171,8 @@ namespace ma
 		}
 	}
 
-	void BulletRigidBody::Serialize(Serializer& sl, const char* pszLable/* = "IRigidBody"*/)
-	{
-		sl.BeginSection(pszLable);
 
-		sl.Serialize(m_bUseGravity,"UseGravity");
-		sl.Serialize(m_bKinematic,"Kinematic");
-
-		sl.EndSection();
-	}
-
-	btRigidBody* BulletRigidBody::CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pBtDynamicsWorld)
+	btRigidBody* RigidBody::CreatebtRigidBody(btCompoundShape* pCompoundShape,btDiscreteDynamicsWorld* pBtDynamicsWorld)
 	{
 		btVector3 localInertia(0,0,0);
 		if (pCompoundShape)
@@ -194,7 +195,7 @@ namespace ma
 		return m_pRigidBody;
 	}
 
-	void BulletRigidBody::SetbtRigidBody(btRigidBody* pbtRigidBody)
+	void RigidBody::SetbtRigidBody(btRigidBody* pbtRigidBody)
 	{
 		m_pRigidBody = pbtRigidBody;
 	}

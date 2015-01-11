@@ -222,7 +222,7 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetRenderTarget(index, target);
-		ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+		ASSERT(hr == D3D_OK, "set render target failed.");
 	}
 
 	Texture* D3D9RenderDevice::GetRenderTarget(int index)
@@ -249,7 +249,7 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetDepthStencilSurface(target);
-		ASSERT_MSG(hr == D3D_OK, "set render target failed.");
+		ASSERT(hr == D3D_OK, "set render target failed.");
 	}
 
 	Texture* D3D9RenderDevice::GetDepthStencil()

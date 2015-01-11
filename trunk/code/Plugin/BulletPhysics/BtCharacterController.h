@@ -14,16 +14,20 @@ namespace ma
 		CF_Below,
 	};
 
-	class BulletCharacterController : public Component , public btActionInterface
+	class BULLETPHYSICS_API CharacterController : public Component , public btActionInterface
 	{
-	public:
-		BulletCharacterController();
+		DECL_OBJECT(CharacterController)
 
-		~BulletCharacterController();
+	public:
+		CharacterController();
+
+		~CharacterController();
+
+		static void							RegisterObject(Context* context);		
 
 		//virtual void						SetCollisionShape(ICapsuleCollisionShape* pCapsule) = 0;
 
-		virtual BulletCapsuleCollisionShape*		GetCollisionShape();
+		virtual CapsuleCollisionShape*		GetCollisionShape();
 
 		virtual void						SetStepOffset(float fStepOffset);
 
@@ -53,9 +57,7 @@ namespace ma
 		
 		float								m_fSetpOffset;
 
-		BulletCapsuleCollisionShape*		m_pCapsuleShape;
-		
-		//BulletPhysicsObject*				m_pPhysicsObject;
+		CapsuleCollisionShape*				m_pCapsuleShape;
 
 		float								m_touchSkin;	//Margin used for stay on ground
 		bool								m_bTouched;

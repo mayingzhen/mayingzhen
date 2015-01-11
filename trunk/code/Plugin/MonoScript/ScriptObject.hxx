@@ -5,6 +5,8 @@
 
 namespace ma
 {
+	IMPL_OBJECT(ScriptObject,Component)
+
 	ScriptObject::ScriptObject()
 	{
 		m_pScriptClass = NULL;

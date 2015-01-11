@@ -55,7 +55,7 @@ namespace ma
 			//if (vshPath)
 			//	writeShaderToErrorFile(vshPath, shaderSource[2]);
 
-			//GP_ERROR("Compile failed for vertex shader '%s' with error '%s'.", vshPath == NULL ? vshSource : vshPath, infoLog == NULL ? "" : infoLog);
+			//LogError("Compile failed for vertex shader '%s' with error '%s'.", vshPath == NULL ? vshSource : vshPath, infoLog == NULL ? "" : infoLog);
 			SAFE_DELETE_ARRAY(infoLog);
 
 			// Clean up.
@@ -88,7 +88,7 @@ namespace ma
 			//if (fshPath)
 			//	writeShaderToErrorFile(fshPath, shaderSource[2]);
 
-			//GP_ERROR("Compile failed for fragment shader (%s): %s", fshPath == NULL ? fshSource : fshPath, infoLog == NULL ? "" : infoLog);
+			//LogError("Compile failed for fragment shader (%s): %s", fshPath == NULL ? fshSource : fshPath, infoLog == NULL ? "" : infoLog);
 			SAFE_DELETE_ARRAY(infoLog);
 
 			// Clean up.
@@ -123,7 +123,7 @@ namespace ma
 				GL_ASSERT( glGetProgramInfoLog(program, length, NULL, infoLog) );
 				infoLog[length-1] = '\0';
 			}
-			GP_ERROR("Linking program failed (%s,%s): %s", vshPath == NULL ? "NULL" : vshPath, fshPath == NULL ? "NULL" : fshPath, infoLog == NULL ? "" : infoLog);
+			LogError("Linking program failed (%s,%s): %s", GetVSFile(),GetPSFile(),infoLog);
 			SAFE_DELETE_ARRAY(infoLog);
 
 			// Clean up.

@@ -8,8 +8,8 @@ namespace ma
 
 		m_bEnd = false;
 
-		if ( GetDynamicsWorld() )
-			GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
+		if ( GetPhysicsSystem()->GetDynamicsWorld() )
+			GetPhysicsSystem()->GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
 
 		m_bEnd = true;
 	}

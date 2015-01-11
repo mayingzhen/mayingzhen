@@ -25,7 +25,7 @@ namespace ma
 
 	void Component::OnRemoveFromSceneNode(SceneNode* pGameObj)
 	{
-		ASSERT(m_pSceneNode == pGameObj)
+		ASSERT(m_pSceneNode == pGameObj);
 		m_pSceneNode = NULL;
 	}
 

@@ -114,35 +114,23 @@ namespace ma
 		UINT nSize = m_arrComp.size();
 		sl.Serialize(nSize,"size");
 
-// 		if (nSize != m_arrComp.size())
-// 		{
-// 			m_arrComp.resize(nSize);
-// 		}
-
 		for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
 		{
 			char buf[32];
 			sprintf(&buf[0],"Element_%u",nCnt);
-
+		
 			if (sl.IsReading())
 			{
-				std::string strClassName;
-				sl.Serialize(strClassName,"ClassName");
+				Component* pComp = NULL;
+				SerializeObject<Component>(sl,pComp,buf);
 
-				Component* pComp = CreateObject<Component>(strClassName.c_str());
-				AddComponent(pComp);
-
-				pComp->Serialize(sl,buf);
+				this->AddComponent(pComp);
 			}
 			else
 			{
-				std::string strClassName = m_arrComp[nCnt]->GetClass()->GetName();
 				Component* pComp = m_arrComp[nCnt].get();
-
-				sl.Serialize(strClassName,"ClassName");
-
-				pComp->Serialize(sl,buf);
-			}			
+				SerializeObject<Component>(sl,pComp,buf);
+			}
  		}
 
 		sl.EndSection();

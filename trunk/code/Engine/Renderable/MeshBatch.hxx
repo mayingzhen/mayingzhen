@@ -107,7 +107,7 @@ namespace ma
 	{
 		if (capacity == 0)
 		{
-			GP_ERROR("Invalid resize capacity (0).");
+			LogError("Invalid resize capacity (0).");
 			return false;
 		}
 
@@ -137,7 +137,7 @@ namespace ma
 			vertexCapacity = capacity + 2;
 			break;
 		default:
-			GP_ERROR("Unsupported primitive type for mesh batch (%d).", m_ePrimitiveType);
+			LogError("Unsupported primitive type for mesh batch (%d).", m_ePrimitiveType);
 			return false;
 		}
 
@@ -147,7 +147,7 @@ namespace ma
 		unsigned int indexCapacity = vertexCapacity;
 		if (m_bIndexed && indexCapacity > USHRT_MAX)
 		{
-			GP_ERROR("Index capacity is greater than the maximum unsigned short value (%d > %d).", indexCapacity, USHRT_MAX);
+			LogError("Index capacity is greater than the maximum unsigned short value (%d > %d).", indexCapacity, USHRT_MAX);
 			return false;
 		}
 

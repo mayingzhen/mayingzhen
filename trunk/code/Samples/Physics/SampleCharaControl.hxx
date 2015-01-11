@@ -19,8 +19,8 @@ namespace ma
 
 		{
 			SceneNodePtr pCharaObj = m_pScene->CreateNode("Chara");		
-			RefPtr<BulletCharacterController> pCharComp = pCharaObj->CreateComponent<BulletCharacterController>();
-			BulletCapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
+			RefPtr<CharacterController> pCharComp = pCharaObj->CreateComponent<CharacterController>();
+			CapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
 			MeshComponentPtr pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -50,12 +50,12 @@ namespace ma
 		{
 			m_pTerrain = m_pScene->CreateNode("Terrain");
 	
-			RefPtr<BulletBoxCollisionShape> pBoxCollisionShape = m_pTerrain->CreateComponent<BulletBoxCollisionShape>();
+			RefPtr<BoxCollisionShape> pBoxCollisionShape = m_pTerrain->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(1800,1800,20));
 
 			{
 				SceneNodePtr pObje = m_pScene->CreateNode("Box1");
-				RefPtr<BulletBoxCollisionShape> pBox = pObje->CreateComponent<BulletBoxCollisionShape>();
+				RefPtr<BoxCollisionShape> pBox = pObje->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				pObje->Translate(Vector3(-100,0,20));
 			}
@@ -63,9 +63,9 @@ namespace ma
 
 			{
 				SceneNodePtr pObje2 = m_pScene->CreateNode("Box2");
-				RefPtr<BulletBoxCollisionShape> pBox = pObje2->CreateComponent<BulletBoxCollisionShape>();
+				RefPtr<BoxCollisionShape> pBox = pObje2->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
-				RefPtr<BulletRigidBody> pRigidBodyComp = pObje2->CreateComponent<BulletRigidBody>();
+				RefPtr<RigidBody> pRigidBodyComp = pObje2->CreateComponent<RigidBody>();
 				pObje2->Translate(Vector3(140,0,40));
 			}
 

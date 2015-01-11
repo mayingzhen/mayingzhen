@@ -102,7 +102,7 @@ namespace ma
 		char path[256];
 		if (!pSpriteProp->getPath("path", path))
 		{
-			GP_ERROR("Failed to load particle emitter: required image file path ('path') is missing.");
+			LogError("Failed to load particle emitter: required image file path ('path') is missing.");
 			return ;
 		}
 		info.m_sTexturePath = path;

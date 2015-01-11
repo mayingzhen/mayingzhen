@@ -5,7 +5,7 @@
 namespace ma
 {
 	Scene::Scene(const char* pszName)
-		:SceneNode(this,pszName)
+		:SceneNode(NULL,pszName)
 	{
 		m_sName = pszName ? pszName : "";
 
@@ -15,6 +15,7 @@ namespace ma
 		m_pRenderScheme = CreateRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
+		m_pScene = this;
 	}
 
 	SceneNode* Scene::CreateNode(const char* pName)
@@ -35,7 +36,7 @@ namespace ma
 
 	void Scene::Init()
 	{
-		ASSERT(m_pRenderScheme)
+		ASSERT(m_pRenderScheme);
 		if (m_pRenderScheme)
 			m_pRenderScheme->Init();
 	}
@@ -51,6 +52,9 @@ namespace ma
 	{
 		profile_code();
 
+		if (m_pCamera == NULL || m_pCullTree == NULL)
+			return;
+
 		if (m_pCallback)
 		{
 			m_pCallback->OnPreUpdate(this);
@@ -60,9 +64,6 @@ namespace ma
 		{
 			m_arrChild[i]->Update();
 		}
-
-		if (m_pCamera == NULL || m_pCullTree == NULL)
-			return;
 
 		m_arrRenderComp.clear();
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
@@ -85,12 +86,7 @@ namespace ma
 	{
 		if (m_pCamera == NULL)
 			return;
-
-		if (m_pCallback)
-		{
-			m_pCallback->OnPreUpdate(this);
-		}
-		
+	
 		GetRenderSystem()->BeginFrame();
 
 		if (m_pRenderTarget)
@@ -102,16 +98,21 @@ namespace ma
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
 
+
+		if (m_pCallback)
+		{
+			m_pCallback->OnPreRender(this);
+		}
+
 		if (m_pRenderScheme)
 			m_pRenderScheme->Render();
 
 		if (GetLineRender())
 			GetLineRender()->Render();
 
-
 		if (m_pCallback)
 		{
-			m_pCallback->OnPostUpdate(this);
+			m_pCallback->OnPosRender(this);
 		}
 
 		GetRenderSystem()->EndFrame();

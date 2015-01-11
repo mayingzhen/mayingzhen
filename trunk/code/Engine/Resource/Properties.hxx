@@ -69,7 +69,7 @@ Properties* Properties::create(const char* url)
 {
     if (!url || strlen(url) == 0)
     {
-        GP_ERROR("Attempting to create a Properties object from an empty URL!");
+        LogError("Attempting to create a Properties object from an empty URL!");
         return NULL;
     }
 
@@ -83,7 +83,7 @@ Properties* Properties::create(const char* url)
 	StreamPtr pStream = GetArchiveMananger()->Open( fileString.c_str() );
     if (pStream == NULL)
     {
-        GP_ERROR("Failed to open file '%s'.", fileString.c_str());
+        LogError("Failed to open file '%s'.", fileString.c_str());
         return NULL;
     }
 
@@ -95,7 +95,7 @@ Properties* Properties::create(const char* url)
     Properties* p = getPropertiesFromNamespacePath(properties, namespacePath);
     if (!p)
     {
-        GP_ERROR("Failed to load properties from url '%s'.", url);
+        LogError("Failed to load properties from url '%s'.", url);
         return NULL;
     }
 
@@ -137,7 +137,7 @@ void Properties::readProperties(Stream* stream)
         UINT nRead = stream->ReadLine(line, 2048);
         if (nRead <= 0)
         {
-            GP_ERROR("Error reading line from file.");
+            LogError("Error reading line from file.");
             return;
         }
 
@@ -158,7 +158,7 @@ void Properties::readProperties(Stream* stream)
                 name = strtok(line, "=");
                 if (name == NULL)
                 {
-                    GP_ERROR("Error parsing properties file: attribute without name.");
+                    LogError("Error parsing properties file: attribute without name.");
                     return;
                 }
 
@@ -169,7 +169,7 @@ void Properties::readProperties(Stream* stream)
                 value = strtok(NULL, "=");
                 if (value == NULL)
                 {
-                    GP_ERROR("Error parsing properties file: attribute with name ('%s') but no value.", name);
+                    LogError("Error parsing properties file: attribute with name ('%s') but no value.", name);
                     return;
                 }
 
@@ -209,7 +209,7 @@ void Properties::readProperties(Stream* stream)
                 name = trimWhiteSpace(name);
                 if (name == NULL)
                 {
-                    GP_ERROR("Error parsing properties file: failed to determine a valid token for line '%s'.", line);
+                    LogError("Error parsing properties file: failed to determine a valid token for line '%s'.", line);
                     return;
                 }
                 else if (name[0] == '}')
@@ -696,7 +696,7 @@ int Properties::getInt(const char* name) const
         scanned = sscanf(valueString, "%d", &value);
         if (scanned != 1)
         {
-            GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
+            LogError("Error attempting to parse property '%s' as an integer.", name);
             return 0;
         }
         return value;
@@ -715,7 +715,7 @@ float Properties::getFloat(const char* name) const
         scanned = sscanf(valueString, "%f", &value);
         if (scanned != 1)
         {
-            GP_ERROR("Error attempting to parse property '%s' as a float.", name);
+            LogError("Error attempting to parse property '%s' as a float.", name);
             return 0.0f;
         }
         return value;
@@ -734,7 +734,7 @@ long Properties::getLong(const char* name) const
         scanned = sscanf(valueString, "%ld", &value);
         if (scanned != 1)
         {
-            GP_ERROR("Error attempting to parse property '%s' as a long integer.", name);
+            LogError("Error attempting to parse property '%s' as a long integer.", name);
             return 0L;
         }
         return value;
@@ -758,7 +758,7 @@ long Properties::getLong(const char* name) const
 // 
 //         if (scanned != 16)
 //         {
-//             GP_ERROR("Error attempting to parse property '%s' as a matrix.", name);
+//             LogError("Error attempting to parse property '%s' as a matrix.", name);
 //             //out->setIdentity();
 // 			MatrixIdentity(out);
 //             return false;
@@ -786,7 +786,7 @@ bool Properties::getVector2(const char* name, Vector2* out) const
         scanned = sscanf(valueString, "%f,%f", &x, &y);
         if (scanned != 2)
         {
-            GP_ERROR("Error attempting to parse property '%s' as a two-dimensional vector.", name);
+            LogError("Error attempting to parse property '%s' as a two-dimensional vector.", name);
             *out = Vector2(0.0f, 0.0f);
             return false;
         }
@@ -811,7 +811,7 @@ bool Properties::getVector3(const char* name, Vector3* out) const
         scanned = sscanf(valueString, "%f,%f,%f", &x, &y, &z);
         if (scanned != 3)
         {
-            GP_ERROR("Error attempting to parse property '%s' as a three-dimensional vector.", name);
+            LogError("Error attempting to parse property '%s' as a three-dimensional vector.", name);
             *out = Vector3(0.0f, 0.0f, 0.0f);
             return false;
         }
@@ -836,7 +836,7 @@ bool Properties::getVector4(const char* name, Vector4* out) const
         scanned = sscanf(valueString, "%f,%f,%f,%f", &x, &y, &z, &w);
         if (scanned != 4)
         {
-            GP_ERROR("Error attempting to parse property '%s' as a four-dimensional vector.", name);
+            LogError("Error attempting to parse property '%s' as a four-dimensional vector.", name);
             *out = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
             return false;
         }
@@ -861,7 +861,7 @@ bool Properties::getVector4(const char* name, Vector4* out) const
 //         scanned = sscanf(valueString, "%f,%f,%f,%f", &x, &y, &z, &theta);
 //         if (scanned != 4)
 //         {
-//             GP_ERROR("Error attempting to parse property '%s' as an axis-angle rotation.", name);
+//             LogError("Error attempting to parse property '%s' as an axis-angle rotation.", name);
 //             *out = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 //             return false;
 //         }
@@ -901,7 +901,7 @@ bool Properties::getColor(const char* name, ColourValue* out) const
             valueString[0] != '#')
         {
             // Not a color string.
-            GP_ERROR("Error attempting to parse property '%s' as an RGBA color (not specified as a color string).", name);
+            LogError("Error attempting to parse property '%s' as an RGBA color (not specified as a color string).", name);
 			*out = ColourValue::Black;
             return false;
         }
@@ -910,7 +910,7 @@ bool Properties::getColor(const char* name, ColourValue* out) const
         unsigned int color;
         if (sscanf(valueString+1, "%x", &color) != 1)
         {
-            GP_ERROR("Error attempting to parse property '%s' as an RGBA color.", name);
+            LogError("Error attempting to parse property '%s' as an RGBA color.", name);
             *out = ColourValue::Black;
             return false;
         }
@@ -934,7 +934,7 @@ bool Properties::getColor(const char* name, ColourValue* out) const
 //             valueString[0] != '#')
 //         {
 //             // Not a color string.
-//             GP_ERROR("Error attempting to parse property '%s' as an RGBA color (not specified as a color string).", name);
+//             LogError("Error attempting to parse property '%s' as an RGBA color (not specified as a color string).", name);
 //             *out = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 //             return false;
 //         }
@@ -943,7 +943,7 @@ bool Properties::getColor(const char* name, ColourValue* out) const
 //         unsigned int color;
 //         if (sscanf(valueString+1, "%x", &color) != 1)
 //         {
-//             GP_ERROR("Error attempting to parse property '%s' as an RGBA color.", name);
+//             LogError("Error attempting to parse property '%s' as an RGBA color.", name);
 //             *out = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 //             return false;
 //         }
@@ -1079,7 +1079,7 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
             {
                 if (iter == NULL)
                 {
-                    GP_ERROR("Failed to load properties object from url.");
+                    LogError("Failed to load properties object from url.");
                     return NULL;
                 }
 
