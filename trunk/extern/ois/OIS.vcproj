@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="OIS"
 	ProjectGUID="{36D781A6-3F62-4A9F-B99D-21F3FB4DF621}"
+	RootNamespace="OIS"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="0"
 	>
@@ -17,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="OIS.dir\Debug"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -38,7 +39,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -56,16 +57,17 @@
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories="includes"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;CMAKE_INTDIR=\&quot;Debug\&quot;"
+				StringPooling="true"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
-				AssemblerListingLocation="Debug"
-				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="E:\work\ogre\Dependenices_hg\bin\Debug/OIS_d.pdb"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				DebugInformationFormat="3"
-				CompileAs="2"
+				DebugInformationFormat="4"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -73,13 +75,14 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;Debug\&quot;;OIS_EXPORTS"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
 				OutputFile="$(OutDir)\$(ProjectName)_D.lib"
 			/>
 			<Tool
@@ -121,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -137,14 +140,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;Release\&quot;;OIS_EXPORTS"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				AssemblerListingLocation="Release"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="E:\work\ogre\Dependenices_hg\bin\Release/OIS.pdb"
+				ProgramDataBaseFileName="bin\Release/OIS.pdb"
 				WarningLevel="3"
 				CompileAs="2"
 			/>
@@ -154,7 +157,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;Release\&quot;;OIS_EXPORTS"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -164,12 +167,12 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib&quot; &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxguid.lib&quot; "
-				OutputFile="E:\work\ogre\Dependenices_hg\bin\Release\OIS.dll"
+				OutputFile="bin\Release\OIS.dll"
 				Version="0.0"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="E:\work\ogre\Dependenices_hg\bin\Release\OIS.pdb"
-				ImportLibrary="E:\work\ogre\Dependenices_hg\src\ois\Release\OIS.lib"
+				ProgramDatabaseFile="bin\Release\OIS.pdb"
+				ImportLibrary="src\Release\OIS.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -216,7 +219,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -232,14 +235,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;OIS_EXPORTS"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				AssemblerListingLocation="MinSizeRel"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="E:\work\ogre\Dependenices_hg\bin\MinSizeRel/OIS.pdb"
+				ProgramDataBaseFileName="bin\MinSizeRel/OIS.pdb"
 				WarningLevel="3"
 				CompileAs="2"
 			/>
@@ -249,7 +252,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;;OIS_EXPORTS"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -259,12 +262,12 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib&quot; &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxguid.lib&quot; "
-				OutputFile="E:\work\ogre\Dependenices_hg\bin\MinSizeRel\OIS.dll"
+				OutputFile="bin\MinSizeRel\OIS.dll"
 				Version="0.0"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile="E:\work\ogre\Dependenices_hg\bin\MinSizeRel\OIS.pdb"
-				ImportLibrary="E:\work\ogre\Dependenices_hg\src\ois\MinSizeRel\OIS.lib"
+				ProgramDatabaseFile="bin\MinSizeRel\OIS.pdb"
+				ImportLibrary="src\MinSizeRel\OIS.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -311,7 +314,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				MkTypLibCompatible="false"
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
@@ -327,14 +330,14 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;OIS_EXPORTS"
 				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				AssemblerListingLocation="RelWithDebInfo"
 				ObjectFile="$(IntDir)\"
-				ProgramDataBaseFileName="E:\work\ogre\Dependenices_hg\bin\RelWithDebInfo/OIS.pdb"
+				ProgramDataBaseFileName="bin\RelWithDebInfo/OIS.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="2"
@@ -345,7 +348,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;WINVER=0x0500;OIS_NONCLIENT_BUILD;OIS_DYNAMIC_LIB;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;;OIS_EXPORTS"
-				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;E:\work\ogre\Dependenices_hg\src\ois\includes;"
+				AdditionalIncludeDirectories="&quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;;includes;"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -355,13 +358,13 @@
 				LinkLibraryDependencies="false"
 				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
 				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib&quot; &quot;D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxguid.lib&quot; "
-				OutputFile="E:\work\ogre\Dependenices_hg\bin\RelWithDebInfo\OIS.dll"
+				OutputFile="bin\RelWithDebInfo\OIS.dll"
 				Version="0.0"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="E:\work\ogre\Dependenices_hg\bin\RelWithDebInfo\OIS.pdb"
-				ImportLibrary="E:\work\ogre\Dependenices_hg\src\ois\RelWithDebInfo\OIS.lib"
+				ProgramDatabaseFile="bin\RelWithDebInfo\OIS.pdb"
+				ImportLibrary="src\RelWithDebInfo\OIS.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -393,83 +396,83 @@
 			Name="Source Files"
 			>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\hiddevice.cpp"
+				RelativePath=".\src\win32\extras\WiiMote\hiddevice.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISEffect.cpp"
+				RelativePath=".\src\OISEffect.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISException.cpp"
+				RelativePath=".\src\OISException.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISForceFeedback.cpp"
+				RelativePath=".\src\OISForceFeedback.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISInputManager.cpp"
+				RelativePath=".\src\OISInputManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISJoyStick.cpp"
+				RelativePath="src\OISJoyStick.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISKeyboard.cpp"
+				RelativePath="src\OISKeyboard.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\extras\LIRC\OISLIRC.cpp"
+				RelativePath="src\extras\LIRC\OISLIRC.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\extras\LIRC\OISLIRCFactoryCreator.cpp"
+				RelativePath="src\extras\LIRC\OISLIRCFactoryCreator.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\OISObject.cpp"
+				RelativePath="src\OISObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\OISWiiMote.cpp"
+				RelativePath="src\win32\extras\WiiMote\OISWiiMote.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.cpp"
+				RelativePath="src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.cpp"
+				RelativePath="src\win32\extras\WiiMote\OISWiiMoteForceFeedback.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.cpp"
+				RelativePath="src\win32\extras\WiiMote\OISWiiMoteRingBuffer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\extras\WiiMote\wiimote.cpp"
+				RelativePath="src\win32\extras\WiiMote\wiimote.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\Win32ForceFeedback.cpp"
+				RelativePath="src\win32\Win32ForceFeedback.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\Win32InputManager.cpp"
+				RelativePath="src\win32\Win32InputManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\Win32JoyStick.cpp"
+				RelativePath="src\win32\Win32JoyStick.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\Win32KeyBoard.cpp"
+				RelativePath="src\win32\Win32KeyBoard.cpp"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\src\win32\Win32Mouse.cpp"
+				RelativePath="src\win32\Win32Mouse.cpp"
 				>
 			</File>
 		</Filter>
@@ -477,138 +480,90 @@
 			Name="Header Files"
 			>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OIS.h"
+				RelativePath="includes\OIS.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISConfig.h"
+				RelativePath="includes\OISConfig.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISEffect.h"
+				RelativePath="includes\OISEffect.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISEvents.h"
+				RelativePath="includes\OISEvents.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISException.h"
+				RelativePath="includes\OISException.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISFactoryCreator.h"
+				RelativePath="includes\OISFactoryCreator.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISForceFeedback.h"
+				RelativePath="includes\OISForceFeedback.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISInputManager.h"
+				RelativePath="includes\OISInputManager.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISInterface.h"
+				RelativePath="includes\OISInterface.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISJoyStick.h"
+				RelativePath="includes\OISJoyStick.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISKeyboard.h"
+				RelativePath="includes\OISKeyboard.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISMouse.h"
+				RelativePath="includes\OISMouse.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISMultiTouch.h"
+				RelativePath="includes\OISMultiTouch.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISObject.h"
+				RelativePath="includes\OISObject.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\OISPrereqs.h"
+				RelativePath="includes\OISPrereqs.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32ForceFeedback.h"
+				RelativePath="includes\win32\Win32ForceFeedback.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32InputManager.h"
+				RelativePath="includes\win32\Win32InputManager.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32JoyStick.h"
+				RelativePath="includes\win32\Win32JoyStick.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32KeyBoard.h"
+				RelativePath="includes\win32\Win32KeyBoard.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32Mouse.h"
+				RelativePath="includes\win32\Win32Mouse.h"
 				>
 			</File>
 			<File
-				RelativePath="E:\work\ogre\Dependenices_hg\src\ois\includes\win32\Win32Prereqs.h"
+				RelativePath="includes\win32\Win32Prereqs.h"
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					Description="Building Custom Rule E:/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt"
-					CommandLine="&quot;D:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -HE:/work/ogre/Dependenices_hg -BE:/work/ogre/Dependenices_hg --check-stamp-file E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-					AdditionalDependencies="E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;"
-					Outputs="E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					Description="Building Custom Rule E:/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt"
-					CommandLine="&quot;D:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -HE:/work/ogre/Dependenices_hg -BE:/work/ogre/Dependenices_hg --check-stamp-file E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-					AdditionalDependencies="E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;"
-					Outputs="E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="MinSizeRel|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					Description="Building Custom Rule E:/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt"
-					CommandLine="&quot;D:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -HE:/work/ogre/Dependenices_hg -BE:/work/ogre/Dependenices_hg --check-stamp-file E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-					AdditionalDependencies="E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;"
-					Outputs="E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="RelWithDebInfo|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					Description="Building Custom Rule E:/work/ogre/Dependenices_hg/src/ois/CMakeLists.txt"
-					CommandLine="&quot;D:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -HE:/work/ogre/Dependenices_hg -BE:/work/ogre/Dependenices_hg --check-stamp-file E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-					AdditionalDependencies="E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;E:\work\ogre\Dependenices_hg\src\ois\CMakeLists.txt;"
-					Outputs="E:\work\ogre\Dependenices_hg\src\ois\CMakeFiles\generate.stamp"
-				/>
-			</FileConfiguration>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
