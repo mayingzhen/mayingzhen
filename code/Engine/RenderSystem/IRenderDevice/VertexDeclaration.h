@@ -15,8 +15,6 @@ namespace ma
 			
 		virtual void			RT_StreamComplete() = 0;
 
-		virtual	bool			IsActive() {return m_bActive;}
-
 		void					Init(UINT nVertexType);
 
 		void					AddElement(short number, short Offset, DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char index);
@@ -38,8 +36,6 @@ namespace ma
 		int						m_ElementCount;
 		
 		int						m_nStreamStride;
-
-		bool					m_bActive;
 	};
 
 	DeclareRefPtr(VertexDeclaration);

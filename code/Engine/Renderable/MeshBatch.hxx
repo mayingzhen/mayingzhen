@@ -144,7 +144,7 @@ namespace ma
 		// We have no way of knowing how many vertices will be stored in the batch
 		// (we only know how many indices will be stored). Assume the worst case
 		// for now, which is the same number of vertices as indices.
-		unsigned int indexCapacity = vertexCapacity;
+		UINT indexCapacity = vertexCapacity;
 		if (m_bIndexed && indexCapacity > USHRT_MAX)
 		{
 			LogError("Index capacity is greater than the maximum unsigned short value (%d > %d).", indexCapacity, USHRT_MAX);
@@ -155,18 +155,18 @@ namespace ma
 		// Allocate new data and reset pointers.
 		UINT voffset = m_pVerticesPtr - oldVertices;
 		UINT vBytes = vertexCapacity * m_pDeclaration->GetStreanmStride();
-		unsigned char* newVertices = new unsigned char[vBytes];
+		Byte* newVertices = new Byte[vBytes];
 		memset(newVertices, 0, vBytes);
 		if (voffset >= vBytes)
 			voffset = vBytes - 1;
 		m_pVerticesPtr = newVertices + voffset;
 
-		unsigned short* newIndices = NULL;
+		uint16* newIndices = NULL;
 		if (m_bIndexed)
 		{
-			unsigned int ioffset = m_pIndicesPtr - oldIndices;
-			newIndices = new unsigned short[indexCapacity];
-			memset(newIndices, 0, indexCapacity * sizeof(unsigned short) );
+			UINT ioffset = m_pIndicesPtr - oldIndices;
+			newIndices = new uint16[indexCapacity];
+			memset(newIndices, 0, indexCapacity * sizeof(uint16) );
 			if (ioffset >= indexCapacity)
 				ioffset = indexCapacity - 1;
 			m_pIndicesPtr = newIndices + ioffset;
@@ -178,7 +178,7 @@ namespace ma
 		SAFE_DELETE_ARRAY(oldVertices);
 
 		if (oldIndices)
-			memcpy(newIndices, oldIndices, Math::Min(m_nIndexCapacity, indexCapacity) * sizeof(unsigned short));
+			memcpy(newIndices, oldIndices, Math::Min(m_nIndexCapacity, indexCapacity) * sizeof(uint16));
 		SAFE_DELETE_ARRAY(oldIndices);
 
 		// Assign new capacities
@@ -190,15 +190,9 @@ namespace ma
 		//UpdateVB IB
 		if (m_bIndexed)
 		{
-			//SAFE_DELETE(m_pIndexBuffer);
-			//m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
-			//m_pIndexBuffer->SetData(newIndices,indexCapacity * sizeof(unsigned short),sizeof(unsigned short),USAGE_DYNAMIC);
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(newIndices,indexCapacity * sizeof(uint16),sizeof(newIndices),USAGE_DYNAMIC);
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
 		}
 
-		//SAFE_DELETE(m_pVertexBuffers);
-		//m_pVertexBuffers = GetRenderDevice()->CreateVertexBuffer();
-		//m_pVertexBuffers->SetData(newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 		m_pVertexBuffers = GetRenderSystem()->CreateVertexBuffer(newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 
 		return true;

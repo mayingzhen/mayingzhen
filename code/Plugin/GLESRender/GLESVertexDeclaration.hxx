@@ -12,7 +12,6 @@ namespace ma
 
 	void GLESVertexDeclaration::RT_StreamComplete()
 	{
-		m_bActive = true;
 	}
 
 }

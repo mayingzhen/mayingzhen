@@ -29,7 +29,7 @@ namespace ma
 		
 		VertexElement element[2];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		element[1] = VertexElement(0,12,DT_FLOAT4,DU_COLOR,0);
+		element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
 		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
 
 		m_pMeshBatch = new MeshBatch(pVertexDec.get(), PRIM_LINELIST, /*pEffect, */true, 1024);
@@ -45,11 +45,11 @@ namespace ma
 	{
 		LineVertex v[2];
 		v[0].pos = p0;
-		v[0].col = dwColor;
+		v[0].col = dwColor.getAsARGB();
 		v[1].pos = p1;
-		v[1].col = dwColor;
+		v[1].col = dwColor.getAsARGB();
 	
-		int index = GetRenderSystem()->GetThreadList();
+		int index = GetRenderSystem()->CurThreadFill();
 		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
 		arrLineVertex.push_back(v[0]);

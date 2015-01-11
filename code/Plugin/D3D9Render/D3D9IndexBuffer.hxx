@@ -18,11 +18,6 @@ D3D9IndexBuffer::~D3D9IndexBuffer()
 
 void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
-	if (!mD3D9IndexBuffer)
-	{
-		RT_StreamComplete();
-	}
-
     void * pData = NULL;
     DWORD D3DLock = 0;
 
@@ -74,8 +69,6 @@ void D3D9IndexBuffer::RT_StreamComplete()
 	memcpy(pLockData,m_pData,m_Size);
 
 	mD3D9IndexBuffer->Unlock();
-	
-	m_bActive = true;
 }
 
 
@@ -97,17 +90,11 @@ void D3D9IndexBuffer::NotifyOnDeviceReset()
 	if (m_descBuffer.Pool == D3DPOOL_DEFAULT)
 	{
 		ASSERT(mD3D9IndexBuffer == NULL);
-		//this->CreateBuffer()
 	}
 }
 
 IDirect3DIndexBuffer9 * D3D9IndexBuffer::GetD3DIndexBuffer() 
 {
-	if (!mD3D9IndexBuffer)
-	{
-		RT_StreamComplete();
-	}
-
     return mD3D9IndexBuffer;
 }
 

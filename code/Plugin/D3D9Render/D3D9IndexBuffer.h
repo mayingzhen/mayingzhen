@@ -20,9 +20,9 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
-		void NotifyOnDeviceDestroy();
-		void NotifyOnDeviceLost();
-		void NotifyOnDeviceReset();
+		virtual void	NotifyOnDeviceDestroy();
+		virtual void	NotifyOnDeviceLost();
+		virtual void	NotifyOnDeviceReset();
 
 	protected:
 		IDirect3DDevice9 *          mD3D9Device;

@@ -73,8 +73,8 @@ namespace ma
 		void				VertexDeclaComplete(VertexDeclaration* pDec);
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		
-		RefPtr<IndexBuffer>	CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_NO);
-		RefPtr<VertexBuffer> CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_NO);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<VertexBuffer> CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
 
 		void				OnFlushFrame();

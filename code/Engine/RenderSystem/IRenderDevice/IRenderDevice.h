@@ -75,7 +75,7 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture(const char* pszPath = NULL) = 0;
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_NO) = 0;
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;

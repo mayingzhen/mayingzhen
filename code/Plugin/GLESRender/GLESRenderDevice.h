@@ -18,7 +18,7 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_GLES2;}
 
 		virtual Texture*			CreateTexture(const char* pszPath = NULL);
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_NO);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();

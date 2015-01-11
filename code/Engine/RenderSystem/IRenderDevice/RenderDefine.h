@@ -41,7 +41,7 @@ namespace ma
 	*/
 	enum USAGE
 	{
-		USAGE_NO,
+		USAGE_STATIC,
 		USAGE_RENDERTARGET,
 		USAGE_DEPTHSTENCIL,
 		USAGE_DYNAMIC,
@@ -62,100 +62,6 @@ namespace ma
 		LOCK_READONLY       = 4,
 	};
 
-
-	/* enum: FORMAT
-	----------------------------------------------------------
-		@Remark:
-			格式类型(像素格式, 索引格式).        
-	----------------------------------------------------------
-	*/
-
-// 	enum FORMAT
-// 	{
-// 		FMT_UNKNOWN,
-// 
-// 		FMT_R8G8B8,
-// 		PF_A8R8G8B8,
-// 		FMT_X8R8G8B8,
-// 		FMT_R5G6B5,
-// 		FMT_X1R5G5B5,
-// 		FMT_A1R5G5B5,
-// 		FMT_A4R4G4B4,
-// 		FMT_R3G3B2,
-// 		FMT_A8,
-// 		FMT_A8R3G3B2,
-// 		FMT_X4R4G4B4,
-// 		FMT_A2B10G10R10,
-// 		FMT_A8B8G8R8,
-// 		FMT_X8B8G8R8,
-// 		FMT_G16R16,
-// 		FMT_A2R10G10B10,
-// 		FMT_A16B16G16R16,
-// 
-// 		FMT_A8P8,
-// 		FMT_P8,
-// 
-// 		FMT_L8,
-// 		FMT_A8L8,
-// 		FMT_A4L4,
-// 
-// 		FMT_V8U8,
-// 		FMT_L6V5U5,
-// 		FMT_X8L8V8U8,
-// 		FMT_Q8W8V8U8,
-// 		FMT_V16U16,
-// 		FMT_A2W10V10U10,
-// 
-// 		FMT_UYVY,
-// 		FMT_R8G8_B8G8,
-// 		FMT_YUY2,
-// 		FMT_G8R8_G8B8,
-// 		FMT_DXT1,
-// 		FMT_DXT2,
-// 		FMT_DXT3,
-// 		FMT_DXT4,
-// 		FMT_DXT5,
-// 
-// 		FMT_D16_LOCKABLE,
-// 		FMT_D32,
-// 		FMT_D15S1,
-// 		FMT_D24S8,
-// 		FMT_D24X8,
-// 		FMT_D24X4S4,
-// 		FMT_D16,
-// 
-// 		FMT_D32F_LOCKABLE,
-// 		FMT_D24FS8,
-// 
-// 		FMT_L16,
-// 
-// 		FMT_VERTEXDATA,
-// 
-// 		FMT_INDEX16,
-// 		FMT_INDEX32,
-// 
-// 		FMT_Q16W16V16U16,
-// 
-// 		FMT_MULTI2_ARGB8,
-// 
-// 		// Floating point surface formats(s10e5 formats <16-bits per channel>)
-// 		FMT_R16F,
-// 		FMT_G16R16F,
-// 		FMT_A16B16G16R16F,
-// 
-// 		// IEEE s23e8 formats (32-bits per channel)
-// 		FMT_R32F,
-// 		FMT_G32R32F,
-// 		FMT_A32B32G32R32F,
-// 
-// 		//D3D9 Ex
-// 		FMT_D32_LOCKABLE,
-// 		FMT_S8_LOCKABLE,
-// 		FMT_CxV8U8,
-// 		FMT_A1,
-// 		FMT_BINARYBUFFER,
-// 
-// 	};
 
 
 	/* enum: TEXTURE_TYPE
@@ -383,6 +289,53 @@ namespace ma
 		REPEAT,
 		CLAMP 
 	};
+
+	enum HBU_Usage 
+    {
+        /** Static buffer which the application rarely modifies once created. Modifying 
+        the contents of this buffer will involve a performance hit.
+        */
+        HBU_STATIC = 1,
+
+	    /** Indicates the application would like to modify this buffer with the CPU
+	    fairly often. 
+	    Buffers created with this flag will typically end up in AGP memory rather 
+	    than video memory.
+	    */
+	    HBU_DYNAMIC = 2,
+
+	    /** Indicates the application will never read the contents of the buffer back, 
+	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
+	    return a pointer to new, blank memory rather than the memory associated 
+	    with the contents of the buffer; this avoids DMA stalls because you can 
+	    write to a new memory area while the previous one is being used. 
+	    */
+	    HBU_WRITE_ONLY = 4,
+
+        /** Indicates that the application will be refilling the contents
+        of the buffer regularly (not just updating, but generating the
+        contents from scratch), and therefore does not mind if the contents 
+        of the buffer are lost somehow and need to be recreated. This
+        allows and additional level of optimisation on the buffer.
+        This option only really makes sense when combined with 
+        HBU_DYNAMIC_WRITE_ONLY.
+        */
+        HBU_DISCARDABLE = 8,
+
+		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
+		HBU_STATIC_WRITE_ONLY = 5, 
+
+		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
+        this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
+        instead if you update the entire contents of the buffer very 
+        regularly. 
+        */
+		HBU_DYNAMIC_WRITE_ONLY = 6,
+
+        /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
+        HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
+
+    };
 
 }
 

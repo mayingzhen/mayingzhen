@@ -37,8 +37,8 @@ namespace ma
 
 		struct LineVertex
 		{
-			Vector3 pos;
-			ColourValue   col;
+			Vector3			pos;
+			UINT			col;
 		};
 
 		std::vector<LineVertex> m_arrLineVertex[2];
