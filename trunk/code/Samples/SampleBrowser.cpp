@@ -6,7 +6,7 @@
 
 #if PLATFORM_WIN == 1
 //#include "Samples/Serialize/SampleFbxImport.hxx"
-//#include "Samples/Script/SampleMonoScript.hxx"
+#include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
 #endif
@@ -65,7 +65,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		D3D9RenderModuleInit();
 		//GLESRenderModuleInit();
-		//MonoScriptModuleInit();
+		MonoScriptModuleInit();
 		BtPhysicsModuleInit();
 		AnimationModuleInit();
 
@@ -81,7 +81,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
-		//MonoScriptModuleShutdown();
+		MonoScriptModuleShutdown();
 		D3D9RenderModuleShutdown();
 #else
 		AnimationModuleShutdown();
@@ -97,7 +97,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		//m_arrSamples["FbxImport"] = new SampleFbxImport();
 
-		//m_arrSamples["CSharpScript"] = new SampleMonoScript();
+		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 
 		m_arrSamples["Lighting"] = new SampleLighting();
 		m_arrSamples["ShadowMap"] = new SampleShadowMap();
@@ -121,8 +121,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		//m_pCurSample = m_arrSamples["RigidBody"];
-		RunSample("RigidBody");
+		RunSample("CSharpScript");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -176,8 +175,8 @@ namespace ma
 		}
 		m_arrSamples.clear();
 		
-		GetPhysicsSystem()->Stop();
 		GetPhysicsSystem()->ShoutDown();
+		GetScriptSystem()->ShutDown();
 
 		Game::Shutdown();
 	}
@@ -189,6 +188,7 @@ namespace ma
 		Game::Init();
 
 		GetPhysicsSystem()->Init();
+		GetScriptSystem()->Init();
 	
 		LoadRenderScheme();
 
@@ -215,6 +215,7 @@ namespace ma
 		{
 			m_pCurSample->UnLoad();
 			GetPhysicsSystem()->Stop();
+			GetScriptSystem()->Stop();
 
 			m_pCameraControl->ResetCamera();
 
@@ -225,6 +226,7 @@ namespace ma
 
 		pSameple->Load();
 		GetPhysicsSystem()->Start();
+		GetScriptSystem()->Start();
 
 		m_pCurSample = pSameple;
 	}

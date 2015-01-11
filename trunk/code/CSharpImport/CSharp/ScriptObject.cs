@@ -13,10 +13,10 @@ public class ScriptBase
 	}
 
 
-    public Input  m_input
-	{
-        get { return maEngine.GetInput(); }
-	}
+    //public Input  m_input
+	//{
+    //    get { return maEngine.GetInput(); }
+	//}
 
     public void AddCollisionListener()
     {

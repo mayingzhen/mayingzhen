@@ -90,7 +90,6 @@ EXPORTS
 ?getNamespace@Properties@ma@@QBEPBDXZ
 ?getNextNamespace@Properties@ma@@QAEPAV12@XZ
 ?GetId@Properties@ma@@QBEPBDXZ
-??0Rectangle@ma@@QAE@MMMM@Z
 ?getFloat@Properties@ma@@QBEMPBD@Z
 ?getVector2@Properties@ma@@QBE_NPBDPAVVector2@2@@Z
 ?getInt@Properties@ma@@QBEHPBD@Z
@@ -231,3 +230,18 @@ EXPORTS
 ?Init@ResourceSystem@ma@@QAEXXZ
 ?StaticInitClass@Component@ma@@SAXXZ
 ?CopyBaseAttributes@Context@ma@@QAEXPBD0@Z
+??0SceneNode@ma@@QAE@PAVScene@1@PBD@Z
+?SetPos@SceneNode@ma@@QAEXABVVector3@2@@Z
+?GetScale@SceneNode@ma@@QBEABVVector3@2@XZ
+?GetRotation@SceneNode@ma@@QBEABVQuaternion@2@XZ
+?SetRotation@SceneNode@ma@@QAEXABVQuaternion@2@@Z
+?GetPosWS@SceneNode@ma@@QBEABVVector3@2@XZ
+?SetPosWS@SceneNode@ma@@QAEXABVVector3@2@@Z
+?SetRotationWS@SceneNode@ma@@QAEXABVQuaternion@2@@Z
+?GetScaleWS@SceneNode@ma@@QBEABVVector3@2@XZ
+?SetScaleWS@SceneNode@ma@@QAEXABVVector3@2@@Z
+?Up@SceneNode@ma@@QAEXM@Z
+?LookAt@SceneNode@ma@@QAEXABVVector3@2@@Z
+?RemoveComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
+?RemoveChild@SceneNode@ma@@QAEXPAV12@@Z
+?RemoveAllChild@SceneNode@ma@@QAEXXZ
