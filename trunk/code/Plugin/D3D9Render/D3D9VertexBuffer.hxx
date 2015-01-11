@@ -14,18 +14,8 @@ namespace ma
 		SAFE_RELEASE(mD3D9VertexBuffer);
 	}
 
-	// void D3D9VertexBuffer::DeleteSelf()
-	// {
-	//     VideoBufferManager::Instance()->DestroyVertexBuffer(this);
-	// }
-
 	void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		if (!mD3D9VertexBuffer)
-		{
-			RT_StreamComplete();
-		}
-
 		void * pData = NULL;
 		DWORD D3DLock = 0;
 
@@ -80,44 +70,11 @@ namespace ma
 		memcpy(pLockData,m_pData,m_Size);
 
 		mD3D9VertexBuffer->Unlock();
-		
-		m_bActive = true;
 	}
 
 
 	IDirect3DVertexBuffer9 * D3D9VertexBuffer::GetD3DVertexBuffer()
 	{
-		if (!mD3D9VertexBuffer)
-		{
-			RT_StreamComplete();
-		}
-
 		return mD3D9VertexBuffer;
 	}
-
-// 	void D3D9VertexBuffer::LostDevice()
-// 	{
-// 		if (m_Usage == USAGE_DYNAMIC)
-// 		{
-// 			SAFE_RELEASE(mD3D9VertexBuffer);
-// 		}
-// 	}
-// 
-// 	void D3D9VertexBuffer::ResetDevice()
-// 	{
-// 		if (m_Usage == USAGE_DYNAMIC)
-// 		{
-// 			HRESULT hr = D3D_OK;
-// 			DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
-// 
-// 			hr = mD3D9Device->CreateVertexBuffer(m_Size, D3DUsage, 0, D3DPOOL_DEFAULT, &mD3D9VertexBuffer, NULL);
-// 
-// 			if (FAILED(hr))
-// 			{
-// 				//EXCEPTION("D3D Error: CreateVertexBuffer failed, desc: " + D3D9Mapping::GetD3DErrorDescription(hr));
-// 			}
-// 		}
-// 	}
-
-
 }

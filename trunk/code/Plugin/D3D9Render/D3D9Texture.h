@@ -10,7 +10,7 @@ namespace ma
 	public:
 		D3D9Texture(const char* pszPath);
 
-		D3D9Texture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_NO);
+		D3D9Texture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
 
 		~D3D9Texture();
 

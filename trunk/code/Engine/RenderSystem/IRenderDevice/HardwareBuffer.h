@@ -12,9 +12,8 @@ namespace ma
 		{
 			m_Stride = 0;
 			m_Size = 0;
-			m_Usage = USAGE_NO;
+			m_Usage = USAGE_STATIC;
 			m_pData = NULL;
-			m_bActive = false;
 		}
 
 		virtual ~HardwareBuffer()
@@ -28,8 +27,6 @@ namespace ma
 
 		virtual void	RT_StreamComplete() = 0;
 
-		virtual	bool	IsActive() {return m_bActive;}
-
 		int             GetSize() const; 
 
 		USAGE           GetUsage() const; 
@@ -40,7 +37,7 @@ namespace ma
 
 		void*			GetData() const;
 
-		void			SetData(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_NO);
+		void			SetData(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "HardwareBuffer");
 
@@ -50,7 +47,6 @@ namespace ma
 		USAGE           m_Usage;
 		void*			m_pData;
 		int				m_ePool;
-		bool			m_bActive;
 	};
 
 	inline void	HardwareBuffer::SetData(void* pData,UINT nSize,int nStride,USAGE eUsage)

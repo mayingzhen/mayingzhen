@@ -6,7 +6,6 @@ namespace ma
 	{
 		m_ElementCount = 0;
 		m_nStreamStride = 0;
-		m_bActive = false;
 	}
 
 	VertexDeclaration::~VertexDeclaration()

@@ -14,11 +14,6 @@ namespace ma
 		SAFE_RELEASE(mD3D9VertexDecl);
 	}
 
-	// void D3D9VertexDeclaration::DeleteSelf()
-	// {
-	//     VideoBufferManager::Instance()->DestroyVertexDeclaration(this);
-	// }
-
 	void D3D9VertexDeclaration::RT_StreamComplete()
 	{
 		D3DVERTEXELEMENT9 d3dve[MAX_ELEMENT];
@@ -42,8 +37,6 @@ namespace ma
 
 		HRESULT hr = mD3D9Device->CreateVertexDeclaration(d3dve, &mD3D9VertexDecl);
 		ASSERT(hr == D3D_OK);
-
-		m_bActive = true;
 	}
 
 	IDirect3DVertexDeclaration9 * D3D9VertexDeclaration::GetD3DVertexDeclaration()  

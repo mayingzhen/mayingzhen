@@ -107,13 +107,13 @@ namespace ma
 		if (m_pRenderScheme)
 			m_pRenderScheme->Render();
 
-		if (GetLineRender())
-			GetLineRender()->Render();
-
 		if (m_pCallback)
 		{
 			m_pCallback->OnPosRender(this);
 		}
+
+		if (GetLineRender())
+			GetLineRender()->Render();
 
 		GetRenderSystem()->EndFrame();
 	}

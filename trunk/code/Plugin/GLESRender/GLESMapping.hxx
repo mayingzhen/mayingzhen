@@ -7,7 +7,7 @@ namespace ma
 	{
 		switch(Usage)
 		{
-		case USAGE_NO:
+		case USAGE_STATIC:
 			return GL_STATIC_DRAW;
 		case USAGE_DYNAMIC:
 			return GL_STREAM_DRAW;

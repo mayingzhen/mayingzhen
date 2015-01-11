@@ -230,7 +230,7 @@ namespace ma
 					vector<uint16>& indexList  = bodyIBList[i];
 
 					RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-						&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16),USAGE_NO);
+						&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16),USAGE_STATIC);
 
 					matIdToIB[i] = pIB;
 				}
@@ -308,7 +308,7 @@ namespace ma
 				vector<uint16>& indexList  = borderIBList[i];
 
 				RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-					&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16),USAGE_NO);
+					&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16),USAGE_STATIC);
 
 				matAddIdToIB[i] = pIB;
 			}

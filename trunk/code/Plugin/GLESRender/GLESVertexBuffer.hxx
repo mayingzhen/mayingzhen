@@ -34,16 +34,10 @@ namespace ma
 		GL_ASSERT( glGenBuffers(1,& m_hVertexBufffer) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
 		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
-
-		m_bActive = true;
 	}
 
 	GLuint GLESVertexBuffer::GetVertexBuffer()
 	{
-		if (m_hVertexBufffer <= 0)
-		{
-			RT_StreamComplete();
-		}
 		return m_hVertexBufffer;
 	}
 }

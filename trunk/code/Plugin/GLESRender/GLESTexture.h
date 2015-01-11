@@ -10,7 +10,7 @@ namespace ma
 	public:
 		GLESTexture(const char* pszPath);
 
-		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_NO);
+		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
 
 		~GLESTexture();
 

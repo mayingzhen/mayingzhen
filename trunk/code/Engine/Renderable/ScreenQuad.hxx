@@ -50,7 +50,7 @@ namespace ma
 		
 		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer(quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
-		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer(indices,sizeof(unsigned short) * 4,sizeof(unsigned short));
+		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer(indices,sizeof(uint16) * 4,sizeof(uint16));
 
 		gpScrenQuad->m_pDeclaration = pVertexDec;
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;

@@ -11,7 +11,7 @@ namespace ma
 		m_nWidth = 0;
 		m_nHeight = 0;
 		m_nMipLevels = 1;
-		m_eUsage = USAGE_NO;
+		m_eUsage = USAGE_STATIC;
 		m_eFormat = PF_UNKNOWN;
 		m_eType = TEXTYPE_2D;
 		m_bAutoMipMap = true;

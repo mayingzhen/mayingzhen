@@ -133,8 +133,6 @@ namespace ma
 		if ( GetLineRender() )
 			GetLineRender()->OnFlushFrame();
 
-		//if ( GetUISystem() )
-		//	GetUISystem()->OnFlushFrame();
 
 		if ( GetParticleSystem() )
 			GetParticleSystem()->OnFlushFrame();
@@ -148,8 +146,6 @@ namespace ma
 			m_arrScene[i] = NULL;
 		}
 		m_arrScene.clear();
-		
-		//GetUISystem()->Shutdown();
 
 		GetLineRender()->ShutDown();
 
@@ -183,8 +179,6 @@ namespace ma
 		m_viewport = GetRenderDevice()->GetViewport();
 	
 		GetLineRender()->Init();
-
-		//GetUISystem()->Init();
 
 		ScreenQuad::Init();
 		UnitSphere::Init();
@@ -233,21 +227,21 @@ namespace ma
 
 		pTechnique->Bind();
 		
-		if (m_pCurVertexDecla != pRenderable->m_pDeclaration && pRenderable->m_pDeclaration->IsActive())
+		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
 			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
 
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
 		
-		if (m_pCurVB != pRenderable->m_pVertexBuffers && pRenderable->m_pVertexBuffers->IsActive())
+		if (m_pCurVB != pRenderable->m_pVertexBuffers)
 		{
 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
 
 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
 		}
 		
-		if (m_pCurIB != pRenderable->m_pIndexBuffer && pRenderable->m_pIndexBuffer->IsActive())
+		if (m_pCurIB != pRenderable->m_pIndexBuffer)
 		{
 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
 
@@ -265,12 +259,34 @@ namespace ma
 		if (pRenderable == NULL)
 			return;
 
-		if (pRenderable->m_pSubMeshData->m_nVertexCount <= 0)
+		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
+		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
 		m_pRenderContext->SetCurRenderObj(pRenderable);
 
 		pTechnique->Bind();
+
+		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
+		{
+			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
+
+			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
+		}
+
+// 		if (m_pCurVB != pRenderable->m_pVertexBuffers)
+// 		{
+// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
+// 
+// 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
+// 		}
+// 
+// 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
+// 		{
+// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+// 
+// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
+// 		}
 
 		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
@@ -436,7 +452,8 @@ namespace ma
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage);
-		m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
+		if (eUsage != USAGE_DYNAMIC)
+			m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
 
@@ -444,7 +461,8 @@ namespace ma
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage);
-		m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
+		if (eUsage != USAGE_DYNAMIC)
+			m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}
 
