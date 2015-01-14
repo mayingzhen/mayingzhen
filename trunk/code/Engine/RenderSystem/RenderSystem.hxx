@@ -520,6 +520,11 @@ namespace ma
 		m_pRenderThread->RC_SetVector4(uniform,value);
 	}
 
+	void RenderSystem::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
+	{
+		SetValue(uniform,(const Vector4*)values,count * 4);
+	}
+
 	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		if (values == NULL)

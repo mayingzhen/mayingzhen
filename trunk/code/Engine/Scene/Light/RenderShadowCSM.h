@@ -22,6 +22,8 @@ namespace ma
 		LightFrustum_Cull,		// ÍêÕûµÄLight Frustum
 	};
 
+	class SamplerState;
+
 	class RenderShadowCSM : public DirectonalLight
 	{
 	public:
@@ -39,7 +41,7 @@ namespace ma
 
 		
 		const Matrix4*		GetShadowMatrix() const {return m_matShadow;}
-		Texture*			GetShadowMap() const; 
+		SamplerState*		GetShadowMap() const {return m_pShadowMap.get();} 
 
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
 		Shadow_Blur			GetShadowBlurLevel() const {return m_eShadowBleurLevel;}
@@ -54,17 +56,18 @@ namespace ma
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
-		int					GetMaxSplitCount() const {return m_nMaxSplitCount;}
+		UINT				GetMaxSplitCount() const {return m_nMaxSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}
 		const Vector4&		GetCurSplitPos() const {return m_curSplitPos;}
 		
 		int					GetShadowMapSize() const {return m_nShadowMapSize;}
 		void				SetShadowMapSize(int nSize);
+		Vector4				GetShadowMapTexSize() const {return Vector4(m_nShadowMapSize, 1.0f / m_nShadowMapSize, 0, 0);}
 
 		void				SetShadowFadeStart(float fFadeStart) {m_fShadowFadeStart = fFadeStart;}
 		float				GetShadowFadeStart() const {return m_fShadowFadeStart;}
-		const Vector4&		GetShadowDepthFade() {return m_vShadowDepthFade;}
+		const Vector4&		GetShadowDepthFade() const {return m_vShadowDepthFade;}
 		
 		void				GetDepthBiasParams(float& fConstantBias, float& fSlopeScaleBias) const;
 		void				SetDepthBiasParams(float fConstantBias, float fSlopeScaleBias);
@@ -88,6 +91,7 @@ namespace ma
 		RefPtr<Texture>		m_pDepthStencil;
 		int					m_nShadowMapSize;
 		Rectangle			m_viewport;
+		RefPtr<SamplerState> m_pShadowMap;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
 		Matrix4				m_matShadow[MAX_FRUSTUM_SPLIT_NUM];

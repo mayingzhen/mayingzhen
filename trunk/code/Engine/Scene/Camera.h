@@ -40,7 +40,7 @@ namespace ma
 
 		void				AdjustPlanes(const AABB& aabbWorld);
 
-		void				GetWorldRayCast(const Vector2& clientSize,const Vector2& mousePos, Vector3& worldOrig, Vector3& worldDir);
+		Ray					GetWorldRayCast(const Vector2& mousePos);
 
 		const Frustum&		GetFrustum() const {return m_frustum;}
 
@@ -57,6 +57,8 @@ namespace ma
 		float				m_fFOV;	
 		float				m_fNear;
 		float				m_fFar;
+		uint32				m_nWidth;
+		uint32				m_nHeight;
 
 		float				m_fNearMin;		
 

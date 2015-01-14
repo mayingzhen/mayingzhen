@@ -106,7 +106,6 @@ EXPORTS
 ?SetProjectionMatrix@SpriteBatch@ma@@QAEXABVMatrix4@2@@Z
 ?getVector4@Properties@ma@@QBE_NPBDPAVVector4@2@@Z
 ?Draw@SpriteBatch@ma@@QAEXMMMMMMMMMABVColourValue@2@_N@Z
-
 ?GetStateBlock@SpriteBatch@ma@@QBEAAURenderState@2@XZ
 ?Reset@MeshBatch@ma@@QAEXXZ
 ?getColor@Properties@ma@@QBE_NPBDPAVColourValue@2@@Z
@@ -152,7 +151,6 @@ EXPORTS
 ?Close@XMLInputSerializer@ma@@QAE_NXZ
 ??1XMLOutputSerializer@ma@@UAE@XZ
 ??0XMLOutputSerializer@ma@@QAE@XZ
-?GetWorldRayCast@Camera@ma@@QAEXABVVector2@2@0AAVVector3@2@1@Z
 ?GetRotationWS@SceneNode@ma@@QBEABVQuaternion@2@XZ
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
@@ -250,3 +248,5 @@ EXPORTS
 ?GetRenderShadowCSM@ma@@YAPAVRenderShadowCSM@1@XZ
 ?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
 ?SetDirectionalLight@Scene@ma@@QAEXABVColourValue@2@ABVVector3@2@@Z
+?GetWorldRayCast@Camera@ma@@QAE?AVRay@2@ABVVector2@2@@Z
+?GetHeight@Terrain@ma@@QBEMMM@Z

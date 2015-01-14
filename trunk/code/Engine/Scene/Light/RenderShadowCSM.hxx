@@ -188,10 +188,16 @@ namespace ma
 
 	void RenderShadowCSM::CreateShadowMap(int nSize)
 	{
+		m_pShadowMap = new SamplerState();
+		m_pShadowMap->SetFilterMode(TFO_POINT);
+		m_pShadowMap->SetWrapMode(CLAMP);
+
 		if (GetDeviceCapabilities()->GetDepthTextureSupported())
 		{
 			m_pDepthStencil = GetRenderSystem()->CreateRenderTexture(nSize, nSize, PF_D24S8, USAGE_DEPTHSTENCIL);
 			m_pShdowDepth = GetRenderSystem()->CreateRenderTexture(nSize, nSize, PF_A8R8G8B8, USAGE_RENDERTARGET);
+		
+			m_pShadowMap->SetTexture(m_pDepthStencil.get());
 		}
 		else
 		{
@@ -203,6 +209,8 @@ namespace ma
 			
 			m_pDepthStencil = GetRenderSystem()->CreateDepthStencil(nSize, nSize, PF_D24S8);
 			m_pShdowDepth = GetRenderSystem()->CreateRenderTexture(nSize, nSize, format, USAGE_RENDERTARGET);
+		
+			m_pShadowMap->SetTexture(m_pShdowDepth.get());
 		}
 
 		m_viewport = Rectangle(0, 0, (float)nSize, (float)nSize);
@@ -248,13 +256,13 @@ namespace ma
 		m_fSlopeScaledBias = Math::Clamp<float>(fSlopeScaleBias,-16.0f,16.0f);
 	}
 
-	Texture* RenderShadowCSM::GetShadowMap() const 
-	{
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-			return m_pDepthStencil.get();
-		else
-			return m_pShdowDepth.get();
-	}
+// 	Texture* RenderShadowCSM::GetShadowMap() const 
+// 	{
+// 		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+// 			return m_pDepthStencil.get();
+// 		else
+// 			return m_pShdowDepth.get();
+// 	}
 
 	void RenderShadowCSM::SetShadowBlurLevel(Shadow_Blur eBlur)
 	{

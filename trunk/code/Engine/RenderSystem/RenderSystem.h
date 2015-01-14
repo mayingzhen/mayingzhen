@@ -61,6 +61,7 @@ namespace ma
 		void				SetValue(Uniform* uniform, const Vector2& value);
 		void				SetValue(Uniform* uniform, const Vector3& value);
 		void				SetValue(Uniform* uniform, const Vector4& value);
+		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count = 1);
 		void				SetValue(Uniform* uniform, const Vector4* values, UINT count = 1);
 		void				SetValue(Uniform* uniform, const ColourValue& value);
 		void				SetValue(Uniform* uniform, const SamplerState* sampler);

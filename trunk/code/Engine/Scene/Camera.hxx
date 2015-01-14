@@ -31,7 +31,7 @@ namespace ma
 		Matrix4 matView = m_pSceneNode->GetMatrixWS().inverse();
 		m_matViewProj.SetMatView(matView);
 	
-		m_frustum.Update(m_matViewProj.GetMatViewProj(),false);
+		m_frustum.Update(m_matViewProj.GetMatViewProj(),GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
 	}
 
 
@@ -131,20 +131,44 @@ namespace ma
 		SetPerspective(m_fFOV,fAsPect,m_fNear,m_fFar);
 	}
 
-	void Camera::GetWorldRayCast(const Vector2& clientSize,const Vector2& point, Vector3& worldOrig, Vector3& worldDir)
+	Ray Camera::GetWorldRayCast(const Vector2& mousePos)
 	{
-		float viewportW = clientSize.x;
-		float viewPortH = clientSize.y;
+		ASSERT(m_nWidth > 0 && m_nHeight > 0);
 
-		Matrix4 matVPInv = m_matViewProj.GetMatViewProj().inverse();
+		Real nx = (2.0f * mousePos.x)/m_nWidth - 1.0f;
+		Real ny = 1.0f - (2.0f * mousePos.y)/m_nHeight;
 
-		Vector3 vProj0( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, -1.0f);
-		Vector3 vProj1( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, 0.0f);
-		Vector3 vWorld0 = matVPInv * vProj0;
-		Vector3 vWorld1 = matVPInv * vProj1;
+		// Use midPoint rather than far point to avoid issues with infinite projection
+		Vector3 farPoint (nx, ny,  1.f);
 
-		worldOrig = vWorld0;
-		worldDir = (vWorld1 - vWorld0).normalisedCopy();
+		// Get ray origin and ray target on near plane in world space
+		Vector3 rayOrigin = this->GetSceneNode()->GetPosWS();
+		Vector3 rayTarget = GetMatViewProj().inverse() * farPoint;
+
+		Vector3 rayDirection = rayTarget - rayOrigin;
+		rayDirection.normalise();
+
+		// when the camera pos is too big, m_matInverseVP is -1.#N
+		//ASSERT(IsCorrectNumber(rayOrigin.x) && IsCorrectNumber(rayOrigin.y) && IsCorrectNumber(rayOrigin.z));
+		//ASSERT(IsCorrectNumber(rayDirection.x) && IsCorrectNumber(rayDirection.y) && IsCorrectNumber(rayDirection.z));
+
+		Ray ray;
+		ray.setOrigin(rayOrigin);
+		ray.setDirection(rayDirection);
+		return ray;
+
+// 		float viewportW = clientSize.x;
+// 		float viewPortH = clientSize.y;
+// 
+// 		Matrix4 matVPInv = m_matViewProj.GetMatViewProj().inverse();
+// 
+// 		Vector3 vProj0( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, -1.0f);
+// 		Vector3 vProj1( 2.0f * point.x / viewportW  - 1.0f, -2.0f * point.y / viewPortH + 1.0f, 0.0f);
+// 		Vector3 vWorld0 = matVPInv * vProj0;
+// 		Vector3 vWorld1 = matVPInv * vProj1;
+// 
+// 		worldOrig = vWorld0;
+// 		worldDir = (vWorld1 - vWorld0).normalisedCopy();
 	}
 
 	void Camera::AdjustPlanes(const AABB& aabbWorld)

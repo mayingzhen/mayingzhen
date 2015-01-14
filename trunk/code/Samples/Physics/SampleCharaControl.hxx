@@ -140,16 +140,13 @@ namespace ma
 	{
 		int width,height;
 		Platform::GetInstance().GetWindowSize(width,height);
-		Vector2 clientSize( (float)width, (float)height ); 
 
-		Vector3 rayOrig;
-		Vector3 rayDir;
-		GetCamera()->GetWorldRayCast(clientSize,vTouchPos,rayOrig,rayDir);
+		Ray worldRay = GetCamera()->GetWorldRayCast(vTouchPos);
 		
 		SceneNode* pCharNode = m_pCharaAnim->GetSceneNode();
 
 		Vector3 hitPosWS;
-		SceneNode* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(rayOrig,rayDir,0,hitPosWS);
+		SceneNode* pGameObj = GetPhysicsSystem()->RayCastCloseGameObj(worldRay.getOrigin(),worldRay.getDirection(),0,hitPosWS);
 		if (pGameObj == m_pTerrain)
 		{
 			Vector3 curPos = pCharNode->GetPos();
