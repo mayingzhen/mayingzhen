@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;&quot;../../extern/glew-1.11.0/include&quot;;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code;../../code/plugin;../../extern/include;&quot;../../extern/glew-1.11.0/include&quot;;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenGL32.lib glew32sd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/glew-1.11.0/lib"
+				AdditionalLibraryDirectories="&quot;../../extern/glew-1.11.0/lib&quot;;../../extern/vld/lib"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				SubSystem="2"

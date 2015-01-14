@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BULLETPHYSICS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="BulletCollision_vs2008_debug.lib BulletDynamics_vs2008_debug.lib LinearMath_vs2008_debug.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/Bullet-2.82/build/vs2008/Lib"
+				AdditionalLibraryDirectories="&quot;../../extern/Bullet-2.82/build/vs2008/Lib&quot;;../../extern/vld/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

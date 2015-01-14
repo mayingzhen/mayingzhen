@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;FBXImporter_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="fbxsdk-2013.2-mtd.lib d3dx9d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/FBX/lib"
+				AdditionalLibraryDirectories="../../extern/FBX/lib;../../extern/vld/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
