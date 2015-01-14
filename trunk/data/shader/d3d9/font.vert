@@ -1,5 +1,4 @@
-// Uniforms
-uniform float4x4 u_worldViewProjectionMatrix;
+#include"common.h"
 
 
 // Attributes
@@ -24,7 +23,7 @@ VS_OUT main(VS_IN In)
 {
     VS_OUT Out = (VS_OUT)0;
     
-    Out.v_position = mul(float4(In.a_position,1),u_worldViewProjectionMatrix);     
+    Out.v_position = mul(float4(In.a_position,1),g_matWorldViewProj);     
     Out.v_texCoord = In.a_texCoord0;
     Out.v_color = In.a_color0;
     

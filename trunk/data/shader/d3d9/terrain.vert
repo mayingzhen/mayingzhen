@@ -1,5 +1,5 @@
-// Uniforms
-uniform float4x4 u_worldViewProjectionMatrix;
+#include"common.h"
+#include"shadowMap.h"
 
 uniform float2 uCellAmount;
 uniform float2 uDetailScale;
@@ -26,7 +26,7 @@ struct VS_OUTPUT
 	float4 WorldPos : TEXCOORD3;
 #if USING_SHADOW != 0
 	float2 RandDirTC : TEXCOORD4;
-	float4 ShadowPos[MAX_FRUSTUM_SPLIT_NUM] : TEXCOORD5;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
 #endif	
 
 };
@@ -54,7 +54,7 @@ VS_OUTPUT main(const VS_INPUT v)
 	VS_OUTPUT Out = (VS_OUTPUT)0;
 
 	Out.WorldPos = float4(v.Pos, 1.0);
-	Out.Pos = mul(Out.WorldPos,u_worldViewProjectionMatrix);
+	Out.Pos = mul(Out.WorldPos,g_matViewProj);
 	Out.WorldPos.w = Out.Pos.w;
 
     Out.UV = v.UV;
