@@ -44,10 +44,10 @@ VS_OUT main(VS_IN In)
    SkinPosNormal(In.a_position,In.a_normal,In.a_blendIndices,In.a_blendWeights,wPos,wNormal);
 #endif
 
-   vout.oPos = mul( float4(wPos.xyz,1.0f), u_worldViewProjectionMatrix  );
-   vout.oNormal = mul(float4(wNormal.xyz,0), u_worldViewMatrix).xyz;
+   vout.oPos = mul( float4(wPos.xyz,1.0f), g_matWorldViewProj  );
+   vout.oNormal = mul(float4(wNormal.xyz,0), g_matWorldView).xyz;
 #ifndef HWDEPTH   
-   float3 viewPos = mul(float4(wPos.xyz,1.0f), u_worldViewMatrix).xyz;
+   float3 viewPos = mul(float4(wPos.xyz,1.0f), g_matWorldView).xyz;
    vout.oPos2 = float4(0,0,viewPos.z * depth_near_far_invfar.z,0);
    //vout.oPos2 = float4(0,0,vout.oPos.w * depth_near_far_invfar.z,0);
 #endif   

@@ -1,3 +1,5 @@
+#include "common.h"
+
 #ifdef AMBIENT_LIGHT
 #define SCEERN_LIGHT
 #endif
@@ -6,12 +8,6 @@
 #define SCEERN_LIGHT
 #endif
 
-#ifdef SCEERN_LIGHT
-uniform float4x4 u_InvProjMatrix ;
-#else
-uniform float4x4 u_worldViewProjectionMatrix; 
-uniform float4x4 u_worldViewMatrix; 
-#endif
    
 struct VS_OUT
 {
@@ -27,10 +23,10 @@ void main( float3 pos : POSITION,
 {
 #ifdef SCEERN_LIGHT
    vOut.pos = float4(pos.xyz ,1);
-   vOut.oViewDir = mul(float4(pos.xyz ,1),u_InvProjMatrix).xyz;
+   vOut.oViewDir = mul(float4(pos.xyz ,1),g_vViewportInv).xyz;
 #else
-   vOut.pos =  mul(float4(pos.xyz ,1),u_worldViewProjectionMatrix);
-   vOut.oViewDir =  mul(float4(pos.xyz ,1),u_worldViewMatrix).xyz;
+   vOut.pos =  mul(float4(pos.xyz ,1),g_matWorldViewProj);
+   vOut.oViewDir =  mul(float4(pos.xyz ,1),g_matWorldView).xyz;
 #endif
    
    vOut.oTc = vOut.pos.xy / vOut.pos.w * 0.5f;

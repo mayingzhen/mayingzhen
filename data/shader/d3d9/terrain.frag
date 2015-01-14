@@ -1,4 +1,7 @@
+//#define USING_SHADOW 1
 
+#include"common.h"
+#include"shadowMap.h"
 
 #ifdef DeferredLight   
 uniform sampler2D u_textureLightDiffuse;
@@ -26,23 +29,25 @@ struct VS_OUTPUT
 	float4 WorldPos : TEXCOORD3;
 #if USING_SHADOW != 0
 	float2 RandDirTC : TEXCOORD4;
-	float4 ShadowPos[MAX_FRUSTUM_SPLIT_NUM] : TEXCOORD5;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
 #endif	
 
 };
 
 float4 main(VS_OUTPUT In) : COLOR
 {
+	float4 oColor = 0;
+	
 	float4 cBlend = tex2D(tBlendingMap, In.UV + uBlendingOffset);
-
+		
     // Ï¸½ÚÍ¼
 #if LAYER==1
  	float4 cDetailMap0 = tex2D(tDetailMap0, In.DetailUV.xy);
-	float4 oColor = cDetailMap0;
+	oColor = cDetailMap0;
 #elif LAYER==2
     float4 cDetailMap0 = tex2D(tDetailMap0, In.DetailUV.xy);
     float4 cDetailMap1 = tex2D(tDetailMap1, In.DetailUV.zw);
-    float4 oColor = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
+    oColor = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 
 
