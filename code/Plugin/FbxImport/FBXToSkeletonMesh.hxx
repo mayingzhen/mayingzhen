@@ -39,9 +39,9 @@ namespace ma
 		skeData.SaveToFile(strOutSkeFile.c_str());
 
 		// Mesh
-		MeshData meshData;
-		meshData.m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL | DUM_BLENDWEIGHT | DUM_BLENDINDICES;
-		meshData.m_nIndexType  = INDEX_TYPE_U16;
+		MeshData meshData; 
+		meshData.SetVertexType(DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL | DUM_BLENDWEIGHT | DUM_BLENDINDICES);
+		meshData.SetIndexType(INDEX_TYPE_U16);
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
@@ -99,22 +99,14 @@ namespace ma
 		const char*  pName = pNode->GetName();
 		FbxNode* pParentNode = pNode->GetParent();
 
-		UINT parentID = Math::InvalidID<UINT>();
-		const char* pPrentName = pParentNode->GetName();
-		std::vector<std::string>::iterator it = std::find(skeData.m_arrBoneName.begin(),skeData.m_arrBoneName.end(),pPrentName);
-		if (it != skeData.m_arrBoneName.end())
-		{
-			parentID = it - skeData.m_arrBoneName.begin(); 
-		}
+		UINT parentID = skeData.GetBoneIdByName( pParentNode->GetName() ); 
 		
 		UINT nCount = pBindPose->GetCount();
 		int PoseLinkIndex = pBindPose->Find(pNode);
 		ASSERT(PoseLinkIndex >= 0);
 		FbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
 
-		skeData.m_arrBoneName.push_back(pName);
-		skeData.m_arrParentIndice.push_back(parentID);
-		skeData.m_arrTsfOS.push_back( ToMaUnit(NoneAffineMatrix) );
+		skeData.AddBone( pName, parentID, ToMaUnit(NoneAffineMatrix) );
 
 		for (int i = 0; i < pNode->GetChildCount(); ++i)
 		{
@@ -162,16 +154,7 @@ namespace ma
 
 				const char* pszName = pLinkNode->GetName();
 
-				UINT boneIndex = Math::InvalidID<UINT>();
-				for (UINT index = 0; index < skeData.m_arrBoneName.size(); ++index)
-				{
-					const char*	strBoneName = skeData.m_arrBoneName[index].c_str();
-					if ( strcmp(strBoneName,pszName) == 0 )
-					{
-						boneIndex = index;
-						break;
-					}
-				}
+				UINT boneIndex = skeData.GetBoneIdByName(pszName); 
 				ASSERT( Math::IsValidID(boneIndex) );
 
 				int associatedCtrlPointCount = pCluster->GetControlPointIndicesCount();  
@@ -264,8 +247,7 @@ namespace ma
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
 		{
 			// One SunMesh
-			SubMeshData* pSubmesh = new SubMeshData;
-			pMeshData->m_arrSubMesh.push_back(pSubmesh);
+			SubMeshData* pSubmesh = pMeshData->AddSubMeshData();
 			pSubmesh->m_nMateiralID = it->first;
 
 			pSubmesh->m_nVertexStart = arrVertex.size();
@@ -306,10 +288,9 @@ namespace ma
 			pSubmesh->m_nVertexCount = arrVertex.size() - nVertexSize;
 			pSubmesh->m_nIndexCount = arrIndex.size() - nIndexSize;
 
-			pSubmesh->m_arrBonePalette.resize(clusterCount);
 			for (int j = 0; j <clusterCount; ++j)
 			{
-				pSubmesh->m_arrBonePalette[j] = j;
+				pSubmesh->AddBonePalette(j);
 			}
 		}
 
@@ -317,8 +298,10 @@ namespace ma
 
 		// Bound Box
 		pMesh->ComputeBBox();
-		pMeshData->m_meshBound.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
-		pMeshData->m_meshBound.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+		AABB aabb;
+		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+		pMeshData->SetBoundingAABB(aabb);
 	}
 
 	template<class VertexType>

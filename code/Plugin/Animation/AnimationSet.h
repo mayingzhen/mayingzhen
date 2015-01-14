@@ -7,6 +7,7 @@ namespace ma
 	class Skeleton;
 	class PoseModifier;
 	class AnimationComponent;
+	class AnimClipNode;
 
 	class ANIMATION_API AnimationSet : public Serializable
 	{
@@ -19,7 +20,7 @@ namespace ma
 
 		virtual	SkelAnimtion*		CreateSkelAnim(const char* actionName);
 
-		virtual	void				AddAnimClip(const char* pszSkaPath, const char* actionName);
+		virtual	AnimClipNode*		AddAnimClip(const char* pszSkaPath, const char* actionName);
 
 		virtual SkelAnimtion*		GetSkelAnimByName(const char* pszName);
 
@@ -34,13 +35,14 @@ namespace ma
 		void						SetSkeleton(Skeleton* pSkeleton);
 
 	private:
-		RefPtr<Skeleton>				m_pSkeleton;
+		RefPtr<Skeleton>			m_pSkeleton;
 
-		std::vector<SkelAnimtion*>		m_arrSkelAnim;
-		std::vector<PoseModifier*>		m_arrPoseModifier;
+		typedef std::vector< RefPtr<SkelAnimtion> >	 VEC_SkELANIM;
+		VEC_SkELANIM				m_arrSkelAnim;
+
+		typedef std::vector< RefPtr<PoseModifier> >	 VEC_IK;
+		VEC_IK						m_arrPoseModifier;
 	};
-
-	//ANIMATION_API RefPtr<AnimationSet> CreateAnimationSet(const char* pAniSetFile);
 }
 
 

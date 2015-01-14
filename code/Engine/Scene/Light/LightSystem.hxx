@@ -33,19 +33,19 @@ namespace ma
 		}
 	}
 
-	void LightSystem::Update()
-	{
-		if (!GetRenderSetting()->m_bShadow)
-			return;
-
-		UINT nLight = m_arrLight.size();
-		for (UINT i = 0; i < nLight; ++i)
-		{
-			Light* pLight = m_arrLight[i];
-			if ( !pLight->IsCreateShadow() )
-				continue;
-
-			//pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera().get() );
-		}
-	}
+// 	void LightSystem::Update()
+// 	{
+// 		if (!GetRenderSetting()->m_bShadow)
+// 			return;
+// 
+// 		UINT nLight = m_arrLight.size();
+// 		for (UINT i = 0; i < nLight; ++i)
+// 		{
+// 			Light* pLight = m_arrLight[i];
+// 			if ( !pLight->IsCreateShadow() )
+// 				continue;
+// 
+// 			//pLight->UpdateShadowFrustum( GetRenderSystem()->GetMainCamera().get() );
+// 		}
+// 	}
 }

@@ -25,18 +25,21 @@ namespace ma
 	};
 
 
-	class ANIMATION_API AnimationClip
+	class ANIMATION_API AnimationClip : public Referenced
 	{
 	public:
 		AnimationClip();
 
 		~AnimationClip();
 		
-		void		Init(const char* pszSka);
+		void		SetAnimationPath(const char* pszSka);
+		const char* GetAnimationPath() const;
 
 		void		Instance();
 
 		bool		OnLoadOver();
+
+		Animation*	GetAnimation() {return m_pAnimation.get();}
 
 		void		SetSkeleton(Skeleton* pSkeleton = NULL);
 

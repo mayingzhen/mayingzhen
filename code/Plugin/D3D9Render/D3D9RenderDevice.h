@@ -118,6 +118,8 @@ namespace ma
 		int							m_NumVSParamsToCommit;
 		int							m_PSParamsToCommit[MAX_CONSTANTS_PS];
 		int							m_NumPSParamsToCommit;
+
+		bool						m_bZEnable;
 	};
 
 	LPDIRECT3DDEVICE9 GetD3D9DxDevive();

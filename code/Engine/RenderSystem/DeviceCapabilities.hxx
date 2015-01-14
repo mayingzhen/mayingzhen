@@ -25,6 +25,7 @@ DeviceCapabilitie::DeviceCapabilitie(void)
 , m_bPVRTC(false)
 , m_bETC1(false)
 , m_bAnisotropy(true)
+,m_bDepthTexture(false)
 {
 
 }

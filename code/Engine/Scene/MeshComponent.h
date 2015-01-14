@@ -36,6 +36,9 @@ namespace ma
 		UINT32						GetSubMaterialCount();
 		SubMaterial*				GetSubMaterial(UINT index);
 
+		virtual UINT				GetRenderableCount() const;
+		virtual	Renderable*			GetRenderableByIndex(UINT index) const;
+
 	private:
 		bool						OnLoadOver();
 	

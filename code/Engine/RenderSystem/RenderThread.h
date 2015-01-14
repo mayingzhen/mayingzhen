@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	struct Uniform;
+	class Uniform;
 	class SamplerState;
 	
 	enum ERenderCommand
@@ -21,11 +21,13 @@ namespace ma
 		eRC_EndFrame,
 		eRC_Render,
 		eRC_CreateShader,
-		eRC_CreateRenderTarget,
+		eRC_CreateTexture,
+		eRC_CreateDepthStencil,
  		eRC_ClearBuffer,
  		eRC_SetRenderTarget,
 		eRC_SetDepthStencil,
  		eRC_SetViewPort,
+		eRC_SetShader,
 
 		// RenderState
 		eRC_SetDepthCheckMode,
@@ -111,7 +113,9 @@ namespace ma
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_Render();
 		void	RC_CreateShader(ShaderProgram* pShader);
-		void	RC_CreateRenderTarget(Texture* pRenderTarget);
+		void	RC_CreateTexture(Texture* pRenderTarget);
+		void	RC_CreateDepthStencil(Texture* pRenderTarget);
+		void	RC_SetShaderProgram(ShaderProgram* pShader);
 		void	RC_SetRenderTarget(Texture* pTexture,int index);
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);

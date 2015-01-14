@@ -19,7 +19,11 @@ namespace ma
 	void TerrainRenderable::Render(Technique* pTech)
 	{
 		Terrain* pTerrain = m_pParent->GetTerrain();
-		
+
+		GetRenderContext()->SetCurRenderObj(this);
+
+		pTech->Bind();
+
 		Uniform* pUniformBlenOffset = pTech->GetShaderProgram()->GetUniform("uBlendingOffset");
 		Uniform* pUniformCellAmount = pTech->GetShaderProgram()->GetUniform("uCellAmount");
 		Uniform* pUniformCurMaterialID= pTech->GetShaderProgram()->GetUniform("uCurMaterialID");
@@ -45,7 +49,7 @@ namespace ma
 			GetRenderSystem()->SetDepthCheckMode(DCM_EQUAL);
 		}
 
-		Renderable::Render(pTech);
+		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 }
 

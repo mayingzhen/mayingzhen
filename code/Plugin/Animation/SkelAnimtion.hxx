@@ -8,28 +8,36 @@ namespace ma
 {
 	SkelAnimtion::SkelAnimtion()
 	{
-		m_pAnimaNode = NULL;
 	}
 
 	SkelAnimtion::~SkelAnimtion()
 	{
-		m_pAnimaNode = NULL;
+	}
+
+	void SkelAnimtion::SetAnimName(const char* pszAnimName)
+	{
+		m_sAnimName = pszAnimName ? pszAnimName : "";
+	}
+
+	const char*	SkelAnimtion::GetAnimName() const
+	{
+		return m_sAnimName.c_str();
 	}
 
 	void SkelAnimtion::SetSkeletion(Skeleton* pSkeleton)
 	{
-		ASSERT(m_pAnimaNode);
-		if (m_pAnimaNode == NULL)
-			return;
-
 		m_pSkeleton = pSkeleton;
 
-		m_pAnimaNode->SetSkeletion(pSkeleton);
+		if (m_pAnimaNode)
+			m_pAnimaNode->SetSkeletion(pSkeleton);
 	}
 
 	void SkelAnimtion::SetTreeNode(AnimTreeNode* pAnimNode)
 	{
 		m_pAnimaNode = pAnimNode;
+
+		if (m_pSkeleton)
+			m_pAnimaNode->SetSkeletion(m_pSkeleton.get());
 	}
 
 	void SkelAnimtion::AddPoseModifier(PoseModifier* pPoseModifier)
@@ -94,15 +102,15 @@ namespace ma
 	}
 
 
-	AnimClipNode*	SkelAnimtion::CreateClipNode(const char* pSkaPath,const char* pBonsetName)
-	{
-		AnimClipNode* pClipNode = new AnimClipNode();
-
-		pClipNode->SetAnimationClip(pSkaPath);
-		pClipNode->SetBoneSet(pBonsetName);
-	
-		return pClipNode;
-	}
+// 	AnimClipNode*	SkelAnimtion::CreateClipNode(const char* pSkaPath,const char* pBonsetName)
+// 	{
+// 		AnimClipNode* pClipNode = new AnimClipNode();
+// 
+// 		pClipNode->SetAnimationClip(pSkaPath);
+// 		pClipNode->SetBoneSet(pBonsetName);
+// 	
+// 		return pClipNode;
+// 	}
 
 	void SkelAnimtion::Serialize(Serializer& sl, const char* pszLable/* = "ActionData"*/)
 	{

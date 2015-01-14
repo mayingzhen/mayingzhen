@@ -5,14 +5,13 @@
 
 namespace ma
 {
-	struct Uniform;
-	class MaterialParameter;
+	class Uniform;
     
 	// Interface implemented by templated method bindings for simple storage and iteration.
 	class MethodBinding 
 	{
 	public:
-		MethodBinding(MaterialParameter* param)
+		MethodBinding(Uniform* param)
 		{
 			m_pParameter = param;
 		}
@@ -21,10 +20,10 @@ namespace ma
 		{
 
 		}
-		virtual void SetValue(Uniform* pUniform/*,ShaderProgram* effect*/) = 0;
+		virtual void SetValue() = 0;
 
 	protected:
-		MaterialParameter*	m_pParameter;
+		Uniform*	m_pParameter;
 	};
 
 
@@ -36,9 +35,9 @@ namespace ma
 		
 	public:
 
-		MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod);
+		MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod);
 		
-		void SetValue(Uniform* pUniform/*,ShaderProgram* effect*/);
+		void SetValue();
 	
 	private:
 		ClassType*		m_pInstance;
@@ -56,9 +55,9 @@ namespace ma
 	
 	public:
 
-		MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
+		MethodArrayBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
 		
-		void SetValue(Uniform* pUniform/*,ShaderProgram* effect*/);
+		void SetValue();
 	
 	private:
 		ClassType*		m_pInstance;
@@ -71,27 +70,27 @@ namespace ma
 
 	   
 	template <class ClassType, class ParameterType>
-	MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod) :
+	MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod) :
 		MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod)
 	{
 	}
 
 	template <class ClassType, class ParameterType>
-	void MethodValueBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform)
+	void MethodValueBinding<ClassType, ParameterType>::SetValue()
 	{
-		GetRenderSystem()->SetValue(pUniform, (m_pInstance->*m_pValueMethod)() );
+		GetRenderSystem()->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)() );
 	}
 
 	template <class ClassType, class ParameterType>
-	MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
+	MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(Uniform* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
 		MethodBinding(param), m_pInstance(instance), m_pValueMethod(valueMethod), m_nCountMethod(countMethod)
 	{
 	}
 
 	template <class ClassType, class ParameterType>
-	void MethodArrayBinding<ClassType, ParameterType>::SetValue(Uniform* pUniform)
+	void MethodArrayBinding<ClassType, ParameterType>::SetValue()
 	{
-		GetRenderSystem()->SetValue(pUniform,  (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
+		GetRenderSystem()->SetValue(m_pParameter,  (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
 	}
 
 }

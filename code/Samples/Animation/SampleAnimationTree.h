@@ -20,8 +20,8 @@ namespace ma
 
 	private:
 
-		AnimClipNode*		m_pClip602;
-		AnimClipNode*		m_pClip120;
+		RefPtr<AnimClipNode>		m_pClip602;
+		RefPtr<AnimClipNode>		m_pClip120;
 	};
 }
 

@@ -41,13 +41,16 @@
 #include "Common/Math/Bitwise.h"
 
 // Utile
-#include "Common/Referenced.h"
-#include "Common/RefPtr.h"
 #include "Common/BitField.h"
 #include "Common/TArray.h"
 
 #include "Common/StringUtils.h"
 #include "Common/StringConverter.h"
+
+
+#ifdef _DEBUG
+#include "vld.h"
+#endif
 
 
 #endif

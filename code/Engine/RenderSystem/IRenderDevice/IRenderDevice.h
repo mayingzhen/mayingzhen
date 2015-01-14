@@ -18,7 +18,7 @@ namespace ma
 	class ShaderProgram;
 	struct RenderState;
 	class Technique;
-	struct Uniform;
+	class Uniform;
 
 	enum RenderDeviceType
 	{

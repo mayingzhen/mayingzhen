@@ -1,7 +1,6 @@
 #include "AnimationComponent.h"
 #include "AnimationSet.h"
 #include "SkelAnimtion.h"
-#include "AnimationUtil.h"
 
 namespace ma
 {
@@ -254,14 +253,6 @@ namespace ma
 		{
 			m_pose->DebugRender(m_pSceneNode->GetMatrixWS(),bDrawBoneName,m_pSkeleton.get());
 		}
-	}
-
-	AnimationComponentPtr CreateAnimationComponent(const char* pszAniSetPath, const char* pszSkeletonPath)
-	{
-		AnimationComponent* pAnimComp = new AnimationComponent();
-		pAnimComp->SetSkeletonPath(pszSkeletonPath);
-		pAnimComp->SetAnimSetPath(pszAniSetPath);
-		return pAnimComp;
 	}
 
 }

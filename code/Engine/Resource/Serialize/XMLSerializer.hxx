@@ -79,16 +79,17 @@ namespace ma
 		}		
 	}
 
-	void XMLSerializer::Serialize(std::string& val,const char* pszLable)
+	void XMLSerializer::Serialize(char* val,int nSize,const char* pszLable)
 	{
 		if ( IsReading() )
 		{
 			const char* pszValue = m_pCurElem->Attribute(pszLable);
-			val = pszValue ? pszValue : "";
+			//val = pszValue ? pszValue : "";
+			strncpy(val,pszValue,nSize);
 		}
 		else
 		{
-			m_pCurElem->SetAttribute(pszLable,val.c_str());
+			m_pCurElem->SetAttribute(pszLable,val);
 		}
 	}
 

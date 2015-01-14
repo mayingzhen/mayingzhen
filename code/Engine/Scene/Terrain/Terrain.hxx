@@ -56,6 +56,7 @@ namespace ma
 			for (int j = 0;j< nTrunkXCellAmont;++j)
 			{
 				RefPtr<TerrainTrunk> trunk = new TerrainTrunk(this);
+				this->AddComponent(trunk.get());
 
 				if(!trunk->Init(j, i))
 				{
@@ -763,15 +764,15 @@ namespace ma
 		}
 	}
 
-	void Terrain::OnTransformChange()
-	{
-		SceneNode::OnTransformChange();
-
-		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
-		{
-			m_vecTrunk[i]->OnTransformChange();
-		}
-	}
+// 	void Terrain::OnTransformChange()
+// 	{
+// 		SceneNode::OnTransformChange();
+// 
+// 		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+// 		{
+// 			m_vecTrunk[i]->OnTransformChange();
+// 		}
+// 	}
 
 	RefPtr<Terrain>	 CreateTerrain()
 	{

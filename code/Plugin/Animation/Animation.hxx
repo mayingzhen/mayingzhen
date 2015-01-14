@@ -28,14 +28,24 @@ namespace ma
 		m_arrPosTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vPos);
 	}
 
-	UINT Animation::GetTransfTrackIndexByName(const char* pszName)
+	UINT  Animation::GetTrackNumber() const
+	{
+		return m_arrTrackName.size();
+	}
+
+	const char*	 Animation::GetTrackNameByIndex(UINT index) const
+	{
+		return m_arrTrackName[index].c_str();
+	}
+
+	UINT Animation::GetTrackIndexByName(const char* pszName) const
 	{
 		if (pszName == NULL)
 			return Math::InvalidID<BoneIndex>();
 
-		for (UINT i = 0; i < m_arrTransfTrackName.size(); ++i)
+		for (UINT i = 0; i < m_arrTrackName.size(); ++i)
 		{
-			const char* pszTrackName = m_arrTransfTrackName[i].c_str();
+			const char* pszTrackName = m_arrTrackName[i].c_str();
 			if ( _stricmp(pszTrackName,pszName) == 0)
 			{
 				return i;
@@ -45,6 +55,16 @@ namespace ma
 		return Math::InvalidID<BoneIndex>();
 	}
 
+	void Animation::AddTrack(const char* pName,const Vector3Track& scale,const QuaternionTrack& rot,const Vector3Track& pos)
+	{
+		m_arrTrackName.push_back(pName);
+		m_arrScaleTrack.push_back(scale);
+		m_arrRotTrack.push_back(rot);
+		m_arrPosTrack.push_back(pos);
+
+		int nFrame = pos.GetFrameNumber();
+		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
+	}
 
 	void Animation::Serialize(Serializer& sl, const char* pszLable)
 	{
@@ -55,7 +75,7 @@ namespace ma
 
 		if (header.m_nVersion == EXP_ANIM_VER_INITIAL)
 		{
-			SerializeDataV0(sl,*this,pszLable);
+			SerializeDataV0(sl,pszLable);
 		}
 	}
 

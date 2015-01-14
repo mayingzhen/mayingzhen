@@ -1,5 +1,5 @@
 #include "MeshData.h"
-#include "Engine/RTTI/Object.h"
+//#include "Engine/RTTI/Object.h"
 
 #include "MeshDataSerialize.hxx"
 
@@ -23,6 +23,13 @@ namespace ma
 	{
 	}
 
+	SubMeshData* MeshData::AddSubMeshData()
+	{
+		SubMeshData* pSubMeshData = new SubMeshData();
+		m_arrSubMesh.push_back(pSubMeshData);
+		return pSubMeshData;
+	}
+
 	void MeshData::Serialize(Serializer& sl, const char* pszLable)
 	{
 		MeshHeader header;
@@ -32,7 +39,7 @@ namespace ma
 
 		if (header.m_nVersion == MESH_VER_INITIAL)
 		{
-			SerializeDataV0(sl,*this,pszLable);
+			SerializeDataV0(sl,pszLable);
 		}
 
 		if (sl.IsReading())
@@ -78,5 +85,9 @@ namespace ma
 		return voffset;
 	}
 
+	void SubMeshData::AddBonePalette(BoneIndex bonde)
+	{
+		m_arrBonePalette.push_back(bonde);
+	}
 }
 

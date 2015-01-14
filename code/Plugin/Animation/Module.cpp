@@ -11,7 +11,6 @@
 #include "Animation/SkelAnimtion.hxx"
 #include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
-#include "Animation/AnimationUtil.hxx"
 #include "Animation/AnimationSystem.hxx"
 
 // AnimationTree
@@ -52,13 +51,15 @@ void AnimationModuleInit()
 	#undef RTTI_DECL
 
 	AnimationComponent::RegisterObject( GetContext() );
+	AnimClipNode::RegisterObject( GetContext() );
 }
 
 void AnimationModuleShutdown()
 {
 	// RTTI
 	#define RTTI_DECL(ClassType) \
-		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
+		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  \
+		ClassType::StaticShutdownClass(); 
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 

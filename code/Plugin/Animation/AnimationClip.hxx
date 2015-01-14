@@ -31,9 +31,14 @@ namespace ma
 	{
 	}
 
-	void AnimationClip::Init(const char* pszSka)
+	void AnimationClip::SetAnimationPath(const char* pszSka)
 	{
-		m_pAnimation = DeclareResource<Animation>(pszSka);
+		m_pAnimation = DeclareResource<Animation>(pszSka);		
+	}
+
+	const char* AnimationClip::GetAnimationPath() const
+	{
+		return m_pAnimation ? m_pAnimation->GetResPath() : NULL;
 	}
 
 	void AnimationClip::Instance()

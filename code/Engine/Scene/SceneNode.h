@@ -142,18 +142,13 @@ namespace ma
 	template<class T>
 	inline T* SceneNode::CreateComponent()
 	{
-		const RTTIClass* pClass = T::StaticGetClass();
-		ASSERT(pClass);
-		if (pClass == NULL)
-			return NULL;
-
-		T* pComponent = CreateObject<T>( pClass->GetName() );
+		RefPtr<T> pComponent = CreateObject<T>().get();
 		ASSERT(pComponent);
 		if (pComponent == NULL)
 			return NULL;
 
-		AddComponent(pComponent);
-		return pComponent;
+		AddComponent(pComponent.get());
+		return pComponent.get();
 	}
 
 	template<class T>

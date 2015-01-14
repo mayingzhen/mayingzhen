@@ -31,6 +31,26 @@ namespace ma
 
 		CreateMaterialData_("magician/body.tga","magician/Body.mat");
 
+		{
+			AnimationSet animSetData;
+			animSetData.AddAnimClip("gigi/100_stand/bip01.ska","100_stand");
+			animSetData.AddAnimClip("gigi/210_run/bip01.ska","210_run");
+			animSetData.AddAnimClip("gigi/281_run_jump_start/bip01.ska","281_run_jump_start");
+			animSetData.AddAnimClip("gigi/282_jump_twostage/bip01.ska","282_jump_twostage");
+			animSetData.AddAnimClip("gigi/283_run_jumping/bip01.ska","283_run_jumping");
+			animSetData.AddAnimClip("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop");
+			animSetData.SaveToXML("gigi/gigi/body.aniset");
+		}
+	
+		{
+			AnimationSet animSetData;
+ 			animSetData.AddAnimClip("magician/100/bip01.ska","100");
+ 			animSetData.AddAnimClip("magician/120/bip01.ska","120");
+ 			animSetData.AddAnimClip("magician/602/bip01.ska","602");
+ 			animSetData.SaveToXML("magician/body.aniset");
+		}
+
+
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)

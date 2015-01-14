@@ -210,7 +210,7 @@ namespace ma {
 		/** Parses a Vector2 out of a string.
         @remarks
             Format is "x y" ie. 2 Real components, space delimited. Failure to parse returns
-            Vector2::ZERO.
+            Vector2::Z
         */
 		static Vector2 parseVector2(const string& val, const Vector2& defaultValue = Vector2::ZERO);
 		/** Parses a Vector3 out of a string.

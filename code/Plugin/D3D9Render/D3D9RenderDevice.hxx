@@ -15,6 +15,7 @@ namespace ma
 
 	D3D9RenderDevice::D3D9RenderDevice()
 	{
+		m_bZEnable = true;
 		ClearAllStates();
 	}
 
@@ -370,20 +371,33 @@ namespace ma
 		{
 		case DCM_NONE:
 			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+			m_bZEnable = false;
 			break;
 
 		case DCM_LESS_EQUAL:
-			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			if (!m_bZEnable)
+			{
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_bZEnable = true;
+			}
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 			break;
 
 		case DCM_LESS:
-			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			if (!m_bZEnable)
+			{
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_bZEnable = true;
+			}
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 			break;
 
 		case DCM_GREATER_EQUAL:
-			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			if (!m_bZEnable)
+			{
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_bZEnable = true;
+			}
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
 			break;
 
@@ -393,12 +407,20 @@ namespace ma
 			break;
 
 		case DCM_EQUAL:
-			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			if (!m_bZEnable)
+			{
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_bZEnable = true;
+			}
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
 			break;
 
 		case DCM_ALWAYS:
-			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			if (!m_bZEnable)
+			{
+				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+				m_bZEnable = true;
+			}
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 			break;
 		}
@@ -1013,6 +1035,7 @@ namespace ma
 			GetDeviceCapabilities()->SetVSTextureSupported(false);
 		}
 
+		SAFE_RELEASE(surface);
 
 		GetDeviceCapabilities()->log();
 		return true;

@@ -15,6 +15,73 @@ namespace ma
 	{
 	}
 
+	void TerrainTrunk::UpdateRenderable()
+	{
+		m_arrRenderable.clear();
+
+
+		ASSERT(m_uLodIndex >= 0 && m_uLodIndex < m_vecLod.size());
+		if (m_uLodIndex < 0 || m_uLodIndex >= m_vecLod.size())
+			return;
+
+		TERRAIN_LOD& lod = m_vecLod[m_uLodIndex];
+
+		for (uint32 i = 0; i < lod.m_vecBody.size(); ++i)
+		{
+			//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBody[i].get() );
+			m_arrRenderable.push_back(lod.m_vecBody[i].get());
+		}
+
+		for (uint32 i = 0; i < lod.m_vecBorder.size(); ++i)
+		{
+			//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBorder[i].get() );
+			m_arrRenderable.push_back(lod.m_vecBorder[i].get());
+		}
+
+
+		int nTrunkXCellAmont = m_pTerrain->GetXCellAmount() / m_pTerrain->GetTrunkSize();
+		int nTrunkYCellAmont = m_pTerrain->GetYCellAmount() / m_pTerrain->GetTrunkSize();
+		if (m_nX > 0)
+		{
+			uint32 west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
+			if (m_uLodIndex < west)
+			{
+				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[west].skirt[West].get() );
+				m_arrRenderable.push_back(lod.m_vecSkirt[west].skirt[West].get());	
+			}
+		}
+
+		if (m_nX < nTrunkXCellAmont-1)
+		{
+			uint32 east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
+			if (m_uLodIndex < east)
+			{
+				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[east].skirt[East].get() );
+				m_arrRenderable.push_back(lod.m_vecSkirt[east].skirt[East].get());		
+			}
+		}
+
+		if (m_nY > 0)
+		{
+			uint32 north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
+			if (m_uLodIndex < north)
+			{
+				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[north].skirt[North].get() );
+				m_arrRenderable.push_back(lod.m_vecSkirt[north].skirt[North].get());
+			}
+		}
+
+		if (m_nY < nTrunkYCellAmont -1)
+		{
+			uint32 south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
+			if (m_uLodIndex < south)
+			{
+				//GetRenderSystem()->GetRenderQueue()->AddRenderObj( RL_Solid,lod.m_vecSkirt[south].skirt[South].get() );
+				m_arrRenderable.push_back(lod.m_vecSkirt[south].skirt[South].get());	
+			}
+		}
+	}
+
 	void TerrainTrunk::Show(Camera* pCamera)
 	{
 		ASSERT(m_pTerrain->GetNumLod() >= 1);
@@ -31,65 +98,13 @@ namespace ma
 			m_uLodIndex = 0;
 		}
 
-		ASSERT(m_uLodIndex >= 0 && m_uLodIndex < m_vecLod.size());
-		if (m_uLodIndex < 0 || m_uLodIndex >= m_vecLod.size())
-			return;
+		UpdateRenderable();
 
-		TERRAIN_LOD& lod = m_vecLod[m_uLodIndex];
-
-		for (uint32 i = 0; i < lod.m_vecBody.size(); ++i)
+		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBody[i].get() );
-			//GetRenderQueueManager()->AddRenderable( lod.m_vecBody[i].get() );
-		}
+			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-		for (uint32 i = 0; i < lod.m_vecBorder.size(); ++i)
-		{
-			GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBorder[i].get() );
-			//GetRenderQueueManager()->AddRenderable(  lod.m_vecBorder[i].get() );
-		}
-
-
-		int nTrunkXCellAmont = m_pTerrain->GetXCellAmount() / m_pTerrain->GetTrunkSize();
-		int nTrunkYCellAmont = m_pTerrain->GetYCellAmount() / m_pTerrain->GetTrunkSize();
-		if (m_nX > 0)
-		{
-			uint32 west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
-			if (m_uLodIndex < west)
-			{
-				GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[west].skirt[West].get() );
-				//GetRenderQueueManager()->AddRenderable(lod.m_vecSkit[west].west.get());
-			}
-		}
-
-		if (m_nX < nTrunkXCellAmont-1)
-		{
-			uint32 east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
-			if (m_uLodIndex < east)
-			{
-				GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[east].skirt[East].get() );
-				//GetRenderQueueManager()->AddRenderable(lod.m_vecSkit[east].east.get());
-			}
-		}
-
-		if (m_nY > 0)
-		{
-			uint32 north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
-			if (m_uLodIndex < north)
-			{
-				GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[north].skirt[North].get() );
-				//GetRenderQueueManager()->AddRenderable(lod.m_vecSkit[north].north.get());
-			}
-		}
-
-		if (m_nY < nTrunkYCellAmont -1)
-		{
-			uint32 south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
-			if (m_uLodIndex < south)
-			{
-				GetRenderSystem()->GetRenderQueue()->AddRenderObj( RL_Solid,lod.m_vecSkirt[south].skirt[South].get() );
-				//GetRenderQueueManager()->AddRenderable(lod.m_vecSkit[south].south.get());
-			}
+			GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,m_arrRenderable[i]);
 		}
 	}
 
@@ -412,5 +427,15 @@ namespace ma
 		const float Terrain_TrunkYSize = m_pTerrain->GetTrunkSize() * Terrain_CellSize;
 
 		m_fLodParam = Math::Sqrt(Terrain_TrunkXSize * Terrain_TrunkXSize + Terrain_TrunkYSize * Terrain_TrunkYSize) / f;
+	}
+
+	UINT TerrainTrunk::GetRenderableCount() const
+	{
+		return m_arrRenderable.size();
+	}
+
+	Renderable* TerrainTrunk::GetRenderableByIndex(UINT index) const
+	{
+		return m_arrRenderable[index].get();
 	}
 }

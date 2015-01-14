@@ -34,9 +34,9 @@ namespace ma
 		virtual bool	OnLoadOver();
 
 	private:
-		AnimTreeNode*	m_pSrcAnimNode;
-		AnimTreeNode*	m_pDestAnimNode;
-		float			m_fWeight;	
+		RefPtr<AnimTreeNode>	m_pSrcAnimNode;
+		RefPtr<AnimTreeNode>	m_pDestAnimNode;
+		float					m_fWeight;	
 	};
 }
 

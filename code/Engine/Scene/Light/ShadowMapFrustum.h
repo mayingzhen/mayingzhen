@@ -16,9 +16,8 @@ namespace ma
 
 		void				CreateViewPort(Texture* pShadowMap,Rectangle veiewPort);	
 
-		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);
-		
-		void				Render(Camera* pCamera,int index);
+		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
+		void				Render(Camera* pCamera);
 
 		void				Clear(Camera* pCamera);
 
@@ -37,8 +36,7 @@ namespace ma
 
 	private:
 		typedef vector<RenderComponent*> VEC_CASTER;
-
-		Light*				m_pLight; 
+		typedef vector<Renderable*>	VEC_RENDERABLE;
 
 		Matrix4				m_matLightView;
 		Matrix4				m_matLightProj;
@@ -48,6 +46,8 @@ namespace ma
 
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
+
+		VEC_RENDERABLE		m_arrRenderable;
 
 		AABB				m_sceneAABB;
 

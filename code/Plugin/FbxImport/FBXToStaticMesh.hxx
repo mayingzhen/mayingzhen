@@ -46,8 +46,7 @@ namespace ma
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
 		{
 			// One SunMesh
-			SubMeshData* pSubmesh = new SubMeshData;
-			pMeshData->m_arrSubMesh.push_back(pSubmesh);
+			SubMeshData* pSubmesh = pMeshData->AddSubMeshData();
 			pSubmesh->m_nMateiralID = it->first;
 
 			//submesh->m_pMaterial = CreateDefaultMaterial(pMesh,it->first,pImportParm,false);
@@ -86,8 +85,10 @@ namespace ma
 		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer().get(), pMeshData->GetIndexBuffer().get());
 
 		pMesh->ComputeBBox();
-		pMeshData->m_meshBound.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
-		pMeshData->m_meshBound.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+		AABB aabb;
+		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+		pMeshData->SetBoundingAABB(aabb);
 	}
 
 	bool LoadStaticMeshData(const char* pFileName,ImportParm* pImportParm,
@@ -100,8 +101,8 @@ namespace ma
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
 	
 		MeshData meshData;
-		meshData.m_nVertexType = DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL /*| DUM_TANGENT*/;
-		meshData.m_nIndexType  = INDEX_TYPE_U16;
+		meshData.SetVertexType(DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL);
+		meshData.SetIndexType(INDEX_TYPE_U16);
 
 		FbxScene* pFbxScene = GetFbxScene( strMeshFile.c_str() );
 		ASSERT(pFbxScene);
@@ -157,13 +158,13 @@ namespace ma
 // 
 // 		if (strDiff != "")
 // 		{
-// 			RefPtr<CTexture> tDiff = CreateTexture(strDiff.c_str(), shader->GetTextureType("tDiff"), shader->GetTextureMipmap("tDiff"));
+// 			RefPtr<Texture> tDiff = CreateTexture(strDiff.c_str(), shader->GetTextureType("tDiff"), shader->GetTextureMipmap("tDiff"));
 // 			pMaterial->SetParameter("tDiff", Any(tDiff));
 // 		}
 // 
 // 		if (strNormal != "")
 // 		{
-// 			RefPtr<CTexture> tNormal = CreateTexture(strNormal.c_str(), shader->GetTextureType("tNormal"), shader->GetTextureMipmap("tNormal"));
+// 			RefPtr<Texture> tNormal = CreateTexture(strNormal.c_str(), shader->GetTextureType("tNormal"), shader->GetTextureMipmap("tNormal"));
 // 			pMaterial->SetParameter("tNormal",Any(tNormal));
 // 		}
 // 

@@ -8,8 +8,9 @@ namespace ma
 	{
 		m_pCullNode = NULL;
 		m_bVisible = true;
-		m_fViewMaxZ = 0;
-		m_fViewMaxZ = 0;
+		m_fViwMinZ = 0;
+		m_fViwMaxZ = 0;
+		m_bShadowCaster = false;
 	}
 
 	void RenderComponent::Show(Camera* pCamera) 
@@ -21,33 +22,32 @@ namespace ma
 	{
 		Component::OnAddToSceneNode(pNode);
 		
-		ASSERT(pNode && pNode->GetScene());
+		//ASSERT(pNode && pNode->GetScene());
 		if (pNode && pNode->GetScene())
 			pNode->GetScene()->GetCullTree()->UpdateObject(this);
+	}
+
+	UINT RenderComponent::GetRenderableCount() const
+	{
+		return 0;
+	}
+
+	Renderable* RenderComponent::GetRenderableByIndex(UINT index) const
+	{
+		return NULL;
 	}
 		
 	void RenderComponent::OnTransformChange()
 	{
-		m_worldAABB = m_AABB;
- 		m_worldAABB.transform( m_pSceneNode->GetMatrixWS() );
+		if (m_pSceneNode)
+		{	
+			m_worldAABB = m_AABB;
+ 			m_worldAABB.transform( m_pSceneNode->GetMatrixWS() );
 
-		if (m_pSceneNode->GetScene())
-			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+			if (m_pSceneNode->GetScene())
+				m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+		}
 	}
 
-	const AABB&	RenderComponent::GetAABBWS()
-	{
-		return m_worldAABB;
-	}
-
-	float RenderComponent::GetViewMinZ()
-	{
-		return m_fViewMaxZ;
-	}
-
-	float RenderComponent::GetViewMaxZ()
-	{
-		return m_fViewMaxZ;
-	}
 }
 

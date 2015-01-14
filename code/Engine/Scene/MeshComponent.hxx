@@ -47,6 +47,16 @@ namespace ma
 		m_pMatData = LoadResource<MaterialData>(pFile);
 	}
 
+	UINT MeshComponent::GetRenderableCount() const
+	{
+		return m_arrRenderable.size();
+	}
+
+	Renderable*	MeshComponent::GetRenderableByIndex(UINT index) const
+	{
+		return m_arrRenderable[index].get();
+	}
+
 	UINT32 MeshComponent::GetSubMaterialCount()
 	{
 		return m_arrRenderable.size();

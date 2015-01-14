@@ -217,6 +217,38 @@ namespace ma
 		FILL_SOLID                  = 3,                //ÊµÌî³ä
 	};
 
+	    /** Blending factors for manually blending objects with the scene. If there isn't a predefined
+        SceneBlendType that you like, then you can specify the blending factors directly to affect the
+        combination of object and the existing scene. See Material::setSceneBlending for more details.
+    */
+    enum SceneBlendFactor
+    {
+        SBF_ONE,
+        SBF_ZERO,
+        SBF_DEST_COLOUR,
+        SBF_SOURCE_COLOUR,
+        SBF_ONE_MINUS_DEST_COLOUR,
+        SBF_ONE_MINUS_SOURCE_COLOUR,
+        SBF_DEST_ALPHA,
+        SBF_SOURCE_ALPHA,
+        SBF_ONE_MINUS_DEST_ALPHA,
+        SBF_ONE_MINUS_SOURCE_ALPHA
+
+    };
+
+	/** Blending operations controls how objects are blended into the scene. The default operation
+		is add (+) but by changing this you can change how drawn objects are blended into the
+		existing scene.
+	*/
+	enum SceneBlendOperation
+	{
+		SBO_ADD,
+		SBO_SUBTRACT,
+		SBO_REVERSE_SUBTRACT,
+		SBO_MIN,
+		SBO_MAX
+	};
+
 	enum BLEND_MODE
 	{
 		BM_OPATICY,

@@ -63,7 +63,7 @@ namespace ma
 		return count;
     }
 
-	bool GLESTexture::RT_Create()
+	bool GLESTexture::RT_CreateTexture()
 	{
 		ASSERT(m_pTex == 0);
 
@@ -103,6 +103,11 @@ namespace ma
 	
 	
 		return true;
+	}
+
+	bool GLESTexture::RT_CreateDepthStencil()
+	{
+		return false;
 	}
 
 	bool GLESTexture::SetLevelData(int level, const PixelBox& src)

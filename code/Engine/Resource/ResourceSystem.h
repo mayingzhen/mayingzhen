@@ -32,6 +32,9 @@ namespace ma
 		void		RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
 		void		UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		
+		template <class T>
+		void		ReLoad();	
 
 	private:
 		typedef std::map<std::string,ResourcePtr> ResourceMap;
@@ -78,6 +81,22 @@ namespace ma
 		T* pTypeRes = SafeCast<T>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
+	}
+
+	template <class T>
+	void ResourceSystem::ReLoad()
+	{
+		ResourceMap::iterator it = m_resMap.begin();
+		for (; it != m_resMap.end(); ++it)
+		{
+			Resource* pRes = it->second.get();
+			
+			T* pTypeRes = SafeCast<T>(pRes); 
+			if (pTypeRes)
+			{
+				pTypeRes->Reload();
+			}
+		}
 	}
 }
 

@@ -7,15 +7,11 @@ namespace ma
 
 	AnimBlendNode::AnimBlendNode()
 	{
-		m_pSrcAnimNode = NULL;
-		m_pDestAnimNode = NULL;
 		m_fWeight = 0;
 	}
 
 	AnimBlendNode::~AnimBlendNode()
 	{
-		SAFE_DELETE(m_pSrcAnimNode);
-		SAFE_DELETE(m_pDestAnimNode);
 	}
 
 	void AnimBlendNode::AdvanceTime(float fTimeElapsed)

@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
+	void LoadAnimationData(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
 	{
 		int lModelCount;
 		FbxString lOutputString;
@@ -38,13 +38,9 @@ namespace ma
 
 				FbxVector4 euler = mat.GetR();
 
-				trackData.posTrack.m_arrFrame.push_back(i);
-				trackData.RotTrack.m_arrFrame.push_back(i);
-				trackData.scaleTrack.m_arrFrame.push_back(i);
-
-				trackData.posTrack.m_arrValue.push_back( ToMaUnit(pTranslation) );
-				trackData.RotTrack.m_arrValue.push_back( ToMaUnit(pRotation) );
-				trackData.scaleTrack.m_arrValue.push_back( ToMaUnit(pScaling) );
+				trackData.posTrack.Pushback( i, ToMaUnit(pTranslation) );
+				trackData.RotTrack.Pushback( i, ToMaUnit(pRotation) );
+				trackData.scaleTrack.Pushback( i, ToMaUnit(pScaling) );
 
 				++i;
 			}
@@ -54,11 +50,11 @@ namespace ma
 
 		for(lModelCount = 0; lModelCount < pNode->GetChildCount(); lModelCount++)
 		{
-			DisplayAnimation(pAnimLayer, pNode->GetChild(lModelCount),pAnimStack,boneTrack);
+			LoadAnimationData(pAnimLayer, pNode->GetChild(lModelCount),pAnimStack,boneTrack);
 		}
 	}
 
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData)
+	void LoadAnimationData(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData)
 	{
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
 		FbxString lOutputString;
@@ -81,32 +77,22 @@ namespace ma
 			FBXSDK_printf(lOutputString);
 
 		
-			DisplayAnimation(lAnimLayer, pNode, pAnimStack, boneTrack);
+			LoadAnimationData(lAnimLayer, pNode, pAnimStack, boneTrack);
 
 			break;
 		}
 		
-		ASSERT(boneTrack.size() == skeData.m_arrBoneName.size());
-		UINT nBoneNum = boneTrack.size();
-		skaData.m_arrTransfTrackName.resize(nBoneNum);
-		skaData.m_arrPosTrack.resize(nBoneNum);
-		skaData.m_arrRotTrack.resize(nBoneNum);
-		skaData.m_arrScaleTrack.resize(nBoneNum);
+		ASSERT(boneTrack.size() == skeData.GetBoneNumer());
 
- 		for (UINT i = 0; i < nBoneNum; ++i)
+ 		for (UINT i = 0; i < skeData.GetBoneNumer(); ++i)
 		{
-			std::string boneName = skeData.m_arrBoneName[i];
+			std::string boneName = skeData.GetBoneNameByIndex(i);
 			std::map<std::string,TrackData>::iterator it = boneTrack.find( boneName.c_str() );
 			ASSERT(it != boneTrack.end());
 			if (it == boneTrack.end())
 				continue;
 
-			skaData.m_arrTransfTrackName[i] = skeData.m_arrBoneName[i];
-			skaData.m_arrPosTrack[i] = it->second.posTrack;
-			skaData.m_arrRotTrack[i] = it->second.RotTrack;
-			skaData.m_arrScaleTrack[i] = it->second.scaleTrack;
-			int nFrame = it->second.posTrack.m_arrFrame.size();
-			skaData.m_nFrameNumber = skaData.m_nFrameNumber < nFrame ? nFrame : skaData.m_nFrameNumber;
+			skaData.AddTrack(boneName.c_str(),it->second.scaleTrack,it->second.RotTrack,it->second.posTrack);
 		}
 	}
 
@@ -122,7 +108,7 @@ namespace ma
 		if (pFbxScene == NULL)
 			return false;
 
-		Animation skaData;
+		RefPtr<Animation> pSkaData = CreateObject<Animation>();
 
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
 		ASSERT(nAnimStackCount == 1);
@@ -135,14 +121,14 @@ namespace ma
 			lOutputString += "\n\n";
 			FBXSDK_printf(lOutputString);
 
-			DisplayAnimation(lAnimStack, pFbxScene->GetRootNode(),skaData,skeData);
+			LoadAnimationData(lAnimStack, pFbxScene->GetRootNode(),*pSkaData,skeData);
 
 			break;
 		}
 
-		ConverteAnimDataParentToLocalSpaceAnimation(&skaData,&skeData);
+		pSkaData->ConverteAnimDataParentToLocalSpace(&skeData);
 
-		skaData.SaveToFile(pOutSkaFile);
+		pSkaData->SaveToFile(pOutSkaFile);
 
 		return true;
 	}
@@ -167,12 +153,12 @@ namespace ma
 			lOutputString += "\n\n";
 			FBXSDK_printf(lOutputString);
 
-			DisplayAnimation(lAnimStack, pFbxScene->GetRootNode(),skaData,skeData);
+			LoadAnimationData(lAnimStack, pFbxScene->GetRootNode(),skaData,skeData);
 
 			break;
 		}
 
-		ConverteAnimDataParentToLocalSpaceAnimation(&skaData,&skeData);
+		skaData.ConverteAnimDataParentToLocalSpace(&skeData);
 
 		//m_pFBXImporter->Destroy();
 

@@ -11,7 +11,7 @@ namespace ma
 
 		if ( GetRenderSetting()->m_bIsHDRRending )
 		{
-			m_pShadingTex = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_FLOAT16_RGBA);	
+			m_pShadingTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT16_RGBA);	
 
 			RefPtr<Texture>	 pOutTagget = GetRenderSystem()->GetRenderTarget(0);
 

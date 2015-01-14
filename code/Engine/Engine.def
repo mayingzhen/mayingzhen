@@ -22,8 +22,8 @@ EXPORTS
 ??1Object@ma@@UAE@XZ
 ?IsA@RTTIClass@ma@@QBE_NPBV12@@Z
 ?GetName@RTTIClass@ma@@QBEPBDXZ
-??0RTTIClass@ma@@QAE@PBDPBV01@@Z
 ?GetClass@Object@ma@@UBEPAVRTTIClass@2@XZ
+?CreateRTTIClass@ma@@YA?AV?$RefPtr@VRTTIClass@ma@@@1@PBDPBVRTTIClass@1@@Z
 ??0Object@ma@@QAE@XZ
 ??1Component@ma@@UAE@XZ
 ?Serialize@Serializable@ma@@UAEXAAVSerializer@2@PBD@Z
@@ -83,8 +83,6 @@ EXPORTS
 ?Start@Thread@ma@@UAEXXZ
 ?Stop@Thread@ma@@UAEXXZ
 ?ThreadLoop@Thread@ma@@UAEXXZ
-??1MeshData@ma@@UAE@XZ
-??0MeshData@ma@@QAE@PBD@Z
 ?GetArchiveMananger@ma@@YAPAVArchiveManager@1@XZ
 ?GetArchiveByIndex@ArchiveManager@ma@@QAEPAVArchive@2@I@Z
 ?getNamespace@Properties@ma@@QBEPBDXZ
@@ -108,7 +106,7 @@ EXPORTS
 ?SetProjectionMatrix@SpriteBatch@ma@@QAEXABVMatrix4@2@@Z
 ?getVector4@Properties@ma@@QBE_NPBDPAVVector4@2@@Z
 ?Draw@SpriteBatch@ma@@QAEXMMMMMMMMMABVColourValue@2@_N@Z
-?CreateRenderTarget@RenderSystem@ma@@QAEPAVTexture@2@HHW4PixelFormat@2@_N@Z
+
 ?GetStateBlock@SpriteBatch@ma@@QBEAAURenderState@2@XZ
 ?Reset@MeshBatch@ma@@QAEXXZ
 ?getColor@Properties@ma@@QBE_NPBDPAVColourValue@2@@Z
@@ -126,7 +124,6 @@ EXPORTS
 ?ShoutDown@RenderSystem@ma@@QAEXXZ
 ?Update@ParticleSystem@ma@@QAEXXZ
 ?GetParticleSystem@ma@@YAPAVParticleSystem@1@XZ
-?Update@LightSystem@ma@@QAEXXZ
 ?GetLightSystem@ma@@YAPAVLightSystem@1@XZ
 ?Update@RenderSystem@ma@@QAEXXZ
 ?ShoutDown@ResourceSystem@ma@@QAEXXZ
@@ -188,7 +185,6 @@ EXPORTS
 ?GetMatViewProj@Camera@ma@@QAEABVMatrix4@2@XZ
 ?GetPSFile@ShaderProgram@ma@@IBEPBDXZ
 ?GetVSFile@ShaderProgram@ma@@IBEPBDXZ
-?AddUniform@ShaderProgram@ma@@IAEPAUUniform@2@PBD@Z
 ?GetShaderDefine@ShaderProgram@ma@@IBEPBDXZ
 ?GetScene@RenderSystem@ma@@QAEPAVScene@2@H@Z
 ?FindChildNode@SceneNode@ma@@QAEPAV12@PBD@Z
@@ -245,3 +241,12 @@ EXPORTS
 ?RemoveComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
 ?RemoveChild@SceneNode@ma@@QAEXPAV12@@Z
 ?RemoveAllChild@SceneNode@ma@@QAEXXZ
+?StaticGetClass@MeshData@ma@@SAPBVRTTIClass@2@XZ
+??1MeshData@ma@@UAE@XZ
+??0MeshData@ma@@QAE@PBD@Z
+?AddSubMeshData@MeshData@ma@@QAEPAVSubMeshData@2@XZ
+?AddBonePalette@SubMeshData@ma@@QAEXG@Z
+?SetEnabled@RenderShadowCSM@ma@@QAEX_N@Z
+?GetRenderShadowCSM@ma@@YAPAVRenderShadowCSM@1@XZ
+?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
+?SetDirectionalLight@Scene@ma@@QAEXABVColourValue@2@ABVVector3@2@@Z

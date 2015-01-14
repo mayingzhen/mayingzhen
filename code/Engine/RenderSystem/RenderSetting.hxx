@@ -16,7 +16,7 @@ namespace ma
 
 	RenderSetting::RenderSetting()
 	{
-		m_bShadow = false; 
+		//m_bShadow = false; 
 		m_bDefferLight = false;
 		m_bRenderThread = false;
 		m_bPartcleThread = true;

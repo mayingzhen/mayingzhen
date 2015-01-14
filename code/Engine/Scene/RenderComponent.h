@@ -6,6 +6,7 @@ namespace ma
 {
 	class SubMaterial;
 	class CullNode;
+	class Renderable;
 
 
 	class ENGINE_API RenderComponent : public Component
@@ -24,31 +25,33 @@ namespace ma
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
 
+		virtual	UINT	GetRenderableCount() const;
+		virtual Renderable* GetRenderableByIndex(UINT index) const;
+
 		void			SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}
 	
 		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
 		CullNode*		GetCullNode() const {return m_pCullNode;}
 
-		const AABB&		GetAABBWS();
-		float			GetViewMinZ();
-		float			GetViewMaxZ();
+		const AABB&		GetAABBWS() const {return m_AABB;}
+
+		virtual	void	SetViewMinMaxZ(float fZmin,float fZmax) {m_fViwMinZ = fZmin;m_fViwMaxZ = fZmax;}
+		virtual float	GetViewMinZ() const {return m_fViwMinZ;}
+		virtual	float	GetViewMaxZ() const {return m_fViwMaxZ;}	
 
 	protected:
 		CullNode*			m_pCullNode;
 
 		AABB				m_AABB;
-
 		AABB				m_worldAABB;
 
-		float				m_fViewMinZ;
-
-		float				m_fViewMaxZ;
+		float				m_fViwMinZ;
+		float				m_fViwMaxZ;
 		
 		bool				m_bVisible;
 
 		bool				m_bShadowCaster;
-
 	};
 }
 

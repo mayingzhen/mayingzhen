@@ -23,26 +23,6 @@ namespace ma
 			return;
 
 		m_pShaderProgram = pShader;
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
-		{
-			SAFE_DELETE(m_arrParameters[i]);
-		}
-		m_arrParameters.clear();
-
-		UINT nUniform = pShader->GetUniformCount();
-		for (UINT i = 0; i < nUniform; ++i)
-		{
-			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-			ASSERT(pUniform);
-			if (pUniform == NULL)
-				continue;
-
-			MaterialParameter* pParam = new MaterialParameter();
-			pParam->SetName( pUniform->m_name.c_str() );
-			m_arrParameters.push_back(pParam);
-			m_arrUniform.push_back(pUniform);
-			GetParameterManager()->UseDefaultBing(pParam);
-		}	
 	}
 
 	void Technique::Bind()
@@ -55,11 +35,10 @@ namespace ma
 		
 		GetRenderSystem()->SetRenderState(m_renderState);
 
-		ASSERT(m_arrParameters.size() == m_arrUniform.size());
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			Uniform* pUniform = m_arrUniform[i];
 			MaterialParameter* pMatParam = m_arrParameters[i];
+			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
 			pMatParam->Bind(pUniform);
 		}
 	}
@@ -72,11 +51,17 @@ namespace ma
 	void Technique::SetParameter(const char* pszName,const Any& value)	
 	{
 		MaterialParameter* pParame = GetParameter(pszName);
-		ASSERT(pParame);
-		if (pParame == NULL)
-			return;
-
-		pParame->SetValue(value);
+		if (pParame)
+		{
+			pParame->SetValue(value);
+		}
+		else
+		{
+			pParame = new MaterialParameter();
+			pParame->SetName(pszName);
+			pParame->SetValue(value);
+			m_arrParameters.push_back(pParame);
+		}
 	}
 
 	MaterialParameter* Technique::GetParameter(const char* pszName)

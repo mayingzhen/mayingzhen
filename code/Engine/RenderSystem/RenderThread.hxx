@@ -181,18 +181,46 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
+	void RenderThread::RC_CreateTexture(Texture* pRenderTarget)
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->RT_Create();
+			pRenderTarget->RT_CreateTexture();
 			return;
 		}
 
-		AddCommand(eRC_CreateRenderTarget);
+		AddCommand(eRC_CreateTexture);
 		AddPointer(pRenderTarget);
 
 		FlushAndWait();
+	}
+
+	void RenderThread::RC_CreateDepthStencil(Texture* pRenderTarget)
+	{
+		if (IsRenderThread())
+		{
+			pRenderTarget->RT_CreateDepthStencil();
+			return;
+		}
+
+		AddCommand(eRC_CreateDepthStencil);
+		AddPointer(pRenderTarget);
+
+		FlushAndWait();
+	}
+
+	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
+	{
+		if (IsRenderThread())
+		{
+			pShader->Bind();
+ 			pShader->BindUniform();
+ 
+			return;
+		}
+
+		AddCommand(eRC_SetShader);
+		AddPointer(pShader);
 	}
 
 	void RenderThread::RC_SetRenderTarget(Texture* pTexture,int index)
@@ -517,10 +545,23 @@ namespace ma
 					pShader->RT_StreamComplete();
 				}
 				break;
-			case  eRC_CreateRenderTarget:
+			case  eRC_CreateTexture:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_Create();
+					pTarget->RT_CreateTexture();
+				}
+				break;
+			case  eRC_CreateDepthStencil:
+				{
+					Texture* pTarget = ReadCommand<Texture*>(n);
+					pTarget->RT_CreateDepthStencil();
+				}
+				break;
+			case  eRC_SetShader:
+				{
+					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
+					pShader->Bind();
+					pShader->BindUniform();
 				}
 				break;
 			case eRC_SetRenderTarget:

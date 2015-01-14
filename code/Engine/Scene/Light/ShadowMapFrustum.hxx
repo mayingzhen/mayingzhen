@@ -5,8 +5,6 @@ namespace ma
 {
 	ShadowMapFrustum::ShadowMapFrustum()
 	{
-		m_pLight = NULL;
-
 		m_fConstantBias = 0;
 		m_fSlopeScaleBias = 0;
 
@@ -76,7 +74,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		Caster_Cull eCaterCullType = m_pLight->GetCasterCullType();
+		Caster_Cull eCaterCullType = GetRenderShadowCSM()->GetCasterCullType();
 		if (eCaterCullType != CasterCull_No)
 		{
 			Frustum ligtFrustum;
@@ -87,6 +85,24 @@ namespace ma
 
 			ShadowCasterQuery shaowQuery(ligtFrustum,lightViewFrustum,m_matLightView,m_arrCaster,m_casterAABB);
 			pCamera->GetSceneNode()->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
+		}
+
+		for (VEC_CASTER::iterator iter = m_arrCaster.begin();iter != m_arrCaster.end();++iter)
+		{
+			RenderComponent* pRenderComp = (*iter);
+
+			float fShadowFarDis = GetRenderShadowCSM()->GetShadowFarDistance();
+			if (fShadowFarDis > 0)
+			{
+				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetSceneNode()->GetPosWS()).length();
+				if (fLodValue > fShadowFarDis)
+					continue;
+			}
+		
+			for (UINT i = 0; i < pRenderComp->GetRenderableCount(); ++i)
+			{
+				m_arrRenderable.push_back(pRenderComp->GetRenderableByIndex(i));
+			}
 		}
 	}
 
@@ -101,10 +117,12 @@ namespace ma
 
 
 	void ShadowMapFrustum::UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar)
-	{
-		Vector3 vLightDir = m_pLight->GetSceneNode()->GetForward();
-
+	{		
 		Scene* pCurScene = pCamera->GetSceneNode()->GetScene();
+		
+		ColourValue color;
+		Vector3 vLightDir;
+		pCurScene->GetDirectionalLight(color, vLightDir);
 
 		Vector3 vLightUp;
 		if ( Math::Abs( (-vLightDir).dotProduct( pCamera->GetSceneNode()->GetUp() ) ) > 0.95f )
@@ -123,7 +141,7 @@ namespace ma
 
 		AABB aabbInLightView;
 
-		Caster_Cull eCaterCullType = m_pLight->GetCasterCullType();
+		Caster_Cull eCaterCullType = GetRenderShadowCSM()->GetCasterCullType();
 		if (eCaterCullType == CasterCull_No)
 		{
 			uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
@@ -269,7 +287,7 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
-		m_pLight->GetDepthBiasParams(m_fConstantBias,m_fSlopeScaleBias);
+		GetRenderShadowCSM()->GetDepthBiasParams(m_fConstantBias,m_fSlopeScaleBias);
 
 		float vCurSplitx = pCamera->GetNearClip();
 		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
@@ -280,6 +298,8 @@ namespace ma
 
 	void ShadowMapFrustum::Update(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
+		Clear(pCamera);
+
 		UpdateDepthBias(pCamera,fSpiltNear,fSpiltFar);
 
 		UpdateFrustum(pCamera,fSpiltNear,fSpiltFar);
@@ -293,7 +313,7 @@ namespace ma
 		m_matVPShadow = m_matCrop * m_matLightProj * m_matLightView;
 	}
 
-	void ShadowMapFrustum::Render(Camera* pCamera,int index)
+	void ShadowMapFrustum::Render(Camera* pCamera)
 	{
 		if (!m_bDraw)
 			return;
@@ -302,18 +322,31 @@ namespace ma
 
 		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
 		{
-			GetRenderSystem()->SetColorWrite(false);
 			GetRenderSystem()->SetDepthBias(m_fConstantBias);
 		}
 
-		//m_batchEntityShadow.Render(pCamera,m_matVPShadow);
-		//m_batchSkinShadow.Render(pCamera,m_matVPShadow);
+		for (UINT i = 0; i <  m_arrRenderable.size(); ++i)
+		{
+			Renderable* pRenderObj = m_arrRenderable[i];
+			if (pRenderObj == NULL)
+				continue;
+			 
+			 SubMaterial* pMaterial = pRenderObj->GetMaterial();
+		
+			 Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
+
+			 Uniform* pUniform = pTech->GetShaderProgram()->GetUniform("matLightViewProj");
+			 GetRenderSystem()->SetValue(pUniform,m_matVPShadow);
+			 
+			 pRenderObj->Render(pTech);
+		}
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
 		m_casterAABB.setNull();
 		m_arrCaster.clear();
+		m_arrRenderable.clear();
 		m_sceneAABB.setNull();
 	}
 }

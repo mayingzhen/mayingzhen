@@ -8,12 +8,12 @@ namespace ma
     enum AutoBinding
 	{
 		NONE,
-		WORLD_MATRIX,
-		VIEW_MATRIX,
-		PROJECTION_MATRIX,
-		WORLD_VIEW_MATRIX,
-		VIEW_PROJECTION_MATRIX,
-		WORLD_VIEW_PROJECTION_MATRIX,
+		g_matWorld,
+		g_matView,
+		g_matProj,
+		g_matWorldView,
+		g_matViewProj,
+		g_matWorldViewProj,
 		INVERSE_TRANSPOSE_WORLD_MATRIX,
 		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
 		INVERSE_PROJECTION_MATRIX,
@@ -29,6 +29,7 @@ namespace ma
 		TextureLightShadow,
 		TextureSceneDepth,
 		TextureSceneNormal,
+		g_tShadowMap,
 	};
 
 	class MaterialParameter;
@@ -40,9 +41,9 @@ namespace ma
 
 		~ParameterManager();
 
-		void SetParameterAutoBinding(MaterialParameter* pParam,AutoBinding autoBinding);
+		void SetParameterAutoBinding(Uniform* pParam,AutoBinding autoBinding);
 
-		void UseDefaultBing(MaterialParameter* pParam);
+		void UseDefaultBing(Uniform* pParam);
 
 	private:
 		// Internal auto binding handler methods.

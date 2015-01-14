@@ -96,6 +96,7 @@ namespace ma
 	void Platform::Shutdown()
 	{
 		Game::GetInstance().Shutdown();	
+
 		Game::GetInstance().ModuleShutdown();
 	}
 

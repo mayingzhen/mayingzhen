@@ -9,7 +9,7 @@ namespace ma
 		if (pAnimTreeNode == NULL)
 			return;
 
-		std::vector<AnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
+		VEC_ANIMNODE::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
 		if ( it != m_arrAnimNode.end() )
 			return;
 
@@ -21,7 +21,7 @@ namespace ma
 		if (pAnimTreeNode == NULL)
 			return;
 
-		std::vector<AnimTreeNode*>::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
+		VEC_ANIMNODE::iterator it = find(m_arrAnimNode.begin(),m_arrAnimNode.end(),pAnimTreeNode);
 		if ( it == m_arrAnimNode.end() )
 			return;
 
@@ -78,6 +78,11 @@ namespace ma
 		SerializeArrObj<AnimTreeNode>(sl,m_arrAnimNode,"arrAnimNode");
 
 		sl.EndSection();
+	}
+
+	RefPtr<AnimLayerNode> CreateLayerNode()
+	{
+		return new AnimLayerNode();
 	}
 
 }

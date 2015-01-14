@@ -4,9 +4,6 @@
 
 namespace ma
 {
-	//ADD_SAMPLE(FbxImport,SampleFbxImport);
-	//Sample* CreateSample() { return new SampleFbxImport(); } 
-	//GetSampleBrowser()->RegisterSample("FbxImport",CreateSample);
 
 	SampleFbxImport::SampleFbxImport()
 	{
@@ -65,22 +62,20 @@ namespace ma
 
 	void CreateMaterialData(const char* pszTexture,const char* pMatPath)
 	{
-		SamplerState diff;
-		diff.SetTexturePath(pszTexture);
-
-		MaterialParameter texureParam("u_texture");
-		texureParam.SetValue(Any(diff));
-
-		SubMaterialData subMatData;
-		subMatData.m_strShaderName = "default";
-		subMatData.m_strShaderMacro = "DIFFUSE";
-		subMatData.m_renderState.m_eCullMode = CULL_FACE_SIDE_FRONT;
-		subMatData.m_arrParameters.push_back(texureParam);
-
 		MaterialData matData;
-		matData.AddSubMatData(subMatData);
 
-		matData.SaveToFile(pMatPath);
+		SubMaterialData& subMatData = matData.AddSubMatData();
+		subMatData.SetShaderName("default");
+		subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
+		subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+
+		RefPtr<SamplerState> pDiff = CreateSamplerState();
+		pDiff->SetTexturePath(pszTexture);
+
+		subMatData.AddParameter("u_texture", Any(pDiff) );
+		subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );
+
+		matData.SaveToXML(pMatPath);
 	}
 
 	void SampleFbxImport::LoadSaticMesh()
@@ -125,17 +120,13 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
-		FBXImporterModuleInit();
-
 		LoadSaticMesh();
 
-		LoadSkelMesh();
-		
+		LoadSkelMesh();	
 	}
 
 	void SampleFbxImport::UnLoad()
 	{
-		FBXImporterModuleShutdown();
 	}
 
 }

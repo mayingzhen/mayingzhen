@@ -20,8 +20,12 @@ namespace ma
 		SAFE_DELETE(m_refPose);
 	}
 
+	const char*	Skeleton::GetBoneNameByIndex(UINT uIndex) const
+	{
+		return m_arrBoneName[uIndex].c_str();
+	}
 
-	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName)
+	BoneIndex Skeleton::GetBoneIdByName(const char* pszBoneName) const
 	{
 		if (pszBoneName == NULL)
 			return Math::InvalidID<BoneIndex>();
@@ -37,12 +41,12 @@ namespace ma
 		return Math::InvalidID<BoneIndex>();
 	}
 
-	BoneIndex Skeleton::GetParentIndice(BoneIndex nBoneID)
+	BoneIndex Skeleton::GetParentIndice(BoneIndex nBoneID) const
 	{
 		return m_arrParentIndice[nBoneID];
 	}
 
-	bool Skeleton::IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID)
+	bool Skeleton::IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID) const
 	{
 		for (BoneIndex nParentID = GetParentIndice(nChildBoneID); Math::IsValidID(nParentID); nParentID = GetParentIndice(nParentID))
 		{
@@ -54,15 +58,22 @@ namespace ma
 		return false;
 	}
 
-	BoneSet* Skeleton::GetBoneSetByName(const char* pszBoneSetName)
+	BoneSet* Skeleton::GetBoneSetByName(const char* pszBoneSetName) const
 	{
 		for (UINT i = 0; i < m_arrBoneSet.size(); ++i)
 		{
 			if ( _stricmp(pszBoneSetName,m_arrBoneSet[i]->GetBoneSetName()) == 0 )
-				return m_arrBoneSet[i];
+				return m_arrBoneSet[i].get();
 		}
 
 		return NULL;
+	}
+
+	void Skeleton::AddBone(const char* pName,UINT nParentID,const Transform& tsfOS)
+	{
+		m_arrBoneName.push_back(pName);
+		m_arrParentIndice.push_back(nParentID);
+		m_arrTsfOS.push_back(tsfOS);
 	}
 
 	void Skeleton::InitUpLowerBoneSet(const char* pszSplitBone, const char* pszUpBody, const char* pszLowerBody,
@@ -112,7 +123,7 @@ namespace ma
 
 		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
 		{
-			SerializeDataV0(sl,*this,pszLable);
+			SerializeDataV0(sl,pszLable);
 		}
 
 		if (sl.IsReading())

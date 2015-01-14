@@ -21,23 +21,6 @@ namespace ma
 		return true;
 	}
 
-// 	bool XMLInputSerializer::Open(const char* pszFilename)
-// 	{
-// 		std::string strFilename = GetArchiveMananger()->GetFullPath(pszFilename);
-// 
-// 		m_pDoc = new TiXmlDocument();
-// 			
-// 		bool bLoadOK = m_pDoc->LoadFile( strFilename.c_str() );
-// 		ASSERT(bLoadOK);
-// 		if (!bLoadOK)
-// 			return false;
-// 
-// 		m_pRootElem = m_pDoc->RootElement();
-// 		m_pCurElem = m_pRootElem;
-// 
-// 		return true;
-// 	}
-
 	bool XMLInputSerializer::Open(XMLOutputSerializer& xmlOutAr)
 	{
 		ASSERT(m_pDoc == NULL);

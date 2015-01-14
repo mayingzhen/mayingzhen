@@ -77,8 +77,6 @@ namespace ma
 	};
 
 	DeclareRefPtr(AnimationComponent);
-
-	AnimationComponentPtr CreateAnimationComponent(const char* pszAniSetPath, const char* pszSkeletonPath);
 }
 
 #endif

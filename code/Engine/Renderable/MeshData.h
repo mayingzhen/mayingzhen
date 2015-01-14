@@ -61,6 +61,8 @@ namespace ma
 			m_nVertexCount = 0;
 			m_nMateiralID = 0;
 		}
+
+		void AddBonePalette(BoneIndex bonde);
 	};
 
 	DeclareRefPtr(SubMeshData);
@@ -88,15 +90,26 @@ namespace ma
 		VertexBufferPtr			GetVertexBuffer() const {return m_pVertexBuffer;} 
 
 		VertexDeclarationPtr	GetVertexDeclar() const {return m_pDeclaration;}
+	
+		void					SetBoundingAABB(const AABB& bound) {m_meshBound = bound;}
+		const AABB&				GetBoundingAABB() const {return m_meshBound;} 
 
-		AABB					GetBoundingAABB() const {return m_meshBound;} 
+		UINT					GetVertexType() const {return m_nVertexType;}
+		void					SetVertexType(UINT nType) {m_nVertexType = nType;}
+
+		UINT					GetIndexType() const {return m_nIndexType;}
+		void					SetIndexType(UINT nType) {m_nIndexType = nType;} 
+
+		SubMeshData*			AddSubMeshData();
 
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
 	private:
 		int						GetVertexStride();
 
-	public:
+		void					SerializeDataV0(Serializer& sl, const char* pszLabel);
+
+	private:
 		
 		UINT							m_nIndexType;
 		UINT							m_nVertexType;

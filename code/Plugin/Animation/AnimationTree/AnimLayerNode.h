@@ -28,8 +28,11 @@ namespace ma
 		virtual bool OnLoadOver();
 
 	private:
-		std::vector<AnimTreeNode*> m_arrAnimNode;
+		typedef std::vector< RefPtr<AnimTreeNode> > VEC_ANIMNODE;
+		VEC_ANIMNODE m_arrAnimNode;
 	};
+
+	ANIMATION_API RefPtr<AnimLayerNode> CreateLayerNode();
 }
 
 

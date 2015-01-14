@@ -28,6 +28,9 @@ namespace ma
 
 		Terrain* GetTerrain() const {return m_pTerrain;}
 
+		virtual	UINT	GetRenderableCount() const;
+		virtual Renderable* GetRenderableByIndex(UINT index) const;
+
 	private:
 		void BuildLod();
 		void BuildVertexBuffer();
@@ -35,7 +38,7 @@ namespace ma
 		void BuildBorder();
 		void BuildSkirt();
 
-		void UpdateTerrainRenderable();
+		void UpdateRenderable();
 
 		void AddToIBList( vector< vector<uint16> >& vecIBList, uint8 matID, uint16 triangle[3]);
 
@@ -69,6 +72,8 @@ namespace ma
 			vector<TERRAIN_VERTEX>	m_vecVBTemp;
 		};
 		vector<TERRAIN_LOD> m_vecLod;
+
+		VEC_RENDERABLE	m_arrRenderable;
 	};
 }
 

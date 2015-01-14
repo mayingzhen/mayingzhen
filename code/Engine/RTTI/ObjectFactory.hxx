@@ -41,7 +41,7 @@ namespace ma
 		}
 	}
 
-	Object* ObjectFactoryManager::CreateObject(const char* pCls)
+	RefPtr<Object> ObjectFactoryManager::CreateObject(const char* pCls)
 	{
 		Object* pObj = NULL;
 		ObjFunFactoryMap::iterator funIter = m_objFunFactoryMap.find(pCls);

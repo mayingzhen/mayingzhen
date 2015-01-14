@@ -5,7 +5,7 @@
 
 
 #define DECL_OBJECT(ClassName) private:\
-	static RTTIClass* ms_p##ClassName##Class;\
+	static RefPtr<RTTIClass> ms_p##ClassName##Class;\
 	public:\
 	static void StaticInitClass();\
 	static void StaticShutdownClass();\
@@ -13,21 +13,21 @@
 	virtual RTTIClass*	GetClass() const;\
 	private:
 
-#define IMPL_OBJECT(ClassName,ParentName) RTTIClass* ClassName::ms_p##ClassName##Class = NULL; \
+#define IMPL_OBJECT(ClassName,ParentName) RefPtr<RTTIClass> ClassName::ms_p##ClassName##Class = NULL; \
 	void ClassName::StaticInitClass(){\
-	/*std::string*/const char* className = #ClassName;\
-	ms_p##ClassName##Class = new RTTIClass(className,ParentName::StaticGetClass());\
-	GetClassManager()->RegisterRTTIClass(ms_p##ClassName##Class); \
+	const char* className = #ClassName;\
+	ms_p##ClassName##Class = CreateRTTIClass(className,ParentName::StaticGetClass());\
+	GetClassManager()->RegisterRTTIClass(ms_p##ClassName##Class.get()); \
 	}\
 	void ClassName::StaticShutdownClass(){ \
-	GetClassManager()->UnRegisterRTTIClass(ms_p##ClassName##Class); \
-	SAFE_DELETE(ms_p##ClassName##Class);\
+	GetClassManager()->UnRegisterRTTIClass(ms_p##ClassName##Class.get()); \
+	ms_p##ClassName##Class = NULL;	\
 	}\
 	const RTTIClass*		ClassName::StaticGetClass(){\
-	return ms_p##ClassName##Class;\
+	return ms_p##ClassName##Class.get();\
 	}\
 	RTTIClass*	ClassName::GetClass() const{\
-	return ms_p##ClassName##Class;\
+	return ms_p##ClassName##Class.get();\
 	}
 
 

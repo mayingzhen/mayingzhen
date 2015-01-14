@@ -158,7 +158,7 @@ namespace ma
 
 	void ScriptObject::DestoryScript()
 	{
-		mono_gchandle_free(m_handle);
+		//mono_gchandle_free(m_handle);
 		m_pMonoClass = NULL;
 		m_pMonoObj = NULL;
 
