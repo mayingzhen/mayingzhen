@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;&quot;../../extern/zziplib-0.13.57&quot;;&quot;../../extern/FreeImage-3.13.1/Source&quot;"
+				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;&quot;../../extern/zziplib-0.13.57&quot;;&quot;../../extern/FreeImage-3.13.1/Source&quot;;../../extern/vld/include/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -67,7 +67,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="zziplibd.lib FreeImaged.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;"
+				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;;../../extern/vld/lib"
 				ModuleDefinitionFile="../../code/Engine/Engine.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -584,6 +584,22 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Engine\Scene\Light\PoissonDiskGen.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\PoissonDiskGen.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\RenderShadowCSM.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\RenderShadowCSM.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Engine\Scene\Light\ShadowCasterQuery.h"
 					>
 				</File>
@@ -726,6 +742,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\ObjectFactory.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Referenced.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\RefPtr.h"
 				>
 			</File>
 			<File
@@ -888,6 +912,14 @@
 				RelativePath="..\..\code\Engine\Material\Texture.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Uniform.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\Uniform.hxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="RenderSystem"
@@ -954,6 +986,10 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RTTI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\RTTIDecl.h"
 				>
 			</File>
 			<Filter
@@ -1175,6 +1211,14 @@
 		</File>
 		<File
 			RelativePath="..\..\Code\Engine\Module.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Engine\Roo.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Engine\Root.h"
 			>
 		</File>
 		<File

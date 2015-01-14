@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/glew/include;../../extern/ois/Includes;../../extern/mono/Inlude/"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/glew/include;../../extern/ois/Includes;../../extern/mono/Inlude/;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\Unity_$(ProjectName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/lib"
+				AdditionalLibraryDirectories="../../extern/lib;../../extern/vld/lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"

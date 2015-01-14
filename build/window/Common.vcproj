@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code"
+				AdditionalIncludeDirectories="../../code;../../extern/vld/include/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -195,14 +195,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Common\MatViewProj.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\Referenced.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Common\RefPtr.h"
 				>
 			</File>
 			<File

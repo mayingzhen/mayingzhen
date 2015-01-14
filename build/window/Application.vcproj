@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/glew/include;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;APP_EXPORTS"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -65,7 +65,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OIS_D.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/ois/Debug"
+				AdditionalLibraryDirectories="../../extern/ois/Debug;../../extern/vld/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"

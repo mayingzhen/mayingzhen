@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes"
+				AdditionalIncludeDirectories="../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;D3D9RENDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,6 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="d3dx9d.lib d3d9.lib d3dxof.lib dxguid.lib dxerr.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../../extern/vld/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -318,10 +319,6 @@
 			</File>
 			<File
 				RelativePath="..\..\data\shader\D3D9\terrain.vert"
-				>
-			</File>
-			<File
-				RelativePath="..\..\data\shader\d3d9\uniform.h"
 				>
 			</File>
 			<Filter
