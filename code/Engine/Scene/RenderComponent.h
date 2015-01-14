@@ -34,7 +34,7 @@ namespace ma
 		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
 		CullNode*		GetCullNode() const {return m_pCullNode;}
 
-		const AABB&		GetAABBWS() const {return m_AABB;}
+		const AABB&		GetAABBWS() const {return m_worldAABB;}
 
 		virtual	void	SetViewMinMaxZ(float fZmin,float fZmax) {m_fViwMinZ = fZmin;m_fViwMaxZ = fZmax;}
 		virtual float	GetViewMinZ() const {return m_fViwMinZ;}

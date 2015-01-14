@@ -289,7 +289,7 @@ namespace ma
 	{
 		GetRenderShadowCSM()->GetDepthBiasParams(m_fConstantBias,m_fSlopeScaleBias);
 
-		float vCurSplitx = pCamera->GetNearClip();
+		float vCurSplitx = GetRenderShadowCSM()->GetCurSplitPos().x;
 		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
 
 		m_fConstantBias *= multiplier;
@@ -344,9 +344,9 @@ namespace ma
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
-		m_casterAABB.setNull();
-		m_arrCaster.clear();
 		m_arrRenderable.clear();
+		m_casterAABB.setNull();
+		m_arrCaster.clear();	
 		m_sceneAABB.setNull();
 	}
 }

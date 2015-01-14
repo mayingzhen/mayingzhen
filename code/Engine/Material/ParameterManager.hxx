@@ -27,6 +27,11 @@ namespace ma
 		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
 		m_autoDefaultBings["g_matWorldView"] = g_matWorldView;
 		m_autoDefaultBings["g_tShadowMap"] = g_tShadowMap;
+		m_autoDefaultBings["g_fSplitPlane"] = g_fSplitPlane;
+		m_autoDefaultBings["g_matShadow"] = g_matShadow;
+		m_autoDefaultBings["g_shadowMapTexelSize"] = g_shadowMapTexelSize;
+		m_autoDefaultBings["g_ShadowDepthFade"] = g_ShadowDepthFade;
+		m_autoDefaultBings["g_matShadow"] = g_matShadow;
 		m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
 		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
 		m_autoDefaultBings["g_vViewportInv"] =  INVERSE_PROJECTION_MATRIX;
@@ -88,6 +93,22 @@ namespace ma
 		else if (autoBinding == g_tShadowMap)
 		{
 			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMap);
+		}
+		else if (autoBinding == g_fSplitPlane)
+		{
+			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetCurSplitPos);
+		}
+		else if (autoBinding == g_matShadow)
+		{
+			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMatrix,&RenderShadowCSM::GetMaxSplitCount);
+		}
+		else if (autoBinding == g_shadowMapTexelSize)
+		{
+			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMapTexSize);
+		}
+		else if (autoBinding == g_ShadowDepthFade)
+		{
+			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowDepthFade);
 		}
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
 		{

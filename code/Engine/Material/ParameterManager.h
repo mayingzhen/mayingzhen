@@ -30,6 +30,10 @@ namespace ma
 		TextureSceneDepth,
 		TextureSceneNormal,
 		g_tShadowMap,
+		g_fSplitPlane,
+		g_matShadow,
+		g_shadowMapTexelSize,
+		g_ShadowDepthFade,
 	};
 
 	class MaterialParameter;

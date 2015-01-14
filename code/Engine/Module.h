@@ -32,7 +32,7 @@
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/ResourceSystem.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
-#include "Engine/Resource/Serialize/Serializer.h"
+#include "Engine/Resource/Serialize/Serializer.h" 
 #include "Engine/Resource/Serialize/BinaryInputSerializer.h"
 #include "Engine/Resource/Serialize/BinaryOutputSerializer.h"
 #include "Engine/Resource/Serialize/XMLInputSerializer.h"

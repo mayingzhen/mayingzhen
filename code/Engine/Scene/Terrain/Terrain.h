@@ -38,7 +38,7 @@ namespace ma
 		static void	RegisterObject(Context* context);
 
 		virtual void Update();
-
+	
 		bool Intersect(const Ray& ray, OUT Vector3& vPos);
 
 		// Height
