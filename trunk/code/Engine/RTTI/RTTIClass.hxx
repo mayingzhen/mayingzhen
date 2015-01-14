@@ -2,6 +2,13 @@
 
 namespace ma
 {
+
+	RefPtr<RTTIClass> CreateRTTIClass(const char* className,const RTTIClass* pParent)
+	{
+		RTTIClass* pClaass = new RTTIClass(className,pParent);
+		return pClaass;
+	}
+
 	static ClassManager* gpClassManager = NULL;
 
 	ClassManager* GetClassManager()

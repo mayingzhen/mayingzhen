@@ -24,8 +24,8 @@ namespace ma
 	{
 		m_pLinTech = CreateTechnique("Line","default","default","COLOR");
 
-		MaterialParameter* pParam = m_pLinTech->GetParameter("u_worldViewProjectionMatrix");
-		GetParameterManager()->SetParameterAutoBinding(pParam,VIEW_PROJECTION_MATRIX);
+		//Uniform* pParam = m_pLinTech->GetShaderProgram()->GetUniform("u_worldViewProjectionMatrix");
+		//GetParameterManager()->SetParameterAutoBinding(pParam,VIEW_PROJECTION_MATRIX);
 		
 		VertexElement element[2];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
@@ -37,6 +37,7 @@ namespace ma
 
 	void LineRender::ShutDown()
 	{
+		m_pLinTech = NULL;
 		SAFE_DELETE(m_pMeshBatch);
 	}
 

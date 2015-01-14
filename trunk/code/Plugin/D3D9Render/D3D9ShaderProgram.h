@@ -20,6 +20,8 @@ namespace ma
 
 		void Bind();
 
+		void Destory();
+
 	private:
 
 		IDirect3DVertexShader9*		m_pVertexShader;

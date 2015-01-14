@@ -11,14 +11,14 @@ namespace ma
 	{
 		gpDeferredLightPass = this;
 
-		m_pDiffuse = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_A8R8G8B8);
-		m_pSpecular = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_A8R8G8B8);
+		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
+		m_pSpecular = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
 
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;
 
 		std::string strShaderDefine = "DIRECT_LIGHT";
-		if ( GetRenderSetting()->m_bShadow )
+		if ( GetRenderShadowCSM()->GetEnabled() )
 		{
 			strShaderDefine += ";SHADOW";
 		}

@@ -22,6 +22,8 @@ namespace ma
 
 		VertexAttribute getVertexAttribute(const char* name) const;
 
+		void Destory();
+
 	private:
 
 		GLuint m_program;

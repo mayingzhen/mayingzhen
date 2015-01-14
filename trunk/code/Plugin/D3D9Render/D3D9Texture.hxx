@@ -42,7 +42,7 @@ namespace ma
 		return true;
 	}
 
-	bool D3D9Texture::RT_Create()
+	bool D3D9Texture::RT_CreateTexture()
 	{
 		ASSERT(m_pD3DTex == NULL);
 		if (m_pD3DTex)
@@ -77,6 +77,30 @@ namespace ma
 
 		m_pD3DTex->GetSurfaceLevel(0,&m_pD3D9Surface);
 		m_nMipLevels = m_pD3DTex->GetLevelCount();
+
+		return true;
+	}
+
+	bool D3D9Texture::RT_CreateDepthStencil()
+	{
+		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(m_eFormat);
+
+		HRESULT hr = GetD3D9DxDevive()->CreateDepthStencilSurface(
+			m_nWidth,
+			m_nHeight,
+			D3DFormat,
+			D3DMULTISAMPLE_NONE,
+			0,
+			true,
+			&m_pD3D9Surface,
+			NULL
+			);
+
+		if (FAILED(hr))
+		{
+			LogError("Error creating DepthStencil: %s, D3D9DepthStencil::RT_Create", DXGetErrorDescription(hr));
+			return false;
+		}
 
 		return true;
 	}
@@ -136,9 +160,10 @@ namespace ma
 			return false;
 		}
 
+		SAFE_RELEASE(pD3D9Surface);
+
 		return true;
 	}
-
 }
 
 

@@ -1,0 +1,8 @@
+RTTI_DECL(MeshData)
+RTTI_DECL(MaterialData)
+RTTI_DECL(MeshComponent)
+RTTI_DECL(ParticleEmitter)
+RTTI_DECL(PointLight)
+RTTI_DECL(SpotLight)
+RTTI_DECL(DirectonalLight)
+RTTI_DECL(Camera)

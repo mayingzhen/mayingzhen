@@ -14,7 +14,7 @@ namespace ma
 
 	ShaderProgram::~ShaderProgram()
 	{
-		m_uniforms.clear();
+		m_arrUniform.clear();
 	}
 
 
@@ -27,6 +27,22 @@ namespace ma
 		sl.Serialize(m_shaderDefine,"m_shaderDefine");
 
 		sl.EndSection();
+	}
+
+	void ShaderProgram::BindUniform()
+	{
+		for (UINT i = 0; i < m_arrUniform.size(); ++i)
+		{
+			m_arrUniform[i]->Bind();		
+		}
+	}
+
+	void ShaderProgram::Reload()
+	{
+		m_arrUniform.clear();
+		m_eResState = ResUnLoad;
+
+		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderDefine.c_str());
 	}
 
 	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines/* = NULL*/)
@@ -54,7 +70,7 @@ namespace ma
 
 		std::string strPathVS = strPath + m_strVSFile + ".vert";
 		std::string strPathFS = strPath + m_strPSFile + ".frag";
-
+	
 		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(),m_shaderDefine.c_str());
 		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(),m_shaderDefine.c_str());
 
@@ -62,7 +78,12 @@ namespace ma
 			strFshSource.c_str(), strFshSource.length());
 
 		ParseUniform();
-
+		
+		for (UINT i = 0; i < m_arrUniform.size(); ++i)
+		{
+			GetParameterManager()->UseDefaultBing(m_arrUniform[i].get());
+		}
+		
 		m_eResState = ResInited;
 	}
 
@@ -88,11 +109,11 @@ namespace ma
 		if (name == NULL)
 			return NULL;
 
-		for (UINT i = 0; i < m_uniforms.size(); ++i)
+		for (UINT i = 0; i < m_arrUniform.size(); ++i)
 		{
-			if (strcmp(name,m_uniforms[i]->m_name.c_str()) == 0)
+			if (strcmp(name,m_arrUniform[i]->GetName()) == 0)
 			{
-				return m_uniforms[i].get();
+				return m_arrUniform[i].get();
 			}
 		}
 		
@@ -101,12 +122,12 @@ namespace ma
 
 	Uniform* ShaderProgram::GetUniform(UINT index) const
 	{
-		return m_uniforms[index].get();
+		return m_arrUniform[index].get();
 	}
 
 	UINT ShaderProgram::GetUniformCount() const
 	{
-		return m_uniforms.size();
+		return m_arrUniform.size();
 	}
 
 	const char* ShaderProgram::GetVSFile() const
@@ -127,8 +148,8 @@ namespace ma
 	Uniform* ShaderProgram::AddUniform(const char* pName)
 	{
 		Uniform* pUnifrom = new Uniform();
-		pUnifrom->m_name = pName ? pName : "";
-		m_uniforms.push_back(pUnifrom);
+		pUnifrom->SetName(pName);
+		m_arrUniform.push_back(pUnifrom);
 		return pUnifrom;
 	}
 

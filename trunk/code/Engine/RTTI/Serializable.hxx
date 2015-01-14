@@ -74,7 +74,7 @@ namespace ma
 		if (type == typeid(const char*))
 		{
 			strVarType = "string";
-			strVarValue = any_cast<const char*>(varValue);
+			strVarValue = any_cast<const char*>(varValue) ? any_cast<const char*>(varValue) : "";
 		}
 		else if (type == typeid(bool))
 		{

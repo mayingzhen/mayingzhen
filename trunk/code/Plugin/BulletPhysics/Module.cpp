@@ -33,8 +33,8 @@ void BtPhysicsModuleInit()
 void BtPhysicsModuleShutdown()
 {
 #define RTTI_DECL(ClassType) \
-	ClassType::StaticInitClass(); \
-	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);
+	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); \
+	ClassType::StaticShutdownClass();
 #include <BulletPhysics/RTTIDecl.h>
 #undef RTTI_DECL
 

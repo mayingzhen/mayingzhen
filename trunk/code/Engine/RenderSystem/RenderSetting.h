@@ -11,7 +11,7 @@ namespace ma
 	
 	public:
 
-		bool			m_bShadow;
+		//bool			m_bShadow;
 		
 		bool			m_bDefferLight;
 		

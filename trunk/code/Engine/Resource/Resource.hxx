@@ -95,7 +95,6 @@ namespace ma
 		}
 	}
 
-
 	void Resource::LoadSync()
 	{
 		if (m_eResState == ResInited)

@@ -2,22 +2,22 @@
 
 namespace ma
 {
-	RTTIClass* Object::ms_pObjectClass = NULL;
+	RefPtr<RTTIClass> Object::ms_pObjectClass = NULL;
 	void Object::StaticInitClass()
 	{
-		ms_pObjectClass = new RTTIClass("Object",NULL);
+		ms_pObjectClass = CreateRTTIClass("Object",NULL);
 	}
 	void Object::StaticShutdownClass()
 	{
-		SAFE_DELETE(ms_pObjectClass);
+		ms_pObjectClass = NULL;
 	}
 	const RTTIClass*		Object::StaticGetClass()
 	{
-		return ms_pObjectClass;
+		return ms_pObjectClass.get();
 	}
 	RTTIClass*	Object::GetClass() const
 	{
-		return ms_pObjectClass;
+		return ms_pObjectClass.get();
 	}
 	//IMPL_OBJECT(Object)
 	

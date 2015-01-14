@@ -56,7 +56,7 @@ namespace ma
 		// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 		Rectangle rect = GetRenderSystem()->GetViewPort();
 		GetRenderDevice()->MakeOrthoMatrixOffCenter(m_projectionMatrix, 0, rect.width, rect.height, 0, 0.0f, 1.0f);
-		m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->BindMethod(this, &SpriteBatch::GetProjectionMatrix);
+		//m_pTechnique->GetParameter("u_worldViewProjectionMatrix")->BindMethod(this, &SpriteBatch::GetProjectionMatrix);
 	}
 
 	SpriteBatch::~SpriteBatch()
@@ -82,9 +82,21 @@ namespace ma
 	void SpriteBatch::Render(Technique* pTech)
 	{
 		if (pTech == NULL)
-			MeshBatch::Render(m_pTechnique.get());
-		else
-			MeshBatch::Render(pTech);
+			pTech = m_pTechnique.get();
+
+		GetRenderContext()->SetCurRenderObj(this);
+
+		pTech->Bind();
+			
+		Uniform* pUnifrom = pTech->GetShaderProgram()->GetUniform("g_matWorldViewProj");
+		GetRenderSystem()->SetValue(pUnifrom,GetProjectionMatrix());
+		
+		GetRenderSystem()->DrawDyRenderable(this,pTech);
+
+// 		if (pTech == NULL)
+// 			MeshBatch::Render(m_pTechnique.get());
+// 		else
+// 			MeshBatch::Render(pTech);
 	}
 
 	void SpriteBatch::Draw(const Rectangle& dst, const Rectangle& src, const ColourValue& color)

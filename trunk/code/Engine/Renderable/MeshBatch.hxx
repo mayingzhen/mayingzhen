@@ -34,6 +34,10 @@ namespace ma
 
 	void MeshBatch::Render(Technique* pTech)
 	{
+		GetRenderContext()->SetCurRenderObj(this);
+
+		pTech->Bind();
+
 		GetRenderSystem()->DrawDyRenderable(this,pTech);
 	}
 

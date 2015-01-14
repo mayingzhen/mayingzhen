@@ -12,13 +12,20 @@ namespace ma
 
 	GLESShaderProgram::~GLESShaderProgram()
 	{
-		GL_ASSERT( glDeleteProgram(m_program) );
-		m_program = 0;
+		Destory();
 	}
 
+	void GLESShaderProgram::Destory()
+	{
+		GL_ASSERT( glDeleteProgram(m_program) );
+		m_program = 0;
+		m_vertexAttributes.clear();
+	}
 
 	void GLESShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
+		Destory();
+
 		ASSERT(vshSource);
 		ASSERT(fshSource);
 
@@ -221,7 +228,6 @@ namespace ma
 			GL_ASSERT( uniformLocation = glGetUniformLocation(m_program, uniformName) );
 
 			RefPtr<Uniform> uniform = this->AddUniform(uniformName);
-			uniform->m_pShader = this;
 			uniform->m_location = uniformLocation;
 			uniform->m_type = uniformType;
 			if (uniformType == GL_SAMPLER_2D)

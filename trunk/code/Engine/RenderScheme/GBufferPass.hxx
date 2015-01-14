@@ -18,12 +18,12 @@ namespace ma
 
 		GetRenderSetting()->m_bDefferLight = true;
 
-		m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_A8R8G8B8);
+		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
 		
 		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-			m_pDepthTex = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_D24S8,true);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_D24S8,USAGE_DEPTHSTENCIL);
 		else
-			m_pDepthTex = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_FLOAT32_R);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT32_R);
 	}
 
 	void GBufferPass::Render()

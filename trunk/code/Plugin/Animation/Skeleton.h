@@ -25,15 +25,17 @@ namespace ma
 
 		UINT				GetBoneNumer() const {return m_arrBoneName.size();} 
 
-		const char*			GetBoneNameByIndex(UINT uIndex) {return m_arrBoneName[uIndex].c_str();}
+		const char*			GetBoneNameByIndex(UINT uIndex) const; 
 
-		BoneIndex			GetBoneIdByName(const char* pszBoneName);
+		BoneIndex			GetBoneIdByName(const char* pszBoneName) const;
 
-		BoneIndex			GetParentIndice(BoneIndex nBoneID);
+		BoneIndex			GetParentIndice(BoneIndex nBoneID) const;
 
-		BoneSet*			GetBoneSetByName(const char* pszBoneSetName);
+		BoneSet*			GetBoneSetByName(const char* pszBoneSetName) const;
 
-		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID);
+		void				AddBone(const char* pName,UINT nParentID,const Transform& tsfOS);
+
+		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID) const;
 
 		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",
 			const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody",
@@ -41,19 +43,22 @@ namespace ma
 
 		void				InitResPose();
 
-	public:
+	private:
+		void				SerializeDataV0(Serializer& sl,const char* pszLable);
+
+	private:
 		std::vector<std::string>	m_arrBoneName;
 		std::vector<BoneIndex>		m_arrParentIndice;
 		std::vector<Transform>		m_arrTsfOS;
 
-	private:
 		SkeletonPose*				m_refPose;
 
 		// Matrix4
 		std::vector<Matrix4>		m_arrRefPoseOSInv;
 
 		// ¹Ç÷À¼¯
-		std::vector<BoneSet*>		m_arrBoneSet;
+		typedef std::vector< RefPtr<BoneSet> > VEC_BONSET;
+		VEC_BONSET					m_arrBoneSet;
 	};
 }
 

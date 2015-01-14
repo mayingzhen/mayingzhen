@@ -7,24 +7,22 @@ namespace ma
 	
 	AnimClipNode::AnimClipNode()
 	{
-		m_pBoneSet = NULL;
-		m_pAnimClip = NULL;
-
-		m_pSkeleton = NULL;
-
 		m_bClipInit = false;
-
-		m_pAnimClip = new AnimationClip();
 	}
-
 
 	AnimClipNode::~AnimClipNode()
 	{
-		SAFE_DELETE(m_pAnimClip);
+	}
+
+	void AnimClipNode::RegisterObject(Context* context)
+	{
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "BoneSet", GetBoneSet, SetBoneSet, const char*, NULL, AM_DEFAULT);
 	}
 
 	void AnimClipNode::AdvanceTime(float fTimeElapsed)
 	{
+		ASSERT(m_pAnimClip);
 		if (m_pAnimClip == NULL)
 			return;
 
@@ -38,7 +36,7 @@ namespace ma
 		if (m_pAnimClip == NULL)
 			return;
 
-		m_pAnimClip->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet,eBlendMode);
+		m_pAnimClip->EvaluateAnimation(pEvalContext,fWeight,m_pBoneSet.get(),eBlendMode);
 	}
 
 	void AnimClipNode::SetFrame(float fFrame)
@@ -53,66 +51,42 @@ namespace ma
 	{
 		m_pSkeleton = pSkeletion;
 	
-		if (m_pBoneSet == NULL)
-			SetBoneSet(m_strBoneSetName.c_str());
+		if (!m_strBoneSetName.empty())
+			m_pBoneSet = pSkeletion->GetBoneSetByName(m_strBoneSetName.c_str());
 
-		//if (m_pAnimClip == NULL)
-		//	SetAnimationClip(m_strClipName.c_str());
-	}
-
-	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
-	{
-		ASSERT(m_pAnimClip == NULL);
 		if (m_pAnimClip)
-		{
-			SAFE_DELETE(m_pAnimClip);
-		}
-
-		m_pAnimClip->Init(pszSkaPath);
-		m_pAnimClip->SetSkeleton(m_pSkeleton.get());
+			m_pAnimClip->SetSkeleton(pSkeletion);
+	}
+	
+	const char*	AnimClipNode::GetBoneSet() const
+	{
+		return m_pBoneSet ? m_pBoneSet->GetBoneSetName() : NULL;
 	}
 
 	void AnimClipNode::SetBoneSet(const char* pBoneSetName)
 	{
-		if (pBoneSetName == NULL)
-			return;
-
-		ASSERT(m_pSkeleton);
-		if (m_pSkeleton == NULL)
-			return;
-
-		BoneSet* pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
-		if (pBoneSet == NULL)
-			return;
-
-		m_pBoneSet = pBoneSet;
+		m_strBoneSetName = pBoneSetName ? pBoneSetName : "";
+	
+		if (m_pSkeleton)
+			m_pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
 
 	}
 
-	void AnimClipNode::SetAnimationClip(AnimationClip* pAnimClip) 
+	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
 	{
-		if (m_pAnimClip != pAnimClip)
-		{
-			m_pAnimClip = pAnimClip;
-			m_pAnimClip->SetSkeleton(m_pSkeleton.get());
-		}
+		m_pAnimClip = new AnimationClip();
+		m_pAnimClip->SetAnimationPath(pszSkaPath);
 	}
 
-	void AnimClipNode::Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */)
+	const char*	AnimClipNode::GetAnimationClip() const
 	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_strClipName,"ClipName");
-		sl.Serialize(m_strBoneSetName,"BonsetName");
-
-		sl.EndSection();
+		return m_pAnimClip ? m_pAnimClip->GetAnimationPath() : NULL;
 	}
 
 	bool AnimClipNode::OnLoadOver()
 	{
 		if (!m_bClipInit)
 		{
-			m_pAnimClip->Init(m_strClipName.c_str());
 			m_pAnimClip->SetSkeleton(m_pSkeleton.get());
 			m_pAnimClip->Instance();
 			m_bClipInit = true;
@@ -122,6 +96,14 @@ namespace ma
 			return false;
 		
 		return true;
+	}
+
+	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* boneSetName)
+	{
+		AnimClipNode* pClipNode = new AnimClipNode();
+		pClipNode->SetAnimationClip(skaName);
+		pClipNode->SetBoneSet(boneSetName);
+		return pClipNode;
 	}
 
 }

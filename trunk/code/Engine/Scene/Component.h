@@ -7,6 +7,7 @@ namespace ma
 	class Camera;
 
 	class ENGINE_API Component : public Serializable
+
 	{
 		DECL_OBJECT(Component)
 

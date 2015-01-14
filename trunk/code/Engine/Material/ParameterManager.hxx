@@ -20,11 +20,16 @@ namespace ma
 
 	ParameterManager::ParameterManager() 
 	{
-		m_autoDefaultBings["u_worldViewProjectionMatrix"] = WORLD_VIEW_PROJECTION_MATRIX;
-		m_autoDefaultBings["u_worldViewMatrix"] = WORLD_VIEW_MATRIX;
+		m_autoDefaultBings["g_matView"] = g_matView;
+		m_autoDefaultBings["g_matProj"] = g_matProj;
+		m_autoDefaultBings["g_matWorld"] = g_matWorld;
+		m_autoDefaultBings["g_matViewProj"] = g_matViewProj;
+		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
+		m_autoDefaultBings["g_matWorldView"] = g_matWorldView;
+		m_autoDefaultBings["g_tShadowMap"] = g_tShadowMap;
 		m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
-		m_autoDefaultBings["depth_near_far_invfar"] = DepthNearFarInvfar;
-		m_autoDefaultBings["u_InvProjMatrix"] =  INVERSE_PROJECTION_MATRIX;
+		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
+		m_autoDefaultBings["g_vViewportInv"] =  INVERSE_PROJECTION_MATRIX;
 		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
 		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
 		m_autoDefaultBings["u_TextureSceneShadow"] =  TextureLightShadow;
@@ -37,7 +42,7 @@ namespace ma
 	
 	}
 
-	void ParameterManager::UseDefaultBing(MaterialParameter* pParam)
+	void ParameterManager::UseDefaultBing(Uniform* pParam)
 	{
 		ASSERT(pParam);
 		if (pParam == NULL)
@@ -50,35 +55,39 @@ namespace ma
 		}
 	}
 
-	void ParameterManager::SetParameterAutoBinding(MaterialParameter* pParam,AutoBinding autoBinding)
+	void ParameterManager::SetParameterAutoBinding(Uniform* pParam,AutoBinding autoBinding)
 	{
 		ASSERT(pParam);
 		if (pParam == NULL)
 			return;
 
-		if (autoBinding == WORLD_MATRIX)
+		if (autoBinding == g_matWorld)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldMatrix);
 		}
-		else if (autoBinding == VIEW_MATRIX)
+		else if (autoBinding == g_matView)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewMatrix);
 		}
-		else if (autoBinding == PROJECTION_MATRIX)
+		else if (autoBinding == g_matProj)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetProjectionMatrix);
 		}
-		else if (autoBinding == WORLD_VIEW_MATRIX)
+		else if (autoBinding == g_matWorldView)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewMatrix);
 		}
-		else if (autoBinding == VIEW_PROJECTION_MATRIX)
+		else if (autoBinding == g_matViewProj)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewProjectionMatrix);
 		}
-		else if (autoBinding == WORLD_VIEW_PROJECTION_MATRIX)
+		else if (autoBinding == g_matWorldViewProj)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
+		}
+		else if (autoBinding == g_tShadowMap)
+		{
+			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMap);
 		}
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
 		{

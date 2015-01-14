@@ -51,15 +51,15 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeDataV0(Serializer& sl, Animation& data, const char* pszLable)
+	void Animation::SerializeDataV0(Serializer& sl, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(data.m_arrTransfTrackName,"TransfTrackName");
-		sl.Serialize(data.m_nFrameNumber,"FrameNumber");
-		sl.Serialize(data.m_arrScaleTrack,"ScalePSTrack");
-		sl.Serialize(data.m_arrRotTrack,"RotationPSTrack");
-		sl.Serialize(data.m_arrPosTrack,"PositionPSTrack");
+		sl.Serialize(m_arrTrackName,"TransfTrackName");
+		sl.Serialize(m_nFrameNumber,"FrameNumber");
+		sl.Serialize(m_arrScaleTrack,"ScalePSTrack");
+		sl.Serialize(m_arrRotTrack,"RotationPSTrack");
+		sl.Serialize(m_arrPosTrack,"PositionPSTrack");
 	
 		sl.EndSection();
 	}

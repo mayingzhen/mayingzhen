@@ -18,9 +18,13 @@ namespace ma
 	
 		~AnimClipNode();
 
+		static void		RegisterObject(Context* context);
+
 		virtual void	SetAnimationClip(const char* pszSkaPath);
+		const char*		GetAnimationClip() const;
 
 		virtual void	SetBoneSet(const char* pBoneSetName);
+		const char*		GetBoneSet() const;
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
@@ -29,28 +33,22 @@ namespace ma
 		virtual	void	SetFrame(float fFrame);
 
 		virtual void	SetSkeletion(Skeleton* pSkeletion);
-
-		virtual void	Serialize(Serializer& sl, const char* pszLable /*= "AnimClipNode" */);
+		Skeleton*		GetSkeleton() const {return m_pSkeleton.get();}
 
 		virtual bool	OnLoadOver();
 
-		Skeleton*		GetSkeleton() {return m_pSkeleton.get();}
-	
-		void			SetAnimationClip(AnimationClip* pAnimClip); 
-
-		void			SetBoneSet(BoneSet* pBoneSet) {m_pBoneSet = pBoneSet;}
-
 	private:
-		AnimationClip*	m_pAnimClip;
-		std::string		m_strClipName;
+		RefPtr<AnimationClip>	m_pAnimClip;
 
-		BoneSet*		m_pBoneSet;
-		std::string     m_strBoneSetName;
-	
-		RefPtr<Skeleton>	m_pSkeleton;
+		string					m_strBoneSetName;
+		RefPtr<BoneSet>			m_pBoneSet;
+		
+		RefPtr<Skeleton>		m_pSkeleton;
 
-		bool			m_bClipInit;
+		bool					m_bClipInit;
 	};
+	
+	ANIMATION_API RefPtr<AnimClipNode> CreateClipNode(const char* skaName,const char* boneSetName =  NULL);
 }
 
 

@@ -12,6 +12,10 @@ namespace ma
 
 	void Renderable::Render(Technique* pTech)
 	{
+		GetRenderContext()->SetCurRenderObj(this);
+
+		pTech->Bind();
+
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 
@@ -31,6 +35,9 @@ namespace ma
 	{
 		int index = GetRenderSystem()->CurThreadProcess();
 		const VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
+		if (arrSkinDQ.empty())
+			return NULL;
+
 		return &arrSkinDQ[0];
 	}
 

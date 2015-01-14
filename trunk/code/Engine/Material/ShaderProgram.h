@@ -1,12 +1,12 @@
 #ifndef __ShaderProgram_H_
 #define __ShaderProgram_H_
 
+#include "MethodBinding.h"
 
 namespace ma
 {
 
-	struct Uniform;
-	class Technique;
+	class Uniform;
 
 	class RENDER_API ShaderProgram : public Resource
 	{
@@ -22,6 +22,10 @@ namespace ma
 		virtual void		ParseUniform() = 0;
 
 		virtual	void		Bind() = 0;
+
+		void				BindUniform();
+		
+		void				Reload();
 
 		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines = NULL);
 
@@ -48,36 +52,13 @@ namespace ma
 
 	private:
 		typedef std::vector< RefPtr<Uniform> > VEC_UNIFORM;
-		VEC_UNIFORM			m_uniforms;
+		VEC_UNIFORM			m_arrUniform;
 
 		std::string			m_strVSFile;
 		std::string			m_strPSFile;
 		std::string			m_shaderDefine;
 
 		friend class		RenderThread;
-	};
-
-
-	struct Uniform : public Referenced
-	{
-		std::string		m_name;
-		int				m_location;
-		int				m_type;
-		bool			m_vshShder;
-		UINT			m_index;
-		UINT			m_nCount; 
-		ShaderProgram*	m_pShader;
-
-		Uniform()
-		{
-			m_location = -1;
-			m_index = 0;
-			m_type = 0;
-			m_vshShder = false;
-			m_index = 0;
-			m_nCount = 0;
-			m_pShader = NULL;
-		}
 	};
 
 }

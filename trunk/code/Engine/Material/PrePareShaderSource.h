@@ -19,6 +19,15 @@ namespace ma
 		{
 			out += "#define " + arrTok[i] + "\n";
 		}
+
+		// global macro
+		uint32 nNumMacros = GetRenderSystem()->GetNumMacros();
+		for (uint32 i = 0;i< nNumMacros;++i)
+		{
+			const char* pszValue = NULL;
+			const char* pszMacro = GetRenderSystem()->GetMacroByIndex(i, pszValue);
+			out += string("#define ") + string(pszMacro) + " " + pszValue + "\n";
+		}
 	}
 
 	void ReplaceIncludes(const char* filepath, const char* source, std::string& out)

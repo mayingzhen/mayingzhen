@@ -21,7 +21,9 @@ namespace ma
 		FrameBufferHandle	GetFrameBuffer() {return m_handle;}
 
 	private:
-		virtual	bool		RT_Create();			
+		virtual	bool		RT_CreateTexture();	
+
+		virtual	bool		RT_CreateDepthStencil();	
 
 		virtual	bool		SetLevelData(int level, const PixelBox& src);
 

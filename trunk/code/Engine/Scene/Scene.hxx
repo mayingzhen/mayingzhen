@@ -7,6 +7,7 @@ namespace ma
 	Scene::Scene(const char* pszName)
 		:SceneNode(NULL,pszName)
 	{
+		m_pScene = this;
 		m_sName = pszName ? pszName : "";
 
 		SceneNode* pCamera = this->CreateNode("defaultCamera");
@@ -15,7 +16,6 @@ namespace ma
 		m_pRenderScheme = CreateRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
-		m_pScene = this;
 	}
 
 	SceneNode* Scene::CreateNode(const char* pName)
@@ -69,6 +69,10 @@ namespace ma
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
 		m_pCullTree->FindObjectsIn(frustumQuery);
 
+		UpdateViewMinMaxZ();
+
+		GetRenderShadowCSM()->Update( m_pCamera.get() );
+
 		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
 		{
 			RenderComponent* pRenderComp = m_arrRenderComp[i];
@@ -89,6 +93,8 @@ namespace ma
 	
 		GetRenderSystem()->BeginFrame();
 
+		GetRenderShadowCSM()->Render( m_pCamera.get() );
+
 		if (m_pRenderTarget)
 		{
 			GetRenderSystem()->SetRenderTarget(m_pRenderTarget.get());
@@ -97,7 +103,6 @@ namespace ma
 		GetRenderSystem()->SetViewPort(m_viewport);
 
 		GetRenderContext()->SetCamera(m_pCamera.get());
-
 
 		if (m_pCallback)
 		{
@@ -116,6 +121,57 @@ namespace ma
 			GetLineRender()->Render();
 
 		GetRenderSystem()->EndFrame();
+	}
+
+	void Scene::UpdateViewMinMaxZ()
+	{
+		if(m_arrRenderComp.size() == 0) 
+			return;
+
+		// find the nearest and farthest points of given
+		// scene objects in camera's view space
+		float fMaxZ = 0;
+		float fMinZ = FLT_MAX;
+
+		//Vector3 vDir = pCamera->GetAtNode()->GetWorldPos() - pCamera->GetEyeNode()->GetWorldPos();
+		//vDir.normalise();
+
+		// for each object
+		for(unsigned int i = 0; i < m_arrRenderComp.size(); i++)
+		{
+			RenderComponent* pObject = m_arrRenderComp[i];
+
+			AABB aabb = pObject->GetAABBWS();
+			aabb.transform(m_pCamera->GetMatView());
+
+			float aabbMinZ = -aabb.getMaximum().z;
+			float aabbMaxZ = -aabb.getMinimum().z;
+
+			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
+
+			fMaxZ = max(aabbMaxZ,fMaxZ);
+			fMinZ = min(aabbMinZ,fMinZ);
+		}
+
+		// use smallest distance as new near plane
+		// and make sure it is not too small
+		m_viwMinZ = max(fMinZ, m_pCamera->GetNearClip());
+
+		// use largest distance as new far plane
+		// and make sure it is larger than nearPlane
+		m_viwMaxZ = max(fMaxZ, m_viwMinZ + 1.0f);
+	}
+
+	void Scene::GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const
+	{
+		color = m_cDirLight;
+		vDir = m_vDirLight;
+	}
+
+	void Scene::SetDirectionalLight(const ColourValue& color, const Vector3& vDir)
+	{
+		m_cDirLight = color;
+		m_vDirLight = vDir;
 	}
 
 }

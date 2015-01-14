@@ -143,10 +143,10 @@ namespace ma
 	class QuaternionTrack : public ITrack
 	{
 	public:
-
-
-		std::vector<UINT>				m_arrFrame; //frame number of each key
+		std::vector<UINT>		m_arrFrame; //frame number of each key
 		std::vector<Quaternion>	m_arrValue;
+
+	public:
 
 
 		QuaternionTrack();

@@ -9,7 +9,7 @@ namespace ma
 	public:
 		LightSystem();
 
-		void				Update();
+		//void				Update();
 
 		void				AddLight(Light* pLight);
 

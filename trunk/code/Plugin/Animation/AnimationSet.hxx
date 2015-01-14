@@ -1,7 +1,6 @@
 #include "AnimationSet.h"
 #include "SkelAnimtion.h"
 #include "AnimationComponent.h"
-#include "AnimationUtil.h"
 #include "PoseModifier/PoseModifier.h"
 
 namespace ma
@@ -14,11 +13,6 @@ namespace ma
 
 	AnimationSet::~AnimationSet()
 	{
-		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
-		{
-			SAFE_DELETE(m_arrSkelAnim[i]);
-		}
-		m_arrSkelAnim.clear();	
 	}
 
 	SkelAnimtion* AnimationSet::CreateSkelAnim(const char* actionName)
@@ -30,10 +24,12 @@ namespace ma
 		return pAction;
 	}
 
-	void AnimationSet::AddAnimClip(const char* pszSkaPath, const char* actionName)
+	AnimClipNode* AnimationSet::AddAnimClip(const char* pszSkaPath, const char* actionName)
 	{
-		SkelAnimtion* pAction = AnimationUtil::CreateAction(pszSkaPath,m_pSkeleton.get(),actionName);
-		m_arrSkelAnim.push_back(pAction);
+		SkelAnimtion* pAction = CreateSkelAnim(actionName);
+		RefPtr<AnimClipNode> pClipNode = CreateClipNode(pszSkaPath);
+		pAction->SetTreeNode( pClipNode.get() );
+		return pClipNode.get();
 	}
 
 	SkelAnimtion* AnimationSet::GetSkelAnimByName(const char* pszName)
@@ -47,7 +43,7 @@ namespace ma
 				continue;
 
 			if (_stricmp(pszName,m_arrSkelAnim[i]->GetAnimName()) == 0)
-				return m_arrSkelAnim[i];
+				return m_arrSkelAnim[i].get();
 		}
 
 		return NULL;
@@ -58,7 +54,7 @@ namespace ma
 		if (index < 0 || index >= m_arrSkelAnim.size())
 			return NULL;
 
-		return m_arrSkelAnim[index];
+		return m_arrSkelAnim[index].get();
 	}
 
 	void AnimationSet::RemoveSkelAnim(SkelAnimtion* pAction)
@@ -66,7 +62,7 @@ namespace ma
 		if (pAction == NULL)
 			return;
 
-		std::vector<SkelAnimtion*>::iterator it = std::find(m_arrSkelAnim.begin(),m_arrSkelAnim.end(),pAction);
+		VEC_SkELANIM::iterator it = std::find(m_arrSkelAnim.begin(),m_arrSkelAnim.end(),pAction);
 		if (it == m_arrSkelAnim.end())
 			return;
 
@@ -93,12 +89,5 @@ namespace ma
 			m_arrSkelAnim[i]->SetSkeletion(pSkeleton);
 		}
 	}
-
-// 	RefPtr<AnimationSet> AnimationSet::CreateAnimationSet(const char* pAniSetFile)
-// 	{
-// 		AnimationSet* pAniSet = new AnimationSet();
-// 		pAniSet->Load(pAniSetFile);
-// 	}
-
 }
 

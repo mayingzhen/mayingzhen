@@ -18,13 +18,8 @@ namespace ma
 		for (UINT i = 0; i < subMatData.GetParameterCount(); ++i)
 		{
 			const MaterialParameter& matParam = subMatData.GetParameterByIndex(i);
-
-			MaterialParameter* pParmTech = pTech->GetParameter( matParam.GetName() );
-			ASSERT(pParmTech);
-			if (pParmTech)
-			{
-				pParmTech->SetValue( matParam.GetValue() );
-			}
+			
+			pTech->SetParameter(matParam.GetName(),matParam.GetValue());
 		}	
 	}
 
@@ -87,7 +82,7 @@ namespace ma
 			strShadingDefine += ";DeferredLight;";
 		}
 
-		if ( GetRenderSetting()->m_bShadow)
+		//if ( GetRenderShadowCSM()->GetEnabled() )
 		{
 			Technique* pTech = NULL;
 			if ( GetDeviceCapabilities()->GetDepthTextureSupported() )

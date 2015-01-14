@@ -20,37 +20,25 @@ namespace ma
 	{
 		GetInput()->AddKeyListener(this);
 
-		SceneNodePtr pGameObj =  m_pScene->CreateNode("magician");
+		SceneNode* pGameObj =  m_pScene->CreateNode("magician");
 
-		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
-		AnimationComponentPtr pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
+		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
-
-// 		ActionData actionData;
-// 		AnimLayerNodeData animLayerData;
-// 		AnimClipNodeData clip602Data;
-// 		clip602Data.m_sClipPath = "magician/602/bip01.ska";
-// 		clip602Data.m_sBoneSetName = "UpBody";
-// 		AnimClipNodeData clip120Data;
-// 		clip120Data.m_sClipPath = "magician/120/bip01.ska";
-// 		clip120Data.m_sBoneSetName = "LowerBody";
-// 		animLayerData.m_arrAnimNodeData.push_back(&clip120Data);
-// 		animLayerData.m_arrAnimNodeData.push_back(&clip602Data);
-// 		actionData.m_pAnimNodeData = &animLayerData;
-
 		
 		AnimationSet* pAnimSet = pAnimComp->GetAnimationSet();
-		SkelAnimtion*	pAction = pAnimSet->CreateSkelAnim("TestAnim");
-		AnimLayerNode*	pLayerNode = new AnimLayerNode();
-		m_pClip602 = pAction->CreateClipNode("magician/602/bip01.ska","UpBody");
-		m_pClip120 = pAction->CreateClipNode("magician/120/bip01.ska","LowerBody");
-		pLayerNode->AddLayer(m_pClip120);
-		pLayerNode->AddLayer(m_pClip602);
-		pAction->SetTreeNode(pLayerNode);
+		SkelAnimtion* pSkelAnimtion = pAnimSet->CreateSkelAnim("TestAnim");
+		RefPtr<AnimLayerNode> pLayerNode = CreateLayerNode();
+		m_pClip602 = CreateClipNode("magician/602/bip01.ska","UpBody");
+		m_pClip120 = CreateClipNode("magician/120/bip01.ska","LowerBody");
+		pLayerNode->AddLayer(m_pClip120.get());
+		pLayerNode->AddLayer(m_pClip602.get());
+		pSkelAnimtion->SetTreeNode(pLayerNode.get());
 
-		pAnimSet->SetSkeleton(pAnimComp->GetSkeleton());
+		//pAnimSet->SetSkeleton(pAnimComp->GetSkeleton());
+		pAnimComp->OnLoadOver();
 			
 		pAnimComp->PlayAnimation("TestAnim");
 		

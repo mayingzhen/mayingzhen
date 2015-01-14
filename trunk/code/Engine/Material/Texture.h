@@ -33,7 +33,9 @@ namespace ma
 
 		bool			LoadFromImagData(const ImageData& imageData);
 
-		virtual	bool	RT_Create() = 0;			
+		virtual	bool	RT_CreateTexture() = 0;	
+
+		virtual	bool	RT_CreateDepthStencil() = 0;	
 
 		virtual	bool	SetLevelData(int level, const PixelBox& src) = 0;
 

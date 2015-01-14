@@ -14,7 +14,7 @@ namespace ma
 	class RenderContext;
 	class RenderScheme;
 	class Scene;
-	struct Uniform;
+	class Uniform;
 	class Texture;
 
 
@@ -38,14 +38,16 @@ namespace ma
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
-
-		Texture*			CreateRenderTarget(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,bool bDepthStencil = false);
+		
 		RefPtr<Texture>		SetRenderTarget(RefPtr<Texture>	 pTexture,int index = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
 		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	 pTexture);	
 		Rectangle			SetViewPort(const Rectangle& viewPort);
 		Rectangle			GetViewPort() {return m_viewport;}
+		
 		void				SetShaderProgram(ShaderProgram* pShader);
+		
+		// RenderState
 		void				SetRenderState(const RenderState& state);
 		void				SetBlendMode(BLEND_MODE eBlendMode);
 		void				SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode);
@@ -67,16 +69,19 @@ namespace ma
 		HWND				GetMainWnd() {return m_hWnd;}
 		
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
-	
+		
+		// Create
+		Texture*			CreateRenderTexture(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,USAGE use = USAGE_RENDERTARGET);
+		Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format = PF_D24S8);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<VertexBuffer> CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
+
 		void				TexStreamComplete(Texture* pTexture);		
 		void				ShaderStreamComplete(ShaderProgram* pShader);
 		void				VertexDeclaComplete(VertexDeclaration* pDec);
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		
-		RefPtr<IndexBuffer>	CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
-		RefPtr<VertexBuffer> CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
-		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
-
 		void				OnFlushFrame();
 
 		RenderQueue*		GetRenderQueue();
@@ -89,6 +94,12 @@ namespace ma
 		Scene*				GetScene(int index = 0);
 
 		const char*			GetShaderPath();
+		
+		bool				AddMacro(const char* pszKey, const char* pszValue);
+		const char*			GetMacro(const char* pszKey) const;
+		uint32				GetNumMacros() const;
+		const char*			GetMacroByIndex(uint32 i, OUT const char*& pszValue) const;
+		void				ReloadShader();
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
@@ -119,7 +130,11 @@ namespace ma
 		HWND				m_hWnd;
 
 		typedef std::vector< RefPtr<Scene> > VEC_SCENE;
-		VEC_SCENE			m_arrScene;		
+		VEC_SCENE			m_arrScene;
+				
+		typedef map<string, string> MAP_STR_STR;
+		MAP_STR_STR			m_mapMacros; // Shader globe Macro
+		bool				m_bNeedReloadShader;
 	};
 
 	RENDER_API RenderSystem*	GetRenderSystem();

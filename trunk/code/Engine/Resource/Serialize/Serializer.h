@@ -6,12 +6,6 @@ namespace ma
 	class Object;
 	class Serializer;
 
-	template<class T>
-	void SerializeData(Serializer& sl, T& val,const char* pszLable = "")
-	{
-		val.Serialize(sl,pszLable);
-	}
-
 
 	class ENGINE_API Serializer 
 	{
@@ -33,7 +27,8 @@ namespace ma
 
 		virtual void	Serialize(float& val,const char* pszLable) = 0;
 
-		virtual void	Serialize(std::string& val,const char* pszLable) = 0;
+		//virtual void	Serialize(std::string& val,const char* pszLable) = 0;
+		virtual void	Serialize(char* val,int nSize,const char* pszLable) = 0;	
 
 		virtual void	Serialize(Vector2 &val,const char* pszLable) = 0;
 
@@ -72,6 +67,7 @@ namespace ma
 
 	};
 
+
 	template<class EnumType>
 	void Serializer::Serialize(EnumType& type,const char** pEnumNames,const char *pszLable/* = "Enum"*/)
 	{
@@ -103,6 +99,20 @@ namespace ma
 				ASSERT(false);
 			}
 		}
+	}
+
+	template<class T>
+	void SerializeData(Serializer& sl, T& val,const char* pszLable = "")
+	{
+		val.Serialize(sl,pszLable);
+	}
+
+	inline void SerializeData(Serializer& sl, string& val,const char* pszLable = "")
+	{		
+		char buf[256] = {0};
+		strncpy(buf,val.c_str(),sizeof(buf));
+		sl.Serialize(buf,256,pszLable);
+		val = buf;
 	}
 
 	template<class T>
@@ -190,7 +200,7 @@ namespace ma
 
 
 	template<class T>
-	inline void SerializeObject(Serializer& sl, T* &pObject, const char* pszLable)
+	inline void SerializeObject(Serializer& sl, RefPtr<T> &pObject, const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 
@@ -199,7 +209,7 @@ namespace ma
 
 		if (pObject == NULL)
 		{
-			pObject = CreateObject<T>(strClassName.c_str());
+			pObject = CreateObject<T>(strClassName.c_str()).get();
 		}
 		sl.Serialize(*(pObject),strClassName.c_str());
 
@@ -207,7 +217,7 @@ namespace ma
 	}
 
 	template<class T>
-	inline void SerializeArrObj(Serializer& sl,std::vector<T*>& arrObject,const char* pszLable)
+	inline void SerializeArrObj(Serializer& sl,std::vector< RefPtr<T> >& arrObject,const char* pszLable)
 	{
 		sl.BeginSection(pszLable);
 

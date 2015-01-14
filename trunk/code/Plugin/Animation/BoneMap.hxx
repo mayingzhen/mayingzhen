@@ -12,7 +12,7 @@ namespace ma
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
 			const char* pszBoneName = pSkeleton->GetBoneNameByIndex(i); 
-			UINT uTransfTrackIndex = pAnimation->GetTransfTrackIndexByName(pszBoneName);
+			UINT uTransfTrackIndex = pAnimation->GetTrackIndexByName(pszBoneName);
 			m_arrMapBoneInd[i] = uTransfTrackIndex;
 		}
 	}

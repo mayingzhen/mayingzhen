@@ -15,7 +15,7 @@ namespace ma
 
 		virtual void	UnRegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
 
-		virtual Object* CreateObject(const char* clsName);
+		virtual RefPtr<Object> CreateObject(const char* clsName);
 
 	private:
 		typedef std::map<std::string,ObjectCreator> ObjFunFactoryMap;
@@ -24,9 +24,9 @@ namespace ma
 	};
 
 	template <class T>
-	T*	CreateObject(const char* pszClassName = NULL)
+	RefPtr<T>	CreateObject(const char* pszClassName = NULL)
 	{
-		Object* pObject = NULL;
+		RefPtr<Object> pObject;
 		if (pszClassName)
 			 pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
 		else
@@ -34,7 +34,7 @@ namespace ma
 
 		ASSERT(pObject);
 		
-		T* pTypeObject = SafeCast<T>(pObject);
+		RefPtr<T> pTypeObject = SafeCast<T>(pObject.get());
  		ASSERT(pTypeObject);
  		return pTypeObject;
 	}

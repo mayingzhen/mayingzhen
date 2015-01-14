@@ -5,15 +5,18 @@
 
 #include "Engine/Export.h"
 
-// Event
-#include "Engine/Event/Event.h"
 
 // RTTI
+#include "Engine/RTTI/Referenced.h"
+#include "Engine/RTTI/RefPtr.h"
 #include "Engine/RTTI/Object.h"
 #include "Engine/RTTI/RTTIClass.h"
 #include "Engine/RTTI/ObjectFactory.h"
 #include "Engine/RTTI/Serializable.h"
 #include "Engine/RTTI/Context.h"
+
+// Event
+#include "Engine/Event/Event.h"
 
 #include "Engine/Time/Timer.h"
 
@@ -47,6 +50,7 @@
 #include "Engine/Scene/meshcomponent.h"
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/LightSystem.h"
+#include "Engine/Scene/Light/RenderShadowCSM.h"
 #include "Engine/Scene/Particle/ParticleSystem.h"
 #include "Engine/Scene/Terrain/Terrain.h"
 
@@ -62,6 +66,7 @@
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.h"
 #include "Engine/RenderSystem/IRenderDevice/RenderDefine.h"
 #include "Engine/RenderSystem/RenderSystem.h"
+#include "Engine/RenderSystem/RenderContext.h"
 #include "Engine/RenderSystem/DeviceCapabilities.h"
 
 #include "Engine/Renderable/Renderable.h"
@@ -93,6 +98,7 @@
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/Material.h"
 #include "Engine/Material/MaterialData.h"
+#include "Engine/Material/Uniform.h"
 
 
 

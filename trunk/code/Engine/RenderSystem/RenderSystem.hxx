@@ -10,6 +10,7 @@
 #include "../Scene/Particle/ParticleSystem.h"
 
 
+
 namespace ma
 {
 	static RenderSystem* gpRenderSystem = NULL;
@@ -51,6 +52,8 @@ namespace ma
 		SetLineRender(pLineRender);
 
 		m_pRenderThread = new RenderThread();
+
+		m_bNeedReloadShader = false;
 	}
 
 	RenderSystem::~RenderSystem()
@@ -93,6 +96,12 @@ namespace ma
 	void RenderSystem::Update()
 	{
 		profile_code();
+
+		if (m_bNeedReloadShader)
+		{
+			GetResourceSystem()->ReLoad<ShaderProgram>();
+			m_bNeedReloadShader = false;
+		}
 
 		for (UINT i = 0; i < m_arrScene.size(); ++i)
 		{
@@ -157,10 +166,11 @@ namespace ma
 		{
 			m_pRenderTarget[i] = NULL;
 		}
-		GetRenderDevice()->ShutDown();
-
+		
 		m_pRenderQueue[0]->Clear();
 		m_pRenderQueue[1]->Clear();
+
+		GetRenderDevice()->ShutDown();
 
 		m_hWnd = NULL;
 	}
@@ -223,9 +233,9 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		m_pRenderContext->SetCurRenderObj(pRenderable);
-
-		pTechnique->Bind();
+// 		m_pRenderContext->SetCurRenderObj(pRenderable);
+// 
+// 		pTechnique->Bind();
 		
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
@@ -250,7 +260,7 @@ namespace ma
 
 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
 
-		pTechnique->UnBind();
+		//pTechnique->UnBind();
 	}
 
 
@@ -263,9 +273,9 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		m_pRenderContext->SetCurRenderObj(pRenderable);
-
-		pTechnique->Bind();
+// 		m_pRenderContext->SetCurRenderObj(pRenderable);
+// 
+// 		pTechnique->Bind();
 
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
@@ -290,18 +300,25 @@ namespace ma
 
 		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
-		pTechnique->UnBind();
+		//pTechnique->UnBind();
 	}
 
-	Texture* RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bDepthStencil/* = false*/)
+	Texture* RenderSystem::CreateRenderTexture(int nWidth,int nHeight,PixelFormat format,USAGE use)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
 			nWidth = (int)m_viewport.width;
 			nHeight = (int)m_viewport.height;
 		}
-		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,bDepthStencil ? USAGE_DEPTHSTENCIL : USAGE_RENDERTARGET);
-		m_pRenderThread->RC_CreateRenderTarget(pTarget);
+		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,use);
+		m_pRenderThread->RC_CreateTexture(pTarget);
+		return pTarget;
+	}
+
+	Texture* RenderSystem::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
+	{
+		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,USAGE_DEPTHSTENCIL);
+		m_pRenderThread->RC_CreateDepthStencil(pTarget);
 		return pTarget;
 	}
 
@@ -345,12 +362,11 @@ namespace ma
 	
 	void RenderSystem::SetShaderProgram(ShaderProgram* pShader)
 	{
-		if (m_pCurShader == pShader)
-			return;
-
-		pShader->Bind();
-
-		m_pCurShader = pShader;
+		if (m_pCurShader != pShader)
+		{
+			m_pCurShader = pShader;
+			m_pRenderThread->RC_SetShaderProgram(pShader);
+		}
 	}
 
 	void RenderSystem::SetBlendMode(BLEND_MODE eBlendMode)
@@ -506,6 +522,9 @@ namespace ma
 
 	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
+		if (values == NULL)
+			return;
+
 		m_pRenderThread->RC_SetVector4Count(uniform,values,count);
 	}
 
@@ -520,12 +539,7 @@ namespace ma
 		if (uniform == NULL || sampler == NULL)
 			return;
 			
-		if (m_arrSampState[uniform->m_location].m_pTexture != sampler->m_pTexture && sampler->m_pTexture->IsInited() )
-		{
-			m_pRenderThread->RC_SetTexture(uniform,sampler->m_pTexture.get());
-
-			m_arrSampState[uniform->m_location].m_pTexture = sampler->m_pTexture;
-		}
+		SetValue(uniform,sampler->m_pTexture.get());
 
 		if (m_arrSampState[uniform->m_location].m_eWrap != sampler->m_eWrap)
 		{
@@ -548,7 +562,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if (m_arrSampState[uniform->m_location].m_pTexture != pTexture && pTexture->GetResState() == ResInited)
+		if (m_arrSampState[uniform->m_location].m_pTexture != pTexture /*&& pTexture->GetResState() == ResInited*/)
 		{
 			m_pRenderThread->RC_SetTexture(uniform,(Texture*)pTexture);
 
@@ -566,6 +580,54 @@ namespace ma
 		{
 			return "shader/gles/";
 		}
+	}	
+
+	bool RenderSystem::AddMacro(const char* pszKey, const char* pszValue)
+	{
+		const char* pszOldValue = this->GetMacro(pszKey);
+		if (pszOldValue != NULL && strcmp(pszOldValue, pszValue) == 0)
+		{
+			return false;
+		}
+
+		ASSERT(pszKey != NULL);
+		m_mapMacros[pszKey] = pszValue;
+		return true;
+	}
+
+	const char*	RenderSystem::GetMacro(const char* pszKey) const
+	{
+		MAP_STR_STR::const_iterator iter = m_mapMacros.find(pszKey);
+		if (iter == m_mapMacros.end())
+		{
+			return NULL;
+		}
+
+		return iter->second.c_str();
+	}
+
+	uint32 RenderSystem::GetNumMacros() const
+	{
+		return m_mapMacros.size();
+	}
+
+	const char* RenderSystem::GetMacroByIndex(uint32 i, OUT const char*& pszValue) const
+	{
+		if (i >= m_mapMacros.size())
+		{
+			ASSERT(false);
+			return NULL;
+		}
+
+		MAP_STR_STR::const_iterator iter = m_mapMacros.begin();
+		std::advance(iter, i);
+		pszValue = iter->second.c_str();
+		return iter->first.c_str();
+	}
+
+	void RenderSystem::ReloadShader()
+	{
+		m_bNeedReloadShader = true;
 	}
 
 }

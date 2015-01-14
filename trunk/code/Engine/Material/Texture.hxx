@@ -169,7 +169,7 @@ namespace ma
 		}
 
 		// Create the texture
-		if (!RT_Create())
+		if (!RT_CreateTexture())
 		{
 			LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
 			return false;

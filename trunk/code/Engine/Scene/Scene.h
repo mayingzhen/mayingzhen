@@ -60,6 +60,15 @@ namespace ma
 		void					SetCallback(CCallback* pCallback){m_pCallback = pCallback;}
 		CCallback*				GetCallback() const{return m_pCallback;}
 
+		float					GetViewMinZ() const {return m_viwMinZ;}
+		float					GetViewMaxZ() const {return m_viwMaxZ;}
+
+		void					GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const;
+		void					SetDirectionalLight(const ColourValue& color, const Vector3& vDir);
+	
+	private:
+		void					UpdateViewMinMaxZ();
+
 	private:
 		RefPtr<CullTree>		m_pCullTree;
 
@@ -75,7 +84,13 @@ namespace ma
 
 		typedef std::vector<RenderComponent*> VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
+		
+		float					m_viwMinZ;
+		float					m_viwMaxZ;
 
+		ColourValue				m_cDirLight;
+		Vector3					m_vDirLight;
+			
 		CCallback*				m_pCallback;
 	};
 

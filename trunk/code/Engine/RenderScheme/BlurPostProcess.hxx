@@ -21,7 +21,7 @@ namespace ma
 		int nWidth = m_pInputTex->GetWidth();
 		int nHeight = m_pInputTex->GetHeight();
 		PixelFormat eformat = m_pInputTex->GetFormat();
-		m_BureTempTex = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,eformat);
+		m_BureTempTex = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,eformat);
 
 
 		Vector2 texSize = Vector2((float)nWidth, 1.0f / (float)nWidth);

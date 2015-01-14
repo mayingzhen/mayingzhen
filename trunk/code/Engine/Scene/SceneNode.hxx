@@ -121,14 +121,14 @@ namespace ma
 		
 			if (sl.IsReading())
 			{
-				Component* pComp = NULL;
+				RefPtr<Component> pComp;
 				SerializeObject<Component>(sl,pComp,buf);
 
-				this->AddComponent(pComp);
+				this->AddComponent(pComp.get());
 			}
 			else
 			{
-				Component* pComp = m_arrComp[nCnt].get();
+				RefPtr<Component>& pComp = m_arrComp[nCnt];
 				SerializeObject<Component>(sl,pComp,buf);
 			}
  		}

@@ -39,8 +39,6 @@ namespace ma
 		RenderState						m_renderState;
 
 		std::vector<MaterialParameter*> m_arrParameters;
-
-		std::vector<Uniform*>			m_arrUniform;
 	};
 	
 	DeclareRefPtr(Technique);

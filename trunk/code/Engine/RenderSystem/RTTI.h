@@ -21,14 +21,8 @@
 using namespace ma;
 
 
-#define RTTI_DECL(ClassType) \
-	Object* Create_##ClassType() { return new ClassType();} 
-RTTI_DECL(MeshComponent);
-RTTI_DECL(ParticleEmitter);
-RTTI_DECL(PointLight);
-RTTI_DECL(SpotLight);
-RTTI_DECL(DirectonalLight);
-RTTI_DECL(Camera);
+#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();} 
+#include "RTTIDecl.h"
 #undef RTTI_DECL
 
 
@@ -42,19 +36,11 @@ Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram
 void RenderSystemRTTIInit()
 {
 	Light::StaticInitClass();
-
-	RenderPass::StaticInitClass();
-
+	
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticInitClass(); \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); 
-
-	RTTI_DECL(MeshComponent);
-	RTTI_DECL(ParticleEmitter);
-	RTTI_DECL(PointLight);
-	RTTI_DECL(SpotLight);
-	RTTI_DECL(DirectonalLight);
-	RTTI_DECL(Camera);
+	#include "RTTIDecl.h"
 #undef RTTI_DECL
 	
 	MaterialParameter::StaticInitClass();
@@ -64,8 +50,6 @@ void RenderSystemRTTIInit()
 	Camera::RegisterObject( GetContext() );
 	Terrain::RegisterObject( GetContext() );
 
-	MeshData::StaticInitClass();
-	MaterialData::StaticInitClass();
 	Texture::StaticInitClass();
 	ShaderProgram::StaticInitClass();
 
@@ -90,8 +74,7 @@ void RenderSystemRTTIShutdown()
 	GetResourceSystem()->UnregisterResourceFactory("png",TextureData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("tech",ShaderProgram_Creator);
 
-	MeshData::StaticShutdownClass();
-	MaterialData::StaticShutdownClass();
+
 	Texture::StaticShutdownClass();
 	ShaderProgram::StaticShutdownClass();
 
@@ -102,13 +85,7 @@ void RenderSystemRTTIShutdown()
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticShutdownClass(); \
 	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
-
-	RTTI_DECL(MeshComponent);
-	RTTI_DECL(ParticleEmitter);
-	RTTI_DECL(PointLight);
-	RTTI_DECL(SpotLight);
-	RTTI_DECL(DirectonalLight);
-	RTTI_DECL(Camera);
+	#include "RTTIDecl.h"
 #undef RTTI_DECL
 
 

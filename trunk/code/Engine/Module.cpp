@@ -83,6 +83,7 @@
 #include "Engine/Material/Technqiue.hxx"
 #include "Engine/Material/ParameterManager.hxx"
 #include "Engine/Material/SamplerState.hxx"
+#include "Engine/Material/Uniform.hxx"
 
 #include "Engine/RenderScheme/DeferredLightPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
@@ -104,14 +105,19 @@
 #include "Engine/Scene/Octree.hxx"
 #include "Engine/Scene/FrustumCullQuery.hxx"
 #include "Engine/Scene/Camera.hxx"
+// Light
 #include "Engine/Scene/Light/Light.hxx"
 #include "Engine/Scene/Light/LightSystem.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"
 #include "Engine/Scene/Light/ShadowCasterQuery.hxx"
+#include "Engine/Scene/Light/RenderShadowCSM.hxx"
+#include "Engine/Scene/Light/PoissonDiskGen.hxx"
+//Particle
 #include "Engine/Scene/Particle/ParticleBatch.hxx"
 #include "Engine/Scene/Particle/ParticleEmitter.hxx"
 #include "Engine/Scene/Particle/ParticleThread.hxx"
 #include "Engine/Scene/Particle/ParticleSystem.hxx"
+//Terrain
 #include "Engine/Scene/Terrain/Terrain.hxx"
 #include "Engine/Scene/Terrain/TerrainTrunk.hxx"
 #include "Engine/Scene/Terrain/TerrainRenderable.hxx"
@@ -167,12 +173,16 @@ void EngineModuleInit()
 	LightSystem* pLightSystem = new LightSystem();
 	SetLightSystem(pLightSystem);
 
+	g_pRenderShadowCSM = new RenderShadowCSM();
+
 	EngineRTTIInit();
 }
 
 void EngineModuleShutdown()
 {
 	EngineRTTIShutdown();
+
+	SAFE_DELETE(g_pRenderShadowCSM);
 
 	Time* pTime = GetTimer();
 	SAFE_DELETE(pTime);

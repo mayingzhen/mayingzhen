@@ -21,14 +21,20 @@ namespace ma
 
 		void							Serialize(Serializer& sl, const char* pszLable);
 
-		UINT							GetTansfTrackNumber() {return m_arrTransfTrackName.size();}
+		UINT							GetTrackNumber() const;
+		const char*						GetTrackNameByIndex(UINT index) const;
+		UINT							GetTrackIndexByName(const char* pszName) const;
 
-		const char*						GetTransfTrackNameByIndex(UINT index) {return m_arrTransfTrackName[index].c_str();}
+		void							AddTrack(const char* pName,const Vector3Track& scale,const QuaternionTrack& rot,const Vector3Track& pos);
 
-		UINT							GetTransfTrackIndexByName(const char* pszName);
+		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
+		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
 
-	public:
-		std::vector<std::string>		m_arrTransfTrackName;
+	private:
+		void							SerializeDataV0(Serializer& sl, const char* pszLable);
+
+	private:
+		std::vector<std::string>		m_arrTrackName;
 		UINT							m_nFrameNumber;
 		std::vector<Vector3Track>		m_arrScaleTrack;
 		std::vector<QuaternionTrack>	m_arrRotTrack;

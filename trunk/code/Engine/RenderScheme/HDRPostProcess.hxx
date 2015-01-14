@@ -33,7 +33,7 @@ namespace ma
 		int len = 1;
 		for (int i = NUM_SUM_LUM + 1 - 1; i >= 0; --i)
 		{
-			m_lumTexs[i] =  GetRenderSystem()->CreateRenderTarget( len, len, PF_FLOAT16_R);
+			m_lumTexs[i] =  GetRenderSystem()->CreateRenderTexture( len, len, PF_FLOAT16_R);
 			len *= 4;
 		}
 
@@ -44,9 +44,9 @@ namespace ma
 			int nWidth = (int)rect.width / (2 << i);
 			int nHeight = (int)rect.height / (2 << i);
 
-			m_DownSampleTex[i] = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_FLOAT16_RGBA);
+			m_DownSampleTex[i] = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,PF_FLOAT16_RGBA);
 
-			m_GlowTex[i] = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_FLOAT16_RGBA);
+			m_GlowTex[i] = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,PF_FLOAT16_RGBA);
 
 			m_pBlurPP[i] = new BlurPostProcess(m_DownSampleTex[i],m_GlowTex[i]);
 			m_pBlurPP[i]->Init();
@@ -54,7 +54,7 @@ namespace ma
 
 		for (int i = 0; i < AdaptedTex_NUM; ++i)
 		{
-			m_AdaptedTex[i] = GetRenderSystem()->CreateRenderTarget( 1, 1,PF_FLOAT32_R);
+			m_AdaptedTex[i] = GetRenderSystem()->CreateRenderTexture( 1, 1,PF_FLOAT32_R);
 		}
 	}
 
@@ -85,7 +85,7 @@ namespace ma
 		m_AdaptedLumTech = CreateTechnique("AdaptedLum","Screen","HDR/AdaptedLum",NULL); 
 		m_AdaptedLumTech->SetParameter("g_SamplerSrc",Any(m_lumTexs[NUM_SUM_LUM]));
 		m_AdaptedLumTech->SetParameter("g_SamplerLastLum",Any(m_AdaptedTex[AdaptedTex_LAST]));
-		m_AdaptedLumTech->GetParameter("frame_delta")->BindMethod( GetTimer(), &Time::GetFrameDeltaTime );	
+		//m_AdaptedLumTech->GetParameter("frame_delta")->BindMethod( GetTimer(), &Time::GetFrameDeltaTime );	
 
 		m_BrightPassTech = CreateTechnique("BrightPass","Screen","HDR/BrightPass",NULL); 
 		m_BrightPassTech->SetParameter("g_SamplerSrc",Any(m_pInputTex));

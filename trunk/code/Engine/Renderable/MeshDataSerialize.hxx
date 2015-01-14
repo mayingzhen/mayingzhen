@@ -78,16 +78,16 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeDataV0(Serializer& sl, MeshData& meshData, const char* pszLabel)
+	void MeshData::SerializeDataV0(Serializer& sl, const char* pszLabel)
 	{
 		sl.BeginSection(pszLabel);
 
-		sl.Serialize(meshData.m_nIndexType,"IndexType");
-		sl.Serialize(meshData.m_nVertexType,"VertexType");
-		sl.Serialize(*meshData.m_pVertexBuffer,"VertexBuffer");
-		sl.Serialize(*meshData.m_pIndexBuffer,"IndexBuffer");
-		sl.Serialize(meshData.m_meshBound,"MeshBound");
-		sl.Serialize(meshData.m_arrSubMesh,"SubMesh");
+		sl.Serialize(m_nIndexType,"IndexType");
+		sl.Serialize(m_nVertexType,"VertexType");
+		sl.Serialize(*m_pVertexBuffer,"VertexBuffer");
+		sl.Serialize(*m_pIndexBuffer,"IndexBuffer");
+		sl.Serialize(m_meshBound,"MeshBound");
+		sl.Serialize(m_arrSubMesh,"SubMesh");
 
 		sl.EndSection();
 	}

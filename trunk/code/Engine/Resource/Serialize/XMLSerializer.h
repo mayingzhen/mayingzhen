@@ -25,7 +25,7 @@ namespace ma
 
 		virtual void	Serialize(float& val,const char* pszLable);
 
-		virtual void	Serialize(std::string& val,const char* pszLable);
+		virtual void	Serialize(char* val,int nSize,const char* pszLable);	
 
 		virtual void	Serialize(Vector2& val,const char* pszLable);
 

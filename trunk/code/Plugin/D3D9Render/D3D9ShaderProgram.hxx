@@ -16,6 +16,11 @@ namespace ma
 
 	D3D9ShaderProgram::~D3D9ShaderProgram()
 	{
+		Destory();
+	}
+	
+	void D3D9ShaderProgram::Destory()
+	{
 		SAFE_RELEASE(m_pVShConstantTable);
 		SAFE_RELEASE(m_pPShConstantTable);
 
@@ -25,6 +30,8 @@ namespace ma
 
 	void D3D9ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
+		Destory();
+
 		ASSERT(vshSource);
 		ASSERT(fshSource);
 		if (vshSource == NULL || fshSource == NULL)
@@ -85,12 +92,12 @@ namespace ma
 				&error, 
 				&m_pVShConstantTable ) ;
 #endif
-			ASSERT(hr == D3D_OK);
 			if (hr != D3D_OK)
 			{
 				if (error)
 				{
 					const char* pErrCode = (const char*)error->GetBufferPointer();	
+					LogError(pErrCode);
 					ASSERT(false);
 				}
 			}
@@ -131,6 +138,7 @@ namespace ma
 			if (hr != D3D_OK)
 			{
 				const char* pErrCode = (const char*)error->GetBufferPointer();	
+				LogError(pErrCode);
 				ASSERT(false);
 			}
 			else
@@ -166,7 +174,6 @@ namespace ma
 
 				RefPtr<Uniform>	 uniform = this->AddUniform(constantDesc.Name);
 				uniform->m_vshShder = true; 
-				uniform->m_pShader = this;
 				uniform->m_location = constantDesc.RegisterIndex;
 				uniform->m_type = constantDesc.Type;
 				uniform->m_nCount = constantDesc.RegisterCount;
@@ -191,7 +198,6 @@ namespace ma
 
 				RefPtr<Uniform> uniform = this->AddUniform(constantDesc.Name);
 				uniform->m_vshShder = false;
-				uniform->m_pShader = this;
 				uniform->m_location = constantDesc.RegisterIndex;
 				uniform->m_type = constantDesc.Type;
 				uniform->m_nCount = constantDesc.RegisterCount;
@@ -209,7 +215,7 @@ namespace ma
 
 		hr = GetD3D9DxDevive()->SetPixelShader(m_pPiexelShader);
 		ASSERT(hr == D3D_OK);
-
 	}
 
 }
+

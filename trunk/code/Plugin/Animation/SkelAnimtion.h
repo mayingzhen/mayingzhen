@@ -14,6 +14,7 @@ namespace ma
 		~SkelAnimtion();
 
 		void				SetSkeletion(Skeleton* pSkeleton);
+		Skeleton*			GetSkeleton() const {return m_pSkeleton.get();}
 
 		void				SetTreeNode(AnimTreeNode* pAnimNode);
 
@@ -27,13 +28,8 @@ namespace ma
 
 		void				SetFrame(float fFrame);
 
-		void				SetAnimName(const char* pszAnimName) {m_sAnimName = pszAnimName;}
-
-		const char*			GetAnimName() {return m_sAnimName.c_str();}
-
-		Skeleton*			GetSkeleton() {return m_pSkeleton.get();}
-
-		AnimClipNode*		CreateClipNode(const char* pSkaPath,const char* pBonsetName);
+		void				SetAnimName(const char* pszAnimName);
+		const char*			GetAnimName() const; 
 		
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "SkelAnimtion");
 
@@ -42,7 +38,7 @@ namespace ma
 	private:
 		std::string					m_sAnimName;
 
-		AnimTreeNode*				m_pAnimaNode;
+		RefPtr<AnimTreeNode>		m_pAnimaNode;
 
 		std::vector<PoseModifier*>	m_arrPoseModifier;
 

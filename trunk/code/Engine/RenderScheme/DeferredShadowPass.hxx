@@ -10,7 +10,7 @@ namespace ma
 	{
 		gpDeferredShadowPass = this;
 
-		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_FLOAT16_R);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT16_R);
 
 		//m_bHWShadowMap = GetRenderDevice()->CheckTextureFormat(FMT_D24S8,USAGE_DEPTHSTENCIL);
 
@@ -39,8 +39,8 @@ namespace ma
 		for (UINT iLight = 0; iLight < nLight; ++iLight)
 		{
 			Light* pLight = GetLightSystem()->GetLightByIndex(iLight);
-			if ( !pLight->IsCreateShadow() )
-				continue;
+			//if ( !pLight->IsCreateShadow() )
+			//	continue;
 
 			if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
 			{

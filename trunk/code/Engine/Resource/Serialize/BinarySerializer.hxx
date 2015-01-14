@@ -48,16 +48,14 @@ namespace ma
 		SerializeByte(pTemp,sizeof(val),pszLable);
 	}
 
-
-	void BinarySerializer::Serialize(std::string& val,const char* pszLable)
+	void BinarySerializer::Serialize(char* val,int nSize,const char* pszLable)
 	{
-		UINT nSize = (UINT)(val.size()+1);
-		Serialize(nSize,pszLable);
-		val.resize(nSize,'\0');
+		UINT nlen = (UINT)(strlen(val) + 1);
+		Serialize(nlen,pszLable);
 		if (nSize > 0)
 		{
-			uint8* pBuf = (uint8*)&val[0];
-			SerializeByte(pBuf,nSize,pszLable);
+			uint8* pBuf = (uint8*)val;
+			SerializeByte(pBuf,nlen,pszLable);
 		}
 	}
 

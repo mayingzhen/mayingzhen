@@ -31,13 +31,13 @@ namespace ma
 		sl.EndSection();
 	}
 
-	void SerializeDataV0(Serializer& sl, Skeleton& data, const char* pszLable)
+	void Skeleton::SerializeDataV0(Serializer& sl, const char* pszLable)
 	{	
 		sl.BeginSection(pszLable);
 
-		sl.Serialize(data.m_arrBoneName,"BoneName");
-		sl.Serialize(data.m_arrParentIndice,"ParentIndice");
-		sl.Serialize(data.m_arrTsfOS,"tsfOS");
+		sl.Serialize(m_arrBoneName,"BoneName");
+		sl.Serialize(m_arrParentIndice,"ParentIndice");
+		sl.Serialize(m_arrTsfOS,"tsfOS");
 
 		sl.EndSection();
 	}

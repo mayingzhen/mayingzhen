@@ -109,7 +109,7 @@ namespace ma
 		
 		bool OnLoadOver();
 
-		virtual	void OnTransformChange();
+		//virtual	void OnTransformChange();
 
 	private:
 		void BuildTrunks();

@@ -13,9 +13,9 @@ namespace ma
 	class Animation;
 	class Skeleton;
 
-	void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack);
+	void LoadAnimationData(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack);
 	
-	void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData);
+	void LoadAnimationData(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData);
 	
 	bool LoadAnimationData(const char* pFileName, Animation& skaData,const Skeleton& skeData);
 	

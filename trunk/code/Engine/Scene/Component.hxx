@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Component,Object);
+	IMPL_OBJECT(Component,Serializable);
 
 	Component::Component()
 	{
