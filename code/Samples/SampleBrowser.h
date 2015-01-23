@@ -52,8 +52,6 @@ namespace ma
 
 		void				InitResourcePath();
 
-		void				LoadRenderScheme();
-
 		void				InitSampleList();
 
 	private:

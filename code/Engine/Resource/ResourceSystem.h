@@ -13,9 +13,9 @@ namespace ma
 	public:
 		ResourceSystem();
 
-		void		Init();
+		void		Init(bool bDataThread);
 
-		void		ShoutDown();
+		void		Shoutdown();
 
 		void		SetDataThreadEnable(bool b);
 

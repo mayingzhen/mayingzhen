@@ -14,7 +14,7 @@ namespace ma
 
 	void SampleRigidBody::Load()
 	{
-		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 30, 20), Vector3(0,0,0));
+		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 20, 30), Vector3(0,0,0));
 
 		SceneNodePtr pGameObjA;
 		{

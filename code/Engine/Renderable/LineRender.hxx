@@ -177,6 +177,9 @@ namespace ma
 		int index = GetRenderSystem()->CurThreadProcess();
 		std::vector<LineVertex>& arrLineVertex = m_arrLineVertex[index];
 
+		if (arrLineVertex.empty())
+			return;
+
 		for (UINT i = 0; i < arrLineVertex.size(); i += 2)
 		{
 			LineVertex v[2];

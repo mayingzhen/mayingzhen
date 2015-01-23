@@ -6,11 +6,13 @@
 namespace ma
 {
 	class ShadingPass;
-
+	class RenderPass;
+	class GBufferPass;
+	class DeferredLightPass;
+	class DeferredShadowPass;
 
 	class RENDER_API  RenderScheme : public Serializable
 	{
-
 	public:
 
 		enum Type
@@ -19,7 +21,7 @@ namespace ma
 			DeferredLighting,
 		};
 
-		RenderScheme();
+		RenderScheme(Scene* pScene);
 
 		void	Init();
 
@@ -29,12 +31,31 @@ namespace ma
 
 		void	AddRenderPass(RenderPass* pPass);
 
+		GBufferPass* GetGBufferPass() const {return	m_pGBufferPass;}
+		void AddGBufferPass();
+
+		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass; }
+		void AddDeferredShadowPass();
+		
+		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass; }
+		void AddDeferredLightPass();
+
+		ShadingPass* GetShadingPass() const { return m_pShadingPass; }
+		void AddShadingPass();
+
 	private:
 		typedef std::vector< RefPtr<RenderPass> >	VEC_RENDERPASS;
 		VEC_RENDERPASS	m_arrRenderPass;
+
+		GBufferPass*		m_pGBufferPass;
+		DeferredShadowPass*	m_pDeferredShadowPass;
+		DeferredLightPass*	m_pDeferredLightPass;
+		ShadingPass*		m_pShadingPass;
+
+		Scene*			m_pScene;
 	};
 
-	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType);
+	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType,Scene* pScene);
 
 }
 

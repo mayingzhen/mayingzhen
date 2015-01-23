@@ -29,7 +29,7 @@ namespace ma
 
 		m_pParticleBatch->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-		GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Trans,m_pParticleBatch);
+		m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Trans, m_pParticleBatch);
 	}
 
 	void ParticleEmitter::Start()

@@ -4,7 +4,7 @@ namespace ma
 {
 	IMPL_OBJECT(PhysicsJoint,Component)
 
-	void PhysicsJoint::RegisterObject(Context* context)
+	void PhysicsJoint::RegisterAttribute()
 	{
 
 	}
@@ -51,7 +51,7 @@ namespace ma
 		m_bLinearUpperLimit = false;
 	}
 
-	void PhysicsGenericJoint::RegisterObject(Context* context)
+	void PhysicsGenericJoint::RegisterAttribute()
 	{
 
 	}
@@ -154,7 +154,7 @@ namespace ma
 		m_pPhyObjB = NULL;
 	}
 
-	void PhysicsHingeJoint::RegisterObject(Context* context)
+	void PhysicsHingeJoint::RegisterAttribute()
 	{
 
 	}

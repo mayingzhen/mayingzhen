@@ -37,16 +37,8 @@ namespace ma
 		m_pCurVB = NULL;
 		m_pCurIB = NULL;
 
-		m_pRenderContext = NULL;
-		m_pRenderThread = NULL;
-		m_pRenderQueue[0] = NULL;
-		m_pRenderQueue[1] = NULL;
-
 		m_pRenderContext = new RenderContext();
 		SetRenderContext(m_pRenderContext);
-
-		m_pRenderQueue[0] = new RenderQueue();
-		m_pRenderQueue[1] = new RenderQueue();
 
 		LineRender* pLineRender = new LineRender();
 		SetLineRender(pLineRender);
@@ -54,6 +46,11 @@ namespace ma
 		m_pRenderThread = new RenderThread();
 
 		m_bNeedReloadShader = false;
+
+		m_hWnd = NULL;
+
+		m_bThread = false;
+		m_cClearClor = ColourValue::Black;
 	}
 
 	RenderSystem::~RenderSystem()
@@ -61,9 +58,6 @@ namespace ma
 		SAFE_DELETE(m_pRenderContext);
 
 		SAFE_DELETE(m_pRenderThread);
-
-		SAFE_DELETE(m_pRenderQueue[0]);
-		SAFE_DELETE(m_pRenderQueue[1]);
 
 		LineRender* pLineRender = GetLineRender();
 		SAFE_DELETE(pLineRender);
@@ -75,21 +69,22 @@ namespace ma
 		return m_arrScene[index].get();
 	}
 
-	void RenderSystem::Init(HWND wndhandle)
+	void RenderSystem::Init(HWND wndhandle, bool bThread)
 	{
-		if ( GetRenderSetting()->m_bRenderThread )
+		m_bThread = bThread;
+		if (bThread)
 		{
 			m_pRenderThread->Start();
 		}
-
+		
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
-	void RenderSystem::ShoutDown()
+	void RenderSystem::Shoutdown()
 	{
 		m_pRenderThread->RC_ShutDown();
 
-		if (GetRenderSetting()->m_bRenderThread)
+		if (m_bThread)
 			m_pRenderThread->Stop();
 	}
 
@@ -109,12 +104,6 @@ namespace ma
 		}
 	}
 
-	RenderQueue* RenderSystem::GetRenderQueue()
-	{
-		int index = m_pRenderThread->GetThreadList();
-		return m_pRenderQueue[index];
-	}
-
 	void RenderSystem::BeginFrame()
 	{
 		m_pRenderThread->RC_BeginFrame();
@@ -132,16 +121,21 @@ namespace ma
 	void RenderSystem::Render()
 	{
 		m_pRenderThread->RC_Render();
+// 		for (UINT i = 0; i < m_arrScene.size(); ++i)
+// 		{
+// 			m_arrScene[i]->Render();
+// 		}
 	}
 
 	void RenderSystem::OnFlushFrame()
 	{
-		if ( GetRenderQueue() )
-			GetRenderQueue()->Clear();
+		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		{
+			m_arrScene[i]->OnFlushFrame();
+		}
 
 		if ( GetLineRender() )
 			GetLineRender()->OnFlushFrame();
-
 
 		if ( GetParticleSystem() )
 			GetParticleSystem()->OnFlushFrame();
@@ -166,9 +160,6 @@ namespace ma
 		{
 			m_pRenderTarget[i] = NULL;
 		}
-		
-		m_pRenderQueue[0]->Clear();
-		m_pRenderQueue[1]->Clear();
 
 		GetRenderDevice()->ShutDown();
 
@@ -189,7 +180,6 @@ namespace ma
 		m_viewport = GetRenderDevice()->GetViewport();
 	
 		GetLineRender()->Init();
-
 		ScreenQuad::Init();
 		UnitSphere::Init();
 
@@ -202,13 +192,19 @@ namespace ma
 			GetRenderDevice()->SetTextureFilter(i,m_arrSampState[i].GetFilterMode());
 			GetRenderDevice()->SetTextureWrap(i,m_arrSampState[i].GetWrapMode());
 		}
+
+		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+		{
+			m_mapMacros["HWPCF"] = "1";
+			m_mapMacros["HWDEPTH"] = "1";
+		}
 	}
 
 	void RenderSystem::RT_BeginFrame()
 	{
 		GetRenderDevice()->BeginRender();	
 
-		GetRenderDevice()->ClearBuffer(true,true,true,GetRenderSetting()->m_cClearClor,1,0);
+		GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor,1,0);
 	}
 
 	void RenderSystem::RT_EndFrame()
@@ -226,31 +222,36 @@ namespace ma
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
 	{
+		m_pRenderThread->RC_DrawRenderable(pRenderable,pTechnique);
+	}
+
+	void RenderSystem::RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
+	{
 		if (pRenderable == NULL)
 			return;
-		
+
 		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-// 		m_pRenderContext->SetCurRenderObj(pRenderable);
-// 
-// 		pTechnique->Bind();
-		
+		// 		m_pRenderContext->SetCurRenderObj(pRenderable);
+		// 
+		// 		pTechnique->Bind();
+
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
 			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
 
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
-		
+
 		if (m_pCurVB != pRenderable->m_pVertexBuffers)
 		{
 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
 
 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
 		}
-		
+
 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
 		{
 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
@@ -266,6 +267,11 @@ namespace ma
 
 	void RenderSystem::DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
 	{
+		m_pRenderThread->RC_DrawDyRenderable(pRenderable,pTechnique);
+	}
+
+	void RenderSystem::RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
+	{
 		if (pRenderable == NULL)
 			return;
 
@@ -273,9 +279,9 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-// 		m_pRenderContext->SetCurRenderObj(pRenderable);
-// 
-// 		pTechnique->Bind();
+		// 		m_pRenderContext->SetCurRenderObj(pRenderable);
+		// 
+		// 		pTechnique->Bind();
 
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
@@ -284,19 +290,19 @@ namespace ma
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
 
-// 		if (m_pCurVB != pRenderable->m_pVertexBuffers)
-// 		{
-// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
-// 
-// 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
-// 		}
-// 
-// 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
-// 		{
-// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-// 
-// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
-// 		}
+		// 		if (m_pCurVB != pRenderable->m_pVertexBuffers)
+		// 		{
+		// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
+		// 
+		// 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
+		// 		}
+		// 
+		// 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
+		// 		{
+		// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
+		// 
+		// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
+		// 		}
 
 		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
@@ -464,6 +470,16 @@ namespace ma
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pHB);
 	}
 
+	void RenderSystem::BeginProfile(const char* pszLale)
+	{
+		m_pRenderThread->RC_BeginProfile(pszLale);
+	}
+
+	void RenderSystem::EndProfile()
+	{
+		m_pRenderThread->RC_EndProfile();	
+	}
+
 	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
@@ -597,6 +613,9 @@ namespace ma
 
 		ASSERT(pszKey != NULL);
 		m_mapMacros[pszKey] = pszValue;
+
+		ReloadShader();
+
 		return true;
 	}
 

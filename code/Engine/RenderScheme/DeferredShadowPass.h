@@ -6,6 +6,8 @@ namespace ma
 	class DeferredShadowPass : public RenderPass
 	{
 	public:
+		DeferredShadowPass(Scene* pScene);
+
 		void Init();
 
 		void Render();
@@ -20,7 +22,6 @@ namespace ma
 		RefPtr<Technique>	m_pDefferedShadow;
 	};
 
-	DeferredShadowPass*	GetDeferredShadowPass();
 }
 
 

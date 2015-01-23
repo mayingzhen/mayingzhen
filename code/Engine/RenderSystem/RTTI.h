@@ -9,8 +9,7 @@
 #include "Engine/RenderScheme/RenderPass.h"
 #include "Engine/RenderScheme/ShadingPass.h"
 #include "Engine/RenderScheme/GBufferPass.h"
-#include "Engine/RenderScheme/DeferredLightPass.h"
-#include "Engine/RenderScheme/ShadowDepthPass.h"
+//#include "Engine/RenderScheme/DeferredLightPass.h"
 #include "Engine/RenderScheme/DeferredShadowPass.h"
 #include "Engine/Renderable/MeshData.h"
 #include "Engine/Material/MaterialData.h"
@@ -46,9 +45,9 @@ void RenderSystemRTTIInit()
 	MaterialParameter::StaticInitClass();
 	Terrain::StaticInitClass();
 
-	MeshComponent::RegisterObject( GetContext() );
-	Camera::RegisterObject( GetContext() );
-	Terrain::RegisterObject( GetContext() );
+	MeshComponent::RegisterAttribute();
+	Camera::RegisterAttribute();
+	Terrain::RegisterAttribute();
 
 	Texture::StaticInitClass();
 	ShaderProgram::StaticInitClass();
@@ -61,7 +60,7 @@ void RenderSystemRTTIInit()
 	GetResourceSystem()->RegisterResourceFactory("dds",TextureData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("pvr",TextureData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("pkm",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("tech",ShaderProgram_Creator);
+	GetResourceSystem()->RegisterResourceFactory("shader",ShaderProgram_Creator);
 
 }
 

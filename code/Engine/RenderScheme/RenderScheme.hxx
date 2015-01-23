@@ -2,8 +2,13 @@
 
 namespace ma
 {
-	RenderScheme::RenderScheme()
+	RenderScheme::RenderScheme(Scene* pScene)
 	{
+		m_pScene = pScene;
+
+		m_pGBufferPass = NULL;
+		m_pDeferredShadowPass = NULL;
+		m_pDeferredLightPass = NULL;
 	}
 
 	void RenderScheme::Init()
@@ -43,22 +48,44 @@ namespace ma
 		m_arrRenderPass.push_back(pPass);
 	}
 
-	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType)
+	void RenderScheme::AddGBufferPass()
 	{
- 		RenderScheme* pRenderScheme = new RenderScheme();
+		m_pGBufferPass = new GBufferPass(m_pScene);
+		AddRenderPass(m_pGBufferPass);
+	}
+
+	void RenderScheme::AddDeferredShadowPass()
+	{	
+		m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
+		AddRenderPass(m_pDeferredShadowPass);
+	}
+
+	void RenderScheme::AddDeferredLightPass()
+	{
+		m_pDeferredLightPass = new DeferredLightPass(m_pScene);
+		AddRenderPass(m_pDeferredLightPass);
+	}
+
+	void RenderScheme::AddShadingPass()
+	{
+		m_pShadingPass = new ShadingPass(m_pScene);
+		AddRenderPass(m_pShadingPass);
+	}
+
+	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType, Scene* pScene)
+	{
+		RenderScheme* pRenderScheme = new RenderScheme(pScene);
 		
 		if (eType == RenderScheme::Forward)
 		{
-			pRenderScheme->AddRenderPass( new ShadowDepthPass() );
-			pRenderScheme->AddRenderPass( new ShadingPass() );
+			pRenderScheme->AddShadingPass();
 		}
 		else if (eType == RenderScheme::DeferredLighting)
 		{
-	 		pRenderScheme->AddRenderPass( new ShadowDepthPass() );
-	 		pRenderScheme->AddRenderPass( new GBufferPass() );
-	 		pRenderScheme->AddRenderPass( new DeferredShadowPass() );
-	 		pRenderScheme->AddRenderPass( new DeferredLightPass() );
-	 		pRenderScheme->AddRenderPass( new ShadingPass() );	
+			pRenderScheme->AddGBufferPass();
+			pRenderScheme->AddDeferredShadowPass();
+			pRenderScheme->AddDeferredLightPass();
+			pRenderScheme->AddShadingPass();
 		}
 		
  		return pRenderScheme;

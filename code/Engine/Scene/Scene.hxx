@@ -13,9 +13,28 @@ namespace ma
 		SceneNode* pCamera = this->CreateNode("defaultCamera");
 		m_pCamera = pCamera->CreateComponent<Camera>();
 		
-		m_pRenderScheme = CreateRenderScheme(RenderScheme::Forward);
+		SetRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
+
+		m_pRenderQueue[0] = new RenderQueue();
+		m_pRenderQueue[1] = new RenderQueue();
+	}
+
+	Scene::~Scene()
+	{
+		SAFE_DELETE(m_pRenderQueue[0]);
+		SAFE_DELETE(m_pRenderQueue[1]);
+	}
+
+	void Scene::SetRenderScheme(RenderScheme::Type eType)
+	{
+		if (eType == RenderScheme::DeferredLighting)
+		{
+			GetRenderSystem()->AddMacro("DeferredLight", "1");
+		}
+
+		m_pRenderScheme = CreateRenderScheme(eType,this);
 	}
 
 	SceneNode* Scene::CreateNode(const char* pName)
@@ -46,6 +65,9 @@ namespace ma
 		ASSERT(m_pRenderScheme);
 		if (m_pRenderScheme)
 			m_pRenderScheme->ShoutDown();
+
+		m_pRenderQueue[0]->Clear();
+		m_pRenderQueue[1]->Clear();
 	}
 
 	void Scene::Update()
@@ -71,7 +93,7 @@ namespace ma
 
 		UpdateViewMinMaxZ();
 
-		GetRenderShadowCSM()->Update( m_pCamera.get() );
+		GetRenderShadowCSM()->Update(m_pCamera.get());
 
 		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
 		{
@@ -86,6 +108,12 @@ namespace ma
 		}
 	}
 
+	RenderQueue* Scene::GetRenderQueue()
+	{
+		int index = GetRenderSystem()->GetThreadList();
+		return m_pRenderQueue[index];
+	}
+
 	void Scene::Render()
 	{
 		if (m_pCamera == NULL)
@@ -93,7 +121,7 @@ namespace ma
 	
 		GetRenderSystem()->BeginFrame();
 
-		GetRenderShadowCSM()->Render( m_pCamera.get() );
+		GetRenderShadowCSM()->Render(m_pCamera.get());
 
 		if (m_pRenderTarget)
 		{
@@ -109,8 +137,7 @@ namespace ma
 			m_pCallback->OnPreRender(this);
 		}
 
-		if (m_pRenderScheme)
-			m_pRenderScheme->Render();
+		m_pRenderScheme->Render();
 
 		if (m_pCallback)
 		{
@@ -172,6 +199,12 @@ namespace ma
 	{
 		m_cDirLight = color;
 		m_vDirLight = vDir;
+	}
+
+	void Scene::OnFlushFrame()
+	{
+		if ( GetRenderQueue() )
+			GetRenderQueue()->Clear();
 	}
 
 }

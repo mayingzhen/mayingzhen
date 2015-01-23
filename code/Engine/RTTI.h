@@ -11,7 +11,7 @@ namespace ma
 		
 		SceneNode::StaticInitClass();
 
-		SceneNode::RegisterObject( GetContext() );
+		SceneNode::RegisterAttribute();
 
 		Component::StaticInitClass();
 		RenderComponent::StaticInitClass();

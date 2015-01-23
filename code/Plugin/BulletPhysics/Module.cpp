@@ -24,7 +24,7 @@ void BtPhysicsModuleInit()
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticInitClass(); \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); \
-	ClassType::RegisterObject( GetContext() );
+	ClassType::RegisterAttribute();
 #include <BulletPhysics/RTTIDecl.h>
 #undef RTTI_DECL
 

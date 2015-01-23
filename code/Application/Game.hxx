@@ -8,11 +8,16 @@ namespace ma
 	{
 		__gameInstance = this;
 		m_sGameName = pGameName ? pGameName : "";
+
+		Engine* pEngine = new Engine();
+		SetEngine(pEngine);
 	}
 
 	Game::~Game()
 	{
-
+		Engine* pEngine = GetEngine();
+		SAFE_DELETE(pEngine);
+		SetEngine(NULL);
 	}
 
 	Game& Game::GetInstance()
@@ -26,39 +31,22 @@ namespace ma
 		return m_sGameName.c_str();
 	}
 
-	void Game::ModuleInit()
-	{
-		EngineModuleInit();
-	}
-
-	void Game::ModuleShutdown()
-	{
-		EngineModuleShutdown();
-	}
-
 	void Game::Init()
 	{
+		HWND hWnd = Platform::GetInstance().GetWindId();
 		Input* pInput = new Input;
 		SetInput(pInput);
-		pInput->Init(Platform::GetInstance().GetWindId());
+		pInput->Init(hWnd);
 		int w,h;
 		Platform::GetInstance().GetWindowSize(w,h);
 		pInput->OnResize(w,h);
 
-		if ( GetRenderSystem() )
-			GetRenderSystem()->Init(Platform::GetInstance().GetWindId());
-
-		if ( GetResourceSystem() )
-			GetResourceSystem()->Init();
+		GetEngine()->Init(hWnd, true, true, true);
 	}
 
 	void Game::Shutdown()
 	{
-		if (GetResourceSystem())
-			GetResourceSystem()->ShoutDown();
-
-		if ( GetRenderSystem() )
-			GetRenderSystem()->ShoutDown();
+		GetEngine()->Shutdown();
 
 		Input* pInput = GetInput();
 		pInput->Shutdown();
@@ -72,20 +60,12 @@ namespace ma
 
 		if (GetInput())
 			GetInput()->Capture();
-
-		if (GetTimer())
-			GetTimer()->UpdateFrame();
-
-		if (GetResourceSystem())
-			GetResourceSystem()->Update();
-
-		if ( GetRenderSystem() )
-			GetRenderSystem()->Update();
+	
+		GetEngine()->Update();
 	}	
 
 	void Game::Render()
 	{
-		if ( GetRenderSystem() )
-			GetRenderSystem()->Render();	
+		GetEngine()->Render();
 	}
 }

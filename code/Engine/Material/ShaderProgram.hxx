@@ -18,17 +18,6 @@ namespace ma
 	}
 
 
-	void ShaderProgram::Serialize(Serializer& sl, const char* pszLable/* = "Resource"*/)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_strVSFile,"m_strVSFile");
-		sl.Serialize(m_strPSFile,"m_strVSFile");
-		sl.Serialize(m_shaderDefine,"m_shaderDefine");
-
-		sl.EndSection();
-	}
-
 	void ShaderProgram::BindUniform()
 	{
 		for (UINT i = 0; i < m_arrUniform.size(); ++i)
@@ -61,7 +50,7 @@ namespace ma
 
 		m_eResState = ResLoaded;
 
-		CreateFromMemeory();
+		GetRenderSystem()->ShaderStreamComplete(this);
 	}
 
 	void ShaderProgram::RT_StreamComplete()
@@ -87,21 +76,6 @@ namespace ma
 		m_eResState = ResInited;
 	}
 
-	bool ShaderProgram::CreateFromMemeory()
-	{
-		if (m_eResState == ResInited)
-			return true;
-
-		ASSERT(m_eResState == ResLoaded);
-		if (m_eResState != ResLoaded)
-			return false;
-
-		GetRenderSystem()->ShaderStreamComplete(this);
-
-		m_eResState = ResInited;
-
-		return true;
-	}
 
 	Uniform* ShaderProgram::GetUniform(const char* name) const
 	{

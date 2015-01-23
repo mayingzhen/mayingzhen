@@ -17,17 +17,28 @@ namespace ma
 	ParticleSystem::ParticleSystem()
 	{	
 		m_pParticleThread = NULL;
+	}
 
-		if (GetRenderSetting()->m_bPartcleThread)
-		{		
+	ParticleSystem::~ParticleSystem()
+	{
+	}
+
+	void ParticleSystem::Init(bool bThread)
+	{
+		if (bThread)
+		{
 			m_pParticleThread = new ParticleThread();
 			m_pParticleThread->Start();
 		}
 	}
 
-	ParticleSystem::~ParticleSystem()
+	void ParticleSystem::Shutdown()
 	{
-		SAFE_DELETE(m_pParticleThread);
+		if (m_pParticleThread)
+		{
+			m_pParticleThread->Stop();
+			SAFE_DELETE(m_pParticleThread);
+		}
 	}
 
 	void ParticleSystem::OnFlushFrame()

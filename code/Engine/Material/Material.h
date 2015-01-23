@@ -13,32 +13,26 @@ namespace ma
 	public:
 		void				InitWithSubMatData(const SubMaterialData& subMatData);
 
-		void				AddTechnique(Technique* pTechnique);
-
-		Technique*			GetTechnqiueByName(const char* pTechName);
-
 		Technique*			GetShadowDepthTechnqiue();
 
 		Technique*			GetGbufferTechnqiue();
 
 		Technique*			GetShadingTechnqiue();
-		
-		Technique*			GetTechnqiueByIndex(UINT index);
 
-		Technique*			AddTechnique(const char* pTechName,const char* pShadrName,const char* pDefine);
-		
-		void				Serialize(Serializer& sl, const char* pszLable = "Material");
+		void				SetShadingTechnqiue(Technique* pTech);
 
+		void				SetShadingTechnqiue(const char* pShaderName,const char* pDefine);
+		
 		RefPtr<SubMaterial>	Clone();
-
+	
 	private:
-
-		Technique*			LoadTechnique(const char* sShaderName,const char* sMatFlag);
+		RefPtr<Technique>	m_pShadingTech;
 		
-	private:
-		typedef std::vector< RefPtr<Technique> > VEC_TECHNIQUE;
-		VEC_TECHNIQUE		m_arrTechnique;
+		RefPtr<Technique>	m_pGBufferTech;
 
+		RefPtr<Technique>	m_pShadowDepthTech;
+
+		std::string			m_pShaderMarco;
 	};
 
 	DeclareRefPtr(SubMaterial);

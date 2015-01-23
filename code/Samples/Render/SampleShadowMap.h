@@ -16,8 +16,12 @@ namespace ma
 
 		virtual void		Render();
 
+		virtual bool		keyPressed(const OIS::KeyEvent &arg);
+
 	private:
-		DirectonalLightPtr	m_pDirectLight;
+		RefPtr<DirectonalLight>	m_pDirectLight;
+
+		RefPtr<SceneNode>		m_pBox;
 	};
 }
 

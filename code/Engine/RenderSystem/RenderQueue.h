@@ -11,6 +11,7 @@ namespace ma
 	{
 		RL_Solid,
 		RL_Trans,
+		RL_Terrain,
 		RL_Count,
 	};
 
@@ -26,7 +27,8 @@ namespace ma
 		void					Clear();
 
 	private:
-		std::vector<RenderablePtr>	m_arrRenderList[RL_Count];
+		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
+		VEC_RENDERABLE	m_arrRenderList[RL_Count];
 	};
 }
 

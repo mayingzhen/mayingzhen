@@ -4,12 +4,18 @@
 
 namespace ma
 {
+	ShadingPass::ShadingPass(Scene* pScene)
+		:RenderPass(pScene)
+	{
+		m_bIsHDRRending = false;
+ 	}
+
 	void ShadingPass::Init()
 	{
 		m_pShadingTex = NULL;
 		m_pHdrPostprocess = NULL;
 
-		if ( GetRenderSetting()->m_bIsHDRRending )
+		if (m_bIsHDRRending)
 		{
 			m_pShadingTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT16_RGBA);	
 
@@ -22,38 +28,61 @@ namespace ma
 
 	void ShadingPass::RenderObjecList()
 	{
-		RENDER_PROFILE(RenderObjecList);
-
-		ColourValue cClearClor = GetRenderSetting()->m_cClearClor;
+		ColourValue cClearClor = GetRenderSystem()->GetClearColor();
 
 		GetRenderSystem()->ClearBuffer(true,true,true,cClearClor, 1.0f, 0);
 
-		RenderQueue* pRenderQueue = GetRenderSystem()->GetRenderQueue();
+		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
-		for (UINT i = 0; i < nSolid; ++i)
 		{
-			Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
-			if (pRenderObj == NULL)
-				continue;
+			RENDER_PROFILE(RL_Solid);
 
-			Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
+			for (UINT i = 0; i < nSolid; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid, i);
+				if (pRenderObj == NULL)
+					continue;
 
-			pRenderObj->Render(pTech);
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
 		}
 
-		UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
-		for (UINT i = 0; i < nTrans; ++i)
+
 		{
-			Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
-			if (pRenderObj == NULL)
-				continue;
+			RENDER_PROFILE(RL_Terrain);
 
-			Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Terrain);
+			for (UINT i = 0; i < nSolid; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Terrain,i);
+				if (pRenderObj == NULL)
+					continue; 
 
-			//GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
-			pRenderObj->Render(pTech);
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
 		}
+
+		{
+			RENDER_PROFILE(RL_Trans);
+
+			UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
+			for (UINT i = 0; i < nTrans; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
+				if (pRenderObj == NULL)
+					continue;
+
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
+		}
+
 	}
 
 	void ShadingPass::Render()
@@ -61,14 +90,14 @@ namespace ma
 		RENDER_PROFILE(ShadingPass);
 
 		RefPtr<Texture> pPreTarget = NULL;
-		if ( GetRenderSetting()->m_bIsHDRRending )
+		if (m_bIsHDRRending)
 		{
 			pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadingTex.get());
 		}
 
 		RenderObjecList();
 
-		if ( GetRenderSetting()->m_bIsHDRRending )
+		if (m_bIsHDRRending)
 		{
 			GetRenderSystem()->SetRenderTarget(pPreTarget);
 

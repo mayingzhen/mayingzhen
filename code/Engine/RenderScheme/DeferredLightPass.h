@@ -10,6 +10,7 @@ namespace ma
 	{
 
 	public:
+		DeferredLightPass(Scene* pScene);
 
 		void		Init();
 
@@ -32,8 +33,6 @@ namespace ma
 
 		RefPtr<Technique>	m_pPointLight;
 	};
-
-	DeferredLightPass*	GetDeferredLightPass();
 
 }
 

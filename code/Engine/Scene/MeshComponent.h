@@ -17,7 +17,7 @@ namespace ma
 	public:
 		MeshComponent();
 
-		static void					RegisterObject(Context* context);
+		static void					RegisterAttribute();
 
 		virtual	void				Show(Camera* pCamera);
 

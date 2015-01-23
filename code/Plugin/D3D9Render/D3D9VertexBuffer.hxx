@@ -70,6 +70,11 @@ namespace ma
 		memcpy(pLockData,m_pData,m_Size);
 
 		mD3D9VertexBuffer->Unlock();
+
+		if (m_bNeedFreeData)
+		{
+			SAFE_DELETE_ARRAY(m_pData);
+		}
 	}
 
 	void D3D9VertexBuffer::NotifyOnDeviceDestroy()

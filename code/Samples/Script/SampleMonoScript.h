@@ -3,6 +3,8 @@
 
 namespace ma
 {
+	class ScriptObject;
+
 	class SampleMonoScript : public Sample
 	{
 	public:
@@ -15,7 +17,7 @@ namespace ma
 		virtual void		Update();
 
 	private:
-		ScriptObjectPtr	m_pTestScript;
+		RefPtr<ScriptObject>	m_pTestScript;
 	};
 
 }

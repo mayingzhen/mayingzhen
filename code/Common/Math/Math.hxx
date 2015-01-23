@@ -296,13 +296,13 @@ namespace ma
         if (Math::Abs(denom) < std::numeric_limits<float>::epsilon())
         {
             // Parallel
-            return std::pair<bool, float>(false, 0);
+            return std::pair<bool, float>(false, 0.0f);
         }
         else
         {
             float nom = plane.normal.dotProduct(ray.getOrigin()) + plane.d;
             float t = -(nom/denom);
-            return std::pair<bool, float>(t >= 0, t);
+            return std::pair<bool, float>(t >= 0.0f, t);
         }
         
     }
@@ -412,7 +412,7 @@ namespace ma
         // Check origin inside first
         if (rayorig.squaredLength() <= radius*radius && discardInside)
         {
-            return std::pair<bool, float>(true, 0);
+            return std::pair<bool, float>(true, 0.0f);
         }
 
         // Mmm, quadratics
@@ -427,7 +427,7 @@ namespace ma
         if (d < 0)
         {
             // No intersection
-            return std::pair<bool, float>(false, 0);
+            return std::pair<bool, float>(false, 0.0f);
         }
         else
         {
@@ -445,8 +445,8 @@ namespace ma
     //-----------------------------------------------------------------------
 	std::pair<bool, float> Math::intersects(const Ray& ray, const AABB& box)
 	{
-		if (box.isNull()) return std::pair<bool, float>(false, 0);
-		if (box.isInfinite()) return std::pair<bool, float>(true, 0);
+		if (box.isNull()) return std::pair<bool, float>(false, 0.0f);
+		if (box.isInfinite()) return std::pair<bool, float>(true, 0.0f);
 
 		float lowt = 0.0f;
 		float t;
@@ -460,7 +460,7 @@ namespace ma
 		// Check origin inside first
 		if ( rayorig > min && rayorig < max )
 		{
-			return std::pair<bool, float>(true, 0);
+			return std::pair<bool, float>(true, 0.0f);
 		}
 
 		// Check each face in turn, only check closest 3
@@ -674,18 +674,18 @@ namespace ma
             if (denom > + std::numeric_limits<float>::epsilon())
             {
                 if (!negativeSide)
-                    return std::pair<bool, float>(false, 0);
+                    return std::pair<bool, float>(false, 0.0f);
             }
             else if (denom < - std::numeric_limits<float>::epsilon())
             {
                 if (!positiveSide)
-                    return std::pair<bool, float>(false, 0);
+                    return std::pair<bool, float>(false, 0.0f);
             }
             else
             {
                 // Parallel or triangle area is close to zero when
                 // the plane normal not normalised.
-                return std::pair<bool, float>(false, 0);
+                return std::pair<bool, float>(false, 0.0f);
             }
 
             t = normal.dotProduct(a - ray.getOrigin()) / denom;
@@ -693,7 +693,7 @@ namespace ma
             if (t < 0)
             {
                 // Intersection is behind origin
-                return std::pair<bool, float>(false, 0);
+                return std::pair<bool, float>(false, 0.0f);
             }
         }
 
@@ -740,12 +740,12 @@ namespace ma
             if (area > 0)
             {
                 if (alpha < tolerance || beta < tolerance || alpha+beta > area-tolerance)
-                    return std::pair<bool, float>(false, 0);
+                    return std::pair<bool, float>(false, 0.0f);
             }
             else
             {
                 if (alpha > tolerance || beta > tolerance || alpha+beta < area-tolerance)
-                    return std::pair<bool, float>(false, 0);
+                    return std::pair<bool, float>(false, 0.0f);
             }
         }
 

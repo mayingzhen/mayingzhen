@@ -18,7 +18,7 @@ namespace ma
 	
 		~AnimClipNode();
 
-		static void		RegisterObject(Context* context);
+		static void		RegisterAttribute();
 
 		virtual void	SetAnimationClip(const char* pszSkaPath);
 		const char*		GetAnimationClip() const;

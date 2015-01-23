@@ -13,7 +13,7 @@ namespace ma
 	
 		~Camera();
 
-		static void			RegisterObject(Context* context);
+		static void			RegisterAttribute();
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 

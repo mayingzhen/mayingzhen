@@ -26,7 +26,7 @@ namespace ma
 		if (m_pCamera == NULL)
 			return;
 
-		m_pCamera->GetSceneNode()->LookAt(Vector3(0, -300, 200), Vector3(0,0,0));
+		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, -300), Vector3(0, 0, 0));
 
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
@@ -53,7 +53,7 @@ namespace ma
 		{
 			RotateMoveCamera();
 		}
-		else if ( GetInput()->IsMouseButtonDown(OIS::MB_Middle) || GetInput()->IsMouseButtonDown(OIS::MB_Left) ) // 中键或左键
+		else if ( GetInput()->IsMouseButtonDown(OIS::MB_Middle) /*|| GetInput()->IsMouseButtonDown(OIS::MB_Left)*/ ) // 中键或左键
 		{ 
 			MoveCamera();
 
@@ -130,6 +130,8 @@ namespace ma
 		Vector2 vScreenOffset(mouseState.X.rel, mouseState.Y.rel);
 		vScreenOffset.x = -vScreenOffset.x * 2.f / w;
 		vScreenOffset.y = vScreenOffset.y * 2.f / h;
+		//vScreenOffset.x = vScreenOffset.x * 2.0f / w - 1.0f;
+		//ScreenOffset.y = 1.0f - vScreenOffset.y * 2.0f / h;
 
 		return vScreenOffset;
 	}
@@ -169,10 +171,10 @@ namespace ma
 			matEuler.FromEulerAnglesXZY(Radian(vScreenOffset.y), Radian(0), Radian(0));
 		}
 
-		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransformWS();
-		tsfWS.m_qRot = tsfWS.m_qRot * Quaternion(matEuler) ;
-
-		m_pCamera->GetSceneNode()->SetTransformWS(tsfWS);
+// 		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransform();
+// 		tsfWS.m_qRot = tsfWS.m_qRot * Quaternion(matEuler) ;
+// 
+// 		m_pCamera->GetSceneNode()->SetTransform(tsfWS);
 	}
 
 	void CameraController::ZoomCamera(float fDeltaZoom)

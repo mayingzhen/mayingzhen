@@ -29,7 +29,7 @@ namespace ma
 		SAFE_DELETE(m_pCapsuleShape);
 	}
 
-	void CharacterController::RegisterObject(Context* context)
+	void CharacterController::RegisterAttribute()
 	{
 
 	}

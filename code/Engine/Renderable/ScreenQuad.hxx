@@ -23,7 +23,7 @@ namespace ma
 		//   |  \ |
 		//   +----+
 		//   3    2
-		Vertex*	quadVerts = new Vertex[4];
+		Vertex	quadVerts[4];
 		quadVerts[0].position = Vector3(1, 1, 0);
 		quadVerts[1].position = Vector3(-1, +1, 0);
 		quadVerts[2].position = Vector3(1, -1, 0);
@@ -34,7 +34,7 @@ namespace ma
  		quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
  		quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;
 
-		unsigned short* indices = new unsigned short[4];
+		uint16 indices[4];
 		indices[0]= 0;
 		indices[1]= 2;
 		indices[2]= 1;

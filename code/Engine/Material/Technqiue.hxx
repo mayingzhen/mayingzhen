@@ -32,6 +32,8 @@ namespace ma
 			return;
 
 		GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
+
+		m_pShaderProgram->BindUniform();
 		
 		GetRenderSystem()->SetRenderState(m_renderState);
 
@@ -91,11 +93,6 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
-	void Technique::Serialize(Serializer& sl, const char* pszLable)
-	{
-
-	}
-
 	RefPtr<Technique> Technique::Clone()
 	{
 		RefPtr<Technique> pClone = new Technique();
@@ -112,7 +109,7 @@ namespace ma
 		Technique* pTech = new Technique();
 		pTech->SetTechName(pTechName);
 
-		string strTemp = string(pVSFile) + string("+") + string(pDefine) + ".tech";
+		string strTemp = string(pVSFile) + string("+") + string(pDefine) + ".shader";
 		RefPtr<ShaderProgram> pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
 		pShaderProgram->CreateFromFile(pVSFile,pPSFile,pDefine);
 

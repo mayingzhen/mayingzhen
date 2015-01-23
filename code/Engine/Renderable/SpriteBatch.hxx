@@ -18,11 +18,6 @@
 
 namespace ma
 {
-// 	SpriteBatch::SpriteBatch()
-// 		::MeshBatch(NULL,PRIM_TRIANGLESTRIP, true, SPRITE_BATCH_DEFAULT_SIZE)
-// 	{
-// 
-// 	}
 
 	SpriteBatch::SpriteBatch(RefPtr<Texture> texture, Technique* pTech, UINT initialCapacity/* = 0*/)
 		:MeshBatch(NULL,PRIM_TRIANGLESTRIP, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE)
@@ -34,9 +29,14 @@ namespace ma
 		m_pTechnique = pTech;
 		if (pTech == NULL)
 		{
-			m_pTechnique= m_pMaterial->AddTechnique("Shading","default","DIFFUSE;COLOR");
+			m_pMaterial->SetShadingTechnqiue("default","DIFFUSE;COLOR");	
 		}
-		m_pMaterial->AddTechnique(m_pTechnique.get());
+		else
+		{
+			m_pMaterial->SetShadingTechnqiue(pTech);
+		}
+		m_pTechnique = m_pMaterial->GetShadingTechnqiue();
+		
 
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 

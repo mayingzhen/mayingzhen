@@ -2,15 +2,18 @@
 
 namespace ma
 {
-	static DeferredShadowPass* gpDeferredShadowPass = NULL;
+	DeferredShadowPass::DeferredShadowPass(Scene* pScene)
+		:RenderPass(pScene)
+	{
 
-	DeferredShadowPass*	GetDeferredShadowPass() { return gpDeferredShadowPass; }
+	}
 
 	void DeferredShadowPass::Init()
 	{
-		gpDeferredShadowPass = this;
+		int nWidth = (int)m_pScene->GetViewport().width;
+		int nHeight = (int)m_pScene->GetViewport().height;
 
-		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT16_R);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT16_R);
 
 		//m_bHWShadowMap = GetRenderDevice()->CheckTextureFormat(FMT_D24S8,USAGE_DEPTHSTENCIL);
 
@@ -60,9 +63,9 @@ namespace ma
 // 					//m_pDefferedShadow->SetParameter(pszTexShadowMap,Any(pSMF->GetDepthTexture()));
 // 				}
 
-				float fShadowMapSize = GetRenderSetting()->m_fShadowMapSize;
-				Vector4 uShadowMapTexelSize(fShadowMapSize, 1.0f / fShadowMapSize, 0, 0);
-				m_pDefferedShadow->SetParameter("u_shadowMapTexelSize",Any(uShadowMapTexelSize));
+				//float fShadowMapSize = GetRenderSetting()->m_fShadowMapSize;
+				//Vector4 uShadowMapTexelSize(fShadowMapSize, 1.0f / fShadowMapSize, 0, 0);
+				//m_pDefferedShadow->SetParameter("u_shadowMapTexelSize",Any(uShadowMapTexelSize));
 
 				ASSERT(false);
 				//m_pDefferedShadow->GetParameter("viwToLightProjArray")->setMatrixArray(viwToLightProjArray,nSMF);

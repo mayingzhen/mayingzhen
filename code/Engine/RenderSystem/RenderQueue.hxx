@@ -3,18 +3,6 @@
 
 namespace ma
 {
-	static RenderQueue* gpRenderQueue = NULL;
-
-	RenderQueue* GetRenderQueue()
-	{
-		return gpRenderQueue;
-	}
-
-	void SetRenderQueue(RenderQueue* pRenderQueue)
-	{
-		gpRenderQueue = pRenderQueue;
-	}
-
 	void RenderQueue::AddRenderObj(RenderListType eRLType,RenderablePtr pRenderObj)
 	{
 		std::vector<RenderablePtr>& arrRenderObj = m_arrRenderList[eRLType];

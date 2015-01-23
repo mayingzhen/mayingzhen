@@ -11,20 +11,21 @@
 #include "D3D9Render/D3D9RenderDevice.hxx"
 #include "D3D9Render/D3D9Resource.hxx"
 
+using namespace ma;
 
 
 void D3D9RenderModuleInit()
 {
-	ma::D3D9RenderDevice* pDxRenderDevice = new ma::D3D9RenderDevice();
-	ma::SetRenderDevice(pDxRenderDevice);
+	D3D9RenderDevice* pDxRenderDevice = new D3D9RenderDevice();
+	SetRenderDevice(pDxRenderDevice);
 }
 
 
 void D3D9RenderModuleShutdown()
 {
-	ma::D3D9RenderDevice* pDxRenderDevice = (ma::D3D9RenderDevice*)ma::GetRenderDevice();
+	D3D9RenderDevice* pDxRenderDevice = (D3D9RenderDevice*)GetRenderDevice();
 	SAFE_DELETE(pDxRenderDevice);
-	ma::SetRenderDevice(NULL);
+	SetRenderDevice(NULL);
 }
 
 

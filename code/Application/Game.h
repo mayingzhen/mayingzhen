@@ -13,11 +13,7 @@ namespace ma
 		Game(const char* pGameName);
 
 		virtual ~Game();
-		
-		virtual void	ModuleInit();
-
-		virtual void	ModuleShutdown();
-
+	
 		virtual void	Init();
 
 		virtual void	Shutdown();

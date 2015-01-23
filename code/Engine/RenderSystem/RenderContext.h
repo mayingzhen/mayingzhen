@@ -9,38 +9,41 @@ namespace ma
 	public:
 		RenderContext();
 
-		void					SetCamera(Camera* pCamera); 
-
 		void					SetCurRenderObj(Renderable* pRenderObj) {m_pCurObject = pRenderObj;}
-
 		Renderable*				GetCurRenderObj() {return m_pCurObject;}
 
 		void					SetCurLight(Light* pLight) {m_pCurLight = pLight;}
-
 		Light*					GetCurLight() {return m_pCurLight;}
+
+		void					SetCurScene(Scene* pScene) { m_pCurScene = pScene; }
+		Scene*					GetCurScene() { return m_pCurScene; }
 		
-		void					SetViewMatrix(const Matrix4& matView) {m_matViewProj.SetMatView(matView);}
+		void					SetCamera(Camera* pCamera); 
 
-		const Matrix4&			GetViewMatrix()  {return m_matViewProj.GetMatView();}
+		void					SetViewMatrix(const Matrix4& matView);
 
-		void					SetProjMatrix(const Matrix4& matProj) {m_matViewProj.SetMatProj(matProj);}
+		const Matrix4&			GetViewMatrix();
 
-		const Matrix4&			GetProjMatrix()  {return m_matViewProj.GetMatProj();}
+		void					SetProjMatrix(const Matrix4& matProj);
 
-		const Matrix4&			GetViewProjMatrix()  {return m_matViewProj.GetMatViewProj();}
+		const Matrix4&			GetProjMatrix();
 
-		float					GetNearClip() {return m_fNear;}
+		const Matrix4&			GetViewProjMatrix();
 
-		float					GetFarClip() {return m_fFar;}
+		float					GetNearClip();
+
+		float					GetFarClip();
 
 	protected:
-		MatViewProj				m_matViewProj;
+		MatViewProj				m_matViewProj[2];
 
-		float					m_fNear;
+		float					m_fNear[2];
 
-		float					m_fFar;
+		float					m_fFar[2];
 
 		Renderable*				m_pCurObject;
+
+		Scene*					m_pCurScene;
 
 		Light*					m_pCurLight;
 	};

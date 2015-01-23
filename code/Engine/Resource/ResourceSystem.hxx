@@ -20,12 +20,12 @@ namespace ma
 		m_pDataThread = NULL;
 	}
 
-	void ResourceSystem::Init()
+	void ResourceSystem::Init(bool bDataThread)
 	{
-		
+		SetDataThreadEnable(bDataThread);
 	}
 
-	void ResourceSystem::ShoutDown()
+	void ResourceSystem::Shoutdown()
 	{
 		m_resMap.clear();
 		m_resCreateFunMap.clear();
