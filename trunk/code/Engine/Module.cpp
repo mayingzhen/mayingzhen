@@ -6,7 +6,7 @@
 #include "Engine/RTTI/RTTIClass.hxx"
 #include "Engine/RTTI/Object.hxx"
 #include "Engine/RTTI/ObjectFactory.hxx"
-#include "Engine/RTTI/Context.hxx"
+#include "Engine/RTTI/AttributeManager.hxx"
 #include "Engine/RTTI/Serializable.hxx"
 
 #include "Engine/Time/Timer.hxx"
@@ -67,7 +67,6 @@
 #include "Engine/RenderSystem/RenderSystem.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
 #include "Engine/RenderSystem/RenderQueue.hxx"
-#include "Engine/RenderSystem/RenderSetting.hxx"
 #include "Engine/RenderSystem/RenderContext.hxx"
 #include "Engine/RenderSystem/DeviceCapabilities.hxx"
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.hxx"
@@ -88,7 +87,6 @@
 #include "Engine/RenderScheme/DeferredLightPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
 #include "Engine/RenderScheme/GBufferPass.hxx"
-#include "Engine/RenderScheme/ShadowDepthPass.hxx"
 #include "Engine/RenderScheme/ShadingPass.hxx"
 #include "Engine/RenderScheme/RenderScheme.hxx"
 #include "Engine/RenderScheme/BlurPostProcess.hxx"
@@ -125,110 +123,115 @@
 #include "Engine/Profile/CodeTimer.hxx"
 
 
-
-using namespace ma;
-
+#include "Engine/Engine.hxx"
 
 
-void EngineModuleInit()
-{
-	CImageCodec::Startup();
-
-	ClassManager* pClsMan = new ClassManager();
-	SetClassManager(pClsMan);
-
-	ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
-	SetObjectFactoryManager(pObjMan);
-
-	Context* pContexMan = new Context();
-	SetContext(pContexMan);
-
-	ResourceSystem* pRsourceSystem = new ResourceSystem();
-	SetResourceSystem(pRsourceSystem);
-
-	CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
-	SetCodeTimeMng(pCodeTimeMng);
-
-	ArchiveManager* pArchiveMang = new ArchiveManager();
-	SetArchiveManager(pArchiveMang);
-
-	Time* pTime = new Time();
-	SetTimer(pTime);
-
-	RenderSetting*	pRenderSetting = new RenderSetting();
-	SetRenderSetting(pRenderSetting);
-
-	ParameterManager* pMaterialMang = new ParameterManager();
-	SetParameterManager(pMaterialMang);
-
-	DeviceCapabilitie* pDevCap = new DeviceCapabilitie();
-	SetDeviceCapabilities(pDevCap);
-
-	RenderSystem* pRenderSystem = new RenderSystem();
-	SetRenderSystem(pRenderSystem);
-
-	ParticleSystem* pParticleMang = new ParticleSystem();
-	SetParticleSystem(pParticleMang);
-
-	LightSystem* pLightSystem = new LightSystem();
-	SetLightSystem(pLightSystem);
-
-	g_pRenderShadowCSM = new RenderShadowCSM();
-
-	EngineRTTIInit();
-}
-
-void EngineModuleShutdown()
-{
-	EngineRTTIShutdown();
-
-	SAFE_DELETE(g_pRenderShadowCSM);
-
-	Time* pTime = GetTimer();
-	SAFE_DELETE(pTime);
-	SetTimer(NULL);
-
-	ArchiveManager* pArchiveManager = GetArchiveMananger();
-	SAFE_DELETE(pArchiveManager);
-	SetArchiveManager(NULL);
-
-	CodeTimerManager* pCodeTimeMng = GetCodetTimeMng();
-	SAFE_DELETE(pCodeTimeMng);
-	SetCodeTimeMng(NULL);
-
-	LightSystem* pLightSystem = GetLightSystem();
-	SAFE_DELETE(pLightSystem);
-	SetLightSystem(NULL);	
-
-	ParticleSystem* pParticleMang = GetParticleSystem();
-	SAFE_DELETE(pParticleMang)
-	SetParticleSystem(NULL);
-
-	RenderSystem* pRenderSystem = GetRenderSystem();
-	SAFE_DELETE(pRenderSystem);
-	SetRenderSystem(NULL);
-
-	DeviceCapabilitie* pDevCap = GetDeviceCapabilities();
-	SAFE_DELETE(pDevCap);
-	SetDeviceCapabilities(NULL);
-
-	ParameterManager* pMaterialMang = GetParameterManager();
-	SAFE_DELETE(pMaterialMang);
-	SetParameterManager(NULL);
-
-	RenderSetting*	pRenderSetting = GetRenderSetting();
-	SAFE_DELETE(pRenderSetting);
-	SetRenderSetting(NULL);
-
-	ResourceSystem* pRsourceSystem = GetResourceSystem();
-	pRsourceSystem->ShoutDown(); 
-	SAFE_DELETE(pRsourceSystem);
-	SetResourceSystem(NULL);
-
-	delete GetObjectFactoryManager();
-
-	delete GetClassManager();
-
-	CImageCodec::Shutdown();
-}
+// using namespace ma;
+// 
+// 
+// 
+// void EngineModuleInit()
+// {
+// 	CImageCodec::Startup();
+// 
+// 	ClassManager* pClsMan = new ClassManager();
+// 	SetClassManager(pClsMan);
+// 
+// 	ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
+// 	SetObjectFactoryManager(pObjMan);
+// 
+// 	Context* pContexMan = new Context();
+// 	SetContext(pContexMan);
+// 
+// 	ResourceSystem* pRsourceSystem = new ResourceSystem();
+// 	SetResourceSystem(pRsourceSystem);
+// 
+// 	CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
+// 	SetCodeTimeMng(pCodeTimeMng);
+// 
+// 	ArchiveManager* pArchiveMang = new ArchiveManager();
+// 	SetArchiveManager(pArchiveMang);
+// 
+// 	Time* pTime = new Time();
+// 	SetTimer(pTime);
+// 
+// 	RenderSetting*	pRenderSetting = new RenderSetting();
+// 	SetRenderSetting(pRenderSetting);
+// 
+// 	ParameterManager* pMaterialMang = new ParameterManager();
+// 	SetParameterManager(pMaterialMang);
+// 
+// 	DeviceCapabilitie* pDevCap = new DeviceCapabilitie();
+// 	SetDeviceCapabilities(pDevCap);
+// 
+// 	RenderSystem* pRenderSystem = new RenderSystem();
+// 	SetRenderSystem(pRenderSystem);
+// 
+// 	ParticleSystem* pParticleMang = new ParticleSystem();
+// 	SetParticleSystem(pParticleMang);
+// 
+// 	LightSystem* pLightSystem = new LightSystem();
+// 	SetLightSystem(pLightSystem);
+// 
+// 	g_pRenderShadowCSM = new RenderShadowCSM();
+// 
+// 	EngineRTTIInit();
+// }
+// 
+// void EngineModuleShutdown()
+// {
+// 	EngineRTTIShutdown();
+// 
+// 	SAFE_DELETE(g_pRenderShadowCSM);
+// 
+// 	Time* pTime = GetTimer();
+// 	SAFE_DELETE(pTime);
+// 	SetTimer(NULL);
+// 
+// 	ArchiveManager* pArchiveManager = GetArchiveMananger();
+// 	SAFE_DELETE(pArchiveManager);
+// 	SetArchiveManager(NULL);
+// 
+// 	CodeTimerManager* pCodeTimeMng = GetCodetTimeMng();
+// 	SAFE_DELETE(pCodeTimeMng);
+// 	SetCodeTimeMng(NULL);
+// 
+// 	LightSystem* pLightSystem = GetLightSystem();
+// 	SAFE_DELETE(pLightSystem);
+// 	SetLightSystem(NULL);	
+// 
+// 	ParticleSystem* pParticleMang = GetParticleSystem();
+// 	SAFE_DELETE(pParticleMang)
+// 	SetParticleSystem(NULL);
+// 
+// 	RenderSystem* pRenderSystem = GetRenderSystem();
+// 	SAFE_DELETE(pRenderSystem);
+// 	SetRenderSystem(NULL);
+// 
+// 	DeviceCapabilitie* pDevCap = GetDeviceCapabilities();
+// 	SAFE_DELETE(pDevCap);
+// 	SetDeviceCapabilities(NULL);
+// 
+// 	ParameterManager* pMaterialMang = GetParameterManager();
+// 	SAFE_DELETE(pMaterialMang);
+// 	SetParameterManager(NULL);
+// 
+// 	RenderSetting*	pRenderSetting = GetRenderSetting();
+// 	SAFE_DELETE(pRenderSetting);
+// 	SetRenderSetting(NULL);
+// 
+// 	ResourceSystem* pRsourceSystem = GetResourceSystem();
+// 	SAFE_DELETE(pRsourceSystem);
+// 	SetResourceSystem(NULL);
+// 
+// 	Context* pContexMan = GetAttributeManager();
+// 	SAFE_DELETE(pContexMan);
+// 	//SetContext(NULL);
+// 
+// 	delete GetObjectFactoryManager();
+// 
+// 	delete GetClassManager();
+// 
+// 	CImageCodec::Shutdown();
+// }
 

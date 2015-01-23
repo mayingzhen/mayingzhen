@@ -1,5 +1,5 @@
-#ifndef  _DxRenderExport__H__
-#define  _DxRenderExport__H__
+#ifndef  _D3D9RenderExport__H__
+#define  _D3D9RenderExport__H__
 
 #ifdef _MSC_VER
 

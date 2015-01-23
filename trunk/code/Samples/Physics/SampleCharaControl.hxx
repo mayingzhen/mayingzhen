@@ -10,7 +10,7 @@ namespace ma
 
 	void SampleCharaControl::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 600, 800);
+		Vector3 vEyePos = Vector3(0, 800, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 

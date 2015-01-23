@@ -3,16 +3,19 @@
 
 namespace ma
 {	
-	static DeferredLightPass* gpDeferredLightPass = NULL;
+	DeferredLightPass::DeferredLightPass(Scene* pScene)
+		:RenderPass(pScene)
+	{
 
-	DeferredLightPass* GetDeferredLightPass() {return gpDeferredLightPass;}
+	}
 
 	void DeferredLightPass::Init()
 	{
-		gpDeferredLightPass = this;
+		int nWidth = (int)m_pScene->GetViewport().width;
+		int nHeight = (int)m_pScene->GetViewport().height;
 
-		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
-		m_pSpecular = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
+		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
+		m_pSpecular = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
 
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;

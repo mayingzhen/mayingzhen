@@ -75,8 +75,6 @@ namespace ma
 
 			Clear(NULL);
 		}
-		
-		GetRenderSystem()->ReloadShader();
 	}
 
 	void RenderShadowCSM::Update(Camera* pCamera)
@@ -182,8 +180,6 @@ namespace ma
 		CreateShadowMap(m_nShadowMapSize);
 
 		GetRenderSystem()->AddMacro("g_iNumSplits", StringConverter::toString(m_nMaxSplitCount).c_str());
-
-		GetRenderSystem()->ReloadShader();
 	}
 
 	void RenderShadowCSM::CreateShadowMap(int nSize)
@@ -290,8 +286,6 @@ namespace ma
 			
 			SetShadowSamplesNum(m_ShadowSamplesNumer);
 		}
-
-		GetRenderSystem()->ReloadShader();
 	}
 
 
@@ -316,8 +310,6 @@ namespace ma
 			m_irreg_kernel[nIdx].z = vSample.x;
 			m_irreg_kernel[nIdx].w = vSample.y;
 		}
-
-		GetRenderSystem()->ReloadShader();
 	}
 	
 	RenderShadowCSM* g_pRenderShadowCSM = NULL;

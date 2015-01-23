@@ -13,7 +13,7 @@ namespace ma
 		m_rbInfo = new btRigidBody::btRigidBodyConstructionInfo(1.0f,NULL,NULL);
 	}
 
-	void RigidBody::RegisterObject(Context* context)
+	void RigidBody::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(RigidBody, "UseGravity", IsUseGravity, SetUseGravity, bool, true, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(RigidBody, "Kinematic", IsKinematic, SetKinematic, bool, false, AM_DEFAULT);

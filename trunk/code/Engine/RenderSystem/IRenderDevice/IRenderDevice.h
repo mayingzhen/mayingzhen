@@ -70,6 +70,9 @@ namespace ma
 		virtual bool				TestDeviceLost() = 0;	
 		virtual void				BeginRender() = 0;
 		virtual void				EndRender() = 0;
+
+		virtual	void				BeginProfile(const char* pszLale) = 0;
+		virtual	void				EndProfile() = 0;
 		
 	public:
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
@@ -86,9 +89,6 @@ namespace ma
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		
 		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf) = 0;
-
-		virtual	void				BeginProfile(const char* pszLale) = 0;
-		virtual	void				EndProfile() = 0;
 
 		//CheckDevice
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,USAGE eUsage) = 0;

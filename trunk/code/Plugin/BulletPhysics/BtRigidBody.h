@@ -13,7 +13,7 @@ namespace ma
 	public:
 		RigidBody();
 
-		static void				RegisterObject(Context* context);
+		static void				RegisterAttribute();
 
 		virtual void			SetUseGravity(bool bUseGravity);
 		virtual bool			IsUseGravity() const;

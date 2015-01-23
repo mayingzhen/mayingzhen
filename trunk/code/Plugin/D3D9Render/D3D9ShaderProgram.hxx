@@ -206,7 +206,7 @@ namespace ma
 
 	}
 
-	void D3D9ShaderProgram::Bind()
+	void D3D9ShaderProgram::RT_SetShader()
 	{
 		HRESULT hr = D3D_OK;
 

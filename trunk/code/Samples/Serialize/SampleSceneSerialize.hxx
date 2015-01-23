@@ -9,9 +9,7 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 15, 20);
-		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 20, 15), Vector3(0, 0, 0));
 
 		GetInput()->AddKeyListener(this);
 

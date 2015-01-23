@@ -9,7 +9,7 @@ namespace ma
 		DECL_OBJECT(CollisionShape);
 		
 	public : 
-		static void			RegisterObject(Context* context);
+		static void			RegisterAttribute();
 
 		const Transform&	GetTransformLS() const {return m_tsfLS;} 
 		void				SetTransformLS(const Transform& tsfLS); 
@@ -42,7 +42,7 @@ namespace ma
 
 		~BoxCollisionShape();
 
-		static void				RegisterObject(Context* context);
+		static void				RegisterAttribute();
 
 		void					SetSize(const Vector3& vSize);
 
@@ -65,7 +65,7 @@ namespace ma
 
 		~SphereCollisionShape();
 
-		static void				RegisterObject(Context* context);
+		static void				RegisterAttribute();
 
 		virtual void			SetRadius(float fRadius);
 
@@ -87,7 +87,7 @@ namespace ma
 
 		~CapsuleCollisionShape();
 
-		static void				RegisterObject(Context* context);
+		static void				RegisterAttribute();
 
 		virtual void			SetHeight(float fHeight);
 
@@ -111,7 +111,7 @@ namespace ma
 	public:
 		CollisionMaterial();
 
-		static void		RegisterObject(Context* context);
+		static void		RegisterAttribute();
 
 		void			SetCollLayer(int nLayer) {m_nCollLayer = nLayer;}
 		int				GetCollLayer() const {return m_nCollLayer;}

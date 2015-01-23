@@ -1,11 +1,11 @@
 
-#include "Context.h"
+#include "AttributeManager.h"
 #include "Serializable.h"
 
 namespace ma
 {
 
-	Serializable::Serializable(/*Context* context*/) :
+	Serializable::Serializable() :
 		instanceDefaultValues_(0),
 		temporary_(false)
 	{
@@ -355,7 +355,7 @@ namespace ma
 
 	const vector<AttributeInfo>* Serializable::GetAttributes() const
 	{
-		return GetContext()->GetAttributes( this->GetClass()->GetName() );
+		return GetAttributeManager()->GetAttributes( this->GetClass()->GetName() );
 	}
 	
 	const AttributeInfo*	Serializable::GetAttributeInfoByName(const char* strName) const

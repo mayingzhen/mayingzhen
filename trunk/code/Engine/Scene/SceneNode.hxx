@@ -31,7 +31,7 @@ namespace ma
 		m_pParent = NULL;
 	}
  
-	void SceneNode::RegisterObject(Context* context)
+	void SceneNode::RegisterAttribute()
 	{
  		ACCESSOR_ATTRIBUTE(SceneNode, "Is Enabled", GetEnabled, SetEnabled, bool, true, AM_DEFAULT);
  		ACCESSOR_ATTRIBUTE(SceneNode, "Name", GetName, SetName, const char*, NULL, AM_DEFAULT);
@@ -421,17 +421,17 @@ namespace ma
 
 	Vector3	SceneNode::GetForward()
 	{
-		return GetMatrixWS().getZAxis();
+		return -GetTransformWS().m_qRot * Vector3::UNIT_Z;
 	}
 
 	Vector3	SceneNode::GetRight()
 	{
-		return GetMatrixWS().getXAxis();
+		return GetTransformWS().m_qRot * Vector3::UNIT_X;
 	}
 
 	Vector3	SceneNode::GetUp()
 	{
-		return GetMatrixWS().getYAxis();
+		return GetTransformWS().m_qRot * Vector3::UNIT_Y;
 	}
 
 	void  SceneNode::Forward(float x)
@@ -450,31 +450,28 @@ namespace ma
 	}
 
 	void SceneNode::Translate(const Vector3& vTrans)
-	{
-		const Transform& tsfWS = GetTransformWS(); 
-	
-		SetPosWS(tsfWS.m_vPos + vTrans);
+	{	
+		SetPos(GetPos() + vTrans);
 	}
 
 	void SceneNode::LookAt(const Vector3& vEye, const Vector3& vAt)
 	{
-		Vector3 vUp = Vector3::UNIT_Z;
+		Vector3 vUp = Vector3::UNIT_Y;
 
-		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye,vAt,vUp);
+		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye, vAt, vUp);
 
 		Matrix4 matWS = matView.inverse();
 
 		Transform tsfWS;
-		TransformFromMatrix(&tsfWS,&matWS);
-
-		SetTransformWS(tsfWS);
+		TransformFromMatrix(&tsfWS, &matWS);
+ 
+ 		SetTransformWS(tsfWS);
 	}
 
 	void SceneNode::LookAt(const Vector3& vTarget)
 	{
 		LookAt(GetPos(),vTarget);
 	}
-
 
 	void SceneNode::MarkDirty()
 	{

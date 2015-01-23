@@ -44,7 +44,8 @@ namespace ma
 
 		///btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
 		m_pOverlappingPairCache = new btDbvtBroadphase();
-		m_pOverlappingPairCache->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+		m_pbtGhostPairCallback = new btGhostPairCallback();
+		m_pOverlappingPairCache->getOverlappingPairCache()->setInternalGhostPairCallback(m_pbtGhostPairCallback);
 
 		///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
 		m_pSolver = new btSequentialImpulseConstraintSolver;
@@ -80,6 +81,7 @@ namespace ma
 		SAFE_DELETE(m_pOverlappingPairCache);
 		SAFE_DELETE(m_pDispatcher);
 		SAFE_DELETE(m_pCollisionConfiguration);
+		SAFE_DELETE(m_pbtGhostPairCallback);
 	}
 
 	btCollisionObject* PhysicsSystem::InitCollObject(SceneNode* pGameObj)

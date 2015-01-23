@@ -23,7 +23,7 @@ namespace ma
 
 		~CharacterController();
 
-		static void							RegisterObject(Context* context);		
+		static void							RegisterAttribute();		
 
 		//virtual void						SetCollisionShape(ICapsuleCollisionShape* pCapsule) = 0;
 

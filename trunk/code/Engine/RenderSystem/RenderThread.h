@@ -20,6 +20,8 @@ namespace ma
 		eRC_BeginFrame,
 		eRC_EndFrame,
 		eRC_Render,
+		eRC_DrawRenderable,
+		eRC_DrawDyRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
 		eRC_CreateDepthStencil,
@@ -48,6 +50,9 @@ namespace ma
 		eRC_SetTexture,
 		eRC_SetTextureWrap,
 		eRC_SetTextureFilter,
+
+		eRC_BeginProfile,
+		eRC_EndProfile,
 	};
 
 	class RenderThread : public Thread
@@ -86,6 +91,8 @@ namespace ma
 		template<class T>
 		T		ReadDataPtr(int &nIndex,int nLen);
 
+		void	ReadString(int &nIndex,char* pStr,UINT nInLen);
+
 		template<class T> 
 		T		ReadCommand(int& nIndex);
 
@@ -112,6 +119,8 @@ namespace ma
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_Render();
+		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
+		void	RC_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		void	RC_CreateDepthStencil(Texture* pRenderTarget);
@@ -120,6 +129,7 @@ namespace ma
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
+		
 		void	RC_SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode);
 		void	RC_SetDepthWrite(bool b);
 		void	RC_SetColorWrite(bool b);
@@ -138,6 +148,9 @@ namespace ma
 		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
 		void	RC_SetTextureWrap(int index, Wrap eWrap );
 		void	RC_SetTextureFilter(int index, FilterOptions eFiler);
+
+		void	RC_BeginProfile(const char* pszLale);
+		void	RC_EndProfile();
 
 	private:
 		bool			m_bMultithread;
@@ -246,6 +259,15 @@ namespace ma
 		memcpy(&data,pSrc,nLen);
 		nIndex += nLen;
 	}
+
+	inline void	RenderThread::ReadString(int &nIndex,char* pStr,UINT nInLen)
+	{
+		DWORD nLen = ReadCommand<DWORD>(nIndex);
+		ASSERT(nLen <= nInLen);
+		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		memcpy(pStr,pSrc,nLen);
+		nIndex += nLen;
+	}
     
 	template<class T>
 	inline T RenderThread::ReadCommand(int& nIndex)
@@ -278,18 +300,22 @@ namespace ma
 		}
 	}
 
+#ifdef WIN32
+	HWND GetRenderWindowHandle();
+#endif
+
 	inline void RenderThread::WaitFlushFinishedCond()
 	{
 		while(*(volatile int*)&m_nFlush)
 		{
 #ifdef WIN32
-			Sleep(0);
-// 			MSG msg;		
-// 			while (PeekMessage(&msg, GetRenderSystem()->GetMainWnd(), 0, 0, PM_REMOVE))
-// 			{
-// 				TranslateMessage(&msg);
-// 				DispatchMessage(&msg);
-// 			}
+//			Sleep(0);
+			MSG msg;		
+			while (PeekMessage(&msg, GetRenderWindowHandle(), 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
 #else
 			::usleep(0);
 #endif
@@ -325,14 +351,9 @@ namespace ma
 	{
 		return m_nCurThreadProcess;
 	}
-
-	//RenderThread* GetRenderThread();
-
-	//void SetRenderThread(RenderThread* pRenderThread);
-
 }
 
-//#include "RenderThread.inl"
+
 
 
 

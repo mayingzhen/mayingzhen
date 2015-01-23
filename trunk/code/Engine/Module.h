@@ -13,7 +13,7 @@
 #include "Engine/RTTI/RTTIClass.h"
 #include "Engine/RTTI/ObjectFactory.h"
 #include "Engine/RTTI/Serializable.h"
-#include "Engine/RTTI/Context.h"
+#include "Engine/RTTI/AttributeManager.h"
 
 // Event
 #include "Engine/Event/Event.h"
@@ -78,11 +78,10 @@
 #include "Engine/Renderable/UnitSphere.h"
 
 #include "Engine/RenderScheme/RenderPass.h"
-#include "Engine/RenderScheme/DeferredLightPass.h"
-#include "Engine/RenderScheme/DeferredShadowPass.h"
-#include "Engine/RenderScheme/GBufferPass.h"
-#include "Engine/RenderScheme/ShadowDepthPass.h"
-#include "Engine/RenderScheme/ShadingPass.h"
+//#include "Engine/RenderScheme/DeferredLightPass.h"
+//#include "Engine/RenderScheme/DeferredShadowPass.h"
+//#include "Engine/RenderScheme/GBufferPass.h"
+//#include "Engine/RenderScheme/ShadingPass.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 #include "Engine/RenderScheme/PostProcess.h"
 #include "Engine/RenderScheme/BlurPostProcess.h"
@@ -100,16 +99,15 @@
 #include "Engine/Material/MaterialData.h"
 #include "Engine/Material/Uniform.h"
 
-
-
-
 #include "Engine/Profile/CodeTimer.h"
+
+#include "Engine/Engine.h"
 
 #include "WarningSuffix.h"
 
 
-ENGINE_API void EngineModuleInit();
-
-ENGINE_API void EngineModuleShutdown();
+// ENGINE_API void EngineModuleInit();
+// 
+// ENGINE_API void EngineModuleShutdown();
 
 #endif

@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	class Context;
+	class AttributeManager;
 	class Serializer;
 
 	/// Vector of variants.

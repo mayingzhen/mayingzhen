@@ -1,5 +1,5 @@
 
-#include "Context.h"
+#include "AttributeManager.h"
 
 
 namespace ma
@@ -26,29 +26,29 @@ namespace ma
 			attributes.erase(i);
 	}
 
-	static Context* gpContext = NULL;
+	static AttributeManager* gpContext = NULL;
 
-	Context* GetContext()
+	AttributeManager* GetAttributeManager()
 	{
-		ASSERT(gpContext);
+		//ASSERT(gpContext);
 		return gpContext;
 	}
 
-	void SetContext(Context* pContex)
+	void SetAttributeManager(AttributeManager* pContex)
 	{
-		ASSERT(gpContext == NULL);
+		//ASSERT(gpContext == NULL);
 		gpContext = pContex;
 	}
 
-	Context::Context() 
+	AttributeManager::AttributeManager() 
 	{
 	}
 
-	Context::~Context()
+	AttributeManager::~AttributeManager()
 	{
 	}
 
-	void Context::RegisterAttribute(const char* objectType, const AttributeInfo& attr)
+	void AttributeManager::RegisterAttribute(const char* objectType, const AttributeInfo& attr)
 	{
 		// None or pointer types can not be supported
 		//if (attr.type_ == VAR_NONE || attr.type_ == VAR_VOIDPTR || attr.type_ == VAR_PTR)
@@ -57,12 +57,12 @@ namespace ma
 		attributes_[objectType].push_back(attr);
 	}
 
-	void Context::RemoveAttribute(const char* objectType, const char* name)
+	void AttributeManager::RemoveAttribute(const char* objectType, const char* name)
 	{
 		RemoveNamedAttribute(attributes_, objectType, name);
 	}
 
-	void Context::UpdateAttributeDefaultValue(const char* objectType, const char* name, const Any& defaultValue)
+	void AttributeManager::UpdateAttributeDefaultValue(const char* objectType, const char* name, const Any& defaultValue)
 	{
 		AttributeInfo* info = GetAttribute(objectType, name);
 		if (info)
@@ -70,7 +70,7 @@ namespace ma
 	}
 
 
-	void Context::CopyBaseAttributes(const char* baseType, const char* derivedType)
+	void AttributeManager::CopyBaseAttributes(const char* baseType, const char* derivedType)
 	{
 		const vector<AttributeInfo>* baseAttributes = GetAttributes(baseType);
 		if (baseAttributes)
@@ -84,7 +84,7 @@ namespace ma
 	}
 
 
-	AttributeInfo* Context::GetAttribute(const char* objectType, const char* name)
+	AttributeInfo* AttributeManager::GetAttribute(const char* objectType, const char* name)
 	{
 		map<std::string, vector<AttributeInfo> >::iterator i = attributes_.find(objectType);
 		if (i == attributes_.end())

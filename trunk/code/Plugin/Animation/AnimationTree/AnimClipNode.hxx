@@ -14,7 +14,7 @@ namespace ma
 	{
 	}
 
-	void AnimClipNode::RegisterObject(Context* context)
+	void AnimClipNode::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "BoneSet", GetBoneSet, SetBoneSet, const char*, NULL, AM_DEFAULT);

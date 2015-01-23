@@ -50,8 +50,8 @@ void AnimationModuleInit()
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 
-	AnimationComponent::RegisterObject( GetContext() );
-	AnimClipNode::RegisterObject( GetContext() );
+	AnimationComponent::RegisterAttribute();
+	AnimClipNode::RegisterAttribute();
 }
 
 void AnimationModuleShutdown()

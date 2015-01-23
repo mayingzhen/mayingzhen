@@ -20,7 +20,7 @@
 
 
 #define DECL_OBJECT(x)
-%ignore ma::SceneNode::RegisterObject;
+%ignore ma::SceneNode::RegisterAttribute;
 %ignore ma::SceneNode::Serialize;
 
 %include "../../Code/Engine/Scene/Component.h"

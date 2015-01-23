@@ -25,7 +25,7 @@ namespace ma
 		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
 	}
 
-	void AnimationComponent::RegisterObject(Context* context)
+	void AnimationComponent::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(AnimationComponent, "AnimSetPath", GetAnimSetPath, SetAnimSetPath, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimationComponent, "SkeletonPath", GetSkeletonPath, SetSkeletonPath, const char*, NULL, AM_DEFAULT);

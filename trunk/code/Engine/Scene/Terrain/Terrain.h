@@ -35,7 +35,7 @@ namespace ma
 
 		~Terrain();
 
-		static void	RegisterObject(Context* context);
+		static void	RegisterAttribute();
 
 		virtual void Update();
 	

@@ -67,6 +67,7 @@ namespace ma
 		btBroadphaseInterface*						m_pOverlappingPairCache;
 		btSequentialImpulseConstraintSolver*		m_pSolver;
 		btDiscreteDynamicsWorld*					m_pDynamicsWorld;
+		btGhostPairCallback*						m_pbtGhostPairCallback;
 
 		std::vector<SceneNode*>						m_arrPhysicsObject;
 

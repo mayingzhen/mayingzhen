@@ -1,6 +1,7 @@
 #ifndef  _Scene__H__
 #define  _Scene__H__
 
+#include "Engine/RenderScheme/RenderScheme.h"
 
 namespace ma
 {
@@ -12,6 +13,7 @@ namespace ma
 	class RenderScheme;
 	class RenderComponent;
 	class Texture;
+	class RenderQueue;
 
 
 	class ENGINE_API Scene  : public SceneNode
@@ -32,6 +34,8 @@ namespace ma
 	public:
 		Scene(const char* pszName = NULL);
 
+		~Scene();
+
 		void					Init();
 
 		void					ShutDown();
@@ -49,13 +53,15 @@ namespace ma
 		Camera*					GetCamera() const {return m_pCamera.get();}
 
 		void					SetViewport(const Rectangle& viewPort) {m_viewport = viewPort;}
-		const Rectangle&		GetViewport() const {return m_viewport;}
+		const Rectangle&		GetViewport() const {return m_viewport;}	
 
-		RenderScheme*			GetRenderScheme() const {return m_pRenderScheme.get();}
-		void					SetRenderScheme(RenderScheme* pScheme) {m_pRenderScheme = pScheme;}			
+		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
+		void					SetRenderScheme(RenderScheme::Type eType);
 
 		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index];}
+
+		RenderQueue*			GetRenderQueue();
 
 		void					SetCallback(CCallback* pCallback){m_pCallback = pCallback;}
 		CCallback*				GetCallback() const{return m_pCallback;}
@@ -65,7 +71,9 @@ namespace ma
 
 		void					GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const;
 		void					SetDirectionalLight(const ColourValue& color, const Vector3& vDir);
-	
+		
+		void					OnFlushFrame();
+
 	private:
 		void					UpdateViewMinMaxZ();
 
@@ -84,6 +92,8 @@ namespace ma
 
 		typedef std::vector<RenderComponent*> VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
+
+		RenderQueue*			m_pRenderQueue[2];
 		
 		float					m_viwMinZ;
 		float					m_viwMaxZ;

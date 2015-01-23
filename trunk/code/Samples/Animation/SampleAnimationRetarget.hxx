@@ -25,6 +25,8 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
+		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+
 		CreateMaterialData_("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat");
 		CreateMaterialData_("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat");
 		CreateMaterialData_("gigi/gigi/body_h.tga","gigi/gigi/body_h.mat");
@@ -69,7 +71,9 @@ namespace ma
  
  			m_pAnimtionObjectA->PlayAnimation((UINT)1);	
 
-			pChargigi->Translate(Vector3(-50,0,-100));
+			pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
+
+			pChargigi->Right(-50.0f);
 		}
 
 		// character B MeshData & skeleton & Animation
@@ -83,8 +87,12 @@ namespace ma
 			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
 
 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
+			
+			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
- 			pCharMagic->Translate(Vector3(50,0,-100));
+			pCharMagic->Right(50.0f);
+
+			
 		}
 	}
 

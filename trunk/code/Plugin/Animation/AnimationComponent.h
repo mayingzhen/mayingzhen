@@ -19,7 +19,7 @@ namespace ma
 
 		~AnimationComponent();
 
-		static void				RegisterObject(Context* context);	
+		static void				RegisterAttribute();	
 
 		void					Update();
 

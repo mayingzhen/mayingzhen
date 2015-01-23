@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void ParseUniform();
 
-		void Bind();
+		virtual void RT_SetShader();
 
 		VertexAttribute getVertexAttribute(const char* name) const;
 

@@ -87,8 +87,6 @@ namespace ma
 		ShowWindow (m_windId, SW_SHOW) ;
 
 		SetWindowText(m_windId,Game::GetInstance().GetGameName());
-		
-		Game::GetInstance().ModuleInit();
 
 		Game::GetInstance().Init();
 	}
@@ -96,8 +94,6 @@ namespace ma
 	void Platform::Shutdown()
 	{
 		Game::GetInstance().Shutdown();	
-
-		Game::GetInstance().ModuleShutdown();
 	}
 
 	void Platform::GetWindowSize(int& w, int& h) const

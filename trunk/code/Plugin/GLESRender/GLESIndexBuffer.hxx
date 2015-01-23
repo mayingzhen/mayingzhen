@@ -33,6 +33,11 @@ namespace ma
 		GL_ASSERT( glGenBuffers(1,& m_hIndexBuffer) );
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
 		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
+
+		if (m_bNeedFreeData)
+		{
+			SAFE_DELETE_ARRAY(m_pData);
+		}
 	}
 
 	GLuint	GLESIndexBuffer::GetIndexBuffer()

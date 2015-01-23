@@ -251,7 +251,7 @@ namespace ma
 		return (itr == m_vertexAttributes.end() ? -1 : itr->second);
 	}
 
-	void GLESShaderProgram::Bind()
+	void GLESShaderProgram::RT_SetShader()
 	{
 	   GL_ASSERT( glUseProgram(m_program) );
 	}

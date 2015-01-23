@@ -12,7 +12,7 @@ namespace ma
 		m_bOnLoadOver = false;
 	}
 
-	void MeshComponent::RegisterObject(Context* context)
+	void MeshComponent::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(MeshComponent, "SknPath", GetMeshFile, SetMeshFile, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(MeshComponent, "MatPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
@@ -134,7 +134,7 @@ namespace ma
 		{
 			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,m_arrRenderable[i]);
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrRenderable[i]);
 		}
 	}
 

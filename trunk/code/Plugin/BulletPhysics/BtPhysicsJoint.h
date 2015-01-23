@@ -9,7 +9,7 @@ namespace ma
 		DECL_OBJECT(PhysicsJoint)
 
 	public: 
-		static void		RegisterObject(Context* context);		
+		static void		RegisterAttribute();		
 		
 		float			GetBreakingImpulse() {return m_fBreakingImpulse;} 
 		void			SetBreakingImpulse(float impulse);
@@ -48,7 +48,7 @@ namespace ma
 	public:
 		PhysicsGenericJoint();
 
-		static void		RegisterObject(Context* context);	
+		static void		RegisterAttribute();	
 
 		virtual void	SetAngularLowerLimit(const Vector3& limit); 
 
@@ -81,7 +81,7 @@ namespace ma
 	public:
 		PhysicsHingeJoint();
 
-		static void		RegisterObject(Context* context);	
+		static void		RegisterAttribute();	
 
 		virtual void	SetLimits(float minAngle, float maxAngle, float bounciness = 1.0f);
 

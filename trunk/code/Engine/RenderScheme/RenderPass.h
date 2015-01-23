@@ -3,15 +3,24 @@
 
 namespace ma
 {
+	class Scene;
+
 	class RENDER_API RenderPass : public Object
 	{
-
 	public:
+		RenderPass(Scene* pScene)
+		{
+			m_pScene = pScene;
+		}
+
 		virtual void Init() = 0;
 
 		virtual void Render() = 0;
 
 		virtual void ShoutDown() = 0;
+
+	protected:
+		Scene*	m_pScene;
 	};
 }
 

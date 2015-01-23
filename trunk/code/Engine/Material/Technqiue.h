@@ -27,8 +27,6 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		MaterialParameter*	GetParameter(const char* pszName);
 
-		void				Serialize(Serializer& sl, const char* pszLable = "Technique");
-
 		RefPtr<Technique>	Clone();
 
 	private:

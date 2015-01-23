@@ -5,7 +5,7 @@ namespace ma
 {
 	IMPL_OBJECT(CollisionShape,Component)
 
-	void CollisionShape::RegisterObject(Context* context)
+	void CollisionShape::RegisterAttribute()
 	{
 		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Position", GetPosLS, SetPosLS, Vector3, Vector3::ZERO, AM_DEFAULT);
 		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Rotation", GetRotateLS, SetRotateLS, Quaternion, Quaternion::IDENTITY, AM_DEFAULT);
@@ -55,7 +55,7 @@ namespace ma
 
 	}
 
-	void BoxCollisionShape::RegisterObject(Context* context)
+	void BoxCollisionShape::RegisterAttribute()
 	{
 		COPY_BASE_ATTRIBUTES(BoxCollisionShape,CollisionShape);
 
@@ -91,7 +91,7 @@ namespace ma
 
 	}
 
-	void SphereCollisionShape::RegisterObject(Context* context)
+	void SphereCollisionShape::RegisterAttribute()
 	{
 		COPY_BASE_ATTRIBUTES(SphereCollisionShape,CollisionShape);
 
@@ -129,7 +129,7 @@ namespace ma
 
 	}
 
-	void CapsuleCollisionShape::RegisterObject(Context* context)
+	void CapsuleCollisionShape::RegisterAttribute()
 	{
 		COPY_BASE_ATTRIBUTES(CapsuleCollisionShape,CollisionShape);
 
@@ -173,7 +173,7 @@ namespace ma
 		m_rollingFriction = 0;
 	}
 
-	void CollisionMaterial::RegisterObject(Context* context)
+	void CollisionMaterial::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(CollisionMaterial, "CollLayer", GetCollLayer, SetCollLayer, int, 0, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(CollisionMaterial, "Friction", GetFriction, SetFriction, float, 0, AM_DEFAULT);

@@ -28,13 +28,12 @@ namespace ma
 
 		for (uint32 i = 0; i < lod.m_vecBody.size(); ++i)
 		{
-			//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBody[i].get() );
 			m_arrRenderable.push_back(lod.m_vecBody[i].get());
 		}
 
 		for (uint32 i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
-			//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecBorder[i].get() );
+
 			m_arrRenderable.push_back(lod.m_vecBorder[i].get());
 		}
 
@@ -46,7 +45,6 @@ namespace ma
 			uint32 west = m_pTerrain->GetTerrainTrunkByIndex(m_nX-1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < west)
 			{
-				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[west].skirt[West].get() );
 				m_arrRenderable.push_back(lod.m_vecSkirt[west].skirt[West].get());	
 			}
 		}
@@ -56,7 +54,6 @@ namespace ma
 			uint32 east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
-				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[east].skirt[East].get() );
 				m_arrRenderable.push_back(lod.m_vecSkirt[east].skirt[East].get());		
 			}
 		}
@@ -66,7 +63,6 @@ namespace ma
 			uint32 north = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY-1)->GetLodIndex();
 			if (m_uLodIndex < north)
 			{
-				//GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid, lod.m_vecSkirt[north].skirt[North].get() );
 				m_arrRenderable.push_back(lod.m_vecSkirt[north].skirt[North].get());
 			}
 		}
@@ -76,7 +72,6 @@ namespace ma
 			uint32 south = m_pTerrain->GetTerrainTrunkByIndex(m_nX, m_nY+1)->GetLodIndex();
 			if (m_uLodIndex < south)
 			{
-				//GetRenderSystem()->GetRenderQueue()->AddRenderObj( RL_Solid,lod.m_vecSkirt[south].skirt[South].get() );
 				m_arrRenderable.push_back(lod.m_vecSkirt[south].skirt[South].get());	
 			}
 		}
@@ -102,9 +97,9 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+			//m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			GetRenderSystem()->GetRenderQueue()->AddRenderObj(RL_Solid,m_arrRenderable[i]);
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, m_arrRenderable[i]);
 		}
 	}
 
@@ -369,7 +364,7 @@ namespace ma
 				Terrain::SkirtIB& skirtIB = lodIB.m_vecSkitIB[n];
 
 				RefPtr<SubMaterial> pSkirtMaterial = m_vecLod[m].m_vecBody[0]->GetMaterial()->Clone();
-				pSkirtMaterial->GetTechnqiueByIndex(0)->GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
+				pSkirtMaterial->GetShadingTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
 
 				for (UINT i = 0; i < SideNum; ++i)
 				{

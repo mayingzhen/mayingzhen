@@ -18,7 +18,7 @@ namespace ma
 
 	}
 
-	void Camera::RegisterObject(Context* context)
+	void Camera::RegisterAttribute()
 	{
 		ACCESSOR_ATTRIBUTE(Camera, "Aspect", GetAspect, SetAspect, float, 1.0f, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(Camera, "FovDegrees", GetFovDegrees, SetFovDegrees, float, 45.0f, AM_DEFAULT);

@@ -2,11 +2,8 @@
 
 namespace ma
 {
-	static GBufferPass* gpGBufferPass = NULL;
-
-	GBufferPass* GetBuffferPass() {return gpGBufferPass;}
-
-	GBufferPass::GBufferPass()
+	GBufferPass::GBufferPass(Scene* pScene)
+		:RenderPass(pScene)
 	{
 		m_pDepthTex = NULL;
 		m_pNormalTex = NULL;
@@ -14,16 +11,15 @@ namespace ma
 
 	void GBufferPass::Init()
 	{
-		gpGBufferPass = this;
+		int nWidth = (int)m_pScene->GetViewport().width;
+		int nHeight = (int)m_pScene->GetViewport().height;
 
-		GetRenderSetting()->m_bDefferLight = true;
-
-		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_A8R8G8B8);
+		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
 		
 		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_D24S8,USAGE_DEPTHSTENCIL);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_D24S8, USAGE_DEPTHSTENCIL);
 		else
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT32_R);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT32_R);
 	}
 
 	void GBufferPass::Render()
@@ -42,7 +38,7 @@ namespace ma
 			pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pDepthTex,1);
 		}
 
-		RenderQueue* pRenderQueue = GetRenderSystem()->GetRenderQueue();
+		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
@@ -50,7 +46,7 @@ namespace ma
 		for (UINT i = 0; i < nSolid; ++i)
 		{
 			Renderable* pSolidEntry = pRenderQueue->GetRenderObjByIndex(RL_Solid,i);
-			Technique* pTech =  pSolidEntry->m_pMaterial->GetTechnqiueByName("Gbuffer");
+			Technique* pTech =  pSolidEntry->m_pMaterial->GetGbufferTechnqiue();
 			pTech->SetParameter("shininess",Any(6.0f));
 	
 			GetRenderSystem()->DrawRenderable(pSolidEntry,pTech);

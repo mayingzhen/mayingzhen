@@ -16,6 +16,10 @@ namespace ma
 
 		~ParticleSystem();
 
+		void				Init(bool bThread);
+
+		void				Shutdown();
+
 		void				Update();
 
 		void				OnFlushFrame();

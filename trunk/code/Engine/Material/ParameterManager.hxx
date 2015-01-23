@@ -298,42 +298,43 @@ namespace ma
 
 	Texture* ParameterManager::autoBingingSceneDetph() const
 	{
-		if (GetBuffferPass() == NULL)
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass())
 			return NULL;
 
-		return GetBuffferPass()->GetSceneDepth();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneDepth();
 	}
 
 	Texture* ParameterManager::autoBindingSceneNormal() const
 	{
-		if (GetBuffferPass() == NULL)
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
 			return NULL;
 
-		return GetBuffferPass()->GetSceneNormal();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneNormal();
 	}
 
 	Texture* ParameterManager::autoBindingTextureLightDiffuse() const
 	{
-		if (GetDeferredLightPass() == NULL)
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
 			return NULL;
 
-		return GetDeferredLightPass()->GetTextureLightDiffuse();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureLightDiffuse();
 	}
 
 	Texture* ParameterManager::autoBindingTextureightSpecular() const
 	{
-		if (GetDeferredLightPass() == NULL)
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
 			return NULL;
 
-		return GetDeferredLightPass()->GetTextureightSpecular();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureightSpecular();
 	}	
 
 	Texture* ParameterManager::autoBindingTextureLightShadow() const
 	{
-		if (GetDeferredShadowPass() == NULL)
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredShadowPass() == NULL)
 			return NULL;
 
-		return GetDeferredShadowPass()->GetShadowTexture();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredShadowPass()->GetShadowTexture();
+
 	}
 
 }

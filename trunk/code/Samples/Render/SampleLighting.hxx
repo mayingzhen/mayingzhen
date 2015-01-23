@@ -8,7 +8,7 @@ namespace ma
 
 	void SampleLighting::Load()
 	{
-		Vector3 vEyePos = Vector3(0, -300, 200);
+		Vector3 vEyePos = Vector3(0, 200, -300);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
@@ -16,10 +16,10 @@ namespace ma
 		{
 			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
 			
-			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 			
-			AnimationComponentPtr pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
+			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
 			

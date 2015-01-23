@@ -8,12 +8,12 @@ namespace ma
 	{
 		RenderProfile(const char * str)
 		{
-			GetRenderDevice()->BeginProfile(str);
+			GetRenderSystem()->BeginProfile(str);
 		}
 
 		~RenderProfile()
 		{
-			GetRenderDevice()->EndProfile();
+			GetRenderSystem()->EndProfile();
 		}
 	};
 

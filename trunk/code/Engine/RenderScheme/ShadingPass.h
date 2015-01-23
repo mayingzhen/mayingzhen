@@ -8,6 +8,8 @@ namespace ma
 	class ShadingPass : public RenderPass
 	{
 	public:
+		ShadingPass(Scene* pScene);
+		
 		void	Init();
 
 		void	Render();
@@ -21,6 +23,8 @@ namespace ma
 		RefPtr<Texture>		m_pShadingTex;
 
 		HDRPostProcess*		m_pHdrPostprocess;
+
+		bool				m_bIsHDRRending;
 	};
 
 }

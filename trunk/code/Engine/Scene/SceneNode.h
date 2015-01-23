@@ -21,7 +21,7 @@ namespace ma
 
 		virtual ~SceneNode();
 
-		static void			RegisterObject(Context* context);
+		static void			RegisterAttribute();
 
 		virtual void		ApplyAttributes();
 

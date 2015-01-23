@@ -14,11 +14,11 @@ namespace ma
 			m_Size = 0;
 			m_Usage = USAGE_STATIC;
 			m_pData = NULL;
+			m_bNeedFreeData = false;
 		}
 
 		virtual ~HardwareBuffer()
 		{
-			//SAFE_DELETE(m_pData);
 		}
 
 		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
@@ -47,6 +47,7 @@ namespace ma
 		USAGE           m_Usage;
 		void*			m_pData;
 		int				m_ePool;
+		bool			m_bNeedFreeData;
 	};
 
 	inline void	HardwareBuffer::SetData(void* pData,UINT nSize,int nStride,USAGE eUsage)
@@ -96,7 +97,7 @@ namespace ma
 
 		if ( sl.IsReading() )
 		{
-
+			m_bNeedFreeData = true;
 		}
 
 		sl.EndSection();

@@ -83,7 +83,7 @@ namespace ma
 	UINT FileStream::Read(IN OUT void* pBuffer, UINT nCount)
 	{
 		mpInStream->read(static_cast<char*>(pBuffer), static_cast<std::streamsize>(nCount));
-		return mpInStream->gcount();
+		return (UINT)mpInStream->gcount();
 	}
 
 	// Write the requisite number of bytes from the stream (only applicable to streams that are not read-only)
@@ -117,7 +117,7 @@ namespace ma
 		}
 		// maxCount + 1 since count excludes terminator in getline
 		mpInStream->getline(buf, static_cast<std::streamsize>(maxCount+1), delim.at(0));
-		size_t ret = mpInStream->gcount();
+		size_t ret = (size_t)mpInStream->gcount();
 		// three options
 		// 1) we had an eof before we read a whole line
 		// 2) we ran out of buffer space

@@ -69,6 +69,11 @@ void D3D9IndexBuffer::RT_StreamComplete()
 	memcpy(pLockData,m_pData,m_Size);
 
 	mD3D9IndexBuffer->Unlock();
+
+	if (m_bNeedFreeData)
+	{
+		SAFE_DELETE_ARRAY(m_pData);
+	}
 }
 
 

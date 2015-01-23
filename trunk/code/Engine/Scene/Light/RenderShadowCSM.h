@@ -24,7 +24,7 @@ namespace ma
 
 	class SamplerState;
 
-	class RenderShadowCSM : public DirectonalLight
+	class RenderShadowCSM 
 	{
 	public:
 		RenderShadowCSM();

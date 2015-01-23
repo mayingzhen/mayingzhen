@@ -21,8 +21,6 @@ namespace ma
 
 		virtual void		ParseUniform() = 0;
 
-		virtual	void		Bind() = 0;
-
 		void				BindUniform();
 		
 		void				Reload();
@@ -36,9 +34,8 @@ namespace ma
 		UINT				GetUniformCount() const;
 
 	protected:
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "Resource");
 
-		virtual bool		CreateFromMemeory();
+		virtual	void		RT_SetShader() = 0;
 
 		void				RT_StreamComplete();
 

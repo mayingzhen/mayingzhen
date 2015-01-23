@@ -15,7 +15,6 @@ namespace ma
 		friend class Font;
 
 	public:
-		//SpriteBatch();
 
 		SpriteBatch(RefPtr<Texture> texture, Technique* pTech = NULL, UINT initialCapacity = 0);
 
@@ -55,7 +54,7 @@ namespace ma
 
 		void				SetProjectionMatrix(const Matrix4& matrix);
 
-		const Matrix4&	GetProjectionMatrix() const;
+		const Matrix4&		GetProjectionMatrix() const;
 
 	private:
 

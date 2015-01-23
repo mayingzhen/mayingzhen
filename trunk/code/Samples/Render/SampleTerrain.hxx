@@ -11,25 +11,25 @@ namespace ma
 	void SampleTerrain::Load()
 	{
  		Vector3 lookAtPos(0,0,0);
- 		Vector3 eyePos = Vector3(0,-100,800);
+ 		Vector3 eyePos = Vector3(0,800,-100);
  		//GetCamera()->GetSceneNode()->LookAt(eyePos,lookAtPos);
 
 		GetResourceSystem()->SetDataThreadEnable(true);
 
-		if (0)
+		if (1)
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain();
 
 			pTerrain->SetTrunkSize(32);
 			pTerrain->SetHeightSpcing(50);
-			pTerrain->SetStartPoint(Vector3(0, 0, -25.0f));
+			pTerrain->SetStartPoint(Vector3(0, 0, 0));
 
 			MaterialData testMaterial;
 			{
 				SubMaterialData& subMatData = testMaterial.AddSubMatData();
 				subMatData.SetShaderName("terrain");
 				subMatData.SetShderMacro("LAYER 2");
-				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
 
 				subMatData.AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/chess.dds") ) );
 				subMatData.AddParameter("tDetailMap1", Any( CreateTexture("scene/terrain/diban_zhuanshi.dds") )  );
@@ -43,7 +43,7 @@ namespace ma
 				subMatData.SetShaderName("terrain");
 				subMatData.SetShderMacro("LAYER 1");
 
-				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
 
 				subMatData.AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
 				subMatData.AddParameter("uDetailScale",Any(Vector2(0.01f, 0.01f)));

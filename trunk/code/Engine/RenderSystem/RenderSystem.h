@@ -4,6 +4,7 @@
 #include "RenderThread.h"
 #include "Engine/Material/RenderState.h"
 #include "Engine/Material/SamplerState.h"
+#include "Engine/RenderScheme/RenderScheme.h"
 
 namespace ma
 {
@@ -30,8 +31,8 @@ namespace ma
 		void				Update();
 
 		// Render Command
-		void				Init(HWND wndhandle);
-		void				ShoutDown();
+		void				Init(HWND wndhandle,bool bThread);
+		void				Shoutdown();
  		void				BeginFrame();
  		void				EndFrame();
 		void				Render();
@@ -82,6 +83,9 @@ namespace ma
 		void				ShaderStreamComplete(ShaderProgram* pShader);
 		void				VertexDeclaComplete(VertexDeclaration* pDec);
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
+
+		void				BeginProfile(const char* pszLale);
+		void				EndProfile();
 		
 		void				OnFlushFrame();
 
@@ -100,7 +104,11 @@ namespace ma
 		const char*			GetMacro(const char* pszKey) const;
 		uint32				GetNumMacros() const;
 		const char*			GetMacroByIndex(uint32 i, OUT const char*& pszValue) const;
+		
 		void				ReloadShader();
+
+		ColourValue			GetClearColor() const { return m_cClearClor;}
+		void				SetClearColor(const ColourValue& cColor) { m_cClearClor = cColor;}
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
@@ -108,14 +116,14 @@ namespace ma
  		void				RT_BeginFrame();
  		void				RT_EndFrame();
 		void				RT_Render();
+		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
+		void				RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 		
 	protected:
 		RenderContext*		m_pRenderContext;
 
  		RenderThread*		m_pRenderThread;
  		
-		RenderQueue*		m_pRenderQueue[2];
-
 		enum {MAX_RENDER_TARGET = 4};
 		enum {MAX_SAMPSTATE = 16};
 		RefPtr<Texture>		m_pDepthStencil;
@@ -136,6 +144,10 @@ namespace ma
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro
 		bool				m_bNeedReloadShader;
+
+		bool				m_bThread;
+		ColourValue			m_cClearClor;
+
 	};
 
 	RENDER_API RenderSystem*	GetRenderSystem();

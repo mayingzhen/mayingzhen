@@ -3,6 +3,13 @@
 
 namespace ma
 {
+#ifdef WIN32
+	HWND GetRenderWindowHandle()
+	{
+		return GetRenderSystem()->GetMainWnd();
+	}
+#endif
+	
 	RenderThread::RenderThread()
 	{
 		m_nCurThreadFill = 0;
@@ -124,8 +131,6 @@ namespace ma
 
 		AddCommand(eRC_ShaderStreamComplete);
 		AddPointer(pShader);
-	
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_VertexDeclaComplete(VertexDeclaration* pDecl)
@@ -138,8 +143,6 @@ namespace ma
 
 		AddCommand(eRC_VertexDeclaComplete);
 		AddPointer(pDecl);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_HardwareBufferStreamComplete(HardwareBuffer* pHB)
@@ -152,8 +155,32 @@ namespace ma
 
 		AddCommand(eRC_HBStreamComplete);
 		AddPointer(pHB);
+	}
 
-		FlushAndWait();
+	void RenderThread::RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderSystem()->RT_DrawRenderable(pRenderable,pTechnique);
+			return;
+		}
+
+		AddCommand(eRC_DrawRenderable);
+		AddPointer(pRenderable);
+		AddPointer(pTechnique);
+	}
+
+	void RenderThread::RC_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderSystem()->RT_DrawDyRenderable(pRenderable,pTechnique);
+			return;
+		}
+
+		AddCommand(eRC_DrawDyRenderable);
+		AddPointer(pRenderable);
+		AddPointer(pTechnique);
 	}
 
 	void RenderThread::RC_Render()
@@ -165,6 +192,8 @@ namespace ma
 		}
 
 		AddCommand(eRC_Render);
+
+		FlushFrame();
 	}
 
 	void RenderThread::RC_CreateShader(ShaderProgram* pShader)
@@ -213,8 +242,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			pShader->Bind();
- 			pShader->BindUniform();
+			pShader->RT_SetShader();	
  
 			return;
 		}
@@ -480,6 +508,29 @@ namespace ma
 		AddInt(eFiler);
 	}
 
+	void RenderThread::RC_BeginProfile(const char* pszLale)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->BeginProfile(pszLale);
+			return;
+		}
+
+		AddCommand(eRC_BeginProfile);
+		AddData(pszLale,strlen(pszLale));
+	}
+
+	void RenderThread::RC_EndProfile()
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->EndProfile();
+			return;
+		}
+	
+		AddCommand(eRC_EndProfile);
+	}
+
 	void RenderThread::ProcessCommands()
 	{
 		ASSERT(GetCurrentThreadId() == GetThreadId());
@@ -514,6 +565,20 @@ namespace ma
 				break;
 			case  eRC_Render:
 				GetRenderSystem()->RT_Render();
+				break;
+			case  eRC_DrawRenderable:
+				{
+					Renderable* pRenderable = ReadCommand<Renderable*>(n);
+					Technique* pTech = ReadCommand<Technique*>(n);
+					GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
+				}
+				break;
+			case  eRC_DrawDyRenderable:
+				{
+					Renderable* pRenderable = ReadCommand<Renderable*>(n);
+					Technique* pTech = ReadCommand<Technique*>(n);
+					GetRenderSystem()->RT_DrawDyRenderable(pRenderable,pTech);
+				}
 				break;
 			case  eRC_TexStreamComplete:
 				{
@@ -560,8 +625,7 @@ namespace ma
 			case  eRC_SetShader:
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
-					pShader->Bind();
-					pShader->BindUniform();
+					pShader->RT_SetShader();
 				}
 				break;
 			case eRC_SetRenderTarget:
@@ -702,6 +766,18 @@ namespace ma
 					FilterOptions eFilter = (FilterOptions)ReadCommand<int>(n);
 					GetRenderDevice()->SetTextureFilter(index,eFilter);
 				}
+				break;
+			case eRC_BeginProfile:
+				{
+					char pStr[256] = {0};
+					ReadString(n,pStr,256);
+					GetRenderDevice()->BeginProfile(pStr);
+				}
+				break;
+			case eRC_EndProfile:
+				{
+					GetRenderDevice()->EndProfile();
+				}	
 				break;
 			default:
 				ASSERT(false);

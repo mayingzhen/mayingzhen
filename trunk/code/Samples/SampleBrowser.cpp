@@ -1,11 +1,24 @@
 #include "Samples/stdafx.h"
 #include "SampleBrowser.h"
 
+#if PLATFORM_WIN != 1
+#include "Animation/Module.h"
+#include "GLESRender/Module.h"
+#include "BulletPhysics/Module.h"
+#else
+#include "Animation/Module.h"
+#include "D3D9Render/Module.h"
+#include "GLESRender/Module.h"
+#include "MonoScript/Module.h"
+#include "BulletPhysics/Module.h"
+#include "S3Serialize/Module.h"
+#endif
+
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
@@ -22,19 +35,6 @@
 #include "Samples/Render/SampleParticle.hxx"
 
 //#include "Samples/Serialize/SampleS3Import.hxx"
-#include "S3Serialize/Module.h"
-
-#if PLATFORM_WIN != 1
-#include "Animation/Module.h"
-#include "GLESRender/Module.h"
-#include "BulletPhysics/Module.h"
-#else
-#include "D3D9Render/Module.h"
-#include "GLESRender/Module.h"
-#include "MonoScript/Module.h"
-#include "BulletPhysics/Module.h"
-#include "Animation/Module.h"
-#endif
 
 
 namespace ma
@@ -52,15 +52,17 @@ namespace ma
 		m_bStepOneFrame = false;
 		m_pCurSample = NULL;
 		m_pCameraControl = NULL;
+
+		ModuleInit();
 	}
 
 	SampleBrowser::~SampleBrowser()
 	{
+		ModuleShutdown();
 	}
 
 	void SampleBrowser::ModuleInit()
 	{
-		Game::ModuleInit();
 
 #if PLATFORM_WIN == 1
 		D3D9RenderModuleInit();
@@ -68,7 +70,7 @@ namespace ma
 		MonoScriptModuleInit();
 		BtPhysicsModuleInit();
 		AnimationModuleInit();
-		FBXImporterModuleInit();
+		//FBXImporterModuleInit();
 
 #else
 		AnimationModuleInit();
@@ -80,24 +82,24 @@ namespace ma
 	void SampleBrowser::ModuleShutdown()
 	{
 #if PLATFORM_WIN == 1
-		FBXImporterModuleShutdown();
+		//FBXImporterModuleShutdown();
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
 		MonoScriptModuleShutdown();
 		D3D9RenderModuleShutdown();
+		//GLESRenderModuleShutdown();
 #else
 		AnimationModuleShutdown();
 		GLESRenderModuleShutdown();
 		BtPhysicsModuleShutdown();
 #endif	
 
-		Game::ModuleShutdown();
 	}
 
 	void SampleBrowser::InitSampleList()
 	{
 #if PLATFORM_WIN == 1
-		m_arrSamples["FbxImport"] = new SampleFbxImport();
+		//m_arrSamples["FbxImport"] = new SampleFbxImport();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 
@@ -123,7 +125,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("ShadowMap");
+		RunSample("AnimationRetarget");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -150,20 +152,13 @@ namespace ma
 #endif
 	}
 
-	void SampleBrowser::LoadRenderScheme()
-	{
-	#if PLATFORM_WIN == 1
-		//RefPtr<RenderScheme> pRenderShceme = CreateRenderScheme(RenderScheme::DeferredLighting);	
-		//pRenderShceme->Init();
-		//GetRenderSystem()->GetScene(0)->SetRenderScheme(pRenderShceme.get());
-	#endif
-	}
-
 	void SampleBrowser::Shutdown()
 	{
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
+			GetPhysicsSystem()->Stop();
+			GetScriptSystem()->Stop();
 		}
 
 		SAFE_DELETE(m_pCameraControl);
@@ -191,8 +186,6 @@ namespace ma
 
 		GetPhysicsSystem()->Init();
 		GetScriptSystem()->Init();
-	
-		LoadRenderScheme();
 
 		GetInput()->AddKeyListener(this);
 		
@@ -349,11 +342,11 @@ namespace ma
 
 	void SampleBrowser::OnPosRender(Scene* pScene)
 	{
-		if (GetPhysicsSystem())
-			GetPhysicsSystem()->DebugRender();
-
-		if (m_pCurSample)
-			m_pCurSample->Render();
+// 		if (GetPhysicsSystem())
+// 			GetPhysicsSystem()->DebugRender();
+// 
+// 		if (m_pCurSample)
+// 			m_pCurSample->Render();
 
 		//GetUISystem()->Render();
 	}

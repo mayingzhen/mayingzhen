@@ -67,6 +67,8 @@ namespace ma
 
 		m_eResState = ResInited;
 
+		m_pDataStream = NULL;
+
 		return true;
 	}
 

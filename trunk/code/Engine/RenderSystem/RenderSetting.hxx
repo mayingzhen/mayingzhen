@@ -17,11 +17,10 @@ namespace ma
 	RenderSetting::RenderSetting()
 	{
 		//m_bShadow = false; 
-		m_bDefferLight = false;
-		m_bRenderThread = false;
-		m_bPartcleThread = true;
-		m_cClearClor = ColourValue::Black;
-		m_fShadowMapSize = 2048.0f;
-		m_bIsHDRRending = false;
+		//m_bDefferLight = false;
+		//m_bRenderThread = true;
+		//m_bPartcleThread = true;
+		//m_cClearClor = ColourValue::Black;
+		//m_bIsHDRRending = false;
 	}
 }

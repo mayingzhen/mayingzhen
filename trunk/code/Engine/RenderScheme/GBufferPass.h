@@ -6,7 +6,7 @@ namespace ma
 	class GBufferPass : public RenderPass
 	{
 	public:
-		GBufferPass();
+		GBufferPass(Scene* pScene);
 
 		void		Init();
 
@@ -24,7 +24,7 @@ namespace ma
 		RefPtr<Texture>	m_pNormalTex;
 	};
 
-	GBufferPass*	GetBuffferPass();
+	//GBufferPass*	GetBuffferPass();
 }
 
 
