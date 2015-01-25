@@ -37,11 +37,10 @@ namespace ma
 
 			// AnimationSet
 			{
-				//AnimationSetData animSetData;
+				AnimationSet animSetData;
 
-				//animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
-
-				//animSetData.SaveToFile("Fbx/TestBull.aniset");
+				animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
+				animSetData.SaveToXML("Fbx/TestBull.aniset");
 			}
 		}
 

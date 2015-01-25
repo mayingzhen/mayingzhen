@@ -40,7 +40,7 @@ namespace ma
 		virtual	Renderable*			GetRenderableByIndex(UINT index) const;
 
 	private:
-		bool						OnLoadOver();
+		virtual bool				OnLoadOver();
 	
 		void						CreateRenderable();
 

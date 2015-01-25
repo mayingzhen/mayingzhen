@@ -14,15 +14,7 @@ namespace ma
 
 		virtual void	UnLoad();
 
-		virtual	void	Update();
-
 		virtual bool	keyPressed(const OIS::KeyEvent &arg);
-
-	private:
-		bool			OnLoadOver();
-
-	private:
-		bool			m_bLoadOver;
 	};
 }
 

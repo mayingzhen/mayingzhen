@@ -154,21 +154,15 @@ namespace ma
 
 		m_eResState = ResInited;
 	
+		OnLoadOver();
+			
 		return true;
 	}
 	
-	bool Resource::IsInited()
+	bool Resource::OnLoadOver()
 	{
-// 		if (m_pDataStream == NULL)
-// 			return false;
-
 		if (m_eResState == ResInited)
 			return true;
-
-// 		if (m_eResState == ResLoaded)
-// 		{
-// 			return CreateFromMemeory();
-// 		}
 	
 		return false;
 	}

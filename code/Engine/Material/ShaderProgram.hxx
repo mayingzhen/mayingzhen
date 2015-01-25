@@ -14,7 +14,6 @@ namespace ma
 
 	ShaderProgram::~ShaderProgram()
 	{
-		m_arrUniform.clear();
 	}
 
 

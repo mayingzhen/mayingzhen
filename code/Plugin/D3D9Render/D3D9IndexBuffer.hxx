@@ -72,7 +72,7 @@ void D3D9IndexBuffer::RT_StreamComplete()
 
 	if (m_bNeedFreeData)
 	{
-		SAFE_DELETE_ARRAY(m_pData);
+		FreeData();
 	}
 }
 

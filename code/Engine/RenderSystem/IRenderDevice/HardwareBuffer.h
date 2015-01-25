@@ -8,18 +8,9 @@ namespace ma
 	class HardwareBuffer : public Referenced
 	{
 	public:
-		HardwareBuffer()
-		{
-			m_Stride = 0;
-			m_Size = 0;
-			m_Usage = USAGE_STATIC;
-			m_pData = NULL;
-			m_bNeedFreeData = false;
-		}
+		HardwareBuffer();
 
-		virtual ~HardwareBuffer()
-		{
-		}
+		virtual ~HardwareBuffer();
 
 		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
 
@@ -27,81 +18,29 @@ namespace ma
 
 		virtual void	RT_StreamComplete() = 0;
 
-		int             GetSize() const; 
+		int             GetSize() const {return m_Size;} 
 
-		USAGE           GetUsage() const; 
+		USAGE           GetUsage() const {return m_Usage;}
 
-		int				GetStride() const; 
+		int				GetStride() const {return m_Stride;} 
 
-		UINT			GetNumber() const;
+		UINT			GetNumber() const {return m_Size / m_Stride;}
 
-		void*			GetData() const;
+		void*			GetData() const {return m_pData;}
 
-		void			SetData(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		void			SetData(void* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC);
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "HardwareBuffer");
+
+		void			FreeData();
 
 	protected:
 		int				m_Stride;
 		UINT            m_Size;
 		USAGE           m_Usage;
 		void*			m_pData;
-		int				m_ePool;
 		bool			m_bNeedFreeData;
 	};
-
-	inline void	HardwareBuffer::SetData(void* pData,UINT nSize,int nStride,USAGE eUsage)
-	{
-		m_pData = pData;
-		m_Size = nSize;
-		m_Stride = nStride;
-		m_Usage = eUsage;
-	}
-
-	inline UINT HardwareBuffer::GetNumber() const
-	{
-		return m_Size / m_Stride;
-	}
-	
-	inline int HardwareBuffer::GetSize() const 
-	{ 
-		return m_Size; 
-	}
-
-	inline USAGE HardwareBuffer::GetUsage() const 
-	{
-		return m_Usage; 
-	}
-
-	inline int HardwareBuffer::GetStride() const 
-	{
-		return m_Stride;
-	}
-
-	inline void* HardwareBuffer::GetData() const
-	{
-		return m_pData;
-	}
-
-	inline void	HardwareBuffer::Serialize(Serializer& sl, const char* pszLable/* = "HardwareBuffer"*/)
-	{
-		sl.BeginSection(pszLable);
-
-		uint8* pTemp = (uint8*)m_pData; 
-
-		sl.Serialize(m_Stride,"Stride");
-		sl.Serialize(m_Size,"Size");
-		sl.SerializeByte(pTemp,m_Size,"Data");
-
-		m_pData = pTemp;
-
-		if ( sl.IsReading() )
-		{
-			m_bNeedFreeData = true;
-		}
-
-		sl.EndSection();
-	}
 }
 
 #endif

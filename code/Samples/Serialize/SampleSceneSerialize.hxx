@@ -4,7 +4,6 @@ namespace ma
 {
 	SampleSceneSerialize::SampleSceneSerialize()
 	{
-		m_bLoadOver = false;
 	}
 
 	void SampleSceneSerialize::Load()
@@ -13,8 +12,11 @@ namespace ma
 
 		GetInput()->AddKeyListener(this);
 
-		//GetResourceSystem()->SetDataThreadEnable(true);
+		//GetResourceSystem()->SetDataThreadEnable(false);
 
+		std::string strScenePath = "scene/Test.scene.xml";
+
+		if (0)
 		{
 			MaterialData matData;
 
@@ -31,13 +33,14 @@ namespace ma
 
 			matData.SaveToXML("Fbx/Box.mat");
 
-			SceneNodePtr pGameObj = m_pScene->CreateNode("Test");  
+			RefPtr<Scene> pScene = CreateScene();
+
+			SceneNodePtr pGameObj = pScene->CreateNode("Test");
 			MeshComponentPtr pMehBox = pGameObj->CreateComponent<MeshComponent>();
 			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
 			
-			pMehBox->GetSubMaterial(0)->GetShadingTechnqiue()->SetParameter("u_cDiffuseColor",Any( Vector4(0,1,0,0) ));
+			//pMehBox->GetSubMaterial(0)->GetShadingTechnqiue()->SetParameter("u_cDiffuseColor",Any( Vector4(0,1,0,0) ));
 			
-
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
@@ -46,57 +49,17 @@ namespace ma
 				SceneNodePtr pClone = pGameObj->Clone(pName.c_str());
 				pClone->Translate(Vector3(2 * (i + 1),0,0));
 			}
-		}
-	
-		std::string strScenePath = "scene/Test.scene.xml";
-		
 
-		// test Save
-		{
-			m_pScene->SaveToXML(strScenePath.c_str());
+			pScene->SaveToXML(strScenePath.c_str());
 		}
 		
- 		{	
-// 			GetCameraControll()->SetCamera(NULL);
-//  			m_pScene->Reset();
-//  			m_pScene->LoadFromXML(strScenePath.c_str());
-//  			OnLoadOver();
- 		}
+		m_pScene->LoadFromXML(strScenePath.c_str());
+
 	}
 
 	void SampleSceneSerialize::UnLoad()
 	{
 		GetInput()->RemoveKeyListener(this);
-	}
-
-	bool SampleSceneSerialize::OnLoadOver()
-	{
-		if (m_bLoadOver)
-			return true;
-
-		ASSERT(m_pScene);
-		if (m_pScene && !m_pScene->IsInited())
-			return false;
-
-		SceneNode* pCamaerNode = m_pScene->FindChildNode("defaultCamera");
-		ASSERT(pCamaerNode);
-		if (pCamaerNode == NULL)
-			return false;
-
-		m_pCamera = pCamaerNode->GetTypeComponent<Camera>();
-		ASSERT(m_pCamera);
-		GetCameraControll()->SetCamera(m_pCamera.get());
-
-		m_pScene->SetCamera(m_pCamera.get());
-
-		m_bLoadOver = true;
-
-		return true;
-	}
-
-	void SampleSceneSerialize::Update()
-	{
-		OnLoadOver();
 	}
 
 	bool SampleSceneSerialize::keyPressed(const OIS::KeyEvent &arg)

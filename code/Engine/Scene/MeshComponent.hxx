@@ -107,10 +107,10 @@ namespace ma
 		if (m_bOnLoadOver)
 			return true;
 
-		if (m_pMesData == NULL || !m_pMesData->IsInited())
+		if (m_pMesData == NULL || !m_pMesData->OnLoadOver())
 			return false;
 
-		if (m_pMatData == NULL || !m_pMatData->IsInited())
+		if (m_pMatData == NULL || !m_pMatData->OnLoadOver())
 			return false;
 
 		CreateRenderable();
@@ -134,7 +134,7 @@ namespace ma
 		{
 			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrRenderable[i]);
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrRenderable[i].get());
 		}
 	}
 

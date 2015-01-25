@@ -100,7 +100,6 @@ namespace ma
 				m_arrChild[nCnt] = new SceneNode(m_pScene);
 				m_arrChild[nCnt]->SetParent(this);
 			}
-			//sl.Serialize(*(m_arrChild[nCnt]),buf);
 			m_arrChild[nCnt]->Serialize(sl,buf);
 		}
 
@@ -147,6 +146,24 @@ namespace ma
 		SerializeChild(sl,"arrChild");
 
 		sl.EndSection();
+	}
+
+	bool SceneNode::OnLoadOver()
+	{
+		bool bLoadOver = true;
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			if (!m_arrComp[i]->OnLoadOver())
+				bLoadOver = false;
+		}
+
+		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		{
+			if (!m_arrChild[i]->OnLoadOver())
+				bLoadOver = false;
+		}
+
+		return bLoadOver;
 	}
 
 	void SceneNode::SetUserData(const char* pszKey,void* pData)

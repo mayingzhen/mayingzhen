@@ -1,6 +1,4 @@
 #include "MeshData.h"
-//#include "Engine/RTTI/Object.h"
-
 #include "MeshDataSerialize.hxx"
 
 
@@ -52,37 +50,6 @@ namespace ma
 
 			GetRenderSystem()->HardwareBufferStreamComplete(m_pVertexBuffer.get());
 		}
-	}
-
-	int MeshData::GetVertexStride()
-	{
-		int voffset = 0;
-		if (m_nVertexType & DUM_POSITION)
-		{
-			voffset += 12;
-		}
-		if (m_nVertexType & DUM_TEXCOORD)
-		{
-			voffset += 8;
-		}
-		if (m_nVertexType & DUM_NORMAL)
-		{
-			voffset += 12;
-		}
-		if (m_nVertexType & DUM_TANGENT)
-		{
-			voffset += 12;
-		}
-		if (m_nVertexType & DUM_BLENDINDICES)
-		{
-			voffset += 4;
-		}
-		if (m_nVertexType & DUM_BLENDWEIGHT)
-		{
-			voffset += 4;
-		}
-
-		return voffset;
 	}
 
 	void SubMeshData::AddBonePalette(BoneIndex bonde)

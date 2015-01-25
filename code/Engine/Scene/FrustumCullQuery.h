@@ -6,7 +6,7 @@ namespace ma
 	class FrustumCullQuery : public CullTreeQuery
 	{
 	public:
-		FrustumCullQuery(const Frustum& cameraFrustum,std::vector<RenderComponent*>& result);
+		FrustumCullQuery(const Frustum& cameraFrustum, std::vector< RefPtr<RenderComponent> >& result);
 
 		Frustum::Visibility TestCullNode(CullNode* pCullNode);
 
@@ -14,9 +14,10 @@ namespace ma
 
 
 	public:
-		const Frustum&				m_cameraFrustum;
+		const Frustum&			m_cameraFrustum;
 
-		vector<RenderComponent*>&	m_result;
+		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
+		VEC_RENDERCOMP&			m_result;
 	};
 }
 

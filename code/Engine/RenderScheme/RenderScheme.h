@@ -11,7 +11,7 @@ namespace ma
 	class DeferredLightPass;
 	class DeferredShadowPass;
 
-	class RENDER_API  RenderScheme : public Serializable
+	class RENDER_API  RenderScheme : public Referenced
 	{
 	public:
 

@@ -22,7 +22,6 @@ namespace ma
 
 	void Uniform::Bind()
 	{
-		//ASSERT(m_pMethod);
 		if (m_pMethod) 
 			m_pMethod->SetValue();
 	}

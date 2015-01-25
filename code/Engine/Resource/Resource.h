@@ -43,13 +43,13 @@ namespace ma
 
 		virtual void	LoadSync();
 
+		virtual bool	OnLoadOver();
+
 		const char*		GetResPath() const {return m_sResPath.c_str();}
 
 		void			SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 
 		ResState		GetResState() const {return m_eResState;}
-
-		bool			IsInited();
 
 		MemoryStream*	GetDataStream() {return m_pDataStream.get();}
 

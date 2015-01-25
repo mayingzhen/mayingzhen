@@ -44,6 +44,20 @@ namespace ma
 		OnLoadOver();
 	}
 
+	void Terrain::ClearTempData()
+	{
+		for (UINT i = 0; i < m_shareIB.size(); ++i)
+		{
+			m_shareIB[i].m_vecBodyIBTemp.clear();
+		}
+
+		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+		{
+			m_vecTrunk[i]->ClearVBTemp();
+		}
+
+	}
+
 	void Terrain::BuildTrunks()
 	{
 		// build TerrainTrunks
@@ -334,16 +348,13 @@ namespace ma
 		if (m_bLoadOver)
 			return true;
 
-// 		if (!IsInited())
-// 			return false;
-
-		if (m_pMaterialData == NULL || !m_pMaterialData->IsInited())
+		if (m_pMaterialData == NULL || !m_pMaterialData->OnLoadOver())
 			return false;
 
-		if (m_pHeightResource == NULL || !m_pHeightResource->IsInited())
+		if (m_pHeightResource == NULL || !m_pHeightResource->OnLoadOver())
 			return false;
 		
-		if (m_pMaterialResource && !m_pMaterialResource->IsInited())
+		if (m_pMaterialResource && !m_pMaterialResource->OnLoadOver())
 			return false;
 
 		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
@@ -355,12 +366,12 @@ namespace ma
 
 		if (m_bBlendMapToVertex) 
 		{
-			if (m_pBlendResource == NULL || !m_pBlendResource->IsInited())
+			if (m_pBlendResource == NULL || !m_pBlendResource->OnLoadOver())
 				return false;
 		}
 		else
 		{
-			if (m_pBlendMap == NULL || !m_pBlendMap->IsInited())
+			if (m_pBlendMap == NULL || !m_pBlendMap->OnLoadOver())
 				return false;
 		}
 
@@ -396,6 +407,8 @@ namespace ma
 		BuildShareIB();
 
 		BuildTrunks();
+
+		ClearTempData();
 		
 		m_bLoadOver = true;
 

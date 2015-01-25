@@ -74,9 +74,9 @@ namespace ma
 		return new D3D9IndexBuffer();
 	}
 
-	ShaderProgram*		D3D9RenderDevice::CreateShaderProgram(/*const char* pVSFile,const char* pPSFile,const char* pszDefine*/)
+	ShaderProgram*	D3D9RenderDevice::CreateShaderProgram()
 	{
-		return new D3D9ShaderProgram(/*pVSFile,pPSFile,pszDefine*/);
+		return new D3D9ShaderProgram();
 	}
 
 	void D3D9RenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)

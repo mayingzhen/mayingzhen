@@ -93,6 +93,8 @@ namespace ma
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "SceneNode");
 		
+		virtual bool		OnLoadOver();
+
 		SceneNode*			Clone(const char* pName);
 
 		virtual	void		OnTransformChange();
@@ -142,7 +144,7 @@ namespace ma
 	template<class T>
 	inline T* SceneNode::CreateComponent()
 	{
-		RefPtr<T> pComponent = CreateObject<T>().get();
+		RefPtr<T> pComponent = CreateObject<T>();
 		ASSERT(pComponent);
 		if (pComponent == NULL)
 			return NULL;
