@@ -13,7 +13,6 @@ namespace ma
 		SubMaterialData& subMatData = matData.AddSubMatData();
 		subMatData.SetShaderName("default");
 		subMatData.SetShderMacro("DIFFUSE;SKIN");
-		subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 		RefPtr<SamplerState> pDiff = CreateSamplerState();
 		pDiff->SetTexturePath(pszTexture);

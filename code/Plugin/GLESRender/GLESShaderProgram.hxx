@@ -55,7 +55,7 @@ namespace ma
 				infoLog = new char[length];
 				GL_ASSERT( glGetShaderInfoLog(vertexShader, length, NULL, infoLog) );
 				infoLog[length-1] = '\0';
-				ASSERT(false);
+				ASSERTMSG(false,infoLog);
 			}
 
 			// Write out the expanded shader file.

@@ -24,7 +24,6 @@ namespace ma
 				SubMaterialData& subMatData = matData.AddSubMatData();
 				subMatData.SetShaderName("default");
 				subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR;SKIN");
-				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 				RefPtr<SamplerState> pDiff = CreateSamplerState();
 				pDiff->SetTexturePath("FBX/TestBull_DM.png");
@@ -66,7 +65,6 @@ namespace ma
 		SubMaterialData& subMatData = matData.AddSubMatData();
 		subMatData.SetShaderName("default");
 		subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
-		subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 		RefPtr<SamplerState> pDiff = CreateSamplerState();
 		pDiff->SetTexturePath(pszTexture);

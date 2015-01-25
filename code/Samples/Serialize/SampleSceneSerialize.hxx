@@ -16,14 +16,14 @@ namespace ma
 
 		std::string strScenePath = "scene/Test.scene.xml";
 
-		if (0)
+		if (1)
 		{
 			MaterialData matData;
 
 			SubMaterialData& subMatData = matData.AddSubMatData();
 			subMatData.SetShaderName("default");
 			subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
-			subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+			//subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 			RefPtr<SamplerState> pDiff = CreateSamplerState();
 			pDiff->SetTexturePath("FBX/Box.tga");

@@ -157,6 +157,11 @@ namespace ma
 		}
 
 		BuildDeviceCapabilities();
+
+		SetColorWrite(true);
+		SetDepthWrite(true);
+		SetCullingMode(CULL_FACE_SIDE_BACK);
+		SetDepthCheckMode(DCM_LESS_EQUAL);
 	}
 	
 	bool D3D9RenderDevice::TestDeviceLost()
@@ -305,11 +310,11 @@ namespace ma
 	{
 		if (mode== CULL_FACE_SIDE_BACK)
 		{
-			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW) );
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW) );
 		}
 		else if (mode == CULL_FACE_SIDE_FRONT)
 		{
-			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW) );	
+			D3D9Verify( m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW) );	
 		}
 		else if (mode == CULL_FACE_SIDE_NONE)
 		{
