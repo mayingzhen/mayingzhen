@@ -91,6 +91,13 @@ namespace ma
 		GLint val;
 		GL_ASSERT( glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &val) );
 #endif
+
+		//BuildDeviceCapabilities();
+
+		SetColorWrite(true);
+		SetDepthWrite(true);
+		SetCullingMode(CULL_FACE_SIDE_BACK);
+		SetDepthCheckMode(DCM_LESS_EQUAL);
 	}
 
 	void GLESRenderDevice::BeginRender()

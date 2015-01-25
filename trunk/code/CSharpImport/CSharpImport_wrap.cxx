@@ -10174,6 +10174,18 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetScene(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_OnLoadOver(void * jarg1) {
+  unsigned int jresult ;
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  bool result;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  result = (bool)(arg1)->OnLoadOver();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_Clone(void * jarg1, char * jarg2) {
   void * jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;

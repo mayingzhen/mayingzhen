@@ -40,7 +40,6 @@ namespace ma
 		{
 			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, m_pShaderMarco.c_str());
 			m_pShadowDepthTech->GetRenderState().m_fDepthBias = 0.002f;
-			m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 		
 			if (GetDeviceCapabilities()->GetDepthTextureSupported())
 			{
