@@ -74,6 +74,8 @@ namespace ma
 		vector<TERRAIN_LOD> m_vecLod;
 
 		VEC_RENDERABLE	m_arrRenderable;
+
+		friend class Terrain;
 	};
 }
 

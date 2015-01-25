@@ -36,7 +36,7 @@ namespace ma
 
 		if (m_bNeedFreeData)
 		{
-			SAFE_DELETE_ARRAY(m_pData);
+			FreeData();
 		}
 	}
 

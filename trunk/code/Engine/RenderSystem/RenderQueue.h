@@ -18,7 +18,7 @@ namespace ma
 	class  RenderQueue
 	{
 	public:
-		void					AddRenderObj(RenderListType eRLType,RenderablePtr pRenderObj);	
+		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
 
 		UINT					GetRenderObjNumber(RenderListType eRLType);
 

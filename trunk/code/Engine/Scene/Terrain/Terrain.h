@@ -107,9 +107,7 @@ namespace ma
 		void SetBlendMap(const char* pszFile);
 		const Vector2& GetBlendOffSet() const {return m_vBlendOffset;}
 		
-		bool OnLoadOver();
-
-		//virtual	void OnTransformChange();
+		virtual bool OnLoadOver();
 
 	private:
 		void BuildTrunks();
@@ -120,6 +118,8 @@ namespace ma
 		void BuildSkirtSideIB(RefPtr<IndexBuffer>& pSkirtIB,
 			int nCellAmountSelf,int nCellAmountConnect,
 			int nSelfStart,int nSelfStep);
+
+		void ClearTempData();
 
 		bool WorldToCell(float x, float y, OUT int& i, OUT int& j) const;
 

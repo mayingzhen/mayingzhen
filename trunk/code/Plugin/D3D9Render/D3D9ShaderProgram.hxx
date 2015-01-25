@@ -172,7 +172,7 @@ namespace ma
 				hr = m_pVShConstantTable->GetConstantDesc(handle, &constantDesc, &num);
 				ASSERT(hr == D3D_OK);
 
-				RefPtr<Uniform>	 uniform = this->AddUniform(constantDesc.Name);
+				Uniform* uniform = this->AddUniform(constantDesc.Name);
 				uniform->m_vshShder = true; 
 				uniform->m_location = constantDesc.RegisterIndex;
 				uniform->m_type = constantDesc.Type;

@@ -59,7 +59,7 @@ namespace ma
 		void					SetRenderScheme(RenderScheme::Type eType);
 
 		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
-		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index];}
+		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index].get();}
 
 		RenderQueue*			GetRenderQueue();
 
@@ -83,14 +83,15 @@ namespace ma
 		std::string				m_sName;
 
 		RefPtr<RenderScheme>	m_pRenderScheme;
-
+		
+		RefPtr<SceneNode>		m_pCameraNode;
 		RefPtr<Camera>			m_pCamera;
 
 		Rectangle				m_viewport;
 
 		RefPtr<Texture>			m_pRenderTarget;
 
-		typedef std::vector<RenderComponent*> VEC_RENDERCOMP;
+		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
 
 		RenderQueue*			m_pRenderQueue[2];
@@ -105,6 +106,8 @@ namespace ma
 	};
 
 	DeclareRefPtr(Scene);
+
+	RefPtr<Scene> CreateScene();
 }
 
 

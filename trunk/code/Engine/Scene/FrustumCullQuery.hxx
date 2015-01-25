@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	FrustumCullQuery::FrustumCullQuery(const Frustum& cameraFrustum,std::vector<RenderComponent*>& result)
+	FrustumCullQuery::FrustumCullQuery(const Frustum& cameraFrustum, std::vector< RefPtr<RenderComponent> >& result)
 			:m_cameraFrustum(cameraFrustum),m_result(result)
 	{
 

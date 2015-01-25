@@ -16,7 +16,6 @@ EXPORTS
 ?Serialize@Resource@ma@@MAEXAAVSerializer@2@PBD@Z
 ?GetClass@Resource@ma@@UBEPAVRTTIClass@2@XZ
 ?StaticGetClass@Resource@ma@@SAPBVRTTIClass@2@XZ
-?IsInited@Resource@ma@@QAE_NXZ
 ?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@I_N@Z
 ??1Resource@ma@@UAE@XZ
 ??1Object@ma@@UAE@XZ
@@ -206,7 +205,6 @@ EXPORTS
 ?RegisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
 ?UnregisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
 ?SetDataThreadEnable@ResourceSystem@ma@@QAEX_N@Z
-?OnLoadOver@Terrain@ma@@QAE_NXZ
 ?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@XZ
 ?GetShadingTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
@@ -252,3 +250,10 @@ EXPORTS
 ?RegisterAttribute@AttributeManager@ma@@QAEXPBDABUAttributeInfo@2@@Z
 ?GetAttributeManager@ma@@YAPAVAttributeManager@1@XZ
 ?CopyBaseAttributes@AttributeManager@ma@@QAEXPBD0@Z
+?OnLoadOver@Resource@ma@@UAE_NXZ
+?CreateScene@ma@@YA?AV?$RefPtr@VScene@ma@@@1@XZ
+?Serialize@HardwareBuffer@ma@@UAEXAAVSerializer@2@PBD@Z
+??0HardwareBuffer@ma@@QAE@XZ
+??1HardwareBuffer@ma@@UAE@XZ
+?FreeData@HardwareBuffer@ma@@QAEXXZ
+?SetData@HardwareBuffer@ma@@QAEXPAXIHW4USAGE@2@@Z

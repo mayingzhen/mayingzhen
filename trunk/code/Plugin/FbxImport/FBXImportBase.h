@@ -25,10 +25,9 @@ namespace ma
 		if (!importStatus)
 			return false;
 
-		FbxAxisSystem::EFrontVector FrontVector = (FbxAxisSystem::EFrontVector)-FbxAxisSystem::eParityOdd;
-		FbxAxisSystem maAxisSystem(KFbxAxisSystem::eZAxis, FrontVector, KFbxAxisSystem::eRightHanded);
+		FbxAxisSystem engineAxisSystem(FbxAxisSystem::eOpenGL);
 		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
-		maAxisSystem.ConvertScene(pFbxScene);
+		engineAxisSystem.ConvertScene(pFbxScene);
 
 		return pFbxScene;
 	}

@@ -97,9 +97,7 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			//m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
-
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, m_arrRenderable[i]);
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, m_arrRenderable[i].get());
 		}
 	}
 
@@ -240,7 +238,7 @@ namespace ma
 					vector<uint16>& indexList  = bodyIBList[i];
 
 					RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-						&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16),USAGE_STATIC);
+						&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16));
 
 					matIdToIB[i] = pIB;
 				}
@@ -318,7 +316,7 @@ namespace ma
 				vector<uint16>& indexList  = borderIBList[i];
 
 				RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-					&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16),USAGE_STATIC);
+					&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16));
 
 				matAddIdToIB[i] = pIB;
 			}

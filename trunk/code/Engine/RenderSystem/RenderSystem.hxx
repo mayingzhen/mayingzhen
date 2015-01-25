@@ -114,8 +114,6 @@ namespace ma
 		profile_code();
 
 		m_pRenderThread->RC_EndFrame();
-
-		OnFlushFrame();
 	}
 
 	void RenderSystem::Render()
@@ -218,6 +216,8 @@ namespace ma
 		{
 			m_arrScene[i]->Render();
 		}
+
+		OnFlushFrame();
 	}
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)

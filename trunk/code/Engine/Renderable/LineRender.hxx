@@ -32,13 +32,13 @@ namespace ma
 		element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
 		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
 
-		m_pMeshBatch = new MeshBatch(pVertexDec.get(), PRIM_LINELIST, /*pEffect, */true, 1024);
+		m_pMeshBatch = new MeshBatch(pVertexDec.get(), PRIM_LINELIST, true, 1024);
 	}
 
 	void LineRender::ShutDown()
 	{
 		m_pLinTech = NULL;
-		SAFE_DELETE(m_pMeshBatch);
+		m_pMeshBatch = NULL;
 	}
 
 

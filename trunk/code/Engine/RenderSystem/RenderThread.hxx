@@ -143,6 +143,8 @@ namespace ma
 
 		AddCommand(eRC_VertexDeclaComplete);
 		AddPointer(pDecl);
+
+		FlushAndWait();
 	}
 
 	void RenderThread::RC_HardwareBufferStreamComplete(HardwareBuffer* pHB)
@@ -155,6 +157,8 @@ namespace ma
 
 		AddCommand(eRC_HBStreamComplete);
 		AddPointer(pHB);
+
+		FlushAndWait();
 	}
 
 	void RenderThread::RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
@@ -206,8 +210,6 @@ namespace ma
 
 		AddCommand(eRC_CreateShader);
 		AddPointer(pShader);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_CreateTexture(Texture* pRenderTarget)
@@ -220,8 +222,6 @@ namespace ma
 
 		AddCommand(eRC_CreateTexture);
 		AddPointer(pRenderTarget);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_CreateDepthStencil(Texture* pRenderTarget)
@@ -234,8 +234,6 @@ namespace ma
 
 		AddCommand(eRC_CreateDepthStencil);
 		AddPointer(pRenderTarget);
-
-		FlushAndWait();
 	}
 
 	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)

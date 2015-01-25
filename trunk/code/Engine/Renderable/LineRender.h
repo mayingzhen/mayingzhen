@@ -31,7 +31,7 @@ namespace ma
 		void DrawTransform(const Transform& tsf, float fCenterScale = 1.0f, float fAxisScale = 1.0f);
 
 	private:
-		MeshBatch*			m_pMeshBatch;
+		RefPtr<MeshBatch>	m_pMeshBatch;
 
 		RefPtr<Technique>	m_pLinTech;
 

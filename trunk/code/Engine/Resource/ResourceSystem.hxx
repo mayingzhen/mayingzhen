@@ -41,8 +41,11 @@ namespace ma
 	{
 		if (b)
 		{
-			m_pDataThread = new DataThread();
-			m_pDataThread->Start();
+			if (m_pDataThread == NULL)
+			{
+				m_pDataThread = new DataThread();
+				m_pDataThread->Start();
+			}
 		}
 		else
 		{

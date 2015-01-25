@@ -10,8 +10,8 @@ namespace ma
 		m_pScene = this;
 		m_sName = pszName ? pszName : "";
 
-		SceneNode* pCamera = this->CreateNode("defaultCamera");
-		m_pCamera = pCamera->CreateComponent<Camera>();
+		m_pCameraNode = new SceneNode(this, "defaultCamera");
+		m_pCamera = m_pCameraNode->CreateComponent<Camera>();
 		
 		SetRenderScheme(RenderScheme::Forward);
 
@@ -19,12 +19,29 @@ namespace ma
 
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
+		
+		m_viwMinZ = 0.0f;
+		m_viwMaxZ = 0.0f;
+		m_cDirLight = ColourValue::White;
+		m_vDirLight = Vector3::ZERO;
+		m_pCallback = NULL;
 	}
 
 	Scene::~Scene()
 	{
 		SAFE_DELETE(m_pRenderQueue[0]);
 		SAFE_DELETE(m_pRenderQueue[1]);
+	}
+
+	void Scene::Reset()
+	{
+		m_eResState = ResUnLoad;
+
+		this->RemoveAllChild();
+
+		m_pCullTree = new Octree();
+
+		m_arrRenderComp.clear();
 	}
 
 	void Scene::SetRenderScheme(RenderScheme::Type eType)
@@ -42,15 +59,6 @@ namespace ma
 		SceneNode* pSceneNode = new SceneNode(this,pName);	
 		this->AddChild(pSceneNode);
 		return pSceneNode;
-	}
-
-	void Scene::Reset()
-	{
-		m_eResState = ResUnLoad;
-
-		this->RemoveAllChild();
-
-		m_pCullTree = new Octree();
 	}
 
 	void Scene::Init()
@@ -82,6 +90,8 @@ namespace ma
 			m_pCallback->OnPreUpdate(this);
 		}
 
+		m_pCameraNode->Update();
+
 		for (uint32 i = 0; i < m_arrChild.size(); ++i)
 		{
 			m_arrChild[i]->Update();
@@ -94,12 +104,13 @@ namespace ma
 		UpdateViewMinMaxZ();
 
 		GetRenderShadowCSM()->Update(m_pCamera.get());
+		
+		if (GetRenderQueue())
+			GetRenderQueue()->Clear();
 
 		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
 		{
-			RenderComponent* pRenderComp = m_arrRenderComp[i];
-
-			pRenderComp->Show(m_pCamera.get());
+			m_arrRenderComp[i]->Show(m_pCamera.get());
 		}
 
 		if (m_pCallback)
@@ -160,21 +171,16 @@ namespace ma
 		float fMaxZ = 0;
 		float fMinZ = FLT_MAX;
 
-		//Vector3 vDir = pCamera->GetAtNode()->GetWorldPos() - pCamera->GetEyeNode()->GetWorldPos();
-		//vDir.normalise();
-
 		// for each object
 		for(unsigned int i = 0; i < m_arrRenderComp.size(); i++)
 		{
-			RenderComponent* pObject = m_arrRenderComp[i];
-
-			AABB aabb = pObject->GetAABBWS();
+			AABB aabb = m_arrRenderComp[i]->GetAABBWS();
 			aabb.transform(m_pCamera->GetMatView());
 
 			float aabbMinZ = -aabb.getMaximum().z;
 			float aabbMaxZ = -aabb.getMinimum().z;
 
-			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
+			m_arrRenderComp[i]->SetViewMinMaxZ(aabbMinZ, aabbMaxZ);
 
 			fMaxZ = max(aabbMaxZ,fMaxZ);
 			fMinZ = min(aabbMinZ,fMinZ);
@@ -203,8 +209,13 @@ namespace ma
 
 	void Scene::OnFlushFrame()
 	{
-		if ( GetRenderQueue() )
-			GetRenderQueue()->Clear();
+		//if ( GetRenderQueue() )
+		//	GetRenderQueue()->Clear()
+	}
+
+	RefPtr<Scene> CreateScene()
+	{
+		return new Scene();
 	}
 
 }

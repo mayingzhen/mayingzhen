@@ -89,8 +89,6 @@ namespace ma
 		
 		void				OnFlushFrame();
 
-		RenderQueue*		GetRenderQueue();
-
 		int					CurThreadFill() const {return m_pRenderThread->CurThreadFill();}
 		int					CurThreadProcess() const {return m_pRenderThread->CurThreadProcess();}
 		int					GetThreadList() {return m_pRenderThread->GetThreadList();}

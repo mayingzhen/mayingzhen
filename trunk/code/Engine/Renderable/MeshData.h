@@ -105,8 +105,6 @@ namespace ma
 		virtual void			Serialize(Serializer& sl, const char* pszLable = "MeshData");
 
 	private:
-		int						GetVertexStride();
-
 		void					SerializeDataV0(Serializer& sl, const char* pszLabel);
 
 	private:

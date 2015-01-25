@@ -21,7 +21,7 @@ namespace ma
 	{
 		m_pSkeleton = pSkeleton;
 		
-		if (m_pAnimation->IsInited())
+		if (m_pAnimation->OnLoadOver())
 		{
 			m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());
 		}
@@ -61,10 +61,10 @@ namespace ma
 		if (m_pAnimation == NULL || m_pSkeleton == NULL)
 			return false;
 
-		if (!m_pAnimation->IsInited() )
+		if (!m_pAnimation->OnLoadOver() )
 			return false;
 
-		if (!m_pSkeleton->IsInited() )
+		if (!m_pSkeleton->OnLoadOver() )
 			return false;
 
 		m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());

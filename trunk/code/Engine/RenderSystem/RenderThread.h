@@ -288,7 +288,7 @@ namespace ma
 		m_nFlush = 1;
 	}
 
-	inline void RenderThread::WaitFlushCond()
+	inline void RenderThread::WaitFlushCond() // wait maiThread
 	{
 		while (!*(volatile int*)&m_nFlush)
 		{
@@ -304,7 +304,7 @@ namespace ma
 	HWND GetRenderWindowHandle();
 #endif
 
-	inline void RenderThread::WaitFlushFinishedCond()
+	inline void RenderThread::WaitFlushFinishedCond() // wait RenderThread
 	{
 		while(*(volatile int*)&m_nFlush)
 		{

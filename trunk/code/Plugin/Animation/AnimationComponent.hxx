@@ -86,10 +86,10 @@ namespace ma
 
 		ASSERT(m_pSkeleton && m_pAnimSet);
 
-		if ( m_pSkeleton && !m_pSkeleton->IsInited() )
+		if ( m_pSkeleton && !m_pSkeleton->OnLoadOver() )
 			return false;
 
-		if ( m_pAnimSet && !m_pAnimSet->IsInited() )
+		if ( m_pAnimSet && !m_pAnimSet->OnLoadOver() )
 			return false;
 
 		CreateSkeletonPose();
