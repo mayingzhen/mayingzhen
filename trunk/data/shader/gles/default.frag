@@ -16,9 +16,17 @@ varying   vec4 v_color;
 #endif   
 
 
+#ifdef DIFFUSECOLOR   
+uniform vec4 u_cDiffuseColor; 
+#endif
+
 void main()
 {
+#ifdef DIFFUSECOLOR   
+	gl_FragColor = u_cDiffuseColor;
+#else
 	gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+#endif	
 	
 #ifdef COLOR   
 	gl_FragColor = v_color;   

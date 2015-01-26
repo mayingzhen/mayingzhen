@@ -1,9 +1,7 @@
-// Uniforms
-uniform mat4 u_worldViewProjectionMatrix;
+#include "common.h"
+#include "skin.h"
 
-#ifdef SKIN
-uniform mat4 u_matrixPalette[SKIN_MATRIX_COUNT];
-#endif
+
 
 
 // Attributes
@@ -38,21 +36,20 @@ varying vec4 v_color;
 
 
 
-#ifdef SKIN
-#include "skinning.vert"
-#else
-#include "skinning-none.vert" 
-#endif
+
 
 
 void main()
 {    
     // Get the vertex position
-    vec4 position = getPosition();
+    vec3 iPos = a_position;
+    
+#ifdef SKIN
+	iPos  =  SkinPos(a_position,a_blendIndices,a_blendWeights);
+#endif
 
-    // Transform position to clip space.
-    gl_Position = u_worldViewProjectionMatrix * position;
-   
+	gl_Position = vec4(iPos,1.0) * g_matWorldViewProj; 
+     
        
 #ifdef DIFFUSE      
     v_texCoord = a_texCoord0;

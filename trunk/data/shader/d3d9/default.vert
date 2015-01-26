@@ -55,7 +55,7 @@ VS_OUT main(VS_IN In)
 	iPos  =  SkinPos(In.a_position,In.a_blendIndices,In.a_blendWeights);
 #endif
    
-    Out.v_position = mul(float4(iPos,1),g_matWorldViewProj); 
+    Out.v_position = mul(float4(iPos,1.0),g_matWorldViewProj); 
     
 #ifdef DIFFUSE      
     Out.v_texCoord = In.a_texCoord0;
