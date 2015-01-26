@@ -127,7 +127,7 @@ namespace ma
 			Texture* pTexture = any_cast< RefPtr<Texture> >(&m_anyValue)->get();
 			GetRenderSystem()->SetValue(pUniform,pTexture);
 		}
-		else if (type == typeid(SamplerStatePtr))
+		else if (type == typeid(RefPtr<SamplerState>))
 		{
 			SamplerState* pSampler = any_cast< RefPtr<SamplerState> >(&m_anyValue)->get();
 			GetRenderSystem()->SetValue(pUniform,pSampler);

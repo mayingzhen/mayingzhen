@@ -122,7 +122,7 @@ namespace ma
 		if (pTexture == NULL)
 			return;
 
-		SetTexture(pTexture);
+		SetTexture(pTexture.get());
 
 		setSpriteFrameCoords( pTexture->GetWidth(), pTexture->GetHeight());
 

@@ -20,7 +20,7 @@ namespace ma
 
 		virtual void RT_SetShader();
 
-		VertexAttribute getVertexAttribute(const char* name) const;
+		VertexAttribute GetVertexAttribute(const char* name) const;
 
 		void Destory();
 

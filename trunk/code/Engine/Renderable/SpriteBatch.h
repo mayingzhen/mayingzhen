@@ -44,7 +44,7 @@ namespace ma
 
 		void Draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const ColourValue& color, bool positionIsCenter = false);
 		
-		void				SetTexture(RefPtr<Texture> pTexture);
+		void				SetTexture(Texture* pTexture);
 
 		SamplerState*		GetSampler() {return m_pSampler.get();}
 	

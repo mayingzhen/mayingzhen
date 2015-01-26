@@ -65,8 +65,8 @@ namespace ma
 	{
 
 #if PLATFORM_WIN == 1
-		D3D9RenderModuleInit();
-		//GLESRenderModuleInit();
+		//D3D9RenderModuleInit();
+		GLESRenderModuleInit();
 		MonoScriptModuleInit();
 		BtPhysicsModuleInit();
 		AnimationModuleInit();
@@ -86,8 +86,8 @@ namespace ma
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
 		MonoScriptModuleShutdown();
-		D3D9RenderModuleShutdown();
-		//GLESRenderModuleShutdown();
+		//D3D9RenderModuleShutdown();
+		GLESRenderModuleShutdown();
 #else
 		AnimationModuleShutdown();
 		GLESRenderModuleShutdown();
@@ -125,7 +125,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("SceneSerialize");
+		RunSample("Terrain");
 	}
 
 	void SampleBrowser::InitResourcePath()

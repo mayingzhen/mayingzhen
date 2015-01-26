@@ -60,32 +60,24 @@ namespace ma
 
 	void Terrain::BuildTrunks()
 	{
-		// build TerrainTrunks
 		int nTrunkXCellAmont = Math::ICeil(m_nXCellsAmount / (float)m_nTrunkSize);
 		int nTrunkYCellAmont = Math::ICeil(m_nYCellsAmount / (float)m_nTrunkSize);
 
-		AABB box;
-		for (int i =0;i< nTrunkYCellAmont;++i)
+		for (int i =0; i < nTrunkYCellAmont; ++i)
 		{
-			for (int j = 0;j< nTrunkXCellAmont;++j)
+			for (int j = 0; j < nTrunkXCellAmont; ++j)
 			{
-				RefPtr<TerrainTrunk> trunk = new TerrainTrunk(this);
-				this->AddComponent(trunk.get());
+				TerrainTrunk* pTrunk = new TerrainTrunk(this);
 
-				if(!trunk->Init(j, i))
+				if(!pTrunk->Init(j, i))
 				{
 					ASSERT(false);
 					return;
 				}
 
-				//this->AddChild(trunk);
-				m_vecTrunk.push_back(trunk);
-				//box.merge(trunk->GetBoundingBox());
+				m_vecTrunk.push_back(pTrunk);
 			}
 		}
-
-		// set boundingbox for terrain
-		//this->SetBoundingBox(box);
 
 		return;
 	}
@@ -414,6 +406,14 @@ namespace ma
 
 		return true;
 	}	
+
+	void Terrain::OnTransformChange()
+	{
+		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+		{
+			m_vecTrunk[i]->OnTransformChange();
+		}
+	}
 
 
 	float Terrain::GetHeight(int nXVert, int nYVert) const

@@ -51,7 +51,7 @@ namespace ma
 		m_pTexture = LoadResource<Texture>(pTexPath);
 	}
 
-	void SamplerState::SetTexture(RefPtr<Texture> pTextute)
+	void SamplerState::SetTexture(Texture* pTextute)
 	{
 		m_pTexture = pTextute;
 	}

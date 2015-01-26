@@ -480,29 +480,29 @@ namespace ma
 		AddPointer(sampler);
 	}
 
-	void RenderThread::RC_SetTextureWrap(int index, Wrap eWrap )
+	void RenderThread::RC_SetTextureWrap(Uniform* uniform, Wrap eWrap )
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetTextureWrap(index,eWrap);
+			GetRenderDevice()->SetTextureWrap(uniform,eWrap);
 			return;
 		}
 
 		AddCommand(eRC_SetTextureWrap);
-		AddInt(index);
+		AddPointer(uniform);
 		AddInt(eWrap);
 	}
 
-	void RenderThread::RC_SetTextureFilter(int index, FilterOptions eFiler)
+	void RenderThread::RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetTextureFilter(index,eFiler);
+			GetRenderDevice()->SetTextureFilter(uniform,eFiler);
 			return;
 		}
 
 		AddCommand(eRC_SetTextureFilter);
-		AddInt(index);
+		AddPointer(uniform);
 		AddInt(eFiler);
 	}
 
@@ -753,16 +753,16 @@ namespace ma
 				break;
 			case eRC_SetTextureWrap:
 				{
-					int index = ReadCommand<int>(n);
+					Uniform* pUnform = ReadCommand<Uniform*>(n);
 					Wrap eWarp = (Wrap)ReadCommand<int>(n);
-					GetRenderDevice()->SetTextureWrap(index,eWarp);
+					GetRenderDevice()->SetTextureWrap(pUnform,eWarp);
 				}
 				break;
 			case  eRC_SetTextureFilter:
 				{
-					int index = ReadCommand<int>(n);
+					Uniform* pUnform = ReadCommand<Uniform*>(n);
 					FilterOptions eFilter = (FilterOptions)ReadCommand<int>(n);
-					GetRenderDevice()->SetTextureFilter(index,eFilter);
+					GetRenderDevice()->SetTextureFilter(pUnform,eFilter);
 				}
 				break;
 			case eRC_BeginProfile:

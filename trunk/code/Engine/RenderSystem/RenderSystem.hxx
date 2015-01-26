@@ -164,11 +164,45 @@ namespace ma
 		m_hWnd = NULL;
 	}
 
+	void RenderSystem::InitGlobeMarco()
+	{
+		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
+		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
+
+		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+		{
+			m_mapMacros["HWPCF"] = "1";
+			m_mapMacros["HWDEPTH"] = "1";
+		}
+	}
+
+	void RenderSystem::InitCachState()
+	{
+		GetRenderDevice()->SetColorWrite(m_curState.m_bColorWrite);
+		GetRenderDevice()->SetDepthWrite(m_curState.m_bDepthWrite);
+		GetRenderDevice()->SetCullingMode(m_curState.m_eCullMode);
+		GetRenderDevice()->SetDepthCheckMode(m_curState.m_eDepthCheckMode);
+		GetRenderDevice()->SetBlendMode(m_curState.m_eBlendMode);
+		for (UINT i = 0; i < MAX_SAMPSTATE; ++i)
+		{
+			Uniform uniformTemp;
+			uniformTemp.m_index = i;
+			GetRenderDevice()->SetTextureWrap(&uniformTemp,m_arrSampState[i].GetWrapMode());
+			GetRenderDevice()->SetTextureFilter(&uniformTemp,m_arrSampState[i].GetFilterMode());
+		}
+	}
+
+
+
 	void RenderSystem::RT_Init(HWND wndhandle)
 	{
 		m_hWnd = wndhandle;
 
 		GetRenderDevice()->Init(wndhandle);
+		
+		InitGlobeMarco();
+
+		InitCachState();
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
@@ -185,17 +219,7 @@ namespace ma
 		pScene->SetViewport(m_viewport);
 		m_arrScene.push_back(pScene);
 
-		for (UINT i = 0; i < MAX_SAMPSTATE; ++i)
-		{
-			GetRenderDevice()->SetTextureFilter(i,m_arrSampState[i].GetFilterMode());
-			GetRenderDevice()->SetTextureWrap(i,m_arrSampState[i].GetWrapMode());
-		}
 
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-		{
-			m_mapMacros["HWPCF"] = "1";
-			m_mapMacros["HWDEPTH"] = "1";
-		}
 	}
 
 	void RenderSystem::RT_BeginFrame()
@@ -560,20 +584,20 @@ namespace ma
 		if (uniform == NULL || sampler == NULL)
 			return;
 			
-		SetValue(uniform,sampler->m_pTexture.get());
+		SetValue(uniform,sampler->GetTexture());
 
-		if (m_arrSampState[uniform->m_location].m_eWrap != sampler->m_eWrap)
+		if (m_arrSampState[uniform->m_location].GetWrapMode() != sampler->GetWrapMode())
 		{
-			m_pRenderThread->RC_SetTextureWrap(uniform->m_location,sampler->m_eWrap);
+			m_pRenderThread->RC_SetTextureWrap(uniform,sampler->GetWrapMode());
 
-			m_arrSampState[uniform->m_location].m_eWrap = sampler->m_eWrap;
+			m_arrSampState[uniform->m_location].SetWrapMode(sampler->GetWrapMode());
 		}
 		
-		if (m_arrSampState[uniform->m_location].m_eFilter != sampler->m_eFilter)
+		if (m_arrSampState[uniform->m_location].GetFilterMode() != sampler->GetFilterMode())
 		{
-			m_pRenderThread->RC_SetTextureFilter(uniform->m_location,sampler->m_eFilter);
+			m_pRenderThread->RC_SetTextureFilter(uniform,sampler->GetFilterMode());
 
-			m_arrSampState[uniform->m_location].m_eFilter = sampler->m_eFilter;
+			m_arrSampState[uniform->m_location].SetFilterMode(sampler->GetFilterMode());
 		}
 
 	}
@@ -583,11 +607,11 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if (m_arrSampState[uniform->m_location].m_pTexture != pTexture /*&& pTexture->GetResState() == ResInited*/)
+		if (m_arrSampState[uniform->m_location].GetTexture() != pTexture /*&& pTexture->GetResState() == ResInited*/)
 		{
-			m_pRenderThread->RC_SetTexture(uniform,(Texture*)pTexture);
+			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 
-			m_arrSampState[uniform->m_location].m_pTexture = (Texture*)pTexture;
+			m_arrSampState[uniform->m_location].SetTexture((Texture*)pTexture);
 		}
 	}
 
