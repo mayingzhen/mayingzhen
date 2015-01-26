@@ -92,7 +92,7 @@ vec3 AddTerrainColorMap(vec2 terrainUV)
     vec4 terrainBlendingMap = texture2D(g_tTerrainBlendingMap, terrainUV);
     return terrainBlendingMap.g*terrainBlendingMap.b*3.0;
 #else
-    return 1.0;
+    return vec3(1.0,1.0,1.0);
 #endif
 }
 
