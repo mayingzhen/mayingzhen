@@ -116,6 +116,10 @@ namespace ma
 		void				RT_Render();
 		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
+
+		void				InitGlobeMarco();
+
+		void				InitCachState();
 		
 	protected:
 		RenderContext*		m_pRenderContext;

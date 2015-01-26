@@ -11,12 +11,12 @@ namespace ma
 	void SampleTerrain::Load()
 	{
  		Vector3 lookAtPos(0,0,0);
- 		Vector3 eyePos = Vector3(0,800,-100);
- 		//GetCamera()->GetSceneNode()->LookAt(eyePos,lookAtPos);
+ 		Vector3 eyePos = Vector3(0,600,600);
+ 		GetCamera()->GetSceneNode()->LookAt(eyePos,lookAtPos);
 
-		GetResourceSystem()->SetDataThreadEnable(true);
+		//GetResourceSystem()->SetDataThreadEnable(true);
 
-		if (1)
+		if (0)
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain();
 

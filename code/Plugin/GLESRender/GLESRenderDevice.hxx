@@ -92,12 +92,12 @@ namespace ma
 		GL_ASSERT( glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &val) );
 #endif
 
-		//BuildDeviceCapabilities();
+		BuildDeviceCapabilities();
+	}
 
-		SetColorWrite(true);
-		SetDepthWrite(true);
-		SetCullingMode(CULL_FACE_SIDE_BACK);
-		SetDepthCheckMode(DCM_LESS_EQUAL);
+	void GLESRenderDevice::BuildDeviceCapabilities()
+	{
+		GetDeviceCapabilities()->SetTextureDXTSupported(false);
 	}
 
 	void GLESRenderDevice::BeginRender()
@@ -280,7 +280,7 @@ namespace ma
 		ASSERT(uniform->m_type == GL_SAMPLER_2D);
 		ASSERT(sampler);
 
-		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_location) );
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
 
 		GLESTexture* pTexture = (GLESTexture*)sampler;
 		ASSERT(pTexture);
@@ -289,23 +289,13 @@ namespace ma
 
 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
 
-// 		GLenum minFilter,magFilter;
-// 		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
-// 		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
-// 		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
-// 
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
-// 
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-// 
-// 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
-
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}
 
-	void GLESRenderDevice::SetTextureWrap(int index,Wrap eWrap)
+	void GLESRenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
 	{
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
+
 		GLenum wrapS = GLESMapping::GetGLESWrap(eWrap);
 		GLenum wrapT = GLESMapping::GetGLESWrap(eWrap);
 
@@ -313,8 +303,10 @@ namespace ma
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
 	}
 
-	void GLESRenderDevice::SetTextureFilter(int index,FilterOptions eFilter)
+	void GLESRenderDevice::SetTextureFilter(Uniform* uniform,FilterOptions eFilter)
 	{
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
+
 		GLenum minFilter,magFilter;
 		GLESMapping::GetGLESFilter(eFilter,minFilter,magFilter);
 
@@ -404,9 +396,15 @@ namespace ma
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
+
 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
-		int vertexStartByte = pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
 
 		int nSteam = pVertexDeclar->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
@@ -418,7 +416,7 @@ namespace ma
 			GLboolean normalized = false;
 			std::string name;
 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
 
@@ -431,10 +429,9 @@ namespace ma
 
 
 		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
-		void* pIBufferData = BUFFER_OFFSET(indexStride * pSubMeshData->m_nIndexStart);
+		void* pIBufferData = BUFFER_OFFSET(indexStride * nIndexStart);
 
-		GL_ASSERT( glDrawElements(ePrimType, pSubMeshData->m_nIndexCount, eIndexType, pIBufferData) );
-
+		GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIBufferData) );
 
 		for (int i = 0; i < nSteam; ++i)
 		{
@@ -444,7 +441,7 @@ namespace ma
 			GLboolean normalized = false;
 			std::string name;
 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
 
@@ -469,10 +466,15 @@ namespace ma
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
+		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
+		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
+
 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = pSubMeshData->m_nVertexStart * pVertexDeclar->GetStreanmStride();
-		GLsizei nIndexCount = pSubMeshData->m_nIndexCount;
+		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
 		GLvoid* pIndices = pIndexBuffer->GetData();
 		GLvoid*	pVertex = pVertexBuffer->GetData();
 
@@ -486,7 +488,7 @@ namespace ma
 			GLboolean normalized = false;
 			std::string name;
 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->getVertexAttribute(name.c_str());
+			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
 

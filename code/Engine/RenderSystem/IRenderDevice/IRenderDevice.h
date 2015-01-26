@@ -45,8 +45,8 @@ namespace ma
 		virtual	void				SetColorWrite(bool b) = 0;
 
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture) = 0;
-		virtual	void				SetTextureWrap(int index,Wrap eWrap) = 0;
-		virtual void				SetTextureFilter(int index,FilterOptions eFilter) = 0;
+		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap) = 0;
+		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter) = 0;
 
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Matrix4& value) = 0;

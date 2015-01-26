@@ -146,8 +146,8 @@ namespace ma
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
 		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
 		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
-		void	RC_SetTextureWrap(int index, Wrap eWrap );
-		void	RC_SetTextureFilter(int index, FilterOptions eFiler);
+		void	RC_SetTextureWrap(Uniform* uniform, Wrap eWrap );
+		void	RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();

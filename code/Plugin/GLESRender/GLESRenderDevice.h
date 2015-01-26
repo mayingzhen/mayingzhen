@@ -40,8 +40,8 @@ namespace ma
 		virtual	void				SetColorWrite(bool b);
 
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTextureWrap(int index,Wrap eWrap);
-		virtual void				SetTextureFilter(int index,FilterOptions eFilter);
+		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
+		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Matrix4& value);
@@ -77,6 +77,9 @@ namespace ma
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,USAGE eUsage);
 
 		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
+
+	private:
+		void						BuildDeviceCapabilities();
 
 	private:
 		//FrameBufferHandle			m_hDefaultFrameBuffer;

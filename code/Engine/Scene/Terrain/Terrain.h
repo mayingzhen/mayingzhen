@@ -109,6 +109,8 @@ namespace ma
 		
 		virtual bool OnLoadOver();
 
+		virtual	void OnTransformChange();
+
 	private:
 		void BuildTrunks();
 		void BuildVertexDeclaration();

@@ -88,7 +88,7 @@ namespace ma
 				infoLog = new char[length];
 				GL_ASSERT( glGetShaderInfoLog(fragmentShader, length, NULL, infoLog) );
 				infoLog[length-1] = '\0';
-				ASSERT(false);
+				ASSERTMSG(false,infoLog);
 			}
 	        
 			// Write out the expanded shader file.
@@ -190,7 +190,6 @@ namespace ma
 
 	void GLESShaderProgram::ParseUniform()
 	{
-	
 		GLint activeUniforms;
 		GL_ASSERT( glGetProgramiv(m_program, GL_ACTIVE_UNIFORMS, &activeUniforms) );
 		if (activeUniforms <= 0)
@@ -198,10 +197,11 @@ namespace ma
 
 		GLint length = 0;
 		GL_ASSERT( glGetProgramiv(m_program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &length) );
-		if (length <= 0)
+		ASSERT(length > 0 && length < 256 );
+		if (length <= 0 || length >= 256 )
 			return;
 
-		GLchar* uniformName = new GLchar[length + 1];
+		GLchar uniformName[256] = {0};
 		GLint uniformSize;
 		GLenum uniformType;
 		GLint uniformLocation;
@@ -210,7 +210,6 @@ namespace ma
 		{
 			// Query uniform info.
 			GL_ASSERT( glGetActiveUniform(m_program, i, length, NULL, &uniformSize, &uniformType, uniformName) );
-			uniformName[length] = '\0';  // null terminate
 			if (length > 3)
 			{
 				// If this is an array uniform, strip array indexers off it since GL does not
@@ -227,24 +226,22 @@ namespace ma
 			// Query the pre-assigned uniform location.
 			GL_ASSERT( uniformLocation = glGetUniformLocation(m_program, uniformName) );
 
-			RefPtr<Uniform> uniform = this->AddUniform(uniformName);
-			uniform->m_location = uniformLocation;
-			uniform->m_type = uniformType;
+			Uniform* pUniform = this->AddUniform(uniformName);
+			pUniform->m_location = uniformLocation;
+			pUniform->m_type = uniformType;
 			if (uniformType == GL_SAMPLER_2D)
 			{
-				uniform->m_index = samplerIndex;
+				pUniform->m_index = samplerIndex;
 				samplerIndex += uniformSize;
 			}
 			else
 			{
-				uniform->m_index = 0;
+				pUniform->m_index = 0;
 			}
 		}
-		SAFE_DELETE_ARRAY(uniformName);
-	
 	}
 
-	VertexAttribute GLESShaderProgram::getVertexAttribute(const char* name) const
+	VertexAttribute GLESShaderProgram::GetVertexAttribute(const char* name) const
 	{
 		std::map<std::string, VertexAttribute>::const_iterator itr = m_vertexAttributes.find(name);
 		//ASSERT(itr != m_vertexAttributes.end());

@@ -42,7 +42,7 @@ namespace ma
 
 		if (texture != NULL)
 		{
-			SetTexture(texture);
+			SetTexture(texture.get());
 		}
 
 		VertexElement element[3];
@@ -63,7 +63,7 @@ namespace ma
 	{
 	}
 
-	void SpriteBatch::SetTexture(TexturePtr pTexture)
+	void SpriteBatch::SetTexture(Texture* pTexture)
 	{
 		ASSERT(pTexture != NULL);
 
@@ -73,7 +73,7 @@ namespace ma
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
 		if (m_pSampler == NULL)
-			m_pSampler = new SamplerState();
+			m_pSampler = CreateSamplerState();
 		m_pSampler->SetTexture(pTexture);
 
 		m_pTechnique->SetParameter("u_texture",Any(m_pSampler));

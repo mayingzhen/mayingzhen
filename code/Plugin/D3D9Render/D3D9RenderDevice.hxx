@@ -157,11 +157,6 @@ namespace ma
 		}
 
 		BuildDeviceCapabilities();
-
-		SetColorWrite(true);
-		SetDepthWrite(true);
-		SetCullingMode(CULL_FACE_SIDE_BACK);
-		SetDepthCheckMode(DCM_LESS_EQUAL);
 	}
 	
 	bool D3D9RenderDevice::TestDeviceLost()
@@ -438,25 +433,25 @@ namespace ma
  		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
 	}
 
-	void D3D9RenderDevice::SetTextureWrap(int index,Wrap eWrap)
+	void D3D9RenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
 	{
 		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(eWrap);
 		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(eWrap);
 
 		//address mode
-		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_ADDRESSU, wrapS) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_ADDRESSV, wrapT) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
 	}
 
-	void D3D9RenderDevice::SetTextureFilter(int index,FilterOptions eFilter)
+	void D3D9RenderDevice::SetTextureFilter(Uniform* uniform,FilterOptions eFilter)
 	{
 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
 		D3D9Mapping::GetD3D9Filter(eFilter,minFilter,magFilter,mipFilter);
 
 		//filter mode
-		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MAGFILTER, magFilter) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MINFILTER, minFilter) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(index, D3DSAMP_MIPFILTER, mipFilter) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
+		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
 	}
 
 	void D3D9RenderDevice::mfSetPSConst(int nReg, const float *vData, const int nParams)

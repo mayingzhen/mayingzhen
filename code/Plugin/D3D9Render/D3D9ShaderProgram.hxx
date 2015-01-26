@@ -161,7 +161,6 @@ namespace ma
 			hr = m_pVShConstantTable->GetDesc(&conTabledesc);
 			ASSERT(hr == D3D_OK);
 
-			UINT samplerIndex = 0;
 			for (UINT i = 0; i < conTabledesc.Constants; ++i)
 			{
 				D3DXHANDLE handle = m_pVShConstantTable->GetConstant(NULL, i);
@@ -196,11 +195,11 @@ namespace ma
 				hr = m_pPShConstantTable->GetConstantDesc(handle, &constantDesc, &num);
 				ASSERT(hr == D3D_OK);
 
-				RefPtr<Uniform> uniform = this->AddUniform(constantDesc.Name);
-				uniform->m_vshShder = false;
-				uniform->m_location = constantDesc.RegisterIndex;
-				uniform->m_type = constantDesc.Type;
-				uniform->m_nCount = constantDesc.RegisterCount;
+				Uniform* pUniform = this->AddUniform(constantDesc.Name);
+				pUniform->m_vshShder = false;
+				pUniform->m_location = constantDesc.RegisterIndex;
+				pUniform->m_type = constantDesc.Type;
+				pUniform->m_nCount = constantDesc.RegisterCount;
 			}
 		}
 

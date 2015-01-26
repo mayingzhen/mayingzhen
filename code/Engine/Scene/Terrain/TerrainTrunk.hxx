@@ -9,6 +9,8 @@ namespace ma
 		m_nY = 0;
 		m_uLodIndex = 0;
 		m_pTerrain = pTerrain;
+		
+		m_pSceneNode = pTerrain;
 	}
 
 	TerrainTrunk::~TerrainTrunk()
@@ -106,15 +108,13 @@ namespace ma
 		m_nX = i;
 		m_nY = j;
 
-		AABB box;
-		for (int m = i * m_pTerrain->GetTrunkSize(); m <= (i+1) * m_pTerrain->GetTrunkSize(); ++m)
+		for (int m = i * m_pTerrain->GetTrunkSize(); m <= (i + 1) * m_pTerrain->GetTrunkSize(); ++m)
 		{
 			for (int n = j * m_pTerrain->GetTrunkSize(); n <= (j + 1) * m_pTerrain->GetTrunkSize(); ++n)
 			{
-				box.merge(m_pTerrain->GetPos(m, n));
+				m_AABB.merge(m_pTerrain->GetPos(m, n));
 			}
 		}
-		m_AABB = box;
 
 		OnTransformChange();
 
