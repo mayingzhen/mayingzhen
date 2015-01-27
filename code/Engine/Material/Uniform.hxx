@@ -9,7 +9,6 @@ namespace ma
 		m_index = 0;
 		m_type = 0;
 		m_vshShder = false;
-		m_index = 0;
 		m_nCount = 0;
 
 		m_pMethod = NULL;

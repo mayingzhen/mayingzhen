@@ -92,14 +92,24 @@ void DeviceCapabilitie::log()
 	LogInfo((" * ETC1: " + StringConverter::toString(m_bETC1)).c_str());
 }
 
-void DeviceCapabilitie::setDeviceName( const char* name )
+void DeviceCapabilitie::SetDeviceName( const char* name )
 {
     mDeviceName = name;
 }
 
-void DeviceCapabilitie::setRenderSystemName( const char* rs )
+const char* DeviceCapabilitie::GetDeviceName() const
+{
+	return mDeviceName.c_str();
+}
+
+void DeviceCapabilitie::SetRenderSystemName( const char* rs )
 {
     mRenderSystemName = rs;
+}
+
+const char* DeviceCapabilitie::GetRenderSystemName(void) const
+{
+	return mRenderSystemName.c_str();
 }
 
 

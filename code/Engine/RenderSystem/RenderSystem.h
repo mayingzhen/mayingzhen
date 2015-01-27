@@ -58,15 +58,15 @@ namespace ma
 		void				SetDepthBias(float fConstantBias);
 
 		void				SetValue(Uniform* uniform, float value);
-		void				SetValue(Uniform* uniform, const Matrix4& value);
 		void				SetValue(Uniform* uniform, const Vector2& value);
 		void				SetValue(Uniform* uniform, const Vector3& value);
 		void				SetValue(Uniform* uniform, const Vector4& value);
-		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count = 1);
-		void				SetValue(Uniform* uniform, const Vector4* values, UINT count = 1);
+		void				SetValue(Uniform* uniform, const Matrix4& value);
+		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
+		void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		void				SetValue(Uniform* uniform, const ColourValue& value);
-		void				SetValue(Uniform* uniform, const SamplerState* sampler);
-		void				SetValue(Uniform* uniform, const Texture* sampler);
+		void				SetValue(Uniform* uniform, SamplerState* sampler);
+		void				SetValue(Uniform* uniform, Texture* sampler);
 		
 		HWND				GetMainWnd() {return m_hWnd;}
 		

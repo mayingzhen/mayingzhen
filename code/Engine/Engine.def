@@ -185,7 +185,6 @@ EXPORTS
 ?SetParameter@Technique@ma@@QAEXPBDABVAny@2@@Z
 ?SetParameter@Technique@ma@@QAEXPBDABVAny@2@@Z
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@XZ
-?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBD@Z
 ?log@DeviceCapabilitie@ma@@QAEXXZ
 ?GetDeviceCapabilities@ma@@YAPAVDeviceCapabilitie@1@XZ
 ?Save@XMLOutputSerializer@ma@@QAE_NPBD@Z
@@ -257,3 +256,6 @@ EXPORTS
 ??1HardwareBuffer@ma@@UAE@XZ
 ?FreeData@HardwareBuffer@ma@@QAEXXZ
 ?SetData@HardwareBuffer@ma@@QAEXPAXIHW4USAGE@2@@Z
+?SetRenderSystemName@DeviceCapabilitie@ma@@QAEXPBD@Z
+?SetDeviceName@DeviceCapabilitie@ma@@QAEXPBD@Z
+?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBD_N@Z

@@ -40,7 +40,7 @@ namespace ma
 		void				Clear(Camera* pCamera);
 
 		
-		const Matrix4*		GetShadowMatrix() const {return m_matShadow;}
+		const Matrix4*		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
 		SamplerState*		GetShadowMap() const {return m_pShadowMap.get();} 
 
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
@@ -52,14 +52,14 @@ namespace ma
 		Texture*			GetRotSampler() const {return m_pRotSampler.get();}		
 		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
 		void				SetShadowSamplesNum(int nNum);
-		const Vector4*		GetViewPosVecLS() const {return m_viewPosVecLS;}
+		const Vector4*		GetViewPosVecLS() const {return m_viewPosVecLS[GetRenderSystem()->CurThreadProcess()];}
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
 		UINT				GetMaxSplitCount() const {return m_nMaxSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}
-		const Vector4&		GetCurSplitPos() const {return m_curSplitPos;}
+		const Vector4&		GetCurSplitPos() const {return m_curSplitPos[GetRenderSystem()->CurThreadProcess()];}
 		
 		int					GetShadowMapSize() const {return m_nShadowMapSize;}
 		void				SetShadowMapSize(int nSize);
@@ -67,7 +67,7 @@ namespace ma
 
 		void				SetShadowFadeStart(float fFadeStart) {m_fShadowFadeStart = fFadeStart;}
 		float				GetShadowFadeStart() const {return m_fShadowFadeStart;}
-		const Vector4&		GetShadowDepthFade() const {return m_vShadowDepthFade;}
+		const Vector4&		GetShadowDepthFade() const {return m_vShadowDepthFade[GetRenderSystem()->CurThreadProcess()];}
 		
 		void				GetDepthBiasParams(float& fConstantBias, float& fSlopeScaleBias) const;
 		void				SetDepthBiasParams(float fConstantBias, float fSlopeScaleBias);
@@ -85,7 +85,7 @@ namespace ma
 		int					m_nCurSplitCount;
 		int					m_nMaxSplitCount;
 		Vector4				m_SplitPosParam;
-		Vector4				m_curSplitPos;
+		Vector4				m_curSplitPos[2];
 
 		RefPtr<Texture>		m_pShdowDepth;
 		RefPtr<Texture>		m_pDepthStencil;
@@ -94,12 +94,12 @@ namespace ma
 		RefPtr<SamplerState> m_pShadowMap;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
-		Matrix4				m_matShadow[MAX_FRUSTUM_SPLIT_NUM];
+		Matrix4				m_matShadow[2][MAX_FRUSTUM_SPLIT_NUM];
 
 		// Shadow irreg
 		int					m_ShadowSamplesNumer;
 		Vector4				m_irreg_kernel[MAX_SHADOW_SAMPLES_NUM / 2];
-		Vector4				m_viewPosVecLS[MAX_FRUSTUM_SPLIT_NUM];
+		Vector4				m_viewPosVecLS[2][MAX_FRUSTUM_SPLIT_NUM];
 		RefPtr<Texture>		m_pRotSampler;
 
 		float				m_fConstantBias;
@@ -107,7 +107,7 @@ namespace ma
 
 		float				m_fShadowFarDist;
 
-		Vector4				m_vShadowDepthFade;
+		Vector4				m_vShadowDepthFade[2];
 		float				m_fShadowFadeStart;
 
 		Shadow_Blur			m_eShadowBleurLevel;

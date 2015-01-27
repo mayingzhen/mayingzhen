@@ -196,10 +196,12 @@ namespace ma
 		return true;
 	}
 
-	RefPtr<Texture> CreateTexture(const char* pPath)
+	RefPtr<Texture> CreateTexture(const char* pPath,bool bMipmap)
 	{
-		Texture* pTextute = LoadResource<Texture>(pPath);
+		Texture* pTextute = DeclareResource<Texture>(pPath);
+		pTextute->SetAutoMipMap(bMipmap);
+		pTextute->Load();
 		return pTextute;
 	}
-
 }
+

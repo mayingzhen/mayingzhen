@@ -19,7 +19,7 @@ namespace ma
 
 		~SampleBrowser();
 
-		virtual void		ModuleInit();
+		virtual void		ModuleInit(RenderDeviceType eType);
 
 		virtual void		ModuleShutdown();
 

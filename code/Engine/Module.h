@@ -39,22 +39,6 @@
 #include "Engine/Resource/Serialize/XMLOutputSerializer.h"
 
 
-// Scene
-#include "Engine/Scene/Component.h"
-#include "Engine/Scene/SceneNode.h"
-#include "Engine/Scene/SceneVisiter.h"
-#include "Engine/Scene/Scene.h"
-#include "Engine/Scene/CullNode.h"
-#include "Engine/Scene/CullTree.h"
-#include "Engine/Scene/Camera.h"
-#include "Engine/Scene/meshcomponent.h"
-#include "Engine/Scene/Light/Light.h"
-#include "Engine/Scene/Light/LightSystem.h"
-#include "Engine/Scene/Light/RenderShadowCSM.h"
-#include "Engine/Scene/Particle/ParticleSystem.h"
-#include "Engine/Scene/Terrain/Terrain.h"
-
-
 // Thread
 #include "Engine/Thread/Thread.h"
 #include "Engine/Thread/WorkQueue.h"
@@ -78,10 +62,6 @@
 #include "Engine/Renderable/UnitSphere.h"
 
 #include "Engine/RenderScheme/RenderPass.h"
-//#include "Engine/RenderScheme/DeferredLightPass.h"
-//#include "Engine/RenderScheme/DeferredShadowPass.h"
-//#include "Engine/RenderScheme/GBufferPass.h"
-//#include "Engine/RenderScheme/ShadingPass.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 #include "Engine/RenderScheme/PostProcess.h"
 #include "Engine/RenderScheme/BlurPostProcess.h"
@@ -99,6 +79,21 @@
 #include "Engine/Material/MaterialData.h"
 #include "Engine/Material/Uniform.h"
 
+// Scene
+#include "Engine/Scene/Component.h"
+#include "Engine/Scene/SceneNode.h"
+#include "Engine/Scene/SceneVisiter.h"
+#include "Engine/Scene/Scene.h"
+#include "Engine/Scene/CullNode.h"
+#include "Engine/Scene/CullTree.h"
+#include "Engine/Scene/Camera.h"
+#include "Engine/Scene/meshcomponent.h"
+#include "Engine/Scene/Light/Light.h"
+#include "Engine/Scene/Light/LightSystem.h"
+#include "Engine/Scene/Light/RenderShadowCSM.h"
+#include "Engine/Scene/Particle/ParticleSystem.h"
+#include "Engine/Scene/Terrain/Terrain.h"
+
 #include "Engine/Profile/CodeTimer.h"
 
 #include "Engine/Engine.h"
@@ -106,8 +101,5 @@
 #include "WarningSuffix.h"
 
 
-// ENGINE_API void EngineModuleInit();
-// 
-// ENGINE_API void EngineModuleShutdown();
 
 #endif

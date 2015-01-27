@@ -41,11 +41,10 @@ namespace ma
 
 		// Unfiform
 		eRC_SetFloat,
-		eRC_SetMatrix4,
 		eRC_SetVector2,
 		eRC_SetVector3,
 		eRC_SetVector4,
-		eRC_SetVector4Count,
+		eRC_SetMatrix4,
 		eRC_SetColourValue,
 		eRC_SetTexture,
 		eRC_SetTextureWrap,
@@ -138,11 +137,10 @@ namespace ma
 		void	RC_SetBlendMode(BLEND_MODE eBlendMode);
 
 		void	RC_SetFloat(Uniform* uniform, float value);
-		void	RC_SetMatrix4(Uniform* uniform, const Matrix4& value);
 		void	RC_SetVector2(Uniform* uniform, const Vector2& value);
 		void	RC_SetVector3(Uniform* uniform, const Vector3& value);
-		void	RC_SetVector4(Uniform* uniform, const Vector4& value);
-		void	RC_SetVector4Count(Uniform* uniform, const Vector4* values, UINT count);
+		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
+		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
 		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
 		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
@@ -326,6 +324,13 @@ namespace ma
 	{
 		return *(int*)&m_nFlush != 0;
 	}
+
+// 	inline int RenderThread::GetCurrentThreadId(bool bAlwaysCheck = false)
+// 	{
+// 		if (!bAlwaysCheck && GetThreadId() == m_nMainThread)
+// 			return GetThreadId();
+// 		return ::GetCurrentThreadId();
+// 	}
 
 	inline int RenderThread::GetThreadList()
 	{

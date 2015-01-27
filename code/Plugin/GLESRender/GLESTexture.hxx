@@ -24,12 +24,12 @@ namespace ma
 
 	}
 
-	PixelFormat GLESTexture::getNativeFormat(PixelFormat format)
+	PixelFormat GLESTexture::GetNativeFormat(PixelFormat format)
 	{
-		bool bSupportDXT = false;//GetDeviceCapabilities()->GetTextureDXTSupported();
-		bool bSupportPVRTC = false;//GetDeviceCapabilities()->GetTexturePVRTCSupported();
-		bool bSupportETC1 = false;//GetDeviceCapabilities()->GetTextureETC1Supported();
-		bool bSupportFloat = false;//GetDeviceCapabilities()->getFloatTexturesSupported();
+		bool bSupportDXT = GetDeviceCapabilities()->GetTextureDXTSupported();
+		bool bSupportPVRTC = GetDeviceCapabilities()->GetTexturePVRTCSupported();
+		bool bSupportETC1 = GetDeviceCapabilities()->GetTextureETC1Supported();
+		bool bSupportFloat = GetDeviceCapabilities()->GetFloatTexturesSupported();
 
 		// Check compressed texture support
 		// if a compressed format not supported, revert to PF_A8R8G8B8
@@ -72,7 +72,7 @@ namespace ma
 		m_nHeight = Math::NextPowerOfTwo(m_nHeight);
 
 		// Adjust format if required
-		m_eFormat = this->getNativeFormat(m_eFormat);
+		m_eFormat = this->GetNativeFormat(m_eFormat);
 
 		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
 		m_DataType = GLESMapping::GetGLESDataType(m_eFormat);
@@ -85,8 +85,16 @@ namespace ma
 
 		// Set texture type
 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
-
-		GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, m_DataType, NULL) );
+		
+		if (PixelUtil::isCompressed(m_eFormat))
+		{
+			UINT size = PixelUtil::getMemorySize(m_nWidth, m_nHeight, 1, m_eFormat);
+			GL_ASSERT( glCompressedTexImage2D(GL_TEXTURE_2D,0,m_PixelFormat,m_nWidth,m_nHeight,0,size,NULL) );
+		}
+		else
+		{
+			GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, m_DataType, NULL) );
+		}
 
 #if GL_APPLE_texture_max_level
 		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
@@ -100,13 +108,37 @@ namespace ma
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_REPEAT) );
 		
 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_REPEAT) );
-	
-	
+		
 		return true;
 	}
+ 
+
+	void getBestDepthStencil(GLuint *depthFormat, GLuint *stencilFormat)
+    {
+#if GL_OES_packed_depth_stencil
+		if(g_bGL_OES_packed_depth_stencil)
+			*depthFormat = GL_DEPTH24_STENCIL8_OES;
+		else
+		{
+			*depthFormat = GL_DEPTH_COMPONENT16;
+		}
+#else
+		*depthFormat = GL_DEPTH_COMPONENT16;
+#endif
+		*stencilFormat = GL_STENCIL_INDEX8;
+    }
 
 	bool GLESTexture::RT_CreateDepthStencil()
 	{
+		GLuint depthFormat, stencilFormat;
+		getBestDepthStencil(&depthFormat,&stencilFormat);
+
+		GL_ASSERT( glGenRenderbuffers(1, &m_pTex) );
+
+		GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, m_pTex) );
+
+		GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, m_nWidth, m_nHeight) );
+
 		return false;
 	}
 

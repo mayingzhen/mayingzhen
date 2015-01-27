@@ -171,11 +171,12 @@ namespace ma
 				hr = m_pVShConstantTable->GetConstantDesc(handle, &constantDesc, &num);
 				ASSERT(hr == D3D_OK);
 
-				Uniform* uniform = this->AddUniform(constantDesc.Name);
-				uniform->m_vshShder = true; 
-				uniform->m_location = constantDesc.RegisterIndex;
-				uniform->m_type = constantDesc.Type;
-				uniform->m_nCount = constantDesc.RegisterCount;
+				Uniform* pUniform = this->AddUniform(constantDesc.Name);
+				pUniform->m_vshShder = true; 
+				pUniform->m_location = constantDesc.RegisterIndex;
+				pUniform->m_index = constantDesc.RegisterIndex;
+				pUniform->m_type = constantDesc.Type;
+				pUniform->m_nCount = constantDesc.RegisterCount;
 			}
 		}
 
@@ -198,6 +199,7 @@ namespace ma
 				Uniform* pUniform = this->AddUniform(constantDesc.Name);
 				pUniform->m_vshShder = false;
 				pUniform->m_location = constantDesc.RegisterIndex;
+				pUniform->m_index = constantDesc.RegisterIndex;
 				pUniform->m_type = constantDesc.Type;
 				pUniform->m_nCount = constantDesc.RegisterCount;
 			}

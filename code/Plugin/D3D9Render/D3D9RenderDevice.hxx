@@ -223,7 +223,7 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetRenderTarget(index, target);
-		ASSERT(hr == D3D_OK, "set render target failed.");
+		ASSERTMSG(hr == D3D_OK, "set render target failed.");
 	}
 
 	Texture* D3D9RenderDevice::GetRenderTarget(int index)
@@ -250,7 +250,7 @@ namespace ma
 
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetDepthStencilSurface(target);
-		ASSERT(hr == D3D_OK, "set render target failed.");
+		ASSERTMSG(hr == D3D_OK, "set render target failed.");
 	}
 
 	Texture* D3D9RenderDevice::GetDepthStencil()
@@ -604,11 +604,6 @@ namespace ma
 		SetValue(uniform,(const float*)&value,1);
 	}
 
-	void D3D9RenderDevice::SetValue(Uniform* uniform, const Matrix4& value)
-	{
-		SetValue(uniform,(const float*)&value,4);
-	}
-
 	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector2& value)
 	{
 		SetValue(uniform,(const float*)&value,1);
@@ -619,90 +614,20 @@ namespace ma
 		SetValue(uniform,(const float*)&value,1);
 	}
 
-	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector4& value)
-	{
-		SetValue(uniform,(const float*)&value,1);
-	}
-
 	void D3D9RenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values,count);
+	}
+
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
+	{
+		SetValue(uniform,(const float*)values,count * 4);
 	}
 
 	void D3D9RenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
 	{
 		SetValue(uniform,(const float*)&value,1);
 	}
-
-// 	void D3D9RenderDevice::SetRenderState(const RenderState& state)
-// 	{
-// 		//GetD3D9DxDevive()->SetRenderState(D3DRS_FILLMODE, state.fillMode);
-// 
-// 		//mD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, state.colorWrite);
-// 
-// 		if (m_curState.m_bDepthWrite != state.m_bDepthWrite)
-// 		{
-// 			m_curState.m_bDepthWrite = state.m_bDepthWrite;
-// 			m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE,state.m_bDepthWrite);
-// 			
-// 		}
-// 
-// 		if (m_curState.m_bColorWrite != state.m_bColorWrite)
-// 		{
-// 			m_curState.m_bColorWrite = state.m_bColorWrite;
-// 			m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE,state.m_bColorWrite);
-// 		}
-// 
-// 		if ( abs(m_curState.m_fDepthBias - state.m_fDepthBias) > 0.0001f )
-// 		{
-// 			m_curState.m_fDepthBias = state.m_fDepthBias;
-// 			m_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS,*(DWORD*)&m_curState.m_fDepthBias);
-// 		}
-// 		
-// 		if (m_curState.m_eDepthCheckMode != state.m_eDepthCheckMode)
-// 		{
-// 			m_curState.m_eDepthCheckMode = state.m_eDepthCheckMode;
-// 			switch (state.m_eDepthCheckMode)
-// 			{
-// 			case DCM_NONE:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-// 				break;
-// 
-// 			case DCM_LESS_EQUAL:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-// 				break;
-// 
-// 			case DCM_LESS:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
-// 				break;
-// 
-// 			case DCM_GREATER_EQUAL:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
-// 				break;
-// 
-// 			case DCM_GREATER:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
-// 				break;
-// 
-// 			case DCM_EQUAL:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
-// 				break;
-// 
-// 			case DCM_ALWAYS:
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-// 				m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-// 				break;
-// 			}
-// 		}
-// 
-// 
-// 
-// 	}
 
 	void D3D9RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
 	{
@@ -996,18 +921,18 @@ namespace ma
 				D3DDEVTYPE_HAL, bbSurfDesc.Format, 
 				0, D3DRTYPE_TEXTURE, floatFormats[i])))
 			{
-				GetDeviceCapabilities()->setFloatTexturesSupported(true);
+				GetDeviceCapabilities()->SetFloatTexturesSupported(true);
 				break;
 			}
 		}
 
 		if ((m_d3dcaps.PrimitiveMiscCaps & D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS) != 0)
 		{
-			GetDeviceCapabilities()->setMRTIndependentBitDepths(true);
+			GetDeviceCapabilities()->SetMRTIndependentBitDepths(true);
 		}
 		else
 		{
-			GetDeviceCapabilities()->setMRTIndependentBitDepths(false);
+			GetDeviceCapabilities()->SetMRTIndependentBitDepths(false);
 		}
 
 		// vs version && ps version

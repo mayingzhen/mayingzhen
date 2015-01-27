@@ -5,17 +5,21 @@ namespace ma
 {
 	ShadowMapFrustum::ShadowMapFrustum()
 	{
-		m_fConstantBias = 0;
-		m_fSlopeScaleBias = 0;
+		m_fConstantBias[0] = 0;
+		m_fSlopeScaleBias[0] = 0;
+		m_fConstantBias[1] = 0;
+		m_fSlopeScaleBias[1] = 0;
 
-		m_bDraw = true;
+		m_bDraw[0] = true;
+		m_bDraw[1] = true;
 
 		m_viewport = Rectangle::ZERO;
 
 		m_matLightView = Matrix4::IDENTITY;
 		m_matLightProj = Matrix4::IDENTITY;
 		m_matCrop = Matrix4::IDENTITY;
-		m_matVPShadow  = Matrix4::IDENTITY;
+		m_matVPShadow[0]  = Matrix4::IDENTITY;
+		m_matVPShadow[1]  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
 	}
 
@@ -101,7 +105,7 @@ namespace ma
 		
 			for (UINT i = 0; i < pRenderComp->GetRenderableCount(); ++i)
 			{
-				m_arrRenderable.push_back(pRenderComp->GetRenderableByIndex(i));
+				m_arrRenderable[GetRenderSystem()->CurThreadFill()].push_back(pRenderComp->GetRenderableByIndex(i));
 			}
 		}
 	}
@@ -163,11 +167,11 @@ namespace ma
 
 			if (m_arrCaster.empty())
 			{
-				m_bDraw = false;
+				m_bDraw[GetRenderSystem()->CurThreadFill()] = false;
 			}
 			else
 			{
-				m_bDraw = true;	
+				m_bDraw[GetRenderSystem()->CurThreadFill()] = true;	
 
 				aabbInLightView = m_casterAABB;
 				aabbInLightView.transform(matLightView);
@@ -191,11 +195,11 @@ namespace ma
 			frustumVolume.clip(m_sceneAABB);
 			if (frustumVolume.getPolygonCount() <= 0)
 			{
-				m_bDraw = false;
+				m_bDraw[GetRenderSystem()->CurThreadFill()] = false;
 			}
 			else
 			{		
-				m_bDraw = true;
+				m_bDraw[GetRenderSystem()->CurThreadFill()] = true;
 
 				frustumVolume.transformed(matLightView);
 				aabbInLightView = frustumVolume.getAABB();
@@ -287,13 +291,15 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
-		GetRenderShadowCSM()->GetDepthBiasParams(m_fConstantBias,m_fSlopeScaleBias);
+		float fConstantBias = 0;
+		float fSlopeScaleBias = 0;
+		GetRenderShadowCSM()->GetDepthBiasParams(fConstantBias,fSlopeScaleBias);
 
 		float vCurSplitx = GetRenderShadowCSM()->GetCurSplitPos().x;
 		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
 
-		m_fConstantBias *= multiplier;
-		m_fSlopeScaleBias *= multiplier;
+		m_fConstantBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
+		m_fSlopeScaleBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
 	}
 
 	void ShadowMapFrustum::Update(Camera* pCamera,float fSpiltNear,float fSpiltFar)
@@ -310,7 +316,7 @@ namespace ma
 
 		UpdateCropMats();
 
-		m_matVPShadow = m_matCrop * m_matLightProj * m_matLightView;
+		m_matVPShadow[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
 	}
 
 	void ShadowMapFrustum::Render(Camera* pCamera)
@@ -322,12 +328,12 @@ namespace ma
 
 		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
 		{
-			GetRenderSystem()->SetDepthBias(m_fConstantBias);
+			GetRenderSystem()->SetDepthBias(m_fConstantBias[GetRenderSystem()->CurThreadProcess()]);
 		}
 
-		for (UINT i = 0; i <  m_arrRenderable.size(); ++i)
+		for (UINT i = 0; i <  m_arrRenderable[GetRenderSystem()->CurThreadProcess()].size(); ++i)
 		{
-			Renderable* pRenderObj = m_arrRenderable[i];
+			Renderable* pRenderObj = m_arrRenderable[GetRenderSystem()->CurThreadProcess()][i];
 			if (pRenderObj == NULL)
 				continue;
 			 
@@ -335,16 +341,22 @@ namespace ma
 		
 			 Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
 
+	 
+			 //pRenderObj->Render(pTech);
+			 GetRenderContext()->SetCurRenderObj(pRenderObj);
+
+			 pTech->Bind();
+
 			 Uniform* pUniform = pTech->GetShaderProgram()->GetUniform("matLightViewProj");
-			 GetRenderSystem()->SetValue(pUniform,m_matVPShadow);
-			 
-			 pRenderObj->Render(pTech);
+			 GetRenderSystem()->SetValue(pUniform,m_matVPShadow[GetRenderSystem()->CurThreadProcess()]);
+
+			 GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
 		}
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)
 	{
-		m_arrRenderable.clear();
+		m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
 		m_casterAABB.setNull();
 		m_arrCaster.clear();	
 		m_sceneAABB.setNull();

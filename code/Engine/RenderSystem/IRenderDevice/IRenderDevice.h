@@ -49,11 +49,10 @@ namespace ma
 		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter) = 0;
 
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
-		virtual void				SetValue(Uniform* uniform, const Matrix4& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;
-		virtual void				SetValue(Uniform* uniform, const Vector4& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count) = 0;
+		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count) = 0;
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value) = 0;
 		
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec) = 0;

@@ -48,7 +48,7 @@ namespace ma
 
 	void SamplerState::SetTexturePath(const char* pTexPath)
 	{
-		m_pTexture = LoadResource<Texture>(pTexPath);
+		m_pTexture = CreateTexture(pTexPath,m_eFilter > TFO_BILINEAR);
 	}
 
 	void SamplerState::SetTexture(Texture* pTextute)

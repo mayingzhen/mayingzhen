@@ -181,20 +181,20 @@ namespace ma
 				if (j == 0)
 				{
 					pIndexData[baseIndex]     = indexList[i];
-					pIndexData[baseIndex + 1] = indexList[i+1];
-					pIndexData[baseIndex + 2] = indexList[nCellAmountConnect+1 + i*nStep];
+					pIndexData[baseIndex + 1] = indexList[nCellAmountConnect+1 + i*nStep];
+					pIndexData[baseIndex + 2] = indexList[i+1];
 
 					pIndexData[baseIndex + 3] = indexList[nCellAmountConnect+1 + i*nStep];
-					pIndexData[baseIndex + 4] = indexList[i+1];
-					pIndexData[baseIndex + 5] = indexList[nCellAmountConnect+1 + i*nStep+1];
+					pIndexData[baseIndex + 4] = indexList[nCellAmountConnect+1 + i*nStep+1];
+					pIndexData[baseIndex + 5] = indexList[i+1];
 
 					baseIndex += 6;
 				}
 				else
 				{
 					pIndexData[baseIndex] = indexList[nCellAmountConnect+1 + i*nStep + j];
-					pIndexData[baseIndex + 1] = indexList[i+1];
-					pIndexData[baseIndex + 2] = indexList[nCellAmountConnect+1 + i*nStep + j + 1];
+					pIndexData[baseIndex + 1] = indexList[nCellAmountConnect+1 + i*nStep + j + 1];
+					pIndexData[baseIndex + 2] = indexList[i+1];
 					baseIndex += 3;
 				}
 			}
@@ -271,12 +271,12 @@ namespace ma
 			for(UINT j = 0;j< nYCellsAmount;j++)
 			{
 				pIndexData[baseIndex]     = i   * (nYCellsAmount+1) + j;
-				pIndexData[baseIndex + 1] =  (i+1)   * (nYCellsAmount+1) + j;
-				pIndexData[baseIndex + 2] = (i) * (nYCellsAmount+1) + j+1;
+				pIndexData[baseIndex + 1] = (i) * (nYCellsAmount+1) + j+1;
+				pIndexData[baseIndex + 2] =  (i+1)   * (nYCellsAmount+1) + j;
 
 				pIndexData[baseIndex + 3] = (i+1) * (nYCellsAmount+1) + j;
-				pIndexData[baseIndex + 4] = (i+1)   * (nYCellsAmount+1) + j + 1;
-				pIndexData[baseIndex + 5] = (i) * (nYCellsAmount+1) + j + 1;
+				pIndexData[baseIndex + 4] = (i) * (nYCellsAmount+1) + j + 1;
+				pIndexData[baseIndex + 5] = (i+1)   * (nYCellsAmount+1) + j + 1;
 
 				// next quad
 				baseIndex += 6;

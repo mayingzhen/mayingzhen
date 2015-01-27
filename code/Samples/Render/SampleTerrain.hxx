@@ -16,7 +16,7 @@ namespace ma
 
 		//GetResourceSystem()->SetDataThreadEnable(true);
 
-		if (0)
+		if (1)
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain();
 
@@ -29,7 +29,7 @@ namespace ma
 				SubMaterialData& subMatData = testMaterial.AddSubMatData();
 				subMatData.SetShaderName("terrain");
 				subMatData.SetShderMacro("LAYER 2");
-				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
+				//subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 				subMatData.AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/chess.dds") ) );
 				subMatData.AddParameter("tDetailMap1", Any( CreateTexture("scene/terrain/diban_zhuanshi.dds") )  );
@@ -42,8 +42,7 @@ namespace ma
 				SubMaterialData& subMatData = testMaterial.AddSubMatData();
 				subMatData.SetShaderName("terrain");
 				subMatData.SetShderMacro("LAYER 1");
-
-				subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
+				//subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
 				subMatData.AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
 				subMatData.AddParameter("uDetailScale",Any(Vector2(0.01f, 0.01f)));
