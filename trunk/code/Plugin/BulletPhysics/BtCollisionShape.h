@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class BULLETPHYSICS_API CollisionShape : public Component
+	class CollisionShape : public Component
 	{
 		DECL_OBJECT(CollisionShape);
 		
@@ -33,7 +33,7 @@ namespace ma
 		btCollisionShape*	m_pBtShape; 
 	};
 
-	class BULLETPHYSICS_API BoxCollisionShape : public CollisionShape
+	class BoxCollisionShape : public CollisionShape
 	{	
 		DECL_OBJECT(BoxCollisionShape);
 
@@ -56,7 +56,7 @@ namespace ma
 	};
 
 	
-	class BULLETPHYSICS_API SphereCollisionShape : public CollisionShape
+	class SphereCollisionShape : public CollisionShape
 	{
 		DECL_OBJECT(SphereCollisionShape);
 
@@ -78,7 +78,7 @@ namespace ma
 		float					m_fRadius;
 	};
 
-	class BULLETPHYSICS_API CapsuleCollisionShape : public CollisionShape
+	class CapsuleCollisionShape : public CollisionShape
 	{
 		DECL_OBJECT(CapsuleCollisionShape);
 
@@ -104,7 +104,7 @@ namespace ma
 		float					m_fRadius;
 	};	
 
-	class BULLETPHYSICS_API CollisionMaterial : public Component
+	class CollisionMaterial : public Component
 	{
 		DECL_OBJECT(CollisionMaterial)
 
@@ -149,7 +149,7 @@ namespace ma
 		}
 	};
 
-	class  CollisionListener
+	class CollisionListener
 	{
 	public:
 		enum EventType

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class COMMON_API MatViewProj
+	class MatViewProj
 	{
 
 	public:

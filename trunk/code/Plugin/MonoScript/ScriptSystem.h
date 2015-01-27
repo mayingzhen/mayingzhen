@@ -7,7 +7,7 @@
 namespace ma
 {
 
-	class MonoScriptAPI ScriptSystem
+	class ScriptSystem
 	{
 	public:
 
@@ -43,9 +43,9 @@ namespace ma
 		
 	};
 
-	MonoScriptAPI ScriptSystem*	GetScriptSystem();
+	ScriptSystem*	GetScriptSystem();
 
-	MonoScriptAPI void	SetScriptSystem(ScriptSystem* pScriptSystem);
+	void	SetScriptSystem(ScriptSystem* pScriptSystem);
 
 }
 

@@ -14,7 +14,7 @@ namespace ma
 		CF_Below,
 	};
 
-	class BULLETPHYSICS_API CharacterController : public Component , public btActionInterface
+	class CharacterController : public Component , public btActionInterface
 	{
 		DECL_OBJECT(CharacterController)
 

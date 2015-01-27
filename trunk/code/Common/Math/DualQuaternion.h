@@ -44,7 +44,7 @@ namespace ma {
 	    This implementation may note be appropriate as a general implementation, but is intended for use with
 	    dual quaternion skinning.
 	*/
-	class COMMON_API DualQuaternion
+	class DualQuaternion
 	{
 	public:
 		/// Default constructor, initializes to identity rotation (aka 0?, and zero translation (0,0,0)
@@ -169,7 +169,7 @@ namespace ma {
 		Function for writing to a stream. Outputs "DualQuaternion(w, x, y, z, dw, dx, dy, dz)" with w, x, y, z, dw, dx, dy, dz
 		being the member values of the dual quaternion.
 		*/
-		inline COMMON_API friend std::ostream& operator <<
+		inline friend std::ostream& operator <<
 		( std::ostream& o, const DualQuaternion& q )
 		{
 			o << "DualQuaternion(" << q.w << ", " << q.x << ", " << q.y << ", " << q.z << ", " << q.dw << ", " << q.dx << ", " << q.dy << ", " << q.dz << ")";

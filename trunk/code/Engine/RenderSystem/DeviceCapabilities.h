@@ -62,7 +62,7 @@ enum GPUVendor
 	GPU_VENDOR_COUNT = 13
 };
 
-class ENGINE_API DeviceCapabilitie
+class DeviceCapabilitie
 {
 public:
 	DeviceCapabilitie(void);
@@ -139,7 +139,7 @@ private:
 	bool m_bDepthTexture;
 };
 
-ENGINE_API void SetDeviceCapabilities(DeviceCapabilitie* pDevicCap);
-ENGINE_API DeviceCapabilitie* GetDeviceCapabilities();
+ void SetDeviceCapabilities(DeviceCapabilitie* pDevicCap);
+ DeviceCapabilitie* GetDeviceCapabilities();
 
 }

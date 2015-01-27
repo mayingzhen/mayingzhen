@@ -15,7 +15,7 @@ namespace ma
 		RL_Count,
 	};
 
-	class  RenderQueue
+	class RenderQueue
 	{
 	public:
 		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	

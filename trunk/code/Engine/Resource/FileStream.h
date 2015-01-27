@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ENGINE_API FileStream : public Stream
+	class FileStream : public Stream
 	{
 	public:
 		FileStream(std::ifstream* s, bool freeOnClose = true);

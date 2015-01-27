@@ -10,7 +10,7 @@ namespace ma
 
 	typedef UINT ActionID;
 
-	class ANIMATION_API AnimationComponent : public Component
+	class AnimationComponent : public Component
 	{
 		DECL_OBJECT(AnimationComponent)
 

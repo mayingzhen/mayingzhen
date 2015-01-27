@@ -1,0 +1,6 @@
+EXPORTS
+
+?GetScriptSystem@ma@@YAPAVScriptSystem@1@XZ
+?MonoScriptModuleInit@@YAXXZ
+?MonoScriptModuleShutdown@@YAXXZ
+?StaticGetClass@ScriptObject@ma@@SAPBVRTTIClass@2@XZ

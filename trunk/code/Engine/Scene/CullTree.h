@@ -7,7 +7,7 @@ namespace ma
 	class Frustum;
 	class Camera;
 
-	class ENGINE_API CullTreeQuery
+	class CullTreeQuery
 	{
 	public:
 		virtual Frustum::Visibility TestCullNode(CullNode* pCullNode) = 0;
@@ -15,7 +15,7 @@ namespace ma
 		virtual void VisitCullNode(CullNode* pCullNode,Frustum::Visibility eNodeVisib) = 0;
 	};
 
-	class ENGINE_API CullTree : public Referenced
+	class CullTree : public Referenced
 	{
 	public:
 		// resize the culltree to the given size

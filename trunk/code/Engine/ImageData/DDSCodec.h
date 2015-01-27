@@ -22,7 +22,7 @@ namespace ma
 		We implement our own codec here since we need to be able to keep DXT
 		data compressed if the card supports it.
     */
-    class ENGINE_API CDDSCodec : public CImageCodec
+    class CDDSCodec : public CImageCodec
     {
     private:
     	void flipEndian(void * pData, uint32 size, uint32 count) const;

@@ -4,7 +4,7 @@
 namespace ma
 {
 
-class ENGINE_API CETC1Codec : public CImageCodec
+class CETC1Codec : public CImageCodec
 {
 public:
 	CETC1Codec(void);

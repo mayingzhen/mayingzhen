@@ -16,7 +16,7 @@ namespace ma
 	typedef std::map<std::string, Any> VariantMap;
 	
 	/// Base class for objects with automatic serialization through attributes.
-	class ENGINE_API Serializable : public Resource
+	class Serializable : public Resource
 	{
 		//OBJECT(Serializable);
 

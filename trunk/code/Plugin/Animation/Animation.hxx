@@ -62,7 +62,7 @@ namespace ma
 		m_arrRotTrack.push_back(rot);
 		m_arrPosTrack.push_back(pos);
 
-		int nFrame = pos.GetFrameNumber();
+		UINT nFrame = pos.GetFrameNumber();
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 

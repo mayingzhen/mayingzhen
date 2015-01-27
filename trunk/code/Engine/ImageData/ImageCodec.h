@@ -14,7 +14,7 @@ enum ImageFlags
 
 /** Codec return class for images. Has information about the size and the
             pixel format of the image. */
-class  ImageData
+class ImageData
 {
 public:
 	ImageData():
@@ -89,7 +89,7 @@ public:
 	}
 };
 
-class ENGINE_API CImageCodec
+class CImageCodec
 {
 public:
 	CImageCodec(void);

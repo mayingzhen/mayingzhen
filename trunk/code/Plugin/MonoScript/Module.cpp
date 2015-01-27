@@ -32,7 +32,7 @@ void MonoScriptModuleShutdown()
 }
 
 #if PLATFORM_WIN == 1
-extern "C" MonoScriptAPI bool dllStartPlugin()
+extern "C" bool dllStartPlugin()
 {
 	MonoScriptModuleInit();
 
@@ -40,7 +40,7 @@ extern "C" MonoScriptAPI bool dllStartPlugin()
 }
 
 
-extern "C" MonoScriptAPI bool dllStopPlugin()
+extern "C" bool dllStopPlugin()
 {
 	MonoScriptModuleShutdown();
 

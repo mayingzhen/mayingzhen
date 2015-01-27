@@ -54,7 +54,7 @@ namespace ma {
         generate an extra quaternion in between each actual quaternion which when take with 
         the original quaternion forms the 'tangent' of that quaternion.
     */
-	class COMMON_API RotationalSpline
+	class RotationalSpline
     {
     public:
         RotationalSpline();

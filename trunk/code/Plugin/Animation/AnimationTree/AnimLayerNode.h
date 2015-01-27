@@ -6,7 +6,7 @@ namespace ma
 {
 	struct AnimEvalContext;
 
-	class ANIMATION_API AnimLayerNode : public AnimTreeNode
+	class AnimLayerNode : public AnimTreeNode
 	{
 		DECL_OBJECT(AnimLayerNode)
 
@@ -32,7 +32,7 @@ namespace ma
 		VEC_ANIMNODE m_arrAnimNode;
 	};
 
-	ANIMATION_API RefPtr<AnimLayerNode> CreateLayerNode();
+	RefPtr<AnimLayerNode> CreateLayerNode();
 }
 
 

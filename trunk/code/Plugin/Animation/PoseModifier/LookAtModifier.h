@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ANIMATION_API LookAtModifier : public PoseModifier
+	class LookAtModifier : public PoseModifier
 	{
 		DECL_OBJECT(LookAtModifier)
 

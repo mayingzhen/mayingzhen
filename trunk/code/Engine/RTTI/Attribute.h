@@ -30,7 +30,7 @@ namespace ma
 	class Serializable;
 
 	/// Internal helper class for invoking attribute accessors.
-	class ENGINE_API AttributeAccessor : public Referenced
+	class AttributeAccessor : public Referenced
 	{
 	public:
 		/// Get the attribute.

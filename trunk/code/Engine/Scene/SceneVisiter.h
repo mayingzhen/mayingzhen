@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class ENGINE_API SceneVisiter
+	class SceneVisiter
 	{
 	public:
 		virtual bool VisiteSceneNode(SceneNode* pGameObj)

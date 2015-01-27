@@ -24,7 +24,7 @@ namespace ma
 	class Serializer;
 	class MemoryStream;
 
-	class ENGINE_API Resource : public Object
+	class Resource : public Object
 	{
 		DECL_OBJECT(Resource)
 

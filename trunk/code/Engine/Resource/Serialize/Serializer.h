@@ -7,7 +7,7 @@ namespace ma
 	class Serializer;
 
 
-	class ENGINE_API Serializer 
+	class Serializer 
 	{
 	public:
 

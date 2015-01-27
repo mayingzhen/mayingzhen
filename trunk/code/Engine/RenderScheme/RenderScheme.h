@@ -12,7 +12,7 @@ namespace ma
 	class DeferredShadowPass;
 	class Scene;
 
-	class RENDER_API  RenderScheme : public Referenced
+	class  RenderScheme : public Referenced
 	{
 	public:
 

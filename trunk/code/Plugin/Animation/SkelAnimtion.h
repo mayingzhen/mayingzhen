@@ -6,7 +6,7 @@ namespace ma
 	class IAnimTreeNode;
 	class PoseModifier;
 
-	class ANIMATION_API SkelAnimtion : public Object
+	class SkelAnimtion : public Object
 	{
 	public:
 		SkelAnimtion();

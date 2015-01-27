@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class ENGINE_API Stream : public Referenced
+	class Stream : public Referenced
 	{
 	public:
 		enum AccessMode

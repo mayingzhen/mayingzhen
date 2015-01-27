@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class RENDER_API SamplerState : public Referenced 
+	class SamplerState : public Referenced 
     {
     public:
 		SamplerState();

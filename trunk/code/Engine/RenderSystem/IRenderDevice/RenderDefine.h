@@ -150,7 +150,7 @@ namespace ma
 
 	#define DECL_UNUSED             255
 
-	struct RENDER_API VertexElement
+	struct  VertexElement
 	{
 		short           Stream;
 		short           Offset;

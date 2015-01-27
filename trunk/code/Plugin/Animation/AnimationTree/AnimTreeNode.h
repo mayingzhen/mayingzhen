@@ -14,7 +14,7 @@ namespace ma
 	};
 
 
-	class ANIMATION_API AnimTreeNode : public Serializable
+	class AnimTreeNode : public Serializable
 	{
 	public:
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;

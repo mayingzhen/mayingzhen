@@ -6,7 +6,7 @@ class btRigidBody;
 
 namespace ma
 {
-	class BULLETPHYSICS_API RigidBody : public Component
+	class RigidBody : public Component
 	{
 		DECL_OBJECT(RigidBody)
 

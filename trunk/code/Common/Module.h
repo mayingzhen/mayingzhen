@@ -1,7 +1,6 @@
 #ifndef	COMMON_MODULE__H__
 #define  COMMON_MODULE__H__
 
-#include "Common/Export.h"
 
 #include "Common/Warningfix.h"
 

@@ -25,7 +25,7 @@ namespace ma
 	};
 
 
-	class ANIMATION_API AnimationClip : public Referenced
+	class AnimationClip : public Referenced
 	{
 	public:
 		AnimationClip();

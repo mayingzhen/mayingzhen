@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	struct RENDER_API RenderProfile
+	struct  RenderProfile
 	{
 		RenderProfile(const char * str)
 		{

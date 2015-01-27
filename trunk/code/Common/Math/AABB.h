@@ -51,7 +51,7 @@ namespace ma {
 	for an axis-aligned bounding box (AABB) for collision and
 	visibility determination.
 	*/
-	class COMMON_API AABB
+	class AABB
 	{
 	public:
 		enum Extent
@@ -352,7 +352,7 @@ namespace ma {
 			}
 		}
 
-		COMMON_API friend std::ostream& operator<<( std::ostream& o, const AABB aab )
+		friend std::ostream& operator<<( std::ostream& o, const AABB aab )
 		{
 			switch (aab.mExtent)
 			{

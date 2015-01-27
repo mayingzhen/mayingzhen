@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class ENGINE_API Thread
+	class Thread
 	{	
 	public:
 		Thread();

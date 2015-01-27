@@ -122,7 +122,7 @@ class Properties;
  * of a property. If the type is unknown, its string can be retrieved and interpreted
  * as necessary.
  */
-class ENGINE_API Properties
+class Properties
 {
     friend class Game;
 

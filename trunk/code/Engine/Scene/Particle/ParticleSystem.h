@@ -8,7 +8,7 @@ namespace ma
 	class ParticleThread;
 	class ParticleBatch;
 
-	class RENDER_API ParticleSystem
+	class ParticleSystem
 	{
 
 	public:
@@ -37,9 +37,9 @@ namespace ma
 
 	};
 
-	RENDER_API ParticleSystem*	GetParticleSystem();
+	 ParticleSystem*	GetParticleSystem();
 
-	RENDER_API void				SetParticleSystem(ParticleSystem* pParticleMang);	
+	 void				SetParticleSystem(ParticleSystem* pParticleMang);	
 }
 
 #endif // _ParticleSystem_H_

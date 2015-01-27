@@ -9,7 +9,7 @@ namespace ma
 	class Renderable;
 
 
-	class ENGINE_API RenderComponent : public Component
+	class RenderComponent : public Component
 	{
 		DECL_OBJECT(RenderComponent)
 

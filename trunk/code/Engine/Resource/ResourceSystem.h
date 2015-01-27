@@ -8,7 +8,7 @@ namespace ma
 
 	typedef Resource* (*ResourceCreator)();
 
-	class ENGINE_API ResourceSystem
+	class ResourceSystem
 	{
 	public:
 		ResourceSystem();
@@ -46,9 +46,9 @@ namespace ma
 		DataThread*			m_pDataThread;
 	};
 
-	ENGINE_API ResourceSystem*	GetResourceSystem();
+	 ResourceSystem*	GetResourceSystem();
 
-	ENGINE_API	void			SetResourceSystem(ResourceSystem* pResSystem);
+		void			SetResourceSystem(ResourceSystem* pResSystem);
 
 	template <class T>
 	T*	DeclareResource(const char* pszRelPath)

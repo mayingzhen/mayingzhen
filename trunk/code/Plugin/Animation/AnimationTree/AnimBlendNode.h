@@ -6,7 +6,7 @@ namespace ma
 {
 	struct AnimEvalContext;
 
-	class ANIMATION_API AnimBlendNode : public AnimTreeNode
+	class AnimBlendNode : public AnimTreeNode
 	{
 		DECL_OBJECT(AnimBlendNode)
 

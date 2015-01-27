@@ -49,7 +49,7 @@ namespace ma
 			planar. Several operations may be applied, ranging from intersection
 			to join where each result it itself a convex body.
 	*/
-	class COMMON_API ConvexBody
+	class ConvexBody
 	{
 	public:
 		typedef vector< Polygon* >	PolygonList;
@@ -152,7 +152,7 @@ namespace ma
 
 		/** Prints out the body with all its polygons.
 		*/
-		COMMON_API friend std::ostream& operator<< ( std::ostream& strm, const ConvexBody& body );
+		friend std::ostream& operator<< ( std::ostream& strm, const ConvexBody& body );
 
 		/** Log details of this body */
 		void logInfo() const;

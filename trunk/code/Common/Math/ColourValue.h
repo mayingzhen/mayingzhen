@@ -59,7 +59,7 @@ namespace ma {
 		    transparency. In this case, 0.0 is completely transparent and 1.0 is
 		    fully opaque.
     */
-    class COMMON_API ColourValue
+    class ColourValue
     {
     public:
         static const ColourValue ZERO;
@@ -323,7 +323,7 @@ namespace ma {
 
 		/** Function for writing to a stream.
 		*/
-		inline COMMON_API friend std::ostream& operator <<
+		inline friend std::ostream& operator <<
 			( std::ostream& o, const ColourValue& c )
 		{
 			o << "ColourValue(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";

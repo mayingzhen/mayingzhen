@@ -8,7 +8,7 @@ namespace ma
 /**
  * Defines a rectangle.
  */
-class COMMON_API Rectangle
+class Rectangle
 {
 public:
 

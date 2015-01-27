@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ENGINE_API ArchiveManager
+	class ArchiveManager
 	{
 	public:
 		ArchiveManager();
@@ -38,9 +38,9 @@ namespace ma
 		std::string		m_saveDir;
 	};
 
-	ENGINE_API void SetArchiveManager(ArchiveManager* pArchiveManager);
+	 void SetArchiveManager(ArchiveManager* pArchiveManager);
 
-	ENGINE_API ArchiveManager* GetArchiveMananger();
+	 ArchiveManager* GetArchiveMananger();
 
 }
 

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class RENDER_API IndexBuffer : public HardwareBuffer
+	class IndexBuffer : public HardwareBuffer
 	{
 	public:
 		IndexBuffer()

@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class COMMON_API ILogListener
+	class ILogListener
 	{
 	public:
 
@@ -13,15 +13,15 @@ namespace ma
 
 	};
 
-	COMMON_API void SetLogListener(ILogListener* pLog);
+	void SetLogListener(ILogListener* pLog);
 
-	COMMON_API void LogInfo(const char* pszFormat, ...);
+	void LogInfo(const char* pszFormat, ...);
 
-	COMMON_API void LogError(const char* pszFormat, ...);
+	void LogError(const char* pszFormat, ...);
 	
-	COMMON_API void LogWarning(const char* pszFormat, ...);
+	void LogWarning(const char* pszFormat, ...);
 
-	COMMON_API void DebugMsg(const char* pszFormat, ...);
+	void DebugMsg(const char* pszFormat, ...);
 }
 
 

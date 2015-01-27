@@ -73,7 +73,7 @@ void AnimationModuleShutdown()
 
 
 #if PLATFORM_WIN == 1
-extern "C" ANIMATION_API bool dllStartPlugin()
+extern "C" bool dllStartPlugin()
 {
 	AnimationModuleInit();
 
@@ -81,7 +81,7 @@ extern "C" ANIMATION_API bool dllStartPlugin()
 }
 
 
-extern "C" ANIMATION_API bool dllStopPlugin()
+extern "C" bool dllStopPlugin()
 {
 	AnimationModuleShutdown();
 

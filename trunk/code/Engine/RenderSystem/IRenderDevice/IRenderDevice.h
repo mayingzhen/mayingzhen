@@ -27,7 +27,7 @@ namespace ma
 		RenderDevice_GLES2
 	};
 
-	class RENDER_API IRenderDevice 
+	class IRenderDevice 
 	{
 	private:
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0) = 0;
@@ -96,9 +96,9 @@ namespace ma
 		friend class RenderThread;
 	};
 
-	RENDER_API void SetRenderDevice(IRenderDevice* pRenderDevice);
+	 void SetRenderDevice(IRenderDevice* pRenderDevice);
 
-	RENDER_API IRenderDevice* GetRenderDevice();
+	 IRenderDevice* GetRenderDevice();
 }
 
 

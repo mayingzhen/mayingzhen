@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class COMMON_API StringUtil
+	class StringUtil
     {
 	public:
 		//typedef StringStream StrStreamType;

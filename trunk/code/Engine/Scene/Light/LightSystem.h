@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class RENDER_API LightSystem
+	class LightSystem
 	{
 	public:
 		LightSystem();
@@ -30,9 +30,9 @@ namespace ma
 	};
 
 
-	RENDER_API	LightSystem*		GetLightSystem();
+		LightSystem*		GetLightSystem();
 
-	RENDER_API	void				SetLightSystem(LightSystem* pLightSystem);
+		void				SetLightSystem(LightSystem* pLightSystem);
 	
 }
 

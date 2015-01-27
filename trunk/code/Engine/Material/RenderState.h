@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	struct RENDER_API RenderState 
+	struct  RenderState 
 	{
 		bool				m_bDepthWrite;
 		bool				m_bColorWrite;

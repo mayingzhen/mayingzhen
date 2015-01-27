@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ENGINE_API AttributeManager 
+	class AttributeManager 
 	{
 		friend class Object;
 
@@ -55,8 +55,8 @@ namespace ma
 		map<std::string, vector<AttributeInfo> > attributes_;
 	};
 
-	ENGINE_API AttributeManager* GetAttributeManager();
-	ENGINE_API void SetAttributeManager(AttributeManager* pContex);
+	 AttributeManager* GetAttributeManager();
+	 void SetAttributeManager(AttributeManager* pContex);
 
 	template <class T> void AttributeManager::RegisterAttribute(const AttributeInfo& attr) { RegisterAttribute(T::StaticGetClass()->GetName(), attr); }
 	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClass()->GetName(), name); }

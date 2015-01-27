@@ -10,7 +10,7 @@ namespace ma
 
 
 
-	class RENDER_API ParticleEmitter : public RenderComponent
+	class ParticleEmitter : public RenderComponent
 	{
 		DECL_OBJECT(ParticleEmitter)
 

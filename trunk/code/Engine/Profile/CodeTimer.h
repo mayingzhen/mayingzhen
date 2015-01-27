@@ -31,7 +31,7 @@
 
 namespace ma
 {
-	class ENGINE_API CodeTimer
+	class CodeTimer
 	{
 		friend class CodeTimerManager;
 
@@ -66,7 +66,7 @@ namespace ma
 		CodeTimer *     mNext;
 	};
 
-	class ENGINE_API FuncTimer
+	class FuncTimer
 	{
 	public:
 		FuncTimer(CodeTimer * timer);
@@ -76,7 +76,7 @@ namespace ma
 		CodeTimer * mCodeTime;
 	};
 
-	class ENGINE_API CodeTimerManager 
+	class CodeTimerManager 
 	{
 	public:
 		CodeTimerManager();

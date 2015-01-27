@@ -43,7 +43,7 @@ namespace ma {
 		We implement our own codec here since we need to be able to keep PVRTC
 		data compressed if the card supports it.
     */
-    class ENGINE_API CPVRTCCodec : public CImageCodec
+    class CPVRTCCodec : public CImageCodec
     {
     protected:
         string mType;

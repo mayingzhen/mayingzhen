@@ -5,7 +5,7 @@ namespace ma
 {
 	class Scene;
 
-	class RENDER_API RenderPass : public Object
+	class RenderPass : public Object
 	{
 	public:
 		RenderPass(Scene* pScene)

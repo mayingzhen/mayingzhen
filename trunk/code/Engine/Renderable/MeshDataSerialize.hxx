@@ -10,7 +10,7 @@ namespace ma
 	};
 
 
-	struct RENDER_API MeshHeader 
+	struct  MeshHeader 
 	{
 
 		uint32		m_nIdent;	 // File Identity 

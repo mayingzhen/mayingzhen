@@ -6,7 +6,7 @@ namespace ma
 	class SceneNode;
 	class Camera;
 
-	class ENGINE_API Component : public Serializable
+	class Component : public Serializable
 
 	{
 		DECL_OBJECT(Component)
