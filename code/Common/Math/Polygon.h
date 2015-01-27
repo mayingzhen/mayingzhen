@@ -48,7 +48,7 @@ namespace ma
 		It is made up of 3 or more vertices in a single plane, listed in 
 		counter-clockwise order.
 	*/
-	class COMMON_API Polygon
+	class Polygon
 	{
 
 	public:
@@ -134,7 +134,7 @@ namespace ma
 
 		/** Prints out the polygon data.
 		*/
-		COMMON_API friend std::ostream& operator<< ( std::ostream& strm, const Polygon& poly );
+		friend std::ostream& operator<< ( std::ostream& strm, const Polygon& poly );
 
 	};
 	/** @} */

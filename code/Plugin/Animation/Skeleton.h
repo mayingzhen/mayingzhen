@@ -8,7 +8,7 @@ namespace ma
 	class SkeletonPose;
 	class BoneSet;
 
-	class ANIMATION_API Skeleton : public Resource
+	class Skeleton : public Resource
 	{
 		DECL_OBJECT(Skeleton)
 

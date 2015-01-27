@@ -5,7 +5,7 @@ namespace ma
 {
 	class AnimationComponent;
 
-	class ANIMATION_API AnimationSystem 
+	class AnimationSystem 
 	{
 	public:
 
@@ -18,8 +18,8 @@ namespace ma
 		VEC_ANIMCOMP				m_arrAnimObject;
 	};
 
-	ANIMATION_API void SetAnimationSystem(AnimationSystem* pAniSystem);
-	ANIMATION_API AnimationSystem* GetAnimationSystem();
+	void SetAnimationSystem(AnimationSystem* pAniSystem);
+	AnimationSystem* GetAnimationSystem();
 }
 
 #endif

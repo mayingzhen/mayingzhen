@@ -1,5 +1,4 @@
 #include "ShadingPass.h"
-#include "../RenderSystem/RenderSetting.h"
 #include "HDRPostProcess.h"
 
 namespace ma

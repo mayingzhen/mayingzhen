@@ -12,14 +12,14 @@
 #include <mono/metadata/attrdefs.h>
 #include <mono/metadata/tokentype.h>
 
-#include <MonoScript/Export.h>
+
 
 #include <MonoScript/ScriptObject.h>
 #include <MonoScript/ScriptSystem.h>
 
-MonoScriptAPI void MonoScriptModuleInit();
+void MonoScriptModuleInit();
 
-MonoScriptAPI void MonoScriptModuleShutdown();
+void MonoScriptModuleShutdown();
 
 
 #endif // __ScriptModule_H__

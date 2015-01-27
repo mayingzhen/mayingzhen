@@ -45,7 +45,7 @@ namespace ma {
 	*/
 	/** Represents a convex volume bounded by planes.
     */
-    class COMMON_API PlaneBoundedVolume
+    class PlaneBoundedVolume
     {
     public:
         typedef vector<Plane> PlaneList;

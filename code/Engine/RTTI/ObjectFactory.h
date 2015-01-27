@@ -7,7 +7,7 @@ namespace ma
 {
 	typedef Object* (*ObjectCreator)();
 
-	class ENGINE_API ObjectFactoryManager
+	class ObjectFactoryManager
 	{
 	public:
 

@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class ENGINE_API FileArchive : public Archive
+	class FileArchive : public Archive
 	{
 	public:
 		FileArchive(const char* pszName);
@@ -83,7 +83,7 @@ namespace ma
 		static bool ms_IgnoreHidden;
 	};
 
-	ENGINE_API RefPtr<Archive> CreateFileArchive(const char* pszFile);
+	 RefPtr<Archive> CreateFileArchive(const char* pszFile);
 }
 
 #endif

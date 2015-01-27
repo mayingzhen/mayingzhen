@@ -19,7 +19,7 @@
 
 namespace ma
 {
-	COMMON_API void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,UINT nLine,const char* fmt,...);
+	void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,UINT nLine,const char* fmt,...);
 }
 
 #endif

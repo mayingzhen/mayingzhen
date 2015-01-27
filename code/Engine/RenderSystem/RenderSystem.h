@@ -19,7 +19,7 @@ namespace ma
 	class Texture;
 
 
-	class RENDER_API  RenderSystem 
+	class  RenderSystem 
 	{
 		friend class RenderThread;
 
@@ -152,9 +152,9 @@ namespace ma
 
 	};
 
-	RENDER_API RenderSystem*	GetRenderSystem();
+	 RenderSystem*	GetRenderSystem();
 
-	RENDER_API void				SetRenderSystem(RenderSystem* pRenderSystem);
+	 void				SetRenderSystem(RenderSystem* pRenderSystem);
 }
 
 #endif

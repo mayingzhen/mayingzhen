@@ -2,7 +2,6 @@
 #include "RenderThread.h"
 #include "RenderQueue.h"
 #include "RenderContext.h"
-#include "RenderSetting.h"
 #include "../RenderScheme/RenderScheme.h"
 #include "../Renderable/ScreenQuad.h"
 #include "../Renderable/UnitSphere.h"

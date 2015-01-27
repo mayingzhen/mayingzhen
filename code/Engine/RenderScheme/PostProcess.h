@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class RENDER_API PostProcess 
+	class PostProcess 
 	{
 	public:
 		PostProcess(Texture* pInputTex, Texture* pOutputTex)

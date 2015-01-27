@@ -75,7 +75,7 @@ namespace ma
                 [ m[3][0]  m[3][1]  m[3][2]  m[3][3] ]   {1}
             </pre>
     */
-    class COMMON_API Matrix4
+    class Matrix4
     {
     protected:
         /// The matrix entries, indexed by [row][col].
@@ -539,7 +539,7 @@ namespace ma
 
         /** Function for writing to a stream.
         */
-        inline COMMON_API friend std::ostream& operator <<
+        inline friend std::ostream& operator <<
             ( std::ostream& o, const Matrix4& mat )
         {
             o << "Matrix4(";

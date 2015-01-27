@@ -6,7 +6,7 @@
 namespace ma
 {
 
-	class ENGINE_API MemoryStream : public Stream
+	class MemoryStream : public Stream
 	{
 	public:
 		MemoryStream(void* pMem, UINT nSize, bool bReadOnly = false);
@@ -68,9 +68,9 @@ namespace ma
 
 	DeclareRefPtr(MemoryStream);
 
-	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly);
-	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly);
-	ENGINE_API RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly);
+	 RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly);
+	 RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly);
+	 RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly);
 
 }
 

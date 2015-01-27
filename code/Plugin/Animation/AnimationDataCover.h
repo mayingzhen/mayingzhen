@@ -3,9 +3,9 @@
 
 namespace ma
 {
-	bool ANIMATION_API ConverteAnimDataParentToLocalSpaceAnimation(Animation* pAniData,const Skeleton* pSkel);
+	bool ConverteAnimDataParentToLocalSpaceAnimation(Animation* pAniData,const Skeleton* pSkel);
 
-	bool ANIMATION_API ConverteAnimDataObjectToLocalSpaceAnimation(Animation* pAniData,const Skeleton* pSkel);
+	bool ConverteAnimDataObjectToLocalSpaceAnimation(Animation* pAniData,const Skeleton* pSkel);
 }
 
 

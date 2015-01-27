@@ -15,7 +15,7 @@ namespace ma
 
 
 
-	class RENDER_API Light : public RenderComponent
+	class Light : public RenderComponent
 	{
 		DECL_OBJECT(Light)
 
@@ -44,7 +44,7 @@ namespace ma
 		float						m_fLightIntensity;
 	};
 
-	class RENDER_API PointLight : public Light
+	class PointLight : public Light
 	{
 		DECL_OBJECT(PointLight)
 
@@ -62,7 +62,7 @@ namespace ma
 		float		m_fRadius;
 	};
 	
-	class RENDER_API DirectonalLight : public Light
+	class DirectonalLight : public Light
 	{
 		DECL_OBJECT(DirectonalLight)
 
@@ -74,7 +74,7 @@ namespace ma
 	};
 
 
-	class RENDER_API SpotLight : public Light
+	class SpotLight : public Light
 	{
 		DECL_OBJECT(SpotLight)
 

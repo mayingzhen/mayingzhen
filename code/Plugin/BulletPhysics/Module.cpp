@@ -45,7 +45,7 @@ void BtPhysicsModuleShutdown()
 
 
 #if PLATFORM_WIN == 1
-extern "C" BULLETPHYSICS_API bool dllStartPlugin()
+extern "C" bool dllStartPlugin()
 {
 	BtPhysicsModuleInit();
 
@@ -53,7 +53,7 @@ extern "C" BULLETPHYSICS_API bool dllStartPlugin()
 }
 
 
-extern "C" BULLETPHYSICS_API bool dllStopPlugin()
+extern "C" bool dllStopPlugin()
 {
 	BtPhysicsModuleShutdown();
 

@@ -1,8 +1,6 @@
 #ifndef  _ANIMATION_MODULE__H__
 #define  _ANIMATION_MODULE__H__
 
-#include "Animation/Export.h"
-
 #include "Animation/Skeleton.h"
 #include "Animation/SkeletonPose.h"
 #include "Animation/Animation.h"
@@ -18,9 +16,9 @@
 
 
 
-ANIMATION_API void AnimationModuleInit();
+void AnimationModuleInit();
 
-ANIMATION_API void AnimationModuleShutdown();
+void AnimationModuleShutdown();
 
 
 #endif

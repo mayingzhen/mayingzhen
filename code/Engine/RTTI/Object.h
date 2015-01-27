@@ -35,7 +35,7 @@ namespace ma
 {
 	class RTTIClass;
 
-	class ENGINE_API Object : public Referenced
+	class Object : public Referenced
 	{
 		DECL_OBJECT(Object)
 

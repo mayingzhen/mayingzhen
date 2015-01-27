@@ -69,7 +69,7 @@ namespace ma
 	};
 
 
-	ENGINE_API RefPtr<Archive> CreateZipArchive(const char* pszFile);
+	 RefPtr<Archive> CreateZipArchive(const char* pszFile);
 }
 
 #endif

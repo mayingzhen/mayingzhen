@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	class ANIMATION_API Animation : public Resource
+	class Animation : public Resource
 	{
 		DECL_OBJECT(Animation)
 

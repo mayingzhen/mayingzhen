@@ -6,8 +6,8 @@
 
 #define snprintf _snprintf
 
-COMMON_API int gettimeofday(struct timeval * val, struct timezone *);
+int gettimeofday(struct timeval * val, struct timezone *);
 
-COMMON_API void _OutputDebugString(const char* buf);
+void _OutputDebugString(const char* buf);
 
 #endif //__PlatformWin_H__

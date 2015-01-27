@@ -53,7 +53,7 @@ namespace ma {
         this by just asking you to define a series of points, and the tangents are 
         created for you. 
     */
-	class COMMON_API SimpleSpline
+	class SimpleSpline
     {
     public:
         SimpleSpline();

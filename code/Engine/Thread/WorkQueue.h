@@ -73,7 +73,7 @@ namespace ma
 	};
 
 	/// Work queue subsystem for multithreading.
-	class ENGINE_API WorkQueue /*: public Object*/
+	class WorkQueue /*: public Object*/
 	{
 		//OBJECT(WorkQueue);
 	    
@@ -139,8 +139,8 @@ namespace ma
 		UINT lastSize_;
 	};
 
-	ENGINE_API WorkQueue* GetWorkQueue();
-	ENGINE_API void SetWorkQueue(WorkQueue* pWorkQueue);
+	 WorkQueue* GetWorkQueue();
+	 void SetWorkQueue(WorkQueue* pWorkQueue);
 
 }
 

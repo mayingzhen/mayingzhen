@@ -4,7 +4,7 @@
 namespace ma
 {
 
-class COMMON_API Line3D
+class Line3D
 {
 public:
 	//! Default constructor

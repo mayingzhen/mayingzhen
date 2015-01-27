@@ -6,7 +6,7 @@
 namespace ma
 {
 
-	class ENGINE_API BinaryInputSerializer : public BinarySerializer
+	class BinaryInputSerializer : public BinarySerializer
 	{
 		
 	public:

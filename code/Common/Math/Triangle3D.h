@@ -6,7 +6,7 @@
 namespace ma
 {
 
-class COMMON_API Triangle3D
+class Triangle3D
 {
 public:
 	Triangle3D(void){}

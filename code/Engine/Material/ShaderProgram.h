@@ -8,7 +8,7 @@ namespace ma
 
 	class Uniform;
 
-	class RENDER_API ShaderProgram : public Resource
+	class ShaderProgram : public Resource
 	{
 		DECL_OBJECT(ShaderProgram)
 

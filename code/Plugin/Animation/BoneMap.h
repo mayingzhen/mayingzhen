@@ -6,7 +6,7 @@ namespace ma
 	class Skeleton;
 	class Animation;
 	
-	class  BoneMap
+	class BoneMap
 	{
 	public:
 		void Build(Skeleton* pSkeleton,Animation* pAnimation); 

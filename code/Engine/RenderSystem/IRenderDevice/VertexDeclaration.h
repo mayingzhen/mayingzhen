@@ -6,7 +6,7 @@
 namespace ma
 {
 
-	class RENDER_API VertexDeclaration : public Referenced
+	class VertexDeclaration : public Referenced
 	{
 	public: 
 		VertexDeclaration();

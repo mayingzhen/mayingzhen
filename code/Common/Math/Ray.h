@@ -43,7 +43,7 @@ namespace ma {
 	*  @{
 	*/
 	/** Representation of a ray in space, i.e. a line with an origin and direction. */
-    class COMMON_API Ray
+    class Ray
     {
     protected:
         Vector3 mOrigin;

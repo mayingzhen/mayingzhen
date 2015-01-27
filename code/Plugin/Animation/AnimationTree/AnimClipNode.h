@@ -9,7 +9,7 @@ namespace ma
 	class BoneSet;
 
 
-	class ANIMATION_API AnimClipNode : public AnimTreeNode
+	class AnimClipNode : public AnimTreeNode
 	{
 		DECL_OBJECT(AnimClipNode)
 
@@ -48,7 +48,7 @@ namespace ma
 		bool					m_bClipInit;
 	};
 	
-	ANIMATION_API RefPtr<AnimClipNode> CreateClipNode(const char* skaName,const char* boneSetName =  NULL);
+	RefPtr<AnimClipNode> CreateClipNode(const char* skaName,const char* boneSetName =  NULL);
 }
 
 

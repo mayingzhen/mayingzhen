@@ -47,7 +47,7 @@ namespace ma
             scaling factors can be represented by a vector, depending on how
             you interpret the values.
     */
-    class COMMON_API Vector3
+    class Vector3
     {
     public:
 		float x, y, z;
@@ -823,7 +823,7 @@ namespace ma
 
         /** Function for writing to a stream.
         */
-        inline COMMON_API friend std::ostream& operator <<
+        inline friend std::ostream& operator <<
             ( std::ostream& o, const Vector3& v )
         {
             o << "Vector3(" << v.x << ", " << v.y << ", " << v.z << ")";

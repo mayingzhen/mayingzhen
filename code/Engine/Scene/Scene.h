@@ -16,10 +16,10 @@ namespace ma
 	class RenderQueue;
 
 
-	class ENGINE_API Scene  : public SceneNode
+	class Scene : public SceneNode
 	{
 	public:
-		class  CCallback
+		class CCallback
 		{
 		public:
 			CCallback(){}

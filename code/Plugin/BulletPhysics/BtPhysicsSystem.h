@@ -8,7 +8,7 @@ namespace ma
 	class BulletPhysicsObject;
 	class PhysicsThread;
 
-	class BULLETPHYSICS_API PhysicsSystem :  public btIDebugDraw
+	class PhysicsSystem :  public btIDebugDraw
 	{
 	public:
 		PhysicsSystem();
@@ -78,9 +78,9 @@ namespace ma
 		int											m_debugMode;
 	};
 
-	BULLETPHYSICS_API void SetPhysicsSystem(PhysicsSystem* pPhysicsSystem);
+	void SetPhysicsSystem(PhysicsSystem* pPhysicsSystem);
 
-	BULLETPHYSICS_API PhysicsSystem* GetPhysicsSystem();
+	PhysicsSystem* GetPhysicsSystem();
 }
 
 #endif

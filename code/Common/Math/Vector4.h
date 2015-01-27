@@ -42,7 +42,7 @@ namespace ma
 	*/
 	/** 4-dimensional homogeneous vector.
     */
-    class COMMON_API Vector4
+    class Vector4
     {
     public:
         float x, y, z, w;
@@ -397,7 +397,7 @@ namespace ma
 		}
         /** Function for writing to a stream.
         */
-        inline COMMON_API friend std::ostream& operator <<
+        inline friend std::ostream& operator <<
             ( std::ostream& o, const Vector4& v )
         {
             o << "Vector4(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";

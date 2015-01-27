@@ -5,7 +5,7 @@ namespace ma
 {
 	class RenderComponent;
 
-	class ENGINE_API CullNode : public Referenced
+	class CullNode : public Referenced
 	{
 	public:
 		virtual void AddObject(RenderComponent* pObject) = 0;

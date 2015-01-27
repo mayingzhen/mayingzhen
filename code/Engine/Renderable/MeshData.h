@@ -72,7 +72,7 @@ namespace ma
 	class VertexBuffer;
 	class VertexDeclaration;
 
-	class RENDER_API MeshData : public Resource
+	class MeshData : public Resource
 	{
 		DECL_OBJECT(MeshData)
 

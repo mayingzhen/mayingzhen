@@ -48,7 +48,7 @@ namespace ma {
         @remarks
             Handles linear algebra numerics.
     */
-	class COMMON_API NumericSolver
+	class NumericSolver
 	{
 	public:
 		/** Solves a full rank NxN linear system of equations 

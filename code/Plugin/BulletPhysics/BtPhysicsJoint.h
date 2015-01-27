@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class BULLETPHYSICS_API PhysicsJoint : public Component
+	class PhysicsJoint : public Component
 	{
 		DECL_OBJECT(PhysicsJoint)
 
@@ -41,7 +41,7 @@ namespace ma
 	};
 
 
-	class BULLETPHYSICS_API PhysicsGenericJoint : public PhysicsJoint
+	class PhysicsGenericJoint : public PhysicsJoint
 	{
 		DECL_OBJECT(PhysicsGenericJoint)
 
@@ -74,7 +74,7 @@ namespace ma
 		bool			m_bLinearUpperLimit;
 	};
 
-	class BULLETPHYSICS_API PhysicsHingeJoint : public PhysicsJoint
+	class PhysicsHingeJoint : public PhysicsJoint
 	{
 		DECL_OBJECT(PhysicsHingeJoint)
 

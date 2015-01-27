@@ -294,7 +294,7 @@ public:
      	Pixels are stored as a succession of "depth" slices, each containing "height" rows of 
      	"width" pixels.
     */
-    class  PixelBox: public Box{
+    class PixelBox: public Box{
     public:
     	/// Parameter constructor for setting the members manually
     	PixelBox() {}
@@ -401,7 +401,7 @@ public:
 	/**
      * Some utility functions for packing and unpacking pixel data
      */
-    class ENGINE_API PixelUtil {
+    class PixelUtil {
     public:
 		static const PixelFormatDescription& getDescriptionFor(const PixelFormat fmt);
 

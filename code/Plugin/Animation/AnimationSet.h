@@ -9,7 +9,7 @@ namespace ma
 	class AnimationComponent;
 	class AnimClipNode;
 
-	class ANIMATION_API AnimationSet : public Serializable
+	class AnimationSet : public Serializable
 	{
 		DECL_OBJECT(AnimationSet)	
 

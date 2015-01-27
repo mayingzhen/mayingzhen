@@ -65,7 +65,7 @@ namespace ma {
     @author
         Steve Streeting
     */
-    class COMMON_API StringConverter
+    class StringConverter
     {
     public:
 

@@ -48,7 +48,7 @@ namespace ma {
         x^2 + y^2 + z^2 = r^2 (for sphere's centered on the origin). Ogre stores spheres
         simply as a center point and a radius.
     */
-    class COMMON_API Sphere
+    class Sphere
     {
     protected:
         float mRadius;

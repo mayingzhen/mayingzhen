@@ -7,7 +7,7 @@
 namespace ma
 {
 
-	class RENDER_API MaterialParameter /*: public Referenced*/
+	class MaterialParameter /*: public Referenced*/
 	{
 		DECL_OBJECT(MaterialParameter)
 

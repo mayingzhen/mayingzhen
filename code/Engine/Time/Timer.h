@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class ENGINE_API Time
+	class Time
 	{
 	public:
 
@@ -36,9 +36,9 @@ namespace ma
 		timeval m_lastReset;
 	};
 
-	ENGINE_API Time* GetTimer();
+	 Time* GetTimer();
 
-	ENGINE_API void  SetTimer(Time* pTimer);
+	 void  SetTimer(Time* pTimer);
 }
 
 #endif// __Timer_H__

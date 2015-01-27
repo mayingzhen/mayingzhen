@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class RENDER_API MeshBatch : public Renderable
+	class MeshBatch : public Renderable
 	{
 	public:
 		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);

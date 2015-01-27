@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	struct RENDER_API SubMaterialData 
+	struct  SubMaterialData 
 	{
 	public:
 		void						SetShaderName(const char* pName);
@@ -36,7 +36,7 @@ namespace ma
 	};
 
 
-	class RENDER_API MaterialData : public Resource
+	class MaterialData : public Resource
 	{
 		DECL_OBJECT(MaterialData)
 

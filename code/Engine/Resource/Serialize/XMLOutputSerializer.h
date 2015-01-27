@@ -9,7 +9,7 @@ class IAllocator;
 
 namespace ma
 {
-	class ENGINE_API XMLOutputSerializer : public XMLSerializer 
+	class XMLOutputSerializer : public XMLSerializer 
 	{
 	public:
 		XMLOutputSerializer();

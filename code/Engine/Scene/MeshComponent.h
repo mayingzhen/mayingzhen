@@ -10,7 +10,7 @@ namespace ma
 	class Renderable;
 	class MeshData;
 	
-	class RENDER_API MeshComponent : public RenderComponent
+	class MeshComponent : public RenderComponent
 	{
 		DECL_OBJECT(MeshComponent)	
 

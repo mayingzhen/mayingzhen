@@ -8,7 +8,7 @@ namespace ma
 	class SamplerState;
 	struct SubMaterialData;
 
-	class RENDER_API SubMaterial : public Referenced
+	class SubMaterial : public Referenced
 	{
 	public:
 		void				InitWithSubMatData(const SubMaterialData& subMatData);

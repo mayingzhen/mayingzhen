@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class RENDER_API LineRender
+	class LineRender
 	{
 
 	public:
@@ -45,9 +45,9 @@ namespace ma
 
 	};
 
-	RENDER_API LineRender*	GetLineRender();
+	 LineRender*	GetLineRender();
 
-	RENDER_API void			SetLineRender(LineRender* pLineRender);
+	 void			SetLineRender(LineRender* pLineRender);
 }
 
 #endif

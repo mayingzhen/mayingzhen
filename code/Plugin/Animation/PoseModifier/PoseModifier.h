@@ -5,7 +5,7 @@ namespace ma
 {
 	class SkeletonPose;
 
-	struct ANIMATION_API PoseUpdateInfo
+	struct PoseUpdateInfo
 	{		
 		Matrix4		m_matWorld;
 		Matrix4		m_matInvWorld;
@@ -15,7 +15,7 @@ namespace ma
 	};
 
 
-	class ANIMATION_API PoseModifier : public Object
+	class PoseModifier : public Object
 	{
 		DECL_OBJECT(PoseModifier)
 

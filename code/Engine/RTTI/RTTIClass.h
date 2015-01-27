@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class ENGINE_API RTTIClass : public Referenced
+	class RTTIClass : public Referenced
 	{
 	public:
 
@@ -24,7 +24,7 @@ namespace ma
 
 	RefPtr<RTTIClass>	CreateRTTIClass(const char* className,const RTTIClass* pParent);
 
-	class ENGINE_API ClassManager 
+	class ClassManager 
 	{
 	public:
 

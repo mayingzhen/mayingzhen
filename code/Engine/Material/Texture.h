@@ -7,7 +7,7 @@ namespace ma
 {
 	class ImageData;	
 
-	class RENDER_API Texture : public Resource
+	class Texture : public Resource
 	{
 		DECL_OBJECT(Texture)
 

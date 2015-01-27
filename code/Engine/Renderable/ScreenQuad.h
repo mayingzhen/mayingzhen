@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class RENDER_API ScreenQuad
+	class ScreenQuad
 	{
 	public:
 		static void Init();

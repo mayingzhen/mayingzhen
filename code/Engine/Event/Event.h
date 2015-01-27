@@ -8,7 +8,7 @@ namespace ma
 
 	class Event;
 
-	class ENGINE_API EventListener : public Referenced
+	class EventListener : public Referenced
 	{
 		friend class Event;
 
@@ -23,7 +23,7 @@ namespace ma
 		EventListener * next;
 	};
 
-	class ENGINE_API Event
+	class Event
 	{
 	public:
 		Event();

@@ -12,7 +12,7 @@ namespace ma
 	class CullNode;
 	class CullTree;
 
-	class ENGINE_API SceneNode : public Serializable
+	class SceneNode : public Serializable
 	{
 		DECL_OBJECT(SceneNode)
 

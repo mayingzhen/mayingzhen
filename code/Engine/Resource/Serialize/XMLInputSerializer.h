@@ -11,7 +11,7 @@ namespace ma
 	class XMLOutputSerializer;
 	class Stream;
 
-	class ENGINE_API XMLInputSerializer : public XMLSerializer 
+	class XMLInputSerializer : public XMLSerializer 
 	{
 	public:
 		XMLInputSerializer();

@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class RENDER_API Camera : public Component
+	class Camera : public Component
 	{
 		DECL_OBJECT(Camera)
 

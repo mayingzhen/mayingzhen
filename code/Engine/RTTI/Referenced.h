@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class  Referenced
+	class Referenced
 	{
 	public:
 		Referenced():_refCount(0) {}

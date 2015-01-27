@@ -6,7 +6,7 @@
 namespace ma
 {
 
-	class RENDER_API VertexBuffer : public HardwareBuffer
+	class VertexBuffer : public HardwareBuffer
 	{
 
 	};

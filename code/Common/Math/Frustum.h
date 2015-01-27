@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class COMMON_API Frustum
+	class Frustum
 	{
 	public:
 		Frustum(void);

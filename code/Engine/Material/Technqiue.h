@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class RENDER_API Technique : public Referenced
+	class Technique : public Referenced
 	{
 	public:
 		Technique();

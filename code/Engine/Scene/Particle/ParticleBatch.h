@@ -7,7 +7,7 @@ namespace ma
 {
 	struct Particle;
 
-	class RENDER_API ParticleBatch : public SpriteBatch
+	class ParticleBatch : public SpriteBatch
 	{
 	public:
 		ParticleBatch();

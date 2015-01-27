@@ -9,7 +9,7 @@ namespace ma
 	class Texture;
 	class Technique;
  
-	class RENDER_API SpriteBatch : public MeshBatch
+	class SpriteBatch : public MeshBatch
 	{
 		friend class Bundle;
 		friend class Font;

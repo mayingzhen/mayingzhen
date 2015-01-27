@@ -8,7 +8,7 @@ namespace ma
 	class GLESTechnique;
 	class GLESDeviceContext;
 
-	class  GLESRenderDevice : public IRenderDevice
+	class GLESRenderDevice : public IRenderDevice
 	{
 	public:
 		GLESRenderDevice();

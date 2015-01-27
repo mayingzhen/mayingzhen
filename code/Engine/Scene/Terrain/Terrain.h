@@ -26,7 +26,7 @@ namespace ma
 		uint32	blend;
 	};
 
-	class  Terrain : public SceneNode
+	class Terrain : public SceneNode
 	{
 		DECL_OBJECT(Terrain)
 

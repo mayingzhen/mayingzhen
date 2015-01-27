@@ -65,7 +65,7 @@ namespace ma
         @par
             The coordinate system is assumed to be <b>right-handed</b>.
     */
-    class COMMON_API Matrix3
+    class Matrix3
     {
     public:
         /** Default constructor.
@@ -146,14 +146,14 @@ namespace ma
         Vector3 operator* (const Vector3& rkVector) const;
 
         // vector * matrix [1x3 * 3x3 = 1x3]
-        COMMON_API friend Vector3 operator* (const Vector3& rkVector,
+        friend Vector3 operator* (const Vector3& rkVector,
             const Matrix3& rkMatrix);
 
         // matrix * scalar
         Matrix3 operator* (float fScalar) const;
 
         // scalar * matrix
-        COMMON_API friend Matrix3 operator* (float fScalar, const Matrix3& rkMatrix);
+        friend Matrix3 operator* (float fScalar, const Matrix3& rkMatrix);
 
         // utilities
         Matrix3 Transpose () const;
@@ -232,7 +232,7 @@ namespace ma
 
 		/** Function for writing to a stream.
 		*/
-		inline COMMON_API friend std::ostream& operator <<
+		inline friend std::ostream& operator <<
 			( std::ostream& o, const Matrix3& mat )
 		{
 			o << "Matrix3(" << mat[0][0] << ", " << mat[0][1] << ", " << mat[0][2] << ", " 
