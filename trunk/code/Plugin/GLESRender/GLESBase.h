@@ -25,8 +25,10 @@
 	#include <GL/glew.h>
 	#define USE_VAO
 
-	#define glPushGroupMarkerEXT(x,y)
-	#define glPopGroupMarkerEXT()
+	//#define glPushGroupMarkerEXT(x,y)
+	//#define glPopGroupMarkerEXT()
+
+	#define eglGetProcAddress glewGetProcAddress
 
 #elif __linux__
 	#define GLEW_STATIC
@@ -64,7 +66,12 @@
 	#endif
 #endif
 
-
+extern bool g_bGL_OES_packed_depth_stencil;
+extern bool g_bGL_OES_vertex_array_object;
+extern bool g_bGL_OES_mapbuffer;
+extern bool g_bGL_EXT_occlusion_query_boolean;
+extern bool g_bGL_EXT_debug_marker;
+extern bool g_bGL_APPLE_framebuffer_multisample;
 
 // Graphics (GLSL)
 #define VERTEX_ATTRIBUTE_POSITION_NAME              "a_position"

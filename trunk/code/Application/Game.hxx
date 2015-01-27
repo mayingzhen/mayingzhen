@@ -41,7 +41,7 @@ namespace ma
 		Platform::GetInstance().GetWindowSize(w,h);
 		pInput->OnResize(w,h);
 
-		GetEngine()->Init(hWnd, false, false, false);
+		GetEngine()->Init(hWnd, true, false, false);
 	}
 
 	void Game::Shutdown()

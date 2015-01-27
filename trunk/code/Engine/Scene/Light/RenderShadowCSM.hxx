@@ -17,10 +17,12 @@ namespace ma
 		m_nMaxSplitCount = 1;
 		m_nShadowMapSize = 512;
 		m_SplitPosParam = Vector4(3000.0f,60.0f,120.0f,270.0f);
-		m_curSplitPos = m_SplitPosParam;
+		m_curSplitPos[0] = m_SplitPosParam;
+		m_curSplitPos[1] = m_SplitPosParam;
 
 		m_fShadowFadeStart = 0.8f;
-		m_vShadowDepthFade = Vector4::ZERO;
+		m_vShadowDepthFade[0] = Vector4::ZERO;
+		m_vShadowDepthFade[1] = Vector4::ZERO;
 		
 		m_fConstantBias = DEFAULT_CONSTANTBIAS;
 		m_fSlopeScaledBias = DEFAULT_SLOPESCALEDBIAS;
@@ -46,7 +48,7 @@ namespace ma
 		{
 			GetRenderSystem()->AddMacro("USING_HW_PCF","1");
 		}
-		else if ( GetDeviceCapabilities()->getFloatTexturesSupported() )
+		else if ( GetDeviceCapabilities()->GetFloatTexturesSupported() )
 		{
 			GetRenderSystem()->AddMacro("USING_32F","1");
 		}		
@@ -85,7 +87,7 @@ namespace ma
 		Scene* pScene = pCamera->GetSceneNode()->GetScene();
 
 		m_nCurSplitCount = 0;
-		memset(&m_curSplitPos,0,sizeof(m_curSplitPos));
+		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = Vector4::ZERO;
 			
 		float fNearSplit = pScene->GetViewMinZ();
 		float fFarSplit;
@@ -101,17 +103,17 @@ namespace ma
 				break;
 
 			// Setup the shadow camera for the split
-			m_curSplitPos[m_nCurSplitCount] = fFarSplit;
+			m_curSplitPos[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = fFarSplit;
  
 			m_SpitFrustum[m_nCurSplitCount].Update(pCamera,fNearSplit,fFarSplit);
 
-			m_matShadow[m_nCurSplitCount] =  m_SpitFrustum[m_nCurSplitCount].GetTexAdjustMatrix() * m_SpitFrustum[m_nCurSplitCount].GetShadowMatrix();
+			m_matShadow[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] =  m_SpitFrustum[m_nCurSplitCount].GetTexAdjustMatrix() * m_SpitFrustum[m_nCurSplitCount].GetShadowMatrix();
 
 			if (m_eShadowBleurLevel == SHADOW_JITTERIN)
 			{
 				Vector3 vViewPosLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetSceneNode()->GetPos();
 				Vector3 vViewVectLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetSceneNode()->GetForward();
-				m_viewPosVecLS[m_nCurSplitCount] = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
+				m_viewPosVecLS[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
 			}
 
 			fNearSplit = fFarSplit;
@@ -124,7 +126,7 @@ namespace ma
 		float fadeEnd = shadowRange;
 		float fadeRange = fadeEnd - fadeStart;
 
-		m_vShadowDepthFade = Vector4(0,0,fadeStart,1.0f / fadeRange);
+		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0,0,fadeStart,1.0f / fadeRange);
 	}
 
 
@@ -198,7 +200,7 @@ namespace ma
 		else
 		{
 			PixelFormat format = PF_A8R8G8B8;
-			if (GetDeviceCapabilities()->getFloatTexturesSupported())
+			if (GetDeviceCapabilities()->GetFloatTexturesSupported())
 			{
 				format = PF_FLOAT32_R;
 			}
@@ -251,14 +253,6 @@ namespace ma
 		m_fConstantBias = Math::Clamp<float>(fConstantBias,-1.0f,1.0f);
 		m_fSlopeScaledBias = Math::Clamp<float>(fSlopeScaleBias,-16.0f,16.0f);
 	}
-
-// 	Texture* RenderShadowCSM::GetShadowMap() const 
-// 	{
-// 		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-// 			return m_pDepthStencil.get();
-// 		else
-// 			return m_pShdowDepth.get();
-// 	}
 
 	void RenderShadowCSM::SetShadowBlurLevel(Shadow_Blur eBlur)
 	{

@@ -75,17 +75,7 @@ namespace ma
 	{
 		m_pDeviceContext->Init(wndhandle);
 
-// 		GLint fbo;
-// 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fbo) );
-// 		m_pRenderTarget = new GLESTexture(-1,-1);
-// 		m_pRenderTarget->SetFrameBuffer(fbo);
-// 		
-// 		GLint hDefaultFrameBuffer = fbo;
  		GL_ASSERT( glGenFramebuffers(1, &m_hOffecreenFrameBuffer) );
-// 
-// 		GLint viewport[4]; 
-// 		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
-// 		m_viewport.push(Rectangle((float)viewport[0],(float)viewport[1],(float)viewport[2],(float)viewport[3]));
 
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 		GLint val;
@@ -97,7 +87,151 @@ namespace ma
 
 	void GLESRenderDevice::BuildDeviceCapabilities()
 	{
-		GetDeviceCapabilities()->SetTextureDXTSupported(false);
+		// driver version
+		const GLubyte* pcVer = glGetString(GL_VERSION);
+		string tmpStr = (const char*)pcVer;
+		string mVersion = tmpStr.substr(0, tmpStr.find(" "));
+		vector<string> tokens = StringUtil::split(mVersion, ".");
+		DriverVersion mDriverVersion;
+		if (!tokens.empty())
+		{
+			mDriverVersion.major = StringConverter::parseInt(tokens[0]);
+			if (tokens.size() > 1)
+				mDriverVersion.minor = StringConverter::parseInt(tokens[1]);
+			if (tokens.size() > 2)
+				mDriverVersion.release = StringConverter::parseInt(tokens[2]);
+		}
+		mDriverVersion.build = 0;
+		GetDeviceCapabilities()->SetDriverVersion(mDriverVersion);
+
+		// determine vendor
+		const char* vendorName = (const char*)glGetString(GL_VENDOR);  
+		// Determine vendor
+		if (strstr(vendorName, "Imagination Technologies"))
+			GetDeviceCapabilities()->SetVendor(GPU_IMAGINATION_TECHNOLOGIES);
+		else if (strstr(vendorName, "Apple Computer, Inc."))
+			GetDeviceCapabilities()->SetVendor(GPU_APPLE);  // iPhone Simulator
+		else if (strstr(vendorName, "NVIDIA"))
+			GetDeviceCapabilities()->SetVendor(GPU_NVIDIA);
+		else
+			GetDeviceCapabilities()->SetVendor(GPU_UNKNOWN);
+
+		const char* deviceName = (const char*)glGetString(GL_RENDERER);      
+		if (deviceName)
+		{
+			GetDeviceCapabilities()->SetDeviceName(deviceName);
+		}
+		GetDeviceCapabilities()->SetRenderSystemName("GLES2RenderSystem");
+
+		GetDeviceCapabilities()->SetNumMultiRenderTargets(1);
+
+		// Point size
+		GLfloat psRange[2] = {0.0, 0.0};
+		GL_ASSERT( glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, psRange) );
+		GetDeviceCapabilities()->SetMaxPointSize(psRange[1]);
+
+		const GLubyte* pcExt = glGetString(GL_EXTENSIONS);
+		LogInfo((const char*)pcExt);
+
+		string strExt = (char*)pcExt;
+
+		// Check for Float textures
+#if GL_OES_texture_float || GL_OES_texture_half_float
+		if (strExt.find("GL_OES_texture_float") != string::npos || strExt.find("GL_OES_texture_half_float") != string::npos)
+		{
+			GetDeviceCapabilities()->SetFloatTexturesSupported(true);
+		}
+#endif
+
+#if GL_OES_vertex_array_object
+		if(strExt.find("GL_OES_vertex_array_object") != string::npos)
+		{
+			g_bGL_OES_vertex_array_object = true;
+#if defined(WIN32) || defined(__ANDROID__)
+			glBindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC) eglGetProcAddress("glBindVertexArrayOES");
+			glDeleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC) eglGetProcAddress("glDeleteVertexArraysOES");
+			glGenVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC) eglGetProcAddress("glGenVertexArraysOES");
+			glIsVertexArrayOES = (PFNGLISVERTEXARRAYOESPROC) eglGetProcAddress("glIsVertexArrayOES");
+			g_bGL_OES_vertex_array_object = (glBindVertexArrayOES != NULL);
+#endif
+		}
+		else
+#endif
+			g_bGL_OES_vertex_array_object = false;
+
+#if GL_OES_mapbuffer
+		if(strExt.find("GL_OES_mapbuffer") != string::npos)
+		{
+			g_bGL_OES_mapbuffer = true;
+#if defined(WIN32) || defined(__ANDROID__)
+			glMapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+			glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+			glGetBufferPointervOES = (PFNGLGETBUFFERPOINTERVOESPROC)eglGetProcAddress("glGetBufferPointervOES");
+			g_bGL_OES_mapbuffer = (glMapBufferOES != NULL);
+#endif
+		}
+		else
+#endif
+			g_bGL_OES_mapbuffer = false;
+
+
+#if GL_APPLE_framebuffer_multisample
+		if(strExt.find("GL_APPLE_framebuffer_multisample") != string::npos)
+		{
+			g_bGL_APPLE_framebuffer_multisample = true;
+#if defined(WIN32) || defined(__ANDROID__)
+			glRenderbufferStorageMultisampleAPPLE = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEAPPLEPROC)eglGetProcAddress("glRenderbufferStorageMultisampleAPPLE");
+			glResolveMultisampleFramebufferAPPLE = (PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC)eglGetProcAddress("glResolveMultisampleFramebufferAPPLE");
+			g_bGL_APPLE_framebuffer_multisample = (glRenderbufferStorageMultisampleAPPLE != NULL);
+#endif
+		}
+		else
+#endif
+			g_bGL_APPLE_framebuffer_multisample = false;
+
+#if GL_IMG_texture_compression_pvrtc
+		if (strExt.find("GL_IMG_texture_compression_pvrtc") != string::npos)
+		{
+			GetDeviceCapabilities()->SetTexturePVRTCSupported(true);
+		}
+		else
+#endif
+			GetDeviceCapabilities()->SetTexturePVRTCSupported(false);
+
+#if GL_EXT_texture_compression_dxt1 == 1 && GL_EXT_texture_compression_s3tc == 1
+		if (strExt.find("GL_EXT_texture_compression_dxt1") != string::npos && strExt.find("GL_EXT_texture_compression_s3tc") != string::npos)
+			GetDeviceCapabilities()->SetTextureDXTSupported(true);
+		else
+#endif
+			GetDeviceCapabilities()->SetTextureDXTSupported(false);
+
+#if GL_OES_compressed_ETC1_RGB8_texture
+		if (strExt.find("GL_OES_compressed_ETC1_RGB8_texture") != string::npos)
+			GetDeviceCapabilities()->SetTextureETC1Supported(true);
+		else
+#endif
+			GetDeviceCapabilities()->SetTextureETC1Supported(false);
+
+#if GL_EXT_texture_filter_anisotropic
+		if (strExt.find("GL_EXT_texture_filter_anisotropic") != string::npos)
+		{
+			GetDeviceCapabilities()->SetTextureAnisotropy(true);
+		}
+		else
+#endif
+			GetDeviceCapabilities()->SetTextureAnisotropy(false);
+
+
+#if GL_OES_packed_depth_stencil
+		if (strExt.find("GL_OES_packed_depth_stencil") != string::npos)
+		{
+			g_bGL_OES_packed_depth_stencil = true;
+		}
+		else
+#endif
+			g_bGL_OES_packed_depth_stencil = false;
+
+		GetDeviceCapabilities()->log();
 	}
 
 	void GLESRenderDevice::BeginRender()
@@ -142,8 +276,13 @@ namespace ma
 
 		GLint hFboBinding;
 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &hFboBinding) );
+		
+		//GLint hTexture;
+		//GLenum attachment = GL_COLOR_ATTACHMENT0 + index;
+		//GL_ASSERT( glGetFramebufferAttachmentParameteriv(hFboBinding,attachment,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,&hTexture) );
 
 		pGLESTarget->SetFrameBuffer(hFboBinding);
+		//pGLESTarget->SetTexture(hTexture);
 
 		return pGLESTarget;
 	}
@@ -151,13 +290,39 @@ namespace ma
 
 	void GLESRenderDevice::SetDepthStencil(Texture* pTexture)
 	{
-		ASSERT(false);
+		ASSERT(pTexture);
+		if (pTexture == NULL)
+			return;
+
+		GLESTexture* pGLESTarget = (GLESTexture*)pTexture;
+
+		GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, pGLESTarget->GetFrameBuffer()) );
+
+		if (pGLESTarget->GetTexture() > 0)
+		{
+			GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, pGLESTarget->GetTexture()) );
+			GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+			{
+				LogError("Framebuffer status incomplete: 0x%x", fboStatus);
+			}
+		}
 	}
 
 	Texture* GLESRenderDevice::GetDepthStencil()
 	{
-		//ASSERT(false);
-		return NULL;
+		GLESTexture* pGLESTarget = new GLESTexture(-1,-1);
+
+		GLint hFboBinding;
+		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &hFboBinding) );
+		
+		//GLint hTexture;
+		//GL_ASSERT( glGetFramebufferAttachmentParameteriv(hFboBinding,GL_DEPTH_ATTACHMENT,GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,&hTexture) );
+
+		pGLESTarget->SetFrameBuffer(hFboBinding);
+		//pGLESTarget->SetTexture(hTexture);
+
+		return pGLESTarget;
 	}
 
 	void GLESRenderDevice::SetViewport(const Rectangle& rect)
@@ -182,7 +347,7 @@ namespace ma
 
 	void GLESRenderDevice::SetDepthBias(float constantBias, float slopeScaleBias)
 	{
-		ASSERT(false);
+		//ASSERT(false);
 	}
 
 	void GLESRenderDevice::SetCullingMode(CULL_MODE mode)
@@ -320,10 +485,10 @@ namespace ma
  		GL_ASSERT( glUniform1f(uniform->m_location, value) );
 	}
 
-	void GLESRenderDevice::SetValue(Uniform* uniform, const Matrix4& value)
+	void GLESRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
 		ASSERT(uniform);
-		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, 1, GL_FALSE, (GLfloat*)&value) );
+		GL_ASSERT( glUniformMatrix4fv(uniform->m_location, count, GL_FALSE, (GLfloat*)values) );
 	}
 
 	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
@@ -339,16 +504,9 @@ namespace ma
 		GL_ASSERT( glUniform3f(uniform->m_location, value.x, value.y, value.z) );
 	}
 
-	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector4& value)
-	{
-		ASSERT(uniform);
-		GL_ASSERT( glUniform4f(uniform->m_location, value.x, value.y, value.z, value.w) );
-	}
-
 	void GLESRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		ASSERT(uniform);
-		ASSERT(values);
 		GL_ASSERT( glUniform4fv(uniform->m_location, count, (GLfloat*)values) );
 	}
 
@@ -579,12 +737,14 @@ namespace ma
 
 	void GLESRenderDevice::BeginProfile(const char* pszLale)
 	{
-        glPushGroupMarkerEXT(0,pszLale);
+		if (glPushGroupMarkerEXT)
+			glPushGroupMarkerEXT(0,pszLale);
 	}
 
 	void GLESRenderDevice::EndProfile()
 	{
-        glPopGroupMarkerEXT();
+		if (glPopGroupMarkerEXT) 
+			glPopGroupMarkerEXT();
 	}
 
 	bool GLESRenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)

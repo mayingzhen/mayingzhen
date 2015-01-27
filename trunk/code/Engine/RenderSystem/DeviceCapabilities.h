@@ -68,75 +68,39 @@ public:
 	DeviceCapabilitie(void);
 	~DeviceCapabilitie(void);
 
-	GPUVendor getVendor() const
-	{
-		return mVendor;
-	}
+	GPUVendor getVendor() const {return mVendor;}
+	void SetVendor(GPUVendor v){mVendor = v;}
 
-	void setVendor(GPUVendor v)
-	{
-		mVendor = v;
-	}
+	DriverVersion getDriverVersion() const{return mDriverVersion;}
+	void SetDriverVersion(const DriverVersion& version){mDriverVersion = version;}
 
-	DriverVersion getDriverVersion() const
-	{
-		return mDriverVersion;
-	}
+	/// device name for Render system
+	void SetDeviceName(const char* name);
+	const char* GetDeviceName() const;
 
-	/** Set the driver version. */
-	void setDriverVersion(const DriverVersion& version)
-	{
-		mDriverVersion = version;
-	}
-
-	/// sets the device name for Render system
-	void setDeviceName(const char* name);
-
-	/// gets the device name for render system
-	const char* getDeviceName() const
-	{
-		return mDeviceName.c_str();
-	}
-
-	/// Get the identifier of the rendersystem from which these capabilities were generated
-	const char* getRenderSystemName(void) const
-	{
-		return mRenderSystemName.c_str();
-	}
-	///  Set the identifier of the rendersystem from which these capabilities were generated
-	void setRenderSystemName(const char* rs);
+	/// identifier of the Rendersystem from which these capabilities were generated
+	const char* GetRenderSystemName(void) const;
+	void SetRenderSystemName(const char* rs);
 
 	/// The number of simultaneous render targets supported
-	uint8 getNumMultiRenderTargets(void) const{	return mNumMultiRenderTargets;}
-
-	/// The number of simultaneous render targets supported
-	void setNumMultiRenderTargets(uint8 num)
-	{
-		mNumMultiRenderTargets = num;
-	}
+	uint8 GetNumMultiRenderTargets(void) const{	return mNumMultiRenderTargets;}
+	void SetNumMultiRenderTargets(uint8 num){mNumMultiRenderTargets = num;}
 
 	/// Maximum point screen size in pixels
-	void setMaxPointSize(Real s)
-	{
-		mMaxPointSize = s;
-	}
-	/// Maximum point screen size in pixels
-	Real getMaxPointSize(void) const
-	{
-		return mMaxPointSize;
-	}
+	void SetMaxPointSize(Real s){mMaxPointSize = s;} 
+	Real GetMaxPointSize(void) const{return mMaxPointSize;}
 
-	void setFloatTexturesSupported(bool b){mFloatTexturesSupported = b;}
-	bool getFloatTexturesSupported() const{return mFloatTexturesSupported;}
+	void SetFloatTexturesSupported(bool b){mFloatTexturesSupported = b;}
+	bool GetFloatTexturesSupported() const{return mFloatTexturesSupported;}
 
 	/** Write the capabilities to the pass in Log */
 	void log();
 
-	void setMRTIndependentBitDepths(bool b){m_bMRTIndependentBitDepth = b;}
-	bool getMRTIndependentBitDepths() const{return m_bMRTIndependentBitDepth;}
+	void SetMRTIndependentBitDepths(bool b){m_bMRTIndependentBitDepth = b;}
+	bool GetMRTIndependentBitDepths() const{return m_bMRTIndependentBitDepth;}
 
 	void SetVSTextureSupported(bool b){m_bIsVSTextureSupported = b;}
-	bool IsVSTextureSupported() const{return m_bIsVSTextureSupported;}
+	bool GetVSTextureSupported() const{return m_bIsVSTextureSupported;}
 
 	void SetTextureDXTSupported(bool b){m_bDXT = b;}
 	void SetTexturePVRTCSupported(bool b){m_bPVRTC = b;}

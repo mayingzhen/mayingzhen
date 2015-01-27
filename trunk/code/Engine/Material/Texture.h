@@ -6,7 +6,7 @@
 namespace ma
 {
 	class ImageData;	
-	
+
 	class RENDER_API Texture : public Resource
 	{
 		DECL_OBJECT(Texture)
@@ -23,6 +23,8 @@ namespace ma
 		int				GetHeight() const {return m_nHeight;}
 
 		PixelFormat		GetFormat() const {return m_eFormat;}
+
+		void			SetAutoMipMap(bool b) {m_bAutoMipMap = b;}
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	
@@ -56,7 +58,7 @@ namespace ma
 
 	DeclareRefPtr(Texture);
 
-	RefPtr<Texture> CreateTexture(const char* pPath);
+	RefPtr<Texture> CreateTexture(const char* pPath,bool bMipmap = true);
 }
 
 #endif

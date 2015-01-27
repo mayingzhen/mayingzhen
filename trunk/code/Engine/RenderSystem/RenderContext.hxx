@@ -29,46 +29,46 @@ namespace ma
 	void RenderContext::SetCamera(Camera* pCamera)
 	{
 		//m_pCamera = pCamera;
-		m_matViewProj[GetRenderSystem()->GetThreadList()].SetMatView( pCamera->GetMatView() );
-		m_matViewProj[GetRenderSystem()->GetThreadList()].SetMatProj( pCamera->GetMatProj() );
+		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
+		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
 
-		m_fFar[GetRenderSystem()->GetThreadList()] = pCamera->GetFarClip();
-		m_fNear[GetRenderSystem()->GetThreadList()] = pCamera->GetNearClip();
+		m_fFar[GetRenderSystem()->CurThreadFill()] = pCamera->GetFarClip();
+		m_fNear[GetRenderSystem()->CurThreadFill()] = pCamera->GetNearClip();
 	}
 
 	void RenderContext::SetViewMatrix(const Matrix4& matView) 
 	{
-		m_matViewProj[GetRenderSystem()->GetThreadList()].SetMatView(matView);
+		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView(matView);
 	}
 
 	const Matrix4& RenderContext::GetViewMatrix()  
 	{
-		return m_matViewProj[GetRenderSystem()->GetThreadList()].GetMatView();
+		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatView();
 	}
 
 	void RenderContext::SetProjMatrix(const Matrix4& matProj) 
 	{
-		m_matViewProj[GetRenderSystem()->GetThreadList()].SetMatProj(matProj);
+		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj(matProj);
 	}
 
 	const Matrix4& RenderContext::GetProjMatrix()  
 	{
-		return m_matViewProj[GetRenderSystem()->GetThreadList()].GetMatProj();
+		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatProj();
 	}
 
 	const Matrix4& RenderContext::GetViewProjMatrix()  
 	{
-		return m_matViewProj[GetRenderSystem()->GetThreadList()].GetMatViewProj();
+		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatViewProj();
 	}
 
 	float RenderContext::GetNearClip() 
 	{
-		return m_fNear[GetRenderSystem()->GetThreadList()];
+		return m_fNear[GetRenderSystem()->CurThreadProcess()];
 	}
 
 	float RenderContext::GetFarClip() 
 	{
-		return m_fFar[GetRenderSystem()->GetThreadList()];
+		return m_fFar[GetRenderSystem()->CurThreadProcess()];
 	}
 
 }

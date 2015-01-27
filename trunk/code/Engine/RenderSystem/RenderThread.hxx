@@ -39,8 +39,7 @@ namespace ma
 
 	void RenderThread::Stop()
 	{
-		m_bExit = true;
-		FlushAndWait();
+		SignalFlushFinishedCond();
 
 		Thread::Stop();
 	}
@@ -51,12 +50,12 @@ namespace ma
 		WaitFlushCond();
 		float fTimeAfterWait = GetTimer()->GetMillisceonds();
 		float fTimeWaitForMain = fTimeAfterWait - fTime;
-		//Log("fTimeWaitForMain = %f",fTimeWaitForMain);
+		LogInfo("fTimeWaitForMain = %f",fTimeWaitForMain);
 		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 		ProcessCommands();
 		float fTimeAfterProcess = GetTimer()->GetMillisceonds();
 		float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
-		//Log("fTimeProcessedRT = %f",fTimeProcessedRT);
+		LogInfo("fTimeProcessedRT = %f",fTimeProcessedRT);
 		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 	}
 
@@ -388,19 +387,6 @@ namespace ma
 		AddFloat(value);
 	}
 
-	void RenderThread::RC_SetMatrix4(Uniform* uniform, const Matrix4& value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetMatrix4);
-		AddPointer(uniform);
-		AddMatrix4(value);
-	}
-
 	void RenderThread::RC_SetVector2(Uniform* uniform, const Vector2& value)
 	{
 		if (IsRenderThread())
@@ -427,20 +413,8 @@ namespace ma
 		AddVec3(value);
 	}
 
-	void RenderThread::RC_SetVector4(Uniform* uniform, const Vector4& value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
 
-		AddCommand(eRC_SetVector4);
-		AddPointer(uniform);
-		AddVec4(value);
-	}
-
-	void RenderThread::RC_SetVector4Count(Uniform* uniform, const Vector4* values, UINT count)
+	void RenderThread::RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		if (IsRenderThread())
 		{
@@ -448,10 +422,24 @@ namespace ma
 			return;
 		}
 
-		AddCommand(eRC_SetVector4Count);
+		AddCommand(eRC_SetVector4);
 		AddPointer(uniform);
 		AddDWORD(count);
 		AddData(values,sizeof(Vector4) * count);
+	}
+
+	void RenderThread::RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetValue(uniform,values,count);
+			return;
+		}
+
+		AddCommand(eRC_SetMatrix4);
+		AddPointer(uniform);
+		AddDWORD(count);
+		AddData(values,sizeof(Matrix4) * count);
 	}
 
 	void RenderThread::RC_SetColourValue(Uniform* uniform, const ColourValue& value)
@@ -701,13 +689,6 @@ namespace ma
 					GetRenderDevice()->SetValue(pUnform,fValue);
 				}
 				break;
-			case eRC_SetMatrix4:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Matrix4 fValue = ReadCommand<Matrix4>(n);
-					GetRenderDevice()->SetValue(pUnform,fValue);
-				}
-				break;
 			case eRC_SetVector2:
 				{
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
@@ -725,15 +706,16 @@ namespace ma
 			case eRC_SetVector4:
 				{
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Vector4 value = ReadCommand<Vector4>(n);
-					GetRenderDevice()->SetValue(pUnform,value);
+					UINT nCount = ReadCommand<UINT>(n);
+					Vector4* nValue = ReadDataPtr<Vector4*>(n,nCount * sizeof(Vector4));
+					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
 				}
 				break;
-			case eRC_SetVector4Count:
+			case eRC_SetMatrix4:
 				{
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
 					UINT nCount = ReadCommand<UINT>(n);
-					Vector4* nValue = ReadDataPtr<Vector4*>(n,nCount * sizeof(Vector4));
+					Matrix4* nValue = ReadDataPtr<Matrix4*>(n,nCount * sizeof(Matrix4));
 					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
 				}
 				break;
@@ -817,7 +799,7 @@ namespace ma
 		float fTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
 		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
-		//Log("fTimeWaitForRender = %f",fTimeWaitForRender);
+		LogInfo("fTimeWaitForRender = %f",fTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;

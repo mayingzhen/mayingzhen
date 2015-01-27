@@ -10,6 +10,7 @@ namespace ma
 	class GBufferPass;
 	class DeferredLightPass;
 	class DeferredShadowPass;
+	class Scene;
 
 	class RENDER_API  RenderScheme : public Referenced
 	{

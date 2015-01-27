@@ -21,7 +21,7 @@ namespace ma
 
 		void				Clear(Camera* pCamera);
 
-		const Matrix4&		GetShadowMatrix() const {return m_matVPShadow;}
+		const Matrix4&		GetShadowMatrix() const {return m_matVPShadow[GetRenderSystem()->CurThreadProcess()];}
 		const Matrix4&		GetLightViewMatrix() const {return m_matLightView;}
 		const Matrix4&		GetTexAdjustMatrix() const {return m_matTexAdjust;}
 
@@ -41,24 +41,24 @@ namespace ma
 		Matrix4				m_matLightView;
 		Matrix4				m_matLightProj;
 		Matrix4				m_matCrop;	
-		Matrix4				m_matVPShadow;
+		Matrix4				m_matVPShadow[2];
 		Matrix4				m_matTexAdjust;
 
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
-		VEC_RENDERABLE		m_arrRenderable;
+		VEC_RENDERABLE		m_arrRenderable[2];
 
 		AABB				m_sceneAABB;
 
 		Frustum				m_frustum;
 
-		float				m_fConstantBias;
-		float				m_fSlopeScaleBias;
+		float				m_fConstantBias[2];
+		float				m_fSlopeScaleBias[2];
 
 		Rectangle			m_viewport;	
 
-		bool				m_bDraw;
+		bool				m_bDraw[2];
 	};
 }
 

@@ -53,7 +53,7 @@ namespace ma
 		m_pCurSample = NULL;
 		m_pCameraControl = NULL;
 
-		ModuleInit();
+		ModuleInit(RenderDevice_D3D9);
 	}
 
 	SampleBrowser::~SampleBrowser()
@@ -61,39 +61,49 @@ namespace ma
 		ModuleShutdown();
 	}
 
-	void SampleBrowser::ModuleInit()
+	void SampleBrowser::ModuleInit(RenderDeviceType eType)
 	{
+		AnimationModuleInit();
+		BtPhysicsModuleInit();
 
 #if PLATFORM_WIN == 1
-		//D3D9RenderModuleInit();
-		GLESRenderModuleInit();
-		MonoScriptModuleInit();
-		BtPhysicsModuleInit();
-		AnimationModuleInit();
-		FBXImporterModuleInit();
+		if (eType == RenderDevice_D3D9)
+		{
+			D3D9RenderModuleInit();
+		}
+		else
+		{
+			GLESRenderModuleInit();
+		}
 
+		MonoScriptModuleInit();
+		FBXImporterModuleInit();
 #else
-		AnimationModuleInit();
-		GLESRenderModuleInit();
-		BtPhysicsModuleInit();
+		GLESRenderModuleInit();		
 #endif
 	}
 
 	void SampleBrowser::ModuleShutdown()
 	{
+		AnimationModuleShutdown();
+		BtPhysicsModuleShutdown();
+
 #if PLATFORM_WIN == 1
 		FBXImporterModuleShutdown();
-		AnimationModuleShutdown();
-		BtPhysicsModuleShutdown();
 		MonoScriptModuleShutdown();
-		//D3D9RenderModuleShutdown();
-		GLESRenderModuleShutdown();
-#else
-		AnimationModuleShutdown();
-		GLESRenderModuleShutdown();
-		BtPhysicsModuleShutdown();
-#endif	
 
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
+		{
+			D3D9RenderModuleShutdown();
+		}
+		else
+		{
+			GLESRenderModuleShutdown();
+		}
+#else
+
+		GLESRenderModuleShutdown();
+#endif	
 	}
 
 	void SampleBrowser::InitSampleList()
@@ -125,7 +135,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("Terrain");
+		RunSample("ShadowMap");
 	}
 
 	void SampleBrowser::InitResourcePath()

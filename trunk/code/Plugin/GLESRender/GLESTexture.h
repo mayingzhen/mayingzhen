@@ -15,10 +15,10 @@ namespace ma
 		~GLESTexture();
 
 		GLuint				GetTexture() {return m_pTex;}
+		void				SetTexture(GLuint hTex) {m_pTex = hTex;}
 
-		void				SetFrameBuffer(FrameBufferHandle handele) {m_handle = handele;}
-
-		FrameBufferHandle	GetFrameBuffer() {return m_handle;}
+		void				SetFrameBuffer(FrameBufferHandle handele) {m_hFB = handele;}
+		FrameBufferHandle	GetFrameBuffer() {return m_hFB;}
 
 	private:
 		virtual	bool		RT_CreateTexture();	
@@ -29,16 +29,14 @@ namespace ma
 
 		virtual bool		GenerateMipmaps();
 
-		PixelFormat			getNativeFormat(PixelFormat format);
-
-		//void				ConvertImageData(int pixelFormat,int nPixelCount,uint8* pPixel);
+		PixelFormat			GetNativeFormat(PixelFormat format);
 		
 	private:
 		GLuint				m_pTex;			// 贴图地址
 		GLuint				m_PixelFormat;	// 内部像素格式
 		GLuint				m_DataType;
 
-		FrameBufferHandle	m_handle;
+		FrameBufferHandle	m_hFB;
 	};
 
 }
