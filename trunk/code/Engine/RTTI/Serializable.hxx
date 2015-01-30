@@ -54,7 +54,7 @@ namespace ma
 		}
 		else if (strVarType == "TexturePath")
 		{
-			return Any( CreateTexture(strVarValue.c_str()) );
+			return Any( CreateSamplerState(strVarValue.c_str()) );
 		}
 // 		else if (strVarType == "SamplerState")
 // 		{
@@ -201,76 +201,6 @@ namespace ma
 			attr.accessor_->Set(this, src);
 			return;
 		}
-
-		// Calculate the destination address
-		void* dest = attr.ptr_ ? attr.ptr_ : reinterpret_cast<unsigned char*>(this) + attr.offset_;
-
-// 		switch (attr.type_)
-// 		{
-// 		case VAR_INT:
-// 			// If enum type, use the low 8 bits only
-// 			if (attr.enumNames_)
-// 				*(reinterpret_cast<unsigned char*>(dest)) = src.GetInt();
-// 			else
-// 				*(reinterpret_cast<int*>(dest)) = src.GetInt();
-// 			break;
-// 
-// 		case VAR_BOOL:
-// 			*(reinterpret_cast<bool*>(dest)) = src.GetBool();
-// 			break;
-// 
-// 		case VAR_FLOAT:
-// 			*(reinterpret_cast<float*>(dest)) = src.GetFloat();
-// 			break;
-// 
-// 		case VAR_VECTOR2:
-// 			*(reinterpret_cast<Vector2*>(dest)) = src.GetVector2();
-// 			break;
-// 
-// 		case VAR_VECTOR3:
-// 			*(reinterpret_cast<Vector3*>(dest)) = src.GetVector3();
-// 			break;
-// 
-// 		case VAR_VECTOR4:
-// 			*(reinterpret_cast<Vector4*>(dest)) = src.GetVector4();
-// 			break;
-// 
-// 		case VAR_QUATERNION:
-// 			*(reinterpret_cast<Quaternion*>(dest)) = src.GetQuaternion();
-// 			break;
-// 
-// 		case VAR_COLOR:
-// 			*(reinterpret_cast<Color*>(dest)) = src.GetColor();
-// 			break;
-// 
-// 		case VAR_STRING:
-// 			*(reinterpret_cast<std::string*>(dest)) = src.GetString();
-// 			break;
-// 
-// 		case VAR_BUFFER:
-// 			*(reinterpret_cast<PODVector<unsigned char>*>(dest)) = src.GetBuffer();
-// 			break;
-// 
-// 		case VAR_VARIANTVECTOR:
-// 			*(reinterpret_cast<VariantVector*>(dest)) = src.GetVariantVector();
-// 			break;
-// 
-// 		case VAR_VARIANTMAP:
-// 			*(reinterpret_cast<VariantMap*>(dest)) = src.GetVariantMap();
-// 			break;
-// 
-// 		case VAR_INTRECT:
-// 			*(reinterpret_cast<IntRect*>(dest)) = src.GetIntRect();
-// 			break;
-// 
-// 		case VAR_INTVECTOR2:
-// 			*(reinterpret_cast<IntVector2*>(dest)) = src.GetIntVector2();
-// 			break;
-// 
-// 		default:
-// 			ASSERT("Unsupported attribute type for OnSetAttribute()");
-// 			return;
-// 		}
 	}
 
 	void Serializable::OnGetAttribute(const AttributeInfo& attr, Any& dest) const
@@ -284,73 +214,6 @@ namespace ma
 
 		// Calculate the source address
 		const void* src = attr.ptr_ ? attr.ptr_ : reinterpret_cast<const unsigned char*>(this) + attr.offset_;
-
-// 		switch (attr.type_)
-// 		{
-// 		case VAR_INT:
-// 			// If enum type, use the low 8 bits only
-// 			if (attr.enumNames_)
-// 				dest = *(reinterpret_cast<const unsigned char*>(src));
-// 			else
-// 				dest = *(reinterpret_cast<const int*>(src));
-// 			break;
-// 
-// 		case VAR_BOOL:
-// 			dest = *(reinterpret_cast<const bool*>(src));
-// 			break;
-// 
-// 		case VAR_FLOAT:
-// 			dest = *(reinterpret_cast<const float*>(src));
-// 			break;
-// 
-// 		case VAR_VECTOR2:
-// 			dest = *(reinterpret_cast<const Vector2*>(src));
-// 			break;
-// 
-// 		case VAR_VECTOR3:
-// 			dest = *(reinterpret_cast<const Vector3*>(src));
-// 			break;
-// 
-// 		case VAR_VECTOR4:
-// 			dest = *(reinterpret_cast<const Vector4*>(src));
-// 			break;
-// 
-// 		case VAR_QUATERNION:
-// 			dest = *(reinterpret_cast<const Quaternion*>(src));
-// 			break;
-// 
-// 		case VAR_COLOR:
-// 			dest = *(reinterpret_cast<const Color*>(src));
-// 			break;
-// 
-// 		case VAR_STRING:
-// 			dest = *(reinterpret_cast<const std::string*>(src));
-// 			break;
-// 
-// 		case VAR_BUFFER:
-// 			dest = *(reinterpret_cast<const PODVector<unsigned char>*>(src));
-// 			break;
-// 
-// 		case VAR_VARIANTVECTOR:
-// 			dest = *(reinterpret_cast<const VariantVector*>(src));
-// 			break;
-// 
-// 		case VAR_VARIANTMAP:
-// 			dest = *(reinterpret_cast<const VariantMap*>(src));
-// 			break;
-// 
-// 		case VAR_INTRECT:
-// 			dest = *(reinterpret_cast<const IntRect*>(src));
-// 			break;
-// 
-// 		case VAR_INTVECTOR2:
-// 			dest = *(reinterpret_cast<const IntVector2*>(src));
-// 			break;
-// 
-// 		default:
-// 			ASSERT("Unsupported attribute type for OnGetAttribute()");
-// 			return;
-// 		}
 	}
 
 	const vector<AttributeInfo>* Serializable::GetAttributes() const

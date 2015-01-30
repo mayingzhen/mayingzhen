@@ -17,7 +17,7 @@ namespace ma
 
 		void						AddParameter(const char* pName,Any value);
 		UINT						GetParameterCount() const {return m_arrParameters.size();}
-		const MaterialParameter&	GetParameterByIndex(UINT index) const {return m_arrParameters[index];}
+		const Parameter&			GetParameterByIndex(UINT index) const {return m_arrParameters[index];}
 
 		const RenderState&			GetRenderState() const {return m_renderState;}
 		RenderState&				GetRenderState()  {return m_renderState;}
@@ -31,7 +31,7 @@ namespace ma
 
 		RenderState					m_renderState;
 
-		typedef std::vector<MaterialParameter>	VEC_PARAMTER;
+		typedef std::vector<Parameter>	VEC_PARAMTER;
 		VEC_PARAMTER				m_arrParameters;
 	};
 

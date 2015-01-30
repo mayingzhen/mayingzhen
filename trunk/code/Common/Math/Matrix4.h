@@ -77,6 +77,8 @@ namespace ma
     */
     class Matrix4
     {
+		friend class Matrix3x4;
+
     protected:
         /// The matrix entries, indexed by [row][col].
         union {

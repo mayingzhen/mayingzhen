@@ -5,7 +5,6 @@
 namespace ma
 {
 	class SubMaterial;
-	class SamplerState;
 	class Texture;
 	class Technique;
  
@@ -46,7 +45,7 @@ namespace ma
 		
 		void				SetTexture(Texture* pTexture);
 
-		SamplerState*		GetSampler() {return m_pSampler.get();}
+		Texture*			GetTexture() {return m_pSampler.get();}
 	
 		RenderState&		GetStateBlock() const;
 
@@ -86,7 +85,7 @@ namespace ma
 	private:
 		RefPtr<Technique>		m_pTechnique;
 
-		RefPtr<SamplerState>	m_pSampler;
+		RefPtr<Texture>			m_pSampler;
 		
 		float					m_fTextureWidthRatio;
 		

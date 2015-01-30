@@ -34,15 +34,12 @@ EXPORTS
 ?OnRemoveFromSceneNode@Component@ma@@UAEXPAVSceneNode@2@@Z
 ?GetClass@Component@ma@@UBEPAVRTTIClass@2@XZ
 ?RegisterRTTIClass@ClassManager@ma@@QAE_NPAVRTTIClass@2@@Z
-??0Texture@ma@@QAE@PBD@Z
 ?GetClass@Texture@ma@@UBEPAVRTTIClass@2@XZ
-?LoadSync@Texture@ma@@UAEXXZ
 ??0Texture@ma@@QAE@HHW4PixelFormat@1@W4USAGE@1@@Z
 ??0VertexDeclaration@ma@@QAE@XZ
 ??1VertexDeclaration@ma@@UAE@XZ
 ??0ShaderProgram@ma@@QAE@PBD@Z
 ?GetClass@ShaderProgram@ma@@UBEPAVRTTIClass@2@XZ
-?CreateFromMemeory@Texture@ma@@MAE_NXZ
 ??1ShaderProgram@ma@@UAE@XZ
 ?GetRenderDevice@ma@@YAPAVIRenderDevice@1@XZ
 ?SetRenderDevice@ma@@YAXPAVIRenderDevice@1@@Z
@@ -69,7 +66,6 @@ EXPORTS
 ?GetResourceSystem@ma@@YAPAVResourceSystem@1@XZ
 ?LoadResource@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
 ?StaticGetClass@MeshComponent@ma@@SAPBVRTTIClass@2@XZ
-?SetSkinMatrix@MeshComponent@ma@@QAEXPBVMatrix4@2@I@Z
 ?GetUserData@SceneNode@ma@@QAEPAXPBD@Z
 ?SetUserData@SceneNode@ma@@QAEXPBDPAX@Z
 ?GetTransformWS@SceneNode@ma@@QBEABUTransform@2@XZ
@@ -90,7 +86,6 @@ EXPORTS
 ?getBool@Properties@ma@@QBE_NPBD_N@Z
 ?getString@Properties@ma@@QBEPBDPBD@Z
 ?Draw@SpriteBatch@ma@@QAEXMMMMMMMMABVColourValue@2@ABVRectangle@2@@Z
-?SetFilterMode@SamplerState@ma@@QAEXW4FilterOptions@2@@Z
 ??0SpriteBatch@ma@@QAE@V?$RefPtr@VTexture@ma@@@1@PAVTechnique@1@I@Z
 ?LoadResourceSync@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
 ?StaticGetClass@Texture@ma@@SAPBVRTTIClass@2@XZ
@@ -133,8 +128,6 @@ EXPORTS
 ?SetScale@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
 ?AddSubMatData@MaterialData@ma@@QAEXABUSubMaterialData@2@@Z
-?SetTexturePath@SamplerState@ma@@QAEXPBD@Z
-??0SamplerState@ma@@QAE@XZ
 ?CreateNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
 ?LookAt@SceneNode@ma@@QAEXABVVector3@2@0@Z
 ?GetDirection@DirectonalLight@ma@@QAE?AVVector3@2@XZ
@@ -204,7 +197,6 @@ EXPORTS
 ?RegisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
 ?UnregisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
 ?SetDataThreadEnable@ResourceSystem@ma@@QAEX_N@Z
-?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@XZ
 ?GetShadingTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
 ?StaticInitClass@Resource@ma@@SAXXZ
@@ -258,4 +250,8 @@ EXPORTS
 ?SetData@HardwareBuffer@ma@@QAEXPAXIHW4USAGE@2@@Z
 ?SetRenderSystemName@DeviceCapabilitie@ma@@QAEXPBD@Z
 ?SetDeviceName@DeviceCapabilitie@ma@@QAEXPBD@Z
-?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBD_N@Z
+??0Texture@ma@@QAE@XZ
+??1Texture@ma@@UAE@XZ
+?OnLoadOver@Texture@ma@@UAE_NXZ
+?CreateSamplerState@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4FilterOptions@1@@Z
+?SetSkinMatrix@MeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z

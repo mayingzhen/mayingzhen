@@ -31,6 +31,10 @@ namespace ma
 		{
 			m_pRenderTarget[i] = NULL;
 		}
+		for (int i = 0; i < MAX_SHADOW_SAMPLES_NUM; ++i)
+		{
+			m_arrSampState[i] = NULL;
+		}
 
 		m_pCurVertexDecla = NULL;
 		m_pCurVB = NULL;
@@ -103,25 +107,19 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::BeginFrame()
+	void RenderSystem::BegineRender()
 	{
-		m_pRenderThread->RC_BeginFrame();
+		m_pRenderThread->RC_BeginRender();
 	}
 
-	void RenderSystem::EndFrame()
+	void RenderSystem::EndRender()
 	{
-		profile_code();
-
-		m_pRenderThread->RC_EndFrame();
+		m_pRenderThread->RC_EndRender();
 	}
 
 	void RenderSystem::Render()
 	{
 		m_pRenderThread->RC_Render();
-// 		for (UINT i = 0; i < m_arrScene.size(); ++i)
-// 		{
-// 			m_arrScene[i]->Render();
-// 		}
 	}
 
 	void RenderSystem::OnFlushFrame()
@@ -157,6 +155,10 @@ namespace ma
 		{
 			m_pRenderTarget[i] = NULL;
 		}
+		for (int i = 0; i < MAX_SHADOW_SAMPLES_NUM; ++i)
+		{
+			m_arrSampState[i] = NULL;
+		}
 
 		GetRenderDevice()->ShutDown();
 
@@ -182,13 +184,6 @@ namespace ma
 		GetRenderDevice()->SetCullingMode(m_curState.m_eCullMode);
 		GetRenderDevice()->SetDepthCheckMode(m_curState.m_eDepthCheckMode);
 		GetRenderDevice()->SetBlendMode(m_curState.m_eBlendMode);
-		for (UINT i = 0; i < MAX_SAMPSTATE; ++i)
-		{
-			Uniform uniformTemp;
-			uniformTemp.m_index = i;
-			GetRenderDevice()->SetTextureWrap(&uniformTemp,m_arrSampState[i].GetWrapMode());
-			GetRenderDevice()->SetTextureFilter(&uniformTemp,m_arrSampState[i].GetFilterMode());
-		}
 	}
 
 
@@ -217,8 +212,6 @@ namespace ma
 		Scene* pScene = new Scene("defaultScene");
 		pScene->SetViewport(m_viewport);
 		m_arrScene.push_back(pScene);
-
-
 	}
 
 	void RenderSystem::RT_BeginFrame()
@@ -561,11 +554,17 @@ namespace ma
 
 	void RenderSystem::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
+		if (values == NULL)
+			return;
+
 		m_pRenderThread->RC_SetMatrix4(uniform,values,count);
 	}
 
 	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
+		if (values == NULL)
+			return;
+
 		m_pRenderThread->RC_SetVector4(uniform,values,count);
 	}
 
@@ -574,40 +573,16 @@ namespace ma
 		m_pRenderThread->RC_SetColourValue(uniform,value);
 	}
 
-	void RenderSystem::SetValue(Uniform* uniform, SamplerState* sampler)
-	{
-		ASSERT(uniform && sampler);
-		if (uniform == NULL || sampler == NULL)
-			return;
-			
-		SetValue(uniform,sampler->GetTexture());
-
-		if (m_arrSampState[uniform->m_index].GetWrapMode() != sampler->GetWrapMode())
-		{
-			m_pRenderThread->RC_SetTextureWrap(uniform,sampler->GetWrapMode());
-
-			m_arrSampState[uniform->m_index].SetWrapMode(sampler->GetWrapMode());
-		}
-		
-		if (m_arrSampState[uniform->m_index].GetFilterMode() != sampler->GetFilterMode())
-		{
-			m_pRenderThread->RC_SetTextureFilter(uniform,sampler->GetFilterMode());
-
-			m_arrSampState[uniform->m_index].SetFilterMode(sampler->GetFilterMode());
-		}
-
-	}
-
 	void RenderSystem::SetValue(Uniform* uniform, Texture* pTexture)
 	{
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if (m_arrSampState[uniform->m_index].GetTexture() != pTexture /*&& pTexture->GetResState() == ResInited*/)
+		if (m_arrSampState[uniform->m_index] != pTexture && pTexture->OnLoadOver())
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 
-			m_arrSampState[uniform->m_index].SetTexture(pTexture);
+			m_arrSampState[uniform->m_index] = pTexture; 
 		}
 	}
 

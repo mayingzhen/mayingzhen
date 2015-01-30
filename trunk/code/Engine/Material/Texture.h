@@ -7,16 +7,18 @@ namespace ma
 {
 	class ImageData;	
 
-	class Texture : public Resource
+	class Texture : public Serializable
 	{
 		DECL_OBJECT(Texture)
 
 	public:
-		Texture(const char* pszPath = NULL);
+		Texture(); // For Sampler State
 
-		Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage);
-			
-		virtual void	LoadSync();
+		Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage); // For Render Texture
+		
+		virtual ~Texture();
+
+		static void		RegisterAttribute();
 
 		int				GetWidth() const {return m_nWidth;}
 
@@ -24,18 +26,26 @@ namespace ma
 
 		PixelFormat		GetFormat() const {return m_eFormat;}
 
-		void			SetAutoMipMap(bool b) {m_bAutoMipMap = b;}
+		void			SetWrapMode(Wrap eWrap) {m_eWrap = eWrap;}
+		Wrap			GetWrapMode() const {return m_eWrap;}
+
+		void			SetFilterMode(FilterOptions ficationFilter) {m_eFilter = ficationFilter;}
+		FilterOptions	GetFilterMode() const {return m_eFilter;} 
+
+		void			SetImagePath(const char* pTexPath);
+		const char*		GetImagePath() const;
+
+		virtual	bool	OnLoadOver();
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	
 	protected:
-		bool			CreateFromMemeory();
-
-		bool			RT_StreamComplete(); 
 
 		bool			LoadFromImagData(const ImageData& imageData);
+		
+		bool			RT_StreamComplete();  
 
-		virtual	bool	RT_CreateTexture() = 0;	
+		virtual	bool	RT_CreateTexture(bool bMinMap) = 0;	
 
 		virtual	bool	RT_CreateDepthStencil() = 0;	
 
@@ -51,14 +61,17 @@ namespace ma
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;
 
-		bool			m_bAutoMipMap;
+		Wrap			m_eWrap;
+		FilterOptions	m_eFilter;	
+		RefPtr<Resource> m_pImageRes;
+		std::string		m_strImagePath;
 
 		friend class	RenderThread;
 	};
 
 	DeclareRefPtr(Texture);
 
-	RefPtr<Texture> CreateTexture(const char* pPath,bool bMipmap = true);
+	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap = REPEAT, FilterOptions eFilter = TFO_TRILINEAR);
 }
 
 #endif

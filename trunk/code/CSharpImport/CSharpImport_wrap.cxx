@@ -9686,14 +9686,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_SceneNode(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_ApplyAttributes(void * jarg1) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  (arg1)->ApplyAttributes();
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Update(void * jarg1) {
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   

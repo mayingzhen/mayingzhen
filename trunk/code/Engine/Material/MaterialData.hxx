@@ -25,7 +25,7 @@ namespace ma
 
 	void SubMaterialData::AddParameter(const char* pName,Any value)
 	{
-		MaterialParameter matParam;
+		Parameter matParam;
 		matParam.SetName(pName);
 		matParam.SetValue(value);
 		m_arrParameters.push_back(matParam);

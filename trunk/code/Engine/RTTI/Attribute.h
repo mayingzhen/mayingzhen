@@ -45,7 +45,6 @@ namespace ma
 	{
 		/// Construct empty.
 		AttributeInfo() :
-			//type_(VAR_NONE),
 			offset_(0),
 			enumNames_(0),
 			mode_(AM_DEFAULT),
@@ -54,7 +53,7 @@ namespace ma
 		}
 	    
 		/// Construct offset attribute.
-		AttributeInfo(/*VariantType type, */const char* name, size_t offset, const Any& defaultValue, unsigned mode) :
+		AttributeInfo(const char* name, size_t offset, const Any& defaultValue, unsigned mode) :
 			//type_(type),
 			name_(name),
 			offset_((unsigned)offset),
@@ -78,7 +77,7 @@ namespace ma
 		}
 	    
 		/// Construct accessor attribute.
-		AttributeInfo(/*VariantType type, */const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode) :
+		AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode) :
 			//type_(type),
 			name_(name),
 			offset_(0),
@@ -119,6 +118,145 @@ namespace ma
 		unsigned mode_;
 		/// Attribute data pointer if elsewhere than in the Serializable.
 		void* ptr_;
+	};
+
+
+	/// Template implementation of the attribute accessor invoke helper class.
+	template <class T, class U> class AttributeAccessorImpl : public AttributeAccessor
+	{
+	public:
+		typedef U (T::*GetFunctionPtr)() const;
+		typedef void (T::*SetFunctionPtr)(U);
+
+		/// Construct with function pointers.
+		AttributeAccessorImpl(GetFunctionPtr getFunction, SetFunctionPtr setFunction) :
+		getFunction_(getFunction),
+			setFunction_(setFunction)
+		{
+			assert(getFunction_);
+			assert(setFunction_);
+		}
+
+		/// Invoke getter function.
+		virtual void Get(const Serializable* ptr, Any& dest) const
+		{
+			assert(ptr);
+			const T* classPtr = static_cast<const T*>(ptr);
+			dest = (classPtr->*getFunction_)();
+		}
+
+		/// Invoke setter function.
+		virtual void Set(Serializable* ptr, const Any& value)
+		{
+			assert(ptr);
+			T* classPtr = static_cast<T*>(ptr);
+			(classPtr->*setFunction_)( any_cast<U>(value) );
+		}
+
+		/// Class-specific pointer to getter function.
+		GetFunctionPtr getFunction_;
+
+		/// Class-specific pointer to setter function.
+		SetFunctionPtr setFunction_;
+	};
+
+	/// Template implementation of the attribute accessor invoke helper class using const references.
+	template <class T, class U> class RefAttributeAccessorImpl : public AttributeAccessor
+	{
+	public:
+		typedef const U& (T::*GetFunctionPtr)() const;
+		typedef void (T::*SetFunctionPtr)(const U&);
+
+		/// Construct with function pointers.
+		RefAttributeAccessorImpl(GetFunctionPtr getFunction, SetFunctionPtr setFunction) :
+		getFunction_(getFunction),
+			setFunction_(setFunction)
+		{
+			assert(getFunction_);
+			assert(setFunction_);
+		}
+
+		/// Invoke getter function.
+		virtual void Get(const Serializable* ptr, Any& dest) const
+		{
+			assert(ptr);
+			const T* classPtr = static_cast<const T*>(ptr);
+			dest = (classPtr->*getFunction_)();
+		}
+
+		/// Invoke setter function.
+		virtual void Set(Serializable* ptr, const Any& value)
+		{
+			assert(ptr);
+			T* classPtr = static_cast<T*>(ptr);
+			(classPtr->*setFunction_)( any_cast<U>(value) );
+		}
+
+		/// Class-specific pointer to getter function.
+		GetFunctionPtr getFunction_;
+		/// Class-specific pointer to setter function.
+		SetFunctionPtr setFunction_;
+	};
+
+	/// Template implementation of the attribute accessor invoke helper class using const references.
+	template <class T, class U> class EnumAttributeAccessorImpl : public AttributeAccessor
+	{
+	public:
+		typedef U (T::*GetFunctionPtr)() const;
+		typedef void (T::*SetFunctionPtr)(U);
+
+		const char** m_arrEnumNames;
+
+		/// Construct with function pointers.
+		EnumAttributeAccessorImpl(const char** arrEnumNames,GetFunctionPtr getFunction, SetFunctionPtr setFunction) :
+		m_arrEnumNames(arrEnumNames),
+		getFunction_(getFunction),
+			setFunction_(setFunction)
+		{
+			ASSERT(m_arrEnumNames);
+			ASSERT(getFunction_);
+			ASSERT(setFunction_);
+		}
+
+		/// Invoke getter function.
+		virtual void Get(const Serializable* ptr, Any& dest) const
+		{
+			ASSERT(ptr);
+			const T* classPtr = static_cast<const T*>(ptr);
+			U eValue = (classPtr->*getFunction_)();
+
+			const char* pszValue = m_arrEnumNames[eValue];
+		
+			dest = Any(pszValue);
+		}
+
+		/// Invoke setter function.
+		virtual void Set(Serializable* ptr, const Any& value)
+		{
+			ASSERT(ptr);
+
+			const char* pszVlue = any_cast<const char*>(value);
+			const char** pEnumNames = m_arrEnumNames;
+			int nEnumValue = 0;
+			while (*pEnumNames)
+			{
+				if ( strcmp( *pEnumNames, pszVlue ) == 0 )
+				{
+					break;
+				}
+				++pEnumNames;
+				++nEnumValue;
+			}
+
+			T* classPtr = static_cast<T*>(ptr);
+			(classPtr->*setFunction_)( static_cast<U>(nEnumValue) );
+		}
+
+		/// Class-specific pointer to getter function.
+		GetFunctionPtr getFunction_;
+		
+		/// Class-specific pointer to setter function.
+		SetFunctionPtr setFunction_;
 	};
 
 }

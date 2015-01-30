@@ -21,7 +21,7 @@ namespace ma
 
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_D3D9;}
 
-		virtual Texture*			CreateTexture(const char* pszPath = NULL);
+		virtual Texture*			CreateTexture();
 		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
@@ -43,8 +43,8 @@ namespace ma
 		virtual	void				SetColorWrite(bool b);
 
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
-		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
+// 		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
+// 		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
@@ -52,7 +52,8 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-		
+		//virtual void				SetValue(Uniform* uniform, const SamplerState* pSampler);
+
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
@@ -117,6 +118,10 @@ namespace ma
 		int							m_NumVSParamsToCommit;
 		int							m_PSParamsToCommit[MAX_CONSTANTS_PS];
 		int							m_NumPSParamsToCommit;
+		
+		// Sampler State
+		Wrap						m_arrWrap[16];
+		FilterOptions				m_arrFilter[16];
 
 		bool						m_bZEnable;
 	};

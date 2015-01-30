@@ -8,7 +8,7 @@ namespace ma
 	class D3D9Texture : public Texture
 	{
 	public:
-		D3D9Texture(const char* pszPath);
+		D3D9Texture();
 
 		D3D9Texture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
 
@@ -21,7 +21,7 @@ namespace ma
 		void					SetD3DSurface(IDirect3DSurface9* pD3D9Surface) {m_pD3D9Surface = pD3D9Surface;}
 
 	private:
-		virtual	bool			RT_CreateTexture();		
+		virtual	bool			RT_CreateTexture(bool bMinMap);		
 
 		virtual	bool			RT_CreateDepthStencil();		
 

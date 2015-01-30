@@ -72,7 +72,7 @@ namespace ma
 		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
 		m_pose = pRefPose ? pRefPose->Clone() : NULL;
 		UINT nBone = m_pSkeleton->GetBoneNumer();
-		m_arrSkinMatrix = new Matrix4[nBone];
+		m_arrSkinMatrix = new Matrix3x4[nBone];
 		for (UINT i = 0; i < nBone; ++i)
 		{
 			m_arrSkinMatrix[i] = Matrix4::IDENTITY;
@@ -220,10 +220,10 @@ namespace ma
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{
-			MatrixFromTransform(&m_arrSkinMatrix[i],& m_pose->GetTransformOS(i));
-			m_arrSkinMatrix[i] = m_arrSkinMatrix[i] * m_pSkeleton->GetBoneMatrixOSInv(i);
-	
-			//m_arrSkinMatrix[i] = Matrix4::IDENTITY;
+			Matrix4 matSkin;
+			MatrixFromTransform(&matSkin,& m_pose->GetTransformOS(i));
+			matSkin = matSkin * m_pSkeleton->GetBoneMatrixOSInv(i);
+			m_arrSkinMatrix[i] = matSkin;
 		}
 
 		std::vector<MeshComponent*> arrMeshComp;

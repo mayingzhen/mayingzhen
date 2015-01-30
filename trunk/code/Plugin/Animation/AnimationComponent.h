@@ -71,7 +71,7 @@ namespace ma
 		float						m_fCurFadeTime;
 		float						m_fFadeTime;
 
-		Matrix4*					m_arrSkinMatrix;
+		Matrix3x4*					m_arrSkinMatrix;
 
 		bool						m_bLoadOver;	
 	};

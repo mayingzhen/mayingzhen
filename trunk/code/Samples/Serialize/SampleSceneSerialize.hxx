@@ -25,8 +25,7 @@ namespace ma
 			subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
 			//subMatData.GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 
-			RefPtr<SamplerState> pDiff = CreateSamplerState();
-			pDiff->SetTexturePath("FBX/Box.tga");
+			RefPtr<Texture> pDiff = CreateSamplerState("FBX/Box.tga");
 
 			subMatData.AddParameter("u_texture", Any(pDiff) );
 			subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );

@@ -23,6 +23,8 @@ namespace ma
 
 		DataThread*	GetDataThread();
 
+		Resource*	FindResource(const char* pszRelPath);
+
 		Resource*	DeclareResource(const char* pszRelPath);
 
 		Resource*	LoadResource(const char* pszRelPath); 
@@ -46,9 +48,9 @@ namespace ma
 		DataThread*			m_pDataThread;
 	};
 
-	 ResourceSystem*	GetResourceSystem();
+	ResourceSystem*	GetResourceSystem();
 
-		void			SetResourceSystem(ResourceSystem* pResSystem);
+	void			SetResourceSystem(ResourceSystem* pResSystem);
 
 	template <class T>
 	T*	DeclareResource(const char* pszRelPath)
@@ -60,6 +62,19 @@ namespace ma
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
+
+	template <class T>
+	T*	FindResource(const char* pszRelPath)
+	{
+		Resource* pRes = GetResourceSystem()->FindResource(pszRelPath);
+		if (pRes == NULL)
+			return NULL;
+
+		T* pTypeRes = SafeCast<T>(pRes);
+		ASSERT(pTypeRes);
+		return pTypeRes;
+	}
+
 
 	template <class T>
 	T*	LoadResource(const char* pszRelPath)

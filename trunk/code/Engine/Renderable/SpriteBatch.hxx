@@ -1,7 +1,7 @@
 #include "SpriteBatch.h"
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/RenderState.h"
-#include "Engine/Material/SamplerState.h"
+//#include "Engine/Material/SamplerState.h"
 
 // Default size of a newly created sprite batch
 #define SPRITE_BATCH_DEFAULT_SIZE 128
@@ -67,15 +67,13 @@ namespace ma
 	{
 		ASSERT(pTexture != NULL);
 
+		m_pSampler = pTexture;
+
 		m_fTextureWidthRatio = 1.0f / (float)pTexture->GetWidth();
 		m_fTextureHeightRatio = 1.0f / (float)pTexture->GetHeight();
 
 		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
-
-		if (m_pSampler == NULL)
-			m_pSampler = CreateSamplerState();
-		m_pSampler->SetTexture(pTexture);
-
+		
 		m_pTechnique->SetParameter("u_texture",Any(m_pSampler));
 	}
 

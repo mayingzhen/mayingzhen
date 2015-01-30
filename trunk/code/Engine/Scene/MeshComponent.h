@@ -25,7 +25,7 @@ namespace ma
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 	
-		void						SetSkinMatrix(const Matrix4* arrMatrixs,uint32 nCount);
+		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);
 
 		const char*					GetMeshFile() const;
 		void						SetMeshFile(const char* pFile);
@@ -55,8 +55,6 @@ namespace ma
 	};
 
 	DeclareRefPtr(MeshComponent);
-
-	//MeshComponentPtr CreateMeshComponent(const char* pszSknPath,const char* pszMatPath);
 }
 
 #endif

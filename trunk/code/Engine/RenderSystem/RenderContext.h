@@ -21,24 +21,18 @@ namespace ma
 		void					SetCamera(Camera* pCamera); 
 
 		void					SetViewMatrix(const Matrix4& matView);
-
 		const Matrix4&			GetViewMatrix();
-
 		void					SetProjMatrix(const Matrix4& matProj);
-
 		const Matrix4&			GetProjMatrix();
-
 		const Matrix4&			GetViewProjMatrix();
 
 		float					GetNearClip();
-
 		float					GetFarClip();
 
 	protected:
 		MatViewProj				m_matViewProj[2];
 
 		float					m_fNear[2];
-
 		float					m_fFar[2];
 
 		Renderable*				m_pCurObject;

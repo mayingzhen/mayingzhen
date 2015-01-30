@@ -66,9 +66,10 @@
 #include "Engine/RenderScheme/HDRPostProcess.h"
 
 #include "Engine/ImageData/PixelFormat.h"
+//#include "Engine/ImageData/ImageData.h"
 #include "Engine/Material/Texture.h"
 #include "Engine/Material/RenderState.h"
-#include "Engine/Material/SamplerState.h"
+//#include "Engine/Material/SamplerState.h"
 #include "Engine/Material/RenderState.h"
 #include "Engine/Material/ShaderProgram.h"
 #include "Engine/Material/MaterialParameter.h"

@@ -41,7 +41,7 @@ namespace ma
 
 		
 		const Matrix4*		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
-		SamplerState*		GetShadowMap() const {return m_pShadowMap.get();} 
+		Texture*			GetShadowMap() const;
 
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
 		Shadow_Blur			GetShadowBlurLevel() const {return m_eShadowBleurLevel;}
@@ -91,7 +91,7 @@ namespace ma
 		RefPtr<Texture>		m_pDepthStencil;
 		int					m_nShadowMapSize;
 		Rectangle			m_viewport;
-		RefPtr<SamplerState> m_pShadowMap;
+		//RefPtr<SamplerState> m_pShadowMap;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
 		Matrix4				m_matShadow[2][MAX_FRUSTUM_SPLIT_NUM];

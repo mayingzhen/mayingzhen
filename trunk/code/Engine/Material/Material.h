@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	class MaterialParameter;
+	class Parameter;
 	class SamplerState;
 	struct SubMaterialData;
 

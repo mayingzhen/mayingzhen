@@ -48,7 +48,7 @@ namespace ma
 		return arrSkinDQ.size();
 	}
 
-	void Renderable::SetSkinMatrix(const Matrix4* arrMatrixs, uint32 nCount)
+	void Renderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount)
 	{
 		profile_code();
 
@@ -61,13 +61,12 @@ namespace ma
 
 			for (uint32 i = 0; i < nCount; ++i)
 			{
-				Matrix4 matSkin = arrMatrixs[i];
-				matSkin[3][3] = 1.f;
+				const Matrix3x4& matSkin = arrMatrixs[i];
 
 				Vector3 pos;
 				Vector3 scale;
 				Quaternion rot;
-				matSkin.decomposition(pos, scale, rot);
+				matSkin.Decompose(pos, rot, scale);
 				arrSkinDQ[i] = DualQuaternion(rot, pos);
 			}	
 		}
@@ -81,13 +80,12 @@ namespace ma
 				if (boneID < 0 || boneID >= nCount)
 					continue;
 
-				Matrix4 matSkin = arrMatrixs[boneID];
-				matSkin[3][3] = 1.f;
+				const Matrix3x4& matSkin = arrMatrixs[boneID];
 
 				Vector3 pos;
 				Vector3 scale;
 				Quaternion rot;
-				matSkin.decomposition(pos, scale, rot);
+				matSkin.Decompose(pos, rot, scale);
 				arrSkinDQ[i] = DualQuaternion(rot, pos);
 			}
 		}

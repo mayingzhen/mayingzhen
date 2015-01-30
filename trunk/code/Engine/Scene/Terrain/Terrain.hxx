@@ -332,7 +332,7 @@ namespace ma
 		if (m_bBlendMapToVertex)
 			m_pBlendResource = CreateResource(pszFile);
 		else
-			m_pBlendMap = CreateTexture(pszFile);
+			m_pBlendMap = CreateSamplerState(pszFile);
 	}
 	
 	bool Terrain::OnLoadOver()
@@ -483,6 +483,7 @@ namespace ma
 		uint32 nSizeBytes =	pSrcResource->GetDataStream()->GetSize();
 
 		ImageData imageData;
+		ASSERT(false);
 		Texture::BuildImageData(pszName,pMemory,nSizeBytes,imageData);
 
 		PixelBox src = imageData.GetPixelBox(0, 0);

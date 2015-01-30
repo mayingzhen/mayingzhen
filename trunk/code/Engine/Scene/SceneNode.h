@@ -23,7 +23,7 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		virtual void		ApplyAttributes();
+		//virtual void		ApplyAttributes();
 
 		virtual void		Update();
 

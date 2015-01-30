@@ -6,11 +6,6 @@
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Camera.h"
 #include "Engine/Scene/Terrain/Terrain.h"
-#include "Engine/RenderScheme/RenderPass.h"
-#include "Engine/RenderScheme/ShadingPass.h"
-#include "Engine/RenderScheme/GBufferPass.h"
-//#include "Engine/RenderScheme/DeferredLightPass.h"
-#include "Engine/RenderScheme/DeferredShadowPass.h"
 #include "Engine/Renderable/MeshData.h"
 #include "Engine/Material/MaterialData.h"
 #include "Engine/Material/Texture.h"
@@ -28,39 +23,39 @@ using namespace ma;
 // ResCreator
 Resource*	MeshData_Creator() {return new MeshData();}
 Resource*	MaterialData_Creator() {return new MaterialData();}
-Resource*	TextureData_Creator() {return GetRenderDevice()->CreateTexture(NULL);}
+Resource*	SamplerState_Creator() {return GetRenderDevice()->CreateTexture();}
 Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram();}
-
 
 void RenderSystemRTTIInit()
 {
 	Light::StaticInitClass();
+	Terrain::StaticInitClass();
+	//SamplerState::StaticInitClass();
+	Texture::StaticInitClass();
+	ShaderProgram::StaticInitClass();
 	
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticInitClass(); \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); 
 	#include "RTTIDecl.h"
 #undef RTTI_DECL
-	
-	MaterialParameter::StaticInitClass();
-	Terrain::StaticInitClass();
 
 	MeshComponent::RegisterAttribute();
 	Camera::RegisterAttribute();
 	Terrain::RegisterAttribute();
+	Texture::RegisterAttribute();
 
-	Texture::StaticInitClass();
-	ShaderProgram::StaticInitClass();
 
 	GetResourceSystem()->RegisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("mat",MaterialData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("tga",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("jpg",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("png",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("dds",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("pvr",TextureData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("pkm",TextureData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("tga",ImageData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("jpg",ImageData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("png",ImageData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("dds",ImageData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("pvr",ImageData_Creator);
+// 	GetResourceSystem()->RegisterResourceFactory("pkm",ImageData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("shader",ShaderProgram_Creator);
+	GetResourceSystem()->RegisterResourceFactory("sampler",SamplerState_Creator);
 
 }
 
@@ -68,18 +63,14 @@ void RenderSystemRTTIShutdown()
 {
 	GetResourceSystem()->UnregisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("mat",MaterialData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("tga",TextureData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("jpg",TextureData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("png",TextureData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("tga",ImageData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("jpg",ImageData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("png",ImageData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("dds",ImageData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("pvr",ImageData_Creator);
+// 	GetResourceSystem()->UnregisterResourceFactory("pkm",ImageData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("tech",ShaderProgram_Creator);
-
-
-	Texture::StaticShutdownClass();
-	ShaderProgram::StaticShutdownClass();
-
-	Light::StaticShutdownClass();
-
-	RenderPass::StaticShutdownClass();
+	GetResourceSystem()->UnregisterResourceFactory("sampler",SamplerState_Creator);
 
 #define RTTI_DECL(ClassType) \
 	ClassType::StaticShutdownClass(); \
@@ -87,7 +78,10 @@ void RenderSystemRTTIShutdown()
 	#include "RTTIDecl.h"
 #undef RTTI_DECL
 
-
+	Light::StaticShutdownClass();
+	Terrain::StaticShutdownClass();
+	Texture::StaticShutdownClass();
+	ShaderProgram::StaticShutdownClass();
 }
 
 
