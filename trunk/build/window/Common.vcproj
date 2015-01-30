@@ -357,6 +357,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Common\Math\Matrix3x4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\Matrix3x4.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Common\Math\Matrix4.h"
 					>
 				</File>

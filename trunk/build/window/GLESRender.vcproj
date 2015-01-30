@@ -281,6 +281,10 @@
 			Name="Shder"
 			>
 			<File
+				RelativePath="..\..\data\shader\gles\common.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Data\Shader\GLES\Default.frag"
 				>
 			</File>
@@ -297,11 +301,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\GLES\skinning-none.vert"
+				RelativePath="..\..\data\shader\gles\shadowDepth.frag"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Data\Shader\GLES\skinning.vert"
+				RelativePath="..\..\data\shader\gles\shadowDepth.vert"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\gles\shadowmap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\gles\skin.h"
 				>
 			</File>
 			<File

@@ -49,6 +49,7 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="MonoScript/StdAfx.h"
 				WarningLevel="3"
+				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -65,6 +66,7 @@
 				AdditionalDependencies="mono-2.0.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/mono/lib;../../extern/vld/lib"
+				ModuleDefinitionFile="../../code/Plugin/MonoScript/Export.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -179,6 +181,10 @@
 		</File>
 		<File
 			RelativePath="..\..\code\Plugin\MonoScript\ClassField.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Plugin\MonoScript\Export.def"
 			>
 		</File>
 		<File
