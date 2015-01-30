@@ -68,7 +68,7 @@
 				AdditionalDependencies="zziplibd.lib FreeImaged.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;;../../extern/vld/lib"
-				ModuleDefinitionFile="../../code/Engine/Engine.def"
+				ModuleDefinitionFile="../../code/Engine/Export.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -198,14 +198,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Resource\DataThread.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\Properties.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Resource\Properties.hxx"
 				>
 			</File>
 			<File
@@ -474,20 +466,16 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="UI"
-			>
-			<File
-				RelativePath="..\..\code\Engine\UI\IUISystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\UI\IUISystem.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Scene"
 			>
+			<File
+				RelativePath="..\..\code\Engine\Scene\Camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\Camera.hxx"
+				>
+			</File>
 			<File
 				RelativePath="..\..\code\Engine\Scene\Component.h"
 				>
@@ -695,6 +683,14 @@
 					RelativePath="..\..\code\Engine\Scene\Particle\ParticleThread.hxx"
 					>
 				</File>
+				<File
+					RelativePath="..\..\Code\Engine\Resource\Properties.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\Code\Engine\Resource\Properties.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -721,11 +717,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RTTI\Context.h"
+				RelativePath="..\..\code\Engine\RTTI\AttributeManager.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RTTI\Context.hxx"
+				RelativePath="..\..\code\Engine\RTTI\AttributeManager.hxx"
 				>
 			</File>
 			<File
@@ -877,18 +873,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Material\RenderState.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Material\SamplerState.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Material\SamplerState.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Material\ShaderProgram.h"
 				>
 			</File>
@@ -953,14 +937,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderSetting.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderSetting.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderSystem.h"
 				>
 			</File>
@@ -974,14 +950,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderView.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RenderView.hxx"
 				>
 			</File>
 			<File
@@ -1001,6 +969,10 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.hxx"
 					>
 				</File>
 				<File
@@ -1080,14 +1052,6 @@
 				RelativePath="..\..\code\Engine\RenderScheme\ShadingPass.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\ShadowDepthPass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderScheme\ShadowDepthPass.hxx"
-				>
-			</File>
 			<Filter
 				Name="PostProcess"
 				>
@@ -1141,10 +1105,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Renderable\MeshBatch.inl"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Renderable\MeshData.h"
 				>
 			</File>
@@ -1188,21 +1148,17 @@
 				RelativePath="..\..\code\Engine\Renderable\UnitSphere.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\code\Engine\Renderable\Util.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Renderable\Util.hxx"
-				>
-			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\code\Engine\Engine.def"
+			RelativePath="..\..\code\Engine\Engine.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Engine\Export.h"
+			RelativePath="..\..\code\Engine\Engine.hxx"
+			>
+		</File>
+		<File
+			RelativePath="..\..\code\Engine\Export.def"
 			>
 		</File>
 		<File
@@ -1211,14 +1167,6 @@
 		</File>
 		<File
 			RelativePath="..\..\Code\Engine\Module.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Engine\Roo.hxx"
-			>
-		</File>
-		<File
-			RelativePath="..\..\code\Engine\Root.h"
 			>
 		</File>
 		<File
