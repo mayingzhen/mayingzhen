@@ -23,8 +23,6 @@ namespace ma
 
 		RefPtr<Texture>	m_pNormalTex;
 	};
-
-	//GBufferPass*	GetBuffferPass();
 }
 
 

@@ -25,8 +25,7 @@ namespace ma
 				subMatData.SetShaderName("default");
 				subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR;SKIN");
 
-				RefPtr<SamplerState> pDiff = CreateSamplerState();
-				pDiff->SetTexturePath("FBX/TestBull_DM.png");
+				RefPtr<Texture> pDiff = CreateSamplerState("FBX/TestBull_DM.png");
 
 				subMatData.AddParameter("u_texture", Any(pDiff) );
 				subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
@@ -66,8 +65,7 @@ namespace ma
 		subMatData.SetShaderName("default");
 		subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
 
-		RefPtr<SamplerState> pDiff = CreateSamplerState();
-		pDiff->SetTexturePath(pszTexture);
+		RefPtr<Texture> pDiff = CreateSamplerState(pszTexture);
 
 		subMatData.AddParameter("u_texture", Any(pDiff) );
 		subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );

@@ -230,6 +230,21 @@ namespace ma
 			return false;
 		}
 
+		Matrix3 Scaled(const Vector3& scale) const
+		{
+			return Matrix3(
+				m[0][0] * scale.x,
+				m[0][1] * scale.y,
+				m[0][2] * scale.z,
+				m[1][0] * scale.x,
+				m[1][1] * scale.y,
+				m[1][2] * scale.z,
+				m[2][0] * scale.x,
+				m[2][1] * scale.y,
+				m[2][2] * scale.z
+				);
+		}
+
 		/** Function for writing to a stream.
 		*/
 		inline friend std::ostream& operator <<
@@ -265,6 +280,7 @@ namespace ma
 
         // for faster access
         friend class Matrix4;
+		friend class Matrix3x4;
     };
 	/** @} */
 	/** @} */

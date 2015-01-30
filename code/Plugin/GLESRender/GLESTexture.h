@@ -8,7 +8,7 @@ namespace ma
 	class GLESTexture : public Texture
 	{
 	public:
-		GLESTexture(const char* pszPath);
+		GLESTexture();
 
 		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
 
@@ -20,8 +20,14 @@ namespace ma
 		void				SetFrameBuffer(FrameBufferHandle handele) {m_hFB = handele;}
 		FrameBufferHandle	GetFrameBuffer() {return m_hFB;}
 
+		void				SetTextureWrap(Wrap eWrap);
+		Wrap				GetTextureWrap() const {return m_eWrap;}
+
+ 		void				SetTextureFilter(FilterOptions eFilter);
+		FilterOptions		GetTextureFilter() const {return m_eFilter;}
+
 	private:
-		virtual	bool		RT_CreateTexture();	
+		virtual	bool		RT_CreateTexture(bool bMinMap);	
 
 		virtual	bool		RT_CreateDepthStencil();	
 

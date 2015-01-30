@@ -39,9 +39,61 @@ namespace ma
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			MaterialParameter* pMatParam = m_arrParameters[i];
+			Parameter* pMatParam = m_arrParameters[i];
+			
 			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
-			pMatParam->Bind(pUniform);
+			ASSERT(pUniform);
+			if (pUniform == NULL)
+				continue;
+			
+			const Any& anyValue = pMatParam->GetValue();
+			
+			const std::type_info& type = anyValue.getType();
+			if (type == typeid(float))
+			{
+				const float* value = any_cast<float>(&anyValue);
+				GetRenderSystem()->SetValue(pUniform, *value);
+			}
+			else if (type == typeid(Vector2))
+			{
+				const Vector2* value = any_cast<Vector2>(&anyValue);
+				GetRenderSystem()->SetValue(pUniform, *value);
+			}
+			else if (type == typeid(Vector3))
+			{
+				const Vector3* value = any_cast<Vector3>(&anyValue);
+				GetRenderSystem()->SetValue(pUniform, *value);
+			}
+			else if (type == typeid(Vector4))
+			{
+				const Vector4* value = any_cast<Vector4>(&anyValue);
+				GetRenderSystem()->SetValue(pUniform, *value);
+			}
+			else if (type == typeid(ColourValue))
+			{
+				ColourValue cColor = any_cast<ColourValue>(anyValue);
+				Vector4 vColor(cColor.r,cColor.g,cColor.b,cColor.a);
+				GetRenderSystem()->SetValue(pUniform,vColor);
+			}
+			else if (type == typeid(Matrix4))
+			{
+				const Matrix4* value = any_cast<Matrix4>(&anyValue);
+				GetRenderSystem()->SetValue(pUniform, *value);
+			}
+			else if (type == typeid(RefPtr<Texture>))
+			{
+				Texture* pTexture = any_cast< RefPtr<Texture> >(&anyValue)->get();
+				GetRenderSystem()->SetValue(pUniform,pTexture);
+			}
+// 			else if (type == typeid(RefPtr<SamplerState>))
+// 			{
+// 				SamplerState* pSampler = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
+// 				GetRenderSystem()->SetValue(pUniform,pSampler);
+// 			}
+			else
+			{
+				ASSERT(false);
+			}	
 		}
 	}
 
@@ -52,21 +104,21 @@ namespace ma
 
 	void Technique::SetParameter(const char* pszName,const Any& value)	
 	{
-		MaterialParameter* pParame = GetParameter(pszName);
+		Parameter* pParame = GetParameter(pszName);
 		if (pParame)
 		{
 			pParame->SetValue(value);
 		}
 		else
 		{
-			pParame = new MaterialParameter();
+			pParame = new Parameter();
 			pParame->SetName(pszName);
 			pParame->SetValue(value);
 			m_arrParameters.push_back(pParame);
 		}
 	}
 
-	MaterialParameter* Technique::GetParameter(const char* pszName)
+	Parameter* Technique::GetParameter(const char* pszName)
 	{
 		ASSERT(pszName);
 		if (pszName == NULL)
@@ -110,8 +162,12 @@ namespace ma
 		pTech->SetTechName(pTechName);
 
 		string strTemp = string(pVSFile) + string("+") + string(pDefine) + ".shader";
-		RefPtr<ShaderProgram> pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
-		pShaderProgram->CreateFromFile(pVSFile,pPSFile,pDefine);
+		RefPtr<ShaderProgram> pShaderProgram = FindResource<ShaderProgram>( strTemp.c_str() );
+		if(pShaderProgram == NULL)
+		{
+			pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
+			pShaderProgram->CreateFromFile(pVSFile,pPSFile,pDefine);
+		}
 
 		pTech->SetShaderProgram(pShaderProgram.get());
 

@@ -36,7 +36,7 @@ namespace ma
 		g_ShadowDepthFade,
 	};
 
-	class MaterialParameter;
+	class Parameter;
 
 	class ParameterManager
 	{

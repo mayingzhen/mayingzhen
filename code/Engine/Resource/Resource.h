@@ -40,13 +40,11 @@ namespace ma
 		virtual bool	SaveToFile(const char* pszPath);
 
 		virtual	bool	Load();
-
 		virtual void	LoadSync();
 
 		virtual bool	OnLoadOver();
 
 		const char*		GetResPath() const {return m_sResPath.c_str();}
-
 		void			SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 
 		ResState		GetResState() const {return m_eResState;}

@@ -17,7 +17,7 @@ namespace ma
 
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_GLES2;}
 
-		virtual Texture*			CreateTexture(const char* pszPath = NULL);
+		virtual Texture*			CreateTexture();
 		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
@@ -39,9 +39,9 @@ namespace ma
 		virtual	void				SetDepthWrite(bool b);
 		virtual	void				SetColorWrite(bool b);
 
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
-		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
+ 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
+// 		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
+// 		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
@@ -49,6 +49,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
+		//virtual	void				SetValue(Uniform* uniform,const SamplerState* sampler);
 		
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);

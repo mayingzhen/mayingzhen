@@ -68,6 +68,18 @@ namespace ma
 		return m_pDataThread;
 	}
 
+	Resource* ResourceSystem::FindResource(const char* pszRelPath)
+	{
+		if (pszRelPath == NULL)
+			return NULL;
+
+		ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
+		if (itRes != m_resMap.end())
+			return itRes->second.get();
+
+		return NULL;
+	}
+
 	Resource* ResourceSystem::DeclareResource(const char* pszRelPath)
 	{
 		if (pszRelPath == NULL)

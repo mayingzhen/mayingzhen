@@ -12,7 +12,6 @@
 %rename(Equals) Vector3::operator ==;
 
 // 相对于Swig目录
-%include "../../code/Common/Export.h"
 %include "../../code/Common/Macro.h"
 %include "../../code/Common/BaseType.h"
 %include "../../code/Common/Log.h"

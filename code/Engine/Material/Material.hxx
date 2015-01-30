@@ -17,7 +17,7 @@ namespace ma
 
 		for (UINT i = 0; i < subMatData.GetParameterCount(); ++i)
 		{
-			const MaterialParameter& matParam = subMatData.GetParameterByIndex(i);
+			const Parameter& matParam = subMatData.GetParameterByIndex(i);
 			
 			m_pShadingTech->SetParameter(matParam.GetName(), matParam.GetValue());
 		}	

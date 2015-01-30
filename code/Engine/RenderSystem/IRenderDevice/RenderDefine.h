@@ -316,58 +316,75 @@ namespace ma
 		TFO_ANISOTROPIC
 	};
 
+	static const char* strFilterOptions[] =
+	{
+		"TFO_POINT",
+		"TFO_BILINEAR",
+		"TFO_TRILINEAR",
+		"TFO_ANISOTROPIC",
+		0
+	};
+
+
 	enum Wrap
 	{
 		REPEAT,
 		CLAMP 
 	};
 
-	enum HBU_Usage 
-    {
-        /** Static buffer which the application rarely modifies once created. Modifying 
-        the contents of this buffer will involve a performance hit.
-        */
-        HBU_STATIC = 1,
+	const char* strWrap[] =
+	{
+		"REPEAT",
+		"CLAMP", 
+		0
+	};
 
-	    /** Indicates the application would like to modify this buffer with the CPU
-	    fairly often. 
-	    Buffers created with this flag will typically end up in AGP memory rather 
-	    than video memory.
-	    */
-	    HBU_DYNAMIC = 2,
-
-	    /** Indicates the application will never read the contents of the buffer back, 
-	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
-	    return a pointer to new, blank memory rather than the memory associated 
-	    with the contents of the buffer; this avoids DMA stalls because you can 
-	    write to a new memory area while the previous one is being used. 
-	    */
-	    HBU_WRITE_ONLY = 4,
-
-        /** Indicates that the application will be refilling the contents
-        of the buffer regularly (not just updating, but generating the
-        contents from scratch), and therefore does not mind if the contents 
-        of the buffer are lost somehow and need to be recreated. This
-        allows and additional level of optimisation on the buffer.
-        This option only really makes sense when combined with 
-        HBU_DYNAMIC_WRITE_ONLY.
-        */
-        HBU_DISCARDABLE = 8,
-
-		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
-		HBU_STATIC_WRITE_ONLY = 5, 
-
-		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
-        this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
-        instead if you update the entire contents of the buffer very 
-        regularly. 
-        */
-		HBU_DYNAMIC_WRITE_ONLY = 6,
-
-        /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
-        HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
-
-    };
+// 	enum HBU_Usage 
+//     {
+//         /** Static buffer which the application rarely modifies once created. Modifying 
+//         the contents of this buffer will involve a performance hit.
+//         */
+//         HBU_STATIC = 1,
+// 
+// 	    /** Indicates the application would like to modify this buffer with the CPU
+// 	    fairly often. 
+// 	    Buffers created with this flag will typically end up in AGP memory rather 
+// 	    than video memory.
+// 	    */
+// 	    HBU_DYNAMIC = 2,
+// 
+// 	    /** Indicates the application will never read the contents of the buffer back, 
+// 	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
+// 	    return a pointer to new, blank memory rather than the memory associated 
+// 	    with the contents of the buffer; this avoids DMA stalls because you can 
+// 	    write to a new memory area while the previous one is being used. 
+// 	    */
+// 	    HBU_WRITE_ONLY = 4,
+// 
+//         /** Indicates that the application will be refilling the contents
+//         of the buffer regularly (not just updating, but generating the
+//         contents from scratch), and therefore does not mind if the contents 
+//         of the buffer are lost somehow and need to be recreated. This
+//         allows and additional level of optimisation on the buffer.
+//         This option only really makes sense when combined with 
+//         HBU_DYNAMIC_WRITE_ONLY.
+//         */
+//         HBU_DISCARDABLE = 8,
+// 
+// 		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
+// 		HBU_STATIC_WRITE_ONLY = 5, 
+// 
+// 		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
+//         this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
+//         instead if you update the entire contents of the buffer very 
+//         regularly. 
+//         */
+// 		HBU_DYNAMIC_WRITE_ONLY = 6,
+// 
+//         /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
+//         HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
+// 
+//     };
 
 }
 

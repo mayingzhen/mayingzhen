@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	GLESTexture::GLESTexture(const char* pszPath)
-		:Texture(pszPath)
+	GLESTexture::GLESTexture()
+		:Texture()
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;
@@ -63,7 +63,7 @@ namespace ma
 		return count;
     }
 
-	bool GLESTexture::RT_CreateTexture()
+	bool GLESTexture::RT_CreateTexture(bool bMinMap)
 	{
 		ASSERT(m_pTex == 0);
 
@@ -101,13 +101,17 @@ namespace ma
 #endif
 
 		// Set some misc default parameters, these can of course be changed later
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST) );
-		
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST) );
-		
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_REPEAT) );
-		
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_REPEAT) );
+		GLenum wrapS = GLESMapping::GetGLESWrap(m_eWrap);
+		GLenum wrapT = GLESMapping::GetGLESWrap(m_eWrap);
+
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+
+		GLenum minFilter,magFilter;
+		GLESMapping::GetGLESFilter(m_eFilter,minFilter,magFilter);
+
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
 		
 		return true;
 	}

@@ -7,6 +7,7 @@
 #include "Common/Math/ConvexBody.hxx"
 #include "Common/Math/Matrix3.hxx"
 #include "Common/Math/Matrix4.hxx"
+#include "Common/Math/Matrix3x4.hxx"
 #include "Common/Math/Plane.hxx"
 #include "Common/Math/Polygon.hxx"
 #include "Common/Math/Quaternion.hxx"

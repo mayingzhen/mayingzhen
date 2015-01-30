@@ -38,7 +38,7 @@ namespace ma
 		virtual const AttributeInfo*	GetAttributeInfoByName(const char* strName) const;
 
 		/// Apply attribute changes that can not be applied immediately. Called after scene load or a network update.
-		virtual void ApplyAttributes() {}
+		//virtual void ApplyAttributes() {}
 
 		/// Return whether should save default-valued attributes into XML. Default false.
 		virtual bool SaveDefaultAttributes() const { return false; }
@@ -95,81 +95,5 @@ namespace ma
 
 		/// Temporary flag.
 		bool temporary_;
-	};
-
-	/// Template implementation of the attribute accessor invoke helper class.
-	template <class T, class U> class AttributeAccessorImpl : public AttributeAccessor
-	{
-	public:
-		typedef U (T::*GetFunctionPtr)() const;
-		typedef void (T::*SetFunctionPtr)(U);
-
-		/// Construct with function pointers.
-		AttributeAccessorImpl(GetFunctionPtr getFunction, SetFunctionPtr setFunction) :
-		getFunction_(getFunction),
-			setFunction_(setFunction)
-		{
-			assert(getFunction_);
-			assert(setFunction_);
-		}
-
-		/// Invoke getter function.
-		virtual void Get(const Serializable* ptr, Any& dest) const
-		{
-			assert(ptr);
-			const T* classPtr = static_cast<const T*>(ptr);
-			dest = (classPtr->*getFunction_)();
-		}
-
-		/// Invoke setter function.
-		virtual void Set(Serializable* ptr, const Any& value)
-		{
-			assert(ptr);
-			T* classPtr = static_cast<T*>(ptr);
-			(classPtr->*setFunction_)( any_cast<U>(value) );
-		}
-
-		/// Class-specific pointer to getter function.
-		GetFunctionPtr getFunction_;
-		/// Class-specific pointer to setter function.
-		SetFunctionPtr setFunction_;
-	};
-
-	/// Template implementation of the attribute accessor invoke helper class using const references.
-	template <class T, class U> class RefAttributeAccessorImpl : public AttributeAccessor
-	{
-	public:
-		typedef const U& (T::*GetFunctionPtr)() const;
-		typedef void (T::*SetFunctionPtr)(const U&);
-
-		/// Construct with function pointers.
-		RefAttributeAccessorImpl(GetFunctionPtr getFunction, SetFunctionPtr setFunction) :
-		getFunction_(getFunction),
-			setFunction_(setFunction)
-		{
-			assert(getFunction_);
-			assert(setFunction_);
-		}
-
-		/// Invoke getter function.
-		virtual void Get(const Serializable* ptr, Any& dest) const
-		{
-			assert(ptr);
-			const T* classPtr = static_cast<const T*>(ptr);
-			dest = (classPtr->*getFunction_)();
-		}
-
-		/// Invoke setter function.
-		virtual void Set(Serializable* ptr, const Any& value)
-		{
-			assert(ptr);
-			T* classPtr = static_cast<T*>(ptr);
-			(classPtr->*setFunction_)( any_cast<U>(value) );
-		}
-
-		/// Class-specific pointer to getter function.
-		GetFunctionPtr getFunction_;
-		/// Class-specific pointer to setter function.
-		SetFunctionPtr setFunction_;
 	};
 }

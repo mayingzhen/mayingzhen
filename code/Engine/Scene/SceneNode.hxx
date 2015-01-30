@@ -40,14 +40,14 @@ namespace ma
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Scale", GetScale, SetScale, Vector3, Vector3::UNIT_SCALE, AM_DEFAULT);
 	}
 
-	void SceneNode::ApplyAttributes()
-	{
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
-			m_arrComp[i]->ApplyAttributes();
-
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
-			m_arrChild[i]->ApplyAttributes();
-	}
+// 	void SceneNode::ApplyAttributes()
+// 	{
+// 		for (UINT i = 0; i < m_arrComp.size(); ++i)
+// 			m_arrComp[i]->ApplyAttributes();
+// 
+// 		for (UINT i = 0; i < m_arrChild.size(); ++i)
+// 			m_arrChild[i]->ApplyAttributes();
+// 	}
 
 
 	void SceneNode::AddComponent(Component* pComponent)

@@ -146,16 +146,19 @@ namespace ma
 
 		UINT m_uNumLods;
 
+		// Height
 		string m_strHeightMap;
 		RefPtr<Resource> m_pHeightResource;
 		vector<uint16> m_vecHeight;
 
+		// Material
 		string m_strMaterialMap;
 		RefPtr<Resource> m_pMaterialResource;
 		vector<uint8> m_vecVertexMatID;	
 		vector< RefPtr<SubMaterial> >m_vecMaterial;
 		RefPtr<MaterialData> m_pMaterialData;
 
+		// Blend
 		string m_strBlendMap;
 		RefPtr<Resource> m_pBlendResource;
 		vector<UINT>  m_vecBlenData;

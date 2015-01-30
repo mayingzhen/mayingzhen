@@ -19,7 +19,7 @@ namespace ma
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 
-		void							SetSkinMatrix(const Matrix4* arrMatrixs, uint32 nCount);
+		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount);
 		const DualQuaternion*			GetSkinDQ() const;
 		uint32							GetSkinDQCount() const;
 

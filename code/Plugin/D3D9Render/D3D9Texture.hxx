@@ -4,8 +4,8 @@
 
 namespace ma
 {
-	D3D9Texture::D3D9Texture(const char* pszPath)
-		:Texture(pszPath)
+	D3D9Texture::D3D9Texture()
+		:Texture()
 	{
 		m_pD3DTex = NULL;
 		m_pD3D9Surface = NULL;
@@ -42,7 +42,7 @@ namespace ma
 		return true;
 	}
 
-	bool D3D9Texture::RT_CreateTexture()
+	bool D3D9Texture::RT_CreateTexture(bool bMinMap)
 	{
 		ASSERT(m_pD3DTex == NULL);
 		if (m_pD3DTex)
@@ -61,7 +61,7 @@ namespace ma
 		hr = GetD3D9DxDevive()->CreateTexture(
 			m_nWidth,
 			m_nHeight,
-			m_bAutoMipMap ? 0 : m_nMipLevels,
+			bMinMap ? 0 : m_nMipLevels,
 			D3DUsage,
 			D3DFormat,
 			m_D3DPool,

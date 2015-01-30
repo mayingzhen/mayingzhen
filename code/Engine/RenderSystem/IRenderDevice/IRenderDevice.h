@@ -44,16 +44,13 @@ namespace ma
 		virtual	void				SetDepthWrite(bool b) = 0;
 		virtual	void				SetColorWrite(bool b) = 0;
 
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture) = 0;
-		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap) = 0;
-		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter) = 0;
-
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count) = 0;
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count) = 0;
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value) = 0;
+		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture) = 0;
 		
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec) = 0;
 		virtual void				SetIndexBuffer(IndexBuffer* pIB) = 0;
@@ -76,7 +73,7 @@ namespace ma
 	public:
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
-		virtual Texture*			CreateTexture(const char* pszPath = NULL) = 0;
+		virtual Texture*			CreateTexture() = 0;
 		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;

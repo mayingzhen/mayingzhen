@@ -5,9 +5,6 @@
 
 %}
 
-%include "../../Code/Engine/Export.h"
-
-
 
 %ignore ma::Time::Time;
 %ignore ma::Time::~Time;

@@ -49,9 +49,9 @@ namespace ma
 
 
 
-	Texture* D3D9RenderDevice::CreateTexture(const char* pszPath)
+	Texture* D3D9RenderDevice::CreateTexture()
 	{
-		return new D3D9Texture(pszPath);
+		return new D3D9Texture();
 	}
 
 	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
@@ -429,30 +429,52 @@ namespace ma
 	void D3D9RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
 	{
 		D3D9Texture* pD3D9Texture = (D3D9Texture*)pTexture;
+  		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
 
- 		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
+		if (m_arrFilter[uniform->m_location] != pTexture->GetFilterMode())
+		{
+			DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
+			D3D9Mapping::GetD3D9Filter(pTexture->GetFilterMode(),minFilter,magFilter,mipFilter);
+
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
+
+			m_arrFilter[uniform->m_location] = pTexture->GetFilterMode();
+		}
+
+		if (m_arrWrap[uniform->m_location] != pTexture->GetWrapMode())
+		{
+			DWORD wrapS = D3D9Mapping::GetD3D9Wrap(pTexture->GetWrapMode());
+			DWORD wrapT = D3D9Mapping::GetD3D9Wrap(pTexture->GetWrapMode());
+
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
+
+			m_arrWrap[uniform->m_location] = pTexture->GetWrapMode();
+		}
 	}
 
-	void D3D9RenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
-	{
-		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(eWrap);
-		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(eWrap);
-
-		//address mode
-		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
-	}
-
-	void D3D9RenderDevice::SetTextureFilter(Uniform* uniform,FilterOptions eFilter)
-	{
-		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-		D3D9Mapping::GetD3D9Filter(eFilter,minFilter,magFilter,mipFilter);
-
-		//filter mode
-		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
-		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
-	}
+// 	void D3D9RenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
+// 	{
+// 		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(eWrap);
+// 		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(eWrap);
+// 
+// 		//address mode
+// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
+// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
+// 	}
+// 
+// 	void D3D9RenderDevice::SetTextureFilter(Uniform* uniform,FilterOptions eFilter)
+// 	{
+// 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
+// 		D3D9Mapping::GetD3D9Filter(eFilter,minFilter,magFilter,mipFilter);
+// 
+// 		//filter mode
+// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
+// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
+// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
+// 	}
 
 	void D3D9RenderDevice::mfSetPSConst(int nReg, const float *vData, const int nParams)
 	{
@@ -628,6 +650,30 @@ namespace ma
 	{
 		SetValue(uniform,(const float*)&value,1);
 	}
+
+// 	void D3D9RenderDevice::SetValue(Uniform* uniform, const SamplerState* pSampler)
+// 	{
+// 		if (m_arrSampState[uniform->m_location].GetTexture() != pSampler->GetTexture())
+// 		{
+// 			SetTexture(uniform,pSampler->GetTexture());
+// 			
+// 			m_arrSampState[uniform->m_location].SetTexture(pSampler->GetTexture());
+// 		}
+// 
+// 		if (m_arrSampState[uniform->m_location].GetFilterMode() != pSampler->GetFilterMode())
+// 		{
+// 			SetTextureFilter(uniform,pSampler->GetFilterMode());
+// 
+// 			m_arrSampState[uniform->m_location].SetFilterMode(pSampler->GetFilterMode());
+// 		}
+// 		
+// 		if (m_arrSampState[uniform->m_location].GetWrapMode() != pSampler->GetWrapMode())
+// 		{
+// 			SetTextureWrap(uniform,pSampler->GetWrapMode());
+// 
+// 			m_arrSampState[uniform->m_location].SetWrapMode(pSampler->GetWrapMode());
+// 		}
+// 	}
 
 	void D3D9RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
 	{

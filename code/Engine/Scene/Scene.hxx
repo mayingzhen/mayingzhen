@@ -130,7 +130,7 @@ namespace ma
 		if (m_pCamera == NULL)
 			return;
 	
-		GetRenderSystem()->BeginFrame();
+		GetRenderSystem()->BegineRender();
 
 		GetRenderShadowCSM()->Render(m_pCamera.get());
 
@@ -158,7 +158,7 @@ namespace ma
 		if (GetLineRender())
 			GetLineRender()->Render();
 
-		GetRenderSystem()->EndFrame();
+		GetRenderSystem()->EndRender();
 	}
 
 	void Scene::UpdateViewMinMaxZ()

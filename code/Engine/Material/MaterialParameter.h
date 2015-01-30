@@ -1,28 +1,23 @@
 #ifndef _MaterialParameter_H_
 #define _MaterialParameter_H_
 
-#include "ShaderProgram.h"
-#include "MethodBinding.h"
 
 namespace ma
 {
 
-	class MaterialParameter /*: public Referenced*/
+	class Parameter 
 	{
-		DECL_OBJECT(MaterialParameter)
 
 	public:
-		MaterialParameter();
+		Parameter();
 
-		~MaterialParameter();
+		~Parameter();
 
 		const char* GetName() const;
 		void		SetName(const char* pName);
 
 		void		SetValue(const Any& value) {m_anyValue = value;}
 		const Any&	GetValue() const {return m_anyValue;}
-
-		void		Bind(Uniform* pUniform);
 
 		void		Serialize(Serializer& sl, const char* pszLable = "Parameter");
 

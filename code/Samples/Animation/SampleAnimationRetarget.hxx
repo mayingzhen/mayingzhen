@@ -14,10 +14,11 @@ namespace ma
 		subMatData.SetShaderName("default");
 		subMatData.SetShderMacro("DIFFUSE;SKIN");
 
-		RefPtr<SamplerState> pDiff = CreateSamplerState();
-		pDiff->SetTexturePath(pszTexture);
+		RefPtr<Texture> pDiff = CreateSamplerState(pszTexture);
 
 		subMatData.AddParameter("u_texture", Any(pDiff) );
+
+		//pDiff->SaveToXML("test.smpler");
 
 		matData.SaveToXML(pMatPath);
 	}
@@ -55,14 +56,14 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		{
 			// MeshData B (b f h)
-			SceneNodePtr pChargigi = m_pScene->CreateNode("gigi");
-			MeshComponentPtr pMesCompb = pChargigi->CreateComponent<MeshComponent>();
+			SceneNode* pChargigi = m_pScene->CreateNode("gigi");
+			MeshComponent* pMesCompb = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
 
-			MeshComponentPtr pMesComph = pChargigi->CreateComponent<MeshComponent>();
+			MeshComponent* pMesComph = pChargigi->CreateComponent<MeshComponent>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mat");
 
-			MeshComponentPtr pMesCompf = pChargigi->CreateComponent<MeshComponent>();
+			MeshComponent* pMesCompf = pChargigi->CreateComponent<MeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
 			
 			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
@@ -77,9 +78,9 @@ namespace ma
 
 		// character B MeshData & skeleton & Animation
 		{
-			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
+			SceneNode* pCharMagic = m_pScene->CreateNode("magic");
 
-			MeshComponentPtr pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();

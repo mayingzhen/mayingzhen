@@ -3,7 +3,7 @@
 
 #include "RenderThread.h"
 #include "Engine/Material/RenderState.h"
-#include "Engine/Material/SamplerState.h"
+//#include "Engine/Material/SamplerState.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 
 namespace ma
@@ -33,8 +33,8 @@ namespace ma
 		// Render Command
 		void				Init(HWND wndhandle,bool bThread);
 		void				Shoutdown();
- 		void				BeginFrame();
- 		void				EndFrame();
+		void				BegineRender();
+		void				EndRender();
 		void				Render();
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
@@ -65,7 +65,6 @@ namespace ma
 		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		void				SetValue(Uniform* uniform, const ColourValue& value);
-		void				SetValue(Uniform* uniform, SamplerState* sampler);
 		void				SetValue(Uniform* uniform, Texture* sampler);
 		
 		HWND				GetMainWnd() {return m_hWnd;}
@@ -133,7 +132,7 @@ namespace ma
 		Rectangle			m_viewport;
 		ShaderProgram*		m_pCurShader;
 		RenderState			m_curState;
-		SamplerState		m_arrSampState[MAX_SAMPSTATE];
+		Texture*			m_arrSampState[MAX_SAMPSTATE];
 		VertexDeclaration*	m_pCurVertexDecla;
 		VertexBuffer*		m_pCurVB;	
 		IndexBuffer*		m_pCurIB;

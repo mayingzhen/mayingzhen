@@ -85,27 +85,26 @@ namespace ma
 		FlushAndWait();
 	}
 
-	void RenderThread::RC_BeginFrame()
+	void RenderThread::RC_BeginRender()
 	{
 		if (IsRenderThread())
 		{
-			GetRenderSystem()->RT_BeginFrame();
+			GetRenderDevice()->BeginRender();
 			return;
 		}
 
-		AddCommand(eRC_BeginFrame);
+		AddCommand(eRC_BeginRender);
 	}
 
-	void RenderThread::RC_EndFrame()
+	void RenderThread::RC_EndRender()
 	{
 		if (IsRenderThread())
 		{
-			GetRenderSystem()->RT_EndFrame();
+			GetRenderDevice()->EndRender();
 			return;
 		}
 
-		AddCommand(eRC_EndFrame);
-		FlushFrame();
+		AddCommand(eRC_EndRender);
 	}
 
 	void RenderThread::RC_TexStreamComplete(Texture* pTexture)
@@ -215,7 +214,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->RT_CreateTexture();
+			pRenderTarget->RT_CreateTexture(false);
 			return;
 		}
 
@@ -455,6 +454,19 @@ namespace ma
 		AddColor(value);
 	}
 
+// 	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,sampler);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetSamplerState);
+// 		AddPointer(uniform);
+// 		AddPointer(sampler);
+// 	}
+
 	void RenderThread::RC_SetTexture(Uniform* uniform, const Texture* sampler)
 	{
 		if (IsRenderThread())
@@ -468,31 +480,31 @@ namespace ma
 		AddPointer(sampler);
 	}
 
-	void RenderThread::RC_SetTextureWrap(Uniform* uniform, Wrap eWrap )
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetTextureWrap(uniform,eWrap);
-			return;
-		}
-
-		AddCommand(eRC_SetTextureWrap);
-		AddPointer(uniform);
-		AddInt(eWrap);
-	}
-
-	void RenderThread::RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetTextureFilter(uniform,eFiler);
-			return;
-		}
-
-		AddCommand(eRC_SetTextureFilter);
-		AddPointer(uniform);
-		AddInt(eFiler);
-	}
+// 	void RenderThread::RC_SetTextureWrap(Uniform* uniform, Wrap eWrap )
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetTextureWrap(uniform,eWrap);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetTextureWrap);
+// 		AddPointer(uniform);
+// 		AddInt(eWrap);
+// 	}
+// 
+// 	void RenderThread::RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetTextureFilter(uniform,eFiler);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetTextureFilter);
+// 		AddPointer(uniform);
+// 		AddInt(eFiler);
+// 	}
 
 	void RenderThread::RC_BeginProfile(const char* pszLale)
 	{
@@ -543,13 +555,13 @@ namespace ma
 					GetRenderSystem()->RT_ShutDown();
 				}
 				break;
-			case eRC_BeginFrame:
-				GetRenderSystem()->RT_BeginFrame();
+			case eRC_BeginRender:
+				GetRenderDevice()->BeginRender();
 				break;
-			case eRC_EndFrame:
-				GetRenderSystem()->RT_EndFrame();
+			case eRC_EndRender:
+				GetRenderDevice()->EndRender();
 				break;
-			case  eRC_Render:
+			case eRC_Render:
 				GetRenderSystem()->RT_Render();
 				break;
 			case  eRC_DrawRenderable:
@@ -599,7 +611,7 @@ namespace ma
 			case  eRC_CreateTexture:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_CreateTexture();
+					pTarget->RT_CreateTexture(false);
 				}
 				break;
 			case  eRC_CreateDepthStencil:
@@ -731,20 +743,6 @@ namespace ma
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
 					Texture* pTexture = ReadCommand<Texture*>(n);
 					GetRenderDevice()->SetTexture(pUnform,pTexture);
-				}
-				break;
-			case eRC_SetTextureWrap:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Wrap eWarp = (Wrap)ReadCommand<int>(n);
-					GetRenderDevice()->SetTextureWrap(pUnform,eWarp);
-				}
-				break;
-			case  eRC_SetTextureFilter:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					FilterOptions eFilter = (FilterOptions)ReadCommand<int>(n);
-					GetRenderDevice()->SetTextureFilter(pUnform,eFilter);
 				}
 				break;
 			case eRC_BeginProfile:

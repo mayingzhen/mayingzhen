@@ -24,6 +24,7 @@
 #include "Common/Math/ConvexBody.h"
 #include "Common/Math/Matrix3.h"
 #include "Common/Math/Matrix4.h"
+#include "Common/Math/Matrix3x4.h"
 #include "Common/Math/Numerics.h"
 #include "Common/Math/Plane.h"
 #include "Common/Math/Polygon.h"

@@ -5,7 +5,6 @@
 namespace ma
 {
 	class Uniform;
-	class SamplerState;
 	
 	enum ERenderCommand
 	{
@@ -17,8 +16,8 @@ namespace ma
 		eRC_ShaderStreamComplete,
 		eRC_VertexDeclaComplete,
 		eRC_HBStreamComplete,
-		eRC_BeginFrame,
-		eRC_EndFrame,
+		eRC_BeginRender,
+		eRC_EndRender,
 		eRC_Render,
 		eRC_DrawRenderable,
 		eRC_DrawDyRenderable,
@@ -46,9 +45,7 @@ namespace ma
 		eRC_SetVector4,
 		eRC_SetMatrix4,
 		eRC_SetColourValue,
-		eRC_SetTexture,
-		eRC_SetTextureWrap,
-		eRC_SetTextureFilter,
+ 		eRC_SetTexture,
 
 		eRC_BeginProfile,
 		eRC_EndProfile,
@@ -111,8 +108,8 @@ namespace ma
 
 		void	RC_Init(HWND wndhandle);
 		void	RC_ShutDown();
-		void	RC_BeginFrame();
-		void	RC_EndFrame();
+		void	RC_BeginRender();
+		void	RC_EndRender();
 		void	RC_TexStreamComplete(Texture* pTexture);
 		void	RC_ShaderStreamComplete(ShaderProgram* pShader);
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);
@@ -142,10 +139,10 @@ namespace ma
 		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
-		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
-		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
-		void	RC_SetTextureWrap(Uniform* uniform, Wrap eWrap );
-		void	RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler);
+//		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
+ 		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
+// 		void	RC_SetTextureWrap(Uniform* uniform, Wrap eWrap );
+// 		void	RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();

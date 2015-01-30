@@ -138,7 +138,7 @@ namespace ma
 		}
 	}
 
-	void MeshComponent::SetSkinMatrix(const Matrix4* arrMatrixs,uint32 nCount)
+	void MeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount)
 	{
 		profile_code();
 		
@@ -147,13 +147,5 @@ namespace ma
 			m_arrRenderable[i]->SetSkinMatrix(arrMatrixs,nCount);
 		}
 	}
-
-	MeshComponentPtr CreateMeshComponent(const char* pszSknPath,const char* pszMatPath)
-	{
-		MeshComponent* pMeshcop = new MeshComponent();
-		pMeshcop->Load(pszSknPath,pszMatPath);
-		return pMeshcop;
-	}
-
 }
 

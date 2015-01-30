@@ -4,9 +4,9 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Texture,Resource);
+	IMPL_OBJECT(Texture,Serializable);
 
-	Texture::Texture(const char* pszPath):Resource(pszPath)
+	Texture::Texture()
 	{
 		m_nWidth = 0;
 		m_nHeight = 0;
@@ -14,10 +14,12 @@ namespace ma
 		m_eUsage = USAGE_STATIC;
 		m_eFormat = PF_UNKNOWN;
 		m_eType = TEXTYPE_2D;
-		m_bAutoMipMap = true;
+
+		m_eWrap = REPEAT;
+		m_eFilter = TFO_TRILINEAR;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage)
+	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
@@ -25,37 +27,59 @@ namespace ma
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
 		m_eType = TEXTYPE_2D;
-		m_bAutoMipMap = false;
+
+		m_eWrap = CLAMP;
+		m_eFilter = TFO_POINT;
 	}
 
-	void Texture::LoadSync()
+	Texture::~Texture()
 	{
-		LoadFileToMemeory();
 
-		CreateFromMemeory();
-
-		GetRenderSystem()->FlushAndWait();
 	}
 
-	bool Texture::CreateFromMemeory()
+	void Texture::RegisterAttribute()
 	{
-		ASSERT(m_eResState == ResLoaded);
-		if (m_eResState != ResLoaded)
+		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Wrap", GetWrapMode, SetWrapMode, Wrap, strWrap, REPEAT, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Filter", GetFilterMode, SetFilterMode, FilterOptions, strFilterOptions, TFO_TRILINEAR, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(Texture, "Texture", GetImagePath, SetImagePath, const char*, NULL, AM_DEFAULT);
+	}
+
+	const char* Texture::GetImagePath() const
+	{
+		return m_pImageRes ? m_pImageRes->GetResPath() : m_strImagePath.c_str();
+	}
+
+	void Texture::SetImagePath(const char* pTexPath)
+	{
+		m_strImagePath = pTexPath;
+		m_pImageRes = CreateResource(pTexPath);
+	}
+
+	bool Texture::OnLoadOver()
+	{
+		if (ResInited == m_eResState)
+			return true;
+
+		if (m_pImageRes == NULL || !m_pImageRes->OnLoadOver())
 			return false;
-
+		
 		GetRenderSystem()->TexStreamComplete(this);	
 
-		return true;
+		return false;
 	}
 
 	bool Texture::RT_StreamComplete()
 	{
-		ASSERT(m_pDataStream);
-		if (m_pDataStream == NULL)
+		ASSERT(m_pImageRes);
+		if (m_pImageRes == NULL)
 			return false;
 
+		const char* pszName = m_pImageRes->GetResPath();
+		void* pMemory = m_pImageRes->GetDataStream()->GetPtr(); 
+		uint32 nSizeBytes =	m_pImageRes->GetDataStream()->GetSize();
+
 		ImageData imageData;
-		if (!BuildImageData(this->GetResPath(), m_pDataStream->GetPtr(), m_pDataStream->GetSize(), imageData))
+		if (!BuildImageData(pszName, pMemory, nSizeBytes, imageData))
 		{
 			return false;
 		}
@@ -65,9 +89,10 @@ namespace ma
 			return false;
 		}
 
-		m_eResState = ResInited;
-
+		m_pImageRes = NULL;
 		m_pDataStream = NULL;
+
+		m_eResState = ResInited;
 
 		return true;
 	}
@@ -163,15 +188,17 @@ namespace ma
 		// The custom mipmaps in the image have priority over everything
 		//size_t imageMips = imageData.num_mipmaps;
 
+		bool bAutoMipMap = m_eFilter > TFO_BILINEAR;
+
 		if(imageData.num_mipmaps > 0)
 		{
 			m_nMipLevels = imageData.num_mipmaps;
 			// Disable flag for auto mip generation
-			m_bAutoMipMap  = false;
+			bAutoMipMap  = false;
 		}
 
 		// Create the texture
-		if (!RT_CreateTexture())
+		if (!RT_CreateTexture(bAutoMipMap))
 		{
 			LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
 			return false;
@@ -186,7 +213,7 @@ namespace ma
 			SetLevelData(mip,src);
 		}
 
-		if (m_bAutoMipMap)
+		if (bAutoMipMap)
 		{
 			GenerateMipmaps();
 		}
@@ -196,12 +223,20 @@ namespace ma
 		return true;
 	}
 
-	RefPtr<Texture> CreateTexture(const char* pPath,bool bMipmap)
+	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap, FilterOptions eFilter)
 	{
-		Texture* pTextute = DeclareResource<Texture>(pPath);
-		pTextute->SetAutoMipMap(bMipmap);
-		pTextute->Load();
+		string strTemp = string(pImagePath) + string("+") + strWrap[eWrap] + string("+") + strFilterOptions[eFilter] + ".sampler";
+		RefPtr<Texture> pSamplerState = FindResource<Texture>( strTemp.c_str() );
+		if (pSamplerState)
+			return pSamplerState;
+
+		Texture* pTextute = DeclareResource<Texture>(strTemp.c_str());
+		pTextute->SetWrapMode(eWrap);
+		pTextute->SetFilterMode(eFilter);
+		pTextute->SetImagePath(pImagePath);
+		pTextute->OnLoadOver();
 		return pTextute;
 	}
+
 }
 
