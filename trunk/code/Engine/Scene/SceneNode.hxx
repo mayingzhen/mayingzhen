@@ -436,9 +436,39 @@ namespace ma
 		SetTransformWS(tsfWS);
 	}
 
+	void SceneNode::Rotate(const Quaternion& delta,bool fixedAxis/* = false*/)
+	{
+		Quaternion qRotate = GetRotation();
+	
+		if (!fixedAxis)
+			qRotate = (qRotate * delta);
+		else
+			qRotate = (delta * qRotate);
+
+		qRotate.normalise();
+
+		SetRotation(qRotate);
+	}
+
+
+	void SceneNode::Pitch(float angle, bool fixedAxis)
+	{
+		Rotate(Quaternion(Radian(angle), Vector3::UNIT_X), fixedAxis);
+	}
+
+	void SceneNode::Yaw(float angle, bool fixedAxis)
+	{
+		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Y), fixedAxis);
+	}
+
+	void SceneNode::Roll(float angle, bool fixedAxis)
+	{
+		Rotate(Quaternion(Radian(angle), Vector3::NEGATIVE_UNIT_Z), fixedAxis);
+	}
+
 	Vector3	SceneNode::GetForward()
 	{
-		return -GetTransformWS().m_qRot * Vector3::UNIT_Z;
+		return GetTransformWS().m_qRot * Vector3::NEGATIVE_UNIT_Z;
 	}
 
 	Vector3	SceneNode::GetRight()

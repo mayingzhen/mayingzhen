@@ -31,12 +31,13 @@ namespace ma
 		for (uint32 i = 0; i < lod.m_vecBody.size(); ++i)
 		{
 			m_arrRenderable.push_back(lod.m_vecBody[i].get());
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBody, lod.m_vecBody[i].get());
 		}
 
 		for (uint32 i = 0; i < lod.m_vecBorder.size(); ++i)
 		{
-
 			m_arrRenderable.push_back(lod.m_vecBorder[i].get());
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBorder, lod.m_vecBorder[i].get());
 		}
 
 
@@ -48,6 +49,7 @@ namespace ma
 			if (m_uLodIndex < west)
 			{
 				m_arrRenderable.push_back(lod.m_vecSkirt[west].skirt[West].get());	
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBody, lod.m_vecSkirt[west].skirt[West].get());
 			}
 		}
 
@@ -56,7 +58,8 @@ namespace ma
 			uint32 east = m_pTerrain->GetTerrainTrunkByIndex(m_nX+1, m_nY)->GetLodIndex();
 			if (m_uLodIndex < east)
 			{
-				m_arrRenderable.push_back(lod.m_vecSkirt[east].skirt[East].get());		
+				m_arrRenderable.push_back(lod.m_vecSkirt[east].skirt[East].get());	
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBody, lod.m_vecSkirt[east].skirt[East].get());
 			}
 		}
 
@@ -66,6 +69,7 @@ namespace ma
 			if (m_uLodIndex < north)
 			{
 				m_arrRenderable.push_back(lod.m_vecSkirt[north].skirt[North].get());
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBody, lod.m_vecSkirt[north].skirt[North].get());
 			}
 		}
 
@@ -75,6 +79,7 @@ namespace ma
 			if (m_uLodIndex < south)
 			{
 				m_arrRenderable.push_back(lod.m_vecSkirt[south].skirt[South].get());	
+				m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_TerrainBody, lod.m_vecSkirt[south].skirt[South].get());
 			}
 		}
 	}
@@ -97,10 +102,10 @@ namespace ma
 
 		UpdateRenderable();
 
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-		{
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, m_arrRenderable[i].get());
-		}
+// 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+// 		{
+// 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Terrain, m_arrRenderable[i].get());
+// 		}
 	}
 
 	bool TerrainTrunk::Init(int i, int j)

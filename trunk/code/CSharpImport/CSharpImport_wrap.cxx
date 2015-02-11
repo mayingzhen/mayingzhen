@@ -4832,6 +4832,24 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Matrix3_hasScale(void * jarg1) {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix3_Scaled(void * jarg1, void * jarg2) {
+  void * jresult ;
+  ma::Matrix3 *arg1 = (ma::Matrix3 *) 0 ;
+  ma::Vector3 *arg2 = 0 ;
+  ma::Matrix3 result;
+  
+  arg1 = (ma::Matrix3 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Vector3 const & type is null", 0);
+    return 0;
+  } 
+  result = ((ma::Matrix3 const *)arg1)->Scaled((ma::Vector3 const &)*arg2);
+  jresult = new ma::Matrix3((const ma::Matrix3 &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT float SWIGSTDCALL CSharp_Matrix3_EPSILON_get() {
   float jresult ;
   float result;
@@ -10045,6 +10063,102 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_RotateAround(void * jarg1, void * j
   arg3 = *argp3; 
   arg4 = (float)jarg4; 
   (arg1)->RotateAround((ma::Vector3 const &)*arg2,arg3,arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_0(void * jarg1, void * jarg2, unsigned int jarg3) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  ma::Quaternion *arg2 = 0 ;
+  bool arg3 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (ma::Quaternion *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Quaternion const & type is null", 0);
+    return ;
+  } 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->Rotate((ma::Quaternion const &)*arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Rotate__SWIG_1(void * jarg1, void * jarg2) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  ma::Quaternion *arg2 = 0 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (ma::Quaternion *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Quaternion const & type is null", 0);
+    return ;
+  } 
+  (arg1)->Rotate((ma::Quaternion const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Pitch__SWIG_0(void * jarg1, float jarg2, unsigned int jarg3) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  bool arg3 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->Pitch(arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Pitch__SWIG_1(void * jarg1, float jarg2) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  (arg1)->Pitch(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Yaw__SWIG_0(void * jarg1, float jarg2, unsigned int jarg3) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  bool arg3 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->Yaw(arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Yaw__SWIG_1(void * jarg1, float jarg2) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  (arg1)->Yaw(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Roll__SWIG_0(void * jarg1, float jarg2, unsigned int jarg3) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  bool arg3 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  (arg1)->Roll(arg2,arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Roll__SWIG_1(void * jarg1, float jarg2) {
+  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
+  float arg2 ;
+  
+  arg1 = (ma::SceneNode *)jarg1; 
+  arg2 = (float)jarg2; 
+  (arg1)->Roll(arg2);
 }
 
 

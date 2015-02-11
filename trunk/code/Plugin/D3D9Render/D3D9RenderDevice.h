@@ -41,10 +41,6 @@ namespace ma
 		virtual	void				SetDepthCheckMode(DEPTH_CHECK_MODE mode);
 		virtual	void				SetDepthWrite(bool b);
 		virtual	void				SetColorWrite(bool b);
-
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-// 		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
-// 		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
@@ -52,7 +48,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-		//virtual void				SetValue(Uniform* uniform, const SamplerState* pSampler);
+		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
 
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);

@@ -16,7 +16,8 @@ namespace ma
 
 		RefPtr<Texture> pDiff = CreateSamplerState(pszTexture);
 
-		subMatData.AddParameter("u_texture", Any(pDiff) );
+		subMatData.AddParameter("u_texture", Any( pDiff ) );
+		subMatData.AddParameter("shininess", Any( 50.0f ) );
 
 		//pDiff->SaveToXML("test.smpler");
 
@@ -92,7 +93,6 @@ namespace ma
 
 			pCharMagic->Right(50.0f);
 
-			
 		}
 	}
 

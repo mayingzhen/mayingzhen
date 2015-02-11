@@ -10,13 +10,14 @@ namespace ma
 		NONE,
 		g_matWorld,
 		g_matView,
+		g_matViewInv,
 		g_matProj,
+		g_matProjInv,
 		g_matWorldView,
 		g_matViewProj,
 		g_matWorldViewProj,
 		INVERSE_TRANSPOSE_WORLD_MATRIX,
 		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
-		INVERSE_PROJECTION_MATRIX,
 		CAMERA_WORLD_POSITION,
 		CAMERA_VIEW_POSITION,
 		MATRIX_PALETTE,			
@@ -24,9 +25,10 @@ namespace ma
 		SCENE_LIGHT_COLOR,
 		SCENE_LIGHT_DIRECTION,
 		DepthNearFarInvfar,
-		TextureLightDiffuse,
-		TextureLightSpecular,
+		//TextureLightDiffuse,
+		//TextureLightSpecular,
 		TextureLightShadow,
+		TextureSceneDiffuse,
 		TextureSceneDepth,
 		TextureSceneNormal,
 		g_tShadowMap,
@@ -68,11 +70,18 @@ namespace ma
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;
+		Texture*			autoBingingSceneDiffuse() const;
 		Texture*			autoBingingSceneDetph() const;
 		Texture*			autoBindingSceneNormal() const;
-		Texture*			autoBindingTextureLightDiffuse() const;
-		Texture*			autoBindingTextureightSpecular() const;
+		//Texture*			autoBindingTextureLightDiffuse() const;
+		//Texture*			autoBindingTextureightSpecular() const;
 		Texture*			autoBindingTextureLightShadow() const;
+		Texture*			autoBindingShadowMap() const;
+		Vector4				autoBindingSpitPos() const;
+		UINT				autoBindingSplitCount() const;
+		const Matrix4*		autoBindingShadowMatrix() const;
+		Vector4				autoBindingShadowMapTexSize() const;
+		Vector4				autoBindingShadowDepthFade() const;
 
 	private:	
 		std::map<std::string, AutoBinding>	m_autoDefaultBings;

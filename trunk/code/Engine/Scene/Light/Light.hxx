@@ -4,7 +4,7 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Light,RenderComponent)
+	IMPL_OBJECT(Light,Component)
 
 	Light::Light()
 	{

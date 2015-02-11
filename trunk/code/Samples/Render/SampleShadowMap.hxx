@@ -30,39 +30,26 @@ namespace ma
  			pAnimObj->PlayAnimation((UINT)0);
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
  			//pCharMagic->SetScale(Vector3(0.1f));
- 			pCharMagic->SetPos(Vector3(150,0,200));
+ 			pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
 
-			SceneNode* pPlatform = m_pScene->CreateNode("platform");			
-			MeshComponent* pPlatformMesh = pPlatform->CreateComponent<MeshComponent>();
-			pPlatformMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
-			pPlatformMesh->SetShadowCaster(true);
-			pPlatform->SetScale(Vector3(50));
-			pPlatform->SetPos(Vector3(2.0f,2.0f,pTerrain->GetHeight(2.0f,2.0f)));
+// 			SceneNode* pPlatform = m_pScene->CreateNode("platform");			
+// 			MeshComponent* pPlatformMesh = pPlatform->CreateComponent<MeshComponent>();
+// 			pPlatformMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+// 			pPlatformMesh->SetShadowCaster(true);
+// 			pPlatform->SetScale(Vector3(50));
+// 			pPlatform->SetPos(Vector3(2.0f,2.0f,pTerrain->GetHeight(2.0f,2.0f)));
 
 			m_pBox = m_pScene->CreateNode("box");
 			MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();
 			pBoxMesh->SetShadowCaster(true);
 			pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
 			m_pBox->SetScale(Vector3(50));
-
 			m_pBox->SetPos(Vector3(250.0f, pTerrain->GetHeight(250.0f, 250.0f), 250.0f));
 		}
 		
-		m_pScene->SetDirectionalLight(ColourValue(0.49, 0.65, 0.95, 1.f), Vector3(-1.f, -1.f, -0.f));
-		
-		GetRenderShadowCSM()->SetEnabled(true);
-
-		// Light
-		{
-// 			SceneNodePtr pLightObj = m_pScene->CreateNode("Light");
-// 			pLightObj->LookAt(Vector3(10,10,10),Vector3(0,0,0));
-// 			m_pDirectLight = pLightObj->CreateComponent<DirectonalLight>();
-// 			m_pDirectLight->SetLightColor(ColourValue::White);
-
-			//m_pDirectLight->SetCreateShadow(true);
-		}
-
-		GetLightSystem()->SetAmbientColor(ColourValue(0.2f,0.2f,0.2f,0.0f));
+		//m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
+		//m_pScene->GetSunShaow()->SetLightColor(ColourValue(0.49, 0.65, 0.95, 1.f));
+		m_pScene->GetSunShaow()->SetEnabled(true);
 
 	}
 

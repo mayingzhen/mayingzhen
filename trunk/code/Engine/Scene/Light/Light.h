@@ -15,7 +15,7 @@ namespace ma
 
 
 
-	class Light : public RenderComponent
+	class Light : public Component
 	{
 		DECL_OBJECT(Light)
 
@@ -27,14 +27,10 @@ namespace ma
 		LightType					GetLightType() {return m_eLightType;}
 
 		const ColourValue&			GetLightColor() {return m_cLightColor;}
-
 		void						SetLightColor(const ColourValue& cLightColor) {m_cLightColor = cLightColor;}
 
 		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}
-
 		float						GetLightIntensity() {return m_fLightIntensity;}
-
-		virtual void				UpdateShadowFrustum(Camera* pCamera) {}
 
 	protected:
 		LightType					m_eLightType;
@@ -81,18 +77,11 @@ namespace ma
 	public:
 		SpotLight()	{m_eLightType = LIGHT_SPOT;}
 
-		Transform		GetTransform() {return m_tsfWS;}
-
-		void			SetTransform(const Transform& tsfWS) {m_tsfWS = tsfWS;}
-
-		//void			LookAt(const Vector3& vEye,const Vector3& vAt,const Vector3& vUp);	
-
 		Matrix4			GetViewMatrix() {return m_mView;}
 
 		Matrix4			GetProjmatrix()	{return m_mProj;}
 
 	private:
-		Transform		m_tsfWS;
 
 		float			m_fAspectRatio;
 		float			m_fNearClip;
@@ -104,10 +93,6 @@ namespace ma
 		Matrix4			m_mView;
 		Matrix4			m_mProj;
 	};
-
-
-	DeclareRefPtr(PointLight);
-	DeclareRefPtr(DirectonalLight);
 
 }
 

@@ -90,11 +90,6 @@ namespace ma
 		GetRenderSystem()->SetValue(pUnifrom,GetProjectionMatrix());
 		
 		GetRenderSystem()->DrawDyRenderable(this,pTech);
-
-// 		if (pTech == NULL)
-// 			MeshBatch::Render(m_pTechnique.get());
-// 		else
-// 			MeshBatch::Render(pTech);
 	}
 
 	void SpriteBatch::Draw(const Rectangle& dst, const Rectangle& src, const ColourValue& color)

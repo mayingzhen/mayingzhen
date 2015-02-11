@@ -2,6 +2,7 @@ EXPORTS
 
 ??1Skeleton@ma@@UAE@XZ
 ??0Skeleton@ma@@QAE@XZ
+??0Animation@ma@@QAE@XZ
 ?InitResPose@Skeleton@ma@@QAEXXZ
 ?GetBoneIdByName@Skeleton@ma@@QBEGPBD@Z
 ?AddTrack@Animation@ma@@QAEXPBDABVVector3Track@2@ABVQuaternionTrack@2@1@Z

@@ -14,6 +14,7 @@ namespace ma
 	class RenderComponent;
 	class Texture;
 	class RenderQueue;
+	class RenderShadowCSM;
 
 
 	class Scene : public SceneNode
@@ -36,9 +37,9 @@ namespace ma
 
 		~Scene();
 
-		void					Init();
+		//void					Init();
 
-		void					ShutDown();
+		//void					ShutDown();
 
 		void					Render();
 
@@ -69,8 +70,7 @@ namespace ma
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
 
-		void					GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const;
-		void					SetDirectionalLight(const ColourValue& color, const Vector3& vDir);
+		RenderShadowCSM*		GetSunShaow() const {return m_pSunShadow.get();}
 		
 		void					OnFlushFrame();
 
@@ -99,8 +99,8 @@ namespace ma
 		float					m_viwMinZ;
 		float					m_viwMaxZ;
 
-		ColourValue				m_cDirLight;
-		Vector3					m_vDirLight;
+		RefPtr<SceneNode>		m_pSunNode;
+		RefPtr<RenderShadowCSM>	m_pSunShadow; 
 			
 		CCallback*				m_pCallback;
 	};

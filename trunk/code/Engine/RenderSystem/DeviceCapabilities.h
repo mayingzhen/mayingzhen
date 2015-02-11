@@ -108,7 +108,9 @@ public:
 	bool GetTextureDXTSupported() const{return m_bDXT;}
 	bool GetTexturePVRTCSupported() const{return m_bPVRTC;}
 	bool GetTextureETC1Supported() const{return m_bETC1;}
+	
 	bool GetDepthTextureSupported() const {return m_bDepthTexture;}
+	void SetDepthTextureSupported(bool b) {m_bDepthTexture = b;}
 
 	void SetTextureAnisotropy(bool b){m_bAnisotropy = b;}
 	bool GetTextureAnisotropy() const{return m_bAnisotropy;}

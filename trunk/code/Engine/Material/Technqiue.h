@@ -25,7 +25,7 @@ namespace ma
 		void				SetRenderState(const RenderState& renderState) {m_renderState = renderState;}
 
 		void				SetParameter(const char* pszName,const Any& value);	
-		Parameter*	GetParameter(const char* pszName);
+		Parameter*			GetParameter(const char* pszName);
 
 		RefPtr<Technique>	Clone();
 

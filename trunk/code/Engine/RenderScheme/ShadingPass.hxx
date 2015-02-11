@@ -51,12 +51,12 @@ namespace ma
 
 
 		{
-			RENDER_PROFILE(RL_Terrain);
+			RENDER_PROFILE(RL_TerrainBody);
 
-			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Terrain);
+			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBody);
 			for (UINT i = 0; i < nSolid; ++i)
 			{
-				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Terrain,i);
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBody,i);
 				if (pRenderObj == NULL)
 					continue; 
 
@@ -65,6 +65,23 @@ namespace ma
 				pRenderObj->Render(pTech);
 			}
 		}
+
+		{
+			RENDER_PROFILE(RL_TerrainBorder);
+
+			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBorder);
+			for (UINT i = 0; i < nSolid; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBorder,i);
+				if (pRenderObj == NULL)
+					continue; 
+
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
+		}
+
 
 		{
 			RENDER_PROFILE(RL_Trans);

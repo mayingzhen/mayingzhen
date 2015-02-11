@@ -16,7 +16,7 @@ namespace ma
 
 	LightSystem::LightSystem()
 	{
-		m_cAmbientColor = ColourValue::White;
+		m_cAmbientColor = ColourValue::Black;
 	}
 
 	void LightSystem::AddLight(Light* pLight)

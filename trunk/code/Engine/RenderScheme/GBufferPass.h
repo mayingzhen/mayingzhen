@@ -13,6 +13,8 @@ namespace ma
 		void		Render();
 
 		void		ShoutDown();
+		
+		Texture*	GetSceneDiffuse() {return m_pDiffuse.get();}
 
 		Texture*	GetSceneDepth() {return m_pDepthTex.get();}
 
@@ -22,6 +24,8 @@ namespace ma
 		RefPtr<Texture>	m_pDepthTex;
 
 		RefPtr<Texture>	m_pNormalTex;
+
+		RefPtr<Texture> m_pDiffuse;
 	};
 }
 

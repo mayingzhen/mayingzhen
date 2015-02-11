@@ -41,9 +41,14 @@ namespace ma
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView(matView);
 	}
 
-	const Matrix4& RenderContext::GetViewMatrix()  
+	const Matrix4& RenderContext::GetViewMatrix() const
 	{
 		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatView();
+	}
+
+	const Matrix4& RenderContext::GetViewMatrixInv() const
+	{
+		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatViewInv();
 	}
 
 	void RenderContext::SetProjMatrix(const Matrix4& matProj) 
@@ -51,7 +56,7 @@ namespace ma
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj(matProj);
 	}
 
-	const Matrix4& RenderContext::GetProjMatrix()  
+	const Matrix4& RenderContext::GetProjMatrix() const 
 	{
 		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatProj();
 	}

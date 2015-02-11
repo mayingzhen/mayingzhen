@@ -11,8 +11,8 @@ namespace ma
 		matTras.setScale(Vector3(fRadius ,fRadius ,fRadius));
 
 		gpSphere->SetWorldMatrix(matTras);
-
-		GetRenderSystem()->DrawRenderable(gpSphere,pTech);
+		
+		gpSphere->Render(pTech);
 	}
 
 
