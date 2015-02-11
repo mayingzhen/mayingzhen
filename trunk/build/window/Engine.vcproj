@@ -829,6 +829,10 @@
 			Name="Material"
 			>
 			<File
+				RelativePath="..\..\code\Samples\CameraController.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Material\Material.h"
 				>
 			</File>

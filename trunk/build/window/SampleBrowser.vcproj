@@ -316,10 +316,6 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\code\Samples\CameraController.hxx"
-			>
-		</File>
-		<File
 			RelativePath="..\..\code\Samples\main-windows.cpp"
 			>
 		</File>
