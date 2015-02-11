@@ -1,23 +1,24 @@
+#include "common.h"
+
 #ifdef POINT_LIGHT   
-uniform float4 light_pos_es;
-uniform	float4 light_radius;
+uniform float4 light_pos_es_radius;
 #endif
 
 #ifdef DIRECT_LIGHT
-uniform float4 light_dir_es;
+uniform float3 light_dir_es;
 #endif
 
 uniform float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
 
 
-uniform float4 depth_near_far_invfar;
 
 // Gbuffer
+sampler2D u_textureSceneDiffuse;
 sampler2D u_textureSceneDepth;
 sampler2D u_textureSceneNormal;
 
 // shadow
-#ifdef SHADOW
+#if USING_SHADOW != 0
 sampler2D u_TextureSceneShadow;
 #endif
       
@@ -30,8 +31,9 @@ struct VS_OUT
 
 struct PS_OUT
 {
-    float4 Diffuse  : COLOR0;
-   float4 Specular  : COLOR1;
+   //float4 Diffuse  : COLOR0;
+   //float4 Specular  : COLOR1;
+   float4 flagColor : COLOR0;
 };
 
 
@@ -39,68 +41,60 @@ struct PS_OUT
 float GetLinearDepth(float2 tc)
 {
 #ifdef HWDEPTH
-	float q = depth_near_far_invfar.y / (depth_near_far_invfar.y - depth_near_far_invfar.x); 
+	float q = g_vCameraNearFar.y / (g_vCameraNearFar.y - g_vCameraNearFar.x); 
 	float depth = tex2D(u_textureSceneDepth, tc).r;
-	depth = depth_near_far_invfar.x / (q - depth);
+	depth = g_vCameraNearFar.x / (q - depth);
 #else
 	float depth = tex2D(u_textureSceneDepth, tc).r;
-    depth *= depth_near_far_invfar.y;
+    depth *= g_vCameraNearFar.y;
 #endif	
 	
 	return depth;
 }
 
-float2 encode(float3 normal)
-{
-   //return normalize(normal.xy) * sqrt(normal.z * 0.5 + 0.5);
-   return( normal.x / (1.0f - normal.z), normal.y / (1.0f - normal.z) );
-}
 
-float3 decode(float2 n)
-{
-	float fTemp = n.x * n.x + n.y * n.y;
-	
-	return (2 * n.x / (1 + fTemp), 2 * n.y / (1 + fTemp), (-1 + fTemp) / (1 + fTemp));
-//    float3 normal;
-//    normal.z = dot(n, n) * 2 - 1;
-//    normal.xy = normalize(n) * sqrt(1 - normal.z * normal.z);
-//    return normal;
-}
 
 void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float shiness)
 {
    float depth = GetLinearDepth(In.oTc); 
    
    float3 view_dir = normalize(In.oViewDir);
-   pos_es = view_dir * (depth / view_dir.z); 
+   pos_es = view_dir * (-depth / view_dir.z); 
    
    float4 SrcNormal = tex2D( u_textureSceneNormal, In.oTc);
-   normal = decode(SrcNormal.xy);
+   
+#ifdef ENCODENORMAL 
+   normal = DecodeNormal(SrcNormal.xy);
+#else   
+   normal = SrcNormal.xyz;
+#endif 
+ 
    shiness = SrcNormal.w  * 255.0f;
 }
 
-void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out PS_OUT pOut)
+void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out float3 Diffuse,out float3 Specular)
 {
-   pOut = (PS_OUT)0;
-
+	Diffuse = 0;
+	Specular = 0;
+	
    float3 vNormal = normalize(normal);
    float3 vLight  = normalize(lightVec);   
-   float3 vView   = normalize(pos_es.xyz);
+   float3 vView   = -normalize(pos_es.xyz);
    float3 vHalfDir = normalize(vView + vLight);
    
-   float3 light = lit( dot( vNormal, vLight ), dot( vNormal, vHalfDir ), shiness );   
+   float4 light = lit( dot( vNormal, vLight ), dot( vNormal, vHalfDir ), shiness );   
    
    float3 cDiffUse = light.y * light_color;
    float3 cSpecular = light.z * light_color;
 
 #ifdef POINT_LIGHT      
-   float attenuation = saturate(1.0f - length(lightVec)/light_radius.x); 
+   float attenuation = saturate(1.0f - length(lightVec)/light_pos_es_radius.w); 
 #else 
    float attenuation = 1.0f; 
-#endif        
+#endif       
 
-   pOut.Diffuse.xyz = attenuation * cDiffUse;
-   pOut.Specular.xyz = attenuation * cSpecular;  
+  Diffuse.xyz = attenuation * cDiffUse;
+  Specular.xyz = attenuation * cSpecular;
 }
 
 
@@ -115,14 +109,21 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
    GetPosNormalShiness(In,pos_es,normal,shiness);
 
 #ifdef POINT_LIGHT   
-   float3 vlightVec = light_pos_es.xyz - pos_es.xyz;
+   float3 vlightVec = light_pos_es_radius.xyz - pos_es.xyz;
 #else 
 #ifdef DIRECT_LIGHT
    float3 vlightVec = light_dir_es.xyz;      
 #endif
 #endif  
+
+	float3 	Diffuse = 0;
+	float3 	Specular = 0;
+   GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,Diffuse,Specular);
    
-   GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,pOut);
+   float4 mdiffuse = tex2D( u_textureSceneDiffuse, In.oTc);  		 
+
+   pOut.flagColor.xyz = Diffuse * mdiffuse + Specular;
+   pOut.flagColor.w = 1.0;
 }
 #endif
 
@@ -131,8 +132,10 @@ void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
 {
    pOut = (PS_OUT)0;
    
-   pOut.Diffuse.xyz = light_color;
-   pOut.Specular.xyz = 0;   
+   //pOut.Diffuse.xyz = light_color;
+  // pOut.Specular.xyz = 0; 
+  float4 mdiffuse = tex2D( u_textureSceneDiffuse, In.oTc);  
+  pOut.flagColor = light_color * mdiffuse;
 }
 
 
@@ -145,11 +148,10 @@ void main( VS_OUT vout, out PS_OUT pout )
 
    DeferredLightPS(vout,pout);   
    
-#ifdef SHADOW
+#if USING_SHADOW != 0
    float shadow = tex2D(u_TextureSceneShadow, vout.oTc).r;
    
-   pout.Diffuse *= shadow;
-   pout.Specular *= shadow;
+   pout.flagColor *= shadow;
 #endif
 
 #endif

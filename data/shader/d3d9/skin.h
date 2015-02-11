@@ -2,6 +2,13 @@
 // local param
 // ---------------------------------------------------------------------
 
+#ifndef MAX_DQ_NUM_BONES
+#define MAX_DQ_NUM_BONES 100
+#endif
+#ifndef MAX_MAT_NUM_BONES
+#define MAX_MAT_NUM_BONES 75
+#endif
+
 #define BONE_DQ
 
 #ifdef BONE_DQ

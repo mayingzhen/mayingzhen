@@ -1,5 +1,16 @@
+
+// #define DEFERREDSHADING
+// #define USING_SHADOW 1 
+
 #include"common.h"
+
+#if USING_SHADOW != 0
 #include"shadowMap.h"
+#endif
+
+#ifdef DEFERREDSHADING 
+#include"gbuffer.h"
+#endif 
 
 uniform float2 uCellAmount;
 uniform float2 uDetailScale;
@@ -12,8 +23,8 @@ struct VS_INPUT
 {
 	float3	Pos		: POSITION;
 	float2  UV      : TEXCOORD0;
-    float4  Normal  : TEXCOORD1;
-    float3  Tan     : TEXCOORD2;
+    float3  Normal  : NORMAL;
+    float3  Tan     : TANGENT;
 	float4  Color	: COLOR0;
 };
 
@@ -24,11 +35,13 @@ struct VS_OUTPUT
     float4 DetailUV	: TEXCOORD1;
 	float4 Color	: TEXCOORD2;
 	float4 WorldPos : TEXCOORD3;
+#ifdef DEFERREDSHADING 
+   float4 v_normalDepth  :TEXCOORD4;	
+#endif  
 #if USING_SHADOW != 0
-	float2 RandDirTC : TEXCOORD4;
-	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
+	float2 RandDirTC : TEXCOORD5;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD6;
 #endif	
-
 };
 
 
@@ -73,6 +86,10 @@ VS_OUTPUT main(const VS_INPUT v)
 	Out.Color = v.Color;
 	float fWeight = saturate(1 - abs(v.Color.a * 255.0 - uCurMaterialID));	
 	Out.Color.a = fWeight;
+	
+#ifdef DEFERREDSHADING 
+	GBufferVSOut(v.Normal.xyz,Out.Pos.w,Out.v_normalDepth);
+#endif   
 
     return Out;
 }

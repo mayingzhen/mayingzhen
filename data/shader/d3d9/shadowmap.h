@@ -156,7 +156,9 @@ void GetShadowPos(float3 iWordPos,float fDistance,out float4 shadowPos[g_iNumSpl
 
 	GetShadowPosArray(iWordPos,shadowPos);
 
+#if SHADOW_BLUR == 2
 	GetRandDirTC(fDistance,randDirTC);	
+#endif
 }
 
 
