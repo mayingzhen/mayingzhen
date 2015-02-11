@@ -14,19 +14,13 @@ namespace ma
 		int nWidth = (int)m_pScene->GetViewport().width;
 		int nHeight = (int)m_pScene->GetViewport().height;
 
-		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
-		m_pSpecular = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
+		//m_pDiffuse = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
+		//m_pSpecular = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
 
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;
 
-		std::string strShaderDefine = "DIRECT_LIGHT";
-		if ( GetRenderShadowCSM()->GetEnabled() )
-		{
-			strShaderDefine += ";SHADOW";
-		}
-
-		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight",strShaderDefine.c_str());
+		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight","DIRECT_LIGHT");
 		m_pDirLight->GetRenderState().m_bDepthWrite = false;
 		m_pDirLight->GetRenderState().m_eBlendMode = BM_ADD;
 
@@ -39,8 +33,8 @@ namespace ma
 	{
 		RENDER_PROFILE(DefferedLighting);
 
-		RefPtr<Texture> pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDiffuse,0); 
-		RefPtr<Texture> pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pSpecular,1);
+		//RefPtr<Texture> pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDiffuse,0); 
+		//RefPtr<Texture> pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pSpecular,1);
 
 		GetRenderSystem()->ClearBuffer(true,false,true,ColourValue::Black, 1.0f, 0);
 
@@ -61,13 +55,17 @@ namespace ma
 			GetRenderContext()->SetCurLight(pLight);
 
 			if (pLight->GetLightType() == LIGHT_DIRECTIONAL)
-			{
+			{       
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
-
-				m_pDirLight->SetParameter("light_color",Any(pLight->GetLightColor()));
-			
-				Vector3 vDirES = matView * pDirLight->GetDirection();
-				m_pDirLight->SetParameter("light_dir_es",Any(vDirES));
+				
+				Uniform* pUniformDirES = m_pDirLight->GetShaderProgram()->GetUniform("light_dir_es");
+				Uniform* pUniformColor = m_pDirLight->GetShaderProgram()->GetUniform("light_color");
+					
+				Quaternion qRotate = matView.extractQuaternion();
+				Vector3 vDirES = qRotate * -pDirLight->GetDirection();
+				
+				GetRenderSystem()->SetValue(pUniformDirES,vDirES);
+				GetRenderSystem()->SetValue(pUniformColor,pLight->GetLightColor());
 
 				ScreenQuad::Render(m_pDirLight.get());		
 			}
@@ -75,15 +73,17 @@ namespace ma
 			{
 				PointLight* pPointLight = (PointLight*)pLight;
 	
-				m_pPointLight->SetParameter("light_color",Any(pLight->GetLightColor()));
-
+				Uniform* pUniformColor = m_pDirLight->GetShaderProgram()->GetUniform("light_color");
+				Uniform* pUniformPosESRadius = m_pDirLight->GetShaderProgram()->GetUniform("light_pos_es_radius");
+				
 				Vector3 vPosES = matView * pPointLight->GetPos();
-				float fRadius = pPointLight->GetRadius();
-				m_pPointLight->SetParameter("light_pos_es",Any(vPosES));
-				m_pPointLight->SetParameter("light_radius",Any(fRadius));
-
+				Vector4 vPosESRadius(vPosES.x,vPosES.y,vPosES.z,pPointLight->GetRadius());
+				
+				GetRenderSystem()->SetValue(pUniformColor,pLight->GetLightColor());
+				GetRenderSystem()->SetValue(pUniformPosESRadius,vPosESRadius);
+		
 				float cameraToCenter = vPosES.length();
-				if (cameraToCenter < fRadius)
+				if (cameraToCenter < pPointLight->GetRadius())
 				{
 					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;	
 				}
@@ -93,21 +93,20 @@ namespace ma
 				}
 
 
-				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetPos(),fRadius);
+				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetPos(),pPointLight->GetRadius());
 			}
 
 			GetRenderContext()->SetCurLight(NULL);
 		}
 
-
-		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
-		GetRenderSystem()->SetRenderTarget(pPreTarget1,1);
+		//GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
+		//GetRenderSystem()->SetRenderTarget(pPreTarget1,1);
 	}
 
 	void DeferredLightPass::ShoutDown()
 	{
-		m_pDiffuse = NULL;
-		m_pSpecular = NULL;
+		//m_pDiffuse = NULL;
+		//m_pSpecular = NULL;
 
 		m_pDirLight = NULL;
 		m_pPointLight = NULL;

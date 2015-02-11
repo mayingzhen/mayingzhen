@@ -78,7 +78,9 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		Caster_Cull eCaterCullType = GetRenderShadowCSM()->GetCasterCullType();
+		RenderShadowCSM* pParent = pCamera->GetSceneNode()->GetScene()->GetSunShaow();
+
+		Caster_Cull eCaterCullType = pParent->GetCasterCullType();
 		if (eCaterCullType != CasterCull_No)
 		{
 			Frustum ligtFrustum;
@@ -95,7 +97,7 @@ namespace ma
 		{
 			RenderComponent* pRenderComp = (*iter);
 
-			float fShadowFarDis = GetRenderShadowCSM()->GetShadowFarDistance();
+			float fShadowFarDis = pParent->GetShadowFarDistance();
 			if (fShadowFarDis > 0)
 			{
 				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetSceneNode()->GetPosWS()).length();
@@ -123,11 +125,11 @@ namespace ma
 	void ShadowMapFrustum::UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{		
 		Scene* pCurScene = pCamera->GetSceneNode()->GetScene();
-		
-		ColourValue color;
-		Vector3 vLightDir;
-		pCurScene->GetDirectionalLight(color, vLightDir);
 
+		RenderShadowCSM* pParent = pCurScene->GetSunShaow();
+		
+		Vector3 vLightDir = pParent->GetDirection();
+	
 		Vector3 vLightUp;
 		if ( Math::Abs( (-vLightDir).dotProduct( pCamera->GetSceneNode()->GetUp() ) ) > 0.95f )
 		{
@@ -145,7 +147,7 @@ namespace ma
 
 		AABB aabbInLightView;
 
-		Caster_Cull eCaterCullType = GetRenderShadowCSM()->GetCasterCullType();
+		Caster_Cull eCaterCullType = pParent->GetCasterCullType();
 		if (eCaterCullType == CasterCull_No)
 		{
 			uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
@@ -291,11 +293,13 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
+		RenderShadowCSM* pParent = pCamera->GetSceneNode()->GetScene()->GetSunShaow();
+
 		float fConstantBias = 0;
 		float fSlopeScaleBias = 0;
-		GetRenderShadowCSM()->GetDepthBiasParams(fConstantBias,fSlopeScaleBias);
+		pParent->GetDepthBiasParams(fConstantBias,fSlopeScaleBias);
 
-		float vCurSplitx = GetRenderShadowCSM()->GetCurSplitPos().x;
+		float vCurSplitx = pParent->GetCurSplitPos().x;
 		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
 
 		m_fConstantBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
@@ -340,9 +344,7 @@ namespace ma
 			 SubMaterial* pMaterial = pRenderObj->GetMaterial();
 		
 			 Technique* pTech = pMaterial->GetShadowDepthTechnqiue();
-
-	 
-			 //pRenderObj->Render(pTech);
+ 
 			 GetRenderContext()->SetCurRenderObj(pRenderObj);
 
 			 pTech->Bind();

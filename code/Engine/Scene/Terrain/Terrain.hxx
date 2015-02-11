@@ -206,14 +206,14 @@ namespace ma
 
 	void Terrain::BuildVertexDeclaration()
 	{
-		VertexElement element[6];
+		VertexElement element[5];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
 		element[2] = VertexElement(0,20,DT_FLOAT3,DU_NORMAL,0);
 		element[3] = VertexElement(0,32,DT_FLOAT3,DU_TANGENT,0);
 		element[4] = VertexElement(0,44,DT_COLOR,DU_COLOR,0);
-		element[5] = VertexElement(0,48,DT_COLOR,DU_COLOR,1);
-		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,6);
+		//element[5] = VertexElement(0,48,DT_COLOR,DU_COLOR,1);
+		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,5);
 	}
 
 	void Terrain::BuildShareIB()
@@ -483,7 +483,6 @@ namespace ma
 		uint32 nSizeBytes =	pSrcResource->GetDataStream()->GetSize();
 
 		ImageData imageData;
-		ASSERT(false);
 		Texture::BuildImageData(pszName,pMemory,nSizeBytes,imageData);
 
 		PixelBox src = imageData.GetPixelBox(0, 0);
@@ -628,20 +627,21 @@ namespace ma
 
 	Vector3 Terrain::GetNormal(int nXVert, int nYVert) const
 	{
-		if (nXVert<= 0 || nXVert>= m_nXCellsAmount)
+		if (nXVert <= 0 || nXVert >= m_nXCellsAmount)
 		{
-			return Vector3::UNIT_Z;
-		}
-		if (nYVert<= 0 || nYVert>= m_nYCellsAmount)
-		{
-			return Vector3::UNIT_Z;
+			return Vector3::UNIT_Y;
 		}
 
-		float fHeight1 = this->GetHeight(nXVert-1, nYVert);
-		float fHeight2 = this->GetHeight(nXVert, nYVert-1);
-		float fHeight3 = this->GetHeight(nXVert+1, nYVert);
-		float fHeight4 = this->GetHeight(nXVert, nYVert+1);
-		Vector3 vNormal(fHeight1-fHeight3, fHeight2-fHeight4, 2*m_fCellSpacing);
+		if (nYVert <= 0 || nYVert >= m_nYCellsAmount)
+		{
+			return Vector3::UNIT_Y;
+		}
+
+		float fHeight1 = this->GetHeight(nXVert - 1, nYVert);
+		float fHeight2 = this->GetHeight(nXVert, nYVert - 1);
+		float fHeight3 = this->GetHeight(nXVert + 1, nYVert);
+		float fHeight4 = this->GetHeight(nXVert, nYVert + 1);
+		Vector3 vNormal(fHeight1 - fHeight3, 2 * m_fCellSpacing, fHeight2 - fHeight4);
 		vNormal.normalise();
 		return vNormal;
 	}
@@ -774,7 +774,7 @@ namespace ma
 
 		if (m_bBlendMapToVertex)
 		{
-			v.blend = GetBlendData(nXVert,nYVert);
+			//v.blend = GetBlendData(nXVert,nYVert);
 		}
 	}
 

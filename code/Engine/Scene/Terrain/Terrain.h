@@ -23,7 +23,7 @@ namespace ma
 		Vector3 normal;
 		Vector3 tan;
 		uint32  color;  //.a ΪMaterialID
-		uint32	blend;
+		//uint32	blend;
 	};
 
 	class Terrain : public SceneNode

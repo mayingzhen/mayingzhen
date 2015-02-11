@@ -21,7 +21,9 @@ namespace ma
 	ParameterManager::ParameterManager() 
 	{
 		m_autoDefaultBings["g_matView"] = g_matView;
+		m_autoDefaultBings["g_matViewInv"] = g_matViewInv;
 		m_autoDefaultBings["g_matProj"] = g_matProj;
+		m_autoDefaultBings["g_matProjInv"] = g_matProjInv;
 		m_autoDefaultBings["g_matWorld"] = g_matWorld;
 		m_autoDefaultBings["g_matViewProj"] = g_matViewProj;
 		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
@@ -34,12 +36,12 @@ namespace ma
 		m_autoDefaultBings["g_matShadow"] = g_matShadow;
 		m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
 		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
-		m_autoDefaultBings["g_vViewportInv"] =  INVERSE_PROJECTION_MATRIX;
+		m_autoDefaultBings["u_textureSceneDiffuse"] =  TextureSceneDiffuse;
 		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
 		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
 		m_autoDefaultBings["u_TextureSceneShadow"] =  TextureLightShadow;
-		m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
-		m_autoDefaultBings["u_textureLightSpecular"] =  TextureLightSpecular;
+		//m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
+		//m_autoDefaultBings["u_textureLightSpecular"] =  TextureLightSpecular;
 	}
 
 	ParameterManager::~ParameterManager()
@@ -72,11 +74,19 @@ namespace ma
 		}
 		else if (autoBinding == g_matView)
 		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewMatrix);
+			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
+		}
+		else if (autoBinding == g_matViewInv)
+		{
+			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrixInv);
 		}
 		else if (autoBinding == g_matProj)
 		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingGetProjectionMatrix);
+			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
+		}
+		else if (autoBinding == g_matProjInv)
+		{
+			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseProjectionMatrix);
 		}
 		else if (autoBinding == g_matWorldView)
 		{
@@ -92,23 +102,23 @@ namespace ma
 		}
 		else if (autoBinding == g_tShadowMap)
 		{
-			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMap);
+			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMap);
 		}
 		else if (autoBinding == g_fSplitPlane)
 		{
-			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetCurSplitPos);
+			pParam->BindMethod(this, &ParameterManager::autoBindingSpitPos);
 		}
 		else if (autoBinding == g_matShadow)
 		{
-			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMatrix,&RenderShadowCSM::GetMaxSplitCount);
+			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix,&ParameterManager::autoBindingSplitCount);
 		}
 		else if (autoBinding == g_shadowMapTexelSize)
 		{
-			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowMapTexSize);
+			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMapTexSize);
 		}
 		else if (autoBinding == g_ShadowDepthFade)
 		{
-			pParam->BindMethod(GetRenderShadowCSM(),&RenderShadowCSM::GetShadowDepthFade);
+			pParam->BindMethod(this, &ParameterManager::autoBindingShadowDepthFade);
 		}
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
 		{
@@ -117,10 +127,6 @@ namespace ma
 		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix);
-		}
-		else if (autoBinding == INVERSE_PROJECTION_MATRIX)
-		{
-			pParam->BindMethod(this,&ParameterManager::autoBindingGetInverseProjectionMatrix);
 		}
 		else if (autoBinding == CAMERA_WORLD_POSITION)
 		{
@@ -150,6 +156,10 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingDepthNearFarInvfar);
 		}
+		else if (autoBinding == TextureSceneDiffuse)
+		{
+			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDiffuse);
+		}
 		else if (autoBinding == TextureSceneDepth)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDetph);
@@ -158,14 +168,14 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
 		}
-		else if (autoBinding == TextureLightDiffuse)
-		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingTextureLightDiffuse);
-		}
-		else if (autoBinding == TextureLightSpecular)
-		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingTextureightSpecular);
-		}
+// 		else if (autoBinding == TextureLightDiffuse)
+// 		{
+// 			pParam->BindMethod(this, &ParameterManager::autoBindingTextureLightDiffuse);
+// 		}
+// 		else if (autoBinding == TextureLightSpecular)
+// 		{
+// 			pParam->BindMethod(this, &ParameterManager::autoBindingTextureightSpecular);
+// 		}
 		else if (autoBinding == TextureLightShadow)
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingTextureLightShadow);
@@ -174,6 +184,60 @@ namespace ma
 		{
 			ASSERT("Unsupported auto binding type " && autoBinding);
 		}
+	}
+
+	Texture* ParameterManager::autoBindingShadowMap() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return NULL;
+
+		return pCurScene->GetSunShaow()->GetShadowMap();
+	}
+
+	Vector4	ParameterManager::autoBindingSpitPos() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return Vector4::ZERO;
+
+		return pCurScene->GetSunShaow()->GetCurSplitPos();
+	}
+
+	UINT ParameterManager::autoBindingSplitCount() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return 0;
+
+		return pCurScene->GetSunShaow()->GetMaxSplitCount();
+	}
+
+	const Matrix4* ParameterManager::autoBindingShadowMatrix() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return NULL;
+
+		return pCurScene->GetSunShaow()->GetShadowMatrix();
+	}
+
+	Vector4	ParameterManager::autoBindingShadowMapTexSize() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return Vector4::ZERO;
+
+		return pCurScene->GetSunShaow()->GetShadowMapTexSize();
+	}
+
+	Vector4	ParameterManager::autoBindingShadowDepthFade() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return Vector4::ZERO;
+
+		return pCurScene->GetSunShaow()->GetShadowDepthFade();
 	}
 
 	const Matrix4& ParameterManager::autoBindingGetWorldMatrix() const
@@ -296,9 +360,17 @@ namespace ma
 		return Vector4(fNear,fFar,1.0f/fFar,0);
 	}
 
+	Texture* ParameterManager::autoBingingSceneDiffuse() const
+	{
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
+			return NULL;
+
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneDiffuse();
+	}
+
 	Texture* ParameterManager::autoBingingSceneDetph() const
 	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass())
+		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
 			return NULL;
 
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneDepth();
@@ -312,21 +384,21 @@ namespace ma
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneNormal();
 	}
 
-	Texture* ParameterManager::autoBindingTextureLightDiffuse() const
-	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
-			return NULL;
-
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureLightDiffuse();
-	}
-
-	Texture* ParameterManager::autoBindingTextureightSpecular() const
-	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
-			return NULL;
-
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureightSpecular();
-	}	
+// 	Texture* ParameterManager::autoBindingTextureLightDiffuse() const
+// 	{
+// 		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
+// 			return NULL;
+// 
+// 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureLightDiffuse();
+// 	}
+// 
+// 	Texture* ParameterManager::autoBindingTextureightSpecular() const
+// 	{
+// 		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
+// 			return NULL;
+// 
+// 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureightSpecular();
+// 	}	
 
 	Texture* ParameterManager::autoBindingTextureLightShadow() const
 	{

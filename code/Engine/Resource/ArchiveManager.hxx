@@ -68,8 +68,7 @@ namespace ma
 			}
 		}
 
-		ASSERT(false);
-		LogError("Cannot open file :%s", pszFile);
+		ASSERTMSG1(false,"Cannot open file :%s", pszFile);
 		return NULL;
 	}
 

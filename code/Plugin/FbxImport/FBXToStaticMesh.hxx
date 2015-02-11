@@ -191,7 +191,7 @@ namespace ma
 			ReadUV(pMesh,ctrlPointIndex,pMesh->GetTextureUVIndex(nTriangleIndex, j),0,&vertex[j].m_uv);
 
 			// Read the normal of each vertex
-			if (pImportParm && pImportParm->m_eImportNormal == Import)
+			//if (pImportParm && pImportParm->m_eImportNormal == Import)
 			{
 				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &vertex[j].m_normal);
 			}
@@ -199,7 +199,7 @@ namespace ma
 			// Read the tangent of each vertex
 			if (pImportParm && pImportParm->m_eImportTangents == Import)
 			{
-				//ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &vTangent);
+				//ReadTangent(pMesh , ctrlPointIndex , vertexCounter , &vertex[j].m_tan);
 			}
 		}
 	}

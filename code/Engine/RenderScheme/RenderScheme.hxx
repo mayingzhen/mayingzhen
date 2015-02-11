@@ -85,8 +85,10 @@ namespace ma
 			pRenderScheme->AddGBufferPass();
 			pRenderScheme->AddDeferredShadowPass();
 			pRenderScheme->AddDeferredLightPass();
-			pRenderScheme->AddShadingPass();
+			//pRenderScheme->AddShadingPass();
 		}
+
+		pRenderScheme->Init();
 		
  		return pRenderScheme;
 	}

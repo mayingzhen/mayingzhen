@@ -21,9 +21,10 @@ namespace ma
 		void					SetCamera(Camera* pCamera); 
 
 		void					SetViewMatrix(const Matrix4& matView);
-		const Matrix4&			GetViewMatrix();
+		const Matrix4&			GetViewMatrix() const;
+		const Matrix4&			GetViewMatrixInv() const;
 		void					SetProjMatrix(const Matrix4& matProj);
-		const Matrix4&			GetProjMatrix();
+		const Matrix4&			GetProjMatrix() const;
 		const Matrix4&			GetViewProjMatrix();
 
 		float					GetNearClip();

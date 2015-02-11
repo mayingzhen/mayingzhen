@@ -116,7 +116,9 @@ namespace ma
 		m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		m_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 		m_d3dpp.EnableAutoDepthStencil = TRUE;
-		m_d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
+		m_d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+		//m_d3dpp.BackBufferCount = /*bVSync?2:*/1;
+		//m_d3dpp.EnableAutoDepthStencil = TRUE;
 		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // Disable vertical synchronization
 		m_d3dpp.BackBufferWidth = rect.right - rect.left;
@@ -125,25 +127,42 @@ namespace ma
 		m_nAdapterToUse = D3DADAPTER_DEFAULT;
 		D3DDEVTYPE DeviceType = D3DDEVTYPE_HAL;
 
-#if SHIPPING_VERSION
-		// When building a shipping version, disable NVPerfHUD (opt-out)
-#else
-		// Look for 'NVIDIA NVPerfHUD' adapter
-		// If it is present, override default settings
-		for (UINT Adapter = 0; Adapter < m_pD3D9->GetAdapterCount(); Adapter++)
+// #if SHIPPING_VERSION
+// 		// When building a shipping version, disable NVPerfHUD (opt-out)
+// #else
+// 		// Look for 'NVIDIA NVPerfHUD' adapter
+// 		// If it is present, override default settings
+// 		for (UINT Adapter = 0; Adapter < m_pD3D9->GetAdapterCount(); Adapter++)
+// 		{
+// 			D3DADAPTER_IDENTIFIER9 Identifier;
+// 			HRESULT Res;
+// 			Res = m_pD3D9->GetAdapterIdentifier(Adapter, 0, &Identifier);
+// 			if ( strcmp(Identifier.Description, "NVIDIA NVPerfHUD") == 0 )
+// 			{
+// 				m_nAdapterToUse = Adapter;
+// 				DeviceType = D3DDEVTYPE_REF;
+// 				//Logger::info(String("Using ") + Identifier.Description + " adapter for debug purposes.");
+// 				break;
+// 			}
+// 		}
+//#endif
+		
+		int nTryMSAA = D3DMULTISAMPLE_16_SAMPLES;
+		uint32 outQuality = 0;
+		while(FAILED(m_pD3D9->CheckDeviceMultiSampleType( 
+			m_nAdapterToUse, 
+			DeviceType, 
+			D3DFMT_X8R8G8B8, 
+			FALSE/*fullScreen?FALSE:TRUE*/, 
+			(D3DMULTISAMPLE_TYPE)nTryMSAA, 
+			(DWORD*)&outQuality)))
 		{
-			D3DADAPTER_IDENTIFIER9 Identifier;
-			HRESULT Res;
-			Res = m_pD3D9->GetAdapterIdentifier(Adapter, 0, &Identifier);
-			if ( strcmp(Identifier.Description, "NVIDIA NVPerfHUD") == 0 )
-			{
-				m_nAdapterToUse = Adapter;
-				DeviceType = D3DDEVTYPE_REF;
-				//Logger::info(String("Using ") + Identifier.Description + " adapter for debug purposes.");
+			if (--nTryMSAA <= 0)
 				break;
-			}
 		}
-#endif
+
+// 		m_d3dpp.MultiSampleType = (D3DMULTISAMPLE_TYPE)nTryMSAA;
+// 		m_d3dpp.MultiSampleQuality = 0;
 
 		HRESULT hr = S_OK;
 		hr = m_pD3D9->CreateDevice(m_nAdapterToUse,DeviceType,m_hWnd,
@@ -1004,6 +1023,12 @@ namespace ma
 		else
 		{
 			GetDeviceCapabilities()->SetVSTextureSupported(false);
+		}
+
+		D3DFORMAT formaat = D3DFMT_D24S8;
+		if ( SUCCEEDED(D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, USAGE_DEPTHSTENCIL, &formaat, D3DPOOL_DEFAULT) ) )
+		{
+			//GetDeviceCapabilities()->SetDepthTextureSupported(true);
 		}
 
 		SAFE_RELEASE(surface);

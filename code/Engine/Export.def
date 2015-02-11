@@ -223,9 +223,7 @@ EXPORTS
 ?AddSubMeshData@MeshData@ma@@QAEPAVSubMeshData@2@XZ
 ?AddBonePalette@SubMeshData@ma@@QAEXG@Z
 ?SetEnabled@RenderShadowCSM@ma@@QAEX_N@Z
-?GetRenderShadowCSM@ma@@YAPAVRenderShadowCSM@1@XZ
 ?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
-?SetDirectionalLight@Scene@ma@@QAEXABVColourValue@2@ABVVector3@2@@Z
 ?GetWorldRayCast@Camera@ma@@QAE?AVRay@2@ABVVector2@2@@Z
 ?GetHeight@Terrain@ma@@QBEMMM@Z
 ?Init@ParticleSystem@ma@@QAEX_N@Z
@@ -255,3 +253,8 @@ EXPORTS
 ?OnLoadOver@Texture@ma@@UAE_NXZ
 ?CreateSamplerState@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4FilterOptions@1@@Z
 ?SetSkinMatrix@MeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
+?Open@BinaryInputSerializer@ma@@QAE_NPBD@Z
+?Rotate@SceneNode@ma@@QAEXABVQuaternion@2@_N@Z
+?Yaw@SceneNode@ma@@QAEXM_N@Z
+?Pitch@SceneNode@ma@@QAEXM_N@Z
+?Roll@SceneNode@ma@@QAEXM_N@Z

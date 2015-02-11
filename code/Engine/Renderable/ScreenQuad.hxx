@@ -36,8 +36,8 @@ namespace ma
 
 		uint16 indices[4];
 		indices[0]= 0;
-		indices[1]= 2;
-		indices[2]= 1;
+		indices[1]= 1;
+		indices[2]= 2;
 		indices[3]= 3;
 
 		// Init Renderable
@@ -65,7 +65,7 @@ namespace ma
 
 	void ScreenQuad::Render(Technique* pTechnique)
 	{
-		GetRenderSystem()->DrawRenderable(gpScrenQuad,pTechnique);
+		gpScrenQuad->Render(pTechnique);
 	}
 }
 

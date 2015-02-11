@@ -167,6 +167,7 @@ namespace ma
 
 	void RenderSystem::InitGlobeMarco()
 	{
+		//m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
 
@@ -185,7 +186,6 @@ namespace ma
 		GetRenderDevice()->SetDepthCheckMode(m_curState.m_eDepthCheckMode);
 		GetRenderDevice()->SetBlendMode(m_curState.m_eBlendMode);
 	}
-
 
 
 	void RenderSystem::RT_Init(HWND wndhandle)
@@ -250,10 +250,6 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		// 		m_pRenderContext->SetCurRenderObj(pRenderable);
-		// 
-		// 		pTechnique->Bind();
-
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
 			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
@@ -277,7 +273,6 @@ namespace ma
 
 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
 
-		//pTechnique->UnBind();
 	}
 
 
@@ -529,21 +524,33 @@ namespace ma
 
 	void RenderSystem::SetValue(Uniform* uniform, float value)
 	{
+		if (uniform == NULL)
+			return;
+
 		m_pRenderThread->RC_SetFloat(uniform,value);
 	}
 
 	void RenderSystem::SetValue(Uniform* uniform, const Vector2& value)
 	{
+		if (uniform == NULL)
+			return;
+
 		m_pRenderThread->RC_SetVector2(uniform,value);
 	}	
 
 	void RenderSystem::SetValue(Uniform* uniform, const Vector3& value)
 	{
+		if (uniform == NULL)
+			return;
+
 		m_pRenderThread->RC_SetVector3(uniform,value);
 	}
 
 	void RenderSystem::SetValue(Uniform* uniform, const Vector4& value)
 	{
+		if (uniform == NULL)
+			return;
+
 		m_pRenderThread->RC_SetVector4(uniform,&value,1);
 	}
 
@@ -570,6 +577,9 @@ namespace ma
 
 	void RenderSystem::SetValue(Uniform* uniform, const ColourValue& value)
 	{
+		if (uniform == NULL)
+			return;
+
 		m_pRenderThread->RC_SetColourValue(uniform,value);
 	}
 
@@ -578,7 +588,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if (m_arrSampState[uniform->m_index] != pTexture && pTexture->OnLoadOver())
+		if ( ( m_arrSampState[uniform->m_index] != pTexture && pTexture->OnLoadOver() ) || pTexture->GetUsage() != USAGE_STATIC)
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 

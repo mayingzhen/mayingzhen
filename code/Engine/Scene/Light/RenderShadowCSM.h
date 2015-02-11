@@ -22,9 +22,7 @@ namespace ma
 		LightFrustum_Cull,		// ÍêÕûµÄLight Frustum
 	};
 
-	class SamplerState;
-
-	class RenderShadowCSM 
+	class RenderShadowCSM : public DirectonalLight
 	{
 	public:
 		RenderShadowCSM();
@@ -91,7 +89,6 @@ namespace ma
 		RefPtr<Texture>		m_pDepthStencil;
 		int					m_nShadowMapSize;
 		Rectangle			m_viewport;
-		//RefPtr<SamplerState> m_pShadowMap;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
 		Matrix4				m_matShadow[2][MAX_FRUSTUM_SPLIT_NUM];
@@ -117,7 +114,7 @@ namespace ma
 		bool				m_bEnable;
 	};
 
-	extern RenderShadowCSM* g_pRenderShadowCSM;
-	RenderShadowCSM* GetRenderShadowCSM();
+	//extern RenderShadowCSM* g_pRenderShadowCSM;
+	//RenderShadowCSM* GetRenderShadowCSM();
 
 }

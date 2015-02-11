@@ -26,6 +26,8 @@ namespace ma
 
 		PixelFormat		GetFormat() const {return m_eFormat;}
 
+		USAGE			GetUsage() const {return m_eUsage;}
+
 		void			SetWrapMode(Wrap eWrap) {m_eWrap = eWrap;}
 		Wrap			GetWrapMode() const {return m_eWrap;}
 

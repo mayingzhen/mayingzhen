@@ -69,6 +69,16 @@ namespace ma
 
 		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
 
+		/// Rotate the scene node in parent space either relative to its current rotation axes, or a fixed axis.
+		void				Rotate(const Quaternion& delta,bool fixedAxis = false);
+
+		/// Rotate around the X axis.
+		void				Pitch(float angle, bool fixedAxis = false);
+		/// Rotate around the Y axis.
+		void				Yaw(float angle, bool fixedAxis = false);
+		/// Rotate around the -Z axis.
+		void				Roll(float angle, bool fixedAxis = false);
+
 		// Component
 		template<class T>
 		T*					CreateComponent();

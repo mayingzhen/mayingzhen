@@ -54,8 +54,6 @@ namespace ma
 		LightSystem* pLightSystem = new LightSystem();
 		SetLightSystem(pLightSystem);
 
-		g_pRenderShadowCSM = new RenderShadowCSM();
-
 		EngineRTTIInit();
 	}
 
@@ -63,7 +61,6 @@ namespace ma
 	{
 		EngineRTTIShutdown();
 
-		SAFE_DELETE(g_pRenderShadowCSM);
 
 		Time* pTime = GetTimer();
 		SAFE_DELETE(pTime);

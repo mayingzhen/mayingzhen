@@ -161,20 +161,15 @@ namespace ma
 	{
 		Vector2 vScreenOffset = GetMouseProjVec();
 
-		Matrix3 matEuler;
 		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
 		{
-			matEuler.FromEulerAnglesXZY(Radian(0), Radian(0), Radian(vScreenOffset.x));
+			m_pCamera->GetSceneNode()->Yaw(vScreenOffset.x);	
 		}
 		else
 		{
-			matEuler.FromEulerAnglesXZY(Radian(vScreenOffset.y), Radian(0), Radian(0));
+			m_pCamera->GetSceneNode()->Pitch(vScreenOffset.y);
 		}
 
-// 		Transform tsfWS = m_pCamera->GetSceneNode()->GetTransform();
-// 		tsfWS.m_qRot = tsfWS.m_qRot * Quaternion(matEuler) ;
-// 
-// 		m_pCamera->GetSceneNode()->SetTransform(tsfWS);
 	}
 
 	void CameraController::ZoomCamera(float fDeltaZoom)

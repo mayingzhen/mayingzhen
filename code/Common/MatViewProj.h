@@ -22,9 +22,15 @@ namespace ma
 			return m_matView;
 		}
 
+		const Matrix4& GetMatViewInv() const
+		{
+			return m_matViewInv;
+		}
+
 		void				SetMatView(const Matrix4& matView) 
 		{
 			m_matView = matView; 
+			m_matViewInv = matView.inverse();
 			m_bViewProjDirty = true;
 		}
 
@@ -52,6 +58,8 @@ namespace ma
 
 	private:
 		Matrix4				m_matView;
+
+		Matrix4				m_matViewInv;
 
 		Matrix4				m_matProj;
 

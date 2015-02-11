@@ -11,7 +11,8 @@ namespace ma
 	{
 		RL_Solid,
 		RL_Trans,
-		RL_Terrain,
+		RL_TerrainBody,
+		RL_TerrainBorder,
 		RL_Count,
 	};
 

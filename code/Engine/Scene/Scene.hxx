@@ -12,8 +12,14 @@ namespace ma
 
 		m_pCameraNode = new SceneNode(this, "defaultCamera");
 		m_pCamera = m_pCameraNode->CreateComponent<Camera>();
+
+		m_pSunNode = new SceneNode(this,"SunNode");
+		m_pSunShadow = new RenderShadowCSM();
+		m_pSunNode->AddComponent(m_pSunShadow.get());
+		m_pSunNode->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 		
-		SetRenderScheme(RenderScheme::Forward);
+		m_viewport = GetRenderSystem()->GetViewPort();
+		SetRenderScheme(RenderScheme::DeferredLighting);
 
 		m_pCullTree = new Octree();
 
@@ -22,9 +28,7 @@ namespace ma
 		
 		m_viwMinZ = 0.0f;
 		m_viwMaxZ = 0.0f;
-		m_cDirLight = ColourValue::White;
-		m_vDirLight = Vector3::ZERO;
-		m_pCallback = NULL;
+		m_pCallback = NULL;	
 	}
 
 	Scene::~Scene()
@@ -48,7 +52,7 @@ namespace ma
 	{
 		if (eType == RenderScheme::DeferredLighting)
 		{
-			GetRenderSystem()->AddMacro("DeferredLight", "1");
+			GetRenderSystem()->AddMacro("DEFERREDSHADING", "1");
 		}
 
 		m_pRenderScheme = CreateRenderScheme(eType,this);
@@ -61,22 +65,22 @@ namespace ma
 		return pSceneNode;
 	}
 
-	void Scene::Init()
-	{
-		ASSERT(m_pRenderScheme);
-		if (m_pRenderScheme)
-			m_pRenderScheme->Init();
-	}
+// 	void Scene::Init()
+// 	{
+// 		ASSERT(m_pRenderScheme);
+// 		if (m_pRenderScheme)
+// 			m_pRenderScheme->Init();
+// 	}
 
-	void Scene::ShutDown()
-	{
-		ASSERT(m_pRenderScheme);
-		if (m_pRenderScheme)
-			m_pRenderScheme->ShoutDown();
-
-		m_pRenderQueue[0]->Clear();
-		m_pRenderQueue[1]->Clear();
-	}
+// 	void Scene::ShutDown()
+// 	{
+// 		ASSERT(m_pRenderScheme);
+// 		if (m_pRenderScheme)
+// 			m_pRenderScheme->ShoutDown();
+// 
+// 		m_pRenderQueue[0]->Clear();
+// 		m_pRenderQueue[1]->Clear();
+// 	}
 
 	void Scene::Update()
 	{
@@ -103,7 +107,7 @@ namespace ma
 
 		UpdateViewMinMaxZ();
 
-		GetRenderShadowCSM()->Update(m_pCamera.get());
+		m_pSunShadow->Update(m_pCamera.get());
 		
 		if (GetRenderQueue())
 			GetRenderQueue()->Clear();
@@ -129,10 +133,12 @@ namespace ma
 	{
 		if (m_pCamera == NULL)
 			return;
+
+		GetRenderContext()->SetCurScene(this);
 	
 		GetRenderSystem()->BegineRender();
 
-		GetRenderShadowCSM()->Render(m_pCamera.get());
+		m_pSunShadow->Render(m_pCamera.get());
 
 		if (m_pRenderTarget)
 		{
@@ -195,17 +201,17 @@ namespace ma
 		m_viwMaxZ = max(fMaxZ, m_viwMinZ + 1.0f);
 	}
 
-	void Scene::GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const
-	{
-		color = m_cDirLight;
-		vDir = m_vDirLight;
-	}
+// 	void Scene::GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const
+// 	{
+// 		color = m_cDirLight;
+// 		vDir = m_vDirLight;
+// 	}
 
-	void Scene::SetDirectionalLight(const ColourValue& color, const Vector3& vDir)
-	{
-		m_cDirLight = color;
-		m_vDirLight = vDir;
-	}
+// 	void Scene::SetDirectionalLight(const ColourValue& color, const Vector3& vDir)
+// 	{
+// 		m_cDirLight = color;
+// 		m_vDirLight = vDir;
+// 	}
 
 	void Scene::OnFlushFrame()
 	{

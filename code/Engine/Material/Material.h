@@ -15,7 +15,7 @@ namespace ma
 
 		Technique*			GetShadowDepthTechnqiue();
 
-		Technique*			GetGbufferTechnqiue();
+		//Technique*			GetGbufferTechnqiue();
 
 		Technique*			GetShadingTechnqiue();
 
@@ -28,7 +28,7 @@ namespace ma
 	private:
 		RefPtr<Technique>	m_pShadingTech;
 		
-		RefPtr<Technique>	m_pGBufferTech;
+		//RefPtr<Technique>	m_pGBufferTech;
 
 		RefPtr<Technique>	m_pShadowDepthTech;
 

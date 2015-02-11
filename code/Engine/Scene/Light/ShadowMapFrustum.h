@@ -59,6 +59,7 @@ namespace ma
 		Rectangle			m_viewport;	
 
 		bool				m_bDraw[2];
+
 	};
 }
 

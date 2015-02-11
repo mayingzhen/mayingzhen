@@ -12,7 +12,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (1)
+		if (0)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");
@@ -24,11 +24,12 @@ namespace ma
 				SubMaterialData& subMatData = matData.AddSubMatData();
 				subMatData.SetShaderName("default");
 				subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR;SKIN");
-
+				
 				RefPtr<Texture> pDiff = CreateSamplerState("FBX/TestBull_DM.png");
 
 				subMatData.AddParameter("u_texture", Any(pDiff) );
 				subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
+				subMatData.AddParameter("shininess", Any( 25.0f ) );
 		
 				matData.SaveToXML("Fbx/TestBull.mat");
 			}
@@ -69,13 +70,14 @@ namespace ma
 
 		subMatData.AddParameter("u_texture", Any(pDiff) );
 		subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );
+		subMatData.AddParameter("shininess", Any( 25.0f ) );
 
 		matData.SaveToXML(pMatPath);
 	}
 
 	void SampleFbxImport::LoadSaticMesh()
 	{
-		if (1)
+		if (0)
 		{
 			LoadStaticMeshData("FBX/shpere.FBX");
 				
@@ -118,6 +120,8 @@ namespace ma
 		LoadSaticMesh();
 
 		LoadSkelMesh();	
+
+		m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, -0.f),Vector3::ZERO); 
 	}
 
 	void SampleFbxImport::UnLoad()

@@ -314,9 +314,9 @@ namespace ma
 		}
 	}
 	
-	RenderShadowCSM* g_pRenderShadowCSM = NULL;
-	RenderShadowCSM* GetRenderShadowCSM()
-	{
-		return g_pRenderShadowCSM;
-	}
+// 	RenderShadowCSM* g_pRenderShadowCSM = NULL;
+// 	RenderShadowCSM* GetRenderShadowCSM()
+// 	{
+// 		return g_pRenderShadowCSM;
+// 	}
 }

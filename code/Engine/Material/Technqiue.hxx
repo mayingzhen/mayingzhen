@@ -42,7 +42,7 @@ namespace ma
 			Parameter* pMatParam = m_arrParameters[i];
 			
 			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
-			ASSERT(pUniform);
+			//ASSERT(pUniform);
 			if (pUniform == NULL)
 				continue;
 			
@@ -85,11 +85,6 @@ namespace ma
 				Texture* pTexture = any_cast< RefPtr<Texture> >(&anyValue)->get();
 				GetRenderSystem()->SetValue(pUniform,pTexture);
 			}
-// 			else if (type == typeid(RefPtr<SamplerState>))
-// 			{
-// 				SamplerState* pSampler = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
-// 				GetRenderSystem()->SetValue(pUniform,pSampler);
-// 			}
 			else
 			{
 				ASSERT(false);
