@@ -1,15 +1,27 @@
+// #define SKIN
+// #define DEFERREDSHADING
+// #define DIFFUSE
+
+#include "common.h"
+
+#if USING_SHADOW != 0
+#include"shadowMap.h"
+#endif
+
+#ifdef DEFERREDSHADING 
+#include"gbuffer.h"
+#endif 
+
 #ifdef DIFFUSE   
 uniform sampler2D u_texture;
 #endif
 
-#ifdef DeferredLight   
-uniform sampler2D u_textureLightDiffuse;
-uniform sampler2D u_textureLightSpecular;
-#endif
 
 #ifdef DIFFUSECOLOR   
 uniform float4 u_cDiffuseColor; 
 #endif
+
+float shininess = 16.0f;
 
 // Varyings
 struct PS_IN
@@ -18,8 +30,8 @@ struct PS_IN
    float2   v_texCoord : TEXCOORD0;
 #endif
 
-#ifdef DeferredLight
-   float2 v_defTc : TEXCOORD1;
+#ifdef DEFERREDSHADING 
+   float4 v_normalDepth  :TEXCOORD1;	
 #endif
    
 #ifdef COLOR      
@@ -27,8 +39,7 @@ struct PS_IN
 #endif   
 };
 
-
-float4 main(PS_IN In) : COLOR0
+float4 GetDiffuse(PS_IN In)
 {
 #ifdef DIFFUSECOLOR   
     float4 flagColor = u_cDiffuseColor;
@@ -40,18 +51,39 @@ float4 main(PS_IN In) : COLOR0
    flagColor = In.v_color;   
 #endif
 
-
 #ifdef DIFFUSE
    flagColor *= tex2D(u_texture, In.v_texCoord);
 #endif 
 
+	return flagColor;
+}
 
-#ifdef DeferredLight
-   float3 LightDiffuse = tex2D(u_textureLightDiffuse, In.v_defTc);
-   float3 LightSpecular = tex2D(u_textureLightSpecular, In.v_defTc);
-   
-   flagColor = float4( LightDiffuse.rgb * flagColor.rgb + LightSpecular.rgb, 1.0f );
+#ifndef DEFERREDSHADING 
+float4 ForwardShading(float4 cDiffuse,PS_IN In)
+{
+	float4 flagColor = cDiffuse;
+
+#if USING_SHADOW != 0	
+	flagColor *= DoShadowMapping(In.ShadowPos,In.RandDirTC,In.WorldPos.w);
+#endif
+	
+	return flagColor;
+}
 #endif
 
-   return flagColor; 
+void main(PS_IN In,
+#ifdef DEFERREDSHADING 
+out PS_OUT pout
+#else
+out float4 outColor : COLOR0 
+#endif
+) 
+{
+	float4 cDiffuse = GetDiffuse(In); 
+
+#ifdef DEFERREDSHADING 
+	pout = GbufferPSout(cDiffuse,shininess,In.v_normalDepth);
+#else
+	outColor = ForwardShading(cDiffuse,In);  
+#endif	
 }

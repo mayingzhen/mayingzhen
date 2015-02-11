@@ -1,4 +1,6 @@
-uniform sampler2D   tDiff;
+#include "common.h"
+
+uniform sampler2D   u_texture;
 
 varying vec2 oUV;
 varying vec4 oDepth;
@@ -13,7 +15,7 @@ vec4 OutPutDepth(float fDepth)
 void main()
 {
 #ifdef ALPHATEST
-	gl_FragColor = texture2D(tDiff, oUV);
+	gl_FragColor = texture2D(u_texture, oUV);
 	if(gl_FragColor.a < 0.5)
 		discard;
 #endif

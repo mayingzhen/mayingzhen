@@ -1,3 +1,6 @@
+#include "common.h"
+#include "skin.h"
+
 uniform mat4 matLightViewProj;
 
 attribute vec3 a_position;
