@@ -30,7 +30,7 @@ namespace ma
 		m_arrUniform.clear();
 		m_eResState = ResUnLoad;
 
-		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderDefine.c_str());
+		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderMacro.c_str());
 	}
 
 	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines/* = NULL*/)
@@ -39,13 +39,13 @@ namespace ma
 		{
 			ASSERT(m_strVSFile == vshPath);
 			ASSERT(m_strPSFile == fshPath);
-			ASSERT(m_shaderDefine == defines);
+			ASSERT(m_shaderMacro == defines);
 			return;
 		}
 
 		m_strVSFile = vshPath ? vshPath : "";
 		m_strPSFile = fshPath ? fshPath : "";
-		m_shaderDefine = defines ? defines: "";
+		m_shaderMacro = defines ? defines: "";
 
 		m_eResState = ResLoaded;
 
@@ -59,8 +59,8 @@ namespace ma
 		std::string strPathVS = strPath + m_strVSFile + ".vert";
 		std::string strPathFS = strPath + m_strPSFile + ".frag";
 	
-		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(),m_shaderDefine.c_str());
-		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(),m_shaderDefine.c_str());
+		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(),m_shaderMacro.c_str());
+		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(),m_shaderMacro.c_str());
 
 		CreateFromSource(strVshSource.c_str(), strVshSource.length(), 
 			strFshSource.c_str(), strFshSource.length());
@@ -113,9 +113,9 @@ namespace ma
 		return m_strPSFile.c_str();
 	}
 
-	const char*	ShaderProgram::GetShaderDefine() const
+	const char*	ShaderProgram::GetShaderMacro() const
 	{
-		return m_shaderDefine.c_str();
+		return m_shaderMacro.c_str();
 	}
 
 	Uniform* ShaderProgram::AddUniform(const char* pName)

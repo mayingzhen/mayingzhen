@@ -6,7 +6,6 @@ namespace ma
 {
 
 	static const char* ShadowDepth = "ShadowDepth";
-	//static const char* Gbuffer = "GBuffer";
 	static const char* Shading = "Shading";
 
 	void SubMaterial::InitWithSubMatData(const SubMaterialData& subMatData)
@@ -20,13 +19,6 @@ namespace ma
 			const Parameter& matParam = subMatData.GetParameterByIndex(i);
 			m_pShadingTech->SetParameter(matParam.GetName(), matParam.GetValue());
 		}	
-
-// 		m_pGBufferTech = CreateTechnique(Gbuffer, Gbuffer, Gbuffer, m_pShaderMarco.c_str());
-// 		for (UINT i = 0; i < subMatData.GetParameterCount(); ++i)
-// 		{
-// 			const Parameter& matParam = subMatData.GetParameterByIndex(i);
-// 			m_pGBufferTech->SetParameter(matParam.GetName(), matParam.GetValue());
-// 		}	
 	}
 
 	void SubMaterial::SetShadingTechnqiue(Technique* pTech)
@@ -45,7 +37,7 @@ namespace ma
 		if (m_pShadowDepthTech == NULL)
 		{
 			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, m_pShaderMarco.c_str());
-			m_pShadowDepthTech->GetRenderState().m_fDepthBias = 0.002f;
+			m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 		
 			if (GetDeviceCapabilities()->GetDepthTextureSupported())
 			{
@@ -55,18 +47,6 @@ namespace ma
 
 		return m_pShadowDepthTech.get();
 	}
-
-// 	Technique* SubMaterial::GetGbufferTechnqiue()
-// 	{
-// // 		if (m_pGBufferTech == NULL)
-// // 		{
-// // 			m_pGBufferTech = CreateTechnique(Gbuffer, Gbuffer, Gbuffer, m_pShaderMarco.c_str());
-// // 
-// // 			m_pGBufferTech->SetParameter("u_texture",m_pShadingTech->GetParameter("u_texture")->GetValue());
-// // 		}
-// 
-// 		return m_pGBufferTech.get();
-// 	}
 
 	Technique* SubMaterial::GetShadingTechnqiue()
 	{
@@ -80,11 +60,6 @@ namespace ma
 
 		if (m_pShadingTech)
 			pClonMaterial->m_pShadingTech = m_pShadingTech->Clone();
-
-// 		if (m_pGBufferTech)
-// 		{
-// 			pClonMaterial->m_pGBufferTech = m_pGBufferTech->Clone();
-// 		}
 
 		if (m_pShadowDepthTech)
 		{

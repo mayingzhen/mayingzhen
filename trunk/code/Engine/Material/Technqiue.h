@@ -21,6 +21,8 @@ namespace ma
 		ShaderProgram*		GetShaderProgram() const {return m_pShaderProgram.get();}
 		void				SetShaderProgram(ShaderProgram* pShader);	
 
+		void				AddShaderMarco(const char* pszMarco);
+
 		RenderState&		GetRenderState() {return m_renderState;}
 		void				SetRenderState(const RenderState& renderState) {m_renderState = renderState;}
 

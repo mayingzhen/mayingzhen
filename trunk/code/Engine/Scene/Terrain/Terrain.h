@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _Terrain_H_
+#define _Terrain_H_
+
 
 namespace ma
 {
@@ -192,3 +194,5 @@ namespace ma
 	RefPtr<Terrain>	 CreateTerrain(const char* pszFile);
 
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TerrainTrunk_H_
+#define _TerrainTrunk_H_
 
 
 namespace ma
@@ -78,4 +79,6 @@ namespace ma
 		friend class Terrain;
 	};
 }
+
+#endif
 

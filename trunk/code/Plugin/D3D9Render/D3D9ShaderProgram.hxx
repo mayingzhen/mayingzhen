@@ -49,8 +49,8 @@ namespace ma
 		char pszPath[MAX_PATH] = {0};
 		GetFullPathName("ShaderCach/D3D9/",MAX_PATH,pszPath,NULL);
 		std::string strDir = pszPath;
-		std::string strVshName = strDir + string(GetVSFile()) + "_" + string(GetShaderDefine()) + ".vsh";
-		std::string strFshName = strDir + string(GetPSFile()) + "_" + string(GetShaderDefine()) + ".fsh";
+		std::string strVshName = strDir + string(GetVSFile()) + "_" + string(GetShaderMacro()) + ".vsh";
+		std::string strFshName = strDir + string(GetPSFile()) + "_" + string(GetShaderMacro()) + ".fsh";
 		
 		{
 			std::ofstream saveVSile;
