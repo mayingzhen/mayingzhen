@@ -77,6 +77,26 @@ namespace ma
 				pRenderObj->Render(pTech);
 			}
 		}
+	
+		GetRenderSystem()->SetRenderTarget(m_pDiffuse,0);
+		GetRenderSystem()->SetRenderTarget(NULL,1);
+		GetRenderSystem()->SetRenderTarget(NULL,2);
+
+		{
+			RENDER_PROFILE(RL_TerrainBorder);
+
+			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBorder);
+			for (UINT i = 0; i < nSolid; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBorder,i);
+				if (pRenderObj == NULL)
+					continue; 
+
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
+		}
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
 		GetRenderSystem()->SetRenderTarget(pPreTarget1,1);

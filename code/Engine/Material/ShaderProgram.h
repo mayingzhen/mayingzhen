@@ -33,17 +33,17 @@ namespace ma
 
 		UINT				GetUniformCount() const;
 
+		const char*			GetVSFile() const;
+
+		const char*			GetPSFile() const;
+
+		const char*			GetShaderMacro() const;
+
 	protected:
 
 		virtual	void		RT_SetShader() = 0;
 
 		void				RT_StreamComplete();
-
-		const char*			GetVSFile() const;
-		
-		const char*			GetPSFile() const;
-
-		const char*			GetShaderDefine() const;
 
 		Uniform*			AddUniform(const char* pName);
 
@@ -53,7 +53,7 @@ namespace ma
 
 		std::string			m_strVSFile;
 		std::string			m_strPSFile;
-		std::string			m_shaderDefine;
+		std::string			m_shaderMacro;
 
 		friend class		RenderThread;
 	};

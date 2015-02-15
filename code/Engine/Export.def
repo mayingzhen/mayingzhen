@@ -165,9 +165,6 @@ EXPORTS
 ?isFloatingPoint@PixelUtil@ma@@SA_NW4PixelFormat@2@@Z
 ?TexStreamComplete@RenderSystem@ma@@QAEXPAVTexture@2@@Z
 ?GetMatViewProj@Camera@ma@@QAEABVMatrix4@2@XZ
-?GetPSFile@ShaderProgram@ma@@IBEPBDXZ
-?GetVSFile@ShaderProgram@ma@@IBEPBDXZ
-?GetShaderDefine@ShaderProgram@ma@@IBEPBDXZ
 ?GetScene@RenderSystem@ma@@QAEPAVScene@2@H@Z
 ?FindChildNode@SceneNode@ma@@QAEPAV12@PBD@Z
 ??0Serializable@ma@@QAE@XZ
@@ -258,3 +255,6 @@ EXPORTS
 ?Yaw@SceneNode@ma@@QAEXM_N@Z
 ?Pitch@SceneNode@ma@@QAEXM_N@Z
 ?Roll@SceneNode@ma@@QAEXM_N@Z
+?GetVSFile@ShaderProgram@ma@@QBEPBDXZ
+?GetPSFile@ShaderProgram@ma@@QBEPBDXZ
+?GetShaderMacro@ShaderProgram@ma@@QBEPBDXZ

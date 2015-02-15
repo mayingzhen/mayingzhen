@@ -167,7 +167,7 @@ namespace ma
 
 	void RenderSystem::InitGlobeMarco()
 	{
-		//m_mapMacros["ENCODENORMAL"] = "1";
+		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
 

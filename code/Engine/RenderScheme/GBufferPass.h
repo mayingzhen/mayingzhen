@@ -21,11 +21,20 @@ namespace ma
 		Texture*	GetSceneNormal() {return m_pNormalTex.get();}
 
 	private:
+		void		RenderObjetList();
+
+		void		CopyDiffuse();
+
+		void		BlendDiffuse();
+
+	private:
 		RefPtr<Texture>	m_pDepthTex;
 
 		RefPtr<Texture>	m_pNormalTex;
 
 		RefPtr<Texture> m_pDiffuse;
+
+		RefPtr<Texture> m_pDiffuseCopy;
 	};
 }
 

@@ -36,7 +36,7 @@ namespace ma
 		//RefPtr<Texture> pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDiffuse,0); 
 		//RefPtr<Texture> pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pSpecular,1);
 
-		GetRenderSystem()->ClearBuffer(true,false,true,ColourValue::Black, 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::Black, 1.0f, 0);
 
 		// AmbientLight
 		ColourValue cAmbientColor = GetLightSystem()->GetAmbientColor();
@@ -97,6 +97,40 @@ namespace ma
 			}
 
 			GetRenderContext()->SetCurLight(NULL);
+		}
+
+		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
+// 		{
+// 			RENDER_PROFILE(RL_TerrainBorder);
+// 
+// 			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBorder);
+// 			for (UINT i = 0; i < nSolid; ++i)
+// 			{
+// 				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBorder,i);
+// 				if (pRenderObj == NULL)
+// 					continue; 
+// 
+// 				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+// 
+// 				pRenderObj->Render(pTech);
+// 			}
+// 		}
+
+
+		{
+			RENDER_PROFILE(RL_Trans);
+
+			UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
+			for (UINT i = 0; i < nTrans; ++i)
+			{
+				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
+				if (pRenderObj == NULL)
+					continue;
+
+				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+
+				pRenderObj->Render(pTech);
+			}
 		}
 
 		//GetRenderSystem()->SetRenderTarget(pPreTarget0,0);

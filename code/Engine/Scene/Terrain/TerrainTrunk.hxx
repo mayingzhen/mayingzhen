@@ -331,11 +331,17 @@ namespace ma
 			map< uint8, RefPtr<IndexBuffer> >::iterator it = matAddIdToIB.begin();
 			for (; it != matAddIdToIB.end(); ++it)
 			{
+				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
+				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
+				pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
+				pTech->GetRenderState().m_eDepthCheckMode = DCM_EQUAL;
+				pTech->AddShaderMarco("BOREDER");
+
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffers = lod.m_BodyVB;
 				pRenderable->m_pIndexBuffer = it->second;
-				pRenderable->m_pMaterial = m_pTerrain->GetMaterialByID(it->first);
+				pRenderable->m_pMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
 				pRenderable->m_fMateriID = (float)it->first;
 				pRenderable->m_bBorder = true;
 				lod.m_vecBorder.push_back(pRenderable);

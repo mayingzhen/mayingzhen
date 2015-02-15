@@ -25,6 +25,23 @@ namespace ma
 		m_pShaderProgram = pShader;
 	}
 
+	void Technique::AddShaderMarco(const char* pszMarco)
+	{
+		const char* pVSFile = m_pShaderProgram->GetVSFile();
+		const char* pPSFile = m_pShaderProgram->GetPSFile();
+		const char* pPreMrco = m_pShaderProgram->GetShaderMacro();
+
+		string strMrco = string(pPreMrco) + string(";") + string(pszMarco);
+		
+		string strTemp = string(pVSFile) + string("+") + strMrco + ".shader";
+		m_pShaderProgram = FindResource<ShaderProgram>( strTemp.c_str() );
+		if(m_pShaderProgram == NULL)
+		{
+			m_pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
+			m_pShaderProgram->CreateFromFile(pVSFile,pVSFile,strMrco.c_str());
+		}
+	}
+
 	void Technique::Bind()
 	{
 		ASSERT(m_pShaderProgram);
@@ -148,6 +165,11 @@ namespace ma
 		pClone->SetRenderState(this->GetRenderState());
 		pClone->SetShaderProgram(this->GetShaderProgram());
 
+		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+		{
+			pClone->SetParameter( m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue() );
+		}
+
 		return pClone;
 	}
 
@@ -156,7 +178,7 @@ namespace ma
 		Technique* pTech = new Technique();
 		pTech->SetTechName(pTechName);
 
-		string strTemp = string(pVSFile) + string("+") + string(pDefine) + ".shader";
+		string strTemp = string(pVSFile) + string("+") + string(pPSFile) + string("+") + string(pDefine) + ".shader";
 		RefPtr<ShaderProgram> pShaderProgram = FindResource<ShaderProgram>( strTemp.c_str() );
 		if(pShaderProgram == NULL)
 		{

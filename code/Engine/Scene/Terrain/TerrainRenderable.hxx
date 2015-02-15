@@ -45,8 +45,9 @@ namespace ma
 
 		if (m_bBorder)
 		{
-			GetRenderSystem()->SetBlendMode(BM_TRANSPARENT);
-			GetRenderSystem()->SetDepthCheckMode(DCM_EQUAL);
+			//GetRenderSystem()->SetBlendMode(BM_TRANSPARENT);
+			//GetRenderSystem()->SetDepthCheckMode(DCM_ALWAYS);
+			//GetRenderSystem()->SetDepthWirte(false);
 		}
 
 		GetRenderSystem()->DrawRenderable(this,pTech);
