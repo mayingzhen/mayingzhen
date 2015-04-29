@@ -21,9 +21,6 @@ namespace ma
 			{
 				buffer[0] = '\0';
 			}
-
-			char szNum[16];
-			itoa(nLine, szNum, 10);
 			
 			DebugMsg("Assert Expr: %s, Occur: %s(%d), Desc: %s",pszExpr,pszFile,nLine,buffer);
 			assert(false);

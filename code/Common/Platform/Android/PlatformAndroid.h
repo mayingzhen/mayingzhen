@@ -2,11 +2,13 @@
 #define __PlatformAndroid_h__
 
 
-typedef unsigned long ULONG;
-typedef unsigned int  UINT;
-typedef unsigned int  UINT32;
-typedef unsigned int  UINT_PTR;
-typedef unsigned char byte;
+typedef unsigned long		ULONG;
+typedef unsigned int		UINT;
+typedef unsigned int		UINT32;
+typedef unsigned int		UINT_PTR;
+typedef unsigned char		BYTE;
+typedef unsigned int		DWORD;
+typedef unsigned short      WORD;
 typedef void* HWND;
 typedef long HRESULT;
 #define _stricmp strcasecmp

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __Transform_H__
+#define __Transform_H__
 
 namespace ma
 {
@@ -60,3 +61,5 @@ namespace ma
 
 
 }
+
+#endif

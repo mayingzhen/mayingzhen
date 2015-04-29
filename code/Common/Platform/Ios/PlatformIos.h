@@ -9,7 +9,7 @@ typedef unsigned long ULONG;
 typedef unsigned int  UINT;
 typedef unsigned int  UINT32;
 typedef unsigned int  UINT_PTR;
-typedef unsigned char byte;
+typedef unsigned char BYTE;
 typedef void* HWND;
 typedef void* HINSTANCE;
 typedef long HRESULT;

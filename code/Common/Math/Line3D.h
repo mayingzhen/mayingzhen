@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Line3D_H__
+#define __Line3D_H__
+
 #include "Math.h"
 #include "Vector3.h"
 namespace ma
@@ -123,3 +125,5 @@ public:
 };
 
 }
+
+#endif

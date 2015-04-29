@@ -20,7 +20,8 @@
 // THE SOFTWARE.
 //
 
-#pragma once
+#ifndef __Matrix3x4_H__
+#define __Matrix3x4_H__
 
 #include "Matrix4.h"
 #include "Matrix3.h"
@@ -513,3 +514,5 @@ inline Matrix4 operator * (const Matrix4& lhs, const Matrix3x4& rhs)
 }
 
 }
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Triangle3D_H__
+#define __Triangle3D_H__
+
 #include "AABB.h"
 #include "Line3D.h"
 #include "Math.h"
@@ -222,3 +224,5 @@ public:
 };
 
 }
+
+#endif

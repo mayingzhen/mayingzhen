@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __maGUID_H__
+#define __maGUID_H__
 
 namespace ma
 {
@@ -28,7 +29,6 @@ namespace ma
 			return (m_a < rhs.m_a ? true : (m_a == rhs.m_a ? m_b < rhs.m_b : false) );
 		}
 	};
-
-
-
 }
+
+#endif

@@ -2,7 +2,7 @@
 #define __OGRE_ANY_H__
 
 
-#include "StringUtils.h"
+
 #include <algorithm>
 #include <typeinfo>
 

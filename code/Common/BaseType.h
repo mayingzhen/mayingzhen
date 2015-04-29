@@ -1,7 +1,7 @@
 #ifndef __BaseType_h__
 #define __BaseType_h__
 
-
+#include <math.h>
 #include <string>
 #include <vector>
 #include <queue>
@@ -28,8 +28,6 @@ typedef unsigned long long	uint64;
 typedef char				int8;
 typedef short				int16;
 typedef unsigned char       Byte;
-typedef unsigned short      WORD;
-typedef unsigned long		DWORD;
 typedef unsigned short		BoneIndex;
 typedef float				Real;
 

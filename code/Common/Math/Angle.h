@@ -25,7 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#pragma once
+#ifndef __Angle_H__
+#define __Angle_H__
+
 
 
 namespace ma
@@ -194,4 +196,6 @@ namespace ma
 	}
 
 }
+
+#endif
 
