@@ -18,15 +18,7 @@ namespace ma
 
 		void		ShoutDown();
 
-		//Texture*	GetTextureLightDiffuse() {return m_pDiffuse.get();}
-
-		//Texture*	GetTextureightSpecular() {return m_pSpecular.get();}
-
 	private:
-		//RefPtr<Texture>		m_pDiffuse;
-
-		//RefPtr<Texture>		m_pSpecular;
-
 		RefPtr<Technique>	m_pAmbientLight;
 
 		RefPtr<Technique>	m_pDirLight;

@@ -14,7 +14,7 @@ namespace ma
 
 		// Render Mesh
 		{
-			SceneNodePtr pCharMagic = CreateSceneNode();
+			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
 			
 			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -27,9 +27,9 @@ namespace ma
 			
 			//pCharMagic->Right(100);
 
-// 			SceneNodePtr pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+// 			RefPtr<SceneNode> pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
 // 
-// 			SceneNodePtr pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
+// 			RefPtr<SceneNode> pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
 // 
 // 			pPlatform->Scale(50);
 // 
@@ -39,13 +39,13 @@ namespace ma
 		// Light
 		{
  	
-// 			SceneNodePtr pLightObj1 = m_pScene->CreateNode("Light1");
+// 			RefPtr<SceneNode> pLightObj1 = m_pScene->CreateNode("Light1");
 // 			pLightObj1->Translate(Vector3(200, 0, 100));
 // 			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();
 // 			m_pPointLight->SetLightColor(ColourValue::White);
 // 			m_pPointLight->SetRadius(300);
  
-// 			SceneNodePtr pLightObj2 = m_pScene->CreateNode("Light2");
+// 			RefPtr<SceneNode> pLightObj2 = m_pScene->CreateNode("Light2");
 // 			pLightObj2->LookAt(Vector3(10,10,10),Vector3(0,0,0));
 // 			m_pDirectLight = pLightObj2->CreateComponent<DirectonalLight>();
 // 			m_pDirectLight->SetLightColor(ColourValue(0.5f,0.5f,0.5f,1.0f));

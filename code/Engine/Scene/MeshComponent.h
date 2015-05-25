@@ -52,8 +52,6 @@ namespace ma
 		bool						m_bOnLoadOver;
 	};
 
-	DeclareRefPtr(MeshComponent);
-
 	class SkinMeshComponent : public MeshComponent
 	{
 		DECL_OBJECT(SkinMeshComponent)	

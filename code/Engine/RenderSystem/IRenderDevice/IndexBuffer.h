@@ -16,7 +16,6 @@ namespace ma
 	
 	};
 
-	DeclareRefPtr(IndexBuffer);
 }
 
 #endif

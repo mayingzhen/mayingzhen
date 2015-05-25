@@ -294,7 +294,7 @@ namespace ma
 			}
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer().get(), pMeshData->GetIndexBuffer().get());
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
 
 		// Bound Box
 		pMesh->ComputeBBox();

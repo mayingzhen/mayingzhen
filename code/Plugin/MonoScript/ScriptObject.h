@@ -66,8 +66,6 @@ namespace ma
 		std::vector<ClassField*>		m_arrFields;
 	};
 
-	DeclareRefPtr(ScriptObject);
-
 }
 
 #endif // __MonoScriptObject_h__

@@ -90,8 +90,6 @@ namespace ma
 		#define OGRE_STREAM_TEMP_SIZE 128
 
 	};
-
-	DeclareRefPtr(Stream);
 }
 
 #endif

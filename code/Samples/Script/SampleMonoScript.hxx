@@ -23,9 +23,9 @@ namespace ma
 
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
-		SceneNodePtr pGameObj = CreateSceneNode();
+		RefPtr<SceneNode> pGameObj = CreateSceneNode();
 
-		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		RefPtr<MeshComponent> pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
 		m_pTestScript = pGameObj->CreateComponent<ScriptObject>();

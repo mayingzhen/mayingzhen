@@ -20,9 +20,9 @@ namespace ma
 		virtual	void	Render();
 
 	private:
-		AnimationComponentPtr		m_pAnimtionObjectA;
+		RefPtr<AnimationComponent>		m_pAnimtionObjectA;
 		
-		AnimationComponentPtr		m_pAnimtionObjectB;
+		RefPtr<AnimationComponent>		m_pAnimtionObjectB;
 	};
 }
 

@@ -112,8 +112,6 @@ namespace ma
 		CCallback*				m_pCallback;
 	};
 
-	DeclareRefPtr(Scene);
-
 	RefPtr<Scene> CreateScene();
 }
 

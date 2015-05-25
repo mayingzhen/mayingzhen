@@ -12,23 +12,23 @@ namespace ma
 
 		~ArchiveManager();
 
-		StreamPtr			Open(const char* pszFile, bool readOnly = true) const;
+		RefPtr<Stream>			Open(const char* pszFile, bool readOnly = true) const;
 
-		StreamPtr			Create(const char* pszFile) const;
+		RefPtr<Stream>			Create(const char* pszFile) const;
 
-		MemoryStreamPtr		ReadAll(const char* pszFile,UINT nExtenSiz = 0) const;
+		RefPtr<MemoryStream>	ReadAll(const char* pszFile,UINT nExtenSiz = 0) const;
 
-		void				AddArchive(Archive* pArchive);
+		void					AddArchive(Archive* pArchive);
 		
-		UINT				GetArchiveNumber();
+		UINT					GetArchiveNumber();
 
-		Archive*			GetArchiveByIndex(UINT index);
+		Archive*				GetArchiveByIndex(UINT index);
 
-		bool				Exists(const char* pszFile) const;
+		bool					Exists(const char* pszFile) const;
 		
-		void				SetSaveDir(const char* pSaveDir);
+		void					SetSaveDir(const char* pSaveDir);
 
-		const char*			GetSaveDir() const;
+		const char*				GetSaveDir() const;
 
 	private:
 		typedef std::vector< RefPtr<Archive> > VEC_ARCHIVE;

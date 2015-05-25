@@ -65,9 +65,6 @@ namespace ma
 		void AddBonePalette(BoneIndex bonde);
 	};
 
-	DeclareRefPtr(SubMeshData);
-
-
 	class IndexBuffer;
 	class VertexBuffer;
 	class VertexDeclaration;
@@ -83,13 +80,13 @@ namespace ma
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 
-		SubMeshDataPtr			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index];} 
+		SubMeshData*			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index].get();} 
 
-		IndexBufferPtr			GetIndexBuffer() const {return m_pIndexBuffer;} 
+		IndexBuffer*			GetIndexBuffer() const {return m_pIndexBuffer.get();} 
 
-		VertexBufferPtr			GetVertexBuffer() const {return m_pVertexBuffer;} 
+		VertexBuffer*			GetVertexBuffer() const {return m_pVertexBuffer.get();} 
 
-		VertexDeclarationPtr	GetVertexDeclar() const {return m_pDeclaration;}
+		VertexDeclaration*		GetVertexDeclar() const {return m_pDeclaration.get();}
 	
 		void					SetBoundingAABB(const AABB& bound) {m_meshBound = bound;}
 		const AABB&				GetBoundingAABB() const {return m_meshBound;} 
@@ -111,16 +108,15 @@ namespace ma
 		
 		UINT							m_nIndexType;
 		UINT							m_nVertexType;
-		IndexBufferPtr					m_pIndexBuffer;
-		VertexBufferPtr					m_pVertexBuffer;
-		VertexDeclarationPtr			m_pDeclaration; 
+		RefPtr<IndexBuffer>				m_pIndexBuffer;
+		RefPtr<VertexBuffer>			m_pVertexBuffer;
+		RefPtr<VertexDeclaration>		m_pDeclaration; 
 
-		std::vector<SubMeshDataPtr>		m_arrSubMesh;	
+		typedef std::vector< RefPtr<SubMeshData> > VEC_SUBMESH;
+		VEC_SUBMESH						m_arrSubMesh;	
 
 		AABB							m_meshBound;		
 	};
-
-	DeclareRefPtr(MeshData);
 	
 }
 

@@ -65,7 +65,6 @@ namespace ma
 		Frustum				m_frustum;
 	};
 
-	DeclareRefPtr(Camera);
 }
 
 #endif

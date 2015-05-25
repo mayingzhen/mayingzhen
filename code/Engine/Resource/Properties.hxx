@@ -80,7 +80,7 @@ Properties* Properties::create(const char* url)
     calculateNamespacePath(urlString, fileString, namespacePath);
 
     //std::auto_ptr<Stream> stream(FileSystem::open(fileString.c_str()));
-	StreamPtr pStream = GetArchiveMananger()->Open( fileString.c_str() );
+	RefPtr<Stream> pStream = GetArchiveMananger()->Open( fileString.c_str() );
     if (pStream == NULL)
     {
         LogError("Failed to open file '%s'.", fileString.c_str());

@@ -31,7 +31,7 @@ namespace ma
 				m_csRequestQueue.Unlock();
 				break;
 			}
-			ResourcePtr resData = m_queUnloaded.front();
+			RefPtr<Resource> resData = m_queUnloaded.front();
 			m_queUnloaded.pop_front();
 			m_csRequestQueue.Unlock();
 
@@ -53,7 +53,7 @@ namespace ma
 				m_csLoadedQueue.Unlock();
 				break;
 			}
-			ResourcePtr resData = m_queLoaded.front();
+			RefPtr<Resource> resData = m_queLoaded.front();
 			m_queLoaded.pop_front();
 			m_csLoadedQueue.Unlock();	
 

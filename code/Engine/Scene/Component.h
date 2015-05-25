@@ -31,7 +31,6 @@ namespace ma
 		SceneNode*		m_pSceneNode;
 	};
 
-	DeclareRefPtr(Component);
 }
 
 

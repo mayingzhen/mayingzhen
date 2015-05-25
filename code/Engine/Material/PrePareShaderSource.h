@@ -84,7 +84,7 @@ namespace ma
 				size_t len = endQuote - (startQuote);
 				std::string includeStr = str.substr(startQuote, len);
 				directoryPath.append(includeStr);
-				MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll( directoryPath.c_str() , 1 );	
+				RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll( directoryPath.c_str() , 1 );	
 				char* includedSource = (char*)pDataStream->GetPtr();
 				if (includedSource == NULL)
 				{
@@ -109,7 +109,7 @@ namespace ma
 	std::string PrePareShaderSource(const char* shPath,const char* defines)
 	{
 		// Read source from file.
-		MemoryStreamPtr pDataStream = GetArchiveMananger()->ReadAll(shPath,1); 
+		RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(shPath,1); 
 		if (pDataStream == NULL)
 			return "";
 

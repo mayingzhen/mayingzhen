@@ -10,8 +10,6 @@ namespace ma
 	{
 
 	};
-
-	DeclareRefPtr(VertexBuffer);
 }
 
 #endif

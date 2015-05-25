@@ -16,7 +16,7 @@ namespace ma
 	{
 		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 20, 30), Vector3(0,0,0));
 
-		SceneNodePtr pGameObjA;
+		RefPtr<SceneNode> pGameObjA;
 		{
 			pGameObjA =  CreateSceneNode();
 
@@ -34,13 +34,13 @@ namespace ma
 			{
 				std::string pName = pGameObjA->GetName();
 				pName += std::string("_clone") + StringConverter::toString(i);
-				SceneNodePtr pClone = pGameObjA->Clone(pName.c_str());
+				RefPtr<SceneNode> pClone = pGameObjA->Clone(pName.c_str());
 				pClone->Translate(Vector3(1 * i,0,1));
 			}
 
 
 			{
-				SceneNodePtr pGameObjSphere = CreateSceneNode();
+				RefPtr<SceneNode> pGameObjSphere = CreateSceneNode();
 				RefPtr<SphereCollisionShape> pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionShape>();
 				pSphereComp->SetRadius(2);
 				pGameObjSphere->CreateComponent<RigidBody>();
@@ -51,9 +51,9 @@ namespace ma
 			}
 		}
 
-		SceneNodePtr pGameObjB;
+		RefPtr<SceneNode> pGameObjB;
 		{
-			SceneNodePtr pGameObj = CreateSceneNode();
+			RefPtr<SceneNode> pGameObj = CreateSceneNode();
 			m_pScene->GetRootNode()->AddChild(pGameObj.get());
 
 			RefPtr<BoxCollisionShape>  pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionShape>();

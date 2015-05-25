@@ -27,8 +27,6 @@ namespace ma
 
 		std::vector<BoneIndex> m_arrBone;
 	};
-
-	DeclareRefPtr(BoneSet)
 }
 
 #endif

@@ -11,7 +11,7 @@ namespace ma
 		Vector3 vPosA(20,0,0);
 		Vector3 vPosB(0,0,0);
 
-		SceneNodePtr pGameObjA = NULL;
+		RefPtr<SceneNode> pGameObjA = NULL;
 		{
 			pGameObjA = CreateSceneNode();
 			m_pScene->GetRootNode()->AddChild(pGameObjA.get());
@@ -26,7 +26,7 @@ namespace ma
 
 		}
 
-		SceneNodePtr pGameObjB = NULL;
+		RefPtr<SceneNode> pGameObjB = NULL;
 		{
 			pGameObjB = CreateSceneNode();
 			m_pScene->GetRootNode()->AddChild(pGameObjB.get());

@@ -43,8 +43,6 @@ namespace ma
 		std::vector<Parameter*>			m_arrParameters;
 	};
 	
-	DeclareRefPtr(Technique);
-	
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 }

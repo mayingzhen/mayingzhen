@@ -31,7 +31,7 @@ namespace ma
 			{
 				std::string pName = pTestSceneNode->GetName();
 				pName += std::string("_clone"); // + StringConverter::toString(i);
-				SceneNodePtr pClone = pTestSceneNode->Clone(pName.c_str());
+				RefPtr<SceneNode> pClone = pTestSceneNode->Clone(pName.c_str());
 				pClone->Translate(Vector3(2 * (i + 1),0,0));
 				pSceneNode->AddChild(pClone.get());
 			}

@@ -33,7 +33,7 @@ namespace ma
 		return m_saveDir.c_str();
 	}
 
-	StreamPtr ArchiveManager::Create(const char* pszFile) const
+	RefPtr<Stream> ArchiveManager::Create(const char* pszFile) const
 	{
 		ASSERT(pszFile);
 		if (pszFile == NULL)
@@ -41,7 +41,7 @@ namespace ma
 
 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
 		{
-			StreamPtr data = (*iter)->create(pszFile);
+			RefPtr<Stream> data = (*iter)->create(pszFile);
 			if (data != NULL)
 			{
 				return data;
@@ -53,7 +53,7 @@ namespace ma
 		return NULL;
 	}
 
-	StreamPtr ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
+	RefPtr<Stream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
 	{
 		ASSERT(pszFile);
 		if (pszFile == NULL)
@@ -61,7 +61,7 @@ namespace ma
 
 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
 		{
-			StreamPtr data = (*iter)->open(pszFile, readOnly);
+			RefPtr<Stream> data = (*iter)->open(pszFile, readOnly);
 			if (data != NULL)
 			{
 				return data;
@@ -72,13 +72,13 @@ namespace ma
 		return NULL;
 	}
 
-	MemoryStreamPtr	ArchiveManager::ReadAll(const char* pszFile,UINT nExtenSiz/* = 0*/) const
+	RefPtr<MemoryStream> ArchiveManager::ReadAll(const char* pszFile,UINT nExtenSiz/* = 0*/) const
 	{
-		StreamPtr pStream = Open(pszFile,true);
+		RefPtr<Stream> pStream = Open(pszFile,true);
 		if (pStream == NULL)
 			return NULL;
 
-		MemoryStreamPtr pMemStream = new MemoryStream(pStream->GetName(),pStream.get(),pStream->GetSize() + nExtenSiz,true);
+		RefPtr<MemoryStream> pMemStream = new MemoryStream(pStream->GetName(),pStream.get(),pStream->GetSize() + nExtenSiz,true);
 		
 		memset(pMemStream->GetPtr() + pStream->GetSize(),0,nExtenSiz);
 

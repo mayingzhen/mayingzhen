@@ -38,7 +38,6 @@ namespace ma
 		int						m_nStreamStride;
 	};
 
-	DeclareRefPtr(VertexDeclaration);
 }
 
 #endif

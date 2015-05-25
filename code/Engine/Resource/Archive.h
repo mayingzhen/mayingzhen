@@ -69,8 +69,6 @@ namespace ma
 		bool			mReadOnly;
 	};
 
-	DeclareRefPtr(Archive);
-
 }
 
 #endif

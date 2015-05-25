@@ -111,8 +111,6 @@ namespace ma
 		
 		virtual bool OnLoadOver();
 
-		//virtual	void OnTransformChange();
-
 	private:
 		void BuildTrunks();
 		void BuildVertexDeclaration();
@@ -157,7 +155,6 @@ namespace ma
 		string m_strMaterialMap;
 		RefPtr<Resource> m_pMaterialResource;
 		vector<uint8> m_vecVertexMatID;	
-		//vector< RefPtr<SubMaterial> >m_vecMaterial;
 		RefPtr<Material> m_pMaterialData;
 
 		// Blend

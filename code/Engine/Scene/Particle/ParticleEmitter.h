@@ -42,7 +42,6 @@ namespace ma
 		SubMaterial*				m_pMaterial;
 	};
 
-	DeclareRefPtr(ParticleEmitter);
 }
 
 #endif

@@ -33,8 +33,6 @@ namespace ma
 		Matrix4							m_matWorld[2];
 	};
 
-	DeclareRefPtr(Renderable);
-
 	class SkinRenderable : public Renderable
 	{
 	public:

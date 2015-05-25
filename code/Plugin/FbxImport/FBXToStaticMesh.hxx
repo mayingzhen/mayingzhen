@@ -82,7 +82,7 @@ namespace ma
 			pSubmesh->m_nIndexCount = arrIndex.size() - nIndexSize;
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer().get(), pMeshData->GetIndexBuffer().get());
+		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
 
 		pMesh->ComputeBBox();
 		AABB aabb;

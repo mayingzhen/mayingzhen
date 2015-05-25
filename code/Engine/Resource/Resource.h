@@ -67,8 +67,6 @@ namespace ma
 		friend class DataThread;
 	};
 
-	DeclareRefPtr(Resource);
-
 	RefPtr<Resource> CreateResource(const char* pszPath);
 }
 

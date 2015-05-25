@@ -14,7 +14,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
-		SceneNodePtr pFire = CreateSceneNode();
+		RefPtr<SceneNode> pFire = CreateSceneNode();
 		m_pScene->GetRootNode()->AddChild(pFire.get());
 		ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
 		pPaticComp->Load("Particle/fire.particle");

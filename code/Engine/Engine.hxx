@@ -64,7 +64,6 @@ namespace ma
 	{
 		EngineRTTIShutdown();
 
-
 		Time* pTime = GetTimer();
 		SAFE_DELETE(pTime);
 		SetTimer(NULL);
@@ -131,8 +130,8 @@ namespace ma
 		if (GetParticleSystem())
 			GetParticleSystem()->Init(bParticleThread);
 
-		//if (GetWorkQueue())
-		//	GetWorkQueue()->CreateThreads(3);
+		if (GetWorkQueue())
+			GetWorkQueue()->CreateThreads(3);
 	}
 	
 

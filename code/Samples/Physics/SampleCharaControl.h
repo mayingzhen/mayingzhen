@@ -28,15 +28,15 @@ namespace ma
 		void			DoMouveTo();
 
 	private:
-		SceneNodePtr			m_pTerrain;
+		RefPtr<SceneNode>			m_pTerrain;
 
-		AnimationComponentPtr	m_pCharaAnim;
+		RefPtr<AnimationComponent>	m_pCharaAnim;
 	
-		Vector3					m_vMoveTo;
+		Vector3						m_vMoveTo;
 
-		float					m_fMoveSpeed;
+		float						m_fMoveSpeed;
 
-		bool					m_bMoveing;
+		bool						m_bMoveing;
 	};
 }
 

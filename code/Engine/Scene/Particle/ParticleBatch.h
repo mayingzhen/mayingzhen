@@ -64,8 +64,6 @@ namespace ma
 		volatile bool		m_bUpdate;
 	};
 
-	DeclareRefPtr(ParticleBatch);
-
 }
 
 

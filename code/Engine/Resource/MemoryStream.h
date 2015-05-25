@@ -65,9 +65,6 @@ namespace ma
 		bool m_bFreeOnClose;
 	};
 
-
-	DeclareRefPtr(MemoryStream);
-
 	 RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, Stream* srcStream, uint32 nSize, bool bReadOnly);
 	 RefPtr<MemoryStream> CreateMemoryStream(const char* pszName, void* pMem, uint32 nSize, bool bReadOnly);
 	 RefPtr<MemoryStream> CreateMemoryStream(uint32 size, bool readOnly);

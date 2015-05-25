@@ -145,8 +145,6 @@ namespace ma
 	
 	};
 
-	DeclareRefPtr(SceneNode);
-
 	RefPtr<SceneNode> CreateSceneNode();
 	RefPtr<SceneNode> CreateSceneNode(const char* pszXMLFile);
 

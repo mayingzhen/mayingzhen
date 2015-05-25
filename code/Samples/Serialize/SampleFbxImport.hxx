@@ -24,12 +24,12 @@ namespace ma
 		}
 
 
-		SceneNodePtr pTestBull = CreateSceneNode();
+		RefPtr<SceneNode> pTestBull = CreateSceneNode();
 
-		RefPtr<MeshComponent>  pMeshComp = pTestBull->CreateComponent<MeshComponent>();
+		RefPtr<SkinMeshComponent>  pMeshComp = pTestBull->CreateComponent<SkinMeshComponent>();
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 			
-		AnimationComponentPtr pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
+		RefPtr<AnimationComponent> pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
 		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
 		pAnimationObject->PlayAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
 
@@ -57,13 +57,13 @@ namespace ma
 		}
 
 		
-		SceneNodePtr pPlatform = CreateSceneNode();
-		MeshComponentPtr pMesh = pPlatform->CreateComponent<MeshComponent>();
+		RefPtr<SceneNode> pPlatform = CreateSceneNode();
+		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
 		m_pScene->GetRootNode()->AddChild(pPlatform.get());
 
-		SceneNodePtr pBox = CreateSceneNode();
-		MeshComponentPtr pBoxMesh = pBox->CreateComponent<MeshComponent>();
+		RefPtr<SceneNode> pBox = CreateSceneNode();
+		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
 		m_pScene->GetRootNode()->AddChild(pBox.get());	
 			

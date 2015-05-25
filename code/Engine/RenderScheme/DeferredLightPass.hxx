@@ -14,9 +14,6 @@ namespace ma
 		int nWidth = (int)m_pScene->GetViewport().width;
 		int nHeight = (int)m_pScene->GetViewport().height;
 
-		//m_pDiffuse = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
-		//m_pSpecular = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
-
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;
 
@@ -32,9 +29,6 @@ namespace ma
 	void DeferredLightPass::Render()
 	{
 		RENDER_PROFILE(DefferedLighting);
-
-		//RefPtr<Texture> pPreTarget0 = GetRenderSystem()->SetRenderTarget(m_pDiffuse,0); 
-		//RefPtr<Texture> pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pSpecular,1);
 
 		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::Black, 1.0f, 0);
 
@@ -132,16 +126,10 @@ namespace ma
 				pRenderObj->Render(pTech);
 			}
 		}
-
-		//GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
-		//GetRenderSystem()->SetRenderTarget(pPreTarget1,1);
 	}
 
 	void DeferredLightPass::ShoutDown()
 	{
-		//m_pDiffuse = NULL;
-		//m_pSpecular = NULL;
-
 		m_pDirLight = NULL;
 		m_pPointLight = NULL;
 		m_pAmbientLight = NULL;

@@ -18,12 +18,12 @@ namespace ma
 		GetInput()->AddMouseListener(this);
 
 		{
-			SceneNodePtr pCharaObj = CreateSceneNode();
+			RefPtr<SceneNode> pCharaObj = CreateSceneNode();
 			m_pScene->GetRootNode()->AddChild(pCharaObj.get());
 			RefPtr<CharacterController> pCharComp = pCharaObj->CreateComponent<CharacterController>();
 			CapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
-			MeshComponentPtr pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
+			RefPtr<MeshComponent> pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 		
 // 			AABB aabb = pMeshComp->GetAABBWS();
@@ -56,7 +56,7 @@ namespace ma
 			m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 
 			{
-				SceneNodePtr pObje = CreateSceneNode();
+				RefPtr<SceneNode> pObje = CreateSceneNode();
 				m_pScene->GetRootNode()->AddChild(pObje.get());
 				RefPtr<BoxCollisionShape> pBox = pObje->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
@@ -65,7 +65,7 @@ namespace ma
 
 
 			{
-				SceneNodePtr pObje2 = CreateSceneNode();
+				RefPtr<SceneNode> pObje2 = CreateSceneNode();
 				m_pScene->GetRootNode()->AddChild(pObje2.get());
 				RefPtr<BoxCollisionShape> pBox = pObje2->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));

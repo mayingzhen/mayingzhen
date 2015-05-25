@@ -71,8 +71,6 @@ namespace ma
 		friend class	RenderThread;
 	};
 
-	DeclareRefPtr(Texture);
-
 	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap = REPEAT, FilterOptions eFilter = TFO_TRILINEAR);
 }
 

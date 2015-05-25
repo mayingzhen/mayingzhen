@@ -39,7 +39,7 @@ namespace ma
 		void		ReLoad();	
 
 	private:
-		typedef std::map<std::string,ResourcePtr> ResourceMap;
+		typedef std::map<std::string, RefPtr<Resource> > ResourceMap;
 		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
 
 		ResourceMap			m_resMap;
