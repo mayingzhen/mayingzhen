@@ -186,14 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationClip.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationClip.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\Animation\AnimationComponent.h"
 				>
 			</File>
@@ -255,14 +247,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\BoneSet.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\SkelAnimtion.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\SkelAnimtion.hxx"
 				>
 			</File>
 			<File
@@ -338,6 +322,10 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.hxx"
 					>
 				</File>
 			</Filter>

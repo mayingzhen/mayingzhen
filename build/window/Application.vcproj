@@ -224,22 +224,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Application\AndroidInputInjector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Application\AndroidInputInjector.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Application\Gesture.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Application\Android\PlatformAndroid.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Application\Android\PlatformAndroid.hxx"
 				>
 			</File>

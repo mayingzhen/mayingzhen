@@ -251,18 +251,18 @@
 						RelativePath="..\..\Code\Common\Platform\Android\PlatformAndroid.hxx"
 						>
 					</File>
-				</Filter>
-				<Filter
-					Name="IOS"
-					>
-					<File
-						RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.h"
+					<Filter
+						Name="IOS"
 						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.hxx"
-						>
-					</File>
+						<File
+							RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.hxx"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

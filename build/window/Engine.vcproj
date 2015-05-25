@@ -829,23 +829,11 @@
 			Name="Material"
 			>
 			<File
-				RelativePath="..\..\code\Samples\CameraController.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Material\Material.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Material\Material.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Material\MaterialData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Material\MaterialData.hxx"
 				>
 			</File>
 			<File
@@ -967,10 +955,6 @@
 			<Filter
 				Name="IRenderDevice"
 				>
-				<File
-					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\DeptStencil.h"
-					>
-				</File>
 				<File
 					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\HardwareBuffer.h"
 					>
