@@ -1,4 +1,5 @@
-#pragma once
+#ifndef  _TerrainRenderable__H__
+#define  _TerrainRenderable__H__
 
 #include "Engine/Renderable/Renderable.h"
 
@@ -26,3 +27,5 @@ namespace ma
 	};
 
 }
+
+#endif

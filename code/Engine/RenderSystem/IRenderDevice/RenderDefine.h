@@ -316,7 +316,7 @@ namespace ma
 		TFO_ANISOTROPIC
 	};
 
-	static const char* strFilterOptions[] =
+	static const char* strDescFilterOptions[] =
 	{
 		"TFO_POINT",
 		"TFO_BILINEAR",
@@ -332,7 +332,7 @@ namespace ma
 		CLAMP 
 	};
 
-	const char* strWrap[] =
+	static const char* strDescWrap[] =
 	{
 		"REPEAT",
 		"CLAMP", 

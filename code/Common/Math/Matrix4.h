@@ -173,6 +173,8 @@ namespace ma
             return m[iRow];
         }
 
+		inline Vector3 GetColumn(size_t iCol) const {return Vector3(_m[iCol+4*0],_m[iCol+4*1],_m[iCol+4*2]);}
+
         inline Matrix4 concatenate(const Matrix4 &m2) const
         {
             Matrix4 r;

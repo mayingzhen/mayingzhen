@@ -1,6 +1,6 @@
 
-
-#pragma once
+#ifndef __AttributeInfo_H__
+#define __AttributeInfo_H__
 
 
 //#include "Variant.h"
@@ -260,3 +260,6 @@ namespace ma
 	};
 
 }
+
+#endif
+

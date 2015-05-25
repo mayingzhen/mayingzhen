@@ -141,7 +141,7 @@ namespace ma
 	}
 
 
-	MaterialData*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
+	Material*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
 	{
 // 		RefPtr<CGpuProgram> shader;
 // 
@@ -211,7 +211,7 @@ namespace ma
 		int nVertexStride = sizeof(VertexType);
 		int nVertexCount = arrVertex.size();
 		{
-			void* pSrcData = new uint8[nVertexStride * nVertexCount];
+			uint8* pSrcData = new uint8[nVertexStride * nVertexCount];
 			memcpy(pSrcData, &arrVertex[0], nVertexStride * nVertexCount);
 			vertexBuffer->SetData(pSrcData,nVertexStride * nVertexCount,nVertexStride);
 		}
@@ -219,7 +219,7 @@ namespace ma
 		int nIndexStride = sizeof(IndexType);
 		int nIndexCount = arrIndex.size();
 		{
-			void* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
+			uint8* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
 			memcpy(pIndexSrcData, &arrIndex[0], nIndexStride * nIndexCount);
 			indexBuffer->SetData(pIndexSrcData,nIndexStride * nIndexCount,nIndexStride);
 		}

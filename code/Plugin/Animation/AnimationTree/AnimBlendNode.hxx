@@ -64,6 +64,21 @@ namespace ma
 		}
 	}
 
+	bool AnimBlendNode::Instantiate()
+	{
+		if (m_pSrcAnimNode)
+		{
+			m_pSrcAnimNode->Instantiate();
+		}
+
+		if (m_pDestAnimNode)
+		{
+			m_pDestAnimNode->Instantiate();
+		}
+
+		return true;
+	}
+
 	bool AnimBlendNode::OnLoadOver()
 	{
 		if (m_pSrcAnimNode && !m_pSrcAnimNode->OnLoadOver())

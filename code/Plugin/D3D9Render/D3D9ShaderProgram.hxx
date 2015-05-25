@@ -5,7 +5,6 @@
 namespace ma
 {
 	D3D9ShaderProgram::D3D9ShaderProgram()
-		:ShaderProgram(NULL)
 	{
 		m_pVertexShader = NULL;
 		m_pPiexelShader = NULL;

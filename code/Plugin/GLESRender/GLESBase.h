@@ -7,12 +7,20 @@
 	#include <EGL/egl.h>
 	#include <GLES2/gl2.h>
 	#include <GLES2/gl2ext.h>
+
+	// VAO
 	extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray;
 	extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays;
 	extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays;
 	extern PFNGLISVERTEXARRAYOESPROC glIsVertexArray;
-	#define glMapBuffer glMapBufferOES
-	#define glUnmapBuffer glUnmapBufferOES
+
+	// MapBuffer
+	extern PFNGLMAPBUFFEROESPROC glMapBuffer;
+	extern PFNGLUNMAPBUFFEROESPROC glUnmapBuffer;
+	extern PFNGLGETBUFFERPOINTERVOESPROC glGetBufferPointerv;
+
+	//#define glMapBuffer glMapBufferOES
+	//#define glUnmapBuffer glUnmapBufferOES
 	#define GL_WRITE_ONLY GL_WRITE_ONLY_OES
 	#define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
 	#define glClearDepth glClearDepthf

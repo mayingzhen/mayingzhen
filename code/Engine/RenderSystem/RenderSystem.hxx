@@ -167,6 +167,8 @@ namespace ma
 
 	void RenderSystem::InitGlobeMarco()
 	{
+		m_mapMacros["USING_SHADOW"] = "0";
+		m_mapMacros["SHADOW_BLUR"] = "0";
 		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
@@ -290,10 +292,6 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		// 		m_pRenderContext->SetCurRenderObj(pRenderable);
-		// 
-		// 		pTechnique->Bind();
-
 		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
 			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
@@ -301,23 +299,8 @@ namespace ma
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
 
-		// 		if (m_pCurVB != pRenderable->m_pVertexBuffers)
-		// 		{
-		// 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
-		// 
-		// 			m_pCurVB = pRenderable->m_pVertexBuffers.get();
-		// 		}
-		// 
-		// 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
-		// 		{
-		// 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
-		// 
-		// 			m_pCurIB = pRenderable->m_pIndexBuffer.get();
-		// 		}
-
 		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
-		//pTechnique->UnBind();
 	}
 
 	Texture* RenderSystem::CreateRenderTexture(int nWidth,int nHeight,PixelFormat format,USAGE use)
@@ -433,7 +416,7 @@ namespace ma
 
 	void RenderSystem::SetDepthBias(float fDepthBias)
 	{
-		if ( abs(m_curState.m_fDepthBias - fDepthBias) > 0.0001f )
+		if ( Math::Abs(m_curState.m_fDepthBias - fDepthBias) > 0.0001f )
 		{
 			m_curState.m_fDepthBias = fDepthBias;
 			m_pRenderThread->RC_SetDepthBias(fDepthBias);
@@ -491,7 +474,7 @@ namespace ma
 		m_pRenderThread->RC_EndProfile();	
 	}
 
-	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage)
+	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage);
@@ -500,7 +483,7 @@ namespace ma
 		return pIB;
 	}
 
-	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage)
+	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage)
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage);
@@ -608,9 +591,9 @@ namespace ma
 		}
 	}	
 
-	bool RenderSystem::AddMacro(const char* pszKey, const char* pszValue)
+	bool RenderSystem::AddShaderGlobaMacro(const char* pszKey, const char* pszValue)
 	{
-		const char* pszOldValue = this->GetMacro(pszKey);
+		const char* pszOldValue = this->GetShaderGlobaMacro(pszKey);
 		if (pszOldValue != NULL && strcmp(pszOldValue, pszValue) == 0)
 		{
 			return false;
@@ -624,7 +607,7 @@ namespace ma
 		return true;
 	}
 
-	const char*	RenderSystem::GetMacro(const char* pszKey) const
+	const char*	RenderSystem::GetShaderGlobaMacro(const char* pszKey) const
 	{
 		MAP_STR_STR::const_iterator iter = m_mapMacros.find(pszKey);
 		if (iter == m_mapMacros.end())
@@ -635,12 +618,12 @@ namespace ma
 		return iter->second.c_str();
 	}
 
-	uint32 RenderSystem::GetNumMacros() const
+	uint32 RenderSystem::GetNumShaderGlobaMacro() const
 	{
 		return m_mapMacros.size();
 	}
 
-	const char* RenderSystem::GetMacroByIndex(uint32 i, OUT const char*& pszValue) const
+	const char* RenderSystem::GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const
 	{
 		if (i >= m_mapMacros.size())
 		{

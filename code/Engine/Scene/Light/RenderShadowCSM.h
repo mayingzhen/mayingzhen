@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __RenderShadowCSM_H__
+#define __RenderShadowCSM_H__
 
 #include "ShadowMapFrustum.h"
 
@@ -76,6 +77,12 @@ namespace ma
 		Caster_Cull			GetCasterCullType() const {return m_eCaterType;}
 		void				SetCasterCullType(Caster_Cull eCasterCull) {m_eCaterType = eCasterCull;}
 
+		Vector4				m_vWBasisX[MAX_FRUSTUM_SPLIT_NUM];
+		Vector4				m_vWBasisY[MAX_FRUSTUM_SPLIT_NUM];
+		Vector4				m_vWBasisZ[MAX_FRUSTUM_SPLIT_NUM];
+		Vector4				m_vBasisMagnitudes[MAX_FRUSTUM_SPLIT_NUM];
+		Vector4				m_vShadowCamPos[MAX_FRUSTUM_SPLIT_NUM];
+
 	private:
 		void				CreateShadowMap(int nSize);
 
@@ -118,3 +125,5 @@ namespace ma
 	//RenderShadowCSM* GetRenderShadowCSM();
 
 }
+
+#endif

@@ -26,14 +26,13 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(Camera, "Far", GetFarClip, SetFarClip, float, 300.0f, AM_DEFAULT);
 	}
 
-	void Camera::OnTransformChange()
+	void Camera::MarkDirty()
 	{
 		Matrix4 matView = m_pSceneNode->GetMatrixWS().inverse();
 		m_matViewProj.SetMatView(matView);
-	
+
 		m_frustum.Update(m_matViewProj.GetMatViewProj(),GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
 	}
-
 
 	const Matrix4& Camera::GetMatView()
 	{

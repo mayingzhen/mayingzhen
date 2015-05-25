@@ -1,28 +1,31 @@
-#pragma once
+#ifndef __CPoissonDiskGen_H__
+#define __CPoissonDiskGen_H__
 
 #include "ShadowMapFrustum.h"
 
 namespace ma
 {
+	class PoissonDiskGen
+	{
+	public:
+		PoissonDiskGen();
+		~PoissonDiskGen();
 
-class CPoissonDiskGen
-{
-	static bool		m_bCached;
-	static int		m_numSamples;
-	static Vector2*	m_pvSamples;
+		static void SetKernelSize(int num);
+		static Vector2& GetSample(int ind);
 
-private:
-	static void RandomPoint(Vector2& p);
-	static void InitSamples();
+		static void Realse();
 
-public:
-	static void SetKernelSize(int num);
-	static Vector2& GetSample(int ind);
+	private:
+		static void RandomPoint(Vector2& p);
+		static void InitSamples();
+	
+	private:
+		static bool		m_bCached;
+		static int		m_numSamples;
+		static Vector2*	m_pvSamples;
 
-	static void Realse();
-
-	CPoissonDiskGen();
-	~CPoissonDiskGen();
-};
-
+	};
 }
+
+#endif

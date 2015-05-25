@@ -60,6 +60,16 @@ namespace ma
 		}
 	}
 
+	bool AnimLayerNode::Instantiate()
+	{
+		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+		{
+			m_arrAnimNode[i]->Instantiate();
+		}
+
+		return true;
+	}
+
 	bool AnimLayerNode::OnLoadOver()
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)

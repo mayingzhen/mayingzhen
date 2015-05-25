@@ -24,24 +24,24 @@ namespace ma
 // 			m_pScriptClass->RemoveScriptObjectIns(this);
 	}
 
-	void ScriptObject::Start()
-	{
-		void* params[1];
-		params[0] = &m_pSceneNode;
-		InvokeMethod("SetGameObjPtr",1,params);
-		 
-		InvokeMethod("Start");
-	}
-
-	void ScriptObject::Stop()
-	{
-		InvokeMethod("Stop");
-	}
-
-	void ScriptObject::Update()
-	{
-		InvokeMethod("Update");
-	}
+// 	void ScriptObject::Start()
+// 	{
+// 		void* params[1];
+// 		params[0] = &m_pSceneNode;
+// 		InvokeMethod("SetGameObjPtr",1,params);
+// 		 
+// 		InvokeMethod("Start");
+// 	}
+// 
+// 	void ScriptObject::Stop()
+// 	{
+// 		InvokeMethod("Stop");
+// 	}
+// 
+// 	void ScriptObject::Update()
+// 	{
+// 		InvokeMethod("Update");
+// 	}
 
 	float ScriptObject::GetFloat(const char* pszName)
 	{

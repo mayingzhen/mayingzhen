@@ -42,7 +42,7 @@ namespace ma
         
 	void AndroidInputInjector::injectTouchEvent(int action, float x, float y, int pointerId)
     {
-		Log("injectTouchEvent action = %d x = %f y = %f pointerId = %d",action,x,y,pointerId);
+		LogInfo("injectTouchEvent action = %d x = %f y = %f pointerId = %d",action,x,y,pointerId);
 		ASSERT(mTouch);
 		if (mTouch == NULL)
 			return;
@@ -53,15 +53,15 @@ namespace ma
         {
             case AMOTION_EVENT_ACTION_DOWN:
                 state.touchType = OIS::MT_Pressed;
-				Log("touchType MT_Pressed ...........");
+				LogInfo("touchType MT_Pressed ...........");
                 break;
             case AMOTION_EVENT_ACTION_UP:
                 state.touchType = OIS::MT_Released;
-				Log("touchType MT_Released ...........");
+				LogInfo("touchType MT_Released ...........");
                 break;
             case AMOTION_EVENT_ACTION_MOVE:
                 state.touchType = OIS::MT_Moved;
-				Log("touchType MT_Moved ...........");
+				LogInfo("touchType MT_Moved ...........");
                 break;
             case AMOTION_EVENT_ACTION_CANCEL:
                 state.touchType = OIS::MT_Cancelled;

@@ -39,8 +39,8 @@ namespace ma
 
 	void Texture::RegisterAttribute()
 	{
-		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Wrap", GetWrapMode, SetWrapMode, Wrap, strWrap, REPEAT, AM_DEFAULT);
-		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Filter", GetFilterMode, SetFilterMode, FilterOptions, strFilterOptions, TFO_TRILINEAR, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Wrap", GetWrapMode, SetWrapMode, Wrap, strDescWrap, REPEAT, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Filter", GetFilterMode, SetFilterMode, FilterOptions, strDescFilterOptions, TFO_TRILINEAR, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(Texture, "Texture", GetImagePath, SetImagePath, const char*, NULL, AM_DEFAULT);
 	}
 
@@ -194,7 +194,7 @@ namespace ma
 		{
 			m_nMipLevels = imageData.num_mipmaps;
 			// Disable flag for auto mip generation
-			bAutoMipMap  = false;
+			//bAutoMipMap  = false;
 		}
 
 		// Create the texture
@@ -225,7 +225,7 @@ namespace ma
 
 	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap, FilterOptions eFilter)
 	{
-		string strTemp = string(pImagePath) + string("+") + strWrap[eWrap] + string("+") + strFilterOptions[eFilter] + ".sampler";
+		string strTemp = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilterOptions[eFilter] + ".sampler";
 		RefPtr<Texture> pSamplerState = FindResource<Texture>( strTemp.c_str() );
 		if (pSamplerState)
 			return pSamplerState;

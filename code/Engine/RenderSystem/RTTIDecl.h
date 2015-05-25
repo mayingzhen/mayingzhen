@@ -1,6 +1,7 @@
 RTTI_DECL(MeshData)
-RTTI_DECL(MaterialData)
+RTTI_DECL(Material)
 RTTI_DECL(MeshComponent)
+RTTI_DECL(SkinMeshComponent)
 RTTI_DECL(ParticleEmitter)
 RTTI_DECL(PointLight)
 RTTI_DECL(SpotLight)

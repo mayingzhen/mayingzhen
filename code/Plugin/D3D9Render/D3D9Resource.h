@@ -1,4 +1,5 @@
-#pragma once
+#ifndef  _D3D9Resource__H__
+#define  _D3D9Resource__H__
 
 namespace ma
 {
@@ -22,3 +23,5 @@ namespace ma
 	};
 
 }
+
+#endif

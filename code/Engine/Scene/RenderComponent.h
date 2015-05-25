@@ -15,12 +15,12 @@ namespace ma
 
 	public:
 		RenderComponent();
+		
+		virtual	void	Update();
 
 		virtual void	Show(Camera* pCamera); 
 
-		virtual	void	OnTransformChange();
-
-		virtual	void	OnAddToSceneNode(SceneNode* pGameObj);
+		virtual	void	MarkDirty();
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
@@ -34,17 +34,23 @@ namespace ma
 		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
 		CullNode*		GetCullNode() const {return m_pCullNode;}
 
-		const AABB&		GetAABBWS() const {return m_worldAABB;}
+		const AABB&		GetAABBWS() const;
 
 		virtual	void	SetViewMinMaxZ(float fZmin,float fZmax) {m_fViwMinZ = fZmin;m_fViwMaxZ = fZmax;}
 		virtual float	GetViewMinZ() const {return m_fViwMinZ;}
-		virtual	float	GetViewMaxZ() const {return m_fViwMaxZ;}	
+		virtual	float	GetViewMaxZ() const {return m_fViwMaxZ;}
+
+	private:
+		void			UpdateAABBWS() const;
+		void			UpdateCullTree();
 
 	protected:
 		CullNode*			m_pCullNode;
 
 		AABB				m_AABB;
-		AABB				m_worldAABB;
+		mutable AABB		m_worldAABB;
+		mutable bool		m_bMatrixDirty;
+		mutable bool		m_bCullDirty;
 
 		float				m_fViwMinZ;
 		float				m_fViwMaxZ;

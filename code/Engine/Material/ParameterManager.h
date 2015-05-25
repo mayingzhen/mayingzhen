@@ -20,7 +20,7 @@ namespace ma
 		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
 		CAMERA_WORLD_POSITION,
 		CAMERA_VIEW_POSITION,
-		MATRIX_PALETTE,			
+		//MATRIX_PALETTE,			
 		SCENE_AMBIENT_COLOR,
 		SCENE_LIGHT_COLOR,
 		SCENE_LIGHT_DIRECTION,
@@ -64,8 +64,8 @@ namespace ma
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
-		const Vector4*		autoBindingGetMatrixPalette() const;
-		UINT				autoBindingGetMatrixPaletteSize() const;
+		//const Vector4*		autoBindingGetMatrixPalette() const;
+		//UINT				autoBindingGetMatrixPaletteSize() const;
 		const ColourValue&	autoBindingGetAmbientColor() const;
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;

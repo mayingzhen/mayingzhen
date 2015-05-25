@@ -28,7 +28,7 @@ namespace ma
 
 		void*			GetData() const {return m_pData;}
 
-		void			SetData(void* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC);
+		void			SetData(uint8* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC);
 
 		virtual void	Serialize(Serializer& sl, const char* pszLable = "HardwareBuffer");
 
@@ -38,7 +38,7 @@ namespace ma
 		int				m_Stride;
 		UINT            m_Size;
 		USAGE           m_Usage;
-		void*			m_pData;
+		uint8*			m_pData;
 		bool			m_bNeedFreeData;
 	};
 }

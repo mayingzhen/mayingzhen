@@ -23,6 +23,8 @@ namespace ma
 
 		virtual void SetSkeletion(Skeleton* pSkeletion);
 
+		virtual bool Instantiate();
+
 		virtual void Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */);
 		
 		virtual bool OnLoadOver();

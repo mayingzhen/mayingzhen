@@ -159,7 +159,7 @@ namespace ma
 
 		UINT			m_nMainThread;
 		HRESULT			m_hResult;
-		TArray<byte>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
+		TArray<BYTE>	m_Commands[2]; // m_nCurThreadFill shows which commands are filled by main thread
 
 	};
     
@@ -231,7 +231,7 @@ namespace ma
 	inline void RenderThread::AddData(const void *pData, int nLen)
 	{
 		AddDWORD(nLen);
-		byte *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
+		BYTE *pDst = m_Commands[m_nCurThreadFill].Grow(nLen);
 		memcpy(pDst, pData, nLen);
 	}
 
@@ -240,7 +240,7 @@ namespace ma
 	{
 		DWORD nReadLen = ReadCommand<DWORD>(nIndex);
 		ASSERT(nLen == nReadLen);
-		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		nIndex += nReadLen;
 		return (T)pSrc;
 	}
@@ -250,7 +250,7 @@ namespace ma
 	{
 		DWORD nLen = ReadCommand<DWORD>(nIndex);
 		ASSERT(nLen == sizeof(T));
-		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(&data,pSrc,nLen);
 		nIndex += nLen;
 	}
@@ -259,7 +259,7 @@ namespace ma
 	{
 		DWORD nLen = ReadCommand<DWORD>(nIndex);
 		ASSERT(nLen <= nInLen);
-		byte* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
+		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(pStr,pSrc,nLen);
 		nIndex += nLen;
 	}

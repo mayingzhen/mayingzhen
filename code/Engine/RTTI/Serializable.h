@@ -1,5 +1,6 @@
 
-#pragma once
+#ifndef __Serializable_H__
+#define __Serializable_H__
 
 #include "Attribute.h"
 #include "Engine/Resource/Resource.h"
@@ -97,3 +98,5 @@ namespace ma
 		bool temporary_;
 	};
 }
+
+#endif

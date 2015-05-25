@@ -5,7 +5,7 @@
 
 namespace ma
 {
-	class MaterialData;
+	class Material;
 	class SubMaterial;
 	class Renderable;
 	class MeshData;
@@ -24,8 +24,6 @@ namespace ma
 		virtual void				Update();
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
-	
-		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);
 
 		const char*					GetMeshFile() const;
 		void						SetMeshFile(const char* pFile);
@@ -42,10 +40,10 @@ namespace ma
 	private:
 		virtual bool				OnLoadOver();
 	
-		void						CreateRenderable();
+		virtual void				CreateRenderable();
 
-	private:
-		RefPtr<MaterialData>		m_pMatData;
+	protected:
+		RefPtr<Material>			m_pMatData;
 		RefPtr<MeshData>			m_pMesData;
 	
 		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
@@ -55,6 +53,19 @@ namespace ma
 	};
 
 	DeclareRefPtr(MeshComponent);
+
+	class SkinMeshComponent : public MeshComponent
+	{
+		DECL_OBJECT(SkinMeshComponent)	
+
+	public:
+		static void					RegisterAttribute();
+
+		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);
+	
+	private:
+		virtual void				CreateRenderable();
+	};
 }
 
 #endif

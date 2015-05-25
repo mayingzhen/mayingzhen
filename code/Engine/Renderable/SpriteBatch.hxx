@@ -1,7 +1,6 @@
 #include "SpriteBatch.h"
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/RenderState.h"
-//#include "Engine/Material/SamplerState.h"
 
 // Default size of a newly created sprite batch
 #define SPRITE_BATCH_DEFAULT_SIZE 128
@@ -26,7 +25,7 @@ namespace ma
 		
 		m_pMaterial = CreateSubMaterial();
 
-		m_pTechnique = pTech;
+		//m_pTechnique = pTech;
 		if (pTech == NULL)
 		{
 			m_pMaterial->SetShadingTechnqiue("default","DIFFUSE;COLOR");	
@@ -35,10 +34,9 @@ namespace ma
 		{
 			m_pMaterial->SetShadingTechnqiue(pTech);
 		}
-		m_pTechnique = m_pMaterial->GetShadingTechnqiue();
+		//m_pTechnique = m_pMaterial->GetShadingTechnqiue();
 		
-
-		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
+		//m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
 
 		if (texture != NULL)
 		{
@@ -72,21 +70,16 @@ namespace ma
 		m_fTextureWidthRatio = 1.0f / (float)pTexture->GetWidth();
 		m_fTextureHeightRatio = 1.0f / (float)pTexture->GetHeight();
 
-		m_pTechnique->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
-		
-		m_pTechnique->SetParameter("u_texture",Any(m_pSampler));
+		m_pMaterial->GetShadingTechnqiue()->SetParameter("u_texture",Any(m_pSampler));
 	}
 
 	void SpriteBatch::Render(Technique* pTech)
 	{
-		if (pTech == NULL)
-			pTech = m_pTechnique.get();
-
 		GetRenderContext()->SetCurRenderObj(this);
 
 		pTech->Bind();
 			
-		Uniform* pUnifrom = pTech->GetShaderProgram()->GetUniform("g_matWorldViewProj");
+		Uniform* pUnifrom = pTech->GetShaderProgram()->GetUniform("g_matViewProj");
 		GetRenderSystem()->SetValue(pUnifrom,GetProjectionMatrix());
 		
 		GetRenderSystem()->DrawDyRenderable(this,pTech);
@@ -327,11 +320,6 @@ namespace ma
 		static const unsigned short indices[4] = { 0, 2, 1, 3 };
 
 		Add(v, 4, indices, 4);
-	}
-
-	RenderState& SpriteBatch::GetStateBlock() const
-	{
-		return m_pTechnique->GetRenderState();
 	}
 
 	void SpriteBatch::SetProjectionMatrix(const Matrix4& matrix)

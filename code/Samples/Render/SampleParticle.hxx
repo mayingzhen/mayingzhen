@@ -14,15 +14,15 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
-// 		SceneNodePtr pFire = GetEntitySystem()->CreateGameObject("Fire");
-// 		ParticleEmitterPtr pPaticComp = pFire->CreateComponent<ParticleEmitter>();
-// 		pPaticComp->Load("Particle/fire.particle");
-// 		pPaticComp->Start();
+		SceneNodePtr pFire = CreateSceneNode();
+		m_pScene->GetRootNode()->AddChild(pFire.get());
+		ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
+		pPaticComp->Load("Particle/fire.particle");
+		pPaticComp->Start();
 	}
 
 	void SampleParticle::UnLoad()
 	{
-		//GetParticleSystem()->Delete(m_pEmitter);	
 	}
 
 

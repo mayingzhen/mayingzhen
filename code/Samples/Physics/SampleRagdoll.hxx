@@ -23,7 +23,8 @@ namespace ma
 		GetPhysicsSystem()->SetGravity(Vector3(0,0,-98));
 
 		{
-			SceneNode* pGameObj = m_pScene->CreateNode("magician");
+			RefPtr<SceneNode> pGameObj = CreateSceneNode();
+			m_pScene->GetRootNode()->AddChild(pGameObj.get());
 
  			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
  			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -35,7 +36,8 @@ namespace ma
 		m_pAnimationComp->PlayAnimation(1);
 
 		{
-			RefPtr<SceneNode> pGameObj = m_pScene->CreateNode("Terrain");
+			RefPtr<SceneNode> pGameObj = CreateSceneNode();
+			pGameObj->AddChild(pGameObj.get());
 		
 			BoxCollisionShape* pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(800,800,10));

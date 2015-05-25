@@ -32,6 +32,10 @@ namespace ma
 		{
 			return Any( StringConverter::parseInt(strVarValue) );
 		}
+		else if (strVarType == "UINT")
+		{
+			return Any( (uint32)StringConverter::parseInt(strVarValue) );
+		}
 		else if (strVarType == "float")
 		{
 			return Any( StringConverter::parseReal(strVarValue) );
@@ -85,6 +89,11 @@ namespace ma
 		{
 			strVarType = "int";
 			strVarValue = StringConverter::toString( any_cast<int>(varValue) ) ;
+		}
+		else if (type == typeid(uint32))
+		{
+			strVarType = "UINT";
+			strVarValue = StringConverter::toString( any_cast<uint32>(varValue) ) ;
 		}
 		else if (type == typeid(float))
 		{
@@ -274,7 +283,7 @@ namespace ma
 
 		for (vector<AttributeInfo>::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
 		{
-			if ( stricmp(i->name_.c_str(), name )  == 0 )
+			if ( strcmp(i->name_.c_str(), name )  == 0 )
 			{
 				// Check that the new value's type matches the attribute type
 				//if (value.GetType() == i->type_)
@@ -370,7 +379,7 @@ namespace ma
 
 		for (vector<AttributeInfo>::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
 		{
-			if ( stricmp( i->name_.c_str() , name ) == 0 )
+			if ( strcmp( i->name_.c_str() , name ) == 0 )
 			{
 				OnGetAttribute(*i, ret);
 				return ret;
@@ -415,7 +424,7 @@ namespace ma
 
 		for (vector<AttributeInfo>::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
 		{
-			if ( stricmp( i->name_.c_str(), name ) == 0 )
+			if ( strcmp( i->name_.c_str(), name ) == 0 )
 				return i->defaultValue_;
 		}
 

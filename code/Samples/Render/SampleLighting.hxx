@@ -14,7 +14,7 @@ namespace ma
 
 		// Render Mesh
 		{
-			SceneNodePtr pCharMagic = m_pScene->CreateNode("magic");
+			SceneNodePtr pCharMagic = CreateSceneNode();
 			
 			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
@@ -22,6 +22,8 @@ namespace ma
 			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
 			pAnimObj->PlayAnimation((UINT)0);
+
+			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
 			
 			//pCharMagic->Right(100);
 
@@ -43,10 +45,10 @@ namespace ma
 // 			m_pPointLight->SetLightColor(ColourValue::White);
 // 			m_pPointLight->SetRadius(300);
  
-			SceneNodePtr pLightObj2 = m_pScene->CreateNode("Light2");
-			pLightObj2->LookAt(Vector3(10,10,10),Vector3(0,0,0));
-			m_pDirectLight = pLightObj2->CreateComponent<DirectonalLight>();
-			m_pDirectLight->SetLightColor(ColourValue(0.5f,0.5f,0.5f,1.0f));
+// 			SceneNodePtr pLightObj2 = m_pScene->CreateNode("Light2");
+// 			pLightObj2->LookAt(Vector3(10,10,10),Vector3(0,0,0));
+// 			m_pDirectLight = pLightObj2->CreateComponent<DirectonalLight>();
+// 			m_pDirectLight->SetLightColor(ColourValue(0.5f,0.5f,0.5f,1.0f));
 		}
 
 		GetLightSystem()->SetAmbientColor(ColourValue::Black);

@@ -17,6 +17,8 @@ namespace ma
 	class AnimTreeNode : public Serializable
 	{
 	public:
+		static void			RegisterAttribute();
+
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;
 
 		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode) = 0;
@@ -25,7 +27,10 @@ namespace ma
 
 		virtual void		SetSkeletion(Skeleton* pSkeletion) = 0;
 
+		virtual bool		Instantiate() = 0;
+
 		virtual bool		OnLoadOver() = 0;
+
 	};
 
 }

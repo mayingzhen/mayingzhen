@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PixelBoxConverter_h__
+#define _PixelBoxConverter_h__
 
 /** Internal include file -- do not use externally */
 namespace ma
@@ -423,3 +424,5 @@ inline int doOptimizedConversion(const PixelBox &src, const PixelBox &dst)
 /** @} */
 
 }
+
+#endif

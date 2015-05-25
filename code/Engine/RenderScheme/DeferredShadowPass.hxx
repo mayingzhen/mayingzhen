@@ -31,6 +31,13 @@ namespace ma
 		RefPtr<Texture> pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
 
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black,1,0);
+		
+		ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
+
+	 	GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),pSun->m_vWBasisX[0]);
+		GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),pSun->m_vWBasisY[0]);
+		GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),pSun->m_vWBasisZ[0]);
+		GetRenderSystem()->SetValue(pShader->GetUniform("vCamPos"),pSun->m_vShadowCamPos[0]);
 
 		ScreenQuad::Render(m_pDefferedShadow.get());
 

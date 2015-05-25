@@ -18,7 +18,8 @@ namespace ma
 		GetInput()->AddMouseListener(this);
 
 		{
-			SceneNodePtr pCharaObj = m_pScene->CreateNode("Chara");		
+			SceneNodePtr pCharaObj = CreateSceneNode();
+			m_pScene->GetRootNode()->AddChild(pCharaObj.get());
 			RefPtr<CharacterController> pCharComp = pCharaObj->CreateComponent<CharacterController>();
 			CapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
@@ -40,21 +41,23 @@ namespace ma
 			m_pCharaAnim = pCharaObj->CreateComponent<AnimationComponent>();
 			m_pCharaAnim->Load("magician/Body.Aniset","magician/Body.ske");
 			AnimationSet* pAnimSet = m_pCharaAnim->GetAnimationSet();
-			pAnimSet->AddAnimClip("gigi/210_run/bip01.ska","Run");
-			pAnimSet->AddAnimClip("magician/100/bip01.ska","Idle");
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","Run").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","Idle").get() );
 			m_pCharaAnim->PlayAnimation("Idle");
 
 			pCharaObj->Translate(Vector3(0,20,0));
 		}
 
 		{
-			m_pTerrain = m_pScene->CreateNode("Terrain");
+			m_pTerrain = CreateSceneNode();
 	
 			RefPtr<BoxCollisionShape> pBoxCollisionShape = m_pTerrain->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(1800,1800,20));
+			m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 
 			{
-				SceneNodePtr pObje = m_pScene->CreateNode("Box1");
+				SceneNodePtr pObje = CreateSceneNode();
+				m_pScene->GetRootNode()->AddChild(pObje.get());
 				RefPtr<BoxCollisionShape> pBox = pObje->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				pObje->Translate(Vector3(-100,0,20));
@@ -62,7 +65,8 @@ namespace ma
 
 
 			{
-				SceneNodePtr pObje2 = m_pScene->CreateNode("Box2");
+				SceneNodePtr pObje2 = CreateSceneNode();
+				m_pScene->GetRootNode()->AddChild(pObje2.get());
 				RefPtr<BoxCollisionShape> pBox = pObje2->CreateComponent<BoxCollisionShape>();
 				pBox->SetSize(Vector3(200,200,200));
 				RefPtr<RigidBody> pRigidBodyComp = pObje2->CreateComponent<RigidBody>();

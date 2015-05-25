@@ -6,7 +6,6 @@ namespace ma
 {
 	IMPL_OBJECT(MeshComponent,RenderComponent)	
 
-
 	MeshComponent::MeshComponent()
 	{
 		m_bOnLoadOver = false;
@@ -44,7 +43,7 @@ namespace ma
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
-		m_pMatData = LoadResource<MaterialData>(pFile);
+		m_pMatData = LoadResource<Material>(pFile);
 	}
 
 	UINT MeshComponent::GetRenderableCount() const
@@ -70,6 +69,8 @@ namespace ma
 	void MeshComponent::Update()
 	{
 		OnLoadOver();
+
+		RenderComponent::Update();
 	}
 
 	void MeshComponent::CreateRenderable()
@@ -87,14 +88,7 @@ namespace ma
 			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
 			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
 			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
-			pRenderable->m_pMaterial = CreateSubMaterial();
-			uint32 matID = i;//pRenderable->m_pSubMeshData->m_nMateiralID;
-			ASSERT(matID < m_pMatData->GetSubMatDataNumber());
-			if (matID < m_pMatData->GetSubMatDataNumber())
-			{
-				const SubMaterialData& subMaterData = m_pMatData->GetSubMatDataByIndex(matID);
-				pRenderable->m_pMaterial->InitWithSubMatData(subMaterData);
-			}
+			pRenderable->m_pMaterial = m_pMatData->GetSubMaterialByIndex(i); 
 
 			m_arrRenderable.push_back(pRenderable);
 		}
@@ -115,7 +109,7 @@ namespace ma
 
 		CreateRenderable();
 		
-		OnTransformChange();
+		MarkDirty();
 
 		m_bOnLoadOver = true;
 		
@@ -138,14 +132,46 @@ namespace ma
 		}
 	}
 
-	void MeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount)
+	IMPL_OBJECT(SkinMeshComponent,MeshComponent)	
+
+	void SkinMeshComponent::CreateRenderable()
+	{
+		ASSERT(m_pMatData && m_pMesData);
+		if (m_pMatData == NULL || m_pMesData == NULL)
+			return;
+
+		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
+		{
+			Renderable* pRenderable = new SkinRenderable();
+
+			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
+			pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
+			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
+			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
+			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
+			pRenderable->m_pMaterial = m_pMatData->GetSubMaterialByIndex(i); 
+	
+			m_arrRenderable.push_back(pRenderable);
+		}
+
+		m_AABB = m_pMesData->GetBoundingAABB();
+	}
+
+	void SkinMeshComponent::RegisterAttribute()
+	{
+		COPY_BASE_ATTRIBUTES(SkinMeshComponent,MeshComponent);
+	}
+
+	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount)
 	{
 		profile_code();
 		
 		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
 		{
-			m_arrRenderable[i]->SetSkinMatrix(arrMatrixs,nCount);
+			SkinRenderable* pSkinRenderable = (SkinRenderable*)m_arrRenderable[i].get();
+			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);
 		}
 	}
+
 }
 

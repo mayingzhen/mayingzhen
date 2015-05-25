@@ -42,6 +42,9 @@ namespace ma
 		virtual bool		touchCancelled( const OIS::MultiTouchEvent &arg ) {return true;}
 
 	protected:
+			void			CreateDefaultMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro = NULL);
+
+	protected:
 		RefPtr<Scene>		m_pScene;
 		RefPtr<Camera>		m_pCamera;
 	

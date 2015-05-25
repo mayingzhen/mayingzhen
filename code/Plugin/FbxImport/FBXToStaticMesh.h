@@ -17,7 +17,7 @@ namespace ma
 	template<class VertexType,class IndexType>
 	void UpdateVertexArray(std::vector<VertexType>& arrVertex,std::vector<IndexType>& arrIndex,VertexType vertex);
 
-	MaterialData*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin);
+	Material*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin);
 	
 	template<class VertexType>
 	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, VertexType vertex[3],ImportParm* pImportParm);

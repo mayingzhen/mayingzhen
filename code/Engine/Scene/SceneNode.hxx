@@ -15,7 +15,7 @@ namespace ma
 		m_nLastVisibleFrame = 0;
 
 		m_matWS = Matrix4::IDENTITY;
-		m_bmatWSDirty = false;
+		m_bmatWSDirty = false;	
 	}
 
 	SceneNode::~SceneNode()
@@ -39,16 +39,6 @@ namespace ma
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Rotation", GetRotation, SetRotation, Quaternion, Quaternion::IDENTITY, AM_DEFAULT);
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Scale", GetScale, SetScale, Vector3, Vector3::UNIT_SCALE, AM_DEFAULT);
 	}
-
-// 	void SceneNode::ApplyAttributes()
-// 	{
-// 		for (UINT i = 0; i < m_arrComp.size(); ++i)
-// 			m_arrComp[i]->ApplyAttributes();
-// 
-// 		for (UINT i = 0; i < m_arrChild.size(); ++i)
-// 			m_arrChild[i]->ApplyAttributes();
-// 	}
-
 
 	void SceneNode::AddComponent(Component* pComponent)
 	{
@@ -176,20 +166,30 @@ namespace ma
 		return m_mapUserData[pszKey];
 	}
 
-	SceneNode* SceneNode::Clone(const char* pName)
+	RefPtr<SceneNode> SceneNode::Clone(const char* pName)
 	{
 		XMLOutputSerializer xmlout;
 		this->Serialize(xmlout);
-		xmlout.Save("DebugCloneobj.xml");
+		//xmlout.Save("DebugCloneobj.xml");
 		
 		XMLInputSerializer xmlin;
 		xmlin.Open(xmlout);
-		SceneNode* pClone = m_pScene->CreateNode("");
+		RefPtr<SceneNode> pClone = CreateSceneNode();
 		pClone->Serialize(xmlin);
 		
 		pClone->SetName(pName);
 
 		return pClone;
+	}
+
+	void SceneNode::SetScene(Scene* pScene)
+	{
+		m_pScene = pScene;
+
+		for (VEC_CHILD::iterator it = m_arrChild.begin(); it != m_arrChild.end(); ++it)
+		{
+			(*it)->SetScene(pScene);
+		}
 	}
 
 	void SceneNode::SetParent(SceneNode* pParent)
@@ -202,9 +202,13 @@ namespace ma
 		m_pParent = pParent;
 		if (m_pParent !=  NULL)
 		{
-			m_pScene = m_pParent->GetScene();
+			SetScene(m_pParent->GetScene());
 			
-			OnTransformChange();
+			MarkDirty();
+		}
+		else
+		{
+			SetScene(NULL);
 		}
 	}
 
@@ -274,6 +278,13 @@ namespace ma
 
 	void SceneNode::Update()
 	{
+		if (m_bmatWSDirty)
+		{
+			UpdateMatWorld();
+	
+			m_bmatWSDirty = false;
+		}
+
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
 			m_arrComp[i]->Update();
@@ -283,19 +294,6 @@ namespace ma
 		{
 			m_arrChild[i]->Update();
 		}			
-	}
-
-	void SceneNode::OnTransformChange()
-	{
-		for (UINT i = 0; i < m_arrChild.size(); ++i)
-		{
-			m_arrChild[i]->OnTransformChange();
-		}
-
-		for (UINT i = 0; i < m_arrComp.size(); ++i)
-		{		
-			m_arrComp[i]->OnTransformChange();
-		}
 	}
 
 	const Vector3& SceneNode::GetPos() const
@@ -522,12 +520,17 @@ namespace ma
 
 	void SceneNode::MarkDirty()
 	{
-		if (m_bmatWSDirty)
-			return;
-
 		m_bmatWSDirty = true;
 
-		OnTransformChange();
+		for (VEC_COMP::iterator iter  = m_arrComp.begin(); iter != m_arrComp.end(); ++iter)
+		{
+			(*iter)->MarkDirty();	
+		}
+
+		for (VEC_CHILD::iterator iter = m_arrChild.begin();iter != m_arrChild.end();++iter)
+		{
+			(*iter)->MarkDirty();
+		}
 	}
 
 	void SceneNode::UpdateMatWorld() const
@@ -546,6 +549,19 @@ namespace ma
 		}
 
 		m_bmatWSDirty = false;
+	}
+
+	RefPtr<SceneNode> CreateSceneNode()
+	{
+		SceneNode* pSceneNode = new SceneNode(NULL,NULL);
+		return pSceneNode;
+	}
+
+	RefPtr<SceneNode> CreateSceneNode(const char* pszXMLFile)
+	{
+		SceneNode* pSceneNode = new SceneNode(NULL,NULL);
+		pSceneNode->LoadFromXML(pszXMLFile);
+		return pSceneNode;
 	}
 
 }

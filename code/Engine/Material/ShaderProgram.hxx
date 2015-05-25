@@ -5,17 +5,20 @@ namespace ma
 {	
 	IMPL_OBJECT(ShaderProgram,Resource)
 
-	ShaderProgram::ShaderProgram(const char* pszPath/* = NULL*/)
-		:Resource(pszPath)
+	ShaderProgram::ShaderProgram()
 	{
-
 	}
 	
-
 	ShaderProgram::~ShaderProgram()
 	{
 	}
 
+	void ShaderProgram::RegisterAttribute()
+	{
+		ACCESSOR_ATTRIBUTE(ShaderProgram, "VSFile", GetVSFile, SetVSFile, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(ShaderProgram, "PSFile", GetPSFile, SetPSFile, const char*, NULL, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(ShaderProgram, "ShaderMacro", GetShaderMacro, SetShaderMacro, const char*, NULL, AM_DEFAULT);
+	}
 
 	void ShaderProgram::BindUniform()
 	{
@@ -108,14 +111,29 @@ namespace ma
 		return m_strVSFile.c_str();
 	}
 
+	void ShaderProgram::SetVSFile(const char* pszVSFile)
+	{
+		m_strVSFile = pszVSFile ? pszVSFile : "";
+	}
+
 	const char*	ShaderProgram::GetPSFile() const
 	{
 		return m_strPSFile.c_str();
 	}
 
+	void ShaderProgram::SetPSFile(const char* pszPSFile)
+	{
+		m_strPSFile = pszPSFile ? pszPSFile : "";
+	}
+
 	const char*	ShaderProgram::GetShaderMacro() const
 	{
 		return m_shaderMacro.c_str();
+	}
+
+	void ShaderProgram::SetShaderMacro(const char* pszMacro)
+	{
+		m_shaderMacro = pszMacro ? pszMacro : "";
 	}
 
 	Uniform* ShaderProgram::AddUniform(const char* pName)

@@ -66,16 +66,13 @@
 #include "Engine/RenderScheme/HDRPostProcess.h"
 
 #include "Engine/ImageData/PixelFormat.h"
-//#include "Engine/ImageData/ImageData.h"
 #include "Engine/Material/Texture.h"
 #include "Engine/Material/RenderState.h"
-//#include "Engine/Material/SamplerState.h"
 #include "Engine/Material/RenderState.h"
 #include "Engine/Material/ShaderProgram.h"
 #include "Engine/Material/MaterialParameter.h"
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/Material.h"
-#include "Engine/Material/MaterialData.h"
 #include "Engine/Material/Uniform.h"
 
 // Scene
@@ -91,6 +88,7 @@
 #include "Engine/Scene/Light/LightSystem.h"
 #include "Engine/Scene/Light/RenderShadowCSM.h"
 #include "Engine/Scene/Particle/ParticleSystem.h"
+#include "Engine/Scene/Particle/ParticleEmitter.h"
 #include "Engine/Scene/Terrain/Terrain.h"
 
 #include "Engine/Profile/CodeTimer.h"

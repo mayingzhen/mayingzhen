@@ -39,18 +39,18 @@ namespace ma
 
 	RenderShadowCSM::~RenderShadowCSM()
 	{
-		CPoissonDiskGen::Realse();
+		PoissonDiskGen::Realse();
 	}
 
 	void RenderShadowCSM::Init()
 	{
 		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
 		{
-			GetRenderSystem()->AddMacro("USING_HW_PCF","1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_HW_PCF","1");
 		}
 		else if ( GetDeviceCapabilities()->GetFloatTexturesSupported() )
 		{
-			GetRenderSystem()->AddMacro("USING_32F","1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_32F","1");
 		}		
 
 		SetMaxSplitCount(m_nMaxSplitCount);
@@ -65,18 +65,60 @@ namespace ma
 
 		if (m_bEnable)
 		{
-			GetRenderSystem()->AddMacro("USING_SHADOW", "1");
-			GetRenderSystem()->AddMacro("USING_TERRAIN_LIGHTMAP", "0");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_TERRAIN_LIGHTMAP", "0");
 			
 			Init();	
 		}
 		else
 		{
-			GetRenderSystem()->AddMacro("USING_SHADOW", "0");
-			GetRenderSystem()->AddMacro("USING_TERRAIN_LIGHTMAP", "1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "0");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_TERRAIN_LIGHTMAP", "1");
 
 			Clear(NULL);
 		}
+	}
+
+	void ProjectScreenToWorldExpansionBasis(const Matrix4& mShadowTexGen, Camera& cam, float fViewWidth, float fViewHeight, 
+		Vector4& vWBasisX, Vector4& vWBasisY, Vector4& vWBasisZ, Vector4& vBasisMagnitudes, Vector4& vCamPos)
+	{
+
+		const Matrix4& camMatrix = cam.GetSceneNode()->GetMatrixWS();
+
+		// projection ratio
+		float fProjectionRatio = fViewWidth / fViewHeight ;
+
+		//all values are in camera space
+		float fFar = cam.GetFarClip();
+		float fNear	= cam.GetNearClip();
+		float fWorldHeightDiv2 = fNear * Math::Tan( cam.GetFov() * 0.5f );
+		float fWorldWidthDiv2 = fWorldHeightDiv2 * fProjectionRatio; 
+		float k = fFar / fNear;
+
+		Vector3 vZ = -camMatrix.GetColumn(2).normalisedCopy() * fNear * k; // size of vZ is the distance from camera pos to near plane
+		Vector3 vX = camMatrix.GetColumn(0).normalisedCopy() * fWorldWidthDiv2 * k;
+		Vector3 vY = camMatrix.GetColumn(1).normalisedCopy() * fWorldHeightDiv2 * k;
+
+		vZ = vZ - vX;
+		vX *= (2.0f / fViewWidth);   // 变换到 -1 ~ 1
+
+		vZ = vZ + vY;
+		vY *= -(2.0f / fViewHeight); // 变换到 -1 ~ 1
+
+		// Transform basis to any local space ( shadow space here )
+		vWBasisX = mShadowTexGen * Vector4(vX, 0.0f);
+		vWBasisY = mShadowTexGen * Vector4(vY, 0.0f);
+		vWBasisZ = mShadowTexGen * Vector4(vZ, 0.0f);
+		vCamPos =  mShadowTexGen * Vector4(cam.GetSceneNode()->GetPosWS(), 1.0f);
+
+		// 		vBasisMagnitudes.x = vWBasisX.length();
+		// 		vBasisMagnitudes.y = vWBasisY.length();
+		// 		vBasisMagnitudes.z = vWBasisZ.length();
+		// 		vBasisMagnitudes.w = 1.0f;
+		// 
+		// 		vWBasisX /= vBasisMagnitudes.x;
+		// 		vWBasisY /= vBasisMagnitudes.y;
+		// 		vWBasisZ /= vBasisMagnitudes.z;
 	}
 
 	void RenderShadowCSM::Update(Camera* pCamera)
@@ -108,6 +150,16 @@ namespace ma
 			m_SpitFrustum[m_nCurSplitCount].Update(pCamera,fNearSplit,fFarSplit);
 
 			m_matShadow[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] =  m_SpitFrustum[m_nCurSplitCount].GetTexAdjustMatrix() * m_SpitFrustum[m_nCurSplitCount].GetShadowMatrix();
+			
+			Rectangle viewPort = GetRenderSystem()->GetViewPort();
+			ProjectScreenToWorldExpansionBasis(m_matShadow[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount],*pCamera,viewPort.width,viewPort.height,
+				m_vWBasisX[m_nCurSplitCount],m_vWBasisY[m_nCurSplitCount],m_vWBasisZ[m_nCurSplitCount],
+				m_vBasisMagnitudes[m_nCurSplitCount], m_vShadowCamPos[m_nCurSplitCount]);
+
+			//if (pCamera->GetSceneManager()->GetDeferredShadowEnabled())
+			//{
+			//	m_matShadow[m_nCurSplitCount] = m_matShadow[m_nCurSplitCount] * pCamera->GetMatView().inverse();
+			//}
 
 			if (m_eShadowBleurLevel == SHADOW_JITTERIN)
 			{
@@ -181,7 +233,7 @@ namespace ma
 
 		CreateShadowMap(m_nShadowMapSize);
 
-		GetRenderSystem()->AddMacro("g_iNumSplits", StringConverter::toString(m_nMaxSplitCount).c_str());
+		GetRenderSystem()->AddShaderGlobaMacro("g_iNumSplits", StringConverter::toString(m_nMaxSplitCount).c_str());
 	}
 
 	void RenderShadowCSM::CreateShadowMap(int nSize)
@@ -271,15 +323,15 @@ namespace ma
 
 		if (BLUR_NO == eBlur)
 		{
-			GetRenderSystem()->AddMacro("SHADOW_BLUR", "0");
+			GetRenderSystem()->AddShaderGlobaMacro("SHADOW_BLUR", "0");
 		}
 		else if (SHADOW_PCF2x2 == eBlur)
 		{
-			GetRenderSystem()->AddMacro("SHADOW_BLUR", "1");
+			GetRenderSystem()->AddShaderGlobaMacro("SHADOW_BLUR", "1");
 		}
 		else if (SHADOW_JITTERIN == eBlur)
 		{
-			GetRenderSystem()->AddMacro("SHADOW_BLUR", "2");
+			GetRenderSystem()->AddShaderGlobaMacro("SHADOW_BLUR", "2");
 		}
 
 		if (SHADOW_JITTERIN == eBlur)
@@ -299,16 +351,16 @@ namespace ma
 
 		m_ShadowSamplesNumer = nNum;
 
-		GetRenderSystem()->AddMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
+		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
 
-		CPoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
+		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
 
 		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
 		{
-			Vector2 vSample = CPoissonDiskGen::GetSample(i);
+			Vector2 vSample = PoissonDiskGen::GetSample(i);
 			m_irreg_kernel[nIdx].x = vSample.x;
 			m_irreg_kernel[nIdx].y = vSample.y;
-			vSample = CPoissonDiskGen::GetSample(i + 1);
+			vSample = PoissonDiskGen::GetSample(i + 1);
 			m_irreg_kernel[nIdx].z = vSample.x;
 			m_irreg_kernel[nIdx].w = vSample.y;
 		}

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _ImageData_h__
+#define _ImageData_h__
+
 #include "PixelFormat.h"
 
 
@@ -141,3 +143,5 @@ private:
 };
 
 }
+
+#endif

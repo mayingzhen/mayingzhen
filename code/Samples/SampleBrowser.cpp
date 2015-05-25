@@ -135,7 +135,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("ShadowMap");
+		RunSample("AnimationRetarget");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -168,7 +168,10 @@ namespace ma
 		{
 			m_pCurSample->UnLoad();
 			GetPhysicsSystem()->Stop();
+
+#if PLATFORM_WIN == 1
 			GetScriptSystem()->Stop();
+#endif
 		}
 
 		SAFE_DELETE(m_pCameraControl);
@@ -183,8 +186,9 @@ namespace ma
 		m_arrSamples.clear();
 		
 		GetPhysicsSystem()->ShoutDown();
+#if PLATFORM_WIN == 1
 		GetScriptSystem()->ShutDown();
-
+#endif
 		Game::Shutdown();
 	}
 
@@ -195,7 +199,9 @@ namespace ma
 		Game::Init();
 
 		GetPhysicsSystem()->Init();
+#if PLATFORM_WIN == 1
 		GetScriptSystem()->Init();
+#endif
 
 		GetInput()->AddKeyListener(this);
 		
@@ -220,7 +226,10 @@ namespace ma
 		{
 			m_pCurSample->UnLoad();
 			GetPhysicsSystem()->Stop();
+
+#if PLATFORM_WIN == 1
 			GetScriptSystem()->Stop();
+#endif
 
 			m_pCameraControl->ResetCamera();
 
@@ -231,7 +240,10 @@ namespace ma
 
 		pSameple->Load();
 		GetPhysicsSystem()->Start();
+
+#if PLATFORM_WIN == 1
 		GetScriptSystem()->Start();
+#endif
 
 		m_pCurSample = pSameple;
 	}

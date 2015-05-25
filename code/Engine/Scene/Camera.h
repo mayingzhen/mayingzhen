@@ -48,7 +48,7 @@ namespace ma
 
 		Vector2				GetNearPlaneSize() const;
 
-		virtual void		OnTransformChange();
+		virtual void		MarkDirty();
 
 	private:
 		MatViewProj			m_matViewProj;

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __CETC1Codec_H__
+#define __CETC1Codec_H__
+
 #include "ImageCodec.h"
 
 namespace ma
@@ -32,3 +34,5 @@ public:
 };
 
 }
+
+#endif

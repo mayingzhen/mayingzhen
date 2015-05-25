@@ -11,6 +11,41 @@ namespace ma
 		m_fViwMinZ = 0;
 		m_fViwMaxZ = 0;
 		m_bShadowCaster = false;
+
+		m_bMatrixDirty = true;
+		m_bCullDirty = true;
+	}
+
+	void RenderComponent::Update()
+	{
+		UpdateAABBWS();
+
+		UpdateCullTree();
+	}
+
+	void RenderComponent::UpdateCullTree()
+	{
+		if (!m_bCullDirty)
+			return;
+		
+		if (m_pSceneNode && m_pSceneNode->GetScene())
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+
+		m_bCullDirty = false;
+	}
+
+	void RenderComponent::UpdateAABBWS() const
+	{
+		if (!m_bMatrixDirty)
+			return;
+
+		if (m_pSceneNode)
+		{
+			m_worldAABB = m_AABB;
+			m_worldAABB.transform( m_pSceneNode->GetMatrixWS() );
+		}
+
+		m_bMatrixDirty = false;
 	}
 
 	void RenderComponent::Show(Camera* pCamera) 
@@ -18,13 +53,17 @@ namespace ma
 		m_pSceneNode->SetLastVisibleFrame(GetTimer()->GetFrameCount());
 	}
 
-	void RenderComponent::OnAddToSceneNode(SceneNode* pNode)
+	void RenderComponent::MarkDirty()
 	{
-		Component::OnAddToSceneNode(pNode);
+		m_bMatrixDirty = true;
+		m_bCullDirty = true;
+	}
+
+	const AABB&	RenderComponent::GetAABBWS() const 
+	{
+		UpdateAABBWS();
 		
-		//ASSERT(pNode && pNode->GetScene());
-		if (pNode && pNode->GetScene())
-			pNode->GetScene()->GetCullTree()->UpdateObject(this);
+		return m_worldAABB;
 	}
 
 	UINT RenderComponent::GetRenderableCount() const
@@ -35,18 +74,6 @@ namespace ma
 	Renderable* RenderComponent::GetRenderableByIndex(UINT index) const
 	{
 		return NULL;
-	}
-		
-	void RenderComponent::OnTransformChange()
-	{
-		if (m_pSceneNode)
-		{	
-			m_worldAABB = m_AABB;
- 			m_worldAABB.transform( m_pSceneNode->GetMatrixWS() );
-
-			if (m_pSceneNode->GetScene())
-				m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
-		}
 	}
 
 }

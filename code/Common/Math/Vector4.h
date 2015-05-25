@@ -91,6 +91,11 @@ namespace ma
         {
         }
 
+		inline explicit Vector4(const Vector3& rhs,float fW)
+			: x(rhs.x), y(rhs.y), z(rhs.z), w(fW)
+		{
+		}
+
 		/** Exchange the contents of this vector with another. 
 		*/
 		inline void swap(Vector4& other)
@@ -378,6 +383,8 @@ namespace ma
 
             return *this;
         }
+
+		inline float length() {return Math::Sqrt(dotProduct(*this));}
 
         /** Calculates the dot (scalar) product of this vector with another.
             @param

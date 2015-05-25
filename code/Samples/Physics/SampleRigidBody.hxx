@@ -18,7 +18,7 @@ namespace ma
 
 		SceneNodePtr pGameObjA;
 		{
-			pGameObjA = m_pScene->CreateNode("physics");
+			pGameObjA =  CreateSceneNode();
 
 			RefPtr<BoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BoxCollisionShape>();
  			pBoxCollisionComp->SetSize(Vector3(0.5,0.5,0.5));
@@ -27,6 +27,7 @@ namespace ma
 			m_pRigidBody->SetUseGravity(false);
 
 			pGameObjA->Translate(Vector3(0,0,4));
+			m_pScene->GetRootNode()->AddChild(pGameObjA.get());
 
 
 			for (int i = 0; i < 5; ++i)
@@ -39,18 +40,21 @@ namespace ma
 
 
 			{
-				SceneNodePtr pGameObjSphere = m_pScene->CreateNode("Sphere");
+				SceneNodePtr pGameObjSphere = CreateSceneNode();
 				RefPtr<SphereCollisionShape> pSphereComp = pGameObjSphere->CreateComponent<SphereCollisionShape>();
 				pSphereComp->SetRadius(2);
 				pGameObjSphere->CreateComponent<RigidBody>();
 
 				pGameObjSphere->Translate(Vector3(1,0,8));
+				
+				m_pScene->GetRootNode()->AddChild(pGameObjSphere.get());
 			}
 		}
 
 		SceneNodePtr pGameObjB;
 		{
-			SceneNodePtr pGameObj = m_pScene->CreateNode("Terrain");
+			SceneNodePtr pGameObj = CreateSceneNode();
+			m_pScene->GetRootNode()->AddChild(pGameObj.get());
 
 			RefPtr<BoxCollisionShape>  pBoxCollisionShape = pGameObj->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(10,10,0.5));

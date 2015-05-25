@@ -34,7 +34,7 @@ namespace ma
 		m_autoDefaultBings["g_shadowMapTexelSize"] = g_shadowMapTexelSize;
 		m_autoDefaultBings["g_ShadowDepthFade"] = g_ShadowDepthFade;
 		m_autoDefaultBings["g_matShadow"] = g_matShadow;
-		m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
+		//m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
 		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
 		m_autoDefaultBings["u_textureSceneDiffuse"] =  TextureSceneDiffuse;
 		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
@@ -136,10 +136,10 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraViewPosition);
 		}
-		else if (autoBinding == MATRIX_PALETTE)
-		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
-		}
+// 		else if (autoBinding == MATRIX_PALETTE)
+// 		{
+// 			pParam->BindMethod(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
+// 		}
 		else if (autoBinding == SCENE_AMBIENT_COLOR)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetAmbientColor);
@@ -307,23 +307,23 @@ namespace ma
 		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vector3::ZERO;
 	}
 
-	const Vector4* ParameterManager::autoBindingGetMatrixPalette() const
-	{
-		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
-		if (pRenderable == NULL)
-			return NULL;
+// 	const Vector4* ParameterManager::autoBindingGetMatrixPalette() const
+// 	{
+// 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
+// 		if (pRenderable == NULL)
+// 			return NULL;
+// 
+// 		return (const Vector4*)pRenderable->GetSkinDQ();
+// 	}
 
-		return (const Vector4*)pRenderable->GetSkinDQ();
-	}
-
-	UINT ParameterManager::autoBindingGetMatrixPaletteSize() const
-	{
-		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
-		if (pRenderable == NULL)
-			return 0;
-
-		return pRenderable->GetSkinDQCount() * 2;
-	}
+// 	UINT ParameterManager::autoBindingGetMatrixPaletteSize() const
+// 	{
+// 		Renderable* pRenderable = GetRenderContext()->GetCurRenderObj();
+// 		if (pRenderable == NULL)
+// 			return 0;
+// 
+// 		return pRenderable->GetSkinDQCount() * 2;
+// 	}
 
 	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const
 	{

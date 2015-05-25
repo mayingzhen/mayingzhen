@@ -48,9 +48,9 @@ namespace ma
 		element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
 		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
 		
-		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer(quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
+		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
-		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer(indices,sizeof(uint16) * 4,sizeof(uint16));
+		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8*)indices,sizeof(uint16) * 4,sizeof(uint16));
 
 		gpScrenQuad->m_pDeclaration = pVertexDec;
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;

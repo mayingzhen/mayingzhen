@@ -1,6 +1,6 @@
 #include "AnimationComponent.h"
 #include "AnimationSet.h"
-#include "SkelAnimtion.h"
+#include "AnimEvalContext.h"
 
 namespace ma
 {
@@ -23,6 +23,7 @@ namespace ma
 	AnimationComponent::~AnimationComponent()
 	{
 		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
+		SAFE_DELETE(m_pose);
 	}
 
 	void AnimationComponent::RegisterAttribute()
@@ -38,7 +39,11 @@ namespace ma
 
 	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
 	{
+		SAFE_DELETE(m_pose);
 		m_pSkeleton = LoadResource<Skeleton>(pSkePath);
+
+		m_bLoadOver = false;
+		OnLoadOver();
 	}
 
 	const char* AnimationComponent::GetAnimSetPath() const
@@ -50,33 +55,17 @@ namespace ma
 	{
 		m_strAnimSetPath = pAniSetPath ? pAniSetPath : "";
 
-		m_pAnimSet = new AnimationSet();
-		m_pAnimSet->LoadFromXML(pAniSetPath);
+		m_pAnimSet = CreateAnimationSet(pAniSetPath);
+		
+		m_bLoadOver = false;
+		OnLoadOver();
 	}
 
 	void AnimationComponent::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
 	{
-		SAFE_DELETE(m_pose);
-
 		SetSkeletonPath(pszSkeletonPath);
 
 		SetAnimSetPath(pszAniSetPath);
-
-		OnLoadOver();
-	}
-
-	void AnimationComponent::CreateSkeletonPose()
-	{
-		ASSERT(m_pSkeleton);
-
-		const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
-		m_pose = pRefPose ? pRefPose->Clone() : NULL;
-		UINT nBone = m_pSkeleton->GetBoneNumer();
-		m_arrSkinMatrix = new Matrix3x4[nBone];
-		for (UINT i = 0; i < nBone; ++i)
-		{
-			m_arrSkinMatrix[i] = Matrix4::IDENTITY;
-		}
 	}
 
 	bool AnimationComponent::OnLoadOver()
@@ -84,23 +73,49 @@ namespace ma
 		if (m_bLoadOver)
 			return true;
 
-		ASSERT(m_pSkeleton && m_pAnimSet);
-
-		if ( m_pSkeleton && !m_pSkeleton->OnLoadOver() )
+		if ( m_pSkeleton == NULL || !m_pSkeleton->OnLoadOver() )
 			return false;
 
 		if ( m_pAnimSet && !m_pAnimSet->OnLoadOver() )
 			return false;
 
-		CreateSkeletonPose();
+		if (m_pose == NULL)
+		{
+			const SkeletonPose* pRefPose = m_pSkeleton ? m_pSkeleton->GetResPose() : NULL;
+			m_pose = pRefPose ? pRefPose->Clone() : NULL;
+			UINT nBone = m_pSkeleton->GetBoneNumer();
+			m_arrSkinMatrix = new Matrix3x4[nBone];
+			for (UINT i = 0; i < nBone; ++i)
+			{
+				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
+			}
+		}
+	
+		if (m_pAnimSet)
+			m_pAnimSet->SetSkeleton(m_pSkeleton.get());
 
-		m_pAnimSet->SetSkeleton(m_pSkeleton.get());
+		if (m_pAnimSet && !m_strCurAction.empty() )
+		{
+			AnimTreeNode* pAnimation = m_pAnimSet->GetSkelAnimByName( m_strCurAction.c_str() );
+			ChangeAnimation(pAnimation,m_fFadeTime);
+		}
+		else if (m_pAnimSet && m_nCurAction != -1)
+		{
+			AnimTreeNode* pAnimation = m_pAnimSet->GetSkelAnimByIndex(m_nCurAction);
+			ChangeAnimation(pAnimation,m_fFadeTime);
+		}
 
-		if (m_pCurAction == NULL && m_strCurAction != "")
-			PlayAnimation(m_strCurAction.c_str());
-		else if (m_pCurAction == NULL && m_nCurAction >= 0)
-			PlayAnimation(m_nCurAction);
-		
+		if (m_pCurAction)
+		{
+			m_pCurAction->SetSkeletion(m_pSkeleton.get());
+			m_pCurAction->Instantiate();
+		}
+
+		if (m_pCurAction && !m_pCurAction->OnLoadOver())
+		{
+			return false;
+		}
+
 		m_bLoadOver = true;
 
 		return true;
@@ -118,8 +133,18 @@ namespace ma
 
 		if (m_pSceneNode->GetLastVisibleFrame() + 1 == GetTimer()->GetFrameCount())
 		{
-			EvaluateAnimation();
+			GetSceneNode()->GetScene()->AddParallelUpdate(this);	
 		}
+	}
+
+	void AnimationComponent::ParallelUpdate()
+	{
+		EvaluateAnimation();
+	}
+
+	void AnimationComponent::EndParallelUpdate()
+	{
+
 	}
 
 	void AnimationComponent::Stop()
@@ -130,18 +155,27 @@ namespace ma
 		m_nCurAction = -1; 
 	}
 
-	void AnimationComponent::PlayAnimation(SkelAnimtion* pSkelAnim,float fFadeTime)
+	void AnimationComponent::ChangeAnimation(AnimTreeNode* pAnim,float fFadeTime)
 	{
 		m_pPreAction = m_pCurAction;
-		m_pCurAction = pSkelAnim;
+		m_pCurAction = pAnim;
 
 		m_fFadeTime = fFadeTime;
 		m_fCurFadeTime = fFadeTime;
 	}
 
-	void AnimationComponent::PlayAnimation(ActionID actionID)
+	void AnimationComponent::PlayAnimation(AnimTreeNode* pSkelAnim,float fFadeTime)
+	{
+		ChangeAnimation(pSkelAnim,fFadeTime);
+
+		m_bLoadOver = false;
+		OnLoadOver();
+	}
+
+	void AnimationComponent::PlayAnimation(uint32 actionID,float fFadeTime)
 	{
 		m_nCurAction = actionID;
+		m_fFadeTime = fFadeTime;
 
 		if (m_pAnimSet == NULL)
 			return;
@@ -149,19 +183,30 @@ namespace ma
 		if (actionID < 0 || actionID >= m_pAnimSet->GetSkelAnimNumber())
 			return;
 
-		PlayAnimation( (SkelAnimtion*)m_pAnimSet->GetSkelAnimByIndex(actionID) );
+		AnimTreeNode* pAnimNode = m_pAnimSet->GetSkelAnimByIndex(actionID);
+		ASSERT(pAnimNode);
+		if (pAnimNode == NULL)
+			return;
+
+		PlayAnimation(pAnimNode, fFadeTime);
 	}
 
 
-	void AnimationComponent::PlayAnimation(const char* pszAnimName)
+	void AnimationComponent::PlayAnimation(const char* pszAnimName,float fFadeTime)
 	{
 		m_strCurAction = pszAnimName ? pszAnimName : "";
 
 		if (m_pAnimSet == NULL)
 			return;
 
-		PlayAnimation( (SkelAnimtion*)m_pAnimSet->GetSkelAnimByName(pszAnimName) );
+		AnimTreeNode* pAnimNode = m_pAnimSet->GetSkelAnimByName(pszAnimName);
+		ASSERT(pAnimNode);
+		if (pAnimNode == NULL)
+			return;
+
+		PlayAnimation(pAnimNode, fFadeTime);
 	}
+
 
 	void AnimationComponent::AdvanceTime(float fTimeElepse)
 	{
@@ -204,12 +249,12 @@ namespace ma
 
 		if (m_pPreAction && fFadeFactor > 0)
 		{
-			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor);
+			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor,BLENDMODE_OVERWRITE);
 		}
 
 		if (m_pCurAction)
 		{
-			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
+			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor,BLENDMODE_OVERWRITE);
 		}
 
 		UpdateSkinMatrix();	
@@ -226,11 +271,11 @@ namespace ma
 			m_arrSkinMatrix[i] = matSkin;
 		}
 
-		std::vector<MeshComponent*> arrMeshComp;
-		m_pSceneNode->GetTypeComponent<MeshComponent>(arrMeshComp);
+		std::vector<SkinMeshComponent*> arrMeshComp;
+		m_pSceneNode->GetTypeComponent<SkinMeshComponent>(arrMeshComp);
 		for (UINT i = 0; i < arrMeshComp.size(); ++i)
 		{
-			MeshComponent* pMeshComp = arrMeshComp[i];
+			SkinMeshComponent* pMeshComp = arrMeshComp[i];
 			ASSERT(pMeshComp);
 			if (pMeshComp == NULL)
 				continue;

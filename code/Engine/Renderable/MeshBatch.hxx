@@ -194,10 +194,10 @@ namespace ma
 		//UpdateVB IB
 		if (m_bIndexed)
 		{
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
 		}
 
-		m_pVertexBuffers = GetRenderSystem()->CreateVertexBuffer(newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
+		m_pVertexBuffers = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 
 		return true;
 	}

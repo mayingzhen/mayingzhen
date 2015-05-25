@@ -157,6 +157,20 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
+	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		//sl.Serialize(*m_pShaderProgram,"Shader");
+		//m_pShaderProgram->Serialize(sl,"Shader");
+
+		sl.Serialize(m_renderState,"RenderState");
+
+		sl.Serialize(m_arrParameters,"Parameters");
+
+		sl.EndSection();
+	}
+
 	RefPtr<Technique> Technique::Clone()
 	{
 		RefPtr<Technique> pClone = new Technique();
@@ -171,6 +185,11 @@ namespace ma
 		}
 
 		return pClone;
+	}
+
+	RefPtr<Technique> CreateTechnique()
+	{
+		return new Technique();
 	}
 
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine)

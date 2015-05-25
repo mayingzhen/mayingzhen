@@ -56,8 +56,8 @@ namespace ma
 			if (sl.IsReading())
 			{
 				sl.Serialize(strIamgePath,"ImagePath");
- 				sl.Serialize(eFilter,strFilterOptions,"Filter");
- 				sl.Serialize(eWrap,strWrap,"Wrap");
+ 				sl.Serialize(eFilter,strDescFilterOptions,"Filter");
+ 				sl.Serialize(eWrap,strDescWrap,"Wrap");
 
 				m_anyValue = Any( CreateSamplerState(strIamgePath.c_str(),eWrap,eFilter) );
 			}
@@ -70,8 +70,8 @@ namespace ma
 				string strIamgePath = pTexture->GetImagePath();
 
 				sl.Serialize(strIamgePath,"ImagePath");
-				sl.Serialize(eFilter,strFilterOptions,"Filter");
-				sl.Serialize(eWrap,strWrap,"Wrap");
+				sl.Serialize(eFilter,strDescFilterOptions,"Filter");
+				sl.Serialize(eWrap,strDescWrap,"Wrap");
 			}
 		}
 

@@ -4,32 +4,32 @@
 namespace ma
 {
 
-	bool CPoissonDiskGen::m_bCached = false;
-	int CPoissonDiskGen::m_numSamples = 0;
-	Vector2* CPoissonDiskGen::m_pvSamples = NULL;
+	bool PoissonDiskGen::m_bCached = false;
+	int PoissonDiskGen::m_numSamples = 0;
+	Vector2* PoissonDiskGen::m_pvSamples = NULL;
 
-	CPoissonDiskGen::CPoissonDiskGen()
+	PoissonDiskGen::PoissonDiskGen()
 	{
 
 	}
 
-	CPoissonDiskGen::~CPoissonDiskGen()
+	PoissonDiskGen::~PoissonDiskGen()
 	{
 	}
 
-	void CPoissonDiskGen::Realse()
+	void PoissonDiskGen::Realse()
 	{
 		SAFE_DELETE_ARRAY(m_pvSamples);
 	}
 
-	Vector2& CPoissonDiskGen::GetSample(int ind)
+	Vector2& PoissonDiskGen::GetSample(int ind)
 	{
 		assert(ind<m_numSamples && ind>=0);
 
 		return m_pvSamples[ind];
 	}
 
-	void CPoissonDiskGen::SetKernelSize(int num)
+	void PoissonDiskGen::SetKernelSize(int num)
 	{
 		if (m_numSamples != num && num > 0)
 		{
@@ -45,7 +45,7 @@ namespace ma
 		return;
 	}
 
-	void CPoissonDiskGen::RandomPoint(Vector2& p)
+	void PoissonDiskGen::RandomPoint(Vector2& p)
 	{
 		//generate random point inside circle
 		do 
@@ -59,7 +59,7 @@ namespace ma
 	}
 
 
-	void CPoissonDiskGen::InitSamples()
+	void PoissonDiskGen::InitSamples()
 	{
 		const int nQ = 1000;
 

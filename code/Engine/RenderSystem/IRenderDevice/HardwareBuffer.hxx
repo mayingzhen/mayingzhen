@@ -17,7 +17,7 @@ namespace ma
 	{
 	}
 
-	void HardwareBuffer::SetData(void* pData,UINT nSize,int nStride,USAGE eUsage)
+	void HardwareBuffer::SetData(uint8* pData,UINT nSize,int nStride,USAGE eUsage)
 	{
 		m_pData = pData;
 		m_Size = nSize;

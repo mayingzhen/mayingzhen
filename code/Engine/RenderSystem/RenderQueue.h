@@ -24,6 +24,8 @@ namespace ma
 		UINT					GetRenderObjNumber(RenderListType eRLType);
 
 		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
+		
+		void					SortRenderObjList(RenderListType eRLType);
 
 		void					Clear();
 

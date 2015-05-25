@@ -16,12 +16,14 @@ namespace ma
 		virtual ~Component();
 		
 		virtual	void	Update() {}
+		virtual void	ParallelUpdate() {}
+		virtual void	EndParallelUpdate() {}
 
 		virtual	void	OnAddToSceneNode(SceneNode* pGameObj);
 
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pGameObj);
 
-		virtual void	OnTransformChange() {}
+		virtual void	MarkDirty() {}
 
 		SceneNode*		GetSceneNode();
 

@@ -5,9 +5,8 @@
 namespace ma
 {
 	Scene::Scene(const char* pszName)
-		:SceneNode(NULL,pszName)
 	{
-		m_pScene = this;
+		m_pRootNode = new SceneNode(this);
 		m_sName = pszName ? pszName : "";
 
 		m_pCameraNode = new SceneNode(this, "defaultCamera");
@@ -39,9 +38,7 @@ namespace ma
 
 	void Scene::Reset()
 	{
-		m_eResState = ResUnLoad;
-
-		this->RemoveAllChild();
+		m_pRootNode->RemoveAllChild();
 
 		m_pCullTree = new Octree();
 
@@ -52,35 +49,79 @@ namespace ma
 	{
 		if (eType == RenderScheme::DeferredLighting)
 		{
-			GetRenderSystem()->AddMacro("DEFERREDSHADING", "1");
+			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
 		}
 
 		m_pRenderScheme = CreateRenderScheme(eType,this);
 	}
 
-	SceneNode* Scene::CreateNode(const char* pName)
+	SceneNode* Scene::CreateNode(const char* pPath)
 	{
-		SceneNode* pSceneNode = new SceneNode(this,pName);	
-		this->AddChild(pSceneNode);
-		return pSceneNode;
+		RefPtr<SceneNode> pSceneNode = CreateSceneNode(pPath);
+		m_pRootNode->AddChild( pSceneNode.get() );
+		return pSceneNode.get();
+	}
+	
+	void ParallelUpdateWork(const WorkItem* item, unsigned threadIndex)
+	{
+		Component** start = reinterpret_cast<Component**>(item->start_);
+		Component** end = reinterpret_cast<Component**>(item->end_);
+
+		do
+		{
+			Component* drawable = *start;
+			if (drawable)
+				drawable->ParallelUpdate();
+		}
+		while (start++ != end);
 	}
 
-// 	void Scene::Init()
-// 	{
-// 		ASSERT(m_pRenderScheme);
-// 		if (m_pRenderScheme)
-// 			m_pRenderScheme->Init();
-// 	}
+	void Scene::AddParallelUpdate(Component* drawable)
+	{
+		m_vecParallelUpdateNode.push_back(drawable);
+	}
 
-// 	void Scene::ShutDown()
-// 	{
-// 		ASSERT(m_pRenderScheme);
-// 		if (m_pRenderScheme)
-// 			m_pRenderScheme->ShoutDown();
-// 
-// 		m_pRenderQueue[0]->Clear();
-// 		m_pRenderQueue[1]->Clear();
-// 	}
+	void Scene::ParallelUpdate()
+	{
+		if (m_vecParallelUpdateNode.empty())
+			return;
+
+		WorkQueue* queue = GetWorkQueue();
+
+		int numWorkItems = queue->GetNumThreads() + 1; // Worker threads + main thread
+		int drawablesPerItem = Math::Max((int)(m_vecParallelUpdateNode.size() / numWorkItems), 1);
+
+		int start = 0;
+		// Create a work item for each thread
+		for (int i = 0; i < numWorkItems; ++i)
+		{
+			RefPtr<WorkItem> item = queue->GetFreeItem();
+			item->priority_ = -1/*M_MAX_UNSIGNED*/;
+			item->workFunction_ = ParallelUpdateWork;
+			item->aux_ = NULL;
+
+			int end = m_vecParallelUpdateNode.size();
+			if (i < numWorkItems - 1 && end - start > drawablesPerItem)
+				end = start + drawablesPerItem;
+
+			item->start_ = &(m_vecParallelUpdateNode[start]);
+			item->end_ = &(m_vecParallelUpdateNode[end - 1]);
+			queue->AddWorkItem(item);
+
+			start = end;
+
+			if (start >= (int)m_vecParallelUpdateNode.size())
+				break;
+		}
+
+		queue->Complete(-1/*M_MAX_UNSIGNED*/);
+
+		for (UINT i = 0; i < m_vecParallelUpdateNode.size(); ++i)
+		{
+			m_vecParallelUpdateNode[i]->EndParallelUpdate();
+		}
+		m_vecParallelUpdateNode.clear();
+	}
 
 	void Scene::Update()
 	{
@@ -95,11 +136,10 @@ namespace ma
 		}
 
 		m_pCameraNode->Update();
-
-		for (uint32 i = 0; i < m_arrChild.size(); ++i)
-		{
-			m_arrChild[i]->Update();
-		}
+		
+		m_pRootNode->Update();
+			
+		ParallelUpdate();
 
 		m_arrRenderComp.clear();
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
@@ -200,18 +240,6 @@ namespace ma
 		// and make sure it is larger than nearPlane
 		m_viwMaxZ = max(fMaxZ, m_viwMinZ + 1.0f);
 	}
-
-// 	void Scene::GetDirectionalLight(OUT ColourValue& color, OUT Vector3& vDir) const
-// 	{
-// 		color = m_cDirLight;
-// 		vDir = m_vDirLight;
-// 	}
-
-// 	void Scene::SetDirectionalLight(const ColourValue& color, const Vector3& vDir)
-// 	{
-// 		m_cDirLight = color;
-// 		m_vDirLight = vDir;
-// 	}
 
 	void Scene::OnFlushFrame()
 	{

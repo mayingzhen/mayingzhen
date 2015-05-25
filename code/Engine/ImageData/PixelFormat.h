@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _PixelFormat_h__
+#define _PixelFormat_h__
+
 
 
 namespace ma
@@ -281,13 +283,6 @@ namespace ma
         uint64 rmask, gmask, bmask, amask;
         unsigned char rshift, gshift, bshift, ashift;
     };
-
-class CPixelFormat
-{
-public:
-	CPixelFormat(void);
-	virtual ~CPixelFormat(void);
-};
 
 /** A primitive describing a volume (3D), image (2D) or line (1D) of pixels in memory.
      	In case of a rectangle, depth must be 1. 
@@ -612,3 +607,5 @@ public:
 	/** @} */
 
 }
+
+#endif

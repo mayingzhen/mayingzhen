@@ -541,7 +541,7 @@ namespace ma
 		m_hResult = S_OK;
 		while (n < (int)m_Commands[m_nCurThreadProcess].Num())
 		{
-			byte nC = m_Commands[m_nCurThreadProcess][n++];
+			BYTE nC = m_Commands[m_nCurThreadProcess][n++];
 			switch (nC)
 			{
 			case eRC_Init:

@@ -23,8 +23,6 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		//virtual void		ApplyAttributes();
-
 		virtual void		Update();
 
 		bool				GetEnabled() const {return m_bEnable;}
@@ -105,9 +103,7 @@ namespace ma
 		
 		virtual bool		OnLoadOver();
 
-		SceneNode*			Clone(const char* pName);
-
-		virtual	void		OnTransformChange();
+		RefPtr<SceneNode>	Clone(const char* pName);
 
 		void				SetUserData(const char* pszKey,void* pData);
 		void*				GetUserData(const char* pszKey);
@@ -120,6 +116,7 @@ namespace ma
 		void				SerializeComp(Serializer& sl,const char* pszLable);
 
 		void				SetParent(SceneNode* pParent);
+		void				SetScene(Scene* pScene);
 
 		void				UpdateMatWorld() const;
 
@@ -149,6 +146,9 @@ namespace ma
 	};
 
 	DeclareRefPtr(SceneNode);
+
+	RefPtr<SceneNode> CreateSceneNode();
+	RefPtr<SceneNode> CreateSceneNode(const char* pszXMLFile);
 
 
 	template<class T>

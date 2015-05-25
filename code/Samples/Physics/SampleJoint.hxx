@@ -13,7 +13,8 @@ namespace ma
 
 		SceneNodePtr pGameObjA = NULL;
 		{
-			pGameObjA = m_pScene->CreateNode("physicsA");
+			pGameObjA = CreateSceneNode();
+			m_pScene->GetRootNode()->AddChild(pGameObjA.get());
 
 			RefPtr<BoxCollisionShape> pBoxCollisionComp = pGameObjA->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionComp->SetSize(Vector3(5,5,5));
@@ -27,7 +28,8 @@ namespace ma
 
 		SceneNodePtr pGameObjB = NULL;
 		{
-			pGameObjB = m_pScene->CreateNode("physicsB");
+			pGameObjB = CreateSceneNode();
+			m_pScene->GetRootNode()->AddChild(pGameObjB.get());
 
 			RefPtr<BoxCollisionShape> pBoxCollisionShape = pGameObjB->CreateComponent<BoxCollisionShape>();
 			pBoxCollisionShape->SetSize(Vector3(5,5,5));

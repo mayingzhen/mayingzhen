@@ -8,6 +8,14 @@ bool g_bGL_OES_mapbuffer = false;
 //bool g_bGL_EXT_debug_marker = false;
 bool g_bGL_APPLE_framebuffer_multisample = false;
 
+// OpenGL VAO functions.
+// #ifdef __ANDROID__
+// PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayOES = NULL;
+// PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOES = NULL;
+// PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysOES = NULL;
+// PFNGLISVERTEXARRAYOESPROC glIsVertexArrayOES = NULL;
+// #endif
+
 // #ifndef GL_DEPTH_COMPONENT16_OES
 // #define GL_DEPTH_COMPONENT16_OES                                0x81A5
 // #endif

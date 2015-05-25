@@ -17,7 +17,7 @@ namespace ma
 	class RenderShadowCSM;
 
 
-	class Scene : public SceneNode
+	class Scene : public Referenced
 	{
 	public:
 		class CCallback
@@ -37,10 +37,6 @@ namespace ma
 
 		~Scene();
 
-		//void					Init();
-
-		//void					ShutDown();
-
 		void					Render();
 
 		void					Update();	
@@ -48,7 +44,10 @@ namespace ma
 		void					Reset();
 
 		CullTree*				GetCullTree() const {return m_pCullTree.get();}
-		SceneNode*				CreateNode(const char* pName);
+
+		SceneNode*				GetRootNode() const {return m_pRootNode.get();}
+
+		SceneNode*				CreateNode(const char* pPath);
 
 		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*					GetCamera() const {return m_pCamera.get();}
@@ -74,10 +73,16 @@ namespace ma
 		
 		void					OnFlushFrame();
 
+		void					AddParallelUpdate(Component* pRender);
+
 	private:
 		void					UpdateViewMinMaxZ();
 
+		void					ParallelUpdate();
+
 	private:
+		RefPtr<SceneNode>		m_pRootNode;
+
 		RefPtr<CullTree>		m_pCullTree;
 
 		std::string				m_sName;
@@ -93,6 +98,8 @@ namespace ma
 
 		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
+
+		std::vector<Component*>	m_vecParallelUpdateNode;
 
 		RenderQueue*			m_pRenderQueue[2];
 		

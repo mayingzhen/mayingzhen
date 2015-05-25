@@ -17,11 +17,11 @@ namespace ma
 
 
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
-		m_pScene->AddChild(pTerrain.get());
+		m_pScene->GetRootNode()->AddChild(pTerrain.get());
 		
 		// Render Mesh
 		{
-			SceneNode* pCharMagic = m_pScene->CreateNode("magic");
+			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
  			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
  			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
  			pMeshComp->SetShadowCaster(true);
@@ -31,6 +31,7 @@ namespace ma
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
  			//pCharMagic->SetScale(Vector3(0.1f));
  			pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
+			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
 
 // 			SceneNode* pPlatform = m_pScene->CreateNode("platform");			
 // 			MeshComponent* pPlatformMesh = pPlatform->CreateComponent<MeshComponent>();
@@ -39,12 +40,13 @@ namespace ma
 // 			pPlatform->SetScale(Vector3(50));
 // 			pPlatform->SetPos(Vector3(2.0f,2.0f,pTerrain->GetHeight(2.0f,2.0f)));
 
-			m_pBox = m_pScene->CreateNode("box");
+			m_pBox = CreateSceneNode();
 			MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();
 			pBoxMesh->SetShadowCaster(true);
 			pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
 			m_pBox->SetScale(Vector3(50));
 			m_pBox->SetPos(Vector3(250.0f, pTerrain->GetHeight(250.0f, 250.0f), 250.0f));
+			m_pScene->GetRootNode()->AddChild(m_pBox.get());
 		}
 		
 		//m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 

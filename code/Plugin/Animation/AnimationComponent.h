@@ -8,8 +8,6 @@ namespace ma
 	class SkelAnimtion;
 	class AnimationSet;
 
-	typedef UINT ActionID;
-
 	class AnimationComponent : public Component
 	{
 		DECL_OBJECT(AnimationComponent)
@@ -22,6 +20,8 @@ namespace ma
 		static void				RegisterAttribute();	
 
 		void					Update();
+		void					ParallelUpdate();
+		void					EndParallelUpdate();
 
 		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
@@ -29,8 +29,9 @@ namespace ma
 
 		void					Stop();
 
-		void					PlayAnimation(const char* pszAnimName); 
-		void					PlayAnimation(ActionID actionID);
+		void					PlayAnimation(const char* pszAnimName,float fFadeTime = 0.0f); 
+		void					PlayAnimation(uint32 actionID,float fFadeTime = 0.0f);
+		void					PlayAnimation(AnimTreeNode* pSkelAnim,float fFadeTime = 0.0f);
 
 		void					SetFrame(float fFrame);
 
@@ -50,12 +51,10 @@ namespace ma
 		void					SetAnimSetPath(const char* pAniSetPath);
 
 	protected:
-		void					PlayAnimation(SkelAnimtion* pSkelAnim,float fFadeTime = 0.0f);
-
-		void					CreateSkeletonPose();
-
 		void					AdvanceTime(float fTimeElepse);
 		void					EvaluateAnimation();
+
+		void					ChangeAnimation(AnimTreeNode* pAnim,float fFadeTime);
 	
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;		
@@ -65,9 +64,9 @@ namespace ma
 		std::string					m_strAnimSetPath;
 	
 		std::string					m_strCurAction;
-		ActionID					m_nCurAction;
-		SkelAnimtion*				m_pCurAction;
-		SkelAnimtion*				m_pPreAction;
+		uint32						m_nCurAction;
+		RefPtr<AnimTreeNode>		m_pCurAction;
+		RefPtr<AnimTreeNode>		m_pPreAction;
 		float						m_fCurFadeTime;
 		float						m_fFadeTime;
 

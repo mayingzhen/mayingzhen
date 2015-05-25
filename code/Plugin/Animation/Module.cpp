@@ -3,17 +3,16 @@
 
 #include "Animation/Skeleton.hxx"
 #include "Animation/Animation.hxx"
-#include "Animation/AnimationClip.hxx"
 #include "Animation/SkeletonPose.hxx"
 #include "Animation/BoneMap.hxx"
 #include "Animation/BoneSet.hxx"
 #include "Animation/AnimationSet.hxx"
-#include "Animation/SkelAnimtion.hxx"
 #include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
 #include "Animation/AnimationSystem.hxx"
 
 // AnimationTree
+#include "Animation/AnimationTree/AnimTreeNode.hxx"
 #include "Animation/AnimationTree/AnimClipNode.hxx"
 #include "Animation/AnimationTree/AnimBlendNode.hxx"
 #include "Animation/AnimationTree/AnimLayerNode.hxx"
@@ -34,6 +33,7 @@ using namespace ma;
 
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}
+Resource* AnimSetData_Creator() {return new AnimationSet();}
 
 void AnimationModuleInit()
 {
@@ -42,6 +42,7 @@ void AnimationModuleInit()
 
 	GetResourceSystem()->RegisterResourceFactory("ske",SkeletonData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("ska",AnimationData_Creator);
+	GetResourceSystem()->RegisterResourceFactory("aniset",AnimSetData_Creator);
 
 	/// RTTI
 	#define RTTI_DECL(ClassType) \
@@ -51,6 +52,7 @@ void AnimationModuleInit()
 	#undef RTTI_DECL
 
 	AnimationComponent::RegisterAttribute();
+	AnimTreeNode::RegisterAttribute();
 	AnimClipNode::RegisterAttribute();
 }
 
@@ -65,6 +67,7 @@ void AnimationModuleShutdown()
 
 	GetResourceSystem()->UnregisterResourceFactory("ske",SkeletonData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("ska",AnimationData_Creator);
+	GetResourceSystem()->UnregisterResourceFactory("aniset",AnimSetData_Creator);
 
 	AnimationSystem* pAniSystem = GetAnimationSystem();
 	SAFE_DELETE(pAniSystem);

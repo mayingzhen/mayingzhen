@@ -46,10 +46,6 @@ namespace ma
 		void				SetTexture(Texture* pTexture);
 
 		Texture*			GetTexture() {return m_pSampler.get();}
-	
-		RenderState&		GetStateBlock() const;
-
-		Technique*			GetTechnique() {return m_pTechnique.get();}
 
 		void				SetProjectionMatrix(const Matrix4& matrix);
 
@@ -83,8 +79,6 @@ namespace ma
 		bool ClipSprite(const Rectangle& clip, float& x, float& y, float& width, float& height, float& u1, float& v1, float& u2, float& v2);
 
 	private:
-		RefPtr<Technique>		m_pTechnique;
-
 		RefPtr<Texture>			m_pSampler;
 		
 		float					m_fTextureWidthRatio;

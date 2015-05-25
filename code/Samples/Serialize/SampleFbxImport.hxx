@@ -19,61 +19,27 @@ namespace ma
 
 			// Material
 			{
-				MaterialData matData;
-			
-				SubMaterialData& subMatData = matData.AddSubMatData();
-				subMatData.SetShaderName("default");
-				subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR;SKIN");
-				
-				RefPtr<Texture> pDiff = CreateSamplerState("FBX/TestBull_DM.png");
-
-				subMatData.AddParameter("u_texture", Any(pDiff) );
-				subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
-				subMatData.AddParameter("shininess", Any( 25.0f ) );
-		
-				matData.SaveToXML("Fbx/TestBull.mat");
-			}
-
-			// AnimationSet
-			{
-				AnimationSet animSetData;
-
-				animSetData.AddAnimClip("Fbx/TestBull.ska","TestAnim");
-				animSetData.SaveToXML("Fbx/TestBull.aniset");
+				CreateDefaultMaterial("FBX/TestBull_DM.png","TestBull.mat","SKIN");
 			}
 		}
 
 
-		SceneNodePtr pTestBull = m_pScene->CreateNode("testBull");
+		SceneNodePtr pTestBull = CreateSceneNode();
 
 		RefPtr<MeshComponent>  pMeshComp = pTestBull->CreateComponent<MeshComponent>();
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 			
 		AnimationComponentPtr pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
 		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
-		pAnimationObject->PlayAnimation("TestAnim");
+		pAnimationObject->PlayAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
 
 		m_pAnimComponent = pAnimationObject.get();
 
 		pTestBull->SetScale(Vector3(1.0f / 50.0f));
+
+		m_pScene->GetRootNode()->AddChild(pTestBull.get());
 	}
 
-	void CreateMaterialData(const char* pszTexture,const char* pMatPath)
-	{
-		MaterialData matData;
-
-		SubMaterialData& subMatData = matData.AddSubMatData();
-		subMatData.SetShaderName("default");
-		subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
-
-		RefPtr<Texture> pDiff = CreateSamplerState(pszTexture);
-
-		subMatData.AddParameter("u_texture", Any(pDiff) );
-		subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );
-		subMatData.AddParameter("shininess", Any( 25.0f ) );
-
-		matData.SaveToXML(pMatPath);
-	}
 
 	void SampleFbxImport::LoadSaticMesh()
 	{
@@ -85,20 +51,22 @@ namespace ma
 
 			LoadStaticMeshData("FBX/MovingPlatform.fbx");
 
-			CreateMaterialData("FBX/Box.tga","FBX/Box.mat");
+			CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mat");
 			
-			CreateMaterialData("FBX/PlatformTexture.tga","FBX/MovingPlatform.mat");
+			CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mat");
 		}
 
 		
-		SceneNodePtr pPlatform = m_pScene->CreateNode("Platform");
+		SceneNodePtr pPlatform = CreateSceneNode();
 		MeshComponentPtr pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+		m_pScene->GetRootNode()->AddChild(pPlatform.get());
 
-		SceneNodePtr pBox = m_pScene->CreateNode("Box");
+		SceneNodePtr pBox = CreateSceneNode();
 		MeshComponentPtr pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-
+		m_pScene->GetRootNode()->AddChild(pBox.get());	
+			
 	}
 
 	void SampleFbxImport::Render()

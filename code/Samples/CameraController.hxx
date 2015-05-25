@@ -30,10 +30,10 @@ namespace ma
 
 		int nWndWidth,nWndHeigh;
 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-		float fFOV = Math::PI / 4;
+		float fFOV = DegreesToRadians(50.0f);
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 0.10f;
-		float fFarClip = 20000.0f;
+		float fFarClip = 10000.0f;
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 	}
 

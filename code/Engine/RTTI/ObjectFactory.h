@@ -23,25 +23,25 @@ namespace ma
 		ObjFunFactoryMap	m_objFunFactoryMap;
 	};
 
+	ObjectFactoryManager* GetObjectFactoryManager();
+
+	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang);
+
 	template <class T>
 	RefPtr<T>	CreateObject(const char* pszClassName = NULL)
 	{
 		RefPtr<Object> pObject;
 		if (pszClassName)
-			 pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
+			pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
 		else
 			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetClass()->GetName() );
 
 		ASSERT(pObject);
-		
+
 		RefPtr<T> pTypeObject = SafeCast<T>(pObject.get());
- 		ASSERT(pTypeObject);
- 		return pTypeObject;
+		ASSERT(pTypeObject);
+		return pTypeObject;
 	}
-
-	ObjectFactoryManager* GetObjectFactoryManager();
-
-	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang);
 
 }
 

@@ -42,6 +42,11 @@ namespace ma
 		SceneNode::Update();
 
 		OnLoadOver();
+
+		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+		{
+			m_vecTrunk[i]->Update();
+		}
 	}
 
 	void Terrain::ClearTempData()
@@ -200,7 +205,7 @@ namespace ma
 			}
 		}
 
-		pSkirtIB = GetRenderSystem()->CreateIndexBuffer(&pIndexData[0],pIndexData.size() * 2, 2);
+		pSkirtIB = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],pIndexData.size() * 2, 2);
 
 	}
 
@@ -283,7 +288,7 @@ namespace ma
 			}
 		}
 		
-		m_shareIB[m].m_pBodyIB = GetRenderSystem()->CreateIndexBuffer(&pIndexData[0],pIndexData.size() * 2, 2);
+		m_shareIB[m].m_pBodyIB = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],pIndexData.size() * 2, 2);
 	}
 
 	const char* Terrain::GetHeightMap() const
@@ -317,7 +322,7 @@ namespace ma
 
 	void Terrain::SetMaterialPath(const char* pPath)
 	{
-		m_pMaterialData = LoadResource<MaterialData>(pPath);
+		m_pMaterialData = LoadResource<Material>(pPath);
 	}
 
 	const char* Terrain::GetBlendMap() const
@@ -349,12 +354,12 @@ namespace ma
 		if (m_pMaterialResource && !m_pMaterialResource->OnLoadOver())
 			return false;
 
-		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
-		{
-			RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
-			pSubMaterial->InitWithSubMatData(m_pMaterialData->GetSubMatDataByIndex(i));
-			this->AddMaterial(pSubMaterial.get());
-		}
+// 		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
+// 		{
+// 			RefPtr<SubMaterial> pSubMaterial = m_pMaterialData->GetSubMatDataByIndex(i);//CreateSubMaterial();
+// 			//pSubMaterial->InitWithSubMatData(m_pMaterialData->GetSubMatDataByIndex(i));
+// 			this->AddMaterial(pSubMaterial.get());
+// 		}
 
 		if (m_bBlendMapToVertex) 
 		{
@@ -407,13 +412,13 @@ namespace ma
 		return true;
 	}	
 
-	void Terrain::OnTransformChange()
-	{
-		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
-		{
-			m_vecTrunk[i]->OnTransformChange();
-		}
-	}
+// 	void Terrain::OnTransformChange()
+// 	{
+// 		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
+// 		{
+// 			m_vecTrunk[i]->OnTransformChange();
+// 		}
+// 	}
 
 
 	float Terrain::GetHeight(int nXVert, int nYVert) const
@@ -724,21 +729,30 @@ namespace ma
 
 	SubMaterial* Terrain::GetMaterialByID(uint8 matID) const
 	{
-		ASSERT(matID < m_vecMaterial.size());
-		if (matID >= m_vecMaterial.size())
+		if (m_pMaterialData == NULL)
 			return NULL;
 
-		return m_vecMaterial[matID].get();
+		ASSERT(matID < m_pMaterialData->GetSubMaterialNumber());
+		if (matID >= m_pMaterialData->GetSubMaterialNumber())
+			return NULL;
+
+		return m_pMaterialData->GetSubMaterialByIndex(matID);
 	}
 
 	UINT Terrain::GetMaterialCount() const
 	{
-		return m_vecMaterial.size();
+		if (m_pMaterialData == NULL)
+			return 0;
+
+		return m_pMaterialData->GetSubMaterialNumber();
 	}
 
 	void Terrain::AddMaterial(SubMaterial* pMateral)
 	{
-		m_vecMaterial.push_back(pMateral);
+		if (m_pMaterialData == NULL)
+			return;
+
+		m_pMaterialData->AddSubMaterial(pMateral);
 	}
 
 	SubMaterial* Terrain::GetMaterial(int nXVert,int nYVert) const

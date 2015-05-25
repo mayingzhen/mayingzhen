@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void ParseUniform();
 
-		virtual void RT_SetShader();
+		virtual void RT_SetShader(	);
 
 		void Destory();
 

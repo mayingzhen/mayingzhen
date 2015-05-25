@@ -10,7 +10,7 @@ namespace ma
 		Technique();
 
 		~Technique();
-		
+
 		void				Bind();
 
 		void				UnBind();
@@ -29,6 +29,8 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
+		void				Serialize(Serializer& sl, const char* pszLable = "Technique");
+
 		RefPtr<Technique>	Clone();
 
 	private:
@@ -42,7 +44,8 @@ namespace ma
 	};
 	
 	DeclareRefPtr(Technique);
-
+	
+	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 }
 

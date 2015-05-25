@@ -14,7 +14,7 @@ namespace ma
 
 		for (vector<AttributeInfo>::iterator j = infos.begin(); j != infos.end(); ++j)
 		{
-			if ( stricmp(j->name_.c_str(), name ) != 0 )
+			if ( strcmp(j->name_.c_str(), name ) != 0 )
 			{
 				infos.erase(j);
 				break;
@@ -94,7 +94,7 @@ namespace ma
 
 		for (vector<AttributeInfo>::iterator j = infos.begin(); j != infos.end(); ++j)
 		{
-			if ( stricmp(j->name_.c_str(), name ) != 0 )
+			if ( strcmp(j->name_.c_str(), name ) != 0 )
 				return &(*j);
 		}
 

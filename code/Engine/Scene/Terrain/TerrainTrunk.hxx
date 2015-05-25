@@ -91,7 +91,11 @@ namespace ma
 		if (m_pTerrain->GetNumLod() > 1)
 		{
 			float fDistance = (this->GetAABBWS().getCenter() - pCamera->GetSceneNode()->GetPos()).length();
-			m_uLodIndex = (UINT)Math::Log2(__max(1, min(fDistance/m_fLodParam, Math::PowInt(2, (m_pTerrain->GetNumLod()-1)))));
+			
+			int nNumLodPow2 = Math::PowInt(2, m_pTerrain->GetNumLod() - 1);
+			float fLodValue = Math::Max<float>( 1.0f, Math::Min<float>(fDistance / m_fLodParam, (float)nNumLodPow2) );
+
+			m_uLodIndex = (UINT)Math::Log2(fLodValue);
 
 			m_uLodIndex = Math::Clamp<UINT>(m_uLodIndex, 0, m_pTerrain->GetNumLod() - 1);
 		}
@@ -121,7 +125,8 @@ namespace ma
 			}
 		}
 
-		OnTransformChange();
+		//OnTransformChange();
+		MarkDirty();
 
 		m_vecLod.resize(m_pTerrain->GetNumLod());
 		for (uint32 m = 0; m < m_pTerrain->GetNumLod(); ++m)
@@ -169,7 +174,7 @@ namespace ma
 			}
 
 			m_vecLod[m].m_BodyVB = GetRenderSystem()->CreateVertexBuffer(
-				&VBTemp[0],VBTemp.size() * sizeof(TERRAIN_VERTEX),sizeof(TERRAIN_VERTEX));
+				(uint8*)&VBTemp[0],VBTemp.size() * sizeof(TERRAIN_VERTEX),sizeof(TERRAIN_VERTEX));
 		}
 	}
 
@@ -243,7 +248,7 @@ namespace ma
 					vector<uint16>& indexList  = bodyIBList[i];
 
 					RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-						&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16));
+						(uint8*)&indexList[0], sizeof(uint16) * indexList.size(), sizeof(uint16));
 
 					matIdToIB[i] = pIB;
 				}
@@ -321,7 +326,7 @@ namespace ma
 				vector<uint16>& indexList  = borderIBList[i];
 
 				RefPtr<IndexBuffer> pIB = GetRenderSystem()->CreateIndexBuffer(
-					&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16));
+					(uint8*)&indexList[0],sizeof(uint16) * indexList.size(),sizeof(uint16));
 
 				matAddIdToIB[i] = pIB;
 			}

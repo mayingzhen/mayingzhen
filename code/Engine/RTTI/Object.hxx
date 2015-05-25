@@ -36,5 +36,15 @@ namespace ma
 
 	}
 
+	const char*	Object::GetName() const 
+	{
+		return m_sName.c_str();
+	}
+
+	void Object::SetName(const char* pName) 
+	{
+		m_sName = pName ? pName : "";
+	}
+
 }
 

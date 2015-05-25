@@ -3,7 +3,6 @@
 
 #include "RenderThread.h"
 #include "Engine/Material/RenderState.h"
-//#include "Engine/Material/SamplerState.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 
 namespace ma
@@ -57,6 +56,7 @@ namespace ma
 		void				SetCullMode(CULL_MODE eCullMode);
 		void				SetDepthBias(float fConstantBias);
 
+		// Uniform
 		void				SetValue(Uniform* uniform, float value);
 		void				SetValue(Uniform* uniform, const Vector2& value);
 		void				SetValue(Uniform* uniform, const Vector3& value);
@@ -74,8 +74,8 @@ namespace ma
 		// Create
 		Texture*			CreateRenderTexture(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,USAGE use = USAGE_RENDERTARGET);
 		Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format = PF_D24S8);
-		RefPtr<IndexBuffer>	CreateIndexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
-		RefPtr<VertexBuffer> CreateVertexBuffer(void* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
 
 		void				TexStreamComplete(Texture* pTexture);		
@@ -97,10 +97,10 @@ namespace ma
 
 		const char*			GetShaderPath();
 		
-		bool				AddMacro(const char* pszKey, const char* pszValue);
-		const char*			GetMacro(const char* pszKey) const;
-		uint32				GetNumMacros() const;
-		const char*			GetMacroByIndex(uint32 i, OUT const char*& pszValue) const;
+		bool				AddShaderGlobaMacro(const char* pszKey, const char* pszValue);
+		const char*			GetShaderGlobaMacro(const char* pszKey) const;
+		uint32				GetNumShaderGlobaMacro() const;
+		const char*			GetShaderGlobaMacroByIndex(uint32 i, OUT const char*& pszValue) const;
 		
 		void				ReloadShader();
 
@@ -151,9 +151,8 @@ namespace ma
 
 	};
 
-	 RenderSystem*	GetRenderSystem();
-
-	 void				SetRenderSystem(RenderSystem* pRenderSystem);
+	 RenderSystem* GetRenderSystem();
+	 void SetRenderSystem(RenderSystem* pRenderSystem);
 }
 
 #endif

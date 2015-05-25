@@ -31,12 +31,14 @@ namespace ma
 
 		mono_set_dirs(strLibDir.c_str(), strEtcDir.c_str());
 
+#ifdef WIN32
 		int port = (int)(56000 + (GetCurrentProcessId() % 1000));
 		char options[255];
 		sprintf_s(options,255,"--debugger-agent=transport=dt_socket,address=127.0.0.1:%d,server=y,suspend=n",port);
 		char* dbgArgs = options;
 		mono_jit_parse_options(1,&dbgArgs);
 		mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+#endif
 
 		m_pDomain = mono_jit_init_version("m_pDomain","v2.11.30727");
 		ASSERT(m_pDomain != NULL);
@@ -81,7 +83,12 @@ namespace ma
 				if (pScriptObject == NULL)
 					continue;
 
-				pScriptObject->Start();
+				void* params[1];
+				SceneNode* pSceneNode = pScriptObject->GetSceneNode();
+				params[0] = &pSceneNode;
+				pScriptObject->InvokeMethod("SetGameObjPtr",1,params);
+
+				pScriptObject->InvokeMethod("Start");
 			}
 		}
 
@@ -103,7 +110,7 @@ namespace ma
 				if (pScriptObject == NULL)
 					continue;
 
-				pScriptObject->Stop();
+				pScriptObject->InvokeMethod("Stop");
 			}
 		}
 
@@ -141,7 +148,7 @@ namespace ma
 				if (pScriptObject == NULL)
 					continue;
 
-				pScriptObject->Update();
+				pScriptObject->InvokeMethod("Update");
 			}
 		}
 	}

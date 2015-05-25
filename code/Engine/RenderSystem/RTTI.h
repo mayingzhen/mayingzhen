@@ -7,7 +7,7 @@
 #include "Engine/Scene/Camera.h"
 #include "Engine/Scene/Terrain/Terrain.h"
 #include "Engine/Renderable/MeshData.h"
-#include "Engine/Material/MaterialData.h"
+#include "Engine/Material/Material.h"
 #include "Engine/Material/Texture.h"
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.h"
 
@@ -22,7 +22,7 @@ using namespace ma;
 
 // ResCreator
 Resource*	MeshData_Creator() {return new MeshData();}
-Resource*	MaterialData_Creator() {return new MaterialData();}
+Resource*	Material_Creator() {return new Material();}
 Resource*	SamplerState_Creator() {return GetRenderDevice()->CreateTexture();}
 Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram();}
 
@@ -30,7 +30,6 @@ void RenderSystemRTTIInit()
 {
 	Light::StaticInitClass();
 	Terrain::StaticInitClass();
-	//SamplerState::StaticInitClass();
 	Texture::StaticInitClass();
 	ShaderProgram::StaticInitClass();
 	
@@ -41,13 +40,15 @@ void RenderSystemRTTIInit()
 #undef RTTI_DECL
 
 	MeshComponent::RegisterAttribute();
+	SkinMeshComponent::RegisterAttribute();
 	Camera::RegisterAttribute();
 	Terrain::RegisterAttribute();
 	Texture::RegisterAttribute();
+	ShaderProgram::RegisterAttribute();
 
 
 	GetResourceSystem()->RegisterResourceFactory("skn",MeshData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("mat",MaterialData_Creator);
+	GetResourceSystem()->RegisterResourceFactory("mat",Material_Creator);
 // 	GetResourceSystem()->RegisterResourceFactory("tga",ImageData_Creator);
 // 	GetResourceSystem()->RegisterResourceFactory("jpg",ImageData_Creator);
 // 	GetResourceSystem()->RegisterResourceFactory("png",ImageData_Creator);
@@ -62,7 +63,7 @@ void RenderSystemRTTIInit()
 void RenderSystemRTTIShutdown()
 {
 	GetResourceSystem()->UnregisterResourceFactory("skn",MeshData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("mat",MaterialData_Creator);
+	GetResourceSystem()->UnregisterResourceFactory("mat",Material_Creator);
 // 	GetResourceSystem()->UnregisterResourceFactory("tga",ImageData_Creator);
 // 	GetResourceSystem()->UnregisterResourceFactory("jpg",ImageData_Creator);
 // 	GetResourceSystem()->UnregisterResourceFactory("png",ImageData_Creator);

@@ -144,15 +144,15 @@ namespace ma
 #endif
 
 #if GL_OES_vertex_array_object
-		if(strExt.find("GL_OES_vertex_array_object") != string::npos)
+		if(strExt.find("GL_OES_vertex_array_object") != string::npos || strExt.find("GL_ARB_vertex_array_object"))
 		{
 			g_bGL_OES_vertex_array_object = true;
 #if defined(WIN32) || defined(__ANDROID__)
-			glBindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC) eglGetProcAddress("glBindVertexArrayOES");
-			glDeleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC) eglGetProcAddress("glDeleteVertexArraysOES");
-			glGenVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC) eglGetProcAddress("glGenVertexArraysOES");
-			glIsVertexArrayOES = (PFNGLISVERTEXARRAYOESPROC) eglGetProcAddress("glIsVertexArrayOES");
-			g_bGL_OES_vertex_array_object = (glBindVertexArrayOES != NULL);
+			glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC) eglGetProcAddress("glBindVertexArrayOES");
+			glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC) eglGetProcAddress("glDeleteVertexArraysOES");
+			glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC) eglGetProcAddress("glGenVertexArraysOES");
+			glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC) eglGetProcAddress("glIsVertexArrayOES");
+			//g_bGL_OES_vertex_array_object = (glBindVertexArrayOES != NULL);
 #endif
 		}
 		else
@@ -164,9 +164,9 @@ namespace ma
 		{
 			g_bGL_OES_mapbuffer = true;
 #if defined(WIN32) || defined(__ANDROID__)
-			glMapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-			glUnmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
-			glGetBufferPointervOES = (PFNGLGETBUFFERPOINTERVOESPROC)eglGetProcAddress("glGetBufferPointervOES");
+			glMapBuffer = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+			glUnmapBuffer = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+			glGetBufferPointerv = (PFNGLGETBUFFERPOINTERVOESPROC)eglGetProcAddress("glGetBufferPointervOES");
 			g_bGL_OES_mapbuffer = (glMapBufferOES != NULL);
 #endif
 		}
@@ -773,14 +773,14 @@ namespace ma
 
 	void GLESRenderDevice::BeginProfile(const char* pszLale)
 	{
-		if (glPushGroupMarkerEXT)
-			glPushGroupMarkerEXT(0,pszLale);
+		//if (glPushGroupMarkerEXT)
+		//	glPushGroupMarkerEXT(0,pszLale);
 	}
 
 	void GLESRenderDevice::EndProfile()
 	{
-		if (glPopGroupMarkerEXT) 
-			glPopGroupMarkerEXT();
+		//if (glPopGroupMarkerEXT) 
+		//	glPopGroupMarkerEXT();
 	}
 
 	bool GLESRenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)

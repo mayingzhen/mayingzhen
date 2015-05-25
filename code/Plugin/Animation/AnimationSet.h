@@ -5,9 +5,7 @@ namespace ma
 {
 	class SkelAnimtion;
 	class Skeleton;
-	class PoseModifier;
-	class AnimationComponent;
-	class AnimClipNode;
+	class AnimTreeNode;
 
 	class AnimationSet : public Serializable
 	{
@@ -18,31 +16,29 @@ namespace ma
 
 		~AnimationSet();
 
-		virtual	SkelAnimtion*		CreateSkelAnim(const char* actionName);
+		AnimTreeNode*		GetSkelAnimByName(const char* pszName);
 
-		virtual	AnimClipNode*		AddAnimClip(const char* pszSkaPath, const char* actionName);
+		UINT				GetSkelAnimNumber() {return m_arrSkelAnim.size();}
 
-		virtual SkelAnimtion*		GetSkelAnimByName(const char* pszName);
-
-		virtual UINT				GetSkelAnimNumber() {return m_arrSkelAnim.size();}
-
-		virtual SkelAnimtion*		GetSkelAnimByIndex(UINT index);
-
-		virtual void				RemoveSkelAnim(SkelAnimtion* pAction);
-
-		void						Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
+		AnimTreeNode*		GetSkelAnimByIndex(UINT index);
 		
-		void						SetSkeleton(Skeleton* pSkeleton);
+		void				AddSkelAnim(AnimTreeNode* pAction); 
+
+		void				RemoveSkelAnim(AnimTreeNode* pAction);
+
+		void				Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
+		
+		void				SetSkeleton(Skeleton* pSkeleton);
 
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;
 
-		typedef std::vector< RefPtr<SkelAnimtion> >	 VEC_SkELANIM;
+		typedef std::vector< RefPtr<AnimTreeNode> >	 VEC_SkELANIM;
 		VEC_SkELANIM				m_arrSkelAnim;
-
-		typedef std::vector< RefPtr<PoseModifier> >	 VEC_IK;
-		VEC_IK						m_arrPoseModifier;
 	};
+
+	RefPtr<AnimationSet> CreateAnimationSet();
+	RefPtr<AnimationSet> CreateAnimationSet(const char* pszFile);
 }
 
 

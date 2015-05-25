@@ -1,5 +1,6 @@
 
-#pragma once
+#ifndef __AttributeManager_H__
+#define __AttributeManager_H__
 
 #include "Attribute.h"
 
@@ -74,3 +75,6 @@ namespace ma
 	#define UPDATE_ATTRIBUTE_DEFAULT_VALUE(className, name, defaultValue) GetAttributeManager()->UpdateAttributeDefaultValue<className>(name, defaultValue)
 
 }
+
+
+#endif

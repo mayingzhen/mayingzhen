@@ -1,7 +1,7 @@
 #include "../Platform.h"
 #include "Plugin/GLESRender/GLESBase.h"
-#include "Engine/Input/AndroidInputInjector.h"
-#include "Engine/Input/Gesture.h"
+#include "Application/Input/AndroidInputInjector.h"
+#include "Application/Input/Gesture.h"
 #include "android_native_app_glue.hxx"
 
 #include "bitset"
@@ -33,13 +33,6 @@ namespace ma
 
 	static int __primaryTouchId = -1;
 	static bool __multiTouch = false;
-
-	// OpenGL VAO functions.
-	
-	PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = NULL;
-	PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = NULL;
-	PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
-	PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 
 	#define GESTURE_TAP_DURATION_MAX    200
 	#define GESTURE_SWIPE_DURATION_MAX  400
@@ -119,9 +112,9 @@ namespace ma
 
 
 
-	void DebugSleep(unsigned nTime)
+	void DebugSleep(uint32 nTime)
 	{
-		Log("............begine Sleep..............");
+		LogInfo("............begine Sleep..............");
 
 		timeval start;
 		gettimeofday(&start, 0);
@@ -129,12 +122,12 @@ namespace ma
 		{
 			timeval end;
 			gettimeofday(&end, 0);
-			Log("............end.tv_sec - start.tv_sec %d..............",end.tv_sec - start.tv_sec);
+			LogInfo("............end.tv_sec - start.tv_sec %d..............",end.tv_sec - start.tv_sec);
 			if ( (end.tv_sec - start.tv_sec)  > nTime)
 				break;
 		}
 
-		Log("............end Sleep ..............");
+		LogInfo("............end Sleep ..............");
 	}
 
 

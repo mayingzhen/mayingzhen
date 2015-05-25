@@ -46,9 +46,9 @@ namespace ma
 		
 		virtual ~Object();
 	
-		const char*		GetName() const {return m_sName.c_str();}
+		const char*		GetName() const;
 
-		void			SetName(const char* pName) {m_sName = pName;}
+		void			SetName(const char* pName);
 
 		bool			IsA(const RTTIClass* pParent) const;
 

@@ -1,24 +1,20 @@
 #include "Material.h"
 #include "ShaderProgram.h"
-#include "MaterialData.h"
 
 namespace ma
 {
 
 	static const char* ShadowDepth = "ShadowDepth";
 	static const char* Shading = "Shading";
-
-	void SubMaterial::InitWithSubMatData(const SubMaterialData& subMatData)
+	
+	SubMaterial::SubMaterial()
 	{
-		SetShadingTechnqiue(subMatData.GetShaderName(), subMatData.GetShaderMacro());
+		//m_pShadingTech = CreateTechnique();
+	}
 
-		m_pShadingTech->SetRenderState(subMatData.GetRenderState());
-
-		for (UINT i = 0; i < subMatData.GetParameterCount(); ++i)
-		{
-			const Parameter& matParam = subMatData.GetParameterByIndex(i);
-			m_pShadingTech->SetParameter(matParam.GetName(), matParam.GetValue());
-		}	
+	SubMaterial::~SubMaterial()
+	{
+		m_pShadingTech = NULL;
 	}
 
 	void SubMaterial::SetShadingTechnqiue(Technique* pTech)
@@ -28,7 +24,8 @@ namespace ma
 
 	void SubMaterial::SetShadingTechnqiue(const char* pShaderName, const char* pDefine)
 	{
-		m_pShaderMarco = pDefine;
+		m_strShaderName = pShaderName;
+		m_strShaderMacro = pDefine;
 		m_pShadingTech = CreateTechnique(Shading, pShaderName, pShaderName, pDefine);
 	}
 
@@ -36,8 +33,9 @@ namespace ma
 	{
 		if (m_pShadowDepthTech == NULL)
 		{
-			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, m_pShaderMarco.c_str());
-			m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
+			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, strShaderMacro.c_str());
+			//m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 		
 			if (GetDeviceCapabilities()->GetDepthTextureSupported())
 			{
@@ -48,11 +46,66 @@ namespace ma
 		return m_pShadowDepthTech.get();
 	}
 
+	void SubMaterial::SetShadowDepthTechnqiue(Technique* pTech)
+	{
+		m_pShadingTech = pTech;
+	}
+
+	void SubMaterial::SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine)
+	{
+		string strMacro = pDefine ? pDefine : "";
+		strMacro += m_pShadingTech->GetShaderProgram()->GetShaderMacro();
+		m_pShadingTech = CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str());
+	}
+
 	Technique* SubMaterial::GetShadingTechnqiue()
 	{
 		return m_pShadingTech.get();
 	}
 
+	void SubMaterial::Serialize(Serializer& sl, const char* pszLable/* = "SubMaterial"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		sl.BeginSection("Shader");
+		sl.Serialize(m_strShaderName,"Name");
+		sl.Serialize(m_strShaderMacro,"Macro");
+		sl.EndSection();
+
+		sl.Serialize(m_renderState,"RenderState");
+
+		sl.Serialize(m_arrParameters,"Parameters");
+
+		sl.EndSection();
+
+		if (sl.IsReading())
+		{
+			SetShadingTechnqiue(m_strShaderName.c_str(),m_strShaderMacro.c_str());
+			m_pShadingTech->SetRenderState(m_renderState);
+			for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+			{
+				m_pShadingTech->SetParameter(m_arrParameters[i].GetName(),m_arrParameters[i].GetValue());
+			}
+		}
+	}
+
+	void SubMaterial::SetShaderName(const char* pszSharName)
+	{
+		m_strShaderName = pszSharName ? pszSharName : "";
+	}
+
+	void SubMaterial::SetShderMacro(const char* pszShaderMacro)
+	{
+		m_strShaderMacro = pszShaderMacro ? pszShaderMacro : "";
+	}
+
+	void SubMaterial::AddParameter(const char* pName,Any value)
+	{
+		Parameter matParam;
+		matParam.SetName(pName);
+		matParam.SetValue(value);
+		m_arrParameters.push_back(matParam);
+	}
 
 	RefPtr<SubMaterial> SubMaterial::Clone()
 	{
@@ -65,8 +118,7 @@ namespace ma
 		{
 			pClonMaterial->m_pShadowDepthTech = m_pShadowDepthTech->Clone();
 		}
-
-		pClonMaterial->m_pShaderMarco = m_pShaderMarco;
+		pClonMaterial->m_strShaderMacro = m_strShaderMacro;
 
 		return pClonMaterial;
 	}
@@ -78,4 +130,61 @@ namespace ma
 
 		return pMaterial;
 	}
+
+
+	IMPL_OBJECT(Material,Serializable);
+
+	Material::Material()
+	{
+	}
+
+	Material::~Material()
+	{
+	}
+
+	void Material::AddSubMaterial(SubMaterial* pSubMaterial)
+	{
+		m_arrSubMaterial.push_back(pSubMaterial);
+	}
+
+	void Material::Serialize(Serializer& sl, const char* pszLable/* = "Material"*/)
+	{
+		sl.BeginSection(pszLable);
+
+		//sl.Serialize(m_arrSubMaterial,"SubMaterial");
+
+		UINT nSize = (UINT)m_arrSubMaterial.size();
+		sl.Serialize(nSize,"size");
+
+		if (nSize != m_arrSubMaterial.size())
+		{
+			m_arrSubMaterial.resize(nSize);
+		}
+
+		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		{
+			char buf[32];
+			sprintf(&buf[0],"Element_%u",nCnt);
+			if (m_arrSubMaterial[nCnt] == NULL)
+			{
+				m_arrSubMaterial[nCnt] = new SubMaterial();
+			}
+			m_arrSubMaterial[nCnt]->Serialize(sl,buf);
+		}
+
+		sl.EndSection();
+	}
+
+	RefPtr<Material> CreateMaterial()
+	{
+		return new Material();
+	}
+
+	RefPtr<Material> CreateMaterial(const char* pszPath)
+	{
+		RefPtr<Material> pMaterial = LoadResource<Material>(pszPath);
+		return pMaterial;
+	}
+
+
 }

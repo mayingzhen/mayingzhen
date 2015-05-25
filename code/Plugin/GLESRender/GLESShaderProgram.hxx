@@ -5,7 +5,6 @@
 namespace ma
 {
 	GLESShaderProgram::GLESShaderProgram()
-		:ShaderProgram(NULL)
 	{
 		m_program = 0;
 	}

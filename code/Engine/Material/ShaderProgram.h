@@ -8,36 +8,36 @@ namespace ma
 
 	class Uniform;
 
-	class ShaderProgram : public Resource
+	class ShaderProgram : public Serializable
 	{
 		DECL_OBJECT(ShaderProgram)
 
 	public:
-		ShaderProgram(const char* pszPath = NULL);
+		ShaderProgram();
 
 		virtual ~ShaderProgram();
 
+		static void			RegisterAttribute();
+
 		virtual void		CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize) = 0;
-
-		virtual void		ParseUniform() = 0;
-
-		void				BindUniform();
-		
-		void				Reload();
-
 		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines = NULL);
 
+		void				Reload();	
+
+		virtual void		ParseUniform() = 0;
+		void				BindUniform();	
 		Uniform*			GetUniform(const char* name) const;
-
 		Uniform*			GetUniform(UINT index) const;
-
 		UINT				GetUniformCount() const;
 
 		const char*			GetVSFile() const;
+		void				SetVSFile(const char* pszVSFile);
 
 		const char*			GetPSFile() const;
+		void				SetPSFile(const char* pszPSFile);
 
 		const char*			GetShaderMacro() const;
+		void				SetShaderMacro(const char* pszMacro);
 
 	protected:
 

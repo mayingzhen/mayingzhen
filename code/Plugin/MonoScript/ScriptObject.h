@@ -16,11 +16,11 @@ namespace ma
 
 		~ScriptObject();
 
-		void					Start();
+		//void					Start();
 
-		void					Stop();
+		//void					Stop();
 
-		void					Update();
+		//void					Update();
 
 		virtual	const char*		GetName();
 

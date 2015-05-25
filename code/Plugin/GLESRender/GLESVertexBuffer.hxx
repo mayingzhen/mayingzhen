@@ -15,17 +15,21 @@ namespace ma
 
 	void * GLESVertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
-		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
-		void* pLock = glMapBuffer(GL_ARRAY_BUFFER,GL_WRITE_ONLY);
-		ASSERT(glGetError() == GL_NO_ERROR); 
-		return pLock;
+		ASSERT(false);
+		return NULL;
+
+// 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
+// 		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
+// 		void* pLock = glMapBuffer(GL_ARRAY_BUFFER,GL_WRITE_ONLY);
+// 		ASSERT(glGetError() == GL_NO_ERROR); 
+// 		return pLock;
 	}
 
 	void GLESVertexBuffer::Unlock()
 	{
-		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
-		GL_ASSERT( glUnmapBuffer(GL_ARRAY_BUFFER) );
+		ASSERT(false);
+// 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
+// 		GL_ASSERT( glUnmapBuffer(GL_ARRAY_BUFFER) );
 	}
 
 	void GLESVertexBuffer::RT_StreamComplete()

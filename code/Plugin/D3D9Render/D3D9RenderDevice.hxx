@@ -1,5 +1,4 @@
 #include "D3D9RenderDevice.h"
-//#include "D3D9RendMesh.h"
 #include "D3D9Texture.h"
 
 
@@ -632,11 +631,11 @@ namespace ma
 
 		if (uniform->m_vshShder)
 		{
-			mfSetVSConst(uniform->m_location, values, count);
+			mfSetVSConst(uniform->m_location, values, uniform->m_nCount);
 		}
 		else 
 		{
-			mfSetPSConst(uniform->m_location, values, count);
+			mfSetPSConst(uniform->m_location, values, uniform->m_nCount);
 		}
 	}
 

@@ -21,11 +21,11 @@ namespace ma
 		}
 
 		// global macro
-		uint32 nNumMacros = GetRenderSystem()->GetNumMacros();
+		uint32 nNumMacros = GetRenderSystem()->GetNumShaderGlobaMacro();
 		for (uint32 i = 0;i< nNumMacros;++i)
 		{
 			const char* pszValue = NULL;
-			const char* pszMacro = GetRenderSystem()->GetMacroByIndex(i, pszValue);
+			const char* pszMacro = GetRenderSystem()->GetShaderGlobaMacroByIndex(i, pszValue);
 			out += string("#define ") + string(pszMacro) + " " + pszValue + "\n";
 		}
 	}

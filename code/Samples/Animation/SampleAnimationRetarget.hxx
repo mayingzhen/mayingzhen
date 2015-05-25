@@ -6,94 +6,93 @@ namespace ma
 	{
 	}
 
-	void CreateMaterialData_(const char* pszTexture,const char* pMatPath)
-	{
-		MaterialData matData;
-
-		SubMaterialData& subMatData = matData.AddSubMatData();
-		subMatData.SetShaderName("default");
-		subMatData.SetShderMacro("DIFFUSE;SKIN");
-
-		RefPtr<Texture> pDiff = CreateSamplerState(pszTexture);
-
-		subMatData.AddParameter("u_texture", Any( pDiff ) );
-		subMatData.AddParameter("shininess", Any( 50.0f ) );
-
-		//pDiff->SaveToXML("test.smpler");
-
-		matData.SaveToXML(pMatPath);
-	}
 
 	void SampleAnimationRetarget::Load()
 	{	
 		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
-		CreateMaterialData_("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat");
-		CreateMaterialData_("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat");
-		CreateMaterialData_("gigi/gigi/body_h.tga","gigi/gigi/body_h.mat");
-
-		CreateMaterialData_("magician/body.tga","magician/Body.mat");
-
-		{
-			AnimationSet animSetData;
-			animSetData.AddAnimClip("gigi/100_stand/bip01.ska","100_stand");
-			animSetData.AddAnimClip("gigi/210_run/bip01.ska","210_run");
-			animSetData.AddAnimClip("gigi/281_run_jump_start/bip01.ska","281_run_jump_start");
-			animSetData.AddAnimClip("gigi/282_jump_twostage/bip01.ska","282_jump_twostage");
-			animSetData.AddAnimClip("gigi/283_run_jumping/bip01.ska","283_run_jumping");
-			animSetData.AddAnimClip("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop");
-			animSetData.SaveToXML("gigi/gigi/body.aniset");
-		}
-	
-		{
-			AnimationSet animSetData;
- 			animSetData.AddAnimClip("magician/100/bip01.ska","100");
- 			animSetData.AddAnimClip("magician/120/bip01.ska","120");
- 			animSetData.AddAnimClip("magician/602/bip01.ska","602");
- 			animSetData.SaveToXML("magician/body.aniset");
-		}
-
 
 		// character A MeshData & skeleton & Animation
+		if (1)
 		{
+			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat","SKIN");
+			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat","SKIN");
+			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mat","SKIN");
+
+			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100_stand").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
+			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
+
 			// MeshData B (b f h)
-			SceneNode* pChargigi = m_pScene->CreateNode("gigi");
-			MeshComponent* pMesCompb = pChargigi->CreateComponent<MeshComponent>();
+			RefPtr<SceneNode> pChargigi = CreateSceneNode();
+			SkinMeshComponent* pMesCompb = pChargigi->CreateComponent<SkinMeshComponent>();
 			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
 
-			MeshComponent* pMesComph = pChargigi->CreateComponent<MeshComponent>();
+			SkinMeshComponent* pMesComph = pChargigi->CreateComponent<SkinMeshComponent>();
 			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mat");
 
-			MeshComponent* pMesCompf = pChargigi->CreateComponent<MeshComponent>();
+			SkinMeshComponent* pMesCompf = pChargigi->CreateComponent<SkinMeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
 			
 			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
- 			m_pAnimtionObjectA->PlayAnimation((UINT)1);	
-
 			pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
-			pChargigi->Right(-50.0f);
+			pChargigi->SaveToXML("gigi/gigi/gigi.xml");
 		}
 
 		// character B MeshData & skeleton & Animation
+		if (1)
 		{
-			SceneNode* pCharMagic = m_pScene->CreateNode("magic");
+			CreateDefaultMaterial("magician/body.tga","magician/Body.mat","SKIN");
 
-			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","120").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","602").get() );
+			pAnimSet->SaveToXML("magician/body.aniset");
+
+			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
+
+			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
-			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
+			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
+			m_pAnimtionObjectB->Load("magician/body.aniset","magician/Body.ske");
 
-			m_pAnimtionObjectB->PlayAnimation((UINT)0);
-			
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
+
+			pCharMagic->SaveToXML("magician/magician.xml");
+		}
+		
+		if (1)
+		{
+			SceneNode* pChargigi = m_pScene->CreateNode("gigi/gigi/gigi.xml");
+			
+			pChargigi->Right(-50.0f);
+
+			m_pAnimtionObjectA = pChargigi->GetTypeComponent<AnimationComponent>();
+			m_pAnimtionObjectA->PlayAnimation((UINT)1);
+		}
+
+		if (1)
+		{
+			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 
 			pCharMagic->Right(50.0f);
 
+			m_pAnimtionObjectB = pCharMagic->GetTypeComponent<AnimationComponent>();
+			m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
+			m_pAnimtionObjectB->PlayAnimation((UINT)1);
 		}
+
 	}
 
 	void SampleAnimationRetarget::UnLoad()

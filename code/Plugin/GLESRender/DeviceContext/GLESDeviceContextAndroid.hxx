@@ -12,9 +12,9 @@ namespace ma
 
 	static const char* __glExtensions;
 
-	bool g_bHardwareETCSupported = false;
-	bool g_bHardwareATCSupported = false;
-	bool g_bHardwareDDSSupported = false;
+// 	bool g_bHardwareETCSupported = false;
+// 	bool g_bHardwareATCSupported = false;
+// 	bool g_bHardwareDDSSupported = false;
 
 	void print(const char* format, ...)
 	{
@@ -192,29 +192,29 @@ namespace ma
 		eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
 
 		// Initialize OpenGL ES extensions.
-		__glExtensions = (const char*)glGetString(GL_EXTENSIONS);
-		g_bHardwareETCSupported = (strstr(__glExtensions, "GL_OES_compressed_ETC1_RGB8_texture") != NULL);
-		g_bHardwareATCSupported = (strstr(__glExtensions, "GL_AMD_compressed_ATC_texture") != NULL);
-		g_bHardwareDDSSupported = (strstr(__glExtensions, "GL_NV_texture_compression_s3tc") != NULL);
+//		__glExtensions = (const char*)glGetString(GL_EXTENSIONS);
+// 		g_bHardwareETCSupported = (strstr(__glExtensions, "GL_OES_compressed_ETC1_RGB8_texture") != NULL);
+// 		g_bHardwareATCSupported = (strstr(__glExtensions, "GL_AMD_compressed_ATC_texture") != NULL);
+// 		g_bHardwareDDSSupported = (strstr(__glExtensions, "GL_NV_texture_compression_s3tc") != NULL);
 
-		if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
-		{
-			// Disable VAO extension for now.
-			//glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-			//glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArrays");
-			//glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-			//glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
-		}
+// 		if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
+// 		{
+// 			// Disable VAO extension for now.
+// 			//glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
+// 			//glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArrays");
+// 			//glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
+// 			//glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
+// 		}
 
-		char szLog[151] = "";
-		int nCurLen = 0;
-		int nStrLen = strlen(__glExtensions);
-		while(nCurLen < nStrLen)
-		{	
-			strncpy(szLog, __glExtensions + nCurLen, 150);
-			Log("OpenGLES Extension: %s", szLog);
-			nCurLen += 150;
-		}
+// 		char szLog[151] = "";
+// 		int nCurLen = 0;
+// 		int nStrLen = strlen(__glExtensions);
+// 		while(nCurLen < nStrLen)
+// 		{	
+// 			strncpy(szLog, __glExtensions + nCurLen, 150);
+// 			Log("OpenGLES Extension: %s", szLog);
+// 			nCurLen += 150;
+// 		}
 
 		return ;
 	}

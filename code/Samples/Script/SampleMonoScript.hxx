@@ -23,13 +23,15 @@ namespace ma
 
 		pScriptSystem->ParseScriptAll(strDllPath.c_str());
 		
-		SceneNodePtr pGameObj =  m_pScene->CreateNode("Test");
+		SceneNodePtr pGameObj = CreateSceneNode();
 
 		MeshComponentPtr pMeshComp = pGameObj->CreateComponent<MeshComponent>();
 		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
 
 		m_pTestScript = pGameObj->CreateComponent<ScriptObject>();
 		m_pTestScript->SetName("SharpTest");
+
+		m_pScene->GetRootNode()->AddChild(pGameObj.get());
 	}
 
 	void SampleMonoScript::UnLoad()

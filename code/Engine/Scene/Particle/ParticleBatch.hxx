@@ -16,6 +16,10 @@ namespace ma
 		m_bStarted = false;
 		m_fTimeRunning = 0;
 		m_bUpdate = false;
+		
+		RefPtr<Technique> pTech = CreateTechnique("default","Particle","Particle","");
+		pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
+		m_pMaterial->SetShadingTechnqiue( pTech.get() );
 	}
 
 	ParticleBatch::~ParticleBatch()
@@ -99,7 +103,7 @@ namespace ma
 
 	void ParticleBatch::LoadSpriteInfo(Properties* pSpriteProp,SpriteTextureInfo& info)
 	{
-		char path[256];
+		char path[256] = {0};
 		if (!pSpriteProp->getPath("path", path))
 		{
 			LogError("Failed to load particle emitter: required image file path ('path') is missing.");
@@ -117,7 +121,7 @@ namespace ma
 		info.m_nSpriteFrameRandomOffset = pSpriteProp->getInt("frameRandomOffset");
 		info.m_fSpriteFrameDuration = pSpriteProp->getFloat("frameDuration");
 
-		RefPtr<Texture> pTexture = LoadResourceSync<Texture>(info.m_sTexturePath.c_str());
+		RefPtr<Texture> pTexture = CreateSamplerState( info.m_sTexturePath.c_str() );
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
@@ -126,7 +130,8 @@ namespace ma
 
 		setSpriteFrameCoords( pTexture->GetWidth(), pTexture->GetHeight());
 
-		GetStateBlock().m_eBlendMode = info.m_eTextureBlending;
+		m_pMaterial->GetShadingTechnqiue()->GetRenderState().m_eBlendMode = info.m_eTextureBlending;
+		//GetStateBlock().m_eBlendMode = info.m_eTextureBlending;
 	}
 
 

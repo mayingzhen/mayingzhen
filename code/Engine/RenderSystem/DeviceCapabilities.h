@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DeviceCapabilitie_H__
+#define __DeviceCapabilitie_H__
 
 namespace ma
 {
@@ -145,3 +146,5 @@ private:
  DeviceCapabilitie* GetDeviceCapabilities();
 
 }
+
+#endif

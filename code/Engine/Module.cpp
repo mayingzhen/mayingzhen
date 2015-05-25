@@ -53,7 +53,6 @@
 #include "Engine/ImageData/ETC1Codec.hxx"
 #include "Engine/ImageData/PVRTCCodec.hxx"
 #include "Engine/ImageData/PVRTCDecompress.hxx"
-//#include "Engine/ImageData/ImageData.hxx"
 
 
 #include "Engine/Renderable/Renderable.hxx"
@@ -76,14 +75,12 @@
 
 
 #include "Engine/Material/RenderState.hxx"
-#include "Engine/Material/MaterialData.hxx"
 #include "Engine/Material/Material.hxx"
 #include "Engine/Material/MaterialParameter.hxx"
 #include "Engine/Material/ShaderProgram.hxx"
 #include "Engine/Material/Texture.hxx"
 #include "Engine/Material/Technqiue.hxx"
 #include "Engine/Material/ParameterManager.hxx"
-//#include "Engine/Material/SamplerState.hxx"
 #include "Engine/Material/Uniform.hxx"
 
 #include "Engine/RenderScheme/DeferredLightPass.hxx"

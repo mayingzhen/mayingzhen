@@ -19,10 +19,6 @@ namespace ma
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 
-		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount);
-		const DualQuaternion*			GetSkinDQ() const;
-		uint32							GetSkinDQCount() const;
-
 		SubMaterial*					GetMaterial() const {return m_pMaterial.get();}
 
 	public:
@@ -35,11 +31,27 @@ namespace ma
 	
 	private:
 		Matrix4							m_matWorld[2];
-		typedef std::vector<DualQuaternion>	VEC_DQ;
-		VEC_DQ							m_arrSkinDQ[2];
 	};
 
 	DeclareRefPtr(Renderable);
+
+	class SkinRenderable : public Renderable
+	{
+	public:
+		virtual void					Render(Technique* pTech);
+
+		void							SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount);
+
+		const DualQuaternion*			GetSkinDQ() const;
+		const float*					GetSkinScale() const;
+		uint32							GetSkinDQCount() const;
+
+	private:
+		typedef std::vector<DualQuaternion>	VEC_DQ;
+		typedef std::vector<float> VEC_SCALE;
+		VEC_DQ							m_arrSkinDQ[2];
+		VEC_SCALE						m_arrScale[2];
+	};
 
 }
 

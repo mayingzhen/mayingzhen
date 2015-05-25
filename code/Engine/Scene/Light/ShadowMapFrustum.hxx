@@ -45,7 +45,7 @@ namespace ma
 		Matrix4 texAdjust(Matrix4::IDENTITY);
 
 		float width = (float)pShadowMap->GetWidth();
-		float height = (float)pShadowMap->GetWidth();
+		float height = (float)pShadowMap->GetHeight();
 
 		Vector2 offset( (float)veiewPort.left() / width, (float)veiewPort.top() / height);
 

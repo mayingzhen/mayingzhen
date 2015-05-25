@@ -18,47 +18,32 @@ namespace ma
 
 		if (1)
 		{
-			MaterialData matData;
+			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mat");
 
-			SubMaterialData& subMatData = matData.AddSubMatData();
-			subMatData.SetShaderName("default");
-			//subMatData.SetShderMacro("DIFFUSE;DIFFUSECOLOR");
-			subMatData.SetShderMacro("DIFFUSE");
+			RefPtr<SceneNode> pSceneNode = CreateSceneNode();
 
-			RefPtr<Texture> pDiff = CreateSamplerState("FBX/Box.tga");
-
-			subMatData.AddParameter("u_texture", Any(pDiff) );
-			//subMatData.AddParameter("u_cDiffuseColor", Any( Vector4(1,0,0,0) ) );
-			subMatData.AddParameter("shininess", Any( 25.0f ) );
-
-
-			matData.SaveToXML("Fbx/Box.mat");
-
-			RefPtr<Scene> pScene = CreateScene();
-
-			SceneNodePtr pGameObj = pScene->CreateNode("Test");
-			MeshComponentPtr pMehBox = pGameObj->CreateComponent<MeshComponent>();
+			RefPtr<SceneNode> pTestSceneNode = CreateSceneNode();
+			RefPtr<MeshComponent> pMehBox = pTestSceneNode->CreateComponent<MeshComponent>();
 			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
-			
-			//pMehBox->GetSubMaterial(0)->GetShadingTechnqiue()->SetParameter("u_cDiffuseColor",Any( Vector4(0,1,0,0) ));
-			
+		
 			int nClone = 5;
 			for (int i = 0; i < nClone; ++i)
 			{
-				std::string pName = pGameObj->GetName();
+				std::string pName = pTestSceneNode->GetName();
 				pName += std::string("_clone"); // + StringConverter::toString(i);
-				SceneNodePtr pClone = pGameObj->Clone(pName.c_str());
+				SceneNodePtr pClone = pTestSceneNode->Clone(pName.c_str());
 				pClone->Translate(Vector3(2 * (i + 1),0,0));
+				pSceneNode->AddChild(pClone.get());
 			}
 
-			pScene->SaveToXML(strScenePath.c_str());
+			pSceneNode->SaveToXML(strScenePath.c_str());
 		}
 		
-		m_pScene->LoadFromXML(strScenePath.c_str());
+		RefPtr<SceneNode> pSceneNode = CreateSceneNode(strScenePath.c_str());
+		m_pScene->GetRootNode()->AddChild(pSceneNode.get());
 
 		//m_pScene->GetSunShaow()->SetEnabled(true);
 		m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
-
 	}
 
 	void SampleSceneSerialize::UnLoad()
@@ -73,19 +58,11 @@ namespace ma
 		if (arg.key == OIS::KC_X)
 		{
 			{
-// 				XMLOutputSerializer arOut;
-// 				m_pScene->Serialize(arOut);
-// 				arOut.Save(strScenePath.c_str());
-				m_pScene->SaveToFile(strScenePath.c_str());
+				m_pScene->GetRootNode()->SaveToFile(strScenePath.c_str());
 			}
 
 			{
-// 				XMLInputSerializer arIn;
-// 				bool bOpenOK = arIn.Open(strScenePath.c_str());
-// 				ASSERT(bOpenOK);
-// 				m_pScene->Serialize(arIn);
-// 				arIn.Close();
-				m_pScene->LoadFromFile(strScenePath.c_str());
+				m_pScene->GetRootNode()->LoadFromFile(strScenePath.c_str());
 			}
 		}
 

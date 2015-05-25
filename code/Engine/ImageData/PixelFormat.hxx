@@ -4,13 +4,6 @@
 namespace ma
 {
 
-CPixelFormat::CPixelFormat(void)
-{
-}
-
-CPixelFormat::~CPixelFormat(void)
-{
-}
     //-----------------------------------------------------------------------
     /** Pixel format database */
     PixelFormatDescription _pixelFormats[PF_COUNT] = {

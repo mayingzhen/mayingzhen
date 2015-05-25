@@ -20,6 +20,9 @@ namespace ma
 	{
 		m_pParticleBatch = new ParticleBatch();
 		m_pParticleBatch->Load(pParticleEmitPath);
+
+		//OnTransformChange();
+		MarkDirty();
 	}
 
 	void ParticleEmitter::Show(Camera* pCamera) 
@@ -35,6 +38,10 @@ namespace ma
 	void ParticleEmitter::Start()
 	{
 		m_pParticleBatch->Start();
+
+		m_AABB.merge(Vector3::ZERO);
+
+		//OnTransformChange();
 	}
 
 	void ParticleEmitter::Stop()

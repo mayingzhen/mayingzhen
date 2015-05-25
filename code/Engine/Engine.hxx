@@ -54,6 +54,9 @@ namespace ma
 		LightSystem* pLightSystem = new LightSystem();
 		SetLightSystem(pLightSystem);
 
+		WorkQueue* pWorkQueue = new WorkQueue();
+		SetWorkQueue(pWorkQueue);
+
 		EngineRTTIInit();
 	}
 
@@ -65,6 +68,10 @@ namespace ma
 		Time* pTime = GetTimer();
 		SAFE_DELETE(pTime);
 		SetTimer(NULL);
+
+		WorkQueue* pWorkQueue = GetWorkQueue();
+		SAFE_DELETE(pWorkQueue);
+		SetWorkQueue(NULL);
 
 		ArchiveManager* pArchiveManager = GetArchiveMananger();
 		SAFE_DELETE(pArchiveManager);
@@ -123,6 +130,9 @@ namespace ma
 
 		if (GetParticleSystem())
 			GetParticleSystem()->Init(bParticleThread);
+
+		//if (GetWorkQueue())
+		//	GetWorkQueue()->CreateThreads(3);
 	}
 	
 
