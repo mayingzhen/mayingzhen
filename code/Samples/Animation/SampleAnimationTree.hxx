@@ -23,7 +23,7 @@ namespace ma
 		RefPtr<SceneNode> pGameObj = CreateSceneNode();
 		m_pScene->GetRootNode()->AddChild(pGameObj.get());
 
-		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
+		SkinMeshComponent* pMeshComp = pGameObj->CreateComponent<SkinMeshComponent>();
 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
 
 		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
