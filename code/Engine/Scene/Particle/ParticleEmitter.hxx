@@ -21,7 +21,6 @@ namespace ma
 		m_pParticleBatch = new ParticleBatch();
 		m_pParticleBatch->Load(pParticleEmitPath);
 
-		//OnTransformChange();
 		MarkDirty();
 	}
 
@@ -40,8 +39,6 @@ namespace ma
 		m_pParticleBatch->Start();
 
 		m_AABB.merge(Vector3::ZERO);
-
-		//OnTransformChange();
 	}
 
 	void ParticleEmitter::Stop()

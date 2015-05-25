@@ -130,8 +130,8 @@ namespace ma
 		if (GetParticleSystem())
 			GetParticleSystem()->Init(bParticleThread);
 
-		if (GetWorkQueue())
-			GetWorkQueue()->CreateThreads(3);
+		//if (GetWorkQueue())
+		//	GetWorkQueue()->CreateThreads(3);
 	}
 	
 

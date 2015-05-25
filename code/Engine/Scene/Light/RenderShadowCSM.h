@@ -121,9 +121,6 @@ namespace ma
 		bool				m_bEnable;
 	};
 
-	//extern RenderShadowCSM* g_pRenderShadowCSM;
-	//RenderShadowCSM* GetRenderShadowCSM();
-
 }
 
 #endif

@@ -256,6 +256,12 @@ namespace ma
 			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor,BLENDMODE_OVERWRITE);
 		}
 
+		m_pose->InitLocalSpace(evalContext.m_arrTSFLS,pRefPose);
+
+		// Do IK
+
+		m_pose->SyncObjectSpace();
+
 		UpdateSkinMatrix();	
 	}
 

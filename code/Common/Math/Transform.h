@@ -59,6 +59,10 @@ namespace ma
 		pMat->decomposition(pRT->m_vPos,pRT->m_vScale,pRT->m_qRot);
 	}
 
+	inline void TransformLerp(Transform& out,const Transform& pA,float f,const Transform& pB)
+	{
+
+	}
 
 }
 

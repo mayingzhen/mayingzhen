@@ -45,7 +45,7 @@ namespace ma
 		const float* pScale = GetSkinScale();
 
 		GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumBones * 2 );
-		GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil( nNumBones / 4.f ) );
+		GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, nNumBones / 4 );
 
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
