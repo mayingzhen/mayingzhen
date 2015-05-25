@@ -18,20 +18,25 @@ namespace ma
 
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());
-		
+
+		SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
+
 		// Render Mesh
 		{
-			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
- 			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
- 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
- 			pMeshComp->SetShadowCaster(true);
- 			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
- 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
- 			pAnimObj->PlayAnimation((UINT)0);
-			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
- 			//pCharMagic->SetScale(Vector3(0.1f));
- 			pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
-			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
+// 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
+//  			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
+//  			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+//  			pMeshComp->SetShadowCaster(true);
+//  			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
+//  			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
+//  			pAnimObj->PlayAnimation((UINT)0);
+// 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
+//  			//pCharMagic->SetScale(Vector3(0.1f));
+//  			pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
+// 			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
+
+//			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
+
 
 // 			SceneNode* pPlatform = m_pScene->CreateNode("platform");			
 // 			MeshComponent* pPlatformMesh = pPlatform->CreateComponent<MeshComponent>();

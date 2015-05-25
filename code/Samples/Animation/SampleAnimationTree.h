@@ -3,9 +3,7 @@
 
 namespace ma
 {
-	class IAnimationObject;
 	class MeshComponent;
-
 
 	class SampleAnimationTree : public Sample
 	{

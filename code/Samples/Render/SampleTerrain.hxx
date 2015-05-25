@@ -33,11 +33,11 @@ namespace ma
 				subMatData->SetShderMacro("LAYER 2");
 				
 				subMatData->AddParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
-				subMatData->AddParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") )  );
-				subMatData->AddParameter("tBlendingMap",Any( CreateSamplerState("scene/terrain/test_b0.dds") ) );
-				subMatData->AddParameter("uDetailScale",Any(Vector2(0.01f, 0.01f)));
-				subMatData->AddParameter("uDetailOffSet",Any(Vector4::ZERO));
-				subMatData->AddParameter("u_cSpecColor", Any(Vector4::ZERO) );
+				subMatData->AddParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
+				subMatData->AddParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds") ) );
+				subMatData->AddParameter("uDetailScale", Any( Vector2(0.01f, 0.01f) ) );
+				subMatData->AddParameter("uDetailOffSet", Any( Vector4::ZERO) );
+				subMatData->AddParameter("u_cSpecColor", Any( Vector4::ZERO) );
 			}
 
 			{
@@ -48,8 +48,8 @@ namespace ma
 				subMatData->SetShderMacro("LAYER 1");
 
 				subMatData->AddParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
-				subMatData->AddParameter("uDetailScale",Any(Vector2(0.01f, 0.01f)));
-				subMatData->AddParameter("uDetailOffSet",Any(Vector4::ZERO));
+				subMatData->AddParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
+				subMatData->AddParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMatData->AddParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 			testMaterial->SaveToXML("scene/terrain/test.mat");

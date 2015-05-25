@@ -14,7 +14,7 @@ namespace ma
 		}
 	}
 
-	void	BoneSet::Serialize(Serializer& sl, const char* pszLable)
+	void BoneSet::Serialize(Serializer& sl, const char* pszLable)
 	{
 
 	}

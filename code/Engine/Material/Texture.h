@@ -12,7 +12,7 @@ namespace ma
 		DECL_OBJECT(Texture)
 
 	public:
-		Texture(); // For Sampler State
+		Texture(); 
 
 		Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage); // For Render Texture
 		

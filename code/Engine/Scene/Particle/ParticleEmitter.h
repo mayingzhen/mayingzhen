@@ -19,17 +19,14 @@ namespace ma
 
 		~ParticleEmitter();
 
-		//virtual UINT		GetRenderableNumber() {return 1;}
-
-		//virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pParticleBatch.get();}
+		virtual UINT		GetRenderableNumber() {return 1;}
+		virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pParticleBatch.get();}
 
 		void				Load(const char* pParticleEmitPath);
 	
 		void				Start();
 
 		void				Stop();
-
-		//virtual Material*	GetMaterial();
 
 		virtual	void		Show(Camera* pCamera);
 

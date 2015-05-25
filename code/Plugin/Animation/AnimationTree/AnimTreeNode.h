@@ -4,7 +4,14 @@
 
 namespace ma
 {
-	struct AnimEvalContext;
+	struct AnimEvalContext
+	{
+		std::vector<Transform> m_arrTSFLS;
+
+		const SkeletonPose* m_refNodePos;
+
+		SkeletonPose* m_pNodePos;
+	};
 
 
 	enum EBlendMode

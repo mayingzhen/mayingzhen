@@ -9,7 +9,6 @@ namespace ma
 	
 	SubMaterial::SubMaterial()
 	{
-		//m_pShadingTech = CreateTechnique();
 	}
 
 	SubMaterial::~SubMaterial()
