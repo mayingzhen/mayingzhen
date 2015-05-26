@@ -19,20 +19,25 @@ float4  g_vCameraNearFar;
 float g_fTime;
 
 //http://aras-p.info/texts/CompactNormalStorage.html
-float2 EncodeNormal(float3 normal)
+float2 EncodeNormal(float3 n)
 {
-	return normalize(normal.xy) * sqrt(normal.z * 0.5 + 0.5);
+	float2 enc = normalize(n.xy) * (sqrt(-n.z*0.5+0.5));
+	enc = enc*0.5+0.5;
+	return enc;
+
 	//return( normal.x / (1.0f - normal.z), normal.y / (1.0f - normal.z) );
 }
 
-float3 DecodeNormal(float2 n)
-{
+float3 DecodeNormal(float2 enc)
+{	
 // 	float fTemp = n.x * n.x + n.y * n.y;
 // 	return (2 * n.x / (1 + fTemp), 2 * n.y / (1 + fTemp), (-1 + fTemp) / (1 + fTemp));
-	float3 normal;
-	normal.z = dot(n, n) * 2 - 1;
-	normal.xy = normalize(n) * sqrt(1 - normal.z * normal.z);
-	return normal;
+
+	float4 nn = float4(enc,0,0)*float4(2,2,0,0) + float4(-1,-1,1,-1);
+	float l = dot(nn.xyz,-nn.xyw);
+	nn.z = l;
+	nn.xy *= sqrt(l);
+	return nn.xyz * 2 + float3(0,0,-1);
 }
 
 // Encoding a [0, 1) float into a rgba8. From http://aras-p.info/blog/2009/07/30/encoding-floats-to-rgba-the-final/

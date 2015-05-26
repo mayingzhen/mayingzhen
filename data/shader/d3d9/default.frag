@@ -1,6 +1,3 @@
-// #define SKIN
-// #define DEFERREDSHADING
-// #define DIFFUSE
 
 #include "common.h"
 
@@ -21,7 +18,7 @@ uniform sampler2D u_texture;
 uniform float4 u_cDiffuseColor; 
 #endif
 
-float shininess = 16.0f;
+uniform float4 u_cSpecColor;
 
 // Varyings
 struct PS_IN
@@ -30,9 +27,16 @@ struct PS_IN
    float2   v_texCoord : TEXCOORD0;
 #endif
 
+	float4 WorldPos : TEXCOORD1;
+
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD1;	
+   float4 v_normalDepth  :TEXCOORD2;	
+#else  
+#if USING_SHADOW != 0
+	float2 RandDirTC : TEXCOORD2;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD3;
 #endif
+#endif 
    
 #ifdef COLOR      
    float4   v_color : COLOR0;
@@ -82,7 +86,7 @@ out float4 outColor : COLOR0
 	float4 cDiffuse = GetDiffuse(In); 
 
 #ifdef DEFERREDSHADING 
-	pout = GbufferPSout(cDiffuse,shininess,In.v_normalDepth);
+	pout = GbufferPSout(cDiffuse,u_cSpecColor,In.v_normalDepth);
 #else
 	outColor = ForwardShading(cDiffuse,In);  
 #endif	

@@ -13,7 +13,7 @@ struct VS_OUT
 {
    float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
-   float3 oViewDir : TEXCOORD1;
+   float4 oViewDir : TEXCOORD1;
 };
 
 
@@ -23,10 +23,10 @@ void main( float3 pos : POSITION,
 {
 #ifdef SCEERN_LIGHT
    vOut.pos = float4(pos.xyz ,1);
-   vOut.oViewDir = mul(float4(pos.xyz ,1),g_matProjInv).xyz;
+   vOut.oViewDir = mul(float4(pos.xyz ,1),g_matProjInv);
 #else
    vOut.pos =  mul(float4(pos.xyz ,1),g_matWorldViewProj);
-   vOut.oViewDir =  mul(float4(pos.xyz ,1),g_matWorldView).xyz;
+   vOut.oViewDir =  mul(float4(pos.xyz ,1),g_matWorldView);
 #endif
    
    vOut.oTc = vOut.pos.xy / vOut.pos.w * 0.5f;

@@ -26,7 +26,7 @@ struct VS_OUT
 {
    float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
-   float3 oViewDir : TEXCOORD1;
+   float4 oViewDir : TEXCOORD1;
 };
 
 struct PS_OUT
@@ -54,22 +54,24 @@ float GetLinearDepth(float2 tc)
 
 
 
-void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float shiness)
+void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float specPower,out float specIntensity)
 {
    float depth = GetLinearDepth(In.oTc); 
    
-   float3 view_dir = normalize(In.oViewDir);
+   float3 view_dir = normalize(In.oViewDir.xyz);
    pos_es = view_dir * (-depth / view_dir.z); 
    
    float4 SrcNormal = tex2D( u_textureSceneNormal, In.oTc);
    
 #ifdef ENCODENORMAL 
    normal = DecodeNormal(SrcNormal.xy);
+   specIntensity = SrcNormal.z;
 #else   
    normal = SrcNormal.xyz;
+   specIntensity = 0.0f;
 #endif 
  
-   shiness = SrcNormal.w  * 255.0f;
+   specPower = SrcNormal.w  * 255.0f;
 }
 
 void GetDiffuseSpecular(float3 lightVec, float3 pos_es, float3 normal,float shiness,out float3 Diffuse,out float3 Specular)
@@ -105,8 +107,9 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
    
    float3 pos_es;
    float3 normal;
-   float shiness;
-   GetPosNormalShiness(In,pos_es,normal,shiness);
+   float specPower;
+   float specIntensity;
+   GetPosNormalShiness(In,pos_es,normal,specPower,specIntensity);
 
 #ifdef POINT_LIGHT   
    float3 vlightVec = light_pos_es_radius.xyz - pos_es.xyz;
@@ -118,11 +121,11 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 
 	float3 	Diffuse = 0;
 	float3 	Specular = 0;
-   GetDiffuseSpecular(vlightVec,pos_es,normal,shiness,Diffuse,Specular);
-   
+   GetDiffuseSpecular(vlightVec,pos_es,normal,specPower,Diffuse,Specular);
+	
    float4 mdiffuse = tex2D( u_textureSceneDiffuse, In.oTc);  		 
 
-   pOut.flagColor.xyz = Diffuse * mdiffuse + Specular;
+   pOut.flagColor.xyz = Diffuse * mdiffuse.xyz + Specular * specIntensity;
    pOut.flagColor.w = 1.0;
 }
 #endif

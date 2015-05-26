@@ -37,11 +37,12 @@ struct VS_OUTPUT
 	float4 WorldPos : TEXCOORD3;
 #ifdef DEFERREDSHADING 
    float4 v_normalDepth  :TEXCOORD4;	
-#endif  
+#else  
 #if USING_SHADOW != 0
-	float2 RandDirTC : TEXCOORD5;
-	float4 ShadowPos[g_iNumSplits] : TEXCOORD6;
-#endif	
+	float2 RandDirTC : TEXCOORD4;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
+#endif
+#endif
 };
 
 
@@ -72,9 +73,7 @@ VS_OUTPUT main(const VS_INPUT v)
 
     Out.UV = v.UV;
     
-#if USING_SHADOW != 0
-	GetShadowPos(Out.WorldPos.xyz,Out.WorldPos.w,Out.ShadowPos,Out.RandDirTC);
-#endif
+
 
 #if LAYER==1
 	Out.DetailUV.xy = GetDetaiUV( v.UV * uCellAmount, uDetailScale.x, uDetailRotate.xy, uDetailOffSet.xy ); 
@@ -83,13 +82,19 @@ VS_OUTPUT main(const VS_INPUT v)
     Out.DetailUV.zw = GetDetaiUV( v.UV * uCellAmount, uDetailScale.y, uDetailRotate.zw, uDetailOffSet.zw );
 #endif
 
+#ifdef BOREDER
 	Out.Color = v.Color;
 	float fWeight = saturate(1 - abs(v.Color.a * 255.0 - uCurMaterialID));	
 	Out.Color.a = fWeight;
-	
-#ifdef DEFERREDSHADING 
+#endif
+
+#ifdef DEFERREDSHADING  
 	GBufferVSOut(v.Normal.xyz,Out.Pos.w,Out.v_normalDepth);
-#endif   
+#else
+#if USING_SHADOW != 0
+	GetShadowPos(Out.WorldPos.xyz,Out.WorldPos.w,Out.ShadowPos,Out.RandDirTC);
+#endif
+#endif
 
     return Out;
 }

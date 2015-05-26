@@ -4,6 +4,10 @@
 
 #include "common.h"
 
+#if USING_SHADOW != 0
+#include"shadowMap.h"
+#endif
+
 #ifdef SKIN
 #include "skin.h"
 #endif 
@@ -44,9 +48,16 @@ struct VS_OUT
    float2 v_texCoord : TEXCOORD0;
 #endif  
 
+	float4 WorldPos : TEXCOORD1;
+
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD1;	
-#endif   
+   float4 v_normalDepth  :TEXCOORD2;	
+#else  
+#if USING_SHADOW != 0
+	float2 RandDirTC : TEXCOORD2;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD3;
+#endif
+#endif  
    
 #ifdef COLOR      
    float4 v_color : COLOR0;
@@ -66,8 +77,12 @@ VS_OUT main(VS_IN In)
 	SkinPosNormal(In.a_position,In.a_normal,In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
 #endif
    
-    Out.v_position = mul(float4(iPos,1.0),g_matWorldViewProj); 
-    
+   Out.WorldPos.xyz = mul(float4(iPos,1.0),g_matWorld).xyz;
+   
+    Out.v_position = mul(float4(Out.WorldPos.xyz,1.0),g_matViewProj); 
+	
+	Out.WorldPos.w = Out.v_position.w;
+	 
 #ifdef DIFFUSE      
     Out.v_texCoord = In.a_texCoord0;
 #endif
@@ -78,6 +93,10 @@ VS_OUT main(VS_IN In)
 
 #ifdef DEFERREDSHADING 
 	GBufferVSOut(iNormal,Out.v_position.w,Out.v_normalDepth);
+#else
+#if USING_SHADOW != 0
+	GetShadowPos(Out.WorldPos.xyz,Out.WorldPos.w,Out.ShadowPos,Out.RandDirTC);
+#endif
 #endif  
 
     return Out;

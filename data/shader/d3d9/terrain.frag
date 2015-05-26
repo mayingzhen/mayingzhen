@@ -11,7 +11,7 @@
 #include "gbuffer.h"
 #endif
 
-float shininess = 16.0f;
+uniform float4 u_cSpecColor;
 
 sampler tBlendingMap;
 
@@ -32,17 +32,18 @@ struct VS_OUTPUT
 	float4 WorldPos : TEXCOORD3;
 #ifdef DEFERREDSHADING 
    float4 v_normalDepth  :TEXCOORD4;	
-#endif  
+#else 
 #if USING_SHADOW != 0
-	float2 RandDirTC : TEXCOORD5;
-	float4 ShadowPos[g_iNumSplits] : TEXCOORD6;
+	float2 RandDirTC : TEXCOORD4;
+	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
+#endif
 #endif	
 };
 
 
 float4 GetDiffuse(VS_OUTPUT In)
 {
-	float4 oColor = 0;
+	float4 oColor = float4(1,1,1,1);
 	
 	float4 cBlend = tex2D(tBlendingMap, In.UV + uBlendingOffset);
 		
@@ -56,7 +57,9 @@ float4 GetDiffuse(VS_OUTPUT In)
     oColor = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 
+#ifdef BOREDER
 	oColor.a = In.Color.a;		
+#endif
 
 	return oColor;
 }
@@ -75,7 +78,7 @@ float4 ForwardShading(float4 cDiffuse,VS_OUTPUT In)
 #endif
 
 void main(VS_OUTPUT In,
-#ifdef DEFERREDSHADING 
+#if defined(DEFERREDSHADING)/* && !defined(BOREDER)*/
 out PS_OUT pout
 #else
 out float4 outColor : COLOR0 
@@ -84,8 +87,8 @@ out float4 outColor : COLOR0
 {
 	float4 cDiffuse = GetDiffuse(In);
 
-#ifdef DEFERREDSHADING 
-	pout = GbufferPSout(cDiffuse,shininess,In.v_normalDepth);
+#if defined(DEFERREDSHADING) /*&& !defined(BOREDER) */
+	pout = GbufferPSout(cDiffuse,u_cSpecColor,In.v_normalDepth);
 #else
 	outColor = ForwardShading(cDiffuse,In);
 #endif	
