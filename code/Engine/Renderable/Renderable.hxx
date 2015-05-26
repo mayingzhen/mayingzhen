@@ -48,7 +48,7 @@ namespace ma
 		if (pShader->GetUniform("boneDQ"))
 		{
 			GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumBones * 2 );
-			//GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil(nNumBones / 4) );
+			GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil(nNumBones / 4.0f) );
 		}
 		else
 		{
@@ -105,7 +105,7 @@ namespace ma
 		if (m_pSubMeshData->m_arrBonePalette.empty())
 		{
 			arrSkinDQ.resize(nCount);
-			arrScale.resize(nCount);
+			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
 			arrSkinMatrix.resize(nCount);
 
 			for (uint32 i = 0; i < nCount; ++i)
@@ -123,10 +123,11 @@ namespace ma
 		}
 		else
 		{
-			arrSkinDQ.resize( m_pSubMeshData->m_arrBonePalette.size() );
-			arrScale.resize( m_pSubMeshData->m_arrBonePalette.size() );
-			arrSkinMatrix.resize( m_pSubMeshData->m_arrBonePalette.size() );
-			for (uint32 i = 0; i < m_pSubMeshData->m_arrBonePalette.size(); ++i)
+			uint32 nBoneCount = m_pSubMeshData->m_arrBonePalette.size();
+			arrSkinDQ.resize(nBoneCount);
+			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
+			arrSkinMatrix.resize(nBoneCount);
+			for (uint32 i = 0; i < nBoneCount; ++i)
 			{
 				BoneIndex boneID = m_pSubMeshData->m_arrBonePalette[i];
 				ASSERT(boneID >=0 && boneID < nCount);

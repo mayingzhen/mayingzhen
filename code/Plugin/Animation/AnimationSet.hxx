@@ -89,7 +89,9 @@ namespace ma
 
 	RefPtr<AnimationSet> CreateAnimationSet(const char* pszFile)
 	{
-		return LoadResource<AnimationSet>(pszFile);
+		RefPtr<AnimationSet> pAnimSet = new AnimationSet();
+		pAnimSet->LoadFromXML(pszFile);
+		return pAnimSet;
 	}
 }
 

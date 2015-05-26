@@ -12,14 +12,14 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (0)
+		if (1)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");
 
 			// Material
 			{
-				CreateDefaultMaterial("FBX/TestBull_DM.png","TestBull.mat","SKIN");
+				CreateDefaultMaterial("FBX/TestBull_DM.png","FBX/TestBull.mat","SKIN");
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace ma
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 			
 		RefPtr<AnimationComponent> pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
-		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
+		pAnimationObject->SetSkeletonPath("FBX/TestBull.ske");
 		pAnimationObject->PlayAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
 
 		m_pAnimComponent = pAnimationObject.get();
@@ -43,7 +43,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSaticMesh()
 	{
-		if (0)
+		if (1)
 		{
 			LoadStaticMeshData("FBX/shpere.FBX");
 				

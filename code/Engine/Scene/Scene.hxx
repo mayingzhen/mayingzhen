@@ -18,7 +18,7 @@ namespace ma
 		m_pSunNode->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 		
 		m_viewport = GetRenderSystem()->GetViewPort();
-		SetRenderScheme(RenderScheme::Forward);
+		SetRenderScheme(RenderScheme::DeferredLighting);
 
 		m_pCullTree = new Octree();
 

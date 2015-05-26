@@ -7,6 +7,7 @@ namespace ma
 
 	AnimationComponent::AnimationComponent()
 	{
+		m_nCurAction = 0;
 		m_pCurAction = NULL;
 		m_pPreAction = NULL;
 		m_pAnimSet = NULL;
@@ -15,8 +16,6 @@ namespace ma
 		m_arrSkinMatrix = NULL;
 		
 		m_bLoadOver = false;
-	
-		m_nCurAction = -1;
 	}
 
 	AnimationComponent::~AnimationComponent()
