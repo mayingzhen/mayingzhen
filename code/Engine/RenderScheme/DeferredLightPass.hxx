@@ -79,11 +79,11 @@ namespace ma
 				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < pPointLight->GetRadius())
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;	
+					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;	
 				}
 				else
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
+					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
 

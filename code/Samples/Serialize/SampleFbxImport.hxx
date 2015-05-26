@@ -12,7 +12,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (1)
+		if (0)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");
@@ -60,12 +60,17 @@ namespace ma
 		RefPtr<SceneNode> pPlatform = CreateSceneNode();
 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
-		m_pScene->GetRootNode()->AddChild(pPlatform.get());
+		//m_pScene->GetRootNode()->AddChild(pPlatform.get());
 
 		RefPtr<SceneNode> pBox = CreateSceneNode();
 		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-		m_pScene->GetRootNode()->AddChild(pBox.get());	
+		//m_pScene->GetRootNode()->AddChild(pBox.get());	
+
+		RefPtr<SceneNode> pShpere = CreateSceneNode();
+		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
+		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mat");
+		m_pScene->GetRootNode()->AddChild(pShpere.get());
 			
 	}
 

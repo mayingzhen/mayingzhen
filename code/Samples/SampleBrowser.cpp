@@ -135,7 +135,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("ShadowMap");
+		RunSample("Lighting");
 	}
 
 	void SampleBrowser::InitResourcePath()

@@ -8,22 +8,24 @@ namespace ma
 
 	void SampleLighting::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 200, -300);
+		Vector3 vEyePos = Vector3(0, 600, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
 
 		// Render Mesh
 		{
-			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
-			
-			MeshComponent* pMeshComp = pCharMagic->CreateComponent<MeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
-			
-			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
-			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
-			pAnimObj->PlayAnimation((UINT)0);
+// 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
+// 			
+// 			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
+// 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+// 			
+// 			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
+// 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
+// 			pAnimObj->PlayAnimation((UINT)0);
+// 
+// 			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
 
-			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
+			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 			
 			//pCharMagic->Right(100);
 
@@ -39,11 +41,13 @@ namespace ma
 		// Light
 		{
  	
-// 			RefPtr<SceneNode> pLightObj1 = m_pScene->CreateNode("Light1");
-// 			pLightObj1->Translate(Vector3(200, 0, 100));
-// 			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();
-// 			m_pPointLight->SetLightColor(ColourValue::White);
-// 			m_pPointLight->SetRadius(300);
+			RefPtr<SceneNode> pLightObj1 = CreateSceneNode();
+			pLightObj1->Translate(Vector3(200, 0, 100));
+			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();
+			m_pPointLight->SetLightColor(ColourValue::White);
+			m_pPointLight->SetLightIntensity(2.0f);
+			m_pPointLight->SetRadius(300);
+			m_pScene->GetRootNode()->AddChild(pLightObj1.get());
  
 // 			RefPtr<SceneNode> pLightObj2 = m_pScene->CreateNode("Light2");
 // 			pLightObj2->LookAt(Vector3(10,10,10),Vector3(0,0,0));
@@ -67,7 +71,7 @@ namespace ma
 		if (m_pPointLight)
 		{
 			float fDegree = 30 * GetTimer()->GetFrameDeltaTime();
-			m_pPointLight->GetSceneNode()->RotateAround(Vector3::ZERO,Vector3::UNIT_Z,fDegree);
+			//m_pPointLight->GetSceneNode()->RotateAround(Vector3::ZERO,Vector3::UNIT_Z,fDegree);
 		}
 	}
 
