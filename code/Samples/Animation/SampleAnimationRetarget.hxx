@@ -13,7 +13,7 @@ namespace ma
 
 
 		// character A MeshData & skeleton & Animation
-		if (1)
+		if (0)
 		{
 			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat","SKIN");
 			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat","SKIN");
@@ -48,7 +48,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (1)
+		if (0)
 		{
 			CreateDefaultMaterial("magician/body.tga","magician/Body.mat","SKIN");
 
@@ -82,7 +82,7 @@ namespace ma
 			m_pAnimtionObjectA->PlayAnimation((UINT)1);
 		}
 
-		if (1)
+		if (0)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 

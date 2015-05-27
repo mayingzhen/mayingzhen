@@ -16,7 +16,7 @@ namespace ma
 		
 		m_bLoadOver = false;
 	
-		m_nCurAction = -1;
+		m_nCurAction = 0;
 	}
 
 	AnimationComponent::~AnimationComponent()
@@ -91,16 +91,18 @@ namespace ma
 		}
 	
 		if (m_pAnimSet)
+		{
 			m_pAnimSet->SetSkeleton(m_pSkeleton.get());
 
-		if (m_pAnimSet && !m_strCurAction.empty() )
-		{
-			AnimTreeNode* pAnimation = m_pAnimSet->GetSkelAnimByName( m_strCurAction.c_str() );
-			ChangeAnimation(pAnimation,m_fFadeTime);
-		}
-		else if (m_pAnimSet && m_nCurAction != -1)
-		{
-			AnimTreeNode* pAnimation = m_pAnimSet->GetSkelAnimByIndex(m_nCurAction);
+			AnimTreeNode* pAnimation = NULL;
+			if ( !m_strCurAction.empty() )
+			{
+				pAnimation = m_pAnimSet->GetSkelAnimByName( m_strCurAction.c_str() );
+			}
+			else if (m_nCurAction != -1)
+			{
+				pAnimation = m_pAnimSet->GetSkelAnimByIndex(m_nCurAction);
+			}
 			ChangeAnimation(pAnimation,m_fFadeTime);
 		}
 
@@ -232,7 +234,7 @@ namespace ma
 	{
 		profile_code();
 
-		if (m_pSkeleton == NULL  || m_pCurAction == NULL || m_pose == NULL)
+		if (m_pSkeleton == NULL || m_pose == NULL)
 			return;
 
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();

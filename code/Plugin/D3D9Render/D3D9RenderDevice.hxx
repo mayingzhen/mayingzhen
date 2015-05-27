@@ -622,20 +622,21 @@ namespace ma
 #endif
 	}
 
-	void D3D9RenderDevice::SetValue(Uniform* uniform, const float* values, UINT count)
+	void D3D9RenderDevice::SetValue(Uniform* uniform, const float* values, UINT nVector4fCount)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
+		//ASSERT(uniform->m_nCount >= nVector4fCount);
 
-		UINT nCount = count > uniform->m_nCount ? uniform->m_nCount : count;
+		UINT nCount = nVector4fCount > uniform->m_nCount ? uniform->m_nCount : nVector4fCount;
 
 		if (uniform->m_vshShder)
 		{
-			mfSetVSConst(uniform->m_location, values, uniform->m_nCount);
+			mfSetVSConst(uniform->m_location, values, nCount);
 		}
 		else 
 		{
-			mfSetPSConst(uniform->m_location, values, uniform->m_nCount);
+			mfSetPSConst(uniform->m_location, values, nCount);
 		}
 	}
 

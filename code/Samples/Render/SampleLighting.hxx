@@ -38,7 +38,7 @@ namespace ma
 
 		// Light
 		{
- 	
+ 	 
 // 			RefPtr<SceneNode> pLightObj1 = m_pScene->CreateNode("Light1");
 // 			pLightObj1->Translate(Vector3(200, 0, 100));
 // 			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();

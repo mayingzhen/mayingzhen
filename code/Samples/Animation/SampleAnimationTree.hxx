@@ -18,16 +18,22 @@ namespace ma
 
 	void SampleAnimationTree::Load()
 	{
+		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+
 		GetInput()->AddKeyListener(this);
 
-		RefPtr<SceneNode> pGameObj = CreateSceneNode();
-		m_pScene->GetRootNode()->AddChild(pGameObj.get());
+// 		RefPtr<SceneNode> pGameObj = CreateSceneNode();
+// 		m_pScene->GetRootNode()->AddChild(pGameObj.get());
+// 
+// 		SkinMeshComponent* pMeshComp = pGameObj->CreateComponent<SkinMeshComponent>();
+// 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+// 
+// 		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
+// 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 
-		MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+		SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 
-		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
-		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
 		
 		RefPtr<AnimLayerNode> pLayerNode = CreateLayerNode();
 		m_pClip602 = CreateClipNode("magician/602/bip01.ska","Up602","UpBody");
@@ -36,10 +42,6 @@ namespace ma
 		pLayerNode->AddLayer(m_pClip602.get());
 
 		pAnimComp->PlayAnimation(pLayerNode.get());
-
-		//pAnimComp->OnLoadOver();
-			
-		//pAnimComp->PlayAnimation("TestAnim");	
 	}
 
 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
