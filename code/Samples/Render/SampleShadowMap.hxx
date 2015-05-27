@@ -21,9 +21,9 @@ namespace ma
 
 		SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 		pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
-// 		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
-// 
-// 		pAnimComp->PlayAnimation((uint32)0);
+		
+		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
+		pMeshComp->SetShadowCaster(true);
 
 		// Render Mesh
 		{

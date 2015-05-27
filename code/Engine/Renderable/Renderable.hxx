@@ -43,9 +43,17 @@ namespace ma
 
 		const DualQuaternion* pDQ = GetSkinDQ();
 		const float* pScale = GetSkinScale();
-
-		GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumBones * 2 );
-		GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil(nNumBones / 4.0f) );
+		const Matrix3x4* pMatrix = GetSkinMatrix();
+		
+		if (pShader->GetUniform("boneDQ"))
+		{
+			GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumBones * 2 );
+			GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil(nNumBones / 4.0f) );
+		}
+		else
+		{
+			GetRenderSystem()->SetValue( pShader->GetUniform("boneMatrix"), (const Vector4*)pMatrix, 3 * nNumBones );
+		}
 
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
@@ -78,6 +86,13 @@ namespace ma
 		return arrSkinDQ.size();
 	}
 
+	const Matrix3x4* SkinRenderable::GetSkinMatrix() const
+	{
+		int index = GetRenderSystem()->CurThreadProcess();
+		const VEC_MATRIX& arrSkinMatrix = m_arrSkinMatrix[index];
+		return &arrSkinMatrix[0];
+	}
+
 	void SkinRenderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount)
 	{
 		profile_code();
@@ -85,11 +100,18 @@ namespace ma
 		int index = GetRenderSystem()->CurThreadFill();
 		VEC_DQ& arrSkinDQ = m_arrSkinDQ[index];
 		VEC_SCALE& arrScale = m_arrScale[index];
+		VEC_MATRIX& arrSkinMatrix = m_arrSkinMatrix[index];
 
 		if (m_pSubMeshData->m_arrBonePalette.empty())
 		{
 			arrSkinDQ.resize(nCount);
+<<<<<<< .mine
 			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
+
+=======
+			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
+			arrSkinMatrix.resize(nCount);
+>>>>>>> .theirs
 
 			for (uint32 i = 0; i < nCount; ++i)
 			{
@@ -101,6 +123,7 @@ namespace ma
 				matSkin.Decompose(pos, rot, scale);
 				arrSkinDQ[i] = DualQuaternion(rot, pos);
 				arrScale[i] = scale.x;
+				arrSkinMatrix[i] = matSkin;
 			}	
 		}
 		else
@@ -123,6 +146,7 @@ namespace ma
 				matSkin.Decompose(pos, rot, scale);
 				arrSkinDQ[i] = DualQuaternion(rot, pos);
 				arrScale[i] = scale.x;
+				arrSkinMatrix[i] = matSkin;
 			}
 		}
 	}

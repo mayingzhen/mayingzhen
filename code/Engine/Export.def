@@ -267,3 +267,4 @@ EXPORTS
 ?SetSkinMatrix@SkinMeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
 ?StaticGetClass@SkinMeshComponent@ma@@SAPBVRTTIClass@2@XZ
 ?CreateNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
+?StaticGetClass@PointLight@ma@@SAPBVRTTIClass@2@XZ

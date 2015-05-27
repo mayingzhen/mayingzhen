@@ -19,7 +19,7 @@ namespace ma
 
 			// Material
 			{
-				CreateDefaultMaterial("FBX/TestBull_DM.png","TestBull.mat","SKIN");
+				CreateDefaultMaterial("FBX/TestBull_DM.png","FBX/TestBull.mat","SKIN");
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace ma
 		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
 			
 		RefPtr<AnimationComponent> pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
-		pAnimationObject->Load("FBX/TestBull.aniset","FBX/TestBull.ske");
+		pAnimationObject->SetSkeletonPath("FBX/TestBull.ske");
 		pAnimationObject->PlayAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
 
 		m_pAnimComponent = pAnimationObject.get();
@@ -43,7 +43,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSaticMesh()
 	{
-		if (0)
+		if (1)
 		{
 			LoadStaticMeshData("FBX/shpere.FBX");
 				
@@ -60,12 +60,17 @@ namespace ma
 		RefPtr<SceneNode> pPlatform = CreateSceneNode();
 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
-		m_pScene->GetRootNode()->AddChild(pPlatform.get());
+		//m_pScene->GetRootNode()->AddChild(pPlatform.get());
 
 		RefPtr<SceneNode> pBox = CreateSceneNode();
 		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-		m_pScene->GetRootNode()->AddChild(pBox.get());	
+		//m_pScene->GetRootNode()->AddChild(pBox.get());	
+
+		RefPtr<SceneNode> pShpere = CreateSceneNode();
+		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
+		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mat");
+		m_pScene->GetRootNode()->AddChild(pShpere.get());
 			
 	}
 

@@ -6,7 +6,7 @@ namespace ma
 
 	void UnitSphere::Render(Technique* pTech,const Vector3& vPos,float fRadius)
 	{
-		Matrix4 matTras;
+		Matrix4 matTras = Matrix4::IDENTITY;  
 		matTras.setTrans(vPos);
 		matTras.setScale(Vector3(fRadius ,fRadius ,fRadius));
 

@@ -11,7 +11,7 @@
 #include "GLESRender/Module.h"
 #include "MonoScript/Module.h"
 #include "BulletPhysics/Module.h"
-#include "S3Serialize/Module.h"
+//#include "S3Serialize/Module.h"
 #endif
 
 #include "CameraController.hxx"
@@ -135,7 +135,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("ShadowMap");
+		RunSample("Lighting");
 	}
 
 	void SampleBrowser::InitResourcePath()

@@ -9,7 +9,7 @@ struct VS_OUT
 {
    float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
-   float3 oViewDir : TEXCOORD1;
+   float4 oViewDir : TEXCOORD1;
 };
 
 
@@ -31,7 +31,7 @@ void main( VS_OUT In,out float4 color : COLOR0 )
 {
 	float depth = GetLinearDepth(In.oTc); 
 	
-   float3 view_dir = normalize(In.oViewDir);
+   float3 view_dir = normalize(In.oViewDir.xyz);
    float3 pos_es = view_dir * (-depth / view_dir.z); 
    
    float3 worldPos = mul(float4(pos_es,1.0),g_matViewInv);  

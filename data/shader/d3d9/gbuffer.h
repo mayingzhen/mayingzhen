@@ -19,20 +19,24 @@ void GBufferVSOut(float3 normal, float depth, out float4 normalDepth)
 #endif
 }
 
-PS_OUT GbufferPSout(float4 diffuse, float shininess, float4 normalDepth/*,out PS_OUT pout*/)
+PS_OUT GbufferPSout(float4 diffuse, float4 spec, float4 normalDepth)
 {
 	PS_OUT pout;
+	
+	const float3 RGB_TO_LUM = float3(0.299f, 0.587f, 0.114f);
+	float specIntensity = dot(spec.xyz,RGB_TO_LUM);
+	float specPower = spec.w;
 
 	pout.diffuse = diffuse;
 
 #ifdef ENCODENORMAL
 	pout.normalShininess.xy = EncodeNormal( normalize(normalDepth.xyz) );
-	pout.normalShininess.z = 0;
+	pout.normalShininess.z = specIntensity;
 #else
 	pout.normalShininess.xyz = normalDepth.xyz;
 #endif 
 
-	pout.normalShininess.w = shininess / 255.0f;
+	pout.normalShininess.w = specPower / 255.0f;
 
 #ifndef HWDEPTH	
 	pout.depth = normalDepth.w;

@@ -77,9 +77,9 @@ float2x4 GetblendDQ(int4 iBoneIndex, float4 iBoneWeight)
 
 float3 DQSkinPos(float3 iPos,float fBoneScale,float2x4 blendDQ)
 {
-#ifdef BONESCALE
+//#ifdef BONESCALE
 	iPos.xyz *= fBoneScale;
-#endif
+//#endif
 
 	float3 finalPos = iPos.xyz + 2.0*cross(blendDQ[0].yzw, cross(blendDQ[0].yzw, iPos.xyz) + blendDQ[0].x*iPos.xyz);
 	float3 trans = 2.0*(blendDQ[0].x*blendDQ[1].yzw - blendDQ[1].x*blendDQ[0].yzw + cross(blendDQ[0].yzw, blendDQ[1].yzw));

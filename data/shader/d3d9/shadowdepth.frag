@@ -13,7 +13,7 @@ struct PS_IN
 
 float4 OutPutDepth(float fDepth)
 {
-	fDepth += 0.00015f;
+	fDepth += 0.0010f;
 
 #if USING_32F == 1
 	return fDepth;

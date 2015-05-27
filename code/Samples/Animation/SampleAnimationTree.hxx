@@ -31,6 +31,7 @@ namespace ma
 // 		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
 // 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
 
+
 		SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 
 		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
