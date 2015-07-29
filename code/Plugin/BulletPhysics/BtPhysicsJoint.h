@@ -6,9 +6,10 @@ namespace ma
 
 	class PhysicsJoint : public Component
 	{
+		
+	public: 
 		DECL_OBJECT(PhysicsJoint)
 
-	public: 
 		static void		RegisterAttribute();		
 		
 		float			GetBreakingImpulse() {return m_fBreakingImpulse;} 
@@ -43,10 +44,11 @@ namespace ma
 
 	class PhysicsGenericJoint : public PhysicsJoint
 	{
-		DECL_OBJECT(PhysicsGenericJoint)
-
+	
 	public:
 		PhysicsGenericJoint();
+
+		DECL_OBJECT(PhysicsGenericJoint)
 
 		static void		RegisterAttribute();	
 

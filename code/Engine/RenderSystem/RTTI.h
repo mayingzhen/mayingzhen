@@ -28,13 +28,8 @@ Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram
 
 void RenderSystemRTTIInit()
 {
-	Light::StaticInitClass();
-	Terrain::StaticInitClass();
-	Texture::StaticInitClass();
-	ShaderProgram::StaticInitClass();
-	
+
 #define RTTI_DECL(ClassType) \
-	ClassType::StaticInitClass(); \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); 
 	#include "RTTIDecl.h"
 #undef RTTI_DECL
@@ -74,15 +69,10 @@ void RenderSystemRTTIShutdown()
 	GetResourceSystem()->UnregisterResourceFactory("sampler",SamplerState_Creator);
 
 #define RTTI_DECL(ClassType) \
-	ClassType::StaticShutdownClass(); \
 	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
 	#include "RTTIDecl.h"
 #undef RTTI_DECL
 
-	Light::StaticShutdownClass();
-	Terrain::StaticShutdownClass();
-	Texture::StaticShutdownClass();
-	ShaderProgram::StaticShutdownClass();
 }
 
 

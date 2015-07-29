@@ -14,12 +14,13 @@ namespace ma
 
 	class SceneNode : public Serializable
 	{
-		DECL_OBJECT(SceneNode)
-
+	
 	public:
 		SceneNode(Scene* pScene,const char* pName = NULL);
 
 		virtual ~SceneNode();
+
+		DECL_OBJECT(SceneNode)
 
 		static void			RegisterAttribute();
 
@@ -166,7 +167,7 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			T* pComponent = SafeCast<T>( m_arrComp[i].get() );
+			T* pComponent = dynamic_cast<T*>( m_arrComp[i].get() );
 			if (pComponent != NULL)
 			{
 				arrTyeComp.push_back(pComponent);
@@ -179,7 +180,7 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			T* pComponent = SafeCast<T>( m_arrComp[i].get() );
+			T* pComponent = dynamic_cast<T*>( m_arrComp[i].get() );
 			if (pComponent != NULL)
 			{
 				return pComponent;

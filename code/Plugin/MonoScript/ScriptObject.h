@@ -9,12 +9,12 @@ namespace ma
 
 	class ScriptObject : public Component
 	{
-		DECL_OBJECT(ScriptObject)
-
 	public:
 		ScriptObject();
 
 		~ScriptObject();
+
+		DECL_OBJECT(ScriptObject)
 
 		//void					Start();
 

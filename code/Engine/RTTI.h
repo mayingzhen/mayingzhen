@@ -7,16 +7,7 @@ namespace ma
 {
 	void EngineRTTIInit()
 	{
-		Object::StaticInitClass();
-		
-		SceneNode::StaticInitClass();
-
 		SceneNode::RegisterAttribute();
-
-		Component::StaticInitClass();
-		RenderComponent::StaticInitClass();
-
-		Resource::StaticInitClass();
 
 		RenderSystemRTTIInit();
 	}
@@ -24,13 +15,6 @@ namespace ma
 	void EngineRTTIShutdown()
 	{
 		RenderSystemRTTIShutdown();
-
-		Resource::StaticShutdownClass();
-
-		RenderComponent::StaticShutdownClass();
-		Component::StaticShutdownClass();
-
-		Object::StaticShutdownClass();
 	}
 }
 

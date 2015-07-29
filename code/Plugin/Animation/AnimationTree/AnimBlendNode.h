@@ -8,12 +8,13 @@ namespace ma
 
 	class AnimBlendNode : public AnimTreeNode
 	{
-		DECL_OBJECT(AnimBlendNode)
-
+	
 	public:
 		AnimBlendNode();
 		
 		~AnimBlendNode();
+
+		DECL_OBJECT(AnimBlendNode)
 
 		virtual void	SetSrcAnimNode(AnimTreeNode* pAnimNode) {m_pSrcAnimNode = pAnimNode;}
 

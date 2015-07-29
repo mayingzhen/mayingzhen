@@ -12,12 +12,13 @@ namespace ma
 
 	class ParticleEmitter : public RenderComponent
 	{
-		DECL_OBJECT(ParticleEmitter)
-
+		
 	public:
 		ParticleEmitter();
 
 		~ParticleEmitter();
+
+		DECL_OBJECT(ParticleEmitter)
 
 		//virtual UINT		GetRenderableNumber() {return 1;}
 		//virtual	Renderable*	GetRenderableByIndex(UINT index) {return m_pParticleBatch.get();}

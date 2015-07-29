@@ -58,7 +58,7 @@ namespace ma
 		Resource* pRes = GetResourceSystem()->DeclareResource(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = dynamic_cast<T*>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
@@ -70,7 +70,7 @@ namespace ma
 		if (pRes == NULL)
 			return NULL;
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = dynamic_cast<T*>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
@@ -82,7 +82,7 @@ namespace ma
 		Resource* pRes = GetResourceSystem()->LoadResource(pszRelPath);
 		ASSERT(pRes);
 	
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = dynamic_cast<T*>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
@@ -93,7 +93,7 @@ namespace ma
 		Resource* pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
 		ASSERT(pRes);
 
-		T* pTypeRes = SafeCast<T>(pRes);
+		T* pTypeRes = dynamic_cast<T*>(pRes);
 		ASSERT(pTypeRes);
 		return pTypeRes;
 	}
@@ -106,7 +106,7 @@ namespace ma
 		{
 			Resource* pRes = it->second.get();
 			
-			T* pTypeRes = SafeCast<T>(pRes); 
+			T* pTypeRes = dynamic_cast<T*>(pRes); 
 			if (pTypeRes)
 			{
 				pTypeRes->Reload();

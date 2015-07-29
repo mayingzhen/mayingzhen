@@ -105,13 +105,8 @@ namespace ma
 		if (m_pSubMeshData->m_arrBonePalette.empty())
 		{
 			arrSkinDQ.resize(nCount);
-<<<<<<< .mine
-			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
-
-=======
 			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
 			arrSkinMatrix.resize(nCount);
->>>>>>> .theirs
 
 			for (uint32 i = 0; i < nCount; ++i)
 			{
@@ -131,6 +126,7 @@ namespace ma
 			uint32 nBoneCount = m_pSubMeshData->m_arrBonePalette.size();
 			arrSkinDQ.resize( nBoneCount );
 			arrScale.resize(Math::ICeil(nBoneCount / 4.0f) * 4);
+			arrSkinMatrix.resize(nCount);
 			for (uint32 i = 0; i < nBoneCount; ++i)
 			{
 				BoneIndex boneID = m_pSubMeshData->m_arrBonePalette[i];

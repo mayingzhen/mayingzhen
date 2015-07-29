@@ -34,11 +34,11 @@ namespace ma
 		if (pszClassName)
 			pObject = GetObjectFactoryManager()->CreateObject(pszClassName);
 		else
-			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetClass()->GetName() );
+			pObject = GetObjectFactoryManager()->CreateObject( T::StaticGetClassName() );
 
 		ASSERT(pObject);
 
-		RefPtr<T> pTypeObject = SafeCast<T>(pObject.get());
+		RefPtr<T> pTypeObject = dynamic_cast<T*>(pObject.get());
 		ASSERT(pTypeObject);
 		return pTypeObject;
 	}

@@ -30,12 +30,13 @@ namespace ma
 
 	class Terrain : public SceneNode
 	{
-		DECL_OBJECT(Terrain)
-
+	
 	public:
 		Terrain(Scene* pScene,const char* pName = NULL);
 
 		~Terrain();
+
+		DECL_OBJECT(Terrain)
 
 		static void	RegisterAttribute();
 

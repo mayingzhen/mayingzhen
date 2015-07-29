@@ -12,10 +12,11 @@ namespace ma
 	
 	class MeshComponent : public RenderComponent
 	{
-		DECL_OBJECT(MeshComponent)	
-
+		
 	public:
 		MeshComponent();
+
+		DECL_OBJECT(MeshComponent)	
 
 		static void					RegisterAttribute();
 
@@ -54,9 +55,11 @@ namespace ma
 
 	class SkinMeshComponent : public MeshComponent
 	{
+		
+	public:
+
 		DECL_OBJECT(SkinMeshComponent)	
 
-	public:
 		static void					RegisterAttribute();
 
 		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);

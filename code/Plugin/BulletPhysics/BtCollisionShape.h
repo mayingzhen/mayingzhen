@@ -6,9 +6,10 @@ namespace ma
 {
 	class CollisionShape : public Component
 	{
+	
+	public:
 		DECL_OBJECT(CollisionShape);
-		
-	public : 
+
 		static void			RegisterAttribute();
 
 		const Transform&	GetTransformLS() const {return m_tsfLS;} 
@@ -35,12 +36,13 @@ namespace ma
 
 	class BoxCollisionShape : public CollisionShape
 	{	
-		DECL_OBJECT(BoxCollisionShape);
-
+	
 	public:	
 		BoxCollisionShape();
 
 		~BoxCollisionShape();
+		
+		DECL_OBJECT(BoxCollisionShape);
 
 		static void				RegisterAttribute();
 
@@ -58,12 +60,13 @@ namespace ma
 	
 	class SphereCollisionShape : public CollisionShape
 	{
-		DECL_OBJECT(SphereCollisionShape);
-
+		
 	public:	
 		SphereCollisionShape();
 
 		~SphereCollisionShape();
+
+		DECL_OBJECT(SphereCollisionShape);
 
 		static void				RegisterAttribute();
 
@@ -80,12 +83,13 @@ namespace ma
 
 	class CapsuleCollisionShape : public CollisionShape
 	{
-		DECL_OBJECT(CapsuleCollisionShape);
-
+		
 	public:
 		CapsuleCollisionShape();	
 
 		~CapsuleCollisionShape();
+
+		DECL_OBJECT(CapsuleCollisionShape);
 
 		static void				RegisterAttribute();
 
@@ -106,10 +110,11 @@ namespace ma
 
 	class CollisionMaterial : public Component
 	{
-		DECL_OBJECT(CollisionMaterial)
-
+	
 	public:
 		CollisionMaterial();
+
+		DECL_OBJECT(CollisionMaterial)
 
 		static void		RegisterAttribute();
 

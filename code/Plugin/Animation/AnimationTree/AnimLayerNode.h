@@ -8,9 +8,10 @@ namespace ma
 
 	class AnimLayerNode : public AnimTreeNode
 	{
+	
+	public:
 		DECL_OBJECT(AnimLayerNode)
 
-	public:
 		virtual void AddLayer(AnimTreeNode* pAnimTreeNode);
 
 		virtual void RemoveLayer(AnimTreeNode* pAnimTreeNode);

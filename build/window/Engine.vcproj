@@ -749,14 +749,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RTTI\RTTIClass.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RTTI\RTTIClass.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RTTI\Serializable.h"
 				>
 			</File>

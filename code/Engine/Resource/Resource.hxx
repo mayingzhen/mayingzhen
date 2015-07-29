@@ -34,7 +34,7 @@ namespace ma
 
 		XMLOutputSerializer ar;
 
-		Serialize(ar,this->GetClass()->GetName());
+		Serialize(ar,this->GetClassName());
 
 		return ar.Save(strSavePath.c_str());
 	}
@@ -61,7 +61,7 @@ namespace ma
 			return false;
 		}
 
-		Serialize(ar,this->GetClass()->GetName());
+		Serialize(ar,this->GetClassName());
 
 		ar.Close();
 
@@ -137,7 +137,7 @@ namespace ma
 		{
 			XMLInputSerializer inAr;
 			inAr.Open(m_pDataStream.get());
-			Serialize(inAr,this->GetClass()->GetName());
+			Serialize(inAr,this->GetClassName());
 			inAr.Close();
 
 			m_pDataStream = NULL;
@@ -146,7 +146,7 @@ namespace ma
 		{
 			BinaryInputSerializer inAr;
 			inAr.Open(m_pDataStream.get());
-			Serialize(inAr,this->GetClass()->GetName());
+			Serialize(inAr,this->GetClassName());
 			inAr.Close();
 
 			m_pDataStream = NULL;

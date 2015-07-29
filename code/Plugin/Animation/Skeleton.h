@@ -10,12 +10,13 @@ namespace ma
 
 	class Skeleton : public Resource
 	{
-		DECL_OBJECT(Skeleton)
-
+		
 	public:
 		Skeleton();
 
 		~Skeleton();
+
+		DECL_OBJECT(Skeleton)
 
 		virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
 

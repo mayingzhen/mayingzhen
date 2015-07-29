@@ -8,12 +8,13 @@ namespace ma
 
 	class Component : public Serializable
 	{
-		DECL_OBJECT(Component)
-
+		
 	public:
 		Component();
 
 		virtual ~Component();
+
+		DECL_OBJECT(Component)
 		
 		virtual	void	Update() {}
 		virtual void	ParallelUpdate() {}

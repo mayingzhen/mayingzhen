@@ -9,14 +9,15 @@ namespace ma
 
 	class Texture : public Serializable
 	{
-		DECL_OBJECT(Texture)
-
+		
 	public:
 		Texture(); 
 
 		Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage); // For Render Texture
 		
 		virtual ~Texture();
+
+		DECL_OBJECT(Texture)
 
 		static void		RegisterAttribute();
 

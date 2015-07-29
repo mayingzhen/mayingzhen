@@ -4,14 +4,15 @@
 namespace ma
 {
 	class Camera : public Component
-	{
-		DECL_OBJECT(Camera)
+	{	
 
 	public:
 
 		Camera();
 	
 		~Camera();
+
+		DECL_OBJECT(Camera)
 
 		static void			RegisterAttribute();
 

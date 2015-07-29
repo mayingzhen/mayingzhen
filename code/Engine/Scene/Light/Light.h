@@ -17,12 +17,13 @@ namespace ma
 
 	class Light : public Component
 	{
-		DECL_OBJECT(Light)
-
+	
 	public:
 		Light();
 
 		~Light();
+
+		DECL_OBJECT(Light)
 
 		LightType					GetLightType() {return m_eLightType;}
 
@@ -42,10 +43,11 @@ namespace ma
 
 	class PointLight : public Light
 	{
-		DECL_OBJECT(PointLight)
-
+	
 	public:
 		PointLight() {m_eLightType = LIGHT_POINT;}
+
+		DECL_OBJECT(PointLight)
 		
 		Vector3			GetPos();
 
@@ -60,10 +62,11 @@ namespace ma
 	
 	class DirectonalLight : public Light
 	{
-		DECL_OBJECT(DirectonalLight)
-
+	
 	public:
 		DirectonalLight();
+
+		DECL_OBJECT(DirectonalLight)
 
 		Vector3			GetDirection();
 
@@ -72,10 +75,11 @@ namespace ma
 
 	class SpotLight : public Light
 	{
-		DECL_OBJECT(SpotLight)
-
+	
 	public:
 		SpotLight()	{m_eLightType = LIGHT_SPOT;}
+
+		DECL_OBJECT(SpotLight)
 
 		Matrix4			GetViewMatrix() {return m_mView;}
 

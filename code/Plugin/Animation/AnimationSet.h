@@ -9,12 +9,13 @@ namespace ma
 
 	class AnimationSet : public Serializable
 	{
-		DECL_OBJECT(AnimationSet)	
-
+		
 	public:
 		AnimationSet();
 
 		~AnimationSet();
+
+		DECL_OBJECT(AnimationSet)	
 
 		AnimTreeNode*		GetSkelAnimByName(const char* pszName);
 

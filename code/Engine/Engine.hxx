@@ -18,9 +18,6 @@ namespace ma
 	{
 		CImageCodec::Startup();
 
-		ClassManager* pClsMan = new ClassManager();
-		SetClassManager(pClsMan);
-
 		ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
 		SetObjectFactoryManager(pObjMan);
 
@@ -111,10 +108,6 @@ namespace ma
 		ObjectFactoryManager* pObjMan = GetObjectFactoryManager();
 		SAFE_DELETE(pObjMan);
 		SetObjectFactoryManager(NULL);
-
-		ClassManager* pClsMan = GetClassManager();
-		SAFE_DELETE(pClsMan);
-		SetClassManager(NULL);
 
 		CImageCodec::Shutdown();
 	}

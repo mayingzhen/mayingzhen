@@ -46,7 +46,6 @@ void AnimationModuleInit()
 
 	/// RTTI
 	#define RTTI_DECL(ClassType) \
-		ClassType::StaticInitClass(); \
 		GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType);
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
@@ -60,8 +59,7 @@ void AnimationModuleShutdown()
 {
 	// RTTI
 	#define RTTI_DECL(ClassType) \
-		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  \
-		ClassType::StaticShutdownClass(); 
+		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  
 	#include <Animation/RTTIDecl.h>
 	#undef RTTI_DECL
 

@@ -22,7 +22,6 @@ void BtPhysicsModuleInit()
 	SetPhysicsSystem(pBtPhysicsSystem); 
 
 #define RTTI_DECL(ClassType) \
-	ClassType::StaticInitClass(); \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); \
 	ClassType::RegisterAttribute();
 #include <BulletPhysics/RTTIDecl.h>
@@ -33,9 +32,8 @@ void BtPhysicsModuleInit()
 void BtPhysicsModuleShutdown()
 {
 #define RTTI_DECL(ClassType) \
-	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); \
-	ClassType::StaticShutdownClass();
-#include <BulletPhysics/RTTIDecl.h>
+	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
+	#include <BulletPhysics/RTTIDecl.h>
 #undef RTTI_DECL
 
 	PhysicsSystem* pBtPhysicsSystem = GetPhysicsSystem();

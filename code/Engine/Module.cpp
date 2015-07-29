@@ -3,7 +3,6 @@
 #include "Engine/RTTI.h"
 
 // RTTI
-#include "Engine/RTTI/RTTIClass.hxx"
 #include "Engine/RTTI/Object.hxx"
 #include "Engine/RTTI/ObjectFactory.hxx"
 #include "Engine/RTTI/AttributeManager.hxx"

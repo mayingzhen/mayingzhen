@@ -203,7 +203,7 @@ namespace ma
 	{
 		sl.BeginSection(pszLable);
 
-		std::string strClassName = pObject ? pObject->GetClass()->GetName() : "";
+		std::string strClassName = pObject ? pObject->GetClassName() : "";
 		sl.Serialize(strClassName,"ClassName");
 
 		if (pObject == NULL)

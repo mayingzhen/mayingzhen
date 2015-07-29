@@ -10,12 +10,13 @@ namespace ma
 
 	class AnimationComponent : public Component
 	{
-		DECL_OBJECT(AnimationComponent)
-
+		
 	public:
 		AnimationComponent();
 
 		~AnimationComponent();
+
+		DECL_OBJECT(AnimationComponent)
 
 		static void				RegisterAttribute();	
 

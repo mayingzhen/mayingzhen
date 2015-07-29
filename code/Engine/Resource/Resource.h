@@ -26,12 +26,13 @@ namespace ma
 
 	class Resource : public Object
 	{
-		DECL_OBJECT(Resource)
 
 	public:
 		Resource(const char* pszPath = NULL);
 
 		virtual ~Resource();
+
+		DECL_OBJECT(Resource)
 
 		virtual	bool	LoadFromXML(const char* pFilePath);
 		virtual bool	SaveToXML(const char* pFilePath);

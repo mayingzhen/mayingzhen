@@ -13,9 +13,3 @@ EXPORTS
 ?Start@PhysicsSystem@ma@@QAEXXZ
 ?BeginUpdate@PhysicsSystem@ma@@QAEXXZ
 ?EndUpdate@PhysicsSystem@ma@@QAEXXZ
-?StaticGetClass@BoxCollisionShape@ma@@SAPBVRTTIClass@2@XZ
-?StaticGetClass@RigidBody@ma@@SAPBVRTTIClass@2@XZ
-?StaticGetClass@SphereCollisionShape@ma@@SAPBVRTTIClass@2@XZ
-?StaticGetClass@CharacterController@ma@@SAPBVRTTIClass@2@XZ
-?StaticGetClass@PhysicsGenericJoint@ma@@SAPBVRTTIClass@2@XZ
-?StaticGetClass@CapsuleCollisionShape@ma@@SAPBVRTTIClass@2@XZ

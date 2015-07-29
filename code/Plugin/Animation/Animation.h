@@ -8,12 +8,13 @@ namespace ma
 {
 	class Animation : public Resource
 	{
-		DECL_OBJECT(Animation)
-
+		
 	public: 
 		Animation();
 
 		~Animation();
+
+		DECL_OBJECT(Animation)
 
 		UINT							GetFrameNumber() {return m_nFrameNumber;}
 

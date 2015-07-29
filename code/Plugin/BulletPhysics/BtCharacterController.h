@@ -16,12 +16,13 @@ namespace ma
 
 	class CharacterController : public Component , public btActionInterface
 	{
-		DECL_OBJECT(CharacterController)
-
+		
 	public:
 		CharacterController();
 
 		~CharacterController();
+
+		DECL_OBJECT(CharacterController)
 
 		static void							RegisterAttribute();		
 

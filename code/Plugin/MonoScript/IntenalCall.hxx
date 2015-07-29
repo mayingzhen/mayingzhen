@@ -12,7 +12,7 @@ static MonoObject* MonoGameObject_GetScript(int gameObjPtr,MonoString* pScriptNa
 	for (UINT nCnt = 0; nCnt < pGameObj->GetComponentNumber(); ++nCnt)
 	{
 		RefPtr<Component> pComp = pGameObj->GetComponentByIndex(nCnt);
-		pScriptObj = SafeCast<ScriptObject>(pComp.get());
+		pScriptObj = dynamic_cast<ScriptObject*>(pComp.get());
 		if (pScriptObj == NULL)
 			continue;
 

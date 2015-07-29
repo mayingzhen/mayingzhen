@@ -227,7 +227,7 @@ namespace ma
 
 	const vector<AttributeInfo>* Serializable::GetAttributes() const
 	{
-		return GetAttributeManager()->GetAttributes( this->GetClass()->GetName() );
+		return GetAttributeManager()->GetAttributes( this->GetClassName() );
 	}
 	
 	const AttributeInfo*	Serializable::GetAttributeInfoByName(const char* strName) const

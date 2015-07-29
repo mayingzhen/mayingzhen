@@ -8,10 +8,11 @@ namespace ma
 {
 	class RigidBody : public Component
 	{
-		DECL_OBJECT(RigidBody)
 
 	public:
 		RigidBody();
+
+		DECL_OBJECT(RigidBody)
 
 		static void				RegisterAttribute();
 

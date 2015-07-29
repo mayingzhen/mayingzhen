@@ -10,12 +10,13 @@ namespace ma
 
 	class ShaderProgram : public Serializable
 	{
-		DECL_OBJECT(ShaderProgram)
-
+		
 	public:
 		ShaderProgram();
 
 		virtual ~ShaderProgram();
+	
+		DECL_OBJECT(ShaderProgram)
 
 		static void			RegisterAttribute();
 

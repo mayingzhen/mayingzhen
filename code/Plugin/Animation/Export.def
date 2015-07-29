@@ -9,7 +9,6 @@ EXPORTS
 ?GetBoneNameByIndex@Skeleton@ma@@QBEPBDI@Z
 ?ConverteAnimDataParentToLocalSpace@Animation@ma@@QAE_NPBVSkeleton@2@@Z
 ?ConverteAnimDataParentToLocalSpace@Animation@ma@@QAE_NPBVSkeleton@2@@Z
-?StaticGetClass@Animation@ma@@SAPBVRTTIClass@2@XZ
 ?AddBone@Skeleton@ma@@QAEXPBDIABUTransform@2@@Z
 ?Load@AnimationComponent@ma@@QAEXPBD0@Z
 ?DebugRender@AnimationComponent@ma@@QAEX_N@Z
@@ -20,7 +19,6 @@ EXPORTS
 ?CreateLayerNode@ma@@YA?AV?$RefPtr@VAnimLayerNode@ma@@@1@XZ
 ?AnimationModuleInit@@YAXXZ
 ?AnimationModuleShutdown@@YAXXZ
-?StaticGetClass@AnimationComponent@ma@@SAPBVRTTIClass@2@XZ
 ?SetAnimSetPath@AnimationComponent@ma@@QAEXPBD@Z
 ?PlayAnimation@AnimationComponent@ma@@QAEXPAVAnimTreeNode@2@M@Z
 ?PlayAnimation@AnimationComponent@ma@@QAEXIM@Z

@@ -17,13 +17,11 @@ void MonoScriptModuleInit()
 	ScriptSystem* pScriptDevive = new ScriptSystem();
 	SetScriptSystem(pScriptDevive);
 
-	ScriptObject::StaticInitClass();
 	GetObjectFactoryManager()->RegisterObjectFactory("ScriptObject",Create_ScriptObject);
 }
 
 void MonoScriptModuleShutdown()
 {
-	ScriptObject::StaticShutdownClass();
 	GetObjectFactoryManager()->UnRegisterObjectFactory("ScriptObject",Create_ScriptObject);
 
 	ScriptSystem* pScriptDevive = (ScriptSystem*)GetScriptSystem();

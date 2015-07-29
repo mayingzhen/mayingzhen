@@ -59,11 +59,11 @@ namespace ma
 	 AttributeManager* GetAttributeManager();
 	 void SetAttributeManager(AttributeManager* pContex);
 
-	template <class T> void AttributeManager::RegisterAttribute(const AttributeInfo& attr) { RegisterAttribute(T::StaticGetClass()->GetName(), attr); }
-	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClass()->GetName(), name); }
-	template <class T, class U> void AttributeManager::CopyBaseAttributes() { CopyBaseAttributes(T::StaticGetClass()->GetName(), U::StaticGetClass()->GetName()); }
-	template <class T> AttributeInfo* AttributeManager::GetAttribute(const char* name) { return GetAttribute(T::StaticGetClass()->GetName(), name); }
-	template <class T> void AttributeManager::UpdateAttributeDefaultValue(const char* name, const Any& defaultValue) { UpdateAttributeDefaultValue(T::StaticGetClass()->GetName(), name, defaultValue); }
+	template <class T> void AttributeManager::RegisterAttribute(const AttributeInfo& attr) { RegisterAttribute(T::StaticGetClassName(), attr); }
+	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClassName(), name); }
+	template <class T, class U> void AttributeManager::CopyBaseAttributes() { CopyBaseAttributes(T::StaticGetClassName(), U::StaticGetClassName()); }
+	template <class T> AttributeInfo* AttributeManager::GetAttribute(const char* name) { return GetAttribute(T::StaticGetClassName(), name); }
+	template <class T> void AttributeManager::UpdateAttributeDefaultValue(const char* name, const Any& defaultValue) { UpdateAttributeDefaultValue(T::StaticGetClassName(), name, defaultValue); }
 
 	#define COPY_BASE_ATTRIBUTES(className, sourceClassName) GetAttributeManager()->CopyBaseAttributes<sourceClassName, className>()
 	#define REMOVE_ATTRIBUTE(className, name) GetAttributeManager()->RemoveAttribute<className>(name)

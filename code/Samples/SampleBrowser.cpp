@@ -135,7 +135,7 @@ namespace ma
 
 		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("Lighting");
+		RunSample("SceneSerialize");
 	}
 
 	void SampleBrowser::InitResourcePath()

@@ -48,12 +48,13 @@ namespace ma
 
 	class Material : public Serializable
 	{
-		DECL_OBJECT(Material)
-
+	
 	public:
 		Material();
 
 		~Material();
+
+		DECL_OBJECT(Material)
 
 		UINT				GetSubMaterialNumber() {return m_arrSubMaterial.size();}
 		SubMaterial*		GetSubMaterialByIndex(uint32 index) {return m_arrSubMaterial[index].get();}

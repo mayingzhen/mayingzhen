@@ -26,12 +26,12 @@ namespace ma
 
 	class AnimClipNode : public AnimTreeNode
 	{
-		DECL_OBJECT(AnimClipNode)
-
 	public:
 		AnimClipNode();
 	
 		~AnimClipNode();
+
+		DECL_OBJECT(AnimClipNode)
 
 		static void		RegisterAttribute();
 
