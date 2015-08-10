@@ -26,6 +26,7 @@
 #include "Engine/Resource/ArchiveManager.hxx"
 #include "Engine/Resource/Properties.hxx"
 #include "Engine/Resource/Resource.hxx"
+#include "Engine/Resource/XmlFile.hxx"
 #include "Engine/Resource/ResourceSystem.hxx"
 #include "Engine/Resource/DataThread.hxx"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"

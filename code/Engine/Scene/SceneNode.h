@@ -11,6 +11,7 @@ namespace ma
 	class SceneVisiter;
 	class CullNode;
 	class CullTree;
+	class XmlFile;
 
 	class SceneNode : public Serializable
 	{
@@ -25,6 +26,9 @@ namespace ma
 		static void			RegisterAttribute();
 
 		virtual void		Update();
+		
+		void				SetName(const char* pszName);
+		const char*			GetName() const;
 
 		bool				GetEnabled() const {return m_bEnable;}
 		void				SetEnabled(bool b) {m_bEnable = b;}
@@ -67,15 +71,9 @@ namespace ma
 		const Matrix4&		GetMatrixWS() const;
 
 		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
-
-		/// Rotate the scene node in parent space either relative to its current rotation axes, or a fixed axis.
 		void				Rotate(const Quaternion& delta,bool fixedAxis = false);
-
-		/// Rotate around the X axis.
 		void				Pitch(float angle, bool fixedAxis = false);
-		/// Rotate around the Y axis.
 		void				Yaw(float angle, bool fixedAxis = false);
-		/// Rotate around the -Z axis.
 		void				Roll(float angle, bool fixedAxis = false);
 
 		// Component
@@ -99,10 +97,9 @@ namespace ma
 		SceneNode*			FindChildNode(const char* pszName);	
 
 		Scene*				GetScene() {return m_pScene;}
-
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "SceneNode");
 		
-		virtual bool		OnLoadOver();
+		virtual void		Improt(TiXmlElement* pXmlElem);
+		virtual void		Export(TiXmlElement* pXmlElem);		
 
 		RefPtr<SceneNode>	Clone(const char* pName);
 
@@ -113,9 +110,6 @@ namespace ma
 		UINT				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
 
 	private:
-		void				SerializeChild(Serializer& sl,const char* pszLable);
-		void				SerializeComp(Serializer& sl,const char* pszLable);
-
 		void				SetParent(SceneNode* pParent);
 		void				SetScene(Scene* pScene);
 
@@ -143,7 +137,8 @@ namespace ma
 		bool						m_bEnable;
 
 		MAP_USER_DATA				m_mapUserData;
-	
+
+		std::string					m_sName;
 	};
 
 	RefPtr<SceneNode> CreateSceneNode();

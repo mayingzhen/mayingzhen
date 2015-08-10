@@ -20,6 +20,8 @@ namespace ma
 
 	void Camera::RegisterAttribute()
 	{
+		REGISTER_OBJECT(Camera,CreateCamera);
+
 		ACCESSOR_ATTRIBUTE(Camera, "Aspect", GetAspect, SetAspect, float, 1.0f, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(Camera, "FovDegrees", GetFovDegrees, SetFovDegrees, float, 45.0f, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(Camera, "Near", GetNearClip, SetNearClip, float, 0.1f, AM_DEFAULT);
@@ -182,6 +184,12 @@ namespace ma
 		float fFar = Math::Max(aabbView.getMaximum().z, fNear + 1.0f);
 
 		SetPerspective(m_fFOV, m_fAspect,fNear,fFar);
+	}
+
+	RefPtr<Camera> CreateCamera()
+	{
+		RefPtr<Camera> pCamera = new Camera();
+		return pCamera;
 	}
 
 }

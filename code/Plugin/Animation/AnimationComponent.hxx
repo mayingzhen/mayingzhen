@@ -41,7 +41,7 @@ namespace ma
 		m_pSkeleton = LoadResource<Skeleton>(pSkePath);
 
 		m_bLoadOver = false;
-		OnLoadOver();
+		IsReady();
 	}
 
 	const char* AnimationComponent::GetAnimSetPath() const
@@ -56,7 +56,7 @@ namespace ma
 		m_pAnimSet = CreateAnimationSet(pAniSetPath);
 		
 		m_bLoadOver = false;
-		OnLoadOver();
+		IsReady();
 	}
 
 	void AnimationComponent::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
@@ -66,15 +66,15 @@ namespace ma
 		SetAnimSetPath(pszAniSetPath);
 	}
 
-	bool AnimationComponent::OnLoadOver()
+	bool AnimationComponent::IsReady()
 	{
 		if (m_bLoadOver)
 			return true;
 
-		if ( m_pSkeleton == NULL || !m_pSkeleton->OnLoadOver() )
+		if ( m_pSkeleton == NULL || !m_pSkeleton->IsReady() )
 			return false;
 
-		if ( m_pAnimSet && !m_pAnimSet->OnLoadOver() )
+		if ( m_pAnimSet && !m_pAnimSet->IsReady() )
 			return false;
 
 		if (m_pose == NULL)
@@ -111,7 +111,7 @@ namespace ma
 			m_pCurAction->Instantiate();
 		}
 
-		if (m_pCurAction && !m_pCurAction->OnLoadOver())
+		if (m_pCurAction && !m_pCurAction->IsReady())
 		{
 			return false;
 		}
@@ -123,10 +123,10 @@ namespace ma
 
 	void AnimationComponent::Update()
 	{
-		if ( !OnLoadOver() )
+		if ( !IsReady() )
 			return;
 
-		if ( m_pCurAction && !m_pCurAction->OnLoadOver() )
+		if ( m_pCurAction && !m_pCurAction->IsReady() )
 			return;
 
 		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
@@ -169,7 +169,7 @@ namespace ma
 		ChangeAnimation(pSkelAnim,fFadeTime);
 
 		m_bLoadOver = false;
-		OnLoadOver();
+		IsReady();
 	}
 
 	void AnimationComponent::PlayAnimation(uint32 actionID,float fFadeTime)

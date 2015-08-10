@@ -571,7 +571,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if ( ( m_arrSampState[uniform->m_index] != pTexture && pTexture->OnLoadOver() ) || pTexture->GetUsage() != USAGE_STATIC)
+		if ( ( m_arrSampState[uniform->m_index] != pTexture && pTexture->IsReady() ) || pTexture->GetUsage() != USAGE_STATIC)
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 

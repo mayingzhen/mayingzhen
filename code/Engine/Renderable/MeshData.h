@@ -71,12 +71,13 @@ namespace ma
 
 	class MeshData : public Resource
 	{
-		DECL_OBJECT(MeshData)
-
+	
 	public:
 		MeshData(const char* pszPath = NULL);
 
 		~MeshData();
+
+		DECL_OBJECT(MeshData)
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 

@@ -8,7 +8,7 @@ namespace ma
 
 	class Uniform;
 
-	class ShaderProgram : public Serializable
+	class ShaderProgram : public Resource
 	{
 		
 	public:

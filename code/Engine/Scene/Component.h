@@ -6,7 +6,7 @@ namespace ma
 	class SceneNode;
 	class Camera;
 
-	class Component : public Serializable
+	class Component : public Object
 	{
 		
 	public:
@@ -14,7 +14,7 @@ namespace ma
 
 		virtual ~Component();
 
-		DECL_OBJECT(Component)
+		DECL_OBJECT(Component);
 		
 		virtual	void	Update() {}
 		virtual void	ParallelUpdate() {}

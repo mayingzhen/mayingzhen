@@ -8,6 +8,7 @@ namespace ma
 
 	AnimationSet::AnimationSet()
 	{
+		m_bLoadOver = false;
 	}
 
 	AnimationSet::~AnimationSet()
@@ -63,13 +64,33 @@ namespace ma
 		m_arrSkelAnim.erase(it);
 	}
 
-	void AnimationSet::Serialize(Serializer& sl, const char* pszLable)
+	void AnimationSet::Improt(TiXmlElement* pXmlElem)
 	{
-		sl.BeginSection(pszLable);
+		TiXmlElement* pXmlAnimNode = pXmlElem->FirstChildElement("AnimNode");
+		while(pXmlAnimNode)
+		{
+			const char* pszType = pXmlAnimNode->Attribute("ClassName");
 
-		SerializeArrObj<AnimTreeNode>(sl,m_arrSkelAnim,"arrAnimNode");
+			RefPtr<AnimTreeNode> pAnimNode = CreateObject<AnimTreeNode>(pszType);
+			this->AddSkelAnim(pAnimNode.get());
 
-		sl.EndSection();
+			pAnimNode->Improt(pXmlAnimNode);
+
+			pXmlAnimNode = pXmlAnimNode->NextSiblingElement("pXmlAnimNode");
+		}
+	}
+
+	void AnimationSet::Export(TiXmlElement* pXmlElem)
+	{
+		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
+		{
+			TiXmlElement* pXmlAnimNode = new TiXmlElement("AnimNode");
+			pXmlElem->LinkEndChild(pXmlAnimNode);
+
+			AnimTreeNode* pAnimNode = m_arrSkelAnim[i].get();
+			pAnimNode->Export(pXmlAnimNode);
+		}
+
 	}
 
 	void AnimationSet::SetSkeleton(Skeleton* pSkeleton)

@@ -15,25 +15,16 @@
 using namespace ma;
 
 
-#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();} 
-#include "RTTIDecl.h"
-#undef RTTI_DECL
 
-
-// ResCreator
+//ResCreator
 Resource*	MeshData_Creator() {return new MeshData();}
 Resource*	Material_Creator() {return new Material();}
 Resource*	SamplerState_Creator() {return GetRenderDevice()->CreateTexture();}
 Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram();}
 
+
 void RenderSystemRTTIInit()
 {
-
-#define RTTI_DECL(ClassType) \
-	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); 
-	#include "RTTIDecl.h"
-#undef RTTI_DECL
-
 	MeshComponent::RegisterAttribute();
 	SkinMeshComponent::RegisterAttribute();
 	Camera::RegisterAttribute();
@@ -41,15 +32,8 @@ void RenderSystemRTTIInit()
 	Texture::RegisterAttribute();
 	ShaderProgram::RegisterAttribute();
 
-
 	GetResourceSystem()->RegisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("mat",Material_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("tga",ImageData_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("jpg",ImageData_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("png",ImageData_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("dds",ImageData_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("pvr",ImageData_Creator);
-// 	GetResourceSystem()->RegisterResourceFactory("pkm",ImageData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("shader",ShaderProgram_Creator);
 	GetResourceSystem()->RegisterResourceFactory("sampler",SamplerState_Creator);
 
@@ -59,20 +43,8 @@ void RenderSystemRTTIShutdown()
 {
 	GetResourceSystem()->UnregisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("mat",Material_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("tga",ImageData_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("jpg",ImageData_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("png",ImageData_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("dds",ImageData_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("pvr",ImageData_Creator);
-// 	GetResourceSystem()->UnregisterResourceFactory("pkm",ImageData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("tech",ShaderProgram_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("sampler",SamplerState_Creator);
-
-#define RTTI_DECL(ClassType) \
-	GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType); 
-	#include "RTTIDecl.h"
-#undef RTTI_DECL
-
 }
 
 

@@ -16,6 +16,8 @@ namespace ma
 
 		m_matWS = Matrix4::IDENTITY;
 		m_bmatWSDirty = false;	
+
+		m_bLoadOver = false;
 	}
 
 	SceneNode::~SceneNode()
@@ -38,6 +40,16 @@ namespace ma
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Position", GetPos, SetPos, Vector3, Vector3::ZERO, AM_DEFAULT);
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Rotation", GetRotation, SetRotation, Quaternion, Quaternion::IDENTITY, AM_DEFAULT);
 		REF_ACCESSOR_ATTRIBUTE(SceneNode, "Scale", GetScale, SetScale, Vector3, Vector3::UNIT_SCALE, AM_DEFAULT);
+	}
+
+	void SceneNode::SetName(const char* pszName)
+	{
+		m_sName = pszName ? pszName : "";
+	}
+
+	const char*	SceneNode::GetName() const
+	{
+		return m_sName.c_str();
 	}
 
 	void SceneNode::AddComponent(Component* pComponent)
@@ -69,91 +81,58 @@ namespace ma
 	}
 
 
-	void SceneNode::SerializeChild(Serializer& sl,const char* pszLable)
+	void SceneNode::Improt(TiXmlElement* pXmlElem)
 	{
-		sl.BeginSection(pszLable);
+		Serializable::Improt(pXmlElem);
 
-		UINT nSize = (UINT)m_arrChild.size();
-		sl.Serialize(nSize,"size");
-
-		if (nSize != m_arrChild.size())
+		TiXmlElement* pXmlComp = pXmlElem->FirstChildElement("Component");
+		while(pXmlComp)
 		{
-			m_arrChild.resize(nSize);
+			const char* pszType = pXmlComp->Attribute("ClassName");
+
+			RefPtr<Component> pComponent = CreateObject<Component>(pszType);
+			this->AddComponent(pComponent.get());
+
+			pComponent->Improt(pXmlComp);
+
+			pXmlComp = pXmlComp->NextSiblingElement("Component");
 		}
 
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
+		TiXmlElement* pXmlChildNode = pXmlElem->FirstChildElement("ChildNode");
+		while(pXmlChildNode)
 		{
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-			if (m_arrChild[nCnt] == NULL)
-			{
-				m_arrChild[nCnt] = new SceneNode(m_pScene);
-				m_arrChild[nCnt]->SetParent(this);
-			}
-			m_arrChild[nCnt]->Serialize(sl,buf);
+			const char* pszType = pXmlComp->Attribute("ClassName");
+
+			RefPtr<SceneNode> pChildNode = CreateObject<SceneNode>(pszType);
+			this->AddChild(pChildNode.get());
+
+			pChildNode->Improt(pXmlChildNode);
+
+			pXmlChildNode = pXmlChildNode->NextSiblingElement("ChildNode");
 		}
-
-		sl.EndSection();
 	}
 
-	void SceneNode::SerializeComp(Serializer& sl,const char* pszLable)
+	void SceneNode::Export(TiXmlElement* pXmlElem)
 	{
-		sl.BeginSection(pszLable);
+		Serializable::Export(pXmlElem);
 
-		UINT nSize = m_arrComp.size();
-		sl.Serialize(nSize,"size");
-
-		for (UINT nCnt = 0; nCnt < nSize; ++nCnt)
-		{
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-		
-			if (sl.IsReading())
-			{
-				RefPtr<Component> pComp;
-				SerializeObject<Component>(sl,pComp,buf);
-
-				this->AddComponent(pComp.get());
-			}
-			else
-			{
-				RefPtr<Component>& pComp = m_arrComp[nCnt];
-				SerializeObject<Component>(sl,pComp,buf);
-			}
- 		}
-
-		sl.EndSection();
-	}
-
-	void SceneNode::Serialize(Serializer& sl, const char* pszLable)
-	{
-		sl.BeginSection(pszLable);
-
-		Serializable::Serialize(sl,pszLable);	
-
-		SerializeComp(sl,"arrComp");
-
-		SerializeChild(sl,"arrChild");
-
-		sl.EndSection();
-	}
-
-	bool SceneNode::OnLoadOver()
-	{
-		bool bLoadOver = true;
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			if (!m_arrComp[i]->OnLoadOver())
-				bLoadOver = false;
+			TiXmlElement* pXmlComp = new TiXmlElement("Component");
+			pXmlElem->LinkEndChild(pXmlComp);
+
+			Component* pComp = m_arrComp[i].get();
+			pComp->Export(pXmlComp);
 		}
 
 		for (UINT i = 0; i < m_arrChild.size(); ++i)
 		{
-			if (!m_arrChild[i]->OnLoadOver())
-				bLoadOver = false;
-		}
+			TiXmlElement* pXmlChildNode = new TiXmlElement("ChildNode");
+			pXmlElem->LinkEndChild(pXmlChildNode);
 
-		return bLoadOver;
+			SceneNode* pChildNode = m_arrChild[i].get();
+			pChildNode->Export(pXmlChildNode);
+		}
 	}
 
 	void SceneNode::SetUserData(const char* pszKey,void* pData)
@@ -169,13 +148,13 @@ namespace ma
 	RefPtr<SceneNode> SceneNode::Clone(const char* pName)
 	{
 		XMLOutputSerializer xmlout;
-		this->Serialize(xmlout);
+		//this->Serialize(xmlout);
 		//xmlout.Save("DebugCloneobj.xml");
 		
 		XMLInputSerializer xmlin;
 		xmlin.Open(xmlout);
 		RefPtr<SceneNode> pClone = CreateSceneNode();
-		pClone->Serialize(xmlin);
+		//pClone->Serialize(xmlin);
 		
 		pClone->SetName(pName);
 

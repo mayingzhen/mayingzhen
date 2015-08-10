@@ -163,6 +163,8 @@ namespace ma
 
 		//sl.Serialize(*m_pShaderProgram,"Shader");
 		//m_pShaderProgram->Serialize(sl,"Shader");
+		///sl.Serialize()
+		//sl.Serialize(m_pShaderProgram,"Shader");
 
 		sl.Serialize(m_renderState,"RenderState");
 

@@ -55,12 +55,12 @@ namespace ma
 		m_pImageRes = CreateResource(pTexPath);
 	}
 
-	bool Texture::OnLoadOver()
+	bool Texture::IsReady()
 	{
 		if (ResInited == m_eResState)
 			return true;
 
-		if (m_pImageRes == NULL || !m_pImageRes->OnLoadOver())
+		if (m_pImageRes == NULL || !m_pImageRes->IsReady())
 			return false;
 		
 		GetRenderSystem()->TexStreamComplete(this);	
@@ -234,7 +234,7 @@ namespace ma
 		pTextute->SetWrapMode(eWrap);
 		pTextute->SetFilterMode(eFilter);
 		pTextute->SetImagePath(pImagePath);
-		pTextute->OnLoadOver();
+		pTextute->IsReady();
 		return pTextute;
 	}
 

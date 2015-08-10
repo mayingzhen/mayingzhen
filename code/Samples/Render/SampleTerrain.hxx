@@ -58,7 +58,7 @@ namespace ma
 			pTerrain->SetHeightMap("scene/terrain/test.dds");
 			pTerrain->SetMaterialMap("scene/terrain/test_m.dds");
 			pTerrain->SetBlendMap("scene/terrain/test_b0.dds");
-			pTerrain->OnLoadOver();
+			pTerrain->IsReady();
 
 			pTerrain->SaveToXML("scene/terrain/test.xml");
 

@@ -79,27 +79,27 @@ namespace ma
 		return true;
 	}
 
-	bool AnimBlendNode::OnLoadOver()
+	bool AnimBlendNode::IsReady()
 	{
-		if (m_pSrcAnimNode && !m_pSrcAnimNode->OnLoadOver())
+		if (m_pSrcAnimNode && !m_pSrcAnimNode->IsReady())
 			return false;
 
-		if (m_pDestAnimNode && !m_pDestAnimNode->OnLoadOver())
+		if (m_pDestAnimNode && !m_pDestAnimNode->IsReady())
 			return false;
 
 		return true;
 	}
 
-	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
-	{
-		sl.BeginSection(pszLable);
-
-		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"SrcAnimNode");
-		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"DestAnimNode");
-		sl.Serialize(m_fWeight,"Weight");
-
-		sl.EndSection();
-	}
+// 	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"SrcAnimNode");
+// 		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"DestAnimNode");
+// 		sl.Serialize(m_fWeight,"Weight");
+// 
+// 		sl.EndSection();
+// 	}
 
 
 }

@@ -7,8 +7,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Skeleton,Resource)
-
 	Skeleton::Skeleton()
 	{
 		m_eCreateType = BIN_RES;

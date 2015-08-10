@@ -70,25 +70,25 @@ namespace ma
 		return true;
 	}
 
-	bool AnimLayerNode::OnLoadOver()
+	bool AnimLayerNode::IsReady()
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
-			if ( !m_arrAnimNode[i]->OnLoadOver() )
+			if ( !m_arrAnimNode[i]->IsReady() )
 				return false;
 		}
 
 		return true;
 	}
 
-	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
-	{
-		sl.BeginSection(pszLable);
-
-		SerializeArrObj<AnimTreeNode>(sl,m_arrAnimNode,"arrAnimNode");
-
-		sl.EndSection();
-	}
+// 	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		SerializeArrObj<AnimTreeNode>(sl,m_arrAnimNode,"arrAnimNode");
+// 
+// 		sl.EndSection();
+// 	}
 
 	RefPtr<AnimLayerNode> CreateLayerNode()
 	{

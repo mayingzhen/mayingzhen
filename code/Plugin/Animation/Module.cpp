@@ -33,7 +33,7 @@ using namespace ma;
 
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}
-Resource* AnimSetData_Creator() {return new AnimationSet();}
+Resource* AnimSetData_Creator() {return new XmlFile();}
 
 void AnimationModuleInit()
 {

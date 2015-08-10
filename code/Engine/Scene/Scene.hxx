@@ -10,7 +10,8 @@ namespace ma
 		m_sName = pszName ? pszName : "";
 
 		m_pCameraNode = new SceneNode(this, "defaultCamera");
-		m_pCamera = m_pCameraNode->CreateComponent<Camera>();
+		m_pCamera = CreateCamera();
+		m_pCameraNode->AddComponent(m_pCamera.get());
 
 		m_pSunNode = new SceneNode(this,"SunNode");
 		m_pSunShadow = new RenderShadowCSM();

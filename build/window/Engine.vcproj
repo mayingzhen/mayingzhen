@@ -216,6 +216,14 @@
 				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\XmlFile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Resource\XmlFile.hxx"
+				>
+			</File>
 			<Filter
 				Name="Serialize"
 				>

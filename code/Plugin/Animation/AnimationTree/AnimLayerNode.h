@@ -26,9 +26,9 @@ namespace ma
 
 		virtual bool Instantiate();
 
-		virtual void Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */);
+		//virtual void Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */);
 		
-		virtual bool OnLoadOver();
+		virtual bool IsReady();
 
 	private:
 		typedef std::vector< RefPtr<AnimTreeNode> > VEC_ANIMNODE;

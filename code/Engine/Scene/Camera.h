@@ -65,7 +65,8 @@ namespace ma
 
 		Frustum				m_frustum;
 	};
-
+	
+	RefPtr<Camera> CreateCamera();
 }
 
 #endif

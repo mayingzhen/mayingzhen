@@ -32,9 +32,9 @@ namespace ma
 
 		virtual bool	Instantiate();
 
-		virtual void	Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */);
+		//virtual void	Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */);
 
-		virtual bool	OnLoadOver();
+		virtual bool	IsReady();
 
 	private:
 		RefPtr<AnimTreeNode>	m_pSrcAnimNode;

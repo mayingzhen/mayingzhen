@@ -27,3 +27,4 @@ EXPORTS
 ?AddSkelAnim@AnimationSet@ma@@QAEXPAVAnimTreeNode@2@@Z
 ?CreateAnimationSet@ma@@YA?AV?$RefPtr@VAnimationSet@ma@@@1@XZ
 ?SetSkeletonPath@AnimationComponent@ma@@QAEXPBD@Z
+

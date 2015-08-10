@@ -43,7 +43,7 @@ namespace ma
 
 		void					UpdateSkinMatrix();
 
-		bool					OnLoadOver();
+		bool					IsReady();
 
 		const char*				GetSkeletonPath() const;
 		void					SetSkeletonPath(const char* pSkePath);

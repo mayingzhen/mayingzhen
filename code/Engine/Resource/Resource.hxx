@@ -154,12 +154,12 @@ namespace ma
 
 		m_eResState = ResInited;
 	
-		OnLoadOver();
+		IsReady();
 			
 		return true;
 	}
 	
-	bool Resource::OnLoadOver()
+	bool Resource::IsReady()
 	{
 		if (m_eResState == ResInited)
 			return true;

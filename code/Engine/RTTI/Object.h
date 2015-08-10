@@ -2,17 +2,11 @@
 #define  _Object__H__
 
 
-
-#define DECL_OBJECT(ClassName) \
-	virtual const char*	GetClassName() const {return #ClassName;}\
-	static const char* StaticGetClassName() {return #ClassName;}
-
-#define IMPL_OBJECT(ClassName,ParentName)
-
+class TiXmlElement;
 
 namespace ma
 {
-	class RTTIClass;
+	struct AttributeInfo;
 
 	class Object : public Referenced
 	{
@@ -20,18 +14,32 @@ namespace ma
 	public:
 		Object();
 
-		Object(const char* pName);
-
-		DECL_OBJECT(Object)
-		
 		virtual ~Object();
-	
-		const char*		GetName() const;
 
-		void			SetName(const char* pName);
+		#define DECL_OBJECT(ClassName) \
+			virtual const char*	GetClassName() const {return #ClassName;}\
+			static const char* StaticGetClassName() {return #ClassName;}
+
+		#define IMPL_OBJECT(ClassName,ParentName)
+	
+		DECL_OBJECT(Object);
+
+		virtual void			Improt(TiXmlElement* pXmlElem);
+		virtual void			Export(TiXmlElement* pXmlElem);		
+
+		bool					SetAttribute(UINT index, const Any& value);
+		bool					SetAttribute(const char* name, const Any& value);
+
+		Any						GetAttribute(unsigned index) const;
+		Any						GetAttribute(const char* name) const;
+		UINT					GetNumAttributes() const;
+		const AttributeInfo*	GetAttributeInfoByName(const char* strName) const;
 
 	protected:
-		std::string		m_sName;
+		virtual void			OnSetAttribute(const AttributeInfo& attr, const Any& src);
+		virtual void			OnGetAttribute(const AttributeInfo& attr, Any& dest) const;
+		const vector<AttributeInfo>* GetAttributes() const;
+
 	};
 
 }

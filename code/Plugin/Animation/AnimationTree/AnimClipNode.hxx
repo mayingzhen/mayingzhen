@@ -151,10 +151,10 @@ namespace ma
 		m_pAnimation = LoadResource<Animation>( m_strSkaName.c_str() ); 
 
 		m_bLoadOver = false;
-		return OnLoadOver();
+		return IsReady();
 	}
 
-	bool AnimClipNode::OnLoadOver()
+	bool AnimClipNode::IsReady()
 	{
 		if (m_bLoadOver)
 			return true;
@@ -162,10 +162,10 @@ namespace ma
 		if (m_pAnimation == NULL || m_pSkeleton == NULL)
 			return false;
 
-		if (!m_pAnimation->OnLoadOver() )
+		if (!m_pAnimation->IsReady() )
 			return false;
 
-		if (!m_pSkeleton->OnLoadOver() )
+		if (!m_pSkeleton->IsReady() )
 			return false;
 
 		m_NodeLink.Build(m_pSkeleton.get(),m_pAnimation.get());

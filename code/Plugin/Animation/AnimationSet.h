@@ -26,10 +26,11 @@ namespace ma
 		void				AddSkelAnim(AnimTreeNode* pAction); 
 
 		void				RemoveSkelAnim(AnimTreeNode* pAction);
-
-		void				Serialize(Serializer& sl, const char* pszLable = "AnimationSet");
 		
 		void				SetSkeleton(Skeleton* pSkeleton);
+
+		virtual void		Improt(TiXmlElement* pXmlElem);
+		virtual void		Export(TiXmlElement* pXmlElem);		
 
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;

@@ -47,14 +47,14 @@ namespace ma
 
 	void SubMaterial::SetShadowDepthTechnqiue(Technique* pTech)
 	{
-		m_pShadingTech = pTech;
+		m_pShadowDepthTech = pTech;
 	}
 
 	void SubMaterial::SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine)
 	{
 		string strMacro = pDefine ? pDefine : "";
 		strMacro += m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-		m_pShadingTech = CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str());
+		m_pShadowDepthTech = CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str());
 	}
 
 	Technique* SubMaterial::GetShadingTechnqiue()
@@ -148,30 +148,7 @@ namespace ma
 
 	void Material::Serialize(Serializer& sl, const char* pszLable/* = "Material"*/)
 	{
-		sl.BeginSection(pszLable);
-
-		//sl.Serialize(m_arrSubMaterial,"SubMaterial");
-
-		UINT nSize = (UINT)m_arrSubMaterial.size();
-		sl.Serialize(nSize,"size");
-
-		if (nSize != m_arrSubMaterial.size())
-		{
-			m_arrSubMaterial.resize(nSize);
-		}
-
-		for (UINT nCnt = 0;nCnt < nSize; ++nCnt)
-		{
-			char buf[32];
-			sprintf(&buf[0],"Element_%u",nCnt);
-			if (m_arrSubMaterial[nCnt] == NULL)
-			{
-				m_arrSubMaterial[nCnt] = new SubMaterial();
-			}
-			m_arrSubMaterial[nCnt]->Serialize(sl,buf);
-		}
-
-		sl.EndSection();
+		sl.Serialize(m_arrSubMaterial,pszLable);
 	}
 
 	RefPtr<Material> CreateMaterial()

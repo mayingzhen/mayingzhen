@@ -43,7 +43,7 @@ namespace ma
 
 	RefPtr<Object> ObjectFactoryManager::CreateObject(const char* pCls)
 	{
-		Object* pObj = NULL;
+		RefPtr<Object> pObj;
 		ObjFunFactoryMap::iterator funIter = m_objFunFactoryMap.find(pCls);
 		if (funIter != m_objFunFactoryMap.end())
 		{

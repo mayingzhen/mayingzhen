@@ -58,7 +58,7 @@ namespace ma
 		virtual void	SetSkeletion(Skeleton* pSkeletion);
 		Skeleton*		GetSkeleton() const {return m_pSkeleton.get();}
 
-		virtual bool	OnLoadOver();
+		virtual bool	IsReady();
 
 	private:
 		void			WrapLocalFrame();

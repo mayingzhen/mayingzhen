@@ -13,6 +13,8 @@ namespace ma
 
 	void MeshComponent::RegisterAttribute()
 	{
+		REGISTER_OBJECT(MeshComponent,CreateMeshComponent); 
+
 		ACCESSOR_ATTRIBUTE(MeshComponent, "SknPath", GetMeshFile, SetMeshFile, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(MeshComponent, "MatPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
 	}
@@ -23,7 +25,7 @@ namespace ma
 
 		SetMaterialFile(pszMatPath);
 
-		return OnLoadOver();
+		return IsReady();
 	}
 
 	const char*	MeshComponent::GetMeshFile() const
@@ -34,6 +36,9 @@ namespace ma
 	void MeshComponent::SetMeshFile(const char* pFile)
 	{
 		m_pMesData = LoadResource<MeshData>(pFile);
+
+		m_bOnLoadOver = false;
+		IsReady();
 	}
 
 	const char*	 MeshComponent::GetMaterialFile() const
@@ -44,6 +49,9 @@ namespace ma
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
 		m_pMatData = LoadResource<Material>(pFile);
+
+		m_bOnLoadOver = false;
+		IsReady();
 	}
 
 	UINT MeshComponent::GetRenderableCount() const
@@ -68,7 +76,7 @@ namespace ma
 
 	void MeshComponent::Update()
 	{
-		OnLoadOver();
+		IsReady();
 
 		RenderComponent::Update();
 	}
@@ -96,15 +104,15 @@ namespace ma
 		m_AABB = m_pMesData->GetBoundingAABB();
 	}
 
-	bool MeshComponent::OnLoadOver()
+	bool MeshComponent::IsReady()
 	{
 		if (m_bOnLoadOver)
 			return true;
 
-		if (m_pMesData == NULL || !m_pMesData->OnLoadOver())
+		if (m_pMesData == NULL || !m_pMesData->IsReady())
 			return false;
 
-		if (m_pMatData == NULL || !m_pMatData->OnLoadOver())
+		if (m_pMatData == NULL || !m_pMatData->IsReady())
 			return false;
 
 		CreateRenderable();
@@ -130,6 +138,11 @@ namespace ma
 
 			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrRenderable[i].get());
 		}
+	}
+
+	RefPtr<MeshComponent> CreateMeshComponent()
+	{
+		return new MeshComponent();
 	}
 
 	IMPL_OBJECT(SkinMeshComponent,MeshComponent)	
@@ -159,6 +172,8 @@ namespace ma
 
 	void SkinMeshComponent::RegisterAttribute()
 	{
+		REGISTER_OBJECT(SkinMeshComponent,CreateSkinMeshComponent); 
+
 		COPY_BASE_ATTRIBUTES(SkinMeshComponent,MeshComponent);
 	}
 
@@ -171,6 +186,11 @@ namespace ma
 			SkinRenderable* pSkinRenderable = (SkinRenderable*)m_arrRenderable[i].get();
 			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);
 		}
+	}
+
+	RefPtr<SkinMeshComponent> CreateSkinMeshComponent()
+	{
+		return new SkinMeshComponent();
 	}
 
 }

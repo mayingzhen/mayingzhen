@@ -43,7 +43,7 @@ namespace ma
 		virtual	bool	Load();
 		virtual void	LoadSync();
 
-		virtual bool	OnLoadOver();
+		virtual bool	IsReady();
 
 		const char*		GetResPath() const {return m_sResPath.c_str();}
 		void			SetResPath(const char* pResPath) {m_sResPath = pResPath;}

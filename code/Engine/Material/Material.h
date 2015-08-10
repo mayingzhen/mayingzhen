@@ -46,7 +46,7 @@ namespace ma
 	RefPtr<SubMaterial> CreateSubMaterial();
 
 
-	class Material : public Serializable
+	class Material : public Resource
 	{
 	
 	public:

@@ -2,9 +2,6 @@
 #ifndef __AttributeInfo_H__
 #define __AttributeInfo_H__
 
-
-//#include "Variant.h"
-
 namespace ma
 {
 
@@ -27,17 +24,17 @@ namespace ma
 	/// Attribute is a node ID vector where first element is the amount of nodes.
 	static const unsigned AM_NODEIDVECTOR = 0x40;
 
-	class Serializable;
+	class Object;
 
 	/// Internal helper class for invoking attribute accessors.
 	class AttributeAccessor : public Referenced
 	{
 	public:
 		/// Get the attribute.
-		virtual void Get(const Serializable* ptr, Any& dest) const {}
+		virtual void Get(const Object* ptr, Any& dest) const {}
 		
 		/// Set the attribute.
-		virtual void Set(Serializable* ptr, const Any& src) {}
+		virtual void Set(Object* ptr, const Any& src) {}
 	};
 
 	/// Description of an automatically serializable variable.
@@ -45,7 +42,6 @@ namespace ma
 	{
 		/// Construct empty.
 		AttributeInfo() :
-			offset_(0),
 			enumNames_(0),
 			mode_(AM_DEFAULT),
 			ptr_(0)
@@ -54,9 +50,7 @@ namespace ma
 	    
 		/// Construct offset attribute.
 		AttributeInfo(const char* name, size_t offset, const Any& defaultValue, unsigned mode) :
-			//type_(type),
 			name_(name),
-			offset_((unsigned)offset),
 			enumNames_(0),
 			defaultValue_(defaultValue),
 			mode_(mode),
@@ -68,7 +62,6 @@ namespace ma
 		AttributeInfo(const char* name, size_t offset, const char** enumNames, const Any& defaultValue, unsigned mode) :
 			//type_(VAR_INT),
 			name_(name),
-			offset_((unsigned)offset),
 			enumNames_(enumNames),
 			defaultValue_(defaultValue),
 			mode_(mode),
@@ -78,9 +71,7 @@ namespace ma
 	    
 		/// Construct accessor attribute.
 		AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode) :
-			//type_(type),
 			name_(name),
-			offset_(0),
 			enumNames_(0),
 			accessor_(accessor),
 			defaultValue_(defaultValue),
@@ -91,9 +82,7 @@ namespace ma
 	    
 		/// Construct accessor enum attribute.
 		AttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode) :
-			//type_(VAR_INT),
 			name_(name),
-			offset_(0),
 			enumNames_(enumNames),
 			accessor_(accessor),
 			defaultValue_(defaultValue),
@@ -102,12 +91,8 @@ namespace ma
 		{
 		}
 	    
-		/// Attribute type.
-		//VariantType type_;
 		/// Name.
 		std::string name_;
-		/// Byte offset from start of object.
-		unsigned offset_;
 		/// Enum names.
 		const char** enumNames_;
 		/// Helper object for accessor mode.
@@ -116,7 +101,7 @@ namespace ma
 		Any defaultValue_;
 		/// Attribute mode: whether to use for serialization, network replication, or both.
 		unsigned mode_;
-		/// Attribute data pointer if elsewhere than in the Serializable.
+		/// Attribute data pointer if elsewhere than in the Object.
 		void* ptr_;
 	};
 
@@ -138,7 +123,7 @@ namespace ma
 		}
 
 		/// Invoke getter function.
-		virtual void Get(const Serializable* ptr, Any& dest) const
+		virtual void Get(const Object* ptr, Any& dest) const
 		{
 			assert(ptr);
 			const T* classPtr = static_cast<const T*>(ptr);
@@ -146,7 +131,7 @@ namespace ma
 		}
 
 		/// Invoke setter function.
-		virtual void Set(Serializable* ptr, const Any& value)
+		virtual void Set(Object* ptr, const Any& value)
 		{
 			assert(ptr);
 			T* classPtr = static_cast<T*>(ptr);
@@ -177,7 +162,7 @@ namespace ma
 		}
 
 		/// Invoke getter function.
-		virtual void Get(const Serializable* ptr, Any& dest) const
+		virtual void Get(const Object* ptr, Any& dest) const
 		{
 			assert(ptr);
 			const T* classPtr = static_cast<const T*>(ptr);
@@ -185,7 +170,7 @@ namespace ma
 		}
 
 		/// Invoke setter function.
-		virtual void Set(Serializable* ptr, const Any& value)
+		virtual void Set(Object* ptr, const Any& value)
 		{
 			assert(ptr);
 			T* classPtr = static_cast<T*>(ptr);
@@ -219,7 +204,7 @@ namespace ma
 		}
 
 		/// Invoke getter function.
-		virtual void Get(const Serializable* ptr, Any& dest) const
+		virtual void Get(const Object* ptr, Any& dest) const
 		{
 			ASSERT(ptr);
 			const T* classPtr = static_cast<const T*>(ptr);
@@ -231,7 +216,7 @@ namespace ma
 		}
 
 		/// Invoke setter function.
-		virtual void Set(Serializable* ptr, const Any& value)
+		virtual void Set(Object* ptr, const Any& value)
 		{
 			ASSERT(ptr);
 

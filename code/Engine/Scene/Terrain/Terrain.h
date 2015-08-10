@@ -110,7 +110,7 @@ namespace ma
 		void SetBlendMap(const char* pszFile);
 		const Vector2& GetBlendOffSet() const {return m_vBlendOffset;}
 		
-		virtual bool OnLoadOver();
+		virtual bool IsReady();
 
 	private:
 		void BuildTrunks();

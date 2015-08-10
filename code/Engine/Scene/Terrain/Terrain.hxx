@@ -41,7 +41,7 @@ namespace ma
 	{
 		SceneNode::Update();
 
-		OnLoadOver();
+		IsReady();
 
 		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
 		{
@@ -340,18 +340,18 @@ namespace ma
 			m_pBlendMap = CreateSamplerState(pszFile);
 	}
 	
-	bool Terrain::OnLoadOver()
+	bool Terrain::IsReady()
 	{
 		if (m_bLoadOver)
 			return true;
 
-		if (m_pMaterialData == NULL || !m_pMaterialData->OnLoadOver())
+		if (m_pMaterialData == NULL || !m_pMaterialData->IsReady())
 			return false;
 
-		if (m_pHeightResource == NULL || !m_pHeightResource->OnLoadOver())
+		if (m_pHeightResource == NULL || !m_pHeightResource->IsReady())
 			return false;
 		
-		if (m_pMaterialResource && !m_pMaterialResource->OnLoadOver())
+		if (m_pMaterialResource && !m_pMaterialResource->IsReady())
 			return false;
 
 // 		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
@@ -363,12 +363,12 @@ namespace ma
 
 		if (m_bBlendMapToVertex) 
 		{
-			if (m_pBlendResource == NULL || !m_pBlendResource->OnLoadOver())
+			if (m_pBlendResource == NULL || !m_pBlendResource->IsReady())
 				return false;
 		}
 		else
 		{
-			if (m_pBlendMap == NULL || !m_pBlendMap->OnLoadOver())
+			if (m_pBlendMap == NULL || !m_pBlendMap->IsReady())
 				return false;
 		}
 
@@ -802,7 +802,7 @@ namespace ma
 	{
 		Terrain* pTerrian = new Terrain(NULL);
 		pTerrian->LoadFromXML(pszFile);
-		pTerrian->OnLoadOver();
+		pTerrian->IsReady();
 		return pTerrian;
 	}
 }

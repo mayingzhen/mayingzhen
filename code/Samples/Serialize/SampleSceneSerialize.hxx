@@ -58,11 +58,11 @@ namespace ma
 		if (arg.key == OIS::KC_X)
 		{
 			{
-				m_pScene->GetRootNode()->SaveToFile(strScenePath.c_str());
+				//m_pScene->GetRootNode()->SaveToFile(strScenePath.c_str());
 			}
 
 			{
-				m_pScene->GetRootNode()->LoadFromFile(strScenePath.c_str());
+				//m_pScene->GetRootNode()->LoadFromFile(strScenePath.c_str());
 			}
 		}
 

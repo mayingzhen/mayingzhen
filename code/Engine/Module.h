@@ -8,8 +8,8 @@
 #include "Engine/RTTI/Referenced.h"
 #include "Engine/RTTI/RefPtr.h"
 #include "Engine/RTTI/Object.h"
-#include "Engine/RTTI/ObjectFactory.h"
 #include "Engine/RTTI/Serializable.h"
+#include "Engine/RTTI/ObjectFactory.h"
 #include "Engine/RTTI/AttributeManager.h"
 
 // Event
@@ -27,6 +27,7 @@
 #include "Engine/Resource/ArchiveManager.h"
 #include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
+#include "Engine/Resource/XmlFile.h"
 #include "Engine/Resource/ResourceSystem.h"
 #include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h" 

@@ -39,7 +39,7 @@ namespace ma
 		virtual	Renderable*			GetRenderableByIndex(UINT index) const;
 
 	private:
-		virtual bool				OnLoadOver();
+		virtual bool				IsReady();
 	
 		virtual void				CreateRenderable();
 
@@ -52,6 +52,8 @@ namespace ma
 
 		bool						m_bOnLoadOver;
 	};
+
+	RefPtr<MeshComponent> CreateMeshComponent();
 
 	class SkinMeshComponent : public MeshComponent
 	{
@@ -67,6 +69,8 @@ namespace ma
 	private:
 		virtual void				CreateRenderable();
 	};
+
+	RefPtr<SkinMeshComponent> CreateSkinMeshComponent();
 }
 
 #endif

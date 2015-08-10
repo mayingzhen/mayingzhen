@@ -21,7 +21,7 @@ namespace ma
 	};
 
 
-	class AnimTreeNode : public Serializable
+	class AnimTreeNode : public Object
 	{
 	public:
 		static void			RegisterAttribute();
@@ -36,7 +36,13 @@ namespace ma
 
 		virtual bool		Instantiate() = 0;
 
-		virtual bool		OnLoadOver() = 0;
+		virtual bool		IsReady() = 0;
+		
+		const char*			GetName() const;
+		void				SetName(const char* pszName);
+
+	protected:
+		std::string			m_strName;
 
 	};
 

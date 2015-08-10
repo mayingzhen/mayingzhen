@@ -7,7 +7,7 @@ namespace ma
 {
 	class ImageData;	
 
-	class Texture : public Serializable
+	class Texture : public Resource
 	{
 		
 	public:
@@ -38,7 +38,7 @@ namespace ma
 		void			SetImagePath(const char* pTexPath);
 		const char*		GetImagePath() const;
 
-		virtual	bool	OnLoadOver();
+		virtual	bool	IsReady();
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	
@@ -73,6 +73,7 @@ namespace ma
 	};
 
 	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap = REPEAT, FilterOptions eFilter = TFO_TRILINEAR);
+	RefPtr<Texture> CreateSamplerState();
 }
 
 #endif

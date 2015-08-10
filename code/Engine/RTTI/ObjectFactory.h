@@ -43,6 +43,8 @@ namespace ma
 		return pTypeObject;
 	}
 
+	#define REGISTER_OBJECT(className, createFunction) GetObjectFactoryManager()->RegisterObjectFactory(className::StaticGetClassName(),(ObjectCreator)createFunction);
+
 }
 
 #endif //__ObjectFactory_H__
