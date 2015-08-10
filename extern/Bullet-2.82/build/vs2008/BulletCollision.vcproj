@@ -497,7 +497,7 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\..\..\urho3d-Urho3D-1.31-225-ged59f76\urho3d-Urho3D-ed59f76\Source\ThirdParty\Bullet\src\BulletCollision\CollisionDispatch\btCompoundCollisionAlgorithm.cpp"
+						RelativePath="..\..\src\BulletCollision\CollisionDispatch\btCompoundCollisionAlgorithm.h"
 						>
 					</File>
 					<File
@@ -505,11 +505,11 @@
 						>
 					</File>
 					<File
-						RelativePath="..\..\src\BulletCollision\CollisionDispatch\btCompoundCollisionAlgorithm.h"
+						RelativePath="..\..\src\BulletCollision\CollisionDispatch\btCompoundCompoundCollisionAlgorithm.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\..\..\..\..\urho3d-Urho3D-1.31-225-ged59f76\urho3d-Urho3D-ed59f76\Source\ThirdParty\Bullet\src\BulletCollision\CollisionDispatch\btCompoundCompoundCollisionAlgorithm.cpp"
+						RelativePath="..\..\src\BulletCollision\CollisionDispatch\btCompoundCompoundCollisionAlgorithm.h"
 						>
 					</File>
 					<File
