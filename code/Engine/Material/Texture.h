@@ -19,8 +19,6 @@ namespace ma
 
 		DECL_OBJECT(Texture)
 
-		static void		RegisterAttribute();
-
 		int				GetWidth() const {return m_nWidth;}
 
 		int				GetHeight() const {return m_nHeight;}
@@ -29,18 +27,21 @@ namespace ma
 
 		USAGE			GetUsage() const {return m_eUsage;}
 
-		void			SetWrapMode(Wrap eWrap) {m_eWrap = eWrap;}
 		Wrap			GetWrapMode() const {return m_eWrap;}
 
-		void			SetFilterMode(FilterOptions ficationFilter) {m_eFilter = ficationFilter;}
-		FilterOptions	GetFilterMode() const {return m_eFilter;} 
+		Filter			GetFilterMode() const {return m_eFilter;} 
 
-		void			SetImagePath(const char* pTexPath);
 		const char*		GetImagePath() const;
+
+		void			Load(const char* pszPath,Wrap eWrap,Filter eFilter);
 
 		virtual	bool	IsReady();
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
+
+
+		static RefPtr<Texture>	Improt(TiXmlElement* pXmlElem);
+		static void		Export(Texture* pTexture,TiXmlElement* pXmlElem);	
 	
 	protected:
 
@@ -65,15 +66,15 @@ namespace ma
 		TEXTURE_TYPE	m_eType;
 
 		Wrap			m_eWrap;
-		FilterOptions	m_eFilter;	
+		Filter	m_eFilter;	
 		RefPtr<Resource> m_pImageRes;
 		std::string		m_strImagePath;
 
 		friend class	RenderThread;
 	};
 
-	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap = REPEAT, FilterOptions eFilter = TFO_TRILINEAR);
-	RefPtr<Texture> CreateSamplerState();
+	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR);
+	RefPtr<Texture> CreateTexture();
 }
 
 #endif

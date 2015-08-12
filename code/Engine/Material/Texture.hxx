@@ -37,22 +37,18 @@ namespace ma
 
 	}
 
-	void Texture::RegisterAttribute()
-	{
-		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Wrap", GetWrapMode, SetWrapMode, Wrap, strDescWrap, REPEAT, AM_DEFAULT);
-		ENUM_ACCESSOR_ATTRIBUTE(Texture, "Filter", GetFilterMode, SetFilterMode, FilterOptions, strDescFilterOptions, TFO_TRILINEAR, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(Texture, "Texture", GetImagePath, SetImagePath, const char*, NULL, AM_DEFAULT);
-	}
-
 	const char* Texture::GetImagePath() const
 	{
 		return m_pImageRes ? m_pImageRes->GetResPath() : m_strImagePath.c_str();
 	}
 
-	void Texture::SetImagePath(const char* pTexPath)
+	void Texture::Load(const char* pszPath,Wrap eWrap,Filter eFilter)
 	{
-		m_strImagePath = pTexPath;
-		m_pImageRes = CreateResource(pTexPath);
+		m_eWrap = eWrap;
+		m_eFilter = eFilter;
+		m_strImagePath = pszPath;
+		m_pImageRes = CreateResource(pszPath);
+		IsReady();
 	}
 
 	bool Texture::IsReady()
@@ -223,18 +219,36 @@ namespace ma
 		return true;
 	}
 
-	RefPtr<Texture> CreateSamplerState(const char* pImagePath,Wrap eWrap, FilterOptions eFilter)
+	RefPtr<Texture> Texture::Improt(TiXmlElement* pXmlTexture)
 	{
-		string strTemp = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilterOptions[eFilter] + ".sampler";
-		RefPtr<Texture> pSamplerState = FindResource<Texture>( strTemp.c_str() );
-		if (pSamplerState)
-			return pSamplerState;
+		const char* pszIMagePath = pXmlTexture->Attribute("ImagePath");
+		const char* pszWrap = pXmlTexture->Attribute("Wrap");
+		const char* pszFilter = pXmlTexture->Attribute("Filter");
 
-		Texture* pTextute = DeclareResource<Texture>(strTemp.c_str());
-		pTextute->SetWrapMode(eWrap);
-		pTextute->SetFilterMode(eFilter);
-		pTextute->SetImagePath(pImagePath);
-		pTextute->IsReady();
+		Wrap eWrap = StringToEnum<Wrap>(pszWrap,strDescWrap);
+		Filter eFilter = StringToEnum<Filter>(pszFilter,strDescFilter);
+
+		RefPtr<Texture> pTexture = CreateTexture(pszIMagePath,eWrap,eFilter);
+		return pTexture;
+	}
+
+	void Texture::Export(Texture* pTexutre,TiXmlElement* pXmlTexture)
+	{
+		pXmlTexture->SetAttribute("ImagePath",pTexutre->GetImagePath());
+		pXmlTexture->SetAttribute("Wrap",strDescWrap[pTexutre->GetWrapMode()]);
+		pXmlTexture->SetAttribute("Filter",strDescFilter[pTexutre->GetFilterMode()]);
+	}
+
+	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter)
+	{
+		string strKey = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilter[eFilter] + ".sampler";
+		StringUtil::toLowerCase(strKey);
+		RefPtr<Texture> pTextute = FindResource<Texture>( strKey.c_str() );
+		if (pTextute)
+			return pTextute;
+
+		pTextute = DeclareResource<Texture>(strKey.c_str());
+		pTextute->Load(pImagePath,eWrap,eFilter);
 		return pTextute;
 	}
 

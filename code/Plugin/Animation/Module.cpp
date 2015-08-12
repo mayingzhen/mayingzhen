@@ -27,9 +27,9 @@
 
 using namespace ma;
 
-#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
-#include <Animation/RTTIDecl.h>
-#undef RTTI_DECL
+// #define RTTI_DECL(ClassType) RefPtr<Object> Create_##ClassType() { return new ClassType();}
+// #include <Animation/RTTIDecl.h>
+// #undef RTTI_DECL
 
 Resource* AnimationData_Creator() {return new Animation();}
 Resource* SkeletonData_Creator() {return new Skeleton();}
@@ -45,10 +45,10 @@ void AnimationModuleInit()
 	GetResourceSystem()->RegisterResourceFactory("aniset",AnimSetData_Creator);
 
 	/// RTTI
-	#define RTTI_DECL(ClassType) \
-		GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType);
-	#include <Animation/RTTIDecl.h>
-	#undef RTTI_DECL
+// 	#define RTTI_DECL(ClassType) \
+// 		GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType);
+// 	#include <Animation/RTTIDecl.h>
+// 	#undef RTTI_DECL
 
 	AnimationComponent::RegisterAttribute();
 	AnimTreeNode::RegisterAttribute();
@@ -58,10 +58,10 @@ void AnimationModuleInit()
 void AnimationModuleShutdown()
 {
 	// RTTI
-	#define RTTI_DECL(ClassType) \
-		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  
-	#include <Animation/RTTIDecl.h>
-	#undef RTTI_DECL
+// 	#define RTTI_DECL(ClassType) \
+// 		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  
+// 	#include <Animation/RTTIDecl.h>
+// 	#undef RTTI_DECL
 
 	GetResourceSystem()->UnregisterResourceFactory("ske",SkeletonData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("ska",AnimationData_Creator);

@@ -149,18 +149,18 @@ namespace ma
 
 		// Height
 		string m_strHeightMap;
-		RefPtr<Resource> m_pHeightResource;
+		RefPtr<Resource> m_pHeightMapData;
 		vector<uint16> m_vecHeight;
 
 		// Material
 		string m_strMaterialMap;
-		RefPtr<Resource> m_pMaterialResource;
+		RefPtr<Resource> m_pMaterialMapData;
 		vector<uint8> m_vecVertexMatID;	
-		RefPtr<Material> m_pMaterialData;
+		RefPtr<Material> m_pMaterial;
 
 		// Blend
 		string m_strBlendMap;
-		RefPtr<Resource> m_pBlendResource;
+		RefPtr<Resource> m_pBlendMapData;
 		vector<UINT>  m_vecBlenData;
 		RefPtr<Texture> m_pBlendMap;
 		int m_nBlendingMultiple;

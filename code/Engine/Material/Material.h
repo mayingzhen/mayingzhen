@@ -25,9 +25,10 @@ namespace ma
 		void				SetShaderName(const char* pszSharName);
 		void				SetShderMacro(const char* pszShaderMacro);
 		void				AddParameter(const char* pName,Any value);
-
-		void				Serialize(Serializer& sl, const char* pszLable = "SubMaterial");
 		
+		virtual void		Improt(TiXmlElement* pXmlElem);
+		virtual void		Export(TiXmlElement* pXmlElem);		
+
 		RefPtr<SubMaterial>	Clone();
 	
 	private:
@@ -37,7 +38,6 @@ namespace ma
 
 		std::string			m_strShaderName;
 		std::string			m_strShaderMacro;
-		RenderState			m_renderState;
 
 		typedef std::vector<Parameter> VEC_PARAM;
 		VEC_PARAM			m_arrParameters;
@@ -46,7 +46,7 @@ namespace ma
 	RefPtr<SubMaterial> CreateSubMaterial();
 
 
-	class Material : public Resource
+	class Material : public Serializable
 	{
 	
 	public:
@@ -61,7 +61,8 @@ namespace ma
 
 		void				AddSubMaterial(SubMaterial* pSubMaterial);	
 
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "Material");
+		virtual void		Improt(TiXmlElement* pXmlElem);
+		virtual void		Export(TiXmlElement* pXmlElem);		
 
 	private:
 		typedef std::vector< RefPtr<SubMaterial> >	VEC_SUBMATERIAL;

@@ -21,61 +21,45 @@ namespace ma
 		m_sName = pName ? pName : "";
 	}
 
-	std::string GetStrMateParmType(const Any& vale)
+	void Parameter::Improt(TiXmlElement* pXmlElem)
 	{
-		std::string strType = GetStrTypeAny(vale);
-		if (strType != "")
-			return strType;
+		m_sName = pXmlElem->Attribute("Name");
 
-		const std::type_info& type = vale.getType();
-		if (type == typeid(RefPtr<Texture>))
-			return "SamplerState";
-		//else if (type == typeid(RefPtr<SamplerState>))
-		//	return "SamplerState";
-		else
+		const char* pszType = pXmlElem->Attribute("Type");
+		const char* pszValue = pXmlElem->Attribute("Value");
+
+		m_anyValue = AnyFromString(pszType,pszValue);		
+		
+		if (m_anyValue.isEmpty())
 		{
-			return "";
+			if ( stricmp(pszType,"Texture") == 0 )
+			{
+				TiXmlElement* pXmlSamplerState = pXmlElem->FirstChildElement("SamplerState");
+				m_anyValue = Any( Texture::Improt(pXmlSamplerState) );	
+			}
 		}
 	}
 
-	void Parameter::Serialize(Serializer& sl, const char* pszLable/* = "Parameter"*/)
+	void Parameter::Export(TiXmlElement* pXmlElem)
 	{
-		sl.BeginSection(pszLable);
+		pXmlElem->SetAttribute("Name",m_sName.c_str());
 
-		sl.Serialize(m_sName,"name");
+		string strType;
+		string strValue;
+		AnyGetString(m_anyValue,strType,strValue);
 
-		std::string strType = GetStrMateParmType(m_anyValue);
+		pXmlElem->SetAttribute("Type",strType.c_str());
+		pXmlElem->SetAttribute("Value",strValue.c_str());
 
-		SerializeAnyValue(sl,strType,m_anyValue);
-
-		if (strType == "SamplerState")
+		if (strValue.empty())
 		{
-			Wrap eWrap = REPEAT;
-			FilterOptions eFilter = TFO_POINT;
-			string strIamgePath;
-			if (sl.IsReading())
+			if (strType == "Texture")
 			{
-				sl.Serialize(strIamgePath,"ImagePath");
- 				sl.Serialize(eFilter,strDescFilterOptions,"Filter");
- 				sl.Serialize(eWrap,strDescWrap,"Wrap");
-
-				m_anyValue = Any( CreateSamplerState(strIamgePath.c_str(),eWrap,eFilter) );
-			}
-			else
-			{
+				TiXmlElement* pXmlSamplerState = new TiXmlElement("SamplerState");
+				pXmlElem->LinkEndChild(pXmlElem);
 				RefPtr<Texture> pTexture = any_cast< RefPtr<Texture> >(m_anyValue);
-
-				eWrap = pTexture->GetWrapMode();
-				FilterOptions eFilter = pTexture->GetFilterMode();
-				string strIamgePath = pTexture->GetImagePath();
-
-				sl.Serialize(strIamgePath,"ImagePath");
-				sl.Serialize(eFilter,strDescFilterOptions,"Filter");
-				sl.Serialize(eWrap,strDescWrap,"Wrap");
+				Texture::Export(pTexture.get(), pXmlSamplerState);
 			}
 		}
-
-		sl.EndSection();
 	}
-
 }

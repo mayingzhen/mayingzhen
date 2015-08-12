@@ -17,7 +17,7 @@ namespace ma
 
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 
-		m_pDefferedShadow->GetRenderState().m_bDepthWrite = false;
+		m_pDefferedShadow->GetRenderState().SetDepthWrite(false);
 	}
 
 	void DeferredShadowPass::Render()

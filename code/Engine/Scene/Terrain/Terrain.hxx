@@ -300,7 +300,7 @@ namespace ma
 	{
 		m_strHeightMap = pszFile ? pszFile : "";
 
-		m_pHeightResource = CreateResource(pszFile);
+		m_pHeightMapData = CreateResource(pszFile);
 	}
 
 	const char* Terrain::GetMaterialMap() const
@@ -312,17 +312,17 @@ namespace ma
 	{
 		m_strMaterialMap = pszFile ? pszFile : "";
 
-		m_pMaterialResource = CreateResource(pszFile);
+		m_pMaterialMapData = CreateResource(pszFile);
 	}
 
 	const char* Terrain::GetMaterialPath() const
 	{
-		return m_pMaterialData ? m_pMaterialData->GetResPath() : NULL;
+		return m_pMaterial ? m_pMaterial->GetXMLFile()->GetResPath() : NULL;
 	}
 
 	void Terrain::SetMaterialPath(const char* pPath)
 	{
-		m_pMaterialData = LoadResource<Material>(pPath);
+		m_pMaterial = LoadResource<Material>(pPath);
 	}
 
 	const char* Terrain::GetBlendMap() const
@@ -335,9 +335,9 @@ namespace ma
 		m_strBlendMap = pszFile ? pszFile : "";
 
 		if (m_bBlendMapToVertex)
-			m_pBlendResource = CreateResource(pszFile);
+			m_pBlendMapData = CreateResource(pszFile);
 		else
-			m_pBlendMap = CreateSamplerState(pszFile);
+			m_pBlendMap = CreateTexture(pszFile);
 	}
 	
 	bool Terrain::IsReady()
@@ -345,13 +345,13 @@ namespace ma
 		if (m_bLoadOver)
 			return true;
 
-		if (m_pMaterialData == NULL || !m_pMaterialData->IsReady())
+		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
-		if (m_pHeightResource == NULL || !m_pHeightResource->IsReady())
+		if (m_pHeightMapData == NULL || !m_pHeightMapData->IsReady())
 			return false;
 		
-		if (m_pMaterialResource && !m_pMaterialResource->IsReady())
+		if (m_pMaterialMapData && !m_pMaterialMapData->IsReady())
 			return false;
 
 // 		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
@@ -363,7 +363,7 @@ namespace ma
 
 		if (m_bBlendMapToVertex) 
 		{
-			if (m_pBlendResource == NULL || !m_pBlendResource->IsReady())
+			if (m_pBlendMapData == NULL || !m_pBlendMapData->IsReady())
 				return false;
 		}
 		else
@@ -372,25 +372,25 @@ namespace ma
 				return false;
 		}
 
-		if (m_pHeightResource)
+		if (m_pHeightMapData)
 		{
-			ResourceMapToData<uint16>(m_pHeightResource.get(),m_vecHeight,m_nXCellsAmount,m_nYCellsAmount);
-			m_pHeightResource = NULL;
+			ResourceMapToData<uint16>(m_pHeightMapData.get(),m_vecHeight,m_nXCellsAmount,m_nYCellsAmount);
+			m_pHeightMapData = NULL;
 		}
 
-		if (m_pMaterialResource)
+		if (m_pMaterialMapData)
 		{
 			int matW, matH;
-			ResourceMapToData<uint8>(m_pMaterialResource.get(),m_vecVertexMatID,matW,matH);
-			m_pMaterialResource = NULL;
+			ResourceMapToData<uint8>(m_pMaterialMapData.get(),m_vecVertexMatID,matW,matH);
+			m_pMaterialMapData = NULL;
 		}
 
-		if (m_pBlendResource)
+		if (m_pBlendMapData)
 		{
 			int blendW,blenH;
-			ResourceMapToData<uint32>(m_pBlendResource.get(),m_vecBlenData,blendW,blenH);
+			ResourceMapToData<uint32>(m_pBlendMapData.get(),m_vecBlenData,blendW,blenH);
 			m_nBlendingMultiple = blendW / m_nXCellsAmount;
-			m_pBlendResource = NULL;
+			m_pBlendMapData = NULL;
 		}
 
 		if (m_pBlendMap)
@@ -729,30 +729,30 @@ namespace ma
 
 	SubMaterial* Terrain::GetMaterialByID(uint8 matID) const
 	{
-		if (m_pMaterialData == NULL)
+		if (m_pMaterial == NULL)
 			return NULL;
 
-		ASSERT(matID < m_pMaterialData->GetSubMaterialNumber());
-		if (matID >= m_pMaterialData->GetSubMaterialNumber())
+		ASSERT(matID < m_pMaterial->GetSubMaterialNumber());
+		if (matID >= m_pMaterial->GetSubMaterialNumber())
 			return NULL;
 
-		return m_pMaterialData->GetSubMaterialByIndex(matID);
+		return m_pMaterial->GetSubMaterialByIndex(matID);
 	}
 
 	UINT Terrain::GetMaterialCount() const
 	{
-		if (m_pMaterialData == NULL)
+		if (m_pMaterial == NULL)
 			return 0;
 
-		return m_pMaterialData->GetSubMaterialNumber();
+		return m_pMaterial->GetSubMaterialNumber();
 	}
 
 	void Terrain::AddMaterial(SubMaterial* pMateral)
 	{
-		if (m_pMaterialData == NULL)
+		if (m_pMaterial == NULL)
 			return;
 
-		m_pMaterialData->AddSubMaterial(pMateral);
+		m_pMaterial->AddSubMaterial(pMateral);
 	}
 
 	SubMaterial* Terrain::GetMaterial(int nXVert,int nYVert) const

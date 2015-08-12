@@ -37,7 +37,7 @@ namespace ma
 		static D3DPOOL      GetD3DPool(USAGE Usage);
 		static DWORD        GetD3DLock(int Lock);
 		static D3DFORMAT    GetD3DFormat(PixelFormat Format);
-		static void         GetD3D9Filter(FilterOptions Type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter);
+		static void         GetD3D9Filter(Filter Type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter);
 		static DWORD		GetD3D9Wrap(Wrap type);
 		static D3DDECLUSAGE GetD3DDeclUsage(DECL_USAGE DeclUsage);
 		static BYTE         GetD3DDeclType(DECL_TYPE DeclType);

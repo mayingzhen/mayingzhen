@@ -29,7 +29,8 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
-		void				Serialize(Serializer& sl, const char* pszLable = "Technique");
+		virtual void		Improt(TiXmlElement* pXmlElem);
+		virtual void		Export(TiXmlElement* pXmlElem);	
 
 		RefPtr<Technique>	Clone();
 

@@ -120,7 +120,7 @@ namespace ma
 
 	}
 
-	void GLESMapping::GetGLESFilter(FilterOptions type,GLenum& minFilter,GLenum& magFilter)
+	void GLESMapping::GetGLESFilter(Filter type,GLenum& minFilter,GLenum& magFilter)
 	{
 		if (type == TFO_POINT)
 		{

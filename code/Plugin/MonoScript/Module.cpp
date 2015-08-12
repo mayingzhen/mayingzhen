@@ -10,7 +10,7 @@
 
 using namespace ma;
 
-Object* Create_ScriptObject() { return new ScriptObject();}
+RefPtr<Object> Create_ScriptObject() { return new ScriptObject();}
 
 void MonoScriptModuleInit()
 {

@@ -117,7 +117,7 @@ namespace ma
 		
 		// Sampler State
 		Wrap						m_arrWrap[16];
-		FilterOptions				m_arrFilter[16];
+		Filter				m_arrFilter[16];
 
 		bool						m_bZEnable;
 	};

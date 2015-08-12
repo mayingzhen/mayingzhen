@@ -44,7 +44,7 @@ namespace ma
 		virtual void				CreateRenderable();
 
 	protected:
-		RefPtr<Material>			m_pMatData;
+		RefPtr<Material>			m_pMaterial;
 		RefPtr<MeshData>			m_pMesData;
 	
 		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;

@@ -15,15 +15,15 @@ namespace ma
 		int nHeight = (int)m_pScene->GetViewport().height;
 
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
-		m_pAmbientLight->GetRenderState().m_bDepthWrite = false;
+		m_pAmbientLight->GetRenderState().SetDepthWrite(false);
 
 		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight","DIRECT_LIGHT");
-		m_pDirLight->GetRenderState().m_bDepthWrite = false;
-		m_pDirLight->GetRenderState().m_eBlendMode = BM_ADD;
+		m_pDirLight->GetRenderState().SetDepthWrite(false);
+		m_pDirLight->GetRenderState().SetBlendMode(BM_ADD);
 
 		m_pPointLight = CreateTechnique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
-		m_pPointLight->GetRenderState().m_bDepthWrite = false;
-		m_pPointLight->GetRenderState().m_eBlendMode = BM_ADD;
+		m_pPointLight->GetRenderState().SetDepthWrite(false);
+		m_pPointLight->GetRenderState().SetBlendMode(BM_ADD);
 	}
 
 	void DeferredLightPass::Render()
@@ -79,11 +79,11 @@ namespace ma
 				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < pPointLight->GetRadius())
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;	
+					m_pPointLight->GetRenderState().SetCullMode(CULL_FACE_SIDE_FRONT);	
 				}
 				else
 				{
-					m_pPointLight->GetRenderState().m_eCullMode = CULL_FACE_SIDE_BACK;
+					m_pPointLight->GetRenderState().SetCullMode(CULL_FACE_SIDE_BACK);
 				}
 
 
@@ -121,7 +121,7 @@ namespace ma
 				if (pRenderObj == NULL)
 					continue;
 
-				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
 
 				pRenderObj->Render(pTech);
 			}

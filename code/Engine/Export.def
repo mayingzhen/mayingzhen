@@ -212,7 +212,6 @@ EXPORTS
 ??0Texture@ma@@QAE@XZ
 ??1Texture@ma@@UAE@XZ
 ?IsReady@Texture@ma@@UAE_NXZ
-?CreateSamplerState@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4FilterOptions@1@@Z
 ?Open@BinaryInputSerializer@ma@@QAE_NPBD@Z
 ?Rotate@SceneNode@ma@@QAEXABVQuaternion@2@_N@Z
 ?Yaw@SceneNode@ma@@QAEXM_N@Z
@@ -250,3 +249,7 @@ EXPORTS
 ?Export@Object@ma@@UAEXPAVTiXmlElement@@@Z
 ?OnSetAttribute@Object@ma@@MAEXABUAttributeInfo@2@ABVAny@2@@Z
 ?OnGetAttribute@Object@ma@@MBEXABUAttributeInfo@2@AAVAny@2@@Z
+?CreateObject@ObjectFactoryManager@ma@@QAE?AV?$RefPtr@VObject@ma@@@2@PBD@Z
+?RegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
+?UnRegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
+?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@@Z

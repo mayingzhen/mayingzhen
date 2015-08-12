@@ -12,7 +12,7 @@
 
 using namespace ma;
 
-#define RTTI_DECL(ClassType) Object* Create_##ClassType() { return new ClassType();}
+#define RTTI_DECL(ClassType) RefPtr<Object> Create_##ClassType() { return new ClassType();}
 #include <BulletPhysics/RTTIDecl.h>
 #undef RTTI_DECL
 

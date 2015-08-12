@@ -50,10 +50,6 @@ namespace ma
 		{
 			return Any( StringConverter::parseQuaternion(strVarValue) );
 		}
-		else if (strVarType == "TexturePath")
-		{
-			return Any( CreateSamplerState(strVarValue.c_str()) );
-		}
 		else
 		{
 			ASSERT(false);
@@ -109,12 +105,6 @@ namespace ma
 		{
 			strVarType = "Quaternion";
 			strVarValue = StringConverter::toString( any_cast<Quaternion>(varValue) );
-		}
-		else if (type == typeid(RefPtr<Texture>))
-		{
-			strVarType = "TexturePath";
-			RefPtr<Texture> pTexture = any_cast< RefPtr<Texture> >(varValue);
-			strVarValue = pTexture->GetResPath();
 		}
 		else 
 		{

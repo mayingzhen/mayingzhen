@@ -43,12 +43,12 @@ namespace ma
 
 	const char*	 MeshComponent::GetMaterialFile() const
 	{
-		return m_pMatData ? m_pMatData->GetResPath() : NULL;
+		return m_pMaterial ? m_pMaterial->GetXMLFile()->GetResPath() : NULL;
 	}
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
-		m_pMatData = LoadResource<Material>(pFile);
+		m_pMaterial = CreateMaterial(pFile);
 
 		m_bOnLoadOver = false;
 		IsReady();
@@ -83,8 +83,8 @@ namespace ma
 
 	void MeshComponent::CreateRenderable()
 	{
-		ASSERT(m_pMatData && m_pMesData);
-		if (m_pMatData == NULL || m_pMesData == NULL)
+		ASSERT(m_pMaterial && m_pMesData);
+		if (m_pMaterial == NULL || m_pMesData == NULL)
 			return;
 		
 		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
@@ -96,7 +96,7 @@ namespace ma
 			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
 			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
 			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
-			pRenderable->m_pMaterial = m_pMatData->GetSubMaterialByIndex(i); 
+			pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(i); 
 
 			m_arrRenderable.push_back(pRenderable);
 		}
@@ -112,7 +112,7 @@ namespace ma
 		if (m_pMesData == NULL || !m_pMesData->IsReady())
 			return false;
 
-		if (m_pMatData == NULL || !m_pMatData->IsReady())
+		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
 		CreateRenderable();
@@ -149,8 +149,8 @@ namespace ma
 
 	void SkinMeshComponent::CreateRenderable()
 	{
-		ASSERT(m_pMatData && m_pMesData);
-		if (m_pMatData == NULL || m_pMesData == NULL)
+		ASSERT(m_pMaterial && m_pMesData);
+		if (m_pMaterial == NULL || m_pMesData == NULL)
 			return;
 
 		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
@@ -162,7 +162,7 @@ namespace ma
 			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
 			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
 			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
-			pRenderable->m_pMaterial = m_pMatData->GetSubMaterialByIndex(i); 
+			pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(i); 
 	
 			m_arrRenderable.push_back(pRenderable);
 		}

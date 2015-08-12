@@ -336,7 +336,7 @@ namespace ma
 
 		if (SHADOW_JITTERIN == eBlur)
 		{
-			m_pRotSampler = CreateSamplerState("_common/rotrandom.dds");
+			m_pRotSampler = CreateTexture("_common/rotrandom.dds");
 			
 			SetShadowSamplesNum(m_ShadowSamplesNumer);
 		}

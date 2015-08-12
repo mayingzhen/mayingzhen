@@ -18,8 +18,8 @@ namespace ma
 		m_bUpdate = false;
 		
 		RefPtr<Technique> pTech = CreateTechnique("default","Particle","Particle","");
-		pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
-		m_pMaterial->SetShadingTechnqiue( pTech.get() );
+		pTech->GetRenderState().SetBlendMode(BM_TRANSPARENT);
+		m_pSubMaterial->SetShadingTechnqiue( pTech.get() );
 	}
 
 	ParticleBatch::~ParticleBatch()
@@ -121,7 +121,7 @@ namespace ma
 		info.m_nSpriteFrameRandomOffset = pSpriteProp->getInt("frameRandomOffset");
 		info.m_fSpriteFrameDuration = pSpriteProp->getFloat("frameDuration");
 
-		RefPtr<Texture> pTexture = CreateSamplerState( info.m_sTexturePath.c_str() );
+		RefPtr<Texture> pTexture = CreateTexture( info.m_sTexturePath.c_str() );
 		ASSERT(pTexture);
 		if (pTexture == NULL)
 			return;
@@ -130,7 +130,7 @@ namespace ma
 
 		setSpriteFrameCoords( pTexture->GetWidth(), pTexture->GetHeight());
 
-		m_pMaterial->GetShadingTechnqiue()->GetRenderState().m_eBlendMode = info.m_eTextureBlending;
+		m_pSubMaterial->GetShadingTechnqiue()->GetRenderState().SetBlendMode(info.m_eTextureBlending);
 		//GetStateBlock().m_eBlendMode = info.m_eTextureBlending;
 	}
 

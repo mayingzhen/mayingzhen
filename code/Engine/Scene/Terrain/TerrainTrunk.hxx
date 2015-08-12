@@ -266,7 +266,7 @@ namespace ma
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffers = lod.m_BodyVB;
 				pRenderable->m_pIndexBuffer = it->second;
-				pRenderable->m_pMaterial = m_pTerrain->GetMaterialByID(it->first);
+				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(it->first);
 				pRenderable->m_fMateriID = (float)it->first;
 				lod.m_vecBody.push_back(pRenderable);
 			}
@@ -338,15 +338,15 @@ namespace ma
 			{
 				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
 				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
-				pTech->GetRenderState().m_eBlendMode = BM_TRANSPARENT;
-				pTech->GetRenderState().m_eDepthCheckMode = DCM_EQUAL;
+				pTech->GetRenderState().SetBlendMode(BM_TRANSPARENT);
+				pTech->GetRenderState().SetDepthCheckMode(DCM_EQUAL);
 				pTech->AddShaderMarco("BOREDER");
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffers = lod.m_BodyVB;
 				pRenderable->m_pIndexBuffer = it->second;
-				pRenderable->m_pMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
+				pRenderable->m_pSubMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
 				pRenderable->m_fMateriID = (float)it->first;
 				pRenderable->m_bBorder = true;
 				lod.m_vecBorder.push_back(pRenderable);
@@ -378,7 +378,7 @@ namespace ma
 				Terrain::SkirtIB& skirtIB = lodIB.m_vecSkitIB[n];
 
 				RefPtr<SubMaterial> pSkirtMaterial = m_vecLod[m].m_vecBody[0]->GetMaterial()->Clone();
-				pSkirtMaterial->GetShadingTechnqiue()->GetRenderState().m_eCullMode = CULL_FACE_SIDE_NONE;
+				pSkirtMaterial->GetShadingTechnqiue()->GetRenderState().SetCullMode(CULL_FACE_SIDE_NONE);
 
 				for (UINT i = 0; i < SideNum; ++i)
 				{
@@ -386,7 +386,7 @@ namespace ma
 					pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 					pRenderable->m_pVertexBuffers = lod.m_BodyVB;
 					pRenderable->m_pIndexBuffer = skirtIB.SkitIB[i];
-					pRenderable->m_pMaterial = pSkirtMaterial.get();
+					pRenderable->m_pSubMaterial = pSkirtMaterial.get();
 					skirt.skirt[i] = pRenderable;
 				}
 

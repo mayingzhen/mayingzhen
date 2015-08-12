@@ -67,6 +67,35 @@ namespace ma
 	};
 
 
+
+	template<class EnumType>
+	EnumType StringToEnum(string strEnum, const char** pEnumNames)
+	{
+		EnumType type;
+		bool enumFound = false;
+		int enumValue = 0;
+		while (*pEnumNames)
+		{
+			if ( strcmp( *pEnumNames, strEnum.c_str() ) == 0 )
+			{
+				enumFound = true;
+				break;
+			}
+			++pEnumNames;
+			++enumValue;
+		}
+
+		if (enumFound)
+		{
+			type = (EnumType)enumValue;
+		}
+		else
+		{
+			ASSERT(false);
+		}
+		return type;
+	}
+
 	template<class EnumType>
 	void Serializer::Serialize(EnumType& type,const char** pEnumNames,const char *pszLable/* = "Enum"*/)
 	{
@@ -76,27 +105,7 @@ namespace ma
 
 		if ( this->IsReading() )
 		{
-			bool enumFound = false;
-			int enumValue = 0;
-			while (*pEnumNames)
-			{
-				if ( strcmp( *pEnumNames, strEnumName.c_str() ) == 0 )
-				{
-					enumFound = true;
-					break;
-				}
-				++pEnumNames;
-				++enumValue;
-			}
-
-			if (enumFound)
-			{
-				type = (EnumType)enumValue;
-			}
-			else
-			{
-				ASSERT(false);
-			}
+			type = StringToEnum(strEnumName,pEnumNames);
 		}
 	}
 

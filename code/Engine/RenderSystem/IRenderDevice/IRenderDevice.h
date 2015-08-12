@@ -16,7 +16,7 @@ namespace ma
 	class MeshBatch;
 	class Renderable;
 	class ShaderProgram;
-	struct RenderState;
+	class RenderState;
 	class Technique;
 	class Uniform;
 

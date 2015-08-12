@@ -24,6 +24,8 @@ namespace ma
 		void					LoadFromXML(const char* pszXMlFile);
 
 		bool					IsReady();
+
+		XmlFile*				GetXMLFile() {return m_pXMlFile.get();}
 	protected:
 		RefPtr<XmlFile>			m_pXMlFile;
 		bool					m_bLoadOver;

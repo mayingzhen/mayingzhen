@@ -19,7 +19,10 @@ namespace ma
 		void		SetValue(const Any& value) {m_anyValue = value;}
 		const Any&	GetValue() const {return m_anyValue;}
 
-		void		Serialize(Serializer& sl, const char* pszLable = "Parameter");
+		void		Improt(TiXmlElement* pXmlElem);
+		void		Export(TiXmlElement* pXmlElem);		
+
+		//void		Serialize(Serializer& sl, const char* pszLable = "Parameter");
 
 	private:
 		Any				m_anyValue;

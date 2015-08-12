@@ -480,7 +480,7 @@ D3DDECLUSAGE D3D9Mapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
 }
 
 
-void D3D9Mapping::GetD3D9Filter(FilterOptions type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter)
+void D3D9Mapping::GetD3D9Filter(Filter type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter)
 {
 	if (type == TFO_POINT)
 	{

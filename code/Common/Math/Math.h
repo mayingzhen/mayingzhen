@@ -563,7 +563,8 @@ namespace ma
 
 		// 判断ray是否与线段v0、v1相交，若ray与线段的距离小于fMaxDistance则返回true
 		static bool Intersects(const Ray& ray, const Vector3& v0, const Vector3& v1, float fMaxDistance);
-
+		
+		static uint32 FastHash (const char * data, int len, uint32 hashSoFar = 0);
 
         static const float POS_INFINITY;
         static const float NEG_INFINITY;

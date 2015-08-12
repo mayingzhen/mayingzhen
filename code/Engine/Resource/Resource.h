@@ -24,7 +24,7 @@ namespace ma
 	class Serializer;
 	class MemoryStream;
 
-	class Resource : public Object
+	class Resource : public Referenced
 	{
 
 	public:

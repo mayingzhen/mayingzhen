@@ -18,9 +18,7 @@ using namespace ma;
 
 //ResCreator
 Resource*	MeshData_Creator() {return new MeshData();}
-Resource*	Material_Creator() {return new Material();}
-Resource*	SamplerState_Creator() {return GetRenderDevice()->CreateTexture();}
-Resource*	ShaderProgram_Creator() {return GetRenderDevice()->CreateShaderProgram();}
+Resource*	Material_Creator() {return new XmlFile();}
 
 
 void RenderSystemRTTIInit()
@@ -29,22 +27,16 @@ void RenderSystemRTTIInit()
 	SkinMeshComponent::RegisterAttribute();
 	Camera::RegisterAttribute();
 	Terrain::RegisterAttribute();
-	Texture::RegisterAttribute();
-	ShaderProgram::RegisterAttribute();
+	RenderState::RegisterAttribute();
 
 	GetResourceSystem()->RegisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->RegisterResourceFactory("mat",Material_Creator);
-	GetResourceSystem()->RegisterResourceFactory("shader",ShaderProgram_Creator);
-	GetResourceSystem()->RegisterResourceFactory("sampler",SamplerState_Creator);
-
 }
 
 void RenderSystemRTTIShutdown()
 {
 	GetResourceSystem()->UnregisterResourceFactory("skn",MeshData_Creator);
 	GetResourceSystem()->UnregisterResourceFactory("mat",Material_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("tech",ShaderProgram_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("sampler",SamplerState_Creator);
 }
 
 

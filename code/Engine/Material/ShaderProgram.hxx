@@ -13,12 +13,6 @@ namespace ma
 	{
 	}
 
-	void ShaderProgram::RegisterAttribute()
-	{
-		ACCESSOR_ATTRIBUTE(ShaderProgram, "VSFile", GetVSFile, SetVSFile, const char*, NULL, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(ShaderProgram, "PSFile", GetPSFile, SetPSFile, const char*, NULL, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(ShaderProgram, "ShaderMacro", GetShaderMacro, SetShaderMacro, const char*, NULL, AM_DEFAULT);
-	}
 
 	void ShaderProgram::BindUniform()
 	{
@@ -142,6 +136,35 @@ namespace ma
 		pUnifrom->SetName(pName);
 		m_arrUniform.push_back(pUnifrom);
 		return pUnifrom;
+	}
+
+	RefPtr<ShaderProgram> ShaderProgram::Improt(TiXmlElement* pXmlShader)
+	{
+		const char* pszVSFile = pXmlShader->Attribute("VSFile");
+		const char* pszPSFile = pXmlShader->Attribute("PSFile");
+		const char* pszMacro = pXmlShader->Attribute("ShaderMacro");
+		RefPtr<ShaderProgram> pShaderProgram = CreateShaderProgram(pszVSFile,pszPSFile,pszMacro);
+		return pShaderProgram;
+	}
+
+	void ShaderProgram::Export(ShaderProgram* pShader,TiXmlElement* pXmlShader)
+	{
+		pXmlShader->SetAttribute("VSFile",pShader->GetVSFile());
+		pXmlShader->SetAttribute("PSFile",pShader->GetPSFile());
+		pXmlShader->SetAttribute("ShaderMacro",pShader->GetShaderMacro());
+	}
+
+	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
+	{
+		string strKey = string(pszVSFile) + string("+") + pszPSFile + string("+") + pszMarco + ".shader";
+		StringUtil::toLowerCase(strKey);
+		RefPtr<ShaderProgram> pShader = FindResource<ShaderProgram>( strKey.c_str() );
+		if (pShader)
+			return pShader;
+
+		pShader= DeclareResource<ShaderProgram>(strKey.c_str());
+		pShader->CreateFromFile(pszVSFile,pszPSFile,pszMarco);
+		return pShader;
 	}
 
 }

@@ -182,11 +182,11 @@ namespace ma
 
 	void RenderSystem::InitCachState()
 	{
-		GetRenderDevice()->SetColorWrite(m_curState.m_bColorWrite);
-		GetRenderDevice()->SetDepthWrite(m_curState.m_bDepthWrite);
-		GetRenderDevice()->SetCullingMode(m_curState.m_eCullMode);
-		GetRenderDevice()->SetDepthCheckMode(m_curState.m_eDepthCheckMode);
-		GetRenderDevice()->SetBlendMode(m_curState.m_eBlendMode);
+		GetRenderDevice()->SetColorWrite( m_curState.GetColorWrite() );
+		GetRenderDevice()->SetDepthWrite( m_curState.GetDepthWrite() );
+		GetRenderDevice()->SetCullingMode( m_curState.GetCullMode() );
+		GetRenderDevice()->SetDepthCheckMode( m_curState.GetDepthCheckMode() );
+		GetRenderDevice()->SetBlendMode( m_curState.GetBlendMode() );
 	}
 
 
@@ -371,54 +371,54 @@ namespace ma
 
 	void RenderSystem::SetBlendMode(BLEND_MODE eBlendMode)
 	{
-		if (m_curState.m_eBlendMode != eBlendMode)
+		if (m_curState.GetBlendMode() != eBlendMode)
 		{
-			m_curState.m_eBlendMode = eBlendMode;
+			m_curState.SetBlendMode(eBlendMode);
 			m_pRenderThread->RC_SetBlendMode(eBlendMode);
 		}
 	}
 
 	void RenderSystem::SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode)
 	{
-		if (m_curState.m_eDepthCheckMode != eDepthCheckMode)
+		if (m_curState.GetDepthCheckMode() != eDepthCheckMode)
 		{
-			m_curState.m_eDepthCheckMode = eDepthCheckMode;
+			m_curState.SetDepthCheckMode(eDepthCheckMode);
 			m_pRenderThread->RC_SetDepthCheckMode(eDepthCheckMode);
 		}
 	}
 
 	void RenderSystem::SetCullMode(CULL_MODE eCullMode)
 	{
-		if (m_curState.m_eCullMode != eCullMode)
+		if (m_curState.GetCullMode() != eCullMode)
 		{
-			m_curState.m_eCullMode = eCullMode;
+			m_curState.SetCullMode(eCullMode);
 			m_pRenderThread->RC_SetCullMode(eCullMode);
 		}
 	}
 
 	void RenderSystem::SetDepthWirte(bool b)
 	{
-		if (m_curState.m_bDepthWrite != b)
+		if (m_curState.GetDepthWrite() != b)
 		{
-			m_curState.m_bDepthWrite = b;
+			m_curState.SetDepthWrite(b);
 			m_pRenderThread->RC_SetDepthWrite(b);
 		}
 	}
 
 	void RenderSystem::SetColorWrite(bool b)
 	{
-		if (m_curState.m_bColorWrite != b)
+		if (m_curState.GetColorWrite() != b)
 		{
-			m_curState.m_bColorWrite = b;
+			m_curState.SetColorWrite(b);
 			m_pRenderThread->RC_SetColorWrite(b);
 		}
 	}
 
 	void RenderSystem::SetDepthBias(float fDepthBias)
 	{
-		if ( Math::Abs(m_curState.m_fDepthBias - fDepthBias) > 0.0001f )
+		if ( Math::Abs(m_curState.GetDepthBias() - fDepthBias) > 0.0001f )
 		{
-			m_curState.m_fDepthBias = fDepthBias;
+			m_curState.SetDepthBias(fDepthBias);
 			m_pRenderThread->RC_SetDepthBias(fDepthBias);
 		}
 	}
@@ -426,17 +426,17 @@ namespace ma
 
 	void RenderSystem::SetRenderState(const RenderState& state)
 	{
-		SetBlendMode(state.m_eBlendMode);
+		SetBlendMode(state.GetBlendMode());
 
-		SetCullMode(state.m_eCullMode);
+		SetCullMode(state.GetCullMode());
 
-		SetDepthCheckMode(state.m_eDepthCheckMode);
+		SetDepthCheckMode(state.GetDepthCheckMode());
 		
-		SetDepthWirte(state.m_bDepthWrite);
+		SetDepthWirte(state.GetDepthWrite());
 
-		SetColorWrite(state.m_bColorWrite);
+		SetColorWrite(state.GetColorWrite());
 
-		SetDepthBias(state.m_fDepthBias);
+		SetDepthBias(state.GetDepthBias());
 	}
 
 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)

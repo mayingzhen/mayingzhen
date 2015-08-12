@@ -157,20 +157,25 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
-	void Technique::Serialize(Serializer& sl, const char* pszLable/* = "Technique"*/)
+	void Technique::Improt(TiXmlElement* pXmlElem)
 	{
-		sl.BeginSection(pszLable);
+		TiXmlElement* pXmlShader = pXmlElem->FirstChildElement("Shader");
+		m_pShaderProgram = ShaderProgram::Improt(pXmlShader);
 
-		//sl.Serialize(*m_pShaderProgram,"Shader");
-		//m_pShaderProgram->Serialize(sl,"Shader");
-		///sl.Serialize()
-		//sl.Serialize(m_pShaderProgram,"Shader");
+		TiXmlElement* pXmlRenderState = pXmlElem->FirstChildElement("RenderState");
+		pXmlElem->LinkEndChild(pXmlRenderState);
+		m_renderState.Improt(pXmlRenderState);	
+	}
 
-		sl.Serialize(m_renderState,"RenderState");
-
-		sl.Serialize(m_arrParameters,"Parameters");
-
-		sl.EndSection();
+	void Technique::Export(TiXmlElement* pXmlElem)
+	{
+		TiXmlElement* pXmlShader = new TiXmlElement("Shader");
+		pXmlElem->LinkEndChild(pXmlShader);
+		ShaderProgram::Export(m_pShaderProgram.get(),pXmlShader);
+		
+		TiXmlElement* pXmlRenderState = new TiXmlElement("RenderState");
+		pXmlElem->LinkEndChild(pXmlRenderState);
+		m_renderState.Export(pXmlRenderState);
 	}
 
 	RefPtr<Technique> Technique::Clone()
@@ -199,18 +204,10 @@ namespace ma
 		Technique* pTech = new Technique();
 		pTech->SetTechName(pTechName);
 
-		string strTemp = string(pVSFile) + string("+") + string(pPSFile) + string("+") + string(pDefine) + ".shader";
-		RefPtr<ShaderProgram> pShaderProgram = FindResource<ShaderProgram>( strTemp.c_str() );
-		if(pShaderProgram == NULL)
-		{
-			pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
-			pShaderProgram->CreateFromFile(pVSFile,pPSFile,pDefine);
-		}
+		RefPtr<ShaderProgram> pShader = CreateShaderProgram(pVSFile,pPSFile,pDefine);
 
-		pTech->SetShaderProgram(pShaderProgram.get());
+		pTech->SetShaderProgram(pShader.get());
 
 		return pTech;
 	}
-
-
 }

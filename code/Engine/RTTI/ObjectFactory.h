@@ -5,17 +5,19 @@
 
 namespace ma
 {
-	typedef Object* (*ObjectCreator)();
+	typedef RefPtr<Object> (*ObjectCreator)();
 
 	class ObjectFactoryManager
 	{
 	public:
 
-		virtual void	RegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
+		void	RegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
 
-		virtual void	UnRegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
+		void	UnRegisterObjectFactory(const char* pCls,ObjectCreator funCreator);
 
-		virtual RefPtr<Object> CreateObject(const char* clsName);
+		RefPtr<Object> CreateObject(const char* clsName);
+		
+		void Clear();
 
 	private:
 		typedef std::map<std::string,ObjectCreator> ObjFunFactoryMap;

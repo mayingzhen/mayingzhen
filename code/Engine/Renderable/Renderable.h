@@ -19,7 +19,7 @@ namespace ma
 		void							SetWorldMatrix(const Matrix4& matWS);
 		const Matrix4&					GetWorldMatrix() const;
 
-		SubMaterial*					GetMaterial() const {return m_pMaterial.get();}
+		SubMaterial*					GetMaterial() const {return m_pSubMaterial.get();}
 
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
@@ -27,7 +27,7 @@ namespace ma
 		RefPtr<VertexBuffer>			m_pVertexBuffers;	
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<SubMeshData>				m_pSubMeshData;
-		RefPtr<SubMaterial>				m_pMaterial;
+		RefPtr<SubMaterial>				m_pSubMaterial;
 	
 	private:
 		Matrix4							m_matWorld[2];

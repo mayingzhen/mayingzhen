@@ -23,16 +23,16 @@ namespace ma
 	{
 		m_pSampler = NULL;
 		
-		m_pMaterial = CreateSubMaterial();
+		m_pSubMaterial = CreateSubMaterial();
 
 		//m_pTechnique = pTech;
 		if (pTech == NULL)
 		{
-			m_pMaterial->SetShadingTechnqiue("default","DIFFUSE;COLOR");	
+			m_pSubMaterial->SetShadingTechnqiue("default","DIFFUSE;COLOR");	
 		}
 		else
 		{
-			m_pMaterial->SetShadingTechnqiue(pTech);
+			m_pSubMaterial->SetShadingTechnqiue(pTech);
 		}
 		//m_pTechnique = m_pMaterial->GetShadingTechnqiue();
 		
@@ -70,7 +70,7 @@ namespace ma
 		m_fTextureWidthRatio = 1.0f / (float)pTexture->GetWidth();
 		m_fTextureHeightRatio = 1.0f / (float)pTexture->GetHeight();
 
-		m_pMaterial->GetShadingTechnqiue()->SetParameter("u_texture",Any(m_pSampler));
+		m_pSubMaterial->GetShadingTechnqiue()->SetParameter("u_texture",Any(m_pSampler));
 	}
 
 	void SpriteBatch::Render(Technique* pTech)

@@ -34,7 +34,7 @@ namespace ma
 		pSubMaterial->SetShaderName("default");
 		pSubMaterial->SetShderMacro(strMacro.c_str());
 
-		pSubMaterial->AddParameter("u_texture", Any( CreateSamplerState(pszTexture) ) );
+		pSubMaterial->AddParameter("u_texture", Any( CreateTexture(pszTexture) ) );
 		pSubMaterial->AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->AddParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
 

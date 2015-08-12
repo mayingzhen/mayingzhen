@@ -304,7 +304,7 @@ namespace ma
 		PROJTYPE_PROJECTION,
 	};
 
-	enum FilterOptions
+	enum Filter
 	{
 		/// Equal to: min=FO_POINT, mag=FO_POINT, mip=FO_NONE
 		TFO_POINT,
@@ -316,7 +316,7 @@ namespace ma
 		TFO_ANISOTROPIC
 	};
 
-	static const char* strDescFilterOptions[] =
+	static const char* strDescFilter[] =
 	{
 		"TFO_POINT",
 		"TFO_BILINEAR",

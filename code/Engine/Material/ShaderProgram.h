@@ -18,8 +18,6 @@ namespace ma
 	
 		DECL_OBJECT(ShaderProgram)
 
-		static void			RegisterAttribute();
-
 		virtual void		CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize) = 0;
 		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines = NULL);
 
@@ -40,6 +38,9 @@ namespace ma
 		const char*			GetShaderMacro() const;
 		void				SetShaderMacro(const char* pszMacro);
 
+		static RefPtr<ShaderProgram> Improt(TiXmlElement* pXmlElem);
+		static void			Export(ShaderProgram* pShader,TiXmlElement* pXmlElem);				
+
 	protected:
 
 		virtual	void		RT_SetShader() = 0;
@@ -59,6 +60,7 @@ namespace ma
 		friend class		RenderThread;
 	};
 
+	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco);
 }
 
 #endif

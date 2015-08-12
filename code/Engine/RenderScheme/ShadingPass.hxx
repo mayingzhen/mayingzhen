@@ -43,7 +43,7 @@ namespace ma
 				if (pRenderObj == NULL)
 					continue;
 
-				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
 
 				pRenderObj->Render(pTech);
 			}
@@ -60,7 +60,7 @@ namespace ma
 				if (pRenderObj == NULL)
 					continue; 
 
-				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
 
 				pRenderObj->Render(pTech);
 			}
@@ -76,7 +76,7 @@ namespace ma
 				if (pRenderObj == NULL)
 					continue; 
 
-				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
 
 				pRenderObj->Render(pTech);
 			}
@@ -93,7 +93,7 @@ namespace ma
 				if (pRenderObj == NULL)
 					continue;
 
-				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
+				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
 
 				pRenderObj->Render(pTech);
 			}
