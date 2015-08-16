@@ -14,9 +14,10 @@ namespace ma
 
 		//GetResourceSystem()->SetDataThreadEnable(false);
 
+
 		std::string strScenePath = "scene/Test.scene.xml";
 
-		if (1)
+		if (0)
 		{
 			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mat");
 
@@ -26,17 +27,17 @@ namespace ma
 			RefPtr<MeshComponent> pMehBox = pTestSceneNode->CreateComponent<MeshComponent>();
 			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
 		
-			int nClone = 5;
-			for (int i = 0; i < nClone; ++i)
-			{
-				std::string pName = pTestSceneNode->GetName();
-				pName += std::string("_clone"); // + StringConverter::toString(i);
-				RefPtr<SceneNode> pClone = pTestSceneNode->Clone(pName.c_str());
-				pClone->Translate(Vector3(2 * (i + 1),0,0));
-				pSceneNode->AddChild(pClone.get());
-			}
+// 			int nClone = 5;
+// 			for (int i = 0; i < nClone; ++i)
+// 			{
+// 				std::string pName = pTestSceneNode->GetName();
+// 				pName += std::string("_clone"); // + StringConverter::toString(i);
+// 				RefPtr<SceneNode> pClone = pTestSceneNode->Clone(pName.c_str());
+// 				pClone->Translate(Vector3(2 * (i + 1),0,0));
+// 				pSceneNode->AddChild(pClone.get());
+// 			}
 
-			pSceneNode->SaveToXML(strScenePath.c_str());
+			pTestSceneNode->SaveToXML(strScenePath.c_str());
 		}
 		
 		RefPtr<SceneNode> pSceneNode = CreateSceneNode(strScenePath.c_str());

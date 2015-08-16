@@ -18,7 +18,6 @@ using namespace ma;
 
 //ResCreator
 Resource*	MeshData_Creator() {return new MeshData();}
-Resource*	Material_Creator() {return new XmlFile();}
 
 
 void RenderSystemRTTIInit()
@@ -30,13 +29,11 @@ void RenderSystemRTTIInit()
 	RenderState::RegisterAttribute();
 
 	GetResourceSystem()->RegisterResourceFactory("skn",MeshData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("mat",Material_Creator);
 }
 
 void RenderSystemRTTIShutdown()
 {
 	GetResourceSystem()->UnregisterResourceFactory("skn",MeshData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("mat",Material_Creator);
 }
 
 

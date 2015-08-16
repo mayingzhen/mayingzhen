@@ -80,6 +80,13 @@ namespace ma
 		return NULL;
 	}
 
+	void ResourceSystem::AddResource(const char* pszKey,Resource* pRes)
+	{
+		ASSERT(FindResource(pszKey) == NULL);
+
+		m_resMap[pszKey] = pRes;
+	}
+
 	Resource* ResourceSystem::DeclareResource(const char* pszRelPath)
 	{
 		if (pszRelPath == NULL)

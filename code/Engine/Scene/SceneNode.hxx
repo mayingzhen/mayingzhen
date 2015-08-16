@@ -101,9 +101,9 @@ namespace ma
 		TiXmlElement* pXmlChildNode = pXmlElem->FirstChildElement("ChildNode");
 		while(pXmlChildNode)
 		{
-			const char* pszType = pXmlComp->Attribute("ClassName");
+			const char* pszType = pXmlChildNode->Attribute("ClassName");
 
-			RefPtr<SceneNode> pChildNode = CreateObject<SceneNode>(pszType);
+			RefPtr<SceneNode> pChildNode = CreateSceneNode();
 			this->AddChild(pChildNode.get());
 
 			pChildNode->Improt(pXmlChildNode);
@@ -147,16 +147,11 @@ namespace ma
 
 	RefPtr<SceneNode> SceneNode::Clone(const char* pName)
 	{
-		XMLOutputSerializer xmlout;
-		//this->Serialize(xmlout);
-		//xmlout.Save("DebugCloneobj.xml");
-		
-		XMLInputSerializer xmlin;
-		xmlin.Open(xmlout);
 		RefPtr<SceneNode> pClone = CreateSceneNode();
-		//pClone->Serialize(xmlin);
 		
-		pClone->SetName(pName);
+		TiXmlElement xmlEle("");
+		this->Export(&xmlEle);
+		pClone->Improt(&xmlEle);
 
 		return pClone;
 	}

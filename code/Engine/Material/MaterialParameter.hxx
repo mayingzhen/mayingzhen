@@ -27,15 +27,17 @@ namespace ma
 
 		const char* pszType = pXmlElem->Attribute("Type");
 		const char* pszValue = pXmlElem->Attribute("Value");
+		
+		string strType = pszType ? pszType : "";
+		string strValue = pszValue ? pszValue : "";
 
-		m_anyValue = AnyFromString(pszType,pszValue);		
+		m_anyValue = AnyFromString(strType,strValue);		
 		
 		if (m_anyValue.isEmpty())
 		{
-			if ( stricmp(pszType,"Texture") == 0 )
+			if ( stricmp(pszType,"SamplerState") == 0 )
 			{
-				TiXmlElement* pXmlSamplerState = pXmlElem->FirstChildElement("SamplerState");
-				m_anyValue = Any( Texture::Improt(pXmlSamplerState) );	
+				m_anyValue = Any( Texture::Improt(pXmlElem) );	
 			}
 		}
 	}
@@ -48,17 +50,18 @@ namespace ma
 		string strValue;
 		AnyGetString(m_anyValue,strType,strValue);
 
-		pXmlElem->SetAttribute("Type",strType.c_str());
-		pXmlElem->SetAttribute("Value",strValue.c_str());
-
-		if (strValue.empty())
+		if (!strValue.empty())
 		{
-			if (strType == "Texture")
+			pXmlElem->SetAttribute("Type",strType.c_str());
+			pXmlElem->SetAttribute("Value",strValue.c_str());
+		}
+		else
+		{
+			RefPtr<Texture> pTexuture = any_cast< RefPtr<Texture> >(m_anyValue);
+			if (pTexuture != NULL)
 			{
-				TiXmlElement* pXmlSamplerState = new TiXmlElement("SamplerState");
-				pXmlElem->LinkEndChild(pXmlElem);
-				RefPtr<Texture> pTexture = any_cast< RefPtr<Texture> >(m_anyValue);
-				Texture::Export(pTexture.get(), pXmlSamplerState);
+				pXmlElem->SetAttribute("Type","SamplerState");
+				Texture::Export(pTexuture.get(), pXmlElem);
 			}
 		}
 	}

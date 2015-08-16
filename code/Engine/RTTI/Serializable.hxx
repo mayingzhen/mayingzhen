@@ -18,16 +18,20 @@ namespace ma
 
 	void Serializable::SaveToXML(const char* pszXMLFile)
 	{
+		string strFullName = GetArchiveMananger()->GetSaveDir();
+		strFullName += pszXMLFile;
+
 		TiXmlDocument doc;
 		TiXmlElement* pRoot = new TiXmlElement(this->GetClassName());
 		doc.LinkEndChild(pRoot);
 		this->Export(pRoot);
-		doc.SaveFile(pszXMLFile);
+		bool bRes = doc.SaveFile(strFullName.c_str());
+		ASSERT(bRes);
 	}
 
 	void Serializable::LoadFromXML(const char* pszXMlFile)
 	{
-		m_pXMlFile = LoadResource<XmlFile>(pszXMlFile);
+		m_pXMlFile = CreateXmlFile(pszXMlFile);
 		m_bLoadOver = false;
 		IsReady();
 	}
@@ -35,7 +39,7 @@ namespace ma
 	bool Serializable::IsReady()
 	{
 		if (m_bLoadOver)
-			return false;
+			return true;
 
 		if (m_pXMlFile == NULL || !m_pXMlFile->IsReady())
 			return false;

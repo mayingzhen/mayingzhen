@@ -162,8 +162,9 @@ namespace ma
 		if (pShader)
 			return pShader;
 
-		pShader= DeclareResource<ShaderProgram>(strKey.c_str());
+		pShader = GetRenderDevice()->CreateShaderProgram();
 		pShader->CreateFromFile(pszVSFile,pszPSFile,pszMarco);
+		GetResourceSystem()->AddResource(strKey.c_str(),pShader.get());
 		return pShader;
 	}
 

@@ -19,13 +19,19 @@ namespace ma
 	void SubMaterial::SetShadingTechnqiue(Technique* pTech)
 	{
 		m_pShadingTech = pTech;
+
+		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+		{
+			m_pShadingTech->SetParameter(m_arrParameters[i].GetName(),m_arrParameters[i].GetValue());
+		}
 	}
 
 	void SubMaterial::SetShadingTechnqiue(const char* pShaderName, const char* pDefine)
 	{
 		m_strShaderName = pShaderName;
 		m_strShaderMacro = pDefine;
-		m_pShadingTech = CreateTechnique(Shading, pShaderName, pShaderName, pDefine);
+
+		SetShadingTechnqiue( CreateTechnique(Shading, pShaderName, pShaderName, pDefine).get() );
 	}
 
 	Technique* SubMaterial::GetShadowDepthTechnqiue()
@@ -48,13 +54,19 @@ namespace ma
 	void SubMaterial::SetShadowDepthTechnqiue(Technique* pTech)
 	{
 		m_pShadowDepthTech = pTech;
+
+		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
+		{
+			m_pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(),m_arrParameters[i].GetValue());
+		}
 	}
 
 	void SubMaterial::SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine)
 	{
 		string strMacro = pDefine ? pDefine : "";
 		strMacro += m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-		m_pShadowDepthTech = CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str());
+
+		SetShadowDepthTechnqiue( CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str() ).get() );
 	}
 
 	Technique* SubMaterial::GetShadingTechnqiue()
@@ -72,9 +84,10 @@ namespace ma
 		}
 
 		TiXmlElement* pXmlShadowDepthTech = pXmlElem->FirstChildElement("ShadowDepthTech");
+		if (pXmlShadowDepthTech)
 		{
 			m_pShadowDepthTech = new Technique();
-			m_pShadowDepthTech->Improt(pXmlShadingTech);
+			m_pShadowDepthTech->Improt(pXmlShadowDepthTech);
 		}
 
 		TiXmlElement* pXmlParameter = pXmlElem->FirstChildElement("Parameters");
@@ -83,6 +96,8 @@ namespace ma
 			Parameter parameter;
 			parameter.Improt(pXmlParameter);
 			m_arrParameters.push_back(parameter);
+
+			SetParameter(parameter.GetName(),parameter.GetValue());
 			
 			pXmlParameter = pXmlParameter->NextSiblingElement("Parameters");
 		}
@@ -116,23 +131,45 @@ namespace ma
 		}
 	}
 
-	void SubMaterial::SetShaderName(const char* pszSharName)
+	void SubMaterial::SetParameter(const char* pszName,const Any& value)	
 	{
-		m_strShaderName = pszSharName ? pszSharName : "";
+		Parameter* pParame = GetParameter(pszName);
+		if (pParame)
+		{
+			pParame->SetValue(value);
+		}
+		else
+		{
+			Parameter matParam;
+			matParam.SetName(pszName);
+			matParam.SetValue(value);
+			m_arrParameters.push_back(matParam);
+		}
+
+		if (m_pShadingTech)
+			m_pShadingTech->SetParameter(pszName,value);
+
+		if (m_pShadowDepthTech)
+			m_pShadowDepthTech->SetParameter(pszName,value);
 	}
 
-	void SubMaterial::SetShderMacro(const char* pszShaderMacro)
+	Parameter* SubMaterial::GetParameter(const char* pszName)
 	{
-		m_strShaderMacro = pszShaderMacro ? pszShaderMacro : "";
+		ASSERT(pszName);
+		if (pszName == NULL)
+			return NULL;
+
+		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		{
+			if (strcmp(m_arrParameters[i].GetName(), pszName) == 0)
+			{
+				return &m_arrParameters[i];
+			}
+		}
+
+		return NULL;
 	}
 
-	void SubMaterial::AddParameter(const char* pName,Any value)
-	{
-		Parameter matParam;
-		matParam.SetName(pName);
-		matParam.SetValue(value);
-		m_arrParameters.push_back(matParam);
-	}
 
 	RefPtr<SubMaterial> SubMaterial::Clone()
 	{

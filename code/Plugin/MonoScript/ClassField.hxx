@@ -39,20 +39,22 @@ namespace ma
 		m_pMonoField = pMonoField;
 		m_pMonoObject = pMonoObject;
 
-		std::string strType = GetStrTypeAny(m_anyValue);
+		//std::string strType = GetStrTypeAny(m_anyValue);
+		//void AnyGetString(const Any& varValue, string& strVarType,string& strVarValue)
+		//Any AnyFromString(const string& strVarType,const string& strVarValue)
 
-		if (strType == "int")
-		{
-			SetInt(any_cast<int>(m_anyValue));
-		}
-		else if (strType == "float")
-		{
-			SetFloat(any_cast<float>(m_anyValue));
-		}
-		else if (strType == "Vector3")
-		{
-			SetVector3(any_cast<Vector3>(m_anyValue));
-		}
+// 		if (strType == "int")
+// 		{
+// 			SetInt(any_cast<int>(m_anyValue));
+// 		}
+// 		else if (strType == "float")
+// 		{
+// 			SetFloat(any_cast<float>(m_anyValue));
+// 		}
+// 		else if (strType == "Vector3")
+// 		{
+// 			SetVector3(any_cast<Vector3>(m_anyValue));
+// 		}
 	}
 
 	float ClassField::GetFloat()
@@ -200,9 +202,9 @@ namespace ma
 
 		sl.Serialize(m_strName,"strName");
 		
-		std::string strType = GetStrTypeAny(m_anyValue);
+		//std::string strType = GetStrTypeAny(m_anyValue);
 
-		SerializeAnyValue(sl,strType,m_anyValue);
+		//SerializeAnyValue(sl,strType,m_anyValue);
 
 		sl.EndSection();
 	}

@@ -381,24 +381,6 @@ namespace ma
 	/** @} */
 
 
-	inline std::string GetStrTypeAny(const Any& value)
-	{
-		const std::type_info& type = value.getType();
-		if (type == typeid(int))
-			return "int";
-		else if (type == typeid(float))
-			return "float";
-		else if (type == typeid(Vector2))
-			return "Vector2";
-		else if (type == typeid(Vector3))
-			return "Vector3";
-		else if (type == typeid(Vector4))
-			return "Vector4";
-		else 
-			return "";
-	}
-
-
 }
 
 #endif

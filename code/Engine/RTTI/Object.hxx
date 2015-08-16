@@ -50,10 +50,6 @@ namespace ma
 		{
 			return Any( StringConverter::parseQuaternion(strVarValue) );
 		}
-		else
-		{
-			ASSERT(false);
-		}
 
 		return Any();
 	}
@@ -106,10 +102,6 @@ namespace ma
 			strVarType = "Quaternion";
 			strVarValue = StringConverter::toString( any_cast<Quaternion>(varValue) );
 		}
-		else 
-		{
-			ASSERT(false);
-		}
 	}
 
 	void Object::Improt(TiXmlElement* pXmlObject)
@@ -129,7 +121,10 @@ namespace ma
 			if (pAttribute == NULL)
 				continue;
 
-			Any anyValue = AnyFromString(pszType,pszValue);
+			string strType = pszType;
+			string strValue = pszValue;
+
+			Any anyValue = AnyFromString(strType,strValue);
 
 			OnSetAttribute(*pAttribute,anyValue);				
 

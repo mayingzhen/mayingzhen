@@ -232,9 +232,6 @@ EXPORTS
 ?AddSubMaterial@Material@ma@@QAEXPAVSubMaterial@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@XZ
 ?SetShadingTechnqiue@SubMaterial@ma@@QAEXPBD0@Z
-?AddParameter@SubMaterial@ma@@QAEXPBDVAny@2@@Z
-?SetShderMacro@SubMaterial@ma@@QAEXPBD@Z
-?SetShaderName@SubMaterial@ma@@QAEXPBD@Z
 ?SetSkinMatrix@SkinMeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
 ?CreateNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
 ?GetName@SceneNode@ma@@QBEPBDXZ
@@ -253,3 +250,7 @@ EXPORTS
 ?RegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?UnRegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@@Z
+??0XmlFile@ma@@QAE@PBD@Z
+??0XmlFile@ma@@QAE@XZ
+?CreateXmlFile@ma@@YA?AV?$RefPtr@VXmlFile@ma@@@1@PBD@Z
+?SetParameter@SubMaterial@ma@@QAEXPBDABVAny@2@@Z

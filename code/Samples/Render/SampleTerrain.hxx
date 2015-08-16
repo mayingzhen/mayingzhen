@@ -29,28 +29,26 @@ namespace ma
 				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
 				testMaterial->AddSubMaterial(subMatData.get());
 
-				subMatData->SetShaderName("terrain");
-				subMatData->SetShderMacro("LAYER 2");
+				subMatData->SetShadingTechnqiue("terrain","LAYER 2");
 				
-				subMatData->AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/chess.dds") ) );
-				subMatData->AddParameter("tDetailMap1", Any( CreateTexture("scene/terrain/diban_zhuanshi.dds") ) );
-				subMatData->AddParameter("tBlendingMap", Any( CreateTexture("scene/terrain/test_b0.dds") ) );
-				subMatData->AddParameter("uDetailScale", Any( Vector2(0.01f, 0.01f) ) );
-				subMatData->AddParameter("uDetailOffSet", Any( Vector4::ZERO) );
-				subMatData->AddParameter("u_cSpecColor", Any( Vector4::ZERO) );
+				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/chess.dds") ) );
+				subMatData->SetParameter("tDetailMap1", Any( CreateTexture("scene/terrain/diban_zhuanshi.dds") ) );
+				subMatData->SetParameter("tBlendingMap", Any( CreateTexture("scene/terrain/test_b0.dds") ) );
+				subMatData->SetParameter("uDetailScale", Any( Vector2(0.01f, 0.01f) ) );
+				subMatData->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
+				subMatData->SetParameter("u_cSpecColor", Any( Vector4::ZERO) );
 			}
 
 			{
 				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
 				testMaterial->AddSubMaterial(subMatData.get());
 
-				subMatData->SetShaderName("terrain");
-				subMatData->SetShderMacro("LAYER 1");
+				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
 
-				subMatData->AddParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
-				subMatData->AddParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
-				subMatData->AddParameter("uDetailOffSet", Any(Vector4::ZERO) );
-				subMatData->AddParameter("u_cSpecColor", Any(Vector4::ZERO) );
+				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
+				subMatData->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
+				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
+				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 			testMaterial->SaveToXML("scene/terrain/test.mat");
 

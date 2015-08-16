@@ -241,14 +241,15 @@ namespace ma
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter)
 	{
-		string strKey = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilter[eFilter] + ".sampler";
+		string strKey = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilter[eFilter] + ".texture";
 		StringUtil::toLowerCase(strKey);
 		RefPtr<Texture> pTextute = FindResource<Texture>( strKey.c_str() );
 		if (pTextute)
 			return pTextute;
 
-		pTextute = DeclareResource<Texture>(strKey.c_str());
+		pTextute = GetRenderDevice()->CreateTexture();
 		pTextute->Load(pImagePath,eWrap,eFilter);
+		GetResourceSystem()->AddResource(strKey.c_str(),pTextute.get());
 		return pTextute;
 	}
 

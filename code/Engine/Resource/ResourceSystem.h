@@ -31,6 +31,8 @@ namespace ma
 
 		Resource*	LoadResourceSync(const char* pszRelPath);
 
+		void		AddResource(const char* pszKey,Resource* pRes);
+
 		void		RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
 
 		void		UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);

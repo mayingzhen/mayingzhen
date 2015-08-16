@@ -22,10 +22,9 @@ namespace ma
 		void				SetShadowDepthTechnqiue(Technique* pTech);
 		void				SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine);
 
-		void				SetShaderName(const char* pszSharName);
-		void				SetShderMacro(const char* pszShaderMacro);
-		void				AddParameter(const char* pName,Any value);
-		
+		void				SetParameter(const char* pszName,const Any& value);	
+		Parameter*			GetParameter(const char* pszName);
+
 		virtual void		Improt(TiXmlElement* pXmlElem);
 		virtual void		Export(TiXmlElement* pXmlElem);		
 

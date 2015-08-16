@@ -163,7 +163,6 @@ namespace ma
 		m_pShaderProgram = ShaderProgram::Improt(pXmlShader);
 
 		TiXmlElement* pXmlRenderState = pXmlElem->FirstChildElement("RenderState");
-		pXmlElem->LinkEndChild(pXmlRenderState);
 		m_renderState.Improt(pXmlRenderState);	
 	}
 

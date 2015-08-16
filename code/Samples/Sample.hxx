@@ -31,12 +31,11 @@ namespace ma
 		
 		std::string strMacro = "DIFFUSE;DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
-		pSubMaterial->SetShaderName("default");
-		pSubMaterial->SetShderMacro(strMacro.c_str());
+		pSubMaterial->SetShadingTechnqiue("default",strMacro.c_str());
 
-		pSubMaterial->AddParameter("u_texture", Any( CreateTexture(pszTexture) ) );
-		pSubMaterial->AddParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
-		pSubMaterial->AddParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
+		pSubMaterial->SetParameter("u_texture", Any( CreateTexture(pszTexture) ) );
+		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
+		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
 
 		pMaterial->SaveToXML(pMatPath);
 	}
