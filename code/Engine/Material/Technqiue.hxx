@@ -33,13 +33,7 @@ namespace ma
 
 		string strMrco = string(pPreMrco) + string(";") + string(pszMarco);
 		
-		string strTemp = string(pVSFile) + string("+") + strMrco + ".shader";
-		m_pShaderProgram = FindResource<ShaderProgram>( strTemp.c_str() );
-		if(m_pShaderProgram == NULL)
-		{
-			m_pShaderProgram = DeclareResource<ShaderProgram>( strTemp.c_str() );
-			m_pShaderProgram->CreateFromFile(pVSFile,pVSFile,strMrco.c_str());
-		}
+		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strMrco.c_str());
 	}
 
 	void Technique::Bind()

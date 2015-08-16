@@ -29,9 +29,6 @@ namespace ma
 
 		Terrain* GetTerrain() const {return m_pTerrain;}
 
-		virtual	UINT	GetRenderableCount() const;
-		virtual Renderable* GetRenderableByIndex(UINT index) const;
-
 	private:
 		void BuildLod();
 		void BuildVertexBuffer();
@@ -66,15 +63,18 @@ namespace ma
 
 		struct TERRAIN_LOD
 		{
-			RefPtr<VertexBuffer>	m_BodyVB;
 			VEC_RENDERABLE			m_vecBody; 
 			VEC_RENDERABLE			m_vecBorder;
 			vector<SkitRenderable>	m_vecSkirt;
-			vector<TERRAIN_VERTEX>	m_vecVBTemp;
+			
 		};
-		vector<TERRAIN_LOD> m_vecLod;
+		vector<TERRAIN_LOD> m_vecLodRenderable;
 
-		VEC_RENDERABLE	m_arrRenderable;
+		vector< RefPtr<VertexBuffer> > m_vecVBTemp;
+		vector< vector<TERRAIN_VERTEX> > m_vecVBDataTemp; // use for Buil Border
+
+		vector< set<uint8> > m_vecSetMatIDTemp;
+		vector< vector<uint8> > m_vecTriangleMatID; // use for Buil Border
 
 		friend class Terrain;
 	};

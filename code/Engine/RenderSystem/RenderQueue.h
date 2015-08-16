@@ -13,6 +13,7 @@ namespace ma
 		RL_Trans,
 		RL_TerrainBody,
 		RL_TerrainBorder,
+		RL_TerrainSkirt,
 		RL_Count,
 	};
 

@@ -322,7 +322,7 @@ namespace ma
 
 	void Terrain::SetMaterialPath(const char* pPath)
 	{
-		m_pMaterial = LoadResource<Material>(pPath);
+		m_pMaterial = CreateMaterial(pPath);
 	}
 
 	const char* Terrain::GetBlendMap() const

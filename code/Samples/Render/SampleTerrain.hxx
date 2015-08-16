@@ -50,6 +50,19 @@ namespace ma
 				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
+
+			{
+				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
+				testMaterial->AddSubMaterial(subMatData.get());
+
+				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
+
+				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
+				subMatData->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
+				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
+				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
+			}
+
 			testMaterial->SaveToXML("scene/terrain/test.mat");
 
 			pTerrain->SetMaterialPath("scene/terrain/test.mat");
