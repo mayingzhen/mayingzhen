@@ -24,8 +24,8 @@ namespace ma
 	
 		DECL_OBJECT(Object);
 
-		virtual void			Improt(TiXmlElement* pXmlElem);
-		virtual void			Export(TiXmlElement* pXmlElem);		
+		virtual void			Improt(TiXmlElement* pXmlObject);
+		virtual void			Export(TiXmlElement* pXmlObject);		
 
 		bool					SetAttribute(UINT index, const Any& value);
 		bool					SetAttribute(const char* name, const Any& value);

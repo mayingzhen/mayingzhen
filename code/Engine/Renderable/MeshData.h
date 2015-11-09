@@ -118,6 +118,9 @@ namespace ma
 
 		AABB							m_meshBound;		
 	};
+
+	RefPtr<MeshData> CreateMeshData();
+	RefPtr<MeshData> CreateMeshData(const char* pszFile);
 	
 }
 

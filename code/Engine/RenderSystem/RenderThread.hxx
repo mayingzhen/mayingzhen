@@ -454,19 +454,6 @@ namespace ma
 		AddColor(value);
 	}
 
-// 	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetValue(uniform,sampler);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetSamplerState);
-// 		AddPointer(uniform);
-// 		AddPointer(sampler);
-// 	}
-
 	void RenderThread::RC_SetTexture(Uniform* uniform, const Texture* sampler)
 	{
 		if (IsRenderThread())
@@ -479,32 +466,6 @@ namespace ma
 		AddPointer(uniform);
 		AddPointer(sampler);
 	}
-
-// 	void RenderThread::RC_SetTextureWrap(Uniform* uniform, Wrap eWrap )
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetTextureWrap(uniform,eWrap);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetTextureWrap);
-// 		AddPointer(uniform);
-// 		AddInt(eWrap);
-// 	}
-// 
-// 	void RenderThread::RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			GetRenderDevice()->SetTextureFilter(uniform,eFiler);
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_SetTextureFilter);
-// 		AddPointer(uniform);
-// 		AddInt(eFiler);
-// 	}
 
 	void RenderThread::RC_BeginProfile(const char* pszLale)
 	{

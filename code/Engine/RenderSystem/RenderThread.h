@@ -139,10 +139,7 @@ namespace ma
 		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
-//		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
  		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
-// 		void	RC_SetTextureWrap(Uniform* uniform, Wrap eWrap );
-// 		void	RC_SetTextureFilter(Uniform* uniform, FilterOptions eFiler);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();

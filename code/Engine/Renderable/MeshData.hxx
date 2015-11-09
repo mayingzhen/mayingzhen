@@ -56,5 +56,26 @@ namespace ma
 	{
 		m_arrBonePalette.push_back(bonde);
 	}
+
+	RefPtr<MeshData> SubMeshData::CreateMeshData()
+	{
+
+	}
+
+	RefPtr<MeshData> SubMeshData::CreateMeshData(const char* pszFile)
+	{
+// 		string strKey = pszFile;
+// 		StringUtil::toLowerCase(strKey);
+// 		RefPtr<XmlFile> pXmlFile = FindResource<XmlFile>( strKey.c_str() );
+// 		if (pXmlFile)
+// 			return pXmlFile;
+// 
+// 		pXmlFile = new XmlFile(pszFile);
+// 		pXmlFile->Load();
+// 		GetResourceSystem()->AddResource(strKey.c_str(),pXmlFile.get());
+// 		return pXmlFile;
+
+		GetResourceSystem()->LoadResource(pszFile);
+	}
 }
 

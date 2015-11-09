@@ -13,7 +13,7 @@ namespace ma
 
 
 		// character A MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
 			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat","SKIN");
 			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat","SKIN");
@@ -26,7 +26,7 @@ namespace ma
 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
-			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
+			//pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
 			RefPtr<SceneNode> pChargigi = CreateSceneNode();
@@ -48,7 +48,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
 			CreateDefaultMaterial("magician/body.tga","magician/Body.mat","SKIN");
 
@@ -82,7 +82,7 @@ namespace ma
 			m_pAnimtionObjectA->PlayAnimation((UINT)1);
 		}
 
-		if (0)
+		if (1)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
 
