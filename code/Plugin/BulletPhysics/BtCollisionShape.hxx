@@ -3,8 +3,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(CollisionShape,Component)
-
 	void CollisionShape::RegisterAttribute()
 	{
 		REF_ACCESSOR_ATTRIBUTE(CollisionShape, "Position", GetPosLS, SetPosLS, Vector3, Vector3::ZERO, AM_DEFAULT);
@@ -43,7 +41,6 @@ namespace ma
 		GetPhysicsSystem()->AddPhysicsObject(pGameObj);
 	}
 
-	IMPL_OBJECT(BoxCollisionShape,CollisionShape)
 	BoxCollisionShape::BoxCollisionShape()
 	{
 		m_vSize = Vector3(0,0,0);
@@ -78,8 +75,6 @@ namespace ma
 		return m_pBtShape;
 	}
 
-	IMPL_OBJECT(SphereCollisionShape,CollisionShape)
-
 	SphereCollisionShape::SphereCollisionShape()
 	{
 		m_fRadius = 0;
@@ -113,9 +108,6 @@ namespace ma
 		m_pBtShape = new btSphereShape( GetRadius() );
 		return m_pBtShape;
 	}
-
-		
-	IMPL_OBJECT(CapsuleCollisionShape,CollisionShape)
 
 	CapsuleCollisionShape::CapsuleCollisionShape()
 	{
@@ -163,8 +155,6 @@ namespace ma
 		return m_pBtShape;
 	}
 
-	IMPL_OBJECT(CollisionMaterial,Component)
-	
 	CollisionMaterial::CollisionMaterial()
 	{
 		m_nCollLayer = 0;

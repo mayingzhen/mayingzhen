@@ -12,7 +12,7 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 3, 3);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 		ScriptSystem* pScriptSystem = GetScriptSystem();
 		if (pScriptSystem == NULL)
@@ -44,18 +44,18 @@ namespace ma
 		if (m_pTestScript == NULL)
 			return;
 
-		float fRotSpeed = m_pTestScript->GetFloat("m_fRotSpeed");
-		if ( GetInput()->IsKeyDown(OIS::KC_DOWN) )
-		{
-			fRotSpeed -= 1.0f;
-			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
-		}
-
-		if (GetInput()->IsKeyDown(OIS::KC_UP))
-		{
-			fRotSpeed += 1.0f;
-			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
-		}
+// 		float fRotSpeed = m_pTestScript->GetFloat("m_fRotSpeed");
+// 		if ( GetInput()->IsKeyDown(OIS::KC_DOWN) )
+// 		{
+// 			fRotSpeed -= 1.0f;
+// 			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
+// 		}
+// 
+// 		if (GetInput()->IsKeyDown(OIS::KC_UP))
+// 		{
+// 			fRotSpeed += 1.0f;
+// 			m_pTestScript->SetFloat("m_fRotSpeed",fRotSpeed);
+// 		}
 		
 	}
 

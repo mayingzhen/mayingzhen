@@ -12,7 +12,7 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 30, 20);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 		RefPtr<SceneNode> pFire = CreateSceneNode();
 		m_pScene->GetRootNode()->AddChild(pFire.get());

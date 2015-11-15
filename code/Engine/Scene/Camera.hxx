@@ -2,8 +2,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Camera,Component)
-
 	Camera::Camera()
 	{
 		m_fAspect = 1.0f;
@@ -30,7 +28,7 @@ namespace ma
 
 	void Camera::MarkDirty()
 	{
-		Matrix4 matView = m_pSceneNode->GetMatrixWS().inverse();
+		Matrix4 matView = this->GetMatrixWS().inverse();
 		m_matViewProj.SetMatView(matView);
 
 		m_frustum.Update(m_matViewProj.GetMatViewProj(),GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
@@ -143,7 +141,7 @@ namespace ma
 		Vector3 farPoint (nx, ny,  1.f);
 
 		// Get ray origin and ray target on near plane in world space
-		Vector3 rayOrigin = this->GetSceneNode()->GetPosWS();
+		Vector3 rayOrigin = this->GetPosWS();
 		Vector3 rayTarget = GetMatViewProj().inverse() * farPoint;
 
 		Vector3 rayDirection = rayTarget - rayOrigin;

@@ -4,17 +4,17 @@
 
 namespace ma
 {
-	void RemoveNamedAttribute(map<std::string, vector<AttributeInfo> >& attributes, const char* objectType, const char* name)
+	void RemoveNamedAttribute(map<std::string, VEC_ATTR >& attributes, const char* objectType, const char* name)
 	{
-		map<std::string, vector<AttributeInfo> >::iterator i = attributes.find(objectType);
+		map<std::string, VEC_ATTR >::iterator i = attributes.find(objectType);
 		if (i == attributes.end())
 			return;
 
-		vector<AttributeInfo>& infos = i->second;
+		VEC_ATTR& infos = i->second;
 
-		for (vector<AttributeInfo>::iterator j = infos.begin(); j != infos.end(); ++j)
+		for (VEC_ATTR::iterator j = infos.begin(); j != infos.end(); ++j)
 		{
-			if ( strcmp(j->name_.c_str(), name ) != 0 )
+			if ( strcmp((*j)->GetName(), name ) != 0 )
 			{
 				infos.erase(j);
 				break;
@@ -48,7 +48,7 @@ namespace ma
 	{
 	}
 
-	void AttributeManager::RegisterAttribute(const char* objectType, const AttributeInfo& attr)
+	void AttributeManager::RegisterAttribute(const char* objectType, RefPtr<AttributeInfo> attr)
 	{
 		// None or pointer types can not be supported
 		//if (attr.type_ == VAR_NONE || attr.type_ == VAR_VOIDPTR || attr.type_ == VAR_PTR)
@@ -72,12 +72,12 @@ namespace ma
 
 	void AttributeManager::CopyBaseAttributes(const char* baseType, const char* derivedType)
 	{
-		const vector<AttributeInfo>* baseAttributes = GetAttributes(baseType);
+		const VEC_ATTR* baseAttributes = GetAttributes(baseType);
 		if (baseAttributes)
 		{
 			for (unsigned i = 0; i < baseAttributes->size(); ++i)
 			{
-				const AttributeInfo& attr = baseAttributes->at(i);
+				RefPtr<AttributeInfo> attr = baseAttributes->at(i);
 				attributes_[derivedType].push_back(attr);
 			}
 		}
@@ -86,16 +86,17 @@ namespace ma
 
 	AttributeInfo* AttributeManager::GetAttribute(const char* objectType, const char* name)
 	{
-		map<std::string, vector<AttributeInfo> >::iterator i = attributes_.find(objectType);
+		map<std::string, VEC_ATTR >::iterator i = attributes_.find(objectType);
 		if (i == attributes_.end())
 			return 0;
 
-		vector<AttributeInfo>& infos = i->second;
+		VEC_ATTR& infos = i->second;
 
-		for (vector<AttributeInfo>::iterator j = infos.begin(); j != infos.end(); ++j)
+		for (VEC_ATTR::iterator j = infos.begin(); j != infos.end(); ++j)
 		{
-			if ( strcmp(j->name_.c_str(), name ) != 0 )
-				return &(*j);
+			RefPtr<AttributeInfo> pAtt = *j;
+			if ( strcmp(pAtt->GetName(), name ) != 0 )
+				return pAtt.get();
 		}
 
 		return 0;

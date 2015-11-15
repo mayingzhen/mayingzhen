@@ -279,34 +279,6 @@
 					RelativePath="..\..\code\Engine\Resource\Serialize\XMLSerializer.hxx"
 					>
 				</File>
-				<Filter
-					Name="Tinyxml"
-					>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinystr.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinystr.hxx"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinyxml.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinyxml.hxx"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinyxmlerror.hxx"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Engine\Resource\Serialize\tinyxml\tinyxmlparser.hxx"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Archive"
@@ -398,18 +370,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Event"
-			>
-			<File
-				RelativePath="..\..\Code\Engine\Event\Event.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Engine\Event\Event.hxx"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Thread"
 			>
 			<File
@@ -482,6 +442,22 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Scene\Camera.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\CameraControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\CameraControl.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\CharaControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\CharaControl.hxx"
 				>
 			</File>
 			<File
@@ -722,6 +698,10 @@
 			>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\Attribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RTTI\Attribute.hxx"
 				>
 			</File>
 			<File

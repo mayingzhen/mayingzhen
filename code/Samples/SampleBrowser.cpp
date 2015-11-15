@@ -176,7 +176,7 @@ namespace ma
 
 		SAFE_DELETE(m_pCameraControl);
 		
-		GetInput()->RemoveKeyListener(this);
+		//GetInput()->RemoveKeyListener(this);
 		
 		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
 		for (; it != m_arrSamples.end(); ++it)
@@ -203,7 +203,7 @@ namespace ma
 		GetScriptSystem()->Init();
 #endif
 
-		GetInput()->AddKeyListener(this);
+		//GetInput()->AddKeyListener(this);
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
@@ -320,32 +320,32 @@ namespace ma
 // 		RunSample(pText);
 // 	}
 
-	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
-	{
-// 		if (arg.key == OIS::KC_S)
+// 	bool SampleBrowser::keyPressed(const OIS::KeyEvent &arg)
+// 	{
+// // 		if (arg.key == OIS::KC_S)
+// // 		{
+// // 			m_pSystems->Start();
+// // 		}
+// 
+// 		if (arg.key == OIS::KC_P)
 // 		{
-// 			m_pSystems->Start();
+// 			m_bPause = !m_bPause;
+// 			if (m_bPause)
+// 				m_bStepOneFrame = false;
 // 		}
+// 		
+// 		if (arg.key == OIS::KC_N)
+// 		{
+// 			m_bStepOneFrame = true;
+// 		}
+// 
+// 		return false;
+// 	}
 
-		if (arg.key == OIS::KC_P)
-		{
-			m_bPause = !m_bPause;
-			if (m_bPause)
-				m_bStepOneFrame = false;
-		}
-		
-		if (arg.key == OIS::KC_N)
-		{
-			m_bStepOneFrame = true;
-		}
-
-		return false;
-	}
-
-	bool SampleBrowser::keyReleased(const OIS::KeyEvent &arg)
-	{
-		return false;
-	}
+// 	bool SampleBrowser::keyReleased(const OIS::KeyEvent &arg)
+// 	{
+// 		return false;
+// 	}
 
 	void SampleBrowser::OnPreUpdate(Scene* pScene)
 	{

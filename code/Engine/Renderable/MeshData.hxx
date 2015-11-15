@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(MeshData,Resource)
-
 	MeshData::MeshData(const char* pszPath)
 	:Resource(pszPath)
 	{
@@ -57,13 +55,13 @@ namespace ma
 		m_arrBonePalette.push_back(bonde);
 	}
 
-	RefPtr<MeshData> SubMeshData::CreateMeshData()
-	{
+// 	RefPtr<MeshData> SubMeshData::CreateMeshData()
+// 	{
+// 
+// 	}
 
-	}
-
-	RefPtr<MeshData> SubMeshData::CreateMeshData(const char* pszFile)
-	{
+//	RefPtr<MeshData> SubMeshData::CreateMeshData(const char* pszFile)
+//	{
 // 		string strKey = pszFile;
 // 		StringUtil::toLowerCase(strKey);
 // 		RefPtr<XmlFile> pXmlFile = FindResource<XmlFile>( strKey.c_str() );
@@ -75,7 +73,7 @@ namespace ma
 // 		GetResourceSystem()->AddResource(strKey.c_str(),pXmlFile.get());
 // 		return pXmlFile;
 
-		GetResourceSystem()->LoadResource(pszFile);
-	}
+//		GetResourceSystem()->LoadResource(pszFile);
+//	}
 }
 

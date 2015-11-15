@@ -1,5 +1,4 @@
 #include "XMLOutputSerializer.h"
-#include "tinyxml/TinyXML.h"
 
 namespace ma
 {

@@ -38,61 +38,20 @@ namespace ma
 	};
 
 	/// Description of an automatically serializable variable.
-	struct AttributeInfo
+	struct AttributeInfo : public Referenced
 	{
 		/// Construct empty.
-		AttributeInfo() :
-			enumNames_(0),
-			mode_(AM_DEFAULT),
-			ptr_(0)
-		{
-		}
-	    
-		/// Construct offset attribute.
-		AttributeInfo(const char* name, size_t offset, const Any& defaultValue, unsigned mode) :
-			name_(name),
-			enumNames_(0),
-			defaultValue_(defaultValue),
-			mode_(mode),
-			ptr_(0)
-		{
-		}
-	    
-		/// Construct offset enum attribute.
-		AttributeInfo(const char* name, size_t offset, const char** enumNames, const Any& defaultValue, unsigned mode) :
-			//type_(VAR_INT),
-			name_(name),
-			enumNames_(enumNames),
-			defaultValue_(defaultValue),
-			mode_(mode),
-			ptr_(0)
-		{
-		}
+		AttributeInfo();
 	    
 		/// Construct accessor attribute.
-		AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode) :
-			name_(name),
-			enumNames_(0),
-			accessor_(accessor),
-			defaultValue_(defaultValue),
-			mode_(mode),
-			ptr_(0)
-		{
-		}
+		AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode);
 	    
 		/// Construct accessor enum attribute.
-		AttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode) :
-			name_(name),
-			enumNames_(enumNames),
-			accessor_(accessor),
-			defaultValue_(defaultValue),
-			mode_(mode),
-			ptr_(0)
-		{
-		}
+		AttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode);
 	    
-		/// Name.
-		std::string name_;
+		const char* GetName() const;
+		void SetName(const char* pszName);
+
 		/// Enum names.
 		const char** enumNames_;
 		/// Helper object for accessor mode.
@@ -103,8 +62,15 @@ namespace ma
 		unsigned mode_;
 		/// Attribute data pointer if elsewhere than in the Object.
 		void* ptr_;
+
+	private:
+		/// Name.
+		std::string name_;
 	};
 
+	RefPtr<AttributeInfo> CreateAttributeInfo();
+	RefPtr<AttributeInfo> CreateAttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode);
+	RefPtr<AttributeInfo> CreateAttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode);
 
 	/// Template implementation of the attribute accessor invoke helper class.
 	template <class T, class U> class AttributeAccessorImpl : public AttributeAccessor

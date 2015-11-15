@@ -9,24 +9,24 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
 
 		// character A MeshData & skeleton & Animation
 		if (1)
 		{
-			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mat","SKIN");
-			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mat","SKIN");
-			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mat","SKIN");
+			//CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
+			//CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
+			//CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100_stand").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
-			//pAnimSet->SaveToXML("gigi/gigi/body.aniset");
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100_stand").get() );
+// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
+// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
+// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
+// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
+// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
+			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
 			RefPtr<SceneNode> pChargigi = CreateSceneNode();
@@ -111,30 +111,30 @@ namespace ma
 	{
 		//m_pAnimtionObjectA->SetFrame(5);
 
-		Input* pInput = GetInput();
-		if (pInput == NULL)
-			return;
+// 		Input* pInput = GetInput();
+// 		if (pInput == NULL)
+// 			return;
 
-		if (pInput->IsKeyDown(OIS::KC_1))
-		{
-			m_pAnimtionObjectA->PlayAnimation((UINT)0);
-			m_pAnimtionObjectB->PlayAnimation((UINT)0);
-		}
-		else if (pInput->IsKeyDown(OIS::KC_2))
-		{
-			m_pAnimtionObjectA->PlayAnimation(1);
-			m_pAnimtionObjectB->PlayAnimation(1);
-		}
-		else if (pInput->IsKeyDown(OIS::KC_3))
-		{
-			m_pAnimtionObjectA->PlayAnimation(2);
-			m_pAnimtionObjectB->PlayAnimation(2);
-		}
-		else if (pInput->IsKeyDown(OIS::KC_4))
-		{
-			m_pAnimtionObjectA->PlayAnimation(3);
-			m_pAnimtionObjectB->PlayAnimation(3);
-		}
+// 		if (pInput->IsKeyDown(OIS::KC_1))
+// 		{
+// 			m_pAnimtionObjectA->PlayAnimation((UINT)0);
+// 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
+// 		}
+// 		else if (pInput->IsKeyDown(OIS::KC_2))
+// 		{
+// 			m_pAnimtionObjectA->PlayAnimation(1);
+// 			m_pAnimtionObjectB->PlayAnimation(1);
+// 		}
+// 		else if (pInput->IsKeyDown(OIS::KC_3))
+// 		{
+// 			m_pAnimtionObjectA->PlayAnimation(2);
+// 			m_pAnimtionObjectB->PlayAnimation(2);
+// 		}
+// 		else if (pInput->IsKeyDown(OIS::KC_4))
+// 		{
+// 			m_pAnimtionObjectA->PlayAnimation(3);
+// 			m_pAnimtionObjectB->PlayAnimation(3);
+// 		}
 
 	}
 

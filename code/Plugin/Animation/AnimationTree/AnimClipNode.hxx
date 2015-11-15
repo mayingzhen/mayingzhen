@@ -3,8 +3,7 @@
 
 namespace ma
 {
-	IMPL_OBJECT(AnimClipNode,AnimTreeNode)
-	
+
 	AnimClipNode::AnimClipNode()
 	{
 		m_bLoadOver = false;

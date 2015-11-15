@@ -1,6 +1,8 @@
 #ifndef __GameBase_h__
 #define __GameBase_h__
 
+#include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 
 
 namespace ma
@@ -28,6 +30,14 @@ namespace ma
 
 	private:
 		std::string		m_sGameName;
+
+	public:
+		bool m_bOnWindowSized;
+		uint32 m_OnWindowSizedWidth;
+		uint32 m_OnWindowSizedHeight;
+
+		Signal< void(Keyboard::KeyEvent, int) > mkeyEvent;
+		Signal< void(Mouse::MouseEvent, int, int, int) > mMouseEvent;
 	};
 }
 

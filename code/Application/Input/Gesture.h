@@ -16,12 +16,22 @@ public:
      */
     enum GestureEvent
     {
-        GESTURE_TAP = 0,
-        GESTURE_SWIPE,
-        GESTURE_PINCH,
+        GESTURE_NONE = 0,
+        GESTURE_SWIPE = 0x1,
+        GESTURE_PINCH = 0x2,
         GESTURE_ANY_SUPPORTED = -1,
     };
 
+    enum GestureState
+    {
+        GESTURESTATE_NONE,
+        GESTURESTATE_BEGAN,
+        GESTURESTATE_CHANGED,
+        GESTURESTATE_ENDED,
+        GESTURESTATE_CANCELLED,
+        GESTURESTATE_FAILED,
+    };
+    
     /**
      * The up direction for a swipe event.
      */
@@ -47,7 +57,7 @@ private:
     /**
      * Constructor. Used internally.
      */
-    Gesture();
+	Gesture(){}
 };
 
 }

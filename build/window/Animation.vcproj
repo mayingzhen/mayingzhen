@@ -230,10 +230,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimEvalContext.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Plugin\Animation\BoneMap.h"
 				>
 			</File>

@@ -12,7 +12,7 @@ namespace ma
 
 	typedef Sample* (*SampleCreator)();
 
-	class SampleBrowser : public Game, /*Control::Listener,*/OIS::KeyListener, Scene::CCallback
+	class SampleBrowser : public Game, Scene::CCallback
 	{
 	public:
 		SampleBrowser(const char* pGameName);
@@ -33,8 +33,8 @@ namespace ma
 
  		//virtual void		controlEvent(Control* control, EventType evt);
 
-		virtual bool		keyPressed(const OIS::KeyEvent &arg);
-		virtual bool		keyReleased(const OIS::KeyEvent &arg);	
+		//virtual bool		keyPressed(const OIS::KeyEvent &arg);
+		//virtual bool		keyReleased(const OIS::KeyEvent &arg);	
 
 		virtual void		OnPreUpdate(Scene* pScene);
 		virtual void		OnPostUpdate(Scene* pScene);

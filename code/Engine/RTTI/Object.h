@@ -7,6 +7,7 @@ class TiXmlElement;
 namespace ma
 {
 	struct AttributeInfo;
+	typedef vector< RefPtr<AttributeInfo> > VEC_ATTR;
 
 	class Object : public Referenced
 	{
@@ -17,10 +18,8 @@ namespace ma
 		virtual ~Object();
 
 		#define DECL_OBJECT(ClassName) \
-			virtual const char*	GetClassName() const {return #ClassName;}\
-			static const char* StaticGetClassName() {return #ClassName;}
-
-		#define IMPL_OBJECT(ClassName,ParentName)
+		virtual const char*	GetClassName() const {return #ClassName;}\
+		static const char* StaticGetClassName() {return #ClassName;}
 	
 		DECL_OBJECT(Object);
 
@@ -38,7 +37,7 @@ namespace ma
 	protected:
 		virtual void			OnSetAttribute(const AttributeInfo& attr, const Any& src);
 		virtual void			OnGetAttribute(const AttributeInfo& attr, Any& dest) const;
-		const vector<AttributeInfo>* GetAttributes() const;
+		const VEC_ATTR*			GetAttributes() const;
 
 	};
 

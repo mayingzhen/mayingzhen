@@ -81,7 +81,7 @@ namespace ma
 
 		if (m_pTerrain->GetNumLod() > 1)
 		{
-			float fDistance = (this->GetAABBWS().getCenter() - pCamera->GetSceneNode()->GetPos()).length();
+			float fDistance = (this->GetAABBWS().getCenter() - pCamera->GetPos()).length();
 			
 			int nNumLodPow2 = Math::PowInt(2, m_pTerrain->GetNumLod() - 1);
 			float fLodValue = Math::Max<float>( 1.0f, Math::Min<float>(fDistance / m_fLodParam, (float)nNumLodPow2) );

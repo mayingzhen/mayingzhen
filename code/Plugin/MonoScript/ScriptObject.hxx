@@ -5,7 +5,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(ScriptObject,Component)
 
 	ScriptObject::ScriptObject()
 	{

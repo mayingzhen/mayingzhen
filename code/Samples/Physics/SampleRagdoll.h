@@ -19,7 +19,7 @@ namespace ma
 
 		virtual void	Render();
 
-		virtual bool	keyPressed(const OIS::KeyEvent &arg);
+		//virtual bool	keyPressed(const OIS::KeyEvent &arg);
 
 	private:
 		SceneNode*		CreateCapsule(float fRadius,float fHeight,const char* pBoneName);

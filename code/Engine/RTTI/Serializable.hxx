@@ -2,7 +2,6 @@
 #include "AttributeManager.h"
 #include "Serializable.h"
 #include "Engine/Resource/XmlFile.h"
-#include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 
 namespace ma
 {
@@ -23,8 +22,8 @@ namespace ma
 
 		TiXmlDocument doc;
 		TiXmlElement* pRoot = new TiXmlElement(this->GetClassName());
-		doc.LinkEndChild(pRoot);
 		this->Export(pRoot);
+		doc.LinkEndChild(pRoot);
 		bool bRes = doc.SaveFile(strFullName.c_str());
 		ASSERT(bRes);
 	}

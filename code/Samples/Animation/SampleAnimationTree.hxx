@@ -10,7 +10,7 @@ namespace ma
 
 	void SampleAnimationTree::UnLoad()
 	{
-		GetInput()->RemoveKeyListener(this);
+		//GetInput()->RemoveKeyListener(this);
 
 		m_pClip602 = NULL;
 		m_pClip120 = NULL;
@@ -18,9 +18,9 @@ namespace ma
 
 	void SampleAnimationTree::Load()
 	{
-		m_pCamera->GetSceneNode()->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
-		GetInput()->AddKeyListener(this);
+		//GetInput()->AddKeyListener(this);
 
 // 		RefPtr<SceneNode> pGameObj = CreateSceneNode();
 // 		m_pScene->GetRootNode()->AddChild(pGameObj.get());
@@ -45,26 +45,26 @@ namespace ma
 		pAnimComp->PlayAnimation(pLayerNode.get());
 	}
 
-	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
-	{
-		if (arg.key == OIS::KC_1)
-		{
-			m_pClip602->SetBoneSet("FullBody");
-			m_pClip120->SetBoneSet("EmptyBody");
-		}
-		else if (arg.key == OIS::KC_2)
-		{
-			m_pClip602->SetBoneSet("EmptyBody");
-			m_pClip120->SetBoneSet("FullBody");
-		}
-		else if (arg.key == OIS::KC_3)
-		{
-			m_pClip602->SetBoneSet("UpBody");
-			m_pClip120->SetBoneSet("LowerBody");
-		}
-
-		return true;
-	}
+// 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
+// 	{
+// 		if (arg.key == OIS::KC_1)
+// 		{
+// 			m_pClip602->SetBoneSet("FullBody");
+// 			m_pClip120->SetBoneSet("EmptyBody");
+// 		}
+// 		else if (arg.key == OIS::KC_2)
+// 		{
+// 			m_pClip602->SetBoneSet("EmptyBody");
+// 			m_pClip120->SetBoneSet("FullBody");
+// 		}
+// 		else if (arg.key == OIS::KC_3)
+// 		{
+// 			m_pClip602->SetBoneSet("UpBody");
+// 			m_pClip120->SetBoneSet("LowerBody");
+// 		}
+// 
+// 		return true;
+// 	}
 }
 
 

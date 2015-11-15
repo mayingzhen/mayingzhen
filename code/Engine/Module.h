@@ -12,9 +12,6 @@
 #include "Engine/RTTI/ObjectFactory.h"
 #include "Engine/RTTI/AttributeManager.h"
 
-// Event
-#include "Engine/Event/Event.h"
-
 #include "Engine/Time/Timer.h"
 
 // Resource
@@ -29,7 +26,6 @@
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/XmlFile.h"
 #include "Engine/Resource/ResourceSystem.h"
-#include "Engine/Resource/Serialize/tinyxml/tinyxml.h"
 #include "Engine/Resource/Serialize/Serializer.h" 
 #include "Engine/Resource/Serialize/BinaryInputSerializer.h"
 #include "Engine/Resource/Serialize/BinaryOutputSerializer.h"

@@ -2,8 +2,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(PoseModifier,Object)
-
 	PoseModifier::PoseModifier() 
 	{
 		m_bEnable = true;

@@ -63,7 +63,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OIS_D.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../extern/ois/Debug;../../extern/vld/lib"
 				GenerateDebugInformation="true"
@@ -232,23 +231,15 @@
 			Name="Input"
 			>
 			<File
-				RelativePath="..\..\code\Application\Input\AndroidInputInjector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Application\Input\AndroidInputInjector.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Application\Input\Gesture.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Application\Input\Input.h"
+				RelativePath="..\..\code\Application\Input\Keyboard.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Application\Input\Input.hxx"
+				RelativePath="..\..\code\Application\Input\Mouse.h"
 				>
 			</File>
 		</Filter>

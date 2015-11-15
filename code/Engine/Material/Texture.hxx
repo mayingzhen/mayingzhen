@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Texture,Serializable);
-
 	Texture::Texture()
 	{
 		m_nWidth = 0;

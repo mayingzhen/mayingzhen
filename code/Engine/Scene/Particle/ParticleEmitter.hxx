@@ -4,9 +4,6 @@
 
 namespace ma
 {
-
-	IMPL_OBJECT(ParticleEmitter,RenderComponent)
-
 	ParticleEmitter::ParticleEmitter()
 	{
 		m_pParticleBatch = NULL;

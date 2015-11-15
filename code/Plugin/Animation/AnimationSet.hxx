@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(AnimationSet,Serializable)
-
 	AnimationSet::AnimationSet()
 	{
 		m_bLoadOver = false;
@@ -90,7 +88,6 @@ namespace ma
 			AnimTreeNode* pAnimNode = m_arrSkelAnim[i].get();
 			pAnimNode->Export(pXmlAnimNode);
 		}
-
 	}
 
 	void AnimationSet::SetSkeleton(Skeleton* pSkeleton)

@@ -20,13 +20,13 @@ namespace ma
 		virtual void	ParallelUpdate() {}
 		virtual void	EndParallelUpdate() {}
 
-		virtual	void	OnAddToSceneNode(SceneNode* pGameObj);
+		virtual	void	OnAddToSceneNode(SceneNode* pNode) {}
+		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode) {}
 
-		virtual	void	OnRemoveFromSceneNode(SceneNode* pGameObj);
+		void			SetSceneNode(SceneNode* pSceneNode);	
+		SceneNode*		GetSceneNode() const;
 
 		virtual void	MarkDirty() {}
-
-		SceneNode*		GetSceneNode();
 
 	protected:
 		SceneNode*		m_pSceneNode;

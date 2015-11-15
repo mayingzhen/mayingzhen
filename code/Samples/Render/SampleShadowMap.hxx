@@ -9,11 +9,11 @@ namespace ma
 
 	void SampleShadowMap::Load()
 	{
-		GetInput()->AddKeyListener(this);
+		//GetInput()->AddKeyListener(this);
 
 		Vector3 vEyePos = Vector3(0, 600, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
@@ -66,7 +66,7 @@ namespace ma
 
 	void SampleShadowMap::UnLoad()
 	{
-		GetInput()->RemoveKeyListener(this);
+		//GetInput()->RemoveKeyListener(this);
 
 		GetLightSystem()->SetAmbientColor(ColourValue::White);		
 
@@ -85,32 +85,32 @@ namespace ma
 		if (m_pDirectLight)
 		{
 			Vector3 vSrc = Vector3(0,0,0);
-			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetDirection();
+			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetForward();
 			GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		}
 	}
 
-	bool SampleShadowMap::keyPressed(const OIS::KeyEvent &arg)
-	{
-		if (arg.key == OIS::KC_UP)
-		{
-			m_pBox->Up(100.0f);
-		}
-		else if (arg.key == OIS::KC_DOWN)
-		{
-			m_pBox->Up(-100.0f);
-		}
-		else if (arg.key == OIS::KC_LEFT)
-		{
-			m_pBox->Right(-100.0f);
-		}
-		else if (arg.key == OIS::KC_RIGHT)
-		{
-			m_pBox->Right(100.0f);
-		}
-
-		return true;
-	}
+// 	bool SampleShadowMap::keyPressed(const OIS::KeyEvent &arg)
+// 	{
+// 		if (arg.key == OIS::KC_UP)
+// 		{
+// 			m_pBox->Up(100.0f);
+// 		}
+// 		else if (arg.key == OIS::KC_DOWN)
+// 		{
+// 			m_pBox->Up(-100.0f);
+// 		}
+// 		else if (arg.key == OIS::KC_LEFT)
+// 		{
+// 			m_pBox->Right(-100.0f);
+// 		}
+// 		else if (arg.key == OIS::KC_RIGHT)
+// 		{
+// 			m_pBox->Right(100.0f);
+// 		}
+// 
+// 		return true;
+// 	}
 
 }
 

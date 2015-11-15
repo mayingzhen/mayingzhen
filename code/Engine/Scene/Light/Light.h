@@ -15,7 +15,7 @@ namespace ma
 
 
 
-	class Light : public Component
+	class Light : public SceneNode
 	{
 	
 	public:
@@ -48,8 +48,6 @@ namespace ma
 		PointLight() {m_eLightType = LIGHT_POINT;}
 
 		DECL_OBJECT(PointLight)
-		
-		Vector3			GetPos();
 
 		float			GetRadius() {return m_fRadius;}
 
@@ -59,6 +57,8 @@ namespace ma
 
 		float		m_fRadius;
 	};
+
+	RefPtr<PointLight> CreatePointLight();
 	
 	class DirectonalLight : public Light
 	{
@@ -67,8 +67,6 @@ namespace ma
 		DirectonalLight();
 
 		DECL_OBJECT(DirectonalLight)
-
-		Vector3			GetDirection();
 
 	};
 

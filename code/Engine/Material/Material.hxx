@@ -198,8 +198,6 @@ namespace ma
 	}
 
 
-	IMPL_OBJECT(Material,Serializable);
-
 	Material::Material()
 	{
 	}

@@ -9,14 +9,11 @@ namespace ma
 		m_pRootNode = new SceneNode(this);
 		m_sName = pszName ? pszName : "";
 
-		m_pCameraNode = new SceneNode(this, "defaultCamera");
 		m_pCamera = CreateCamera();
-		m_pCameraNode->AddComponent(m_pCamera.get());
+		m_pRootNode->AddChild(m_pCamera.get());
 
-		m_pSunNode = new SceneNode(this,"SunNode");
 		m_pSunShadow = new RenderShadowCSM();
-		m_pSunNode->AddComponent(m_pSunShadow.get());
-		m_pSunNode->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
+		m_pSunShadow->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 		
 		m_viewport = GetRenderSystem()->GetViewPort();
 		SetRenderScheme(RenderScheme::Forward);
@@ -136,8 +133,6 @@ namespace ma
 			m_pCallback->OnPreUpdate(this);
 		}
 
-		m_pCameraNode->Update();
-		
 		m_pRootNode->Update();
 			
 		ParallelUpdate();

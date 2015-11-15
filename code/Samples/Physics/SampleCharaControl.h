@@ -18,9 +18,9 @@ namespace ma
 
 		virtual void	Render();
 
-		virtual bool	mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
-		virtual bool	touchReleased( const OIS::MultiTouchEvent &arg );
+// 		virtual bool	mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+// 
+// 		virtual bool	touchReleased( const OIS::MultiTouchEvent &arg );
 
 	private:
 		void			OnTouch(Vector2 vTouchPos);

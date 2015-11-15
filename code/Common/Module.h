@@ -47,6 +47,9 @@
 #include "Common/StringUtils.h"
 #include "Common/StringConverter.h"
 
+#include "Common/signals.h"
+
+#include "Common/tinyxml/tinyxml.h"
 
 #ifdef _DEBUG
 #include "vld.h"

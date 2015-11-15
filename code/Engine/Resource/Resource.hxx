@@ -3,8 +3,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Resource,Object)
-
 	Resource::Resource(const char* pszPath)
 	{
 		m_sResPath = pszPath ? pszPath : ""; 

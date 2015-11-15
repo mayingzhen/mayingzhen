@@ -3,8 +3,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(AnimBlendNode,AnimTreeNode)
-
 	AnimBlendNode::AnimBlendNode()
 	{
 		m_fWeight = 0;

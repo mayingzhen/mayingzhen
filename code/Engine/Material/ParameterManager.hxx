@@ -349,7 +349,7 @@ namespace ma
 		}
 		
 		DirectonalLight* pDirLigt = (DirectonalLight*)pCurLight;
-		return pDirLigt->GetDirection();
+		return pDirLigt->GetForward();
 	}
 
 	Vector4 ParameterManager::autoBingingDepthNearFarInvfar() const

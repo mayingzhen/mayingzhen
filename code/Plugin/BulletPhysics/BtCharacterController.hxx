@@ -6,7 +6,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(CharacterController,Component)
 	CharacterController::CharacterController()
 	{
 		m_ghostObject = new btPairCachingGhostObject();

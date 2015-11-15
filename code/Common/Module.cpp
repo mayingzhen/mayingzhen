@@ -20,13 +20,18 @@
 
 #include "Common/Platform/Platform.hxx"
 
-
-
 #include "Common/Assert.hxx"
 #include "Common/Log.hxx"
 
 #include "Common/StringUtils.hxx"
 #include "Common/StringConverter.hxx"
+
+#include "Common/signals.hxx"
+
+#include "Common/tinyxml/tinyxml.hxx"
+#include "Common/tinyxml/tinystr.hxx"
+#include "Common/tinyxml/tinyxmlerror.hxx"
+#include "Common/tinyxml/tinyxmlparser.hxx"
 
 
 

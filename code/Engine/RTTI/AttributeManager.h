@@ -6,10 +6,12 @@
 
 namespace ma
 {
+	typedef vector< RefPtr<AttributeInfo> > VEC_ATTR;
+
 	class AttributeManager 
 	{
 		friend class Object;
-
+	
 	public:
 		/// Construct.
 		AttributeManager();
@@ -17,7 +19,7 @@ namespace ma
 		~AttributeManager();
 
 		/// Register object attribute.
-		void RegisterAttribute(const char* objectType, const AttributeInfo& attr);
+		void RegisterAttribute(const char* objectType, RefPtr<AttributeInfo> attr);
 		/// Remove object attribute.
 		void RemoveAttribute(const char* objectType, const char* name);
 		/// Update object attribute's default value.
@@ -27,14 +29,13 @@ namespace ma
 		void CopyBaseAttributes(const char* baseType, const char* derivedType);
 
 		/// Template version of registering an object attribute.
-		template <class T> void RegisterAttribute(const AttributeInfo& attr);
+		template <class T> void RegisterAttribute( RefPtr<AttributeInfo> attr);
 		/// Template version of removing an object attribute.
 		template <class T> void RemoveAttribute(const char* name);
 		/// Template version of copying base class attributes to derived class.
 		template <class T, class U> void CopyBaseAttributes();
 		/// Template version of updating an object attribute's default value.
 		template <class T> void UpdateAttributeDefaultValue(const char* name, const Any& defaultValue);
-
 
 		/// Return a specific attribute description for an object, or null if not found.
 		AttributeInfo* GetAttribute(const char* objectType, const char* name);
@@ -43,9 +44,9 @@ namespace ma
 		template <class T> AttributeInfo* GetAttribute(const char* name);
 
 		/// Return attribute descriptions for an object type, or null if none defined.
-		const vector<AttributeInfo>* GetAttributes(const char* type) const
+		const VEC_ATTR* GetAttributes(const char* type) const
 		{
-			std::map<std::string, vector<AttributeInfo> >::const_iterator i = attributes_.find(type);
+			std::map<std::string, VEC_ATTR >::const_iterator i = attributes_.find(type);
 			return i != attributes_.end() ? &i->second : 0;
 		}
 
@@ -53,13 +54,13 @@ namespace ma
 	private:
 
 		/// Attribute descriptions per object type.
-		map<std::string, vector<AttributeInfo> > attributes_;
+		map<std::string, VEC_ATTR> attributes_;
 	};
 
 	 AttributeManager* GetAttributeManager();
 	 void SetAttributeManager(AttributeManager* pContex);
 
-	template <class T> void AttributeManager::RegisterAttribute(const AttributeInfo& attr) { RegisterAttribute(T::StaticGetClassName(), attr); }
+	template <class T> void AttributeManager::RegisterAttribute(RefPtr<AttributeInfo> attr) { RegisterAttribute(T::StaticGetClassName(), attr); }
 	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClassName(), name); }
 	template <class T, class U> void AttributeManager::CopyBaseAttributes() { CopyBaseAttributes(T::StaticGetClassName(), U::StaticGetClassName()); }
 	template <class T> AttributeInfo* AttributeManager::GetAttribute(const char* name) { return GetAttribute(T::StaticGetClassName(), name); }
@@ -67,11 +68,11 @@ namespace ma
 
 	#define COPY_BASE_ATTRIBUTES(className, sourceClassName) GetAttributeManager()->CopyBaseAttributes<sourceClassName, className>()
 	#define REMOVE_ATTRIBUTE(className, name) GetAttributeManager()->RemoveAttribute<className>(name)
-	#define ATTRIBUTE(className, name, variable, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(AttributeInfo(name, offsetof(className, variable), Any(defaultValue), mode))
-	#define ENUM_ATTRIBUTE(className, name, variable, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(AttributeInfo(name, offsetof(className, variable), enumNames, Any(defaultValue), mode))
-	#define ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(AttributeInfo(name, new AttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
-	#define ENUM_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(AttributeInfo(name, new EnumAttributeAccessorImpl<className, typeName>(enumNames,&className::getFunction, &className::setFunction), enumNames, Any(defaultValue), mode))
-	#define REF_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(AttributeInfo(name, new RefAttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
+	#define ATTRIBUTE(className, name, variable, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, offsetof(className, variable), Any(defaultValue), mode))
+	#define ENUM_ATTRIBUTE(className, name, variable, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, offsetof(className, variable), enumNames, Any(defaultValue), mode))
+	#define ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new AttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
+	#define ENUM_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, enumNames, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new EnumAttributeAccessorImpl<className, typeName>(enumNames,&className::getFunction, &className::setFunction), enumNames, Any(defaultValue), mode))
+	#define REF_ACCESSOR_ATTRIBUTE(className, name, getFunction, setFunction, typeName, defaultValue, mode) GetAttributeManager()->RegisterAttribute<className>(CreateAttributeInfo(name, new RefAttributeAccessorImpl<className, typeName>(&className::getFunction, &className::setFunction), Any(defaultValue), mode))
 	#define UPDATE_ATTRIBUTE_DEFAULT_VALUE(className, name, defaultValue) GetAttributeManager()->UpdateAttributeDefaultValue<className>(name, defaultValue)
 
 }

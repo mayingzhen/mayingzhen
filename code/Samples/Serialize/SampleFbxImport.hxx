@@ -19,7 +19,7 @@ namespace ma
 
 			// Material
 			{
-				CreateDefaultMaterial("FBX/TestBull_DM.png","FBX/TestBull.mat","SKIN");
+				CreateDefaultMaterial("FBX/TestBull_DM.png","FBX/TestBull.mtl","SKIN");
 			}
 		}
 
@@ -51,9 +51,9 @@ namespace ma
 
 			LoadStaticMeshData("FBX/MovingPlatform.fbx");
 
-			CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mat");
+			CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mtl");
 			
-			CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mat");
+			CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
 		}
 
 		
@@ -88,13 +88,13 @@ namespace ma
 		//Vector3 vEyePos = Vector3(0, 600, 800);
 		Vector3 vEyePos = Vector3(10, 10, -10);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 		LoadSaticMesh();
 
 		LoadSkelMesh();	
 
-		m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, -0.f),Vector3::ZERO); 
+		m_pScene->GetSunShaow()->LookAt(Vector3(1.f, 1.f, -0.f),Vector3::ZERO); 
 	}
 
 	void SampleFbxImport::UnLoad()

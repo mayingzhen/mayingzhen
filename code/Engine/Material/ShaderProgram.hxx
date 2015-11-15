@@ -3,8 +3,6 @@
 
 namespace ma
 {	
-	IMPL_OBJECT(ShaderProgram,Resource)
-
 	ShaderProgram::ShaderProgram()
 	{
 	}

@@ -12,10 +12,10 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 800, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
-		GetInput()->AddTouchListener(this);
-		GetInput()->AddMouseListener(this);
+		//GetInput()->AddTouchListener(this);
+		//GetInput()->AddMouseListener(this);
 
 		{
 			RefPtr<SceneNode> pCharaObj = CreateSceneNode();
@@ -79,8 +79,8 @@ namespace ma
 
 	void SampleCharaControl::UnLoad()
 	{
-		GetInput()->RemoveTouchListener(this);
-		GetInput()->RemoveMouseListener(this);
+		//GetInput()->RemoveTouchListener(this);
+		//GetInput()->RemoveMouseListener(this);
 
 		m_pTerrain = NULL;
 		m_pCharaAnim = NULL;
@@ -119,26 +119,26 @@ namespace ma
 	}
 
 
-	bool SampleCharaControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
-	{
-		if (id == OIS::MB_Left)
-		{
-			Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
+// 	bool SampleCharaControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+// 	{
+// 		if (id == OIS::MB_Left)
+// 		{
+// 			Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
+// 
+// 			OnTouch(mousePos);
+// 		}
+// 
+// 		return true;
+// 	}
 
-			OnTouch(mousePos);
-		}
-
-		return true;
-	}
-
-	bool SampleCharaControl::touchReleased( const OIS::MultiTouchEvent &arg )
-	{
-		Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
-
-		OnTouch(mousePos);
-	
-		return true;
-	}
+// 	bool SampleCharaControl::touchReleased( const OIS::MultiTouchEvent &arg )
+// 	{
+// 		Vector2 mousePos(arg.state.X.abs,arg.state.Y.abs);
+// 
+// 		OnTouch(mousePos);
+// 	
+// 		return true;
+// 	}
 
 	void SampleCharaControl::OnTouch(Vector2 vTouchPos)
 	{

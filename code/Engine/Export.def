@@ -98,7 +98,6 @@ EXPORTS
 ?Update@ResourceSystem@ma@@QAEXXZ
 ?UpdateFrame@Time@ma@@QAEXXZ
 ?GetPos@SceneNode@ma@@QBEABVVector3@2@XZ
-?GetSceneNode@Component@ma@@QAEPAVSceneNode@2@XZ
 ?GetForward@SceneNode@ma@@QAE?AVVector3@2@XZ
 ?RotateAround@SceneNode@ma@@QAEXABVVector3@2@V32@M@Z
 ?GetRight@SceneNode@ma@@QAE?AVVector3@2@XZ
@@ -108,7 +107,6 @@ EXPORTS
 ?SetScale@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
 ?LookAt@SceneNode@ma@@QAEXABVVector3@2@0@Z
-?GetDirection@DirectonalLight@ma@@QAE?AVVector3@2@XZ
 ?DrawWireSphere@LineRender@ma@@QAEXABVMatrix4@2@MVColourValue@2@@Z
 ?Right@SceneNode@ma@@QAEXM@Z
 ?Reset@Scene@ma@@QAEXXZ
@@ -119,20 +117,9 @@ EXPORTS
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
 ?Init@RenderScheme@ma@@QAEXXZ
-?Attribute@TiXmlElement@@QBEPBDPBD@Z
-?Parse@TiXmlDocument@@UAEPBDPBDPAVTiXmlParsingData@@W4TiXmlEncoding@@@Z
-??0TiXmlDocument@@QAE@XZ
 ?ReadAll@ArchiveManager@ma@@QBE?AV?$RefPtr@VMemoryStream@ma@@@2@PBDI@Z
 ?SetPerspective@Camera@ma@@QAEXMMMM@Z
 ?AddComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
-?NextSiblingElement@TiXmlNode@@QBEPBVTiXmlElement@@XZ
-?FirstChildElement@TiXmlNode@@QBEPBVTiXmlElement@@PBD@Z
-??1TiXmlNode@@UAE@XZ
-?Print@TiXmlDocument@@UBEXPAU_iobuf@@H@Z
-?Clone@TiXmlDocument@@MBEPAVTiXmlNode@@XZ
-?Accept@TiXmlDocument@@UBE_NPAVTiXmlVisitor@@@Z
-?nullrep_@TiXmlString@@0URep@1@A
-?FirstChildElement@TiXmlNode@@QBEPBVTiXmlElement@@XZ
 ?Render@RenderSystem@ma@@QAEXXZ
 ?GetObjectFactoryManager@ma@@YAPAVObjectFactoryManager@1@XZ
 ?AddRenderPass@RenderScheme@ma@@QAEXPAVRenderPass@2@@Z
@@ -198,7 +185,6 @@ EXPORTS
 ?Update@Engine@ma@@QAEXXZ
 ?Render@Engine@ma@@QAEXXZ
 ?Init@Engine@ma@@QAEXPAUHWND__@@_N11@Z
-?RegisterAttribute@AttributeManager@ma@@QAEXPBDABUAttributeInfo@2@@Z
 ?GetAttributeManager@ma@@YAPAVAttributeManager@1@XZ
 ?CopyBaseAttributes@AttributeManager@ma@@QAEXPBD0@Z
 ?IsReady@Resource@ma@@UAE_NXZ
@@ -239,9 +225,6 @@ EXPORTS
 ?SaveToXML@Serializable@ma@@QAEXPBD@Z
 ?IsReady@Serializable@ma@@QAE_NXZ
 ??0XmlFile@ma@@QAE@XZ
-?LinkEndChild@TiXmlNode@@QAEPAV1@PAV1@@Z
-??0TiXmlElement@@QAE@PBD@Z
-?NextSiblingElement@TiXmlNode@@QBEPBVTiXmlElement@@PBD@Z
 ?Improt@Object@ma@@UAEXPAVTiXmlElement@@@Z
 ?Export@Object@ma@@UAEXPAVTiXmlElement@@@Z
 ?OnSetAttribute@Object@ma@@MAEXABUAttributeInfo@2@ABVAny@2@@Z
@@ -254,3 +237,8 @@ EXPORTS
 ??0XmlFile@ma@@QAE@XZ
 ?CreateXmlFile@ma@@YA?AV?$RefPtr@VXmlFile@ma@@@1@PBD@Z
 ?SetParameter@SubMaterial@ma@@QAEXPBDABVAny@2@@Z
+?GetSceneNode@Component@ma@@QBEPAVSceneNode@2@XZ
+?CreatePointLight@ma@@YA?AV?$RefPtr@VPointLight@ma@@@1@XZ
+?GetName@AttributeInfo@ma@@QBEPBDXZ
+?CreateAttributeInfo@ma@@YA?AV?$RefPtr@UAttributeInfo@ma@@@1@PBDPAVAttributeAccessor@1@ABVAny@1@I@Z
+?RegisterAttribute@AttributeManager@ma@@QAEXPBDV?$RefPtr@UAttributeInfo@ma@@@2@@Z

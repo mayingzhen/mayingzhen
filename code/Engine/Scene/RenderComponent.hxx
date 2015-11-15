@@ -2,8 +2,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(RenderComponent,Component)
-
 	RenderComponent::RenderComponent()
 	{
 		m_pCullNode = NULL;

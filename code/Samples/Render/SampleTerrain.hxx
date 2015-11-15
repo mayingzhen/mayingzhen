@@ -12,7 +12,7 @@ namespace ma
 	{
  		Vector3 lookAtPos(0,0,0);
  		Vector3 eyePos = Vector3(0,600,600);
- 		GetCamera()->GetSceneNode()->LookAt(eyePos,lookAtPos);
+ 		GetCamera()->LookAt(eyePos,lookAtPos);
 
 		//GetResourceSystem()->SetDataThreadEnable(true);
 

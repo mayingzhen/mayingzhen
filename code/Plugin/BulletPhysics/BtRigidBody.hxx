@@ -4,7 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(RigidBody,Component)
 	RigidBody::RigidBody()
 	{
 		m_pRigidBody = NULL;

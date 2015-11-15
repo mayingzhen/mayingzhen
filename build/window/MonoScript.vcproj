@@ -188,10 +188,6 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\Code\Plugin\MonoScript\Export.h"
-			>
-		</File>
-		<File
 			RelativePath="..\..\Code\Plugin\MonoScript\IntenalCall.h"
 			>
 		</File>

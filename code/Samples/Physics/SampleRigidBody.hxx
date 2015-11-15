@@ -14,7 +14,7 @@ namespace ma
 
 	void SampleRigidBody::Load()
 	{
-		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 20, 30), Vector3(0,0,0));
+		GetCamera()->LookAt(Vector3(0, 20, 30), Vector3(0,0,0));
 
 		RefPtr<SceneNode> pGameObjA;
 		{
@@ -66,14 +66,14 @@ namespace ma
 
 	void SampleRigidBody::Update()
 	{
-		if (GetInput()->IsKeyDown(OIS::KC_G))
-		{
-			m_pRigidBody->SetUseGravity(true);
-		}
-		if (GetInput()->IsKeyDown(OIS::KC_K))
-		{
-			m_pRigidBody->SetKinematic(false);
-		}
+// 		if (GetInput()->IsKeyDown(OIS::KC_G))
+// 		{
+// 			m_pRigidBody->SetUseGravity(true);
+// 		}
+// 		if (GetInput()->IsKeyDown(OIS::KC_K))
+// 		{
+// 			m_pRigidBody->SetKinematic(false);
+// 		}
 	}
 
 

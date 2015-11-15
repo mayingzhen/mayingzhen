@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(MeshComponent,RenderComponent)	
-
 	MeshComponent::MeshComponent()
 	{
 		m_bOnLoadOver = false;
@@ -144,8 +142,6 @@ namespace ma
 	{
 		return new MeshComponent();
 	}
-
-	IMPL_OBJECT(SkinMeshComponent,MeshComponent)	
 
 	void SkinMeshComponent::CreateRenderable()
 	{

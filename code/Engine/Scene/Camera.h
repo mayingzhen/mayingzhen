@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class Camera : public Component
+	class Camera : public SceneNode
 	{	
 
 	public:

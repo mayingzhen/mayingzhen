@@ -5,13 +5,11 @@
 // RTTI
 #include "Engine/RTTI/Object.hxx"
 #include "Engine/RTTI/ObjectFactory.hxx"
+#include "Engine/RTTI/Attribute.hxx"
 #include "Engine/RTTI/AttributeManager.hxx"
 #include "Engine/RTTI/Serializable.hxx"
 
 #include "Engine/Time/Timer.hxx"
-
-// Event
-#include "Engine/Event/Event.hxx"
 
 #include "Engine/Thread/Thread.hxx"
 #include "Engine/Thread/WorkQueue.hxx"
@@ -29,10 +27,6 @@
 #include "Engine/Resource/XmlFile.hxx"
 #include "Engine/Resource/ResourceSystem.hxx"
 #include "Engine/Resource/DataThread.hxx"
-#include "Engine/Resource/Serialize/tinyxml/tinyxml.hxx"
-#include "Engine/Resource/Serialize/tinyxml/tinystr.hxx"
-#include "Engine/Resource/Serialize/tinyxml/tinyxmlerror.hxx"
-#include "Engine/Resource/Serialize/tinyxml/tinyxmlparser.hxx"
 #include "Engine/Resource/Serialize/BinarySerializer.hxx"
 #include "Engine/Resource/Serialize/BinaryInputSerializer.hxx"
 #include "Engine/Resource/Serialize/BinaryOutputSerializer.hxx"

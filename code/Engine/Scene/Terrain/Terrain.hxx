@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Terrain,SceneNode)
-
 	Terrain::Terrain(Scene* pScene,const char* pName)
 		:SceneNode(pScene,pName)
 	{

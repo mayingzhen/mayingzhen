@@ -2,8 +2,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(PhysicsJoint,Component)
-
 	void PhysicsJoint::RegisterAttribute()
 	{
 
@@ -33,7 +31,6 @@ namespace ma
 
 	}
 
-	IMPL_OBJECT(PhysicsGenericJoint,PhysicsJoint)
 	PhysicsGenericJoint::PhysicsGenericJoint()
 	{
 		m_pPhyObjB = NULL;
@@ -147,7 +144,6 @@ namespace ma
 
 	}
 
-	IMPL_OBJECT(PhysicsHingeJoint,PhysicsJoint)
 	PhysicsHingeJoint::PhysicsHingeJoint()
 	{
 		m_pConstraint = NULL;

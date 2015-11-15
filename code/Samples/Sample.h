@@ -7,10 +7,10 @@ namespace ma
 	class CameraController;
 	class Camera;
 
-	class Sample : 
-		public OIS::KeyListener , 
-		public OIS::MouseListener , 
-		public OIS::MultiTouchListener
+	class Sample 
+		//public OIS::KeyListener , 
+		//public OIS::MouseListener , 
+		//public OIS::MultiTouchListener
 	{
 	public:
 		Sample(const char* pszName = NULL);
@@ -31,15 +31,15 @@ namespace ma
 
 		Scene*				GetScene() {return m_pScene.get();}
 
-		virtual bool		keyPressed(const OIS::KeyEvent &arg) {return true;}
-		virtual bool		keyReleased(const OIS::KeyEvent &arg) {return true;}	
-		virtual bool		mouseMoved( const OIS::MouseEvent &arg ) {return true;}
-		virtual bool		mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {return true;}
-		virtual bool		mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {return true;}
-		virtual bool		touchMoved( const OIS::MultiTouchEvent &arg ) {return true;}
-		virtual bool		touchPressed( const OIS::MultiTouchEvent &arg ) {return true;}
-		virtual bool		touchReleased( const OIS::MultiTouchEvent &arg ) {return true;}
-		virtual bool		touchCancelled( const OIS::MultiTouchEvent &arg ) {return true;}
+// 		virtual bool		keyPressed(const OIS::KeyEvent &arg) {return true;}
+// 		virtual bool		keyReleased(const OIS::KeyEvent &arg) {return true;}	
+// 		virtual bool		mouseMoved( const OIS::MouseEvent &arg ) {return true;}
+// 		virtual bool		mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {return true;}
+// 		virtual bool		mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {return true;}
+// 		virtual bool		touchMoved( const OIS::MultiTouchEvent &arg ) {return true;}
+// 		virtual bool		touchPressed( const OIS::MultiTouchEvent &arg ) {return true;}
+// 		virtual bool		touchReleased( const OIS::MultiTouchEvent &arg ) {return true;}
+// 		virtual bool		touchCancelled( const OIS::MultiTouchEvent &arg ) {return true;}
 
 	protected:
 			void			CreateDefaultMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro = NULL);

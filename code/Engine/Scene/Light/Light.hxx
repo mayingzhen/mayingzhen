@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Light,Component)
-
 	Light::Light()
 	{
 		m_cLightColor = ColourValue::White;
@@ -19,28 +17,16 @@ namespace ma
 		GetLightSystem()->RemoveLight(this);
 	}
 
-
-	IMPL_OBJECT(PointLight,Light)
-	
-	Vector3 PointLight::GetPos()
-	{
-		return m_pSceneNode->GetTransformWS().m_vPos;
-	}
-
-	IMPL_OBJECT(SpotLight,Light)
-
-	
-	IMPL_OBJECT(DirectonalLight,Light)
-
 	DirectonalLight::DirectonalLight()
 	{
 		m_eLightType = LIGHT_DIRECTIONAL;
 	}
 
-	Vector3 DirectonalLight::GetDirection()
+	RefPtr<PointLight> CreatePointLight()
 	{
-		return m_pSceneNode->GetForward();
+		return new PointLight;
 	}
+
 }
 
 

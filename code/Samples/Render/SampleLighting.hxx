@@ -10,7 +10,7 @@ namespace ma
 	{
 		Vector3 vEyePos = Vector3(0, 600, 600);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 		// Render Mesh
 		{
@@ -41,13 +41,13 @@ namespace ma
 		// Light
 		{
  	 
-			RefPtr<SceneNode> pLightObj1 = CreateSceneNode();
-			pLightObj1->Translate(Vector3(200, 0, 100));
-			m_pPointLight=  pLightObj1->CreateComponent<PointLight>();
+			//RefPtr<SceneNode> pLightObj1 = new PointLight();CreateSceneNode();
+			m_pPointLight=  CreatePointLight();
+			m_pPointLight->Translate(Vector3(200, 0, 100));
 			m_pPointLight->SetLightColor(ColourValue::White);
 			m_pPointLight->SetLightIntensity(2.0f);
 			m_pPointLight->SetRadius(300);
-			m_pScene->GetRootNode()->AddChild(pLightObj1.get());
+			m_pScene->GetRootNode()->AddChild(m_pPointLight.get());
  
 // 			RefPtr<SceneNode> pLightObj2 = m_pScene->CreateNode("Light2");
 // 			pLightObj2->LookAt(Vector3(10,10,10),Vector3(0,0,0));
@@ -79,14 +79,14 @@ namespace ma
 	{
 		if (m_pPointLight)
 		{
-			Matrix4 matWS = m_pPointLight->GetSceneNode()->GetMatrixWS();
+			Matrix4 matWS = m_pPointLight->GetMatrixWS();
 			GetLineRender()->DrawWireSphere(matWS,m_pPointLight->GetRadius(),ColourValue(1,0,0,0));
 		}
 
 		if (m_pDirectLight)
 		{
 			Vector3 vSrc = Vector3(0,0,0);
-			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetDirection();
+			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetForward();
 			GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		}
 	}

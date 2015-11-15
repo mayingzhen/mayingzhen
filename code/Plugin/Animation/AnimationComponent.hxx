@@ -3,8 +3,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(AnimationComponent,Component);
-
 	AnimationComponent::AnimationComponent()
 	{
 		m_nCurAction = 0;

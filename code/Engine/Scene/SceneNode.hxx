@@ -4,8 +4,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(SceneNode,Serializable)
-	
 	SceneNode::SceneNode(Scene* pScene,const char* pName)
 	{
 		m_pScene = pScene;

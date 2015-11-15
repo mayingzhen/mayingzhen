@@ -136,7 +136,7 @@ namespace ma
 	{
 		pXmlElem->SetAttribute("ClassName",this->GetClassName());
 
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes || attributes->empty())
 			return;
 
@@ -145,13 +145,13 @@ namespace ma
 			TiXmlElement* pXmlAttribute = new TiXmlElement("Attribute");
 			pXmlElem->LinkEndChild(pXmlAttribute);
 
-			AttributeInfo& attribute = (AttributeInfo&)attributes->at(i);
+			RefPtr<AttributeInfo> attribute = attributes->at(i);
 
 			Any anyValue;
 
-			OnGetAttribute(attribute,anyValue);	
+			OnGetAttribute(*attribute,anyValue);	
 
-			string strName = attribute.name_;
+			string strName = attribute->GetName();
 			string strType;
 			string strValue;
 
@@ -181,18 +181,19 @@ namespace ma
 		}
 	}
 
-	const vector<AttributeInfo>* Object::GetAttributes() const
+	const VEC_ATTR* Object::GetAttributes() const
 	{
 		return GetAttributeManager()->GetAttributes( this->GetClassName() );
 	}
 
 	const AttributeInfo* Object::GetAttributeInfoByName(const char* strName) const
 	{
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		for (UINT i = 0; i < attributes->size(); ++i)
 		{
-			if (attributes->at(i).name_ == strName)
-				return &attributes->at(i);
+			RefPtr<AttributeInfo> pAtt = attributes->at(i);
+			if (string(pAtt->GetName()) == strName)
+				return pAtt.get();
 		}
 
 		return NULL;
@@ -200,7 +201,7 @@ namespace ma
 
 	bool Object::SetAttribute(unsigned index, const Any& value)
 	{
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes)
 		{
 			return false;
@@ -210,7 +211,7 @@ namespace ma
 			return false;
 		}
 
-		const AttributeInfo& attr = attributes->at(index);
+		const AttributeInfo& attr = *(attributes->at(index).get());
 
 		OnSetAttribute(attr, value);
 
@@ -219,17 +220,18 @@ namespace ma
 
 	bool Object::SetAttribute(const char* name, const Any& value)
 	{
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes)
 		{
 			return false;
 		}
 
-		for (vector<AttributeInfo>::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
+		for (VEC_ATTR::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
 		{
-			if ( strcmp(i->name_.c_str(), name )  == 0 )
+			RefPtr<AttributeInfo> pArrt = *i;
+			if ( strcmp(pArrt->GetName(), name )  == 0 )
 			{
-				OnSetAttribute(*i, value);
+				OnSetAttribute(*pArrt, value);
 				return true;
 			}
 		}
@@ -241,7 +243,7 @@ namespace ma
 	{
 		Any ret;
 
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes)
 		{
 			return ret;
@@ -252,7 +254,7 @@ namespace ma
 			return ret;
 		}
 
-		OnGetAttribute(attributes->at(index), ret);
+		OnGetAttribute(*attributes->at(index), ret);
 		return ret;
 	}
 
@@ -260,17 +262,18 @@ namespace ma
 	{
 		Any ret;
 
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		if (!attributes)
 		{
 			return ret;
 		}
 
-		for (vector<AttributeInfo>::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
+		for (VEC_ATTR::const_iterator i = attributes->begin(); i != attributes->end(); ++i)
 		{
-			if ( strcmp( i->name_.c_str() , name ) == 0 )
+			RefPtr<AttributeInfo> pAtt = *i;
+ 			if ( strcmp( pAtt->GetName(), name ) == 0 )
 			{
-				OnGetAttribute(*i, ret);
+				OnGetAttribute(*pAtt, ret);
 				return ret;
 			}
 		}
@@ -280,7 +283,7 @@ namespace ma
 
 	UINT Object::GetNumAttributes() const
 	{
-		const vector<AttributeInfo>* attributes = GetAttributes();
+		const VEC_ATTR* attributes = GetAttributes();
 		return attributes ? attributes->size() : 0;
 	}
 

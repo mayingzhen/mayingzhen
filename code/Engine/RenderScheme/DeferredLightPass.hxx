@@ -56,7 +56,7 @@ namespace ma
 				Uniform* pUniformColor = m_pDirLight->GetShaderProgram()->GetUniform("light_color");
 					
 				Quaternion qRotate = matView.extractQuaternion();
-				Vector3 vDirES = qRotate * -pDirLight->GetDirection();
+				Vector3 vDirES = qRotate * -pDirLight->GetForward();
 				
 				GetRenderSystem()->SetValue(pUniformDirES,vDirES);
 				GetRenderSystem()->SetValue(pUniformColor,pLight->GetLightColor());

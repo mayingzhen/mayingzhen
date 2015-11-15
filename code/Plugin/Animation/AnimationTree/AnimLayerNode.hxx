@@ -2,8 +2,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(AnimLayerNode,AnimTreeNode)
-
 	void AnimLayerNode::AddLayer(AnimTreeNode* pAnimTreeNode)
 	{
 		if (pAnimTreeNode == NULL)

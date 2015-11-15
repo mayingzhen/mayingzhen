@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\delegate.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Common\Log.h"
 				>
 			</File>
@@ -195,6 +199,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Common\MatViewProj.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\signals.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\signals.hxx"
 				>
 			</File>
 			<File
@@ -482,6 +494,34 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Common\Math\Vector4.hxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="tinyxml"
+				>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinystr.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinystr.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinyxml.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinyxml.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinyxmlerror.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\tinyxml\tinyxmlparser.hxx"
 					>
 				</File>
 			</Filter>

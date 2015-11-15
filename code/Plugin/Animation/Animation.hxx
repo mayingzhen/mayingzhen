@@ -7,8 +7,6 @@
 
 namespace ma
 {
-	IMPL_OBJECT(Animation,Resource)
-
 	Animation::Animation()
 	{
 		m_eCreateType = BIN_RES;

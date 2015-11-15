@@ -17,7 +17,7 @@ namespace ma
 	{
 	
 	public:
-		SceneNode(Scene* pScene,const char* pName = NULL);
+		SceneNode(Scene* pScene = NULL,const char* pName = NULL);
 
 		virtual ~SceneNode();
 

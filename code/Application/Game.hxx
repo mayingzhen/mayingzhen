@@ -34,32 +34,17 @@ namespace ma
 	void Game::Init()
 	{
 		HWND hWnd = Platform::GetInstance().GetWindId();
-		Input* pInput = new Input;
-		SetInput(pInput);
-		pInput->Init(hWnd);
-		int w,h;
-		Platform::GetInstance().GetWindowSize(w,h);
-		pInput->OnResize(w,h);
-
 		GetEngine()->Init(hWnd, false, false, false);
 	}
 
 	void Game::Shutdown()
 	{
 		GetEngine()->Shutdown();
-
-		Input* pInput = GetInput();
-		pInput->Shutdown();
-		SAFE_DELETE(pInput);
-		SetInput(NULL);
 	}
 
 	void Game::Update()
 	{
 		profile_code();
-
-		if (GetInput())
-			GetInput()->Capture();
 	
 		GetEngine()->Update();
 	}	

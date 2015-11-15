@@ -83,7 +83,7 @@ namespace ma
 		Vector4& vWBasisX, Vector4& vWBasisY, Vector4& vWBasisZ, Vector4& vBasisMagnitudes, Vector4& vCamPos)
 	{
 
-		const Matrix4& camMatrix = cam.GetSceneNode()->GetMatrixWS();
+		const Matrix4& camMatrix = cam.GetMatrixWS();
 
 		// projection ratio
 		float fProjectionRatio = fViewWidth / fViewHeight ;
@@ -109,7 +109,7 @@ namespace ma
 		vWBasisX = mShadowTexGen * Vector4(vX, 0.0f);
 		vWBasisY = mShadowTexGen * Vector4(vY, 0.0f);
 		vWBasisZ = mShadowTexGen * Vector4(vZ, 0.0f);
-		vCamPos =  mShadowTexGen * Vector4(cam.GetSceneNode()->GetPosWS(), 1.0f);
+		vCamPos =  mShadowTexGen * Vector4(cam.GetPosWS(), 1.0f);
 
 		// 		vBasisMagnitudes.x = vWBasisX.length();
 		// 		vBasisMagnitudes.y = vWBasisY.length();
@@ -126,7 +126,7 @@ namespace ma
 		if (!m_bEnable)
 			return;
 
-		Scene* pScene = pCamera->GetSceneNode()->GetScene();
+		Scene* pScene = pCamera->GetScene();
 
 		m_nCurSplitCount = 0;
 		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = Vector4::ZERO;
@@ -163,8 +163,8 @@ namespace ma
 
 			if (m_eShadowBleurLevel == SHADOW_JITTERIN)
 			{
-				Vector3 vViewPosLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetSceneNode()->GetPos();
-				Vector3 vViewVectLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetSceneNode()->GetForward();
+				Vector3 vViewPosLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetPos();
+				Vector3 vViewVectLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetForward();
 				m_viewPosVecLS[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
 			}
 

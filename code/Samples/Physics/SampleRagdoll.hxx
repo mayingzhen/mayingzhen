@@ -14,11 +14,11 @@ namespace ma
 	void SampleRagdoll::Load()
 	{
 		m_bStart = false;
-		GetInput()->AddKeyListener(this);
+		//GetInput()->AddKeyListener(this);
 
 		Vector3 vEyePos = Vector3(100, -400, 300);
 		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->GetSceneNode()->LookAt(vEyePos,VAtPos);
+		GetCamera()->LookAt(vEyePos,VAtPos);
 
 		GetPhysicsSystem()->SetGravity(Vector3(0,0,-98));
 
@@ -78,7 +78,7 @@ namespace ma
 
 	void SampleRagdoll::UnLoad()
 	{
-		GetInput()->RemoveKeyListener(this);
+		//GetInput()->RemoveKeyListener(this);
 	}
 
 	void SampleRagdoll::Update()
@@ -98,17 +98,17 @@ namespace ma
 		m_pAnimationComp->DebugRender(false);
 	}
 
-	bool SampleRagdoll::keyPressed(const OIS::KeyEvent &arg)
-	{
-		if (arg.key == OIS::KC_R)
-		{
-			m_bStart = true;
-			
-			m_pRagdoll->Start();
-		}
-
-		return true;
-	}
+// 	bool SampleRagdoll::keyPressed(const OIS::KeyEvent &arg)
+// 	{
+// 		if (arg.key == OIS::KC_R)
+// 		{
+// 			m_bStart = true;
+// 			
+// 			m_pRagdoll->Start();
+// 		}
+// 
+// 		return true;
+// 	}
 
 }
 

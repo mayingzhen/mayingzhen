@@ -89,7 +89,6 @@ namespace ma
 
 		RefPtr<RenderScheme>	m_pRenderScheme;
 		
-		RefPtr<SceneNode>		m_pCameraNode;
 		RefPtr<Camera>			m_pCamera;
 
 		Rectangle				m_viewport;
@@ -106,7 +105,6 @@ namespace ma
 		float					m_viwMinZ;
 		float					m_viwMaxZ;
 
-		RefPtr<SceneNode>		m_pSunNode;
 		RefPtr<RenderShadowCSM>	m_pSunShadow; 
 			
 		CCallback*				m_pCallback;

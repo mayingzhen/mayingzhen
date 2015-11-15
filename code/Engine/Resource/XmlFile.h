@@ -3,8 +3,6 @@
 
 #include "Resource.h"
 
-#include "Serialize/tinyxml/tinyxml.h"
-
 namespace ma
 {
 	class XmlFile : public Resource

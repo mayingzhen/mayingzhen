@@ -78,7 +78,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderShadowCSM* pParent = pCamera->GetSceneNode()->GetScene()->GetSunShaow();
+		RenderShadowCSM* pParent = pCamera->GetScene()->GetSunShaow();
 
 		Caster_Cull eCaterCullType = pParent->GetCasterCullType();
 		if (eCaterCullType != CasterCull_No)
@@ -90,7 +90,7 @@ namespace ma
 			lightViewFrustum.Transformed(m_matLightView);
 
 			ShadowCasterQuery shaowQuery(ligtFrustum,lightViewFrustum,m_matLightView,m_arrCaster,m_casterAABB);
-			pCamera->GetSceneNode()->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
+			pCamera->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
 		}
 
 		for (VEC_CASTER::iterator iter = m_arrCaster.begin();iter != m_arrCaster.end();++iter)
@@ -100,7 +100,7 @@ namespace ma
 			float fShadowFarDis = pParent->GetShadowFarDistance();
 			if (fShadowFarDis > 0)
 			{
-				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetSceneNode()->GetPosWS()).length();
+				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetPosWS()).length();
 				if (fLodValue > fShadowFarDis)
 					continue;
 			}
@@ -124,23 +124,23 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateLightMatrix(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{		
-		Scene* pCurScene = pCamera->GetSceneNode()->GetScene();
+		Scene* pCurScene = pCamera->GetScene();
 
 		RenderShadowCSM* pParent = pCurScene->GetSunShaow();
 		
-		Vector3 vLightDir = pParent->GetDirection();
+		Vector3 vLightDir = pParent->GetForward();
 	
 		Vector3 vLightUp;
-		if ( Math::Abs( (-vLightDir).dotProduct( pCamera->GetSceneNode()->GetUp() ) ) > 0.95f )
+		if ( Math::Abs( (-vLightDir).dotProduct( pCamera->GetUp() ) ) > 0.95f )
 		{
-			vLightUp = pCamera->GetSceneNode()->GetRight();
+			vLightUp = pCamera->GetRight();
 		}
 		else
 		{
-			vLightUp = pCamera->GetSceneNode()->GetUp();
+			vLightUp = pCamera->GetUp();
 		}
 
-		Vector3 pos = pCamera->GetSceneNode()->GetPosWS() - pCamera->GetFarClip() * vLightDir;
+		Vector3 pos = pCamera->GetPosWS() - pCamera->GetFarClip() * vLightDir;
 
 		Matrix4 matLightView = Math::MakeLookAtMatrixRH(pos,pos + vLightDir,vLightUp);
 		Matrix4 matInvLightView = matLightView.inverse();
@@ -293,7 +293,7 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
-		RenderShadowCSM* pParent = pCamera->GetSceneNode()->GetScene()->GetSunShaow();
+		RenderShadowCSM* pParent = pCamera->GetScene()->GetSunShaow();
 
 		float fConstantBias = 0;
 		float fSlopeScaleBias = 0;

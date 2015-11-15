@@ -8,9 +8,9 @@ namespace ma
 
 	void SampleSceneSerialize::Load()
 	{
-		GetCamera()->GetSceneNode()->LookAt(Vector3(0, 20, 15), Vector3(0, 0, 0));
+		GetCamera()->LookAt(Vector3(0, 20, 15), Vector3(0, 0, 0));
 
-		GetInput()->AddKeyListener(this);
+		//GetInput()->AddKeyListener(this);
 
 		//GetResourceSystem()->SetDataThreadEnable(false);
 
@@ -19,7 +19,7 @@ namespace ma
 
 		if (0)
 		{
-			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mat");
+			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mtl");
 
 			RefPtr<SceneNode> pSceneNode = CreateSceneNode();
 
@@ -44,31 +44,31 @@ namespace ma
 		m_pScene->GetRootNode()->AddChild(pSceneNode.get());
 
 		//m_pScene->GetSunShaow()->SetEnabled(true);
-		m_pScene->GetSunShaow()->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
+		m_pScene->GetSunShaow()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 	}
 
 	void SampleSceneSerialize::UnLoad()
 	{
-		GetInput()->RemoveKeyListener(this);
+		//GetInput()->RemoveKeyListener(this);
 	}
 
-	bool SampleSceneSerialize::keyPressed(const OIS::KeyEvent &arg)
-	{
-		std::string strScenePath = "scene/Test.scene";
-
-		if (arg.key == OIS::KC_X)
-		{
-			{
-				//m_pScene->GetRootNode()->SaveToFile(strScenePath.c_str());
-			}
-
-			{
-				//m_pScene->GetRootNode()->LoadFromFile(strScenePath.c_str());
-			}
-		}
-
-		return true;
-	}
+// 	bool SampleSceneSerialize::keyPressed(const OIS::KeyEvent &arg)
+// 	{
+// 		std::string strScenePath = "scene/Test.scene";
+// 
+// 		if (arg.key == OIS::KC_X)
+// 		{
+// 			{
+// 				//m_pScene->GetRootNode()->SaveToFile(strScenePath.c_str());
+// 			}
+// 
+// 			{
+// 				//m_pScene->GetRootNode()->LoadFromFile(strScenePath.c_str());
+// 			}
+// 		}
+// 
+// 		return true;
+// 	}
 }
 
 
