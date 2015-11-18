@@ -225,62 +225,6 @@
 				>
 			</File>
 			<Filter
-				Name="Serialize"
-				>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputSerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryInputSerializer.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputSerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\BinaryOutputSerializer.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\BinarySerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\BinarySerializer.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\Serializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputSerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLInputSerializer.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputSerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Serialize\XMLOutputSerializer.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\XMLSerializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Serialize\XMLSerializer.hxx"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Archive"
 				>
 				<File
@@ -845,6 +789,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Material\ShaderManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\ShaderManager.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Material\ShaderProgram.h"
 				>
 			</File>
@@ -866,6 +818,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Material\Texture.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\TextureManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\TextureManager.hxx"
 				>
 			</File>
 			<File
