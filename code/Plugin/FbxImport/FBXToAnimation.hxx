@@ -108,7 +108,7 @@ namespace ma
 		if (pFbxScene == NULL)
 			return false;
 
-		RefPtr<Animation> pSkaData = CreateObject<Animation>();
+		RefPtr<Animation> pSkaData = CreateAnimation();
 
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
 		ASSERT(nAnimStackCount == 1);

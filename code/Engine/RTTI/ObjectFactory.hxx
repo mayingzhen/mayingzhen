@@ -2,16 +2,11 @@
 
 namespace ma
 {
-	static ObjectFactoryManager* gpObjectFactoryManager = NULL;
+	ObjectFactoryManager* g_pObjectFactoryManager = NULL;
 
 	ObjectFactoryManager* GetObjectFactoryManager()
 	{
-		return gpObjectFactoryManager;
-	}
-
-	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang)
-	{
-		gpObjectFactoryManager = pClassMang;
+		return g_pObjectFactoryManager;
 	}
 
 	void ObjectFactoryManager::RegisterObjectFactory(const char* pCls,ObjectCreator funCreator)

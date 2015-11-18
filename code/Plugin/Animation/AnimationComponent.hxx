@@ -24,6 +24,8 @@ namespace ma
 
 	void AnimationComponent::RegisterAttribute()
 	{
+		REGISTER_OBJECT(AnimationComponent,CreateAnimationComponent)
+
 		ACCESSOR_ATTRIBUTE(AnimationComponent, "AnimSetPath", GetAnimSetPath, SetAnimSetPath, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimationComponent, "SkeletonPath", GetSkeletonPath, SetSkeletonPath, const char*, NULL, AM_DEFAULT);
 	}
@@ -36,7 +38,7 @@ namespace ma
 	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
 	{
 		SAFE_DELETE(m_pose);
-		m_pSkeleton = LoadResource<Skeleton>(pSkePath);
+		m_pSkeleton = CreateSkeleton(pSkePath);//LoadResource<Skeleton>(pSkePath);
 
 		m_bLoadOver = false;
 		IsReady();
@@ -302,6 +304,11 @@ namespace ma
 		{
 			m_pose->DebugRender(m_pSceneNode->GetMatrixWS(),bDrawBoneName,m_pSkeleton.get());
 		}
+	}
+
+	RefPtr<AnimationComponent> CreateAnimationComponent()
+	{
+		return new AnimationComponent;
 	}
 
 }

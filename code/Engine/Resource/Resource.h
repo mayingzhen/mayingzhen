@@ -14,13 +14,6 @@ namespace ma
 		ResLoadError,
 	};
 
-	enum CreateType
-	{
-		XML_RES,
-		BIN_RES,
-		MEM_RES, 
-	};
-
 	class Serializer;
 	class MemoryStream;
 
@@ -28,20 +21,14 @@ namespace ma
 	{
 
 	public:
-		Resource(const char* pszPath = NULL);
+		Resource();
 
 		virtual ~Resource();
 
-		DECL_OBJECT(Resource)
+		virtual	bool	Load(const char* pszFile);
+		virtual void	LoadSync(const char* pszFile);
 
-		virtual	bool	LoadFromXML(const char* pFilePath);
-		virtual bool	SaveToXML(const char* pFilePath);
-
-		virtual	bool	LoadFromFile(const char* pFilePath);
 		virtual bool	SaveToFile(const char* pszPath);
-
-		virtual	bool	Load();
-		virtual void	LoadSync();
 
 		virtual bool	IsReady();
 
@@ -53,17 +40,16 @@ namespace ma
 		MemoryStream*	GetDataStream() {return m_pDataStream.get();}
 
 	protected:
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "Resource");
-
 		virtual bool	LoadFileToMemeory();
 
 		virtual bool	CreateFromMemeory();
+
+		virtual bool    InitRes() {return true;}
 
 	protected:
 		std::string				m_sResPath;
 		ResState				m_eResState;
 		RefPtr<MemoryStream>	m_pDataStream;	
-		CreateType				m_eCreateType;
 
 		friend class DataThread;
 	};

@@ -9,15 +9,12 @@ namespace ma
 		__gameInstance = this;
 		m_sGameName = pGameName ? pGameName : "";
 
-		Engine* pEngine = new Engine();
-		SetEngine(pEngine);
+		g_pEngine = new Engine();
 	}
 
 	Game::~Game()
 	{
-		Engine* pEngine = GetEngine();
-		SAFE_DELETE(pEngine);
-		SetEngine(NULL);
+		SAFE_DELETE(g_pEngine);
 	}
 
 	Game& Game::GetInstance()

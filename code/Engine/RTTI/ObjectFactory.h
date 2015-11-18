@@ -24,10 +24,9 @@ namespace ma
 	
 		ObjFunFactoryMap	m_objFunFactoryMap;
 	};
-
+	
+	extern ObjectFactoryManager* g_pObjectFactoryManager;
 	ObjectFactoryManager* GetObjectFactoryManager();
-
-	void SetObjectFactoryManager(ObjectFactoryManager* pClassMang);
 
 	template <class T>
 	RefPtr<T>	CreateObject(const char* pszClassName = NULL)

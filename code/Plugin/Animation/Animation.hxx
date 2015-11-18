@@ -3,13 +3,12 @@
 #include "Animation/AnimationTracks.h"
 #include "Animation/Skeleton.h"
 
-#include "AnimationSerializer.hxx"
+//#include "AnimationSerializer.hxx"
 
 namespace ma
 {
 	Animation::Animation()
 	{
-		m_eCreateType = BIN_RES;
 		m_nFrameNumber = 0;	
 	}
 
@@ -64,17 +63,28 @@ namespace ma
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 
-	void Animation::Serialize(Serializer& sl, const char* pszLable)
-	{
-		AnimationHeader header;
-		sl.Serialize(header,"AnimationHeader");
-		if (header.m_nIden != 'MAAD')
-			return;
+// 	void Animation::Serialize(Serializer& sl, const char* pszLable)
+// 	{
+// 		AnimationHeader header;
+// 		sl.Serialize(header,"AnimationHeader");
+// 		if (header.m_nIden != 'MAAD')
+// 			return;
+// 
+// 		if (header.m_nVersion == EXP_ANIM_VER_INITIAL)
+// 		{
+// 			SerializeDataV0(sl,pszLable);
+// 		}
+// 	}
 
-		if (header.m_nVersion == EXP_ANIM_VER_INITIAL)
-		{
-			SerializeDataV0(sl,pszLable);
-		}
+	RefPtr<Animation> CreateAnimation()
+	{
+		return new Animation;
 	}
 
+	RefPtr<Animation> CreateAnimation(const char* pszFile)
+	{
+		return g_pAnimationManager->CreateResource(pszFile);
+	}
+
+	ResourceSystem<Animation>* g_pAnimationManager = NULL;
 }

@@ -4,117 +4,47 @@
 namespace ma
 {
 	class Resource;
-	class DataThread;
 
-	typedef Resource* (*ResourceCreator)();
-
+	template<class T>
 	class ResourceSystem
 	{
 	public:
-		ResourceSystem();
+		ResourceSystem() {}
 
-		void		Init(bool bDataThread);
+		~ResourceSystem() {}
 
-		void		Shoutdown();
+		RefPtr<T> CreateResource(const char* pszRelPath)
+		{
+			ASSERT(pszRelPath);
+			if (pszRelPath == NULL)
+				return NULL;
 
-		void		SetDataThreadEnable(bool b);
+			ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
+			if (itRes != m_resMap.end())
+				return itRes->second;
 
-		void		Update();
+			RefPtr<T> res = new T;
+			if (!res->Load(pszRelPath))
+			{
+				LogError("can not load file :%s", pszRelPath);
+				return NULL;
+			}
 
-		DataThread*	GetDataThread();
+			m_resMap[pszRelPath] = res;
 
-		Resource*	FindResource(const char* pszRelPath);
+			return res;
+		}
 
-		Resource*	DeclareResource(const char* pszRelPath);
-
-		Resource*	LoadResource(const char* pszRelPath); 
-
-		Resource*	LoadResourceSync(const char* pszRelPath);
-
-		void		AddResource(const char* pszKey,Resource* pRes);
-
-		void		RegisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
-
-		void		UnregisterResourceFactory(const char* fileExt,ResourceCreator pResCreator);
+		void Clear()
+		{
+			m_resMap.clear();
+		}
 		
-		template <class T>
-		void		ReLoad();	
-
 	private:
-		typedef std::map<std::string, RefPtr<Resource> > ResourceMap;
-		typedef std::map<std::string,ResourceCreator> ResCreateFunMap;
+		typedef std::map<std::string, RefPtr<T> > ResourceMap;
 
 		ResourceMap			m_resMap;
-		ResCreateFunMap		m_resCreateFunMap;
-
-		DataThread*			m_pDataThread;
 	};
-
-	ResourceSystem*	GetResourceSystem();
-
-	void			SetResourceSystem(ResourceSystem* pResSystem);
-
-	template <class T>
-	T*	DeclareResource(const char* pszRelPath)
-	{
-		Resource* pRes = GetResourceSystem()->DeclareResource(pszRelPath);
-		ASSERT(pRes);
-
-		T* pTypeRes = dynamic_cast<T*>(pRes);
-		ASSERT(pTypeRes);
-		return pTypeRes;
-	}
-
-	template <class T>
-	T*	FindResource(const char* pszRelPath)
-	{
-		Resource* pRes = GetResourceSystem()->FindResource(pszRelPath);
-		if (pRes == NULL)
-			return NULL;
-
-		T* pTypeRes = dynamic_cast<T*>(pRes);
-		ASSERT(pTypeRes);
-		return pTypeRes;
-	}
-
-
-	template <class T>
-	T*	LoadResource(const char* pszRelPath)
-	{
-		Resource* pRes = GetResourceSystem()->LoadResource(pszRelPath);
-		ASSERT(pRes);
-	
-		T* pTypeRes = dynamic_cast<T*>(pRes);
-		ASSERT(pTypeRes);
-		return pTypeRes;
-	}
-
-	template <class T>
-	T*	LoadResourceSync(const char* pszRelPath)
-	{
-		Resource* pRes = GetResourceSystem()->LoadResourceSync(pszRelPath);
-		ASSERT(pRes);
-
-		T* pTypeRes = dynamic_cast<T*>(pRes);
-		ASSERT(pTypeRes);
-		return pTypeRes;
-	}
-
-	template <class T>
-	void ResourceSystem::ReLoad()
-	{
-		ResourceMap::iterator it = m_resMap.begin();
-		for (; it != m_resMap.end(); ++it)
-		{
-			Resource* pRes = it->second.get();
-			
-			T* pTypeRes = dynamic_cast<T*>(pRes); 
-			if (pTypeRes)
-			{
-				pTypeRes->Reload();
-			}
-		}
-	}
 }
 
 

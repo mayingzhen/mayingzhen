@@ -69,5 +69,11 @@ namespace ma
 
 		m_readEvent.Signal();
 	}
+
+	DataThread* g_pDataThread = NULL;
+	DataThread* GetDataThread()
+	{
+		return g_pDataThread;
+	}
 }
 

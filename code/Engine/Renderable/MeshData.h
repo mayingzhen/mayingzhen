@@ -73,11 +73,9 @@ namespace ma
 	{
 	
 	public:
-		MeshData(const char* pszPath = NULL);
+		MeshData();
 
 		~MeshData();
-
-		DECL_OBJECT(MeshData)
 		
 		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
 
@@ -99,11 +97,11 @@ namespace ma
 		void					SetIndexType(UINT nType) {m_nIndexType = nType;} 
 
 		SubMeshData*			AddSubMeshData();
+		
+		bool					InitRes();
 
-		virtual void			Serialize(Serializer& sl, const char* pszLable = "MeshData");
-
-	private:
-		void					SerializeDataV0(Serializer& sl, const char* pszLabel);
+		virtual void			Improt(TiXmlElement* pXmlObject);
+		virtual void			Export(TiXmlElement* pXmlObject);	
 
 	private:
 		
@@ -118,10 +116,11 @@ namespace ma
 
 		AABB							m_meshBound;		
 	};
-
-// 	RefPtr<MeshData> CreateMeshData();
-// 	RefPtr<MeshData> CreateMeshData(const char* pszFile);
 	
+	RefPtr<MeshData> CreateMeshData(const char* pszFile);
+	RefPtr<MeshData> CreateMeshData();
+
+	extern ResourceSystem<MeshData>* g_pMeshManager;
 }
 
 #endif// __MeshData_H__ 

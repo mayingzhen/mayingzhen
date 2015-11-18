@@ -87,8 +87,8 @@ namespace ma
 		std::map<std::string, AutoBinding>	m_autoDefaultBings;
 	};
 
-	ParameterManager*	GetParameterManager();
-	void				SetParameterManager(ParameterManager* pParameterManager);		
+	extern ParameterManager* g_pParameterManager;
+	ParameterManager*	GetParameterManager();		
 
 }
 

@@ -3,12 +3,9 @@
 
 namespace ma
 {
-	Resource::Resource(const char* pszPath)
+	Resource::Resource()
 	{
-		m_sResPath = pszPath ? pszPath : ""; 
 		m_eResState = ResUnLoad;
-		m_pDataStream = NULL;
-		m_eCreateType = MEM_RES;
 	}
 
 	Resource::~Resource()
@@ -16,61 +13,63 @@ namespace ma
 		m_pDataStream = NULL;
 	}
 
-	bool Resource::LoadFromXML(const char* pFilePath)
-	{
-		m_sResPath = pFilePath ? pFilePath  : "";
-		m_eResState = ResUnLoad;
-		m_pDataStream = NULL;
-		m_eCreateType = XML_RES;
+// 	bool Resource::LoadFromXML(const char* pFilePath)
+// 	{
+// 		m_sResPath = pFilePath ? pFilePath  : "";
+// 		m_eResState = ResUnLoad;
+// 		m_pDataStream = NULL;
+// 		m_eCreateType = XML_RES;
+// 
+// 		return Load();
+// 	}
 
-		return Load();
-	}
+// 	bool Resource::SaveToXML(const char* pFilePath)
+// 	{
+// 		std::string strSavePath = pFilePath ? pFilePath : m_sResPath;
+// 
+// 		XMLOutputSerializer ar;
+// 
+// 		Serialize(ar,this->GetClassName());
+// 
+// 		return ar.Save(strSavePath.c_str());
+// 	}
 
-	bool Resource::SaveToXML(const char* pFilePath)
-	{
-		std::string strSavePath = pFilePath ? pFilePath : m_sResPath;
-
-		XMLOutputSerializer ar;
-
-		Serialize(ar,this->GetClassName());
-
-		return ar.Save(strSavePath.c_str());
-	}
-
-	bool Resource::LoadFromFile(const char* pFilePath)
-	{
-		m_sResPath = pFilePath ? pFilePath : "";
-		m_eResState = ResUnLoad;
-		m_pDataStream = NULL;
-		m_eCreateType = BIN_RES;
-
-		return Load();
-	}
+// 	bool Resource::LoadFromFile(const char* pFilePath)
+// 	{
+// 		m_sResPath = pFilePath ? pFilePath : "";
+// 		m_eResState = ResUnLoad;
+// 		m_pDataStream = NULL;
+// 		m_eCreateType = BIN_RES;
+// 
+// 		return Load();
+// 	}
 
 	bool Resource::SaveToFile(const char* pszPath)
 	{
-		std::string strSavePath = pszPath ? pszPath : m_sResPath;
-
-		BinaryOutputSerializer ar;
-		bool bLoadOK = ar.Open(strSavePath.c_str());
-		if (!bLoadOK)
-		{
-			ASSERT(false && "Fail to save mesh from file");
-			return false;
-		}
-
-		Serialize(ar,this->GetClassName());
-
-		ar.Close();
+// 		std::string strSavePath = pszPath ? pszPath : m_sResPath;
+// 
+// 		BinaryOutputSerializer ar;
+// 		bool bLoadOK = ar.Open(strSavePath.c_str());
+// 		if (!bLoadOK)
+// 		{
+// 			ASSERT(false && "Fail to save mesh from file");
+// 			return false;
+// 		}
+// 
+// 		Serialize(ar,this->GetClassName());
+// 
+// 		ar.Close();
 
 		return true;
 	}
 
-	bool Resource::Load()
+	bool Resource::Load(const char* pFilePath)
 	{
-		ASSERT(m_sResPath != "");
-		if (m_sResPath == "")
+		ASSERT(pFilePath);
+		if (pFilePath == NULL)
 			return false;
+
+		m_sResPath = pFilePath;
 
  		if (m_eResState == ResInited)
  			return true;
@@ -79,22 +78,28 @@ namespace ma
 			return false;
 		
 		ASSERT(m_eResState == ResUnLoad);
-		if ( GetResourceSystem()->GetDataThread() )
+		if (GetDataThread())
 		{
-			GetResourceSystem()->GetDataThread()->PushBackDataObj(this);
+			GetDataThread()->PushBackDataObj(this);
 
 			return false;
 		}
 		else
 		{
-			LoadSync();
+			LoadSync(pFilePath);
 
 			return true;
 		}
 	}
 
-	void Resource::LoadSync()
+	void Resource::LoadSync(const char* pFilePath)
 	{
+		ASSERT(pFilePath);
+		if (pFilePath == NULL)
+			return;
+
+		m_sResPath = pFilePath;
+
 		if (m_eResState == ResInited)
 			return;
 
@@ -130,25 +135,8 @@ namespace ma
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return false;
-	
-		if (m_eCreateType == XML_RES)
-		{
-			XMLInputSerializer inAr;
-			inAr.Open(m_pDataStream.get());
-			Serialize(inAr,this->GetClassName());
-			inAr.Close();
 
-			m_pDataStream = NULL;
-		}
-		else if (m_eCreateType == BIN_RES)
-		{
-			BinaryInputSerializer inAr;
-			inAr.Open(m_pDataStream.get());
-			Serialize(inAr,this->GetClassName());
-			inAr.Close();
-
-			m_pDataStream = NULL;
-		}
+		bool bInit = InitRes();
 
 		m_eResState = ResInited;
 	
@@ -165,15 +153,10 @@ namespace ma
 		return false;
 	}
 
-	void Resource::Serialize(Serializer& sl, const char* pszLable)
-	{
-
-	}
-
 	RefPtr<Resource> CreateResource(const char* pszPath)
 	{
-		Resource* pRes = new Resource(pszPath);
-		pRes->Load();
+		Resource* pRes = new Resource();
+		pRes->Load(pszPath);
 		return pRes;
 	}
 }

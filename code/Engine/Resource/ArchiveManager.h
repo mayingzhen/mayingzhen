@@ -38,9 +38,9 @@ namespace ma
 		std::string		m_saveDir;
 	};
 
-	 void SetArchiveManager(ArchiveManager* pArchiveManager);
 
-	 ArchiveManager* GetArchiveMananger();
+	extern ArchiveManager* g_pArchiveManager;
+	ArchiveManager* GetArchiveMananger();
 
 }
 

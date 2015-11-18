@@ -151,8 +151,8 @@ namespace ma
 
 	};
 
-	 RenderSystem* GetRenderSystem();
-	 void SetRenderSystem(RenderSystem* pRenderSystem);
+	extern RenderSystem* g_pRenderSystem;
+	RenderSystem* GetRenderSystem();
 }
 
 #endif

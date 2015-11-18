@@ -14,8 +14,6 @@ namespace ma
 
 		~Animation();
 
-		DECL_OBJECT(Animation)
-
 		UINT							GetFrameNumber() {return m_nFrameNumber;}
 
 		void							SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const;
@@ -31,8 +29,8 @@ namespace ma
 		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
 
-	private:
-		void							SerializeDataV0(Serializer& sl, const char* pszLable);
+	//private:
+	//	void							SerializeDataV0(Serializer& sl, const char* pszLable);
 
 	private:
 		std::vector<std::string>		m_arrTrackName;
@@ -41,6 +39,11 @@ namespace ma
 		std::vector<QuaternionTrack>	m_arrRotTrack;
 		std::vector<Vector3Track>		m_arrPosTrack;
 	};
+
+	RefPtr<Animation> CreateAnimation();
+	RefPtr<Animation> CreateAnimation(const char* pszFile);
+
+	extern ResourceSystem<Animation>* g_pAnimationManager;
 }
 
 #endif

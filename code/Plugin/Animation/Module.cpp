@@ -24,31 +24,16 @@
 
 
 
-
 using namespace ma;
 
-// #define RTTI_DECL(ClassType) RefPtr<Object> Create_##ClassType() { return new ClassType();}
-// #include <Animation/RTTIDecl.h>
-// #undef RTTI_DECL
-
-Resource* AnimationData_Creator() {return new Animation();}
-Resource* SkeletonData_Creator() {return new Skeleton();}
-Resource* AnimSetData_Creator() {return new XmlFile();}
 
 void AnimationModuleInit()
 {
 	AnimationSystem* pAniSystem = new AnimationSystem();
 	SetAnimationSystem(pAniSystem);
 
-	GetResourceSystem()->RegisterResourceFactory("ske",SkeletonData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("ska",AnimationData_Creator);
-	GetResourceSystem()->RegisterResourceFactory("aniset",AnimSetData_Creator);
-
-	/// RTTI
-// 	#define RTTI_DECL(ClassType) \
-// 		GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType);
-// 	#include <Animation/RTTIDecl.h>
-// 	#undef RTTI_DECL
+	g_pSkeletonManager = new ResourceSystem<Skeleton>();
+	g_pAnimationManager = new ResourceSystem<Animation>();
 
 	AnimationComponent::RegisterAttribute();
 	AnimTreeNode::RegisterAttribute();
@@ -57,17 +42,10 @@ void AnimationModuleInit()
 
 void AnimationModuleShutdown()
 {
-	// RTTI
-// 	#define RTTI_DECL(ClassType) \
-// 		GetObjectFactoryManager()->UnRegisterObjectFactory(#ClassType,Create_##ClassType);  
-// 	#include <Animation/RTTIDecl.h>
-// 	#undef RTTI_DECL
+	SAFE_DELETE(g_pSkeletonManager);
+	SAFE_DELETE(g_pAnimationManager);
 
-	GetResourceSystem()->UnregisterResourceFactory("ske",SkeletonData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("ska",AnimationData_Creator);
-	GetResourceSystem()->UnregisterResourceFactory("aniset",AnimSetData_Creator);
-
-	AnimationSystem* pAniSystem = GetAnimationSystem();
+	AnimationSystem* pAniSystem = GetAnimationSystem();	
 	SAFE_DELETE(pAniSystem);
 	SetAnimationSystem(NULL);
 }

@@ -16,9 +16,7 @@ namespace ma
 
 		~Skeleton();
 
-		DECL_OBJECT(Skeleton)
-
-		virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
+		//virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
 
 		const Matrix4&		GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
@@ -45,7 +43,7 @@ namespace ma
 		void				InitResPose();
 
 	private:
-		void				SerializeDataV0(Serializer& sl,const char* pszLable);
+		//void				SerializeDataV0(Serializer& sl,const char* pszLable);
 
 	private:
 		std::vector<std::string>	m_arrBoneName;
@@ -61,6 +59,10 @@ namespace ma
 		typedef std::vector< RefPtr<BoneSet> > VEC_BONSET;
 		VEC_BONSET					m_arrBoneSet;
 	};
+
+	extern ResourceSystem<Skeleton>* g_pSkeletonManager;
+
+	RefPtr<Skeleton> CreateSkeleton(const char* pszFile);
 }
 
 

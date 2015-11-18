@@ -34,6 +34,9 @@ namespace ma
 		CriticalSection		m_csRequestQueue;
 		CriticalSection		m_csLoadedQueue;
 	};
+
+	extern DataThread* g_pDataThread;
+	DataThread* GetDataThread();
 }
 
 

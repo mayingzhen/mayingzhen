@@ -93,9 +93,8 @@ namespace ma
 		CodeTimer *     mTimers;
 	};
 
+	extern CodeTimerManager* g_pCodeTimerManager;
 	CodeTimerManager* GetCodetTimeMng();
-
-	void SetCodeTimeMng(CodeTimerManager* pCodeTimeMng);
 }
 
 

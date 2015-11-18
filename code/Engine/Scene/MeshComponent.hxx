@@ -33,7 +33,7 @@ namespace ma
 
 	void MeshComponent::SetMeshFile(const char* pFile)
 	{
-		m_pMesData = LoadResource<MeshData>(pFile);
+		m_pMesData = CreateMeshData(pFile);
 
 		m_bOnLoadOver = false;
 		IsReady();

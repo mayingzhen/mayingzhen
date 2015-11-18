@@ -18,7 +18,7 @@ namespace ma
 
 	void UnitSphere::Init()
 	{
-		RefPtr<MeshData> pMeshData = LoadResourceSync<MeshData>("FBX/shpere.skn");
+		RefPtr<MeshData> pMeshData = CreateMeshData("FBX/shpere.skn");
 
 		gpSphere = new Renderable();
 		gpSphere->m_ePrimitiveType = PRIM_TRIANGLELIST;

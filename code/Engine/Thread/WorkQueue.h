@@ -139,9 +139,8 @@ namespace ma
 		UINT lastSize_;
 	};
 
-	 WorkQueue* GetWorkQueue();
-	 void SetWorkQueue(WorkQueue* pWorkQueue);
-
+	extern WorkQueue* g_pWorkQueue;
+	WorkQueue* GetWorkQueue();
 }
 
 #endif

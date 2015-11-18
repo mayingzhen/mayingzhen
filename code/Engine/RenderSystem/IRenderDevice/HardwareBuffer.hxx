@@ -30,24 +30,24 @@ namespace ma
 		SAFE_DELETE_ARRAY(m_pData);
 	}
 
-	void HardwareBuffer::Serialize(Serializer& sl, const char* pszLable/* = "HardwareBuffer"*/)
-	{
-		sl.BeginSection(pszLable);
-
-		uint8* pTemp = (uint8*)m_pData; 
-
-		sl.Serialize(m_Stride,"Stride");
-		sl.Serialize(m_Size,"Size");
-		sl.SerializeByte(pTemp,m_Size,"Data");
-
-		m_pData = pTemp;
-
-		if ( sl.IsReading() )
-		{
-			m_bNeedFreeData = true;
-		}
-
-		sl.EndSection();
-	}
+// 	void HardwareBuffer::Serialize(Serializer& sl, const char* pszLable/* = "HardwareBuffer"*/)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		uint8* pTemp = (uint8*)m_pData; 
+// 
+// 		sl.Serialize(m_Stride,"Stride");
+// 		sl.Serialize(m_Size,"Size");
+// 		sl.SerializeByte(pTemp,m_Size,"Data");
+// 
+// 		m_pData = pTemp;
+// 
+// 		if ( sl.IsReading() )
+// 		{
+// 			m_bNeedFreeData = true;
+// 		}
+// 
+// 		sl.EndSection();
+// 	}
 }
 

@@ -142,8 +142,8 @@ private:
 	bool m_bDepthTexture;
 };
 
- void SetDeviceCapabilities(DeviceCapabilitie* pDevicCap);
- DeviceCapabilitie* GetDeviceCapabilities();
+extern DeviceCapabilitie* g_pDeviceCapabilities;
+DeviceCapabilitie* GetDeviceCapabilities();
 
 }
 

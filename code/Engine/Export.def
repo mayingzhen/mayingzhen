@@ -5,15 +5,8 @@ EXPORTS
 ?isCompressed@PixelUtil@ma@@SA_NW4PixelFormat@2@@Z
 ?bulkPixelConversion@PixelUtil@ma@@SAXABVPixelBox@2@0@Z
 ?getMemorySize@PixelUtil@ma@@SAIIIIW4PixelFormat@2@@Z
-?LoadFromXML@Resource@ma@@UAE_NPBD@Z
-?SaveToXML@Resource@ma@@UAE_NPBD@Z
-?LoadFromFile@Resource@ma@@UAE_NPBD@Z
-?SaveToFile@Resource@ma@@UAE_NPBD@Z
-?Load@Resource@ma@@UAE_NXZ
-?LoadSync@Resource@ma@@UAEXXZ
 ?LoadFileToMemeory@Resource@ma@@MAE_NXZ
 ?CreateFromMemeory@Resource@ma@@MAE_NXZ
-?Serialize@Resource@ma@@MAEXAAVSerializer@2@PBD@Z
 ?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@I_N@Z
 ??1Resource@ma@@UAE@XZ
 ??1Object@ma@@UAE@XZ
@@ -29,25 +22,14 @@ EXPORTS
 ??0ShaderProgram@ma@@QAE@XZ
 ?GetRenderDevice@ma@@YAPAVIRenderDevice@1@XZ
 ?SetRenderDevice@ma@@YAXPAVIRenderDevice@1@@Z
-??0Resource@ma@@QAE@PBD@Z
-??1BinaryInputSerializer@ma@@UAE@XZ
-?Close@BinaryInputSerializer@ma@@QAEXXZ
-?Open@BinaryInputSerializer@ma@@QAE_NPAVStream@2@@Z
-??0BinaryInputSerializer@ma@@QAE@XZ
 ?DrawLine@LineRender@ma@@QAEXABVVector3@2@0VColourValue@2@@Z
 ?GetRenderSystem@ma@@YAPAVRenderSystem@1@XZ
 ?DrawTransform@LineRender@ma@@QAEXABUTransform@2@MM@Z
 ?GetLineRender@ma@@YAPAVLineRender@1@XZ
-??1XMLInputSerializer@ma@@UAE@XZ
-?Open@XMLInputSerializer@ma@@QAE_NPAVMemoryStream@2@@Z
-??0XMLInputSerializer@ma@@QAE@XZ
 ?GetFrameCount@Time@ma@@QBEIXZ
 ?GetFrameDeltaTime@Time@ma@@QBEMXZ
 ?GetTimer@ma@@YAPAVTime@1@XZ
 ?GetMatrixWS@SceneNode@ma@@QBEABVMatrix4@2@XZ
-?DeclareResource@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
-?GetResourceSystem@ma@@YAPAVResourceSystem@1@XZ
-?LoadResource@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
 ?GetUserData@SceneNode@ma@@QAEPAXPBD@Z
 ?SetUserData@SceneNode@ma@@QAEXPBDPAX@Z
 ?GetTransformWS@SceneNode@ma@@QBEABUTransform@2@XZ
@@ -69,7 +51,6 @@ EXPORTS
 ?getString@Properties@ma@@QBEPBDPBD@Z
 ?Draw@SpriteBatch@ma@@QAEXMMMMMMMMABVColourValue@2@ABVRectangle@2@@Z
 ??0SpriteBatch@ma@@QAE@V?$RefPtr@VTexture@ma@@@1@PAVTechnique@1@I@Z
-?LoadResourceSync@ResourceSystem@ma@@QAEPAVResource@2@PBD@Z
 ??0MemoryStream@ma@@QAE@PAXI_N@Z
 ?Open@ArchiveManager@ma@@QBE?AV?$RefPtr@VStream@ma@@@2@PBD_N@Z
 ?rewind@Properties@ma@@QAEXXZ
@@ -94,8 +75,6 @@ EXPORTS
 ?GetParticleSystem@ma@@YAPAVParticleSystem@1@XZ
 ?GetLightSystem@ma@@YAPAVLightSystem@1@XZ
 ?Update@RenderSystem@ma@@QAEXXZ
-?Shoutdown@ResourceSystem@ma@@QAEXXZ
-?Update@ResourceSystem@ma@@QAEXXZ
 ?UpdateFrame@Time@ma@@QAEXXZ
 ?GetPos@SceneNode@ma@@QBEABVVector3@2@XZ
 ?GetForward@SceneNode@ma@@QAE?AVVector3@2@XZ
@@ -110,9 +89,6 @@ EXPORTS
 ?DrawWireSphere@LineRender@ma@@QAEXABVMatrix4@2@MVColourValue@2@@Z
 ?Right@SceneNode@ma@@QAEXM@Z
 ?Reset@Scene@ma@@QAEXXZ
-?Close@XMLInputSerializer@ma@@QAE_NXZ
-??1XMLOutputSerializer@ma@@UAE@XZ
-??0XMLOutputSerializer@ma@@QAE@XZ
 ?GetRotationWS@SceneNode@ma@@QBEABVQuaternion@2@XZ
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
@@ -138,7 +114,6 @@ EXPORTS
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@XZ
 ?log@DeviceCapabilitie@ma@@QAEXXZ
 ?GetDeviceCapabilities@ma@@YAPAVDeviceCapabilitie@1@XZ
-?Save@XMLOutputSerializer@ma@@QAE_NPBD@Z
 ?SetTrunkSize@Terrain@ma@@QAEXH@Z
 ?AddChild@SceneNode@ma@@QAEXPAV12@@Z
 ?AddMaterial@Terrain@ma@@QAEXPAVSubMaterial@2@@Z
@@ -146,9 +121,6 @@ EXPORTS
 ?SetMaterialPath@Terrain@ma@@QAEXPBD@Z
 ?SetSaveDir@ArchiveManager@ma@@QAEXPBD@Z
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@PBD@Z
-?RegisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
-?UnregisterResourceFactory@ResourceSystem@ma@@QAEXPBDP6APAVResource@2@XZ@Z
-?SetDataThreadEnable@ResourceSystem@ma@@QAEX_N@Z
 ?GetShadingTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
 ??0Component@ma@@QAE@XZ
@@ -168,7 +140,6 @@ EXPORTS
 ?RemoveChild@SceneNode@ma@@QAEXPAV12@@Z
 ?RemoveAllChild@SceneNode@ma@@QAEXXZ
 ??1MeshData@ma@@UAE@XZ
-??0MeshData@ma@@QAE@PBD@Z
 ?AddSubMeshData@MeshData@ma@@QAEPAVSubMeshData@2@XZ
 ?AddBonePalette@SubMeshData@ma@@QAEXG@Z
 ?SetEnabled@RenderShadowCSM@ma@@QAEX_N@Z
@@ -181,7 +152,6 @@ EXPORTS
 ??1Engine@ma@@QAE@XZ
 ?Shutdown@Engine@ma@@QAEXXZ
 ?GetEngine@ma@@YAPAVEngine@1@XZ
-?SetEngine@ma@@YAXPAVEngine@1@@Z
 ?Update@Engine@ma@@QAEXXZ
 ?Render@Engine@ma@@QAEXXZ
 ?Init@Engine@ma@@QAEXPAUHWND__@@_N11@Z
@@ -189,7 +159,6 @@ EXPORTS
 ?CopyBaseAttributes@AttributeManager@ma@@QAEXPBD0@Z
 ?IsReady@Resource@ma@@UAE_NXZ
 ?CreateScene@ma@@YA?AV?$RefPtr@VScene@ma@@@1@XZ
-?Serialize@HardwareBuffer@ma@@UAEXAAVSerializer@2@PBD@Z
 ??0HardwareBuffer@ma@@QAE@XZ
 ??1HardwareBuffer@ma@@UAE@XZ
 ?FreeData@HardwareBuffer@ma@@QAEXXZ
@@ -198,7 +167,6 @@ EXPORTS
 ??0Texture@ma@@QAE@XZ
 ??1Texture@ma@@UAE@XZ
 ?IsReady@Texture@ma@@UAE_NXZ
-?Open@BinaryInputSerializer@ma@@QAE_NPBD@Z
 ?Rotate@SceneNode@ma@@QAEXABVQuaternion@2@_N@Z
 ?Yaw@SceneNode@ma@@QAEXM_N@Z
 ?Pitch@SceneNode@ma@@QAEXM_N@Z
@@ -233,7 +201,6 @@ EXPORTS
 ?RegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?UnRegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@@Z
-??0XmlFile@ma@@QAE@PBD@Z
 ??0XmlFile@ma@@QAE@XZ
 ?CreateXmlFile@ma@@YA?AV?$RefPtr@VXmlFile@ma@@@1@PBD@Z
 ?SetParameter@SubMaterial@ma@@QAEXPBDABVAny@2@@Z
@@ -242,3 +209,10 @@ EXPORTS
 ?GetName@AttributeInfo@ma@@QBEPBDXZ
 ?CreateAttributeInfo@ma@@YA?AV?$RefPtr@UAttributeInfo@ma@@@1@PBDPAVAttributeAccessor@1@ABVAny@1@I@Z
 ?RegisterAttribute@AttributeManager@ma@@QAEXPBDV?$RefPtr@UAttributeInfo@ma@@@2@@Z
+?Load@Resource@ma@@UAE_NPBD@Z
+?LoadSync@Resource@ma@@UAEXPBD@Z
+??0Resource@ma@@QAE@XZ
+?SaveToFile@Resource@ma@@UAE_NPBD@Z
+??0MeshData@ma@@QAE@XZ
+??0?$ResourceSystem@VMeshData@ma@@@ma@@QAE@XZ
+?g_pEngine@ma@@3PAVEngine@1@A

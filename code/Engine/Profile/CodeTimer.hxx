@@ -79,18 +79,12 @@ namespace ma
 	}
 
 
-	static CodeTimerManager* gPCodeTimerManager = NULL;
+	CodeTimerManager* g_pCodeTimerManager = NULL;
 
 	CodeTimerManager* GetCodetTimeMng() 
 	{
-		return gPCodeTimerManager;
+		return g_pCodeTimerManager;
 	}
-
-	void SetCodeTimeMng(CodeTimerManager* pCodeTimeMng) 
-	{
-		gPCodeTimerManager = pCodeTimeMng;
-	}
-	
 	
 	CodeTimerManager::CodeTimerManager()
 		: mTimers(NULL)

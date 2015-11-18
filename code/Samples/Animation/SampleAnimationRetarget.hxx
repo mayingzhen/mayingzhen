@@ -15,9 +15,9 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		if (1)
 		{
-			//CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
-			//CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
-			//CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
+			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
+			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
+			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
  			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100_stand").get() );
@@ -26,21 +26,21 @@ namespace ma
 // 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
 // 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
 // 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
-			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
+			//pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
 			RefPtr<SceneNode> pChargigi = CreateSceneNode();
 			SkinMeshComponent* pMesCompb = pChargigi->CreateComponent<SkinMeshComponent>();
-			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mat");
+			pMesCompb->Load("gigi/gigi/body_b.skn","gigi/gigi/body_b.mtl");
 
 			SkinMeshComponent* pMesComph = pChargigi->CreateComponent<SkinMeshComponent>();
-			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mat");
+			pMesComph->Load("gigi/gigi/body_h.skn","gigi/gigi/body_h.mtl");
 
 			SkinMeshComponent* pMesCompf = pChargigi->CreateComponent<SkinMeshComponent>();
-			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mat");
+			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mtl");
 			
-			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
-			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
+			//m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
+			//m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
 			pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 

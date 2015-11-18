@@ -25,14 +25,8 @@
 #include "Engine/Resource/Properties.hxx"
 #include "Engine/Resource/Resource.hxx"
 #include "Engine/Resource/XmlFile.hxx"
-#include "Engine/Resource/ResourceSystem.hxx"
 #include "Engine/Resource/DataThread.hxx"
-#include "Engine/Resource/Serialize/BinarySerializer.hxx"
-#include "Engine/Resource/Serialize/BinaryInputSerializer.hxx"
-#include "Engine/Resource/Serialize/BinaryOutputSerializer.hxx"
-#include "Engine/Resource/Serialize/XMLSerializer.hxx"
-#include "Engine/Resource/Serialize/XMLInputSerializer.hxx"
-#include "Engine/Resource/Serialize/XMLOutputSerializer.hxx"
+
 
 #ifdef PLATFORM_ANDROID
 #include "Engine/Resource/AAssetStream.hxx"
@@ -72,7 +66,9 @@
 #include "Engine/Material/Material.hxx"
 #include "Engine/Material/MaterialParameter.hxx"
 #include "Engine/Material/ShaderProgram.hxx"
+#include "Engine/Material/ShaderManager.hxx"
 #include "Engine/Material/Texture.hxx"
+#include "Engine/Material/TextureManager.hxx"
 #include "Engine/Material/Technqiue.hxx"
 #include "Engine/Material/ParameterManager.hxx"
 #include "Engine/Material/Uniform.hxx"

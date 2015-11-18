@@ -56,9 +56,9 @@ namespace ma
 		/// Attribute descriptions per object type.
 		map<std::string, VEC_ATTR> attributes_;
 	};
-
-	 AttributeManager* GetAttributeManager();
-	 void SetAttributeManager(AttributeManager* pContex);
+	
+	extern AttributeManager* g_pAttributeManager;
+	AttributeManager* GetAttributeManager();
 
 	template <class T> void AttributeManager::RegisterAttribute(RefPtr<AttributeInfo> attr) { RegisterAttribute(T::StaticGetClassName(), attr); }
 	template <class T> void AttributeManager::RemoveAttribute(const char* name) { RemoveAttribute(T::StaticGetClassName(), name); }

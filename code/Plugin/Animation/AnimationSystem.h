@@ -9,13 +9,7 @@ namespace ma
 	{
 	public:
 
-		virtual AnimationComponent*	CreateAnimationObject();
-
-		virtual	void				Update();
-
-	private:
-		typedef std::vector< RefPtr<AnimationComponent> > VEC_ANIMCOMP;
-		VEC_ANIMCOMP				m_arrAnimObject;
+		virtual	void	Update();
 	};
 
 	void SetAnimationSystem(AnimationSystem* pAniSystem);

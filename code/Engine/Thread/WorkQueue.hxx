@@ -4,9 +4,8 @@
 
 namespace ma
 {
-	static WorkQueue* gpWorkQueue = NULL;
-	WorkQueue* GetWorkQueue() {return gpWorkQueue;}
-	void SetWorkQueue(WorkQueue* pWorkQueue) {gpWorkQueue = pWorkQueue;};
+	WorkQueue* g_pWorkQueue = NULL;
+	WorkQueue* GetWorkQueue() {return g_pWorkQueue;}
 
 	const UINT MAX_NONTHREADED_WORK_USEC = 1000;
 

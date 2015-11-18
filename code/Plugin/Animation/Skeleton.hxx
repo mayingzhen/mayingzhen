@@ -3,13 +3,12 @@
 #include "SkeletonPose.h"
 
 
-#include "SkeletonSerializer.hxx"
+//#include "SkeletonSerializer.hxx"
 
 namespace ma
 {
 	Skeleton::Skeleton()
 	{
-		m_eCreateType = BIN_RES;
 		m_refPose = new SkeletonPose;
 	}
 
@@ -112,23 +111,23 @@ namespace ma
 		}
 	}
 
-	void Skeleton::Serialize(Serializer& sl, const char* pszLable)
-	{
-		SkeletonHeader header;
-		sl.Serialize(header,"SkeletonHeader");
-		if (header.m_nIden != 'MAED')
-			return;
-
-		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
-		{
-			SerializeDataV0(sl,pszLable);
-		}
-
-		if (sl.IsReading())
-		{
-			InitResPose();
-		}
-	}
+// 	void Skeleton::Serialize(Serializer& sl, const char* pszLable)
+// 	{
+// 		SkeletonHeader header;
+// 		sl.Serialize(header,"SkeletonHeader");
+// 		if (header.m_nIden != 'MAED')
+// 			return;
+// 
+// 		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
+// 		{
+// 			SerializeDataV0(sl,pszLable);
+// 		}
+// 
+// 		if (sl.IsReading())
+// 		{
+// 			InitResPose();
+// 		}
+// 	}
 
 	void Skeleton::InitResPose()
 	{
@@ -149,6 +148,13 @@ namespace ma
 		}
 
 		InitUpLowerBoneSet();
+	}
+
+	ResourceSystem<Skeleton>* g_pSkeletonManager = NULL;
+
+	RefPtr<Skeleton> CreateSkeleton(const char* pszFile)
+	{
+		return g_pSkeletonManager->CreateResource(pszFile);
 	}
 
 }

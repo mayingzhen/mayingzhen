@@ -147,7 +147,7 @@ namespace ma
 		if (m_strSkaName.empty())
 			return false;
 
-		m_pAnimation = LoadResource<Animation>( m_strSkaName.c_str() ); 
+		m_pAnimation = CreateAnimation( m_strSkaName.c_str() ); 
 
 		m_bLoadOver = false;
 		return IsReady();

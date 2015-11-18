@@ -2,16 +2,11 @@
 
 namespace ma
 {
-	static ArchiveManager* gpArchiveManager = NULL;
-
-	void SetArchiveManager(ArchiveManager* pArchiveManager)
-	{
-		gpArchiveManager = pArchiveManager;
-	}
+	ArchiveManager* g_pArchiveManager = NULL;
 
 	ArchiveManager* GetArchiveMananger()
 	{
-		return gpArchiveManager;
+		return g_pArchiveManager;
 	}
 
 

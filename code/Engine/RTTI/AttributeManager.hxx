@@ -26,20 +26,6 @@ namespace ma
 			attributes.erase(i);
 	}
 
-	static AttributeManager* gpContext = NULL;
-
-	AttributeManager* GetAttributeManager()
-	{
-		//ASSERT(gpContext);
-		return gpContext;
-	}
-
-	void SetAttributeManager(AttributeManager* pContex)
-	{
-		//ASSERT(gpContext == NULL);
-		gpContext = pContex;
-	}
-
 	AttributeManager::AttributeManager() 
 	{
 	}
@@ -103,7 +89,11 @@ namespace ma
 	}
 
 
+	AttributeManager* g_pAttributeManager = NULL;
 
-
+	AttributeManager* GetAttributeManager()
+	{
+		return g_pAttributeManager;
+	}
 
 }

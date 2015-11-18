@@ -4,13 +4,6 @@ namespace ma
 {
 	XmlFile::XmlFile()
 	{
-		m_eCreateType = XML_RES;
-	}
-
-	XmlFile::XmlFile(const char* pszPath)
-		:Resource(pszPath)
-	{
-		m_eCreateType = XML_RES;
 	}
 
 	XmlFile::~XmlFile()
@@ -41,17 +34,12 @@ namespace ma
 		return true;
 	}
 
+	ResourceSystem<XmlFile>* g_pXmlFileManager = NULL;
+
 	RefPtr<XmlFile> CreateXmlFile(const char* pszFile)
 	{
-		string strKey = pszFile;
-		StringUtil::toLowerCase(strKey);
-		RefPtr<XmlFile> pXmlFile = FindResource<XmlFile>( strKey.c_str() );
-		if (pXmlFile)
-			return pXmlFile;
-
-		pXmlFile = new XmlFile(pszFile);
-		pXmlFile->Load();
-		GetResourceSystem()->AddResource(strKey.c_str(),pXmlFile.get());
-		return pXmlFile;
+		return g_pXmlFileManager->CreateResource(pszFile);
 	}
+
+	
 }

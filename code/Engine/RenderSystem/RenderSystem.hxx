@@ -12,16 +12,11 @@
 
 namespace ma
 {
-	static RenderSystem* gpRenderSystem = NULL;
+	RenderSystem* g_pRenderSystem = NULL;
 
 	RenderSystem* GetRenderSystem()
 	{
-		return gpRenderSystem;
-	}
-
-	void SetRenderSystem(RenderSystem* pRenderSystem)
-	{
-		gpRenderSystem = pRenderSystem;
+		return g_pRenderSystem;
 	}
 
 	RenderSystem::RenderSystem()
@@ -97,7 +92,7 @@ namespace ma
 
 		if (m_bNeedReloadShader)
 		{
-			GetResourceSystem()->ReLoad<ShaderProgram>();
+			//GetResourceSystem()->ReLoad<ShaderProgram>();
 			m_bNeedReloadShader = false;
 		}
 

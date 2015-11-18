@@ -1,5 +1,5 @@
 #include "Texture.h"
-
+#include "TextureManager.h"
 
 
 namespace ma
@@ -217,6 +217,34 @@ namespace ma
 		return true;
 	}
 
+	template<class EnumType>
+	EnumType StringToEnum(string strEnum, const char** pEnumNames)
+	{
+		EnumType type;
+		bool enumFound = false;
+		int enumValue = 0;
+		while (*pEnumNames)
+		{
+			if ( strcmp( *pEnumNames, strEnum.c_str() ) == 0 )
+			{
+				enumFound = true;
+				break;
+			}
+			++pEnumNames;
+			++enumValue;
+		}
+
+		if (enumFound)
+		{
+			type = (EnumType)enumValue;
+		}
+		else
+		{
+			ASSERT(false);
+		}
+		return type;
+	}
+
 	RefPtr<Texture> Texture::Improt(TiXmlElement* pXmlTexture)
 	{
 		const char* pszIMagePath = pXmlTexture->Attribute("ImagePath");
@@ -239,16 +267,7 @@ namespace ma
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter)
 	{
-		string strKey = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilter[eFilter] + ".texture";
-		StringUtil::toLowerCase(strKey);
-		RefPtr<Texture> pTextute = FindResource<Texture>( strKey.c_str() );
-		if (pTextute)
-			return pTextute;
-
-		pTextute = GetRenderDevice()->CreateTexture();
-		pTextute->Load(pImagePath,eWrap,eFilter);
-		GetResourceSystem()->AddResource(strKey.c_str(),pTextute.get());
-		return pTextute;
+		return g_pTextureManager->CreateTexture(pImagePath,eWrap,eFilter);
 	}
 
 }

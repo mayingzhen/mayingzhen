@@ -2,12 +2,7 @@
 
 namespace ma
 {
-static DeviceCapabilitie* g_pDeviceCapabilities = NULL;
-
-void SetDeviceCapabilities(DeviceCapabilitie* pDevicCap)
-{
-	g_pDeviceCapabilities = pDevicCap;
-}
+DeviceCapabilitie* g_pDeviceCapabilities = NULL;
 
 DeviceCapabilitie* GetDeviceCapabilities()
 {

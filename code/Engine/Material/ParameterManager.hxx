@@ -6,16 +6,11 @@
 
 namespace ma
 {
-	static ParameterManager* gpParameterManager = NULL;
+	ParameterManager* g_pParameterManager = NULL;
 
 	ParameterManager* GetParameterManager()
 	{
-		return gpParameterManager;
-	}
-
-	void SetParameterManager(ParameterManager* pParameterManager)
-	{
-		gpParameterManager = pParameterManager;
+		return g_pParameterManager;
 	}
 
 	ParameterManager::ParameterManager() 

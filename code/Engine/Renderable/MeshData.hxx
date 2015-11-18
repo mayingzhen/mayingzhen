@@ -1,13 +1,10 @@
 #include "MeshData.h"
-#include "MeshDataSerialize.hxx"
 
 
 namespace ma
 {
-	MeshData::MeshData(const char* pszPath)
-	:Resource(pszPath)
+	MeshData::MeshData()
 	{
-		m_eCreateType = BIN_RES;
 		m_nIndexType = 0;
 		m_nVertexType = 0;
 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
@@ -26,28 +23,29 @@ namespace ma
 		return pSubMeshData;
 	}
 
-	void MeshData::Serialize(Serializer& sl, const char* pszLable)
+	void MeshData::Improt(TiXmlElement* pXmlObject)
 	{
-		MeshHeader header;
-		sl.Serialize(header,"MeshHeader");
-		if (header.m_nIdent != 'MAMD')
-			return;
 
-		if (header.m_nVersion == MESH_VER_INITIAL)
-		{
-			SerializeDataV0(sl,pszLable);
-		}
+	}
 
-		if (sl.IsReading())
-		{
-			m_pDeclaration->Init(m_nVertexType);
+	void MeshData::Export(TiXmlElement* pXmlObject)
+	{
 
-			GetRenderSystem()->VertexDeclaComplete(m_pDeclaration.get());
-			
-			GetRenderSystem()->HardwareBufferStreamComplete(m_pIndexBuffer.get());
+	}
 
-			GetRenderSystem()->HardwareBufferStreamComplete(m_pVertexBuffer.get());
-		}
+	bool MeshData::InitRes()
+	{
+		TiXmlDocument doc;
+		bool bLoadOK = doc.Parse( (const char*)m_pDataStream->GetPtr() ) != NULL;
+		ASSERT(bLoadOK);
+		if (!bLoadOK)
+			return false;
+
+		TiXmlElement* pXmlRoot = doc.FirstChildElement();
+		ASSERT(pXmlRoot);
+		this->Improt(pXmlRoot);
+
+		return true;
 	}
 
 	void SubMeshData::AddBonePalette(BoneIndex bonde)
@@ -55,25 +53,16 @@ namespace ma
 		m_arrBonePalette.push_back(bonde);
 	}
 
-// 	RefPtr<MeshData> SubMeshData::CreateMeshData()
-// 	{
-// 
-// 	}
+	ResourceSystem<MeshData>* g_pMeshManager = NULL;
 
-//	RefPtr<MeshData> SubMeshData::CreateMeshData(const char* pszFile)
-//	{
-// 		string strKey = pszFile;
-// 		StringUtil::toLowerCase(strKey);
-// 		RefPtr<XmlFile> pXmlFile = FindResource<XmlFile>( strKey.c_str() );
-// 		if (pXmlFile)
-// 			return pXmlFile;
-// 
-// 		pXmlFile = new XmlFile(pszFile);
-// 		pXmlFile->Load();
-// 		GetResourceSystem()->AddResource(strKey.c_str(),pXmlFile.get());
-// 		return pXmlFile;
+	RefPtr<MeshData> CreateMeshData()
+	{
+		return new MeshData;
+	}
 
-//		GetResourceSystem()->LoadResource(pszFile);
-//	}
+	RefPtr<MeshData> CreateMeshData(const char* pszFile)
+	{
+		return g_pMeshManager->CreateResource(pszFile);
+	}
 }
 

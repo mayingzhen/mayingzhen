@@ -76,6 +76,8 @@ namespace ma
 		bool						m_bLoadOver;	
 	};
 
+	RefPtr<AnimationComponent> CreateAnimationComponent();
+
 }
 
 #endif

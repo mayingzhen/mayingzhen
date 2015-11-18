@@ -17,8 +17,6 @@ namespace ma
 		
 		virtual ~Texture();
 
-		DECL_OBJECT(Texture)
-
 		int				GetWidth() const {return m_nWidth;}
 
 		int				GetHeight() const {return m_nHeight;}
@@ -66,7 +64,7 @@ namespace ma
 		TEXTURE_TYPE	m_eType;
 
 		Wrap			m_eWrap;
-		Filter	m_eFilter;	
+		Filter			m_eFilter;	
 		RefPtr<Resource> m_pImageRes;
 		std::string		m_strImagePath;
 

@@ -1,20 +1,21 @@
 #ifndef  _Engine_RTTI__H__
 #define  _Engine_RTTI__H__
 
-#include "RenderSystem/RTTI.h"
-
 namespace ma
 {
 	void EngineRTTIInit()
 	{
 		SceneNode::RegisterAttribute();
-
-		RenderSystemRTTIInit();
+		MeshComponent::RegisterAttribute();
+		SkinMeshComponent::RegisterAttribute();
+		Camera::RegisterAttribute();
+		Terrain::RegisterAttribute();
+		RenderState::RegisterAttribute();
 	}
 
 	void EngineRTTIShutdown()
 	{
-		RenderSystemRTTIShutdown();
+	
 	}
 }
 

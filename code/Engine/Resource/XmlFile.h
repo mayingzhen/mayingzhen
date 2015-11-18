@@ -2,6 +2,7 @@
 #define  _XmlFile__H__
 
 #include "Resource.h"
+#include "ResourceSystem.h"
 
 namespace ma
 {
@@ -9,7 +10,6 @@ namespace ma
 	{
 	public:
 		XmlFile();
-		XmlFile(const char* pszPath);
 
 		~XmlFile();
 
@@ -22,6 +22,8 @@ namespace ma
 	};
 
 	RefPtr<XmlFile> CreateXmlFile(const char* pszFile);
+
+	extern ResourceSystem<XmlFile>* g_pXmlFileManager;
 }
 
 #endif

@@ -10,7 +10,7 @@ namespace ma
 
 		~Engine();
 
-		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bParticleThread);
+		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bWorkQueue);
 
 		void Shutdown();
 
@@ -22,7 +22,7 @@ namespace ma
 		
 	};
 
-	void SetEngine(Engine* pEngine);
+	extern Engine* g_pEngine;
 	Engine* GetEngine();
 }
 

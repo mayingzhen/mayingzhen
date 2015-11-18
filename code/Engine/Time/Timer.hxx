@@ -2,17 +2,13 @@
 
 namespace ma
 {
-	static Time* gpTimer = NULL;
+	static Time* g_pTimer = NULL;
 
 	Time* GetTimer()
 	{
-		return gpTimer;
+		return g_pTimer;
 	}
 
-	void  SetTimer(Time* pTimer)
-	{
-		gpTimer = pTimer;
-	}
 
 	Time::Time()
 		:m_nFameCnt(0)

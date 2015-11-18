@@ -1,5 +1,6 @@
 #include "ShaderProgram.h"
 #include "PrePareShaderSource.h"
+#include "ShaderManager.h"
 
 namespace ma
 {	
@@ -154,16 +155,7 @@ namespace ma
 
 	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
 	{
-		string strKey = string(pszVSFile) + string("+") + pszPSFile + string("+") + pszMarco + ".shader";
-		StringUtil::toLowerCase(strKey);
-		RefPtr<ShaderProgram> pShader = FindResource<ShaderProgram>( strKey.c_str() );
-		if (pShader)
-			return pShader;
-
-		pShader = GetRenderDevice()->CreateShaderProgram();
-		pShader->CreateFromFile(pszVSFile,pszPSFile,pszMarco);
-		GetResourceSystem()->AddResource(strKey.c_str(),pShader.get());
-		return pShader;
+		return g_pShaderManager->CreateShader(pszVSFile,pszPSFile,pszMarco);
 	}
 
 }

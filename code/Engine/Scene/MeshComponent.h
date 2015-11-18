@@ -20,9 +20,9 @@ namespace ma
 
 		static void					RegisterAttribute();
 
-		virtual	void				Show(Camera* pCamera);
-
 		virtual void				Update();
+
+		virtual	void				Show(Camera* pCamera);
 
 		bool						Load(const char* pszSknPath,const char* pszMatPath);
 

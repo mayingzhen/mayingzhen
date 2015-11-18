@@ -2,13 +2,7 @@
 
 namespace ma
 {
-	static Engine* g_pEngine = NULL;
-	
-	void SetEngine(Engine* pEngine)
-	{
-		g_pEngine = pEngine;
-	}
-
+	Engine* g_pEngine = NULL;
 	Engine* GetEngine()
 	{
 		return g_pEngine;
@@ -16,115 +10,64 @@ namespace ma
 
 	Engine::Engine()
 	{
-		CImageCodec::Startup();
+		g_pTimer = new Time();
+		g_pCodeTimerManager = new CodeTimerManager();
+		
+		g_pObjectFactoryManager = new ObjectFactoryManager();	
+		g_pAttributeManager = new AttributeManager();
 
-		ObjectFactoryManager* pObjMan = new ObjectFactoryManager();
-		SetObjectFactoryManager(pObjMan);
+		g_pArchiveManager = new ArchiveManager();
+		g_pMeshManager = new ResourceSystem<MeshData>();
+		g_pXmlFileManager = new ResourceSystem<XmlFile>();
+		g_pTextureManager = new TextureManager();
+		g_pShaderManager = new ShaderManager();
 
-		AttributeManager* pContexMan = new AttributeManager();
-		SetAttributeManager(pContexMan);
+		g_pParameterManager = new ParameterManager();
+		g_pDeviceCapabilities = new DeviceCapabilitie();
+		g_pRenderSystem = new RenderSystem();
 
-		ResourceSystem* pRsourceSystem = new ResourceSystem();
-		SetResourceSystem(pRsourceSystem);
-
-		CodeTimerManager* pCodeTimeMng = new CodeTimerManager();
-		SetCodeTimeMng(pCodeTimeMng);
-
-		ArchiveManager* pArchiveMang = new ArchiveManager();
-		SetArchiveManager(pArchiveMang);
-
-		Time* pTime = new Time();
-		SetTimer(pTime);
-
-		ParameterManager* pMaterialMang = new ParameterManager();
-		SetParameterManager(pMaterialMang);
-
-		DeviceCapabilitie* pDevCap = new DeviceCapabilitie();
-		SetDeviceCapabilities(pDevCap);
-
-		RenderSystem* pRenderSystem = new RenderSystem();
-		SetRenderSystem(pRenderSystem);
-
-		ParticleSystem* pParticleMang = new ParticleSystem();
-		SetParticleSystem(pParticleMang);
-
-		LightSystem* pLightSystem = new LightSystem();
-		SetLightSystem(pLightSystem);
-
-		WorkQueue* pWorkQueue = new WorkQueue();
-		SetWorkQueue(pWorkQueue);
-
-		EngineRTTIInit();
+		g_pWorkQueue = new WorkQueue();
 	}
 
 	Engine::~Engine()
 	{
-		EngineRTTIShutdown();
+		SAFE_DELETE(g_pWorkQueue);
 
-		Time* pTime = GetTimer();
-		SAFE_DELETE(pTime);
-		SetTimer(NULL);
+		SAFE_DELETE(g_pRenderSystem);
+		SAFE_DELETE(g_pDeviceCapabilities);
+		SAFE_DELETE(g_pParameterManager);
 
-		WorkQueue* pWorkQueue = GetWorkQueue();
-		SAFE_DELETE(pWorkQueue);
-		SetWorkQueue(NULL);
+		SAFE_DELETE(g_pMeshManager); 
+		SAFE_DELETE(g_pXmlFileManager);
+		SAFE_DELETE(g_pTextureManager);
+		SAFE_DELETE(g_pShaderManager); 
+		SAFE_DELETE(g_pArchiveManager);
 
-		ArchiveManager* pArchiveManager = GetArchiveMananger();
-		SAFE_DELETE(pArchiveManager);
-		SetArchiveManager(NULL);
+		SAFE_DELETE(g_pAttributeManager);
+		SAFE_DELETE(g_pObjectFactoryManager);
 
-		CodeTimerManager* pCodeTimeMng = GetCodetTimeMng();
-		SAFE_DELETE(pCodeTimeMng);
-		SetCodeTimeMng(NULL);
-
-		LightSystem* pLightSystem = GetLightSystem();
-		SAFE_DELETE(pLightSystem);
-		SetLightSystem(NULL);
-
-		ParticleSystem* pParticleMang = GetParticleSystem();
-		SAFE_DELETE(pParticleMang)
-		SetParticleSystem(NULL);
-
-		RenderSystem* pRenderSystem = GetRenderSystem();
-		SAFE_DELETE(pRenderSystem);
-		SetRenderSystem(NULL);
-
-		DeviceCapabilitie* pDevCap = GetDeviceCapabilities();
-		SAFE_DELETE(pDevCap);
-		SetDeviceCapabilities(NULL);
-
-		ParameterManager* pMaterialMang = GetParameterManager();
-		SAFE_DELETE(pMaterialMang);
-		SetParameterManager(NULL);
-
-		ResourceSystem* pRsourceSystem = GetResourceSystem();
-		SAFE_DELETE(pRsourceSystem);
-		SetResourceSystem(NULL);
-
-		AttributeManager* pContexMan = GetAttributeManager();
-		SAFE_DELETE(pContexMan);
-		SetAttributeManager(NULL);
-
-		ObjectFactoryManager* pObjMan = GetObjectFactoryManager();
-		SAFE_DELETE(pObjMan);
-		SetObjectFactoryManager(NULL);
-
-		CImageCodec::Shutdown();
+		SAFE_DELETE(g_pCodeTimerManager);
+		SAFE_DELETE(g_pTimer);
 	}
 
-	void Engine::Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bParticleThread)
+	void Engine::Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bWorkQueue)
 	{
-		if (GetRenderSystem())
-			GetRenderSystem()->Init(hWnd, bRenderThread);
+		CImageCodec::Startup();
 
-		if (GetResourceSystem())
-			GetResourceSystem()->Init(bDataThread);
+		EngineRTTIInit();
 
-		if (GetParticleSystem())
-			GetParticleSystem()->Init(bParticleThread);
+		g_pRenderSystem->Init(hWnd,bRenderThread);
 
-		//if (GetWorkQueue())
-		//	GetWorkQueue()->CreateThreads(3);
+		if (bDataThread)
+		{
+			g_pDataThread = new DataThread();
+			g_pDataThread->Start();
+		}
+
+		if (bWorkQueue)
+		{
+			GetWorkQueue()->CreateThreads(3);
+		}
 	}
 	
 
@@ -133,11 +76,17 @@ namespace ma
 		if (GetParticleSystem())
 			GetParticleSystem()->Shutdown();
 
-		if (GetResourceSystem())
-			GetResourceSystem()->Shoutdown();
+		if (g_pDataThread)
+		{
+			g_pDataThread->Stop();
+			SAFE_DELETE(g_pDataThread);
+		}
 
-		if (GetRenderSystem())
-			GetRenderSystem()->Shoutdown();
+		g_pRenderSystem->Shoutdown();
+
+		EngineRTTIShutdown();
+
+		CImageCodec::Shutdown();
 	}
 
 	void Engine::Update()
@@ -145,17 +94,15 @@ namespace ma
 		if (GetTimer())
 			GetTimer()->UpdateFrame();
 
-		if (GetResourceSystem())
-			GetResourceSystem()->Update();
+		if (g_pDataThread)
+			g_pDataThread->Process();
 
-		if (GetRenderSystem())
-			GetRenderSystem()->Update();
+		g_pRenderSystem->Update();
 	}
 
 	void Engine::Render()
 	{
-		if (GetRenderSystem())
-			GetRenderSystem()->Render();
+		g_pRenderSystem->Render();
 	}
 
 }

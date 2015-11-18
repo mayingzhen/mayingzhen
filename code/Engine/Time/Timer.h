@@ -36,9 +36,8 @@ namespace ma
 		timeval m_lastReset;
 	};
 
-	 Time* GetTimer();
-
-	 void  SetTimer(Time* pTimer);
+	extern Time* g_pTimer;
+	Time* GetTimer();
 }
 
 #endif// __Timer_H__

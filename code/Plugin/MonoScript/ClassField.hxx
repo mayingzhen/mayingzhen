@@ -196,18 +196,18 @@ namespace ma
 		}
 	}
 
-	void ClassField::Serialize(Serializer& sl, const char* pszLable)
-	{
-		sl.BeginSection(pszLable);
-
-		sl.Serialize(m_strName,"strName");
-		
-		//std::string strType = GetStrTypeAny(m_anyValue);
-
-		//SerializeAnyValue(sl,strType,m_anyValue);
-
-		sl.EndSection();
-	}
+// 	void ClassField::Serialize(Serializer& sl, const char* pszLable)
+// 	{
+// 		sl.BeginSection(pszLable);
+// 
+// 		sl.Serialize(m_strName,"strName");
+// 		
+// 		//std::string strType = GetStrTypeAny(m_anyValue);
+// 
+// 		//SerializeAnyValue(sl,strType,m_anyValue);
+// 
+// 		sl.EndSection();
+// 	}
 
 	ClassField* ClassField::Clone()
 	{
