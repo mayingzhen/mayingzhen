@@ -215,4 +215,4 @@ EXPORTS
 ?SaveToFile@Resource@ma@@UAE_NPBD@Z
 ??0MeshData@ma@@QAE@XZ
 ??0?$ResourceSystem@VMeshData@ma@@@ma@@QAE@XZ
-?g_pEngine@ma@@3PAVEngine@1@A
+?SetEngine@ma@@YAXPAVEngine@1@@Z

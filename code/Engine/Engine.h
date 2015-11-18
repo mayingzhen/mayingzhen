@@ -23,6 +23,7 @@ namespace ma
 	};
 
 	extern Engine* g_pEngine;
+	void SetEngine(Engine* pEngine);
 	Engine* GetEngine();
 }
 

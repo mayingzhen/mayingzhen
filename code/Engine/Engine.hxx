@@ -3,6 +3,10 @@
 namespace ma
 {
 	Engine* g_pEngine = NULL;
+	void SetEngine(Engine* pEngine)
+	{
+		g_pEngine = pEngine;
+	}
 	Engine* GetEngine()
 	{
 		return g_pEngine;

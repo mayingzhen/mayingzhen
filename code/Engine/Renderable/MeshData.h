@@ -98,6 +98,8 @@ namespace ma
 
 		SubMeshData*			AddSubMeshData();
 		
+	private:
+
 		bool					InitRes();
 
 		virtual void			Improt(TiXmlElement* pXmlObject);
