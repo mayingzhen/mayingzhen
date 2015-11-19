@@ -27,7 +27,7 @@ namespace ma
 			RefPtr<Material> testMaterial = CreateMaterial();
 			{
 				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(subMatData.get());
+				testMaterial->AddSubMaterial(0,subMatData.get());
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 2");
 				
@@ -41,7 +41,7 @@ namespace ma
 
 			{
 				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(subMatData.get());
+				testMaterial->AddSubMaterial(0,subMatData.get());
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
 
@@ -53,7 +53,7 @@ namespace ma
 
 			{
 				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(subMatData.get());
+				testMaterial->AddSubMaterial(0,subMatData.get());
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
 

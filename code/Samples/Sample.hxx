@@ -27,7 +27,7 @@ namespace ma
 		RefPtr<Material> pMaterial = CreateMaterial();
 
 		RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
-		pMaterial->AddSubMaterial(pSubMaterial.get());
+		pMaterial->AddSubMaterial(0,pSubMaterial.get());
 		
 		std::string strMacro = "DIFFUSE;DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;

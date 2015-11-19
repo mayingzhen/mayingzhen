@@ -104,10 +104,11 @@ namespace ma
 				if (fLodValue > fShadowFarDis)
 					continue;
 			}
-		
-			for (UINT i = 0; i < pRenderComp->GetRenderableCount(); ++i)
+				
+			uint32 nLod = pRenderComp->GetLodIndex();
+			for (UINT i = 0; i < pRenderComp->GetRenderableCount(nLod); ++i)
 			{
-				m_arrRenderable[GetRenderSystem()->CurThreadFill()].push_back(pRenderComp->GetRenderableByIndex(i));
+				m_arrRenderable[GetRenderSystem()->CurThreadFill()].push_back(pRenderComp->GetRenderableByIndex(nLod,i));
 			}
 		}
 	}

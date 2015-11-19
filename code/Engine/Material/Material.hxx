@@ -206,37 +206,51 @@ namespace ma
 	{
 	}
 
-	void Material::AddSubMaterial(SubMaterial* pSubMaterial)
+	void Material::AddSubMaterial(uint32 nLod,SubMaterial* pSubMaterial)
 	{
-		m_arrSubMaterial.push_back(pSubMaterial);
+		if (nLod >= m_arrLodSubMaterial.size())
+		{
+			m_arrLodSubMaterial.resize(nLod + 1);
+		}
+		m_arrLodSubMaterial[nLod].push_back(pSubMaterial);
 	}
 
 
 	void Material::Improt(TiXmlElement* pXmlElem)
 	{
-		TiXmlElement* pXmlSubMaterial = pXmlElem->FirstChildElement("SubMaterial");
-		while(pXmlSubMaterial)
+		uint32 nLod = 0;
+		TiXmlElement* pXmlLodSubMaterial = pXmlElem->FirstChildElement("LodSubMaterial");
+		while(pXmlLodSubMaterial)
 		{
-			RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
-			this->AddSubMaterial(pSubMaterial.get());
+			TiXmlElement* pXmlSubMaterial = pXmlElem->FirstChildElement("SubMaterial");
+			while(pXmlSubMaterial)
+			{
+				RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
+				this->AddSubMaterial(nLod,pSubMaterial.get());
 
-			pSubMaterial->Improt(pXmlSubMaterial);
+				pSubMaterial->Improt(pXmlSubMaterial);
 
-			pXmlSubMaterial = pXmlSubMaterial->NextSiblingElement("SubMaterial");
+				pXmlSubMaterial = pXmlSubMaterial->NextSiblingElement("SubMaterial");
+			}
+			pXmlLodSubMaterial = pXmlLodSubMaterial->NextSiblingElement("LodSubMaterial");
+			nLod++;
 		}
+
 	}
 
 	void Material::Export(TiXmlElement* pXmlElem)
 	{
-		for (UINT i = 0; i < m_arrSubMaterial.size(); ++i)
+		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
 		{
-			TiXmlElement* pXmlSubMaterial = new TiXmlElement("SubMaterial");
-			pXmlElem->LinkEndChild(pXmlSubMaterial);
+			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
+			{
+				TiXmlElement* pXmlSubMaterial = new TiXmlElement("SubMaterial");
+				pXmlElem->LinkEndChild(pXmlSubMaterial);
 
-			SubMaterial* pSubMaterial = m_arrSubMaterial[i].get();
-			pSubMaterial->Export(pXmlSubMaterial);
+				SubMaterial* pSubMaterial = m_arrLodSubMaterial[iLod][iSub].get();
+				pSubMaterial->Export(pXmlSubMaterial);
+			}
 		}
-
 	}
 
 	RefPtr<Material> CreateMaterial()

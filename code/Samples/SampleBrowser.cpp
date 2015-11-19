@@ -18,7 +18,7 @@
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
@@ -77,7 +77,7 @@ namespace ma
 		}
 
 		MonoScriptModuleInit();
-		FBXImporterModuleInit();
+		//FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
 #endif
@@ -89,7 +89,7 @@ namespace ma
 		BtPhysicsModuleShutdown();
 
 #if PLATFORM_WIN == 1
-		FBXImporterModuleShutdown();
+		//FBXImporterModuleShutdown();
 		MonoScriptModuleShutdown();
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
@@ -109,7 +109,7 @@ namespace ma
 	void SampleBrowser::InitSampleList()
 	{
 #if PLATFORM_WIN == 1
-		m_arrSamples["FbxImport"] = new SampleFbxImport();
+		//m_arrSamples["FbxImport"] = new SampleFbxImport();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 

@@ -80,7 +80,69 @@ namespace ma
 
 		// Close the stream; this makes further operations invalid.
 		virtual void Close() = 0;
+		
+		/// Read a 32-bit integer.
+		int ReadInt();
+		/// Read a 16-bit integer.
+		short ReadShort();
+		/// Read an 8-bit integer.
+		signed char ReadByte();
+		/// Read a 32-bit unsigned integer.
+		unsigned ReadUInt();
+		/// Read a 16-bit unsigned integer.
+		unsigned short ReadUShort();
+		/// Read an 8-bit unsigned integer.
+		unsigned char ReadUByte();
+		/// Read a bool.
+		bool ReadBool();
+		/// Read a float.
+		float ReadFloat();
+		/// Read an IntRect.
+		//IntRect ReadIntRect();
+		/// Read an IntVector2.
+		//IntVector2 ReadIntVector2();
+		/// Read a Rect.
+		//Rect ReadRect();
+		/// Read a Vector2.
+		Vector2 ReadVector2();
+		/// Read a Vector3.
+		Vector3 ReadVector3();
+		/// Read a Vector3 packed into 3 x 16 bits with the specified maximum absolute range.
+		Vector3 ReadPackedVector3(float maxAbsCoord);
+		/// Read a Vector4.
+		Vector4 ReadVector4();
+		/// Read a quaternion.
+		Quaternion ReadQuaternion();
+		/// Read a quaternion with each component packed in 16 bits.
+		//Quaternion ReadPackedQuaternion();
+		/// Read a Matrix3.
+		//Matrix3 ReadMatrix3();
+		/// Read a Matrix3x4.
+		Matrix3x4 ReadMatrix3x4();
+		/// Read a Matrix4.
+		Matrix4 ReadMatrix4();
+		Transform ReadTransform();
+		/// Read a color.
+		//ColourValue ReadColor();
+		/// Read a bounding box.
+		AABB ReadBoundingBox();
+		/// Read a null-terminated string.
 
+		string ReadString()
+		{
+			string ret;
+
+			while (!Eof())
+			{
+				char c = ReadByte();
+				if (!c)
+					break;
+				else
+					ret += c;
+			}
+
+			return ret;
+		}
 
 	protected:
 		UINT			m_nSize;

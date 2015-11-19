@@ -122,7 +122,6 @@ EXPORTS
 ?SetSaveDir@ArchiveManager@ma@@QAEXPBD@Z
 ?CreateTerrain@ma@@YA?AV?$RefPtr@VTerrain@ma@@@1@PBD@Z
 ?GetShadingTechnqiue@SubMaterial@ma@@QAEPAVTechnique@2@XZ
-?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@I@Z
 ??0Component@ma@@QAE@XZ
 ??0SceneNode@ma@@QAE@PAVScene@1@PBD@Z
 ?SetPos@SceneNode@ma@@QAEXABVVector3@2@@Z
@@ -140,7 +139,6 @@ EXPORTS
 ?RemoveChild@SceneNode@ma@@QAEXPAV12@@Z
 ?RemoveAllChild@SceneNode@ma@@QAEXXZ
 ??1MeshData@ma@@UAE@XZ
-?AddSubMeshData@MeshData@ma@@QAEPAVSubMeshData@2@XZ
 ?AddBonePalette@SubMeshData@ma@@QAEXG@Z
 ?SetEnabled@RenderShadowCSM@ma@@QAEX_N@Z
 ?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
@@ -183,7 +181,6 @@ EXPORTS
 ?CreateSceneNode@ma@@YA?AV?$RefPtr@VSceneNode@ma@@@1@XZ
 ?Clone@SceneNode@ma@@QAE?AV?$RefPtr@VSceneNode@ma@@@2@PBD@Z
 ?SetShadingTechnqiue@SubMaterial@ma@@QAEXPAVTechnique@2@@Z
-?AddSubMaterial@Material@ma@@QAEXPAVSubMaterial@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@XZ
 ?SetShadingTechnqiue@SubMaterial@ma@@QAEXPBD0@Z
 ?SetSkinMatrix@SkinMeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
@@ -216,3 +213,13 @@ EXPORTS
 ??0MeshData@ma@@QAE@XZ
 ??0?$ResourceSystem@VMeshData@ma@@@ma@@QAE@XZ
 ?SetEngine@ma@@YAXPAVEngine@1@@Z
+?ReadTransform@Stream@ma@@QAE?AUTransform@2@XZ
+?ReadUInt@Stream@ma@@QAEIXZ
+?ReadByte@Stream@ma@@QAECXZ
+?ReadVector3@Stream@ma@@QAE?AVVector3@2@XZ
+?ReadQuaternion@Stream@ma@@QAE?AVQuaternion@2@XZ
+?ReadFloat@Stream@ma@@QAEMXZ
+?ReadBool@Stream@ma@@QAE_NXZ
+?ReadUShort@Stream@ma@@QAEGXZ
+?AddSubMaterial@Material@ma@@QAEXIPAVSubMaterial@2@@Z
+?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@PBD@Z

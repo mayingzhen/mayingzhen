@@ -9,12 +9,12 @@ namespace ma
 		m_cLightColor = ColourValue::White;
 		m_fLightIntensity = 1.0f;
 	
-		GetLightSystem()->AddLight(this);
+		//GetLightSystem()->AddLight(this);
 	}
 
 	Light::~Light()
 	{
-		GetLightSystem()->RemoveLight(this);
+		//GetLightSystem()->RemoveLight(this);
 	}
 
 	DirectonalLight::DirectonalLight()

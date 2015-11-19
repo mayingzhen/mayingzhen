@@ -52,24 +52,24 @@ namespace ma
 		IsReady();
 	}
 
-	UINT MeshComponent::GetRenderableCount() const
+	UINT MeshComponent::GetRenderableCount(uint32 nLod) const
 	{
-		return m_arrRenderable.size();
+		return m_arrLodRenderable[nLod].size();
 	}
 
-	Renderable*	MeshComponent::GetRenderableByIndex(UINT index) const
+	Renderable*	MeshComponent::GetRenderableByIndex(uint32 nLod,UINT index) const
 	{
-		return m_arrRenderable[index].get();
+		return m_arrLodRenderable[nLod][index].get();
 	}
 
-	UINT32 MeshComponent::GetSubMaterialCount()
+	UINT32 MeshComponent::GetSubMaterialCount(uint32 nLod)
 	{
-		return m_arrRenderable.size();
+		return m_arrLodRenderable[nLod].size();
 	}
 
-	SubMaterial* MeshComponent::GetSubMaterial(UINT index)
+	SubMaterial* MeshComponent::GetSubMaterial(uint32 nLod,UINT index)
 	{
-		return m_arrRenderable[index]->GetMaterial();
+		return m_arrLodRenderable[index][index]->GetMaterial();
 	}
 
 	void MeshComponent::Update()
@@ -85,18 +85,23 @@ namespace ma
 		if (m_pMaterial == NULL || m_pMesData == NULL)
 			return;
 		
-		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
+		for (uint32 iLod = 0; iLod < m_pMesData->GetLodNumerber(); ++iLod)
 		{
-			Renderable* pRenderable = new Renderable();
+			VEC_RENDERABLE arrRenderable;
+			for (UINT iSub = 0; iSub < m_pMesData->GetSubMeshNumber(iLod); ++iSub)
+			{
+				Renderable* pRenderable = new Renderable();
 
-			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-			pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
-			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
-			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
-			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
-			pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(i); 
+				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
+				pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
+				pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
+				pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
+				pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iLod,iSub);
+				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub); 
 
-			m_arrRenderable.push_back(pRenderable);
+				arrRenderable.push_back(pRenderable);
+			}
+			m_arrLodRenderable.push_back(arrRenderable);
 		}
 
 		m_AABB = m_pMesData->GetBoundingAABB();
@@ -127,14 +132,16 @@ namespace ma
 	{
 		RenderComponent::Show(pCamera);
 
-		if ( m_arrRenderable.empty() )
+		if ( m_arrLodRenderable.empty() )
 			return;
 
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
-		{
-			m_arrRenderable[i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+		uint32 nLod = 0;
 
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrRenderable[i].get());
+		for (UINT i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
+		{
+			 m_arrLodRenderable[nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrLodRenderable[nLod][i].get());
 		}
 	}
 
@@ -148,19 +155,24 @@ namespace ma
 		ASSERT(m_pMaterial && m_pMesData);
 		if (m_pMaterial == NULL || m_pMesData == NULL)
 			return;
-
-		for (UINT i = 0; i < m_pMesData->GetSubMeshNumber(); ++i)
+		
+		for (UINT iLod = 0; iLod < m_pMesData->GetLodNumerber(); ++iLod)
 		{
-			Renderable* pRenderable = new SkinRenderable();
+			VEC_RENDERABLE arrRenderable;
+			for (UINT iSub = 0; iSub < m_pMesData->GetSubMeshNumber(iLod); ++iSub)
+			{
+				Renderable* pRenderable = new SkinRenderable();
 
-			pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-			pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
-			pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
-			pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
-			pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(i);
-			pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(i); 
-	
-			m_arrRenderable.push_back(pRenderable);
+				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
+				pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
+				pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
+				pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
+				pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iLod,iSub);
+				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub); 
+
+				arrRenderable.push_back(pRenderable);
+			}
+			m_arrLodRenderable.push_back(arrRenderable);
 		}
 
 		m_AABB = m_pMesData->GetBoundingAABB();
@@ -177,11 +189,14 @@ namespace ma
 	{
 		profile_code();
 		
-		for (UINT i = 0; i < m_arrRenderable.size(); ++i)
+		uint32 nLod = 0;
+		for (UINT i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
 		{
-			SkinRenderable* pSkinRenderable = (SkinRenderable*)m_arrRenderable[i].get();
+			SkinRenderable* pSkinRenderable = (SkinRenderable*)m_arrLodRenderable[nLod][i].get();
 			pSkinRenderable->SetSkinMatrix(arrMatrixs,nCount);
 		}
+
+
 	}
 
 	RefPtr<SkinMeshComponent> CreateSkinMeshComponent()

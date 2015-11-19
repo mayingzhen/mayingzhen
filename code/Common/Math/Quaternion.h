@@ -241,7 +241,7 @@ namespace ma {
         static const Quaternion ZERO;
         static const Quaternion IDENTITY;
 
-		float w, x, y, z;
+		float x, y, z, w;
 
 		/// Check whether this quaternion contains valid values
 		inline bool isNaN() const

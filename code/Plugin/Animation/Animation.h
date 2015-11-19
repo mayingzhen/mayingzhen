@@ -29,8 +29,12 @@ namespace ma
 		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
 
-	//private:
-	//	void							SerializeDataV0(Serializer& sl, const char* pszLable);
+	private:
+
+		virtual bool					InitRes();
+
+		void							ReadData();
+		void							ReadS3Data();
 
 	private:
 		std::vector<std::string>		m_arrTrackName;

@@ -11,6 +11,9 @@ namespace ma
 	{	
 		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
+		RefPtr<Skeleton> pSkeleton = CreateSkeleton("hero_56/hero_56/body.ske");
+		RefPtr<Animation> pAnimation = CreateAnimation("hero_56/100/bip01.ska");
+		RefPtr<MeshData> pMesh = CreateMeshData("hero_56/hero_56/body.skn");
 
 		// character A MeshData & skeleton & Animation
 		if (1)

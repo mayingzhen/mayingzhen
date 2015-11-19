@@ -43,7 +43,11 @@ namespace ma
 		void				InitResPose();
 
 	private:
-		//void				SerializeDataV0(Serializer& sl,const char* pszLable);
+	
+		virtual bool    InitRes();
+
+		void			ReadData();
+		void			ReadS3Data();
 
 	private:
 		std::vector<std::string>	m_arrBoneName;

@@ -32,11 +32,11 @@ namespace ma
 		const char*					GetMaterialFile() const;
 		void						SetMaterialFile(const char* pFile);
 
-		UINT32						GetSubMaterialCount();
-		SubMaterial*				GetSubMaterial(UINT index);
+		UINT32						GetSubMaterialCount(uint32 nLod);
+		SubMaterial*				GetSubMaterial(uint32 nLod,UINT index);
 
-		virtual UINT				GetRenderableCount() const;
-		virtual	Renderable*			GetRenderableByIndex(UINT index) const;
+		virtual UINT				GetRenderableCount(uint32 nLod) const;
+		virtual	Renderable*			GetRenderableByIndex(uint32 nLod,UINT index) const;
 
 	private:
 		virtual bool				IsReady();
@@ -48,7 +48,8 @@ namespace ma
 		RefPtr<MeshData>			m_pMesData;
 	
 		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
-		VEC_RENDERABLE				m_arrRenderable;
+		typedef std::vector< VEC_RENDERABLE > VEC_LOD_RENDERABLE;
+		VEC_LOD_RENDERABLE			m_arrLodRenderable;
 
 		bool						m_bOnLoadOver;
 	};

@@ -24,9 +24,10 @@ namespace ma
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
-
-		virtual	UINT	GetRenderableCount() const;
-		virtual Renderable* GetRenderableByIndex(UINT index) const;
+		
+		virtual uint32  GetLodIndex() {return 0;}
+		virtual	UINT	GetRenderableCount(uint32 nLod) const;
+		virtual Renderable* GetRenderableByIndex(uint32 nLod,UINT index) const;
 
 		void			SetShadowCaster(bool b) {m_bShadowCaster = b;}
 		bool			GetShadowCaster() const {return m_bShadowCaster;}

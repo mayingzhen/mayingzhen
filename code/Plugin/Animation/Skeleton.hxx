@@ -1,9 +1,7 @@
 #include "Skeleton.h"
 #include "BoneSet.h"
 #include "SkeletonPose.h"
-
-
-//#include "SkeletonSerializer.hxx"
+#include "SkeletonSerializer.hxx"
 
 namespace ma
 {
@@ -111,23 +109,23 @@ namespace ma
 		}
 	}
 
-// 	void Skeleton::Serialize(Serializer& sl, const char* pszLable)
-// 	{
-// 		SkeletonHeader header;
-// 		sl.Serialize(header,"SkeletonHeader");
-// 		if (header.m_nIden != 'MAED')
-// 			return;
-// 
-// 		if (header.m_nVersion == EXP_SKEL_VER_CURRENT)
-// 		{
-// 			SerializeDataV0(sl,pszLable);
-// 		}
-// 
-// 		if (sl.IsReading())
-// 		{
-// 			InitResPose();
-// 		}
-// 	}
+
+	bool Skeleton::InitRes()
+	{
+		UINT nIden = m_pDataStream->ReadUInt();
+		if (1/*nIden == 'S3MD'*/)
+		{
+			ReadS3Data();
+		}
+		else
+		{
+			ReadData();
+		}
+
+		InitResPose();
+
+		return true;
+	}
 
 	void Skeleton::InitResPose()
 	{

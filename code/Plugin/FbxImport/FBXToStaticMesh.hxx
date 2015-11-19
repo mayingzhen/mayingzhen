@@ -46,7 +46,7 @@ namespace ma
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
 		{
 			// One SunMesh
-			SubMeshData* pSubmesh = pMeshData->AddSubMeshData();
+			SubMeshData* pSubmesh = pMeshData->AddSubMeshData(0);
 			pSubmesh->m_nMateiralID = it->first;
 
 			//submesh->m_pMaterial = CreateDefaultMaterial(pMesh,it->first,pImportParm,false);

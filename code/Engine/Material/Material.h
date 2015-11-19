@@ -54,18 +54,20 @@ namespace ma
 		~Material();
 
 		DECL_OBJECT(Material)
+	
+		UINT				GetLodMaterialNumber() {return m_arrLodSubMaterial.size();}
+		UINT				GetSubMaterialNumber(UINT nLod) {return m_arrLodSubMaterial[nLod].size();}
+		SubMaterial*		GetSubMaterialByIndex(UINT nLod,uint32 index) {return m_arrLodSubMaterial[nLod][index].get();}
 
-		UINT				GetSubMaterialNumber() {return m_arrSubMaterial.size();}
-		SubMaterial*		GetSubMaterialByIndex(uint32 index) {return m_arrSubMaterial[index].get();}
-
-		void				AddSubMaterial(SubMaterial* pSubMaterial);	
+		void				AddSubMaterial(UINT nLod,SubMaterial* pSubMaterial);	
 
 		virtual void		Improt(TiXmlElement* pXmlElem);
 		virtual void		Export(TiXmlElement* pXmlElem);		
 
 	private:
 		typedef std::vector< RefPtr<SubMaterial> >	VEC_SUBMATERIAL;
-		VEC_SUBMATERIAL		m_arrSubMaterial;
+		typedef std::vector< VEC_SUBMATERIAL > VEC_LOD_SUBMATERIAL;
+		VEC_LOD_SUBMATERIAL		m_arrLodSubMaterial;
 	};
 
 	RefPtr<Material> CreateMaterial();

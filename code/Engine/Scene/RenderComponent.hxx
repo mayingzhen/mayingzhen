@@ -64,12 +64,12 @@ namespace ma
 		return m_worldAABB;
 	}
 
-	UINT RenderComponent::GetRenderableCount() const
+	UINT RenderComponent::GetRenderableCount(uint32 nLod) const
 	{
 		return 0;
 	}
 
-	Renderable* RenderComponent::GetRenderableByIndex(UINT index) const
+	Renderable* RenderComponent::GetRenderableByIndex(uint32 nLod,UINT index) const
 	{
 		return NULL;
 	}

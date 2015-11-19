@@ -77,9 +77,10 @@ namespace ma
 
 		~MeshData();
 		
-		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
-
-		SubMeshData*			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index].get();} 
+		uint32					GetLodNumerber() {return m_arrLodSubMesh.size();}
+		UINT					GetSubMeshNumber(uint32 nLod) {return m_arrLodSubMesh[nLod].size();}
+		SubMeshData*			GetSubMeshByIndex(uint32 nLod,UINT index) const {return m_arrLodSubMesh[nLod][index].get();} 
+		//SubMeshData*			AddSubMeshData(uint32 nLod);
 
 		IndexBuffer*			GetIndexBuffer() const {return m_pIndexBuffer.get();} 
 
@@ -95,15 +96,15 @@ namespace ma
 
 		UINT					GetIndexType() const {return m_nIndexType;}
 		void					SetIndexType(UINT nType) {m_nIndexType = nType;} 
-
-		SubMeshData*			AddSubMeshData();
 		
 	private:
 
 		bool					InitRes();
 
-		virtual void			Improt(TiXmlElement* pXmlObject);
-		virtual void			Export(TiXmlElement* pXmlObject);	
+		void					ReadS3Data();
+
+// 		virtual void			Improt(TiXmlElement* pXmlObject);
+// 		virtual void			Export(TiXmlElement* pXmlObject);	
 
 	private:
 		
@@ -114,7 +115,8 @@ namespace ma
 		RefPtr<VertexDeclaration>		m_pDeclaration; 
 
 		typedef std::vector< RefPtr<SubMeshData> > VEC_SUBMESH;
-		VEC_SUBMESH						m_arrSubMesh;	
+		typedef std::vector< VEC_SUBMESH > VEC_LOD_SUBMESH;
+		VEC_LOD_SUBMESH					m_arrLodSubMesh;	
 
 		AABB							m_meshBound;		
 	};
