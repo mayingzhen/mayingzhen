@@ -44,8 +44,8 @@ namespace ma
 			SkinMeshComponent* pMesCompf = pChargigi->CreateComponent<SkinMeshComponent>();
 			pMesCompf->Load("gigi/gigi/body_f.skn","gigi/gigi/body_f.mtl");
 			
-			//m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
-			//m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
+			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
+			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
 			pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
@@ -69,7 +69,7 @@ namespace ma
 			pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
-			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
+			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/magician/Body.ske");
 			m_pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
@@ -89,7 +89,7 @@ namespace ma
 
 		if (1)
 		{
-			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
+			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician/magician.xml");
 
 			pCharMagic->Right(50.0f);
 

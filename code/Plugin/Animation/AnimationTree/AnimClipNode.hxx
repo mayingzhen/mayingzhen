@@ -21,9 +21,14 @@ namespace ma
 	{
 	}
 
+	RefPtr<AnimClipNode> NewClipNode()
+	{
+		return new AnimClipNode();
+	}
+
 	void AnimClipNode::RegisterAttribute()
 	{
-		REGISTER_OBJECT(AnimClipNode,CreateClipNode);
+		REGISTER_OBJECT(AnimClipNode,NewClipNode);
 
 		COPY_BASE_ATTRIBUTES(AnimClipNode,AnimTreeNode);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
@@ -179,10 +184,10 @@ namespace ma
 		return true;
 	}
 
-	RefPtr<AnimClipNode> CreateClipNode()
-	{
-		return new AnimClipNode();
-	}
+// 	RefPtr<AnimClipNode> NewClipNode()
+// 	{
+// 		return new AnimClipNode();
+// 	}
 
 	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName,const char* boneSetName)
 	{
