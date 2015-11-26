@@ -202,6 +202,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\Referenced.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\RefPtr.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Common\signals.h"
 				>
 			</File>
@@ -498,38 +506,26 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="tinyxml"
+				Name="RapidXml"
 				>
 				<File
-					RelativePath="..\..\code\Common\tinyxml\tinystr.h"
+					RelativePath="..\..\..\..\..\S3Engine\BaseCode\rapidxml.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\tinyxml\tinystr.hxx"
+					RelativePath="..\..\..\..\..\S3Engine\BaseCode\rapidxml_iterators.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\tinyxml\tinyxml.h"
+					RelativePath="..\..\..\..\..\S3Engine\BaseCode\rapidxml_print.hpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Common\tinyxml\tinyxml.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Common\tinyxml\tinyxmlerror.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Common\tinyxml\tinyxmlparser.hxx"
+					RelativePath="..\..\..\..\..\S3Engine\BaseCode\rapidxml_utils.hpp"
 					>
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\..\Code\Common\Export.h"
-			>
-		</File>
 		<File
 			RelativePath="..\..\Code\Common\Module.cpp"
 			>

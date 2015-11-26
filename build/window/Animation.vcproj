@@ -44,6 +44,7 @@
 				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/ois/Includes;../../extern/vld/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ANIMATION_EXPORTS"
 				MinimalRebuild="true"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"

@@ -47,7 +47,6 @@
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="Engine/StdAfx.h"
 				WarningLevel="3"
@@ -670,14 +669,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RTTI\ObjectFactory.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RTTI\Referenced.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RTTI\RefPtr.h"
 				>
 			</File>
 			<File
