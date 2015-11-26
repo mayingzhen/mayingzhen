@@ -20,12 +20,15 @@ namespace ma
 		if (m_pDataStream == NULL)
 			return false;
 
-		bool bLoadOK = m_doc.Parse( (const char*)m_pDataStream->GetPtr() ) != NULL;
-		ASSERT(bLoadOK);
-		if (!bLoadOK)
+		m_doc.parse<0>((char*)m_pDataStream->GetPtr());
+		rapidxml::xml_node<>* xmlRoot = m_doc.first_node();
+		if (xmlRoot == NULL)
+		{
+			LogError("Failed to load as first_node is NULL,%s",this->GetResPath());
 			return false;
+		}
 		
-		m_pDataStream = NULL;
+		//m_pDataStream = NULL;
 
 		m_eResState = ResInited;
 

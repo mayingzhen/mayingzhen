@@ -75,7 +75,7 @@ namespace ma
 
 		RefPtr<MemoryStream> pMemStream = new MemoryStream(pStream->GetName(),pStream.get(),pStream->GetSize() + nExtenSiz,true);
 		
-		memset(pMemStream->GetPtr() + pStream->GetSize(),0,nExtenSiz);
+		//memset(pMemStream->GetPtr() + pStream->GetSize(),0,nExtenSiz);
 
 		return pMemStream;
 	}

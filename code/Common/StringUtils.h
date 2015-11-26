@@ -68,6 +68,7 @@ namespace ma
         /** Method for standardising paths - use forward slashes only, end with slash.
         */
         static std::string standardisePath( const std::string &init);
+		static std::string standardiseDir( const string &init);
 
         /** Method for splitting a fully qualified filename into the base name
             and path.

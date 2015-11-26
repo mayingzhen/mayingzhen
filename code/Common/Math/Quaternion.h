@@ -84,7 +84,7 @@ namespace ma {
 		/// Construct a quaternion from 4 manual w/x/y/z values
 		inline Quaternion(float* valptr)
 		{
-			memcpy(&w, valptr, sizeof(float)*4);
+			memcpy(&x, valptr, sizeof(float)*4);
 		}
 
 		/** Exchange the contents of this quaternion with another. 

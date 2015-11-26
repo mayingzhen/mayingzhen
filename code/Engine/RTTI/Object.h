@@ -23,8 +23,11 @@ namespace ma
 	
 		DECL_OBJECT(Object);
 
-		virtual void			Improt(TiXmlElement* pXmlObject);
-		virtual void			Export(TiXmlElement* pXmlObject);		
+// 		virtual void			Improt(TiXmlElement* pXmlObject);
+// 		virtual void			Export(TiXmlElement* pXmlObject);		
+
+		virtual bool			Improt(rapidxml::xml_node<>* pXmlObject);
+		virtual bool			Export(rapidxml::xml_node<>* pXmlObject,rapidxml::xml_document<>& doc);		
 
 		bool					SetAttribute(UINT index, const Any& value);
 		bool					SetAttribute(const char* name, const Any& value);

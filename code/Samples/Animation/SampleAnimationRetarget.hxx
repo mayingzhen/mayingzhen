@@ -1,5 +1,6 @@
 #include "SampleAnimationRetarget.h"
 
+
 namespace ma
 {
 	SampleAnimationRetarget::SampleAnimationRetarget()
@@ -9,27 +10,28 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+		//m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
-		RefPtr<Skeleton> pSkeleton = CreateSkeleton("hero_56/hero_56/body.ske");
-		RefPtr<Animation> pAnimation = CreateAnimation("hero_56/100/bip01.ska");
-		RefPtr<MeshData> pMesh = CreateMeshData("hero_56/hero_56/body.skn");
+// 		RefPtr<Skeleton> pSkeleton = CreateSkeleton("hero_56/hero_56/body.ske");
+// 		RefPtr<Animation> pAnimation = CreateAnimation("hero_56/100/bip01.ska");
+// 		RefPtr<MeshData> pMesh = CreateMeshData("hero_56/hero_56/body.skn");
 
 		// character A MeshData & skeleton & Animation
 		if (1)
 		{
-			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
-			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
-			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
+ 			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
+ 			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
+ 			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100_stand").get() );
-// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
-// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
-// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
-// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
-// 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
-			//pAnimSet->SaveToXML("gigi/gigi/body.aniset");
+			RefPtr<AnimClipNode> pClip = CreateClipNode("gigi/100_stand/bip01.ska","100_stand");
+ 			pAnimSet->AddSkelAnim( pClip.get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
+			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
 			RefPtr<SceneNode> pChargigi = CreateSceneNode();
@@ -53,26 +55,26 @@ namespace ma
 		// character B MeshData & skeleton & Animation
 		if (1)
 		{
-			CreateDefaultMaterial("magician/body.tga","magician/Body.mat","SKIN");
+			CreateDefaultMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","120").get() );
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","602").get() );
-			pAnimSet->SaveToXML("magician/body.aniset");
+			pAnimSet->SaveToXML("magician/magician/body.aniset");
 
 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
 
 			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+			pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
 			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/Body.ske");
-			m_pAnimtionObjectB->Load("magician/body.aniset","magician/Body.ske");
+			m_pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
-			pCharMagic->SaveToXML("magician/magician.xml");
+			pCharMagic->SaveToXML("magician/magician/magician.xml");
 		}
 		
 		if (1)

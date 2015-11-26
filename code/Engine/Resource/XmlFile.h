@@ -13,12 +13,12 @@ namespace ma
 
 		~XmlFile();
 
-		TiXmlDocument& GetDoc() {return m_doc;}
+		rapidxml::xml_document<>& GetDoc() {return m_doc;}
 
 		virtual bool	CreateFromMemeory();
 			
 	protected:
-		TiXmlDocument	m_doc;
+		 rapidxml::xml_document<>	m_doc;
 	};
 
 	RefPtr<XmlFile> CreateXmlFile(const char* pszFile);

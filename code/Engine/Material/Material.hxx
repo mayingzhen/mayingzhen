@@ -74,23 +74,23 @@ namespace ma
 		return m_pShadingTech.get();
 	}
 
-	void SubMaterial::Improt(TiXmlElement* pXmlElem)
+	void SubMaterial::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
-		TiXmlElement* pXmlShadingTech = pXmlElem->FirstChildElement("ShadingTech");
+		rapidxml::xml_node<>* pXmlShadingTech = pXmlElem->first_node("ShadingTech");
 		if (pXmlShadingTech)
 		{
 			m_pShadingTech = new Technique();
 			m_pShadingTech->Improt(pXmlShadingTech);
 		}
 
-		TiXmlElement* pXmlShadowDepthTech = pXmlElem->FirstChildElement("ShadowDepthTech");
+		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
 		if (pXmlShadowDepthTech)
 		{
 			m_pShadowDepthTech = new Technique();
 			m_pShadowDepthTech->Improt(pXmlShadowDepthTech);
 		}
 
-		TiXmlElement* pXmlParameter = pXmlElem->FirstChildElement("Parameters");
+		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
 		while(pXmlParameter)
 		{
 			Parameter parameter;
@@ -99,35 +99,35 @@ namespace ma
 
 			SetParameter(parameter.GetName(),parameter.GetValue());
 			
-			pXmlParameter = pXmlParameter->NextSiblingElement("Parameters");
+			pXmlParameter = pXmlParameter->next_sibling("Parameters");
 		}
 	}
 
-	void SubMaterial::Export(TiXmlElement* pXmlElem)
+	void SubMaterial::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
 		if (m_pShadingTech)
 		{
-			TiXmlElement* pXmlShadingTech = new TiXmlElement("ShadingTech");
-			pXmlElem->LinkEndChild(pXmlShadingTech);
+			rapidxml::xml_node<>* pXmlShadingTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadingTech"));
+			pXmlElem->append_node(pXmlShadingTech);
 
-			m_pShadingTech->Export(pXmlShadingTech);
+			m_pShadingTech->Export(pXmlShadingTech,doc);
 		}
 
 		if (m_pShadowDepthTech)
 		{
-			TiXmlElement* pXmlShadowDepthTech = new TiXmlElement("ShadowDepthTech");
-			pXmlElem->LinkEndChild(pXmlShadowDepthTech);
+			rapidxml::xml_node<>* pXmlShadowDepthTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadowDepthTech"));
+			pXmlElem->append_node(pXmlShadowDepthTech);
 
-			m_pShadingTech->Export(pXmlShadowDepthTech);	
+			m_pShadingTech->Export(pXmlShadowDepthTech,doc);	
 		}
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
-			TiXmlElement* pXmlParameter = new TiXmlElement("Parameters");
-			pXmlElem->LinkEndChild(pXmlParameter);
+			rapidxml::xml_node<>* pXmlParameter = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Parameters"));
+			pXmlElem->append_node(pXmlParameter);
 
 			Parameter& parameter = m_arrParameters[i];
-			parameter.Export(pXmlParameter);
+			parameter.Export(pXmlParameter,doc);
 		}
 	}
 
@@ -216,13 +216,13 @@ namespace ma
 	}
 
 
-	void Material::Improt(TiXmlElement* pXmlElem)
+	bool Material::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		uint32 nLod = 0;
-		TiXmlElement* pXmlLodSubMaterial = pXmlElem->FirstChildElement("LodSubMaterial");
+		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodSubMaterial");
 		while(pXmlLodSubMaterial)
 		{
-			TiXmlElement* pXmlSubMaterial = pXmlElem->FirstChildElement("SubMaterial");
+			rapidxml::xml_node<>* pXmlSubMaterial = pXmlLodSubMaterial->first_node("SubMaterial");
 			while(pXmlSubMaterial)
 			{
 				RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
@@ -230,27 +230,33 @@ namespace ma
 
 				pSubMaterial->Improt(pXmlSubMaterial);
 
-				pXmlSubMaterial = pXmlSubMaterial->NextSiblingElement("SubMaterial");
+				pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
 			}
-			pXmlLodSubMaterial = pXmlLodSubMaterial->NextSiblingElement("LodSubMaterial");
+			pXmlLodSubMaterial = pXmlLodSubMaterial->next_sibling("LodSubMaterial");
 			nLod++;
 		}
 
+		return true;
 	}
 
-	void Material::Export(TiXmlElement* pXmlElem)
+	bool Material::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
 		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
 		{
+			rapidxml::xml_node<>* pXmlLodSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodSubMaterial"));
+			pXmlElem->append_node(pXmlLodSubMaterial);
+
 			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)
 			{
-				TiXmlElement* pXmlSubMaterial = new TiXmlElement("SubMaterial");
-				pXmlElem->LinkEndChild(pXmlSubMaterial);
+				rapidxml::xml_node<>* pXmlSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
+				pXmlLodSubMaterial->append_node(pXmlSubMaterial);
 
 				SubMaterial* pSubMaterial = m_arrLodSubMaterial[iLod][iSub].get();
-				pSubMaterial->Export(pXmlSubMaterial);
+				pSubMaterial->Export(pXmlSubMaterial,doc);
 			}
 		}
+
+		return true;
 	}
 
 	RefPtr<Material> CreateMaterial()

@@ -190,8 +190,6 @@ EXPORTS
 ?SaveToXML@Serializable@ma@@QAEXPBD@Z
 ?IsReady@Serializable@ma@@QAE_NXZ
 ??0XmlFile@ma@@QAE@XZ
-?Improt@Object@ma@@UAEXPAVTiXmlElement@@@Z
-?Export@Object@ma@@UAEXPAVTiXmlElement@@@Z
 ?OnSetAttribute@Object@ma@@MAEXABUAttributeInfo@2@ABVAny@2@@Z
 ?OnGetAttribute@Object@ma@@MBEXABUAttributeInfo@2@AAVAny@2@@Z
 ?CreateObject@ObjectFactoryManager@ma@@QAE?AV?$RefPtr@VObject@ma@@@2@PBD@Z
@@ -223,3 +221,5 @@ EXPORTS
 ?ReadUShort@Stream@ma@@QAEGXZ
 ?AddSubMaterial@Material@ma@@QAEXIPAVSubMaterial@2@@Z
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@PBD@Z
+?Improt@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
+?Export@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z

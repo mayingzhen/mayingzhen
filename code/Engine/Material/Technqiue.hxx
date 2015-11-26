@@ -151,24 +151,24 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
-	void Technique::Improt(TiXmlElement* pXmlElem)
+	void Technique::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
-		TiXmlElement* pXmlShader = pXmlElem->FirstChildElement("Shader");
+		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
 		m_pShaderProgram = ShaderProgram::Improt(pXmlShader);
 
-		TiXmlElement* pXmlRenderState = pXmlElem->FirstChildElement("RenderState");
+		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
 		m_renderState.Improt(pXmlRenderState);	
 	}
 
-	void Technique::Export(TiXmlElement* pXmlElem)
+	void Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		TiXmlElement* pXmlShader = new TiXmlElement("Shader");
-		pXmlElem->LinkEndChild(pXmlShader);
-		ShaderProgram::Export(m_pShaderProgram.get(),pXmlShader);
+		rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
+		pXmlElem->append_node(pXmlShader);
+		ShaderProgram::Export(m_pShaderProgram.get(),pXmlShader,doc);
 		
-		TiXmlElement* pXmlRenderState = new TiXmlElement("RenderState");
-		pXmlElem->LinkEndChild(pXmlRenderState);
-		m_renderState.Export(pXmlRenderState);
+		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
+		pXmlElem->append_node(pXmlRenderState);
+		m_renderState.Export(pXmlRenderState,doc);
 	}
 
 	RefPtr<Technique> Technique::Clone()

@@ -79,58 +79,62 @@ namespace ma
 	}
 
 
-	void SceneNode::Improt(TiXmlElement* pXmlElem)
+	bool SceneNode::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		Serializable::Improt(pXmlElem);
 
-		TiXmlElement* pXmlComp = pXmlElem->FirstChildElement("Component");
+		rapidxml::xml_node<>* pXmlComp = pXmlElem->first_node("Component");
 		while(pXmlComp)
 		{
-			const char* pszType = pXmlComp->Attribute("ClassName");
+			const char* pszType = pXmlComp->findAttribute("ClassName");
 
 			RefPtr<Component> pComponent = CreateObject<Component>(pszType);
 			this->AddComponent(pComponent.get());
 
 			pComponent->Improt(pXmlComp);
 
-			pXmlComp = pXmlComp->NextSiblingElement("Component");
+			pXmlComp = pXmlComp->next_sibling("Component");
 		}
 
-		TiXmlElement* pXmlChildNode = pXmlElem->FirstChildElement("ChildNode");
+		rapidxml::xml_node<>* pXmlChildNode = pXmlElem->first_node("ChildNode");
 		while(pXmlChildNode)
 		{
-			const char* pszType = pXmlChildNode->Attribute("ClassName");
+			const char* pszType = pXmlChildNode->findAttribute("ClassName");
 
 			RefPtr<SceneNode> pChildNode = CreateSceneNode();
 			this->AddChild(pChildNode.get());
 
 			pChildNode->Improt(pXmlChildNode);
 
-			pXmlChildNode = pXmlChildNode->NextSiblingElement("ChildNode");
+			pXmlChildNode = pXmlChildNode->next_sibling("ChildNode");
 		}
+
+		return true;
 	}
 
-	void SceneNode::Export(TiXmlElement* pXmlElem)
+	bool SceneNode::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		Serializable::Export(pXmlElem);
+		Serializable::Export(pXmlElem,doc);
 
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
 		{
-			TiXmlElement* pXmlComp = new TiXmlElement("Component");
-			pXmlElem->LinkEndChild(pXmlComp);
+			rapidxml::xml_node<>* pXmlComp = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Component"));
+			pXmlElem->append_node(pXmlComp);
 
 			Component* pComp = m_arrComp[i].get();
-			pComp->Export(pXmlComp);
+			pComp->Export(pXmlComp,doc);
 		}
 
 		for (UINT i = 0; i < m_arrChild.size(); ++i)
 		{
-			TiXmlElement* pXmlChildNode = new TiXmlElement("ChildNode");
-			pXmlElem->LinkEndChild(pXmlChildNode);
+			rapidxml::xml_node<>* pXmlChildNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ChildNode"));
+			pXmlElem->append_node(pXmlChildNode);
 
 			SceneNode* pChildNode = m_arrChild[i].get();
-			pChildNode->Export(pXmlChildNode);
+			pChildNode->Export(pXmlChildNode,doc);
 		}
+
+		return true;
 	}
 
 	void SceneNode::SetUserData(const char* pszKey,void* pData)
@@ -147,9 +151,9 @@ namespace ma
 	{
 		RefPtr<SceneNode> pClone = CreateSceneNode();
 		
-		TiXmlElement xmlEle("");
-		this->Export(&xmlEle);
-		pClone->Improt(&xmlEle);
+		//TiXmlElement xmlEle("");
+		//this->Export(&xmlEle);
+		//pClone->Improt(&xmlEle);
 
 		return pClone;
 	}

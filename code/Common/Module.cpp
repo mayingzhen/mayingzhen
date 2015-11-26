@@ -28,10 +28,5 @@
 
 #include "Common/signals.hxx"
 
-#include "Common/tinyxml/tinyxml.hxx"
-#include "Common/tinyxml/tinystr.hxx"
-#include "Common/tinyxml/tinyxmlerror.hxx"
-#include "Common/tinyxml/tinyxmlparser.hxx"
-
 
 

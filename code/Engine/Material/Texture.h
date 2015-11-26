@@ -38,8 +38,8 @@ namespace ma
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 
 
-		static RefPtr<Texture>	Improt(TiXmlElement* pXmlElem);
-		static void		Export(Texture* pTexture,TiXmlElement* pXmlElem);	
+		static RefPtr<Texture>	Improt(rapidxml::xml_node<>* pXmlElem);
+		static void		Export(Texture* pTexture,rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 	
 	protected:
 

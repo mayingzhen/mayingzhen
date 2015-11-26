@@ -38,8 +38,8 @@ namespace ma
 		const char*			GetShaderMacro() const;
 		void				SetShaderMacro(const char* pszMacro);
 
-		static RefPtr<ShaderProgram> Improt(TiXmlElement* pXmlElem);
-		static void			Export(ShaderProgram* pShader,TiXmlElement* pXmlElem);				
+		static RefPtr<ShaderProgram> Improt(rapidxml::xml_node<>* pXmlElem);
+		static void			Export(ShaderProgram* pShader,rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);				
 
 	protected:
 

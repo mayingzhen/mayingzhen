@@ -37,7 +37,7 @@ namespace ma
 		virtual bool		Instantiate() = 0;
 
 		virtual bool		IsReady() = 0;
-		
+
 		const char*			GetName() const;
 		void				SetName(const char* pszName);
 

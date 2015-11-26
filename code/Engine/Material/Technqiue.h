@@ -29,8 +29,8 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
-		virtual void		Improt(TiXmlElement* pXmlElem);
-		virtual void		Export(TiXmlElement* pXmlElem);	
+		virtual void		Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 		RefPtr<Technique>	Clone();
 

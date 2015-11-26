@@ -28,11 +28,11 @@ namespace ma
 	{
 	public:
 		AnimClipNode();
-	
+
 		~AnimClipNode();
 
 		DECL_OBJECT(AnimClipNode)
-
+	
 		static void		RegisterAttribute();
 
 		virtual void	SetAnimationClip(const char* pszSkaPath);
@@ -88,7 +88,8 @@ namespace ma
 
 		bool					m_bLoadOver;
 	};
-	
+
+	RefPtr<AnimClipNode> CreateClipNode();
 	RefPtr<AnimClipNode> CreateClipNode(const char* skaName, const char* pszName = NULL,const char* boneSetName =  NULL);
 }
 

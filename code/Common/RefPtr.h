@@ -122,10 +122,6 @@ namespace ma
 	template<class T, class Y> inline
 	RefPtr<T> const_pointer_cast(const RefPtr<Y>& rp) { return const_cast<T*>(rp.get()); }
 
-#define DeclareRefPtr(classname)  \
-	class classname;                \
-	typedef RefPtr<classname> classname##Ptr;
-
 }
 
 #endif

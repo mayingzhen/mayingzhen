@@ -33,6 +33,22 @@ namespace ma
 // 
 // 	}
 
+	void ReadShape(MemoryStream* pDataStream)
+	{
+		uint16 ShaeType = pDataStream->ReadUShort();
+		Vector3 vPos = pDataStream->ReadVector3();
+		Quaternion qRot = pDataStream->ReadQuaternion();
+
+		if (ShaeType ==0)
+		{
+			Vector3 vAxis = pDataStream->ReadVector3();
+		}
+		else
+		{
+			Vector2 vRadiusHeight = pDataStream->ReadVector2();
+		}
+	}
+
 	void MeshData::ReadS3Data()
 	{
 		uint32 nIden = m_pDataStream->ReadUInt();
@@ -65,18 +81,7 @@ namespace ma
 		vecVertex.resize(nSize);
 		m_pDataStream->Read(&vecVertex[0],nSize);
 
-		uint16 ShaeType = m_pDataStream->ReadUShort();
-		Vector3 vPos = m_pDataStream->ReadVector3();
-		Quaternion qRot = m_pDataStream->ReadQuaternion();
-
-		if (ShaeType ==0)
-		{
-			Vector3 vAxis = m_pDataStream->ReadVector3();
-		}
-		else
-		{
-			Vector2 vRadiusHeight = m_pDataStream->ReadVector2();
-		}
+		ReadShape(m_pDataStream.get());
 
 		uint32 nMeshLod = m_pDataStream->ReadUInt();
 		for (uint32 i = 0; i < nMeshLod; ++i)
@@ -91,18 +96,7 @@ namespace ma
 				subMesh->m_nVertexStart = m_pDataStream->ReadUInt();
 				subMesh->m_nVertexCount = m_pDataStream->ReadUInt();
 
-				uint16 ShaeType = m_pDataStream->ReadUShort();
-				Vector3 vPos = m_pDataStream->ReadVector3();
-				Quaternion qRot = m_pDataStream->ReadQuaternion();
-
-				if (ShaeType ==0)
-				{
-					Vector3 vAxis = m_pDataStream->ReadVector3();
-				}
-				else
-				{
-					Vector2 vRadiusHeight = m_pDataStream->ReadVector2();
-				}
+				ReadShape(m_pDataStream.get());
 				
 				uint32 nBoneNum = m_pDataStream->ReadUInt();
 				subMesh->m_arrBonePalette.resize(nBoneNum);
@@ -128,21 +122,11 @@ namespace ma
 			}
 			m_arrLodSubMesh.push_back(vecSubMesh);
 		}
-	
 	}
 
 	bool MeshData::InitRes()
 	{
 		ReadS3Data();
-// 		TiXmlDocument doc;
-// 		bool bLoadOK = doc.Parse( (const char*)m_pDataStream->GetPtr() ) != NULL;
-// 		ASSERT(bLoadOK);
-// 		if (!bLoadOK)
-// 			return false;
-// 
-// 		TiXmlElement* pXmlRoot = doc.FirstChildElement();
-// 		ASSERT(pXmlRoot);
-// 		this->Improt(pXmlRoot);
 
 		return true;
 	}

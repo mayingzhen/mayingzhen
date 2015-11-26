@@ -28,7 +28,8 @@ namespace ma
 		: Stream(bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new uint8[m_nSize];
+		m_pData = new uint8[m_nSize + 1];
+		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
 		ASSERT(m_pEnd >= m_pPos);
@@ -39,7 +40,8 @@ namespace ma
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = srcStream->GetSize();
-		m_pData = new uint8[m_nSize];
+		m_pData = new uint8[m_nSize + 1];
+		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + srcStream->Read(m_pData, m_nSize);
 		ASSERT(m_pEnd >= m_pPos);
@@ -50,7 +52,8 @@ namespace ma
 		: Stream(pszName, bReadOnly?AM_READ:(AM_READ|AM_WRITE))
 	{
 		m_nSize = nSize;
-		m_pData = new uint8[m_nSize];
+		m_pData = new uint8[m_nSize + 1];
+		m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 
 		if (m_nSize > srcStream->GetSize())
@@ -70,7 +73,8 @@ namespace ma
 		:Stream(static_cast<uint16>(readOnly ? AM_READ : (AM_READ | AM_WRITE)))
 	{
 		m_nSize = size;
-		m_pData = new uint8[m_nSize];
+		m_pData = new uint8[m_nSize+1];
+    	m_pData[m_nSize] = '\0';
 		m_pPos = m_pData;
 		m_pEnd = m_pData + m_nSize;
 		ASSERT(m_pEnd >= m_pPos);

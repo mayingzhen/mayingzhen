@@ -19,10 +19,8 @@ namespace ma
 		void		SetValue(const Any& value) {m_anyValue = value;}
 		const Any&	GetValue() const {return m_anyValue;}
 
-		void		Improt(TiXmlElement* pXmlElem);
-		void		Export(TiXmlElement* pXmlElem);		
-
-		//void		Serialize(Serializer& sl, const char* pszLable = "Parameter");
+		void		Improt(rapidxml::xml_node<>* pXmlElem);
+		void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 	private:
 		Any				m_anyValue;

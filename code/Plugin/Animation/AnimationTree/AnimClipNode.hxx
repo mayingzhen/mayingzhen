@@ -23,6 +23,8 @@ namespace ma
 
 	void AnimClipNode::RegisterAttribute()
 	{
+		REGISTER_OBJECT(AnimClipNode,CreateClipNode);
+
 		COPY_BASE_ATTRIBUTES(AnimClipNode,AnimTreeNode);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "BoneSet", GetBoneSet, SetBoneSet, const char*, NULL, AM_DEFAULT);
@@ -113,7 +115,7 @@ namespace ma
 	{
 		m_pSkeleton = pSkeletion;
 	}
-	
+
 	const char*	AnimClipNode::GetBoneSet() const
 	{
 		return m_pBoneSet ? m_pBoneSet->GetBoneSetName() : NULL;
@@ -122,7 +124,7 @@ namespace ma
 	void AnimClipNode::SetBoneSet(const char* pBoneSetName)
 	{
 		m_strBoneSetName = pBoneSetName ? pBoneSetName : "";
-	
+
 		if (m_pSkeleton)
 			m_pBoneSet = m_pSkeleton->GetBoneSetByName(pBoneSetName);
 
@@ -175,6 +177,11 @@ namespace ma
 		m_bLoadOver = true;
 
 		return true;
+	}
+
+	RefPtr<AnimClipNode> CreateClipNode()
+	{
+		return new AnimClipNode();
 	}
 
 	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName,const char* boneSetName)

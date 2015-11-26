@@ -182,6 +182,24 @@ namespace ma
 
         return path;
     }
+
+	std::string StringUtil::standardiseDir( const string &init)
+	{
+		if (init.empty())
+		{
+			return init;
+		}
+
+		string path = init;
+		std::replace( path.begin(), path.end(), '\\', '/' );
+		if( path[path.length() - 1] == '/' )
+		{
+			path.erase(path.length()-1);
+		}
+
+		return path;
+	}
+
     //-----------------------------------------------------------------------
     void StringUtil::splitFilename(const std::string& qualifiedName, 
         std::string& outBasename, std::string& outPath)

@@ -245,11 +245,11 @@ namespace ma
 		return type;
 	}
 
-	RefPtr<Texture> Texture::Improt(TiXmlElement* pXmlTexture)
+	RefPtr<Texture> Texture::Improt(rapidxml::xml_node<>* pXmlTexture)
 	{
-		const char* pszIMagePath = pXmlTexture->Attribute("ImagePath");
-		const char* pszWrap = pXmlTexture->Attribute("Wrap");
-		const char* pszFilter = pXmlTexture->Attribute("Filter");
+		const char* pszIMagePath = pXmlTexture->findAttribute("ImagePath");
+		const char* pszWrap = pXmlTexture->findAttribute("Wrap");
+		const char* pszFilter = pXmlTexture->findAttribute("Filter");
 
 		Wrap eWrap = StringToEnum<Wrap>(pszWrap,strDescWrap);
 		Filter eFilter = StringToEnum<Filter>(pszFilter,strDescFilter);
@@ -258,11 +258,11 @@ namespace ma
 		return pTexture;
 	}
 
-	void Texture::Export(Texture* pTexutre,TiXmlElement* pXmlTexture)
+	void Texture::Export(Texture* pTexutre,rapidxml::xml_node<>* pXmlTexture,rapidxml::xml_document<>& doc)
 	{
-		pXmlTexture->SetAttribute("ImagePath",pTexutre->GetImagePath());
-		pXmlTexture->SetAttribute("Wrap",strDescWrap[pTexutre->GetWrapMode()]);
-		pXmlTexture->SetAttribute("Filter",strDescFilter[pTexutre->GetFilterMode()]);
+		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("ImagePath"),doc.allocate_string(pTexutre->GetImagePath())));
+		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Wrap"),doc.allocate_string(strDescWrap[pTexutre->GetWrapMode()])));
+		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Filter"),doc.allocate_string(strDescFilter[pTexutre->GetFilterMode()])));
 	}
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter)

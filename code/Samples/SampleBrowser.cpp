@@ -194,13 +194,15 @@ namespace ma
 
 	void SampleBrowser::Init()
 	{
+
+
 		InitResourcePath();
 		
 		Game::Init();
 
-		GetPhysicsSystem()->Init();
+		//GetPhysicsSystem()->Init();
 #if PLATFORM_WIN == 1
-		GetScriptSystem()->Init();
+		//GetScriptSystem()->Init();
 #endif
 
 		//GetInput()->AddKeyListener(this);
@@ -208,7 +210,9 @@ namespace ma
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
 
-		m_pCameraControl = new CameraController( pScene->GetCamera() );
+
+
+		//m_pCameraControl = new CameraController( pScene->GetCamera() );
 	
 		//LoadUI();
 

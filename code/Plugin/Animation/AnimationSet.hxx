@@ -6,7 +6,6 @@ namespace ma
 {
 	AnimationSet::AnimationSet()
 	{
-		m_bLoadOver = false;
 	}
 
 	AnimationSet::~AnimationSet()
@@ -62,38 +61,42 @@ namespace ma
 		m_arrSkelAnim.erase(it);
 	}
 
-	void AnimationSet::Improt(TiXmlElement* pXmlElem)
+	bool AnimationSet::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
-		TiXmlElement* pXmlAnimNode = pXmlElem->FirstChildElement("AnimNode");
+		rapidxml::xml_node<>* pXmlAnimNode = pXmlElem->first_node("AnimNode");
 		while(pXmlAnimNode)
 		{
-			const char* pszType = pXmlAnimNode->Attribute("ClassName");
+			const char* pszType = pXmlAnimNode->findAttribute("ClassName");
 
 			RefPtr<AnimTreeNode> pAnimNode = CreateObject<AnimTreeNode>(pszType);
 			this->AddSkelAnim(pAnimNode.get());
 
 			pAnimNode->Improt(pXmlAnimNode);
 
-			pXmlAnimNode = pXmlAnimNode->NextSiblingElement("pXmlAnimNode");
+			pXmlAnimNode = pXmlAnimNode->next_sibling("pXmlAnimNode");
 		}
+
+		return true;
 	}
 
-	void AnimationSet::Export(TiXmlElement* pXmlElem)
+	bool AnimationSet::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
 		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
 		{
-			TiXmlElement* pXmlAnimNode = new TiXmlElement("AnimNode");
-			pXmlElem->LinkEndChild(pXmlAnimNode);
+			rapidxml::xml_node<>* pXmlAnimNode = doc.allocate_node(rapidxml::node_element, doc.allocate_string("AnimNode"));
+			pXmlElem->append_node(pXmlAnimNode);
 
 			AnimTreeNode* pAnimNode = m_arrSkelAnim[i].get();
-			pAnimNode->Export(pXmlAnimNode);
+			pAnimNode->Export(pXmlAnimNode,doc);
 		}
+
+		return true;
 	}
 
 	void AnimationSet::SetSkeleton(Skeleton* pSkeleton)
 	{
 		m_pSkeleton = pSkeleton;
-	
+
 		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
 		{
 			m_arrSkelAnim[i]->SetSkeletion(pSkeleton);

@@ -9,7 +9,7 @@ namespace ma
 
 	class AnimationSet : public Serializable
 	{
-		
+
 	public:
 		AnimationSet();
 
@@ -22,15 +22,15 @@ namespace ma
 		UINT				GetSkelAnimNumber() {return m_arrSkelAnim.size();}
 
 		AnimTreeNode*		GetSkelAnimByIndex(UINT index);
-		
+
 		void				AddSkelAnim(AnimTreeNode* pAction); 
 
 		void				RemoveSkelAnim(AnimTreeNode* pAction);
-		
+
 		void				SetSkeleton(Skeleton* pSkeleton);
 
-		virtual void		Improt(TiXmlElement* pXmlElem);
-		virtual void		Export(TiXmlElement* pXmlElem);		
+		virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;

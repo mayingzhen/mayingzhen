@@ -19,13 +19,14 @@ namespace ma
 	{
 		string strFullName = GetArchiveMananger()->GetSaveDir();
 		strFullName += pszXMLFile;
+		strFullName = StringUtil::standardiseDir(strFullName);
 
-		TiXmlDocument doc;
-		TiXmlElement* pRoot = new TiXmlElement(this->GetClassName());
-		this->Export(pRoot);
-		doc.LinkEndChild(pRoot);
-		bool bRes = doc.SaveFile(strFullName.c_str());
-		ASSERT(bRes);
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string(this->GetClassName()));
+		this->Export(pRoot,doc);
+		doc.append_node(pRoot);
+		std::ofstream out(strFullName.c_str(), ios::out|ios::binary);
+		out << doc;
 	}
 
 	void Serializable::LoadFromXML(const char* pszXMlFile)
@@ -42,8 +43,9 @@ namespace ma
 
 		if (m_pXMlFile == NULL || !m_pXMlFile->IsReady())
 			return false;
-
-		TiXmlElement* pXmlRoot = m_pXMlFile->GetDoc().FirstChildElement(this->GetClassName());
+		
+		rapidxml::xml_document<>& doc = m_pXMlFile->GetDoc();
+		rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetClassName()*/);
 		ASSERT(pXmlRoot);
 		this->Improt(pXmlRoot);
 

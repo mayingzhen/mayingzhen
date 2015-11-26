@@ -49,10 +49,16 @@
 
 #include "Common/signals.h"
 
-#include "Common/tinyxml/tinyxml.h"
+#include "Common/Referenced.h"
+#include "Common/RefPtr.h"
+
+#include "Common/RapidXml/rapidxml.hpp"
+#include "Common/RapidXml/rapidxml_iterators.hpp"
+#include "Common/RapidXml/rapidxml_print.hpp"
+#include "Common/RapidXml/rapidxml_utils.hpp"
 
 #ifdef _DEBUG
-#include "vld.h"
+//#include "vld.h"
 #endif
 
 

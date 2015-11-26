@@ -11,6 +11,7 @@
 #include <stack>
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <stdarg.h>
 #include <memory.h>
 #include <time.h>
@@ -19,6 +20,7 @@
 #include <memory.h>
 #include <assert.h>
 #include <limits>
+
 using namespace std;
 
 typedef unsigned char		uint8;
