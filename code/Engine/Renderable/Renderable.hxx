@@ -105,7 +105,7 @@ namespace ma
 		if (m_pSubMeshData->m_arrBonePalette.empty())
 		{
 			arrSkinDQ.resize(nCount);
-			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4);
+			arrScale.resize(Math::ICeil(nCount / 4.0f) * 4,1.0f);
 			arrSkinMatrix.resize(nCount);
 
 			for (uint32 i = 0; i < nCount; ++i)

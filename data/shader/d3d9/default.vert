@@ -20,20 +20,26 @@
 struct VS_IN
 {
    float3 a_position : POSITION;
-
+   
 #ifdef SKIN   
-   float4 a_blendWeights :BLENDWEIGHT;     
    int4   a_blendIndices :BLENDINDICES;
-#endif   
+   float4 a_blendWeights :BLENDWEIGHT;     
+#endif
+   
+   float3 a_normal	 : NORMAL;
  
 #ifdef DIFFUSE   
    float2 a_texCoord0 : TEXCOORD0;
 #endif
 
-	float3 a_normal	 : NORMAL;
+	float3 a_tangent  : TANGENT;
 
 #ifdef COLOR   
    float4 a_color0 : COLOR0;
+#endif
+
+#ifdef COLOR1   
+   float4 a_color1 : COLOR1;
 #endif
 
 };

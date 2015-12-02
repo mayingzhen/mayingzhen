@@ -109,13 +109,13 @@ namespace ma
 		void				SetLastVisibleFrame(UINT nFrame) {m_nLastVisibleFrame = nFrame;}
 		UINT				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
 
-	private:
+	protected:
 		void				SetParent(SceneNode* pParent);
 		void				SetScene(Scene* pScene);
 
 		void				UpdateMatWorld() const;
 
-		void				MarkDirty();
+		virtual void		MarkDirty();
 
 	protected:
 		typedef std::vector< RefPtr<Component> > VEC_COMP;

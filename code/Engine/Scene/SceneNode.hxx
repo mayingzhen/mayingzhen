@@ -61,7 +61,7 @@ namespace ma
 
 		m_arrComp.push_back(pComponent);
 
-		pComponent->OnAddToSceneNode(this);
+		pComponent->SetSceneNode(this);
 	}
 
 	void SceneNode::RemoveComponent(Component* pComponent)
@@ -75,7 +75,7 @@ namespace ma
 
 		m_arrComp.erase(it);
 
-		pComponent->OnRemoveFromSceneNode(this);
+		pComponent->SetSceneNode(NULL);
 	}
 
 

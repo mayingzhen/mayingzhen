@@ -10,7 +10,7 @@ namespace ma
 		m_Size = 0;
 		m_Usage = USAGE_STATIC;
 		m_pData = NULL;
-		m_bNeedFreeData = false;
+		m_bNeedFreeData = true;
 	}
 
 	HardwareBuffer::~HardwareBuffer()

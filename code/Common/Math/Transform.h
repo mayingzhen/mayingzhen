@@ -20,7 +20,7 @@ namespace ma
 
 
 
-	inline void  TransformInverse(Transform* pOut,const Transform* pTSF)
+	inline void TransformInverse(Transform* pOut,const Transform* pTSF)
 	{
 		Matrix4 mat;
 		mat.makeTransform(pTSF->m_vPos,pTSF->m_vScale,pTSF->m_qRot);
@@ -42,26 +42,59 @@ namespace ma
 		matOut.decomposition(pOut->m_vPos,pOut->m_vScale,pOut->m_qRot);
 	}
 
-	inline void  TransformInvMul(Transform* pOut,const Transform* pTSFA,const Transform* pTSFB)
+	inline void TransformInvMul(Transform* pOut,const Transform* pTSFA,const Transform* pTSFB)
 	{
 		Transform tsfAInv;
 		TransformInverse(&tsfAInv,pTSFB);
 		TransformMul(pOut,pTSFA,&tsfAInv);
 	}
 
-	inline void  MatrixFromTransform(Matrix4* pMat,const Transform* pRT)
+	inline void MatrixFromTransform(Matrix4* pMat,const Transform* pRT)
 	{
 		pMat->makeTransform(pRT->m_vPos,pRT->m_vScale,pRT->m_qRot);
 	}
 
-	inline void  TransformFromMatrix(Transform* pRT,const Matrix4* pMat)
+	inline void TransformFromMatrix(Transform* pRT,const Matrix4* pMat)
 	{
 		pMat->decomposition(pRT->m_vPos,pRT->m_vScale,pRT->m_qRot);
 	}
 
+// 	inline S3D3DXVECTOR3* S3D3DXVec3Lerp
+// 		( S3D3DXVECTOR3 *pOut, CONST S3D3DXVECTOR3 *pV1, CONST S3D3DXVECTOR3 *pV2,
+// 		FLOAT s )
+// 	{
+// #ifdef S3D3DX_DEBUG
+// 		if(!pOut || !pV1 || !pV2)
+// 			return NULL;
+// #endif
+// 
+// 		pOut->x = pV1->x + s * (pV2->x - pV1->x);
+// 		pOut->y = pV1->y + s * (pV2->y - pV1->y);
+// 		pOut->z = pV1->z + s * (pV2->z - pV1->z);
+// 		return pOut;
+// 	}
+
+
+	inline void TransformMad(Transform& out,const Transform& pA,float f,const Transform& pB)
+	{
+		//S3AVec3Mad(&pOut->m_vPos,&pA->m_vPos,f,&pB->m_vPos);
+		//S3AQuaternionMad(&pOut->m_qRot,&pB->m_qRot,&pA->m_qRot,f);
+		//S3AVec3Mad(&pOut->m_vLocalScale,&pA->m_vLocalScale,f,&pB->m_vLocalScale);
+		//pOut->m_fScale = pA->m_fScale * f + pB->m_fScale;
+
+		//Quaternion addRot = Quaternion::Slerp(fWeight,Quaternion::IDENTITY,source.m_qRot);
+
+		// apply relative addition to the result of the previous layer
+		//result.m_vPos = dest.m_vPos + (source.m_vPos * fWeight);
+		//result.m_qRot = dest.m_qRot * addRot;
+		//result.m_fScale	 = Vector3::UNIT_SCALE * dest.m_fScale; //+ (relScale * fWeight);
+	}
+
 	inline void TransformLerp(Transform& out,const Transform& pA,float f,const Transform& pB)
 	{
-
+		out.m_vPos = Math::Lerp(pA.m_vPos,pB.m_vPos,f);
+		out.m_vScale = Math::Lerp(pA.m_vScale,pB.m_vScale,f);
+		out.m_qRot = Quaternion::Slerp(f,pA.m_qRot,pB.m_qRot);
 	}
 
 }

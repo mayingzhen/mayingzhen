@@ -179,6 +179,22 @@ namespace ma {
         Quaternion Exp () const;
         Quaternion Log () const;
 
+		float LengthSquared() const { return w * w + x * x + y * y + z * z; }
+
+		void Normalize()
+		{
+			float lenSquared = LengthSquared();
+			if (!Math::RealEqual(lenSquared, 1.0f) && lenSquared > 0.0f)
+			{
+				float invLen = 1.0f / sqrtf(lenSquared);
+				w *= invLen;
+				x *= invLen;
+				y *= invLen;
+				z *= invLen;
+			}
+		}
+
+
         // rotation of a vector by a quaternion
         Vector3 operator* (const Vector3& rkVector) const;
 
@@ -215,6 +231,12 @@ namespace ma {
 	    // spherical linear interpolation
         static Quaternion Slerp (float fT, const Quaternion& rkP,
             const Quaternion& rkQ, bool shortestPath = false);
+
+		/// Spherical interpolation with another quaternion.
+		Quaternion Slerp(Quaternion rhs, float t) const;
+
+		/// Normalized linear interpolation with another quaternion.
+		Quaternion Nlerp(Quaternion rhs, float t, bool shortestPath = false) const;
 
         static Quaternion SlerpExtraSpins (float fT,
             const Quaternion& rkP, const Quaternion& rkQ,

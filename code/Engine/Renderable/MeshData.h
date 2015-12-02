@@ -24,23 +24,28 @@ namespace ma
 		}
 	};
 
-	struct  V_3P_2UV_3N_3T_S
+	struct SkinVertexV0
 	{
-		Vector3  m_position;			// position
-		Vector2	 m_uv;					// Texture Coordinate
-		Vector3	 m_normal;				// normal
-		//Vector3	 m_tangent;				// normal
-		uint32	 m_boneID;				// bones
-		uint32	 m_weight;				// Weights	
+		Vector3 pos;
+		uint32  bone_index;
+		uint32  bone_weight;
+		Vector3 nor;
+		Vector2 uv;
+		Vector3 tan;
+		uint32  color0;
+		uint32  color1;
+	}; // 60B
 
-		bool operator == ( const V_3P_2UV_3N_3T_S& other) const
-		{
-			if (m_position == other.m_position && m_uv == other.m_uv)
-				return true;
-			else
-				return false;
-		}
-	};
+	struct SkinVertexV1
+	{
+		Vector3 pos;
+		uint32	nor;
+		Vector2	uv;
+		uint32  bone_index;
+		uint32  bone_weight;
+		uint32  color0;
+		uint32  color1;
+	}; //40B
 
 
 	class SubMeshData : public Referenced
@@ -102,9 +107,6 @@ namespace ma
 		bool					InitRes();
 
 		void					ReadS3Data();
-
-// 		virtual void			Improt(TiXmlElement* pXmlObject);
-// 		virtual void			Export(TiXmlElement* pXmlObject);	
 
 	private:
 		

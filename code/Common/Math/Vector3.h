@@ -501,6 +501,8 @@ namespace ma
                 ( z + vec.z ) * 0.5f );
         }
 
+		Vector3 Lerp(const Vector3& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
+
         /** Returns true if the vector's scalar components are all greater
             that the ones of the vector it is compared against.
         */

@@ -64,7 +64,7 @@ namespace ma
 	void SampleBrowser::ModuleInit(RenderDeviceType eType)
 	{
 		AnimationModuleInit();
-		BtPhysicsModuleInit();
+		//BtPhysicsModuleInit();
 
 #if PLATFORM_WIN == 1
 		if (eType == RenderDevice_D3D9)
@@ -76,7 +76,7 @@ namespace ma
 			GLESRenderModuleInit();
 		}
 
-		MonoScriptModuleInit();
+		//MonoScriptModuleInit();
 		//FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
@@ -86,11 +86,11 @@ namespace ma
 	void SampleBrowser::ModuleShutdown()
 	{
 		AnimationModuleShutdown();
-		BtPhysicsModuleShutdown();
+		//BtPhysicsModuleShutdown();
 
 #if PLATFORM_WIN == 1
 		//FBXImporterModuleShutdown();
-		MonoScriptModuleShutdown();
+		//MonoScriptModuleShutdown();
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
 		{
@@ -167,10 +167,12 @@ namespace ma
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
-			GetPhysicsSystem()->Stop();
+			if (GetPhysicsSystem())
+				GetPhysicsSystem()->Stop();
 
 #if PLATFORM_WIN == 1
-			GetScriptSystem()->Stop();
+			if (GetScriptSystem())
+				GetScriptSystem()->Stop();
 #endif
 		}
 
@@ -185,9 +187,11 @@ namespace ma
 		}
 		m_arrSamples.clear();
 		
-		GetPhysicsSystem()->ShoutDown();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->ShoutDown();
 #if PLATFORM_WIN == 1
-		GetScriptSystem()->ShutDown();
+		if (GetScriptSystem())
+			GetScriptSystem()->ShutDown();
 #endif
 		Game::Shutdown();
 	}
@@ -212,7 +216,7 @@ namespace ma
 
 
 
-		//m_pCameraControl = new CameraController( pScene->GetCamera() );
+		m_pCameraControl = new CameraController( pScene->GetCamera() );
 	
 		//LoadUI();
 
@@ -229,13 +233,16 @@ namespace ma
 		if (m_pCurSample)
 		{
 			m_pCurSample->UnLoad();
-			GetPhysicsSystem()->Stop();
+			if (GetPhysicsSystem())
+				GetPhysicsSystem()->Stop();
 
 #if PLATFORM_WIN == 1
-			GetScriptSystem()->Stop();
+			if (GetScriptSystem())
+				GetScriptSystem()->Stop();
 #endif
 
-			m_pCameraControl->ResetCamera();
+			if (m_pCameraControl)
+				m_pCameraControl->ResetCamera();
 
  			m_pCurSample->GetScene()->Reset();
 		}
@@ -243,10 +250,12 @@ namespace ma
 		Sample* pSameple = it->second;
 
 		pSameple->Load();
-		GetPhysicsSystem()->Start();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->Start();
 
 #if PLATFORM_WIN == 1
-		GetScriptSystem()->Start();
+		if (GetScriptSystem())
+			GetScriptSystem()->Start();
 #endif
 
 		m_pCurSample = pSameple;
@@ -290,7 +299,8 @@ namespace ma
 
 		Game::Update();
 
-		m_pCameraControl->UpdateInput();
+		if (m_pCameraControl)
+			m_pCameraControl->UpdateInput();
 
 		if (m_bPause && !m_bStepOneFrame)
 		{
@@ -353,12 +363,14 @@ namespace ma
 
 	void SampleBrowser::OnPreUpdate(Scene* pScene)
 	{
-		GetPhysicsSystem()->BeginUpdate();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->BeginUpdate();
 	}
 
 	void SampleBrowser::OnPostUpdate(Scene* pScene)
 	{
-		GetPhysicsSystem()->EndUpdate();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->EndUpdate();
 	}
 
 	void SampleBrowser::OnPreRender(Scene* pScene)

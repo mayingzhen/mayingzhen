@@ -420,6 +420,49 @@ namespace ma {
 
 
 	}
+
+	Quaternion Quaternion::Slerp(Quaternion rhs, float t) const
+	{
+		float cosAngle = Dot(rhs);
+		// Enable shortest path rotation
+		if (cosAngle < 0.0f)
+		{
+			cosAngle = -cosAngle;
+			rhs = -rhs;
+		}
+
+		float angle = acosf(cosAngle);
+		float sinAngle = sinf(angle);
+		float t1, t2;
+
+		if (sinAngle > 0.001f)
+		{
+			float invSinAngle = 1.0f / sinAngle;
+			t1 = sinf((1.0f - t) * angle) * invSinAngle;
+			t2 = sinf(t * angle) * invSinAngle;
+		}
+		else
+		{
+			t1 = 1.0f - t;
+			t2 = t;
+		}
+
+		return *this * t1 + rhs * t2;
+	}
+
+	Quaternion Quaternion::Nlerp(Quaternion rhs, float t, bool shortestPath) const
+	{
+		Quaternion result;
+		float fCos = Dot(rhs);
+		if (fCos < 0.0f && shortestPath)
+			result = (*this) + (((-rhs) - (*this)) * t);
+		else
+			result = (*this) + ((rhs - (*this)) * t);
+		result.Normalize();
+		return result;
+	}
+
+
     //-----------------------------------------------------------------------
     Quaternion Quaternion::Slerp (float fT, const Quaternion& rkP,
         const Quaternion& rkQ, bool shortestPath)

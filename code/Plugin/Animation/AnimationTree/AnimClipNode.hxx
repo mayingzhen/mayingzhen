@@ -83,29 +83,23 @@ namespace ma
 				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fLocalFrame);
 			}
 
-			// calculate the blend value, based on cosine interpolation
-			//float finalWeight = (1.0f - std::cos(fWeight * PI)) * 0.5f;
+			Transform& dest = pEvalContext->m_arrTSFLS[uBoneId];
 
-			Transform result;
-			const Transform& dest = pEvalContext->m_arrTSFLS[uBoneId];
-			if (eBlendMode == BLENDMODE_ADDITIVE)
+			if (fWeight < 1.0f - 0.00001f)
 			{
-				Quaternion addRot = Quaternion::Slerp(fWeight,Quaternion::IDENTITY,source.m_qRot);
-
-				// apply relative addition to the result of the previous layer
-				result.m_vPos = dest.m_vPos + (source.m_vPos * fWeight);
-				result.m_qRot = dest.m_qRot * addRot;
-				//result.m_fScale	 = Vector3::UNIT_SCALE * dest.m_fScale; //+ (relScale * fWeight);
+				if (eBlendMode == BLENDMODE_ADDITIVE) // apply relative addition to the result of the previous layer
+				{
+					TransformMad(dest, source, fWeight, dest);
+				}
+				else if (eBlendMode == BLENDMODE_OVERWRITE) // just blend between the previous and current result, so make no additions
+				{
+					TransformLerp(dest, dest, fWeight, source);
+				}
 			}
-			else if (eBlendMode == BLENDMODE_OVERWRITE)
+			else
 			{
-				// just blend between the previous and current result, so make no additions
-				result.m_vPos = Math::Lerp(dest.m_vPos,source.m_vPos,fWeight);//dest.m_vPos + (source.m_vPos - dest.m_vPos) * fWeight;
-				result.m_qRot = Quaternion::Slerp(fWeight,dest.m_qRot,source.m_qRot);
-				//result.m_fScale	 = dest.m_vScale.sl dest.m_fScale + (source.m_fScale - dest.m_fScale) * fWeight;
+				dest = source;
 			}
-
-			pEvalContext->m_arrTSFLS[uBoneId] = result;
 		}
 	}
 

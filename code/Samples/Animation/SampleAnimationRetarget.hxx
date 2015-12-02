@@ -10,14 +10,10 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		//m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
-
-// 		RefPtr<Skeleton> pSkeleton = CreateSkeleton("hero_56/hero_56/body.ske");
-// 		RefPtr<Animation> pAnimation = CreateAnimation("hero_56/100/bip01.ska");
-// 		RefPtr<MeshData> pMesh = CreateMeshData("hero_56/hero_56/body.skn");
+		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
 
 		// character A MeshData & skeleton & Animation
-		if (1)
+		if (0)
 		{
  			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
  			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
@@ -53,7 +49,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (1)
+		if (0)
 		{
 			CreateDefaultMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN");
 
@@ -69,7 +65,7 @@ namespace ma
 			pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
-			m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/magician/Body.ske");
+			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/magician/Body.ske");
 			m_pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 
 			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
@@ -87,14 +83,14 @@ namespace ma
 			m_pAnimtionObjectA->PlayAnimation((UINT)1);
 		}
 
-		if (1)
+		if (0)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician/magician.xml");
 
 			pCharMagic->Right(50.0f);
 
 			m_pAnimtionObjectB = pCharMagic->GetTypeComponent<AnimationComponent>();
-			m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
+			//m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
 			m_pAnimtionObjectB->PlayAnimation((UINT)1);
 		}
 

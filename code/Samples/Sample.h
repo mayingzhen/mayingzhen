@@ -8,9 +8,6 @@ namespace ma
 	class Camera;
 
 	class Sample 
-		//public OIS::KeyListener , 
-		//public OIS::MouseListener , 
-		//public OIS::MultiTouchListener
 	{
 	public:
 		Sample(const char* pszName = NULL);

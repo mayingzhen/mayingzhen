@@ -28,6 +28,8 @@ namespace ma
 
 	void Camera::MarkDirty()
 	{
+		SceneNode::MarkDirty();
+
 		Matrix4 matView = this->GetMatrixWS().inverse();
 		m_matViewProj.SetMatView(matView);
 

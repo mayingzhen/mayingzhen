@@ -179,6 +179,7 @@ namespace ma
 			m_pDataStream->Read(&vecChar[0],nStringLen);
 			m_arrTrackName[i] = &vecChar[0];
 		}
+
 	}
 
 	RefPtr<Animation> CreateAnimation()
