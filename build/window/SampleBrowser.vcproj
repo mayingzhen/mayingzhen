@@ -203,14 +203,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Samples\Serialize\SampleS3Import.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Samples\Serialize\SampleS3Import.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Code\Samples\Serialize\SampleSceneSerialize.h"
 				>
 			</File>

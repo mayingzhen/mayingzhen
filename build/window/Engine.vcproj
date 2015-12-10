@@ -212,10 +212,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Code\Engine\Resource\ResourceSystem.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Resource\XmlFile.h"
 				>
 			</File>
@@ -255,6 +251,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Engine\Resource\Deserializer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Deserializer.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Engine\Resource\FileArchive.h"
 					>
 				</File>
@@ -280,6 +284,14 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Resource\MemoryStream.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Serializer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Resource\Serializer.hxx"
 					>
 				</File>
 				<File
@@ -570,54 +582,6 @@
 			<Filter
 				Name="Paticle"
 				>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\GenerateData.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\Particle.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleThread.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleThread.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Properties.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Engine\Resource\Properties.hxx"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
