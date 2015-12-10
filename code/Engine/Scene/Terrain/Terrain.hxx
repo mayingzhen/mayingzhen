@@ -296,21 +296,21 @@ namespace ma
 
 	float Terrain::GetHeight(int nXVert, int nYVert) const
 	{
-		return m_vStartpoint.y + m_vecHeight[this->CalcIndex(nXVert, nYVert)] * m_fHeightSpacing / 65535.0f;
+		return m_vStartpoint.z + m_vecHeight[this->CalcIndex(nXVert, nYVert)] * m_fHeightSpacing / 65535.0f;
 	}
 
-	float Terrain::GetHeight( float fX, float fZ ) const
+	float Terrain::GetHeight( float fX, float fY ) const
 	{
-		fX = (fX - m_vStartpoint.x) / m_fCellSpacing;
-		fZ = (fZ - m_vStartpoint.z) / m_fCellSpacing;
+		fX = (fX - m_vStartpoint.x)/m_fCellSpacing;
+		fY = (fY - m_vStartpoint.y)/m_fCellSpacing;
 		int i = (int)fX;
-		int j = (int)fZ;
-		if (i < 0 || i >= (int)m_nXCellsAmount || j < 0 || j >= (int)m_nYCellsAmount)
+		int j = (int)fY;
+		if (i < 0 || i >= m_nXCellsAmount || j < 0 || j >= m_nYCellsAmount)
 		{
-			i = i < 0 ? 0 : i;
-			i = i >= m_nXCellsAmount ? m_nXCellsAmount : i;
-			j = j < 0 ? 0 : j;
-			j = j >= m_nYCellsAmount ? m_nYCellsAmount : j;
+			i = (i<0?0:i);
+			i = (i>=m_nXCellsAmount?m_nXCellsAmount:i);
+			j = (j<0?0:j);
+			j = (j>=m_nYCellsAmount?m_nYCellsAmount:j);
 		}
 
 		/*
@@ -332,7 +332,7 @@ namespace ma
 		float fHeight3 = this->GetHeight(i+1, j+1);
 
 		float u = fX - (int)fX;
-		float v = fZ - (int)fZ;
+		float v = fY - (int)fY;
 
 		if (u + v < 1.0f)// ио╠ъ
 		{
@@ -421,25 +421,25 @@ namespace ma
 					return false;
 			}
 
-			if (vPosition.x > m_vStartpoint.x + m_nXCellsAmount * m_fCellSpacing)
+			if (vPosition.x > m_vStartpoint.x+m_nXCellsAmount*m_fCellSpacing)
 			{
 				if (rayStep.x >= 0)
 					return false;
 			}
 
-			if (vPosition.z < m_vStartpoint.z)
+			if (vPosition.y < m_vStartpoint.y)
 			{
-				if (rayStep.z <= 0)
+				if (rayStep.y <= 0)
 					return false;
 			}
 
-			if (vPosition.z > m_vStartpoint.z + m_nYCellsAmount * m_fCellSpacing)
+			if (vPosition.y > m_vStartpoint.y+m_nYCellsAmount*m_fCellSpacing)
 			{
-				if (rayStep.z >= 0)
+				if (rayStep.y >= 0)
 					return false;
 			}
 
-			height = this->GetHeight(vPosition.x, vPosition.z); 
+			height = this->GetHeight(vPosition.x, vPosition.y); 
 
 			if (nTimes++ > 2000)
 			{
@@ -470,10 +470,10 @@ namespace ma
 		return false; 
 	}
 
-	bool Terrain::WorldToCell( float fX, float fZ, OUT int& i, OUT int& j ) const
+	bool Terrain::WorldToCell( float fX, float fY, OUT int& i, OUT int& j ) const
 	{
 		i = (int)::floorf((fX - m_vStartpoint.x)/m_fCellSpacing);
-		j = (int)::floorf((fZ - m_vStartpoint.z)/m_fCellSpacing);
+		j = (int)::floorf((fY - m_vStartpoint.y)/m_fCellSpacing);
 
 		if (i < 0 || i >= m_nXCellsAmount || j < 0 || j >= m_nYCellsAmount)
 		{
@@ -497,8 +497,8 @@ namespace ma
 
 		Vector3 vPos;
 		vPos.x = m_vStartpoint.x + nXVert * m_fCellSpacing;
-		vPos.z = m_vStartpoint.z + nYVert * m_fCellSpacing;
-		vPos.y = GetHeight(nXVert,nYVert);	
+		vPos.y = m_vStartpoint.z + nYVert * m_fCellSpacing;
+		vPos.z = GetHeight(nXVert,nYVert);	
 
 		return vPos;
 	}
@@ -524,22 +524,22 @@ namespace ma
 		return vNormal;
 	}
 
-	Vector3 Terrain::GetNormal(float x, float z) const
+	Vector3 Terrain::GetNormal(float x, float y) const
 	{
 		float flip = 1.f;
-		float fStep = m_fCellSpacing*0.2f;
-		Vector3 here(x, this->GetHeight(x, z), z);
-		Vector3 right(x + fStep, this->GetHeight(x + fStep, z), z);
-		Vector3 up(x, this->GetHeight(x, z + fStep), z + fStep);
-		if (right.x >= m_vStartpoint.x + m_fCellSpacing * m_nXCellsAmount)
+		float fStep = m_fCellSpacing*0.5f;
+		Vector3 here (x, y, this->GetHeight(x, y));
+		Vector3 right (x+fStep, y, this->GetHeight(x+fStep, y));
+		Vector3 up (x, y+fStep, this->GetHeight(x, y+fStep));
+		if (right.x >= m_vStartpoint.x + m_fCellSpacing*m_nXCellsAmount)
 		{
 			flip *= -1;
-			right = Vector3(x-fStep, this->GetHeight(x - fStep, z), z);
+			right = Vector3(x-fStep, y, this->GetHeight(x-fStep, y));
 		}
-		if (up.y >= m_vStartpoint.y + m_fCellSpacing * m_nYCellsAmount)
+		if (up.y >=m_vStartpoint.y + m_fCellSpacing*m_nYCellsAmount)
 		{
 			flip *= -1;
-			up = Vector3(x, this->GetHeight(x, z - fStep), z - fStep);
+			up = Vector3(x, y-fStep, this->GetHeight(x, y-fStep));
 		}
 		right -= here;
 		up -= here;
@@ -568,20 +568,20 @@ namespace ma
 		return vTan;
 	}
 
-	Vector3 Terrain::GetTangent(float x, float z) const
+	Vector3 Terrain::GetTangent(float x, float y) const
 	{
 		float flip = 1;
-		float fStep = m_fCellSpacing * 0.5f;
-		Vector3 here(x, this->GetHeight(x, z), z);
-		Vector3 right(x + fStep, this->GetHeight(x + fStep, z), z);
-		if (right.x >= m_vStartpoint.x + m_fCellSpacing * m_nXCellsAmount)
+		float fStep = m_fCellSpacing*0.5f;
+		Vector3 here(x, y, this->GetHeight(x,y));
+		Vector3 right(x+fStep, y, this->GetHeight(x+fStep, y));
+		if (right.x >= m_vStartpoint.x + m_fCellSpacing*m_nXCellsAmount)
 		{
 			flip *= -1;
-			right = Vector3(x - fStep, this->GetHeight(x - fStep, z), z);
+			right = Vector3(x-fStep, y, this->GetHeight(x-fStep, y));
 		}
 
 		right -= here;
-		Vector3 vReturn = right * flip;
+		Vector3 vReturn = right*flip;
 		vReturn.normalise();
 		return vReturn;
 	}

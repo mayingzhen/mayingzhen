@@ -432,12 +432,12 @@ namespace ma
 
 	void SceneNode::Yaw(float angle, bool fixedAxis)
 	{
-		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Y), fixedAxis);
+		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Z), fixedAxis);
 	}
 
 	void SceneNode::Roll(float angle, bool fixedAxis)
 	{
-		Rotate(Quaternion(Radian(angle), Vector3::NEGATIVE_UNIT_Z), fixedAxis);
+		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Y), fixedAxis);
 	}
 
 	Vector3	SceneNode::GetForward()
@@ -477,7 +477,7 @@ namespace ma
 
 	void SceneNode::LookAt(const Vector3& vEye, const Vector3& vAt)
 	{
-		Vector3 vUp = Vector3::UNIT_Y;
+		Vector3 vUp = Vector3::UNIT_Z;
 
 		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye, vAt, vUp);
 

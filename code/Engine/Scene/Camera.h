@@ -19,10 +19,9 @@ namespace ma
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
 		const Matrix4&		GetMatView();
-
 		const Matrix4&		GetMatProj();
-
 		const Matrix4&		GetMatViewProj();
+		const Matrix4&		GetMatViewProjInv();
 		
 		float				GetNearClip() const {return m_fNear;}
 		void				SetNearClip(float fNear);

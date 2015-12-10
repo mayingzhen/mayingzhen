@@ -11,7 +11,7 @@ namespace ma
 	void SampleTerrain::Load()
 	{
  		Vector3 lookAtPos(0,0,0);
- 		Vector3 eyePos = Vector3(0,600,600);
+ 		Vector3 eyePos = Vector3(0,-600,600);
  		GetCamera()->LookAt(eyePos,lookAtPos);
 
 		//GetResourceSystem()->SetDataThreadEnable(true);

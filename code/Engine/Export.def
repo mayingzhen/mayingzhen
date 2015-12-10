@@ -206,3 +206,4 @@ EXPORTS
 ?CreateSubMeshData@ma@@YA?AV?$RefPtr@VSubMeshData@ma@@@1@XZ
 ?SaveToFile@MeshData@ma@@UAE_NPBD@Z
 ?CreateFileStream@ma@@YA?AV?$RefPtr@VFileStream@ma@@@1@PBD@Z
+?GetMatViewProjInv@Camera@ma@@QAEABVMatrix4@2@XZ

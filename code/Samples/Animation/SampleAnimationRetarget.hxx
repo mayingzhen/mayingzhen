@@ -10,10 +10,10 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
 
 		// character A MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
  			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
  			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
@@ -43,7 +43,7 @@ namespace ma
 			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
  
-			pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
+			//pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
 			pChargigi->SaveToXML("gigi/gigi/gigi.xml");
 		}

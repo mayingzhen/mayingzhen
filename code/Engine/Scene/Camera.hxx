@@ -51,6 +51,11 @@ namespace ma
 		return m_matViewProj.GetMatViewProj();
 	}
 
+	const Matrix4& Camera::GetMatViewProjInv()
+	{
+		return m_matViewProj.GetMatViewProjInv();
+	}
+
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
 	{	
 		AABB aabbCS = aabb;

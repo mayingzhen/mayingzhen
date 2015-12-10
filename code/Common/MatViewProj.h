@@ -14,6 +14,7 @@ namespace ma
 			m_matView = Matrix4::IDENTITY;
 			m_matProj = Matrix4::IDENTITY;
 			m_matViewProj = Matrix4::IDENTITY;
+			m_matViewProjInv = Matrix4::IDENTITY;
 			m_bViewProjDirty = true;
 		}
 
@@ -56,14 +57,23 @@ namespace ma
 			return m_matViewProj;
 		}
 
+		const Matrix4&	GetMatViewProjInv()
+		{
+			if (m_bViewProjDirty)
+			{
+				m_matViewProj = m_matProj * m_matView;
+				m_matViewProjInv = m_matViewProj.inverse();
+				m_bViewProjDirty = false;
+			}
+			return m_matViewProjInv;
+		}
+
 	private:
 		Matrix4				m_matView;
-
 		Matrix4				m_matViewInv;
-
 		Matrix4				m_matProj;
-
 		Matrix4				m_matViewProj;
+		Matrix4				m_matViewProjInv;
 
 		bool				m_bViewProjDirty;
 
