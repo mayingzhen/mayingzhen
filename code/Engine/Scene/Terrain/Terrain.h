@@ -69,6 +69,9 @@ namespace ma
 		// Blend
 		UINT GetBlendData(int nXVert, int nYVert) const;
 
+		bool GetTriFlip(int nXVert,int nYVert) const;
+		void SetTriFlip(int nXVert,int nYVert,bool bFlip);
+
 		void GetVertexData(int nXVert,int nYVert,TERRAIN_VERTEX& v) const; 
 		VertexDeclaration* GetVertexDeclaration() const {return m_pVertexDecl.get();}
 
@@ -115,12 +118,6 @@ namespace ma
 	private:
 		void BuildTrunks();
 		void BuildVertexDeclaration();
-		void BuildShareIB();
-		void BuildBodyIndexBuffer(UINT m);
-		void BuildSkirtIndexBuffer(UINT m);
-		void BuildSkirtSideIB(RefPtr<IndexBuffer>& pSkirtIB,
-			int nCellAmountSelf,int nCellAmountConnect,
-			int nSelfStart,int nSelfStep);
 
 		void ClearTempData();
 
@@ -166,22 +163,12 @@ namespace ma
 		int m_nBlendingMultiple;
 		Vector2 m_vBlendOffset;
 		bool m_bBlendMapToVertex;
+	
+		RefPtr<Resource> m_pDataMapData;
+		typedef vector<uint32> VEC_DATA;
+		VEC_DATA m_vecData;
 
 		bool m_bLoadOver;
-
-		struct SkirtIB
-		{
-			RefPtr<IndexBuffer>  SkitIB[SideNum];
-		};
-
-		struct LodShareIB
-		{
-			RefPtr<IndexBuffer>		m_pBodyIB;
-			vector<SkirtIB>			m_vecSkitIB;
-			vector<uint16>			m_vecBodyIBTemp;
-		};
-		
-		vector<LodShareIB>	m_shareIB;
 
 		RefPtr<VertexDeclaration> m_pVertexDecl;
 

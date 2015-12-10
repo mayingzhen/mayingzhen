@@ -22,7 +22,6 @@
 #include "Engine/Resource/ZipDataStream.hxx"
 #include "Engine/Resource/ZipArchive.hxx"
 #include "Engine/Resource/ArchiveManager.hxx"
-#include "Engine/Resource/Properties.hxx"
 #include "Engine/Resource/Resource.hxx"
 #include "Engine/Resource/XmlFile.hxx"
 #include "Engine/Resource/DataThread.hxx"
@@ -99,11 +98,10 @@
 #include "Engine/Scene/Light/ShadowCasterQuery.hxx"
 #include "Engine/Scene/Light/RenderShadowCSM.hxx"
 #include "Engine/Scene/Light/PoissonDiskGen.hxx"
+
 //Particle
-#include "Engine/Scene/Particle/ParticleBatch.hxx"
-#include "Engine/Scene/Particle/ParticleEmitter.hxx"
-#include "Engine/Scene/Particle/ParticleThread.hxx"
-#include "Engine/Scene/Particle/ParticleSystem.hxx"
+
+
 //Terrain
 #include "Engine/Scene/Terrain/Terrain.hxx"
 #include "Engine/Scene/Terrain/TerrainTrunk.hxx"

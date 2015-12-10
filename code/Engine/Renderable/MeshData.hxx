@@ -3,6 +3,16 @@
 
 namespace ma
 {
+	void SubMeshData::AddBonePalette(BoneIndex bonde)
+	{
+		m_arrBonePalette.push_back(bonde);
+	}
+
+	RefPtr<SubMeshData>  CreateSubMeshData()
+	{
+		return new SubMeshData();
+	}
+
 	MeshData::MeshData()
 	{
 		m_nIndexType = 0;
@@ -65,8 +75,121 @@ namespace ma
 		nID3 = uBondID.uByte[3];
 	}
 
+	bool MeshData::SaveToFile(const char* pszFile)
+	{
+		std::fstream out(pszFile, ios::out|ios::binary);
+		FileStream SaveStream(&out);
 
-	void MeshData::ReadS3Data()
+		uint32 nIden = 0;
+		uint32 nVersion = 0;
+
+		uint32 nIndexType = 0;
+		uint32 nVertexType = 0;
+
+		SaveStream.WriteUInt(nIden);
+		SaveStream.WriteUInt(nVersion);
+
+		SaveStream.WriteUInt(m_pIndexBuffer->GetNumber());
+		SaveStream.WriteUInt(m_pVertexBuffer->GetNumber());
+		
+		SaveStream.WriteUInt(nIndexType);
+		SaveStream.WriteUInt(nVertexType);
+
+		uint32 nIndexSize = m_pVertexBuffer->GetSize();
+		SaveStream.WriteUInt(nIndexSize);
+		SaveStream.Write(m_pVertexBuffer->GetData(),nIndexSize);
+
+		uint32 nVertexSize = m_pIndexBuffer->GetSize();
+		SaveStream.WriteUInt(nVertexSize);
+		SaveStream.Write(m_pIndexBuffer->GetData(),nVertexSize);
+
+		SaveStream.WriteBoundingBox(m_meshBound);
+		
+		SaveStream.WriteUInt(m_arrLodSubMesh.size());
+		for (uint32 i = 0; i < m_arrLodSubMesh.size(); ++i)
+		{
+			VEC_SUBMESH& vecSubMesh = m_arrLodSubMesh[i];
+			SaveStream.WriteUInt(vecSubMesh.size());
+			for (uint32 j = 0; j < vecSubMesh.size(); ++j)
+			{
+				SubMeshData* subMesh = vecSubMesh[j].get();
+
+				SaveStream.WriteUInt(subMesh->m_nIndexStart);
+				SaveStream.WriteUInt(subMesh->m_nIndexCount);
+				SaveStream.WriteUInt(subMesh->m_nVertexStart);
+				SaveStream.WriteUInt(subMesh->m_nVertexCount);
+		
+				SaveStream.WriteUInt(subMesh->m_arrBonePalette.size());
+				for (uint32 iBone = 0; iBone < subMesh->m_arrBonePalette.size(); ++iBone)
+				{
+					SaveStream.WriteUInt(subMesh->m_arrBonePalette[iBone]);
+				}
+
+				SaveStream.WriteUInt(subMesh->m_nMateiralID);	
+			}
+		}
+
+		return true;
+	}
+
+	void MeshData::ReadDataV1()
+	{
+		uint32 nIden = m_pDataStream->ReadUInt();
+		uint32 nVersion = m_pDataStream->ReadUInt();
+
+		uint32 nIndexNum = m_pDataStream->ReadUInt();
+		uint32 nVertexNum = m_pDataStream->ReadUInt();
+
+		uint32 nIndexType = m_pDataStream->ReadUInt();
+		uint32 nVertexType = m_pDataStream->ReadUInt();
+
+		uint32 nIndexSize = m_pDataStream->ReadUInt();
+		uint8* vecIndex = new uint8[nIndexSize];
+		m_pDataStream->Read(&vecIndex[0],nIndexSize);
+
+		uint16* pIndex = (uint16*)vecIndex;
+		UINT32 nIndexCount = nIndexSize / sizeof(uint16);
+		ASSERT(nIndexCount == nIndexNum);
+
+		uint32 nVertexSize = m_pDataStream->ReadUInt();
+		uint8* vecVertex = new uint8[nVertexSize];
+		m_pDataStream->Read(&vecVertex[0],nVertexSize);
+
+		SkinVertexV1* pVertexV0 = (SkinVertexV1*)vecVertex;
+		uint32 nVertexCount = nVertexSize / sizeof(SkinVertexV1);
+		ASSERT(nVertexCount == nVertexNum);
+
+		m_meshBound = m_pDataStream->ReadBoundingBox();
+
+		uint32 nMeshLod = m_pDataStream->ReadUInt();
+		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)
+		{
+			VEC_SUBMESH vecSubMesh;
+			uint32 nSubMesh = m_pDataStream->ReadUInt();
+			for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
+			{
+				SubMeshData* subMesh = new SubMeshData;
+				subMesh->m_nIndexStart = m_pDataStream->ReadUInt();
+				subMesh->m_nIndexCount = m_pDataStream->ReadUInt();
+				subMesh->m_nVertexStart = m_pDataStream->ReadUInt();
+				subMesh->m_nVertexCount = m_pDataStream->ReadUInt();
+
+				uint32 nBoneNum = m_pDataStream->ReadUInt();
+				subMesh->m_arrBonePalette.resize(nBoneNum);
+				for (uint32 iBone = 0; iBone < nBoneNum; ++iBone)
+				{
+					subMesh->m_arrBonePalette[iBone] = m_pDataStream->ReadUShort();
+				}
+
+				subMesh->m_nMateiralID = m_pDataStream->ReadUInt();
+
+				vecSubMesh.push_back(subMesh);
+			}
+			m_arrLodSubMesh.push_back(vecSubMesh);
+		}
+	}
+
+	void MeshData::ReadDataV0()
 	{
 		uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
@@ -194,10 +317,6 @@ namespace ma
 			}
 		}
 
-		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(vecIndex,nIndexSize,sizeof(uint16));
-
-		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(vecVertex,nVertexSize,sizeof(SkinVertexV0));
-
 		VertexElement element[8];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		element[1] = VertexElement(0,12,DT_UBYTE4,DU_BLENDINDICES,0);
@@ -209,18 +328,25 @@ namespace ma
 		element[7] = VertexElement(0,56,DT_COLOR,DU_COLOR,1);
 		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,8);
 
+		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(vecIndex,nIndexSize,sizeof(uint16));
+
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(vecVertex,nVertexSize,sizeof(SkinVertexV0));
 	}
 
 	bool MeshData::InitRes()
 	{
-		ReadS3Data();
+		ReadDataV0();
 
 		return true;
 	}
 
-	void SubMeshData::AddBonePalette(BoneIndex bonde)
+	void MeshData::AddSubMeshData(uint32 nLod,SubMeshData* pSubMeshData)
 	{
-		m_arrBonePalette.push_back(bonde);
+		if (nLod >= m_arrLodSubMesh.size())
+		{
+			m_arrLodSubMesh.resize(nLod + 1);
+		}
+		m_arrLodSubMesh[nLod].push_back(pSubMeshData);
 	}
 
 	ResourceSystem<MeshData>* g_pMeshManager = NULL;
@@ -234,5 +360,7 @@ namespace ma
 	{
 		return g_pMeshManager->CreateResource(pszFile);
 	}
+
+
 }
 

@@ -223,4 +223,11 @@ namespace ma
 			m_eAccessMode |= AM_WRITE;
 	}
 
+	RefPtr<FileStream> CreateFileStream(const char* pszFile)
+	{
+		std::fstream out(pszFile, ios::out|ios::binary);
+		FileStream* pFileStream = new FileStream(&out);
+		return pFileStream;
+	}
+
 }

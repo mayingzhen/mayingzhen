@@ -45,7 +45,7 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetSkinMeshData<V_3P_2UV_3N_3T_S,uint16>(pFbxMesh,&meshData,skeData,pImportParm);
+		GetSkinMeshData<SkinVertexV0,uint16>(pFbxMesh,&meshData,skeData,pImportParm);
 
 		//RefPtr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
@@ -247,7 +247,8 @@ namespace ma
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
 		{
 			// One SunMesh
-			SubMeshData* pSubmesh = pMeshData->AddSubMeshData();
+			RefPtr<SubMeshData> pSubmesh = CreateSubMeshData();
+			pMeshData->AddSubMeshData(0,pSubmesh.get());
 			pSubmesh->m_nMateiralID = it->first;
 
 			pSubmesh->m_nVertexStart = arrVertex.size();
@@ -273,11 +274,11 @@ namespace ma
 			
 				for(int j = 0; j < 3 ; ++j)
 				{
-					FbxVector4 fPos(vertex[j].m_position.x,vertex[j].m_position.y,vertex[j].m_position.z,1);
+					FbxVector4 fPos(vertex[j].pos.x,vertex[j].pos.y,vertex[j].pos.z,1);
 
 					//vertex[j].m_uv.y = 1.0f - vertex[j].m_uv.y;
 
-					vertex[j].m_position = ToMaUnit( globalTransform.MultT(fPos) );	
+					vertex[j].pos = ToMaUnit( globalTransform.MultT(fPos) );	
 
 					UpdateVertexArray(arrVertex,arrIndex,vertex[j]);
 
@@ -313,7 +314,7 @@ namespace ma
 
 			int ctrlPointIndex = pMesh->GetPolygonVertex(nTriangleIndex , j);
 
-			SkinDataCovert(vertex[j].m_boneID,vertex[j].m_weight,
+			SkinDataCovert(vertex[j].bone_index,vertex[j].bone_weight,
 				arrPointSkin[ctrlPointIndex].m_vBoneInd,
 				arrPointSkin[ctrlPointIndex].m_vBoneWeight);
 		}

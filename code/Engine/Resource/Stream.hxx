@@ -229,6 +229,132 @@ namespace ma
 	}
 
 
+	bool Stream::WriteInt(int value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteShort(short value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteByte(signed char value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteUInt(unsigned value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteUShort(unsigned short value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteUByte(unsigned char value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteBool(bool value)
+	{
+		return WriteUByte(value ? 1 : 0) == 1;
+	}
+
+	bool Stream::WriteFloat(float value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+// 	bool Stream::WriteIntRect(const IntRect& value)
+// 	{
+// 		return Write(value.Data(), sizeof value) == sizeof value;
+// 	}
+// 
+// 	bool Stream::WriteIntVector2(const IntVector2& value)
+// 	{
+// 		return Write(value.Data(), sizeof value) == sizeof value;
+// 	}
+// 
+// 	bool Stream::WriteRect(const Rect& value)
+// 	{
+// 		return Write(value.Data(), sizeof value) == sizeof value;
+// 	}
+
+	bool Stream::WriteVector2(const Vector2& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteVector3(const Vector3& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+// 	bool Stream::WritePackedVector3(const Vector3& value, float maxAbsCoord)
+// 	{
+// 		short coords[3];
+// 		float v = 32767.0f / maxAbsCoord;
+// 
+// 		coords[0] = (short)(Clamp(value.x_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+// 		coords[1] = (short)(Clamp(value.y_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+// 		coords[2] = (short)(Clamp(value.z_, -maxAbsCoord, maxAbsCoord) * v + 0.5f);
+// 		return Write(&coords[0], sizeof coords) == sizeof coords;
+// 	}
+
+	bool Stream::WriteVector4(const Vector4& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteQuaternion(const Quaternion& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+// 	bool Serializer::WritePackedQuaternion(const Quaternion& value)
+// 	{
+// 		short coords[4];
+// 		Quaternion norm = value.Normalized();
+// 
+// 		coords[0] = (short)(Clamp(norm.w_, -1.0f, 1.0f) * q + 0.5f);
+// 		coords[1] = (short)(Clamp(norm.x_, -1.0f, 1.0f) * q + 0.5f);
+// 		coords[2] = (short)(Clamp(norm.y_, -1.0f, 1.0f) * q + 0.5f);
+// 		coords[3] = (short)(Clamp(norm.z_, -1.0f, 1.0f) * q + 0.5f);
+// 		return Write(&coords[0], sizeof coords) == sizeof coords;
+// 	}
+
+	bool Stream::WriteMatrix3(const Matrix3& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteMatrix3x4(const Matrix3x4& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+	bool Stream::WriteMatrix4(const Matrix4& value)
+	{
+		return Write(&value, sizeof value) == sizeof value;
+	}
+
+// 	bool Stream::WriteColor(const Color& value)
+// 	{
+// 		return Write(value.Data(), sizeof value) == sizeof value;
+// 	}
+
+	bool Stream::WriteBoundingBox(const AABB& value)
+	{
+		bool success = true;
+		success &= WriteVector3(value.mMinimum);
+		success &= WriteVector3(value.mMaximum);
+		return success;
+	}
+
 
 }
 

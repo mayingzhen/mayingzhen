@@ -63,6 +63,13 @@ namespace ma
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 
+	bool Animation::SaveToFile(const char* pszFile)
+	{
+		RefPtr<FileStream> pFileStream = CreateFileStream(pszFile);
+
+		return true;
+	}
+
 	bool Animation::InitRes()
 	{
 		ReadS3Data();
@@ -72,7 +79,39 @@ namespace ma
 
 	void Animation::ReadData()
 	{
+		uint32 nIden = m_pDataStream->ReadUInt();
+		uint32 nVersion = m_pDataStream->ReadUInt();
+		
+		uint32 nTrackNameNum = m_pDataStream->ReadUInt();
+		m_arrTrackName.resize(nTrackNameNum);
+		for (uint32 i = 0; i < nTrackNameNum; ++i)
+		{
+			m_arrTrackName[i] = m_pDataStream->ReadString();
+		}
 
+		m_nFrameNumber = m_pDataStream->ReadUInt();
+		m_arrScaleTrack.resize(m_nFrameNumber);
+		m_arrRotTrack.resize(m_nFrameNumber);
+		m_arrPosTrack.resize(m_nFrameNumber);
+
+		for (uint32 i = 0; i < m_nFrameNumber; ++i)
+		{
+			uint32 nScaleFrame = m_pDataStream->ReadUInt();
+			m_arrScaleTrack[i].m_arrFrame.resize(nScaleFrame);
+			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrFrame[0],sizeof(uint32) * nScaleFrame);
+			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrValue[0],sizeof(Vector3) * nScaleFrame);
+
+			
+			uint32 nRotFrame = m_pDataStream->ReadUInt();
+			m_arrRotTrack[i].m_arrFrame.resize(nRotFrame);
+			m_pDataStream->Read(&m_arrRotTrack[i].m_arrFrame[0],sizeof(uint32) * nRotFrame);
+			m_pDataStream->Read(&m_arrRotTrack[i].m_arrValue[0],sizeof(Quaternion) * nRotFrame);
+
+			uint32 nPosFrame = m_pDataStream->ReadUInt();
+			m_arrPosTrack[i].m_arrFrame.resize(nPosFrame);
+			m_pDataStream->Read(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
+			m_pDataStream->Read(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
+		}
 	}
 
 	void Animation::ReadS3Data()

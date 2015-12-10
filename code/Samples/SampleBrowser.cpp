@@ -11,14 +11,13 @@
 #include "GLESRender/Module.h"
 #include "MonoScript/Module.h"
 #include "BulletPhysics/Module.h"
-//#include "S3Serialize/Module.h"
 #endif
 
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-//#include "Samples/Serialize/SampleFbxImport.hxx"
+#include "Samples/Serialize/SampleFbxImport.hxx"
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
@@ -34,7 +33,6 @@
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Render/SampleParticle.hxx"
 
-//#include "Samples/Serialize/SampleS3Import.hxx"
 
 
 namespace ma
@@ -77,7 +75,7 @@ namespace ma
 		}
 
 		//MonoScriptModuleInit();
-		//FBXImporterModuleInit();
+		FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
 #endif
@@ -89,7 +87,7 @@ namespace ma
 		//BtPhysicsModuleShutdown();
 
 #if PLATFORM_WIN == 1
-		//FBXImporterModuleShutdown();
+		FBXImporterModuleShutdown();
 		//MonoScriptModuleShutdown();
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
@@ -109,7 +107,7 @@ namespace ma
 	void SampleBrowser::InitSampleList()
 	{
 #if PLATFORM_WIN == 1
-		//m_arrSamples["FbxImport"] = new SampleFbxImport();
+		m_arrSamples["FbxImport"] = new SampleFbxImport();
 
 		m_arrSamples["CSharpScript"] = new SampleMonoScript();
 
@@ -133,9 +131,8 @@ namespace ma
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
-		//m_arrSamples["SampleS3Import"] = new SampleS3Import();
 
-		RunSample("AnimationRetarget");
+		RunSample("Terrain");
 	}
 
 	void SampleBrowser::InitResourcePath()

@@ -64,7 +64,9 @@ namespace ma
 
 		bool m_bFreeOnClose;
 	};
+	
 
+	RefPtr<FileStream> CreateFileStream(const char* pszFile);
 }
 
 #endif

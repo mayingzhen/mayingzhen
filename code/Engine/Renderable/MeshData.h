@@ -8,21 +8,21 @@
 namespace ma
 {
 
-	struct  V_3P_2UV_3N_3T
-	{
-		Vector3  m_position;			// position
-		Vector2	 m_uv;					// Texture Coordinate
-		Vector3	 m_normal;				// normal
-		//Vector3	 m_tangent;				// normal
-
-		bool operator == ( const V_3P_2UV_3N_3T& other) const
-		{
-			if (m_position == other.m_position && m_uv == other.m_uv)
-				return true;
-			else
-				return false;
-		}
-	};
+// 	struct  V_3P_2UV_3N_3T
+// 	{
+// 		Vector3  m_position;			// position
+// 		Vector2	 m_uv;					// Texture Coordinate
+// 		Vector3	 m_normal;				// normal
+// 		//Vector3	 m_tangent;				// normal
+// 
+// 		bool operator == ( const V_3P_2UV_3N_3T& other) const
+// 		{
+// 			if (m_position == other.m_position && m_uv == other.m_uv)
+// 				return true;
+// 			else
+// 				return false;
+// 		}
+// 	};
 
 	struct SkinVertexV0
 	{
@@ -34,6 +34,14 @@ namespace ma
 		Vector3 tan;
 		uint32  color0;
 		uint32  color1;
+
+		bool operator == ( const SkinVertexV0& other) const
+		{
+			if (pos == other.pos && uv == other.uv)
+				return true;
+			else
+				return false;
+		}
 	}; // 60B
 
 	struct SkinVertexV1
@@ -43,9 +51,8 @@ namespace ma
 		Vector2	uv;
 		uint32  bone_index;
 		uint32  bone_weight;
-		uint32  color0;
-		uint32  color1;
-	}; //40B
+		uint32  color;
+	}; //36B
 
 
 	class SubMeshData : public Referenced
@@ -70,6 +77,8 @@ namespace ma
 		void AddBonePalette(BoneIndex bonde);
 	};
 
+	RefPtr<SubMeshData>  CreateSubMeshData();
+
 	class IndexBuffer;
 	class VertexBuffer;
 	class VertexDeclaration;
@@ -85,7 +94,7 @@ namespace ma
 		uint32					GetLodNumerber() {return m_arrLodSubMesh.size();}
 		UINT					GetSubMeshNumber(uint32 nLod) {return m_arrLodSubMesh[nLod].size();}
 		SubMeshData*			GetSubMeshByIndex(uint32 nLod,UINT index) const {return m_arrLodSubMesh[nLod][index].get();} 
-		//SubMeshData*			AddSubMeshData(uint32 nLod);
+		void					AddSubMeshData(uint32 nLod,SubMeshData* pSubMeshData);
 
 		IndexBuffer*			GetIndexBuffer() const {return m_pIndexBuffer.get();} 
 
@@ -102,11 +111,15 @@ namespace ma
 		UINT					GetIndexType() const {return m_nIndexType;}
 		void					SetIndexType(UINT nType) {m_nIndexType = nType;} 
 		
+		bool					SaveToFile(const char* pszFile);	
+
 	private:
 
 		bool					InitRes();
-
-		void					ReadS3Data();
+		
+		void					SaveData();
+		void					ReadDataV1();
+		void					ReadDataV0();
 
 	private:
 		

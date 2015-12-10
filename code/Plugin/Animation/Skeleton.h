@@ -16,8 +16,6 @@ namespace ma
 
 		~Skeleton();
 
-		//virtual void		Serialize(Serializer& sl, const char* pszLable = "Skeleton");
-
 		const Matrix4&		GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
 		const SkeletonPose* GetResPose() const {return m_refPose;} 
@@ -41,6 +39,8 @@ namespace ma
 			const char* pszFullBoyd = "FullBody",const char* pzEmptyBody = "EmptyBody");
 
 		void				InitResPose();
+
+		bool				SaveToFile(const char* pszFile);
 
 	private:
 	

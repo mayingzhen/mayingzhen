@@ -60,7 +60,7 @@ namespace ma {
 			EXTENT_FINITE,
 			EXTENT_INFINITE
 		};
-	protected:
+	public:
 
 		Vector3 mMinimum;
 		Vector3 mMaximum;

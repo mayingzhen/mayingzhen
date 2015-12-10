@@ -128,21 +128,54 @@ namespace ma
 		AABB ReadBoundingBox();
 		/// Read a null-terminated string.
 
-		string ReadString()
-		{
-			string ret;
+		inline string ReadString();
 
-			while (!Eof())
-			{
-				char c = ReadByte();
-				if (!c)
-					break;
-				else
-					ret += c;
-			}
-
-			return ret;
-		}
+		/// Write a 32-bit integer.
+		bool WriteInt(int value);
+		/// Write a 16-bit integer.
+		bool WriteShort(short value);
+		/// Write an 8-bit integer.
+		bool WriteByte(signed char value);
+		/// Write a 32-bit unsigned integer.
+		bool WriteUInt(unsigned value);
+		/// Write a 16-bit unsigned integer.
+		bool WriteUShort(unsigned short value);
+		/// Write an 8-bit unsigned integer.
+		bool WriteUByte(unsigned char value);
+		/// Write a bool.
+		bool WriteBool(bool value);
+		/// Write a float.
+		bool WriteFloat(float value);
+		/// Write an IntRect.
+		//bool WriteIntRect(const IntRect& value);
+		/// Write an IntVector2.
+		//bool WriteIntVector2(const IntVector2& value);
+		/// Write a Rect.
+		//bool WriteRect(const Rect& value);
+		/// Write a Vector2.
+		bool WriteVector2(const Vector2& value);
+		/// Write a Vector3.
+		bool WriteVector3(const Vector3& value);
+		/// Write a Vector3 packed into 3 x 16 bits with the specified maximum absolute range.
+		//bool WritePackedVector3(const Vector3& value, float maxAbsCoord);
+		/// Write a Vector4.
+		bool WriteVector4(const Vector4& value);
+		/// Write a quaternion.
+		bool WriteQuaternion(const Quaternion& value);
+		/// Write a quaternion with each component packed in 16 bits.
+		//bool WritePackedQuaternion(const Quaternion& value);
+		/// Write a Matrix3.
+		bool WriteMatrix3(const Matrix3& value);
+		/// Write a Matrix3x4.
+		bool WriteMatrix3x4(const Matrix3x4& value);
+		/// Write a Matrix4.
+		bool WriteMatrix4(const Matrix4& value);
+		/// Write a color.
+		//bool WriteColor(const Color& value);
+		/// Write a bounding box.
+		bool WriteBoundingBox(const AABB& value);
+		/// Write a null-terminated string.
+		inline bool WriteString(const string& value);
 
 	protected:
 		UINT			m_nSize;
@@ -152,6 +185,31 @@ namespace ma
 		#define OGRE_STREAM_TEMP_SIZE 128
 
 	};
+
+	string Stream::ReadString()
+	{
+		string ret;
+
+		while (!this->Eof())
+		{
+			char c = this->ReadByte();
+			if (!c)
+				break;
+			else
+				ret += c;
+		}
+
+		return ret;
+	}
+
+	bool Stream::WriteString(const string& value)
+	{
+		const char* chars = value.c_str();
+		// Count length to the first zero, because ReadString() does the same
+		unsigned length = value.length();
+		return Write(chars, length + 1) == length + 1;
+	}
+
 }
 
 #endif

@@ -12,7 +12,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (0)
+		if (1)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");

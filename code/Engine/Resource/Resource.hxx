@@ -13,55 +13,6 @@ namespace ma
 		m_pDataStream = NULL;
 	}
 
-// 	bool Resource::LoadFromXML(const char* pFilePath)
-// 	{
-// 		m_sResPath = pFilePath ? pFilePath  : "";
-// 		m_eResState = ResUnLoad;
-// 		m_pDataStream = NULL;
-// 		m_eCreateType = XML_RES;
-// 
-// 		return Load();
-// 	}
-
-// 	bool Resource::SaveToXML(const char* pFilePath)
-// 	{
-// 		std::string strSavePath = pFilePath ? pFilePath : m_sResPath;
-// 
-// 		XMLOutputSerializer ar;
-// 
-// 		Serialize(ar,this->GetClassName());
-// 
-// 		return ar.Save(strSavePath.c_str());
-// 	}
-
-// 	bool Resource::LoadFromFile(const char* pFilePath)
-// 	{
-// 		m_sResPath = pFilePath ? pFilePath : "";
-// 		m_eResState = ResUnLoad;
-// 		m_pDataStream = NULL;
-// 		m_eCreateType = BIN_RES;
-// 
-// 		return Load();
-// 	}
-
-	bool Resource::SaveToFile(const char* pszPath)
-	{
-// 		std::string strSavePath = pszPath ? pszPath : m_sResPath;
-// 
-// 		BinaryOutputSerializer ar;
-// 		bool bLoadOK = ar.Open(strSavePath.c_str());
-// 		if (!bLoadOK)
-// 		{
-// 			ASSERT(false && "Fail to save mesh from file");
-// 			return false;
-// 		}
-// 
-// 		Serialize(ar,this->GetClassName());
-// 
-// 		ar.Close();
-
-		return true;
-	}
 
 	bool Resource::Load(const char* pFilePath)
 	{
@@ -108,6 +59,11 @@ namespace ma
 		CreateFromMemeory();
 
 		m_eResState = ResInited;
+	}
+
+	bool Resource::SaveToFile(const char* pszPath)
+	{
+		return false;
 	}
 
 	bool Resource::LoadFileToMemeory()

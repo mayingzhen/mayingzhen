@@ -49,14 +49,9 @@ namespace ma
 
 	void Terrain::ClearTempData()
 	{
-		for (UINT i = 0; i < m_shareIB.size(); ++i)
-		{
-			m_shareIB[i].m_vecBodyIBTemp.clear();
-		}
-
 		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
 		{
-			m_vecTrunk[i]->ClearVBTemp();
+			m_vecTrunk[i]->ClearTempData();
 		}
 
 	}
@@ -151,62 +146,6 @@ namespace ma
 		return pTerrainTrunk;
 	}
 
-	void Terrain::BuildSkirtSideIB(RefPtr<IndexBuffer>& pSkirtIB,
-										  int nCellAmountSelf,int nCellAmountConnect,
-										  int nSelfStart,int nSelfStep)
-	{
-		UINT nIndexCount = (nCellAmountSelf + nCellAmountConnect)*3;
-
-		vector<uint16> pIndexData;
-		pIndexData.resize(nIndexCount);
-
-		ASSERT(nCellAmountSelf%nCellAmountConnect == 0);
-		int nStep = nCellAmountSelf/nCellAmountConnect;
-
-		int baseIndex = 0;
-
-		vector<uint16> indexList;
-
-		for (int i = 0;i< nCellAmountConnect + 1;++i)
-		{
-			indexList.push_back(nSelfStart + i * nStep * nSelfStep);
-		}
-
-		for (int i = 0;i< nCellAmountSelf+1;++i)
-		{		
-			indexList.push_back(nSelfStart + i * nSelfStep);
-		}
-
-		for (int i = 0;i< nCellAmountConnect;++i)
-		{
-			for (int j = 0;j< nStep;++j)
-			{
-				if (j == 0)
-				{
-					pIndexData[baseIndex]     = indexList[i];
-					pIndexData[baseIndex + 1] = indexList[nCellAmountConnect+1 + i*nStep];
-					pIndexData[baseIndex + 2] = indexList[i+1];
-
-					pIndexData[baseIndex + 3] = indexList[nCellAmountConnect+1 + i*nStep];
-					pIndexData[baseIndex + 4] = indexList[nCellAmountConnect+1 + i*nStep+1];
-					pIndexData[baseIndex + 5] = indexList[i+1];
-
-					baseIndex += 6;
-				}
-				else
-				{
-					pIndexData[baseIndex] = indexList[nCellAmountConnect+1 + i*nStep + j];
-					pIndexData[baseIndex + 1] = indexList[nCellAmountConnect+1 + i*nStep + j + 1];
-					pIndexData[baseIndex + 2] = indexList[i+1];
-					baseIndex += 3;
-				}
-			}
-		}
-
-		pSkirtIB = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],pIndexData.size() * 2, 2);
-
-	}
-
 	void Terrain::BuildVertexDeclaration()
 	{
 		VertexElement element[5];
@@ -219,75 +158,6 @@ namespace ma
 		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,5);
 	}
 
-	void Terrain::BuildShareIB()
-	{
-		m_shareIB.resize(m_uNumLods);
-
-		for (UINT m = 0; m < m_uNumLods;++m)
-		{
-			BuildBodyIndexBuffer(m);
-
-			BuildSkirtIndexBuffer(m);
-		}
-	}
-
-	void Terrain::BuildSkirtIndexBuffer(UINT m)
-	{
-		for (UINT n = 0; n < m_uNumLods; ++n)
-		{
-			if (m >= n)
-			{
-				continue;
-			}
-
-			int nCellAmountSelf = m_nTrunkSize >> m;
-			int nCellAmountConnect = m_nTrunkSize >> n;
-
-			SkirtIB& shaerIB = m_shareIB[m].m_vecSkitIB[n];
-
-			BuildSkirtSideIB(shaerIB.SkitIB[North],nCellAmountSelf,nCellAmountConnect, nCellAmountSelf * (nCellAmountSelf +1),-nCellAmountSelf-1);
-
-			BuildSkirtSideIB(shaerIB.SkitIB[South],nCellAmountSelf,nCellAmountConnect,nCellAmountSelf,nCellAmountSelf+1);
-
-			BuildSkirtSideIB(shaerIB.SkitIB[West],nCellAmountSelf,nCellAmountConnect,0,1);
-
-			BuildSkirtSideIB(shaerIB.SkitIB[East],nCellAmountSelf,nCellAmountConnect,(nCellAmountSelf + 1) * (nCellAmountSelf+1) - 1,-1);
-		}   
-	}
-
-
-	void Terrain::BuildBodyIndexBuffer(UINT m)
-	{
-		UINT nXCellsAmount = m_nTrunkSize >> m;
-		UINT nYCellsAmount = m_nTrunkSize >> m;
-
-		// ib
-		UINT nIndexCount = nXCellsAmount * nYCellsAmount * 2 * 3;
-		vector<uint16>&  pIndexData = m_shareIB[m].m_vecBodyIBTemp;
-		pIndexData.resize(nIndexCount);
-
-		UINT baseIndex = 0;
-
-		// loop through and compute the triangles of each quad
-		for(UINT i = 0;i< nXCellsAmount;i++)
-		{
-			for(UINT j = 0;j< nYCellsAmount;j++)
-			{
-				pIndexData[baseIndex]     = i   * (nYCellsAmount+1) + j;
-				pIndexData[baseIndex + 1] = (i) * (nYCellsAmount+1) + j+1;
-				pIndexData[baseIndex + 2] =  (i+1)   * (nYCellsAmount+1) + j;
-
-				pIndexData[baseIndex + 3] = (i+1) * (nYCellsAmount+1) + j;
-				pIndexData[baseIndex + 4] = (i) * (nYCellsAmount+1) + j + 1;
-				pIndexData[baseIndex + 5] = (i+1)   * (nYCellsAmount+1) + j + 1;
-
-				// next quad
-				baseIndex += 6;
-			}
-		}
-		
-		m_shareIB[m].m_pBodyIB = GetRenderSystem()->CreateIndexBuffer((uint8*)&pIndexData[0],pIndexData.size() * 2, 2);
-	}
 
 	const char* Terrain::GetHeightMap() const
 	{
@@ -397,9 +267,14 @@ namespace ma
 			m_vBlendOffset = Vector2(0.5f / m_pBlendMap->GetWidth(), 0.5f / m_pBlendMap->GetHeight());
 		}
 
-		BuildVertexDeclaration();
+		if (m_pDataMapData)
+		{
+			int matW, matH;
+			ResourceMapToData<uint32>(m_pDataMapData.get(),m_vecData,matW,matH);
+			m_pDataMapData = NULL;
+		}
 
-		BuildShareIB();
+		BuildVertexDeclaration();
 
 		BuildTrunks();
 
@@ -770,6 +645,16 @@ namespace ma
 			return 0;
 
 		return m_vecBlenData[nIndex];	
+	}
+
+	bool Terrain::GetTriFlip(int nXVert,int nYVert) const
+	{
+		return false;
+	}
+
+	void Terrain::SetTriFlip(int nXVert,int nYVert,bool bFlip)
+	{
+
 	}
 
 	void Terrain::GetVertexData(int nXVert,int nYVert,TERRAIN_VERTEX& v) const

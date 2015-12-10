@@ -16,9 +16,9 @@ namespace ma
 
 		RefPtr<SceneNode> pFire = CreateSceneNode();
 		m_pScene->GetRootNode()->AddChild(pFire.get());
-		ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
-		pPaticComp->Load("Particle/fire.particle");
-		pPaticComp->Start();
+		//ParticleEmitter* pPaticComp = pFire->CreateComponent<ParticleEmitter>();
+		//pPaticComp->Load("Particle/fire.particle");
+		//pPaticComp->Start();
 	}
 
 	void SampleParticle::UnLoad()

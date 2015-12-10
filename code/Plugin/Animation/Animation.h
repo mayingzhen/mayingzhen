@@ -28,6 +28,8 @@ namespace ma
 
 		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
+		
+		bool							SaveToFile(const char* pszFile);
 
 	private:
 

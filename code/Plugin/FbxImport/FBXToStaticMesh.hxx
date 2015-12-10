@@ -46,7 +46,8 @@ namespace ma
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
 		{
 			// One SunMesh
-			SubMeshData* pSubmesh = pMeshData->AddSubMeshData(0);
+			RefPtr<SubMeshData> pSubmesh = CreateSubMeshData();
+			pMeshData->AddSubMeshData(0,pSubmesh.get());
 			pSubmesh->m_nMateiralID = it->first;
 
 			//submesh->m_pMaterial = CreateDefaultMaterial(pMesh,it->first,pImportParm,false);
@@ -70,9 +71,9 @@ namespace ma
 
 				for(int j = 0; j < 3 ; ++j)
 				{
-					FbxVector4 fPos(vertex[j].m_position.x,vertex[j].m_position.y,vertex[j].m_position.z,1);
+					FbxVector4 fPos(vertex[j].pos.x,vertex[j].pos.y,vertex[j].pos.z,1);
 
-					vertex[j].m_position = ToMaUnit( globalTransform.MultT(fPos) );	
+					vertex[j].pos = ToMaUnit( globalTransform.MultT(fPos) );	
 
 					UpdateVertexArray(arrVertex,arrIndex,vertex[j]);
 				}
@@ -111,7 +112,7 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetMeshData<V_3P_2UV_3N_3T,uint16>(pFbxMesh,&meshData,pImportParm);
+		GetMeshData<SkinVertexV0,uint16>(pFbxMesh,&meshData,pImportParm);
 
 		//MaterialData* pMaterialData = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
@@ -182,18 +183,18 @@ namespace ma
 			int ctrlPointIndex = pMesh->GetPolygonVertex(nTriangleIndex , j);
 
 			// Read the vertex
-			ReadVertex(pMesh , ctrlPointIndex , &vertex[j].m_position);
+			ReadVertex(pMesh , ctrlPointIndex , &vertex[j].pos);
 
 
 			// Read the color of each vertex
 			//ReadColor(pMesh , ctrlPointIndex , vertexCounter , &color);
 
-			ReadUV(pMesh,ctrlPointIndex,pMesh->GetTextureUVIndex(nTriangleIndex, j),0,&vertex[j].m_uv);
+			ReadUV(pMesh,ctrlPointIndex,pMesh->GetTextureUVIndex(nTriangleIndex, j),0,&vertex[j].uv);
 
 			// Read the normal of each vertex
 			//if (pImportParm && pImportParm->m_eImportNormal == Import)
 			{
-				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &vertex[j].m_normal);
+				ReadNormal(pMesh , ctrlPointIndex , vertexCounter , &vertex[j].nor);
 			}
 
 			// Read the tangent of each vertex

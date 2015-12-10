@@ -6,7 +6,8 @@
 #include "../Renderable/ScreenQuad.h"
 #include "../Renderable/UnitSphere.h"
 #include "../Material/ShaderProgram.h"
-#include "../Scene/Particle/ParticleSystem.h"
+#include "../Material/ShaderManager.h"
+
 
 
 
@@ -92,7 +93,7 @@ namespace ma
 
 		if (m_bNeedReloadShader)
 		{
-			//GetResourceSystem()->ReLoad<ShaderProgram>();
+			g_pShaderManager->ReLoad();
 			m_bNeedReloadShader = false;
 		}
 
@@ -127,8 +128,8 @@ namespace ma
 		if ( GetLineRender() )
 			GetLineRender()->OnFlushFrame();
 
-		if ( GetParticleSystem() )
-			GetParticleSystem()->OnFlushFrame();
+		//if ( GetParticleSystem() )
+		//	GetParticleSystem()->OnFlushFrame();
 	}
 	
 

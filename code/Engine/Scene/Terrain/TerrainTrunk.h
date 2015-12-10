@@ -36,11 +36,17 @@ namespace ma
 		void BuildBorder();
 		void BuildSkirt();
 
+		void BuildIndexBuffer();
+		void BuildSkirtIndexBuffer();
+		void BuildSkirtSideIB(RefPtr<IndexBuffer>& pSkirtIB,
+			int nCellAmountSelf,int nCellAmountConnect,
+			int nSelfStart,int nSelfStep);
+
 		void UpdateRenderable();
 
 		void AddToIBList( vector< vector<uint16> >& vecIBList, uint8 matID, uint16 triangle[3]);
 
-		void ClearVBTemp();
+		void ClearTempData();
 
 
 	private:
@@ -61,20 +67,31 @@ namespace ma
 			RefPtr<TerrainRenderable> skirt[SideNum];
 		};
 
+		struct SkitIB
+		{
+			RefPtr<IndexBuffer> skirtIB[SideNum];
+		};
+
 		struct TERRAIN_LOD
 		{
 			VEC_RENDERABLE			m_vecBody; 
 			VEC_RENDERABLE			m_vecBorder;
+
 			vector<SkitRenderable>	m_vecSkirt;
 			
 		};
 		vector<TERRAIN_LOD> m_vecLodRenderable;
 
-		vector< RefPtr<VertexBuffer> > m_vecVBTemp;
-		vector< vector<TERRAIN_VERTEX> > m_vecVBDataTemp; // use for Buil Border
-
 		vector< set<uint8> > m_vecSetMatIDTemp;
-		vector< vector<uint8> > m_vecTriangleMatID; // use for Buil Border
+		vector< vector<uint8> > m_vecTriangleMatID;
+
+		vector< RefPtr<VertexBuffer> > m_vecVBTemp;
+		vector< vector<TERRAIN_VERTEX> > m_vecVBDataTemp;
+
+		vector< RefPtr<IndexBuffer> > m_vecIBTemp;
+		vector< vector<uint16> > m_vecIBDataTemp;
+
+		vector< vector<SkitIB> > m_vecSkirt;
 
 		friend class Terrain;
 	};

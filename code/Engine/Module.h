@@ -13,14 +13,13 @@
 #include "Engine/Time/Timer.h"
 
 // Resource
-#include "Engine/Resource/FileInfo.h"
 #include "Engine/Resource/Stream.h"
 #include "Engine/Resource/MemoryStream.h"
+#include "Engine/Resource/FileStream.h"
 #include "Engine/Resource/ZipArchive.h"
 #include "Engine/Resource/FileArchive.h"
 #include "Engine/Resource/AAssetArchive.h"
 #include "Engine/Resource/ArchiveManager.h"
-#include "Engine/Resource/Properties.h"
 #include "Engine/Resource/Resource.h"
 #include "Engine/Resource/XmlFile.h"
 #include "Engine/Resource/ResourceSystem.h"
@@ -75,8 +74,8 @@
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/LightSystem.h"
 #include "Engine/Scene/Light/RenderShadowCSM.h"
-#include "Engine/Scene/Particle/ParticleSystem.h"
-#include "Engine/Scene/Particle/ParticleEmitter.h"
+
+
 #include "Engine/Scene/Terrain/Terrain.h"
 
 #include "Engine/Profile/CodeTimer.h"

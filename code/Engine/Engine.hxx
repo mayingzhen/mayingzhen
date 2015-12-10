@@ -77,8 +77,8 @@ namespace ma
 
 	void Engine::Shutdown()
 	{
-		if (GetParticleSystem())
-			GetParticleSystem()->Shutdown();
+		//if (GetParticleSystem())
+		//	GetParticleSystem()->Shutdown();
 
 		if (g_pDataThread)
 		{
