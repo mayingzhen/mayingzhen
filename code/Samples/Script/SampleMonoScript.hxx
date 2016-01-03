@@ -26,7 +26,7 @@ namespace ma
 		RefPtr<SceneNode> pGameObj = CreateSceneNode();
 
 		RefPtr<MeshComponent> pMeshComp = pGameObj->CreateComponent<MeshComponent>();
-		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mat");
+		pMeshComp->Load("Fbx/Box.skn","Fbx/Box.mtl");
 
 		m_pTestScript = pGameObj->CreateComponent<ScriptObject>();
 		m_pTestScript->SetName("SharpTest");

@@ -2640,6 +2640,94 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_M_MAX_UNSIGNED_get() {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_AABB_mMinimum_set(void * jarg1, void * jarg2) {
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2; 
+  if (arg1) (arg1)->mMinimum = *arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_AABB_mMinimum_get(void * jarg1) {
+  void * jresult ;
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *result = 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  result = (ma::Vector3 *)& ((arg1)->mMinimum);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_AABB_mMaximum_set(void * jarg1, void * jarg2) {
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2; 
+  if (arg1) (arg1)->mMaximum = *arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_AABB_mMaximum_get(void * jarg1) {
+  void * jresult ;
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *result = 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  result = (ma::Vector3 *)& ((arg1)->mMaximum);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_AABB_mExtent_set(void * jarg1, int jarg2) {
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::AABB::Extent arg2 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  arg2 = (ma::AABB::Extent)jarg2; 
+  if (arg1) (arg1)->mExtent = arg2;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_AABB_mExtent_get(void * jarg1) {
+  int jresult ;
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::AABB::Extent result;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  result = (ma::AABB::Extent) ((arg1)->mExtent);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_AABB_mpCorners_set(void * jarg1, void * jarg2) {
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2; 
+  if (arg1) (arg1)->mpCorners = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_AABB_mpCorners_get(void * jarg1) {
+  void * jresult ;
+  ma::AABB *arg1 = (ma::AABB *) 0 ;
+  ma::Vector3 *result = 0 ;
+  
+  arg1 = (ma::AABB *)jarg1; 
+  result = (ma::Vector3 *) ((arg1)->mpCorners);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_AABB__SWIG_0() {
   void * jresult ;
   ma::AABB *result = 0 ;
@@ -5826,7 +5914,17 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Plane(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_0(float jarg1, float jarg2, float jarg3, float jarg4) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_0() {
+  void * jresult ;
+  ma::Quaternion *result = 0 ;
+  
+  result = (ma::Quaternion *)new ma::Quaternion();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_1(float jarg1, float jarg2, float jarg3, float jarg4) {
   void * jresult ;
   float arg1 ;
   float arg2 ;
@@ -5844,59 +5942,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_0(float jarg1, float j
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_1(float jarg1, float jarg2, float jarg3) {
-  void * jresult ;
-  float arg1 ;
-  float arg2 ;
-  float arg3 ;
-  ma::Quaternion *result = 0 ;
-  
-  arg1 = (float)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  result = (ma::Quaternion *)new ma::Quaternion(arg1,arg2,arg3);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_2(float jarg1, float jarg2) {
-  void * jresult ;
-  float arg1 ;
-  float arg2 ;
-  ma::Quaternion *result = 0 ;
-  
-  arg1 = (float)jarg1; 
-  arg2 = (float)jarg2; 
-  result = (ma::Quaternion *)new ma::Quaternion(arg1,arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_3(float jarg1) {
-  void * jresult ;
-  float arg1 ;
-  ma::Quaternion *result = 0 ;
-  
-  arg1 = (float)jarg1; 
-  result = (ma::Quaternion *)new ma::Quaternion(arg1);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_4() {
-  void * jresult ;
-  ma::Quaternion *result = 0 ;
-  
-  result = (ma::Quaternion *)new ma::Quaternion();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_5(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_2(void * jarg1) {
   void * jresult ;
   ma::Matrix3 *arg1 = 0 ;
   ma::Quaternion *result = 0 ;
@@ -5912,7 +5958,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_5(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_6(void * jarg1, void * jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_3(void * jarg1, void * jarg2) {
   void * jresult ;
   ma::Radian *arg1 = 0 ;
   ma::Vector3 *arg2 = 0 ;
@@ -5934,7 +5980,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_6(void * jarg1, void *
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_7(void * jarg1, void * jarg2, void * jarg3) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_4(void * jarg1, void * jarg2, void * jarg3) {
   void * jresult ;
   ma::Vector3 *arg1 = 0 ;
   ma::Vector3 *arg2 = 0 ;
@@ -5962,7 +6008,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_7(void * jarg1, void *
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_8(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_5(void * jarg1) {
   void * jresult ;
   ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
   ma::Quaternion *result = 0 ;
@@ -5974,7 +6020,23 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_8(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_9(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_6(float jarg1, float jarg2, float jarg3) {
+  void * jresult ;
+  float arg1 ;
+  float arg2 ;
+  float arg3 ;
+  ma::Quaternion *result = 0 ;
+  
+  arg1 = (float)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  result = (ma::Quaternion *)new ma::Quaternion(arg1,arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Quaternion__SWIG_7(void * jarg1) {
   void * jresult ;
   float *arg1 = (float *) 0 ;
   ma::Quaternion *result = 0 ;
@@ -6097,6 +6159,20 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_ToAngleAxis__SWIG_1(void * jarg1, 
     return ;
   } 
   ((ma::Quaternion const *)arg1)->ToAngleAxis(*arg2,*arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_FromEulerAngles(void * jarg1, float jarg2, float jarg3, float jarg4) {
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  float arg4 ;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  arg2 = (float)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  (arg1)->FromEulerAngles(arg2,arg3,arg4);
 }
 
 
@@ -6298,6 +6374,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_Log(void * jarg1) {
 }
 
 
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_LengthSquared(void * jarg1) {
+  float jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  float result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  result = (float)((ma::Quaternion const *)arg1)->LengthSquared();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_Normalize(void * jarg1) {
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  (arg1)->Normalize();
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_getRoll__SWIG_0(void * jarg1, unsigned int jarg2) {
   void * jresult ;
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
@@ -6445,6 +6541,74 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_Slerp__SWIG_1(float jarg1, void 
     return 0;
   } 
   result = ma::Quaternion::Slerp(arg1,(ma::Quaternion const &)*arg2,(ma::Quaternion const &)*arg3);
+  jresult = new ma::Quaternion((const ma::Quaternion &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_Slerp__SWIG_2(void * jarg1, void * jarg2, float jarg3) {
+  void * jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  ma::Quaternion arg2 ;
+  float arg3 ;
+  ma::Quaternion *argp2 ;
+  ma::Quaternion result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  argp2 = (ma::Quaternion *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::Quaternion", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  arg3 = (float)jarg3; 
+  result = ((ma::Quaternion const *)arg1)->Slerp(arg2,arg3);
+  jresult = new ma::Quaternion((const ma::Quaternion &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_Nlerp__SWIG_0(void * jarg1, void * jarg2, float jarg3, unsigned int jarg4) {
+  void * jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  ma::Quaternion arg2 ;
+  float arg3 ;
+  bool arg4 ;
+  ma::Quaternion *argp2 ;
+  ma::Quaternion result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  argp2 = (ma::Quaternion *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::Quaternion", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  arg3 = (float)jarg3; 
+  arg4 = jarg4 ? true : false; 
+  result = ((ma::Quaternion const *)arg1)->Nlerp(arg2,arg3,arg4);
+  jresult = new ma::Quaternion((const ma::Quaternion &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_Nlerp__SWIG_1(void * jarg1, void * jarg2, float jarg3) {
+  void * jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  ma::Quaternion arg2 ;
+  float arg3 ;
+  ma::Quaternion *argp2 ;
+  ma::Quaternion result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  argp2 = (ma::Quaternion *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null ma::Quaternion", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  arg3 = (float)jarg3; 
+  result = ((ma::Quaternion const *)arg1)->Nlerp(arg2,arg3);
   jresult = new ma::Quaternion((const ma::Quaternion &)result); 
   return jresult;
 }
@@ -6666,28 +6830,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Quaternion_IDENTITY_get() {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_w_set(void * jarg1, float jarg2) {
-  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
-  float arg2 ;
-  
-  arg1 = (ma::Quaternion *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->w = arg2;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_w_get(void * jarg1) {
-  float jresult ;
-  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
-  float result;
-  
-  arg1 = (ma::Quaternion *)jarg1; 
-  result = (float) ((arg1)->w);
-  jresult = result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_x_set(void * jarg1, float jarg2) {
   ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
   float arg2 ;
@@ -6749,6 +6891,28 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_z_get(void * jarg1) {
   
   arg1 = (ma::Quaternion *)jarg1; 
   result = (float) ((arg1)->z);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Quaternion_w_set(void * jarg1, float jarg2) {
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  float arg2 ;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  arg2 = (float)jarg2; 
+  if (arg1) (arg1)->w = arg2;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Quaternion_w_get(void * jarg1) {
+  float jresult ;
+  ma::Quaternion *arg1 = (ma::Quaternion *) 0 ;
+  float result;
+  
+  arg1 = (ma::Quaternion *)jarg1; 
+  result = (float) ((arg1)->w);
   jresult = result; 
   return jresult;
 }
@@ -7872,6 +8036,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Vector3_midPoint(void * jarg1, void * jarg2
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_Vector3_Lerp(void * jarg1, void * jarg2, float jarg3) {
+  void * jresult ;
+  ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
+  ma::Vector3 *arg2 = 0 ;
+  float arg3 ;
+  ma::Vector3 result;
+  
+  arg1 = (ma::Vector3 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Vector3 const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (float)jarg3; 
+  result = ((ma::Vector3 const *)arg1)->Lerp((ma::Vector3 const &)*arg2,arg3);
+  jresult = new ma::Vector3((const ma::Vector3 &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_makeFloor(void * jarg1, void * jarg2) {
   ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
   ma::Vector3 *arg2 = 0 ;
@@ -8723,6 +8907,32 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TransformFromMatrix(void * jarg1, void * jarg
   arg1 = (ma::Transform *)jarg1; 
   arg2 = (ma::Matrix4 *)jarg2; 
   ma::TransformFromMatrix(arg1,(ma::Matrix4 const *)arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TransformMad(void * jarg1, void * jarg2, float jarg3, void * jarg4) {
+  ma::Transform *arg1 = 0 ;
+  ma::Transform *arg2 = 0 ;
+  float arg3 ;
+  ma::Transform *arg4 = 0 ;
+  
+  arg1 = (ma::Transform *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Transform & type is null", 0);
+    return ;
+  } 
+  arg2 = (ma::Transform *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Transform const & type is null", 0);
+    return ;
+  } 
+  arg3 = (float)jarg3; 
+  arg4 = (ma::Transform *)jarg4;
+  if (!arg4) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Transform const & type is null", 0);
+    return ;
+  } 
+  ma::TransformMad(*arg1,(ma::Transform const &)*arg2,arg3,(ma::Transform const &)*arg4);
 }
 
 
@@ -9678,24 +9888,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Time_GetFrameCount(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_g_pTimer_set(void * jarg1) {
-  ma::Time *arg1 = (ma::Time *) 0 ;
-  
-  arg1 = (ma::Time *)jarg1; 
-  ma::g_pTimer = arg1;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_g_pTimer_get() {
-  void * jresult ;
-  ma::Time *result = 0 ;
-  
-  result = (ma::Time *)ma::g_pTimer;
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_GetTimer() {
   void * jresult ;
   ma::Time *result = 0 ;
@@ -9768,16 +9960,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_OnRemoveFromSceneNode(void * jarg1,
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Component_SetSceneNode(void * jarg1, void * jarg2) {
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;
-  
-  arg1 = (ma::Component *)jarg1; 
-  arg2 = (ma::SceneNode *)jarg2; 
-  (arg1)->SetSceneNode(arg2);
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
   void * jresult ;
   ma::Component *arg1 = (ma::Component *) 0 ;
@@ -9847,16 +10029,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Update(void * jarg1) {
   
   arg1 = (ma::SceneNode *)jarg1; 
   (arg1)->Update();
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_SetName(void * jarg1, char * jarg2) {
-  ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  char *arg2 = (char *) 0 ;
-  
-  arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (char *)jarg2; 
-  (arg1)->SetName((char const *)arg2);
 }
 
 
@@ -10440,23 +10612,37 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetScene(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Improt(void * jarg1, void * jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_Improt(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  TiXmlElement *arg2 = (TiXmlElement *) 0 ;
+  rapidxml::xml_node< > *arg2 = (rapidxml::xml_node< > *) 0 ;
+  bool result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (TiXmlElement *)jarg2; 
-  (arg1)->Improt(arg2);
+  arg2 = (rapidxml::xml_node< > *)jarg2; 
+  result = (bool)(arg1)->Improt(arg2);
+  jresult = result; 
+  return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_SceneNode_Export(void * jarg1, void * jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_Export(void * jarg1, void * jarg2, void * jarg3) {
+  unsigned int jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
-  TiXmlElement *arg2 = (TiXmlElement *) 0 ;
+  rapidxml::xml_node< > *arg2 = (rapidxml::xml_node< > *) 0 ;
+  rapidxml::xml_document< > *arg3 = 0 ;
+  bool result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  arg2 = (TiXmlElement *)jarg2; 
-  (arg1)->Export(arg2);
+  arg2 = (rapidxml::xml_node< > *)jarg2; 
+  arg3 = (rapidxml::xml_document< > *)jarg3;
+  if (!arg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "rapidxml::xml_document< > & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->Export(arg2,*arg3);
+  jresult = result; 
+  return jresult;
 }
 
 

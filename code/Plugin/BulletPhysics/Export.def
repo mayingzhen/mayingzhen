@@ -13,3 +13,4 @@ EXPORTS
 ?Start@PhysicsSystem@ma@@QAEXXZ
 ?BeginUpdate@PhysicsSystem@ma@@QAEXXZ
 ?EndUpdate@PhysicsSystem@ma@@QAEXXZ
+?DebugRender@PhysicsSystem@ma@@QAEXXZ

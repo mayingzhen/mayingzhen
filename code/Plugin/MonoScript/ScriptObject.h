@@ -15,12 +15,8 @@ namespace ma
 		~ScriptObject();
 
 		DECL_OBJECT(ScriptObject)
-
-		//void					Start();
-
-		//void					Stop();
-
-		//void					Update();
+		
+		virtual	void			Update();
 
 		virtual	const char*		GetName();
 

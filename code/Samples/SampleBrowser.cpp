@@ -62,7 +62,7 @@ namespace ma
 	void SampleBrowser::ModuleInit(RenderDeviceType eType)
 	{
 		AnimationModuleInit();
-		//BtPhysicsModuleInit();
+		BtPhysicsModuleInit();
 
 #if PLATFORM_WIN == 1
 		if (eType == RenderDevice_D3D9)
@@ -74,7 +74,7 @@ namespace ma
 			GLESRenderModuleInit();
 		}
 
-		//MonoScriptModuleInit();
+		MonoScriptModuleInit();
 		FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
@@ -84,11 +84,11 @@ namespace ma
 	void SampleBrowser::ModuleShutdown()
 	{
 		AnimationModuleShutdown();
-		//BtPhysicsModuleShutdown();
+		BtPhysicsModuleShutdown();
 
 #if PLATFORM_WIN == 1
 		FBXImporterModuleShutdown();
-		//MonoScriptModuleShutdown();
+		MonoScriptModuleShutdown();
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
 		{
@@ -132,7 +132,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("FbxImport");
+		RunSample("CSharpScript");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -200,18 +200,19 @@ namespace ma
 		InitResourcePath();
 		
 		Game::Init();
+		
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->Init();
 
-		//GetPhysicsSystem()->Init();
 #if PLATFORM_WIN == 1
-		//GetScriptSystem()->Init();
+		if (GetScriptSystem())
+			GetScriptSystem()->Init();
 #endif
 
 		//GetInput()->AddKeyListener(this);
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
-
-
 
 		m_pCameraControl = new CameraController( pScene->GetCamera() );
 	
@@ -258,37 +259,6 @@ namespace ma
 		m_pCurSample = pSameple;
 	}
 
-// 	void SampleBrowser::LoadUI()
-// 	{
-// 		int nWndWidth,nWndHeigh;
-// 		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-// 
-// 		Theme* theme =  Theme::create("ui/default.theme");
-// 		Theme::Style* formStyle = theme->getStyle("basicContainer");
-// 		Theme::Style* buttonStyle = theme->getStyle("buttonStyle");
-// 		Theme::Style* titleStyle = theme->getStyle("title");	
-// 
-// 		UISystem* pUISystem = (UISystem*)GetUISystem();
-// 
-// 		m_pSampleSelectForm = pUISystem->Create("sampleSelect", formStyle, Layout::LAYOUT_VERTICAL);
-// 		m_pSampleSelectForm->setSize(200.0f,(float)nWndHeigh);
-// 		m_pSampleSelectForm->setScroll(Container::SCROLL_VERTICAL);
-// 		m_pSampleSelectForm->setConsumeInputEvents(true);
-// 
-// 		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
-// 		for (; it != m_arrSamples.end(); ++it)
-// 		{
-// 			const char* pSamepeName = it->first.c_str();
-// 			Button* sampleButton = Button::create(pSamepeName, buttonStyle);
-// 			sampleButton->setText(pSamepeName);
-// 			sampleButton->setAutoWidth(true);
-// 			sampleButton->setHeight(60);      
-// 			sampleButton->setConsumeInputEvents(false);   
-// 			sampleButton->addListener(this, Control::Listener::CLICK);
-// 			m_pSampleSelectForm->addControl(sampleButton);
-// 		}
-// 
-// 	}
 
 	void SampleBrowser::Update()
 	{
@@ -377,8 +347,8 @@ namespace ma
 
 	void SampleBrowser::OnPosRender(Scene* pScene)
 	{
-// 		if (GetPhysicsSystem())
-// 			GetPhysicsSystem()->DebugRender();
+		if (GetPhysicsSystem())
+			GetPhysicsSystem()->DebugRender();
 // 
 // 		if (m_pCurSample)
 // 			m_pCurSample->Render();
