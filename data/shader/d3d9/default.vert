@@ -26,7 +26,7 @@ struct VS_IN
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
    
-   float3 a_normal	 : NORMAL;
+   float4 a_normal	 : NORMAL;
  
 #ifdef DIFFUSE   
    float2 a_texCoord0 : TEXCOORD0;
@@ -71,6 +71,10 @@ struct VS_OUT
 
 };
 
+float3 EXPAND(float3 a)
+{
+	return a*2-1;
+}
 
 VS_OUT main(VS_IN In)
 {
@@ -80,7 +84,7 @@ VS_OUT main(VS_IN In)
 	float3 iNormal = In.a_normal; 
 
 #ifdef SKIN
-	SkinPosNormal(In.a_position,In.a_normal,In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
+	SkinPosNormal(In.a_position,EXPAND(In.a_normal.xyz),In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
 #endif
    
    Out.WorldPos.xyz = mul(float4(iPos,1.0),g_matWorld).xyz;

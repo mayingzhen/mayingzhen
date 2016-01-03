@@ -73,7 +73,6 @@ vec4 AddDecal(vec4 oProjPos, vec4 vOrigClr)
 // ---------------------------------------------------------------------
 // Terrain
 // ---------------------------------------------------------------------
-uniform sampler2D g_tTerrainColorMap;
 uniform sampler2D g_tTerrainLightMap;
 uniform sampler2D g_tTerrainBlendingMap;
 uniform vec2 g_terrainStartpoint;
@@ -83,18 +82,6 @@ vec2 CalcTerrainUV(vec2 vWorldPos)
     return (vWorldPos - g_terrainStartpoint)/g_terrainSize;
 }
 
-vec3 AddTerrainColorMap(vec2 terrainUV)
-{
-#if USING_TERRAIN_COLORMAP == 1
-    vec4 terrainColor = texture2D(g_tTerrainColorMap, terrainUV);
-    return terrainColor.rgb*(terrainColor.a*3.0);
-#elif USING_TERRAIN_COLORMAP == 2
-    vec4 terrainBlendingMap = texture2D(g_tTerrainBlendingMap, terrainUV);
-    return terrainBlendingMap.g*terrainBlendingMap.b*3.0;
-#else
-    return vec3(1.0,1.0,1.0);
-#endif
-}
 
 float AddTerrainLightMap(vec2 terrainUV)
 {
