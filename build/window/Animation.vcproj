@@ -231,6 +231,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Plugin\Animation\AnimDataManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\AnimDataManager.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Plugin\Animation\BoneMap.h"
 				>
 			</File>

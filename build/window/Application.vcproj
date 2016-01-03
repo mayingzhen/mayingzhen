@@ -235,6 +235,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Application\Input\Input.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Application\Input\Input.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Application\Input\Keyboard.h"
 				>
 			</File>
