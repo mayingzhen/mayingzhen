@@ -50,19 +50,11 @@ namespace ma
 		}
 	}
 
-	void AnimLayerNode::SetSkeletion(Skeleton* pSkeletion)
+	bool AnimLayerNode::Instantiate(Skeleton* pSkeletion)
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
-			m_arrAnimNode[i]->SetSkeletion(pSkeletion);
-		}
-	}
-
-	bool AnimLayerNode::Instantiate()
-	{
-		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
-		{
-			m_arrAnimNode[i]->Instantiate();
+			m_arrAnimNode[i]->Instantiate(pSkeletion);
 		}
 
 		return true;
@@ -78,15 +70,6 @@ namespace ma
 
 		return true;
 	}
-
-// 	void AnimLayerNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		SerializeArrObj<AnimTreeNode>(sl,m_arrAnimNode,"arrAnimNode");
-// 
-// 		sl.EndSection();
-// 	}
 
 	RefPtr<AnimLayerNode> CreateLayerNode()
 	{

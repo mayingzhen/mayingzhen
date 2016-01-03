@@ -29,5 +29,4 @@ EXPORTS
 ?SetSkeletonPath@AnimationComponent@ma@@QAEXPBD@Z
 ?CreateAnimation@ma@@YA?AV?$RefPtr@VAnimation@ma@@@1@XZ
 ?CreateSkeleton@ma@@YA?AV?$RefPtr@VSkeleton@ma@@@1@PBD@Z
-?CreateAnimation@ma@@YA?AV?$RefPtr@VAnimation@ma@@@1@PBD@Z
 ?SaveToFile@Skeleton@ma@@UAE_NPBD@Z

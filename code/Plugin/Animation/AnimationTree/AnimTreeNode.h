@@ -32,9 +32,7 @@ namespace ma
 
 		virtual	void		SetFrame(float fFrame) = 0;
 
-		virtual void		SetSkeletion(Skeleton* pSkeletion) = 0;
-
-		virtual bool		Instantiate() = 0;
+		virtual bool		Instantiate(Skeleton* pSkeleton) = 0;
 
 		virtual bool		IsReady() = 0;
 

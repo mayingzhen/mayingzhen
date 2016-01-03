@@ -132,7 +132,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("Terrain");
+		RunSample("FbxImport");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -297,7 +297,7 @@ namespace ma
 		Game::Update();
 
 		if (m_pCameraControl)
-			m_pCameraControl->Process(GetTimer()->GetFrameDeltaTime());
+			m_pCameraControl->UpdateInput();
 
 		if (m_bPause && !m_bStepOneFrame)
 		{

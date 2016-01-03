@@ -82,6 +82,43 @@ namespace ma
 		return true;
 	}
 
+	bool Animation::ConverteAnimDataLocalToParentSpace(const Skeleton* pSkeleton)
+	{
+		if (pSkeleton == NULL)
+			return false;
+
+		const SkeletonPose* pRefPose = pSkeleton->GetResPose();
+		if (pRefPose == NULL)
+			return false;
+
+		for (UINT i = 0; i < pSkeleton->GetBoneNumer(); ++i)
+		{	
+			const Transform& tsfBonePS = pRefPose->GetTransformPS(i);
+			
+			Vector3Track& scaleTrack = m_arrScaleTrack[i];
+			QuaternionTrack& rotTrack = m_arrRotTrack[i];
+			Vector3Track& posTrack = m_arrPosTrack[i];
+
+			UINT nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
+			nFrameNumber = Math::Max(nFrameNumber,posTrack.m_arrFrame.back());
+			nFrameNumber = nFrameNumber + 1;
+
+			for (UINT nFrameCnt = 0; nFrameCnt < nFrameNumber; ++ nFrameCnt)
+			{
+				Transform tsfAnimPS;
+				Transform tsfAnimLS;
+				tsfAnimLS.m_vPos =  posTrack.m_arrValue[nFrameCnt];
+				tsfAnimLS.m_qRot = rotTrack.m_arrValue[nFrameCnt];
+				tsfAnimLS.m_vScale = scaleTrack.m_arrValue[nFrameCnt];
+				TransformMul(&tsfAnimPS,&tsfBonePS,&tsfAnimLS);
+				rotTrack.m_arrValue[nFrameCnt] = tsfAnimPS.m_qRot;
+				posTrack.m_arrValue[nFrameCnt] = tsfAnimPS.m_vPos;	
+			}
+		}
+
+		return true;
+	}
+
 }
 
 

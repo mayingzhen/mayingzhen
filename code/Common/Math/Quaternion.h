@@ -52,9 +52,15 @@ namespace ma {
     class Quaternion
     {
     public:
-        inline Quaternion (
-            float fW = 1.0,
-            float fX = 0.0, float fY = 0.0, float fZ = 0.0)
+		inline Quaternion()
+		{
+			w = 0;
+			x = 0;
+			y = 0;
+			z = 0;
+		}
+
+        inline Quaternion(float fW,float fX, float fY, float fZ)
 		{
 			w = fW;
 			x = fX;
@@ -81,6 +87,10 @@ namespace ma {
         {
             this->FromAxes(akAxis);
         }
+		inline Quaternion(float x, float y, float z)
+		{
+			FromEulerAngles(x, y, z);
+		}
 		/// Construct a quaternion from 4 manual w/x/y/z values
 		inline Quaternion(float* valptr)
 		{
@@ -134,6 +144,8 @@ namespace ma {
             ToAngleAxis ( rAngle, rkAxis );
             dAngle = rAngle;
         }
+		void FromEulerAngles(float x, float y, float z);
+
         void FromAxes (const Vector3* akAxis);
         void FromAxes (const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
         void ToAxes (Vector3* akAxis) const;

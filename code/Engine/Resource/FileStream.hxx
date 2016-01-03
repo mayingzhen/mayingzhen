@@ -225,8 +225,16 @@ namespace ma
 
 	RefPtr<FileStream> CreateFileStream(const char* pszFile)
 	{
-		std::fstream out(pszFile, ios::out|ios::binary);
-		FileStream* pFileStream = new FileStream(&out);
+		string strFullName = GetArchiveMananger()->GetSaveDir();
+		strFullName += pszFile;
+		strFullName = StringUtil::standardiseDir(strFullName);
+
+		std::fstream* pfstream = new std::fstream(strFullName.c_str(), ios::out|ios::binary);
+		ASSERT(!pfstream->fail());
+		if (pfstream == NULL)
+			return NULL;
+
+		FileStream* pFileStream = new FileStream(pfstream);
 		return pFileStream;
 	}
 

@@ -10,6 +10,7 @@
 #include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
 #include "Animation/AnimationSystem.hxx"
+#include "Animation/AnimDataManager.hxx"
 
 // AnimationTree
 #include "Animation/AnimationTree/AnimTreeNode.hxx"
@@ -33,7 +34,7 @@ void AnimationModuleInit()
 	SetAnimationSystem(pAniSystem);
 
 	g_pSkeletonManager = new ResourceSystem<Skeleton>();
-	g_pAnimationManager = new ResourceSystem<Animation>();
+	g_pAnimDataManager = new AnimDataManager();
 
 	AnimationComponent::RegisterAttribute();
 	AnimTreeNode::RegisterAttribute();
@@ -43,7 +44,7 @@ void AnimationModuleInit()
 void AnimationModuleShutdown()
 {
 	SAFE_DELETE(g_pSkeletonManager);
-	SAFE_DELETE(g_pAnimationManager);
+	SAFE_DELETE(g_pAnimDataManager);
 
 	AnimationSystem* pAniSystem = GetAnimationSystem();	
 	SAFE_DELETE(pAniSystem);

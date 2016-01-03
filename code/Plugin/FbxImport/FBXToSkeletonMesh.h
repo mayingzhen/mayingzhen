@@ -20,11 +20,9 @@ namespace ma
 	
 	void SkinDataCovert(UINT& skinBoneID,UINT& skinBoneWeight,const std::vector<UINT>& arrBone,const std::vector<float>& arrWeight);
 	
-	template<class VertexType,class IndexType>
 	void GetSkinMeshData(FbxMesh* pMesh,MeshData* pMeshData,const Skeleton& skeData,ImportParm* pImportParm);
 	
-	template<class VertexType>
-	void GetSkinData(FbxMesh* pMesh,int nTriangleIndex, VertexType vertex[3],std::vector<pointSkin>& arrPointSkin, ImportParm* pImportParm);
+	void GetSkinData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],std::vector<pointSkin>& arrPointSkin, ImportParm* pImportParm);
 }
 
 #endif

@@ -47,7 +47,9 @@ namespace ma
 
 		SceneNode*				GetRootNode() const {return m_pRootNode.get();}
 
-		SceneNode*				CreateNode(const char* pPath);
+		SceneNode*				CreateSceneNode();
+
+		SceneNode*				CreateSceneNode(const char* pPath);
 
 		void					SetCamera(Camera* pCamera) {m_pCamera = pCamera;}
 		Camera*					GetCamera() const {return m_pCamera.get();}

@@ -2,6 +2,8 @@
 
 #include "Application/Module.h"
 
+#include "Application/Input/Input.hxx"
+
 #include "Application/Game.hxx"
 #include "Application/Platform.hxx"
 

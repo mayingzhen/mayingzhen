@@ -75,7 +75,7 @@ namespace ma
 		
 		if (1)
 		{
-			SceneNode* pChargigi = m_pScene->CreateNode("gigi/gigi/gigi.xml");
+			SceneNode* pChargigi = m_pScene->CreateSceneNode("gigi/gigi/gigi.xml");
 			
 			pChargigi->Right(-50.0f);
 
@@ -85,7 +85,7 @@ namespace ma
 
 		if (0)
 		{
-			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician/magician.xml");
+			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 
 			pCharMagic->Right(50.0f);
 

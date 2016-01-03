@@ -112,13 +112,13 @@ namespace ma
 	bool Skeleton::InitRes()
 	{
 		UINT nIden = m_pDataStream->ReadUInt();
-		if (1/*nIden == 'S3MD'*/)
+		if (nIden == 'SKLT')
 		{
-			ReadS3Data();
+			ReadDataV0();
 		}
-		else
+		else if (nIden == 'MSKE')
 		{
-			ReadData();
+			ReadDataV1();
 		}
 
 		InitResPose();
@@ -126,7 +126,7 @@ namespace ma
 		return true;
 	}
 
-	void Skeleton::ReadS3Data()
+	void Skeleton::ReadDataV0()
 	{	
 		//uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
@@ -189,9 +189,9 @@ namespace ma
 
 	}
 
-	void Skeleton::ReadData()
+	void Skeleton::ReadDataV1()
 	{	
-		uint32 nIden = m_pDataStream->ReadUInt();
+		//uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
 
 		uint32 nBoneNum = m_pDataStream->ReadUInt();
@@ -211,8 +211,25 @@ namespace ma
 
 	bool Skeleton::SaveToFile(const char* pszFile)
 	{
-		RefPtr<FileStream> pFileStream = CreateFileStream(pszFile);
+		RefPtr<FileStream> pSaveStream = CreateFileStream(pszFile);
+		
+		uint32 nIden = 'MSKE';
+		uint32 nVersion = 0;
 
+		pSaveStream->WriteUInt(nIden);
+		pSaveStream->WriteUInt(nVersion);
+
+		uint32 nBoneNum = m_arrBoneName.size();
+
+		pSaveStream->WriteUInt(nBoneNum);
+		
+		for (UINT32 i = 0; i < m_arrBoneName.size(); ++i)
+		{
+			pSaveStream->WriteString(m_arrBoneName[i]);
+		}
+
+		pSaveStream->Write(&m_arrParentIndice[0],sizeof(uint32) * nBoneNum);
+		pSaveStream->Write(&m_arrTsfOS[0],sizeof(Transform) * nBoneNum);
 
 		return true;
 	}

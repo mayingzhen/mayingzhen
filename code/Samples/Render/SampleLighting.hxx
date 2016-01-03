@@ -25,7 +25,7 @@ namespace ma
 // 
 // 			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
 
-			SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
+			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician.xml");
 			
 			//pCharMagic->Right(100);
 

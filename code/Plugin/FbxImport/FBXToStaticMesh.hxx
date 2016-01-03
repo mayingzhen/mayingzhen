@@ -5,8 +5,6 @@
 
 namespace ma
 {
-
-	template<class VertexType,class IndexType>
 	void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,ImportParm* pImportParm)
 	{
 		if (pMesh == NULL)
@@ -39,8 +37,8 @@ namespace ma
 		std::map< int,std::vector<int> > matIndexToTriangleIndex;
 		ConnectMaterialToMesh(pMesh,matIndexToTriangleIndex);
 
-		std::vector<VertexType> arrVertex;
-		std::vector<IndexType> arrIndex;
+		std::vector<SkinVertexV0> arrVertex;
+		std::vector<UINT16> arrIndex;
 
 		std::map< int,std::vector<int> >::iterator it = matIndexToTriangleIndex.begin();
 		for (; it != matIndexToTriangleIndex.end(); ++it) 
@@ -65,7 +63,7 @@ namespace ma
 
 				assert(pMesh->GetPolygonSize(nTriangleIndex) == 3); 
 
-				VertexType vertex[3];
+				SkinVertexV0 vertex[3];
 
 				GetTriangleData(pMesh,nTriangleIndex,vertex,pImportParm);
 
@@ -83,7 +81,12 @@ namespace ma
 			pSubmesh->m_nIndexCount = arrIndex.size() - nIndexSize;
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
+		vector<StaticVertexV1> pVertexV1;
+		pVertexV1.resize(arrVertex.size());
+		pMeshData->UpdateMeshData(&pVertexV1[0],&arrVertex[0],arrVertex.size(),&arrIndex[0]);
+
+		pMeshData->GetVertexBuffer()->SetData((uint8*)&pVertexV1[0], sizeof(StaticVertexV1)* pVertexV1.size(), sizeof(StaticVertexV1));
+		pMeshData->GetIndexBuffer()->SetData((uint8*)&arrIndex[0], sizeof(UINT16) * arrIndex.size(), sizeof(UINT16));
 
 		pMesh->ComputeBBox();
 		AABB aabb;
@@ -102,8 +105,8 @@ namespace ma
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
 	
 		MeshData meshData;
-		meshData.SetVertexType(DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL);
-		meshData.SetIndexType(INDEX_TYPE_U16);
+		meshData.SetVertexType(STATIC_VERTEX_1);
+		meshData.SetIndexType(INDEX_16);
 
 		FbxScene* pFbxScene = GetFbxScene( strMeshFile.c_str() );
 		ASSERT(pFbxScene);
@@ -112,7 +115,7 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetMeshData<SkinVertexV0,uint16>(pFbxMesh,&meshData,pImportParm);
+		GetMeshData(pFbxMesh,&meshData,pImportParm);
 
 		//MaterialData* pMaterialData = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
@@ -122,12 +125,11 @@ namespace ma
 		return true;
 	}
 
-	template<class VertexType,class IndexType>
-	void UpdateVertexArray(std::vector<VertexType>& arrVertex,std::vector<IndexType>& arrIndex,VertexType vertex)
+	void UpdateVertexArray(std::vector<SkinVertexV0>& arrVertex,std::vector<UINT16>& arrIndex,SkinVertexV0 vertex)
 	{
 		UINT index = 0;
 
-		std::vector<VertexType>::iterator it = std::find(arrVertex.begin(),arrVertex.end(),vertex);
+		std::vector<SkinVertexV0>::iterator it = std::find(arrVertex.begin(),arrVertex.end(),vertex);
 		if (it != arrVertex.end())
 		{
 			index = it - arrVertex.begin();
@@ -173,8 +175,7 @@ namespace ma
 		return NULL;
 	}
  
-	template<class VertexType>
-	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, VertexType vertex[3],ImportParm* pImportParm)
+	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],ImportParm* pImportParm)
 	{
 		for(int j = 0; j < 3 ; ++j)
 		{
@@ -205,26 +206,25 @@ namespace ma
 		}
 	}
 
-	template<class VertexType,class IndexType>
-	void UpdateHardwareBuffer(std::vector<VertexType>& arrVertex,std::vector<IndexType>& arrIndex,
-		VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
-	{
-		int nVertexStride = sizeof(VertexType);
-		int nVertexCount = arrVertex.size();
-		{
-			uint8* pSrcData = new uint8[nVertexStride * nVertexCount];
-			memcpy(pSrcData, &arrVertex[0], nVertexStride * nVertexCount);
-			vertexBuffer->SetData(pSrcData,nVertexStride * nVertexCount,nVertexStride);
-		}
-
-		int nIndexStride = sizeof(IndexType);
-		int nIndexCount = arrIndex.size();
-		{
-			uint8* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
-			memcpy(pIndexSrcData, &arrIndex[0], nIndexStride * nIndexCount);
-			indexBuffer->SetData(pIndexSrcData,nIndexStride * nIndexCount,nIndexStride);
-		}
-	}
+// 	void UpdateHardwareBuffer(std::vector<StaticVertexV1>& arrVertex,std::vector<UINT16>& arrIndex,
+// 		VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
+// 	{
+// 		int nVertexStride = sizeof(StaticVertexV1);
+// 		int nVertexCount = arrVertex.size();
+// 		{
+// 			uint8* pSrcData = new uint8[nVertexStride * nVertexCount];
+// 			memcpy(pSrcData, &arrVertex[0], nVertexStride * nVertexCount);
+// 			vertexBuffer->SetData(pSrcData,nVertexStride * nVertexCount,nVertexStride);
+// 		}
+// 
+// 		int nIndexStride = sizeof(UINT16);
+// 		int nIndexCount = arrIndex.size();
+// 		{
+// 			uint8* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
+// 			memcpy(pIndexSrcData, &arrIndex[0], nIndexStride * nIndexCount);
+// 			indexBuffer->SetData(pIndexSrcData,nIndexStride * nIndexCount,nIndexStride);
+// 		}
+// 	}
 
 	void GetTextureNames( FbxProperty &pProperty, std::string& pConnectionString )
 	{

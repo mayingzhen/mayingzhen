@@ -93,16 +93,6 @@ namespace ma
 		return true;
 	}
 
-	void AnimationSet::SetSkeleton(Skeleton* pSkeleton)
-	{
-		m_pSkeleton = pSkeleton;
-
-		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
-		{
-			m_arrSkelAnim[i]->SetSkeletion(pSkeleton);
-		}
-	}
-
 	RefPtr<AnimationSet> CreateAnimationSet()
 	{
 		return new AnimationSet();

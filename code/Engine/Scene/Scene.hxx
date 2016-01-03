@@ -53,9 +53,17 @@ namespace ma
 		m_pRenderScheme = CreateRenderScheme(eType,this);
 	}
 
-	SceneNode* Scene::CreateNode(const char* pPath)
+	SceneNode* Scene::CreateSceneNode()
 	{
-		RefPtr<SceneNode> pSceneNode = CreateSceneNode(pPath);
+		RefPtr<SceneNode> pSceneNode = new SceneNode(NULL,NULL);
+		m_pRootNode->AddChild( pSceneNode.get() );
+		return pSceneNode.get();
+	}
+
+	SceneNode* Scene::CreateSceneNode(const char* pPath)
+	{
+		RefPtr<SceneNode> pSceneNode = new SceneNode(NULL,NULL);
+		pSceneNode->LoadFromXML(pPath);
 		m_pRootNode->AddChild( pSceneNode.get() );
 		return pSceneNode.get();
 	}

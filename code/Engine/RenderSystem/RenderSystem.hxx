@@ -205,7 +205,7 @@ namespace ma
 	
 		GetLineRender()->Init();
 		ScreenQuad::Init();
-		//UnitSphere::Init();
+		UnitSphere::Init();
 
 		Scene* pScene = new Scene("defaultScene");
 		pScene->SetViewport(m_viewport);

@@ -27,14 +27,10 @@ namespace ma
 
 		void				RemoveSkelAnim(AnimTreeNode* pAction);
 
-		void				SetSkeleton(Skeleton* pSkeleton);
-
 		virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 	private:
-		RefPtr<Skeleton>			m_pSkeleton;
-
 		typedef std::vector< RefPtr<AnimTreeNode> >	 VEC_SkELANIM;
 		VEC_SkELANIM				m_arrSkelAnim;
 	};

@@ -46,8 +46,8 @@ namespace ma
 	
 		virtual bool    InitRes();
 
-		void			ReadData();
-		void			ReadS3Data();
+		void			ReadDataV1();
+		void			ReadDataV0();
 
 	private:
 		std::vector<std::string>	m_arrBoneName;

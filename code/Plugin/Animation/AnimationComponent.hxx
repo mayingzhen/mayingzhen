@@ -91,8 +91,6 @@ namespace ma
 	
 		if (m_pAnimSet)
 		{
-			m_pAnimSet->SetSkeleton(m_pSkeleton.get());
-
 			AnimTreeNode* pAnimation = NULL;
 			if ( !m_strCurAction.empty() )
 			{
@@ -107,8 +105,7 @@ namespace ma
 
 		if (m_pCurAction)
 		{
-			m_pCurAction->SetSkeletion(m_pSkeleton.get());
-			m_pCurAction->Instantiate();
+			m_pCurAction->Instantiate(m_pSkeleton.get());
 		}
 
 		if (m_pCurAction && !m_pCurAction->IsReady())

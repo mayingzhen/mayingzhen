@@ -47,16 +47,13 @@ namespace ma
 		void			SetTotalFrame(uint32 nTotalFram) {m_nTotalFrame = nTotalFram;}
 		uint32			GetTotalFrame() const {return m_nTotalFrame;}
 
-		virtual bool	Instantiate();
+		virtual bool	Instantiate(Skeleton* pSkeleton);
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
 		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode);
 
 		virtual	void	SetFrame(float fFrame);
-
-		virtual void	SetSkeletion(Skeleton* pSkeletion);
-		Skeleton*		GetSkeleton() const {return m_pSkeleton.get();}
 
 		virtual bool	IsReady();
 

@@ -28,6 +28,9 @@ namespace ma
 
 		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
+		bool							ConverteAnimDataLocalToParentSpace(const Skeleton* pSkeleton);
+
+		bool							Load(const char* pszFile, const char* pszSkeleton);
 		
 		bool							SaveToFile(const char* pszFile);
 
@@ -35,8 +38,8 @@ namespace ma
 
 		virtual bool					InitRes();
 
-		void							ReadData();
-		void							ReadS3Data();
+		void							ReadDataV1();
+		void							ReadDataV0();
 
 	private:
 		std::vector<std::string>		m_arrTrackName;
@@ -44,12 +47,11 @@ namespace ma
 		std::vector<Vector3Track>		m_arrScaleTrack;
 		std::vector<QuaternionTrack>	m_arrRotTrack;
 		std::vector<Vector3Track>		m_arrPosTrack;
+		RefPtr<Skeleton>				m_pSkeleton;
 	};
 
 	RefPtr<Animation> CreateAnimation();
-	RefPtr<Animation> CreateAnimation(const char* pszFile);
-
-	extern ResourceSystem<Animation>* g_pAnimationManager;
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile);
 }
 
 #endif

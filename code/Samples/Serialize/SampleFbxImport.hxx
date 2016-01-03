@@ -12,7 +12,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (1)
+		if (0)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");
@@ -27,7 +27,7 @@ namespace ma
 		RefPtr<SceneNode> pTestBull = CreateSceneNode();
 
 		RefPtr<SkinMeshComponent>  pMeshComp = pTestBull->CreateComponent<SkinMeshComponent>();
-		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mat");
+		pMeshComp->Load("FBX/TestBull.skn","FBX/TestBull.mtl");
 			
 		RefPtr<AnimationComponent> pAnimationObject = pTestBull->CreateComponent<AnimationComponent>();
 		pAnimationObject->SetSkeletonPath("FBX/TestBull.ske");
@@ -43,34 +43,27 @@ namespace ma
 
 	void SampleFbxImport::LoadSaticMesh()
 	{
-		if (1)
-		{
-			LoadStaticMeshData("FBX/shpere.FBX");
+		LoadStaticMeshData("FBX/shpere.FBX");
 				
-			LoadStaticMeshData("FBX/Box.FBX");
+ 		LoadStaticMeshData("FBX/Box.FBX");
 
-			LoadStaticMeshData("FBX/MovingPlatform.fbx");
+		LoadStaticMeshData("FBX/MovingPlatform.fbx");
 
-			CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mtl");
+		CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mtl");
 			
-			CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
-		}
+		CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
 
-		
-		RefPtr<SceneNode> pPlatform = CreateSceneNode();
+		RefPtr<SceneNode> pPlatform = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
-		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
-		//m_pScene->GetRootNode()->AddChild(pPlatform.get());
+		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
 
-		RefPtr<SceneNode> pBox = CreateSceneNode();
+		RefPtr<SceneNode> pBox = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
-		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mat");
-		//m_pScene->GetRootNode()->AddChild(pBox.get());	
+		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 
-		RefPtr<SceneNode> pShpere = CreateSceneNode();
+		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
-		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mat");
-		m_pScene->GetRootNode()->AddChild(pShpere.get());
+		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
 			
 	}
 
@@ -86,7 +79,7 @@ namespace ma
 	void SampleFbxImport::Load()
 	{
 		//Vector3 vEyePos = Vector3(0, 600, 800);
-		Vector3 vEyePos = Vector3(10, 10, -10);
+		Vector3 vEyePos = Vector3(10, -10, 10);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 

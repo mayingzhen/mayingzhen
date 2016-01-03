@@ -56,6 +56,9 @@ namespace ma
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		gpScrenQuad->m_pIndexBuffer = pIndexs;
 		gpScrenQuad->m_pVertexBuffers = pVertexs;
+
+		SAFE_DELETE_ARRAY(quadVerts);
+		SAFE_DELETE_ARRAY(indices);
 	}
 
 	void ScreenQuad::ShoutDown()

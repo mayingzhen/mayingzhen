@@ -49,29 +49,16 @@ namespace ma
 		}
 	}
 
-	void AnimBlendNode::SetSkeletion(Skeleton* pSkeletion)
+	bool AnimBlendNode::Instantiate(Skeleton* pSkeletion)
 	{
 		if (m_pSrcAnimNode)
 		{
-			m_pSrcAnimNode->SetSkeletion(pSkeletion);
+			m_pSrcAnimNode->Instantiate(pSkeletion);
 		}
 
 		if (m_pDestAnimNode)
 		{
-			m_pDestAnimNode->SetSkeletion(pSkeletion);
-		}
-	}
-
-	bool AnimBlendNode::Instantiate()
-	{
-		if (m_pSrcAnimNode)
-		{
-			m_pSrcAnimNode->Instantiate();
-		}
-
-		if (m_pDestAnimNode)
-		{
-			m_pDestAnimNode->Instantiate();
+			m_pDestAnimNode->Instantiate(pSkeletion);
 		}
 
 		return true;

@@ -152,6 +152,32 @@ namespace ma {
             rkAxis.z = 0.0;
         }
     }
+
+	static const float M_PI = 3.14159265358979323846264338327950288f;
+	static const float M_DEGTORAD = M_PI / 180.0f;
+	static const float M_DEGTORAD_2 = M_PI / 360.0f;    // M_DEGTORAD / 2.f
+	static const float M_RADTODEG = 1.0f / M_DEGTORAD;
+
+	void Quaternion::FromEulerAngles(float x, float y, float z)
+	{
+		// Order of rotations: Z first, then X, then Y (mimics typical FPS camera with gimbal lock at top/bottom)
+		x *= M_DEGTORAD_2;
+		y *= M_DEGTORAD_2;
+		z *= M_DEGTORAD_2;
+		float sinX = sinf(x);
+		float cosX = cosf(x);
+		float sinY = sinf(y);
+		float cosY = cosf(y);
+		float sinZ = sinf(z);
+		float cosZ = cosf(z);
+
+		w = cosY * cosX * cosZ + sinY * sinX * sinZ;
+		x = cosY * sinX * cosZ + sinY * cosX * sinZ;
+		y = sinY * cosX * cosZ - cosY * sinX * sinZ;
+		z = cosY * cosX * sinZ - sinY * sinX * cosZ;
+	}
+
+
     //-----------------------------------------------------------------------
     void Quaternion::FromAxes (const Vector3* akAxis)
     {

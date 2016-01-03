@@ -8,6 +8,6 @@
 #include "Application/Input/Keyboard.h"
 #include "Application/Input/Mouse.h"
 #include "Application/Input/Gesture.h"
-
+#include "Application/Input/Input.h"
 
 #endif

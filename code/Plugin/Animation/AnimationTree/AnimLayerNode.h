@@ -22,11 +22,7 @@ namespace ma
 
 		virtual void SetFrame(float fFrame);
 
-		virtual void SetSkeletion(Skeleton* pSkeletion);
-
-		virtual bool Instantiate();
-
-		//virtual void Serialize(Serializer& sl, const char* pszLable/* = "AnimLayerNode" */);
+		virtual bool Instantiate(Skeleton* pSkeletion);
 		
 		virtual bool IsReady();
 

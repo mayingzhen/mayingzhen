@@ -2,8 +2,7 @@
 #include "Animation/Track.h"
 #include "Animation/AnimationTracks.h"
 #include "Animation/Skeleton.h"
-
-//#include "AnimationSerializer.hxx"
+#include "AnimDataManager.h"
 
 namespace ma
 {
@@ -63,60 +62,116 @@ namespace ma
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 
+	bool Animation::Load(const char* pszFile, const char* pszSkeleton)
+	{
+		if (strlen(pszSkeleton) > 0)
+			m_pSkeleton = CreateSkeleton(pszSkeleton);
+
+		return Resource::Load(pszFile);
+	}
+
 	bool Animation::SaveToFile(const char* pszFile)
 	{
-		RefPtr<FileStream> pFileStream = CreateFileStream(pszFile);
+		RefPtr<FileStream> pSaveStream = CreateFileStream(pszFile);
+
+		uint32 nIden = 'MANM';
+		uint32 nVersion = 0;
+
+		pSaveStream->WriteUInt(nIden);
+		pSaveStream->WriteUInt(nVersion);
+
+		pSaveStream->WriteUInt(m_arrTrackName.size());
+		for (UINT32 i = 0; i < m_arrTrackName.size(); ++i)
+		{
+			pSaveStream->WriteString(m_arrTrackName[i]);
+		}
+
+		for (UINT32 i = 0; i < m_arrTrackName.size(); ++i)
+		{
+			uint32 nScaleFrame = m_arrScaleTrack[i].m_arrFrame.size();
+			pSaveStream->WriteUInt(nScaleFrame);
+			pSaveStream->Write(&m_arrScaleTrack[i].m_arrFrame[0],sizeof(uint32) * nScaleFrame);
+			pSaveStream->Write(&m_arrScaleTrack[i].m_arrValue[0],sizeof(Vector3) * nScaleFrame);
+
+			uint32 nRotFrame = m_arrRotTrack[i].m_arrFrame.size();
+			pSaveStream->WriteUInt(nRotFrame);
+			pSaveStream->Write(&m_arrRotTrack[i].m_arrFrame[0],sizeof(uint32) * nRotFrame);
+			pSaveStream->Write(&m_arrRotTrack[i].m_arrValue[0],sizeof(Quaternion) * nRotFrame);
+
+			uint32 nPosFrame = m_arrPosTrack[i].m_arrFrame.size();
+			pSaveStream->WriteUInt(nPosFrame);
+			pSaveStream->Write(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
+			pSaveStream->Write(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
+		}
 
 		return true;
 	}
 
 	bool Animation::InitRes()
 	{
-		ReadS3Data();
+		uint32 nIden = m_pDataStream->ReadUInt();
+
+		if (nIden == 'SANM')
+		{
+			ReadDataV0();
+		}
+		else if (nIden == 'MANM')
+		{
+			ReadDataV1();
+		}
 
 		return true;
 	}
 
-	void Animation::ReadData()
+	void Animation::ReadDataV1()
 	{
-		uint32 nIden = m_pDataStream->ReadUInt();
+		//uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
 		
 		uint32 nTrackNameNum = m_pDataStream->ReadUInt();
 		m_arrTrackName.resize(nTrackNameNum);
+		m_arrPosTrack.resize(nTrackNameNum);
+		m_arrRotTrack.resize(nTrackNameNum);
+		m_arrScaleTrack.resize(nTrackNameNum);
+
 		for (uint32 i = 0; i < nTrackNameNum; ++i)
 		{
 			m_arrTrackName[i] = m_pDataStream->ReadString();
 		}
-
-		m_nFrameNumber = m_pDataStream->ReadUInt();
-		m_arrScaleTrack.resize(m_nFrameNumber);
-		m_arrRotTrack.resize(m_nFrameNumber);
-		m_arrPosTrack.resize(m_nFrameNumber);
-
-		for (uint32 i = 0; i < m_nFrameNumber; ++i)
+		
+		for (uint32 i = 0; i < nTrackNameNum; ++i)
 		{
 			uint32 nScaleFrame = m_pDataStream->ReadUInt();
+			m_nFrameNumber = Math::Max(nScaleFrame,m_nFrameNumber);
 			m_arrScaleTrack[i].m_arrFrame.resize(nScaleFrame);
+			m_arrScaleTrack[i].m_arrValue.resize(nScaleFrame);
+
 			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrFrame[0],sizeof(uint32) * nScaleFrame);
 			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrValue[0],sizeof(Vector3) * nScaleFrame);
 
-			
 			uint32 nRotFrame = m_pDataStream->ReadUInt();
+			m_nFrameNumber = Math::Max(nRotFrame,m_nFrameNumber);
 			m_arrRotTrack[i].m_arrFrame.resize(nRotFrame);
+			m_arrRotTrack[i].m_arrValue.resize(nRotFrame);
+
 			m_pDataStream->Read(&m_arrRotTrack[i].m_arrFrame[0],sizeof(uint32) * nRotFrame);
 			m_pDataStream->Read(&m_arrRotTrack[i].m_arrValue[0],sizeof(Quaternion) * nRotFrame);
 
 			uint32 nPosFrame = m_pDataStream->ReadUInt();
+			m_nFrameNumber = Math::Max(nPosFrame,m_nFrameNumber);
 			m_arrPosTrack[i].m_arrFrame.resize(nPosFrame);
+			m_arrPosTrack[i].m_arrValue.resize(nPosFrame);
+
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
 		}
+
+		ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 	}
 
-	void Animation::ReadS3Data()
+	void Animation::ReadDataV0()
 	{
-		uint32 nIden = m_pDataStream->ReadUInt();
+		//uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
 		uint32 nStringLen = m_pDataStream->ReadUInt();
 		vector<char> vecChar;
@@ -226,10 +281,8 @@ namespace ma
 		return new Animation;
 	}
 
-	RefPtr<Animation> CreateAnimation(const char* pszFile)
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile)
 	{
-		return g_pAnimationManager->CreateResource(pszFile);
+		return g_pAnimDataManager->Open(pszFile,pszSkeletonFile);
 	}
-
-	ResourceSystem<Animation>* g_pAnimationManager = NULL;
 }

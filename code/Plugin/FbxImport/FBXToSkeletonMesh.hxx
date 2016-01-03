@@ -40,12 +40,12 @@ namespace ma
 
 		// Mesh
 		MeshData meshData; 
-		meshData.SetVertexType(DUM_POSITION | DUM_TEXCOORD | DUM_NORMAL | DUM_BLENDWEIGHT | DUM_BLENDINDICES);
-		meshData.SetIndexType(INDEX_TYPE_U16);
+		meshData.SetVertexType(SKIN_VERTEX_1);
+		meshData.SetIndexType(INDEX_16);
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetSkinMeshData<SkinVertexV0,uint16>(pFbxMesh,&meshData,skeData,pImportParm);
+		GetSkinMeshData(pFbxMesh,&meshData,skeData,pImportParm);
 
 		//RefPtr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
 		//pMaterial->Save(strOutMatFile.c_str());
@@ -202,8 +202,6 @@ namespace ma
 		skinBoneWeight = weight.uInde;
 	}
 
-	
-	template<class VertexType,class IndexType>
 	void GetSkinMeshData(FbxMesh* pMesh,MeshData* pMeshData,const Skeleton& skeData,ImportParm* pImportParm)
 	{
 		if (pMesh == NULL)
@@ -236,8 +234,8 @@ namespace ma
 		std::map< int,std::vector<int> > matIndexToTriangleIndex;
 		ConnectMaterialToMesh(pMesh,matIndexToTriangleIndex);
 
-		std::vector<VertexType> arrVertex;
-		std::vector<IndexType> arrIndex;
+		std::vector<SkinVertexV0> arrVertex;
+		std::vector<UINT16> arrIndex;
 
 		std::vector<pointSkin> arrPointSkin;	
 		int clusterCount = 0;
@@ -266,7 +264,7 @@ namespace ma
 
 				assert(pMesh->GetPolygonSize(nTriangleIndex) == 3); 
 
-				VertexType vertex[3];
+				SkinVertexV0 vertex[3];
 
 				GetTriangleData(pMesh,nTriangleIndex,vertex,pImportParm);
 
@@ -295,7 +293,12 @@ namespace ma
 			}
 		}
 
-		UpdateHardwareBuffer(arrVertex,arrIndex, pMeshData->GetVertexBuffer(), pMeshData->GetIndexBuffer());
+		vector<SkinVertexV1> pVertexV1;
+		pVertexV1.resize(arrVertex.size());
+		pMeshData->UpdateMeshData(&pVertexV1[0],&arrVertex[0],arrVertex.size(),&arrIndex[0]);
+
+		pMeshData->GetVertexBuffer()->SetData((uint8*)&pVertexV1[0], sizeof(SkinVertexV1)* pVertexV1.size(), sizeof(SkinVertexV1));
+		pMeshData->GetIndexBuffer()->SetData((uint8*)&arrIndex[0], sizeof(UINT16) * arrIndex.size(), sizeof(UINT16));
 
 		// Bound Box
 		pMesh->ComputeBBox();
@@ -305,8 +308,7 @@ namespace ma
 		pMeshData->SetBoundingAABB(aabb);
 	}
 
-	template<class VertexType>
-	void GetSkinData(FbxMesh* pMesh,int nTriangleIndex, VertexType vertex[3],std::vector<pointSkin>& arrPointSkin, ImportParm* pImportParm)
+	void GetSkinData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],std::vector<pointSkin>& arrPointSkin, ImportParm* pImportParm)
 	{
 		for(int j = 0; j < 3 ; ++j)
 		{

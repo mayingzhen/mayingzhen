@@ -163,7 +163,6 @@ EXPORTS
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@XZ
 ?SetShadingTechnqiue@SubMaterial@ma@@QAEXPBD0@Z
 ?SetSkinMatrix@SkinMeshComponent@ma@@QAEXPBVMatrix3x4@2@I@Z
-?CreateNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
 ?GetName@SceneNode@ma@@QBEPBDXZ
 ?LoadFromXML@Serializable@ma@@QAEXPBD@Z
 ?SaveToXML@Serializable@ma@@QAEXPBD@Z
@@ -198,6 +197,7 @@ EXPORTS
 ?ReadFloat@Stream@ma@@QAEMXZ
 ?ReadBool@Stream@ma@@QAE_NXZ
 ?ReadUShort@Stream@ma@@QAEGXZ
+?WriteUInt@Stream@ma@@QAE_NI@Z
 ?AddSubMaterial@Material@ma@@QAEXIPAVSubMaterial@2@@Z
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@PBD@Z
 ?Improt@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
@@ -207,3 +207,7 @@ EXPORTS
 ?SaveToFile@MeshData@ma@@UAE_NPBD@Z
 ?CreateFileStream@ma@@YA?AV?$RefPtr@VFileStream@ma@@@1@PBD@Z
 ?GetMatViewProjInv@Camera@ma@@QAEABVMatrix4@2@XZ
+?CreateSceneNode@Scene@ma@@QAEPAVSceneNode@2@XZ
+?CreateSceneNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
+?UpdateMeshData@MeshData@ma@@QAEXPAUStaticVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
+?UpdateMeshData@MeshData@ma@@QAEXPAUSkinVertexV1@2@PAUSkinVertexV0@2@IPAG@Z

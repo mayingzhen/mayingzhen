@@ -30,8 +30,6 @@ namespace ma
 
 		void			SetData(uint8* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC);
 
-		//virtual void	Serialize(Serializer& sl, const char* pszLable = "HardwareBuffer");
-
 		void			FreeData();
 
 	protected:

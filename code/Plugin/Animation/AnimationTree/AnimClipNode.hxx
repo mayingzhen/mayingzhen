@@ -110,11 +110,6 @@ namespace ma
 		WrapLocalFrame();
 	}
 
-	void AnimClipNode::SetSkeletion(Skeleton* pSkeletion)
-	{
-		m_pSkeleton = pSkeletion;
-	}
-
 	const char*	AnimClipNode::GetBoneSet() const
 	{
 		return m_pBoneSet ? m_pBoneSet->GetBoneSetName() : NULL;
@@ -139,7 +134,7 @@ namespace ma
 		return m_strSkaName.c_str();
 	}
 
-	bool AnimClipNode::Instantiate()
+	bool AnimClipNode::Instantiate(Skeleton* pSkeleton)
 	{
 		if (m_pAnimation)
 			return true;
@@ -147,8 +142,10 @@ namespace ma
 		ASSERT(!m_strSkaName.empty());
 		if (m_strSkaName.empty())
 			return false;
-
-		m_pAnimation = CreateAnimation( m_strSkaName.c_str() ); 
+	
+		ASSERT(pSkeleton && pSkeleton->IsReady());
+		m_pSkeleton = pSkeleton;
+		m_pAnimation = CreateAnimation( m_strSkaName.c_str(), pSkeleton->GetResPath() ); 
 
 		m_bLoadOver = false;
 		return IsReady();
@@ -177,11 +174,6 @@ namespace ma
 
 		return true;
 	}
-
-// 	RefPtr<AnimClipNode> NewClipNode()
-// 	{
-// 		return new AnimClipNode();
-// 	}
 
 	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName,const char* boneSetName)
 	{

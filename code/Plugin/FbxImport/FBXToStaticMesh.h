@@ -11,20 +11,13 @@ namespace ma
 		std::string		m_strNormal;
 	};
 
-	template<class VertexType,class IndexType>
 	void GetMeshData(FbxMesh* pMesh,MeshData* pMeshData,ImportParm* pImportParm);
 
-	template<class VertexType,class IndexType>
-	void UpdateVertexArray(std::vector<VertexType>& arrVertex,std::vector<IndexType>& arrIndex,VertexType vertex);
+	void UpdateVertexArray(std::vector<SkinVertexV0>& arrVertex,std::vector<UINT16>& arrIndex,SkinVertexV0 vertex);
 
 	Material*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin);
 	
-	template<class VertexType>
-	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, VertexType vertex[3],ImportParm* pImportParm);
-
-	template<class VertexType,class IndexType>
-	void UpdateHardwareBuffer(std::vector<VertexType>& arrVertex,std::vector<IndexType>& arrIndex,
-		VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer);
+	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],ImportParm* pImportParm);
 
 	void GetTextureNames( FbxProperty &pProperty, std::string& pConnectionString );
 

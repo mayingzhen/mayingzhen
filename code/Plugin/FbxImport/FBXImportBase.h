@@ -25,7 +25,7 @@ namespace ma
 		if (!importStatus)
 			return false;
 
-		FbxAxisSystem engineAxisSystem(FbxAxisSystem::eOpenGL);
+		FbxAxisSystem engineAxisSystem(FbxAxisSystem::eMax);
 		FbxRootNodeUtility::RemoveAllFbxRoots(pFbxScene);
 		engineAxisSystem.ConvertScene(pFbxScene);
 

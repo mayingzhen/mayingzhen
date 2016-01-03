@@ -19,7 +19,7 @@ namespace ma
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());
 
-		SceneNode* pCharMagic = m_pScene->CreateNode("magician/magician.xml");
+		SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 		pCharMagic->SetPos(Vector3(150.0f,pTerrain->GetHeight(150.0f,200.0f),200.0f));
 		
 		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
