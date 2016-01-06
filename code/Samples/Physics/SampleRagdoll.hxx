@@ -27,7 +27,7 @@ namespace ma
 			m_pScene->GetRootNode()->AddChild(pGameObj.get());
 
  			MeshComponent* pMeshComp = pGameObj->CreateComponent<MeshComponent>();
- 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+ 			pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
 
 			m_pAnimationComp = pGameObj->CreateComponent<AnimationComponent>();
 			m_pAnimationComp->Load("magician/body.Aniset","magician/body.ske");

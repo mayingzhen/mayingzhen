@@ -26,7 +26,7 @@ namespace ma
 // 		m_pScene->GetRootNode()->AddChild(pGameObj.get());
 // 
 // 		SkinMeshComponent* pMeshComp = pGameObj->CreateComponent<SkinMeshComponent>();
-// 		pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+// 		pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
 // 
 // 		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
 // 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");

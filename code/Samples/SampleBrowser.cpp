@@ -132,7 +132,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("CSharpScript");
+		RunSample("ShadowMap");
 	}
 
 	void SampleBrowser::InitResourcePath()

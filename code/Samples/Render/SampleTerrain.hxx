@@ -63,9 +63,9 @@ namespace ma
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 
-			testMaterial->SaveToXML("scene/terrain/test.mat");
+			testMaterial->SaveToXML("scene/terrain/test.mtl");
 
-			pTerrain->SetMaterialPath("scene/terrain/test.mat");
+			pTerrain->SetMaterialPath("scene/terrain/test.mtl");
 			pTerrain->SetHeightMap("scene/terrain/test.dds");
 			pTerrain->SetMaterialMap("scene/terrain/test_m.dds");
 			pTerrain->SetBlendMap("scene/terrain/test_b0.dds");

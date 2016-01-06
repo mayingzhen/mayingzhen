@@ -49,7 +49,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
 			CreateDefaultMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN");
 
@@ -68,7 +68,7 @@ namespace ma
 			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/magician/Body.ske");
 			m_pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 
-			pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
+			//pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
 			pCharMagic->SaveToXML("magician/magician/magician.xml");
 		}
@@ -83,7 +83,7 @@ namespace ma
 			m_pAnimtionObjectA->PlayAnimation((UINT)1);
 		}
 
-		if (0)
+		if (1)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 

@@ -24,7 +24,7 @@ namespace ma
 			CapsuleCollisionShape* pCapsule = pCharComp->GetCollisionShape();
 		
 			RefPtr<MeshComponent> pMeshComp = pCharaObj->CreateComponent<MeshComponent>();
-			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+			pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
 		
 // 			AABB aabb = pMeshComp->GetAABBWS();
 // 

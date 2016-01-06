@@ -17,7 +17,7 @@ namespace ma
 // 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
 // 			
 // 			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
-// 			pMeshComp->Load("magician/Body.skn","magician/Body.mat");
+// 			pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
 // 			
 // 			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
 // 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
@@ -29,9 +29,9 @@ namespace ma
 			
 			//pCharMagic->Right(100);
 
-// 			RefPtr<SceneNode> pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mat");
+// 			RefPtr<SceneNode> pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
 // 
-// 			RefPtr<SceneNode> pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mat");
+// 			RefPtr<SceneNode> pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mtl");
 // 
 // 			pPlatform->Scale(50);
 // 

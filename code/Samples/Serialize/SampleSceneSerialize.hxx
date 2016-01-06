@@ -25,7 +25,7 @@ namespace ma
 
 			RefPtr<SceneNode> pTestSceneNode = CreateSceneNode();
 			RefPtr<MeshComponent> pMehBox = pTestSceneNode->CreateComponent<MeshComponent>();
-			pMehBox->Load("Fbx/Box.skn","Fbx/box.mat");
+			pMehBox->Load("Fbx/Box.skn","Fbx/box.mtl");
 		
 // 			int nClone = 5;
 // 			for (int i = 0; i < nClone; ++i)
