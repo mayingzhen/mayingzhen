@@ -56,6 +56,14 @@ namespace ma
 		void				SetCullMode(CULL_MODE eCullMode);
 		void				SetDepthBias(float fConstantBias);
 
+		void				SetStencilCheckEnabled(bool enabled);
+		void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
+			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
+			StencilOperation stencilFailOp = SOP_KEEP, 
+			StencilOperation depthFailOp = SOP_KEEP,
+			StencilOperation passOp = SOP_KEEP, 
+			bool twoSidedOperation = false);
+
 		// Uniform
 		void				SetValue(Uniform* uniform, float value);
 		void				SetValue(Uniform* uniform, const Vector2& value);

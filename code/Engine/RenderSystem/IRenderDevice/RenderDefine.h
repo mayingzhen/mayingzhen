@@ -268,6 +268,40 @@ namespace ma
 		DCM_NONE,
 	};
 
+	enum CompareFunction
+	{
+		CMPF_ALWAYS_FAIL,
+		CMPF_ALWAYS_PASS,
+		CMPF_LESS,
+		CMPF_LESS_EQUAL,
+		CMPF_EQUAL,
+		CMPF_NOT_EQUAL,
+		CMPF_GREATER_EQUAL,
+		CMPF_GREATER
+	};
+
+	/// Enum describing the various actions which can be taken onthe stencil buffer
+	enum StencilOperation
+	{
+		/// Leave the stencil buffer unchanged
+		SOP_KEEP,
+		/// Set the stencil value to zero
+		SOP_ZERO,
+		/// Set the stencil value to the reference value
+		SOP_REPLACE,
+		/// Increase the stencil value by 1, clamping at the maximum value
+		SOP_INCREMENT,
+		/// Decrease the stencil value by 1, clamping at 0
+		SOP_DECREMENT,
+		/// Increase the stencil value by 1, wrapping back to 0 when incrementing the maximum value
+		SOP_INCREMENT_WRAP,
+		/// Decrease the stencil value by 1, wrapping when decrementing 0
+		SOP_DECREMENT_WRAP,
+		/// Invert the bits of the stencil buffer
+		SOP_INVERT
+	};
+
+
 
 	/* enum: COLOR_WRITE_ENABLE
 	----------------------------------------------------------

@@ -169,9 +169,13 @@ namespace ma
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
 
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+		if (GetDeviceCapabilities()->GetD24S8Supported())
 		{
 			m_mapMacros["HWPCF"] = "1";
+		}
+
+		if (GetDeviceCapabilities()->GetINTZSupported())
+		{
 			m_mapMacros["HWDEPTH"] = "1";
 		}
 	}
@@ -417,6 +421,21 @@ namespace ma
 			m_curState.SetDepthBias(fDepthBias);
 			m_pRenderThread->RC_SetDepthBias(fDepthBias);
 		}
+	}
+
+	void RenderSystem::SetStencilCheckEnabled(bool enabled)
+	{
+
+	}
+
+	void RenderSystem::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
+		uint32 refValue/* = 0*/, uint32 mask /*= 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
+		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
+		StencilOperation depthFailOp/* = SOP_KEEP*/,
+		StencilOperation passOp/* = SOP_KEEP*/, 
+		bool twoSidedOperatio/*n = false*/)
+	{
+
 	}
 
 

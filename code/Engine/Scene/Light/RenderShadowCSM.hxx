@@ -44,7 +44,7 @@ namespace ma
 
 	void RenderShadowCSM::Init()
 	{
-		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
+		if ( GetDeviceCapabilities()->GetD24S8Supported() )
 		{
 			GetRenderSystem()->AddShaderGlobaMacro("USING_HW_PCF","1");
 		}
@@ -126,6 +126,8 @@ namespace ma
 		if (!m_bEnable)
 			return;
 
+		UpdateViewMinMaxZ(pCamera);
+
 		Scene* pScene = pCamera->GetScene();
 
 		m_nCurSplitCount = 0;
@@ -149,17 +151,6 @@ namespace ma
  
 			m_SpitFrustum[m_nCurSplitCount].Update(pCamera,fNearSplit,fFarSplit);
 
-			m_matShadow[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] =  m_SpitFrustum[m_nCurSplitCount].GetTexAdjustMatrix() * m_SpitFrustum[m_nCurSplitCount].GetShadowMatrix();
-			
-			Rectangle viewPort = GetRenderSystem()->GetViewPort();
-			ProjectScreenToWorldExpansionBasis(m_matShadow[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount],*pCamera,viewPort.width,viewPort.height,
-				m_vWBasisX[m_nCurSplitCount],m_vWBasisY[m_nCurSplitCount],m_vWBasisZ[m_nCurSplitCount],
-				m_vBasisMagnitudes[m_nCurSplitCount], m_vShadowCamPos[m_nCurSplitCount]);
-
-			//if (pCamera->GetSceneManager()->GetDeferredShadowEnabled())
-			//{
-			//	m_matShadow[m_nCurSplitCount] = m_matShadow[m_nCurSplitCount] * pCamera->GetMatView().inverse();
-			//}
 
 			if (m_eShadowBleurLevel == SHADOW_JITTERIN)
 			{
@@ -187,32 +178,16 @@ namespace ma
 	{
 		if (!m_bEnable)
 			return;		
-
-		Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
-		RefPtr<Texture> pPreRenderTarget = GetRenderSystem()->SetRenderTarget(m_pShdowDepth,0);
-		RefPtr<Texture> pPreDepthStencil = GetRenderSystem()->SetDepthStencil(m_pDepthStencil);
 		
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
-
-		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
-		{
-			GetRenderSystem()->SetColorWrite(false);	
-		}
-
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
 			m_SpitFrustum[i].Render(pCamera);
 		}
 		
-		GetRenderSystem()->SetViewPort(rPreViewport);
-		GetRenderSystem()->SetRenderTarget(pPreRenderTarget.get(),0);
-		GetRenderSystem()->SetDepthStencil(pPreDepthStencil.get());
-		
-		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
-		{
-			GetRenderSystem()->SetDepthBias(0);
-			GetRenderSystem()->SetColorWrite(true);
-		}
+// 		if (m_nMaxSplitCount > 1)
+// 		{
+// 			ASSERT(pCamera->GetDeferredShadowEnabled());
+// 		}
 	}
 
 	void RenderShadowCSM::Clear(Camera* pCamera)
@@ -231,75 +206,66 @@ namespace ma
 		
 		m_nMaxSplitCount = nMaxSplitCount;
 
-		CreateShadowMap(m_nShadowMapSize);
-
-		GetRenderSystem()->AddShaderGlobaMacro("g_iNumSplits", StringConverter::toString(m_nMaxSplitCount).c_str());
+		for (int i = 0; i < nMaxSplitCount; ++i)
+		{
+			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
+		}
 	}
 
-	void RenderShadowCSM::CreateShadowMap(int nSize)
+	void RenderShadowCSM::UpdateViewMinMaxZ(Camera* pCamera)
 	{
-// 		m_pShadowMap = new SamplerState();
-// 		m_pShadowMap->SetFilterMode(TFO_POINT);
-// 		m_pShadowMap->SetWrapMode(CLAMP);
+		Scene* pScene = pCamera->GetScene();
+		uint32 nNode = pScene->GetVisibleNodeNum();
+		if (nNode <= 0)
+			return;
 
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-		{
-			m_pDepthStencil = GetRenderSystem()->CreateRenderTexture(nSize, nSize, PF_D24S8, USAGE_DEPTHSTENCIL);
-			m_pShdowDepth = GetRenderSystem()->CreateRenderTexture(nSize, nSize, PF_A8R8G8B8, USAGE_RENDERTARGET);
-		
-			//m_pShadowMap->SetTexture(m_pDepthStencil.get());
-		}
-		else
-		{
-			PixelFormat format = PF_A8R8G8B8;
-			if (GetDeviceCapabilities()->GetFloatTexturesSupported())
-			{
-				format = PF_FLOAT32_R;
-			}
-			
-			m_pDepthStencil = GetRenderSystem()->CreateDepthStencil(nSize, nSize, PF_D24S8);
-			m_pShdowDepth = GetRenderSystem()->CreateRenderTexture(nSize, nSize, format, USAGE_RENDERTARGET);
-		
-			//m_pShadowMap->SetTexture(m_pShdowDepth.get());
-		}
+		// find the nearest and farthest points of given
+		// scene objects in camera's view space
+		float fMaxZ = 0;
+		float fMinZ = FLT_MAX;
 
-		m_viewport = Rectangle(0, 0, (float)nSize, (float)nSize);
+		// for each object
+		for(uint32 i = 0; i < nNode; i++)
+		{
+			RenderComponent* pObject = pScene->GetVisibleNodeByIndex(i);
 
-		if (m_nMaxSplitCount == 1)
-		{
-			m_SpitFrustum[0].CreateViewPort(m_pShdowDepth.get(),m_viewport);
-		}
-		else if (m_nMaxSplitCount == 2)
-		{
-			m_SpitFrustum[0].CreateViewPort(m_pShdowDepth.get(),Rectangle(0,0,0.5f * nSize,1));
-			m_SpitFrustum[1].CreateViewPort(m_pShdowDepth.get(),Rectangle(0.5f * nSize,0,0.5f * nSize,1));
-		}
-		else 
-		{
-			m_SpitFrustum[0].CreateViewPort(m_pShdowDepth.get(),Rectangle(0,0,0.5f * nSize,0.5f * nSize));
-			m_SpitFrustum[1].CreateViewPort(m_pShdowDepth.get(),Rectangle(0.5f * nSize,0,0.5f * nSize,0.5f * nSize));
-			m_SpitFrustum[2].CreateViewPort(m_pShdowDepth.get(),Rectangle(0,0.5f * nSize,0.5f * nSize,0.5f * nSize));
-			m_SpitFrustum[3].CreateViewPort(m_pShdowDepth.get(),Rectangle(0.5f * nSize,0.5f * nSize,0.5f * nSize,0.5f * nSize));
+			AABB aabb = pObject->GetAABBWS();
+			aabb.transform(pCamera->GetMatView());
+
+			float aabbMinZ = -aabb.getMaximum().z;
+			float aabbMaxZ = -aabb.getMinimum().z;
+
+			pObject->SetViewMinMaxZ(aabbMinZ,aabbMaxZ);
+
+			fMaxZ = max(aabbMaxZ,fMaxZ);
+			fMinZ = min(aabbMinZ,fMinZ);
 		}
 
+		// use smallest distance as new near plane
+		// and make sure it is not too small
+		float fSceneViwMinZ = max(fMinZ, pCamera->GetNearClip());
+
+		// use largest distance as new far plane
+		// and make sure it is larger than nearPlane
+		float fSceneViwMaxZ = max(fMaxZ, fSceneViwMinZ + 1.0f);
+
+		pScene->SetViewMinMaxZ(fSceneViwMinZ,fSceneViwMaxZ);
 	}
 
-	Texture* RenderShadowCSM::GetShadowMap() const 
-	{
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-			return m_pDepthStencil.get();
-		else
-			return m_pShdowDepth.get();
-	} 
 
 	void RenderShadowCSM::SetShadowMapSize(int nSize)
 	{
+		ASSERT(Bitwise::isPO2(nSize));
+
 		if (nSize == m_nShadowMapSize)
 			return;
 
 		m_nShadowMapSize = nSize;
 
-		CreateShadowMap(m_nShadowMapSize);
+		for (int i = 0; i < m_nMaxSplitCount; ++i)
+		{
+			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
+		}
 	}
 
 	void RenderShadowCSM::GetDepthBiasParams(float& fConstantBias, float& fSlopeScaleBias) const

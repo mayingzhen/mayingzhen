@@ -16,8 +16,8 @@ namespace ma
 
 		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
 		
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_D24S8, USAGE_DEPTHSTENCIL);
+		if (GetDeviceCapabilities()->GetINTZSupported())
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_INTZ, USAGE_DEPTHSTENCIL);
 		else
 			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT32_R);
 
@@ -32,7 +32,7 @@ namespace ma
 		RefPtr<Texture> pPreTarget1 = GetRenderSystem()->SetRenderTarget(m_pNormalTex,1);
 		RefPtr<Texture> pPreTarget2 = NULL;
 
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+		if (GetDeviceCapabilities()->GetINTZSupported())
 		{
 			pPreTarget2 = GetRenderSystem()->SetDepthStencil(m_pDepthTex);
 		}
@@ -100,7 +100,7 @@ namespace ma
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);
 		GetRenderSystem()->SetRenderTarget(pPreTarget1,1);
-		if (GetDeviceCapabilities()->GetDepthTextureSupported())
+		if (GetDeviceCapabilities()->GetINTZSupported())
 		{
 			GetRenderSystem()->SetDepthStencil(pPreTarget2);
 		}

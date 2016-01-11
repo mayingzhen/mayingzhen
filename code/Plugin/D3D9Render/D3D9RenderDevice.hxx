@@ -123,7 +123,7 @@ namespace ma
 		m_d3dpp.BackBufferWidth = rect.right - rect.left;
 		m_d3dpp.BackBufferHeight = rect.bottom - rect.top;
 
-		m_nAdapterToUse = D3DADAPTER_DEFAULT;
+		int m_nAdapterIndex = D3DADAPTER_DEFAULT;
 		D3DDEVTYPE DeviceType = D3DDEVTYPE_HAL;
 
 // #if SHIPPING_VERSION
@@ -146,25 +146,25 @@ namespace ma
 // 		}
 //#endif
 		
-		int nTryMSAA = D3DMULTISAMPLE_16_SAMPLES;
-		uint32 outQuality = 0;
-		while(FAILED(m_pD3D9->CheckDeviceMultiSampleType( 
-			m_nAdapterToUse, 
-			DeviceType, 
-			D3DFMT_X8R8G8B8, 
-			FALSE/*fullScreen?FALSE:TRUE*/, 
-			(D3DMULTISAMPLE_TYPE)nTryMSAA, 
-			(DWORD*)&outQuality)))
-		{
-			if (--nTryMSAA <= 0)
-				break;
-		}
+// 		int nTryMSAA = D3DMULTISAMPLE_16_SAMPLES;
+// 		uint32 outQuality = 0;
+// 		while(FAILED(m_pD3D9->CheckDeviceMultiSampleType( 
+// 			int m_nAdapterIndex, 
+// 			DeviceType, 
+// 			D3DFMT_X8R8G8B8, 
+// 			FALSE/*fullScreen?FALSE:TRUE*/, 
+// 			(D3DMULTISAMPLE_TYPE)nTryMSAA, 
+// 			(DWORD*)&outQuality)))
+// 		{
+// 			if (--nTryMSAA <= 0)
+// 				break;
+// 		}
 
 // 		m_d3dpp.MultiSampleType = (D3DMULTISAMPLE_TYPE)nTryMSAA;
 // 		m_d3dpp.MultiSampleQuality = 0;
 
 		HRESULT hr = S_OK;
-		hr = m_pD3D9->CreateDevice(m_nAdapterToUse,DeviceType,m_hWnd,
+		hr = m_pD3D9->CreateDevice(m_nAdapterIndex,DeviceType,m_hWnd,
 			D3DCREATE_HARDWARE_VERTEXPROCESSING,
 			&m_d3dpp,&m_pD3DDevice);
 
@@ -911,6 +911,9 @@ namespace ma
 		D3D9Verify(m_pD3D9->GetAdapterIdentifier( 0, 0, &adapterIdentifier ));
 		D3D9Verify(m_pD3D9->GetAdapterDisplayMode( 0, &d3ddm ));
 
+		m_nAdapterIndex = m_d3dcaps.AdapterOrdinal;
+		m_eAdapterFormat = d3ddm.Format;
+
 		// driver version
 // 		DriverVersion mDriverVersion;
 // 		mDriverVersion.major = HIWORD(adapterIdentifier.DriverVersion.HighPart);
@@ -979,6 +982,7 @@ namespace ma
 			return false;
 		D3DSURFACE_DESC bbSurfDesc;
  		surface->GetDesc(&bbSurfDesc);
+		SAFE_RELEASE(surface);
 
 		for (int i = 0; i < 6; ++i)
 		{
@@ -1025,14 +1029,43 @@ namespace ma
 			GetDeviceCapabilities()->SetVSTextureSupported(false);
 		}
 
-		D3DFORMAT formaat = D3DFMT_D24S8;
-		if ( SUCCEEDED(D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, USAGE_DEPTHSTENCIL, &formaat, D3DPOOL_DEFAULT) ) )
+		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_INTZ) );
+		GetDeviceCapabilities()->SetINTZSupported(hr == D3D_OK);
+
+		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat,D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_D24S8) );
+		GetDeviceCapabilities()->SetD24S8Supported(hr == D3D_OK);
+
+		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat,D3DUSAGE_RENDERTARGET, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_NULL) );
+		GetDeviceCapabilities()->SetNULLSupported(hr == D3D_OK);
+
+		if (GetDeviceCapabilities()->GetD24S8Supported() )
 		{
-			//GetDeviceCapabilities()->SetDepthTextureSupported(true);
+			GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
+
+			if ( GetDeviceCapabilities()->GetNULLSupported() )
+			{
+				GetDeviceCapabilities()->SetShadowMapColorFormat(PF_NULL);
+			}
+			else
+			{
+				GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
+			}
+		}	
+		else
+		{
+			GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_UNKNOWN);
+
+			hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat,D3DUSAGE_RENDERTARGET, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_FLOAT32_R) );
+			if (hr == D3D_OK)
+			{
+				GetDeviceCapabilities()->SetShadowMapColorFormat(PF_FLOAT32_R);
+			}
+			else
+			{
+				GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
+			}
 		}
-
-		SAFE_RELEASE(surface);
-
+	
 		GetDeviceCapabilities()->log();
 		return true;
 	}

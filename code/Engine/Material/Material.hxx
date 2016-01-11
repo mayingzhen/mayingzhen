@@ -42,7 +42,7 @@ namespace ma
 			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, strShaderMacro.c_str());
 			//m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 		
-			if (GetDeviceCapabilities()->GetDepthTextureSupported())
+			if (GetDeviceCapabilities()->GetD24S8Supported())
 			{
 				m_pShadowDepthTech->GetRenderState().SetColorWrite(false);
 			}

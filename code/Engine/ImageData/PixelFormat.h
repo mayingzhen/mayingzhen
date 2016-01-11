@@ -217,8 +217,12 @@ namespace ma
 		
 		PF_D24S8 = 90,
 
+		PF_NULL = 91, // (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
+
+		PF_INTZ = 92, // ((D3DFORMAT)(MAKEFOURCC(¡®I¡¯,¡¯N¡¯,¡¯T¡¯,¡¯Z¡¯))); 
+
 		// Number of pixel formats currently defined
-        PF_COUNT = 91
+        PF_COUNT = 93
 	};
 
 	/**

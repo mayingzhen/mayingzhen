@@ -17,9 +17,10 @@ namespace ma
 
 		m_matLightView = Matrix4::IDENTITY;
 		m_matLightProj = Matrix4::IDENTITY;
+		m_matLightViewProj = Matrix4::IDENTITY;
 		m_matCrop = Matrix4::IDENTITY;
-		m_matVPShadow[0]  = Matrix4::IDENTITY;
-		m_matVPShadow[1]  = Matrix4::IDENTITY;
+		m_matShadow[0]  = Matrix4::IDENTITY;
+		m_matShadow[1]  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
 	}
 
@@ -28,16 +29,28 @@ namespace ma
 
 	}
 
-	void ShadowMapFrustum::CreateViewPort(Texture* pShadowMap,Rectangle veiewPort)
+	void ShadowMapFrustum::CreateShadowMap(int nSize)
 	{
-		veiewPort.x += 1.0f;
-		veiewPort.y += 1.0f;
-		veiewPort.width -= 2.0f;
-		veiewPort.height -= 2.0f;
+		PixelFormat shadowMapColorFormat = GetDeviceCapabilities()->GetShadowMapColorFormat();
+		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
+		m_pShadowMapColor = GetRenderSystem()->CreateRenderTexture(nSize,nSize,shadowMapColorFormat,USAGE_RENDERTARGET);	
 
-		m_viewport = veiewPort;
+		if (shadowMapDepthFormat != PF_UNKNOWN)
+		{
+			m_pShdowMapDepth = GetRenderSystem()->CreateRenderTexture(nSize,nSize,shadowMapDepthFormat,USAGE_DEPTHSTENCIL);
+		}
 
-		m_matTexAdjust = CalculateTexAdjustMatrix(pShadowMap,m_viewport);
+		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
+
+		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShadowMapColor.get(),m_viewport);
+	}
+
+	Texture* ShadowMapFrustum::GetShadowMap() const 
+	{
+		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
+			return m_pShdowMapDepth.get();
+		else
+			return m_pShadowMapColor.get();
 	}
 
 	Matrix4 ShadowMapFrustum::CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort)
@@ -321,7 +334,7 @@ namespace ma
 
 		UpdateCropMats();
 
-		m_matVPShadow[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
+		m_matShadow[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
 	}
 
 	void ShadowMapFrustum::Render(Camera* pCamera)
@@ -331,7 +344,7 @@ namespace ma
 
 		GetRenderSystem()->SetViewPort(m_viewport);
 
-		if ( GetDeviceCapabilities()->GetDepthTextureSupported() )
+		if ( GetDeviceCapabilities()->GetINTZSupported() )
 		{
 			GetRenderSystem()->SetDepthBias(m_fConstantBias[GetRenderSystem()->CurThreadProcess()]);
 		}
@@ -351,7 +364,7 @@ namespace ma
 			 pTech->Bind();
 
 			 Uniform* pUniform = pTech->GetShaderProgram()->GetUniform("matLightViewProj");
-			 GetRenderSystem()->SetValue(pUniform,m_matVPShadow[GetRenderSystem()->CurThreadProcess()]);
+			 GetRenderSystem()->SetValue(pUniform,m_matShadow[GetRenderSystem()->CurThreadProcess()]);
 
 			 GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
 		}

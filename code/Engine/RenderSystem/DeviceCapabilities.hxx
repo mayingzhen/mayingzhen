@@ -20,7 +20,11 @@ DeviceCapabilitie::DeviceCapabilitie(void)
 , m_bPVRTC(false)
 , m_bETC1(false)
 , m_bAnisotropy(true)
-,m_bDepthTexture(false)
+, m_bINTZ(false)
+, m_bD24S8(false)
+, m_bNULL(false)
+, m_ShadowMapDepthFormat(PF_UNKNOWN)
+, m_ShadowMapColorFormat(PF_A8R8G8B8)
 {
 
 }

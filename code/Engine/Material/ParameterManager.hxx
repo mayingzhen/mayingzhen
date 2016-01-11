@@ -187,7 +187,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return NULL;
 
-		return pCurScene->GetSunShaow()->GetShadowMap();
+		return pCurScene->GetSunShaow()->GetShadowMapFrustum(0).GetShadowMap();
 	}
 
 	Vector4	ParameterManager::autoBindingSpitPos() const
@@ -214,7 +214,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return NULL;
 
-		return pCurScene->GetSunShaow()->GetShadowMatrix();
+		return &pCurScene->GetSunShaow()->GetShadowMapFrustum(0).GetShadowMatrix();
 	}
 
 	Vector4	ParameterManager::autoBindingShadowMapTexSize() const

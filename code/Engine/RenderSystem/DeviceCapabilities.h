@@ -110,8 +110,20 @@ public:
 	bool GetTexturePVRTCSupported() const{return m_bPVRTC;}
 	bool GetTextureETC1Supported() const{return m_bETC1;}
 	
-	bool GetDepthTextureSupported() const {return m_bDepthTexture;}
-	void SetDepthTextureSupported(bool b) {m_bDepthTexture = b;}
+	void SetINTZSupported(bool b) {m_bINTZ = b;}
+	bool GetINTZSupported() const {return m_bINTZ;}
+
+	void SetD24S8Supported(bool b) {m_bD24S8 = b;}
+	bool GetD24S8Supported() const {return m_bD24S8;}
+
+	void SetShadowMapDepthFormat(PixelFormat format) {m_ShadowMapDepthFormat = format;}
+	PixelFormat GetShadowMapDepthFormat() const {return m_ShadowMapDepthFormat;}
+
+	void SetShadowMapColorFormat(PixelFormat format) {m_ShadowMapColorFormat = format;}
+	PixelFormat GetShadowMapColorFormat() const {return m_ShadowMapColorFormat;}
+
+	void SetNULLSupported(bool b) {m_bNULL = b;}
+	bool GetNULLSupported() const {return m_bNULL;}	
 
 	void SetTextureAnisotropy(bool b){m_bAnisotropy = b;}
 	bool GetTextureAnisotropy() const{return m_bAnisotropy;}
@@ -139,7 +151,12 @@ private:
 	bool m_bETC1;
 	bool m_bAnisotropy;
 
-	bool m_bDepthTexture;
+	bool m_bINTZ;
+	bool m_bD24S8;
+	bool m_bNULL;
+
+	PixelFormat m_ShadowMapDepthFormat;
+	PixelFormat m_ShadowMapColorFormat;
 };
 
 extern DeviceCapabilitie* g_pDeviceCapabilities;

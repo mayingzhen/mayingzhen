@@ -38,9 +38,6 @@ namespace ma
 		void				Render(Camera* pCamera);
 		void				Clear(Camera* pCamera);
 
-		
-		const Matrix4*		GetShadowMatrix() const {return m_matShadow[GetRenderSystem()->CurThreadProcess()];}
-		Texture*			GetShadowMap() const;
 
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
 		Shadow_Blur			GetShadowBlurLevel() const {return m_eShadowBleurLevel;}
@@ -56,6 +53,7 @@ namespace ma
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
 		UINT				GetMaxSplitCount() const {return m_nMaxSplitCount;}
+		int					GetCurSplitCount() const {return m_nCurSplitCount;}
 
 		void				SetSplitPosParam(Vector4 vSpiltPos) {m_SplitPosParam = vSpiltPos;}
 		const Vector4&		GetCurSplitPos() const {return m_curSplitPos[GetRenderSystem()->CurThreadProcess()];}
@@ -77,14 +75,10 @@ namespace ma
 		Caster_Cull			GetCasterCullType() const {return m_eCaterType;}
 		void				SetCasterCullType(Caster_Cull eCasterCull) {m_eCaterType = eCasterCull;}
 
-		Vector4				m_vWBasisX[MAX_FRUSTUM_SPLIT_NUM];
-		Vector4				m_vWBasisY[MAX_FRUSTUM_SPLIT_NUM];
-		Vector4				m_vWBasisZ[MAX_FRUSTUM_SPLIT_NUM];
-		Vector4				m_vBasisMagnitudes[MAX_FRUSTUM_SPLIT_NUM];
-		Vector4				m_vShadowCamPos[MAX_FRUSTUM_SPLIT_NUM];
+		ShadowMapFrustum&	GetShadowMapFrustum(int index) {return m_SpitFrustum[index];}
 
 	private:
-		void				CreateShadowMap(int nSize);
+		void				UpdateViewMinMaxZ(Camera* pCamera);
 
 	private:
 		int					m_nCurSplitCount;
@@ -92,13 +86,9 @@ namespace ma
 		Vector4				m_SplitPosParam;
 		Vector4				m_curSplitPos[2];
 
-		RefPtr<Texture>		m_pShdowDepth;
-		RefPtr<Texture>		m_pDepthStencil;
 		int					m_nShadowMapSize;
-		Rectangle			m_viewport;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
-		Matrix4				m_matShadow[2][MAX_FRUSTUM_SPLIT_NUM];
 
 		// Shadow irreg
 		int					m_ShadowSamplesNumer;

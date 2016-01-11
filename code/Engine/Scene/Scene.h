@@ -70,6 +70,7 @@ namespace ma
 
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
+		void					SetViewMinMaxZ(float fViewMinZ, float fViewMaxZ) {m_viwMinZ = fViewMinZ; m_viwMaxZ = fViewMaxZ;}
 
 		RenderShadowCSM*		GetSunShaow() const {return m_pSunShadow.get();}
 		
@@ -78,8 +79,6 @@ namespace ma
 		void					AddParallelUpdate(Component* pRender);
 
 	private:
-		void					UpdateViewMinMaxZ();
-
 		void					ParallelUpdate();
 
 	private:

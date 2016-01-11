@@ -149,8 +149,6 @@ namespace ma
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
 		m_pCullTree->FindObjectsIn(frustumQuery);
 
-		UpdateViewMinMaxZ();
-
 		m_pSunShadow->Update(m_pCamera.get());
 		
 		if (GetRenderQueue())
@@ -209,40 +207,6 @@ namespace ma
 			GetLineRender()->Render();
 
 		GetRenderSystem()->EndRender();
-	}
-
-	void Scene::UpdateViewMinMaxZ()
-	{
-		if(m_arrRenderComp.size() == 0) 
-			return;
-
-		// find the nearest and farthest points of given
-		// scene objects in camera's view space
-		float fMaxZ = 0;
-		float fMinZ = FLT_MAX;
-
-		// for each object
-		for(unsigned int i = 0; i < m_arrRenderComp.size(); i++)
-		{
-			AABB aabb = m_arrRenderComp[i]->GetAABBWS();
-			aabb.transform(m_pCamera->GetMatView());
-
-			float aabbMinZ = -aabb.getMaximum().z;
-			float aabbMaxZ = -aabb.getMinimum().z;
-
-			m_arrRenderComp[i]->SetViewMinMaxZ(aabbMinZ, aabbMaxZ);
-
-			fMaxZ = max(aabbMaxZ,fMaxZ);
-			fMinZ = min(aabbMinZ,fMinZ);
-		}
-
-		// use smallest distance as new near plane
-		// and make sure it is not too small
-		m_viwMinZ = max(fMinZ, m_pCamera->GetNearClip());
-
-		// use largest distance as new far plane
-		// and make sure it is larger than nearPlane
-		m_viwMaxZ = max(fMaxZ, m_viwMinZ + 1.0f);
 	}
 
 	void Scene::OnFlushFrame()

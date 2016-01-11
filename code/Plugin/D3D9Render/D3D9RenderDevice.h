@@ -96,10 +96,12 @@ namespace ma
 	
 	private:
 		LPDIRECT3D9					m_pD3D9;			 // The main D3D object
-		UINT						m_nAdapterToUse;
+		int							m_nAdapterIndex;
+		D3DFORMAT					m_eAdapterFormat;
 		D3DPRESENT_PARAMETERS		m_d3dpp;         // Parameters for CreateDevice/Reset
 		LPDIRECT3DDEVICE9			m_pD3DDevice;
 		D3DCAPS9					m_d3dcaps;
+
 		HWND						m_hWnd;
 
 

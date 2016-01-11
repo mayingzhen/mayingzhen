@@ -19,6 +19,7 @@ namespace ma
 	private:
 		RefPtr<Texture>		m_pShadowTex;	
 
+		RefPtr<Technique>	m_pFrustumMaterial;
 		RefPtr<Technique>	m_pDefferedShadow;
 	};
 

@@ -117,6 +117,10 @@ D3DFORMAT D3D9Mapping::GetD3DFormat(PixelFormat ogrePF)
 		return D3DFMT_DXT5;
 	case PF_D24S8:
 		return D3DFMT_D24S8;
+	case PF_NULL:
+		return (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
+	case PF_INTZ:
+		return (D3DFORMAT)MAKEFOURCC('I', 'N', 'T', 'Z'); 
 	case PF_UNKNOWN:
 	default:
 		return D3DFMT_UNKNOWN;
