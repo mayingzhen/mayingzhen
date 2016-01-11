@@ -282,6 +282,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\d3d9\frustumclipvolume.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\d3d9\frustumclipvolume.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\d3d9\gbuffer.h"
 				>
 			</File>

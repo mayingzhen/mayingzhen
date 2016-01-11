@@ -839,14 +839,6 @@
 				RelativePath="..\..\code\Engine\RenderSystem\RenderThread.hxx"
 				>
 			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RTTI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\RTTIDecl.h"
-				>
-			</File>
 			<Filter
 				Name="IRenderDevice"
 				>
