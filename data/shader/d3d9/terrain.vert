@@ -38,9 +38,10 @@ struct VS_OUTPUT
 #ifdef DEFERREDSHADING 
    float4 v_normalDepth  :TEXCOORD4;	
 #else  
-#if USING_SHADOW != 0
-	float2 RandDirTC : TEXCOORD4;
-	float4 ShadowPos[g_iNumSplits] : TEXCOORD5;
+
+#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
+	float2 oRandDirTC : TEXCOORD4;
+	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif
 };
@@ -91,8 +92,11 @@ VS_OUTPUT main(const VS_INPUT v)
 #ifdef DEFERREDSHADING  
 	GBufferVSOut(v.Normal.xyz,Out.Pos.w,Out.v_normalDepth);
 #else
-#if USING_SHADOW != 0
-	GetShadowPos(Out.WorldPos.xyz,Out.WorldPos.w,Out.ShadowPos,Out.RandDirTC);
+#if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
+	GetShadowPos(Out.WorldPos.xyz,Out.oShadowPos);
+	#if SHADOW_BLUR == 2 	
+	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
+	#endif	
 #endif
 #endif
 

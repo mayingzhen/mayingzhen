@@ -1,17 +1,23 @@
 
 // texture
 sampler g_tShadowMap;
+sampler tRotSampler;
 
 
-#ifndef g_iNumSplits
-#define g_iNumSplits 1
+float4x4 g_matShadow;
+float4 g_fSplitPlane;
+float4 g_shadowMapTexelSize;
+float4 g_ShadowDepthFade;
+
+
+
+#ifndef SHADOW_SAMPLES_NUM
+#define SHADOW_SAMPLES_NUM 8
 #endif
 
-uniform float4x4 g_matShadow[g_iNumSplits];
-uniform float4 g_fSplitPlane;
-uniform float4 g_shadowMapTexelSize;
-uniform float4 g_ShadowDepthFade;
-
+float4 irreg_kernel_2d[SHADOW_SAMPLES_NUM/2];
+float4 g_vViewPosVecLS;
+float2 kernelRadius;
 
 
 float GetDirShadowFade(float inLight, float depth)
@@ -21,12 +27,13 @@ float GetDirShadowFade(float inLight, float depth)
 
 float SamplerDepth(sampler2D sam, float4 vTexCoord)
 {
-#if USING_32F == 1
+#if USING_FLOATTEXTURE == 1
 	return tex2Dproj(sam, vTexCoord).r;
 #else
 	return DecodeFloatRGBA( tex2Dproj(sam, vTexCoord) );
 #endif
 }
+
 
 
 float ShadowDepthCompare(sampler2D sam, float4 vTexCoord)
@@ -50,139 +57,89 @@ float shadow_pcf(sampler2D sam, float4 shadowPos)
 	return (fShadow0 + fShadow1 + fShadow2 + fShadow3) * 0.25f;
 }
 
-#include "shadow_jitterin.h"
+
 
 
 
 void GetRandDirTC(float fDistance,out float2 randDirTC)
 {	
-	randDirTC = float2(0,0);
-
-#if g_iNumSplits > 0
-	if (fDistance < g_fSplitPlane.x)
-	{
-		randDirTC = GetRandDirTC(0,fDistance);
-	}
-#endif
-#if g_iNumSplits > 1
-	else if (fDistance < g_fSplitPlane.y)
-	{
-		randDirTC = GetRandDirTC(1,fDistance);
-	}
-#endif
-#if g_iNumSplits > 2
-	else if (fDistance < g_fSplitPlane.z)
-	{
-		randDirTC = GetRandDirTC(2,fDistance);
-	}
-#endif
-#if g_iNumSplits > 3
-	else if (fDistance < g_fSplitPlane.w)
-	{
-		randDirTC = GetRandDirTC(3,fDistance);
-	}
-#endif
-
+	randDirTC = g_vViewPosVecLS.xy + g_vViewPosVecLS.zw * fDistance;
 }
 
-
-void GetShadowPosArray(float3 iWordPos,out float4 shadowPos[g_iNumSplits])
+void GetShadowPos(float3 iWordPos,out float4 shadowPos)
 {
-#if g_iNumSplits > 0
-	shadowPos[0] = mul(float4(iWordPos,1.0), g_matShadow[0]);
-#endif
-#if g_iNumSplits >1
-	shadowPos[1] = mul(float4(iWordPos,1.0), g_matShadow[1]); 
-#endif
-#if g_iNumSplits > 2
-	shadowPos[2] = mul(float4(iWordPos,1.0), g_matShadow[2]); 
-#endif
-#if g_iNumSplits > 3
-	shadowPos[3] = mul(float4(iWordPos,1.0), g_matShadow[3]); 
-#endif
+ 	shadowPos = mul(float4(iWordPos,1.0), g_matShadow);
 }
 
 
-void GetShadowPosForamArray(float fDistance,float4 shadowPosArry[g_iNumSplits],out float4 shadowPos)
+void DoubleSampleRotated(sampler2D depthMap,float4 shPos,float4 rotMatr,float4 kernel,out float2 result)
 {
-	shadowPos = float4(0,0,0,1.0);
-#if g_iNumSplits > 0
-	if (fDistance < g_fSplitPlane.x)
-	{
-		shadowPos = shadowPosArry[0];
+	float4 rotatedOff = rotMatr.xyzw * kernel.xxww + rotMatr.zwxy * kernel.yyzz;
 
-#if g_iNumSplits == 3 || g_iNumSplits == 4 	
-		shadowPos.x = clamp(shadowPos.x,0,0.5f);
-		shadowPos.y = clamp(shadowPos.y,0,0.5f);
-#elif g_iNumSplits == 2
-		shadowPos.x = clamp(shadowPos.x,0,0.5f);
-#endif    
-	}
-#endif
-#if g_iNumSplits > 1
-	else if (fDistance < g_fSplitPlane.y)
-	{
-		shadowPos = shadowPosArry[1];
-
-#if g_iNumSplits == 3 || g_iNumSplits == 4 	
-		shadowPos.x = clamp(shadowPos.x,0.5f,1.0f);
-		shadowPos.y = clamp(shadowPos.y,0,0.5f);
-#elif g_iNumSplits == 2
-		shadowPos.x = clamp(shadowPos.x,0.5,1.0f);		
-#endif 
-	}
-#endif
-#if g_iNumSplits > 2
-	else if (fDistance < g_fSplitPlane.z)
-	{
-		shadowPos = shadowPosArry[2];
-		shadowPos.x = clamp(shadowPos.x,0,0.5f);
-		shadowPos.y = clamp(shadowPos.y,0.5f,1.0f);
-	}
-#endif
-#if g_iNumSplits > 3
-	else if (fDistance < g_fSplitPlane.w)
-	{
-		shadowPos = shadowPosArry[3];
-		shadowPos.x = clamp(shadowPos.x,0.5f,1.0f);
-		shadowPos.y = clamp(shadowPos.y,0.5f,1.0f);
-	}
-#endif
+	result.x = ShadowDepthCompare( depthMap, shPos + rotatedOff.xyzw * float4(1,1,0,0) );
+	result.y = ShadowDepthCompare( depthMap, shPos + rotatedOff.zwxy * float4(1,1,0,0) );	
 }
 
-void GetShadowPos(float3 iWordPos,float fDistance,out float4 shadowPos[g_iNumSplits],out float2 randDirTC)
+
+float shadow_jitterin(sampler2D shadowMap,float4 shadowPos,float2 randDirTC)
 {
-	randDirTC = float2(0,0);
+	float shadowTest = 0;
 
-	GetShadowPosArray(iWordPos,shadowPos);
+	//float2 kernelRadius = float2(4.0f,4.0f);//float2(1.0f,1.0f) * (SHADOW_SAMPLES_NUM / 8);
+	float2 rotScale = kernelRadius.y * 15.0f;
 
-#if SHADOW_BLUR == 2
-	GetRandDirTC(fDistance,randDirTC);	
+	float2 rotSample = 2.0f * tex2D(tRotSampler, randDirTC.xy * rotScale.xy).xy - 1.f;
+	rotSample.xy = normalize(rotSample.xy);
+	rotSample.xy *= kernelRadius.xy * g_shadowMapTexelSize.yy;
+	float4 rot = float4(rotSample.x,-rotSample.y,rotSample.y,rotSample.x); // 2x2µÄÐý×ª¾ØÕó
+
+#if SHADOW_SAMPLES_NUM == 4
+	float fInvSamplNum = 1.0 / 4.0;
+	float4 DepthTest = 0;
+	DoubleSampleRotated(shadowMap,shadowPos,rot,irreg_kernel_2d[0],DepthTest.xy);
+	DoubleSampleRotated(shadowMap,shadowPos,rot,irreg_kernel_2d[1],DepthTest.zw);
+	shadowTest += dot(DepthTest,fInvSamplNum.xxxx);
+#else	
+	float fInvSamplNum = 1.0 / SHADOW_SAMPLES_NUM;
+	float kernelSize = SHADOW_SAMPLES_NUM / 2;
+	for(int i = 0; i < kernelSize; i += 2)
+	{
+		float4 DepthTest = 0;
+		DoubleSampleRotated(shadowMap,shadowPos,rot,irreg_kernel_2d[i+0],DepthTest.xy);
+		DoubleSampleRotated(shadowMap,shadowPos,rot,irreg_kernel_2d[i+1],DepthTest.zw);
+		shadowTest += dot(DepthTest,fInvSamplNum.xxxx);
+	}
 #endif
+
+
+	return shadowTest;
 }
 
-
-float DoShadowMapping(float4 vShadowPos[g_iNumSplits],float2 vRandDirTC,float fDistance)
+float DoShadowMapping(float4 vShadowPos,float2 vRandDirTC,float fDistance)
 {
 	float fShadow = 1.0f;
 
-	float4 shadowPos = 0;
-	GetShadowPosForamArray(fDistance,vShadowPos,shadowPos);
-
 #if SHADOW_BLUR == 2
-	fShadow = shadow_jitterin(g_tShadowMap,shadowPos,vRandDirTC);
+	fShadow = shadow_jitterin(g_tShadowMap,vShadowPos,vRandDirTC);
 #elif SHADOW_BLUR == 1
-	fShadow = shadow_pcf(g_tShadowMap,shadowPos);
+	fShadow = shadow_pcf(g_tShadowMap,vShadowPos);
 #else
-	fShadow = ShadowDepthCompare(g_tShadowMap, shadowPos);
+	fShadow = ShadowDepthCompare(g_tShadowMap, vShadowPos);
 #endif
 	
-	fShadow = fShadow + 0.333f;
+	fShadow = fShadow + 0.7;
+
+#ifdef SHADOW_FADE
 	fShadow = GetDirShadowFade(fShadow,fDistance);
+#else
+	fShadow = saturate(fShadow);
+#endif
 
 
 	return fShadow;
 }	
+
+
 
 
 

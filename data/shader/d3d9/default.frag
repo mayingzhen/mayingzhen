@@ -32,9 +32,10 @@ struct PS_IN
 #ifdef DEFERREDSHADING 
    float4 v_normalDepth  :TEXCOORD2;	
 #else  
-#if USING_SHADOW != 0
-	float2 RandDirTC : TEXCOORD2;
-	float4 ShadowPos[g_iNumSplits] : TEXCOORD3;
+
+#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
+	float2 oRandDirTC : TEXCOORD2;
+	float4 oShadowPos : TEXCOORD3;
 #endif
 #endif 
    
@@ -67,8 +68,15 @@ float4 ForwardShading(float4 cDiffuse,PS_IN In)
 {
 	float4 flagColor = cDiffuse;
 
-#if USING_SHADOW != 0	
-	flagColor *= DoShadowMapping(In.ShadowPos,In.RandDirTC,In.WorldPos.w);
+#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
+#ifdef RECEIVESHADOW
+	float4 ShadowPos = In.oShadowPos;
+	float2 RandDirTC = 0;
+#if SHADOW_BLUR == 2
+	RandDirTC = In.oRandDirTC;
+#endif
+	oColor.rgb *= DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);		
+#endif
 #endif
 	
 	return flagColor;
