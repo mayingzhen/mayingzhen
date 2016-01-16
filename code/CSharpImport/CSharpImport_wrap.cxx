@@ -5186,6 +5186,20 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix4_getXAxis(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Matrix4_setXAxis(void * jarg1, void * jarg2) {
+  ma::Matrix4 *arg1 = (ma::Matrix4 *) 0 ;
+  ma::Vector3 *arg2 = 0 ;
+  
+  arg1 = (ma::Matrix4 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Vector3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->setXAxis((ma::Vector3 const &)*arg2);
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix4_getYAxis(void * jarg1) {
   void * jresult ;
   ma::Matrix4 *arg1 = (ma::Matrix4 *) 0 ;
@@ -5198,6 +5212,20 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix4_getYAxis(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Matrix4_setYAxis(void * jarg1, void * jarg2) {
+  ma::Matrix4 *arg1 = (ma::Matrix4 *) 0 ;
+  ma::Vector3 *arg2 = 0 ;
+  
+  arg1 = (ma::Matrix4 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Vector3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->setYAxis((ma::Vector3 const &)*arg2);
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix4_getZAxis(void * jarg1) {
   void * jresult ;
   ma::Matrix4 *arg1 = (ma::Matrix4 *) 0 ;
@@ -5207,6 +5235,20 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix4_getZAxis(void * jarg1) {
   result = ((ma::Matrix4 const *)arg1)->getZAxis();
   jresult = new ma::Vector3((const ma::Vector3 &)result); 
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Matrix4_setZAxis(void * jarg1, void * jarg2) {
+  ma::Matrix4 *arg1 = (ma::Matrix4 *) 0 ;
+  ma::Vector3 *arg2 = 0 ;
+  
+  arg1 = (ma::Matrix4 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Vector3 const & type is null", 0);
+    return ;
+  } 
+  (arg1)->setZAxis((ma::Vector3 const &)*arg2);
 }
 
 

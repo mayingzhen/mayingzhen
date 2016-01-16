@@ -54,7 +54,7 @@ namespace ma
 		void				SetDepthWirte(bool b);
 		void				SetColorWrite(bool b);
 		void				SetCullMode(CULL_MODE eCullMode);
-		void				SetDepthBias(float fConstantBias);
+		void				SetDepthBias(float fConstantBias,float slopeScaleBias);
 
 		void				SetStencilCheckEnabled(bool enabled);
 		void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 

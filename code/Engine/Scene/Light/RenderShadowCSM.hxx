@@ -27,9 +27,9 @@ namespace ma
 		m_fConstantBias = DEFAULT_CONSTANTBIAS;
 		m_fSlopeScaledBias = DEFAULT_SLOPESCALEDBIAS;
 
-		m_ShadowSamplesNumer = MAX_SHADOW_SAMPLES_NUM;
-		memset(m_irreg_kernel,0,sizeof(m_irreg_kernel));
-		memset(m_viewPosVecLS,0,sizeof(m_viewPosVecLS));
+// 		m_ShadowSamplesNumer = MAX_SHADOW_SAMPLES_NUM;
+// 		memset(m_irreg_kernel,0,sizeof(m_irreg_kernel));
+// 		memset(m_viewPosVecLS,0,sizeof(m_viewPosVecLS));
 
 		m_fShadowFarDist = 0;
 
@@ -50,7 +50,7 @@ namespace ma
 		}
 		else if ( GetDeviceCapabilities()->GetFloatTexturesSupported() )
 		{
-			GetRenderSystem()->AddShaderGlobaMacro("USING_32F","1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_FLOATTEXTURE","1");
 		}		
 
 		SetMaxSplitCount(m_nMaxSplitCount);
@@ -150,14 +150,6 @@ namespace ma
 			m_curSplitPos[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = fFarSplit;
  
 			m_SpitFrustum[m_nCurSplitCount].Update(pCamera,fNearSplit,fFarSplit);
-
-
-			if (m_eShadowBleurLevel == SHADOW_JITTERIN)
-			{
-				Vector3 vViewPosLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetPos();
-				Vector3 vViewVectLS = m_SpitFrustum[m_nCurSplitCount].GetLightViewMatrix() * pCamera->GetForward();
-				m_viewPosVecLS[GetRenderSystem()->CurThreadFill()][m_nCurSplitCount] = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
-			}
 
 			fNearSplit = fFarSplit;
 			++m_nCurSplitCount;
@@ -302,35 +294,35 @@ namespace ma
 
 		if (SHADOW_JITTERIN == eBlur)
 		{
-			m_pRotSampler = CreateTexture("_common/rotrandom.dds");
+			//m_pRotSampler = CreateTexture("_common/rotrandom.dds");
 			
-			SetShadowSamplesNum(m_ShadowSamplesNumer);
+			//SetShadowSamplesNum(m_ShadowSamplesNumer);
 		}
 	}
 
 
-	void RenderShadowCSM::SetShadowSamplesNum(int nNum)
-	{
-		ASSERT(nNum <= MAX_SHADOW_SAMPLES_NUM);
-		if (nNum > MAX_SHADOW_SAMPLES_NUM)
-			return;
-
-		m_ShadowSamplesNumer = nNum;
-
-		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
-
-		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
-
-		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
-		{
-			Vector2 vSample = PoissonDiskGen::GetSample(i);
-			m_irreg_kernel[nIdx].x = vSample.x;
-			m_irreg_kernel[nIdx].y = vSample.y;
-			vSample = PoissonDiskGen::GetSample(i + 1);
-			m_irreg_kernel[nIdx].z = vSample.x;
-			m_irreg_kernel[nIdx].w = vSample.y;
-		}
-	}
+//	void RenderShadowCSM::SetShadowSamplesNum(int nNum)
+//	{
+// 		ASSERT(nNum <= MAX_SHADOW_SAMPLES_NUM);
+// 		if (nNum > MAX_SHADOW_SAMPLES_NUM)
+// 			return;
+// 
+// 		m_ShadowSamplesNumer = nNum;
+// 
+// 		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
+// 
+// 		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
+// 
+// 		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
+// 		{
+// 			Vector2 vSample = PoissonDiskGen::GetSample(i);
+// 			m_irreg_kernel[nIdx].x = vSample.x;
+// 			m_irreg_kernel[nIdx].y = vSample.y;
+// 			vSample = PoissonDiskGen::GetSample(i + 1);
+// 			m_irreg_kernel[nIdx].z = vSample.x;
+// 			m_irreg_kernel[nIdx].w = vSample.y;
+// 		}
+//	}
 	
 // 	RenderShadowCSM* g_pRenderShadowCSM = NULL;
 // 	RenderShadowCSM* GetRenderShadowCSM()

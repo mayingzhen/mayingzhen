@@ -378,15 +378,27 @@ namespace ma
 		{
 			return Vector3(m[0][0], m[1][0],m[2][0]);	
 		}
+		inline void setXAxis(const Vector3& vAxis) 
+		{
+			m[0][0] = vAxis.x; m[1][0]= vAxis.y; m[2][0] = vAxis.z;
+		} 
 
 		inline Vector3 getYAxis() const
 		{
 			return Vector3(m[0][1], m[1][1],m[2][1]);	
 		}
+		inline void setYAxis(const Vector3&  vAxis)
+		{
+			m[0][1] = vAxis.x; m[1][1] = vAxis.y; m[2][1] = vAxis.z;
+		}
 
 		inline Vector3 getZAxis() const
 		{
 			return Vector3(m[0][2], m[1][2],m[2][2]);	
+		}
+		inline void setZAxis(const Vector3& vAxis)
+		{
+			m[0][2] = vAxis.x; m[1][2] = vAxis.y; m[2][2] = vAxis.z;
 		}
         
 

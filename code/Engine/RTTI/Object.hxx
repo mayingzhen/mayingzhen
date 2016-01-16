@@ -174,9 +174,12 @@ namespace ma
 			const char* pszValue = pXmlAttribute->findAttribute("Value");
 
 			const AttributeInfo* pAttribute = GetAttributeInfoByName(pszName);
-			ASSERT(pAttribute);
+			//ASSERT(pAttribute);
 			if (pAttribute == NULL)
+			{
+				pXmlAttribute = pXmlAttribute->next_sibling("Attribute");
 				continue;
+			}
 
 			string strType = pszType;
 			string strValue = pszValue;

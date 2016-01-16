@@ -23,8 +23,9 @@ namespace ma
 		bool GetColorWrite() const {return m_bColorWrite;}
 		void SetColorWrite(bool bColorWrite) {m_bColorWrite = bColorWrite;}
 		
-		float GetDepthBias() const {return m_fDepthBias;}
-		void SetDepthBias(float fDepthBias) {m_fDepthBias = fDepthBias;}
+		float GetConstantBias() const {return m_fConstantBias;}
+		float GetSlopeScaleBias() const {return m_fSlopeScaleBias;}
+		void SetDepthBias(float fConstantBias,float slopeScaleBias) {m_fConstantBias = fConstantBias;m_fSlopeScaleBias = slopeScaleBias;}
 
 		DEPTH_CHECK_MODE GetDepthCheckMode() const {return m_eDepthCheckMode;}
 		void SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode) {m_eDepthCheckMode = eDepthCheckMode;}
@@ -38,7 +39,8 @@ namespace ma
 	private:
 		bool				m_bDepthWrite;
 		bool				m_bColorWrite;
-		float				m_fDepthBias;
+		float				m_fConstantBias;
+		float				m_fSlopeScaleBias;
 		DEPTH_CHECK_MODE	m_eDepthCheckMode;
 		BLEND_MODE			m_eBlendMode;
 		CULL_MODE			m_eCullMode;

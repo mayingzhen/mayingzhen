@@ -26,7 +26,7 @@ namespace ma
 	{
 	}
 
-	void ReadShape(MemoryStream* pDataStream)
+	AABB ReadShape(MemoryStream* pDataStream)
 	{
 		uint16 ShaeType = pDataStream->ReadUShort();
 		Vector3 vPos = pDataStream->ReadVector3();
@@ -34,11 +34,13 @@ namespace ma
 
 		if (ShaeType ==0)
 		{
-			Vector3 vAxis = pDataStream->ReadVector3();
+			Vector3 vSize = pDataStream->ReadVector3();
+			return AABB(vPos - vSize,vPos + vSize);
 		}
 		else
 		{
 			Vector2 vRadiusHeight = pDataStream->ReadVector2();
+			return AABB();
 		}
 	}
 
@@ -273,7 +275,7 @@ namespace ma
 		SkinVertexV0* pVertexV0 = (SkinVertexV0*)vecVertex;
 		uint32 nVertexCount = nVertexSize / sizeof(SkinVertexV0);
 
-		ReadShape(m_pDataStream.get());
+		m_meshBound = ReadShape(m_pDataStream.get());
 
 		uint32 nMeshLod = m_pDataStream->ReadUInt();
 		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)

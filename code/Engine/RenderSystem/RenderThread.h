@@ -130,7 +130,7 @@ namespace ma
 		void	RC_SetDepthWrite(bool b);
 		void	RC_SetColorWrite(bool b);
 		void	RC_SetCullMode(CULL_MODE eCullMode);
-		void	RC_SetDepthBias(float fConstantBias);
+		void	RC_SetDepthBias(float fConstantBias,float slopeScaleBias);
 		void	RC_SetBlendMode(BLEND_MODE eBlendMode);
 
 		void	RC_SetFloat(Uniform* uniform, float value);

@@ -1030,13 +1030,13 @@ namespace ma
 		}
 
 		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_INTZ) );
-		GetDeviceCapabilities()->SetINTZSupported(hr == D3D_OK);
+		//GetDeviceCapabilities()->SetINTZSupported(hr == D3D_OK);
 
 		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat,D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_D24S8) );
-		GetDeviceCapabilities()->SetD24S8Supported(hr == D3D_OK);
+		//GetDeviceCapabilities()->SetD24S8Supported(hr == D3D_OK);
 
 		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat,D3DUSAGE_RENDERTARGET, D3DRTYPE_SURFACE, D3D9Mapping::GetD3DFormat(PF_NULL) );
-		GetDeviceCapabilities()->SetNULLSupported(hr == D3D_OK);
+		//GetDeviceCapabilities()->SetNULLSupported(hr == D3D_OK);
 
 		if (GetDeviceCapabilities()->GetD24S8Supported() )
 		{

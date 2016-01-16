@@ -131,7 +131,7 @@ namespace ma
 
 		mutable Transform			m_tsfPS;
 		mutable Transform			m_tsfWS;
-		mutable Matrix4				m_matWS;	
+		mutable Matrix4				m_matWS;
 		mutable bool				m_bmatWSDirty;
 
 		bool						m_bEnable;

@@ -442,17 +442,20 @@ namespace ma
 
 	Vector3	SceneNode::GetForward()
 	{
-		return GetTransformWS().m_qRot * Vector3::NEGATIVE_UNIT_Z;
+		//return GetTransformWS().m_qRot * Vector3::NEGATIVE_UNIT_Z;
+		return GetMatrixWS().GetColumn(1);
 	}
 
 	Vector3	SceneNode::GetRight()
 	{
-		return GetTransformWS().m_qRot * Vector3::UNIT_X;
+		//return GetTransformWS().m_qRot * Vector3::UNIT_X;
+		return GetMatrixWS().GetColumn(0);
 	}
 
 	Vector3	SceneNode::GetUp()
 	{
-		return GetTransformWS().m_qRot * Vector3::UNIT_Y;
+		//return GetTransformWS().m_qRot * Vector3::UNIT_Z;
+		return GetMatrixWS().GetColumn(2);
 	}
 
 	void  SceneNode::Forward(float x)
@@ -479,12 +482,19 @@ namespace ma
 	{
 		Vector3 vUp = Vector3::UNIT_Z;
 
-		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye, vAt, vUp);
+		Vector3 vDirY = vAt - vEye;
+		vDirY.normalise();
 
-		Matrix4 matWS = matView.inverse();
+		Vector3 vDirX = vDirY.crossProduct(vUp);
+		vDirX.normalise();
+
+		Vector3 vDirZ = vDirX.crossProduct(vDirY);
+		vDirZ.normalise();
 
 		Transform tsfWS;
-		TransformFromMatrix(&tsfWS, &matWS);
+		tsfWS.m_vPos = vEye;
+		tsfWS.m_qRot = Quaternion(vDirX,vDirY,vDirZ);
+		tsfWS.m_vScale = Vector3::UNIT_SCALE;
  
  		SetTransformWS(tsfWS);
 	}

@@ -349,16 +349,17 @@ namespace ma
 		AddInt(eCullMode);
 	}
 
-	void RenderThread::RC_SetDepthBias(float fConstantBias)
+	void RenderThread::RC_SetDepthBias(float fConstantBias,float slopeScaleBias)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetDepthBias(fConstantBias);
+			GetRenderDevice()->SetDepthBias(fConstantBias,slopeScaleBias);
 			return;
 		}
 
 		AddCommand(eRC_SetDepthBias);
 		AddFloat(fConstantBias);
+		AddFloat(slopeScaleBias);
 	}
 
 	void RenderThread::RC_SetBlendMode(BLEND_MODE eBlendMode)
@@ -644,8 +645,9 @@ namespace ma
 				break;
 			case eRC_SetDepthBias:
 				{
-					float fDepthBias = ReadCommand<float>(n);
-					GetRenderDevice()->SetDepthBias(fDepthBias);
+					float fconstantBias = ReadCommand<float>(n);
+					float fSlopeScaleBias = ReadCommand<float>(n);
+					GetRenderDevice()->SetDepthBias(fconstantBias,fSlopeScaleBias);
 				}
 				break;
 			case eRC_SetBlendMode:

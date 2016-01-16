@@ -168,16 +168,8 @@ namespace ma
 		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
-
-		if (GetDeviceCapabilities()->GetD24S8Supported())
-		{
-			m_mapMacros["HWPCF"] = "1";
-		}
-
-		if (GetDeviceCapabilities()->GetINTZSupported())
-		{
-			m_mapMacros["HWDEPTH"] = "1";
-		}
+		m_mapMacros["USING_HW_PCF"] = "0";
+		m_mapMacros["USING_FLOATTEXTURE"] = "0";
 	}
 
 	void RenderSystem::InitCachState()
@@ -414,12 +406,12 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::SetDepthBias(float fDepthBias)
+	void RenderSystem::SetDepthBias(float fConstantBias,float slopeScaleBias)
 	{
-		if ( Math::Abs(m_curState.GetDepthBias() - fDepthBias) > 0.0001f )
+		//if ( Math::Abs(m_curState.GetDepthBias() - fDepthBias) > 0.0001f )
 		{
-			m_curState.SetDepthBias(fDepthBias);
-			m_pRenderThread->RC_SetDepthBias(fDepthBias);
+			m_curState.SetDepthBias(fConstantBias,slopeScaleBias);
+			m_pRenderThread->RC_SetDepthBias(fConstantBias,slopeScaleBias);
 		}
 	}
 
@@ -451,7 +443,7 @@ namespace ma
 
 		SetColorWrite(state.GetColorWrite());
 
-		SetDepthBias(state.GetDepthBias());
+		SetDepthBias(state.GetConstantBias(),state.GetSlopeScaleBias());
 	}
 
 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)

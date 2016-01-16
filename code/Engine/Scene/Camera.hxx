@@ -30,7 +30,11 @@ namespace ma
 	{
 		SceneNode::MarkDirty();
 
-		Matrix4 matView = this->GetMatrixWS().inverse();
+		Vector3 vUp = this->GetUp();
+		Vector3 vDir = this->GetForward();
+		Vector3 vEye = this->GetPosWS();
+		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye,vEye + vDir,vUp);
+		//Matrix4 matView = this->GetMatrixWS().inverse();
 		m_matViewProj.SetMatView(matView);
 
 		m_frustum.Update(m_matViewProj.GetMatViewProj(),GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);

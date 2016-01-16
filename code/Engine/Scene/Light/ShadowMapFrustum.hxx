@@ -17,7 +17,8 @@ namespace ma
 
 		m_matLightView = Matrix4::IDENTITY;
 		m_matLightProj = Matrix4::IDENTITY;
-		m_matLightViewProj = Matrix4::IDENTITY;
+		m_matLightViewProj[0] = Matrix4::IDENTITY;
+		m_matLightViewProj[1] = Matrix4::IDENTITY;
 		m_matCrop = Matrix4::IDENTITY;
 		m_matShadow[0]  = Matrix4::IDENTITY;
 		m_matShadow[1]  = Matrix4::IDENTITY;
@@ -38,6 +39,10 @@ namespace ma
 		if (shadowMapDepthFormat != PF_UNKNOWN)
 		{
 			m_pShdowMapDepth = GetRenderSystem()->CreateRenderTexture(nSize,nSize,shadowMapDepthFormat,USAGE_DEPTHSTENCIL);
+		}
+		else
+		{
+			m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,PF_D24S8);
 		}
 
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
@@ -77,6 +82,12 @@ namespace ma
 		{
 			offset.x += scale.x + 0.5f / width;
 			offset.y += scale.y + 0.5f / height;
+
+			if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
+			{
+				offset.x -= 0.5f / width;
+				offset.y -= 0.5f / height;
+			}
 
 			scale.y = -scale.y;
 			texAdjust.setTrans(Vector3(offset.x, offset.y, 0.0f));
@@ -334,7 +345,22 @@ namespace ma
 
 		UpdateCropMats();
 
-		m_matShadow[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
+		m_matLightViewProj[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
+		m_matShadow[GetRenderSystem()->CurThreadFill()] = m_matTexAdjust * m_matLightViewProj[GetRenderSystem()->CurThreadFill()];
+
+// 		if (pCamera->GetDeferredShadowEnabled())
+// 		{
+// 			ProjectScreenToWorldExpansionBasis(m_matShadow,*pCamera,(float)pCamera->GetWidth(),(float)pCamera->GetHeight(),
+// 				m_vWBasisX,m_vWBasisY,m_vWBasisZ,m_vShadowCamPos);
+// 		}
+// 
+// 		RenderShadowCSM* pShadowCSM = pCamera->GetSceneManager()->GetRenderShadow();
+// 		if (pShadowCSM->GetShadowBlurLevel() == ShadowBlur_JITTERIN)
+// 		{
+// 			Vector3 vViewPosLS = this->GetLightViewMatrix() * pCamera->GetEyeNode()->GetWorldPos();
+// 			Vector3 vViewVectLS = this->GetLightViewMatrix() * pCamera->GetAtNode()->GetWorldPos() - vViewPosLS;
+// 			m_viewPosVecLS = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
+// 		}
 	}
 
 	void ShadowMapFrustum::Render(Camera* pCamera)
@@ -342,11 +368,19 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		GetRenderSystem()->SetViewPort(m_viewport);
+		Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
+		RefPtr<Texture> pPreRenderTarget = GetRenderSystem()->SetRenderTarget(m_pShadowMapColor);
+		RefPtr<Texture> pPreDepthStencil = GetRenderSystem()->SetDepthStencil(m_pShdowMapDepth);
 
-		if ( GetDeviceCapabilities()->GetINTZSupported() )
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
+
+		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
 		{
-			GetRenderSystem()->SetDepthBias(m_fConstantBias[GetRenderSystem()->CurThreadProcess()]);
+			GetRenderSystem()->SetColorWrite(false);
+
+			float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
+			float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
+			GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
 		}
 
 		for (UINT i = 0; i <  m_arrRenderable[GetRenderSystem()->CurThreadProcess()].size(); ++i)
@@ -364,9 +398,20 @@ namespace ma
 			 pTech->Bind();
 
 			 Uniform* pUniform = pTech->GetShaderProgram()->GetUniform("matLightViewProj");
-			 GetRenderSystem()->SetValue(pUniform,m_matShadow[GetRenderSystem()->CurThreadProcess()]);
+			 GetRenderSystem()->SetValue(pUniform,m_matLightViewProj[GetRenderSystem()->CurThreadProcess()]);
 
-			 GetRenderSystem()->DrawRenderable(pRenderObj,pTech);
+			 pRenderObj->Render(pTech);
+		}
+
+		GetRenderSystem()->SetViewPort(rPreViewport);
+		GetRenderSystem()->SetRenderTarget(pPreRenderTarget.get());
+		GetRenderSystem()->SetDepthStencil(pPreDepthStencil.get());
+
+		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
+		{
+			GetRenderSystem()->SetDepthBias(0,0);
+
+			GetRenderSystem()->SetColorWrite(true);
 		}
 	}
 

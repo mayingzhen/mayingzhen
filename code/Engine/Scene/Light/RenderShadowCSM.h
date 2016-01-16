@@ -43,12 +43,12 @@ namespace ma
 		Shadow_Blur			GetShadowBlurLevel() const {return m_eShadowBleurLevel;}
 
 		// Shadow Irreg
-		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
-		uint32				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
-		Texture*			GetRotSampler() const {return m_pRotSampler.get();}		
-		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
-		void				SetShadowSamplesNum(int nNum);
-		const Vector4*		GetViewPosVecLS() const {return m_viewPosVecLS[GetRenderSystem()->CurThreadProcess()];}
+// 		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
+// 		uint32				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
+// 		Texture*			GetRotSampler() const {return m_pRotSampler.get();}		
+// 		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
+// 		void				SetShadowSamplesNum(int nNum);
+// 		const Vector4*		GetViewPosVecLS() const {return m_viewPosVecLS[GetRenderSystem()->CurThreadProcess()];}
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
@@ -89,12 +89,6 @@ namespace ma
 		int					m_nShadowMapSize;
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
-
-		// Shadow irreg
-		int					m_ShadowSamplesNumer;
-		Vector4				m_irreg_kernel[MAX_SHADOW_SAMPLES_NUM / 2];
-		Vector4				m_viewPosVecLS[2][MAX_FRUSTUM_SPLIT_NUM];
-		RefPtr<Texture>		m_pRotSampler;
 
 		float				m_fConstantBias;
 		float				m_fSlopeScaledBias;	
