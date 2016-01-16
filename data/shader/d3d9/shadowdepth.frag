@@ -6,7 +6,7 @@ struct PS_IN
 	
 	float2 oUV	: TEXCOORD0;
 		
-#ifndef HWPCF
+#if USING_HW_PCF == 0
 	float4 oDepth : TEXCOORD1;
 #endif	
 };
@@ -15,7 +15,7 @@ float4 OutPutDepth(float fDepth)
 {
 	fDepth += 0.0010f;
 
-#if USING_32F == 1
+#if USING_FLOATTEXTURE == 1
 	return fDepth;
 #else
 	return EncodeFloatRGBA(fDepth);

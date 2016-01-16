@@ -22,7 +22,7 @@ struct VS_OUT
 	
 	float2 oUV	: TEXCOORD0;
 		
-#ifndef HWPCF
+#if USING_HW_PCF == 0
 	float4 oDepth : TEXCOORD1;
 #endif	
 };
@@ -50,7 +50,7 @@ VS_OUT main( VS_IN In)
 	
 	Out.oUV = In.a_texCoord;
 
-#ifndef HWPCF
+#if USING_HW_PCF == 0
 	Out.oDepth = Out.oPos;  
 #endif	
 

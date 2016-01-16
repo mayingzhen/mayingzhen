@@ -34,7 +34,9 @@ struct VS_OUTPUT
    float4 v_normalDepth  :TEXCOORD4;	
 #else 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
+#if SHADOW_BLUR == 2
 	float2 oRandDirTC : TEXCOORD4;
+#endif	
 	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif	

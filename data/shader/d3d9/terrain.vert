@@ -40,7 +40,9 @@ struct VS_OUTPUT
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
+#if SHADOW_BLUR == 2
 	float2 oRandDirTC : TEXCOORD4;
+#endif	
 	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif
@@ -83,11 +85,9 @@ VS_OUTPUT main(const VS_INPUT v)
     Out.DetailUV.zw = GetDetaiUV( v.UV * uCellAmount, uDetailScale.y, uDetailRotate.zw, uDetailOffSet.zw );
 #endif
 
-#ifdef BOREDER
 	Out.Color = v.Color;
 	float fWeight = saturate(1 - abs(v.Color.a * 255.0 - uCurMaterialID));	
 	Out.Color.a = fWeight;
-#endif
 
 #ifdef DEFERREDSHADING  
 	GBufferVSOut(v.Normal.xyz,Out.Pos.w,Out.v_normalDepth);
