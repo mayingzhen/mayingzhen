@@ -313,13 +313,13 @@ namespace ma
 		case WM_CHAR:
 			// Suppress key repeats.
 			if ((lParam & 0x40000000) == 0)
-				Game::GetInstance().mkeyEvent.trigger(Keyboard::KEY_CHAR, wParam);
+				Game::GetInstance().mkeyEvent.trigger(Keyboard::KEY_CHAR, getKey(wParam, shiftDown ^ capsOn));
 			break;
 
 		case WM_UNICHAR:
 			// Suppress key repeats.
 			if ((lParam & 0x40000000) == 0)
-				Game::GetInstance().mkeyEvent.trigger(Keyboard::KEY_CHAR, wParam);
+				Game::GetInstance().mkeyEvent.trigger(Keyboard::KEY_CHAR, getKey(wParam, shiftDown ^ capsOn));
 			break;
 
 		case WM_SETFOCUS:

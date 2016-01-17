@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Game.h"
 
 namespace ma
 {
@@ -7,6 +8,72 @@ namespace ma
 	{
 		memset(&m_curIS,0,sizeof(InputState));
 		memset(&m_preIS,0,sizeof(InputState));
+	
+		Game::GetInstance().mkeyEvent.notify(this,&Input::keyEvent);
+		Game::GetInstance().mMouseEvent.notify(this,&Input::mouseEvent);
+	}
+
+
+	Input::~Input()
+	{
+		Game::GetInstance().mkeyEvent.remove(this,&Input::keyEvent);
+		Game::GetInstance().mMouseEvent.remove(this,&Input::mouseEvent);
+	}
+
+	void Input::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
+	{
+		if (Keyboard::KEY_PRESS == evt)
+		{
+			InjectKeyPressed(key);
+		}
+		else if (Keyboard::KEY_RELEASE == evt)
+		{
+			InjectKeyReleased(key);
+		}
+	}
+
+	void Input::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+	{
+		MouseState ms = this->GetMouseState();
+		ms.X.rel = x - ms.X.abs;
+		ms.X.abs = x;
+		ms.Y.rel = y - ms.Y.abs;
+		ms.Y.abs = y;
+		ms.Z.rel = wheelDelta;
+
+		if (evt == Mouse::MOUSE_MOVE)
+		{
+		}
+		else if (evt == Mouse::MOUSE_WHEEL)
+		{
+			//ms.Z.rel = wheelDelta;
+		}
+		else if (evt == Mouse::MOUSE_PRESS_LEFT_BUTTON)
+		{
+			ms.buttons |= (1L << MB_Left);
+		}
+		else if (evt == Mouse::MOUSE_RELEASE_LEFT_BUTTON)
+		{
+			ms.buttons &= ~(1L << MB_Left);
+		}
+		else if (evt == Mouse::MOUSE_PRESS_MIDDLE_BUTTON)
+		{
+			ms.buttons |= (1L << MB_Middle);
+		}
+		else if (evt == Mouse::MOUSE_RELEASE_MIDDLE_BUTTON)
+		{
+			ms.buttons &= ~(1L << MB_Middle);
+		}
+		else if (evt == Mouse::MOUSE_PRESS_RIGHT_BUTTON)
+		{
+			ms.buttons |= (1L << MB_Right);
+		}
+		else if (evt == Mouse::MOUSE_RELEASE_RIGHT_BUTTON)
+		{
+			ms.buttons &= ~(1L << MB_Right);
+		}
+
+		InjectMouseState(ms);
 	}
 
 	void Input::InjectLoseFocus()
@@ -28,7 +95,7 @@ namespace ma
 	{
 		m_curIS.m_mouseState.X.rel = m_curIS.m_mouseState.X.abs - m_preIS.m_mouseState.X.abs;
 		m_curIS.m_mouseState.Y.rel = m_curIS.m_mouseState.Y.abs - m_preIS.m_mouseState.Y.abs;
-		m_curIS.m_mouseState.Z.rel = m_curIS.m_mouseState.Z.abs - m_preIS.m_mouseState.Z.abs;
+		//m_curIS.m_mouseState.Z.rel = m_curIS.m_mouseState.Z.abs - m_preIS.m_mouseState.Z.abs;
 	}
 
 	void Input::InjectKeyPressed(Keyboard::Key keyCode)

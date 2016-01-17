@@ -122,19 +122,18 @@ namespace ma
 
 	Vector2	CameraController::GetMouseProjVec()
 	{
-		// 		const OIS::MouseState& mouseState = GetInput()->GetMouseState();
-		// 
-		// 		int w,h;
-		// 		Platform::GetInstance().GetWindowSize(w,h);
-		// 
-		// 		Vector2 vScreenOffset(mouseState.X.rel, mouseState.Y.rel);
-		// 		vScreenOffset.x = -vScreenOffset.x * 2.f / w;
-		// 		vScreenOffset.y = vScreenOffset.y * 2.f / h;
-		// 		//vScreenOffset.x = vScreenOffset.x * 2.0f / w - 1.0f;
-		// 		//ScreenOffset.y = 1.0f - vScreenOffset.y * 2.0f / h;
-		// 
-		// 		return vScreenOffset;
-		return Vector2::ZERO;
+		const MouseState& mouseState = GetInput()->GetMouseState();
+
+		int w,h;
+		Platform::GetInstance().GetWindowSize(w,h);
+
+		Vector2 vScreenOffset(mouseState.X.rel, mouseState.Y.rel);
+		vScreenOffset.x = -vScreenOffset.x * 2.f / w;
+		vScreenOffset.y = vScreenOffset.y * 2.f / h;
+		//vScreenOffset.x = vScreenOffset.x * 2.0f / w - 1.0f;
+		//ScreenOffset.y = 1.0f - vScreenOffset.y * 2.0f / h;
+
+		return vScreenOffset;
 	}
 
 	Vector3	CameraController::ProjToWorldNormal(const Vector2* pVec,float fDepth) 
@@ -175,7 +174,7 @@ namespace ma
 
 	void CameraController::ZoomCamera(float fDeltaZoom)
 	{
-		fDeltaZoom *= m_fTargetDis * 0.01f / m_fMoveStep;
+		fDeltaZoom *= m_fTargetDis /** 0.01f*/ / m_fMoveStep;
 
 		m_pCamera->Forward(fDeltaZoom);
 

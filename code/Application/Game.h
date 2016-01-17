@@ -36,7 +36,7 @@ namespace ma
 		uint32 m_OnWindowSizedWidth;
 		uint32 m_OnWindowSizedHeight;
 
-		Signal< void(Keyboard::KeyEvent, int) > mkeyEvent;
+		Signal< void(Keyboard::KeyEvent, Keyboard::Key) > mkeyEvent;
 		Signal< void(Mouse::MouseEvent, int, int, int) > mMouseEvent;
 	};
 }

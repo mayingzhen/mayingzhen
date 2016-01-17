@@ -11,6 +11,8 @@ namespace ma
 
 		Engine* pEngine = new Engine();
 		SetEngine(pEngine);
+
+		g_pInput = new Input();
 	}
 
 	Game::~Game()
@@ -18,6 +20,8 @@ namespace ma
 		Engine* pEngine = GetEngine();
 		SAFE_DELETE(pEngine);
 		SetEngine(NULL);
+
+		SAFE_DELETE(g_pInput);
 	}
 
 	Game& Game::GetInstance()

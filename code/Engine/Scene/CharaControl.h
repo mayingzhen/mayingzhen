@@ -38,7 +38,7 @@ namespace ma
 		void SetIdleAnim(const char* pszAnimPath);
 
 	private:
-		void keyEvent(Keyboard::KeyEvent evt, int key);
+		void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 		void mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
 	private:

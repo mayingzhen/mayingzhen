@@ -264,6 +264,9 @@ namespace ma
 	{
 		//Log("................. Update() ..................");
 
+		if (GetInput())
+			GetInput()->InjectInputEnd();
+
 		Game::Update();
 
 		if (m_pCameraControl)
@@ -278,6 +281,9 @@ namespace ma
 					
 		if (m_pCurSample)
 			m_pCurSample->Update();
+
+		if (GetInput())
+			GetInput()->InjectInputBegin();
 	
 	}
 

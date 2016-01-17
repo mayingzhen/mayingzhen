@@ -10,6 +10,8 @@ namespace ma
 	public:
 		Input();
 
+		~Input();
+
 		void Init(int winId);
 
 		void Shutdown();
@@ -41,6 +43,10 @@ namespace ma
 		const MouseState& GetMouseState() const;
 
 		void OnResize(int w,int h);
+
+	private:
+		void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
+		void mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
 	private:
 		struct InputState

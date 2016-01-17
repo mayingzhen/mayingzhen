@@ -85,7 +85,7 @@
 	}
 
 
-	void CharaControl::keyEvent(Keyboard::KeyEvent evt, int key)
+	void CharaControl::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
 	{
 
 	}
