@@ -1,0 +1,21 @@
+<Material>
+	<LodSubMaterial>
+		<SubMaterial>
+			<ShadingTech>
+				<Shader VSFile="default" PSFile="default" ShaderMacro="DIFFUSE;DIFFUSECOLOR;SKIN"/>
+				<RenderState ClassName="RenderState">
+					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
+					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
+					<Attribute Name="DepthBias" Type="float" Value="0"/>
+					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
+					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
+					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+				</RenderState>
+			</ShadingTech>
+			<Parameters Name="u_texture" Type="SamplerState" ImagePath="gigi/gigi/body_f.tga" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
+			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
+			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 1"/>
+		</SubMaterial>
+	</LodSubMaterial>
+</Material>
+

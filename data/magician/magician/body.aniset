@@ -1,0 +1,24 @@
+<AnimationSet>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="100"/>
+		<Attribute Name="AnimationClip" Type="string" Value="magician/100/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="120"/>
+		<Attribute Name="AnimationClip" Type="string" Value="magician/120/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="602"/>
+		<Attribute Name="AnimationClip" Type="string" Value="magician/602/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+</AnimationSet>
+

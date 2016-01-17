@@ -1,0 +1,45 @@
+<AnimationSet>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="100_stand"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/100_stand/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="210_run"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/210_run/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="281_run_jump_start"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/281_run_jump_start/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="282_jump_twostage"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/282_jump_twostage/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="283_run_jumping"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/283_run_jumping/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+	<AnimNode ClassName="AnimClipNode">
+		<Attribute Name="AnimNodeName" Type="string" Value="285_run_jump_stop"/>
+		<Attribute Name="AnimationClip" Type="string" Value="gigi/285_run_jump_stop/bip01.ska"/>
+		<Attribute Name="BoneSet" Type="string" Value=""/>
+		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
+		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+	</AnimNode>
+</AnimationSet>
+

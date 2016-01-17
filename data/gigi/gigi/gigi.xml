@@ -1,0 +1,24 @@
+<SceneNode ClassName="SceneNode">
+	<Attribute Name="Is Enabled" Type="bool" Value="true"/>
+	<Attribute Name="Name" Type="string" Value=""/>
+	<Attribute Name="Position" Type="Vector3" Value="0 0 0"/>
+	<Attribute Name="Rotation" Type="Quaternion" Value="1 0 0 0"/>
+	<Attribute Name="Scale" Type="Vector3" Value="1 1 1"/>
+	<Component ClassName="SkinMeshComponent">
+		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_b.skn"/>
+		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_b.mtl"/>
+	</Component>
+	<Component ClassName="SkinMeshComponent">
+		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_h.skn"/>
+		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_h.mtl"/>
+	</Component>
+	<Component ClassName="SkinMeshComponent">
+		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_f.skn"/>
+		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_f.mtl"/>
+	</Component>
+	<Component ClassName="AnimationComponent">
+		<Attribute Name="AnimSetPath" Type="string" Value="gigi/gigi/body.aniset"/>
+		<Attribute Name="SkeletonPath" Type="string" Value="gigi/gigi/body.ske"/>
+	</Component>
+</SceneNode>
+
