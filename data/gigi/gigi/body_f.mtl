@@ -6,7 +6,6 @@
 				<RenderState ClassName="RenderState">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthBias" Type="float" Value="0"/>
 					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
 					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
