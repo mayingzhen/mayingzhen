@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/;../../extern/include;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;&quot;../../extern/zziplib-0.13.57&quot;;&quot;../../extern/FreeImage-3.13.1/Source&quot;;../../extern/vld/include/"
+				AdditionalIncludeDirectories="../../code/;../../extern;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;&quot;../../extern/zziplib-0.13.57&quot;;&quot;../../extern/FreeImage-3.13.1/Source&quot;;../../extern/vld/include/;../../extern/LibCpuId/src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				ExceptionHandling="2"
@@ -328,7 +328,19 @@
 			Name="Thread"
 			>
 			<File
+				RelativePath="..\..\code\Engine\Thread\AtomicOps.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Thread\AutoLock.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\MSemaphore.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\MSemaphore.hxx"
 				>
 			</File>
 			<File
