@@ -18,7 +18,7 @@ namespace ma
 		void EndUpdate();
 
 	private:
-		virtual void ThreadUpdate();
+		virtual void ThreadLoop();
 
 	public:
 		CMyEvent*		m_pBeginEvent;

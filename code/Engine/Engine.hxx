@@ -70,7 +70,7 @@ namespace ma
 
 		if (bWorkQueue)
 		{
-			GetWorkQueue()->CreateThreads(3);
+			GetWorkQueue()->CreateThreads(GetNumLogicalCPUs() - 1,16);
 		}
 	}
 	

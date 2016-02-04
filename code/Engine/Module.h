@@ -26,6 +26,8 @@
 
 // Thread
 #include "Engine/Thread/Thread.h"
+#include "Engine/Thread/AtomicOps.h"
+#include "Engine/Thread/MSemaphore.h"
 #include "Engine/Thread/WorkQueue.h"
 
 #include "Engine/RenderSystem/IRenderDevice/IndexBuffer.h"

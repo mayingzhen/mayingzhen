@@ -196,7 +196,7 @@
 	}
 
 
-	ref_ptr<CharaControl> CreateCharaControl()
+	RefPtr<CharaControl> CreateCharaControl()
 	{
 		return new CharaControl();
 	}

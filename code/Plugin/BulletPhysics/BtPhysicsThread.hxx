@@ -2,19 +2,22 @@
 
 namespace ma
 {
-	void PhysicsThread::ThreadUpdate()
+	void PhysicsThread::ThreadLoop()
 	{
-		m_pBeginEvent->Wait();
+		while(!m_bExit)
+		{
+			m_pBeginEvent->Wait();
 
-		m_bEnd = false;
+			m_bEnd = false;
 
-		if ( GetPhysicsSystem()->GetDynamicsWorld() )
-			GetPhysicsSystem()->GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
+			if ( GetPhysicsSystem()->GetDynamicsWorld() )
+				GetPhysicsSystem()->GetDynamicsWorld()->stepSimulation(GetTimer()->GetFrameDeltaTime());
 
-		m_bEnd = true;
+			m_bEnd = true;
+		}
 	}
 
-	PhysicsThread::PhysicsThread()
+	PhysicsThread::PhysicsThread():Thread("PhysicsThread")
 	{
 		m_pBeginEvent = new CMyEvent();
 	}

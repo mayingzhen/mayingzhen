@@ -9,9 +9,10 @@ namespace ma
 		pThread->ThreadLoop();
 	}
 
-	Thread::Thread()
+	Thread::Thread(const char* pszName)
 	{
 		m_hThread = NULL;
+		m_strName = pszName ? pszName : "";
 		m_bExit = false;
 	}
 
@@ -26,6 +27,11 @@ namespace ma
 		pthread_join(m_hThread, NULL);
 		m_hThread = NULL;
     }
+
+	void Thread::SetName(const char* pszName)
+	{
+
+	}
 
 	DWORD Thread::GetThreadId()
 	{

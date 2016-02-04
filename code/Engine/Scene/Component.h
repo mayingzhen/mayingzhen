@@ -19,6 +19,7 @@ namespace ma
 		virtual	void	Update() {}
 		virtual void	ParallelUpdate() {}
 		virtual void	EndParallelUpdate() {}
+		virtual void	ParallelShow(Camera* pCamera) {}
 
 		virtual	void	OnAddToSceneNode(SceneNode* pNode) {}
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode) {}

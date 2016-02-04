@@ -57,5 +57,5 @@ namespace ma
 		bool m_bMoveing;
 	};
 
-	ref_ptr<CharaControl> CreateCharaControl();
+	RefPtr<CharaControl> CreateCharaControl();
 }

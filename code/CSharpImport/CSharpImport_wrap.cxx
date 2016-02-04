@@ -9982,6 +9982,16 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Component_EndParallelUpdate(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Component_ParallelShow(void * jarg1, void * jarg2) {
+  ma::Component *arg1 = (ma::Component *) 0 ;
+  ma::Camera *arg2 = (ma::Camera *) 0 ;
+  
+  arg1 = (ma::Component *)jarg1; 
+  arg2 = (ma::Camera *)jarg2; 
+  (arg1)->ParallelShow(arg2);
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Component_OnAddToSceneNode(void * jarg1, void * jarg2) {
   ma::Component *arg1 = (ma::Component *) 0 ;
   ma::SceneNode *arg2 = (ma::SceneNode *) 0 ;

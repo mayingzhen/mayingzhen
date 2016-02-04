@@ -76,10 +76,8 @@ namespace ma
 		
 		void					OnFlushFrame();
 
-		void					AddParallelUpdate(Component* pRender);
-
-	private:
-		void					ParallelUpdate();
+		void					AddParallelUpdate(Component* pComponent);
+		void					AddParallelShow(Component* pComponent);
 
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
@@ -99,7 +97,9 @@ namespace ma
 		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
 
-		std::vector<Component*>	m_vecParallelUpdateNode;
+		typedef std::vector< RefPtr<Component> > VEC_COMP;
+		VEC_COMP				m_vecParallelUpdate;
+		VEC_COMP				m_vecParallelShow;
 
 		RenderQueue*			m_pRenderQueue[2];
 		

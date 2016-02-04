@@ -84,8 +84,8 @@ extern bool g_bGL_APPLE_framebuffer_multisample;
 // Graphics (GLSL)
 #define VERTEX_ATTRIBUTE_POSITION_NAME              "a_position"
 #define VERTEX_ATTRIBUTE_NORMAL_NAME                "a_normal"
-#define VERTEX_ATTRIBUTE_COLOR0_NAME                 "a_color0"
-#define VERTEX_ATTRIBUTE_COLOR1_NAME                 "a_color1"
+#define VERTEX_ATTRIBUTE_COLOR0_NAME                "a_color0"
+#define VERTEX_ATTRIBUTE_COLOR1_NAME                "a_color1"
 #define VERTEX_ATTRIBUTE_TANGENT_NAME               "a_tangent"
 #define VERTEX_ATTRIBUTE_BINORMAL_NAME              "a_binormal"
 #define VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME          "a_blendWeights"

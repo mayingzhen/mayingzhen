@@ -10,22 +10,24 @@ namespace ma
 	class Thread
 	{	
 	public:
-		Thread();
-
-		virtual void	ThreadUpdate() = 0;
+		Thread(const char* pszName);
   
         virtual void	Start();
   
         virtual void	Stop();
 
-		virtual void	ThreadLoop();
+		virtual void	ThreadLoop() = 0;
 
 		DWORD			GetThreadId();
 
+	private:
+		void			SetName(const char* pszName);
+
 	protected:
-		pthread_t	m_hThread;
+		pthread_t		m_hThread;
+		string			m_strName;
         
-        bool        m_bExit;
+        volatile bool   m_bExit;
 	};
 
 
@@ -33,26 +35,6 @@ namespace ma
 	{
 		return DWORD(pthread_self());
 	}
-
-	static pthread_mutex_t mutex_t;
-	template<typename T>
-	const volatile T InterlockedIncrement(volatile T* pT)
-	{
-		pthread_mutex_lock(&mutex_t);
-		++(*pT);
-		pthread_mutex_unlock(&mutex_t);
-		return *pT;
-	}
-
-	template<typename T>
-	const volatile T InterlockedDecrement(volatile T* pT)
-	{
-		pthread_mutex_lock(&mutex_t);
-		--(*pT);
-		pthread_mutex_unlock(&mutex_t);
-		return *pT;
-	}
-
 }
 
 

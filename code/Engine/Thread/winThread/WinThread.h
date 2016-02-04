@@ -7,23 +7,25 @@ namespace ma
 	class Thread
 	{	
 	public:
-		Thread();
-
-		virtual	void	ThreadUpdate() = 0;
+		Thread(const char* pszName);
 
 		virtual void	Start();
 
 		virtual void	Stop();
 
-		virtual void	ThreadLoop();
+		virtual void	ThreadLoop() = 0;
 
 		DWORD			GetThreadId();
 
-	public:
-		HANDLE		m_hThread;
-		DWORD		m_dwThreadID;
+	private:
+		void			SetName(const char* pszName);
 
-		bool		m_bExit;
+	public:
+		HANDLE			m_hThread;
+		DWORD			m_dwThreadID;
+		string			m_strName;
+
+		volatile bool	m_bExit;
 	};
 
 }

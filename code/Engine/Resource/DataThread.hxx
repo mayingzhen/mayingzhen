@@ -3,7 +3,7 @@
 namespace ma
 {
 
-	DataThread::DataThread()
+	DataThread::DataThread():Thread("DataThread")
 	{
 	}
 
@@ -19,27 +19,30 @@ namespace ma
 		Thread::Stop();
 	}
 
-	void DataThread::ThreadUpdate()
+	void DataThread::ThreadLoop()
 	{
-		m_readEvent.Wait();
-		
-		while (true)
+		while(!m_bExit)
 		{
-			m_csRequestQueue.Lock();
-			if ( m_queUnloaded.empty() )
+			m_readEvent.Wait();
+
+			while (true)
 			{
+				m_csRequestQueue.Lock();
+				if ( m_queUnloaded.empty() )
+				{
+					m_csRequestQueue.Unlock();
+					break;
+				}
+				RefPtr<Resource> resData = m_queUnloaded.front();
+				m_queUnloaded.pop_front();
 				m_csRequestQueue.Unlock();
-				break;
+
+				resData->LoadFileToMemeory();
+
+				m_csLoadedQueue.Lock();
+				m_queLoaded.push_back(resData);
+				m_csLoadedQueue.Unlock();
 			}
-			RefPtr<Resource> resData = m_queUnloaded.front();
-			m_queUnloaded.pop_front();
-			m_csRequestQueue.Unlock();
-
-			resData->LoadFileToMemeory();
-
-			m_csLoadedQueue.Lock();
-			m_queLoaded.push_back(resData);
-			m_csLoadedQueue.Unlock();
 		}
 	}
 

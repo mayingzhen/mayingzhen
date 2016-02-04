@@ -12,6 +12,7 @@
 #include "Engine/Time/Timer.hxx"
 
 #include "Engine/Thread/Thread.hxx"
+#include "Engine/Thread/MSemaphore.hxx"
 #include "Engine/Thread/WorkQueue.hxx"
 
 // Resource

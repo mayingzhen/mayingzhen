@@ -10,7 +10,7 @@ namespace ma
 	}
 #endif
 	
-	RenderThread::RenderThread()
+	RenderThread::RenderThread():Thread("RenderThread")
 	{
 		m_nCurThreadFill = 0;
 		m_nCurThreadProcess = 0;
@@ -44,19 +44,22 @@ namespace ma
 		Thread::Stop();
 	}
 
-	void RenderThread::ThreadUpdate()
+	void RenderThread::ThreadLoop()
 	{
-		float fTime = GetTimer()->GetMillisceonds();
-		WaitFlushCond();
-		float fTimeAfterWait = GetTimer()->GetMillisceonds();
-		float fTimeWaitForMain = fTimeAfterWait - fTime;
-		LogInfo("fTimeWaitForMain = %f",fTimeWaitForMain);
-		//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
-		ProcessCommands();
-		float fTimeAfterProcess = GetTimer()->GetMillisceonds();
-		float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
-		LogInfo("fTimeProcessedRT = %f",fTimeProcessedRT);
-		//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
+		while (!m_bExit)
+		{
+			float fTime = GetTimer()->GetMillisceonds();
+			WaitFlushCond();
+			float fTimeAfterWait = GetTimer()->GetMillisceonds();
+			float fTimeWaitForMain = fTimeAfterWait - fTime;
+			LogInfo("fTimeWaitForMain = %f",fTimeWaitForMain);
+			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
+			ProcessCommands();
+			float fTimeAfterProcess = GetTimer()->GetMillisceonds();
+			float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
+			LogInfo("fTimeProcessedRT = %f",fTimeProcessedRT);
+			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
+		}
 	}
 
 

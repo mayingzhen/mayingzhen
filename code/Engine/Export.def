@@ -34,10 +34,8 @@ EXPORTS
 ?SetUserData@SceneNode@ma@@QAEXPBDPAX@Z
 ?GetTransformWS@SceneNode@ma@@QBEABUTransform@2@XZ
 ?SetTransformWS@SceneNode@ma@@QAEXABUTransform@2@@Z
-??0Thread@ma@@QAE@XZ
 ?Start@Thread@ma@@UAEXXZ
 ?Stop@Thread@ma@@UAEXXZ
-?ThreadLoop@Thread@ma@@UAEXXZ
 ?GetArchiveMananger@ma@@YAPAVArchiveManager@1@XZ
 ?GetArchiveByIndex@ArchiveManager@ma@@QAEPAVArchive@2@I@Z
 ?Draw@SpriteBatch@ma@@QAEXMMMMMMMMABVColourValue@2@ABVRectangle@2@@Z
@@ -211,3 +209,4 @@ EXPORTS
 ?CreateSceneNode@Scene@ma@@QAEPAVSceneNode@2@PBD@Z
 ?UpdateMeshData@MeshData@ma@@QAEXPAUStaticVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
 ?UpdateMeshData@MeshData@ma@@QAEXPAUSkinVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
+??0Thread@ma@@QAE@PBD@Z

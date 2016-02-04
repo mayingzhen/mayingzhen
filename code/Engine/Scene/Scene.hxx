@@ -68,65 +68,29 @@ namespace ma
 		return pSceneNode.get();
 	}
 	
-	void ParallelUpdateWork(const WorkItem* item, unsigned threadIndex)
+	void* ParallelUpdate (void* rawData,void* rawData1)
 	{
-		Component** start = reinterpret_cast<Component**>(item->start_);
-		Component** end = reinterpret_cast<Component**>(item->end_);
-
-		do
-		{
-			Component* drawable = *start;
-			if (drawable)
-				drawable->ParallelUpdate();
-		}
-		while (start++ != end);
+		Component* pComponent = reinterpret_cast<Component*>(rawData);
+		pComponent->ParallelUpdate();
+		return NULL;
 	}
 
-	void Scene::AddParallelUpdate(Component* drawable)
+	void* ParallelShow(void* rawData,void* rawData1)
 	{
-		m_vecParallelUpdateNode.push_back(drawable);
+		Component* pComponent = reinterpret_cast<Component*>(rawData);
+		Camera* pCamera = reinterpret_cast<Camera*>(rawData1);
+		pComponent->ParallelShow(pCamera);
+		return NULL;
 	}
 
-	void Scene::ParallelUpdate()
+	void Scene::AddParallelUpdate(Component* pComponent)
 	{
-		if (m_vecParallelUpdateNode.empty())
-			return;
+		m_vecParallelUpdate.push_back(pComponent);
+	}
 
-		WorkQueue* queue = GetWorkQueue();
-
-		int numWorkItems = queue->GetNumThreads() + 1; // Worker threads + main thread
-		int drawablesPerItem = Math::Max((int)(m_vecParallelUpdateNode.size() / numWorkItems), 1);
-
-		int start = 0;
-		// Create a work item for each thread
-		for (int i = 0; i < numWorkItems; ++i)
-		{
-			RefPtr<WorkItem> item = queue->GetFreeItem();
-			item->priority_ = -1/*M_MAX_UNSIGNED*/;
-			item->workFunction_ = ParallelUpdateWork;
-			item->aux_ = NULL;
-
-			int end = m_vecParallelUpdateNode.size();
-			if (i < numWorkItems - 1 && end - start > drawablesPerItem)
-				end = start + drawablesPerItem;
-
-			item->start_ = &(m_vecParallelUpdateNode[start]);
-			item->end_ = &(m_vecParallelUpdateNode[end - 1]);
-			queue->AddWorkItem(item);
-
-			start = end;
-
-			if (start >= (int)m_vecParallelUpdateNode.size())
-				break;
-		}
-
-		queue->Complete(-1/*M_MAX_UNSIGNED*/);
-
-		for (UINT i = 0; i < m_vecParallelUpdateNode.size(); ++i)
-		{
-			m_vecParallelUpdateNode[i]->EndParallelUpdate();
-		}
-		m_vecParallelUpdateNode.clear();
+	void Scene::AddParallelShow(Component* pComponent)
+	{
+		m_vecParallelShow.push_back(pComponent);
 	}
 
 	void Scene::Update()
@@ -143,7 +107,21 @@ namespace ma
 
 		m_pRootNode->Update();
 			
-		ParallelUpdate();
+		if (GetWorkQueue()->GetNumThreads() > 0)
+		{
+			WorkQueue::JobGroupID jobGroup = GetWorkQueue()->BeginGroup(m_vecParallelUpdate.size());
+			for (UINT32 i = 0; i < m_vecParallelUpdate.size(); ++i)
+			{
+				GetWorkQueue()->SubmitJob(jobGroup,ParallelUpdate,m_vecParallelUpdate[i].get(),NULL,NULL);
+			}
+			GetWorkQueue()->WaitForGroup(jobGroup);
+
+			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
+			{
+				m_vecParallelUpdate[i]->EndParallelUpdate();
+			}
+			m_vecParallelUpdate.clear();
+		}
 
 		m_arrRenderComp.clear();
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
@@ -157,6 +135,22 @@ namespace ma
 		for (UINT i = 0; i < m_arrRenderComp.size(); ++i)
 		{
 			m_arrRenderComp[i]->Show(m_pCamera.get());
+		}
+
+		if (GetWorkQueue()->GetNumThreads() > 0)
+		{
+			WorkQueue::JobGroupID jobGroup = GetWorkQueue()->BeginGroup(m_vecParallelShow.size());
+			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
+			{
+				GetWorkQueue()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
+			}
+			GetWorkQueue()->WaitForGroup(jobGroup);
+
+			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
+			{
+				m_vecParallelUpdate[i]->EndParallelUpdate();
+			}
+			m_vecParallelUpdate.clear();
 		}
 
 		if (m_pCallback)

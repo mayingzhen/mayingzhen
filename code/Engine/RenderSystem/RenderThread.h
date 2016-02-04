@@ -92,7 +92,7 @@ namespace ma
 		template<class T> 
 		T		ReadCommand(int& nIndex);
 
-		void	ThreadUpdate();
+		void	ThreadLoop();
 		void	Start();
 		void	Stop();
 

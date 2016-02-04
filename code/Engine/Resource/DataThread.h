@@ -18,7 +18,7 @@ namespace ma
 
 		virtual void	Stop();
 
-		virtual	void	ThreadUpdate();
+		virtual	void	ThreadLoop();
 
 		void			Process();
 		
