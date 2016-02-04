@@ -64,9 +64,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zziplibd.lib FreeImaged.lib"
+				AdditionalDependencies="zziplibd.lib FreeImaged.lib libcpuidd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;;../../extern/vld/lib"
+				AdditionalLibraryDirectories="../../extern/ois/Debug;&quot;../../extern/zziplib-0.13.57/msvc8&quot;;&quot;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug&quot;;../../extern/vld/lib;../../extern/LibCpuId/lib"
 				ModuleDefinitionFile="../../code/Engine/Export.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
