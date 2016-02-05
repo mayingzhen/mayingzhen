@@ -81,9 +81,9 @@ void GetblendDQ(vec4 iBoneIndex, vec4 iBoneWeight,out vec4 blendDQ[2])
 
 vec3 DQSkinPos(vec3 iPos,float fBoneScale,vec4 blendDQ[2])
 {
-#ifdef BONESCALE
+//#ifdef BONESCALE
 	iPos.xyz *= fBoneScale;
-#endif
+//#endif
 
 	vec3 finalPos = iPos.xyz + 2.0*cross(blendDQ[0].yzw, cross(blendDQ[0].yzw, iPos.xyz) + blendDQ[0].x*iPos.xyz);
 	vec3 trans = 2.0*(blendDQ[0].x*blendDQ[1].yzw - blendDQ[1].x*blendDQ[0].yzw + cross(blendDQ[0].yzw, blendDQ[1].yzw));

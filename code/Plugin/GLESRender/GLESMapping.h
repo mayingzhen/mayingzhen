@@ -10,7 +10,7 @@ namespace ma
 		static GLenum GetGLESUSage(USAGE Usage);
  		static GLenum GetGLESPrimitiveType(PRIMITIVE_TYPE type);
 		static GLenum GetGLESIndexType(INDEX_TYPE type);
-		static void	  GetGLESDeclType(DECL_USAGE Usage, BYTE nUsageIndex, GLenum& type, 
+		static void	  GetGLESDeclType(DECL_USAGE Usage, BYTE nUsageIndex, DECL_TYPE eType, GLenum& type, 
 			GLint& typeCount,GLboolean& normalized,std::string& name);
 		static void	  GetGLESFilter(Filter type, GLenum& minFilter, GLenum& magFilter);
 		static GLenum GetGLESWrap(Wrap type);

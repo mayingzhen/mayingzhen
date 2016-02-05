@@ -62,21 +62,15 @@ namespace ma
 		}
 	}
 
-	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage,BYTE nUsageIndex, GLenum& type, 
+	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage, BYTE nUsageIndex, DECL_TYPE eType, GLenum& type, 
 		GLint& typeCount,GLboolean& normalized,std::string& name)
 	{
 		if (Usage == DU_POSITION)
 		{
-			typeCount = 3;
-			type = GL_FLOAT;
-			normalized = false;
 			name = VERTEX_ATTRIBUTE_POSITION_NAME;
 		}
 		else if (Usage == DU_TEXCOORD)
 		{
-			typeCount = 2;
-			type = GL_FLOAT;
-			normalized = false;
 			if (nUsageIndex == 0)
 				name = VERTEX_ATTRIBUTE_TEXCOORD0_NAME;
 			else if (nUsageIndex == 1)
@@ -86,9 +80,6 @@ namespace ma
 		}
 		else if (Usage == DU_COLOR)
 		{
-			typeCount = 4;
-			type = GL_FLOAT;
-			normalized = false;
 			if (nUsageIndex == 0)
 				name = VERTEX_ATTRIBUTE_COLOR0_NAME;
 			else if (nUsageIndex == 1)
@@ -98,26 +89,76 @@ namespace ma
 		}
 		else if (Usage == DU_NORMAL)
 		{
-			typeCount = 3;
-			type = GL_FLOAT;
 			normalized = false;
 			name = VERTEX_ATTRIBUTE_NORMAL_NAME;
 		}
 		else if (Usage == DU_BLENDINDICES)
 		{
-			typeCount = 4;
-			type = GL_UNSIGNED_BYTE;
-			normalized = false;
 			name = VERTEX_ATTRIBUTE_BLENDINDICES_NAME;
 		}
 		else if (Usage == DU_BLENDWEIGHT)
 		{
-			typeCount = 4;
-			type = GL_UNSIGNED_BYTE;
-			normalized = true;
 			name = VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME;
 		}
 
+		if (DT_COLOR == eType)
+		{
+			type = GL_UNSIGNED_BYTE;
+			typeCount = 1;
+			normalized  = true;
+		}
+		else if (DT_FLOAT1 == eType)
+		{
+			type = GL_FLOAT;
+			typeCount = 1;
+			normalized = false;
+		}
+		else if (DT_FLOAT2 == eType)
+		{
+			type = GL_FLOAT;
+			typeCount = 2;
+			normalized = false;
+		}
+		else if (DT_FLOAT3 == eType)
+		{
+			type = GL_FLOAT;
+			typeCount = 3;
+			normalized = false;
+		}
+		else if (DT_FLOAT4 == eType)
+		{
+			type = GL_FLOAT;
+			typeCount = 4;
+			normalized = false;
+		}
+		else if (DT_SHORT2 == eType)
+		{
+			type = GL_SHORT;
+			typeCount = 2;
+			normalized = false;
+		}
+		else if (DT_SHORT4 == eType)
+		{
+			type = GL_SHORT;
+			typeCount = 4;
+			normalized = false;
+		}
+		else if (DT_UBYTE4 == eType)
+		{
+			type = GL_UNSIGNED_BYTE;
+			typeCount = 4;
+			normalized = false;
+		}
+		else if (DT_UBYTE4N == eType)
+		{
+			type = GL_UNSIGNED_BYTE;
+			typeCount = 4;
+			normalized = true;
+		}
+		else
+		{
+			ASSERT(false);
+		}
 	}
 
 	void GLESMapping::GetGLESFilter(Filter type,GLenum& minFilter,GLenum& magFilter)

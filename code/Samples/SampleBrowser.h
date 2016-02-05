@@ -29,13 +29,6 @@ namespace ma
 
 		virtual void		Update();
 
-		//virtual void		Render();
-
- 		//virtual void		controlEvent(Control* control, EventType evt);
-
-		//virtual bool		keyPressed(const OIS::KeyEvent &arg);
-		//virtual bool		keyReleased(const OIS::KeyEvent &arg);	
-
 		virtual void		OnPreUpdate(Scene* pScene);
 		virtual void		OnPostUpdate(Scene* pScene);
 		virtual void		OnPreRender(Scene* pScene);
@@ -46,8 +39,6 @@ namespace ma
 		Camera*				GetCamera();
 
 	private:
-		void				LoadUI();
-
 		void				RunSample(const char* pSampleNma);
 
 		void				InitResourcePath();
@@ -58,8 +49,6 @@ namespace ma
 		std::map<std::string,Sample*>	m_arrSamples;
 
 		Sample*							m_pCurSample;
-
-		//Form*							m_pSampleSelectForm; 
 
 		bool							m_bPause;
 		bool							m_bStepOneFrame;

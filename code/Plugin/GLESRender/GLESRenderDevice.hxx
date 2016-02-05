@@ -607,7 +607,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
@@ -635,7 +635,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
@@ -682,7 +682,7 @@ namespace ma
 			GLenum type = 0;
 			GLboolean normalized = false;
 			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,type,typeCount,normalized,name);
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
 			if (attr == -1)
 				continue;
