@@ -94,23 +94,6 @@ namespace ma
 		}
 
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
-// 		{
-// 			RENDER_PROFILE(RL_TerrainBorder);
-// 
-// 			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBorder);
-// 			for (UINT i = 0; i < nSolid; ++i)
-// 			{
-// 				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBorder,i);
-// 				if (pRenderObj == NULL)
-// 					continue; 
-// 
-// 				Technique* pTech = pRenderObj->m_pMaterial->GetShadingTechnqiue();
-// 
-// 				pRenderObj->Render(pTech);
-// 			}
-// 		}
-
-
 		{
 			RENDER_PROFILE(RL_Trans);
 

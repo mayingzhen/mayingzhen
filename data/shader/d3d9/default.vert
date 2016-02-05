@@ -16,6 +16,10 @@
 #include"gbuffer.h"
 #endif 
 
+float3 pos_extent;
+float3 pos_center;
+float4 tc_extent_center;
+
 // Attributes
 struct VS_IN
 {
@@ -72,20 +76,19 @@ struct VS_OUT
 
 };
 
-float3 EXPAND(float3 a)
-{
-	return a*2-1;
-}
 
 VS_OUT main(VS_IN In)
 {
     VS_OUT Out = (VS_OUT)0;
     
-	float3 iPos  = In.a_position;
-	float3 iNormal = In.a_normal; 
+	float3 iPos = In.a_position * pos_extent + pos_center;
+#ifdef DIFFUSE  	
+	float2 iUV  = In.a_texCoord0 * tc_extent_center.xy + tc_extent_center.zw;
+#endif	
+	float3 iNormal = In.a_normal * 2.0 - 1.0; 
 
 #ifdef SKIN
-	SkinPosNormal(In.a_position,EXPAND(In.a_normal.xyz),In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
+	SkinPosNormal(iPos,iNormal,In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
 #endif
    
    Out.WorldPos.xyz = mul(float4(iPos,1.0),g_matWorld).xyz;
@@ -95,7 +98,7 @@ VS_OUT main(VS_IN In)
 	Out.WorldPos.w = Out.v_position.w;
 	 
 #ifdef DIFFUSE      
-    Out.v_texCoord = In.a_texCoord0;
+    Out.v_texCoord = iUV;
 #endif
    
 #ifdef COLOR    

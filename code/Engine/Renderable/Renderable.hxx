@@ -16,6 +16,17 @@ namespace ma
 
 		pTech->Bind();
 
+		ShaderProgram* pShader = pTech->GetShaderProgram();
+
+		Vector3 pos_extent = m_posAABB.getHalfSize() / 32767.5f;
+		Vector3 pos_center = m_posAABB.getCenter();
+		Vector2 tc_extent = m_tcAABB.getHalfSize() / 32767.5f; 
+		Vector2	tc_center = m_tcAABB.getCenter(); 
+		Vector4 tc_extent_center = Vector4(tc_extent.x,tc_extent.y,tc_center.x,tc_center.y);
+		GetRenderSystem()->SetValue( pShader->GetUniform("pos_extent"), pos_extent );
+		GetRenderSystem()->SetValue( pShader->GetUniform("pos_center"), pos_center );
+		GetRenderSystem()->SetValue( pShader->GetUniform("tc_extent_center"), tc_extent_center );
+
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 
@@ -38,6 +49,15 @@ namespace ma
 		pTech->Bind();
 
 		ShaderProgram* pShader = pTech->GetShaderProgram();
+
+		Vector3 pos_extent = m_posAABB.getHalfSize() / 32767.5f;
+		Vector3 pos_center = m_posAABB.getCenter();
+		Vector2 tc_extent = m_tcAABB.getHalfSize() / 32767.5f; 
+		Vector2	tc_center = m_tcAABB.getCenter(); 
+		Vector4 tc_extent_center = Vector4(tc_extent.x,tc_extent.y,tc_center.x,tc_center.y);
+		GetRenderSystem()->SetValue( pShader->GetUniform("pos_extent"), pos_extent );
+		GetRenderSystem()->SetValue( pShader->GetUniform("pos_center"), pos_center );
+		GetRenderSystem()->SetValue( pShader->GetUniform("tc_extent_center"), tc_extent_center );
 		
 		uint32 nNumBones = GetSkinDQCount();
 

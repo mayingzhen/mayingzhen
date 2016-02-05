@@ -228,6 +228,13 @@ namespace ma
 		return AABB(Vector3(&data[0]), Vector3(&data[3]));
 	}
 
+	AABB2D Stream::ReadBoundingBox2D()
+	{
+		float data[4];
+		Read(data, sizeof data);
+		return AABB2D(Vector2(&data[0]), Vector2(&data[2]));
+	}
+
 
 	bool Stream::WriteInt(int value)
 	{
@@ -352,6 +359,14 @@ namespace ma
 		bool success = true;
 		success &= WriteVector3(value.mMinimum);
 		success &= WriteVector3(value.mMaximum);
+		return success;
+	}
+
+	bool Stream::WriteBoundingBox2D(const AABB2D& value)
+	{
+		bool success = true;
+		success &= WriteVector2(value.mMinimum);
+		success &= WriteVector2(value.mMaximum);
 		return success;
 	}
 

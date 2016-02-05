@@ -297,6 +297,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Common\Math\AABB2D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Common\Math\AABB2D.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Common\Math\Angle.h"
 					>
 				</File>

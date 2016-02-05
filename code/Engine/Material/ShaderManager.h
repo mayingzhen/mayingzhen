@@ -13,6 +13,8 @@ namespace ma
 
 		void ReLoad();
 
+		void Clear() {m_resMap.clear();}
+
 	private:
 		typedef std::map<std::string, RefPtr<ShaderProgram> > ResourceMap;
 

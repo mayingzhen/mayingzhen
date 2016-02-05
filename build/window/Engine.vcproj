@@ -412,14 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Scene\CameraControl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Scene\CameraControl.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Scene\CharaControl.h"
 				>
 			</File>
@@ -564,14 +556,6 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Scene\Terrain\Terrain.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainLiquid.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Terrain\TerrainLiquid.hxx"
 					>
 				</File>
 				<File

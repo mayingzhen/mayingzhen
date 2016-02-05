@@ -1,6 +1,10 @@
 #include"common.h"
 #include "skin.h"
 
+float3 pos_extent;
+float3 pos_center;
+float4 tc_extent_center;
+
 float4x4	matLightViewProj;
 
 // Attributes
@@ -34,10 +38,11 @@ VS_OUT main( VS_IN In)
 {
 	VS_OUT Out = (VS_OUT)0;
  
-	float3 finalPos  = In.a_position;
+	float3 iPos = In.a_position * pos_extent + pos_center;
+	float2 iUV  = In.a_texCoord * tc_extent_center.xy + tc_extent_center.zw;
 
 #ifdef SKIN
-	finalPos  =  SkinPos(In.a_position,In.a_blendIndices,In.a_blendWeights);
+	finalPos  =  SkinPos(iPos,In.a_blendIndices,In.a_blendWeights);
 #endif
 	
 	float4 worldPos = mul(float4(finalPos,1.0f), g_matWorld);
@@ -48,7 +53,7 @@ VS_OUT main( VS_IN In)
 
 	Out.oPos = mul(worldPos, matLightViewProj);
 	
-	Out.oUV = In.a_texCoord;
+	Out.oUV = iUV;
 
 #if USING_HW_PCF == 0
 	Out.oDepth = Out.oPos;  

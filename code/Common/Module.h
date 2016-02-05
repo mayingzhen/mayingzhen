@@ -20,6 +20,7 @@
 #include "Common/Math/GUID.h"
 #include "Common/Math/Math.h"
 #include "Common/Math/AABB.h"
+#include "Common/Math/AABB2D.h"
 #include "Common/Math/ColourValue.h"
 #include "Common/Math/ConvexBody.h"
 #include "Common/Math/Matrix3.h"

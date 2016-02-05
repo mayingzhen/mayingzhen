@@ -7,6 +7,19 @@
 
 namespace ma
 {
+	struct SHORTV4
+	{
+		INT16 x;
+		INT16 y;
+		INT16 z;
+		INT16 w;
+	};
+
+	struct SHORTV2
+	{
+		INT16 x;
+		INT16 y;
+	};
 
 	struct SkinVertexV0
 	{
@@ -30,21 +43,19 @@ namespace ma
 
 	struct SkinVertexV1
 	{
-		Vector3 pos;
+		SHORTV4 pos;
 		uint32	nor;
-		Vector2	uv;
+		SHORTV2	uv;
 		uint32  bone_index;
 		uint32  bone_weight;
-		uint32  color;
-	}; //36B
+	}; //24B
 
 	struct StaticVertexV1
 	{
-		Vector3 pos;
+		SHORTV4 pos;
 		uint32	nor;
-		Vector2	uv;
-		uint32  color;
-	}; //28B
+		SHORTV2	uv;
+	}; //16B
 
 	enum VertexType
 	{
@@ -110,6 +121,9 @@ namespace ma
 		void					SetBoundingAABB(const AABB& bound) {m_meshBound = bound;}
 		const AABB&				GetBoundingAABB() const {return m_meshBound;} 
 
+		void					SetUVBoundingAABB(const AABB2D& bound) {m_tcBound = bound;}
+		const AABB2D&			GetUVBoundingAABB() const {return m_tcBound;} 
+
 		VertexType				GetVertexType() const {return m_nVertexType;}
 		void					SetVertexType(VertexType nType) {m_nVertexType = nType;}
 
@@ -141,7 +155,9 @@ namespace ma
 		typedef std::vector< VEC_SUBMESH > VEC_LOD_SUBMESH;
 		VEC_LOD_SUBMESH					m_arrLodSubMesh;	
 
-		AABB							m_meshBound;		
+		AABB							m_meshBound;
+		AABB2D							m_tcBound;
+
 	};
 	
 	RefPtr<MeshData> CreateMeshData(const char* pszFile);

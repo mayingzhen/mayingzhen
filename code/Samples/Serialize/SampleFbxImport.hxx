@@ -56,7 +56,7 @@ namespace ma
 		RefPtr<SceneNode> pPlatform = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
-
+ 
 		RefPtr<SceneNode> pBox = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");

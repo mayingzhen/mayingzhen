@@ -3,6 +3,7 @@
 // Math
 #include "Common/Math/Math.hxx"
 #include "Common/Math/AABB.hxx"
+#include "Common/Math/AABB2D.hxx"
 #include "Common/Math/ColourValue.hxx"
 #include "Common/Math/ConvexBody.hxx"
 #include "Common/Math/Matrix3.hxx"

@@ -77,21 +77,45 @@ namespace ma
 		nID3 = uBondID.uByte[3];
 	}
 
-	uint32 ToSkinNormal(float fWeight0,float fWeight1,float fWeight2,float fWeight3)
+	UINT32 ToSkinNormal(const Vector3& vNorm)
 	{
+		Vector3 vNormIn = vNorm.normalisedCopy();
+
 		union UIndex
 		{
-			uint32 uInde;
-			uint8 uByte[4];
+			UINT32 uInde;
+			UINT8 uByte[4];
 		};
 
-		UIndex uBondWeight;
-		uBondWeight.uByte[0] = (uint8)(fWeight0 * 127.5f + 128.0f);
-		uBondWeight.uByte[1] = (uint8)(fWeight1 * 127.5f + 128.0f);
-		uBondWeight.uByte[2] = (uint8)(fWeight2 * 127.5f + 128.0f);
-		uBondWeight.uByte[3] = (uint8)(fWeight3 * 127.5f + 128.0f);
+		UIndex uTemp;
+		uTemp.uByte[0] = (UINT8)(vNormIn.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (UINT8)(vNormIn.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (UINT8)(vNormIn.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (UINT8)(0 * 127.5f + 128.0f);
 
-		return uBondWeight.uInde;
+		return uTemp.uInde;
+	}
+
+	SHORTV4 ToSkinPos(const Vector3& vPos, const Vector3& vCenter, const Vector3& vExtent)
+	{
+		SHORTV4 vSkinPos;
+
+		vSkinPos.x = (INT16)(((vPos.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinPos.y = (INT16)(((vPos.y -  vCenter.y) / vExtent.y) * 32767.5f);
+		vSkinPos.z = (INT16)(((vPos.z -  vCenter.z) / vExtent.z) * 32767.5f);
+		vSkinPos.w = (INT16)(((1.0f -  vCenter.z) / vExtent.z) * 32767.5f);
+
+		return vSkinPos;
+	}
+
+	SHORTV2 ToSkinUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent)
+	{
+		SHORTV2 vSkinUV;
+
+		vSkinUV.x = (INT16)(((vUV.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinUV.y = (INT16)(((vUV.y -  vCenter.y) / vExtent.y) * 32767.5f);
+
+		return vSkinUV;
 	}
 
 	bool MeshData::SaveToFile(const char* pszFile)
@@ -119,6 +143,7 @@ namespace ma
 		pSaveStream->Write(m_pVertexBuffer->GetData(),nVertexSize);
 
 		pSaveStream->WriteBoundingBox(m_meshBound);
+		pSaveStream->WriteBoundingBox2D(m_tcBound);
 		
 		pSaveStream->WriteUInt(m_arrLodSubMesh.size());
 		for (uint32 i = 0; i < m_arrLodSubMesh.size(); ++i)
@@ -181,14 +206,13 @@ namespace ma
 			uint32 nVertexCount = nVertexSize / sizeof(SkinVertexV1);
 			ASSERT(nVertexCount == nVertexNum);
 
-			VertexElement element[6];
-			element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-			element[1] = VertexElement(0,12,DT_UBYTE4N,DU_NORMAL,0);
-			element[2] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
-			element[3] = VertexElement(0,24,DT_UBYTE4,DU_BLENDINDICES,0);
-			element[4] = VertexElement(0,28,DT_UBYTE4N,DU_BLENDWEIGHT,0);
-			element[5] = VertexElement(0,32,DT_COLOR,DU_COLOR,0);
-			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,6);
+			VertexElement element[5];
+			element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+			element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
+			element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+			element[3] = VertexElement(0,16,DT_UBYTE4,DU_BLENDINDICES,0);
+			element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
+			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 
 			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(vecVertex,nVertexSize,sizeof(SkinVertexV1));
 		}
@@ -198,17 +222,17 @@ namespace ma
 			uint32 nVertexCount = nVertexSize / sizeof(StaticVertexV1);
 			ASSERT(nVertexCount == nVertexNum);
 
-			VertexElement element[4];
-			element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-			element[1] = VertexElement(0,12,DT_UBYTE4N,DU_NORMAL,0);
-			element[2] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
-			element[3] = VertexElement(0,24,DT_COLOR,DU_COLOR,0);
-			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,4);
+			VertexElement element[3];
+			element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+			element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
+			element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,3);
 
 			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(vecVertex,nVertexSize,sizeof(StaticVertexV1));
 		}
 
 		m_meshBound = m_pDataStream->ReadBoundingBox();
+		m_tcBound = m_pDataStream->ReadBoundingBox2D();
 
 		uint32 nMeshLod = m_pDataStream->ReadUInt();
 		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)
@@ -321,14 +345,13 @@ namespace ma
 		pVertexV1.resize(nVertexNum);
 		UpdateMeshData(&pVertexV1[0],pVertexV0,nVertexCount,pIndex);
 
-		VertexElement element[6];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		element[1] = VertexElement(0,12,DT_UBYTE4N,DU_NORMAL,0);
-		element[2] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
-		element[3] = VertexElement(0,24,DT_UBYTE4,DU_BLENDINDICES,0);
-		element[4] = VertexElement(0,28,DT_UBYTE4N,DU_BLENDWEIGHT,0);
-		element[5] = VertexElement(0,32,DT_COLOR,DU_COLOR,0);
-		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,6);
+		VertexElement element[5];
+		element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+		element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
+		element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+		element[3] = VertexElement(0,16,DT_UBYTE4,DU_BLENDINDICES,0);
+		element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
+		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 
 		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(vecIndex,nIndexSize,sizeof(uint16));
 
@@ -337,6 +360,18 @@ namespace ma
 
 	void MeshData::UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex)
 	{
+		for (UINT32 i = 0; i < nVertexCount; ++i)
+		{
+			m_tcBound.merge(pVertexV0[i].uv);
+			m_meshBound.merge(pVertexV0[i].pos);
+		}
+
+		Vector2 tc_center = m_tcBound.getCenter();
+		Vector2 tc_extent = m_tcBound.getHalfSize();
+
+		Vector3 pos_center = m_meshBound.getCenter();
+		Vector3 pos_extent = m_meshBound.getHalfSize();
+
 		std::vector<bool> vertexUpdated;
 		vertexUpdated.resize(nVertexCount,false);
 		for (uint32 iLod = 0; iLod < m_arrLodSubMesh.size(); ++iLod)
@@ -363,12 +398,10 @@ namespace ma
 					SkinVertexV0& vertexV0 = pVertexV0[nIndex];
 					StaticVertexV1& vertexV1 = pVertexV1[nIndex];
 
-					vertexV1.pos = vertexV0.pos;
-					vertexV0.nor.normalise();
-					vertexV1.nor = ToSkinNormal(vertexV0.nor.x,vertexV0.nor.y,vertexV0.nor.z,255.0f);
-					vertexV1.uv = vertexV0.uv;
-					vertexV1.color = vertexV0.color0;
-
+					vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
+					vertexV1.nor = ToSkinNormal(vertexV0.nor);
+					vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
+			
 					vertexUpdated[nIndex] = true;
 				}
 			}
@@ -377,6 +410,18 @@ namespace ma
 
 	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex)
 	{
+		for (UINT32 i = 0; i < nVertexCount; ++i)
+		{
+			m_tcBound.merge(pVertexV0[i].uv);
+			m_meshBound.merge(pVertexV0[i].pos);
+		}
+
+		Vector2 tc_center = m_tcBound.getCenter();
+		Vector2 tc_extent = m_tcBound.getHalfSize();
+
+		Vector3 pos_center = m_meshBound.getCenter();
+		Vector3 pos_extent = m_meshBound.getHalfSize();
+
 		std::vector<bool> vertexUpdated;
 		vertexUpdated.resize(nVertexCount,false);
 		for (uint32 iLod = 0; iLod < m_arrLodSubMesh.size(); ++iLod)
@@ -408,13 +453,11 @@ namespace ma
 						SkinVertexV0& vertexV0 = pVertexV0[nIndex];
 						SkinVertexV1& vertexV1 = pVertexV1[nIndex];
 
-						vertexV1.pos = vertexV0.pos;
-						vertexV0.nor.normalise();
-						vertexV1.nor = ToSkinNormal(vertexV0.nor.x,vertexV0.nor.y,vertexV0.nor.z,255.0f);
-						vertexV1.uv = vertexV0.uv;
+						vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
+						vertexV1.nor = ToSkinNormal(vertexV0.nor);
+						vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
 						vertexV1.bone_index = vertexV0.bone_index;
 						vertexV1.bone_weight = vertexV0.bone_weight;
-						vertexV1.color = vertexV0.color0;
 
 						uint8 boneIndex[4];
 

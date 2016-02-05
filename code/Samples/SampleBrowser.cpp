@@ -50,13 +50,10 @@ namespace ma
 		m_bStepOneFrame = false;
 		m_pCurSample = NULL;
 		m_pCameraControl = NULL;
-
-		ModuleInit(RenderDevice_D3D9);
 	}
 
 	SampleBrowser::~SampleBrowser()
 	{
-		ModuleShutdown();
 	}
 
 	void SampleBrowser::ModuleInit(RenderDeviceType eType)
@@ -191,16 +188,18 @@ namespace ma
 			GetScriptSystem()->ShutDown();
 #endif
 		Game::Shutdown();
+
+		ModuleShutdown();
 	}
 
 	void SampleBrowser::Init()
 	{
-
+		ModuleInit(RenderDevice_D3D9);
 
 		InitResourcePath();
-		
+
 		Game::Init();
-		
+	
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Init();
 

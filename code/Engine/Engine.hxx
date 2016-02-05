@@ -87,6 +87,11 @@ namespace ma
 		}
 
 		g_pRenderSystem->Shoutdown();
+		
+		g_pMeshManager->Clear();
+		g_pXmlFileManager->Clear();
+		g_pTextureManager->Clear();
+		g_pShaderManager->Clear();
 
 		EngineRTTIShutdown();
 

@@ -128,9 +128,17 @@ namespace ma
 
 		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
 
-		if (m_pSceneNode->GetLastVisibleFrame() + 1 == GetTimer()->GetFrameCount())
+		if ( GetTimer()->GetFrameCount() - m_pSceneNode->GetLastVisibleFrame() > 1 )
+			return;
+
+		if (GetWorkQueue()->GetNumThreads() > 0)
 		{
 			GetSceneNode()->GetScene()->AddParallelUpdate(this);	
+		}
+		else
+		{
+			ParallelUpdate();
+			EndParallelUpdate();
 		}
 	}
 

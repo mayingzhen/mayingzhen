@@ -88,11 +88,11 @@ namespace ma
 		pMeshData->GetVertexBuffer()->SetData((uint8*)&pVertexV1[0], sizeof(StaticVertexV1)* pVertexV1.size(), sizeof(StaticVertexV1));
 		pMeshData->GetIndexBuffer()->SetData((uint8*)&arrIndex[0], sizeof(UINT16) * arrIndex.size(), sizeof(UINT16));
 
-		pMesh->ComputeBBox();
-		AABB aabb;
-		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
-		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
-		pMeshData->SetBoundingAABB(aabb);
+// 		pMesh->ComputeBBox();
+// 		AABB aabb;
+// 		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+// 		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+// 		pMeshData->SetBoundingAABB(aabb);
 	}
 
 	bool LoadStaticMeshData(const char* pFileName,ImportParm* pImportParm,

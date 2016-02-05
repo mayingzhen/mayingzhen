@@ -126,6 +126,7 @@ namespace ma
 		//ColourValue ReadColor();
 		/// Read a bounding box.
 		AABB ReadBoundingBox();
+		AABB2D ReadBoundingBox2D();
 		/// Read a null-terminated string.
 
 		inline string ReadString();
@@ -174,6 +175,7 @@ namespace ma
 		//bool WriteColor(const Color& value);
 		/// Write a bounding box.
 		bool WriteBoundingBox(const AABB& value);
+		bool WriteBoundingBox2D(const AABB2D& value);
 		/// Write a null-terminated string.
 		inline bool WriteString(const string& value);
 

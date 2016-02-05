@@ -38,7 +38,7 @@ namespace ma
 	void Game::Init()
 	{
 		HWND hWnd = Platform::GetInstance().GetWindId();
-		GetEngine()->Init(hWnd, true, false, true);
+		GetEngine()->Init(hWnd, false, false, false);
 	}
 
 	void Game::Shutdown()

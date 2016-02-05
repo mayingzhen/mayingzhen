@@ -98,6 +98,8 @@ namespace ma
 				pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iLod,iSub);
 				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub); 
+				pRenderable->m_posAABB = m_pMesData->GetBoundingAABB();
+				pRenderable->m_tcAABB = m_pMesData->GetUVBoundingAABB();
 
 				arrRenderable.push_back(pRenderable);
 			}
@@ -168,7 +170,9 @@ namespace ma
 				pRenderable->m_pVertexBuffers = m_pMesData->GetVertexBuffer(); 
 				pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iLod,iSub);
-				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub); 
+				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub);
+				pRenderable->m_posAABB = m_pMesData->GetBoundingAABB();
+				pRenderable->m_tcAABB = m_pMesData->GetUVBoundingAABB();
 
 				arrRenderable.push_back(pRenderable);
 			}

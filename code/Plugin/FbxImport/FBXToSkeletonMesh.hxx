@@ -301,11 +301,11 @@ namespace ma
 		pMeshData->GetIndexBuffer()->SetData((uint8*)&arrIndex[0], sizeof(UINT16) * arrIndex.size(), sizeof(UINT16));
 
 		// Bound Box
-		pMesh->ComputeBBox();
-		AABB aabb;
-		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
-		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
-		pMeshData->SetBoundingAABB(aabb);
+// 		pMesh->ComputeBBox();
+// 		AABB aabb;
+// 		aabb.setMinimum( ToMaUnit( (FbxDouble3)pMesh->BBoxMin ) );
+// 		aabb.setMaximum( ToMaUnit( (FbxDouble3)pMesh->BBoxMax ) );
+// 		pMeshData->SetBoundingAABB(aabb);
 	}
 
 	void GetSkinData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],std::vector<pointSkin>& arrPointSkin, ImportParm* pImportParm)

@@ -28,6 +28,9 @@ namespace ma
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<SubMeshData>				m_pSubMeshData;
 		RefPtr<SubMaterial>				m_pSubMaterial;
+
+		AABB							m_posAABB;
+		AABB2D							m_tcAABB;
 	
 	private:
 		Matrix4							m_matWorld[2];
