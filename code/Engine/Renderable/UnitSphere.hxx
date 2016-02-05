@@ -25,6 +25,8 @@ namespace ma
 		gpSphere->m_pDeclaration = pMeshData->GetVertexDeclar(); 
 		gpSphere->m_pVertexBuffers = pMeshData->GetVertexBuffer(); 
 		gpSphere->m_pIndexBuffer =  pMeshData->GetIndexBuffer();
+		gpSphere->m_posAABB = pMeshData->GetBoundingAABB();
+		gpSphere->m_tcAABB = pMeshData->GetUVBoundingAABB();
 
 		return;
 	}

@@ -30,9 +30,10 @@ namespace ma
 		TextureLightShadow,
 		TextureSceneDiffuse,
 		TextureSceneDepth,
+		TextureSceneDeviceDepth,
 		TextureSceneNormal,
 		g_tShadowMap,
-		g_fSplitPlane,
+		//g_fSplitPlane,
 		g_matShadow,
 		g_shadowMapTexelSize,
 		g_ShadowDepthFade,
@@ -64,8 +65,6 @@ namespace ma
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
-		//const Vector4*		autoBindingGetMatrixPalette() const;
-		//UINT				autoBindingGetMatrixPaletteSize() const;
 		const ColourValue&	autoBindingGetAmbientColor() const;
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
@@ -73,13 +72,11 @@ namespace ma
 		Texture*			autoBingingSceneDiffuse() const;
 		Texture*			autoBingingSceneDetph() const;
 		Texture*			autoBindingSceneNormal() const;
-		//Texture*			autoBindingTextureLightDiffuse() const;
-		//Texture*			autoBindingTextureightSpecular() const;
 		Texture*			autoBindingTextureLightShadow() const;
 		Texture*			autoBindingShadowMap() const;
 		Vector4				autoBindingSpitPos() const;
 		UINT				autoBindingSplitCount() const;
-		const Matrix4*		autoBindingShadowMatrix() const;
+		const Matrix4&		autoBindingShadowMatrix() const;
 		Vector4				autoBindingShadowMapTexSize() const;
 		Vector4				autoBindingShadowDepthFade() const;
 

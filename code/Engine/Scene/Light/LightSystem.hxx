@@ -2,16 +2,11 @@
 
 namespace ma
 {
-	LightSystem* gpLightSystem = NULL;
+	LightSystem* g_pLightSystem = NULL;
 
 	LightSystem* GetLightSystem() 
 	{
-		return gpLightSystem;
-	}
-
-	void SetLightSystem(LightSystem* pLightSystem)
-	{
-		gpLightSystem = pLightSystem;
+		return g_pLightSystem;
 	}
 
 	LightSystem::LightSystem()

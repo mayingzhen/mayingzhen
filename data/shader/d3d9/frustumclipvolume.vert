@@ -1,7 +1,8 @@
+#include "common.h"
 
 float4x4 matFrustum;
 
-void vs(float3 iPos			: POSITION0,
+void main(float3 iPos			: POSITION0,
 		out float4 oPos     : POSITION0) 
 {
 

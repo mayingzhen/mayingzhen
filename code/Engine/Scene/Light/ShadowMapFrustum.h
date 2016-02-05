@@ -7,6 +7,13 @@ namespace ma
 	class Light;
 	class Texture;
 
+	enum Caster_Cull
+	{
+		CasterCull_No,			// 直接使用视锥裁剪结果
+		LightViewFrustum_Cull,  // 光照空间的view Frustum
+		LightFrustum_Cull,		// 完整的Light Frustum
+	};
+
 	class ShadowMapFrustum
 	{
 	public:
@@ -82,6 +89,12 @@ namespace ma
 // 		Vector4				m_irreg_kernel[MAX_SHADOW_SAMPLES_NUM / 2];
 // 		Vector4				m_viewPosVecLS[2][MAX_FRUSTUM_SPLIT_NUM];
 // 		RefPtr<Texture>		m_pRotSampler;
+
+		Caster_Cull			m_eCaterType;
+		
+		float				m_fShadowFarDist;
+
+		Light*				m_pParent;
 
 
 	};

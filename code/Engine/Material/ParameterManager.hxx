@@ -24,7 +24,7 @@ namespace ma
 		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
 		m_autoDefaultBings["g_matWorldView"] = g_matWorldView;
 		m_autoDefaultBings["g_tShadowMap"] = g_tShadowMap;
-		m_autoDefaultBings["g_fSplitPlane"] = g_fSplitPlane;
+		//m_autoDefaultBings["g_fSplitPlane"] = g_fSplitPlane;
 		m_autoDefaultBings["g_matShadow"] = g_matShadow;
 		m_autoDefaultBings["g_shadowMapTexelSize"] = g_shadowMapTexelSize;
 		m_autoDefaultBings["g_ShadowDepthFade"] = g_ShadowDepthFade;
@@ -32,7 +32,8 @@ namespace ma
 		//m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
 		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
 		m_autoDefaultBings["u_textureSceneDiffuse"] =  TextureSceneDiffuse;
-		m_autoDefaultBings["u_textureSceneDepth"] =  TextureSceneDepth;
+		m_autoDefaultBings["tDepthMapSampler"] =  TextureSceneDepth;
+		m_autoDefaultBings["tDeviceDepthMapSampler"] =  TextureSceneDeviceDepth;
 		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
 		m_autoDefaultBings["u_TextureSceneShadow"] =  TextureLightShadow;
 		//m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
@@ -99,13 +100,9 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMap);
 		}
-		else if (autoBinding == g_fSplitPlane)
-		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingSpitPos);
-		}
 		else if (autoBinding == g_matShadow)
 		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix,&ParameterManager::autoBindingSplitCount);
+			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix);
 		}
 		else if (autoBinding == g_shadowMapTexelSize)
 		{
@@ -159,6 +156,10 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDetph);
 		}
+		else if (autoBinding == TextureSceneDeviceDepth)
+		{
+			pParam->BindMethod(this,&ParameterManager::autoBingingSceneDetph);
+		}
 		else if (autoBinding == TextureSceneNormal)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
@@ -187,34 +188,16 @@ namespace ma
 		if (pCurScene == NULL)
 			return NULL;
 
-		return pCurScene->GetSunShaow()->GetShadowMapFrustum(0).GetShadowMap();
+		return pCurScene->GetShadowMapFrustum()->GetShadowMap();
 	}
 
-	Vector4	ParameterManager::autoBindingSpitPos() const
+	const Matrix4& ParameterManager::autoBindingShadowMatrix() const
 	{
 		Scene* pCurScene = GetRenderContext()->GetCurScene();
 		if (pCurScene == NULL)
-			return Vector4::ZERO;
+			return Matrix4::IDENTITY;
 
-		return pCurScene->GetSunShaow()->GetCurSplitPos();
-	}
-
-	UINT ParameterManager::autoBindingSplitCount() const
-	{
-		Scene* pCurScene = GetRenderContext()->GetCurScene();
-		if (pCurScene == NULL)
-			return 0;
-
-		return pCurScene->GetSunShaow()->GetMaxSplitCount();
-	}
-
-	const Matrix4* ParameterManager::autoBindingShadowMatrix() const
-	{
-		Scene* pCurScene = GetRenderContext()->GetCurScene();
-		if (pCurScene == NULL)
-			return NULL;
-
-		return &pCurScene->GetSunShaow()->GetShadowMapFrustum(0).GetShadowMatrix();
+		return pCurScene->GetShadowMapFrustum()->GetShadowMatrix();
 	}
 
 	Vector4	ParameterManager::autoBindingShadowMapTexSize() const
@@ -223,7 +206,8 @@ namespace ma
 		if (pCurScene == NULL)
 			return Vector4::ZERO;
 
-		return pCurScene->GetSunShaow()->GetShadowMapTexSize();
+		Texture* pShadowMap = pCurScene->GetShadowMapFrustum()->GetShadowMap();
+		return Vector4((float)pShadowMap->GetWidth(), 1.0f / (float)pShadowMap->GetWidth(), 0, 0);
 	}
 
 	Vector4	ParameterManager::autoBindingShadowDepthFade() const
@@ -232,7 +216,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return Vector4::ZERO;
 
-		return pCurScene->GetSunShaow()->GetShadowDepthFade();
+		return Vector4::ZERO;//pCurScene->GetSunShaow()->GetShadowDepthFade();
 	}
 
 	const Matrix4& ParameterManager::autoBindingGetWorldMatrix() const
@@ -344,7 +328,7 @@ namespace ma
 		}
 		
 		DirectonalLight* pDirLigt = (DirectonalLight*)pCurLight;
-		return pDirLigt->GetForward();
+		return pDirLigt->GetSceneNode()->GetForward();
 	}
 
 	Vector4 ParameterManager::autoBingingDepthNearFarInvfar() const

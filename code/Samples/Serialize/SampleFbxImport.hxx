@@ -86,8 +86,6 @@ namespace ma
 		LoadSaticMesh();
 
 		LoadSkelMesh();	
-
-		m_pScene->GetSunShaow()->LookAt(Vector3(1.f, 1.f, -0.f),Vector3::ZERO); 
 	}
 
 	void SampleFbxImport::UnLoad()

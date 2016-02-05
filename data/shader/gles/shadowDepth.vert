@@ -26,7 +26,7 @@ void main()
 #ifdef SKIN
 	vec3 finalPos = SkinPos(iPos,a_blendIndices,a_blendWeights);
 #else
-	vec3 finalPos = a_position;
+	vec3 finalPos = iPos;
 #endif
 
 	vec4 worldPos = vec4(finalPos,1) * g_matWorld;

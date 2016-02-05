@@ -3,7 +3,6 @@
 uniform sampler2D g_tShadowMap;
 
 uniform mat4 g_matShadow[1];
-uniform vec4 g_fSplitPlane;
 uniform vec4 g_ShadowDepthFade;
 uniform vec4 g_shadowMapTexelSize;
 

@@ -16,12 +16,12 @@ namespace ma
 		SHADOW_JITTERIN,
 	};
 
-	enum Caster_Cull
-	{
-		CasterCull_No,			// 直接使用视锥裁剪结果
-		LightViewFrustum_Cull,  // 光照空间的view Frustum
-		LightFrustum_Cull,		// 完整的Light Frustum
-	};
+// 	enum Caster_Cull
+// 	{
+// 		CasterCull_No,			// 直接使用视锥裁剪结果
+// 		LightViewFrustum_Cull,  // 光照空间的view Frustum
+// 		LightFrustum_Cull,		// 完整的Light Frustum
+// 	};
 
 	class RenderShadowCSM : public DirectonalLight
 	{
@@ -35,7 +35,7 @@ namespace ma
 
 		void				Init();
 		void				Update(Camera* pCamera);
-		void				Render(Camera* pCamera);
+		void				RenderShadowMap(Camera* pCamera);
 		void				Clear(Camera* pCamera);
 
 
@@ -104,6 +104,8 @@ namespace ma
 
 		bool				m_bEnable;
 	};
+
+	RefPtr<RenderShadowCSM> CreateRenderShadowCSM();
 
 }
 

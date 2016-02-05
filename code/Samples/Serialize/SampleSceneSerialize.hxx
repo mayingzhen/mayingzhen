@@ -42,9 +42,6 @@ namespace ma
 		
 		RefPtr<SceneNode> pSceneNode = CreateSceneNode(strScenePath.c_str());
 		m_pScene->GetRootNode()->AddChild(pSceneNode.get());
-
-		//m_pScene->GetSunShaow()->SetEnabled(true);
-		m_pScene->GetSunShaow()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 	}
 
 	void SampleSceneSerialize::UnLoad()

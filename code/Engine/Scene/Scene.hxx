@@ -12,8 +12,8 @@ namespace ma
 		m_pCamera = CreateCamera();
 		m_pRootNode->AddChild(m_pCamera.get());
 
-		m_pSunShadow = new RenderShadowCSM();
-		m_pSunShadow->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
+		//m_pSunShadow = new RenderShadowCSM();
+		//m_pSunShadow->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
 		
 		m_viewport = GetRenderSystem()->GetViewPort();
 		SetRenderScheme(RenderScheme::Forward);
@@ -93,6 +93,11 @@ namespace ma
 		m_vecParallelShow.push_back(pComponent);
 	}
 
+	void Scene::AddLight(Light* pLight)
+	{
+		m_vecLight.push_back(pLight);
+	}
+
 	void Scene::Update()
 	{
 		profile_code();
@@ -126,8 +131,6 @@ namespace ma
 		m_arrRenderComp.clear();
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
 		m_pCullTree->FindObjectsIn(frustumQuery);
-
-		m_pSunShadow->Update(m_pCamera.get());
 		
 		if (GetRenderQueue())
 			GetRenderQueue()->Clear();
@@ -174,7 +177,10 @@ namespace ma
 	
 		GetRenderSystem()->BegineRender();
 
-		m_pSunShadow->Render(m_pCamera.get());
+		for (uint32 i = 0; i < m_vecLight.size();++i)
+		{
+			m_vecLight[i]->RenderShadowMap(m_pCamera.get());
+		}
 
 		if (m_pRenderTarget)
 		{
@@ -201,6 +207,8 @@ namespace ma
 			GetLineRender()->Render();
 
 		GetRenderSystem()->EndRender();
+
+		m_vecLight.clear();
 	}
 
 	void Scene::OnFlushFrame()

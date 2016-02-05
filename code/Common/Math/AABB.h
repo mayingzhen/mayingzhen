@@ -103,7 +103,6 @@ namespace ma {
 		}
 
 		inline AABB(const AABB & rkBox) : mMinimum(Vector3::ZERO), mMaximum(Vector3::UNIT_SCALE), mpCorners(0)
-
 		{
 			if (rkBox.isNull())
 				setNull();

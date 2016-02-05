@@ -1,4 +1,5 @@
 #include "common.h"
+#include "depth.h"
 
 #ifdef POINT_LIGHT   
 uniform float4 light_pos_es_radius;
@@ -14,7 +15,6 @@ uniform float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
 
 // Gbuffer
 sampler2D u_textureSceneDiffuse;
-sampler2D u_textureSceneDepth;
 sampler2D u_textureSceneNormal;
 
 // shadow
@@ -35,22 +35,6 @@ struct PS_OUT
    //float4 Specular  : COLOR1;
    float4 flagColor : COLOR0;
 };
-
-
-
-float GetLinearDepth(float2 tc)
-{
-#ifdef HWDEPTH
-	float q = g_vCameraNearFar.y / (g_vCameraNearFar.y - g_vCameraNearFar.x); 
-	float depth = tex2D(u_textureSceneDepth, tc).r;
-	depth = g_vCameraNearFar.x / (q - depth);
-#else
-	float depth = tex2D(u_textureSceneDepth, tc).r;
-    depth *= g_vCameraNearFar.y;
-#endif	
-	
-	return depth;
-}
 
 
 

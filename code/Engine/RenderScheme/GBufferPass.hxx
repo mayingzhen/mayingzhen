@@ -43,7 +43,7 @@ namespace ma
 
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black, 1.0f, 0);
 
 		{
 			RENDER_PROFILE(RL_Solid);
@@ -61,7 +61,6 @@ namespace ma
 			}
 		}
 
-
 		{
 			RENDER_PROFILE(RL_TerrainBody);
 
@@ -77,10 +76,6 @@ namespace ma
 				pRenderObj->Render(pTech);
 			}
 		}
-	
-		GetRenderSystem()->SetRenderTarget(m_pDiffuse,0);
-		GetRenderSystem()->SetRenderTarget(NULL,1);
-		GetRenderSystem()->SetRenderTarget(NULL,2);
 
 		{
 			RENDER_PROFILE(RL_TerrainBorder);

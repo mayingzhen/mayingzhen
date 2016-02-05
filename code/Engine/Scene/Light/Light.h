@@ -15,7 +15,7 @@ namespace ma
 
 
 
-	class Light : public SceneNode
+	class Light : public RenderComponent
 	{
 	
 	public:
@@ -32,6 +32,8 @@ namespace ma
 
 		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}
 		float						GetLightIntensity() {return m_fLightIntensity;}
+
+		virtual	void				RenderShadowMap(Camera* pCamera) {}
 
 	protected:
 		LightType					m_eLightType;
@@ -51,11 +53,13 @@ namespace ma
 
 		float			GetRadius() {return m_fRadius;}
 
-		void			SetRadius(float fRadius) {m_fRadius = fRadius ? fRadius : 1.0f;}
+		void			SetRadius(float fRadius);
+
+		void			Show(Camera* pCamera);
 
 	private:
 
-		float		m_fRadius;
+		float			m_fRadius;
 	};
 
 	RefPtr<PointLight> CreatePointLight();
@@ -68,7 +72,11 @@ namespace ma
 
 		DECL_OBJECT(DirectonalLight)
 
+		virtual	void	Update();
+
 	};
+
+	RefPtr<DirectonalLight> CreateDirectonalLight();
 
 
 	class SpotLight : public Light

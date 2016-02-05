@@ -23,6 +23,10 @@ namespace ma
 		m_matShadow[0]  = Matrix4::IDENTITY;
 		m_matShadow[1]  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
+	
+		m_fShadowFarDist = 0;
+
+		m_eCaterType = CasterCull_No;
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -102,10 +106,7 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		RenderShadowCSM* pParent = pCamera->GetScene()->GetSunShaow();
-
-		Caster_Cull eCaterCullType = pParent->GetCasterCullType();
-		if (eCaterCullType != CasterCull_No)
+		if (m_eCaterType != CasterCull_No)
 		{
 			Frustum ligtFrustum;
 			ligtFrustum.Update(m_matLightProj * m_matLightView, GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
@@ -121,11 +122,10 @@ namespace ma
 		{
 			RenderComponent* pRenderComp = (*iter);
 
-			float fShadowFarDis = pParent->GetShadowFarDistance();
-			if (fShadowFarDis > 0)
+			if (m_fShadowFarDist > 0)
 			{
 				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetPosWS()).length();
-				if (fLodValue > fShadowFarDis)
+				if (fLodValue > m_fShadowFarDist)
 					continue;
 			}
 				
@@ -151,9 +151,7 @@ namespace ma
 	{		
 		Scene* pCurScene = pCamera->GetScene();
 
-		RenderShadowCSM* pParent = pCurScene->GetSunShaow();
-		
-		Vector3 vLightDir = pParent->GetForward();
+		Vector3 vLightDir = m_pParent->GetSceneNode()->GetForward();
 	
 		Vector3 vLightUp;
 		if ( Math::Abs( (-vLightDir).dotProduct( pCamera->GetUp() ) ) > 0.95f )
@@ -172,8 +170,7 @@ namespace ma
 
 		AABB aabbInLightView;
 
-		Caster_Cull eCaterCullType = pParent->GetCasterCullType();
-		if (eCaterCullType == CasterCull_No)
+		if (m_eCaterType == CasterCull_No)
 		{
 			uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
 			for (uint32 i = 0; i < iNodeNum; ++i)
@@ -243,7 +240,7 @@ namespace ma
 		Vector3 vLightPos;
 		Vector3 vCenter = aabbInLightView.getCenter();
 		Vector3 vLigtViewSize = aabbInLightView.getSize();
-		if (eCaterCullType == LightFrustum_Cull)
+		if (m_eCaterType == LightFrustum_Cull)
 		{
 			vLightPos = matInvLightView * Vector3(vCenter.x,vCenter.y,0);
 			vLigtViewSize.z = -aabbInLightView.getMinimum().z;
@@ -318,17 +315,17 @@ namespace ma
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
 	{
-		RenderShadowCSM* pParent = pCamera->GetScene()->GetSunShaow();
-
-		float fConstantBias = 0;
-		float fSlopeScaleBias = 0;
-		pParent->GetDepthBiasParams(fConstantBias,fSlopeScaleBias);
-
-		float vCurSplitx = pParent->GetCurSplitPos().x;
-		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
-
-		m_fConstantBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
-		m_fSlopeScaleBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
+// 		RenderShadowCSM* pParent = pCamera->GetScene()->GetSunShaow();
+// 
+// 		float fConstantBias = 0;
+// 		float fSlopeScaleBias = 0;
+// 		pParent->GetDepthBiasParams(fConstantBias,fSlopeScaleBias);
+// 
+// 		float vCurSplitx = pParent->GetCurSplitPos().x;
+// 		float multiplier = max(fSpiltFar / vCurSplitx, 1.0f);	
+// 
+// 		m_fConstantBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
+// 		m_fSlopeScaleBias[GetRenderSystem()->CurThreadFill()] = fConstantBias * multiplier;
 	}
 
 	void ShadowMapFrustum::Update(Camera* pCamera,float fSpiltNear,float fSpiltFar)

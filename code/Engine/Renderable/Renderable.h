@@ -21,6 +21,9 @@ namespace ma
 
 		SubMaterial*					GetMaterial() const {return m_pSubMaterial.get();}
 
+	protected:
+		void							SetPosUVAABB(Technique* pTech);
+
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
 		RefPtr<VertexDeclaration>		m_pDeclaration;

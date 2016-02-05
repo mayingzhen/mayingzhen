@@ -30,10 +30,14 @@ namespace ma
 // 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 // 		m_pBox->SetScale(Vector3(50));
 // 		m_pBox->SetPos(Vector3(250.0f, 250.0f,pTerrain->GetHeight(250.0f, 250.0f)));
+
+		RefPtr<SceneNode> pSun = m_pScene->CreateSceneNode();
+		RefPtr<RenderShadowCSM> pRenderShadow = CreateRenderShadowCSM();
+		pSun->AddComponent(pRenderShadow.get());
 		
-		m_pScene->GetSunShaow()->LookAt(Vector3(1.f, 0.f, 1.f),Vector3::ZERO); 
-		m_pScene->GetSunShaow()->SetLightColor(ColourValue(0.49, 0.65, 0.95, 1.f));
-		m_pScene->GetSunShaow()->SetEnabled(true);
+		pRenderShadow->GetSceneNode()->LookAt(Vector3(1.f, 0.f, 1.f),Vector3::ZERO); 
+		pRenderShadow->SetLightColor(ColourValue(0.49, 0.65, 0.95, 1.f));
+		pRenderShadow->SetEnabled(true);
 
 	}
 
@@ -59,7 +63,7 @@ namespace ma
 		if (m_pDirectLight)
 		{
 			Vector3 vSrc = Vector3(0,0,0);
-			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetForward();
+			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetSceneNode()->GetForward();
 			GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		}
 	}

@@ -211,3 +211,7 @@ EXPORTS
 ?UpdateMeshData@MeshData@ma@@QAEXPAUSkinVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
 ??0Thread@ma@@QAE@PBD@Z
 ?GetWorkQueue@ma@@YAPAVWorkQueue@1@XZ
+?SetRenderScheme@Scene@ma@@QAEXW4Type@RenderScheme@2@@Z
+?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
+?CreateRenderShadowCSM@ma@@YA?AV?$RefPtr@VRenderShadowCSM@ma@@@1@XZ
+?SetRadius@PointLight@ma@@QAEXM@Z

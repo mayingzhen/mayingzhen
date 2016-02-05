@@ -129,7 +129,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("AnimationRetarget");
+		RunSample("Lighting");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -192,7 +192,7 @@ namespace ma
 
 	void SampleBrowser::Init()
 	{
-		ModuleInit(RenderDevice_GLES2);
+		ModuleInit(RenderDevice_D3D9);
 
 		InitResourcePath();
 

@@ -42,7 +42,9 @@ VS_OUT main( VS_IN In)
 	float2 iUV  = In.a_texCoord * tc_extent_center.xy + tc_extent_center.zw;
 
 #ifdef SKIN
-	finalPos  =  SkinPos(iPos,In.a_blendIndices,In.a_blendWeights);
+	float3 finalPos = SkinPos(iPos,In.a_blendIndices,In.a_blendWeights);
+#else
+	float3 finalPos = iPos;		
 #endif
 	
 	float4 worldPos = mul(float4(finalPos,1.0f), g_matWorld);

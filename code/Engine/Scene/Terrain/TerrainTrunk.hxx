@@ -342,6 +342,7 @@ namespace ma
 				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
 				pTech->GetRenderState().SetBlendMode(BM_TRANSPARENT);
 				pTech->GetRenderState().SetDepthCheckMode(DCM_EQUAL);
+				pTech->GetRenderState().SetDepthWrite(false);
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();

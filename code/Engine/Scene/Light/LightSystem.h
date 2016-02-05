@@ -29,10 +29,8 @@ namespace ma
 		ColourValue					m_cAmbientColor;
 	};
 
-
-		LightSystem*		GetLightSystem();
-
-		void				SetLightSystem(LightSystem* pLightSystem);
+	extern LightSystem*	g_pLightSystem;	
+	LightSystem* GetLightSystem();
 	
 }
 

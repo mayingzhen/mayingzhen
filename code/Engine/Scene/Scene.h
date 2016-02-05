@@ -14,7 +14,7 @@ namespace ma
 	class RenderComponent;
 	class Texture;
 	class RenderQueue;
-	class RenderShadowCSM;
+	class ShadowMapFrustum;
 
 
 	class Scene : public Referenced
@@ -71,13 +71,18 @@ namespace ma
 		float					GetViewMinZ() const {return m_viwMinZ;}
 		float					GetViewMaxZ() const {return m_viwMaxZ;}
 		void					SetViewMinMaxZ(float fViewMinZ, float fViewMaxZ) {m_viwMinZ = fViewMinZ; m_viwMaxZ = fViewMaxZ;}
-
-		RenderShadowCSM*		GetSunShaow() const {return m_pSunShadow.get();}
 		
 		void					OnFlushFrame();
 
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
+
+		void					AddLight(Light* pLight);
+		UINT					GetVisibleLightNum() const {return m_vecLight.size();}
+		Light*					GetVisibleLightByIndex(UINT index) {return m_vecLight[index].get();}
+
+		ShadowMapFrustum*		GetShadowMapFrustum() {return m_pShadowMapFrustum;}
+		void					SetShadowMapFrustum(ShadowMapFrustum* pShadowMapFrustum) {m_pShadowMapFrustum = pShadowMapFrustum;}
 
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
@@ -94,19 +99,22 @@ namespace ma
 
 		RefPtr<Texture>			m_pRenderTarget;
 
-		typedef std::vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
+		typedef vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;
 
-		typedef std::vector< RefPtr<Component> > VEC_COMP;
+		typedef vector< RefPtr<Component> > VEC_COMP;
 		VEC_COMP				m_vecParallelUpdate;
 		VEC_COMP				m_vecParallelShow;
+
+		typedef vector< RefPtr<Light> > VEC_LIGHT;
+		VEC_LIGHT				m_vecLight;
+
+		ShadowMapFrustum*		m_pShadowMapFrustum;
 
 		RenderQueue*			m_pRenderQueue[2];
 		
 		float					m_viwMinZ;
 		float					m_viwMaxZ;
-
-		RefPtr<RenderShadowCSM>	m_pSunShadow; 
 			
 		CCallback*				m_pCallback;
 	};

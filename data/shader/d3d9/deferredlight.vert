@@ -17,6 +17,9 @@ struct VS_OUT
 };
 
 
+float3 pos_extent;
+float3 pos_center;
+
 
 void main( float3 pos : POSITION,
                  out VS_OUT vOut)
@@ -25,7 +28,8 @@ void main( float3 pos : POSITION,
    vOut.pos = float4(pos.xyz ,1);
    vOut.oViewDir = mul(float4(pos.xyz ,1),g_matProjInv);
 #else
-   vOut.pos =  mul(float4(pos.xyz ,1),g_matWorldViewProj);
+   float3 iPos = pos * pos_extent + pos_center;	
+   vOut.pos =  mul(float4(iPos.xyz ,1),g_matWorldViewProj);
    vOut.oViewDir =  mul(float4(pos.xyz ,1),g_matWorldView);
 #endif
    

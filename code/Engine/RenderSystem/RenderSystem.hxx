@@ -170,6 +170,10 @@ namespace ma
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
 		m_mapMacros["USING_HW_PCF"] = "0";
 		m_mapMacros["USING_FLOATTEXTURE"] = "0";
+		if (!GetDeviceCapabilities()->GetINTZSupported())
+		{
+			m_mapMacros["USING_LINEARDEPTH"] = "1";	
+		}
 	}
 
 	void RenderSystem::InitCachState()
@@ -201,7 +205,7 @@ namespace ma
 	
 		GetLineRender()->Init();
 		ScreenQuad::Init();
-		//UnitSphere::Init();
+		UnitSphere::Init();
 
 		Scene* pScene = new Scene("defaultScene");
 		pScene->SetViewport(m_viewport);

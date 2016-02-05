@@ -29,6 +29,7 @@ namespace ma
 		g_pParameterManager = new ParameterManager();
 		g_pDeviceCapabilities = new DeviceCapabilitie();
 		g_pRenderSystem = new RenderSystem();
+		g_pLightSystem = new LightSystem();
 
 		g_pWorkQueue = new WorkQueue();
 	}

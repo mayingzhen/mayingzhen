@@ -1,8 +1,6 @@
 #include "common.h"
+#include "depth.h"
 #include "shadowmap.h"
-
-// Gbuffer
-sampler2D u_textureSceneDepth;
 
 
 struct VS_OUT
@@ -13,35 +11,18 @@ struct VS_OUT
 };
 
 
-float GetLinearDepth(float2 tc)
+void main( float4 WPos : VPOS, VS_OUT In,out float4 color : COLOR0 )
 {
-#ifdef HWDEPTH
-	float q = g_vCameraNearFar.y / (g_vCameraNearFar.y - g_vCameraNearFar.x); 
-	float depth = tex2D(u_textureSceneDepth, tc).r;
-	depth = g_vCameraNearFar.x / (q - depth);
-#else
-	float depth = tex2D(u_textureSceneDepth, tc).r;
-    depth *= g_vCameraNearFar.y;
-#endif	
-	
-	return depth;
-}
-
-void main( VS_OUT In,out float4 color : COLOR0 )
-{
-	float depth = GetLinearDepth(In.oTc); 
-	
-   float3 view_dir = normalize(In.oViewDir.xyz);
-   float3 pos_es = view_dir * (-depth / view_dir.z); 
+	float4 vTempPos = CalcHomogeneousPos(In.oTc, WPos.xy);
+	float depth = vTempPos.w; 
+	float4 vShadowPos = float4(vTempPos.xyz,1.0);
+		
+   	float2 RandDirTC;    
+#if SHADOW_BLUR == 2
+	GetRandDirTC(depth,RandDirTC);	
+#endif
    
-   float3 worldPos = mul(float4(pos_es,1.0),g_matViewInv);  
-   
-   	float2 RandDirTC;
-	float4 ShadowPos[g_iNumSplits];
-	
-    GetShadowPos(worldPos.xyz,depth,ShadowPos,RandDirTC);
-   
-   float shadow = DoShadowMapping(ShadowPos,RandDirTC,depth);   
+   float shadow = DoShadowMapping(vShadowPos,RandDirTC,depth);   
    
    color = shadow;
 }

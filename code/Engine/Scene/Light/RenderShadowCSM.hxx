@@ -166,10 +166,12 @@ namespace ma
 
 
 
-	void RenderShadowCSM::Render(Camera* pCamera)
+	void RenderShadowCSM::RenderShadowMap(Camera* pCamera)
 	{
 		if (!m_bEnable)
-			return;		
+			return;	
+
+		Update(pCamera);
 		
 		for (int i = 0; i < m_nCurSplitCount; ++i)
 		{
@@ -201,7 +203,10 @@ namespace ma
 		for (int i = 0; i < nMaxSplitCount; ++i)
 		{
 			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
+			m_SpitFrustum[i].m_pParent = this;
 		}
+
+		m_pSceneNode->GetScene()->SetShadowMapFrustum(&m_SpitFrustum[0]);
 	}
 
 	void RenderShadowCSM::UpdateViewMinMaxZ(Camera* pCamera)
@@ -257,6 +262,7 @@ namespace ma
 		for (int i = 0; i < m_nMaxSplitCount; ++i)
 		{
 			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
+			m_SpitFrustum[i].m_pParent = this;
 		}
 	}
 
@@ -323,10 +329,10 @@ namespace ma
 // 			m_irreg_kernel[nIdx].w = vSample.y;
 // 		}
 //	}
-	
-// 	RenderShadowCSM* g_pRenderShadowCSM = NULL;
-// 	RenderShadowCSM* GetRenderShadowCSM()
-// 	{
-// 		return g_pRenderShadowCSM;
-// 	}
+
+
+	RefPtr<RenderShadowCSM> CreateRenderShadowCSM()
+	{
+		return new RenderShadowCSM();
+	}
 }
