@@ -412,14 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Scene\CharaControl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Scene\CharaControl.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\Scene\Component.h"
 				>
 			</File>
@@ -973,10 +965,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Renderable\MeshData.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Renderable\MeshDataSerialize.hxx"
 				>
 			</File>
 			<File
