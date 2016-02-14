@@ -74,8 +74,7 @@
 #include "Engine/Scene/Camera.h"
 #include "Engine/Scene/meshcomponent.h"
 #include "Engine/Scene/Light/Light.h"
-#include "Engine/Scene/Light/LightSystem.h"
-#include "Engine/Scene/Light/RenderShadowCSM.h"
+#include "Engine/Scene/Light/DirectonalLight.h"
 
 
 #include "Engine/Scene/Terrain/Terrain.h"

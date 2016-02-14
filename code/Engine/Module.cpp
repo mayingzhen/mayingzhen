@@ -94,10 +94,9 @@
 #include "Engine/Scene/Camera.hxx"
 // Light
 #include "Engine/Scene/Light/Light.hxx"
-#include "Engine/Scene/Light/LightSystem.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"
 #include "Engine/Scene/Light/ShadowCasterQuery.hxx"
-#include "Engine/Scene/Light/RenderShadowCSM.hxx"
+#include "Engine/Scene/Light/DirectonalLight.hxx"
 #include "Engine/Scene/Light/PoissonDiskGen.hxx"
 
 //Particle

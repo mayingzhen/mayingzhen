@@ -33,7 +33,7 @@ namespace ma
 		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::Black, 1.0f, 0);
 
 		// AmbientLight
-		ColourValue cAmbientColor = GetLightSystem()->GetAmbientColor();
+		ColourValue cAmbientColor = m_pScene->GetAmbientColor();
 		m_pAmbientLight->SetParameter("light_color",Any(cAmbientColor));
 		ScreenQuad::Render(m_pAmbientLight.get());	
 

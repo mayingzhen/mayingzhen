@@ -84,6 +84,11 @@ namespace ma
 		ShadowMapFrustum*		GetShadowMapFrustum() {return m_pShadowMapFrustum;}
 		void					SetShadowMapFrustum(ShadowMapFrustum* pShadowMapFrustum) {m_pShadowMapFrustum = pShadowMapFrustum;}
 
+		const ColourValue&	GetAmbientColor() {return m_cAmbientColor;}
+
+		void				SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+
+
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
 
@@ -117,6 +122,8 @@ namespace ma
 		float					m_viwMaxZ;
 			
 		CCallback*				m_pCallback;
+
+		ColourValue				m_cAmbientColor;
 	};
 
 	RefPtr<Scene> CreateScene();

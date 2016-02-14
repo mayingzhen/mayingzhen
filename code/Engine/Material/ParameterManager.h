@@ -65,7 +65,7 @@ namespace ma
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
-		const ColourValue&	autoBindingGetAmbientColor() const;
+		//const ColourValue&	autoBindingGetAmbientColor() const;
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;

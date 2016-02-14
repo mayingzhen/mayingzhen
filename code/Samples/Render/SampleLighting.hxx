@@ -15,34 +15,9 @@ namespace ma
 		m_pScene->SetRenderScheme(RenderScheme::DeferredLighting);
 
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
-
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());
 
-		// Render Mesh
-		{
-// 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
-// 			
-// 			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
-// 			pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
-// 			
-// 			AnimationComponent* pAnimObj = pCharMagic->CreateComponent<AnimationComponent>();
-// 			pAnimObj->Load("magician/Body.Aniset","magician/Body.ske");
-// 			pAnimObj->PlayAnimation((UINT)0);
-// 
-// 			m_pScene->GetRootNode()->AddChild(pCharMagic.get());
-
-			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
-			
-			//pCharMagic->Right(100);
-
-// 			RefPtr<SceneNode> pPlatform = CreateMeshGameObject("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
-// 
-// 			RefPtr<SceneNode> pBox = CreateMeshGameObject("Fbx/Box.skn","Fbx/Box.mtl");
-// 
-// 			pPlatform->Scale(50);
-// 
-// 			pBox->Scale(50);
-		}
+		m_pScene->CreateSceneNode("magician/magician/magician.xml");
 
 		// Light
 		{
@@ -61,12 +36,12 @@ namespace ma
 			m_pDirectLight->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
 		}
 
-		GetLightSystem()->SetAmbientColor(ColourValue::Black);
+		m_pScene->SetAmbientColor(ColourValue::Black);
 	}
 
 	void SampleLighting::UnLoad()
 	{
-		GetLightSystem()->SetAmbientColor(ColourValue::White);	
+		m_pScene->SetAmbientColor(ColourValue::White);	
 
 		m_pDirectLight = NULL;
 		m_pPointLight = NULL;

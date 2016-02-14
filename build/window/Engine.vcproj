@@ -499,6 +499,14 @@
 				Name="Light"
 				>
 				<File
+					RelativePath="..\..\code\Engine\Scene\Light\DirectonalLight.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Light\DirectonalLight.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Engine\Scene\Light\Light.h"
 					>
 				</File>
@@ -507,27 +515,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Scene\Light\LightSystem.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Light\LightSystem.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Engine\Scene\Light\PoissonDiskGen.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\Scene\Light\PoissonDiskGen.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Light\RenderShadowCSM.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Light\RenderShadowCSM.hxx"
 					>
 				</File>
 				<File

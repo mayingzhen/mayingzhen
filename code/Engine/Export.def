@@ -54,7 +54,6 @@ EXPORTS
 ?SetRenderTarget@RenderSystem@ma@@QAE?AV?$RefPtr@VTexture@ma@@@2@V32@H@Z
 ?ClearBuffer@RenderSystem@ma@@QAEX_N00ABVColourValue@2@MH@Z
 ?Shoutdown@RenderSystem@ma@@QAEXXZ
-?GetLightSystem@ma@@YAPAVLightSystem@1@XZ
 ?Update@RenderSystem@ma@@QAEXXZ
 ?UpdateFrame@Time@ma@@QAEXXZ
 ?GetPos@SceneNode@ma@@QBEABVVector3@2@XZ
@@ -121,7 +120,6 @@ EXPORTS
 ?RemoveAllChild@SceneNode@ma@@QAEXXZ
 ??1MeshData@ma@@UAE@XZ
 ?AddBonePalette@SubMeshData@ma@@QAEXG@Z
-?SetEnabled@RenderShadowCSM@ma@@QAEX_N@Z
 ?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
 ?GetWorldRayCast@Camera@ma@@QAE?AVRay@2@ABVVector2@2@@Z
 ?GetHeight@Terrain@ma@@QBEMMM@Z
@@ -213,5 +211,5 @@ EXPORTS
 ?GetWorkQueue@ma@@YAPAVWorkQueue@1@XZ
 ?SetRenderScheme@Scene@ma@@QAEXW4Type@RenderScheme@2@@Z
 ?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
-?CreateRenderShadowCSM@ma@@YA?AV?$RefPtr@VRenderShadowCSM@ma@@@1@XZ
 ?SetRadius@PointLight@ma@@QAEXM@Z
+?SetShadowEnabled@DirectonalLight@ma@@QAEX_N@Z

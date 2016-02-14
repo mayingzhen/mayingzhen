@@ -2,7 +2,6 @@
 #include "../RenderScheme/GBufferPass.h"
 #include "../RenderScheme/DeferredLightPass.h"
 #include "../RenderScheme/DeferredShadowPass.h"
-#include "../Scene/Light/LightSystem.h"
 
 namespace ma
 {
@@ -132,10 +131,10 @@ namespace ma
 // 		{
 // 			pParam->BindMethod(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
 // 		}
-		else if (autoBinding == SCENE_AMBIENT_COLOR)
-		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingGetAmbientColor);
-		}
+// 		else if (autoBinding == SCENE_AMBIENT_COLOR)
+// 		{
+// 			pParam->BindMethod(this, &ParameterManager::autoBindingGetAmbientColor);
+// 		}
 		else if (autoBinding == SCENE_LIGHT_COLOR)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightColor);
@@ -304,10 +303,10 @@ namespace ma
 // 		return pRenderable->GetSkinDQCount() * 2;
 // 	}
 
-	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const
-	{
-		return GetLightSystem()->GetAmbientColor();
-	}
+// 	const ColourValue& ParameterManager::autoBindingGetAmbientColor() const
+// 	{
+// 		return GetLightSystem()->GetAmbientColor();
+// 	}
 
 	const ColourValue& ParameterManager::autoBindingGetLightColor() const
 	{

@@ -64,20 +64,6 @@ namespace ma
 
 	RefPtr<PointLight> CreatePointLight();
 	
-	class DirectonalLight : public Light
-	{
-	
-	public:
-		DirectonalLight();
-
-		DECL_OBJECT(DirectonalLight)
-
-		virtual	void	Update();
-
-	};
-
-	RefPtr<DirectonalLight> CreateDirectonalLight();
-
 
 	class SpotLight : public Light
 	{
