@@ -19,21 +19,17 @@ namespace ma
 		INVERSE_TRANSPOSE_WORLD_MATRIX,
 		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
 		CAMERA_WORLD_POSITION,
-		CAMERA_VIEW_POSITION,
-		//MATRIX_PALETTE,			
+		CAMERA_VIEW_POSITION,		
 		SCENE_AMBIENT_COLOR,
 		SCENE_LIGHT_COLOR,
 		SCENE_LIGHT_DIRECTION,
 		DepthNearFarInvfar,
-		//TextureLightDiffuse,
-		//TextureLightSpecular,
 		TextureLightShadow,
 		TextureSceneDiffuse,
 		TextureSceneDepth,
 		TextureSceneDeviceDepth,
 		TextureSceneNormal,
 		g_tShadowMap,
-		//g_fSplitPlane,
 		g_matShadow,
 		g_shadowMapTexelSize,
 		g_ShadowDepthFade,
@@ -65,7 +61,6 @@ namespace ma
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
-		//const ColourValue&	autoBindingGetAmbientColor() const;
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;

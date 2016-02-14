@@ -127,14 +127,6 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraViewPosition);
 		}
-// 		else if (autoBinding == MATRIX_PALETTE)
-// 		{
-// 			pParam->BindMethod(this, &ParameterManager::autoBindingGetMatrixPalette, &ParameterManager::autoBindingGetMatrixPaletteSize);
-// 		}
-// 		else if (autoBinding == SCENE_AMBIENT_COLOR)
-// 		{
-// 			pParam->BindMethod(this, &ParameterManager::autoBindingGetAmbientColor);
-// 		}
 		else if (autoBinding == SCENE_LIGHT_COLOR)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightColor);
@@ -163,14 +155,6 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
 		}
-// 		else if (autoBinding == TextureLightDiffuse)
-// 		{
-// 			pParam->BindMethod(this, &ParameterManager::autoBindingTextureLightDiffuse);
-// 		}
-// 		else if (autoBinding == TextureLightSpecular)
-// 		{
-// 			pParam->BindMethod(this, &ParameterManager::autoBindingTextureightSpecular);
-// 		}
 		else if (autoBinding == TextureLightShadow)
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingTextureLightShadow);
@@ -361,22 +345,6 @@ namespace ma
 
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneNormal();
 	}
-
-// 	Texture* ParameterManager::autoBindingTextureLightDiffuse() const
-// 	{
-// 		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
-// 			return NULL;
-// 
-// 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureLightDiffuse();
-// 	}
-// 
-// 	Texture* ParameterManager::autoBindingTextureightSpecular() const
-// 	{
-// 		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass() == NULL)
-// 			return NULL;
-// 
-// 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredLightPass()->GetTextureightSpecular();
-// 	}	
 
 	Texture* ParameterManager::autoBindingTextureLightShadow() const
 	{
