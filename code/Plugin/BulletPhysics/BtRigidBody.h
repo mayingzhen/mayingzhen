@@ -49,7 +49,7 @@ namespace ma
 		bool		   m_bUseGravity;
 		bool		   m_bKinematic;
 		float		   m_fDeactivationTime;
-		btRigidBody::btRigidBodyConstructionInfo* m_rbInfo;
+		btRigidBody::btRigidBodyConstructionInfo m_rbInfo;
 	};
 
 
