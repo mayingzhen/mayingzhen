@@ -95,7 +95,7 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)/../../Bin/$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)/../../obj/$(ProjectName)\$(ConfigurationName)\"
-			ConfigurationType="1"
+			ConfigurationType="2"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -120,7 +120,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/FBX/include/;../../extern/oisInput/Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;FBXImporter_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="plugin/FbxImport/StdAfx.h"

@@ -5,11 +5,12 @@
 namespace ma
 {
 	RigidBody::RigidBody()
+		:m_rbInfo(1.0f, NULL, NULL)
 	{
 		m_pRigidBody = NULL;
 		m_bUseGravity = true;
 		m_bKinematic = false;
-		m_rbInfo = new btRigidBody::btRigidBodyConstructionInfo(1.0f,NULL,NULL);
+		//m_rbInfo = btRigidBody::btRigidBodyConstructionInfo(1.0f,NULL,NULL);
 	}
 
 	void RigidBody::RegisterAttribute()
@@ -78,9 +79,9 @@ namespace ma
 	{
 		if (m_pRigidBody)
 		{
-			m_pRigidBody->setMassProps(fMass,m_rbInfo->m_localInertia);
+			m_pRigidBody->setMassProps(fMass,m_rbInfo.m_localInertia);
 		}
-		m_rbInfo->m_mass = fMass;
+		m_rbInfo.m_mass = fMass;
 	}
 
 	float RigidBody::GetMass() const
@@ -91,7 +92,7 @@ namespace ma
 		}
 		else
 		{
-			return m_rbInfo->m_mass;
+			return m_rbInfo.m_mass;
 		}
 	}
 
@@ -101,7 +102,7 @@ namespace ma
 		{
 			m_pRigidBody->setDamping(fLinearDamping,m_pRigidBody->getAngularDamping());
 		}
-		m_rbInfo->m_linearDamping = fLinearDamping;
+		m_rbInfo.m_linearDamping = fLinearDamping;
 	}
 
 	float RigidBody::GetLinearDamping() const
@@ -112,7 +113,7 @@ namespace ma
 		}
 		else
 		{
-			return m_rbInfo->m_linearDamping;
+			return m_rbInfo.m_linearDamping;
 		}
 	}
 
@@ -122,7 +123,7 @@ namespace ma
 		{
 			m_pRigidBody->setDamping(m_pRigidBody->getLinearDamping(),fAngularDamping);
 		}
-		m_rbInfo->m_angularDamping = fAngularDamping;
+		m_rbInfo.m_angularDamping = fAngularDamping;
 	}
 
 	float RigidBody::GetAngularDamping() const
@@ -133,7 +134,7 @@ namespace ma
 		}
 		else
 		{
-			return m_rbInfo->m_angularDamping;
+			return m_rbInfo.m_angularDamping;
 		}
 	}
 
@@ -157,8 +158,8 @@ namespace ma
 		}
 		else
 		{
-			m_rbInfo->m_linearSleepingThreshold = fLinear;
-			m_rbInfo->m_angularSleepingThreshold = fAngular;
+			m_rbInfo.m_linearSleepingThreshold = fLinear;
+			m_rbInfo.m_angularSleepingThreshold = fAngular;
 		}
 	}
 
@@ -176,15 +177,15 @@ namespace ma
 		btVector3 localInertia(0,0,0);
 		if (pCompoundShape)
 		{
-			pCompoundShape->calculateLocalInertia(m_rbInfo->m_mass,localInertia);
+			pCompoundShape->calculateLocalInertia(m_rbInfo.m_mass,localInertia);
 		}
 
 		//btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		m_rbInfo->m_motionState = NULL/*myMotionState*/;
-		m_rbInfo->m_collisionShape = pCompoundShape;
-		m_rbInfo->m_localInertia = localInertia;
+		m_rbInfo.m_motionState = NULL/*myMotionState*/;
+		m_rbInfo.m_collisionShape = pCompoundShape;
+		m_rbInfo.m_localInertia = localInertia;
 		
-		m_pRigidBody = new btRigidBody(*m_rbInfo);
+		m_pRigidBody = new btRigidBody(m_rbInfo);
 
 		pBtDynamicsWorld->addRigidBody(m_pRigidBody);	
 
