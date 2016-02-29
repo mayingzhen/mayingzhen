@@ -337,6 +337,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Thread\JobScheduler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Thread\JobScheduler.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Thread\MSemaphore.h"
 				>
 			</File>
@@ -350,14 +358,6 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Thread\Thread.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\WorkQueue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\Thread\WorkQueue.hxx"
 				>
 			</File>
 			<Filter
@@ -488,6 +488,14 @@
 				RelativePath="..\..\code\Engine\Scene\SceneVisiter.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\SkinMeshComponent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\SkinMeshComponent.hxx"
+				>
+			</File>
 			<Filter
 				Name="Light"
 				>
@@ -563,6 +571,286 @@
 			<Filter
 				Name="Paticle"
 				>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\Particle.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAlignAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAlignAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAreaEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleAreaEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBoxEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBoxEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourFader2Affector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourFader2Affector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourFaderAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourFaderAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourInterpolatorAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleColourInterpolatorAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleCylinderEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleCylinderEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDampingAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDampingAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDeflectorPlaneAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDeflectorPlaneAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDirectionRandomiserAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleDirectionRandomiserAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEllipsoidEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEllipsoidEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleHollowEllipsoidEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleHollowEllipsoidEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLinearForceAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLinearForceAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLineDriftAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLineDriftAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLineEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleLineEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleMeshSurfaceEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleMeshSurfaceEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleMeshVertexEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleMeshVertexEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointAttractionAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointAttractionAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointForceAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticlePointForceAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRingEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRingEmitter.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRotationAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRotationAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRotationPivotAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleRotationPivotAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleScaleAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleScaleAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleScaleInterpolatorAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleScaleInterpolatorAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSplineAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSplineAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSubUVAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSubUVAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystem.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystemRenderable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleSystemRenderable.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleVelocityDampingAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleVelocityDampingAffector.hxx"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleVortexAffector.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\Scene\Particle\ParticleVortexAffector.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -969,6 +1257,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshRenderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Renderable\MeshRenderable.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Renderable\Renderable.h"
 				>
 			</File>
@@ -985,11 +1281,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Renderable\SpriteBatch.h"
+				RelativePath="..\..\code\Engine\Renderable\SkinMeshRenderable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\Renderable\SpriteBatch.hxx"
+				RelativePath="..\..\code\Engine\Renderable\SkinMeshRenderable.hxx"
 				>
 			</File>
 			<File
