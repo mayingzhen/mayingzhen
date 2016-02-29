@@ -168,6 +168,9 @@ namespace ma {
         */
         static string toString(const vector<string>& val);
 		static string toString(const AABB& val);
+		static string toString(const AABB2D& val);
+		static string toString(const Vec2i& val);
+		static string toString(const Vec3i& val);
 
         /** Converts a string to a Real. 
         @returns
@@ -257,7 +260,10 @@ namespace ma {
         */
         static vector<string> parseStringVector(const string& val);
 
-		static AABB parseAxisAlignedBox(const string& val, const AABB& defaultValue = AABB());
+		static AABB parseAABB(const string& val, const AABB& defaultValue = AABB());
+		static AABB2D parseAABB2D(const string& val, const AABB2D& defaultValue = AABB2D());
+		static Vec2i parseVec2i(const string& val);
+		static Vec3i parseVec3i(const string& val);
 
         /** Checks the string is a valid number value. */
         static bool isNumber(const string& val);

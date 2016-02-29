@@ -774,6 +774,15 @@ namespace ma
 		//! Rotates the vector by a specified number of degrees around the Y axis and the specified center.
 		/** \param degrees Number of degrees to rotate around the Y axis.
 		\param center The center of the rotation. */
+        void rotateXZBy(const Radian& angle)
+        {
+            Real cs = Math::Cos(angle);
+            Real sn = Math::Sin(angle);
+            Real tX = x, tZ = z;
+            x = (tX*cs - tZ*sn);
+            z = (tX*sn + tZ*cs);
+        }
+
 		void rotateXZBy(const Radian& angle, const Vector3& center)
 		{
 			float cs = Math::Cos(angle);
@@ -788,6 +797,14 @@ namespace ma
 		//! Rotates the vector by a specified number of degrees around the Z axis and the specified center.
 		/** \param degrees: Number of degrees to rotate around the Z axis.
 		\param center: The center of the rotation. */
+        void rotateXYBy(const Radian& angle)
+        {
+            Real cs = Math::Cos(angle);
+            Real sn = Math::Sin(angle);
+            Real tX = x, tY = y;
+            x =(tX*cs - tY*sn);
+            y =(tX*sn + tY*cs);
+        }
 		void rotateXYBy(const Radian& angle, const Vector3& center)
 		{
 			float cs = Math::Cos(angle);
@@ -802,6 +819,14 @@ namespace ma
 		//! Rotates the vector by a specified number of degrees around the X axis and the specified center.
 		/** \param degrees: Number of degrees to rotate around the X axis.
 		\param center: The center of the rotation. */
+        void rotateYZBy(const Radian& angle)
+        {
+            Real cs = Math::Cos(angle);
+            Real sn = Math::Sin(angle);
+            Real tY = y, tZ = z;
+            y = (tY*cs - tZ*sn);
+            z = (tY*sn + tZ*cs);
+        }
 		void rotateYZBy(const Radian& angle, const Vector3& center)
 		{
 			float cs = Math::Cos(angle);

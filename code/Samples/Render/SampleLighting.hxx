@@ -61,14 +61,14 @@ namespace ma
 		if (m_pPointLight)
 		{
 			Matrix4 matWS = m_pPointLight->GetSceneNode()->GetMatrixWS();
-			GetLineRender()->DrawWireSphere(matWS,m_pPointLight->GetRadius(),ColourValue(1,0,0,0));
+			LineRender::DrawWireSphere(matWS,m_pPointLight->GetRadius(),ColourValue(1,0,0,0));
 		}
 
 		if (m_pDirectLight)
 		{
 			Vector3 vSrc = Vector3(0,0,0);
 			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetSceneNode()->GetForward();
-			GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
+			LineRender::DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		}
 	}
 }

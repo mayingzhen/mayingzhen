@@ -112,14 +112,14 @@ namespace ma
 
 		m_pRootNode->Update();
 			
-		if (GetWorkQueue()->GetNumThreads() > 0)
+		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
-			WorkQueue::JobGroupID jobGroup = GetWorkQueue()->BeginGroup(m_vecParallelUpdate.size());
+			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelUpdate.size());
 			for (UINT32 i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
-				GetWorkQueue()->SubmitJob(jobGroup,ParallelUpdate,m_vecParallelUpdate[i].get(),NULL,NULL);
+				GetJobScheduler()->SubmitJob(jobGroup,ParallelUpdate,m_vecParallelUpdate[i].get(),NULL,NULL);
 			}
-			GetWorkQueue()->WaitForGroup(jobGroup);
+			GetJobScheduler()->WaitForGroup(jobGroup);
 
 			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
@@ -140,14 +140,14 @@ namespace ma
 			m_arrRenderComp[i]->Show(m_pCamera.get());
 		}
 
-		if (GetWorkQueue()->GetNumThreads() > 0)
+		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
-			WorkQueue::JobGroupID jobGroup = GetWorkQueue()->BeginGroup(m_vecParallelShow.size());
+			JobScheduler::JobGroupID jobGroup = GetJobScheduler()->BeginGroup(m_vecParallelShow.size());
 			for (UINT32 i = 0; i < m_vecParallelShow.size(); ++i)
 			{
-				GetWorkQueue()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
+				GetJobScheduler()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
 			}
-			GetWorkQueue()->WaitForGroup(jobGroup);
+			GetJobScheduler()->WaitForGroup(jobGroup);
 
 			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
 			{
@@ -203,8 +203,7 @@ namespace ma
 			m_pCallback->OnPosRender(this);
 		}
 
-		if (GetLineRender())
-			GetLineRender()->Render();
+		LineRender::Render();
 
 		GetRenderSystem()->EndRender();
 

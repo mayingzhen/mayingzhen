@@ -39,9 +39,6 @@ namespace ma
 		m_pRenderContext = new RenderContext();
 		SetRenderContext(m_pRenderContext);
 
-		LineRender* pLineRender = new LineRender();
-		SetLineRender(pLineRender);
-
 		m_pRenderThread = new RenderThread();
 
 		m_bNeedReloadShader = false;
@@ -57,10 +54,6 @@ namespace ma
 		SAFE_DELETE(m_pRenderContext);
 
 		SAFE_DELETE(m_pRenderThread);
-
-		LineRender* pLineRender = GetLineRender();
-		SAFE_DELETE(pLineRender);
-		SetLineRender(NULL);
 	}
 
 	Scene* RenderSystem::GetScene(int index)
@@ -125,8 +118,7 @@ namespace ma
 			m_arrScene[i]->OnFlushFrame();
 		}
 
-		if ( GetLineRender() )
-			GetLineRender()->OnFlushFrame();
+		LineRender::OnFlushFrame();
 
 		//if ( GetParticleSystem() )
 		//	GetParticleSystem()->OnFlushFrame();
@@ -141,8 +133,7 @@ namespace ma
 		}
 		m_arrScene.clear();
 
-		GetLineRender()->ShutDown();
-
+		LineRender::ShutDown();
 		ScreenQuad::ShoutDown();
 		UnitSphere::ShutDown();
 
@@ -203,7 +194,7 @@ namespace ma
 		m_pDepthStencil = GetRenderDevice()->GetDepthStencil();
 		m_viewport = GetRenderDevice()->GetViewport();
 	
-		GetLineRender()->Init();
+		LineRender::Init();
 		ScreenQuad::Init();
 		UnitSphere::Init();
 
@@ -255,11 +246,11 @@ namespace ma
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
 
-		if (m_pCurVB != pRenderable->m_pVertexBuffers)
+		if (m_pCurVB != pRenderable->m_pVertexBuffer)
 		{
-			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffers.get());
+			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get());
 
-			m_pCurVB = pRenderable->m_pVertexBuffers.get();
+			m_pCurVB = pRenderable->m_pVertexBuffer.get();
 		}
 
 		if (m_pCurIB != pRenderable->m_pIndexBuffer)
@@ -303,8 +294,8 @@ namespace ma
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
-			nWidth = (int)m_viewport.width;
-			nHeight = (int)m_viewport.height;
+			nWidth = (int)m_viewport.width();
+			nHeight = (int)m_viewport.height();
 		}
 		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,use);
 		m_pRenderThread->RC_CreateTexture(pTarget);

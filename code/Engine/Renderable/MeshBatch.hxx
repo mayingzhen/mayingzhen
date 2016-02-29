@@ -119,7 +119,7 @@ namespace ma
 			return true;
 
 		// Store old batch data.
-		uint8* oldVertices = m_pVertexBuffers ? (uint8*)m_pVertexBuffers->GetData() : NULL;
+		uint8* oldVertices = m_pVertexBuffer ? (uint8*)m_pVertexBuffer->GetData() : NULL;
 		uint16* oldIndices = m_pIndexBuffer ? (uint16*)m_pIndexBuffer->GetData() : NULL;
 
 		unsigned int vertexCapacity = 0;
@@ -197,7 +197,7 @@ namespace ma
 			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
 		}
 
-		m_pVertexBuffers = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
 
 		return true;
 	}
@@ -213,7 +213,7 @@ namespace ma
 		m_pSubMeshData->m_nIndexStart = 0;
 		m_pSubMeshData->m_nVertexCount = 0;
 		m_pSubMeshData->m_nIndexCount = 0;
-		m_pVerticesPtr = m_pVertexBuffers ? (uint8*)m_pVertexBuffers->GetData() : NULL;
+		m_pVerticesPtr = m_pVertexBuffer ? (uint8*)m_pVertexBuffer->GetData() : NULL;
 		m_pIndicesPtr = m_pIndexBuffer ? (uint16*)m_pIndexBuffer->GetData() : NULL;
 	}
 }

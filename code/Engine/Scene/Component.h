@@ -6,7 +6,7 @@ namespace ma
 	class SceneNode;
 	class Camera;
 
-	class Component : public Object
+	class Component : public Serializable
 	{
 		
 	public:

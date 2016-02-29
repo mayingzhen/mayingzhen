@@ -4,6 +4,7 @@ namespace ma
 {
 	RenderComponent::RenderComponent()
 	{
+		m_bParallelUpdate = false;
 		m_pCullNode = NULL;
 		m_bVisible = true;
 		m_fViwMinZ = 0;
@@ -55,6 +56,20 @@ namespace ma
 	{
 		m_bMatrixDirty = true;
 		m_bCullDirty = true;
+	}
+
+	const	AABB& RenderComponent::GetAABB() const
+	{
+		return m_AABB;
+	}
+
+	void RenderComponent::SetAABB(const AABB& box)
+	{
+		if (m_AABB == box)
+			return;
+
+		m_AABB = box;
+		MarkDirty();
 	}
 
 	const AABB&	RenderComponent::GetAABBWS() const 

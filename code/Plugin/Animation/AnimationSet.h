@@ -32,7 +32,7 @@ namespace ma
 
 	private:
 		typedef std::vector< RefPtr<AnimTreeNode> >	 VEC_SkELANIM;
-		VEC_SkELANIM				m_arrSkelAnim;
+		VEC_SkELANIM		m_arrSkelAnim;
 	};
 
 	RefPtr<AnimationSet> CreateAnimationSet();

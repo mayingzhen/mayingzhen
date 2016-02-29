@@ -13,7 +13,7 @@
 
 #include "Engine/Thread/Thread.hxx"
 #include "Engine/Thread/MSemaphore.hxx"
-#include "Engine/Thread/WorkQueue.hxx"
+#include "Engine/Thread/JobScheduler.hxx"
 
 // Resource
 #include "Engine/Resource/Stream.hxx"
@@ -34,7 +34,7 @@
 #endif // PLATFORM_ANDROID
 
 
-// Render
+
 #include "Engine/ImageData/PixelFormat.hxx"
 #include "Engine/ImageData/ImageCodec.hxx"
 #include "Engine/ImageData/DDSCodec.hxx"
@@ -42,10 +42,11 @@
 #include "Engine/ImageData/PVRTCCodec.hxx"
 #include "Engine/ImageData/PVRTCDecompress.hxx"
 
-
+// Renderable
 #include "Engine/Renderable/Renderable.hxx"
+#include "Engine/Renderable/MeshRenderable.hxx"
+#include "Engine/Renderable/SkinMeshRenderable.hxx"
 #include "Engine/Renderable/MeshBatch.hxx"
-#include "Engine/Renderable/SpriteBatch.hxx"
 #include "Engine/Renderable/MeshData.hxx"
 #include "Engine/Renderable/LineRender.hxx"
 #include "Engine/Renderable/ScreenQuad.hxx"
@@ -86,12 +87,14 @@
 #include "Engine/Scene/Component.hxx"
 #include "Engine/Scene/RenderComponent.hxx"
 #include "Engine/Scene/MeshComponent.hxx"
+#include "Engine/Scene/SkinMeshComponent.hxx"
 #include "Engine/Scene/SceneNode.hxx"
 #include "Engine/Scene/Scene.hxx"
 #include "Engine/Scene/OctreeNode.hxx"
 #include "Engine/Scene/Octree.hxx"
 #include "Engine/Scene/FrustumCullQuery.hxx"
 #include "Engine/Scene/Camera.hxx"
+
 // Light
 #include "Engine/Scene/Light/Light.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"
@@ -100,7 +103,12 @@
 #include "Engine/Scene/Light/PoissonDiskGen.hxx"
 
 //Particle
-
+#include "Engine/Scene/Particle/ParticleSystem.hxx"
+#include "Engine/Scene/Particle/ParticleAffector.hxx"
+#include "Engine/Scene/Particle/ParticleEmitter.hxx"
+#include "Engine/Scene/Particle/ParticlePointEmitter.hxx"
+#include "Engine/Scene/Particle/ParticleSubUVAffector.hxx"
+#include "Engine/Scene/Particle/ParticleSystemRenderable.hxx"
 
 //Terrain
 #include "Engine/Scene/Terrain/Terrain.hxx"

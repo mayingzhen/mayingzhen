@@ -1,6 +1,8 @@
 #ifndef __Bullet_CollisionShape_H__
 #define __Bullet_CollisionShape_H__
 
+class btCollisionShape;
+class btCollisionObject;
 
 namespace ma
 {

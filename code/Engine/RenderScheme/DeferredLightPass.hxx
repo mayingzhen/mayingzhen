@@ -11,8 +11,8 @@ namespace ma
 
 	void DeferredLightPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width;
-		int nHeight = (int)m_pScene->GetViewport().height;
+		int nWidth = (int)m_pScene->GetViewport().width();
+		int nHeight = (int)m_pScene->GetViewport().height();
 
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->GetRenderState().SetDepthWrite(false);

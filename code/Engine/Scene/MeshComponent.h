@@ -47,7 +47,7 @@ namespace ma
 		RefPtr<Material>			m_pMaterial;
 		RefPtr<MeshData>			m_pMesData;
 	
-		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
+		typedef std::vector< RefPtr<MeshRenderable> > VEC_RENDERABLE;
 		typedef std::vector< VEC_RENDERABLE > VEC_LOD_RENDERABLE;
 		VEC_LOD_RENDERABLE			m_arrLodRenderable;
 
@@ -55,23 +55,6 @@ namespace ma
 	};
 
 	RefPtr<MeshComponent> CreateMeshComponent();
-
-	class SkinMeshComponent : public MeshComponent
-	{
-		
-	public:
-
-		DECL_OBJECT(SkinMeshComponent)	
-
-		static void					RegisterAttribute();
-
-		void						SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount);
-	
-	private:
-		virtual void				CreateRenderable();
-	};
-
-	RefPtr<SkinMeshComponent> CreateSkinMeshComponent();
 }
 
 #endif

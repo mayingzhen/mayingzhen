@@ -327,7 +327,7 @@ namespace ma
 
 	void GLESRenderDevice::SetViewport(const Rectangle& rect)
 	{
-		glViewport((GLuint)rect.x, (GLuint)rect.y, (GLuint)rect.width, (GLuint)rect.height);
+		glViewport((GLuint)rect.left, (GLuint)rect.top, (GLuint)rect.width(), (GLuint)rect.height());
 	}
 
 	Rectangle GLESRenderDevice::GetViewport()
@@ -337,10 +337,10 @@ namespace ma
 		GLint viewport[4]; 
  		GL_ASSERT( glGetIntegerv(GL_VIEWPORT, viewport) );
 		
-		rect.x = (float)viewport[0];
-		rect.y = (float)viewport[1];
-		rect.width = (float)viewport[2];
-		rect.height = (float)viewport[3];
+		rect.left = (float)viewport[0];
+		rect.top = (float)viewport[1];
+		rect.right = rect.left + (float)viewport[2];
+		rect.bottom = rect.top + (float)viewport[3];
 
 		return rect;
 	}
@@ -593,7 +593,7 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
@@ -656,7 +656,7 @@ namespace ma
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
 
 		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers.get();
+		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffer.get();
 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
@@ -664,7 +664,7 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);

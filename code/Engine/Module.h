@@ -28,7 +28,7 @@
 #include "Engine/Thread/Thread.h"
 #include "Engine/Thread/AtomicOps.h"
 #include "Engine/Thread/MSemaphore.h"
-#include "Engine/Thread/WorkQueue.h"
+#include "Engine/Thread/JobScheduler.h"
 
 #include "Engine/RenderSystem/IRenderDevice/IndexBuffer.h"
 #include "Engine/RenderSystem/IRenderDevice/VertexBuffer.h"
@@ -41,8 +41,9 @@
 #include "Engine/RenderSystem/DeviceCapabilities.h"
 
 #include "Engine/Renderable/Renderable.h"
+#include "Engine/Renderable/MeshRenderable.h"
+#include "Engine/Renderable/SkinMeshRenderable.h"
 #include "Engine/Renderable/MeshBatch.h"
-#include "Engine/Renderable/SpriteBatch.h"
 #include "Engine/Renderable/MeshData.h"
 #include "Engine/Renderable/LineRender.h"
 #include "Engine/Renderable/ScreenQuad.h"
@@ -73,8 +74,16 @@
 #include "Engine/Scene/CullTree.h"
 #include "Engine/Scene/Camera.h"
 #include "Engine/Scene/meshcomponent.h"
+#include "Engine/Scene/SkinMeshComponent.h"
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/DirectonalLight.h"
+
+// Particle
+#include "Engine/Scene/Particle/ParticleAffector.h"
+#include "Engine/Scene/Particle/ParticleEmitter.h"
+#include "Engine/Scene/Particle/ParticlePointEmitter.h"
+#include "Engine/Scene/Particle/ParticleSubUVAffector.h"
+#include "Engine/Scene/Particle/ParticleSystem.h"
 
 
 #include "Engine/Scene/Terrain/Terrain.h"

@@ -15,8 +15,9 @@ class SemaphorePrivate
 {
 
 public:
-	SemaphorePrivate() 
+	SemaphorePrivate(const char* pName)
 	{
+		m_strName = pName ? pName : "";
 		m_Semaphore = CreateSemaphore( NULL, 0, 256, NULL );
 	}
 
@@ -53,20 +54,67 @@ public:
 
 private:
 	HANDLE m_Semaphore;
+
+	std::string m_strName;
 };
-#else
+#elif __APPLE__
 class SemaphorePrivate
 {
 
 public:
-	SemaphorePrivate()
+	SemaphorePrivate(const char* pName)
 	{
+        m_strName = pName ? pName : "";
+        m_pSemaphore = sem_open(pName, O_CREAT, S_IRUSR | S_IWUSR, 0);
+        ASSERT(m_pSemaphore);
+        if (m_pSemaphore == NULL)
+        {
+            printf ("Error open \n");
+        }
+	}
+
+	~SemaphorePrivate()
+	{
+		if (sem_close(m_pSemaphore) == -1)
+			printf ("Error destroy \n");
+        
+        if (sem_unlink(m_strName.c_str()) == -1)
+            printf ("Error destroy \n");
+	}
+
+
+	void WaitForSignal()
+	{
+		if (sem_wait(m_pSemaphore) == -1)
+			printf ("Error wait on \n");
+	}
+
+	void Signal()
+	{
+		if (sem_post(m_pSemaphore) == -1)
+			printf ("Error post to \n");
+	}
+
+
+private:
+	sem_t* m_pSemaphore;
+    
+    std::string m_strName;
+};
+#elif __ANDROID__
+class SemaphorePrivate
+{
+
+public:
+	SemaphorePrivate(const char* pName)
+	{
+		m_strName = pName ? pName : "";
 		if (sem_init(&m_Semaphore, 0, 0) == -1) 
 			printf ("Error open \n"); 
 	}
 
 	~SemaphorePrivate()
-	{ 
+	{
 		if (sem_destroy(&m_Semaphore) == -1) 
 			printf ("Error destroy \n"); 
 	}
@@ -74,7 +122,7 @@ public:
 
 	void WaitForSignal()
 	{
-		if (sem_wait(&m_Semaphore) == -1) 
+		if (sem_wait(&m_Semaphore) == -1)
 			printf ("Error wait on \n");
 	}
 
@@ -87,23 +135,19 @@ public:
 
 private:
 	sem_t m_Semaphore;
+
+	std::string m_strName;
 };
 #endif
 
-Semaphore::Semaphore() 
+Semaphore::Semaphore(const char* pName)
 {
-	_private = new SemaphorePrivate();
+	_private = new SemaphorePrivate(pName);
 }
 
 Semaphore::~Semaphore()
 {
 	SAFE_DELETE(_private);
-}
-
-void Semaphore::Reset()
-{
-	SAFE_DELETE(_private);
-	_private = new SemaphorePrivate();
 }
 
 void Semaphore::WaitForSignal()

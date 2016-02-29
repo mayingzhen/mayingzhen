@@ -63,7 +63,7 @@ namespace ma
 		{
 			Vector3 vSrc = Vector3(0,0,0);
 			Vector3 vDir = vSrc - 1000 * m_pDirectLight->GetSceneNode()->GetForward();
-			GetLineRender()->DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
+			LineRender::DrawLine(vSrc,vDir,ColourValue(1,0,0,0));
 		}
 	}
 

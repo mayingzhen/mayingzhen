@@ -10,8 +10,8 @@ namespace ma
 
 	void DeferredShadowPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width;
-		int nHeight = (int)m_pScene->GetViewport().height;
+		int nWidth = (int)m_pScene->GetViewport().width();
+		int nHeight = (int)m_pScene->GetViewport().height();
 
 		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT16_R);
 

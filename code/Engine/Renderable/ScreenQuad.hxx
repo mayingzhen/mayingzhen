@@ -15,7 +15,7 @@ namespace ma
 
 		// Construct full screen quad
 		Rectangle rect = GetRenderSystem()->GetViewPort();
-		Vector2 offset = Vector2(0.5f / rect.width, 0.5f / rect.height);
+		Vector2 offset = Vector2(0.5f / rect.width(), 0.5f / rect.height());
 
 		//   1    0 
 		//   +----+
@@ -55,7 +55,7 @@ namespace ma
 		gpScrenQuad->m_pDeclaration = pVertexDec;
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		gpScrenQuad->m_pIndexBuffer = pIndexs;
-		gpScrenQuad->m_pVertexBuffers = pVertexs;
+		gpScrenQuad->m_pVertexBuffer = pVertexs;
 
 		SAFE_DELETE_ARRAY(quadVerts);
 		SAFE_DELETE_ARRAY(indices);

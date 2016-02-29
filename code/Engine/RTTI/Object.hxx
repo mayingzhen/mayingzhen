@@ -50,6 +50,10 @@ namespace ma
 		{
 			return Any( StringConverter::parseQuaternion(strVarValue) );
 		}
+		else if (strVarType == "Vec3i")
+		{
+			return Any( StringConverter::parseVec3i(strVarValue) );
+		}
 
 		return Any();
 	}
@@ -102,64 +106,12 @@ namespace ma
 			strVarType = "Quaternion";
 			strVarValue = StringConverter::toString( any_cast<Quaternion>(varValue) );
 		}
+		else if (type == typeid(Vec3i))
+		{
+			strVarType = "Vec3i";
+			strVarValue = StringConverter::toString( any_cast<Vec3i>(varValue) );
+		}
 	}
-
-// 	void Object::Improt(TiXmlElement* pXmlObject)
-// 	{
-// 		const char* pszClassName = pXmlObject->Attribute("ClassName");
-// 		ASSERT(pszClassName && strcmp(pszClassName,this->GetClassName() ) == 0 );
-// 
-// 		TiXmlElement* pXmlAttribute = pXmlObject->FirstChildElement("Attribute");
-// 		while (pXmlAttribute)
-// 		{
-// 			const char* pszName = pXmlAttribute->Attribute("Name");
-// 			const char* pszType = pXmlAttribute->Attribute("Type");
-// 			const char* pszValue = pXmlAttribute->Attribute("Value");
-// 
-// 			const AttributeInfo* pAttribute = GetAttributeInfoByName(pszName);
-// 			ASSERT(pAttribute);
-// 			if (pAttribute == NULL)
-// 				continue;
-// 
-// 			string strType = pszType;
-// 			string strValue = pszValue;
-// 
-// 			Any anyValue = AnyFromString(strType,strValue);
-// 
-// 			OnSetAttribute(*pAttribute,anyValue);				
-// 
-// 			pXmlAttribute = pXmlAttribute->NextSiblingElement("Attribute");
-// 		}
-// 	}
-// 
-// 	void Object::Export(TiXmlElement* pXmlElem)
-// 	{
-// 		const VEC_ATTR* attributes = GetAttributes();
-// 		if (!attributes || attributes->empty())
-// 			return;
-// 
-// 		for (UINT i = 0; i < attributes->size(); ++i)
-// 		{
-// 			TiXmlElement* pXmlAttribute = new TiXmlElement("Attribute");
-// 			pXmlElem->LinkEndChild(pXmlAttribute);
-// 
-// 			RefPtr<AttributeInfo> attribute = attributes->at(i);
-// 
-// 			Any anyValue;
-// 
-// 			OnGetAttribute(*attribute,anyValue);	
-// 
-// 			string strName = attribute->GetName();
-// 			string strType;
-// 			string strValue;
-// 
-// 			AnyGetString(anyValue,strType,strValue);
-// 
-// 			pXmlAttribute->SetAttribute("Name",strName.c_str());
-// 			pXmlAttribute->SetAttribute("Type",strType.c_str());
-// 			pXmlAttribute->SetAttribute("Value",strValue.c_str());
-// 		}
-// 	}
 
 	bool Object::Improt(rapidxml::xml_node<>* pXmlObject)
 	{
@@ -174,7 +126,6 @@ namespace ma
 			const char* pszValue = pXmlAttribute->findAttribute("Value");
 
 			const AttributeInfo* pAttribute = GetAttributeInfoByName(pszName);
-			//ASSERT(pAttribute);
 			if (pAttribute == NULL)
 			{
 				pXmlAttribute = pXmlAttribute->next_sibling("Attribute");

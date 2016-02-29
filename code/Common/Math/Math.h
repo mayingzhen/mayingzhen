@@ -582,5 +582,476 @@ static const int M_MAX_INT = 0x7fffffff;
 static const UINT M_MIN_UNSIGNED = 0x00000000;
 static const UINT M_MAX_UNSIGNED = 0xffffffff;
 
+
+// =====================================================
+//	class Vec2
+// =====================================================
+
+template<typename T>
+class Vec2{
+public:
+	T x;
+	T y;
+public:
+	Vec2(){
+	};
+
+	explicit Vec2(T *p){
+		this->x= p[0];
+		this->y= p[1];
+	}
+
+	explicit Vec2(T xy){
+		this->x= xy;
+		this->y= xy;
+	}
+
+	template<typename S>
+	explicit Vec2(const Vec2<S> &v){
+		this->x= v.x;
+		this->y= v.y;
+	}
+
+	Vec2(T x, T y){
+		this->x= x;
+		this->y= y;
+	}
+
+	T *ptr(){
+		return reinterpret_cast<T*>(this);
+	}
+
+	const T *ptr() const{
+		return reinterpret_cast<const T*>(this);
+	}
+
+	bool operator ==(const Vec2<T> &v) const{
+		return x==v.x && y==v.y;
+	}
+
+	bool operator !=(const Vec2<T> &v) const{
+		return x!=v.x || y!=v.y;
+	}
+
+	Vec2<T> operator +(const Vec2<T> &v) const{
+		return Vec2(x+v.x, y+v.y);
+	}
+
+	Vec2<T> operator -(const Vec2<T> &v) const{
+		return Vec2(x-v.x, y-v.y);
+	}
+
+	Vec2<T> operator -() const{
+		return Vec2(-x, -y);
+	}
+
+	Vec2<T> operator *(const Vec2<T> &v) const{
+		return Vec2(x*v.x, y*v.y);
+	}
+
+	Vec2<T> operator *(T s) const{
+		return Vec2(x*s, y*s);
+	}
+
+	Vec2<T> operator /(const Vec2<T> &v) const{
+		return Vec2(x/v.x, y/v.y);
+	}
+
+	Vec2<T> operator /(T s) const{
+		return Vec2(x/s, y/s);
+	}
+
+	Vec2<T> operator +=(const Vec2<T> &v){
+		x+=v.x; 
+		y+=v.y;
+		return *this;
+	}
+
+	Vec2<T> operator -=(const Vec2<T> &v){
+		x-=v.x; 
+		y-=v.y;
+		return *this;
+	}
+
+	Vec2<T> lerp(T t, const Vec2<T> &v) const{
+		return *this + (v - *this)*t;
+	}
+
+	T dot(const Vec2<T> &v) const{
+		return x*v.x+y*v.y;
+	}
+
+	float dist(const Vec2<T> &v) const{
+		return Vec2<T>(v-*this).length();
+	}
+
+	float length() const{
+		return static_cast<float>(sqrt(static_cast<float>(x*x + y*y)));
+	}
+
+	float dist2q(const Vec2<T> &v) const{
+		return Vec2<T>(v-*this).length2q();
+	}
+
+	float length2q() const{
+		return static_cast<float>(static_cast<float>(x*x + y*y));
+	}
+
+	void normalize(){
+		T m= length(); 
+		x/= m;
+		y/= m;
+	}
+
+	friend std::ostream& operator << (std::ostream& _stream, const Vec2<T>&  _value)
+	{
+		_stream << _value.x << " " << _value.y;
+		return _stream;
+	}
+};
+
+typedef Vec2<int> Vec2i;
+typedef Vec2<bool> Vec2b;
+typedef Vec2<char> Vec2c;
+typedef Vec2<float> Vec2f;
+typedef Vec2<double> Vec2d;
+typedef Vec2<uint8> Vec2i8;
+typedef Vec2<uint16> Vec2i16;
+
+
+
+template<typename T>
+class Vec3{
+public:
+	T x;
+	T y;
+	T z;
+
+public:
+	Vec3(){
+	};
+
+	explicit Vec3(T *p){
+		this->x= p[0];
+		this->y= p[1];
+		this->z= p[2];
+	}
+
+	explicit Vec3(T xyz){
+		this->x= xyz;
+		this->y= xyz;
+		this->z= xyz;
+	}
+
+	template<typename S>
+	explicit Vec3(const Vec3<S> &v){
+		this->x= v.x;
+		this->y= v.y;
+		this->z= v.z;
+	}
+
+	Vec3(T x, T y, T z){
+		this->x= x;
+		this->y= y;
+		this->z= z;
+	}
+
+	// 		explicit Vec3(Vec4<T> v){
+	// 			this->x= v.x;
+	// 			this->y= v.y;
+	// 			this->z= v.z;
+	// 		}
+
+	T *ptr(){
+		return reinterpret_cast<T*>(this);
+	}
+
+	const T *ptr() const{
+		return reinterpret_cast<const T*>(this);
+	}
+
+	bool operator ==(const Vec3<T> &v) const{
+		return x==v.x && y==v.y && z==v.z;
+	}
+
+	bool operator !=(const Vec3<T> &v) const{
+		return x!=v.x || y!=v.y || z!=v.z;
+	}
+
+	Vec3<T> operator +(const Vec3<T> &v) const{
+		return Vec3(x+v.x, y+v.y, z+v.z);
+	}
+
+	Vec3<T> operator -(const Vec3<T> &v) const{
+		return Vec3(x-v.x, y-v.y, z-v.z);
+	}
+
+	Vec3<T> operator -() const{
+		return Vec3(-x, -y, -z);
+	}
+
+	Vec3<T> operator *(const Vec3<T> &v) const{
+		return Vec3(x*v.x, y*v.y, z*v.z);
+	}
+
+	Vec3<T> operator *(T s) const{
+		return Vec3(x*s, y*s, z*s);
+	}
+
+	Vec3<T> operator /(const Vec3<T> &v) const{
+		return Vec3(x/v.x, y/v.y, z/v.z);
+	}
+
+	Vec3<T> operator /(T s) const{
+		return Vec3(x/s, y/s, z/s);
+	}
+
+	Vec3<T> operator +=(const Vec3<T> &v){
+		x+=v.x; 
+		y+=v.y;
+		z+=v.z;
+		return *this;
+	}
+
+	Vec3<T> operator -=(const Vec3<T> &v){
+		x-=v.x; 
+		y-=v.y;
+		z-=v.z;
+		return *this;
+	}
+
+	Vec3<T> lerp(T t, const Vec3<T> &v) const{
+		return *this + (v - *this) * t;
+	}
+
+	T dot(const Vec3<T> &v) const{
+		return x*v.x + y*v.y + z*v.z;
+	}
+
+	float dist(const Vec3<T> &v) const{
+		return Vec3<T>(v-*this).length();
+	}
+
+	float dist2q(const Vec3<T> &v) const{
+		return Vec3<T>(v-*this).length2q();
+	}
+
+	float length() const{
+		return static_cast<float>(sqrt((float)(x*x + y*y + z*z)));
+	}
+
+	float length2q() const{
+		return static_cast<float>(static_cast<float>(x*x + y*y + z*z));
+	}
+
+	void normalize(){
+		T m= length(); 
+		x/= m;
+		y/= m;
+		z/= m;
+	}
+
+	Vec3<T> getNormalized() const{
+		T m= length();
+		return Vec3<T>(x/m, y/m, z/m);
+	}
+
+	Vec3<T> cross(const Vec3<T> &v) const{
+		return Vec3<T>(
+			this->y*v.z-this->z*v.y,
+			this->z*v.x-this->x*v.z,
+			this->x*v.y-this->y*v.x);
+	}
+
+	Vec3<T> normal(const Vec3<T> &p1, const Vec3<T> &p2) const{
+		Vec3<T> rv;
+		rv= (p2-*this).cross(p1-*this);
+		rv.normalize();
+		return rv;
+	}
+
+	Vec3<T> normal(const Vec3<T> &p1, const Vec3<T> &p2, const Vec3<T> &p3, const Vec3<T> &p4) const{
+		Vec3<T> rv;
+
+		rv= this->normal(p1, p2);
+		rv= rv + this->normal(p2, p3);
+		rv= rv + this->normal(p3, p4);
+		rv= rv + this->normal(p4, p1);
+		rv.normalize();
+		return rv;
+	}
+
+};
+
+typedef Vec3<int> Vec3i;
+typedef Vec3<bool> Vec3b;
+typedef Vec3<char> Vec3c;
+typedef Vec3<float> Vec3f;
+typedef Vec3<double> Vec3d;
+
+
+template<typename T>
+struct TSize
+{
+	T width;
+	T height;
+
+	TSize() :
+	width(0),
+		height(0)
+	{
+	}
+
+	TSize(T const& _width, T const& _height) :
+	width(_width),
+		height(_height)
+	{
+	}
+
+	TSize(TSize const& _obj) :
+	width(_obj.width),
+		height(_obj.height)
+	{
+	}
+
+	TSize& operator -= (TSize const& _obj)
+	{
+		width -= _obj.width;
+		height -= _obj.height;
+		return *this;
+	}
+
+	TSize& operator += (TSize const& _obj)
+	{
+		width += _obj.width;
+		height += _obj.height;
+		return *this;
+	}
+
+	TSize operator - (TSize const& _obj) const
+	{
+		return TSize(width - _obj.width, height - _obj.height);
+	}
+
+	TSize operator + (TSize const& _obj) const
+	{
+		return TSize(width + _obj.width, height + _obj.height);
+	}
+
+	TSize& operator = (TSize const& _obj)
+	{
+		width = _obj.width;
+		height = _obj.height;
+		return *this;
+	}
+
+	template<typename U>
+	TSize& operator = (TSize<U> const& _obj)
+	{
+		width = _obj.width;
+		height = _obj.height;
+		return *this;
+	}
+
+	bool operator == (TSize const& _obj) const
+	{
+		return ((width == _obj.width) && (height == _obj.height));
+	}
+
+	bool operator != (TSize const& _obj) const
+	{
+		return !((width == _obj.width) && (height == _obj.height));
+	}
+
+	void clear()
+	{
+		width = height = 0;
+	}
+
+	void set(T const& _width, T const& _height)
+	{
+		width = _width;
+		height = _height;
+	}
+
+	void swap(TSize& _value)
+	{
+		TSize tmp = _value;
+		_value = *this;
+		*this = tmp;
+	}
+
+	bool empty() const
+	{
+		return ((width == 0) && (height == 0));
+	}
+
+	std::string print() const
+	{
+		std::ostringstream stream;
+		stream << *this;
+		return stream.str();
+	}
+
+	static TSize<T> parse(const std::string& _value)
+	{
+		TSize<T> result;
+		std::istringstream stream(_value);
+		stream >> result.width >> result.height;
+		if (stream.fail())
+		{
+			return TSize<T>();
+		}
+		else
+		{
+			int item = stream.get();
+			while (item != -1)
+			{
+				if (item != ' ' && item != '\t')
+					return TSize<T>();
+				item = stream.get();
+			}
+		}
+		return result;
+	}
+
+	friend std::ostream& operator << (std::ostream& _stream, const TSize<T>&  _value)
+	{
+		_stream << _value.width << " " << _value.height;
+		return _stream;
+	}
+
+	friend std::istream& operator >> (std::istream& _stream, TSize<T>&  _value)
+	{
+		_stream >> _value.width >> _value.height;
+		if (_stream.fail())
+			_value.clear();
+		return _stream;
+	}
+};
+typedef TSize<int> IntSize;
+typedef TSize<float> FloatSize;
+
+
+class Randomizer
+{
+public:
+
+	//! resets the randomizer
+	static void reset();
+
+	//! generates a pseudo random number
+	static int rand();
+	static Real frand();
+private:
+	static const int m = 2147483399;			// a non-Mersenne prime
+	static const int a = 40692;					// another spectral success story
+	static const int q = 2147483399/40692;
+	static const int r = 2147483399%40692;		// again less than q
+	static const float fMax;
+
+	static int seed;
+};
+
 }
 #endif

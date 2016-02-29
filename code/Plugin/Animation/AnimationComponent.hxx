@@ -131,7 +131,7 @@ namespace ma
 		if ( GetTimer()->GetFrameCount() - m_pSceneNode->GetLastVisibleFrame() > 1 )
 			return;
 
-		if (GetWorkQueue()->GetNumThreads() > 0)
+		if (GetJobScheduler()->GetNumThreads() > 0)
 		{
 			GetSceneNode()->GetScene()->AddParallelUpdate(this);	
 		}

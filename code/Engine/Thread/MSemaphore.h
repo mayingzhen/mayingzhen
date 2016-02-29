@@ -8,10 +8,9 @@ class SemaphorePrivate;
 class Semaphore 
 {
 public:
-	Semaphore();
+	Semaphore(const char* pName);
 	~Semaphore();
 
-	void Reset();
 	void WaitForSignal(); 
 	void Signal();
 
