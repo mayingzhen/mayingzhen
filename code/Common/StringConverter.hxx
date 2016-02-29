@@ -147,6 +147,7 @@ namespace ma {
     string StringConverter::toString(const Vector2& val)
     {
         stringstream stream;
+        stream.imbue(std::locale("C"));
 		stream << val.x << " " << val.y;
         return stream.str();
     }
@@ -154,6 +155,7 @@ namespace ma {
     string StringConverter::toString(const Vector3& val)
     {
         stringstream stream;
+        stream.imbue(std::locale("C"));
 		stream << val.x << " " << val.y << " " << val.z;
         return stream.str();
     }
@@ -161,6 +163,7 @@ namespace ma {
     string StringConverter::toString(const Vector4& val)
     {
         stringstream stream;
+        stream.imbue(std::locale("C"));
 		stream << val.x << " " << val.y << " " << val.z << " " << val.w;
         return stream.str();
     }
@@ -168,6 +171,7 @@ namespace ma {
     string StringConverter::toString(const Matrix3& val)
     {
 		stringstream stream;
+        stream.imbue(std::locale("C"));
         stream << val[0][0] << " " 
             << val[0][1] << " "             
             << val[0][2] << " "             
@@ -207,6 +211,7 @@ namespace ma {
     string StringConverter::toString(const Matrix4& val)
     {
 		stringstream stream;
+        stream.imbue(std::locale("C"));
         stream << val[0][0] << " " 
             << val[0][1] << " "             
             << val[0][2] << " "             
@@ -229,6 +234,7 @@ namespace ma {
     string StringConverter::toString(const Quaternion& val)
     {
 		stringstream stream;
+        stream.imbue(std::locale("C"));
         stream  << val.w << " " << val.x << " " << val.y << " " << val.z;
         return stream.str();
     }
@@ -236,20 +242,47 @@ namespace ma {
     string StringConverter::toString(const ColourValue& val)
     {
 		stringstream stream;
+        stream.imbue(std::locale("C"));
         stream << val.r << " " << val.g << " " << val.b << " " << val.a;
         return stream.str();
     }
 	string StringConverter::toString(const AABB& val)
 	{
 		stringstream stream;
+        stream.imbue(std::locale("C"));
 		stream << val.getMinimum().x << " " << val.getMinimum().y << " " << val.getMinimum().z
 			<< " " << val.getMaximum().x << " " << val.getMaximum().y << " " << val.getMaximum().z;
+		return stream.str();
+	}
+
+	string StringConverter::toString(const AABB2D& val)
+	{
+		stringstream stream;
+		stream.imbue(std::locale("C"));
+		stream << val.getMinimum().x << " " << val.getMinimum().y
+			<< " " << val.getMaximum().x << " " << val.getMaximum().y;
+		return stream.str();
+	}
+
+	string StringConverter::toString(const Vec2i& val)
+	{
+		stringstream stream;
+		stream.imbue(std::locale("C"));
+		stream << val.x << " " << val.y;
+		return stream.str();
+	}
+	string StringConverter::toString(const Vec3i& val)
+	{
+		stringstream stream;
+		stream.imbue(std::locale("C"));
+		stream << val.x << " " << val.y << " " << val.z;
 		return stream.str();
 	}
     //-----------------------------------------------------------------------
     string StringConverter::toString(const vector<string>& val)
     {
 		stringstream stream;
+        stream.imbue(std::locale("C"));
         vector<string>::const_iterator i, iend, ibegin;
         ibegin = val.begin();
         iend = val.end();
@@ -452,7 +485,7 @@ namespace ma {
 		return !str.fail() && str.eof();
 	}
 
-	AABB StringConverter::parseAxisAlignedBox( const string& val, const AABB& defaultValue /*= AxisAlignedBox()*/ )
+	AABB StringConverter::parseAABB( const string& val, const AABB& defaultValue /*= AABB()*/ )
 	{
 		// Split on space
 		vector<string> vec = StringUtil::split(val);
@@ -463,6 +496,40 @@ namespace ma {
 	
 		return defaultValue;
 	}	
+
+	AABB2D StringConverter::parseAABB2D(const string& val, const AABB2D& defaultValue/* = AABB2D()*/)
+	{
+		// Split on space
+		vector<string> vec = StringUtil::split(val);
+		if (vec.size() == 4)
+		{
+			return AABB2D(parseReal(vec[0]),parseReal(vec[1]),parseReal(vec[2]), parseReal(vec[3]));
+		}
+
+		return defaultValue;
+	}
+
+	Vec2i StringConverter::parseVec2i(const string& val)
+	{
+		vector<string> vec = StringUtil::split(val);
+		if (vec.size() == 2)
+		{
+			return Vec2i(parseInt(vec[0]), parseInt(vec[1]));
+		}
+
+		return Vec2i(0, 0);
+	}
+
+	Vec3i StringConverter::parseVec3i(const string& val)
+	{
+		vector<string> vec = StringUtil::split(val);
+		if (vec.size() == 3)
+		{
+			return Vec3i(parseInt(vec[0]), parseInt(vec[1]), parseInt(vec[2]));
+		}
+
+		return Vec3i(0, 0, 0);
+	}
 }
 
 

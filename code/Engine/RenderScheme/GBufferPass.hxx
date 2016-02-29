@@ -11,8 +11,8 @@ namespace ma
 
 	void GBufferPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width;
-		int nHeight = (int)m_pScene->GetViewport().height;
+		int nWidth = (int)m_pScene->GetViewport().width();
+		int nHeight = (int)m_pScene->GetViewport().height();
 
 		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
 		

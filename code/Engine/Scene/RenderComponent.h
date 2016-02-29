@@ -35,6 +35,8 @@ namespace ma
 		void			SetCullNode(CullNode* pCullNode) {m_pCullNode = pCullNode;}
 		CullNode*		GetCullNode() const {return m_pCullNode;}
 
+		const	AABB&	GetAABB() const;
+		void			SetAABB(const AABB& box);
 		const AABB&		GetAABBWS() const;
 
 		virtual	void	SetViewMinMaxZ(float fZmin,float fZmax) {m_fViwMinZ = fZmin;m_fViwMaxZ = fZmax;}
@@ -59,6 +61,8 @@ namespace ma
 		bool				m_bVisible;
 
 		bool				m_bShadowCaster;
+
+		bool				m_bParallelUpdate;
 	};
 }
 

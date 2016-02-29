@@ -283,7 +283,7 @@ namespace ma
 	{
 		Transform tsfWS;
 		TransformFromMatrix(&tsfWS,&matWS);
-		GetLineRender()->DrawTransform(tsfWS);
+		LineRender::DrawTransform(tsfWS);
 
 		//Rectangle rec = GetRenderSystem()->GetViewPort();
 
@@ -292,7 +292,7 @@ namespace ma
 		{
 			Transform boneTsfWS;
 			TransformMul(&boneTsfWS,&tsfWS,&this->GetTransformOS(i));
-			GetLineRender()->DrawTransform(boneTsfWS);
+			LineRender::DrawTransform(boneTsfWS);
 
 			Vector3 vP0 = matWS * this->GetTransformOS(i).m_vPos;
 
@@ -310,7 +310,7 @@ namespace ma
 			{
 				Vector3 vP1 = matWS * this->GetTransformOS(parentID).m_vPos;
 
-				GetLineRender()->DrawLine(vP0,vP1,ColourValue::Red);
+				LineRender::DrawLine(vP0,vP1,ColourValue::Red);
 			}
 		}
 	}

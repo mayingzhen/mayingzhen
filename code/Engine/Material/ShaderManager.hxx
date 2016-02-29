@@ -14,7 +14,8 @@ namespace ma
 
 	RefPtr<ShaderProgram> ShaderManager::CreateShader(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
 	{
-		string strKey = string(pszVSFile) + string("+") + pszPSFile + string("+") + pszMarco + ".shader";
+		string stMarco = pszMarco ? pszMarco : "";
+		string strKey = string(pszVSFile) + string("+") + pszPSFile + string("+") + stMarco + ".shader";
 
 		ResourceMap::iterator itRes = m_resMap.find(strKey);
 		if (itRes != m_resMap.end())

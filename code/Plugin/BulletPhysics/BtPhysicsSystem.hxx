@@ -259,7 +259,7 @@ namespace ma
 	void PhysicsSystem::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 	{
 		ColourValue dcolor(color.getX(),color.getY(),color.getZ(),1.0f);
-		GetLineRender()->DrawLine(ToMaUnit(from),ToMaUnit(to),dcolor);
+		LineRender::DrawLine(ToMaUnit(from),ToMaUnit(to),dcolor);
 	}
 
 	void PhysicsSystem::reportErrorWarning(const char* warningString)

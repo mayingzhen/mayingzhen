@@ -302,7 +302,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\data\shader\d3d9\Particle.vert"
+				RelativePath="..\..\data\shader\d3d9\particle.vert"
 				>
 			</File>
 			<File

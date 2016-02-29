@@ -3,8 +3,6 @@
 
 namespace ma
 {
-	class ParticleEmitter;
-	
 	class SampleParticle : public Sample
 	{
 	public:

@@ -17,7 +17,7 @@ namespace ma
 
 		std::string strScenePath = "scene/Test.scene.xml";
 
-		if (0)
+		if (1)
 		{
 			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mtl");
 

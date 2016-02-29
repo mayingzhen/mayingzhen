@@ -28,8 +28,8 @@ namespace ma
 
 	void SubMaterial::SetShadingTechnqiue(const char* pShaderName, const char* pDefine)
 	{
-		m_strShaderName = pShaderName;
-		m_strShaderMacro = pDefine;
+		m_strShaderName = pShaderName ? pShaderName : "";
+		m_strShaderMacro = pDefine ? pDefine : "";
 
 		SetShadingTechnqiue( CreateTechnique(Shading, pShaderName, pShaderName, pDefine).get() );
 	}

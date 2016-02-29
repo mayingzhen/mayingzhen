@@ -290,10 +290,10 @@ namespace ma
 	void D3D9RenderDevice::SetViewport(const Rectangle& rect)
 	{
 		D3DVIEWPORT9 vp;
-		vp.X      = (DWORD)rect.x;
-		vp.Y      = (DWORD)rect.y;
-		vp.Width  = (DWORD)rect.width;
-		vp.Height = (DWORD)rect.height;
+		vp.X      = (DWORD)rect.left;
+		vp.Y      = (DWORD)rect.top;
+		vp.Width  = (DWORD)rect.width();
+		vp.Height = (DWORD)rect.height();
 		vp.MinZ   = 0.0f;
 		vp.MaxZ   = 1.0f;
 
@@ -306,10 +306,10 @@ namespace ma
 
 		D3DVIEWPORT9 vp;
 		m_pD3DDevice->GetViewport(&vp);
-		rect.x = (float)vp.X;
-		rect.y = (float)vp.Y;
-		rect.width = (float)vp.Width;
-		rect.height = (float)vp.Height;
+		rect.left = (float)vp.X;
+		rect.top = (float)vp.Y;
+		rect.bottom = rect.top + (float)vp.Height;
+		rect.right = rect.left + (float)vp.Width;
 
 		return rect;
 	}
@@ -732,7 +732,7 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 		
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffers->GetNumber();
+		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		UINT nPrimCount = 0;
@@ -783,8 +783,8 @@ namespace ma
 			nPrimCount,
 			pRenderable->m_pIndexBuffer->GetData(),
 			D3D9Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
-			pRenderable->m_pVertexBuffers->GetData(),
-			pRenderable->m_pVertexBuffers->GetStride()) );
+			pRenderable->m_pVertexBuffer->GetData(),
+			pRenderable->m_pVertexBuffer->GetStride()) );
 	}
 
 	void D3D9RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)

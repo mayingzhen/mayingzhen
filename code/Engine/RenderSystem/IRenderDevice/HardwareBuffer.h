@@ -28,7 +28,7 @@ namespace ma
 
 		void*			GetData() const {return m_pData;}
 
-		void			SetData(uint8* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC);
+		void			SetData(uint8* pData,UINT nSize,int nStride, USAGE eUsage = USAGE_STATIC,bool bCopyData = true);
 
 		void			FreeData();
 

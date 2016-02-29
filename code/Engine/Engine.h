@@ -10,7 +10,7 @@ namespace ma
 
 		~Engine();
 
-		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bWorkQueue);
+		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler);
 
 		void Shutdown();
 

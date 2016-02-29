@@ -1124,4 +1124,33 @@ namespace ma
 		return hash;
 	}
 
+	// ---------------------------------------------------------------------
+	// Randomizer
+	// ---------------------------------------------------------------------
+	// our Randomizer is not really os specific, so we
+	// code one for all, which should work on every platform the same,
+	// which is desireable.
+
+	int Randomizer::seed = 0x0f0f0f0f;
+	const float Randomizer::fMax = 1.f/2147483398;
+
+	//! generates a pseudo random number
+	int Randomizer::rand()
+	{
+		seed = a * (seed%q) - r* (seed/q);
+		if (seed<0) seed += m;
+
+		return seed;
+	}
+
+	Real Randomizer::frand()
+	{
+		return rand()*fMax;
+	}
+
+	//! resets the randomizer
+	void Randomizer::reset()
+	{
+		seed = 0x0f0f0f0f;
+	}
 }

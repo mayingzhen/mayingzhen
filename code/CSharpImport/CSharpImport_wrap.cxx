@@ -2640,6 +2640,49 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_M_MAX_UNSIGNED_get() {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Randomizer_reset() {
+  ma::Randomizer::reset();
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_Randomizer_rand() {
+  int jresult ;
+  int result;
+  
+  result = (int)ma::Randomizer::rand();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Randomizer_frand() {
+  float jresult ;
+  Real result;
+  
+  result = (Real)ma::Randomizer::frand();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Randomizer() {
+  void * jresult ;
+  ma::Randomizer *result = 0 ;
+  
+  result = (ma::Randomizer *)new ma::Randomizer();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Randomizer(void * jarg1) {
+  ma::Randomizer *arg1 = (ma::Randomizer *) 0 ;
+  
+  arg1 = (ma::Randomizer *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_AABB_mMinimum_set(void * jarg1, void * jarg2) {
   ma::AABB *arg1 = (ma::AABB *) 0 ;
   ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
@@ -8394,7 +8437,21 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Vector3_isNaN(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXZBy(void * jarg1, void * jarg2, void * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXZBy__SWIG_0(void * jarg1, void * jarg2) {
+  ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
+  ma::Radian *arg2 = 0 ;
+  
+  arg1 = (ma::Vector3 *)jarg1; 
+  arg2 = (ma::Radian *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Radian const & type is null", 0);
+    return ;
+  } 
+  (arg1)->rotateXZBy((ma::Radian const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXZBy__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
   ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
   ma::Radian *arg2 = 0 ;
   ma::Vector3 *arg3 = 0 ;
@@ -8414,7 +8471,21 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXZBy(void * jarg1, void * jarg2
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXYBy(void * jarg1, void * jarg2, void * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXYBy__SWIG_0(void * jarg1, void * jarg2) {
+  ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
+  ma::Radian *arg2 = 0 ;
+  
+  arg1 = (ma::Vector3 *)jarg1; 
+  arg2 = (ma::Radian *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Radian const & type is null", 0);
+    return ;
+  } 
+  (arg1)->rotateXYBy((ma::Radian const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXYBy__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
   ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
   ma::Radian *arg2 = 0 ;
   ma::Vector3 *arg3 = 0 ;
@@ -8434,7 +8505,21 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateXYBy(void * jarg1, void * jarg2
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateYZBy(void * jarg1, void * jarg2, void * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateYZBy__SWIG_0(void * jarg1, void * jarg2) {
+  ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
+  ma::Radian *arg2 = 0 ;
+  
+  arg1 = (ma::Vector3 *)jarg1; 
+  arg2 = (ma::Radian *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Radian const & type is null", 0);
+    return ;
+  } 
+  (arg1)->rotateYZBy((ma::Radian const &)*arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Vector3_rotateYZBy__SWIG_1(void * jarg1, void * jarg2, void * jarg3) {
   ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
   ma::Radian *arg2 = 0 ;
   ma::Vector3 *arg3 = 0 ;
@@ -9498,99 +9583,89 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_DualQuaternion(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Rectangle_ZERO_get() {
-  void * jresult ;
-  ma::Rectangle *result = 0 ;
-  
-  result = (ma::Rectangle *)&ma::Rectangle::ZERO;
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_x_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_left_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
+  Real arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->x = arg2;
+  arg2 = (Real)jarg2; 
+  if (arg1) (arg1)->left = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_x_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_left_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
+  Real result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (float) ((arg1)->x);
+  result = (Real) ((arg1)->left);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_y_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_top_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
+  Real arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->y = arg2;
+  arg2 = (Real)jarg2; 
+  if (arg1) (arg1)->top = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_y_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_top_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
+  Real result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (float) ((arg1)->y);
+  result = (Real) ((arg1)->top);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_width_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_right_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
+  Real arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->width = arg2;
+  arg2 = (Real)jarg2; 
+  if (arg1) (arg1)->right = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_width_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_right_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
+  Real result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (float) ((arg1)->width);
+  result = (Real) ((arg1)->right);
   jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_height_set(void * jarg1, float jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_bottom_set(void * jarg1, float jarg2) {
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
+  Real arg2 ;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  if (arg1) (arg1)->height = arg2;
+  arg2 = (Real)jarg2; 
+  if (arg1) (arg1)->bottom = arg2;
 }
 
 
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_height_get(void * jarg1) {
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_bottom_get(void * jarg1) {
   float jresult ;
   ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
+  Real result;
   
   arg1 = (ma::Rectangle *)jarg1; 
-  result = (float) ((arg1)->height);
+  result = (Real) ((arg1)->bottom);
   jresult = result; 
   return jresult;
 }
@@ -9606,21 +9681,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_0() {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_1(float jarg1, float jarg2) {
-  void * jresult ;
-  float arg1 ;
-  float arg2 ;
-  ma::Rectangle *result = 0 ;
-  
-  arg1 = (float)jarg1; 
-  arg2 = (float)jarg2; 
-  result = (ma::Rectangle *)new ma::Rectangle(arg1,arg2);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_2(float jarg1, float jarg2, float jarg3, float jarg4) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_1(float jarg1, float jarg2, float jarg3, float jarg4) {
   void * jresult ;
   float arg1 ;
   float arg2 ;
@@ -9638,18 +9699,42 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_2(float jarg1, float ja
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_new_Rectangle__SWIG_3(void * jarg1) {
-  void * jresult ;
-  ma::Rectangle *arg1 = 0 ;
-  ma::Rectangle *result = 0 ;
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_width(void * jarg1) {
+  float jresult ;
+  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
+  float result;
   
-  arg1 = (ma::Rectangle *)jarg1;
-  if (!arg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return 0;
-  } 
-  result = (ma::Rectangle *)new ma::Rectangle((ma::Rectangle const &)*arg1);
-  jresult = (void *)result; 
+  arg1 = (ma::Rectangle *)jarg1; 
+  result = (float)((ma::Rectangle const *)arg1)->width();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_height(void * jarg1) {
+  float jresult ;
+  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
+  float result;
+  
+  arg1 = (ma::Rectangle *)jarg1; 
+  result = (float)((ma::Rectangle const *)arg1)->height();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_inside(void * jarg1, float jarg2, float jarg3) {
+  unsigned int jresult ;
+  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
+  Real arg2 ;
+  Real arg3 ;
+  bool result;
+  
+  arg1 = (ma::Rectangle *)jarg1; 
+  arg2 = (Real)jarg2; 
+  arg3 = (Real)jarg3; 
+  result = (bool)((ma::Rectangle const *)arg1)->inside(arg2,arg3);
+  jresult = result; 
   return jresult;
 }
 
@@ -9662,239 +9747,25 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_Rectangle(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Rectangle_empty() {
+SWIGEXPORT void * SWIGSTDCALL CSharp_intersect(void * jarg1, void * jarg2) {
   void * jresult ;
-  ma::Rectangle *result = 0 ;
-  
-  result = (ma::Rectangle *) &ma::Rectangle::empty();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_isEmpty(void * jarg1) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  result = (bool)((ma::Rectangle const *)arg1)->isEmpty();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_set__SWIG_0(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  float arg5 ;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  arg5 = (float)jarg5; 
-  (arg1)->set(arg2,arg3,arg4,arg5);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_set__SWIG_1(void * jarg1, void * jarg2) {
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  ma::Rectangle *arg2 = 0 ;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (ma::Rectangle *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return ;
-  } 
-  (arg1)->set((ma::Rectangle const &)*arg2);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_setPosition(void * jarg1, float jarg2, float jarg3) {
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  (arg1)->setPosition(arg2,arg3);
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_left(void * jarg1) {
-  float jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  result = (float)((ma::Rectangle const *)arg1)->left();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_top(void * jarg1) {
-  float jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  result = (float)((ma::Rectangle const *)arg1)->top();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_right(void * jarg1) {
-  float jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  result = (float)((ma::Rectangle const *)arg1)->right();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT float SWIGSTDCALL CSharp_Rectangle_bottom(void * jarg1) {
-  float jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  result = (float)((ma::Rectangle const *)arg1)->bottom();
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_contains__SWIG_0(void * jarg1, float jarg2, float jarg3) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  result = (bool)((ma::Rectangle const *)arg1)->contains(arg2,arg3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_contains__SWIG_1(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  float arg5 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  arg5 = (float)jarg5; 
-  result = (bool)((ma::Rectangle const *)arg1)->contains(arg2,arg3,arg4,arg5);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_contains__SWIG_2(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  ma::Rectangle *arg2 = 0 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (ma::Rectangle *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return 0;
-  } 
-  result = (bool)((ma::Rectangle const *)arg1)->contains((ma::Rectangle const &)*arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_intersects__SWIG_0(void * jarg1, float jarg2, float jarg3, float jarg4, float jarg5) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  float arg4 ;
-  float arg5 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  arg4 = (float)jarg4; 
-  arg5 = (float)jarg5; 
-  result = (bool)((ma::Rectangle const *)arg1)->intersects(arg2,arg3,arg4,arg5);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Rectangle_intersects__SWIG_1(void * jarg1, void * jarg2) {
-  unsigned int jresult ;
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  ma::Rectangle *arg2 = 0 ;
-  bool result;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (ma::Rectangle *)jarg2;
-  if (!arg2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return 0;
-  } 
-  result = (bool)((ma::Rectangle const *)arg1)->intersects((ma::Rectangle const &)*arg2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_combine(void * jarg1, void * jarg2, void * jarg3) {
   ma::Rectangle *arg1 = 0 ;
   ma::Rectangle *arg2 = 0 ;
-  ma::Rectangle *arg3 = (ma::Rectangle *) 0 ;
+  ma::Rectangle result;
   
   arg1 = (ma::Rectangle *)jarg1;
   if (!arg1) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return ;
+    return 0;
   } 
   arg2 = (ma::Rectangle *)jarg2;
   if (!arg2) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Rectangle const & type is null", 0);
-    return ;
+    return 0;
   } 
-  arg3 = (ma::Rectangle *)jarg3; 
-  ma::Rectangle::combine((ma::Rectangle const &)*arg1,(ma::Rectangle const &)*arg2,arg3);
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_Rectangle_inflate(void * jarg1, float jarg2, float jarg3) {
-  ma::Rectangle *arg1 = (ma::Rectangle *) 0 ;
-  float arg2 ;
-  float arg3 ;
-  
-  arg1 = (ma::Rectangle *)jarg1; 
-  arg2 = (float)jarg2; 
-  arg3 = (float)jarg3; 
-  (arg1)->inflate(arg2,arg3);
+  result = ma::intersect((ma::Rectangle const &)*arg1,(ma::Rectangle const &)*arg2);
+  jresult = new ma::Rectangle((const ma::Rectangle &)result); 
+  return jresult;
 }
 
 

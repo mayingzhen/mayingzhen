@@ -208,7 +208,7 @@ namespace ma
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
-				pRenderable->m_pVertexBuffers = m_vecVBTemp[m];
+				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = m_vecIBTemp[m];
 				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
 				pRenderable->m_fMateriID = (float)iMatID;
@@ -258,7 +258,7 @@ namespace ma
 
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
 					pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
-					pRenderable->m_pVertexBuffers = m_vecVBTemp[m];
+					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = pIB;
 					pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
 					pRenderable->m_fMateriID = (float)iMatID;
@@ -346,7 +346,7 @@ namespace ma
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
-				pRenderable->m_pVertexBuffers = m_vecVBTemp[m];
+				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = it->second;
 				pRenderable->m_pSubMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
 				pRenderable->m_fMateriID = (float)it->first;
@@ -386,7 +386,7 @@ namespace ma
 				{
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
 					pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
-					pRenderable->m_pVertexBuffers = m_vecVBTemp[m];
+					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = skitIB.skirtIB[i];
 					pRenderable->m_pSubMaterial = pSkirtMaterial.get();
 					skirt.skirt[i] = pRenderable;

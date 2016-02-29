@@ -25,8 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-#ifndef __AxisAlignedBox_H_
-#define __AxisAlignedBox_H_
+#ifndef __AABB_H_
+#define __AABB_H_
 
 // Precompiler options
 //#include "Prerequisites.h"
@@ -356,15 +356,15 @@ namespace ma {
 			switch (aab.mExtent)
 			{
 			case EXTENT_NULL:
-				o << "AxisAlignedBox(null)";
+				o << "AABB(null)";
 				return o;
 
 			case EXTENT_FINITE:
-				o << "AxisAlignedBox(min=" << aab.mMinimum << ", max=" << aab.mMaximum << ")";
+				o << "AABB(min=" << aab.mMinimum << ", max=" << aab.mMaximum << ")";
 				return o;
 
 			case EXTENT_INFINITE:
-				o << "AxisAlignedBox(infinite)";
+				o << "AABB(infinite)";
 				return o;
 
 			default: // shut up compiler

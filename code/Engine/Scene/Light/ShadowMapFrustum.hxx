@@ -13,7 +13,7 @@ namespace ma
 		m_bDraw[0] = true;
 		m_bDraw[1] = true;
 
-		m_viewport = Rectangle::ZERO;
+		m_viewport = Rectangle(0,0,0,0);
 
 		m_matLightView = Matrix4::IDENTITY;
 		m_matLightProj = Matrix4::IDENTITY;
@@ -69,9 +69,9 @@ namespace ma
 		float width = (float)pShadowMap->GetWidth();
 		float height = (float)pShadowMap->GetHeight();
 
-		Vector2 offset( (float)veiewPort.left() / width, (float)veiewPort.top() / height);
+		Vector2 offset( (float)veiewPort.left / width, (float)veiewPort.top / height);
 
-		Vector2 scale( 0.5f * (float)veiewPort.width / width, 0.5f * (float)veiewPort.height / height );
+		Vector2 scale( 0.5f * (float)veiewPort.width() / width, 0.5f * (float)veiewPort.height() / height );
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
 		{
@@ -281,7 +281,7 @@ namespace ma
 		Frustum vpFurstum = m_frustum;
 		vpFurstum.Transformed(matVP);
 		AABB splitBB = vpFurstum.GetAABB();
-		//AxisAlignedBox splitBB = m_frustum.GetAABB();
+		//AABB splitBB = m_frustum.GetAABB();
 		//splitBB.transform(matVP);
 
 		AABB castersBB = m_casterAABB;
@@ -290,7 +290,7 @@ namespace ma
 		AABB sceeneBB = m_sceneAABB;
 		sceeneBB.transform(matVP);
 
-		//AxisAlignedBox cropBB;
+		//AABB cropBB;
 		Vector3 vMax,vMin;
 		vMin.x = max(castersBB.getMinimum().x, splitBB.getMinimum().x);
 		vMax.x = min(castersBB.getMaximum().x, splitBB.getMaximum().x);

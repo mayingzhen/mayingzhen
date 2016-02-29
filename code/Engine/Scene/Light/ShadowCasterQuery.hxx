@@ -48,7 +48,7 @@ namespace ma
 // 			if (!bCulll) 
 // 			{
 // 				float lightViewFrustumBoxz = m_lightViwFrustum.GetAABB().getMinimum().z;
-// 				AxisAlignedBox lightViewNodeBox = pObject->GetWorldBoundingBox();
+// 				AABB lightViewNodeBox = pObject->GetWorldBoundingBox();
 // 				lightViewNodeBox.transform(m_matLightView);
 // 				float lightViewNodeBoxMinz = lightViewNodeBox.getMinimum().z;
 // 				lightViewNodeBoxMinz = min( lightViewNodeBoxMinz, lightViewFrustumBoxz);

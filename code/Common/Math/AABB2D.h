@@ -1,6 +1,6 @@
 
-#ifndef __AxisAlignedBox2D_H_
-#define __AxisAlignedBox2D_H_
+#ifndef __AABB2D_H_
+#define __AABB2D_H_
 
 
 #include "Vector2.h"
@@ -254,15 +254,15 @@ namespace ma
 			switch (aab.mExtent)
 			{
 			case EXTENT_NULL:
-				o << "AxisAlignedBox(null)";
+				o << "AABB(null)";
 				return o;
 
 			case EXTENT_FINITE:
-				o << "AxisAlignedBox(min=" << aab.mMinimum << ", max=" << aab.mMaximum << ")";
+				o << "AABB(min=" << aab.mMinimum << ", max=" << aab.mMaximum << ")";
 				return o;
 
 			case EXTENT_INFINITE:
-				o << "AxisAlignedBox(infinite)";
+				o << "AABB(infinite)";
 				return o;
 
 			default: // shut up compiler

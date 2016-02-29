@@ -1,0 +1,57 @@
+#include "ParticleSystemRenderable.h"
+#include "ParticleSystem.h"
+
+namespace ma
+{
+
+CParticleSystemRenderable::CParticleSystemRenderable(CParticleSystem* pParent)
+{
+	m_pParent = pParent;
+	m_nNumIndices = 0;
+	m_nNumVertices = 0;
+
+	m_pSubMeshData = CreateSubMeshData();
+
+	m_ePrimitiveType = PRIM_TRIANGLELIST;
+
+	m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
+	m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
+
+
+	VertexElement element[5];
+	element[0] = VertexElement(0,0,DT_FLOAT4,DU_POSITION,0);
+	element[1] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
+	element[2] = VertexElement(0,24,DT_FLOAT2,DU_TEXCOORD,1);
+	element[3] = VertexElement(0,32,DT_COLOR,DU_BLENDWEIGHT,0);
+	element[4] = VertexElement(0,36,DT_COLOR,DU_COLOR,1);
+	m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
+}
+
+CParticleSystemRenderable::~CParticleSystemRenderable(void)
+{
+}
+
+void CParticleSystemRenderable::Render(Technique* pTech)
+{
+	if (m_nNumIndices == 0)
+	{
+		return;
+	}
+
+	ASSERT(m_nNumVertices <= vertices.size());
+	ASSERT(m_nNumIndices <= indices.size());
+
+	m_pIndexBuffer->SetData((uint8*)&indices[0],indices.size() * sizeof(UINT16),sizeof(UINT16),USAGE_STATIC,false);
+	m_pVertexBuffer->SetData((uint8*)&vertices[0],vertices.size() * sizeof(VERTEX),sizeof(VERTEX),USAGE_STATIC,false);
+	m_pSubMeshData->m_nIndexCount = m_nNumIndices;
+	m_pSubMeshData->m_nVertexCount = m_nNumVertices;
+
+	GetRenderContext()->SetCurRenderObj(this);
+
+	pTech->Bind();
+
+	GetRenderSystem()->DrawDyRenderable(this,pTech);
+}
+
+
+}

@@ -6,7 +6,6 @@ namespace ma
 	TerrainRenderable::TerrainRenderable(TerrainTrunk* pParent)
 	{
 		m_pParent = pParent;
-		m_bBorder = false;
 		m_fMateriID = 0.0f;
 		m_ePrimitiveType = PRIM_TRIANGLELIST;
 	}
@@ -41,13 +40,6 @@ namespace ma
 		if (pUniformCurMaterialID)
 		{
 			GetRenderSystem()->SetValue(pUniformCurMaterialID,m_fMateriID);
-		}
-
-		if (m_bBorder)
-		{
-			//GetRenderSystem()->SetBlendMode(BM_TRANSPARENT);
-			//GetRenderSystem()->SetDepthCheckMode(DCM_ALWAYS);
-			//GetRenderSystem()->SetDepthWirte(false);
 		}
 
 		GetRenderSystem()->DrawRenderable(this,pTech);

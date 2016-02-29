@@ -41,8 +41,8 @@ namespace ma
 
 		for (int i = 0; i < NUM_DownSamplers + 1; ++i)
 		{
-			int nWidth = (int)rect.width / (2 << i);
-			int nHeight = (int)rect.height / (2 << i);
+			int nWidth = (int)rect.width() / (2 << i);
+			int nHeight = (int)rect.height() / (2 << i);
 
 			m_DownSampleTex[i] = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,PF_FLOAT16_RGBA);
 

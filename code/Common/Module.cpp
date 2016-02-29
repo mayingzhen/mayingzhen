@@ -17,7 +17,6 @@
 #include "Common/Math/Vector4.hxx"
 #include "Common/Math/DualQuaternion.hxx"
 #include "Common/Math/Frustum.hxx"
-#include "Common/Math/Rectangle.hxx"
 
 #include "Common/Platform/Platform.hxx"
 

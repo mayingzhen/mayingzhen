@@ -30,12 +30,12 @@ namespace ma
 		g_pDeviceCapabilities = new DeviceCapabilitie();
 		g_pRenderSystem = new RenderSystem();
 
-		g_pWorkQueue = new WorkQueue();
+		g_pJobScheduler = new JobScheduler();
 	}
 
 	Engine::~Engine()
 	{
-		SAFE_DELETE(g_pWorkQueue);
+		SAFE_DELETE(g_pJobScheduler);
 
 		SAFE_DELETE(g_pRenderSystem);
 		SAFE_DELETE(g_pDeviceCapabilities);
@@ -54,7 +54,7 @@ namespace ma
 		SAFE_DELETE(g_pTimer);
 	}
 
-	void Engine::Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bWorkQueue)
+	void Engine::Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		CImageCodec::Startup();
 
@@ -68,9 +68,9 @@ namespace ma
 			g_pDataThread->Start();
 		}
 
-		if (bWorkQueue)
+		if (bJobScheduler)
 		{
-			GetWorkQueue()->CreateThreads(GetNumLogicalCPUs() - 1,16);
+			GetJobScheduler()->CreateThreads(GetNumLogicalCPUs() - 1,16);
 		}
 	}
 	
