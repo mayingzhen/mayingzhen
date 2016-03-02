@@ -11,6 +11,10 @@ public:
 	CParticleSubUVAffector();
 	~CParticleSubUVAffector(void);
 
+	DECL_OBJECT(ParticleSubUVAffector);
+
+	static void RegisterAttribute();
+
 	// ---------------------------------------------------------------------
 	// Inherite from CParticleAffector
 	// ---------------------------------------------------------------------

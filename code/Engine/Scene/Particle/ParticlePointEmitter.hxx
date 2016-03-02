@@ -11,6 +11,13 @@ CParticlePointEmitter::~CParticlePointEmitter(void)
 {
 }
 
+void CParticlePointEmitter::RegisterAttribute()
+{
+	REGISTER_OBJECT(CParticlePointEmitter,CreatePointEmitter); 
+
+	COPY_BASE_ATTRIBUTES(CParticlePointEmitter,CParticleEmitter);
+}
+
 int CParticlePointEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)

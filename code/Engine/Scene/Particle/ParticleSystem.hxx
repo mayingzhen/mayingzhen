@@ -40,6 +40,13 @@ CParticleSystem::~CParticleSystem(void)
 	this->RemoveAllAffectors();
 }
 
+void CParticleSystem::RegisterAttribute()
+{
+	REGISTER_OBJECT(CParticleSystem,CreateParticleSystem); 
+
+	ACCESSOR_ATTRIBUTE(CParticleSystem, "MtlPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
+}
+
 
 void CParticleSystem::Update()
 {
@@ -688,6 +695,16 @@ void CParticleSystem::SetMaterialSet(Material* pMaterialSet)
     IsReady();
 }
 
+const char*	CParticleSystem::GetMaterialFile() const
+{
+	return m_pMaterialSet ? m_pMaterialSet->GetXMLFile()->GetResPath() : NULL;
+}
+
+void CParticleSystem::SetMaterialFile(const char* pFile)
+{
+	SetMaterialSet( CreateMaterial(pFile).get() );
+}
+
 
 Renderable* CParticleSystem::GetRenderable() const
 {
@@ -951,7 +968,7 @@ bool CParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, c
 
 bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 {
-	//Serializable::Improt(pXmlElem);
+	Serializable::Improt(pXmlElem);
 
 	rapidxml::xml_node<>* pXmlEmitter = pXmlElem->first_node("Emitter");
 	while(pXmlEmitter)
@@ -984,7 +1001,7 @@ bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 
 bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 {
-	//Serializable::Export(pXmlElem,doc);
+	Serializable::Export(pXmlElem,doc);
 
 	for (UINT i = 0; i < m_vecEmitter.size(); ++i)
 	{
@@ -1023,16 +1040,16 @@ RefPtr<CParticleSystem> CreateParticleSystem()
 	return p;
 }
 
-RefPtr<CParticleSystem> CreateParticleSystem(const char* pszPath)
-{
-	RefPtr<CParticleSystem> p =  new CParticleSystem();
-// 	if(!p->Load(pszPath))
-// 	{
-// 		ASSERT(false);
-// 		return NULL;
-// 	}
-
-	return p;
-}
+// RefPtr<CParticleSystem> CreateParticleSystem(const char* pszPath)
+// {
+// 	RefPtr<CParticleSystem> p =  new CParticleSystem();
+// // 	if(!p->Load(pszPath))
+// // 	{
+// // 		ASSERT(false);
+// // 		return NULL;
+// // 	}
+// 
+// 	return p;
+// }
 
 }

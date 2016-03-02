@@ -11,6 +11,10 @@ public:
 	CParticlePointEmitter();
 	~CParticlePointEmitter(void);
 
+	DECL_OBJECT(ParticlePointEmitter);
+
+	static void RegisterAttribute();
+
 	// ---------------------------------------------------------------------
 	// Inherite from CParticleEmitter
 	// ---------------------------------------------------------------------
