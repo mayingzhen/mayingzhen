@@ -19,11 +19,11 @@ CParticleSystemRenderable::CParticleSystemRenderable(CParticleSystem* pParent)
 
 
 	VertexElement element[5];
-	element[0] = VertexElement(0,0,DT_FLOAT4,DU_POSITION,0);
-	element[1] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
-	element[2] = VertexElement(0,24,DT_FLOAT2,DU_TEXCOORD,1);
-	element[3] = VertexElement(0,32,DT_COLOR,DU_BLENDWEIGHT,0);
-	element[4] = VertexElement(0,36,DT_COLOR,DU_COLOR,1);
+	element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
+	element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
+	element[2] = VertexElement(0,20,DT_FLOAT2,DU_TEXCOORD,1);
+	element[3] = VertexElement(0,28,DT_COLOR,DU_BLENDWEIGHT,0);
+	element[4] = VertexElement(0,32,DT_COLOR,DU_COLOR,1);
 	m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 }
 

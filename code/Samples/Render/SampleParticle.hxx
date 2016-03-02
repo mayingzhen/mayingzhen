@@ -9,14 +9,9 @@ namespace ma
 
 	void SampleParticle::Load()
 	{
-		Vector3 vEyePos = Vector3(0, 6, 5);
+		Vector3 vEyePos = Vector3(0, 16, 15);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
-
-		RefPtr<SceneNode> pFire = CreateSceneNode();
-		m_pScene->GetRootNode()->AddChild(pFire.get());
-
-		SceneNode* pSceneNode = m_pScene->CreateSceneNode();
 
 		if (1)
 		{
@@ -64,12 +59,18 @@ namespace ma
 			pParticleSystem->SaveToXML("particle/money.particle");
 		}
 
-		RefPtr<CParticleSystem> pParticleSystem = CreateParticleSystem();
-		pSceneNode->AddComponent(pParticleSystem.get());
-		
-		pParticleSystem->LoadFromXML("particle/money.particle");
+		for (uint32 i = 0; i < 5; ++i)
+		{
+			SceneNode* pSceneNode = m_pScene->CreateSceneNode();
+			pSceneNode->SetPos(Vector3(i * 2,0,0));
+			
+			RefPtr<CParticleSystem> pParticleSystem = CreateParticleSystem();
+			pSceneNode->AddComponent(pParticleSystem.get());
 
-		pParticleSystem->Play();
+			pParticleSystem->LoadFromXML("particle/money.particle");
+
+			pParticleSystem->Play();
+		}
 	}
 
 	void SampleParticle::UnLoad()

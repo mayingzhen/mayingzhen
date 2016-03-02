@@ -25,7 +25,7 @@ private:
 
 	struct VERTEX 
 	{
-		Vector4 pos;
+		Vector3 pos;
 		Vector2 uv;
 		Vector2 nextUV;
 		uint32 blend;

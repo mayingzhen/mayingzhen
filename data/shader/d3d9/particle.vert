@@ -24,7 +24,7 @@ void main(float4 iPos     : POSITION0,
         out float4 oDiff : TEXCOORD3
 )
 {
-    float4 worldPos = iPos;
+    float4 worldPos = float4(iPos.xyz,1.0);
 #ifdef BILLBOARDOFFSET
     #if BILLBOARDOFFSET == 2
         worldPos.xyz += g_matView._m02_m12_m22*billboard_offset;

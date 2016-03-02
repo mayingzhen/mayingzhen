@@ -45,7 +45,7 @@ namespace ma
 
 	void Scene::SetRenderScheme(RenderScheme::Type eType)
 	{
-		if (eType == RenderScheme::DeferredLighting)
+		if (eType == RenderScheme::DeferredShading)
 		{
 			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
 		}

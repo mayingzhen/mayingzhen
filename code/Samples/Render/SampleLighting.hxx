@@ -12,7 +12,7 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 		
-		m_pScene->SetRenderScheme(RenderScheme::DeferredLighting);
+		m_pScene->SetRenderScheme(RenderScheme::DeferredShading);
 
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());

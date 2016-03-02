@@ -95,18 +95,7 @@ namespace ma
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 		{
 			RENDER_PROFILE(RL_Trans);
-
-			UINT nTrans = pRenderQueue->GetRenderObjNumber(RL_Trans);
-			for (UINT i = 0; i < nTrans; ++i)
-			{
-				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Trans,i);
-				if (pRenderObj == NULL)
-					continue;
-
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
-
-				pRenderObj->Render(pTech);
-			}
+			pRenderQueue->RenderObjList(RL_Trans);
 		}
 	}
 

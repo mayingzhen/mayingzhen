@@ -80,12 +80,11 @@ namespace ma
 		{
 			pRenderScheme->AddShadingPass();
 		}
-		else if (eType == RenderScheme::DeferredLighting)
+		else if (eType == RenderScheme::DeferredShading)
 		{
 			pRenderScheme->AddGBufferPass();
 			pRenderScheme->AddDeferredShadowPass();
 			pRenderScheme->AddDeferredLightPass();
-			//pRenderScheme->AddShadingPass();
 		}
 
 		pRenderScheme->Init();
