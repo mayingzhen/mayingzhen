@@ -1031,25 +1031,9 @@ bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_docume
 RefPtr<CParticleSystem> CreateParticleSystem()
 {
 	RefPtr<CParticleSystem> p =  new CParticleSystem();
-// 	if(!p->Load())
-// 	{
-// 		ASSERT(false);
-// 		return NULL;
-// 	}
 
 	return p;
 }
 
-// RefPtr<CParticleSystem> CreateParticleSystem(const char* pszPath)
-// {
-// 	RefPtr<CParticleSystem> p =  new CParticleSystem();
-// // 	if(!p->Load(pszPath))
-// // 	{
-// // 		ASSERT(false);
-// // 		return NULL;
-// // 	}
-// 
-// 	return p;
-// }
 
 }
