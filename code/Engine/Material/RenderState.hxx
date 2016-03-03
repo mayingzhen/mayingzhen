@@ -56,5 +56,10 @@ namespace ma
 	}
 
 
+	bool RenderState::GetTransparent() const
+	{
+		return m_eBlendMode != BM_OPATICY;
+	}
+
 
 }

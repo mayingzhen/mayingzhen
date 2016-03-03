@@ -174,7 +174,7 @@ void CParticleSystem::Show(Camera* pCamera)
 		ParallelShow(pCamera);
 	}
 
-    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Trans,m_pCPURenderable.get());
+    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Particle,m_pCPURenderable.get());
 }
 
 

@@ -15,7 +15,7 @@ namespace ma
 
 	void UpdateVertexArray(std::vector<SkinVertexV0>& arrVertex,std::vector<UINT16>& arrIndex,SkinVertexV0 vertex);
 
-	Material*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin);
+	Material*  CreateMeshMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin);
 	
 	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],ImportParm* pImportParm);
 

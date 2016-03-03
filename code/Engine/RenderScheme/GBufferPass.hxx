@@ -46,8 +46,8 @@ namespace ma
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black, 1.0f, 0);
 
 		{
-			RENDER_PROFILE(RL_Solid);
-			pRenderQueue->RenderObjList(RL_Solid);
+			RENDER_PROFILE(RL_Mesh);
+			pRenderQueue->RenderObjList(RL_Mesh);
 		}
 
 		{

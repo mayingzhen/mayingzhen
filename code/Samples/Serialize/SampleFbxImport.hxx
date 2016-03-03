@@ -19,7 +19,7 @@ namespace ma
 
 			// Material
 			{
-				CreateDefaultMaterial("FBX/TestBull_DM.png","FBX/TestBull.mtl","SKIN");
+				CreateMeshMaterial("FBX/TestBull_DM.png","FBX/TestBull.mtl","SKIN");
 			}
 		}
 
@@ -49,9 +49,9 @@ namespace ma
 
 		LoadStaticMeshData("FBX/MovingPlatform.fbx");
 
-		CreateDefaultMaterial("FBX/Box.tga","FBX/Box.mtl");
+		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
 			
-		CreateDefaultMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
+		CreateMeshMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
 
 		RefPtr<SceneNode> pPlatform = m_pScene->CreateSceneNode();
 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();

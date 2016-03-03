@@ -11,6 +11,7 @@ namespace ma
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
 		RenderState::RegisterAttribute();
+		Technique::RegisterAttribute();
 
 		CParticleSystem::RegisterAttribute();
 		CParticleEmitter::RegisterAttribute();

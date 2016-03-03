@@ -40,11 +40,10 @@ namespace ma
 		{
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
 			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, strShaderMacro.c_str());
-			//m_pShadowDepthTech->GetRenderState().m_eCullMode = CULL_FACE_SIDE_FRONT;
 		
 			if (GetDeviceCapabilities()->GetD24S8Supported())
 			{
-				m_pShadowDepthTech->GetRenderState().SetColorWrite(false);
+				m_pShadowDepthTech->SetColorWrite(false);
 			}
 		}
 
@@ -175,16 +174,11 @@ namespace ma
 	{
 		SubMaterial* pClonMaterial = new SubMaterial();
 
-		if (m_pShadingTech)
-		{
-			pClonMaterial->m_pShadingTech = m_pShadingTech->Clone();
-		}
-
-		if (m_pShadowDepthTech)
-		{
-			pClonMaterial->m_pShadowDepthTech = m_pShadowDepthTech->Clone();
-		}
-		pClonMaterial->m_strShaderMacro = m_strShaderMacro;
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
+		this->Export(pRoot,doc);
+		
+		pClonMaterial->Improt(pRoot);
 
 		return pClonMaterial;
 	}
@@ -219,7 +213,7 @@ namespace ma
 	bool Material::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		uint32 nLod = 0;
-		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodSubMaterial");
+		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodMaterial");
 		while(pXmlLodSubMaterial)
 		{
 			rapidxml::xml_node<>* pXmlSubMaterial = pXmlLodSubMaterial->first_node("SubMaterial");
@@ -232,7 +226,7 @@ namespace ma
 
 				pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
 			}
-			pXmlLodSubMaterial = pXmlLodSubMaterial->next_sibling("LodSubMaterial");
+			pXmlLodSubMaterial = pXmlLodSubMaterial->next_sibling("LodMaterial");
 			nLod++;
 		}
 
@@ -243,7 +237,7 @@ namespace ma
 	{
 		for (UINT iLod = 0; iLod < m_arrLodSubMaterial.size(); ++iLod)
 		{
-			rapidxml::xml_node<>* pXmlLodSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodSubMaterial"));
+			rapidxml::xml_node<>* pXmlLodSubMaterial = doc.allocate_node(rapidxml::node_element, doc.allocate_string("LodMaterial"));
 			pXmlElem->append_node(pXmlLodSubMaterial);
 
 			for (UINT iSub = 0; iSub < m_arrLodSubMaterial[iLod].size(); ++iSub)

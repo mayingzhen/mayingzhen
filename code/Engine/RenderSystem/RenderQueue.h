@@ -9,8 +9,9 @@ namespace ma
 
 	enum RenderListType
 	{
-		RL_Solid,
-		RL_Trans,
+		RL_Mesh,
+		RL_MeshTrans,
+		RL_Particle,
 		RL_TerrainBody,
 		RL_TerrainBorder,
 		RL_TerrainSkirt,

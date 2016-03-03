@@ -48,7 +48,7 @@ namespace ma
 			pMeshData->AddSubMeshData(0,pSubmesh.get());
 			pSubmesh->m_nMateiralID = it->first;
 
-			//submesh->m_pMaterial = CreateDefaultMaterial(pMesh,it->first,pImportParm,false);
+			//submesh->m_pMaterial = CreateMeshMaterial(pMesh,it->first,pImportParm,false);
 
 			pSubmesh->m_nVertexStart = arrVertex.size();
 			pSubmesh->m_nIndexStart = arrIndex.size();
@@ -144,7 +144,7 @@ namespace ma
 	}
 
 
-	Material*  CreateDefaultMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
+	Material*  CreateMeshMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
 	{
 // 		RefPtr<CGpuProgram> shader;
 // 

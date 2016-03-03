@@ -15,9 +15,9 @@ namespace ma
 		// character A MeshData & skeleton & Animation
 		if (1)
 		{
- 			CreateDefaultMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
- 			CreateDefaultMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
- 			CreateDefaultMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
+ 			CreateMeshMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
+ 			CreateMeshMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
+ 			CreateMeshMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 			RefPtr<AnimClipNode> pClip = CreateClipNode("gigi/100_stand/bip01.ska","100_stand");
@@ -51,7 +51,7 @@ namespace ma
 		// character B MeshData & skeleton & Animation
 		if (1)
 		{
-			CreateDefaultMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN");
+			CreateMeshMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );

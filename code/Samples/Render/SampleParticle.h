@@ -13,10 +13,6 @@ namespace ma
 		virtual void UnLoad();
 
 		virtual void Update();
-
-	private:
-
-		//ParticleEmitter* m_pEmitter;
 	};
 }
 

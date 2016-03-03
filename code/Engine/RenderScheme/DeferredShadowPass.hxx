@@ -18,7 +18,7 @@ namespace ma
 		m_pFrustumMaterial = CreateTechnique("frustumclipvolume","frustumclipvolume","frustumclipvolume","");
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 
-		m_pDefferedShadow->GetRenderState().SetDepthWrite(false);
+		m_pDefferedShadow->SetDepthWrite(false);
 	}
 
 	void DeferredShadowPass::Render()

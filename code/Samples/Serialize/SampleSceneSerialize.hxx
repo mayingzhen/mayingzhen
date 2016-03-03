@@ -19,7 +19,7 @@ namespace ma
 
 		if (1)
 		{
-			CreateDefaultMaterial("FBX/Box.tga","Fbx/Box.mtl");
+			CreateMeshMaterial("FBX/Box.tga","Fbx/Box.mtl");
 
 			RefPtr<SceneNode> pSceneNode = CreateSceneNode();
 

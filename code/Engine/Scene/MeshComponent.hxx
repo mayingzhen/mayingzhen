@@ -142,7 +142,7 @@ namespace ma
 		{
 			 m_arrLodRenderable[nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Solid, m_arrLodRenderable[nLod][i].get());
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[nLod][i].get());
 		}
 	}
 

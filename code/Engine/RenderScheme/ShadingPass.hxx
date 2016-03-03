@@ -34,8 +34,8 @@ namespace ma
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
 		{
-			RENDER_PROFILE(RL_Solid);
-			pRenderQueue->RenderObjList(RL_Solid);
+			RENDER_PROFILE(RL_Mesh);
+			pRenderQueue->RenderObjList(RL_Mesh);
 		}
 
 		{
@@ -49,8 +49,8 @@ namespace ma
 		}
 
 		{
-			RENDER_PROFILE(RL_Trans);
-			pRenderQueue->RenderObjList(RL_Trans);
+			RENDER_PROFILE(RL_Particle);
+			pRenderQueue->RenderObjList(RL_Particle);
 		}
 
 	}
