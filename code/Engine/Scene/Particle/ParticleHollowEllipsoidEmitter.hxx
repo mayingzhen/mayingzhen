@@ -4,17 +4,17 @@
 namespace ma
 {
 
-CParticleHollowEllipsoidEmitter::CParticleHollowEllipsoidEmitter(void)
+ParticleHollowEllipsoidEmitter::ParticleHollowEllipsoidEmitter(void)
 : mInnerRatio(0.5,0.5,0.5)
 {
 
 }
 
-CParticleHollowEllipsoidEmitter::~CParticleHollowEllipsoidEmitter(void)
+ParticleHollowEllipsoidEmitter::~ParticleHollowEllipsoidEmitter(void)
 {
 }
 
-int CParticleHollowEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleHollowEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -72,9 +72,9 @@ int CParticleHollowEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SP
 	return mParticles.size();
 }
 
-RefPtr<CParticleHollowEllipsoidEmitter> CreateHollowEllipsoidEmitter()
+RefPtr<ParticleHollowEllipsoidEmitter> CreateHollowEllipsoidEmitter()
 {
-	return new CParticleHollowEllipsoidEmitter;
+	return new ParticleHollowEllipsoidEmitter;
 }
 
 }

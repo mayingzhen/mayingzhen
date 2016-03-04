@@ -3,22 +3,22 @@
 namespace ma
 {
 
-CParticlePointEmitter::CParticlePointEmitter()
+ParticlePointEmitter::ParticlePointEmitter()
 {
 }
 
-CParticlePointEmitter::~CParticlePointEmitter(void)
+ParticlePointEmitter::~ParticlePointEmitter(void)
 {
 }
 
-void CParticlePointEmitter::RegisterAttribute()
+void ParticlePointEmitter::RegisterAttribute()
 {
-	REGISTER_OBJECT(CParticlePointEmitter,CreatePointEmitter); 
+	REGISTER_OBJECT(ParticlePointEmitter,CreatePointEmitter); 
 
-	COPY_BASE_ATTRIBUTES(CParticlePointEmitter,CParticleEmitter);
+	COPY_BASE_ATTRIBUTES(ParticlePointEmitter,ParticleEmitter);
 }
 
-int CParticlePointEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticlePointEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -50,8 +50,8 @@ int CParticlePointEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& 
 	return mParticles.size();
 }
 
- RefPtr<CParticlePointEmitter> CreatePointEmitter()
+ RefPtr<ParticlePointEmitter> CreatePointEmitter()
 {
-	return new CParticlePointEmitter();
+	return new ParticlePointEmitter();
 }
 }

@@ -185,7 +185,7 @@ namespace ma
 
 	const char* Terrain::GetMaterialPath() const
 	{
-		return m_pMaterial ? m_pMaterial->GetXMLFile()->GetResPath() : NULL;
+		return m_pMaterial ? m_pMaterial->GetResPath() : NULL;
 	}
 
 	void Terrain::SetMaterialPath(const char* pPath)

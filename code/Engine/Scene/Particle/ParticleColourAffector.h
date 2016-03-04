@@ -5,21 +5,18 @@ namespace ma
 {
 
 //! Particle Affector for fading out a color
-class  CParticleColourAffector : public CParticleAffector
+class  ParticleColourAffector : public ParticleAffector
 {
 public:
-	CParticleColourAffector();
-	~CParticleColourAffector(void);
+	ParticleColourAffector();
+	~ParticleColourAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_COLOUR; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -57,6 +54,6 @@ affector need to change the color to the targetColor.
 as new affector of this particle system, just call addAffector(). Note
 that you'll have to drop() the returned pointer, after you don't need
 it any more, see IReferenceCounted::drop() for more informations. */
- RefPtr<CParticleColourAffector> CreateColourAffector();
+ RefPtr<ParticleColourAffector> CreateColourAffector();
 
 }

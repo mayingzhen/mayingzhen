@@ -5,21 +5,18 @@ namespace ma
 {
 
 //! Particle Affector for affecting direction of particle
-class  CParticleLinearForceAffector : public CParticleAffector
+class  ParticleLinearForceAffector : public ParticleAffector
 {
 public:
-	CParticleLinearForceAffector();
-	~CParticleLinearForceAffector(void);
+	ParticleLinearForceAffector();
+	~ParticleLinearForceAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_LINEAR_FORCE; }
 
     virtual void SetParentMatrix(const Matrix4& mat){mat.extract3x3Matrix(m_mat3);mFinalForceVector = m_mat3*mForceVector;}
 	// ---------------------------------------------------------------------
@@ -79,5 +76,5 @@ is the time where gravity fully affects the particle.
 as new affector of this particle system, just call addAffector(). Note
 that you'll have to drop() the returned pointer, after you don't need
 it any more, see IReferenceCounted::drop() for more informations. */
- RefPtr<CParticleLinearForceAffector> CreateLinearForceAffector();
+ RefPtr<ParticleLinearForceAffector> CreateLinearForceAffector();
 }

@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleLinearForceAffector::CParticleLinearForceAffector()
+ParticleLinearForceAffector::ParticleLinearForceAffector()
 {
 	mFinalForceVector = mForceVector = Vector3::UNIT_Z;
 	mForceApplication = FA_AVERAGE;
@@ -13,11 +13,11 @@ CParticleLinearForceAffector::CParticleLinearForceAffector()
     mDuration = 999999.f;
 }
 
-CParticleLinearForceAffector::~CParticleLinearForceAffector(void)
+ParticleLinearForceAffector::~ParticleLinearForceAffector(void)
 {
 }
 
-void CParticleLinearForceAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleLinearForceAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if (!m_bEnabled)
 		return;
@@ -40,8 +40,8 @@ void CParticleLinearForceAffector::Affect( Real now, Real timediff, LST_PARTICLE
 	}
 }
 
- RefPtr<CParticleLinearForceAffector> CreateLinearForceAffector()
+ RefPtr<ParticleLinearForceAffector> CreateLinearForceAffector()
 {
-	return new CParticleLinearForceAffector();
+	return new ParticleLinearForceAffector();
 }
 }

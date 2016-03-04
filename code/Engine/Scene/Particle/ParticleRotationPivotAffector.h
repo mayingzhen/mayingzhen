@@ -5,23 +5,20 @@ namespace ma
 {
 
 //! Particle Affector for rotating particles about a point
-class  CParticleRotationPivotAffector : public CParticleAffector
+class  ParticleRotationPivotAffector : public ParticleAffector
 {
 public:
-	CParticleRotationPivotAffector();
-	~CParticleRotationPivotAffector(void);
+	ParticleRotationPivotAffector();
+	~ParticleRotationPivotAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
     virtual void Reset();
 
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_ROTATION_PIVOT; }
 
 	virtual void SetParentMatrix(const Matrix4& mat){m_matParent = mat;mFinalPivotPoint = m_matParent*mPivotPoint;}
 	// ---------------------------------------------------------------------
@@ -58,5 +55,5 @@ them to a specified point at a specified speed per second.
 as new affector of this particle system, just call addAffector(). Note
 that you'll have to drop() the returned pointer, after you don't need
 it any more, see IReferenceCounted::drop() for more informations. */
- RefPtr<CParticleRotationPivotAffector> CreateRotationPivotAffector();
+ RefPtr<ParticleRotationPivotAffector> CreateRotationPivotAffector();
 }

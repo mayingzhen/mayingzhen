@@ -5,21 +5,18 @@
 namespace ma
 {
 
-class  CParticleSplineAffector : public CParticleAffector
+class  ParticleSplineAffector : public ParticleAffector
 {
 public:
-	CParticleSplineAffector(void);
-	~CParticleSplineAffector(void);
+	ParticleSplineAffector(void);
+	~ParticleSplineAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_SPLINE; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -37,6 +34,6 @@ private:
 	SimpleSpline mSpline;
 };
 
- RefPtr<CParticleSplineAffector> CreateSplineAffector();
+ RefPtr<ParticleSplineAffector> CreateSplineAffector();
 
 }

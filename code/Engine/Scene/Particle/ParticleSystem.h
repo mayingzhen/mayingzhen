@@ -13,15 +13,15 @@ namespace ma
 can be controlled by setting the right particle emitters and affectors.
 You can for example easily create a campfire by doing this:
 */
-class  CParticleSystem : public RenderComponent
+class  ParticleSystem : public RenderComponent
 {
 
 public:
-	CParticleSystem();
+	ParticleSystem();
 
-	virtual ~CParticleSystem(void);
+	virtual ~ParticleSystem(void);
 
-	DECL_OBJECT(CParticleSystem);
+	DECL_OBJECT(ParticleSystem);
 
 	static void	RegisterAttribute();
 
@@ -56,21 +56,21 @@ public:
 
 	//! Gets the particle emitter, which creates the particles.
 	/** \return The particle emitter. Can be NULL if none is set. */
-	virtual CParticleEmitter* GetEmitterByIndex(uint32 nIndex) const;
+	virtual ParticleEmitter* GetEmitterByIndex(uint32 nIndex) const;
 
 	// ! Gets the num of emitters
 	uint32 GetNumEmitters() const{return m_vecEmitter.size();}
 
 	//! Sets the particle emitter, which creates the particles.
-	virtual void AddEmitter(CParticleEmitter* emitter);
-	virtual void RemoveEmitter(CParticleEmitter* emitter);
+	virtual void AddEmitter(ParticleEmitter* emitter);
+	virtual void RemoveEmitter(ParticleEmitter* emitter);
 
 	/** Removes all the emitters from this system. */
 	virtual void RemoveAllEmitters(void);
 
 	//! Adds new particle effector to the particle system.
-	virtual void AddAffector(CParticleAffector* affector);
-	virtual void RemoveAffector(CParticleAffector* affector);
+	virtual void AddAffector(ParticleAffector* affector);
+	virtual void RemoveAffector(ParticleAffector* affector);
 
 	//! Removes all particle affectors in the particle system.
 	virtual void RemoveAllAffectors();
@@ -135,7 +135,7 @@ public:
 	float GetMotionInherite() const{return m_fMotionInherite;}
 
 	uint32 GetNumAffectors() const{return m_vecAffectors.size();}
-	CParticleAffector* GetAffectorByIndex(uint32 nIndex) const{return m_vecAffectors[nIndex].get();}
+	ParticleAffector* GetAffectorByIndex(uint32 nIndex) const{return m_vecAffectors[nIndex].get();}
 
 	uint32 GetNumParticles() const{return m_lstParticles.size();}
 	const SParticle& GetParticleByIndex(uint32 nIndex) const;
@@ -221,14 +221,14 @@ private:
 
 	Vector2 mFastFarward;
 
-	RefPtr<CParticleSystemRenderable> m_pCPURenderable;
+	RefPtr<ParticleSystemRenderable> m_pCPURenderable;
 
     RefPtr<Material> m_pMaterialSet;
 
-	typedef vector<RefPtr<CParticleEmitter> > VEC_EMITTER;
+	typedef vector<RefPtr<ParticleEmitter> > VEC_EMITTER;
 	VEC_EMITTER m_vecEmitter;
 
-	typedef vector<RefPtr<CParticleAffector> > VEC_AFFECTOR;
+	typedef vector<RefPtr<ParticleAffector> > VEC_AFFECTOR;
 	VEC_AFFECTOR m_vecAffectors;
 
 	LST_PARTICLE m_lstParticles;
@@ -250,6 +250,6 @@ private:
 	friend class CRenderProbe;
 };
 
-RefPtr<CParticleSystem> CreateParticleSystem();
+RefPtr<ParticleSystem> CreateParticleSystem();
 
 }

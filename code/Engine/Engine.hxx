@@ -22,6 +22,7 @@ namespace ma
 
 		g_pArchiveManager = new ArchiveManager();
 		g_pMeshManager = new ResourceSystem<MeshData>();
+		g_pMaterialManager = new ResourceSystem<Material>();
 		g_pXmlFileManager = new ResourceSystem<XmlFile>();
 		g_pTextureManager = new TextureManager();
 		g_pShaderManager = new ShaderManager();
@@ -42,6 +43,7 @@ namespace ma
 		SAFE_DELETE(g_pParameterManager);
 
 		SAFE_DELETE(g_pMeshManager); 
+		SAFE_DELETE(g_pMaterialManager);
 		SAFE_DELETE(g_pXmlFileManager);
 		SAFE_DELETE(g_pTextureManager);
 		SAFE_DELETE(g_pShaderManager); 
@@ -89,6 +91,7 @@ namespace ma
 		g_pRenderSystem->Shoutdown();
 		
 		g_pMeshManager->Clear();
+		g_pMaterialManager->Clear();
 		g_pXmlFileManager->Clear();
 		g_pTextureManager->Clear();
 		g_pShaderManager->Clear();

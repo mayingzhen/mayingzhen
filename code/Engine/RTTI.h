@@ -13,10 +13,10 @@ namespace ma
 		RenderState::RegisterAttribute();
 		Technique::RegisterAttribute();
 
-		CParticleSystem::RegisterAttribute();
-		CParticleEmitter::RegisterAttribute();
-		CParticlePointEmitter::RegisterAttribute();
-		CParticleSubUVAffector::RegisterAttribute();
+		ParticleSystem::RegisterAttribute();
+		ParticleEmitter::RegisterAttribute();
+		ParticlePointEmitter::RegisterAttribute();
+		ParticleSubUVAffector::RegisterAttribute();
 	}
 
 	void EngineRTTIShutdown()

@@ -1,4 +1,7 @@
-<CParticleSystem ClassName="CParticleSystem">
+<ParticleSystem ClassName="ParticleSystem">
+	<Attribute Name="FastForward" Type="Vector2" Value="0 0.1"/>
+	<Attribute Name="MaxParticles" Type="UINT" Value="30"/>
+	<Attribute Name="BillboardType" Type="string" Value="AlignViewPlane"/>
 	<Attribute Name="MtlPath" Type="string" Value="particle/money.mtl"/>
 	<Emitter ClassName="ParticlePointEmitter">
 		<Attribute Name="Direction" Type="Vector3" Value="0 0 1"/>
@@ -14,5 +17,5 @@
 		<Attribute Name="Cycles" Type="int" Value="4"/>
 		<Attribute Name="FixedTile" Type="bool" Value="false"/>
 	</Affector>
-</CParticleSystem>
+</ParticleSystem>
 

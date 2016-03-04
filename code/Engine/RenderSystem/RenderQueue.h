@@ -5,25 +5,25 @@
 
 namespace ma
 {
-	class RenderComponent;
+	class BatchRenderable;
 
 	enum RenderListType
 	{
 		RL_Mesh,
 		RL_MeshTrans,
 		RL_Particle,
-		RL_TerrainBody,
-		RL_TerrainBorder,
-		RL_TerrainSkirt,
+		RL_Terrain,
 		RL_Count,
 	};
 
 	class RenderQueue
 	{
 	public:
+		RenderQueue();
+
+		~RenderQueue();
+
 		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
-		
-		void					SortRenderObjList(RenderListType eRLType);
 
 		void					RenderObjList(RenderListType eRLType);
 
@@ -35,8 +35,7 @@ namespace ma
 		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
 	
 	private:
-		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
-		VEC_RENDERABLE	m_arrRenderList[RL_Count];
+		BatchRenderable*		m_arrRenderList[RL_Count];
 	};
 }
 

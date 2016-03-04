@@ -4,21 +4,21 @@
 namespace ma
 {
 
-	CParticleRotationPivotAffector::CParticleRotationPivotAffector()
+	ParticleRotationPivotAffector::ParticleRotationPivotAffector()
 		:mPivotPoint(Vector3::ZERO), mFinalPivotPoint(Vector3::ZERO), mSpeed(Vector3::UNIT_SCALE)
 	{
 		m_matParent = Matrix4::IDENTITY;
 	}
 
-	CParticleRotationPivotAffector::~CParticleRotationPivotAffector(void)
+	ParticleRotationPivotAffector::~ParticleRotationPivotAffector(void)
 	{
 	}
 
-    void CParticleRotationPivotAffector::Reset()
+    void ParticleRotationPivotAffector::Reset()
     {
     }
 
-	void CParticleRotationPivotAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+	void ParticleRotationPivotAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 	{
 		if( !m_bEnabled )
 			return;
@@ -37,8 +37,8 @@ namespace ma
 		}
 	}
 
-	RefPtr<CParticleRotationPivotAffector> CreateRotationPivotAffector()
+	RefPtr<ParticleRotationPivotAffector> CreateRotationPivotAffector()
 	{
-		return new CParticleRotationPivotAffector();
+		return new ParticleRotationPivotAffector();
 	}
 }

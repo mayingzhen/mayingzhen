@@ -5,17 +5,17 @@ namespace ma
 {
 
 
-CParticleColourAffector::CParticleColourAffector()
-: mTargetColor(ColourValue::ZERO), CParticleAffector()
+ParticleColourAffector::ParticleColourAffector()
+: mTargetColor(ColourValue::ZERO), ParticleAffector()
 {
 	mFadeOutTime = 1.f;
 }
 
-CParticleColourAffector::~CParticleColourAffector(void)
+ParticleColourAffector::~ParticleColourAffector(void)
 {
 }
 
-void CParticleColourAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleColourAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if (!m_bEnabled)
 		return;
@@ -40,8 +40,8 @@ void CParticleColourAffector::Affect( Real now, Real timediff, LST_PARTICLE& lst
 	}
 }
 
-RefPtr<CParticleColourAffector> CreateColourAffector()
+RefPtr<ParticleColourAffector> CreateColourAffector()
 {
-	return new CParticleColourAffector();
+	return new ParticleColourAffector();
 }
 }

@@ -55,6 +55,9 @@
 
 #include "Engine/RenderSystem/RenderSystem.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
+#include "Engine/RenderSystem/BatchRenderable.hxx"
+#include "Engine/RenderSystem/BatchParticleRenderable.hxx"
+#include "Engine/RenderSystem/BatchTerrainRenderable.hxx"
 #include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/RenderContext.hxx"
 #include "Engine/RenderSystem/DeviceCapabilities.hxx"

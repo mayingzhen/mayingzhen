@@ -4,16 +4,16 @@
 namespace ma
 {
 
-CParticleVortexAffector::CParticleVortexAffector()
+ParticleVortexAffector::ParticleVortexAffector()
 : mRotateSpeed(1.f), mRotateVector(Vector3::UNIT_Z)
 {
 }
 
-CParticleVortexAffector::~CParticleVortexAffector(void)
+ParticleVortexAffector::~ParticleVortexAffector(void)
 {
 }
 
-void CParticleVortexAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles)
+void ParticleVortexAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles)
 {
 	if( !m_bEnabled )
 		return;
@@ -26,8 +26,8 @@ void CParticleVortexAffector::Affect( Real now, Real timediff, LST_PARTICLE& lst
 	}
 }
 
-RefPtr<CParticleVortexAffector> CreateVortexAffector()
+RefPtr<ParticleVortexAffector> CreateVortexAffector()
 {
-	return new CParticleVortexAffector();
+	return new ParticleVortexAffector();
 }
 }

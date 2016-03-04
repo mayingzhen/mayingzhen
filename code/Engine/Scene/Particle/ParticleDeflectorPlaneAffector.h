@@ -12,21 +12,18 @@
 namespace ma
 {
 
-class  CParticleDeflectorPlaneAffector : public CParticleAffector
+class  ParticleDeflectorPlaneAffector : public ParticleAffector
 {
 public:
-	CParticleDeflectorPlaneAffector(void);
-	~CParticleDeflectorPlaneAffector(void);
+	ParticleDeflectorPlaneAffector(void);
+	~ParticleDeflectorPlaneAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_DEFLECTOR_PLANE; }
 
     virtual void SetParentMatrix(const Matrix4& mat){m_matParent = mat;m_vFinalPlanePoint = mat*mPlanePoint;}
 	// ---------------------------------------------------------------------
@@ -63,5 +60,5 @@ protected:
     Matrix4 m_matParent;
 };
 
- RefPtr<CParticleDeflectorPlaneAffector> CreateDeflectorPlaneAffector();
+ RefPtr<ParticleDeflectorPlaneAffector> CreateDeflectorPlaneAffector();
 }

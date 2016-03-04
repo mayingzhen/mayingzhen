@@ -4,22 +4,22 @@
 namespace ma
 {
 
-CParticleAreaEmitter::CParticleAreaEmitter(void)
+ParticleAreaEmitter::ParticleAreaEmitter(void)
 {
 	mUp = Vector3::UNIT_Y;
 	this->SetSize(Vector3(1,1,1));
 }
 
-CParticleAreaEmitter::~CParticleAreaEmitter(void)
+ParticleAreaEmitter::~ParticleAreaEmitter(void)
 {
 }
 
 // ---------------------------------------------------------------------
-// Inherite from CParticleEmitter
+// Inherite from ParticleEmitter
 // ---------------------------------------------------------------------
-void CParticleAreaEmitter::SetDirection( const Vector3& newDirection )
+void ParticleAreaEmitter::SetDirection( const Vector3& newDirection )
 {
-	CParticleEmitter::SetDirection(newDirection);
+	ParticleEmitter::SetDirection(newDirection);
 
 	// Generate an up vector (any will do)
 	mUp = mDirection.perpendicular();
@@ -28,7 +28,7 @@ void CParticleAreaEmitter::SetDirection( const Vector3& newDirection )
 	this->GenAreaAxes();
 }
 
-void CParticleAreaEmitter::SetSize( const Vector3& size )
+void ParticleAreaEmitter::SetSize( const Vector3& size )
 {
 	mSize = size;
 	this->GenAreaAxes();
@@ -37,7 +37,7 @@ void CParticleAreaEmitter::SetSize( const Vector3& size )
 // ---------------------------------------------------------------------
 // Self
 // ---------------------------------------------------------------------
-void CParticleAreaEmitter::GenAreaAxes( void )
+void ParticleAreaEmitter::GenAreaAxes( void )
 {
 	Vector3 mLeft = mUp.crossProduct(mDirection);
 

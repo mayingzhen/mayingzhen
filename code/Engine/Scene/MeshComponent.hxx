@@ -41,7 +41,7 @@ namespace ma
 
 	const char*	 MeshComponent::GetMaterialFile() const
 	{
-		return m_pMaterial ? m_pMaterial->GetXMLFile()->GetResPath() : NULL;
+		return m_pMaterial ? m_pMaterial->GetResPath() : NULL;
 	}
 
 	void MeshComponent::SetMaterialFile(const char* pFile)

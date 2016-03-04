@@ -37,7 +37,7 @@ namespace ma
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
 
-		pMaterial->SaveToXML(pMatPath);
+		pMaterial->SaveToFile(pMatPath);
 	}
 
 }

@@ -4,17 +4,17 @@
 namespace ma
 {
 
-CParticleRotationAffector::CParticleRotationAffector()
+ParticleRotationAffector::ParticleRotationAffector()
 		:mMinStart(0.f), mMaxStart(0.f), mMinSpeed(0.f), mMaxSpeed(0.f)
 {
 }
 
-CParticleRotationAffector::~CParticleRotationAffector(void)
+ParticleRotationAffector::~ParticleRotationAffector(void)
 {
 }
 
 
-void CParticleRotationAffector::Init( SParticle* particlearray, uint32 count )
+void ParticleRotationAffector::Init( SParticle* particlearray, uint32 count )
 {
 	if( !m_bEnabled )
 		return;
@@ -30,7 +30,7 @@ void CParticleRotationAffector::Init( SParticle* particlearray, uint32 count )
 	}
 }
 
-void CParticleRotationAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleRotationAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -42,8 +42,8 @@ void CParticleRotationAffector::Affect( Real now, Real timediff, LST_PARTICLE& l
 	}
 }
 
- RefPtr<CParticleRotationAffector> CreateRotationAffector()
+ RefPtr<ParticleRotationAffector> CreateRotationAffector()
 {
-	return new CParticleRotationAffector();
+	return new ParticleRotationAffector();
 }
 }

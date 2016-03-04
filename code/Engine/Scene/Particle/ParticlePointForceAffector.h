@@ -5,21 +5,18 @@ namespace ma
 {
 
 //! Particle Affector for affecting direction of particle
-class  CParticlePointForceAffector : public CParticleAffector
+class  ParticlePointForceAffector : public ParticleAffector
 {
 public:
-	CParticlePointForceAffector();
-	~CParticlePointForceAffector(void);
+	ParticlePointForceAffector();
+	~ParticlePointForceAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_POINT_FORCE; }
 
     virtual void SetParentMatrix(const Matrix4& mat){m_matParent = mat;mFinalPoint = m_matParent*mPoint;}
     virtual void SetParentScale(const Vector3& scale){m_vParentScale = scale;}
@@ -79,5 +76,5 @@ private:
 	ForceApplication mForceApplication;
 };
 
-RefPtr<CParticlePointForceAffector> CreatePointForceAffector();
+RefPtr<ParticlePointForceAffector> CreatePointForceAffector();
 }

@@ -290,7 +290,7 @@ namespace ma
     //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 
-CParticleMeshSurfaceEmitter::CParticleMeshSurfaceEmitter(void)
+ParticleMeshSurfaceEmitter::ParticleMeshSurfaceEmitter(void)
 {
     mScale = Vector3::UNIT_SCALE;
     mRotate = Quaternion::IDENTITY;
@@ -299,12 +299,12 @@ CParticleMeshSurfaceEmitter::CParticleMeshSurfaceEmitter(void)
     mDistribution = MSD_HETEROGENEOUS_2;
 }
 
-CParticleMeshSurfaceEmitter::~CParticleMeshSurfaceEmitter(void)
+ParticleMeshSurfaceEmitter::~ParticleMeshSurfaceEmitter(void)
 {
     SAFE_DELETE(mMeshInfo);
 }
 
-int CParticleMeshSurfaceEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleMeshSurfaceEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -360,30 +360,30 @@ int CParticleMeshSurfaceEmitter::Emitt( Real now, Real timeSinceLastCall, SParti
     return mParticles.size();
 }
 
-void CParticleMeshSurfaceEmitter::SetPos( const Vector3& pos )
+void ParticleMeshSurfaceEmitter::SetPos( const Vector3& pos )
 {
-    CParticleEmitter::SetPos(pos);
+    ParticleEmitter::SetPos(pos);
 }
 
-void CParticleMeshSurfaceEmitter::SetDirection( const Vector3& newDirection )
+void ParticleMeshSurfaceEmitter::SetDirection( const Vector3& newDirection )
 {
-    CParticleEmitter::SetDirection(newDirection);
+    ParticleEmitter::SetDirection(newDirection);
     mRotate = this->CalcRotate();
 }
 
-void CParticleMeshSurfaceEmitter::SetScale( const Vector3& vScale )
+void ParticleMeshSurfaceEmitter::SetScale( const Vector3& vScale )
 {
     mScale = vScale;
 }
 
-Quaternion CParticleMeshSurfaceEmitter::CalcRotate() const
+Quaternion ParticleMeshSurfaceEmitter::CalcRotate() const
 {
     Vector3 mUp = mDirection.perpendicular();
     Vector3 mLeft = mUp.crossProduct(mDirection);
     return Quaternion(mLeft.normalisedCopy(), mUp.normalisedCopy(), mDirection.normalisedCopy());
 }
 
-void CParticleMeshSurfaceEmitter::SetFile( const char* pszMesh )
+void ParticleMeshSurfaceEmitter::SetFile( const char* pszMesh )
 {
     if (m_strFile == pszMesh)
     {
@@ -394,7 +394,7 @@ void CParticleMeshSurfaceEmitter::SetFile( const char* pszMesh )
     
 }
 
-void CParticleMeshSurfaceEmitter::SetDistribution( MeshSurfaceDistribution eDistribution )
+void ParticleMeshSurfaceEmitter::SetDistribution( MeshSurfaceDistribution eDistribution )
 {
     mDistribution = eDistribution;
     if (mMeshInfo)
@@ -403,7 +403,7 @@ void CParticleMeshSurfaceEmitter::SetDistribution( MeshSurfaceDistribution eDist
     }
 }
 
-void CParticleMeshSurfaceEmitter::SetMesh( MESHEMITTER_VERTEX* rgVertices, uint32 nNumVertices, uint16* rgIndices, uint32 nNumIndices )
+void ParticleMeshSurfaceEmitter::SetMesh( MESHEMITTER_VERTEX* rgVertices, uint32 nNumVertices, uint16* rgIndices, uint32 nNumIndices )
 {
     m_vecVertices.clear();
     m_vecIndices.clear();
@@ -423,9 +423,9 @@ void CParticleMeshSurfaceEmitter::SetMesh( MESHEMITTER_VERTEX* rgVertices, uint3
     mMeshInfo = new MeshInfo(rgVertices, nNumVertices, rgIndices, nNumIndices, mDistribution);
 }
 
-RefPtr<CParticleMeshSurfaceEmitter> CreateMeshSurfaceEmitter()
+RefPtr<ParticleMeshSurfaceEmitter> CreateMeshSurfaceEmitter()
 {
-    return new CParticleMeshSurfaceEmitter();
+    return new ParticleMeshSurfaceEmitter();
 }
 
 }

@@ -4,21 +4,21 @@
 namespace ma
 {
 
-CParticleAlignAffector::CParticleAlignAffector(void)
+ParticleAlignAffector::ParticleAlignAffector(void)
 {
 	mResize = false;
 	mMinAddLength = 0;
 	mMaxAddLength = 0;
 }
 
-CParticleAlignAffector::~CParticleAlignAffector(void)
+ParticleAlignAffector::~ParticleAlignAffector(void)
 {
 }
 
 // ---------------------------------------------------------------------
-// Inherite from CParticleAffector
+// Inherite from ParticleAffector
 // ---------------------------------------------------------------------
-void CParticleAlignAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleAlignAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -63,9 +63,9 @@ void CParticleAlignAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstP
 // ---------------------------------------------------------------------
 
 
-RefPtr<CParticleAlignAffector> CreateAlignAffector()
+RefPtr<ParticleAlignAffector> CreateAlignAffector()
 {
-	return new CParticleAlignAffector;
+	return new ParticleAlignAffector;
 }
 
 }

@@ -4,16 +4,16 @@
 namespace ma
 {
 
-CParticleVelocityDampingAffector::CParticleVelocityDampingAffector(void)
+ParticleVelocityDampingAffector::ParticleVelocityDampingAffector(void)
 : m_vDampingSpeed(Vector3::ZERO)
 {
 }
 
-CParticleVelocityDampingAffector::~CParticleVelocityDampingAffector(void)
+ParticleVelocityDampingAffector::~ParticleVelocityDampingAffector(void)
 {
 }
 
-void CParticleVelocityDampingAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleVelocityDampingAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
     if( !m_bEnabled )
         return;
@@ -38,9 +38,9 @@ void CParticleVelocityDampingAffector::Affect( Real now, Real timediff, LST_PART
     }
 }
 
-RefPtr<CParticleVelocityDampingAffector> CreateVelocityDampingAffector()
+RefPtr<ParticleVelocityDampingAffector> CreateVelocityDampingAffector()
 {
-    return new CParticleVelocityDampingAffector;
+    return new ParticleVelocityDampingAffector;
 }
 
 }

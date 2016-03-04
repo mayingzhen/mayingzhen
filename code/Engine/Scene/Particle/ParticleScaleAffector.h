@@ -4,21 +4,18 @@
 namespace ma
 {
 
-class  CParticleScaleAffector : public CParticleAffector
+class  ParticleScaleAffector : public ParticleAffector
 {
 public:
-	CParticleScaleAffector();
-	~CParticleScaleAffector(void);
+	ParticleScaleAffector();
+	~ParticleScaleAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_SCALE; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -41,6 +38,6 @@ To add this affector as new affector of this particle system,
 just call addAffector(). Note that you'll have to drop() the
 returned pointer, after you don't need it any more, see
 IReferenceCounted::drop() for more information. */
- RefPtr<CParticleScaleAffector> CreateScaleAffector();
+ RefPtr<ParticleScaleAffector> CreateScaleAffector();
 
 }

@@ -4,23 +4,20 @@
 namespace ma
 {
 
-class CParticleLineDriftAffector : public CParticleAffector
+class ParticleLineDriftAffector : public ParticleAffector
 {
 public:
-	CParticleLineDriftAffector(void);
-	~CParticleLineDriftAffector(void);
+	ParticleLineDriftAffector(void);
+	~ParticleLineDriftAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
     virtual void Reset();
 
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_LINE_DRIFT; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -53,5 +50,5 @@ private:
 	Real mTimeSinceLastUpdate;
 };
 
-RefPtr<CParticleLineDriftAffector> CreateLineDriftAffector();
+RefPtr<ParticleLineDriftAffector> CreateLineDriftAffector();
 }

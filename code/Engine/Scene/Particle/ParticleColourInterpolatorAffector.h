@@ -4,23 +4,20 @@
 namespace ma
 {
 
-class  CParticleColourInterpolatorAffector : public CParticleAffector
+class  ParticleColourInterpolatorAffector : public ParticleAffector
 {
 public:
 	#define MAX_STAGES 6 
 
-	CParticleColourInterpolatorAffector(void);
-	~CParticleColourInterpolatorAffector(void);
+	ParticleColourInterpolatorAffector(void);
+	~ParticleColourInterpolatorAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_COLOUR_INTERPOLATOR; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -42,5 +39,5 @@ private:
 	Real					mTimeAdj[MAX_STAGES];
 };
 
- RefPtr<CParticleColourInterpolatorAffector> CreateColourInterpolatorAffector();
+ RefPtr<ParticleColourInterpolatorAffector> CreateColourInterpolatorAffector();
 }

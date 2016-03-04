@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticlePointForceAffector::CParticlePointForceAffector()
+ParticlePointForceAffector::ParticlePointForceAffector()
 :mPoint(Vector3::ZERO), mFinalPoint(Vector3::ZERO), mSpeed(1.f), mAffectX(true), mAffectY(true), mAffectZ(true),
 mAttract(true), m_matParent(Matrix4::IDENTITY), m_vParentScale(Vector3::UNIT_SCALE)
 {
@@ -13,11 +13,11 @@ mAttract(true), m_matParent(Matrix4::IDENTITY), m_vParentScale(Vector3::UNIT_SCA
     mDuration = 999999.f;
 }
 
-CParticlePointForceAffector::~CParticlePointForceAffector(void)
+ParticlePointForceAffector::~ParticlePointForceAffector(void)
 {
 }
 
-void CParticlePointForceAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticlePointForceAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if (!m_bEnabled)
 		return;
@@ -63,8 +63,8 @@ void CParticlePointForceAffector::Affect( Real now, Real timediff, LST_PARTICLE&
 	}
 }
 
- RefPtr<CParticlePointForceAffector> CreatePointForceAffector()
+ RefPtr<ParticlePointForceAffector> CreatePointForceAffector()
 {
-	return new CParticlePointForceAffector();
+	return new ParticlePointForceAffector();
 }
 }

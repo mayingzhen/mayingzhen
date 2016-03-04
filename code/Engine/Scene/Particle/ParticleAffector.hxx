@@ -3,12 +3,12 @@
 namespace ma
 {
 
-CParticleAffector::CParticleAffector(void)
+ParticleAffector::ParticleAffector(void)
 {
 	m_bEnabled = true;
 }
 
-CParticleAffector::~CParticleAffector(void)
+ParticleAffector::~ParticleAffector(void)
 {
 }
 

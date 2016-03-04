@@ -51,13 +51,8 @@ namespace ma
 		}
 
 		{
-			RENDER_PROFILE(RL_TerrainBody);
-			pRenderQueue->RenderObjList(RL_TerrainBody);
-		}
-
-		{
-			RENDER_PROFILE(RL_TerrainBorder);
-			pRenderQueue->RenderObjList(RL_TerrainBorder);
+			RENDER_PROFILE(RL_Terrain);
+			pRenderQueue->RenderObjList(RL_Terrain);
 		}
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);

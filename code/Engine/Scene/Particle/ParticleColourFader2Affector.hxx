@@ -4,17 +4,17 @@
 namespace ma
 {
 
-CParticleColourFader2Affector::CParticleColourFader2Affector(void)
+ParticleColourFader2Affector::ParticleColourFader2Affector(void)
 {
 	mTimeChange = 0;
 	mColourAdder0 = mColourAdder1 = Vector4::ZERO;
 }
 
-CParticleColourFader2Affector::~CParticleColourFader2Affector(void)
+ParticleColourFader2Affector::~ParticleColourFader2Affector(void)
 {
 }
 
-void CParticleColourFader2Affector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleColourFader2Affector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -38,9 +38,9 @@ void CParticleColourFader2Affector::Affect( Real now, Real timediff, LST_PARTICL
 	}
 }
 
-RefPtr<CParticleColourFader2Affector> CreateColourFader2Affector()
+RefPtr<ParticleColourFader2Affector> CreateColourFader2Affector()
 {
-	return new CParticleColourFader2Affector;
+	return new ParticleColourFader2Affector;
 }
 
 }

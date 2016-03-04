@@ -4,21 +4,18 @@
 namespace ma
 {
 
-class CParticleAlignAffector : public CParticleAffector
+class ParticleAlignAffector : public ParticleAffector
 {
 public:
-	CParticleAlignAffector(void);
-	~CParticleAlignAffector(void);
+	ParticleAlignAffector(void);
+	~ParticleAlignAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_ALIGN; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -45,5 +42,5 @@ private:
 	Real mMaxAddLength;
 };
 
-RefPtr<CParticleAlignAffector> CreateAlignAffector();
+RefPtr<ParticleAlignAffector> CreateAlignAffector();
 }

@@ -4,22 +4,19 @@
 namespace ma
 {
 
-class  CParticleScaleInterpolatorAffector : public CParticleAffector
+class  ParticleScaleInterpolatorAffector : public ParticleAffector
 {
 	#define MAX_STAGES 6
 public:
-	CParticleScaleInterpolatorAffector(void);
-	~CParticleScaleInterpolatorAffector(void);
+	ParticleScaleInterpolatorAffector(void);
+	~ParticleScaleInterpolatorAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_SCALE_INTERPOLATOR; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -41,5 +38,5 @@ private:
 	Vector2 mScaleAdj[MAX_STAGES];
 };
 
- RefPtr<CParticleScaleInterpolatorAffector> CreateScaleInterpolatorAffector();
+ RefPtr<ParticleScaleInterpolatorAffector> CreateScaleInterpolatorAffector();
 }

@@ -1061,6 +1061,30 @@
 			Name="RenderSystem"
 			>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchParticleRenderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchParticleRenderable.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchRenderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchRenderable.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\BatchTerrainRenderable.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\RenderSystem\DeviceCapabilities.h"
 				>
 			</File>

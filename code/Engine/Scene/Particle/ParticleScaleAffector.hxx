@@ -4,16 +4,16 @@
 namespace ma
 {
 
-CParticleScaleAffector::CParticleScaleAffector()
+ParticleScaleAffector::ParticleScaleAffector()
 :mScaleAdder(FloatSize(1.0f, 1.0f))
 {
 }
 
-CParticleScaleAffector::~CParticleScaleAffector(void)
+ParticleScaleAffector::~ParticleScaleAffector(void)
 {
 }
 
-void CParticleScaleAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleScaleAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -26,8 +26,8 @@ void CParticleScaleAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstP
 	}
 }
 
-RefPtr<CParticleScaleAffector> CreateScaleAffector()
+RefPtr<ParticleScaleAffector> CreateScaleAffector()
 {
-	return new CParticleScaleAffector();
+	return new ParticleScaleAffector();
 }
 }

@@ -253,6 +253,8 @@ namespace ma
 		return true;
 	}
 
+	ResourceSystem<Material>* g_pMaterialManager = NULL;
+
 	RefPtr<Material> CreateMaterial()
 	{
 		return new Material();
@@ -260,9 +262,7 @@ namespace ma
 
 	RefPtr<Material> CreateMaterial(const char* pszPath)
 	{
-		RefPtr<Material> pMaterial = new Material();
-		pMaterial->LoadFromXML(pszPath);
-		return pMaterial;
+		return g_pMaterialManager->CreateResource(pszPath);
 	}
 
 

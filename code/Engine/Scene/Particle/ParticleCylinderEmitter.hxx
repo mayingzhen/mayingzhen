@@ -3,14 +3,14 @@
 
 namespace ma
 {
-CParticleCylinderEmitter::CParticleCylinderEmitter()
+ParticleCylinderEmitter::ParticleCylinderEmitter()
 {
 }
-CParticleCylinderEmitter::~CParticleCylinderEmitter(void)
+ParticleCylinderEmitter::~ParticleCylinderEmitter(void)
 {
 }
 
-int CParticleCylinderEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleCylinderEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -68,8 +68,8 @@ int CParticleCylinderEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle
 
 	return mParticles.size();
 }
- RefPtr<CParticleCylinderEmitter> CreateCylinderEmitter()
+ RefPtr<ParticleCylinderEmitter> CreateCylinderEmitter()
 {
-	return new CParticleCylinderEmitter();
+	return new ParticleCylinderEmitter();
 }
 }

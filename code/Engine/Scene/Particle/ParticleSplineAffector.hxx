@@ -4,15 +4,15 @@
 namespace ma
 {
 
-CParticleSplineAffector::CParticleSplineAffector(void)
+ParticleSplineAffector::ParticleSplineAffector(void)
 {
 }
 
-CParticleSplineAffector::~CParticleSplineAffector(void)
+ParticleSplineAffector::~ParticleSplineAffector(void)
 {
 }
 
-void CParticleSplineAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleSplineAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -36,9 +36,9 @@ void CParticleSplineAffector::Affect( Real now, Real timediff, LST_PARTICLE& lst
 	}
 }
 
-RefPtr<CParticleSplineAffector> CreateSplineAffector()
+RefPtr<ParticleSplineAffector> CreateSplineAffector()
 {
-	return new CParticleSplineAffector;
+	return new ParticleSplineAffector;
 }
 
 }

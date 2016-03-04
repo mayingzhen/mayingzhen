@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleColourInterpolatorAffector::CParticleColourInterpolatorAffector(void)
+ParticleColourInterpolatorAffector::ParticleColourInterpolatorAffector(void)
 {
     m_nCycles = 1;
 	for (int i = 0;i< MAX_STAGES;++i)
@@ -14,11 +14,11 @@ CParticleColourInterpolatorAffector::CParticleColourInterpolatorAffector(void)
 	}
 }
 
-CParticleColourInterpolatorAffector::~CParticleColourInterpolatorAffector(void)
+ParticleColourInterpolatorAffector::~ParticleColourInterpolatorAffector(void)
 {
 }
 
-void CParticleColourInterpolatorAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleColourInterpolatorAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -63,8 +63,8 @@ void CParticleColourInterpolatorAffector::Affect( Real now, Real timediff, LST_P
 	}
 }
 
-RefPtr<CParticleColourInterpolatorAffector> CreateColourInterpolatorAffector()
+RefPtr<ParticleColourInterpolatorAffector> CreateColourInterpolatorAffector()
 {
-	return new CParticleColourInterpolatorAffector();
+	return new ParticleColourInterpolatorAffector();
 }
 }

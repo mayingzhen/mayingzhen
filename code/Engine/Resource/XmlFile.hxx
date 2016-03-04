@@ -28,13 +28,43 @@ namespace ma
 			return false;
 		}
 		
-		//m_pDataStream = NULL;
+		Improt(xmlRoot);
 
 		m_eResState = ResInited;
 
 		IsReady();
 
 		return true;
+	}
+
+	bool XmlFile::SaveToFile(const char* pszFile)
+	{
+		string strFullName = GetArchiveMananger()->GetSaveDir();
+		strFullName += pszFile;
+		strFullName = StringUtil::standardiseDir(strFullName);
+
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string(this->GetClassName()));
+		this->Export(pRoot,doc);
+		doc.append_node(pRoot);
+		std::ofstream out(strFullName.c_str(), ios::out|ios::binary);
+		out << doc;
+
+		return true;
+	}
+
+	bool XmlFile::Improt(rapidxml::xml_node<>* pXmlElem)
+	{
+		//ASSERT(false);
+
+		return false;
+	}
+
+	bool XmlFile::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
+	{
+		//ASSERT(false);
+
+		return false;
 	}
 
 	ResourceSystem<XmlFile>* g_pXmlFileManager = NULL;

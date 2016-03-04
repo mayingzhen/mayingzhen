@@ -5,16 +5,16 @@ namespace ma
 {
 
 
-CParticleRingEmitter::CParticleRingEmitter()
+ParticleRingEmitter::ParticleRingEmitter()
 : mInnerRatio(0.5f, 0.5f)
 {
 }
 
-CParticleRingEmitter::~CParticleRingEmitter(void)
+ParticleRingEmitter::~ParticleRingEmitter(void)
 {
 }
 
-int CParticleRingEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleRingEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -66,8 +66,8 @@ int CParticleRingEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& o
 	return mParticles.size();
 }
 
-RefPtr<CParticleRingEmitter> CreateRingEmitter()
+RefPtr<ParticleRingEmitter> CreateRingEmitter()
 {
-	return new CParticleRingEmitter();
+	return new ParticleRingEmitter();
 }
 }

@@ -12,21 +12,18 @@ namespace ma
 		are applied to each axis of the direction vector.
 		The parameter scope can be used to limit the effect to a certain percentage of the particles.
 	*/
-class  CParticleDirectionRandomiserAffector : public CParticleAffector
+class  ParticleDirectionRandomiserAffector : public ParticleAffector
 {
 public:
-	CParticleDirectionRandomiserAffector(void);
-	~CParticleDirectionRandomiserAffector(void);
+	ParticleDirectionRandomiserAffector(void);
+	~ParticleDirectionRandomiserAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_DIRECTION_RANDOMISER; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -57,5 +54,5 @@ protected:
 	bool mKeepVelocity;
 };
 
- RefPtr<CParticleDirectionRandomiserAffector> CreateDirectionRandomiserAffector();
+ RefPtr<ParticleDirectionRandomiserAffector> CreateDirectionRandomiserAffector();
 }
