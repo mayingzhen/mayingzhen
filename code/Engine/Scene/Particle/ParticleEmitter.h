@@ -38,7 +38,9 @@ public:
 	CParticleEmitter();
 	virtual ~CParticleEmitter(void);
 
-	void RegisterAttribute();
+	DECL_OBJECT(CParticleEmitter);
+
+	static void RegisterAttribute();
 
     virtual void Reset();
 

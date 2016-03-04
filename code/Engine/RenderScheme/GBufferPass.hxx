@@ -47,50 +47,17 @@ namespace ma
 
 		{
 			RENDER_PROFILE(RL_Solid);
-
-			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_Solid);
-			for (UINT i = 0; i < nSolid; ++i)
-			{
-				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_Solid, i);
-				if (pRenderObj == NULL)
-					continue;
-
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
-
-				pRenderObj->Render(pTech);
-			}
+			pRenderQueue->RenderObjList(RL_Solid);
 		}
 
 		{
 			RENDER_PROFILE(RL_TerrainBody);
-
-			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBody);
-			for (UINT i = 0; i < nSolid; ++i)
-			{
-				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBody,i);
-				if (pRenderObj == NULL)
-					continue; 
-
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
-
-				pRenderObj->Render(pTech);
-			}
+			pRenderQueue->RenderObjList(RL_TerrainBody);
 		}
 
 		{
 			RENDER_PROFILE(RL_TerrainBorder);
-
-			UINT nSolid = pRenderQueue->GetRenderObjNumber(RL_TerrainBorder);
-			for (UINT i = 0; i < nSolid; ++i)
-			{
-				Renderable* pRenderObj = pRenderQueue->GetRenderObjByIndex(RL_TerrainBorder,i);
-				if (pRenderObj == NULL)
-					continue; 
-
-				Technique* pTech = pRenderObj->m_pSubMaterial->GetShadingTechnqiue();
-
-				pRenderObj->Render(pTech);
-			}
+			pRenderQueue->RenderObjList(RL_TerrainBorder);
 		}
 
 		GetRenderSystem()->SetRenderTarget(pPreTarget0,0);

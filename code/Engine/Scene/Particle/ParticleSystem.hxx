@@ -40,6 +40,13 @@ CParticleSystem::~CParticleSystem(void)
 	this->RemoveAllAffectors();
 }
 
+void CParticleSystem::RegisterAttribute()
+{
+	REGISTER_OBJECT(CParticleSystem,CreateParticleSystem); 
+
+	ACCESSOR_ATTRIBUTE(CParticleSystem, "MtlPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
+}
+
 
 void CParticleSystem::Update()
 {
@@ -242,8 +249,6 @@ void CParticleSystem::ShowCPUPoint(Camera* pCamera)
 		m_pCPURenderable->vertices[2+idx].blend = particle.nBlend;
 		m_pCPURenderable->vertices[3+idx].blend = particle.nBlend;
 	
-
-		Real id = 1.f;
 		if (m_eBillboardType == BBT_AlignViewPlane)
 		{
 			float fHalfWidth = fParticleWidth/2;
@@ -255,38 +260,30 @@ void CParticleSystem::ShowCPUPoint(Camera* pCamera)
 			if (particle.rotation == Radian(0.f))
 			{
 				m_pCPURenderable->vertices[0+idx].pos = vPPos + horizontal + vertical;
-				m_pCPURenderable->vertices[0+idx].pos.w = id;
 				m_pCPURenderable->vertices[0+idx].color = argb;
 
 				m_pCPURenderable->vertices[1+idx].pos = vPPos + horizontal - vertical;
-				m_pCPURenderable->vertices[1+idx].pos.w = id;
 				m_pCPURenderable->vertices[1+idx].color = argb;
 
 				m_pCPURenderable->vertices[2+idx].pos = vPPos - horizontal - vertical;
-				m_pCPURenderable->vertices[2+idx].pos.w = id;
 				m_pCPURenderable->vertices[2+idx].color = argb;
 
 				m_pCPURenderable->vertices[3+idx].pos = vPPos - horizontal + vertical;
-				m_pCPURenderable->vertices[3+idx].pos.w = id;
 				m_pCPURenderable->vertices[3+idx].color = argb;
 			}
 			else
 			{
 				Quaternion qRotate(particle.rotation, pCamera->GetForward());
 				m_pCPURenderable->vertices[0+idx].pos = vPPos + qRotate*(horizontal + vertical);
-				m_pCPURenderable->vertices[0+idx].pos.w = id;
 				m_pCPURenderable->vertices[0+idx].color = argb;
 
 				m_pCPURenderable->vertices[1+idx].pos = vPPos + qRotate*(horizontal - vertical);
-				m_pCPURenderable->vertices[1+idx].pos.w = id;
 				m_pCPURenderable->vertices[1+idx].color = argb;
 
 				m_pCPURenderable->vertices[2+idx].pos = vPPos + qRotate*(- horizontal - vertical);
-				m_pCPURenderable->vertices[2+idx].pos.w = id;
 				m_pCPURenderable->vertices[2+idx].color = argb;
 
 				m_pCPURenderable->vertices[3+idx].pos = vPPos + qRotate*(- horizontal + vertical);
-				m_pCPURenderable->vertices[3+idx].pos.w = id;
 				m_pCPURenderable->vertices[3+idx].color = argb;
 			}
 			
@@ -303,19 +300,15 @@ void CParticleSystem::ShowCPUPoint(Camera* pCamera)
 
 			float fHalfWidth = 0.5f * fParticleWidth;
 			m_pCPURenderable->vertices[0+idx].pos = vPPos + vX*fHalfWidth + vY*fParticleHeight;
-			m_pCPURenderable->vertices[0+idx].pos.w = id;
 			m_pCPURenderable->vertices[0+idx].color = argb;;
 
 			m_pCPURenderable->vertices[3+idx].pos = vPPos - vX*fHalfWidth + vY*fParticleHeight;
-			m_pCPURenderable->vertices[3+idx].pos.w = id;
 			m_pCPURenderable->vertices[3+idx].color = argb;
 
 			m_pCPURenderable->vertices[2+idx].pos = vPPos - vX*fHalfWidth;
-			m_pCPURenderable->vertices[2+idx].pos.w = id;
 			m_pCPURenderable->vertices[2+idx].color = argb;
 
 			m_pCPURenderable->vertices[1+idx].pos = vPPos + vX*fHalfWidth;
-			m_pCPURenderable->vertices[1+idx].pos.w = id;
 			m_pCPURenderable->vertices[1+idx].color = argb;
 		}
 		else
@@ -361,19 +354,15 @@ void CParticleSystem::ShowCPUPoint(Camera* pCamera)
 			}
 
 			m_pCPURenderable->vertices[0+idx].pos = vPPos + matBillboard*(horizontal + vertical);
-			m_pCPURenderable->vertices[0+idx].pos.w = id;
 			m_pCPURenderable->vertices[0+idx].color = argb;
 
 			m_pCPURenderable->vertices[1+idx].pos = vPPos + matBillboard*(horizontal - vertical);
-			m_pCPURenderable->vertices[1+idx].pos.w = id;
 			m_pCPURenderable->vertices[1+idx].color = argb;
 
 			m_pCPURenderable->vertices[2+idx].pos = vPPos + matBillboard*(- horizontal - vertical);
-			m_pCPURenderable->vertices[2+idx].pos.w = id;
 			m_pCPURenderable->vertices[2+idx].color = argb;
 
 			m_pCPURenderable->vertices[3+idx].pos = vPPos + matBillboard*(- horizontal + vertical);
-			m_pCPURenderable->vertices[3+idx].pos.w = id;
 			m_pCPURenderable->vertices[3+idx].color = argb;
 		}
 		
@@ -659,16 +648,6 @@ bool CParticleSystem::IsReady()
         m_pCPURenderable = new CParticleSystemRenderable(this);
 
         m_pCPURenderable->m_pSubMaterial = pMaterial;
-    
-		VertexElement element[5];
-		element[0] = VertexElement(0,0,DT_FLOAT4,DU_POSITION,0);
-		element[1] = VertexElement(0,16,DT_FLOAT2,DU_TEXCOORD,0);
-		element[2] = VertexElement(0,24,DT_FLOAT2,DU_TEXCOORD,1);
-		element[3] = VertexElement(0,32,DT_COLOR,DU_BLENDWEIGHT,0);
-		element[4] = VertexElement(0,36,DT_COLOR,DU_COLOR,1);
-		m_pCPURenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
-		
-		m_pCPURenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
 	}
     
     m_bOnLoadOver = true;
@@ -686,6 +665,16 @@ void CParticleSystem::SetMaterialSet(Material* pMaterialSet)
 
     m_bOnLoadOver= false;
     IsReady();
+}
+
+const char*	CParticleSystem::GetMaterialFile() const
+{
+	return m_pMaterialSet ? m_pMaterialSet->GetXMLFile()->GetResPath() : NULL;
+}
+
+void CParticleSystem::SetMaterialFile(const char* pFile)
+{
+	SetMaterialSet( CreateMaterial(pFile).get() );
 }
 
 
@@ -951,7 +940,7 @@ bool CParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, c
 
 bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 {
-	//Serializable::Improt(pXmlElem);
+	Serializable::Improt(pXmlElem);
 
 	rapidxml::xml_node<>* pXmlEmitter = pXmlElem->first_node("Emitter");
 	while(pXmlEmitter)
@@ -984,7 +973,7 @@ bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 
 bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 {
-	//Serializable::Export(pXmlElem,doc);
+	Serializable::Export(pXmlElem,doc);
 
 	for (UINT i = 0; i < m_vecEmitter.size(); ++i)
 	{
@@ -1014,25 +1003,9 @@ bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_docume
 RefPtr<CParticleSystem> CreateParticleSystem()
 {
 	RefPtr<CParticleSystem> p =  new CParticleSystem();
-// 	if(!p->Load())
-// 	{
-// 		ASSERT(false);
-// 		return NULL;
-// 	}
 
 	return p;
 }
 
-RefPtr<CParticleSystem> CreateParticleSystem(const char* pszPath)
-{
-	RefPtr<CParticleSystem> p =  new CParticleSystem();
-// 	if(!p->Load(pszPath))
-// 	{
-// 		ASSERT(false);
-// 		return NULL;
-// 	}
-
-	return p;
-}
 
 }

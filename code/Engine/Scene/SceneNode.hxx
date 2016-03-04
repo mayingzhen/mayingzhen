@@ -442,19 +442,16 @@ namespace ma
 
 	Vector3	SceneNode::GetForward()
 	{
-		//return GetTransformWS().m_qRot * Vector3::NEGATIVE_UNIT_Z;
 		return GetMatrixWS().GetColumn(1);
 	}
 
 	Vector3	SceneNode::GetRight()
 	{
-		//return GetTransformWS().m_qRot * Vector3::UNIT_X;
 		return GetMatrixWS().GetColumn(0);
 	}
 
 	Vector3	SceneNode::GetUp()
 	{
-		//return GetTransformWS().m_qRot * Vector3::UNIT_Z;
 		return GetMatrixWS().GetColumn(2);
 	}
 

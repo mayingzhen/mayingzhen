@@ -21,6 +21,16 @@ CParticleSubUVAffector::~CParticleSubUVAffector(void)
 {
 }
 
+void CParticleSubUVAffector::RegisterAttribute()
+{
+	REGISTER_OBJECT(CParticleSubUVAffector,CreateSubUVAffector);
+
+	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "XTile", GetXTile, SetXTile, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "YTile", GetYTile, SetYTile, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "Cycles", GetCycles, SetCycles, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "FixedTile", GetFixedTile, SetFixedTile, bool, false, AM_DEFAULT);
+}
+
 void CParticleSubUVAffector::Init(SParticle* particlearray, uint32 count)
 {
     if( !m_bEnabled )

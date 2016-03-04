@@ -20,6 +20,9 @@ namespace ma
  		m_pDeclaration = vertexFormat;
  		m_ePrimitiveType = primitiveType;
 
+		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
+		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
+
 		if (m_pDeclaration)
 		{
 			Resize(initialCapacity);
@@ -66,7 +69,6 @@ namespace ma
 		UINT vBytes = vertexCount * m_pDeclaration->GetStreanmStride();
 		memcpy(m_pVerticesPtr, vertices, vBytes);
 
-	    
 		// Copy index data.
 		if (m_bIndexed)
 		{
@@ -194,10 +196,12 @@ namespace ma
 		//UpdateVB IB
 		if (m_bIndexed)
 		{
-			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
+			//m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
+			m_pIndexBuffer->SetData((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC,false);
 		}
 
-		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
+		//m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
+		m_pVertexBuffer->SetData((uint8*)newVertices,vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC,false);
 
 		return true;
 	}

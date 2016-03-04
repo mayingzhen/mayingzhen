@@ -19,7 +19,7 @@ namespace ma
 		enum Type
 		{
 			Forward,
-			DeferredLighting,
+			DeferredShading,
 		};
 
 		RenderScheme(Scene* pScene);

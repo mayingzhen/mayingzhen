@@ -24,6 +24,9 @@ namespace ma
 	class AnimTreeNode : public Object
 	{
 	public:
+
+		DECL_OBJECT(AnimTreeNode)
+
 		static void			RegisterAttribute();
 
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;

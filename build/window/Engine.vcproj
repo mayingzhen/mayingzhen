@@ -600,10 +600,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBatch.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Engine\Scene\Particle\ParticleBoxEmitter.h"
 					>
 				</File>

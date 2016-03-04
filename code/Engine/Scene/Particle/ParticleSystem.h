@@ -21,6 +21,10 @@ public:
 
 	virtual ~CParticleSystem(void);
 
+	DECL_OBJECT(CParticleSystem);
+
+	static void	RegisterAttribute();
+
 	void Update();
 
 	void Show(Camera* pCamera);
@@ -142,6 +146,10 @@ public:
 	void SetMaterialSet(Material* pMaterialSet);
     Material* GetMaterialSet() const{return m_pMaterialSet.get();}
 
+	const char*	GetMaterialFile() const;
+	void SetMaterialFile(const char* pFile);
+
+
     // 时间快速推进多少秒，其中time为推进的总时间,interval为计算间隔时间(建议0.1)
 	const Vector2& GetFastForward() const{return mFastFarward;}
 	void SetFastForward(const Vector2& v){mFastFarward = v;}
@@ -229,11 +237,9 @@ private:
 	vector<SParticle*> m_vecArray;
 
 
-// ---------------------------------------------------------------------
-// Background Update
-// ---------------------------------------------------------------------
 private:
 	mutable CriticalSection m_csParallelUpdate;	
+
 // ---------------------------------------------------------------------
 // Background Loading
 // ---------------------------------------------------------------------
@@ -245,7 +251,5 @@ private:
 };
 
 RefPtr<CParticleSystem> CreateParticleSystem();
-
-RefPtr<CParticleSystem> CreateParticleSystem(const char* pszFile);
 
 }

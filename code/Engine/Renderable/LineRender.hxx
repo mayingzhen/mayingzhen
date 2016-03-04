@@ -17,7 +17,7 @@ namespace ma
 
 	void LineRender::Init()
 	{
-		gpLinTech = CreateTechnique("Line","default","default","COLOR");
+		gpLinTech = CreateTechnique("Line","line","line","");
 		
 		VertexElement element[2];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);

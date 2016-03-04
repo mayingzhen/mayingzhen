@@ -21,15 +21,18 @@ namespace ma
 	{
 	public:
 		void					AddRenderObj(RenderListType eRLType,Renderable* pRenderObj);	
-
-		UINT					GetRenderObjNumber(RenderListType eRLType);
-
-		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
 		
 		void					SortRenderObjList(RenderListType eRLType);
 
+		void					RenderObjList(RenderListType eRLType);
+
 		void					Clear();
 
+	private:
+		UINT					GetRenderObjNumber(RenderListType eRLType);
+
+		Renderable*				GetRenderObjByIndex(RenderListType eRLType,int index);
+	
 	private:
 		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
 		VEC_RENDERABLE	m_arrRenderList[RL_Count];

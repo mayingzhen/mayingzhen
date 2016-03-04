@@ -298,6 +298,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\d3d9\line.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\d3d9\line.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\d3d9\Particle.frag"
 				>
 			</File>
