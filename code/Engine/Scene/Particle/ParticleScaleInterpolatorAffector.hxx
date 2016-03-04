@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleScaleInterpolatorAffector::CParticleScaleInterpolatorAffector(void)
+ParticleScaleInterpolatorAffector::ParticleScaleInterpolatorAffector(void)
 {
     m_nCycles = 1;
 	for (int i = 0;i< MAX_STAGES;++i)
@@ -14,11 +14,11 @@ CParticleScaleInterpolatorAffector::CParticleScaleInterpolatorAffector(void)
 	}
 }
 
-CParticleScaleInterpolatorAffector::~CParticleScaleInterpolatorAffector(void)
+ParticleScaleInterpolatorAffector::~ParticleScaleInterpolatorAffector(void)
 {
 }
 
-void CParticleScaleInterpolatorAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleScaleInterpolatorAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -64,9 +64,9 @@ void CParticleScaleInterpolatorAffector::Affect( Real now, Real timediff, LST_PA
 	}
 }
 
-RefPtr<CParticleScaleInterpolatorAffector> CreateScaleInterpolatorAffector()
+RefPtr<ParticleScaleInterpolatorAffector> CreateScaleInterpolatorAffector()
 {
-	return new CParticleScaleInterpolatorAffector();
+	return new ParticleScaleInterpolatorAffector();
 }
 
 }

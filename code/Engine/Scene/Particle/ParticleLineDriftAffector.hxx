@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleLineDriftAffector::CParticleLineDriftAffector(void)
+ParticleLineDriftAffector::ParticleLineDriftAffector(void)
 {
 	mMaxDeviation = 1.f;
 	mEnd = Vector3::ZERO;
@@ -17,18 +17,18 @@ CParticleLineDriftAffector::CParticleLineDriftAffector(void)
 	mTimeSinceLastUpdate = 0.f;
 }
 
-CParticleLineDriftAffector::~CParticleLineDriftAffector(void)
+ParticleLineDriftAffector::~ParticleLineDriftAffector(void)
 {
 }
 
-void CParticleLineDriftAffector::Reset()
+void ParticleLineDriftAffector::Reset()
 {
     mUpdate = true;
     mFirst = true;
     mTimeSinceLastUpdate = 0.f;
 }
 
-void CParticleLineDriftAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleLineDriftAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -70,9 +70,9 @@ void CParticleLineDriftAffector::Affect( Real now, Real timediff, LST_PARTICLE& 
 	mUpdate = false;
 }
 
-RefPtr<CParticleLineDriftAffector> CreateLineDriftAffector()
+RefPtr<ParticleLineDriftAffector> CreateLineDriftAffector()
 {
-	return new CParticleLineDriftAffector;
+	return new ParticleLineDriftAffector;
 }
 
 }

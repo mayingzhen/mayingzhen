@@ -11,7 +11,6 @@ namespace ma
 		static void ShutDown();
 			
 		static void Render(Technique* pTech,const Vector3& vPos,float fRadius);
-
 	};
 }
 

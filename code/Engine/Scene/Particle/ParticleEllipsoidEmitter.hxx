@@ -4,15 +4,15 @@
 namespace ma
 {
 
-CParticleEllipsoidEmitter::CParticleEllipsoidEmitter()
+ParticleEllipsoidEmitter::ParticleEllipsoidEmitter()
 {
 }
 
-CParticleEllipsoidEmitter::~CParticleEllipsoidEmitter(void)
+ParticleEllipsoidEmitter::~ParticleEllipsoidEmitter(void)
 {
 }
 
-int CParticleEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -68,8 +68,8 @@ int CParticleEllipsoidEmitter::Emitt( Real now, Real timeSinceLastCall, SParticl
 	return mParticles.size();
 }
 
-RefPtr<CParticleEllipsoidEmitter> CreateEllipsoidEmitter()
+RefPtr<ParticleEllipsoidEmitter> CreateEllipsoidEmitter()
 {
-	return new CParticleEllipsoidEmitter();
+	return new ParticleEllipsoidEmitter();
 }
 }

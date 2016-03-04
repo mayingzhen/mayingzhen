@@ -4,21 +4,6 @@
 namespace ma
 {
 
-//! Types of built in particle emitters
-enum E_PARTICLE_EMITTER_TYPE
-{
-	EPET_POINT = 0,
-	EPET_BOX,
-	EPET_CYLINDER,
-	EPET_MESH_VERTEX,
-	EPET_RING,
-	EPET_ELLIPSOID,
-	EPET_HOLLOW_ELLIPSOID,
-	EPET_LINE,
-    EPET_MESH_SURFACE,
-	EPET_COUNT
-};
-
 struct MESHEMITTER_VERTEX
 {
     Vector3 pos;
@@ -31,14 +16,14 @@ struct MESHEMITTER_VERTEX
 //! A particle emitter for using with particle systems.
 /** A Particle emitter emitts new particles into a particle system.
 */
-class  CParticleEmitter : public Serializable
+class  ParticleEmitter : public Object
 {
 
 public:
-	CParticleEmitter();
-	virtual ~CParticleEmitter(void);
+	ParticleEmitter();
+	virtual ~ParticleEmitter(void);
 
-	DECL_OBJECT(CParticleEmitter);
+	DECL_OBJECT(ParticleEmitter);
 
 	static void RegisterAttribute();
 
@@ -145,7 +130,7 @@ public:
 		bool bToEmit;//内部使用
 		uint32 nNumParticles;//每次喷射的粒子数量
 
-		CParticleEmitter* pEmitter;
+		ParticleEmitter* pEmitter;
 		BURST():fTime(0),bToEmit(true),nNumParticles(0),pEmitter(NULL){}
 	};
 
@@ -157,9 +142,6 @@ public:
 	virtual void RemoveBurstByIndex(uint32 nIndex);
 	virtual BURST* GetBurstByIndex(uint32 nIndex);
 	virtual void RemoveBurst(BURST* pBurst);
-
-	//! Get emitter type
-	virtual E_PARTICLE_EMITTER_TYPE GetType() const = 0;
 
     virtual bool GetEmitting(float fNow) const;
 

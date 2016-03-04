@@ -18,6 +18,21 @@ namespace ma
 		BBT_AlignBottomCenter,
 	};
 
+	static const char* strBillboardType[]=
+	{
+		"None",
+		"AlignViewPlane",
+		"AlignViewPoint",
+		"AlignViewPlane_YConstraint",
+		"AlignViewPoint_YConstraint",
+		"BBT_AlignDirection",
+		"AlignPos",
+		"ZAlignDirection",
+		"ZAlignPos",
+		"AlignBottomCenter",
+		0
+	};
+
 	//! Struct for holding particle data
 	struct SParticle
 	{

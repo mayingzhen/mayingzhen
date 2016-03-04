@@ -3,7 +3,7 @@
 namespace ma
 {
 
-CParticleSubUVAffector::CParticleSubUVAffector()
+ParticleSubUVAffector::ParticleSubUVAffector()
 {
 	m_nXTile = 1;
 	m_nYTile = 1;
@@ -17,21 +17,21 @@ CParticleSubUVAffector::CParticleSubUVAffector()
 	SetTile(m_nXTile,m_nYTile);
 }
 
-CParticleSubUVAffector::~CParticleSubUVAffector(void)
+ParticleSubUVAffector::~ParticleSubUVAffector(void)
 {
 }
 
-void CParticleSubUVAffector::RegisterAttribute()
+void ParticleSubUVAffector::RegisterAttribute()
 {
-	REGISTER_OBJECT(CParticleSubUVAffector,CreateSubUVAffector);
+	REGISTER_OBJECT(ParticleSubUVAffector,CreateSubUVAffector);
 
-	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "XTile", GetXTile, SetXTile, int, 1, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "YTile", GetYTile, SetYTile, int, 1, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "Cycles", GetCycles, SetCycles, int, 1, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleSubUVAffector, "FixedTile", GetFixedTile, SetFixedTile, bool, false, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSubUVAffector, "XTile", GetXTile, SetXTile, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSubUVAffector, "YTile", GetYTile, SetYTile, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSubUVAffector, "Cycles", GetCycles, SetCycles, int, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSubUVAffector, "FixedTile", GetFixedTile, SetFixedTile, bool, false, AM_DEFAULT);
 }
 
-void CParticleSubUVAffector::Init(SParticle* particlearray, uint32 count)
+void ParticleSubUVAffector::Init(SParticle* particlearray, uint32 count)
 {
     if( !m_bEnabled )
         return;
@@ -61,7 +61,7 @@ void CParticleSubUVAffector::Init(SParticle* particlearray, uint32 count)
     }
 }
 
-void CParticleSubUVAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleSubUVAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -137,7 +137,7 @@ void CParticleSubUVAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstP
 	}
 }
 
-uint32 CParticleSubUVAffector::WeightToBlend(float fWeight0,float fWeight1,float fWeight2,float fWeight3)
+uint32 ParticleSubUVAffector::WeightToBlend(float fWeight0,float fWeight1,float fWeight2,float fWeight3)
 {
     union UIndex
     {
@@ -154,7 +154,7 @@ uint32 CParticleSubUVAffector::WeightToBlend(float fWeight0,float fWeight1,float
     return uBondWeight.uInde;
 }
 
-void CParticleSubUVAffector::SetTile(int nXTile,int nYTile)
+void ParticleSubUVAffector::SetTile(int nXTile,int nYTile)
 {
 	ASSERT(nXTile >=1 && nYTile >=1);
 	if (nXTile < 1 || nYTile < 1)
@@ -181,7 +181,7 @@ void CParticleSubUVAffector::SetTile(int nXTile,int nYTile)
 	}
 }
 
-void CParticleSubUVAffector::SetStartIndex( int nStartIndex )
+void ParticleSubUVAffector::SetStartIndex( int nStartIndex )
 {
     if (nStartIndex < 0)
     {
@@ -190,8 +190,8 @@ void CParticleSubUVAffector::SetStartIndex( int nStartIndex )
     m_nStartIndex = nStartIndex;
 }
 
-RefPtr<CParticleSubUVAffector> CreateSubUVAffector()
+RefPtr<ParticleSubUVAffector> CreateSubUVAffector()
 {
-	return new CParticleSubUVAffector();
+	return new ParticleSubUVAffector();
 }
 }

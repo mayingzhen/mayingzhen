@@ -5,21 +5,18 @@ namespace ma
 {
 
 //! Particle Affector for attracting particles to a point
-class  CParticleVortexAffector : public CParticleAffector
+class  ParticleVortexAffector : public ParticleAffector
 {
 public:
-	CParticleVortexAffector();
-	~CParticleVortexAffector(void);
+	ParticleVortexAffector();
+	~ParticleVortexAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_VORTEX; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -36,6 +33,6 @@ private:
 	Radian mRotateSpeed;
 };
 
- RefPtr<CParticleVortexAffector> CreateVortexAffector();
+ RefPtr<ParticleVortexAffector> CreateVortexAffector();
 
 }

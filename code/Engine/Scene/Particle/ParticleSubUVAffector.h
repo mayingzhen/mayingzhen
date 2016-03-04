@@ -5,27 +5,24 @@ namespace ma
 {
 
 //! Particle Affector for UV particles about a point
-class  CParticleSubUVAffector : public CParticleAffector
+class  ParticleSubUVAffector : public ParticleAffector
 {
 public:
-	CParticleSubUVAffector();
-	~CParticleSubUVAffector(void);
+	ParticleSubUVAffector();
+	~ParticleSubUVAffector(void);
 
 	DECL_OBJECT(ParticleSubUVAffector);
 
 	static void RegisterAttribute();
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	virtual void Init(SParticle* particlearray, uint32 count);
 
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_SUB_UV; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -81,5 +78,5 @@ private:
 	VEC_UV m_vecTileUV;
 };
 
- RefPtr<CParticleSubUVAffector> CreateSubUVAffector();
+ RefPtr<ParticleSubUVAffector> CreateSubUVAffector();
 }

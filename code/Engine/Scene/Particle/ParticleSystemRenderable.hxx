@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleSystemRenderable::CParticleSystemRenderable(CParticleSystem* pParent)
+ParticleSystemRenderable::ParticleSystemRenderable(ParticleSystem* pParent)
 {
 	m_pParent = pParent;
 	m_nNumIndices = 0;
@@ -27,11 +27,11 @@ CParticleSystemRenderable::CParticleSystemRenderable(CParticleSystem* pParent)
 	m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
 }
 
-CParticleSystemRenderable::~CParticleSystemRenderable(void)
+ParticleSystemRenderable::~ParticleSystemRenderable(void)
 {
 }
 
-void CParticleSystemRenderable::Render(Technique* pTech)
+void ParticleSystemRenderable::Render(Technique* pTech)
 {
 	if (m_nNumIndices == 0)
 	{

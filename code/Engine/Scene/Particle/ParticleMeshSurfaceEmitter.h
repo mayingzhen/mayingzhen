@@ -119,22 +119,19 @@ class MeshInfo
 		There are several ways of emitting it on the surface, from the vertices, edges and faces of a mesh.
 		It is also possible to define whether more particles emit on larger faces.
     */
-class CParticleMeshSurfaceEmitter : public CParticleEmitter
+class ParticleMeshSurfaceEmitter : public ParticleEmitter
 {
 public:
-    CParticleMeshSurfaceEmitter(void);
-    ~CParticleMeshSurfaceEmitter(void);
+    ParticleMeshSurfaceEmitter(void);
+    ~ParticleMeshSurfaceEmitter(void);
 
     // ---------------------------------------------------------------------
-    // Inherite from CParticleEmitter
+    // Inherite from ParticleEmitter
     // ---------------------------------------------------------------------
 
     //! Prepares an array with new particles to emitt into the system
     //! and returns how much new particles there are.
     virtual int Emitt(Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles);
-
-    //! Get emitter type
-    virtual E_PARTICLE_EMITTER_TYPE GetType() const { return EPET_MESH_SURFACE; }
 
     virtual void SetPos( const Vector3& pos );
     virtual void SetDirection( const Vector3& newDirection );
@@ -172,5 +169,5 @@ private:
     vector<uint16> m_vecIndices;
 };
 
-RefPtr<CParticleMeshSurfaceEmitter> CreateMeshSurfaceEmitter();
+RefPtr<ParticleMeshSurfaceEmitter> CreateMeshSurfaceEmitter();
 }

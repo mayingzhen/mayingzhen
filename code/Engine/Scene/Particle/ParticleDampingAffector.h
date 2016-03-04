@@ -4,21 +4,18 @@
 namespace ma
 {
 
-class CParticleDampingAffector : public CParticleAffector
+class ParticleDampingAffector : public ParticleAffector
 {
 public:
-    CParticleDampingAffector(void);
-    ~CParticleDampingAffector(void);
+    ParticleDampingAffector(void);
+    ~ParticleDampingAffector(void);
 
     // ---------------------------------------------------------------------
-    // Inherite from CParticleAffector
+    // Inherite from ParticleAffector
     // ---------------------------------------------------------------------
 public:
     //! Affects a particle.
     virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-    //! Get emitter type
-    virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_DAMPING; }
 
     // ---------------------------------------------------------------------
     // Self
@@ -38,5 +35,5 @@ private:
 	float mDuration;
 };
 
-RefPtr<CParticleDampingAffector> CreateDampingAffector();
+RefPtr<ParticleDampingAffector> CreateDampingAffector();
 }

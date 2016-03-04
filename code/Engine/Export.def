@@ -198,11 +198,11 @@ EXPORTS
 ?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
 ?SetRadius@PointLight@ma@@QAEXM@Z
 ?SetShadowEnabled@DirectonalLight@ma@@QAEX_N@Z
-?CreatePointEmitter@ma@@YA?AV?$RefPtr@VCParticlePointEmitter@ma@@@1@XZ
-?SetTile@CParticleSubUVAffector@ma@@QAEXHH@Z
-?CreateSubUVAffector@ma@@YA?AV?$RefPtr@VCParticleSubUVAffector@ma@@@1@XZ
-?CreateParticleSystem@ma@@YA?AV?$RefPtr@VCParticleSystem@ma@@@1@XZ
-?SetMaterialSet@CParticleSystem@ma@@QAEXPAVMaterial@2@@Z
+?CreatePointEmitter@ma@@YA?AV?$RefPtr@VParticlePointEmitter@ma@@@1@XZ
+?SetTile@ParticleSubUVAffector@ma@@QAEXHH@Z
+?CreateSubUVAffector@ma@@YA?AV?$RefPtr@VParticleSubUVAffector@ma@@@1@XZ
+?CreateParticleSystem@ma@@YA?AV?$RefPtr@VParticleSystem@ma@@@1@XZ
+?SetMaterialSet@ParticleSystem@ma@@QAEXPAVMaterial@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@PBD@Z
 ?SetData@HardwareBuffer@ma@@QAEXPAEIHW4USAGE@2@_N@Z
 ??0MeshRenderable@ma@@QAE@XZ

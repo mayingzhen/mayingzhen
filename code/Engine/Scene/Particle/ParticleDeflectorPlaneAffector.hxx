@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleDeflectorPlaneAffector::CParticleDeflectorPlaneAffector(void)
+ParticleDeflectorPlaneAffector::ParticleDeflectorPlaneAffector(void)
 {
 	// defaults
 	m_vFinalPlanePoint = mPlanePoint = Vector3::ZERO;
@@ -13,11 +13,11 @@ CParticleDeflectorPlaneAffector::CParticleDeflectorPlaneAffector(void)
     m_matParent = Matrix4::IDENTITY;
 }
 
-CParticleDeflectorPlaneAffector::~CParticleDeflectorPlaneAffector(void)
+ParticleDeflectorPlaneAffector::~ParticleDeflectorPlaneAffector(void)
 {
 }
 
-void CParticleDeflectorPlaneAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleDeflectorPlaneAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -48,9 +48,9 @@ void CParticleDeflectorPlaneAffector::Affect( Real now, Real timediff, LST_PARTI
 
 }
 
-RefPtr<CParticleDeflectorPlaneAffector> CreateDeflectorPlaneAffector()
+RefPtr<ParticleDeflectorPlaneAffector> CreateDeflectorPlaneAffector()
 {
-	return new CParticleDeflectorPlaneAffector;
+	return new ParticleDeflectorPlaneAffector;
 }
 
 }

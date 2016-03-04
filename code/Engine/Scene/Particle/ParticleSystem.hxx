@@ -7,7 +7,7 @@ namespace ma
 
 float g_fParticlePercent = 1.f;
 
-CParticleSystem::CParticleSystem()
+ParticleSystem::ParticleSystem()
 {
     m_bParticlesScaleAffect = false;
 	m_bParallelUpdate = true;
@@ -35,20 +35,23 @@ CParticleSystem::CParticleSystem()
 	m_vPreDir = Vector3::ZERO;
 }
 
-CParticleSystem::~CParticleSystem(void)
+ParticleSystem::~ParticleSystem(void)
 {
 	this->RemoveAllAffectors();
 }
 
-void CParticleSystem::RegisterAttribute()
+void ParticleSystem::RegisterAttribute()
 {
-	REGISTER_OBJECT(CParticleSystem,CreateParticleSystem); 
+	REGISTER_OBJECT(ParticleSystem,CreateParticleSystem); 
 
-	ACCESSOR_ATTRIBUTE(CParticleSystem, "MtlPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
+	REF_ACCESSOR_ATTRIBUTE(ParticleSystem, "FastForward", GetFastForward, SetFastForward, Vector2, Vector2(0.f, 0.1f), AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSystem, "MaxParticles", GetMaxParticles, SetMaxParticles, UINT32, 30, AM_DEFAULT);
+	ENUM_ACCESSOR_ATTRIBUTE(ParticleSystem, "BillboardType", GetBillboadType, SetBillboardType, BillboardType, strBillboardType,BBT_AlignViewPlane, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleSystem, "MtlPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
 }
 
 
-void CParticleSystem::Update()
+void ParticleSystem::Update()
 {
 	RenderComponent::Update();
 
@@ -103,7 +106,7 @@ void CParticleSystem::Update()
 	}
 }
 
-void CParticleSystem::ParallelUpdate()
+void ParticleSystem::ParallelUpdate()
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -129,7 +132,7 @@ void CParticleSystem::ParallelUpdate()
 }
 
 
-void CParticleSystem::EndParallelUpdate()
+void ParticleSystem::EndParallelUpdate()
 {
 	if ( !mAABBTemp.isNull() )
 	{
@@ -137,7 +140,7 @@ void CParticleSystem::EndParallelUpdate()
 	}
 }
 
-void CParticleSystem::ParallelShow(Camera* pCamera)
+void ParticleSystem::ParallelShow(Camera* pCamera)
 {
     if (m_pMaterialSet == NULL)
         return;
@@ -147,7 +150,7 @@ void CParticleSystem::ParallelShow(Camera* pCamera)
 	this->ShowCPUPoint(pCamera);
 }
 
-void CParticleSystem::Show(Camera* pCamera)
+void ParticleSystem::Show(Camera* pCamera)
 {
 	RenderComponent::Show(pCamera);
 
@@ -174,11 +177,11 @@ void CParticleSystem::Show(Camera* pCamera)
 		ParallelShow(pCamera);
 	}
 
-    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Trans,m_pCPURenderable.get());
+    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Particle,m_pCPURenderable.get());
 }
 
 
-void CParticleSystem::Reset()
+void ParticleSystem::Reset()
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -200,7 +203,7 @@ void CParticleSystem::Reset()
 	this->InitBounds();
 }
 
-void CParticleSystem::ShowCPUPoint(Camera* pCamera)
+void ParticleSystem::ShowCPUPoint(Camera* pCamera)
 {
 	if (pCamera == NULL)
 		return;
@@ -374,7 +377,7 @@ void CParticleSystem::ShowCPUPoint(Camera* pCamera)
 }
 
 
-void CParticleSystem::SetParticlesAreGlobal( bool global/*=true*/ )
+void ParticleSystem::SetParticlesAreGlobal( bool global/*=true*/ )
 {
 	if (m_bParticlesAreGlobal == global)
 	{
@@ -386,7 +389,7 @@ void CParticleSystem::SetParticlesAreGlobal( bool global/*=true*/ )
 	{
 		for (VEC_AFFECTOR::iterator iter = m_vecAffectors.begin();iter != m_vecAffectors.end();++iter)
 		{
-			CParticleAffector* pAffector = (*iter).get();
+			ParticleAffector* pAffector = (*iter).get();
 			pAffector->SetParentMatrix(m_pSceneNode->GetMatrixWS());
 			pAffector->SetParentScale(m_pSceneNode->GetScaleWS());
 		}
@@ -395,21 +398,21 @@ void CParticleSystem::SetParticlesAreGlobal( bool global/*=true*/ )
 	{
 		for (VEC_AFFECTOR::iterator iter = m_vecAffectors.begin();iter != m_vecAffectors.end();++iter)
 		{
-			CParticleAffector* pAffector = (*iter).get();
+			ParticleAffector* pAffector = (*iter).get();
 			pAffector->SetParentMatrix(Matrix4::IDENTITY);
 			pAffector->SetParentScale(Vector3::UNIT_SCALE);
 		}
 	}
 }
 
-CParticleEmitter* CParticleSystem::GetEmitterByIndex(uint32 nIndex) const 
+ParticleEmitter* ParticleSystem::GetEmitterByIndex(uint32 nIndex) const 
 {
 	AutoLock lock(m_csParallelUpdate);
 
 	return m_vecEmitter[nIndex].get();
 }
 
-void CParticleSystem::AddEmitter( CParticleEmitter* emitter )
+void ParticleSystem::AddEmitter( ParticleEmitter* emitter )
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -418,7 +421,7 @@ void CParticleSystem::AddEmitter( CParticleEmitter* emitter )
 	m_vecEmitter.push_back(emitter);
 }
 
-void CParticleSystem::RemoveEmitter( CParticleEmitter* emitter )
+void ParticleSystem::RemoveEmitter( ParticleEmitter* emitter )
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -431,7 +434,7 @@ void CParticleSystem::RemoveEmitter( CParticleEmitter* emitter )
 	m_vecEmitter.erase(iter);
 }
 
-void CParticleSystem::RemoveAllEmitters(void)
+void ParticleSystem::RemoveAllEmitters(void)
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -439,14 +442,14 @@ void CParticleSystem::RemoveAllEmitters(void)
 }
 
 
-void CParticleSystem::AddAffector( CParticleAffector* affector )
+void ParticleSystem::AddAffector( ParticleAffector* affector )
 {
 	AutoLock lock(m_csParallelUpdate);
 
 	m_vecAffectors.push_back(affector);
 }
 
-void CParticleSystem::RemoveAffector( CParticleAffector* affector )
+void ParticleSystem::RemoveAffector( ParticleAffector* affector )
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -459,7 +462,7 @@ void CParticleSystem::RemoveAffector( CParticleAffector* affector )
 	m_vecAffectors.erase(iter);
 }
 
-void CParticleSystem::RemoveAllAffectors()
+void ParticleSystem::RemoveAllAffectors()
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -470,7 +473,7 @@ void CParticleSystem::RemoveAllAffectors()
 // Self
 // ---------------------------------------------------------------------
 
-void CParticleSystem::DoParticleSystem(Real timediff)
+void ParticleSystem::DoParticleSystem(Real timediff)
 { 
 	if (timediff <= 0)
 	{
@@ -599,7 +602,7 @@ void CParticleSystem::DoParticleSystem(Real timediff)
 	}
 }
 
-void CParticleSystem::ReallocateBuffers()
+void ParticleSystem::ReallocateBuffers()
 {
 	if (m_lstParticles.size() * 4 > m_pCPURenderable->vertices.size() ||
 		m_lstParticles.size() * 6 > m_pCPURenderable->indices.size())
@@ -629,7 +632,7 @@ void CParticleSystem::ReallocateBuffers()
 
 
 
-bool CParticleSystem::IsReady()
+bool ParticleSystem::IsReady()
 {
     if (m_bOnLoadOver)
     {
@@ -645,7 +648,7 @@ bool CParticleSystem::IsReady()
     {
         SubMaterial* pMaterial = m_pMaterialSet->GetSubMaterialByIndex(0,0);
 
-        m_pCPURenderable = new CParticleSystemRenderable(this);
+        m_pCPURenderable = new ParticleSystemRenderable(this);
 
         m_pCPURenderable->m_pSubMaterial = pMaterial;
 	}
@@ -656,7 +659,7 @@ bool CParticleSystem::IsReady()
 }
 
 
-void CParticleSystem::SetMaterialSet(Material* pMaterialSet)
+void ParticleSystem::SetMaterialSet(Material* pMaterialSet)
 {
     if (m_pMaterialSet == pMaterialSet)
         return;
@@ -667,23 +670,23 @@ void CParticleSystem::SetMaterialSet(Material* pMaterialSet)
     IsReady();
 }
 
-const char*	CParticleSystem::GetMaterialFile() const
+const char*	ParticleSystem::GetMaterialFile() const
 {
-	return m_pMaterialSet ? m_pMaterialSet->GetXMLFile()->GetResPath() : NULL;
+	return m_pMaterialSet ? m_pMaterialSet->GetResPath() : NULL;
 }
 
-void CParticleSystem::SetMaterialFile(const char* pFile)
+void ParticleSystem::SetMaterialFile(const char* pFile)
 {
 	SetMaterialSet( CreateMaterial(pFile).get() );
 }
 
 
-Renderable* CParticleSystem::GetRenderable() const
+Renderable* ParticleSystem::GetRenderable() const
 {
 	return m_pCPURenderable.get();
 }
 
-void CParticleSystem::SetMaxParticles( uint32 num )
+void ParticleSystem::SetMaxParticles( uint32 num )
 {
 	m_nFinalMaxParticles = m_nMaxParticles = num;
     if (m_bLodEnabled)
@@ -693,7 +696,7 @@ void CParticleSystem::SetMaxParticles( uint32 num )
   
 }
 
-void CParticleSystem::FastForward( Real time, Real interval)
+void ParticleSystem::FastForward( Real time, Real interval)
 {
 	for (Real i = 0;i< time;i+= interval)
 	{
@@ -704,7 +707,7 @@ void CParticleSystem::FastForward( Real time, Real interval)
 }
 
 
-AABB CParticleSystem::_updateBounds( void )
+AABB ParticleSystem::_updateBounds( void )
 {
 	if (m_lstParticles.empty())
 	{
@@ -749,7 +752,7 @@ AABB CParticleSystem::_updateBounds( void )
 	return aabb;
 }
 
-void CParticleSystem::InitBounds()
+void ParticleSystem::InitBounds()
 {
 	mLastVisibleFrame = GetTimer()->GetFrameCount();
 
@@ -766,14 +769,14 @@ void CParticleSystem::InitBounds()
 	this->SetAABB(aabb);
 }
 
-const SParticle& CParticleSystem::GetParticleByIndex( uint32 nIndex ) const
+const SParticle& ParticleSystem::GetParticleByIndex( uint32 nIndex ) const
 {
 	LST_PARTICLE::const_iterator iter = m_lstParticles.begin();
 	std::advance(iter, nIndex);
 	return *iter;
 }
 
-void CParticleSystem::Play(uint32 nElapsedTime, bool bCascade)
+void ParticleSystem::Play(uint32 nElapsedTime, bool bCascade)
 {
 	AutoLock lock(m_csParallelUpdate);
 
@@ -798,19 +801,19 @@ void CParticleSystem::Play(uint32 nElapsedTime, bool bCascade)
     }
 }
 
-void CParticleSystem::Stop(bool bCascade)
+void ParticleSystem::Stop(bool bCascade)
 {
     AutoLock lock(m_csParallelUpdate);
 
     this->SetEmitting(false);
 }
 
-void CParticleSystem::SetPlaySpeed(float fPlaySpeed, bool bCascade)
+void ParticleSystem::SetPlaySpeed(float fPlaySpeed, bool bCascade)
 {
     m_fPlaySpeed = fPlaySpeed;
 }
 
-void CParticleSystem::SetLodEnabled( bool bEnabled )
+void ParticleSystem::SetLodEnabled( bool bEnabled )
 {
     AutoLock lock(m_csParallelUpdate);
 
@@ -819,25 +822,25 @@ void CParticleSystem::SetLodEnabled( bool bEnabled )
 
     for (VEC_EMITTER::iterator iter = m_vecEmitter.begin();iter != m_vecEmitter.end(); ++iter)
     {
-        CParticleEmitter* pEmitter = (*iter).get();
+        ParticleEmitter* pEmitter = (*iter).get();
         pEmitter->_SetLodEnabled(bEnabled);
     }
 }
 
-void CParticleSystem::UpdateGlobalAffectors()
+void ParticleSystem::UpdateGlobalAffectors()
 {
     if (m_bParticlesAreGlobal)
     {
         for (VEC_AFFECTOR::iterator iter = m_vecAffectors.begin();iter != m_vecAffectors.end();++iter)
         {
-            CParticleAffector* pAffector = (*iter).get();
+            ParticleAffector* pAffector = (*iter).get();
             pAffector->SetParentMatrix(m_pSceneNode->GetMatrixWS());
             pAffector->SetParentScale(m_pSceneNode->GetScaleWS());
         }
     }
 }
 
-bool CParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, const Vector3& vWorldPos, const Vector3& vDirection, OUT Matrix4& matBillboard)
+bool ParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, const Vector3& vWorldPos, const Vector3& vDirection, OUT Matrix4& matBillboard)
 {
 	Matrix4 matView = pCamera->GetMatView();
 
@@ -938,7 +941,7 @@ bool CParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, c
 	return true;
 }
 
-bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
+bool ParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 {
 	Serializable::Improt(pXmlElem);
 
@@ -947,7 +950,7 @@ bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		const char* pszType = pXmlEmitter->findAttribute("ClassName");
 
-		RefPtr<CParticleEmitter> pEmitter = CreateObject<CParticleEmitter>(pszType);
+		RefPtr<ParticleEmitter> pEmitter = CreateObject<ParticleEmitter>(pszType);
 		this->AddEmitter(pEmitter.get());
 
 		pEmitter->Improt(pXmlEmitter);
@@ -960,7 +963,7 @@ bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		const char* pszType = pXmlAffector->findAttribute("ClassName");
 
-		RefPtr<CParticleAffector> pAffector = CreateObject<CParticleAffector>(pszType);
+		RefPtr<ParticleAffector> pAffector = CreateObject<ParticleAffector>(pszType);
 		this->AddAffector(pAffector.get());
 
 		pAffector->Improt(pXmlAffector);
@@ -971,7 +974,7 @@ bool CParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 	return true;
 }
 
-bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
+bool ParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 {
 	Serializable::Export(pXmlElem,doc);
 
@@ -980,8 +983,8 @@ bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_docume
 		rapidxml::xml_node<>* pXmlEmitter = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Emitter"));
 		pXmlElem->append_node(pXmlEmitter);
 
-		CParticleEmitter* pCParticleEmitter = m_vecEmitter[i].get();
-		pCParticleEmitter->Export(pXmlEmitter,doc);
+		ParticleEmitter* pParticleEmitter = m_vecEmitter[i].get();
+		pParticleEmitter->Export(pXmlEmitter,doc);
 	}
 
 	for (UINT i = 0; i < m_vecAffectors.size(); ++i)
@@ -989,7 +992,7 @@ bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_docume
 		rapidxml::xml_node<>* pXmlAffector = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Affector"));
 		pXmlElem->append_node(pXmlAffector);
 
-		CParticleAffector* pAffector = m_vecAffectors[i].get();
+		ParticleAffector* pAffector = m_vecAffectors[i].get();
 		pAffector->Export(pXmlAffector,doc);
 	}
 
@@ -1000,9 +1003,9 @@ bool CParticleSystem::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_docume
 // Global Function
 // ---------------------------------------------------------------------
 
-RefPtr<CParticleSystem> CreateParticleSystem()
+RefPtr<ParticleSystem> CreateParticleSystem()
 {
-	RefPtr<CParticleSystem> p =  new CParticleSystem();
+	RefPtr<ParticleSystem> p =  new ParticleSystem();
 
 	return p;
 }

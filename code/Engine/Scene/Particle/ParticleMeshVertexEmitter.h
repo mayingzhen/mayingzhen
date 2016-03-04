@@ -3,14 +3,14 @@
 
 namespace ma
 {
-class  CParticleMeshVertexEmitter : public CParticleEmitter
+class  ParticleMeshVertexEmitter : public ParticleEmitter
 {
 public:
-	CParticleMeshVertexEmitter();
-	~CParticleMeshVertexEmitter(void);
+	ParticleMeshVertexEmitter();
+	~ParticleMeshVertexEmitter(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleEmitter
+	// Inherite from ParticleEmitter
 	// ---------------------------------------------------------------------
 
 	//! Prepares an array with new particles to emitt into the system
@@ -62,6 +62,6 @@ private:
 };
 
 //! Creates a mesh particle emitter.
- RefPtr<CParticleMeshVertexEmitter> CreateMeshVertexEmitter();
+ RefPtr<ParticleMeshVertexEmitter> CreateMeshVertexEmitter();
 
 }

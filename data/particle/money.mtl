@@ -1,9 +1,9 @@
 <Material>
-	<LodSubMaterial>
+	<LodMaterial>
 		<SubMaterial>
 			<ShadingTech>
 				<Shader VSFile="particle" PSFile="particle" ShaderMacro=""/>
-				<RenderState ClassName="RenderState">
+				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="false"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
 					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
@@ -13,6 +13,6 @@
 			</ShadingTech>
 			<Parameters Name="tDiff" Type="SamplerState" ImagePath="particle/money.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
 		</SubMaterial>
-	</LodSubMaterial>
+	</LodMaterial>
 </Material>
 

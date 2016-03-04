@@ -5,23 +5,20 @@ namespace ma
 {
 
 //! Particle Affector for rotating particles about a point
-class  CParticleRotationAffector : public CParticleAffector
+class  ParticleRotationAffector : public ParticleAffector
 {
 public:
-	CParticleRotationAffector();
-	~CParticleRotationAffector(void);
+	ParticleRotationAffector();
+	~ParticleRotationAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	virtual void Init(SParticle* particlearray, uint32 count);
 
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_ROTATION; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -42,5 +39,5 @@ private:
 	Radian mMinSpeed, mMaxSpeed;
 };
 
- RefPtr<CParticleRotationAffector> CreateRotationAffector();
+ RefPtr<ParticleRotationAffector> CreateRotationAffector();
 }

@@ -3,7 +3,7 @@
 namespace ma
 {
 
-CParticleEmitter::CParticleEmitter()
+ParticleEmitter::ParticleEmitter()
 :mPos(Vector3::ZERO), mMinStartSize(FloatSize(1.f, 1.f)), mMaxStartSize(FloatSize(1.f, 1.f)),
 mEmissionRate(10.f),
 mMinStartColor(ColourValue::White), mMaxStartColor(ColourValue::White),
@@ -21,21 +21,21 @@ mMaxAngleDegrees(Vec3i(0,0,0)), mRemainder(0.f)
     m_bLodEnabled = true;
 }
 
-CParticleEmitter::~CParticleEmitter(void)
+ParticleEmitter::~ParticleEmitter(void)
 {
 }
 
-void CParticleEmitter::RegisterAttribute()
+void ParticleEmitter::RegisterAttribute()
 {
-	REF_ACCESSOR_ATTRIBUTE(CParticleEmitter, "Direction", GetDirection, SetDirection, Vector3, Vector3::UNIT_Z, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleEmitter, "MinLifeTime", GetMinLifeTime, SetMinLifeTime, float, 2, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleEmitter, "MaxLifeTime", GetMaxLifeTime, SetMaxLifeTime, float, 4, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleEmitter, "MinVelocity", GetMinVelocity, SetMinVelocity, float, 1, AM_DEFAULT);
-	ACCESSOR_ATTRIBUTE(CParticleEmitter, "MaxVelocity", GetMaxVelocity, SetMaxVelocity, float, 1, AM_DEFAULT);
-	REF_ACCESSOR_ATTRIBUTE(CParticleEmitter, "MaxAngleDegrees", GetMaxAngleDegrees, SetMaxAngleDegrees, Vec3i, Vec3i(0,0,0), AM_DEFAULT);
+	REF_ACCESSOR_ATTRIBUTE(ParticleEmitter, "Direction", GetDirection, SetDirection, Vector3, Vector3::UNIT_Z, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleEmitter, "MinLifeTime", GetMinLifeTime, SetMinLifeTime, float, 2, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleEmitter, "MaxLifeTime", GetMaxLifeTime, SetMaxLifeTime, float, 4, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleEmitter, "MinVelocity", GetMinVelocity, SetMinVelocity, float, 1, AM_DEFAULT);
+	ACCESSOR_ATTRIBUTE(ParticleEmitter, "MaxVelocity", GetMaxVelocity, SetMaxVelocity, float, 1, AM_DEFAULT);
+	REF_ACCESSOR_ATTRIBUTE(ParticleEmitter, "MaxAngleDegrees", GetMaxAngleDegrees, SetMaxAngleDegrees, Vec3i, Vec3i(0,0,0), AM_DEFAULT);
 }
 
-void CParticleEmitter::Reset()
+void ParticleEmitter::Reset()
 {
     mRemainder = 0.f;
     mInternalEnabled = true;
@@ -44,7 +44,7 @@ void CParticleEmitter::Reset()
     this->SetRepeatDelay(mRepeatDelay);
 }
 
-void CParticleEmitter::GenEmissionVelocity( IN OUT SParticle& p )
+void ParticleEmitter::GenEmissionVelocity( IN OUT SParticle& p )
 {
 	p.vector = mDirection*(mMinVelocity + Randomizer::frand()*(mMaxVelocity-mMinVelocity));
     {
@@ -64,7 +64,7 @@ void CParticleEmitter::GenEmissionVelocity( IN OUT SParticle& p )
 	p.startVector = p.vector;
 }
 
-void CParticleEmitter::GenEmission( IN OUT SParticle& p )
+void ParticleEmitter::GenEmission( IN OUT SParticle& p )
 {
 	if (mMaxLifeTime - mMinLifeTime == 0)
 		p.endTime = p.startTime + mMinLifeTime;
@@ -88,7 +88,7 @@ void CParticleEmitter::GenEmission( IN OUT SParticle& p )
 	p.size = p.startSize;
 }
 
-uint32 CParticleEmitter::GenConstantEmissionCount( Real now, Real timeElapsed, uint32 nFinalMaxParticles )
+uint32 ParticleEmitter::GenConstantEmissionCount( Real now, Real timeElapsed, uint32 nFinalMaxParticles )
 {
 	if (mInternalEnabled)
 	{
@@ -158,7 +158,7 @@ uint32 CParticleEmitter::GenConstantEmissionCount( Real now, Real timeElapsed, u
 	}
 }
 
-CParticleEmitter::BURST* CParticleEmitter::AddBurst(Real time, uint32 nNumParticles)
+ParticleEmitter::BURST* ParticleEmitter::AddBurst(Real time, uint32 nNumParticles)
 {
 	RefPtr<BURST> info = new BURST;
 	info->fTime = time;
@@ -169,22 +169,22 @@ CParticleEmitter::BURST* CParticleEmitter::AddBurst(Real time, uint32 nNumPartic
 	return mBursts.back().get();
 }
 
-uint32 CParticleEmitter::GetNumBursts() const
+uint32 ParticleEmitter::GetNumBursts() const
 {
 	return mBursts.size();
 }
 
-void CParticleEmitter::ClearBursts()
+void ParticleEmitter::ClearBursts()
 {
 	mBursts.clear();
 }
 
-void CParticleEmitter::RemoveBurstByIndex(uint32 nIndex)
+void ParticleEmitter::RemoveBurstByIndex(uint32 nIndex)
 {
 	mBursts.erase(mBursts.begin()+nIndex);
 }
 
-CParticleEmitter::BURST* CParticleEmitter::GetBurstByIndex(uint32 nIndex)
+ParticleEmitter::BURST* ParticleEmitter::GetBurstByIndex(uint32 nIndex)
 {
 	if (nIndex >= mBursts.size())
 	{
@@ -194,7 +194,7 @@ CParticleEmitter::BURST* CParticleEmitter::GetBurstByIndex(uint32 nIndex)
 	return mBursts[nIndex].get();
 }
 
-void CParticleEmitter::RemoveBurst( BURST* pBurst )
+void ParticleEmitter::RemoveBurst( BURST* pBurst )
 {
 	for (DEQ_BURST::iterator iter = mBursts.begin();iter != mBursts.end();++iter)
 	{
@@ -206,7 +206,7 @@ void CParticleEmitter::RemoveBurst( BURST* pBurst )
 	}
 }
 
-void CParticleEmitter::SetStartTime( Real startTime )
+void ParticleEmitter::SetStartTime( Real startTime )
 {
 	if(startTime > 0)
 		this->SetInternalEnable(false);
@@ -214,14 +214,14 @@ void CParticleEmitter::SetStartTime( Real startTime )
 	mStartTimeRemain = mStartTime = startTime;
 }
 
-void CParticleEmitter::SetInternalEnable( bool bEnable )
+void ParticleEmitter::SetInternalEnable( bool bEnable )
 {
 	mInternalEnabled = bEnable;
 	// Reset duration & repeat
 	InitDurationRepeat();
 }
 
-void CParticleEmitter::InitDurationRepeat( void )
+void ParticleEmitter::InitDurationRepeat( void )
 {
 	if (mInternalEnabled)
 	{
@@ -238,19 +238,19 @@ void CParticleEmitter::InitDurationRepeat( void )
 	}
 }
 
-void CParticleEmitter::SetDuration( Real duration )
+void ParticleEmitter::SetDuration( Real duration )
 {
 	mDuration = duration;
 	InitDurationRepeat();
 }
 
-void CParticleEmitter::SetRepeatDelay( Real duration )
+void ParticleEmitter::SetRepeatDelay( Real duration )
 {
 	mRepeatDelay = duration;
 	InitDurationRepeat();
 }
 
-bool CParticleEmitter::GetEmitting(float fNow) const
+bool ParticleEmitter::GetEmitting(float fNow) const
 {
     if (mRepeatDelay > 0 || mDuration == 0)
     {

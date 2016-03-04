@@ -4,21 +4,18 @@
 namespace ma
 {
 
-class  CParticleColourFaderAffector : public CParticleAffector
+class  ParticleColourFaderAffector : public ParticleAffector
 {
 public:
-	CParticleColourFaderAffector();
-	~CParticleColourFaderAffector(void);
+	ParticleColourFaderAffector();
+	~ParticleColourFaderAffector(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleAffector
+	// Inherite from ParticleAffector
 	// ---------------------------------------------------------------------
 public:
 	//! Affects a particle.
 	virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_COLOUR_FADER; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -38,6 +35,6 @@ private:
 	Vector4 mColourAdder;
 };
 
- RefPtr<CParticleColourFaderAffector> CreateColourFaderAffector();
+ RefPtr<ParticleColourFaderAffector> CreateColourFaderAffector();
 
 }

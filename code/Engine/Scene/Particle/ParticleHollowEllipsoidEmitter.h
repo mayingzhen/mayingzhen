@@ -4,22 +4,19 @@
 namespace ma
 {
 
-class  CParticleHollowEllipsoidEmitter : public CParticleEllipsoidEmitter
+class  ParticleHollowEllipsoidEmitter : public ParticleEllipsoidEmitter
 {
 public:
-	CParticleHollowEllipsoidEmitter(void);
-	~CParticleHollowEllipsoidEmitter(void);
+	ParticleHollowEllipsoidEmitter(void);
+	~ParticleHollowEllipsoidEmitter(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleEllipsoidEmitter
+	// Inherite from ParticleEllipsoidEmitter
 	// ---------------------------------------------------------------------
 public:
 	//! Prepares an array with new particles to emitt into the system
 	//! and returns how much new particles there are.
 	virtual int Emitt(Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles);
-
-	//! Get emitter type
-	virtual E_PARTICLE_EMITTER_TYPE GetType() const { return EPET_HOLLOW_ELLIPSOID; }
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -33,6 +30,6 @@ protected:
 	Vector3 mInnerRatio;
 };
 
- RefPtr<CParticleHollowEllipsoidEmitter> CreateHollowEllipsoidEmitter();
+ RefPtr<ParticleHollowEllipsoidEmitter> CreateHollowEllipsoidEmitter();
 
 }

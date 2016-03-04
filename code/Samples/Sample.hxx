@@ -22,7 +22,7 @@ namespace ma
 		return m_pCamera.get();
 	}
 
-	void Sample::CreateDefaultMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro)
+	void Sample::CreateMeshMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro)
 	{
 		RefPtr<Material> pMaterial = CreateMaterial();
 
@@ -31,13 +31,13 @@ namespace ma
 		
 		std::string strMacro = "DIFFUSE;DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
-		pSubMaterial->SetShadingTechnqiue("default",strMacro.c_str());
+		pSubMaterial->SetShadingTechnqiue("mesh",strMacro.c_str());
 
 		pSubMaterial->SetParameter("u_texture", Any( CreateTexture(pszTexture) ) );
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
 
-		pMaterial->SaveToXML(pMatPath);
+		pMaterial->SaveToFile(pMatPath);
 	}
 
 }

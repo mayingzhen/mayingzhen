@@ -32,6 +32,7 @@ namespace ma
 
 		BLEND_MODE GetBlendMode() const {return m_eBlendMode;}
 		void SetBlendMode(BLEND_MODE eBlendMode) {m_eBlendMode = eBlendMode;}
+		bool GetTransparent(void) const;
 
 		CULL_MODE GetCullMode() const {return m_eCullMode;}
 		void SetCullMode(CULL_MODE eCullMode) {m_eCullMode = eCullMode;}

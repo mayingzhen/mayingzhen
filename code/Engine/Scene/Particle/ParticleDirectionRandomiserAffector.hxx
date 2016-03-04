@@ -4,18 +4,18 @@
 namespace ma
 {
 
-CParticleDirectionRandomiserAffector::CParticleDirectionRandomiserAffector(void)
+ParticleDirectionRandomiserAffector::ParticleDirectionRandomiserAffector(void)
 {
 	mRandomness = 1.0;
 	mScope = 1.0;
 	mKeepVelocity = false;
 }
 
-CParticleDirectionRandomiserAffector::~CParticleDirectionRandomiserAffector(void)
+ParticleDirectionRandomiserAffector::~ParticleDirectionRandomiserAffector(void)
 {
 }
 
-void CParticleDirectionRandomiserAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleDirectionRandomiserAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -47,9 +47,9 @@ void CParticleDirectionRandomiserAffector::Affect( Real now, Real timediff, LST_
 	}
 }
 
-RefPtr<CParticleDirectionRandomiserAffector> CreateDirectionRandomiserAffector()
+RefPtr<ParticleDirectionRandomiserAffector> CreateDirectionRandomiserAffector()
 {
-	return new CParticleDirectionRandomiserAffector;
+	return new ParticleDirectionRandomiserAffector;
 }
 
 }

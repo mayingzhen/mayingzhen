@@ -4,18 +4,18 @@
 namespace ma
 {
 
-CParticleDampingAffector::CParticleDampingAffector(void)
+ParticleDampingAffector::ParticleDampingAffector(void)
 : m_fDampingSpeed(1.f)
 {
 	mStartTime = 0.f;
 	mDuration = 999999.f;
 }
 
-CParticleDampingAffector::~CParticleDampingAffector(void)
+ParticleDampingAffector::~ParticleDampingAffector(void)
 {
 }
 
-void CParticleDampingAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleDampingAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
     if( !m_bEnabled )
         return;
@@ -43,9 +43,9 @@ void CParticleDampingAffector::Affect( Real now, Real timediff, LST_PARTICLE& ls
     }
 }
 
-RefPtr<CParticleDampingAffector> CreateDampingAffector()
+RefPtr<ParticleDampingAffector> CreateDampingAffector()
 {
-    return new CParticleDampingAffector;
+    return new ParticleDampingAffector;
 }
 
 }

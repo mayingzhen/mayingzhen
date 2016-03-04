@@ -15,10 +15,10 @@ namespace ma
 
 		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT16_R);
 
-		m_pFrustumMaterial = CreateTechnique("frustumclipvolume","frustumclipvolume","frustumclipvolume","");
+		m_pFrustumMaterial = CreateTechnique("frustumclipvolume","volume","volume","");
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 
-		m_pDefferedShadow->GetRenderState().SetDepthWrite(false);
+		m_pDefferedShadow->SetDepthWrite(false);
 	}
 
 	void DeferredShadowPass::Render()
@@ -52,7 +52,7 @@ namespace ma
 // 			ShaderProgram* pShader = m_pFrustumMaterial->GetShaderProgram();
 // 			
 // 			Matrix4 matFrum = pRenderShadow->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-// 			GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+// 			GetRenderSystem()->SetValue( pShader->GetUniform("g_matWorld"), matFrum );
 // 
 // 			//m_pFrustumMaterial->Activate(true);
 // 

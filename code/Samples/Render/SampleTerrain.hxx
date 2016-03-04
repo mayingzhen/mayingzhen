@@ -63,7 +63,7 @@ namespace ma
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 
-			testMaterial->SaveToXML("scene/terrain/test.mtl");
+			testMaterial->SaveToFile("scene/terrain/test.mtl");
 
 			pTerrain->SetMaterialPath("scene/terrain/test.mtl");
 			pTerrain->SetHeightMap("scene/terrain/test.dds");

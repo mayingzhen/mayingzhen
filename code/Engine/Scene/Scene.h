@@ -84,9 +84,9 @@ namespace ma
 		ShadowMapFrustum*		GetShadowMapFrustum() {return m_pShadowMapFrustum;}
 		void					SetShadowMapFrustum(ShadowMapFrustum* pShadowMapFrustum) {m_pShadowMapFrustum = pShadowMapFrustum;}
 
-		const ColourValue&	GetAmbientColor() {return m_cAmbientColor;}
+		const ColourValue&		GetAmbientColor() {return m_cAmbientColor;}
 
-		void				SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+		void					SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
 
 
 	private:

@@ -21,30 +21,28 @@ namespace ma
 			pMaterial->AddSubMaterial(0,pSubMaterial.get());
 
 			RefPtr<Technique> pShadingTech = CreateTechnique("ShadingTech","particle","particle","");
-			RenderState rs = pShadingTech->GetRenderState();
-			rs.SetBlendMode(BM_TRANSPARENT);
-			rs.SetDepthWrite(false);
-			rs.SetCullMode(CULL_FACE_SIDE_NONE);
-			pShadingTech->SetRenderState(rs);
+			pShadingTech->SetBlendMode(BM_TRANSPARENT);
+			pShadingTech->SetDepthWrite(false);
+			pShadingTech->SetCullMode(CULL_FACE_SIDE_NONE);
 			pSubMaterial->SetShadingTechnqiue(pShadingTech.get());
 
 			pSubMaterial->SetParameter("tDiff", Any( CreateTexture("particle/money.dds") ) );
 
-			pMaterial->SaveToXML("particle/money.mtl");
+			pMaterial->SaveToFile("particle/money.mtl");
 
 		}
 
 		if (1)
 		{
-			RefPtr<CParticleSystem> pParticleSystem = CreateParticleSystem();
+			RefPtr<ParticleSystem> pParticleSystem = CreateParticleSystem();
 
-			RefPtr<CParticleSubUVAffector> pSubUVAff = CreateSubUVAffector();
+			RefPtr<ParticleSubUVAffector> pSubUVAff = CreateSubUVAffector();
 			pSubUVAff->SetTile(4,4);
 			pSubUVAff->SetCycles(4);
 			pSubUVAff->SetFixedTile(false);
 			pParticleSystem->AddAffector(pSubUVAff.get());
 
-			RefPtr<CParticlePointEmitter> pPointEmit = CreatePointEmitter();
+			RefPtr<ParticlePointEmitter> pPointEmit = CreatePointEmitter();
 			pPointEmit->SetDirection(Vector3::UNIT_Z);
 			pPointEmit->SetMinLifeTime(5);
 			pPointEmit->SetMaxLifeTime(5);
@@ -64,7 +62,7 @@ namespace ma
 			SceneNode* pSceneNode = m_pScene->CreateSceneNode();
 			pSceneNode->SetPos(Vector3(i * 2,0,0));
 			
-			RefPtr<CParticleSystem> pParticleSystem = CreateParticleSystem();
+			RefPtr<ParticleSystem> pParticleSystem = CreateParticleSystem();
 			pSceneNode->AddComponent(pParticleSystem.get());
 
 			pParticleSystem->LoadFromXML("particle/money.particle");

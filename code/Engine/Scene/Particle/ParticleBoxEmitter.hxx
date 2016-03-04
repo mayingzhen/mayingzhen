@@ -4,18 +4,18 @@
 namespace ma
 {
 
-CParticleBoxEmitter::CParticleBoxEmitter()
+ParticleBoxEmitter::ParticleBoxEmitter()
 {
 }
 
-CParticleBoxEmitter::~CParticleBoxEmitter(void)
+ParticleBoxEmitter::~ParticleBoxEmitter(void)
 {
 }
 
 // ---------------------------------------------------------------------
-// Inherite from CParticleEmitter
+// Inherite from ParticleEmitter
 // ---------------------------------------------------------------------
-int CParticleBoxEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleBoxEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -57,8 +57,8 @@ int CParticleBoxEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& ou
 // Global Function
 // ---------------------------------------------------------------------
 
-RefPtr<CParticleBoxEmitter> CreateBoxEmitter()
+RefPtr<ParticleBoxEmitter> CreateBoxEmitter()
 {
-	return new CParticleBoxEmitter();
+	return new ParticleBoxEmitter();
 }
 }

@@ -11,11 +11,12 @@ namespace ma
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
 		RenderState::RegisterAttribute();
+		Technique::RegisterAttribute();
 
-		CParticleSystem::RegisterAttribute();
-		CParticleEmitter::RegisterAttribute();
-		CParticlePointEmitter::RegisterAttribute();
-		CParticleSubUVAffector::RegisterAttribute();
+		ParticleSystem::RegisterAttribute();
+		ParticleEmitter::RegisterAttribute();
+		ParticlePointEmitter::RegisterAttribute();
+		ParticleSubUVAffector::RegisterAttribute();
 	}
 
 	void EngineRTTIShutdown()

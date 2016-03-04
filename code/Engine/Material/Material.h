@@ -45,7 +45,7 @@ namespace ma
 	RefPtr<SubMaterial> CreateSubMaterial();
 
 
-	class Material : public Serializable
+	class Material : public XmlFile
 	{
 	
 	public:
@@ -53,7 +53,7 @@ namespace ma
 
 		~Material();
 
-		DECL_OBJECT(Material)
+		DECL_OBJECT(Material);
 	
 		UINT				GetLodMaterialNumber() {return m_arrLodSubMaterial.size();}
 		UINT				GetSubMaterialNumber(UINT nLod) {return m_arrLodSubMaterial[nLod].size();}
@@ -72,6 +72,8 @@ namespace ma
 
 	RefPtr<Material> CreateMaterial();
 	RefPtr<Material> CreateMaterial(const char* pszPath);
+
+	extern ResourceSystem<Material>* g_pMaterialManager;
 }	
 
 #endif // _Material_H_

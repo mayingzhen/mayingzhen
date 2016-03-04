@@ -4,12 +4,16 @@
 namespace ma
 {
 
-	class Technique : public Referenced
+	class Technique : public RenderState
 	{
 	public:
 		Technique();
 
 		~Technique();
+
+		DECL_OBJECT(Technique);
+
+		static void			RegisterAttribute();
 
 		void				Bind();
 
@@ -23,23 +27,16 @@ namespace ma
 
 		void				AddShaderMarco(const char* pszMarco);
 
-		RenderState&		GetRenderState() {return m_renderState;}
-		void				SetRenderState(const RenderState& renderState) {m_renderState = renderState;}
-
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
-		virtual void		Improt(rapidxml::xml_node<>* pXmlElem);
-		virtual void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
-
-		RefPtr<Technique>	Clone();
+		virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 	private:
 		std::string						m_stName;
 
 		RefPtr<ShaderProgram>			m_pShaderProgram;
-	
-		RenderState						m_renderState;
 
 		std::vector<Parameter*>			m_arrParameters;
 	};

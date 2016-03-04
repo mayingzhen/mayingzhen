@@ -4,21 +4,18 @@
 namespace ma
 {
 
-class CParticlePointAttractionAffector : public CParticleAffector
+class ParticlePointAttractionAffector : public ParticleAffector
 {
 public:
-    CParticlePointAttractionAffector(void);
-    ~CParticlePointAttractionAffector(void);
+    ParticlePointAttractionAffector(void);
+    ~ParticlePointAttractionAffector(void);
 
     // ---------------------------------------------------------------------
-    // Inherite from CParticleAffector
+    // Inherite from ParticleAffector
     // ---------------------------------------------------------------------
 public:
     //! Affects a particle.
     virtual void Affect(Real now, Real timediff, LST_PARTICLE& lstParticles);
-
-    //! Get emitter type
-    virtual E_PARTICLE_AFFECTOR_TYPE GetType() const { return EPAT_POINT_ATTRACTION; }
 
     virtual void SetParentMatrix(const Matrix4& mat){m_matParent = mat;mFinalPoint = m_matParent*mPoint;}
     virtual void SetParentScale(const Vector3& scale){m_vParentScale = scale;}
@@ -74,6 +71,6 @@ private:
     Matrix4 m_matParent;
 };
 
-RefPtr<CParticlePointAttractionAffector> CreatePointAttractionAffector();
+RefPtr<ParticlePointAttractionAffector> CreatePointAttractionAffector();
 
 }

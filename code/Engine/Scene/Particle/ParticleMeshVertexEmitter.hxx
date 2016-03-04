@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleMeshVertexEmitter::CParticleMeshVertexEmitter()
+ParticleMeshVertexEmitter::ParticleMeshVertexEmitter()
 :  mUseNormalDirection(false)
 {
 	mScale = Vector3::UNIT_SCALE;
@@ -13,11 +13,11 @@ CParticleMeshVertexEmitter::CParticleMeshVertexEmitter()
 	this->SetMesh(&v, 1);
 }
 
-CParticleMeshVertexEmitter::~CParticleMeshVertexEmitter(void)
+ParticleMeshVertexEmitter::~ParticleMeshVertexEmitter(void)
 {
 }
 
-int CParticleMeshVertexEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleMeshVertexEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -72,19 +72,19 @@ int CParticleMeshVertexEmitter::Emitt( Real now, Real timeSinceLastCall, SPartic
 	return mParticles.size();
 }
 
-void CParticleMeshVertexEmitter::SetPos( const Vector3& pos )
+void ParticleMeshVertexEmitter::SetPos( const Vector3& pos )
 {
-	CParticleEmitter::SetPos(pos);
+	ParticleEmitter::SetPos(pos);
 }
 
-void CParticleMeshVertexEmitter::SetDirection( const Vector3& newDirection )
+void ParticleMeshVertexEmitter::SetDirection( const Vector3& newDirection )
 {
-	CParticleEmitter::SetDirection(newDirection);
+	ParticleEmitter::SetDirection(newDirection);
 	mRotate = this->CalcRotate();
 }
 
 //! Set Mesh to emit particles from
-void CParticleMeshVertexEmitter::SetMesh(MESHEMITTER_VERTEX* rgVertices, uint32 nNumVertices)
+void ParticleMeshVertexEmitter::SetMesh(MESHEMITTER_VERTEX* rgVertices, uint32 nNumVertices)
 {
 	mSrcVertices.clear();
 	for (uint32 i = 0;i< nNumVertices;++i)
@@ -93,34 +93,34 @@ void CParticleMeshVertexEmitter::SetMesh(MESHEMITTER_VERTEX* rgVertices, uint32 
 	}
 }
 
-Quaternion CParticleMeshVertexEmitter::CalcRotate() const
+Quaternion ParticleMeshVertexEmitter::CalcRotate() const
 {
 	Vector3 mUp = mDirection.perpendicular();
 	Vector3 mLeft = mUp.crossProduct(mDirection);
 	return Quaternion(mLeft.normalisedCopy(), mUp.normalisedCopy(), mDirection.normalisedCopy());
 }
 
-void CParticleMeshVertexEmitter::SetScale( const Vector3& vScale )
+void ParticleMeshVertexEmitter::SetScale( const Vector3& vScale )
 {
 	mScale = vScale;
 }
 
-void CParticleMeshVertexEmitter::BeginVertex()
+void ParticleMeshVertexEmitter::BeginVertex()
 {
 	mSrcVertices.clear();
 }
 
-void CParticleMeshVertexEmitter::AddVertex( const MESHEMITTER_VERTEX& v )
+void ParticleMeshVertexEmitter::AddVertex( const MESHEMITTER_VERTEX& v )
 {
 	mSrcVertices.push_back(v);
 }
 
-void CParticleMeshVertexEmitter::EndVertex()
+void ParticleMeshVertexEmitter::EndVertex()
 {
 }
 
- RefPtr<CParticleMeshVertexEmitter> CreateMeshVertexEmitter()
+ RefPtr<ParticleMeshVertexEmitter> CreateMeshVertexEmitter()
 {
-	return new CParticleMeshVertexEmitter();
+	return new ParticleMeshVertexEmitter();
 }
 }

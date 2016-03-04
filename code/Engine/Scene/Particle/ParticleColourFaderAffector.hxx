@@ -4,16 +4,16 @@
 namespace ma
 {
 
-CParticleColourFaderAffector::CParticleColourFaderAffector()
+ParticleColourFaderAffector::ParticleColourFaderAffector()
 :mColourAdder(Vector4::ZERO)
 {
 }
 
-CParticleColourFaderAffector::~CParticleColourFaderAffector(void)
+ParticleColourFaderAffector::~ParticleColourFaderAffector(void)
 {
 }
 
-void CParticleColourFaderAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
+void ParticleColourFaderAffector::Affect( Real now, Real timediff, LST_PARTICLE& lstParticles )
 {
 	if( !m_bEnabled )
 		return;
@@ -27,8 +27,8 @@ void CParticleColourFaderAffector::Affect( Real now, Real timediff, LST_PARTICLE
 	}
 }
 
-RefPtr<CParticleColourFaderAffector> CreateColourFaderAffector()
+RefPtr<ParticleColourFaderAffector> CreateColourFaderAffector()
 {
-	return new CParticleColourFaderAffector();
+	return new ParticleColourFaderAffector();
 }
 }

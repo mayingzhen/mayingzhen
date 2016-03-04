@@ -17,6 +17,11 @@ namespace ma
 		m_pShaderProgram = NULL;
 	}
 
+	void Technique::RegisterAttribute()
+	{
+		COPY_BASE_ATTRIBUTES(Technique,RenderState);
+	}
+
 	void Technique::SetShaderProgram(ShaderProgram* pShader)
 	{
 		if (m_pShaderProgram == pShader)
@@ -46,7 +51,7 @@ namespace ma
 
 		m_pShaderProgram->BindUniform();
 		
-		GetRenderSystem()->SetRenderState(m_renderState);
+		GetRenderSystem()->SetRenderState(*this);
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
 		{
@@ -151,40 +156,28 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
-	void Technique::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool Technique::Improt(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
 		m_pShaderProgram = ShaderProgram::Improt(pXmlShader);
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
-		m_renderState.Improt(pXmlRenderState);	
+		RenderState::Improt(pXmlRenderState);
+
+		return true;
 	}
 
-	void Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
+	bool Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
 		rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
 		pXmlElem->append_node(pXmlShader);
 		ShaderProgram::Export(m_pShaderProgram.get(),pXmlShader,doc);
-		
+
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
 		pXmlElem->append_node(pXmlRenderState);
-		m_renderState.Export(pXmlRenderState,doc);
-	}
-
-	RefPtr<Technique> Technique::Clone()
-	{
-		RefPtr<Technique> pClone = new Technique();
-
-		pClone->SetTechName(this->GetTechName());
-		pClone->SetRenderState(this->GetRenderState());
-		pClone->SetShaderProgram(this->GetShaderProgram());
-
-		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
-		{
-			pClone->SetParameter( m_arrParameters[i]->GetName(), m_arrParameters[i]->GetValue() );
-		}
-
-		return pClone;
+		RenderState::Export(pXmlRenderState,doc);
+	
+		return true;
 	}
 
 	RefPtr<Technique> CreateTechnique()

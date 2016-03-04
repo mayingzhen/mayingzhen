@@ -4,22 +4,22 @@
 namespace ma
 {
 
-class CParticleSystem;
-class CParticleSystemRenderable : public Renderable
+class ParticleSystem;
+class ParticleSystemRenderable : public Renderable
 {
 public:
-	CParticleSystemRenderable(CParticleSystem* pParent);
-	~CParticleSystemRenderable(void);
+	ParticleSystemRenderable(ParticleSystem* pParent);
+	~ParticleSystemRenderable(void);
 
 	// ---------------------------------------------------------------------
 	// 
 	// ---------------------------------------------------------------------
 	virtual void Render(Technique* pTech);
 
-	CParticleSystem* GetParent() {return m_pParent;}
+	ParticleSystem* GetParent() {return m_pParent;}
 
 private:
-	CParticleSystem* m_pParent;
+	ParticleSystem* m_pParent;
 	uint32 m_nNumVertices;
 	uint32 m_nNumIndices;
 
@@ -34,7 +34,8 @@ private:
 	vector<VERTEX> vertices;
 	vector<uint16> indices;
 
-	friend class CParticleSystem;
+	friend class ParticleSystem;
+	friend class BatchParticleRenderable;
 };
 
 }

@@ -4,14 +4,14 @@
 namespace ma
 {
 
-class  CParticleAreaEmitter : public CParticleEmitter
+class  ParticleAreaEmitter : public ParticleEmitter
 {
 public:
-	CParticleAreaEmitter(void);
-	~CParticleAreaEmitter(void);
+	ParticleAreaEmitter(void);
+	~ParticleAreaEmitter(void);
 
 	// ---------------------------------------------------------------------
-	// Inherite from CParticleEmitter
+	// Inherite from ParticleEmitter
 	// ---------------------------------------------------------------------
 	virtual void SetDirection( const Vector3& newDirection );
 

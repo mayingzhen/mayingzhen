@@ -4,7 +4,7 @@
 namespace ma
 {
 
-CParticleLineEmitter::CParticleLineEmitter(void)
+ParticleLineEmitter::ParticleLineEmitter(void)
 :m_vEnd(Vector3::ZERO)
 {
 	mMinIncrement = 0;
@@ -16,20 +16,20 @@ CParticleLineEmitter::CParticleLineEmitter(void)
 	mFirst = true;
 }
 
-CParticleLineEmitter::~CParticleLineEmitter(void)
+ParticleLineEmitter::~ParticleLineEmitter(void)
 {
 }
 
-void CParticleLineEmitter::Reset()
+void ParticleLineEmitter::Reset()
 {
-    CParticleEmitter::Reset();
+    ParticleEmitter::Reset();
 
     mIncrementsLeft = true;
     mIncrement = 0;
     mFirst = true;
 }
 
-int CParticleLineEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
+int ParticleLineEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& outArray, uint32 nFinalMaxParticles )
 {
     if (!m_bEnabled)
         return 0;
@@ -112,9 +112,9 @@ int CParticleLineEmitter::Emitt( Real now, Real timeSinceLastCall, SParticle*& o
 	return mParticles.size();
 }
 
-RefPtr<CParticleLineEmitter> CreateLineEmitter()
+RefPtr<ParticleLineEmitter> CreateLineEmitter()
 {
-	return new CParticleLineEmitter;
+	return new ParticleLineEmitter;
 }
 
 }
