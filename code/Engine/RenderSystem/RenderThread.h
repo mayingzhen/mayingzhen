@@ -47,6 +47,8 @@ namespace ma
 		eRC_SetColourValue,
  		eRC_SetTexture,
 
+		eRC_SetPoolId,
+
 		eRC_BeginProfile,
 		eRC_EndProfile,
 	};
@@ -140,6 +142,8 @@ namespace ma
 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
  		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
+
+		void	RC_SetPoolId(uint32 poolId);
 
 		void	RC_BeginProfile(const char* pszLale);
 		void	RC_EndProfile();

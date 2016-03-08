@@ -129,7 +129,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("Particle");
+		RunSample("AnimationRetarget");
 	}
 
 	void SampleBrowser::InitResourcePath()

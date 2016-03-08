@@ -64,13 +64,6 @@ namespace ma
 		STATIC_VERTEX_1 = 2,
 	};	
 
-	enum IndexType
-	{
-		INDEX_16 = 0,
-		INDEX_32 = 1,
-	};
-
-
 	class SubMeshData : public Referenced
 	{
 	public:
@@ -107,10 +100,9 @@ namespace ma
 
 		~MeshData();
 		
-		uint32					GetLodNumerber() {return m_arrLodSubMesh.size();}
-		UINT					GetSubMeshNumber(uint32 nLod) {return m_arrLodSubMesh[nLod].size();}
-		SubMeshData*			GetSubMeshByIndex(uint32 nLod,UINT index) const {return m_arrLodSubMesh[nLod][index].get();} 
-		void					AddSubMeshData(uint32 nLod,SubMeshData* pSubMeshData);
+		UINT					GetSubMeshNumber() {return m_arrSubMesh.size();}
+		SubMeshData*			GetSubMeshByIndex(UINT index) const {return m_arrSubMesh[index].get();} 
+		void					AddSubMeshData(SubMeshData* pSubMeshData);
 
 		IndexBuffer*			GetIndexBuffer() const {return m_pIndexBuffer.get();} 
 
@@ -127,8 +119,8 @@ namespace ma
 		VertexType				GetVertexType() const {return m_nVertexType;}
 		void					SetVertexType(VertexType nType) {m_nVertexType = nType;}
 
-		IndexType				GetIndexType() const {return m_nIndexType;}
-		void					SetIndexType(IndexType nType) {m_nIndexType = nType;} 
+		INDEX_TYPE				GetIndexType() const {return m_nIndexType;}
+		void					SetIndexType(INDEX_TYPE nType) {m_nIndexType = nType;} 
 		
 		bool					SaveToFile(const char* pszFile);	
 
@@ -145,15 +137,14 @@ namespace ma
 
 	private:
 		
-		IndexType						m_nIndexType;
+		INDEX_TYPE						m_nIndexType;
 		VertexType						m_nVertexType;
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;
 		RefPtr<VertexDeclaration>		m_pDeclaration; 
 
 		typedef std::vector< RefPtr<SubMeshData> > VEC_SUBMESH;
-		typedef std::vector< VEC_SUBMESH > VEC_LOD_SUBMESH;
-		VEC_LOD_SUBMESH					m_arrLodSubMesh;	
+		VEC_SUBMESH						m_arrSubMesh;	
 
 		AABB							m_meshBound;
 		AABB2D							m_tcBound;

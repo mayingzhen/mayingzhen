@@ -41,7 +41,7 @@ namespace ma
 		// Mesh
 		MeshData meshData; 
 		meshData.SetVertexType(SKIN_VERTEX_1);
-		meshData.SetIndexType(INDEX_16);
+		meshData.SetIndexType(INDEX_TYPE_U16);
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
@@ -246,7 +246,7 @@ namespace ma
 		{
 			// One SunMesh
 			RefPtr<SubMeshData> pSubmesh = CreateSubMeshData();
-			pMeshData->AddSubMeshData(0,pSubmesh.get());
+			pMeshData->AddSubMeshData(pSubmesh.get());
 			pSubmesh->m_nMateiralID = it->first;
 
 			pSubmesh->m_nVertexStart = arrVertex.size();

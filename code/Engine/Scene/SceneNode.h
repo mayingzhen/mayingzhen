@@ -52,9 +52,9 @@ namespace ma
 		const Vector3&		GetScaleWS() const;
 		void				SetScaleWS(const Vector3& vScale);
 
-		Vector3				GetForward();
-		Vector3				GetRight();		
-		Vector3				GetUp();
+		Vector3				GetForward() const;
+		Vector3				GetRight() const;		
+		Vector3				GetUp() const;
 
 		void                Forward(float fValue);
 		void                Up(float fValue);

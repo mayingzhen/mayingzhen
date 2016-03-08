@@ -9,9 +9,7 @@
 #include"gbuffer.h"
 #endif 
 
-#ifdef DIFFUSE   
 uniform sampler2D u_texture;
-#endif
 
 
 #ifdef DIFFUSECOLOR   
@@ -19,23 +17,23 @@ uniform float4 u_cDiffuseColor;
 #endif
 
 uniform float4 u_cSpecColor;
+uniform float u_specPower;
 
 // Varyings
 struct PS_IN
 {
-#ifdef DIFFUSE
    float2   v_texCoord : TEXCOORD0;
-#endif
 
 	float4 WorldPos : TEXCOORD1;
+	float4 worldNormal :TEXCOORD2;
 
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD2;	
+   float4 v_normalDepth  :TEXCOORD3;	
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	float2 oRandDirTC : TEXCOORD2;
-	float4 oShadowPos : TEXCOORD3;
+	float2 oRandDirTC : TEXCOORD4;
+	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif 
    
@@ -56,9 +54,7 @@ float4 GetDiffuse(PS_IN In)
    flagColor = In.v_color;   
 #endif
 
-#ifdef DIFFUSE
    flagColor *= tex2D(u_texture, In.v_texCoord);
-#endif 
 
 	return flagColor;
 }
@@ -67,6 +63,22 @@ float4 GetDiffuse(PS_IN In)
 float4 ForwardShading(float4 cDiffuse,PS_IN In)
 {
 	float4 flagColor = cDiffuse;
+	
+	In.worldNormal = normalize(In.worldNormal);
+
+#ifdef LIGHT	
+	float fNDotL = clamp(dot(In.worldNormal, g_vDirLight), 0, 1);
+    float3 fDirLight = g_cDirLight * fNDotL;
+    flagColor.rgb *= g_cSkyLight + fDirLight;
+    
+    #ifdef SPEC
+		float3 refl = reflect(-g_vDirLight, In.worldNormal);	
+		float cosVal = dot(normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz), refl);
+		float3 spec = g_cDirLight* (pow(max(0,cosVal), u_specPower) * u_cSpecColor);
+		flagColor.rgb += spec;
+    #endif 
+    
+#endif    
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
 #ifdef RECEIVESHADOW

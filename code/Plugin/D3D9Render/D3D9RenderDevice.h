@@ -22,7 +22,7 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_D3D9;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE eUsage = USAGE_STATIC);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
@@ -74,7 +74,7 @@ namespace ma
 		virtual	void				EndProfile();
 
 		// Help fun
-		virtual	bool				CheckTextureFormat(PixelFormat eFormat,USAGE eUsage);
+		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
 		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 
@@ -119,9 +119,11 @@ namespace ma
 		
 		// Sampler State
 		Wrap						m_arrWrap[16];
-		Filter				m_arrFilter[16];
+		Filter						m_arrFilter[16];
+		bool						m_arrSRGB[16];
 
 		bool						m_bZEnable;
+		bool						m_bSRGB;
 	};
 
 	LPDIRECT3DDEVICE9 GetD3D9DxDevive();

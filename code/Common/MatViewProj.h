@@ -46,7 +46,7 @@ namespace ma
 			m_bViewProjDirty = true;
 		}
 
-		const Matrix4&	GetMatViewProj() 
+		const Matrix4&	GetMatViewProj() const 
 		{
 			if (m_bViewProjDirty)
 			{
@@ -70,12 +70,12 @@ namespace ma
 
 	private:
 		Matrix4				m_matView;
-		Matrix4				m_matViewInv;
+		mutable Matrix4		m_matViewInv;
 		Matrix4				m_matProj;
-		Matrix4				m_matViewProj;
-		Matrix4				m_matViewProjInv;
+		mutable Matrix4		m_matViewProj;
+		mutable Matrix4		m_matViewProjInv;
 
-		bool				m_bViewProjDirty;
+		mutable bool		m_bViewProjDirty;
 
 	};
 }

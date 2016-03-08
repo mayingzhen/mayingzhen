@@ -15,6 +15,7 @@ namespace ma
 	D3D9RenderDevice::D3D9RenderDevice()
 	{
 		m_bZEnable = true;
+		m_bSRGB = false;
 		ClearAllStates();
 	}
 
@@ -53,7 +54,7 @@ namespace ma
 		return new D3D9Texture();
 	}
 
-	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
+	Texture* D3D9RenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
 	{
 		return new D3D9Texture(nWidth,nHeight,format,eUsage);
 	}
@@ -125,43 +126,6 @@ namespace ma
 
 		int m_nAdapterIndex = D3DADAPTER_DEFAULT;
 		D3DDEVTYPE DeviceType = D3DDEVTYPE_HAL;
-
-// #if SHIPPING_VERSION
-// 		// When building a shipping version, disable NVPerfHUD (opt-out)
-// #else
-// 		// Look for 'NVIDIA NVPerfHUD' adapter
-// 		// If it is present, override default settings
-// 		for (UINT Adapter = 0; Adapter < m_pD3D9->GetAdapterCount(); Adapter++)
-// 		{
-// 			D3DADAPTER_IDENTIFIER9 Identifier;
-// 			HRESULT Res;
-// 			Res = m_pD3D9->GetAdapterIdentifier(Adapter, 0, &Identifier);
-// 			if ( strcmp(Identifier.Description, "NVIDIA NVPerfHUD") == 0 )
-// 			{
-// 				m_nAdapterToUse = Adapter;
-// 				DeviceType = D3DDEVTYPE_REF;
-// 				//Logger::info(String("Using ") + Identifier.Description + " adapter for debug purposes.");
-// 				break;
-// 			}
-// 		}
-//#endif
-		
-// 		int nTryMSAA = D3DMULTISAMPLE_16_SAMPLES;
-// 		uint32 outQuality = 0;
-// 		while(FAILED(m_pD3D9->CheckDeviceMultiSampleType( 
-// 			int m_nAdapterIndex, 
-// 			DeviceType, 
-// 			D3DFMT_X8R8G8B8, 
-// 			FALSE/*fullScreen?FALSE:TRUE*/, 
-// 			(D3DMULTISAMPLE_TYPE)nTryMSAA, 
-// 			(DWORD*)&outQuality)))
-// 		{
-// 			if (--nTryMSAA <= 0)
-// 				break;
-// 		}
-
-// 		m_d3dpp.MultiSampleType = (D3DMULTISAMPLE_TYPE)nTryMSAA;
-// 		m_d3dpp.MultiSampleQuality = 0;
 
 		HRESULT hr = S_OK;
 		hr = m_pD3D9->CreateDevice(m_nAdapterIndex,DeviceType,m_hWnd,
@@ -242,6 +206,18 @@ namespace ma
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetRenderTarget(index, target);
 		ASSERTMSG(hr == D3D_OK, "set render target failed.");
+
+		// First rendertarget controls sRGB write mode
+		if (!index)
+		{
+			if (pTexture && pTexture->GetSRGB() != m_bSRGB)
+			{
+				HRESULT hr = m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, pTexture->GetSRGB());
+				ASSERT(hr == D3D_OK);
+
+				m_bSRGB = pTexture->GetSRGB();
+			}
+		}
 	}
 
 	Texture* D3D9RenderDevice::GetRenderTarget(int index)
@@ -255,6 +231,15 @@ namespace ma
 
 		D3D9Texture* pD3D9Target = new D3D9Texture(-1,-1);
 
+		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_QUERY_SRGBWRITE, D3DRTYPE_TEXTURE,m_eAdapterFormat);
+		pD3D9Target->SetSRGB(hr == D3D_OK);
+
+		if (hr == D3D_OK)
+		{
+			hr = m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, true);
+			ASSERT(hr == D3D_OK);
+		}
+	
 		pD3D9Target->SetD3DSurface(surface);
 
 		return pD3D9Target;
@@ -470,6 +455,13 @@ namespace ma
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
 
 			m_arrWrap[uniform->m_location] = pTexture->GetWrapMode();
+		}
+
+		if (m_arrSRGB[uniform->m_location] != pTexture->GetSRGB())
+		{
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_SRGBTEXTURE, pTexture->GetSRGB()) );
+
+			m_arrSRGB[uniform->m_location] = pTexture->GetSRGB();
 		}
 	}
 
@@ -867,9 +859,9 @@ namespace ma
 		D3DPERF_EndEvent();
 	}
 
-	bool D3D9RenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)
+	bool D3D9RenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
 	{
-		DWORD D3DUsage =  D3D9Mapping::GetD3DUsage(eUsage); 
+		DWORD D3DUsage =  D3D9Mapping::GetD3DTextureUsage(eUsage); 
 		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(eFormat);
 
 		HRESULT hr = D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, D3DUsage, &D3DFormat, D3DPOOL_DEFAULT);

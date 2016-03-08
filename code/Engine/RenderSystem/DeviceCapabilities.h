@@ -127,6 +127,13 @@ public:
 
 	void SetTextureAnisotropy(bool b){m_bAnisotropy = b;}
 	bool GetTextureAnisotropy() const{return m_bAnisotropy;}
+
+	void SetSRGBWrite(bool b) {m_bSRGBWriteSupport = b;}
+	bool GetSRGBWrite() const {return m_bSRGBWriteSupport;}
+
+	void SetSRGBRead(bool b) {m_bSRGBReadSupport = b;}
+	bool GetSRGBRead() const {return m_bSRGBReadSupport;}
+
 private:
 	string vendorToString(GPUVendor v);
 
@@ -157,6 +164,9 @@ private:
 
 	PixelFormat m_ShadowMapDepthFormat;
 	PixelFormat m_ShadowMapColorFormat;
+
+	bool m_bSRGBReadSupport;
+	bool m_bSRGBWriteSupport;
 };
 
 extern DeviceCapabilitie* g_pDeviceCapabilities;

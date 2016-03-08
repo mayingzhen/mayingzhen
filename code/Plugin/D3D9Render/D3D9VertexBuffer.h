@@ -28,11 +28,13 @@ namespace ma
 		virtual void	NotifyOnDeviceReset();
 
 	protected:
-		IDirect3DDevice9*          mD3D9Device;
+		IDirect3DDevice9*			mD3D9Device;
 
-		IDirect3DVertexBuffer9*    mD3D9VertexBuffer;
+		IDirect3DVertexBuffer9*		mD3D9VertexBuffer;
 
 		D3DINDEXBUFFER_DESC			m_descBuffer;
+
+		void*						m_pLockedData;		
 	};
 
 }

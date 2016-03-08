@@ -15,9 +15,10 @@ namespace ma
 
 		m_eWrap = REPEAT;
 		m_eFilter = TFO_TRILINEAR;
+		m_bSRGB = false;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage) 
+	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
@@ -28,6 +29,7 @@ namespace ma
 
 		m_eWrap = CLAMP;
 		m_eFilter = TFO_POINT;
+		
 	}
 
 	Texture::~Texture()
@@ -40,11 +42,12 @@ namespace ma
 		return m_pImageRes ? m_pImageRes->GetResPath() : m_strImagePath.c_str();
 	}
 
-	void Texture::Load(const char* pszPath,Wrap eWrap,Filter eFilter)
+	void Texture::Load(const char* pszPath,Wrap eWrap,Filter eFilter,bool bSRGB)
 	{
 		m_eWrap = eWrap;
 		m_eFilter = eFilter;
 		m_strImagePath = pszPath;
+		m_bSRGB = bSRGB;
 		m_pImageRes = CreateResource(pszPath);
 		IsReady();
 	}
@@ -250,11 +253,18 @@ namespace ma
 		const char* pszIMagePath = pXmlTexture->findAttribute("ImagePath");
 		const char* pszWrap = pXmlTexture->findAttribute("Wrap");
 		const char* pszFilter = pXmlTexture->findAttribute("Filter");
+		const char* pszSRGB = pXmlTexture->findAttribute("SRGB");
 
 		Wrap eWrap = StringToEnum<Wrap>(pszWrap,strDescWrap);
 		Filter eFilter = StringToEnum<Filter>(pszFilter,strDescFilter);
+		
+		bool bSRGB = false;
+		if (pszSRGB)
+		{
+			bSRGB = StringConverter::parseBool(pszSRGB);
+		}
 
-		RefPtr<Texture> pTexture = CreateTexture(pszIMagePath,eWrap,eFilter);
+		RefPtr<Texture> pTexture = CreateTexture(pszIMagePath,eWrap,eFilter,bSRGB);
 		return pTexture;
 	}
 
@@ -263,11 +273,12 @@ namespace ma
 		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("ImagePath"),doc.allocate_string(pTexutre->GetImagePath())));
 		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Wrap"),doc.allocate_string(strDescWrap[pTexutre->GetWrapMode()])));
 		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Filter"),doc.allocate_string(strDescFilter[pTexutre->GetFilterMode()])));
+		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("SRGB"),doc.allocate_string( StringConverter::toString(pTexutre->GetSRGB()).c_str() )));
 	}
 
-	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter)
+	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter,bool bSRGB)
 	{
-		return g_pTextureManager->CreateTexture(pImagePath,eWrap,eFilter);
+		return g_pTextureManager->CreateTexture(pImagePath,eWrap,eFilter,bSRGB);
 	}
 
 }

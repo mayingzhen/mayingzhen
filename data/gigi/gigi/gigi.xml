@@ -5,16 +5,16 @@
 	<Attribute Name="Rotation" Type="Quaternion" Value="1 0 0 0"/>
 	<Attribute Name="Scale" Type="Vector3" Value="1 1 1"/>
 	<Component ClassName="SkinMeshComponent">
-		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_b.skn"/>
 		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_b.mtl"/>
+		<LodMeshData MeshData="gigi/gigi/body_b.skn"/>
 	</Component>
 	<Component ClassName="SkinMeshComponent">
-		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_h.skn"/>
 		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_h.mtl"/>
+		<LodMeshData MeshData="gigi/gigi/body_h.skn"/>
 	</Component>
 	<Component ClassName="SkinMeshComponent">
-		<Attribute Name="SknPath" Type="string" Value="gigi/gigi/body_f.skn"/>
 		<Attribute Name="MatPath" Type="string" Value="gigi/gigi/body_f.mtl"/>
+		<LodMeshData MeshData="gigi/gigi/body_f.skn"/>
 	</Component>
 	<Component ClassName="AnimationComponent">
 		<Attribute Name="AnimSetPath" Type="string" Value="gigi/gigi/body.aniset"/>

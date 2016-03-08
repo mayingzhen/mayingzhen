@@ -27,7 +27,7 @@ namespace ma
 
 		LightType					GetLightType() {return m_eLightType;}
 
-		const ColourValue&			GetLightColor() {return m_cLightColor;}
+		const ColourValue&			GetLightColor() const {return m_cLightColor;}
 		void						SetLightColor(const ColourValue& cLightColor) {m_cLightColor = cLightColor;}
 
 		void						SetLightIntensity(float fIntensity) {m_fLightIntensity = fIntensity;}

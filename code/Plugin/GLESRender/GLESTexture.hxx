@@ -11,7 +11,7 @@ namespace ma
 		m_PixelFormat = 0;
 	}
 
-	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage)
+	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage)
 		:Texture(nWidth,nHeight,eFormat,eUsage)
 	{
 		m_pTex = 0;

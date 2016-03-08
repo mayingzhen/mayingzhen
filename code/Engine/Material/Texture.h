@@ -13,7 +13,7 @@ namespace ma
 	public:
 		Texture(); 
 
-		Texture(int nWidth,int nHeight,PixelFormat eFormat,USAGE eUsage); // For Render Texture
+		Texture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage); // For Render Texture
 		
 		virtual ~Texture();
 
@@ -23,20 +23,23 @@ namespace ma
 
 		PixelFormat		GetFormat() const {return m_eFormat;}
 
-		USAGE			GetUsage() const {return m_eUsage;}
+		TEXTURE_USAGE	GetUsage() const {return m_eUsage;}
 
 		Wrap			GetWrapMode() const {return m_eWrap;}
 
 		Filter			GetFilterMode() const {return m_eFilter;} 
 
+		bool			GetSRGB() const {return m_bSRGB;}
+
+		void			SetSRGB(bool enable) {m_bSRGB = enable;}
+
 		const char*		GetImagePath() const;
 
-		void			Load(const char* pszPath,Wrap eWrap,Filter eFilter);
+		void			Load(const char* pszPath,Wrap eWrap,Filter eFilter,bool bSRGB);
 
 		virtual	bool	IsReady();
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
-
 
 		static RefPtr<Texture>	Improt(rapidxml::xml_node<>* pXmlElem);
 		static void		Export(Texture* pTexture,rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
@@ -59,7 +62,7 @@ namespace ma
 		int				m_nWidth;
 		int				m_nHeight;
 		UINT			m_nMipLevels;
-		USAGE			m_eUsage;
+		TEXTURE_USAGE	m_eUsage;
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;
 
@@ -68,10 +71,12 @@ namespace ma
 		RefPtr<Resource> m_pImageRes;
 		std::string		m_strImagePath;
 
+		bool			m_bSRGB;
+
 		friend class	RenderThread;
 	};
 
-	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR);
+	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = false);
 	RefPtr<Texture> CreateTexture();
 }
 

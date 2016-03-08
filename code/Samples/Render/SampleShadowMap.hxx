@@ -31,9 +31,7 @@ namespace ma
 		m_pBox->SetScale(Vector3(50));
 		m_pBox->SetPos(Vector3(250.0f, 250.0f,pTerrain->GetHeight(250.0f, 250.0f)));
 
-		RefPtr<SceneNode> pSun = m_pScene->CreateSceneNode();
-		RefPtr<DirectonalLight> pSunLight = CreateDirectonalLight();
-		pSun->AddComponent(pSunLight.get());
+		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
 		
 		pSunLight->GetSceneNode()->LookAt(Vector3(1.f, 0.f, 1.f),Vector3::ZERO); 
 		pSunLight->SetLightColor(ColourValue(0.49, 0.65, 0.95, 1.f));
@@ -45,7 +43,7 @@ namespace ma
 	{
 		//GetInput()->RemoveKeyListener(this);
 
-		m_pScene->SetAmbientColor(ColourValue::White);		
+		//m_pScene->SetAmbientColor(ColourValue::White);		
 
 		m_pDirectLight = NULL;
 		m_pBox = NULL;

@@ -440,17 +440,17 @@ namespace ma
 		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Y), fixedAxis);
 	}
 
-	Vector3	SceneNode::GetForward()
+	Vector3	SceneNode::GetForward() const
 	{
 		return GetMatrixWS().GetColumn(1);
 	}
 
-	Vector3	SceneNode::GetRight()
+	Vector3	SceneNode::GetRight() const
 	{
 		return GetMatrixWS().GetColumn(0);
 	}
 
-	Vector3	SceneNode::GetUp()
+	Vector3	SceneNode::GetUp() const
 	{
 		return GetMatrixWS().GetColumn(2);
 	}
@@ -482,6 +482,15 @@ namespace ma
 		Vector3 vDirY = vAt - vEye;
 		vDirY.normalise();
 
+		if (vDirY.positionEquals(Vector3::UNIT_Z))
+		{
+			vUp.y = 0.01f;
+		}
+		else if (vDirY.positionEquals(Vector3::NEGATIVE_UNIT_Z))
+		{
+			vUp.y = 0.01f;
+		}
+
 		Vector3 vDirX = vDirY.crossProduct(vUp);
 		vDirX.normalise();
 
@@ -492,7 +501,7 @@ namespace ma
 		tsfWS.m_vPos = vEye;
 		tsfWS.m_qRot = Quaternion(vDirX,vDirY,vDirZ);
 		tsfWS.m_vScale = Vector3::UNIT_SCALE;
- 
+
  		SetTransformWS(tsfWS);
 	}
 

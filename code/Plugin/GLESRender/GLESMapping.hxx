@@ -3,7 +3,7 @@
 namespace ma
 {
 
-	GLenum GLESMapping::GetGLESUSage(USAGE Usage)
+	GLenum GLESMapping::GetGLESTextureUSage(TEXTURE_USAGE Usage)
 	{
 		switch(Usage)
 		{
@@ -14,6 +14,24 @@ namespace ma
 		default:
 			ASSERT(false);
 			return GL_STATIC_DRAW;
+		};
+	}
+
+	GLenum GLESMapping::GetGLESBufferUSage(HBU_USAGE Usage)
+	{
+		switch(Usage)
+		{
+		case HBU_STATIC:
+		case HBU_STATIC_WRITE_ONLY:
+			return GL_STATIC_DRAW;
+		case HBU_DYNAMIC:
+		case HBU_DYNAMIC_WRITE_ONLY:
+			return GL_DYNAMIC_DRAW;
+		case HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE:
+			return GL_STREAM_DRAW;
+		default:
+			ASSERT(false);
+			return GL_DYNAMIC_DRAW;
 		};
 	}
 

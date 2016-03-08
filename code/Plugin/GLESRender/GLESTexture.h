@@ -10,7 +10,7 @@ namespace ma
 	public:
 		GLESTexture();
 
-		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,USAGE eUsage = USAGE_STATIC);
+		GLESTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE eUsage = USAGE_STATIC);
 
 		~GLESTexture();
 

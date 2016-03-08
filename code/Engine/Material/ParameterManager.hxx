@@ -22,6 +22,10 @@ namespace ma
 		m_autoDefaultBings["g_matViewProj"] = g_matViewProj;
 		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
 		m_autoDefaultBings["g_matWorldView"] = g_matWorldView;
+		m_autoDefaultBings["g_vEyeWorldPos"]= g_vEyeWorldPos;
+		m_autoDefaultBings["g_cSkyLight"]= g_cSkyLight;
+		m_autoDefaultBings["g_cDirLight"]= g_cDirLight;
+		m_autoDefaultBings["g_vDirLight"]= g_vDirLight;
 		m_autoDefaultBings["g_tShadowMap"] = g_tShadowMap;
 		//m_autoDefaultBings["g_fSplitPlane"] = g_fSplitPlane;
 		m_autoDefaultBings["g_matShadow"] = g_matShadow;
@@ -89,11 +93,27 @@ namespace ma
 		}
 		else if (autoBinding == g_matViewProj)
 		{
-			pParam->BindMethod(this, &ParameterManager::autoBindingGetViewProjectionMatrix);
+			pParam->BindMethod(GetRenderContext(), &RenderContext::GetViewProjMatrix);
 		}
 		else if (autoBinding == g_matWorldViewProj)
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
+		}
+		else if (autoBinding == g_vEyeWorldPos)
+		{
+			pParam->BindMethod(GetRenderContext(), &RenderContext::GetEyeWorldPos);
+		}
+		else if (autoBinding == g_cSkyLight)
+		{
+			pParam->BindMethod(GetRenderContext(), &RenderContext::GetAmbientColor);
+		}
+		else if (autoBinding == g_cDirLight)
+		{
+			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightColor);
+		}
+		else if (autoBinding == g_vDirLight)
+		{
+			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightDir);
 		}
 		else if (autoBinding == g_tShadowMap)
 		{
@@ -171,7 +191,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return NULL;
 
-		return pCurScene->GetShadowMapFrustum()->GetShadowMap();
+		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap();
 	}
 
 	const Matrix4& ParameterManager::autoBindingShadowMatrix() const
@@ -180,7 +200,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return Matrix4::IDENTITY;
 
-		return pCurScene->GetShadowMapFrustum()->GetShadowMatrix();
+		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
 	}
 
 	Vector4	ParameterManager::autoBindingShadowMapTexSize() const
@@ -189,7 +209,7 @@ namespace ma
 		if (pCurScene == NULL)
 			return Vector4::ZERO;
 
-		Texture* pShadowMap = pCurScene->GetShadowMapFrustum()->GetShadowMap();
+		Texture* pShadowMap =pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap();
 		return Vector4((float)pShadowMap->GetWidth(), 1.0f / (float)pShadowMap->GetWidth(), 0, 0);
 	}
 

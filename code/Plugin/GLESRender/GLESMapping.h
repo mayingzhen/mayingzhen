@@ -7,7 +7,8 @@ namespace ma
 	class GLESMapping
 	{
 	public:
-		static GLenum GetGLESUSage(USAGE Usage);
+		static GLenum GetGLESTextureUSage(TEXTURE_USAGE Usage);
+		static GLenum GetGLESBufferUSage(HBU_USAGE Usage);
  		static GLenum GetGLESPrimitiveType(PRIMITIVE_TYPE type);
 		static GLenum GetGLESIndexType(INDEX_TYPE type);
 		static void	  GetGLESDeclType(DECL_USAGE Usage, BYTE nUsageIndex, DECL_TYPE eType, GLenum& type, 

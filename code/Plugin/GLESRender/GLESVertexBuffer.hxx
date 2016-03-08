@@ -34,7 +34,7 @@ namespace ma
 
 	void GLESVertexBuffer::RT_StreamComplete()
 	{
-		GLenum glUsage = GLESMapping::GetGLESUSage(m_Usage);
+		GLenum glUsage = GLESMapping::GetGLESBufferUSage(m_Usage);
 		GL_ASSERT( glGenBuffers(1,& m_hVertexBufffer) );
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
 		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,m_pData,glUsage) );

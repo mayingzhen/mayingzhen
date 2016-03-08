@@ -45,6 +45,9 @@ namespace ma
 
 		m_hWnd = NULL;
 
+		m_nPoolIndex = 0;
+		m_nPoolIndexRT = 0;
+
 		m_bThread = false;
 		m_cClearClor = ColourValue::Black;
 	}
@@ -68,7 +71,7 @@ namespace ma
 		{
 			m_pRenderThread->Start();
 		}
-		
+
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
@@ -89,6 +92,8 @@ namespace ma
 			g_pShaderManager->ReLoad();
 			m_bNeedReloadShader = false;
 		}
+
+		UpdatePoolId();
 
 		for (UINT i = 0; i < m_arrScene.size(); ++i)
 		{
@@ -146,6 +151,10 @@ namespace ma
 		{
 			m_arrSampState[i] = NULL;
 		}
+		for (int i = 0; i < nNumParticleBuffer; ++i)
+		{
+			m_pParticleBuffer[i] = NULL;
+		}
 
 		GetRenderDevice()->ShutDown();
 
@@ -187,6 +196,8 @@ namespace ma
 
 		InitCachState();
 
+		InitParticleVideoMemory();
+
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
 			m_pRenderTarget[i] = GetRenderDevice()->GetRenderTarget(i);
@@ -205,14 +216,12 @@ namespace ma
 
 	void RenderSystem::RT_BeginFrame()
 	{
-		GetRenderDevice()->BeginRender();	
 
-		GetRenderDevice()->ClearBuffer(true,true,true,m_cClearClor,1,0);
 	}
 
 	void RenderSystem::RT_EndFrame()
 	{
-		GetRenderDevice()->EndRender();
+
 	}
 
 	void RenderSystem::RT_Render()
@@ -221,6 +230,12 @@ namespace ma
 		{
 			m_arrScene[i]->Render();
 		}
+
+		// we render directly to a video memory buffer
+		// we need to unlock it here in case we renderered a frame without any particles
+		// lock the VMEM buffer for the next frame here (to prevent a lock in the mainthread)
+		// NOTE: main thread is already working on buffer+1 and we want to prepare the next one => hence buffer+2
+		LockParticleVideoMemory( (m_nPoolIndexRT + (nNumParticleBuffer - 1) ) % nNumParticleBuffer );	
 
 		OnFlushFrame();
 	}
@@ -290,7 +305,7 @@ namespace ma
 
 	}
 
-	Texture* RenderSystem::CreateRenderTexture(int nWidth,int nHeight,PixelFormat format,USAGE use)
+	Texture* RenderSystem::CreateRenderTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE use)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
@@ -476,20 +491,20 @@ namespace ma
 		m_pRenderThread->RC_EndProfile();	
 	}
 
-	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage)
+	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage);
-		if (eUsage != USAGE_DYNAMIC)
+		if (eUsage != HBU_DYNAMIC)
 			m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
 
-	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage)
+	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage)
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage);
-		if (eUsage != USAGE_DYNAMIC)
+		if (eUsage != HBU_DYNAMIC)
 			m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}
@@ -642,6 +657,68 @@ namespace ma
 	void RenderSystem::ReloadShader()
 	{
 		m_bNeedReloadShader = true;
+	}
+
+	void RenderSystem::InitParticleVideoMemory()
+	{
+		for (uint32 i = 0; i < nNumParticleBuffer; ++i)
+		{
+			m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
+		}
+	}
+
+	ParallHardWareBuffer* RenderSystem::GetParticleBuffer()
+	{
+		uint32 nIndex = m_nPoolIndex % nNumParticleBuffer;
+		return m_pParticleBuffer[nIndex].get();
+	}
+
+	ParallHardWareBuffer* RenderSystem::GetRTParticleBuffer()
+	{
+		uint32 nIndex = m_nPoolIndexRT % nNumParticleBuffer;
+		return m_pParticleBuffer[nIndex].get();
+	}
+
+	void RenderSystem::LockParticleVideoMemory(uint32 nId)
+	{
+		profile_code();
+
+		// unlock the particle VMEM buffer in case no particel were rendered(and thus no unlock was called)
+		UnLockParticleVideoMemory(nId);	
+
+		// lock video memory vertex/index buffer and expose base pointer and offset
+		if(m_pParticleBuffer[nId])
+		{
+			m_pParticleBuffer[nId]->LockVideoMemory();
+		}
+	}
+
+	void RenderSystem::UnLockParticleVideoMemory(uint32 nId)
+	{
+		if(m_pParticleBuffer[nId])
+		{
+			m_pParticleBuffer[nId]->UnLockVideoMemory();
+		}
+	}
+
+	void RenderSystem::RT_SetPoolId(uint32 poolId)
+	{
+		m_nPoolIndexRT = poolId; 
+	}
+
+	void RenderSystem::UpdatePoolId()
+	{
+		m_pRenderThread->RC_SetPoolId(++m_nPoolIndex);
+	}
+
+	int RenderSystem::GetPoolId()
+	{
+		return m_nPoolIndex;
+	}
+
+	int	RenderSystem::GetPooIdRT()
+	{
+		return m_nPoolIndexRT;
 	}
 
 }

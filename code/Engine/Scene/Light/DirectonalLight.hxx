@@ -124,7 +124,7 @@ namespace ma
 
 	void DirectonalLight::Update()
 	{
-		m_pSceneNode->GetScene()->AddLight(this);
+		m_pSceneNode->GetScene()->AddRenderLight(this);
 	}
 
 	void DirectonalLight::Update(Camera* pCamera)
@@ -211,8 +211,6 @@ namespace ma
 			m_SpitFrustum[i].CreateShadowMap(m_nShadowMapSize);
 			m_SpitFrustum[i].m_pParent = this;
 		}
-
-		m_pSceneNode->GetScene()->SetShadowMapFrustum(&m_SpitFrustum[0]);
 	}
 
 	void DirectonalLight::UpdateViewMinMaxZ(Camera* pCamera)

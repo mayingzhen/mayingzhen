@@ -1,41 +1,38 @@
 #pragma once
 
 
+#include "../../RenderSystem/IRenderDevice/TransientBuffer.h"
+
 namespace ma
 {
-
-class ParticleSystem;
-class ParticleSystemRenderable : public Renderable
-{
-public:
-	ParticleSystemRenderable(ParticleSystem* pParent);
-	~ParticleSystemRenderable(void);
-
-	// ---------------------------------------------------------------------
-	// 
-	// ---------------------------------------------------------------------
-	virtual void Render(Technique* pTech);
-
-	ParticleSystem* GetParent() {return m_pParent;}
-
-private:
-	ParticleSystem* m_pParent;
-	uint32 m_nNumVertices;
-	uint32 m_nNumIndices;
-
-	struct VERTEX 
+	class ParticleSystemRenderable : public Renderable
 	{
-		Vector3 pos;
-		Vector2 uv;
-		Vector2 nextUV;
-		uint32 blend;
-		uint32 color;
-	};
-	vector<VERTEX> vertices;
-	vector<uint16> indices;
+	public:
 
-	friend class ParticleSystem;
-	friend class BatchParticleRenderable;
-};
+		ParticleSystemRenderable();
+
+		~ParticleSystemRenderable(void);
+
+		virtual void Render(Technique* pTech);
+
+		bool AllocVertices( int nAllocVerts, int nAllocInds );
+
+		struct VERTEX 
+		{
+			Vector3 pos;
+			Vector2 uv;
+			Vector2 nextUV;
+			uint32 blend;
+			uint32 color;
+		};
+
+	private:
+
+		SubAllocVB m_subAllocVB;
+		SubAllocIB m_subAllocIB;
+
+		friend class ParticleSystem;
+		friend class BatchParticleRenderable;
+	};
 
 }

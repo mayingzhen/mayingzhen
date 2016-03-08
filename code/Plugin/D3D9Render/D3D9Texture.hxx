@@ -12,7 +12,7 @@ namespace ma
 		m_D3DPool = D3DPOOL_MANAGED;
 	}
 
-	D3D9Texture::D3D9Texture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
+	D3D9Texture::D3D9Texture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
 		:Texture(nWidth,nHeight,format,eUsage)
 	{
 		m_pD3DTex = NULL;
@@ -49,7 +49,7 @@ namespace ma
 			return false;
 
 		D3DFORMAT D3DFormat = D3D9Mapping::GetD3DFormat(m_eFormat);
-		DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_eUsage);
+		DWORD D3DUsage = D3D9Mapping::GetD3DTextureUsage(m_eUsage);
 
 		HRESULT hr = D3DXCheckTextureRequirements(GetD3D9DxDevive(),NULL,NULL,NULL,0,&D3DFormat,m_D3DPool);
 		if (FAILED(hr))

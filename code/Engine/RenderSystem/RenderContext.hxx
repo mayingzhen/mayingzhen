@@ -31,6 +31,7 @@ namespace ma
 		//m_pCamera = pCamera;
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
+		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetPosWS();
 
 		m_fFar[GetRenderSystem()->CurThreadFill()] = pCamera->GetFarClip();
 		m_fNear[GetRenderSystem()->CurThreadFill()] = pCamera->GetNearClip();
@@ -61,9 +62,14 @@ namespace ma
 		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatProj();
 	}
 
-	const Matrix4& RenderContext::GetViewProjMatrix()  
+	const Matrix4& RenderContext::GetViewProjMatrix() const
 	{
 		return m_matViewProj[GetRenderSystem()->CurThreadProcess()].GetMatViewProj();
+	}
+
+	const Vector3& RenderContext::GetEyeWorldPos() const
+	{
+		return m_vEyeWordPos[GetRenderSystem()->CurThreadProcess()];
 	}
 
 	float RenderContext::GetNearClip() 
@@ -75,5 +81,21 @@ namespace ma
 	{
 		return m_fFar[GetRenderSystem()->CurThreadProcess()];
 	}
+
+	Vector3	RenderContext::GetAmbientColor() const
+	{
+		return m_pCurScene->GetAmbientColor();
+	}
+
+	ColourValue	RenderContext::GetDirLightColor() const
+	{
+		return m_pCurScene->GetDirLight()->GetLightColor();
+	}
+
+	Vector3	RenderContext::GetDirLightDir() const
+	{
+		return m_pCurScene->GetDirLight()->GetSceneNode()->GetForward();
+	}
+
 
 }

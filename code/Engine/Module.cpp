@@ -63,6 +63,7 @@
 #include "Engine/RenderSystem/DeviceCapabilities.hxx"
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.hxx"
 #include "Engine/RenderSystem/IRenderDevice/HardwareBuffer.hxx"
+#include "Engine/RenderSystem/IRenderDevice/TransientBuffer.hxx"
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.hxx"
 
 

@@ -45,7 +45,7 @@ namespace ma
 		{
 			// One SunMesh
 			RefPtr<SubMeshData> pSubmesh = CreateSubMeshData();
-			pMeshData->AddSubMeshData(0,pSubmesh.get());
+			pMeshData->AddSubMeshData(pSubmesh.get());
 			pSubmesh->m_nMateiralID = it->first;
 
 			//submesh->m_pMaterial = CreateMeshMaterial(pMesh,it->first,pImportParm,false);
@@ -106,7 +106,7 @@ namespace ma
 	
 		MeshData meshData;
 		meshData.SetVertexType(STATIC_VERTEX_1);
-		meshData.SetIndexType(INDEX_16);
+		meshData.SetIndexType(INDEX_TYPE_U16);
 
 		FbxScene* pFbxScene = GetFbxScene( strMeshFile.c_str() );
 		ASSERT(pFbxScene);
