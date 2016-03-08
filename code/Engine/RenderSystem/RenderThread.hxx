@@ -48,16 +48,16 @@ namespace ma
 	{
 		while (!m_bExit)
 		{
-			float fTime = GetTimer()->GetMillisceonds();
+			uint64 nTime = GetTimer()->GetMillisceonds();
 			WaitFlushCond();
-			float fTimeAfterWait = GetTimer()->GetMillisceonds();
-			float fTimeWaitForMain = fTimeAfterWait - fTime;
-			LogInfo("fTimeWaitForMain = %f",fTimeWaitForMain);
+			uint64 nTimeAfterWait = GetTimer()->GetMillisceonds();
+			uint64 nTimeWaitForMain = nTimeAfterWait - nTime;
+			LogInfo("fTimeWaitForMain = %d",nTimeWaitForMain);
 			//gRenDev->m_fTimeWaitForMain[m_nCurThreadProcess] += fTimeAfterWait - fTime;
 			ProcessCommands();
-			float fTimeAfterProcess = GetTimer()->GetMillisceonds();
-			float fTimeProcessedRT = fTimeAfterProcess - fTimeAfterWait;
-			LogInfo("fTimeProcessedRT = %f",fTimeProcessedRT);
+			uint64 nTimeAfterProcess = GetTimer()->GetMillisceonds();
+			uint64 nTimeProcessedRT = nTimeAfterProcess - nTimeAfterWait;
+			LogInfo("fTimeProcessedRT = %d",nTimeProcessedRT);
 			//gRenDev->m_fTimeProcessedRT[m_nCurThreadFill] += fTimeAfterProcess - fTimeAfterWait;
 		}
 	}
@@ -471,6 +471,18 @@ namespace ma
 		AddPointer(sampler);
 	}
 
+	void RenderThread::RC_SetPoolId(uint32 poolId)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderSystem()->RT_SetPoolId(poolId);
+			return;
+		}
+
+		AddCommand(eRC_SetPoolId);
+		AddDWORD(poolId);
+	}
+
 	void RenderThread::RC_BeginProfile(const char* pszLale)
 	{
 		if (IsRenderThread())
@@ -711,6 +723,12 @@ namespace ma
 					GetRenderDevice()->SetTexture(pUnform,pTexture);
 				}
 				break;
+			case  eRC_SetPoolId:
+				{
+					UINT nId = ReadCommand<UINT>(n);
+					GetRenderSystem()->RT_SetPoolId(nId);
+				}
+				break;
 			case eRC_BeginProfile:
 				{
 					char pStr[256] = {0};
@@ -760,10 +778,10 @@ namespace ma
 		//if (!IsMultithreaded())
 		//	return;
 
-		float fTime = GetTimer()->GetMillisceonds();
+		uint64 nTime = GetTimer()->GetMillisceonds();
 		WaitFlushFinishedCond();
-		float fTimeWaitForRender = GetTimer()->GetMillisceonds() - fTime;
-		LogInfo("fTimeWaitForRender = %f",fTimeWaitForRender);
+		uint64 nTimeWaitForRender = GetTimer()->GetMillisceonds() - nTime;
+		LogInfo("fTimeWaitForRender = %d",nTimeWaitForRender);
 		//gRenDev->m_fTimeWaitForRender[m_nCurThreadFill] = iTimer->GetAsyncCurTime() - fTime;
 		
 		m_nCurThreadProcess = m_nCurThreadFill;

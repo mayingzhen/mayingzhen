@@ -18,7 +18,7 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_GLES2;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC);
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,TEXTURE_USAGE eUsage = USAGE_STATIC);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
@@ -74,7 +74,7 @@ namespace ma
 		virtual	void				BeginProfile(const char* pszLale);
 		virtual	void				EndProfile();
 
-		virtual	bool				CheckTextureFormat(PixelFormat eFormat,USAGE eUsage);
+		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
 		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
 

@@ -32,9 +32,10 @@ namespace ma
 	class D3D9Mapping
 	{
 	public:
-		static DWORD        GetD3DUsage(USAGE Usage);
+		static DWORD        GetD3DTextureUsage(TEXTURE_USAGE Usage);
+		static DWORD        GetD3DBufferUsage(HBU_USAGE Usage);
 		static D3DFORMAT	GetD3DIndexType(INDEX_TYPE eType);
-		static D3DPOOL      GetD3DPool(USAGE Usage);
+		static D3DPOOL      GetD3DPool(HBU_USAGE Usage);
 		static DWORD        GetD3DLock(int Lock);
 		static D3DFORMAT    GetD3DFormat(PixelFormat Format);
 		static void         GetD3D9Filter(Filter Type,DWORD& minFilter,DWORD& magFilter,DWORD& mipFilter);

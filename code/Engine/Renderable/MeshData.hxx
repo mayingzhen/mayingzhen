@@ -15,7 +15,7 @@ namespace ma
 
 	MeshData::MeshData()
 	{
-		m_nIndexType = INDEX_16;
+		m_nIndexType = INDEX_TYPE_U16;
 		m_nVertexType = SKIN_VERTEX_1;
 		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
 		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
@@ -145,30 +145,25 @@ namespace ma
 		pSaveStream->WriteBoundingBox(m_meshBound);
 		pSaveStream->WriteBoundingBox2D(m_tcBound);
 		
-		pSaveStream->WriteUInt(m_arrLodSubMesh.size());
-		for (uint32 i = 0; i < m_arrLodSubMesh.size(); ++i)
+		pSaveStream->WriteUInt(m_arrSubMesh.size());
+		for (uint32 j = 0; j < m_arrSubMesh.size(); ++j)
 		{
-			VEC_SUBMESH& vecSubMesh = m_arrLodSubMesh[i];
-			pSaveStream->WriteUInt(vecSubMesh.size());
-			for (uint32 j = 0; j < vecSubMesh.size(); ++j)
+			SubMeshData* subMesh = m_arrSubMesh[j].get();
+
+			pSaveStream->WriteUInt(subMesh->m_nIndexStart);
+			pSaveStream->WriteUInt(subMesh->m_nIndexCount);
+			pSaveStream->WriteUInt(subMesh->m_nVertexStart);
+			pSaveStream->WriteUInt(subMesh->m_nVertexCount);
+	
+			pSaveStream->WriteUInt(subMesh->m_arrBonePalette.size());
+			for (uint32 iBone = 0; iBone < subMesh->m_arrBonePalette.size(); ++iBone)
 			{
-				SubMeshData* subMesh = vecSubMesh[j].get();
-
-				pSaveStream->WriteUInt(subMesh->m_nIndexStart);
-				pSaveStream->WriteUInt(subMesh->m_nIndexCount);
-				pSaveStream->WriteUInt(subMesh->m_nVertexStart);
-				pSaveStream->WriteUInt(subMesh->m_nVertexCount);
-		
-				pSaveStream->WriteUInt(subMesh->m_arrBonePalette.size());
-				for (uint32 iBone = 0; iBone < subMesh->m_arrBonePalette.size(); ++iBone)
-				{
-					pSaveStream->WriteUInt(subMesh->m_arrBonePalette[iBone]);
-				}
-
-				pSaveStream->WriteUInt(subMesh->m_nMateiralID);	
+				pSaveStream->WriteUInt(subMesh->m_arrBonePalette[iBone]);
 			}
-		}
 
+			pSaveStream->WriteUInt(subMesh->m_nMateiralID);	
+		}
+	
 		return true;
 	}
 
@@ -182,7 +177,7 @@ namespace ma
 		uint32 nVertexNum = m_pDataStream->ReadUInt();
 
 		uint32 nIndexType = m_pDataStream->ReadUInt();
-		ASSERT(nIndexType == INDEX_16);
+		ASSERT(nIndexType == INDEX_TYPE_U16);
 
 		uint32 nVertexType = m_pDataStream->ReadUInt();
 
@@ -234,32 +229,27 @@ namespace ma
 		m_meshBound = m_pDataStream->ReadBoundingBox();
 		m_tcBound = m_pDataStream->ReadBoundingBox2D();
 
-		uint32 nMeshLod = m_pDataStream->ReadUInt();
-		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)
+		uint32 nSubMesh = m_pDataStream->ReadUInt();
+		for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
 		{
-			VEC_SUBMESH vecSubMesh;
-			uint32 nSubMesh = m_pDataStream->ReadUInt();
-			for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
+			SubMeshData* subMesh = new SubMeshData;
+			subMesh->m_nIndexStart = m_pDataStream->ReadUInt();
+			subMesh->m_nIndexCount = m_pDataStream->ReadUInt();
+			subMesh->m_nVertexStart = m_pDataStream->ReadUInt();
+			subMesh->m_nVertexCount = m_pDataStream->ReadUInt();
+
+			uint32 nBoneNum = m_pDataStream->ReadUInt();
+			subMesh->m_arrBonePalette.resize(nBoneNum);
+			for (uint32 iBone = 0; iBone < nBoneNum; ++iBone)
 			{
-				SubMeshData* subMesh = new SubMeshData;
-				subMesh->m_nIndexStart = m_pDataStream->ReadUInt();
-				subMesh->m_nIndexCount = m_pDataStream->ReadUInt();
-				subMesh->m_nVertexStart = m_pDataStream->ReadUInt();
-				subMesh->m_nVertexCount = m_pDataStream->ReadUInt();
-
-				uint32 nBoneNum = m_pDataStream->ReadUInt();
-				subMesh->m_arrBonePalette.resize(nBoneNum);
-				for (uint32 iBone = 0; iBone < nBoneNum; ++iBone)
-				{
-					subMesh->m_arrBonePalette[iBone] = m_pDataStream->ReadUShort();
-				}
-
-				subMesh->m_nMateiralID = m_pDataStream->ReadUInt();
-
-				vecSubMesh.push_back(subMesh);
+				subMesh->m_arrBonePalette[iBone] = m_pDataStream->ReadUShort();
 			}
-			m_arrLodSubMesh.push_back(vecSubMesh);
+
+			subMesh->m_nMateiralID = m_pDataStream->ReadUInt();
+
+			m_arrSubMesh.push_back(subMesh);
 		}
+		
 	}
 
 	void MeshData::ReadDataV0()
@@ -304,7 +294,6 @@ namespace ma
 		uint32 nMeshLod = m_pDataStream->ReadUInt();
 		for (uint32 iLod = 0; iLod < nMeshLod; ++iLod)
 		{
-			VEC_SUBMESH vecSubMesh;
 			uint32 nSubMesh = m_pDataStream->ReadUInt();
 			for (uint32 iSub = 0; iSub < nSubMesh; ++iSub)
 			{
@@ -336,9 +325,8 @@ namespace ma
 				
 				subMesh->m_nMateiralID = m_pDataStream->ReadUInt();
 
-				vecSubMesh.push_back(subMesh);
+				m_arrSubMesh.push_back(subMesh);
 			}
-			m_arrLodSubMesh.push_back(vecSubMesh);
 		}
 
 		vector<SkinVertexV1> pVertexV1;
@@ -374,38 +362,36 @@ namespace ma
 
 		std::vector<bool> vertexUpdated;
 		vertexUpdated.resize(nVertexCount,false);
-		for (uint32 iLod = 0; iLod < m_arrLodSubMesh.size(); ++iLod)
+	
+		for (uint32 iSub = 0; iSub < m_arrSubMesh.size(); ++iSub)
 		{
-			VEC_SUBMESH& vecSubMesh = m_arrLodSubMesh[iLod];
-			for (uint32 iSub = 0; iSub < vecSubMesh.size(); ++iSub)
+			SubMeshData* subMesh = m_arrSubMesh[iSub].get();	
+
+			for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
 			{
-				SubMeshData* subMesh = vecSubMesh[iSub].get();	
+				pIndex[iIndex] += subMesh->m_nVertexStart;
+			}
 
-				for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
-				{
-					pIndex[iIndex] += subMesh->m_nVertexStart;
-				}
+			subMesh->m_nVertexStart = 0;
+			subMesh->m_nVertexCount = nVertexCount;
 
-				subMesh->m_nVertexStart = 0;
-				subMesh->m_nVertexCount = nVertexCount;
+			for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
+			{
+				uint16 nIndex = pIndex[iIndex];
+				if (vertexUpdated[nIndex])
+					continue;
 
-				for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
-				{
-					uint16 nIndex = pIndex[iIndex];
-					if (vertexUpdated[nIndex])
-						continue;
+				SkinVertexV0& vertexV0 = pVertexV0[nIndex];
+				StaticVertexV1& vertexV1 = pVertexV1[nIndex];
 
-					SkinVertexV0& vertexV0 = pVertexV0[nIndex];
-					StaticVertexV1& vertexV1 = pVertexV1[nIndex];
-
-					vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
-					vertexV1.nor = ToSkinNormal(vertexV0.nor);
-					vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
-			
-					vertexUpdated[nIndex] = true;
-				}
+				vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
+				vertexV1.nor = ToSkinNormal(vertexV0.nor);
+				vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
+		
+				vertexUpdated[nIndex] = true;
 			}
 		}
+		
 	}
 
 	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex)
@@ -424,57 +410,54 @@ namespace ma
 
 		std::vector<bool> vertexUpdated;
 		vertexUpdated.resize(nVertexCount,false);
-		for (uint32 iLod = 0; iLod < m_arrLodSubMesh.size(); ++iLod)
-		{
-			VEC_SUBMESH& vecSubMesh = m_arrLodSubMesh[iLod];
-			for (uint32 iSub = 0; iSub < vecSubMesh.size(); ++iSub)
-			{
-				SubMeshData* subMesh = vecSubMesh[iSub].get();	
 
+		for (uint32 iSub = 0; iSub < m_arrSubMesh.size(); ++iSub)
+		{
+			SubMeshData* subMesh = m_arrSubMesh[iSub].get();	
+
+			for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
+			{
+				pIndex[iIndex] += subMesh->m_nVertexStart;
+			}
+
+			subMesh->m_nVertexStart = 0;
+			subMesh->m_nVertexCount = nVertexCount;
+
+			//if (nBoneNum > 75/*MAX_MAT_NUM_BONES*/)
+			{
+			}
+			//else
+			{
 				for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
 				{
-					pIndex[iIndex] += subMesh->m_nVertexStart;
+					uint16 nIndex = pIndex[iIndex];
+					if (vertexUpdated[nIndex])
+						continue;
+
+					SkinVertexV0& vertexV0 = pVertexV0[nIndex];
+					SkinVertexV1& vertexV1 = pVertexV1[nIndex];
+
+					vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
+					vertexV1.nor = ToSkinNormal(vertexV0.nor);
+					vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
+					vertexV1.bone_index = vertexV0.bone_index;
+					vertexV1.bone_weight = vertexV0.bone_weight;
+
+					uint8 boneIndex[4];
+
+					GetBoneIndex(vertexV0.bone_index,boneIndex[0],boneIndex[1],boneIndex[2],boneIndex[3]);
+
+					boneIndex[0] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[0] ];
+					boneIndex[1] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[1] ];
+					boneIndex[2] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[2] ];
+					boneIndex[3] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[3] ];
+
+					vertexV1.bone_index = ToBoneIndex(boneIndex[0],boneIndex[1],boneIndex[2],boneIndex[3]);
+
+					vertexUpdated[nIndex] = true;
 				}
 
-				subMesh->m_nVertexStart = 0;
-				subMesh->m_nVertexCount = nVertexCount;
-
-				//if (nBoneNum > 75/*MAX_MAT_NUM_BONES*/)
-				{
-				}
-				//else
-				{
-					for(uint32 iIndex = subMesh->m_nIndexStart; iIndex < subMesh->m_nIndexStart + subMesh->m_nIndexCount; ++iIndex)
-					{
-						uint16 nIndex = pIndex[iIndex];
-						if (vertexUpdated[nIndex])
-							continue;
-
-						SkinVertexV0& vertexV0 = pVertexV0[nIndex];
-						SkinVertexV1& vertexV1 = pVertexV1[nIndex];
-
-						vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
-						vertexV1.nor = ToSkinNormal(vertexV0.nor);
-						vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
-						vertexV1.bone_index = vertexV0.bone_index;
-						vertexV1.bone_weight = vertexV0.bone_weight;
-
-						uint8 boneIndex[4];
-
-						GetBoneIndex(vertexV0.bone_index,boneIndex[0],boneIndex[1],boneIndex[2],boneIndex[3]);
-
-						boneIndex[0] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[0] ];
-						boneIndex[1] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[1] ];
-						boneIndex[2] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[2] ];
-						boneIndex[3] = (BYTE)subMesh->m_arrBonePalette[ boneIndex[3] ];
-
-						vertexV1.bone_index = ToBoneIndex(boneIndex[0],boneIndex[1],boneIndex[2],boneIndex[3]);
-
-						vertexUpdated[nIndex] = true;
-					}
-
-					subMesh->m_arrBonePalette.clear();
-				}
+				subMesh->m_arrBonePalette.clear();
 			}
 		}
 	}
@@ -494,13 +477,9 @@ namespace ma
 		return true;
 	}
 
-	void MeshData::AddSubMeshData(uint32 nLod,SubMeshData* pSubMeshData)
+	void MeshData::AddSubMeshData(SubMeshData* pSubMeshData)
 	{
-		if (nLod >= m_arrLodSubMesh.size())
-		{
-			m_arrLodSubMesh.resize(nLod + 1);
-		}
-		m_arrLodSubMesh[nLod].push_back(pSubMeshData);
+		m_arrSubMesh.push_back(pSubMeshData);
 	}
 
 	ResourceSystem<MeshData>* g_pMeshManager = NULL;

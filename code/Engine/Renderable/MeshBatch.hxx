@@ -197,11 +197,11 @@ namespace ma
 		if (m_bIndexed)
 		{
 			//m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
-			m_pIndexBuffer->SetData((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC,false);
+			m_pIndexBuffer->SetData((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),HBU_DYNAMIC,false);
 		}
 
 		//m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
-		m_pVertexBuffer->SetData((uint8*)newVertices,vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC,false);
+		m_pVertexBuffer->SetData((uint8*)newVertices,vBytes,m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC,false);
 
 		return true;
 	}

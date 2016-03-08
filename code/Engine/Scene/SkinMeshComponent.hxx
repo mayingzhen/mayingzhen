@@ -14,32 +14,35 @@ namespace ma
 
 	void SkinMeshComponent::CreateRenderable()
 	{
-		ASSERT(m_pMaterial && m_pMesData);
-		if (m_pMaterial == NULL || m_pMesData == NULL)
+		ASSERT(m_pMaterial && !m_vecMesData.empty());
+		if (m_pMaterial == NULL || m_vecMesData.empty())
 			return;
 		
-		for (UINT iLod = 0; iLod < m_pMesData->GetLodNumerber(); ++iLod)
+		for (UINT iLod = 0; iLod < m_vecMesData.size(); ++iLod)
 		{
+			MeshData* pMeshData = m_vecMesData[iLod].get();
+
 			VEC_RENDERABLE arrRenderable;
-			for (UINT iSub = 0; iSub < m_pMesData->GetSubMeshNumber(iLod); ++iSub)
+			for (UINT iSub = 0; iSub < pMeshData->GetSubMeshNumber(); ++iSub)
 			{
 				SkinMeshRenderable* pRenderable = new SkinMeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				pRenderable->m_pDeclaration = m_pMesData->GetVertexDeclar(); 
-				pRenderable->m_pVertexBuffer = m_pMesData->GetVertexBuffer(); 
-				pRenderable->m_pIndexBuffer = m_pMesData->GetIndexBuffer();
-				pRenderable->m_pSubMeshData = m_pMesData->GetSubMeshByIndex(iLod,iSub);
+				pRenderable->m_pDeclaration = pMeshData->GetVertexDeclar(); 
+				pRenderable->m_pVertexBuffer = pMeshData->GetVertexBuffer(); 
+				pRenderable->m_pIndexBuffer = pMeshData->GetIndexBuffer();
+				pRenderable->m_pSubMeshData = pMeshData->GetSubMeshByIndex(iSub);
+				pRenderable->m_posAABB = pMeshData->GetBoundingAABB();
+				pRenderable->m_tcAABB = pMeshData->GetUVBoundingAABB();
+
 				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub);
-				pRenderable->m_posAABB = m_pMesData->GetBoundingAABB();
-				pRenderable->m_tcAABB = m_pMesData->GetUVBoundingAABB();
 
 				arrRenderable.push_back(pRenderable);
 			}
 			m_arrLodRenderable.push_back(arrRenderable);
 		}
 
-		SetAABB(m_pMesData->GetBoundingAABB());
+		SetAABB(m_vecMesData[0]->GetBoundingAABB());
 	}
 
 	void SkinMeshComponent::SetSkinMatrix(const Matrix3x4* arrMatrixs,uint32 nCount)

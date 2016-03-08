@@ -36,12 +36,12 @@ namespace ma
 			m_pDirectLight->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
 		}
 
-		m_pScene->SetAmbientColor(ColourValue::Black);
+		m_pScene->SetAmbientColor(Vector3::ZERO);
 	}
 
 	void SampleLighting::UnLoad()
 	{
-		m_pScene->SetAmbientColor(ColourValue::White);	
+		m_pScene->SetAmbientColor(Vector3::UNIT_SCALE);	
 
 		m_pDirectLight = NULL;
 		m_pPointLight = NULL;

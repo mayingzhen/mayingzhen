@@ -14,7 +14,7 @@ namespace ma
 	class RenderComponent;
 	class Texture;
 	class RenderQueue;
-	class ShadowMapFrustum;
+	class DirectonalLight;
 
 
 	class Scene : public Referenced
@@ -77,17 +77,14 @@ namespace ma
 		void					AddParallelUpdate(Component* pComponent);
 		void					AddParallelShow(Component* pComponent);
 
-		void					AddLight(Light* pLight);
-		UINT					GetVisibleLightNum() const {return m_vecLight.size();}
-		Light*					GetVisibleLightByIndex(UINT index) {return m_vecLight[index].get();}
+		UINT					GetVisibleLightNum() const {return m_vecRenderLight.size();}
+		Light*					GetVisibleLightByIndex(UINT index) {return m_vecRenderLight[index].get();}
 
-		ShadowMapFrustum*		GetShadowMapFrustum() {return m_pShadowMapFrustum;}
-		void					SetShadowMapFrustum(ShadowMapFrustum* pShadowMapFrustum) {m_pShadowMapFrustum = pShadowMapFrustum;}
+		const Vector3&			GetAmbientColor() const{return m_cAmbientColor;}
+		void					SetAmbientColor(const Vector3& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
+		DirectonalLight*		GetDirLight() {return m_pDirLight.get();}
 
-		const ColourValue&		GetAmbientColor() {return m_cAmbientColor;}
-
-		void					SetAmbientColor(const ColourValue& cAmbientColor) {m_cAmbientColor = cAmbientColor;}
-
+		void					AddRenderLight(Light* pLight);
 
 	private:
 		RefPtr<SceneNode>		m_pRootNode;
@@ -112,9 +109,7 @@ namespace ma
 		VEC_COMP				m_vecParallelShow;
 
 		typedef vector< RefPtr<Light> > VEC_LIGHT;
-		VEC_LIGHT				m_vecLight;
-
-		ShadowMapFrustum*		m_pShadowMapFrustum;
+		VEC_LIGHT				m_vecRenderLight;
 
 		RenderQueue*			m_pRenderQueue[2];
 		
@@ -123,7 +118,8 @@ namespace ma
 			
 		CCallback*				m_pCallback;
 
-		ColourValue				m_cAmbientColor;
+		Vector3					m_cAmbientColor;
+		RefPtr<DirectonalLight> m_pDirLight;
 	};
 
 	RefPtr<Scene> CreateScene();

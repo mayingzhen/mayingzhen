@@ -10,17 +10,13 @@ namespace ma
 		BatchParticleRenderable();
 
 		virtual void	PrepareRender();
-		
-		virtual void	Render();
-
-		virtual void	Clear();
 
 	private:
 		void MerageRenderable(VEC_RENDERABLE& vecRenderable);
-
+		bool MerageRenderable(ParticleSystemRenderable* pSubMesh,VEC_RENDERABLE& arrMerageSubMesh, uint32 indexMerge);
+			
 	private:
-		VEC_RENDERABLE m_arrMerageRenderList;
-		uint32 m_nMerageCount;
+		vector<BYTE> m_vecTempIB;
 	};
 }
 

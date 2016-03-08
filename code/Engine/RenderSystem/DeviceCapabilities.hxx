@@ -25,6 +25,8 @@ DeviceCapabilitie::DeviceCapabilitie(void)
 , m_bNULL(false)
 , m_ShadowMapDepthFormat(PF_UNKNOWN)
 , m_ShadowMapColorFormat(PF_A8R8G8B8)
+, m_bSRGBReadSupport(false)
+, m_bSRGBWriteSupport(false)
 {
 
 }

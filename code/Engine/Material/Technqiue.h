@@ -25,7 +25,11 @@ namespace ma
 		ShaderProgram*		GetShaderProgram() const {return m_pShaderProgram.get();}
 		void				SetShaderProgram(ShaderProgram* pShader);	
 
-		void				AddShaderMarco(const char* pszMarco);
+		// Shader Macro ¿ª¹Ø
+		int					GetShaderMacroValue(const char* pszMacro);
+		void				SetShaderMacroValue(const char* pszMacro, int nValue);
+		void				SetShaderMacro(const char* pszMacro, bool b);
+		bool				GetShaderMacro(const char* pszMacro);
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);

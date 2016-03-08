@@ -80,10 +80,10 @@ namespace ma
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
 		// Create
-		Texture*			CreateRenderTexture(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,USAGE use = USAGE_RENDERTARGET);
+		Texture*			CreateRenderTexture(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE use = USAGE_RENDERTARGET);
 		Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format = PF_D24S8);
-		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
-		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,USAGE eUsage = USAGE_STATIC);
+		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
+		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
 
 		void				TexStreamComplete(Texture* pTexture);		
@@ -114,6 +114,17 @@ namespace ma
 
 		ColourValue			GetClearColor() const { return m_cClearClor;}
 		void				SetClearColor(const ColourValue& cColor) { m_cClearClor = cColor;}
+		
+		enum { nNumParticleBuffer = 3 };
+		void				LockParticleVideoMemory(uint32 nId);
+		void				UnLockParticleVideoMemory(uint32 nId);
+		ParallHardWareBuffer*GetParticleBuffer();
+		ParallHardWareBuffer*GetRTParticleBuffer();
+
+		
+		void				UpdatePoolId();
+		int					GetPoolId();
+		int					GetPooIdRT();			
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
@@ -123,10 +134,13 @@ namespace ma
 		void				RT_Render();
 		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
+		void				RT_SetPoolId(uint32 poolId);
 
 		void				InitGlobeMarco();
 
 		void				InitCachState();
+
+		void				InitParticleVideoMemory();
 		
 	protected:
 		RenderContext*		m_pRenderContext;
@@ -153,6 +167,16 @@ namespace ma
 		typedef map<string, string> MAP_STR_STR;
 		MAP_STR_STR			m_mapMacros; // Shader globe Macro
 		bool				m_bNeedReloadShader;
+
+		RefPtr<ParallHardWareBuffer> m_pParticleBuffer[nNumParticleBuffer];
+
+		// these ids can be used for tripple (or more) buffered structures
+		// they are incremented in RenderWorld on the mainthread
+		// use m_nPoolIndex from the mainthread (or jobs which are synced before Renderworld)
+		// and m_nPoolIndexRT from the renderthread
+		// right now the particle are using this id
+		uint32				m_nPoolIndex;
+		uint32				m_nPoolIndexRT;
 
 		bool				m_bThread;
 		ColourValue			m_cClearClor;

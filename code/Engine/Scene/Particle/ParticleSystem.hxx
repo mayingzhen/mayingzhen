@@ -209,7 +209,8 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
 		return;
 
 	// reallocate arrays, if they are too small
-	ReallocateBuffers();
+	if ( !ReallocateBuffers() )
+		return;
 
 	// create particle vertex data
 	int idx = 0;
@@ -231,26 +232,28 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
             fParticleHeight *= m_pSceneNode->GetScaleWS().y;
         }
 
+		ParticleSystemRenderable::VERTEX* pVertices = (ParticleSystemRenderable::VERTEX*)m_pCPURenderable->m_subAllocVB.m_pVertices;
+
 		// SetUV
         //        ^y
         //     3  |   0
         //  ---------->x
         //     2  |   1
 		const Rectangle& uv = particle.uv;
-		m_pCPURenderable->vertices[0+idx].uv = Vector2(uv.right,uv.top);
-		m_pCPURenderable->vertices[1+idx].uv = Vector2(uv.right,uv.bottom);
-		m_pCPURenderable->vertices[2+idx].uv = Vector2(uv.left,uv.bottom);
-		m_pCPURenderable->vertices[3+idx].uv = Vector2(uv.left,uv.top);
+		pVertices[0+idx].uv = Vector2(uv.right,uv.top);
+		pVertices[1+idx].uv = Vector2(uv.right,uv.bottom);
+		pVertices[2+idx].uv = Vector2(uv.left,uv.bottom);
+		pVertices[3+idx].uv = Vector2(uv.left,uv.top);
 		
 		const Rectangle& nextUV = particle.nextUV;
-		m_pCPURenderable->vertices[0+idx].nextUV = Vector2(nextUV.right,nextUV.top);
-		m_pCPURenderable->vertices[1+idx].nextUV = Vector2(nextUV.right,nextUV.bottom);
-		m_pCPURenderable->vertices[2+idx].nextUV = Vector2(nextUV.left,nextUV.bottom);
-		m_pCPURenderable->vertices[3+idx].nextUV = Vector2(nextUV.left,nextUV.top);
-		m_pCPURenderable->vertices[0+idx].blend = particle.nBlend;
-		m_pCPURenderable->vertices[1+idx].blend = particle.nBlend;
-		m_pCPURenderable->vertices[2+idx].blend = particle.nBlend;
-		m_pCPURenderable->vertices[3+idx].blend = particle.nBlend;
+		pVertices[0+idx].nextUV = Vector2(nextUV.right,nextUV.top);
+		pVertices[1+idx].nextUV = Vector2(nextUV.right,nextUV.bottom);
+		pVertices[2+idx].nextUV = Vector2(nextUV.left,nextUV.bottom);
+		pVertices[3+idx].nextUV = Vector2(nextUV.left,nextUV.top);
+		pVertices[0+idx].blend = particle.nBlend;
+		pVertices[1+idx].blend = particle.nBlend;
+		pVertices[2+idx].blend = particle.nBlend;
+		pVertices[3+idx].blend = particle.nBlend;
 	
 		if (m_eBillboardType == BBT_AlignViewPlane)
 		{
@@ -262,32 +265,32 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
 
 			if (particle.rotation == Radian(0.f))
 			{
-				m_pCPURenderable->vertices[0+idx].pos = vPPos + horizontal + vertical;
-				m_pCPURenderable->vertices[0+idx].color = argb;
+				pVertices[0+idx].pos = vPPos + horizontal + vertical;
+				pVertices[0+idx].color = argb;
 
-				m_pCPURenderable->vertices[1+idx].pos = vPPos + horizontal - vertical;
-				m_pCPURenderable->vertices[1+idx].color = argb;
+				pVertices[1+idx].pos = vPPos + horizontal - vertical;
+				pVertices[1+idx].color = argb;
 
-				m_pCPURenderable->vertices[2+idx].pos = vPPos - horizontal - vertical;
-				m_pCPURenderable->vertices[2+idx].color = argb;
+				pVertices[2+idx].pos = vPPos - horizontal - vertical;
+				pVertices[2+idx].color = argb;
 
-				m_pCPURenderable->vertices[3+idx].pos = vPPos - horizontal + vertical;
-				m_pCPURenderable->vertices[3+idx].color = argb;
+				pVertices[3+idx].pos = vPPos - horizontal + vertical;
+				pVertices[3+idx].color = argb;
 			}
 			else
 			{
 				Quaternion qRotate(particle.rotation, pCamera->GetForward());
-				m_pCPURenderable->vertices[0+idx].pos = vPPos + qRotate*(horizontal + vertical);
-				m_pCPURenderable->vertices[0+idx].color = argb;
+				pVertices[0+idx].pos = vPPos + qRotate*(horizontal + vertical);
+				pVertices[0+idx].color = argb;
 
-				m_pCPURenderable->vertices[1+idx].pos = vPPos + qRotate*(horizontal - vertical);
-				m_pCPURenderable->vertices[1+idx].color = argb;
+				pVertices[1+idx].pos = vPPos + qRotate*(horizontal - vertical);
+				pVertices[1+idx].color = argb;
 
-				m_pCPURenderable->vertices[2+idx].pos = vPPos + qRotate*(- horizontal - vertical);
-				m_pCPURenderable->vertices[2+idx].color = argb;
+				pVertices[2+idx].pos = vPPos + qRotate*(- horizontal - vertical);
+				pVertices[2+idx].color = argb;
 
-				m_pCPURenderable->vertices[3+idx].pos = vPPos + qRotate*(- horizontal + vertical);
-				m_pCPURenderable->vertices[3+idx].color = argb;
+				pVertices[3+idx].pos = vPPos + qRotate*(- horizontal + vertical);
+				pVertices[3+idx].color = argb;
 			}
 			
 		}
@@ -302,17 +305,17 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
 			Vector3 vX = vY.crossProduct(vZ);
 
 			float fHalfWidth = 0.5f * fParticleWidth;
-			m_pCPURenderable->vertices[0+idx].pos = vPPos + vX*fHalfWidth + vY*fParticleHeight;
-			m_pCPURenderable->vertices[0+idx].color = argb;;
+			pVertices[0+idx].pos = vPPos + vX*fHalfWidth + vY*fParticleHeight;
+			pVertices[0+idx].color = argb;;
 
-			m_pCPURenderable->vertices[3+idx].pos = vPPos - vX*fHalfWidth + vY*fParticleHeight;
-			m_pCPURenderable->vertices[3+idx].color = argb;
+			pVertices[3+idx].pos = vPPos - vX*fHalfWidth + vY*fParticleHeight;
+			pVertices[3+idx].color = argb;
 
-			m_pCPURenderable->vertices[2+idx].pos = vPPos - vX*fHalfWidth;
-			m_pCPURenderable->vertices[2+idx].color = argb;
+			pVertices[2+idx].pos = vPPos - vX*fHalfWidth;
+			pVertices[2+idx].color = argb;
 
-			m_pCPURenderable->vertices[1+idx].pos = vPPos + vX*fHalfWidth;
-			m_pCPURenderable->vertices[1+idx].color = argb;
+			pVertices[1+idx].pos = vPPos + vX*fHalfWidth;
+			pVertices[1+idx].color = argb;
 		}
 		else
 		{
@@ -356,24 +359,21 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
 				matBillboard = matBillboard*Matrix4(qRotate);
 			}
 
-			m_pCPURenderable->vertices[0+idx].pos = vPPos + matBillboard*(horizontal + vertical);
-			m_pCPURenderable->vertices[0+idx].color = argb;
+			pVertices[0+idx].pos = vPPos + matBillboard*(horizontal + vertical);
+			pVertices[0+idx].color = argb;
 
-			m_pCPURenderable->vertices[1+idx].pos = vPPos + matBillboard*(horizontal - vertical);
-			m_pCPURenderable->vertices[1+idx].color = argb;
+			pVertices[1+idx].pos = vPPos + matBillboard*(horizontal - vertical);
+			pVertices[1+idx].color = argb;
 
-			m_pCPURenderable->vertices[2+idx].pos = vPPos + matBillboard*(- horizontal - vertical);
-			m_pCPURenderable->vertices[2+idx].color = argb;
+			pVertices[2+idx].pos = vPPos + matBillboard*(- horizontal - vertical);
+			pVertices[2+idx].color = argb;
 
-			m_pCPURenderable->vertices[3+idx].pos = vPPos + matBillboard*(- horizontal + vertical);
-			m_pCPURenderable->vertices[3+idx].color = argb;
+			pVertices[3+idx].pos = vPPos + matBillboard*(- horizontal + vertical);
+			pVertices[3+idx].color = argb;
 		}
 		
 		idx +=4;
 	}
-
-	m_pCPURenderable->m_nNumVertices = m_lstParticles.size()*4;
-	m_pCPURenderable->m_nNumIndices = m_lstParticles.size()*6;
 }
 
 
@@ -602,32 +602,25 @@ void ParticleSystem::DoParticleSystem(Real timediff)
 	}
 }
 
-void ParticleSystem::ReallocateBuffers()
+bool ParticleSystem::ReallocateBuffers()
 {
-	if (m_lstParticles.size() * 4 > m_pCPURenderable->vertices.size() ||
-		m_lstParticles.size() * 6 > m_pCPURenderable->indices.size())
+	if ( !m_pCPURenderable->AllocVertices(m_lstParticles.size() * 4,m_lstParticles.size() * 6) )
+		return false;
+
+	uint32 oldvertices = m_pCPURenderable->m_subAllocVB.m_nFirstVertex;	
+
+	for (uint32 i = 0; i < m_pCPURenderable->m_subAllocIB.m_nAllocInds; i+=6)
 	{
-		uint32 oldSize = m_pCPURenderable->vertices.size();
-		m_pCPURenderable->vertices.resize(m_lstParticles.size() * 4);
-
-		uint32 i;
-
-		// fill remaining indices
-		uint32 oldIdxSize = m_pCPURenderable->indices.size();
-		uint32 oldvertices = oldSize;
-		m_pCPURenderable->indices.resize(m_lstParticles.size() * 6);
-
-		for (i=oldIdxSize; i<m_pCPURenderable->indices.size(); i+=6)
-		{
-			m_pCPURenderable->indices[0+i] = (uint16)0+oldvertices;
-			m_pCPURenderable->indices[1+i] = (uint16)1+oldvertices;
-			m_pCPURenderable->indices[2+i] = (uint16)2+oldvertices;
-			m_pCPURenderable->indices[3+i] = (uint16)0+oldvertices;
-			m_pCPURenderable->indices[4+i] = (uint16)2+oldvertices;
-			m_pCPURenderable->indices[5+i] = (uint16)3+oldvertices;
-			oldvertices += 4;
-		}
+		m_pCPURenderable->m_subAllocIB.m_pIndices[0+i] = (uint16)0+oldvertices;
+		m_pCPURenderable->m_subAllocIB.m_pIndices[1+i] = (uint16)1+oldvertices;
+		m_pCPURenderable->m_subAllocIB.m_pIndices[2+i] = (uint16)2+oldvertices;
+		m_pCPURenderable->m_subAllocIB.m_pIndices[3+i] = (uint16)0+oldvertices;
+		m_pCPURenderable->m_subAllocIB.m_pIndices[4+i] = (uint16)2+oldvertices;
+		m_pCPURenderable->m_subAllocIB.m_pIndices[5+i] = (uint16)3+oldvertices;
+		oldvertices += 4;
 	}
+
+	return true;
 }
 
 
@@ -648,7 +641,7 @@ bool ParticleSystem::IsReady()
     {
         SubMaterial* pMaterial = m_pMaterialSet->GetSubMaterialByIndex(0,0);
 
-        m_pCPURenderable = new ParticleSystemRenderable(this);
+        m_pCPURenderable = new ParticleSystemRenderable();
 
         m_pCPURenderable->m_pSubMaterial = pMaterial;
 	}

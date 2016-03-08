@@ -25,7 +25,7 @@ namespace ma
 
 	void PointLight::Show(Camera* pCamera)
 	{
-		m_pSceneNode->GetScene()->AddLight(this);
+		m_pSceneNode->GetScene()->AddRenderLight(this);
 	}
 
 	RefPtr<PointLight> CreatePointLight()

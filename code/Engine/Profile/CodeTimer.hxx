@@ -8,7 +8,7 @@ namespace ma
 		mCurrentTime(0),
 		mTotalCalls(0),
 		mMaxTime(0),
-		mMinTime(FLT_MAX),
+		mMinTime(0),
 		mAveTime(0),
 		mNext(NULL)
 	{
@@ -38,37 +38,37 @@ namespace ma
 			mCurrentTime = GetTimer()->GetMillisceonds() - mStartTime;
 			assert (mCurrentTime >= 0);
 			mTotalTime +=  mCurrentTime;
-			mAveTime = (mAveTime + mCurrentTime) * 0.5f;
+			mAveTime = (mAveTime + mCurrentTime) / 2;
 
 			if (mMinTime > mCurrentTime)
 				mMinTime = mCurrentTime;
 			if (mMaxTime < mCurrentTime)
 				mMaxTime = mCurrentTime;
 
-			mStartTime = 0.0f;
+			mStartTime = 0;
 		}
 	}
 
 	void CodeTimer::Reset()
 	{
-		mStartTime = 0.0f;
-		mTotalTime = 0.0f;
+		mStartTime = 0;
+		mTotalTime = 0;
 		mTotalCalls = 0;
-		mMaxTime = 0.0f;
-		mMinTime = FLT_MAX;
-		mAveTime = 0.0f;
+		mMaxTime = 0;
+		mMinTime = 0;
+		mAveTime = 0;
 	}
 
 	void CodeTimer::Output() const
 	{
 		LogInfo("---------------------------------------------------------\n"  \
 			"fuction:\t  %s\n" \
-			"total time:\t  %f\n" \
-			"current time:\t  %f\n" \
-			"average time:\t  %f\n" \
+			"total time:\t  %d\n" \
+			"current time:\t  %d\n" \
+			"average time:\t  %d\n" \
 			"total calls:\t  %d\n" \
-			"max time:\t  %f\n" \
-			"min time:\t  %f",
+			"max time:\t  %d\n" \
+			"min time:\t  %d",
 			Function(),
 			TotalTime(),
 			CurrentTime(),

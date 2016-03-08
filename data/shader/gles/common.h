@@ -9,9 +9,7 @@ uniform vec4 g_color;
 uniform vec3 g_cSkyLight;
 uniform vec3 g_cDirLight;
 uniform vec3 g_vDirLight;
-uniform vec3 g_cSpecularLight;
 uniform vec3 g_vEyeWorldPos;
-uniform vec3 g_vAtWorldPos;
 uniform vec2 g_vViewport;
 uniform vec2 g_vViewportInv;
 

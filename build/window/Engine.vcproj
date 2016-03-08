@@ -1156,6 +1156,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\TransientBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\TransientBuffer.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Engine\RenderSystem\IRenderDevice\VertexBuffer.h"
 					>
 				</File>

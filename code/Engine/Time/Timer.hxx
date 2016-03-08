@@ -11,63 +11,51 @@ namespace ma
 
 
 	Time::Time()
-		:m_nFameCnt(0)
-		,m_fFrameTotalTime(0.0)
-		,m_fFrameDeltaTime(0.0f)
 	{
-		Reset();
+		m_nFameCnt = 0;
+		m_nFrameTotalTime = 0;
+		m_fFrameDeltaTime = 0.0f;
 	}
 
 	Time::~Time()
 	{
+
 	}
 
-	void	Time::Reset()
+	uint64 Time::GetMillisceonds() const
 	{
-		m_nFameCnt = 0;
-		m_fFrameTotalTime = 0.0;
-		m_fFrameDeltaTime = 0.0f;
-		gettimeofday(&m_lastReset,0);
+#ifdef WIN32
+		LARGE_INTEGER nFreqname;
+		LARGE_INTEGER nBeginTimename;
+		if(QueryPerformanceFrequency(&nFreqname) != FALSE)
+		{
+			if(QueryPerformanceCounter(&nBeginTimename) != FALSE)
+			{
+				return (DWORD)(nBeginTimename.QuadPart * 1000/nFreqname.QuadPart);
+			}
+		}
+
+#pragma comment(lib, "winmm.lib")
+#endif
+		return timeGetTime();
 	}
 
-	float	Time::GetMillisceonds() const
+	void Time::UpdateFrame()
 	{
-		timeval t;
-		gettimeofday(&t, 0);
-		return (t.tv_sec - m_lastReset.tv_sec) * 1000 + (t.tv_usec - m_lastReset.tv_usec) * 0.001f;
-	}
-
-	void	Time::UpdateFrame()
-	{
-		float curTime = GetMillisceonds() * 0.001f;
-		m_fFrameDeltaTime = curTime - m_fFrameTotalTime;
-		m_fFrameTotalTime = curTime;
+		uint64 curTime = GetMillisceonds();
+		m_fFrameDeltaTime = (curTime - m_nFrameTotalTime) * 0.001f;
+		m_nFrameTotalTime = curTime;
 		++m_nFameCnt;
 	}
 
-
-	float	Time::GetFrameTotalTime()const
-	{
-		return m_fFrameTotalTime;
-	}
-		
-	UINT	Time::GetFrameCount() const
+	UINT Time::GetFrameCount() const
 	{
 		return m_nFameCnt;
 	}
 
-	float	Time::GetFrameDeltaTime()const
+	float Time::GetFrameDeltaTime()const
 	{
 		return m_fFrameDeltaTime;
-	}
-
-	void Time::Sleep(unsigned mSec)
-	{
-#ifdef WIN32
-		::Sleep(mSec);
-#else
-		usleep(mSec * 1000);
-#endif
 	}
 
 

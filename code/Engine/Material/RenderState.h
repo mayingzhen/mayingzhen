@@ -15,7 +15,7 @@ namespace ma
 
 		DECL_OBJECT(RenderState);
 
-		static void			RegisterAttribute();
+		static void	RegisterAttribute();
 
 		bool GetDepthWrite() const {return m_bDepthWrite;}
 		void SetDepthWrite(bool bDepthWrite) {m_bDepthWrite = bDepthWrite;}

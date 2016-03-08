@@ -26,8 +26,12 @@ namespace ma
 
 	protected:
 		IDirect3DDevice9 *          mD3D9Device;
+
 		IDirect3DIndexBuffer9 *     mD3D9IndexBuffer;
+
 		D3DINDEXBUFFER_DESC			m_descBuffer;
+
+		void*						m_pLockedData;	
 	};
 
 }

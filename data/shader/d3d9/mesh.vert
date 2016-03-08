@@ -32,9 +32,7 @@ struct VS_IN
    
    float4 a_normal	 : NORMAL;
  
-#ifdef DIFFUSE   
    float2 a_texCoord0 : TEXCOORD0;
-#endif
 
 	float3 a_tangent  : TANGENT;
 
@@ -49,20 +47,19 @@ struct VS_IN
 struct VS_OUT
 {
    float4 v_position : POSITION;
-
-#ifdef DIFFUSE    
+   
    float2 v_texCoord : TEXCOORD0;
-#endif  
 
 	float4 WorldPos : TEXCOORD1;
+	float4 worldNormal : TEXCOORD2;
 
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD2;	
+   float4 v_normalDepth  :TEXCOORD3;	
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	float2 oRandDirTC : TEXCOORD2;
-	float4 oShadowPos : TEXCOORD3;
+	float2 oRandDirTC : TEXCOORD4;
+	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif  
    
@@ -77,10 +74,8 @@ VS_OUT main(VS_IN In)
 {
     VS_OUT Out = (VS_OUT)0;
     
-	float3 iPos = In.a_position * pos_extent + pos_center;
-#ifdef DIFFUSE  	
+	float3 iPos = In.a_position * pos_extent + pos_center;	
 	float2 iUV  = In.a_texCoord0 * tc_extent_center.xy + tc_extent_center.zw;
-#endif	
 	float3 iNormal = In.a_normal * 2.0 - 1.0; 
 
 #ifdef SKIN
@@ -89,13 +84,14 @@ VS_OUT main(VS_IN In)
    
    Out.WorldPos.xyz = mul(float4(iPos,1.0),g_matWorld).xyz;
    
-    Out.v_position = mul(float4(Out.WorldPos.xyz,1.0),g_matViewProj); 
+   Out.worldNormal.xyz = normalize(mul(iNormal, (float3x3)g_matWorld));
+   Out.worldNormal.w = 0;
+
+   Out.v_position = mul(float4(Out.WorldPos.xyz,1.0),g_matViewProj); 
 	
-	Out.WorldPos.w = Out.v_position.w;
+   Out.WorldPos.w = Out.v_position.w;
 	 
-#ifdef DIFFUSE      
-    Out.v_texCoord = iUV;
-#endif
+   Out.v_texCoord = iUV;
    
 #ifdef COLOR    
     Out.v_color = In.a_color0;

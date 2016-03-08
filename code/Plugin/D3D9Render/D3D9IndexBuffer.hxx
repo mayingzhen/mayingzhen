@@ -8,6 +8,7 @@ D3D9IndexBuffer::D3D9IndexBuffer()
 {
 	mD3D9Device = NULL;
 	mD3D9IndexBuffer = NULL;
+	m_pLockedData = NULL;
 }
 
 D3D9IndexBuffer::~D3D9IndexBuffer()
@@ -16,9 +17,11 @@ D3D9IndexBuffer::~D3D9IndexBuffer()
 }
 
 
-void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
+void* D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
-    void * pData = NULL;
+	if (m_pLockedData)
+		return m_pLockedData;
+
     DWORD D3DLock = 0;
 
     if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
@@ -30,17 +33,22 @@ void * D3D9IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
     if (LockFlag & LOCK_READONLY)
         D3DLock |= D3DLOCK_READONLY;
 
-    HRESULT hr = mD3D9IndexBuffer->Lock(iOffsetBytes, iLockSize, &pData, D3DLock);
+    HRESULT hr = mD3D9IndexBuffer->Lock(iOffsetBytes, iLockSize, &m_pLockedData, D3DLock);
     ASSERT(hr == D3D_OK && "Lock index buffer failed.");
 
-    return pData;
+    return m_pLockedData;
 }
 
 void D3D9IndexBuffer::Unlock()
 {
-	HRESULT hr = D3D_OK;
-    hr = mD3D9IndexBuffer->Unlock();
-	ASSERT(hr == D3D_OK);
+	if (m_pLockedData)
+	{	
+		HRESULT hr = D3D_OK;
+		hr = mD3D9IndexBuffer->Unlock();
+		ASSERT(hr == D3D_OK);
+
+		m_pLockedData = NULL;
+	}
 }
 
 void D3D9IndexBuffer::RT_StreamComplete()
@@ -50,7 +58,7 @@ void D3D9IndexBuffer::RT_StreamComplete()
 	ASSERT(m_Size);
 
 	HRESULT hr;
-	DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
+	DWORD D3DUsage = D3D9Mapping::GetD3DBufferUsage(m_Usage);
 	D3DFORMAT D3DFormat = D3D9Mapping::GetD3DIndexType(GetIndexType());
 	D3DPOOL D3DPool = D3D9Mapping::GetD3DPool(m_Usage);
 
@@ -61,18 +69,21 @@ void D3D9IndexBuffer::RT_StreamComplete()
 		false;
 	}
 
-	void* pLockData = NULL;
-	DWORD D3DLock = D3DUsage == USAGE_DYNAMIC ? LOCK_DISCARD : 0;
-	hr = mD3D9IndexBuffer->Lock(0, m_Size, &pLockData, D3DLock);
-	ASSERT(hr == D3D_OK && "Lock index buffer failed.");
-
-	memcpy(pLockData,m_pData,m_Size);
-
-	mD3D9IndexBuffer->Unlock();
-
-	if (m_bNeedFreeData)
+	if (m_pData)
 	{
-		FreeData();
+		void* pLockData = NULL;
+		DWORD D3DLock = D3DUsage == USAGE_DYNAMIC ? LOCK_DISCARD : 0;
+		hr = mD3D9IndexBuffer->Lock(0, m_Size, &pLockData, D3DLock);
+		ASSERT(hr == D3D_OK && "Lock index buffer failed.");
+
+		memcpy(pLockData,m_pData,m_Size);
+
+		mD3D9IndexBuffer->Unlock();
+
+		if (m_bNeedFreeData)
+		{
+			FreeData();
+		}
 	}
 }
 

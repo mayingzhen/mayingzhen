@@ -33,6 +33,7 @@
 #include "Engine/RenderSystem/IRenderDevice/IndexBuffer.h"
 #include "Engine/RenderSystem/IRenderDevice/VertexBuffer.h"
 #include "Engine/RenderSystem/IRenderDevice/HardwareBuffer.h"
+#include "Engine/RenderSystem/IRenderDevice/TransientBuffer.h"
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.h"
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.h"
 #include "Engine/RenderSystem/IRenderDevice/RenderDefine.h"

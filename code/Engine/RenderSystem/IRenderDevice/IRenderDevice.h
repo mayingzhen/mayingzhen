@@ -74,7 +74,7 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture() = 0;
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,USAGE eUsage = USAGE_STATIC) = 0;
+		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,TEXTURE_USAGE eUsage = USAGE_STATIC) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;
@@ -87,7 +87,7 @@ namespace ma
 		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf) = 0;
 
 		//CheckDevice
-		virtual	bool				CheckTextureFormat(PixelFormat eFormat,USAGE eUsage) = 0;
+		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage) = 0;
 
 		friend class RenderSystem;
 		friend class RenderThread;

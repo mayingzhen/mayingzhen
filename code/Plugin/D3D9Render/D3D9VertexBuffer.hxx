@@ -7,6 +7,7 @@ namespace ma
 	{
 		mD3D9Device = NULL;
 		mD3D9VertexBuffer = NULL;
+		m_pLockedData = NULL;
 	}
 
 	D3D9VertexBuffer::~D3D9VertexBuffer()
@@ -16,7 +17,9 @@ namespace ma
 
 	void * D3D9VertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		void * pData = NULL;
+		if (m_pLockedData)
+			return m_pLockedData;
+
 		DWORD D3DLock = 0;
 
 		if ((LockFlag & LOCK_DISCARD) && (m_Usage == USAGE_DYNAMIC))
@@ -28,16 +31,21 @@ namespace ma
 		if (LockFlag & LOCK_READONLY)
 			D3DLock |= D3DLOCK_READONLY;
 
-		HRESULT hr = mD3D9VertexBuffer->Lock((UINT)iOffsetBytes, (UINT)iLockSize, &pData, D3DLock);
+		HRESULT hr = mD3D9VertexBuffer->Lock((UINT)iOffsetBytes, (UINT)iLockSize, &m_pLockedData, D3DLock);
 		ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
 
-		return pData;
+		return m_pLockedData;
 	}
 
 	void D3D9VertexBuffer::Unlock()
 	{
-		HRESULT hr = mD3D9VertexBuffer->Unlock();
-		ASSERT(hr == D3D_OK);
+		if (m_pLockedData)
+		{
+			HRESULT hr = mD3D9VertexBuffer->Unlock();
+			ASSERT(hr == D3D_OK);
+
+			m_pLockedData = NULL;
+		}
 	}
 
 	void D3D9VertexBuffer::RT_StreamComplete()
@@ -49,7 +57,7 @@ namespace ma
 		ASSERT(m_Size);
 
 		HRESULT hr;
-		DWORD D3DUsage = D3D9Mapping::GetD3DUsage(m_Usage);
+		DWORD D3DUsage = D3D9Mapping::GetD3DBufferUsage(m_Usage);
 		D3DPOOL D3DPool = D3D9Mapping::GetD3DPool(m_Usage);
 		IDirect3DVertexBuffer9 * pD3DVB;
 
@@ -62,18 +70,21 @@ namespace ma
 
 		mD3D9VertexBuffer = pD3DVB;
 
-		void* pLockData = NULL;
-		DWORD D3DLock = D3DUsage == D3DUSAGE_DYNAMIC ? D3DLOCK_DISCARD : 0;
-		hr = mD3D9VertexBuffer->Lock(0, m_Size, &pLockData, D3DLock);
-		ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
-
-		memcpy(pLockData,m_pData,m_Size);
-
-		mD3D9VertexBuffer->Unlock();
-
-		if (m_bNeedFreeData)
+		if (m_pData)
 		{
-			FreeData();
+			void* pLockData = NULL;
+			DWORD D3DLock = D3DUsage == D3DUSAGE_DYNAMIC ? D3DLOCK_DISCARD : 0;
+			hr = mD3D9VertexBuffer->Lock(0, m_Size, &pLockData, D3DLock);
+			ASSERT(hr == D3D_OK && "Lock vertex buffer failed.");
+
+			memcpy(pLockData,m_pData,m_Size);
+
+			mD3D9VertexBuffer->Unlock();
+
+			if (m_bNeedFreeData)
+			{
+				FreeData();
+			}
 		}
 	}
 

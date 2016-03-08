@@ -29,13 +29,14 @@ namespace ma
 		RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
 		pMaterial->AddSubMaterial(0,pSubMaterial.get());
 		
-		std::string strMacro = "DIFFUSE;DIFFUSECOLOR";
+		std::string strMacro = "DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
 		pSubMaterial->SetShadingTechnqiue("mesh",strMacro.c_str());
 
-		pSubMaterial->SetParameter("u_texture", Any( CreateTexture(pszTexture) ) );
+		pSubMaterial->SetParameter("u_texture", Any( CreateTexture(pszTexture,REPEAT,TFO_TRILINEAR,true) ) );
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
-		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(0,0,0,1) ) );
+		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
+		pSubMaterial->SetParameter("u_specPower", Any(20.0f));
 
 		pMaterial->SaveToFile(pMatPath);
 	}

@@ -161,7 +161,7 @@ public:
 private:
 	void ShowCPUPoint(Camera* pCamera);
 	void DoParticleSystem(Real timediff);
-	void ReallocateBuffers();
+	bool ReallocateBuffers();
 
 	void InitBounds();
 
@@ -185,8 +185,8 @@ private:
     void UpdateGlobalAffectors();
 	bool CalcBillboardMatrix(Camera* pCamera,BillboardType eType, const Vector3& vWorldPos, const Vector3& vDirection, OUT Matrix4& matBillboard);
 
-	virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
-	virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
+	virtual bool Improt(rapidxml::xml_node<>* pXmlElem);
+	virtual bool Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 private:
     int m_nPlayState; // 0-int 1-FastForward 2-Play

@@ -32,7 +32,7 @@ namespace ma
 
 	void GLESIndexBuffer::RT_StreamComplete()
 	{
-		GLenum glUsage = GLESMapping::GetGLESUSage(m_Usage);
+		GLenum glUsage = GLESMapping::GetGLESBufferUSage(m_Usage);
 
 		GL_ASSERT( glGenBuffers(1,& m_hIndexBuffer) );
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );

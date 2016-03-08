@@ -3,7 +3,7 @@
 namespace ma
 {
 
-DWORD D3D9Mapping::GetD3DUsage(USAGE Usage)
+DWORD D3D9Mapping::GetD3DTextureUsage(TEXTURE_USAGE Usage)
 {
     DWORD D3D9Usage = 0;
 
@@ -17,11 +17,29 @@ DWORD D3D9Mapping::GetD3DUsage(USAGE Usage)
     return D3D9Usage;
 }
 
-D3DPOOL D3D9Mapping::GetD3DPool(USAGE Usage)
+DWORD D3D9Mapping::GetD3DBufferUsage(HBU_USAGE Usage)
+{
+	uint32 ret = 0;
+	if (Usage & HBU_DYNAMIC)
+	{
+		// Only add the dynamic flag for default pool, and
+		// we use default pool when buffer is discardable
+		if (Usage & HBU_DISCARDABLE)
+			ret |= D3DUSAGE_DYNAMIC;
+	}
+
+	if (Usage & HBU_WRITE_ONLY)
+	{
+		ret |= D3DUSAGE_WRITEONLY;
+	}
+	return ret;
+}
+
+D3DPOOL D3D9Mapping::GetD3DPool(HBU_USAGE Usage)
 {
     D3DPOOL D3DPool = D3DPOOL_MANAGED;
 
-    if (Usage == USAGE_DYNAMIC)
+    if (Usage & HBU_DISCARDABLE)
         D3DPool = D3DPOOL_DEFAULT;
 
     return D3DPool;

@@ -15,7 +15,6 @@ EXPORTS
 ??1Serializable@ma@@UAE@XZ
 ?OnAddToSceneNode@Component@ma@@UAEXPAVSceneNode@2@@Z
 ?OnRemoveFromSceneNode@Component@ma@@UAEXPAVSceneNode@2@@Z
-??0Texture@ma@@QAE@HHW4PixelFormat@1@W4USAGE@1@@Z
 ??0VertexDeclaration@ma@@QAE@XZ
 ??1VertexDeclaration@ma@@UAE@XZ
 ??1ShaderProgram@ma@@UAE@XZ
@@ -44,14 +43,10 @@ EXPORTS
 ?Update@RenderSystem@ma@@QAEXXZ
 ?UpdateFrame@Time@ma@@QAEXXZ
 ?GetPos@SceneNode@ma@@QBEABVVector3@2@XZ
-?GetForward@SceneNode@ma@@QAE?AVVector3@2@XZ
 ?RotateAround@SceneNode@ma@@QAEXABVVector3@2@V32@M@Z
-?GetRight@SceneNode@ma@@QAE?AVVector3@2@XZ
-?GetUp@SceneNode@ma@@QAE?AVVector3@2@XZ
 ?Translate@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?Forward@SceneNode@ma@@QAEXM@Z
 ?SetScale@SceneNode@ma@@QAEXABVVector3@2@@Z
-?Load@MeshComponent@ma@@QAE_NPBD0@Z
 ?LookAt@SceneNode@ma@@QAEXABVVector3@2@0@Z
 ?Right@SceneNode@ma@@QAEXM@Z
 ?Reset@Scene@ma@@QAEXXZ
@@ -154,7 +149,6 @@ EXPORTS
 ?CreateObject@ObjectFactoryManager@ma@@QAE?AV?$RefPtr@VObject@ma@@@2@PBD@Z
 ?RegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
 ?UnRegisterObjectFactory@ObjectFactoryManager@ma@@QAEXPBDP6A?AV?$RefPtr@VObject@ma@@@2@XZ@Z
-?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@@Z
 ??0XmlFile@ma@@QAE@XZ
 ?CreateXmlFile@ma@@YA?AV?$RefPtr@VXmlFile@ma@@@1@PBD@Z
 ?SetParameter@SubMaterial@ma@@QAEXPBDABVAny@2@@Z
@@ -183,7 +177,6 @@ EXPORTS
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@PBD@Z
 ?Improt@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
 ?Export@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
-?AddSubMeshData@MeshData@ma@@QAEXIPAVSubMeshData@2@@Z
 ?CreateSubMeshData@ma@@YA?AV?$RefPtr@VSubMeshData@ma@@@1@XZ
 ?SaveToFile@MeshData@ma@@UAE_NPBD@Z
 ?CreateFileStream@ma@@YA?AV?$RefPtr@VFileStream@ma@@@1@PBD@Z
@@ -204,9 +197,16 @@ EXPORTS
 ?CreateParticleSystem@ma@@YA?AV?$RefPtr@VParticleSystem@ma@@@1@XZ
 ?SetMaterialSet@ParticleSystem@ma@@QAEXPAVMaterial@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@PBD@Z
-?SetData@HardwareBuffer@ma@@QAEXPAEIHW4USAGE@2@_N@Z
 ??0MeshRenderable@ma@@QAE@XZ
-?GetForward@SceneNode@ma@@QAE?AVVector3@2@XZ
 ?DrawLine@LineRender@ma@@SAXABVVector3@2@0VColourValue@2@@Z
 ?DrawTransform@LineRender@ma@@SAXABUTransform@2@MM@Z
 ?DrawWireSphere@LineRender@ma@@SAXABVMatrix4@2@MVColourValue@2@@Z
+?SetData@HardwareBuffer@ma@@QAEXPAEIHW4HBU_USAGE@2@_N@Z
+??0Texture@ma@@QAE@HHW4PixelFormat@1@W4TEXTURE_USAGE@1@@Z
+?Lock@HardwareBuffer@ma@@UAEPAXW4LOCK@2@@Z
+?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@_N@Z
+?GetForward@SceneNode@ma@@QBE?AVVector3@2@XZ
+?GetRight@SceneNode@ma@@QBE?AVVector3@2@XZ
+?GetUp@SceneNode@ma@@QBE?AVVector3@2@XZ
+?AddSubMeshData@MeshData@ma@@QAEXPAVSubMeshData@2@@Z
+?Load@MeshComponent@ma@@QAE_NPBD0@Z

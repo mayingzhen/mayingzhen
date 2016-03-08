@@ -30,15 +30,163 @@ namespace ma
 		m_pShaderProgram = pShader;
 	}
 
-	void Technique::AddShaderMarco(const char* pszMarco)
+// 	void Technique::AddShaderMarco(const char* pszMarco)
+// 	{
+// 		const char* pVSFile = m_pShaderProgram->GetVSFile();
+// 		const char* pPSFile = m_pShaderProgram->GetPSFile();
+// 		const char* pPreMrco = m_pShaderProgram->GetShaderMacro();
+// 
+// 		string strMrco = string(pPreMrco) + string(";") + string(pszMarco);
+// 		
+// 		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strMrco.c_str());
+// 	}
+
+	int Technique::GetShaderMacroValue(const char* pszMacro)
 	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
 		const char* pVSFile = m_pShaderProgram->GetVSFile();
 		const char* pPSFile = m_pShaderProgram->GetPSFile();
-		const char* pPreMrco = m_pShaderProgram->GetShaderMacro();
+		std::string stdShder = m_pShaderProgram->GetShaderMacro();
 
-		string strMrco = string(pPreMrco) + string(";") + string(pszMarco);
-		
-		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strMrco.c_str());
+		const vector<string> vecMacros = StringUtil::split(stdShder, ";");
+
+		if( vecMacros.empty() )
+			return 0;
+
+		for(uint32 i=0; i< vecMacros.size(); i++)
+		{
+			const vector<string> keyValue = StringUtil::split(vecMacros[i], "=");
+			uint32 nSize = keyValue.size();
+			if(nSize != 2)
+				continue;
+
+			if(keyValue[0] != string(pszMacro) )
+				continue;
+
+			return StringConverter::parseInt(keyValue[1]);
+		}
+
+		return 0;
+	}
+
+	void Technique::SetShaderMacroValue(const char* pszMacro, int nValue)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		const char* pVSFile = m_pShaderProgram->GetVSFile();
+		const char* pPSFile = m_pShaderProgram->GetPSFile();
+		std::string strShder = m_pShaderProgram->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder,";");
+		if (vecMacros.empty())
+			return;
+
+		uint32 i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			vector<string> keyValue = StringUtil::split(vecMacros[i],"=");
+			uint32 nSize = keyValue.size();
+			if (nSize != 2)
+				continue;
+
+			if (keyValue[0] != string(pszMacro))
+				continue; 
+
+			keyValue[1] = StringConverter::toString(nValue);
+
+			vecMacros[i] = keyValue[0] + "=" + keyValue[1];
+			break;
+		}
+
+		if (i == vecMacros.size())
+		{
+			string strKey = pszMacro;
+			string strValue = StringConverter::toString(nValue);
+			vecMacros.push_back(strKey + "=" + strValue);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32 i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+	
+ 		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str());
+	}
+
+	bool Technique::GetShaderMacro(const char* pszMacro)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return false;
+
+		std::string strShder = m_pShaderProgram->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder,";");
+		if (vecMacros.empty())
+			return false;
+
+		for (UINT i = 0; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void Technique::SetShaderMacro(const char* pszMacro, bool b)
+	{
+		ASSERT(pszMacro);
+		if (pszMacro == NULL)
+			return;
+
+		const char* pVSFile = m_pShaderProgram->GetVSFile();
+		const char* pPSFile = m_pShaderProgram->GetPSFile();
+		std::string strShder = m_pShaderProgram->GetShaderMacro();
+
+		vector<string> vecMacros = StringUtil::split(strShder,";");
+		if (vecMacros.empty())
+			return;
+
+		uint32 i = 1;
+		for (; i < vecMacros.size(); ++i)
+		{
+			if (vecMacros[i] == string(pszMacro))
+			{
+				break;
+			}
+		}
+
+		if (i == vecMacros.size())
+		{
+			if (b)
+				vecMacros.push_back(pszMacro);
+		}
+		else
+		{
+			if (!b)
+				vecMacros.erase(vecMacros.begin() + i);
+		}
+
+		std::sort(vecMacros.begin() + 1, vecMacros.end());
+
+		string strFinal = vecMacros[0];
+		for (uint32 i = 1; i < vecMacros.size(); ++i)
+		{
+			strFinal += ";" + vecMacros[i];
+		}
+
+		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str());
 	}
 
 	void Technique::Bind()

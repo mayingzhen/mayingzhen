@@ -39,7 +39,7 @@ namespace ma
 			用法(硬件缓存使用)      
 	----------------------------------------------------------
 	*/
-	enum USAGE
+	enum TEXTURE_USAGE
 	{
 		USAGE_STATIC,
 		USAGE_RENDERTARGET,
@@ -47,6 +47,10 @@ namespace ma
 		USAGE_DYNAMIC,
 	};
 
+	enum BUFFER_USAGE
+	{
+
+	};
 
 	/* enum: LOCK
 	----------------------------------------------------------
@@ -227,38 +231,6 @@ namespace ma
 		FILL_SOLID                  = 3,                //实填充
 	};
 
-	    /** Blending factors for manually blending objects with the scene. If there isn't a predefined
-        SceneBlendType that you like, then you can specify the blending factors directly to affect the
-        combination of object and the existing scene. See Material::setSceneBlending for more details.
-    */
-    enum SceneBlendFactor
-    {
-        SBF_ONE,
-        SBF_ZERO,
-        SBF_DEST_COLOUR,
-        SBF_SOURCE_COLOUR,
-        SBF_ONE_MINUS_DEST_COLOUR,
-        SBF_ONE_MINUS_SOURCE_COLOUR,
-        SBF_DEST_ALPHA,
-        SBF_SOURCE_ALPHA,
-        SBF_ONE_MINUS_DEST_ALPHA,
-        SBF_ONE_MINUS_SOURCE_ALPHA
-
-    };
-
-	/** Blending operations controls how objects are blended into the scene. The default operation
-		is add (+) but by changing this you can change how drawn objects are blended into the
-		existing scene.
-	*/
-	enum SceneBlendOperation
-	{
-		SBO_ADD,
-		SBO_SUBTRACT,
-		SBO_REVERSE_SUBTRACT,
-		SBO_MIN,
-		SBO_MAX
-	};
-
 	enum BLEND_MODE
 	{
 		BM_OPATICY,
@@ -405,52 +377,52 @@ namespace ma
 		0
 	};
 
-// 	enum HBU_Usage 
-//     {
-//         /** Static buffer which the application rarely modifies once created. Modifying 
-//         the contents of this buffer will involve a performance hit.
-//         */
-//         HBU_STATIC = 1,
-// 
-// 	    /** Indicates the application would like to modify this buffer with the CPU
-// 	    fairly often. 
-// 	    Buffers created with this flag will typically end up in AGP memory rather 
-// 	    than video memory.
-// 	    */
-// 	    HBU_DYNAMIC = 2,
-// 
-// 	    /** Indicates the application will never read the contents of the buffer back, 
-// 	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
-// 	    return a pointer to new, blank memory rather than the memory associated 
-// 	    with the contents of the buffer; this avoids DMA stalls because you can 
-// 	    write to a new memory area while the previous one is being used. 
-// 	    */
-// 	    HBU_WRITE_ONLY = 4,
-// 
-//         /** Indicates that the application will be refilling the contents
-//         of the buffer regularly (not just updating, but generating the
-//         contents from scratch), and therefore does not mind if the contents 
-//         of the buffer are lost somehow and need to be recreated. This
-//         allows and additional level of optimisation on the buffer.
-//         This option only really makes sense when combined with 
-//         HBU_DYNAMIC_WRITE_ONLY.
-//         */
-//         HBU_DISCARDABLE = 8,
-// 
-// 		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
-// 		HBU_STATIC_WRITE_ONLY = 5, 
-// 
-// 		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
-//         this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
-//         instead if you update the entire contents of the buffer very 
-//         regularly. 
-//         */
-// 		HBU_DYNAMIC_WRITE_ONLY = 6,
-// 
-//         /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
-//         HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
-// 
-//     };
+	enum HBU_USAGE 
+    {
+        /** Static buffer which the application rarely modifies once created. Modifying 
+        the contents of this buffer will involve a performance hit.
+        */
+        HBU_STATIC = 1,
+
+	    /** Indicates the application would like to modify this buffer with the CPU
+	    fairly often. 
+	    Buffers created with this flag will typically end up in AGP memory rather 
+	    than video memory.
+	    */
+	    HBU_DYNAMIC = 2,
+
+	    /** Indicates the application will never read the contents of the buffer back, 
+	    it will only ever write data. Locking a buffer with this flag will ALWAYS 
+	    return a pointer to new, blank memory rather than the memory associated 
+	    with the contents of the buffer; this avoids DMA stalls because you can 
+	    write to a new memory area while the previous one is being used. 
+	    */
+	    HBU_WRITE_ONLY = 4,
+
+        /** Indicates that the application will be refilling the contents
+        of the buffer regularly (not just updating, but generating the
+        contents from scratch), and therefore does not mind if the contents 
+        of the buffer are lost somehow and need to be recreated. This
+        allows and additional level of optimisation on the buffer.
+        This option only really makes sense when combined with 
+        HBU_DYNAMIC_WRITE_ONLY.
+        */
+        HBU_DISCARDABLE = 8,
+
+		/// Combination of HBU_STATIC and HBU_WRITE_ONLY
+		HBU_STATIC_WRITE_ONLY = 5, 
+
+		/** Combination of HBU_DYNAMIC and HBU_WRITE_ONLY. If you use 
+        this, strongly consider using HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE
+        instead if you update the entire contents of the buffer very 
+        regularly. 
+        */
+		HBU_DYNAMIC_WRITE_ONLY = 6,
+
+        /// Combination of HBU_DYNAMIC, HBU_WRITE_ONLY and HBU_DISCARDABLE
+        HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
+
+    };
 
 }
 

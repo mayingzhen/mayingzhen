@@ -11,9 +11,11 @@ namespace ma
 
 		m_pCamera = CreateCamera();
 		m_pRootNode->AddChild(m_pCamera.get());
-
-		//m_pSunShadow = new RenderShadowCSM();
-		//m_pSunShadow->GetSceneNode()->LookAt(Vector3(1.f, 1.f, 0.f),Vector3::ZERO); 
+	
+		SceneNode* pSun = CreateSceneNode();
+		m_pRootNode->AddChild(pSun);
+		m_pDirLight = CreateDirectonalLight();
+		pSun->AddComponent(m_pDirLight.get());
 		
 		m_viewport = GetRenderSystem()->GetViewPort();
 		SetRenderScheme(RenderScheme::Forward);
@@ -93,9 +95,9 @@ namespace ma
 		m_vecParallelShow.push_back(pComponent);
 	}
 
-	void Scene::AddLight(Light* pLight)
+	void Scene::AddRenderLight(Light* pLight)
 	{
-		m_vecLight.push_back(pLight);
+		m_vecRenderLight.push_back(pLight);
 	}
 
 	void Scene::Update()
@@ -177,9 +179,9 @@ namespace ma
 	
 		GetRenderSystem()->BegineRender();
 
-		for (uint32 i = 0; i < m_vecLight.size();++i)
+		for (uint32 i = 0; i < m_vecRenderLight.size();++i)
 		{
-			m_vecLight[i]->RenderShadowMap(m_pCamera.get());
+			m_vecRenderLight[i]->RenderShadowMap(m_pCamera.get());
 		}
 
 		if (m_pRenderTarget)
@@ -207,7 +209,7 @@ namespace ma
 
 		GetRenderSystem()->EndRender();
 
-		m_vecLight.clear();
+		m_vecRenderLight.clear();
 	}
 
 	void Scene::OnFlushFrame()

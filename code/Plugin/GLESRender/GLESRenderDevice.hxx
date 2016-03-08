@@ -24,7 +24,7 @@ namespace ma
 		return new GLESTexture();
 	}
 
-	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,USAGE eUsage)
+	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
 	{
 		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,eUsage);
 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
@@ -784,7 +784,7 @@ namespace ma
 		//	glPopGroupMarkerEXT();
 	}
 
-	bool GLESRenderDevice::CheckTextureFormat(PixelFormat eFormat,USAGE eUsage)
+	bool GLESRenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
 	{
 		return true;
 	}

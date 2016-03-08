@@ -25,16 +25,22 @@ namespace ma
 		const Matrix4&			GetViewMatrixInv() const;
 		void					SetProjMatrix(const Matrix4& matProj);
 		const Matrix4&			GetProjMatrix() const;
-		const Matrix4&			GetViewProjMatrix();
+		const Matrix4&			GetViewProjMatrix() const;
+		const Vector3&			GetEyeWorldPos() const;
 
 		float					GetNearClip();
 		float					GetFarClip();
+
+		Vector3					GetAmbientColor() const;
+		ColourValue				GetDirLightColor() const;
+		Vector3					GetDirLightDir() const;
 
 	protected:
 		MatViewProj				m_matViewProj[2];
 
 		float					m_fNear[2];
 		float					m_fFar[2];
+		Vector3					m_vEyeWordPos[2];
 
 		Renderable*				m_pCurObject;
 
