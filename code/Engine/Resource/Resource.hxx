@@ -33,7 +33,7 @@ namespace ma
 		{
 			GetDataThread()->PushBackDataObj(this);
 
-			return false;
+			return true;
 		}
 		else
 		{

@@ -12,13 +12,15 @@ int main(int argc, char** argv)
 {
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     
-    SampleBrowser sampleBrowser("SampleBrowser");
-    
-    Platform app;
-    
-	app.Init();
-	app.Run();
-	app.Shutdown();
+	bool bRenderThread = true;
+	bool bDataThread = true;
+	bool bJobScheduler = true;
+
+	SampleBrowser sampleBrowser("SampleBrowser");
+
+	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler);
+	sampleBrowser.Run();
+	sampleBrowser.Shutdown();
     
     [p release];
     return 1;

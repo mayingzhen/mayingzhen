@@ -9,13 +9,15 @@ using namespace ma;
 int main()
 {
 
+	bool bRenderThread = true;
+	bool bDataThread = true;
+	bool bJobScheduler = true;
+
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	Platform app;
-
-	app.Init();
-	app.Run();
-	app.Shutdown();
+	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler);
+	sampleBrowser.Run();
+	sampleBrowser.Shutdown();
 
 	return 1;
 }

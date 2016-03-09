@@ -634,6 +634,11 @@ bool ParticleSystem::IsReady()
         return true;
     }
 
+	if (!Serializable::IsReady())
+	{
+		return false;
+	}
+
     if (m_pMaterialSet && !m_pMaterialSet->IsReady())
     {
         return false;

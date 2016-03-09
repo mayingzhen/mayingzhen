@@ -11,7 +11,7 @@ namespace ma
 	public:
 		Platform();
 
-		void		Init(bool bRenderThread, bool bDataThread, bool bJobScheduler);
+		void		Init();
 
 		void		Run();
 

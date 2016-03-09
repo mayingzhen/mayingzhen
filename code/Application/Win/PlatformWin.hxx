@@ -355,7 +355,7 @@ namespace ma
 		gplatform = this;
 	}
 
-	void Platform::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
+	void Platform::Init()
 	{
 		HINSTANCE hInstance = GetModuleHandle(NULL);
 
@@ -401,13 +401,10 @@ namespace ma
 		ShowWindow (m_windId, SW_SHOW) ;
 
 		SetWindowText(m_windId,Game::GetInstance().GetGameName());
-
-		Game::GetInstance().Init(bRenderThread,bDataThread,bJobScheduler);
 	}
 
 	void Platform::Shutdown()
 	{
-		Game::GetInstance().Shutdown();	
 	}
 
 	void Platform::GetWindowSize(int& w, int& h) const

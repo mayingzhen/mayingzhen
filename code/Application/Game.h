@@ -20,6 +20,8 @@ namespace ma
 
 		virtual void	Shutdown();
 
+		virtual void	Run();
+
 		virtual void	Update();
 
 		virtual void	Render();

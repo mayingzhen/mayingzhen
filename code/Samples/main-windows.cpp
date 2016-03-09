@@ -8,17 +8,15 @@ using namespace ma;
 
 int main(int argc, char* argv[])
 {
-	SampleBrowser sampleBrowser("SampleBrowser");
-
-	Platform app;
-
 	bool bRenderThread = true;
-	bool bDataThread = false;
+	bool bDataThread = true;
 	bool bJobScheduler = true;
 
-	app.Init(bRenderThread,bDataThread,bJobScheduler);
-	app.Run();
-	app.Shutdown();
+	SampleBrowser sampleBrowser("SampleBrowser");
+
+	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler);
+	sampleBrowser.Run();
+	sampleBrowser.Shutdown();
 
 	return 1;
 }
