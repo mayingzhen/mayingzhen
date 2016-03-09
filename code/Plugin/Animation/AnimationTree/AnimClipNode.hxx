@@ -64,14 +64,14 @@ namespace ma
 		}
 	}
 
-	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, EBlendMode eBlendMode)
+	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
 		profile_code();
 
 		if (m_pAnimation == NULL || pEvalContext == NULL)
 			return;
 
-		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFLS.size();
+		UINT uBoneNumber = m_pBoneSet ? m_pBoneSet->GetBoneNumber() : pEvalContext->m_arrTSFPS.size();
 		for (UINT i = 0; i < uBoneNumber; ++i)
 		{
 			BoneIndex uBoneId = m_pBoneSet ? m_pBoneSet->GetBoneIdByIndex(i) : i;
@@ -83,18 +83,11 @@ namespace ma
 				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fLocalFrame);
 			}
 
-			Transform& dest = pEvalContext->m_arrTSFLS[uBoneId];
+			Transform& dest = pEvalContext->m_arrTSFPS[uBoneId];
 
 			if (fWeight < 1.0f - 0.00001f)
 			{
-				if (eBlendMode == BLENDMODE_ADDITIVE) // apply relative addition to the result of the previous layer
-				{
-					TransformMad(dest, source, fWeight, dest);
-				}
-				else if (eBlendMode == BLENDMODE_OVERWRITE) // just blend between the previous and current result, so make no additions
-				{
-					TransformLerp(dest, dest, fWeight, source);
-				}
+				TransformLerp(dest, dest, fWeight, source);
 			}
 			else
 			{

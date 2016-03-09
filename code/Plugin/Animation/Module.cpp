@@ -9,7 +9,6 @@
 #include "Animation/AnimationSet.hxx"
 #include "Animation/AnimationComponent.hxx"
 #include "Animation/AnimationDataCover.hxx"
-#include "Animation/AnimationSystem.hxx"
 #include "Animation/AnimDataManager.hxx"
 
 // AnimationTree
@@ -30,9 +29,6 @@ using namespace ma;
 
 void AnimationModuleInit()
 {
-	AnimationSystem* pAniSystem = new AnimationSystem();
-	SetAnimationSystem(pAniSystem);
-
 	g_pSkeletonManager = new ResourceSystem<Skeleton>();
 	g_pAnimDataManager = new AnimDataManager();
 
@@ -45,10 +41,6 @@ void AnimationModuleShutdown()
 {
 	SAFE_DELETE(g_pSkeletonManager);
 	SAFE_DELETE(g_pAnimDataManager);
-
-	AnimationSystem* pAniSystem = GetAnimationSystem();	
-	SAFE_DELETE(pAniSystem);
-	SetAnimationSystem(NULL);
 }
 
 

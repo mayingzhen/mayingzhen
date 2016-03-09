@@ -26,8 +26,6 @@ namespace ma
 
 		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
- 		AnimationSet*			GetAnimationSet() {return m_pAnimSet.get();}
-
 		void					Stop();
 
 		void					PlayAnimation(const char* pszAnimName,float fFadeTime = 0.0f); 
@@ -38,18 +36,18 @@ namespace ma
 
 		void					DebugRender(bool bDrawBoneName = false);
 
-		SkeletonPose*			GetAnimationPose() {return m_pose;}
-		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
-
 		void					UpdateSkinMatrix();
 
-		bool					IsReady();
-
+		SkeletonPose*			GetAnimationPose() {return m_pose;}
+		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
 		const char*				GetSkeletonPath() const;
 		void					SetSkeletonPath(const char* pSkePath);
 
+		 AnimationSet*			GetAnimationSet() {return m_pAnimSet.get();}
 		const char*				GetAnimSetPath() const;
 		void					SetAnimSetPath(const char* pAniSetPath);
+
+		bool					IsReady();
 
 	protected:
 		void					AdvanceTime(float fTimeElepse);
@@ -62,7 +60,6 @@ namespace ma
 		SkeletonPose*				m_pose;
 
 		RefPtr<AnimationSet>		m_pAnimSet;
-		std::string					m_strAnimSetPath;
 	
 		std::string					m_strCurAction;
 		uint32						m_nCurAction;

@@ -204,31 +204,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\Animation\AnimationSerializer.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Plugin\Animation\AnimationSet.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\code\Plugin\Animation\AnimationSet.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationSystem.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationTracks.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Code\Plugin\Animation\AnimationTracks.hxx"
 				>
 			</File>
 			<File
@@ -269,10 +249,6 @@
 			</File>
 			<File
 				RelativePath="..\..\Code\Plugin\Animation\SkeletonPose.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\Animation\SkeletonSerializer.hxx"
 				>
 			</File>
 			<File
@@ -346,10 +322,6 @@
 		</File>
 		<File
 			RelativePath="..\..\Code\Plugin\Animation\Module.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\Code\Plugin\Animation\RTTIDecl.h"
 			>
 		</File>
 		<File

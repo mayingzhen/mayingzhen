@@ -85,7 +85,10 @@ namespace ma
 			pChargigi->Right(-50.0f);
 
 			m_pAnimtionObjectA = pChargigi->GetTypeComponent<AnimationComponent>();
-			m_pAnimtionObjectA->PlayAnimation((UINT)1);
+
+			//m_pAnimtionObjectA->SetAnimSetPath("magician/magician/body.aniset");
+
+			//m_pAnimtionObjectA->PlayAnimation("100_stand");
 		}
 
 		if (1)
@@ -96,7 +99,7 @@ namespace ma
 
 			m_pAnimtionObjectB = pCharMagic->GetTypeComponent<AnimationComponent>();
 			//m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
-			m_pAnimtionObjectB->PlayAnimation((UINT)1);
+			//m_pAnimtionObjectB->PlayAnimation("100_stand");
 		}
 
 	}
@@ -117,30 +120,37 @@ namespace ma
 	{
 		//m_pAnimtionObjectA->SetFrame(5);
 
-// 		Input* pInput = GetInput();
-// 		if (pInput == NULL)
-// 			return;
+		Input* pInput = GetInput();
+		if (pInput == NULL)
+			return;
 
-// 		if (pInput->IsKeyDown(OIS::KC_1))
+// 		static uint64 _stime = GetTimer()->GetMillisceonds();
+// 		if (GetTimer()->GetMillisceonds() - _stime > 5000)
 // 		{
-// 			m_pAnimtionObjectA->PlayAnimation((UINT)0);
-// 			m_pAnimtionObjectB->PlayAnimation((UINT)0);
+// 			m_pAnimtionObjectA->PlayAnimation(GetTimer()->GetFrameCount() % 4,0.5f);
+// 			_stime = GetTimer()->GetMillisceonds();
 // 		}
-// 		else if (pInput->IsKeyDown(OIS::KC_2))
-// 		{
-// 			m_pAnimtionObjectA->PlayAnimation(1);
-// 			m_pAnimtionObjectB->PlayAnimation(1);
-// 		}
-// 		else if (pInput->IsKeyDown(OIS::KC_3))
-// 		{
-// 			m_pAnimtionObjectA->PlayAnimation(2);
-// 			m_pAnimtionObjectB->PlayAnimation(2);
-// 		}
-// 		else if (pInput->IsKeyDown(OIS::KC_4))
-// 		{
-// 			m_pAnimtionObjectA->PlayAnimation(3);
-// 			m_pAnimtionObjectB->PlayAnimation(3);
-// 		}
+
+		if (pInput->IsKeyDown(Keyboard::KEY_ONE))
+		{
+			m_pAnimtionObjectA->PlayAnimation((UINT)0,0.5f);
+			m_pAnimtionObjectB->PlayAnimation((UINT)0,0.5f);
+		}
+		else if (pInput->IsKeyDown(Keyboard::KEY_TWO))
+		{
+			m_pAnimtionObjectA->PlayAnimation(1,0.5f);
+			m_pAnimtionObjectB->PlayAnimation(1,0.5f);
+		}
+		else if (pInput->IsKeyDown(Keyboard::KEY_THREE))
+		{
+			m_pAnimtionObjectA->PlayAnimation(2,0.5f);
+			m_pAnimtionObjectB->PlayAnimation(2,0.5f);
+		}
+		else if (pInput->IsKeyDown(Keyboard::KEY_FOUR))
+		{
+			m_pAnimtionObjectA->PlayAnimation(3);
+			m_pAnimtionObjectB->PlayAnimation(3);
+		}
 
 	}
 

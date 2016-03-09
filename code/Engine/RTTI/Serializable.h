@@ -10,7 +10,6 @@ class TiXmlElement;
 namespace ma
 {
 	class AttributeManager;
-	class Serializer;
 	class XmlFile;
 	
 	class Serializable : public Object

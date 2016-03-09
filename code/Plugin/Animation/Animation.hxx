@@ -1,6 +1,5 @@
 #include "Animation/Animation.h"
 #include "Animation/Track.h"
-#include "Animation/AnimationTracks.h"
 #include "Animation/Skeleton.h"
 #include "AnimDataManager.h"
 
@@ -274,6 +273,11 @@ namespace ma
 			m_arrTrackName[i] = &vecChar[0];
 		}
 
+		if (nVersion == 3)
+		{
+			ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
+		}
+		
 	}
 
 	RefPtr<Animation> CreateAnimation()

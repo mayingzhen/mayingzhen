@@ -213,3 +213,4 @@ EXPORTS
 ?SetMaterial@MeshComponent@ma@@QAEXPAVMaterial@2@@Z
 ?SetShaderMacro@Technique@ma@@QAEXPBD_N@Z
 ?Clone@Material@ma@@QAE?AV?$RefPtr@VMaterial@ma@@@2@XZ
+?GetMillisceonds@Time@ma@@QBE_KXZ

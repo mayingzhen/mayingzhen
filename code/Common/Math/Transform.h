@@ -59,22 +59,6 @@ namespace ma
 		pMat->decomposition(pRT->m_vPos,pRT->m_vScale,pRT->m_qRot);
 	}
 
-// 	inline S3D3DXVECTOR3* S3D3DXVec3Lerp
-// 		( S3D3DXVECTOR3 *pOut, CONST S3D3DXVECTOR3 *pV1, CONST S3D3DXVECTOR3 *pV2,
-// 		FLOAT s )
-// 	{
-// #ifdef S3D3DX_DEBUG
-// 		if(!pOut || !pV1 || !pV2)
-// 			return NULL;
-// #endif
-// 
-// 		pOut->x = pV1->x + s * (pV2->x - pV1->x);
-// 		pOut->y = pV1->y + s * (pV2->y - pV1->y);
-// 		pOut->z = pV1->z + s * (pV2->z - pV1->z);
-// 		return pOut;
-// 	}
-
-
 	inline void TransformMad(Transform& out,const Transform& pA,float f,const Transform& pB)
 	{
 		//S3AVec3Mad(&pOut->m_vPos,&pA->m_vPos,f,&pB->m_vPos);

@@ -21,18 +21,18 @@ namespace ma
 			m_pDestAnimNode->AdvanceTime(fTimeElapsed);
 	}
 
-	void AnimBlendNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode)
+	void AnimBlendNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
 		float fSrcWeight = fWeight * ( 1.0f - m_fWeight) ;
 		float fDestWeight = fWeight * m_fWeight;
 		if (m_pSrcAnimNode)
 		{
-			m_pSrcAnimNode->EvaluateAnimation(pEvalContext,fSrcWeight,BLENDMODE_OVERWRITE);
+			m_pSrcAnimNode->EvaluateAnimation(pEvalContext,fSrcWeight);
 		}
 
 		if (m_pDestAnimNode)
 		{
-			m_pDestAnimNode->EvaluateAnimation(pEvalContext,fDestWeight,BLENDMODE_OVERWRITE);
+			m_pDestAnimNode->EvaluateAnimation(pEvalContext,fDestWeight);
 		}
 	}
 

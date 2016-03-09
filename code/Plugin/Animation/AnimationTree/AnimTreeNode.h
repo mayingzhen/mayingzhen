@@ -6,18 +6,11 @@ namespace ma
 {
 	struct AnimEvalContext
 	{
-		std::vector<Transform> m_arrTSFLS;
+		std::vector<Transform> m_arrTSFPS;
 
 		const SkeletonPose* m_refNodePos;
 
 		SkeletonPose* m_pNodePos;
-	};
-
-
-	enum EBlendMode
-	{
-		BLENDMODE_OVERWRITE	= 0,	/**< Overwrite mode. This can be used to switch from for example walk into run. */
-		BLENDMODE_ADDITIVE	= 1		/**< Additive mode. This can be used to add the given motion relatively to the current result. */
 	};
 
 
@@ -31,7 +24,7 @@ namespace ma
 
 		virtual void		AdvanceTime(float fTimeElapsed) = 0;
 
-		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode) = 0;
+		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight) = 0;
 
 		virtual	void		SetFrame(float fFrame) = 0;
 

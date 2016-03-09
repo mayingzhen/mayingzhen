@@ -34,11 +34,11 @@ namespace ma
 		}
 	}
 
-	void AnimLayerNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight,EBlendMode eBlendMode)
+	void AnimLayerNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
-			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,fWeight,BLENDMODE_ADDITIVE);
+			m_arrAnimNode[i]->EvaluateAnimation(pEvalContext,fWeight);
 		}
 	}
 

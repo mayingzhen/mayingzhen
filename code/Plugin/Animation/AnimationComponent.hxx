@@ -38,7 +38,7 @@ namespace ma
 	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
 	{
 		SAFE_DELETE(m_pose);
-		m_pSkeleton = CreateSkeleton(pSkePath);//LoadResource<Skeleton>(pSkePath);
+		m_pSkeleton = CreateSkeleton(pSkePath);
 
 		m_bLoadOver = false;
 		IsReady();
@@ -46,13 +46,14 @@ namespace ma
 
 	const char* AnimationComponent::GetAnimSetPath() const
 	{
-		return m_strAnimSetPath.c_str();
+		if (m_pAnimSet == NULL || m_pAnimSet->GetXMLFile() == NULL)
+			return NULL;
+
+		return m_pAnimSet->GetXMLFile()->GetResPath();
 	}
 
 	void AnimationComponent::SetAnimSetPath(const char* pAniSetPath)
 	{
-		m_strAnimSetPath = pAniSetPath ? pAniSetPath : "";
-
 		m_pAnimSet = CreateAnimationSet(pAniSetPath);
 		
 		m_bLoadOver = false;
@@ -185,9 +186,6 @@ namespace ma
 		if (m_pAnimSet == NULL)
 			return;
 
-		if (actionID < 0 || actionID >= m_pAnimSet->GetSkelAnimNumber())
-			return;
-
 		AnimTreeNode* pAnimNode = m_pAnimSet->GetSkelAnimByIndex(actionID);
 		ASSERT(pAnimNode);
 		if (pAnimNode == NULL)
@@ -246,7 +244,9 @@ namespace ma
 			return;
 
 		AnimEvalContext evalContext;
-		evalContext.m_arrTSFLS.resize( pRefPose->GetNodeNumber() );
+		Transform tsfZero;
+		memset(&tsfZero,0,sizeof(tsfZero));
+		evalContext.m_arrTSFPS.resize( pRefPose->GetNodeNumber() , tsfZero);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
 
@@ -254,15 +254,15 @@ namespace ma
 
 		if (m_pPreAction && fFadeFactor > 0)
 		{
-			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor,BLENDMODE_OVERWRITE);
+			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor);
 		}
 
 		if (m_pCurAction)
 		{
-			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor,BLENDMODE_OVERWRITE);
+			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
 		}
 
-		m_pose->InitLocalSpace(evalContext.m_arrTSFLS,pRefPose);
+		m_pose->SetTransformPSAll(evalContext.m_arrTSFPS);
 
 		// Do IK
 
