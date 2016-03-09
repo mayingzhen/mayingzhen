@@ -33,6 +33,7 @@ namespace ma
 
 		const char*					GetMaterialFile() const;
 		void						SetMaterialFile(const char* pFile);
+		void						SetMaterial(Material* pMaterial);
 
 		UINT32						GetSubMaterialCount(uint32 nLod);
 		SubMaterial*				GetSubMaterial(uint32 nLod,UINT index);

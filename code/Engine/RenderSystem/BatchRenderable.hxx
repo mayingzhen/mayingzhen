@@ -10,7 +10,7 @@ namespace ma
 		{
 		}
 
-		bool operator()(const RefPtr<Renderable> a, const RefPtr<Renderable> b) const
+		bool operator()(const Renderable* a, const Renderable* b) const
 		{
 			long i = long(a->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram()) - long(b->GetMaterial()->GetShadingTechnqiue()->GetShaderProgram());
 			if (i<0)
@@ -53,7 +53,7 @@ namespace ma
 	{
 		for (UINT i = 0; i < m_arrRenderList.size(); ++i)
 		{
-			Renderable* pRenderObj = m_arrRenderList[i].get();
+			Renderable* pRenderObj = m_arrRenderList[i];
 			if (pRenderObj == NULL)
 				continue; 
 

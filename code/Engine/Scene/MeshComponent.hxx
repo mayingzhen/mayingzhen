@@ -94,7 +94,12 @@ namespace ma
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
-		m_pMaterial = CreateMaterial(pFile);
+		SetMaterial( CreateMaterial(pFile).get() );
+	}
+
+	void MeshComponent::SetMaterial(Material* pMaterial)
+	{
+		m_pMaterial = pMaterial;
 
 		m_bOnLoadOver = false;
 		IsReady();
@@ -133,6 +138,7 @@ namespace ma
 		if (m_pMaterial == NULL || m_vecMesData.empty())
 			return;
 		
+		m_arrLodRenderable.clear();
 		for (uint32 iLod = 0; iLod < m_vecMesData.size(); ++iLod)
 		{
 			MeshData* pMesData = m_vecMesData[iLod].get();

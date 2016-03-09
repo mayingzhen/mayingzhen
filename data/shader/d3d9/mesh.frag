@@ -1,5 +1,6 @@
 
 #include "common.h"
+#include "lighting.h"
 
 #if USING_SHADOW != 0
 #include"shadowMap.h"
@@ -66,19 +67,31 @@ float4 ForwardShading(float4 cDiffuse,PS_IN In)
 	
 	In.worldNormal = normalize(In.worldNormal);
 
-#ifdef LIGHT	
-	float fNDotL = clamp(dot(In.worldNormal, g_vDirLight), 0, 1);
-    float3 fDirLight = g_cDirLight * fNDotL;
-    flagColor.rgb *= g_cSkyLight + fDirLight;
+
+#ifdef LIGHT
+	flagColor.rgb == g_cSkyLight * cDiffuse;
+	
+	float3 halfVec = normalize(normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz) + g_vDirLight);
+	
+	#ifdef BRDF
+		#ifdef SPEC
+			flagColor.rgb += calc_brdf(cDiffuse,u_cSpecColor,u_specPower,g_vDirLight,halfVec,In.worldNormal);
+		#else
+			flagColor.rgb += calc_brdf(cDiffuse,g_vDirLight,In.worldNormal);
+		#endif		
+	#else
+		float fNDotL = clamp(dot(In.worldNormal, g_vDirLight), 0, 1);
+		float3 fDirLight = g_cDirLight * fNDotL;
+		flagColor.rgb += cDiffuse * fDirLight;
     
-    #ifdef SPEC
-		float3 refl = reflect(-g_vDirLight, In.worldNormal);	
-		float cosVal = dot(normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz), refl);
-		float3 spec = g_cDirLight* (pow(max(0,cosVal), u_specPower) * u_cSpecColor);
-		flagColor.rgb += spec;
+		#ifdef SPEC
+			float fNDotH = clamp(dot(In.worldNormal,halfVec), 0, 1);
+			float3 spec = g_cDirLight * pow(fNDotH, u_specPower) * u_cSpecColor;
+			flagColor.rgb += spec;
+		#endif 
     #endif 
-    
-#endif    
+#endif  
+  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
 #ifdef RECEIVESHADOW

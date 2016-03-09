@@ -36,6 +36,7 @@ namespace ma
 		void			SetResPath(const char* pResPath) {m_sResPath = pResPath;}
 
 		ResState		GetResState() const {return m_eResState;}
+		void			SetResState(ResState eState) {m_eResState = eState;}
 
 		MemoryStream*	GetDataStream() {return m_pDataStream.get();}
 

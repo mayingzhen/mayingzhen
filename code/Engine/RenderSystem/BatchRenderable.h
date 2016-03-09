@@ -17,7 +17,7 @@ namespace ma
 		virtual void	Clear();
 
 	protected:
-		typedef std::vector< RefPtr<Renderable> > VEC_RENDERABLE;
+		typedef std::vector<Renderable*> VEC_RENDERABLE;
 		VEC_RENDERABLE	m_arrRenderList;
 	};
 }
