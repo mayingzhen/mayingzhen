@@ -253,6 +253,21 @@ namespace ma
 		return true;
 	}
 
+	RefPtr<Material> Material::Clone()
+	{
+		Material* pClonMaterial = new Material();
+
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Material"));
+		this->Export(pRoot,doc);
+
+		pClonMaterial->Improt(pRoot);
+
+		pClonMaterial->SetResState(ResInited);
+
+		return pClonMaterial;
+	}
+
 	ResourceSystem<Material>* g_pMaterialManager = NULL;
 
 	RefPtr<Material> CreateMaterial()

@@ -14,8 +14,6 @@ namespace ma
 
 		m_matWS = Matrix4::IDENTITY;
 		m_bmatWSDirty = false;	
-
-		m_bLoadOver = false;
 	}
 
 	SceneNode::~SceneNode()

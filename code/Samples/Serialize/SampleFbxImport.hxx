@@ -12,7 +12,7 @@ namespace ma
 
 	void SampleFbxImport::LoadSkelMesh()
 	{
-		if (0)
+		if (1)
 		{
 			
 			LoadSkeletonMeshData("Fbx/TestBull.fbx");
@@ -73,7 +73,7 @@ namespace ma
 			m_pAnimComponent->DebugRender();
 
 		Transform tsf;
-		GetLineRender()->DrawTransform(tsf);
+		LineRender::DrawTransform(tsf);
 	}
 
 	void SampleFbxImport::Load()

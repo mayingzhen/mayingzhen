@@ -210,3 +210,6 @@ EXPORTS
 ?GetUp@SceneNode@ma@@QBE?AVVector3@2@XZ
 ?AddSubMeshData@MeshData@ma@@QAEXPAVSubMeshData@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
+?SetMaterial@MeshComponent@ma@@QAEXPAVMaterial@2@@Z
+?SetShaderMacro@Technique@ma@@QAEXPBD_N@Z
+?Clone@Material@ma@@QAE?AV?$RefPtr@VMaterial@ma@@@2@XZ

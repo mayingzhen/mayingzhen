@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void		ModuleShutdown();
 
-		virtual void		Init();
+		virtual void		Init(bool bRenderThread, bool bDataThread, bool bJobScheduler);
 
 		virtual void		Shutdown();
 

@@ -2,11 +2,16 @@
 
 namespace ma
 {
+	static Platform ___platform;
+
 	static Game* __gameInstance = NULL;
+
 
 	Game::Game(const char* pGameName)
 	{
 		__gameInstance = this;
+
+		___platform.Init();
 		m_sGameName = pGameName ? pGameName : "";
 
 		Engine* pEngine = new Engine();
@@ -22,6 +27,8 @@ namespace ma
 		SetEngine(NULL);
 
 		SAFE_DELETE(g_pInput);
+
+		___platform.Shutdown();
 	}
 
 	Game& Game::GetInstance()
@@ -35,15 +42,20 @@ namespace ma
 		return m_sGameName.c_str();
 	}
 
-	void Game::Init()
+	void Game::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		HWND hWnd = Platform::GetInstance().GetWindId();
-		GetEngine()->Init(hWnd, false, false, false);
+		GetEngine()->Init(hWnd, bRenderThread, bDataThread, bJobScheduler);
 	}
 
 	void Game::Shutdown()
 	{
 		GetEngine()->Shutdown();
+	}
+
+	void Game::Run()
+	{
+		___platform.Run();
 	}
 
 	void Game::Update()

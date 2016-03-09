@@ -11,7 +11,7 @@
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_NONE"/>
 				</RenderState>
 			</ShadingTech>
-			<Parameters Name="tDiff" Type="SamplerState" ImagePath="particle/money.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
+			<Parameters Name="tDiff" Type="SamplerState" ImagePath="particle/money.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR" SRGB="true"/>
 		</SubMaterial>
 	</LodMaterial>
 </Material>

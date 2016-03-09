@@ -51,12 +51,12 @@ namespace ma
 		// character B MeshData & skeleton & Animation
 		if (1)
 		{
-			m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,-1),Vector3(0,0,0));
+			m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,1),Vector3(0,0,0));
 			m_pScene->GetDirLight()->SetLightColor(ColourValue(0.5,0.5,0.5,1.0f));
 			m_pScene->SetAmbientColor(Vector3(0.5,0.5,0.5));
 
 
-			CreateMeshMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN;LIGHT;SPEC");
+			CreateMeshMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN;LIGHT;BRDF;SPEC");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );

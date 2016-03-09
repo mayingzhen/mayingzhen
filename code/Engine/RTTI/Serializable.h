@@ -26,9 +26,10 @@ namespace ma
 		bool					IsReady();
 
 		XmlFile*				GetXMLFile() {return m_pXMlFile.get();}
+
 	protected:
 		RefPtr<XmlFile>			m_pXMlFile;
-		bool					m_bLoadOver;
+		bool					m_bXMLLoadOver;
 	};
 }
 

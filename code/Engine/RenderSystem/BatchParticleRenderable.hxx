@@ -48,7 +48,7 @@ namespace ma
 
 	bool BatchParticleRenderable::MerageRenderable(ParticleSystemRenderable* pSubMesh,VEC_RENDERABLE& arrMerageSubMesh, uint32 indexMerge)
 	{
-		ParticleSystemRenderable* pMerageSubMesh = (ParticleSystemRenderable*)arrMerageSubMesh[indexMerge].get();
+		ParticleSystemRenderable* pMerageSubMesh = (ParticleSystemRenderable*)arrMerageSubMesh[indexMerge];
 
 		if (pSubMesh->m_pSubMeshData->m_nIndexCount <= 0)
 			return false;
@@ -106,13 +106,13 @@ namespace ma
 		VEC_RENDERABLE arrMerageSubMesh;
 		for (uint32 iSub = 0; iSub < arrRenderable.size(); ++iSub)
 		{
-			ParticleSystemRenderable* pSubMesh = (ParticleSystemRenderable*)arrRenderable[iSub].get();
+			ParticleSystemRenderable* pSubMesh = (ParticleSystemRenderable*)arrRenderable[iSub];
 
 			bool bCanMarge = false;
 
 			for (uint32 jMerageSub = 0; jMerageSub < arrMerageSubMesh.size(); ++jMerageSub)
 			{
-				ParticleSystemRenderable* pMerageSubMesh = (ParticleSystemRenderable*)arrMerageSubMesh[jMerageSub].get();
+				ParticleSystemRenderable* pMerageSubMesh = (ParticleSystemRenderable*)arrMerageSubMesh[jMerageSub];
 
 				if ( pSubMesh->m_pSubMaterial != pMerageSubMesh->m_pSubMaterial)
 					continue;

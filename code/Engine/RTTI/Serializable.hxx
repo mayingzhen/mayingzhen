@@ -8,7 +8,7 @@ namespace ma
 
 	Serializable::Serializable()
 	{
-		m_bLoadOver = false;
+		m_bXMLLoadOver = true;
 	}
 
 	Serializable::~Serializable()
@@ -32,13 +32,13 @@ namespace ma
 	void Serializable::LoadFromXML(const char* pszXMlFile)
 	{
 		m_pXMlFile = CreateXmlFile(pszXMlFile);
-		m_bLoadOver = false;
+		m_bXMLLoadOver = false;
 		IsReady();
 	}
 
 	bool Serializable::IsReady()
 	{
-		if (m_bLoadOver)
+		if (m_bXMLLoadOver)
 			return true;
 
 		if (m_pXMlFile == NULL || !m_pXMlFile->IsReady())
@@ -49,7 +49,7 @@ namespace ma
 		ASSERT(pXmlRoot);
 		this->Improt(pXmlRoot);
 
-		m_bLoadOver = true;
+		m_bXMLLoadOver = true;
 
 		return true;
 	}

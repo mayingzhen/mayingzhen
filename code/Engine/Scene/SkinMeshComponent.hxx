@@ -18,6 +18,7 @@ namespace ma
 		if (m_pMaterial == NULL || m_vecMesData.empty())
 			return;
 		
+		m_arrLodRenderable.clear();
 		for (UINT iLod = 0; iLod < m_vecMesData.size(); ++iLod)
 		{
 			MeshData* pMeshData = m_vecMesData[iLod].get();

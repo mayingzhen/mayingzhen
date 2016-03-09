@@ -150,12 +150,7 @@ namespace ma
 				GetJobScheduler()->SubmitJob(jobGroup,ParallelShow,m_vecParallelShow[i].get(),m_pCamera.get(),NULL);
 			}
 			GetJobScheduler()->WaitForGroup(jobGroup);
-
-			for (UINT i = 0; i < m_vecParallelUpdate.size(); ++i)
-			{
-				m_vecParallelUpdate[i]->EndParallelUpdate();
-			}
-			m_vecParallelUpdate.clear();
+			m_vecParallelShow.clear();
 		}
 
 		if (m_pCallback)
