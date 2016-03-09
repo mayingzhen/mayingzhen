@@ -16,7 +16,7 @@ namespace ma
 
 		virtual ~Game();
 	
-		virtual void	Init();
+		virtual void	Init(bool bRenderThread, bool bDataThread, bool bJobScheduler);
 
 		virtual void	Shutdown();
 

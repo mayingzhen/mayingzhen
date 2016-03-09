@@ -129,7 +129,7 @@ namespace ma
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
 
 
-		RunSample("AnimationRetarget");
+		RunSample("Particle");
 	}
 
 	void SampleBrowser::InitResourcePath()
@@ -190,13 +190,13 @@ namespace ma
 		ModuleShutdown();
 	}
 
-	void SampleBrowser::Init()
+	void SampleBrowser::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		ModuleInit(RenderDevice_D3D9);
 
 		InitResourcePath();
 
-		Game::Init();
+		Game::Init(bRenderThread,bDataThread,bJobScheduler);
 	
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Init();

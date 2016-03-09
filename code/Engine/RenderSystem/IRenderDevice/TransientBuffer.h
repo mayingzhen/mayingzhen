@@ -52,8 +52,8 @@ public:
 	SubAllocVB AllocVertexBuffer(int nAllocVerts);
 	SubAllocIB AllocIndexBuffer(int nAllocInds);
 
-	VertexBuffer* GetVertexBuffer()  {return m_pVertexBuffer.get();}
-	IndexBuffer* GetIndexBuffer() {return m_pIndexBuffer.get();}
+	VertexBuffer* GetVertexBuffer();
+	IndexBuffer* GetIndexBuffer();
 	
 	BYTE* GetVertexVideoMemoryBase() {return m_pVertexVideoMemoryBase;}
 	BYTE* GetIndexVideoMemoryBase() {return m_pIndexVideoMemoryBase;}
@@ -75,6 +75,8 @@ private:
 	// total amount of allocated memory for vertex/index buffers
 	uint32 m_nVertexBufferAvailableMemory;
 	uint32 m_nIndexBufferAvailableMemory;
+	
+	bool m_bLocked;
 };
 
 

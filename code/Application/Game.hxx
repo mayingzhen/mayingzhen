@@ -35,10 +35,10 @@ namespace ma
 		return m_sGameName.c_str();
 	}
 
-	void Game::Init()
+	void Game::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		HWND hWnd = Platform::GetInstance().GetWindId();
-		GetEngine()->Init(hWnd, false, false, false);
+		GetEngine()->Init(hWnd, bRenderThread, bDataThread, bJobScheduler);
 	}
 
 	void Game::Shutdown()

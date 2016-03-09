@@ -24,7 +24,8 @@ ParticleSystem::ParticleSystem()
 	m_eBillboardType = BBT_AlignViewPlane;
     m_fPlaySpeed = 1;
 	m_lstParticles.clear();
-	m_pCPURenderable = NULL;
+	m_pRenderable[0] = NULL;
+	m_pRenderable[1] = NULL;
 
 	m_bOnLoadOver = false;
 	mFastFarward = Vector2(0.f, 0.1f);
@@ -177,7 +178,7 @@ void ParticleSystem::Show(Camera* pCamera)
 		ParallelShow(pCamera);
 	}
 
-    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Particle,m_pCPURenderable.get());
+    m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Particle,m_pRenderable[GetRenderSystem()->CurThreadFill()].get());
 }
 
 
@@ -232,7 +233,8 @@ void ParticleSystem::ShowCPUPoint(Camera* pCamera)
             fParticleHeight *= m_pSceneNode->GetScaleWS().y;
         }
 
-		ParticleSystemRenderable::VERTEX* pVertices = (ParticleSystemRenderable::VERTEX*)m_pCPURenderable->m_subAllocVB.m_pVertices;
+		ParticleSystemRenderable* pRenderable = m_pRenderable[GetRenderSystem()->CurThreadFill()].get();
+		ParticleSystemRenderable::VERTEX* pVertices = (ParticleSystemRenderable::VERTEX*)(pRenderable->m_subAllocVB.m_pVertices);
 
 		// SetUV
         //        ^y
@@ -604,19 +606,19 @@ void ParticleSystem::DoParticleSystem(Real timediff)
 
 bool ParticleSystem::ReallocateBuffers()
 {
-	if ( !m_pCPURenderable->AllocVertices(m_lstParticles.size() * 4,m_lstParticles.size() * 6) )
+	if ( !m_pRenderable[GetRenderSystem()->CurThreadFill()]->AllocVertices(m_lstParticles.size() * 4,m_lstParticles.size() * 6) )
 		return false;
 
-	uint32 oldvertices = m_pCPURenderable->m_subAllocVB.m_nFirstVertex;	
+	uint32 oldvertices = m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocVB.m_nFirstVertex;	
 
-	for (uint32 i = 0; i < m_pCPURenderable->m_subAllocIB.m_nAllocInds; i+=6)
+	for (uint32 i = 0; i < m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_nAllocInds; i+=6)
 	{
-		m_pCPURenderable->m_subAllocIB.m_pIndices[0+i] = (uint16)0+oldvertices;
-		m_pCPURenderable->m_subAllocIB.m_pIndices[1+i] = (uint16)1+oldvertices;
-		m_pCPURenderable->m_subAllocIB.m_pIndices[2+i] = (uint16)2+oldvertices;
-		m_pCPURenderable->m_subAllocIB.m_pIndices[3+i] = (uint16)0+oldvertices;
-		m_pCPURenderable->m_subAllocIB.m_pIndices[4+i] = (uint16)2+oldvertices;
-		m_pCPURenderable->m_subAllocIB.m_pIndices[5+i] = (uint16)3+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[0+i] = (uint16)0+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[1+i] = (uint16)1+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[2+i] = (uint16)2+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[3+i] = (uint16)0+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[4+i] = (uint16)2+oldvertices;
+		m_pRenderable[GetRenderSystem()->CurThreadFill()]->m_subAllocIB.m_pIndices[5+i] = (uint16)3+oldvertices;
 		oldvertices += 4;
 	}
 
@@ -641,9 +643,11 @@ bool ParticleSystem::IsReady()
     {
         SubMaterial* pMaterial = m_pMaterialSet->GetSubMaterialByIndex(0,0);
 
-        m_pCPURenderable = new ParticleSystemRenderable();
+        m_pRenderable[0] = new ParticleSystemRenderable();
+		m_pRenderable[1] = new ParticleSystemRenderable();
 
-        m_pCPURenderable->m_pSubMaterial = pMaterial;
+        m_pRenderable[0]->m_pSubMaterial = pMaterial;
+		m_pRenderable[1]->m_pSubMaterial = pMaterial;
 	}
     
     m_bOnLoadOver = true;
@@ -673,11 +677,6 @@ void ParticleSystem::SetMaterialFile(const char* pFile)
 	SetMaterialSet( CreateMaterial(pFile).get() );
 }
 
-
-Renderable* ParticleSystem::GetRenderable() const
-{
-	return m_pCPURenderable.get();
-}
 
 void ParticleSystem::SetMaxParticles( uint32 num )
 {

@@ -140,8 +140,6 @@ public:
 	uint32 GetNumParticles() const{return m_lstParticles.size();}
 	const SParticle& GetParticleByIndex(uint32 nIndex) const;
 
-	Renderable* GetRenderable() const;
-
 	// 设置材质文件
 	void SetMaterialSet(Material* pMaterialSet);
     Material* GetMaterialSet() const{return m_pMaterialSet.get();}
@@ -221,7 +219,7 @@ private:
 
 	Vector2 mFastFarward;
 
-	RefPtr<ParticleSystemRenderable> m_pCPURenderable;
+	RefPtr<ParticleSystemRenderable> m_pRenderable[2];
 
     RefPtr<Material> m_pMaterialSet;
 

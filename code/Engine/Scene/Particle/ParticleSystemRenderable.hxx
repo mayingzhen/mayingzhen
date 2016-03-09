@@ -37,11 +37,6 @@ namespace ma
 		m_subAllocVB = pBuffer->AllocVertexBuffer(nAllocVerts);
 		m_subAllocIB = pBuffer->AllocIndexBuffer(nAllocInds);
 
-		m_pVertexBuffer = pBuffer->GetVertexBuffer();
-		m_pIndexBuffer = pBuffer->GetIndexBuffer();
-
-		m_pSubMeshData->m_nVertexStart = 0;
-		m_pSubMeshData->m_nVertexCount = m_pVertexBuffer->GetNumber();
 		m_pSubMeshData->m_nIndexStart = m_subAllocIB.m_nFirstIndex;
 		m_pSubMeshData->m_nIndexCount = m_subAllocIB.m_nAllocInds;
 
@@ -58,6 +53,17 @@ namespace ma
 		{
 			return;
 		}
+
+		ParallHardWareBuffer* pBuffer = GetRenderSystem()->GetRTParticleBuffer();
+		ASSERT(pBuffer);
+		if (pBuffer == NULL)
+			return;
+
+		m_pVertexBuffer = pBuffer->GetVertexBuffer();
+		m_pIndexBuffer = pBuffer->GetIndexBuffer();
+
+		m_pSubMeshData->m_nVertexStart = 0;
+		m_pSubMeshData->m_nVertexCount = m_pVertexBuffer->GetNumber();
 
 		GetRenderContext()->SetCurRenderObj(this);
 

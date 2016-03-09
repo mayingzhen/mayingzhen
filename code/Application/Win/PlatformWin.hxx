@@ -355,7 +355,7 @@ namespace ma
 		gplatform = this;
 	}
 
-	void Platform::Init()
+	void Platform::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
 	{
 		HINSTANCE hInstance = GetModuleHandle(NULL);
 
@@ -402,7 +402,7 @@ namespace ma
 
 		SetWindowText(m_windId,Game::GetInstance().GetGameName());
 
-		Game::GetInstance().Init();
+		Game::GetInstance().Init(bRenderThread,bDataThread,bJobScheduler);
 	}
 
 	void Platform::Shutdown()

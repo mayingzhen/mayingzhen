@@ -12,7 +12,11 @@ int main(int argc, char* argv[])
 
 	Platform app;
 
-	app.Init();
+	bool bRenderThread = true;
+	bool bDataThread = false;
+	bool bJobScheduler = true;
+
+	app.Init(bRenderThread,bDataThread,bJobScheduler);
 	app.Run();
 	app.Shutdown();
 
