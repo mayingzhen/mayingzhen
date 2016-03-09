@@ -76,7 +76,7 @@ namespace ma
 		friend class	RenderThread;
 	};
 
-	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = false);
+	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = true);
 	RefPtr<Texture> CreateTexture();
 }
 
