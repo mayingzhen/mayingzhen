@@ -98,7 +98,7 @@ namespace ma
 
 		Scene*				GetScene() {return m_pScene;}
 		
-		virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 		RefPtr<SceneNode>	Clone(const char* pName);

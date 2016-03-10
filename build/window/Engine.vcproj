@@ -181,6 +181,14 @@
 			Name="Time"
 			>
 			<File
+				RelativePath="..\..\code\Engine\Time\Animatable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Time\Animatable.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\Time\Timer.h"
 				>
 			</File>
@@ -1054,6 +1062,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\Material\Uniform.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\UniformAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Material\UniformAnimation.hxx"
 				>
 			</File>
 		</Filter>

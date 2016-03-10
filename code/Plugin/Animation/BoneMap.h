@@ -9,9 +9,9 @@ namespace ma
 	class BoneMap
 	{
 	public:
-		void Build(Skeleton* pSkeleton,Animation* pAnimation); 
+		void Build(const Skeleton* pSkeleton,const Animation* pAnimation); 
 
-		BoneIndex MapNode(BoneIndex uBoneInd);
+		BoneIndex MapNode(BoneIndex uBoneInd) const;
 
 	private:
 		std::vector<BoneIndex> m_arrMapBoneInd;

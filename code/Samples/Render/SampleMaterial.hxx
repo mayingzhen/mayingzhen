@@ -27,8 +27,17 @@ namespace ma
 
 			RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
 			RefPtr<Material> pClone = pMaterial->Clone();
-			pClone->GetSubMaterialByIndex(0,0)->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
 			pShpereMesh->SetMaterial(pClone.get());
+
+			SubMaterial* pSubMaterial = pClone->GetSubMaterialByIndex(0,0);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
+			
+			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
+			pUniform->AddKeyFrame(0,Any(float(1.0f)));
+			pUniform->AddKeyFrame(100,Any(float(100.0f)));
+			pUniform->BuildFrames();
+			
+			pSubMaterial->SetParameter("u_specPower",Any(pUniform));
 
 			pShpere->Translate(Vector3(2,0,0));
 

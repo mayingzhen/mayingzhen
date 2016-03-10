@@ -64,7 +64,7 @@ namespace ma
 	{
 		int index = GetRenderSystem()->CurThreadProcess();
 		const VEC_MATRIX& arrSkinMatrix = m_arrSkinMatrix[index];
-		return &arrSkinMatrix[0];
+		return arrSkinMatrix.empty() ? NULL : &arrSkinMatrix[0];
 	}
 
 	void SkinMeshRenderable::SetSkinMatrix(const Matrix3x4* arrMatrixs, uint32 nCount)

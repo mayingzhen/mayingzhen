@@ -22,9 +22,9 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(MeshComponent, "MatPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
 	}
 
-	bool MeshComponent::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool MeshComponent::Import(rapidxml::xml_node<>* pXmlElem)
 	{
-		Serializable::Improt(pXmlElem);
+		Serializable::Import(pXmlElem);
 	
 		rapidxml::xml_node<>* pXmlLodMeshData = pXmlElem->first_node("LodMeshData");
 		while(pXmlLodMeshData)

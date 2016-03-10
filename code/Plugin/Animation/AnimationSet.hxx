@@ -12,24 +12,7 @@ namespace ma
 	{
 	}
 
-	AnimTreeNode* AnimationSet::GetSkelAnimByName(const char* pszName)
-	{
-		if (pszName == NULL)
-			return NULL;
-
-		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
-		{
-			if (m_arrSkelAnim[i] == NULL)
-				continue;
-
-			if (_stricmp(pszName,m_arrSkelAnim[i]->GetName()) == 0)
-				return m_arrSkelAnim[i].get();
-		}
-
-		return NULL;
-	}
-
-	AnimTreeNode* AnimationSet::GetSkelAnimByIndex(UINT index)
+	AnimTreeNode* AnimationSet::GetAnimationByIndex(UINT index)
 	{
 		if (index < 0 || index >= m_arrSkelAnim.size())
 			return NULL;
@@ -37,14 +20,47 @@ namespace ma
 		return m_arrSkelAnim[index].get();
 	}
 
+	AnimTreeNode* AnimationSet::GetSkelAnimByName(const char* pszName)
+	{
+		return GetAnimationByAnimID( AnimTreeNode::AnimNameToID(pszName) );
+	}
+
+	AnimTreeNode* AnimationSet::GetAnimationByAnimID(UINT nAnimID)
+	{
+		ASSERT(nAnimID != -1);
+		if (nAnimID == -1)
+			return NULL;
+
+		for (UINT i = 0; i < m_arrSkelAnim.size(); ++i)
+		{
+			if (m_arrSkelAnim[i]->GetAnimID() == nAnimID)
+			{
+				return m_arrSkelAnim[i].get();
+			}
+		}
+
+		return NULL;
+	}
+
 	void AnimationSet::AddSkelAnim(AnimTreeNode* pAction)
 	{
 		if (pAction == NULL)
 			return;
 
-		VEC_SkELANIM::iterator it = std::find(m_arrSkelAnim.begin(),m_arrSkelAnim.end(),pAction);
-		if (it != m_arrSkelAnim.end())
+		if (pAction->GetAnimID() == -1)
+		{
+			ASSERT(false&&"GetAnimID == -1");
 			return;
+		}
+
+		for (uint32 i = 0; i < m_arrSkelAnim.size(); ++i)
+		{
+			if (m_arrSkelAnim[i] == pAction || m_arrSkelAnim[i]->GetAnimID() == pAction->GetAnimID() )
+			{
+				ASSERT(false&&"存在相同的AnimNode");
+				return;
+			}
+		}
 
 		m_arrSkelAnim.push_back(pAction);
 	}
@@ -61,7 +77,7 @@ namespace ma
 		m_arrSkelAnim.erase(it);
 	}
 
-	bool AnimationSet::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool AnimationSet::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlAnimNode = pXmlElem->first_node("AnimNode");
 		while(pXmlAnimNode)
@@ -71,9 +87,9 @@ namespace ma
 			RefPtr<AnimTreeNode> pAnimNode = CreateObject<AnimTreeNode>(pszType);
 			this->AddSkelAnim(pAnimNode.get());
 
-			pAnimNode->Improt(pXmlAnimNode);
+			pAnimNode->Import(pXmlAnimNode);
 
-			pXmlAnimNode = pXmlAnimNode->next_sibling("pXmlAnimNode");
+			pXmlAnimNode = pXmlAnimNode->next_sibling("AnimNode");
 		}
 
 		return true;

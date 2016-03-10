@@ -28,7 +28,7 @@ namespace ma
 			return false;
 		}
 		
-		Improt(xmlRoot);
+		Import(xmlRoot);
 
 		m_eResState = ResInited;
 
@@ -53,7 +53,7 @@ namespace ma
 		return true;
 	}
 
-	bool XmlFile::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool XmlFile::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		//ASSERT(false);
 

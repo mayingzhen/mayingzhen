@@ -113,7 +113,7 @@ namespace ma
 		}
 	}
 
-	bool Object::Improt(rapidxml::xml_node<>* pXmlObject)
+	bool Object::Import(rapidxml::xml_node<>* pXmlObject)
 	{
 		const char* pszClassName = pXmlObject->findAttribute("ClassName");
 		ASSERT(pszClassName && strcmp(pszClassName,this->GetClassName() ) == 0 );

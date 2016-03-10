@@ -28,11 +28,9 @@ namespace ma
 
 		void					Stop();
 
-		void					PlayAnimation(const char* pszAnimName,float fFadeTime = 0.0f); 
-		void					PlayAnimation(uint32 actionID,float fFadeTime = 0.0f);
-		void					PlayAnimation(AnimTreeNode* pSkelAnim,float fFadeTime = 0.0f);
-
-		void					SetFrame(float fFrame);
+		void					PlayAnimation(const char* pszAnimName); 
+		void					PlayAnimation(uint32 actionID);
+		void					PlayAnimation(AnimTreeNode* pSkelAnim);
 
 		void					DebugRender(bool bDrawBoneName = false);
 
@@ -53,7 +51,7 @@ namespace ma
 		void					AdvanceTime(float fTimeElepse);
 		void					EvaluateAnimation();
 
-		void					ChangeAnimation(AnimTreeNode* pAnim,float fFadeTime);
+		void					ChangeAnimation(AnimTreeNode* pAnim);
 	
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;		
@@ -61,16 +59,16 @@ namespace ma
 
 		RefPtr<AnimationSet>		m_pAnimSet;
 	
-		std::string					m_strCurAction;
 		uint32						m_nCurAction;
-		RefPtr<AnimTreeNode>		m_pCurAction;
-		RefPtr<AnimTreeNode>		m_pPreAction;
+		RefPtr<AnimTreeNode>		m_pAnimation;
+		RefPtr<AnimTreeNode>		m_pPreAnimation;
 		float						m_fCurFadeTime;
-		float						m_fFadeTime;
 
 		Matrix3x4*					m_arrSkinMatrix;
 
 		bool						m_bLoadOver;	
+
+		CriticalSection				m_csParallelUpdate;	
 	};
 
 	RefPtr<AnimationComponent> CreateAnimationComponent();

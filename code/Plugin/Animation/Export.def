@@ -20,13 +20,13 @@ EXPORTS
 ?AnimationModuleInit@@YAXXZ
 ?AnimationModuleShutdown@@YAXXZ
 ?SetAnimSetPath@AnimationComponent@ma@@QAEXPBD@Z
-?PlayAnimation@AnimationComponent@ma@@QAEXPAVAnimTreeNode@2@M@Z
-?PlayAnimation@AnimationComponent@ma@@QAEXIM@Z
-?PlayAnimation@AnimationComponent@ma@@QAEXPBDM@Z
-?CreateClipNode@ma@@YA?AV?$RefPtr@VAnimClipNode@ma@@@1@PBD00@Z
 ?AddSkelAnim@AnimationSet@ma@@QAEXPAVAnimTreeNode@2@@Z
 ?CreateAnimationSet@ma@@YA?AV?$RefPtr@VAnimationSet@ma@@@1@XZ
 ?SetSkeletonPath@AnimationComponent@ma@@QAEXPBD@Z
 ?CreateAnimation@ma@@YA?AV?$RefPtr@VAnimation@ma@@@1@XZ
 ?CreateSkeleton@ma@@YA?AV?$RefPtr@VSkeleton@ma@@@1@PBD@Z
 ?SaveToFile@Skeleton@ma@@UAE_NPBD@Z
+?CreateClipNode@ma@@YA?AV?$RefPtr@VAnimClipNode@ma@@@1@PBD000@Z
+?PlayAnimation@AnimationComponent@ma@@QAEXPAVAnimTreeNode@2@@Z
+?PlayAnimation@AnimationComponent@ma@@QAEXPBD@Z
+?PlayAnimation@AnimationComponent@ma@@QAEXI@Z

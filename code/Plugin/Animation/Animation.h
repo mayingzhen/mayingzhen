@@ -18,8 +18,6 @@ namespace ma
 
 		void							SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const;
 
-		void							Serialize(Serializer& sl, const char* pszLable);
-
 		UINT							GetTrackNumber() const;
 		const char*						GetTrackNameByIndex(UINT index) const;
 		UINT							GetTrackIndexByName(const char* pszName) const;
@@ -30,7 +28,7 @@ namespace ma
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataLocalToParentSpace(const Skeleton* pSkeleton);
 
-		bool							Load(const char* pszFile, const char* pszSkeleton);
+		bool							Load(const char* pszFile, const char* pszSkeleton, const char* pszRefSkeleton);
 		
 		bool							SaveToFile(const char* pszFile);
 
@@ -48,10 +46,12 @@ namespace ma
 		std::vector<QuaternionTrack>	m_arrRotTrack;
 		std::vector<Vector3Track>		m_arrPosTrack;
 		RefPtr<Skeleton>				m_pSkeleton;
+		RefPtr<Skeleton>				m_pRefSkeleton;
+		bool							m_bCompress;
 	};
 
 	RefPtr<Animation> CreateAnimation();
-	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile);
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile, const char* pszRefSkeleton);
 }
 
 #endif

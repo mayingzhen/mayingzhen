@@ -9801,6 +9801,34 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Time_GetFrameCount(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Time_mTimeEvent_set(void * jarg1, void * jarg2) {
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  Signal< void (float) > arg2 ;
+  Signal< void (float) > *argp2 ;
+  
+  arg1 = (ma::Time *)jarg1; 
+  argp2 = (Signal< void (float) > *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null Signal< void (float) >", 0);
+    return ;
+  }
+  arg2 = *argp2; 
+  if (arg1) (arg1)->mTimeEvent = arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Time_mTimeEvent_get(void * jarg1) {
+  void * jresult ;
+  ma::Time *arg1 = (ma::Time *) 0 ;
+  Signal< void (float) > result;
+  
+  arg1 = (ma::Time *)jarg1; 
+  result =  ((arg1)->mTimeEvent);
+  jresult = new Signal< void (float) >((const Signal< void (float) > &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_GetTimer() {
   void * jresult ;
   ma::Time *result = 0 ;
@@ -10535,7 +10563,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetScene(void * jarg1) {
 }
 
 
-SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_Improt(void * jarg1, void * jarg2) {
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_Import(void * jarg1, void * jarg2) {
   unsigned int jresult ;
   ma::SceneNode *arg1 = (ma::SceneNode *) 0 ;
   rapidxml::xml_node< > *arg2 = (rapidxml::xml_node< > *) 0 ;
@@ -10543,7 +10571,7 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_SceneNode_Improt(void * jarg1, void *
   
   arg1 = (ma::SceneNode *)jarg1; 
   arg2 = (rapidxml::xml_node< > *)jarg2; 
-  result = (bool)(arg1)->Improt(arg2);
+  result = (bool)(arg1)->Import(arg2);
   jresult = result; 
   return jresult;
 }

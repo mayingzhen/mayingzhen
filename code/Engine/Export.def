@@ -175,7 +175,7 @@ EXPORTS
 ?WriteUInt@Stream@ma@@QAE_NI@Z
 ?AddSubMaterial@Material@ma@@QAEXIPAVSubMaterial@2@@Z
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@PBD@Z
-?Improt@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
+?Import@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
 ?Export@Object@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
 ?CreateSubMeshData@ma@@YA?AV?$RefPtr@VSubMeshData@ma@@@1@XZ
 ?SaveToFile@MeshData@ma@@UAE_NPBD@Z
@@ -214,3 +214,9 @@ EXPORTS
 ?SetShaderMacro@Technique@ma@@QAEXPBD_N@Z
 ?Clone@Material@ma@@QAE?AV?$RefPtr@VMaterial@ma@@@2@XZ
 ?GetMillisceonds@Time@ma@@QBE_KXZ
+??1Animatable@ma@@QAE@XZ
+??0Animatable@ma@@QAE@XZ
+?Stop@Animatable@ma@@QAEXM@Z
+?CalcLocalTime@Animatable@ma@@QAEMXZ
+?CreateUniformAnimation@ma@@YA?AV?$RefPtr@VUniformAnimation@ma@@@1@XZ
+?BuildFrames@UniformAnimation@ma@@QAEXXZ

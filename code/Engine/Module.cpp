@@ -10,6 +10,7 @@
 #include "Engine/RTTI/Serializable.hxx"
 
 #include "Engine/Time/Timer.hxx"
+#include "Engine/Time/Animatable.hxx"
 
 #include "Engine/Thread/Thread.hxx"
 #include "Engine/Thread/MSemaphore.hxx"
@@ -77,6 +78,7 @@
 #include "Engine/Material/Technqiue.hxx"
 #include "Engine/Material/ParameterManager.hxx"
 #include "Engine/Material/Uniform.hxx"
+#include "Engine/Material/UniformAnimation.hxx"
 
 #include "Engine/RenderScheme/DeferredLightPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"

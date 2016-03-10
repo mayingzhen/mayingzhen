@@ -26,6 +26,9 @@ namespace ma
 		UINT	m_nFameCnt;		   //time of update called
 		uint64	m_nFrameTotalTime; //total time since last reset
 		float	m_fFrameDeltaTime; //last frame's delta time in seconds
+
+	public:
+		Signal< void(float) > mTimeEvent;
 	};
 
 	extern Time* g_pTimer;

@@ -5,9 +5,9 @@ namespace ma
 {
 	AnimationComponent::AnimationComponent()
 	{
-		m_nCurAction = 0;
-		m_pCurAction = NULL;
-		m_pPreAction = NULL;
+		m_nCurAction = -1;
+		m_pAnimation = NULL;
+		m_pPreAnimation = NULL;
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
@@ -92,24 +92,27 @@ namespace ma
 	
 		if (m_pAnimSet)
 		{
-			AnimTreeNode* pAnimation = NULL;
-			if ( !m_strCurAction.empty() )
+			if (m_nCurAction != -1)
 			{
-				pAnimation = m_pAnimSet->GetSkelAnimByName( m_strCurAction.c_str() );
+				ChangeAnimation( m_pAnimSet->GetAnimationByAnimID(m_nCurAction) );
 			}
-			else if (m_nCurAction != -1)
+			else
 			{
-				pAnimation = m_pAnimSet->GetSkelAnimByIndex(m_nCurAction);
+				ChangeAnimation( m_pAnimSet->GetAnimationByIndex(0) );
 			}
-			ChangeAnimation(pAnimation,m_fFadeTime);
 		}
 
-		if (m_pCurAction)
+		if (m_pAnimation == NULL)
+			return false;
+
+		m_pAnimation->Instantiate(m_pSkeleton.get());
+
+		if (!m_pAnimation->IsReady())
 		{
-			m_pCurAction->Instantiate(m_pSkeleton.get());
+			return false;
 		}
 
-		if (m_pCurAction && !m_pCurAction->IsReady())
+		if (m_pPreAnimation && !m_pPreAnimation->IsReady())
 		{
 			return false;
 		}
@@ -121,13 +124,11 @@ namespace ma
 
 	void AnimationComponent::Update()
 	{
+		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
+
+		// 动作回调完以后，动作有可能被改变了
 		if ( !IsReady() )
 			return;
-
-		if ( m_pCurAction && !m_pCurAction->IsReady() )
-			return;
-
-		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
 
 		if ( GetTimer()->GetFrameCount() - m_pSceneNode->GetLastVisibleFrame() > 1 )
 			return;
@@ -155,80 +156,68 @@ namespace ma
 
 	void AnimationComponent::Stop()
 	{
-		m_pCurAction = NULL;
-		m_pPreAction = NULL;
-		m_strCurAction = "";
+		m_pAnimation = NULL;
+		m_pPreAnimation = NULL;
 		m_nCurAction = -1; 
 	}
 
-	void AnimationComponent::ChangeAnimation(AnimTreeNode* pAnim,float fFadeTime)
+	void AnimationComponent::ChangeAnimation(AnimTreeNode* pAnim)
 	{
-		m_pPreAction = m_pCurAction;
-		m_pCurAction = pAnim;
+		m_pPreAnimation = m_pAnimation;
+		m_pAnimation = pAnim;
 
-		m_fFadeTime = fFadeTime;
-		m_fCurFadeTime = fFadeTime;
+		if (pAnim)
+		{
+			m_fCurFadeTime = pAnim->GetFadeTime();
+		}
 	}
 
-	void AnimationComponent::PlayAnimation(AnimTreeNode* pSkelAnim,float fFadeTime)
+	void AnimationComponent::PlayAnimation(AnimTreeNode* pSkelAnim)
 	{
-		ChangeAnimation(pSkelAnim,fFadeTime);
+		AutoLock lock(m_csParallelUpdate);
+
+		if (m_pAnimation == pSkelAnim)
+			return;
+
+		ChangeAnimation(pSkelAnim);
 
 		m_bLoadOver = false;
 		IsReady();
 	}
 
-	void AnimationComponent::PlayAnimation(uint32 actionID,float fFadeTime)
+	void AnimationComponent::PlayAnimation(uint32 actionID)
 	{
+		AutoLock lock(m_csParallelUpdate);
+
+		ASSERT(actionID != -1);
+		if (actionID == -1)
+			return;
+
 		m_nCurAction = actionID;
-		m_fFadeTime = fFadeTime;
 
-		if (m_pAnimSet == NULL)
-			return;
-
-		AnimTreeNode* pAnimNode = m_pAnimSet->GetSkelAnimByIndex(actionID);
-		ASSERT(pAnimNode);
-		if (pAnimNode == NULL)
-			return;
-
-		PlayAnimation(pAnimNode, fFadeTime);
+		m_bLoadOver = false;
+		IsReady();
 	}
 
 
-	void AnimationComponent::PlayAnimation(const char* pszAnimName,float fFadeTime)
+	void AnimationComponent::PlayAnimation(const char* pszAnimName)
 	{
-		m_strCurAction = pszAnimName ? pszAnimName : "";
-
-		if (m_pAnimSet == NULL)
-			return;
-
-		AnimTreeNode* pAnimNode = m_pAnimSet->GetSkelAnimByName(pszAnimName);
-		ASSERT(pAnimNode);
-		if (pAnimNode == NULL)
-			return;
-
-		PlayAnimation(pAnimNode, fFadeTime);
+		PlayAnimation( AnimTreeNode::AnimNameToID(pszAnimName) );
 	}
 
 
 	void AnimationComponent::AdvanceTime(float fTimeElepse)
 	{
 		m_fCurFadeTime -= fTimeElepse;
-
 		if (m_fCurFadeTime <= 0)
 		{
 			m_fCurFadeTime = 0;
-			m_pPreAction = NULL;
+			m_pPreAnimation = NULL;
 		}
 
-		if (m_pCurAction)
+		if (m_pAnimation)
 		{
-			m_pCurAction->AdvanceTime(fTimeElepse);
-		}
-
-		if (m_pPreAction)
-		{
-			m_pPreAction->AdvanceTime(fTimeElepse);
+			m_pAnimation->AdvanceTime(fTimeElepse);
 		}
 	}
 
@@ -236,7 +225,7 @@ namespace ma
 	{
 		profile_code();
 
-		if (m_pSkeleton == NULL || m_pose == NULL)
+		if (m_pSkeleton == NULL || m_pose == NULL || m_pAnimation == NULL)
 			return;
 
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
@@ -250,21 +239,26 @@ namespace ma
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
 
-		float fFadeFactor = m_fFadeTime <= 0 ? 0.0f : (m_fCurFadeTime / m_fFadeTime);
+		float fFadeTime = m_pAnimation->GetFadeTime(); 
+		float fFadeFactor = fFadeTime <= 0 ? 0.0f : (m_fCurFadeTime / fFadeTime);
 
-		if (m_pPreAction && fFadeFactor > 0)
+		if (m_pPreAnimation && fFadeFactor > 0)
 		{
-			m_pPreAction->EvaluateAnimation(&evalContext,fFadeFactor);
+			m_pPreAnimation->EvaluateAnimation(&evalContext,fFadeFactor);
 		}
 
-		if (m_pCurAction)
-		{
-			m_pCurAction->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
-		}
+		m_pAnimation->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
 
 		m_pose->SetTransformPSAll(evalContext.m_arrTSFPS);
 
-		// Do IK
+		////////////// Do IK
+		if (m_pPreAnimation && fFadeFactor > 0)
+		{
+			m_pPreAnimation->ProcessPoseModifier(m_pose,fFadeFactor);
+		}
+		
+		m_pAnimation->ProcessPoseModifier(m_pose,1.0f - fFadeFactor);
+		////////////////
 
 		m_pose->SyncObjectSpace();
 
@@ -292,14 +286,6 @@ namespace ma
 				continue;
 
 			pMeshComp->SetSkinMatrix(m_arrSkinMatrix,nBoneNum);
-		}
-	}
-
-	void AnimationComponent::SetFrame(float fFrame)
-	{
-		if (m_pCurAction)
-		{
-			m_pCurAction->SetFrame(fFrame);
 		}
 	}
 

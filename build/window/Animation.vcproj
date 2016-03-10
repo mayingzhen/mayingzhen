@@ -310,6 +310,14 @@
 					RelativePath="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.hxx"
 					>
 				</File>
+				<File
+					RelativePath="..\..\code\Plugin\Animation\AnimationTree\FrameEvent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Plugin\Animation\AnimationTree\FrameEvent.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<File

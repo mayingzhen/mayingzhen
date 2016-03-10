@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	void BoneMap::Build(Skeleton* pSkeleton,Animation* pAnimation)
+	void BoneMap::Build(const Skeleton* pSkeleton,const Animation* pAnimation)
 	{
 		if (pSkeleton == NULL || pAnimation == NULL)
 			return;
@@ -17,7 +17,7 @@ namespace ma
 		}
 	}
 
-	BoneIndex BoneMap::MapNode(BoneIndex uBoneInd)
+	BoneIndex BoneMap::MapNode(BoneIndex uBoneInd) const
 	{
 		if (uBoneInd >= m_arrMapBoneInd.size() || uBoneInd < 0)
 			return Math::InvalidID<BoneIndex>();

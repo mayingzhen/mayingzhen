@@ -73,27 +73,27 @@ namespace ma
 		return m_pShadingTech.get();
 	}
 
-	void SubMaterial::Improt(rapidxml::xml_node<>* pXmlElem)
+	void SubMaterial::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlShadingTech = pXmlElem->first_node("ShadingTech");
 		if (pXmlShadingTech)
 		{
 			m_pShadingTech = new Technique();
-			m_pShadingTech->Improt(pXmlShadingTech);
+			m_pShadingTech->Import(pXmlShadingTech);
 		}
 
 		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
 		if (pXmlShadowDepthTech)
 		{
 			m_pShadowDepthTech = new Technique();
-			m_pShadowDepthTech->Improt(pXmlShadowDepthTech);
+			m_pShadowDepthTech->Import(pXmlShadowDepthTech);
 		}
 
 		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
 		while(pXmlParameter)
 		{
 			Parameter parameter;
-			parameter.Improt(pXmlParameter);
+			parameter.Import(pXmlParameter);
 			m_arrParameters.push_back(parameter);
 
 			SetParameter(parameter.GetName(),parameter.GetValue());
@@ -178,7 +178,7 @@ namespace ma
 		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
 		this->Export(pRoot,doc);
 		
-		pClonMaterial->Improt(pRoot);
+		pClonMaterial->Import(pRoot);
 
 		return pClonMaterial;
 	}
@@ -210,7 +210,7 @@ namespace ma
 	}
 
 
-	bool Material::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool Material::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		uint32 nLod = 0;
 		rapidxml::xml_node<>* pXmlLodSubMaterial = pXmlElem->first_node("LodMaterial");
@@ -222,7 +222,7 @@ namespace ma
 				RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
 				this->AddSubMaterial(nLod,pSubMaterial.get());
 
-				pSubMaterial->Improt(pXmlSubMaterial);
+				pSubMaterial->Import(pXmlSubMaterial);
 
 				pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
 			}
@@ -261,7 +261,7 @@ namespace ma
 		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Material"));
 		this->Export(pRoot,doc);
 
-		pClonMaterial->Improt(pRoot);
+		pClonMaterial->Import(pRoot);
 
 		pClonMaterial->SetResState(ResInited);
 

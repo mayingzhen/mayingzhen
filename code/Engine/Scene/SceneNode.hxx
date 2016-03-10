@@ -77,9 +77,9 @@ namespace ma
 	}
 
 
-	bool SceneNode::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool SceneNode::Import(rapidxml::xml_node<>* pXmlElem)
 	{
-		Serializable::Improt(pXmlElem);
+		Serializable::Import(pXmlElem);
 
 		rapidxml::xml_node<>* pXmlComp = pXmlElem->first_node("Component");
 		while(pXmlComp)
@@ -89,7 +89,7 @@ namespace ma
 			RefPtr<Component> pComponent = CreateObject<Component>(pszType);
 			this->AddComponent(pComponent.get());
 
-			pComponent->Improt(pXmlComp);
+			pComponent->Import(pXmlComp);
 
 			pXmlComp = pXmlComp->next_sibling("Component");
 		}
@@ -102,7 +102,7 @@ namespace ma
 			RefPtr<SceneNode> pChildNode = CreateSceneNode();
 			this->AddChild(pChildNode.get());
 
-			pChildNode->Improt(pXmlChildNode);
+			pChildNode->Import(pXmlChildNode);
 
 			pXmlChildNode = pXmlChildNode->next_sibling("ChildNode");
 		}
@@ -151,7 +151,7 @@ namespace ma
 		
 		//TiXmlElement xmlEle("");
 		//this->Export(&xmlEle);
-		//pClone->Improt(&xmlEle);
+		//pClone->Import(&xmlEle);
 
 		return pClone;
 	}

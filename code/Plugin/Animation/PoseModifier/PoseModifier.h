@@ -5,14 +5,15 @@ namespace ma
 {
 	class SkeletonPose;
 
-	class PoseModifier : public Object
+	class PoseModifier : public Serializable
 	{
-		DECL_OBJECT(PoseModifier)
-
+	
 	public:
 		PoseModifier();
 
 		~PoseModifier();
+
+		DECL_OBJECT(PoseModifier)
 
 		void			Enable(bool bEnable = true) {m_bEnable = bEnable;}
 
@@ -23,8 +24,6 @@ namespace ma
 		float			GetGain() {return m_fGain;}
 
 		virtual void	UpdatePose(SkeletonPose* pNodePose);
-
-		virtual void	Serialize(Serializer& sl, const char* pszLable = "PoseModifier");
 
 	protected:
 		bool  m_bEnable;

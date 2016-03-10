@@ -46,6 +46,8 @@ namespace ma
 		m_fFrameDeltaTime = (curTime - m_nFrameTotalTime) * 0.001f;
 		m_nFrameTotalTime = curTime;
 		++m_nFameCnt;
+
+		mTimeEvent.trigger(m_fFrameDeltaTime);
 	}
 
 	UINT Time::GetFrameCount() const

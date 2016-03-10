@@ -178,15 +178,6 @@ namespace ma
 		return NULL;
 	}
 
-// 	void ScriptObject::Serialize(Serializer& sl, const char* pszLable)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 		
-// 		sl.Serialize(m_arrFields,"Fields");
-// 
-// 		sl.EndSection();
-// 	}
-
 	void ScriptObject::InitMonoObject(MonoClass* pMonoClass)
 	{
 		ScriptSystem* pScriptSystem= (ScriptSystem*)GetScriptSystem();

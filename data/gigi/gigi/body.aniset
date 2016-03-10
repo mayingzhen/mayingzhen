@@ -1,45 +1,69 @@
 <AnimationSet>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="100_stand"/>
+		<Attribute Name="Name" Type="string" Value="1"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/100_stand/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="210_run"/>
+		<Attribute Name="Name" Type="string" Value="2"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/210_run/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="281_run_jump_start"/>
+		<Attribute Name="Name" Type="string" Value="3"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/281_run_jump_start/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="282_jump_twostage"/>
+		<Attribute Name="Name" Type="string" Value="4"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/282_jump_twostage/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="283_run_jumping"/>
+		<Attribute Name="Name" Type="string" Value="5"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/283_run_jumping/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 	<AnimNode ClassName="AnimClipNode">
-		<Attribute Name="AnimNodeName" Type="string" Value="285_run_jump_stop"/>
+		<Attribute Name="Name" Type="string" Value="6"/>
+		<Attribute Name="Loop" Type="UINT" Value="4294967295"/>
+		<Attribute Name="PlaySpeed" Type="float" Value="1"/>
+		<Attribute Name="FadeTime" Type="float" Value="0"/>
 		<Attribute Name="AnimationClip" Type="string" Value="gigi/285_run_jump_stop/bip01.ska"/>
 		<Attribute Name="BoneSet" Type="string" Value=""/>
 		<Attribute Name="StartFrame" Type="UINT" Value="0"/>
-		<Attribute Name="TotalFrame" Type="UINT" Value="0"/>
+		<Attribute Name="EndFrame" Type="UINT" Value="0"/>
+		<Attribute Name="RefSkeleton" Type="string" Value="gigi/gigi/body.ske"/>
 	</AnimNode>
 </AnimationSet>
 

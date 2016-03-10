@@ -8,9 +8,9 @@ using namespace ma;
 
 int main(int argc, char* argv[])
 {
-	bool bRenderThread = true;
+	bool bRenderThread = false;
 	bool bDataThread = false;
-	bool bJobScheduler = true;
+	bool bJobScheduler = false;
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 

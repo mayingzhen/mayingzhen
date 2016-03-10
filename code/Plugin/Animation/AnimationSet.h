@@ -19,15 +19,15 @@ namespace ma
 
 		AnimTreeNode*		GetSkelAnimByName(const char* pszName);
 
-		UINT				GetSkelAnimNumber() {return m_arrSkelAnim.size();}
+		AnimTreeNode*		GetAnimationByAnimID(UINT nAnimID);
 
-		AnimTreeNode*		GetSkelAnimByIndex(UINT index);
+		AnimTreeNode*		GetAnimationByIndex(UINT index);
 
 		void				AddSkelAnim(AnimTreeNode* pAction); 
 
 		void				RemoveSkelAnim(AnimTreeNode* pAction);
 
-		virtual bool		Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 	private:

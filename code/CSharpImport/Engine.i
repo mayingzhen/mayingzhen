@@ -19,7 +19,6 @@
 
 #define DECL_OBJECT(x)
 %ignore ma::SceneNode::RegisterAttribute;
-%ignore ma::SceneNode::Serialize;
 %ignore ma::SceneNode::SetName;
 %ignore ma::Component::SetSceneNode;
 

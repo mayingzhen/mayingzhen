@@ -84,8 +84,8 @@ namespace ma
 
 	bool Animation::ConverteAnimDataLocalToParentSpace(const Skeleton* pSkeleton)
 	{
-		if (pSkeleton == NULL)
-			return false;
+		BoneMap boneMap;
+		boneMap.Build(pSkeleton,this);
 
 		const SkeletonPose* pRefPose = pSkeleton->GetResPose();
 		if (pRefPose == NULL)
@@ -94,10 +94,14 @@ namespace ma
 		for (UINT i = 0; i < pSkeleton->GetBoneNumer(); ++i)
 		{	
 			const Transform& tsfBonePS = pRefPose->GetTransformPS(i);
-			
-			Vector3Track& scaleTrack = m_arrScaleTrack[i];
-			QuaternionTrack& rotTrack = m_arrRotTrack[i];
-			Vector3Track& posTrack = m_arrPosTrack[i];
+
+			BoneIndex nMapID = boneMap.MapNode(i);
+			if (Math::IsInvalidID<BoneIndex>(nMapID))
+				continue;
+
+			Vector3Track& scaleTrack = m_arrScaleTrack[nMapID];
+			QuaternionTrack& rotTrack = m_arrRotTrack[nMapID];
+			Vector3Track& posTrack = m_arrPosTrack[nMapID];
 
 			UINT nFrameNumber = Math::Max(scaleTrack.m_arrFrame.back(),rotTrack.m_arrFrame.back());
 			nFrameNumber = Math::Max(nFrameNumber,posTrack.m_arrFrame.back());

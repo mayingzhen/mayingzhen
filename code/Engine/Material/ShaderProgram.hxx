@@ -12,7 +12,6 @@ namespace ma
 	{
 	}
 
-
 	void ShaderProgram::BindUniform()
 	{
 		for (UINT i = 0; i < m_arrUniform.size(); ++i)
@@ -137,7 +136,7 @@ namespace ma
 		return pUnifrom;
 	}
 
-	RefPtr<ShaderProgram> ShaderProgram::Improt(rapidxml::xml_node<>* pXmlShader)
+	RefPtr<ShaderProgram> ShaderProgram::Import(rapidxml::xml_node<>* pXmlShader)
 	{
 		const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 		const char* pszPSFile = pXmlShader->findAttribute("PSFile");

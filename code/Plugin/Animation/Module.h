@@ -10,6 +10,7 @@
 #include "Animation/AnimationTree/AnimClipNode.h"
 #include "Animation/AnimationTree/AnimLayerNode.h"
 #include "Animation/AnimationTree/AnimBlendNode.h"
+#include "Animation/AnimationTree/FrameEvent.h"
 #include "Animation/AnimationComponent.h"
 
 

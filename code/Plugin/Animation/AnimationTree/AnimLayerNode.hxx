@@ -28,6 +28,8 @@ namespace ma
 
 	void AnimLayerNode::AdvanceTime(float fTimeElapsed)
 	{
+		AnimTreeNode::AdvanceTime(fTimeElapsed);
+
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
 			m_arrAnimNode[i]->AdvanceTime(fTimeElapsed);
@@ -44,6 +46,8 @@ namespace ma
 
 	void AnimLayerNode::SetFrame(float fFrame)
 	{
+		AnimTreeNode::SetFrame(fFrame);
+
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
 		{
 			m_arrAnimNode[i]->SetFrame(fFrame);
@@ -69,6 +73,21 @@ namespace ma
 		}
 
 		return true;
+	}
+
+	uint32	AnimLayerNode::GetFrameCount()
+	{
+		UINT nFrameCount = 0;
+		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
+		{
+			if (m_arrAnimNode[i] == NULL)
+				continue;
+
+			UINT nLayerFrameCount = m_arrAnimNode[i]->GetFrameCount();
+			nFrameCount = max( nFrameCount, nLayerFrameCount);
+		}
+
+		return nFrameCount;
 	}
 
 	RefPtr<AnimLayerNode> CreateLayerNode()

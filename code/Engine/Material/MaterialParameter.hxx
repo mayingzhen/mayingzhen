@@ -21,7 +21,7 @@ namespace ma
 		m_sName = pName ? pName : "";
 	}
 
-	void Parameter::Improt(rapidxml::xml_node<>* pXmlElem)
+	void Parameter::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		m_sName = pXmlElem->findAttribute("Name");
 
@@ -37,7 +37,13 @@ namespace ma
 		{
 			if ( stricmp(pszType,"SamplerState") == 0 )
 			{
-				m_anyValue = Any( Texture::Improt(pXmlElem) );	
+				m_anyValue = Any( Texture::Import(pXmlElem) );	
+			}
+			else if (stricmp(pszType,"UniformAnimation"))
+			{
+				RefPtr<UniformAnimation> pUniformAnimation = new UniformAnimation();
+				pUniformAnimation->Import(pXmlElem);
+				m_anyValue = Any(pUniformAnimation);
 			}
 		}
 	}
@@ -62,6 +68,15 @@ namespace ma
 			{
 				pXmlElem->append_attribute(doc.allocate_attribute(doc.allocate_string("Type"),doc.allocate_string("SamplerState")));
 				Texture::Export(pTexuture.get(), pXmlElem, doc);
+				return;
+			}
+
+			RefPtr<UniformAnimation> pUniformAnimation = any_cast< RefPtr<UniformAnimation> >(m_anyValue);
+			if (pUniformAnimation != NULL)
+			{
+				pXmlElem->append_attribute(doc.allocate_attribute(doc.allocate_string("Type"),doc.allocate_string("UniformAnimation")));
+				pUniformAnimation->Export(pXmlElem, doc);
+				return;
 			}
 		}
 	}

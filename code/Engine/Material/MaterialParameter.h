@@ -19,7 +19,7 @@ namespace ma
 		void		SetValue(const Any& value) {m_anyValue = value;}
 		const Any&	GetValue() const {return m_anyValue;}
 
-		void		Improt(rapidxml::xml_node<>* pXmlElem);
+		void		Import(rapidxml::xml_node<>* pXmlElem);
 		void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 	private:

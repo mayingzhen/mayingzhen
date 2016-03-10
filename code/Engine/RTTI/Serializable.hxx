@@ -47,7 +47,7 @@ namespace ma
 		rapidxml::xml_document<>& doc = m_pXMlFile->GetDoc();
 		rapidxml::xml_node<>* pXmlRoot = doc.first_node(/*this->GetClassName()*/);
 		ASSERT(pXmlRoot);
-		this->Improt(pXmlRoot);
+		this->Import(pXmlRoot);
 
 		m_bXMLLoadOver = true;
 

@@ -206,53 +206,61 @@ namespace ma
 			Parameter* pMatParam = m_arrParameters[i];
 			
 			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
-			//ASSERT(pUniform);
 			if (pUniform == NULL)
 				continue;
 			
-			const Any& anyValue = pMatParam->GetValue();
-			
-			const std::type_info& type = anyValue.getType();
-			if (type == typeid(float))
-			{
-				const float* value = any_cast<float>(&anyValue);
-				GetRenderSystem()->SetValue(pUniform, *value);
-			}
-			else if (type == typeid(Vector2))
-			{
-				const Vector2* value = any_cast<Vector2>(&anyValue);
-				GetRenderSystem()->SetValue(pUniform, *value);
-			}
-			else if (type == typeid(Vector3))
-			{
-				const Vector3* value = any_cast<Vector3>(&anyValue);
-				GetRenderSystem()->SetValue(pUniform, *value);
-			}
-			else if (type == typeid(Vector4))
-			{
-				const Vector4* value = any_cast<Vector4>(&anyValue);
-				GetRenderSystem()->SetValue(pUniform, *value);
-			}
-			else if (type == typeid(ColourValue))
-			{
-				ColourValue cColor = any_cast<ColourValue>(anyValue);
-				Vector4 vColor(cColor.r,cColor.g,cColor.b,cColor.a);
-				GetRenderSystem()->SetValue(pUniform,vColor);
-			}
-			else if (type == typeid(Matrix4))
-			{
-				const Matrix4* value = any_cast<Matrix4>(&anyValue);
-				GetRenderSystem()->SetValue(pUniform, *value);
-			}
-			else if (type == typeid(RefPtr<Texture>))
-			{
-				Texture* pTexture = any_cast< RefPtr<Texture> >(&anyValue)->get();
-				GetRenderSystem()->SetValue(pUniform,pTexture);
-			}
-			else
-			{
-				ASSERT(false);
-			}	
+			BindParametersUniform(pUniform,pMatParam->GetValue());
+		}
+	}
+
+	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)
+	{
+		const std::type_info& type = anyValue.getType();
+		if (type == typeid(float))
+		{
+			const float* value = any_cast<float>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(Vector2))
+		{
+			const Vector2* value = any_cast<Vector2>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(Vector3))
+		{
+			const Vector3* value = any_cast<Vector3>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(Vector4))
+		{
+			const Vector4* value = any_cast<Vector4>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(ColourValue))
+		{
+			ColourValue cColor = any_cast<ColourValue>(anyValue);
+			Vector4 vColor(cColor.r,cColor.g,cColor.b,cColor.a);
+			GetRenderSystem()->SetValue(pUniform,vColor);
+		}
+		else if (type == typeid(Matrix4))
+		{
+			const Matrix4* value = any_cast<Matrix4>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(RefPtr<Texture>))
+		{
+			Texture* pTexture = any_cast< RefPtr<Texture> >(&anyValue)->get();
+			GetRenderSystem()->SetValue(pUniform,pTexture);
+		}
+		else if (type == typeid(RefPtr<UniformAnimation>))
+		{
+			UniformAnimation* pUniformAnimation= any_cast< RefPtr<UniformAnimation> >(&anyValue)->get();
+	
+			this->BindParametersUniform(pUniform,pUniformAnimation->GetValue());
+		}
+		else
+		{
+			ASSERT(false);
 		}
 	}
 
@@ -304,13 +312,13 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
-	bool Technique::Improt(rapidxml::xml_node<>* pXmlElem)
+	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
-		m_pShaderProgram = ShaderProgram::Improt(pXmlShader);
+		m_pShaderProgram = ShaderProgram::Import(pXmlShader);
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
-		RenderState::Improt(pXmlRenderState);
+		RenderState::Import(pXmlRenderState);
 
 		return true;
 	}

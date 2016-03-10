@@ -20,13 +20,12 @@ namespace ma
  			CreateMeshMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
-			RefPtr<AnimClipNode> pClip = CreateClipNode("gigi/100_stand/bip01.ska","100_stand");
- 			pAnimSet->AddSkelAnim( pClip.get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","210_run").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","281_run_jump_start").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","282_jump_twostage").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","283_run_jumping").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","285_run_jump_stop").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100",NULL,"gigi/gigi/body.ske").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","200",NULL,"gigi/gigi/body.ske").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","300",NULL,"gigi/gigi/body.ske").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","400",NULL,"gigi/gigi/body.ske").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","500",NULL,"gigi/gigi/body.ske").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","600",NULL,"gigi/gigi/body.ske").get() );
 			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
@@ -42,8 +41,6 @@ namespace ma
 			
 			m_pAnimtionObjectA = pChargigi->CreateComponent<AnimationComponent>();
 			m_pAnimtionObjectA->Load("gigi/gigi/body.aniset","gigi/gigi/body.ske");
- 
-			//pChargigi->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
 			pChargigi->SaveToXML("gigi/gigi/gigi.xml");
 		}
@@ -59,9 +56,9 @@ namespace ma
 			CreateMeshMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN;LIGHT;BRDF;SPEC");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","120").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","602").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100",NULL,"magician/magician/Body.ske").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","200",NULL,"magician/magician/Body.ske").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","300",NULL,"magician/magician/Body.ske").get() );
 			pAnimSet->SaveToXML("magician/magician/body.aniset");
 
 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
@@ -70,10 +67,7 @@ namespace ma
 			pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
 
 			m_pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
-			//m_pAnimtionObjectB->Load("gigi/gigi/body.aniset","magician/magician/Body.ske");
 			m_pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
-
-			//pCharMagic->RotateAround(Vector3::ZERO, Vector3::UNIT_X, -90);
 
 			pCharMagic->SaveToXML("magician/magician/magician.xml");
 		}
@@ -88,7 +82,6 @@ namespace ma
 
 			//m_pAnimtionObjectA->SetAnimSetPath("magician/magician/body.aniset");
 
-			//m_pAnimtionObjectA->PlayAnimation("100_stand");
 		}
 
 		if (1)
@@ -98,8 +91,8 @@ namespace ma
 			pCharMagic->Right(50.0f);
 
 			m_pAnimtionObjectB = pCharMagic->GetTypeComponent<AnimationComponent>();
-			//m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
-			//m_pAnimtionObjectB->PlayAnimation("100_stand");
+
+			m_pAnimtionObjectB->SetAnimSetPath("gigi/gigi/body.aniset");
 		}
 
 	}
@@ -118,38 +111,29 @@ namespace ma
 
 	void SampleAnimationRetarget::Update()
 	{
-		//m_pAnimtionObjectA->SetFrame(5);
-
 		Input* pInput = GetInput();
 		if (pInput == NULL)
 			return;
 
-// 		static uint64 _stime = GetTimer()->GetMillisceonds();
-// 		if (GetTimer()->GetMillisceonds() - _stime > 5000)
-// 		{
-// 			m_pAnimtionObjectA->PlayAnimation(GetTimer()->GetFrameCount() % 4,0.5f);
-// 			_stime = GetTimer()->GetMillisceonds();
-// 		}
-
 		if (pInput->IsKeyDown(Keyboard::KEY_ONE))
 		{
-			m_pAnimtionObjectA->PlayAnimation((UINT)0,0.5f);
-			m_pAnimtionObjectB->PlayAnimation((UINT)0,0.5f);
+			m_pAnimtionObjectA->PlayAnimation("100");
+			m_pAnimtionObjectB->PlayAnimation("100");
 		}
 		else if (pInput->IsKeyDown(Keyboard::KEY_TWO))
 		{
-			m_pAnimtionObjectA->PlayAnimation(1,0.5f);
-			m_pAnimtionObjectB->PlayAnimation(1,0.5f);
+			m_pAnimtionObjectA->PlayAnimation("200");
+			m_pAnimtionObjectB->PlayAnimation("200");
 		}
 		else if (pInput->IsKeyDown(Keyboard::KEY_THREE))
 		{
-			m_pAnimtionObjectA->PlayAnimation(2,0.5f);
-			m_pAnimtionObjectB->PlayAnimation(2,0.5f);
+			m_pAnimtionObjectA->PlayAnimation("300");
+			m_pAnimtionObjectB->PlayAnimation("300");
 		}
 		else if (pInput->IsKeyDown(Keyboard::KEY_FOUR))
 		{
-			m_pAnimtionObjectA->PlayAnimation(3);
-			m_pAnimtionObjectB->PlayAnimation(3);
+			m_pAnimtionObjectA->PlayAnimation("400");
+			m_pAnimtionObjectB->PlayAnimation("400");
 		}
 
 	}

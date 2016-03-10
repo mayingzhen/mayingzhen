@@ -938,9 +938,9 @@ bool ParticleSystem::CalcBillboardMatrix(Camera* pCamera,BillboardType eType, co
 	return true;
 }
 
-bool ParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
+bool ParticleSystem::Import(rapidxml::xml_node<>* pXmlElem)
 {
-	Serializable::Improt(pXmlElem);
+	Serializable::Import(pXmlElem);
 
 	rapidxml::xml_node<>* pXmlEmitter = pXmlElem->first_node("Emitter");
 	while(pXmlEmitter)
@@ -950,7 +950,7 @@ bool ParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 		RefPtr<ParticleEmitter> pEmitter = CreateObject<ParticleEmitter>(pszType);
 		this->AddEmitter(pEmitter.get());
 
-		pEmitter->Improt(pXmlEmitter);
+		pEmitter->Import(pXmlEmitter);
 
 		pXmlEmitter = pXmlEmitter->next_sibling("Emitter");
 	}
@@ -963,7 +963,7 @@ bool ParticleSystem::Improt(rapidxml::xml_node<>* pXmlElem)
 		RefPtr<ParticleAffector> pAffector = CreateObject<ParticleAffector>(pszType);
 		this->AddAffector(pAffector.get());
 
-		pAffector->Improt(pXmlAffector);
+		pAffector->Import(pXmlAffector);
 
 		pXmlAffector = pXmlAffector->next_sibling("Affector");
 	}

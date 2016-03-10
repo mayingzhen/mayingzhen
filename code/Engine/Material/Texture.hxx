@@ -248,7 +248,7 @@ namespace ma
 		return type;
 	}
 
-	RefPtr<Texture> Texture::Improt(rapidxml::xml_node<>* pXmlTexture)
+	RefPtr<Texture> Texture::Import(rapidxml::xml_node<>* pXmlTexture)
 	{
 		const char* pszIMagePath = pXmlTexture->findAttribute("ImagePath");
 		const char* pszWrap = pXmlTexture->findAttribute("Wrap");

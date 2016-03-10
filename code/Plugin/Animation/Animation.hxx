@@ -8,6 +8,7 @@ namespace ma
 	Animation::Animation()
 	{
 		m_nFrameNumber = 0;	
+		m_bCompress = false;
 	}
 
 	Animation::~Animation()
@@ -17,10 +18,24 @@ namespace ma
 	void Animation::SampleSingleTrackByFrame(Transform* pTSF, BoneIndex nTrackID,float fFrame) const
 	{
 		profile_code();
+		
+		if (m_bCompress)
+		{
+			m_arrScaleTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vScale);
+			m_arrRotTrack[nTrackID].SampleFrame(fFrame,pTSF->m_qRot);
+			m_arrPosTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vPos);
+		}
+		else
+		{
+			UINT nFrame = (UINT)fFrame;
+			UINT nNextFrame = nFrame <= m_nFrameNumber - 2 ? nFrame + 1 : nFrame;
+			float fFactor =  fFrame - nFrame;
 
-		m_arrScaleTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vScale);
-		m_arrRotTrack[nTrackID].SampleFrame(fFrame,pTSF->m_qRot);
-		m_arrPosTrack[nTrackID].SampleFrame(fFrame,pTSF->m_vPos);
+			pTSF->m_vScale = Math::Lerp(m_arrScaleTrack[nTrackID].m_arrValue[nFrame], m_arrScaleTrack[nTrackID].m_arrValue[nNextFrame],fFactor);
+			pTSF->m_qRot = Quaternion::Slerp(fFactor, m_arrRotTrack[nTrackID].m_arrValue[nFrame], m_arrRotTrack[nTrackID].m_arrValue[nNextFrame],true);
+			pTSF->m_vPos = Math::Lerp(m_arrPosTrack[nTrackID].m_arrValue[nFrame], m_arrPosTrack[nTrackID].m_arrValue[nNextFrame],fFactor);
+		}
+
 	}
 
 	UINT  Animation::GetTrackNumber() const
@@ -61,10 +76,17 @@ namespace ma
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 
-	bool Animation::Load(const char* pszFile, const char* pszSkeleton)
+	bool Animation::Load(const char* pszFile, const char* pszSkeleton, const char* pszRefSkeleton)
 	{
-		if (strlen(pszSkeleton) > 0)
+		if (pszSkeleton && strlen(pszSkeleton) > 0)
+		{
 			m_pSkeleton = CreateSkeleton(pszSkeleton);
+		}
+
+		if (pszRefSkeleton && strlen(pszRefSkeleton) > 0)
+		{
+			m_pRefSkeleton = CreateSkeleton(pszRefSkeleton);
+		}	
 
 		return Resource::Load(pszFile);
 	}
@@ -273,11 +295,16 @@ namespace ma
 			m_arrTrackName[i] = &vecChar[0];
 		}
 
-		if (nVersion == 3)
+		if (nVersion == 2 && m_pRefSkeleton != m_pSkeleton)
 		{
+			ConverteAnimDataParentToLocalSpace(m_pRefSkeleton.get());
 			ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 		}
 		
+		if (nVersion == 3)
+		{
+			ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
+		}	
 	}
 
 	RefPtr<Animation> CreateAnimation()
@@ -285,8 +312,8 @@ namespace ma
 		return new Animation;
 	}
 
-	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile)
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile, const char* pszRefSkeleton)
 	{
-		return g_pAnimDataManager->Open(pszFile,pszSkeletonFile);
+		return g_pAnimDataManager->Open(pszFile,pszSkeletonFile,pszRefSkeleton);
 	}
 }

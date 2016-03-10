@@ -23,7 +23,7 @@ namespace ma
 	
 		DECL_OBJECT(Object);
 
-		virtual bool			Improt(rapidxml::xml_node<>* pXmlObject);
+		virtual bool			Import(rapidxml::xml_node<>* pXmlObject);
 		virtual bool			Export(rapidxml::xml_node<>* pXmlObject,rapidxml::xml_document<>& doc);		
 
 		bool					SetAttribute(UINT index, const Any& value);

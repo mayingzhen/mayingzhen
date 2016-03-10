@@ -36,8 +36,6 @@ namespace ma
 
 		virtual void			InvokeMethod(const char* pszMethod,int param_count = 0, void **params = NULL);
 
-		//void					Serialize(Serializer& sl, const char* pszLable = "ScriptObject");
-
 		void					InitMonoObject(MonoClass* pMonoClass); 
 
 		MonoObject*				GetMonoObject() {return m_pMonoObj;}

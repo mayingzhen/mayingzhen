@@ -14,6 +14,8 @@ namespace ma
 
 	void AnimBlendNode::AdvanceTime(float fTimeElapsed)
 	{
+		AnimTreeNode::AdvanceTime(fTimeElapsed);
+
 		if (m_pSrcAnimNode)
 			m_pSrcAnimNode->AdvanceTime(fTimeElapsed);
 
@@ -75,17 +77,22 @@ namespace ma
 		return true;
 	}
 
-// 	void AnimBlendNode::Serialize(Serializer& sl, const char* pszLable/* = "AnimBlendNode" */)
-// 	{
-// 		sl.BeginSection(pszLable);
-// 
-// 		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"SrcAnimNode");
-// 		SerializeObject<AnimTreeNode>(sl,m_pSrcAnimNode,"DestAnimNode");
-// 		sl.Serialize(m_fWeight,"Weight");
-// 
-// 		sl.EndSection();
-// 	}
+	uint32 AnimBlendNode::GetFrameCount()
+	{
+		UINT nSrcFrameCount = 0;
+		if (m_pDestAnimNode)
+		{
+			nSrcFrameCount = m_pDestAnimNode->GetFrameCount();
+		}
 
+		UINT nDestFrameCount = 0;
+		if (m_pSrcAnimNode)
+		{
+			nDestFrameCount = m_pSrcAnimNode->GetFrameCount();
+		}
+
+		return max(nSrcFrameCount,nDestFrameCount);
+	}
 
 }
 

@@ -11,6 +11,7 @@
 #include "Engine/RTTI/AttributeManager.h"
 
 #include "Engine/Time/Timer.h"
+#include "Engine/Time/Animatable.h"
 
 // Resource
 #include "Engine/Resource/Stream.h"
@@ -65,6 +66,7 @@
 #include "Engine/Material/Technqiue.h"
 #include "Engine/Material/Material.h"
 #include "Engine/Material/Uniform.h"
+#include "Engine/Material/UniformAnimation.h"
 
 // Scene
 #include "Engine/Scene/Component.h"

@@ -8,13 +8,9 @@ namespace ma
 	{
 		m_bLoadOver = false;
 
-		m_fLocalFrame = 0;
-		m_fPlaySpeed = 1.0f;
-		m_playbackMode = PLAYBACK_LOOP;
-		m_playerStatus = PLAYER_PLAYING;
-
 		m_nStartFrame = 0;
-		m_nTotalFrame = 0;
+		m_nEndFrame = 0;
+		m_fSkaFrame = 0;
 	}
 
 	AnimClipNode::~AnimClipNode()
@@ -34,34 +30,8 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "AnimationClip", GetAnimationClip, SetAnimationClip, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "BoneSet", GetBoneSet, SetBoneSet, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimClipNode, "StartFrame", GetStartFrame, SetStartFrame, uint32, 0, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimClipNode, "TotalFrame", GetTotalFrame, SetTotalFrame, uint32, 0, AM_DEFAULT);
-	}
-
-	void AnimClipNode::AdvanceTime(float fTimeElapsed)
-	{
-		float fFrameRate = 30.0f;
-		m_fLocalFrame += m_nStartFrame + fTimeElapsed * fFrameRate * m_fPlaySpeed;
-
-		WrapLocalFrame();
-	}
-
-	void AnimClipNode::WrapLocalFrame()
-	{
-		if (m_pAnimation == NULL)
-			return;
-
-		UINT uFrameNumber = m_pAnimation->GetFrameNumber();
-		if (m_fLocalFrame > uFrameNumber)
-		{
-			if (m_playbackMode == PLAYBACK_LOOP)
-			{
-				m_fLocalFrame = fmod((float)m_fLocalFrame,(float)uFrameNumber);
-			}
-			else
-			{
-				m_playerStatus = PLAYER_STOP;
-			}
-		}
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "EndFrame", GetEndFrame, SetEndFrame, uint32, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimClipNode, "RefSkeleton", GetRefSkeleton, SetRefSkeleton, const char*, NULL, AM_DEFAULT);
 	}
 
 	void AnimClipNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
@@ -80,7 +50,11 @@ namespace ma
 			Transform source;
 			if ( Math::IsValidID<BoneIndex>(nTrackInd) )
 			{
-				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fLocalFrame);
+				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fSkaFrame);
+			}
+			else
+			{
+				source = pEvalContext->m_refNodePos->GetTransformPS(uBoneId);
 			}
 
 			Transform& dest = pEvalContext->m_arrTSFPS[uBoneId];
@@ -98,9 +72,11 @@ namespace ma
 
 	void AnimClipNode::SetFrame(float fFrame)
 	{
-		m_fLocalFrame = m_nStartFrame + fFrame;
+		AnimTreeNode::SetFrame(fFrame);
 
-		WrapLocalFrame();
+		m_fSkaFrame = (float)m_nStartFrame + m_fLocalFrame;
+
+		LogInfo("m_fSkaFrmae %f",m_fSkaFrame);
 	}
 
 	const char*	AnimClipNode::GetBoneSet() const
@@ -117,6 +93,19 @@ namespace ma
 
 	}
 
+	void AnimClipNode::SetRefSkeleton(const char* pszRefSkeleton)
+	{
+		if (pszRefSkeleton == NULL)
+			return;
+
+		m_pRefSkeleton = CreateSkeleton(pszRefSkeleton);
+	}
+
+	const char*	AnimClipNode::GetRefSkeleton() const
+	{
+		return m_pRefSkeleton ? m_pRefSkeleton->GetResPath() : NULL;
+	}
+
 	void AnimClipNode::SetAnimationClip(const char* pszSkaPath)
 	{
 		m_strSkaName = pszSkaPath ? pszSkaPath : "";
@@ -125,6 +114,23 @@ namespace ma
 	const char*	AnimClipNode::GetAnimationClip() const
 	{
 		return m_strSkaName.c_str();
+	}
+
+	uint32	AnimClipNode::GetFrameCount()
+	{
+		if (m_nEndFrame <= 0)
+		{
+			return m_pAnimation->GetFrameNumber();
+		}
+		else
+		{
+			UINT nFrameCount = m_nEndFrame - m_nStartFrame + 1;
+			ASSERT(nFrameCount != 0);
+			if (nFrameCount == 0)
+				return 1;
+
+			return nFrameCount;
+		}
 	}
 
 	bool AnimClipNode::Instantiate(Skeleton* pSkeleton)
@@ -138,7 +144,8 @@ namespace ma
 	
 		ASSERT(pSkeleton && pSkeleton->IsReady());
 		m_pSkeleton = pSkeleton;
-		m_pAnimation = CreateAnimation( m_strSkaName.c_str(), pSkeleton->GetResPath() ); 
+
+		m_pAnimation = CreateAnimation( m_strSkaName.c_str(), pSkeleton->GetResPath(), GetRefSkeleton() ); 
 
 		m_bLoadOver = false;
 		return IsReady();
@@ -168,12 +175,13 @@ namespace ma
 		return true;
 	}
 
-	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName,const char* boneSetName)
+	RefPtr<AnimClipNode>  CreateClipNode(const char* skaName,const char* pszName,const char* boneSetName,const char* pRefSke)
 	{
 		AnimClipNode* pClipNode = new AnimClipNode();
 		pClipNode->SetName(pszName);
 		pClipNode->SetAnimationClip(skaName);
 		pClipNode->SetBoneSet(boneSetName);
+		pClipNode->SetRefSkeleton(pRefSke);
 		return pClipNode;
 	}
 

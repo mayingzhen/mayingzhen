@@ -9,20 +9,6 @@ namespace ma
 	struct AnimEvalContext;
 	class BoneSet;
 
-	enum ePlaybackMode
-	{
-		PLAYBACK_ONCE = 0,
-		PLAYBACK_LOOP
-	};
-
-	enum ePlayerStatus
-	{
-		PLAYER_STOP = 0,
-		PLAYER_PLAYING,
-		PLAYER_PAUSE,
-		PLAYER_STATUS_NUM,
-	};
-
 
 	class AnimClipNode : public AnimTreeNode
 	{
@@ -41,24 +27,24 @@ namespace ma
 		virtual void	SetBoneSet(const char* pBoneSetName);
 		const char*		GetBoneSet() const;
 
+		void			SetRefSkeleton(const char* pszRefSkeleton);
+		const char*		GetRefSkeleton() const;
+
 		void			SetStartFrame(uint32 nStartFrame) {m_nStartFrame = nStartFrame;}
 		uint32			GetStartFrame() const {return m_nStartFrame;}
 
-		void			SetTotalFrame(uint32 nTotalFram) {m_nTotalFrame = nTotalFram;}
-		uint32			GetTotalFrame() const {return m_nTotalFrame;}
+		void			SetEndFrame(uint32 nEndFram) {m_nEndFrame = nEndFram;}
+		uint32			GetEndFrame() const {return m_nEndFrame;}
+
+		virtual uint32	GetFrameCount();
 
 		virtual bool	Instantiate(Skeleton* pSkeleton);
-
-		virtual void	AdvanceTime(float fTimeElapsed);
 
 		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
 		virtual	void	SetFrame(float fFrame);
 
 		virtual bool	IsReady();
-
-	private:
-		void			WrapLocalFrame();
 
 	private:
 		string					m_strSkaName;
@@ -69,24 +55,18 @@ namespace ma
 
 		BoneMap					m_NodeLink;
 
-		float					m_fLocalFrame;
-
-		float					m_fPlaySpeed;
-
-		ePlaybackMode			m_playbackMode;
-
-		ePlayerStatus			m_playerStatus;
-
 		uint32					m_nStartFrame;
+		uint32					m_nEndFrame;
 
-		uint32					m_nTotalFrame;
+		float					m_fSkaFrame;
 
 		RefPtr<Skeleton>		m_pSkeleton;
+		RefPtr<Skeleton>		m_pRefSkeleton;
 
 		bool					m_bLoadOver;
 	};
 
-	RefPtr<AnimClipNode> CreateClipNode(const char* skaName, const char* pszName = NULL,const char* boneSetName =  NULL);
+	RefPtr<AnimClipNode> CreateClipNode(const char* skaName, const char* pszName = NULL,const char* boneSetName =  NULL,const char* pRefSke = NULL);
 }
 
 

@@ -16,6 +16,7 @@
 #include "Animation/AnimationTree/AnimClipNode.hxx"
 #include "Animation/AnimationTree/AnimBlendNode.hxx"
 #include "Animation/AnimationTree/AnimLayerNode.hxx"
+#include "Animation/AnimationTree/FrameEvent.hxx"
 
 
 // PoseModifier

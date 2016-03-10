@@ -20,8 +20,6 @@ namespace ma
 
 		void		SetVector3(const Vector3& vecotr3);
 
-		//void		Serialize(Serializer& sl, const char* pszLable = "ClassField");
-
 		void		ParseMonoFiled(MonoClassField* pMonoField,MonoObject* pMonoObject);
 
 		void		SetMonoObjecField(MonoClassField* pMonoField,MonoObject* pMonoObject);

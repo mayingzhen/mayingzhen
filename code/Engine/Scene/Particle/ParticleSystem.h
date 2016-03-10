@@ -183,7 +183,7 @@ private:
     void UpdateGlobalAffectors();
 	bool CalcBillboardMatrix(Camera* pCamera,BillboardType eType, const Vector3& vWorldPos, const Vector3& vDirection, OUT Matrix4& matBillboard);
 
-	virtual bool Improt(rapidxml::xml_node<>* pXmlElem);
+	virtual bool Import(rapidxml::xml_node<>* pXmlElem);
 	virtual bool Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 private:

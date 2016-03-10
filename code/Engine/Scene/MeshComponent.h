@@ -41,7 +41,7 @@ namespace ma
 		virtual UINT				GetRenderableCount(uint32 nLod) const;
 		virtual	Renderable*			GetRenderableByIndex(uint32 nLod,UINT index) const;
 
-		virtual bool				Improt(rapidxml::xml_node<>* pXmlElem);
+		virtual bool				Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool				Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 	private:

@@ -32,6 +32,8 @@ namespace ma
 
 		virtual bool	IsReady();
 
+		virtual uint32	GetFrameCount();
+
 	private:
 		RefPtr<AnimTreeNode>	m_pSrcAnimNode;
 		RefPtr<AnimTreeNode>	m_pDestAnimNode;

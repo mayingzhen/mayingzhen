@@ -18,8 +18,4 @@ namespace ma
 
 	}
 
-	void	PoseModifier::Serialize(Serializer& sl, const char* pszLable)
-	{
-
-	}
 }
