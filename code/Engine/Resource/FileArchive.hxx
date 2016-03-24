@@ -71,9 +71,9 @@ namespace ma
 	}
 
 	// Open a stream on a given file. 
-	Stream* FileArchive::open(const std::string& filename, bool readOnly) const
+	MemoryStream* FileArchive::open(const char* pszFile, bool readOnly) const
 	{
-		std::string full_path = concatenate_path(mName, filename);
+		std::string full_path = concatenate_path(mName, pszFile);
 		StringUtil::toLowerCase(full_path);
 
 		// Use filesystem to determine size 
@@ -116,24 +116,24 @@ namespace ma
 		}
 
 		/// Construct return stream, tell it to delete on destroy
-		FileStream* stream = 0;
+		RefPtr<FileStream> pFileStream;
 		if (rwStream)
 		{
 			// use the writeable stream 
-			stream = new FileStream(filename.c_str(),
+			pFileStream = new FileStream(pszFile,
 				rwStream, (size_t)tagStat.st_size, true);
 		}
 		else
 		{
 			// read-only stream
-			stream = new FileStream(filename.c_str(),
+			pFileStream = new FileStream(pszFile,
 				roStream, (size_t)tagStat.st_size, true);
 		}
-		return (Stream*)(stream);
+		return new MemoryStream(pszFile,pFileStream.get(),pFileStream->GetSize(),false);
 	}
 
 	// Create a new file (or overwrite one already there).
-	Stream* FileArchive::create(const std::string& filename) const
+	Stream* FileArchive::create(const char* pszFile) const
 	{
 		if (isReadOnly())
 		{
@@ -141,7 +141,7 @@ namespace ma
 			return NULL;
 		}
 
-		std::string full_path = concatenate_path(mName, filename);
+		std::string full_path = concatenate_path(mName, pszFile);
 
 		// Always open in binary mode
 		// Also, always include reading
@@ -157,14 +157,14 @@ namespace ma
 		}
 
 		/// Construct return stream, tell it to delete on destroy
-		FileStream* stream = new FileStream(filename.c_str(),
+		FileStream* stream = new FileStream(pszFile,
 			rwStream, 0, true);
 
 		return (Stream*)(stream);
 	}
 
 	// Delete a named file.
-	void FileArchive::remove(const std::string& filename) const
+	void FileArchive::remove(const char* pszFile) const
 	{
 		if (isReadOnly())
 		{
@@ -172,7 +172,7 @@ namespace ma
 			return;
 		}
 
-		std::string full_path = concatenate_path(mName, filename);
+		std::string full_path = concatenate_path(mName, pszFile);
 		::remove(full_path.c_str());
 	}
 

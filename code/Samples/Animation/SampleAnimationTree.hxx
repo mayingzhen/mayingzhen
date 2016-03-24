@@ -10,7 +10,7 @@ namespace ma
 
 	void SampleAnimationTree::UnLoad()
 	{
-		//GetInput()->RemoveKeyListener(this);
+		Game::GetInstance().mkeyEvent.remove(this,&SampleAnimationTree::keyEvent);
 
 		m_pClip602 = NULL;
 		m_pClip120 = NULL;
@@ -18,24 +18,19 @@ namespace ma
 
 	void SampleAnimationTree::Load()
 	{
-		m_pCamera->LookAt(Vector3(0, 200, 600), Vector3(0, 0, 0));
+		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
 
-		//GetInput()->AddKeyListener(this);
+		Game::GetInstance().mkeyEvent.notify(this,&SampleAnimationTree::keyEvent);
 
-// 		RefPtr<SceneNode> pGameObj = CreateSceneNode();
-// 		m_pScene->GetRootNode()->AddChild(pGameObj.get());
-// 
-// 		SkinMeshComponent* pMeshComp = pGameObj->CreateComponent<SkinMeshComponent>();
-// 		pMeshComp->Load("magician/Body.skn","magician/Body.mtl");
-// 
-// 		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
-// 		pAnimComp->Load("magician/Body.Aniset","magician/Body.ske");
+		RefPtr<SceneNode> pGameObj = m_pScene->CreateSceneNode();
+	
+		SkinMeshComponent* pMeshComp = pGameObj->CreateComponent<SkinMeshComponent>();
+		pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
+
+		AnimationComponent* pAnimComp = pGameObj->CreateComponent<AnimationComponent>();
+		pAnimComp->Load("magician/magician/Body.Aniset","magician/magician/Body.ske");
 
 
-		SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician.xml");
-
-		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
-		
 		RefPtr<AnimLayerNode> pLayerNode = CreateLayerNode();
 		m_pClip602 = CreateClipNode("magician/602/bip01.ska","Up602","UpBody");
 		m_pClip120 = CreateClipNode("magician/120/bip01.ska","Low120","LowerBody");
@@ -45,26 +40,29 @@ namespace ma
 		pAnimComp->PlayAnimation(pLayerNode.get());
 	}
 
-// 	bool SampleAnimationTree::keyPressed(const OIS::KeyEvent &arg)
-// 	{
-// 		if (arg.key == OIS::KC_1)
-// 		{
-// 			m_pClip602->SetBoneSet("FullBody");
-// 			m_pClip120->SetBoneSet("EmptyBody");
-// 		}
-// 		else if (arg.key == OIS::KC_2)
-// 		{
-// 			m_pClip602->SetBoneSet("EmptyBody");
-// 			m_pClip120->SetBoneSet("FullBody");
-// 		}
-// 		else if (arg.key == OIS::KC_3)
-// 		{
-// 			m_pClip602->SetBoneSet("UpBody");
-// 			m_pClip120->SetBoneSet("LowerBody");
-// 		}
-// 
-// 		return true;
-// 	}
+	void SampleAnimationTree::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
+	{
+		if (evt != Keyboard::KEY_PRESS)
+			return;
+
+		if (key == Keyboard::KEY_ONE)
+		{
+			m_pClip602->SetBoneSet(pszDefaultUpBody);
+			m_pClip120->SetBoneSet(pszDefaultEmptyBody);
+		}
+		else if (key == Keyboard::KEY_TWO)
+		{
+			m_pClip602->SetBoneSet(pszDefaultEmptyBody);
+			m_pClip120->SetBoneSet(pszDefaultFullBody);
+		}
+		else if (key == Keyboard::KEY_THREE)
+		{
+			m_pClip602->SetBoneSet(pszDefaultUpBody);
+			m_pClip120->SetBoneSet(pszDefaultLowerBody);
+		}
+
+		return;
+	}
 }
 
 

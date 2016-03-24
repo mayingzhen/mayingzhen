@@ -48,7 +48,7 @@ namespace ma
 		return NULL;
 	}
 
-	RefPtr<Stream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
+	RefPtr<MemoryStream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
 	{
 		ASSERT(pszFile);
 		if (pszFile == NULL)
@@ -56,7 +56,7 @@ namespace ma
 
 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
 		{
-			RefPtr<Stream> data = (*iter)->open(pszFile, readOnly);
+			RefPtr<MemoryStream> data = (*iter)->open(pszFile, readOnly);
 			if (data != NULL)
 			{
 				return data;
@@ -65,19 +65,6 @@ namespace ma
 
 		ASSERTMSG1(false,"Cannot open file :%s", pszFile);
 		return NULL;
-	}
-
-	RefPtr<MemoryStream> ArchiveManager::ReadAll(const char* pszFile,UINT nExtenSiz/* = 0*/) const
-	{
-		RefPtr<Stream> pStream = Open(pszFile,true);
-		if (pStream == NULL)
-			return NULL;
-
-		RefPtr<MemoryStream> pMemStream = new MemoryStream(pStream->GetName(),pStream.get(),pStream->GetSize() + nExtenSiz,true);
-		
-		//memset(pMemStream->GetPtr() + pStream->GetSize(),0,nExtenSiz);
-
-		return pMemStream;
 	}
 
 	void ArchiveManager::AddArchive(Archive* pArchive)

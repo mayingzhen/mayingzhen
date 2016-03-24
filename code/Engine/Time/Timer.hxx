@@ -24,20 +24,7 @@ namespace ma
 
 	uint64 Time::GetMillisceonds() const
 	{
-#ifdef WIN32
-		LARGE_INTEGER nFreqname;
-		LARGE_INTEGER nBeginTimename;
-		if(QueryPerformanceFrequency(&nFreqname) != FALSE)
-		{
-			if(QueryPerformanceCounter(&nBeginTimename) != FALSE)
-			{
-				return (DWORD)(nBeginTimename.QuadPart * 1000/nFreqname.QuadPart);
-			}
-		}
-
-#pragma comment(lib, "winmm.lib")
-#endif
-		return timeGetTime();
+		return StaticFunc::GetTime();
 	}
 
 	void Time::UpdateFrame()

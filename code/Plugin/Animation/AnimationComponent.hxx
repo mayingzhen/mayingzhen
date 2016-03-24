@@ -90,16 +90,9 @@ namespace ma
 			}
 		}
 	
-		if (m_pAnimSet)
+		if (m_pAnimSet && m_nCurAction != -1)
 		{
-			if (m_nCurAction != -1)
-			{
-				ChangeAnimation( m_pAnimSet->GetAnimationByAnimID(m_nCurAction) );
-			}
-			else
-			{
-				ChangeAnimation( m_pAnimSet->GetAnimationByIndex(0) );
-			}
+			ChangeAnimation( m_pAnimSet->GetAnimationByAnimID(m_nCurAction) );
 		}
 
 		if (m_pAnimation == NULL)
@@ -127,8 +120,7 @@ namespace ma
 		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
 
 		// 动作回调完以后，动作有可能被改变了
-		if ( !IsReady() )
-			return;
+		IsReady();
 
 		if ( GetTimer()->GetFrameCount() - m_pSceneNode->GetLastVisibleFrame() > 1 )
 			return;
@@ -168,6 +160,7 @@ namespace ma
 
 		if (pAnim)
 		{
+			pAnim->Play();
 			m_fCurFadeTime = pAnim->GetFadeTime();
 		}
 	}
@@ -178,7 +171,7 @@ namespace ma
 
 		if (m_pAnimation == pSkelAnim)
 			return;
-
+	
 		ChangeAnimation(pSkelAnim);
 
 		m_bLoadOver = false;
@@ -225,7 +218,7 @@ namespace ma
 	{
 		profile_code();
 
-		if (m_pSkeleton == NULL || m_pose == NULL || m_pAnimation == NULL)
+		if (m_pSkeleton == NULL || m_pose == NULL)
 			return;
 
 		const SkeletonPose* pRefPose = m_pSkeleton->GetResPose();
@@ -233,31 +226,37 @@ namespace ma
 			return;
 
 		AnimEvalContext evalContext;
-		Transform tsfZero;
-		memset(&tsfZero,0,sizeof(tsfZero));
-		evalContext.m_arrTSFPS.resize( pRefPose->GetNodeNumber() , tsfZero);
+		Transform tsfInit;
+		evalContext.m_arrTSFPS.resize( pRefPose->GetNodeNumber() , tsfInit);
+		evalContext.m_arrFirst.resize(pRefPose->GetNodeNumber() , true);
 		evalContext.m_pNodePos = m_pose;
 		evalContext.m_refNodePos = pRefPose;
 
-		float fFadeTime = m_pAnimation->GetFadeTime(); 
+		float fFadeTime = m_pAnimation && m_pPreAnimation ? m_pAnimation->GetFadeTime() : 0; 
 		float fFadeFactor = fFadeTime <= 0 ? 0.0f : (m_fCurFadeTime / fFadeTime);
 
 		if (m_pPreAnimation && fFadeFactor > 0)
 		{
 			m_pPreAnimation->EvaluateAnimation(&evalContext,fFadeFactor);
 		}
+		
+		if (m_pAnimation)
+		{
+			m_pAnimation->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
+		}
 
-		m_pAnimation->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
-
-		m_pose->SetTransformPSAll(evalContext.m_arrTSFPS);
+		m_pose->InitLocalSpace(evalContext.m_arrTSFPS,pRefPose);
 
 		////////////// Do IK
 		if (m_pPreAnimation && fFadeFactor > 0)
 		{
 			m_pPreAnimation->ProcessPoseModifier(m_pose,fFadeFactor);
 		}
-		
-		m_pAnimation->ProcessPoseModifier(m_pose,1.0f - fFadeFactor);
+
+		if (m_pAnimation)
+		{
+			m_pAnimation->ProcessPoseModifier(m_pose,1.0f - fFadeFactor);
+		}
 		////////////////
 
 		m_pose->SyncObjectSpace();
@@ -267,6 +266,9 @@ namespace ma
 
 	void AnimationComponent::UpdateSkinMatrix()
 	{
+		if (m_pSkeleton == NULL)
+			return;
+
 		UINT nBoneNum = m_pSkeleton->GetBoneNumer();
 		for (UINT i = 0; i < nBoneNum; ++i)
 		{

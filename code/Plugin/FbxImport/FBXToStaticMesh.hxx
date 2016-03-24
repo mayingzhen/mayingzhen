@@ -101,8 +101,8 @@ namespace ma
 		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
 		std::string strMeshFile = strDir + "/" + string(pFileName);
 
-		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
-		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
+		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StaticFunc::ReplaceFileExt(pFileName,"skn");
+		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StaticFunc::ReplaceFileExt(pFileName,"mat");
 	
 		MeshData meshData;
 		meshData.SetVertexType(STATIC_VERTEX_1);

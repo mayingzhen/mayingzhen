@@ -32,6 +32,7 @@
 #include "Samples/Render/SampleTerrain.hxx"
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
+#include "Samples/Animation/SampleAnimationIK.hxx"
 #include "Samples/Render/SampleParticle.hxx"
 
 
@@ -129,9 +130,10 @@ namespace ma
 		// Animation
 		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
 		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
+		m_arrSamples["AnimationIK"] = new SampleAnimationIK();
 
 
-		RunSample("Material");
+		RunSample("AnimationTree");
 	}
 
 	void SampleBrowser::InitResourcePath()

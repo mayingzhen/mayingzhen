@@ -1,5 +1,5 @@
-#ifndef _Sample_Animation_H_
-#define _Sample_Animation_H_
+#ifndef _Sample_Animation_Retarget_H_
+#define _Sample_Animation_Retarget_H_
 
 namespace ma
 {
@@ -15,9 +15,9 @@ namespace ma
 
 		virtual void	UnLoad();
 
-		virtual void	Update();
-
 		virtual	void	Render();
+
+		virtual void	keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 
 	private:
 		RefPtr<AnimationComponent>		m_pAnimtionObjectA;

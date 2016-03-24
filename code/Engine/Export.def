@@ -35,7 +35,6 @@ EXPORTS
 ?GetArchiveMananger@ma@@YAPAVArchiveManager@1@XZ
 ?GetArchiveByIndex@ArchiveManager@ma@@QAEPAVArchive@2@I@Z
 ??0MemoryStream@ma@@QAE@PAXI_N@Z
-?Open@ArchiveManager@ma@@QBE?AV?$RefPtr@VStream@ma@@@2@PBD_N@Z
 ?Reset@MeshBatch@ma@@QAEXXZ
 ?SetRenderTarget@RenderSystem@ma@@QAE?AV?$RefPtr@VTexture@ma@@@2@V32@H@Z
 ?ClearBuffer@RenderSystem@ma@@QAEX_N00ABVColourValue@2@MH@Z
@@ -54,7 +53,6 @@ EXPORTS
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
 ?Init@RenderScheme@ma@@QAEXXZ
-?ReadAll@ArchiveManager@ma@@QBE?AV?$RefPtr@VMemoryStream@ma@@@2@PBDI@Z
 ?SetPerspective@Camera@ma@@QAEXMMMM@Z
 ?AddComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
 ?Render@RenderSystem@ma@@QAEXXZ
@@ -220,3 +218,5 @@ EXPORTS
 ?CalcLocalTime@Animatable@ma@@QAEMXZ
 ?CreateUniformAnimation@ma@@YA?AV?$RefPtr@VUniformAnimation@ma@@@1@XZ
 ?BuildFrames@UniformAnimation@ma@@QAEXXZ
+?AddKeyFrame@UniformAnimation@ma@@QAEXHABVAny@2@@Z
+?Play@Animatable@ma@@QAEXM@Z

@@ -8,6 +8,11 @@ namespace ma
 	class SkeletonPose;
 	class BoneSet;
 
+	static const char* pszDefaultUpBody = "UpBody";
+	static const char* pszDefaultLowerBody = "LowerBody";
+	static const char* pszDefaultFullBody = "FullBody";
+	static const char* pszDefaultEmptyBody = "EmptyBody";
+
 	class Skeleton : public Resource
 	{
 		
@@ -35,8 +40,8 @@ namespace ma
 		bool				IsAncestorOf(BoneIndex nAncestorBoneID,BoneIndex nChildBoneID) const;
 
 		void				InitUpLowerBoneSet(const char* pszSplitBone = "Bip01 Spine1",
-			const char* pszUpBody = "UpBody", const char* pszLowerBody = "LowerBody",
-			const char* pszFullBoyd = "FullBody",const char* pzEmptyBody = "EmptyBody");
+			const char* pszUpBody = pszDefaultUpBody, const char* pszLowerBody = pszDefaultLowerBody,
+			const char* pszFullBoyd = pszDefaultFullBody,const char* pzEmptyBody = pszDefaultEmptyBody);
 
 		void				InitResPose();
 

@@ -23,35 +23,34 @@ namespace ma
 		return true;
 	}
 
-	Stream* AAssetArchive::open( const std::string& filename, bool readOnly /*= true*/ ) const
+	MemoryStream* AAssetArchive::open(const char* pszFile, bool readOnly /*= true*/ ) const
 	{
-		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
-		std::string full_path = filename;
-		
+		std::string full_path = pszFile;
 		full_path = StringUtil::replaceAll(full_path, "\\", "/");
-		full_path = mName + "/" + filename;
+		full_path = mName + "/" + pszFile;
 		StringUtil::toLowerCase(full_path);
 
 		AAsset* asset = AAssetManager_open(__assetManager, full_path.c_str(), AASSET_MODE_RANDOM);
 		if (asset)
 		{
 			//LogInfo("@@@open file:%s,%d", full_path.c_str(), AAsset_getLength(asset));
-			AAssetStream* stream = new AAssetStream(asset);
-			return stream;
+			RefPtr<AAssetStream> pAssettream = new AAssetStream(asset);
+			return new MemoryStream(pszFile, pAssettream.get(), pAssettream->GetSize(), false);
 		}
 		else
 		{
 			ASSERT(false && "AAssetArchive::open");
 			//LogError("@Connot open file: %s", full_path.c_str());
 		}
+		return NULL;
 	}
 
-	Stream* AAssetArchive::create( const std::string& filename ) const
+	Stream* AAssetArchive::create(const char* pszFile) const
 	{
 		return NULL;
 	}
 
-	void AAssetArchive::remove( const std::string& filename ) const
+	void AAssetArchive::remove(const char* pszFile) const
 	{
 
 	}

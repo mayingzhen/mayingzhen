@@ -6,8 +6,5 @@
 
 #define snprintf _snprintf
 
-int gettimeofday(struct timeval * val, struct timezone *);
-
-void _OutputDebugString(const char* buf);
 
 #endif //__PlatformWin_H__

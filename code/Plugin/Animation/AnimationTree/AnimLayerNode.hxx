@@ -26,16 +26,6 @@ namespace ma
 		m_arrAnimNode.erase(it);
 	}
 
-	void AnimLayerNode::AdvanceTime(float fTimeElapsed)
-	{
-		AnimTreeNode::AdvanceTime(fTimeElapsed);
-
-		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)
-		{
-			m_arrAnimNode[i]->AdvanceTime(fTimeElapsed);
-		}
-	}
-
 	void AnimLayerNode::EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight)
 	{
 		for (UINT i = 0; i < m_arrAnimNode.size(); ++i)

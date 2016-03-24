@@ -12,11 +12,9 @@ namespace ma
 
 		~ArchiveManager();
 
-		RefPtr<Stream>			Open(const char* pszFile, bool readOnly = true) const;
+		RefPtr<MemoryStream>	Open(const char* pszFile, bool readOnly = true) const;
 
 		RefPtr<Stream>			Create(const char* pszFile) const;
-
-		RefPtr<MemoryStream>	ReadAll(const char* pszFile,UINT nExtenSiz = 0) const;
 
 		void					AddArchive(Archive* pArchive);
 		

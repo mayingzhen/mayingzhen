@@ -10,7 +10,9 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
+		Game::GetInstance().mkeyEvent.notify(this,&SampleAnimationRetarget::keyEvent);
+
+		m_pCamera->LookAt(Vector3(0, -400, 100), Vector3(0, 0, 0));
 
 		// character A MeshData & skeleton & Animation
 		if (1)
@@ -80,7 +82,7 @@ namespace ma
 
 			m_pAnimtionObjectA = pChargigi->GetTypeComponent<AnimationComponent>();
 
-			//m_pAnimtionObjectA->SetAnimSetPath("magician/magician/body.aniset");
+			m_pAnimtionObjectA->SetAnimSetPath("magician/magician/body.aniset");
 
 		}
 
@@ -99,6 +101,8 @@ namespace ma
 
 	void SampleAnimationRetarget::UnLoad()
 	{
+		Game::GetInstance().mkeyEvent.remove(this,&SampleAnimationRetarget::keyEvent);
+
 		m_pAnimtionObjectA = NULL;
 		m_pAnimtionObjectB = NULL;
 	}
@@ -109,28 +113,27 @@ namespace ma
 		//m_pAnimtionObjectB->DebugRender();
 	}
 
-	void SampleAnimationRetarget::Update()
+	void SampleAnimationRetarget::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
 	{
-		Input* pInput = GetInput();
-		if (pInput == NULL)
+		if (evt != Keyboard::KEY_PRESS)
 			return;
 
-		if (pInput->IsKeyDown(Keyboard::KEY_ONE))
+		if (key == Keyboard::KEY_ONE)
 		{
 			m_pAnimtionObjectA->PlayAnimation("100");
 			m_pAnimtionObjectB->PlayAnimation("100");
 		}
-		else if (pInput->IsKeyDown(Keyboard::KEY_TWO))
+		else if (key == Keyboard::KEY_TWO)
 		{
 			m_pAnimtionObjectA->PlayAnimation("200");
 			m_pAnimtionObjectB->PlayAnimation("200");
 		}
-		else if (pInput->IsKeyDown(Keyboard::KEY_THREE))
+		else if (key == Keyboard::KEY_THREE)
 		{
 			m_pAnimtionObjectA->PlayAnimation("300");
 			m_pAnimtionObjectB->PlayAnimation("300");
 		}
-		else if (pInput->IsKeyDown(Keyboard::KEY_FOUR))
+		else if (key == Keyboard::KEY_FOUR)
 		{
 			m_pAnimtionObjectA->PlayAnimation("400");
 			m_pAnimtionObjectB->PlayAnimation("400");

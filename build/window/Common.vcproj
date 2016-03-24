@@ -190,6 +190,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\md5.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\md5.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Common\Referenced.h"
 				>
 			</File>
@@ -203,6 +211,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Common\signals.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\StaticFunc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\StaticFunc.hxx"
 				>
 			</File>
 			<File
@@ -232,19 +248,11 @@
 					RelativePath="..\..\Code\Common\Platform\Platform.h"
 					>
 				</File>
-				<File
-					RelativePath="..\..\Code\Common\Platform\Platform.hxx"
-					>
-				</File>
 				<Filter
 					Name="Win"
 					>
 					<File
 						RelativePath="..\..\Code\Common\Platform\Win\PlatformWin.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Code\Common\Platform\Win\PlatformWin.hxx"
 						>
 					</File>
 				</Filter>
@@ -255,22 +263,14 @@
 						RelativePath="..\..\Code\Common\Platform\Android\PlatformAndroid.h"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="IOS"
+					>
 					<File
-						RelativePath="..\..\Code\Common\Platform\Android\PlatformAndroid.hxx"
+						RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.h"
 						>
 					</File>
-					<Filter
-						Name="IOS"
-						>
-						<File
-							RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.h"
-							>
-						</File>
-						<File
-							RelativePath="..\..\Code\Common\Platform\Ios\PlatformIos.hxx"
-							>
-						</File>
-					</Filter>
 				</Filter>
 			</Filter>
 			<Filter

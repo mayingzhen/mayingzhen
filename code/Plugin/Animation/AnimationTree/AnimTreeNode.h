@@ -11,6 +11,7 @@ namespace ma
 	struct AnimEvalContext
 	{
 		std::vector<Transform> m_arrTSFPS;
+		std::vector<bool> m_arrFirst;
 
 		const SkeletonPose* m_refNodePos;
 
@@ -45,15 +46,6 @@ namespace ma
 		void				SetName(const char* pszName);	
 
 		uint32				GetAnimID() const {return m_nAnimID;}
-
-// 		uint32				GetLoop() const {return m_nLoops == 0 ? -1 : m_nLoops;}
-// 		void				SetLoop(uint32 nLoop) {m_nLoops = nLoop;}
-// 
-// 		float				GetPlaySpeed() const {return m_fSpeed;}
-// 		void				SetPlaySpeed(float fPlaySpeed) {m_fSpeed = fPlaySpeed;}
-// 
-// 		PlayerStatus		GetPlayState() const {return m_ePlayerStatus;}
-// 		void				SetPlayState(PlayerStatus ePlayerStatus) {m_ePlayerStatus = ePlayerStatus;}
 
 		float				GetFadeTime() const {return m_fFadeTime;}
 		void				SetFadeTime(float fFadeTime) {m_fFadeTime = fFadeTime;}

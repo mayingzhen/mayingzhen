@@ -25,6 +25,8 @@
 
 #include "Common/StringUtils.hxx"
 #include "Common/StringConverter.hxx"
+#include "Common/StaticFunc.hxx"
+#include "Common/md5.hxx"
 
 #include "Common/signals.hxx"
 

@@ -23,7 +23,7 @@ namespace ma
 
 		void InitObjectSpace(const std::vector<Transform>& arrTSF_OS, const std::vector<BoneIndex>& arrParentIndice);
 
-		void InitLocalSpace(const std::vector<Transform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice);
+		//void InitLocalSpace(const std::vector<Transform>& arrTSF_LS, const std::vector<BoneIndex>& arrParentIndice);
 
 		void InitLocalSpace(const std::vector<Transform>& arrTSF_LS,const SkeletonPose* pRefPose);
 		

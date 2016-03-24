@@ -14,7 +14,7 @@ namespace ma
 
 		virtual void UnLoad();
 
-		//virtual bool keyPressed(const OIS::KeyEvent &arg);
+		virtual void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 
 	private:
 

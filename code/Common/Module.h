@@ -47,6 +47,8 @@
 
 #include "Common/StringUtils.h"
 #include "Common/StringConverter.h"
+#include "Common/StaticFunc.h"
+#include "Common/md5.h"
 
 #include "Common/signals.h"
 

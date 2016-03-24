@@ -3,8 +3,20 @@
 
 namespace ma
 {
+	static vector<Matrix3x4> s_vecMatrix;
+	static vector<DualQuaternion> s_vecDQ;
+	static vector<float> s_vecScale;
+
+
 	void SkinMeshRenderable::Render(Technique* pTech)
 	{
+		if (s_vecMatrix.empty())
+		{
+			s_vecMatrix.resize(100, Matrix3::IDENTITY);
+			s_vecDQ.resize(100, DualQuaternion());
+			s_vecScale.resize(100, 1.f);
+		}
+
 		GetRenderContext()->SetCurRenderObj(this);
 
 		pTech->Bind();

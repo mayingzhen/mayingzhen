@@ -32,6 +32,7 @@ typedef short				int16;
 typedef unsigned char       Byte;
 typedef unsigned short		BoneIndex;
 typedef float				Real;
+typedef int					int32;
 
 
 

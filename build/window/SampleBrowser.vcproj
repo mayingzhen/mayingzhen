@@ -175,6 +175,14 @@
 			Name="Animation"
 			>
 			<File
+				RelativePath="..\..\code\Samples\Animation\SampleAnimationIK.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Animation\SampleAnimationIK.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\Code\Samples\Animation\SampleAnimationRetarget.h"
 				>
 			</File>

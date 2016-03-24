@@ -12,10 +12,10 @@ namespace ma
 		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
 		std::string strMeshFile = strDir + "/" + string(pFileName);
 
-		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StringUtil::replaceFileExt(pFileName,"skn");
-		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StringUtil::replaceFileExt(pFileName,"mat");
-		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : StringUtil::replaceFileExt(pFileName,"ske");
-		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : StringUtil::replaceFileExt(pFileName,"ska");
+		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StaticFunc::ReplaceFileExt(pFileName,"skn");
+		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StaticFunc::ReplaceFileExt(pFileName,"mat");
+		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : StaticFunc::ReplaceFileExt(pFileName,"ske");
+		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : StaticFunc::ReplaceFileExt(pFileName,"ska");
 
 		FbxScene* pFbxScene = GetFbxScene(strMeshFile.c_str());
 		if (pFbxScene == NULL)

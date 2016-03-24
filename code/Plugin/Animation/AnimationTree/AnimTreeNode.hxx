@@ -7,7 +7,7 @@ namespace ma
 {
 	AnimTreeNode::AnimTreeNode()
 	{
-		m_fFadeTime = 0;
+		m_fFadeTime = 0.3f;
 		m_fLocalFrame = 0;
 	}
 
@@ -21,7 +21,7 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "Name", GetName, SetName, const char*, NULL, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "Loop", GetLoop, SetLoop, uint32, -1, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(AnimTreeNode, "PlaySpeed", GetPlaySpeed, SetPlaySpeed, float, 1.0, AM_DEFAULT);
-		ACCESSOR_ATTRIBUTE(AnimTreeNode, "FadeTime", GetFadeTime, SetFadeTime, float, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(AnimTreeNode, "FadeTime", GetFadeTime, SetFadeTime, float, 0.3f, AM_DEFAULT);
 	}
 
 	uint32 AnimTreeNode::AnimNameToID(const char* pszName)

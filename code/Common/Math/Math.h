@@ -522,6 +522,9 @@ namespace ma
 		static T Lerp(const T& v0, const T& v1, float s) {return v0 + (v1-v0)*s;}
 
 		template <typename T>
+		static T Mad(const T& v0, const T& v1, float s) {return v0 * s + v1;}
+
+		template <typename T>
 		static T Min(const T& v0, const T& v1) { return v0 < v1 ? v0 : v1; }
 
 		template <typename T>

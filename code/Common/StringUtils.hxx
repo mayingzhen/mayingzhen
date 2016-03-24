@@ -330,39 +330,4 @@ namespace ma
 		return result;
 	}
 
-	std::string StringUtil::getFileExt(const char* path)
-	{
-		const char* str = strrchr(path, '.');
-		if (str == NULL)
-			return "";
-
-		std::string ext;
-		size_t len = strlen(str);
-		for (size_t i = 1; i < len; ++i)
-			ext += tolower(str[i]);
-
-		return ext;
-	}
-
-// 	std::string StringUtil::replaceFileExt(const std::string& strFile,const std::string& strNewExt)
-// 	{
-// 		std::string strNewFile = strFile;
-// 
-// 		int index = strNewFile.find_last_of(".");
-// 		if (index>=0)
-// 		{
-// 			strNewFile = strNewFile.replace(index + 1, strNewFile.size() - index,strNewExt);
-// 		}
-// 
-// 		return strNewFile;
-// 	}
-
-	std::string StringUtil::getDirectoryName(const char* pFullName)
-	{
-		std::string outBasename;
-		std::string outPath;
-		splitFilename(pFullName,outBasename,outPath);
-		return outPath;
-	}
-
 }

@@ -18,6 +18,5 @@ typedef long HRESULT;
 #define S_OK     ((HRESULT)0L)
 #define S_FALSE  ((HRESULT)1L)
 
-void _OutputDebugString(const char* buf);
 
 #endif //__PlatformAndroid_h__

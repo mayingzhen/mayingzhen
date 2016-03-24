@@ -67,22 +67,16 @@ namespace ma
 	}
 
 	// Open a stream on a given file. 
-	Stream* ZipArchive::open(const std::string& file, bool readOnly) const
+	MemoryStream* ZipArchive::open(const char* pszFile, bool readOnly) const
 	{
-		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
-
-		std::string filename = StringUtil::replaceAll(file, "\\", "/");
+		std::string filename = StringUtil::replaceAll(pszFile, "\\", "/");
 
 		// Format not used here (always binary)
-		ZZIP_FILE* zzipFile = 
-			zzip_file_open(mZzipDir, filename.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
+		ZZIP_FILE* zzipFile = zzip_file_open(mZzipDir, filename.c_str(), ZZIP_ONLYZIP | ZZIP_CASELESS);
 		if (!zzipFile)
 		{
 			int zerr = zzip_error(mZzipDir);
 			std::string zzDesc = getZzipErrorDescription((zzip_error_t)zerr);
-	// 		LogManager::getSingleton().logMessage(
-	// 			mName + " - Unable to open file " + filename + ", error was '" + zzDesc + "'");
-
 			return NULL;
 		}
 
@@ -91,29 +85,25 @@ namespace ma
 		zzip_dir_stat(mZzipDir, filename.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
 
 		// Construct & return stream
-		return new ZipDataStream(filename.c_str(), zzipFile, static_cast<size_t>(zstat.st_size));
+		RefPtr<ZipDataStream> pZipDataSteam = new ZipDataStream(filename.c_str(), zzipFile, static_cast<size_t>(zstat.st_size));
+		return new MemoryStream(pszFile, pZipDataSteam.get(), pZipDataSteam->GetSize(), false);
 	}
 
 	// Create a new file (or overwrite one already there).
-	Stream* ZipArchive::create(const std::string& filename) const
+	Stream* ZipArchive::create(const char* pszFile) const
 	{
-		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
-
 		ASSERT(false);
 		return NULL;
 	}
 
 	// Delete a named file.
-	void ZipArchive::remove(const std::string& filename) const
+	void ZipArchive::remove(const char* pszFile) const
 	{
-		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
 	}
 
 	// List all file names in the archive.
 	void ZipArchive::list(OUT VEC_STR& ret, bool recursive, bool dirs)
 	{
-		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
-
 		VEC_FileInfo::iterator i, iend;
 		iend = mFileList.end();
 		for (i = mFileList.begin(); i != iend; ++i)

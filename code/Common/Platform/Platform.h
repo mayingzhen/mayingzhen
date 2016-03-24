@@ -11,10 +11,6 @@
 #endif
 
 
-
-
-
-
 #if PLATFORM_WIN == 1
 #include <Common/Platform/Win/PlatformWin.h>
 #elif PLAFTORM_IOS == 1

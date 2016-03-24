@@ -16,8 +16,6 @@ namespace ma
 
 		virtual void	RemoveLayer(AnimTreeNode* pAnimTreeNode);
 
-		virtual void	AdvanceTime(float fTimeElapsed);
-
 		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
 
 		virtual void	SetFrame(float fFrame);

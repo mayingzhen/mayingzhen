@@ -21,13 +21,13 @@ namespace ma
 		virtual bool isCaseSensitive(void) const;
 
 		// Open a stream on a given file. 
-		virtual Stream* open(const std::string& filename, bool readOnly = true) const;
+		virtual MemoryStream* open(const char* pszFile, bool readOnly = true) const;
 
 		// Create a new file (or overwrite one already there).
-		virtual Stream* create(const std::string& filename) const;
+		virtual Stream* create(const char* pszFile) const;
 
 		// Delete a named file.
-		virtual void remove(const std::string& filename) const;
+		virtual void remove(const char* pszFile) const;
 
 		// List all file names in the archive.
 		virtual void list(OUT VEC_STR& ret, bool recursive = true, bool dirs = false);

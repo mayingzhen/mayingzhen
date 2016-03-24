@@ -8993,7 +8993,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TransformInverse(void * jarg1, void * jarg2) 
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_TransformMul(void * jarg1, void * jarg2, void * jarg3) {
+SWIGEXPORT void SWIGSTDCALL CSharp_TransformMul__SWIG_0(void * jarg1, void * jarg2, void * jarg3) {
   ma::Transform *arg1 = (ma::Transform *) 0 ;
   ma::Transform *arg2 = (ma::Transform *) 0 ;
   ma::Transform *arg3 = (ma::Transform *) 0 ;
@@ -9002,6 +9002,26 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TransformMul(void * jarg1, void * jarg2, void
   arg2 = (ma::Transform *)jarg2; 
   arg3 = (ma::Transform *)jarg3; 
   ma::TransformMul(arg1,(ma::Transform const *)arg2,(ma::Transform const *)arg3);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TransformMul__SWIG_1(void * jarg1, void * jarg2, float jarg3) {
+  ma::Transform *arg1 = 0 ;
+  ma::Transform *arg2 = 0 ;
+  float arg3 ;
+  
+  arg1 = (ma::Transform *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Transform & type is null", 0);
+    return ;
+  } 
+  arg2 = (ma::Transform *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Transform const & type is null", 0);
+    return ;
+  } 
+  arg3 = (float)jarg3; 
+  ma::TransformMul(*arg1,(ma::Transform const &)*arg2,arg3);
 }
 
 
@@ -9034,6 +9054,30 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TransformFromMatrix(void * jarg1, void * jarg
   arg1 = (ma::Transform *)jarg1; 
   arg2 = (ma::Matrix4 *)jarg2; 
   ma::TransformFromMatrix(arg1,(ma::Matrix4 const *)arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_QuaternionMad(void * jarg1, void * jarg2, float jarg3) {
+  void * jresult ;
+  ma::Quaternion *arg1 = 0 ;
+  ma::Quaternion *arg2 = 0 ;
+  float arg3 ;
+  ma::Quaternion result;
+  
+  arg1 = (ma::Quaternion *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Quaternion const & type is null", 0);
+    return 0;
+  } 
+  arg2 = (ma::Quaternion *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "ma::Quaternion const & type is null", 0);
+    return 0;
+  } 
+  arg3 = (float)jarg3; 
+  result = ma::QuaternionMad((ma::Quaternion const &)*arg1,(ma::Quaternion const &)*arg2,arg3);
+  jresult = new ma::Quaternion((const ma::Quaternion &)result); 
+  return jresult;
 }
 
 

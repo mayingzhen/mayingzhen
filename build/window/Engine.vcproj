@@ -260,14 +260,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Resource\Deserializer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Resource\Deserializer.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Engine\Resource\FileArchive.h"
 					>
 				</File>

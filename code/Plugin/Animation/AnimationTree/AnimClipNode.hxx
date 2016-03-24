@@ -52,16 +52,24 @@ namespace ma
 			{
 				m_pAnimation->SampleSingleTrackByFrame(&source,nTrackInd,m_fSkaFrame);
 			}
-			else
-			{
-				source = pEvalContext->m_refNodePos->GetTransformPS(uBoneId);
-			}
+			//else
+			//{
+			//	source = pEvalContext->m_refNodePos->GetTransformOS(uBoneId);
+			//}
 
 			Transform& dest = pEvalContext->m_arrTSFPS[uBoneId];
 
 			if (fWeight < 1.0f - 0.00001f)
 			{
-				TransformLerp(dest, dest, fWeight, source);
+				if (pEvalContext->m_arrFirst[uBoneId])
+				{
+					TransformMul(dest, source, fWeight);
+					pEvalContext->m_arrFirst[uBoneId] = false;
+				}
+				else
+				{
+					TransformMad(dest, source, fWeight, dest);
+				}
 			}
 			else
 			{
@@ -76,7 +84,7 @@ namespace ma
 
 		m_fSkaFrame = (float)m_nStartFrame + m_fLocalFrame;
 
-		LogInfo("m_fSkaFrmae %f",m_fSkaFrame);
+		//LogInfo("m_fSkaFrmae %f",m_fSkaFrame);
 	}
 
 	const char*	AnimClipNode::GetBoneSet() const
