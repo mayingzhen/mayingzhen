@@ -114,6 +114,12 @@ namespace ma
 		out.m_qRot = Quaternion::Slerp(f,pA.m_qRot,pB.m_qRot);
 	}
 
+	inline void TransformPoint(Vector3* pOut,const Vector3* pV,const Transform* pTSF)
+	{
+		*pOut = pTSF->m_qRot * *pV;
+		*pOut += pTSF->m_vPos;
+	}
+
 }
 
 #endif

@@ -30,3 +30,7 @@ EXPORTS
 ?PlayAnimation@AnimationComponent@ma@@QAEXPAVAnimTreeNode@2@@Z
 ?PlayAnimation@AnimationComponent@ma@@QAEXPBD@Z
 ?PlayAnimation@AnimationComponent@ma@@QAEXI@Z
+?AddPoseModifier@AnimTreeNode@ma@@QAEXPAVPoseModifier@2@@Z
+?CreateLookAtModifier@ma@@YA?AV?$RefPtr@VLookAtModifier@ma@@@1@XZ
+?SetGoalWorldSpace@AnimationComponent@ma@@QAEXVVector3@2@@Z
+?SetAnimationSet@AnimationComponent@ma@@QAEXPAVAnimationSet@2@@Z

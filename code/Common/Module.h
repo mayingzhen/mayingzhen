@@ -40,6 +40,7 @@
 #include "Common/Math/Frustum.h"
 #include "Common/Math/Rectangle.h"
 #include "Common/Math/Bitwise.h"
+#include "Common/Math/EulerAngle.h"
 
 // Utile
 #include "Common/BitField.h"

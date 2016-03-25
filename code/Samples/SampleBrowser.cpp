@@ -133,7 +133,7 @@ namespace ma
 		m_arrSamples["AnimationIK"] = new SampleAnimationIK();
 
 
-		RunSample("AnimationTree");
+		RunSample("AnimationIK");
 	}
 
 	void SampleBrowser::InitResourcePath()

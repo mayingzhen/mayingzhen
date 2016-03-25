@@ -7,48 +7,56 @@ namespace ma
 {
 	class LookAtModifier : public PoseModifier
 	{
-		DECL_OBJECT(LookAtModifier)
-
 	public:
-
 		LookAtModifier();
 
-		void				UpdatePose(SkeletonPose* pNodePose);
+		~LookAtModifier();
 
-		void				Init(UINT nBoneID,const Vector3& vFowardLS,const Vector3& vUpLS);
+		DECL_OBJECT(LookAtModifier)
 
-		void				SetBoneID(UINT nBoneID);
+		static void			RegisterAttribute();
 
-		UINT				GetBoneID()const;
+		void				UpdatePose(SkeletonPose* pNodePose,Skeleton* pSkeleton,float fWeight);
 
-		void				SetGoalObjectSpace(const Vector3& vGoalOS);
+		void				SetGoalObjectSpace(const Vector3& vGoalOS) {m_vGoalOS = vGoalOS;}
+		const Vector3&		GetGoalObjectSpace()const {return m_vGoalOS;}
 
-		const Vector3&		GetGoalObjectSpace()const;
+		void				SetBoneName(const char* pszName) {m_strBoneName = pszName ? pszName : "";}
+		const char*			GetBoneName() const {return m_strBoneName.c_str();}
 
-		void				SetMaxYaw(float fMaxYaw);
+		void				SetMaxYaw(float fMaxYaw) {m_fMaxYaw = Math::Clamp(fMaxYaw,0.0f,Math::PI);}
+		float				GetMaxYaw() const {return m_fMaxYaw;}
+	
+		void				SetFowardLS(const Vector3& vForwardLS) {m_vForwardLS = vForwardLS;}
+		const Vector3& 		GetFowardLS() const {return m_vForwardLS;}
 
-		float				GetMaxYaw() const;
-
-		Vector3				GetFowardLS() const;
-
-		Vector3				GetUpLS() const;
+		void				SetUpLs(const Vector3& vUpLs) {m_vUpLs = vUpLs;}
+		const Vector3&		GetUpLS() const {return m_vUpLs;}
 
 		void				DbgDraw() const;
 
-	private:
-		void CalculatePovitLs(const Vector3& vFowardLS,const Vector3& vUpLS);
 
 	private:
-		Vector3		m_vGoalOS;		//goal in object space
+		Vector3				m_vGoalOS;	
 
-		Quaternion	m_qPivotLS;
+		Quaternion			m_qPivotLS;
 
-		UINT		m_nBoneID;
+		UINT				m_nBoneID;
+		
+		string				m_strBoneName;
 
-		float		m_fGoalDistThreshold;
+		Vector3				m_vForwardLS;
+		
+		Vector3				m_vUpLs;
 
-		float		m_fMaxYaw;
+		float				m_fGoalDistThreshold;
+
+		float				m_fMaxYaw;
+
+		bool				m_bInit;
 	};
+
+	RefPtr<LookAtModifier> CreateLookAtModifier();
 }
 
 

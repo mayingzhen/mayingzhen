@@ -276,6 +276,7 @@ namespace ma
         // support for spectral norm
         static float MaxCubicRoot (float afCoeff[3]);
 
+	public:
         float m[3][3];
 
         // for faster access

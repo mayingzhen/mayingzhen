@@ -341,6 +341,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\code\Common\Math\EulerAngle.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Common\Math\Frustum.h"
 					>
 				</File>

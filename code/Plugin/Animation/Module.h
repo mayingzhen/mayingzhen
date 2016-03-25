@@ -12,7 +12,7 @@
 #include "Animation/AnimationTree/AnimBlendNode.h"
 #include "Animation/AnimationTree/FrameEvent.h"
 #include "Animation/AnimationComponent.h"
-
+#include "Animation/PoseModifier/LookAtModifier.h"
 
 
 void AnimationModuleInit();

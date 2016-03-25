@@ -41,9 +41,12 @@ namespace ma
 		const char*				GetSkeletonPath() const;
 		void					SetSkeletonPath(const char* pSkePath);
 
-		 AnimationSet*			GetAnimationSet() {return m_pAnimSet.get();}
+		AnimationSet*			GetAnimationSet() {return m_pAnimSet.get();}
+		void					SetAnimationSet(AnimationSet* pAnimSet);
 		const char*				GetAnimSetPath() const;
 		void					SetAnimSetPath(const char* pAniSetPath);
+		
+		void					SetGoalWorldSpace(Vector3 vGoalWS);
 
 		bool					IsReady();
 

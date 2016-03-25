@@ -50,7 +50,12 @@ namespace ma
 		float				GetFadeTime() const {return m_fFadeTime;}
 		void				SetFadeTime(float fFadeTime) {m_fFadeTime = fFadeTime;}
 
-		void				ProcessPoseModifier(SkeletonPose* pose, float fWeight);
+		void				AddPoseModifier(PoseModifier* pPoseModifier);
+		void				ProcessPoseModifier(SkeletonPose* pose, Skeleton* pSkeleton, float fWeight);			
+		
+		void				SetGoalObjectSpace(const Vector3& vGolaOS);
+
+		void				AddFrameEvent(FrameEvent* pFrameEvent);
 		
 		virtual	void		SetFrame(float fFrame);
 

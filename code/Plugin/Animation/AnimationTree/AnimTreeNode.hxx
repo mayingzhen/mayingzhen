@@ -50,7 +50,7 @@ namespace ma
 	{
 		m_strName = pszName ? pszName : "";
 
-		m_nAnimID = AnimNameToID(pszName);
+		m_nAnimID = AnimNameToID(m_strName.c_str());
 	}
 
 	void AnimTreeNode::AdvanceTime(float fTimeElepse)
@@ -108,14 +108,29 @@ namespace ma
 		}
 	}
 
-	void AnimTreeNode::ProcessPoseModifier(SkeletonPose* pNodePose,float fWeight)
+	void AnimTreeNode::AddPoseModifier(PoseModifier* pPoseModifier)
+	{
+		m_vecPoseModifier.push_back(pPoseModifier);
+	}
+
+	void AnimTreeNode::SetGoalObjectSpace(const Vector3& vGolaOS)
 	{
 		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
 		{
-			//S3APoseUpdateInfo updateInfo;
+			m_vecPoseModifier[i]->SetGoalObjectSpace(vGolaOS);
+		}
+	}
 
-			//m_vecPoseModifier[i]->SetGain(fWeight);
-			//m_vecPoseModifier[i]->UpdatePose(pNodePose,NULL);
+	void AnimTreeNode::AddFrameEvent(FrameEvent* pFrameEvent)
+	{
+		m_vecFrameEvent.push_back(pFrameEvent);
+	}
+
+	void AnimTreeNode::ProcessPoseModifier(SkeletonPose* pNodePose, Skeleton* pSkeleton, float fWeight)
+	{
+		for (uint32 i = 0; i < m_vecPoseModifier.size(); ++i)
+		{
+			m_vecPoseModifier[i]->UpdatePose(pNodePose,pSkeleton,fWeight);
 		}
 	}
 

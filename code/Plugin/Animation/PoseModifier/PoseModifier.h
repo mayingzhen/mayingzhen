@@ -19,16 +19,12 @@ namespace ma
 
 		bool			IsEnable() const  {return m_bEnable;}
 
-		void			SetGain(float fGain) {m_fGain = fGain;}
+		virtual	void	SetGoalObjectSpace(const Vector3& vGoalOS) {}
 
-		float			GetGain() {return m_fGain;}
-
-		virtual void	UpdatePose(SkeletonPose* pNodePose);
+		virtual void	UpdatePose(SkeletonPose* pNodePose,Skeleton* pSkeleton,float fWeight) = 0;
 
 	protected:
-		bool  m_bEnable;
-
-		float m_fGain;
+		bool			m_bEnable;
 	};
 }
 

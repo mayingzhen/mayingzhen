@@ -1,0 +1,21 @@
+<Material>
+	<LodMaterial>
+		<SubMaterial>
+			<ShadingTech>
+				<Shader VSFile="mesh" PSFile="mesh" ShaderMacro="DIFFUSECOLOR;SKIN"/>
+				<RenderState ClassName="Technique">
+					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
+					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
+					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
+					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
+					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+				</RenderState>
+			</ShadingTech>
+			<Parameters Name="u_texture" Type="SamplerState" ImagePath="hero_17/hero_17/body.tga" Wrap="REPEAT" Filter="TFO_TRILINEAR" SRGB="true"/>
+			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
+			<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>
+			<Parameters Name="u_specPower" Type="float" Value="10"/>
+		</SubMaterial>
+	</LodMaterial>
+</Material>
+

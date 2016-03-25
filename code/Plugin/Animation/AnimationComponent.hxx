@@ -52,12 +52,17 @@ namespace ma
 		return m_pAnimSet->GetXMLFile()->GetResPath();
 	}
 
-	void AnimationComponent::SetAnimSetPath(const char* pAniSetPath)
+	void AnimationComponent::SetAnimationSet(AnimationSet* pAnimSet)
 	{
-		m_pAnimSet = CreateAnimationSet(pAniSetPath);
-		
+		m_pAnimSet = pAnimSet;
+
 		m_bLoadOver = false;
 		IsReady();
+	}
+
+	void AnimationComponent::SetAnimSetPath(const char* pAniSetPath)
+	{
+		SetAnimationSet( CreateAnimationSet(pAniSetPath).get() );
 	}
 
 	void AnimationComponent::Load(const char* pszAniSetPath, const char* pszSkeletonPath)
@@ -65,6 +70,17 @@ namespace ma
 		SetSkeletonPath(pszSkeletonPath);
 
 		SetAnimSetPath(pszAniSetPath);
+	}
+
+	void AnimationComponent::SetGoalWorldSpace(Vector3 vGoalWS)
+	{
+		if (m_pAnimation)
+		{
+			Matrix4 matWSInv = m_pSceneNode->GetMatrixWS().inverse();
+			Vector3 vGoalOS = matWSInv * vGoalWS;
+
+			m_pAnimation->SetGoalObjectSpace(vGoalOS);
+		}
 	}
 
 	bool AnimationComponent::IsReady()
@@ -250,12 +266,12 @@ namespace ma
 		////////////// Do IK
 		if (m_pPreAnimation && fFadeFactor > 0)
 		{
-			m_pPreAnimation->ProcessPoseModifier(m_pose,fFadeFactor);
+			m_pPreAnimation->ProcessPoseModifier(m_pose,m_pSkeleton.get(),fFadeFactor);
 		}
 
 		if (m_pAnimation)
 		{
-			m_pAnimation->ProcessPoseModifier(m_pose,1.0f - fFadeFactor);
+			m_pAnimation->ProcessPoseModifier(m_pose,m_pSkeleton.get(),1.0f - fFadeFactor);
 		}
 		////////////////
 

@@ -5041,6 +5041,38 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix3_IDENTITY_get() {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Matrix3_m_set(void * jarg1, void * jarg2) {
+  ma::Matrix3 *arg1 = (ma::Matrix3 *) 0 ;
+  float (*arg2)[3] ;
+  
+  arg1 = (ma::Matrix3 *)jarg1; 
+  arg2 = (float (*)[3])jarg2; 
+  {
+    float (*inp)[3] = (float (*)[3])(arg2);
+    float (*dest)[3] = (float (*)[3])(arg1->m);
+    size_t ii = 0;
+    for (; ii < 3; ++ii) {
+      float *ip = inp[ii];
+      float *dp = dest[ii];
+      size_t jj = 0;
+      for (; jj < 3; ++jj) dp[jj] = ip[jj];
+    }
+  }
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Matrix3_m_get(void * jarg1) {
+  void * jresult ;
+  ma::Matrix3 *arg1 = (ma::Matrix3 *) 0 ;
+  float (*result)[3] = 0 ;
+  
+  arg1 = (ma::Matrix3 *)jarg1; 
+  result = (float (*)[3])(float (*)[3]) ((arg1)->m);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_Matrix3(void * jarg1) {
   ma::Matrix3 *arg1 = (ma::Matrix3 *) 0 ;
   
@@ -9130,6 +9162,18 @@ SWIGEXPORT void SWIGSTDCALL CSharp_TransformLerp(void * jarg1, void * jarg2, flo
     return ;
   } 
   ma::TransformLerp(*arg1,(ma::Transform const &)*arg2,arg3,(ma::Transform const &)*arg4);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_TransformPoint(void * jarg1, void * jarg2, void * jarg3) {
+  ma::Vector3 *arg1 = (ma::Vector3 *) 0 ;
+  ma::Vector3 *arg2 = (ma::Vector3 *) 0 ;
+  ma::Transform *arg3 = (ma::Transform *) 0 ;
+  
+  arg1 = (ma::Vector3 *)jarg1; 
+  arg2 = (ma::Vector3 *)jarg2; 
+  arg3 = (ma::Transform *)jarg3; 
+  ma::TransformPoint(arg1,(ma::Vector3 const *)arg2,(ma::Transform const *)arg3);
 }
 
 

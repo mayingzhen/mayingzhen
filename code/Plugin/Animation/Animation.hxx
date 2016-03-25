@@ -101,6 +101,8 @@ namespace ma
 		pSaveStream->WriteUInt(nIden);
 		pSaveStream->WriteUInt(nVersion);
 
+		pSaveStream->WriteUInt(m_nFrameNumber);
+
 		pSaveStream->WriteUInt(m_arrTrackName.size());
 		for (UINT32 i = 0; i < m_arrTrackName.size(); ++i)
 		{
@@ -149,6 +151,8 @@ namespace ma
 		//uint32 nIden = m_pDataStream->ReadUInt();
 		uint32 nVersion = m_pDataStream->ReadUInt();
 		
+		m_nFrameNumber = m_pDataStream->ReadUInt();
+
 		uint32 nTrackNameNum = m_pDataStream->ReadUInt();
 		m_arrTrackName.resize(nTrackNameNum);
 		m_arrPosTrack.resize(nTrackNameNum);
@@ -159,29 +163,33 @@ namespace ma
 		{
 			m_arrTrackName[i] = m_pDataStream->ReadString();
 		}
-		
+		 
+		m_bCompress = false;
 		for (uint32 i = 0; i < nTrackNameNum; ++i)
 		{
-			uint32 nScaleFrame = m_pDataStream->ReadUInt();
-			m_nFrameNumber = Math::Max(nScaleFrame,m_nFrameNumber);
+			uint32 nScaleFrame = m_pDataStream->ReadUInt();	
 			m_arrScaleTrack[i].m_arrFrame.resize(nScaleFrame);
 			m_arrScaleTrack[i].m_arrValue.resize(nScaleFrame);
+
+			m_bCompress = nScaleFrame != m_nFrameNumber;
 
 			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrFrame[0],sizeof(uint32) * nScaleFrame);
 			m_pDataStream->Read(&m_arrScaleTrack[i].m_arrValue[0],sizeof(Vector3) * nScaleFrame);
 
 			uint32 nRotFrame = m_pDataStream->ReadUInt();
-			m_nFrameNumber = Math::Max(nRotFrame,m_nFrameNumber);
 			m_arrRotTrack[i].m_arrFrame.resize(nRotFrame);
 			m_arrRotTrack[i].m_arrValue.resize(nRotFrame);
+
+			m_bCompress = nRotFrame != m_nFrameNumber;
 
 			m_pDataStream->Read(&m_arrRotTrack[i].m_arrFrame[0],sizeof(uint32) * nRotFrame);
 			m_pDataStream->Read(&m_arrRotTrack[i].m_arrValue[0],sizeof(Quaternion) * nRotFrame);
 
 			uint32 nPosFrame = m_pDataStream->ReadUInt();
-			m_nFrameNumber = Math::Max(nPosFrame,m_nFrameNumber);
 			m_arrPosTrack[i].m_arrFrame.resize(nPosFrame);
 			m_arrPosTrack[i].m_arrValue.resize(nPosFrame);
+
+			m_bCompress = nPosFrame != m_nFrameNumber;
 
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
@@ -245,6 +253,7 @@ namespace ma
 				m_arrScaleTrack[i].m_arrValue[iKey] = m_pDataStream->ReadVector3();
 			}
 		}
+		m_bCompress = nSacleTrackNum != m_nFrameNumber;
 
 		uint32 nRotTrackNum = m_pDataStream->ReadUInt();
 		m_arrRotTrack.resize(nRotTrackNum);
@@ -265,6 +274,8 @@ namespace ma
 			}
 		}
 		
+		m_bCompress = nRotTrackNum != m_nFrameNumber;
+
 		uint32 nPosTrackNum = m_pDataStream->ReadUInt();
 		m_arrPosTrack.resize(nPosTrackNum);
 		for (uint32 i = 0; i < nPosTrackNum; ++i)
@@ -283,6 +294,8 @@ namespace ma
 				m_arrPosTrack[i].m_arrValue[iKey] = m_pDataStream->ReadVector3();
 			}
 		}
+
+		m_bCompress = nPosTrackNum != m_nFrameNumber;
 
 		uint32 nTrackNameNum = m_pDataStream->ReadUInt();
 		m_arrTrackName.resize(nTrackNameNum);
