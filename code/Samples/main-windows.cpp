@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler);
+	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler,"SampleMaterial");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

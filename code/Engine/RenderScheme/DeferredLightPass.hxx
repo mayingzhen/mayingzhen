@@ -11,9 +11,6 @@ namespace ma
 
 	void DeferredLightPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width();
-		int nHeight = (int)m_pScene->GetViewport().height();
-
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
 		m_pAmbientLight->SetDepthWrite(false);
 
@@ -24,6 +21,11 @@ namespace ma
 		m_pPointLight = CreateTechnique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
 		m_pPointLight->SetDepthWrite(false);
 		m_pPointLight->SetBlendMode(BM_ADD);
+	}
+
+	void DeferredLightPass::Reset()
+	{
+
 	}
 
 	void DeferredLightPass::Render()
@@ -99,7 +101,7 @@ namespace ma
 		}
 	}
 
-	void DeferredLightPass::ShoutDown()
+	void DeferredLightPass::Shoutdown()
 	{
 		m_pDirLight = NULL;
 		m_pPointLight = NULL;

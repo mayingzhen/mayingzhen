@@ -6,6 +6,7 @@ namespace ma
 {
 	class Parameter;
 	class SamplerState;
+	class Material;
 	
 
 	class SubMaterial : public Referenced
@@ -25,7 +26,7 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
-		virtual void		Import(rapidxml::xml_node<>* pXmlElem);
+		virtual void		Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent);
 		virtual void		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);		
 
 		RefPtr<SubMaterial>	Clone();

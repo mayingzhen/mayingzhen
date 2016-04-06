@@ -1263,6 +1263,14 @@
 					RelativePath="..\..\code\Engine\RenderScheme\PostProcess.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\SMAAPostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\SMAAPostProcess.hxx"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

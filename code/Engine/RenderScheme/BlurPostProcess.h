@@ -6,11 +6,13 @@ namespace ma
 	class BlurPostProcess : public PostProcess
 	{
 	public:
-		BlurPostProcess(Texture* pInputTex, Texture* pOutputTex);
+		BlurPostProcess(Scene* pScene);
 
 		~BlurPostProcess();
 
 		virtual void		Init();
+
+		virtual void		Reset();
 
 		virtual void		Shutdown();
 

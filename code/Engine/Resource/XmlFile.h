@@ -17,7 +17,7 @@ namespace ma
 
 		rapidxml::xml_document<>& GetDoc() {return m_doc;}
 
-		virtual bool	CreateFromMemeory();
+		virtual bool	InitRes();
 
 		virtual	bool	SaveToFile(const char* pszFile);
 

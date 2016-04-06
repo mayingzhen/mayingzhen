@@ -59,7 +59,7 @@ namespace ma
 		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech);
 
 		virtual	void				Init(HWND wndhandle);
-		virtual void 				ShutDown();
+		virtual void 				Shoutdown();
 		virtual bool				TestDeviceLost() {return false;}
 		virtual void				BeginRender();
 		virtual void				EndRender();

@@ -31,6 +31,7 @@ namespace ma
 
 		// Render Command
 		void				Init(HWND wndhandle,bool bThread);
+		void				Reset(uint32 nWidth, uint32 nHeight);
 		void				Shoutdown();
 		void				BegineRender();
 		void				EndRender();
@@ -43,7 +44,7 @@ namespace ma
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
 		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	 pTexture);	
 		Rectangle			SetViewPort(const Rectangle& viewPort);
-		Rectangle			GetViewPort() {return m_viewport;}
+		Rectangle			GetViewPort() {return m_curViewport;}
 		
 		void				SetShaderProgram(ShaderProgram* pShader);
 		
@@ -128,6 +129,7 @@ namespace ma
 
 	protected: 
 		void				RT_Init(HWND wndhandle);
+		void				RT_Reset(uint32 nWidth,uint32 nHeight);
 		void				RT_ShutDown();
  		void				RT_BeginFrame();
  		void				RT_EndFrame();
@@ -151,7 +153,7 @@ namespace ma
 		enum {MAX_SAMPSTATE = 16};
 		RefPtr<Texture>		m_pDepthStencil;
 		RefPtr<Texture>		m_pRenderTarget[MAX_RENDER_TARGET];
-		Rectangle			m_viewport;
+		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
 		RenderState			m_curState;
 		Texture*			m_arrSampState[MAX_SAMPSTATE];

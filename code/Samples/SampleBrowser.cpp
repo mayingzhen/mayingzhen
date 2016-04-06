@@ -103,39 +103,6 @@ namespace ma
 #endif	
 	}
 
-	void SampleBrowser::InitSampleList()
-	{
-#if PLATFORM_WIN == 1
-		m_arrSamples["FbxImport"] = new SampleFbxImport();
-
-		m_arrSamples["CSharpScript"] = new SampleMonoScript();
-
-		m_arrSamples["Lighting"] = new SampleLighting();
-		m_arrSamples["ShadowMap"] = new SampleShadowMap();
-		m_arrSamples["Material"] = new SampleMaterial();
-#endif
-
-		m_arrSamples["Terrain"] = new SampleTerrain();
-		m_arrSamples["Particle"] = new SampleParticle();
-
-		// Serialize
-		m_arrSamples["SceneSerialize"] = new SampleSceneSerialize();
-
-		// Physics
-		m_arrSamples["RigidBody"] = new SampleRigidBody();
-		m_arrSamples["CharControl"] = new SampleCharaControl();
-		m_arrSamples["PhysicsJoint"] = new SampleJoint();
-		m_arrSamples["Ragdoll"] = new SampleRagdoll();
-
-		// Animation
-		m_arrSamples["AnimationRetarget"] = new SampleAnimationRetarget();
-		m_arrSamples["AnimationTree"] = new SampleAnimationTree();
-		m_arrSamples["AnimationIK"] = new SampleAnimationIK();
-
-
-		RunSample("AnimationIK");
-	}
-
 	void SampleBrowser::InitResourcePath()
 	{
 #if PLATFORM_WIN == 1
@@ -168,33 +135,25 @@ namespace ma
 			if (GetPhysicsSystem())
 				GetPhysicsSystem()->Stop();
 
-#if PLATFORM_WIN == 1
 			if (GetScriptSystem())
 				GetScriptSystem()->Stop();
-#endif
 		}
+		m_pCurSample = NULL;
 
 		SAFE_DELETE(m_pCameraControl);
 		
-		std::map<std::string,Sample*>::iterator it = m_arrSamples.begin();
-		for (; it != m_arrSamples.end(); ++it)
-		{
-			SAFE_DELETE(it->second);
-		}
-		m_arrSamples.clear();
-		
 		if (GetPhysicsSystem())
-			GetPhysicsSystem()->ShoutDown();
-#if PLATFORM_WIN == 1
+			GetPhysicsSystem()->Shoutdown();
+
 		if (GetScriptSystem())
-			GetScriptSystem()->ShutDown();
-#endif
+			GetScriptSystem()->Shoutdown();
+
 		Game::Shutdown();
 
 		ModuleShutdown();
 	}
 
-	void SampleBrowser::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
+	void SampleBrowser::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample)
 	{
 		ModuleInit(RenderDevice_D3D9);
 
@@ -205,56 +164,87 @@ namespace ma
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Init();
 
-#if PLATFORM_WIN == 1
 		if (GetScriptSystem())
 			GetScriptSystem()->Init();
-#endif
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
 
 		m_pCameraControl = new CameraController( pScene->GetCamera() );
 
+		RunSample(pszRunSample);
 
-		InitSampleList();
-	}
-
-	void SampleBrowser::RunSample(const char* pSampleNma)
-	{
-		std::map<std::string,Sample*>::iterator it = m_arrSamples.find(pSampleNma);
-		ASSERT(it != m_arrSamples.end());
-		if  (it == m_arrSamples.end())
-			return;
-
-		if (m_pCurSample)
-		{
-			m_pCurSample->UnLoad();
-			if (GetPhysicsSystem())
-				GetPhysicsSystem()->Stop();
-
-#if PLATFORM_WIN == 1
-			if (GetScriptSystem())
-				GetScriptSystem()->Stop();
-#endif
-
-			if (m_pCameraControl)
-				m_pCameraControl->ResetCamera();
-
- 			m_pCurSample->GetScene()->Reset();
-		}
-		
-		Sample* pSameple = it->second;
-
-		pSameple->Load();
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Start();
 
-#if PLATFORM_WIN == 1
 		if (GetScriptSystem())
 			GetScriptSystem()->Start();
-#endif
+	}
 
-		m_pCurSample = pSameple;
+	void SampleBrowser::RunSample(const char* pSample)
+	{
+		if (stricmp(pSample,"SampleFbxImport") == 0)
+		{
+			m_pCurSample = new SampleFbxImport();
+		}
+		else if (stricmp(pSample,"SampleMonoScript") == 0)
+		{
+			m_pCurSample = new SampleMonoScript();
+		}
+		else if (stricmp(pSample,"SampleLighting") == 0)
+		{
+			m_pCurSample = new SampleLighting();
+		}
+		else if(stricmp(pSample,"SampleShadowMap") == 0)
+		{
+			m_pCurSample = new SampleShadowMap();
+		}
+		else if(stricmp(pSample,"SampleMaterial") == 0)
+		{
+			m_pCurSample = new SampleMaterial();
+		}
+		else if(stricmp(pSample,"SampleTerrain") == 0)
+		{
+			m_pCurSample = new SampleTerrain();
+		}
+		else if(stricmp(pSample,"SampleParticle") == 0)
+		{
+			m_pCurSample = new SampleParticle();
+		}
+		else if(stricmp(pSample,"SampleSceneSerialize") == 0)
+		{
+			m_pCurSample = new SampleSceneSerialize();
+		}
+		else if(stricmp(pSample,"SampleRigidBody") == 0)
+		{
+			m_pCurSample = new SampleRigidBody();
+		}
+		else if(stricmp(pSample,"SampleCharaControl") == 0)
+		{
+			m_pCurSample = new SampleCharaControl();
+		}
+		else if(stricmp(pSample,"SampleJoint") == 0)
+		{
+			m_pCurSample = new SampleJoint();
+		}
+		else if(stricmp(pSample,"SampleRagdoll") == 0)
+		{
+			m_pCurSample = new SampleRagdoll();
+		}
+		else if(stricmp(pSample,"SampleAnimationRetarget") == 0)
+		{
+			m_pCurSample = new SampleAnimationRetarget();
+		}
+		else if(stricmp(pSample,"SampleAnimationTree") == 0)
+		{
+			m_pCurSample = new SampleAnimationTree();
+		}		
+		else if(stricmp(pSample,"SampleAnimationIK") == 0)
+		{
+			m_pCurSample = new SampleAnimationIK();
+		}
+	
+		m_pCurSample->Load();
 	}
 
 
@@ -275,8 +265,7 @@ namespace ma
 			return;				
 		}
 		m_bStepOneFrame = false;
-
-					
+			
 		if (m_pCurSample)
 			m_pCurSample->Update();
 

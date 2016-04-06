@@ -76,6 +76,20 @@ namespace ma
 		FlushAndWait();
 	}
 
+	void RenderThread::RC_Reset(uint32 nWidth,uint32 nHeight)
+	{
+		if (IsRenderThread())
+		{
+			return GetRenderSystem()->RT_Reset(nWidth,nHeight);
+		}
+
+		AddCommand(eRC_Reset);
+		AddDWORD(nWidth);
+		AddDWORD(nHeight);
+
+		FlushAndWait();
+	}
+
 	void RenderThread::RC_ShutDown()
 	{
 		if (IsRenderThread())
@@ -525,6 +539,13 @@ namespace ma
 				{
 					HWND wndhandle = ReadCommand<HWND>(n);
 					GetRenderSystem()->RT_Init(wndhandle);
+				}
+				break;
+			case eRC_Reset:
+				{
+					uint32 nWidth = ReadCommand<uint32>(n);
+					uint32 nHeight = ReadCommand<uint32>(n);
+					GetRenderSystem()->RT_Reset(nWidth,nHeight);
 				}
 				break;
 			case eRC_ShutDown:

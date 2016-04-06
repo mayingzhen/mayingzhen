@@ -11,20 +11,23 @@ namespace ma
 		ShadingPass(Scene* pScene);
 		
 		void	Init();
+	
+		void	Reset();
 
 		void	Render();
 
-		void	ShoutDown();
+		void	Shoutdown();
+
+		void	SetHDREnabled(bool b);
+		bool	GetHDREnabled() const;
 
 	private:
 		void	RenderObjecList();
 
 	protected:
-		RefPtr<Texture>		m_pShadingTex;
+		RefPtr<Texture>			m_pShadingTex;
 
-		HDRPostProcess*		m_pHdrPostprocess;
-
-		bool				m_bIsHDRRending;
+		RefPtr<HDRPostProcess>	m_pHdrPostprocess;
 	};
 
 }

@@ -10,8 +10,6 @@ namespace ma
 
 	void SampleAnimationTree::UnLoad()
 	{
-		Game::GetInstance().mkeyEvent.remove(this,&SampleAnimationTree::keyEvent);
-
 		m_pClip602 = NULL;
 		m_pClip120 = NULL;
 	}
@@ -19,8 +17,6 @@ namespace ma
 	void SampleAnimationTree::Load()
 	{
 		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
-
-		Game::GetInstance().mkeyEvent.notify(this,&SampleAnimationTree::keyEvent);
 
 		RefPtr<SceneNode> pGameObj = m_pScene->CreateSceneNode();
 	

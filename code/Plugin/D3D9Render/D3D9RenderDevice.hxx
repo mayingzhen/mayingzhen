@@ -89,7 +89,7 @@ namespace ma
 		return fHalfPiexl;
 	}
 
-	void D3D9RenderDevice::ShutDown()
+	void D3D9RenderDevice::Shoutdown()
 	{
 		m_hWnd = NULL;
 

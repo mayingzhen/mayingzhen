@@ -41,7 +41,7 @@ namespace ma
 
 		void					Update();	
 
-		void					Reset();
+		void					Reset(uint32 nWidth,uint32 nHeight);
 
 		CullTree*				GetCullTree() const {return m_pCullTree.get();}
 
@@ -98,8 +98,6 @@ namespace ma
 		RefPtr<Camera>			m_pCamera;
 
 		Rectangle				m_viewport;
-
-		RefPtr<Texture>			m_pRenderTarget;
 
 		typedef vector< RefPtr<RenderComponent> > VEC_RENDERCOMP;
 		VEC_RENDERCOMP			m_arrRenderComp;

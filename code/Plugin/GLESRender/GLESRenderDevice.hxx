@@ -66,7 +66,7 @@ namespace ma
 		return 0;
 	}
 
-	void GLESRenderDevice::ShutDown()
+	void GLESRenderDevice::Shoutdown()
 	{
 
 	}

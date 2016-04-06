@@ -6,11 +6,13 @@ namespace ma
 	class DownScalePostProcess : public PostProcess
 	{
 	public:
-		DownScalePostProcess(Texture* pInputTex, Texture* pOutputTex,int nScale = 2);
+		DownScalePostProcess(Scene* pScene,Texture* pInputTex, Texture* pOutputTex,int nScale = 2);
 
 		~DownScalePostProcess();
 
 		virtual void		Init();
+
+		virtual void		Reset(int nWidth, int nHeight);
 
 		virtual void		Shutdown();
 
@@ -20,7 +22,7 @@ namespace ma
 		void				GetSampleOffsets4x4(int width, int height,Vector4 texCoordOffSet[],int nArray);
 
 	private:
-		Technique*			m_DownScaleTech;
+		RefPtr<Technique>	m_DownScaleTech;
 
 		int					m_nScale;
 	};

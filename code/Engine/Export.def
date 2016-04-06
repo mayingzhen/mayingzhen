@@ -5,8 +5,6 @@ EXPORTS
 ?isCompressed@PixelUtil@ma@@SA_NW4PixelFormat@2@@Z
 ?bulkPixelConversion@PixelUtil@ma@@SAXABVPixelBox@2@0@Z
 ?getMemorySize@PixelUtil@ma@@SAIIIIW4PixelFormat@2@@Z
-?LoadFileToMemeory@Resource@ma@@MAE_NXZ
-?CreateFromMemeory@Resource@ma@@MAE_NXZ
 ?CreateMemoryStream@ma@@YA?AV?$RefPtr@VMemoryStream@ma@@@1@I_N@Z
 ??1Resource@ma@@UAE@XZ
 ??1Object@ma@@UAE@XZ
@@ -48,7 +46,6 @@ EXPORTS
 ?SetScale@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?LookAt@SceneNode@ma@@QAEXABVVector3@2@0@Z
 ?Right@SceneNode@ma@@QAEXM@Z
-?Reset@Scene@ma@@QAEXXZ
 ?GetRotationWS@SceneNode@ma@@QBEABVQuaternion@2@XZ
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
@@ -220,3 +217,4 @@ EXPORTS
 ?BuildFrames@UniformAnimation@ma@@QAEXXZ
 ?AddKeyFrame@UniformAnimation@ma@@QAEXHABVAny@2@@Z
 ?Play@Animatable@ma@@QAEXM@Z
+?Reset@Engine@ma@@QAEXII@Z

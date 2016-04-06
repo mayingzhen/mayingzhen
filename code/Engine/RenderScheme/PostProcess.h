@@ -3,16 +3,16 @@
 
 namespace ma
 {
-	class PostProcess 
+	class PostProcess : public RenderPass
 	{
 	public:
-		PostProcess(Texture* pInputTex, Texture* pOutputTex)
+		PostProcess(Scene* pScene):RenderPass(pScene)
 		{
-			m_pInputTex = pInputTex;
-			m_pOutputTex = pOutputTex;
 		}
 
 		virtual void Init() = 0; 
+
+		virtual void Reset() = 0;
 
 		virtual void Shutdown() = 0;
 
@@ -20,9 +20,10 @@ namespace ma
 
 	protected:
 
-		Texture*		m_pInputTex;
+		RefPtr<Texture>	m_pInputTex;
 
-		Texture*		m_pOutputTex;
+
+		RefPtr<Texture> m_pOutputTex;
 	};
 
 }

@@ -15,9 +15,11 @@ namespace ma
 
 		virtual void Init() = 0;
 
+		virtual void Reset() = 0;
+
 		virtual void Render() = 0;
 
-		virtual void ShoutDown() = 0;
+		virtual void Shoutdown() = 0;
 
 	protected:
 		Scene*	m_pScene;

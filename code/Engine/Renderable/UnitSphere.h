@@ -8,7 +8,7 @@ namespace ma
 	public:
 		static void Init();
 		
-		static void ShutDown();
+		static void Shoutdown();
 			
 		static void Render(Technique* pTech,const Vector3& vPos,float fRadius);
 	};

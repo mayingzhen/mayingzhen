@@ -11,6 +11,7 @@ namespace ma
 		eRC_Unknown = 0,
 
 		eRC_Init,
+		eRC_Reset,
 		eRC_ShutDown,
 		eRC_TexStreamComplete,
 		eRC_ShaderStreamComplete,
@@ -109,6 +110,7 @@ namespace ma
 		int		CurThreadProcess() const;
 
 		void	RC_Init(HWND wndhandle);
+		void	RC_Reset(uint32 nWidth,uint32 nHeight);
 		void	RC_ShutDown();
 		void	RC_BeginRender();
 		void	RC_EndRender();

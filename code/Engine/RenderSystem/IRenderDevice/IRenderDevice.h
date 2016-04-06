@@ -61,7 +61,7 @@ namespace ma
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s) = 0;
 
 		virtual	void				Init(HWND wndhandle) = 0;
-		virtual void				ShutDown() = 0;
+		virtual void				Shoutdown() = 0;
 
 		virtual bool				TestDeviceLost() = 0;	
 		virtual void				BeginRender() = 0;

@@ -100,13 +100,74 @@ namespace ma
 			
 		return true;
 	}
-	
+
 	bool Resource::IsReady()
 	{
-		if (m_eResState == ResInited)
+		switch(m_eResState)
+		{
+		case ResLoaded:
+// 			if (!GetRenderSystem()->TestScene())
+// 			{
+// 				return false;
+// 			}
+
+			if (!this->InitRes())
+			{
+				this->SetResState(ResLoadError);
+				return false;
+			}
+
+			this->SetResState(ResInited);
+		case ResInited:
+			{
+				for (LST_RESOURCE::iterator iter = m_lstChild.begin();iter != m_lstChild.end();)
+				{
+					Resource* pChild = (*iter).get();
+					if (pChild->IsReady())
+					{
+						iter = m_lstChild.erase(iter);
+					}
+					else
+					{
+						if (pChild->GetResState() == ResLoadError)
+						{
+							this->SetResState(ResLoadError);
+							return false;
+						}
+						++iter;
+					}
+				}
+
+				if (m_lstChild.empty())
+				{
+					if (!this->ChildResFinish())
+					{
+						this->SetResState(ResLoadError);
+						return false;
+					}
+
+					this->SetResState(ResReady);
+					return true;
+				}
+
+				return false;
+			}
+		case ResReady:
 			return true;
-	
+		default:
+			break;
+		}
+
 		return false;
+	}
+
+	void Resource::AddRes(Resource* pRes)
+	{
+		ASSERT(pRes);
+		if (pRes == NULL)
+			return;
+
+		m_lstChild.push_back(pRes);
 	}
 
 	RefPtr<Resource> CreateResource(const char* pszPath)

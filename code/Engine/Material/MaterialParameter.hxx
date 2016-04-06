@@ -21,7 +21,7 @@ namespace ma
 		m_sName = pName ? pName : "";
 	}
 
-	void Parameter::Import(rapidxml::xml_node<>* pXmlElem)
+	void Parameter::Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent)
 	{
 		m_sName = pXmlElem->findAttribute("Name");
 
@@ -37,7 +37,12 @@ namespace ma
 		{
 			if ( stricmp(pszType,"SamplerState") == 0 )
 			{
-				m_anyValue = Any( Texture::Import(pXmlElem) );	
+				RefPtr<Texture> pTexuture = Texture::Import(pXmlElem);
+				m_anyValue = Any(pTexuture);
+				if (pParent)
+				{
+					pParent->AddRes(pTexuture.get());
+				}
 			}
 			else if (stricmp(pszType,"UniformAnimation"))
 			{

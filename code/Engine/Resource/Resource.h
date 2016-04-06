@@ -12,6 +12,7 @@ namespace ma
 		ResLoaded,
 		ResInited,
 		ResLoadError,
+		ResReady,
 	};
 
 	class Serializer;
@@ -19,7 +20,6 @@ namespace ma
 
 	class Resource : public Referenced
 	{
-
 	public:
 		Resource();
 
@@ -38,19 +38,25 @@ namespace ma
 		ResState		GetResState() const {return m_eResState;}
 		void			SetResState(ResState eState) {m_eResState = eState;}
 
+		void			AddRes(Resource* pRes);
+
 		MemoryStream*	GetDataStream() {return m_pDataStream.get();}
 
 	protected:
-		virtual bool	LoadFileToMemeory();
-
-		virtual bool	CreateFromMemeory();
-
 		virtual bool    InitRes() {return true;}
+		virtual bool	ChildResFinish(){return true;}
+
+	private:
+		bool			LoadFileToMemeory();
+		bool			CreateFromMemeory();
 
 	protected:
 		std::string				m_sResPath;
-		ResState				m_eResState;
+		volatile ResState		m_eResState;
 		RefPtr<MemoryStream>	m_pDataStream;	
+
+		typedef list< RefPtr<Resource> > LST_RESOURCE;
+		LST_RESOURCE			m_lstChild;
 
 		friend class DataThread;
 	};

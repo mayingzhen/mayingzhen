@@ -12,10 +12,26 @@ namespace ma
 
 	void ScreenQuad::Init()
 	{
+		gpScrenQuad = new Renderable();
+
+		VertexElement element[2];
+		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
+		element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
+		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
+
+		gpScrenQuad->m_pDeclaration = pVertexDec;
+		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 
 		// Construct full screen quad
 		Rectangle rect = GetRenderSystem()->GetViewPort();
-		Vector2 offset = Vector2(0.5f / rect.width(), 0.5f / rect.height());
+
+		Reset((uint32)rect.width(),(uint32)rect.height());
+	}
+
+	void ScreenQuad::Reset(uint32 nWidth,uint32 nHeight)
+	{
+		// Construct full screen quad
+		Vector2 offset = Vector2(0.5f / (float)nWidth, 0.5f / (float)nHeight);
 
 		//   1    0 
 		//   +----+
@@ -30,9 +46,9 @@ namespace ma
 		quadVerts[3].position = Vector3(-1, -1, 0);
 
 		quadVerts[0].texCoords = Vector2(1.0f, 0.0f) + offset;
- 		quadVerts[1].texCoords = Vector2(0.0f, 0.0f) + offset;
- 		quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
- 		quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;
+		quadVerts[1].texCoords = Vector2(0.0f, 0.0f) + offset;
+		quadVerts[2].texCoords = Vector2(1.0f, 1.0f) + offset;
+		quadVerts[3].texCoords = Vector2(0.0f, 1.0f) + offset;
 
 		uint16* indices = new uint16[4];
 		indices[0]= 0;
@@ -40,20 +56,10 @@ namespace ma
 		indices[2]= 2;
 		indices[3]= 3;
 
-		// Init Renderable
-		gpScrenQuad = new Renderable();
-
-		VertexElement element[2];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
-		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
-		
 		RefPtr<VertexBuffer> pVertexs = GetRenderSystem()->CreateVertexBuffer((uint8*)quadVerts,sizeof(Vertex) * 4,sizeof(Vertex));
 
 		RefPtr<IndexBuffer> pIndexs = GetRenderSystem()->CreateIndexBuffer((uint8*)indices,sizeof(uint16) * 4,sizeof(uint16));
 
-		gpScrenQuad->m_pDeclaration = pVertexDec;
-		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		gpScrenQuad->m_pIndexBuffer = pIndexs;
 		gpScrenQuad->m_pVertexBuffer = pVertexs;
 
@@ -61,7 +67,7 @@ namespace ma
 		SAFE_DELETE_ARRAY(indices);
 	}
 
-	void ScreenQuad::ShoutDown()
+	void ScreenQuad::Shoutdown()
 	{
 		SAFE_DELETE(gpScrenQuad);
 	}

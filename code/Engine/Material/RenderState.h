@@ -6,7 +6,7 @@
 
 namespace ma
 {
-	class  RenderState : public Object
+	class RenderState : public Object
 	{
 
 	public:

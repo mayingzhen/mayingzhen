@@ -46,7 +46,7 @@ namespace ma
 		MonoInternalInit();
 	}
 
-	void ScriptSystem::ShutDown()
+	void ScriptSystem::Shoutdown()
 	{
 		mono_jit_cleanup(m_pDomain);
 

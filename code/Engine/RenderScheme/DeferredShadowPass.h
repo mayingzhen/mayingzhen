@@ -9,10 +9,12 @@ namespace ma
 		DeferredShadowPass(Scene* pScene);
 
 		void Init();
+	
+		void Reset();
 
 		void Render();
 
-		void ShoutDown();
+		void Shoutdown();
 
 		Texture* GetShadowTexture() {return m_pShadowTex.get();}
 

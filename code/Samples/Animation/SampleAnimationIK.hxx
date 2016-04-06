@@ -10,8 +10,6 @@ namespace ma
 
 	void SampleAnimationIK::Load()
 	{	
-		Game::GetInstance().mkeyEvent.notify(this,&SampleAnimationIK::keyEvent);
-
 		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
 
 		CreateMeshMaterial("hero_17/hero_17/body.tga","hero_17/hero_17/Body.mtl","SKIN");
@@ -45,7 +43,6 @@ namespace ma
 
 	void SampleAnimationIK::UnLoad()
 	{
-		Game::GetInstance().mkeyEvent.remove(this,&SampleAnimationIK::keyEvent);
 	}
 
 	void SampleAnimationIK::Render()

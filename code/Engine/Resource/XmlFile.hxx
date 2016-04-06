@@ -12,10 +12,8 @@ namespace ma
 	}
 
 
-	bool XmlFile::CreateFromMemeory()
+	bool XmlFile::InitRes()
 	{
-		ASSERT(m_eResState == ResLoaded);
-
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)
 			return false;
@@ -29,10 +27,6 @@ namespace ma
 		}
 		
 		Import(xmlRoot);
-
-		m_eResState = ResInited;
-
-		IsReady();
 
 		return true;
 	}

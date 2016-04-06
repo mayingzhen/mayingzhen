@@ -9,10 +9,12 @@ namespace ma
 		GBufferPass(Scene* pScene);
 
 		void		Init();
+		
+		void		Reset();
 
 		void		Render();
 
-		void		ShoutDown();
+		void		Shoutdown();
 		
 		Texture*	GetSceneDiffuse() {return m_pDiffuse.get();}
 

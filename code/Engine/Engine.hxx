@@ -75,13 +75,14 @@ namespace ma
 			GetJobScheduler()->CreateThreads(GetNumLogicalCPUs() - 1,16);
 		}
 	}
-	
 
+	void Engine::Reset(uint32 nWidth, uint32 nHeight)
+	{
+		g_pRenderSystem->Reset(nWidth,nHeight);
+	}
+	
 	void Engine::Shutdown()
 	{
-		//if (GetParticleSystem())
-		//	GetParticleSystem()->Shutdown();
-
 		if (g_pDataThread)
 		{
 			g_pDataThread->Stop();

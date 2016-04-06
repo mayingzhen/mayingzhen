@@ -8,7 +8,7 @@ namespace ma
 	public:
 		static void Init();
 
-		static void ShutDown();
+		static void Shoutdown();
 
 		static void OnFlushFrame();
 

@@ -27,7 +27,7 @@ namespace ma
 		gpMeshBatch = new MeshBatch(pVertexDec.get(), PRIM_LINELIST, true, 1024);
 	}
 
-	void LineRender::ShutDown()
+	void LineRender::Shoutdown()
 	{
 		gpLinTech = NULL;
 		gpMeshBatch = NULL;

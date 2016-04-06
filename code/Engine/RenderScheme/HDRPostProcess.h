@@ -10,22 +10,19 @@ namespace ma
 	class HDRPostProcess : public PostProcess
 	{
 	public:
-		HDRPostProcess(Texture* pInputTex, Texture* pOutputTex);
+		HDRPostProcess(Scene* pScene);
 
 		~HDRPostProcess();
 
 		void	Init();
 
-		void	Shutdown();
+		void	Reset();
+
+		void	Shoutdown();
 
 		void	Render();
 
 	private:
-
-		void	CreateRTtexture();
-
-		void	LoadShader();
-
 		void	MeasureLuminance();
 
 		void	AdaptedLum();
@@ -54,12 +51,12 @@ namespace ma
 			AdaptedTex_NUM = 2,
 		};
 
-		Texture*			m_lumTexs[NUM_SUM_LUM + 1]; 
-		Texture*			m_DownSampleTex[NUM_DownSamplers + 1];
-		Texture*			m_GlowTex[NUM_DownSamplers + 1];
-		Texture*			m_AdaptedTex[AdaptedTex_NUM];
+		RefPtr<Texture>		m_lumTexs[NUM_SUM_LUM + 1]; 
+		RefPtr<Texture>		m_DownSampleTex[NUM_DownSamplers + 1];
+		RefPtr<Texture>		m_GlowTex[NUM_DownSamplers + 1];
+		RefPtr<Texture>		m_AdaptedTex[AdaptedTex_NUM];
 
-		BlurPostProcess*	m_pBlurPP[NUM_DownSamplers + 1];
+		RefPtr<BlurPostProcess>	m_pBlurPP[NUM_DownSamplers + 1];
 
 		RefPtr<Technique>	m_SumLogTech;
 		RefPtr<Technique>	m_SumLumIterativeTech[NUM_SUM_LUM];

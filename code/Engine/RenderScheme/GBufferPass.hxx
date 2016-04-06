@@ -11,17 +11,19 @@ namespace ma
 
 	void GBufferPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width();
-		int nHeight = (int)m_pScene->GetViewport().height();
 
-		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
-		
+	}
+
+	void GBufferPass::Reset()
+	{
+		m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+
 		if (GetDeviceCapabilities()->GetINTZSupported())
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_INTZ, USAGE_DEPTHSTENCIL);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_INTZ, USAGE_DEPTHSTENCIL);
 		else
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT32_R);
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT32_R);
 
-		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_A8R8G8B8);
+		m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
 	}
 
 	void GBufferPass::Render()
@@ -67,7 +69,7 @@ namespace ma
 		}
 	}
 
-	void GBufferPass::ShoutDown()
+	void GBufferPass::Shoutdown()
 	{
 		m_pDepthTex = NULL;
 		m_pNormalTex = NULL;

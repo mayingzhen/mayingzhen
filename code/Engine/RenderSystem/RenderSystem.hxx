@@ -75,6 +75,11 @@ namespace ma
 		m_pRenderThread->RC_Init(wndhandle);
 	}
 
+	void RenderSystem::Reset(uint32 nWidth, uint32 nHeight)
+	{
+		m_pRenderThread->RC_Reset(nWidth,nHeight);
+	}
+
 	void RenderSystem::Shoutdown()
 	{
 		m_pRenderThread->RC_ShutDown();
@@ -138,9 +143,9 @@ namespace ma
 		}
 		m_arrScene.clear();
 
-		LineRender::ShutDown();
-		ScreenQuad::ShoutDown();
-		UnitSphere::ShutDown();
+		LineRender::Shoutdown();
+		ScreenQuad::Shoutdown();
+		UnitSphere::Shoutdown();
 
 		m_pDepthStencil = NULL;
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
@@ -156,7 +161,7 @@ namespace ma
 			m_pParticleBuffer[i] = NULL;
 		}
 
-		GetRenderDevice()->ShutDown();
+		GetRenderDevice()->Shoutdown();
 
 		m_hWnd = NULL;
 	}
@@ -203,15 +208,23 @@ namespace ma
 			m_pRenderTarget[i] = GetRenderDevice()->GetRenderTarget(i);
 		}
 		m_pDepthStencil = GetRenderDevice()->GetDepthStencil();
-		m_viewport = GetRenderDevice()->GetViewport();
+		m_curViewport = GetRenderDevice()->GetViewport();
 	
 		LineRender::Init();
 		ScreenQuad::Init();
 		UnitSphere::Init();
 
 		Scene* pScene = new Scene("defaultScene");
-		pScene->SetViewport(m_viewport);
+		pScene->SetViewport(m_curViewport);
 		m_arrScene.push_back(pScene);
+	}
+
+	void RenderSystem::RT_Reset(uint32 nWidth,uint32 nHeight)
+	{
+		ScreenQuad::Reset(nWidth,nHeight);
+
+		// Reset Main Scene
+		m_arrScene[0]->Reset(nWidth,nHeight);
 	}
 
 	void RenderSystem::RT_BeginFrame()
@@ -309,8 +322,8 @@ namespace ma
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
-			nWidth = (int)m_viewport.width();
-			nHeight = (int)m_viewport.height();
+			nWidth = (int)m_curViewport.width();
+			nHeight = (int)m_curViewport.height();
 		}
 		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,use);
 		m_pRenderThread->RC_CreateTexture(pTarget);
@@ -353,11 +366,11 @@ namespace ma
 
 	Rectangle RenderSystem::SetViewPort(const Rectangle& viewPort)
 	{
-		Rectangle preViewPort = m_viewport;
+		Rectangle preViewPort = m_curViewport;
 
 		m_pRenderThread->RC_SetViewPort(viewPort);
 
-		m_viewport = viewPort;
+		m_curViewport = viewPort;
 
 		return preViewPort;
 	}
@@ -588,7 +601,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if ( ( m_arrSampState[uniform->m_index] != pTexture && pTexture->IsReady() ) || pTexture->GetUsage() != USAGE_STATIC)
+		if ( m_arrSampState[uniform->m_index] != pTexture || pTexture->GetUsage() != USAGE_STATIC )
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 

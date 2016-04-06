@@ -169,7 +169,7 @@ namespace ma
 		return;
 	}
 
-	void UnitSphere::ShutDown()
+	void UnitSphere::Shoutdown()
 	{
 		SAFE_DELETE(gpSphere);		
 	}

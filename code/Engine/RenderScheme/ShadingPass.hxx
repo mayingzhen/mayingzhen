@@ -3,26 +3,36 @@
 
 namespace ma
 {
-	ShadingPass::ShadingPass(Scene* pScene)
-		:RenderPass(pScene)
+	ShadingPass::ShadingPass(Scene* pScene):RenderPass(pScene)
 	{
-		m_bIsHDRRending = false;
  	}
 
 	void ShadingPass::Init()
 	{
-		m_pShadingTex = NULL;
-		m_pHdrPostprocess = NULL;
+	}
 
-		if (m_bIsHDRRending)
+	void ShadingPass::Reset()
+	{
+		if (m_pHdrPostprocess)
 		{
 			m_pShadingTex = GetRenderSystem()->CreateRenderTexture(-1,-1,PF_FLOAT16_RGBA);	
+		}
+	}
 
+	void ShadingPass::SetHDREnabled(bool b)
+	{
+		if (b && m_pHdrPostprocess == NULL)
+		{
 			RefPtr<Texture>	 pOutTagget = GetRenderSystem()->GetRenderTarget(0);
 
-			m_pHdrPostprocess = new HDRPostProcess(m_pShadingTex.get(),pOutTagget.get());
-			m_pHdrPostprocess->Init();
+			//m_pHdrPostprocess = new HDRPostProcess(m_pScene,m_pShadingTex.get(),pOutTagget.get());
+			//m_pHdrPostprocess->Init(nWidth,nHeight);
 		}
+	}
+
+	bool ShadingPass::GetHDREnabled() const
+	{
+		return m_pHdrPostprocess != NULL;
 	}
 
 	void ShadingPass::RenderObjecList()
@@ -55,14 +65,14 @@ namespace ma
 		RENDER_PROFILE(ShadingPass);
 
 		RefPtr<Texture> pPreTarget = NULL;
-		if (m_bIsHDRRending)
+		if (m_pHdrPostprocess)
 		{
 			pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadingTex.get());
 		}
 
 		RenderObjecList();
 
-		if (m_bIsHDRRending)
+		if (m_pHdrPostprocess)
 		{
 			GetRenderSystem()->SetRenderTarget(pPreTarget);
 
@@ -70,10 +80,8 @@ namespace ma
 		}
 	}
 
-	void ShadingPass::ShoutDown()
+	void ShadingPass::Shoutdown()
 	{
-		m_pShadingTex = NULL;
-		SAFE_DELETE(m_pHdrPostprocess);
 	}
 }
 

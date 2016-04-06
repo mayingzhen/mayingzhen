@@ -23,7 +23,7 @@ namespace ma
 
 		virtual void		ModuleShutdown();
 
-		virtual void		Init(bool bRenderThread, bool bDataThread, bool bJobScheduler);
+		virtual void		Init(bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
 
 		virtual void		Shutdown();
 
@@ -39,21 +39,17 @@ namespace ma
 		Camera*				GetCamera();
 
 	private:
-		void				RunSample(const char* pSampleNma);
+		void				RunSample(const char* pSample);
 
 		void				InitResourcePath();
 
-		void				InitSampleList();
-
 	private:
-		std::map<std::string,Sample*>	m_arrSamples;
+		RefPtr<Sample>		m_pCurSample;
 
-		Sample*							m_pCurSample;
+		bool				m_bPause;
+		bool				m_bStepOneFrame;
 
-		bool							m_bPause;
-		bool							m_bStepOneFrame;
-
-		CameraController*				m_pCameraControl;
+		CameraController*	m_pCameraControl;
 	};
 
 	SampleBrowser* GetSampleBrowser();

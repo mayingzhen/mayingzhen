@@ -2,48 +2,48 @@
 
 namespace ma
 {
-	BlurPostProcess::BlurPostProcess(Texture* pInputTex, Texture* pOutputTex)
-		:PostProcess(pInputTex,pOutputTex)
+	BlurPostProcess::BlurPostProcess(Scene* pScene)
+		:PostProcess(pScene)
 	{
 
 	}
 
 	BlurPostProcess::~BlurPostProcess()
 	{
-
 	}
 
 	void BlurPostProcess::Init()
 	{
 		m_BlurXTech = CreateTechnique("BlurX","Blur/Blur","Blur/Blur","BLUR_X 1"); 
 		m_BlurYTech = CreateTechnique("BlurY","Blur/Blur","Blur/Blur","BLUR_Y 1");
-
-		int nWidth = m_pInputTex->GetWidth();
-		int nHeight = m_pInputTex->GetHeight();
-		PixelFormat eformat = m_pInputTex->GetFormat();
-		m_BureTempTex = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,eformat);
-
-
-		Vector2 texSize = Vector2((float)nWidth, 1.0f / (float)nWidth);
-
-		std::vector<float> color_weight;
-		std::vector<float> tex_coord_offset;
-		CalSampleOffsetsGauss(8,1,nWidth,3.0f,color_weight,tex_coord_offset);
-
-		m_BlurXTech->SetParameter( "color_weight", Any(color_weight) );
-		m_BlurXTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
-		m_BlurXTech->SetParameter( "src_tex_size", Any(texSize) );
-		m_BlurXTech->SetParameter( "g_SamplerSrc", Any(m_pInputTex) );
-
-
-		texSize = Vector2((float)nHeight, 1.0f / (float)nHeight);
-		CalSampleOffsetsGauss(8,1,nHeight,3.0f,color_weight,tex_coord_offset);
-
-		m_BlurYTech->SetParameter( "color_weight", Any(color_weight) );
-		m_BlurYTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
-		m_BlurYTech->SetParameter( "src_tex_size", Any(texSize) );
-		m_BlurYTech->SetParameter( "g_SamplerSrc", Any(m_BureTempTex) );
 	}
+
+	void BlurPostProcess::Reset()
+	{
+// 		PixelFormat eformat = m_pInputTex->GetFormat();
+// 		m_BureTempTex = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,eformat);
+// 
+// 		Vector2 texSize = Vector2((float)nWidth, 1.0f / (float)nWidth);
+// 
+// 		std::vector<float> color_weight;
+// 		std::vector<float> tex_coord_offset;
+// 		CalSampleOffsetsGauss(8,1,nWidth,3.0f,color_weight,tex_coord_offset);
+// 
+// 		m_BlurXTech->SetParameter( "color_weight", Any(color_weight) );
+// 		m_BlurXTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
+// 		m_BlurXTech->SetParameter( "src_tex_size", Any(texSize) );
+// 		m_BlurXTech->SetParameter( "g_SamplerSrc", Any(m_pInputTex) );
+// 
+// 
+// 		texSize = Vector2((float)nHeight, 1.0f / (float)nHeight);
+// 		CalSampleOffsetsGauss(8,1,nHeight,3.0f,color_weight,tex_coord_offset);
+// 
+// 		m_BlurYTech->SetParameter( "color_weight", Any(color_weight) );
+// 		m_BlurYTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
+// 		m_BlurYTech->SetParameter( "src_tex_size", Any(texSize) );
+// 		m_BlurYTech->SetParameter( "g_SamplerSrc", Any(m_BureTempTex) );
+	}
+
 
 	void BlurPostProcess::Shutdown()
 	{
@@ -57,45 +57,16 @@ namespace ma
 
 		/// x
 		GetRenderSystem()->SetRenderTarget(m_BureTempTex);
-
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
-
-// 		float width = m_pInputTex->GetWidth();
-// 		float heigh = m_pInputTex->GetWidth();
-// 
-// 		Vector2 texSize = Vector2(width, 1.0f / width);
-// 
-// 		std::vector<float> color_weight;
-// 		std::vector<float> tex_coord_offset;
-// 		CalSampleOffsetsGauss(8,1,width,3.0f,color_weight,tex_coord_offset);
-// 
-// 		m_BlurXTech->GetParameter("color_weight")->setFloatArray( (float*)&(color_weight[0]), 8 );
-// 		m_BlurXTech->GetParameter("tex_coord_offset")->setFloatArray( (float*)&(tex_coord_offset[0]), 8 );
-// 		m_BlurXTech->GetParameter("src_tex_size")->setVector2(texSize);
-// 
-// 		m_BlurXTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
 	
 		ScreenQuad::Render(m_BlurXTech.get());
 
-		//GetRenderSystem()->PopRenderTargert();
 
 		/// y
 		GetRenderSystem()->SetRenderTarget(m_pOutputTex);
-
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-// 		texSize = Vector2(heigh, 1.0f / heigh);
-// 		CalSampleOffsetsGauss(8,1,heigh,3.0f,color_weight,tex_coord_offset);
-// 
-// 		m_BlurYTech->GetParameter("color_weight")->setFloatArray( (float*)&(color_weight[0]), 8 );
-// 		m_BlurYTech->GetParameter("tex_coord_offset")->setFloatArray( (float*)&(tex_coord_offset[0]), 8 );
-// 		m_BlurYTech->GetParameter("src_tex_size")->setVector2( texSize);
-// 
-// 		m_BlurYTech->GetParameter("g_SamplerSrc")->setTexture(m_BureTempTex);
-
 		ScreenQuad::Render(m_BlurYTech.get());
-
-		//GetRenderSystem()->PopRenderTargert();
 	}
 
 

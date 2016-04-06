@@ -13,10 +13,12 @@ namespace ma
 		DeferredLightPass(Scene* pScene);
 
 		void		Init();
+		
+		void		Reset();
 
 		void		Render();
 
-		void		ShoutDown();
+		void		Shoutdown();
 
 	private:
 		RefPtr<Technique>	m_pAmbientLight;

@@ -6,10 +6,13 @@ namespace ma
 	{
 		m_pScene = GetRenderSystem()->GetScene();
 		m_pCamera = m_pScene->GetCamera();
+
+		Game::GetInstance().mkeyEvent.notify(this,&Sample::keyEvent);
 	}
 
 	Sample::~Sample()
 	{
+		Game::GetInstance().mkeyEvent.remove(this,&Sample::keyEvent);
 	}
 
 	CameraController* Sample::GetCameraControll()

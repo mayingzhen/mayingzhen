@@ -73,7 +73,7 @@ namespace ma
 		return m_pShadingTech.get();
 	}
 
-	void SubMaterial::Import(rapidxml::xml_node<>* pXmlElem)
+	void SubMaterial::Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent)
 	{
 		rapidxml::xml_node<>* pXmlShadingTech = pXmlElem->first_node("ShadingTech");
 		if (pXmlShadingTech)
@@ -93,7 +93,7 @@ namespace ma
 		while(pXmlParameter)
 		{
 			Parameter parameter;
-			parameter.Import(pXmlParameter);
+			parameter.Import(pXmlParameter,pParent);
 			m_arrParameters.push_back(parameter);
 
 			SetParameter(parameter.GetName(),parameter.GetValue());
@@ -178,7 +178,7 @@ namespace ma
 		rapidxml::xml_node<>* pRoot = doc.allocate_node(rapidxml::node_element, doc.allocate_string("SubMaterial"));
 		this->Export(pRoot,doc);
 		
-		pClonMaterial->Import(pRoot);
+		pClonMaterial->Import(pRoot,NULL);
 
 		return pClonMaterial;
 	}
@@ -222,7 +222,7 @@ namespace ma
 				RefPtr<SubMaterial> pSubMaterial = CreateSubMaterial();
 				this->AddSubMaterial(nLod,pSubMaterial.get());
 
-				pSubMaterial->Import(pXmlSubMaterial);
+				pSubMaterial->Import(pXmlSubMaterial,this);
 
 				pXmlSubMaterial = pXmlSubMaterial->next_sibling("SubMaterial");
 			}

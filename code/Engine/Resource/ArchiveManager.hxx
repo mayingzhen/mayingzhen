@@ -28,8 +28,10 @@ namespace ma
 		return m_saveDir.c_str();
 	}
 
-	RefPtr<Stream> ArchiveManager::Create(const char* pszFile) const
+	RefPtr<Stream> ArchiveManager::Create(const char* pszFile) 
 	{
+		AutoLock autoLock(m_csOpen);
+
 		ASSERT(pszFile);
 		if (pszFile == NULL)
 			return NULL;
@@ -48,8 +50,10 @@ namespace ma
 		return NULL;
 	}
 
-	RefPtr<MemoryStream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ ) const
+	RefPtr<MemoryStream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ )
 	{
+		AutoLock autoLock(m_csOpen);
+
 		ASSERT(pszFile);
 		if (pszFile == NULL)
 			return NULL;
@@ -69,6 +73,8 @@ namespace ma
 
 	void ArchiveManager::AddArchive(Archive* pArchive)
 	{
+		AutoLock autoLock(m_csOpen);
+
 		m_vecArchive.insert(m_vecArchive.begin(), pArchive);
 	}
 
@@ -94,19 +100,5 @@ namespace ma
 
 		return false;
 	}
-
-// 	std::string	ArchiveManager::GetFullPath(const char* pszFile) const
-// 	{
-// 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
-// 		{
-// 			if( (*iter)->exists(pszFile) )
-// 			{
-// 				return std::string( (*iter)->GetName() ) + "/" + pszFile; 
-// 			}
-// 		}
-// 
-// 		return "";
-// 	}
-
 
 }

@@ -21,13 +21,23 @@ namespace ma
 		}	
 	}
 
-	void RenderScheme::ShoutDown()
+	void RenderScheme::Reset()
 	{
 		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
 		for (; it != m_arrRenderPass.end(); ++it)
 		{
 			RefPtr<RenderPass>& pRenderPass = *it;
-			pRenderPass->ShoutDown();
+			pRenderPass->Reset();
+		}	
+	}
+
+	void RenderScheme::Shoutdown()
+	{
+		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
+		for (; it != m_arrRenderPass.end(); ++it)
+		{
+			RefPtr<RenderPass>& pRenderPass = *it;
+			pRenderPass->Shoutdown();
 			pRenderPass = NULL;
 		}	
 		m_arrRenderPass.clear();
@@ -88,6 +98,8 @@ namespace ma
 		}
 
 		pRenderScheme->Init();
+
+		pRenderScheme->Reset();
 		
  		return pRenderScheme;
 	}

@@ -10,8 +10,6 @@ namespace ma
 
 	void SampleAnimationRetarget::Load()
 	{	
-		Game::GetInstance().mkeyEvent.notify(this,&SampleAnimationRetarget::keyEvent);
-
 		m_pCamera->LookAt(Vector3(0, -400, 100), Vector3(0, 0, 0));
 
 		// character A MeshData & skeleton & Animation
@@ -101,8 +99,6 @@ namespace ma
 
 	void SampleAnimationRetarget::UnLoad()
 	{
-		Game::GetInstance().mkeyEvent.remove(this,&SampleAnimationRetarget::keyEvent);
-
 		m_pAnimtionObjectA = NULL;
 		m_pAnimtionObjectB = NULL;
 	}

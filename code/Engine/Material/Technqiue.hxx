@@ -30,17 +30,6 @@ namespace ma
 		m_pShaderProgram = pShader;
 	}
 
-// 	void Technique::AddShaderMarco(const char* pszMarco)
-// 	{
-// 		const char* pVSFile = m_pShaderProgram->GetVSFile();
-// 		const char* pPSFile = m_pShaderProgram->GetPSFile();
-// 		const char* pPreMrco = m_pShaderProgram->GetShaderMacro();
-// 
-// 		string strMrco = string(pPreMrco) + string(";") + string(pszMarco);
-// 		
-// 		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strMrco.c_str());
-// 	}
-
 	int Technique::GetShaderMacroValue(const char* pszMacro)
 	{
 		ASSERT(pszMacro);

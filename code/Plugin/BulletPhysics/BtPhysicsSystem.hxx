@@ -29,7 +29,7 @@ namespace ma
         m_pPhysicsThread->Start();
 	}
 
-	void PhysicsSystem::ShoutDown()
+	void PhysicsSystem::Shoutdown()
 	{
         m_pPhysicsThread->Stop();
         SAFE_DELETE(m_pPhysicsThread);

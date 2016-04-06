@@ -7,7 +7,7 @@ namespace ma
 	class CameraController;
 	class Camera;
 
-	class Sample 
+	class Sample : public Referenced
 	{
 	public:
 		Sample(const char* pszName = NULL);
@@ -28,8 +28,10 @@ namespace ma
 
 		Scene*				GetScene() {return m_pScene.get();}
 
+		virtual void		keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key){}
+
 	protected:
-			void			CreateMeshMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro = NULL);
+		void				CreateMeshMaterial(const char* pszTexture,const char* pMatPath,char* pszAddMacro = NULL);
 
 	protected:
 		RefPtr<Scene>		m_pScene;

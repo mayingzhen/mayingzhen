@@ -2,8 +2,8 @@
 
 namespace ma
 {
-	DownScalePostProcess::DownScalePostProcess(Texture* pInputTex, Texture* pOutputTex,int nScale/* = 2*/)
-		:PostProcess(pInputTex,pOutputTex)
+	DownScalePostProcess::DownScalePostProcess(Scene* pScene,Texture* pInputTex, Texture* pOutputTex,int nScale/* = 2*/)
+		:PostProcess(pScene,pInputTex,pOutputTex)
 	{
 		m_nScale = nScale;
 	}
@@ -18,7 +18,7 @@ namespace ma
 		char pszDefine[MAX_PATH] = {0};
 		sprintf(pszDefine,MAX_PATH,"SCALE %d",m_nScale);
 
-		m_DownScaleTech = new Technique("DownSacle","Screen.vert","DownScale/DownScale",pszDefine); 
+		m_DownScaleTech = CreateTechnique("DownSacle","Screen.vert","DownScale/DownScale",pszDefine); 
 
 // 		float width = m_pInputTex->GetWidth();
 // 		float heigh = m_pInputTex->GetWidth();
@@ -28,6 +28,11 @@ namespace ma
 // 		m_BlurXTech->GetParameter("src_tex_size")->setFloatArray( texSize, 2 );
 // 
 // 		m_BlurXTech->GetParameter("g_SamplerSrc")->setTexture(m_pInputTex);
+	}
+
+	void DownScalePostProcess::Reset(int nWidth, int nHeight)
+	{
+
 	}
 
 	void DownScalePostProcess::Shutdown()

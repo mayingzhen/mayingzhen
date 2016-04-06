@@ -12,9 +12,9 @@ namespace ma
 
 		~ArchiveManager();
 
-		RefPtr<MemoryStream>	Open(const char* pszFile, bool readOnly = true) const;
+		RefPtr<MemoryStream>	Open(const char* pszFile, bool readOnly = true);
 
-		RefPtr<Stream>			Create(const char* pszFile) const;
+		RefPtr<Stream>			Create(const char* pszFile);
 
 		void					AddArchive(Archive* pArchive);
 		
@@ -34,6 +34,8 @@ namespace ma
 		VEC_ARCHIVE		m_vecArchive;
 
 		std::string		m_saveDir;
+
+		CriticalSection	m_csOpen;
 	};
 
 

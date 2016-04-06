@@ -11,15 +11,14 @@ namespace ma
 		~Engine();
 
 		void Init(HWND hWnd, bool bRenderThread, bool bDataThread, bool bJobScheduler);
+		
+		void Reset(uint32 nWidth, uint32 nHeight);
 
 		void Shutdown();
 
 		void Update();
 
-		void Render();
-
-	private:
-		
+		void Render();	
 	};
 
 	extern Engine* g_pEngine;

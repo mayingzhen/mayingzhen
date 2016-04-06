@@ -10,15 +10,15 @@ namespace ma
 
 	void DeferredShadowPass::Init()
 	{
-		int nWidth = (int)m_pScene->GetViewport().width();
-		int nHeight = (int)m_pScene->GetViewport().height();
-
-		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(nWidth, nHeight, PF_FLOAT16_R);
-
 		m_pFrustumMaterial = CreateTechnique("frustumclipvolume","volume","volume","");
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 
 		m_pDefferedShadow->SetDepthWrite(false);
+	}
+
+	void DeferredShadowPass::Reset()
+	{
+		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT16_R);
 	}
 
 	void DeferredShadowPass::Render()
@@ -76,7 +76,7 @@ namespace ma
 // 		GetRenderSystem()->SetRenderTarget(pPreTarget);
 	}
 
-	void DeferredShadowPass::ShoutDown()
+	void DeferredShadowPass::Shoutdown()
 	{
 
 	}

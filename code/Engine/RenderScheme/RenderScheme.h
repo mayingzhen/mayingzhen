@@ -26,7 +26,9 @@ namespace ma
 
 		void	Init();
 
-		void	ShoutDown();
+		void	Reset();
+
+		void	Shoutdown();
 
 		void	Render();
 

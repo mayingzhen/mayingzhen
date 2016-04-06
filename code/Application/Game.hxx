@@ -18,6 +18,8 @@ namespace ma
 		SetEngine(pEngine);
 
 		g_pInput = new Input();
+
+		m_bOnWindowSized = false;
 	}
 
 	Game::~Game()
@@ -48,6 +50,11 @@ namespace ma
 		GetEngine()->Init(hWnd, bRenderThread, bDataThread, bJobScheduler);
 	}
 
+	void Game::Reset(uint32 nWidth,uint32 nHeight)
+	{
+		GetEngine()->Reset(nWidth,nHeight);
+	}
+
 	void Game::Shutdown()
 	{
 		GetEngine()->Shutdown();
@@ -61,6 +68,12 @@ namespace ma
 	void Game::Update()
 	{
 		profile_code();
+
+		if (m_bOnWindowSized)
+		{
+			m_bOnWindowSized = false;
+			this->Reset(m_OnWindowSizedWidth, m_OnWindowSizedHeight);
+		}
 	
 		GetEngine()->Update();
 	}	

@@ -15,7 +15,7 @@ namespace ma
 
 		virtual void			Init();
 
-		virtual void			ShutDown();
+		virtual void			Shoutdown();
 
 		virtual bool			Start();
 

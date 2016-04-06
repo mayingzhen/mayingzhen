@@ -15,7 +15,7 @@ namespace ma
 
 		void							Init();
 
-		void							ShoutDown();
+		void							Shoutdown();
 
 		void							Start();
 

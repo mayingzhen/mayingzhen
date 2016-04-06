@@ -17,7 +17,6 @@ namespace ma
 		m_pDirLight = CreateDirectonalLight();
 		pSun->AddComponent(m_pDirLight.get());
 		
-		m_viewport = GetRenderSystem()->GetViewPort();
 		SetRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
@@ -36,13 +35,17 @@ namespace ma
 		SAFE_DELETE(m_pRenderQueue[1]);
 	}
 
-	void Scene::Reset()
+	void Scene::Reset(uint32 nWidth,uint32 nHeight)
 	{
-		m_pRootNode->RemoveAllChild();
+		m_viewport = Rectangle(0,0,(float)nWidth,(float)nHeight);
 
-		m_pCullTree = new Octree();
+		float fAspect = (float)nWidth / (float)nHeight;
+		float fFOV = m_pCamera->GetFov();
+		float fNearClip = m_pCamera->GetNearClip();
+		float fFarClip = m_pCamera->GetFarClip();
+		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
-		m_arrRenderComp.clear();
+		m_pRenderScheme->Reset();
 	}
 
 	void Scene::SetRenderScheme(RenderScheme::Type eType)
@@ -177,11 +180,6 @@ namespace ma
 		for (uint32 i = 0; i < m_vecRenderLight.size();++i)
 		{
 			m_vecRenderLight[i]->RenderShadowMap(m_pCamera.get());
-		}
-
-		if (m_pRenderTarget)
-		{
-			GetRenderSystem()->SetRenderTarget(m_pRenderTarget.get());
 		}
 
 		GetRenderSystem()->SetViewPort(m_viewport);
