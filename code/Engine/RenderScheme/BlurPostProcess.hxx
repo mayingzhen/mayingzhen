@@ -2,8 +2,7 @@
 
 namespace ma
 {
-	BlurPostProcess::BlurPostProcess(Scene* pScene)
-		:PostProcess(pScene)
+	BlurPostProcess::BlurPostProcess()
 	{
 
 	}

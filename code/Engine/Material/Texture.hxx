@@ -29,7 +29,6 @@ namespace ma
 
 		m_eWrap = CLAMP;
 		m_eFilter = TFO_POINT;
-		
 	}
 
 	Texture::~Texture()

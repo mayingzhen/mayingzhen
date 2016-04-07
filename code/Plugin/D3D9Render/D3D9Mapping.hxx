@@ -145,207 +145,6 @@ D3DFORMAT D3D9Mapping::GetD3DFormat(PixelFormat ogrePF)
 	}
 }
 
-// D3DFORMAT D3D9Mapping::GetD3DFormat(FORMAT Format)
-// {
-//     switch (Format)
-//     {
-//     case FMT_UNKNOWN:
-//         return D3DFMT_UNKNOWN;
-// 
-//     case FMT_R8G8B8:
-//         return D3DFMT_R8G8B8;
-// 
-//     case FMT_A8R8G8B8:
-//         return D3DFMT_A8R8G8B8;
-// 
-//     case FMT_X8R8G8B8:
-//         return D3DFMT_X8R8G8B8;
-// 
-//     case FMT_R5G6B5:
-//         return D3DFMT_R5G6B5;
-// 
-//     case FMT_X1R5G5B5:
-//         return D3DFMT_X1R5G5B5;
-// 
-//     case FMT_A1R5G5B5:
-//         return D3DFMT_A1R5G5B5;
-// 
-//     case FMT_A4R4G4B4:
-//         return D3DFMT_A4R4G4B4;
-// 
-//     case FMT_R3G3B2:
-//         return D3DFMT_R3G3B2;
-// 
-//     case FMT_A8:
-//         return D3DFMT_A8;
-// 
-//     case FMT_A8R3G3B2:
-//         return D3DFMT_A8R3G3B2;
-// 
-//     case FMT_X4R4G4B4:
-//         return D3DFMT_X4R4G4B4;
-// 
-//     case FMT_A2B10G10R10:
-//         return D3DFMT_A2B10G10R10;
-// 
-//     case FMT_A8B8G8R8:
-//         return D3DFMT_A8B8G8R8;
-// 
-//     case FMT_X8B8G8R8:
-//         return D3DFMT_X8B8G8R8;
-// 
-//     case FMT_G16R16:
-//         return D3DFMT_G16R16;
-// 
-//     case FMT_A2R10G10B10:
-//         return D3DFMT_A2R10G10B10;
-// 
-//     case FMT_A16B16G16R16:
-//         return D3DFMT_A16B16G16R16;
-// 
-//     case FMT_A8P8:
-//         return D3DFMT_A8P8;
-// 
-//     case FMT_P8:
-//         return D3DFMT_P8;
-// 
-//     case FMT_L8:
-//         return D3DFMT_L8;
-// 
-//     case FMT_A8L8:
-//         return D3DFMT_A8L8;
-// 
-//     case FMT_A4L4:
-//         return D3DFMT_A4L4;
-// 
-//     case FMT_V8U8:
-//         return D3DFMT_V8U8;
-// 
-//     case FMT_L6V5U5:
-//         return D3DFMT_L6V5U5;
-// 
-//     case FMT_X8L8V8U8:
-//         return D3DFMT_X8L8V8U8;
-// 
-//     case FMT_Q8W8V8U8:
-//         return D3DFMT_Q8W8V8U8;
-// 
-//     case FMT_V16U16:
-//         return D3DFMT_V16U16;
-// 
-//     case FMT_A2W10V10U10:
-//         return D3DFMT_A2W10V10U10;
-// 
-//     case FMT_UYVY:
-//         return D3DFMT_UYVY;
-// 
-//     case FMT_R8G8_B8G8:
-//         return D3DFMT_R8G8_B8G8;
-// 
-//     case FMT_YUY2:
-//         return D3DFMT_YUY2;
-// 
-//     case FMT_G8R8_G8B8:
-//         return D3DFMT_G8R8_G8B8;
-// 
-//     case FMT_DXT1:
-//         return D3DFMT_DXT1;
-// 
-//     case FMT_DXT2:
-//         return D3DFMT_DXT2;
-// 
-//     case FMT_DXT3:
-//         return D3DFMT_DXT3;
-// 
-//     case FMT_DXT4:
-//         return D3DFMT_DXT4;
-// 
-//     case FMT_DXT5:
-//         return D3DFMT_DXT5;
-// 
-//     case FMT_D16_LOCKABLE:
-//         return D3DFMT_D16_LOCKABLE;
-// 
-//     case FMT_D32:
-//         return D3DFMT_D32;
-// 
-//     case FMT_D15S1:
-//         return D3DFMT_D15S1;
-// 
-//     case FMT_D24S8:
-//         return D3DFMT_D24S8;
-// 
-//     case FMT_D24X8:
-//         return D3DFMT_D24X8;
-// 
-//     case FMT_D24X4S4:
-//         return D3DFMT_D24X4S4;
-// 
-//     case FMT_D16:
-//         return D3DFMT_D16;
-// 
-//     case FMT_D32F_LOCKABLE:
-//         return D3DFMT_D32F_LOCKABLE;
-// 
-//     case FMT_D24FS8:
-//         return D3DFMT_D24FS8;
-// 
-//     case FMT_L16:
-//         return D3DFMT_L16;
-// 
-//     case FMT_VERTEXDATA:
-//         return D3DFMT_VERTEXDATA;
-// 
-//     case FMT_INDEX16:
-//         return D3DFMT_INDEX16;
-// 
-//     case FMT_INDEX32:
-//         return D3DFMT_INDEX32;
-// 
-//     case FMT_Q16W16V16U16:
-//         return D3DFMT_Q16W16V16U16;
-// 
-//     case FMT_MULTI2_ARGB8:
-//         return D3DFMT_MULTI2_ARGB8;
-// 
-//     case FMT_R16F:
-//         return D3DFMT_R16F;
-// 
-//     case FMT_G16R16F:
-//         return D3DFMT_G16R16F;
-// 
-//     case FMT_A16B16G16R16F:
-//         return D3DFMT_A16B16G16R16F;
-// 
-//     case FMT_R32F:
-//         return D3DFMT_R32F;
-// 
-//     case FMT_G32R32F:
-//         return D3DFMT_G32R32F;
-// 
-//     case FMT_A32B32G32R32F:
-//         return D3DFMT_A32B32G32R32F;
-// 
-//     case FMT_D32_LOCKABLE:
-//         return D3DFMT_D32_LOCKABLE;
-// 
-//     case FMT_S8_LOCKABLE:
-//         return D3DFMT_S8_LOCKABLE;
-// 
-//     case FMT_CxV8U8:
-//         return D3DFMT_CxV8U8;
-// 
-//     case FMT_A1:
-//         return D3DFMT_A1;
-// 
-//     case FMT_BINARYBUFFER:
-//         return D3DFMT_BINARYBUFFER;
-// 
-//     default:
-//         ASSERT(0 && "Invalid Format.");
-//         return D3DFMT_UNKNOWN;
-//     }
-// }
 
 BYTE D3D9Mapping::GetD3DDeclType(DECL_TYPE DeclType)
 {
@@ -556,6 +355,53 @@ DWORD		D3D9Mapping::GetD3D9Wrap(Wrap type)
 	return D3DTADDRESS_WRAP;
 }
 
+uint32 D3D9Mapping::get(CompareFunction cf)
+{
+	switch( cf )
+	{
+	case CMPF_ALWAYS_FAIL:
+		return D3DCMP_NEVER;
+	case CMPF_ALWAYS_PASS:
+		return D3DCMP_ALWAYS;
+	case CMPF_LESS:
+		return D3DCMP_LESS;
+	case CMPF_LESS_EQUAL:
+		return D3DCMP_LESSEQUAL;
+	case CMPF_EQUAL:
+		return D3DCMP_EQUAL;
+	case CMPF_NOT_EQUAL:
+		return D3DCMP_NOTEQUAL;
+	case CMPF_GREATER_EQUAL:
+		return D3DCMP_GREATEREQUAL;
+	case CMPF_GREATER:
+		return D3DCMP_GREATER;
+	};
+	return 0;
+}
+
+uint32 D3D9Mapping::get(StencilOperation op, bool invert)
+{
+	switch(op)
+	{
+	case SOP_KEEP:
+		return D3DSTENCILOP_KEEP;
+	case SOP_ZERO:
+		return D3DSTENCILOP_ZERO;
+	case SOP_REPLACE:
+		return D3DSTENCILOP_REPLACE;
+	case SOP_INCREMENT:
+		return invert? D3DSTENCILOP_DECRSAT : D3DSTENCILOP_INCRSAT;
+	case SOP_DECREMENT:
+		return invert? D3DSTENCILOP_INCRSAT : D3DSTENCILOP_DECRSAT;
+	case SOP_INCREMENT_WRAP:
+		return invert? D3DSTENCILOP_DECR : D3DSTENCILOP_INCR;
+	case SOP_DECREMENT_WRAP:
+		return invert? D3DSTENCILOP_INCR : D3DSTENCILOP_DECR;
+	case SOP_INVERT:
+		return D3DSTENCILOP_INVERT;
+	}
+	return 0;
+}
 
 //#define  _D3D_V(str) str
 void D3D9Verify( HRESULT hr )

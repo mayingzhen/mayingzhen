@@ -1,4 +1,3 @@
-#include"common.h"
 #include"smaa.h"
 
 // ---------------------------------------------------------------------
@@ -6,41 +5,10 @@
 // ---------------------------------------------------------------------
 
 
-texture mtedgesTex;
-sampler tSrcColor
-<
-	string TextureFiltering = "FO_LINEAR,FO_LINEAR,FO_LINEAR";
-	string TextureAddressingMode = "TAM_CLAMP,TAM_CLAMP";
->
- = sampler_state
-{
-    Texture = (mtedgesTex);
-};
 
-texture mtTexture1;
-sampler areaTex
-<
-	string TextureFiltering = "FO_LINEAR,FO_LINEAR,FO_LINEAR";
-	string TextureAddressingMode = "TAM_CLAMP,TAM_CLAMP";
-	string TextureAddressingModeW = "TAM_CLAMP";
->
- = sampler_state
-{
-    Texture = (mtTexture1);
-};
-
-texture mtTexture2;
-sampler searchTex
-<
-	string TextureFiltering = "FO_POINT,FO_POINT,FO_POINT";
-	string TextureAddressingMode = "TAM_CLAMP,TAM_CLAMP";
-	string TextureAddressingModeW = "TAM_CLAMP";
->
- = sampler_state
-{
-    Texture = (mtTexture2);
-};
-
+sampler2D tSrcColor;
+sampler2D areaTex;
+sampler2D searchTex;
 
 void main(float2 texcoord : TEXCOORD0,
 		float2 pixcoord : TEXCOORD1,

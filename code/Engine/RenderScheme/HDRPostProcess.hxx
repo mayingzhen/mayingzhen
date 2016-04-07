@@ -3,8 +3,7 @@
 
 namespace ma
 {
-	HDRPostProcess::HDRPostProcess(Scene* pScene)
-		:PostProcess(pScene)
+	HDRPostProcess::HDRPostProcess()
 	{
 	}
 
@@ -35,10 +34,10 @@ namespace ma
 		m_ToneMappingTech = CreateTechnique("ToneMaping","Screen","HDR/ToneMaping",NULL);
 	}
 
-	void HDRPostProcess::Reset()
+	void HDRPostProcess::Reset(Texture* pInput, Texture* pOutput)
 	{
-		//m_pInputTex = pInputTex;
-		//m_pOutputTex = pOutputTex;
+		m_pInputTex = pInput;
+		m_pOutputTex = pOutput;
 
 		int len = 1;
 		for (int i = NUM_SUM_LUM + 1 - 1; i >= 0; --i)

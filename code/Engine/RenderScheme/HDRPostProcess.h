@@ -10,13 +10,13 @@ namespace ma
 	class HDRPostProcess : public PostProcess
 	{
 	public:
-		HDRPostProcess(Scene* pScene);
+		HDRPostProcess();
 
 		~HDRPostProcess();
 
 		void	Init();
 
-		void	Reset();
+		void	Reset(Texture* pInput, Texture* pOutput);
 
 		void	Shoutdown();
 

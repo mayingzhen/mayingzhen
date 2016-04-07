@@ -51,11 +51,12 @@ namespace ma
 		// RenderState
 		void				SetRenderState(const RenderState& state);
 		void				SetBlendMode(BLEND_MODE eBlendMode);
-		void				SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode);
+		void				SetDepthCheckMode(CompareFunction eDepthCheckMode);
 		void				SetDepthWirte(bool b);
 		void				SetColorWrite(bool b);
 		void				SetCullMode(CULL_MODE eCullMode);
 		void				SetDepthBias(float fConstantBias,float slopeScaleBias);
+		void				SetSRGBWite(bool b);
 
 		void				SetStencilCheckEnabled(bool enabled);
 		void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 

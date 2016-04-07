@@ -56,6 +56,7 @@
 #include "Engine/RenderScheme/PostProcess.h"
 #include "Engine/RenderScheme/BlurPostProcess.h"
 #include "Engine/RenderScheme/HDRPostProcess.h"
+#include "Engine/RenderScheme/SMAAPostProcess.h"
 
 #include "Engine/ImageData/PixelFormat.h"
 #include "Engine/Material/Texture.h"

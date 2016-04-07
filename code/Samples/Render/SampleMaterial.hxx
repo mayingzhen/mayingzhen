@@ -31,6 +31,8 @@ namespace ma
 
 			SubMaterial* pSubMaterial = pClone->GetSubMaterialByIndex(0,0);
 			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
+
+			pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 			
 			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
 			pUniform->AddKeyFrame(0,Any(float(1.0f)));

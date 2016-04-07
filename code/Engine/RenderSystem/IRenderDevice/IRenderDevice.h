@@ -40,10 +40,18 @@ namespace ma
 		virtual	void				SetDepthBias(float constantBias, float slopeScaleBias = 0.0f) = 0;
 		virtual	void				SetCullingMode(CULL_MODE mode) = 0;
 		virtual void				SetBlendMode(BLEND_MODE mode) = 0;
-		virtual	void				SetDepthCheckMode(DEPTH_CHECK_MODE mode) = 0;
+		virtual	void				SetDepthCheckMode(CompareFunction mode) = 0;
 		virtual	void				SetDepthWrite(bool b) = 0;
 		virtual	void				SetColorWrite(bool b) = 0;
-
+		virtual	void				SetSRGBWrite(bool b) = 0;
+		virtual void				SetStencilEnable(bool b) = 0;
+		virtual void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
+			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
+			StencilOperation stencilFailOp = SOP_KEEP, 
+			StencilOperation depthFailOp = SOP_KEEP,
+			StencilOperation passOp = SOP_KEEP, 
+			bool twoSidedOperation = false) = 0;
+		
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;

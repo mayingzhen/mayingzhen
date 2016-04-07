@@ -42,18 +42,15 @@ namespace ma
 	{
 		/// Construct empty.
 		AttributeInfo();
-	    
+	
 		/// Construct accessor attribute.
 		AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode);
-	    
-		/// Construct accessor enum attribute.
-		AttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode);
 	    
 		const char* GetName() const;
 		void SetName(const char* pszName);
 
 		/// Enum names.
-		const char** enumNames_;
+		//const char** enumNames_;
 		/// Helper object for accessor mode.
 		RefPtr<AttributeAccessor> accessor_;
 		/// Default value for network replication.
@@ -61,7 +58,6 @@ namespace ma
 		/// Attribute mode: whether to use for serialization, network replication, or both.
 		unsigned mode_;
 		/// Attribute data pointer if elsewhere than in the Object.
-		void* ptr_;
 
 	private:
 		/// Name.
@@ -70,7 +66,47 @@ namespace ma
 
 	RefPtr<AttributeInfo> CreateAttributeInfo();
 	RefPtr<AttributeInfo> CreateAttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode);
-	RefPtr<AttributeInfo> CreateAttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode);
+
+
+	/// Template implementation of the attribute accessor invoke helper class.
+	template <class T, class U> class AttributeImpl : public AttributeAccessor
+	{
+	public:
+
+		/// Construct with function pointers.
+		AttributeImpl(size_t offset)
+		{
+			offset_ = offset;
+		}
+
+		/// Invoke getter function.
+		virtual void Get(const Object* ptr, Any& dest) const
+		{
+			assert(ptr);
+
+			const unsigned char* classPtr = reinterpret_cast<const unsigned char*>(ptr);
+
+			const U* src = reinterpret_cast<const U*>(classPtr + offset_);
+
+			dest = Any(*src);
+		}
+
+		/// Invoke setter function.
+		virtual void Set(Object* ptr, const Any& value)
+		{
+			assert(ptr);
+
+			// Calculate the destination address
+			unsigned char* classPtr = reinterpret_cast<unsigned char*>(ptr);
+			
+			U* dest = reinterpret_cast<U*>(classPtr + offset_);
+
+			*dest = any_cast<U>(value);
+		}
+
+		unsigned offset_;
+	};
+
 
 	/// Template implementation of the attribute accessor invoke helper class.
 	template <class T, class U> class AttributeAccessorImpl : public AttributeAccessor
@@ -147,6 +183,64 @@ namespace ma
 		GetFunctionPtr getFunction_;
 		/// Class-specific pointer to setter function.
 		SetFunctionPtr setFunction_;
+	};
+
+
+	/// Template implementation of the attribute accessor invoke helper class using const references.
+	template <class T, class U> class EnumAttributeImpl : public AttributeAccessor
+	{
+	public:
+		const char** m_arrEnumNames;
+
+		size_t m_offset;
+
+		/// Construct with function pointers.
+		EnumAttributeImpl(const char** arrEnumNames,size_t offset) :
+		m_offset(offset),
+		m_arrEnumNames(arrEnumNames)
+		{
+			ASSERT(m_arrEnumNames);
+		}
+
+		virtual void Get(const Object* ptr, Any& dest) const
+		{
+			ASSERT(ptr);
+
+			const unsigned char* classPtr = reinterpret_cast<const unsigned char*>(ptr);
+
+			const U* src = reinterpret_cast<const U*>(classPtr + m_offset);
+
+			U eValue = *src;
+
+			const char* pszValue = m_arrEnumNames[eValue];
+
+			dest = Any(pszValue);
+		}
+
+		/// Invoke setter function.
+		virtual void Set(Object* ptr, const Any& value)
+		{
+			ASSERT(ptr);
+
+			const char* pszVlue = any_cast<const char*>(value);
+			const char** pEnumNames = m_arrEnumNames;
+			int nEnumValue = 0;
+			while (*pEnumNames)
+			{
+				if ( strcmp( *pEnumNames, pszVlue ) == 0 )
+				{
+					break;
+				}
+				++pEnumNames;
+				++nEnumValue;
+			}
+
+			unsigned char* classPtr = reinterpret_cast<unsigned char*>(ptr);
+
+			U* dest = reinterpret_cast<U*>(classPtr + m_offset);
+
+			*dest = static_cast<U>(nEnumValue);
+		}
 	};
 
 	/// Template implementation of the attribute accessor invoke helper class using const references.

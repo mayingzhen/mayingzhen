@@ -21,9 +21,9 @@ namespace ma
 			pMaterial->AddSubMaterial(0,pSubMaterial.get());
 
 			RefPtr<Technique> pShadingTech = CreateTechnique("ShadingTech","particle","particle","");
-			pShadingTech->SetBlendMode(BM_TRANSPARENT);
-			pShadingTech->SetDepthWrite(false);
-			pShadingTech->SetCullMode(CULL_FACE_SIDE_NONE);
+			pShadingTech->m_eBlendMode = BM_TRANSPARENT;
+			pShadingTech->m_bDepthWrite = false;
+			pShadingTech->m_eCullMode = CULL_FACE_SIDE_NONE;
 			pSubMaterial->SetShadingTechnqiue(pShadingTech.get());
 
 			pSubMaterial->SetParameter("tDiff", Any( CreateTexture("particle/money.dds") ) );

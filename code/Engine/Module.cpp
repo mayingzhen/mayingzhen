@@ -82,12 +82,10 @@
 
 #include "Engine/RenderScheme/DeferredLightPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
-#include "Engine/RenderScheme/GBufferPass.hxx"
-#include "Engine/RenderScheme/ShadingPass.hxx"
 #include "Engine/RenderScheme/RenderScheme.hxx"
 #include "Engine/RenderScheme/BlurPostProcess.hxx"
 #include "Engine/RenderScheme/HDRPostProcess.hxx"
-
+#include "Engine/RenderScheme/SMAAPostProcess.hxx"
 
 // Scene
 #include "Engine/Scene/Component.hxx"

@@ -1,5 +1,4 @@
-#ifndef _PixelFormat_h__
-#define _PixelFormat_h__
+#pragma once
 
 
 
@@ -212,17 +211,30 @@ namespace ma
         PF_R16G16B16A16_SNORM = 87,
         /// ETC1 (Ericsson Texture Compression)
         PF_ETC1_RGB8 = 88,
+        /// ETC2 (Ericsson Texture Compression)
+        PF_ETC2_RGB8 = 89,
+        /// ETC2 (Ericsson Texture Compression)
+        PF_ETC2_RGBA8 = 90,
+        /// ETC2 (Ericsson Texture Compression)
+        PF_ETC2_RGB8A1 = 91,
+        /// ATC (AMD_compressed_ATC_texture)
+        PF_ATC_RGB = 92,
+        /// ATC (AMD_compressed_ATC_texture)
+        PF_ATC_RGBA_EXPLICIT_ALPHA = 93,
+        /// ATC (AMD_compressed_ATC_texture)
+        PF_ATC_RGBA_INTERPOLATED_ALPHA = 94,
+
 		/// 16-bit pixel format, 4 bits for alpha, red, green and blue.
-		PF_R4G4B4A4 = 89,
+		PF_R4G4B4A4 = 95,
 		
-		PF_D24S8 = 90,
+		PF_D24S8 = 96,
 
-		PF_NULL = 91, // (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
+		PF_NULL = 97, // (D3DFORMAT)MAKEFOURCC('N', 'U', 'L', 'L');
 
-		PF_INTZ = 92, // ((D3DFORMAT)(MAKEFOURCC(¡®I¡¯,¡¯N¡¯,¡¯T¡¯,¡¯Z¡¯))); 
+		PF_INTZ = 98, // ((D3DFORMAT)(MAKEFOURCC(¡®I¡¯,¡¯N¡¯,¡¯T¡¯,¡¯Z¡¯))); 
 
 		// Number of pixel formats currently defined
-        PF_COUNT = 93
+        PF_COUNT = 99
 	};
 
 	/**
@@ -245,7 +257,9 @@ namespace ma
         // replaces R,G and B. (but not A)
         PFF_LUMINANCE       = 0x00000020,
         // This is an integer format
-        PFF_INTEGER         = 0x00000040
+        PFF_INTEGER         = 0x00000040,
+        /// This integer format is signed.
+        PFF_SIGNED         = 0x00000080,
     };
     
     /** Pixel component format */
@@ -296,7 +310,7 @@ namespace ma
     class PixelBox: public Box{
     public:
     	/// Parameter constructor for setting the members manually
-    	PixelBox() {}
+		PixelBox():data(NULL), format(PF_UNKNOWN){setConsecutive();}
 		virtual ~PixelBox() {}
 		/** Constructor providing extents in the form of a Box object. This constructor
     		assumes the pixel data is laid out consecutively in memory. (this
@@ -400,7 +414,7 @@ namespace ma
 	/**
      * Some utility functions for packing and unpacking pixel data
      */
-    class PixelUtil {
+    class  PixelUtil {
     public:
 		static const PixelFormatDescription& getDescriptionFor(const PixelFormat fmt);
 
@@ -413,38 +427,66 @@ namespace ma
         static size_t getNumElemBytes( PixelFormat format );
 
         /** Returns the size in bits of an element of the given pixel format.
-          @returns
+          @return
                The size in bits of an element. See Remarks.
            @remarks
                Passing PF_UNKNOWN will result in returning a size of 0 bits.
         */
         static size_t getNumElemBits( PixelFormat format );
 
-		/** Returns the size in memory of a region with the given extents and pixel
-			format with consecutive memory layout.
-			@param width
-				The width of the area
-			@param height
-				The height of the area
-			@param depth
-				The depth of the area
-			@param format
-				The format of the area
-		  	@returns
-		  		The size in bytes
-			@remarks
-				In case that the format is non-compressed, this simply returns
-				width*height*depth*PixelUtil::getNumElemBytes(format). In the compressed
-				case, this does serious magic.
-		*/
-		static size_t getMemorySize(size_t width, size_t height, size_t depth, PixelFormat format);
-		
+        /** Returns the size in memory of a region with the given extents and pixel
+            format with consecutive memory layout.
+            @param width
+                The width of the area
+            @param height
+                The height of the area
+            @param depth
+                The depth of the area
+            @param format
+                The format of the area
+            @return
+                The size in bytes
+            @remarks
+                In case that the format is non-compressed, this simply returns
+                width*height*depth*PixelUtil::getNumElemBytes(format). In the compressed
+                case, this does serious magic.
+        */
+        static size_t getMemorySize(uint32 width, uint32 height, uint32 depth, PixelFormat format);
+
+        /** Returns the minimum width for block compressed schemes. ie. DXT1 compresses in blocks
+            of 4x4 pixels. A texture with a width of 2 is just padded to 4.
+            When building UV atlases composed of already compressed data being stitched together,
+            the block size is very important to know as the resolution of the individual textures
+            must be a multiple of this size.
+         @remarks
+            If the format is not compressed, returns 1.
+         @par
+            The function can return a value of 0 (as happens with PVRTC & ETC1 compression); this is
+            because although they may compress in blocks (i.e. PVRTC uses a 4x4 or 8x4 block), this
+            information is useless as the compression scheme doesn't have isolated blocks (modifying
+            a single pixel can change the binary data of the entire stream) making it useless for
+            subimage sampling or creating UV atlas.
+         @param format
+            The format to query for. Can be compressed or not.
+         @param apiStrict
+            When true, obeys the rules of most APIs (i.e. ETC1 can't update subregions according to
+            GLES specs). When false, becomes more practical if manipulating by hand (i.e. ETC1's
+            subregions can be updated just fine by @bulkCompressedSubregion)
+         @return
+            The width of compression block, in pixels. Can be 0 (see remarks). If format is not
+            compressed, returns 1.
+        */
+        static uint32 getCompressedBlockWidth( PixelFormat format, bool apiStrict=true );
+
+        /// @See getCompressedBlockWidth
+        static uint32 getCompressedBlockHeight( PixelFormat format, bool apiStrict=true );
+        
         /** Returns the property flags for this pixel format
-          @returns
+          @return
                A bitfield combination of PFF_HASALPHA, PFF_ISCOMPRESSED,
                PFF_FLOAT, PFF_DEPTH, PFF_NATIVEENDIAN, PFF_LUMINANCE
           @remarks
-               This replaces the seperate functions for formatHasAlpha, formatIsFloat, ...
+               This replaces the separate functions for formatHasAlpha, formatIsFloat, ...
         */
         static unsigned int getFlags( PixelFormat format );
 
@@ -606,10 +648,50 @@ namespace ma
          	dimensions. In case the source and destination format match, a plain copy is done.
         */
         static void bulkPixelConversion(const PixelBox &src, const PixelBox &dst);
+
+        /** Converts the input source to either PF_R8G8_SNORM or PF_BYTE_LA.
+            dst must be one of either formats.
+            @param  src         PixelBox containing the source pixels, pitches and format
+            @param  dst         PixelBox containing the destination pixels, pitches and format
+            @remarks The source and destination boxes must have the same dimensions.
+        */
+        static void convertForNormalMapping(const PixelBox &src, const PixelBox &dst);
+
+        /** Emplaces the binary compressed data from src into a subregion of dst.
+        @param  src
+            PixelBox containing the source pixels, pitches and format.
+            Data must be consecutive
+        @param  dst
+            PixelBox containing the destination pixels, pitches and format.
+            Data must be consecutive
+        @param dstRegion
+            The region on dst where src will be emplaced. dstRegion's resolution must
+            match that of src. dstRegion must be within dst's bounds.
+        @remarks
+            The source and destination must have the same the same format.
+        @par
+            Each compression format may enforce different requirements. Most notably
+            the subregions' bounds must be aligned to a certain boundary (usually to
+            multiples of 4). If these requirements aren't met, an exception will be
+            thrown.
+        @par
+            Some formats (i.e. PVRTC) don't support subregions at all, and thus
+            an exception will be thrown.
+        @par
+            @See getCompressedBlockWidth
+        */
+        static void bulkCompressedSubregion( const PixelBox &src, const PixelBox &dst,
+                                             const Box &dstRegion );
+
+        /** Flips pixels inplace in vertical direction.
+            @param  box         PixelBox containing pixels, pitches and format
+            @remarks Non consecutive pixel boxes are supported.
+         */
+        static void bulkPixelVerticalFlip(const PixelBox &box);
+
+		static int getNumMipmaps(int nWidth, int nHeight);
     };
 	/** @} */
 	/** @} */
 
 }
-
-#endif

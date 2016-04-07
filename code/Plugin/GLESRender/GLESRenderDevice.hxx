@@ -11,6 +11,9 @@ namespace ma
 	GLESRenderDevice::GLESRenderDevice()
 	{
 		m_pDeviceContext = new GLESDeviceContext();
+
+		mStencilEnabledGL = false;
+		mStencilMaskGL = 0xFFFFffff;
 	}
 
 	GLESRenderDevice::~GLESRenderDevice()
@@ -81,6 +84,18 @@ namespace ma
 		GLint val;
 		GL_ASSERT( glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &val) );
 #endif
+		
+		{
+			mStencilEnabledGL = false;
+			glDisable(GL_STENCIL_TEST);
+			//GL_CHECK_ERROR;
+		}
+
+		{
+			mStencilMaskGL = 0xFFFFffff;
+			glStencilMask(mStencilMaskGL);
+			//GL_CHECK_ERROR;
+		}
 
 		BuildDeviceCapabilities();
 	}
@@ -378,35 +393,126 @@ namespace ma
 		GL_ASSERT( glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/) );
 	}
 
-	void GLESRenderDevice::SetDepthCheckMode(DEPTH_CHECK_MODE mode)
+	void GLESRenderDevice::SetSRGBWrite(bool b)
+	{
+
+	}
+
+	void GLESRenderDevice::SetStencilEnable(bool enabled)
+	{
+		if(mStencilEnabledGL == enabled)
+			return;
+
+		//mStencilEnabledGL = enabled;
+
+		if (enabled)
+		{
+			glEnable(GL_STENCIL_TEST);
+		}
+		else
+		{
+			glDisable(GL_STENCIL_TEST);
+		}
+		//GL_CHECK_ERROR;
+	}
+
+	void GLESRenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
+		uint32 refValue/* = 0*/, uint32 compareMask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
+		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
+		StencilOperation depthFailOp/* = SOP_KEEP*/,
+		StencilOperation passOp/* = SOP_KEEP*/, 
+		bool twoSidedOperation/* = false*/)
+	{
+		bool flip = false;
+
+		if (twoSidedOperation)
+		{
+			// 		if (!mCurrentCapabilities->hasCapability(RSC_TWO_SIDED_STENCIL))
+			// 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "2-sided stencils are not supported",
+			// 			"GLES2RenderSystem::setStencilBufferParams");
+
+			// NB: We should always treat CCW as front face for consistent with default
+			// culling mode. Therefore, we must take care with two-sided stencil settings.
+			//flip = !mInvertVertexWinding;
+
+			// Back
+			glStencilMaskSeparate(GL_BACK, writeMask);
+			//GL_CHECK_ERROR;
+			glStencilFuncSeparate(GL_BACK, GLESMapping::convertCompareFunction(func), refValue, compareMask);
+			//GL_CHECK_ERROR;
+			glStencilOpSeparate(GL_BACK, 
+				GLESMapping::convertStencilOp(stencilFailOp, !flip), 
+				GLESMapping::convertStencilOp(depthFailOp, !flip), 
+				GLESMapping::convertStencilOp(passOp, !flip));
+
+			//GL_CHECK_ERROR;
+			// Front
+			glStencilMaskSeparate(GL_FRONT, writeMask);
+			//GL_CHECK_ERROR;
+			glStencilFuncSeparate(GL_FRONT, GLESMapping::convertCompareFunction(func), refValue, compareMask);
+			//GL_CHECK_ERROR;
+			glStencilOpSeparate(GL_FRONT, 
+				GLESMapping::convertStencilOp(stencilFailOp, flip),
+				GLESMapping::convertStencilOp(depthFailOp, flip), 
+				GLESMapping::convertStencilOp(passOp, flip));
+			//GL_CHECK_ERROR;
+		}
+		else
+		{
+			flip = false;
+			this->SetStencilMaskGL(writeMask);
+
+			glStencilFunc(GLESMapping::convertCompareFunction(func), refValue, compareMask);
+			//GL_CHECK_ERROR;
+			glStencilOp(
+				GLESMapping::convertStencilOp(stencilFailOp, flip),
+				GLESMapping::convertStencilOp(depthFailOp, flip), 
+				GLESMapping::convertStencilOp(passOp, flip));
+			//GL_CHECK_ERROR;
+		}
+	}
+
+	void GLESRenderDevice::SetStencilMaskGL(GLuint mask)
+	{
+		if (mStencilMaskGL == mask)
+		{
+			return;
+		}
+		mStencilMaskGL = mask;
+
+		glStencilMask(mask);
+		//GL_CHECK_ERROR;
+	}
+
+	void GLESRenderDevice::SetDepthCheckMode(CompareFunction mode)
 	{
 		switch (mode)
 		{
-		case DCM_NONE:
+		case CMPF_ALWAYS_FAIL:
 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
 			break;
 
-		case DCM_LESS_EQUAL:
+		case CMPF_LESS_EQUAL:
 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
 			break;
 
-		case DCM_LESS:
+		case CMPF_LESS:
 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 			GL_ASSERT( glDepthFunc(GL_LESS) );
 			break;
 
-		case DCM_GREATER_EQUAL:
+		case CMPF_GREATER_EQUAL:
 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
 			break;
 
-		case DCM_GREATER:
+		case CMPF_GREATER:
 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 			GL_ASSERT( glDepthFunc(GL_GREATER) );
 			break;
 
-		case DCM_EQUAL:
+		case CMPF_EQUAL:
 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
 			GL_ASSERT( glDepthFunc(GL_EQUAL) );
 			break;

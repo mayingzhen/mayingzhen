@@ -368,16 +368,83 @@ namespace ma
 		m_pD3DDevice->SetRenderState(D3DRS_COLORWRITEENABLE, val); 
 	}
 
-	void D3D9RenderDevice::SetDepthCheckMode(DEPTH_CHECK_MODE mode)
+	void D3D9RenderDevice::SetSRGBWrite(bool b)
+	{
+		m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, b ? TRUE : FALSE);
+	}
+
+	void D3D9RenderDevice::SetStencilEnable(bool b)
+	{
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, b?TRUE:FALSE);
+	}
+
+	void D3D9RenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
+		uint32 refValue/* = 0*/, uint32 mask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
+		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
+		StencilOperation depthFailOp/* = SOP_KEEP*/,
+		StencilOperation passOp/* = SOP_KEEP*/, 
+		bool twoSidedOperation/* = false*/)
+	{
+		bool flip = false;
+
+		// 2-sided operation
+		if (twoSidedOperation)
+		{
+			ASSERT((m_d3dcaps.StencilCaps & D3DSTENCILCAPS_TWOSIDED) != 0);
+			m_pD3DDevice->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, TRUE);
+
+			// NB: We should always treat CCW as front face for consistent with default
+			// culling mode. Therefore, we must take care with two-sided stencil settings.
+			//flip = !mInvertVertexWinding;
+
+			// Set alternative versions of ops
+			// fail op
+			m_pD3DDevice->SetRenderState(D3DRS_CCW_STENCILFAIL, D3D9Mapping::get(stencilFailOp, !flip));
+
+			// depth fail op
+			m_pD3DDevice->SetRenderState(D3DRS_CCW_STENCILZFAIL, D3D9Mapping::get(depthFailOp, !flip));
+
+			// pass op
+			m_pD3DDevice->SetRenderState(D3DRS_CCW_STENCILPASS, D3D9Mapping::get(passOp, !flip));
+		}
+		else
+		{
+			m_pD3DDevice->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, FALSE);
+			flip = false;
+		}
+
+		// func
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3D9Mapping::get(func));
+
+		// reference value
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILREF, refValue);
+
+		// mask
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, mask);
+
+		// write
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, writeMask);
+
+		// fail op
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3D9Mapping::get(stencilFailOp, flip));
+
+		// depth fail op
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3D9Mapping::get(depthFailOp, flip));
+
+		// pass op
+		m_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3D9Mapping::get(passOp, flip));
+	}
+
+	void D3D9RenderDevice::SetDepthCheckMode(CompareFunction mode)
 	{
 		switch (mode)
 		{
-		case DCM_NONE:
+		case CMPF_ALWAYS_FAIL:
 			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 			m_bZEnable = false;
 			break;
 
-		case DCM_LESS_EQUAL:
+		case CMPF_LESS_EQUAL:
 			if (!m_bZEnable)
 			{
 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -386,7 +453,7 @@ namespace ma
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 			break;
 
-		case DCM_LESS:
+		case CMPF_LESS:
 			if (!m_bZEnable)
 			{
 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -395,7 +462,7 @@ namespace ma
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESS);
 			break;
 
-		case DCM_GREATER_EQUAL:
+		case CMPF_GREATER_EQUAL:
 			if (!m_bZEnable)
 			{
 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -404,12 +471,12 @@ namespace ma
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATEREQUAL);
 			break;
 
-		case DCM_GREATER:
+		case CMPF_GREATER:
 			m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_GREATER);
 			break;
 
-		case DCM_EQUAL:
+		case CMPF_EQUAL:
 			if (!m_bZEnable)
 			{
 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -418,7 +485,7 @@ namespace ma
 			m_pD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_EQUAL);
 			break;
 
-		case DCM_ALWAYS:
+		case CMPF_ALWAYS_PASS:
 			if (!m_bZEnable)
 			{
 				m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -464,27 +531,6 @@ namespace ma
 			m_arrSRGB[uniform->m_location] = pTexture->GetSRGB();
 		}
 	}
-
-// 	void D3D9RenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
-// 	{
-// 		DWORD wrapS = D3D9Mapping::GetD3D9Wrap(eWrap);
-// 		DWORD wrapT = D3D9Mapping::GetD3D9Wrap(eWrap);
-// 
-// 		//address mode
-// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
-// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
-// 	}
-// 
-// 	void D3D9RenderDevice::SetTextureFilter(Uniform* uniform,FilterOptions eFilter)
-// 	{
-// 		DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-// 		D3D9Mapping::GetD3D9Filter(eFilter,minFilter,magFilter,mipFilter);
-// 
-// 		//filter mode
-// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
-// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
-// 		D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
-// 	}
 
 	void D3D9RenderDevice::mfSetPSConst(int nReg, const float *vData, const int nParams)
 	{

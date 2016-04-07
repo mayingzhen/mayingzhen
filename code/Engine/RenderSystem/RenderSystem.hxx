@@ -183,11 +183,11 @@ namespace ma
 
 	void RenderSystem::InitCachState()
 	{
-		GetRenderDevice()->SetColorWrite( m_curState.GetColorWrite() );
-		GetRenderDevice()->SetDepthWrite( m_curState.GetDepthWrite() );
-		GetRenderDevice()->SetCullingMode( m_curState.GetCullMode() );
-		GetRenderDevice()->SetDepthCheckMode( m_curState.GetDepthCheckMode() );
-		GetRenderDevice()->SetBlendMode( m_curState.GetBlendMode() );
+		GetRenderDevice()->SetColorWrite( m_curState.m_bColorWrite );
+		GetRenderDevice()->SetDepthWrite( m_curState.m_bDepthWrite );
+		GetRenderDevice()->SetCullingMode( m_curState.m_eCullMode );
+		GetRenderDevice()->SetDepthCheckMode( m_curState.m_eDepthCheckMode );
+		GetRenderDevice()->SetBlendMode( m_curState.m_eBlendMode );
 	}
 
 
@@ -386,46 +386,55 @@ namespace ma
 
 	void RenderSystem::SetBlendMode(BLEND_MODE eBlendMode)
 	{
-		if (m_curState.GetBlendMode() != eBlendMode)
+		if (m_curState.m_eBlendMode != eBlendMode)
 		{
-			m_curState.SetBlendMode(eBlendMode);
+			m_curState.m_eBlendMode = eBlendMode;
 			m_pRenderThread->RC_SetBlendMode(eBlendMode);
 		}
 	}
 
-	void RenderSystem::SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode)
+	void RenderSystem::SetDepthCheckMode(CompareFunction eDepthCheckMode)
 	{
-		if (m_curState.GetDepthCheckMode() != eDepthCheckMode)
+		if (m_curState.m_eDepthCheckMode != eDepthCheckMode)
 		{
-			m_curState.SetDepthCheckMode(eDepthCheckMode);
+			m_curState.m_eDepthCheckMode = eDepthCheckMode;
 			m_pRenderThread->RC_SetDepthCheckMode(eDepthCheckMode);
 		}
 	}
 
 	void RenderSystem::SetCullMode(CULL_MODE eCullMode)
 	{
-		if (m_curState.GetCullMode() != eCullMode)
+		if (m_curState.m_eCullMode != eCullMode)
 		{
-			m_curState.SetCullMode(eCullMode);
+			m_curState.m_eCullMode = eCullMode;
 			m_pRenderThread->RC_SetCullMode(eCullMode);
 		}
 	}
 
 	void RenderSystem::SetDepthWirte(bool b)
 	{
-		if (m_curState.GetDepthWrite() != b)
+		if (m_curState.m_bDepthWrite != b)
 		{
-			m_curState.SetDepthWrite(b);
+			m_curState.m_bDepthWrite = b;
 			m_pRenderThread->RC_SetDepthWrite(b);
 		}
 	}
 
 	void RenderSystem::SetColorWrite(bool b)
 	{
-		if (m_curState.GetColorWrite() != b)
+		if (m_curState.m_bColorWrite != b)
 		{
-			m_curState.SetColorWrite(b);
+			m_curState.m_bColorWrite = b;
 			m_pRenderThread->RC_SetColorWrite(b);
+		}
+	}
+
+	void RenderSystem::SetSRGBWite(bool b)
+	{
+		if (m_curState.m_bSRGBWrite != b)
+		{
+			m_curState.m_bSRGBWrite = b;
+			m_pRenderThread->RC_SetSRGBWite(b);
 		}
 	}
 
@@ -433,14 +442,18 @@ namespace ma
 	{
 		//if ( Math::Abs(m_curState.GetDepthBias() - fDepthBias) > 0.0001f )
 		{
-			m_curState.SetDepthBias(fConstantBias,slopeScaleBias);
+			m_curState.m_fConstantBias = fConstantBias;
+			m_curState.m_fSlopeScaleBias = slopeScaleBias;
 			m_pRenderThread->RC_SetDepthBias(fConstantBias,slopeScaleBias);
 		}
 	}
 
 	void RenderSystem::SetStencilCheckEnabled(bool enabled)
 	{
-
+		if (m_curState.m_bStencil != enabled)
+		{
+			m_pRenderThread->RC_SetStencilCheckEnabled(enabled);
+		}
 	}
 
 	void RenderSystem::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
@@ -450,23 +463,29 @@ namespace ma
 		StencilOperation passOp/* = SOP_KEEP*/, 
 		bool twoSidedOperatio/*n = false*/)
 	{
-
+		m_pRenderThread->RC_SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
 	}
 
 
 	void RenderSystem::SetRenderState(const RenderState& state)
 	{
-		SetBlendMode(state.GetBlendMode());
+		SetBlendMode(state.m_eBlendMode);
 
-		SetCullMode(state.GetCullMode());
+		SetCullMode(state.m_eCullMode);
 
-		SetDepthCheckMode(state.GetDepthCheckMode());
+		SetDepthCheckMode(state.m_eDepthCheckMode);
 		
-		SetDepthWirte(state.GetDepthWrite());
+		SetDepthWirte(state.m_bDepthWrite);
 
-		SetColorWrite(state.GetColorWrite());
+		SetColorWrite(state.m_bColorWrite);
 
-		SetDepthBias(state.GetConstantBias(),state.GetSlopeScaleBias());
+		SetDepthBias(state.m_fConstantBias,state.m_fSlopeScaleBias);
+
+		SetSRGBWite(state.m_bSRGBWrite);
+
+		SetStencilCheckEnabled(state.m_bStencil);
+		SetStencilBufferParams(state.m_eStencilfunc,state.m_nStencilRefValue,state.m_nStencilMask,
+			state.m_nStencilWriteMask,state.m_eStencilFail,state.m_eDepthFailOp,state.m_eStencilPass,false);
 	}
 
 	void RenderSystem::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)

@@ -6,13 +6,13 @@ namespace ma
 	class SMAAPostProcess : public PostProcess
 	{
 	public:
-		SMAAPostProcess(Texture* pInputTex, Texture* pOutputTex);
+		SMAAPostProcess();
 
 		~SMAAPostProcess();
 
-		virtual void		Init(int nWidth, int nHeight);
+		virtual void		Init();
 
-		virtual void		Reset(int nWidth, int nHeight);
+		virtual void		Reset(Texture* pInput, Texture* pOutput);
 
 		virtual void		Shutdown();
 

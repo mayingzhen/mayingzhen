@@ -248,30 +248,6 @@ namespace ma
 		0
 	};
 
-
-	enum DEPTH_CHECK_MODE
-	{
-		DCM_LESS_EQUAL,
-		DCM_LESS,
-		DCM_GREATER_EQUAL,
-		DCM_GREATER,
-		DCM_EQUAL,
-		DCM_ALWAYS,
-		DCM_NONE,
-	};
-
-	static const char* strDepthCheckMode[] =
-	{
-		"DCM_LESS_EQUAL",
-		"DCM_LESS",
-		"DCM_GREATER_EQUAL",
-		"DCM_GREATER",
-		"DCM_EQUAL",
-		"DCM_ALWAYS",
-		"DCM_NONE",
-		0
-	};
-
 	enum CompareFunction
 	{
 		CMPF_ALWAYS_FAIL,
@@ -283,6 +259,20 @@ namespace ma
 		CMPF_GREATER_EQUAL,
 		CMPF_GREATER
 	};
+
+	static const char* strCompareFunction[] =
+	{
+ 		"CMPF_ALWAYS_FAIL",
+ 		"CMPF_ALWAYS_PASS",
+ 		"CMPF_LESS",
+ 		"CMPF_LESS_EQUAL",
+ 		"CMPF_EQUAL",
+ 		"CMPF_NOT_EQUAL",
+ 		"CMPF_GREATER_EQUAL",
+		"CMPF_GREATER",
+ 		0
+	 };
+
 
 	/// Enum describing the various actions which can be taken onthe stencil buffer
 	enum StencilOperation
@@ -303,6 +293,27 @@ namespace ma
 		SOP_DECREMENT_WRAP,
 		/// Invert the bits of the stencil buffer
 		SOP_INVERT
+	};
+
+	static const char* strStencilOperation[] =
+	{
+		/// Leave the stencil buffer unchanged
+		"SOP_KEEP",
+		/// Set the stencil value to zero
+		"SOP_ZERO",
+		/// Set the stencil value to the reference value
+		"SOP_REPLACE",
+		/// Increase the stencil value by 1, clamping at the maximum value
+		"SOP_INCREMENT",
+		/// Decrease the stencil value by 1, clamping at 0
+		"SOP_DECREMENT",
+		/// Increase the stencil value by 1, wrapping back to 0 when incrementing the maximum value
+		"SOP_INCREMENT_WRAP",
+		/// Decrease the stencil value by 1, wrapping when decrementing 0
+		"SOP_DECREMENT_WRAP",
+		/// Invert the bits of the stencil buffer
+		"SOP_INVERT",
+		0
 	};
 
 

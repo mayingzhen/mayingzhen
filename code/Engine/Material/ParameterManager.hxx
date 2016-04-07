@@ -1,5 +1,4 @@
 #include "ParameterManager.h"
-#include "../RenderScheme/GBufferPass.h"
 #include "../RenderScheme/DeferredLightPass.h"
 #include "../RenderScheme/DeferredShadowPass.h"
 
@@ -344,26 +343,17 @@ namespace ma
 
 	Texture* ParameterManager::autoBingingSceneDiffuse() const
 	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
-			return NULL;
-
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneDiffuse();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneDiffuse();
 	}
 
 	Texture* ParameterManager::autoBingingSceneDetph() const
 	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
-			return NULL;
-
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneDepth();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneDepth();
 	}
 
 	Texture* ParameterManager::autoBindingSceneNormal() const
 	{
-		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass() == NULL)
-			return NULL;
-
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetGBufferPass()->GetSceneNormal();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneNormal();
 	}
 
 	Texture* ParameterManager::autoBindingTextureLightShadow() const

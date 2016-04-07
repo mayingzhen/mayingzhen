@@ -35,13 +35,19 @@ namespace ma
 		virtual	void				SetDepthBias(float constantBias, float slopeScaleBias = 0.0f);
 		virtual	void				SetCullingMode(CULL_MODE mode);
 		virtual void				SetBlendMode(BLEND_MODE mode);
-		virtual	void				SetDepthCheckMode(DEPTH_CHECK_MODE mode);
+		virtual	void				SetDepthCheckMode(CompareFunction mode);
 		virtual	void				SetDepthWrite(bool b);
 		virtual	void				SetColorWrite(bool b);
+		virtual void				SetSRGBWrite(bool b);
+		virtual void				SetStencilEnable(bool b);
+		virtual void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
+			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
+			StencilOperation stencilFailOp = SOP_KEEP, 
+			StencilOperation depthFailOp = SOP_KEEP,
+			StencilOperation passOp = SOP_KEEP, 
+			bool twoSidedOperation = false);
 
  		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-// 		virtual	void				SetTextureWrap(Uniform* uniform,Wrap eWrap);
-// 		virtual void				SetTextureFilter(Uniform* uniform,FilterOptions eFilter);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
@@ -49,7 +55,6 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-		//virtual	void				SetValue(Uniform* uniform,const SamplerState* sampler);
 		
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
@@ -78,6 +83,8 @@ namespace ma
 
 		FrameBufferHandle			GetOffecreenFrameBuffer() {return m_hOffecreenFrameBuffer;}
 
+		void						SetStencilMaskGL(GLuint mask);
+
 	private:
 		void						BuildDeviceCapabilities();
 
@@ -86,6 +93,9 @@ namespace ma
 		FrameBufferHandle			m_hOffecreenFrameBuffer;	
 
 		GLESDeviceContext*			m_pDeviceContext;	
+
+		bool mStencilEnabledGL;
+		GLuint mStencilMaskGL;
 	};
 }
 

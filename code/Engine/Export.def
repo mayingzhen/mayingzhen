@@ -54,7 +54,6 @@ EXPORTS
 ?AddComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
 ?Render@RenderSystem@ma@@QAEXXZ
 ?GetObjectFactoryManager@ma@@YAPAVObjectFactoryManager@1@XZ
-?AddRenderPass@RenderScheme@ma@@QAEXPAVRenderPass@2@@Z
 ?isFloatingPoint@PixelUtil@ma@@SA_NW4PixelFormat@2@@Z
 ?TexStreamComplete@RenderSystem@ma@@QAEXPAVTexture@2@@Z
 ?GetMatViewProj@Camera@ma@@QAEABVMatrix4@2@XZ

@@ -38,6 +38,9 @@ namespace ma
 		eRC_SetCullMode,
 		eRC_SetDepthBias,
 		eRC_SetBlendMode,
+		eRC_SetSRGBWite,
+		eRC_SetStenCilEnabled,
+		eRC_SetStenCilParam,
 
 		// Unfiform
 		eRC_SetFloat,
@@ -130,12 +133,20 @@ namespace ma
 		void	RC_SetViewPort(const Rectangle& viewPort);
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
-		void	RC_SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode);
+		void	RC_SetDepthCheckMode(CompareFunction eDepthCheckMode);
 		void	RC_SetDepthWrite(bool b);
 		void	RC_SetColorWrite(bool b);
+		void	RC_SetSRGBWite(bool b);
 		void	RC_SetCullMode(CULL_MODE eCullMode);
 		void	RC_SetDepthBias(float fConstantBias,float slopeScaleBias);
 		void	RC_SetBlendMode(BLEND_MODE eBlendMode);
+		void	RC_SetStencilCheckEnabled(bool b);
+		void	RC_SetStencilBufferParams(CompareFunction func, 
+			uint32 refValue, uint32 mask, uint32 writeMask,
+			StencilOperation stencilFailOp, 
+			StencilOperation depthFailOp,
+			StencilOperation passOp, 
+			bool twoSidedOperatio);
 
 		void	RC_SetFloat(Uniform* uniform, float value);
 		void	RC_SetVector2(Uniform* uniform, const Vector2& value);

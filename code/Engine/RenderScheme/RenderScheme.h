@@ -5,11 +5,11 @@
 
 namespace ma
 {
-	class ShadingPass;
 	class RenderPass;
-	class GBufferPass;
 	class DeferredLightPass;
 	class DeferredShadowPass;
+	class HDRPostProcess;
+	class SMAAPostProcess;
 	class Scene;
 
 	class  RenderScheme : public Referenced
@@ -22,7 +22,7 @@ namespace ma
 			DeferredShading,
 		};
 
-		RenderScheme(Scene* pScene);
+		RenderScheme(RenderScheme::Type eType,Scene* pScene);
 
 		void	Init();
 
@@ -34,28 +34,28 @@ namespace ma
 
 		void	AddRenderPass(RenderPass* pPass);
 
-		GBufferPass* GetGBufferPass() const {return	m_pGBufferPass;}
-		void AddGBufferPass();
-
-		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass; }
-		void AddDeferredShadowPass();
+		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
 		
-		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass; }
-		void AddDeferredLightPass();
+		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass.get(); }
 
-		ShadingPass* GetShadingPass() const { return m_pShadingPass; }
-		void AddShadingPass();
+		Texture* GetSceneDiffuse() const {return m_pDiffuse.get();}
+		Texture* GetSceneDepth() const {return m_pDepthTex.get();}
+		Texture* GetSceneNormal() const {return m_pNormalTex.get();}
 
 	private:
-		typedef std::vector< RefPtr<RenderPass> >	VEC_RENDERPASS;
-		VEC_RENDERPASS	m_arrRenderPass;
+		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
+		RefPtr<DeferredLightPass>	m_pDeferredLightPass;
 
-		GBufferPass*		m_pGBufferPass;
-		DeferredShadowPass*	m_pDeferredShadowPass;
-		DeferredLightPass*	m_pDeferredLightPass;
-		ShadingPass*		m_pShadingPass;
+		RefPtr<HDRPostProcess>	m_pHDR;
+		RefPtr<SMAAPostProcess> m_pSMAA;
 
-		Scene*			m_pScene;
+		RefPtr<Texture>			m_pDepthTex;
+		RefPtr<Texture>			m_pNormalTex;
+		RefPtr<Texture>			m_pDiffuse;
+
+		Scene*					m_pScene;
+
+		Type					m_eType;
 	};
 
 	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType,Scene* pScene);

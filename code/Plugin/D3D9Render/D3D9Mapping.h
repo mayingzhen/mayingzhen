@@ -45,6 +45,10 @@ namespace ma
 		static int          GetD3DDeclTypeSize(BYTE type);
 		static D3DPRIMITIVETYPE GetD3DPrimitiveType(PRIMITIVE_TYPE type);
 
+		static uint32 get(CompareFunction cf);
+
+		static uint32 get(StencilOperation op, bool invert = false);
+
 	
 // 		static std::string   GetD3DErrorDescription(HRESULT hr);
 // 		static std::string   GetD3DErrorString(HRESULT hr);

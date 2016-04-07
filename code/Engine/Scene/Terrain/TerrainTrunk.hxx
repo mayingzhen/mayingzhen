@@ -340,9 +340,9 @@ namespace ma
 			{
 				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
 				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
-				pTech->SetBlendMode(BM_TRANSPARENT);
-				pTech->SetDepthCheckMode(DCM_EQUAL);
-				pTech->SetDepthWrite(false);
+				pTech->m_eBlendMode = BM_TRANSPARENT;
+				pTech->m_eDepthCheckMode = CMPF_EQUAL;
+				pTech->m_bDepthWrite = false;
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
@@ -380,7 +380,7 @@ namespace ma
 				SkitIB& skitIB = m_vecSkirt[m][n];
 
 				RefPtr<SubMaterial> pSkirtMaterial = lod.m_vecBody[0]->GetMaterial()->Clone();
-				pSkirtMaterial->GetShadingTechnqiue()->SetCullMode(CULL_FACE_SIDE_NONE);
+				pSkirtMaterial->GetShadingTechnqiue()->m_eCullMode = CULL_FACE_SIDE_NONE;
 
 				for (UINT i = 0; i < SideNum; ++i)
 				{

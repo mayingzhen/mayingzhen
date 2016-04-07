@@ -83,7 +83,10 @@ namespace ma
         /* rbits, gbits, bbits, abits */
         8, 0, 0, 8,
         /* Masks and shifts */
-        0,0,0,0,0,0,0,0
+        //    0, 0, 0, 0, //Deprecated. See PF_RG8
+        //    0, 0, 0, 0
+        0x000000FF, 0, 0, 0x0000FF00,
+        0, 0, 0, 8
         },
 	//-----------------------------------------------------------------------
         {"PF_R5G6B5",
@@ -405,9 +408,9 @@ namespace ma
         /* Flags */
         PFF_DEPTH,
         /* Component type and count */
-        PCT_FLOAT32, 1, // ?
+            PCT_FLOAT16, 1, // ?
         /* rbits, gbits, bbits, abits */
-        0, 0, 0, 0,
+            16, 0, 0, 0,
         /* Masks and shifts */
 		0, 0, 0, 0, 0, 0, 0, 0
         },
@@ -634,8 +637,8 @@ namespace ma
         /* rbits, gbits, bbits, abits */
         8, 8, 0, 0,
         /* Masks and shifts */
-        0xFF00, 0x00FF, 0, 0,
-        8, 0, 0, 0
+            0x000000FF, 0x0000FF00, 0, 0,
+            0, 8, 0, 0
         },
     //-----------------------------------------------------------------------
         {"PF_R8G8B8_UINT",
@@ -802,8 +805,8 @@ namespace ma
         /* rbits, gbits, bbits, abits */
         8, 8, 0, 0,
         /* Masks and shifts */
-        0xFF00, 0x00FF, 0, 0,
-        8, 0, 0, 0
+            0x000000FF, 0x0000FF00, 0, 0,
+            0, 8, 0, 0
         },
     //-----------------------------------------------------------------------
         {"PF_R8G8B8_SINT",
@@ -977,7 +980,7 @@ namespace ma
         /* Bytes per element */
         0,
         /* Flags */
-        PFF_COMPRESSED,
+            PFF_COMPRESSED | PFF_SIGNED | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 1, // Red only
         /* rbits, gbits, bbits, abits */
@@ -1003,7 +1006,7 @@ namespace ma
         /* Bytes per element */
         0,
         /* Flags */
-        PFF_COMPRESSED,
+            PFF_COMPRESSED | PFF_SIGNED | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 2, // Red-Green only
         /* rbits, gbits, bbits, abits */
@@ -1088,15 +1091,17 @@ namespace ma
         /* rbits, gbits, bbits, abits */
         8, 8, 0, 0,
         /* Masks and shifts */
-        0xFF0000, 0x00FF00, 0, 0,
-        8, 0, 0, 0
+            0x000000FF, 0, 0, 0x0000FF00, //Interpret legacy BYTE_LA formats as RG8
+            0, 0, 0, 8
+            //0x000000FF, 0x0000FF00, 0, 0,
+            //0, 8, 0, 0
         },
     //-----------------------------------------------------------------------
         {"PF_R8_SNORM",
         /* Bytes per element */
         1,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 1,
         /* rbits, gbits, bbits, abits */
@@ -1110,21 +1115,21 @@ namespace ma
         /* Bytes per element */
         2,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 2,
         /* rbits, gbits, bbits, abits */
         8, 8, 0, 0,
         /* Masks and shifts */
-        0xFF00, 0x00FF, 0, 0,
-        8, 0, 0, 0
+            0x000000FF, 0x0000FF00, 0, 0,
+            0, 8, 0, 0
         },
     //-----------------------------------------------------------------------
         {"PF_R8G8B8_SNORM",
         /* Bytes per element */
         3,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 3,
         /* rbits, gbits, bbits, abits */
@@ -1138,7 +1143,7 @@ namespace ma
         /* Bytes per element */
         4,
         /* Flags */
-        PFF_HASALPHA | PFF_NATIVEENDIAN,
+            PFF_HASALPHA | PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 4,
         /* rbits, gbits, bbits, abits */
@@ -1152,7 +1157,7 @@ namespace ma
         /* Bytes per element */
         2,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 1,
         /* rbits, gbits, bbits, abits */
@@ -1166,7 +1171,7 @@ namespace ma
         /* Bytes per element */
         4,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 2,
         /* rbits, gbits, bbits, abits */
@@ -1180,7 +1185,7 @@ namespace ma
         /* Bytes per element */
         6,
         /* Flags */
-        PFF_NATIVEENDIAN,
+            PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 3,
         /* rbits, gbits, bbits, abits */
@@ -1194,7 +1199,7 @@ namespace ma
         /* Bytes per element */
         8,
         /* Flags */
-        PFF_HASALPHA | PFF_NATIVEENDIAN,
+            PFF_HASALPHA | PFF_NATIVEENDIAN | PFF_SIGNED,
         /* Component type and count */
         PCT_BYTE, 4,
         /* rbits, gbits, bbits, abits */
@@ -1217,7 +1222,84 @@ namespace ma
         /* Masks and shifts */
         0, 0, 0, 0, 0, 0, 0, 0
         },
-
+        //-----------------------------------------------------------------------
+        {"PF_ETC2_RGB8",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED,
+        /* Component type and count */
+        PCT_BYTE, 3,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
+        //-----------------------------------------------------------------------
+        {"PF_ETC2_RGBA8",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED | PFF_HASALPHA,
+        /* Component type and count */
+        PCT_BYTE, 4,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
+        //-----------------------------------------------------------------------
+        {"PF_ETC2_RGB8A1",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED | PFF_HASALPHA,
+        /* Component type and count */
+        PCT_BYTE, 4,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
+        //-----------------------------------------------------------------------
+        {"PF_ATC_RGB",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED,
+        /* Component type and count */
+        PCT_BYTE, 3,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
+        //-----------------------------------------------------------------------
+        {"PF_ATC_RGBA_EXPLICIT_ALPHA",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED | PFF_HASALPHA,
+        /* Component type and count */
+        PCT_BYTE, 4,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
+        //-----------------------------------------------------------------------
+        {"PF_ATC_RGBA_INTERPOLATED_ALPHA",
+        /* Bytes per element */
+        0,
+        /* Flags */
+        PFF_COMPRESSED | PFF_HASALPHA,
+        /* Component type and count */
+        PCT_BYTE, 4,
+        /* rbits, gbits, bbits, abits */
+        0, 0, 0, 0,
+        /* Masks and shifts */
+        0, 0, 0, 0, 0, 0, 0, 0
+        },
 	//-----------------------------------------------------------------------
 		{"PF_R4G4B4A4",
 		/* Bytes per element */
@@ -1231,6 +1313,51 @@ namespace ma
 		/* Masks and shifts */
 		0xF000, 0x0F00, 0x00F0, 0x000F,
 		12, 8, 4, 0
+		},
+
+		//-----------------------------------------------------------------------
+		{"PF_D24S8",
+		/* Bytes per element */
+		4,
+		/* Flags */
+		PFF_DEPTH,
+		/* Component type and count */
+		PCT_BYTE, 0,
+		/* rbits, gbits, bbits, abits */
+		0, 0, 0, 0,
+		/* Masks and shifts */
+		0, 0, 0, 0,
+		0, 0, 0, 0
+		},
+
+		//-----------------------------------------------------------------------
+		{"PF_NULL",
+		/* Bytes per element */
+		0,
+		/* Flags */
+		0,
+		/* Component type and count */
+		PCT_BYTE, 0,
+		/* rbits, gbits, bbits, abits */
+		0, 0, 0, 0,
+		/* Masks and shifts */
+		0, 0, 0, 0,
+		0, 0, 0, 0
+		},
+
+		//-----------------------------------------------------------------------
+		{"PF_INTZ",
+		/* Bytes per element */
+		4,
+		/* Flags */
+		PFF_DEPTH,
+		/* Component type and count */
+		PCT_BYTE, 0,
+		/* rbits, gbits, bbits, abits */
+		0, 0, 0, 0,
+		/* Masks and shifts */
+		0, 0, 0, 0,
+		0, 0, 0, 0
 		},
     };
     //-----------------------------------------------------------------------
@@ -1305,14 +1432,14 @@ namespace ma
 					return ((width+3)/4)*((height+3)/4)*16 * depth;
                 case PF_BC4_SNORM:
                 case PF_BC4_UNORM:
-                    return (size_t)(ceilf(width/4.0f)*ceilf(height/4.0f)*8.0f);
+                    return ((width+3)/4)*((height+3)/4)*8 * depth;
                 case PF_BC5_SNORM:
                 case PF_BC5_UNORM:
                 case PF_BC6H_SF16:
                 case PF_BC6H_UF16:
                 case PF_BC7_UNORM:
                 case PF_BC7_UNORM_SRGB:
-                    return (size_t)(ceilf(width/4.0f)*ceilf(height/4.0f)*16.0f);
+                    return ((width+3)/4)*((height+3)/4)*16 * depth;
 
                 // Size calculations from the PVRTC OpenGL extension spec
                 // http://www.khronos.org/registry/gles/extensions/IMG/IMG_texture_compression_pvrtc.txt
@@ -1329,7 +1456,15 @@ namespace ma
                     return (max((int)width, 8) * max((int)height, 8) * 4 + 7) / 8;
                     
                 case PF_ETC1_RGB8:
-                    return max(8, (int)(width * height) >> 1);
+                case PF_ETC2_RGB8:
+                case PF_ETC2_RGBA8:
+                case PF_ETC2_RGB8A1:
+                    return (max((int)width, 4) * max((int)height, 4))>>1;//max(8, (int)(width * height) >> 1);
+                case PF_ATC_RGB:
+                    return ((width + 3) / 4) * ((height + 3) / 4) * 8;
+                case PF_ATC_RGBA_EXPLICIT_ALPHA:
+                case PF_ATC_RGBA_INTERPOLATED_ALPHA:
+                    return ((width + 3) / 4) * ((height + 3) / 4) * 16;
 				default:
 					{
 						LogError("Invalid compressed pixel format PixelUtil::getMemorySize");
@@ -1342,7 +1477,65 @@ namespace ma
 		{
 			return width*height*depth*getNumElemBytes(format);
 		}
-	}
+    }
+    //-----------------------------------------------------------------------
+    uint32 PixelUtil::getCompressedBlockWidth( PixelFormat format, bool apiStrict )
+    {
+        switch(format)
+        {
+            // These formats work by dividing the image into 4x4 blocks, then encoding each
+            // 4x4 block with a certain number of bytes.
+            case PF_DXT1:
+            case PF_DXT2:
+            case PF_DXT3:
+            case PF_DXT4:
+            case PF_DXT5:
+            case PF_BC4_SNORM:
+            case PF_BC4_UNORM:
+            case PF_BC5_SNORM:
+            case PF_BC5_UNORM:
+            case PF_BC6H_SF16:
+            case PF_BC6H_UF16:
+            case PF_BC7_UNORM:
+            case PF_BC7_UNORM_SRGB:
+            case PF_ETC2_RGB8:
+            case PF_ETC2_RGBA8:
+            case PF_ETC2_RGB8A1:
+            case PF_ATC_RGB:
+            case PF_ATC_RGBA_EXPLICIT_ALPHA:
+            case PF_ATC_RGBA_INTERPOLATED_ALPHA:
+                return 4;
+
+            case PF_ETC1_RGB8:
+                return apiStrict ? 0 : 4;
+
+            // Size calculations from the PVRTC OpenGL extension spec
+            // http://www.khronos.org/registry/gles/extensions/IMG/IMG_texture_compression_pvrtc.txt
+            //  "Sub-images are not supportable because the PVRTC
+            //  algorithm uses significant adjacency information, so there is
+            //  no discrete block of texels that can be decoded as a standalone
+            //  sub-unit, and so it follows that no stand alone sub-unit of
+            //  data can be loaded without changing the decoding of surrounding
+            //  texels."
+            // In other words, if the user wants atlas, they can't be automatic
+            case PF_PVRTC_RGB2:
+            case PF_PVRTC_RGBA2:
+            case PF_PVRTC2_2BPP:
+            case PF_PVRTC_RGB4:
+            case PF_PVRTC_RGBA4:
+            case PF_PVRTC2_4BPP:
+                return 0;
+
+            default:
+                assert( !isCompressed( format ) );
+                return 1;
+        }
+    }
+    //-----------------------------------------------------------------------
+    uint32 PixelUtil::getCompressedBlockHeight( PixelFormat format, bool apiStrict )
+    {
+        return getCompressedBlockWidth( format, apiStrict );
+    }
     //-----------------------------------------------------------------------
     size_t PixelUtil::getNumElemBits( PixelFormat format )
     {
@@ -1876,6 +2069,60 @@ namespace ma
         bulkPixelConversion(src, dst);
     }
     //-----------------------------------------------------------------------
+    void PixelUtil::bulkCompressedSubregion( const PixelBox &src, const PixelBox &dst,
+                                             const Box &dstRegion )
+    {
+        assert(src.getWidth()  == dstRegion.getWidth() &&
+               src.getHeight() == dstRegion.getHeight() &&
+               src.getDepth()  == dstRegion.getDepth());
+
+        assert( dst.contains( dstRegion ) );
+        assert( dst.format == src.format );
+        assert( src.isConsecutive() && dst.isConsecutive() );
+
+        if( src.getWidth()  == dst.getWidth() &&
+            src.getHeight() == dst.getHeight() &&
+            src.getDepth()  == dst.getDepth() )
+        {
+            bulkPixelConversion( src, dst );
+            return;
+        }
+
+        uint32 blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
+        uint32 blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
+        uint32 blockResolution = blockWidth * blockHeight;
+        if( !blockWidth || !blockHeight )
+        {
+            LogError("Cannot transfer subregions of the image when compressed by format %s . You must update the entire image, PixelUtil::bulkCompressedSubregion",
+                PixelUtil::getFormatName( dst.format ).c_str());
+            return;
+        }
+
+        if( dstRegion.left % blockWidth || dstRegion.right % blockWidth ||
+            dstRegion.top % blockHeight || dstRegion.bottom % blockHeight )
+        {
+            LogError("Image transfers for the compressed format %s  requires subregions to be aligned to %d x %d blocks, PixelUtil::bulkPixelConversion",
+                         PixelUtil::getFormatName( dst.format ).c_str(), blockWidth, blockHeight);
+            return;
+        }
+
+        size_t blockSize = PixelUtil::getMemorySize( blockWidth, blockHeight, 1, dst.format );
+
+        for( size_t z=dstRegion.front; z<dstRegion.back; ++z )
+        {
+            size_t dstZ = z * ( (dst.getWidth() * dst.getHeight()) / blockResolution );
+            size_t srcZ = z * ( (src.getWidth() * src.getHeight()) / blockResolution );
+            for( size_t y=dstRegion.top; y<dstRegion.bottom; y += blockHeight )
+            {
+                size_t dstY = ((y - dst.top) * dst.getWidth()) / blockResolution;
+                size_t srcY = (y * src.getWidth()) / blockResolution;
+                memcpy( (uint8*)(dst.data) + ( (dstZ + dstY + dstRegion.left / blockWidth) * blockSize ),
+                        (uint8*)(src.data) + ( (srcZ + srcY ) * blockSize ),
+                        (dstRegion.getWidth() / blockWidth) * blockSize );
+            }
+        }
+    }
+    //-----------------------------------------------------------------------
     void PixelUtil::bulkPixelConversion(const PixelBox &src, const PixelBox &dst)
     {
         ASSERT(src.getWidth() == dst.getWidth() &&
@@ -1887,12 +2134,59 @@ namespace ma
 		{
 			if(src.format == dst.format)
 			{
-				memcpy(dst.data, src.data, src.getConsecutiveSize());
-				return;
-			}
-			else
+                if( src.getConsecutiveSize() && dst.isConsecutive() )
+				    memcpy(dst.data, src.data, src.getConsecutiveSize());
+                else
+                {
+                    ASSERT(false);
+                    const size_t rowSize = PixelUtil::getMemorySize( src.getWidth(), 1, 1, src.format );
+                    const uint32 blockWidth  = PixelUtil::getCompressedBlockWidth( dst.format, false );
+                    const uint32 blockHeight = PixelUtil::getCompressedBlockHeight( dst.format, false );
+
+                    if( blockWidth == 0 || blockHeight == 0 )
+                    {
+                        LogError("This format should be consecutive!, PixelUtil::bulkPixelConversion");
+                        return;
+                    }
+
+                    uint8 *srcptr = static_cast<uint8*>(src.data)
+                        + (src.left + blockWidth - 1) / blockWidth +
+                            (src.top + blockHeight - 1) / blockHeight * src.rowPitch +
+                            src.front * src.slicePitch;
+                    uint8 *dstptr = static_cast<uint8*>(dst.data)
+                        + (dst.left + blockWidth - 1) / blockWidth +
+                            (dst.top + blockHeight - 1) / blockHeight * dst.rowPitch +
+                            dst.front * dst.slicePitch;
+
+                    // Calculate pitches+skips in bytes
+                    const size_t srcRowPitchBytes = src.rowPitch;
+                    const size_t srcSliceSkipBytes = src.getSliceSkip();
+
+                    const size_t dstRowPitchBytes   = dst.rowPitch;
+                    const size_t dstSliceSkipBytes  = dst.getSliceSkip();
+
+                    const size_t compressedSrcTop = (src.top + blockHeight - 1) / blockHeight;
+                    const size_t compressedSrcBottom = (src.bottom + blockHeight - 1) / blockHeight;
+
+                    for( size_t z=src.front; z<src.back; ++z )
+                    {
+                        for( size_t y=compressedSrcTop; y<compressedSrcBottom; ++y )
+                        {
+                            memcpy( dstptr, srcptr, rowSize );
+                            srcptr += srcRowPitchBytes;
+                            dstptr += dstRowPitchBytes;
+                        }
+
+                        srcptr += srcSliceSkipBytes;
+                        dstptr += dstSliceSkipBytes;
+                    }
+                }
+                return;
+            }
+            else
 			{
 				LogError("This method can not be used to compress or decompress images PixelUtil::bulkPixelConversion");
+                return;
 			}
 		}
 
@@ -2002,6 +2296,145 @@ namespace ma
             dstptr += dstSliceSkipBytes;
         }
     }
+    //-----------------------------------------------------------------------
+    void PixelUtil::convertForNormalMapping(const PixelBox &src, const PixelBox &dst)
+    {
+        assert(src.getWidth() == dst.getWidth() &&
+               src.getHeight() == dst.getHeight() &&
+               src.getDepth() == dst.getDepth() &&
+               (dst.format == PF_R8G8_SNORM || dst.format == PF_RG8 || dst.format == PF_BYTE_LA)  );
+
+        const PixelFormatDescription &srcDesc = getDescriptionFor( src.format );
+
+        const size_t srcPixelSize = PixelUtil::getNumElemBytes(src.format);
+        const size_t dstPixelSize = PixelUtil::getNumElemBytes(dst.format);
+        uint8 *srcPtr = static_cast<uint8*>(src.data)
+            + (src.left + src.top * src.rowPitch + src.front * src.slicePitch) * srcPixelSize;
+        int8 *dstPtr = static_cast<int8*>(dst.data)
+            + (dst.left + dst.top * dst.rowPitch + dst.front * dst.slicePitch) * dstPixelSize;
+
+        // Calculate pitches+skips in bytes
+        const size_t srcRowSkipBytes    = src.getRowSkip() * srcPixelSize;
+        const size_t srcSliceSkipBytes  = src.getSliceSkip() * srcPixelSize;
+        const size_t dstRowSkipBytes    = dst.getRowSkip() * dstPixelSize;
+        const size_t dstSliceSkipBytes  = dst.getSliceSkip() * dstPixelSize;
+
+        uint8 notLuminanceMask  = srcDesc.flags & PFF_LUMINANCE ? 0x00 : 0xFF;
+        uint8 luminanceMask     = srcDesc.flags & PFF_LUMINANCE ? 0xFF : 0x00;
+
+        if( srcDesc.flags & PFF_FLOAT )
+        {
+            LogError("Floating point formats for normal maps is not implemented yet, PixelUtil::convertForNormalMapping" );
+            return;
+        }
+
+        if( srcDesc.flags & PFF_SIGNED )
+        {
+            LogError("Signed format origins for normal maps is not tested, PixelUtil::convertForNormalMapping" );
+            return;
+        }
+
+        uint8 shiftOffset = 0x7F;
+
+        if( dst.format == PF_BYTE_LA || dst.format == PF_RG8 )
+            shiftOffset = 0x00;
+
+        uint8 r, g, b, a;
+        for(size_t z=src.front; z<src.back; z++)
+        {
+            for(size_t y=src.top; y<src.bottom; y++)
+            {
+                for(size_t x=src.left; x<src.right; x++)
+                {
+                    unpackColour( &r, &g, &b, &a, src.format, srcPtr );
+
+                    g = (g & notLuminanceMask) | (a & luminanceMask);
+
+                    *dstPtr++ = r - shiftOffset;
+                    *dstPtr++ = g - shiftOffset;
+
+                    srcPtr += srcPixelSize;
+                }
+
+                srcPtr += srcRowSkipBytes;
+                dstPtr += dstRowSkipBytes;
+            }
+
+            srcPtr += srcSliceSkipBytes;
+            dstPtr += dstSliceSkipBytes;
+        }
+    }
+    //-----------------------------------------------------------------------
+    void PixelUtil::bulkPixelVerticalFlip(const PixelBox &box)
+    {
+        // Check for compressed formats, we don't support decompression, compression or recoding
+        if(PixelUtil::isCompressed(box.format))
+        {
+            LogError("This method can not be used for compressed formats, PixelUtil::bulkPixelVerticalFlip");
+            return;
+        }
+        
+        const size_t pixelSize = PixelUtil::getNumElemBytes(box.format);
+        const size_t copySize = (box.right - box.left) * pixelSize;
+
+        // Calculate pitches in bytes
+        const size_t rowPitchBytes = box.rowPitch * pixelSize;
+        const size_t slicePitchBytes = box.slicePitch * pixelSize;
+
+        uint8 *basesrcptr = static_cast<uint8*>(box.data)
+            + (box.left + box.top * box.rowPitch + box.front * box.slicePitch) * pixelSize;
+        uint8 *basedstptr = basesrcptr + (box.bottom - box.top - 1) * rowPitchBytes;
+        uint8* tmpptr = (uint8*)new uint8[copySize];
+        
+        // swap rows
+        const size_t halfRowCount = (box.bottom - box.top) >> 1;
+        for(size_t z = box.front; z < box.back; z++)
+        {
+            uint8* srcptr = basesrcptr;
+            uint8* dstptr = basedstptr;
+            for(size_t y = 0; y < halfRowCount; y++)
+            {
+                // swap rows
+                memcpy(tmpptr, dstptr, copySize);
+                memcpy(dstptr, srcptr, copySize);
+                memcpy(srcptr, tmpptr, copySize);
+                srcptr += rowPitchBytes;
+                dstptr -= rowPitchBytes;
+            }
+            basesrcptr += slicePitchBytes;
+            basedstptr += slicePitchBytes;
+        }
+        
+        SAFE_DELETE_ARRAY(tmpptr);
+    }
+
+	static int computeLog(int value)
+	{
+		int i;
+
+		i = 0;
+
+		/* Error! */
+		if (value == 0) return 0;
+
+		for (;;)
+		{
+			if (value<= 1)
+			{
+				return i;
+			}
+			value = value >> 1;
+			i++;
+		}
+	}
+
+	int PixelUtil::getNumMipmaps( int nWidth, int nHeight )
+	{
+		int logW = computeLog(nWidth);
+		int logH = computeLog(nHeight);
+		int level = (logW > logH ? logW : logH);
+		return level;
+	}
 
     ColourValue PixelBox::getColourAt(size_t x, size_t y, size_t z)
     {

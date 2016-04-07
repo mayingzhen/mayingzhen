@@ -478,6 +478,58 @@ namespace ma
 		};
 	}
 
+
+	GLint GLESMapping::convertCompareFunction( CompareFunction func )
+	{
+		switch(func)
+		{
+		case CMPF_ALWAYS_FAIL:
+			return GL_NEVER;
+		case CMPF_ALWAYS_PASS:
+			return GL_ALWAYS;
+		case CMPF_LESS:
+			return GL_LESS;
+		case CMPF_LESS_EQUAL:
+			return GL_LEQUAL;
+		case CMPF_EQUAL:
+			return GL_EQUAL;
+		case CMPF_NOT_EQUAL:
+			return GL_NOTEQUAL;
+		case CMPF_GREATER_EQUAL:
+			return GL_GEQUAL;
+		case CMPF_GREATER:
+			return GL_GREATER;
+		};
+		// To keep compiler happy
+		return GL_ALWAYS;
+	}
+
+	GLint GLESMapping::convertStencilOp( StencilOperation op, bool invert /*= false*/ )
+	{
+		switch(op)
+		{
+		case SOP_KEEP:
+			return GL_KEEP;
+		case SOP_ZERO:
+			return GL_ZERO;
+		case SOP_REPLACE:
+			return GL_REPLACE;
+		case SOP_INCREMENT:
+			return invert ? GL_DECR : GL_INCR;
+		case SOP_DECREMENT:
+			return invert ? GL_INCR : GL_DECR;
+		case SOP_INCREMENT_WRAP:
+			return invert ? GL_DECR_WRAP : GL_INCR_WRAP;
+		case SOP_DECREMENT_WRAP:
+			return invert ? GL_INCR_WRAP : GL_DECR_WRAP;
+		case SOP_INVERT:
+			return GL_INVERT;
+		};
+		// to keep compiler happy
+		return SOP_KEEP;
+	}
+
+
 }
 
 

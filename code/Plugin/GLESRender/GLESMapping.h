@@ -18,6 +18,9 @@ namespace ma
 		static GLenum GetGLESFormat(PixelFormat format);
 		static GLenum GetGLESDataType(PixelFormat mFormat);
 
+		static GLint convertCompareFunction(CompareFunction func);
+		static GLint convertStencilOp(StencilOperation op, bool invert = false);
+
 		static PixelFormat GetClosestFormat(GLenum fmt, GLenum dataType);
 	};
 

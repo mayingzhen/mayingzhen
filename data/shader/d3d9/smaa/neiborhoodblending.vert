@@ -1,8 +1,7 @@
-#include"common.h"
 #include"smaa.h"
 
 
-void main(float2 iPos     : POSITION0,
+void main(float4 iPos     : POSITION0,
 		float2 iUV		: TEXCOORD0,
         
         // output
@@ -11,6 +10,9 @@ void main(float2 iPos     : POSITION0,
         out float4 offset   : TEXCOORD1
 )
 {
+	oPos = iPos;
+	texcoord = iUV;
+	
 	SMAANeighborhoodBlendingVS(texcoord,offset);
 }
 

@@ -12,15 +12,15 @@ namespace ma
 	void DeferredLightPass::Init()
 	{
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
-		m_pAmbientLight->SetDepthWrite(false);
+		m_pAmbientLight->m_bDepthWrite = false;
 
 		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight","DIRECT_LIGHT");
-		m_pDirLight->SetDepthWrite(false);
-		m_pDirLight->SetBlendMode(BM_ADD);
+		m_pDirLight->m_bDepthWrite = false;
+		m_pDirLight->m_eBlendMode = BM_ADD;
 
 		m_pPointLight = CreateTechnique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
-		m_pPointLight->SetDepthWrite(false);
-		m_pPointLight->SetBlendMode(BM_ADD);
+		m_pDirLight->m_bDepthWrite = false;
+		m_pDirLight->m_eBlendMode = BM_ADD;
 	}
 
 	void DeferredLightPass::Reset()
@@ -81,11 +81,11 @@ namespace ma
 				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < pPointLight->GetRadius())
 				{
-					m_pPointLight->SetCullMode(CULL_FACE_SIDE_FRONT);	
+					m_pPointLight->m_eCullMode = CULL_FACE_SIDE_FRONT;	
 				}
 				else
 				{
-					m_pPointLight->SetCullMode(CULL_FACE_SIDE_BACK);
+					m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
 				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetSceneNode()->GetPos(),pPointLight->GetRadius());

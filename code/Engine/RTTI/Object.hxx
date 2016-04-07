@@ -28,7 +28,7 @@ namespace ma
 		}
 		else if (strVarType == "UINT")
 		{
-			return Any( (uint32)StringConverter::parseInt(strVarValue) );
+			return Any( StringConverter::parseUnsignedInt(strVarValue) );
 		}
 		else if (strVarType == "float")
 		{

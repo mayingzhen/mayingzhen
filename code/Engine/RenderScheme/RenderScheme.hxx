@@ -1,101 +1,181 @@
 #include "RenderScheme.h"
+#include "HDRPostProcess.h"
+#include "SMAAPostProcess.h"
 
 namespace ma
 {
-	RenderScheme::RenderScheme(Scene* pScene)
+	RenderScheme::RenderScheme(RenderScheme::Type eType,Scene* pScene)
 	{
+		m_eType = eType;
 		m_pScene = pScene;
 
-		m_pGBufferPass = NULL;
-		m_pDeferredShadowPass = NULL;
 		m_pDeferredLightPass = NULL;
+		m_pDeferredShadowPass = NULL;
+		m_pDiffuse = NULL;
+		m_pDepthTex = NULL;
+		m_pNormalTex = NULL;
+
+		if (eType == DeferredShading)
+		{
+			m_pDeferredLightPass = new DeferredLightPass(pScene);
+		}
+
+		m_pSMAA = new SMAAPostProcess();
 	}
 
 	void RenderScheme::Init()
 	{
-		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
-		for (; it != m_arrRenderPass.end(); ++it)
+		if (m_pDeferredLightPass)
 		{
-			RefPtr<RenderPass>& pRenderPass = *it;
-			pRenderPass->Init();
-		}	
+			m_pDeferredLightPass->Init();
+		}
+
+		if (m_pDeferredShadowPass)
+		{
+			m_pDeferredShadowPass->Init();
+		}
+
+		if (m_pHDR)
+		{
+			m_pHDR->Init();
+		}
+
+		if (m_pSMAA)
+		{
+			m_pSMAA->Init();
+		}
 	}
 
 	void RenderScheme::Reset()
 	{
-		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
-		for (; it != m_arrRenderPass.end(); ++it)
+		if (GetDeviceCapabilities()->GetINTZSupported())
 		{
-			RefPtr<RenderPass>& pRenderPass = *it;
-			pRenderPass->Reset();
-		}	
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_INTZ, USAGE_DEPTHSTENCIL);
+		}
+		else
+		{
+			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT32_R);
+		}
+
+		if (m_eType == DeferredShading)
+		{
+			m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+			m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+		}
+		else
+		{
+			if (m_pHDR)
+			{
+				m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT16_RGBA);
+			}
+			else if (m_pSMAA)
+			{
+				m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+			}
+		}
+
+		if (m_pDeferredLightPass)
+		{
+			m_pDeferredLightPass->Reset();
+		}
+
+		if (m_pDeferredShadowPass)
+		{
+			m_pDeferredShadowPass->Reset();
+		}
+
+		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetRenderTarget(0);
+
+		if (m_pHDR)
+		{
+			m_pHDR->Reset(m_pDiffuse.get(),pOutputTex.get());
+		}
+
+		if (m_pSMAA)
+		{
+			m_pSMAA->Reset(m_pDiffuse.get(),pOutputTex.get());
+		}
 	}
 
 	void RenderScheme::Shoutdown()
 	{
-		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
-		for (; it != m_arrRenderPass.end(); ++it)
-		{
-			RefPtr<RenderPass>& pRenderPass = *it;
-			pRenderPass->Shoutdown();
-			pRenderPass = NULL;
-		}	
-		m_arrRenderPass.clear();
+
 	}
 
 	void RenderScheme::Render()
 	{
-		VEC_RENDERPASS::iterator it = m_arrRenderPass.begin();
-		for (; it != m_arrRenderPass.end(); ++it)
+		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
+
+		// DepthStencil
+		if (GetDeviceCapabilities()->GetINTZSupported())
 		{
-			RefPtr<RenderPass>& pRenderPass = *it;
-			pRenderPass->Render();
-		}	
+			GetRenderSystem()->SetDepthStencil(m_pDepthTex);
+		}
+
+		if (m_pDiffuse)
+		{
+			GetRenderSystem()->SetRenderTarget(m_pDiffuse,0);
+		}
+
+		if (m_eType == DeferredShading)
+		{
+			GetRenderSystem()->SetRenderTarget(m_pNormalTex,1);
+
+			if (!GetDeviceCapabilities()->GetINTZSupported())
+			{
+				GetRenderSystem()->SetRenderTarget(m_pDepthTex,2);
+			}
+		}
+
+		ColourValue cClearClor = GetRenderSystem()->GetClearColor();
+
+		GetRenderSystem()->ClearBuffer(true,true,true,cClearClor, 1.0f, 0);
+
+		{
+			RENDER_PROFILE(RL_Mesh);
+			pRenderQueue->RenderObjList(RL_Mesh);
+		}
+
+		{
+			RENDER_PROFILE(RL_Terrain);
+			pRenderQueue->RenderObjList(RL_Terrain);
+		}
+
+		GetRenderSystem()->SetRenderTarget(NULL,1);
+		GetRenderSystem()->SetRenderTarget(NULL,2);
+
+		if (m_pDeferredShadowPass)
+		{
+			RENDER_PROFILE(m_pDeferredShadowPass);
+			m_pDeferredShadowPass->Render();
+		}
+
+		if (m_pDeferredLightPass)
+		{
+			RENDER_PROFILE(m_pDeferredLightPass);
+			m_pDeferredLightPass->Render();
+		}
+
+		{
+			RENDER_PROFILE(RL_Particle);
+			pRenderQueue->RenderObjList(RL_Particle);
+		}
+
+		if (m_pHDR)
+		{
+			m_pHDR->Render();
+		}
+
+		if (m_pSMAA)
+		{
+			m_pSMAA->Render();
+		}
 	}
 
-	void RenderScheme::AddRenderPass(RenderPass* pPass)
-	{
-		m_arrRenderPass.push_back(pPass);
-	}
-
-	void RenderScheme::AddGBufferPass()
-	{
-		m_pGBufferPass = new GBufferPass(m_pScene);
-		AddRenderPass(m_pGBufferPass);
-	}
-
-	void RenderScheme::AddDeferredShadowPass()
-	{	
-		m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
-		AddRenderPass(m_pDeferredShadowPass);
-	}
-
-	void RenderScheme::AddDeferredLightPass()
-	{
-		m_pDeferredLightPass = new DeferredLightPass(m_pScene);
-		AddRenderPass(m_pDeferredLightPass);
-	}
-
-	void RenderScheme::AddShadingPass()
-	{
-		m_pShadingPass = new ShadingPass(m_pScene);
-		AddRenderPass(m_pShadingPass);
-	}
 
 	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType, Scene* pScene)
 	{
-		RenderScheme* pRenderScheme = new RenderScheme(pScene);
-		
-		if (eType == RenderScheme::Forward)
-		{
-			pRenderScheme->AddShadingPass();
-		}
-		else if (eType == RenderScheme::DeferredShading)
-		{
-			pRenderScheme->AddGBufferPass();
-			pRenderScheme->AddDeferredShadowPass();
-			pRenderScheme->AddDeferredLightPass();
-		}
+		RenderScheme* pRenderScheme = new RenderScheme(eType,pScene);
 
 		pRenderScheme->Init();
 

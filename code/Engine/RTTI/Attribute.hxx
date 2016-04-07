@@ -4,9 +4,7 @@ namespace ma
 {
 	/// Construct empty.
 	AttributeInfo::AttributeInfo() :
-	enumNames_(0),
-	mode_(AM_DEFAULT),
-	ptr_(0)
+	mode_(AM_DEFAULT)
 	{
 
 	}
@@ -14,22 +12,9 @@ namespace ma
 	/// Construct accessor attribute.
 	AttributeInfo::AttributeInfo(const char* name, AttributeAccessor* accessor, const Any& defaultValue, unsigned mode) :
 	name_(name),
-	enumNames_(0),
 	accessor_(accessor),
 	defaultValue_(defaultValue),
-	mode_(mode),
-	ptr_(0)
-	{
-	}
-
-	/// Construct accessor enum attribute.
-	AttributeInfo::AttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode) :
-	name_(name),
-	enumNames_(enumNames),
-	accessor_(accessor),
-	defaultValue_(defaultValue),
-	mode_(mode),
-	ptr_(0)
+	mode_(mode)
 	{
 	}
 
@@ -53,9 +38,5 @@ namespace ma
 		return new AttributeInfo(name,accessor,defaultValue,mode);
 	}
 
-	RefPtr<AttributeInfo> CreateAttributeInfo(const char* name, AttributeAccessor* accessor, const char** enumNames, const Any& defaultValue, unsigned mode)
-	{
-		return new AttributeInfo(name,accessor,enumNames,defaultValue,mode);
-	}
 }
 

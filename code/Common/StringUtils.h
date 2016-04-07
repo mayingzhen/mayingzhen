@@ -111,8 +111,6 @@ namespace ma
 		static const std::string replaceAll(const std::string& source, const std::string& replaceWhat, const std::string& replaceWithWhat);
 
 
-		static std::string getDirectoryName(const char* pFullName);
-
         /// Constant blank string, useful for returning by ref where local does not exist
         static const std::string BLANK;
     };

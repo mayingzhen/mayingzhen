@@ -43,7 +43,7 @@ namespace ma
 		
 			if (GetDeviceCapabilities()->GetD24S8Supported())
 			{
-				m_pShadowDepthTech->SetColorWrite(false);
+				m_pShadowDepthTech->m_bColorWrite = false;
 			}
 		}
 

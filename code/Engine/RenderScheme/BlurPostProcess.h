@@ -6,7 +6,7 @@ namespace ma
 	class BlurPostProcess : public PostProcess
 	{
 	public:
-		BlurPostProcess(Scene* pScene);
+		BlurPostProcess();
 
 		~BlurPostProcess();
 

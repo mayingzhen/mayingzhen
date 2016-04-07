@@ -318,7 +318,7 @@ namespace ma
 		AddInt(s);
 	}
 
-	void RenderThread::RC_SetDepthCheckMode(DEPTH_CHECK_MODE eDepthCheckMode)
+	void RenderThread::RC_SetDepthCheckMode(CompareFunction eDepthCheckMode)
 	{
 		if (IsRenderThread())
 		{
@@ -351,6 +351,18 @@ namespace ma
 		}
 
 		AddCommand(eRC_SetColorWrite);
+		AddBool(b);
+	}
+
+	void RenderThread::RC_SetSRGBWite(bool b)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetSRGBWrite(b);
+			return;
+		}
+
+		AddCommand(eRC_SetSRGBWite);
 		AddBool(b);
 	}
 
@@ -389,6 +401,42 @@ namespace ma
 
 		AddCommand(eRC_SetBlendMode);
 		AddInt(eBlendMode);
+	}
+
+	void RenderThread::RC_SetStencilCheckEnabled(bool b)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetStencilEnable(b);
+			return;
+		}
+
+		AddCommand(eRC_SetStenCilEnabled);
+		AddBool(b);
+	}
+
+	void RenderThread::RC_SetStencilBufferParams(CompareFunction func, 
+		uint32 refValue, uint32 mask, uint32 writeMask,
+		StencilOperation stencilFailOp, 
+		StencilOperation depthFailOp,
+		StencilOperation passOp, 
+		bool twoSidedOperatio)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
+			return;
+		}
+
+		AddCommand(eRC_SetStenCilParam);
+		AddInt(func);
+		AddDWORD(refValue);
+		AddDWORD(mask);
+		AddDWORD(writeMask);
+		AddInt(stencilFailOp);
+		AddInt(depthFailOp);
+		AddInt(passOp);
+		AddBool(twoSidedOperatio);
 	}
 
 	void RenderThread::RC_SetFloat(Uniform* uniform, float value)
@@ -657,7 +705,7 @@ namespace ma
 				break;
 			case eRC_SetDepthCheckMode:
 				{
-					DEPTH_CHECK_MODE eDepthChekMode = (DEPTH_CHECK_MODE)ReadCommand<int>(n);
+					CompareFunction eDepthChekMode = (CompareFunction)ReadCommand<int>(n);
 					GetRenderDevice()->SetDepthCheckMode(eDepthChekMode);
 				}
 				break;
@@ -671,6 +719,12 @@ namespace ma
 				{
 					bool bColorWrite = ReadCommand<bool>(n);
 					GetRenderDevice()->SetColorWrite(bColorWrite);
+				}
+				break;
+			case  eRC_SetSRGBWite:
+				{
+					bool bSRGBWrite = ReadCommand<bool>(n);
+					GetRenderDevice()->SetSRGBWrite(bSRGBWrite);
 				}
 				break;
 			case eRC_SetCullMode:
@@ -692,7 +746,26 @@ namespace ma
 					GetRenderDevice()->SetBlendMode(eBlendMode);
 				}
 				break;
+			case eRC_SetStenCilEnabled:
+				{
+					bool b = ReadCommand<bool>(n);
+					GetRenderDevice()->SetStencilEnable(b);
+				}
+				break;
+			case eRC_SetStenCilParam:
+				{
+					CompareFunction func = (CompareFunction)ReadCommand<int>(n);
+					uint32 refValue = ReadCommand<DWORD>(n); 
+					uint32 mask = ReadCommand<DWORD>(n);
+					uint32 writeMask = ReadCommand<DWORD>(n);
+					StencilOperation stencilFailOp = (StencilOperation)ReadCommand<int>(n);
+					StencilOperation depthFailOp = (StencilOperation)ReadCommand<int>(n);
+					StencilOperation passOp = (StencilOperation)ReadCommand<int>(n);
+					bool twoSidedOperatio = ReadCommand<bool>(n);
 
+					GetRenderDevice()->SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
+				}
+				break;
 			case eRC_SetFloat:
 				{
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
