@@ -12,6 +12,7 @@ namespace ma
 		Terrain::RegisterAttribute();
 		RenderState::RegisterAttribute();
 		Technique::RegisterAttribute();
+		SamplerState::RegisterAttribute();
 
 		ParticleSystem::RegisterAttribute();
 		ParticleEmitter::RegisterAttribute();

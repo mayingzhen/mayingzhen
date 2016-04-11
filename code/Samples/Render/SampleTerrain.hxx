@@ -31,9 +31,9 @@ namespace ma
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 2");
 				
-				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/chess.dds") ) );
-				subMatData->SetParameter("tDetailMap1", Any( CreateTexture("scene/terrain/diban_zhuanshi.dds") ) );
-				subMatData->SetParameter("tBlendingMap", Any( CreateTexture("scene/terrain/test_b0.dds") ) );
+				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
+				subMatData->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
+				subMatData->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds") ) );
 				subMatData->SetParameter("uDetailScale", Any( Vector2(0.01f, 0.01f) ) );
 				subMatData->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any( Vector4::ZERO) );
@@ -45,7 +45,7 @@ namespace ma
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
 
-				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
+				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
 				subMatData->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
 				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
@@ -57,7 +57,7 @@ namespace ma
 
 				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
 
-				subMatData->SetParameter("tDetailMap0", Any( CreateTexture("scene/terrain/diban_tu.dds") ) );
+				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
 				subMatData->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
 				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );

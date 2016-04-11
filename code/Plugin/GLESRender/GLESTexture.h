@@ -20,11 +20,11 @@ namespace ma
 		void				SetFrameBuffer(FrameBufferHandle handele) {m_hFB = handele;}
 		FrameBufferHandle	GetFrameBuffer() {return m_hFB;}
 
-		void				SetTextureWrap(Wrap eWrap);
-		Wrap				GetTextureWrap() const {return m_eWrap;}
+		//void				SetTextureWrap(Wrap eWrap);
+		//Wrap				GetTextureWrap() const {return m_eWrap;}
 
- 		void				SetTextureFilter(Filter eFilter);
-		Filter		GetTextureFilter() const {return m_eFilter;}
+ 		//void				SetTextureFilter(Filter eFilter);
+		//Filter				GetTextureFilter() const {return m_eFilter;}
 
 	private:
 		virtual	bool		RT_CreateTexture(bool bMinMap);	

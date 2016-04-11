@@ -25,24 +25,9 @@ namespace ma
 
 		TEXTURE_USAGE	GetUsage() const {return m_eUsage;}
 
-		Wrap			GetWrapMode() const {return m_eWrap;}
-
-		Filter			GetFilterMode() const {return m_eFilter;} 
-
-		bool			GetSRGB() const {return m_bSRGB;}
-
-		void			SetSRGB(bool enable) {m_bSRGB = enable;}
-
-		const char*		GetImagePath() const;
-
-		void			Load(const char* pszPath,Wrap eWrap,Filter eFilter,bool bSRGB);
-
-		virtual	bool	IsReady();
+		virtual bool    InitRes();
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
-
-		static RefPtr<Texture>	Import(rapidxml::xml_node<>* pXmlElem);
-		static void		Export(Texture* pTexture,rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 	
 	protected:
 
@@ -58,6 +43,10 @@ namespace ma
 
 		virtual bool	GenerateMipmaps() = 0;
 
+		void			SetMipMap(bool b) {m_bMipMap = b;}
+
+		void			SetSRGB(bool b) {m_bSRGB = b;}
+
 	protected:
 		int				m_nWidth;
 		int				m_nHeight;
@@ -66,18 +55,57 @@ namespace ma
 		PixelFormat		m_eFormat;
 		TEXTURE_TYPE	m_eType;
 
-		Wrap			m_eWrap;
-		Filter			m_eFilter;	
-		RefPtr<Resource> m_pImageRes;
-		std::string		m_strImagePath;
-
+		bool			m_bMipMap;
 		bool			m_bSRGB;
 
 		friend class	RenderThread;
+		friend class	TextureManager;
 	};
 
-	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = true);
+	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap = true,bool bSRGB = true);
 	RefPtr<Texture> CreateTexture();
+
+	class SamplerState : public Serializable
+	{
+	public:
+		SamplerState();
+
+		DECL_OBJECT(SamplerState);
+
+		static void		RegisterAttribute();
+
+		void			SetTexture(Texture* pTexutre) {m_pTexture = pTexutre;}
+		Texture*		GetTexture() const {return m_pTexture.get();}
+		void			SetTexturePath(const char* pszPath);
+		const char*		GetTexturePath() const;
+
+		void			SetWrapMode(Wrap eWrap) {m_eWrap = eWrap;}
+		Wrap			GetWrapMode() const {return m_eWrap;}
+
+		void			SetWrapModeW(Wrap eWrapW) {m_eWrapW = eWrapW;}
+		Wrap			GetWrapModeW() const {return m_eWrapW;}
+
+		void			SetFilterMode(Filter eFilter) {m_eFilter = eFilter;}
+		Filter			GetFilterMode() const {return m_eFilter;} 
+
+		bool			GetSRGB() const {return m_bSRGB;}
+		void			SetSRGB(bool enable) {m_bSRGB = enable;}
+
+		float			GetLodBias() const {return m_fLodBias;}
+		void			SetLodBias(float fBias) {m_fLodBias = fBias;}
+
+	private:
+		RefPtr<Texture> m_pTexture;
+
+		Wrap			m_eWrap;
+		Wrap			m_eWrapW;
+		Filter			m_eFilter;	
+		bool			m_bSRGB;
+		float			m_fLodBias;
+	};
+
+	RefPtr<SamplerState> CreateSamplerState(const char* pPath,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = true);
+	RefPtr<SamplerState> CreateSamplerState(Texture* pTexutre,Wrap eWrap = REPEAT, Filter eFilter = TFO_TRILINEAR,bool bSRGB = true);
 }
 
 #endif

@@ -562,7 +562,7 @@ namespace ma
 
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}
-// 
+ 
 // 	void GLESRenderDevice::SetTextureWrap(Uniform* uniform,Wrap eWrap)
 // 	{
 // 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
@@ -584,6 +584,42 @@ namespace ma
 // 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
 // 		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
 // 	}
+
+	void GLESRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
+	{
+		ASSERT(uniform);
+		ASSERT(uniform->m_type == GL_SAMPLER_2D);
+		ASSERT(pSampler);
+
+		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
+
+		GLESTexture* pTexture = (GLESTexture*)pSampler->GetTexture();
+		ASSERT(pTexture);
+		if (pTexture == NULL)
+			return;
+
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
+
+		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
+		
+// 		if (pSampler->GetWrapMode() != pTexture->GetTextureWrap() )
+// 		{
+// 			GLenum wrapS = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
+// 			GLenum wrapT = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
+// 
+// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+// 		}
+//  
+// 		if (pSampler->GetFilterMode() != pTexture->GetTextureFilter())
+// 		{
+// 			GLenum minFilter,magFilter;
+// 			GLESMapping::GetGLESFilter(pSampler->GetFilterMode(),minFilter,magFilter);
+// 
+// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+// 		}	
+	}
 
 	void GLESRenderDevice::SetValue(Uniform* uniform, float value)
 	{
@@ -621,42 +657,6 @@ namespace ma
 		ASSERT(uniform);
 		GL_ASSERT( glUniform4f(uniform->m_location, value.r, value.g, value.b, value.a) );
 	}
-
-// 	void GLESRenderDevice::SetValue(Uniform* uniform,const SamplerState* sampler)
-// 	{
-// 		ASSERT(uniform);
-// 		ASSERT(uniform->m_type == GL_SAMPLER_2D);
-// 		ASSERT(sampler);
-// 
-// 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + uniform->m_index) );
-// 
-// 		GLESTexture* pTexture = (GLESTexture*)sampler->GetTexture();
-// 		ASSERT(pTexture);
-// 		if (pTexture == NULL)
-// 			return;
-// 
-// 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, pTexture->GetTexture() ) );
-// 
-// 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
-// 		
-// 		if (sampler->GetWrapMode() != pTexture->GetTextureWrap() )
-// 		{
-// 			GLenum wrapS = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
-// 			GLenum wrapT = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
-// 
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
-// 		}
-//  
-// 		if (sampler->GetFilterMode() != pTexture->GetTextureFilter())
-// 		{
-// 			GLenum minFilter,magFilter;
-// 			GLESMapping::GetGLESFilter(sampler->GetFilterMode(),minFilter,magFilter);
-// 
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
-// 		}	
-// 	}
 
 	void GLESRenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
 	{

@@ -52,14 +52,21 @@ namespace ma
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
 		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShadowMapColor.get(),m_viewport);
+
+		m_pShadowMapSampler = new SamplerState();
+		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
+		{
+			m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
+		}
+		else
+		{
+			m_pShadowMapSampler->SetTexture( m_pShadowMapColor.get() );
+		}
 	}
 
-	Texture* ShadowMapFrustum::GetShadowMap() const 
+	SamplerState* ShadowMapFrustum::GetShadowMap() const 
 	{
-		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
-			return m_pShdowMapDepth.get();
-		else
-			return m_pShadowMapColor.get();
+		return m_pShadowMapSampler.get();
 	}
 
 	Matrix4 ShadowMapFrustum::CalculateTexAdjustMatrix(Texture* pShadowMap,Rectangle veiewPort)

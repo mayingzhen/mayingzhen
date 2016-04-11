@@ -158,6 +158,7 @@ namespace ma
 		}
 		for (int i = 0; i < nNumParticleBuffer; ++i)
 		{
+			m_pParticleBuffer[i]->UnLockVideoMemory();
 			m_pParticleBuffer[i] = NULL;
 		}
 
@@ -188,6 +189,12 @@ namespace ma
 		GetRenderDevice()->SetCullingMode( m_curState.m_eCullMode );
 		GetRenderDevice()->SetDepthCheckMode( m_curState.m_eDepthCheckMode );
 		GetRenderDevice()->SetBlendMode( m_curState.m_eBlendMode );
+		GetRenderDevice()->SetSRGBWrite(m_curState.m_bSRGBWrite);
+		GetRenderDevice()->SetStencilEnable(m_curState.m_bStencil);
+		GetRenderDevice()->SetStencilBufferParams(m_curState.m_eStencilfunc,
+			m_curState.m_nStencilRefValue,m_curState.m_nStencilMask,
+			m_curState.m_nStencilWriteMask,m_curState.m_eStencilFail,
+			m_curState.m_eDepthFailOp,m_curState.m_eStencilPass);
 	}
 
 
@@ -221,28 +228,18 @@ namespace ma
 
 	void RenderSystem::RT_Reset(uint32 nWidth,uint32 nHeight)
 	{
-		ScreenQuad::Reset(nWidth,nHeight);
-
 		// Reset Main Scene
 		m_arrScene[0]->Reset(nWidth,nHeight);
 	}
 
-	void RenderSystem::RT_BeginFrame()
+	void RenderSystem::RT_BeginRender()
 	{
-
+		GetRenderDevice()->BeginRender();
 	}
 
-	void RenderSystem::RT_EndFrame()
+	void RenderSystem::RT_EndRender()
 	{
-
-	}
-
-	void RenderSystem::RT_Render()
-	{
-		for (UINT i = 0; i < m_arrScene.size(); ++i)
-		{
-			m_arrScene[i]->Render();
-		}
+		GetRenderDevice()->EndRender();
 
 		// we render directly to a video memory buffer
 		// we need to unlock it here in case we renderered a frame without any particles
@@ -251,6 +248,14 @@ namespace ma
 		LockParticleVideoMemory( (m_nPoolIndexRT + (nNumParticleBuffer - 1) ) % nNumParticleBuffer );	
 
 		OnFlushFrame();
+	}
+
+	void RenderSystem::RT_Render()
+	{
+		for (UINT i = 0; i < m_arrScene.size(); ++i)
+		{
+			m_arrScene[i]->Render();
+		}
 	}
 
 	void RenderSystem::DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
@@ -452,6 +457,7 @@ namespace ma
 	{
 		if (m_curState.m_bStencil != enabled)
 		{
+			m_curState.m_bStencil = enabled;
 			m_pRenderThread->RC_SetStencilCheckEnabled(enabled);
 		}
 	}
@@ -620,9 +626,20 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if ( m_arrSampState[uniform->m_index] != pTexture || pTexture->GetUsage() != USAGE_STATIC )
+		if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
+		}
+	}
+
+	void RenderSystem::SetValue(Uniform* uniform, SamplerState* pTexture)
+	{
+		ASSERT(uniform);
+		ASSERT(pTexture);
+
+		if ( m_arrSampState[uniform->m_index] != pTexture )
+		{
+			m_pRenderThread->RC_SetSamplerState(uniform,pTexture);
 
 			m_arrSampState[uniform->m_index] = pTexture; 
 		}
@@ -696,7 +713,6 @@ namespace ma
 		for (uint32 i = 0; i < nNumParticleBuffer; ++i)
 		{
 			m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
-			m_pParticleBuffer[i]->LockVideoMemory();
 		}
 	}
 

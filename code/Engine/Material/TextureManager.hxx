@@ -12,10 +12,11 @@ namespace ma
 
 	}
 
-	RefPtr<Texture> TextureManager::CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter,bool bSRGB)
+	RefPtr<Texture> TextureManager::CreateTexture(const char* pImagePath,bool bMipMap,bool bSRGB)
 	{
+		string strMipMap = StringConverter::toString(bMipMap);
 		string strSRGB = StringConverter::toString(bSRGB);
-		string strKey = string(pImagePath) + string("+") + strDescWrap[eWrap] + string("+") + strDescFilter[eFilter] + "+" +strSRGB + ".texture";
+		string strKey = string(pImagePath) + string("+") + strMipMap + string("+") +strSRGB + ".texture";
 		StringUtil::toLowerCase(strKey);
 
 		ResourceMap::iterator itRes = m_resMap.find(strKey);
@@ -23,7 +24,9 @@ namespace ma
 			return itRes->second.get();
 
 		RefPtr<Texture> pTextute = GetRenderDevice()->CreateTexture();
-		pTextute->Load(pImagePath,eWrap,eFilter,bSRGB);
+		pTextute->SetMipMap(bMipMap);
+		pTextute->SetSRGB(bSRGB);
+		pTextute->Load(pImagePath);
 		m_resMap[strKey] = pTextute;
 		return pTextute;	
 	}	

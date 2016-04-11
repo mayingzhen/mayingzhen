@@ -32,8 +32,13 @@ namespace ma
 
 	bool D3D9Texture::GenerateMipmaps()
 	{	
-		//m_pD3DTex->GenerateMipSubLevels();
-		if( D3DXFilterTexture( m_pD3DTex, NULL, D3DX_DEFAULT, D3DX_DEFAULT ) != D3D_OK )
+		DWORD eFilter = D3DX_DEFAULT;
+		if (m_bSRGB)
+		{
+			eFilter = D3DX_FILTER_BOX | D3DX_FILTER_DITHER | D3DX_FILTER_SRGB;
+		}
+
+		if( D3DXFilterTexture( m_pD3DTex, NULL, D3DX_DEFAULT, eFilter ) != D3D_OK )
 		{
 			LogError("Failed to filter texture (generate mipmaps) CD3D9HardwarePixelBuffer::_genMipmaps" );
 			return false;

@@ -4,6 +4,7 @@ namespace ma
 {
 	UniformAnimation::UniformAnimation()
 	{
+		m_state = State_Playing;
 	}
 
 	UniformAnimation::~UniformAnimation()

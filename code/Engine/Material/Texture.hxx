@@ -12,9 +12,7 @@ namespace ma
 		m_eUsage = USAGE_STATIC;
 		m_eFormat = PF_UNKNOWN;
 		m_eType = TEXTYPE_2D;
-
-		m_eWrap = REPEAT;
-		m_eFilter = TFO_TRILINEAR;
+		m_bMipMap = false;
 		m_bSRGB = false;
 	}
 
@@ -26,9 +24,8 @@ namespace ma
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
 		m_eType = TEXTYPE_2D;
-
-		m_eWrap = CLAMP;
-		m_eFilter = TFO_POINT;
+		m_bMipMap = false;
+		m_bSRGB = false;
 	}
 
 	Texture::~Texture()
@@ -36,43 +33,19 @@ namespace ma
 
 	}
 
-	const char* Texture::GetImagePath() const
+	bool Texture::InitRes() 
 	{
-		return m_pImageRes ? m_pImageRes->GetResPath() : m_strImagePath.c_str();
-	}
-
-	void Texture::Load(const char* pszPath,Wrap eWrap,Filter eFilter,bool bSRGB)
-	{
-		m_eWrap = eWrap;
-		m_eFilter = eFilter;
-		m_strImagePath = pszPath;
-		m_bSRGB = bSRGB;
-		m_pImageRes = CreateResource(pszPath);
-		IsReady();
-	}
-
-	bool Texture::IsReady()
-	{
-		if (ResInited == m_eResState)
-			return true;
-
-		if (m_pImageRes == NULL || !m_pImageRes->IsReady())
-			return false;
-		
 		GetRenderSystem()->TexStreamComplete(this);	
 
-		return false;
+		return true;
 	}
+
 
 	bool Texture::RT_StreamComplete()
 	{
-		ASSERT(m_pImageRes);
-		if (m_pImageRes == NULL)
-			return false;
-
-		const char* pszName = m_pImageRes->GetResPath();
-		void* pMemory = m_pImageRes->GetDataStream()->GetPtr(); 
-		uint32 nSizeBytes =	m_pImageRes->GetDataStream()->GetSize();
+		const char* pszName = this->GetResPath();
+		void* pMemory = m_pDataStream->GetPtr(); 
+		uint32 nSizeBytes =m_pDataStream->GetSize();
 
 		ImageData imageData;
 		if (!BuildImageData(pszName, pMemory, nSizeBytes, imageData))
@@ -85,10 +58,7 @@ namespace ma
 			return false;
 		}
 
-		m_pImageRes = NULL;
 		m_pDataStream = NULL;
-
-		m_eResState = ResInited;
 
 		return true;
 	}
@@ -184,7 +154,7 @@ namespace ma
 		// The custom mipmaps in the image have priority over everything
 		//size_t imageMips = imageData.num_mipmaps;
 
-		bool bAutoMipMap = m_eFilter > TFO_BILINEAR;
+		bool bAutoMipMap = m_bMipMap;
 
 		if(imageData.num_mipmaps > 0)
 		{
@@ -219,66 +189,59 @@ namespace ma
 		return true;
 	}
 
-	template<class EnumType>
-	EnumType StringToEnum(string strEnum, const char** pEnumNames)
+	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap/* = true*/,bool bSRGB/* = true*/)
 	{
-		EnumType type;
-		bool enumFound = false;
-		int enumValue = 0;
-		while (*pEnumNames)
-		{
-			if ( strcmp( *pEnumNames, strEnum.c_str() ) == 0 )
-			{
-				enumFound = true;
-				break;
-			}
-			++pEnumNames;
-			++enumValue;
-		}
-
-		if (enumFound)
-		{
-			type = (EnumType)enumValue;
-		}
-		else
-		{
-			ASSERT(false);
-		}
-		return type;
+		return g_pTextureManager->CreateTexture(pImagePath,bMipMap,bSRGB);
 	}
 
-	RefPtr<Texture> Texture::Import(rapidxml::xml_node<>* pXmlTexture)
+
+	SamplerState::SamplerState()
 	{
-		const char* pszIMagePath = pXmlTexture->findAttribute("ImagePath");
-		const char* pszWrap = pXmlTexture->findAttribute("Wrap");
-		const char* pszFilter = pXmlTexture->findAttribute("Filter");
-		const char* pszSRGB = pXmlTexture->findAttribute("SRGB");
-
-		Wrap eWrap = StringToEnum<Wrap>(pszWrap,strDescWrap);
-		Filter eFilter = StringToEnum<Filter>(pszFilter,strDescFilter);
-		
-		bool bSRGB = false;
-		if (pszSRGB)
-		{
-			bSRGB = StringConverter::parseBool(pszSRGB);
-		}
-
-		RefPtr<Texture> pTexture = CreateTexture(pszIMagePath,eWrap,eFilter,bSRGB);
-		return pTexture;
+		m_eWrap = REPEAT;
+		m_eWrapW = REPEAT;
+		m_eFilter = TFO_TRILINEAR;
+		m_bSRGB = true;
+		m_fLodBias = 0;
 	}
 
-	void Texture::Export(Texture* pTexutre,rapidxml::xml_node<>* pXmlTexture,rapidxml::xml_document<>& doc)
+	void SamplerState::RegisterAttribute()
 	{
-		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("ImagePath"),doc.allocate_string(pTexutre->GetImagePath())));
-		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Wrap"),doc.allocate_string(strDescWrap[pTexutre->GetWrapMode()])));
-		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("Filter"),doc.allocate_string(strDescFilter[pTexutre->GetFilterMode()])));
-		pXmlTexture->append_attribute(doc.allocate_attribute(doc.allocate_string("SRGB"),doc.allocate_string( StringConverter::toString(pTexutre->GetSRGB()).c_str() )));
+		ACCESSOR_ATTRIBUTE(SamplerState, "ImagePath", GetTexturePath, SetTexturePath, const char*, NULL, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "Wrap", GetWrapMode, SetWrapMode,Wrap,strDescWrap,REPEAT, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "WrapW", GetWrapModeW, SetWrapModeW,Wrap,strDescWrap,REPEAT, AM_DEFAULT);
+		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "Filter", GetFilterMode, SetFilterMode, Filter, strDescFilter, TFO_TRILINEAR, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(SamplerState, "SRGB", GetSRGB, SetSRGB, bool, true, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(SamplerState, "LodBias", GetLodBias, SetLodBias, float, 0, AM_DEFAULT);
 	}
 
-	RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter,bool bSRGB)
+	void SamplerState::SetTexturePath(const char* pszPath)
 	{
-		return g_pTextureManager->CreateTexture(pImagePath,eWrap,eFilter,bSRGB);
+		m_pTexture = CreateTexture(pszPath,m_eFilter > TFO_BILINEAR, m_bSRGB);
 	}
 
+	const char*	SamplerState::GetTexturePath() const
+	{
+		return m_pTexture->GetResPath();
+	}
+
+	RefPtr<SamplerState> CreateSamplerState(const char* pPath,Wrap eWrap, Filter eFilter,bool bSRGB)
+	{
+		SamplerState* pSampler = new SamplerState();
+		pSampler->SetWrapMode(eWrap);
+		pSampler->SetFilterMode(eFilter);
+		pSampler->SetSRGB(bSRGB);
+		pSampler->SetTexturePath(pPath);
+		return pSampler;
+	}
+
+	RefPtr<SamplerState> CreateSamplerState(Texture* pTexutre,Wrap eWrap, Filter eFilter,bool bSRGB)
+	{
+		SamplerState* pSampler = new SamplerState();
+		pSampler->SetWrapMode(eWrap);
+		pSampler->SetFilterMode(eFilter);
+		pSampler->SetSRGB(bSRGB);
+		pSampler->SetTexture(pTexutre);
+		return pSampler;
+	}
 }
 

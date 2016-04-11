@@ -40,7 +40,7 @@ namespace ma
 
 		STATE GetState() const {return m_state;}
 
-	private:
+	protected:
 		float m_fOldElapsedTime;
 		float m_fElapsedTime;
 		uint64 m_nLastTime;

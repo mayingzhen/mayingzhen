@@ -113,6 +113,36 @@ namespace ma
 
         /// Constant blank string, useful for returning by ref where local does not exist
         static const std::string BLANK;
+
+		template<class EnumType>
+		EnumType StringToEnum(string strEnum, const char** pEnumNames)
+		{
+			EnumType type;
+			bool enumFound = false;
+			int enumValue = 0;
+			while (*pEnumNames)
+			{
+				if ( strcmp( *pEnumNames, strEnum.c_str() ) == 0 )
+				{
+					enumFound = true;
+					break;
+				}
+				++pEnumNames;
+				++enumValue;
+			}
+
+			if (enumFound)
+			{
+				type = (EnumType)enumValue;
+			}
+			else
+			{
+				ASSERT(false);
+			}
+			return type;
+		}
+
+
     };
 }
 

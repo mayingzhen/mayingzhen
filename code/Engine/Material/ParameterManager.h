@@ -72,7 +72,7 @@ namespace ma
 		Texture*			autoBingingSceneDetph() const;
 		Texture*			autoBindingSceneNormal() const;
 		Texture*			autoBindingTextureLightShadow() const;
-		Texture*			autoBindingShadowMap() const;
+		SamplerState*		autoBindingShadowMap() const;
 		Vector4				autoBindingSpitPos() const;
 		UINT				autoBindingSplitCount() const;
 		const Matrix4&		autoBindingShadowMatrix() const;

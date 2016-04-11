@@ -116,7 +116,6 @@ EXPORTS
 ?SetDeviceName@DeviceCapabilitie@ma@@QAEXPBD@Z
 ??0Texture@ma@@QAE@XZ
 ??1Texture@ma@@UAE@XZ
-?IsReady@Texture@ma@@UAE_NXZ
 ?Rotate@SceneNode@ma@@QAEXABVQuaternion@2@_N@Z
 ?Yaw@SceneNode@ma@@QAEXM_N@Z
 ?Pitch@SceneNode@ma@@QAEXM_N@Z
@@ -198,7 +197,6 @@ EXPORTS
 ?SetData@HardwareBuffer@ma@@QAEXPAEIHW4HBU_USAGE@2@_N@Z
 ??0Texture@ma@@QAE@HHW4PixelFormat@1@W4TEXTURE_USAGE@1@@Z
 ?Lock@HardwareBuffer@ma@@UAEPAXW4LOCK@2@@Z
-?CreateTexture@ma@@YA?AV?$RefPtr@VTexture@ma@@@1@PBDW4Wrap@1@W4Filter@1@_N@Z
 ?GetForward@SceneNode@ma@@QBE?AVVector3@2@XZ
 ?GetRight@SceneNode@ma@@QBE?AVVector3@2@XZ
 ?GetUp@SceneNode@ma@@QBE?AVVector3@2@XZ
@@ -217,3 +215,5 @@ EXPORTS
 ?AddKeyFrame@UniformAnimation@ma@@QAEXHABVAny@2@@Z
 ?Play@Animatable@ma@@QAEXM@Z
 ?Reset@Engine@ma@@QAEXII@Z
+?InitRes@Texture@ma@@UAE_NXZ
+?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@PBDW4Wrap@1@W4Filter@1@_N@Z

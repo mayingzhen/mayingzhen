@@ -206,18 +206,6 @@ namespace ma
 		HRESULT hr = D3D_OK;
 		hr = m_pD3DDevice->SetRenderTarget(index, target);
 		ASSERTMSG(hr == D3D_OK, "set render target failed.");
-
-		// First rendertarget controls sRGB write mode
-		if (!index)
-		{
-			if (pTexture && pTexture->GetSRGB() != m_bSRGB)
-			{
-				HRESULT hr = m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, pTexture->GetSRGB());
-				ASSERT(hr == D3D_OK);
-
-				m_bSRGB = pTexture->GetSRGB();
-			}
-		}
 	}
 
 	Texture* D3D9RenderDevice::GetRenderTarget(int index)
@@ -231,14 +219,8 @@ namespace ma
 
 		D3D9Texture* pD3D9Target = new D3D9Texture(-1,-1);
 
-		hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_QUERY_SRGBWRITE, D3DRTYPE_TEXTURE,m_eAdapterFormat);
-		pD3D9Target->SetSRGB(hr == D3D_OK);
-
-		if (hr == D3D_OK)
-		{
-			hr = m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, true);
-			ASSERT(hr == D3D_OK);
-		}
+		//hr = m_pD3D9->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_QUERY_SRGBWRITE, D3DRTYPE_TEXTURE,m_eAdapterFormat);
+		//pD3D9Target->SetSRGB(hr == D3D_OK);
 	
 		pD3D9Target->SetD3DSurface(surface);
 
@@ -501,34 +483,50 @@ namespace ma
 		D3D9Texture* pD3D9Texture = (D3D9Texture*)pTexture;
   		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
 
-		if (m_arrFilter[uniform->m_location] != pTexture->GetFilterMode())
+	}
+
+	void D3D9RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
+	{
+		D3D9Texture* pD3D9Texture = (D3D9Texture*)(pSampler->GetTexture());
+  		D3D9Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D9Texture->GetD3DTexture()) );
+
+		if (m_arrFilter[uniform->m_location] != pSampler->GetFilterMode())
 		{
 			DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-			D3D9Mapping::GetD3D9Filter(pTexture->GetFilterMode(),minFilter,magFilter,mipFilter);
+			D3D9Mapping::GetD3D9Filter(pSampler->GetFilterMode(),minFilter,magFilter,mipFilter);
 
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
 
-			m_arrFilter[uniform->m_location] = pTexture->GetFilterMode();
+			m_arrFilter[uniform->m_location] = pSampler->GetFilterMode();
 		}
 
-		if (m_arrWrap[uniform->m_location] != pTexture->GetWrapMode())
+		if (m_arrWrap[uniform->m_location] != pSampler->GetWrapMode())
 		{
-			DWORD wrapS = D3D9Mapping::GetD3D9Wrap(pTexture->GetWrapMode());
-			DWORD wrapT = D3D9Mapping::GetD3D9Wrap(pTexture->GetWrapMode());
+			DWORD wrapS = D3D9Mapping::GetD3D9Wrap(pSampler->GetWrapMode());
+			DWORD wrapT = D3D9Mapping::GetD3D9Wrap(pSampler->GetWrapMode());
 
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
 			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
 
-			m_arrWrap[uniform->m_location] = pTexture->GetWrapMode();
+			m_arrWrap[uniform->m_location] = pSampler->GetWrapMode();
 		}
 
-		if (m_arrSRGB[uniform->m_location] != pTexture->GetSRGB())
+		if (m_arrWrapW[uniform->m_location] != pSampler->GetWrapModeW())
 		{
-			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_SRGBTEXTURE, pTexture->GetSRGB()) );
+			DWORD wrapW = D3D9Mapping::GetD3D9Wrap(pSampler->GetWrapModeW());
 
-			m_arrSRGB[uniform->m_location] = pTexture->GetSRGB();
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSW, wrapW) );
+
+			m_arrWrapW[uniform->m_location] = pSampler->GetWrapModeW();
+		}
+
+		if (m_arrSRGB[uniform->m_location] != pSampler->GetSRGB())
+		{
+			D3D9Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_SRGBTEXTURE, pSampler->GetSRGB()) );
+
+			m_arrSRGB[uniform->m_location] = pSampler->GetSRGB();
 		}
 	}
 

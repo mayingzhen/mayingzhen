@@ -190,16 +190,26 @@ namespace ma
 		
 		GetRenderSystem()->SetRenderState(*this);
 
-		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+		for (UINT i = 0; i < m_pShaderProgram->GetUniformCount(); ++i)
 		{
-			Parameter* pMatParam = m_arrParameters[i];
-			
-			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
-			if (pUniform == NULL)
+			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+			Parameter* pMatParam = GetParameter( pUniform->GetName() );
+			if (pMatParam == NULL)
 				continue;
-			
+
 			BindParametersUniform(pUniform,pMatParam->GetValue());
 		}
+
+// 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
+// 		{
+// 			Parameter* pMatParam = m_arrParameters[i];
+// 			
+// 			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
+// 			if (pUniform == NULL)
+// 				continue;
+// 			
+// 			BindParametersUniform(pUniform,pMatParam->GetValue());
+// 		}
 	}
 
 	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)
@@ -236,9 +246,9 @@ namespace ma
 			const Matrix4* value = any_cast<Matrix4>(&anyValue);
 			GetRenderSystem()->SetValue(pUniform, *value);
 		}
-		else if (type == typeid(RefPtr<Texture>))
+		else if (type == typeid(RefPtr<SamplerState>))
 		{
-			Texture* pTexture = any_cast< RefPtr<Texture> >(&anyValue)->get();
+			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
 			GetRenderSystem()->SetValue(pUniform,pTexture);
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))

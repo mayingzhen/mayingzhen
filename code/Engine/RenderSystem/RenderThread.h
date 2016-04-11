@@ -50,6 +50,7 @@ namespace ma
 		eRC_SetMatrix4,
 		eRC_SetColourValue,
  		eRC_SetTexture,
+		eRC_SetSamplerState,
 
 		eRC_SetPoolId,
 
@@ -155,6 +156,7 @@ namespace ma
 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
  		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
+		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
 
 		void	RC_SetPoolId(uint32 poolId);
 

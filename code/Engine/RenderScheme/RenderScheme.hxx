@@ -9,12 +9,6 @@ namespace ma
 		m_eType = eType;
 		m_pScene = pScene;
 
-		m_pDeferredLightPass = NULL;
-		m_pDeferredShadowPass = NULL;
-		m_pDiffuse = NULL;
-		m_pDepthTex = NULL;
-		m_pNormalTex = NULL;
-
 		if (eType == DeferredShading)
 		{
 			m_pDeferredLightPass = new DeferredLightPass(pScene);
@@ -141,8 +135,14 @@ namespace ma
 			pRenderQueue->RenderObjList(RL_Terrain);
 		}
 
-		GetRenderSystem()->SetRenderTarget(NULL,1);
-		GetRenderSystem()->SetRenderTarget(NULL,2);
+		if (m_eType == DeferredShading)
+		{
+			GetRenderSystem()->SetRenderTarget(NULL,1);
+			if (!GetDeviceCapabilities()->GetINTZSupported())
+			{
+				GetRenderSystem()->SetRenderTarget(NULL,2);
+			}
+		}
 
 		if (m_pDeferredShadowPass)
 		{

@@ -9,7 +9,7 @@ namespace ma
 
 		~TextureManager();
 
-		RefPtr<Texture> CreateTexture(const char* pImagePath,Wrap eWrap, Filter eFilter, bool bSRGB);
+		RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap,bool bSRGB);
 
 		void Clear() {m_resMap.clear();}
 

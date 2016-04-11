@@ -27,8 +27,8 @@ namespace ma
 		RefPtr<Texture>	m_pTexEdge;
 		RefPtr<Texture>	m_pTexBlend;
 
-		RefPtr<Texture> m_pAreadTex;
-		RefPtr<Texture> m_pSreachTex;
+		RefPtr<SamplerState> m_pAreadTex;
+		RefPtr<SamplerState> m_pSreachTex;
 
 		bool m_bLinearizeDepthEnabled;
 	};

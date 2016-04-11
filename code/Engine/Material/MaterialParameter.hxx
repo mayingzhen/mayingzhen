@@ -37,11 +37,12 @@ namespace ma
 		{
 			if ( stricmp(pszType,"SamplerState") == 0 )
 			{
-				RefPtr<Texture> pTexuture = Texture::Import(pXmlElem);
-				m_anyValue = Any(pTexuture);
+				RefPtr<SamplerState> pSamplerState = new SamplerState();
+				pSamplerState->Import(pXmlElem);
+				m_anyValue = Any(pSamplerState);
 				if (pParent)
 				{
-					pParent->AddRes(pTexuture.get());
+					pParent->AddRes(pSamplerState->GetTexture());
 				}
 			}
 			else if (stricmp(pszType,"UniformAnimation"))
@@ -68,11 +69,11 @@ namespace ma
 		}
 		else
 		{
-			RefPtr<Texture> pTexuture = any_cast< RefPtr<Texture> >(m_anyValue);
-			if (pTexuture != NULL)
+			RefPtr<SamplerState> pSamplerState = any_cast< RefPtr<SamplerState> >(m_anyValue);
+			if (pSamplerState != NULL)
 			{
 				pXmlElem->append_attribute(doc.allocate_attribute(doc.allocate_string("Type"),doc.allocate_string("SamplerState")));
-				Texture::Export(pTexuture.get(), pXmlElem, doc);
+				pSamplerState->Export(pXmlElem,doc);
 				return;
 			}
 

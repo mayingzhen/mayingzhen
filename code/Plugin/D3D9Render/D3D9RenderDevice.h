@@ -57,6 +57,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
+		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
@@ -127,6 +128,7 @@ namespace ma
 		
 		// Sampler State
 		Wrap						m_arrWrap[16];
+		Wrap						m_arrWrapW[16];
 		Filter						m_arrFilter[16];
 		bool						m_arrSRGB[16];
 

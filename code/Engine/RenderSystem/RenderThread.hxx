@@ -106,7 +106,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->BeginRender();
+			GetRenderSystem()->RT_BeginRender();
 			return;
 		}
 
@@ -117,7 +117,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->EndRender();
+			GetRenderSystem()->RT_EndRender();
 			return;
 		}
 
@@ -533,6 +533,20 @@ namespace ma
 		AddPointer(sampler);
 	}
 
+	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetSamplerState(uniform,(SamplerState*)sampler);
+			return;
+		}
+
+		AddCommand(eRC_SetSamplerState);
+		AddPointer(uniform);
+		AddPointer(sampler);
+	}
+
+
 	void RenderThread::RC_SetPoolId(uint32 poolId)
 	{
 		if (IsRenderThread())
@@ -602,13 +616,19 @@ namespace ma
 				}
 				break;
 			case eRC_BeginRender:
-				GetRenderDevice()->BeginRender();
+				{
+					GetRenderSystem()->RT_BeginRender();
+				}
 				break;
 			case eRC_EndRender:
-				GetRenderDevice()->EndRender();
+				{
+					GetRenderSystem()->RT_EndRender();
+				}
 				break;
 			case eRC_Render:
-				GetRenderSystem()->RT_Render();
+				{
+					GetRenderSystem()->RT_Render();
+				}
 				break;
 			case  eRC_DrawRenderable:
 				{
@@ -815,6 +835,13 @@ namespace ma
 					Uniform* pUnform = ReadCommand<Uniform*>(n);
 					Texture* pTexture = ReadCommand<Texture*>(n);
 					GetRenderDevice()->SetTexture(pUnform,pTexture);
+				}
+				break;
+			case eRC_SetSamplerState:
+				{
+					Uniform* pUnform = ReadCommand<Uniform*>(n);
+					SamplerState* pTexture = ReadCommand<SamplerState*>(n);
+					GetRenderDevice()->SetSamplerState(pUnform,pTexture);
 				}
 				break;
 			case  eRC_SetPoolId:

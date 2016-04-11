@@ -75,7 +75,8 @@ namespace ma
 		void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
 		void				SetValue(Uniform* uniform, const ColourValue& value);
-		void				SetValue(Uniform* uniform, Texture* sampler);
+		void				SetValue(Uniform* uniform, Texture* pTexture);
+		void				SetValue(Uniform* uniform, SamplerState* sampler);
 		
 		HWND				GetMainWnd() {return m_hWnd;}
 		
@@ -132,8 +133,8 @@ namespace ma
 		void				RT_Init(HWND wndhandle);
 		void				RT_Reset(uint32 nWidth,uint32 nHeight);
 		void				RT_ShutDown();
- 		void				RT_BeginFrame();
- 		void				RT_EndFrame();
+ 		void				RT_BeginRender();
+ 		void				RT_EndRender();
 		void				RT_Render();
 		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
@@ -157,7 +158,7 @@ namespace ma
 		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
 		RenderState			m_curState;
-		Texture*			m_arrSampState[MAX_SAMPSTATE];
+		SamplerState*		m_arrSampState[MAX_SAMPSTATE];
 		VertexDeclaration*	m_pCurVertexDecla;
 		VertexBuffer*		m_pCurVB;	
 		IndexBuffer*		m_pCurIB;

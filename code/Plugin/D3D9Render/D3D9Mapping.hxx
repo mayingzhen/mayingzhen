@@ -307,7 +307,7 @@ void D3D9Mapping::GetD3D9Filter(Filter type,DWORD& minFilter,DWORD& magFilter,DW
 	{
 		minFilter = D3DTEXF_POINT;
 		magFilter = D3DTEXF_POINT;
-		mipFilter = D3DTEXF_NONE;
+		mipFilter = D3DTEXF_POINT;
 	}
 	else if (type == TFO_BILINEAR)
 	{

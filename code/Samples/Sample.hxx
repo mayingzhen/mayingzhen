@@ -36,7 +36,7 @@ namespace ma
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
 		pSubMaterial->SetShadingTechnqiue("mesh",strMacro.c_str());
 
-		pSubMaterial->SetParameter("u_texture", Any( CreateTexture(pszTexture) ) );
+		pSubMaterial->SetParameter("u_texture", Any( CreateSamplerState(pszTexture) ) );
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->SetParameter("u_specPower", Any(10.0f));

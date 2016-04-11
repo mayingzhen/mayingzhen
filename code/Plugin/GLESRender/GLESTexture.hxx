@@ -101,17 +101,17 @@ namespace ma
 #endif
 
 		// Set some misc default parameters, these can of course be changed later
-		GLenum wrapS = GLESMapping::GetGLESWrap(m_eWrap);
-		GLenum wrapT = GLESMapping::GetGLESWrap(m_eWrap);
+		//GLenum wrapS = GLESMapping::GetGLESWrap(m_eWrap);
+		//GLenum wrapT = GLESMapping::GetGLESWrap(m_eWrap);
 
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
 
-		GLenum minFilter,magFilter;
-		GLESMapping::GetGLESFilter(m_eFilter,minFilter,magFilter);
+		//GLenum minFilter,magFilter;
+		//GLESMapping::GetGLESFilter(m_eFilter,minFilter,magFilter);
 
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-		GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
 		
 		return true;
 	}

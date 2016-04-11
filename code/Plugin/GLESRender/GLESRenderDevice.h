@@ -48,6 +48,7 @@ namespace ma
 			bool twoSidedOperation = false);
 
  		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
+		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pSampler);
 		
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);

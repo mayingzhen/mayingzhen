@@ -23,7 +23,7 @@ namespace ma
 
 		void				CreateShadowMap(int nSize);	
 
-		Texture*			GetShadowMap() const; 
+		SamplerState*		GetShadowMap() const; 
 
 		void				Update(Camera* pCamera,float fSpiltNear,float fSpiltFar);	
 		void				Render(Camera* pCamera);
@@ -74,6 +74,7 @@ namespace ma
 
 		RefPtr<Texture>		m_pShdowMapDepth;
 		RefPtr<Texture>		m_pShadowMapColor;
+		RefPtr<SamplerState> m_pShadowMapSampler;
 
 		bool				m_bDraw[2];
 

@@ -22,7 +22,7 @@ namespace ma
 
 		DWORD D3DLock = 0;
 
-		if ((LockFlag & LOCK_DISCARD) && (m_Usage == USAGE_DYNAMIC))
+		if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
 			D3DLock |= D3DLOCK_DISCARD;
 
 		if (LockFlag & LOCK_NOOVERWRITE)

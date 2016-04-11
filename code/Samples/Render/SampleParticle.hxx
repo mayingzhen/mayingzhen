@@ -26,7 +26,7 @@ namespace ma
 			pShadingTech->m_eCullMode = CULL_FACE_SIDE_NONE;
 			pSubMaterial->SetShadingTechnqiue(pShadingTech.get());
 
-			pSubMaterial->SetParameter("tDiff", Any( CreateTexture("particle/money.dds") ) );
+			pSubMaterial->SetParameter("tDiff", Any( CreateSamplerState("particle/money.dds") ) );
 
 			pMaterial->SaveToFile("particle/money.mtl");
 
