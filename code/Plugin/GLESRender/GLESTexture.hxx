@@ -63,7 +63,7 @@ namespace ma
 		return count;
     }
 
-	bool GLESTexture::RT_CreateTexture(bool bMinMap)
+	bool GLESTexture::RT_CreateTexture()
 	{
 		ASSERT(m_pTex == 0);
 

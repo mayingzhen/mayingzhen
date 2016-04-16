@@ -1,3 +1,5 @@
+#ifndef D3D11
+
 float4x4 g_matView;
 float4x4 g_matViewInv;
 float4x4 g_matProj;
@@ -15,6 +17,61 @@ float2 g_vViewport;
 float2 g_vViewportInv;
 float4  g_vCameraNearFar;
 float g_fTime;
+
+float3 pos_extent;
+float3 pos_center;
+float4 tc_extent_center;
+
+uniform float4 u_cSpecColor;
+uniform float u_specPower;
+
+#else
+
+cbuffer FrameVS : register(b0)
+{	
+	float g_fTime;
+}
+
+cbuffer CameraVS : register(b1)
+{
+	float4x4 g_matView;
+	float4x4 g_matViewInv;
+	float4x4 g_matProj;
+	float4x4 g_matProjInv;
+	float4x4 g_matViewProj;
+
+	float3 g_vEyeWorldPos;
+	float2 g_vViewport;
+	float2 g_vViewportInv;
+	float4  g_vCameraNearFar;
+}
+
+cbuffer LightVS : register(b3)
+{
+	float3 g_cSkyLight;
+	float3 g_cDirLight;
+	float3 g_vDirLight;
+}
+
+cbuffer ObjectVS : register(b5)
+{
+	float4x4 g_matWorldView;
+	float4x4 g_matWorldViewProj;
+	float4x4 g_matWorld;
+	float4 g_color;
+
+	float3 pos_extent;
+	float3 pos_center;
+	float4 tc_extent_center;
+
+	uniform float4 u_cSpecColor;
+	uniform float u_specPower;
+
+}
+
+
+#endif
+
 
 //http://aras-p.info/texts/CompactNormalStorage.html
 float2 EncodeNormal(float3 n)

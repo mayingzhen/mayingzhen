@@ -231,7 +231,7 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->RT_CreateTexture(false);
+			pRenderTarget->RT_CreateTexture();
 			return;
 		}
 
@@ -677,7 +677,7 @@ namespace ma
 			case  eRC_CreateTexture:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_CreateTexture(false);
+					pTarget->RT_CreateTexture();
 				}
 				break;
 			case  eRC_CreateDepthStencil:

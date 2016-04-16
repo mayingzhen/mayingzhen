@@ -14,7 +14,7 @@ namespace ma
 			m_pDeferredLightPass = new DeferredLightPass(pScene);
 		}
 
-		m_pSMAA = new SMAAPostProcess();
+		//m_pSMAA = new SMAAPostProcess();
 	}
 
 	void RenderScheme::Init()
@@ -42,17 +42,17 @@ namespace ma
 
 	void RenderScheme::Reset()
 	{
-		if (GetDeviceCapabilities()->GetINTZSupported())
-		{
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_INTZ, USAGE_DEPTHSTENCIL);
-		}
-		else
-		{
-			m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT32_R);
-		}
-
 		if (m_eType == DeferredShading)
 		{
+			if (GetDeviceCapabilities()->GetINTZSupported())
+			{
+				m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_INTZ, USAGE_DEPTHSTENCIL);
+			}
+			else
+			{
+				m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT32_R);
+			}
+
 			m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
 			m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
 		}

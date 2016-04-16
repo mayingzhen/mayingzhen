@@ -25,6 +25,7 @@ namespace ma
 	{
 		RenderDevice_NULL,
 		RenderDevice_D3D9,
+		RenderDevice_D3D11,
 		RenderDevice_GLES2
 	};
 

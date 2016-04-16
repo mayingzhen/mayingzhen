@@ -314,7 +314,10 @@ namespace ma
 	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
-		m_pShaderProgram = ShaderProgram::Import(pXmlShader);
+		const char* pszVSFile = pXmlShader->findAttribute("VSFile");
+		const char* pszPSFile = pXmlShader->findAttribute("PSFile");
+		const char* pszMacro = pXmlShader->findAttribute("ShaderMacro");
+		m_pShaderProgram = CreateShaderProgram(pszVSFile,pszPSFile,pszMacro);
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
 		RenderState::Import(pXmlRenderState);
@@ -326,7 +329,9 @@ namespace ma
 	{
 		rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
 		pXmlElem->append_node(pXmlShader);
-		ShaderProgram::Export(m_pShaderProgram.get(),pXmlShader,doc);
+		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"),doc.allocate_string(m_pShaderProgram->GetVSFile())));
+		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"),doc.allocate_string(m_pShaderProgram->GetPSFile())));
+		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("ShaderMacro"),doc.allocate_string(m_pShaderProgram->GetShaderMacro())));
 
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
 		pXmlElem->append_node(pXmlRenderState);

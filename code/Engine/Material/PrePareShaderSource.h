@@ -10,6 +10,11 @@ namespace ma
 		out.insert(0, "#define OPENGL_ES\n");
 #endif
 
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
+		{
+			out.insert(0,"#define D3D11");
+		}
+
 		if (defines == NULL || strcmp(defines,"") == 0 )
 			return;
 

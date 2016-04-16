@@ -21,7 +21,7 @@ namespace ma
 		void					SetD3DSurface(IDirect3DSurface9* pD3D9Surface) {m_pD3D9Surface = pD3D9Surface;}
 
 	private:
-		virtual	bool			RT_CreateTexture(bool bMinMap);		
+		virtual	bool			RT_CreateTexture();		
 
 		virtual	bool			RT_CreateDepthStencil();		
 

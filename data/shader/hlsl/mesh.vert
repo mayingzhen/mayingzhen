@@ -16,28 +16,26 @@
 #include"gbuffer.h"
 #endif 
 
-float3 pos_extent;
-float3 pos_center;
-float4 tc_extent_center;
+
 
 // Attributes
 struct VS_IN
 {
    float3 a_position : POSITION;
    
+   float4 a_normal	 : NORMAL;
+   
+   float2 a_texCoord0 : TEXCOORD0;
+   
 #ifdef SKIN   
    int4   a_blendIndices :BLENDINDICES;
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
    
-   float4 a_normal	 : NORMAL;
- 
-   float2 a_texCoord0 : TEXCOORD0;
-
-	float3 a_tangent  : TANGENT;
+	//float3 a_tangent  : TANGENT;
 
 #ifdef COLOR   
-   float4 a_color0 : COLOR0;
+   //float4 a_color0 : COLOR0;
 #endif
 
 };
@@ -46,7 +44,7 @@ struct VS_IN
 // Varyings
 struct VS_OUT
 {
-   float4 v_position : POSITION;
+   float4 v_position : SV_POSITION;
    
    float2 v_texCoord : TEXCOORD0;
 

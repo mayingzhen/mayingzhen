@@ -47,7 +47,7 @@ namespace ma
 		return true;
 	}
 
-	bool D3D9Texture::RT_CreateTexture(bool bMinMap)
+	bool D3D9Texture::RT_CreateTexture()
 	{
 		ASSERT(m_pD3DTex == NULL);
 		if (m_pD3DTex)
@@ -66,7 +66,7 @@ namespace ma
 		hr = GetD3D9DxDevive()->CreateTexture(
 			m_nWidth,
 			m_nHeight,
-			bMinMap ? 0 : m_nMipLevels,
+			m_bMipMap ? 0 : m_nMipLevels,
 			D3DUsage,
 			D3DFormat,
 			m_D3DPool,

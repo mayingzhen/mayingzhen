@@ -64,6 +64,8 @@ namespace ma
 		LOCK_DISCARD        = 1,
 		LOCK_NOOVERWRITE    = 2,
 		LOCK_READONLY       = 4,
+		LOCK_WRITE          = 5,
+		LOCK_READWRITE      = 6,
 	};
 
 
@@ -216,21 +218,6 @@ namespace ma
 		0
 	};
 
-
-
-	/* enum: FILL_MODE
-	----------------------------------------------------------
-		@Remark:
-			Ìî³äÄ£Ê½.        
-	----------------------------------------------------------
-	*/
-	enum FILL_MODE
-	{
-		FILL_POINT                  = 1,                //µãÌî³ä
-		FILL_FRAME                  = 2,                //¿ò¼ÜÌî³ä
-		FILL_SOLID                  = 3,                //ÊµÌî³ä
-	};
-
 	enum BLEND_MODE
 	{
 		BM_OPATICY,
@@ -247,6 +234,15 @@ namespace ma
 		"BM_MULTIPLY",
 		0
 	};
+
+	/// Fill mode.
+	enum FillMode
+	{
+		FILL_SOLID = 0,
+		FILL_WIREFRAME,
+		FILL_POINT
+	};
+
 
 	enum CompareFunction
 	{
@@ -314,6 +310,13 @@ namespace ma
 		/// Invert the bits of the stencil buffer
 		"SOP_INVERT",
 		0
+	};
+
+	/// Shader types.
+	enum ShaderType
+	{
+		VS = 0,
+		PS,
 	};
 
 
@@ -434,6 +437,23 @@ namespace ma
         HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE = 14
 
     };
+	
+
+	enum ShaderParameterGroup
+	{
+		SP_FRAME = 0,
+		SP_CAMERA,
+		SP_ZONE,
+		SP_LIGHT,
+		SP_MATERIAL,
+		SP_OBJECT,
+		SP_CUSTOM,
+		MAX_SHADER_PARAMETER_GROUPS
+	};
+
+	static const int MAX_RENDERTARGETS = 4;
+	static const int MAX_VERTEX_STREAMS = 4;
+	static const int MAX_CONSTANT_REGISTERS = 256;
 
 }
 

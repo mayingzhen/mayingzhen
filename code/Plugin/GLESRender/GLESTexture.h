@@ -27,7 +27,7 @@ namespace ma
 		//Filter				GetTextureFilter() const {return m_eFilter;}
 
 	private:
-		virtual	bool		RT_CreateTexture(bool bMinMap);	
+		virtual	bool		RT_CreateTexture();	
 
 		virtual	bool		RT_CreateDepthStencil();	
 

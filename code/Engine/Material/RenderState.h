@@ -27,6 +27,7 @@ namespace ma
 		// Depth
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;
+
 		float				m_fConstantBias;
 		float				m_fSlopeScaleBias;
 
@@ -39,6 +40,9 @@ namespace ma
 		uint32				m_nStencilRefValue;
 		uint32              m_nStencilMask;
 		uint32				m_nStencilWriteMask;
+
+		bool				scissorTest_;
+		FillMode			fillMode_;
 	};
 		
 }

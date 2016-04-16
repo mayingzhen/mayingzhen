@@ -164,7 +164,7 @@ namespace ma
 		}
 
 		// Create the texture
-		if (!RT_CreateTexture(bAutoMipMap))
+		if (!RT_CreateTexture())
 		{
 			LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
 			return false;
@@ -174,7 +174,7 @@ namespace ma
 		{
 			PixelBox src = imageData.GetPixelBox(0, mip);
 
-			src.format = m_eFormat;
+			//src.format = m_eFormat;
 
 			SetLevelData(mip,src);
 		}

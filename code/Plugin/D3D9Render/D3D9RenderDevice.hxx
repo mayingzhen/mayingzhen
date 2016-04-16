@@ -21,6 +21,7 @@ namespace ma
 
 	D3D9RenderDevice::~D3D9RenderDevice()
 	{
+		SAFE_RELEASE(m_pD3DDevice);
 	}
 
 	void D3D9RenderDevice::ClearAllStates()

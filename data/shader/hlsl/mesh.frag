@@ -10,15 +10,14 @@
 #include"gbuffer.h"
 #endif 
 
-uniform sampler2D u_texture;
-
+Texture2D u_texture;
+SamplerState g_samLinear : register( s0 );
 
 #ifdef DIFFUSECOLOR   
 uniform float4 u_cDiffuseColor; 
 #endif
 
-uniform float4 u_cSpecColor;
-uniform float u_specPower;
+
 
 // Varyings
 struct PS_IN
@@ -55,7 +54,7 @@ float4 GetDiffuse(PS_IN In)
    flagColor = In.v_color;   
 #endif
 
-   flagColor *= tex2D(u_texture, In.v_texCoord);
+   flagColor *= u_texture.Sample(g_samLinear, In.v_texCoord);
 
 	return flagColor;
 }
@@ -112,7 +111,7 @@ void main(PS_IN In,
 #ifdef DEFERREDSHADING 
 out PS_OUT pout
 #else
-out float4 outColor : COLOR0 
+out float4 outColor : SV_TARGET 
 #endif
 ) 
 {

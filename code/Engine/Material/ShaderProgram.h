@@ -36,10 +36,7 @@ namespace ma
 		void				SetPSFile(const char* pszPSFile);
 
 		const char*			GetShaderMacro() const;
-		void				SetShaderMacro(const char* pszMacro);
-
-		static RefPtr<ShaderProgram> Import(rapidxml::xml_node<>* pXmlElem);
-		static void			Export(ShaderProgram* pShader,rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);				
+		void				SetShaderMacro(const char* pszMacro);			
 
 	protected:
 

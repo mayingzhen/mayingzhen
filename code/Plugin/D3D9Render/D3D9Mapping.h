@@ -5,30 +5,6 @@
 namespace ma
 {
 
-	struct D3D9RenderState
-	{
-		DWORD       CullMode;
-		DWORD       FillMode;
-		DWORD       ShadeMode;
-		DWORD       ColorWrite;
-		DWORD       DepthWrite;
-		DWORD       DepthCheck;
-		DWORD       DepthFunc;
-		DWORD       SrcBlend;
-		DWORD       DestBlend;
-		DWORD       BlendOp;
-		DWORD       AlphaTest;
-		DWORD       AlphaFunc;
-		DWORD       AlphaRef;
-	};
-
-	struct D3D9DisplayDevice
-	{
-		UINT                    AdapterNumber;
-		D3DADAPTER_IDENTIFIER9  Identifier;
-		D3DDISPLAYMODE          DisplayMode;
-	};
-
 	class D3D9Mapping
 	{
 	public:

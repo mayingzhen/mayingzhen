@@ -1,16 +1,14 @@
 #include "Samples/stdafx.h"
 #include "SampleBrowser.h"
 
-#if PLATFORM_WIN != 1
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"
 #include "BulletPhysics/Module.h"
-#else
-#include "Animation/Module.h"
-#include "D3D9Render/Module.h"
-#include "GLESRender/Module.h"
 #include "MonoScript/Module.h"
-#include "BulletPhysics/Module.h"
+
+#if PLATFORM_WIN == 1
+#include "D3D9Render/Module.h"
+#include "D3D11Render/Module.h"
 #endif
 
 #include "CameraController.hxx"
@@ -18,12 +16,11 @@
 
 #if PLATFORM_WIN == 1
 #include "Samples/Serialize/SampleFbxImport.hxx"
+#endif
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
 #include "Samples/Render/SampleMaterial.hxx"
-#endif
-
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Physics/SampleCharaControl.hxx"
@@ -62,9 +59,14 @@ namespace ma
 	{
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
+		MonoScriptModuleInit();
 
 #if PLATFORM_WIN == 1
-		if (eType == RenderDevice_D3D9)
+		if (eType == RenderDevice_D3D11)
+		{
+			D3D11RenderModuleInit();
+		}
+		else if (eType == RenderDevice_D3D9)
 		{
 			D3D9RenderModuleInit();
 		}
@@ -73,7 +75,6 @@ namespace ma
 			GLESRenderModuleInit();
 		}
 
-		MonoScriptModuleInit();
 		FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
@@ -155,7 +156,7 @@ namespace ma
 
 	void SampleBrowser::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample)
 	{
-		ModuleInit(RenderDevice_D3D9);
+		ModuleInit(RenderDevice_D3D11);
 
 		InitResourcePath();
 

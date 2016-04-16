@@ -136,22 +136,6 @@ namespace ma
 		return pUnifrom;
 	}
 
-	RefPtr<ShaderProgram> ShaderProgram::Import(rapidxml::xml_node<>* pXmlShader)
-	{
-		const char* pszVSFile = pXmlShader->findAttribute("VSFile");
-		const char* pszPSFile = pXmlShader->findAttribute("PSFile");
-		const char* pszMacro = pXmlShader->findAttribute("ShaderMacro");
-		RefPtr<ShaderProgram> pShaderProgram = CreateShaderProgram(pszVSFile,pszPSFile,pszMacro);
-		return pShaderProgram;
-	}
-
-	void ShaderProgram::Export(ShaderProgram* pShader,rapidxml::xml_node<>* pXmlShader,rapidxml::xml_document<>& doc)
-	{
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"),doc.allocate_string(pShader->GetVSFile())));
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"),doc.allocate_string(pShader->GetPSFile())));
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("ShaderMacro"),doc.allocate_string(pShader->GetShaderMacro())));
-	}
-
 	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
 	{
 		return g_pShaderManager->CreateShader(pszVSFile,pszPSFile,pszMarco);

@@ -30,10 +30,14 @@ namespace ma
 		bool			m_vshShder;
 		UINT			m_index;
 		UINT			m_nCount; 
+
+		void*		    m_pD3D11CBPtr;
+		UINT			m_nCBOffset;
 		
 	private:
 		std::string		m_name;
 		MethodBinding*  m_pMethod;
+		
 	};
 
 	template <class ClassType, class ParameterType>

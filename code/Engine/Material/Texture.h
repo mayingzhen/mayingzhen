@@ -35,7 +35,7 @@ namespace ma
 		
 		bool			RT_StreamComplete();  
 
-		virtual	bool	RT_CreateTexture(bool bMinMap) = 0;	
+		virtual	bool	RT_CreateTexture() = 0;	
 
 		virtual	bool	RT_CreateDepthStencil() = 0;	
 

@@ -208,7 +208,7 @@ namespace ma
 
 		InitCachState();
 
-		InitParticleVideoMemory();
+		//InitParticleVideoMemory();
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
@@ -647,9 +647,10 @@ namespace ma
 
 	const char*	RenderSystem::GetShaderPath()
 	{
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
+		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
+		if ( type == RenderDevice_D3D9 || type == RenderDevice_D3D11 )
 		{
-			return "shader/D3D9/";
+			return "shader/hlsl/";
 		}
 		else
 		{
