@@ -1,19 +1,19 @@
 #include"common.h"
 #include"depth.h"
 
-
-float4 colorMultiply;
-
-float billboard_offset;
+cbuffer ObjectVS : register(b5)
+{
+	float4 colorMultiply;
+	float billboard_offset;
+}
 
 void main(float4 iPos     : POSITION0,
         float2 iUV		: TEXCOORD0,
         float2 iNextUV	: TEXCOORD1,
         float4 iBlend	: BLENDWEIGHT0,
-        float4 vc       : COLOR1,
+        float4 vc       : COLOR0,
         
         // output
-        out float4 oPos     : POSITION0,
         out float2 oUV      : TEXCOORD0,
 #if defined(SOFT_PARTICLE) || defined(PROJECTIVE_TEXTURE)
 		out float4 oScreenTC : TEXCOORD1,
@@ -21,7 +21,8 @@ void main(float4 iPos     : POSITION0,
 #ifdef TEXTURE_BLEND         
         out float4 oNextUV  : TEXCOORD2,
 #endif      
-        out float4 oDiff : TEXCOORD3
+        out float4 oDiff : TEXCOORD3,
+        out float4 oPos     : SV_POSITION
 )
 {
     float4 worldPos = float4(iPos.xyz,1.0);

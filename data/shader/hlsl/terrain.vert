@@ -12,11 +12,16 @@
 #include"gbuffer.h"
 #endif 
 
-uniform float2 uCellAmount;
-uniform float2 uDetailScale;
-uniform float4 uDetailOffSet;
-uniform float4 uDetailRotate;
-uniform float uCurMaterialID;
+
+
+cbuffer ObjectVS : register(b5)
+{
+	uniform float2 uCellAmount;
+	uniform float2 uDetailScale;
+	uniform float4 uDetailOffSet;
+	uniform float4 uDetailRotate;
+	uniform float uCurMaterialID;
+}
 
 
 struct VS_INPUT
@@ -30,7 +35,6 @@ struct VS_INPUT
 
 struct VS_OUTPUT
 {
-    float4 Pos		: POSITION;
     float2 UV		: TEXCOORD0;
     float4 DetailUV	: TEXCOORD1;
 	float4 Color	: TEXCOORD2;
@@ -46,6 +50,8 @@ struct VS_OUTPUT
 	float4 oShadowPos : TEXCOORD5;
 #endif
 #endif
+
+	float4 Pos		: SV_POSITION;
 };
 
 

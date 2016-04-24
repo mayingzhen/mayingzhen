@@ -19,11 +19,7 @@ namespace ma
 
 		~SampleBrowser();
 
-		virtual void		ModuleInit(RenderDeviceType eType);
-
-		virtual void		ModuleShutdown();
-
-		virtual void		Init(bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
+		virtual void		Init(bool bD3D11,bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
 
 		virtual void		Shutdown();
 
@@ -42,6 +38,10 @@ namespace ma
 		void				RunSample(const char* pSample);
 
 		void				InitResourcePath();
+
+		void				ModuleInit(RenderDeviceType eType);
+
+		void				ModuleShutdown();
 
 	private:
 		RefPtr<Sample>		m_pCurSample;

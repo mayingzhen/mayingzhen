@@ -14,6 +14,16 @@ Texture2D u_texture : register(t0);
 SamplerState g_samLinear : register( s0 );
 
 
+cbuffer ObjectPS : register(b5)
+{
+	float4 u_cDiffuseColor;
+
+	float4 u_cSpecColor;
+	float u_specPower;
+}
+
+
+
 // Varyings
 struct PS_IN
 {

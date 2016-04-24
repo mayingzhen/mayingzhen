@@ -23,17 +23,18 @@ void* D3D11IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 
 	D3D11_MAP D3DLock;
 
+	if (LockFlag & LOCK_WRITE)
+		D3DLock = D3D11_MAP_WRITE;
+
+	if (LockFlag & LOCK_READONLY)
+		D3DLock = D3D11_MAP_READ;
+
 	if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
 		D3DLock = D3D11_MAP_WRITE_DISCARD;
 
 	if (LockFlag & LOCK_NOOVERWRITE)
 		D3DLock = D3D11_MAP_WRITE_NO_OVERWRITE;
 
-	if (LockFlag & LOCK_READONLY)
-		D3DLock = D3D11_MAP_READ;
-
-	if (LockFlag & LOCK_WRITE)
-		D3DLock = D3D11_MAP_WRITE;
 
 	D3D11_MAPPED_SUBRESOURCE mappedData;
 	mappedData.pData = 0;
@@ -41,7 +42,7 @@ void* D3D11IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	GetD3D11DxDeviveContext()->Map(mD3D11IndexBuffer, 0, D3DLock, 0,&mappedData);
 	m_pLockedData = mappedData.pData;
 	ASSERT(m_pLockedData);
-	if (m_pLockedData)
+	if (m_pLockedData == NULL)
 	{
 		LogError("Failed to map vertex buffer");
 	}
@@ -66,14 +67,14 @@ void D3D11IndexBuffer::RT_StreamComplete()
 	D3D11_BUFFER_DESC bufferDesc;
 	memset(&bufferDesc, 0, sizeof bufferDesc);
 	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bufferDesc.CPUAccessFlags = m_Usage == HBU_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
-	bufferDesc.Usage = m_Usage == HBU_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+	bufferDesc.CPUAccessFlags = m_Usage & HBU_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
+	bufferDesc.Usage = m_Usage & HBU_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
 	bufferDesc.ByteWidth = (UINT)(m_Size);
 
 	D3D11_SUBRESOURCE_DATA InitData;
 	InitData.pSysMem = m_pData;
 
-	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, &InitData, &mD3D11IndexBuffer);
+	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mD3D11IndexBuffer);
 	ASSERT(mD3D11IndexBuffer);
 	if (mD3D11IndexBuffer == NULL)
 	{

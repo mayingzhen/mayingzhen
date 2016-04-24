@@ -211,7 +211,7 @@ namespace ma
 
 		InitCachState();
 
-		//InitParticleVideoMemory();
+		InitParticleVideoMemory();
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
@@ -297,32 +297,6 @@ namespace ma
 		}
 
 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
-
-	}
-
-
-	void RenderSystem::DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		m_pRenderThread->RC_DrawDyRenderable(pRenderable,pTechnique);
-	}
-
-	void RenderSystem::RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		if (pRenderable == NULL)
-			return;
-
-		RefPtr<SubMeshData>& pSubMesh = pRenderable->m_pSubMeshData;
-		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
-			return;
-
-		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
-		{
-			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
-
-			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
-		}
-
-		GetRenderDevice()->DrawDyRenderable(pRenderable,pTechnique);
 
 	}
 

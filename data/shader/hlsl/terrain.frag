@@ -1,6 +1,3 @@
-// #define DEFERREDSHADING
-// #define USING_SHADOW 1 
-
 #include "common.h"
 
 #if USING_SHADOW != 0
@@ -11,21 +8,30 @@
 #include "gbuffer.h"
 #endif
 
-uniform float4 u_cSpecColor;
+cbuffer ObjectPS : register(b5)
+{
+	uniform float4 u_cSpecColor;
 
-sampler tBlendingMap;
+	uniform float2 uBlendingOffset;
+}
 
-sampler tDetailMap0;
-sampler tDetailMap1;
+Texture2D tBlendingMap;
+SamplerState sBlendingMap;
 
-sampler tBumpMap0;
-sampler tBumpMap1;
+Texture2D tDetailMap0;
+SamplerState sDetailMap0;
 
-uniform float2 uBlendingOffset;
+Texture2D tDetailMap1;
+SamplerState sDetailMap1;
+
+Texture2D tBumpMap0;
+SamplerState sBumpMap0;
+
+Texture2D tBumpMap1;
+SamplerState sBumpMap1;
 
 struct VS_OUTPUT
 {
-    float4 Pos		: POSITION;
     float2 UV		: TEXCOORD0;
     float4 DetailUV	: TEXCOORD1;
 	float4 Color	: TEXCOORD2;
@@ -47,21 +53,19 @@ float4 GetDiffuse(VS_OUTPUT In)
 {
 	float4 oColor = float4(1,1,1,1);
 	
-	float4 cBlend = tex2D(tBlendingMap, In.UV + uBlendingOffset);
+	float4 cBlend = tBlendingMap.Sample(sBlendingMap, In.UV + uBlendingOffset);
 		
     // Ï¸½ÚÍ¼
 #if LAYER==1
- 	float4 cDetailMap0 = tex2D(tDetailMap0, In.DetailUV.xy);
+ 	float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
 	oColor = cDetailMap0;
 #elif LAYER==2
-    float4 cDetailMap0 = tex2D(tDetailMap0, In.DetailUV.xy);
-    float4 cDetailMap1 = tex2D(tDetailMap1, In.DetailUV.zw);
+    float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
+    float4 cDetailMap1 = tDetailMap1.Sample(sDetailMap1, In.DetailUV.zw);
     oColor = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 
-#ifdef BOREDER
 	oColor.a = In.Color.a;		
-#endif
 
 	return oColor;
 }
@@ -85,16 +89,16 @@ float4 ForwardShading(float4 cDiffuse,VS_OUTPUT In)
 #endif
 
 void main(VS_OUTPUT In,
-#if defined(DEFERREDSHADING)/* && !defined(BOREDER)*/
+#if defined(DEFERREDSHADING)
 out PS_OUT pout
 #else
-out float4 outColor : COLOR0 
+out float4 outColor : SV_TARGET 
 #endif
 )
 {
 	float4 cDiffuse = GetDiffuse(In);
 
-#if defined(DEFERREDSHADING) /*&& !defined(BOREDER) */
+#if defined(DEFERREDSHADING) 
 	pout = GbufferPSout(cDiffuse,u_cSpecColor,In.v_normalDepth);
 #else
 	outColor = ForwardShading(cDiffuse,In);

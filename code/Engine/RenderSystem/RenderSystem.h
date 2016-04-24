@@ -38,7 +38,6 @@ namespace ma
 		void				Render();
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
-		void				DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 		
 		RefPtr<Texture>		SetRenderTarget(RefPtr<Texture>	 pTexture,int index = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
@@ -137,7 +136,6 @@ namespace ma
  		void				RT_EndRender();
 		void				RT_Render();
 		void				RT_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
-		void				RT_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void				RT_SetPoolId(uint32 poolId);
 
 		void				InitGlobeMarco();

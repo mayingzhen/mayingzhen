@@ -1,19 +1,49 @@
 <Material>
-	<LodSubMaterial>
+	<LodMaterial>
 		<SubMaterial>
 			<ShadingTech>
 				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 2"/>
-				<RenderState ClassName="RenderState">
+				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
+					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
 					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+					<Attribute Name="SRGBWrite" Type="bool" Value="true"/>
+					<Attribute Name="Stencil" Type="bool" Value="false"/>
+					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
+					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
+					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
+					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
 				</RenderState>
 			</ShadingTech>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ImagePath="scene/terrain/chess.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
-			<Parameters Name="tDetailMap1" Type="SamplerState" ImagePath="scene/terrain/diban_zhuanshi.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
-			<Parameters Name="tBlendingMap" Type="SamplerState" ImagePath="scene/terrain/test_b0.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
+			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/chess.dds"/>
+				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
+				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
+				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
+				<Attribute Name="SRGB" Type="bool" Value="true"/>
+				<Attribute Name="LodBias" Type="float" Value="0"/>
+			</Parameters>
+			<Parameters Name="tDetailMap1" Type="SamplerState" ClassName="SamplerState">
+				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_zhuanshi.dds"/>
+				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
+				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
+				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
+				<Attribute Name="SRGB" Type="bool" Value="true"/>
+				<Attribute Name="LodBias" Type="float" Value="0"/>
+			</Parameters>
+			<Parameters Name="tBlendingMap" Type="SamplerState" ClassName="SamplerState">
+				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/test_b0.dds"/>
+				<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
+				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
+				<Attribute Name="Filter" Type="string" Value="TFO_POINT"/>
+				<Attribute Name="SRGB" Type="bool" Value="false"/>
+				<Attribute Name="LodBias" Type="float" Value="0"/>
+			</Parameters>
 			<Parameters Name="uDetailScale" Type="Vector2" Value="0.01 0.01"/>
 			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
@@ -21,15 +51,31 @@
 		<SubMaterial>
 			<ShadingTech>
 				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1"/>
-				<RenderState ClassName="RenderState">
+				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
+					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
 					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+					<Attribute Name="SRGBWrite" Type="bool" Value="true"/>
+					<Attribute Name="Stencil" Type="bool" Value="false"/>
+					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
+					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
+					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
+					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
 				</RenderState>
 			</ShadingTech>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ImagePath="scene/terrain/diban_tu.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
+			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_tu.dds"/>
+				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
+				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
+				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
+				<Attribute Name="SRGB" Type="bool" Value="true"/>
+				<Attribute Name="LodBias" Type="float" Value="0"/>
+			</Parameters>
 			<Parameters Name="uDetailScale" Type="Vector2" Value="0.01 0.01"/>
 			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
@@ -37,19 +83,35 @@
 		<SubMaterial>
 			<ShadingTech>
 				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1"/>
-				<RenderState ClassName="RenderState">
+				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="DCM_LESS_EQUAL"/>
+					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
 					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
+					<Attribute Name="SRGBWrite" Type="bool" Value="true"/>
+					<Attribute Name="Stencil" Type="bool" Value="false"/>
+					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
+					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
+					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
+					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
+					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
 				</RenderState>
 			</ShadingTech>
-			<Parameters Name="tDetailMap0" Type="SamplerState" ImagePath="scene/terrain/diban_tu.dds" Wrap="REPEAT" Filter="TFO_TRILINEAR"/>
+			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
+				<Attribute Name="ImagePath" Type="string" Value="scene/terrain/diban_tu.dds"/>
+				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
+				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
+				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
+				<Attribute Name="SRGB" Type="bool" Value="true"/>
+				<Attribute Name="LodBias" Type="float" Value="0"/>
+			</Parameters>
 			<Parameters Name="uDetailScale" Type="Vector2" Value="0.01 0.01"/>
 			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
 		</SubMaterial>
-	</LodSubMaterial>
+	</LodMaterial>
 </Material>
 

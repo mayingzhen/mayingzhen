@@ -21,7 +21,6 @@ namespace ma
 		eRC_EndRender,
 		eRC_Render,
 		eRC_DrawRenderable,
-		eRC_DrawDyRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
 		eRC_CreateDepthStencil,
@@ -124,7 +123,6 @@ namespace ma
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
 		void	RC_Render();
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
-		void	RC_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
 		void	RC_CreateDepthStencil(Texture* pRenderTarget);

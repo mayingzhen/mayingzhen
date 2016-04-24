@@ -53,26 +53,6 @@ cbuffer LightPS : register(b3)
 	float3 g_vDirLight;
 }
 
-cbuffer ObjectVS : register(b5)
-{
-	float4x4 g_matWorldView;
-	float4x4 g_matWorldViewProj;
-	float4x4 g_matWorld;
-
-	float3 pos_extent;
-	float3 pos_center;
-	float4 tc_extent_center;
-}
-
-cbuffer ObjectPS : register(b5)
-{
-	float4 u_cDiffuseColor;
-
-	float4 u_cSpecColor;
-	float u_specPower;
-}
-
-
 
 #endif
 

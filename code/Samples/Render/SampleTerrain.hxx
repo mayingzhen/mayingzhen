@@ -33,7 +33,7 @@ namespace ma
 				
 				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
 				subMatData->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
-				subMatData->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds") ) );
+				subMatData->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds",CLAMP,TFO_POINT,false) ) );
 				subMatData->SetParameter("uDetailScale", Any( Vector2(0.01f, 0.01f) ) );
 				subMatData->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any( Vector4::ZERO) );

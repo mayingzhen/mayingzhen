@@ -189,19 +189,6 @@ namespace ma
 		AddPointer(pTechnique);
 	}
 
-	void RenderThread::RC_DrawDyRenderable(Renderable* pRenderable,Technique* pTechnique)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderSystem()->RT_DrawDyRenderable(pRenderable,pTechnique);
-			return;
-		}
-
-		AddCommand(eRC_DrawDyRenderable);
-		AddPointer(pRenderable);
-		AddPointer(pTechnique);
-	}
-
 	void RenderThread::RC_Render()
 	{
 		if (IsRenderThread())
@@ -635,13 +622,6 @@ namespace ma
 					Renderable* pRenderable = ReadCommand<Renderable*>(n);
 					Technique* pTech = ReadCommand<Technique*>(n);
 					GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
-				}
-				break;
-			case  eRC_DrawDyRenderable:
-				{
-					Renderable* pRenderable = ReadCommand<Renderable*>(n);
-					Technique* pTech = ReadCommand<Technique*>(n);
-					GetRenderSystem()->RT_DrawDyRenderable(pRenderable,pTech);
 				}
 				break;
 			case  eRC_TexStreamComplete:

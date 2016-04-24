@@ -5,6 +5,13 @@
 #include "common.h"
 
 
+cbuffer ObjectVS : register(b5)
+{
+	float4x4 g_matWorldView;
+	float4x4 g_matWorldViewProj;
+	float4x4 g_matWorld;
+}
+
 
 // Attributes
 struct VS_IN

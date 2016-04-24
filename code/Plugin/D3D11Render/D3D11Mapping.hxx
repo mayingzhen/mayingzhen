@@ -89,6 +89,8 @@ PixelFormat D3D11Mapping::_getClosestSupportedPF(PixelFormat ogrePF)
 	}
 }
 
+//https://msdn.microsoft.com/en-us/library/windows/desktop/hh308955(v=vs.85).aspx
+
 DXGI_FORMAT D3D11Mapping::_getPF(PixelFormat ogrePF)
 {
 	switch(ogrePF)
@@ -140,11 +142,11 @@ DXGI_FORMAT D3D11Mapping::_getPF(PixelFormat ogrePF)
 	case PF_DXT2:
 		return DXGI_FORMAT_BC2_UNORM;
 	case PF_DXT3:
-		return DXGI_FORMAT_BC3_UNORM;
+		return DXGI_FORMAT_BC2_UNORM;
 	case PF_DXT4:
-		return DXGI_FORMAT_BC4_UNORM;
+		return DXGI_FORMAT_BC3_UNORM;
 	case PF_DXT5:
-		return DXGI_FORMAT_BC5_UNORM;
+		return DXGI_FORMAT_BC3_UNORM;
 	case PF_UNKNOWN:
 	default:
 		return DXGI_FORMAT_UNKNOWN;
@@ -169,7 +171,7 @@ DXGI_FORMAT D3D11Mapping::GetD3DDeclType(DECL_TYPE DeclType)
         return DXGI_FORMAT_R32G32B32A32_FLOAT;
 
     case DT_COLOR:
-        return DXGI_FORMAT_R8G8B8A8_SNORM;
+        return DXGI_FORMAT_R8G8B8A8_UNORM;
 
     case DT_UBYTE4:
 		return DXGI_FORMAT_R8G8B8A8_UINT;

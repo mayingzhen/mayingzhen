@@ -4,23 +4,33 @@
 // ---------------------------------------------------------------------
 // sampler
 // ---------------------------------------------------------------------
-uniform sampler2D tDiff;
-uniform sampler2D tDiff1;
-uniform sampler2D tDissolve;
-uniform sampler2D tProjectiveTexture;
+Texture2D tDiff;
+SamplerState sDiff;
+
+Texture2D tDiff1;
+SamplerState sDiff1;
+
+Texture2D tDissolve;
+SamplerState sDissolve;
+
+Texture2D tProjectiveTexture;
+SamplerState sProjectiveTexture;
 
 
 // ---------------------------------------------------------------------
 // local param
 // ---------------------------------------------------------------------
-float glowFactor;
-float4 cSoftParamsRefractionPower;
-float4 projective_uvscale;
+cbuffer ObjectPS : register(b5)
+{
+	float glowFactor;
+	float4 cSoftParamsRefractionPower;
+	float4 projective_uvscale;
 
-float DissolveAmount;
-float DissolveTexScale;
-float4 DissolveColor;  
-float DissolveFadeSize;
+	float DissolveAmount;
+	float DissolveTexScale;
+	float4 DissolveColor;  
+	float DissolveFadeSize;
+}
 
 
 void main(float2 oUV      : TEXCOORD0,
@@ -32,18 +42,18 @@ void main(float2 oUV      : TEXCOORD0,
 #endif		
         float4 oDiff : TEXCOORD3,
         
-        out float4 oColor   :COLOR0)
+        out float4 oColor   :SV_TARGET)
 {
-    oColor = tex2D(tDiff, oUV);
+    oColor = tDiff.Sample(sDiff, oUV);
     
 #ifdef TEXTURE_BLEND
 	float BlendFactor = oNextUV.z;
-	float4 nextColor = tex2D(tDiff, oNextUV.xy);
+	float4 nextColor = tDiff.Sample(sDiff, oNextUV.xy);
 	oColor = oColor * (1.0 - BlendFactor) + BlendFactor * nextColor;
 #endif
 
 #ifdef DISSOLVE
-	float ClipTex = tex2D (tDissolve, oUV * DissolveTexScale).r; 
+	float ClipTex = tDissolve.Sample(sDiff, oUV * DissolveTexScale).r; 
 	float ClipAmount = ClipTex - DissolveAmount; 
 	clip(ClipAmount + DissolveFadeSize);	
 	float t = saturate(ClipAmount / -DissolveFadeSize);
@@ -51,7 +61,7 @@ void main(float2 oUV      : TEXCOORD0,
 #endif
 
 #ifdef DIFF1
-    oColor *= tex2D(tDiff1, oUV);
+    oColor *= tDiff1.Sample(sDiff1, oUV);
 #endif
 
 	oColor *= oDiff;
@@ -71,7 +81,7 @@ void main(float2 oUV      : TEXCOORD0,
 #endif
 
 #ifdef PROJECTIVE_TEXTURE
-    oColor *= tex2D(tProjectiveTexture, vProj*projective_uvscale.zw + projective_uvscale.xy);
+    oColor *= tProjectiveTexture.Sample(sProjectiveTexture, vProj*projective_uvscale.zw + projective_uvscale.xy);
 #endif
 
 #ifdef GLOW

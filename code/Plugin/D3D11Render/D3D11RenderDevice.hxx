@@ -570,7 +570,7 @@ namespace ma
 						{
 							const VertexElement& element = m_pVertexDecl->GetElement(i);
 							d3dve[i].SemanticName = D3D11Mapping::GetD3DDeclUsage(element.Usage);
-							d3dve[i].SemanticIndex = 0;//element.UsageIndex;
+							d3dve[i].SemanticIndex = element.UsageIndex;
 							d3dve[i].Format = D3D11Mapping::GetD3DDeclType(element.Type);
 							d3dve[i].InputSlot = 0;
 							d3dve[i].AlignedByteOffset = element.Offset;
@@ -623,12 +623,24 @@ namespace ma
 						stateDesc.RenderTarget[0].DestBlend,
 						stateDesc.RenderTarget[0].BlendOp);
 
+					D3D11Mapping::GetD3DBlend(m_renderState.m_eBlendMode,
+						stateDesc.RenderTarget[0].BlendEnable,
+						stateDesc.RenderTarget[0].SrcBlendAlpha,
+						stateDesc.RenderTarget[0].DestBlendAlpha,
+						stateDesc.RenderTarget[0].BlendOpAlpha);
+
 					stateDesc.RenderTarget[0].RenderTargetWriteMask = m_renderState.m_bColorWrite ? D3D11_COLOR_WRITE_ENABLE_ALL : 0x0;
 
 					ID3D11BlendState* newBlendState = 0;
-					m_pD3DDevice->CreateBlendState(&stateDesc, &newBlendState);
+					HRESULT hr = m_pD3DDevice->CreateBlendState(&stateDesc, &newBlendState);
 					if (!newBlendState)
+					{
+						if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS)
+						{
+
+						}
 						LogError("Failed to create blend state");
+					}
 
 					blendStates_.insert( std::make_pair(newBlendStateHash, newBlendState) );
 					

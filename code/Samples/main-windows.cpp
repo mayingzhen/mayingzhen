@@ -8,13 +8,14 @@ using namespace ma;
 
 int main(int argc, char* argv[])
 {
+	bool bD3D11 = true;
 	bool bRenderThread = false;
 	bool bDataThread = false;
 	bool bJobScheduler = false;
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bRenderThread,bDataThread,bJobScheduler,"SampleMaterial");
+	sampleBrowser.Init(bD3D11,bRenderThread,bDataThread,bJobScheduler,"SampleParticle");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

@@ -90,52 +90,6 @@ namespace ma
 			return format;
 	}
 
-	unsigned GetRowDataSize(DXGI_FORMAT format,int width) 
-	{
-		switch (format)
-		{
-		case DXGI_FORMAT_R8_UNORM:
-		case DXGI_FORMAT_A8_UNORM:
-			return (unsigned)width;
-
-		case DXGI_FORMAT_R8G8_UNORM:
-		case DXGI_FORMAT_R16_UNORM:
-		case DXGI_FORMAT_R16_FLOAT:
-		case DXGI_FORMAT_R16_TYPELESS:
-			return (unsigned)(width * 2);
-
-		case DXGI_FORMAT_R8G8B8A8_UNORM:
-		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
-		case DXGI_FORMAT_R16G16_UNORM:
-		case DXGI_FORMAT_R16G16_FLOAT:
-		case DXGI_FORMAT_R32_FLOAT:
-		case DXGI_FORMAT_R24G8_TYPELESS:
-		case DXGI_FORMAT_R32_TYPELESS:
-			return (unsigned)(width * 4);
-
-		case DXGI_FORMAT_R16G16B16A16_UNORM:
-		case DXGI_FORMAT_R16G16B16A16_FLOAT:
-			return (unsigned)(width * 8);
-
-		case DXGI_FORMAT_R32G32B32A32_FLOAT:
-			return (unsigned)(width * 16);
-
-		case DXGI_FORMAT_BC1_UNORM:
-		case DXGI_FORMAT_BC1_UNORM_SRGB:
-			return (unsigned)(((width + 3) >> 2) * 8);
-
-		case DXGI_FORMAT_BC2_UNORM:
-		case DXGI_FORMAT_BC2_UNORM_SRGB:
-		case DXGI_FORMAT_BC3_UNORM:
-		case DXGI_FORMAT_BC3_UNORM_SRGB:
-			return (unsigned)(((width + 3) >> 2) * 16);
-
-		default:
-			ASSERT(false);
-			return 0;
-		}
-	}
-
 	bool IsCompressed(DXGI_FORMAT format)
 	{
 		return format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM;
@@ -271,8 +225,8 @@ namespace ma
 		destRect = toD3DRECT(dstBox);
 
 		unsigned char* srcData = (unsigned char*)converted.data;
-		unsigned rowSize = GetRowDataSize(m_descFormat,width);
-		unsigned rowStart = GetRowDataSize(m_descFormat,0);
+		unsigned rowSize = rowWidth;//GetRowDataSize(m_descFormat,width);
+		unsigned rowStart = 0;//GetRowDataSize(m_descFormat,0);
 		unsigned subResource = D3D11CalcSubresource(nLevel, 0, nLevel);
 
 		if (m_eUsage == USAGE_DYNAMIC)
@@ -289,10 +243,10 @@ namespace ma
 				&mappedData);
 			if (mappedData.pData)
 			{
-				for (int row = 0; row < height; ++row)
-				{
-					//memcpy((unsigned char*)mappedData.pData + row * mappedData.RowPitch + rowStart, src + row * rowSize, rowSize);
-				}
+// 				for (int row = 0; row < height; ++row)
+// 				{
+// 					memcpy((unsigned char*)mappedData.pData + row * mappedData.RowPitch + rowStart, src + row * rowSize, rowSize);
+// 				}
 				GetD3D11DxDeviveContext()->Unmap(m_pD3D11Tex2D, subResource);
 			}
 			else

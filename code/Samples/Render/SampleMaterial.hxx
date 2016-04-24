@@ -8,7 +8,7 @@ namespace ma
 
 	void SampleMaterial::Load()
 	{
-		GetCamera()->LookAt(Vector3(0, 5, 3), Vector3(0, 0, 0));
+		GetCamera()->LookAt(Vector3(0, -5, 3), Vector3(0, 0, 0));
 
 		//GetInput()->AddKeyListener(this);
 
@@ -16,12 +16,22 @@ namespace ma
 
 		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
 		
+		if (0)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
+		{
+			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
+			pCharMagic->SetScale(Vector3(0.01f));
+			SkinMeshComponent* pMeshComp = pCharMagic->CreateComponent<SkinMeshComponent>();
+			pMeshComp->Load("magician/magician/Body.skn","magician/magician/Body.mtl");
+
+			AnimationComponent* pAnimtionObjectB = pCharMagic->CreateComponent<AnimationComponent>();
+			pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
+		}
 
 		if (1)
 		{
