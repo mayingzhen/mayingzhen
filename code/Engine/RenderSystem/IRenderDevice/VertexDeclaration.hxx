@@ -12,44 +12,6 @@ namespace ma
 	{
 	}
 
-	void VertexDeclaration::Init(UINT nVertexType)
-	{
-		int voffset = 0;
-		if (nVertexType & DUM_POSITION)
-		{
-			AddElement(0, voffset, DT_FLOAT3, DU_POSITION, 0);
-			voffset += 12;
-		}
-		if (nVertexType & DUM_TEXCOORD)
-		{
-			AddElement(0, voffset, DT_FLOAT2, DU_TEXCOORD, 0);
-			voffset += 8;
-		}
-		if (nVertexType & DUM_NORMAL)
-		{
-			AddElement(0, voffset, DT_FLOAT3, DU_NORMAL, 0);
-			voffset += 12;
-		}
-		if (nVertexType & DUM_TANGENT)
-		{
-			AddElement(0, voffset, DT_FLOAT3, DU_TANGENT, 0);
-			voffset += 12;
-		}
-		if (nVertexType & DUM_BLENDINDICES)
-		{
-			AddElement(0, voffset, DT_UBYTE4, DU_BLENDINDICES, 0);
-			voffset += 4;
-		}
-		if (nVertexType & DUM_BLENDWEIGHT)
-		{
-			AddElement(0, voffset, DT_UBYTE4N, DU_BLENDWEIGHT, 0);
-			voffset += 4;
-		}
-		
-		m_nStreamStride = voffset;
-	}
-
-
 	void VertexDeclaration::AddElement(short StreamNumber, short Offset,
 		DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char UsageIndex)
 	{

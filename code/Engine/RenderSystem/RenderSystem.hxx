@@ -651,7 +651,7 @@ namespace ma
 	const char*	RenderSystem::GetShaderPath()
 	{
 		RenderDeviceType type = GetRenderDevice()->GetRenderDeviceType();
-		if ( type == RenderDevice_D3D9 || type == RenderDevice_D3D11 )
+		if ( type == type == RenderDevice_D3D11 )
 		{
 			return "shader/hlsl/";
 		}

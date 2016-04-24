@@ -15,8 +15,6 @@ namespace ma
 			
 		virtual void			RT_StreamComplete() = 0;
 
-		void					Init(UINT nVertexType);
-
 		void					AddElement(short number, short Offset, DECL_TYPE DeclType, DECL_USAGE DeclUsage, unsigned char index);
 		
 		void					AddElement(const VertexElement& element);

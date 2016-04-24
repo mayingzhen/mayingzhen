@@ -188,15 +188,6 @@ namespace ma
 
 		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];
 
-
-		// Sampler State
-		Wrap						m_arrWrap[16];
-		Wrap						m_arrWrapW[16];
-		Filter						m_arrFilter[16];
-		bool						m_arrSRGB[16];
-
-		bool						m_bZEnable;
-		bool						m_bSRGB;
 	};
 
 	ID3D11Device* GetD3D11DxDevive();

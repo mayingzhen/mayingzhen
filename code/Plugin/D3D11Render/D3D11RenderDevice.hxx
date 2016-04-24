@@ -26,8 +26,6 @@ namespace ma
 		m_pDeviceContext = NULL;
 		m_pSwapChain = NULL;
 
-		m_bZEnable = true;
-		m_bSRGB = false;
 		ClearAllStates();
 
 		m_bRenderTargetsDirty = true;
@@ -820,30 +818,6 @@ namespace ma
 		SetValue(uniform,(const float*)&value,12);
 	}
 
-// 	void D3D11RenderDevice::SetValue(Uniform* uniform, const SamplerState* pSampler)
-// 	{
-// 		if (m_arrSampState[uniform->m_location].GetTexture() != pSampler->GetTexture())
-// 		{
-// 			SetTexture(uniform,pSampler->GetTexture());
-// 			
-// 			m_arrSampState[uniform->m_location].SetTexture(pSampler->GetTexture());
-// 		}
-// 
-// 		if (m_arrSampState[uniform->m_location].GetFilterMode() != pSampler->GetFilterMode())
-// 		{
-// 			SetTextureFilter(uniform,pSampler->GetFilterMode());
-// 
-// 			m_arrSampState[uniform->m_location].SetFilterMode(pSampler->GetFilterMode());
-// 		}
-// 		
-// 		if (m_arrSampState[uniform->m_location].GetWrapMode() != pSampler->GetWrapMode())
-// 		{
-// 			SetTextureWrap(uniform,pSampler->GetWrapMode());
-// 
-// 			m_arrSampState[uniform->m_location].SetWrapMode(pSampler->GetWrapMode());
-// 		}
-// 	}
-
 	void D3D11RenderDevice::SetShaderProgram(ShaderProgram* pShader)
 	{
 		m_pShader = (D3D11ShaderProgram*)pShader;
@@ -885,7 +859,7 @@ namespace ma
 	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
 		D3D11IndexBuffer* buffer = (D3D11IndexBuffer*)pIB;
-		//if (buffer != indexBuffer_)
+		if (buffer != indexBuffer_)
 		{
 			if (buffer)
 				m_pDeviceContext->IASetIndexBuffer(buffer->GetD3DIndexBuffer(),

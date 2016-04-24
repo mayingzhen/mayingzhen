@@ -7,7 +7,7 @@
 #include "MonoScript/Module.h"
 
 #if PLATFORM_WIN == 1
-#include "D3D9Render/Module.h"
+//#include "D3D9Render/Module.h"
 #include "D3D11Render/Module.h"
 #endif
 
@@ -66,10 +66,6 @@ namespace ma
 		{
 			D3D11RenderModuleInit();
 		}
-		else if (eType == RenderDevice_D3D9)
-		{
-			D3D9RenderModuleInit();
-		}
 		else
 		{
 			GLESRenderModuleInit();
@@ -93,10 +89,6 @@ namespace ma
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
 			D3D11RenderModuleShutdown();
-		}
-		else if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
-		{
-			D3D9RenderModuleShutdown();
 		}
 		else
 		{

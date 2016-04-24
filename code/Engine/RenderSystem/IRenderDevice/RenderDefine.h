@@ -124,23 +124,12 @@ namespace ma
 		DU_NORMAL        = 4,
 		DU_TANGENT       = 5,
 		DU_COLOR         = 6,
-	    
+		
+		MAX_DECL_USAGE   = 7,
+
 		DU_UNKNOWN       = 255
 	};
 
-
-	enum DECL_USAGEMASK
-	{
-		DUM_POSITION      = 1 << 0,
-		DUM_TEXCOORD      = 1 << 1,
-		DUM_BLENDWEIGHT   = 1 << 2,
-		DUM_BLENDINDICES  = 1 << 3,
-		DUM_NORMAL        = 1 << 4,
-		DUM_TANGENT       = 1 << 5,
-		DUM_COLOR         = 1 << 6,
-
-		DUM_UNKNOWN       = 255
-	};
 
 	enum INDEX_TYPE
 	{

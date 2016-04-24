@@ -9,8 +9,6 @@ namespace ma
 		m_pVertexShader = NULL;
 		m_pPiexelShader = NULL;
 		m_pVertexShader = NULL;
-		//m_pVShConstantTable = NULL;
-		//m_pPShConstantTable = NULL;
 	}
 
 	D3D11ShaderProgram::~D3D11ShaderProgram()
@@ -20,9 +18,6 @@ namespace ma
 
 	void D3D11ShaderProgram::Destory()
 	{
-		//SAFE_RELEASE(m_pVShConstantTable);
-		//SAFE_RELEASE(m_pPShConstantTable);
-
 		SAFE_RELEASE(m_pVertexShader);
 		SAFE_RELEASE(m_pPiexelShader);
 	}
@@ -41,7 +36,7 @@ namespace ma
 		ID3D10Blob* error = NULL;
 
 
-		DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+		DWORD dwShaderFlags = 0;
 #ifdef _DEBUG
 		dwShaderFlags |= D3D10_SHADER_DEBUG;
 
@@ -64,8 +59,9 @@ namespace ma
 			saveFSile << fshSource;
 			saveFSile.close();
 		}
-
-#endif // _DEBUG
+#else
+		dwShaderFlags != D3DCOMPILE_OPTIMIZATION_LEVEL3;
+#endif 
 
 		if (vshSize > 0)
 		{
@@ -108,13 +104,8 @@ namespace ma
 			}
 			else
 			{
-				// Then strip everything not necessary to use the shader
-				ID3DBlob* strippedCode = pCode;
-				//D3DStripShader(pCode->GetBufferPointer(), pCode->GetBufferSize(),
-				//	D3DCOMPILER_STRIP_REFLECTION_DATA | D3DCOMPILER_STRIP_DEBUG_INFO | D3DCOMPILER_STRIP_TEST_BLOBS, &strippedCode);
-				m_pByteVSCode.resize((unsigned)strippedCode->GetBufferSize());
-				memcpy(&m_pByteVSCode[0], strippedCode->GetBufferPointer(), m_pByteVSCode.size());
-				strippedCode->Release();
+				m_pByteVSCode.resize((unsigned)pCode->GetBufferSize());
+				memcpy(&m_pByteVSCode[0], pCode->GetBufferPointer(), m_pByteVSCode.size());
 				hr = GetD3D11DxDevive()->CreateVertexShader(&m_pByteVSCode[0], m_pByteVSCode.size(), NULL, &m_pVertexShader);
 				ASSERT(hr == S_OK);
 			}
@@ -159,13 +150,8 @@ namespace ma
 			}
 			else
 			{
-				// Then strip everything not necessary to use the shader
-				//ID3DBlob* strippedCode = pCode;
-				//D3DStripShader(pCode->GetBufferPointer(), pCode->GetBufferSize(),
-				//	D3DCOMPILER_STRIP_REFLECTION_DATA | D3DCOMPILER_STRIP_DEBUG_INFO | D3DCOMPILER_STRIP_TEST_BLOBS, &strippedCode);
 				m_pBytePSCode.resize((unsigned)pCode->GetBufferSize());
 				memcpy(&m_pBytePSCode[0], pCode->GetBufferPointer(), m_pBytePSCode.size());
-				//strippedCode->Release();
 
 				hr = GetD3D11DxDevive()->CreatePixelShader(pCode->GetBufferPointer(), pCode->GetBufferSize(), NULL, &m_pPiexelShader);
 				ASSERT(hr == S_OK);
@@ -192,7 +178,7 @@ namespace ma
 		"TEXCOORD"
 	};
 
-	const unsigned elementSemanticIndices[] =
+ 	const unsigned elementSemanticIndices[] =
 	{
 		0,
 		0,
@@ -211,227 +197,97 @@ namespace ma
 
 	void D3D11ShaderProgram::ParseUniform()
 	{
+		ParseShaderUniform(VS,m_pByteVSCode,vsConstantBuffers_);
+		ParseShaderUniform(PS,m_pBytePSCode,psConstantBuffers_);
+	}
+
+	void D3D11ShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
+		RefPtr<ConstantBuffer> ConstantBuffersPtr[])
+	{
+		ID3D11ShaderReflection* reflection = 0;
+		D3D11_SHADER_DESC shaderDesc;
+
+		D3DReflect(&vecByteCode[0], vecByteCode.size(), IID_ID3D11ShaderReflection, (void**)&reflection);
+		if (!reflection)
 		{
-			ID3D11ShaderReflection* reflection = 0;
-			D3D11_SHADER_DESC shaderDesc;
+			LogError("Failed to reflect vertex shader's input signature");
+			return;
+		}
 
-			D3DReflect(&m_pByteVSCode[0], m_pByteVSCode.size(), IID_ID3D11ShaderReflection, (void**)&reflection);
-			if (!reflection)
+		reflection->GetDesc(&shaderDesc);
+
+		if (eType == VS)
+		{
+			for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
 			{
-				LogError("Failed to reflect vertex shader's input signature");
-				return;
-			}
-
-			reflection->GetDesc(&shaderDesc);
-
-			//if (type_ == VS)
-			{
-				for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
+				D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
+				reflection->GetInputParameterDesc((UINT)i, &paramDesc);
+				for (unsigned j = 0; j < MAX_DECL_USAGE; ++j)
 				{
-					D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
-					reflection->GetInputParameterDesc((UINT)i, &paramDesc);
-					for (unsigned j = 0; j < 4/*MAX_VERTEX_ELEMENTS*/; ++j)
+					if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
+						paramDesc.SemanticIndex == elementSemanticIndices[j])
 					{
-						if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
-							paramDesc.SemanticIndex == elementSemanticIndices[j])
-						{
-							elementMask_ |= (1 << j);
-							break;
-						}
+						elementMask_ |= (1 << j);
+						break;
 					}
 				}
 			}
-
-			map<string, unsigned> cbRegisterMap;
-
-			for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
-			{
-				D3D11_SHADER_INPUT_BIND_DESC resourceDesc;
-				reflection->GetResourceBindingDesc(i, &resourceDesc);
-				string resourceName(resourceDesc.Name);
-				if (resourceDesc.Type == D3D_SIT_CBUFFER)
-					cbRegisterMap[resourceName] = resourceDesc.BindPoint;
-				else if (resourceDesc.Type == D3D_SIT_SAMPLER && resourceDesc.BindPoint < 16/*MAX_TEXTURE_UNITS*/)
-					useTextureUnit_[resourceDesc.BindPoint] = true;
-			}
-
-			for (unsigned i = 0; i < shaderDesc.ConstantBuffers; ++i)
-			{
-				ID3D11ShaderReflectionConstantBuffer* cb = reflection->GetConstantBufferByIndex(i);
-				D3D11_SHADER_BUFFER_DESC cbDesc;
-				cb->GetDesc(&cbDesc);
-				unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
-
-				for (unsigned j = 0; j < cbDesc.Variables; ++j)
-				{
-					ID3D11ShaderReflectionVariable* var = cb->GetVariableByIndex(j);
-					D3D11_SHADER_VARIABLE_DESC varDesc;
-					var->GetDesc(&varDesc);
-
-					//if (varDesc.uFlags == D3D_SVF_USED)
-					//	continue;
-
-					parametersVS_[varDesc.Name] = ShaderParameter(VS, varDesc.Name, cbRegister, varDesc.StartOffset, varDesc.Size);
-
-					// 					Uniform* pUniform = this->AddUniform(varDesc.Name);
-					// 					pUniform->m_index = cbRegister;
-					// 					pUniform->m_vshShder = true;
-					// 					pUniform->m_pD3D11CBPtr = ((D3D11RenderDevice*)GetRenderDevice())->GetOrCreateConstantBuffer(VS,cbRegister,);
-				}
-			}
-
-			reflection->Release();
-
-			CalculateConstantBufferSizesVS();
 		}
 
+		map<string, unsigned> cbRegisterMap;
+
+		for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
 		{
-			ID3D11ShaderReflection* reflection = 0;
-			D3D11_SHADER_DESC shaderDesc;
-
-			D3DReflect(&m_pBytePSCode[0], m_pBytePSCode.size(), IID_ID3D11ShaderReflection, (void**)&reflection);
-			if (!reflection)
+			D3D11_SHADER_INPUT_BIND_DESC resourceDesc;
+			reflection->GetResourceBindingDesc(i, &resourceDesc);
+			string resourceName(resourceDesc.Name);
+			if (resourceDesc.Type == D3D_SIT_CBUFFER)
 			{
-				LogError("Failed to reflect vertex shader's input signature");
-				return;
+				cbRegisterMap[resourceName] = resourceDesc.BindPoint;
 			}
-
-			reflection->GetDesc(&shaderDesc);
-
-			// 			//if (type_ == VS)
-			// 			{
-			// 				for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
-			// 				{
-			// 					D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
-			// 					reflection->GetInputParameterDesc((UINT)i, &paramDesc);
-			// 					for (unsigned j = 0; j < 4/*MAX_VERTEX_ELEMENTS*/; ++j)
-			// 					{
-			// 						if ( string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
-			// 							paramDesc.SemanticIndex == elementSemanticIndices[j])
-			// 						{
-			// 							elementMask_ |= (1 << j);
-			// 							break;
-			// 						}
-			// 					}
-			// 				}
-			// 			}
-
-			map<string, unsigned> cbRegisterMap;
-
-			for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
+			else if (resourceDesc.Type == D3D_SIT_SAMPLER && resourceDesc.BindPoint < MAX_TEXTURE_UNITS)
 			{
-				D3D11_SHADER_INPUT_BIND_DESC resourceDesc;
-				reflection->GetResourceBindingDesc(i, &resourceDesc);
-				string resourceName(resourceDesc.Name);
-				if (resourceDesc.Type == D3D_SIT_CBUFFER)
-				{
-					cbRegisterMap[resourceName] = resourceDesc.BindPoint;
-				}
-				else if (resourceDesc.Type == D3D_SIT_SAMPLER && resourceDesc.BindPoint < MAX_TEXTURE_UNITS)
-				{
-					useTextureUnit_[resourceDesc.BindPoint] = true;
-				}
-				else if (resourceDesc.Type == D3D_SIT_TEXTURE)
-				{
-					Uniform* pUniform = this->AddUniform(resourceDesc.Name);
-					pUniform->m_index = resourceDesc.BindPoint;
-					pUniform->m_vshShder = false;
-				}
+				useTextureUnit_[resourceDesc.BindPoint] = true;
 			}
-
-			for (unsigned i = 0; i < shaderDesc.ConstantBuffers; ++i)
+			else if (resourceDesc.Type == D3D_SIT_TEXTURE)
 			{
-				ID3D11ShaderReflectionConstantBuffer* cb = reflection->GetConstantBufferByIndex(i);
-				D3D11_SHADER_BUFFER_DESC cbDesc;
-				cb->GetDesc(&cbDesc);
-				unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
-
-				for (unsigned j = 0; j < cbDesc.Variables; ++j)
-				{
-					ID3D11ShaderReflectionVariable* var = cb->GetVariableByIndex(j);
-					D3D11_SHADER_VARIABLE_DESC varDesc;
-					var->GetDesc(&varDesc);
-
-					parametersPS_[varDesc.Name] = ShaderParameter(VS, varDesc.Name, cbRegister, varDesc.StartOffset, varDesc.Size);
-				}
-			}
-
-			reflection->Release();
-
-			CalculateConstantBufferSizesPS();
-		}
-
-	}
-
-	void D3D11ShaderProgram::CalculateConstantBufferSizesVS()
-	{
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-			constantBufferSizesVS_[i] = 0;
-
-		for (map<string, ShaderParameter>::const_iterator i = parametersVS_.begin(); i != parametersVS_.end(); ++i)
-		{
-			if (i->second.buffer_ < MAX_SHADER_PARAMETER_GROUPS)
-			{
-				unsigned oldSize = constantBufferSizesVS_[i->second.buffer_];
-				unsigned paramEnd = i->second.offset_ + i->second.size_;
-				if (paramEnd > oldSize)
-					constantBufferSizesVS_[i->second.buffer_] = paramEnd;
+				Uniform* pUniform = this->AddUniform(resourceDesc.Name);
+				pUniform->m_index = resourceDesc.BindPoint;
+				pUniform->m_vshShder = false;
 			}
 		}
 
 		D3D11RenderDevice* pD3D11Device = (D3D11RenderDevice*)GetRenderDevice();
 
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		for (unsigned i = 0; i < shaderDesc.ConstantBuffers; ++i)
 		{
-			if (constantBufferSizesVS_[i])
-				vsConstantBuffers_[i] = pD3D11Device->GetOrCreateConstantBuffer(VS, i, constantBufferSizesVS_[i]);
-		}
+			ID3D11ShaderReflectionConstantBuffer* cb = reflection->GetConstantBufferByIndex(i);
+			D3D11_SHADER_BUFFER_DESC cbDesc;
+			cb->GetDesc(&cbDesc);
+			unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
 
-		for (map<string, ShaderParameter>::const_iterator it = parametersVS_.begin(); it != parametersVS_.end(); ++it)
-		{
-			Uniform* pUniform = this->AddUniform(it->first.c_str());
-			pUniform->m_vshShder = true;
+			ConstantBuffer* pConstantBuffer = pD3D11Device->GetOrCreateConstantBuffer(eType, cbRegister, cbDesc.Size);
+			ConstantBuffersPtr[cbRegister] = pConstantBuffer;
 
-			pUniform->m_nCBOffset = it->second.offset_;
-			pUniform->m_nCBSize = it->second.size_;
-			pUniform->m_pD3D11CBPtr = vsConstantBuffers_[it->second.buffer_].get();
-		}
-
-	}
-
-	void D3D11ShaderProgram::CalculateConstantBufferSizesPS()
-	{
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-			constantBufferSizesPS_[i] = 0;
-
-		for (map<string, ShaderParameter>::const_iterator i = parametersPS_.begin(); i != parametersPS_.end(); ++i)
-		{
-			if (i->second.buffer_ < MAX_SHADER_PARAMETER_GROUPS)
+			for (unsigned j = 0; j < cbDesc.Variables; ++j)
 			{
-				unsigned oldSize = constantBufferSizesPS_[i->second.buffer_];
-				unsigned paramEnd = i->second.offset_ + i->second.size_;
-				if (paramEnd > oldSize)
-					constantBufferSizesPS_[i->second.buffer_] = paramEnd;
+				ID3D11ShaderReflectionVariable* var = cb->GetVariableByIndex(j);
+				D3D11_SHADER_VARIABLE_DESC varDesc;
+				var->GetDesc(&varDesc);
+
+				if (varDesc.uFlags & D3D_SVF_USED)
+				{
+					Uniform* pUniform = this->AddUniform(varDesc.Name);
+					pUniform->m_vshShder = eType == VS;
+
+					pUniform->m_nCBOffset = varDesc.StartOffset;
+					pUniform->m_nCBSize = varDesc.Size;
+					pUniform->m_pD3D11CBPtr = pConstantBuffer;
+				}
 			}
 		}
 
-		D3D11RenderDevice* pD3D11Device = (D3D11RenderDevice*)GetRenderDevice();
-
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-		{
-			if (constantBufferSizesPS_[i])
-				psConstantBuffers_[i] = pD3D11Device->GetOrCreateConstantBuffer(PS, i, constantBufferSizesPS_[i]);
-		}
-
-		for (map<string, ShaderParameter>::const_iterator it = parametersPS_.begin(); it != parametersPS_.end(); ++it)
-		{
-			Uniform* pUniform = this->AddUniform(it->first.c_str());
-			pUniform->m_vshShder = false;
-
-			pUniform->m_nCBOffset = it->second.offset_;
-			pUniform->m_nCBSize = it->second.size_;
-			pUniform->m_pD3D11CBPtr = psConstantBuffers_[it->second.buffer_].get();
-		}
+		reflection->Release();
 	}
 
 	void D3D11ShaderProgram::RT_SetShader()
