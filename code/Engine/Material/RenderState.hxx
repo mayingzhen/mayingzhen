@@ -23,6 +23,9 @@ namespace ma
 		m_nStencilRefValue = -1;
 		m_nStencilMask = -1;
 		m_nStencilWriteMask = -1;
+
+		m_eFillMode = FILL_SOLID;
+		m_bScissorTest = false;
 	}
 
 

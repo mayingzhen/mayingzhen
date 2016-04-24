@@ -33,6 +33,7 @@ namespace ma
 
 		void*		    m_pD3D11CBPtr;
 		UINT			m_nCBOffset;
+		UINT			m_nCBSize;
 		
 	private:
 		std::string		m_name;

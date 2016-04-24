@@ -90,7 +90,11 @@ namespace ma
 		FBXImporterModuleShutdown();
 		MonoScriptModuleShutdown();
 
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
+		{
+			D3D11RenderModuleShutdown();
+		}
+		else if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D9)
 		{
 			D3D9RenderModuleShutdown();
 		}

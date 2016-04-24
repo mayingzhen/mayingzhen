@@ -13,33 +13,11 @@
 
 #ifdef BONE_DQ
 float4 boneDQ[MAX_DQ_NUM_BONES*2];
-float4 boneScale[MAX_DQ_NUM_BONES/4];
 #else
 float4x3 boneMatrix[MAX_MAT_NUM_BONES];
 #endif
 
 #ifdef BONE_DQ
-float GetBoneScale(int4 iBoneIndex, float4 iBoneWeight)
-{
-#if BONE==1
-	float fBoneScale = boneScale[int(iBoneIndex.x*0.25)][iBoneIndex.x%4]*iBoneWeight.b;
-#elif BONE==2
-	float fBoneScale = boneScale[int(iBoneIndex.x*0.25)][iBoneIndex.x%4]*iBoneWeight.b;
-	fBoneScale += boneScale[int(iBoneIndex.y*0.25)][iBoneIndex.y%4]*iBoneWeight.g;
-#elif BONE==3
-	float fBoneScale = boneScale[int(iBoneIndex.x*0.25)][iBoneIndex.x%4]*iBoneWeight.b;
-	fBoneScale += boneScale[int(iBoneIndex.y*0.25)][iBoneIndex.y%4]*iBoneWeight.g;
-	fBoneScale += boneScale[int(iBoneIndex.z*0.25)][iBoneIndex.z%4]*iBoneWeight.r;
-#else
-	float fBoneScale = boneScale[int(iBoneIndex.x*0.25)][iBoneIndex.x%4]*iBoneWeight.b;
-	fBoneScale += boneScale[int(iBoneIndex.y*0.25)][iBoneIndex.y%4]*iBoneWeight.g;
-	fBoneScale += boneScale[int(iBoneIndex.z*0.25)][iBoneIndex.z%4]*iBoneWeight.r;
-	fBoneScale += boneScale[int(iBoneIndex.w*0.25)][iBoneIndex.w%4]*iBoneWeight.a;
-#endif
-
-	return fBoneScale;
-}
-
 float2x4 GetblendDQ(int4 iBoneIndex, float4 iBoneWeight)
 {
 	int y0 = iBoneIndex.x*2;
@@ -75,12 +53,8 @@ float2x4 GetblendDQ(int4 iBoneIndex, float4 iBoneWeight)
 	return blendDQ;
 }
 
-float3 DQSkinPos(float3 iPos,float fBoneScale,float2x4 blendDQ)
+float3 DQSkinPos(float3 iPos,float2x4 blendDQ)
 {
-//#ifdef BONESCALE
-	iPos.xyz *= fBoneScale;
-//#endif
-
 	float3 finalPos = iPos.xyz + 2.0*cross(blendDQ[0].yzw, cross(blendDQ[0].yzw, iPos.xyz) + blendDQ[0].x*iPos.xyz);
 	float3 trans = 2.0*(blendDQ[0].x*blendDQ[1].yzw - blendDQ[1].x*blendDQ[0].yzw + cross(blendDQ[0].yzw, blendDQ[1].yzw));
 	finalPos += trans;
@@ -114,10 +88,9 @@ float4x3 GetSkinMatrix(float4 blendWeights, int4 blendIndices)
 float3 SkinPos(float3 iPos,int4 iBoneIndex, float4 iBoneWeight)
 {
 #ifdef BONE_DQ
-	float fBoneScale = GetBoneScale(iBoneIndex,iBoneWeight);
 	float2x4 blendDQ = GetblendDQ(iBoneIndex,iBoneWeight);
 
-	float3 finalPos = DQSkinPos(iPos,fBoneScale,blendDQ);
+	float3 finalPos = DQSkinPos(iPos,blendDQ);
 
 #else
 	float3 finalPos = mul(float4(iPos,1.0),GetSkinMatrix(iBoneWeight,iBoneIndex)).xyz;
@@ -130,10 +103,9 @@ float3 SkinPos(float3 iPos,int4 iBoneIndex, float4 iBoneWeight)
 void SkinPosNormal(float3 iPos,float3 iNormal,int4 iBoneIndex, float4 iBoneWeight, out float3 finalPos, out float3 finalNormal)
 {
 #ifdef BONE_DQ
-	float fBoneScale = GetBoneScale(iBoneIndex,iBoneWeight);
 	float2x4 blendDQ = GetblendDQ(iBoneIndex,iBoneWeight);
 
-	finalPos = DQSkinPos(iPos,fBoneScale,blendDQ);
+	finalPos = DQSkinPos(iPos,blendDQ);
 
 	finalNormal = iNormal + 2.0*cross(blendDQ[0].yzw, cross(blendDQ[0].yzw, iNormal) + blendDQ[0].x*iNormal);
 

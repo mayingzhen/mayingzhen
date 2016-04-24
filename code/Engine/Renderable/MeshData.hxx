@@ -202,9 +202,9 @@ namespace ma
 			ASSERT(nVertexCount == nVertexNum);
 
 			VertexElement element[5];
-			element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+			element[0] = VertexElement(0,0,DT_SHORT4N,DU_POSITION,0);
 			element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
-			element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+			element[2] = VertexElement(0,12,DT_SHORT2N,DU_TEXCOORD,0);
 			element[3] = VertexElement(0,16,DT_UBYTE4,DU_BLENDINDICES,0);
 			element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
@@ -218,9 +218,9 @@ namespace ma
 			ASSERT(nVertexCount == nVertexNum);
 
 			VertexElement element[3];
-			element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+			element[0] = VertexElement(0,0,DT_SHORT4N,DU_POSITION,0);
 			element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
-			element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+			element[2] = VertexElement(0,12,DT_SHORT2N,DU_TEXCOORD,0);
 			m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,3);
 
 			m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(vecVertex,nVertexSize,sizeof(StaticVertexV1));
@@ -334,9 +334,9 @@ namespace ma
 		UpdateMeshData(&pVertexV1[0],pVertexV0,nVertexCount,pIndex);
 
 		VertexElement element[5];
-		element[0] = VertexElement(0,0,DT_SHORT4,DU_POSITION,0);
+		element[0] = VertexElement(0,0,DT_SHORT4N,DU_POSITION,0);
 		element[1] = VertexElement(0,8,DT_UBYTE4N,DU_NORMAL,0);
-		element[2] = VertexElement(0,12,DT_SHORT2,DU_TEXCOORD,0);
+		element[2] = VertexElement(0,12,DT_SHORT2N,DU_TEXCOORD,0);
 		element[3] = VertexElement(0,16,DT_UBYTE4,DU_BLENDINDICES,0);
 		element[4] = VertexElement(0,20,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);

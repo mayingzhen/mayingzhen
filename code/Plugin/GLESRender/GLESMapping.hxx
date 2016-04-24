@@ -155,11 +155,23 @@ namespace ma
 			typeCount = 2;
 			normalized = false;
 		}
+		else if (DT_SHORT2N == eType)
+		{
+			type = GL_SHORT;
+			typeCount = 2;
+			normalized = true;
+		}
 		else if (DT_SHORT4 == eType)
 		{
 			type = GL_SHORT;
 			typeCount = 4;
 			normalized = false;
+		}
+		else if (DT_SHORT4N == eType)
+		{
+			type = GL_SHORT;
+			typeCount = 4;
+			normalized = true;
 		}
 		else if (DT_UBYTE4 == eType)
 		{

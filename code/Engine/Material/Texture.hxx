@@ -224,6 +224,36 @@ namespace ma
 		return m_pTexture->GetResPath();
 	}
 
+	bool SamplerState::operator < ( const SamplerState& other) const
+	{
+		if (m_eWrap < other.m_eWrap)
+			return true;
+		else if(m_eWrap > other.m_eWrap)
+			return false;
+
+		if (m_eWrapW < other.m_eWrapW)
+			return true;
+		else if(m_eWrapW > other.m_eWrapW)
+			return false;
+
+		if (m_eFilter < other.m_eFilter)
+			return true;
+		else if(m_eFilter > other.m_eFilter)
+			return false;
+
+		if (m_bSRGB < other.m_bSRGB)
+			return true;
+		else if(m_bSRGB > other.m_bSRGB)
+			return false;
+
+		if (m_fLodBias < other.m_fLodBias)
+			return true;
+		else if (m_fLodBias > other.m_fLodBias)
+			return false;
+
+		return false;
+	}
+
 	RefPtr<SamplerState> CreateSamplerState(const char* pPath,Wrap eWrap, Filter eFilter,bool bSRGB)
 	{
 		SamplerState* pSampler = new SamplerState();
@@ -243,5 +273,7 @@ namespace ma
 		pSampler->SetTexture(pTexutre);
 		return pSampler;
 	}
+
+
 }
 

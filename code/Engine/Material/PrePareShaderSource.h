@@ -12,7 +12,7 @@ namespace ma
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
-			out.insert(0,"#define D3D11");
+			out.insert(0,"#define D3D11\n");
 		}
 
 		if (defines == NULL || strcmp(defines,"") == 0 )

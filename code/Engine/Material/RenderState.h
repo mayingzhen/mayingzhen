@@ -41,8 +41,8 @@ namespace ma
 		uint32              m_nStencilMask;
 		uint32				m_nStencilWriteMask;
 
-		bool				scissorTest_;
-		FillMode			fillMode_;
+		bool				m_bScissorTest;
+		FillMode			m_eFillMode;
 	};
 		
 }

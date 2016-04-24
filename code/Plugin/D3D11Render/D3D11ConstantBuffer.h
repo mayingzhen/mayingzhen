@@ -59,6 +59,8 @@ public:
     /// Return whether has unapplied data.
     bool IsDirty() const { return dirty_; }
 
+	ID3D11Buffer* GetD3D11Buffer() {return m_pD3D11Buffer;}
+
 private:
     /// Shadow data.
     vector<unsigned char> shadowData_;

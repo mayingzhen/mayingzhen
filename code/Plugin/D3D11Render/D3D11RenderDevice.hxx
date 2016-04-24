@@ -31,13 +31,33 @@ namespace ma
 		ClearAllStates();
 
 		m_bRenderTargetsDirty = true;
-		m_bRasterizerStateDirty = false;
-		m_bDepthStateDirty = false;
-		m_bBlendStateDirty = false;
+		m_bRasterizerStateDirty = true;
+		m_bDepthStateDirty = true;
+		m_bBlendStateDirty = true;
 		m_pShader = NULL;
 		m_pVertexDecl = NULL;
 		firstDirtyVB_ = 0;
 		lastDirtyVB_ = 0;
+
+	 	memset(textures_,0,sizeof(textures_));
+		firstDirtyTexture_ = 0;
+		lastDirtyTexture_ = 0;
+		texturesDirty_ = false;
+
+		memset(samplerStates,0,sizeof(samplerStates));
+		firstDirtySamplerState_ = 0;
+		lastDirtySamplerState_ = 0;
+		samplerStatesDirty_ = false;
+
+		m_pDepthStencil = NULL;
+		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
+
+
+		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		{
+			constantBuffers_[VS][i] = 0;
+			constantBuffers_[PS][i] = 0;
+		}
 	}
 
 	D3D11RenderDevice::~D3D11RenderDevice()
@@ -101,11 +121,17 @@ namespace ma
 	{
 		m_hWnd = wndhandle;
 
+#if defined(DEBUG) || defined(_DEBUG)
+		UINT nCreateFlags = D3D10_CREATE_DEVICE_DEBUG;
+#else
+		UINT nCreateFlags = 0;
+#endif
+
 		D3D11CreateDevice(
 			0,
 			D3D_DRIVER_TYPE_HARDWARE,
 			0,
-			0,
+			nCreateFlags,
 			0,
 			0,
 			D3D11_SDK_VERSION,
@@ -132,7 +158,7 @@ namespace ma
 		swapChainDesc.BufferCount = 1;
 		swapChainDesc.BufferDesc.Width = (UINT)width;
 		swapChainDesc.BufferDesc.Height = (UINT)height;
-		swapChainDesc.BufferDesc.Format = /*sRGB_*/true ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8G8B8A8_UNORM;
+		swapChainDesc.BufferDesc.Format = /*sRGB_*/TRUE ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8G8B8A8_UNORM;
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainDesc.OutputWindow = wndhandle;
 		swapChainDesc.SampleDesc.Count = (UINT)1/*multiSample*/;
@@ -207,6 +233,12 @@ namespace ma
 			LogError("Failed to create backbuffer depth-stencil texture");
 			return false;
 		}
+
+		m_pDepthStencil = defaultDepthStencilView_;
+		m_pRenderTarget[0] = defaultRenderTargetView_;
+
+		//m_pDeviceContext->RSSetViewports(1, &vp);
+		SetViewport(Rectangle(0, 0, width, height));
 	}
 	
 	bool D3D11RenderDevice::TestDeviceLost()
@@ -394,54 +426,82 @@ namespace ma
 
 	void D3D11RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
 	{
-		//D3D11Texture* pD3D11Texture = (D3D11Texture*)pTexture;
-  		//D3D11Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D11Texture->GetD3DTexture()) );
+		uint32 index = uniform->m_index;
+		//if (pTexture != textures_[index])
+		{
+			if (firstDirtyTexture_ == M_MAX_UNSIGNED)
+				firstDirtyTexture_ = lastDirtyTexture_ = index;
+			else
+			{
+				if (index < firstDirtyTexture_)
+					firstDirtyTexture_ = index;
+				if (index > lastDirtyTexture_)
+					lastDirtyTexture_ = index;
+			}
 
+			textures_[index] = pTexture;
+			shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
+			//impl_->samplers_[index] = texture ? (ID3D11SamplerState*)texture->GetSampler() : 0;
+			texturesDirty_ = true;
+		}
+	
+	}
+
+	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
+	{
+		map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll.find(*pSampler);
+		if (it != SamplerStatesAll.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			ID3D11SamplerState* sample = NULL;
+
+			D3D11_SAMPLER_DESC samplerDesc;
+			memset(&samplerDesc, 0, sizeof samplerDesc);
+			//unsigned filterModeIndex = filterMode_ != FILTER_DEFAULT ? filterMode_ : graphics_->GetDefaultTextureFilterMode();
+			//if (shadowCompare_)
+			//	filterModeIndex += 4;
+			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode()); 
+			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
+			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
+			samplerDesc.AddressW = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapModeW());
+			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
+			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+			samplerDesc.MinLOD = 0;
+			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			//memcpy(&samplerDesc.BorderColor, borderColor_.Data(), 4 * sizeof(float));
+
+			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
+
+			SamplerStatesAll[*pSampler] = sample;
+
+			return sample;
+		}
 	}
 
 	void D3D11RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
-// 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pSampler->GetTexture());
-//   		D3D11Verify( m_pD3DDevice->SetTexture(uniform->m_location, pD3D11Texture->GetD3DTexture()) );
-// 
-// 		if (m_arrFilter[uniform->m_location] != pSampler->GetFilterMode())
-// 		{
-// 			DWORD minFilter = 0,magFilter = 0,mipFilter = 0;
-// 			D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode(),minFilter,magFilter,mipFilter);
-// 
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MAGFILTER, magFilter) );
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MINFILTER, minFilter) );
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_MIPFILTER, mipFilter) );
-// 
-// 			m_arrFilter[uniform->m_location] = pSampler->GetFilterMode();
-// 		}
-// 
-// 		if (m_arrWrap[uniform->m_location] != pSampler->GetWrapMode())
-// 		{
-// 			DWORD wrapS = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-// 			DWORD wrapT = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-// 
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSU, wrapS) );
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSV, wrapT) );
-// 
-// 			m_arrWrap[uniform->m_location] = pSampler->GetWrapMode();
-// 		}
-// 
-// 		if (m_arrWrapW[uniform->m_location] != pSampler->GetWrapModeW())
-// 		{
-// 			DWORD wrapW = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapModeW());
-// 
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_ADDRESSW, wrapW) );
-// 
-// 			m_arrWrapW[uniform->m_location] = pSampler->GetWrapModeW();
-// 		}
-// 
-// 		if (m_arrSRGB[uniform->m_location] != pSampler->GetSRGB())
-// 		{
-// 			D3D11Verify( m_pD3DDevice->SetSamplerState(uniform->m_location, D3DSAMP_SRGBTEXTURE, pSampler->GetSRGB()) );
-// 
-// 			m_arrSRGB[uniform->m_location] = pSampler->GetSRGB();
-// 		}
+		SetTexture(uniform,pSampler->GetTexture());
+
+		uint32 index = uniform->m_index;
+		if (pSampler != samplerStates[index])
+		{
+			if (firstDirtySamplerState_ == M_MAX_UNSIGNED)
+				firstDirtySamplerState_ = lastDirtySamplerState_ = index;
+			else
+			{
+				if (index < firstDirtySamplerState_)
+					firstDirtySamplerState_ = index;
+				if (index > lastDirtySamplerState_)
+					lastDirtySamplerState_ = index;
+			}
+
+			samplerStates[index] = pSampler;
+			samplers_[index] = CreateOrGetSamplerState(pSampler);
+			samplerStatesDirty_ = true;
+		}
 	}
 
 	void D3D11RenderDevice::CommitChanges()
@@ -456,6 +516,31 @@ namespace ma
 			
 			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 			m_bRenderTargetsDirty = false;
+		}
+
+		if (texturesDirty_ && firstDirtyTexture_ < M_MAX_UNSIGNED)
+		{
+			// Set also VS textures to enable vertex texture fetch to work the same way as on OpenGL
+// 			m_pDeviceContext->VSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
+// 				&shaderResourceViews_[firstDirtyTexture_]);
+
+			m_pDeviceContext->PSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
+				&shaderResourceViews_[firstDirtyTexture_]);
+			firstDirtyTexture_ = lastDirtyTexture_ = M_MAX_UNSIGNED;
+			texturesDirty_ = false;
+		}
+
+		if (samplerStatesDirty_ && firstDirtySamplerState_ < M_MAX_UNSIGNED)
+		{
+			// Set also VS textures to enable vertex texture fetch to work the same way as on OpenGL
+// 			m_pDeviceContext->VSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
+// 				&samplers_[firstDirtySamplerState_]);
+
+			m_pDeviceContext->PSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
+				&samplers_[firstDirtySamplerState_]);
+
+			firstDirtySamplerState_ = lastDirtySamplerState_ = M_MAX_UNSIGNED;
+			samplerStatesDirty_ = false;
 		}
 
 		if (vertexDeclarationDirty_ && m_pShader && m_pShader->GetByteVSCodeSize())
@@ -487,7 +572,7 @@ namespace ma
 						{
 							const VertexElement& element = m_pVertexDecl->GetElement(i);
 							d3dve[i].SemanticName = D3D11Mapping::GetD3DDeclUsage(element.Usage);
-							d3dve[i].SemanticIndex = element.UsageIndex;
+							d3dve[i].SemanticIndex = 0;//element.UsageIndex;
 							d3dve[i].Format = D3D11Mapping::GetD3DDeclType(element.Type);
 							d3dve[i].InputSlot = 0;
 							d3dve[i].AlignedByteOffset = element.Offset;
@@ -623,8 +708,8 @@ namespace ma
 			//int scaledDepthBias = (int)(constantDepthBias_ * (1 << depthBits));
 
 			unsigned newRasterizerStateHash =
-				(m_renderState.scissorTest_ ? 1 : 0) | 
-				(m_renderState.fillMode_ << 1) | 
+				(m_renderState.m_bScissorTest ? 1 : 0) | 
+				(m_renderState.m_eFillMode << 1) | 
 				(m_renderState.m_eCullMode << 3) | 
 				((*((unsigned*)&m_renderState.m_fConstantBias) & 0x1fff) << 5) |
 				((*((unsigned*)&m_renderState.m_fSlopeScaleBias) & 0x1fff) << 18);
@@ -637,15 +722,15 @@ namespace ma
 
 					D3D11_RASTERIZER_DESC stateDesc;
 					memset(&stateDesc, 0, sizeof stateDesc);
-					stateDesc.FillMode = D3D11Mapping::get(m_renderState.fillMode_);
+					stateDesc.FillMode = D3D11Mapping::get(m_renderState.m_eFillMode);
 					stateDesc.CullMode = D3D11Mapping::get(m_renderState.m_eCullMode);
-					stateDesc.FrontCounterClockwise = FALSE;
+					stateDesc.FrontCounterClockwise = TRUE;
 					stateDesc.DepthBias = m_renderState.m_fConstantBias;
-					stateDesc.DepthBiasClamp = 1.0;
+					stateDesc.DepthBiasClamp = 0.0;
 					stateDesc.SlopeScaledDepthBias = m_renderState.m_fSlopeScaleBias;
 					stateDesc.DepthClipEnable = TRUE;
-					stateDesc.ScissorEnable = m_renderState.scissorTest_ ? TRUE : FALSE;
-					stateDesc.MultisampleEnable = TRUE;
+					stateDesc.ScissorEnable = m_renderState.m_bScissorTest ? TRUE : FALSE;
+					stateDesc.MultisampleEnable = FALSE;
 					stateDesc.AntialiasedLineEnable = FALSE;
 
 					ID3D11RasterizerState* newRasterizerState = 0;
@@ -678,8 +763,8 @@ namespace ma
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = constantBuffers_.find(key);
-		if (i != constantBuffers_.end())
+		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = constantBufferAll.find(key);
+		if (i != constantBufferAll.end())
 		{
 			return i->second.get();
 		}
@@ -687,7 +772,7 @@ namespace ma
 		{
 			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer(/*context_*/));
 			newConstantBuffer->SetSize(size);
-			constantBuffers_[key] = newConstantBuffer;
+			constantBufferAll[key] = newConstantBuffer;
 			return newConstantBuffer.get();
 		}
 	}
@@ -701,6 +786,7 @@ namespace ma
 
 		if (!pConstantBuffer->IsDirty())
 			dirtyConstantBuffers_.push_back(pConstantBuffer);
+		ASSERT(nSize <= uniform->m_nCBSize);
 		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
 	}
 
@@ -731,7 +817,7 @@ namespace ma
 
 	void D3D11RenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
 	{
-		SetValue(uniform,(const float*)&value,1);
+		SetValue(uniform,(const float*)&value,12);
 	}
 
 // 	void D3D11RenderDevice::SetValue(Uniform* uniform, const SamplerState* pSampler)
@@ -761,6 +847,33 @@ namespace ma
 	void D3D11RenderDevice::SetShaderProgram(ShaderProgram* pShader)
 	{
 		m_pShader = (D3D11ShaderProgram*)pShader;
+
+		bool vsBuffersChanged = false;
+		bool psBuffersChanged = false;
+
+		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		{
+			ID3D11Buffer* vsBuffer = m_pShader->vsConstantBuffers_[i] ? m_pShader->vsConstantBuffers_[i]->GetD3D11Buffer() : NULL;
+			if (vsBuffer != constantBuffers_[VS][i])
+			{
+				constantBuffers_[VS][i] = vsBuffer;
+				//shaderParameterSources_[i] = (const void*)M_MAX_UNSIGNED;
+				vsBuffersChanged = true;
+			}
+
+			ID3D11Buffer* psBuffer = m_pShader->psConstantBuffers_[i] ? m_pShader->psConstantBuffers_[i]->GetD3D11Buffer() : NULL;
+			if (psBuffer != constantBuffers_[PS][i])
+			{
+				constantBuffers_[PS][i] = psBuffer;
+				//shaderParameterSources_[i] = (const void*)M_MAX_UNSIGNED;
+				psBuffersChanged = true;
+			}
+		}
+
+		if (vsBuffersChanged)
+			m_pDeviceContext->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &constantBuffers_[VS][0]);
+		if (psBuffersChanged)
+			m_pDeviceContext->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &constantBuffers_[PS][0]);
 	}
 
 	void D3D11RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
@@ -772,7 +885,7 @@ namespace ma
 	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
 		D3D11IndexBuffer* buffer = (D3D11IndexBuffer*)pIB;
-		if (buffer != indexBuffer_)
+		//if (buffer != indexBuffer_)
 		{
 			if (buffer)
 				m_pDeviceContext->IASetIndexBuffer(buffer->GetD3DIndexBuffer(),
@@ -886,9 +999,6 @@ namespace ma
 		if (bColor)
 			depthClearFlags |= D3D11_CLEAR_DEPTH;
 		if (bStencil)
-
-
-
 			depthClearFlags |= D3D11_CLEAR_STENCIL;
 		m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (UINT8)s);
 

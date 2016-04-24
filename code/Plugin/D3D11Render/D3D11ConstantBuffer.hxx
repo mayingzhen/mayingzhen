@@ -36,6 +36,8 @@ ConstantBuffer::ConstantBuffer(/*Context* context*/) /*:*/
     //Object(context),
     //GPUObject(GetSubsystem<Graphics>())
 {
+	m_pD3D11Buffer = NULL;
+	dirty_ = false;
 }
 
 ConstantBuffer::~ConstantBuffer()

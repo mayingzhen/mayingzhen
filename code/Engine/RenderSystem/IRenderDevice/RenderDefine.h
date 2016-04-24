@@ -100,7 +100,10 @@ namespace ma
 		DT_UBYTE4         = 5,
 		DT_UBYTE4N        = 6,
 		DT_SHORT2         = 7,
-		DT_SHORT4         = 8,
+		DT_SHORT2N		  = 8,
+		DT_SHORT4         = 9,
+		DT_SHORT4N		  = 10,
+
 
 		DT_UNKNOWN        = 255
 	};
@@ -454,6 +457,7 @@ namespace ma
 	static const int MAX_RENDERTARGETS = 4;
 	static const int MAX_VERTEX_STREAMS = 4;
 	static const int MAX_CONSTANT_REGISTERS = 256;
+	static const int MAX_TEXTURE_UNITS = 16;
 
 }
 

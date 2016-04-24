@@ -34,7 +34,6 @@ namespace ma
 		if (pShader->GetUniform("boneDQ"))
 		{
 			GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumBones * 2 );
-			GetRenderSystem()->SetValue( pShader->GetUniform("boneScale"), (const Vector4*)pScale, Math::ICeil(nNumBones / 4.0f) );
 		}
 		else
 		{

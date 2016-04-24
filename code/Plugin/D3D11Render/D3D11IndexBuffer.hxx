@@ -70,7 +70,10 @@ void D3D11IndexBuffer::RT_StreamComplete()
 	bufferDesc.Usage = m_Usage == HBU_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
 	bufferDesc.ByteWidth = (UINT)(m_Size);
 
-	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, 0, &mD3D11IndexBuffer);
+	D3D11_SUBRESOURCE_DATA InitData;
+	InitData.pSysMem = m_pData;
+
+	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, &InitData, &mD3D11IndexBuffer);
 	ASSERT(mD3D11IndexBuffer);
 	if (mD3D11IndexBuffer == NULL)
 	{
@@ -78,7 +81,7 @@ void D3D11IndexBuffer::RT_StreamComplete()
 		return;
 	}
 
-	if (m_pData)
+	if (0/*m_pData*/)
 	{
 		D3D11_BOX destBox;
 		destBox.left = 0;

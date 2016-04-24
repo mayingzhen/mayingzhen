@@ -174,8 +174,14 @@ BYTE D3D9Mapping::GetD3DDeclType(DECL_TYPE DeclType)
     case DT_SHORT2:
         return D3DDECLTYPE_SHORT2;
 
+	case DT_SHORT2N:
+		return D3DDECLTYPE_SHORT2N;
+
     case DT_SHORT4:
         return D3DDECLTYPE_SHORT4;
+
+	case DT_SHORT4N:
+		return D3DDECLTYPE_SHORT4N;
 
     default:
         ASSERT(0 && "Invalid Declaration Type.");

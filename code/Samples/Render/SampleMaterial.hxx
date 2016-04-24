@@ -19,9 +19,11 @@ namespace ma
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
-			pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
+
+		if (1)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
@@ -40,16 +42,17 @@ namespace ma
 			
 			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
 			pUniform->AddKeyFrame(0,Any(float(1.0f)));
-			pUniform->AddKeyFrame(100,Any(float(20.0f)));
+			pUniform->AddKeyFrame(50,Any(float(20.0f)));
 			pUniform->BuildFrames();
 			
+			pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
 			pSubMaterial->SetParameter("u_specPower",Any(pUniform));
 
 			pShpere->Translate(Vector3(2,0,0));
 
 		}
 		
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,1),Vector3(0,0,0));
+		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,-1),Vector3(0,0,0));
 		m_pScene->GetDirLight()->SetLightColor(ColourValue(0.5,0.5,0.5,1.0f));
 		m_pScene->SetAmbientColor(Vector3(0,0,0));
 	}

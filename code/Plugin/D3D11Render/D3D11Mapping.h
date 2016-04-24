@@ -13,7 +13,7 @@ namespace ma
 		//static D3DPOOL      GetD3DPool(HBU_USAGE Usage);
 		//static DWORD        GetD3DLock(int Lock);
 		static DXGI_FORMAT  _getPF(PixelFormat Format);
-		static void         GetD3D11Filter(Filter type,D3D11_FILTER& d3DFilter);
+		static D3D11_FILTER         GetD3D11Filter(Filter type);
 		static D3D11_TEXTURE_ADDRESS_MODE		GetD3D11Wrap(Wrap type);
 		static const char*  GetD3DDeclUsage(DECL_USAGE DeclUsage);
 		static DXGI_FORMAT  GetD3DDeclType(DECL_TYPE DeclType);

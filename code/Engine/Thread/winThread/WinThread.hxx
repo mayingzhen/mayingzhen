@@ -51,13 +51,13 @@ namespace ma
 		threadName.dwThreadID = m_dwThreadID;
 		threadName.dwFlags = 0;
 
-		__try
-		{
-			RaiseException( 0x406D1388, 0, sizeof(threadName)/sizeof(DWORD), (ULONG_PTR*)&threadName );
-		}
-		__except (EXCEPTION_CONTINUE_EXECUTION)
-		{
-		}
+// 		__try
+// 		{
+// 			RaiseException( 0x406D1388, 0, sizeof(threadName)/sizeof(DWORD), (ULONG_PTR*)&threadName );
+// 		}
+// 		__except (EXCEPTION_CONTINUE_EXECUTION)
+// 		{
+// 		}
 	}
 
 	DWORD Thread::GetThreadId() 

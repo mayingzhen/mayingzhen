@@ -19,6 +19,7 @@ namespace ma
 
 		//void					SetD3DSurface(IDirect3DSurface9* pD3D11Surface) {m_pD3D11Surface = pD3D11Surface;}
 		
+		ID3D11ShaderResourceView* GetShaderResourceView() {return m_pD3D11ShaderResourceView;}
 		ID3D11DepthStencilView* GetDepthStencilView() {return m_pDepthStencilView;}
 		ID3D11RenderTargetView* GetRenderTargetView() {return m_pRenderTargetView;}
 

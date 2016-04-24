@@ -89,10 +89,15 @@ namespace ma
 		map<string, ShaderParameter> parametersVS_;
 		map<string, ShaderParameter> parametersPS_;
 
-		bool useTextureUnit_[16/*MAX_TEXTURE_UNITS*/];
+		bool useTextureUnit_[MAX_TEXTURE_UNITS];
 
 		unsigned constantBufferSizesVS_[MAX_SHADER_PARAMETER_GROUPS];
 		unsigned constantBufferSizesPS_[MAX_SHADER_PARAMETER_GROUPS];
+
+		RefPtr<ConstantBuffer> vsConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
+		RefPtr<ConstantBuffer> psConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
+
+		friend class D3D11RenderDevice;
 	};
 
 

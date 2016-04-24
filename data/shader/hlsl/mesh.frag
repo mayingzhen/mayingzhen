@@ -10,13 +10,8 @@
 #include"gbuffer.h"
 #endif 
 
-Texture2D u_texture;
+Texture2D u_texture : register(t0);
 SamplerState g_samLinear : register( s0 );
-
-#ifdef DIFFUSECOLOR   
-uniform float4 u_cDiffuseColor; 
-#endif
-
 
 
 // Varyings

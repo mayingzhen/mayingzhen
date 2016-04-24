@@ -93,10 +93,10 @@ public:
 // ---------------------------------------------------------------------
 public:
 	// Unicode×Ö·û´®×ª³ÉAnsi×Ö·û´®
-	static string UnicodeToAnsi(const wchar_t* pszUnicode);
+	//static string UnicodeToAnsi(const wchar_t* pszUnicode);
 
 	// Ansi×Ö·û´®×ª³ÉUnicode×Ö·û´®
-	static wstring AnsiToUnicode(const char* pszAnisi);
+	//static wstring AnsiToUnicode(const char* pszAnisi);
 
 // ---------------------------------------------------------------------
 // ini¶ÁÈ¡

@@ -94,6 +94,8 @@ namespace ma
 		float			GetLodBias() const {return m_fLodBias;}
 		void			SetLodBias(float fBias) {m_fLodBias = fBias;}
 
+		bool			operator < ( const SamplerState& other) const;
+
 	private:
 		RefPtr<Texture> m_pTexture;
 

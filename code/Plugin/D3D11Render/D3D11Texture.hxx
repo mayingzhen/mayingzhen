@@ -105,6 +105,7 @@ namespace ma
 			return (unsigned)(width * 2);
 
 		case DXGI_FORMAT_R8G8B8A8_UNORM:
+		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
 		case DXGI_FORMAT_R16G16_UNORM:
 		case DXGI_FORMAT_R16G16_FLOAT:
 		case DXGI_FORMAT_R32_FLOAT:
@@ -120,13 +121,17 @@ namespace ma
 			return (unsigned)(width * 16);
 
 		case DXGI_FORMAT_BC1_UNORM:
+		case DXGI_FORMAT_BC1_UNORM_SRGB:
 			return (unsigned)(((width + 3) >> 2) * 8);
 
 		case DXGI_FORMAT_BC2_UNORM:
+		case DXGI_FORMAT_BC2_UNORM_SRGB:
 		case DXGI_FORMAT_BC3_UNORM:
+		case DXGI_FORMAT_BC3_UNORM_SRGB:
 			return (unsigned)(((width + 3) >> 2) * 16);
 
 		default:
+			ASSERT(false);
 			return 0;
 		}
 	}

@@ -89,7 +89,9 @@ namespace ma
 		case DT_UBYTE4: return 4;
 		case DT_UBYTE4N:return 4;
 		case DT_SHORT2: return 4;
+		case DT_SHORT2N:return 4;
 		case DT_SHORT4: return 8;
+		case DT_SHORT4N:return 8;
 		}
 
 		ASSERT(false);

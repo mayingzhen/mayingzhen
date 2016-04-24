@@ -169,19 +169,25 @@ DXGI_FORMAT D3D11Mapping::GetD3DDeclType(DECL_TYPE DeclType)
         return DXGI_FORMAT_R32G32B32A32_FLOAT;
 
     case DT_COLOR:
-        return DXGI_FORMAT_R8G8B8A8_UNORM;
+        return DXGI_FORMAT_R8G8B8A8_SNORM;
 
     case DT_UBYTE4:
-        return DXGI_FORMAT_R8G8B8A8_UINT;
+		return DXGI_FORMAT_R8G8B8A8_UINT;
 
 	case  DT_UBYTE4N:
 		return DXGI_FORMAT_R8G8B8A8_UNORM;
 
     case DT_SHORT2:
-        return DXGI_FORMAT_R16G16_SINT;
+		return DXGI_FORMAT_R16G16_SINT;
+
+	case DT_SHORT2N:
+		return DXGI_FORMAT_R16G16_SNORM;
 
     case DT_SHORT4:
-        return DXGI_FORMAT_R16G16B16A16_SINT;
+		return DXGI_FORMAT_R16G16B16A16_SINT;
+
+	case DT_SHORT4N:
+		return DXGI_FORMAT_R16G16B16A16_SNORM;
 
     default:
         ASSERT(0 && "Invalid Declaration Type.");
@@ -307,23 +313,23 @@ const char* D3D11Mapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
 }
 
 
-void D3D11Mapping::GetD3D11Filter(Filter type,D3D11_FILTER& d3DFilter)
+D3D11_FILTER D3D11Mapping::GetD3D11Filter(Filter type)
 {
 	if (type == TFO_POINT)
 	{
-		d3DFilter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		return  D3D11_FILTER_MIN_MAG_MIP_POINT;
 	}
 	else if (type == TFO_BILINEAR)
 	{
-		d3DFilter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+		return D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
 	}
 	else if (type == TFO_TRILINEAR)
 	{
-		d3DFilter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+		return D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	}
 	else if (type == TFO_ANISOTROPIC)
 	{
-		d3DFilter = D3D11_FILTER_ANISOTROPIC;
+		return D3D11_FILTER_ANISOTROPIC;
 	}
 	else
 	{

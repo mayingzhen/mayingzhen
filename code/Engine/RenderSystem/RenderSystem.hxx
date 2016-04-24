@@ -158,8 +158,11 @@ namespace ma
 		}
 		for (int i = 0; i < nNumParticleBuffer; ++i)
 		{
-			m_pParticleBuffer[i]->UnLockVideoMemory();
-			m_pParticleBuffer[i] = NULL;
+			if (m_pParticleBuffer[i])
+			{
+				m_pParticleBuffer[i]->UnLockVideoMemory();
+				m_pParticleBuffer[i] = NULL;
+			}
 		}
 
 		GetRenderDevice()->Shoutdown();
@@ -272,21 +275,21 @@ namespace ma
 		if (pSubMesh && pSubMesh->m_nVertexCount <= 0)
 			return;
 
-		if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
+		//if (m_pCurVertexDecla != pRenderable->m_pDeclaration)
 		{
 			GetRenderDevice()->SetVertexDeclaration(pRenderable->m_pDeclaration.get());
 
 			m_pCurVertexDecla = pRenderable->m_pDeclaration.get();
 		}
 
-		if (m_pCurVB != pRenderable->m_pVertexBuffer)
+		//if (m_pCurVB != pRenderable->m_pVertexBuffer)
 		{
 			GetRenderDevice()->SetVertexBuffer(0,pRenderable->m_pVertexBuffer.get());
 
 			m_pCurVB = pRenderable->m_pVertexBuffer.get();
 		}
 
-		if (m_pCurIB != pRenderable->m_pIndexBuffer)
+		//if (m_pCurIB != pRenderable->m_pIndexBuffer)
 		{
 			GetRenderDevice()->SetIndexBuffer(pRenderable->m_pIndexBuffer.get());
 
@@ -391,7 +394,7 @@ namespace ma
 
 	void RenderSystem::SetBlendMode(BLEND_MODE eBlendMode)
 	{
-		if (m_curState.m_eBlendMode != eBlendMode)
+		//if (m_curState.m_eBlendMode != eBlendMode)
 		{
 			m_curState.m_eBlendMode = eBlendMode;
 			m_pRenderThread->RC_SetBlendMode(eBlendMode);
@@ -400,7 +403,7 @@ namespace ma
 
 	void RenderSystem::SetDepthCheckMode(CompareFunction eDepthCheckMode)
 	{
-		if (m_curState.m_eDepthCheckMode != eDepthCheckMode)
+		//if (m_curState.m_eDepthCheckMode != eDepthCheckMode)
 		{
 			m_curState.m_eDepthCheckMode = eDepthCheckMode;
 			m_pRenderThread->RC_SetDepthCheckMode(eDepthCheckMode);
@@ -409,7 +412,7 @@ namespace ma
 
 	void RenderSystem::SetCullMode(CULL_MODE eCullMode)
 	{
-		if (m_curState.m_eCullMode != eCullMode)
+		//if (m_curState.m_eCullMode != eCullMode)
 		{
 			m_curState.m_eCullMode = eCullMode;
 			m_pRenderThread->RC_SetCullMode(eCullMode);
@@ -418,7 +421,7 @@ namespace ma
 
 	void RenderSystem::SetDepthWirte(bool b)
 	{
-		if (m_curState.m_bDepthWrite != b)
+		//if (m_curState.m_bDepthWrite != b)
 		{
 			m_curState.m_bDepthWrite = b;
 			m_pRenderThread->RC_SetDepthWrite(b);
@@ -427,7 +430,7 @@ namespace ma
 
 	void RenderSystem::SetColorWrite(bool b)
 	{
-		if (m_curState.m_bColorWrite != b)
+		//if (m_curState.m_bColorWrite != b)
 		{
 			m_curState.m_bColorWrite = b;
 			m_pRenderThread->RC_SetColorWrite(b);
@@ -436,7 +439,7 @@ namespace ma
 
 	void RenderSystem::SetSRGBWite(bool b)
 	{
-		if (m_curState.m_bSRGBWrite != b)
+		//if (m_curState.m_bSRGBWrite != b)
 		{
 			m_curState.m_bSRGBWrite = b;
 			m_pRenderThread->RC_SetSRGBWite(b);
@@ -455,7 +458,7 @@ namespace ma
 
 	void RenderSystem::SetStencilCheckEnabled(bool enabled)
 	{
-		if (m_curState.m_bStencil != enabled)
+		//if (m_curState.m_bStencil != enabled)
 		{
 			m_curState.m_bStencil = enabled;
 			m_pRenderThread->RC_SetStencilCheckEnabled(enabled);

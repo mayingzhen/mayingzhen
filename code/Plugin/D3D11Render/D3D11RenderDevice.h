@@ -102,6 +102,10 @@ namespace ma
 		void						CommitChanges();
 		
 		bool						BuildDeviceCapabilities();
+
+		bool						UpdateSwapChain(int width, int height);
+
+		ID3D11SamplerState*			CreateOrGetSamplerState(SamplerState* pSampler);
 	
 	private:
 		ID3D11Device*				m_pD3DDevice;
@@ -146,7 +150,7 @@ namespace ma
 		map<unsigned, ID3D11BlendState*> blendStates_;
 
 		// ConstantBuffer
-		map<unsigned, RefPtr<ConstantBuffer> > constantBuffers_;
+		map<unsigned, RefPtr<ConstantBuffer> > constantBufferAll;
 		vector<ConstantBuffer*> dirtyConstantBuffers_;
 
 		D3D11ShaderProgram* m_pShader;
@@ -168,7 +172,22 @@ namespace ma
 		unsigned vertexOffsets_[MAX_VERTEX_STREAMS];
 		unsigned elementMasks_[MAX_VERTEX_STREAMS];
 
-		
+		// 
+		Texture* textures_[MAX_TEXTURE_UNITS];
+		unsigned firstDirtyTexture_;
+		unsigned lastDirtyTexture_;
+		bool	texturesDirty_;
+		ID3D11ShaderResourceView* shaderResourceViews_[MAX_TEXTURE_UNITS];
+
+		SamplerState* samplerStates[MAX_TEXTURE_UNITS];
+		unsigned firstDirtySamplerState_;
+		unsigned lastDirtySamplerState_;
+		bool	samplerStatesDirty_;
+		ID3D11SamplerState* samplers_[MAX_TEXTURE_UNITS];
+		map<SamplerState, ID3D11SamplerState*> SamplerStatesAll;
+
+		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];
+
 
 		// Sampler State
 		Wrap						m_arrWrap[16];

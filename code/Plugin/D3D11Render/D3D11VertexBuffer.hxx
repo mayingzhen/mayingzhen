@@ -70,7 +70,10 @@ namespace ma
 		bufferDesc.Usage = m_Usage == HBU_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
 		bufferDesc.ByteWidth = (UINT)(m_Size);
 
-		GetD3D11DxDevive()->CreateBuffer(&bufferDesc, 0, &mD3D11VertexBuffer);
+		D3D11_SUBRESOURCE_DATA InitData;
+		InitData.pSysMem = m_pData;
+
+		GetD3D11DxDevive()->CreateBuffer(&bufferDesc, &InitData, &mD3D11VertexBuffer);
 		ASSERT(mD3D11VertexBuffer);
 		if (mD3D11VertexBuffer == NULL)
 		{
@@ -78,7 +81,7 @@ namespace ma
 			return;
 		}
 
-		if (m_pData)
+		if (0/*m_pData*/)
 		{
 			D3D11_BOX destBox;
 			destBox.left = 0;
@@ -90,12 +93,6 @@ namespace ma
 
 			GetD3D11DxDeviveContext()->UpdateSubresource(mD3D11VertexBuffer, 0, &destBox, m_pData, 0, 0);
 
-// 			void* pLockData = this->Lock(0,0,LOCK_WRITE);
-// 
-// 			memcpy(pLockData,m_pData,m_Size);
-// 
-// 			this->Unlock();
-// 
 			if (m_bNeedFreeData)
 			{
 				FreeData();

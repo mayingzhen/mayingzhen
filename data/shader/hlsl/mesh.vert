@@ -35,7 +35,7 @@ struct VS_IN
 	//float3 a_tangent  : TANGENT;
 
 #ifdef COLOR   
-   //float4 a_color0 : COLOR0;
+   float4 a_color0 : COLOR0;
 #endif
 
 };
@@ -44,8 +44,6 @@ struct VS_IN
 // Varyings
 struct VS_OUT
 {
-   float4 v_position : SV_POSITION;
-   
    float2 v_texCoord : TEXCOORD0;
 
 	float4 WorldPos : TEXCOORD1;
@@ -65,6 +63,7 @@ struct VS_OUT
    float4 v_color : COLOR0;
 #endif
 
+	float4 v_position : SV_POSITION;
 };
 
 
@@ -79,17 +78,20 @@ VS_OUT main(VS_IN In)
 #ifdef SKIN
 	SkinPosNormal(iPos,iNormal,In.a_blendIndices,In.a_blendWeights,iPos,iNormal);
 #endif
+
+	float3 WorldPos = mul(float4(iPos,1.0),g_matWorld).xyz;
+
+	Out.v_position = mul(float4(WorldPos.xyz,1.0),g_matViewProj);
    
-   Out.WorldPos.xyz = mul(float4(iPos,1.0),g_matWorld).xyz;
+   
+   Out.WorldPos.xyz = WorldPos;
+   Out.WorldPos.w = Out.v_position.w;
    
    Out.worldNormal.xyz = normalize(mul(iNormal, (float3x3)g_matWorld));
    Out.worldNormal.w = 0;
-
-   Out.v_position = mul(float4(Out.WorldPos.xyz,1.0),g_matViewProj); 
-	
-   Out.WorldPos.w = Out.v_position.w;
-	 
+	 	
    Out.v_texCoord = iUV;
+
    
 #ifdef COLOR    
     Out.v_color = In.a_color0;
