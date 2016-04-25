@@ -24,6 +24,8 @@ namespace ma
 		int						GetElementCount() { return m_ElementCount; }
 		
 		const VertexElement&	GetElement(int index) { ASSERT (index < m_ElementCount); return m_Elements[index]; }
+		
+		uint64					GetHash();
 
 	private:
 		int						GetDeclTypeSize(DECL_TYPE type);

@@ -54,6 +54,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
+		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture);
 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual void				SetShaderProgram(ShaderProgram* pShader);
@@ -164,13 +165,12 @@ namespace ma
 		IndexBuffer* indexBuffer_;
 
 		//Vertex buffers
-		//enum {MAX_VERTEX_STREAMS = 4};
 		unsigned firstDirtyVB_;
 		unsigned lastDirtyVB_;
 		ID3D11Buffer* vertexBuffers_[MAX_VERTEX_STREAMS];
 		unsigned vertexSizes_[MAX_VERTEX_STREAMS];
 		unsigned vertexOffsets_[MAX_VERTEX_STREAMS];
-		unsigned elementMasks_[MAX_VERTEX_STREAMS];
+		//unsigned elementMasks_[MAX_VERTEX_STREAMS];
 
 		// 
 		Texture* textures_[MAX_TEXTURE_UNITS];

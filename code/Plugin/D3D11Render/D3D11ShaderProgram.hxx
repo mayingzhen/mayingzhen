@@ -161,39 +161,6 @@ namespace ma
 		return;
 	}
 
-	const char* elementSemantics[] =
-	{
-		"POSITION",
-		"NORMAL",
-		"TEXCOORD",
-		"COLOR",
-		"TEXCOORD",
-		"TEXCOORD",
-		"TEXCOORD",
-		"TANGENT",
-		"BLENDWEIGHT",
-		"BLENDINDICES",
-		"TEXCOORD",
-		"TEXCOORD",
-		"TEXCOORD"
-	};
-
- 	const unsigned elementSemanticIndices[] =
-	{
-		0,
-		0,
-		0,
-		0,
-		1,
-		0,
-		1,
-		0,
-		0,
-		0,
-		2,
-		3,
-		4
-	};
 
 	void D3D11ShaderProgram::ParseUniform()
 	{
@@ -216,23 +183,23 @@ namespace ma
 
 		reflection->GetDesc(&shaderDesc);
 
-		if (eType == VS)
-		{
-			for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
-			{
-				D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
-				reflection->GetInputParameterDesc((UINT)i, &paramDesc);
-				for (unsigned j = 0; j < MAX_DECL_USAGE; ++j)
-				{
-					if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
-						paramDesc.SemanticIndex == elementSemanticIndices[j])
-					{
-						elementMask_ |= (1 << j);
-						break;
-					}
-				}
-			}
-		}
+// 		if (eType == VS)
+// 		{
+// 			for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
+// 			{
+// 				D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
+// 				reflection->GetInputParameterDesc((UINT)i, &paramDesc);
+// 				for (unsigned j = 0; j < MAX_DECL_USAGE; ++j)
+// 				{
+// 					if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
+// 						paramDesc.SemanticIndex == elementSemanticIndices[j])
+// 					{
+// 						elementMask_ |= (1 << j);
+// 						break;
+// 					}
+// 				}
+// 			}
+// 		}
 
 		map<string, unsigned> cbRegisterMap;
 
@@ -244,10 +211,6 @@ namespace ma
 			if (resourceDesc.Type == D3D_SIT_CBUFFER)
 			{
 				cbRegisterMap[resourceName] = resourceDesc.BindPoint;
-			}
-			else if (resourceDesc.Type == D3D_SIT_SAMPLER && resourceDesc.BindPoint < MAX_TEXTURE_UNITS)
-			{
-				useTextureUnit_[resourceDesc.BindPoint] = true;
 			}
 			else if (resourceDesc.Type == D3D_SIT_TEXTURE)
 			{

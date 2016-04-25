@@ -27,7 +27,7 @@ namespace ma
 		{
 			m_pRenderTarget[i] = NULL;
 		}
-		for (int i = 0; i < MAX_SHADOW_SAMPLES_NUM; ++i)
+		for (int i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		{
 			m_arrSampState[i] = NULL;
 		}
@@ -108,6 +108,11 @@ namespace ma
 
 	void RenderSystem::BegineRender()
 	{
+		for (UINT32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
+		{
+			m_arrSampState[i] = NULL;
+		}
+
 		m_pRenderThread->RC_BeginRender();
 	}
 
@@ -238,6 +243,11 @@ namespace ma
 	void RenderSystem::RT_BeginRender()
 	{
 		GetRenderDevice()->BeginRender();
+
+		for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
+		{
+			GetRenderDevice()->SetTexture(i,NULL);
+		}
 	}
 
 	void RenderSystem::RT_EndRender()
@@ -510,8 +520,7 @@ namespace ma
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage);
-		//if (eUsage != HBU_DYNAMIC)
-			m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
+		m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
 
@@ -519,8 +528,7 @@ namespace ma
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage);
-		//if (eUsage != HBU_DYNAMIC)
-			m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
+		m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}
 
@@ -603,7 +611,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
+		//if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
 		{
 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
 		}

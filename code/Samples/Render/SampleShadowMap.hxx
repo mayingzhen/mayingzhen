@@ -23,7 +23,7 @@ namespace ma
 		pCharMagic->SetPos(Vector3(150.0f,200.0f,pTerrain->GetHeight(150.0f,200.0f)));
 		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 		pMeshComp->SetShadowCaster(true);
-
+ 
 		m_pBox = m_pScene->CreateSceneNode();
 		MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->SetShadowCaster(true);

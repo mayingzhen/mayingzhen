@@ -33,7 +33,6 @@ namespace ma
 		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
 			RefPtr<ConstantBuffer> ConstantBuffersPtr[]);
 
-
 	private:
 
 		ID3D11VertexShader*		m_pVertexShader;
@@ -44,9 +43,6 @@ namespace ma
 
 		 /// Vertex element mask for vertex shaders. Zero for pixel shaders.
 		unsigned elementMask_;
-
-		bool useTextureUnit_[MAX_TEXTURE_UNITS];
-
 		RefPtr<ConstantBuffer> vsConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
 		RefPtr<ConstantBuffer> psConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
 

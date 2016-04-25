@@ -61,5 +61,15 @@ namespace ma
 		return 0;
 	}
 
-
+	uint64 VertexDeclaration::GetHash()
+	{
+		uint64 nNum = 0;
+		for (int i = 0;i< m_ElementCount;++i)
+		{
+			VertexElement& e = m_Elements[i];
+			e.BuildHash();
+			nNum += e.GetHash();
+		}
+		return nNum;
+	}
 }

@@ -34,18 +34,26 @@ namespace ma
 		m_bBlendStateDirty = true;
 		m_pShader = NULL;
 		m_pVertexDecl = NULL;
+
 		firstDirtyVB_ = 0;
 		lastDirtyVB_ = 0;
+		memset(vertexBuffers_,0,sizeof(vertexBuffers_));
+		memset(vertexSizes_,0,sizeof(vertexSizes_));
+		memset(vertexOffsets_,0,sizeof(vertexOffsets_));
+		//memset(elementMasks_,0,sizeof(elementMasks_));
+	
 
 	 	memset(textures_,0,sizeof(textures_));
-		firstDirtyTexture_ = 0;
-		lastDirtyTexture_ = 0;
-		texturesDirty_ = false;
+		memset(shaderResourceViews_,0,sizeof(shaderResourceViews_));
+		firstDirtyTexture_ = M_MAX_UNSIGNED;
+		lastDirtyTexture_ = M_MAX_UNSIGNED;
+		texturesDirty_ = true;
 
+		memset(samplers_,0,sizeof(samplers_));
 		memset(samplerStates,0,sizeof(samplerStates));
-		firstDirtySamplerState_ = 0;
-		lastDirtySamplerState_ = 0;
-		samplerStatesDirty_ = false;
+		firstDirtySamplerState_ = M_MAX_UNSIGNED;
+		lastDirtySamplerState_ = M_MAX_UNSIGNED;
+		samplerStatesDirty_ = true;
 
 		m_pDepthStencil = NULL;
 		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
@@ -403,10 +411,9 @@ namespace ma
 		}
 	}
 
-	void D3D11RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
+	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture)
 	{
-		uint32 index = uniform->m_index;
-		//if (pTexture != textures_[index])
+		if (pTexture != textures_[index])
 		{
 			if (firstDirtyTexture_ == M_MAX_UNSIGNED)
 				firstDirtyTexture_ = lastDirtyTexture_ = index;
@@ -420,10 +427,13 @@ namespace ma
 
 			textures_[index] = pTexture;
 			shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
-			//impl_->samplers_[index] = texture ? (ID3D11SamplerState*)texture->GetSampler() : 0;
 			texturesDirty_ = true;
 		}
-	
+	}
+
+	void D3D11RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
+	{
+		SetTexture(uniform->m_index,pTexture);
 	}
 
 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
@@ -485,24 +495,8 @@ namespace ma
 
 	void D3D11RenderDevice::CommitChanges()
 	{
-		if (m_bRenderTargetsDirty)
-		{
-			if (m_pDepthStencil == NULL)
-				m_pDepthStencil = defaultDepthStencilView_;
-
-			if (m_pRenderTarget[0] == NULL )
-				m_pRenderTarget[0] = defaultRenderTargetView_;
-			
-			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-			m_bRenderTargetsDirty = false;
-		}
-
 		if (texturesDirty_ && firstDirtyTexture_ < M_MAX_UNSIGNED)
 		{
-			// Set also VS textures to enable vertex texture fetch to work the same way as on OpenGL
-// 			m_pDeviceContext->VSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
-// 				&shaderResourceViews_[firstDirtyTexture_]);
-
 			m_pDeviceContext->PSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
 				&shaderResourceViews_[firstDirtyTexture_]);
 			firstDirtyTexture_ = lastDirtyTexture_ = M_MAX_UNSIGNED;
@@ -511,10 +505,6 @@ namespace ma
 
 		if (samplerStatesDirty_ && firstDirtySamplerState_ < M_MAX_UNSIGNED)
 		{
-			// Set also VS textures to enable vertex texture fetch to work the same way as on OpenGL
-// 			m_pDeviceContext->VSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
-// 				&samplers_[firstDirtySamplerState_]);
-
 			m_pDeviceContext->PSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
 				&samplers_[firstDirtySamplerState_]);
 
@@ -522,24 +512,25 @@ namespace ma
 			samplerStatesDirty_ = false;
 		}
 
+		if (m_bRenderTargetsDirty)
+		{
+			if (m_pDepthStencil == NULL)
+				m_pDepthStencil = defaultDepthStencilView_;
+
+			if (m_pRenderTarget[0] == NULL )
+				m_pRenderTarget[0] = defaultRenderTargetView_;
+
+			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+			m_bRenderTargetsDirty = false;
+		}
+
 		if (vertexDeclarationDirty_ && m_pShader && m_pShader->GetByteVSCodeSize())
 		{
-// 			if (firstDirtyVB_ < M_MAX_UNSIGNED)
-// 			{
-// 				m_pDeviceContext->IASetVertexBuffers(firstDirtyVB_, lastDirtyVB_ - firstDirtyVB_ + 1,
-// 					&vertexBuffers_[firstDirtyVB_], &vertexSizes_[firstDirtyVB_], &vertexOffsets_[firstDirtyVB_]);
-// 
-// 				firstDirtyVB_ = lastDirtyVB_ = M_MAX_UNSIGNED;
-// 			}
-
-			unsigned long long newVertexDeclarationHash = 0;
-			for (unsigned i = 0; i < MAX_VERTEX_STREAMS; ++i)
-				newVertexDeclarationHash |= (unsigned long long)elementMasks_[i] << (i * 13);
+			uint64 newVertexDeclarationHash = m_pVertexDecl->GetHash();
 
 			// Do not create input layout if no vertex buffers / elements
 			if (newVertexDeclarationHash)
 			{
-				newVertexDeclarationHash |= (unsigned long long)m_pShader->GetElementMask() << 51;
 				if (newVertexDeclarationHash != vertexDeclarationHash_)
 				{
 					map<unsigned long long, ID3D11InputLayout* >::iterator
@@ -1064,7 +1055,8 @@ namespace ma
 
 	bool D3D11RenderDevice::BuildDeviceCapabilities()
 	{
-		//GetDeviceCapabilities()->SetShadowMapColorFormat(PF_R16)
+		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_NULL);
+		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
 	
 		GetDeviceCapabilities()->log();
 		return true;

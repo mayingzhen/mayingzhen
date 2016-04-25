@@ -15,13 +15,13 @@ cbuffer ObjectVS : register(b5)
 struct VS_IN
 {
    float3 a_position : POSITION;
-   float4 a_normal : NORMAL0;
+   float4 a_normal : NORMAL;
    float2 a_texCoord : TEXCOORD0; 
 
 #ifdef SKIN   
    int4   a_blendIndices :BLENDINDICES;
-   float4 a_blendWeights :BLENDWEIGHT;      
-#endif   
+   float4 a_blendWeights :BLENDWEIGHT;     
+#endif
 };
 
 struct VS_OUT

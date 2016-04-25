@@ -15,20 +15,20 @@ cbuffer ObjectPS : register(b5)
 	uniform float2 uBlendingOffset;
 }
 
-Texture2D tBlendingMap;
-SamplerState sBlendingMap;
+Texture2D tBlendingMap : register(t2);
+SamplerState sBlendingMap : register(s2);
 
-Texture2D tDetailMap0;
-SamplerState sDetailMap0;
+Texture2D tDetailMap0 : register(t0);
+SamplerState sDetailMap0 : register(s0);
 
-Texture2D tDetailMap1;
-SamplerState sDetailMap1;
+Texture2D tDetailMap1 : register(t1);
+SamplerState sDetailMap1 : register(s1);
 
-Texture2D tBumpMap0;
-SamplerState sBumpMap0;
+Texture2D tBumpMap0 : register(t3);
+SamplerState sBumpMap0 : register(s3);
 
-Texture2D tBumpMap1;
-SamplerState sBumpMap1;
+Texture2D tBumpMap1 : register(t4);
+SamplerState sBumpMap1 : register(s4);
 
 struct VS_OUTPUT
 {

@@ -1,10 +1,10 @@
 
 // texture
-Texture2D g_tShadowMap;
-SamplerState g_sShadowMap;
+Texture2D g_tShadowMap : register(t5);
+SamplerState g_sShadowMap : register(s5);
 
-Texture2D tRotSampler;
-SamplerState sRotSampler;
+Texture2D tRotSampler : register(t6);
+SamplerState sRotSampler : register(s6);
 
 #ifndef SHADOW_SAMPLES_NUM
 #define SHADOW_SAMPLES_NUM 8

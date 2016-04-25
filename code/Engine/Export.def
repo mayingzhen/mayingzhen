@@ -219,3 +219,4 @@ EXPORTS
 ?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@PBDW4Wrap@1@W4Filter@1@_N@Z
 ??0RenderState@ma@@QAE@XZ
 ??MSamplerState@ma@@QBE_NABV01@@Z
+?GetHash@VertexDeclaration@ma@@QAE_KXZ

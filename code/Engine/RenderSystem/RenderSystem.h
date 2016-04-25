@@ -150,13 +150,12 @@ namespace ma
  		RenderThread*		m_pRenderThread;
  		
 		enum {MAX_RENDER_TARGET = 4};
-		enum {MAX_SAMPSTATE = 16};
 		RefPtr<Texture>		m_pDepthStencil;
 		RefPtr<Texture>		m_pRenderTarget[MAX_RENDER_TARGET];
 		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
 		RenderState			m_curState;
-		SamplerState*		m_arrSampState[MAX_SAMPSTATE];
+		SamplerState*		m_arrSampState[MAX_TEXTURE_UNITS];
 		VertexDeclaration*	m_pCurVertexDecla;
 		VertexBuffer*		m_pCurVB;	
 		IndexBuffer*		m_pCurIB;

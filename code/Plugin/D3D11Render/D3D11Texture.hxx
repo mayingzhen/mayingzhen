@@ -105,8 +105,6 @@ namespace ma
 			m_descFormat = GetSRGBFormat(m_descFormat);
 		}
 
-		//DWORD D3DUsage = D3D11Mapping::GetD3DTextureUsage(m_eUsage);
-
 		D3D11_TEXTURE2D_DESC textureDesc;
 		memset(&textureDesc, 0, sizeof textureDesc);
 		textureDesc.Width = (UINT)m_nWidth;
@@ -159,6 +157,21 @@ namespace ma
 				return false;
 			}
 		}
+		else if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+			memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
+			depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);
+			depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+			GetD3D11DxDevive()->CreateDepthStencilView(m_pD3D11Tex2D,&depthStencilViewDesc,&m_pDepthStencilView);
+			if (!m_pDepthStencilView)
+			{
+				LogError("Failed to create depth-stencil view for texture");
+				return false;
+			}
+
+		}
 
 		return true;
 	}
@@ -186,7 +199,7 @@ namespace ma
 		textureDesc.SampleDesc.Count = 1;
 		textureDesc.SampleDesc.Quality = 0;
 		textureDesc.Usage = D3D11_USAGE_DEFAULT;
-		textureDesc.BindFlags = /*D3D11_BIND_SHADER_RESOURCE | */D3D11_BIND_DEPTH_STENCIL;
+		textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		textureDesc.CPUAccessFlags = 0;
 
 		GetD3D11DxDevive()->CreateTexture2D(&textureDesc, 0, (ID3D11Texture2D**)&m_pD3D11Tex2D);
@@ -196,19 +209,6 @@ namespace ma
 			LogError("Failed to create DepthStencile");
 			return false;
 		}
-
-// 		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-// 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-// 		resourceViewDesc.Format = (DXGI_FORMAT)GetSRVFormat(textureDesc.Format);
-// 		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-// 		resourceViewDesc.Texture2D.MipLevels = (UINT)1/*levels_*/;
-// 
-// 		GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceView);
-// 		if (!m_pD3D11ShaderResourceView)
-// 		{
-// 			LogError("Failed to create shader resource view for texture");
-// 			return false;
-// 		}
 
 		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 		memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);

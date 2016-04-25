@@ -156,12 +156,15 @@ namespace ma
 		DECL_USAGE      Usage;
 		unsigned char   UsageIndex;
 
+		uint32 mHash;
+	
 		VertexElement()
 		: Stream(DECL_UNUSED),
 		  Offset(0),
 		  Type(DT_UNKNOWN),
 		  Usage(DU_UNKNOWN),
-		  UsageIndex(0)
+		  UsageIndex(0),
+		  mHash(0)
 		{
 		}
 
@@ -170,9 +173,46 @@ namespace ma
 			Offset(offset),
 			Type(type),
 			Usage(use),
-			UsageIndex(index)
+			UsageIndex(index),
+			mHash(0)
 		{
+			BuildHash();
 		}
+
+		// ---------------------------------------------------------------------
+		//  stream  offset  type  semantic index GLLocate
+		//   4        12     4      4        4	    4
+		//  0~15    0~4096-1 0~15   0~15    0~15   0~15
+		// ---------------------------------------------------------------------
+		void BuildHash()
+		{
+			mHash = 0;
+
+			//ASSERT(mGLLocate <= 15);
+			//UINT32 n = mGLLocate;
+			//mHash += n;
+
+			ASSERT(UsageIndex<= 15);
+			UINT32 n = UsageIndex;
+			mHash += n << 4;
+
+			ASSERT(Usage<= 15);
+			n = Usage;
+			mHash += n << 8;
+
+			ASSERT(Type<= 15);
+			n = Type;
+			mHash += n << 12;
+
+			ASSERT(Offset<= 4096 - 1);
+			n = Offset;
+			mHash += n << 16;
+
+			ASSERT(Stream<= 15);
+			n = Stream;
+			mHash += n << 28;
+		}
+		uint32 GetHash() const{return mHash;}
 	};
 
 	enum PRIMITIVE_TYPE
