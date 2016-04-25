@@ -36,6 +36,9 @@ namespace ma
 
 		uint8*			m_pVerticesPtr;
 		uint16*			m_pIndicesPtr;
+
+		uint8*			m_pVerticesPtrBase;
+		uint16*			m_pIndicesPtrBase;
 	};
 
 	template <class T>

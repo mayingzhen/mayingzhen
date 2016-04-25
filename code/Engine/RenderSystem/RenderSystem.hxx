@@ -510,7 +510,7 @@ namespace ma
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
 		pIB->SetData(pData,nSize,nStride,eUsage);
-		if (eUsage != HBU_DYNAMIC)
+		//if (eUsage != HBU_DYNAMIC)
 			m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
@@ -519,7 +519,7 @@ namespace ma
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
 		pVB->SetData(pData,nSize,nStride,eUsage);
-		if (eUsage != HBU_DYNAMIC)
+		//if (eUsage != HBU_DYNAMIC)
 			m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}

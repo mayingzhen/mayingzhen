@@ -1,34 +1,38 @@
 #include"common.h"
 #include "skin.h"
 
-float3 pos_extent;
-float3 pos_center;
-float4 tc_extent_center;
-
-float4x4	matLightViewProj;
+cbuffer ObjectVS : register(b5)
+{
+	float3 pos_extent;
+	float3 pos_center;
+	float4 tc_extent_center;
+	
+	float4x4	g_matWorld;	
+	float4x4	matLightViewProj;
+}
 
 // Attributes
 struct VS_IN
 {
    float3 a_position : POSITION;
+   float4 a_normal : NORMAL0;
    float2 a_texCoord : TEXCOORD0; 
-   float3 a_normal : NORMAL0;
 
 #ifdef SKIN   
-   float4 a_blendWeights :BLENDWEIGHT;      
    int4   a_blendIndices :BLENDINDICES;
+   float4 a_blendWeights :BLENDWEIGHT;      
 #endif   
 };
 
 struct VS_OUT
 {
-	float4 oPos : POSITION;
-	
 	float2 oUV	: TEXCOORD0;
 		
 #if USING_HW_PCF == 0
 	float4 oDepth : TEXCOORD1;
 #endif	
+
+	float4 oPos : SV_POSITION;
 };
 
 

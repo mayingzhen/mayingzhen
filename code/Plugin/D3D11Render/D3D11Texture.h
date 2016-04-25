@@ -12,16 +12,14 @@ namespace ma
 		D3D11Texture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE eUsage = USAGE_STATIC);
 
 		~D3D11Texture();
-
-		//ID3D11Texture2D*		GetD3DTexture() {return m_pD3D11Tex2D;}
-
-		//ID3D11ShaderResourceView* GetD3DSurface() {return m_pD3D11Surface;}
-
-		//void					SetD3DSurface(IDirect3DSurface9* pD3D11Surface) {m_pD3D11Surface = pD3D11Surface;}
 		
 		ID3D11ShaderResourceView* GetShaderResourceView() {return m_pD3D11ShaderResourceView;}
+
 		ID3D11DepthStencilView* GetDepthStencilView() {return m_pDepthStencilView;}
-		ID3D11RenderTargetView* GetRenderTargetView() {return m_pRenderTargetView;}
+		void SetDepthStencilView(ID3D11DepthStencilView* pView) {m_pDepthStencilView = pView;}	
+
+		ID3D11RenderTargetView* GetRenderTargetView() {return m_pRenderTargetView;}	
+		void SetRenderTargetView(ID3D11RenderTargetView* pView) {m_pRenderTargetView = pView;}
 
 	private:
 		virtual	bool			RT_CreateTexture();		

@@ -11,22 +11,20 @@ namespace ma
 	{
  		m_bIndexed = indexed;
  		m_nCapacity = initialCapacity;
-		m_nVertexCapacity = 0;
-		m_nIndexCapacity = 0;
+		m_nVertexCapacity = initialCapacity;
+		m_nIndexCapacity = initialCapacity;
  		m_nGrowSize = growSize;
 		m_pVerticesPtr = NULL;
+		m_pVerticesPtrBase = NULL;
 		m_pIndicesPtr = NULL;
+		m_pIndicesPtrBase = NULL;
 	 
  		m_pDeclaration = vertexFormat;
  		m_ePrimitiveType = primitiveType;
 
-		m_pIndexBuffer = GetRenderDevice()->CreateIndexBuffer();
-		m_pVertexBuffer = GetRenderDevice()->CreateVertexBuffer();
-
-		if (m_pDeclaration)
-		{
-			Resize(initialCapacity);
-		}
+		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,m_nIndexCapacity * sizeof(uint16),sizeof(uint16),HBU_DYNAMIC);
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, m_nVertexCapacity * m_pDeclaration->GetStreanmStride(),
+			m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC);
 
 		m_pSubMeshData = new SubMeshData();
 	}
@@ -37,6 +35,16 @@ namespace ma
 
 	void MeshBatch::Render(Technique* pTech)
 	{
+		if (m_pVertexBuffer)
+		{
+			m_pVertexBuffer->Unlock();
+		}
+
+		if (m_pIndexBuffer)
+		{
+			m_pIndexBuffer->Unlock();
+		}
+
 		GetRenderContext()->SetCurRenderObj(this);
 
 		pTech->Bind();
@@ -117,12 +125,8 @@ namespace ma
 			return false;
 		}
 
-		if (capacity == m_nCapacity)
+		if (capacity <= m_nCapacity)
 			return true;
-
-		// Store old batch data.
-		uint8* oldVertices = m_pVertexBuffer ? (uint8*)m_pVertexBuffer->GetData() : NULL;
-		uint16* oldIndices = m_pIndexBuffer ? (uint16*)m_pIndexBuffer->GetData() : NULL;
 
 		unsigned int vertexCapacity = 0;
 		switch (m_ePrimitiveType)
@@ -157,35 +161,6 @@ namespace ma
 			return false;
 		}
 
-		
-		// Allocate new data and reset pointers.
-		UINT voffset = m_pVerticesPtr - oldVertices;
-		UINT vBytes = vertexCapacity * m_pDeclaration->GetStreanmStride();
-		Byte* newVertices = new Byte[vBytes];
-		memset(newVertices, 0, vBytes);
-		if (voffset >= vBytes)
-			voffset = vBytes - 1;
-		m_pVerticesPtr = newVertices + voffset;
-
-		uint16* newIndices = NULL;
-		if (m_bIndexed)
-		{
-			UINT ioffset = m_pIndicesPtr - oldIndices;
-			newIndices = new uint16[indexCapacity];
-			memset(newIndices, 0, indexCapacity * sizeof(uint16) );
-			if (ioffset >= indexCapacity)
-				ioffset = indexCapacity - 1;
-			m_pIndicesPtr = newIndices + ioffset;
-		}
-
-		// Copy old data back in
-		if (oldVertices)
-			memcpy(newVertices, oldVertices, Math::Min(m_nVertexCapacity, vertexCapacity) * m_pDeclaration->GetStreanmStride());
-		SAFE_DELETE_ARRAY(oldVertices);
-
-		if (oldIndices)
-			memcpy(newIndices, oldIndices, Math::Min(m_nIndexCapacity, indexCapacity) * sizeof(uint16));
-		SAFE_DELETE_ARRAY(oldIndices);
 
 		// Assign new capacities
 		m_nCapacity = capacity;
@@ -196,12 +171,30 @@ namespace ma
 		//UpdateVB IB
 		if (m_bIndexed)
 		{
-			//m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),USAGE_DYNAMIC);
-			m_pIndexBuffer->SetData((uint8*)newIndices,indexCapacity * sizeof(uint16),sizeof(uint16),HBU_DYNAMIC,false);
+			UINT ioffset = m_pIndicesPtr - m_pIndicesPtrBase;
+
+			vector<uint16> oldIndices;
+			oldIndices.resize(ioffset / sizeof(uint16));
+			memcpy(&oldIndices[0],m_pIndicesPtrBase,ioffset);
+
+			m_pIndexBuffer->Unlock();
+			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,indexCapacity * sizeof(uint16),sizeof(uint16),HBU_DYNAMIC);
+			m_pIndicesPtrBase = (uint16*)m_pIndexBuffer->Lock(LOCK_DISCARD);
+			memcpy(m_pIndicesPtrBase,&oldIndices[0],ioffset);
+			m_pIndicesPtr = m_pIndicesPtrBase + ioffset;
 		}
 
-		//m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)newVertices, vBytes,m_pDeclaration->GetStreanmStride(),USAGE_DYNAMIC);
-		m_pVertexBuffer->SetData((uint8*)newVertices,vBytes,m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC,false);
+		UINT voffset = m_pVerticesPtr - m_pVerticesPtrBase;
+
+		vector<uint8> oldVertices;
+		oldVertices.resize(voffset);
+		memcpy(&oldVertices[0],m_pVerticesPtrBase,voffset);
+
+		m_pVertexBuffer->Unlock();
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, vertexCapacity * m_pDeclaration->GetStreanmStride(),m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC);
+		m_pVerticesPtrBase = (uint8*)m_pVertexBuffer->Lock(LOCK_DISCARD);
+		memcpy(m_pVerticesPtrBase, &oldVertices[0], voffset);
+		m_pVerticesPtr = m_pVerticesPtrBase + voffset;
 
 		return true;
 	}
@@ -217,7 +210,11 @@ namespace ma
 		m_pSubMeshData->m_nIndexStart = 0;
 		m_pSubMeshData->m_nVertexCount = 0;
 		m_pSubMeshData->m_nIndexCount = 0;
-		m_pVerticesPtr = m_pVertexBuffer ? (uint8*)m_pVertexBuffer->GetData() : NULL;
-		m_pIndicesPtr = m_pIndexBuffer ? (uint16*)m_pIndexBuffer->GetData() : NULL;
+
+		m_pVerticesPtrBase  = m_pVertexBuffer ? (uint8*)m_pVertexBuffer->Lock(LOCK_DISCARD) : NULL;
+		m_pVerticesPtr = m_pVerticesPtrBase;
+
+		m_pIndicesPtrBase  = m_pIndexBuffer ? (uint16*)m_pIndexBuffer->Lock(LOCK_DISCARD) : NULL;
+		m_pIndicesPtr = m_pIndicesPtrBase;
 	}
 }

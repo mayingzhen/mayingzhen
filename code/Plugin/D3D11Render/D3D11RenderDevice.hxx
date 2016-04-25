@@ -156,7 +156,7 @@ namespace ma
 		swapChainDesc.BufferCount = 1;
 		swapChainDesc.BufferDesc.Width = (UINT)width;
 		swapChainDesc.BufferDesc.Height = (UINT)height;
-		swapChainDesc.BufferDesc.Format = /*sRGB_*/TRUE ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : DXGI_FORMAT_R8G8B8A8_UNORM;
+		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainDesc.OutputWindow = wndhandle;
 		swapChainDesc.SampleDesc.Count = (UINT)1/*multiSample*/;
@@ -237,6 +237,8 @@ namespace ma
 
 		//m_pDeviceContext->RSSetViewports(1, &vp);
 		SetViewport(Rectangle(0, 0, width, height));
+
+		return true;
 	}
 	
 	bool D3D11RenderDevice::TestDeviceLost()
@@ -272,23 +274,11 @@ namespace ma
 
 	Texture* D3D11RenderDevice::GetRenderTarget(int index)
 	{
-// 		HRESULT hr = D3D_OK;
-// 
-// 		LPDIRECT3DSURFACE9 surface = NULL;
-// 		hr = m_pD3DDevice->GetRenderTarget(index,&surface);
-// 		if (hr != D3D_OK)
-// 			return NULL;
-// 
-// 		D3D11Texture* pD3D11Target = new D3D11Texture(-1,-1);
-// 
-// 		//hr = m_pD3D11->CheckDeviceFormat(m_nAdapterIndex, D3DDEVTYPE_HAL, m_eAdapterFormat, D3DUSAGE_QUERY_SRGBWRITE, D3DRTYPE_TEXTURE,m_eAdapterFormat);
-// 		//pD3D11Target->SetSRGB(hr == D3D_OK);
-// 	
-// 		pD3D11Target->SetD3DSurface(surface);
-// 
-// 		return pD3D11Target;
+		D3D11Texture* pD3D11Target = new D3D11Texture(-1,-1);
+	
+		pD3D11Target->SetRenderTargetView(defaultRenderTargetView_);
 
-		return NULL;
+		return pD3D11Target;
 	}
 
 
@@ -304,20 +294,11 @@ namespace ma
 
 	Texture* D3D11RenderDevice::GetDepthStencil()
 	{
-// 		HRESULT hr = D3D_OK;
-// 
-// 		LPDIRECT3DSURFACE9 surface = NULL;
-// 		hr = m_pD3DDevice->GetDepthStencilSurface(&surface);
-// 		if (hr != D3D_OK)
-// 			return NULL;
-// 
-// 		D3D11Texture* pDepthStencil = new D3D11Texture(-1,-1);
-// 
-// 		pDepthStencil->SetD3DSurface(surface);
-// 
-// 		return pDepthStencil;
+		D3D11Texture* pDepthStencil = new D3D11Texture(-1,-1);
 
-		return NULL;
+		pDepthStencil->SetDepthStencilView(defaultDepthStencilView_);
+
+		return pDepthStencil;
 	}
 
 	void D3D11RenderDevice::SetViewport(const Rectangle& rect)

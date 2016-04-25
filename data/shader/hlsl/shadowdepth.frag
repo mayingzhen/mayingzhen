@@ -1,15 +1,17 @@
 #include"common.h"
 
+Texture2D tDiff : register(t0);
+SamplerState sDiff : register( s0 );
+
 struct PS_IN
 {
-	float4 oPos : POSITION;
-	
 	float2 oUV	: TEXCOORD0;
 		
 #if USING_HW_PCF == 0
 	float4 oDepth : TEXCOORD1;
 #endif	
 };
+
 
 float4 OutPutDepth(float fDepth)
 {
@@ -22,11 +24,11 @@ float4 OutPutDepth(float fDepth)
 #endif	
 }
 
-float4 main(PS_IN In) : COLOR0
+float4 main(PS_IN In) : SV_TARGET
 {
 	float4 oColor = 0;
 #ifdef ALPHATEST
-    oColor.a = tex2D(tDiff, In.oUV).a;
+    oColor.a = tDiff.Sample(sDiff, In.oUV).a;
     clip(oColor.a - 0.5);
 #endif
 

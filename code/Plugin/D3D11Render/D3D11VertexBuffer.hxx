@@ -16,6 +16,10 @@ namespace ma
 
 	void* D3D11VertexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
+		ASSERT(mD3D11VertexBuffer);
+		if (mD3D11VertexBuffer == NULL)
+			return NULL;
+
 		if (m_pLockedData)
 			return m_pLockedData;
 
@@ -49,6 +53,10 @@ namespace ma
 
 	void D3D11VertexBuffer::Unlock()
 	{
+		ASSERT(mD3D11VertexBuffer);
+		if (mD3D11VertexBuffer == NULL)
+			return;
+
 		if (m_pLockedData)
 		{
 			GetD3D11DxDeviveContext()->Unmap(mD3D11VertexBuffer, 0);

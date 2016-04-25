@@ -25,9 +25,9 @@ struct VS_IN
 // Varyings
 struct VS_OUT
 {
-   float4 v_position : SV_POSITION;
-     
    float4 v_color : TEXCOORD0;
+   
+   float4 v_position : SV_POSITION;
 
 };
 
