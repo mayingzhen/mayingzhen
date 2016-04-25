@@ -449,9 +449,7 @@ namespace ma
 
 			D3D11_SAMPLER_DESC samplerDesc;
 			memset(&samplerDesc, 0, sizeof samplerDesc);
-			//unsigned filterModeIndex = filterMode_ != FILTER_DEFAULT ? filterMode_ : graphics_->GetDefaultTextureFilterMode();
-			//if (shadowCompare_)
-			//	filterModeIndex += 4;
+
 			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode()); 
 			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
 			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
@@ -460,7 +458,11 @@ namespace ma
 			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 			samplerDesc.MinLOD = 0;
 			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-			//memcpy(&samplerDesc.BorderColor, borderColor_.Data(), 4 * sizeof(float));
+
+			if (pSampler->GetFilterMode() == TFO_SHADOWCOMPARE)
+			{
+				samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS;	 
+			}
 
 			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
 
@@ -1057,6 +1059,8 @@ namespace ma
 	{
 		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_NULL);
 		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
+
+		GetDeviceCapabilities()->SetD24S8Supported(true);
 	
 		GetDeviceCapabilities()->log();
 		return true;

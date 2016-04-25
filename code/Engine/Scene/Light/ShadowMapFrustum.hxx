@@ -54,9 +54,11 @@ namespace ma
 		m_matTexAdjust = CalculateTexAdjustMatrix(m_pShadowMapColor.get(),m_viewport);
 
 		m_pShadowMapSampler = new SamplerState();
+		m_pShadowMapSampler->SetWrapMode(CLAMP);
 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
 		{
 			m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
+			m_pShadowMapSampler->SetFilterMode(TFO_SHADOWCOMPARE);
 		}
 		else
 		{

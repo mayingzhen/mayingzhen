@@ -1,7 +1,7 @@
 
 // texture
 Texture2D g_tShadowMap : register(t5);
-SamplerState g_sShadowMap : register(s5);
+SamplerComparisonState g_sShadowMap : register(s5);
 
 Texture2D tRotSampler : register(t6);
 SamplerState sRotSampler : register(s6);
@@ -31,25 +31,9 @@ float GetDirShadowFade(float inLight, float depth)
 	return saturate(inLight + saturate((depth - g_ShadowDepthFade.z) * g_ShadowDepthFade.w));
 }
 
-float SamplerDepth(float4 vTexCoord)
-{
-#if USING_FLOATTEXTURE == 1
-	return g_tShadowMap.Sample(g_sShadowMap, vTexCoord.xy / vTexCoord.w).r;
-#else
-	return DecodeFloatRGBA( g_tShadowMap.Sample(g_sShadowMap, vTexCoord.xy / vTexCoord.w) );
-#endif
-}
-
-
-
 float ShadowDepthCompare(float4 vTexCoord)
 {
-#if USING_HW_PCF == 1
 	return g_tShadowMap.SampleCmpLevelZero(g_sShadowMap, vTexCoord.xy, vTexCoord.z);
-#else 
-	float fDepth = SamplerDepth(vTexCoord);
-	return fDepth > vTexCoord.z / vTexCoord.w;
-#endif
 }
 
 

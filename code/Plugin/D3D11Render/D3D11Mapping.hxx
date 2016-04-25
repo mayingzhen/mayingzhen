@@ -335,6 +335,10 @@ D3D11_FILTER D3D11Mapping::GetD3D11Filter(Filter type)
 	{
 		return D3D11_FILTER_ANISOTROPIC;
 	}
+	else if (type == TFO_SHADOWCOMPARE)
+	{
+		return D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+	}
 	else
 	{
 		ASSERT(false);

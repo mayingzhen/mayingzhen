@@ -11,7 +11,7 @@ namespace ma
 	{
 		//GetInput()->AddKeyListener(this);
 
-		Vector3 vEyePos = Vector3(0, -600, 600);
+		Vector3 vEyePos = Vector3(0, -60, 60);
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 
@@ -20,16 +20,18 @@ namespace ma
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());
 
 		SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
-		pCharMagic->SetPos(Vector3(150.0f,200.0f,pTerrain->GetHeight(150.0f,200.0f)));
+		pCharMagic->SetScale(Vector3(0.01f));
+		pCharMagic->SetPos(Vector3(1.5f,2.0f,pTerrain->GetHeight(1.50f,2.0f)));
 		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 		pMeshComp->SetShadowCaster(true);
+		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
+		pAnimComp->PlayAnimation(100);
  
 		m_pBox = m_pScene->CreateSceneNode();
 		MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();
 		pBoxMesh->SetShadowCaster(true);
 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
-		m_pBox->SetScale(Vector3(50));
-		m_pBox->SetPos(Vector3(250.0f, 250.0f,pTerrain->GetHeight(250.0f, 250.0f)));
+		m_pBox->SetPos(Vector3(2.5f, 2.5f,pTerrain->GetHeight(2.5f, 2.5f)));
 
 		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
 		

@@ -397,7 +397,9 @@ namespace ma
 		/// Equal to: min=FO_LINEAR, mag=FO_LINEAR, mip=FO_LINEAR
 		TFO_TRILINEAR,
 		/// Equal to: min=FO_ANISOTROPIC, max=FO_ANISOTROPIC, mip=FO_LINEAR
-		TFO_ANISOTROPIC
+		TFO_ANISOTROPIC,
+
+		TFO_SHADOWCOMPARE,
 	};
 
 	static const char* strDescFilter[] =
@@ -406,6 +408,7 @@ namespace ma
 		"TFO_BILINEAR",
 		"TFO_TRILINEAR",
 		"TFO_ANISOTROPIC",
+		"TFO_SHADOWCOMPARE",
 		0
 	};
 

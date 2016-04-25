@@ -8,7 +8,6 @@ namespace ma
 	{
 		m_pVertexShader = NULL;
 		m_pPiexelShader = NULL;
-		m_pVertexShader = NULL;
 	}
 
 	D3D11ShaderProgram::~D3D11ShaderProgram()
