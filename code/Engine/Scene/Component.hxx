@@ -31,6 +31,10 @@ namespace ma
 		return m_pSceneNode;
 	}
 
+	void Component::SetNeedChange(CHANGE_TYPE eChangeType)
+	{
+		m_nNeedChange |= eChangeType;
+	}
 
 }
 

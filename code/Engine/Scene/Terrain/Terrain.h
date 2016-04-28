@@ -116,6 +116,7 @@ namespace ma
 		virtual bool IsReady();
 
 	private:
+		void SetScene(Scene* pScene);
 		void BuildTrunks();
 		void BuildVertexDeclaration();
 

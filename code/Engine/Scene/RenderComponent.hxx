@@ -11,51 +11,66 @@ namespace ma
 		m_fViwMaxZ = 0;
 		m_bShadowCaster = false;
 
-		m_bMatrixDirty = true;
-		m_bCullDirty = true;
+		m_nAABBChangeType = ACT_SELF_MATRIX;	
 	}
 
 	void RenderComponent::Update()
 	{
-		UpdateAABBWS();
-
-		UpdateCullTree();
 	}
 
-	void RenderComponent::UpdateCullTree()
+	void RenderComponent::SetNeedChange(CHANGE_TYPE eChangeType)
 	{
-		if (!m_bCullDirty)
-			return;
-		
+		if (eChangeType == CT_FROMPARENT)
+		{
+			m_nAABBChangeType |= ACT_SELF_MATRIX;
+		}
+	}
+
+	void RenderComponent::OnAddToSceneNode(SceneNode* pNode)
+	{
 		if (m_pSceneNode && m_pSceneNode->GetScene())
 			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
-
-		m_bCullDirty = false;
 	}
 
-	void RenderComponent::UpdateAABBWS() const
+	void RenderComponent::OnRemoveFromSceneNode(SceneNode* pNode)
 	{
-		if (!m_bMatrixDirty)
-			return;
+		if (m_pSceneNode && m_pSceneNode->GetScene())
+			m_pSceneNode->GetScene()->GetCullTree()->RemoveObject(this);	
+	}
 
-		if (m_pSceneNode)
+	void RenderComponent::UpdateWorldBoundingBox()
+	{
+		// when to update
+		if (m_nAABBChangeType == ACT_NONE || m_nAABBChangeType == ACT_SELF_CUSTOM || m_nAABBChangeType == ACT_NOTIFY || m_nAABBChangeType == (ACT_SELF_CUSTOM|ACT_NOTIFY))
 		{
-			m_worldAABB = m_AABB;
-			m_worldAABB.transform( m_pSceneNode->GetMatrixWS() );
+			return;
 		}
 
-		m_bMatrixDirty = false;
+		// reset bounds first
+		m_worldAABB.setNull();
+
+		// get local bounds
+		// update world bounding with worldMatrix
+		if ((m_nAABBChangeType&ACT_SELF_MATRIX) != 0 && (m_nAABBChangeType&ACT_SELF_CUSTOM) == 0)
+		{
+			m_AABB.setNull();
+		}
+
+		if ((m_nAABBChangeType&ACT_SELF_CUSTOM) != 0)
+		{
+			m_nAABBChangeType = ACT_SELF_CUSTOM | ACT_NOTIFY;
+		}
+		else
+			m_nAABBChangeType = ACT_NOTIFY;
+
+		m_worldAABB = m_AABB;
+		ASSERT(m_worldAABB.getMinimum() != m_worldAABB.getMaximum());
+		m_worldAABB.transformAffine(m_pSceneNode->GetMatrixWS());
 	}
 
 	void RenderComponent::Show(Camera* pCamera) 
 	{
 		m_pSceneNode->SetLastVisibleFrame(GetTimer()->GetFrameCount());
-	}
-
-	void RenderComponent::MarkDirty()
-	{
-		m_bMatrixDirty = true;
-		m_bCullDirty = true;
 	}
 
 	const	AABB& RenderComponent::GetAABB() const
@@ -69,12 +84,15 @@ namespace ma
 			return;
 
 		m_AABB = box;
-		MarkDirty();
+		m_nAABBChangeType |= ACT_SELF_CUSTOM | ACT_SELF_MATRIX;
+
+		if (m_pSceneNode && m_pSceneNode->GetScene())
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
 	}
 
-	const AABB&	RenderComponent::GetAABBWS() const 
+	const AABB&	RenderComponent::GetAABBWS() 
 	{
-		UpdateAABBWS();
+		UpdateWorldBoundingBox();
 		
 		return m_worldAABB;
 	}

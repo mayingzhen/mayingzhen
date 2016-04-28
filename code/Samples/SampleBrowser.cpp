@@ -262,7 +262,7 @@ namespace ma
 		Game::Update();
 
 		if (m_pCameraControl)
-			m_pCameraControl->UpdateInput();
+			m_pCameraControl->Process(GetTimer()->GetFrameDeltaTime());
 
 		if (m_bPause && !m_bStepOneFrame)
 		{

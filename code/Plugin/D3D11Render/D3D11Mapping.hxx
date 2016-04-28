@@ -311,9 +311,8 @@ const char* D3D11Mapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
 
     default:
         ASSERT(0 && "Invalid Declaration Usage.");
+		return "POSITION";
     }
-
-	//return D3DDECLUSAGE_POSITION;
 }
 
 
@@ -341,6 +340,7 @@ D3D11_FILTER D3D11Mapping::GetD3D11Filter(Filter type)
 	}
 	else
 	{
+		return D3D11_FILTER_MIN_MAG_MIP_POINT;
 		ASSERT(false);
 	}
 }
@@ -384,6 +384,9 @@ D3D11_COMPARISON_FUNC D3D11Mapping::get(CompareFunction cf)
 		return D3D11_COMPARISON_GREATER_EQUAL;
 	case CMPF_GREATER:
 		return D3D11_COMPARISON_GREATER;
+	default:
+		ASSERT(false);
+		return D3D11_COMPARISON_ALWAYS;
 	};
 }
 
@@ -407,6 +410,9 @@ D3D11_STENCIL_OP D3D11Mapping::get(StencilOperation op, bool invert)
 		return invert? D3D11_STENCIL_OP_INCR : D3D11_STENCIL_OP_DECR;
 	case SOP_INVERT:
 		return D3D11_STENCIL_OP_INVERT;
+	default:
+		ASSERT(false);
+		return D3D11_STENCIL_OP_KEEP;
 	}
 }
 
@@ -438,6 +444,9 @@ void D3D11Mapping::GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,D3D11_BLEND& src,D3
 		dest = D3D11_BLEND_ZERO;
 		op = D3D11_BLEND_OP_ADD;
 		break;
+	default:
+		ASSERT(false);
+		bEnbale = FALSE;
 	}
 }
 
@@ -455,6 +464,11 @@ D3D11_FILL_MODE D3D11Mapping::get(FillMode mode)
 	{
 		return D3D11_FILL_WIREFRAME;
 	}
+	else
+	{
+		ASSERT(FALSE);
+		return D3D11_FILL_SOLID;
+	}
 }
 
 
@@ -471,6 +485,11 @@ D3D11_CULL_MODE D3D11Mapping::get(CULL_MODE mode)
 	else if (mode == CULL_FACE_SIDE_FRONT)
 	{
 		return D3D11_CULL_FRONT;
+	}
+	else
+	{
+		ASSERT(FALSE);
+		return D3D11_CULL_BACK;
 	}
 }
 

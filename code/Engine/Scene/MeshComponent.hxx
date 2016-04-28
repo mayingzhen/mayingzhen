@@ -178,8 +178,6 @@ namespace ma
 			return false;
 
 		CreateRenderable();
-		
-		MarkDirty();
 
 		m_bOnLoadOver = true;
 		

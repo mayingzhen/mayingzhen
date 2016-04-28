@@ -89,13 +89,13 @@ namespace ma
 			SAFE_DELETE(g_pDataThread);
 		}
 
-		g_pRenderSystem->Shoutdown();
-		
 		g_pMeshManager->Clear();
 		g_pMaterialManager->Clear();
 		g_pXmlFileManager->Clear();
 		g_pTextureManager->Clear();
 		g_pShaderManager->Clear();
+
+		g_pRenderSystem->Shoutdown();
 
 		EngineRTTIShutdown();
 

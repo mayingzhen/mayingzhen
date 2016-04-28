@@ -102,17 +102,17 @@ namespace ma
 	{
 		m_nX = i;
 		m_nY = j;
-
+		
+		AABB aabb;
 		for (int m = i * m_pTerrain->GetTrunkSize(); m <= (i + 1) * m_pTerrain->GetTrunkSize(); ++m)
 		{
 			for (int n = j * m_pTerrain->GetTrunkSize(); n <= (j + 1) * m_pTerrain->GetTrunkSize(); ++n)
 			{
-				m_AABB.merge(m_pTerrain->GetPos(m, n));
+				aabb.merge(m_pTerrain->GetPos(m, n));
 			}
 		}
 
-		//OnTransformChange();
-		MarkDirty();
+		SetAABB(aabb);
 
 		m_vecLodRenderable.resize(m_pTerrain->GetNumLod());
 		m_vecVBDataTemp.resize(m_pTerrain->GetNumLod());

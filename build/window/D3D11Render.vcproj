@@ -49,6 +49,7 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="D3D11Render/StdAfx.h"
 				WarningLevel="3"
+				WarnAsError="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool

@@ -10,14 +10,14 @@ namespace ma
 
 	void SampleAnimationIK::Load()
 	{	
-		m_pCamera->LookAt(Vector3(0, -600, 200), Vector3(0, 0, 0));
+		m_pCamera->LookAt(Vector3(0, -6, 2), Vector3(0, 0, 0));
 
 		CreateMeshMaterial("hero_17/hero_17/body.tga","hero_17/hero_17/Body.mtl","SKIN");
 
 		RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 
 		RefPtr<SceneNode> pChar = m_pScene->CreateSceneNode();
-
+		pChar->SetScale( Vector3(0.01f) );
 		SkinMeshComponent* pMeshComp = pChar->CreateComponent<SkinMeshComponent>();
 		pMeshComp->Load("hero_17/hero_17/Body.skn","hero_17/hero_17/Body.mtl");
 		
@@ -39,6 +39,7 @@ namespace ma
 		
 		m_pAnimComp->PlayAnimation(102);
 		//m_pAnimComp->PlayAnimation(pClipNode.get());
+
 	}
 
 	void SampleAnimationIK::UnLoad()

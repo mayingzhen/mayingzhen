@@ -13,6 +13,24 @@ namespace ma
 	class CullTree;
 	class XmlFile;
 
+	enum CHANGE_TYPE
+	{
+		CT_NONE = 0x00,
+		CT_PART = 0x01,
+		CT_FROMPARENT = 0x02,
+		CT_NOTIFY = 0x04,
+	};
+
+
+	enum Inherit_Type
+	{
+		IT_NONE = 0x00,
+		IT_POS = 0x01,
+		IT_SCALE = 0x02,
+		IT_ROTATE = 0x04,
+	};
+
+
 	class SceneNode : public Serializable
 	{
 	
@@ -43,32 +61,32 @@ namespace ma
 		const Quaternion&	GetRotation() const;
 		void				SetRotation(const Quaternion& qRot);
 
-		const Vector3&		GetPosWS() const;
+		const Vector3&		GetPosWS();
 		void				SetPosWS(const Vector3& vPos);
 
-		const Quaternion&	GetRotationWS() const;
+		const Quaternion&	GetRotationWS();
 		void				SetRotationWS(const Quaternion& qRot);
 
-		const Vector3&		GetScaleWS() const;
+		const Vector3&		GetScaleWS();
 		void				SetScaleWS(const Vector3& vScale);
 
-		Vector3				GetForward() const;
-		Vector3				GetRight() const;		
-		Vector3				GetUp() const;
+		virtual Vector3		GetForward();
+		virtual Vector3		GetRight();		
+		virtual Vector3		GetUp();
 
-		void                Forward(float fValue);
+		virtual	void        Forward(float fValue);
 		void                Up(float fValue);
 		void				Right(float fValue);
 
 		void				Translate(const Vector3& vDir);
 
-		void				LookAt(const Vector3& vPos, const Vector3& vTarget);
+		virtual void		LookAt(const Vector3& vPos, const Vector3& vTarget);
 		void				LookAt(const Vector3& vTarget);
 
-		const Transform&    GetTransformWS() const;
+		const Transform&    GetTransformWS();
 		void				SetTransformWS(const Transform& tsfWS);
 
-		const Matrix4&		GetMatrixWS() const;
+		const Matrix4&		GetMatrixWS();
 
 		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
 		void				Rotate(const Quaternion& delta,bool fixedAxis = false);
@@ -109,13 +127,16 @@ namespace ma
 		void				SetLastVisibleFrame(UINT nFrame) {m_nLastVisibleFrame = nFrame;}
 		UINT				GetLastVisibleFrame() {return m_nLastVisibleFrame;}
 
+		bool				BeginMatrix() const;
+		const Matrix4&		CalcMatrix();
+		void				EndMatrix();
+
 	protected:
-		void				SetParent(SceneNode* pParent);
-		void				SetScene(Scene* pScene);
+		virtual void		SetParent(SceneNode* pParent);
+		virtual void		SetScene(Scene* pScene);
 
-		void				UpdateMatWorld() const;
-
-		virtual void		MarkDirty();
+		void				SetNeedChange(CHANGE_TYPE eChangeType);
+		void				UpdateWorldMatrix();
 
 	protected:
 		typedef std::vector< RefPtr<Component> > VEC_COMP;
@@ -129,10 +150,12 @@ namespace ma
 
 		UINT						m_nLastVisibleFrame;
 
-		mutable Transform			m_tsfPS;
-		mutable Transform			m_tsfWS;
-		mutable Matrix4				m_matWS;
-		mutable bool				m_bmatWSDirty;
+		Transform					m_tsfPS;
+		Transform					m_tsfWS;
+		Matrix4						m_matWS;
+	
+		int							m_nNeedChange;
+		int							m_nInheritType;
 
 		bool						m_bEnable;
 

@@ -8,6 +8,13 @@ namespace ma
 	class CullNode;
 	class Renderable;
 
+	enum AABB_CHANGE_TYPE
+	{
+		ACT_NONE = 0x00,
+		ACT_SELF_MATRIX = 0x01,
+		ACT_SELF_CUSTOM = 0x02,//自定义包围盒
+		ACT_NOTIFY = 0x04,
+	};
 
 	class RenderComponent : public Component
 	{
@@ -19,8 +26,6 @@ namespace ma
 		virtual	void	Update();
 
 		virtual void	Show(Camera* pCamera); 
-
-		virtual	void	MarkDirty();
 		
 		virtual void	SetVisible(bool bVisible) {m_bVisible = bVisible;}
 		virtual bool	GetVisible() const {return m_bVisible;}
@@ -37,23 +42,26 @@ namespace ma
 
 		const	AABB&	GetAABB() const;
 		void			SetAABB(const AABB& box);
-		const AABB&		GetAABBWS() const;
+		const AABB&		GetAABBWS();
 
 		virtual	void	SetViewMinMaxZ(float fZmin,float fZmax) {m_fViwMinZ = fZmin;m_fViwMaxZ = fZmax;}
 		virtual float	GetViewMinZ() const {return m_fViwMinZ;}
 		virtual	float	GetViewMaxZ() const {return m_fViwMaxZ;}
 
-	private:
-		void			UpdateAABBWS() const;
-		void			UpdateCullTree();
+		virtual void	SetNeedChange(CHANGE_TYPE eChangeType);
+
+		virtual	void	OnAddToSceneNode(SceneNode* pNode);
+		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode);
+
+	protected:
+		void			UpdateWorldBoundingBox();
 
 	protected:
 		CullNode*			m_pCullNode;
 
 		AABB				m_AABB;
-		mutable AABB		m_worldAABB;
-		mutable bool		m_bMatrixDirty;
-		mutable bool		m_bCullDirty;
+		AABB				m_worldAABB;
+		int					m_nAABBChangeType;	
 
 		float				m_fViwMinZ;
 		float				m_fViwMaxZ;

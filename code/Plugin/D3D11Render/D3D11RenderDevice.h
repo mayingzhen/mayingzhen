@@ -123,13 +123,9 @@ namespace ma
 		ID3D11Texture2D* defaultDepthTexture_;
 		ID3D11DepthStencilView* defaultDepthStencilView_;
 
-		//enum {MAX_RENDERTARGETS = 4};
 		ID3D11RenderTargetView*		m_pRenderTarget[MAX_RENDERTARGETS];
 		ID3D11DepthStencilView*		m_pDepthStencil;
 		bool						m_bRenderTargetsDirty;
-
-		typedef std::vector<D3D11Resource*> VEC_D3D11RESOURCE;
-		VEC_D3D11RESOURCE			m_vecD3D11Resource;
 		
 		RenderState					m_renderState;
 
@@ -151,7 +147,7 @@ namespace ma
 		map<unsigned, ID3D11BlendState*> blendStates_;
 
 		// ConstantBuffer
-		map<unsigned, RefPtr<ConstantBuffer> > constantBufferAll;
+		map<unsigned, RefPtr<ConstantBuffer> > constantBufferAll_;
 		vector<ConstantBuffer*> dirtyConstantBuffers_;
 
 		D3D11ShaderProgram* m_pShader;
@@ -159,8 +155,8 @@ namespace ma
 		//VertexDeclaration
 		D3D11VertexDeclaration*	m_pVertexDecl;
 		bool vertexDeclarationDirty_;
-		unsigned long long vertexDeclarationHash_;
-		map<unsigned long long, ID3D11InputLayout* > vertexDeclarations_;
+		uint64 vertexDeclarationHash_;
+		map<uint64, ID3D11InputLayout* > vertexDeclarations_;
 
 		IndexBuffer* indexBuffer_;
 
@@ -183,8 +179,8 @@ namespace ma
 		unsigned firstDirtySamplerState_;
 		unsigned lastDirtySamplerState_;
 		bool	samplerStatesDirty_;
-		ID3D11SamplerState* samplers_[MAX_TEXTURE_UNITS];
-		map<SamplerState, ID3D11SamplerState*> SamplerStatesAll;
+		ID3D11SamplerState* d3d11Samplers_[MAX_TEXTURE_UNITS];
+		map<SamplerState, ID3D11SamplerState*> SamplerStatesAll_;
 
 		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];
 

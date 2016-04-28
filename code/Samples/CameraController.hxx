@@ -7,178 +7,452 @@ namespace ma
 {
 	CameraController::CameraController(Camera* pCamera)
 	{
-		m_fMoveStep = 100.0f;
+		m_fMoveSpeed = 10.f;
+		m_fRotateSpeed = 0.03f;
 
-		m_vTarget = Vector3::ZERO;
+		for (int i = 0;i< KEY_AMOUNT;++i)
+		{
+			m_rgKeyDown[i] = false;
+		}
 
-
-		Vector3 vCameraPos = pCamera->GetPos();
-
-		m_fTargetDis = vCameraPos.length();
+		m_eMode = MODE_FREE;
+		m_vPivot = Vector3::ZERO;
+		m_bAltDown = false;
 
 		m_pCamera = pCamera;
 
-		ResetCamera();
+		Game::GetInstance().mkeyEvent.notify(this,&CameraController::keyEvent);
+		Game::GetInstance().mMouseEvent.notify(this,&CameraController::mouseEvent);
 	}
 
-	void CameraController::ResetCamera()
+	CameraController::~CameraController()
 	{
-		if (m_pCamera == NULL)
-			return;
-
-		m_pCamera->LookAt(Vector3(0, 200, -300), Vector3(0, 0, 0));
-
-		int nWndWidth,nWndHeigh;
-		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
-		float fFOV = DegreesToRadians(50.0f);
-		float fAspect = (float)nWndWidth / (float)nWndHeigh;
-		float fNearClip = 0.10f;
-		float fFarClip = 10000.0f;
-		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+		Game::GetInstance().mkeyEvent.remove(this,&CameraController::keyEvent);
+		Game::GetInstance().mMouseEvent.remove(this,&CameraController::mouseEvent);
 	}
 
-	void CameraController::UpdateInput()
-	{
-		if (m_pCamera == NULL || GetInput() == NULL)
-			return;
-
-#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
-		return;
-#endif
-		UpdateTargetDis();
-
-		const MouseState& mouseState = GetInput()->GetMouseState();
-
-		if ( GetInput()->IsMouseButtonDown(MB_Left) && GetInput()->IsKeyDown(Keyboard::KEY_ALT) ) // Atl + ×ó¼ü
-		{
-			RotateMoveCamera();
-		}
-		else if ( GetInput()->IsMouseButtonDown(MB_Middle) /*|| GetInput()->IsMouseButtonDown(MB_Left)*/ ) // ÖÐ¼ü»ò×ó¼ü
-		{ 
-			MoveCamera();
-
-			UpdateTarget();
-		}
-		else if ( GetInput()->IsKeyDown(Keyboard::KEY_ALT) && GetInput()->IsMouseButtonDown(MB_Right) ) // Atl + ÓÒ¼ü 
-		{
-			float fDeltaZoom = mouseState.X.rel + mouseState.Y.rel ;
-
-			ZoomCamera(fDeltaZoom);	
-
-			UpdateTargetDis();
-		}
-		else if (GetInput()->IsMouseButtonDown(MB_Right))
-		{
-			RotateCamera();
-
-			UpdateTarget();
-		}
-		else if (mouseState.Z.rel != 0)
-		{
-			float fDeltaZoom = mouseState.Z.rel;
-
-			ZoomCamera(fDeltaZoom);	
-
-			UpdateTargetDis();
-		}
-	}
-
-	void CameraController::UpdateTarget()
-	{
-		Vector3 vCameraPos = m_pCamera->GetPos();
-		Vector3 vCameraForward = m_pCamera->GetForward();
-
-		m_vTarget = vCameraPos + vCameraForward * m_fTargetDis;
-	}
-
-	void CameraController::UpdateTargetDis()
-	{
-		Vector3 vCameraPos = m_pCamera->GetPos();
-		m_fTargetDis = (vCameraPos - m_vTarget).length();
-		if (m_fTargetDis <= 10.0f)
-			m_fTargetDis = 10.0f;
-	}
-
-
-	void CameraController::RotateMoveCamera()
-	{
-		Vector2 vScreenOffset = GetMouseProjVec();
-
-		Vector3 vAxis;
-		float fAngle;
-		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
-		{
-			vAxis = m_pCamera->GetUp();
-			fAngle = RadiansToDegrees(vScreenOffset.x);
-		}
-		else
-		{
-			vAxis = m_pCamera->GetRight();
-			fAngle = RadiansToDegrees(vScreenOffset.y);	
-		}
-
-		m_pCamera->RotateAround(m_vTarget,vAxis,fAngle);
-	}
-
-	Vector2	CameraController::GetMouseProjVec()
-	{
-		const MouseState& mouseState = GetInput()->GetMouseState();
-
-		int w,h;
-		Platform::GetInstance().GetWindowSize(w,h);
-
-		Vector2 vScreenOffset(mouseState.X.rel, mouseState.Y.rel);
-		vScreenOffset.x = -vScreenOffset.x * 2.f / w;
-		vScreenOffset.y = vScreenOffset.y * 2.f / h;
-		//vScreenOffset.x = vScreenOffset.x * 2.0f / w - 1.0f;
-		//ScreenOffset.y = 1.0f - vScreenOffset.y * 2.0f / h;
-
-		return vScreenOffset;
-	}
-
-	Vector3	CameraController::ProjToWorldNormal(const Vector2* pVec,float fDepth) 
+	Vector3	CameraController::ProjToWorldNormal(const Vector2* pVec,float fDepth, bool bPerspective) 
 	{
 		Vector3 vRet;
-		Matrix4 matVPInv = m_pCamera->GetMatViewProj().inverse();
-		Vector3 p0(0.0f,0.0f,-1.0f);
-		Vector3 p1(pVec->x ,pVec->y ,-1.0f);
-		p0 = matVPInv * p0;
-		p1 = matVPInv * p1;
+		const Matrix4& matVPInv = m_pCamera->GetMatViewProjInv();
+		Vector3 p0(0.0f,0.0f,1.0f);
+		p0 = matVPInv*p0;
+		Vector3 p1(pVec->x,pVec->y,1.0f);	
+		p1 = matVPInv*p1;
 		vRet = p1 - p0;
-		vRet *= fDepth / m_pCamera->GetNearClip();
+		if (bPerspective)
+		{
+			vRet *= fDepth / m_pCamera->GetFarClip();
+		}
+
 		return vRet;
 	}
 
-	void CameraController::MoveCamera()
+	void CameraController::mouseEvent( Mouse::MouseEvent evt, int x, int y, int wheelDelta )
 	{
-		Vector2 vScreenOffset = GetMouseProjVec();
+		static bool s_bMButtonDown = false;
+		static Vector2 s_mbuttonCursorPoint;
+		static Vector3 s_mbuttonPos;
+		static float s_fPivotDepth = 0.f;
 
-		Vector3 v = ProjToWorldNormal(&vScreenOffset, m_fTargetDis);
-		m_pCamera->Translate(v);
+		static bool s_bRButtonDown = false;
+		static Vector2 s_rbuttonCursorPoint;
+		switch(evt)
+		{
+		case Mouse::MOUSE_WHEEL:
+			{
+				int zDelta = (int)wheelDelta;
+
+				float fSpeed = 1.0f;
+
+				if (GetKeyState(VK_SHIFT) & 0x80000)
+				{
+					fSpeed*=4;
+				}
+	
+				m_pCamera->Forward(zDelta > 0 ? fSpeed : -fSpeed);
+			}
+			break;
+		case Mouse::MOUSE_PRESS_RIGHT_BUTTON:
+			{
+				s_bRButtonDown = true;
+				s_rbuttonCursorPoint.x = x;
+				s_rbuttonCursorPoint.y = y;
+			}
+			break;
+		case Mouse::MOUSE_RELEASE_RIGHT_BUTTON:
+			{
+				s_bRButtonDown = false;
+			}
+			break;
+		case Mouse::MOUSE_PRESS_MIDDLE_BUTTON:
+			{
+				if (::GetKeyState(VK_MENU) & 0x80000)
+				{
+					s_bRButtonDown = true;
+					s_rbuttonCursorPoint.x = x;
+					s_rbuttonCursorPoint.y = y;
+				}
+				else
+				{
+					s_bMButtonDown = true;
+					if (m_eMode == MODE_FREE)
+					{
+						s_fPivotDepth = 20.f;
+					}
+					else
+					{
+						s_fPivotDepth = (m_pCamera->GetPos() - m_vPivot).length();
+					}
+					s_mbuttonCursorPoint.x= x;
+					s_mbuttonCursorPoint.y= y;
+					s_mbuttonPos = m_pCamera->GetPos();
+				}
+			}
+			break;
+		case Mouse::MOUSE_RELEASE_MIDDLE_BUTTON:
+			{
+				s_bMButtonDown = false;
+			}
+			break;
+		case Mouse::MOUSE_MOVE:
+			{
+				uint32 nWindowWidth = Game::GetInstance().m_OnWindowSizedWidth;
+				uint32 nWindowHight = Game::GetInstance().m_OnWindowSizedHeight;
+			
+				if (s_bMButtonDown)
+				{
+					Vector2 vScreenOffset(x - (float)s_mbuttonCursorPoint.x, y - (float)s_mbuttonCursorPoint.y);
+	
+					Vector3 vUp = m_pCamera->GetUp();
+					Vector3 vRight = m_pCamera->GetRight();
+					Vector3 vDir = -vRight.normalisedCopy()*(vScreenOffset.x) + vUp.normalisedCopy()*(vScreenOffset.y);
+					Vector3 vPos = s_mbuttonPos + vDir*0.1f;
+
+					m_pCamera->SetPos(vPos);
+				}
+
+				if (s_bRButtonDown)
+				{
+					Vector2 vDir((float)s_rbuttonCursorPoint.x - x, (float)s_rbuttonCursorPoint.y - y);
+					s_rbuttonCursorPoint.x = x;
+					s_rbuttonCursorPoint.y = y;
+					vDir.normalise();
+
+					this->Yaw(Radian(0.05f * vDir.x));
+					this->Pitch(Radian(0.05f * vDir.y));
+				}
+			}
+			break;
+		default:
+			break;
+		}
+
+		return;
 	}
 
-	void CameraController::RotateCamera()
+	void CameraController::keyEvent( Keyboard::KeyEvent evt, Keyboard::Key key )
 	{
-		Vector2 vScreenOffset = GetMouseProjVec();
-
-		if ( Math::Abs(vScreenOffset.x) > Math::Abs(vScreenOffset.y) )
+		switch(evt)
 		{
-			m_pCamera->Yaw(vScreenOffset.x);	
+		case Keyboard::KEY_PRESS:
+			{
+				switch(key)
+				{
+				case 'W':
+				case 'w':
+					{
+						m_rgKeyDown[UP] = true;
+					}
+					break;
+				case 'S':
+				case 's':
+					{
+						m_rgKeyDown[DOWN] = true;
+					}
+					break;
+				case 'A':
+				case 'a':
+				case Keyboard::KEY_LEFT_ARROW:
+					{
+						m_rgKeyDown[LEFT] = true;
+					}
+					break;
+				case 'D':
+				case 'd':
+				case Keyboard::KEY_RIGHT_ARROW:
+					{
+						m_rgKeyDown[RIGHT] = true;
+					}
+					break;
+				case 'Q':
+				case 'q':
+					{
+						m_rgKeyDown[YAW_LEFT] = true;
+					}
+					break;
+				case 'E':
+				case 'e':
+					{
+						m_rgKeyDown[YAW_RIGHT] = true;
+					}
+					break;
+				case 'R':
+				case 'r':
+					{
+						m_rgKeyDown[HEIGHT_UP] = true;
+					}
+					break;
+				case 'F':
+				case 'f':
+					{
+						m_rgKeyDown[HEIGHT_DOWN] = true;
+					}
+					break;
+				case 'T':
+				case 't':
+					{
+						m_rgKeyDown[PITCH_UP] = true;
+					}
+					break;
+				case 'G':
+				case 'g':
+					{
+						m_rgKeyDown[PITCH_DOWN] = true;
+					}
+					break;
+				case Keyboard::KEY_UP_ARROW:
+					{
+						m_rgKeyDown[FORWARD] = true;
+					}
+					break;
+				case Keyboard::KEY_DOWN_ARROW:
+					{
+						m_rgKeyDown[BACKWARD] = true;
+					}
+					break;
+				}
+			}
+			break;
+		case Keyboard::KEY_RELEASE:
+			{
+				switch(key)
+				{
+				case 'W':
+				case 'w':
+					{
+						m_rgKeyDown[UP] = false;
+					}
+					break;
+				case 'S':
+				case 's':
+					{
+						m_rgKeyDown[DOWN] = false;
+					}
+					break;
+				case 'A':
+				case 'a':
+				case Keyboard::KEY_LEFT_ARROW:
+					{
+						m_rgKeyDown[LEFT] = false;
+					}
+					break;
+				case 'D':
+				case 'd':
+				case Keyboard::KEY_RIGHT_ARROW:
+					{
+						m_rgKeyDown[RIGHT] = false;
+					}
+					break;
+				case 'Q':
+				case 'q':
+					{
+						m_rgKeyDown[YAW_LEFT] = false;
+					}
+					break;
+				case 'E':
+				case 'e':
+					{
+						m_rgKeyDown[YAW_RIGHT] = false;
+					}
+					break;
+				case 'R':
+				case 'r':
+					{
+						m_rgKeyDown[HEIGHT_UP] = false;
+					}
+					break;
+				case 'F':
+				case 'f':
+					{
+						m_rgKeyDown[HEIGHT_DOWN] = false;
+					}
+					break;
+				case 'T':
+				case 't':
+					{
+						m_rgKeyDown[PITCH_UP] = false;
+					}
+					break;
+				case 'G':
+				case 'g':
+					{
+						m_rgKeyDown[PITCH_DOWN] = false;
+					}
+					break;
+				case Keyboard::KEY_UP_ARROW:
+					m_rgKeyDown[FORWARD] = false;
+					break;
+				case Keyboard::KEY_DOWN_ARROW:
+					m_rgKeyDown[BACKWARD] = false;
+					break;
+				}
+			}
+			break;
 		}
-		else
-		{
-			m_pCamera->Pitch(vScreenOffset.y);
-		}
-
 	}
 
-	void CameraController::ZoomCamera(float fDeltaZoom)
+	void CameraController::Process(float dwElapsed)
 	{
-		fDeltaZoom *= m_fTargetDis /** 0.01f*/ / m_fMoveStep;
+		uint8 nMultiple = 1;
+		if (GetKeyState(VK_SHIFT) & 0x80000)
+		{
+			nMultiple = 4;
+		}
 
-		m_pCamera->Forward(fDeltaZoom);
+		float fMoveSpeed = m_fMoveSpeed*dwElapsed*nMultiple;
+		if(m_rgKeyDown[UP])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			Vector3 vRight = m_pCamera->GetRight();
+			Vector3 vY = Vector3::UNIT_Z.crossProduct(vRight);
+			vPos += vY.normalisedCopy()*fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
+		if(m_rgKeyDown[DOWN])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			Vector3 vRight = m_pCamera->GetRight();
+			Vector3 vY = Vector3::UNIT_Z.crossProduct(vRight);
+			vPos -= vY.normalisedCopy()*fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
+		if(m_rgKeyDown[LEFT])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			vPos -= m_pCamera->GetRight().normalisedCopy()*fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
+		if(m_rgKeyDown[RIGHT])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			vPos += m_pCamera->GetRight().normalisedCopy()*fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
+		if (m_rgKeyDown[FORWARD])
+		{
+			m_pCamera->Forward(fMoveSpeed);
+		}
+		if (m_rgKeyDown[BACKWARD])
+		{
+			m_pCamera->Forward(-fMoveSpeed);
+		}
+		if(m_rgKeyDown[HEIGHT_UP])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			vPos.z += fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
+		if(m_rgKeyDown[HEIGHT_DOWN])
+		{
+			Vector3 vPos = m_pCamera->GetPos();
+			vPos.z -= fMoveSpeed;
+			m_pCamera->SetPos(vPos);
+		}
 
-		LogInfo("fDeltaZoom = %f",fDeltaZoom);
+		float fRotateSpeed = m_fRotateSpeed * dwElapsed * nMultiple;
+		if(m_rgKeyDown[YAW_LEFT])
+		{
+			this->Yaw(Radian(fRotateSpeed));
+		}
+		if(m_rgKeyDown[YAW_RIGHT])
+		{
+			this->Yaw(Radian(-fRotateSpeed));
+		}
+		if(m_rgKeyDown[PITCH_UP])
+		{
+			this->Pitch(Radian(fRotateSpeed));
+		}
+		if(m_rgKeyDown[PITCH_DOWN])
+		{
+			this->Pitch(Radian(-fRotateSpeed));
+		}
+	}
+
+	void CameraController::Yaw( const Radian& r )
+	{
+		switch(m_eMode)
+		{
+		case MODE_FREE:
+			{
+				m_pCamera->Yaw(r);
+			}
+			break;
+		case MODE_PIVOT:
+			{
+				Vector3 vCameraPos = m_pCamera->GetPos();
+				vCameraPos.rotateXYBy(r, m_vPivot);
+				m_pCamera->SetPos(vCameraPos);;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	void CameraController::SetSpeed( float nMultiple )
+	{
+		m_fMoveSpeed = 10.f*nMultiple;
+		m_fRotateSpeed = 0.03f*nMultiple;
+	}
+
+	bool IsValidDir(const Vector3& dir)
+	{
+		Vector2 xy(dir.x, dir.y);
+		float angle = atan(xy.normalise()/dir.z);
+		if (Math::Abs(angle) < 0.1f)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	void CameraController::Pitch( const Radian& r )
+	{
+		switch(m_eMode)
+		{
+		case MODE_FREE:
+			{
+				m_pCamera->Pitch(r);
+			}
+			break;
+		case MODE_PIVOT:
+			{
+				Vector3 vDirCamera = m_pCamera->GetPosWS() - m_vPivot;
+				Vector3 vLook = m_pCamera->GetForward() * -1.f;
+				Vector3 vRight = vLook.crossProduct(Vector3::UNIT_Z);
+				vRight.normalise();
+				Quaternion qEye(r, vRight);
+
+				Vector3 vDestCamera = qEye * vDirCamera;
+
+				m_pCamera->SetPos(vDestCamera + m_vPivot);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 }

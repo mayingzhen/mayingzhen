@@ -1,6 +1,8 @@
 #ifndef  _Component__H__
 #define  _Component__H__
 
+#include "SceneNode.h"
+
 namespace ma
 {
 	class SceneNode;
@@ -27,10 +29,12 @@ namespace ma
 		void			SetSceneNode(SceneNode* pSceneNode);	
 		SceneNode*		GetSceneNode() const;
 
-		virtual void	MarkDirty() {}
+		virtual void	SetNeedChange(CHANGE_TYPE eChangeType);
 
 	protected:
 		SceneNode*		m_pSceneNode;
+
+		int				m_nNeedChange;
 	};
 
 }

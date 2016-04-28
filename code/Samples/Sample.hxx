@@ -7,6 +7,15 @@ namespace ma
 		m_pScene = GetRenderSystem()->GetScene();
 		m_pCamera = m_pScene->GetCamera();
 
+
+		int nWndWidth,nWndHeigh;
+		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
+		float fFOV = DegreesToRadians(50.0f);
+		float fAspect = (float)nWndWidth / (float)nWndHeigh;
+		float fNearClip = 0.10f;
+		float fFarClip = 1000.0f;
+		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
+
 		Game::GetInstance().mkeyEvent.notify(this,&Sample::keyEvent);
 	}
 

@@ -9,6 +9,14 @@ namespace ma
 		m_fNearMin = 0.1f;
 		m_fFar = 300.0f;
 		m_fFOV = DegreesToRadians(45.0f);
+
+		m_matVP = m_matProjInv = m_matVPInv = m_matViewInv = m_matView = Matrix4::IDENTITY;
+
+		m_atNode = new SceneNode(NULL,NULL);
+		this->AddChild(m_atNode.get());
+
+		m_eyeNode = new SceneNode(NULL,NULL);
+		this->AddChild(m_eyeNode.get());
 	}
 
 	Camera::~Camera()
@@ -26,44 +34,87 @@ namespace ma
 		ACCESSOR_ATTRIBUTE(Camera, "Far", GetFarClip, SetFarClip, float, 300.0f, AM_DEFAULT);
 	}
 
-	void Camera::MarkDirty()
+	void Camera::Update()
 	{
-		SceneNode::MarkDirty();
+		if (m_eyeNode->BeginMatrix() || m_atNode->BeginMatrix() || this->BeginMatrix())
+		{
+			if (m_eyeNode->BeginMatrix() || m_atNode->BeginMatrix())
+			{
+				Vector3 vEye = m_eyeNode->GetPos(), vAt = m_atNode->GetPos(), vUp = Vector3::UNIT_Z;
+				Vector3 vDirZ = vEye - vAt;
+				vDirZ.normalise();
+				if (vDirZ.positionEquals(Vector3::UNIT_Z))
+				{
+					vUp.y = 0.01f;
+				}
+				else if (vDirZ.positionEquals(Vector3::NEGATIVE_UNIT_Z))
+				{
+					vUp.y = 0.01f;
+				}
 
-		Vector3 vUp = this->GetUp();
-		Vector3 vDir = this->GetForward();
-		Vector3 vEye = this->GetPosWS();
-		Matrix4 matView = Math::MakeLookAtMatrixRH(vEye,vEye + vDir,vUp);
-		//Matrix4 matView = this->GetMatrixWS().inverse();
-		m_matViewProj.SetMatView(matView);
+				Vector3 vDirX = vUp.crossProduct(vDirZ);
+				vDirX.normalise();
 
-		m_frustum.Update(m_matViewProj.GetMatViewProj(),GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
+				Vector3 vDirY = vDirZ.crossProduct(vDirX);
+				vDirY.normalise();
+				m_eyeNode->SetRotation(Quaternion(vDirX, vDirY, vDirZ));
+			}
+
+			this->CalcMatrix();
+			const Matrix4& matEye = m_eyeNode->CalcMatrix();
+			m_atNode->CalcMatrix();
+
+			this->UpdateViewMatrix(matEye);
+
+			m_atNode->EndMatrix();
+			m_eyeNode->EndMatrix();
+			this->EndMatrix();
+		}
+
+		SceneNode::Update();
+	}
+
+	void Camera::UpdateViewMatrix(const Matrix4& matWorldEye)
+	{
+		m_matViewInv = matWorldEye;
+		m_matView = matWorldEye.inverseAffine();
+
+		this->UpdateViewProjMatrix();
+	}
+
+	void Camera::UpdateViewProjMatrix()
+	{
+		m_matProjInv = m_matProj.inverse();
+		m_matVP = m_matProj*m_matView;
+		m_matVPInv = m_matVP.inverse();
+
+		m_frustum.Update(m_matVP, GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
 	}
 
 	const Matrix4& Camera::GetMatView()
 	{
-		return m_matViewProj.GetMatView();
+		return m_matView;
 	}
 
 	const Matrix4& Camera::GetMatProj()
 	{
-		return m_matViewProj.GetMatProj();
+		return m_matProj;
 	}
 
 	const Matrix4& Camera::GetMatViewProj()
 	{
-		return m_matViewProj.GetMatViewProj();
+		return m_matVP;
 	}
 
 	const Matrix4& Camera::GetMatViewProjInv()
 	{
-		return m_matViewProj.GetMatViewProjInv();
+		return m_matVPInv;
 	}
 
 	void Camera::FitAABB(const AABB& aabb, float fMargin)
 	{	
 		AABB aabbCS = aabb;
-		aabbCS.transform( m_matViewProj.GetMatView() );
+		aabbCS.transform(m_matView);
 
 		//Center object
 		Vector3 aabbSize = aabbCS.getSize();
@@ -91,7 +142,7 @@ namespace ma
 			vPosCS.z = m_fNear * aabbSize.y / vNearSize.y;
 		}
 
-		Matrix4 matViewInv = m_matViewProj.GetMatView().inverseAffine();
+		Matrix4 matViewInv = m_matView.inverseAffine();
 		Vector3 vDummyPosWS = matViewInv * vPosCS;
 
 		Vector3 vPosOffsetWS = aabb.getCenter() - vDummyPosWS;
@@ -117,8 +168,9 @@ namespace ma
 		m_fNear = fNear;
 		m_fFar = fFar;
 		Matrix4 matProj = Matrix4::IDENTITY;
-		GetRenderDevice()->MakePerspectiveMatrix(matProj,fFOV,fAspect,fNear,fFar);
-		m_matViewProj.SetMatProj(matProj);
+		GetRenderDevice()->MakePerspectiveMatrix(m_matProj,fFOV,fAspect,fNear,fFar);
+		
+		UpdateViewProjMatrix();
 	}
 
 	void Camera::SetNearClip(float fNear)
@@ -181,13 +233,62 @@ namespace ma
 // 		worldDir = (vWorld1 - vWorld0).normalisedCopy();
 	}
 
+	void Camera::Yaw(const Radian& fParam)
+	{
+		Vector3 vDir = m_eyeNode->GetPos() - m_atNode->GetPos();
+		Vector3 vUp = Vector3::UNIT_Z;
+		Quaternion q(fParam, vUp);
+
+		Vector3 vDest = q*vDir;
+		m_eyeNode->SetPos(vDest + m_atNode->GetPos());
+	}
+
+	void Camera::Pitch(const Radian& fParam)
+	{
+		Vector3 vDir = m_eyeNode->GetPos() - m_atNode->GetPos();
+		Vector3 vRight = this->GetRight();
+		Quaternion q(fParam, vRight);
+
+		Vector3 vDest = q*vDir;
+
+		// 上下仰角限制在Degree[-90,90]之间
+		Plane planeXY(Vector3::UNIT_Z, Vector3(0,0,0));
+		if (vDest.dotProduct(planeXY.projectVector(vDir)) < 0)
+		{
+			return;
+		}
+		m_eyeNode->SetPos(vDest + m_atNode->GetPos());
+	}
+
+	void Camera::LookAt(const Vector3& vEye, const Vector3& vAt)
+	{
+		m_eyeNode->SetPos(vEye);
+
+		m_atNode->SetPos(vAt);
+	}
+
+	Vector3	Camera::GetForward()
+	{
+		return Vector3(m_matView[2][0], m_matView[2][1], m_matView[2][2]);
+	}
+
+	Vector3	Camera::GetRight()
+	{
+		return Vector3(m_matView[0][0], m_matView[0][1], m_matView[0][2]);
+	}
+
+	Vector3	Camera::GetUp()
+	{
+		return Vector3(m_matView[1][0], m_matView[1][1], m_matView[1][2]);
+	}
+
 	void Camera::AdjustPlanes(const AABB& aabbWorld)
 	{
 		if ( aabbWorld.isInfinite() )
 			return;
 
 		AABB aabbView = aabbWorld;
-		aabbView.transform( m_matViewProj.GetMatView() );
+		aabbView.transform( m_matView );
 
 		float fNear = Math::Max(aabbView.getMinimum().z, m_fNearMin);
 		float fFar = Math::Max(aabbView.getMaximum().z, fNear + 1.0f);

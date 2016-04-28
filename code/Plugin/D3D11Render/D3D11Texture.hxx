@@ -20,11 +20,6 @@ namespace ma
 		m_pD3D11ShaderResourceView = NULL;
 		m_pDepthStencilView = NULL;
 		m_pRenderTargetView = NULL;
-		
-// 		if (eUsage == USAGE_DEPTHSTENCIL || eUsage == USAGE_RENDERTARGET)
-// 		{
-// 			m_D3DPool = D3DPOOL_DEFAULT;
-// 		}
 	}
 
 	D3D11Texture::~D3D11Texture()
@@ -37,18 +32,6 @@ namespace ma
 
 	bool D3D11Texture::GenerateMipmaps()
 	{	
-// 		DWORD eFilter = D3DX_DEFAULT;
-// 		if (m_bSRGB)
-// 		{
-// 			eFilter = D3DX_FILTER_BOX | D3DX_FILTER_DITHER | D3DX_FILTER_SRGB;
-// 		}
-// 
-// 		if( D3DXFilterTexture( m_pD3DTex, NULL, D3DX_DEFAULT, eFilter ) != D3D_OK )
-// 		{
-// 			LogError("Failed to filter texture (generate mipmaps) CD3D11HardwarePixelBuffer::_genMipmaps" );
-// 			return false;
-// 		}
-
 		return true;
 	}
 
@@ -109,7 +92,7 @@ namespace ma
 		memset(&textureDesc, 0, sizeof textureDesc);
 		textureDesc.Width = (UINT)m_nWidth;
 		textureDesc.Height = (UINT)m_nHeight;
-		textureDesc.MipLevels = 1;
+		textureDesc.MipLevels = m_nMipLevels;
 		textureDesc.ArraySize = 1;
 		textureDesc.Format = m_descFormat;
 		textureDesc.SampleDesc.Count = 1;
@@ -134,7 +117,7 @@ namespace ma
 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
 		resourceViewDesc.Format = (DXGI_FORMAT)GetSRVFormat(textureDesc.Format);
 		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		resourceViewDesc.Texture2D.MipLevels = (UINT)1/*levels_*/;
+		resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
 
 		GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceView);
 		if (!m_pD3D11ShaderResourceView)
@@ -225,6 +208,20 @@ namespace ma
 		return true;
 	}
 
+
+	D3D11_BOX OgreImageBoxToDx11Box(const Box &inBox)
+	{
+		D3D11_BOX res;
+		res.left	= static_cast<UINT>(inBox.left);
+		res.top		= static_cast<UINT>(inBox.top);
+		res.front	= static_cast<UINT>(inBox.front);
+		res.right	= static_cast<UINT>(inBox.right);
+		res.bottom	= static_cast<UINT>(inBox.bottom);
+		res.back	= static_cast<UINT>(inBox.back);
+
+		return res;
+	}
+
 	bool D3D11Texture::SetLevelData(int nLevel, const PixelBox& src)
 	{
 		// for scoped deletion of conversion buffer
@@ -235,6 +232,10 @@ namespace ma
 		int height = m_nHeight >> nLevel;
 
 		Box dstBox(0,0,width,height);
+
+		D3D11_BOX dstBoxDx11 = OgreImageBoxToDx11Box(dstBox);
+		dstBoxDx11.front = 0;
+		dstBoxDx11.back = converted.getDepth();
 
 		// convert to pixelbuffer's native format if necessary
 		if (D3D11Mapping::_getPF(src.format) == DXGI_FORMAT_UNKNOWN)
@@ -264,54 +265,16 @@ namespace ma
 			rowWidth = converted.rowPitch * PixelUtil::getNumElemBytes(converted.format);
 		}
 
-		RECT destRect, srcRect;
-		srcRect = toD3DRECT(converted);
-		destRect = toD3DRECT(dstBox);
+		unsigned subResource = D3D11CalcSubresource(nLevel, 0, m_nMipLevels);
 
-		unsigned char* srcData = (unsigned char*)converted.data;
-		unsigned rowSize = rowWidth;//GetRowDataSize(m_descFormat,width);
-		unsigned rowStart = 0;//GetRowDataSize(m_descFormat,0);
-		unsigned subResource = D3D11CalcSubresource(nLevel, 0, nLevel);
-
-		if (m_eUsage == USAGE_DYNAMIC)
-		{
-			if (IsCompressed(m_descFormat))
-			{
-				height = (height + 3) >> 2;
-			}
-
-			D3D11_MAPPED_SUBRESOURCE mappedData;
-			mappedData.pData = 0;
-
-			GetD3D11DxDeviveContext()->Map(m_pD3D11Tex2D, subResource, D3D11_MAP_WRITE_DISCARD, 0,
-				&mappedData);
-			if (mappedData.pData)
-			{
-// 				for (int row = 0; row < height; ++row)
-// 				{
-// 					memcpy((unsigned char*)mappedData.pData + row * mappedData.RowPitch + rowStart, src + row * rowSize, rowSize);
-// 				}
-				GetD3D11DxDeviveContext()->Unmap(m_pD3D11Tex2D, subResource);
-			}
-			else
-			{
-				LogError("Failed to map texture for update");
-				return false;
-			}
-		}
-		else
-		{
-			D3D11_BOX destBox;
-			destBox.left = 0;
-			destBox.right = (UINT)(width);
-			destBox.top = 0;
-			destBox.bottom = (UINT)(height);
-			destBox.front = 0;
-			destBox.back = 1;
-
-			GetD3D11DxDeviveContext()->UpdateSubresource(m_pD3D11Tex2D, subResource, &destBox, srcData, rowSize, 0);
-		}
-
+		GetD3D11DxDeviveContext()->UpdateSubresource( 
+			m_pD3D11Tex2D, 
+			subResource,
+			&dstBoxDx11,
+			converted.data,
+			rowWidth,
+			0 );
+		
 		return true;
 	}
 }

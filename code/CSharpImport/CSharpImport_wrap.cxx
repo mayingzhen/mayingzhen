@@ -10011,14 +10011,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Component_GetSceneNode(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Component_MarkDirty(void * jarg1) {
-  ma::Component *arg1 = (ma::Component *) 0 ;
-  
-  arg1 = (ma::Component *)jarg1; 
-  (arg1)->MarkDirty();
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_new_SceneNode__SWIG_0(void * jarg1, char * jarg2) {
   void * jresult ;
   ma::Scene *arg1 = (ma::Scene *) 0 ;
@@ -10189,7 +10181,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetPosWS(void * jarg1) {
   ma::Vector3 *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::Vector3 *) &((ma::SceneNode const *)arg1)->GetPosWS();
+  result = (ma::Vector3 *) &(arg1)->GetPosWS();
   jresult = (void *)result; 
   return jresult;
 }
@@ -10215,7 +10207,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRotationWS(void * jarg1) {
   ma::Quaternion *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::Quaternion *) &((ma::SceneNode const *)arg1)->GetRotationWS();
+  result = (ma::Quaternion *) &(arg1)->GetRotationWS();
   jresult = (void *)result; 
   return jresult;
 }
@@ -10241,7 +10233,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetScaleWS(void * jarg1) {
   ma::Vector3 *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::Vector3 *) &((ma::SceneNode const *)arg1)->GetScaleWS();
+  result = (ma::Vector3 *) &(arg1)->GetScaleWS();
   jresult = (void *)result; 
   return jresult;
 }
@@ -10267,7 +10259,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetForward(void * jarg1) {
   ma::Vector3 result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = ((ma::SceneNode const *)arg1)->GetForward();
+  result = (arg1)->GetForward();
   jresult = new ma::Vector3((const ma::Vector3 &)result); 
   return jresult;
 }
@@ -10279,7 +10271,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetRight(void * jarg1) {
   ma::Vector3 result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = ((ma::SceneNode const *)arg1)->GetRight();
+  result = (arg1)->GetRight();
   jresult = new ma::Vector3((const ma::Vector3 &)result); 
   return jresult;
 }
@@ -10291,7 +10283,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetUp(void * jarg1) {
   ma::Vector3 result;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = ((ma::SceneNode const *)arg1)->GetUp();
+  result = (arg1)->GetUp();
   jresult = new ma::Vector3((const ma::Vector3 &)result); 
   return jresult;
 }
@@ -10381,7 +10373,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetTransformWS(void * jarg1) {
   ma::Transform *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::Transform *) &((ma::SceneNode const *)arg1)->GetTransformWS();
+  result = (ma::Transform *) &(arg1)->GetTransformWS();
   jresult = (void *)result; 
   return jresult;
 }
@@ -10407,7 +10399,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_SceneNode_GetMatrixWS(void * jarg1) {
   ma::Matrix4 *result = 0 ;
   
   arg1 = (ma::SceneNode *)jarg1; 
-  result = (ma::Matrix4 *) &((ma::SceneNode const *)arg1)->GetMatrixWS();
+  result = (ma::Matrix4 *) &(arg1)->GetMatrixWS();
   jresult = (void *)result; 
   return jresult;
 }

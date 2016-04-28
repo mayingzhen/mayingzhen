@@ -68,7 +68,7 @@ void ParticleSystem::Update()
 	{
 		this->InitBounds();
 	}
-    else if (m_bMatrixDirty && m_bParticlesAreGlobal)
+    else if (/*m_bMatrixDirty && */m_bParticlesAreGlobal)
     {
         AABB aabb = this->GetAABB();
         aabb.merge(m_pSceneNode->GetPosWS());
@@ -126,7 +126,7 @@ void ParticleSystem::ParallelUpdate()
 	}
 
 	mAABBTemp.setNull();
-	if (bNeedCalcBounds || (m_bMatrixDirty && m_bParticlesAreGlobal))
+	if (bNeedCalcBounds || (/*m_bMatrixDirty &&*/ m_bParticlesAreGlobal))
 	{
 		mAABBTemp = this->_updateBounds();
 	}

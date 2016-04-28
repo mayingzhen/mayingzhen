@@ -11,11 +11,6 @@ namespace ma
 
 		m_pCamera = CreateCamera();
 		m_pRootNode->AddChild(m_pCamera.get());
-	
-		SceneNode* pSun = CreateSceneNode();
-		m_pRootNode->AddChild(pSun);
-		m_pDirLight = CreateDirectonalLight();
-		pSun->AddComponent(m_pDirLight.get());
 		
 		SetRenderScheme(RenderScheme::Forward);
 
@@ -27,6 +22,11 @@ namespace ma
 		m_viwMinZ = 0.0f;
 		m_viwMaxZ = 0.0f;
 		m_pCallback = NULL;	
+
+		SceneNode* pSun = CreateSceneNode();
+		m_pRootNode->AddChild(pSun);
+		m_pDirLight = CreateDirectonalLight();
+		pSun->AddComponent(m_pDirLight.get());
 	}
 
 	Scene::~Scene()

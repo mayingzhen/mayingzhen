@@ -49,7 +49,7 @@ namespace ma
 		lastDirtyTexture_ = M_MAX_UNSIGNED;
 		texturesDirty_ = true;
 
-		memset(samplers_,0,sizeof(samplers_));
+		memset(d3d11Samplers_,0,sizeof(d3d11Samplers_));
 		memset(samplerStates,0,sizeof(samplerStates));
 		firstDirtySamplerState_ = M_MAX_UNSIGNED;
 		lastDirtySamplerState_ = M_MAX_UNSIGNED;
@@ -118,9 +118,53 @@ namespace ma
 	{
 		m_hWnd = NULL;
 
-		SAFE_RELEASE(m_pD3DDevice);
+		SAFE_RELEASE(defaultRenderTargetView_);
+		SAFE_RELEASE(defaultDepthTexture_);
+		SAFE_RELEASE(defaultDepthStencilView_);
+
+		for (uint32 i = 0; i < MAX_RENDERTARGETS; ++i)
+		{
+			SAFE_RELEASE(m_pRenderTarget[i]);
+		}
+
+		SAFE_RELEASE(m_pDepthStencil);
+
+		for (map<unsigned, ID3D11RasterizerState*>::iterator it = rasterizerStates_.begin(); 
+			it != rasterizerStates_.end(); ++it)
+		{
+			SAFE_RELEASE(it->second);
+		}
+
+		for (map<unsigned, ID3D11DepthStencilState*>::iterator it = depthStates_.begin(); 
+			it != depthStates_.end(); ++it)
+		{
+			SAFE_RELEASE(it->second);
+		}
+
+		for (map<unsigned, ID3D11BlendState*>::iterator it = blendStates_.begin(); 
+			it != blendStates_.end(); ++it)
+		{
+			SAFE_RELEASE(it->second);
+		}
+
+		for (map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll_.begin(); 
+			it != SamplerStatesAll_.end(); ++it)
+		{
+			SAFE_RELEASE(it->second);
+		}
+		SamplerStatesAll_.clear();
+
+		for (map<uint64, ID3D11InputLayout* >::iterator it = vertexDeclarations_.begin(); 
+			it != vertexDeclarations_.end(); ++it)
+		{
+			SAFE_RELEASE(it->second);
+		}
+
+		constantBufferAll_.clear();
+
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
+		//SAFE_RELEASE(m_pD3DDevice);
 	}
 
 	void D3D11RenderDevice::Init(HWND wndhandle)
@@ -243,8 +287,7 @@ namespace ma
 		m_pDepthStencil = defaultDepthStencilView_;
 		m_pRenderTarget[0] = defaultRenderTargetView_;
 
-		//m_pDeviceContext->RSSetViewports(1, &vp);
-		SetViewport(Rectangle(0, 0, width, height));
+		SetViewport(Rectangle(0, 0, (float)width, (float)height));
 
 		return true;
 	}
@@ -312,12 +355,12 @@ namespace ma
 	void D3D11RenderDevice::SetViewport(const Rectangle& rect)
 	{
 		D3D11_VIEWPORT vp;
-		vp.TopLeftX      = (DWORD)rect.left;
-		vp.TopLeftY      = (DWORD)rect.top;
-		vp.Width  = (DWORD)rect.width();
-		vp.Height = (DWORD)rect.height();
-		vp.MinDepth   = 0.0f;
-		vp.MaxDepth   = 1.0f;
+		vp.TopLeftX = rect.left;
+		vp.TopLeftY = rect.top;
+		vp.Width = rect.width();
+		vp.Height = rect.height();
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
 
 		m_pDeviceContext->RSSetViewports(1,&vp);
 	}
@@ -438,8 +481,8 @@ namespace ma
 
 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
 	{
-		map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll.find(*pSampler);
-		if (it != SamplerStatesAll.end())
+		map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll_.find(*pSampler);
+		if (it != SamplerStatesAll_.end())
 		{
 			return it->second;
 		}
@@ -466,7 +509,7 @@ namespace ma
 
 			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
 
-			SamplerStatesAll[*pSampler] = sample;
+			SamplerStatesAll_[*pSampler] = sample;
 
 			return sample;
 		}
@@ -490,7 +533,7 @@ namespace ma
 			}
 
 			samplerStates[index] = pSampler;
-			samplers_[index] = CreateOrGetSamplerState(pSampler);
+			d3d11Samplers_[index] = CreateOrGetSamplerState(pSampler);
 			samplerStatesDirty_ = true;
 		}
 	}
@@ -508,7 +551,7 @@ namespace ma
 		if (samplerStatesDirty_ && firstDirtySamplerState_ < M_MAX_UNSIGNED)
 		{
 			m_pDeviceContext->PSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
-				&samplers_[firstDirtySamplerState_]);
+				&d3d11Samplers_[firstDirtySamplerState_]);
 
 			firstDirtySamplerState_ = lastDirtySamplerState_ = M_MAX_UNSIGNED;
 			samplerStatesDirty_ = false;
@@ -540,7 +583,7 @@ namespace ma
 					if (it == vertexDeclarations_.end())
 					{
 						D3D11_INPUT_ELEMENT_DESC d3dve[MAX_ELEMENT];
-						for (uint32 i = 0; i < m_pVertexDecl->GetElementCount(); ++i)
+						for (int i = 0; i < m_pVertexDecl->GetElementCount(); ++i)
 						{
 							const VertexElement& element = m_pVertexDecl->GetElement(i);
 							d3dve[i].SemanticName = D3D11Mapping::GetD3DDeclUsage(element.Usage);
@@ -709,7 +752,7 @@ namespace ma
 					stateDesc.FillMode = D3D11Mapping::get(m_renderState.m_eFillMode);
 					stateDesc.CullMode = D3D11Mapping::get(m_renderState.m_eCullMode);
 					stateDesc.FrontCounterClockwise = TRUE;
-					stateDesc.DepthBias = m_renderState.m_fConstantBias;
+					stateDesc.DepthBias = (int)m_renderState.m_fConstantBias;
 					stateDesc.DepthBiasClamp = 0.0;
 					stateDesc.SlopeScaledDepthBias = m_renderState.m_fSlopeScaleBias;
 					stateDesc.DepthClipEnable = TRUE;
@@ -747,8 +790,8 @@ namespace ma
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = constantBufferAll.find(key);
-		if (i != constantBufferAll.end())
+		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = constantBufferAll_.find(key);
+		if (i != constantBufferAll_.end())
 		{
 			return i->second.get();
 		}
@@ -756,7 +799,7 @@ namespace ma
 		{
 			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer(/*context_*/));
 			newConstantBuffer->SetSize(size);
-			constantBufferAll[key] = newConstantBuffer;
+			constantBufferAll_[key] = newConstantBuffer;
 			return newConstantBuffer.get();
 		}
 	}
@@ -1038,21 +1081,10 @@ namespace ma
 
 	void D3D11RenderDevice::NotifyResourceCreated(D3D11Resource* pResource)
 	{
-		ASSERT(pResource != NULL);
-		m_vecD3D11Resource.push_back(pResource);
 	}
 
 	void D3D11RenderDevice::NotifyResourceDestroyed(D3D11Resource* pResource)
 	{
-		ASSERT(pResource != NULL);
-		VEC_D3D11RESOURCE::iterator iter = std::find(m_vecD3D11Resource.begin(), m_vecD3D11Resource.end(), pResource);
-		if (iter == m_vecD3D11Resource.end())
-		{
-			ASSERT(false && "cannot find pResource in CD3D11ResourceManager::_notifyResourceDestroyed");
-			return;
-		}
-
-		m_vecD3D11Resource.erase(iter);
 	}
 
 	bool D3D11RenderDevice::BuildDeviceCapabilities()

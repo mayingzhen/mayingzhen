@@ -311,7 +311,7 @@
 #endif
 
 // Set the HLSL version:
-#define SMAA_HLSL_3 1
+#define SMAA_HLSL_4 1
 float4 SMAA_RT_METRICS;
 
 

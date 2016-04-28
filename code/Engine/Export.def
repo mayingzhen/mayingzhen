@@ -23,10 +23,8 @@ EXPORTS
 ?GetFrameCount@Time@ma@@QBEIXZ
 ?GetFrameDeltaTime@Time@ma@@QBEMXZ
 ?GetTimer@ma@@YAPAVTime@1@XZ
-?GetMatrixWS@SceneNode@ma@@QBEABVMatrix4@2@XZ
 ?GetUserData@SceneNode@ma@@QAEPAXPBD@Z
 ?SetUserData@SceneNode@ma@@QAEXPBDPAX@Z
-?GetTransformWS@SceneNode@ma@@QBEABUTransform@2@XZ
 ?SetTransformWS@SceneNode@ma@@QAEXABUTransform@2@@Z
 ?Start@Thread@ma@@UAEXXZ
 ?Stop@Thread@ma@@UAEXXZ
@@ -42,11 +40,8 @@ EXPORTS
 ?GetPos@SceneNode@ma@@QBEABVVector3@2@XZ
 ?RotateAround@SceneNode@ma@@QAEXABVVector3@2@V32@M@Z
 ?Translate@SceneNode@ma@@QAEXABVVector3@2@@Z
-?Forward@SceneNode@ma@@QAEXM@Z
 ?SetScale@SceneNode@ma@@QAEXABVVector3@2@@Z
-?LookAt@SceneNode@ma@@QAEXABVVector3@2@0@Z
 ?Right@SceneNode@ma@@QAEXM@Z
-?GetRotationWS@SceneNode@ma@@QBEABVQuaternion@2@XZ
 ?AddArchive@ArchiveManager@ma@@QAEXPAVArchive@2@@Z
 ?CreateFileArchive@ma@@YA?AV?$RefPtr@VArchive@ma@@@1@PBD@Z
 ?Init@RenderScheme@ma@@QAEXXZ
@@ -83,10 +78,8 @@ EXPORTS
 ?GetScale@SceneNode@ma@@QBEABVVector3@2@XZ
 ?GetRotation@SceneNode@ma@@QBEABVQuaternion@2@XZ
 ?SetRotation@SceneNode@ma@@QAEXABVQuaternion@2@@Z
-?GetPosWS@SceneNode@ma@@QBEABVVector3@2@XZ
 ?SetPosWS@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?SetRotationWS@SceneNode@ma@@QAEXABVQuaternion@2@@Z
-?GetScaleWS@SceneNode@ma@@QBEABVVector3@2@XZ
 ?SetScaleWS@SceneNode@ma@@QAEXABVVector3@2@@Z
 ?Up@SceneNode@ma@@QAEXM@Z
 ?LookAt@SceneNode@ma@@QAEXABVVector3@2@@Z
@@ -197,9 +190,6 @@ EXPORTS
 ?SetData@HardwareBuffer@ma@@QAEXPAEIHW4HBU_USAGE@2@_N@Z
 ??0Texture@ma@@QAE@HHW4PixelFormat@1@W4TEXTURE_USAGE@1@@Z
 ?Lock@HardwareBuffer@ma@@UAEPAXW4LOCK@2@@Z
-?GetForward@SceneNode@ma@@QBE?AVVector3@2@XZ
-?GetRight@SceneNode@ma@@QBE?AVVector3@2@XZ
-?GetUp@SceneNode@ma@@QBE?AVVector3@2@XZ
 ?AddSubMeshData@MeshData@ma@@QAEXPAVSubMeshData@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
 ?SetMaterial@MeshComponent@ma@@QAEXPAVMaterial@2@@Z
@@ -220,3 +210,11 @@ EXPORTS
 ??0RenderState@ma@@QAE@XZ
 ??MSamplerState@ma@@QBE_NABV01@@Z
 ?GetHash@VertexDeclaration@ma@@QAE_KXZ
+?Yaw@Camera@ma@@QAEXABVRadian@2@@Z
+?Pitch@Camera@ma@@QAEXABVRadian@2@@Z
+?SetNeedChange@Component@ma@@UAEXW4CHANGE_TYPE@2@@Z
+?GetTransformWS@SceneNode@ma@@QAEABUTransform@2@XZ
+?GetMatrixWS@SceneNode@ma@@QAEABVMatrix4@2@XZ
+?GetPosWS@SceneNode@ma@@QAEABVVector3@2@XZ
+?GetRotationWS@SceneNode@ma@@QAEABVQuaternion@2@XZ
+?GetScaleWS@SceneNode@ma@@QAEABVVector3@2@XZ

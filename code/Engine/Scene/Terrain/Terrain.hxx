@@ -56,6 +56,16 @@ namespace ma
 
 	}
 
+	void Terrain::SetScene(Scene* pScene)
+	{
+		SceneNode::SetScene(pScene);
+
+		for (uint32 i = 0; i < m_vecTrunk.size(); ++i)
+		{
+			m_vecTrunk[i]->SetSceneNode(this);
+		}
+	}
+
 	void Terrain::BuildTrunks()
 	{
 		int nTrunkXCellAmont = Math::ICeil(m_nXCellsAmount / (float)m_nTrunkSize);

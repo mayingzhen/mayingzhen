@@ -17,10 +17,8 @@ namespace ma
 	void PointLight::SetRadius(float fRadius) 
 	{
 		m_fRadius = fRadius ? fRadius : 1.0f;
-	
-		m_AABB = AABB(Vector3(-m_fRadius),Vector3(m_fRadius));
-		
-		MarkDirty();
+
+		SetAABB( AABB(Vector3(-m_fRadius),Vector3(m_fRadius)) );
 	}
 
 	void PointLight::Show(Camera* pCamera)

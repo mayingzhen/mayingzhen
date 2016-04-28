@@ -48,7 +48,6 @@ namespace ma
 
 		void ClearTempData();
 
-
 	private:
 		Terrain* m_pTerrain;
 

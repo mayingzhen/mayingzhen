@@ -21,6 +21,12 @@
 %ignore ma::SceneNode::RegisterAttribute;
 %ignore ma::SceneNode::SetName;
 %ignore ma::Component::SetSceneNode;
+%ignore ma::SceneNode::SetNeedChange;
+%ignore ma::Component::SetNeedChange;
+%ignore ma::SceneNode::BeginMatrix;
+%ignore ma::SceneNode::CalcMatrix;
+%ignore ma::SceneNode::EndMatrix;
+
 
 %include "../../Code/Engine/Scene/Component.h"
 %include "../../Code/Engine/Scene/SceneNode.h"

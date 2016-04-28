@@ -13,7 +13,10 @@ namespace ma
 		m_nLastVisibleFrame = 0;
 
 		m_matWS = Matrix4::IDENTITY;
-		m_bmatWSDirty = false;	
+		
+
+		m_nNeedChange = CT_PART;
+		m_nInheritType = IT_POS | IT_SCALE | IT_ROTATE;
 	}
 
 	SceneNode::~SceneNode()
@@ -149,9 +152,9 @@ namespace ma
 	{
 		RefPtr<SceneNode> pClone = CreateSceneNode();
 		
-		//TiXmlElement xmlEle("");
-		//this->Export(&xmlEle);
-		//pClone->Import(&xmlEle);
+// 		TiXmlElement xmlEle("");
+// 		this->Export(&xmlEle);
+// 		pClone->Import(&xmlEle);
 
 		return pClone;
 	}
@@ -160,9 +163,14 @@ namespace ma
 	{
 		m_pScene = pScene;
 
-		for (VEC_CHILD::iterator it = m_arrChild.begin(); it != m_arrChild.end(); ++it)
+		for (uint32 i = 0; i < m_arrChild.size(); ++i)
 		{
-			(*it)->SetScene(pScene);
+			m_arrChild[i]->SetScene(pScene);
+		}
+
+		for (uint32 i = 0; i < m_arrComp.size(); ++i)
+		{
+			m_arrComp[i]->SetSceneNode(this);
 		}
 	}
 
@@ -178,7 +186,7 @@ namespace ma
 		{
 			SetScene(m_pParent->GetScene());
 			
-			MarkDirty();
+			this->SetNeedChange(CT_FROMPARENT);
 		}
 		else
 		{
@@ -250,13 +258,111 @@ namespace ma
 		return NULL;
 	}
 
+	void SceneNode::SetNeedChange(CHANGE_TYPE eChangeType)
+	{
+		m_nNeedChange |= eChangeType;
+
+		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		{
+			m_arrChild[i]->SetNeedChange(eChangeType);
+		}
+	}
+
+	bool SceneNode::BeginMatrix() const
+	{
+		return m_nNeedChange != CT_NONE;
+	}
+
+	const Matrix4& SceneNode::CalcMatrix()
+	{
+		this->UpdateWorldMatrix();
+		m_nNeedChange = CT_NONE;
+
+		return m_matWS;
+	}
+
+	void SceneNode::EndMatrix()
+	{
+		m_nNeedChange = CT_NONE;
+		ASSERT(m_nNeedChange == CT_NONE && "EndMatrix必须在if(BeginMatrix())里CalcMatrix后调用！");
+// 		if (m_pCallback)
+// 		{
+// 			m_pCallback->OnNodeEndMatrix(this);
+// 		}
+	}
+
+	void SceneNode::UpdateWorldMatrix()
+	{
+		if (m_nNeedChange == CT_NONE || m_nNeedChange == CT_NOTIFY)
+		{
+			return;
+		}
+
+		Matrix4 matLocal;
+		matLocal.makeTransform(m_tsfPS.m_vPos, m_tsfPS.m_vScale, m_tsfPS.m_qRot);
+
+		if (m_pParent != NULL)
+		{
+			if (m_nInheritType == IT_NONE)
+			{
+				m_matWS = matLocal;
+			}
+			else if (m_nInheritType == (IT_POS | IT_SCALE | IT_ROTATE))
+			{
+				m_matWS = m_pParent->GetMatrixWS() * matLocal;
+			}
+			else
+			{
+				Quaternion qParentRotate = Quaternion::IDENTITY;
+				Vector3 vParentScale = Vector3::UNIT_SCALE;
+				Vector3 vParentPos = Vector3::ZERO;
+				if ((m_nInheritType&IT_ROTATE) != 0)
+				{
+					qParentRotate = m_pParent->GetTransformWS().m_qRot;
+				}
+
+				if ((m_nInheritType&IT_SCALE) != 0)
+				{
+					vParentScale = m_pParent->GetTransformWS().m_vScale;
+				}
+
+				if ((m_nInheritType&IT_POS) != 0)
+				{
+					vParentPos = m_pParent->GetTransformWS().m_vPos;
+				}
+				Matrix4 matParent;
+				matParent.makeTransform(vParentPos, vParentScale, qParentRotate);
+				m_matWS = matParent*matLocal;
+			}
+
+		}
+		else
+		{
+			m_matWS = matLocal;
+		}
+		m_matWS.decomposition(m_tsfWS.m_vPos, m_tsfWS.m_vScale, m_tsfWS.m_qRot);
+
+		m_nNeedChange = CT_NOTIFY;
+
+		// change children
+		for (UINT i = 0; i < m_arrChild.size(); ++i)
+		{
+			m_arrChild[i]->SetNeedChange(CT_FROMPARENT);
+		}
+
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			m_arrComp[i]->SetNeedChange(CT_FROMPARENT);
+		}
+	}
+
+
 	void SceneNode::Update()
 	{
-		if (m_bmatWSDirty)
+		if (this->BeginMatrix())
 		{
-			UpdateMatWorld();
-	
-			m_bmatWSDirty = false;
+			/*const Matrix4& matWorld = */this->CalcMatrix();
+			this->EndMatrix();
 		}
 
 		for (UINT i = 0; i < m_arrComp.size(); ++i)
@@ -279,7 +385,7 @@ namespace ma
 	{
 		m_tsfPS.m_vPos = vPos;
 
-		MarkDirty();
+		this->SetNeedChange(CT_PART);
 	}
 
 	const Vector3& SceneNode::GetScale() const
@@ -291,7 +397,7 @@ namespace ma
 	{
 		m_tsfPS.m_vScale = vScale;
 
-		MarkDirty();
+		this->SetNeedChange(CT_PART);
 	}
 
 	const Quaternion& SceneNode::GetRotation() const
@@ -303,10 +409,10 @@ namespace ma
 	{
 		m_tsfPS.m_qRot = qRot;
 
-		MarkDirty();
+		this->SetNeedChange(CT_PART);
 	}
 
-	const Vector3& SceneNode::GetPosWS() const
+	const Vector3& SceneNode::GetPosWS()
 	{
 		return GetTransformWS().m_vPos;
 	}
@@ -326,7 +432,7 @@ namespace ma
 		SetPos(vPosPS);
 	}
 
-	const Quaternion& SceneNode::GetRotationWS() const
+	const Quaternion& SceneNode::GetRotationWS()
 	{
 		return GetTransformWS().m_qRot;
 	}
@@ -346,7 +452,7 @@ namespace ma
 		SetRotation(qRotPS);
 	}
 
-	const Vector3& SceneNode::GetScaleWS() const
+	const Vector3& SceneNode::GetScaleWS()
 	{
 		return GetTransformWS().m_vScale;
 	}
@@ -366,12 +472,9 @@ namespace ma
 		SetScale(vScalePS);
 	}	
 	
-	const Transform& SceneNode::GetTransformWS() const
+	const Transform& SceneNode::GetTransformWS()
 	{
-		if (m_bmatWSDirty)
-		{
-			UpdateMatWorld();
-		}
+		UpdateWorldMatrix();
 
 		return m_tsfWS;
 	}
@@ -385,12 +488,9 @@ namespace ma
 		SetScaleWS(tsfWS.m_vScale);
 	}
 
-	const Matrix4& SceneNode::GetMatrixWS() const
+	const Matrix4& SceneNode::GetMatrixWS()
 	{
-		if (m_bmatWSDirty)
-		{
-			UpdateMatWorld();
-		}
+		UpdateWorldMatrix();
 	
 		return m_matWS;
 	}
@@ -438,17 +538,17 @@ namespace ma
 		Rotate(Quaternion(Radian(angle), Vector3::UNIT_Y), fixedAxis);
 	}
 
-	Vector3	SceneNode::GetForward() const
+	Vector3	SceneNode::GetForward()
 	{
 		return GetMatrixWS().GetColumn(1);
 	}
 
-	Vector3	SceneNode::GetRight() const
+	Vector3	SceneNode::GetRight()
 	{
 		return GetMatrixWS().GetColumn(0);
 	}
 
-	Vector3	SceneNode::GetUp() const
+	Vector3	SceneNode::GetUp()
 	{
 		return GetMatrixWS().GetColumn(2);
 	}
@@ -506,39 +606,6 @@ namespace ma
 	void SceneNode::LookAt(const Vector3& vTarget)
 	{
 		LookAt(GetPos(),vTarget);
-	}
-
-	void SceneNode::MarkDirty()
-	{
-		m_bmatWSDirty = true;
-
-		for (VEC_COMP::iterator iter  = m_arrComp.begin(); iter != m_arrComp.end(); ++iter)
-		{
-			(*iter)->MarkDirty();	
-		}
-
-		for (VEC_CHILD::iterator iter = m_arrChild.begin();iter != m_arrChild.end();++iter)
-		{
-			(*iter)->MarkDirty();
-		}
-	}
-
-	void SceneNode::UpdateMatWorld() const
-	{
-		if (m_pParent == NULL)
-		{
-			m_matWS.makeTransform(m_tsfPS.m_vPos,m_tsfPS.m_vScale,m_tsfPS.m_qRot);
-			m_tsfWS = m_tsfPS;
-		}
-		else
-		{
-			Matrix4 matPS;
-			matPS.makeTransform(m_tsfPS.m_vPos,m_tsfPS.m_vScale,m_tsfPS.m_qRot);
-			m_matWS = m_pParent->GetMatrixWS() * matPS;
-			TransformFromMatrix(&m_tsfWS,&m_matWS);
-		}
-
-		m_bmatWSDirty = false;
 	}
 
 	RefPtr<SceneNode> CreateSceneNode()

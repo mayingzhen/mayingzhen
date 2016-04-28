@@ -16,6 +16,14 @@ namespace ma
 
 		static void			RegisterAttribute();
 
+		virtual void		Update();
+
+		virtual void		LookAt(const Vector3& vEye, const Vector3& vAt);
+
+		virtual Vector3		GetForward();
+		virtual Vector3		GetRight();		
+		virtual Vector3		GetUp();
+
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
 		const Matrix4&		GetMatView();
@@ -44,15 +52,20 @@ namespace ma
 
 		const Frustum&		GetFrustum() const {return m_frustum;}
 
+		void				Yaw(const Radian& fParam);
+		void				Pitch(const Radian& fParam);
+
 	protected:
 
 		Vector2				GetNearPlaneSize() const;
 
-		virtual void		MarkDirty();
+		void				UpdateViewMatrix(const Matrix4& matWorldEye);
+		void				UpdateViewProjMatrix();
 
 	private:
-		MatViewProj			m_matViewProj;
-
+		Matrix4				m_matView, m_matViewInv;
+		Matrix4				m_matProj, m_matProjInv;
+		Matrix4				m_matVP, m_matVPInv;
 		float				m_fAspect;
 		float				m_fFOV;	
 		float				m_fNear;
@@ -63,7 +76,10 @@ namespace ma
 		float				m_fNearMin;		
 
 		Frustum				m_frustum;
-	};
+	
+		RefPtr<SceneNode>	m_atNode;
+		RefPtr<SceneNode>	m_eyeNode;
+ 	};
 	
 	RefPtr<Camera> CreateCamera();
 }
