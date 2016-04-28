@@ -26,9 +26,9 @@ namespace ma
 		virtual ShaderProgram*		CreateShaderProgram();
 
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
-		virtual	Texture*			GetRenderTarget(int index = 0);
+		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
-		virtual Texture*			GetDepthStencil();
+		virtual Texture*			GetDefaultDepthStencil();
 		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
 
@@ -118,10 +118,10 @@ namespace ma
 
 		HWND						m_hWnd;
 
-		ID3D11RenderTargetView* defaultRenderTargetView_;
 
-		ID3D11Texture2D* defaultDepthTexture_;
-		ID3D11DepthStencilView* defaultDepthStencilView_;
+		RefPtr<D3D11Texture>	defaultRenderTargetTexture;
+		RefPtr<D3D11Texture>	defaultDepthStencilTexture;
+
 
 		ID3D11RenderTargetView*		m_pRenderTarget[MAX_RENDERTARGETS];
 		ID3D11DepthStencilView*		m_pDepthStencil;

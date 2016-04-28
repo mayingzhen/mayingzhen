@@ -55,6 +55,9 @@ namespace ma
 		void				Yaw(const Radian& fParam);
 		void				Pitch(const Radian& fParam);
 
+		SceneNode*			GetEyeNode() {return m_eyeNode.get();}
+		SceneNode*			GetAtNode() {return m_atNode.get();}
+
 	protected:
 
 		Vector2				GetNearPlaneSize() const;

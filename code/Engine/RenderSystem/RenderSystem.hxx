@@ -220,9 +220,9 @@ namespace ma
 
 		for (int i = 0; i < MAX_RENDER_TARGET; ++i)
 		{
-			m_pRenderTarget[i] = GetRenderDevice()->GetRenderTarget(i);
+			m_pRenderTarget[i] = GetRenderDevice()->GetDefaultRenderTarget(i);
 		}
-		m_pDepthStencil = GetRenderDevice()->GetDepthStencil();
+		m_pDepthStencil = GetRenderDevice()->GetDefaultDepthStencil();
 		m_curViewport = GetRenderDevice()->GetViewport();
 	
 		LineRender::Init();
@@ -335,7 +335,7 @@ namespace ma
 		
 		m_pRenderThread->RC_SetRenderTarget(pTexture.get(),index);
 		
-		m_pRenderTarget[index] = pTexture;
+		m_pRenderTarget[index] = pTexture.get();
 
 		return pPreTarget;
 	}
@@ -351,7 +351,7 @@ namespace ma
 		
 		m_pRenderThread->RC_SetDepthStencil(pTexture.get());
 
-		m_pDepthStencil = pTexture;
+		m_pDepthStencil = pTexture.get();
 
 		return pPreDepth;
 	}

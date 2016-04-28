@@ -150,8 +150,8 @@ namespace ma
  		RenderThread*		m_pRenderThread;
  		
 		enum {MAX_RENDER_TARGET = 4};
-		RefPtr<Texture>		m_pDepthStencil;
-		RefPtr<Texture>		m_pRenderTarget[MAX_RENDER_TARGET];
+		Texture*			m_pDepthStencil;
+		Texture*			m_pRenderTarget[MAX_RENDER_TARGET];
 		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
 		RenderState			m_curState;

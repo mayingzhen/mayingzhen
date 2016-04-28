@@ -26,9 +26,9 @@ namespace ma
 		
 		//// Render
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
-		virtual	Texture*			GetRenderTarget(int index = 0);
+		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
-		virtual Texture*			GetDepthStencil();
+		virtual Texture*			GetDefaultDepthStencil();
 		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
 

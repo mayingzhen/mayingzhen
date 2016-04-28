@@ -20,6 +20,9 @@ namespace ma
 
 		ID3D11RenderTargetView* GetRenderTargetView() {return m_pRenderTargetView;}	
 		void SetRenderTargetView(ID3D11RenderTargetView* pView) {m_pRenderTargetView = pView;}
+		
+		ID3D11Texture2D* GetTexture2D() {return m_pD3D11Tex2D;}
+		void SetTexture2D(ID3D11Texture2D* pTex) {m_pD3D11Tex2D = pTex;}
 
 	private:
 		virtual	bool			RT_CreateTexture();		

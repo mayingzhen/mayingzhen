@@ -118,17 +118,6 @@ namespace ma
 	{
 		m_hWnd = NULL;
 
-		SAFE_RELEASE(defaultRenderTargetView_);
-		SAFE_RELEASE(defaultDepthTexture_);
-		SAFE_RELEASE(defaultDepthStencilView_);
-
-		for (uint32 i = 0; i < MAX_RENDERTARGETS; ++i)
-		{
-			SAFE_RELEASE(m_pRenderTarget[i]);
-		}
-
-		SAFE_RELEASE(m_pDepthStencil);
-
 		for (map<unsigned, ID3D11RasterizerState*>::iterator it = rasterizerStates_.begin(); 
 			it != rasterizerStates_.end(); ++it)
 		{
@@ -164,7 +153,19 @@ namespace ma
 
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
-		//SAFE_RELEASE(m_pD3DDevice);
+
+// #if defined(DEBUG) || defined(_DEBUG)
+// 		ID3D11Debug *d3dDebug;
+// 		HRESULT hr = m_pD3DDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&d3dDebug));
+// 		if (SUCCEEDED(hr))
+// 		{
+// 			hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+// 		}
+// 		if (d3dDebug != NULL)			
+// 			d3dDebug->Release();
+// #endif
+
+		SAFE_RELEASE(m_pD3DDevice);
 	}
 
 	void D3D11RenderDevice::Init(HWND wndhandle)
@@ -245,6 +246,11 @@ namespace ma
 
 	bool D3D11RenderDevice::UpdateSwapChain(int width, int height)
 	{
+		ID3D11RenderTargetView* defaultRenderTargetView;
+
+		ID3D11Texture2D* defaultDepthTexture;
+		ID3D11DepthStencilView* defaultDepthStencilView;
+
 		m_pSwapChain->ResizeBuffers(1, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
 		// Create default rendertarget view representing the backbuffer
@@ -252,7 +258,7 @@ namespace ma
 		m_pSwapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backbufferTexture);
 		if (backbufferTexture)
 		{
-			m_pD3DDevice->CreateRenderTargetView(backbufferTexture, 0, &defaultRenderTargetView_);
+			m_pD3DDevice->CreateRenderTargetView(backbufferTexture, 0, &defaultRenderTargetView);
 			backbufferTexture->Release();
 		}
 		else
@@ -275,17 +281,24 @@ namespace ma
 		depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		depthDesc.CPUAccessFlags = 0;
 		depthDesc.MiscFlags = 0;
-		m_pD3DDevice->CreateTexture2D(&depthDesc, 0, &defaultDepthTexture_);
-		if (defaultDepthTexture_)
-			m_pD3DDevice->CreateDepthStencilView(defaultDepthTexture_, 0, &defaultDepthStencilView_);
+		m_pD3DDevice->CreateTexture2D(&depthDesc, 0, &defaultDepthTexture);
+		if (defaultDepthTexture)
+			m_pD3DDevice->CreateDepthStencilView(defaultDepthTexture, 0, &defaultDepthStencilView);
 		else
 		{
 			LogError("Failed to create backbuffer depth-stencil texture");
 			return false;
 		}
 
-		m_pDepthStencil = defaultDepthStencilView_;
-		m_pRenderTarget[0] = defaultRenderTargetView_;
+		m_pDepthStencil = defaultDepthStencilView;
+		m_pRenderTarget[0] = defaultRenderTargetView;
+
+		defaultRenderTargetTexture = new D3D11Texture(-1,-1);
+		defaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
+	
+		defaultDepthStencilTexture = new D3D11Texture(-1,-1);
+		defaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
+		defaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
 
 		SetViewport(Rectangle(0, 0, (float)width, (float)height));
 
@@ -323,13 +336,9 @@ namespace ma
 		}
 	}
 
-	Texture* D3D11RenderDevice::GetRenderTarget(int index)
+	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
 	{
-		D3D11Texture* pD3D11Target = new D3D11Texture(-1,-1);
-	
-		pD3D11Target->SetRenderTargetView(defaultRenderTargetView_);
-
-		return pD3D11Target;
+		return defaultRenderTargetTexture.get();
 	}
 
 
@@ -343,13 +352,9 @@ namespace ma
 		}
 	}
 
-	Texture* D3D11RenderDevice::GetDepthStencil()
+	Texture* D3D11RenderDevice::GetDefaultDepthStencil()
 	{
-		D3D11Texture* pDepthStencil = new D3D11Texture(-1,-1);
-
-		pDepthStencil->SetDepthStencilView(defaultDepthStencilView_);
-
-		return pDepthStencil;
+		return defaultDepthStencilTexture.get();
 	}
 
 	void D3D11RenderDevice::SetViewport(const Rectangle& rect)
@@ -559,12 +564,6 @@ namespace ma
 
 		if (m_bRenderTargetsDirty)
 		{
-			if (m_pDepthStencil == NULL)
-				m_pDepthStencil = defaultDepthStencilView_;
-
-			if (m_pRenderTarget[0] == NULL )
-				m_pRenderTarget[0] = defaultRenderTargetView_;
-
 			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 			m_bRenderTargetsDirty = false;
 		}

@@ -32,9 +32,9 @@ namespace ma
 	{
 	private:
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0) = 0;
-		virtual	Texture*			GetRenderTarget(int index = 0) = 0;
+		virtual	Texture*			GetDefaultRenderTarget(int index = 0) = 0;
 		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
-		virtual	Texture*			GetDepthStencil() = 0;
+		virtual	Texture*			GetDefaultDepthStencil() = 0;
 		virtual void				SetViewport(const Rectangle& rect) = 0;
 		virtual Rectangle			GetViewport() = 0;
 

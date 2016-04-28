@@ -73,7 +73,7 @@ namespace ma
 		if (pInput == NULL)
 			return;
 		
-		m_pAnimComp->SetGoalWorldSpace(m_pCamera->GetPosWS());
+		m_pAnimComp->SetGoalWorldSpace(m_pCamera->GetEyeNode()->GetPosWS());
 	}
 
 }

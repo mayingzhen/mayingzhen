@@ -74,7 +74,7 @@ namespace ma
 
 	void AnimationComponent::SetGoalWorldSpace(Vector3 vGoalWS)
 	{
-		if (m_pAnimation)
+		if (m_pAnimation && m_pSceneNode)
 		{
 			Matrix4 matWSInv = m_pSceneNode->GetMatrixWS().inverse();
 			Vector3 vGoalOS = matWSInv * vGoalWS;

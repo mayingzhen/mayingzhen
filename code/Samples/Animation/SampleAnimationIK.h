@@ -22,7 +22,7 @@ namespace ma
 		virtual void	keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 
 	private:
-		AnimationComponent* m_pAnimComp;
+		RefPtr<AnimationComponent> m_pAnimComp;
 	};
 }
 

@@ -19,6 +19,12 @@ namespace ma
 	{
 		SAFE_RELEASE(m_pVertexShader);
 		SAFE_RELEASE(m_pPiexelShader);
+
+		for (uint32 i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		{
+			vsConstantBuffers_[i] = NULL;
+			psConstantBuffers_[i] = NULL;
+		}
 	}
 
 	void D3D11ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)

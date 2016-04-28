@@ -282,7 +282,7 @@ namespace ma
 		}
 	}
 
-	Texture* GLESRenderDevice::GetRenderTarget(int index)
+	Texture* GLESRenderDevice::GetDefaultRenderTarget(int index)
 	{
 		if (index > 0)
 			 return NULL;
@@ -324,7 +324,7 @@ namespace ma
 		}
 	}
 
-	Texture* GLESRenderDevice::GetDepthStencil()
+	Texture* GLESRenderDevice::GetDefaultDepthStencil()
 	{
 		GLESTexture* pGLESTarget = new GLESTexture(-1,-1);
 

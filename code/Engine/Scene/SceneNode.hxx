@@ -21,6 +21,10 @@ namespace ma
 
 	SceneNode::~SceneNode()
 	{
+		for (uint32 i = 0; i < m_arrComp.size(); ++i)
+		{
+			m_arrComp[i]->SetSceneNode(NULL);
+		}
 		m_arrComp.clear();
 
 		this->RemoveAllChild();
