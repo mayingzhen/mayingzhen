@@ -229,10 +229,10 @@ string StaticFunc::GetFilePath(const string& strFile)
 string StaticFunc::GetFileDir(const string& strFile)
 {
     string strPath;
-    int index = strFile.find_last_of( "\\" );
-    if ( index == -1 )
-        index = strFile.find_last_of( "/" );
-    if ( index==-1 )
+    int index1 = strFile.find_last_of( "\\" );
+    int index2 = strFile.find_last_of( "/" );
+	int index = __max(index1,index2);
+    if (index == -1)
     {
         return "";
     }

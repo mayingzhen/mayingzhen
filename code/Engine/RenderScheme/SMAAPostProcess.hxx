@@ -16,7 +16,7 @@ namespace ma
 		if (m_bLinearizeDepthEnabled)
 		{
 			m_pDepthEdgeDetection = CreateTechnique("DepthEdgeDetection","smaa/DepthEdgeDetection","smaa/DepthEdgeDetection",""); 
-			m_pDepthEdgeDetection->m_eDepthCheckMode = CMPF_ALWAYS_FAIL;
+			m_pDepthEdgeDetection->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 			m_pDepthEdgeDetection->m_bDepthWrite = false;
 			m_pDepthEdgeDetection->m_bSRGBWrite = false;
 			m_pDepthEdgeDetection->m_bStencil = true;
@@ -33,7 +33,7 @@ namespace ma
 		else
 		{
 			m_pColorEdgeDetection = CreateTechnique("ColorEdgeDetection","smaa/coloredgedetection","smaa/coloredgedetection","");
-			m_pColorEdgeDetection->m_eDepthCheckMode = CMPF_ALWAYS_FAIL;
+			m_pColorEdgeDetection->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 			m_pColorEdgeDetection->m_bDepthWrite = false;
 			m_pColorEdgeDetection->m_bSRGBWrite = false;
 			m_pColorEdgeDetection->m_bStencil = true;
@@ -49,7 +49,7 @@ namespace ma
 		}
 
 		m_pBlendWeightCalculation = CreateTechnique("BlendWeightCalculation","smaa/BlendWeightCalculation","smaa/BlendWeightCalculation","");
-		m_pBlendWeightCalculation->m_eDepthCheckMode = CMPF_ALWAYS_FAIL;
+		m_pBlendWeightCalculation->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 		m_pBlendWeightCalculation->m_bDepthWrite = false;
 		m_pBlendWeightCalculation->m_bSRGBWrite = false;
 		m_pBlendWeightCalculation->m_bStencil = true;
@@ -61,7 +61,7 @@ namespace ma
 		m_pBlendWeightCalculation->m_eDepthFailOp = SOP_KEEP;
 		m_pBlendWeightCalculation->m_eStencilPass = SOP_KEEP;
 
-		m_pAreadTex = CreateSamplerState("AreaTexDX9.dds",CLAMP,TFO_BILINEAR,false);
+		m_pAreadTex = CreateSamplerState("AreaTexDX10.dds",CLAMP,TFO_BILINEAR,false);
 		m_pAreadTex->SetWrapModeW(CLAMP);
 		m_pBlendWeightCalculation->SetParameter("areaTex",Any(m_pAreadTex));
 
@@ -72,8 +72,8 @@ namespace ma
 		//m_pBlendWeightCalculation->SaveToXML("tech/BlendWeightCalculation.tech");
 
 		m_pNeiborhoodBlending = CreateTechnique("NeiborhoodBlending","smaa/NeiborhoodBlending","smaa/NeiborhoodBlending","");
+		m_pNeiborhoodBlending->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
 		m_pNeiborhoodBlending->m_bDepthWrite = false;
-		m_pNeiborhoodBlending->m_eDepthCheckMode = CMPF_ALWAYS_FAIL;
 		m_pNeiborhoodBlending->m_bStencil = false;
 		m_pNeiborhoodBlending->m_bSRGBWrite = true;
 
@@ -127,32 +127,58 @@ namespace ma
 	{
 		RENDER_PROFILE(SMAAPostProcess);
 
+		//GetRenderSystem()->SetRenderTarget(NULL,0);
+
 		// Pass1 EdgeDetection
-		GetRenderSystem()->SetRenderTarget(m_pTexEdge.get(),0);
-		GetRenderSystem()->ClearBuffer(true,false,true, ColourValue::ZERO, 1.0f, 0);
-
-		if (m_bLinearizeDepthEnabled)
 		{
-			ScreenQuad::Render(m_pDepthEdgeDetection.get());
-		}
-		else 
-		{
-			ScreenQuad::Render(m_pColorEdgeDetection.get());
+			GetRenderSystem()->SetRenderTarget(m_pTexEdge.get(),0);
+			GetRenderSystem()->ClearBuffer(true,false,true, ColourValue::ZERO, 1.0f, 0);
+
+			if (m_bLinearizeDepthEnabled)
+			{
+				ScreenQuad::Render(m_pDepthEdgeDetection.get());
+			}
+			else 
+			{
+				ScreenQuad::Render(m_pColorEdgeDetection.get());
+			}
+
+			//GetRenderSystem()->SetRenderTarget(NULL,0);
+			
+			Texture* pTexture = NULL;
+			Uniform* pSrcColor = m_pColorEdgeDetection->GetShaderProgram()->GetUniform("tSrcColor");
+			GetRenderSystem()->SetValue(pSrcColor,pTexture);
 		}
 
+	
 		// Pass2 BlendWeightCalculation
 		{
 			GetRenderSystem()->SetRenderTarget(m_pTexBlend.get(),0);
 			GetRenderSystem()->ClearBuffer(true,false,false, ColourValue::ZERO, 1.0f, 0);
 
 			ScreenQuad::Render(m_pBlendWeightCalculation.get());
+
+			//GetRenderSystem()->SetRenderTarget(NULL,0);
+
+			Texture* pTexture = NULL;
+			Uniform* pSrcColor = m_pBlendWeightCalculation->GetShaderProgram()->GetUniform("tSrcColor");
+			GetRenderSystem()->SetValue(pSrcColor,pTexture);
 		}
 
 		// Pass3 NeiborhoodBlending
 		{
 			GetRenderSystem()->SetRenderTarget(m_pOutputTex.get(),0);
 
-			ScreenQuad::Render(m_pNeiborhoodBlending.get());	
+			ScreenQuad::Render(m_pNeiborhoodBlending.get());
+
+			//GetRenderSystem()->SetRenderTarget(NULL,0);
+
+			Texture* pTexture = NULL;
+			Uniform* pSrcColor = m_pNeiborhoodBlending->GetShaderProgram()->GetUniform("tSrcColor");
+			GetRenderSystem()->SetValue(pSrcColor,pTexture);
+
+			Uniform* pBlendTex = m_pNeiborhoodBlending->GetShaderProgram()->GetUniform("blendTex");
+			GetRenderSystem()->SetValue(pBlendTex,pTexture);
 		}
 	}
 

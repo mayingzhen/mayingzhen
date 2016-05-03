@@ -14,7 +14,7 @@ namespace ma
 			m_pDeferredLightPass = new DeferredLightPass(pScene);
 		}
 
-		//m_pSMAA = new SMAAPostProcess();
+		m_pSMAA = new SMAAPostProcess();
 	}
 
 	void RenderScheme::Init()

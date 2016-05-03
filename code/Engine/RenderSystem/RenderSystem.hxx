@@ -242,12 +242,12 @@ namespace ma
 
 	void RenderSystem::RT_BeginRender()
 	{
-		GetRenderDevice()->BeginRender();
-
 		for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		{
 			GetRenderDevice()->SetTexture(i,NULL);
 		}
+
+		GetRenderDevice()->BeginRender();
 	}
 
 	void RenderSystem::RT_EndRender()
@@ -609,7 +609,7 @@ namespace ma
 	void RenderSystem::SetValue(Uniform* uniform, Texture* pTexture)
 	{
 		ASSERT(uniform);
-		ASSERT(pTexture);
+		//ASSERT(pTexture);
 
 		//if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
 		{

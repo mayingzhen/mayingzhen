@@ -312,7 +312,10 @@
 
 // Set the HLSL version:
 #define SMAA_HLSL_4 1
-float4 SMAA_RT_METRICS;
+cbuffer ObjectVS : register(b5)
+{
+	float4 SMAA_RT_METRICS;
+}
 
 
 #if defined(SMAA_PRESET_LOW)

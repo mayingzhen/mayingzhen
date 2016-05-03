@@ -317,6 +317,13 @@ namespace ma
 
 	void D3D11RenderDevice::BeginRender()
 	{
+		ID3D11ShaderResourceView* pTextures[MAX_TEXTURE_UNITS];
+		for (int i = 0;i< MAX_TEXTURE_UNITS;++i)
+		{
+			pTextures[i] = NULL;
+		}
+		GetD3D11DxDeviveContext()->VSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
+		GetD3D11DxDeviveContext()->PSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
 	}
 
 	void D3D11RenderDevice::EndRender()
@@ -328,11 +335,25 @@ namespace ma
 
 	void D3D11RenderDevice::SetRenderTarget(Texture* pTexture,int index)
 	{
-		D3D11Texture* pD3D11Texture = (D3D11Texture*)pTexture;
-		if ( m_pRenderTarget[index] != pD3D11Texture->GetRenderTargetView() )
+		if (pTexture == NULL)
 		{
-			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
+			m_pRenderTarget[index] = NULL;
 			m_bRenderTargetsDirty = true;
+		}
+		else
+		{
+			D3D11Texture* pD3D11Texture = (D3D11Texture*)pTexture;
+			if ( m_pRenderTarget[index] != pD3D11Texture->GetRenderTargetView() )
+			{
+				m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
+				m_bRenderTargetsDirty = true;
+			}
+		}
+
+		if (m_bRenderTargetsDirty)
+		{
+			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+			m_bRenderTargetsDirty = false;
 		}
 	}
 
@@ -349,6 +370,12 @@ namespace ma
 		{
 			m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
 			m_bRenderTargetsDirty = true;
+		}
+
+		if (m_bRenderTargetsDirty)
+		{
+			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+			m_bRenderTargetsDirty = false;
 		}
 	}
 
@@ -545,6 +572,12 @@ namespace ma
 
 	void D3D11RenderDevice::CommitChanges()
 	{
+// 		if (m_bRenderTargetsDirty)
+// 		{
+//			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+//			m_bRenderTargetsDirty = false;
+// 		}
+
 		if (texturesDirty_ && firstDirtyTexture_ < M_MAX_UNSIGNED)
 		{
 			m_pDeviceContext->PSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
@@ -560,12 +593,6 @@ namespace ma
 
 			firstDirtySamplerState_ = lastDirtySamplerState_ = M_MAX_UNSIGNED;
 			samplerStatesDirty_ = false;
-		}
-
-		if (m_bRenderTargetsDirty)
-		{
-			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-			m_bRenderTargetsDirty = false;
 		}
 
 		if (vertexDeclarationDirty_ && m_pShader && m_pShader->GetByteVSCodeSize())
@@ -686,8 +713,6 @@ namespace ma
 				map<unsigned, ID3D11DepthStencilState*>::iterator i = depthStates_.find(newDepthStateHash);
 				if (i == depthStates_.end())
 				{
-					//URHO3D_PROFILE(CreateDepthState);
-
 					D3D11_DEPTH_STENCIL_DESC stateDesc;
 					memset(&stateDesc, 0, sizeof stateDesc);
 					stateDesc.DepthEnable = TRUE;
@@ -700,10 +725,12 @@ namespace ma
 					stateDesc.FrontFace.StencilDepthFailOp = D3D11Mapping::get(m_renderState.m_eDepthFailOp);
 					stateDesc.FrontFace.StencilPassOp = D3D11Mapping::get(m_renderState.m_eStencilPass);
 					stateDesc.FrontFace.StencilFunc = D3D11Mapping::get(m_renderState.m_eStencilfunc);
-					//stateDesc.BackFace.StencilFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					//stateDesc.BackFace.StencilDepthFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					//stateDesc.BackFace.StencilPassOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					//stateDesc.BackFace.StencilFunc = D3D11Mapping::get(m_renderState.m_eStencilFail);
+					
+					// BackFace
+					stateDesc.BackFace.StencilFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
+					stateDesc.BackFace.StencilDepthFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
+					stateDesc.BackFace.StencilPassOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
+					stateDesc.BackFace.StencilFunc = D3D11_COMPARISON_NEVER;
 
 					ID3D11DepthStencilState* newDepthState = 0;
 					m_pD3DDevice->CreateDepthStencilState(&stateDesc, &newDepthState);
@@ -744,8 +771,6 @@ namespace ma
 				map<unsigned, ID3D11RasterizerState*>::iterator i = rasterizerStates_.find(newRasterizerStateHash);
 				if (i == rasterizerStates_.end())
 				{
-					//URHO3D_PROFILE(CreateRasterizerState);
-
 					D3D11_RASTERIZER_DESC stateDesc;
 					memset(&stateDesc, 0, sizeof stateDesc);
 					stateDesc.FillMode = D3D11Mapping::get(m_renderState.m_eFillMode);
