@@ -11,8 +11,8 @@ namespace ma
 		m_PixelFormat = 0;
 	}
 
-	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage)
-		:Texture(nWidth,nHeight,eFormat,eUsage)
+	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
+		:Texture(nWidth,nHeight,eFormat,bTypeLess,bSRGB,eUsage)
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;
@@ -116,6 +116,11 @@ namespace ma
 		return true;
 	}
  
+	bool GLESTexture::RT_CreateRenderTarget()
+	{
+		return true;
+	}
+
 
 	void getBestDepthStencil(GLuint *depthFormat, GLuint *stencilFormat)
     {

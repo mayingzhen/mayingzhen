@@ -153,6 +153,8 @@ namespace ma
 
 	void CameraController::keyEvent( Keyboard::KeyEvent evt, Keyboard::Key key )
 	{
+		return;
+
 		switch(evt)
 		{
 		case Keyboard::KEY_PRESS:

@@ -41,7 +41,7 @@ namespace ma
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
 			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, strShaderMacro.c_str());
 		
-			if (GetDeviceCapabilities()->GetD24S8Supported())
+			//if (GetDeviceCapabilities()->GetD24S8Supported())
 			{
 				m_pShadowDepthTech->m_bColorWrite = false;
 			}

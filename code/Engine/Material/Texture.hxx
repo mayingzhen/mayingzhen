@@ -14,18 +14,20 @@ namespace ma
 		m_eType = TEXTYPE_2D;
 		m_bMipMap = false;
 		m_bSRGB = false;
+		m_bTypeLess = false;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage) 
+	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
 		m_nMipLevels = 1;
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
+		m_bTypeLess = bTypeLess;
+		m_bSRGB = bSRGB;
 		m_eType = TEXTYPE_2D;
 		m_bMipMap = false;
-		m_bSRGB = false;
 	}
 
 	Texture::~Texture()
@@ -269,8 +271,17 @@ namespace ma
 		SamplerState* pSampler = new SamplerState();
 		pSampler->SetWrapMode(eWrap);
 		pSampler->SetFilterMode(eFilter);
-		pSampler->SetSRGB(bSRGB);
-		pSampler->SetTexture(pTexutre);
+		//pSampler->SetSRGB(bSRGB);
+// 		if (pTexutre->GetSRGB() == bSRGB)
+// 		{
+// 			pSampler->SetTexture(pTexutre);
+// 		}
+// 		else
+// 		{
+// 			RefPtr<Texture> pNewTexure = GetRenderSystem()->CreateTexture(pTexutre,bSRGB,);
+// 			pSampler->SetTexture(pNewTexure.get);
+// 		}
+		
 		return pSampler;
 	}
 

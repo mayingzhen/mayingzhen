@@ -18,7 +18,7 @@ namespace ma
 
 	void DeferredShadowPass::Reset()
 	{
-		m_pShadowTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT16_R);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_R);
 	}
 
 	void DeferredShadowPass::Render()

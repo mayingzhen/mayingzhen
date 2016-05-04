@@ -1101,6 +1101,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\FrameBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\FrameBuffer.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderContext.h"
 				>
 			</File>

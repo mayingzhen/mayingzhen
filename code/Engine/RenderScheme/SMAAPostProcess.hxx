@@ -90,10 +90,10 @@ namespace ma
 		m_pInputTex = pInput;
 		m_pOutputTex = pOutput;
 			
-		m_pTexEdge = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,PF_A8R8G8B8,USAGE_RENDERTARGET); 
+		m_pTexEdge = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_A8R8G8B8,USAGE_RENDERTARGET); 
 		RefPtr<SamplerState> pSamplerEdge = CreateSamplerState(m_pTexEdge.get(),CLAMP,TFO_TRILINEAR,false);
 
-		m_pTexBlend = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,PF_A8R8G8B8,USAGE_RENDERTARGET);
+		m_pTexBlend = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_A8R8G8B8,USAGE_RENDERTARGET);
 		RefPtr<SamplerState> pSamplerBlend = CreateSamplerState(m_pTexBlend.get(),CLAMP,TFO_TRILINEAR,false);
 
 		RefPtr<SamplerState> pSrcSampler = CreateSamplerState(m_pInputTex.get(),CLAMP,TFO_TRILINEAR,false);
@@ -127,8 +127,6 @@ namespace ma
 	{
 		RENDER_PROFILE(SMAAPostProcess);
 
-		//GetRenderSystem()->SetRenderTarget(NULL,0);
-
 		// Pass1 EdgeDetection
 		{
 			GetRenderSystem()->SetRenderTarget(m_pTexEdge.get(),0);
@@ -142,8 +140,6 @@ namespace ma
 			{
 				ScreenQuad::Render(m_pColorEdgeDetection.get());
 			}
-
-			//GetRenderSystem()->SetRenderTarget(NULL,0);
 			
 			Texture* pTexture = NULL;
 			Uniform* pSrcColor = m_pColorEdgeDetection->GetShaderProgram()->GetUniform("tSrcColor");
@@ -158,8 +154,6 @@ namespace ma
 
 			ScreenQuad::Render(m_pBlendWeightCalculation.get());
 
-			//GetRenderSystem()->SetRenderTarget(NULL,0);
-
 			Texture* pTexture = NULL;
 			Uniform* pSrcColor = m_pBlendWeightCalculation->GetShaderProgram()->GetUniform("tSrcColor");
 			GetRenderSystem()->SetValue(pSrcColor,pTexture);
@@ -170,8 +164,6 @@ namespace ma
 			GetRenderSystem()->SetRenderTarget(m_pOutputTex.get(),0);
 
 			ScreenQuad::Render(m_pNeiborhoodBlending.get());
-
-			//GetRenderSystem()->SetRenderTarget(NULL,0);
 
 			Texture* pTexture = NULL;
 			Uniform* pSrcColor = m_pNeiborhoodBlending->GetShaderProgram()->GetUniform("tSrcColor");

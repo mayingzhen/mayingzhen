@@ -16,6 +16,7 @@ namespace ma
 	class Scene;
 	class Uniform;
 	class Texture;
+	class FrameBuffer;
 
 
 	class  RenderSystem 
@@ -39,9 +40,12 @@ namespace ma
 		
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		
+		void				SetFrameBuffer(FrameBuffer* pFB);
 		RefPtr<Texture>		SetRenderTarget(RefPtr<Texture>	 pTexture,int index = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
-		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	 pTexture);	
+		RefPtr<Texture>		GetDefaultRenderTarget();
+		RefPtr<Texture>		GetDefaultDepthStencil();
+		RefPtr<Texture>		SetDepthStencil(RefPtr<Texture>	pTexture);	
 		Rectangle			SetViewPort(const Rectangle& viewPort);
 		Rectangle			GetViewPort() {return m_curViewport;}
 		
@@ -82,8 +86,8 @@ namespace ma
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
 		// Create
-		Texture*			CreateRenderTexture(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE use = USAGE_RENDERTARGET);
-		Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format = PF_D24S8);
+		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,bool bTypeLess = false,bool bSRGB = true);
+		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8,bool bTypeLess = false);
 		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);

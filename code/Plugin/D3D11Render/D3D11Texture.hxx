@@ -13,8 +13,8 @@ namespace ma
 		m_pRenderTargetView = NULL;
 	}
 
-	D3D11Texture::D3D11Texture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
-		:Texture(nWidth,nHeight,format,eUsage)
+	D3D11Texture::D3D11Texture(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
+		:Texture(nWidth,nHeight,format,bTypeLess,bSRGB,eUsage)
 	{
 		m_pD3D11Tex2D = NULL;
 		m_pD3D11ShaderResourceView = NULL;
@@ -73,6 +73,34 @@ namespace ma
 			return format;
 	}
 
+	DXGI_FORMAT GetTypelessFormat(DXGI_FORMAT format) {
+		switch(format) {
+		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+		case DXGI_FORMAT_R8G8B8A8_UNORM:
+		case DXGI_FORMAT_R8G8B8A8_UINT:
+		case DXGI_FORMAT_R8G8B8A8_SNORM:
+		case DXGI_FORMAT_R8G8B8A8_SINT:
+			return DXGI_FORMAT_R8G8B8A8_TYPELESS;
+
+		case DXGI_FORMAT_BC1_UNORM_SRGB:
+		case DXGI_FORMAT_BC1_UNORM:
+			return DXGI_FORMAT_BC1_TYPELESS;
+		case DXGI_FORMAT_BC2_UNORM_SRGB:
+		case DXGI_FORMAT_BC2_UNORM:
+			return DXGI_FORMAT_BC2_TYPELESS;
+		case DXGI_FORMAT_BC3_UNORM_SRGB:
+		case DXGI_FORMAT_BC3_UNORM:
+			return DXGI_FORMAT_BC3_TYPELESS;
+
+		// Depth
+		case DXGI_FORMAT_D24_UNORM_S8_UINT:
+			return DXGI_FORMAT_R24G8_TYPELESS;
+		};
+		
+		ASSERT(false);
+		return format;
+	}
+
 	bool IsCompressed(DXGI_FORMAT format)
 	{
 		return format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM;
@@ -86,6 +114,10 @@ namespace ma
 		if (m_bSRGB)
 		{
 			m_descFormat = GetSRGBFormat(m_descFormat);
+		}
+		if (m_bTypeLess)
+		{
+			m_descFormat = GetTypelessFormat(m_descFormat);
 		}
 
 		D3D11_TEXTURE2D_DESC textureDesc;
@@ -126,34 +158,29 @@ namespace ma
 			return false;
 		}
 
-		if (m_eUsage == USAGE_RENDERTARGET)
-		{
-			D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-			memset(&renderTargetViewDesc, 0, sizeof renderTargetViewDesc);
-			renderTargetViewDesc.Format = textureDesc.Format;
-			renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 
-			GetD3D11DxDevive()->CreateRenderTargetView((ID3D11Resource*)m_pD3D11Tex2D, &renderTargetViewDesc,&m_pRenderTargetView);
-			if (!m_pRenderTargetView)
-			{
-				LogError("Failed to create renderTarget view for texture");
-				return false;
-			}
+		return true;
+	}
+
+	bool D3D11Texture::RT_CreateRenderTarget()
+	{
+		m_eFormat = D3D11Mapping::_getClosestSupportedPF(m_eFormat);
+		m_descFormat = D3D11Mapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			m_descFormat = GetSRGBFormat(m_descFormat);
 		}
-		else if (m_eUsage == USAGE_DEPTHSTENCIL)
+
+		D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+		memset(&renderTargetViewDesc, 0, sizeof renderTargetViewDesc);
+		renderTargetViewDesc.Format = m_descFormat;
+		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+
+		GetD3D11DxDevive()->CreateRenderTargetView((ID3D11Resource*)m_pD3D11Tex2D, &renderTargetViewDesc,&m_pRenderTargetView);
+		if (!m_pRenderTargetView)
 		{
-			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-			memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
-			depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);
-			depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-
-			GetD3D11DxDevive()->CreateDepthStencilView(m_pD3D11Tex2D,&depthStencilViewDesc,&m_pDepthStencilView);
-			if (!m_pDepthStencilView)
-			{
-				LogError("Failed to create depth-stencil view for texture");
-				return false;
-			}
-
+			LogError("Failed to create renderTarget view for texture");
+			return false;
 		}
 
 		return true;
@@ -162,37 +189,6 @@ namespace ma
 
 	bool D3D11Texture::RT_CreateDepthStencil()
 	{
-		if (m_eFormat == PF_D24S8)
-		{
-			m_descFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		}
-		else
-		{
-			ASSERT(false);
-			return false;
-		}
-		
-		D3D11_TEXTURE2D_DESC textureDesc;
-		memset(&textureDesc, 0, sizeof textureDesc);
-		textureDesc.Width = (UINT)m_nWidth;
-		textureDesc.Height = (UINT)m_nHeight;
-		textureDesc.MipLevels = 1;
-		textureDesc.ArraySize = 1;
-		textureDesc.Format = m_descFormat;
-		textureDesc.SampleDesc.Count = 1;
-		textureDesc.SampleDesc.Quality = 0;
-		textureDesc.Usage = D3D11_USAGE_DEFAULT;
-		textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-		textureDesc.CPUAccessFlags = 0;
-
-		GetD3D11DxDevive()->CreateTexture2D(&textureDesc, 0, (ID3D11Texture2D**)&m_pD3D11Tex2D);
-		ASSERT(m_pD3D11Tex2D);
-		if (m_pD3D11Tex2D == NULL)
-		{
-			LogError("Failed to create DepthStencile");
-			return false;
-		}
-
 		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 		memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
 		depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);

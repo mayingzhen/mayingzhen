@@ -10,6 +10,7 @@ namespace ma
 	class DeferredShadowPass;
 	class HDRPostProcess;
 	class SMAAPostProcess;
+	class FrameBuffer;
 	class Scene;
 
 	class  RenderScheme : public Referenced
@@ -38,9 +39,12 @@ namespace ma
 		
 		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass.get(); }
 
-		Texture* GetSceneDiffuse() const {return m_pDiffuse.get();}
+		Texture* GetSceneDiffuse() const {return m_pDiffuseTex.get();}
 		Texture* GetSceneDepth() const {return m_pDepthTex.get();}
 		Texture* GetSceneNormal() const {return m_pNormalTex.get();}
+
+		void SetSMAAEnabled(bool b);
+		bool GetSMAAEnabled() const;
 
 	private:
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
@@ -51,7 +55,9 @@ namespace ma
 
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<Texture>			m_pNormalTex;
-		RefPtr<Texture>			m_pDiffuse;
+		RefPtr<Texture>			m_pDiffuseTex;
+
+		RefPtr<FrameBuffer>		m_pFrameBuffer;
 
 		Scene*					m_pScene;
 

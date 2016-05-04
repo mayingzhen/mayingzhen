@@ -19,12 +19,14 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_D3D11;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8R8G8B8,TEXTURE_USAGE eUsage = USAGE_STATIC);
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB);
+		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
 
+		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
@@ -63,7 +65,6 @@ namespace ma
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
 
 		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech);
-		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech);
 
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
@@ -83,8 +84,6 @@ namespace ma
 
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
-		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
-		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 
 		ID3D11Device*				GetDXDevive() {return m_pD3DDevice;}
 		ID3D11DeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}

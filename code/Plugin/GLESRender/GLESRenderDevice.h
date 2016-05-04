@@ -18,13 +18,15 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_GLES2;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,TEXTURE_USAGE eUsage = USAGE_STATIC);
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB);
+		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual	ShaderProgram*		CreateShaderProgram();
 		
 		//// Render
+		virtual void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
@@ -72,8 +74,6 @@ namespace ma
 		virtual void				EndRender();
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
-		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom);
-		virtual float				GetHalfPixelOffset(float fHalfPiexl);
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf);
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf);
 		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf);

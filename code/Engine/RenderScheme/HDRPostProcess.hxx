@@ -42,7 +42,7 @@ namespace ma
 		int len = 1;
 		for (int i = NUM_SUM_LUM + 1 - 1; i >= 0; --i)
 		{
-			m_lumTexs[i] =  GetRenderSystem()->CreateRenderTexture( len, len, PF_FLOAT16_R);
+			m_lumTexs[i] =  GetRenderSystem()->CreateRenderTarget( len, len, PF_FLOAT16_R);
 			len *= 4;
 		}
 
@@ -61,10 +61,10 @@ namespace ma
 			//m_pBlurPP[i]->Init();
 		}
 
-		for (int i = 0; i < AdaptedTex_NUM; ++i)
-		{
-			m_AdaptedTex[i] = GetRenderSystem()->CreateRenderTexture( 1, 1,PF_FLOAT32_R);
-		}
+// 		for (int i = 0; i < AdaptedTex_NUM; ++i)
+// 		{
+// 			m_AdaptedTex[i] = GetRenderSystem()->CreateRenderTarget( 1, 1,PF_FLOAT32_R);
+// 		}
 
 
 

@@ -1,6 +1,7 @@
 #include "RenderScheme.h"
 #include "HDRPostProcess.h"
 #include "SMAAPostProcess.h"
+#include "../RenderSystem/FrameBuffer.h"
 
 namespace ma
 {
@@ -8,17 +9,18 @@ namespace ma
 	{
 		m_eType = eType;
 		m_pScene = pScene;
+		m_pFrameBuffer = new FrameBuffer();
 
 		if (eType == DeferredShading)
 		{
 			m_pDeferredLightPass = new DeferredLightPass(pScene);
 		}
-
-		m_pSMAA = new SMAAPostProcess();
 	}
 
 	void RenderScheme::Init()
 	{
+		Shoutdown();
+
 		if (m_pDeferredLightPass)
 		{
 			m_pDeferredLightPass->Init();
@@ -44,28 +46,27 @@ namespace ma
 	{
 		if (m_eType == DeferredShading)
 		{
-			if (GetDeviceCapabilities()->GetINTZSupported())
-			{
-				m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_INTZ, USAGE_DEPTHSTENCIL);
-			}
-			else
-			{
-				m_pDepthTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT32_R);
-			}
+			m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8,true);
+			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8);
+			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8);
 
-			m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
-			m_pNormalTex = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+			m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
+			m_pFrameBuffer->AttachColor(0,m_pDiffuseTex.get());
+			m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
 		}
-		else
+		else if (m_eType == Forward)
 		{
 			if (m_pHDR)
 			{
-				m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_FLOAT16_RGBA);
+				m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_RGBA);
 			}
 			else if (m_pSMAA)
 			{
-				m_pDiffuse = GetRenderSystem()->CreateRenderTexture(-1, -1, PF_A8R8G8B8);
+				m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8);
 			}
+
+			m_pFrameBuffer->AttachDepthStencil( GetRenderSystem()->GetDefaultDepthStencil().get() );
+			m_pFrameBuffer->AttachColor( 0,GetRenderSystem()->GetDefaultRenderTarget().get() );
 		}
 
 		if (m_pDeferredLightPass)
@@ -78,48 +79,31 @@ namespace ma
 			m_pDeferredShadowPass->Reset();
 		}
 
-		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetRenderTarget(0);
+		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetDefaultRenderTarget();
 
 		if (m_pHDR)
 		{
-			m_pHDR->Reset(m_pDiffuse.get(),pOutputTex.get());
+			m_pHDR->Reset(m_pDiffuseTex.get(),pOutputTex.get());
 		}
 
 		if (m_pSMAA)
 		{
-			m_pSMAA->Reset(m_pDiffuse.get(),pOutputTex.get());
+			m_pSMAA->Reset(m_pDiffuseTex.get(),pOutputTex.get());
 		}
 	}
 
 	void RenderScheme::Shoutdown()
 	{
-
+		m_pDepthTex = NULL;
+		m_pNormalTex = NULL;
+		m_pDiffuseTex = NULL;
 	}
 
 	void RenderScheme::Render()
 	{
 		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
 
-		// DepthStencil
-		if (GetDeviceCapabilities()->GetINTZSupported())
-		{
-			GetRenderSystem()->SetDepthStencil(m_pDepthTex);
-		}
-
-		if (m_pDiffuse)
-		{
-			GetRenderSystem()->SetRenderTarget(m_pDiffuse,0);
-		}
-
-		if (m_eType == DeferredShading)
-		{
-			GetRenderSystem()->SetRenderTarget(m_pNormalTex,1);
-
-			if (!GetDeviceCapabilities()->GetINTZSupported())
-			{
-				GetRenderSystem()->SetRenderTarget(m_pDepthTex,2);
-			}
-		}
+		GetRenderSystem()->SetFrameBuffer(m_pFrameBuffer.get());
 
 		ColourValue cClearClor = GetRenderSystem()->GetClearColor();
 
@@ -135,14 +119,11 @@ namespace ma
 			pRenderQueue->RenderObjList(RL_Terrain);
 		}
 
-		if (m_eType == DeferredShading)
-		{
-			GetRenderSystem()->SetRenderTarget(NULL,1);
-			if (!GetDeviceCapabilities()->GetINTZSupported())
-			{
-				GetRenderSystem()->SetRenderTarget(NULL,2);
-			}
-		}
+// 		if (m_eType == DeferredShading)
+// 		{
+// 			GetRenderSystem()->SetRenderTarget(NULL,1);
+// 			GetRenderSystem()->SetRenderTarget(NULL,2);
+// 		}
 
 		if (m_pDeferredShadowPass)
 		{
@@ -170,6 +151,32 @@ namespace ma
 		{
 			m_pSMAA->Render();
 		}
+	}
+
+	void RenderScheme::SetSMAAEnabled(bool b)
+	{
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
+			return;
+
+		if (b)
+		{
+			if (m_pSMAA != NULL)
+				return;
+
+			m_pSMAA = new SMAAPostProcess();
+		}
+		else
+		{
+			m_pSMAA = NULL;
+		}
+
+		Init();
+		Reset();
+	}
+
+	bool RenderScheme::GetSMAAEnabled() const
+	{
+		return m_pSMAA != NULL;
 	}
 
 

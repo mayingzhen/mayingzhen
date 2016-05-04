@@ -1,5 +1,6 @@
 #include "ShadowMapFrustum.h"
 #include "ShadowCasterQuery.h"
+#include "../../RenderSystem/FrameBuffer.h"
 
 namespace ma
 {
@@ -27,6 +28,8 @@ namespace ma
 		m_fShadowFarDist = 0;
 
 		m_eCaterType = CasterCull_No;
+
+		m_pShadowMapFB = new FrameBuffer;
 	}
 
 	ShadowMapFrustum::~ShadowMapFrustum()
@@ -38,16 +41,10 @@ namespace ma
 	{
 		PixelFormat shadowMapColorFormat = GetDeviceCapabilities()->GetShadowMapColorFormat();
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
-		m_pShadowMapColor = GetRenderSystem()->CreateRenderTexture(nSize,nSize,shadowMapColorFormat,USAGE_RENDERTARGET);	
-
-		if (shadowMapDepthFormat != PF_UNKNOWN)
-		{
-			m_pShdowMapDepth = GetRenderSystem()->CreateRenderTexture(nSize,nSize,shadowMapDepthFormat,USAGE_DEPTHSTENCIL);
-		}
-		else
-		{
-			m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,PF_D24S8);
-		}
+		m_pShadowMapColor = GetRenderSystem()->CreateRenderTarget(nSize,nSize,shadowMapColorFormat);	
+		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat);
+		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
+		m_pShadowMapFB->AttachColor(0,m_pShadowMapColor.get());
 
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
@@ -55,15 +52,8 @@ namespace ma
 
 		m_pShadowMapSampler = new SamplerState();
 		m_pShadowMapSampler->SetWrapMode(CLAMP);
-		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
-		{
-			m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
-			m_pShadowMapSampler->SetFilterMode(TFO_SHADOWCOMPARE);
-		}
-		else
-		{
-			m_pShadowMapSampler->SetTexture( m_pShadowMapColor.get() );
-		}
+		m_pShadowMapSampler->SetTexture( m_pShdowMapDepth.get() );
+		m_pShadowMapSampler->SetFilterMode(TFO_SHADOWCOMPARE);
 	}
 
 	SamplerState* ShadowMapFrustum::GetShadowMap() const 
@@ -375,9 +365,10 @@ namespace ma
 			return;
 
 		Rectangle rPreViewport = GetRenderSystem()->SetViewPort(m_viewport);
-		RefPtr<Texture> pPreRenderTarget = GetRenderSystem()->SetRenderTarget(m_pShadowMapColor);
-		RefPtr<Texture> pPreDepthStencil = GetRenderSystem()->SetDepthStencil(m_pShdowMapDepth);
-
+		//RefPtr<Texture> pPreDepthStencil = GetRenderSystem()->SetDepthStencil(m_pShdowMapDepth);
+		//RefPtr<Texture> pPreRenderTarget = GetRenderSystem()->SetRenderTarget(m_pShadowMapColor);
+		GetRenderSystem()->SetFrameBuffer(m_pShadowMapFB.get());
+		
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.f, 0);
 
 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
@@ -410,8 +401,8 @@ namespace ma
 		}
 
 		GetRenderSystem()->SetViewPort(rPreViewport);
-		GetRenderSystem()->SetRenderTarget(pPreRenderTarget.get());
-		GetRenderSystem()->SetDepthStencil(pPreDepthStencil.get());
+		//GetRenderSystem()->SetRenderTarget(pPreRenderTarget.get());
+		//GetRenderSystem()->SetDepthStencil(pPreDepthStencil.get());
 
 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
 		{

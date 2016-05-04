@@ -20,6 +20,7 @@ namespace ma
 	class RenderState;
 	class Technique;
 	class Uniform;
+	class FrameBuffer;
 
 	enum RenderDeviceType
 	{
@@ -31,6 +32,7 @@ namespace ma
 	class IRenderDevice 
 	{
 	private:
+		virtual	void				SetFrameBuffer(FrameBuffer* pFB) = 0;
 		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0) = 0;
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0) = 0;
 		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
@@ -68,7 +70,6 @@ namespace ma
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB) = 0;
 
 		virtual void				DrawRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
-		virtual void				DrawDyRenderable(const Renderable* pRenderable,Technique* pTech) = 0;
 		virtual	void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s) = 0;
 
 		virtual	void				Init(HWND wndhandle) = 0;
@@ -85,14 +86,13 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture() = 0;
-		virtual Texture*			CreateTexture(int nWidth,int nHeight,PixelFormat format = PF_A8B8G8R8,TEXTURE_USAGE eUsage = USAGE_STATIC) = 0;
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB) = 0;
+		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;
 		virtual ShaderProgram*		CreateShaderProgram() = 0;
 
-		virtual void				ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom) = 0;
-		virtual float				GetHalfPixelOffset(float fHalfPiexl) = 0;
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		
 		virtual Matrix4				MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf) = 0;

@@ -65,6 +65,11 @@ namespace ma
 		{
 			m_pAnimComp->PlayAnimation(102);
 		}
+		else if (key == Keyboard::KEY_A)
+		{
+			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+			pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
+		}
 	}
 
 	void SampleAnimationIK::Update()

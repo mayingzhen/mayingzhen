@@ -188,7 +188,6 @@ EXPORTS
 ?DrawTransform@LineRender@ma@@SAXABUTransform@2@MM@Z
 ?DrawWireSphere@LineRender@ma@@SAXABVMatrix4@2@MVColourValue@2@@Z
 ?SetData@HardwareBuffer@ma@@QAEXPAEIHW4HBU_USAGE@2@_N@Z
-??0Texture@ma@@QAE@HHW4PixelFormat@1@W4TEXTURE_USAGE@1@@Z
 ?Lock@HardwareBuffer@ma@@UAEPAXW4LOCK@2@@Z
 ?AddSubMeshData@MeshData@ma@@QAEXPAVSubMeshData@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
@@ -218,3 +217,6 @@ EXPORTS
 ?GetPosWS@SceneNode@ma@@QAEABVVector3@2@XZ
 ?GetRotationWS@SceneNode@ma@@QAEABVQuaternion@2@XZ
 ?GetScaleWS@SceneNode@ma@@QAEABVVector3@2@XZ
+?SetSMAAEnabled@RenderScheme@ma@@QAEX_N@Z
+?GetSMAAEnabled@RenderScheme@ma@@QBE_NXZ
+??0Texture@ma@@QAE@HHW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@@Z

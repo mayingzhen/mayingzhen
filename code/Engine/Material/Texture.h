@@ -13,7 +13,7 @@ namespace ma
 	public:
 		Texture(); 
 
-		Texture(int nWidth,int nHeight,PixelFormat eFormat,TEXTURE_USAGE eUsage); // For Render Texture
+		Texture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage);
 		
 		virtual ~Texture();
 
@@ -27,6 +27,10 @@ namespace ma
 
 		virtual bool    InitRes();
 
+		void			SetMipMap(bool b) {m_bMipMap = b;}
+
+		void			SetSRGB(bool b) {m_bSRGB = b;}
+
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	
 	protected:
@@ -36,16 +40,14 @@ namespace ma
 		bool			RT_StreamComplete();  
 
 		virtual	bool	RT_CreateTexture() = 0;	
+		
+		virtual bool	RT_CreateRenderTarget() = 0;
 
 		virtual	bool	RT_CreateDepthStencil() = 0;	
 
 		virtual	bool	SetLevelData(int level, const PixelBox& src) = 0;
 
 		virtual bool	GenerateMipmaps() = 0;
-
-		void			SetMipMap(bool b) {m_bMipMap = b;}
-
-		void			SetSRGB(bool b) {m_bSRGB = b;}
 
 	protected:
 		int				m_nWidth;
@@ -57,6 +59,7 @@ namespace ma
 
 		bool			m_bMipMap;
 		bool			m_bSRGB;
+		bool			m_bTypeLess;
 
 		friend class	RenderThread;
 		friend class	TextureManager;

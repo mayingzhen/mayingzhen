@@ -6,6 +6,7 @@ namespace ma
 {
 	class Light;
 	class Texture;
+	class FrameBuffer;
 
 	enum Caster_Cull
 	{
@@ -71,7 +72,8 @@ namespace ma
 		float				m_fSlopeScaleBias[2];
 
 		Rectangle			m_viewport;	
-
+		
+		RefPtr<FrameBuffer>	m_pShadowMapFB;
 		RefPtr<Texture>		m_pShdowMapDepth;
 		RefPtr<Texture>		m_pShadowMapColor;
 		RefPtr<SamplerState> m_pShadowMapSampler;

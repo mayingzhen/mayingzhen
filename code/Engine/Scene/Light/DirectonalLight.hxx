@@ -45,15 +45,6 @@ namespace ma
 
 	void DirectonalLight::Init()
 	{
-		if ( GetDeviceCapabilities()->GetD24S8Supported() )
-		{
-			GetRenderSystem()->AddShaderGlobaMacro("USING_HW_PCF","1");
-		}
-		else if ( GetDeviceCapabilities()->GetFloatTexturesSupported() )
-		{
-			GetRenderSystem()->AddShaderGlobaMacro("USING_FLOATTEXTURE","1");
-		}		
-
 		SetMaxSplitCount(m_nMaxSplitCount);
 	}
 
@@ -67,14 +58,12 @@ namespace ma
 		if (m_bShadowEnable)
 		{
 			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "1");
-			GetRenderSystem()->AddShaderGlobaMacro("USING_TERRAIN_LIGHTMAP", "0");
-			
+	
 			Init();	
 		}
 		else
 		{
 			GetRenderSystem()->AddShaderGlobaMacro("USING_SHADOW", "0");
-			GetRenderSystem()->AddShaderGlobaMacro("USING_TERRAIN_LIGHTMAP", "1");
 
 			Clear(NULL);
 		}

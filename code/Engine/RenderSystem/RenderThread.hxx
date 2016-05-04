@@ -1,5 +1,5 @@
 #include "RenderThread.h"
-
+#include "FrameBuffer.h"
 
 namespace ma
 {
@@ -226,15 +226,27 @@ namespace ma
 		AddPointer(pRenderTarget);
 	}
 
-	void RenderThread::RC_CreateDepthStencil(Texture* pRenderTarget)
+	void RenderThread::RC_CreateDepthStencil(Texture* pDepthStecil)
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->RT_CreateDepthStencil();
+			pDepthStecil->RT_CreateDepthStencil();
 			return;
 		}
 
 		AddCommand(eRC_CreateDepthStencil);
+		AddPointer(pDepthStecil);
+	}
+
+	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
+	{
+		if (IsRenderThread())
+		{
+			pRenderTarget->RT_CreateRenderTarget();
+			return;
+		}
+
+		AddCommand(eRC_CreateRenderTarget);
 		AddPointer(pRenderTarget);
 	}
 
@@ -249,6 +261,18 @@ namespace ma
 
 		AddCommand(eRC_SetShader);
 		AddPointer(pShader);
+	}
+
+	void RenderThread::RC_SetFrameBuffer(FrameBuffer* pFB)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetFrameBuffer(pFB);
+			return;
+		}
+
+		AddCommand(eRC_SetFrameBuffer);
+		AddPointer(pFB);
 	}
 
 	void RenderThread::RC_SetRenderTarget(Texture* pTexture,int index)
@@ -660,6 +684,12 @@ namespace ma
 					pTarget->RT_CreateTexture();
 				}
 				break;
+			case eRC_CreateRenderTarget:
+				{
+					Texture* pTarget = ReadCommand<Texture*>(n);
+					pTarget->RT_CreateRenderTarget();
+				}
+				break;
 			case  eRC_CreateDepthStencil:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
@@ -670,6 +700,12 @@ namespace ma
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
 					pShader->RT_SetShader();
+				}
+				break;
+			case eRC_SetFrameBuffer:
+				{
+					FrameBuffer* pFB= ReadCommand<FrameBuffer*>(n);
+					GetRenderDevice()->SetFrameBuffer(pFB);
 				}
 				break;
 			case eRC_SetRenderTarget:

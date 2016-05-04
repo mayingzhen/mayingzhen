@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bD3D11,bRenderThread,bDataThread,bJobScheduler,"SampleAnimationIK");
+	sampleBrowser.Init(bD3D11,bRenderThread,bDataThread,bJobScheduler,"SampleShadowMap");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

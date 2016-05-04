@@ -179,15 +179,10 @@ namespace ma
 	{
 		m_mapMacros["USING_SHADOW"] = "0";
 		m_mapMacros["SHADOW_BLUR"] = "0";
+		m_mapMacros["USING_HW_PCF"] = "1";
 		m_mapMacros["ENCODENORMAL"] = "1";
 		m_mapMacros["MAX_DQ_NUM_BONES"] = "100";
 		m_mapMacros["MAX_MAT_NUM_BONES"] = "75";
-		m_mapMacros["USING_HW_PCF"] = "0";
-		m_mapMacros["USING_FLOATTEXTURE"] = "0";
-		if (!GetDeviceCapabilities()->GetINTZSupported())
-		{
-			m_mapMacros["USING_LINEARDEPTH"] = "1";	
-		}
 	}
 
 	void RenderSystem::InitCachState()
@@ -310,23 +305,36 @@ namespace ma
 
 	}
 
-	Texture* RenderSystem::CreateRenderTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE use)
+	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
 			nWidth = (int)m_curViewport.width();
 			nHeight = (int)m_curViewport.height();
 		}
-		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,use);
+		Texture* pTarget = GetRenderDevice()->CreateRenderTarget(nWidth,nHeight,format,bTypeLess,bSRGB);
 		m_pRenderThread->RC_CreateTexture(pTarget);
+		m_pRenderThread->RC_CreateRenderTarget(pTarget);
 		return pTarget;
 	}
 
-	Texture* RenderSystem::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format)
+	RefPtr<Texture> RenderSystem::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
 	{
-		Texture* pTarget = GetRenderDevice()->CreateTexture(nWidth,nHeight,format,USAGE_DEPTHSTENCIL);
+		if (nWidth == -1 || nHeight == -1)
+		{
+			nWidth = (int)m_curViewport.width();
+			nHeight = (int)m_curViewport.height();
+		}
+
+		Texture* pTarget = GetRenderDevice()->CreateDepthStencil(nWidth,nHeight,format,bTypeLess);
+		m_pRenderThread->RC_CreateTexture(pTarget);
 		m_pRenderThread->RC_CreateDepthStencil(pTarget);
 		return pTarget;
+	}
+
+	void RenderSystem::SetFrameBuffer(FrameBuffer* pFB)
+	{
+		m_pRenderThread->RC_SetFrameBuffer(pFB);
 	}
 
 	RefPtr<Texture> RenderSystem::SetRenderTarget(RefPtr<Texture> pTexture,int index)
@@ -340,9 +348,20 @@ namespace ma
 		return pPreTarget;
 	}
 
+
 	RefPtr<Texture> RenderSystem::GetRenderTarget(int index)
 	{
 		return m_pRenderTarget[index];
+	}
+
+	RefPtr<Texture> RenderSystem::GetDefaultRenderTarget()
+	{
+		return GetRenderDevice()->GetDefaultRenderTarget();
+	}
+
+	RefPtr<Texture> RenderSystem::GetDefaultDepthStencil()
+	{
+		return GetRenderDevice()->GetDefaultDepthStencil();
 	}
 
 	RefPtr<Texture> RenderSystem::SetDepthStencil(RefPtr<Texture> pTexture)

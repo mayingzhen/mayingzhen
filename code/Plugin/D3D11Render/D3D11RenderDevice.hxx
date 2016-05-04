@@ -79,9 +79,14 @@ namespace ma
 		return new D3D11Texture();
 	}
 
-	Texture* D3D11RenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
+	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
 	{
-		return new D3D11Texture(nWidth,nHeight,format,eUsage);
+		return new D3D11Texture(nWidth,nHeight,format,bTypeLess,bSRGB,USAGE_RENDERTARGET);
+	}
+
+	Texture* D3D11RenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	{
+		return new D3D11Texture(nWidth,nHeight,format,bTypeLess,false,USAGE_DEPTHSTENCIL);
 	}
 
 	VertexDeclaration* D3D11RenderDevice::CreateVertexDeclaration()
@@ -104,15 +109,6 @@ namespace ma
 		return new D3D11ShaderProgram();
 	}
 
-	void D3D11RenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
-	{
-		return;
-	}
-
-	float D3D11RenderDevice::GetHalfPixelOffset(float fHalfPiexl)
-	{
-		return fHalfPiexl;
-	}
 
 	void D3D11RenderDevice::Shoutdown()
 	{
@@ -293,10 +289,10 @@ namespace ma
 		m_pDepthStencil = defaultDepthStencilView;
 		m_pRenderTarget[0] = defaultRenderTargetView;
 
-		defaultRenderTargetTexture = new D3D11Texture(-1,-1);
+		defaultRenderTargetTexture = new D3D11Texture();
 		defaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
 	
-		defaultDepthStencilTexture = new D3D11Texture(-1,-1);
+		defaultDepthStencilTexture = new D3D11Texture();
 		defaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
 		defaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
 
@@ -333,50 +329,37 @@ namespace ma
 		ASSERT( hr == S_OK);
 	}
 
-	void D3D11RenderDevice::SetRenderTarget(Texture* pTexture,int index)
+	void D3D11RenderDevice::SetFrameBuffer(FrameBuffer* pFB)
 	{
-		if (pTexture == NULL)
+		for (uint32 i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
-			m_pRenderTarget[index] = NULL;
-			m_bRenderTargetsDirty = true;
-		}
-		else
-		{
-			D3D11Texture* pD3D11Texture = (D3D11Texture*)pTexture;
-			if ( m_pRenderTarget[index] != pD3D11Texture->GetRenderTargetView() )
-			{
-				m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
-				m_bRenderTargetsDirty = true;
-			}
+			D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_arrColor[i].get());
+			if (pD3D11Texture)
+				m_pRenderTarget[i] = pD3D11Texture->GetRenderTargetView();
+			else
+				m_pRenderTarget[i] = NULL;
 		}
 
-		if (m_bRenderTargetsDirty)
-		{
-			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-			m_bRenderTargetsDirty = false;
-		}
+		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_pDepthStencil.get());
+		m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+	
+		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
 
-	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
+	void D3D11RenderDevice::SetRenderTarget(Texture* pTexture,int index)
 	{
-		return defaultRenderTargetTexture.get();
+
 	}
 
 
 	void D3D11RenderDevice::SetDepthStencil(Texture* pTexture)
 	{
-		D3D11Texture* pD3D11Texture = (D3D11Texture*)pTexture;
-		if ( m_pDepthStencil != pD3D11Texture->GetDepthStencilView() )
-		{
-			m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
-			m_bRenderTargetsDirty = true;
-		}
 
-		if (m_bRenderTargetsDirty)
-		{
-			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-			m_bRenderTargetsDirty = false;
-		}
+	}
+
+	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
+	{
+		return defaultRenderTargetTexture.get();
 	}
 
 	Texture* D3D11RenderDevice::GetDefaultDepthStencil()
@@ -479,7 +462,7 @@ namespace ma
 
 	void D3D11RenderDevice::SetDepthCheckMode(CompareFunction mode)
 	{
-		if (mode != m_renderState.m_eDepthCheckMode)
+		if (mode != m_renderState.m_eDepthCheckMode)	
 		{
 			m_renderState.m_eDepthCheckMode = mode;
 			m_bDepthStateDirty = true;
@@ -572,12 +555,6 @@ namespace ma
 
 	void D3D11RenderDevice::CommitChanges()
 	{
-// 		if (m_bRenderTargetsDirty)
-// 		{
-//			m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-//			m_bRenderTargetsDirty = false;
-// 		}
-
 		if (texturesDirty_ && firstDirtyTexture_ < M_MAX_UNSIGNED)
 		{
 			m_pDeviceContext->PSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
@@ -971,43 +948,6 @@ namespace ma
 		m_pDeviceContext->DrawIndexed(nIndexCount,nIndexStart,nVertexStart);
 	}
 
-	void D3D11RenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)
-	{
-		if (pRenderable == NULL)
-			return;
-
-// 		CommitChanges();	
-// 
-// 		D3D_PRIMITIVE_TOPOLOGY ePrimitiveType = D3D11Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
-// 
-// 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
-// 
-// 		UINT nPrimCount = 0;
-// 		if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
-// 		{
-// 			nPrimCount = pSubMeshData->m_nIndexCount / 3;
-// 		}
-// 		else if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP)
-// 		{
-// 			nPrimCount = pSubMeshData->m_nIndexCount - 2;
-// 		}
-// 		else if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_LINELIST)
-// 		{
-// 			nPrimCount = pSubMeshData->m_nIndexCount / 2;
-// 		}
-// 
-// 		m_pDeviceContext->IASetPrimitiveTopology( ePrimitiveType );
-// 
-// 		D3D11Verify( m_pD3DDevice->DrawIndexedPrimitiveUP(ePrimitiveType,
-// 			pSubMeshData->m_nVertexStart,
-// 			pSubMeshData->m_nVertexCount,
-// 			nPrimCount,
-// 			pRenderable->m_pIndexBuffer->GetData(),
-// 			D3D11Mapping::GetD3DIndexType(pRenderable->m_pIndexBuffer->GetIndexType()),
-// 			pRenderable->m_pVertexBuffer->GetData(),
-// 			pRenderable->m_pVertexBuffer->GetStride()) );
-	}
-
 	void D3D11RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
 		HRESULT hr = S_OK;
@@ -1115,8 +1055,6 @@ namespace ma
 	{
 		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_NULL);
 		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);
-
-		GetDeviceCapabilities()->SetD24S8Supported(true);
 	
 		GetDeviceCapabilities()->log();
 		return true;

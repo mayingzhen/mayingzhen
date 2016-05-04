@@ -27,12 +27,22 @@ namespace ma
 		return new GLESTexture();
 	}
 
-	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,TEXTURE_USAGE eUsage)
+	Texture* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
 	{
-		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,eUsage);
-		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
-		return pTarget;
+		return new GLESTexture(nWidth,nHeight,format,bTypeLess,bSRGB,USAGE_RENDERTARGET);
 	}
+
+	Texture* GLESRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	{
+		return new GLESTexture(nWidth,nHeight,format,bTypeLess,false,USAGE_DEPTHSTENCIL);
+	}
+
+// 	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
+// 	{
+// 		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,bTypeLess,bSRGB,eUsage);
+// 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
+// 		return pTarget;
+// 	}
 
 	VertexDeclaration* GLESRenderDevice::CreateVertexDeclaration()
 	{
@@ -52,21 +62,6 @@ namespace ma
 	ShaderProgram*	GLESRenderDevice::CreateShaderProgram()
 	{
 		return new GLESShaderProgram();
-	}
-
-
-	void	GLESRenderDevice::ConvertUV(float& fTop,float& fLeft,float& fRight,float& fBottom)
-	{
-		float fUVTop = fBottom;
-		float fUVBottom = fTop;
-		
-		fTop = fUVTop;
-		fBottom = fUVBottom;
-	}
-
-	float	GLESRenderDevice::GetHalfPixelOffset(float fHalfPiexl)
-	{
-		return 0;
 	}
 
 	void GLESRenderDevice::Shoutdown()
@@ -260,6 +255,11 @@ namespace ma
 		m_pDeviceContext->SwapBuffers();
 	}
 
+	void GLESRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
+	{
+
+	}
+
 	void GLESRenderDevice::SetRenderTarget(Texture* pTexture,int index)
 	{
 		ASSERT(pTexture && index == 0);
@@ -287,7 +287,7 @@ namespace ma
 		if (index > 0)
 			 return NULL;
 
-		GLESTexture* pGLESTarget = new GLESTexture(-1,-1);
+		GLESTexture* pGLESTarget = new GLESTexture();
 
 		GLint hFboBinding;
 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &hFboBinding) );
@@ -326,7 +326,7 @@ namespace ma
 
 	Texture* GLESRenderDevice::GetDefaultDepthStencil()
 	{
-		GLESTexture* pGLESTarget = new GLESTexture(-1,-1);
+		GLESTexture* pGLESTarget = new GLESTexture();
 
 		GLint hFboBinding;
 		GL_ASSERT( glGetIntegerv(GL_FRAMEBUFFER_BINDING, &hFboBinding) );
