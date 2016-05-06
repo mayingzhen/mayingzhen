@@ -33,7 +33,6 @@ bool g_bGL_APPLE_framebuffer_multisample = false;
 // #define GL_ATC_RGBA_EXPLICIT_ALPHA_AMD		0x8C93
 // #define GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD	0x87EE
 
-GLenum __gl_error_code = GL_NO_ERROR;
 
 
 #include "GLESRender/GLESTexture.hxx"

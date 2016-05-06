@@ -7,7 +7,6 @@ namespace ma
 D3D11IndexBuffer::D3D11IndexBuffer()
 {
 	mD3D11IndexBuffer = NULL;
-	m_pLockedData = NULL;
 }
 
 D3D11IndexBuffer::~D3D11IndexBuffer()
@@ -16,11 +15,8 @@ D3D11IndexBuffer::~D3D11IndexBuffer()
 }
 
 
-void* D3D11IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
+void* D3D11IndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
-	if (m_pLockedData)
-		return m_pLockedData;
-
 	D3D11_MAP D3DLock;
 
 	if (LockFlag & LOCK_WRITE)
@@ -40,24 +36,18 @@ void* D3D11IndexBuffer::Lock(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	mappedData.pData = 0;
 
 	GetD3D11DxDeviveContext()->Map(mD3D11IndexBuffer, 0, D3DLock, 0,&mappedData);
-	m_pLockedData = mappedData.pData;
-	ASSERT(m_pLockedData);
-	if (m_pLockedData == NULL)
+	ASSERT(mappedData.pData);
+	if (mappedData.pData == NULL)
 	{
 		LogError("Failed to map vertex buffer");
 	}
 
-	return m_pLockedData;
+	return mappedData.pData;
 }
 
-void D3D11IndexBuffer::Unlock()
+void D3D11IndexBuffer::UnlockImpl()
 {
-	if (m_pLockedData)
-	{
-		GetD3D11DxDeviveContext()->Unmap(mD3D11IndexBuffer, 0);
-
-		m_pLockedData = NULL;
-	}
+	GetD3D11DxDeviveContext()->Unmap(mD3D11IndexBuffer, 0);
 }
 
 void D3D11IndexBuffer::RT_StreamComplete()
@@ -105,21 +95,6 @@ void D3D11IndexBuffer::RT_StreamComplete()
 			FreeData();
 		}
 	}
-}
-
-
-void D3D11IndexBuffer::NotifyOnDeviceDestroy()
-{
-	SAFE_RELEASE(mD3D11IndexBuffer);
-}
-
-void D3D11IndexBuffer::NotifyOnDeviceLost()
-{
-
-}
-
-void D3D11IndexBuffer::NotifyOnDeviceReset()
-{
 }
 
 ID3D11Buffer* D3D11IndexBuffer::GetD3DIndexBuffer() 

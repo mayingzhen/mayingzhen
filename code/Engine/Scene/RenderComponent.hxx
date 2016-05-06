@@ -16,6 +16,7 @@ namespace ma
 
 	void RenderComponent::Update()
 	{
+		UpdateWorldBoundingBox();
 	}
 
 	void RenderComponent::SetNeedChange(CHANGE_TYPE eChangeType)

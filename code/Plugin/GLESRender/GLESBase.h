@@ -115,15 +115,27 @@ namespace ma
 #ifdef NDEBUG
 #define GL_ASSERT( gl_code ) gl_code
 #else
-#define GL_ASSERT( gl_code ) do \
+#define GL_ASSERT( gl_code ) \
 { \
 	gl_code; \
-	__gl_error_code = glGetError(); \
-	ASSERT(__gl_error_code == GL_NO_ERROR); \
-} while(0)
+	int e = glGetError(); \
+	if (e != 0) \
+	{ \
+	const char * errorString = ""; \
+	switch(e) \
+	{ \
+		case GL_INVALID_ENUM:       errorString = "GL_INVALID_ENUM";        break; \
+		case GL_INVALID_VALUE:      errorString = "GL_INVALID_VALUE";       break; \
+		case GL_INVALID_OPERATION:  errorString = "GL_INVALID_OPERATION";   break; \
+		case GL_OUT_OF_MEMORY:      errorString = "GL_OUT_OF_MEMORY";       break; \
+		default:                                                            break; \
+	} \
+	char msgBuf[1024]; \
+	sprintf(msgBuf, "OpenGL ES2 error 0x%04X %s in %s at line %i, ID:%d\n", e, errorString, __FUNCTION__, __LINE__, e); \
+	LogError(msgBuf);\
+	} \
+}
 #endif
-
-extern GLenum __gl_error_code;
 
 
 

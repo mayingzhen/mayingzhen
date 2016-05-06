@@ -16,20 +16,14 @@ namespace ma
 
 	private:
 
-		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags);
+		virtual void*	LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlags);
 		
-		virtual void	Unlock();
+		virtual void	UnlockImpl();
 
 		virtual void	RT_StreamComplete();
 
-		virtual void	NotifyOnDeviceDestroy();
-		virtual void	NotifyOnDeviceLost();
-		virtual void	NotifyOnDeviceReset();
-
 	protected:
-		ID3D11Buffer*			mD3D11VertexBuffer;
-
-		void*					m_pLockedData;		
+		ID3D11Buffer*			mD3D11VertexBuffer;	
 	};
 
 }

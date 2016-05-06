@@ -12,9 +12,9 @@ namespace ma
 
 		~GLESVertexBuffer();
 
-		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags);
+		virtual void*	LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlags);
 
-		virtual void	Unlock();
+		virtual void	UnlockImpl();
 
 		virtual void	RT_StreamComplete();
 

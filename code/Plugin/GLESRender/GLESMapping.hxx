@@ -122,7 +122,7 @@ namespace ma
 		if (DT_COLOR == eType)
 		{
 			type = GL_UNSIGNED_BYTE;
-			typeCount = 1;
+			typeCount = 4;
 			normalized  = true;
 		}
 		else if (DT_FLOAT1 == eType)

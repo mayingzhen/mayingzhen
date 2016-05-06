@@ -37,13 +37,6 @@ namespace ma
 		return new GLESTexture(nWidth,nHeight,format,bTypeLess,false,USAGE_DEPTHSTENCIL);
 	}
 
-// 	Texture* GLESRenderDevice::CreateTexture(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
-// 	{
-// 		GLESTexture* pTarget = new GLESTexture(nWidth,nHeight,format,bTypeLess,bSRGB,eUsage);
-// 		pTarget->SetFrameBuffer(m_hOffecreenFrameBuffer);
-// 		return pTarget;
-// 	}
-
 	VertexDeclaration* GLESRenderDevice::CreateVertexDeclaration()
 	{
 		return new GLESVertexDeclaration();
@@ -581,23 +574,23 @@ namespace ma
 
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 		
-// 		if (pSampler->GetWrapMode() != pTexture->GetTextureWrap() )
-// 		{
-// 			GLenum wrapS = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
-// 			GLenum wrapT = GLESMapping::GetGLESWrap(sampler->GetWrapMode());
-// 
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
-// 		}
-//  
-// 		if (pSampler->GetFilterMode() != pTexture->GetTextureFilter())
-// 		{
-// 			GLenum minFilter,magFilter;
-// 			GLESMapping::GetGLESFilter(pSampler->GetFilterMode(),minFilter,magFilter);
-// 
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-// 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
-// 		}	
+		//if (pSampler->GetWrapMode() != pTexture->GetTextureWrap() )
+		{
+			GLenum wrapS = GLESMapping::GetGLESWrap(pSampler->GetWrapMode());
+			GLenum wrapT = GLESMapping::GetGLESWrap(pSampler->GetWrapMode());
+
+			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
+			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+		}
+ 
+		//if (pSampler->GetFilterMode() != pTexture->GetTextureFilter())
+		{
+			GLenum minFilter,magFilter;
+			GLESMapping::GetGLESFilter(pSampler->GetFilterMode(),minFilter,magFilter);
+
+			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
+			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+		}	
 	}
 
 	void GLESRenderDevice::SetValue(Uniform* uniform, float value)

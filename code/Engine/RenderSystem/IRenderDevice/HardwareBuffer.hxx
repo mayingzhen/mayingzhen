@@ -11,6 +11,7 @@ namespace ma
 		m_Usage = HBU_STATIC;
 		m_pData = NULL;
 		m_bNeedFreeData = true;
+		m_pLockedData = NULL;
 	}
 
 	HardwareBuffer::~HardwareBuffer()
@@ -23,11 +24,25 @@ namespace ma
 
 	void* HardwareBuffer::Lock(LOCK LockFlags)
 	{
+		if (m_pLockedData)
+			return m_pLockedData;
+
 		if (LockFlags == LOCK_DISCARD)
 		{
 			ASSERT((m_Usage&HBU_DYNAMIC) != 0);
 		}
-		return this->Lock(0, m_Size, LockFlags);
+		m_pLockedData = LockImpl(0, m_Size, LockFlags);
+		return m_pLockedData;
+	}
+
+	void HardwareBuffer::Unlock()
+	{
+		if (m_pLockedData)
+		{
+			UnlockImpl();
+
+			m_pLockedData = NULL;
+		}
 	}
 
 	void HardwareBuffer::SetData(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bCopyData)

@@ -217,3 +217,4 @@ EXPORTS
 ??0Texture@ma@@QAE@HHW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@@Z
 ?SetDeferredShadingEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetDeferredShadingEnabled@RenderScheme@ma@@QBE_NXZ
+?Unlock@HardwareBuffer@ma@@UAEXXZ

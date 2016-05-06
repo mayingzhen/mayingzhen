@@ -13,9 +13,9 @@ namespace ma
 		
 		~GLESIndexBuffer();
 
-		virtual void*	Lock(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
+		virtual void*	LockImpl(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
 		
-		virtual void	Unlock();
+		virtual void	UnlockImpl();
 
 		virtual void	RT_StreamComplete();
 

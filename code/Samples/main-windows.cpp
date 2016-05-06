@@ -8,14 +8,14 @@ using namespace ma;
 
 int main(int argc, char* argv[])
 {
-	bool bForceGLES = false;
+	bool bForceGLES = true;
 	bool bRenderThread = false;
 	bool bDataThread = false;
 	bool bJobScheduler = false;
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleLighting");
+	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleParticle");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

@@ -54,7 +54,7 @@ namespace ma
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode);
 
 	protected:
-		void			UpdateWorldBoundingBox();
+		virtual void	UpdateWorldBoundingBox();
 
 	protected:
 		CullNode*			m_pCullNode;

@@ -36,6 +36,8 @@ public:
 	void ParallelUpdate();
 	void EndParallelUpdate();
 
+	virtual void UpdateWorldBoundingBox();
+
     virtual void Play(uint32 nElapsedTime = 0, bool bCascade = false);
     virtual void Stop(bool bCascade = false);
     virtual void SetPlaySpeed(float fPlaySpeed, bool bCascade = false);
@@ -156,6 +158,8 @@ public:
     void SetParticlesScaleAffect(bool bAffect){m_bParticlesScaleAffect = bAffect;}
     bool GetParticlesScaleAffect() const{return m_bParticlesScaleAffect;}
 
+	virtual void	SetNeedChange(CHANGE_TYPE eChangeType);
+
 private:
 	void ShowCPUPoint(Camera* pCamera);
 	void DoParticleSystem(Real timediff);
@@ -188,6 +192,7 @@ private:
 
 private:
     int m_nPlayState; // 0-int 1-FastForward 2-Play
+	bool m_bFirstTick;
     float m_fPlaySpeed;
 
     /// Used to control if the particle system should emit particles or not.
@@ -207,6 +212,7 @@ private:
 	uint32 mLastVisibleFrame;
 	Real mNonVisibleTimeout;
 
+	bool m_bWorldMatrixChanged;
     bool m_bLodEnabled;
 
 	AABB mAABBTemp;

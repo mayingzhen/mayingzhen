@@ -12,9 +12,7 @@ namespace ma
 
 		virtual ~HardwareBuffer();
 
-		virtual void*	Lock(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
-
-		virtual void    Unlock() = 0;
+		virtual void    Unlock();
 
 		virtual void*	Lock(LOCK LockFlags);
 
@@ -35,11 +33,18 @@ namespace ma
 		void			FreeData();
 
 	protected:
+		virtual void*	LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlags) = 0;
+
+		virtual void	UnlockImpl() = 0;
+
+	protected:
 		int				m_Stride;
 		UINT            m_Size;
 		HBU_USAGE       m_Usage;
 		uint8*			m_pData;
 		bool			m_bNeedFreeData;
+
+		void*			m_pLockedData;	
 	};
 }
 

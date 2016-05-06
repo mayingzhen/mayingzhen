@@ -20,6 +20,7 @@ namespace ma
 		element[3] = VertexElement(0,28,DT_UBYTE4N,DU_BLENDWEIGHT,0);
 		element[4] = VertexElement(0,32,DT_COLOR,DU_COLOR,0);
 		m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,5);
+		ASSERT(m_pDeclaration->GetStreanmStride() == sizeof(VERTEX));
 	}
 
 	ParticleSystemRenderable::~ParticleSystemRenderable(void)

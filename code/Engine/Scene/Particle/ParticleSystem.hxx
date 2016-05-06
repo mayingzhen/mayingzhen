@@ -23,12 +23,15 @@ ParticleSystem::ParticleSystem()
     m_bLodEnabled = true;
 	m_eBillboardType = BBT_AlignViewPlane;
     m_fPlaySpeed = 1;
+	m_bFirstTick = true;
 	m_lstParticles.clear();
 	m_pRenderable[0] = NULL;
 	m_pRenderable[1] = NULL;
 
 	m_bOnLoadOver = false;
 	mFastFarward = Vector2(0.f, 0.1f);
+
+	m_bWorldMatrixChanged = false;
 
 	m_fMotionInherite = 0;
 	m_bMotionInheriteInited = false;
@@ -51,10 +54,23 @@ void ParticleSystem::RegisterAttribute()
 	ACCESSOR_ATTRIBUTE(ParticleSystem, "MtlPath", GetMaterialFile, SetMaterialFile, const char*, NULL, AM_DEFAULT);
 }
 
+void ParticleSystem::SetNeedChange(CHANGE_TYPE eChangeType)
+{
+	if (eChangeType == CT_FROMPARENT)
+	{
+		m_bWorldMatrixChanged = true;
+		m_nAABBChangeType |= ACT_SELF_MATRIX;
+	}
+}
 
 void ParticleSystem::Update()
 {
 	RenderComponent::Update();
+
+	if (m_bWorldMatrixChanged)
+	{
+		this->UpdateGlobalAffectors();
+	}
 
 	if(!this->IsReady())
 		return;
@@ -68,7 +84,7 @@ void ParticleSystem::Update()
 	{
 		this->InitBounds();
 	}
-    else if (/*m_bMatrixDirty && */m_bParticlesAreGlobal)
+    else if (m_bWorldMatrixChanged && m_bParticlesAreGlobal)
     {
         AABB aabb = this->GetAABB();
         aabb.merge(m_pSceneNode->GetPosWS());
@@ -111,6 +127,12 @@ void ParticleSystem::ParallelUpdate()
 {
 	AutoLock lock(m_csParallelUpdate);
 
+	if(m_bFirstTick)
+	{
+		m_bFirstTick = false;
+		return;
+	}
+
 	Real timeDiff = GetTimer()->GetFrameDeltaTime() * m_fPlaySpeed;
 	this->DoParticleSystem(timeDiff);
 
@@ -126,10 +148,12 @@ void ParticleSystem::ParallelUpdate()
 	}
 
 	mAABBTemp.setNull();
-	if (bNeedCalcBounds || (/*m_bMatrixDirty &&*/ m_bParticlesAreGlobal))
+	if (bNeedCalcBounds || (m_bWorldMatrixChanged && m_bParticlesAreGlobal))
 	{
 		mAABBTemp = this->_updateBounds();
 	}
+
+	m_bWorldMatrixChanged = false;
 }
 
 
@@ -181,6 +205,39 @@ void ParticleSystem::Show(Camera* pCamera)
     m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Particle,m_pRenderable[GetRenderSystem()->CurThreadFill()].get());
 }
 
+void ParticleSystem::UpdateWorldBoundingBox()
+{
+	if (m_nAABBChangeType == ACT_NONE || m_nAABBChangeType == ACT_SELF_CUSTOM || m_nAABBChangeType == ACT_NOTIFY || m_nAABBChangeType == (ACT_SELF_CUSTOM|ACT_NOTIFY))
+	{
+		return;
+	}
+
+	m_worldAABB.setNull();
+
+	if ((m_nAABBChangeType&ACT_SELF_MATRIX) != 0 && (m_nAABBChangeType&ACT_SELF_CUSTOM) == 0)
+	{
+		m_AABB.setNull();
+	}
+
+	if ((m_nAABBChangeType&ACT_SELF_CUSTOM) != 0)
+	{
+		m_nAABBChangeType = ACT_SELF_CUSTOM | ACT_NOTIFY;
+	}
+	else
+		m_nAABBChangeType = ACT_NOTIFY;
+
+	if (m_bParticlesAreGlobal)
+	{
+		m_worldAABB = this->GetAABB();
+	}
+	else
+	{
+		m_worldAABB = this->GetAABB();
+		Matrix4 mat;
+		mat.makeTransform(this->GetSceneNode()->GetPosWS(), Vector3::UNIT_SCALE, Quaternion::IDENTITY);
+		m_worldAABB.transformAffine(mat);
+	}
+}
 
 void ParticleSystem::Reset()
 {
@@ -198,6 +255,7 @@ void ParticleSystem::Reset()
 
 	m_lstParticles.clear();
 	mLastEmitTime = 0;
+	m_bFirstTick = true;
     mIsEmitting = true;
 	m_bMotionInheriteInited = false;
 
@@ -779,6 +837,7 @@ void ParticleSystem::Play(uint32 nElapsedTime, bool bCascade)
 
     this->SetEmitting(true);
     mLastEmitTime = 0;
+	m_bFirstTick = true;
     if (nElapsedTime > 0)
     {
         this->SetFastForward(Vector2(nElapsedTime*0.001f, 0.1f));
