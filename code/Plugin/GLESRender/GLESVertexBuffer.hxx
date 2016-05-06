@@ -12,7 +12,7 @@ namespace ma
 	  
 	}
 
-	void * GLESVertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
+	void* GLESVertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER,m_hVertexBufffer) );
 		GL_ASSERT( glBufferData(GL_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
