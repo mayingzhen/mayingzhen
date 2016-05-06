@@ -28,8 +28,10 @@ namespace ma
 		virtual bool    InitRes();
 
 		void			SetMipMap(bool b) {m_bMipMap = b;}
-
+		bool			GetMipMap() const {return m_bMipMap;}
+		
 		void			SetSRGB(bool b) {m_bSRGB = b;}
+		bool			GetSRGB() const {return m_bSRGB;}
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	

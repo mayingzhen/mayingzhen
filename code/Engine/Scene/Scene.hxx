@@ -11,13 +11,13 @@ namespace ma
 
 		m_pCamera = CreateCamera();
 		m_pRootNode->AddChild(m_pCamera.get());
-		
-		SetRenderScheme(RenderScheme::Forward);
 
 		m_pCullTree = new Octree();
 
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
+
+		m_pRenderScheme = new RenderScheme(this);
 		
 		m_viwMinZ = 0.0f;
 		m_viwMaxZ = 0.0f;
@@ -27,6 +27,8 @@ namespace ma
 		m_pRootNode->AddChild(pSun);
 		m_pDirLight = CreateDirectonalLight();
 		pSun->AddComponent(m_pDirLight.get());
+
+		m_cAmbientColor = Vector3::ZERO;
 	}
 
 	Scene::~Scene()
@@ -46,16 +48,6 @@ namespace ma
 		m_pCamera->SetPerspective(fFOV,fAspect,fNearClip,fFarClip);
 
 		m_pRenderScheme->Reset();
-	}
-
-	void Scene::SetRenderScheme(RenderScheme::Type eType)
-	{
-		if (eType == RenderScheme::DeferredShading)
-		{
-			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
-		}
-
-		m_pRenderScheme = CreateRenderScheme(eType,this);
 	}
 
 	SceneNode* Scene::CreateSceneNode()

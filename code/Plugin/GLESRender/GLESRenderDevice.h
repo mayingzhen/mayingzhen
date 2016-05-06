@@ -49,7 +49,7 @@ namespace ma
 			StencilOperation passOp = SOP_KEEP, 
 			bool twoSidedOperation = false);
 
-		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture);
+		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
  		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pSampler);
 		

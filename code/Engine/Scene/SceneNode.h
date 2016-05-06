@@ -89,10 +89,6 @@ namespace ma
 		const Matrix4&		GetMatrixWS();
 
 		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
-		void				Rotate(const Quaternion& delta,bool fixedAxis = false);
-		void				Pitch(float angle, bool fixedAxis = false);
-		void				Yaw(float angle, bool fixedAxis = false);
-		void				Roll(float angle, bool fixedAxis = false);
 
 		// Component
 		template<class T>

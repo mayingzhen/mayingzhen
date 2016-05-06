@@ -19,7 +19,7 @@ namespace ma
 
 		~SampleBrowser();
 
-		virtual void		Init(bool bD3D11,bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
+		virtual void		Init(bool bForceGLES, bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
 
 		virtual void		Shutdown();
 

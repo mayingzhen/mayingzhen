@@ -11,14 +11,19 @@
    
 struct VS_OUT
 {
-   float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
    float4 oViewDir : TEXCOORD1;
+   float4 pos : SV_POSITION;
 };
 
-
-float3 pos_extent;
-float3 pos_center;
+cbuffer ObjectVS : register(b5)
+{
+	float4x4 g_matWorldViewProj;
+	float4x4 g_matWorldView;
+	
+	float3 pos_extent;
+	float3 pos_center;
+}
 
 
 void main( float3 pos : POSITION,

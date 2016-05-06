@@ -37,7 +37,7 @@ struct VS_IN
    float2 a_texCoord0 : TEXCOORD0;
    
 #ifdef SKIN   
-   int4   a_blendIndices :BLENDINDICES;
+   uint4   a_blendIndices :BLENDINDICES;
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
    
@@ -59,7 +59,7 @@ struct VS_OUT
 	float4 worldNormal : TEXCOORD2;
 
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD3;	
+   float3 viewNormal :TEXCOORD3;	
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
@@ -92,11 +92,10 @@ VS_OUT main(VS_IN In)
 
 	Out.v_position = mul(float4(WorldPos.xyz,1.0),g_matViewProj);
    
-   
    Out.WorldPos.xyz = WorldPos;
    Out.WorldPos.w = Out.v_position.w;
    
-   Out.worldNormal.xyz = normalize(mul(iNormal, (float3x3)g_matWorld));
+   Out.worldNormal.xyz = mul(iNormal, (float3x3)g_matWorld);
    Out.worldNormal.w = 0;
 	 	
    Out.v_texCoord = iUV;
@@ -107,14 +106,14 @@ VS_OUT main(VS_IN In)
 #endif
 
 #ifdef DEFERREDSHADING 
-	GBufferVSOut(iNormal,Out.v_position.w,Out.v_normalDepth);
-#else
+	Out.viewNormal.xyz = mul(iNormal, (float3x3)g_matWorldView); 
+#endif
+
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
 	GetShadowPos(Out.WorldPos.xyz,Out.oShadowPos);
 	#if SHADOW_BLUR == 2 	
 	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
 	#endif	
-#endif
 #endif
   
     return Out;

@@ -56,7 +56,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture);
+		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual void				SetShaderProgram(ShaderProgram* pShader);

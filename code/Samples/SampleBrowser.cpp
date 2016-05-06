@@ -150,15 +150,15 @@ namespace ma
 		ModuleShutdown();
 	}
 
-	void SampleBrowser::Init(bool bD3D11, bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample)
+	void SampleBrowser::Init(bool bForceGLES, bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample)
 	{
-		if (bD3D11)
+		if (bForceGLES)
 		{
-			ModuleInit(RenderDevice_D3D11);
+			ModuleInit(RenderDevice_GLES2);
 		}
 		else
 		{
-			ModuleInit(RenderDevice_GLES2);
+			ModuleInit(RenderDevice_D3D11);	
 		}
 		
 		InitResourcePath();

@@ -1,39 +1,42 @@
 #include "common.h"
 #include "depth.h"
 
-#ifdef POINT_LIGHT   
-uniform float4 light_pos_es_radius;
-#endif
+cbuffer ObjectPS : register(b5)
+{
+	#ifdef POINT_LIGHT   
+	uniform float4 light_pos_es_radius;
+	#endif
 
-#ifdef DIRECT_LIGHT
-uniform float3 light_dir_es;
-#endif
+	#ifdef DIRECT_LIGHT
+	uniform float3 light_dir_es;
+	#endif
 
-uniform float4 light_color ;//= (0.2f,0.2f,0.2f,0.2f);
-
+	float4 light_color ;
+}
 
 
 // Gbuffer
-sampler2D u_textureSceneDiffuse;
-sampler2D u_textureSceneNormal;
+Texture2D u_textureSceneDiffuse;
+SamplerState s_textureSceneDiffuse;
+
+Texture2D u_textureSceneNormal;
+SamplerState s_textureSceneNormal;
 
 // shadow
 #if USING_SHADOW != 0
-sampler2D u_TextureSceneShadow;
+Texture2D u_TextureSceneShadow;
+SamplerState s_TextureSceneShadow;
 #endif
       
 struct VS_OUT
 {
-   float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
    float4 oViewDir : TEXCOORD1;
 };
 
 struct PS_OUT
 {
-   //float4 Diffuse  : COLOR0;
-   //float4 Specular  : COLOR1;
-   float4 flagColor : COLOR0;
+   float4 flagColor : SV_TARGET;
 };
 
 
@@ -43,9 +46,9 @@ void GetPosNormalShiness(VS_OUT In,out float3 pos_es,out float3 normal,out float
    float depth = GetLinearDepth(In.oTc); 
    
    float3 view_dir = normalize(In.oViewDir.xyz);
-   pos_es = view_dir * (-depth / view_dir.z); 
+   pos_es = view_dir * (depth / -view_dir.z); 
    
-   float4 SrcNormal = tex2D( u_textureSceneNormal, In.oTc);
+   float4 SrcNormal = u_textureSceneNormal.Sample(s_textureSceneNormal, In.oTc);
    
 #ifdef ENCODENORMAL 
    normal = DecodeNormal(SrcNormal.xy);
@@ -107,7 +110,7 @@ void DeferredLightPS(VS_OUT In, out PS_OUT pOut)
 	float3 	Specular = 0;
    GetDiffuseSpecular(vlightVec,pos_es,normal,specPower,Diffuse,Specular);
 	
-   float4 mdiffuse = tex2D( u_textureSceneDiffuse, In.oTc);  		 
+   float4 mdiffuse = u_textureSceneDiffuse.Sample(s_textureSceneDiffuse, In.oTc);  		 
 
    pOut.flagColor.xyz = Diffuse * mdiffuse.xyz + Specular * specIntensity;
    pOut.flagColor.w = 1.0;
@@ -119,9 +122,7 @@ void AmbientLightPS(VS_OUT In, out PS_OUT pOut)
 {
    pOut = (PS_OUT)0;
    
-   //pOut.Diffuse.xyz = light_color;
-  // pOut.Specular.xyz = 0; 
-  float4 mdiffuse = tex2D( u_textureSceneDiffuse, In.oTc);  
+  float4 mdiffuse = u_textureSceneDiffuse.Sample(s_textureSceneDiffuse, In.oTc);  
   pOut.flagColor = light_color * mdiffuse;
 }
 
@@ -136,7 +137,7 @@ void main( VS_OUT vout, out PS_OUT pout )
    DeferredLightPS(vout,pout);   
    
 #if USING_SHADOW != 0
-   float shadow = tex2D(u_TextureSceneShadow, vout.oTc).r;
+   float shadow = u_TextureSceneShadow.Sample(s_TextureSceneShadow, vout.oTc).r;
    
    pout.flagColor *= shadow;
 #endif

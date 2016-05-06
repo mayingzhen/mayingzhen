@@ -271,14 +271,15 @@ namespace ma
 		SamplerState* pSampler = new SamplerState();
 		pSampler->SetWrapMode(eWrap);
 		pSampler->SetFilterMode(eFilter);
-		//pSampler->SetSRGB(bSRGB);
+		pSampler->SetSRGB(bSRGB);
+		pSampler->SetTexture(pTexutre);
 // 		if (pTexutre->GetSRGB() == bSRGB)
 // 		{
 // 			pSampler->SetTexture(pTexutre);
 // 		}
 // 		else
 // 		{
-// 			RefPtr<Texture> pNewTexure = GetRenderSystem()->CreateTexture(pTexutre,bSRGB,);
+// 			RefPtr<Texture> pNewTexure = GetRenderDevice()->CreateTexture();
 // 			pSampler->SetTexture(pNewTexure.get);
 // 		}
 		

@@ -14,7 +14,6 @@ namespace ma
 		m_eBlendMode = BM_OPATICY;
 		m_eCullMode = CULL_FACE_SIDE_BACK;
 
-		m_bSRGBWrite = true;
 		m_bStencil = false;
 		m_eStencilfunc = CMPF_ALWAYS_PASS;
 		m_eStencilPass = SOP_KEEP;
@@ -36,8 +35,6 @@ namespace ma
 		ENUM_ATTRIBUTE(RenderState, "DepthCheckMode", m_eDepthCheckMode, CompareFunction, strCompareFunction,CMPF_LESS_EQUAL, AM_DEFAULT);
 		ENUM_ATTRIBUTE(RenderState, "BlendMode", m_eBlendMode, BLEND_MODE, strBlendMode,BM_OPATICY, AM_DEFAULT);
 		ENUM_ATTRIBUTE(RenderState, "CullMode", m_eCullMode, CULL_MODE, strCullMode,CULL_FACE_SIDE_BACK, AM_DEFAULT);
-
-		ATTRIBUTE(RenderState, "SRGBWrite", m_bSRGBWrite, bool, true, AM_DEFAULT);
 
 		ATTRIBUTE(RenderState, "Stencil", m_bStencil, bool, false, AM_DEFAULT);
 		ENUM_ATTRIBUTE(RenderState, "Stencilfunc", m_eStencilfunc, CompareFunction, strCompareFunction,CMPF_ALWAYS_PASS, AM_DEFAULT);

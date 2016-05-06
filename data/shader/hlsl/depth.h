@@ -1,26 +1,29 @@
 
-float4 vStoWBasisX;
-float4 vStoWBasisY;
-float4 vStoWBasisZ;
-float4 vStoCamPos;
+cbuffer ObjectPS : register(b5)
+{
+	float4 vStoWBasisX;
+	float4 vStoWBasisY;
+	float4 vStoWBasisZ;
+	float4 vStoCamPos;
+}
 
 
+Texture2D tDepthMapSampler;
+SamplerState sDepthMapSampler;
 
-sampler2D tDepthMapSampler;
-
-sampler2D tDeviceDepthMapSampler;
-
+Texture2D tDeviceDepthMapSampler;
+SamplerState sDeviceDepthMapSampler;
 
 
 float GetLinearDepth(float2 tc)
 {
 #if USING_LINEARDEPTH == 1
-	float depth = tex2D(tDepthMapSampler, tc).r;
+	float depth = tDepthMapSampler.Sample(sDepthMapSampler, tc).r;
 	depth *= g_vCameraNearFar.y;
 	return depth;
 #else 
 	float q = g_vCameraNearFar.y / (g_vCameraNearFar.y - g_vCameraNearFar.x); 
-	float depth = tex2D(tDeviceDepthMapSampler, tc).r;
+	float depth = tDeviceDepthMapSampler.Sample(sDeviceDepthMapSampler, tc).r;
 	depth = g_vCameraNearFar.x / (q - depth);
 	return depth;
 #endif

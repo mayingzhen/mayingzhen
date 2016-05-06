@@ -19,7 +19,6 @@ namespace ma
 		virtual void		Render();
 
 	private:
-		RefPtr<Technique> m_pDepthEdgeDetection;
 		RefPtr<Technique> m_pColorEdgeDetection;
 		RefPtr<Technique> m_pBlendWeightCalculation;
 		RefPtr<Technique> m_pNeiborhoodBlending;
@@ -29,8 +28,6 @@ namespace ma
 
 		RefPtr<SamplerState> m_pAreadTex;
 		RefPtr<SamplerState> m_pSreachTex;
-
-		bool m_bLinearizeDepthEnabled;
 	};
 }
 

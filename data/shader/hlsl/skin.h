@@ -9,7 +9,7 @@
 #define MAX_MAT_NUM_BONES 75
 #endif
 
-#define BONE_DQ
+//#define BONE_DQ
 
 #ifdef BONE_DQ
 float4 boneDQ[MAX_DQ_NUM_BONES*2];

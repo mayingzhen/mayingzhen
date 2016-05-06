@@ -148,7 +148,7 @@ DXGI_FORMAT D3D11Mapping::_getPF(PixelFormat ogrePF)
 	case PF_DXT5:
 		return DXGI_FORMAT_BC3_UNORM;
 	case PF_D24S8:
-		return DXGI_FORMAT_R24G8_TYPELESS;
+		return DXGI_FORMAT_D24_UNORM_S8_UINT;
 	case PF_UNKNOWN:
 	default:
 		return DXGI_FORMAT_UNKNOWN;

@@ -199,17 +199,6 @@ namespace ma
 
 			BindParametersUniform(pUniform,pMatParam->GetValue());
 		}
-
-// 		for (UINT i = 0; i < m_arrParameters.size(); ++i)
-// 		{
-// 			Parameter* pMatParam = m_arrParameters[i];
-// 			
-// 			Uniform* pUniform = m_pShaderProgram->GetUniform( pMatParam->GetName() );
-// 			if (pUniform == NULL)
-// 				continue;
-// 			
-// 			BindParametersUniform(pUniform,pMatParam->GetValue());
-// 		}
 	}
 
 	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)

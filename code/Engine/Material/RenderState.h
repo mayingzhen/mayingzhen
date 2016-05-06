@@ -22,7 +22,6 @@ namespace ma
 
 		BLEND_MODE			m_eBlendMode;
 		CULL_MODE			m_eCullMode;	
-		bool				m_bSRGBWrite;
 
 		// Depth
 		bool				m_bDepthWrite;

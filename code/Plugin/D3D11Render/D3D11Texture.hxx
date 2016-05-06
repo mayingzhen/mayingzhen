@@ -9,6 +9,7 @@ namespace ma
 	{
 		m_pD3D11Tex2D = NULL;
 		m_pD3D11ShaderResourceView = NULL;
+		m_pD3D11ShaderResourceViewSRGBNotEqual = NULL;
 		m_pDepthStencilView = NULL;
 		m_pRenderTargetView = NULL;
 	}
@@ -18,6 +19,7 @@ namespace ma
 	{
 		m_pD3D11Tex2D = NULL;
 		m_pD3D11ShaderResourceView = NULL;
+		m_pD3D11ShaderResourceViewSRGBNotEqual = NULL;
 		m_pDepthStencilView = NULL;
 		m_pRenderTargetView = NULL;
 	}
@@ -26,6 +28,7 @@ namespace ma
 	{
 		SAFE_RELEASE(m_pD3D11Tex2D);
 		SAFE_RELEASE(m_pD3D11ShaderResourceView);
+		SAFE_RELEASE(m_pD3D11ShaderResourceViewSRGBNotEqual);
 		SAFE_RELEASE(m_pDepthStencilView);
 		SAFE_RELEASE(m_pRenderTargetView);
 	}
@@ -43,6 +46,8 @@ namespace ma
 			return DXGI_FORMAT_R16_UNORM;
 		else if (format == DXGI_FORMAT_R32_TYPELESS)
 			return DXGI_FORMAT_R32_FLOAT;
+		else if (format == DXGI_FORMAT_R8G8B8A8_TYPELESS)
+			return DXGI_FORMAT_R8G8B8A8_UNORM;
 		else
 			return format;
 	}
@@ -145,9 +150,19 @@ namespace ma
 			return false;
 		}
 
+		DXGI_FORMAT srvFormat = D3D11Mapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			srvFormat = GetSRGBFormat(srvFormat);
+		}
+		if (m_bTypeLess)
+		{
+			srvFormat = GetSRVFormat(m_descFormat);
+		}
+
 		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
 		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-		resourceViewDesc.Format = (DXGI_FORMAT)GetSRVFormat(textureDesc.Format);
+		resourceViewDesc.Format = srvFormat;
 		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
 
@@ -181,6 +196,26 @@ namespace ma
 		{
 			LogError("Failed to create renderTarget view for texture");
 			return false;
+		}
+
+		if (m_bTypeLess)
+		{
+			ASSERT(m_bSRGB);
+
+			DXGI_FORMAT srvFormat = D3D11Mapping::_getPF(m_eFormat);
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
+			memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
+			resourceViewDesc.Format = srvFormat;
+			resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
+
+			GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceViewSRGBNotEqual);
+			if (!m_pD3D11ShaderResourceView)
+			{
+				LogError("Failed to create shader resource view for texture");
+				return false;
+			}
 		}
 
 		return true;
@@ -244,6 +279,9 @@ namespace ma
 		uint32 rowWidth;
 		if (PixelUtil::isCompressed(converted.format))
 		{
+			if (width < 4 || height < 4)
+				return true;
+
 			// D3D wants the width of one row of cells in bytes
 			if (converted.format == PF_DXT1)
 			{

@@ -11,7 +11,7 @@
 #endif 
 
 Texture2D u_texture : register(t0);
-SamplerState g_samLinear : register( s0 );
+SamplerState s_texture : register( s0 );
 
 
 cbuffer ObjectPS : register(b5)
@@ -33,7 +33,7 @@ struct PS_IN
 	float4 worldNormal :TEXCOORD2;
 
 #ifdef DEFERREDSHADING 
-   float4 v_normalDepth  :TEXCOORD3;	
+   float3 viewNormal  :TEXCOORD3;	
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
@@ -59,39 +59,43 @@ float4 GetDiffuse(PS_IN In)
    flagColor = In.v_color;   
 #endif
 
-   flagColor *= u_texture.Sample(g_samLinear, In.v_texCoord);
+   flagColor *= u_texture.Sample(s_texture, In.v_texCoord);
 
 	return flagColor;
 }
 
-#ifndef DEFERREDSHADING 
+#if DEFERREDSHADING == 0
 float4 ForwardShading(float4 cDiffuse,PS_IN In)
 {
-	float4 flagColor = cDiffuse;
+	float4 flagColor = 1;
 	
-	In.worldNormal = normalize(In.worldNormal);
+	float3 vNormal = normalize(In.worldNormal.xyz);
 
 
 #ifdef LIGHT
-	flagColor.rgb == g_cSkyLight * cDiffuse;
-	
-	float3 halfVec = normalize(normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz) + g_vDirLight);
+	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
+	float3 vlight = normalize(g_vDirLight.xyz);
+	float3 halfVec = normalize(vView + vlight);
 	
 	#ifdef BRDF
 		#ifdef SPEC
-			flagColor.rgb += calc_brdf(cDiffuse,u_cSpecColor,u_specPower,g_vDirLight,halfVec,In.worldNormal);
+			flagColor.rgb = calc_brdf(cDiffuse,u_cSpecColor,u_specPower,vlight,halfVec,vNormal);
 		#else
-			flagColor.rgb += calc_brdf(cDiffuse,g_vDirLight,In.worldNormal);
+			flagColor.rgb = calc_brdf(cDiffuse,vlight,vNormal);
 		#endif		
 	#else
-		float fNDotL = clamp(dot(In.worldNormal, g_vDirLight), 0, 1);
-		float3 fDirLight = g_cDirLight * fNDotL;
-		flagColor.rgb += cDiffuse * fDirLight;
+		//float fNDotL = clamp(dot(vNormal, vlight), 0, 1);
+		//float3 vDirLight = g_cDirLight * fNDotL;
+		//flagColor.rgb = cDiffuse * (vDirLight + g_cSkyLight.rgb);
     
 		#ifdef SPEC
-			float fNDotH = clamp(dot(In.worldNormal,halfVec), 0, 1);
-			float3 spec = g_cDirLight * pow(fNDotH, u_specPower) * u_cSpecColor;
-			flagColor.rgb += spec;
+				
+			float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), u_specPower );   
+			
+			float3 Diffuse = light.y * g_cDirLight.xyz;
+			float3 Specular = light.z * g_cDirLight.xyz;	
+			
+			flagColor.xyz = Diffuse * cDiffuse + Specular * u_cSpecColor.xyz/*specIntensity*/;	
 		#endif 
     #endif 
 #endif  
@@ -113,7 +117,7 @@ float4 ForwardShading(float4 cDiffuse,PS_IN In)
 #endif
 
 void main(PS_IN In,
-#ifdef DEFERREDSHADING 
+#if DEFERREDSHADING != 0
 out PS_OUT pout
 #else
 out float4 outColor : SV_TARGET 
@@ -122,8 +126,10 @@ out float4 outColor : SV_TARGET
 {
 	float4 cDiffuse = GetDiffuse(In); 
 
-#ifdef DEFERREDSHADING 
-	pout = GbufferPSout(cDiffuse,u_cSpecColor,In.v_normalDepth);
+#if DEFERREDSHADING != 0
+	float4 cSpecColor = u_cSpecColor;
+	cSpecColor.w = u_specPower;
+	pout = GbufferPSout(cDiffuse,cSpecColor,In.viewNormal);
 #else
 	outColor = ForwardShading(cDiffuse,In);  
 #endif	

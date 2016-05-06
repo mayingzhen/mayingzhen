@@ -58,7 +58,6 @@ namespace ma
 		const Rectangle&		GetViewport() const {return m_viewport;}	
 
 		RenderScheme*			GetRenderScheme() const { return m_pRenderScheme.get(); }
-		void					SetRenderScheme(RenderScheme::Type eType);
 
 		UINT					GetVisibleNodeNum() const {return m_arrRenderComp.size();}
 		RenderComponent*		GetVisibleNodeByIndex(UINT index) const {return m_arrRenderComp[index].get();}

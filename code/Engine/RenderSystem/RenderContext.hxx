@@ -31,7 +31,7 @@ namespace ma
 		//m_pCamera = pCamera;
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
-		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetPosWS();
+		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetEyeNode()->GetPosWS();
 
 		m_fFar[GetRenderSystem()->CurThreadFill()] = pCamera->GetFarClip();
 		m_fNear[GetRenderSystem()->CurThreadFill()] = pCamera->GetNearClip();
@@ -94,7 +94,7 @@ namespace ma
 
 	Vector3	RenderContext::GetDirLightDir() const
 	{
-		return m_pCurScene->GetDirLight()->GetSceneNode()->GetForward();
+		return m_pCurScene->GetDirLight()->GetSceneNode()->GetForward().normalisedCopy();
 	}
 
 

@@ -545,7 +545,7 @@ namespace ma
 		}
 	}
 
-	void GLESRenderDevice::SetTexture(uint32 nIndex,Texture* sampler)
+	void GLESRenderDevice::SetTexture(uint32 nIndex,Texture* sampler,bool bSRGBNotEqual)
 	{
 		GL_ASSERT( glActiveTexture(GL_TEXTURE0 + nIndex) );
 
@@ -559,7 +559,7 @@ namespace ma
 		ASSERT(uniform && sampler);
 		ASSERT(uniform->m_type == GL_SAMPLER_2D);
 
-		SetTexture(uniform->m_index,sampler);
+		SetTexture(uniform->m_index,sampler,false);
 
 		GL_ASSERT( glUniform1i(uniform->m_location, uniform->m_index) );
 	}

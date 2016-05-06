@@ -33,7 +33,7 @@ namespace ma
 			pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 		}
 
-		if (1)
+		if (0)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
@@ -71,6 +71,19 @@ namespace ma
 	{
 		//GetInput()->RemoveKeyListener(this);
 	}
+
+	void SampleMaterial::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
+	{
+		if (evt != Keyboard::KEY_PRESS)
+			return;
+
+		if (key == Keyboard::KEY_A)
+		{
+			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+			pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
+		}
+	}
+
 
 }
 

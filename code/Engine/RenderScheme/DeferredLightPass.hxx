@@ -32,7 +32,7 @@ namespace ma
 	{
 		RENDER_PROFILE(DefferedLighting);
 
-		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::Black, 1.0f, 0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black, 1.0f, 0);
 
 		// AmbientLight
 		Vector3 cAmbientColor = m_pScene->GetAmbientColor();
@@ -92,12 +92,6 @@ namespace ma
 			}
 
 			GetRenderContext()->SetCurLight(NULL);
-		}
-
-		RenderQueue* pRenderQueue = m_pScene->GetRenderQueue();
-		{
-			RENDER_PROFILE(RL_Trans);
-			pRenderQueue->RenderObjList(RL_Particle);
 		}
 	}
 

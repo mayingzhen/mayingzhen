@@ -348,7 +348,13 @@ namespace ma
 
 	void D3D11RenderDevice::SetRenderTarget(Texture* pTexture,int index)
 	{
+		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
+		if (pD3D11Texture)
+			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
+		else
+			m_pRenderTarget[index] = NULL;
 
+		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
 
 
@@ -469,7 +475,7 @@ namespace ma
 		}
 	}
 
-	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture)
+	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
 	{
 		if (pTexture != textures_[index])
 		{
@@ -484,14 +490,21 @@ namespace ma
 			}
 
 			textures_[index] = pTexture;
-			shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
+			if (bSRGBNotEqual)
+			{
+				shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
+			}
+			else
+			{
+				shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
+			}
 			texturesDirty_ = true;
 		}
 	}
 
 	void D3D11RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
 	{
-		SetTexture(uniform->m_index,pTexture);
+		SetTexture(uniform->m_index,pTexture,TRUE);
 	}
 
 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
@@ -532,9 +545,10 @@ namespace ma
 
 	void D3D11RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
-		SetTexture(uniform,pSampler->GetTexture());
-
 		uint32 index = uniform->m_index;
+
+		SetTexture(index,pSampler->GetTexture(),pSampler->GetSRGB() == pSampler->GetTexture()->GetSRGB());
+
 		if (pSampler != samplerStates[index])
 		{
 			if (firstDirtySamplerState_ == M_MAX_UNSIGNED)

@@ -16,6 +16,8 @@ namespace ma
 
 		virtual void Render();
 
+		virtual void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
+
 	private:
 		RefPtr<PointLight>	m_pPointLight;
 

@@ -1228,6 +1228,14 @@
 				Name="PostProcess"
 				>
 				<File
+					RelativePath="..\..\code\Engine\RenderScheme\AlchemyAo.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\AlchemyAo.hxx"
+					>
+				</File>
+				<File
 					RelativePath="..\..\code\Engine\RenderScheme\BlurPostProcess.h"
 					>
 				</File>

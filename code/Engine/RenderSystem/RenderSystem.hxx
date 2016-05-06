@@ -192,7 +192,6 @@ namespace ma
 		GetRenderDevice()->SetCullingMode( m_curState.m_eCullMode );
 		GetRenderDevice()->SetDepthCheckMode( m_curState.m_eDepthCheckMode );
 		GetRenderDevice()->SetBlendMode( m_curState.m_eBlendMode );
-		GetRenderDevice()->SetSRGBWrite(m_curState.m_bSRGBWrite);
 		GetRenderDevice()->SetStencilEnable(m_curState.m_bStencil);
 		GetRenderDevice()->SetStencilBufferParams(m_curState.m_eStencilfunc,
 			m_curState.m_nStencilRefValue,m_curState.m_nStencilMask,
@@ -225,6 +224,8 @@ namespace ma
 		UnitSphere::Init();
 
 		Scene* pScene = new Scene("defaultScene");
+		pScene->GetRenderScheme()->Init();
+		pScene->GetRenderScheme()->Reset();
 		pScene->SetViewport(m_curViewport);
 		m_arrScene.push_back(pScene);
 	}
@@ -239,7 +240,7 @@ namespace ma
 	{
 		for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		{
-			GetRenderDevice()->SetTexture(i,NULL);
+			GetRenderDevice()->SetTexture(i,NULL,true);
 		}
 
 		GetRenderDevice()->BeginRender();
@@ -303,6 +304,13 @@ namespace ma
 
 		GetRenderDevice()->DrawRenderable(pRenderable,pTechnique);
 
+	}
+
+	RefPtr<Texture> RenderSystem::CreateTextureView(Texture* pTexture)
+	{
+		Texture* pTarget = GetRenderDevice()->CreateTexture();
+		m_pRenderThread->RC_CreateRenderTarget(pTarget);
+		return pTarget;
 	}
 
 	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
@@ -440,15 +448,6 @@ namespace ma
 		}
 	}
 
-	void RenderSystem::SetSRGBWite(bool b)
-	{
-		//if (m_curState.m_bSRGBWrite != b)
-		{
-			m_curState.m_bSRGBWrite = b;
-			m_pRenderThread->RC_SetSRGBWite(b);
-		}
-	}
-
 	void RenderSystem::SetDepthBias(float fConstantBias,float slopeScaleBias)
 	{
 		//if ( Math::Abs(m_curState.GetDepthBias() - fDepthBias) > 0.0001f )
@@ -492,8 +491,6 @@ namespace ma
 		SetColorWrite(state.m_bColorWrite);
 
 		SetDepthBias(state.m_fConstantBias,state.m_fSlopeScaleBias);
-
-		SetSRGBWite(state.m_bSRGBWrite);
 
 		SetStencilCheckEnabled(state.m_bStencil);
 		SetStencilBufferParams(state.m_eStencilfunc,state.m_nStencilRefValue,state.m_nStencilMask,

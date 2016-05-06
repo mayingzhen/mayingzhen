@@ -109,10 +109,6 @@ EXPORTS
 ?SetDeviceName@DeviceCapabilitie@ma@@QAEXPBD@Z
 ??0Texture@ma@@QAE@XZ
 ??1Texture@ma@@UAE@XZ
-?Rotate@SceneNode@ma@@QAEXABVQuaternion@2@_N@Z
-?Yaw@SceneNode@ma@@QAEXM_N@Z
-?Pitch@SceneNode@ma@@QAEXM_N@Z
-?Roll@SceneNode@ma@@QAEXM_N@Z
 ?GetVSFile@ShaderProgram@ma@@QBEPBDXZ
 ?GetPSFile@ShaderProgram@ma@@QBEPBDXZ
 ?GetShaderMacro@ShaderProgram@ma@@QBEPBDXZ
@@ -173,7 +169,6 @@ EXPORTS
 ?UpdateMeshData@MeshData@ma@@QAEXPAUSkinVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
 ??0Thread@ma@@QAE@PBD@Z
 ?GetJobScheduler@ma@@YAPAVJobScheduler@1@XZ
-?SetRenderScheme@Scene@ma@@QAEXW4Type@RenderScheme@2@@Z
 ?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
 ?SetRadius@PointLight@ma@@QAEXM@Z
 ?SetShadowEnabled@DirectonalLight@ma@@QAEX_N@Z
@@ -220,3 +215,5 @@ EXPORTS
 ?SetSMAAEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetSMAAEnabled@RenderScheme@ma@@QBE_NXZ
 ??0Texture@ma@@QAE@HHW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@@Z
+?SetDeferredShadingEnabled@RenderScheme@ma@@QAEX_N@Z
+?GetDeferredShadingEnabled@RenderScheme@ma@@QBE_NXZ

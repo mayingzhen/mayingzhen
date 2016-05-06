@@ -342,17 +342,17 @@ namespace ma
 		return Vector4(fNear,fFar,1.0f/fFar,0);
 	}
 
-	Texture* ParameterManager::autoBingingSceneDiffuse() const
+	SamplerState* ParameterManager::autoBingingSceneDiffuse() const
 	{
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneDiffuse();
 	}
 
-	Texture* ParameterManager::autoBingingSceneDetph() const
+	SamplerState* ParameterManager::autoBingingSceneDetph() const
 	{
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneDepth();
 	}
 
-	Texture* ParameterManager::autoBindingSceneNormal() const
+	SamplerState* ParameterManager::autoBindingSceneNormal() const
 	{
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneNormal();
 	}

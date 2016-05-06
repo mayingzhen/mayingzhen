@@ -68,9 +68,9 @@ namespace ma
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;
-		Texture*			autoBingingSceneDiffuse() const;
-		Texture*			autoBingingSceneDetph() const;
-		Texture*			autoBindingSceneNormal() const;
+		SamplerState*		autoBingingSceneDiffuse() const;
+		SamplerState*		autoBingingSceneDetph() const;
+		SamplerState*		autoBindingSceneNormal() const;
 		Texture*			autoBindingTextureLightShadow() const;
 		SamplerState*		autoBindingShadowMap() const;
 		Vector4				autoBindingSpitPos() const;

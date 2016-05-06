@@ -16,14 +16,7 @@ namespace ma
 	class  RenderScheme : public Referenced
 	{
 	public:
-
-		enum Type
-		{
-			Forward,
-			DeferredShading,
-		};
-
-		RenderScheme(RenderScheme::Type eType,Scene* pScene);
+		RenderScheme(Scene* pScene);
 
 		void	Init();
 
@@ -39,12 +32,15 @@ namespace ma
 		
 		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass.get(); }
 
-		Texture* GetSceneDiffuse() const {return m_pDiffuseTex.get();}
-		Texture* GetSceneDepth() const {return m_pDepthTex.get();}
-		Texture* GetSceneNormal() const {return m_pNormalTex.get();}
+		SamplerState* GetSceneDiffuse() const {return m_pDiffuseSampler.get();}
+		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
+		SamplerState* GetSceneNormal() const {return m_pNormalSampler.get();}
 
 		void SetSMAAEnabled(bool b);
 		bool GetSMAAEnabled() const;
+
+		void SetDeferredShadingEnabled(bool b);
+		bool GetDeferredShadingEnabled() const;
 
 	private:
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
@@ -57,14 +53,18 @@ namespace ma
 		RefPtr<Texture>			m_pNormalTex;
 		RefPtr<Texture>			m_pDiffuseTex;
 
+		RefPtr<SamplerState>	m_pDepthSampler;
+		RefPtr<SamplerState>	m_pNormalSampler;
+		RefPtr<SamplerState>	m_pDiffuseSampler;
+
 		RefPtr<FrameBuffer>		m_pFrameBuffer;
 
 		Scene*					m_pScene;
 
-		Type					m_eType;
+		//Type					m_eType;
 	};
 
-	RefPtr<RenderScheme> CreateRenderScheme(RenderScheme::Type eType,Scene* pScene);
+	//RefPtr<RenderScheme> CreateRenderScheme(Scene* pScene);
 
 }
 
