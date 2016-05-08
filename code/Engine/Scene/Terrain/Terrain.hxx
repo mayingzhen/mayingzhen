@@ -14,7 +14,6 @@ namespace ma
 		m_fLodParamDiv = 0;
 		m_uNumLods = 1;
 		m_nBlendingMultiple = 1;
-		m_bBlendMapToVertex = false;
 		m_bLoadOver = false;
 	}
 
@@ -158,14 +157,13 @@ namespace ma
 
 	void Terrain::BuildVertexDeclaration()
 	{
-		VertexElement element[5];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		element[1] = VertexElement(0,12,DT_FLOAT2,DU_TEXCOORD,0);
-		element[2] = VertexElement(0,20,DT_FLOAT3,DU_NORMAL,0);
-		element[3] = VertexElement(0,32,DT_FLOAT3,DU_TANGENT,0);
-		element[4] = VertexElement(0,44,DT_COLOR,DU_COLOR,0);
-		//element[5] = VertexElement(0,48,DT_COLOR,DU_COLOR,1);
-		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,5);
+		VertexElement element[3];
+		element[0] = VertexElement(0,0,DT_SHORT4N,DU_POSITION,0);
+		element[1] = VertexElement(0,8,DT_SHORT2N,DU_TEXCOORD,0);
+		element[2] = VertexElement(0,12,DT_UBYTE4N,DU_TANGENT,0);
+		m_pVertexDecl = GetRenderSystem()->CreateVertexDeclaration(element,3);
+
+		ASSERT(sizeof(TERRAIN_VERTEX) == m_pVertexDecl->GetStreanmStride());
 	}
 
 
@@ -212,10 +210,7 @@ namespace ma
 	{
 		m_strBlendMap = pszFile ? pszFile : "";
 
-		if (m_bBlendMapToVertex)
-			m_pBlendMapData = CreateResource(pszFile);
-		else
-			m_pBlendMap = CreateTexture(pszFile);
+		m_pBlendMap = CreateTexture(pszFile);
 	}
 	
 	bool Terrain::IsReady()
@@ -232,23 +227,8 @@ namespace ma
 		if (m_pMaterialMapData && !m_pMaterialMapData->IsReady())
 			return false;
 
-// 		for (uint32 i = 0; i < m_pMaterialData->GetSubMatDataNumber(); ++i)
-// 		{
-// 			RefPtr<SubMaterial> pSubMaterial = m_pMaterialData->GetSubMatDataByIndex(i);//CreateSubMaterial();
-// 			//pSubMaterial->InitWithSubMatData(m_pMaterialData->GetSubMatDataByIndex(i));
-// 			this->AddMaterial(pSubMaterial.get());
-// 		}
-
-		if (m_bBlendMapToVertex) 
-		{
-			if (m_pBlendMapData == NULL || !m_pBlendMapData->IsReady())
+		if (m_pBlendMap == NULL || !m_pBlendMap->IsReady())
 				return false;
-		}
-		else
-		{
-			if (m_pBlendMap == NULL || !m_pBlendMap->IsReady())
-				return false;
-		}
 
 		if (m_pHeightMapData)
 		{
@@ -277,13 +257,6 @@ namespace ma
 			m_vBlendOffset = Vector2(0.5f / m_pBlendMap->GetWidth(), 0.5f / m_pBlendMap->GetHeight());
 		}
 
-		if (m_pDataMapData)
-		{
-			int matW, matH;
-			ResourceMapToData<uint32>(m_pDataMapData.get(),m_vecData,matW,matH);
-			m_pDataMapData = NULL;
-		}
-
 		BuildVertexDeclaration();
 
 		BuildTrunks();
@@ -294,15 +267,6 @@ namespace ma
 
 		return true;
 	}	
-
-// 	void Terrain::OnTransformChange()
-// 	{
-// 		for (UINT i = 0; i < m_vecTrunk.size(); ++i)
-// 		{
-// 			m_vecTrunk[i]->OnTransformChange();
-// 		}
-// 	}
-
 
 	float Terrain::GetHeight(int nXVert, int nYVert) const
 	{
@@ -513,6 +477,11 @@ namespace ma
 		return vPos;
 	}
 
+	Vector2 Terrain::GetUV(int nXVert, int nYVert) const
+	{
+		return Vector2((float)nXVert / (float)m_nXCellsAmount,(float)nYVert / (float)m_nYCellsAmount);
+	}
+
 	Vector3 Terrain::GetNormal(int nXVert, int nYVert) const
 	{
 		if (nXVert <= 0 || nXVert >= m_nXCellsAmount)
@@ -665,24 +634,6 @@ namespace ma
 	void Terrain::SetTriFlip(int nXVert,int nYVert,bool bFlip)
 	{
 
-	}
-
-	void Terrain::GetVertexData(int nXVert,int nYVert,TERRAIN_VERTEX& v) const
-	{
-		v.pos = GetPos(nXVert,nYVert);
-		v.uv.x = (float)nXVert / (float)m_nXCellsAmount;
-		v.uv.y = (float)nYVert / (float)m_nYCellsAmount;
-		v.normal = GetNormal(nXVert, nYVert);
-		v.tan = GetTangent(nXVert, nYVert);
-
-		ColourValue color;
-		color.a = (float)GetMaterialID(nXVert,nYVert) / 255.0f;
-		v.color = color.getAsARGB();
-
-		if (m_bBlendMapToVertex)
-		{
-			//v.blend = GetBlendData(nXVert,nYVert);
-		}
 	}
 
 	RefPtr<Terrain>	 CreateTerrain()

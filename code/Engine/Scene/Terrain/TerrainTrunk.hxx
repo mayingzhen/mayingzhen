@@ -1,5 +1,6 @@
 #include "TerrainTrunk.h"
 #include "TerrainRenderable.h"
+#include "Engine/Renderable/MeshData.h"
 
 namespace ma
 {
@@ -108,7 +109,8 @@ namespace ma
 		{
 			for (int n = j * m_pTerrain->GetTrunkSize(); n <= (j + 1) * m_pTerrain->GetTrunkSize(); ++n)
 			{
-				aabb.merge(m_pTerrain->GetPos(m, n));
+				aabb.merge( m_pTerrain->GetPos(m, n) );
+				m_uvAABB.merge( m_pTerrain->GetUV(m,n) );
 			}
 		}
 
@@ -166,13 +168,21 @@ namespace ma
 					int nYVert = m_pTerrain->GetTrunkSize() *  m_nY  + j * nStep;
 
 					TERRAIN_VERTEX vertex;
-					m_pTerrain->GetVertexData(nXVert,nYVert,vertex);
+		
+					Vector3 vPos = m_pTerrain->GetPos(nXVert,nYVert);
+					Vector2 vUV = m_pTerrain->GetUV(nXVert,nYVert);
+					Vector3 vNormal = m_pTerrain->GetNormal(nXVert, nYVert);;
+					Vector3 vTanget = m_pTerrain->GetTangent(nXVert, nYVert);
+					uint8 nMateriID = m_pTerrain->GetMaterialID(nXVert,nYVert);
+
+					vertex.pos = CompressPos(vPos,GetAABB().getCenter(),GetAABB().getHalfSize());
+					vertex.uv = CompressUV(vUV,m_uvAABB.getCenter(),m_uvAABB.getHalfSize());
+					vertex.tangent_quat = CompressQuaternion(vTanget,vNormal);
+					vertex.pos.w = nMateriID;
 
 					m_vecVBDataTemp[m][nIndex] = vertex;
 					
-					ColourValue color0;
-					color0.setAsARGB(vertex.color);
-					uint8 matID0 = (uint8)(color0.a * 255.0f);
+					uint8 matID0 = (uint8)(vertex.pos.w);
 					m_vecSetMatIDTemp[m].insert(matID0);
 
 					nIndex += 1;
@@ -231,14 +241,13 @@ namespace ma
 					{
 						uint16 triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
 
-						ColourValue color0,color1,color2;
-						color0.setAsARGB(pVBData[ triangle[0] ].color);
-						color1.setAsARGB(pVBData[ triangle[1] ].color);
-						color2.setAsARGB(pVBData[ triangle[2] ].color);
+						TERRAIN_VERTEX& vertex0 = pVBData[ triangle[0] ];
+						TERRAIN_VERTEX& vertex1 = pVBData[ triangle[1] ];
+						TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
-						uint8 matID0 = (uint8)(color0.a * 255.0f);
-						uint8 matID1 = (uint8)(color1.a * 255.0f);
-						uint8 matID2 = (uint8)(color2.a * 255.0f);
+						uint8 matID0 = (uint8)(vertex0.pos.w);
+						uint8 matID1 = (uint8)(vertex0.pos.w);
+						uint8 matID2 = (uint8)(vertex0.pos.w);
 
 						if ( (matID0 == iMatID || matID1 == iMatID || matID2 == iMatID) && m_vecTriangleMatID[m][i / 3] == (uint8)-1)	
 						{
@@ -291,15 +300,13 @@ namespace ma
 			{
 				uint16 triangle[3] = { pIBData[i+0], pIBData[i+1], pIBData[i+2] };
 
-				ColourValue color0,color1,color2;
-				color0.setAsARGB(pVBData[ triangle[0] ].color);
-				color1.setAsARGB(pVBData[ triangle[1] ].color);
-				color2.setAsARGB(pVBData[ triangle[2] ].color);
+				TERRAIN_VERTEX& vertex0 = pVBData[ triangle[0] ];
+				TERRAIN_VERTEX& vertex1 = pVBData[ triangle[1] ];
+				TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
-				uint8 matID0 = (uint8)(color0.a * 255.0f);
-				uint8 matID1 = (uint8)(color1.a * 255.0f);
-				uint8 matID2 = (uint8)(color2.a * 255.0f);
-
+				uint8 matID0 = (uint8)(vertex0.pos.w);
+				uint8 matID1 = (uint8)(vertex0.pos.w);
+				uint8 matID2 = (uint8)(vertex0.pos.w);
 				if (matID2 == matID0 && matID2 == matID1)
 					continue;
 

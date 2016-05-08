@@ -262,6 +262,14 @@ namespace ma
 		int width = m_nWidth >> nLevel;
 		int height = m_nHeight >> nLevel;
 
+		if (PixelUtil::isCompressed(converted.format))
+		{
+			width += 3;
+			width &= 0xfffffffc;
+			height += 3;
+			height &= 0xfffffffc;
+		}
+
 		Box dstBox(0,0,width,height);
 
 		D3D11_BOX dstBoxDx11 = OgreImageBoxToDx11Box(dstBox);
@@ -279,9 +287,6 @@ namespace ma
 		uint32 rowWidth;
 		if (PixelUtil::isCompressed(converted.format))
 		{
-			if (width < 4 || height < 4)
-				return true;
-
 			// D3D wants the width of one row of cells in bytes
 			if (converted.format == PF_DXT1)
 			{

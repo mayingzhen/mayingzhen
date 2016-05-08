@@ -78,7 +78,7 @@ namespace ma
 		nID3 = uBondID.uByte[3];
 	}
 
-	UINT32 ToSkinNormal(const Vector3& vNorm)
+	UINT32 CompressNormal(const Vector3& vNorm)
 	{
 		Vector3 vNormIn = vNorm.normalisedCopy();
 
@@ -97,7 +97,61 @@ namespace ma
 		return uTemp.uInde;
 	}
 
-	SHORTV4 ToSkinPos(const Vector3& vPos, const Vector3& vCenter, const Vector3& vExtent)
+	UINT32 CompressQuaternion(const Vector3& tangent,Vector3 const& normal)
+	{
+		Vector3 vTangent = ( vTangent - normal * ( vTangent.dotProduct(normal) ) ).normalisedCopy();  
+		Vector3 binormal = normal.crossProduct(vTangent);
+
+		float k = 1;
+		if ( binormal.dotProduct( normal.crossProduct(tangent) ) < 0 )
+		{
+			k = -1;
+		}
+
+		Matrix3 tangent_frame;
+		tangent_frame.SetColumn(0,vTangent);
+		tangent_frame.SetColumn(1,k * binormal);
+		tangent_frame.SetColumn(2,normal);
+
+		Quaternion tangent_quat;
+		tangent_quat.FromRotationMatrix(tangent_frame);
+		if (tangent_quat.w < 0)
+		{
+			tangent_quat = -tangent_quat;
+		}
+		//if (bits > 0)
+		{
+			float const bias = float(1) / ((1UL << (8 - 1)) - 1);
+			if (tangent_quat.w < bias)
+			{
+				float const factor = sqrt(1 - bias * bias);
+				tangent_quat.x *= factor;
+				tangent_quat.y *= factor;
+				tangent_quat.z *= factor;
+				tangent_quat.w = bias;
+			}
+		}
+		if (k < 0)
+		{
+			tangent_quat = -tangent_quat;
+		}
+
+		union UIndex
+		{
+			UINT32 uInde;
+			UINT8 uByte[4];
+		};
+
+		UIndex uTemp;
+		uTemp.uByte[0] = (UINT8)(tangent_quat.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (UINT8)(tangent_quat.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (UINT8)(tangent_quat.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (UINT8)(tangent_quat.w * 127.5f + 128.0f);
+
+		return uTemp.uInde;
+	}
+
+	SHORTV4 CompressPos(const Vector3& vPos, const Vector3& vCenter, const Vector3& vExtent)
 	{
 		SHORTV4 vSkinPos;
 
@@ -109,7 +163,7 @@ namespace ma
 		return vSkinPos;
 	}
 
-	SHORTV2 ToSkinUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent)
+	SHORTV2 CompressUV(const Vector2& vUV,const Vector2& vCenter, const Vector2& vExtent)
 	{
 		SHORTV2 vSkinUV;
 
@@ -368,9 +422,9 @@ namespace ma
 			SkinVertexV0& vertexV0 = pVertexV0[i];
 			StaticVertexV1& vertexV1 = pVertexV1[i];
 
-			vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
-			vertexV1.nor = ToSkinNormal(vertexV0.nor);
-			vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
+			vertexV1.pos = CompressPos(vertexV0.pos,pos_center,pos_extent);
+			vertexV1.nor = CompressNormal(vertexV0.nor);
+			vertexV1.uv = CompressUV(vertexV0.uv,tc_center,tc_extent);
 		}
 	
 		for (uint32 iSub = 0; iSub < m_arrSubMesh.size(); ++iSub)
@@ -406,9 +460,9 @@ namespace ma
 			SkinVertexV0& vertexV0 = pVertexV0[i];
 			SkinVertexV1& vertexV1 = pVertexV1[i];
 
-			vertexV1.pos = ToSkinPos(vertexV0.pos,pos_center,pos_extent);
-			vertexV1.nor = ToSkinNormal(vertexV0.nor);
-			vertexV1.uv = ToSkinUV(vertexV0.uv,tc_center,tc_extent);
+			vertexV1.pos = CompressPos(vertexV0.pos,pos_center,pos_extent);
+			vertexV1.nor = CompressNormal(vertexV0.nor);
+			vertexV1.uv = CompressUV(vertexV0.uv,tc_center,tc_extent);
 			vertexV1.bone_index = vertexV0.bone_index;
 			vertexV1.bone_weight = vertexV0.bone_weight;
 		}

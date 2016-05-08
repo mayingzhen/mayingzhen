@@ -20,12 +20,9 @@ namespace ma
 
 	struct TERRAIN_VERTEX
 	{
-		Vector3 pos;
-		Vector2 uv;
-		Vector3 normal;
-		Vector3 tan;
-		uint32  color;  //.a ΪMaterialID
-		//uint32	blend;
+		SHORTV4 pos;
+		SHORTV2 uv;
+		uint32 tangent_quat;
 	};
 
 	class Terrain : public SceneNode
@@ -48,6 +45,9 @@ namespace ma
 		float GetHeight(float fX, float fY) const;
 		float GetHeight(int nXVert, int nYVert) const;
 		Vector3 GetPos(int nXVert, int nYVert) const;
+
+		// UV
+		Vector2 GetUV(int nXVert, int nYVert) const;
 
 		// normal
 		Vector3 GetNormal(int nXVert, int nYVert) const;
@@ -72,7 +72,6 @@ namespace ma
 		bool GetTriFlip(int nXVert,int nYVert) const;
 		void SetTriFlip(int nXVert,int nYVert,bool bFlip);
 
-		void GetVertexData(int nXVert,int nYVert,TERRAIN_VERTEX& v) const; 
 		VertexDeclaration* GetVertexDeclaration() const {return m_pVertexDecl.get();}
 
 		int GetXCellAmount() const {return m_nXCellsAmount;}
@@ -163,11 +162,6 @@ namespace ma
 		RefPtr<Texture> m_pBlendMap;
 		int m_nBlendingMultiple;
 		Vector2 m_vBlendOffset;
-		bool m_bBlendMapToVertex;
-	
-		RefPtr<Resource> m_pDataMapData;
-		typedef vector<uint32> VEC_DATA;
-		VEC_DATA m_vecData;
 
 		bool m_bLoadOver;
 

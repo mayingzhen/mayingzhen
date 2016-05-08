@@ -668,13 +668,7 @@ namespace ma
 					ID3D11BlendState* newBlendState = 0;
 					HRESULT hr = m_pD3DDevice->CreateBlendState(&stateDesc, &newBlendState);
 					if (!newBlendState)
-					{
-						if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS)
-						{
-
-						}
 						LogError("Failed to create blend state");
-					}
 
 					blendStates_.insert( std::make_pair(newBlendStateHash, newBlendState) );
 					
@@ -875,7 +869,6 @@ namespace ma
 			if (vsBuffer != constantBuffers_[VS][i])
 			{
 				constantBuffers_[VS][i] = vsBuffer;
-				//shaderParameterSources_[i] = (const void*)M_MAX_UNSIGNED;
 				vsBuffersChanged = true;
 			}
 
@@ -883,7 +876,6 @@ namespace ma
 			if (psBuffer != constantBuffers_[PS][i])
 			{
 				constantBuffers_[PS][i] = psBuffer;
-				//shaderParameterSources_[i] = (const void*)M_MAX_UNSIGNED;
 				psBuffersChanged = true;
 			}
 		}

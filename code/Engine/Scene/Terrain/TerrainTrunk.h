@@ -29,6 +29,8 @@ namespace ma
 
 		Terrain* GetTerrain() const {return m_pTerrain;}
 
+		const AABB2D& GetUVAABB() const {return m_uvAABB;}
+
 	private:
 		void BuildLod();
 		void BuildVertexBuffer();
@@ -91,6 +93,8 @@ namespace ma
 		vector< vector<uint16> > m_vecIBDataTemp;
 
 		vector< vector<SkitIB> > m_vecSkirt;
+
+		AABB2D m_uvAABB;
 
 		friend class Terrain;
 	};

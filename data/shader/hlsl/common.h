@@ -25,6 +25,12 @@ cbuffer LightPS : register(b3)
 	float3 g_vDirLight;
 }
 
+float3 transform_quat(float3 v, float4 quat)
+{
+	return v + cross(quat.xyz, cross(quat.xyz, v) + quat.w * v) * 2;
+}
+
+
 
 //http://aras-p.info/texts/CompactNormalStorage.html
 float2 EncodeNormal(float3 n)
