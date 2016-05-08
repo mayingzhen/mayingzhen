@@ -86,7 +86,7 @@ float4 ForwardShading(float4 cDiffuse,PS_IN In)
 	#else
 		float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), u_specPower );   
 		
-		float3 Diffuse = light.y * g_cDirLight.xyz;
+		float3 Diffuse = light.y * g_cDirLight.xyz + g_cSkyLight;
 		float3 Specular = light.z * g_cDirLight.xyz;	
 			
 		flagColor.xyz = Diffuse * cDiffuse;	

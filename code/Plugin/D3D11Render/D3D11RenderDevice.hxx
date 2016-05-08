@@ -971,13 +971,18 @@ namespace ma
 		ColorRGBA[1] = c.g;
 		ColorRGBA[2] = c.b;
 		ColorRGBA[3] = c.a;
-
-
-		if ((bColor) && m_pRenderTarget[0])
-			m_pDeviceContext->ClearRenderTargetView(m_pRenderTarget[0], ColorRGBA);
+		
+		if (bColor)
+		{
+			for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
+			{
+				if (m_pRenderTarget[i])
+					m_pDeviceContext->ClearRenderTargetView(m_pRenderTarget[i], ColorRGBA);
+			}
+		}
 
 		unsigned depthClearFlags = 0;
-		if (bColor)
+		if (bDepth)
 			depthClearFlags |= D3D11_CLEAR_DEPTH;
 		if (bStencil)
 			depthClearFlags |= D3D11_CLEAR_STENCIL;

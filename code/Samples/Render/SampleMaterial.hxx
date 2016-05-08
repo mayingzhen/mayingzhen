@@ -10,10 +10,6 @@ namespace ma
 	{
 		GetCamera()->LookAt(Vector3(0, -5, 3), Vector3(0, 0, 0));
 
-		//GetInput()->AddKeyListener(this);
-
-		//GetResourceSystem()->SetDataThreadEnable(false);
-
 		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
 		
 		if (0)
@@ -65,12 +61,11 @@ namespace ma
 		
 		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,-10,0),Vector3(0,0,0));
 		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
-		m_pScene->SetAmbientColor(Vector3(0.2,0.2,0.2));
+		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 	}
 
 	void SampleMaterial::UnLoad()
 	{
-		//GetInput()->RemoveKeyListener(this);
 	}
 
 	void SampleMaterial::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
