@@ -70,8 +70,10 @@ namespace ma
 				for(int j = 0; j < 3 ; ++j)
 				{
 					FbxVector4 fPos(vertex[j].pos.x,vertex[j].pos.y,vertex[j].pos.z,1);
+					FbxVector4 fNor(vertex[j].nor.x,vertex[j].nor.y,vertex[j].nor.z,0);
 
 					vertex[j].pos = ToMaUnit( globalTransform.MultT(fPos) );	
+					vertex[j].nor = ToMaUnit( globalTransform.MultT(fNor) );	
 
 					UpdateVertexArray(arrVertex,arrIndex,vertex[j]);
 				}
@@ -104,9 +106,9 @@ namespace ma
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StaticFunc::ReplaceFileExt(pFileName,"skn");
 		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StaticFunc::ReplaceFileExt(pFileName,"mat");
 	
-		MeshData meshData;
-		meshData.SetVertexType(STATIC_VERTEX_1);
-		meshData.SetIndexType(INDEX_TYPE_U16);
+		RefPtr<MeshData> pMeshData = CreateMeshData();
+		pMeshData->SetVertexType(STATIC_VERTEX_1);
+		pMeshData->SetIndexType(INDEX_TYPE_U16);
 
 		FbxScene* pFbxScene = GetFbxScene( strMeshFile.c_str() );
 		ASSERT(pFbxScene);
@@ -115,12 +117,9 @@ namespace ma
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetMeshData(pFbxMesh,&meshData,pImportParm);
+		GetMeshData(pFbxMesh,pMeshData.get(),pImportParm);
 
-		//MaterialData* pMaterialData = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
-		//pMaterial->Save(strOutMatFile.c_str());
-
-		meshData.SaveToFile(strOutMeshFile.c_str());	
+		pMeshData->SaveToFile(strOutMeshFile.c_str());	
 
 		return true;
 	}
@@ -143,37 +142,6 @@ namespace ma
 		arrIndex.push_back(index);
 	}
 
-
-	Material*  CreateMeshMaterial(FbxMesh* pMesh,int materiID,ImportParm* pImportParm,bool bSkin)
-	{
-// 		RefPtr<CGpuProgram> shader;
-// 
-// 		if (bSkin)
-// 			shader = CreateGpuProgram("wxskinstd");
-// 		else
-// 			shader = CreateGpuProgram("objectstd+DIFF");
-// 		
-// 		RefPtr<CMaterial> pMaterial = CreateMaterial(shader);//material;
-// 
-// 		std::string strDiff;
-// 		std::string strNormal;
-// 		LoadMaterialTexture(pMesh,materiID,strDiff,strNormal);
-// 
-// 		if (strDiff != "")
-// 		{
-// 			RefPtr<Texture> tDiff = CreateTexture(strDiff.c_str(), shader->GetTextureType("tDiff"), shader->GetTextureMipmap("tDiff"));
-// 			pMaterial->SetParameter("tDiff", Any(tDiff));
-// 		}
-// 
-// 		if (strNormal != "")
-// 		{
-// 			RefPtr<Texture> tNormal = CreateTexture(strNormal.c_str(), shader->GetTextureType("tNormal"), shader->GetTextureMipmap("tNormal"));
-// 			pMaterial->SetParameter("tNormal",Any(tNormal));
-// 		}
-// 
-// 		return pMaterial;
-		return NULL;
-	}
  
 	void GetTriangleData(FbxMesh* pMesh,int nTriangleIndex, SkinVertexV0 vertex[3],ImportParm* pImportParm)
 	{
@@ -205,26 +173,6 @@ namespace ma
 			}
 		}
 	}
-
-// 	void UpdateHardwareBuffer(std::vector<StaticVertexV1>& arrVertex,std::vector<UINT16>& arrIndex,
-// 		VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
-// 	{
-// 		int nVertexStride = sizeof(StaticVertexV1);
-// 		int nVertexCount = arrVertex.size();
-// 		{
-// 			uint8* pSrcData = new uint8[nVertexStride * nVertexCount];
-// 			memcpy(pSrcData, &arrVertex[0], nVertexStride * nVertexCount);
-// 			vertexBuffer->SetData(pSrcData,nVertexStride * nVertexCount,nVertexStride);
-// 		}
-// 
-// 		int nIndexStride = sizeof(UINT16);
-// 		int nIndexCount = arrIndex.size();
-// 		{
-// 			uint8* pIndexSrcData = new uint8[nIndexStride * nIndexCount]; 
-// 			memcpy(pIndexSrcData, &arrIndex[0], nIndexStride * nIndexCount);
-// 			indexBuffer->SetData(pIndexSrcData,nIndexStride * nIndexCount,nIndexStride);
-// 		}
-// 	}
 
 	void GetTextureNames( FbxProperty &pProperty, std::string& pConnectionString )
 	{

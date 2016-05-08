@@ -65,14 +65,15 @@ namespace ma
 		return Math::InvalidID<BoneIndex>();
 	}
 
-	void Animation::AddTrack(const char* pName,const Vector3Track& scale,const QuaternionTrack& rot,const Vector3Track& pos)
+	void Animation::AddTrack(const char* pName,const Vector3Track* pScale,const QuaternionTrack* pRot,const Vector3Track* pPos)
 	{
 		m_arrTrackName.push_back(pName);
-		m_arrScaleTrack.push_back(scale);
-		m_arrRotTrack.push_back(rot);
-		m_arrPosTrack.push_back(pos);
 
-		UINT nFrame = pos.GetFrameNumber();
+		m_arrScaleTrack.push_back(*pScale);
+		m_arrRotTrack.push_back(*pRot);
+		m_arrPosTrack.push_back(*pPos);
+
+		UINT nFrame = pPos->GetFrameNumber();
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 

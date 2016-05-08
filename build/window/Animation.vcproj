@@ -255,6 +255,10 @@
 				RelativePath="..\..\Code\Plugin\Animation\Track.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Plugin\Animation\Track.hxx"
+				>
+			</File>
 			<Filter
 				Name="PoseModifier"
 				>

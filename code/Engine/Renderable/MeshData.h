@@ -121,11 +121,15 @@ namespace ma
 
 		INDEX_TYPE				GetIndexType() const {return m_nIndexType;}
 		void					SetIndexType(INDEX_TYPE nType) {m_nIndexType = nType;} 
+
+		UINT32					GetBoneNumber() const {return m_nBoneNumber;}
+		void					SetBoneNumber(UINT32 nNumber) {m_nBoneNumber = nNumber;}
 		
 		bool					SaveToFile(const char* pszFile);	
 
 		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);
 		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);
+		void					SplitMeshData(UINT nMaxBonePerBatch);	
 
 	private:
 
@@ -136,13 +140,13 @@ namespace ma
 		void					ReadDataV0();
 
 	private:
-		
+		UINT							m_nBoneNumber;
 		INDEX_TYPE						m_nIndexType;
 		VertexType						m_nVertexType;
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;
 		RefPtr<VertexDeclaration>		m_pDeclaration; 
-
+		
 		typedef std::vector< RefPtr<SubMeshData> > VEC_SUBMESH;
 		VEC_SUBMESH						m_arrSubMesh;	
 

@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	void LoadAnimationData(FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,TrackData>& boneTrack)
+	void LoadAnimationData(FbxNode* pRoot, FbxAnimLayer* pAnimLayer, FbxNode* pNode,FbxAnimStack* pAnimStack,std::map<std::string,RefPtr<TrackData> >& boneTrack)
 	{
 		int lModelCount;
 		FbxString lOutputString;
@@ -15,7 +15,12 @@ namespace ma
 
 		const char* pszBoneName = pNode->GetName();
 
-		TrackData trackData;
+		RefPtr<TrackData> pTrackData = new TrackData();
+		pTrackData->posTrack = CreateVector3Track();
+		pTrackData->RotTrack = CreateQuaternionTrack();
+		pTrackData->scaleTrack = CreateVector3Track();
+
+		FbxAMatrix GlobalTransform = pRoot->GetScene()->GetEvaluator()->GetNodeGlobalTransform(pRoot);
 	
 		if ( pNode->GetSkeleton() )
 		{
@@ -32,29 +37,28 @@ namespace ma
 				start += step;
 
 				FbxAMatrix mat = pNode->EvaluateLocalTransform(start);
-				FbxVector4 pTranslation = mat.GetT();
-				FbxQuaternion pRotation = mat.GetQ();
-				FbxVector4 pScaling = mat.GetS();
 
-				FbxVector4 euler = mat.GetR();
+				FbxVector4 fTranslation = mat.GetT();
+				FbxQuaternion fRotation = mat.GetQ();
+				FbxVector4 fScaling = mat.GetS();
 
-				trackData.posTrack.Pushback( i, ToMaUnit(pTranslation) );
-				trackData.RotTrack.Pushback( i, ToMaUnit(pRotation) );
-				trackData.scaleTrack.Pushback( i, ToMaUnit(pScaling) );
+				pTrackData->posTrack->Pushback( i, ToMaUnit( /*GlobalTransform.MultT(*/fTranslation/*)*/ ) );
+				pTrackData->RotTrack->Pushback( i, ToMaUnit( /*GlobalTransform.MultQ(*/fRotation/*)*/ ) );
+				pTrackData->scaleTrack->Pushback( i, ToMaUnit(fScaling) );
 
 				++i;
 			}
 
-			boneTrack[pszBoneName] = trackData;	
+			boneTrack[pszBoneName] = pTrackData;	
 		}
 
 		for(lModelCount = 0; lModelCount < pNode->GetChildCount(); lModelCount++)
 		{
-			LoadAnimationData(pAnimLayer, pNode->GetChild(lModelCount),pAnimStack,boneTrack);
+			LoadAnimationData(pRoot,pAnimLayer, pNode->GetChild(lModelCount),pAnimStack,boneTrack);
 		}
 	}
 
-	void LoadAnimationData(FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData)
+	void LoadAnimationData(FbxNode* pRoot, FbxAnimStack* pAnimStack, FbxNode* pNode,Animation& skaData,const Skeleton& skeData)
 	{
 		int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
 		FbxString lOutputString;
@@ -64,7 +68,7 @@ namespace ma
 		lOutputString += " Animation Layer(s)\n";
 		FBXSDK_printf(lOutputString);
 
-		std::map<std::string,TrackData> boneTrack;
+		std::map<std::string,RefPtr<TrackData> > boneTrack;
 
 		//ASSERT(nbAnimLayers == 1);
 		for (int l = 0; l < nbAnimLayers; l++)
@@ -77,7 +81,7 @@ namespace ma
 			FBXSDK_printf(lOutputString);
 
 		
-			LoadAnimationData(lAnimLayer, pNode, pAnimStack, boneTrack);
+			LoadAnimationData(pRoot,lAnimLayer, pNode, pAnimStack, boneTrack);
 
 			break;
 		}
@@ -87,12 +91,13 @@ namespace ma
  		for (UINT i = 0; i < skeData.GetBoneNumer(); ++i)
 		{
 			std::string boneName = skeData.GetBoneNameByIndex(i);
-			std::map<std::string,TrackData>::iterator it = boneTrack.find( boneName.c_str() );
+			std::map<std::string,RefPtr<TrackData> >::iterator it = boneTrack.find( boneName.c_str() );
 			ASSERT(it != boneTrack.end());
 			if (it == boneTrack.end())
 				continue;
-
-			skaData.AddTrack(boneName.c_str(),it->second.scaleTrack,it->second.RotTrack,it->second.posTrack);
+			
+			RefPtr<TrackData> pTackData = it->second;
+			skaData.AddTrack(boneName.c_str(),pTackData->scaleTrack.get(),pTackData->RotTrack.get(),pTackData->posTrack.get());
 		}
 	}
 
@@ -108,6 +113,8 @@ namespace ma
 		if (pFbxScene == NULL)
 			return false;
 
+		FbxSkeleton* pRootBone = GetFbxRootBone(pFbxScene->GetRootNode());
+
 		RefPtr<Animation> pSkaData = CreateAnimation();
 
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
@@ -121,7 +128,7 @@ namespace ma
 			lOutputString += "\n\n";
 			FBXSDK_printf(lOutputString);
 
-			LoadAnimationData(lAnimStack, pFbxScene->GetRootNode(),*pSkaData,skeData);
+			LoadAnimationData(pRootBone->GetNode(), lAnimStack, pFbxScene->GetRootNode(),*pSkaData,skeData);
 
 			break;
 		}
@@ -133,37 +140,37 @@ namespace ma
 		return true;
 	}
 
-	bool LoadAnimationData(const char* pFileName, Animation& skaData,const Skeleton& skeData)
-	{
-		if (pFileName == NULL)
-			return false;
-
-		FbxScene* pFbxScene = GetFbxScene(pFileName);
-		if (pFbxScene == NULL)
-			return false;
-
-		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
-		ASSERT(nAnimStackCount == 1);
-		for (int i = 0; i < nAnimStackCount; i++)
-		{
-			FbxAnimStack* lAnimStack = pFbxScene->GetSrcObject<FbxAnimStack>(i);
-
-			FbxString lOutputString = "Animation Stack Name: ";
-			lOutputString += lAnimStack->GetName();
-			lOutputString += "\n\n";
-			FBXSDK_printf(lOutputString);
-
-			LoadAnimationData(lAnimStack, pFbxScene->GetRootNode(),skaData,skeData);
-
-			break;
-		}
-
-		skaData.ConverteAnimDataParentToLocalSpace(&skeData);
-
-		//m_pFBXImporter->Destroy();
-
-		return true;
-	}
+// 	bool LoadAnimationData(const char* pFileName, Animation& skaData,const Skeleton& skeData)
+// 	{
+// 		if (pFileName == NULL)
+// 			return false;
+// 
+// 		FbxScene* pFbxScene = GetFbxScene(pFileName);
+// 		if (pFbxScene == NULL)
+// 			return false;
+// 
+// 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
+// 		ASSERT(nAnimStackCount == 1);
+// 		for (int i = 0; i < nAnimStackCount; i++)
+// 		{
+// 			FbxAnimStack* lAnimStack = pFbxScene->GetSrcObject<FbxAnimStack>(i);
+// 
+// 			FbxString lOutputString = "Animation Stack Name: ";
+// 			lOutputString += lAnimStack->GetName();
+// 			lOutputString += "\n\n";
+// 			FBXSDK_printf(lOutputString);
+// 
+// 			LoadAnimationData(lAnimStack, pFbxScene->GetRootNode(),skaData,skeData);
+// 
+// 			break;
+// 		}
+// 
+// 		skaData.ConverteAnimDataParentToLocalSpace(&skeData);
+// 
+// 		//m_pFBXImporter->Destroy();
+// 
+// 		return true;
+// 	}
 
 
 }

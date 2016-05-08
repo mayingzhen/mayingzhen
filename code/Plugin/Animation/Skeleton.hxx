@@ -205,7 +205,7 @@ namespace ma
 			m_arrBoneName[i] = m_pDataStream->ReadString();
 		}
 
-		m_pDataStream->Read(&m_arrParentIndice[0],sizeof(uint32) * nBoneNum);
+		m_pDataStream->Read(&m_arrParentIndice[0],sizeof(BoneIndex) * nBoneNum);
 		m_pDataStream->Read(&m_arrTsfOS[0],sizeof(Transform) * nBoneNum);
 	}
 
@@ -228,7 +228,7 @@ namespace ma
 			pSaveStream->WriteString(m_arrBoneName[i]);
 		}
 
-		pSaveStream->Write(&m_arrParentIndice[0],sizeof(uint32) * nBoneNum);
+		pSaveStream->Write(&m_arrParentIndice[0],sizeof(BoneIndex) * nBoneNum);
 		pSaveStream->Write(&m_arrTsfOS[0],sizeof(Transform) * nBoneNum);
 
 		return true;
@@ -260,6 +260,11 @@ namespace ma
 	RefPtr<Skeleton> CreateSkeleton(const char* pszFile)
 	{
 		return g_pSkeletonManager->CreateResource(pszFile);
+	}
+
+	RefPtr<Skeleton> CreateSkeleton()
+	{
+		return new Skeleton();
 	}
 
 }

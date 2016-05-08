@@ -23,6 +23,7 @@ namespace ma
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
+		if (0)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -33,7 +34,7 @@ namespace ma
 			pAnimtionObjectB->Load("magician/magician/body.aniset","magician/magician/Body.ske");
 		}
 
-		if (0)
+		if (1)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
@@ -45,10 +46,10 @@ namespace ma
 
 			SubMaterial* pSubMaterial = pClone->GetSubMaterialByIndex(0,0);
 			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("LIGHT",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",false);
 			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
 
-			pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
+			//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 			
 			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
 			pUniform->AddKeyFrame(0,Any(float(1.0f)));
@@ -62,9 +63,9 @@ namespace ma
 
 		}
 		
-		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,-1),Vector3(0,0,0));
-		m_pScene->GetDirLight()->SetLightColor(ColourValue(0.5,0.5,0.5,1.0f));
-		m_pScene->SetAmbientColor(Vector3(0,0,0));
+		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,-10,0),Vector3(0,0,0));
+		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
+		m_pScene->SetAmbientColor(Vector3(0.2,0.2,0.2));
 	}
 
 	void SampleMaterial::UnLoad()
@@ -81,6 +82,11 @@ namespace ma
 		{
 			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
 			pRenderScheme->SetSMAAEnabled( !pRenderScheme->GetSMAAEnabled() );
+		}
+		else if (key == Keyboard::KEY_D)
+		{
+			RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+			pRenderScheme->SetDeferredShadingEnabled( !pRenderScheme->GetDeferredShadingEnabled() );
 		}
 	}
 

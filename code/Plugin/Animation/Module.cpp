@@ -2,6 +2,7 @@
 #include "Animation/Module.h"
 
 #include "Animation/Skeleton.hxx"
+#include "Animation/Track.hxx"
 #include "Animation/Animation.hxx"
 #include "Animation/SkeletonPose.hxx"
 #include "Animation/BoneMap.hxx"

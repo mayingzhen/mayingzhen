@@ -331,7 +331,7 @@ namespace ma
 		}
 		
 		DirectonalLight* pDirLigt = (DirectonalLight*)pCurLight;
-		return pDirLigt->GetSceneNode()->GetForward();
+		return -pDirLigt->GetSceneNode()->GetForward();
 	}
 
 	Vector4 ParameterManager::autoBingingDepthNearFarInvfar() const

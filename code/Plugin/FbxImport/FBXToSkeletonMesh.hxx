@@ -13,7 +13,6 @@ namespace ma
 		std::string strMeshFile = strDir + "/" + string(pFileName);
 
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StaticFunc::ReplaceFileExt(pFileName,"skn");
-		std::string strOutMatFile = pOutMatFile ? pOutMatFile : StaticFunc::ReplaceFileExt(pFileName,"mat");
 		std::string strOutSkeFile = pOutSkeFile ? pOutSkeFile : StaticFunc::ReplaceFileExt(pFileName,"ske");
 		std::string strOutSkaFile = pOutSkaFile ? pOutSkaFile : StaticFunc::ReplaceFileExt(pFileName,"ska");
 
@@ -28,37 +27,32 @@ namespace ma
 		if (pBindPose == NULL)
 			return false;
 
-		Skeleton skeData;
+		RefPtr<Skeleton> pSkeData = CreateSkeleton();
 
 		FbxSkeleton* pRootBone = GetFbxRootBone(pFbxScene->GetRootNode());
-		GetSkeletonData(pRootBone,pBindPose,skeData);
-		//skeData.m_nBoneNum = skeData.m_arrBoneName.size();
+		GetSkeletonData(pRootBone->GetNode(), pRootBone,pBindPose,*pSkeData);
 
-		skeData.InitResPose();
+		pSkeData->InitResPose();
 
-		skeData.SaveToFile(strOutSkeFile.c_str());
+		pSkeData->SaveToFile(strOutSkeFile.c_str());
 
 		// Mesh
-		MeshData meshData; 
-		meshData.SetVertexType(SKIN_VERTEX_1);
-		meshData.SetIndexType(INDEX_TYPE_U16);
+		RefPtr<MeshData> pMeshData = CreateMeshData();
+		pMeshData->SetBoneNumber(pSkeData->GetBoneNumer());
+		pMeshData->SetVertexType(SKIN_VERTEX_1);
+		pMeshData->SetIndexType(INDEX_TYPE_U16);
 
 		FbxMesh* pFbxMesh = GetFbxMesh( pFbxScene->GetRootNode() );
 
-		GetSkinMeshData(pFbxMesh,&meshData,skeData,pImportParm);
+		GetSkinMeshData(pFbxMesh,pMeshData.get(),*pSkeData,pImportParm);
 
-		//RefPtr<CMaterial> pMaterial = pMeshData->GetSubMeshByIndex(0,0)->m_pMaterial;
-		//pMaterial->Save(strOutMatFile.c_str());
-
-		meshData.SaveToFile(strOutMeshFile.c_str());
-
-		//SAFE_DELETE(pMeshData);
+		pMeshData->SaveToFile(strOutMeshFile.c_str());
 
 		// Animation
 		int nAnimStackCount = pFbxScene->GetSrcObjectCount<FbxAnimStack>();
 		if (nAnimStackCount > 0)
 		{
-			LoadAnimationData(pFileName,skeData,strOutSkaFile.c_str());
+			LoadAnimationData(pFileName,*pSkeData,strOutSkaFile.c_str());
 		}
 
 		return true;
@@ -87,17 +81,19 @@ namespace ma
 	}
 
 
-	void GetSkeletonData(FbxSkeleton* pSkeleton,FbxPose* pBindPose,Skeleton& skeData)
+	void GetSkeletonData(FbxNode* pRoot, FbxSkeleton* pSkeleton,FbxPose* pBindPose,Skeleton& skeData)
 	{
  		if (pSkeleton == NULL)
  			return;
  
  		if (pBindPose == NULL)
  			return;
- 
+
 		FbxNode* pNode = pSkeleton->GetNode();
 		const char*  pName = pNode->GetName();
 		FbxNode* pParentNode = pNode->GetParent();
+
+		FbxAMatrix GlobalTransform = pRoot->GetScene()->GetEvaluator()->GetNodeGlobalTransform(pRoot);
 
 		UINT parentID = skeData.GetBoneIdByName( pParentNode->GetName() ); 
 		
@@ -106,6 +102,21 @@ namespace ma
 		ASSERT(PoseLinkIndex >= 0);
 		FbxMatrix NoneAffineMatrix = pBindPose->GetMatrix(PoseLinkIndex);
 
+// 		FbxVector4 fTranslation;
+// 		FbxQuaternion fRotation;
+// 		FbxVector4 fShearing;
+// 		FbxVector4 fScaling;
+// 		double fSign;
+// 
+// 		NoneAffineMatrix.GetElements(fTranslation,fRotation,fShearing,fScaling,fSign);
+// 
+// 		Transform tsf;
+// 		tsf.m_vPos = ToMaUnit( GlobalTransform.MultT(fTranslation) );
+// 		tsf.m_qRot = ToMaUnit( GlobalTransform.MultQ(fRotation) );
+// 		tsf.m_vScale = ToMaUnit( fScaling );
+// 
+// 		skeData.AddBone( pName, parentID, tsf );
+
 		skeData.AddBone( pName, parentID, ToMaUnit(NoneAffineMatrix) );
 
 		for (int i = 0; i < pNode->GetChildCount(); ++i)
@@ -113,7 +124,7 @@ namespace ma
 			FbxNode* pChildNode = pNode->GetChild(i);
 			FbxSkeleton* pSkeletonx = pChildNode->GetSkeleton();
 			ASSERT(pSkeletonx);
-			GetSkeletonData(pSkeletonx,pBindPose,skeData);
+			GetSkeletonData(pRoot,pSkeletonx,pBindPose,skeData);
 		}
 	}
  
@@ -273,10 +284,10 @@ namespace ma
 				for(int j = 0; j < 3 ; ++j)
 				{
 					FbxVector4 fPos(vertex[j].pos.x,vertex[j].pos.y,vertex[j].pos.z,1);
-
-					//vertex[j].m_uv.y = 1.0f - vertex[j].m_uv.y;
+					FbxVector4 fNor(vertex[j].nor.x,vertex[j].nor.y,vertex[j].nor.z,0);
 
 					vertex[j].pos = ToMaUnit( globalTransform.MultT(fPos) );	
+					vertex[j].nor = ToMaUnit( globalTransform.MultT(fNor) );
 
 					UpdateVertexArray(arrVertex,arrIndex,vertex[j]);
 

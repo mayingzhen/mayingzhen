@@ -14,7 +14,7 @@ namespace ma
 	
 	FbxSkeleton* GetFbxRootBone(FbxNode* pNode);
 
-	void GetSkeletonData(FbxSkeleton* pSkeleton,FbxPose* pBindPose,Skeleton& skeData);
+	void GetSkeletonData(FbxNode* pRoot, FbxSkeleton* pSkeleton,FbxPose* pBindPose,Skeleton& skeData);
  
 	void GetSkinInfo(const FbxMesh* pMesh,const Skeleton& skeData, std::vector<pointSkin>& vPointSkin, int& clusterCount);
 	

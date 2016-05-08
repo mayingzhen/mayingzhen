@@ -86,7 +86,6 @@ EXPORTS
 ?RemoveComponent@SceneNode@ma@@QAEXPAVComponent@2@@Z
 ?RemoveChild@SceneNode@ma@@QAEXPAV12@@Z
 ?RemoveAllChild@SceneNode@ma@@QAEXXZ
-??1MeshData@ma@@UAE@XZ
 ?AddBonePalette@SubMeshData@ma@@QAEXG@Z
 ?AddUniform@ShaderProgram@ma@@IAEPAVUniform@2@PBD@Z
 ?GetWorldRayCast@Camera@ma@@QAE?AVRay@2@ABVVector2@2@@Z
@@ -143,7 +142,6 @@ EXPORTS
 ?LoadSync@Resource@ma@@UAEXPBD@Z
 ??0Resource@ma@@QAE@XZ
 ?SaveToFile@Resource@ma@@UAE_NPBD@Z
-??0MeshData@ma@@QAE@XZ
 ??0?$ResourceSystem@VMeshData@ma@@@ma@@QAE@XZ
 ?SetEngine@ma@@YAXPAVEngine@1@@Z
 ?ReadTransform@Stream@ma@@QAE?AUTransform@2@XZ
@@ -218,3 +216,4 @@ EXPORTS
 ?SetDeferredShadingEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetDeferredShadingEnabled@RenderScheme@ma@@QBE_NXZ
 ?Unlock@HardwareBuffer@ma@@UAEXXZ
+?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@XZ

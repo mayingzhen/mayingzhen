@@ -22,7 +22,7 @@ namespace ma
 		const char*						GetTrackNameByIndex(UINT index) const;
 		UINT							GetTrackIndexByName(const char* pszName) const;
 
-		void							AddTrack(const char* pName,const Vector3Track& scale,const QuaternionTrack& rot,const Vector3Track& pos);
+		void							AddTrack(const char* pName,const Vector3Track* pScale,const QuaternionTrack* pRot,const Vector3Track* pPos);
 
 		bool							ConverteAnimDataObjectToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);

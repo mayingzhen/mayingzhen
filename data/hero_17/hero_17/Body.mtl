@@ -9,7 +9,6 @@
 					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
 					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
 					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-					<Attribute Name="SRGBWrite" Type="bool" Value="true"/>
 					<Attribute Name="Stencil" Type="bool" Value="false"/>
 					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
 					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>

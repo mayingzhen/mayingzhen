@@ -25,7 +25,7 @@ namespace ma
 		void LoadSaticMesh();
 
 	private:
-		AnimationComponent* m_pAnimComponent;
+		RefPtr<AnimationComponent> m_pAnimComponent;
 
 	};
 }

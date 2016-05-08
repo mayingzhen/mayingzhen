@@ -72,6 +72,7 @@ namespace ma
 	extern ResourceSystem<Skeleton>* g_pSkeletonManager;
 
 	RefPtr<Skeleton> CreateSkeleton(const char* pszFile);
+	RefPtr<Skeleton> CreateSkeleton();
 }
 
 

@@ -94,7 +94,7 @@ namespace ma
 
 	Vector3	RenderContext::GetDirLightDir() const
 	{
-		return m_pCurScene->GetDirLight()->GetSceneNode()->GetForward().normalisedCopy();
+		return -m_pCurScene->GetDirLight()->GetSceneNode()->GetForward();
 	}
 
 
