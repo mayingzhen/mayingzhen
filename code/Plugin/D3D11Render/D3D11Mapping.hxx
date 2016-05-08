@@ -3,62 +3,6 @@
 namespace ma
 {
 
-// D3D11_USAGE D3D11Mapping::GetD3DTextureUsage(TEXTURE_USAGE Usage)
-// {
-//     DWORD D3D11Usage = 0;
-// 
-// 	if (Usage == D3DUSAGE_RENDERTARGET)
-// 		D3D11Usage = USAGE_RENDERTARGET;
-// 	else if (Usage == USAGE_DEPTHSTENCIL)
-// 		D3D11Usage = D3DUSAGE_DEPTHSTENCIL;
-//     else if (Usage == USAGE_DYNAMIC)
-//         D3D11Usage = D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY;
-// 
-//     return D3D11Usage;
-// }
-
-// D3D11_USAGE D3D11Mapping::GetD3DBufferUsage(HBU_USAGE Usage)
-// {
-// 	uint32 ret = 0;
-// 	if (Usage & HBU_DYNAMIC)
-// 	{
-// 		// Only add the dynamic flag for default pool, and
-// 		// we use default pool when buffer is discardable
-// 		if (Usage & HBU_DISCARDABLE)
-// 			ret |= D3DUSAGE_DYNAMIC;
-// 	}
-// 
-// 	if (Usage & HBU_WRITE_ONLY)
-// 	{
-// 		ret |= D3DUSAGE_WRITEONLY;
-// 	}
-// 	return ret;
-// }
-
-// D3DPOOL D3D11Mapping::GetD3DPool(HBU_USAGE Usage)
-// {
-//     D3DPOOL D3DPool = D3DPOOL_MANAGED;
-// 
-//     if (Usage & HBU_DISCARDABLE)
-//         D3DPool = D3DPOOL_DEFAULT;
-// 
-//     return D3DPool;
-// }
-
-// DWORD D3D11Mapping::GetD3DLock(int Lock)
-// {
-//     DWORD D3DLock = 0;
-// 
-//     if (Lock & LOCK_DISCARD)
-//         D3DLock |= D3DLOCK_DISCARD;
-//     if (Lock & LOCK_NOOVERWRITE)
-//         D3DLock |= D3DLOCK_NOOVERWRITE;
-//     if (Lock & LOCK_READONLY)
-//         D3DLock |= D3DLOCK_READONLY;
-// 
-//     return D3DLock;
-// }
-
 DXGI_FORMAT D3D11Mapping::GetD3DIndexType(INDEX_TYPE eType)
 {
 	if (eType == INDEX_TYPE_U16)
@@ -198,61 +142,6 @@ DXGI_FORMAT D3D11Mapping::GetD3DDeclType(DECL_TYPE DeclType)
         return DXGI_FORMAT_UNKNOWN;
     }
 }
-
-// int D3D11Mapping::GetD3DDeclTypeSize(BYTE type)
-// {
-//     switch (type)
-//     {
-//     case D3DDECLTYPE_FLOAT1:
-//         return 4;
-// 
-//     case D3DDECLTYPE_FLOAT2:
-//         return 8;
-// 
-//     case D3DDECLTYPE_FLOAT3:
-//         return 12;
-// 
-//     case D3DDECLTYPE_FLOAT4:
-//         return 16;
-// 
-//     case D3DDECLTYPE_D3DCOLOR:
-//         return 4;
-// 
-//     case D3DDECLTYPE_UBYTE4:
-//         return 4;
-// 
-//     case D3DDECLTYPE_SHORT2:
-//         return 4;
-// 
-//     case D3DDECLTYPE_SHORT4:
-//         return 8;
-// 
-//     case D3DDECLTYPE_UBYTE4N:
-//         return 4;
-// 
-//     case D3DDECLTYPE_SHORT2N:
-//         return 4;
-// 
-//     case D3DDECLTYPE_SHORT4N:
-//         return 8;
-// 
-//     case D3DDECLTYPE_USHORT2N:
-//         return 4;
-// 
-//     case D3DDECLTYPE_USHORT4N:
-//         return 8;
-// 
-//     case D3DDECLTYPE_FLOAT16_2:
-//         return 4;
-// 
-//     case D3DDECLTYPE_FLOAT16_4:
-//         return 8;
-// 
-//     default:
-//         ASSERT(0 && "Invalid Declaration Type.");
-//         return 0;
-//     }
-// }
 
 
 D3D_PRIMITIVE_TOPOLOGY D3D11Mapping::GetD3DPrimitiveType(PRIMITIVE_TYPE type)
@@ -491,29 +380,6 @@ D3D11_CULL_MODE D3D11Mapping::get(CULL_MODE mode)
 		ASSERT(FALSE);
 		return D3D11_CULL_BACK;
 	}
-}
-
-//#define  _D3D_V(str) str
-void D3D11Verify( HRESULT hr )
-{
-	//#if defined(_DEBUG)
-	if( FAILED( hr ) ) 
-	{
-		ASSERT(false);
-		//LogError("D3D11Verify:%d, %s, %s", hr, DXGetErrorString( hr ), DXGetErrorDescription( hr ));
-	}
-	//#endif
-}
-
-void D3D11Verify( HRESULT hr, const char *info ) 
-{
-	//#if defined(_DEBUG)
-	if( FAILED( hr ) ) 
-	{
-		ASSERT(false);
-		//LogError("D3D11Verify:%d, %s, %s, %s", hr, DXGetErrorString( hr ), DXGetErrorDescription( hr ), info);
-	}
-	//#endif
 }
 
 }

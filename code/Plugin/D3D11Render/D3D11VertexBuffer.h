@@ -1,11 +1,10 @@
 #pragma once
 
-#include "D3D11Resource.h"
 
 namespace ma
 {
 
-	class D3D11VertexBuffer : public VertexBuffer, public D3D11Resource
+	class D3D11VertexBuffer : public VertexBuffer
 	{
 	public:
 		D3D11VertexBuffer();
@@ -23,7 +22,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	protected:
-		ID3D11Buffer*			mD3D11VertexBuffer;	
+		ID3D11Buffer*	mD3D11VertexBuffer;	
 	};
 
 }

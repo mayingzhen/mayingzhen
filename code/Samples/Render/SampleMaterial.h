@@ -14,7 +14,7 @@ namespace ma
 
 		virtual void	UnLoad();
 
-		virtual void keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
+		virtual void	keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 	};
 }
 

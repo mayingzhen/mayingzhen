@@ -124,12 +124,12 @@ out float4 outColor : SV_TARGET
 	float4 cDiffuse = GetDiffuse(In); 
 
 #if DEFERREDSHADING != 0
-	float4 cSpecColor = 0;
+	float4 cSpecColorPow = 0;
 	#ifdef SPEC
-		float4 cSpecColor = u_cSpecColor;
-		cSpecColor.w = u_specPower;
+		cSpecColorPow.xyz = u_cSpecColor.xyz * u_cSpecColor.w;
+		cSpecColorPow.w = u_specPower;
 	#endif	
-	pout = GbufferPSout(cDiffuse,cSpecColor,In.viewNormal);
+	pout = GbufferPSout(cDiffuse,cSpecColorPow,In.viewNormal);
 #else
 	outColor = ForwardShading(cDiffuse,In);  
 #endif	

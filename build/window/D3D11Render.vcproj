@@ -211,14 +211,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Plugin\D3D11Render\D3D11Resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Plugin\D3D11Render\D3D11Resource.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Plugin\D3D11Render\D3D11ShaderProgram.h"
 				>
 			</File>

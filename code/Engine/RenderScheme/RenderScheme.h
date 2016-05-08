@@ -6,7 +6,7 @@
 namespace ma
 {
 	class RenderPass;
-	class DeferredLightPass;
+	class DeferredShadingPass;
 	class DeferredShadowPass;
 	class HDRPostProcess;
 	class SMAAPostProcess;
@@ -30,7 +30,7 @@ namespace ma
 
 		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
 		
-		DeferredLightPass*	GetDeferredLightPass() const { return m_pDeferredLightPass.get(); }
+		DeferredShadingPass*	GetDeferredShadingPass() const { return m_pDeferredShadingPass.get(); }
 
 		SamplerState* GetSceneDiffuse() const {return m_pDiffuseSampler.get();}
 		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
@@ -44,7 +44,7 @@ namespace ma
 
 	private:
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
-		RefPtr<DeferredLightPass>	m_pDeferredLightPass;
+		RefPtr<DeferredShadingPass>	m_pDeferredShadingPass;
 
 		RefPtr<HDRPostProcess>	m_pHDR;
 		RefPtr<SMAAPostProcess> m_pSMAA;

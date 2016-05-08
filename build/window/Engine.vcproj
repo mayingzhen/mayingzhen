@@ -1197,11 +1197,11 @@
 			Name="RenderScheme"
 			>
 			<File
-				RelativePath="..\..\code\Engine\RenderScheme\DeferredLightPass.h"
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredShadingPass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Engine\RenderScheme\DeferredLightPass.hxx"
+				RelativePath="..\..\code\Engine\RenderScheme\DeferredShadingPass.hxx"
 				>
 			</File>
 			<File

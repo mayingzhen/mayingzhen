@@ -1,5 +1,5 @@
 #include "ParameterManager.h"
-#include "../RenderScheme/DeferredLightPass.h"
+#include "../RenderScheme/DeferredShadingPass.h"
 #include "../RenderScheme/DeferredShadowPass.h"
 
 namespace ma

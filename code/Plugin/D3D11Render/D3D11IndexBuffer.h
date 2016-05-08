@@ -3,7 +3,7 @@
 namespace ma
 {
 
-	class D3D11IndexBuffer : public IndexBuffer , public D3D11Resource
+	class D3D11IndexBuffer : public IndexBuffer
 	{
 	public:
 		D3D11IndexBuffer();

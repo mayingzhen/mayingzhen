@@ -15,9 +15,9 @@ namespace ma
 	{
 		Shoutdown();
 
-		if (m_pDeferredLightPass)
+		if (m_pDeferredShadingPass)
 		{
-			m_pDeferredLightPass->Init();
+			m_pDeferredShadingPass->Init();
 		}
 
 		if (m_pDeferredShadowPass)
@@ -42,7 +42,7 @@ namespace ma
 		m_pFrameBuffer->AttachColor(0,NULL);
 		m_pFrameBuffer->AttachColor(1,NULL);
 
-		if (m_pDeferredLightPass)
+		if (m_pDeferredShadingPass)
 		{
 			m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8,true);
 			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,false,true);
@@ -79,9 +79,9 @@ namespace ma
 			}
 		}
 
-		if (m_pDeferredLightPass)
+		if (m_pDeferredShadingPass)
 		{
-			m_pDeferredLightPass->Reset();
+			m_pDeferredShadingPass->Reset();
 		}
 
 		if (m_pDeferredShadowPass)
@@ -135,15 +135,15 @@ namespace ma
 			m_pDeferredShadowPass->Render();
 		}
 
-		if (m_pDeferredLightPass)
+		if (m_pDeferredShadingPass)
 		{
 			FrameBuffer fb;
 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
 			fb.AttachColor(0,GetRenderSystem()->GetDefaultRenderTarget().get());
 			GetRenderSystem()->SetFrameBuffer(&fb);
 
-			RENDER_PROFILE(m_pDeferredLightPass);
-			m_pDeferredLightPass->Render();
+			RENDER_PROFILE(m_pDeferredShadingPass);
+			m_pDeferredShadingPass->Render();
 		}
 
 		{
@@ -198,19 +198,19 @@ namespace ma
 
 		if (b)
 		{
-			if (m_pDeferredLightPass)
+			if (m_pDeferredShadingPass)
 				return;
 
-			m_pDeferredLightPass = new DeferredLightPass(m_pScene);
+			m_pDeferredShadingPass = new DeferredShadingPass(m_pScene);
 
 			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "1");
 		}
 		else
 		{
-			if (m_pDeferredLightPass == NULL)
+			if (m_pDeferredShadingPass == NULL)
 				return;
 
-			m_pDeferredLightPass = NULL;
+			m_pDeferredShadingPass = NULL;
 
 			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADING", "0");
 		}
@@ -221,6 +221,6 @@ namespace ma
 
 	bool RenderScheme::GetDeferredShadingEnabled() const
 	{
-		return m_pDeferredLightPass != NULL;
+		return m_pDeferredShadingPass != NULL;
 	}
 }

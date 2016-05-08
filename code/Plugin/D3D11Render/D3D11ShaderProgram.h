@@ -4,7 +4,7 @@
 namespace ma
 {
 
-	class D3D11ShaderProgram : public ShaderProgram , public D3D11Resource
+	class D3D11ShaderProgram : public ShaderProgram
 	{
 	public:
 

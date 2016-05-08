@@ -23,7 +23,7 @@ namespace ma
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
-		if (0)
+		if (1)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));

@@ -9,7 +9,6 @@
 #include "D3D11Render/D3D11VertexDeclaration.hxx"
 #include "D3D11Render/D3D11ShaderProgram.hxx"
 #include "D3D11Render/D3D11RenderDevice.hxx"
-#include "D3D11Render/D3D11Resource.hxx"
 #include "D3D11Render/D3D11ConstantBuffer.hxx"
 
 using namespace ma;

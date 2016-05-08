@@ -80,7 +80,7 @@
 #include "Engine/Material/Uniform.hxx"
 #include "Engine/Material/UniformAnimation.hxx"
 
-#include "Engine/RenderScheme/DeferredLightPass.hxx"
+#include "Engine/RenderScheme/DeferredShadingPass.hxx"
 #include "Engine/RenderScheme/DeferredShadowPass.hxx"
 #include "Engine/RenderScheme/RenderScheme.hxx"
 #include "Engine/RenderScheme/BlurPostProcess.hxx"
