@@ -22,8 +22,6 @@ namespace ma
 
 		float m_fMateriID;
 
-		bool m_bBorder;
-
 	};
 
 }

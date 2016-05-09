@@ -10,9 +10,10 @@
 
 cbuffer ObjectPS : register(b5)
 {
-	uniform float4 u_cSpecColor;
-
-	uniform float2 uBlendingOffset;
+	float2 uBlendingOffset;
+	float4 u_cSpecColor;
+	float specPower;
+	float g_heightScale;
 }
 
 Texture2D tBlendingMap : register(t2);
@@ -69,17 +70,17 @@ float4 GetDiffuse(VS_OUTPUT In)
 #if LAYER==1
 	
 	#ifdef PARALLAXMAPPING 
-		float3 toEye = normalize(g_vEyeWorldPos.xyz - oWorldPos.xyz);
-        float height = tex2D(tBumpMap0, oUVPixel0.xy).a;		//从alpha分量得到高度信息  
+		float3 toEye = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
+        float height = tBumpMap0.Sample(sBumpMap0, In.DetailUV.xy).a;		//从alpha分量得到高度信息  
         height = (height - 1.f) * g_heightScale;                 //高度倍增（向内）  
         float3x3 W2T = transpose(obj_to_tangent);  
         float3 toEyeTangent = mul(toEye, W2T);                          //世界 -> 切线空间  
         float2 offset = toEyeTangent.xy * height;                       //通过世界空间内坐标的offset获取纹理offset   
-        oUVPixel0.xy += offset;                                              //纹理坐标偏移  
+        In.DetailUV.xy += offset;                                              //纹理坐标偏移  
 	#endif
 	
 	#ifdef BUMPMAP
-		float3 Normal = tex2D(tBumpMap0, oUVPixel0.xy).xyz;
+		float3 Normal = tBumpMap0.Sample(sBumpMap0, In.DetailUV.xy).xyz;
 	#endif	
 
  	float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
@@ -98,23 +99,20 @@ float4 GetDiffuse(VS_OUTPUT In)
 #endif
 
 #if USING_DEFERREDLIGHTING == 0   
-#if defined(BUMPMAP) || defined(LIGHTING)
-	float3 oL = normalize(g_vDirLight);
-	float fNDotL = max( dot(oWorldNormal,oL) , 0);
-    cDiff = g_cSkyLight + g_cDirLight * fNDotL;
-#endif
-#endif
+	#if defined(BUMPMAP) || defined(LIGHTING)
+		float3 oL = normalize(g_vDirLight);
+		float fNDotL = max( dot(oWorldNormal,oL) , 0);
+		float3 cDiff = g_cSkyLight + g_cDirLight * fNDotL;
+		oColor.rgb *= cDiff;
+	#endif
 
-// 高光
-#if USING_DEFERREDLIGHTING == 0
-#ifdef SPEC 	
-    float3 refl = reflect(-g_vDirLight, normalize(oWorldNormal));	
-    float cosVal = dot(normalize(g_vEyeWorldPos.xyz - oWorldPos.xyz), refl);
-    float3 spec = g_cDirLight* pow(max(0,cosVal), specPower) * specMaterial;
-    oColor.rgb += spec * specAlpha;
+	#ifdef SPEC 	
+		float3 refl = reflect(g_vDirLight, normalize(oWorldNormal));	
+		float cosVal = dot(normalize(g_vEyeWorldPos.xyz - oWorldPos.xyz), refl);
+		float3 spec = g_cDirLight* pow(max(0,cosVal), specPower) * specMaterial;
+		oColor.rgb += spec * specAlpha;
+	#endif
 #endif
-#endif
-
 
 	oColor.a = In.oNormal.w;		
 

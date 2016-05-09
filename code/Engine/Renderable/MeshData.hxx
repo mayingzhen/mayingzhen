@@ -99,7 +99,7 @@ namespace ma
 
 	UINT32 CompressQuaternion(const Vector3& tangent,Vector3 const& normal)
 	{
-		Vector3 vTangent = ( vTangent - normal * ( vTangent.dotProduct(normal) ) ).normalisedCopy();  
+		Vector3 vTangent = ( tangent - normal * ( tangent.dotProduct(normal) ) ).normalisedCopy();  
 		Vector3 binormal = normal.crossProduct(vTangent);
 
 		float k = 1;

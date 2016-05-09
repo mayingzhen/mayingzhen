@@ -182,8 +182,7 @@ namespace ma
 
 					m_vecVBDataTemp[m][nIndex] = vertex;
 					
-					uint8 matID0 = (uint8)(vertex.pos.w);
-					m_vecSetMatIDTemp[m].insert(matID0);
+					m_vecSetMatIDTemp[m].insert(nMateriID);
 
 					nIndex += 1;
 				}
@@ -246,8 +245,8 @@ namespace ma
 						TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
 						uint8 matID0 = (uint8)(vertex0.pos.w);
-						uint8 matID1 = (uint8)(vertex0.pos.w);
-						uint8 matID2 = (uint8)(vertex0.pos.w);
+						uint8 matID1 = (uint8)(vertex1.pos.w);
+						uint8 matID2 = (uint8)(vertex2.pos.w);
 
 						if ( (matID0 == iMatID || matID1 == iMatID || matID2 == iMatID) && m_vecTriangleMatID[m][i / 3] == (uint8)-1)	
 						{
@@ -305,8 +304,9 @@ namespace ma
 				TERRAIN_VERTEX& vertex2 = pVBData[ triangle[2] ];
 
 				uint8 matID0 = (uint8)(vertex0.pos.w);
-				uint8 matID1 = (uint8)(vertex0.pos.w);
-				uint8 matID2 = (uint8)(vertex0.pos.w);
+				uint8 matID1 = (uint8)(vertex1.pos.w);
+				uint8 matID2 = (uint8)(vertex2.pos.w);
+
 				if (matID2 == matID0 && matID2 == matID1)
 					continue;
 
@@ -357,7 +357,6 @@ namespace ma
 				pRenderable->m_pIndexBuffer = it->second;
 				pRenderable->m_pSubMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
 				pRenderable->m_fMateriID = (float)it->first;
-				pRenderable->m_bBorder = true;
 				lod.m_vecBorder.push_back(pRenderable);
 			}
 		}

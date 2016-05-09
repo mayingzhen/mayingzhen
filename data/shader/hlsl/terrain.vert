@@ -80,7 +80,7 @@ VS_OUTPUT main(const VS_INPUT In)
 	float3 iPos = In.Pos.xyz * pos_extent + pos_center;	
 	float2 iUV  = In.UV * tc_extent_center.xy + tc_extent_center.zw;
 	float4 iTanQuat = In.TanQuat * 2.0 - 1.0; 
-	float  iMateriaID = In.Pos.w;
+	float  iMateriaID = In.Pos.w * 32767.5f;
 
 	Out.WorldPos = float4(iPos, 1.0);
 	Out.Pos = mul(Out.WorldPos,g_matViewProj);

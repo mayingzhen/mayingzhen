@@ -208,12 +208,12 @@ namespace ma
 
 	void SamplerState::RegisterAttribute()
 	{
-		ACCESSOR_ATTRIBUTE(SamplerState, "ImagePath", GetTexturePath, SetTexturePath, const char*, NULL, AM_DEFAULT);
 		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "Wrap", GetWrapMode, SetWrapMode,Wrap,strDescWrap,REPEAT, AM_DEFAULT);
 		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "WrapW", GetWrapModeW, SetWrapModeW,Wrap,strDescWrap,REPEAT, AM_DEFAULT);
 		ENUM_ACCESSOR_ATTRIBUTE(SamplerState, "Filter", GetFilterMode, SetFilterMode, Filter, strDescFilter, TFO_TRILINEAR, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(SamplerState, "SRGB", GetSRGB, SetSRGB, bool, true, AM_DEFAULT);
 		ACCESSOR_ATTRIBUTE(SamplerState, "LodBias", GetLodBias, SetLodBias, float, 0, AM_DEFAULT);
+		ACCESSOR_ATTRIBUTE(SamplerState, "ImagePath", GetTexturePath, SetTexturePath, const char*, NULL, AM_DEFAULT);
 	}
 
 	void SamplerState::SetTexturePath(const char* pszPath)
