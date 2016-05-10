@@ -13,7 +13,7 @@ namespace ma
 	class FrameBuffer;
 	class Scene;
 
-	class  RenderScheme : public Referenced
+	class RenderScheme : public Referenced
 	{
 	public:
 		RenderScheme(Scene* pScene);

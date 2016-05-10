@@ -26,9 +26,9 @@ namespace ma
 
 		UINT			GetNumber() const {return m_Size / m_Stride;}
 
-		void*			GetData() const {return m_pData;}
+		BYTE*			GetData() const {return m_pData;}
 
-		void			SetData(uint8* pData,UINT nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC,bool bCopyData = true);
+		void			SetData(uint8* pData,UINT nSize,int nStride, HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 
 		void			FreeData();
 
@@ -42,7 +42,7 @@ namespace ma
 		UINT            m_Size;
 		HBU_USAGE       m_Usage;
 		uint8*			m_pData;
-		bool			m_bNeedFreeData;
+		bool			m_bShadowData;
 
 		void*			m_pLockedData;	
 	};

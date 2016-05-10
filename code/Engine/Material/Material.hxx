@@ -200,6 +200,27 @@ namespace ma
 	{
 	}
 
+	UINT Material::GetLodSubNumber(UINT nLod) const
+	{
+		if (nLod >= m_arrLodSubMaterial.size())
+			return 0;
+
+		return m_arrLodSubMaterial[nLod].size();
+	}
+
+	SubMaterial* Material::GetLodSubByIndex(UINT nLod,uint32 index) const
+	{
+		ASSERT(nLod < m_arrLodSubMaterial.size());
+		if (nLod >= m_arrLodSubMaterial.size())
+			return NULL;
+
+		ASSERT(index < m_arrLodSubMaterial[nLod].size());
+		if (index >= m_arrLodSubMaterial[nLod].size())
+			return NULL;
+
+		return m_arrLodSubMaterial[nLod][index].get();
+	}
+
 	void Material::AddSubMaterial(uint32 nLod,SubMaterial* pSubMaterial)
 	{
 		if (nLod >= m_arrLodSubMaterial.size())

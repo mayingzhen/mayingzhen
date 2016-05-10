@@ -704,7 +704,7 @@ bool ParticleSystem::IsReady()
 
     if (m_pMaterialSet != NULL)
     {
-        SubMaterial* pMaterial = m_pMaterialSet->GetSubMaterialByIndex(0,0);
+        SubMaterial* pMaterial = m_pMaterialSet->GetLodSubByIndex(0,0);
 
         m_pRenderable[0] = new ParticleSystemRenderable();
 		m_pRenderable[1] = new ParticleSystemRenderable();

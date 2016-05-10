@@ -40,7 +40,7 @@ namespace ma
 			RefPtr<Material> pClone = pMaterial->Clone();
 			pShpereMesh->SetMaterial(pClone.get());
 
-			SubMaterial* pSubMaterial = pClone->GetSubMaterialByIndex(0,0);
+			SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
 			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("LIGHT",true);
 			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",false);
 			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);

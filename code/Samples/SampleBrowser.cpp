@@ -298,7 +298,10 @@ namespace ma
 
 	void SampleBrowser::OnPreRender(Scene* pScene)
 	{
-
+		if (m_pCurSample)
+		{
+			m_pCurSample->Render();
+		}
 	}
 
 	void SampleBrowser::OnPosRender(Scene* pScene)

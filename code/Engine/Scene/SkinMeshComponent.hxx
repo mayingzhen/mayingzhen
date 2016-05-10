@@ -36,7 +36,7 @@ namespace ma
 				pRenderable->m_posAABB = pMeshData->GetBoundingAABB();
 				pRenderable->m_tcAABB = pMeshData->GetUVBoundingAABB();
 
-				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub);
+				pRenderable->m_pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod,iSub);
 
 				arrRenderable.push_back(pRenderable);
 			}

@@ -18,6 +18,8 @@ namespace ma
 	void LineRender::Init()
 	{
 		gpLinTech = CreateTechnique("Line","line","line","");
+		gpLinTech->m_bDepthWrite = true;
+		gpLinTech->m_eDepthCheckMode = CMPF_ALWAYS_PASS; 
 		
 		VertexElement element[2];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);

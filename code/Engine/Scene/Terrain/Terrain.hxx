@@ -584,11 +584,11 @@ namespace ma
 		if (m_pMaterial == NULL)
 			return NULL;
 
-		ASSERT(matID < m_pMaterial->GetSubMaterialNumber(0));
-		if (matID >= m_pMaterial->GetSubMaterialNumber(0))
+		ASSERT(matID < m_pMaterial->GetLodSubNumber(0));
+		if (matID >= m_pMaterial->GetLodSubNumber(0))
 			return NULL;
 
-		return m_pMaterial->GetSubMaterialByIndex(0,matID);
+		return m_pMaterial->GetLodSubByIndex(0,matID);
 	}
 
 	UINT Terrain::GetMaterialCount() const
@@ -596,7 +596,7 @@ namespace ma
 		if (m_pMaterial == NULL)
 			return 0;
 
-		return m_pMaterial->GetSubMaterialNumber(0);
+		return m_pMaterial->GetLodSubNumber(0);
 	}
 
 	void Terrain::AddMaterial(SubMaterial* pMateral)

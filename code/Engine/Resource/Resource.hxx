@@ -57,8 +57,6 @@ namespace ma
 		LoadFileToMemeory();
 
 		CreateFromMemeory();
-
-		m_eResState = ResInited;
 	}
 
 	bool Resource::SaveToFile(const char* pszPath)
@@ -87,6 +85,8 @@ namespace ma
 	bool Resource::CreateFromMemeory()
 	{
 		ASSERT(m_eResState == ResLoaded);
+		if (m_eResState != ResLoaded)
+			return false;
 
 		ASSERT(m_pDataStream);
 		if (m_pDataStream == NULL)

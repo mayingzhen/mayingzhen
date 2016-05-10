@@ -217,3 +217,4 @@ EXPORTS
 ?GetDeferredShadingEnabled@RenderScheme@ma@@QBE_NXZ
 ?Unlock@HardwareBuffer@ma@@UAEXXZ
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@XZ
+?GetLodSubByIndex@Material@ma@@QBEPAVSubMaterial@2@II@Z

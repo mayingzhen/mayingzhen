@@ -134,9 +134,8 @@ namespace ma
 		bool					SaveToFile(const char* pszFile);	
 
 		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);
-		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);
-		void					SplitMeshData(UINT nMaxBonePerBatch);	
-
+		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);	
+	
 	private:
 
 		bool					InitRes();

@@ -79,22 +79,9 @@ namespace ma
 			return;
 		}
 
-		if (0/*m_pData*/)
+		if (!m_bShadowData)
 		{
-			D3D11_BOX destBox;
-			destBox.left = 0;
-			destBox.right = m_Size;
-			destBox.top = 0;
-			destBox.bottom = 1;
-			destBox.front = 0;
-			destBox.back = 1;
-
-			GetD3D11DxDeviveContext()->UpdateSubresource(mD3D11VertexBuffer, 0, &destBox, m_pData, 0, 0);
-
-			if (m_bNeedFreeData)
-			{
-				FreeData();
-			}
+			FreeData();
 		}
 	}
 

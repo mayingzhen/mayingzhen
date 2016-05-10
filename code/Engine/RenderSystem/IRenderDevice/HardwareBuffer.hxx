@@ -10,16 +10,13 @@ namespace ma
 		m_Size = 0;
 		m_Usage = HBU_STATIC;
 		m_pData = NULL;
-		m_bNeedFreeData = true;
+		m_bShadowData = false;
 		m_pLockedData = NULL;
 	}
 
 	HardwareBuffer::~HardwareBuffer()
 	{
-		if (m_bNeedFreeData)
-		{
-			FreeData();
-		}
+		FreeData();
 	}
 
 	void* HardwareBuffer::Lock(LOCK LockFlags)
@@ -45,24 +42,20 @@ namespace ma
 		}
 	}
 
-	void HardwareBuffer::SetData(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bCopyData)
+	void HardwareBuffer::SetData(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
-		if (bCopyData && pData)
-		{
-			SAFE_DELETE_ARRAY(m_pData);
-			m_pData = new uint8[nSize];
-			memcpy(m_pData,pData,nSize);
-			m_bNeedFreeData = true;
-		}
-		else
-		{
-			m_pData = pData;
-			m_bNeedFreeData = false;
-		}
+		FreeData();
 
+		m_bShadowData = bShadowData;
 		m_Size = nSize;
 		m_Stride = nStride;
 		m_Usage = eUsage;
+
+		if (pData)
+		{
+			m_pData = new uint8[nSize];
+			memcpy(m_pData,pData,nSize);
+		}
 	}
 
 	void HardwareBuffer::FreeData()

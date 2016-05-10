@@ -532,18 +532,18 @@ namespace ma
 		m_pRenderThread->RC_EndProfile();	
 	}
 
-	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage)
+	RefPtr<IndexBuffer>	RenderSystem::CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
 		IndexBuffer* pIB = GetRenderDevice()->CreateIndexBuffer();
-		pIB->SetData(pData,nSize,nStride,eUsage);
+		pIB->SetData(pData,nSize,nStride,eUsage,bShadowData);
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pIB);
 		return pIB;
 	}
 
-	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage)
+	RefPtr<VertexBuffer> RenderSystem::CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage,bool bShadowData)
 	{
 		VertexBuffer* pVB = GetRenderDevice()->CreateVertexBuffer();
-		pVB->SetData(pData,nSize,nStride,eUsage);
+		pVB->SetData(pData,nSize,nStride,eUsage,bShadowData);
 		m_pRenderThread->RC_HardwareBufferStreamComplete(pVB);
 		return pVB;
 	}

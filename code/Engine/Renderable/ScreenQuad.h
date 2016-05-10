@@ -8,8 +8,6 @@ namespace ma
 	{
 	public:
 		static void Init();
-
-		//static void Reset(uint32 nWidth,uint32 nHeight);
 		
 		static void Shoutdown();
 

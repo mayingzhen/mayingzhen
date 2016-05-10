@@ -34,7 +34,7 @@ namespace ma
 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
 		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,m_pData,glUsage) );
 
-		if (m_bNeedFreeData)
+		if (!m_bShadowData)
 		{
 			FreeData();
 		}

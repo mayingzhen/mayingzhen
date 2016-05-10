@@ -195,8 +195,6 @@ namespace ma
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
 		}
-
-		//ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 	}
 
 	void Animation::ReadDataV0()
@@ -309,7 +307,7 @@ namespace ma
 			m_arrTrackName[i] = &vecChar[0];
 		}
 
-		if (nVersion == 2/* && m_pRefSkeleton != NULL && m_pRefSkeleton != m_pSkeleton*/)
+		if (nVersion == 2)
 		{
 			if (m_pRefSkeleton != NULL)
 			{
@@ -319,13 +317,7 @@ namespace ma
 			{
 				ConverteAnimDataParentToLocalSpace(m_pSkeleton.get());
 			}
-			//ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 		}
-		
-// 		if (nVersion == 3)
-// 		{
-// 			ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
-// 		}	
 	}
 
 	RefPtr<Animation> CreateAnimation()

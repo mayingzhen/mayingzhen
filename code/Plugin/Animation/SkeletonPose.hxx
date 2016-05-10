@@ -293,7 +293,7 @@ namespace ma
 		{
 			Transform boneTsfWS;
 			TransformMul(&boneTsfWS,&tsfWS,&this->GetTransformOS(i));
-			LineRender::DrawTransform(boneTsfWS);
+			//LineRender::DrawTransform(boneTsfWS);
 
 			Vector3 vP0 = matWS * this->GetTransformOS(i).m_vPos;
 

@@ -156,7 +156,7 @@ namespace ma
 				pRenderable->m_posAABB = pMesData->GetBoundingAABB();
 				pRenderable->m_tcAABB = pMesData->GetUVBoundingAABB();
 
-				pRenderable->m_pSubMaterial = m_pMaterial->GetSubMaterialByIndex(iLod,iSub); 
+				pRenderable->m_pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod,iSub); 
 
 				arrRenderable.push_back(pRenderable);
 			}
@@ -188,16 +188,14 @@ namespace ma
 	{
 		RenderComponent::Show(pCamera);
 
-		if ( m_arrLodRenderable.empty() )
+		if (!m_bOnLoadOver)
 			return;
 
-		uint32 nLod = 0;
-
-		for (UINT i = 0; i < m_arrLodRenderable[nLod].size(); ++i)
+		for (UINT i = 0; i < m_arrLodRenderable[m_nLod].size(); ++i)
 		{
-			 m_arrLodRenderable[nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
+			 m_arrLodRenderable[m_nLod][i]->SetWorldMatrix( m_pSceneNode->GetMatrixWS() );
 
-			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[nLod][i].get());
+			m_pSceneNode->GetScene()->GetRenderQueue()->AddRenderObj(RL_Mesh, m_arrLodRenderable[m_nLod][i].get());
 		}
 	}
 
