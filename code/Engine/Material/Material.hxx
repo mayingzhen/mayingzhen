@@ -4,8 +4,8 @@
 namespace ma
 {
 
-	static const char* ShadowDepth = "ShadowDepth";
-	static const char* Shading = "Shading";
+	//static const char* ShadowDepth = "ShadowDepth";
+	//static const char* Shading = "Shading";
 	
 	SubMaterial::SubMaterial()
 	{
@@ -31,7 +31,7 @@ namespace ma
 		m_strShaderName = pShaderName ? pShaderName : "";
 		m_strShaderMacro = pDefine ? pDefine : "";
 
-		SetShadingTechnqiue( CreateTechnique(Shading, pShaderName, pShaderName, pDefine).get() );
+		SetShadingTechnqiue( CreateTechnique("Shading", pShaderName, pShaderName, pDefine).get() );
 	}
 
 	Technique* SubMaterial::GetShadowDepthTechnqiue()
@@ -39,29 +39,11 @@ namespace ma
 		if (m_pShadowDepthTech == NULL)
 		{
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-			m_pShadowDepthTech = CreateTechnique(ShadowDepth, ShadowDepth, ShadowDepth, strShaderMacro.c_str());
+			m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str());
 			m_pShadowDepthTech->m_bColorWrite = false;
 		}
 
 		return m_pShadowDepthTech.get();
-	}
-
-	void SubMaterial::SetShadowDepthTechnqiue(Technique* pTech)
-	{
-		m_pShadowDepthTech = pTech;
-
-		for (uint32 i = 0; i < m_arrParameters.size(); ++i)
-		{
-			m_pShadowDepthTech->SetParameter(m_arrParameters[i].GetName(),m_arrParameters[i].GetValue());
-		}
-	}
-
-	void SubMaterial::SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine)
-	{
-		string strMacro = pDefine ? pDefine : "";
-		strMacro += m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-
-		SetShadowDepthTechnqiue( CreateTechnique(ShadowDepth, pShaderName, pShaderName, strMacro.c_str() ).get() );
 	}
 
 	Technique* SubMaterial::GetShadingTechnqiue()

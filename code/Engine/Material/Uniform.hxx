@@ -12,6 +12,10 @@ namespace ma
 		m_nCount = 0;
 
 		m_pMethod = NULL;
+
+		m_pD3D11CBPtr = NULL;
+		m_nCBOffset = NULL;
+		m_nCBSize = 0;
 	}
 
 	Uniform::~Uniform()

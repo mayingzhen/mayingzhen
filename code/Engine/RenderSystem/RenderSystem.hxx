@@ -134,9 +134,6 @@ namespace ma
 		}
 
 		LineRender::OnFlushFrame();
-
-		//if ( GetParticleSystem() )
-		//	GetParticleSystem()->OnFlushFrame();
 	}
 	
 
