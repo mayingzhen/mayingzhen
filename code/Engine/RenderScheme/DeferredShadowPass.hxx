@@ -1,18 +1,89 @@
 #include "DeferredShadowPass.h"
+#include "../Scene/Light/DirectonalLight.h"
 
 namespace ma
 {
 	DeferredShadowPass::DeferredShadowPass(Scene* pScene)
 		:RenderPass(pScene)
 	{
+		m_pRenderable = new Renderable;
+	}
 
+	void DeferredShadowPass::CreateSimpleLightFrustumMesh()
+	{
+		std::vector<Vector3> vertBuff;
+		std::vector<uint16> indBuff;
+
+		indBuff.clear();
+		indBuff.reserve(36);
+
+		vertBuff.clear();
+		vertBuff.reserve(8);
+
+		float nearZ = 0.0f;
+		float farZ = 1.0f; // gl -1 ~ 1
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2) 
+		{
+			nearZ = -1.0f;
+			farZ = 1.0f;
+		}
+
+		Vector3 vPoint[8];
+		vPoint[0] = Vector3(-1,1,nearZ);
+		vPoint[1] =  Vector3(-1,-1,nearZ) ;
+		vPoint[2] = Vector3(1,-1,nearZ);
+		vPoint[3] = Vector3(1,1,nearZ);
+
+		vPoint[4] = Vector3(-1,1,farZ);
+		vPoint[5] = Vector3(-1,-1,farZ);
+		vPoint[6] = Vector3(1,-1,farZ);
+		vPoint[7] = Vector3(1,1,farZ);
+
+		for(uint32 i = 0; i < 8; ++i)
+		{
+			vertBuff.push_back(vPoint[i]);
+		}
+
+		//CCW faces
+		static uint16 nFaces[6][4] = {{0,1,2,3},
+		{4,7,6,5},
+		{0,3,7,4},
+		{1,5,6,2},
+		{0,4,5,1},
+		{3,2,6,7}
+		};
+
+		//init indices for triangles drawing
+		for(int i=0; i < 6; i++)
+		{
+			indBuff.push_back( (uint16)  nFaces[i][0] );
+			indBuff.push_back( (uint16)  nFaces[i][1] );
+			indBuff.push_back( (uint16)  nFaces[i][2] );
+
+			indBuff.push_back( (uint16)  nFaces[i][0] );
+			indBuff.push_back( (uint16)  nFaces[i][2] );
+			indBuff.push_back( (uint16)  nFaces[i][3] );
+		}
+
+		m_pRenderable->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((UINT8*)&vertBuff[0], sizeof(Vector3) * vertBuff.size(), sizeof(Vector3));
+
+		m_pRenderable->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((UINT8*)&indBuff[0],sizeof(UINT16) * indBuff.size(), sizeof(UINT16));
+
+		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
+		m_pRenderable->m_pSubMeshData = CreateSubMeshData();
+		m_pRenderable->m_pSubMeshData->m_nIndexCount = indBuff.size();
+		m_pRenderable->m_pSubMeshData->m_nVertexCount = vertBuff.size();
+
+		VertexElement element[1];
+		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
+		m_pRenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1); 
 	}
 
 	void DeferredShadowPass::Init()
 	{
-		m_pFrustumMaterial = CreateTechnique("frustumclipvolume","volume","volume","");
-		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
+		m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
 
+		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 		m_pDefferedShadow->m_bDepthWrite = false;
 	}
 
@@ -25,55 +96,55 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadowPass);
 
-// 		for (uint32 i = 0; i < m_pScene->GetVisibleLightNum(); ++i)
-// 		{
-// 
-// 		}
-// 
-// 		RefPtr<Texture> pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
-// 
-// 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black,1,0);
-// 		
-// 		m_pFrustumMaterial->Bind();
-// 
-// 		GetRenderSystem()->SetStencilCheckEnabled(true);
-// 		for (int i = pRenderShadow->GetCurSplitCount() - 1; i >= 0; --i) // 从后往前
-// 		{
-// 			ShadowMapFrustum& shadowMapFru = pRenderShadow->GetShadowMapFrustum(i);
-// 			if ( !shadowMapFru.GetDraw() )
-// 				continue;
-// 
-// 			GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, i + 1, 0xFFFFffff, 0xFFFFffff,
-// 				SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
-// 
-// 			//CGpuProgram* pFrustumShader = m_pFrustumMaterial->GetGpuProgram();
-// 			//pFrustumShader->BeginActivate(pCamera);
-// 			
-// 			ShaderProgram* pShader = m_pFrustumMaterial->GetShaderProgram();
-// 			
-// 			Matrix4 matFrum = pRenderShadow->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-// 			GetRenderSystem()->SetValue( pShader->GetUniform("g_matWorld"), matFrum );
-// 
-// 			//m_pFrustumMaterial->Activate(true);
-// 
-// 			//GetRenderSystem()->SetVertexBuffer(0, m_pFrustumVertexData.get());
-// 			//GetRenderSystem()->SetIndexBuffer(m_pFrustumIndexData->pIndexBuffer.get());
-// 
-// 			//GetRenderSystem()->Draw(PT_TRIANGLESTRIP, m_pFrustumVertexData.get(), m_pFrustumIndexData.get(), 1);
-// 		}
-// 
-// 		m_pFrustumMaterial->UnBind();
-// 		
-// // 		ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
-// // 
-// // 	 	GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),pSun->m_vWBasisX[0]);
-// // 		GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),pSun->m_vWBasisY[0]);
-// // 		GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),pSun->m_vWBasisZ[0]);
-// // 		GetRenderSystem()->SetValue(pShader->GetUniform("vCamPos"),pSun->m_vShadowCamPos[0]);
-// // 
-// // 		ScreenQuad::Render(m_pDefferedShadow.get());
-// 
-// 		GetRenderSystem()->SetRenderTarget(pPreTarget);
+		RefPtr<Texture> pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
+
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black,1,0);
+		
+		m_pFrustumVolume->Bind();
+
+		GetRenderSystem()->SetStencilCheckEnabled(true);
+		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // 从后往前
+		{
+			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
+			if ( !shadowMapFru.GetDraw() )
+				continue;
+
+			GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, i + 1, 0xFFFFffff, 0xFFFFffff,
+				SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
+			
+			ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
+			
+			Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
+			GetRenderSystem()->SetValue( pShader->GetUniform("g_matWorld"), matFrum );
+
+			GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+		}
+
+		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i)
+		{
+			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
+			if ( !shadowMapFru.GetDraw() )
+				continue;
+
+			ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
+
+			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, i + 1, 0xFFFFffff, 0xFFFFffff,
+				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
+
+			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
+			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
+			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
+			GetRenderSystem()->SetValue(pShader->GetUniform("vCamPos"),shadowMapFru.m_vShadowCamPos);
+
+			//pShader->SetVector4(m_paramViewPosVecLS, &shadowMapFru.m_viewPosVecLS);
+			//pShader->SetVector2(m_paramgIrregkernelRadius,&shadowMapFru.m_vkernelRadius);
+			//pShader->SetTexture(m_paramShadowMap,shadowMapFru.GetShadowMap());
+
+			ScreenQuad::Render(m_pDefferedShadow.get());
+		}
+
+
+		GetRenderSystem()->SetRenderTarget(pPreTarget);
 	}
 
 	void DeferredShadowPass::Shoutdown()

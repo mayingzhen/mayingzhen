@@ -66,9 +66,6 @@ namespace ma
 		const char* GetMaterialPath() const;
 		void SetMaterialPath(const char* pPath);
 
-		// Blend
-		UINT GetBlendData(int nXVert, int nYVert) const;
-
 		bool GetTriFlip(int nXVert,int nYVert) const;
 		void SetTriFlip(int nXVert,int nYVert,bool bFlip);
 
@@ -157,8 +154,6 @@ namespace ma
 
 		// Blend
 		string m_strBlendMap;
-		RefPtr<Resource> m_pBlendMapData;
-		vector<UINT>  m_vecBlenData;
 		RefPtr<Texture> m_pBlendMap;
 		int m_nBlendingMultiple;
 		Vector2 m_vBlendOffset;

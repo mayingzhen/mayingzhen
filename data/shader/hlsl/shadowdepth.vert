@@ -19,7 +19,7 @@ struct VS_IN
    float2 a_texCoord : TEXCOORD0; 
 
 #ifdef SKIN   
-   int4   a_blendIndices :BLENDINDICES;
+   uint4   a_blendIndices :BLENDINDICES;
    float4 a_blendWeights :BLENDWEIGHT;     
 #endif
 };

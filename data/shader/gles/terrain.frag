@@ -17,81 +17,83 @@ uniform sampler2D tBlendingMap;
 uniform sampler2D tDetailMap0;
 uniform sampler2D tDetailMap1;
 
+uniform sampler2D tBumpMap0;
+
+uniform float specPower;
+uniform float specMaterial;
+uniform float g_heightScale;
+
 varying vec2 oUV;
+varying vec2 oUVOffset;
 varying vec4 oWorldPos;
-varying vec3 oWorldNormal;
+varying vec4 oNormal;
+#ifdef BUMPMAP
+varying vec3 oT;  
+varying vec3 oB;  	
+#endif
+
 #if USING_SHADOW != 0
 varying vec4 oShadowPos;
 #endif
-#if USING_DECAL == 1
-varying vec4 oProjPos;
-#endif
-#ifdef BLENDDATA
-varying vec4 oBlend;
-#endif
-
-varying vec4 oColor;
 
 varying vec4 oDetailUV;
 
-uniform vec2 uBlendingOffset;
     
 void main()
 {
-#ifdef BLENDDATA
-	vec4 cBlending = oBlend;
-#else
-	vec4 cBlending = texture2D(tBlendingMap, oUV + uBlendingOffset);
+	vec4 cBlending = texture2D(tBlendingMap, oUVOffset);
+
+#ifdef BUMPMAP
+    mat3 obj_to_tangent;
+    obj_to_tangent[0] = normalize(oT);
+    obj_to_tangent[1] = normalize(oB);
+    obj_to_tangent[2] = normalize(oNormal.xyz);
 #endif
 
 #if LAYER==1
-	gl_FragColor = texture2D(tDetailMap0, oDetailUV.xy);
+
+  vec2 oUVPixel = oDetailUV.xy;
+	#ifdef PARALLAXMAPPING 
+        vec3 toEye = normalize(g_vEyeWorldPos.xyz - oWorldPos.xyz);
+        float height = texture2D(tBumpMap0, oUVPixel).a;				//从alpha分量得到高度信息  
+        height = (height - 1.0) * g_heightScale;            //高度倍增（向内）  
+        mat3 W2T = transpose(obj_to_tangent);  
+        vec3 toEyeTangent = toEye * W2T;                          //世界 -> 切线空间  
+        vec2 offset = toEyeTangent.xy * height;                       //通过世界空间内坐标的offset获取纹理offset   
+        oUVPixel += offset;                                       //纹理坐标偏移  
+    #endif
+
+    #ifdef BUMPMAP
+        vec3 Normal = texture2D(tBumpMap0, oUVPixel).xyz;
+    #endif
+
+	gl_FragColor = texture2D(tDetailMap0, oUVPixel.xy);
 #elif LAYER==2  
 	vec4 cDetailMap0 = texture2D(tDetailMap0, oDetailUV.xy);
 	vec4 cDetailMap1 = texture2D(tDetailMap1, oDetailUV.zw);
 	gl_FragColor = cDetailMap0*cBlending.a + cDetailMap1*(1.0 - cBlending.a);
 #endif
 
-  vec4 cDiff = vec4(1.0,1.0,1.0,1.0);
-
-#if USING_TERRAIN_COLORMAP != 0
-#if defined(COLORDATA)
-    cDiff *= iColor.rgb;	
-#elif defined(COLORMAP)
-    vec4 cColor = texture2D(tColorMap, oUV);
-    cDiff.rgb *= cColor.rgb * (cColor.a*3.0);
-#endif
+#ifdef BUMPMAP
+	Normal = normalize(2.0 * Normal - 1.0);
+    vec3 oWorldNormal = normalize( Normal * obj_to_tangent );
+#else
+    vec3 oWorldNormal = normalize(oNormal.xyz);
 #endif
 
 
-#if USING_TERRAIN_LIGHTMAP != 0
-#ifdef LIGHTMAP
-	cDiff.rgb *= texture2D(tLightMap, vec2(oUV.x, 1.0-oUV.y)).rgb;
-#endif
-#endif
-
-#ifdef OMNILIGHT   
-	vec4 cOmni = ComputeOmniLight(oWorldPos.rgb, oWorldNormal.rgb);
-	cDiff.rgb += cOmni.rgb;
-#endif
-
+#if defined(LIGHTING)
+	vec3 oL = normalize(g_vDirLight);
+	float fNDotL = max( dot(oWorldNormal,oL) , 0);
+	vec3 cDiff = g_cSkyLight + g_cDirLight * fNDotL;
 	gl_FragColor.rgb *= cDiff.rgb;
-  
+#endif
 
 #if USING_SHADOW != 0
 	gl_FragColor.rgb *= DoShadowMapping(oShadowPos,oWorldPos.w);
 #endif
 
-
-#if USING_DECAL == 1
-	gl_FragColor = AddDecal(oProjPos,gl_FragColor);
-#endif
-
-#if USING_FOG == 1
-	gl_FragColor.rgb = CalcFog(oWorldPos.w, gl_FragColor.rgb);
-#endif
-
-	gl_FragColor.a = oColor.a;
+	gl_FragColor.a = oNormal.w;
 }
 
 

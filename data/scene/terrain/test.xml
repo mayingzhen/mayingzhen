@@ -2,7 +2,7 @@
 	<Attribute Name="CellSpacing" Type="float" Value="1"/>
 	<Attribute Name="HeightSpacing" Type="float" Value="50"/>
 	<Attribute Name="StartPoint" Type="Vector3" Value="0 0 0"/>
-	<Attribute Name="TrunkSize" Type="int" Value="32"/>
+	<Attribute Name="TrunkSize" Type="int" Value="64"/>
 	<Attribute Name="LodParamDiv" Type="float" Value="0"/>
 	<Attribute Name="HeightMapPath" Type="string" Value="scene/terrain/test.dds"/>
 	<Attribute Name="MaterialMapPath" Type="string" Value="scene/terrain/test_m.dds"/>

@@ -35,7 +35,7 @@ float4 main(PS_IN In) : SV_TARGET
 #if USING_HW_PCF == 0
 	oColor = OutPutDepth(In.oDepth.z / In.oDepth.w);
 #else
-	oColor = 1.0;
+	oColor = 0.0;
 #endif
 
 	return oColor;

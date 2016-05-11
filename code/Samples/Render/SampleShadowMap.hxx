@@ -15,7 +15,6 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 
-
 		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		m_pScene->GetRootNode()->AddChild(pTerrain.get());
 
@@ -35,10 +34,10 @@ namespace ma
 
 		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
 		
-		pSunLight->GetSceneNode()->LookAt(Vector3(1.f, 0.f, 1.f),Vector3::ZERO); 
-		pSunLight->SetLightColor(ColourValue(0.49, 0.65, 0.95, 1.f));
+		pSunLight->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0));
+		pSunLight->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
 		pSunLight->SetShadowEnabled(true);
-
+		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 	}
 
 	void SampleShadowMap::UnLoad()
@@ -67,27 +66,18 @@ namespace ma
 		}
 	}
 
-// 	bool SampleShadowMap::keyPressed(const OIS::KeyEvent &arg)
-// 	{
-// 		if (arg.key == OIS::KC_UP)
-// 		{
-// 			m_pBox->Up(100.0f);
-// 		}
-// 		else if (arg.key == OIS::KC_DOWN)
-// 		{
-// 			m_pBox->Up(-100.0f);
-// 		}
-// 		else if (arg.key == OIS::KC_LEFT)
-// 		{
-// 			m_pBox->Right(-100.0f);
-// 		}
-// 		else if (arg.key == OIS::KC_RIGHT)
-// 		{
-// 			m_pBox->Right(100.0f);
-// 		}
-// 
-// 		return true;
-// 	}
+	void SampleShadowMap::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
+	{
+		if (evt != Keyboard::KEY_PRESS)
+			return;
+
+		if (key == Keyboard::KEY_S)
+		{
+			RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
+
+			pSunLight->SetShadowEnabled( !pSunLight->GetShadowEnabled() );
+		}
+	}
 
 }
 

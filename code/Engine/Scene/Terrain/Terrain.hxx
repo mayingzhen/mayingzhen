@@ -243,14 +243,6 @@ namespace ma
 			m_pMaterialMapData = NULL;
 		}
 
-		if (m_pBlendMapData)
-		{
-			int blendW,blenH;
-			ResourceMapToData<uint32>(m_pBlendMapData.get(),m_vecBlenData,blendW,blenH);
-			m_nBlendingMultiple = blendW / m_nXCellsAmount;
-			m_pBlendMapData = NULL;
-		}
-
 		if (m_pBlendMap)
 		{
 			m_nBlendingMultiple = m_pBlendMap->GetWidth() / m_nXCellsAmount;
@@ -610,20 +602,6 @@ namespace ma
 	SubMaterial* Terrain::GetMaterial(int nXVert,int nYVert) const
 	{
 		return GetMaterialByID( GetMaterialID(nXVert,nYVert) );
-	}
-
-	// Blend
-	UINT Terrain::GetBlendData(int nXVert, int nYVert) const
-	{
-		int nX = nXVert * m_nBlendingMultiple;
-		int nY = nYVert * m_nBlendingMultiple;
-
-		uint32 nIndex = nX + nY * (m_pBlendMap->GetWidth() + 1);
-		ASSERT(nIndex >= 0 && nIndex < m_vecBlenData.size());
-		if (nIndex < 0 || nIndex >= m_vecBlenData.size())
-			return 0;
-
-		return m_vecBlenData[nIndex];	
 	}
 
 	bool Terrain::GetTriFlip(int nXVert,int nYVert) const

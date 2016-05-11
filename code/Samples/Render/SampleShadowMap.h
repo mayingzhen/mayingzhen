@@ -16,7 +16,7 @@ namespace ma
 
 		virtual void		Render();
 
-		//virtual bool		keyPressed(const OIS::KeyEvent &arg);
+		virtual void		keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 
 	private:
 		RefPtr<DirectonalLight>	m_pDirectLight;

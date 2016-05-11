@@ -12,7 +12,7 @@ cbuffer ObjectPS : register(b5)
 {
 	float2 uBlendingOffset;
 	float4 u_cSpecColor;
-	float specPower;
+	float u_specPower;
 	float g_heightScale;
 }
 
@@ -53,9 +53,17 @@ struct VS_OUTPUT
 };
 
 
-float4 GetDiffuse(VS_OUTPUT In)
+
+void main(VS_OUTPUT In,
+out float4 oColor : SV_TARGET0
+#if DEFERREDSHADING == 1
+,out float4 oNormal : SV_TARGET1
+#endif
+)
 {
-	float4 oColor = float4(1,1,1,1);
+	oColor = 1.0;
+	
+	oColor.a = In.oNormal.w;	
 	
 	float4 cBlend = tBlendingMap.Sample(sBlendingMap, In.UV + uBlendingOffset);
 	
@@ -84,11 +92,12 @@ float4 GetDiffuse(VS_OUTPUT In)
 	#endif	
 
  	float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
-	oColor = cDetailMap0;
+	oColor.rgb = cDetailMap0;
+	
 #elif LAYER==2
     float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
     float4 cDetailMap1 = tDetailMap1.Sample(sDetailMap1, In.DetailUV.zw);
-    oColor = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
+    oColor.rgb = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 	
 #ifdef BUMPMAP
@@ -98,31 +107,36 @@ float4 GetDiffuse(VS_OUTPUT In)
 	float3 oWorldNormal = normalize(In.oNormal.xyz);
 #endif
 
-#if USING_DEFERREDLIGHTING == 0   
-	#if defined(BUMPMAP) || defined(LIGHTING)
-		float3 oL = normalize(g_vDirLight);
-		float fNDotL = max( dot(oWorldNormal,oL) , 0);
-		float3 cDiff = g_cSkyLight + g_cDirLight * fNDotL;
-		oColor.rgb *= cDiff;
-	#endif
-
-	#ifdef SPEC 	
-		float3 refl = reflect(g_vDirLight, normalize(oWorldNormal));	
-		float cosVal = dot(normalize(g_vEyeWorldPos.xyz - oWorldPos.xyz), refl);
-		float3 spec = g_cDirLight* pow(max(0,cosVal), specPower) * specMaterial;
-		oColor.rgb += spec * specAlpha;
+#if DEFERREDSHADING == 0
+	#ifdef LIGHTING	
+		float3 vNormal = oWorldNormal;
+		float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
+		float3 vlight = normalize(g_vDirLight.xyz);
+		float3 halfVec = normalize(vView + vlight);
+		
+		float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), u_specPower ); 
+		
+			
+		float3 Diffuse = light.y * g_cDirLight.xyz + g_cSkyLight;
+		float3 Specular = light.z * g_cDirLight.xyz;	
+			
+		oColor.xyz = Diffuse * oColor.xyz;	
+			
+		#ifdef SPEC			
+			oColor.xyz += Specular * u_cSpecColor.xyz;	
+		#endif   
+		
+	#endif	
+#else
+	oNormal = 0;
+	float3 viewNormal = mul(oWorldNormal, (float3x3)g_matView); 
+	oNormal.xy = EncodeNormal( normalize(viewNormal.xyz) );
+	const float3 RGB_TO_LUM = float3(0.299f, 0.587f, 0.114f);
+	#ifdef SPEC
+		oNormal.z = dot(u_cSpecColor.xyz,RGB_TO_LUM) ;
+		oNormal.w = u_specPower / 255.0f;
 	#endif
 #endif
-
-	oColor.a = In.oNormal.w;		
-
-	return oColor;
-}
-
-#ifndef DEFERREDSHADING 
-float4 ForwardShading(float4 cDiffuse,VS_OUTPUT In)
-{
-	float4 flagColor = cDiffuse;
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
 	float4 ShadowPos = In.oShadowPos;
@@ -130,28 +144,9 @@ float4 ForwardShading(float4 cDiffuse,VS_OUTPUT In)
 #if SHADOW_BLUR == 2
 	RandDirTC = In.oRandDirTC;
 #endif
-	flagColor.rgb *= DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);		
+	oColor.rgb *= DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);		
 #endif
 	
-	return flagColor;
-}
-#endif
-
-void main(VS_OUTPUT In,
-#if defined(DEFERREDSHADING)
-out PS_OUT pout
-#else
-out float4 outColor : SV_TARGET 
-#endif
-)
-{
-	float4 cDiffuse = GetDiffuse(In);
-
-#if defined(DEFERREDSHADING) 
-	pout = GbufferPSout(cDiffuse,u_cSpecColor,In.v_normalDepth);
-#else
-	outColor = ForwardShading(cDiffuse,In);
-#endif	
 }
 
 

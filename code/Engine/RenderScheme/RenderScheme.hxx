@@ -223,4 +223,37 @@ namespace ma
 	{
 		return m_pDeferredShadingPass != NULL;
 	}
+
+	void RenderScheme::SetDeferredShadowEnabled(bool b)
+	{
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
+			return;
+
+		if (b)
+		{
+			if (m_pDeferredShadowPass)
+				return;
+
+			m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
+
+			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADOW", "1");
+		}
+		else
+		{
+			if (m_pDeferredShadowPass == NULL)
+				return;
+
+			m_pDeferredShadowPass = NULL;
+
+			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADOW", "0");
+		}
+
+		Init();
+		Reset();
+	}
+
+	bool RenderScheme::GetDeferredShadowEnabled() const
+	{
+		return m_pDeferredShadowPass != NULL;
+	}
 }

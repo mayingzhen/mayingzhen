@@ -5,12 +5,6 @@
 #include"shadowMap.h"
 #endif
 
-#ifdef DEFERREDSHADING 
-#include"gbuffer.h"
-#endif 
-
-
-
 cbuffer ObjectVS : register(b5)
 {
 	float2 uCellAmount;
@@ -105,15 +99,11 @@ VS_OUTPUT main(const VS_INPUT In)
 	float fWeight = saturate(1 - abs(iMateriaID - uCurMaterialID));	
 	Out.oNormal.w = fWeight;
 
-#ifdef DEFERREDSHADING  
-	GBufferVSOut(Out.oNormal.xyz,Out.Pos.w,Out.v_normalDepth);
-#else
 #if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
 	GetShadowPos(Out.WorldPos.xyz,Out.oShadowPos);
 	#if SHADOW_BLUR == 2 	
 	GetRandDirTC(Out.oPos.w,Out.oRandDirTC);  
 	#endif	
-#endif
 #endif
 
     return Out;

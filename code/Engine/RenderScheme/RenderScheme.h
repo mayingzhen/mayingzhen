@@ -26,9 +26,8 @@ namespace ma
 
 		void	Render();
 
-		DeferredShadowPass*		GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
-
-		DeferredShadingPass*	GetDeferredShadingPass() const { return m_pDeferredShadingPass.get(); }
+		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
+		DeferredShadingPass* GetDeferredShadingPass() const { return m_pDeferredShadingPass.get(); }
 		
 		SamplerState* GetSceneDiffuse() const {return m_pDiffuseSampler.get();}
 		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
@@ -39,8 +38,10 @@ namespace ma
 
 		void SetDeferredShadingEnabled(bool b);
 		bool GetDeferredShadingEnabled() const;
-		
 
+		void SetDeferredShadowEnabled(bool b);
+		bool GetDeferredShadowEnabled() const;
+		
 	private:
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
 		RefPtr<DeferredShadingPass>	m_pDeferredShadingPass;

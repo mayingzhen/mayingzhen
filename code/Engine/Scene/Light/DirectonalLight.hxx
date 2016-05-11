@@ -172,11 +172,6 @@ namespace ma
 		{
 			m_SpitFrustum[i].Render(pCamera);
 		}
-		
-// 		if (m_nMaxSplitCount > 1)
-// 		{
-// 			ASSERT(pCamera->GetDeferredShadowEnabled());
-// 		}
 	}
 
 	void DirectonalLight::Clear(Camera* pCamera)

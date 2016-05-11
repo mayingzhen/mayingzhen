@@ -2,7 +2,7 @@
 	<LodMaterial>
 		<SubMaterial>
 			<ShadingTech>
-				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 2;LIGHTING"/>
+				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 2"/>
 				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
@@ -49,7 +49,7 @@
 		</SubMaterial>
 		<SubMaterial>
 			<ShadingTech>
-				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1;LIGHTING;BUMPMAP;PARALLAXMAPPING"/>
+				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1"/>
 				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
@@ -84,7 +84,8 @@
 			</Parameters>
 			<Parameters Name="uDetailScale" Type="Vector2" Value="0.1 0.1"/>
 			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
-			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
+			<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>
+			<Parameters Name="u_specPower" Type="float" Value="10"/>
 		</SubMaterial>
 		<SubMaterial>
 			<ShadingTech>

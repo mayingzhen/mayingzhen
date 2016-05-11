@@ -87,9 +87,10 @@ namespace ma
 		return m_pCurScene->GetAmbientColor();
 	}
 
-	ColourValue	RenderContext::GetDirLightColor() const
+	Vector3	RenderContext::GetDirLightColor() const
 	{
-		return m_pCurScene->GetDirLight()->GetLightColor();
+		ColourValue color = m_pCurScene->GetDirLight()->GetLightColor();
+		return Vector3(color.r,color.g,color.b);
 	}
 
 	Vector3	RenderContext::GetDirLightDir() const

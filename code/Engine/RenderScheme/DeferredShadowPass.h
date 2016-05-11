@@ -19,10 +19,17 @@ namespace ma
 		Texture* GetShadowTexture() {return m_pShadowTex.get();}
 
 	private:
+		void CreateSimpleLightFrustumMesh();
+
+	private:
 		RefPtr<Texture>		m_pShadowTex;	
 
-		RefPtr<Technique>	m_pFrustumMaterial;
+		RefPtr<Technique>	m_pFrustumVolume;
 		RefPtr<Technique>	m_pDefferedShadow;
+
+		RefPtr<Renderable>	m_pRenderable;
+
+		RefPtr<DirectonalLight> m_ShadowLight;
 	};
 
 }

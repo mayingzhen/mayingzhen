@@ -32,7 +32,7 @@ namespace ma
 		float					GetFarClip();
 
 		Vector3					GetAmbientColor() const;
-		ColourValue				GetDirLightColor() const;
+		Vector3					GetDirLightColor() const;
 		Vector3					GetDirLightDir() const;
 
 	protected:
