@@ -7,6 +7,8 @@ namespace ma
 		:RenderPass(pScene)
 	{
 		m_pRenderable = new Renderable;
+	
+		m_ShadowLight = pScene->GetDirLight();
 	}
 
 	void DeferredShadowPass::CreateSimpleLightFrustumMesh()
@@ -85,6 +87,12 @@ namespace ma
 
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 		m_pDefferedShadow->m_bDepthWrite = false;
+
+		m_pScreen = CreateTechnique("screen","screen","screen","");
+		m_pScreen->m_eBlendMode = BM_MULTIPLY;
+		//m_pScreen->SetSceneBlending(SBF_ZERO,SBF_SOURCE_COLOUR,SBO_ADD);
+
+		CreateSimpleLightFrustumMesh();
 	}
 
 	void DeferredShadowPass::Reset()
@@ -96,9 +104,12 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadowPass);
 
-		RefPtr<Texture> pPreTarget = GetRenderSystem()->SetRenderTarget(m_pShadowTex);
+		FrameBuffer fb;
+		fb.AttachColor(0,m_pShadowTex.get());
+		fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+		GetRenderSystem()->SetFrameBuffer(&fb);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::Black,1,0);
+		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1,0);
 		
 		m_pFrustumVolume->Bind();
 
@@ -115,7 +126,7 @@ namespace ma
 			ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 			
 			Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-			GetRenderSystem()->SetValue( pShader->GetUniform("g_matWorld"), matFrum );
+			GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
 
 			GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 		}
@@ -134,17 +145,21 @@ namespace ma
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
-			GetRenderSystem()->SetValue(pShader->GetUniform("vCamPos"),shadowMapFru.m_vShadowCamPos);
+			GetRenderSystem()->SetValue(pShader->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
 
 			//pShader->SetVector4(m_paramViewPosVecLS, &shadowMapFru.m_viewPosVecLS);
 			//pShader->SetVector2(m_paramgIrregkernelRadius,&shadowMapFru.m_vkernelRadius);
-			//pShader->SetTexture(m_paramShadowMap,shadowMapFru.GetShadowMap());
+			GetRenderSystem()->SetValue(pShader->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
+		//GetRenderSystem()->SetRenderTarget(pPreTarget);
 
-		GetRenderSystem()->SetRenderTarget(pPreTarget);
+// 		ShaderProgram* pShader = m_pScreen->GetShaderProgram();
+// 		GetRenderSystem()->SetValue(pShader->GetUniform("tSrcColor"),m_pShadowTex.get());
+// 
+// 		ScreenQuad::Render(m_pScreen.get());		
 	}
 
 	void DeferredShadowPass::Shoutdown()

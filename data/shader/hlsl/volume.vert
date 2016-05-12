@@ -1,9 +1,12 @@
 #include "common.h"
 
-float4x4 matFrustum;
+cbuffer ObjectVS : register(b5)
+{
+	float4x4 matFrustum;
+}
 
 void main(float3 iPos			: POSITION0,
-		out float4 oPos     : POSITION0) 
+		out float4 oPos     : SV_POSITION) 
 {
 
 	float4 vPos = float4(iPos,1.0);

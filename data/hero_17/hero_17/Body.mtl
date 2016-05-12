@@ -2,7 +2,7 @@
 	<LodMaterial>
 		<SubMaterial>
 			<ShadingTech>
-				<Shader VSFile="mesh" PSFile="mesh" ShaderMacro="DIFFUSECOLOR;SKIN"/>
+				<Shader VSFile="mesh" PSFile="mesh" ShaderMacro="DIFFUSECOLOR;SKIN;BONE_DQ"/>
 				<RenderState ClassName="Technique">
 					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
 					<Attribute Name="ColorWrite" Type="bool" Value="true"/>

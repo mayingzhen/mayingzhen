@@ -323,6 +323,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\hlsl\screen.frag"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\hlsl\screen.vert"
 				>
 			</File>

@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleTerrain");
+	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleShadowMap");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

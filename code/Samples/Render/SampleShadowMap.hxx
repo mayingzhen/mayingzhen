@@ -38,6 +38,9 @@ namespace ma
 		pSunLight->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
 		pSunLight->SetShadowEnabled(true);
 		m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
+
+		m_pScene->GetRenderScheme()->SetDeferredShadingEnabled(true);
+		m_pScene->GetRenderScheme()->SetDeferredShadowEnabled(true);
 	}
 
 	void SampleShadowMap::UnLoad()

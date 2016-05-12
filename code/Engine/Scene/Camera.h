@@ -20,9 +20,9 @@ namespace ma
 
 		virtual void		LookAt(const Vector3& vEye, const Vector3& vAt);
 
-		virtual Vector3		GetForward();
-		virtual Vector3		GetRight();		
-		virtual Vector3		GetUp();
+		virtual Vector3		GetForward() const;
+		virtual Vector3		GetRight() const;		
+		virtual Vector3		GetUp() const;
 
 		void				SetPerspective(float fFOV,float fAspect,float fNear,float fFar);
 
@@ -55,8 +55,8 @@ namespace ma
 		void				Yaw(const Radian& fParam);
 		void				Pitch(const Radian& fParam);
 
-		SceneNode*			GetEyeNode() {return m_eyeNode.get();}
-		SceneNode*			GetAtNode() {return m_atNode.get();}
+		SceneNode*			GetEyeNode() const {return m_eyeNode.get();}
+		SceneNode*			GetAtNode() const {return m_atNode.get();}
 
 	protected:
 

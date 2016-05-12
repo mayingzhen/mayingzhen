@@ -236,7 +236,7 @@ namespace ma
 
 			m_pDeferredShadowPass = new DeferredShadowPass(m_pScene);
 
-			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADOW", "1");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "1");
 		}
 		else
 		{
@@ -245,7 +245,7 @@ namespace ma
 
 			m_pDeferredShadowPass = NULL;
 
-			GetRenderSystem()->AddShaderGlobaMacro("DEFERREDSHADOW", "0");
+			GetRenderSystem()->AddShaderGlobaMacro("USING_DEFERREDSHADOW", "0");
 		}
 
 		Init();

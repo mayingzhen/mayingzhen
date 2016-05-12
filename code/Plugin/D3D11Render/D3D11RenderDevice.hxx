@@ -169,7 +169,7 @@ namespace ma
 		m_hWnd = wndhandle;
 
 #if defined(DEBUG) || defined(_DEBUG)
-		UINT nCreateFlags = D3D10_CREATE_DEVICE_DEBUG;
+		UINT nCreateFlags = D3D11_CREATE_DEVICE_DEBUG;
 #else
 		UINT nCreateFlags = 0;
 #endif
@@ -360,7 +360,10 @@ namespace ma
 
 	void D3D11RenderDevice::SetDepthStencil(Texture* pTexture)
 	{
+		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
+		m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
 
+		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
 
 	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
@@ -463,8 +466,15 @@ namespace ma
 		StencilOperation passOp/* = SOP_KEEP*/, 
 		bool twoSidedOperation/* = false*/)
 	{
-
-	}
+		m_renderState.m_eStencilfunc = func;
+		m_renderState.m_nStencilRefValue = refValue;
+		m_renderState.m_nStencilMask = mask;
+		m_renderState.m_nStencilWriteMask = writeMask;
+		m_renderState.m_eStencilFail = stencilFailOp;
+		m_renderState.m_eDepthFailOp = depthFailOp;
+		m_renderState.m_eStencilPass = passOp;
+		m_bDepthStateDirty = true;
+	}	
 
 	void D3D11RenderDevice::SetDepthCheckMode(CompareFunction mode)
 	{
@@ -657,7 +667,7 @@ namespace ma
 						stateDesc.RenderTarget[0].DestBlend,
 						stateDesc.RenderTarget[0].BlendOp);
 
-					D3D11Mapping::GetD3DBlend(m_renderState.m_eBlendMode,
+					D3D11Mapping::GetD3DBlendAlpha(m_renderState.m_eBlendMode,
 						stateDesc.RenderTarget[0].BlendEnable,
 						stateDesc.RenderTarget[0].SrcBlendAlpha,
 						stateDesc.RenderTarget[0].DestBlendAlpha,

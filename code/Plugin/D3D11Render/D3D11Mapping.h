@@ -24,6 +24,7 @@ namespace ma
 		static D3D11_CULL_MODE get(CULL_MODE mode);
 
 		static void GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,D3D11_BLEND& src,D3D11_BLEND& destm,D3D11_BLEND_OP& op);
+		static void GetD3DBlendAlpha(BLEND_MODE mode,BOOL& bEnbale,D3D11_BLEND& src,D3D11_BLEND& destm,D3D11_BLEND_OP& op);
 
 		static PixelFormat _getClosestSupportedPF(PixelFormat ogrePF);
 	};

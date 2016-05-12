@@ -12,7 +12,7 @@ namespace ma
 	{	
 		m_pCamera->LookAt(Vector3(0, -6, 2), Vector3(0, 0, 0));
 
-		CreateMeshMaterial("hero_17/hero_17/body.tga","hero_17/hero_17/Body.mtl","SKIN");
+		CreateMeshMaterial("hero_17/hero_17/body.tga","hero_17/hero_17/Body.mtl","SKIN;BONE_DQ");
 
 		RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
 

@@ -635,7 +635,7 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(pTexture);
 
-		if ( m_arrSampState[uniform->m_index] != pTexture )
+		//if ( m_arrSampState[uniform->m_index] != pTexture )
 		{
 			m_pRenderThread->RC_SetSamplerState(uniform,pTexture);
 

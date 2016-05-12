@@ -70,9 +70,9 @@ namespace ma
 		const Vector3&		GetScaleWS();
 		void				SetScaleWS(const Vector3& vScale);
 
-		virtual Vector3		GetForward();
-		virtual Vector3		GetRight();		
-		virtual Vector3		GetUp();
+		virtual Vector3		GetForward() const;
+		virtual Vector3		GetRight() const;		
+		virtual Vector3		GetUp() const;
 
 		virtual	void        Forward(float fValue);
 		void                Up(float fValue);
@@ -86,7 +86,7 @@ namespace ma
 		const Transform&    GetTransformWS();
 		void				SetTransformWS(const Transform& tsfWS);
 
-		const Matrix4&		GetMatrixWS();
+		const Matrix4&		GetMatrixWS() const;
 
 		void				RotateAround(const Vector3& vPoint, Vector3 vAxis,float angle); 
 
@@ -132,7 +132,7 @@ namespace ma
 		virtual void		SetScene(Scene* pScene);
 
 		void				SetNeedChange(CHANGE_TYPE eChangeType);
-		void				UpdateWorldMatrix();
+		void				UpdateWorldMatrix() const;
 
 	protected:
 		typedef std::vector< RefPtr<Component> > VEC_COMP;
@@ -146,12 +146,12 @@ namespace ma
 
 		UINT						m_nLastVisibleFrame;
 
-		Transform					m_tsfPS;
-		Transform					m_tsfWS;
-		Matrix4						m_matWS;
-	
-		int							m_nNeedChange;
-		int							m_nInheritType;
+		mutable Transform			m_tsfPS;
+		mutable Transform			m_tsfWS;
+		mutable Matrix4				m_matWS;
+
+		mutable int					m_nNeedChange;
+		mutable int					m_nInheritType;
 
 		bool						m_bEnable;
 

@@ -295,7 +295,7 @@ namespace ma
 // 		}
 	}
 
-	void SceneNode::UpdateWorldMatrix()
+	void SceneNode::UpdateWorldMatrix() const
 	{
 		if (m_nNeedChange == CT_NONE || m_nNeedChange == CT_NOTIFY)
 		{
@@ -492,7 +492,7 @@ namespace ma
 		SetScaleWS(tsfWS.m_vScale);
 	}
 
-	const Matrix4& SceneNode::GetMatrixWS()
+	const Matrix4& SceneNode::GetMatrixWS() const
 	{
 		UpdateWorldMatrix();
 	
@@ -512,22 +512,22 @@ namespace ma
 		SetTransformWS(tsfWS);
 	}
 
-	Vector3	SceneNode::GetForward()
+	Vector3	SceneNode::GetForward() const
 	{
 		return GetMatrixWS().GetColumn(1);
 	}
 
-	Vector3	SceneNode::GetRight()
+	Vector3	SceneNode::GetRight() const
 	{
 		return GetMatrixWS().GetColumn(0);
 	}
 
-	Vector3	SceneNode::GetUp()
+	Vector3	SceneNode::GetUp() const
 	{
 		return GetMatrixWS().GetColumn(2);
 	}
 
-	void  SceneNode::Forward(float x)
+	void  SceneNode::Forward(float x) 
 	{
 		Translate(GetForward() * x);
 	}

@@ -267,17 +267,17 @@ namespace ma
 		m_atNode->SetPos(vAt);
 	}
 
-	Vector3	Camera::GetForward()
+	Vector3	Camera::GetForward() const
 	{
 		return Vector3(m_matView[2][0], m_matView[2][1], m_matView[2][2]);
 	}
 
-	Vector3	Camera::GetRight()
+	Vector3	Camera::GetRight() const
 	{
 		return Vector3(m_matView[0][0], m_matView[0][1], m_matView[0][2]);
 	}
 
-	Vector3	Camera::GetUp()
+	Vector3	Camera::GetUp() const
 	{
 		return Vector3(m_matView[1][0], m_matView[1][1], m_matView[1][2]);
 	}

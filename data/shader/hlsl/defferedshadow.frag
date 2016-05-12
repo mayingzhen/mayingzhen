@@ -5,13 +5,12 @@
 
 struct VS_OUT
 {
-   float4 pos : POSITION;
    float2 oTc : TEXCOORD0;
    float4 oViewDir : TEXCOORD1;
 };
 
 
-void main( float4 WPos : VPOS, VS_OUT In,out float4 color : COLOR0 )
+void main( VS_OUT In, float4 WPos : SV_Position , out float4 color : SV_TARGET )
 {
 	float4 vTempPos = CalcHomogeneousPos(In.oTc, WPos.xy);
 	float depth = vTempPos.w; 

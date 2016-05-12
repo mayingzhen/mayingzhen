@@ -16,16 +16,16 @@ cbuffer ObjectPS : register(b5)
 
 
 // Gbuffer
-Texture2D u_textureSceneDiffuse;
-SamplerState s_textureSceneDiffuse;
+Texture2D u_textureSceneDiffuse : register(t5);
+SamplerState s_textureSceneDiffuse : register(s5);
 
-Texture2D u_textureSceneNormal;
-SamplerState s_textureSceneNormal;
+Texture2D u_textureSceneNormal  : register(t6);
+SamplerState s_textureSceneNormal : register(s6);
 
 // shadow
 #if USING_SHADOW != 0
-Texture2D u_TextureSceneShadow;
-SamplerState s_TextureSceneShadow;
+Texture2D u_TextureSceneShadow : register(t7);
+SamplerState s_TextureSceneShadow : register(s7);
 #endif
       
 struct VS_OUT

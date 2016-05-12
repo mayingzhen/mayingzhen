@@ -206,7 +206,6 @@ EXPORTS
 ?Pitch@Camera@ma@@QAEXABVRadian@2@@Z
 ?SetNeedChange@Component@ma@@UAEXW4CHANGE_TYPE@2@@Z
 ?GetTransformWS@SceneNode@ma@@QAEABUTransform@2@XZ
-?GetMatrixWS@SceneNode@ma@@QAEABVMatrix4@2@XZ
 ?GetPosWS@SceneNode@ma@@QAEABVVector3@2@XZ
 ?GetRotationWS@SceneNode@ma@@QAEABVQuaternion@2@XZ
 ?GetScaleWS@SceneNode@ma@@QAEABVVector3@2@XZ
@@ -218,3 +217,5 @@ EXPORTS
 ?Unlock@HardwareBuffer@ma@@UAEXXZ
 ?CreateMeshData@ma@@YA?AV?$RefPtr@VMeshData@ma@@@1@XZ
 ?GetLodSubByIndex@Material@ma@@QBEPAVSubMaterial@2@II@Z
+?SetDeferredShadowEnabled@RenderScheme@ma@@QAEX_N@Z
+?GetMatrixWS@SceneNode@ma@@QBEABVMatrix4@2@XZ

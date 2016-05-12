@@ -329,8 +329,42 @@ void D3D11Mapping::GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,D3D11_BLEND& src,D3
 
 	case BM_MULTIPLY:
 		bEnbale = TRUE;
-		src = D3D11_BLEND_DEST_COLOR;
-		dest = D3D11_BLEND_ZERO;
+		src = D3D11_BLEND_ZERO;
+		dest = D3D11_BLEND_SRC_COLOR;
+		op = D3D11_BLEND_OP_ADD;
+		break;
+	default:
+		ASSERT(false);
+		bEnbale = FALSE;
+	}
+}
+
+void D3D11Mapping::GetD3DBlendAlpha(BLEND_MODE mode,BOOL& bEnbale,D3D11_BLEND& src,D3D11_BLEND& dest,D3D11_BLEND_OP& op)
+{
+	switch (mode)
+	{
+	case BM_OPATICY:
+		bEnbale = FALSE;
+		break;
+
+	case BM_TRANSPARENT:
+		bEnbale = TRUE;
+		src = D3D11_BLEND_SRC_ALPHA;
+		dest = D3D11_BLEND_INV_SRC_ALPHA;
+		op = D3D11_BLEND_OP_ADD;
+		break;
+
+	case BM_ADD:
+		bEnbale = TRUE;
+		src = D3D11_BLEND_ONE;
+		dest = D3D11_BLEND_ONE;
+		op = D3D11_BLEND_OP_ADD;
+		break;
+
+	case BM_MULTIPLY:
+		bEnbale = TRUE;
+		src = D3D11_BLEND_ZERO;
+		dest = D3D11_BLEND_SRC_ALPHA;
 		op = D3D11_BLEND_OP_ADD;
 		break;
 	default:
