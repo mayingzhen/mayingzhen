@@ -41,6 +41,8 @@ namespace ma
 
 		m_pScene->GetRenderScheme()->SetDeferredShadingEnabled(true);
 		m_pScene->GetRenderScheme()->SetDeferredShadowEnabled(true);
+		m_pScene->GetRenderScheme()->SetSSAOEnabled(true);
+		//m_pScene->GetRenderScheme()->SetSMAAEnabled(true);
 	}
 
 	void SampleShadowMap::UnLoad()

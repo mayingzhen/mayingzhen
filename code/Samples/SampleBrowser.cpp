@@ -5,6 +5,7 @@
 #include "GLESRender/Module.h"
 #include "BulletPhysics/Module.h"
 #include "MonoScript/Module.h"
+#include "Wwise/Modelue.h"
 
 #if PLATFORM_WIN == 1
 //#include "D3D9Render/Module.h"
@@ -31,6 +32,7 @@
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Animation/SampleAnimationIK.hxx"
 #include "Samples/Render/SampleParticle.hxx"
+#include "Samples/Audo/SampleWwise.hxx"
 
 
 
@@ -60,6 +62,7 @@ namespace ma
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
 		MonoScriptModuleInit();
+		WWiseModuleInit();
 
 #if PLATFORM_WIN == 1
 		if (eType == RenderDevice_D3D11)
@@ -81,11 +84,12 @@ namespace ma
 	{
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
+		MonoScriptModuleShutdown();
+		WWiseModuleShutdown();
 
 #if PLATFORM_WIN == 1
 		FBXImporterModuleShutdown();
-		MonoScriptModuleShutdown();
-
+		
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
 			D3D11RenderModuleShutdown();
@@ -145,6 +149,9 @@ namespace ma
 		if (GetScriptSystem())
 			GetScriptSystem()->Shoutdown();
 
+		if (GetWwiseSystem())
+			GetWwiseSystem()->Shoutdown();
+
 		Game::Shutdown();
 
 		ModuleShutdown();
@@ -170,6 +177,17 @@ namespace ma
 
 		if (GetScriptSystem())
 			GetScriptSystem()->Init();
+			
+		HWND hWnd = Platform::GetInstance().GetWindId();
+
+#if PLATFORM_WIN == 1
+		char pszPath[MAX_PATH] = {0};
+		GetFullPathName("../../data/",MAX_PATH,pszPath,NULL);
+		string strWwiseBaseDir = string(pszPath) + "Wwise/Windows/";
+#endif
+		const char* pszWwiseLanguage = "English(US)";
+		if (GetWwiseSystem())
+			GetWwiseSystem()->Init(hWnd,strWwiseBaseDir.c_str(),pszWwiseLanguage);
 		
 		Scene* pScene = GetRenderSystem()->GetScene();
 		pScene->SetCallback(this);
@@ -247,6 +265,10 @@ namespace ma
 		{
 			m_pCurSample = new SampleAnimationIK();
 		}
+		else if(stricmp(pSample,"SampleWwise") == 0)
+		{
+			m_pCurSample = new SampleWwise();
+		}
 	
 		m_pCurSample->Load();
 	}
@@ -260,6 +282,8 @@ namespace ma
 			GetInput()->InjectInputEnd();
 
 		Game::Update();
+
+		GetWwiseSystem()->Update();
 
 		if (m_pCameraControl)
 			m_pCameraControl->Process(GetTimer()->GetFrameDeltaTime());

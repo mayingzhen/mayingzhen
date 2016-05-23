@@ -118,8 +118,8 @@ namespace ma
 		HWND						m_hWnd;
 
 
-		RefPtr<D3D11Texture>	defaultRenderTargetTexture;
-		RefPtr<D3D11Texture>	defaultDepthStencilTexture;
+		RefPtr<D3D11Texture>		m_pDefaultRenderTargetTexture;
+		RefPtr<D3D11Texture>		m_pDefaultDepthStencilTexture;
 
 
 		ID3D11RenderTargetView*		m_pRenderTarget[MAX_RENDERTARGETS];
@@ -131,23 +131,24 @@ namespace ma
 		// RasterizerState
 		bool						m_bRasterizerStateDirty;
 		unsigned					rasterizerStateHash_;
-		map<unsigned, ID3D11RasterizerState*> rasterizerStates_;
+		map<unsigned, ID3D11RasterizerState*> m_rasterizerStatePool;
 		
 		// DepthState
 		bool						m_bDepthStateDirty;
 		unsigned					depthStateHash_;
-		map<unsigned, ID3D11DepthStencilState*> depthStates_;
+		map<unsigned, ID3D11DepthStencilState*> m_depthStatePool;
 		unsigned stencilRef_;
 		bool stencilRefDirty_;
 
 		// BlendState
 		bool						m_bBlendStateDirty;
 		unsigned					blendStateHash_;
-		map<unsigned, ID3D11BlendState*> blendStates_;
+		map<unsigned, ID3D11BlendState*> m_blendStatePool;
 
 		// ConstantBuffer
-		map<unsigned, RefPtr<ConstantBuffer> > constantBufferAll_;
+		map<unsigned, RefPtr<ConstantBuffer> > m_constantBufferPool;
 		vector<ConstantBuffer*> dirtyConstantBuffers_;
+		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];	
 
 		D3D11ShaderProgram* m_pShader;
 
@@ -179,9 +180,7 @@ namespace ma
 		unsigned lastDirtySamplerState_;
 		bool	samplerStatesDirty_;
 		ID3D11SamplerState* d3d11Samplers_[MAX_TEXTURE_UNITS];
-		map<SamplerState, ID3D11SamplerState*> SamplerStatesAll_;
-
-		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];
+		map<SamplerState, ID3D11SamplerState*> m_SamplerStatesPool;
 
 	};
 

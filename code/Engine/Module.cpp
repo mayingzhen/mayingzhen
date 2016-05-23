@@ -86,6 +86,7 @@
 #include "Engine/RenderScheme/BlurPostProcess.hxx"
 #include "Engine/RenderScheme/HDRPostProcess.hxx"
 #include "Engine/RenderScheme/SMAAPostProcess.hxx"
+#include "Engine/RenderScheme/AlchemyAo.hxx"
 
 // Scene
 #include "Engine/Scene/Component.hxx"

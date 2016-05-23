@@ -12,7 +12,7 @@ namespace ma
 
 		virtual void		Init();
 
-		virtual void		Reset();
+		virtual void		Reset(Texture* pInput, Texture* pOutput);
 
 		virtual void		Shutdown();
 
@@ -27,11 +27,20 @@ namespace ma
 			std::vector<float>& tex_coord_offset);
 
 	private:
-		RefPtr<Technique>		m_BlurXTech;
+		RefPtr<Technique>		m_pBlurXTech;
 
-		RefPtr<Technique>		m_BlurYTech;
+		RefPtr<Technique>		m_pBlurYTech;
 
-		RefPtr<Texture>			m_BureTempTex;
+		RefPtr<Texture>			m_pBureTempTex;
+		RefPtr<SamplerState>	m_pBureTempSampler;
+
+		RefPtr<SamplerState>	m_InputSampler;
+
+		std::vector<float>		m_color_weightX;
+		std::vector<float>		m_tex_coord_offsetX;
+
+		std::vector<float>		m_color_weightY;
+		std::vector<float>		m_tex_coord_offsetY;
 	};
 }
 

@@ -1,6 +1,7 @@
 #include "RenderScheme.h"
 #include "HDRPostProcess.h"
 #include "SMAAPostProcess.h"
+#include "AlchemyAo.h"
 #include "../RenderSystem/FrameBuffer.h"
 
 namespace ma
@@ -23,6 +24,11 @@ namespace ma
 		if (m_pDeferredShadowPass)
 		{
 			m_pDeferredShadowPass->Init();
+		}
+
+		if (m_pSSAO)
+		{
+			m_pSSAO->Init();
 		}
 
 		if (m_pHDR)
@@ -89,6 +95,11 @@ namespace ma
 			m_pDeferredShadowPass->Reset();
 		}
 
+		if (m_pSSAO)
+		{
+			m_pSSAO->Reset(NULL,NULL);
+		}
+
 		RefPtr<Texture> pOutputTex = GetRenderSystem()->GetDefaultRenderTarget();
 
 		if (m_pHDR)
@@ -133,6 +144,11 @@ namespace ma
 		{
 			RENDER_PROFILE(m_pDeferredShadowPass);
 			m_pDeferredShadowPass->Render();
+		}
+
+		if (m_pSSAO)
+		{
+			m_pSSAO->Render();
 		}
 
 		if (m_pDeferredShadingPass)
@@ -255,5 +271,37 @@ namespace ma
 	bool RenderScheme::GetDeferredShadowEnabled() const
 	{
 		return m_pDeferredShadowPass != NULL;
+	}
+
+	void RenderScheme::SetSSAOEnabled(bool b)
+	{
+		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
+			return;
+
+		if (b)
+		{
+			if (m_pSSAO)
+				return;
+
+			if (!GetDeferredShadingEnabled())
+				return;
+
+			m_pSSAO = new AlchemyAo();
+		}
+		else
+		{
+			if (m_pSSAO == NULL)
+				return;
+
+			m_pSSAO = NULL;
+		}
+
+		Init();
+		Reset();
+	}
+
+	bool RenderScheme::GetSSAOEnabled() const
+	{
+		return m_pSSAO != NULL;
 	}
 }

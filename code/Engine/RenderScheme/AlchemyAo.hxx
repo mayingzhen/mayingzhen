@@ -3,29 +3,31 @@
 namespace ma
 {
 
-	AlchemyAo::AlchemyAo(void)
+	AlchemyAo::AlchemyAo()
 	{
 	}
 
-	AlchemyAo::~AlchemyAo(void)
+	AlchemyAo::~AlchemyAo()
 	{
 	}
 
 	void AlchemyAo::Init()
 	{
-		m_pAlchemyAo = 
-	
 		m_pAlchemyAo = CreateTechnique("AlchemyAo","AlchemyAo","AlchemyAo","");
 		m_pAlchemyAo->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
+
+		mRandomMap = CreateSamplerState("white_noise_tex.dds",REPEAT,TFO_POINT,false);
+		m_pAlchemyAo->SetParameter("tRandomMap",Any(mRandomMap));
+
+		mBlur = new BlurPostProcess();
+		mBlur->Init();
 	}
 
 	void AlchemyAo::Reset(Texture* pInput, Texture* pOutput)
 	{
-		mTexSSAO = GetRenderSystem()->CreateRenderTarget();
+		mTexSSAO = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_A8R8G8B8,false,false);
 		
-		mTexBlur0 = GetRenderSystem()->CreateRenderTarget();
-		
-		mTexBlur1 = GetRenderSystem()->CreateRenderTarget();
+		mBlur->Reset(mTexSSAO.get(),mTexSSAO.get());
 	}
 
 	void AlchemyAo::Shutdown()
@@ -35,37 +37,25 @@ namespace ma
 
 	void AlchemyAo::Render()
 	{
-		CViewport* pPreViewport = GetRenderSystem()->_getViewport();
-
 		// ssao
 		{
-			CViewport viewport(pCamera, mTexSSAO->GetBuffer()->GetRenderTarget(), 0, 0, 1, 1);
-			GetRenderSystem()->_setViewport(&viewport);
-
-			mSSAO.RenderSelf(pCamera, pPostProcess->GetNormalMap(), pPostProcess->GetPosMap());
+			FrameBuffer fb;
+			fb.AttachColor(0,mTexSSAO.get());
+			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+			GetRenderSystem()->SetFrameBuffer(&fb);
+			ScreenQuad::Render(m_pAlchemyAo.get());
 		}
 
-		// blurh
+		// blur
 		{
-			CViewport viewport(pCamera, mTexBlur1->GetBuffer()->GetRenderTarget(), 0, 0, 1, 1);
-			GetRenderSystem()->_setViewport(&viewport);
-			mBlurH.Render(pCamera, mTexSSAO.get(), NULL);
-		}
-
-		// blurv
-		{
-			CViewport viewport(pCamera, mTexBlur0->GetBuffer()->GetRenderTarget(), 0, 0, 1, 1);
-			GetRenderSystem()->_setViewport(&viewport);
-			mBlurV.Render(pCamera, mTexBlur1.get(), NULL);
+			mBlur->Render();
 		}
 
 		// blend
 		{
-			CViewport viewport(pCamera, pPostProcess->SelectSrcColor()->GetBuffer()->GetRenderTarget(), 0, 0, 1, 1);
-			GetRenderSystem()->_setViewport(&viewport);
-			mSSAOBlend.Render(pCamera, mTexBlur0.get(), NULL);
+			//CViewport viewport(pCamera, pPostProcess->SelectSrcColor()->GetBuffer()->GetRenderTarget(), 0, 0, 1, 1);
+			//GetRenderSystem()->_setViewport(&viewport);
+			//ScreenQuad::Render(mBlurV.get());
 		}
-
-		GetRenderSystem()->_setViewport(pPreViewport);
 	}
 }

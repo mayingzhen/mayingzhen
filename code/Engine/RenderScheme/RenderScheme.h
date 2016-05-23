@@ -10,6 +10,7 @@ namespace ma
 	class DeferredShadowPass;
 	class HDRPostProcess;
 	class SMAAPostProcess;
+	class AlchemyAo;
 	class FrameBuffer;
 	class Scene;
 
@@ -41,6 +42,9 @@ namespace ma
 
 		void SetDeferredShadowEnabled(bool b);
 		bool GetDeferredShadowEnabled() const;
+
+		void SetSSAOEnabled(bool b);
+		bool GetSSAOEnabled() const;
 		
 	private:
 		RefPtr<DeferredShadowPass>	m_pDeferredShadowPass;
@@ -48,6 +52,7 @@ namespace ma
 
 		RefPtr<HDRPostProcess>	m_pHDR;
 		RefPtr<SMAAPostProcess> m_pSMAA;
+		RefPtr<AlchemyAo>		m_pSSAO;
 
 		RefPtr<Texture>			m_pDepthTex;
 		RefPtr<Texture>			m_pNormalTex;

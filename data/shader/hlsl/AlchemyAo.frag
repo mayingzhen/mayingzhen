@@ -2,8 +2,8 @@
 #include"depth.h"
 
 
-Texture2D tNormalMap;
-SamplerState sNormalMap;
+Texture2D u_textureSceneNormal;
+SamplerState s_textureSceneNormal;
 
 Texture2D tRandomMap;
 SamplerState sRandomMap;
@@ -67,16 +67,16 @@ float CalcAlchemyObscurance(float2 tc, float3 pos_es, float3 x_dir, float3 y_dir
 }
 
 
-void main(float4 WPos	    : VPOS,
-		float2 iUV      : TEXCOORD0,
+void main(float2 iUV      : TEXCOORD0,
 		float3 view_dir : TEXCOORD1,
+		float4 WPos	    : SV_Position,
         out float4 oColor   :SV_TARGET)
 {
 	float radius = 1.5;
 	float obscurance = 1.0;
 
 	float depth = GetLinearDepth(iUV);
-	float4 normalSample = tNormalMap.Sample(sNormalMap,iUV);
+	float4 normalSample = u_textureSceneNormal.Sample(s_textureSceneNormal,iUV);
 	float3 normal = DecodeNormal(normalSample.xy);
 	normal = mul(normal, (float3x3)g_matView);
 

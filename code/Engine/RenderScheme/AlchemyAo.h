@@ -18,14 +18,13 @@ namespace ma
 		virtual void	Render();
 
 	private:
-		BlurPostProcess mBlurH;
-		BlurPostProcess mBlurV;
+		RefPtr<BlurPostProcess> mBlur;
 
 		RefPtr<Technique> m_pAlchemyAo;
 
 		RefPtr<Texture> mTexSSAO;
-		RefPtr<Texture> mTexBlur0;
-		RefPtr<Texture> mTexBlur1;
+		
+		RefPtr<SamplerState> mRandomMap;
 
 	};
 

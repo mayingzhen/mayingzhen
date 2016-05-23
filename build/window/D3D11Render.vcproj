@@ -255,6 +255,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\hlsl\blur.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\blur.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\hlsl\common.h"
 				>
 			</File>
@@ -348,10 +356,6 @@
 			</File>
 			<File
 				RelativePath="..\..\data\shader\hlsl\terrain.frag"
-				>
-			</File>
-			<File
-				RelativePath="..\..\data\shader\hlsl\terrain.fxo"
 				>
 			</File>
 			<File

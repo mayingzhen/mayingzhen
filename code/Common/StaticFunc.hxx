@@ -574,44 +574,44 @@ string StaticFunc::ToString(int n)
             return false;
     }
  }
+
 // ---------------------------------------------------------------------
 // ×ÖÌå±àÂë×ª»»
 // ---------------------------------------------------------------------
 // Ansi×Ö·û´®×ª³ÉUnicode×Ö·û´®
 // Unicode×Ö·û´®×ª³ÉAnsi×Ö·û´®
-// string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
-// {
-// #ifdef WIN32
-// 	UINT unLenW = wcslen(pszUnicode);
-// 	UINT unLen = MAX_STR;
-// 	char szBuf[MAX_STR] = "";
-// 	unLen = WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pszUnicode, unLenW, szBuf, unLen, NULL, NULL);
-// 	szBuf[unLen] = '\0';
-// 	return szBuf;
-// #else
-// 	return "";
-// #endif
-// }
+string StaticFunc::UnicodeToAnsi(const wchar_t* pszUnicode)
+{
+#ifdef WIN32
+	UINT unLenW = wcslen(pszUnicode);
+	UINT unLen = MAX_STR;
+	char szBuf[MAX_STR] = "";
+	unLen = WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, pszUnicode, unLenW, szBuf, unLen, NULL, NULL);
+	szBuf[unLen] = '\0';
+	return szBuf;
+#else
+	return "";
+#endif
+}
 
 // Ansi×Ö·û´®×ª³ÉUnicode×Ö·û´®
-// wstring StaticFunc::AnsiToUnicode(const char* pszAnisi)
-// {
-// #ifdef WIN32
-// 	UINT unLen = strlen(pszAnisi);
-// 	UINT unLenW = MAX_STR;
-// 	wchar_t szBuf[MAX_STR] = L"";
-// 	unLenW = MultiByteToWideChar(CP_ACP, 0, pszAnisi, unLen, szBuf, unLenW);
-// 	szBuf[unLenW] = '\0';
-// 	return szBuf;
-// #else
-// 	return L"";
-// #endif
-// }
+wstring StaticFunc::AnsiToUnicode(const char* pszAnisi)
+{
+#ifdef WIN32
+	UINT unLen = strlen(pszAnisi);
+	UINT unLenW = MAX_STR;
+	wchar_t szBuf[MAX_STR] = L"";
+	unLenW = MultiByteToWideChar(CP_ACP, 0, pszAnisi, unLen, szBuf, unLenW);
+	szBuf[unLenW] = '\0';
+	return szBuf;
+#else
+	return L"";
+#endif
+}
 
 // ---------------------------------------------------------------------
 // ini¶ÁÈ¡
 // ---------------------------------------------------------------------
-
 int StaticFunc::GetIniInt(const char* pszFileName, const char* pszTitle, const char* pszKey)
 {
     #ifdef WIN32

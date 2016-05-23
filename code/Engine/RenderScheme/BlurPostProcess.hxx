@@ -13,41 +13,45 @@ namespace ma
 
 	void BlurPostProcess::Init()
 	{
-		m_BlurXTech = CreateTechnique("BlurX","Blur/Blur","Blur/Blur","BLUR_X 1"); 
-		m_BlurYTech = CreateTechnique("BlurY","Blur/Blur","Blur/Blur","BLUR_Y 1");
+		m_pBlurXTech = CreateTechnique("BlurX","Blur","Blur","BLUR_X 1"); 
+		m_pBlurYTech = CreateTechnique("BlurY","Blur","Blur","BLUR_Y 1");
 	}
 
-	void BlurPostProcess::Reset()
+	void BlurPostProcess::Reset(Texture* pInput, Texture* pOutput)
 	{
-// 		PixelFormat eformat = m_pInputTex->GetFormat();
-// 		m_BureTempTex = GetRenderSystem()->CreateRenderTexture(nWidth,nHeight,eformat);
-// 
-// 		Vector2 texSize = Vector2((float)nWidth, 1.0f / (float)nWidth);
-// 
-// 		std::vector<float> color_weight;
-// 		std::vector<float> tex_coord_offset;
-// 		CalSampleOffsetsGauss(8,1,nWidth,3.0f,color_weight,tex_coord_offset);
-// 
-// 		m_BlurXTech->SetParameter( "color_weight", Any(color_weight) );
-// 		m_BlurXTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
-// 		m_BlurXTech->SetParameter( "src_tex_size", Any(texSize) );
-// 		m_BlurXTech->SetParameter( "g_SamplerSrc", Any(m_pInputTex) );
-// 
-// 
-// 		texSize = Vector2((float)nHeight, 1.0f / (float)nHeight);
-// 		CalSampleOffsetsGauss(8,1,nHeight,3.0f,color_weight,tex_coord_offset);
-// 
-// 		m_BlurYTech->SetParameter( "color_weight", Any(color_weight) );
-// 		m_BlurYTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
-// 		m_BlurYTech->SetParameter( "src_tex_size", Any(texSize) );
-// 		m_BlurYTech->SetParameter( "g_SamplerSrc", Any(m_BureTempTex) );
+		m_pInputTex = pOutput;
+		m_pOutputTex = pOutput;
+
+		m_InputSampler = CreateSamplerState(pInput,CLAMP,TFO_TRILINEAR,false);
+
+		PixelFormat eformat = pInput->GetFormat();
+		m_pBureTempTex = GetRenderSystem()->CreateRenderTarget(-1,-1,eformat,false,false);
+
+		m_pBureTempSampler = CreateSamplerState(m_pBureTempTex.get(),CLAMP,TFO_TRILINEAR,false);
+
+		Vector2 texSize = Vector2((float)pInput->GetWidth(), 1.0f / (float)pInput->GetWidth());
+
+		CalSampleOffsetsGauss(8,1,pInput->GetWidth(),3.0f,m_color_weightX,m_tex_coord_offsetX);
+
+		//m_BlurXTech->SetParameter( "color_weight", Any(color_weight) );
+		//m_BlurXTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
+		m_pBlurXTech->SetParameter( "src_tex_size", Any(texSize) );
+		m_pBlurXTech->SetParameter( "g_SamplerSrc", Any(m_InputSampler) );
+
+		texSize = Vector2((float)pInput->GetHeight(), 1.0f / (float)pInput->GetHeight());
+		CalSampleOffsetsGauss(8,1,pInput->GetHeight(),3.0f,m_color_weightY,m_tex_coord_offsetY);
+
+		//m_BlurYTech->SetParameter( "color_weight", Any(color_weight) );
+		//m_BlurYTech->SetParameter( "tex_coord_offset", Any(tex_coord_offset) );
+		m_pBlurYTech->SetParameter( "src_tex_size", Any(texSize) );
+		m_pBlurYTech->SetParameter( "g_SamplerSrc", Any(m_pBureTempSampler) );
 	}
 
 
 	void BlurPostProcess::Shutdown()
 	{
-		m_BlurXTech = NULL;
-		m_BlurYTech = NULL;
+		m_pBlurXTech = NULL;
+		m_pBlurYTech = NULL;
 	}
 
 	void BlurPostProcess::Render()
@@ -55,17 +59,38 @@ namespace ma
 		RENDER_PROFILE(BlurPostProcess);
 
 		/// x
-		GetRenderSystem()->SetRenderTarget(m_BureTempTex);
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
-	
-		ScreenQuad::Render(m_BlurXTech.get());
+		{
+			FrameBuffer fb;
+			fb.AttachColor(0,m_pBureTempTex.get());
+			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+			GetRenderSystem()->SetFrameBuffer(&fb);
+			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
+			ShaderProgram* pShader = m_pBlurXTech->GetShaderProgram();
+			GetRenderSystem()->SetValue( pShader->GetUniform("color_weight"),(Vector4*)(&m_color_weightX[0]),m_color_weightX.size() / 4 );
+			GetRenderSystem()->SetValue( pShader->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetX[0]),m_tex_coord_offsetX.size() / 4 );
+
+			ScreenQuad::Render(m_pBlurXTech.get());
+
+			Texture* pSrc = NULL;
+			GetRenderSystem()->SetValue( pShader->GetUniform("g_SamplerSrc"), pSrc );
+		}
 
 		/// y
-		GetRenderSystem()->SetRenderTarget(m_pOutputTex);
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
+		{
+			FrameBuffer fb;
+			fb.AttachColor(0,m_pOutputTex.get());
+			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+			GetRenderSystem()->SetFrameBuffer(&fb);
+			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-		ScreenQuad::Render(m_BlurYTech.get());
+			ShaderProgram* pShader = m_pBlurYTech->GetShaderProgram();
+			GetRenderSystem()->SetValue( pShader->GetUniform("color_weight"),(Vector4*)(&m_color_weightY[0]),m_color_weightY.size() / 4 );
+			GetRenderSystem()->SetValue( pShader->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetY[0]),m_tex_coord_offsetY.size() / 4 );
+
+			ScreenQuad::Render(m_pBlurYTech.get());
+		}
+
 	}
 
 

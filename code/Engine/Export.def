@@ -219,3 +219,4 @@ EXPORTS
 ?GetLodSubByIndex@Material@ma@@QBEPAVSubMaterial@2@II@Z
 ?SetDeferredShadowEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetMatrixWS@SceneNode@ma@@QBEABVMatrix4@2@XZ
+?SetSSAOEnabled@RenderScheme@ma@@QAEX_N@Z

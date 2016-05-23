@@ -114,30 +114,30 @@ namespace ma
 	{
 		m_hWnd = NULL;
 
-		for (map<unsigned, ID3D11RasterizerState*>::iterator it = rasterizerStates_.begin(); 
-			it != rasterizerStates_.end(); ++it)
+		for (map<unsigned, ID3D11RasterizerState*>::iterator it = m_rasterizerStatePool.begin(); 
+			it != m_rasterizerStatePool.end(); ++it)
 		{
 			SAFE_RELEASE(it->second);
 		}
 
-		for (map<unsigned, ID3D11DepthStencilState*>::iterator it = depthStates_.begin(); 
-			it != depthStates_.end(); ++it)
+		for (map<unsigned, ID3D11DepthStencilState*>::iterator it = m_depthStatePool.begin(); 
+			it != m_depthStatePool.end(); ++it)
 		{
 			SAFE_RELEASE(it->second);
 		}
 
-		for (map<unsigned, ID3D11BlendState*>::iterator it = blendStates_.begin(); 
-			it != blendStates_.end(); ++it)
+		for (map<unsigned, ID3D11BlendState*>::iterator it = m_blendStatePool.begin(); 
+			it != m_blendStatePool.end(); ++it)
 		{
 			SAFE_RELEASE(it->second);
 		}
 
-		for (map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll_.begin(); 
-			it != SamplerStatesAll_.end(); ++it)
+		for (map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.begin(); 
+			it != m_SamplerStatesPool.end(); ++it)
 		{
 			SAFE_RELEASE(it->second);
 		}
-		SamplerStatesAll_.clear();
+		m_SamplerStatesPool.clear();
 
 		for (map<uint64, ID3D11InputLayout* >::iterator it = vertexDeclarations_.begin(); 
 			it != vertexDeclarations_.end(); ++it)
@@ -145,7 +145,7 @@ namespace ma
 			SAFE_RELEASE(it->second);
 		}
 
-		constantBufferAll_.clear();
+		m_constantBufferPool.clear();
 
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
@@ -289,12 +289,12 @@ namespace ma
 		m_pDepthStencil = defaultDepthStencilView;
 		m_pRenderTarget[0] = defaultRenderTargetView;
 
-		defaultRenderTargetTexture = new D3D11Texture();
-		defaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
+		m_pDefaultRenderTargetTexture = new D3D11Texture();
+		m_pDefaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
 	
-		defaultDepthStencilTexture = new D3D11Texture();
-		defaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
-		defaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
+		m_pDefaultDepthStencilTexture = new D3D11Texture();
+		m_pDefaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
+		m_pDefaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
 
 		SetViewport(Rectangle(0, 0, (float)width, (float)height));
 
@@ -341,7 +341,10 @@ namespace ma
 		}
 
 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_pDepthStencil.get());
-		m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+		if (pD3D11Texture)
+			m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+		else
+			m_pDepthStencil = NULL;
 	
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
@@ -368,12 +371,12 @@ namespace ma
 
 	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
 	{
-		return defaultRenderTargetTexture.get();
+		return m_pDefaultRenderTargetTexture.get();
 	}
 
 	Texture* D3D11RenderDevice::GetDefaultDepthStencil()
 	{
-		return defaultDepthStencilTexture.get();
+		return m_pDefaultDepthStencilTexture.get();
 	}
 
 	void D3D11RenderDevice::SetViewport(const Rectangle& rect)
@@ -519,8 +522,8 @@ namespace ma
 
 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
 	{
-		map<SamplerState, ID3D11SamplerState*>::iterator it = SamplerStatesAll_.find(*pSampler);
-		if (it != SamplerStatesAll_.end())
+		map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.find(*pSampler);
+		if (it != m_SamplerStatesPool.end())
 		{
 			return it->second;
 		}
@@ -547,7 +550,7 @@ namespace ma
 
 			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
 
-			SamplerStatesAll_[*pSampler] = sample;
+			m_SamplerStatesPool[*pSampler] = sample;
 
 			return sample;
 		}
@@ -651,8 +654,8 @@ namespace ma
 			unsigned newBlendStateHash = (unsigned)((m_renderState.m_bColorWrite ? 1 : 0) | (m_renderState.m_eBlendMode << 1));
 			if (newBlendStateHash != blendStateHash_)
 			{
-				map<unsigned, ID3D11BlendState*>::iterator i = blendStates_.find(newBlendStateHash);
-				if (i == blendStates_.end())
+				map<unsigned, ID3D11BlendState*>::iterator i = m_blendStatePool.find(newBlendStateHash);
+				if (i == m_blendStatePool.end())
 				{
 					//PROF(CreateBlendState);
 
@@ -680,7 +683,7 @@ namespace ma
 					if (!newBlendState)
 						LogError("Failed to create blend state");
 
-					blendStates_.insert( std::make_pair(newBlendStateHash, newBlendState) );
+					m_blendStatePool.insert( std::make_pair(newBlendStateHash, newBlendState) );
 					
 					m_pDeviceContext->OMSetBlendState(newBlendState, 0, M_MAX_UNSIGNED);
 				}
@@ -705,8 +708,8 @@ namespace ma
 				((m_renderState.m_eStencilFail + m_renderState.m_eDepthFailOp * 5 + m_renderState.m_eStencilPass * 25) << 24);
 			if (newDepthStateHash != depthStateHash_ || stencilRefDirty_)
 			{
-				map<unsigned, ID3D11DepthStencilState*>::iterator i = depthStates_.find(newDepthStateHash);
-				if (i == depthStates_.end())
+				map<unsigned, ID3D11DepthStencilState*>::iterator i = m_depthStatePool.find(newDepthStateHash);
+				if (i == m_depthStatePool.end())
 				{
 					D3D11_DEPTH_STENCIL_DESC stateDesc;
 					memset(&stateDesc, 0, sizeof stateDesc);
@@ -732,7 +735,7 @@ namespace ma
 					if (!newDepthState)
 						LogError("Failed to create depth state");
 
-					depthStates_.insert( std::make_pair(newDepthStateHash, newDepthState) );
+					m_depthStatePool.insert( std::make_pair(newDepthStateHash, newDepthState) );
 
 					m_pDeviceContext->OMSetDepthStencilState(newDepthState, stencilRef_);
 				}
@@ -763,8 +766,8 @@ namespace ma
 				((*((unsigned*)&m_renderState.m_fSlopeScaleBias) & 0x1fff) << 18);
 			if (newRasterizerStateHash != rasterizerStateHash_)
 			{
-				map<unsigned, ID3D11RasterizerState*>::iterator i = rasterizerStates_.find(newRasterizerStateHash);
-				if (i == rasterizerStates_.end())
+				map<unsigned, ID3D11RasterizerState*>::iterator i = m_rasterizerStatePool.find(newRasterizerStateHash);
+				if (i == m_rasterizerStatePool.end())
 				{
 					D3D11_RASTERIZER_DESC stateDesc;
 					memset(&stateDesc, 0, sizeof stateDesc);
@@ -784,7 +787,7 @@ namespace ma
 					if (!newRasterizerState)
 						LogError("Failed to create rasterizer state");
 
-					rasterizerStates_.insert(std::make_pair(newRasterizerStateHash, newRasterizerState));
+					m_rasterizerStatePool.insert(std::make_pair(newRasterizerStateHash, newRasterizerState));
 
 					m_pDeviceContext->RSSetState(newRasterizerState);
 				}
@@ -809,8 +812,8 @@ namespace ma
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = constantBufferAll_.find(key);
-		if (i != constantBufferAll_.end())
+		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = m_constantBufferPool.find(key);
+		if (i != m_constantBufferPool.end())
 		{
 			return i->second.get();
 		}
@@ -818,7 +821,7 @@ namespace ma
 		{
 			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer(/*context_*/));
 			newConstantBuffer->SetSize(size);
-			constantBufferAll_[key] = newConstantBuffer;
+			m_constantBufferPool[key] = newConstantBuffer;
 			return newConstantBuffer.get();
 		}
 	}

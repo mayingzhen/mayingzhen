@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include"
+				AdditionalIncludeDirectories="../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;&quot;../../extern/Bullet-2.82/src&quot;;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;../../extern/wwise/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -316,6 +316,18 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Samples\Render\SampleTerrain.hxx"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Audo"
+			>
+			<File
+				RelativePath="..\..\code\Samples\Audo\SampleWwise.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Samples\Audo\SampleWwise.hxx"
 				>
 			</File>
 		</Filter>
