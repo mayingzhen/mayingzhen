@@ -71,7 +71,7 @@ namespace ma
 		SamplerState*		autoBingingSceneDiffuse() const;
 		SamplerState*		autoBingingSceneDetph() const;
 		SamplerState*		autoBindingSceneNormal() const;
-		Texture*			autoBindingTextureLightShadow() const;
+		SamplerState*		autoBindingTextureLightShadow() const;
 		SamplerState*		autoBindingShadowMap() const;
 		Vector4				autoBindingSpitPos() const;
 		UINT				autoBindingSplitCount() const;

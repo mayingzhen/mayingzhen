@@ -25,7 +25,7 @@ namespace ma
 		m_InputSampler = CreateSamplerState(pInput,CLAMP,TFO_TRILINEAR,false);
 
 		PixelFormat eformat = pInput->GetFormat();
-		m_pBureTempTex = GetRenderSystem()->CreateRenderTarget(-1,-1,eformat,false,false);
+		m_pBureTempTex = GetRenderSystem()->CreateRenderTarget(-1,-1,eformat,false);
 
 		m_pBureTempSampler = CreateSamplerState(m_pBureTempTex.get(),CLAMP,TFO_TRILINEAR,false);
 
@@ -71,9 +71,6 @@ namespace ma
 			GetRenderSystem()->SetValue( pShader->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetX[0]),m_tex_coord_offsetX.size() / 4 );
 
 			ScreenQuad::Render(m_pBlurXTech.get());
-
-			Texture* pSrc = NULL;
-			GetRenderSystem()->SetValue( pShader->GetUniform("g_SamplerSrc"), pSrc );
 		}
 
 		/// y

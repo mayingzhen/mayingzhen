@@ -27,9 +27,9 @@ namespace ma
 		return new GLESTexture();
 	}
 
-	Texture* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
+	Texture* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
 	{
-		return new GLESTexture(nWidth,nHeight,format,bTypeLess,bSRGB,USAGE_RENDERTARGET);
+		return new GLESTexture(nWidth,nHeight,format,false,bSRGB,USAGE_RENDERTARGET);
 	}
 
 	Texture* GLESRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)

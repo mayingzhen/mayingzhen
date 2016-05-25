@@ -79,9 +79,9 @@ namespace ma
 		return new D3D11Texture();
 	}
 
-	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
+	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
 	{
-		return new D3D11Texture(nWidth,nHeight,format,bTypeLess,bSRGB,USAGE_RENDERTARGET);
+		return new D3D11Texture(nWidth,nHeight,format,false,bSRGB,USAGE_RENDERTARGET);
 	}
 
 	Texture* D3D11RenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
@@ -335,16 +335,26 @@ namespace ma
 		{
 			D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_arrColor[i].get());
 			if (pD3D11Texture)
+			{
 				m_pRenderTarget[i] = pD3D11Texture->GetRenderTargetView();
+
+				DetachSRV(pD3D11Texture->GetShaderResourceView());
+			}
 			else
 				m_pRenderTarget[i] = NULL;
 		}
 
 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_pDepthStencil.get());
 		if (pD3D11Texture)
+		{
 			m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+
+			DetachSRV(pD3D11Texture->GetShaderResourceView());
+		}
 		else
 			m_pDepthStencil = NULL;
+
+		
 	
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
@@ -353,9 +363,13 @@ namespace ma
 	{
 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
 		if (pD3D11Texture)
+		{
 			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
+		
+			DetachSRV(pD3D11Texture->GetShaderResourceView());
+		}
 		else
-			m_pRenderTarget[index] = NULL;
+			m_pRenderTarget[index] = NULL;	
 
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
@@ -512,6 +526,26 @@ namespace ma
 				shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
 			}
 			texturesDirty_ = true;
+		}
+	}
+
+	void D3D11RenderDevice::DetachSRV(ID3D11ShaderResourceView* rtv_src)
+	{
+		bool cleared = false;
+		UINT i = 0;
+		for (i = 0; i < MAX_TEXTURE_UNITS; ++ i)
+		{
+			if (shaderResourceViews_[i] && shaderResourceViews_[i] == rtv_src)
+			{
+				shaderResourceViews_[i] = NULL;
+				cleared = true;
+				break;
+			}
+		}
+
+		if (cleared)
+		{
+			m_pDeviceContext->PSSetShaderResources(i, 1, &shaderResourceViews_[i]);
 		}
 	}
 

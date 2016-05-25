@@ -16,13 +16,14 @@ namespace ma
 
 		void Shoutdown();
 
-		Texture* GetShadowTexture() {return m_pShadowTex.get();}
+		SamplerState* GetShadowSampler() {return m_pShadowSampler.get();}
 
 	private:
 		void CreateSimpleLightFrustumMesh();
 
 	private:
 		RefPtr<Texture>		m_pShadowTex;	
+		RefPtr<SamplerState> m_pShadowSampler;
 
 		RefPtr<Technique>	m_pFrustumVolume;
 		RefPtr<Technique>	m_pDefferedShadow;

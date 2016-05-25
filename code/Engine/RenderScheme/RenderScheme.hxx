@@ -47,32 +47,33 @@ namespace ma
 		m_pFrameBuffer->AttachDepthStencil(NULL);
 		m_pFrameBuffer->AttachColor(0,NULL);
 		m_pFrameBuffer->AttachColor(1,NULL);
+		
+		m_pDiffuseTex = GetRenderSystem()->GetDefaultRenderTarget();
+		if (m_pHDR)
+		{
+			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_RGBA,true);
+		}
+		else if (m_pSMAA)
+		{
+			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,true);
+		}
 
 		if (m_pDeferredShadingPass)
 		{
 			m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8,true);
-			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,false,true);
-			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,false,false);
+			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,true);
+			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,false);
 
 			m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
-			m_pDiffuseSampler = CreateSamplerState(m_pDiffuseTex.get(),CLAMP,TFO_POINT,true);
+			m_pDiffTempSampler = CreateSamplerState(m_pDiffTemp.get(),CLAMP,TFO_POINT,true);
 			m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(),CLAMP,TFO_POINT,false);
 
 			m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
-			m_pFrameBuffer->AttachColor(0,m_pDiffuseTex.get());
+			m_pFrameBuffer->AttachColor(0,m_pDiffTemp.get());
 			m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
 		}
 		else
 		{
-			if (m_pHDR)
-			{
-				m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_RGBA);
-			}
-			else if (m_pSMAA)
-			{
-				m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,true,true);
-			}
-
 			m_pFrameBuffer->AttachDepthStencil( GetRenderSystem()->GetDefaultDepthStencil().get() );
 
 			if (m_pDiffuseTex)
@@ -155,7 +156,7 @@ namespace ma
 		{
 			FrameBuffer fb;
 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
-			fb.AttachColor(0,GetRenderSystem()->GetDefaultRenderTarget().get());
+			fb.AttachColor(0,m_pDiffuseTex.get());
 			GetRenderSystem()->SetFrameBuffer(&fb);
 
 			RENDER_PROFILE(m_pDeferredShadingPass);

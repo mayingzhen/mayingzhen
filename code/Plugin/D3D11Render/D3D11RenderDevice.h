@@ -19,7 +19,7 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_D3D11;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB);
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB);
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
@@ -106,6 +106,8 @@ namespace ma
 		bool						UpdateSwapChain(int width, int height);
 
 		ID3D11SamplerState*			CreateOrGetSamplerState(SamplerState* pSampler);
+
+		void						DetachSRV(ID3D11ShaderResourceView* rtv_src);
 	
 	private:
 		ID3D11Device*				m_pD3DDevice;

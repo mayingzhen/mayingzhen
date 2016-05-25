@@ -30,7 +30,7 @@ namespace ma
 		DeferredShadowPass*	GetDeferredShadowPass() const { return m_pDeferredShadowPass.get(); }
 		DeferredShadingPass* GetDeferredShadingPass() const { return m_pDeferredShadingPass.get(); }
 		
-		SamplerState* GetSceneDiffuse() const {return m_pDiffuseSampler.get();}
+		SamplerState* GetSceneDiffuse() const {return m_pDiffTempSampler.get();}
 		SamplerState* GetSceneDepth() const {return m_pDepthSampler.get();}
 		SamplerState* GetSceneNormal() const {return m_pNormalSampler.get();}
 
@@ -54,13 +54,15 @@ namespace ma
 		RefPtr<SMAAPostProcess> m_pSMAA;
 		RefPtr<AlchemyAo>		m_pSSAO;
 
-		RefPtr<Texture>			m_pDepthTex;
-		RefPtr<Texture>			m_pNormalTex;
 		RefPtr<Texture>			m_pDiffuseTex;
+
+		RefPtr<Texture>			m_pDepthTex;
+		RefPtr<Texture>			m_pDiffTemp;
+		RefPtr<Texture>			m_pNormalTex;
 
 		RefPtr<SamplerState>	m_pDepthSampler;
 		RefPtr<SamplerState>	m_pNormalSampler;
-		RefPtr<SamplerState>	m_pDiffuseSampler;
+		RefPtr<SamplerState>	m_pDiffTempSampler;
 
 		RefPtr<FrameBuffer>		m_pFrameBuffer;
 

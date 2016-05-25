@@ -357,12 +357,12 @@ namespace ma
 		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetSceneNormal();
 	}
 
-	Texture* ParameterManager::autoBindingTextureLightShadow() const
+	SamplerState* ParameterManager::autoBindingTextureLightShadow() const
 	{
 		if (GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredShadowPass() == NULL)
 			return NULL;
 
-		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredShadowPass()->GetShadowTexture();
+		return GetRenderContext()->GetCurScene()->GetRenderScheme()->GetDeferredShadowPass()->GetShadowSampler();
 
 	}
 

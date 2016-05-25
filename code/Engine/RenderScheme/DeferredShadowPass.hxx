@@ -97,7 +97,9 @@ namespace ma
 
 	void DeferredShadowPass::Reset()
 	{
-		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_R);
+		m_pShadowTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_R,false);
+
+		m_pShadowSampler = CreateSamplerState(m_pShadowTex.get(),CLAMP,TFO_POINT,false);
 	}
 
 	void DeferredShadowPass::Render()

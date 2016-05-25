@@ -303,21 +303,14 @@ namespace ma
 
 	}
 
-	RefPtr<Texture> RenderSystem::CreateTextureView(Texture* pTexture)
-	{
-		Texture* pTarget = GetRenderDevice()->CreateTexture();
-		m_pRenderThread->RC_CreateRenderTarget(pTarget);
-		return pTarget;
-	}
-
-	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB)
+	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
 			nWidth = (int)m_curViewport.width();
 			nHeight = (int)m_curViewport.height();
 		}
-		Texture* pTarget = GetRenderDevice()->CreateRenderTarget(nWidth,nHeight,format,bTypeLess,bSRGB);
+		Texture* pTarget = GetRenderDevice()->CreateRenderTarget(nWidth,nHeight,format,bSRGB);
 		m_pRenderThread->RC_CreateTexture(pTarget);
 		m_pRenderThread->RC_CreateRenderTarget(pTarget);
 		return pTarget;

@@ -86,7 +86,7 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture() = 0;
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB) = 0;
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB) = 0;
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
