@@ -2,15 +2,9 @@
 #include "WwiseComponent.h"
 #include "WwiseBank.h"
 #include "WwiseListener.h"
+#include "IO/AkDefaultIOHookBlocking.h"
 
-#include "IO/Win32/AkDefaultIOHookBlocking.h"
 
-#include "AK/Comm/AkCommunication.h"
-#include "AK/SoundEngine/Common/AkModule.h"
-#include "AK/MusicEngine/Common/AkMusicEngine.h"
-#include "AK/SoundEngine/Common/AkSoundEngine.h"
-#include "AK/SoundEngine/Common/AkStreamMgrModule.h"
-#include "AK/Plugin/AllPluginsRegistrationHelpers.h"
 
 #define DEMO_DEFAULT_POOL_SIZE 2*1024*1024
 #define DEMO_LENGINE_DEFAULT_POOL_SIZE 2*1024*1024

@@ -35,7 +35,7 @@ namespace ma
 		virtual bool isCaseSensitive(void) const = 0;
 
 		// Open a stream on a given file. 
-		virtual MemoryStream* open(const char* pszFile, bool readOnly = true) const = 0;
+		virtual Stream* open(const char* pszFile, bool readOnly = true) const = 0;
 
 		// Create a new file (or overwrite one already there).
 		virtual Stream* create(const char* pszFile) const = 0;

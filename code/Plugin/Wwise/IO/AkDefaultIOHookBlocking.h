@@ -1,10 +1,11 @@
 //////////////////////////////////////////////////////////////////////
 //
-// AkDefaultIOHookDeferred.h
+// AkDefaultIOHookBlocking.h
 //
-// Default deferred low level IO hook (AK::StreamMgr::IAkIOHookDeferred) 
+// Default blocking low level IO hook (AK::StreamMgr::IAkIOHookBlocking) 
 // and file system (AK::StreamMgr::IAkFileLocationResolver) implementation 
-// on OS X.
+// on Windows. It can be used as a standalone implementation of the 
+// Low-Level I/O system.
 // 
 // AK::StreamMgr::IAkFileLocationResolver: 
 // Resolves file location using simple path concatenation logic 
@@ -14,14 +15,14 @@
 // AK::StreamMgr::IAkFileLocationResolver elsewhere (you may take a look 
 // at class CAkDefaultLowLevelIODispatcher).
 //
-// AK::StreamMgr::IAkIOHookDeferred: 
-// Uses standard C IO functions, into seperate thread for async IO.
-// AioFuncRead and AioFuncWrite handle the IO operation asynchronously. 
-// The AK::StreamMgr::IAkIOHookDeferred interface is meant to be used with
-// AK_SCHEDULER_DEFERRED_LINED_UP streaming devices. 
+// AK::StreamMgr::IAkIOHookBlocking: 
+// Uses platform API for I/O. Calls to ::ReadFile() and ::WriteFile() 
+// block because files are opened without the FILE_FLAG_OVERLAPPED flag. 
+// The AK::StreamMgr::IAkIOHookBlocking interface is meant to be used with
+// AK_SCHEDULER_BLOCKING streaming devices. 
 //
 // Init() creates a streaming device (by calling AK::StreamMgr::CreateDevice()).
-// AkDeviceSettings::uSchedulerTypeFlags is set inside to AK_SCHEDULER_DEFERRED_LINED_UP.
+// AkDeviceSettings::uSchedulerTypeFlags is set inside to AK_SCHEDULER_BLOCKING.
 // If there was no AK::StreamMgr::IAkFileLocationResolver previously registered 
 // to the Stream Manager, this object registers itself as the File Location Resolver.
 //
@@ -35,12 +36,12 @@
 	AK:IAkStreamMgr * pStreamMgr = AK::StreamMgr::Create( stmSettings );
 	AKASSERT( pStreamMgr );
 
-	// Create deferred device.
+	// Create blocking device.
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings( deviceSettings );
-	CAkDefaultIOHookDeferred hookIODeferred;
-	AKRESULT eResult = hookIODeferred.Init( deviceSettings );
-	AKASSERT( AK_SUCCESS == eResult );
+	CAkDefaultIOHookBlocking hookIOBlocking;
+	AKRESULT eResult = hookIOBlocking.Init( deviceSettings );
+	AKASSERT( AK_Success == eResult );
 */
 //
 // As part of a system with multiple devices (the File Location Resolver is 
@@ -56,12 +57,12 @@
 	CAkDefaultLowLevelIODispatcher lowLevelIODispatcher;
 	AK::StreamMgr::SetFileLocationResolver( &lowLevelIODispatcher );
 
-	// Create deferred device.
+	// Create blocking device.
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings( deviceSettings );
-	CAkDefaultIOHookDeferred hookIODeferred;
-	AKRESULT eResult = hookIODeferred.Init( deviceSettings );
-	AKASSERT( AK_SUCCESS == eResult );
+	CAkDefaultIOHookBlocking hookIOBlocking;
+	AKRESULT eResult = hookIOBlocking.Init( deviceSettings );
+	AKASSERT( AK_Success == eResult );
 
 	// Add it to the global File Location Resolver.
 	lowLevelIODispatcher.AddDevice( hookIOBlocking );
@@ -74,51 +75,44 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef _AK_DEFAULT_IO_HOOK_DEFERRED_H_
-#define _AK_DEFAULT_IO_HOOK_DEFERRED_H_
+#ifndef _AK_DEFAULT_IO_HOOK_BLOCKING_H_
+#define _AK_DEFAULT_IO_HOOK_BLOCKING_H_
 
 #include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include "AkFileHelpers.h"
-
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <sys/stat.h>
-#include <AK/Tools/Common/AkAssert.h>
-
-#define AK_MAX_MOUNT_POINT_STRLENGTH	(12)
+#include "AkFileLocationBase.h"
 
 //-----------------------------------------------------------------------------
-// Name: class CAkDefaultIOHookDeferred.
-// Desc: Implements IAkIOHookDeferred low-level I/O hook, and 
+// Name: class CAkDefaultIOHookBlocking.
+// Desc: Implements IAkIOHookBlocking low-level I/O hook, and 
 //		 IAkFileLocationResolver. Can be used as a standalone Low-Level I/O
 //		 system, or as part of a system with multiple devices.
 //		 File location is resolved using simple path concatenation logic
 //		 (implemented in CAkFileLocationBase).
 //-----------------------------------------------------------------------------
-class CAkDefaultIOHookDeferred : public AK::StreamMgr::IAkFileLocationResolver
-								,public AK::StreamMgr::IAkIOHookDeferred
-								,public CAkMultipleFileLocation<CAkFileHelpers>
+class CAkDefaultIOHookBlocking : public AK::StreamMgr::IAkFileLocationResolver
+								,public AK::StreamMgr::IAkIOHookBlocking
+								,public CAkFileLocationBase
 {
 public:
 
-	CAkDefaultIOHookDeferred();
-	virtual ~CAkDefaultIOHookDeferred();
+	CAkDefaultIOHookBlocking();
+	virtual ~CAkDefaultIOHookBlocking();
 
 	// Initialization/termination. Init() registers this object as the one and 
 	// only File Location Resolver if none were registered before. Then 
-	// it creates a streaming device with scheduler type AK_SCHEDULER_DEFERRED_LINED_UP.
+	// it creates a streaming device with scheduler type AK_SCHEDULER_BLOCKING.
 	AKRESULT Init(
 		const AkDeviceSettings &	in_deviceSettings,	// Device settings.
-		bool						in_bAsyncOpen=true,	// If true, files are opened asynchronously when possible.
-		AkOSChar * 					in_pszMountPoint=NULL	// Mount point (if NULL, SYS_DEV_HDD0 is used).
+		bool						in_bAsyncOpen=AK_ASYNC_OPEN_DEFAULT	// If true, files are opened asynchronously when possible.
 		);
 	void Term();
+
 
 	//
 	// IAkFileLocationAware interface.
 	//-----------------------------------------------------------------------------
 
-    // Returns a file descriptor for a given file name (string).
+	// Returns a file descriptor for a given file name (string).
     virtual AKRESULT Open( 
         const AkOSChar*			in_pszFileName,		// File name.
 		AkOpenMode				in_eOpenMode,		// Open mode.
@@ -138,52 +132,46 @@ public:
 
 
 	//
-	// IAkIOHookDeferred interface.
+	// IAkIOHookBlocking interface.
 	//-----------------------------------------------------------------------------
 
-    // Reads data from a file (asynchronous).
-    virtual AKRESULT Read(
+	// Reads data from a file (synchronous). 
+	virtual AKRESULT Read(
+        AkFileDesc &			in_fileDesc,        // File descriptor.
+		const AkIoHeuristics &	in_heuristics,		// Heuristics for this data transfer.
+        void *					out_pBuffer,        // Buffer to be filled with data.
+        AkIOTransferInfo &		io_transferInfo		// Synchronous data transfer info. 
+        );
+
+    // Writes data to a file (synchronous). 
+	virtual AKRESULT Write(
 		AkFileDesc &			in_fileDesc,        // File descriptor.
 		const AkIoHeuristics &	in_heuristics,		// Heuristics for this data transfer.
-		AkAsyncIOTransferInfo & io_transferInfo		// Asynchronous data transfer info.
-		);
-
-    // Writes data to a file (asynchronous).
-    virtual AKRESULT Write(
-		AkFileDesc &			in_fileDesc,        // File descriptor.
-		const AkIoHeuristics &	in_heuristics,		// Heuristics for this data transfer.
-		AkAsyncIOTransferInfo & io_transferInfo		// Platform-specific asynchronous IO operation info.
-		);
-
-    // Notifies that a transfer request is cancelled. It will be flushed by the streaming device when completed.
-    virtual void Cancel(
-		AkFileDesc &			in_fileDesc,		// File descriptor.
-		AkAsyncIOTransferInfo & io_transferInfo,	// Transfer info to cancel.
-		bool & io_bCancelAllTransfersForThisFile	// Flag indicating whether all transfers should be cancelled for this file (see notes in function description).
-		);
+        void *					in_pData,           // Data to be written.
+        AkIOTransferInfo &		io_transferInfo		// Synchronous data transfer info. 
+        );
 
 	// Cleans up a file.
     virtual AKRESULT Close(
         AkFileDesc &			in_fileDesc			// File descriptor.
         );
 
-    // Returns the block size for the file or its storage device. 
-    virtual AkUInt32 GetBlockSize(
+	// Returns the block size for the file or its storage device. 
+	virtual AkUInt32 GetBlockSize(
         AkFileDesc &  			in_fileDesc			// File descriptor.
         );
 
 	// Returns a description for the streaming device above this low-level hook.
     virtual void GetDeviceDesc(
-        AkDeviceDesc &  		out_deviceDesc      // Description of associated low-level I/O device.
+        AkDeviceDesc &  		out_deviceDesc      // Device description.
         );
-	
+
 	// Returns custom profiling data: 1 if file opens are asynchronous, 0 otherwise.
 	virtual AkUInt32 GetDeviceData();
 
-protected:	
-	AkDeviceID			m_deviceID;
-	bool				m_bAsyncOpen;	// If true, opens files asynchronously when it can.
-	
+protected:
+	AkDeviceID	m_deviceID;
+	bool		m_bAsyncOpen;	// If true, opens files asynchronously when it can.
 };
 
-#endif //_AK_DEFAULT_IO_HOOK_DEFERRED_H_
+#endif //_AK_DEFAULT_IO_HOOK_BLOCKING_H_

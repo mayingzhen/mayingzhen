@@ -71,7 +71,7 @@ namespace ma
 	}
 
 	// Open a stream on a given file. 
-	MemoryStream* FileArchive::open(const char* pszFile, bool readOnly) const
+	Stream* FileArchive::open(const char* pszFile, bool readOnly) const
 	{
 		std::string full_path = concatenate_path(mName, pszFile);
 		StringUtil::toLowerCase(full_path);
@@ -116,7 +116,7 @@ namespace ma
 		}
 
 		/// Construct return stream, tell it to delete on destroy
-		RefPtr<FileStream> pFileStream;
+		Stream* pFileStream;
 		if (rwStream)
 		{
 			// use the writeable stream 
@@ -129,7 +129,7 @@ namespace ma
 			pFileStream = new FileStream(pszFile,
 				roStream, (size_t)tagStat.st_size, true);
 		}
-		return new MemoryStream(pszFile,pFileStream.get(),pFileStream->GetSize(),false);
+		return pFileStream;
 	}
 
 	// Create a new file (or overwrite one already there).

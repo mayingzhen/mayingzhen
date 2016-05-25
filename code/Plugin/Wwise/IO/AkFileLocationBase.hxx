@@ -25,7 +25,6 @@
 #include <stdio.h>
 #include <AK/Tools/Common/AkAssert.h>
 
-#include "../Win32/AkFileHelpers.h"
 
 
 #define MAX_NUMBER_STRING_SIZE      (10)    // 4G
@@ -260,11 +259,11 @@ AKRESULT CAkFileLocationBase::SetBasePath(
 	//Copy the base path EVEN if the directory does not exist.
 	AKPLATFORM::SafeStrCpy( m_szBasePath, in_pszBasePath, AK_MAX_PATH );
 
-	AKRESULT eDirectoryResult = CAkFileHelpers::CheckDirectoryExists( in_pszBasePath );
-	if( eDirectoryResult == AK_Fail ) // AK_NotImplemented could be returned and should be ignored.
-	{
-		return AK_PathNotFound;
-	}
+// 	AKRESULT eDirectoryResult = CAkFileHelpers::CheckDirectoryExists( in_pszBasePath );
+// 	if( eDirectoryResult == AK_Fail ) // AK_NotImplemented could be returned and should be ignored.
+// 	{
+// 		return AK_PathNotFound;
+// 	}
 	
 	return AK_Success;
 }

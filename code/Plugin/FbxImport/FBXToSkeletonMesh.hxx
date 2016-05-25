@@ -9,7 +9,7 @@ namespace ma
 		const char* pOutMeshFile, const char* pOutMatFile, 
 		const char* pOutSkeFile, const char* pOutSkaFile)
 	{
-		std::string strDir = GetArchiveMananger()->GetArchiveByIndex(0)->GetName();	
+		std::string strDir = GetArchiveMananger()->GetSaveDir();	
 		std::string strMeshFile = strDir + "/" + string(pFileName);
 
 		std::string strOutMeshFile = pOutMeshFile ? pOutMeshFile : StaticFunc::ReplaceFileExt(pFileName,"skn");

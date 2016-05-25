@@ -1,18 +1,14 @@
 #include "Wwise/stdafx.h"
 #include "Wwise/Modelue.h"
 
-#include "IO/Common/AkDefaultLowLevelIODispatcher.hxx"
-#include "IO/Common/AkFileLocationBase.hxx"
-#include "IO/Win32/AkDefaultIOHookBlocking.hxx"
+#include "IO/AkFileLocationBase.hxx"
+#include "IO/AkDefaultIOHookBlocking.hxx"
 #include "AllocHook.hxx"
 #include "WwiseBank.hxx"
 #include "WwiseComponent.hxx"
 #include "WwiseListener.hxx"
 #include "WwiseSystem.hxx"
 
-
-#include "Modelue.h"
-#include "IO/Win32/AkDefaultIOHookBlocking.h"
 
 
 #define DEMO_DEFAULT_POOL_SIZE 2*1024*1024

@@ -67,7 +67,7 @@ namespace ma
 	}
 
 	// Open a stream on a given file. 
-	MemoryStream* ZipArchive::open(const char* pszFile, bool readOnly) const
+	Stream* ZipArchive::open(const char* pszFile, bool readOnly) const
 	{
 		std::string filename = StringUtil::replaceAll(pszFile, "\\", "/");
 
@@ -85,8 +85,8 @@ namespace ma
 		zzip_dir_stat(mZzipDir, filename.c_str(), &zstat, ZZIP_CASEINSENSITIVE);
 
 		// Construct & return stream
-		RefPtr<ZipDataStream> pZipDataSteam = new ZipDataStream(filename.c_str(), zzipFile, static_cast<size_t>(zstat.st_size));
-		return new MemoryStream(pszFile, pZipDataSteam.get(), pZipDataSteam->GetSize(), false);
+		ZipDataStream* pZipDataSteam = new ZipDataStream(filename.c_str(), zzipFile, static_cast<size_t>(zstat.st_size));
+		return pZipDataSteam;
 	}
 
 	// Create a new file (or overwrite one already there).

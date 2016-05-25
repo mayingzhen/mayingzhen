@@ -70,7 +70,7 @@ namespace ma
 
 		m_eResState = ResLoadIng;
 
-		m_pDataStream = GetArchiveMananger()->Open( m_sResPath.c_str() );
+		m_pDataStream = GetArchiveMananger()->ReadAll( m_sResPath.c_str() );
 		if (m_pDataStream == NULL)
 		{
 			m_eResState = ResLoadError;

@@ -23,7 +23,7 @@ namespace ma
 		return true;
 	}
 
-	MemoryStream* AAssetArchive::open(const char* pszFile, bool readOnly /*= true*/ ) const
+	Stream* AAssetArchive::open(const char* pszFile, bool readOnly /*= true*/ ) const
 	{
 		std::string full_path = pszFile;
 		full_path = StringUtil::replaceAll(full_path, "\\", "/");
@@ -35,7 +35,7 @@ namespace ma
 		{
 			//LogInfo("@@@open file:%s,%d", full_path.c_str(), AAsset_getLength(asset));
 			RefPtr<AAssetStream> pAssettream = new AAssetStream(asset);
-			return new MemoryStream(pszFile, pAssettream.get(), pAssettream->GetSize(), false);
+			return pAssettream;
 		}
 		else
 		{

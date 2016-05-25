@@ -220,3 +220,7 @@ EXPORTS
 ?SetDeferredShadowEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetMatrixWS@SceneNode@ma@@QBEABVMatrix4@2@XZ
 ?SetSSAOEnabled@RenderScheme@ma@@QAEX_N@Z
+?GetSaveDir@ArchiveManager@ma@@QBEPBDXZ
+?Exists@ArchiveManager@ma@@QBE_NPBD@Z
+?Open@ArchiveManager@ma@@QAEPAVStream@2@PBD_N@Z
+?Close@ArchiveManager@ma@@QAEXPAVStream@2@@Z

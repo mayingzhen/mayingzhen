@@ -216,51 +216,23 @@
 				RelativePath="..\..\code\Plugin\Wwise\WwiseSystem.hxx"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="IO"
-			>
 			<Filter
-				Name="Common"
+				Name="IO"
 				>
 				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkDefaultLowLevelIODispatcher.h"
+					RelativePath="..\..\code\Plugin\Wwise\IO\AkDefaultIOHookBlocking.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkDefaultLowLevelIODispatcher.hxx"
+					RelativePath="..\..\code\Plugin\Wwise\IO\AkDefaultIOHookBlocking.hxx"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkFileLocationBase.h"
+					RelativePath="..\..\code\Plugin\Wwise\IO\AkFileLocationBase.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkFileLocationBase.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkMultipleFileLocation.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Common\AkMultipleFileLocation.inl"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Win32"
-				>
-				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Win32\AkDefaultIOHookBlocking.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Win32\AkDefaultIOHookBlocking.hxx"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Plugin\Wwise\IO\Win32\AkFileHelpers.h"
+					RelativePath="..\..\code\Plugin\Wwise\IO\AkFileLocationBase.hxx"
 					>
 				</File>
 			</Filter>

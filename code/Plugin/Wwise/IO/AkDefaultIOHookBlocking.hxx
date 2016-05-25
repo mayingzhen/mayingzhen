@@ -4,7 +4,7 @@
 //
 // Default blocking low level IO hook (AK::StreamMgr::IAkIOHookBlocking) 
 // and file system (AK::StreamMgr::IAkFileLocationResolver) implementation 
-// on OS X. It can be used as a standalone implementation of the 
+// on Windows. It can be used as a standalone implementation of the 
 // Low-Level I/O system.
 // 
 // AK::StreamMgr::IAkFileLocationResolver: 
@@ -16,7 +16,8 @@
 // at class CAkDefaultLowLevelIODispatcher).
 //
 // AK::StreamMgr::IAkIOHookBlocking: 
-// Uses the C Standard Input and Output Library.
+// Uses platform API for I/O. Calls to ::ReadFile() and ::WriteFile() 
+// block because files are opened without the FILE_FLAG_OVERLAPPED flag. 
 // The AK::StreamMgr::IAkIOHookBlocking interface is meant to be used with
 // AK_SCHEDULER_BLOCKING streaming devices. 
 //
@@ -29,13 +30,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "AkDefaultIOHookBlocking.h"
-#include "AkFileHelpers.h"
-#include <sys/stat.h>
 
+using namespace ma;
 
-#define POSIX_BLOCKING_DEVICE_NAME		AKTEXT("POSIX Blocking")	// Default blocking device name.
+#define WIN32_BLOCKING_DEVICE_NAME		(AKTEXT("Win32 Blocking"))	// Default blocking device name.
 
 CAkDefaultIOHookBlocking::CAkDefaultIOHookBlocking()
 : m_deviceID( AK_INVALID_DEVICE_ID )
@@ -78,8 +77,6 @@ AKRESULT CAkDefaultIOHookBlocking::Init(
 
 void CAkDefaultIOHookBlocking::Term()
 {
-	CAkMultipleFileLoc::Term();
-
 	if ( AK::StreamMgr::GetFileLocationResolver() == this )
 		AK::StreamMgr::SetFileLocationResolver( NULL );
 	AK::StreamMgr::DestroyDevice( m_deviceID );
@@ -101,16 +98,44 @@ AKRESULT CAkDefaultIOHookBlocking::Open(
 	// We normally consider that calls to ::CreateFile() on a hard drive are fast enough to execute in the
 	// client thread. If you want files to be opened asynchronously when it is possible, this device should 
 	// be initialized with the flag in_bAsyncOpen set to true.
-	out_fileDesc.deviceID = m_deviceID;
 	if ( io_bSyncOpen || !m_bAsyncOpen )
 	{
 		io_bSyncOpen = true;
-		return CAkMultipleFileLoc::Open(in_pszFileName, in_eOpenMode, in_pFlags, false, out_fileDesc);
-	}
 
-	// The client allows us to perform asynchronous opening.
-	// We only need to specify the deviceID, and leave the boolean to false.
-	return AK_Success;
+		// Get the full file path, using path concatenation logic.
+		AkOSChar szFullFilePath[AK_MAX_PATH];
+		if ( GetFullFilePath( in_pszFileName, in_pFlags, in_eOpenMode, szFullFilePath ) == AK_Success )
+		{
+			string strFile = StaticFunc::UnicodeToAnsi(szFullFilePath);
+
+			Stream* pStream = GetArchiveMananger()->Open( strFile.c_str() ,true);
+			//ASSERT(pStream);
+			if (pStream == NULL)
+				return AK_Fail;
+
+			out_fileDesc.hFile = pStream;
+			out_fileDesc.iFileSize = pStream->GetSize();
+			out_fileDesc.uSector			= 0;
+			out_fileDesc.deviceID			= m_deviceID;
+			out_fileDesc.pCustomParam		= NULL;
+			out_fileDesc.uCustomParamSize	= 0;
+
+			return AK_Success;
+		}
+
+		return AK_Fail;    
+	}
+	else
+	{
+		// The client allows us to perform asynchronous opening.
+		// We only need to specify the deviceID, and leave the boolean to false.
+		out_fileDesc.iFileSize			= 0;
+		out_fileDesc.uSector			= 0;
+		out_fileDesc.deviceID			= m_deviceID;
+		out_fileDesc.pCustomParam		= NULL;
+		out_fileDesc.uCustomParamSize	= 0;
+		return AK_Success;
+	}
 }
 
 // Returns a file descriptor for a given file ID.
@@ -122,19 +147,8 @@ AKRESULT CAkDefaultIOHookBlocking::Open(
     AkFileDesc &    out_fileDesc        // Returned file descriptor.
     )
 {
-	// We normally consider that calls to ::CreateFile() on a hard drive are fast enough to execute in the
-	// client thread. If you want files to be opened asynchronously when it is possible, this device should 
-	// be initialized with the flag in_bAsyncOpen set to true.
-	out_fileDesc.deviceID = m_deviceID;
-	if ( io_bSyncOpen || !m_bAsyncOpen )
-	{
-		io_bSyncOpen = true;
-		return CAkMultipleFileLoc::Open(in_fileID, in_eOpenMode, in_pFlags, false, out_fileDesc);
-	}
-
-	// The client allows us to perform asynchronous opening.
-	// We only need to specify the deviceID, and leave the boolean to false.
-	return AK_Success;
+	ASSERT(false);
+	return AK_Fail;
 }
 
 //
@@ -149,23 +163,14 @@ AKRESULT CAkDefaultIOHookBlocking::Read(
     AkIOTransferInfo &		io_transferInfo		// Synchronous data transfer info. 
     )
 {
-#ifdef AK_QNX
-	if( !fseeko( in_fileDesc.hFile, io_transferInfo.uFilePosition, SEEK_SET ) )
-#else
-	#if defined AK_LINUX
-	fpos_t pos;
-	pos.__pos = io_transferInfo.uFilePosition;
-	#else
-	fpos_t pos = io_transferInfo.uFilePosition;
-	#endif
-	if( !fsetpos( in_fileDesc.hFile, &pos ) )
-#endif
-	{
-		size_t itemsRead = fread(out_pBuffer, 1, io_transferInfo.uRequestedSize, in_fileDesc.hFile);
-		if( itemsRead > 0 )
-		   return AK_Success;
-	}
-	return AK_Fail;
+    AKASSERT( out_pBuffer && in_fileDesc.hFile != INVALID_HANDLE_VALUE );
+
+	Stream* pSteam = (Stream*)(in_fileDesc.hFile);
+	pSteam->Seek((UINT)io_transferInfo.uFilePosition);
+
+	pSteam->Read(out_pBuffer,io_transferInfo.uRequestedSize);
+
+    return AK_Success;
 }
 
 // Writes data to a file (synchronous). 
@@ -176,7 +181,8 @@ AKRESULT CAkDefaultIOHookBlocking::Write(
     AkIOTransferInfo &		io_transferInfo		// Synchronous data transfer info. 
     )
 {
-	return CAkFileHelpers::WriteBlocking(in_fileDesc.hFile, in_pData, io_transferInfo.uFilePosition, io_transferInfo.uRequestedSize);
+	ASSERT(false);
+	return AK_Fail;
 }
 
 // Cleans up a file.
@@ -184,7 +190,9 @@ AKRESULT CAkDefaultIOHookBlocking::Close(
     AkFileDesc & in_fileDesc      // File descriptor.
     )
 {
-	return CAkFileHelpers::CloseFile( in_fileDesc.hFile );
+	Stream* pSteam = (Stream*)(in_fileDesc.hFile);
+	GetArchiveMananger()->Close(pSteam);
+	return AK_Success;
 }
 
 // Returns the block size for the file or its storage device. 
@@ -206,12 +214,12 @@ void CAkDefaultIOHookBlocking::GetDeviceDesc(
     )
 {
 #ifndef AK_OPTIMIZED
+	AKASSERT( m_deviceID != AK_INVALID_DEVICE_ID || !"Low-Level device was not initialized" );
 	out_deviceDesc.deviceID       = m_deviceID;
 	out_deviceDesc.bCanRead       = true;
 	out_deviceDesc.bCanWrite      = true;
-	
-	AK_OSCHAR_TO_UTF16( out_deviceDesc.szDeviceName, POSIX_BLOCKING_DEVICE_NAME, AK_MONITOR_DEVICENAME_MAXLENGTH );
-	out_deviceDesc.uStringSize   = (AkUInt32)AKPLATFORM::AkUtf16StrLen( out_deviceDesc.szDeviceName ) + 1;
+	AKPLATFORM::SafeStrCpy( out_deviceDesc.szDeviceName, WIN32_BLOCKING_DEVICE_NAME, AK_MONITOR_DEVICENAME_MAXLENGTH );
+	out_deviceDesc.uStringSize   = (AkUInt32)wcslen( out_deviceDesc.szDeviceName ) + 1;
 #endif
 }
 

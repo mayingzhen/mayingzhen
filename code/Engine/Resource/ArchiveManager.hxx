@@ -28,7 +28,29 @@ namespace ma
 		return m_saveDir.c_str();
 	}
 
-	RefPtr<Stream> ArchiveManager::Create(const char* pszFile) 
+// 	RefPtr<Stream> ArchiveManager::Open(const char* pszFile, bool readOnly)
+// 	{
+// 		AutoLock autoLock(m_csOpen);
+// 
+// 		ASSERT(pszFile);
+// 		if (pszFile == NULL)
+// 			return NULL;
+// 
+// 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
+// 		{
+// 			RefPtr<Stream> data = (*iter)->open(pszFile,readOnly);
+// 			if (data != NULL)
+// 			{
+// 				return data;
+// 			}
+// 		}
+// 
+// 		//ASSERT(false);
+// 		//LogError("Open file :%s", pszFile);
+// 		return NULL;
+// 	}
+
+	Stream* ArchiveManager::Open(const char* pszFile, bool readOnly)
 	{
 		AutoLock autoLock(m_csOpen);
 
@@ -38,37 +60,31 @@ namespace ma
 
 		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
 		{
-			RefPtr<Stream> data = (*iter)->create(pszFile);
+			Stream* data = (*iter)->open(pszFile,readOnly);
 			if (data != NULL)
 			{
 				return data;
 			}
 		}
 
-		ASSERT(false);
-		LogError("Ceate file :%s", pszFile);
+		//ASSERT(false);
+		//LogError("Open file :%s", pszFile);
 		return NULL;
 	}
 
-	RefPtr<MemoryStream> ArchiveManager::Open(const char* pszFile, bool readOnly /*= true*/ )
+	void ArchiveManager::Close(Stream* pStream)
 	{
-		AutoLock autoLock(m_csOpen);
+		pStream->Close();
+		SAFE_DELETE(pStream);
+	}
 
-		ASSERT(pszFile);
-		if (pszFile == NULL)
+	RefPtr<MemoryStream> ArchiveManager::ReadAll(const char* pszFile)
+	{
+		RefPtr<Stream> pStream = this->Open(pszFile,true);
+		if (pStream == NULL)
 			return NULL;
 
-		for (VEC_ARCHIVE::const_iterator iter = m_vecArchive.begin();iter != m_vecArchive.end();++iter)
-		{
-			RefPtr<MemoryStream> data = (*iter)->open(pszFile, readOnly);
-			if (data != NULL)
-			{
-				return data;
-			}
-		}
-
-		ASSERTMSG1(false,"Cannot open file :%s", pszFile);
-		return NULL;
+		return new MemoryStream(pszFile, pStream.get(), pStream->GetSize(), false);
 	}
 
 	void ArchiveManager::AddArchive(Archive* pArchive)
