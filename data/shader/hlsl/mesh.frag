@@ -45,48 +45,25 @@ out float4 oColor : SV_TARGET0
 #endif
 ) 
 {
-   float3 cDiffuse = u_cDiffuseColor.xyz;	
-   oColor.a = u_cDiffuseColor.w;
+	float3 cDiffuse = u_cDiffuseColor.xyz;	
+    oColor.a = u_cDiffuseColor.w;
    
-   cDiffuse *= u_texture.Sample(s_texture, In.v_texCoord);
-	
-	oColor.xyz = cDiffuse.xyz;
+    cDiffuse *= u_texture.Sample(s_texture, In.v_texCoord);
 	
 	float3 vNormal = normalize(In.worldNormal.xyz);
-		
-#if DEFERREDSHADING == 0
-
-#ifdef LIGHT
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
-	float3 vlight = normalize(g_vDirLight.xyz);
-	float3 halfVec = normalize(vView + vlight);
-	
-	#ifdef BRDF
-		#ifdef SPEC
-			oColor.rgb = calc_brdf(cDiffuse,u_cSpecColor,u_roughness,vlight,halfVec,vNormal);
-		#else
-			oColor.rgb = calc_brdf(cDiffuse,vlight,vNormal);
-		#endif		
-	#else
-		float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), u_roughness );   
-		float3 Diffuse = light.y * cDiffuse * g_cDirLight.xyz;
-		float3 Specular = light.z * u_cSpecColor.xyz * g_cDirLight.xyz;;			
-		oColor.xyz = g_cSkyLight + Diffuse;	
 			
-		#ifdef SPEC			
-			oColor.xyz += Specular * g_cDirLight.xyz;	
-		#endif 
-    #endif 
-#endif  
-
-    #ifdef ENVREFLECT
-		float envroughness = log2(u_roughness) / 13; // log2(8192) == 13
-		float3 envDiffuse = PrefilteredDiffuseIBL(cDiffuse.xyz, vNormal);
-		float3 envSpec = PBFittingPrefilteredSpecularIBL(u_cSpecColor.xyz, envroughness, vNormal, vView);
-		
-		oColor.xyz += envDiffuse + envSpec;	
-    #endif
-
+#if DEFERREDSHADING == 0
+	oColor.xyz = ForwardLighing(cDiffuse,u_cSpecColor.xyz,u_roughness,vView,vNormal);
+#else
+	oNormal = 0;
+	float3 viewNormal = mul(oWorldNormal, (float3x3)g_matView); 
+	oNormal.xy = EncodeNormal( normalize(viewNormal.xyz) );
+	const float3 RGB_TO_LUM = float3(0.299f, 0.587f, 0.114f);
+	#ifdef SPEC
+		oNormal.z = dot(u_cSpecColor.xyz,RGB_TO_LUM) ;
+		oNormal.w = u_specPower / 255.0f;
+	#endif
 #endif   
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0

@@ -34,15 +34,18 @@ namespace ma
 				pShpereMesh->SetMaterial(pClone.get());
 
 				SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("LIGHT",true);
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
-				pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("ENVREFLECT",true);
-				
-				//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
+
+				if (0)
+				{
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("DIRLIGHT",true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
+				}
 
 				if (1)
 				{
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("ENVREFLECT",true);
+
 					RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",CLAMP,TFO_BILINEAR,false);
 					pSubMaterial->SetParameter("tEnv",Any(pEnv));
 

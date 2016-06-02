@@ -3,13 +3,14 @@
 TextureCube tEnv : register(t4);
 SamplerState sEnv : register(s4);
 
-cbuffer ObjectPS : register(b5)
+cbuffer ObjectLightPS : register(b6)
 {
 	float4 u_cDiffuseColor;
 	float4 u_cSpecColor;
 
 	float2 u_diff_spec_mip;
 	float u_mip_bias;
+
 	float u_roughness;
 	float u_envroughness;// = log2(u_roughness) / 13; // log2(8192) == 13
 }
@@ -127,4 +128,46 @@ float3 calc_brdf(float3 c_diff, float3 l, float3 n)
 float3 calc_brdf(float3 c_diff, float3 c_spec, float roughness, float3 l, float3 h, float3 n)
 {
 	return max((c_diff + specular_term(c_spec, l, h, n, roughness)) * dot(n, l), 0);
+}
+
+
+float3 ForwardLighing(float3 cDiffuse,float3 cSpecColor, float roughness, float3 vView,float3 vNormal)
+{
+#if defined(DIRLIGHT) || defined(ENVREFLECT)
+	float3 oColor = float3(0,0,0);
+#else
+	float3 oColor = cDiffuse;
+#endif 	
+	
+#ifdef DIRLIGHT	
+	float3 vlight = normalize(g_vDirLight.xyz);
+	float3 halfVec = normalize(vView + vlight);
+
+	#ifdef BRDF
+		#ifdef SPEC
+			oColor.rgb = calc_brdf(cDiffuse,cSpecColor,roughness,vlight,halfVec,vNormal);
+		#else
+			oColor.rgb = calc_brdf(cDiffuse,vlight,vNormal);
+		#endif		
+	#else
+		float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), roughness );   
+		float3 Diffuse = light.y * cDiffuse * g_cDirLight.xyz;
+		float3 Specular = light.z * cSpecColor.xyz * g_cDirLight.xyz;			
+		oColor.xyz = g_cSkyLight + Diffuse;	
+
+		#ifdef SPEC			
+			oColor.xyz += Specular;	
+		#endif 
+	#endif 
+#endif  
+
+#ifdef ENVREFLECT
+	float envroughness = log2(roughness) / 13; // log2(8192) == 13
+	float3 envDiffuse = PrefilteredDiffuseIBL(cDiffuse.xyz, vNormal);
+	float3 envSpec = PBFittingPrefilteredSpecularIBL(cSpecColor.xyz, envroughness, vNormal, vView);
+
+	oColor.xyz += envDiffuse + envSpec;	
+#endif
+
+	return oColor;
 }

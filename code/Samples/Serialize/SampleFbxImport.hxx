@@ -50,7 +50,7 @@ namespace ma
 
 		LoadStaticMeshData("FBX/MovingPlatform.fbx");
 
-		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl","LIGHT");
+		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl","DIRLIGHT");
 			
 		CreateMeshMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
 

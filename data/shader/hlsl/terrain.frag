@@ -1,4 +1,5 @@
 #include "common.h"
+#include "lighting.h"
 
 #if USING_SHADOW != 0
 #include "shadowMap.h"
@@ -11,8 +12,8 @@
 cbuffer ObjectPS : register(b5)
 {
 	float2 uBlendingOffset;
-	float4 u_cSpecColor;
-	float u_specPower;
+	//float4 u_cSpecColor;
+	//float u_roughness;
 	float g_heightScale;
 }
 
@@ -65,6 +66,8 @@ out float4 oColor : SV_TARGET0
 	
 	oColor.a = In.oNormal.w;	
 	
+	float3 cDiffuse;
+	
 	float4 cBlend = tBlendingMap.Sample(sBlendingMap, In.UV + uBlendingOffset);
 	
 #ifdef BUMPMAP
@@ -92,12 +95,12 @@ out float4 oColor : SV_TARGET0
 	#endif	
 
  	float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
-	oColor.rgb = cDetailMap0;
+	cDiffuse.rgb = cDetailMap0;
 	
 #elif LAYER==2
     float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
     float4 cDetailMap1 = tDetailMap1.Sample(sDetailMap1, In.DetailUV.zw);
-    oColor.rgb = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
+    cDiffuse.rgb = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 	
 #ifdef BUMPMAP
@@ -106,27 +109,12 @@ out float4 oColor : SV_TARGET0
 #else
 	float3 oWorldNormal = normalize(In.oNormal.xyz);
 #endif
-
+	
+	float3 vNormal = oWorldNormal;
+	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
+	
 #if DEFERREDSHADING == 0
-	#ifdef LIGHTING	
-		float3 vNormal = oWorldNormal;
-		float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
-		float3 vlight = normalize(g_vDirLight.xyz);
-		float3 halfVec = normalize(vView + vlight);
-		
-		float4 light = lit( dot( vNormal, vlight ), dot( vNormal, halfVec ), u_specPower ); 
-		
-			
-		float3 Diffuse = light.y * g_cDirLight.xyz + g_cSkyLight;
-		float3 Specular = light.z * g_cDirLight.xyz;	
-			
-		oColor.xyz = Diffuse * oColor.xyz;	
-			
-		#ifdef SPEC			
-			oColor.xyz += Specular * u_cSpecColor.xyz;	
-		#endif   
-		
-	#endif	
+	oColor.xyz = ForwardLighing(cDiffuse,u_cSpecColor.xyz,u_roughness,vView,vNormal);
 #else
 	oNormal = 0;
 	float3 viewNormal = mul(oWorldNormal, (float3x3)g_matView); 

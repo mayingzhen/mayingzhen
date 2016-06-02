@@ -8923,6 +8923,16 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Vector4_ZERO_get() {
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_Vector4_ONE_get() {
+  void * jresult ;
+  ma::Vector4 *result = 0 ;
+  
+  result = (ma::Vector4 *)&ma::Vector4::ONE;
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_Vector4(void * jarg1) {
   ma::Vector4 *arg1 = (ma::Vector4 *) 0 ;
   

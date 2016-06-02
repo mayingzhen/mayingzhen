@@ -27,46 +27,67 @@ namespace ma
 			pTerrain->SetHeightSpcing(50);
 			pTerrain->SetStartPoint(Vector3(0, 0, 0));
 
+
+
+			RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",CLAMP,TFO_BILINEAR,false);
+			
+			int nMip = pEnv->GetTexture()->GetMipMapNumber();
+			Vector2 u_diff_spec_mip(nMip - 1, nMip - 2);
+			float u_mip_bias = nMip / -2.0f;
+
 			RefPtr<Material> testMaterial = CreateMaterial();
 			{
-				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMatData.get());
+				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
+				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				subMatData->SetShadingTechnqiue("terrain","LAYER 2");
+				subMaterial->SetShadingTechnqiue("terrain","LAYER 2;DIRLIGHT;ENVREFLECT");
 				
-				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
-				subMatData->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
-				subMatData->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds",CLAMP,TFO_POINT,false) ) );
-				subMatData->SetParameter("uDetailScale", Any( Vector2(0.1f, 0.1f) ) );
-				subMatData->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
-				subMatData->SetParameter("u_cSpecColor", Any( Vector4::ZERO) );
+				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
+				subMaterial->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
+				subMaterial->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds",CLAMP,TFO_POINT,false) ) );
+				subMaterial->SetParameter("uDetailScale", Any( Vector2(0.1f, 0.1f) ) );
+				subMaterial->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
+				subMaterial->SetParameter("u_cDiffuseColor", Any( Vector4::ONE ) );
+				subMaterial->SetParameter("u_cSpecColor", Any( Vector4::ZERO ));
+				subMaterial->SetParameter("u_roughness",Any(0.0f));
+
+				subMaterial->SetParameter("tEnv",Any(pEnv));
+				subMaterial->SetParameter("u_diff_spec_mip",Any(u_diff_spec_mip));
+				subMaterial->SetParameter("u_mip_bias",Any(u_mip_bias));
 			}
 
 			{
-				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMatData.get());
+				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
+				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				//subMatData->SetShadingTechnqiue("terrain","LAYER 1;LIGHTING;BUMPMAP;PARALLAXMAPPING;SPEC");
-				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
+				subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
+				Technique* pShadingTech = subMaterial->GetShadingTechnqiue();
+				pShadingTech->SetShaderMacro("DIRLIGHT",true);
+				pShadingTech->SetShaderMacro("SPEC",true);
+				pShadingTech->SetShaderMacro("BRDF",true);
+				pShadingTech->SetShaderMacro("BUMPMAP",true);
+				pShadingTech->SetShaderMacro("PARALLAXMAPPING",true);
+				
 
-				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/wall.jpg") ) );
-				subMatData->SetParameter("tBumpMap0", Any( CreateSamplerState("scene/terrain/wall_NM_height.tga",REPEAT,TFO_TRILINEAR,false) ) );
-				subMatData->SetParameter("uDetailScale", Any(Vector2(0.1f, 0.1f) ) );
-				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
-				subMatData->SetParameter("u_cSpecColor", Any(Vector4(1,1,1,1)) );
-				subMatData->SetParameter("u_roughness",Any(10.0f));
+				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/wall.jpg") ) );
+				subMaterial->SetParameter("tBumpMap0", Any( CreateSamplerState("scene/terrain/wall_NM_height.tga",REPEAT,TFO_TRILINEAR,false) ) );
+				subMaterial->SetParameter("uDetailScale", Any(Vector2(0.1f, 0.1f) ) );
+				subMaterial->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
+				subMaterial->SetParameter("u_cDiffuseColor", Any( Vector4::ONE ) );
+				subMaterial->SetParameter("u_cSpecColor", Any( Vector4::ONE ) );
+				subMaterial->SetParameter("u_roughness",Any(20.0f));
 			}
 
 			{
-				RefPtr<SubMaterial> subMatData = CreateSubMaterial();
-				testMaterial->AddSubMaterial(0,subMatData.get());
+				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
+				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				subMatData->SetShadingTechnqiue("terrain","LAYER 1");
+				subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
 
-				subMatData->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
-				subMatData->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
-				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
-				subMatData->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
+				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
+				subMaterial->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
+				subMaterial->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
+				subMaterial->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
 			}
 
 			testMaterial->SaveToFile("scene/terrain/test.mtl");
