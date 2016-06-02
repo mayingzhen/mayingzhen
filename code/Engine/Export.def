@@ -32,7 +32,6 @@ EXPORTS
 ?GetArchiveByIndex@ArchiveManager@ma@@QAEPAVArchive@2@I@Z
 ??0MemoryStream@ma@@QAE@PAXI_N@Z
 ?Reset@MeshBatch@ma@@QAEXXZ
-?SetRenderTarget@RenderSystem@ma@@QAE?AV?$RefPtr@VTexture@ma@@@2@V32@H@Z
 ?ClearBuffer@RenderSystem@ma@@QAEX_N00ABVColourValue@2@MH@Z
 ?Shoutdown@RenderSystem@ma@@QAEXXZ
 ?Update@RenderSystem@ma@@QAEXXZ
@@ -211,7 +210,6 @@ EXPORTS
 ?GetScaleWS@SceneNode@ma@@QAEABVVector3@2@XZ
 ?SetSMAAEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetSMAAEnabled@RenderScheme@ma@@QBE_NXZ
-??0Texture@ma@@QAE@HHW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@@Z
 ?SetDeferredShadingEnabled@RenderScheme@ma@@QAEX_N@Z
 ?GetDeferredShadingEnabled@RenderScheme@ma@@QBE_NXZ
 ?Unlock@HardwareBuffer@ma@@UAEXXZ
@@ -224,3 +222,5 @@ EXPORTS
 ?Exists@ArchiveManager@ma@@QBE_NPBD@Z
 ?Open@ArchiveManager@ma@@QAEPAVStream@2@PBD_N@Z
 ?Close@ArchiveManager@ma@@QAEXPAVStream@2@@Z
+?PrefilterCubeGPU@ma@@YAXPBD0@Z
+??0Texture@ma@@QAE@HHIW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z

@@ -218,7 +218,15 @@ namespace ma
 	{
 		if (IsRenderThread())
 		{
-			pRenderTarget->RT_CreateTexture();
+			if (pRenderTarget->GetType() == TEXTYPE_CUBE)
+			{
+				pRenderTarget->RT_CreateCubeTexture();
+			}
+			else
+			{
+				pRenderTarget->RT_CreateTexture();
+			}
+			
 			return;
 		}
 
@@ -226,29 +234,29 @@ namespace ma
 		AddPointer(pRenderTarget);
 	}
 
-	void RenderThread::RC_CreateDepthStencil(Texture* pDepthStecil)
-	{
-		if (IsRenderThread())
-		{
-			pDepthStecil->RT_CreateDepthStencil();
-			return;
-		}
+// 	void RenderThread::RC_CreateDepthStencil(Texture* pDepthStecil)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			pDepthStecil->RT_CreateDepthStencil();
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_CreateDepthStencil);
+// 		AddPointer(pDepthStecil);
+// 	}
 
-		AddCommand(eRC_CreateDepthStencil);
-		AddPointer(pDepthStecil);
-	}
-
-	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
-	{
-		if (IsRenderThread())
-		{
-			pRenderTarget->RT_CreateRenderTarget();
-			return;
-		}
-
-		AddCommand(eRC_CreateRenderTarget);
-		AddPointer(pRenderTarget);
-	}
+// 	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			pRenderTarget->RT_CreateRenderTarget();
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_CreateRenderTarget);
+// 		AddPointer(pRenderTarget);
+// 	}
 
 	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
 	{
@@ -275,17 +283,20 @@ namespace ma
 		AddPointer(pFB);
 	}
 
-	void RenderThread::RC_SetRenderTarget(Texture* pTexture,int index)
+	void RenderThread::RC_SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetRenderTarget(pTexture,index);
+			GetRenderDevice()->SetRenderTarget(index,pTexture,level,array_index,face);
 			return;
 		}
 
 		AddCommand(eRC_SetRenderTarget);
-		AddPointer(pTexture);
 		AddInt(index);
+		AddPointer(pTexture);
+		AddInt(level);
+		AddInt(array_index);
+		AddInt(face);
 	}
 
 	void RenderThread::RC_SetDepthStencil(Texture* pTexture)
@@ -448,6 +459,19 @@ namespace ma
 		AddInt(depthFailOp);
 		AddInt(passOp);
 		AddBool(twoSidedOperatio);
+	}
+
+	void RenderThread::RC_SetInt(Uniform* uniform, int value)
+	{
+		if (IsRenderThread())
+		{
+			GetRenderDevice()->SetValue(uniform,value);
+			return;
+		}
+
+		AddCommand(eRC_SetInt);
+		AddPointer(uniform);
+		AddInt(value);
 	}
 
 	void RenderThread::RC_SetFloat(Uniform* uniform, float value)
@@ -681,21 +705,28 @@ namespace ma
 			case  eRC_CreateTexture:
 				{
 					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_CreateTexture();
+					if (pTarget->GetType() == TEXTYPE_CUBE)
+					{
+						pTarget->RT_CreateTexture();
+					}
+					else
+					{
+						pTarget->RT_CreateTexture();
+					}
 				}
 				break;
-			case eRC_CreateRenderTarget:
-				{
-					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_CreateRenderTarget();
-				}
-				break;
-			case  eRC_CreateDepthStencil:
-				{
-					Texture* pTarget = ReadCommand<Texture*>(n);
-					pTarget->RT_CreateDepthStencil();
-				}
-				break;
+// 			case eRC_CreateRenderTarget:
+// 				{
+// 					Texture* pTarget = ReadCommand<Texture*>(n);
+// 					pTarget->RT_CreateRenderTarget();
+// 				}
+// 				break;
+// 			case  eRC_CreateDepthStencil:
+// 				{
+// 					Texture* pTarget = ReadCommand<Texture*>(n);
+// 					pTarget->RT_CreateDepthStencil();
+// 				}
+// 				break;
 			case  eRC_SetShader:
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
@@ -710,9 +741,12 @@ namespace ma
 				break;
 			case eRC_SetRenderTarget:
 				{
-					Texture* pTarget = ReadCommand<Texture*>(n);
 					int index = ReadCommand<int>(n);
-					GetRenderDevice()->SetRenderTarget(pTarget,index);
+					Texture* pTarget = ReadCommand<Texture*>(n);
+					int level = ReadCommand<int>(n);
+					int array_index = ReadCommand<int>(n);
+					int face = ReadCommand<int>(n);
+					GetRenderDevice()->SetRenderTarget(index,pTarget,level,array_index,face);
 				}
 				break;
 			case  eRC_SetDepthStencil:
@@ -800,6 +834,13 @@ namespace ma
 					bool twoSidedOperatio = ReadCommand<bool>(n);
 
 					GetRenderDevice()->SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
+				}
+				break;
+			case eRC_SetInt:
+				{
+					Uniform* pUnform = ReadCommand<Uniform*>(n);
+					int nValue = ReadCommand<int>(n);
+					GetRenderDevice()->SetValue(pUnform,nValue);
 				}
 				break;
 			case eRC_SetFloat:

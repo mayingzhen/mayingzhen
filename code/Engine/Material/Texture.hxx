@@ -17,16 +17,16 @@ namespace ma
 		m_bTypeLess = false;
 	}
 
-	Texture::Texture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage) 
+	Texture::Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType) 
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
-		m_nMipLevels = 1;
+		m_nMipLevels = nMipMap;
 		m_eUsage = eUsage;
 		m_eFormat = eFormat;
 		m_bTypeLess = bTypeLess;
 		m_bSRGB = bSRGB;
-		m_eType = TEXTYPE_2D;
+		m_eType = eType;
 		m_bMipMap = false;
 	}
 
@@ -64,6 +64,8 @@ namespace ma
 
 		return true;
 	}
+
+	void			CopyTo(Texture* pDesc,int nFace,int level);
 
 
 	bool Texture::BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData)
@@ -166,19 +168,40 @@ namespace ma
 		}
 
 		// Create the texture
-		if (!RT_CreateTexture())
+		if (imageData.flags & IF_CUBEMAP)
 		{
-			LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
-			return false;
+			m_eType = TEXTYPE_CUBE;
+			if (!RT_CreateCubeTexture())
+			{
+				LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
+				return false;
+			}
+
+			for(size_t mip = 0; mip <= imageData.num_mipmaps && mip < m_nMipLevels; ++mip)
+			{
+				for (UINT32 iFace = 0; iFace < 6; ++iFace)
+				{
+					PixelBox src = imageData.GetPixelBox(iFace, mip);
+
+					SetLevelData(mip,iFace,src);
+				}
+			}
 		}
-
-		for(size_t mip = 0; mip <= imageData.num_mipmaps && mip < m_nMipLevels; ++mip)
+		else
 		{
-			PixelBox src = imageData.GetPixelBox(0, mip);
+			m_eType = TEXTYPE_2D;
+			if (!RT_CreateTexture())
+			{
+				LogError("Failed to createInternalResources:%d, %d, %s, %d", m_nWidth, m_nHeight, this->GetResPath(), m_eFormat);
+				return false;
+			}
 
-			//src.format = m_eFormat;
+			for(size_t mip = 0; mip <= imageData.num_mipmaps && mip < m_nMipLevels; ++mip)
+			{
+				PixelBox src = imageData.GetPixelBox(0, mip);
 
-			SetLevelData(mip,src);
+				SetLevelData(mip,0,src);
+			}
 		}
 
 		if (bAutoMipMap)
@@ -195,7 +218,6 @@ namespace ma
 	{
 		return g_pTextureManager->CreateTexture(pImagePath,bMipMap,bSRGB);
 	}
-
 
 	SamplerState::SamplerState()
 	{
@@ -273,15 +295,6 @@ namespace ma
 		pSampler->SetFilterMode(eFilter);
 		pSampler->SetSRGB(bSRGB);
 		pSampler->SetTexture(pTexutre);
-// 		if (pTexutre->GetSRGB() == bSRGB)
-// 		{
-// 			pSampler->SetTexture(pTexutre);
-// 		}
-// 		else
-// 		{
-// 			RefPtr<Texture> pNewTexure = GetRenderDevice()->CreateTexture();
-// 			pSampler->SetTexture(pNewTexure.get);
-// 		}
 		
 		return pSampler;
 	}

@@ -13,7 +13,7 @@ namespace ma
 	public:
 		Texture(); 
 
-		Texture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage);
+		Texture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 		
 		virtual ~Texture();
 
@@ -24,14 +24,19 @@ namespace ma
 		PixelFormat		GetFormat() const {return m_eFormat;}
 
 		TEXTURE_USAGE	GetUsage() const {return m_eUsage;}
+		
+		TEXTURE_TYPE	GetType() const {return m_eType;}
 
 		virtual bool    InitRes();
 
 		void			SetMipMap(bool b) {m_bMipMap = b;}
 		bool			GetMipMap() const {return m_bMipMap;}
+		UINT32			GetMipMapNumber() const {return m_nMipLevels;}
 		
 		void			SetSRGB(bool b) {m_bSRGB = b;}
 		bool			GetSRGB() const {return m_bSRGB;}
+
+		virtual void	CopyTo(Texture* pDesc,int nFace,int level) = 0;
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	
@@ -41,13 +46,11 @@ namespace ma
 		
 		bool			RT_StreamComplete();  
 
+		virtual	bool	RT_CreateCubeTexture() = 0;
+
 		virtual	bool	RT_CreateTexture() = 0;	
-		
-		virtual bool	RT_CreateRenderTarget() = 0;
 
-		virtual	bool	RT_CreateDepthStencil() = 0;	
-
-		virtual	bool	SetLevelData(int level, const PixelBox& src) = 0;
+		virtual	bool	SetLevelData(int level, int face,const PixelBox& src) = 0;
 
 		virtual bool	GenerateMipmaps() = 0;
 
@@ -68,7 +71,6 @@ namespace ma
 	};
 
 	RefPtr<Texture> CreateTexture(const char* pImagePath,bool bMipMap = true,bool bSRGB = true);
-	RefPtr<Texture> CreateTexture();
 
 	class SamplerState : public Serializable
 	{

@@ -51,18 +51,18 @@ namespace ma
 		m_pDiffuseTex = GetRenderSystem()->GetDefaultRenderTarget();
 		if (m_pHDR)
 		{
-			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_FLOAT16_RGBA,true);
+			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT16_RGBA,true);
 		}
 		else if (m_pSMAA)
 		{
-			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,true);
+			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 		}
 
 		if (m_pDeferredShadingPass)
 		{
 			m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8,true);
-			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,true);
-			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, PF_A8R8G8B8,false);
+			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
+			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,false);
 
 			m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
 			m_pDiffTempSampler = CreateSamplerState(m_pDiffTemp.get(),CLAMP,TFO_POINT,true);

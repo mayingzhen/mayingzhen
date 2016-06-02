@@ -496,6 +496,14 @@
 				RelativePath="..\..\code\Engine\Scene\SkinMeshComponent.hxx"
 				>
 			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\SkyBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\Scene\SkyBox.hxx"
+				>
+			</File>
 			<Filter
 				Name="Light"
 				>
@@ -1109,6 +1117,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Engine\RenderSystem\PrefilterCube.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderSystem\PrefilterCube.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Engine\RenderSystem\RenderContext.h"
 				>
 			</File>
@@ -1261,6 +1277,10 @@
 				</File>
 				<File
 					RelativePath="..\..\code\Engine\RenderScheme\PostProcess.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\code\Engine\RenderScheme\PostProcess.hxx"
 					>
 				</File>
 				<File

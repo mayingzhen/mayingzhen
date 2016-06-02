@@ -18,7 +18,7 @@ namespace ma
 		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_GLES2;}
 
 		virtual Texture*			CreateTexture();
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB);
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType);
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess);
 		virtual VertexDeclaration*	CreateVertexDeclaration();
 		virtual VertexBuffer*		CreateVertexBuffer();
@@ -27,7 +27,7 @@ namespace ma
 		
 		//// Render
 		virtual void				SetFrameBuffer(FrameBuffer* pFB);
-		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0);
+		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
 		virtual void				SetDepthStencil(Texture* pTexture);
 		virtual Texture*			GetDefaultDepthStencil();
@@ -53,6 +53,7 @@ namespace ma
  		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pSampler);
 		
+		virtual void				SetValue(Uniform* uniform, int value);
 		virtual void				SetValue(Uniform* uniform, float value);
 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
 		virtual void				SetValue(Uniform* uniform, const Vector3& value);

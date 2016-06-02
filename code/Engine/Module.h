@@ -42,6 +42,7 @@
 #include "Engine/RenderSystem/RenderContext.h"
 #include "Engine/RenderSystem/DeviceCapabilities.h"
 #include "Engine/RenderSystem/FrameBuffer.h"
+#include "Engine/RenderSystem/PrefilterCube.h"
 
 #include "Engine/Renderable/Renderable.h"
 #include "Engine/Renderable/MeshRenderable.h"

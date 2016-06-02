@@ -48,7 +48,8 @@ namespace ma
 		pSubMaterial->SetParameter("u_texture", Any( CreateSamplerState(pszTexture) ) );
 		pSubMaterial->SetParameter("u_cDiffuseColor", Any( Vector4(1,1,1,1) ) );
 		pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
-		pSubMaterial->SetParameter("u_specPower", Any(10.0f));
+		pSubMaterial->SetParameter("u_roughness", Any(10.0f));
+		//pSubMaterial->SetParameter("u_envroughness", Any( Log2(10.0f) / 13.0f ));
 
 		pMaterial->SaveToFile(pMatPath);
 	}

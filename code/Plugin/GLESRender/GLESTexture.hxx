@@ -11,8 +11,8 @@ namespace ma
 		m_PixelFormat = 0;
 	}
 
-	GLESTexture::GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
-		:Texture(nWidth,nHeight,eFormat,bTypeLess,bSRGB,eUsage)
+	GLESTexture::GLESTexture(int nWidth,int nHeight,UINT32 nMipMap, PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
+		:Texture(nWidth,nHeight,nMipMap,eFormat,bTypeLess,bSRGB,eUsage,eType)
 	{
 		m_pTex = 0;
 		m_PixelFormat = 0;
@@ -63,6 +63,67 @@ namespace ma
 		return count;
     }
 
+	bool GLESTexture::RT_CreateCubeTexture()
+	{
+		ASSERT(m_pTex == 0);
+
+		// Convert to nearest power-of-two size if required
+		m_nWidth = Math::NextPowerOfTwo(m_nWidth);
+		m_nHeight = Math::NextPowerOfTwo(m_nHeight);
+
+		// Adjust format if required
+		m_eFormat = this->GetNativeFormat(m_eFormat);
+
+		m_PixelFormat = GLESMapping::GetGLESFormat(m_eFormat);
+		m_DataType = GLESMapping::GetGLESDataType(m_eFormat);
+
+		// Check requested number of mipmaps
+		size_t maxMips = getMaxMipmaps(m_nWidth, m_nHeight);
+
+		// Generate texture name
+		GL_ASSERT( glGenTextures(1, &m_pTex) );
+
+		// Set texture type
+		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
+
+		if (PixelUtil::isCompressed(m_eFormat))
+		{
+			UINT size = PixelUtil::getMemorySize(m_nWidth, m_nHeight, 1, m_eFormat);
+			for(int face = 0; face < 6; face++) 
+			{
+				GL_ASSERT(glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0,m_PixelFormat,m_nWidth,m_nHeight,0,size,NULL) );
+			}
+		}
+		else
+		{
+			for(int face = 0; face < 6; face++) 
+			{
+				GL_ASSERT(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, m_PixelFormat, m_nWidth, m_nHeight, 0, m_PixelFormat, m_DataType, NULL) );
+			}
+		}
+
+#if GL_APPLE_texture_max_level
+		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
+#endif
+
+		return true;
+	}
+
+	void getBestDepthStencil(GLuint *depthFormat, GLuint *stencilFormat)
+	{
+#if GL_OES_packed_depth_stencil
+		if(g_bGL_OES_packed_depth_stencil)
+			*depthFormat = GL_DEPTH24_STENCIL8_OES;
+		else
+		{
+			*depthFormat = GL_DEPTH_COMPONENT16;
+		}
+#else
+		*depthFormat = GL_DEPTH_COMPONENT16;
+#endif
+		*stencilFormat = GL_STENCIL_INDEX8;
+	}
+
 	bool GLESTexture::RT_CreateTexture()
 	{
 		ASSERT(m_pTex == 0);
@@ -100,58 +161,22 @@ namespace ma
 		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
 #endif
 
-		// Set some misc default parameters, these can of course be changed later
-		//GLenum wrapS = GLESMapping::GetGLESWrap(m_eWrap);
-		//GLenum wrapT = GLESMapping::GetGLESWrap(m_eWrap);
+		if (m_eUsage == USAGE_DEPTHSTENCIL)
+		{
+			GLuint depthFormat, stencilFormat;
+			getBestDepthStencil(&depthFormat,&stencilFormat);
 
-		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS) );
-		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT) );
+			GL_ASSERT( glGenRenderbuffers(1, &m_pTex) );
 
-		//GLenum minFilter,magFilter;
-		//GLESMapping::GetGLESFilter(m_eFilter,minFilter,magFilter);
+			GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, m_pTex) );
 
-		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
-		//GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
+			GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, m_nWidth, m_nHeight) );
+		}
 		
 		return true;
 	}
  
-	bool GLESTexture::RT_CreateRenderTarget()
-	{
-		return true;
-	}
-
-
-	void getBestDepthStencil(GLuint *depthFormat, GLuint *stencilFormat)
-    {
-#if GL_OES_packed_depth_stencil
-		if(g_bGL_OES_packed_depth_stencil)
-			*depthFormat = GL_DEPTH24_STENCIL8_OES;
-		else
-		{
-			*depthFormat = GL_DEPTH_COMPONENT16;
-		}
-#else
-		*depthFormat = GL_DEPTH_COMPONENT16;
-#endif
-		*stencilFormat = GL_STENCIL_INDEX8;
-    }
-
-	bool GLESTexture::RT_CreateDepthStencil()
-	{
-		GLuint depthFormat, stencilFormat;
-		getBestDepthStencil(&depthFormat,&stencilFormat);
-
-		GL_ASSERT( glGenRenderbuffers(1, &m_pTex) );
-
-		GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, m_pTex) );
-
-		GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, m_nWidth, m_nHeight) );
-
-		return false;
-	}
-
-	bool GLESTexture::SetLevelData(int level, const PixelBox& src)
+	bool GLESTexture::SetLevelData(int level, int face, const PixelBox& src)
 	{
 		GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
 
@@ -188,31 +213,5 @@ namespace ma
 
 		return true;
 	}
-
-// 	void GLESTexture::ConvertImageData(int pixelFormat,int nPixelCount,uint8* pPixel)
-// 	{
-// 		int nPixelSize = 1;
-// 		if(pixelFormat == IL_BGR)
-// 		{
-// 			nPixelSize = 3;
-// 		}
-// 		else if(pixelFormat == IL_BGRA)
-// 		{
-// 			nPixelSize = 4;
-// 		}
-// 		else 
-// 		{
-// 			return;
-// 		}
-// 
-// 		for(int i = 0; i < nPixelCount; ++i)
-// 		{
-// 			const int nIndex = i * nPixelSize;
-// 			uint8 a = pPixel[nIndex];
-// 			pPixel[nIndex] = pPixel[nIndex+2];
-// 			pPixel[nIndex+2] = a;
-// 		}
-// 	}
-
 }
 

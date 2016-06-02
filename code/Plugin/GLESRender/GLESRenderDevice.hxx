@@ -27,14 +27,14 @@ namespace ma
 		return new GLESTexture();
 	}
 
-	Texture* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
+	Texture* GLESRenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new GLESTexture(nWidth,nHeight,format,false,bSRGB,USAGE_RENDERTARGET);
+		return new GLESTexture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
 	}
 
 	Texture* GLESRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
 	{
-		return new GLESTexture(nWidth,nHeight,format,bTypeLess,false,USAGE_DEPTHSTENCIL);
+		return new GLESTexture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
 	VertexDeclaration* GLESRenderDevice::CreateVertexDeclaration()
@@ -253,7 +253,7 @@ namespace ma
 
 	}
 
-	void GLESRenderDevice::SetRenderTarget(Texture* pTexture,int index)
+	void GLESRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
 	{
 		ASSERT(pTexture && index == 0);
 		if (pTexture == NULL || index != 0)
@@ -591,6 +591,12 @@ namespace ma
 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter) );
 			GL_ASSERT( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter) );	
 		}	
+	}
+
+	void GLESRenderDevice::SetValue(Uniform* uniform, int value)
+	{
+		ASSERT(uniform);
+		GL_ASSERT( glUniform1i(uniform->m_location, value) );
 	}
 
 	void GLESRenderDevice::SetValue(Uniform* uniform, float value)

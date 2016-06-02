@@ -303,16 +303,15 @@ namespace ma
 
 	}
 
-	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
+	RefPtr<Texture> RenderSystem::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
 		if (nWidth == -1 || nHeight == -1)
 		{
 			nWidth = (int)m_curViewport.width();
 			nHeight = (int)m_curViewport.height();
 		}
-		Texture* pTarget = GetRenderDevice()->CreateRenderTarget(nWidth,nHeight,format,bSRGB);
+		Texture* pTarget = GetRenderDevice()->CreateRenderTarget(nWidth,nHeight,nMipMap,format,bSRGB,eType);
 		m_pRenderThread->RC_CreateTexture(pTarget);
-		m_pRenderThread->RC_CreateRenderTarget(pTarget);
 		return pTarget;
 	}
 
@@ -326,7 +325,6 @@ namespace ma
 
 		Texture* pTarget = GetRenderDevice()->CreateDepthStencil(nWidth,nHeight,format,bTypeLess);
 		m_pRenderThread->RC_CreateTexture(pTarget);
-		m_pRenderThread->RC_CreateDepthStencil(pTarget);
 		return pTarget;
 	}
 
@@ -335,13 +333,13 @@ namespace ma
 		m_pRenderThread->RC_SetFrameBuffer(pFB);
 	}
 
-	RefPtr<Texture> RenderSystem::SetRenderTarget(RefPtr<Texture> pTexture,int index)
+	RefPtr<Texture> RenderSystem::SetRenderTarget(int index,Texture* pTexture, int level, int array_index, int face)
 	{
 		RefPtr<Texture> pPreTarget = m_pRenderTarget[index];
 		
-		m_pRenderThread->RC_SetRenderTarget(pTexture.get(),index);
+		m_pRenderThread->RC_SetRenderTarget(index,pTexture,level,array_index,face);
 		
-		m_pRenderTarget[index] = pTexture.get();
+		m_pRenderTarget[index] = pTexture;
 
 		return pPreTarget;
 	}
@@ -549,6 +547,14 @@ namespace ma
 		m_pRenderThread->RC_VertexDeclaComplete(pVD);
 
 		return pVD;
+	}
+
+	void RenderSystem::SetValue(Uniform* uniform, int value)
+	{
+		if (uniform == NULL)
+			return;
+
+		m_pRenderThread->RC_SetInt(uniform,value);
 	}
 
 	void RenderSystem::SetValue(Uniform* uniform, float value)

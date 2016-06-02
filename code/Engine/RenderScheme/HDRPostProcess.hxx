@@ -131,7 +131,7 @@ namespace ma
 	{
 		RENDER_PROFILE(MeasureLuminance);
 
-		GetRenderSystem()->SetRenderTarget(m_lumTexs[0]);
+		GetRenderSystem()->SetRenderTarget(0,m_lumTexs[0].get());
 
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
@@ -139,14 +139,14 @@ namespace ma
 
 		for (int i = 1; i < NUM_SUM_LUM; ++i)
 		{
-			GetRenderSystem()->SetRenderTarget(m_lumTexs[i]);
+			GetRenderSystem()->SetRenderTarget(0,m_lumTexs[i].get());
 
 			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
 			ScreenQuad::Render(m_SumLumIterativeTech[i].get());
 		}
 
-		GetRenderSystem()->SetRenderTarget(m_lumTexs[NUM_SUM_LUM]);
+		GetRenderSystem()->SetRenderTarget(0,m_lumTexs[NUM_SUM_LUM].get());
 		
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
@@ -162,7 +162,7 @@ namespace ma
 		m_AdaptedTex[AdaptedTex_LAST] = m_AdaptedTex[AdaptedTex_CUR];
 		m_AdaptedTex[AdaptedTex_CUR] = pTexSwap;	
 
-		GetRenderSystem()->SetRenderTarget(m_AdaptedTex[AdaptedTex_CUR]);
+		GetRenderSystem()->SetRenderTarget(0,m_AdaptedTex[AdaptedTex_CUR].get());
 
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White, 1.0f, 0);
 
@@ -174,7 +174,7 @@ namespace ma
 	{
 		RENDER_PROFILE(BrightPassDownSample);
 
-		GetRenderSystem()->SetRenderTarget(m_DownSampleTex[0]);
+		GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[0].get());
 
 		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
@@ -182,7 +182,7 @@ namespace ma
 
 		for (int i = 0; i < NUM_DownSamplers; ++i)
 		{
-			GetRenderSystem()->SetRenderTarget(m_DownSampleTex[i + 1]);
+			GetRenderSystem()->SetRenderTarget(0,m_DownSampleTex[i + 1].get());
 
 			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
@@ -206,7 +206,7 @@ namespace ma
 		RENDER_PROFILE(ToneMapping);
 
 		if (m_pOutputTex)
-			GetRenderSystem()->SetRenderTarget(m_pOutputTex);
+			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
 
 		ScreenQuad::Render(m_ToneMappingTech.get());
 	}

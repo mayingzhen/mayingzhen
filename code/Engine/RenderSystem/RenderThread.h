@@ -23,8 +23,8 @@ namespace ma
 		eRC_DrawRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
-		eRC_CreateRenderTarget,
-		eRC_CreateDepthStencil,
+		//eRC_CreateRenderTarget,
+		//eRC_CreateDepthStencil,
  		eRC_ClearBuffer,
 		eRC_SetFrameBuffer,
  		eRC_SetRenderTarget,
@@ -44,6 +44,7 @@ namespace ma
 		eRC_SetStenCilParam,
 
 		// Unfiform
+		eRC_SetInt,
 		eRC_SetFloat,
 		eRC_SetVector2,
 		eRC_SetVector3,
@@ -127,11 +128,11 @@ namespace ma
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
-		void	RC_CreateRenderTarget(Texture* pRenderTarget);
-		void	RC_CreateDepthStencil(Texture* pRenderTarget);
+		//void	RC_CreateRenderTarget(Texture* pRenderTarget);
+		//void	RC_CreateDepthStencil(Texture* pRenderTarget);
 		void	RC_SetShaderProgram(ShaderProgram* pShader);
 		void	RC_SetFrameBuffer(FrameBuffer* pFB);
-		void	RC_SetRenderTarget(Texture* pTexture,int index);
+		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
@@ -151,6 +152,7 @@ namespace ma
 			StencilOperation passOp, 
 			bool twoSidedOperatio);
 
+		void	RC_SetInt(Uniform* uniform, int value);
 		void	RC_SetFloat(Uniform* uniform, float value);
 		void	RC_SetVector2(Uniform* uniform, const Vector2& value);
 		void	RC_SetVector3(Uniform* uniform, const Vector3& value);

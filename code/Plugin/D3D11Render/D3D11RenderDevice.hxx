@@ -79,14 +79,14 @@ namespace ma
 		return new D3D11Texture();
 	}
 
-	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB)
+	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new D3D11Texture(nWidth,nHeight,format,false,bSRGB,USAGE_RENDERTARGET);
+		return new D3D11Texture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
 	}
 
 	Texture* D3D11RenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
 	{
-		return new D3D11Texture(nWidth,nHeight,format,bTypeLess,false,USAGE_DEPTHSTENCIL);
+		return new D3D11Texture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
 	VertexDeclaration* D3D11RenderDevice::CreateVertexDeclaration()
@@ -359,12 +359,12 @@ namespace ma
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
 
-	void D3D11RenderDevice::SetRenderTarget(Texture* pTexture,int index)
+	void D3D11RenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
 	{
 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
 		if (pD3D11Texture)
 		{
-			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView();
+			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView(level,array_index,face);
 		
 			DetachSRV(pD3D11Texture->GetShaderResourceView());
 		}
@@ -871,6 +871,11 @@ namespace ma
 			dirtyConstantBuffers_.push_back(pConstantBuffer);
 		ASSERT(nSize <= uniform->m_nCBSize);
 		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
+	}
+
+	void D3D11RenderDevice::SetValue(Uniform* uniform, int value)
+	{
+		SetValue(uniform,(const float*)&value,sizeof(int));
 	}
 
 	void D3D11RenderDevice::SetValue(Uniform* uniform, float value)

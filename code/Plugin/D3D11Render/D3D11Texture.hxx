@@ -11,17 +11,17 @@ namespace ma
 		m_pD3D11ShaderResourceView = NULL;
 		m_pD3D11ShaderResourceViewSRGBNotEqual = NULL;
 		m_pDepthStencilView = NULL;
-		m_pRenderTargetView = NULL;
+		memset(m_pRenderTargetView,0,sizeof(m_pRenderTargetView));
 	}
 
-	D3D11Texture::D3D11Texture(int nWidth,int nHeight,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage)
-		:Texture(nWidth,nHeight,format,bTypeLess,bSRGB,eUsage)
+	D3D11Texture::D3D11Texture(int nWidth,int nHeight,uint32 nMipMap,PixelFormat format,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType)
+		:Texture(nWidth,nHeight,nMipMap,format,bTypeLess,bSRGB,eUsage,eType)
 	{
 		m_pD3D11Tex2D = NULL;
 		m_pD3D11ShaderResourceView = NULL;
 		m_pD3D11ShaderResourceViewSRGBNotEqual = NULL;
 		m_pDepthStencilView = NULL;
-		m_pRenderTargetView = NULL;
+		memset(m_pRenderTargetView,0,sizeof(m_pRenderTargetView));
 	}
 
 	D3D11Texture::~D3D11Texture()
@@ -30,7 +30,13 @@ namespace ma
 		SAFE_RELEASE(m_pD3D11ShaderResourceView);
 		SAFE_RELEASE(m_pD3D11ShaderResourceViewSRGBNotEqual);
 		SAFE_RELEASE(m_pDepthStencilView);
-		SAFE_RELEASE(m_pRenderTargetView);
+		for (uint32 i = 0; i < MAX_MIP; ++i)
+		{
+			for (uint32 j = 0; j < 6; ++j)
+			{
+				SAFE_RELEASE(m_pRenderTargetView[i][j]);
+			}
+		}
 	}
 
 	bool D3D11Texture::GenerateMipmaps()
@@ -111,6 +117,70 @@ namespace ma
 		return format == DXGI_FORMAT_BC1_UNORM || format == DXGI_FORMAT_BC2_UNORM || format == DXGI_FORMAT_BC3_UNORM;
 	}
 
+	bool D3D11Texture::RT_CreateCubeTexture()
+	{
+		m_eFormat = D3D11Mapping::_getClosestSupportedPF(m_eFormat);
+		m_descFormat = D3D11Mapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			m_descFormat = GetSRGBFormat(m_descFormat);
+		}
+		if (m_bTypeLess)
+		{
+			m_descFormat = GetTypelessFormat(m_descFormat);
+		}
+
+		D3D11_TEXTURE2D_DESC textureDesc;
+		memset(&textureDesc, 0, sizeof textureDesc);
+		textureDesc.Width = (UINT)m_nWidth;
+		textureDesc.Height = (UINT)m_nHeight;
+		textureDesc.MipLevels = m_nMipLevels;
+		textureDesc.ArraySize = 6;
+		textureDesc.Format = m_descFormat;
+		textureDesc.SampleDesc.Count = 1;
+		textureDesc.SampleDesc.Quality = 0;
+		textureDesc.Usage = m_eUsage == USAGE_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+		textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		if (m_eUsage == USAGE_RENDERTARGET)
+			textureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+		else if (m_eUsage == USAGE_DEPTHSTENCIL)
+			textureDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+		textureDesc.CPUAccessFlags = m_eUsage == USAGE_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
+		textureDesc.MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
+
+		GetD3D11DxDevive()->CreateTexture2D(&textureDesc, 0, (ID3D11Texture2D**)&m_pD3D11Tex2D);
+		ASSERT(m_pD3D11Tex2D);
+		if (m_pD3D11Tex2D == NULL)
+		{
+			LogError("Failed to create DepthStencile");
+			return false;
+		}
+
+		DXGI_FORMAT srvFormat = D3D11Mapping::_getPF(m_eFormat);
+		if (m_bSRGB)
+		{
+			srvFormat = GetSRGBFormat(srvFormat);
+		}
+		if (m_bTypeLess)
+		{
+			srvFormat = GetSRVFormat(m_descFormat);
+		}
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
+		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
+		resourceViewDesc.Format = srvFormat;
+		resourceViewDesc.ViewDimension = D3D10_SRV_DIMENSION_TEXTURECUBE;
+		resourceViewDesc.TextureCube.MipLevels = m_nMipLevels;
+
+		GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceView);
+		if (!m_pD3D11ShaderResourceView)
+		{
+			LogError("Failed to create shader resource view for texture");
+			return false;
+		}
+
+		return true;
+	}
 
 	bool D3D11Texture::RT_CreateTexture()
 	{
@@ -173,12 +243,63 @@ namespace ma
 			return false;
 		}
 
-
 		return true;
 	}
 
-	bool D3D11Texture::RT_CreateRenderTarget()
+	ID3D11ShaderResourceView* D3D11Texture::GetShaderResourceViewSRGBNotEqual()
 	{
+		if (m_pD3D11ShaderResourceViewSRGBNotEqual)
+			return m_pD3D11ShaderResourceViewSRGBNotEqual;
+
+		ASSERT(m_bSRGB);
+
+		DXGI_FORMAT srvFormat = D3D11Mapping::_getPF(m_eFormat);
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
+		memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
+		resourceViewDesc.Format = srvFormat;
+		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
+
+		GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceViewSRGBNotEqual);
+		if (!m_pD3D11ShaderResourceView)
+		{
+			LogError("Failed to create shader resource view for texture");
+			return NULL;
+		}
+
+		return m_pD3D11ShaderResourceViewSRGBNotEqual;
+	}
+
+	ID3D11DepthStencilView* D3D11Texture::GetDepthStencilView()
+	{
+		if (m_pDepthStencilView)
+			return m_pDepthStencilView;
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+		memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
+		depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);
+		depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+		GetD3D11DxDevive()->CreateDepthStencilView(m_pD3D11Tex2D,&depthStencilViewDesc,&m_pDepthStencilView);
+		if (!m_pDepthStencilView)
+		{
+			LogError("Failed to create depth-stencil view for texture");
+			return NULL;
+		}
+
+		return m_pDepthStencilView;
+	}
+
+	ID3D11RenderTargetView* D3D11Texture::GetRenderTargetView(int level, int array_index, int face)
+	{
+		ASSERT(array_index == 0 && level < MAX_MIP);
+		if (array_index != 0 || level >= MAX_MIP)
+			return NULL;
+
+		if (m_pRenderTargetView[level][face])
+			return m_pRenderTargetView[level][face];
+
 		m_eFormat = D3D11Mapping::_getClosestSupportedPF(m_eFormat);
 		m_descFormat = D3D11Mapping::_getPF(m_eFormat);
 		if (m_bSRGB)
@@ -189,54 +310,38 @@ namespace ma
 		D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
 		memset(&renderTargetViewDesc, 0, sizeof renderTargetViewDesc);
 		renderTargetViewDesc.Format = m_descFormat;
-		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		if (m_eType == TEXTYPE_2D)
+		{
+			renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		}
+		else if (m_eType == TEXTYPE_CUBE)
+		{
+			renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+			renderTargetViewDesc.Texture2DArray.MipSlice = level;
+			renderTargetViewDesc.Texture2DArray.FirstArraySlice = array_index * 6 + face;
+			renderTargetViewDesc.Texture2DArray.ArraySize = 1;
+		}
 
-		GetD3D11DxDevive()->CreateRenderTargetView((ID3D11Resource*)m_pD3D11Tex2D, &renderTargetViewDesc,&m_pRenderTargetView);
-		if (!m_pRenderTargetView)
+		ID3D11RenderTargetView*	pRenderTargetView = NULL;
+		GetD3D11DxDevive()->CreateRenderTargetView((ID3D11Resource*)m_pD3D11Tex2D, &renderTargetViewDesc,&pRenderTargetView);
+		if (!pRenderTargetView)
 		{
 			LogError("Failed to create renderTarget view for texture");
-			return false;
+			return NULL;
 		}
+	
+		m_pRenderTargetView[level][face] = pRenderTargetView;
 
-		if (m_bTypeLess)
-		{
-			ASSERT(m_bSRGB);
-
-			DXGI_FORMAT srvFormat = D3D11Mapping::_getPF(m_eFormat);
-
-			D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-			memset(&resourceViewDesc, 0, sizeof resourceViewDesc);
-			resourceViewDesc.Format = srvFormat;
-			resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-			resourceViewDesc.Texture2D.MipLevels = m_nMipLevels;
-
-			GetD3D11DxDevive()->CreateShaderResourceView(m_pD3D11Tex2D, &resourceViewDesc,&m_pD3D11ShaderResourceViewSRGBNotEqual);
-			if (!m_pD3D11ShaderResourceView)
-			{
-				LogError("Failed to create shader resource view for texture");
-				return false;
-			}
-		}
-
-		return true;
+		return pRenderTargetView;
 	}
 
-
-	bool D3D11Texture::RT_CreateDepthStencil()
+	void D3D11Texture::SetRenderTargetView(ID3D11RenderTargetView* pView,int level, int array_index, int face)
 	{
-		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-		memset(&depthStencilViewDesc, 0, sizeof depthStencilViewDesc);
-		depthStencilViewDesc.Format = GetDSVFormat(m_descFormat);
-		depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		ASSERT(array_index == 0 && level < MAX_MIP);
+		if (array_index != 0 || level >= MAX_MIP)
+			return;
 
-		GetD3D11DxDevive()->CreateDepthStencilView(m_pD3D11Tex2D,&depthStencilViewDesc,&m_pDepthStencilView);
-		if (!m_pDepthStencilView)
-		{
-			LogError("Failed to create depth-stencil view for texture");
-			return false;
-		}
-
-		return true;
+		m_pRenderTargetView[level][face] = pView;
 	}
 
 
@@ -253,7 +358,7 @@ namespace ma
 		return res;
 	}
 
-	bool D3D11Texture::SetLevelData(int nLevel, const PixelBox& src)
+	bool D3D11Texture::SetLevelData(int nLevel, int nFace, const PixelBox& src)
 	{
 		// for scoped deletion of conversion buffer
 		RefPtr<MemoryStream> buf;
@@ -304,7 +409,7 @@ namespace ma
 			rowWidth = converted.rowPitch * PixelUtil::getNumElemBytes(converted.format);
 		}
 
-		unsigned subResource = D3D11CalcSubresource(nLevel, 0, m_nMipLevels);
+		unsigned subResource = D3D11CalcSubresource(nLevel, nFace, m_nMipLevels);
 
 		GetD3D11DxDeviveContext()->UpdateSubresource( 
 			m_pD3D11Tex2D, 
@@ -315,6 +420,29 @@ namespace ma
 			0 );
 		
 		return true;
+	}
+
+	void D3D11Texture::CopyTo(Texture* pDes,int nFace,int level)
+	{
+		D3D11Texture* pDestD3D11 = (D3D11Texture*)(pDes);
+
+		D3D11_BOX src_box;
+		src_box.left = 0;
+		src_box.top = 0;
+		src_box.front = 0;
+		src_box.right = GetWidth();
+		src_box.bottom = GetHeight();
+		src_box.back = 1;
+
+		GetD3D11DxDeviveContext()->CopySubresourceRegion(
+			pDestD3D11->GetTexture2D(), D3D11CalcSubresource(level, nFace, pDestD3D11->GetMipMapNumber()), 0, 0, 0, 
+			this->GetTexture2D(), D3D11CalcSubresource(level, nFace, this->GetMipMapNumber()), &src_box);
+	}
+
+	bool D3D11Texture::SaveToFile(const char* pszPath)
+	{
+		HRESULT hr = D3DX11SaveTextureToFile(GetD3D11DxDeviveContext(),GetTexture2D(),D3DX11_IFF_DDS,pszPath);
+		return hr == S_OK;
 	}
 }
 

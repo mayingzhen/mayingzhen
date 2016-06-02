@@ -43,10 +43,6 @@ struct VS_IN
    
 	//float3 a_tangent  : TANGENT;
 
-#ifdef COLOR   
-   float4 a_color0 : COLOR0;
-#endif
-
 };
 
 

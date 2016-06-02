@@ -41,7 +41,7 @@ namespace ma
 	{
 		PixelFormat shadowMapColorFormat = GetDeviceCapabilities()->GetShadowMapColorFormat();
 		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
-		m_pShadowMapColor = GetRenderSystem()->CreateRenderTarget(nSize,nSize,shadowMapColorFormat);	
+		m_pShadowMapColor = GetRenderSystem()->CreateRenderTarget(nSize,nSize,1,shadowMapColorFormat);	
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
 		m_pShadowMapFB->AttachColor(0,m_pShadowMapColor.get());

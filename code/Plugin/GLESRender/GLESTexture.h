@@ -10,7 +10,7 @@ namespace ma
 	public:
 		GLESTexture();
 
-		GLESTexture(int nWidth,int nHeight,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage);
+		GLESTexture(int nWidth,int nHeight,UINT nMipMap,PixelFormat eFormat,bool bTypeLess,bool bSRGB,TEXTURE_USAGE eUsage,TEXTURE_TYPE eType);
 
 		~GLESTexture();
 
@@ -19,15 +19,15 @@ namespace ma
 
 		void				SetFrameBuffer(FrameBufferHandle handele) {m_hFB = handele;}
 		FrameBufferHandle	GetFrameBuffer() {return m_hFB;}
+		
+		virtual void		CopyTo(Texture* pDesc,int nFace,int level) {}
 
 	private:
+		virtual	bool		RT_CreateCubeTexture();	
+
 		virtual	bool		RT_CreateTexture();	
 
-		virtual	bool		RT_CreateRenderTarget();
-
-		virtual	bool		RT_CreateDepthStencil();	
-
-		virtual	bool		SetLevelData(int level, const PixelBox& src);
+		virtual	bool		SetLevelData(int level, int face, const PixelBox& src);
 
 		virtual bool		GenerateMipmaps();
 

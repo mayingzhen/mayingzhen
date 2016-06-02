@@ -204,7 +204,12 @@ namespace ma
 	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)
 	{
 		const std::type_info& type = anyValue.getType();
-		if (type == typeid(float))
+		if (type == typeid(int))
+		{
+			const int* value = any_cast<int>(&anyValue);
+			GetRenderSystem()->SetValue(pUniform, *value);
+		}
+		else if (type == typeid(float))
 		{
 			const float* value = any_cast<float>(&anyValue);
 			GetRenderSystem()->SetValue(pUniform, *value);

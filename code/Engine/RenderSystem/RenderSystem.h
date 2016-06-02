@@ -41,7 +41,7 @@ namespace ma
 		void				DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		
 		void				SetFrameBuffer(FrameBuffer* pFB);
-		RefPtr<Texture>		SetRenderTarget(RefPtr<Texture>	 pTexture,int index = 0);
+		RefPtr<Texture>		SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		RefPtr<Texture>		GetRenderTarget(int index = 0);
 		RefPtr<Texture>		GetDefaultRenderTarget();
 		RefPtr<Texture>		GetDefaultDepthStencil();
@@ -69,6 +69,7 @@ namespace ma
 			bool twoSidedOperation = false);
 
 		// Uniform
+		void				SetValue(Uniform* uniform, int value);
 		void				SetValue(Uniform* uniform, float value);
 		void				SetValue(Uniform* uniform, const Vector2& value);
 		void				SetValue(Uniform* uniform, const Vector3& value);
@@ -85,7 +86,7 @@ namespace ma
 		void				ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 		
 		// Create	
-		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_A8R8G8B8,bool bSRGB = true);
+		RefPtr<Texture>		CreateRenderTarget(int nWidth = -1,int nHeight = -1,UINT32 nMipMap = 1, PixelFormat format = PF_A8R8G8B8,bool bSRGB = true,TEXTURE_TYPE eType = TEXTYPE_2D);
 		RefPtr<Texture>		CreateDepthStencil(int nWidth = -1,int nHeight = -1,PixelFormat format = PF_D24S8,bool bTypeLess = false);
 		RefPtr<IndexBuffer>	CreateIndexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);

@@ -25,7 +25,7 @@ namespace ma
 
 	void AlchemyAo::Reset(Texture* pInput, Texture* pOutput)
 	{
-		mTexSSAO = GetRenderSystem()->CreateRenderTarget(-1,-1,PF_A8R8G8B8,false);
+		mTexSSAO = GetRenderSystem()->CreateRenderTarget(-1,-1,1,PF_A8R8G8B8,false);
 		
 		mBlur->Reset(mTexSSAO.get(),mTexSSAO.get());
 	}

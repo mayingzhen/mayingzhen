@@ -54,7 +54,7 @@ namespace ma
 				subMatData->SetParameter("uDetailScale", Any(Vector2(0.1f, 0.1f) ) );
 				subMatData->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMatData->SetParameter("u_cSpecColor", Any(Vector4(1,1,1,1)) );
-				subMatData->SetParameter("u_specPower",Any(10.0f));
+				subMatData->SetParameter("u_roughness",Any(10.0f));
 			}
 
 			{

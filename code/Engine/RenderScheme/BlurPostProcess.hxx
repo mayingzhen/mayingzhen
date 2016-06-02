@@ -25,7 +25,7 @@ namespace ma
 		m_InputSampler = CreateSamplerState(pInput,CLAMP,TFO_TRILINEAR,false);
 
 		PixelFormat eformat = pInput->GetFormat();
-		m_pBureTempTex = GetRenderSystem()->CreateRenderTarget(-1,-1,eformat,false);
+		m_pBureTempTex = GetRenderSystem()->CreateRenderTarget(-1,-1,1,eformat,false);
 
 		m_pBureTempSampler = CreateSamplerState(m_pBureTempTex.get(),CLAMP,TFO_TRILINEAR,false);
 

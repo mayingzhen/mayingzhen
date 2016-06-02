@@ -67,10 +67,10 @@ namespace ma
 		m_pInputTex = pInput;
 		m_pOutputTex = pOutput;
 			
-		m_pTexEdge = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_A8R8G8B8,false); 
+		m_pTexEdge = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,1,PF_A8R8G8B8,false); 
 		RefPtr<SamplerState> pSamplerEdge = CreateSamplerState(m_pTexEdge.get(),CLAMP,TFO_TRILINEAR,false);
 
-		m_pTexBlend = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,PF_A8R8G8B8,false);
+		m_pTexBlend = GetRenderSystem()->CreateRenderTarget(nWidth,nHeight,1,PF_A8R8G8B8,false);
 		RefPtr<SamplerState> pSamplerBlend = CreateSamplerState(m_pTexBlend.get(),CLAMP,TFO_TRILINEAR,false);
 
 		RefPtr<SamplerState> pSrcSampler = CreateSamplerState(m_pInputTex.get(),CLAMP,TFO_TRILINEAR,false);
@@ -98,7 +98,7 @@ namespace ma
 
 		// Pass1 EdgeDetection
 		{
-			GetRenderSystem()->SetRenderTarget(m_pTexEdge.get(),0);
+			GetRenderSystem()->SetRenderTarget(0,m_pTexEdge.get());
 			GetRenderSystem()->ClearBuffer(true,false,true, ColourValue::ZERO, 1.0f, 0);
 
 			ScreenQuad::Render(m_pColorEdgeDetection.get());
@@ -107,7 +107,7 @@ namespace ma
 	
 		// Pass2 BlendWeightCalculation
 		{
-			GetRenderSystem()->SetRenderTarget(m_pTexBlend.get(),0);
+			GetRenderSystem()->SetRenderTarget(0,m_pTexBlend.get());
 			GetRenderSystem()->ClearBuffer(true,false,false, ColourValue::ZERO, 1.0f, 0);
 
 			ScreenQuad::Render(m_pBlendWeightCalculation.get());
@@ -115,7 +115,7 @@ namespace ma
 
 		// Pass3 NeiborhoodBlending
 		{
-			GetRenderSystem()->SetRenderTarget(m_pOutputTex.get(),0);
+			GetRenderSystem()->SetRenderTarget(0,m_pOutputTex.get());
 
 			ScreenQuad::Render(m_pNeiborhoodBlending.get());
 		}

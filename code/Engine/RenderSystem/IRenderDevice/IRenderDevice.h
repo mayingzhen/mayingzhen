@@ -33,7 +33,7 @@ namespace ma
 	{
 	private:
 		virtual	void				SetFrameBuffer(FrameBuffer* pFB) = 0;
-		virtual	void				SetRenderTarget(Texture* pTexture,int index = 0) = 0;
+		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0) = 0;
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0) = 0;
 		virtual	void				SetDepthStencil(Texture* pTexture) = 0;
 		virtual	Texture*			GetDefaultDepthStencil() = 0;
@@ -55,6 +55,7 @@ namespace ma
 			StencilOperation passOp = SOP_KEEP, 
 			bool twoSidedOperation = false) = 0;
 		
+		virtual void				SetValue(Uniform* uniform, int value) = 0;
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
 		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;
@@ -86,7 +87,7 @@ namespace ma
 		virtual	RenderDeviceType	GetRenderDeviceType() = 0;
 
 		virtual Texture*			CreateTexture() = 0;
-		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,PixelFormat format,bool bSRGB) = 0;
+		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType) = 0;
 		virtual Texture*			CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess) = 0;
 		virtual VertexDeclaration*	CreateVertexDeclaration() = 0;
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;

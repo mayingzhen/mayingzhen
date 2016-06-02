@@ -331,6 +331,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\data\shader\hlsl\PrefilterCube.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\PrefilterCubeDiffuse.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\PrefilterCubeDiffuse.vert"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\PrefilterCubeSpecular.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\PrefilterCubeSpecular.vert"
+				>
+			</File>
+			<File
 				RelativePath="..\..\data\shader\hlsl\screen.frag"
 				>
 			</File>

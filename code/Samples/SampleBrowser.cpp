@@ -22,6 +22,7 @@
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
 #include "Samples/Render/SampleMaterial.hxx"
+#include "Samples/Render/SampleIBL.hxx"
 #include "Samples/Serialize/SampleSceneSerialize.hxx"
 #include "Samples/Physics/SampleRigidBody.hxx"
 #include "Samples/Physics/SampleCharaControl.hxx"
@@ -33,7 +34,6 @@
 #include "Samples/Animation/SampleAnimationIK.hxx"
 #include "Samples/Render/SampleParticle.hxx"
 #include "Samples/Audo/SampleWwise.hxx"
-
 
 
 namespace ma
@@ -224,6 +224,10 @@ namespace ma
 		else if(stricmp(pSample,"SampleMaterial") == 0)
 		{
 			m_pCurSample = new SampleMaterial();
+		}
+		else if(stricmp(pSample,"SampleIBL") == 0)
+		{
+			m_pCurSample = new SampleIBL();
 		}
 		else if(stricmp(pSample,"SampleTerrain") == 0)
 		{

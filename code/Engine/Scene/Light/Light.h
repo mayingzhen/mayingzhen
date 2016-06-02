@@ -11,6 +11,7 @@ namespace ma
 		LIGHT_DIRECTIONAL,
 		LIGHT_SPOT,			
 		LIGHT_POINT,	
+		LIGHT_AMBIENT,
 	};
 
 
