@@ -15,8 +15,7 @@ namespace ma
 
 		if (1)
 		{
-			//PrefilterCubeGPU("PaperMill_E_3k.dds","PaperMill_E_3k_filtered.dds");
-			PrefilterCubeGPU("env_filtered.dds","env_filtered_filtered.dds");
+			PrefilterCubeGPU("env.dds","env_filtered.dds");
 		}
 
 		UINT32 spheres_row = 1;

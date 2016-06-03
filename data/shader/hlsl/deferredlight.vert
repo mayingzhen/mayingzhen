@@ -1,13 +1,8 @@
 #include "common.h"
 
-#ifdef AMBIENT_LIGHT
+#if defined(AMBIENT_LIGHT) || defined(DIRECT_LIGHT)
 #define SCEERN_LIGHT
 #endif
-
-#ifdef DIRECT_LIGHT
-#define SCEERN_LIGHT
-#endif
-
    
 struct VS_OUT
 {

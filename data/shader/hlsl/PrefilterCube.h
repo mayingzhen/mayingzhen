@@ -6,11 +6,8 @@ cbuffer ObjectVS : register(b5)
 	float roughness;
 }
 
-#ifdef PARABOLOID
-texture2D skybox_cube_tex : register(t1);
-#else
+
 textureCUBE skybox_cube_tex : register(t1);
-#endif
 SamplerState skybox_sampler : register(s1);
 
 float3 ToDir(int face, float2 xy)
@@ -115,14 +112,8 @@ float3 ImportanceSampleBP(float2 xi, float roughness, float3 normal)
 
 float3 SampleCubeMap(float3 ReflectDir)
 {
-#ifdef PARABOLOID
-	const float PI = 3.1415926f;
-	float x = (1 + atan2(ReflectDir.x, -ReflectDir.z) / PI) / 2;
-	float y = acos(ReflectDir.y) / PI;
-	return skybox_cube_tex.SampleLevel(skybox_sampler, float2(x,y), 0).xyz;
-#else
 	return skybox_cube_tex.SampleLevel(skybox_sampler, ReflectDir, 0).xyz;
-#endif
+
 }
 
 float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
@@ -137,7 +128,7 @@ float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);
 		float3 l = ImportanceSampleLambert(xi, normal);
 
-		prefiltered_clr += SampleCubeMap(l);
+		prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz;
 	}
 
 	return float4(prefiltered_clr / NUM_SAMPLES, 1);
@@ -161,7 +152,7 @@ float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 		float n_dot_l = saturate(dot(normal, l));
 		if (n_dot_l > 0)
 		{
-			prefiltered_clr += SampleCubeMap(l);;
+			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz;
 			total_weight += n_dot_l;
 		}
 	}

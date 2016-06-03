@@ -21,10 +21,9 @@ namespace ma
 
 		RefPtr<Texture> out_tex = GetRenderSystem()->CreateRenderTarget(in_height,in_height,out_num_mipmaps,PF_FLOAT16_RGBA,false,TEXTYPE_CUBE);
 
-		string strMarc = in_tex->GetType() == TEXTYPE_CUBE ? "":"PARABOLOID";
-		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse",strMarc.c_str());
-		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular",strMarc.c_str());
-		
+		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","");
+		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","");
+	
 		PrefilterCubeDiffuse->SetParameter("skybox_cube_tex",Any(pInSampler));
 		PrefilterCubeSpecular->SetParameter("skybox_cube_tex",Any(pInSampler));
 
@@ -42,8 +41,10 @@ namespace ma
 				GetRenderSystem()->SetViewPort(viewPort);
 
 				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, face);
+
 				PrefilterCubeSpecular->SetParameter("face",Any(face));
 				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
+
 				ScreenQuad::Render(PrefilterCubeSpecular.get());
 			}
 
@@ -53,6 +54,7 @@ namespace ma
 				GetRenderSystem()->SetViewPort(viewPort);
 
 				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
+
 				PrefilterCubeDiffuse->SetParameter("face",Any(face));
 
 				ScreenQuad::Render(PrefilterCubeDiffuse.get());
