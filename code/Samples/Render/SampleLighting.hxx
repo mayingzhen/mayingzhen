@@ -13,6 +13,9 @@ namespace ma
 		GetCamera()->LookAt(vEyePos,VAtPos);
 	
 
+		RenderScheme* pRenderScheme = GetCamera()->GetScene()->GetRenderScheme();
+		pRenderScheme->SetDeferredShadingEnabled(!pRenderScheme->GetDeferredShadingEnabled());
+
 		//RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 		//m_pScene->GetRootNode()->AddChild(pTerrain.get());
 
@@ -24,7 +27,7 @@ namespace ma
 		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0f,1.0f,1.0f,1.0f));
 
 		// Light
-		if (0)
+		if (1)
 		{
 			SceneNode* pPointLight = m_pScene->CreateSceneNode(); 
 			m_pPointLight = CreatePointLight();
@@ -32,7 +35,7 @@ namespace ma
 			m_pPointLight->GetSceneNode()->Translate(Vector3(2, 0, 1));
 			m_pPointLight->SetLightColor(ColourValue::White);
 			m_pPointLight->SetLightIntensity(2.0f);
-			m_pPointLight->SetRadius(100);
+			m_pPointLight->SetRadius(10);
  
 			SceneNode* pDirLight = m_pScene->CreateSceneNode(); 
 			m_pDirectLight = CreateDirectonalLight();

@@ -133,19 +133,19 @@ namespace ma
 
 		// RasterizerState
 		bool						m_bRasterizerStateDirty;
-		unsigned					rasterizerStateHash_;
+		unsigned					m_nRasterizerStateHash;
 		map<unsigned, ID3D11RasterizerState*> m_rasterizerStatePool;
 		
 		// DepthState
 		bool						m_bDepthStateDirty;
-		unsigned					depthStateHash_;
+		unsigned					m_nDepthStateHash;
 		map<unsigned, ID3D11DepthStencilState*> m_depthStatePool;
-		unsigned stencilRef_;
-		bool stencilRefDirty_;
+		unsigned m_nStencilRef;
+		bool m_bStencilRefDirty;
 
 		// BlendState
 		bool						m_bBlendStateDirty;
-		unsigned					blendStateHash_;
+		unsigned					m_nBlendStateHash;
 		map<unsigned, ID3D11BlendState*> m_blendStatePool;
 
 		// ConstantBuffer
@@ -157,32 +157,32 @@ namespace ma
 
 		//VertexDeclaration
 		D3D11VertexDeclaration*	m_pVertexDecl;
-		bool vertexDeclarationDirty_;
-		uint64 vertexDeclarationHash_;
-		map<uint64, ID3D11InputLayout* > vertexDeclarations_;
+		bool m_bVertexDeclarationDirty;
+		uint64 m_nVertexDeclarationHash;
+		map<uint64, ID3D11InputLayout* > m_mapVertexDeclaration;
 
-		IndexBuffer* indexBuffer_;
+		IndexBuffer* m_pIndexBuffer;
 
 		//Vertex buffers
-		unsigned firstDirtyVB_;
-		unsigned lastDirtyVB_;
-		ID3D11Buffer* vertexBuffers_[MAX_VERTEX_STREAMS];
-		unsigned vertexSizes_[MAX_VERTEX_STREAMS];
-		unsigned vertexOffsets_[MAX_VERTEX_STREAMS];
+		unsigned m_nFirstDirtyVB;
+		unsigned m_nLastDirtyVB;
+		ID3D11Buffer* m_arrVertexBuffers[MAX_VERTEX_STREAMS];
+		unsigned m_arrVertexSize[MAX_VERTEX_STREAMS];
+		unsigned m_arrVertexOffset[MAX_VERTEX_STREAMS];
 		//unsigned elementMasks_[MAX_VERTEX_STREAMS];
 
 		// 
-		Texture* textures_[MAX_TEXTURE_UNITS];
-		unsigned firstDirtyTexture_;
-		unsigned lastDirtyTexture_;
-		bool	texturesDirty_;
-		ID3D11ShaderResourceView* shaderResourceViews_[MAX_TEXTURE_UNITS];
+		Texture* m_arrTexture[MAX_TEXTURE_UNITS];
+		unsigned m_nFirstDirtyTexture;
+		unsigned m_nLastDirtyTexture;
+		bool	m_bTexturesDirty;
+		ID3D11ShaderResourceView* m_arrShaderResourceView[MAX_TEXTURE_UNITS];
 
-		SamplerState* samplerStates[MAX_TEXTURE_UNITS];
-		unsigned firstDirtySamplerState_;
-		unsigned lastDirtySamplerState_;
-		bool	samplerStatesDirty_;
-		ID3D11SamplerState* d3d11Samplers_[MAX_TEXTURE_UNITS];
+		SamplerState* m_arrSamplerState[MAX_TEXTURE_UNITS];
+		unsigned m_nFirstDirtySamplerState;
+		unsigned m_nLastDirtySamplerState;
+		bool	m_bSamplerStatesDirty;
+		ID3D11SamplerState* m_arrD3d11Sampler[MAX_TEXTURE_UNITS];
 		map<SamplerState, ID3D11SamplerState*> m_SamplerStatesPool;
 
 	};

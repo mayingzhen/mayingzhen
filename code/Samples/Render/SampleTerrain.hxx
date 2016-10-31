@@ -75,7 +75,7 @@ namespace ma
 				subMaterial->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMaterial->SetParameter("u_cDiffuseColor", Any( Vector4::ONE ) );
 				subMaterial->SetParameter("u_cSpecColor", Any( Vector4::ONE ) );
-				subMaterial->SetParameter("u_roughness",Any(20.0f));
+				subMaterial->SetParameter("u_roughness",Any(00.0f));
 			}
 
 			{

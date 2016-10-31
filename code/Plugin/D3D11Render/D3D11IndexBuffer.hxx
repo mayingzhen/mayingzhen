@@ -58,7 +58,18 @@ void D3D11IndexBuffer::RT_StreamComplete()
 	memset(&bufferDesc, 0, sizeof bufferDesc);
 	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bufferDesc.CPUAccessFlags = m_Usage & HBU_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
-	bufferDesc.Usage = m_Usage & HBU_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+	if (m_Usage & HBU_DYNAMIC)
+	{
+		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	}
+	else if (m_Usage == HBU_STATIC)
+	{
+		bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	}
+	else
+	{
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	}
 	bufferDesc.ByteWidth = (UINT)(m_Size);
 
 	D3D11_SUBRESOURCE_DATA InitData;

@@ -54,17 +54,25 @@ namespace ma
 			
 		CreateMeshMaterial("FBX/PlatformTexture.tga","FBX/MovingPlatform.mtl");
 
-		RefPtr<SceneNode> pPlatform = m_pScene->CreateSceneNode();
-		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
-		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
- 
-		RefPtr<SceneNode> pBox = m_pScene->CreateSceneNode();
-		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
-		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
+		//LoadStaticMeshData("pistol/pistol.fbx");
+		//CreateMeshMaterial("pistol/Cerberus_A.dds","pistol/Cerberus.mtl");
 
-		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
-		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
-		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+// 		RefPtr<SceneNode> pPlatform = m_pScene->CreateSceneNode();
+// 		RefPtr<MeshComponent> pMesh = pPlatform->CreateComponent<MeshComponent>();
+// 		pMesh->Load("Fbx/MovingPlatform.skn","Fbx/MovingPlatform.mtl");
+//  
+// 		RefPtr<SceneNode> pBox = m_pScene->CreateSceneNode();
+// 		RefPtr<MeshComponent> pBoxMesh = pBox->CreateComponent<MeshComponent>();
+// 		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
+// 
+// 		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
+// 		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
+// 		pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+
+// 		RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
+// 		pShpere->SetScale(Vector3(0.01f));
+// 		RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
+// 		pShpereMesh->Load("pistol/pistol.skn","pistol/Cerberus.mtl");
 			
 	}
 
@@ -84,9 +92,9 @@ namespace ma
 		Vector3 VAtPos = Vector3(0,0,0); 
 		GetCamera()->LookAt(vEyePos,VAtPos);
 
-		//LoadSaticMesh();
+		LoadSaticMesh();
 
-		LoadSkelMesh();	
+		//LoadSkelMesh();	
 
 		m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,-10,0),Vector3(0,0,0));
 		m_pScene->GetDirLight()->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));

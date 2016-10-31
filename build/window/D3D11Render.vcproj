@@ -65,7 +65,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="D3DX11D.lib D3D11.lib dxguid.lib d3dcompiler.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../extern/vld/lib"
+				AdditionalLibraryDirectories="../../extern/vld/lib;../../extern/DXSDK/lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -208,6 +208,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Plugin\D3D11Render\D3D11RenderDevice.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D11Render\D3D11RenderState.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Plugin\D3D11Render\D3D11RenderState.hxx"
 				>
 			</File>
 			<File
@@ -372,6 +380,14 @@
 			</File>
 			<File
 				RelativePath="..\..\data\shader\hlsl\skin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\sky.frag"
+				>
+			</File>
+			<File
+				RelativePath="..\..\data\shader\hlsl\sky.vert"
 				>
 			</File>
 			<File

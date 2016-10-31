@@ -35,25 +35,25 @@ namespace ma
 		m_pShader = NULL;
 		m_pVertexDecl = NULL;
 
-		firstDirtyVB_ = 0;
-		lastDirtyVB_ = 0;
-		memset(vertexBuffers_,0,sizeof(vertexBuffers_));
-		memset(vertexSizes_,0,sizeof(vertexSizes_));
-		memset(vertexOffsets_,0,sizeof(vertexOffsets_));
+		m_nFirstDirtyVB = 0;
+		m_nLastDirtyVB = 0;
+		memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
+		memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
+		memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
 		//memset(elementMasks_,0,sizeof(elementMasks_));
 	
 
-	 	memset(textures_,0,sizeof(textures_));
-		memset(shaderResourceViews_,0,sizeof(shaderResourceViews_));
-		firstDirtyTexture_ = M_MAX_UNSIGNED;
-		lastDirtyTexture_ = M_MAX_UNSIGNED;
-		texturesDirty_ = true;
+	 	memset(m_arrTexture,0,sizeof(m_arrTexture));
+		memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
+		m_nFirstDirtyTexture = M_MAX_UNSIGNED;
+		m_nLastDirtyTexture = M_MAX_UNSIGNED;
+		m_bTexturesDirty = true;
 
-		memset(d3d11Samplers_,0,sizeof(d3d11Samplers_));
-		memset(samplerStates,0,sizeof(samplerStates));
-		firstDirtySamplerState_ = M_MAX_UNSIGNED;
-		lastDirtySamplerState_ = M_MAX_UNSIGNED;
-		samplerStatesDirty_ = true;
+		memset(m_arrD3d11Sampler,0,sizeof(m_arrD3d11Sampler));
+		memset(m_arrSamplerState,0,sizeof(m_arrSamplerState));
+		m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
+		m_nLastDirtySamplerState = M_MAX_UNSIGNED;
+		m_bSamplerStatesDirty = true;
 
 		m_pDepthStencil = NULL;
 		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
@@ -139,8 +139,8 @@ namespace ma
 		}
 		m_SamplerStatesPool.clear();
 
-		for (map<uint64, ID3D11InputLayout* >::iterator it = vertexDeclarations_.begin(); 
-			it != vertexDeclarations_.end(); ++it)
+		for (map<uint64, ID3D11InputLayout* >::iterator it = m_mapVertexDeclaration.begin(); 
+			it != m_mapVertexDeclaration.end(); ++it)
 		{
 			SAFE_RELEASE(it->second);
 		}
@@ -504,28 +504,28 @@ namespace ma
 
 	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
 	{
-		if (pTexture != textures_[index])
+		if (pTexture != m_arrTexture[index])
 		{
-			if (firstDirtyTexture_ == M_MAX_UNSIGNED)
-				firstDirtyTexture_ = lastDirtyTexture_ = index;
+			if (m_nFirstDirtyTexture == M_MAX_UNSIGNED)
+				m_nFirstDirtyTexture = m_nLastDirtyTexture = index;
 			else
 			{
-				if (index < firstDirtyTexture_)
-					firstDirtyTexture_ = index;
-				if (index > lastDirtyTexture_)
-					lastDirtyTexture_ = index;
+				if (index < m_nFirstDirtyTexture)
+					m_nFirstDirtyTexture = index;
+				if (index > m_nLastDirtyTexture)
+					m_nLastDirtyTexture = index;
 			}
 
-			textures_[index] = pTexture;
+			m_arrTexture[index] = pTexture;
 			if (bSRGBNotEqual)
 			{
-				shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
+				m_arrShaderResourceView[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
 			}
 			else
 			{
-				shaderResourceViews_[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
+				m_arrShaderResourceView[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
 			}
-			texturesDirty_ = true;
+			m_bTexturesDirty = true;
 		}
 	}
 
@@ -535,9 +535,9 @@ namespace ma
 		UINT i = 0;
 		for (i = 0; i < MAX_TEXTURE_UNITS; ++ i)
 		{
-			if (shaderResourceViews_[i] && shaderResourceViews_[i] == rtv_src)
+			if (m_arrShaderResourceView[i] && m_arrShaderResourceView[i] == rtv_src)
 			{
-				shaderResourceViews_[i] = NULL;
+				m_arrShaderResourceView[i] = NULL;
 				cleared = true;
 				break;
 			}
@@ -545,7 +545,7 @@ namespace ma
 
 		if (cleared)
 		{
-			m_pDeviceContext->PSSetShaderResources(i, 1, &shaderResourceViews_[i]);
+			m_pDeviceContext->PSSetShaderResources(i, 1, &m_arrShaderResourceView[i]);
 		}
 	}
 
@@ -596,55 +596,55 @@ namespace ma
 
 		SetTexture(index,pSampler->GetTexture(),pSampler->GetSRGB() == pSampler->GetTexture()->GetSRGB());
 
-		if (pSampler != samplerStates[index])
+		if (pSampler != m_arrSamplerState[index])
 		{
-			if (firstDirtySamplerState_ == M_MAX_UNSIGNED)
-				firstDirtySamplerState_ = lastDirtySamplerState_ = index;
+			if (m_nFirstDirtySamplerState == M_MAX_UNSIGNED)
+				m_nFirstDirtySamplerState = m_nLastDirtySamplerState = index;
 			else
 			{
-				if (index < firstDirtySamplerState_)
-					firstDirtySamplerState_ = index;
-				if (index > lastDirtySamplerState_)
-					lastDirtySamplerState_ = index;
+				if (index < m_nFirstDirtySamplerState)
+					m_nFirstDirtySamplerState = index;
+				if (index > m_nLastDirtySamplerState)
+					m_nLastDirtySamplerState = index;
 			}
 
-			samplerStates[index] = pSampler;
-			d3d11Samplers_[index] = CreateOrGetSamplerState(pSampler);
-			samplerStatesDirty_ = true;
+			m_arrSamplerState[index] = pSampler;
+			m_arrD3d11Sampler[index] = CreateOrGetSamplerState(pSampler);
+			m_bSamplerStatesDirty = true;
 		}
 	}
 
 	void D3D11RenderDevice::CommitChanges()
 	{
-		if (texturesDirty_ && firstDirtyTexture_ < M_MAX_UNSIGNED)
+		if (m_bTexturesDirty && m_nFirstDirtyTexture < M_MAX_UNSIGNED)
 		{
-			m_pDeviceContext->PSSetShaderResources(firstDirtyTexture_, lastDirtyTexture_ - firstDirtyTexture_ + 1,
-				&shaderResourceViews_[firstDirtyTexture_]);
-			firstDirtyTexture_ = lastDirtyTexture_ = M_MAX_UNSIGNED;
-			texturesDirty_ = false;
+			m_pDeviceContext->PSSetShaderResources(m_nFirstDirtyTexture, m_nLastDirtyTexture - m_nFirstDirtyTexture + 1,
+				&m_arrShaderResourceView[m_nFirstDirtyTexture]);
+			m_nFirstDirtyTexture = m_nLastDirtyTexture = M_MAX_UNSIGNED;
+			m_bTexturesDirty = false;
 		}
 
-		if (samplerStatesDirty_ && firstDirtySamplerState_ < M_MAX_UNSIGNED)
+		if (m_bSamplerStatesDirty && m_nFirstDirtySamplerState < M_MAX_UNSIGNED)
 		{
-			m_pDeviceContext->PSSetSamplers(firstDirtySamplerState_, lastDirtySamplerState_ - firstDirtySamplerState_ + 1,
-				&d3d11Samplers_[firstDirtySamplerState_]);
+			m_pDeviceContext->PSSetSamplers(m_nFirstDirtySamplerState, m_nLastDirtySamplerState - m_nFirstDirtySamplerState + 1,
+				&m_arrD3d11Sampler[m_nFirstDirtySamplerState]);
 
-			firstDirtySamplerState_ = lastDirtySamplerState_ = M_MAX_UNSIGNED;
-			samplerStatesDirty_ = false;
+			m_nFirstDirtySamplerState = m_nLastDirtySamplerState = M_MAX_UNSIGNED;
+			m_bSamplerStatesDirty = false;
 		}
 
-		if (vertexDeclarationDirty_ && m_pShader && m_pShader->GetByteVSCodeSize())
+		if (m_bVertexDeclarationDirty && m_pShader && m_pShader->GetByteVSCodeSize())
 		{
 			uint64 newVertexDeclarationHash = m_pVertexDecl->GetHash();
 
 			// Do not create input layout if no vertex buffers / elements
 			if (newVertexDeclarationHash)
 			{
-				if (newVertexDeclarationHash != vertexDeclarationHash_)
+				if (newVertexDeclarationHash != m_nVertexDeclarationHash)
 				{
 					map<unsigned long long, ID3D11InputLayout* >::iterator
-						it = vertexDeclarations_.find(newVertexDeclarationHash);
-					if (it == vertexDeclarations_.end())
+						it = m_mapVertexDeclaration.find(newVertexDeclarationHash);
+					if (it == m_mapVertexDeclaration.end())
 					{
 						D3D11_INPUT_ELEMENT_DESC d3dve[MAX_ELEMENT];
 						for (int i = 0; i < m_pVertexDecl->GetElementCount(); ++i)
@@ -668,7 +668,7 @@ namespace ma
 							LogError("Failed to create input layout");
 						}
 
-						vertexDeclarations_.insert(std::make_pair(newVertexDeclarationHash, pD3D11VertexDecl));
+						m_mapVertexDeclaration.insert(std::make_pair(newVertexDeclarationHash, pD3D11VertexDecl));
 						m_pDeviceContext->IASetInputLayout(pD3D11VertexDecl);
 					}
 					else
@@ -676,17 +676,17 @@ namespace ma
 						m_pDeviceContext->IASetInputLayout(it->second);
 					}
 
-					vertexDeclarationHash_ = newVertexDeclarationHash;
+					m_nVertexDeclarationHash = newVertexDeclarationHash;
 				}
 			}
 
-			vertexDeclarationDirty_ = false;
+			m_bVertexDeclarationDirty = false;
 		}
 
 		if (m_bBlendStateDirty)
 		{
 			unsigned newBlendStateHash = (unsigned)((m_renderState.m_bColorWrite ? 1 : 0) | (m_renderState.m_eBlendMode << 1));
-			if (newBlendStateHash != blendStateHash_)
+			if (newBlendStateHash != m_nBlendStateHash)
 			{
 				map<unsigned, ID3D11BlendState*>::iterator i = m_blendStatePool.find(newBlendStateHash);
 				if (i == m_blendStatePool.end())
@@ -725,7 +725,7 @@ namespace ma
 				{
 					m_pDeviceContext->OMSetBlendState(i->second, 0, M_MAX_UNSIGNED);
 				}
-				blendStateHash_ = newBlendStateHash;
+				m_nBlendStateHash = newBlendStateHash;
 			}
 
 			m_bBlendStateDirty = false;
@@ -740,7 +740,7 @@ namespace ma
 				((m_renderState.m_nStencilMask & 0xff) << 5) |
 				((m_renderState.m_nStencilWriteMask & 0xff) << 13) | (m_renderState.m_eStencilfunc << 21) |
 				((m_renderState.m_eStencilFail + m_renderState.m_eDepthFailOp * 5 + m_renderState.m_eStencilPass * 25) << 24);
-			if (newDepthStateHash != depthStateHash_ || stencilRefDirty_)
+			if (newDepthStateHash != m_nDepthStateHash || m_bStencilRefDirty)
 			{
 				map<unsigned, ID3D11DepthStencilState*>::iterator i = m_depthStatePool.find(newDepthStateHash);
 				if (i == m_depthStatePool.end())
@@ -771,18 +771,18 @@ namespace ma
 
 					m_depthStatePool.insert( std::make_pair(newDepthStateHash, newDepthState) );
 
-					m_pDeviceContext->OMSetDepthStencilState(newDepthState, stencilRef_);
+					m_pDeviceContext->OMSetDepthStencilState(newDepthState, m_nStencilRef);
 				}
 				else
 				{
-					m_pDeviceContext->OMSetDepthStencilState(i->second, stencilRef_);
+					m_pDeviceContext->OMSetDepthStencilState(i->second, m_nStencilRef);
 				}
 				
-				depthStateHash_ = newDepthStateHash;
+				m_nDepthStateHash = newDepthStateHash;
 			}
 
 			m_bDepthStateDirty = false;
-			stencilRefDirty_ = false;
+			m_bStencilRefDirty = false;
 		}
 
 		if (m_bRasterizerStateDirty)
@@ -798,7 +798,7 @@ namespace ma
 				(m_renderState.m_eCullMode << 3) | 
 				((*((unsigned*)&m_renderState.m_fConstantBias) & 0x1fff) << 5) |
 				((*((unsigned*)&m_renderState.m_fSlopeScaleBias) & 0x1fff) << 18);
-			if (newRasterizerStateHash != rasterizerStateHash_)
+			if (newRasterizerStateHash != m_nRasterizerStateHash)
 			{
 				map<unsigned, ID3D11RasterizerState*>::iterator i = m_rasterizerStatePool.find(newRasterizerStateHash);
 				if (i == m_rasterizerStatePool.end())
@@ -830,7 +830,7 @@ namespace ma
 					m_pDeviceContext->RSSetState(i->second);
 				}
 
-				rasterizerStateHash_ = newRasterizerStateHash;
+				m_nRasterizerStateHash = newRasterizerStateHash;
 			}
 
 			m_bRasterizerStateDirty = false;
@@ -941,13 +941,13 @@ namespace ma
 	void D3D11RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
 	{
 		m_pVertexDecl = (D3D11VertexDeclaration*)pDec;
-		vertexDeclarationDirty_ = true;
+		m_bVertexDeclarationDirty = true;
 	}
 
 	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
 		D3D11IndexBuffer* buffer = (D3D11IndexBuffer*)pIB;
-		if (buffer != indexBuffer_)
+		if (buffer != m_pIndexBuffer)
 		{
 			if (buffer)
 				m_pDeviceContext->IASetIndexBuffer(buffer->GetD3DIndexBuffer(),
@@ -955,7 +955,7 @@ namespace ma
 			else
 				m_pDeviceContext->IASetIndexBuffer(0, DXGI_FORMAT_UNKNOWN, 0);
 
-			indexBuffer_ = buffer;
+			m_pIndexBuffer = buffer;
 		}
 	}
 

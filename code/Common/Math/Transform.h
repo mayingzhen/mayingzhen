@@ -31,8 +31,8 @@ namespace ma
 // 		mat.decomposition(pOut->m_vPos,pOut->m_vScale,pOut->m_qRot);
 		
 		pOut->m_vScale.x = 1.0f / pTSF->m_vScale.x;
-		pOut->m_vScale.x = 1.0f / pTSF->m_vScale.y;
-		pOut->m_vScale.x = 1.0f / pTSF->m_vScale.z;
+		pOut->m_vScale.y = 1.0f / pTSF->m_vScale.y;
+		pOut->m_vScale.z = 1.0f / pTSF->m_vScale.z;
 		
 		pOut->m_vPos = pTSF->m_vPos * pOut->m_vScale;
 

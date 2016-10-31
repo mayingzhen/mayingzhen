@@ -128,8 +128,6 @@ namespace ma
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
 		void	RC_CreateTexture(Texture* pRenderTarget);
-		//void	RC_CreateRenderTarget(Texture* pRenderTarget);
-		//void	RC_CreateDepthStencil(Texture* pRenderTarget);
 		void	RC_SetShaderProgram(ShaderProgram* pShader);
 		void	RC_SetFrameBuffer(FrameBuffer* pFB);
 		void	RC_SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);

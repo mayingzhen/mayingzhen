@@ -25,7 +25,7 @@ namespace ma
 		ID3D11Texture2D* GetTexture2D() {return m_pD3D11Tex2D;}
 		void SetTexture2D(ID3D11Texture2D* pTex) {m_pD3D11Tex2D = pTex;}
 
-		virtual void	CopyTo(Texture* pDesc,int nFace,int level);
+		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel);
 
 		virtual bool	SaveToFile(const char* pszPath);
 

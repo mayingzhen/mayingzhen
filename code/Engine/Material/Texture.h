@@ -36,7 +36,7 @@ namespace ma
 		void			SetSRGB(bool b) {m_bSRGB = b;}
 		bool			GetSRGB() const {return m_bSRGB;}
 
-		virtual void	CopyTo(Texture* pDesc,int nFace,int level) = 0;
+		virtual void	CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel) = 0;
 
 		static bool		BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData);
 	

@@ -40,9 +40,9 @@ namespace ma
 		{
 			Vector3 v01, v12, v02;
 
-			v01 = (v0 + v1).normalise();
-			v12 = (v1 + v2).normalise();
-			v02 = (v0 + v2).normalise();
+			v01 = (v0 + v1).normalisedCopy();
+			v12 = (v1 + v2).normalisedCopy();
+			v02 = (v0 + v2).normalisedCopy();
 
 			SphereTessR(v0,  v01, v02, depth-1, indBuff, vertBuff);
 			SphereTessR(v01,  v1, v12, depth-1, indBuff, vertBuff);

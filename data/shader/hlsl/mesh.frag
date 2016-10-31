@@ -14,8 +14,11 @@ Texture2D u_texture : register(t0);
 SamplerState s_texture : register( s0 );
 
 
+Texture2D tMask : register(t1);
+SamplerState sMask : register(s1);
 
-
+Texture2D tSpecularRMCMap : register(t2);
+SamplerState sSpecularRMCMap : register(s2);
 
 // Varyings
 struct PS_IN
@@ -48,13 +51,32 @@ out float4 oColor : SV_TARGET0
 	float3 cDiffuse = u_cDiffuseColor.xyz;	
     oColor.a = u_cDiffuseColor.w;
    
-    cDiffuse *= u_texture.Sample(s_texture, In.v_texCoord);
+    cDiffuse *= u_texture.Sample(s_texture, In.v_texCoord).xyz;
+    
+    float roughness = u_roughness;
+    float metalness = u_metalness;
+    float3 specColor = u_cSpecColor.xyz;
+    
+#ifdef MASK_TEXTURE    
+    //float4 mask = tMask.Sample(sMask,In.v_texCoord);
+    //roughness = exp2((mask.g) * 13);
+	//specColor = float3(mask.x,mask.x,mask.x);
+#endif    
+    
 	
 	float3 vNormal = normalize(In.worldNormal.xyz);
+	//vNormal.yz = vNormal.zy;
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
+	
+    // Specular map parameters.
+#ifdef MASK_TEXTURE  
+    float4 specularRMC = tSpecularRMCMap.Sample(sSpecularRMCMap,In.v_texCoord);
+    roughness = 1.0 - specularRMC.x;
+    metalness = specularRMC.y;
+#endif     
 			
 #if DEFERREDSHADING == 0
-	oColor.xyz = ForwardLighing(cDiffuse,u_cSpecColor.xyz,u_roughness,vView,vNormal);
+	oColor.xyz = ForwardLighing(cDiffuse,specColor,roughness,metalness,vView,vNormal);
 #else
 	oNormal = 0;
 	float3 viewNormal = mul(oWorldNormal, (float3x3)g_matView); 

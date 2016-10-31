@@ -3,6 +3,9 @@
 TextureCube tEnv : register(t4);
 SamplerState sEnv : register(s4);
 
+Texture2D tBRDFTerm : register(t5);
+SamplerState sBRDFTerm : register(s5);
+
 cbuffer ObjectLightPS : register(b6)
 {
 	float4 u_cDiffuseColor;
@@ -11,6 +14,7 @@ cbuffer ObjectLightPS : register(b6)
 	float2 u_diff_spec_mip;
 	float u_mip_bias;
 
+	float u_metalness;
 	float u_roughness;
 	float u_envroughness;// = log2(u_roughness) / 13; // log2(8192) == 13
 }
@@ -27,6 +31,11 @@ float3 CalcPrefilteredEnvVec(float3 normal, float3 view)
 
 float2 CalcEnvbrdfTerm(float roughness, float3 normal, float3 view)
 {
+	float NoV = dot(normal, view);
+
+	return tBRDFTerm.Sample(sBRDFTerm,float2(NoV,roughness)).xy;
+
+	/*
 	float n_dot_v = saturate(dot(normal, view));
 	roughness = max(0.5f / 16, roughness);
 	float2 env_brdf;
@@ -42,6 +51,25 @@ float2 CalcEnvbrdfTerm(float roughness, float3 normal, float3 view)
 	env_brdf.y = (((tmp.x * n_dot_v + tmp.y) * n_dot_v + tmp.z) * n_dot_v) + tmp.w;
 	env_brdf = saturate(env_brdf);
 	return env_brdf;
+	*/
+
+	// [ Lazarov 2013, "Getting More Physical in Call of Duty: Black Ops II" ]
+	// Adaptation to fit our G term.
+	const float4 c0 = { -1, -0.0275, -0.572, 0.022 };
+	const float4 c1 = { 1, 0.0425, 1.04, -0.04 };
+	float4 r = roughness * c0 + c1;
+	float a004 = min( r.x * r.x, exp2( -9.28 * NoV ) ) * r.x + r.y;
+	float2 AB = float2( -1.04, 1.04 ) * a004 + r.zw;
+
+#if !(ES2_PROFILE || ES3_1_PROFILE)
+	// Anything less than 2% is physically impossible and is instead considered to be shadowing
+	// In ES2 this is skipped for performance as the impact can be small
+	// Note: this is needed for the 'specular' show flag to work, since it uses a SpecularColor of 0
+	//AB.y *= saturate( 50.0 * SpecularColor.g );
+#endif
+
+	//return SpecularColor * AB.x + AB.y;
+	return AB;
 }
 
 float3 CalcEnvSpecular(float3 prefiltered_env, float3 c_spec, float roughness, float3 normal, float3 view)
@@ -131,7 +159,7 @@ float3 calc_brdf(float3 c_diff, float3 c_spec, float roughness, float3 l, float3
 }
 
 
-float3 ForwardLighing(float3 cDiffuse,float3 cSpecColor, float roughness, float3 vView,float3 vNormal)
+float3 ForwardLighing(float3 cDiffuse,float3 cSpecColor, float roughness, float metalness, float3 vView,float3 vNormal)
 {
 #if defined(DIRLIGHT) || defined(ENVREFLECT)
 	float3 oColor = float3(0,0,0);
@@ -162,11 +190,25 @@ float3 ForwardLighing(float3 cDiffuse,float3 cSpecColor, float roughness, float3
 #endif  
 
 #ifdef ENVREFLECT
-	float envroughness = log2(roughness) / 13; // log2(8192) == 13
-	float3 envDiffuse = PrefilteredDiffuseIBL(cDiffuse.xyz, vNormal);
-	float3 envSpec = PBFittingPrefilteredSpecularIBL(cSpecColor.xyz, envroughness, vNormal, vView);
+	//float3 diffuseIBL = PrefilteredDiffuseIBL(cDiffuse.xyz, vNormal);
+	float3 diffuseIBL = tEnv.SampleLevel(sEnv,vNormal,u_diff_spec_mip.x).xyz;
 
-	oColor.xyz += envDiffuse + envSpec;	
+	float3 dielectricColor = float3(0.04, 0.04, 0.04);
+	float3 diffColor = cDiffuse.rgb * (1.0 - metalness);
+	float3 specColor = lerp(dielectricColor.rgb, cDiffuse.rgb, metalness); //* specularIntensity;
+	
+	float mip = roughness * u_diff_spec_mip.y;//CalcPrefilteredEnvMip(1.0 - roughness, u_diff_spec_mip.y);
+	float3 r = normalize( -reflect(vView, vNormal) /*CalcPrefilteredEnvVec(vNormal, vView)*/ );
+	float3 specColorIBL = tEnv.SampleLevel(sEnv,r,mip).xyz;
+
+	float3 albedoByDiffuse = diffColor.rgb * diffuseIBL.rgb;
+
+	float2 env_brdf = CalcEnvbrdfTerm(roughness,vNormal, vView);
+	float3 envSpec = specColorIBL * (specColor * env_brdf.x + env_brdf.y);
+
+	oColor.xyz += albedoByDiffuse + envSpec;	
+
+	//return specColorIBL;
 #endif
 
 	return oColor;

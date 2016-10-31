@@ -20,7 +20,7 @@ namespace ma
 		void				SetFrameBuffer(FrameBufferHandle handele) {m_hFB = handele;}
 		FrameBufferHandle	GetFrameBuffer() {return m_hFB;}
 		
-		virtual void		CopyTo(Texture* pDesc,int nFace,int level) {}
+		virtual void		CopyTo(Texture* pDesc,int nOutFace, int nOutLevel, int nInFace,int nInlevel) {}
 
 	private:
 		virtual	bool		RT_CreateCubeTexture();	

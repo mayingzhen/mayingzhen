@@ -65,9 +65,6 @@ namespace ma
 		return true;
 	}
 
-	void			CopyTo(Texture* pDesc,int nFace,int level);
-
-
 	bool Texture::BuildImageData(const char* pszFile, void* pMemory, uint32 nNumBytes, OUT ImageData& imageData)
 	{
 		if (StringUtil::endsWith(pszFile, ".pvr", true))

@@ -707,7 +707,7 @@ namespace ma
 					Texture* pTarget = ReadCommand<Texture*>(n);
 					if (pTarget->GetType() == TEXTYPE_CUBE)
 					{
-						pTarget->RT_CreateTexture();
+						pTarget->RT_CreateCubeTexture();
 					}
 					else
 					{

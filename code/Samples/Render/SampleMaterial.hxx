@@ -8,7 +8,7 @@ namespace ma
 
 	void SampleMaterial::Load()
 	{
-		GetCamera()->LookAt(Vector3(0, -5, 3), Vector3(0, 0, 0));
+		GetCamera()->LookAt(Vector3(0, 10, 0), Vector3(0, 0, 0));
 
 		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
 		
@@ -60,7 +60,7 @@ namespace ma
 
 		}
 
-		if (1)
+		if (0)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();

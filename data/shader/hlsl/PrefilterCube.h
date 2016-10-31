@@ -70,6 +70,14 @@ float2 Hammersley2D(uint i, uint N)
 	return float2(float(i) / N, RadicalInverseVdC(i));
 }
 
+float3 TangentToWorld( float3 Vec, float3 TangentZ )
+{
+	float3 UpVector = abs(TangentZ.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
+	float3 TangentX = normalize( cross( UpVector, TangentZ ) );
+	float3 TangentY = cross( TangentZ, TangentX );
+	return TangentX * Vec.x + TangentY * Vec.y + TangentZ * Vec.z;
+}
+
 float3 ImportanceSampleLambert(float2 xi)
 {
 	const float PI = 3.1415926f;
@@ -110,6 +118,28 @@ float3 ImportanceSampleBP(float2 xi, float roughness, float3 normal)
 	return tangent * h.x + binormal * h.y + normal * h.z;
 }
 
+float3 importanceSampleGGX(float2 xi, float roughness, float3 normal)
+{
+	const float PI = 3.1415926f;
+
+	float a = roughness * roughness;
+
+	float Phi = 2 * PI * xi.x;
+	float CosTheta = sqrt((1 - xi.y) / (1 + (a*a - 1) * xi.y));
+	float SinTheta = sqrt(1 - CosTheta * CosTheta);
+
+	float3 H;
+	H.x = SinTheta * cos(Phi);
+	H.y = SinTheta * sin(Phi);
+	H.z = CosTheta;
+
+	float3 UpVector = abs(normal.z) < 0.999 ? float3(0, 0, 1) : float3(1, 0, 0);
+	float3 TangentX = normalize(cross(UpVector, normal));
+	float3 TangentY = cross(normal, TangentX);
+
+	return TangentX * H.x + TangentY * H.y + normal * H.z;
+}
+
 float3 SampleCubeMap(float3 ReflectDir)
 {
 	return skybox_cube_tex.SampleLevel(skybox_sampler, ReflectDir, 0).xyz;
@@ -134,6 +164,16 @@ float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
 	return float4(prefiltered_clr / NUM_SAMPLES, 1);
 }
 
+float specularD(float roughness, float NoH)
+{
+	float r2 = roughness * roughness;
+	float NoH2 = NoH * NoH;
+	float a = 1.0/(3.14159*r2*pow(NoH, 4));
+	float b = exp((NoH2 - 1) / r2 * NoH2);
+	return  a * b;
+}
+
+
 float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 {
 	float3 r = ToDir(face, tex);
@@ -143,16 +183,29 @@ float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 	float3 prefiltered_clr = 0;
 	float total_weight = 0;
 
+	uint cubeWidth, cubeHeight;
+	skybox_cube_tex.GetDimensions(cubeWidth, cubeHeight);
+
 	const uint NUM_SAMPLES = 1024;
 	for (uint i = 0; i < NUM_SAMPLES; ++ i)
 	{
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);
-		float3 h = ImportanceSampleBP(xi, roughness, normal);
+		//float3 h = ImportanceSampleBP(xi, roughness, normal);
+		float3 h = importanceSampleGGX( xi, roughness, normal);
 		float3 l = -reflect(view, h);
 		float n_dot_l = saturate(dot(normal, l));
+		float VoL = max(dot(view, l), 0);
+		float NoH = max(dot( normal, h ), 0);
+		float VoH = max(dot( view, h ), 0);
 		if (n_dot_l > 0)
 		{
-			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz;
+			float Dh = specularD(roughness, NoH);
+			float pdf = Dh * NoH / (4*VoH);
+			float solidAngleTexel = 4 * 3.14159 / (6 * cubeWidth * cubeWidth);
+			float solidAngleSample = 1.0 / (NUM_SAMPLES * pdf);
+			float lod = roughness == 0 ? 0 : 0.5 * log2((float)(solidAngleSample/solidAngleTexel));
+
+			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, lod).xyz;
 			total_weight += n_dot_l;
 		}
 	}

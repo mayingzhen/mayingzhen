@@ -204,7 +204,19 @@ namespace ma
 		textureDesc.Format = m_descFormat;
 		textureDesc.SampleDesc.Count = 1;
 		textureDesc.SampleDesc.Quality = 0;
-		textureDesc.Usage = m_eUsage == USAGE_DYNAMIC ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+		//if (m_eUsage == USAGE_STATIC)
+		//{
+		//	textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
+		//}
+		//else 
+		if (m_eUsage == USAGE_DYNAMIC)
+		{
+			textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+		}
+		else 
+		{
+			textureDesc.Usage = D3D11_USAGE_DEFAULT;
+		}
 		textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		if (m_eUsage == USAGE_RENDERTARGET)
 			textureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
@@ -422,7 +434,7 @@ namespace ma
 		return true;
 	}
 
-	void D3D11Texture::CopyTo(Texture* pDes,int nFace,int level)
+	void D3D11Texture::CopyTo(Texture* pDes,int nOutFace, int nOutLevel, int nInFace,int nInlevel)
 	{
 		D3D11Texture* pDestD3D11 = (D3D11Texture*)(pDes);
 
@@ -435,8 +447,8 @@ namespace ma
 		src_box.back = 1;
 
 		GetD3D11DxDeviveContext()->CopySubresourceRegion(
-			pDestD3D11->GetTexture2D(), D3D11CalcSubresource(level, nFace, pDestD3D11->GetMipMapNumber()), 0, 0, 0, 
-			this->GetTexture2D(), D3D11CalcSubresource(level, nFace, this->GetMipMapNumber()), &src_box);
+			pDestD3D11->GetTexture2D(), D3D11CalcSubresource(nOutLevel, nOutFace, pDestD3D11->GetMipMapNumber()), 0, 0, 0, 
+			this->GetTexture2D(), D3D11CalcSubresource(nInlevel,nInFace, this->GetMipMapNumber()), &src_box);
 	}
 
 	bool D3D11Texture::SaveToFile(const char* pszPath)
