@@ -216,6 +216,8 @@ namespace ma
 		}
 
 		static inline float Exp (float fValue) { return float(exp(fValue)); }
+	
+		static inline Real Exp2 (Real fValue) { return Real(powf(2.0f,fValue)); }
 
 		static inline float Floor (float fValue) { return float(floor(fValue)); }
 

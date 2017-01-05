@@ -1,6 +1,8 @@
 #ifndef _STRING_UTILS_
 #define _STRING_UTILS_
 
+#include "vector"
+#include "string"
 
 namespace ma
 {
@@ -68,7 +70,7 @@ namespace ma
         /** Method for standardising paths - use forward slashes only, end with slash.
         */
         static std::string standardisePath( const std::string &init);
-		static std::string standardiseDir( const string &init);
+		static std::string standardiseDir( const std::string &init);
 
         /** Method for splitting a fully qualified filename into the base name
             and path.
@@ -115,7 +117,7 @@ namespace ma
         static const std::string BLANK;
 
 		template<class EnumType>
-		EnumType StringToEnum(string strEnum, const char** pEnumNames)
+		EnumType StringToEnum(std::string strEnum, const char** pEnumNames)
 		{
 			EnumType type;
 			bool enumFound = false;

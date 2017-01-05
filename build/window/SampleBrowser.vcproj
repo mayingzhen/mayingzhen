@@ -303,14 +303,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\code\Samples\Render\SampleParticle.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Samples\Render\SampleParticle.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Samples\Render\SampleShadowMap.h"
 				>
 			</File>

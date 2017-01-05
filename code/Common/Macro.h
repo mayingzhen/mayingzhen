@@ -25,4 +25,11 @@
 
 
 
+#ifdef WIN32
+#define MS_ALIGN(n) __declspec(align(n))
+#else
+#define MS_ALIGN(n)	__attribute__((aligned(n)))
+#endif
+
+
 #endif

@@ -53,7 +53,7 @@ namespace ma
 // 				float lightViewNodeBoxMinz = lightViewNodeBox.getMinimum().z;
 // 				lightViewNodeBoxMinz = min( lightViewNodeBoxMinz, lightViewFrustumBoxz);
 // 				lightViewNodeBox.setMinimumZ(lightViewNodeBoxMinz);
-// 				if (m_lightViwFrustum.Intersect(lightViewNodeBox) == CFrustum::Visibility_NONE )
+// 				if (m_lightViwFrustum.Intersect(lightViewNodeBox) == Frustum::Visibility_NONE )
 // 				{
 // 					bCulll = true;
 // 				}

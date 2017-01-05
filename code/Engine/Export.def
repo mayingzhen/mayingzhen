@@ -169,11 +169,6 @@ EXPORTS
 ?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
 ?SetRadius@PointLight@ma@@QAEXM@Z
 ?SetShadowEnabled@DirectonalLight@ma@@QAEX_N@Z
-?CreatePointEmitter@ma@@YA?AV?$RefPtr@VParticlePointEmitter@ma@@@1@XZ
-?SetTile@ParticleSubUVAffector@ma@@QAEXHH@Z
-?CreateSubUVAffector@ma@@YA?AV?$RefPtr@VParticleSubUVAffector@ma@@@1@XZ
-?CreateParticleSystem@ma@@YA?AV?$RefPtr@VParticleSystem@ma@@@1@XZ
-?SetMaterialSet@ParticleSystem@ma@@QAEXPAVMaterial@2@@Z
 ?CreateMaterial@ma@@YA?AV?$RefPtr@VMaterial@ma@@@1@PBD@Z
 ??0MeshRenderable@ma@@QAE@XZ
 ?DrawLine@LineRender@ma@@SAXABVVector3@2@0VColourValue@2@@Z
@@ -225,3 +220,4 @@ EXPORTS
 ?PrefilterCubeGPU@ma@@YAXPBD0@Z
 ??0Texture@ma@@QAE@HHIW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@II@Z
+?GenIntegrateBRDF@ma@@YAXPBD@Z

@@ -19,7 +19,7 @@
 
 namespace ma
 {
-	void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,UINT nLine,const char* fmt,...);
+	void AssertMsg(bool bOK,const char* pszExpr,const char* pszFile,unsigned int nLine,const char* fmt,...);
 }
 
 #endif

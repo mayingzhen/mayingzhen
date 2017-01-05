@@ -24,7 +24,9 @@ namespace ma
 		
 		void UpdateObject(RenderComponent* pobject);
 
-		void FindObjectsIn(CullTreeQuery& query) const;
+		void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj);
+
+		void FindObjectsIn(CullTreeQuery& query,uint32 mask);
 
 	private:
 		void _AddObject(OctreeNode* pNode, int nDepth, RenderComponent* pObject);

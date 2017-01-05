@@ -22,6 +22,7 @@
 
 #include "Common/Assert.hxx"
 #include "Common/Log.hxx"
+#include "Common/Mem.hxx"
 
 #include "Common/StringUtils.hxx"
 #include "Common/StringConverter.hxx"

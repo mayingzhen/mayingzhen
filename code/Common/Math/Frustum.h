@@ -7,6 +7,8 @@ namespace ma
 	{
 	public:
 		Frustum(void);
+		Frustum(const Frustum& rkFrustum);
+
 		~Frustum(void);
 
 		void Update(const Matrix4& matViewProj,bool bGLSystem);
@@ -19,6 +21,7 @@ namespace ma
 		};
 		Visibility Intersect(const AABB& box) const;
 
+		Visibility IntersectSIMD(const Vector3& vCenter,const Vector3& vHalfSiz) const;
 
 		/** Tests whether the given container is visible in the Frustum.
 			@param
@@ -75,6 +78,7 @@ namespace ma
 
 		void UpdatePlanes();
 	
+	void UpdateSIMDPlanes();
 
 	private:
 		enum FrustumPlane
@@ -91,6 +95,19 @@ namespace ma
 		Vector3	m_pPoints[PointsNumber];
 
 		AABB	m_aabb;
+
+		MS_ALIGN(16) struct SIMDPlane
+		{
+			float x,y,z,w;
+
+			SIMDPlane() {x = y = z = w = 0;}
+
+			SIMDPlane(float fx, float fy, float fz, float fw) {x = fx,y = fy,z = fz, w = fw;}
+		};
+
+		/** This is the set of planes pre-permuted to SSE/Altivec form */
+		SIMDPlane* m_rgSIMDPlane;
+	
 	};
 }
 

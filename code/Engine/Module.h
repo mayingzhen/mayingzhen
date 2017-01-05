@@ -84,13 +84,6 @@
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/DirectonalLight.h"
 
-// Particle
-#include "Engine/Scene/Particle/ParticleAffector.h"
-#include "Engine/Scene/Particle/ParticleEmitter.h"
-#include "Engine/Scene/Particle/ParticlePointEmitter.h"
-#include "Engine/Scene/Particle/ParticleSubUVAffector.h"
-#include "Engine/Scene/Particle/ParticleSystem.h"
-
 
 #include "Engine/Scene/Terrain/Terrain.h"
 

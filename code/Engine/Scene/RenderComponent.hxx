@@ -12,6 +12,8 @@ namespace ma
 		m_bShadowCaster = false;
 
 		m_nAABBChangeType = ACT_SELF_MATRIX;	
+
+		m_nCullIndex = -1;
 	}
 
 	void RenderComponent::Update()

@@ -127,7 +127,7 @@ namespace ma
 
 		m_arrRenderComp.clear();
 		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
-		m_pCullTree->FindObjectsIn(frustumQuery);
+		m_pCullTree->FindObjectsIn(frustumQuery,0);
 		
 		if (GetRenderQueue())
 			GetRenderQueue()->Clear();

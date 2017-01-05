@@ -1194,6 +1194,18 @@ SWIGEXPORT float SWIGSTDCALL CSharp_Math_Exp(float jarg1) {
 }
 
 
+SWIGEXPORT float SWIGSTDCALL CSharp_Math_Exp2(float jarg1) {
+  float jresult ;
+  Real arg1 ;
+  Real result;
+  
+  arg1 = (Real)jarg1; 
+  result = (Real)ma::Math::Exp2(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT float SWIGSTDCALL CSharp_Math_Floor(float jarg1) {
   float jresult ;
   float arg1 ;

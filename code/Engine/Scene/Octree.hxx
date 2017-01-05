@@ -17,7 +17,7 @@ namespace ma
 	}
 
 	// ---------------------------------------------------------------------
-	// Inherite from CCullTree
+	// Inherite from CullTree
 	// ---------------------------------------------------------------------
 	// resize the culltree to the given size
 	void Octree::Resize(const AABB& box)
@@ -79,7 +79,12 @@ namespace ma
 		this->AddObject(pObject);
 	}
 
-	void Octree::FindObjectsIn(CullTreeQuery& query) const
+	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj)
+	{
+
+	}
+
+	void Octree::FindObjectsIn(CullTreeQuery& query,uint32 mask)
 	{
 		this->_FindObjectsIn(m_pRoot,false,query);
 	}

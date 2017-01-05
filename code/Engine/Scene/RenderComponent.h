@@ -53,6 +53,9 @@ namespace ma
 		virtual	void	OnAddToSceneNode(SceneNode* pNode);
 		virtual	void	OnRemoveFromSceneNode(SceneNode* pNode);
 
+		UINT32			GetCullIndex() {return m_nCullIndex;}
+		void			SetCullIndex(uint32 nIndex) {m_nCullIndex = nIndex;} 
+
 	protected:
 		virtual void	UpdateWorldBoundingBox();
 
@@ -71,6 +74,8 @@ namespace ma
 		bool				m_bShadowCaster;
 
 		bool				m_bParallelUpdate;
+
+		UINT32				m_nCullIndex;
 	};
 }
 

@@ -163,11 +163,6 @@ namespace ma
 			m_pDeferredShadingPass->Render();
 		}
 
-		{
-			RENDER_PROFILE(RL_Particle);
-			pRenderQueue->RenderObjList(RL_Particle);
-		}
-
 		if (m_pHDR)
 		{
 			m_pHDR->Render();

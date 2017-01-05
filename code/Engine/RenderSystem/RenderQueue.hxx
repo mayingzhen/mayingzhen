@@ -1,6 +1,5 @@
 #include "RenderQueue.h"
 #include "BatchRenderable.h"
-#include "BatchParticleRenderable.h"
 #include "BatchTerrainRenderable.h"
 
 
@@ -10,7 +9,6 @@ namespace ma
 	{
 		m_arrRenderList[RL_Mesh] = new BatchRenderable();
 		m_arrRenderList[RL_MeshTrans] = new BatchRenderable();
-		m_arrRenderList[RL_Particle] = new BatchParticleRenderable();
 		m_arrRenderList[RL_Terrain] = new BatchTerrainRenderable();
 	}
 

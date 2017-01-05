@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\Mem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\Mem.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Common\Referenced.h"
 				>
 			</File>

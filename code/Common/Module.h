@@ -6,6 +6,7 @@
 
 #include "Common/BaseType.h"
 #include "Common/Macro.h"
+#include "Common/Mem.h"
 
 #include "Common/Platform/Platform.h"
 

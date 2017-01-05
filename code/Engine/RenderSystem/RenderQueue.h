@@ -11,7 +11,6 @@ namespace ma
 	{
 		RL_Mesh,
 		RL_MeshTrans,
-		RL_Particle,
 		RL_Terrain,
 		RL_Count,
 	};

@@ -20,55 +20,37 @@ namespace ma
 
 		RefPtr<Texture> out_tex = GetRenderSystem()->CreateRenderTarget(in_height,in_height,out_num_mipmaps,PF_FLOAT16_RGBA,false,TEXTYPE_CUBE);
 
+		RefPtr<Technique> PrefilterCopySrc = CreateTechnique("PrefilterCopySrc","PrefilterCopySrc","PrefilterCopySrc","");
 		RefPtr<Technique> PrefilterCubeDiffuse = CreateTechnique("PrefilterCubeDiffuse","PrefilterCubeDiffuse","PrefilterCubeDiffuse","");
 		RefPtr<Technique> PrefilterCubeSpecular = CreateTechnique("PrefilterCubeSpecular","PrefilterCubeSpecular","PrefilterCubeSpecular","");
 	
+		PrefilterCopySrc->SetParameter("skybox_cube_tex",Any(pInSampler));
 		PrefilterCubeDiffuse->SetParameter("skybox_cube_tex",Any(pInSampler));
 		PrefilterCubeSpecular->SetParameter("skybox_cube_tex",Any(pInSampler));
 
-		enum eCubeFace
-		{
-			POSITIVE_X    = 0,
-			NEGATIVE_X    = 1,
-			POSITIVE_Y    = 2,
-			NEGATIVE_Y    = 3,
-			POSITIVE_Z    = 4,
-			NEGATIVE_Z    = 5,	
-		};
 
 		for (int face = 0; face < 6; ++ face)
 		{
-			int nOutFace = face;
-// 			if (face == POSITIVE_Y)
-// 			{
-// 				nOutFace = POSITIVE_Z;
-// 			}
-// 			else if (face == NEGATIVE_Y)
-// 			{
-// 				nOutFace = NEGATIVE_Z;
-// 			}
-// 			else if (face == POSITIVE_Z)
-// 			{
-// 				nOutFace = NEGATIVE_Y;
-// 			}
-// 			else if (face == NEGATIVE_Z)
-// 			{
-// 				nOutFace = POSITIVE_Y;
-// 			}
-
 			// level 0 ±£´æÔ­Ê¼Í¼
-			//in_tex->CopyTo(out_tex.get(), nOutFace,0, face, 0);
-
-			for (uint32_t level = 0; level < out_num_mipmaps - 1; ++ level)
 			{
-				float roughness = static_cast<float>(out_num_mipmaps - 1 - level) / (out_num_mipmaps - 1);
-				roughness  = 1.0f - roughness;
-				//roughness = pow(8192.0f, roughness);
+				Rectangle viewPort(0,0,(float)(in_height),(float)(in_height));
+				GetRenderSystem()->SetViewPort(viewPort);
+
+				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), 0, 0, face);
+
+				PrefilterCopySrc->SetParameter("face",Any(face));
+
+				ScreenQuad::Render(PrefilterCopySrc.get());
+			}
+
+			for (uint32_t level = 1; level < out_num_mipmaps - 1; ++ level)
+			{
+				float roughness = static_cast<float>(level) / (out_num_mipmaps - 1);
 
 				Rectangle viewPort(0,0,(float)(in_height >> level),(float)(in_height >> level));
 				GetRenderSystem()->SetViewPort(viewPort);
 
-				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, nOutFace);
+				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), level, 0, face);
 
 				PrefilterCubeSpecular->SetParameter("face",Any(face));
 				PrefilterCubeSpecular->SetParameter("roughness",Any(roughness));
@@ -81,7 +63,7 @@ namespace ma
 				Rectangle viewPort(0,0,(float)(in_height >> (out_num_mipmaps - 1)),(float)(in_height >> (out_num_mipmaps - 1)));
 				GetRenderSystem()->SetViewPort(viewPort);
 
-				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, nOutFace);
+				GetRenderSystem()->SetRenderTarget(0, out_tex.get(), out_num_mipmaps - 1, 0, face);
 
 				PrefilterCubeDiffuse->SetParameter("face",Any(face));
 
@@ -92,5 +74,27 @@ namespace ma
 		string strSaveDir = GetArchiveMananger()->GetSaveDir();
 		string strSaveFile = strSaveDir + out_file;
 		out_tex->SaveToFile(strSaveFile.c_str());
+	}
+
+
+	void GenIntegrateBRDF(const char* out_file)
+	{
+		uint32 const WIDTH = 256;
+		uint32 const HEIGHT = 256;
+
+		RefPtr<Texture> pOutTex = GetRenderSystem()->CreateRenderTarget(WIDTH,HEIGHT,1,PF_FLOAT32_RGBA,false,TEXTYPE_2D);
+
+		RefPtr<Technique> pPrefilterBrdf = CreateTechnique("PrefilterBrdf","PrefilterBrdf","PrefilterBrdf","");
+
+		Rectangle viewPort(0,0,(float)(WIDTH),(float)(HEIGHT));
+		GetRenderSystem()->SetViewPort(viewPort);
+
+		GetRenderSystem()->SetRenderTarget(0, pOutTex.get(), 0, 0, 0);
+
+		ScreenQuad::Render(pPrefilterBrdf.get());
+
+		string strSaveDir = GetArchiveMananger()->GetSaveDir();
+		string strSaveFile = strSaveDir + out_file;
+		pOutTex->SaveToFile(strSaveFile.c_str());
 	}
 }

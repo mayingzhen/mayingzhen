@@ -15,7 +15,9 @@ namespace ma
 
 		if (0)
 		{
-			PrefilterCubeGPU("OutputCube.dds","env_filtered.dds");
+			PrefilterCubeGPU("env.dds","env_filtered.dds");
+
+			GenIntegrateBRDF("BrdfTest.dds");
 		}
 
 		/*
@@ -85,46 +87,32 @@ namespace ma
 				//pShpere->Translate(Vector3(x,y,0));
 
 				RefPtr<MeshComponent> pMeshComp = pShpere->CreateComponent<MeshComponent>();
-				pMeshComp->Load("pistol/pistol.skn","pistol/Cerberus.mtl");
+				pMeshComp->Load("fbx/shpere.skn","pistol/Cerberus.mtl");
 
 
 				SubMaterial* pSubMaterial = pMeshComp->GetSubMaterial(0,0);
 
-				if (0)
+				if (1)
 				{
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("DIRLIGHT",true);
 					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("IBL",true);
 				}
 
 				if (1)
 				{
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("ENVREFLECT",true);
-					//pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("MASK_TEXTURE",true);
-
 					RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",REPEAT,TFO_TRILINEAR,false);
 					pSubMaterial->SetParameter("tEnv",Any(pEnv));
 
-					RefPtr<SamplerState> pBRDFTerm = CreateSamplerState("BRDF.dds",CLAMP,TFO_BILINEAR,false);
-					pSubMaterial->SetParameter("tBRDFTerm",Any(pBRDFTerm));
+					RefPtr<SamplerState> pBRDFTerm = CreateSamplerState("BRDFTest.dds",CLAMP,TFO_BILINEAR,false);
+					pSubMaterial->SetParameter("tBRDF",Any(pBRDFTerm));
 
-					//RefPtr<SamplerState> pMask = CreateSamplerState("zhouyu/body_mask.png");
-					//pSubMaterial->SetParameter("tMask",Any(pMask));
-
-					RefPtr<SamplerState> pMask = CreateSamplerState("pistol/Cerberus_RMAC.dds",REPEAT,TFO_TRILINEAR,false);
-					//RefPtr<SamplerState> pMask = CreateSamplerState("zhouyu/body_mask.png",REPEAT,TFO_TRILINEAR,false);
-					pSubMaterial->SetParameter("tSpecularRMCMap",Any(pMask));
-
-
-					int nMip = pEnv->GetTexture()->GetMipMapNumber() + 1;
-					Vector2 u_diff_spec_mip(nMip - 1, nMip - 2);
-					//float u_mip_bias = nMip / -2.0f;
+					int nMip = pEnv->GetTexture()->GetMipMapNumber();
+					Vector2 u_diff_spec_mip(nMip, nMip - 1);
 
 					pSubMaterial->SetParameter("u_diff_spec_mip",Any(u_diff_spec_mip));
-					//pSubMaterial->SetParameter("u_mip_bias",Any(u_mip_bias));
 
-					pSubMaterial->SetParameter("u_metalness",Any(0.f));
-					pSubMaterial->SetParameter("u_roughness",Any(0.f));
+					pSubMaterial->SetParameter("u_metalness",Any(1.0f));
+					pSubMaterial->SetParameter("u_glossiness",Any(0.5f));
 				}
 			}
 		}

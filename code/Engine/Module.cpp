@@ -57,7 +57,6 @@
 #include "Engine/RenderSystem/RenderSystem.hxx"
 #include "Engine/RenderSystem/RenderThread.hxx"
 #include "Engine/RenderSystem/BatchRenderable.hxx"
-#include "Engine/RenderSystem/BatchParticleRenderable.hxx"
 #include "Engine/RenderSystem/BatchTerrainRenderable.hxx"
 #include "Engine/RenderSystem/RenderQueue.hxx"
 #include "Engine/RenderSystem/RenderContext.hxx"
@@ -99,6 +98,7 @@
 #include "Engine/Scene/Octree.hxx"
 #include "Engine/Scene/FrustumCullQuery.hxx"
 #include "Engine/Scene/Camera.hxx"
+#include "Engine/Scene/ParallelCull.hxx"
 
 // Light
 #include "Engine/Scene/Light/Light.hxx"
@@ -107,13 +107,6 @@
 #include "Engine/Scene/Light/DirectonalLight.hxx"
 #include "Engine/Scene/Light/PoissonDiskGen.hxx"
 
-//Particle
-#include "Engine/Scene/Particle/ParticleSystem.hxx"
-#include "Engine/Scene/Particle/ParticleAffector.hxx"
-#include "Engine/Scene/Particle/ParticleEmitter.hxx"
-#include "Engine/Scene/Particle/ParticlePointEmitter.hxx"
-#include "Engine/Scene/Particle/ParticleSubUVAffector.hxx"
-#include "Engine/Scene/Particle/ParticleSystemRenderable.hxx"
 
 //Terrain
 #include "Engine/Scene/Terrain/Terrain.hxx"

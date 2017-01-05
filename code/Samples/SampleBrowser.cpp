@@ -30,7 +30,6 @@
 #include "Samples/Animation/SampleAnimationRetarget.hxx"
 #include "Samples/Animation/SampleAnimationTree.hxx"
 #include "Samples/Animation/SampleAnimationIK.hxx"
-#include "Samples/Render/SampleParticle.hxx"
 
 
 namespace ma
@@ -215,10 +214,6 @@ namespace ma
 		else if(stricmp(pSample,"SampleTerrain") == 0)
 		{
 			m_pCurSample = new SampleTerrain();
-		}
-		else if(stricmp(pSample,"SampleParticle") == 0)
-		{
-			m_pCurSample = new SampleParticle();
 		}
 		else if(stricmp(pSample,"SampleSceneSerialize") == 0)
 		{

@@ -28,7 +28,9 @@ namespace ma
 		
 		virtual void UpdateObject(RenderComponent* pobject) = 0;
 
-		virtual void FindObjectsIn(CullTreeQuery& query) const = 0;
+		virtual void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) = 0;
+
+		virtual void FindObjectsIn(CullTreeQuery& query,uint32 mask) = 0;
 	};
 }
 

@@ -115,7 +115,7 @@ namespace ma
 			lightViewFrustum.Transformed(m_matLightView);
 
 			ShadowCasterQuery shaowQuery(ligtFrustum,lightViewFrustum,m_matLightView,m_arrCaster,m_casterAABB);
-			pCamera->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
+			//pCamera->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
 		}
 
 		for (VEC_CASTER::iterator iter = m_arrCaster.begin();iter != m_arrCaster.end();++iter)

@@ -710,8 +710,8 @@ namespace ma
 	{
 		for (uint32 i = 0; i < nNumParticleBuffer; ++i)
 		{
-			m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
-			m_pParticleBuffer[i]->LockVideoMemory(); 
+			//m_pParticleBuffer[i] = new ParallHardWareBuffer(sizeof(ParticleSystemRenderable::VERTEX), 7680 * 4, 7680 * 6);
+			//m_pParticleBuffer[i]->LockVideoMemory(); 
 		}
 	}
 

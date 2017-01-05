@@ -140,11 +140,14 @@ float3 importanceSampleGGX(float2 xi, float roughness, float3 normal)
 	return TangentX * H.x + TangentY * H.y + normal * H.z;
 }
 
-float3 SampleCubeMap(float3 ReflectDir)
+float4 CopySrcPS(float2 tex : TEXCOORD0) : SV_Target
 {
-	return skybox_cube_tex.SampleLevel(skybox_sampler, ReflectDir, 0).xyz;
+	float3 normal = ToDir(face, tex);
 
+	return skybox_cube_tex.SampleLevel(skybox_sampler, normal, 0);
 }
+
+
 
 float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
 {
@@ -164,52 +167,87 @@ float4 PrefilterCubeDiffusePS(float2 tex : TEXCOORD0) : SV_Target
 	return float4(prefiltered_clr / NUM_SAMPLES, 1);
 }
 
-float specularD(float roughness, float NoH)
-{
-	float r2 = roughness * roughness;
-	float NoH2 = NoH * NoH;
-	float a = 1.0/(3.14159*r2*pow(NoH, 4));
-	float b = exp((NoH2 - 1) / r2 * NoH2);
-	return  a * b;
-}
-
 
 float4 PrefilterCubeSpecularPS(float2 tex : TEXCOORD0) : SV_Target
 {
 	float3 r = ToDir(face, tex);
-	
+
 	float3 normal = r;
 	float3 view = r;
 	float3 prefiltered_clr = 0;
 	float total_weight = 0;
 
-	uint cubeWidth, cubeHeight;
-	skybox_cube_tex.GetDimensions(cubeWidth, cubeHeight);
-
 	const uint NUM_SAMPLES = 1024;
 	for (uint i = 0; i < NUM_SAMPLES; ++ i)
 	{
 		float2 xi = Hammersley2D(i, NUM_SAMPLES);
-		//float3 h = ImportanceSampleBP(xi, roughness, normal);
-		float3 h = importanceSampleGGX( xi, roughness, normal);
+		float3 h = importanceSampleGGX(xi, roughness, normal);
 		float3 l = -reflect(view, h);
 		float n_dot_l = saturate(dot(normal, l));
-		float VoL = max(dot(view, l), 0);
-		float NoH = max(dot( normal, h ), 0);
-		float VoH = max(dot( view, h ), 0);
 		if (n_dot_l > 0)
 		{
-			float Dh = specularD(roughness, NoH);
-			float pdf = Dh * NoH / (4*VoH);
-			float solidAngleTexel = 4 * 3.14159 / (6 * cubeWidth * cubeWidth);
-			float solidAngleSample = 1.0 / (NUM_SAMPLES * pdf);
-			float lod = roughness == 0 ? 0 : 0.5 * log2((float)(solidAngleSample/solidAngleTexel));
-
-			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, lod).xyz;
+			prefiltered_clr += skybox_cube_tex.SampleLevel(skybox_sampler, l, 0).xyz * n_dot_l;
 			total_weight += n_dot_l;
 		}
 	}
 
 	return float4(prefiltered_clr / max(1e-6f, total_weight), 1);
 }
+
+
+float GGX(float NoV, float roughness)
+{
+	// http://graphicrants.blogspot.com.au/2013/08/specular-brdf-reference.html
+	// Schlick-Beckmann G.
+	float k = roughness/2;
+	return NoV / (NoV * (1.0f - k) + k);
+}
+
+float geometryForLut(float roughness, float NoL)
+{
+	return GGX(NoL, roughness * roughness) ;
+}
+
+// Visibility term
+float visibilityForLut(float roughness, float NoV)
+{
+	return GGX(NoV, roughness * roughness);
+}
+
+float4 IntegrateBRDF(float2 tex : TEXCOORD0) : SV_Target
+{
+	float roughness = tex.y;//(1.0 - tex.y) * (1.0 - tex.y);
+	float n_dot_v = tex.x;
+
+	float3 normal = float3(0.0f, 0.0f, 1.0f);
+	float3 view = float3(sqrt(1.0f - n_dot_v * n_dot_v), 0.0f, n_dot_v);
+	float2 rg = float2(0, 0);
+
+	float Vis = visibilityForLut(roughness, n_dot_v);
+
+	const uint NUM_SAMPLES = 1024;
+	for (uint i = 0; i < NUM_SAMPLES; ++i)
+	{
+		float2 xi = Hammersley2D(i, NUM_SAMPLES);
+		float3 h = importanceSampleGGX(xi, roughness, normal);
+		float3 l = -reflect(view, h);
+		float n_dot_l = clamp(l.z, 0.0f, 1.0f);
+		float n_dot_h = clamp(h.z, 0.0f, 1.0f);
+		float v_dot_h = clamp(dot(view, h), 0.0f, 1.0f);
+		if (n_dot_l > 0)
+		{
+			//float g = GImplicit(n_dot_v, n_dot_l);
+			//float g_vis = g * v_dot_h / std::max(1e-6f, n_dot_h * n_dot_v);
+			//float fc = pow(1 - v_dot_h, 5);
+			//rg += float2(1 - fc, fc) * g_vis;
+			float g = geometryForLut(roughness, n_dot_l) * Vis;
+			float g_vis = g * v_dot_h / (n_dot_h * n_dot_v);
+			float fc = pow(1 - v_dot_h, 5);
+			rg += float2(1 - fc, fc) * g_vis;
+		}
+	}
+
+	return float4(rg / NUM_SAMPLES, 1, 1);
+}
+
 

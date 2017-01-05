@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include "Macro.h"
+#include "StringUtils.h"
+
 class StaticFunc
 {
 public:
@@ -44,30 +47,30 @@ public:
 // ---------------------------------------------------------------------
 public:
 	// 获取exe所在路径（以/结束）
-	static string GetCurrentExeDir();
+	static std::string GetCurrentExeDir();
 
 	// 获取当前路径
-	static string GetCurrentDir();
+	static std::string GetCurrentDir();
 
 	// 获取文件路径带(/)
-	static string GetFilePath(const string& strFile);
+	static std::string GetFilePath(const std::string& strFile);
 
     // 获取文件目录
-    static string GetFileDir(const string& strFile);
+    static std::string GetFileDir(const std::string& strFile);
 
 	// 返回不带路径也不带后缀的文件名
-	static string GetBaseName(const string& strFile);
+	static std::string GetBaseName(const std::string& strFile);
 
     // 获取不带路径的文件名
-    static string GetFileName(const string& strFile);
+    static std::string GetFileName(const std::string& strFile);
 
 	// 获取文件扩展名(带.)
-	static string GetFileExt(const string& strFile);
+	static std::string GetFileExt(const std::string& strFile);
 
 	// 路径转小写并且'\\'变成'/'
-	static string ToLowerCase(const string& strFile);
+	static std::string ToLowerCase(const std::string& strFile);
 
-	static string ReplaceFileExt(const string& strFile,const string& strNewExt);
+	static std::string ReplaceFileExt(const std::string& strFile,const std::string& strNewExt);
 
 	// 创建文件夹
 	static void MakeDir(const char* pszPath);
@@ -76,41 +79,41 @@ public:
 
     static int FileLength(FILE* pFile);
     static int FileRead(FILE* pFile, OUT char* buf, int len);
-    static string ToString(int n);
+    static std::string ToString(int n);
 
-    static void StrRemoveSpaces(string& str);
-    static void StrSplit(const string& str, const string& delimiter, OUT std::vector<string>& outElements);
+    static void StrRemoveSpaces(std::string& str);
+    static void StrSplit(const std::string& str, const std::string& delimiter, OUT std::vector<std::string>& outElements);
 
     // 保证最后一个字符是/
-    static void StrMakePath(IN OUT string& str);
+    static void StrMakePath(IN OUT std::string& str);
 
     // 若url为true，则将'\'替换为/；否则将/替换为'\'
-    static void StrFormatPath(IN OUT string& str, bool url);
-    static int StrHexToInt(const string& str);
-    static bool StrIsEndWith(const string& str, const string& strEndWith, bool bCase);
+    static void StrFormatPath(IN OUT std::string& str, bool url);
+    static int StrHexToInt(const std::string& str);
+    static bool StrIsEndWith(const std::string& str, const std::string& strEndWith, bool bCase);
 // ---------------------------------------------------------------------
 // 字体编码转换
 // ---------------------------------------------------------------------
 public:
 	// Unicode字符串转成Ansi字符串
-	static string UnicodeToAnsi(const wchar_t* pszUnicode);
+	static std::string UnicodeToAnsi(const wchar_t* pszUnicode);
 
 	// Ansi字符串转成Unicode字符串
-	static wstring AnsiToUnicode(const char* pszAnisi);
+	static std::wstring AnsiToUnicode(const char* pszAnisi);
 
 // ---------------------------------------------------------------------
 // ini读取
 // ---------------------------------------------------------------------
 public:
 	static int GetIniInt(const char* pszFileName, const char* pszTitle, const char* pszKey);
-	static string GetIniString(const char* pszFileName, const char* pszTitle, const char* pszKey);
+	static std::string GetIniString(const char* pszFileName, const char* pszTitle, const char* pszKey);
 
 // ---------------------------------------------------------------------
 // 加密
 // ---------------------------------------------------------------------
 public:
-	static string GetMd5(const string& strBuffer);
-	static string GetMd5ByFile(const char* pszFileName);
+	static std::string GetMd5(const std::string& strBuffer);
+	static std::string GetMd5ByFile(const char* pszFileName);
     
 };
 
