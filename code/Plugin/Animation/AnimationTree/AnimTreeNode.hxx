@@ -9,6 +9,7 @@ namespace ma
 	{
 		m_fFadeTime = 0.3f;
 		m_fLocalFrame = 0;
+		m_pCallBack = NULL;
 	}
 
 	AnimTreeNode::~AnimTreeNode()
@@ -55,34 +56,19 @@ namespace ma
 
 	void AnimTreeNode::AdvanceTime(float fTimeElepse)
 	{
-		if (this->IsStopped())
+		if (!this->IsReady())
 			return;
 
-		if (!IsReady())
+		if (!this->IsPlaying())
 			return;
 
-		float fFrameCount = (float)GetFrameCount();
-		ASSERT(fFrameCount >= 1);
-
-		float fAnimTime = (float)CalcLocalTime() / (float)GetInterval();
-		float fLoopTime = (float)GetLoop() * (fFrameCount - 1);
-
-		if (fAnimTime >= fLoopTime)
-		{
-			SetFrame(fFrameCount - 1.0f);
-
-			Stop();
-		}
-		else
-		{
-			SetFrame(fAnimTime);
-		}
-	}
-
-	void AnimTreeNode::SetFrame(float fFrame)
-	{
 		float fLastFrame = m_fLocalFrame;
-		m_fLocalFrame = fmod( fFrame, (float)this->GetFrameCount() - 1.0f + 0.0001f );
+		m_fLocalFrame = Animatable::Process();
+
+		if (Animatable::IsStopped() && m_pCallBack)
+		{
+			m_pCallBack->OnStop(this);
+		}
 
 		ProcessFrameEvent(fLastFrame,m_fLocalFrame);
 	}

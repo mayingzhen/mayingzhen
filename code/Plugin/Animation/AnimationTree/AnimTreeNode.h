@@ -8,6 +8,17 @@ namespace ma
 	class PoseModifier;
 	class SkeletonPose;
 
+	class IAnimCallback
+	{
+	public:
+		virtual void OnEnter(AnimTreeNode* pAnim) = 0;
+		virtual void OnLeave(AnimTreeNode* pAnim) = 0; 
+		virtual void OnPlay(AnimTreeNode* pAnim) = 0;
+		virtual void OnPause(AnimTreeNode* pAnim) = 0;
+		virtual void OnStop(AnimTreeNode* pAnim) = 0;
+		virtual void OnFrame(AnimTreeNode* pAnim,FrameEvent* evnt)  = 0;
+	};
+
 	struct AnimEvalContext
 	{
 		std::vector<Transform> m_arrTSFPS;
@@ -34,7 +45,7 @@ namespace ma
 
 		virtual void		AdvanceTime(float fTimeElepse);
 
-		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight) = 0;
+		virtual void		EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet) = 0;
 
 		virtual bool		Instantiate(Skeleton* pSkeleton) = 0;
 
@@ -44,7 +55,6 @@ namespace ma
 
 		const char*			GetName() const;
 		void				SetName(const char* pszName);	
-
 		uint32				GetAnimID() const {return m_nAnimID;}
 
 		float				GetFadeTime() const {return m_fFadeTime;}
@@ -56,11 +66,12 @@ namespace ma
 		void				SetGoalObjectSpace(const Vector3& vGolaOS);
 
 		void				AddFrameEvent(FrameEvent* pFrameEvent);
-		
-		virtual	void		SetFrame(float fFrame);
 
 		virtual bool		Import(rapidxml::xml_node<>* xmlNode);
 		virtual bool		Export(rapidxml::xml_node<>* xmlNode,rapidxml::xml_document<>& doc);
+
+		void				SetAnimCallBack(IAnimCallback* pCallBack) {m_pCallBack = pCallBack;}
+		IAnimCallback*		GetAnimCallBack() const {return m_pCallBack;}
 
 	protected:
 		void				ProcessFrameEvent(float fFrameFrome,float fFrameTo);
@@ -71,7 +82,7 @@ namespace ma
 
 		float				m_fFadeTime;
 
-		float				m_fLocalFrame;
+		IAnimCallback*		m_pCallBack;
 
 		typedef vector< RefPtr<FrameEvent> > VEC_FRAMEEVENT; 
 		VEC_FRAMEEVENT		m_vecFrameEvent;

@@ -23,7 +23,7 @@ namespace ma
 
 		const Matrix4&		GetBoneMatrixOSInv(BoneIndex nBoneID) {return m_arrRefPoseOSInv[nBoneID];}
 
-		const SkeletonPose* GetResPose() const {return m_refPose;} 
+		const SkeletonPose* GetResPose() const {return m_refPose.get();} 
 
 		UINT				GetBoneNumer() const {return m_arrBoneName.size();} 
 
@@ -59,7 +59,7 @@ namespace ma
 		std::vector<BoneIndex>		m_arrParentIndice;
 		std::vector<Transform>		m_arrTsfOS;
 
-		SkeletonPose*				m_refPose;
+		RefPtr<SkeletonPose>		m_refPose;
 
 		// Matrix4
 		std::vector<Matrix4>		m_arrRefPoseOSInv;

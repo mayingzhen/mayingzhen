@@ -3,11 +3,9 @@
 
 namespace ma
 {
+
 	AnimationComponent::AnimationComponent()
 	{
-		m_nCurAction = -1;
-		m_pAnimation = NULL;
-		m_pPreAnimation = NULL;
 		m_pAnimSet = NULL;
 		m_pSkeleton = NULL;
 		m_pose = NULL;
@@ -19,7 +17,6 @@ namespace ma
 	AnimationComponent::~AnimationComponent()
 	{
 		SAFE_DELETE_ARRAY(m_arrSkinMatrix);
-		SAFE_DELETE(m_pose);
 	}
 
 	void AnimationComponent::RegisterAttribute()
@@ -37,7 +34,6 @@ namespace ma
 
 	void AnimationComponent::SetSkeletonPath(const char* pSkePath)
 	{
-		SAFE_DELETE(m_pose);
 		m_pSkeleton = CreateSkeleton(pSkePath);
 
 		m_bLoadOver = false;
@@ -72,14 +68,39 @@ namespace ma
 		SetAnimSetPath(pszAniSetPath);
 	}
 
+	void AnimationComponent::SetLayerName(uint32 nLayer,const char* pszName)
+	{
+		ASSERT(pszName);
+		if (pszName == NULL)
+			return;
+
+		if (nLayer >= m_arrLayerInfo.size())
+		{
+			m_arrLayerInfo.resize(nLayer + 1);
+		}
+
+		ASSERT(m_arrLayerInfo[nLayer].m_strLayerName.empty());
+		m_arrLayerInfo[nLayer].m_strLayerName = pszName;
+
+		m_bLoadOver = false;
+		IsReady();
+	}
+
+
 	void AnimationComponent::SetGoalWorldSpace(Vector3 vGoalWS)
 	{
-		if (m_pAnimation && m_pSceneNode)
-		{
-			Matrix4 matWSInv = m_pSceneNode->GetMatrixWS().inverse();
-			Vector3 vGoalOS = matWSInv * vGoalWS;
+		if (m_pSceneNode == NULL)
+			return;
 
-			m_pAnimation->SetGoalObjectSpace(vGoalOS);
+ 		Matrix4 matWSInv = m_pSceneNode->GetMatrixWS().inverse();
+		Vector3 vGoalOS = matWSInv * vGoalWS;
+
+		for (UINT32 i = 0; i < m_arrLayerInfo.size(); ++i)
+		{
+			if (m_arrLayerInfo[i].m_pAnimation)
+			{
+				m_arrLayerInfo[i].m_pAnimation->SetGoalObjectSpace(vGoalOS);
+			}
 		}
 	}
 
@@ -91,7 +112,7 @@ namespace ma
 		if ( m_pSkeleton == NULL || !m_pSkeleton->IsReady() )
 			return false;
 
-		if ( m_pAnimSet && !m_pAnimSet->IsReady() )
+		if ( m_pAnimSet == NULL || !m_pAnimSet->IsReady() )
 			return false;
 
 		if (m_pose == NULL)
@@ -105,35 +126,94 @@ namespace ma
 				m_arrSkinMatrix[i] = Matrix4::IDENTITY;
 			}
 		}
-	
-		if (m_pAnimSet && m_nCurAction != -1)
+
+		for (UINT32 i = 0; i < m_arrLayerInfo.size(); ++i)
 		{
-			ChangeAnimation( m_pAnimSet->GetAnimationByAnimID(m_nCurAction) );
+			if (m_arrLayerInfo[i].m_nAnimID != -1 && m_pAnimSet)
+			{
+				AnimTreeNode* pAnimation = m_pAnimSet->GetAnimationByAnimID(m_arrLayerInfo[i].m_nAnimID);
+
+				PlayAnimation(pAnimation,i);
+
+				m_arrLayerInfo[i].m_nAnimID = -1; 
+			}
+
+			if (m_arrLayerInfo[i].m_pAnimation)
+			{
+				m_arrLayerInfo[i].m_pAnimation->Instantiate(m_pSkeleton.get());
+
+				if (!m_arrLayerInfo[i].m_pAnimation->IsReady())
+				{
+					return false;
+				}
+			}
+
+			if (m_arrLayerInfo[i].m_pPreAnimation && !m_arrLayerInfo[i].m_pPreAnimation->IsReady())
+			{
+				return false;
+			}
 		}
 
-		if (m_pAnimation == NULL)
-			return false;
-
-		m_pAnimation->Instantiate(m_pSkeleton.get());
-
-		if (!m_pAnimation->IsReady())
-		{
-			return false;
-		}
-
-		if (m_pPreAnimation && !m_pPreAnimation->IsReady())
-		{
-			return false;
-		}
-
+		
 		m_bLoadOver = true;
 
 		return true;
 	}
 
+	void AnimationComponent::PlayAnimation(AnimTreeNode* pAnimation,uint32 nLayerID)
+	{	
+		AutoLock lock(m_csParallelUpdate);
+
+		m_arrLayerInfo[nLayerID].m_pPreAnimation = m_arrLayerInfo[nLayerID].m_pAnimation;
+
+		m_arrLayerInfo[nLayerID].m_pAnimation = pAnimation;
+
+		if(m_arrLayerInfo[nLayerID].m_pAnimation)
+		{
+			m_arrLayerInfo[nLayerID].m_pAnimation->Play();
+			m_arrLayerInfo[nLayerID].m_pAnimation->SetFrame(0);
+		}
+
+
+		AnimTreeNode* pAnim = m_arrLayerInfo[nLayerID].m_pAnimation.get();
+		if (pAnim && pAnim->GetAnimCallBack())
+		{
+			pAnim->GetAnimCallBack()->OnEnter(pAnim);
+		}
+
+		if (m_arrLayerInfo[nLayerID].m_pAnimation)
+		{
+			m_arrLayerInfo[nLayerID].m_fCurFadeTime = m_arrLayerInfo[nLayerID].m_pAnimation->GetFadeTime();
+		}
+		else
+		{
+			m_arrLayerInfo[nLayerID].m_fCurFadeTime = 0;
+		}
+
+		AnimTreeNode* pPreAnim = m_arrLayerInfo[nLayerID].m_pPreAnimation.get();
+		if (pPreAnim && pPreAnim->GetAnimCallBack())
+		{
+			pPreAnim->GetAnimCallBack()->OnLeave(pPreAnim);
+		}
+	}
+
 	void AnimationComponent::Update()
 	{
-		AdvanceTime( GetTimer()->GetFrameDeltaTime() );
+		float fTimeElepse = GetTimer()->GetFrameDeltaTime();
+		for (UINT32 i = 0; i < m_arrLayerInfo.size(); ++i)
+		{
+			m_arrLayerInfo[i].m_fCurFadeTime -= fTimeElepse;
+			if (m_arrLayerInfo[i].m_fCurFadeTime <= 0)
+			{
+				m_arrLayerInfo[i].m_fCurFadeTime = 0;
+				m_arrLayerInfo[i].m_pPreAnimation = NULL;
+			}
+
+			if (m_arrLayerInfo[i].m_pAnimation)
+			{
+				m_arrLayerInfo[i].m_pAnimation->AdvanceTime(fTimeElepse);
+			}
+		}
 
 		// 动作回调完以后，动作有可能被改变了
 		IsReady();
@@ -162,72 +242,48 @@ namespace ma
 
 	}
 
-	void AnimationComponent::Stop()
-	{
-		m_pAnimation = NULL;
-		m_pPreAnimation = NULL;
-		m_nCurAction = -1; 
-	}
-
-	void AnimationComponent::ChangeAnimation(AnimTreeNode* pAnim)
-	{
-		m_pPreAnimation = m_pAnimation;
-		m_pAnimation = pAnim;
-
-		if (pAnim)
-		{
-			pAnim->Play();
-			m_fCurFadeTime = pAnim->GetFadeTime();
-		}
-	}
-
-	void AnimationComponent::PlayAnimation(AnimTreeNode* pSkelAnim)
+	bool AnimationComponent::SetAnimation(AnimTreeNode* pAnim,uint32 nLayerID)
 	{
 		AutoLock lock(m_csParallelUpdate);
 
-		if (m_pAnimation == pSkelAnim)
-			return;
-	
-		ChangeAnimation(pSkelAnim);
+		if (m_arrLayerInfo.size() <= nLayerID)
+		{
+			m_arrLayerInfo.resize(nLayerID + 1);
+		}
+
+		if (m_arrLayerInfo[nLayerID].m_pAnimation == pAnim)
+			return false;
+
+		PlayAnimation(pAnim,nLayerID);
 
 		m_bLoadOver = false;
-		IsReady();
+		return IsReady();
 	}
 
-	void AnimationComponent::PlayAnimation(uint32 actionID)
+
+	bool AnimationComponent::SetAnimation(const char* pszName,uint32 nLayerID)
+	{
+		return SetAnimation( AnimTreeNode::AnimNameToID(pszName), nLayerID, pszName );
+	}
+
+	bool AnimationComponent::SetAnimation(uint32 nAnimID,uint32 nLayerID,const char* pszName)
 	{
 		AutoLock lock(m_csParallelUpdate);
 
-		ASSERT(actionID != -1);
-		if (actionID == -1)
-			return;
+		ASSERT(nAnimID != -1);
+		if (nAnimID == -1)
+			return false;
 
-		m_nCurAction = actionID;
+		if (m_arrLayerInfo.size() <= nLayerID)
+		{
+			m_arrLayerInfo.resize(nLayerID + 1);
+		}
+
+		m_arrLayerInfo[nLayerID].m_nAnimID = nAnimID;
+		m_arrLayerInfo[nLayerID].m_strAnimName = pszName ? pszName : "";
 
 		m_bLoadOver = false;
-		IsReady();
-	}
-
-
-	void AnimationComponent::PlayAnimation(const char* pszAnimName)
-	{
-		PlayAnimation( AnimTreeNode::AnimNameToID(pszAnimName) );
-	}
-
-
-	void AnimationComponent::AdvanceTime(float fTimeElepse)
-	{
-		m_fCurFadeTime -= fTimeElepse;
-		if (m_fCurFadeTime <= 0)
-		{
-			m_fCurFadeTime = 0;
-			m_pPreAnimation = NULL;
-		}
-
-		if (m_pAnimation)
-		{
-			m_pAnimation->AdvanceTime(fTimeElepse);
-		}
+		return IsReady();
 	}
 
 	void AnimationComponent::EvaluateAnimation()
@@ -245,33 +301,57 @@ namespace ma
 		Transform tsfInit;
 		evalContext.m_arrTSFPS.resize( pRefPose->GetNodeNumber() , tsfInit);
 		evalContext.m_arrFirst.resize(pRefPose->GetNodeNumber() , true);
-		evalContext.m_pNodePos = m_pose;
+		evalContext.m_pNodePos = m_pose.get();
 		evalContext.m_refNodePos = pRefPose;
 
-		float fFadeTime = m_pAnimation && m_pPreAnimation ? m_pAnimation->GetFadeTime() : 0; 
-		float fFadeFactor = fFadeTime <= 0 ? 0.0f : (m_fCurFadeTime / fFadeTime);
-
-		if (m_pPreAnimation && fFadeFactor > 0)
+		for (UINT32 i = 0; i < m_arrLayerInfo.size(); ++i)
 		{
-			m_pPreAnimation->EvaluateAnimation(&evalContext,fFadeFactor);
-		}
-		
-		if (m_pAnimation)
-		{
-			m_pAnimation->EvaluateAnimation(&evalContext,1.0f - fFadeFactor);
+			if(m_arrLayerInfo[i].m_pAnimation == NULL)
+				continue;
+
+			float fFadeTime = m_arrLayerInfo[i].m_pAnimation->GetFadeTime(); 
+			ASSERT(m_arrLayerInfo[i].m_fCurFadeTime <= fFadeTime);
+			float fFadeFactor = fFadeTime <= 0 ? 0 : m_arrLayerInfo[i].m_fCurFadeTime / fFadeTime;
+			if (m_arrLayerInfo[i].m_pPreAnimation == NULL)
+				fFadeFactor = 0;
+
+			m_arrLayerInfo[i].m_fFadeFactor = fFadeFactor;
+
+			if (m_arrLayerInfo[i].m_pPreAnimation && fFadeFactor > 0)
+			{
+				m_arrLayerInfo[i].m_pPreAnimation->EvaluateAnimation(&evalContext,fFadeFactor,m_arrLayerInfo[i].m_pBoneSet.get());
+
+				m_arrLayerInfo[i].m_pAnimation->EvaluateAnimation(&evalContext,1.0f - fFadeFactor,m_arrLayerInfo[i].m_pBoneSet.get());
+			}
+			else
+			{
+				m_arrLayerInfo[i].m_pAnimation->EvaluateAnimation(&evalContext,1.0,m_arrLayerInfo[i].m_pBoneSet.get());
+			}
 		}
 
-		m_pose->InitLocalSpace(evalContext.m_arrTSFPS,pRefPose);
+		for (UINT32 i = 0; i < evalContext.m_arrFirst.size(); ++i)
+		{
+			if (evalContext.m_arrFirst[i])
+			{
+				evalContext.m_arrTSFPS[i] = pRefPose->GetTransformPS(i);
+			}
+		}
+
+		m_pose->SetTransformPSAll(evalContext.m_arrTSFPS);
 
 		////////////// Do IK
-		if (m_pPreAnimation && fFadeFactor > 0)
+		for (UINT32 i = 0; i < m_arrLayerInfo.size(); ++i)
 		{
-			m_pPreAnimation->ProcessPoseModifier(m_pose,m_pSkeleton.get(),fFadeFactor);
-		}
+			float fFadeFactor = m_arrLayerInfo[i].m_fFadeFactor;
 
-		if (m_pAnimation)
-		{
-			m_pAnimation->ProcessPoseModifier(m_pose,m_pSkeleton.get(),1.0f - fFadeFactor);
+			// Do IK
+			if (m_arrLayerInfo[i].m_pPreAnimation && fFadeFactor > 0)
+			{
+				m_arrLayerInfo[i].m_pPreAnimation->ProcessPoseModifier(m_pose.get(),m_pSkeleton.get(),fFadeFactor);
+			}
+
+			if(m_arrLayerInfo[i].m_pAnimation)
+				m_arrLayerInfo[i].m_pAnimation->ProcessPoseModifier(m_pose.get(),m_pSkeleton.get(),fFadeFactor);
 		}
 		////////////////
 

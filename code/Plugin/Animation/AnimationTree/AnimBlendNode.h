@@ -24,7 +24,7 @@ namespace ma
 
 		virtual void	AdvanceTime(float fTimeElapsed);
 
-		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight);
+		virtual void	EvaluateAnimation(AnimEvalContext* pEvalContext, float fWeight, BoneSet* pBoneSet);
 
 		virtual	void	SetFrame(float fFrame);
 

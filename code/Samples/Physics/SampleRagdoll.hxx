@@ -33,7 +33,7 @@ namespace ma
 			m_pAnimationComp->Load("magician/body.Aniset","magician/body.ske");
 		}
 
-		m_pAnimationComp->PlayAnimation(1);
+		m_pAnimationComp->SetAnimation(1);
 
 		{
 			RefPtr<SceneNode> pGameObj = CreateSceneNode();

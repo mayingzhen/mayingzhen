@@ -24,7 +24,7 @@ namespace ma
 		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
 		pMeshComp->SetShadowCaster(true);
 		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
-		pAnimComp->PlayAnimation(100);
+		pAnimComp->SetAnimation(100);
  
 		m_pBox = m_pScene->CreateSceneNode();
 		MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();

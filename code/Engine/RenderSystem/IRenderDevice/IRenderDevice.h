@@ -106,7 +106,6 @@ namespace ma
 	};
 
 	 void SetRenderDevice(IRenderDevice* pRenderDevice);
-
 	 IRenderDevice* GetRenderDevice();
 }
 

@@ -28,7 +28,7 @@ namespace ma
 		bool							ConverteAnimDataParentToLocalSpace(const Skeleton* pSkeleton);
 		bool							ConverteAnimDataLocalToParentSpace(const Skeleton* pSkeleton);
 
-		bool							Load(const char* pszFile, const char* pszSkeleton, const char* pszRefSkeleton);
+		bool							Load(const char* pszFile, const char* pszSkeleton);
 		
 		bool							SaveToFile(const char* pszFile);
 
@@ -46,12 +46,11 @@ namespace ma
 		std::vector<QuaternionTrack>	m_arrRotTrack;
 		std::vector<Vector3Track>		m_arrPosTrack;
 		RefPtr<Skeleton>				m_pSkeleton;
-		RefPtr<Skeleton>				m_pRefSkeleton;
 		bool							m_bCompress;
 	};
 
 	RefPtr<Animation> CreateAnimation();
-	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile, const char* pszRefSkeleton);
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile);
 }
 
 #endif

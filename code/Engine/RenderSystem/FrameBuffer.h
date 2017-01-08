@@ -2,25 +2,6 @@
 
 namespace ma
 {
-// 	class RenderTarget : public Referenced
-// 	{
-// 	public:
-// 		RenderTarget();
-// 		virtual ~RenderTarget();
-// 
-// 		virtual void RT_CreateRenderTarget() = 0;
-// 	};
-// 
-// 	class DepthStencil : public Referenced
-// 	{
-// 	public:
-// 		DepthStencil();
-// 		virtual ~DepthStencil();
-// 
-// 		virtual void RT_CreateDepthStencil() = 0;
-// 	};
-
-
 	class FrameBuffer : public Referenced
 	{
 	public:

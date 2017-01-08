@@ -11,15 +11,15 @@ public:
 	AnimDataManager(void);
 	~AnimDataManager(void);
 
-	RefPtr<Animation> Open(const char* pszFile, const char* pszSkeleton,const char* pszRefSkeleton);
+	RefPtr<Animation> Open(const char* pszFile, const char* pszSkeleton);
 	void Clear(bool bRemoveAll);
     //void FreeTick(bool bForceRelease, uint32 nResTime);
 
 private:
-	RefPtr<Animation> CreateRes(const char* pszFile, const char* pszSkeleton,const char* pszRefSkeleton)
+	RefPtr<Animation> CreateRes(const char* pszFile, const char* pszSkeleton)
 	{
 		RefPtr<Animation> pAnimData = new Animation();
-		pAnimData->Load(pszFile,pszSkeleton,pszRefSkeleton);
+		pAnimData->Load(pszFile,pszSkeleton);
 		return pAnimData;
 	}
 
@@ -28,7 +28,6 @@ private:
     {
         string strSka;
         string strSke;
-		string strRefSke;
 
         RES_INFO(){}
         RES_INFO(const string& _strSka, const string& _strSke):strSka(_strSka),strSke(_strSke){}
@@ -42,11 +41,6 @@ private:
 			if (strSke<c.strSke)
 				return true;
 			else if(strSke>c.strSke)
-				return false;
-
-			if (strRefSke<c.strRefSke)
-				return true;
-			else if (strRefSke>c.strRefSke)
 				return false;
 		
             return false;

@@ -11,7 +11,6 @@ namespace ma
 
 	Skeleton::~Skeleton()
 	{
-		SAFE_DELETE(m_refPose);
 	}
 
 	const char*	Skeleton::GetBoneNameByIndex(UINT uIndex) const

@@ -77,17 +77,12 @@ namespace ma
 		m_nFrameNumber = m_nFrameNumber < nFrame ? nFrame : m_nFrameNumber;
 	}
 
-	bool Animation::Load(const char* pszFile, const char* pszSkeleton, const char* pszRefSkeleton)
+	bool Animation::Load(const char* pszFile, const char* pszSkeleton)
 	{
 		if (pszSkeleton && strlen(pszSkeleton) > 0)
 		{
 			m_pSkeleton = CreateSkeleton(pszSkeleton);
 		}
-
-		if (pszRefSkeleton && strlen(pszRefSkeleton) > 0)
-		{
-			m_pRefSkeleton = CreateSkeleton(pszRefSkeleton);
-		}	
 
 		return Resource::Load(pszFile);
 	}
@@ -195,6 +190,8 @@ namespace ma
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrFrame[0],sizeof(uint32) * nPosFrame);
 			m_pDataStream->Read(&m_arrPosTrack[i].m_arrValue[0],sizeof(Vector3) * nPosFrame);
 		}
+
+		ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 	}
 
 	void Animation::ReadDataV0()
@@ -239,6 +236,9 @@ namespace ma
 		for (uint32 i = 0; i < nSacleTrackNum; ++i)
 		{
 			uint32 nFrame = m_pDataStream->ReadUInt();
+			if (nFrame != m_nFrameNumber)
+				m_bCompress = true;
+
 			m_arrScaleTrack[i].m_arrFrame.resize(nFrame);
 			for (uint32 iFrame = 0; iFrame < nFrame; ++iFrame)
 			{
@@ -252,13 +252,15 @@ namespace ma
 				m_arrScaleTrack[i].m_arrValue[iKey] = m_pDataStream->ReadVector3();
 			}
 		}
-		m_bCompress = nSacleTrackNum != m_nFrameNumber;
 
 		uint32 nRotTrackNum = m_pDataStream->ReadUInt();
 		m_arrRotTrack.resize(nRotTrackNum);
 		for (uint32 i = 0; i < nRotTrackNum; ++i)
 		{
 			uint32 nFrame = m_pDataStream->ReadUInt();
+			if (nFrame != m_nFrameNumber)
+				m_bCompress = true;
+
 			m_arrRotTrack[i].m_arrFrame.resize(nFrame);
 			for (uint32 iFrame = 0; iFrame < nFrame; ++iFrame)
 			{
@@ -272,14 +274,16 @@ namespace ma
 				m_arrRotTrack[i].m_arrValue[iKey] = m_pDataStream->ReadQuaternion();
 			}
 		}
-		
-		m_bCompress = nRotTrackNum != m_nFrameNumber;
+	
 
 		uint32 nPosTrackNum = m_pDataStream->ReadUInt();
 		m_arrPosTrack.resize(nPosTrackNum);
 		for (uint32 i = 0; i < nPosTrackNum; ++i)
 		{
 			uint32 nFrame = m_pDataStream->ReadUInt();
+			if (nFrame != m_nFrameNumber)
+				m_bCompress = true;
+
 			m_arrPosTrack[i].m_arrFrame.resize(nFrame);
 			for (uint32 iFrame = 0; iFrame < nFrame; ++iFrame)
 			{
@@ -294,8 +298,6 @@ namespace ma
 			}
 		}
 
-		m_bCompress = nPosTrackNum != m_nFrameNumber;
-
 		uint32 nTrackNameNum = m_pDataStream->ReadUInt();
 		m_arrTrackName.resize(nTrackNameNum);
 		for (uint32 i = 0; i < nTrackNameNum; ++i)
@@ -307,16 +309,9 @@ namespace ma
 			m_arrTrackName[i] = &vecChar[0];
 		}
 
-		if (nVersion == 2)
+		if (nVersion == 3)
 		{
-			if (m_pRefSkeleton != NULL)
-			{
-				ConverteAnimDataParentToLocalSpace(m_pRefSkeleton.get());
-			}
-			else
-			{
-				ConverteAnimDataParentToLocalSpace(m_pSkeleton.get());
-			}
+			ConverteAnimDataLocalToParentSpace(m_pSkeleton.get());
 		}
 	}
 
@@ -325,8 +320,8 @@ namespace ma
 		return new Animation;
 	}
 
-	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile, const char* pszRefSkeleton)
+	RefPtr<Animation> CreateAnimation(const char* pszFile,const char* pszSkeletonFile)
 	{
-		return g_pAnimDataManager->Open(pszFile,pszSkeletonFile,pszRefSkeleton);
+		return g_pAnimDataManager->Open(pszFile,pszSkeletonFile);
 	}
 }

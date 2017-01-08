@@ -805,14 +805,6 @@
 			Name="RenderSystem"
 			>
 			<File
-				RelativePath="..\..\code\Engine\RenderSystem\BatchParticleRenderable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Engine\RenderSystem\BatchParticleRenderable.hxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\code\Engine\RenderSystem\BatchRenderable.h"
 				>
 			</File>

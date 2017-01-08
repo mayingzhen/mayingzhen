@@ -7,6 +7,7 @@ namespace ma
 	class SkeletonPose;
 	class SkelAnimtion;
 	class AnimationSet;
+	class BoneSet;
 
 	class AnimationComponent : public Component
 	{
@@ -26,17 +27,15 @@ namespace ma
 
 		void					Load(const char* pszAniSetPath, const char* pszSkeletonPath);
 
-		void					Stop();
-
-		void					PlayAnimation(const char* pszAnimName); 
-		void					PlayAnimation(uint32 actionID);
-		void					PlayAnimation(AnimTreeNode* pSkelAnim);
+		bool					SetAnimation(const char* pszName,uint32 nLayerID = 0);
+		bool					SetAnimation(uint32 nAnimID,uint32 nLayerID = 0,const char* pszName = NULL);
+		bool					SetAnimation(AnimTreeNode* pAnim,uint32 nLayerID = 0);
 
 		void					DebugRender(bool bDrawBoneName = false);
 
 		void					UpdateSkinMatrix();
 
-		SkeletonPose*			GetAnimationPose() {return m_pose;}
+		SkeletonPose*			GetAnimationPose() {return m_pose.get();}
 		Skeleton*				GetSkeleton() {return m_pSkeleton.get();}
 		const char*				GetSkeletonPath() const;
 		void					SetSkeletonPath(const char* pSkePath);
@@ -45,27 +44,47 @@ namespace ma
 		void					SetAnimationSet(AnimationSet* pAnimSet);
 		const char*				GetAnimSetPath() const;
 		void					SetAnimSetPath(const char* pAniSetPath);
+
+		void					SetLayerName(uint32 nLayer,const char* pszName);
 		
 		void					SetGoalWorldSpace(Vector3 vGoalWS);
 
 		bool					IsReady();
 
 	protected:
-		void					AdvanceTime(float fTimeElepse);
 		void					EvaluateAnimation();
 
-		void					ChangeAnimation(AnimTreeNode* pAnim);
+		void					PlayAnimation(AnimTreeNode* pAnim,uint32 nLayerID);
 	
 	private:
 		RefPtr<Skeleton>			m_pSkeleton;		
-		SkeletonPose*				m_pose;
+		RefPtr<SkeletonPose>		m_pose;
 
 		RefPtr<AnimationSet>		m_pAnimSet;
-	
-		uint32						m_nCurAction;
-		RefPtr<AnimTreeNode>		m_pAnimation;
-		RefPtr<AnimTreeNode>		m_pPreAnimation;
-		float						m_fCurFadeTime;
+   
+		struct LayerInfo
+		{
+			RefPtr<AnimTreeNode> m_pAnimation;
+			uint32 m_nAnimID;// 异步加载结束解析成m_pAnimation
+			string m_strAnimName; // Debug
+
+			RefPtr<AnimTreeNode> m_pPreAnimation;
+			float m_fCurFadeTime;
+
+			float m_fFadeFactor;
+
+			string m_strLayerName;
+			RefPtr<BoneSet> m_pBoneSet;
+
+			LayerInfo()
+			{
+				m_nAnimID = -1;
+				m_fCurFadeTime = 0;
+				m_fFadeFactor = 0;
+			}
+		};
+
+		vector<LayerInfo> m_arrLayerInfo;
 
 		Matrix3x4*					m_arrSkinMatrix;
 

@@ -319,18 +319,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Audo"
-			>
-			<File
-				RelativePath="..\..\code\Samples\Audo\SampleWwise.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\code\Samples\Audo\SampleWwise.hxx"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath="..\..\code\Samples\CameraController.h"
 			>

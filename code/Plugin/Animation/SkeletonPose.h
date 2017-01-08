@@ -3,7 +3,7 @@
 
 namespace ma
 {
-	class SkeletonPose
+	class SkeletonPose : public Referenced
 	{
 	public:
 		struct DirtyByte

@@ -299,14 +299,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimLayerNode.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\Code\Plugin\Animation\AnimationTree\AnimLayerNode.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Plugin\Animation\AnimationTree\AnimTreeNode.h"
 					>
 				</File>

@@ -32,7 +32,7 @@ namespace ma
 			
 		m_pAnimComponent = pTestBull->CreateComponent<AnimationComponent>();
 		m_pAnimComponent->SetSkeletonPath("FBX/TestBull.ske");
-		m_pAnimComponent->PlayAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
+		m_pAnimComponent->SetAnimation( CreateClipNode("Fbx/TestBull.ska").get() );
 
 		//m_pAnimComponent = pAnimationObject.get();
 

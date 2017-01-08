@@ -221,3 +221,5 @@ EXPORTS
 ??0Texture@ma@@QAE@HHIW4PixelFormat@1@_N1W4TEXTURE_USAGE@1@W4TEXTURE_TYPE@1@@Z
 ?GetSubMaterial@MeshComponent@ma@@QAEPAVSubMaterial@2@II@Z
 ?GenIntegrateBRDF@ma@@YAXPBD@Z
+?SetFrame@Animatable@ma@@UAEXM@Z
+?Process@Animatable@ma@@QAEMXZ

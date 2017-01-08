@@ -16,7 +16,6 @@
 #include "Animation/AnimationTree/AnimTreeNode.hxx"
 #include "Animation/AnimationTree/AnimClipNode.hxx"
 #include "Animation/AnimationTree/AnimBlendNode.hxx"
-#include "Animation/AnimationTree/AnimLayerNode.hxx"
 #include "Animation/AnimationTree/FrameEvent.hxx"
 
 

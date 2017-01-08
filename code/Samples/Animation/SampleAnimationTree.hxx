@@ -27,13 +27,13 @@ namespace ma
 		pAnimComp->Load("magician/magician/Body.Aniset","magician/magician/Body.ske");
 
 
-		RefPtr<AnimLayerNode> pLayerNode = CreateLayerNode();
-		m_pClip602 = CreateClipNode("magician/602/bip01.ska","Up602","UpBody");
-		m_pClip120 = CreateClipNode("magician/120/bip01.ska","Low120","LowerBody");
-		pLayerNode->AddLayer(m_pClip120.get());
-		pLayerNode->AddLayer(m_pClip602.get());
+// 		RefPtr<AnimLayerNode> pLayerNode = CreateLayerNode();
+// 		m_pClip602 = CreateClipNode("magician/602/bip01.ska","Up602","UpBody");
+// 		m_pClip120 = CreateClipNode("magician/120/bip01.ska","Low120","LowerBody");
+// 		pLayerNode->AddLayer(m_pClip120.get());
+// 		pLayerNode->AddLayer(m_pClip602.get());
 
-		pAnimComp->PlayAnimation(pLayerNode.get());
+//		pAnimComp->PlayAnimation(pLayerNode.get());
 	}
 
 	void SampleAnimationTree::keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key)
@@ -43,18 +43,18 @@ namespace ma
 
 		if (key == Keyboard::KEY_ONE)
 		{
-			m_pClip602->SetBoneSet(pszDefaultUpBody);
-			m_pClip120->SetBoneSet(pszDefaultEmptyBody);
+// 			m_pClip602->SetBoneSet(pszDefaultUpBody);
+// 			m_pClip120->SetBoneSet(pszDefaultEmptyBody);
 		}
 		else if (key == Keyboard::KEY_TWO)
 		{
-			m_pClip602->SetBoneSet(pszDefaultEmptyBody);
-			m_pClip120->SetBoneSet(pszDefaultFullBody);
+// 			m_pClip602->SetBoneSet(pszDefaultEmptyBody);
+// 			m_pClip120->SetBoneSet(pszDefaultFullBody);
 		}
 		else if (key == Keyboard::KEY_THREE)
 		{
-			m_pClip602->SetBoneSet(pszDefaultUpBody);
-			m_pClip120->SetBoneSet(pszDefaultLowerBody);
+// 			m_pClip602->SetBoneSet(pszDefaultUpBody);
+// 			m_pClip120->SetBoneSet(pszDefaultLowerBody);
 		}
 
 		return;

@@ -43,7 +43,7 @@ namespace ma
 			AnimationSet* pAnimSet = m_pCharaAnim->GetAnimationSet();
 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","Run").get() );
 			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","Idle").get() );
-			m_pCharaAnim->PlayAnimation("Idle");
+			m_pCharaAnim->SetAnimation("Idle");
 
 			pCharaObj->Translate(Vector3(0,20,0));
 		}
@@ -104,7 +104,7 @@ namespace ma
 		if (fDistance <= fStepMoveLeng)
 		{
 			m_bMoveing = false;
-			m_pCharaAnim->PlayAnimation("Idle");
+			m_pCharaAnim->SetAnimation("Idle");
 			return;
 		}	
 
@@ -171,7 +171,7 @@ namespace ma
 			m_vMoveTo = hitPosWS;
 			m_bMoveing = true;
 
-			m_pCharaAnim->PlayAnimation("Run");
+			m_pCharaAnim->SetAnimation("Run");
 
 			//Log("curPos = %f,%f,%f,fTargetRota = %f",curPos.x,curPos.y,curPos.z,ToDegree(fTargetRota));
 			LogInfo("m_vMoveTo = %f,%f,%f",m_vMoveTo.x,m_vMoveTo.y,m_vMoveTo.z);

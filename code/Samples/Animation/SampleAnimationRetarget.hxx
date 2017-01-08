@@ -12,20 +12,64 @@ namespace ma
 	{	
 		m_pCamera->LookAt(Vector3(0, -400, 100), Vector3(0, 0, 0));
 
-		// character A MeshData & skeleton & Animation
-		if (1)
+		// upgrad Ska
+		if (0)
 		{
+			vector<string> arrUpGradSka;
+			arrUpGradSka.push_back("gigi/100_stand/bip01.ska");
+			arrUpGradSka.push_back("gigi/210_run/bip01.ska");
+			arrUpGradSka.push_back("gigi/281_run_jump_start/bip01.ska");
+			arrUpGradSka.push_back("gigi/282_jump_twostage/bip01.ska");
+			arrUpGradSka.push_back("gigi/283_run_jumping/bip01.ska");
+			arrUpGradSka.push_back("gigi/285_run_jump_stop/bip01.ska");
+
+			for (uint32 i = 0; i < arrUpGradSka.size(); ++i)
+			{
+				RefPtr<Animation> pAnim = CreateAnimation();
+				pAnim->Load(arrUpGradSka[i].c_str(),"gigi/gigi/body.ske");
+				pAnim->ConverteAnimDataParentToLocalSpace( CreateSkeleton("gigi/gigi/body.ske").get() );
+
+				//std::vector<std::string> arrStr = StringUtil::split(arrUpGradSka[i],"/");
+
+				pAnim->SaveToFile(arrUpGradSka[i].c_str());
+			}
+		}
+
+		if (0)
+		{
+			vector<string> arrUpGradSka;
+			arrUpGradSka.push_back("magician/100/bip01.ska");
+			arrUpGradSka.push_back("magician/120/bip01.ska");
+			arrUpGradSka.push_back("magician/602/bip01.ska");
+
+			for (uint32 i = 0; i < arrUpGradSka.size(); ++i)
+			{
+				RefPtr<Animation> pAnim = CreateAnimation();
+				pAnim->Load(arrUpGradSka[i].c_str(),"magician/magician/Body.ske");
+				pAnim->ConverteAnimDataParentToLocalSpace( CreateSkeleton("magician/magician/Body.ske").get() );
+
+				std::vector<std::string> arrStr = StringUtil::split(arrUpGradSka[i],"/");
+
+				pAnim->SaveToFile(arrUpGradSka[i].c_str());
+			}
+		}
+
+
+		// character A MeshData & skeleton & Animation
+		if (0)
+		{
+
  			CreateMeshMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
  			CreateMeshMaterial("gigi/gigi/body_f.tga","gigi/gigi/body_f.mtl","SKIN");
  			CreateMeshMaterial("gigi/gigi/body_h.tga","gigi/gigi/body_h.mtl","SKIN");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100",NULL,"gigi/gigi/body.ske").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","200",NULL,"gigi/gigi/body.ske").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","300",NULL,"gigi/gigi/body.ske").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","400",NULL,"gigi/gigi/body.ske").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","500",NULL,"gigi/gigi/body.ske").get() );
- 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","600",NULL,"gigi/gigi/body.ske").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/100_stand/bip01.ska","100").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/210_run/bip01.ska","200").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/281_run_jump_start/bip01.ska","300").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("gigi/282_jump_twostage/bip01.ska","400").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/283_run_jumping/bip01.ska","500").get() );
+ 			pAnimSet->AddSkelAnim( CreateClipNode("gigi/285_run_jump_stop/bip01.ska","600").get() );
 			pAnimSet->SaveToXML("gigi/gigi/body.aniset");
 
 			// MeshData B (b f h)
@@ -46,7 +90,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (1)
+		if (0)
 		{
 			m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,1),Vector3(0,0,0));
 			m_pScene->GetDirLight()->SetLightColor(ColourValue(0.5,0.5,0.5,1.0f));
@@ -56,9 +100,9 @@ namespace ma
 			CreateMeshMaterial("magician/magician/body.tga","magician/magician/Body.mtl","SKIN;LIGHT;BRDF;SPEC");
 
 			RefPtr<AnimationSet> pAnimSet = CreateAnimationSet();
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100",NULL,"magician/magician/Body.ske").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","200",NULL,"magician/magician/Body.ske").get() );
-			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","300",NULL,"magician/magician/Body.ske").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/100/bip01.ska","100").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/120/bip01.ska","200").get() );
+			pAnimSet->AddSkelAnim( CreateClipNode("magician/602/bip01.ska","300").get() );
 			pAnimSet->SaveToXML("magician/magician/body.aniset");
 
 			RefPtr<SceneNode> pCharMagic = CreateSceneNode();
@@ -116,23 +160,23 @@ namespace ma
 
 		if (key == Keyboard::KEY_ONE)
 		{
-			m_pAnimtionObjectA->PlayAnimation("100");
-			m_pAnimtionObjectB->PlayAnimation("100");
+			m_pAnimtionObjectA->SetAnimation("100");
+			m_pAnimtionObjectB->SetAnimation("100");
 		}
 		else if (key == Keyboard::KEY_TWO)
 		{
-			m_pAnimtionObjectA->PlayAnimation("200");
-			m_pAnimtionObjectB->PlayAnimation("200");
+			m_pAnimtionObjectA->SetAnimation("200");
+			m_pAnimtionObjectB->SetAnimation("200");
 		}
 		else if (key == Keyboard::KEY_THREE)
 		{
-			m_pAnimtionObjectA->PlayAnimation("300");
-			m_pAnimtionObjectB->PlayAnimation("300");
+			m_pAnimtionObjectA->SetAnimation("300");
+			m_pAnimtionObjectB->SetAnimation("300");
 		}
 		else if (key == Keyboard::KEY_FOUR)
 		{
-			m_pAnimtionObjectA->PlayAnimation("400");
-			m_pAnimtionObjectB->PlayAnimation("400");
+			m_pAnimtionObjectA->SetAnimation("400");
+			m_pAnimtionObjectB->SetAnimation("400");
 		}
 
 	}

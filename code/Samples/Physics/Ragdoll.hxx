@@ -47,7 +47,7 @@ namespace ma
 
 	void Ragdoll::Start()
 	{	
-		m_pAnimaComp->Stop();
+		//m_pAnimaComp->Stop();
 
 		for (int i = 0; i < BODYPART_COUNT; ++i)
 		{

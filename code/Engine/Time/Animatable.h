@@ -40,6 +40,11 @@ namespace ma
 
 		STATE GetState() const {return m_state;}
 
+		float Process();
+		void SetFrameCount(uint32 nFrmaeCount) {m_fFrameCount = (float)nFrmaeCount;}
+		float GetFrame() {return m_fLocalFrame;}
+		virtual void SetFrame(float fFrame);
+
 	protected:
 		float m_fOldElapsedTime;
 		float m_fElapsedTime;
@@ -48,6 +53,9 @@ namespace ma
 
 		float m_fIntervalMillisecond;
 		uint32 mLoop;
+
+		float m_fFrameCount;
+		float m_fLocalFrame;
 	};
 
 }

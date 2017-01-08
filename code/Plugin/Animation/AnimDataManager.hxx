@@ -12,7 +12,7 @@ AnimDataManager::~AnimDataManager(void)
 {
 }
 
-RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSkeleton,const char* pszRefSkeleton)
+RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSkeleton)
 {
 	string strSkaFile = pszFile;
 	strSkaFile = StringUtil::replaceAll(strSkaFile, "\\", "/");
@@ -24,7 +24,7 @@ RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSke
 	// not find
 	if (iter == m_mapFactory.end())
 	{
-		RefPtr<Animation> res = this->CreateRes(strSkaFile.c_str(), pszSkeleton, pszRefSkeleton);// maybe NULL
+		RefPtr<Animation> res = this->CreateRes(strSkaFile.c_str(), pszSkeleton);// maybe NULL
 		m_mapFactory[uHash][RES_INFO(strSkaFile.c_str(), pszSkeleton)] = res;
 		return res;
 	}
@@ -36,7 +36,7 @@ RefPtr<Animation> AnimDataManager::Open( const char* pszFile, const char* pszSke
 	if (iterRes == mapStrRes.end())
 	{
 		RefPtr<Animation> pAnimData = new Animation();
-		RefPtr<Animation> res = this->CreateRes(strSkaFile.c_str(), pszSkeleton,pszRefSkeleton); // maybe NULL
+		RefPtr<Animation> res = this->CreateRes(strSkaFile.c_str(), pszSkeleton); // maybe NULL
 		m_mapFactory[uHash][RES_INFO(strSkaFile.c_str(), pszSkeleton)] = res;
 		return res;
 	}
