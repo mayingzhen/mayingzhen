@@ -164,7 +164,22 @@ namespace ma
 	{	
 		AutoLock lock(m_csParallelUpdate);
 
-		m_arrLayerInfo[nLayerID].m_pPreAnimation = m_arrLayerInfo[nLayerID].m_pAnimation;
+		if (m_arrLayerInfo[nLayerID].m_pPreAnimation == NULL)
+		{
+			m_arrLayerInfo[nLayerID].m_pPreAnimation = m_arrLayerInfo[nLayerID].m_pAnimation;
+		}
+		else
+		{
+			// 上一个动作还没有过度完成
+			ASSERT(m_arrLayerInfo[nLayerID].m_pAnimation);
+
+			RefPtr<AnimBlendNode> pAnimBlend = new AnimBlendNode();
+			pAnimBlend->SetSrcAnimNode(m_arrLayerInfo[nLayerID].m_pPreAnimation.get());
+			pAnimBlend->SetDestAnimNode(m_arrLayerInfo[nLayerID].m_pAnimation.get());
+			pAnimBlend->SetWeight(1.0f - m_arrLayerInfo[nLayerID].m_fFadeFactor);
+
+			m_arrLayerInfo[nLayerID].m_pPreAnimation = pAnimBlend;
+		}
 
 		m_arrLayerInfo[nLayerID].m_pAnimation = pAnimation;
 
