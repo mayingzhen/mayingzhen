@@ -9,6 +9,8 @@
 #include "gbuffer.h"
 #endif
 
+#define RECEIVESHADOW
+
 cbuffer ObjectPS : register(b5)
 {
 	float2 uBlendingOffset;
@@ -56,17 +58,16 @@ struct VS_OUTPUT
 
 
 void main(VS_OUTPUT In,
-out float4 oColor : SV_TARGET0
-#if DEFERREDSHADING == 1
-,out float4 oNormal : SV_TARGET1
-#endif
+out DRMRTOut mrtOut
 )
 {
-	oColor = 1.0;
+	InitMRTOutPut(mrtOut);
+	
+	float4 oColor = 0;
+
+	float4 albedo = 0;
 	
 	oColor.a = In.oNormal.w;	
-	
-	float3 cDiffuse;
 	
 	float4 cBlend = tBlendingMap.Sample(sBlendingMap, In.UV + uBlendingOffset);
 	
@@ -79,7 +80,6 @@ out float4 oColor : SV_TARGET0
 		
     // 细节图
 #if LAYER==1
-	
 	#ifdef PARALLAXMAPPING 
 		float3 toEye = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
         float height = tBumpMap0.Sample(sBumpMap0, In.DetailUV.xy).a;		//从alpha分量得到高度信息  
@@ -95,12 +95,12 @@ out float4 oColor : SV_TARGET0
 	#endif	
 
  	float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
-	cDiffuse.rgb = cDetailMap0;
+	albedo.rgb = cDetailMap0;
 	
 #elif LAYER==2
     float4 cDetailMap0 = tDetailMap0.Sample(sDetailMap0, In.DetailUV.xy);
     float4 cDetailMap1 = tDetailMap1.Sample(sDetailMap1, In.DetailUV.zw);
-    cDiffuse.rgb = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
+    albedo.rgb = cDetailMap0 * cBlend.a + cDetailMap1 * (1.0 - cBlend.a);
 #endif
 	
 #ifdef BUMPMAP
@@ -112,27 +112,28 @@ out float4 oColor : SV_TARGET0
 	
 	float3 vNormal = oWorldNormal;
 	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
-	
-#if DEFERREDSHADING == 0
-	oColor.xyz = ForwardLighing(cDiffuse,u_cSpecColor.xyz,u_roughness,vView,vNormal);
-#else
-	oNormal = 0;
-	float3 viewNormal = mul(oWorldNormal, (float3x3)g_matView); 
-	oNormal.xy = EncodeNormal( normalize(viewNormal.xyz) );
-	const float3 RGB_TO_LUM = float3(0.299f, 0.587f, 0.114f);
-	#ifdef SPEC
-		oNormal.z = dot(u_cSpecColor.xyz,RGB_TO_LUM) ;
-		oNormal.w = u_specPower / 255.0f;
-	#endif
-#endif
 
-#if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	float4 ShadowPos = In.oShadowPos;
-	float2 RandDirTC = 0;
-#if SHADOW_BLUR == 2
-	RandDirTC = In.oRandDirTC;
+		// 阴影
+	float fShadowMapShadow = 1.0;
+#if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
+	#ifdef RECEIVESHADOW
+		float4 ShadowPos = In.oShadowPos;
+		float2 RandDirTC = 0;
+			#if SHADOW_BLUR == 2
+				RandDirTC = In.oRandDirTC;
+			#endif
+		fShadowMapShadow = DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);
+	#endif		
 #endif
-	oColor.rgb *= DoShadowMapping(ShadowPos,RandDirTC,In.WorldPos.w);		
+	    
+	float metalness = 0;
+	float glossiness = 0;	
+	GetMetalnessGlossiness(In.DetailUV.xy,metalness,glossiness,In.DetailUV.zw,cBlend.a);
+
+#if DEFERREDSHADING == 0
+	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow);
+#else
+	FinalMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
 #endif
 	
 }

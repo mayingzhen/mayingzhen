@@ -11,11 +11,11 @@ int main(int argc, char* argv[])
 	bool bForceGLES = false;
 	bool bRenderThread = false;
 	bool bDataThread = false;
-	bool bJobScheduler = false;
+	bool bJobScheduler = true;
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleAnimationRetarget");
+	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleShadowMap");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

@@ -26,12 +26,10 @@ namespace ma
 
 		void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj);
 
-		void FindObjectsIn(CullTreeQuery& query,uint32 mask);
-
 	private:
 		void _AddObject(OctreeNode* pNode, int nDepth, RenderComponent* pObject);
 
-		void _FindObjectsIn(OctreeNode* pNode, bool bFull, CullTreeQuery& query) const;
+		void _FindObjectsIn(OctreeNode* pNode, bool bFull,const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) const;
 		
 	private:
 		OctreeNode*		m_pRoot;

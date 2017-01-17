@@ -1,6 +1,4 @@
-
-#ifndef __AABB2D_H_
-#define __AABB2D_H_
+#pragma once
 
 
 #include "Vector2.h"
@@ -586,9 +584,5 @@ namespace ma
 
 
 	};
+} 
 
-	/** @} */
-	/** @} */
-} // namespace Ogre
-
-#endif

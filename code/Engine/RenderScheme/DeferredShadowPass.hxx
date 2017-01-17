@@ -1,6 +1,15 @@
 #include "DeferredShadowPass.h"
 #include "../Scene/Light/DirectonalLight.h"
 
+// 模板0位贴花遮挡 1位描边 2~4延迟阴影 5人物
+enum StencilBitUse
+{
+	SBU_Decal = 0,
+	SBU_Edge = 1,
+	SBU_DEFERREDSHADOW = 2, // 2~3~4
+	SBU_SKIN = 5,
+};
+
 namespace ma
 {
 	DeferredShadowPass::DeferredShadowPass(Scene* pScene)
@@ -88,9 +97,10 @@ namespace ma
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
 		m_pDefferedShadow->m_bDepthWrite = false;
 
+		m_pBlendMaterial = CreateTechnique("DeferredShadowBlend","DefferedShadow","DefferedShadow","FRUSTUM_BLEND");
+
 		m_pScreen = CreateTechnique("screen","screen","screen","");
 		m_pScreen->m_eBlendMode = BM_MULTIPLY;
-		//m_pScreen->SetSceneBlending(SBF_ZERO,SBF_SOURCE_COLOUR,SBO_ADD);
 
 		CreateSimpleLightFrustumMesh();
 	}
@@ -106,6 +116,8 @@ namespace ma
 	{
 		RENDER_PROFILE(DeferredShadowPass);
 
+		RefPtr<Texture> pPreTarget = GetRenderSystem()->GetRenderTarget(0);
+
 		FrameBuffer fb;
 		fb.AttachColor(0,m_pShadowTex.get());
 		fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
@@ -115,6 +127,10 @@ namespace ma
 		
 		m_pFrustumVolume->Bind();
 
+		float fBlendValue = 0.8f;
+		
+		UINT32 stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
+
 		GetRenderSystem()->SetStencilCheckEnabled(true);
 		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // 从后往前
 		{
@@ -122,46 +138,113 @@ namespace ma
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
-			GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, i + 1, 0xFFFFffff, 0xFFFFffff,
-				SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
-			
-			ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
-			
-			Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-			GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+			// This frustum
+			{
+				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
+					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
 
-			GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
+
+				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
+				GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+
+				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+			}
+
+			// This frustum, not including blend region
+			{
+				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 1)  << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
+					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
+
+				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
+
+				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
+				Matrix4 matBlend = Matrix4::IDENTITY;
+				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
+				matFrum = matFrum * matBlend;
+				GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+
+				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
+			}
+
 		}
 
-		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i)
+		for (int i = 0; i < m_ShadowLight->GetCurSplitCount(); ++i)
 		{
 			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
-			ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
-
-			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, i + 1, 0xFFFFffff, 0xFFFFffff,
+			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
+
+			ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
 
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
 			GetRenderSystem()->SetValue(pShader->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
-
-			//pShader->SetVector4(m_paramViewPosVecLS, &shadowMapFru.m_viewPosVecLS);
-			//pShader->SetVector2(m_paramgIrregkernelRadius,&shadowMapFru.m_vkernelRadius);
+			GetRenderSystem()->SetValue(pShader->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+			GetRenderSystem()->SetValue(pShader->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
 			GetRenderSystem()->SetValue(pShader->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
-		//GetRenderSystem()->SetRenderTarget(pPreTarget);
+		ShaderProgram* pBlendShader = m_pBlendMaterial->GetShaderProgram();
 
-// 		ShaderProgram* pShader = m_pScreen->GetShaderProgram();
-// 		GetRenderSystem()->SetValue(pShader->GetUniform("tSrcColor"),m_pShadowTex.get());
-// 
-// 		ScreenQuad::Render(m_pScreen.get());		
+		// Blend
+		for (int i = 0; i < m_ShadowLight->GetCurSplitCount() - 1; ++i)
+		{
+			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
+			if ( !shadowMapFru.GetDraw() )
+				continue;
+
+			ShadowMapFrustum& shadowMapNextFru = m_ShadowLight->GetShadowMapFrustum(i + 1);
+
+			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
+				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
+
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
+
+			float fNextSize = (float)shadowMapNextFru.GetShadowMap()->GetTexture()->GetWidth();
+			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
+
+			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("BlendInfo"), vBlendInfo);
+
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoCamPos"), shadowMapFru.m_vShadowCamPos);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
+			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
+
+			ScreenQuad::Render(m_pDefferedShadow.get());
+		}
+
+		if (!m_pScene->GetRenderScheme()->GetDeferredShadingEnabled())
+		{
+			FrameBuffer fb;
+			fb.AttachColor(0,pPreTarget.get());
+			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
+			GetRenderSystem()->SetFrameBuffer(&fb);
+
+			ShaderProgram* pShader = m_pScreen->GetShaderProgram();
+ 			GetRenderSystem()->SetValue(pShader->GetUniform("tSrcColor"),m_pShadowTex.get());
+
+			ScreenQuad::Render(m_pScreen.get());	
+		}
 	}
 
 	void DeferredShadowPass::Shoutdown()

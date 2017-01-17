@@ -27,6 +27,9 @@ namespace ma
 
 		RefPtr<Technique>	m_pFrustumVolume;
 		RefPtr<Technique>	m_pDefferedShadow;
+
+		RefPtr<Technique>	m_pBlendMaterial;
+
 		RefPtr<Technique>	m_pScreen;
 
 		RefPtr<Renderable>	m_pRenderable;

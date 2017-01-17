@@ -61,8 +61,8 @@ namespace ma
 
 		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
 		{
-			constantBuffers_[VS][i] = 0;
-			constantBuffers_[PS][i] = 0;
+			m_vecD3D11ConstantBuffers[VS][i] = 0;
+			m_vecD3D11ConstantBuffers[PS][i] = 0;
 		}
 	}
 
@@ -145,7 +145,7 @@ namespace ma
 			SAFE_RELEASE(it->second);
 		}
 
-		m_constantBufferPool.clear();
+		m_mapConstantBufferPool.clear();
 
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
@@ -836,9 +836,9 @@ namespace ma
 			m_bRasterizerStateDirty = false;
 		}
 
-		for (unsigned i = 0; i < dirtyConstantBuffers_.size(); ++i)
-			dirtyConstantBuffers_[i]->Apply();
-		dirtyConstantBuffers_.clear();
+		for (unsigned i = 0; i < m_vecDirtyConstantBuffers.size(); ++i)
+			m_vecDirtyConstantBuffers[i]->Apply();
+		m_vecDirtyConstantBuffers.clear();
 
 	}
 
@@ -846,16 +846,16 @@ namespace ma
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = m_constantBufferPool.find(key);
-		if (i != m_constantBufferPool.end())
+		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = m_mapConstantBufferPool.find(key);
+		if (i != m_mapConstantBufferPool.end())
 		{
 			return i->second.get();
 		}
 		else
 		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer(/*context_*/));
+			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
 			newConstantBuffer->SetSize(size);
-			m_constantBufferPool[key] = newConstantBuffer;
+			m_mapConstantBufferPool[key] = newConstantBuffer;
 			return newConstantBuffer.get();
 		}
 	}
@@ -868,7 +868,7 @@ namespace ma
 		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
 
 		if (!pConstantBuffer->IsDirty())
-			dirtyConstantBuffers_.push_back(pConstantBuffer);
+			m_vecDirtyConstantBuffers.push_back(pConstantBuffer);
 		ASSERT(nSize <= uniform->m_nCBSize);
 		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
 	}
@@ -917,25 +917,25 @@ namespace ma
 
 		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
 		{
-			ID3D11Buffer* vsBuffer = m_pShader->vsConstantBuffers_[i] ? m_pShader->vsConstantBuffers_[i]->GetD3D11Buffer() : NULL;
-			if (vsBuffer != constantBuffers_[VS][i])
+			ID3D11Buffer* vsBuffer = m_pShader->m_vecVSConstantBuffers[i] ? m_pShader->m_vecVSConstantBuffers[i]->GetD3D11Buffer() : NULL;
+			if (vsBuffer != m_vecD3D11ConstantBuffers[VS][i])
 			{
-				constantBuffers_[VS][i] = vsBuffer;
+				m_vecD3D11ConstantBuffers[VS][i] = vsBuffer;
 				vsBuffersChanged = true;
 			}
 
-			ID3D11Buffer* psBuffer = m_pShader->psConstantBuffers_[i] ? m_pShader->psConstantBuffers_[i]->GetD3D11Buffer() : NULL;
-			if (psBuffer != constantBuffers_[PS][i])
+			ID3D11Buffer* psBuffer = m_pShader->m_vecPSConstantBuffers[i] ? m_pShader->m_vecPSConstantBuffers[i]->GetD3D11Buffer() : NULL;
+			if (psBuffer != m_vecD3D11ConstantBuffers[PS][i])
 			{
-				constantBuffers_[PS][i] = psBuffer;
+				m_vecD3D11ConstantBuffers[PS][i] = psBuffer;
 				psBuffersChanged = true;
 			}
 		}
 
 		if (vsBuffersChanged)
-			m_pDeviceContext->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &constantBuffers_[VS][0]);
+			m_pDeviceContext->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &m_vecD3D11ConstantBuffers[VS][0]);
 		if (psBuffersChanged)
-			m_pDeviceContext->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &constantBuffers_[PS][0]);
+			m_pDeviceContext->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &m_vecD3D11ConstantBuffers[PS][0]);
 	}
 
 	void D3D11RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)

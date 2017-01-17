@@ -67,7 +67,7 @@ out DRMRTOut mrtOut
 	    
 	float metalness = 0;
 	float glossiness = 0;
-	GetMetalnessGlossiness(In.v_texCoord,metalness,glossiness);
+	GetMetalnessGlossiness(In.v_texCoord,metalness,glossiness,float2(0,0),0);
 
 #if DEFERREDSHADING == 0
 	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow);

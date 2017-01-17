@@ -81,14 +81,9 @@ namespace ma
 
 	void Octree::FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj)
 	{
-
+		ASSERT(vecObj.empty());
+		this->_FindObjectsIn(m_pRoot, false, pFrustum, mask, vecObj);
 	}
-
-	void Octree::FindObjectsIn(CullTreeQuery& query,uint32 mask)
-	{
-		this->_FindObjectsIn(m_pRoot,false,query);
-	}
-
 
 	// ---------------------------------------------------------------------
 	// Self
@@ -165,7 +160,7 @@ namespace ma
 	}
 
 
-	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, CullTreeQuery& query) const
+	void Octree::_FindObjectsIn(OctreeNode* pNode, bool bFull, const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) const
 	{
 		Frustum::Visibility visiblity = Frustum::Visibility_NONE;
 		if (bFull)
@@ -174,7 +169,10 @@ namespace ma
 		}
 		else
 		{
-			visiblity = query.TestCullNode(pNode);
+			AABB box;
+			pNode->GetCullBoundingBox(box);
+
+			visiblity = pFrustum->Intersect(box);
 		}
 
 		if (visiblity == Frustum::Visibility_NONE)
@@ -182,49 +180,68 @@ namespace ma
 			return;
 		}
 
-		query.VisitCullNode(pNode,visiblity);
+		// 把对象放进去
+		//const LST_OBJECT& lstObjects = pNode->GetObjects();
+		//for (LST_OBJECT::const_iterator iter = lstObjects.begin();iter != lstObjects.end();++iter)
+		for (uint32 i = 0; i < pNode->GetObjectAmount(); ++i)
+		{
+			RenderComponent* pObject = pNode->GetObjectByIndex(i);
+			//uint32 obj_mask = pObject->GetProbeMask();
+			//if ( ProbeMask_All != mask && (mask & obj_mask) == 0)
+			//{
+			//	continue;
+			//}
+			if (visiblity == Frustum::Visibility_FULL)
+			{
+				vecObj.push_back(pObject);
+			}
+			else if (pFrustum->Intersect(pObject->GetAABBWS()) != Frustum::Visibility_NONE)
+			{
+				vecObj.push_back(pObject);
+			}
+		}
 
 		//
 		bool bFindChildVisible = (visiblity == Frustum::Visibility_FULL);
 		OctreeNode* pChild = NULL;
 		if ((pChild = pNode->m_rgChildren[0][0][0]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[1][0][0]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[0][1][0]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[1][1][0]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[0][0][1]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[1][0][1]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[0][1][1]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 
 		if ((pChild = pNode->m_rgChildren[1][1][1]) != NULL)
 		{
-			this->_FindObjectsIn(pChild, bFull, query);
+			this->_FindObjectsIn(pChild, bFull, pFrustum, mask, vecObj);
 		}
 	}
 

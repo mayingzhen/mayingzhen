@@ -96,14 +96,12 @@
 #include "Engine/Scene/Scene.hxx"
 #include "Engine/Scene/OctreeNode.hxx"
 #include "Engine/Scene/Octree.hxx"
-#include "Engine/Scene/FrustumCullQuery.hxx"
 #include "Engine/Scene/Camera.hxx"
 #include "Engine/Scene/ParallelCull.hxx"
 
 // Light
 #include "Engine/Scene/Light/Light.hxx"
 #include "Engine/Scene/Light/ShadowMapFrustum.hxx"
-#include "Engine/Scene/Light/ShadowCasterQuery.hxx"
 #include "Engine/Scene/Light/DirectonalLight.hxx"
 #include "Engine/Scene/Light/PoissonDiskGen.hxx"
 

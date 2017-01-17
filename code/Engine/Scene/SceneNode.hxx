@@ -270,6 +270,11 @@ namespace ma
 		{
 			m_arrChild[i]->SetNeedChange(eChangeType);
 		}
+
+		for (UINT i = 0; i < m_arrComp.size(); ++i)
+		{
+			m_arrComp[i]->SetNeedChange(eChangeType);
+		}
 	}
 
 	bool SceneNode::BeginMatrix() const

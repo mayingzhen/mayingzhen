@@ -9,12 +9,6 @@ namespace ma
 	#define MAX_FRUSTUM_SPLIT_NUM 4
 	#define MAX_SHADOW_SAMPLES_NUM 16
 
-	enum Shadow_Blur
-	{
-		BLUR_NO,
-		SHADOW_PCF2x2,
-		SHADOW_JITTERIN,
-	};
 
 	class DirectonalLight : public Light
 	{
@@ -34,17 +28,16 @@ namespace ma
 		void				RenderShadowMap(Camera* pCamera);
 		void				Clear(Camera* pCamera);
 
-
 		void				SetShadowBlurLevel(Shadow_Blur eBlur);
 		Shadow_Blur			GetShadowBlurLevel() const {return m_eShadowBleurLevel;}
 
 		// Shadow Irreg
-// 		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
-// 		uint32				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
-// 		Texture*			GetRotSampler() const {return m_pRotSampler.get();}		
-// 		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
-// 		void				SetShadowSamplesNum(int nNum);
-// 		const Vector4*		GetViewPosVecLS() const {return m_viewPosVecLS[GetRenderSystem()->CurThreadProcess()];}
+		const	Vector4*	GetIrregKernel() const {return m_irreg_kernel;}
+		uint32				GetIrregKernelSize() const {return m_ShadowSamplesNumer / 2;}
+		SamplerState*		GetRotSampler() const {return m_pRotSampler.get();}		
+		int					GetShadowSamplesNum() const {return m_ShadowSamplesNumer;}
+		void				SetShadowSamplesNum(int nNum);
+		void				SetIrregKernelRadius(const Vector2& vKernelRadiusm,UINT nSplit);
 
 		// 
 		void				SetMaxSplitCount(int nMaxSplitCount);
@@ -68,9 +61,6 @@ namespace ma
 		void				SetShadowFarDistance(float distance) {m_fShadowFarDist = distance;}
 		float				GetShadowFarDistance() const{ return m_fShadowFarDist; }
 
-		Caster_Cull			GetCasterCullType() const {return m_eCaterType;}
-		void				SetCasterCullType(Caster_Cull eCasterCull) {m_eCaterType = eCasterCull;}
-
 		ShadowMapFrustum&	GetShadowMapFrustum(int index) {return m_SpitFrustum[index];}
 
 	private:
@@ -86,6 +76,11 @@ namespace ma
 
 		ShadowMapFrustum	m_SpitFrustum[MAX_FRUSTUM_SPLIT_NUM];
 
+		// Shadow irreg
+		int					m_ShadowSamplesNumer;
+		Vector4				m_irreg_kernel[MAX_SHADOW_SAMPLES_NUM / 2];
+		RefPtr<SamplerState> m_pRotSampler;
+
 		float				m_fConstantBias;
 		float				m_fSlopeScaledBias;	
 
@@ -95,8 +90,6 @@ namespace ma
 		float				m_fShadowFadeStart;
 
 		Shadow_Blur			m_eShadowBleurLevel;
-
-		Caster_Cull			m_eCaterType;
 
 		bool				m_bShadowEnable;
 	};

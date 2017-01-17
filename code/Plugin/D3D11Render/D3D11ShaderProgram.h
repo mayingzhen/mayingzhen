@@ -27,7 +27,7 @@ namespace ma
 		uint32	GetBytePSCodeSize() {return m_pBytePSCode.size();}
 
 		/// Return vertex element mask.
-		unsigned GetElementMask() const { return elementMask_; }
+		unsigned GetElementMask() const { return m_nElementMask; }
 
 	private:
 		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
@@ -42,9 +42,9 @@ namespace ma
 		vector<BYTE>			m_pBytePSCode;	
 
 		 /// Vertex element mask for vertex shaders. Zero for pixel shaders.
-		unsigned elementMask_;
-		RefPtr<ConstantBuffer> vsConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
-		RefPtr<ConstantBuffer> psConstantBuffers_[MAX_SHADER_PARAMETER_GROUPS];
+		unsigned m_nElementMask;
+		RefPtr<ConstantBuffer> m_vecVSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
+		RefPtr<ConstantBuffer> m_vecPSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 
 		friend class D3D11RenderDevice;
 	};

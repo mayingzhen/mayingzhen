@@ -25,9 +25,14 @@ namespace ma
 		m_matShadow[1]  = Matrix4::IDENTITY;
 		m_matTexAdjust = Matrix4::IDENTITY;
 	
-		m_fShadowFarDist = 0;
+		m_vWBasisX = Vector4::ZERO;
+		m_vWBasisY = Vector4::ZERO;
+		m_vWBasisZ = Vector4::ZERO;
+		m_vShadowCamPos = Vector4::ZERO;
 
-		m_eCaterType = CasterCull_No;
+		// shadow jitterin
+		m_viewPosVecLS = Vector4::ZERO;
+		m_vkernelRadius = Vector2(2.0f,2.0f);
 
 		m_pShadowMapFB = new FrameBuffer;
 	}
@@ -106,18 +111,10 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
-		if (m_eCaterType != CasterCull_No)
-		{
-			Frustum ligtFrustum;
-			ligtFrustum.Update(m_matLightProj * m_matLightView, GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
+		m_lightFrustum.Update(m_matLightProj * m_matLightView,GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
 
-			Frustum lightViewFrustum = m_frustum;
-			lightViewFrustum.Transformed(m_matLightView);
-
-			ShadowCasterQuery shaowQuery(ligtFrustum,lightViewFrustum,m_matLightView,m_arrCaster,m_casterAABB);
-			//pCamera->GetScene()->GetCullTree()->FindObjectsIn(shaowQuery);
-		}
-
+		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
+		
 		for (VEC_CASTER::iterator iter = m_arrCaster.begin();iter != m_arrCaster.end();++iter)
 		{
 			RenderComponent* pRenderComp = (*iter);
@@ -163,73 +160,39 @@ namespace ma
 			vLightUp = pCamera->GetUp();
 		}
 
-		Vector3 pos = pCamera->GetPosWS() - pCamera->GetFarClip() * vLightDir;
+		Vector3 pos = m_frustum.GetAABB().getCenter() - pCamera->GetFarClip() * vLightDir;
 
 		Matrix4 matLightView = Math::MakeLookAtMatrixRH(pos,pos + vLightDir,vLightUp);
 		Matrix4 matInvLightView = matLightView.inverse();
 
 		AABB aabbInLightView;
 
-		if (m_eCaterType == CasterCull_No)
+		uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
+		for (uint32 i = 0; i < iNodeNum; ++i)
 		{
-			uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
-			for (uint32 i = 0; i < iNodeNum; ++i)
-			{
-				RenderComponent* pNode = pCurScene->GetVisibleNodeByIndex(i);
-				if (pNode->GetViewMinZ() > fSpiltFar || pNode->GetViewMaxZ() < fSpiltNear)
-					continue;
+			RenderComponent* pNode = pCurScene->GetVisibleNodeByIndex(i);
 
-				m_sceneAABB.merge( pNode->GetAABBWS() );
+			if (pNode->GetViewMinZ() > fSpiltFar || pNode->GetViewMaxZ() < fSpiltNear)
+				continue;
 
-				if (!pNode->GetShadowCaster())
-					continue;
+			m_sceneAABB.merge( pNode->GetAABBWS() );
+		}
 
-				m_casterAABB.merge( pNode->GetAABBWS() );
-
-				m_arrCaster.push_back(pNode);
-			}	
-
-			if (m_arrCaster.empty())
-			{
-				m_bDraw[GetRenderSystem()->CurThreadFill()] = false;
-			}
-			else
-			{
-				m_bDraw[GetRenderSystem()->CurThreadFill()] = true;	
-
-				aabbInLightView = m_casterAABB;
-				aabbInLightView.transform(matLightView);
-			}
+		ConvexBody frustumVolume;
+		frustumVolume.define(m_frustum);
+		frustumVolume.clip(m_sceneAABB);
+		if (frustumVolume.getPolygonCount() <= 0)
+		{
+			m_bDraw[GetRenderSystem()->CurThreadFill()] = false;
 		}
 		else
-		{
-			uint32 iNodeNum = pCurScene->GetVisibleNodeNum();
-			for (uint32 i = 0; i < iNodeNum; ++i)
-			{
-				RenderComponent* pNode = pCurScene->GetVisibleNodeByIndex(i);
+		{		
+			m_bDraw[GetRenderSystem()->CurThreadFill()] = true;
 
-				if (pNode->GetViewMinZ() > fSpiltFar || pNode->GetViewMaxZ() < fSpiltNear)
-					continue;
-
-				m_sceneAABB.merge( pNode->GetAABBWS() );
-			}
-
-			ConvexBody frustumVolume;
-			frustumVolume.define(m_frustum);
-			frustumVolume.clip(m_sceneAABB);
-			if (frustumVolume.getPolygonCount() <= 0)
-			{
-				m_bDraw[GetRenderSystem()->CurThreadFill()] = false;
-			}
-			else
-			{		
-				m_bDraw[GetRenderSystem()->CurThreadFill()] = true;
-
-				frustumVolume.transformed(matLightView);
-				aabbInLightView = frustumVolume.getAABB();
-			}
+			frustumVolume.transformed(matLightView);
+			aabbInLightView = frustumVolume.getAABB();
 		}
-
+	
 		if (aabbInLightView.isNull())
 		{
 			Frustum frustumInLightView = m_frustum;
@@ -237,18 +200,10 @@ namespace ma
 			aabbInLightView = frustumInLightView.GetAABB();
 		}
 
-		Vector3 vLightPos;
 		Vector3 vCenter = aabbInLightView.getCenter();
 		Vector3 vLigtViewSize = aabbInLightView.getSize();
-		if (m_eCaterType == LightFrustum_Cull)
-		{
-			vLightPos = matInvLightView * Vector3(vCenter.x,vCenter.y,0);
-			vLigtViewSize.z = -aabbInLightView.getMinimum().z;
-		}
-		else 
-		{
-			vLightPos = matInvLightView * Vector3(vCenter.x,vCenter.y,aabbInLightView.getMaximum().z);
-		}
+		Vector3 vLightPos = matInvLightView * Vector3(vCenter.x,vCenter.y,0);
+		vLigtViewSize.z = -aabbInLightView.getMinimum().z;
 
 		m_matLightView = Math::MakeLookAtMatrixRH(vLightPos, vLightPos + vLightDir, vLightUp);
 
@@ -309,8 +264,8 @@ namespace ma
 		float fOffsetZ = -vMin.z * fScaleZ;
 
 		m_matCrop = Matrix4::IDENTITY;
-		m_matCrop.setScale(Vector3(fScaleX,fScaleY,fScaleZ));
-		m_matCrop.setTrans(Vector3(fOffsetX,fOffsetY,fOffsetZ));
+		//m_matCrop.setScale(Vector3(fScaleX,fScaleY,fScaleZ));
+		//m_matCrop.setTrans(Vector3(fOffsetX,fOffsetY,fOffsetZ));
 	}
 
 	void ShadowMapFrustum::UpdateDepthBias(Camera* pCamera,float fSpiltNear,float fSpiltFar)
@@ -382,20 +337,16 @@ namespace ma
 		m_matLightViewProj[GetRenderSystem()->CurThreadFill()] = m_matCrop * m_matLightProj * m_matLightView;
 		m_matShadow[GetRenderSystem()->CurThreadFill()] = m_matTexAdjust * m_matLightViewProj[GetRenderSystem()->CurThreadFill()];
 
-		//if (pCamera->GetDeferredShadowEnabled())
+		if (pCamera->GetScene()->GetRenderScheme()->GetDeferredShadingEnabled())
 		{
 			Rectangle rect = GetRenderSystem()->GetViewPort();
 			ProjectScreenToWorldExpansionBasis(m_matShadow[GetRenderSystem()->CurThreadFill()],*pCamera,rect.width(),rect.height(),
 				m_vWBasisX,m_vWBasisY,m_vWBasisZ,m_vShadowCamPos);
 		}
 
-// 		RenderShadowCSM* pShadowCSM = pCamera->GetSceneManager()->GetRenderShadow();
-// 		if (pShadowCSM->GetShadowBlurLevel() == ShadowBlur_JITTERIN)
-// 		{
-// 			Vector3 vViewPosLS = this->GetLightViewMatrix() * pCamera->GetEyeNode()->GetWorldPos();
-// 			Vector3 vViewVectLS = this->GetLightViewMatrix() * pCamera->GetAtNode()->GetWorldPos() - vViewPosLS;
-// 			m_viewPosVecLS = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
-// 		}
+		Vector3 vViewPosLS = this->GetLightViewMatrix() * pCamera->GetEyeNode()->GetPosWS();
+		Vector3 vViewVectLS = this->GetLightViewMatrix() * pCamera->GetAtNode()->GetPosWS() - vViewPosLS;
+		m_viewPosVecLS = Vector4(vViewPosLS.x,vViewPosLS.y,vViewVectLS.x,vViewVectLS.y);
 	}
 
 	void ShadowMapFrustum::Render(Camera* pCamera)

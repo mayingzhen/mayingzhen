@@ -22,8 +22,8 @@ namespace ma
 
 		for (uint32 i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
 		{
-			vsConstantBuffers_[i] = NULL;
-			psConstantBuffers_[i] = NULL;
+			m_vecVSConstantBuffers[i] = NULL;
+			m_vecPSConstantBuffers[i] = NULL;
 		}
 	}
 
@@ -169,8 +169,8 @@ namespace ma
 
 	void D3D11ShaderProgram::ParseUniform()
 	{
-		ParseShaderUniform(VS,m_pByteVSCode,vsConstantBuffers_);
-		ParseShaderUniform(PS,m_pBytePSCode,psConstantBuffers_);
+		ParseShaderUniform(VS,m_pByteVSCode,m_vecVSConstantBuffers);
+		ParseShaderUniform(PS,m_pBytePSCode,m_vecPSConstantBuffers);
 	}
 
 	void D3D11ShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,

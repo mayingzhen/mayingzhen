@@ -8,11 +8,11 @@ namespace ma
 	class Texture;
 	class FrameBuffer;
 
-	enum Caster_Cull
+	enum Shadow_Blur
 	{
-		CasterCull_No,			// 直接使用视锥裁剪结果
-		LightViewFrustum_Cull,  // 光照空间的view Frustum
-		LightFrustum_Cull,		// 完整的Light Frustum
+		BLUR_NO,
+		SHADOW_PCF2x2,
+		SHADOW_JITTERIN,
 	};
 
 	class ShadowMapFrustum
@@ -58,7 +58,6 @@ namespace ma
 		Matrix4				m_matLightViewProj[2];
 		Matrix4				m_matShadow[2];
 
-
 		AABB				m_casterAABB;
 		VEC_CASTER			m_arrCaster;
 
@@ -67,6 +66,8 @@ namespace ma
 		AABB				m_sceneAABB;
 
 		Frustum				m_frustum;
+
+		Frustum				m_lightFrustum;
 
 		float				m_fConstantBias[2];
 		float				m_fSlopeScaleBias[2];
@@ -78,6 +79,8 @@ namespace ma
 		RefPtr<Texture>		m_pShadowMapColor;
 		RefPtr<SamplerState> m_pShadowMapSampler;
 
+		Shadow_Blur			m_eShadowBleurLevel;
+
 		bool				m_bDraw[2];
 
 	public:
@@ -88,12 +91,8 @@ namespace ma
 		Vector4				m_vShadowCamPos;
 
 		// Shadow irreg
-// 		int					m_ShadowSamplesNumer;
-// 		Vector4				m_irreg_kernel[MAX_SHADOW_SAMPLES_NUM / 2];
-// 		Vector4				m_viewPosVecLS[2][MAX_FRUSTUM_SPLIT_NUM];
-// 		RefPtr<Texture>		m_pRotSampler;
-
-		Caster_Cull			m_eCaterType;
+		Vector4				m_viewPosVecLS;
+		Vector2				m_vkernelRadius;
 		
 		float				m_fShadowFarDist;
 

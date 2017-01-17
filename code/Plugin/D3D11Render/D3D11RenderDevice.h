@@ -149,9 +149,9 @@ namespace ma
 		map<unsigned, ID3D11BlendState*> m_blendStatePool;
 
 		// ConstantBuffer
-		map<unsigned, RefPtr<ConstantBuffer> > m_constantBufferPool;
-		vector<ConstantBuffer*> dirtyConstantBuffers_;
-		ID3D11Buffer* constantBuffers_[2][MAX_SHADER_PARAMETER_GROUPS];	
+		map<unsigned, RefPtr<ConstantBuffer> > m_mapConstantBufferPool;
+		vector<ConstantBuffer*> m_vecDirtyConstantBuffers;
+		ID3D11Buffer* m_vecD3D11ConstantBuffers[2][MAX_SHADER_PARAMETER_GROUPS];	
 
 		D3D11ShaderProgram* m_pShader;
 

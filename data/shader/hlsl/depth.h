@@ -1,5 +1,5 @@
 
-cbuffer ObjectPS : register(b5)
+cbuffer ObjectPS : register(b7)
 {
 	float4 vStoWBasisX;
 	float4 vStoWBasisY;
@@ -29,7 +29,7 @@ float GetLinearDepth(float2 tc)
 #endif
 }
 
-float4 CalcHomogeneousPos(float2 tc,float2 WPos)
+float4 CalcHomogeneousPosDepth(float2 tc,float2 WPos)
 {
 	float fLinearDepth = GetLinearDepth(tc);
 

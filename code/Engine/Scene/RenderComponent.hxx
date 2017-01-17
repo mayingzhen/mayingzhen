@@ -18,7 +18,14 @@ namespace ma
 
 	void RenderComponent::Update()
 	{
+		bool bNeedUpdate = (m_nAABBChangeType != ACT_NONE && m_nAABBChangeType != ACT_SELF_CUSTOM);
+
 		UpdateWorldBoundingBox();
+
+		if (bNeedUpdate && m_pSceneNode && m_pSceneNode->GetScene())
+		{
+			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+		}
 	}
 
 	void RenderComponent::SetNeedChange(CHANGE_TYPE eChangeType)
@@ -32,13 +39,17 @@ namespace ma
 	void RenderComponent::OnAddToSceneNode(SceneNode* pNode)
 	{
 		if (m_pSceneNode && m_pSceneNode->GetScene())
+		{
 			m_pSceneNode->GetScene()->GetCullTree()->UpdateObject(this);
+		}
 	}
 
 	void RenderComponent::OnRemoveFromSceneNode(SceneNode* pNode)
 	{
 		if (m_pSceneNode && m_pSceneNode->GetScene())
+		{
 			m_pSceneNode->GetScene()->GetCullTree()->RemoveObject(this);	
+		}
 	}
 
 	void RenderComponent::UpdateWorldBoundingBox()

@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "Octree.h"
-#include "FrustumCullQuery.h"
+#include "ParallelCull.h"
 
 namespace ma
 {
@@ -12,7 +12,7 @@ namespace ma
 		m_pCamera = CreateCamera();
 		m_pRootNode->AddChild(m_pCamera.get());
 
-		m_pCullTree = new Octree();
+		m_pCullTree = new ParallelCull();
 
 		m_pRenderQueue[0] = new RenderQueue();
 		m_pRenderQueue[1] = new RenderQueue();
@@ -126,8 +126,18 @@ namespace ma
 		}
 
 		m_arrRenderComp.clear();
-		FrustumCullQuery frustumQuery(m_pCamera->GetFrustum(),m_arrRenderComp);
-		m_pCullTree->FindObjectsIn(frustumQuery,0);
+
+		typedef vector<RenderComponent*> VEC_OBJ;
+		static VEC_OBJ vecObj;
+		m_pCullTree->FindObjectsIn(&m_pCamera->GetFrustum(),-1,vecObj);
+
+		uint32 nNodeCount = vecObj.size();
+		m_arrRenderComp.resize(nNodeCount);
+		for (uint32 mm = 0;mm< nNodeCount;++mm)
+		{
+			m_arrRenderComp[mm] = vecObj[mm];
+		}
+		vecObj.clear();
 		
 		if (GetRenderQueue())
 			GetRenderQueue()->Clear();

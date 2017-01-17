@@ -136,13 +136,13 @@ namespace ma
 			RenderComponent* pNode = ppNodeStart[i];
 			int& pView = ppViewStart[i];
 			ParallelCull::NodeBound& bound = ppNodeBound[i];
-			if (pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) == Frustum::Visibility_NONE)
+			if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) != Frustum::Visibility_NONE)
 			{
-				pView = 0;
+				pView = 1;
 			}
 			else
 			{
-				pView = 1;
+				pView = 0;
 			}
 		}
 
@@ -203,16 +203,11 @@ namespace ma
 				RenderComponent* pObject = m_vecNode[i];
 
 				ParallelCull::NodeBound& bound = m_vecNodeBound[i];
-				if (pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) != Frustum::Visibility_NONE)
+				if (bound.m_bInfinite || pFrustum->IntersectSIMD(bound.m_vCenter,bound.m_vExtern) != Frustum::Visibility_NONE)
 				{
 					vecObj.push_back(pObject);
 				}
 			}
 		}
-	}
-
-	void ParallelCull::FindObjectsIn(CullTreeQuery& query,uint32 mask) 
-	{
-		ASSERT(false);
 	}
 }

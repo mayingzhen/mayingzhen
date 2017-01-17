@@ -7,7 +7,7 @@ namespace ma
 {
 	Frustum::Frustum(void)
 	{
-			m_rgSIMDPlane = NULL;
+		m_rgSIMDPlane = NULL;
 	}
 
 	Frustum::Frustum(const Frustum& rkFrustum)
@@ -20,6 +20,7 @@ namespace ma
 
 	Frustum::~Frustum(void)
 	{
+		AlignedMemory_deallocate(m_rgSIMDPlane);
 	}
 
 	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem)
@@ -49,17 +50,6 @@ namespace ma
 		}
 	}
 
-	void Frustum::UpdatePlanes()
-	{
-		m_rgPlane[FRUSTUM_PLANE_NEAR].redefine(m_pPoints[near_left_top], m_pPoints[near_right_top], m_pPoints[near_right_bottom]);
-		m_rgPlane[FRUSTUM_PLANE_FAR].redefine(m_pPoints[far_left_top], m_pPoints[far_right_bottom], m_pPoints[far_right_top]);
-		m_rgPlane[FRUSTUM_PLANE_LEFT].redefine(m_pPoints[near_left_top], m_pPoints[near_left_bottom], m_pPoints[far_left_top]);
-		m_rgPlane[FRUSTUM_PLANE_RIGHT].redefine(m_pPoints[near_right_top], m_pPoints[far_right_top], m_pPoints[near_right_bottom]);
-		m_rgPlane[FRUSTUM_PLANE_TOP].redefine(m_pPoints[near_left_top], m_pPoints[far_left_top], m_pPoints[near_right_top]);
-		m_rgPlane[FRUSTUM_PLANE_BOTTOM].redefine(m_pPoints[near_left_bottom], m_pPoints[near_right_bottom], m_pPoints[far_left_bottom]);
-	}
-
-
 	void Frustum::Update(const Matrix4& matViewProj,bool bGLSystem)
 	{
 		UpdatePoint(matViewProj.inverse(),bGLSystem);
@@ -83,6 +73,16 @@ namespace ma
 		}
 
 		UpdatePlanes();
+	}
+	
+	void Frustum::UpdatePlanes()
+	{
+		m_rgPlane[FRUSTUM_PLANE_NEAR].redefine(m_pPoints[near_left_top], m_pPoints[near_right_top], m_pPoints[near_right_bottom]);
+		m_rgPlane[FRUSTUM_PLANE_FAR].redefine(m_pPoints[far_left_top], m_pPoints[far_right_bottom], m_pPoints[far_right_top]);
+		m_rgPlane[FRUSTUM_PLANE_LEFT].redefine(m_pPoints[near_left_top], m_pPoints[near_left_bottom], m_pPoints[far_left_top]);
+		m_rgPlane[FRUSTUM_PLANE_RIGHT].redefine(m_pPoints[near_right_top], m_pPoints[far_right_top], m_pPoints[near_right_bottom]);
+		m_rgPlane[FRUSTUM_PLANE_TOP].redefine(m_pPoints[near_left_top], m_pPoints[far_left_top], m_pPoints[near_right_top]);
+		m_rgPlane[FRUSTUM_PLANE_BOTTOM].redefine(m_pPoints[near_left_bottom], m_pPoints[near_right_bottom], m_pPoints[far_left_bottom]);
 	}
 
 	void Frustum::UpdateSIMDPlanes()
@@ -114,6 +114,10 @@ namespace ma
 			return Visibility_NONE;
 		}
 
+		if (box.isInfinite())
+		{
+			return Visibility_PARTITAL;
+		}
 		Vector3 vCenter = box.getCenter();
 		Vector3 vHalfSize = box.getHalfSize();
 

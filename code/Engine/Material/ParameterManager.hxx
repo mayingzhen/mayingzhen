@@ -13,33 +13,6 @@ namespace ma
 
 	ParameterManager::ParameterManager() 
 	{
-		m_autoDefaultBings["g_matView"] = g_matView;
-		m_autoDefaultBings["g_matViewInv"] = g_matViewInv;
-		m_autoDefaultBings["g_matProj"] = g_matProj;
-		m_autoDefaultBings["g_matProjInv"] = g_matProjInv;
-		m_autoDefaultBings["g_matWorld"] = g_matWorld;
-		m_autoDefaultBings["g_matViewProj"] = g_matViewProj;
-		m_autoDefaultBings["g_matWorldViewProj"] = g_matWorldViewProj;
-		m_autoDefaultBings["g_matWorldView"] = g_matWorldView;
-		m_autoDefaultBings["g_vEyeWorldPos"]= g_vEyeWorldPos;
-		m_autoDefaultBings["g_cSkyLight"]= g_cSkyLight;
-		m_autoDefaultBings["g_cDirLight"]= g_cDirLight;
-		m_autoDefaultBings["g_vDirLight"]= g_vDirLight;
-		m_autoDefaultBings["g_tShadowMap"] = g_tShadowMap;
-		//m_autoDefaultBings["g_fSplitPlane"] = g_fSplitPlane;
-		m_autoDefaultBings["g_matShadow"] = g_matShadow;
-		m_autoDefaultBings["g_shadowMapTexelSize"] = g_shadowMapTexelSize;
-		m_autoDefaultBings["g_ShadowDepthFade"] = g_ShadowDepthFade;
-		m_autoDefaultBings["g_matShadow"] = g_matShadow;
-		//m_autoDefaultBings["boneDQ"] = MATRIX_PALETTE;
-		m_autoDefaultBings["g_vCameraNearFar"] = DepthNearFarInvfar;
-		m_autoDefaultBings["u_textureSceneDiffuse"] =  TextureSceneDiffuse;
-		m_autoDefaultBings["tDepthMapSampler"] =  TextureSceneDepth;
-		m_autoDefaultBings["tDeviceDepthMapSampler"] =  TextureSceneDeviceDepth;
-		m_autoDefaultBings["u_textureSceneNormal"] =  TextureSceneNormal;
-		m_autoDefaultBings["u_TextureSceneShadow"] =  TextureLightShadow;
-		//m_autoDefaultBings["u_textureLightDiffuse"] =  TextureLightDiffuse;
-		//m_autoDefaultBings["u_textureLightSpecular"] =  TextureLightSpecular;
 	}
 
 	ParameterManager::~ParameterManager()
@@ -53,134 +26,122 @@ namespace ma
 		if (pParam == NULL)
 			return;
 
-		std::map<std::string, AutoBinding>::iterator itr =  m_autoDefaultBings.find(pParam->GetName());
-		if (itr != m_autoDefaultBings.end())
-		{
-			SetParameterAutoBinding(pParam,itr->second);
-		}
-	}
-
-	void ParameterManager::SetParameterAutoBinding(Uniform* pParam,AutoBinding autoBinding)
-	{
-		ASSERT(pParam);
-		if (pParam == NULL)
-			return;
-
-		if (autoBinding == g_matWorld)
+		const char* pszName = pParam->GetName();
+		if ( stricmp(pszName, "g_matWorld") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldMatrix);
 		}
-		else if (autoBinding == g_matView)
+		else if ( stricmp(pszName,"g_matView") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
 		}
-		else if (autoBinding == g_matViewInv)
+		else if ( stricmp(pszName,"g_matViewInv") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrixInv);
 		}
-		else if (autoBinding == g_matProj)
+		else if ( stricmp(pszName,"g_matProj") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
 		}
-		else if (autoBinding == g_matProjInv)
+		else if ( stricmp(pszName,"g_matProjInv") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseProjectionMatrix);
 		}
-		else if (autoBinding == g_matWorldView)
+		else if ( stricmp(pszName,"g_matWorldView") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewMatrix);
 		}
-		else if (autoBinding == g_matViewProj)
+		else if ( stricmp(pszName,"g_matViewProj") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetViewProjMatrix);
 		}
-		else if (autoBinding == g_matWorldViewProj)
+		else if ( stricmp(pszName,"g_matWorldViewProj") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
 		}
-		else if (autoBinding == g_vEyeWorldPos)
+		else if ( stricmp(pszName,"g_vEyeWorldPos") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetEyeWorldPos);
 		}
-		else if (autoBinding == g_cSkyLight)
+		else if ( stricmp(pszName,"g_cSkyLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetAmbientColor);
 		}
-		else if (autoBinding == g_cDirLight)
+		else if ( stricmp(pszName,"g_cDirLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightColor);
 		}
-		else if (autoBinding == g_vDirLight)
+		else if ( stricmp(pszName,"g_vDirLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightDir);
 		}
-		else if (autoBinding == g_tShadowMap)
+		else if ( stricmp(pszName,"g_tShadowMap") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMap);
 		}
-		else if (autoBinding == g_matShadow)
+		else if ( stricmp(pszName,"g_matShadow") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix);
 		}
-		else if (autoBinding == g_shadowMapTexelSize)
+		else if ( stricmp(pszName,"g_shadowMapTexelSize") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMapTexSize);
 		}
-		else if (autoBinding == g_ShadowDepthFade)
+		else if ( stricmp(pszName,"g_ShadowDepthFade") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowDepthFade);
 		}
-		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_MATRIX)
+		else if ( stricmp(pszName,"INVERSE_TRANSPOSE_WORLD_MATRIX") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldMatrix);
 		}
-		else if (autoBinding == INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX)
+		else if ( stricmp(pszName,"INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix);
 		}
-		else if (autoBinding == CAMERA_WORLD_POSITION)
+		else if ( stricmp(pszName,"CAMERA_WORLD_POSITION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraWorldPosition);
 		}
-		else if (autoBinding == CAMERA_VIEW_POSITION)
+		else if ( stricmp(pszName,"CAMERA_VIEW_POSITION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraViewPosition);
 		}
-		else if (autoBinding == SCENE_LIGHT_COLOR)
+		else if ( stricmp(pszName,"SCENE_LIGHT_COLOR") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightColor);
 		}
-		else if (autoBinding == SCENE_LIGHT_DIRECTION)
+		else if ( stricmp(pszName,"SCENE_LIGHT_DIRECTION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightDirection);
 		}
-		else if (autoBinding == DepthNearFarInvfar)
+		else if ( stricmp(pszName,"DepthNearFarInvfar") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingDepthNearFarInvfar);
 		}
-		else if (autoBinding == TextureSceneDiffuse)
+		else if ( stricmp(pszName,"TextureSceneDiffuse") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDiffuse);
 		}
-		else if (autoBinding == TextureSceneDepth)
+		else if ( stricmp(pszName,"TextureSceneDepth") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDetph);
 		}
-		else if (autoBinding == TextureSceneDeviceDepth)
+		else if ( stricmp(pszName,"TextureSceneDeviceDepth") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBingingSceneDetph);
 		}
-		else if (autoBinding == TextureSceneNormal)
+		else if ( stricmp(pszName,"TextureSceneNormal") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
 		}
-		else if (autoBinding == TextureLightShadow)
+		else if ( stricmp(pszName,"TextureLightShadow") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingTextureLightShadow);
 		}
 		else
 		{
-			ASSERT("Unsupported auto binding type " && autoBinding);
+			ASSERT("Unsupported auto binding type ");
 		}
 	}
 
@@ -220,6 +181,15 @@ namespace ma
 			return Vector4::ZERO;
 
 		return Vector4::ZERO;//pCurScene->GetSunShaow()->GetShadowDepthFade();
+	}
+
+	float ParameterManager::autoBindingShadowExt() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return 0;
+
+		return 0;//pCurScene->GetSunShaow()->GetShadowDepthFade();
 	}
 
 	const Matrix4& ParameterManager::autoBindingGetWorldMatrix() const

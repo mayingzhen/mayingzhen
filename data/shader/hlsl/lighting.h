@@ -9,8 +9,11 @@ SamplerState sBRDF: register(s5);
 Texture2D tSpecularRM;
 SamplerState sSpecularRM;
 
+Texture2D tSpecularRM1;
+SamplerState sSpecularRM1;
 
-cbuffer ObjectLightPS : register(b6)
+
+cbuffer ObjectLightPS : register(b2)
 {
 	float4 u_cDiffuseColor;
 
@@ -21,9 +24,14 @@ cbuffer ObjectLightPS : register(b6)
 }
 
 
-void GetMetalnessGlossiness(float2 oUV, out float metalness, out float glossiness)
+void GetMetalnessGlossiness(float2 iUV, out float metalness, out float glossiness,float2 iUV1,float blendWeight)
 {
-	float2 specularRM = tSpecularRM.Sample(sSpecularRM,oUV.xy).rg;
+	float2 specularRM = tSpecularRM.Sample(sSpecularRM,iUV.xy).rg;
+
+#if LAYER==2
+	float2 specularRM1 = tSpecularRM1.Sample(sSpecularRM1,iUV1.xy).rg;
+	specularRM = lerp( specularRM, specularRM1, blendWeight );
+#endif
 
 	metalness = u_metalness;
 #ifdef METAMAP

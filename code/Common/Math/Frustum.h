@@ -78,7 +78,7 @@ namespace ma
 
 		void UpdatePlanes();
 	
-	void UpdateSIMDPlanes();
+		void UpdateSIMDPlanes();
 
 	private:
 		enum FrustumPlane
@@ -88,9 +88,10 @@ namespace ma
 			FRUSTUM_PLANE_LEFT   = 2,
 			FRUSTUM_PLANE_RIGHT  = 3,
 			FRUSTUM_PLANE_TOP    = 4,
-			FRUSTUM_PLANE_BOTTOM = 5
+			FRUSTUM_PLANE_BOTTOM = 5,
+			FRUSTUM_PLANE_NUM = 6
 		};
-		ma::Plane m_rgPlane[6];
+		ma::Plane m_rgPlane[FRUSTUM_PLANE_NUM];
 
 		Vector3	m_pPoints[PointsNumber];
 

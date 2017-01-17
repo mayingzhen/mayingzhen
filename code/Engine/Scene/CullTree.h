@@ -7,14 +7,6 @@ namespace ma
 	class Frustum;
 	class Camera;
 
-	class CullTreeQuery
-	{
-	public:
-		virtual Frustum::Visibility TestCullNode(CullNode* pCullNode) = 0;
-
-		virtual void VisitCullNode(CullNode* pCullNode,Frustum::Visibility eNodeVisib) = 0;
-	};
-
 	class CullTree : public Referenced
 	{
 	public:
@@ -28,9 +20,7 @@ namespace ma
 		
 		virtual void UpdateObject(RenderComponent* pobject) = 0;
 
-		virtual void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj) = 0;
-
-		virtual void FindObjectsIn(CullTreeQuery& query,uint32 mask) = 0;
+		virtual void FindObjectsIn(const Frustum* pFrustum, uint32 mask, OUT vector<RenderComponent*>& vecObj) = 0;
 	};
 }
 

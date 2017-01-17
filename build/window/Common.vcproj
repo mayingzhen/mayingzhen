@@ -238,6 +238,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\code\Common\StringHash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Common\StringHash.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\code\Common\StringUtils.h"
 				>
 			</File>
@@ -512,6 +520,22 @@
 					RelativePath="..\..\code\Common\Math\Vector4.hxx"
 					>
 				</File>
+				<Filter
+					Name="SIMD"
+					>
+					<File
+						RelativePath="..\..\code\Common\Math\MathSSE.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\Common\Math\SIMDHelper.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\code\Common\Math\SSE2NEON.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="RapidXml"

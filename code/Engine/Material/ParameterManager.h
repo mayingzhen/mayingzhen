@@ -4,42 +4,8 @@
 
 namespace ma
 {
-
-    enum AutoBinding
-	{
-		NONE,
-		g_matWorld,
-		g_matView,
-		g_matViewInv,
-		g_matProj,
-		g_matProjInv,
-		g_matWorldView,
-		g_matViewProj,
-		g_matWorldViewProj,
-		g_vEyeWorldPos,
-		g_cSkyLight,
-		g_cDirLight,
-		g_vDirLight,
-		INVERSE_TRANSPOSE_WORLD_MATRIX,
-		INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX,
-		CAMERA_WORLD_POSITION,
-		CAMERA_VIEW_POSITION,		
-		SCENE_AMBIENT_COLOR,
-		SCENE_LIGHT_COLOR,
-		SCENE_LIGHT_DIRECTION,
-		DepthNearFarInvfar,
-		TextureLightShadow,
-		TextureSceneDiffuse,
-		TextureSceneDepth,
-		TextureSceneDeviceDepth,
-		TextureSceneNormal,
-		g_tShadowMap,
-		g_matShadow,
-		g_shadowMapTexelSize,
-		g_ShadowDepthFade,
-	};
-
 	class Parameter;
+	class MethodBinding;
 
 	class ParameterManager
 	{
@@ -48,7 +14,7 @@ namespace ma
 
 		~ParameterManager();
 
-		void SetParameterAutoBinding(Uniform* pParam,AutoBinding autoBinding);
+		void SetParameterAutoBinding(Uniform* pParam/*,AutoBinding autoBinding*/);
 
 		void UseDefaultBing(Uniform* pParam);
 
@@ -78,9 +44,10 @@ namespace ma
 		const Matrix4&		autoBindingShadowMatrix() const;
 		Vector4				autoBindingShadowMapTexSize() const;
 		Vector4				autoBindingShadowDepthFade() const;
+		float				autoBindingShadowExt() const;
 
 	private:	
-		std::map<std::string, AutoBinding>	m_autoDefaultBings;
+		std::map<std::string, MethodBinding*> m_autoDefaultBings;
 	};
 
 	extern ParameterManager* g_pParameterManager;

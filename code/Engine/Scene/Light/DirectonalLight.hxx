@@ -28,13 +28,8 @@ namespace ma
 		m_fConstantBias = DEFAULT_CONSTANTBIAS;
 		m_fSlopeScaledBias = DEFAULT_SLOPESCALEDBIAS;
 
-// 		m_ShadowSamplesNumer = MAX_SHADOW_SAMPLES_NUM;
-// 		memset(m_irreg_kernel,0,sizeof(m_irreg_kernel));
-// 		memset(m_viewPosVecLS,0,sizeof(m_viewPosVecLS));
-
 		m_fShadowFarDist = 0;
 
-		m_eCaterType = CasterCull_No;
         m_eShadowBleurLevel = BLUR_NO;
 	}
 
@@ -90,25 +85,16 @@ namespace ma
 		Vector3 vY = camMatrix.GetColumn(1).normalisedCopy() * fWorldHeightDiv2 * k;
 
 		vZ = vZ - vX;
-		vX *= (2.0f / fViewWidth);   // 变换到 -1 ~ 1
+		vX *= (2.0f / fViewWidth);   
 
 		vZ = vZ + vY;
-		vY *= -(2.0f / fViewHeight); // 变换到 -1 ~ 1
+		vY *= -(2.0f / fViewHeight); 
 
 		// Transform basis to any local space ( shadow space here )
 		vWBasisX = mShadowTexGen * Vector4(vX, 0.0f);
 		vWBasisY = mShadowTexGen * Vector4(vY, 0.0f);
 		vWBasisZ = mShadowTexGen * Vector4(vZ, 0.0f);
 		vCamPos =  mShadowTexGen * Vector4(cam.GetPosWS(), 1.0f);
-
-		// 		vBasisMagnitudes.x = vWBasisX.length();
-		// 		vBasisMagnitudes.y = vWBasisY.length();
-		// 		vBasisMagnitudes.z = vWBasisZ.length();
-		// 		vBasisMagnitudes.w = 1.0f;
-		// 
-		// 		vWBasisX /= vBasisMagnitudes.x;
-		// 		vWBasisY /= vBasisMagnitudes.y;
-		// 		vWBasisZ /= vBasisMagnitudes.z;
 	}
 
 	void DirectonalLight::Update()
@@ -158,7 +144,6 @@ namespace ma
 
 		m_vShadowDepthFade[GetRenderSystem()->CurThreadFill()] = Vector4(0,0,fadeStart,1.0f / fadeRange);
 	}
-
 
 
 	void DirectonalLight::RenderShadowMap(Camera* pCamera)
@@ -295,28 +280,28 @@ namespace ma
 	}
 
 
-//	void RenderShadowCSM::SetShadowSamplesNum(int nNum)
-//	{
-// 		ASSERT(nNum <= MAX_SHADOW_SAMPLES_NUM);
-// 		if (nNum > MAX_SHADOW_SAMPLES_NUM)
-// 			return;
-// 
-// 		m_ShadowSamplesNumer = nNum;
-// 
-// 		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
-// 
-// 		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
-// 
-// 		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
-// 		{
-// 			Vector2 vSample = PoissonDiskGen::GetSample(i);
-// 			m_irreg_kernel[nIdx].x = vSample.x;
-// 			m_irreg_kernel[nIdx].y = vSample.y;
-// 			vSample = PoissonDiskGen::GetSample(i + 1);
-// 			m_irreg_kernel[nIdx].z = vSample.x;
-// 			m_irreg_kernel[nIdx].w = vSample.y;
-// 		}
-//	}
+	void DirectonalLight::SetShadowSamplesNum(int nNum)
+	{
+		ASSERT(nNum <= MAX_SHADOW_SAMPLES_NUM);
+		if (nNum > MAX_SHADOW_SAMPLES_NUM)
+			return;
+
+		m_ShadowSamplesNumer = nNum;
+
+		GetRenderSystem()->AddShaderGlobaMacro("SHADOW_SAMPLES_NUM", StringConverter::toString(m_ShadowSamplesNumer).c_str());
+
+		PoissonDiskGen::SetKernelSize(m_ShadowSamplesNumer);
+
+		for (int i=0, nIdx = 0; i < m_ShadowSamplesNumer; i += 2, nIdx++)
+		{
+			Vector2 vSample = PoissonDiskGen::GetSample(i);
+			m_irreg_kernel[nIdx].x = vSample.x;
+			m_irreg_kernel[nIdx].y = vSample.y;
+			vSample = PoissonDiskGen::GetSample(i + 1);
+			m_irreg_kernel[nIdx].z = vSample.x;
+			m_irreg_kernel[nIdx].w = vSample.y;
+		}
+	}
 
 
 	RefPtr<DirectonalLight> CreateDirectonalLight()

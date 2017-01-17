@@ -21,23 +21,24 @@ namespace ma
 
 		void FindObjectsIn(const Frustum* pFrustum,uint32 mask, OUT vector<RenderComponent*>& vecObj); 
 
-		void FindObjectsIn(CullTreeQuery& query,uint32 mask);		
-
 	public:
 		struct NodeBound
 		{
 			Vector3 m_vCenter;
 			Vector3 m_vExtern;
+			bool m_bInfinite; 
 
 			NodeBound(const AABB& aabb)
 			{
-				if (aabb.isNull())
+				if (aabb.isInfinite())
 				{
+					m_bInfinite = true;
 					m_vCenter = Vector3::ZERO;
 					m_vExtern = Vector3::ZERO;
 				}
-				else
+				else 
 				{
+					m_bInfinite = false;
 					m_vCenter = aabb.getCenter();
 					m_vExtern = aabb.getHalfSize();
 				}
