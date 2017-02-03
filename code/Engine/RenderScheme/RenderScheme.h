@@ -57,10 +57,14 @@ namespace ma
 		RefPtr<Texture>			m_pDiffuseTex;
 
 		RefPtr<Texture>			m_pDepthTex;
+		RefPtr<Texture>			m_pLinearDepthTex;
 		RefPtr<Texture>			m_pDiffTemp;
 		RefPtr<Texture>			m_pNormalTex;
 
+		RefPtr<Technique>		m_pTecLinearDepth;
+
 		RefPtr<SamplerState>	m_pDepthSampler;
+		RefPtr<SamplerState>	m_pLinearDepthSampler;
 		RefPtr<SamplerState>	m_pNormalSampler;
 		RefPtr<SamplerState>	m_pDiffTempSampler;
 

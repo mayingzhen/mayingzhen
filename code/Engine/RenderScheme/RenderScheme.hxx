@@ -58,24 +58,27 @@ namespace ma
 			m_pDiffuseTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 		}
 
+		m_pDepthTex = GetRenderSystem()->GetDefaultDepthStencil();
+		m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
+		m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
+
+		m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
+		m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false); 
+		m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
+
 		if (m_pDeferredShadingPass)
 		{
-			m_pDepthTex = GetRenderSystem()->CreateDepthStencil(-1, -1, PF_D24S8,true);
 			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,false);
 
-			m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
 			m_pDiffTempSampler = CreateSamplerState(m_pDiffTemp.get(),CLAMP,TFO_POINT,true);
 			m_pNormalSampler = CreateSamplerState(m_pNormalTex.get(),CLAMP,TFO_POINT,false);
 
-			m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
 			m_pFrameBuffer->AttachColor(0,m_pDiffTemp.get());
 			m_pFrameBuffer->AttachColor(1,m_pNormalTex.get());
 		}
 		else
 		{
-			m_pFrameBuffer->AttachDepthStencil( GetRenderSystem()->GetDefaultDepthStencil().get() );
-
 			if (m_pDiffuseTex)
 			{
 				m_pFrameBuffer->AttachColor( 0,m_pDiffuseTex.get() );
@@ -139,6 +142,13 @@ namespace ma
 		{
 			RENDER_PROFILE(RL_Terrain);
 			pRenderQueue->RenderObjList(RL_Terrain);
+		}
+
+		{
+			FrameBuffer fb;
+			fb.AttachColor(0,m_pLinearDepthTex.get());
+			GetRenderSystem()->SetFrameBuffer(&fb);
+			ScreenQuad::Render(m_pTecLinearDepth.get());
 		}
 
 		if (m_pDeferredShadowPass)

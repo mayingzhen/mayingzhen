@@ -76,7 +76,6 @@ namespace ma
 		
 		RefPtr<FrameBuffer>	m_pShadowMapFB;
 		RefPtr<Texture>		m_pShdowMapDepth;
-		RefPtr<Texture>		m_pShadowMapColor;
 		RefPtr<SamplerState> m_pShadowMapSampler;
 
 		Shadow_Blur			m_eShadowBleurLevel;

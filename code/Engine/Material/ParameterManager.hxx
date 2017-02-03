@@ -59,6 +59,10 @@ namespace ma
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
 		}
+		else if (  stricmp(pszName,"g_vCameraNearFar") == 0 )
+		{
+			pParam->BindMethod(this,&ParameterManager::autoBindingGetCameraNearFar);
+		}
 		else if ( stricmp(pszName,"g_vEyeWorldPos") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetEyeWorldPos);
@@ -74,6 +78,10 @@ namespace ma
 		else if ( stricmp(pszName,"g_vDirLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightDir);
+		}
+		else if ( stricmp(pszName,"tDeviceDepthMapSampler") )
+		{
+			pParam->BindMethod(this,&ParameterManager::autoBindingDeviceDepthMap);
 		}
 		else if ( stricmp(pszName,"g_tShadowMap") == 0 )
 		{
@@ -152,6 +160,15 @@ namespace ma
 			return NULL;
 
 		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMap();
+	}
+
+	SamplerState* ParameterManager::autoBindingDeviceDepthMap() const
+	{
+		Scene* pCurScene = GetRenderContext()->GetCurScene();
+		if (pCurScene == NULL)
+			return NULL;
+
+		return pCurScene->GetRenderScheme()->GetSceneDepth();
 	}
 
 	const Matrix4& ParameterManager::autoBindingShadowMatrix() const
@@ -257,6 +274,14 @@ namespace ma
 	Vector3 ParameterManager::autoBindingGetCameraViewPosition() const
 	{
 		return /*_nodeBinding ? _nodeBinding->getActiveCameraTranslationView() :*/ Vector3::ZERO;
+	}
+
+	Vector4	ParameterManager::autoBindingGetCameraNearFar() const
+	{
+		float fZNear = GetRenderContext()->GetNearClip();
+		float fZFar = GetRenderContext()->GetFarClip();
+		Vector4 vCameaNearFar(fZNear,fZFar,1.0f / fZFar,0);
+		return vCameaNearFar;
 	}
 
 // 	const Vector4* ParameterManager::autoBindingGetMatrixPalette() const

@@ -1,5 +1,4 @@
 #include "ShadowMapFrustum.h"
-#include "ShadowCasterQuery.h"
 #include "../../RenderSystem/FrameBuffer.h"
 
 namespace ma
@@ -44,12 +43,9 @@ namespace ma
 
 	void ShadowMapFrustum::CreateShadowMap(int nSize)
 	{
-		PixelFormat shadowMapColorFormat = GetDeviceCapabilities()->GetShadowMapColorFormat();
-		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();
-		m_pShadowMapColor = GetRenderSystem()->CreateRenderTarget(nSize,nSize,1,shadowMapColorFormat);	
+		PixelFormat shadowMapDepthFormat = GetDeviceCapabilities()->GetShadowMapDepthFormat();	
 		m_pShdowMapDepth = GetRenderSystem()->CreateDepthStencil(nSize,nSize,shadowMapDepthFormat,true);
 		m_pShadowMapFB->AttachDepthStencil(m_pShdowMapDepth.get());
-		m_pShadowMapFB->AttachColor(0,m_pShadowMapColor.get());
 
 		m_viewport = Rectangle(1.0f, 1.0f, (float)nSize - 2.0f, (float)nSize - 2.0f);
 
@@ -111,6 +107,8 @@ namespace ma
 		if (!m_bDraw)
 			return;
 
+		m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
+
 		m_lightFrustum.Update(m_matLightProj * m_matLightView,GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
 
 		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
@@ -119,12 +117,8 @@ namespace ma
 		{
 			RenderComponent* pRenderComp = (*iter);
 
-			if (m_fShadowFarDist > 0)
-			{
-				float fLodValue = (pRenderComp->GetSceneNode()->GetPosWS() - pCamera->GetPosWS()).length();
-				if (fLodValue > m_fShadowFarDist)
-					continue;
-			}
+			if (!pRenderComp->GetShadowCaster())
+				continue;
 				
 			uint32 nLod = pRenderComp->GetLodIndex();
 			for (UINT i = 0; i < pRenderComp->GetRenderableCount(nLod); ++i)

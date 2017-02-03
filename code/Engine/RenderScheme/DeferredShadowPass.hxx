@@ -120,10 +120,9 @@ namespace ma
 
 		FrameBuffer fb;
 		fb.AttachColor(0,m_pShadowTex.get());
-		fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
 		GetRenderSystem()->SetFrameBuffer(&fb);
 
-		GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1,0);
+		GetRenderSystem()->ClearBuffer(true,false,false,ColourValue::White,1,0);
 		
 		m_pFrustumVolume->Bind();
 

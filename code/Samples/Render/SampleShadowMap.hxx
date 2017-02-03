@@ -26,17 +26,24 @@ namespace ma
 		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
 		pAnimComp->SetAnimation(100);
  
-		m_pBox = m_pScene->CreateSceneNode();
-		MeshComponent* pBoxMesh = m_pBox->CreateComponent<MeshComponent>();
-		pBoxMesh->SetShadowCaster(true);
-		pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
-		m_pBox->SetPos(Vector3(2.5f, 2.5f,pTerrain->GetHeight(2.5f, 2.5f)));
+		for (uint32 i = 0; i < 50; ++i)
+		{
+			SceneNode* pBox = m_pScene->CreateSceneNode();
+			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
+			pBoxMesh->SetShadowCaster(true);
+			pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
+			float x = Math::RangeRandom(0,50);
+			float y = Math::RangeRandom(0,50);
+			pBox->SetPos(Vector3(x, y,pTerrain->GetHeight(x,y)));
+		}
+
 
 		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
 		
 		pSunLight->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0));
 		pSunLight->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
-		pSunLight->SetShadowEnabled(true);
+		//pSunLight->SetShadowEnabled(true);
+		//pSunLight->SetMaxSplitCount(4);
 		//m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
 
 		//m_pScene->GetRenderScheme()->SetDeferredShadingEnabled(true);
@@ -50,7 +57,6 @@ namespace ma
 		//m_pScene->SetAmbientColor(ColourValue::White);		
 
 		m_pDirectLight = NULL;
-		m_pBox = NULL;
 	}
 
 	void SampleShadowMap::Update()

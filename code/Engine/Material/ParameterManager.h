@@ -31,6 +31,7 @@ namespace ma
 		Matrix4				autoBindingGetInverseProjectionMatrix() const;
 		Vector3				autoBindingGetCameraWorldPosition() const;
 		Vector3				autoBindingGetCameraViewPosition() const;
+		Vector4				autoBindingGetCameraNearFar() const;
 		const ColourValue&	autoBindingGetLightColor() const;
 		Vector3				autoBindingGetLightDirection() const;
 		Vector4				autoBingingDepthNearFarInvfar() const;
@@ -38,6 +39,7 @@ namespace ma
 		SamplerState*		autoBingingSceneDetph() const;
 		SamplerState*		autoBindingSceneNormal() const;
 		SamplerState*		autoBindingTextureLightShadow() const;
+		SamplerState*		autoBindingDeviceDepthMap() const;
 		SamplerState*		autoBindingShadowMap() const;
 		Vector4				autoBindingSpitPos() const;
 		UINT				autoBindingSplitCount() const;

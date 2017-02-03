@@ -223,3 +223,4 @@ EXPORTS
 ?GenIntegrateBRDF@ma@@YAXPBD@Z
 ?SetFrame@Animatable@ma@@UAEXM@Z
 ?Process@Animatable@ma@@QAEMXZ
+?SetMaxSplitCount@DirectonalLight@ma@@QAEXH@Z

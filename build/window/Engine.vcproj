@@ -540,14 +540,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\code\Engine\Scene\Light\ShadowCasterQuery.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\code\Engine\Scene\Light\ShadowCasterQuery.hxx"
-					>
-				</File>
-				<File
 					RelativePath="..\..\code\Engine\Scene\Light\ShadowMapFrustum.h"
 					>
 				</File>
@@ -946,6 +938,14 @@
 			</File>
 			<File
 				RelativePath="..\..\code\Engine\RenderScheme\DeferredShadowPass.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\LinearizeDepth.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\code\Engine\RenderScheme\LinearizeDepth.hxx"
 				>
 			</File>
 			<File

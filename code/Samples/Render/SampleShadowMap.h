@@ -20,8 +20,6 @@ namespace ma
 
 	private:
 		RefPtr<DirectonalLight>	m_pDirectLight;
-
-		RefPtr<SceneNode>		m_pBox;
 	};
 }
 

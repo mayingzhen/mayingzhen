@@ -17,7 +17,7 @@ namespace ma
 		m_nCurSplitCount = 0;
 		m_nMaxSplitCount = 1;
 		m_nShadowMapSize = 512;
-		m_SplitPosParam = Vector4(3000.0f,60.0f,120.0f,270.0f);
+		m_SplitPosParam = Vector4(30.0f,60.0f,120.0f,270.0f);
 		m_curSplitPos[0] = m_SplitPosParam;
 		m_curSplitPos[1] = m_SplitPosParam;
 
@@ -107,23 +107,32 @@ namespace ma
 		if (!m_bShadowEnable)
 			return;
 
+		m_nCurSplitCount = 0;
+		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = m_SplitPosParam;
+
+		// Simple Shadow
+// 		if (m_nMaxSplitCount == 1)
+// 		{
+// 			m_nCurSplitCount = 1;
+// 			m_curSplitPos[GetRenderSystem()->CurThreadFill()].x = pCamera->GetFarClip(); // For Depth bias
+// 			m_SpitFrustum[0].Update(pCamera,pCamera->GetNearClip(),pCamera->GetFarClip());
+// 			return;
+// 		}
+
 		UpdateViewMinMaxZ(pCamera);
 
-		Scene* pScene = pCamera->GetScene();
+		float fViewMinZ = pCamera->GetScene()->GetViewMinZ();
+		float fViewMaxZ = pCamera->GetScene()->GetViewMaxZ();
 
-		m_nCurSplitCount = 0;
-		m_curSplitPos[GetRenderSystem()->CurThreadFill()] = Vector4::ZERO;
-			
-		float fNearSplit = pScene->GetViewMinZ();
-		float fFarSplit;
+		float fNearSplit = pCamera->GetNearClip();
+		float fFarSplit = m_SplitPosParam[0];
 
 		while (m_nCurSplitCount < m_nMaxSplitCount)
 		{
-			// If split is completely beyond camera far clip, we are done
-			if (fNearSplit > pScene->GetViewMaxZ())
+			if (fNearSplit > fViewMaxZ)
 				break;
 
-			fFarSplit = min(pScene->GetViewMaxZ(), m_SplitPosParam[m_nCurSplitCount]);
+			fFarSplit = min(fViewMaxZ, m_SplitPosParam[m_nCurSplitCount]);
 			if (fFarSplit <= fNearSplit)
 				break;
 

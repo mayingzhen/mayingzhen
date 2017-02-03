@@ -1021,16 +1021,21 @@ namespace ma
 			for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
 			{
 				if (m_pRenderTarget[i])
+				{
 					m_pDeviceContext->ClearRenderTargetView(m_pRenderTarget[i], ColorRGBA);
+				}
 			}
 		}
 
-		unsigned depthClearFlags = 0;
-		if (bDepth)
-			depthClearFlags |= D3D11_CLEAR_DEPTH;
-		if (bStencil)
-			depthClearFlags |= D3D11_CLEAR_STENCIL;
-		m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (UINT8)s);
+		if (bDepth || bStencil)
+		{
+			unsigned depthClearFlags = 0;
+			if (bDepth)
+				depthClearFlags |= D3D11_CLEAR_DEPTH;
+			if (bStencil)
+				depthClearFlags |= D3D11_CLEAR_STENCIL;
+			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (UINT8)s);
+		}
 
 		ASSERT(hr == S_OK && "Clear buffer failed.");
 	}
