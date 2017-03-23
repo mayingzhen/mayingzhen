@@ -14,7 +14,7 @@
 #include "Sample.hxx"
 
 #if PLATFORM_WIN == 1
-#include "Samples/Serialize/SampleFbxImport.hxx"
+//#include "Samples/Serialize/SampleFbxImport.hxx"
 #endif
 #include "Samples/Script/SampleMonoScript.hxx"
 #include "Samples/Render/SampleLighting.hxx"
@@ -69,7 +69,7 @@ namespace ma
 			GLESRenderModuleInit();
 		}
 
-		FBXImporterModuleInit();
+		//FBXImporterModuleInit();
 #else
 		GLESRenderModuleInit();		
 #endif
@@ -82,7 +82,7 @@ namespace ma
 		MonoScriptModuleShutdown();
 
 #if PLATFORM_WIN == 1
-		FBXImporterModuleShutdown();
+		//FBXImporterModuleShutdown();
 		
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
@@ -187,11 +187,12 @@ namespace ma
 
 	void SampleBrowser::RunSample(const char* pSample)
 	{
-		if (stricmp(pSample,"SampleFbxImport") == 0)
-		{
-			m_pCurSample = new SampleFbxImport();
-		}
-		else if (stricmp(pSample,"SampleMonoScript") == 0)
+// 		if (stricmp(pSample,"SampleFbxImport") == 0)
+// 		{
+// 			m_pCurSample = new SampleFbxImport();
+// 		}
+//		else 
+		if (stricmp(pSample,"SampleMonoScript") == 0)
 		{
 			m_pCurSample = new SampleMonoScript();
 		}

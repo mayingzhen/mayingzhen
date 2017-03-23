@@ -3,16 +3,11 @@
 
 namespace ma
 {
-	static PhysicsSystem* gpPhysicsSystem = NULL;
-
-	void SetPhysicsSystem(PhysicsSystem* pPhysicsSystem)
-	{
-		gpPhysicsSystem = pPhysicsSystem;
-	}
+	PhysicsSystem* g_pPhysicsSystem = NULL;
 
 	PhysicsSystem* GetPhysicsSystem()
 	{
-		return gpPhysicsSystem;
+		return g_pPhysicsSystem;
 	}
 
 	PhysicsSystem::PhysicsSystem()
@@ -21,6 +16,11 @@ namespace ma
 		m_pPhysicsThread = NULL;
 		m_vGravity = btVector3(0,0,-9.8f);
 		m_debugMode = btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawConstraints | btIDebugDraw::DBG_DrawConstraintLimits;
+	}
+
+	PhysicsSystem::~PhysicsSystem()
+	{
+
 	}
 
 	void PhysicsSystem::Init()
@@ -51,7 +51,7 @@ namespace ma
 		m_pSolver = new btSequentialImpulseConstraintSolver;
 
 		m_pDynamicsWorld = new btDiscreteDynamicsWorld(m_pDispatcher,m_pOverlappingPairCache,m_pSolver,m_pCollisionConfiguration);
-		m_pDynamicsWorld->setDebugDrawer(this);
+		//m_pDynamicsWorld->setDebugDrawer(this);
 
 		m_pDynamicsWorld->setGravity(m_vGravity);
 

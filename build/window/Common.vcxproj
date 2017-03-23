@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D3BDFF80-0E8C-4AF3-B8CB-41CE8A513CAA}</ProjectGuid>
+    <RootNamespace>Common</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)/../../Bin/$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)/../../obj/$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)/../../Bin/$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)/../../obj/$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../code;../../extern/vld/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeader />
+      <PrecompiledHeaderFile>Common/stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml.hpp" />
+    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_iterators.hpp" />
+    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_print.hpp" />
+    <ClInclude Include="..\..\..\..\..\S3Engine\BaseCode\rapidxml_utils.hpp" />
+    <ClInclude Include="..\..\Code\Common\Assert.h" />
+    <ClInclude Include="..\..\Code\Common\Assert.hxx" />
+    <ClInclude Include="..\..\Code\Common\BaseType.h" />
+    <ClInclude Include="..\..\Code\Common\BitField.h" />
+    <ClInclude Include="..\..\code\Common\delegate.h" />
+    <ClInclude Include="..\..\Code\Common\Log.h" />
+    <ClInclude Include="..\..\Code\Common\Log.hxx" />
+    <ClInclude Include="..\..\Code\Common\Macro.h" />
+    <ClInclude Include="..\..\code\Common\Math\AABB.h" />
+    <ClInclude Include="..\..\code\Common\Math\AABB.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\AABB2D.h" />
+    <ClInclude Include="..\..\code\Common\Math\AABB2D.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Angle.h" />
+    <ClInclude Include="..\..\code\Common\Math\Any.h" />
+    <ClInclude Include="..\..\code\Common\Math\asm_math.h" />
+    <ClInclude Include="..\..\code\Common\Math\Bitwise.h" />
+    <ClInclude Include="..\..\code\Common\Math\Capsule.h" />
+    <ClInclude Include="..\..\code\Common\Math\Capsule.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\ColourValue.h" />
+    <ClInclude Include="..\..\code\Common\Math\ColourValue.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\ConvexBody.h" />
+    <ClInclude Include="..\..\code\Common\Math\ConvexBody.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\DualQuaternion.h" />
+    <ClInclude Include="..\..\code\Common\Math\DualQuaternion.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\EulerAngle.h" />
+    <ClInclude Include="..\..\code\Common\Math\Frustum.h" />
+    <ClInclude Include="..\..\code\Common\Math\Frustum.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\GUID.h" />
+    <ClInclude Include="..\..\code\Common\Math\Line3D.h" />
+    <ClInclude Include="..\..\code\Common\Math\Math.h" />
+    <ClInclude Include="..\..\code\Common\Math\Math.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\MathSSE.h" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix3.h" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix3.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix3x4.h" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix3x4.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix4.h" />
+    <ClInclude Include="..\..\code\Common\Math\Matrix4.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Numerics.h" />
+    <ClInclude Include="..\..\code\Common\Math\Numerics.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Plane.h" />
+    <ClInclude Include="..\..\code\Common\Math\Plane.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\PlaneBoundedVolume.h" />
+    <ClInclude Include="..\..\code\Common\Math\Polygon.h" />
+    <ClInclude Include="..\..\code\Common\Math\Polygon.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Quaternion.h" />
+    <ClInclude Include="..\..\code\Common\Math\Quaternion.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Randomizer.h" />
+    <ClInclude Include="..\..\code\Common\Math\Randomizer.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Ray.h" />
+    <ClInclude Include="..\..\code\Common\Math\RotationalSpline.h" />
+    <ClInclude Include="..\..\code\Common\Math\RotationalSpline.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Segment.h" />
+    <ClInclude Include="..\..\code\Common\Math\Segment.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\SIMDHelper.h" />
+    <ClInclude Include="..\..\code\Common\Math\SimpleSpline.h" />
+    <ClInclude Include="..\..\code\Common\Math\SimpleSpline.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\SmallVector.h" />
+    <ClInclude Include="..\..\code\Common\Math\SmallVector.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\SSE2NEON.h" />
+    <ClInclude Include="..\..\code\Common\Math\Transform.h" />
+    <ClInclude Include="..\..\code\Common\Math\Triangle3D.h" />
+    <ClInclude Include="..\..\code\Common\Math\Vector2.h" />
+    <ClInclude Include="..\..\code\Common\Math\Vector2.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Vector3.h" />
+    <ClInclude Include="..\..\code\Common\Math\Vector3.hxx" />
+    <ClInclude Include="..\..\code\Common\Math\Vector4.h" />
+    <ClInclude Include="..\..\code\Common\Math\Vector4.hxx" />
+    <ClInclude Include="..\..\code\Common\MatViewProj.h" />
+    <ClInclude Include="..\..\code\Common\md5.h" />
+    <ClInclude Include="..\..\code\Common\md5.hxx" />
+    <ClInclude Include="..\..\code\Common\Mem.h" />
+    <ClInclude Include="..\..\code\Common\Mem.hxx" />
+    <ClInclude Include="..\..\Code\Common\Module.h" />
+    <ClInclude Include="..\..\Code\Common\Platform\Android\PlatformAndroid.h" />
+    <ClInclude Include="..\..\Code\Common\Platform\Ios\PlatformIos.h" />
+    <ClInclude Include="..\..\Code\Common\Platform\Platform.h" />
+    <ClInclude Include="..\..\Code\Common\Platform\Win\PlatformWin.h" />
+    <ClInclude Include="..\..\code\Common\Referenced.h" />
+    <ClInclude Include="..\..\code\Common\RefPtr.h" />
+    <ClInclude Include="..\..\code\Common\signals.h" />
+    <ClInclude Include="..\..\code\Common\signals.hxx" />
+    <ClInclude Include="..\..\code\Common\StaticFunc.h" />
+    <ClInclude Include="..\..\code\Common\StaticFunc.hxx" />
+    <ClInclude Include="..\..\code\Common\StringConverter.h" />
+    <ClInclude Include="..\..\code\Common\StringConverter.hxx" />
+    <ClInclude Include="..\..\code\Common\StringHash.h" />
+    <ClInclude Include="..\..\code\Common\StringHash.hxx" />
+    <ClInclude Include="..\..\code\Common\StringUtils.h" />
+    <ClInclude Include="..\..\code\Common\StringUtils.hxx" />
+    <ClInclude Include="..\..\code\Common\TArray.h" />
+    <ClInclude Include="..\..\code\Common\Warningfix.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Code\Common\Module.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

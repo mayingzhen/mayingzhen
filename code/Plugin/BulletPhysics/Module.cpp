@@ -18,8 +18,7 @@ using namespace ma;
 
 void BtPhysicsModuleInit()
 {
-	PhysicsSystem* pBtPhysicsSystem = new PhysicsSystem();
-	SetPhysicsSystem(pBtPhysicsSystem); 
+	//g_pPhysicsSystem = new PhysicsSystem();
 
 #define RTTI_DECL(ClassType) \
 	GetObjectFactoryManager()->RegisterObjectFactory(#ClassType,Create_##ClassType); \
@@ -36,9 +35,7 @@ void BtPhysicsModuleShutdown()
 	#include <BulletPhysics/RTTIDecl.h>
 #undef RTTI_DECL
 
-	PhysicsSystem* pBtPhysicsSystem = GetPhysicsSystem();
-	SAFE_DELETE(pBtPhysicsSystem);
-	SetPhysicsSystem(NULL);
+	SAFE_DELETE(g_pPhysicsSystem);
 }
 
 

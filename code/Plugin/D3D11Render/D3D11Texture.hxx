@@ -453,8 +453,9 @@ namespace ma
 
 	bool D3D11Texture::SaveToFile(const char* pszPath)
 	{
-		HRESULT hr = D3DX11SaveTextureToFile(GetD3D11DxDeviveContext(),GetTexture2D(),D3DX11_IFF_DDS,pszPath);
-		return hr == S_OK;
+// 		HRESULT hr = D3DX11SaveTextureToFile(GetD3D11DxDeviveContext(),GetTexture2D(),D3DX11_IFF_DDS,pszPath);
+// 		return hr == S_OK;
+		return false;
 	}
 }
 

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3131A8F4-9234-4A5F-B198-186086BDDBB3}</ProjectGuid>
+    <RootNamespace>Samples</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)/../../Bin/$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)/../../obj/$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)/../../Bin/$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)/../../obj/$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;../../extern/wwise/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Samples/StdAfx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>../../extern/lib;../../extern/vld/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../code/plugin;../../code;../../extern/include;../../extern/include/FBX;../../extern/Bullet-2.82/src;../../extern/glew/include;../../extern/mono/Inlude/;../../extern/vld/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Samples/StdAfx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\code\Samples\Animation\SampleAnimationIK.h" />
+    <ClInclude Include="..\..\code\Samples\Animation\SampleAnimationIK.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationRetarget.h" />
+    <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationRetarget.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationTree.h" />
+    <ClInclude Include="..\..\Code\Samples\Animation\SampleAnimationTree.hxx" />
+    <ClInclude Include="..\..\code\Samples\CameraController.h" />
+    <ClInclude Include="..\..\code\Samples\CameraController.hxx" />
+    <ClInclude Include="..\..\code\Samples\Physics\Ragdoll.h" />
+    <ClInclude Include="..\..\code\Samples\Physics\Ragdoll.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Physics\SampleCharaControl.h" />
+    <ClInclude Include="..\..\Code\Samples\Physics\SampleCharaControl.hxx" />
+    <ClInclude Include="..\..\code\Samples\Physics\SampleJoint.h" />
+    <ClInclude Include="..\..\code\Samples\Physics\SampleJoint.hxx" />
+    <ClInclude Include="..\..\code\Samples\Physics\SampleRagdoll.h" />
+    <ClInclude Include="..\..\code\Samples\Physics\SampleRagdoll.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Physics\SampleRigidBody.h" />
+    <ClInclude Include="..\..\Code\Samples\Physics\SampleRigidBody.hxx" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleIBL.h" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleIBL.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Render\SampleLighting.h" />
+    <ClInclude Include="..\..\Code\Samples\Render\SampleLighting.hxx" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleMaterial.h" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleMaterial.hxx" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleShadowMap.h" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleShadowMap.hxx" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleTerrain.h" />
+    <ClInclude Include="..\..\code\Samples\Render\SampleTerrain.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Sample.h" />
+    <ClInclude Include="..\..\Code\Samples\Sample.hxx" />
+    <ClInclude Include="..\..\Code\Samples\SampleBrowser.h" />
+    <ClInclude Include="..\..\Code\Samples\Script\SampleMonoScript.h" />
+    <ClInclude Include="..\..\Code\Samples\Script\SampleMonoScript.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Serialize\SampleFbxImport.h" />
+    <ClInclude Include="..\..\Code\Samples\Serialize\SampleFbxImport.hxx" />
+    <ClInclude Include="..\..\Code\Samples\Serialize\SampleSceneSerialize.h" />
+    <ClInclude Include="..\..\Code\Samples\Serialize\SampleSceneSerialize.hxx" />
+    <ClInclude Include="..\..\Code\Samples\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\code\Samples\main-windows.cpp" />
+    <ClCompile Include="..\..\Code\Samples\SampleBrowser.cpp" />
+    <ClCompile Include="..\..\Code\Samples\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Animation.vcxproj">
+      <Project>{e650dd0b-091c-437a-850b-5939d786c6d1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Application.vcxproj">
+      <Project>{95598e55-ba9b-496c-84a3-3673834b2d47}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="BulletPhysics.vcxproj">
+      <Project>{bb53f27e-5e92-4c38-8877-e907c4fecf98}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Common.vcxproj">
+      <Project>{d3bdff80-0e8c-4af3-b8cb-41ce8a513caa}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="CSharpImport.vcxproj">
+      <Project>{eaeb1ebb-991e-4344-b998-c216a391a5c2}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="D3D11Render.vcxproj">
+      <Project>{23cf4a66-fa4b-4282-904c-dfeb7915d002}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Engine.vcxproj">
+      <Project>{b409639e-14c1-4a05-a3f5-192f4f365582}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="GLESRender.vcxproj">
+      <Project>{e4062c38-5d4a-4fe1-af24-d7bb538a8ab3}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="MonoScript.vcxproj">
+      <Project>{74713f14-9c40-4c2d-b6a9-56bee1d8904c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

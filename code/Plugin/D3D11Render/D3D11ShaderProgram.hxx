@@ -70,34 +70,33 @@ namespace ma
 
 		if (vshSize > 0)
 		{
-#ifdef _DEBUG
-			hr = D3DX11CompileFromFile(
-				strVshName.c_str(),
-				NULL,
-				NULL,
-				"main",
-				"vs_4_0", 
-				dwShaderFlags,
-				dwShaderFlags,
-				NULL,
-				&pCode,
-				&error,
-				&hr);
-#else
-			hr = D3DX11CompileFromMemory ( 
+// #ifdef _DEBUG
+// 			hr = D3DX11CompileFromFile(
+// 				strVshName.c_str(),
+// 				NULL,
+// 				NULL,
+// 				"main",
+// 				"vs_4_0", 
+// 				dwShaderFlags,
+// 				dwShaderFlags,
+// 				NULL,
+// 				&pCode,
+// 				&error,
+// 				&hr);
+// #else
+			hr = D3DCompile(
 				vshSource, 
 				vshSize,
 				NULL, 
+				NULL,
 				NULL,
 				"main",
 				"vs_4_0", 
 				dwShaderFlags, 
 				dwShaderFlags,
-				NULL,
 				&pCode,
-				&error, 
-				&hr) ;
-#endif
+				&error) ;
+//#endif
 			if (hr != S_OK)
 			{
 				if (error)
@@ -119,34 +118,33 @@ namespace ma
 
 		if (fshSize > 0)
 		{
-#if _DEBUG
-			hr = D3DX11CompileFromFile(
-				strFshName.c_str(),
-				NULL,
-				NULL,
-				"main",
-				"ps_4_0", 
-				dwShaderFlags,
-				dwShaderFlags,
-				NULL,
-				&pCode,
-				&error,
-				&hr);
-#else
-			hr = D3DX11CompileFromMemory( 
+// #if _DEBUG
+// 			hr = D3DX11CompileFromFile(
+// 				strFshName.c_str(),
+// 				NULL,
+// 				NULL,
+// 				"main",
+// 				"ps_4_0", 
+// 				dwShaderFlags,
+// 				dwShaderFlags,
+// 				NULL,
+// 				&pCode,
+// 				&error,
+// 				&hr);
+// #else
+			hr = D3DCompile(
 				fshSource, 
 				fshSize,
 				NULL, 
+				NULL,
 				NULL,
 				"main",
 				"ps_4_0", 
 				dwShaderFlags, 
 				dwShaderFlags,
-				NULL,
 				&pCode,
-				&error, 
-				&hr ) ;
-#endif
+				&error) ;
+//#endif
 			if (hr != S_OK)
 			{
 				const char* pErrCode = (const char*)error->GetBufferPointer();

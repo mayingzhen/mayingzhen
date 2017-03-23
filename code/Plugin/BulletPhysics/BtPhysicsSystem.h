@@ -1,5 +1,4 @@
-#ifndef  _BtPhysicsSystem__H__
-#define  _BtPhysicsSystem__H__
+#pragma once
 
 namespace ma
 {
@@ -12,6 +11,8 @@ namespace ma
 	{
 	public:
 		PhysicsSystem();
+
+		~PhysicsSystem();
 
 		void							Init();
 
@@ -78,9 +79,8 @@ namespace ma
 		int											m_debugMode;
 	};
 
-	void SetPhysicsSystem(PhysicsSystem* pPhysicsSystem);
-
+	
+	extern PhysicsSystem* g_pPhysicsSystem;
 	PhysicsSystem* GetPhysicsSystem();
 }
 
-#endif
