@@ -17,10 +17,13 @@ namespace ma
 
 		void Render(Technique* pTech);
 
-	//private:
-		TerrainTrunk* m_pParent;
-
+	public:
+		Vector2 m_vBlendOffSet;
+		Vector2 m_vCellAmount;
 		float m_fMateriID;
+
+		AABB m_posAABB;
+		AABB2D m_tcAABB;
 
 	};
 

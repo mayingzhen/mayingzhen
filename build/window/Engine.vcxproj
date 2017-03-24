@@ -255,8 +255,6 @@
     <ClInclude Include="..\..\code\Engine\Scene\Component.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\CullNode.h" />
     <ClInclude Include="..\..\code\Engine\Scene\CullTree.h" />
-    <ClInclude Include="..\..\code\Engine\Scene\FrustumCullQuery.h" />
-    <ClInclude Include="..\..\code\Engine\Scene\FrustumCullQuery.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\Light\DirectonalLight.h" />
     <ClInclude Include="..\..\code\Engine\Scene\Light\DirectonalLight.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\Light\Light.h" />
@@ -279,7 +277,6 @@
     <ClInclude Include="..\..\code\Engine\Scene\Scene.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\SceneNode.h" />
     <ClInclude Include="..\..\code\Engine\Scene\SceneNode.hxx" />
-    <ClInclude Include="..\..\code\Engine\Scene\SceneVisiter.h" />
     <ClInclude Include="..\..\code\Engine\Scene\SkinMeshComponent.h" />
     <ClInclude Include="..\..\code\Engine\Scene\SkinMeshComponent.hxx" />
     <ClInclude Include="..\..\code\Engine\Scene\SkyBox.h" />

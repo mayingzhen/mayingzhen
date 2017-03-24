@@ -74,7 +74,6 @@
 // Scene
 #include "Engine/Scene/Component.h"
 #include "Engine/Scene/SceneNode.h"
-#include "Engine/Scene/SceneVisiter.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/CullNode.h"
 #include "Engine/Scene/CullTree.h"

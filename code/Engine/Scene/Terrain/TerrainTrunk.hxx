@@ -355,7 +355,7 @@ namespace ma
 				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = it->second;
-				pRenderable->m_pSubMaterial = pBorderMaterial;//m_pTerrain->GetMaterialByID(it->first);
+				pRenderable->m_pSubMaterial = pBorderMaterial;
 				pRenderable->m_fMateriID = (float)it->first;
 				lod.m_vecBorder.push_back(pRenderable);
 			}
