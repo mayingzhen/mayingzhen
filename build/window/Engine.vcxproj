@@ -28,8 +28,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -53,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code/;../../extern;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;../../extern/zziplib-0.13.57;../../extern/FreeImage-3.13.1/Source;../../extern/vld/include/;../../extern/LibCpuId/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../extern;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;../../extern/zziplib-0.13.57;../../extern/FreeImage-3.13.1/Source;../../extern/vld/include/;../../extern/LibCpuId/src;../../code/Engine/TaskScheduler;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -72,13 +71,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
     </Link>
+    <MASM>
+      <UseSafeExceptionHandlers>true</UseSafeExceptionHandlers>
+    </MASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../code/;../../extern;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;../../extern/zziplib-0.13.57;../../extern/FreeImage-3.13.1/Source;../../extern/vld/include/;../../extern/LibCpuId/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../extern;../../extern/glew/include;../../extern/openal/include/al;../../extern/ois/Includes;../../extern/zziplib-0.13.57;../../extern/FreeImage-3.13.1/Source;../../extern/vld/include/;../../extern/LibCpuId/src;../../code/Engine/TaskScheduler;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -288,6 +291,58 @@
     <ClInclude Include="..\..\code\Engine\Scene\Terrain\TerrainTrunk.h" />
     <ClInclude Include="..\..\code\Engine\Scene\Terrain\TerrainTrunk.hxx" />
     <ClInclude Include="..\..\Code\Engine\stdAfx.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTAppInterop.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTArrayView.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTAtomic.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTColorTable.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTConcurrentRingBuffer.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTConfig.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTDebug.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTDefaultAppInterop.hxx" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTFiberContext.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTFiberContext.hxx" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTGroupedTask.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTPlatform.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTProfilerEventListener.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTQueueMPMC.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTScheduler.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTScheduler.hxx" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTScopes.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTStackRequirements.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTStaticVector.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTaskBucket.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTaskDesc.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTaskGroup.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTaskPool.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTaskQueue.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTThreadContext.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTThreadContext.hxx" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTools.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\MTTypes.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Common\MTAtomic.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Common\MTSpinWait.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Common\MTThread.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTAtomic.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTCommon.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTEvent.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTFiber.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTMemory.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTMutex.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTThread.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTUtils.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MicroWindows.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MicroWindows.hxx" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTAtomic.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTCommon.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTEvent.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiber.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiberDefault.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiberOptimized.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTMemory.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTMutex.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTThread.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTUtils.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\Scopes\MTScopes.h" />
     <ClInclude Include="..\..\code\Engine\Thread\AtomicOps.h" />
     <ClInclude Include="..\..\code\Engine\Thread\AutoLock.h" />
     <ClInclude Include="..\..\code\Engine\Thread\JobScheduler.h" />
@@ -314,6 +369,8 @@
   <ItemGroup>
     <None Include="..\..\code\Engine\Export.def" />
     <None Include="..\..\code\Engine\Profile\CodeTimer.inl" />
+    <None Include="..\..\code\Engine\TaskScheduler\MTFiberContext.inl" />
+    <None Include="..\..\code\Engine\TaskScheduler\MTScheduler.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Code\Engine\Module.cpp" />
@@ -329,6 +386,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

@@ -39,6 +39,8 @@ namespace ma
 
 				resData->LoadFileToMemeory();
 
+				LogInfo("resData->LoadFileToMemeory %s", resData->GetResPath());
+
 				m_csLoadedQueue.Lock();
 				m_queLoaded.push_back(resData);
 				m_csLoadedQueue.Unlock();
@@ -57,10 +59,12 @@ namespace ma
 				break;
 			}
 			RefPtr<Resource> resData = m_queLoaded.front();
-			m_queLoaded.pop_front();
+			resData->IsReady();
+			if (resData->GetResState() == ResReady || resData->GetResState() == ResLoadError)
+			{
+				m_queLoaded.pop_front();
+			}
 			m_csLoadedQueue.Unlock();	
-
-			resData->CreateFromMemeory();	
 		}
 	}
 

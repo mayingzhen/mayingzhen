@@ -12,36 +12,47 @@ namespace ma
 		//GetInput()->AddKeyListener(this);
 
 		Vector3 vEyePos = Vector3(0, -60, 60);
-		Vector3 VAtPos = Vector3(0,0,0); 
-		GetCamera()->LookAt(vEyePos,VAtPos);
+		Vector3 VAtPos = Vector3(0, 0, 0);
+		GetCamera()->LookAt(vEyePos, VAtPos);
 
-		RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
-		m_pScene->GetRootNode()->AddChild(pTerrain.get());
+		m_pTerrain = CreateTerrain("scene/terrain/test.xml");
+		m_pScene->GetRootNode()->AddChild(m_pTerrain.get());
 
-		SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
-		pCharMagic->SetScale(Vector3(0.01f));
-		pCharMagic->SetPos(Vector3(1.5f,2.0f,pTerrain->GetHeight(1.50f,2.0f)));
-		SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
-		pMeshComp->SetShadowCaster(true);
-		AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
-		pAnimComp->SetAnimation(100);
- 
-		for (uint32 i = 0; i < 50; ++i)
+		m_pTerrain->mLoadOverEvent.notify(this, &SampleShadowMap::OnTerrainLoadOver);
+	}
+
+	void SampleShadowMap::OnTerrainLoadOver()
+	{
+		for (uint32 i = 0; i < 2000; ++i)
+		{
+			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
+			pCharMagic->SetScale(Vector3(0.01f));
+			float x = Math::RangeRandom(0, 150);
+			float y = Math::RangeRandom(0, 150);
+			pCharMagic->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
+			pCharMagic->SetPos(Vector3(1.5f, 2.0f, m_pTerrain->GetHeight(1.50f, 2.0f)));
+// 			SkinMeshComponent* pMeshComp = pCharMagic->GetTypeComponent<SkinMeshComponent>();
+// 			pMeshComp->SetShadowCaster(true);
+// 			AnimationComponent* pAnimComp = pCharMagic->GetTypeComponent<AnimationComponent>();
+// 			pAnimComp->SetAnimation(100);
+		}
+
+		for (uint32 i = 0; i < 2000; ++i)
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();
 			pBoxMesh->SetShadowCaster(true);
-			pBoxMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
-			float x = Math::RangeRandom(0,50);
-			float y = Math::RangeRandom(0,50);
-			pBox->SetPos(Vector3(x, y,pTerrain->GetHeight(x,y)));
+			pBoxMesh->Load("Fbx/Box.skn", "Fbx/Box.mtl");
+			float x = Math::RangeRandom(0, 150);
+			float y = Math::RangeRandom(0, 150);
+			pBox->SetPos(Vector3(x, y, m_pTerrain->GetHeight(x, y)));
 		}
 
 
 		RefPtr<DirectonalLight> pSunLight = m_pScene->GetDirLight();
-		
-		pSunLight->GetSceneNode()->LookAt(Vector3(10,10,10),Vector3(0,0,0));
-		pSunLight->SetLightColor(ColourValue(1.0,1.0,1.0,1.0f));
+
+		pSunLight->GetSceneNode()->LookAt(Vector3(10, 10, 10), Vector3(0, 0, 0));
+		pSunLight->SetLightColor(ColourValue(1.0, 1.0, 1.0, 1.0f));
 		//pSunLight->SetShadowEnabled(true);
 		//pSunLight->SetMaxSplitCount(4);
 		//m_pScene->SetAmbientColor(Vector3(0.0,0.0,0.0));
@@ -54,7 +65,7 @@ namespace ma
 	{
 		//GetInput()->RemoveKeyListener(this);
 
-		//m_pScene->SetAmbientColor(ColourValue::White);		
+		//m_pScene->SetAmbientColor(ColourValue::White);
 
 		m_pDirectLight = NULL;
 	}

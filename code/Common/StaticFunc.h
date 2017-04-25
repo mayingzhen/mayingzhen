@@ -117,3 +117,64 @@ public:
     
 };
 
+
+// ---------------------------------------------------------------------
+// ²âÊÔÊ±¼ä
+// ---------------------------------------------------------------------
+#ifdef WIN32
+#define BEGIN_TIME(name) \
+	    LARGE_INTEGER nFreq##name;\
+	    LARGE_INTEGER nBeginTime##name;\
+	    LARGE_INTEGER nEndTime##name;\
+	    QueryPerformanceFrequency(&nFreq##name);\
+	    QueryPerformanceCounter(&nBeginTime##name)
+
+#define END_TIME(name)	\
+        QueryPerformanceCounter(&nEndTime##name);\
+        double dWasteTime##name = (double)(nEndTime##name.QuadPart-nBeginTime##name.QuadPart)/(double)nFreq##name.QuadPart*1000;\
+        StaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
+
+#define END_TIME_FILTER(name,timefilter)	\
+		QueryPerformanceCounter(&nEndTime##name);\
+		double dWasteTime##name = (double)(nEndTime##name.QuadPart-nBeginTime##name.QuadPart)/(double)nFreq##name.QuadPart*1000;\
+		if(dWasteTime##name >timefilter) CStaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
+
+#else
+
+#define BEGIN_TIME(name) \
+        timeval ttBegin##name;\
+        gettimeofday(&ttBegin##name, NULL)
+
+#define END_TIME(name)	\
+        timeval ttEnd##name;\
+        gettimeofday(&ttEnd##name, NULL);\
+        double dWasteTime##name = (ttEnd##name.tv_sec-ttBegin##name.tv_sec)*1000 + (ttEnd##name.tv_usec-ttBegin##name.tv_usec)*0.001;\
+        StaticFunc::DebugMsg("%s %fms", #name, dWasteTime##name)
+
+#endif
+
+class DebugSocpeTime
+{
+public:
+	DebugSocpeTime(const char* pszName)
+	{
+		m_strName = pszName;
+		QueryPerformanceFrequency(&m_nFreq);
+		QueryPerformanceCounter(&m_nBeginTime);
+	}
+
+	~DebugSocpeTime()
+	{
+		LARGE_INTEGER nEndTime;
+		QueryPerformanceCounter(&nEndTime); 
+        double dWasteTime = (double)(nEndTime.QuadPart-m_nBeginTime.QuadPart)/(double)m_nFreq.QuadPart*1000;
+		StaticFunc::DebugMsg("%s %fms", m_strName.c_str(), dWasteTime);
+	}
+
+private:
+	std::string m_strName;
+	LARGE_INTEGER m_nFreq;
+	LARGE_INTEGER m_nBeginTime;
+};
+
+

@@ -32,10 +32,15 @@ namespace ma
 		g_pRenderSystem = new RenderSystem();
 
 		g_pJobScheduler = new JobScheduler();
+
+		MT::g_pTaskScheduler = new MT::TaskScheduler();
+		//FiberTaskingLib::g_pTaskScheduler = new FiberTaskingLib::TaskScheduler();
 	}
 
 	Engine::~Engine()
 	{
+		//SAFE_DELETE(FiberTaskingLib::g_pTaskScheduler );
+		SAFE_DELETE(MT::g_pTaskScheduler);
 		SAFE_DELETE(g_pJobScheduler);
 
 		SAFE_DELETE(g_pRenderSystem);

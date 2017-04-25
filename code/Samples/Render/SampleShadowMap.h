@@ -18,8 +18,12 @@ namespace ma
 
 		virtual void		keyEvent(Keyboard::KeyEvent evt, Keyboard::Key key);
 
+		void				OnTerrainLoadOver();
+
 	private:
 		RefPtr<DirectonalLight>	m_pDirectLight;
+
+		RefPtr<Terrain> m_pTerrain;
 	};
 }
 

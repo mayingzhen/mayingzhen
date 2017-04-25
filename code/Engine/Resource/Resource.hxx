@@ -94,10 +94,8 @@ namespace ma
 
 		bool bInit = InitRes();
 
-		m_eResState = ResInited;
-	
-		IsReady();
-			
+		this->SetResState(ResInited);
+				
 		return true;
 	}
 

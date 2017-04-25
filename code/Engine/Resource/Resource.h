@@ -59,6 +59,9 @@ namespace ma
 		LST_RESOURCE			m_lstChild;
 
 		friend class DataThread;
+
+	public:
+		Signal< void() >		mLoadOverEvent;
 	};
 
 	RefPtr<Resource> CreateResource(const char* pszPath);

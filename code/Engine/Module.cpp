@@ -16,6 +16,14 @@
 #include "Engine/Thread/MSemaphore.hxx"
 #include "Engine/Thread/JobScheduler.hxx"
 
+// TaskScheduler
+#include "TaskScheduler/MTDefaultAppInterop.hxx"
+#include "TaskScheduler/MTFiberContext.hxx"
+#include "TaskScheduler/MTScheduler.hxx"
+#include "TaskScheduler/MTThreadContext.hxx"
+#include "TaskScheduler/Platform/Windows/MicroWindows.hxx"
+//#include "TaskScheduler/task_scheduler.hxx"
+
 // Resource
 #include "Engine/Resource/Stream.hxx"
 #include "Engine/Resource/MemoryStream.hxx"

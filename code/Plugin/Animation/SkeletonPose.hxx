@@ -57,10 +57,6 @@ namespace ma
 
 	void SkeletonPose::InitLocalSpace(const std::vector<Transform>& arrTSF_LS,const SkeletonPose* pRefPose)
 	{
-// 		std::vector<Transform> arrTSF_PS;
-// 		const UINT nBoneNum = pRefPose->GetNodeNumber();
-// 		arrTSF_PS.resize(nBoneNum);
-
 		for (UINT nBoneCnt = 0; nBoneCnt < pRefPose->GetNodeNumber(); ++nBoneCnt)
 		{
 			TransformMul(&m_arrTSF_PS[nBoneCnt],&pRefPose->GetTransformPS(nBoneCnt),&arrTSF_LS[nBoneCnt]);

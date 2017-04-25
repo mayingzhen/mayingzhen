@@ -28,6 +28,13 @@ namespace ma
 			Vector3 m_vExtern;
 			bool m_bInfinite; 
 
+			NodeBound()
+			{
+				m_bInfinite = true;
+				m_vCenter = Vector3::ZERO;
+				m_vExtern = Vector3::ZERO;
+			}
+
 			NodeBound(const AABB& aabb)
 			{
 				if (aabb.isInfinite())

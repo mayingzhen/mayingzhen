@@ -218,6 +218,9 @@ namespace ma
 		if (m_bLoadOver)
 			return true;
 
+		if (!Serializable::IsReady())
+			return false;
+
 		if (m_pMaterial == NULL || !m_pMaterial->IsReady())
 			return false;
 
@@ -256,6 +259,7 @@ namespace ma
 		ClearTempData();
 		
 		m_bLoadOver = true;
+		mLoadOverEvent.trigger();
 
 		return true;
 	}	

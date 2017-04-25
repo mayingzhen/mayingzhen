@@ -27,7 +27,6 @@ namespace ma
 
 	class Terrain : public SceneNode
 	{
-	
 	public:
 		Terrain(Scene* pScene,const char* pName = NULL);
 
@@ -163,6 +162,9 @@ namespace ma
 		RefPtr<VertexDeclaration> m_pVertexDecl;
 
 		friend class TerrainTrunk;
+
+	public:
+		Signal< void() > mLoadOverEvent;
 	};
 
 	RefPtr<Terrain>	 CreateTerrain();

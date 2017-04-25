@@ -10,3 +10,5 @@ D:\work\mydemon_svn\data\script\scripttest\bin\Debug\EngineCSharp.dll
 D:\work\mydemon_svn\data\script\scripttest\obj\Debug\ResolveAssemblyReference.cache
 D:\work\mydemon_svn\data\script\scripttest\obj\Debug\ScriptTest.dll
 D:\work\mydemon_svn\data\script\scripttest\obj\Debug\ScriptTest.pdb
+E:\work\mydemon_git\mayingzhen\data\script\scripttest\obj\Debug\scripttest.csprojResolveAssemblyReference.cache
+E:\work\mydemon_git\mayingzhen\data\script\scripttest\obj\Debug\ScriptTest.dll

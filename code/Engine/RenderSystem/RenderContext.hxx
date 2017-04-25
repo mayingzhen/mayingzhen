@@ -28,7 +28,6 @@ namespace ma
 
 	void RenderContext::SetCamera(Camera* pCamera)
 	{
-		//m_pCamera = pCamera;
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatView( pCamera->GetMatView() );
 		m_matViewProj[GetRenderSystem()->CurThreadFill()].SetMatProj( pCamera->GetMatProj() );
 		m_vEyeWordPos[GetRenderSystem()->CurThreadFill()] = pCamera->GetEyeNode()->GetPosWS();
