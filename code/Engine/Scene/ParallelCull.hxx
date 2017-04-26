@@ -250,7 +250,7 @@ namespace ma
 
 		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 		
-		if (0/*MT::g_pTaskScheduler*/)
+		if (MT::g_pTaskScheduler && m_vecNode.size() > nNumJob)
 		{
 			BEGIN_TIME(g_pTaskScheduler);
 
