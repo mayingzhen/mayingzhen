@@ -29,14 +29,18 @@ namespace ma
 				SkinMeshRenderable* pRenderable = new SkinMeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				pRenderable->m_pDeclaration = pMeshData->GetVertexDeclar(); 
+				//pRenderable->m_pDeclaration = pMeshData->GetVertexDeclar(); 
 				pRenderable->m_pVertexBuffer = pMeshData->GetVertexBuffer(); 
 				pRenderable->m_pIndexBuffer = pMeshData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = pMeshData->GetSubMeshByIndex(iSub);
 				pRenderable->m_posAABB = pMeshData->GetBoundingAABB();
 				pRenderable->m_tcAABB = pMeshData->GetUVBoundingAABB();
 
-				pRenderable->m_pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod,iSub);
+				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
+
+				pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMeshData->GetVertexDeclar());
+				
+				pRenderable->m_pSubMaterial = pSubMaterial;
 
 				arrRenderable.push_back(pRenderable);
 			}

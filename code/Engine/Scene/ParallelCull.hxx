@@ -1,5 +1,5 @@
 #include "ParallelCull.h"
-#include "../Thread/JobScheduler.h"
+//#include "../Thread/JobScheduler.h"
 //#include "MTScheduler.h"
 
 namespace ma
@@ -248,7 +248,7 @@ namespace ma
 	{
 		ASSERT(vecObj.empty());
 
-		uint32 nNumJob = GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
+		uint32 nNumJob = MT::g_pTaskScheduler->GetWorkersCount();//GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 		
 		if (MT::g_pTaskScheduler && m_vecNode.size() > nNumJob)
 		{
@@ -296,61 +296,8 @@ namespace ma
 			END_TIME(g_pTaskScheduler);
 		}
 		
-
-		/*
-		if (FiberTaskingLib::g_pTaskScheduler)
-		{
-			BEGIN_TIME(g_pTaskScheduler);
-
-			static vector<int> vecVis;
-			vecVis.resize(m_vecNode.size(), false);
-
-			static vector<CullJobData> vecJobData;
-			vecJobData.resize(nNumJob);
-
-			static vector<FiberTaskingLib::Task> vecTasks;
-			vecTasks.resize(nNumJob);
-
-			uint32 nCountPerJob = m_vecNode.size() / nNumJob;
-
-			for (UINT32 iJob = 0; iJob < nNumJob; ++iJob)
-			{
-				uint32 nStartIndex = iJob * nCountPerJob;
-				uint32 nEndIndex = nStartIndex + nCountPerJob - 1;
-				if (iJob == nNumJob - 1)
-					nEndIndex = m_vecNode.size() - 1;
-
-				ASSERT(nEndIndex >= nStartIndex);
-				if (nEndIndex < nStartIndex)
-					continue;
-
-				uint32 nCount = nEndIndex - nStartIndex;
-				vecJobData[iJob].m_pFrustum = (Frustum*)pFrustum;
-				vecJobData[iJob].m_pNodeStart = &(m_vecNode[nStartIndex]);
-				vecJobData[iJob].m_pVisStart = &(vecVis[nStartIndex]);
-				vecJobData[iJob].m_pNodeBoundStart = &(m_vecNodeBound[nStartIndex]);
-				vecJobData[iJob].m_nNodeCount = nCount;
-
-				vecTasks[iJob] = { ParallelJobCullFrustum, &vecJobData[iJob] };
-			}
-
-			std::shared_ptr<std::atomic_uint> counter = FiberTaskingLib::g_pTaskScheduler->AddTasks(vecTasks.size(), &vecTasks[0]);
-			FiberTaskingLib::g_pTaskScheduler->WaitForCounter(counter, 0);
-
-			vecObj.resize(vecVis.size());
-			for (UINT32 i = 0; i < vecVis.size(); ++i)
-			{
-				if (vecVis[i])
-				{
-					vecObj.push_back(m_vecNode[i]);
-				}
-			}
-
-			END_TIME(g_pTaskScheduler);
-		}
-		*/
 		
-
+		/*
 		if (nNumJob > 1 && m_vecNode.size() > nNumJob)
 		{
 			BEGIN_TIME(g_pJobScheduler);
@@ -398,12 +345,12 @@ namespace ma
 
 			END_TIME(g_pJobScheduler);
 		}
+		*/
 
 		//else
 		{
 			BEGIN_TIME(ParallelCull);
-			//DebugSocpeTime("ParallelCull");
-			
+	
 			vecObj.clear();
 			for (UINT32 i = 0; i < m_vecNode.size(); ++i)
 			{

@@ -1,7 +1,51 @@
 #include "VertexDeclaration.h"
 
-namespace ma 
+namespace ma
 {
+	void VertexElement::RegisterAttribute()
+	{
+		ATTRIBUTE(VertexElement, "Stream", Stream, short, 0, AM_DEFAULT);
+		ATTRIBUTE(VertexElement, "Offset", Offset, short, 0, AM_DEFAULT);
+		ENUM_ATTRIBUTE(VertexElement, "Type", Type, DECL_TYPE, strDECL_TYPE, DT_UNKNOWN, AM_DEFAULT);
+		ENUM_ATTRIBUTE(VertexElement, "Usage", Usage, DECL_USAGE, strDECL_USAGE, DU_UNKNOWN, AM_DEFAULT);
+		ATTRIBUTE(VertexElement, "UsageIndex", UsageIndex, unsigned char, 0, AM_DEFAULT);
+	}
+
+	// ---------------------------------------------------------------------
+	//  stream  offset  type  semantic index GLLocate
+	//   4        12     4      4        4	    4
+	//  0~15    0~4096-1 0~15   0~15    0~15   0~15
+	// ---------------------------------------------------------------------
+	void VertexElement::BuildHash()
+	{
+		mHash = 0;
+
+		//ASSERT(mGLLocate <= 15);
+		//UINT32 n = mGLLocate;
+		//mHash += n;
+
+		ASSERT(UsageIndex <= 15);
+		UINT32 n = UsageIndex;
+		mHash += n << 4;
+
+		ASSERT(Usage <= 15);
+		n = Usage;
+		mHash += n << 8;
+
+		ASSERT(Type <= 15);
+		n = Type;
+		mHash += n << 12;
+
+		ASSERT(Offset <= 4096 - 1);
+		n = Offset;
+		mHash += n << 16;
+
+		ASSERT(Stream <= 15);
+		n = Stream;
+		mHash += n << 28;
+	}
+
+
 	VertexDeclaration::VertexDeclaration()
 	{
 		m_ElementCount = 0;
@@ -36,7 +80,7 @@ namespace ma
 
 		m_Elements[index] = element;
 
-		m_nStreamStride = element.Offset + GetDeclTypeSize(element.Type);				
+		m_nStreamStride = element.Offset + GetDeclTypeSize(element.Type);
 	}
 
 	int VertexDeclaration::GetDeclTypeSize(DECL_TYPE type)
@@ -64,12 +108,46 @@ namespace ma
 	uint64 VertexDeclaration::GetHash()
 	{
 		uint64 nNum = 0;
-		for (int i = 0;i< m_ElementCount;++i)
+		for (int i = 0; i < m_ElementCount; ++i)
 		{
 			VertexElement& e = m_Elements[i];
 			e.BuildHash();
 			nNum += e.GetHash();
 		}
 		return nNum;
+	}
+
+	bool VertexDeclaration::Import(rapidxml::xml_node<>* pXmlVD)
+	{
+		m_ElementCount = 0;
+		rapidxml::xml_node<>* pXmlEment = pXmlVD->first_node("Element");
+		while (pXmlEment)
+		{
+			m_Elements[m_ElementCount].Import(pXmlEment);
+
+			++m_ElementCount;
+
+			pXmlEment = pXmlVD->next_sibling("Element");
+		}
+
+		return true;
+	}
+
+	bool VertexDeclaration::Export(rapidxml::xml_node<>* pXmlVD, rapidxml::xml_document<>& doc)
+	{
+		for (int i = 0; i < m_ElementCount; ++i)
+		{
+			rapidxml::xml_node<>* pXmlElement = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Element"));
+			pXmlVD->append_node(pXmlElement);
+
+			m_Elements[m_ElementCount].Export(pXmlElement, doc);
+		}
+
+		return true;
+	}
+
+	RefPtr<VertexDeclaration> CreateVertexDeclaration()
+	{
+		return GetRenderDevice()->CreateVertexDeclaration();
 	}
 }

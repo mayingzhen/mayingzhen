@@ -19,7 +19,6 @@ namespace ma
 
 	void Technique::RegisterAttribute()
 	{
-		COPY_BASE_ATTRIBUTES(Technique,RenderState);
 	}
 
 	void Technique::SetShaderProgram(ShaderProgram* pShader)
@@ -184,11 +183,17 @@ namespace ma
 		if (m_pShaderProgram == NULL)
 			return;
 
+		GetRenderSystem()->SetVertexDeclaration(m_pDeclaration.get());
+
 		GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
 
 		m_pShaderProgram->BindUniform();
 		
-		GetRenderSystem()->SetRenderState(*this);
+		GetRenderSystem()->SetBlendState(m_pBlendState.get());
+
+		GetRenderSystem()->SetDepthStencilState(m_pDSState.get());
+
+		GetRenderSystem()->SetRasterizerState(m_pRSState.get());
 
 		for (UINT i = 0; i < m_pShaderProgram->GetUniformCount(); ++i)
 		{
@@ -305,31 +310,122 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
+	void Technique::SetBlendState(BlendState* pBlendState)
+	{
+		m_pBlendState = pBlendState;
+
+		GetRenderSystem()->BlendStateStreamComplete(pBlendState);
+	}
+
+	void Technique::SetDepthStencilState(DepthStencilState* pDSSate)
+	{
+		m_pDSState = pDSSate;
+
+		GetRenderSystem()->DepthStencilStateStreamComplete(pDSSate);
+	}
+
+	void Technique::SetRasterizerState(RasterizerState* pRSState)
+	{
+		m_pRSState = pRSState;
+
+		GetRenderSystem()->RasterizerStateStreamComplete(pRSState);
+	}
+
+	void Technique::SetVertexDeclaration(VertexDeclaration* pVertexDecl)
+	{
+		m_pDeclaration = pVertexDecl;
+
+		pVertexDecl->SetShaderProgram(m_pShaderProgram.get());
+
+		GetRenderSystem()->VertexDeclaComplete(pVertexDecl);
+	}
+
 	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
-		const char* pszVSFile = pXmlShader->findAttribute("VSFile");
-		const char* pszPSFile = pXmlShader->findAttribute("PSFile");
-		const char* pszMacro = pXmlShader->findAttribute("ShaderMacro");
-		m_pShaderProgram = CreateShaderProgram(pszVSFile,pszPSFile,pszMacro);
+		ASSERT(pXmlShader);
+		if (pXmlShader)
+		{
+			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
+			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
+			const char* pszMacro = pXmlShader->findAttribute("ShaderMacro");
+			m_pShaderProgram = CreateShaderProgram(pszVSFile, pszPSFile, pszMacro);
+		}
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
-		RenderState::Import(pXmlRenderState);
+		ASSERT(pXmlRenderState);
+		if (pXmlRenderState)
+		{
+			rapidxml::xml_node<>* pXmlBlendState = pXmlElem->first_node("BlendState");
+			if (pXmlBlendState)
+			{
+				m_pBlendState = CreateBlendState();
+				m_pBlendState->Import(pXmlBlendState);
+			}
 
+			rapidxml::xml_node<>* pXmlDSState = pXmlElem->first_node("DepthStencilState");
+			if (pXmlDSState)
+			{
+				m_pDSState = CreateDepthStencilState();
+				m_pDSState->Import(pXmlDSState);
+			}
+
+			rapidxml::xml_node<>* pXmlRSState = pXmlElem->first_node("RasterizerState");
+			if (pXmlRSState)
+			{
+				m_pRSState = CreateRasterizerState();
+				m_pRSState->Import(pXmlRSState);
+			}
+		}
+
+		rapidxml::xml_node<>* pXmlVertexDeclaration = pXmlElem->first_node("VertexDeclaration");
+		ASSERT(pXmlVertexDeclaration);
+		if (pXmlVertexDeclaration)
+		{
+			m_pDeclaration = CreateVertexDeclaration();
+			m_pDeclaration->Import(pXmlVertexDeclaration);
+		}
+	
 		return true;
 	}
 
 	bool Technique::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)
 	{
-		rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
-		pXmlElem->append_node(pXmlShader);
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"),doc.allocate_string(m_pShaderProgram->GetVSFile())));
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"),doc.allocate_string(m_pShaderProgram->GetPSFile())));
-		pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("ShaderMacro"),doc.allocate_string(m_pShaderProgram->GetShaderMacro())));
+		if (m_pShaderProgram)
+		{
+			rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
+			pXmlElem->append_node(pXmlShader);
+			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(m_pShaderProgram->GetVSFile())));
+			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(m_pShaderProgram->GetPSFile())));
+			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("ShaderMacro"), doc.allocate_string(m_pShaderProgram->GetShaderMacro())));
+		}
 
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
 		pXmlElem->append_node(pXmlRenderState);
-		RenderState::Export(pXmlRenderState,doc);
+
+		if (m_pBlendState)
+		{
+			rapidxml::xml_node<>* pXmlBlendState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("BlendState"));
+			pXmlRenderState->append_node(pXmlBlendState);
+
+			m_pBlendState->Export(pXmlBlendState, doc);
+		}
+	
+		if (m_pDSState)
+		{
+			rapidxml::xml_node<>* pXmlDSState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("DepthStencilState"));
+			pXmlRenderState->append_node(pXmlDSState);
+
+			m_pDSState->Export(pXmlDSState, doc);
+		}
+
+		if (m_pRSState)
+		{
+			rapidxml::xml_node<>* pXmlRSState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RasterizerState"));
+			pXmlRenderState->append_node(pXmlRSState);
+
+			m_pRSState->Export(pXmlRSState, doc);
+		}
 	
 		return true;
 	}

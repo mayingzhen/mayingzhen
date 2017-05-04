@@ -3,10 +3,6 @@
 
 namespace ma
 {
-
-	//static const char* ShadowDepth = "ShadowDepth";
-	//static const char* Shading = "Shading";
-	
 	SubMaterial::SubMaterial()
 	{
 	}
@@ -40,7 +36,9 @@ namespace ma
 		{
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
 			m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str());
-			m_pShadowDepthTech->m_bColorWrite = false;
+			RefPtr<BlendState> pBlendSate = CreateBlendState();
+			pBlendSate->m_bColorWrite = false;
+			m_pShadowDepthTech->SetBlendState(pBlendSate.get());
 		}
 
 		return m_pShadowDepthTech.get();

@@ -216,7 +216,7 @@ namespace ma
 					continue;
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
-				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
+				//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = m_vecIBTemp[m];
 				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
@@ -265,7 +265,7 @@ namespace ma
 						(uint8*)&bodyIBList[0],sizeof(uint16) * bodyIBList.size(),sizeof(uint16));
 
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
-					pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
+					//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = pIB;
 					pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
@@ -347,12 +347,18 @@ namespace ma
 			{
 				RefPtr<SubMaterial> pBorderMaterial = m_pTerrain->GetMaterialByID(it->first)->Clone();
 				Technique* pTech = pBorderMaterial->GetShadingTechnqiue();
-				pTech->m_eBlendMode = BM_TRANSPARENT;
-				pTech->m_eDepthCheckMode = CMPF_EQUAL;
-				pTech->m_bDepthWrite = false;
+				
+				RefPtr<BlendState> pBlendState = CreateBlendState();
+				pBlendState->m_eBlendMode = BM_TRANSPARENT;
+				pTech->SetBlendState(pBlendState.get());
+
+				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+				pDSState->m_bDepthWrite = false;
+				pDSState->m_eDepthCheckMode = CMPF_EQUAL;
+				pTech->SetDepthStencilState(pDSState.get());
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
-				pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
+				//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = it->second;
 				pRenderable->m_pSubMaterial = pBorderMaterial;
@@ -386,12 +392,14 @@ namespace ma
 				SkitIB& skitIB = m_vecSkirt[m][n];
 
 				RefPtr<SubMaterial> pSkirtMaterial = lod.m_vecBody[0]->GetMaterial()->Clone();
-				pSkirtMaterial->GetShadingTechnqiue()->m_eCullMode = CULL_FACE_SIDE_NONE;
+				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
+				pRSState->m_eCullMode = CULL_FACE_SIDE_NONE;
+				pSkirtMaterial->GetShadingTechnqiue()->SetRasterizerState(pRSState.get());
 
 				for (UINT i = 0; i < SideNum; ++i)
 				{
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
-					pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
+					//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = skitIB.skirtIB[i];
 					pRenderable->m_pSubMaterial = pSkirtMaterial.get();

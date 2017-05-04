@@ -1,17 +1,14 @@
-#include "D3D11RenderState.h"
+#include "GLESRenderState.h"
 
 namespace ma
 {
-	map<unsigned, ID3D11DepthStencilState*> g_depthStatePool;
-	map<unsigned, ID3D11RasterizerState*> g_rasterizerStatePool;
-	map<unsigned, ID3D11BlendState*> g_blendStatePool;
 
-	void D3D11RasterizerStateObject::RT_StreamComplete()
+	void GLESRasterizerStateObject::RT_StreamComplete()
 	{
 		//GetD3D11DxDevive()->CreateO
 	}
 
-	void D3D11DepthStencilStateObject::RT_StreamComplete(/*UINT32 front_stencil_ref, UINT32 back_stencil_ref*/)
+	void GLESDepthStencilStateObject::RT_StreamComplete(/*UINT32 front_stencil_ref, UINT32 back_stencil_ref*/)
 	{
 		//m_pD3D11DSState = GetD3D11DxDeviveContext()->CreateOrGetDepthStencilState(this);
 // 		unsigned newDepthStateHash =
@@ -59,7 +56,7 @@ namespace ma
 // 		}
 	}
 
-	void D3D11BlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)
+	void GLESBlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)
 	{
 
 	}

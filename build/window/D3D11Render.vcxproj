@@ -105,6 +105,8 @@
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11RenderDevice.hxx" />
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11RenderState.h" />
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11RenderState.hxx" />
+    <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11SamplerState.h" />
+    <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11SamplerState.hxx" />
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11ShaderProgram.h" />
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11ShaderProgram.hxx" />
     <ClInclude Include="..\..\code\Plugin\D3D11Render\D3D11Texture.h" />

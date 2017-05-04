@@ -50,6 +50,7 @@ namespace ma
 
 	void DataThread::Process()
 	{	
+		DWORD dTime = StaticFunc::GetTime();
 		while (true)
 		{
 			m_csLoadedQueue.Lock();
@@ -58,6 +59,7 @@ namespace ma
 				m_csLoadedQueue.Unlock();
 				break;
 			}
+
 			RefPtr<Resource> resData = m_queLoaded.front();
 			resData->IsReady();
 			if (resData->GetResState() == ResReady || resData->GetResState() == ResLoadError)

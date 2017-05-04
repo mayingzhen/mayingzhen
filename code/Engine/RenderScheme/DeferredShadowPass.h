@@ -35,6 +35,10 @@ namespace ma
 		RefPtr<Renderable>	m_pRenderable;
 
 		RefPtr<DirectonalLight> m_ShadowLight;
+
+// 		std::vector<DepthStencilState> m_vecPasss1;
+// 		std::vector<DepthStencilState> m_vecPasss2;
+// 		std::vector<DepthStencilState> m_vecPasss3;
 	};
 
 }

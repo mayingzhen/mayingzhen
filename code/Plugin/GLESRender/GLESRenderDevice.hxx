@@ -1,6 +1,8 @@
 #include "GLESRenderDevice.h"
 #include "GLESTexture.h"
 #include "GLESBase.h"
+#include "GLESRenderState.h"
+#include "GlESSamplerState.h"
 
 #include "DeviceContext/GLESDeviceContext.h"
 
@@ -55,6 +57,26 @@ namespace ma
 	ShaderProgram*	GLESRenderDevice::CreateShaderProgram()
 	{
 		return new GLESShaderProgram();
+	}
+
+	BlendState*	GLESRenderDevice::CreateBlendState()
+	{
+		return new GLESBlendStateObject();
+	}
+
+	DepthStencilState* GLESRenderDevice::CreateDepthStencilState()
+	{
+		return new GLESDepthStencilStateObject();
+	}
+
+	RasterizerState* GLESRenderDevice::CreateRasterizerState()
+	{
+		return new GLESRasterizerStateObject();
+	}
+
+	SamplerState* GLESRenderDevice::CreateSamplerState()
+	{
+		return new GLESSamplerState();
 	}
 
 	void GLESRenderDevice::Shoutdown()
@@ -353,133 +375,35 @@ namespace ma
 		return rect;
 	}
 
-	void GLESRenderDevice::SetDepthBias(float constantBias, float slopeScaleBias)
+	void GLESRenderDevice::SetBlendState(const BlendState* pBlendState)
 	{
-		//ASSERT(false);
-	}
-
-	void GLESRenderDevice::SetCullingMode(CULL_MODE mode)
-	{
-		switch( mode )
+		switch (pBlendState->m_eBlendMode)
 		{
-		case CULL_FACE_SIDE_NONE:
-			GL_ASSERT( glDisable(GL_CULL_FACE) );
-			return;
-		case CULL_FACE_SIDE_BACK:
-			GL_ASSERT( glEnable(GL_CULL_FACE) );	
-			GL_ASSERT( glCullFace(GL_BACK) );
-			return;
-		case CULL_FACE_SIDE_FRONT:
-			GL_ASSERT( glEnable(GL_CULL_FACE) );	
-			GL_ASSERT( glCullFace(GL_FRONT) );
-			return;
+		case BM_OPATICY:
+			GL_ASSERT( glDisable(GL_BLEND) );
+			break;
+
+		case BM_TRANSPARENT:
+			GL_ASSERT( glEnable(GL_BLEND) );
+			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
+			break;
+
+		case BM_ADD:
+			GL_ASSERT( glEnable(GL_BLEND) );
+			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
+			break;
+
+		case BM_MULTIPLY:
+			break;
 		}
+
+		bool b = pBlendState->m_bColorWrite;
+		GL_ASSERT(glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/));
 	}
 
-	void GLESRenderDevice::SetDepthWrite(bool b)
+	void GLESRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState)
 	{
-		GL_ASSERT( glDepthMask(b) );
-	}
-
-	void GLESRenderDevice::SetColorWrite(bool b)
-	{
-		GL_ASSERT( glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/) );
-	}
-
-	void GLESRenderDevice::SetSRGBWrite(bool b)
-	{
-
-	}
-
-	void GLESRenderDevice::SetStencilEnable(bool enabled)
-	{
-		if(mStencilEnabledGL == enabled)
-			return;
-
-		//mStencilEnabledGL = enabled;
-
-		if (enabled)
-		{
-			glEnable(GL_STENCIL_TEST);
-		}
-		else
-		{
-			glDisable(GL_STENCIL_TEST);
-		}
-		//GL_CHECK_ERROR;
-	}
-
-	void GLESRenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
-		uint32 refValue/* = 0*/, uint32 compareMask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
-		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
-		StencilOperation depthFailOp/* = SOP_KEEP*/,
-		StencilOperation passOp/* = SOP_KEEP*/, 
-		bool twoSidedOperation/* = false*/)
-	{
-		bool flip = false;
-
-		if (twoSidedOperation)
-		{
-			// 		if (!mCurrentCapabilities->hasCapability(RSC_TWO_SIDED_STENCIL))
-			// 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "2-sided stencils are not supported",
-			// 			"GLES2RenderSystem::setStencilBufferParams");
-
-			// NB: We should always treat CCW as front face for consistent with default
-			// culling mode. Therefore, we must take care with two-sided stencil settings.
-			//flip = !mInvertVertexWinding;
-
-			// Back
-			glStencilMaskSeparate(GL_BACK, writeMask);
-			//GL_CHECK_ERROR;
-			glStencilFuncSeparate(GL_BACK, GLESMapping::convertCompareFunction(func), refValue, compareMask);
-			//GL_CHECK_ERROR;
-			glStencilOpSeparate(GL_BACK, 
-				GLESMapping::convertStencilOp(stencilFailOp, !flip), 
-				GLESMapping::convertStencilOp(depthFailOp, !flip), 
-				GLESMapping::convertStencilOp(passOp, !flip));
-
-			//GL_CHECK_ERROR;
-			// Front
-			glStencilMaskSeparate(GL_FRONT, writeMask);
-			//GL_CHECK_ERROR;
-			glStencilFuncSeparate(GL_FRONT, GLESMapping::convertCompareFunction(func), refValue, compareMask);
-			//GL_CHECK_ERROR;
-			glStencilOpSeparate(GL_FRONT, 
-				GLESMapping::convertStencilOp(stencilFailOp, flip),
-				GLESMapping::convertStencilOp(depthFailOp, flip), 
-				GLESMapping::convertStencilOp(passOp, flip));
-			//GL_CHECK_ERROR;
-		}
-		else
-		{
-			flip = false;
-			this->SetStencilMaskGL(writeMask);
-
-			glStencilFunc(GLESMapping::convertCompareFunction(func), refValue, compareMask);
-			//GL_CHECK_ERROR;
-			glStencilOp(
-				GLESMapping::convertStencilOp(stencilFailOp, flip),
-				GLESMapping::convertStencilOp(depthFailOp, flip), 
-				GLESMapping::convertStencilOp(passOp, flip));
-			//GL_CHECK_ERROR;
-		}
-	}
-
-	void GLESRenderDevice::SetStencilMaskGL(GLuint mask)
-	{
-		if (mStencilMaskGL == mask)
-		{
-			return;
-		}
-		mStencilMaskGL = mask;
-
-		glStencilMask(mask);
-		//GL_CHECK_ERROR;
-	}
-
-	void GLESRenderDevice::SetDepthCheckMode(CompareFunction mode)
-	{
-		switch (mode)
+		switch (pDSState->m_eDepthCheckMode)
 		{
 		case CMPF_ALWAYS_FAIL:
 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
@@ -515,28 +439,195 @@ namespace ma
 		}
 	}
 
-	void GLESRenderDevice::SetBlendMode(BLEND_MODE mode)
+	void GLESRenderDevice::SetRasterizerState(const RasterizerState* pRSState)
 	{
-		switch (mode)
-		{
-		case BM_OPATICY:
-			GL_ASSERT( glDisable(GL_BLEND) );
-			break;
 
-		case BM_TRANSPARENT:
-			GL_ASSERT( glEnable(GL_BLEND) );
-			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
-			break;
-
-		case BM_ADD:
-			GL_ASSERT( glEnable(GL_BLEND) );
-			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
-			break;
-
-		case BM_MULTIPLY:
-			break;
-		}
 	}
+
+// 	void GLESRenderDevice::SetDepthBias(float constantBias, float slopeScaleBias)
+// 	{
+// 		//ASSERT(false);
+// 	}
+// 
+// 	void GLESRenderDevice::SetCullingMode(CULL_MODE mode)
+// 	{
+// 		switch( mode )
+// 		{
+// 		case CULL_FACE_SIDE_NONE:
+// 			GL_ASSERT( glDisable(GL_CULL_FACE) );
+// 			return;
+// 		case CULL_FACE_SIDE_BACK:
+// 			GL_ASSERT( glEnable(GL_CULL_FACE) );	
+// 			GL_ASSERT( glCullFace(GL_BACK) );
+// 			return;
+// 		case CULL_FACE_SIDE_FRONT:
+// 			GL_ASSERT( glEnable(GL_CULL_FACE) );	
+// 			GL_ASSERT( glCullFace(GL_FRONT) );
+// 			return;
+// 		}
+// 	}
+// 
+// 	void GLESRenderDevice::SetDepthWrite(bool b)
+// 	{
+// 		GL_ASSERT( glDepthMask(b) );
+// 	}
+// 
+// 	void GLESRenderDevice::SetColorWrite(bool b)
+// 	{
+// 		GL_ASSERT( glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/) );
+// 	}
+// 
+// 	void GLESRenderDevice::SetSRGBWrite(bool b)
+// 	{
+// 
+// 	}
+// 
+// 	void GLESRenderDevice::SetStencilEnable(bool enabled)
+// 	{
+// 		if(mStencilEnabledGL == enabled)
+// 			return;
+// 
+// 		//mStencilEnabledGL = enabled;
+// 
+// 		if (enabled)
+// 		{
+// 			glEnable(GL_STENCIL_TEST);
+// 		}
+// 		else
+// 		{
+// 			glDisable(GL_STENCIL_TEST);
+// 		}
+// 		//GL_CHECK_ERROR;
+// 	}
+// 
+// 	void GLESRenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
+// 		uint32 refValue/* = 0*/, uint32 compareMask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
+// 		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
+// 		StencilOperation depthFailOp/* = SOP_KEEP*/,
+// 		StencilOperation passOp/* = SOP_KEEP*/, 
+// 		bool twoSidedOperation/* = false*/)
+// 	{
+// 		bool flip = false;
+// 
+// 		if (twoSidedOperation)
+// 		{
+// 			// 		if (!mCurrentCapabilities->hasCapability(RSC_TWO_SIDED_STENCIL))
+// 			// 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "2-sided stencils are not supported",
+// 			// 			"GLES2RenderSystem::setStencilBufferParams");
+// 
+// 			// NB: We should always treat CCW as front face for consistent with default
+// 			// culling mode. Therefore, we must take care with two-sided stencil settings.
+// 			//flip = !mInvertVertexWinding;
+// 
+// 			// Back
+// 			glStencilMaskSeparate(GL_BACK, writeMask);
+// 			//GL_CHECK_ERROR;
+// 			glStencilFuncSeparate(GL_BACK, GLESMapping::convertCompareFunction(func), refValue, compareMask);
+// 			//GL_CHECK_ERROR;
+// 			glStencilOpSeparate(GL_BACK, 
+// 				GLESMapping::convertStencilOp(stencilFailOp, !flip), 
+// 				GLESMapping::convertStencilOp(depthFailOp, !flip), 
+// 				GLESMapping::convertStencilOp(passOp, !flip));
+// 
+// 			//GL_CHECK_ERROR;
+// 			// Front
+// 			glStencilMaskSeparate(GL_FRONT, writeMask);
+// 			//GL_CHECK_ERROR;
+// 			glStencilFuncSeparate(GL_FRONT, GLESMapping::convertCompareFunction(func), refValue, compareMask);
+// 			//GL_CHECK_ERROR;
+// 			glStencilOpSeparate(GL_FRONT, 
+// 				GLESMapping::convertStencilOp(stencilFailOp, flip),
+// 				GLESMapping::convertStencilOp(depthFailOp, flip), 
+// 				GLESMapping::convertStencilOp(passOp, flip));
+// 			//GL_CHECK_ERROR;
+// 		}
+// 		else
+// 		{
+// 			flip = false;
+// 			this->SetStencilMaskGL(writeMask);
+// 
+// 			glStencilFunc(GLESMapping::convertCompareFunction(func), refValue, compareMask);
+// 			//GL_CHECK_ERROR;
+// 			glStencilOp(
+// 				GLESMapping::convertStencilOp(stencilFailOp, flip),
+// 				GLESMapping::convertStencilOp(depthFailOp, flip), 
+// 				GLESMapping::convertStencilOp(passOp, flip));
+// 			//GL_CHECK_ERROR;
+// 		}
+// 	}
+// 
+	void GLESRenderDevice::SetStencilMaskGL(GLuint mask)
+	{
+		if (mStencilMaskGL == mask)
+		{
+			return;
+		}
+		mStencilMaskGL = mask;
+
+		glStencilMask(mask);
+		//GL_CHECK_ERROR;
+	}
+// 
+// 	void GLESRenderDevice::SetDepthCheckMode(CompareFunction mode)
+// 	{
+// 		switch (mode)
+// 		{
+// 		case CMPF_ALWAYS_FAIL:
+// 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
+// 			break;
+// 
+// 		case CMPF_LESS_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
+// 			break;
+// 
+// 		case CMPF_LESS:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_LESS) );
+// 			break;
+// 
+// 		case CMPF_GREATER_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
+// 			break;
+// 
+// 		case CMPF_GREATER:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_GREATER) );
+// 			break;
+// 
+// 		case CMPF_EQUAL:
+// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
+// 			GL_ASSERT( glDepthFunc(GL_EQUAL) );
+// 			break;
+// 		default:
+// 			ASSERT(false);
+// 			break;
+// 		}
+// 	}
+// 
+// 	void GLESRenderDevice::SetBlendMode(BLEND_MODE mode)
+// 	{
+// 		switch (mode)
+// 		{
+// 		case BM_OPATICY:
+// 			GL_ASSERT( glDisable(GL_BLEND) );
+// 			break;
+// 
+// 		case BM_TRANSPARENT:
+// 			GL_ASSERT( glEnable(GL_BLEND) );
+// 			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
+// 			break;
+// 
+// 		case BM_ADD:
+// 			GL_ASSERT( glEnable(GL_BLEND) );
+// 			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
+// 			break;
+// 
+// 		case BM_MULTIPLY:
+// 			break;
+// 		}
+// 	}
 
 	void GLESRenderDevice::SetTexture(uint32 nIndex,Texture* sampler,bool bSRGBNotEqual)
 	{
@@ -636,7 +727,7 @@ namespace ma
 		GL_ASSERT( glUniform4f(uniform->m_location, value.r, value.g, value.b, value.a) );
 	}
 
-	void GLESRenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
+	void GLESRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
 
 	}
@@ -670,7 +761,7 @@ namespace ma
 // 		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers.get();
 // 		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
 
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
+		//GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
@@ -680,114 +771,114 @@ namespace ma
 		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
-		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = 0;//nVertexStart * pVertexDeclar->GetStreanmStride();
 
-		int nSteam = pVertexDeclar->GetElementCount();
-		for (int i = 0; i < nSteam; ++i)
-		{
-			const VertexElement& ve = pVertexDeclar->GetElement(i);
-
-			GLint typeCount = 1; 
-			GLenum type = 0;
-			GLboolean normalized = false;
-			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
-			if (attr == -1)
-				continue;
-
-			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
-
-			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
-
-			GL_ASSERT( glEnableVertexAttribArray(attr) );
-		}
-
-
-		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
-		void* pIBufferData = BUFFER_OFFSET(indexStride * nIndexStart);
-
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
-		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
-
-		GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIBufferData) );
-
-		for (int i = 0; i < nSteam; ++i)
-		{
-			const VertexElement& ve = pVertexDeclar->GetElement(i);
-			GLint typeCount = 1; 
-			GLenum type = 0;
-			GLboolean normalized = false;
-			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
-			if (attr == -1)
-				continue;
-
-			GL_ASSERT( glDisableVertexAttribArray(attr) );
-		}
+		int nSteam = 0;//pVertexDeclar->GetElementCount();
+// 		for (int i = 0; i < nSteam; ++i)
+// 		{
+// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
+// 
+// 			GLint typeCount = 1; 
+// 			GLenum type = 0;
+// 			GLboolean normalized = false;
+// 			std::string name;
+// 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
+// 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
+// 			if (attr == -1)
+// 				continue;
+// 
+// 			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
+// 
+// 			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
+// 
+// 			GL_ASSERT( glEnableVertexAttribArray(attr) );
+// 		}
+// 
+// 
+// 		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
+// 		void* pIBufferData = BUFFER_OFFSET(indexStride * nIndexStart);
+// 
+// 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
+// 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
+// 
+// 		GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIBufferData) );
+// 
+// 		for (int i = 0; i < nSteam; ++i)
+// 		{
+// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
+// 			GLint typeCount = 1; 
+// 			GLenum type = 0;
+// 			GLboolean normalized = false;
+// 			std::string name;
+// 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
+// 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
+// 			if (attr == -1)
+// 				continue;
+// 
+// 			GL_ASSERT( glDisableVertexAttribArray(attr) );
+// 		}
 	}
 
 	void GLESRenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
-		if (pRenderable == NULL)
-			return;
-
-		ASSERT(pTech);
-		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
-
-		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
-		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
-
-		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
-		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffer.get();
-		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
-
-		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
-
-		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
-		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
-
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
-		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
-
-		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
-		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
-		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
-		GLvoid* pIndices = pIndexBuffer->GetData();
-		GLvoid*	pVertex = pVertexBuffer->GetData();
-
-		int nSteam = pVertexDeclar->GetElementCount();
-		for (int i = 0; i < nSteam; ++i)
-		{
-			const VertexElement& ve = pVertexDeclar->GetElement(i);
-
-			GLint typeCount = 1; 
-			GLenum type = 0;
-			GLboolean normalized = false;
-			std::string name;
-			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
-			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
-			if (attr == -1)
-				continue;
-
-			int offset = vertexStartByte + ve.Offset;
-			void* pVBufferData = (void*)(((unsigned char*)pVertex) + offset);	
-
-			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
-
-			GL_ASSERT( glEnableVertexAttribArray(attr) );
-		}
-
-
-		if (pIndexBuffer)
-		{
-			GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIndices) );
-		}
-		else
-		{
-			//GL_ASSERT( glDrawArrays(_primitiveType, 0, _vertexCount) );
-		}
+// 		if (pRenderable == NULL)
+// 			return;
+// 
+// 		ASSERT(pTech);
+// 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
+// 
+// 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
+// 		GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
+// 
+// 		GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
+// 		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffer.get();
+// 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
+// 
+// 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
+// 
+// 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
+// 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
+// 
+// 		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
+// 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
+// 
+// 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
+// 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pIndexBuffer->GetIndexType());
+// 		int vertexStartByte = nVertexStart * pVertexDeclar->GetStreanmStride();
+// 		GLvoid* pIndices = pIndexBuffer->GetData();
+// 		GLvoid*	pVertex = pVertexBuffer->GetData();
+// 
+// 		int nSteam = pVertexDeclar->GetElementCount();
+// 		for (int i = 0; i < nSteam; ++i)
+// 		{
+// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
+// 
+// 			GLint typeCount = 1; 
+// 			GLenum type = 0;
+// 			GLboolean normalized = false;
+// 			std::string name;
+// 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
+// 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
+// 			if (attr == -1)
+// 				continue;
+// 
+// 			int offset = vertexStartByte + ve.Offset;
+// 			void* pVBufferData = (void*)(((unsigned char*)pVertex) + offset);	
+// 
+// 			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
+// 
+// 			GL_ASSERT( glEnableVertexAttribArray(attr) );
+// 		}
+// 
+// 
+// 		if (pIndexBuffer)
+// 		{
+// 			GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIndices) );
+// 		}
+// 		else
+// 		{
+// 			//GL_ASSERT( glDrawArrays(_primitiveType, 0, _vertexCount) );
+// 		}
 	}
 
 

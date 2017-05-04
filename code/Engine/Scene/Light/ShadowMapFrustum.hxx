@@ -356,7 +356,7 @@ namespace ma
 
 		float fConstantBias = m_fConstantBias[GetRenderSystem()->CurThreadProcess()];
 		float fSlopeScaleBias = m_fSlopeScaleBias[GetRenderSystem()->CurThreadProcess()];
-		GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
+		//GetRenderSystem()->SetDepthBias(fConstantBias,fSlopeScaleBias);
 
 		for (UINT i = 0; i <  m_arrRenderable[GetRenderSystem()->CurThreadProcess()].size(); ++i)
 		{
@@ -380,10 +380,10 @@ namespace ma
 
 		GetRenderSystem()->SetViewPort(rPreViewport);
 
-		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
-		{
-			GetRenderSystem()->SetDepthBias(0,0);
-		}
+// 		if (GetDeviceCapabilities()->GetShadowMapDepthFormat() != PF_UNKNOWN)
+// 		{
+// 			GetRenderSystem()->SetDepthBias(0,0);
+// 		}
 	}
 
 	void ShadowMapFrustum::Clear(Camera* pCamera)

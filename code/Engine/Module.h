@@ -29,7 +29,7 @@
 #include "Engine/Thread/Thread.h"
 #include "Engine/Thread/AtomicOps.h"
 #include "Engine/Thread/MSemaphore.h"
-#include "Engine/Thread/JobScheduler.h"
+//#include "Engine/Thread/JobScheduler.h"
 
 // TaskScheduler
 //#include "Engine/TaskScheduler/MTScheduler.h"
@@ -42,6 +42,7 @@
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.h"
 #include "Engine/RenderSystem/IRenderDevice/IRenderDevice.h"
 #include "Engine/RenderSystem/IRenderDevice/RenderDefine.h"
+#include "Engine/RenderSystem/IRenderDevice/RenderState.h"
 #include "Engine/RenderSystem/RenderSystem.h"
 #include "Engine/RenderSystem/RenderContext.h"
 #include "Engine/RenderSystem/DeviceCapabilities.h"
@@ -66,8 +67,6 @@
 
 #include "Engine/ImageData/PixelFormat.h"
 #include "Engine/Material/Texture.h"
-#include "Engine/Material/RenderState.h"
-#include "Engine/Material/RenderState.h"
 #include "Engine/Material/ShaderProgram.h"
 #include "Engine/Material/MaterialParameter.h"
 #include "Engine/Material/Technqiue.h"

@@ -149,14 +149,18 @@ namespace ma
 				MeshRenderable* pRenderable = new MeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				pRenderable->m_pDeclaration = pMesData->GetVertexDeclar(); 
+				//pRenderable->m_pDeclaration = pMesData->GetVertexDeclar(); 
 				pRenderable->m_pVertexBuffer = pMesData->GetVertexBuffer(); 
 				pRenderable->m_pIndexBuffer = pMesData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = pMesData->GetSubMeshByIndex(iSub);
 				pRenderable->m_posAABB = pMesData->GetBoundingAABB();
 				pRenderable->m_tcAABB = pMesData->GetUVBoundingAABB();
 
-				pRenderable->m_pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod,iSub); 
+				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
+
+				pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMesData->GetVertexDeclar());
+
+				pRenderable->m_pSubMaterial = pSubMaterial;
 
 				arrRenderable.push_back(pRenderable);
 			}

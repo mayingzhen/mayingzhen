@@ -14,7 +14,7 @@
 
 #include "Engine/Thread/Thread.hxx"
 #include "Engine/Thread/MSemaphore.hxx"
-#include "Engine/Thread/JobScheduler.hxx"
+//#include "Engine/Thread/JobScheduler.hxx"
 
 // TaskScheduler
 #include "TaskScheduler/MTDefaultAppInterop.hxx"
@@ -73,9 +73,9 @@
 #include "Engine/RenderSystem/IRenderDevice/HardwareBuffer.hxx"
 #include "Engine/RenderSystem/IRenderDevice/TransientBuffer.hxx"
 #include "Engine/RenderSystem/IRenderDevice/VertexDeclaration.hxx"
+#include "Engine/RenderSystem/IRenderDevice/RenderState.hxx"
 #include "Engine/RenderSystem/PrefilterCube.hxx"
 
-#include "Engine/Material/RenderState.hxx"
 #include "Engine/Material/Material.hxx"
 #include "Engine/Material/MaterialParameter.hxx"
 #include "Engine/Material/ShaderProgram.hxx"

@@ -10,9 +10,12 @@ namespace ma
 		
 		~D3D11VertexDeclaration();
 
-	private:
+	public:
 
 		virtual void RT_StreamComplete();
+
+	public:
+		D3D11VertexDeclaration*	m_pImpl;
 	};
 
 }

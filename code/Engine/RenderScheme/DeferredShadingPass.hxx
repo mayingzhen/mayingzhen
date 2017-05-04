@@ -12,15 +12,20 @@ namespace ma
 	void DeferredShadingPass::Init()
 	{
 		m_pAmbientLight = CreateTechnique("AmbientLight","DeferredLight","DeferredLight","AMBIENT_LIGHT");
-		m_pAmbientLight->m_bDepthWrite = false;
+		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+		pDSState->m_bDepthWrite = false;
+		m_pAmbientLight->SetDepthStencilState(pDSState.get());
 
 		m_pDirLight = CreateTechnique("DirectLight","DeferredLight","DeferredLight","DIRECT_LIGHT");
-		m_pDirLight->m_bDepthWrite = false;
-		m_pDirLight->m_eBlendMode = BM_ADD;
+		m_pDirLight->SetDepthStencilState(pDSState.get());
+
+		RefPtr<BlendState> pBlendState = CreateBlendState();
+		pBlendState->m_eBlendMode = BM_ADD;
+		m_pDirLight->SetBlendState(pBlendState.get());
 
 		m_pPointLight = CreateTechnique("PointLight","DeferredLight","DeferredLight","POINT_LIGHT");
-		m_pDirLight->m_bDepthWrite = false;
-		m_pDirLight->m_eBlendMode = BM_ADD;
+		m_pPointLight->SetDepthStencilState(pDSState.get());
+		m_pDirLight->SetBlendState(pBlendState.get());
 	}
 
 	void DeferredShadingPass::Reset()
@@ -81,11 +86,11 @@ namespace ma
 				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < pPointLight->GetRadius())
 				{
-					m_pPointLight->m_eCullMode = CULL_FACE_SIDE_FRONT;	
+					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_FRONT;	
 				}
 				else
 				{
-					m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
+					//m_pPointLight->m_eCullMode = CULL_FACE_SIDE_BACK;
 				}
 
 				UnitSphere::Render(m_pPointLight.get(),pPointLight->GetSceneNode()->GetPos(),pPointLight->GetRadius());

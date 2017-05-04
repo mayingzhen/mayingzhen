@@ -10,9 +10,12 @@ namespace ma
 		SkinMeshComponent::RegisterAttribute();
 		Camera::RegisterAttribute();
 		Terrain::RegisterAttribute();
-		RenderState::RegisterAttribute();
+		BlendState::RegisterAttribute();
+		DepthStencilState::RegisterAttribute();
+		RasterizerState::RegisterAttribute();
 		Technique::RegisterAttribute();
 		SamplerState::RegisterAttribute();
+		VertexElement::RegisterAttribute();
 	}
 
 	void EngineRTTIShutdown()

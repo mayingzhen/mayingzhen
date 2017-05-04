@@ -87,7 +87,7 @@ namespace ma
 
 		VertexElement element[1];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		m_pRenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1); 
+		//m_pRenderable->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1); 
 	}
 
 	void DeferredShadowPass::Init()
@@ -95,12 +95,16 @@ namespace ma
 		m_pFrustumVolume = CreateTechnique("frustumclipvolume","volume","volume","");
 
 		m_pDefferedShadow = CreateTechnique("DeferredShadow","DefferedShadow","DefferedShadow","");
-		m_pDefferedShadow->m_bDepthWrite = false;
+		RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+		pDSState->m_bDepthWrite = false;
+		m_pDefferedShadow->SetDepthStencilState(pDSState.get());
 
 		m_pBlendMaterial = CreateTechnique("DeferredShadowBlend","DefferedShadow","DefferedShadow","FRUSTUM_BLEND");
 
 		m_pScreen = CreateTechnique("screen","screen","screen","");
-		m_pScreen->m_eBlendMode = BM_MULTIPLY;
+		RefPtr<BlendState> pBlendState = CreateBlendState();
+		pBlendState->m_eBlendMode = BM_MULTIPLY;
+		m_pScreen->SetBlendState(pBlendState.get());
 
 		CreateSimpleLightFrustumMesh();
 	}
@@ -130,7 +134,7 @@ namespace ma
 		
 		UINT32 stenCillUse = 1 << SBU_DEFERREDSHADOW | 1 << (SBU_DEFERREDSHADOW + 1) | 1 << (SBU_DEFERREDSHADOW + 2);
 
-		GetRenderSystem()->SetStencilCheckEnabled(true);
+	//	GetRenderSystem()->SetStencilCheckEnabled(true);
 		for (int i = m_ShadowLight->GetCurSplitCount() - 1; i >= 0; --i) // ´ÓºóÍùÇ°
 		{
 			ShadowMapFrustum& shadowMapFru = m_ShadowLight->GetShadowMapFrustum(i);
@@ -139,8 +143,8 @@ namespace ma
 
 			// This frustum
 			{
-				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
-					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
+// 				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
+// 					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
 
 				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 
@@ -152,8 +156,8 @@ namespace ma
 
 			// This frustum, not including blend region
 			{
-				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 1)  << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
-					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
+// 				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 1)  << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
+// 					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
 
 				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 
@@ -174,9 +178,9 @@ namespace ma
 			if ( !shadowMapFru.GetDraw() )
 				continue;
 
-			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
-			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
-				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
+// 			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+// 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
+// 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
 			ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
 
@@ -202,9 +206,9 @@ namespace ma
 
 			ShadowMapFrustum& shadowMapNextFru = m_ShadowLight->GetShadowMapFrustum(i + 1);
 
-			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
-			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
-				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
+// 			UINT32 refUse = ( i * 2  + 1 ) << SBU_DEFERREDSHADOW;
+// 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
+// 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
 			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
 			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);

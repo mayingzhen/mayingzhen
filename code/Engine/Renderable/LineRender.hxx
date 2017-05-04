@@ -1,5 +1,6 @@
 #include "LineRender.h"
 #include "../Material/ParameterManager.h"
+#include "Engine/RenderSystem/IRenderDevice/RenderState.h"
 
 namespace ma
 {
@@ -18,15 +19,22 @@ namespace ma
 	void LineRender::Init()
 	{
 		gpLinTech = CreateTechnique("Line","line","line","");
-		gpLinTech->m_bDepthWrite = true;
-		gpLinTech->m_eDepthCheckMode = CMPF_ALWAYS_PASS; 
+		//gpLinTech->m_bDepthWrite = true;
+		//gpLinTech->m_eDepthCheckMode = CMPF_ALWAYS_PASS; 
+		RefPtr<DepthStencilState> pDSSate = CreateDepthStencilState();
+		pDSSate->m_bDepthWrite = true;
+		pDSSate->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
+		gpLinTech->SetDepthStencilState(pDSSate.get());
+		
 		
 		VertexElement element[2];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
 		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
 
-		gpMeshBatch = new MeshBatch(pVertexDec.get(), PRIM_LINELIST, true, 1024);
+		gpLinTech->SetVertexDeclaration(pVertexDec.get());
+
+		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(),PRIM_LINELIST, true, 1024);
 	}
 
 	void LineRender::Shoutdown()

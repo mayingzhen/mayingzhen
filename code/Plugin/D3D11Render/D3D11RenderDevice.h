@@ -26,6 +26,12 @@ namespace ma
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
 
+		virtual BlendState*			CreateBlendState();
+		virtual DepthStencilState*	CreateDepthStencilState();
+		virtual RasterizerState*	CreateRasterizerState();
+
+		virtual SamplerState*		CreateSamplerState();
+
 		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
@@ -34,20 +40,9 @@ namespace ma
 		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
 
-		virtual	void				SetDepthBias(float constantBias, float slopeScaleBias = 0.0f);
-		virtual	void				SetCullingMode(CULL_MODE mode);
-		virtual void				SetBlendMode(BLEND_MODE mode);
-		virtual	void				SetDepthCheckMode(CompareFunction mode);
-		virtual	void				SetDepthWrite(bool b);
-		virtual	void				SetColorWrite(bool b);
-		virtual	void				SetSRGBWrite(bool b);
-		virtual void				SetStencilEnable(bool b);
-		virtual void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
-			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
-			StencilOperation stencilFailOp = SOP_KEEP, 
-			StencilOperation depthFailOp = SOP_KEEP,
-			StencilOperation passOp = SOP_KEEP, 
-			bool twoSidedOperation = false);
+		virtual void				SetBlendState(const BlendState* pBlendState);
+		virtual void				SetDepthStencilState(const DepthStencilState* pDSState);
+		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 		
 		virtual void				SetValue(Uniform* uniform, int value);
 		virtual void				SetValue(Uniform* uniform, float value);
@@ -61,7 +56,7 @@ namespace ma
 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual void				SetShaderProgram(ShaderProgram* pShader);
-		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
+		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
 
@@ -97,6 +92,8 @@ namespace ma
 
 		ConstantBuffer*				GetOrCreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
 
+		//void						CreateOrGetDepthStencilState(const DepthStencilState* pDSState);
+
 	private:
 		void						SetValue(Uniform* uniform, const float* values, UINT count);
 
@@ -106,7 +103,7 @@ namespace ma
 
 		bool						UpdateSwapChain(int width, int height);
 
-		ID3D11SamplerState*			CreateOrGetSamplerState(SamplerState* pSampler);
+		//ID3D11DepthStencilState*	CreateOrGetSamplerState(SamplerState* pSampler);
 
 		void						DetachSRV(ID3D11ShaderResourceView* rtv_src);
 	
@@ -129,7 +126,7 @@ namespace ma
 		ID3D11DepthStencilView*		m_pDepthStencil;
 		bool						m_bRenderTargetsDirty;
 		
-		RenderState					m_renderState;
+		//RenderState					m_renderState;
 
 		// RasterizerState
 		bool						m_bRasterizerStateDirty;
@@ -142,11 +139,14 @@ namespace ma
 		map<unsigned, ID3D11DepthStencilState*> m_depthStatePool;
 		unsigned m_nStencilRef;
 		bool m_bStencilRefDirty;
+		ID3D11DepthStencilState* m_pCurDSState;
 
 		// BlendState
 		bool						m_bBlendStateDirty;
 		unsigned					m_nBlendStateHash;
 		map<unsigned, ID3D11BlendState*> m_blendStatePool;
+		ID3D11BlendState*			m_pCurBlendState;
+		
 
 		// ConstantBuffer
 		map<unsigned, RefPtr<ConstantBuffer> > m_mapConstantBufferPool;
@@ -160,6 +160,7 @@ namespace ma
 		bool m_bVertexDeclarationDirty;
 		uint64 m_nVertexDeclarationHash;
 		map<uint64, ID3D11InputLayout* > m_mapVertexDeclaration;
+		ID3D11InputLayout* m_pCurInput;
 
 		IndexBuffer* m_pIndexBuffer;
 

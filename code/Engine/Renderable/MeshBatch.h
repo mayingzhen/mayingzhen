@@ -8,7 +8,7 @@ namespace ma
 	class MeshBatch : public Renderable
 	{
 	public:
-		MeshBatch(VertexDeclaration* vertexFormat, PRIMITIVE_TYPE primitiveType, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
+		MeshBatch(UINT nStreanmStride, PRIMITIVE_TYPE primitiveType, bool indexed, UINT initialCapacity = 1024, UINT growSize = 1024);
 
 		~MeshBatch();
 
@@ -33,6 +33,7 @@ namespace ma
 		UINT			m_nCapacity;
 		UINT			m_nVertexCapacity;
 		UINT			m_nIndexCapacity;
+		UINT			m_nStreanmStride;
 
 		uint8*			m_pVerticesPtr;
 		uint16*			m_pIndicesPtr;
@@ -44,7 +45,7 @@ namespace ma
 	template <class T>
 	void MeshBatch::Add(const T* vertices, unsigned int vertexCount, const unsigned short* indices, unsigned int indexCount)
 	{
-		ASSERT(sizeof(T) == m_pDeclaration->GetStreanmStride());
+		ASSERT(sizeof(T) == m_nStreanmStride);
 		Add(vertices, sizeof(T), vertexCount, indices, indexCount);
 	}
 }

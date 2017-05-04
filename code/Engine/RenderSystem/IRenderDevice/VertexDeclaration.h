@@ -5,6 +5,52 @@
 
 namespace ma
 {
+	class ShaderProgram;
+
+#define MAX_ELEMENT             16
+
+#define DECL_UNUSED             255
+
+	struct  VertexElement : public Object
+	{
+	public:
+		DECL_OBJECT(VertexElement);
+
+		static void	RegisterAttribute();
+
+		short           Stream;
+		short           Offset;
+		DECL_TYPE       Type;
+		DECL_USAGE      Usage;
+		unsigned char   UsageIndex;
+
+		uint32 mHash;
+
+		VertexElement()
+			: Stream(DECL_UNUSED),
+			Offset(0),
+			Type(DT_UNKNOWN),
+			Usage(DU_UNKNOWN),
+			UsageIndex(0),
+			mHash(0)
+		{
+		}
+
+		VertexElement(short stream, short offset, DECL_TYPE type, DECL_USAGE use, unsigned char index)
+			: Stream(stream),
+			Offset(offset),
+			Type(type),
+			Usage(use),
+			UsageIndex(index),
+			mHash(0)
+		{
+			BuildHash();
+		}
+
+		void BuildHash();
+
+		uint32 GetHash() const { return mHash; }
+	};
 
 	class VertexDeclaration : public Referenced
 	{
@@ -27,6 +73,12 @@ namespace ma
 		
 		uint64					GetHash();
 
+		void					SetShaderProgram(ShaderProgram* pShader) { m_pShader = pShader; }
+
+
+		bool					Import(rapidxml::xml_node<>* pXmlElem);
+		bool					Export(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc);
+
 	private:
 		int						GetDeclTypeSize(DECL_TYPE type);
 
@@ -36,7 +88,11 @@ namespace ma
 		int						m_ElementCount;
 		
 		int						m_nStreamStride;
+
+		RefPtr<ShaderProgram>	m_pShader;
 	};
+
+	RefPtr<VertexDeclaration> CreateVertexDeclaration();
 
 }
 

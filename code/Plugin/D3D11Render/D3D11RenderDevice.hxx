@@ -1,7 +1,8 @@
 #include "D3D11RenderDevice.h"
 #include "D3D11Texture.h"
 #include "D3D11ConstantBuffer.h"
-
+#include "D3D11RenderState.h"
+#include "D3D11SamplerState.h"
 
 namespace ma
 {
@@ -109,6 +110,25 @@ namespace ma
 		return new D3D11ShaderProgram();
 	}
 
+	BlendState*	D3D11RenderDevice::CreateBlendState()
+	{
+		return new D3D11BlendStateObject();
+	}
+
+	DepthStencilState*	D3D11RenderDevice::CreateDepthStencilState()
+	{
+		return new D3D11DepthStencilStateObject();
+	}
+
+	RasterizerState* D3D11RenderDevice::CreateRasterizerState()
+	{
+		return new D3D11RasterizerStateObject();
+	}
+
+	SamplerState* D3D11RenderDevice::CreateSamplerState()
+	{
+		return new D3D11SamplerStateObject();
+	}
 
 	void D3D11RenderDevice::Shoutdown()
 	{
@@ -279,7 +299,9 @@ namespace ma
 		depthDesc.MiscFlags = 0;
 		m_pD3DDevice->CreateTexture2D(&depthDesc, 0, &defaultDepthTexture);
 		if (defaultDepthTexture)
+		{
 			m_pD3DDevice->CreateDepthStencilView(defaultDepthTexture, 0, &defaultDepthStencilView);
+		}
 		else
 		{
 			LogError("Failed to create backbuffer depth-stencil texture");
@@ -341,7 +363,9 @@ namespace ma
 				DetachSRV(pD3D11Texture->GetShaderResourceView());
 			}
 			else
+			{
 				m_pRenderTarget[i] = NULL;
+			}
 		}
 
 		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_pDepthStencil.get());
@@ -369,7 +393,9 @@ namespace ma
 			DetachSRV(pD3D11Texture->GetShaderResourceView());
 		}
 		else
-			m_pRenderTarget[index] = NULL;	
+		{
+			m_pRenderTarget[index] = NULL;
+		}
 
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
@@ -421,85 +447,25 @@ namespace ma
 		return rect;
 	}
 
-	void D3D11RenderDevice::SetDepthBias(float constantBias, float slopeScaleBias/* = 0.0f*/)
+	void D3D11RenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
 	{
-
-	}
-
-	void D3D11RenderDevice::SetCullingMode(CULL_MODE mode)
-	{
-		if (mode != m_renderState.m_eCullMode)
+		D3D11BlendStateObject* pD3DllObject = (D3D11BlendStateObject*)pBlendState;
+		
+		if (m_pCurBlendState != pD3DllObject->m_pD3D11BlendState)
 		{
-			m_renderState.m_eCullMode = mode;
-			m_bRasterizerStateDirty = true;
+			m_pDeviceContext->OMSetBlendState(pD3DllObject->m_pD3D11BlendState, 0, M_MAX_UNSIGNED);
 		}
 	}
 
-	void D3D11RenderDevice::SetBlendMode(BLEND_MODE mode)
+	void D3D11RenderDevice::SetDepthStencilState(const DepthStencilState* pDSState)
 	{
-		if (mode != m_renderState.m_eBlendMode)
-		{
-			m_renderState.m_eBlendMode = mode;
-			m_bBlendStateDirty = true;
-		}
+		D3D11BlendStateObject* pD3DllObject = (D3D11BlendStateObject*)pDSState;
+
 	}
-
-	void D3D11RenderDevice::SetDepthWrite(bool b)
+	
+	void D3D11RenderDevice::SetRasterizerState(const RasterizerState* pRSState)
 	{
-		if (b != m_renderState.m_bDepthWrite)
-		{
-			m_renderState.m_bDepthWrite = b;
-			m_bDepthStateDirty = true;
-		}
-	}
 
-	void D3D11RenderDevice::SetColorWrite(bool b)
-	{
-		if (b != m_renderState.m_bColorWrite)
-		{
-			m_renderState.m_bColorWrite = b;
-			m_bBlendStateDirty = true;
-		}
-	}
-
-	void D3D11RenderDevice::SetSRGBWrite(bool b)
-	{
-		//m_pD3DDevice->SetRenderState(D3DRS_SRGBWRITEENABLE, b ? TRUE : FALSE);
-	}
-
-	void D3D11RenderDevice::SetStencilEnable(bool b)
-	{
-		if (b != m_renderState.m_bStencil)
-		{
-			m_renderState.m_bStencil = b;
-			m_bDepthStateDirty = true;
-		}
-	}
-
-	void D3D11RenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
-		uint32 refValue/* = 0*/, uint32 mask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
-		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
-		StencilOperation depthFailOp/* = SOP_KEEP*/,
-		StencilOperation passOp/* = SOP_KEEP*/, 
-		bool twoSidedOperation/* = false*/)
-	{
-		m_renderState.m_eStencilfunc = func;
-		m_renderState.m_nStencilRefValue = refValue;
-		m_renderState.m_nStencilMask = mask;
-		m_renderState.m_nStencilWriteMask = writeMask;
-		m_renderState.m_eStencilFail = stencilFailOp;
-		m_renderState.m_eDepthFailOp = depthFailOp;
-		m_renderState.m_eStencilPass = passOp;
-		m_bDepthStateDirty = true;
-	}	
-
-	void D3D11RenderDevice::SetDepthCheckMode(CompareFunction mode)
-	{
-		if (mode != m_renderState.m_eDepthCheckMode)	
-		{
-			m_renderState.m_eDepthCheckMode = mode;
-			m_bDepthStateDirty = true;
-		}
 	}
 
 	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
@@ -554,41 +520,41 @@ namespace ma
 		SetTexture(uniform->m_index,pTexture,TRUE);
 	}
 
-	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
-	{
-		map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.find(*pSampler);
-		if (it != m_SamplerStatesPool.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			ID3D11SamplerState* sample = NULL;
-
-			D3D11_SAMPLER_DESC samplerDesc;
-			memset(&samplerDesc, 0, sizeof samplerDesc);
-
-			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode()); 
-			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-			samplerDesc.AddressW = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapModeW());
-			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
-			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-			samplerDesc.MinLOD = 0;
-			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-			if (pSampler->GetFilterMode() == TFO_SHADOWCOMPARE)
-			{
-				samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS;	 
-			}
-
-			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
-
-			m_SamplerStatesPool[*pSampler] = sample;
-
-			return sample;
-		}
-	}
+// 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
+// 	{
+// 		map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.find(*pSampler);
+// 		if (it != m_SamplerStatesPool.end())
+// 		{
+// 			return it->second;
+// 		}
+// 		else
+// 		{
+// 			ID3D11SamplerState* sample = NULL;
+// 
+// 			D3D11_SAMPLER_DESC samplerDesc;
+// 			memset(&samplerDesc, 0, sizeof samplerDesc);
+// 
+// 			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode()); 
+// 			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
+// 			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
+// 			samplerDesc.AddressW = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapModeW());
+// 			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
+// 			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+// 			samplerDesc.MinLOD = 0;
+// 			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+// 
+// 			if (pSampler->GetFilterMode() == TFO_SHADOWCOMPARE)
+// 			{
+// 				samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS;	 
+// 			}
+// 
+// 			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
+// 
+// 			m_SamplerStatesPool[*pSampler] = sample;
+// 
+// 			return sample;
+// 		}
+// 	}
 
 	void D3D11RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
@@ -599,20 +565,73 @@ namespace ma
 		if (pSampler != m_arrSamplerState[index])
 		{
 			if (m_nFirstDirtySamplerState == M_MAX_UNSIGNED)
+			{
 				m_nFirstDirtySamplerState = m_nLastDirtySamplerState = index;
+			}
 			else
 			{
 				if (index < m_nFirstDirtySamplerState)
+				{
 					m_nFirstDirtySamplerState = index;
+				}
 				if (index > m_nLastDirtySamplerState)
+				{
 					m_nLastDirtySamplerState = index;
+				}
 			}
 
 			m_arrSamplerState[index] = pSampler;
-			m_arrD3d11Sampler[index] = CreateOrGetSamplerState(pSampler);
+			//m_arrD3d11Sampler[index] = //CreateOrGetSamplerState(pSampler);
 			m_bSamplerStatesDirty = true;
 		}
 	}
+
+// 	ID3D11DepthStencilState* D3D11RenderDevice::CreateOrGetDepthStencilState(const DepthStencilState* pDSState)
+// 	{
+// 		unsigned newDepthStateHash =
+// 			(pDSState->m_bDepthWrite ? 1 : 0) |
+// 			(pDSState->m_bStencil ? 2 : 0) |
+// 			(pDSState->m_eDepthCheckMode << 2) |
+// 			((pDSState->m_nStencilMask & 0xff) << 5) |
+// 			((pDSState->m_nStencilWriteMask & 0xff) << 13) | (pDSState->m_eStencilfunc << 21) |
+// 			((pDSState->m_eStencilFail + pDSState->m_eDepthFailOp * 5 + pDSState->m_eStencilPass * 25) << 24);
+// 
+// 		map<unsigned, ID3D11DepthStencilState*>::iterator i = m_depthStatePool.find(newDepthStateHash);
+// 		if (i == m_depthStatePool.end())
+// 		{
+// 			D3D11_DEPTH_STENCIL_DESC stateDesc;
+// 			memset(&stateDesc, 0, sizeof stateDesc);
+// 			stateDesc.DepthEnable = TRUE;
+// 			stateDesc.DepthWriteMask = pDSState->m_bDepthWrite ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+// 			stateDesc.DepthFunc = D3D11Mapping::get(pDSState->m_eDepthCheckMode); ;
+// 			stateDesc.StencilEnable = pDSState->m_bStencil ? TRUE : FALSE;
+// 			stateDesc.StencilReadMask = (unsigned char)pDSState->m_nStencilMask;
+// 			stateDesc.StencilWriteMask = (unsigned char)pDSState->m_nStencilWriteMask;
+// 			stateDesc.FrontFace.StencilFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
+// 			stateDesc.FrontFace.StencilDepthFailOp = D3D11Mapping::get(pDSState->m_eDepthFailOp);
+// 			stateDesc.FrontFace.StencilPassOp = D3D11Mapping::get(pDSState->m_eStencilPass);
+// 			stateDesc.FrontFace.StencilFunc = D3D11Mapping::get(pDSState->m_eStencilfunc);
+// 
+// 			// BackFace
+// 			stateDesc.BackFace.StencilFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
+// 			stateDesc.BackFace.StencilDepthFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
+// 			stateDesc.BackFace.StencilPassOp = D3D11Mapping::get(pDSState->m_eStencilFail);
+// 			stateDesc.BackFace.StencilFunc = D3D11_COMPARISON_NEVER;
+// 
+// 			ID3D11DepthStencilState* newDepthState = 0;
+// 			m_pD3DDevice->CreateDepthStencilState(&stateDesc, &newDepthState);
+// 			if (!newDepthState)
+// 				LogError("Failed to create depth state");
+// 
+// 			m_depthStatePool.insert(std::make_pair(newDepthStateHash, newDepthState));
+// 
+// 			return newDepthState;
+// 		}
+// 		else
+// 		{
+// 			return it->second;
+// 		}
+// 	}
 
 	void D3D11RenderDevice::CommitChanges()
 	{
@@ -633,6 +652,7 @@ namespace ma
 			m_bSamplerStatesDirty = false;
 		}
 
+		/*
 		if (m_bVertexDeclarationDirty && m_pShader && m_pShader->GetByteVSCodeSize())
 		{
 			uint64 newVertexDeclarationHash = m_pVertexDecl->GetHash();
@@ -682,7 +702,9 @@ namespace ma
 
 			m_bVertexDeclarationDirty = false;
 		}
+		*/
 
+		/*
 		if (m_bBlendStateDirty)
 		{
 			unsigned newBlendStateHash = (unsigned)((m_renderState.m_bColorWrite ? 1 : 0) | (m_renderState.m_eBlendMode << 1));
@@ -730,7 +752,7 @@ namespace ma
 
 			m_bBlendStateDirty = false;
 		}
-
+		
 		if (m_bDepthStateDirty)
 		{
 			unsigned newDepthStateHash =
@@ -835,6 +857,7 @@ namespace ma
 
 			m_bRasterizerStateDirty = false;
 		}
+		*/
 
 		for (unsigned i = 0; i < m_vecDirtyConstantBuffers.size(); ++i)
 			m_vecDirtyConstantBuffers[i]->Apply();
@@ -938,10 +961,16 @@ namespace ma
 			m_pDeviceContext->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &m_vecD3D11ConstantBuffers[PS][0]);
 	}
 
-	void D3D11RenderDevice::SetVertexDeclaration(VertexDeclaration* pDec)
+	void D3D11RenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
-		m_pVertexDecl = (D3D11VertexDeclaration*)pDec;
-		m_bVertexDeclarationDirty = true;
+		D3D11VertexDeclaration* pD3D11Dec = (D3D11VertexDeclaration*)pDec;
+
+// 		if (m_pCurInput != pD3D11Dec->m_pImpl)
+// 		{
+// 			m_pDeviceContext->IASetInputLayout(pD3D11Dec->m_pImpl);
+// 
+// 			m_pCurInput = m_pVertexDecl->m_pImpl;
+// 		}
 	}
 
 	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)

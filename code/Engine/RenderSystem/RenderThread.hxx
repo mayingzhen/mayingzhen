@@ -176,6 +176,48 @@ namespace ma
 		FlushAndWait();
 	}
 
+	void RenderThread::RC_BlendStateStreamComplete(BlendState* pBSState)
+	{
+		if (IsRenderThread())
+		{
+			pBSState->RT_StreamComplete();
+			return;
+		}
+
+		AddCommand(eRC_BlendStateStreamComplete);
+		AddPointer(pBSState);
+
+		FlushAndWait();
+	}
+
+	void RenderThread::RC_DepthStencilStateStreamComplete(DepthStencilState* pDSState)
+	{
+		if (IsRenderThread())
+		{
+			pDSState->RT_StreamComplete();
+			return;
+		}
+
+		AddCommand(eRC_DepthStencilStreamComplete);
+		AddPointer(pDSState);
+
+		FlushAndWait();
+	}
+
+	void RenderThread::RC_RasterizerStateStreamComplete(RasterizerState* pRSState)
+	{
+		if (IsRenderThread())
+		{
+			pRSState->RT_StreamComplete();
+			return;
+		}
+
+		AddCommand(eRC_RasterizerStateStreamComplete);
+		AddPointer(pRSState);
+
+		FlushAndWait();
+	}
+
 	void RenderThread::RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique)
 	{
 		if (IsRenderThread())
@@ -233,30 +275,6 @@ namespace ma
 		AddCommand(eRC_CreateTexture);
 		AddPointer(pRenderTarget);
 	}
-
-// 	void RenderThread::RC_CreateDepthStencil(Texture* pDepthStecil)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			pDepthStecil->RT_CreateDepthStencil();
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_CreateDepthStencil);
-// 		AddPointer(pDepthStecil);
-// 	}
-
-// 	void RenderThread::RC_CreateRenderTarget(Texture* pRenderTarget)
-// 	{
-// 		if (IsRenderThread())
-// 		{
-// 			pRenderTarget->RT_CreateRenderTarget();
-// 			return;
-// 		}
-// 
-// 		AddCommand(eRC_CreateRenderTarget);
-// 		AddPointer(pRenderTarget);
-// 	}
 
 	void RenderThread::RC_SetShaderProgram(ShaderProgram* pShader)
 	{
@@ -340,125 +358,52 @@ namespace ma
 		AddInt(s);
 	}
 
-	void RenderThread::RC_SetDepthCheckMode(CompareFunction eDepthCheckMode)
+	void RenderThread::RC_SetBlendState(const BlendState* pBlendState)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetDepthCheckMode(eDepthCheckMode);
+			GetRenderDevice()->SetBlendState(pBlendState);
 			return;
 		}
 
-		AddCommand(eRC_SetDepthCheckMode);
-		AddInt(eDepthCheckMode);
+		AddCommand(eRC_SetBlendState);
+		AddPointer(pBlendState);
 	}
 
-	void RenderThread::RC_SetDepthWrite(bool b)
+	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetDepthWrite(b);
+			GetRenderDevice()->SetDepthStencilState(pDSState);
 			return;
 		}
 
-		AddCommand(eRC_SetDepthWrite);
-		AddBool(b);
-	}
-	
-	void RenderThread::RC_SetColorWrite(bool b)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetColorWrite(b);
-			return;
-		}
-
-		AddCommand(eRC_SetColorWrite);
-		AddBool(b);
+		AddCommand(eRC_SetDepthStencilState);
+		AddPointer(pDSState);
 	}
 
-	void RenderThread::RC_SetSRGBWite(bool b)
+	void RenderThread::RC_SetRasterizerState(const RasterizerState* pRSState)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetSRGBWrite(b);
+			GetRenderDevice()->SetRasterizerState(pRSState);
 			return;
 		}
 
-		AddCommand(eRC_SetSRGBWite);
-		AddBool(b);
+		AddCommand(eRC_SetRasterizerState);
+		AddPointer(pRSState);
 	}
 
-	void RenderThread::RC_SetCullMode(CULL_MODE eCullMode)
+	void RenderThread::RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetCullingMode(eCullMode);
+			GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
 			return;
 		}
 
-		AddCommand(eRC_SetCullMode);
-		AddInt(eCullMode);
-	}
-
-	void RenderThread::RC_SetDepthBias(float fConstantBias,float slopeScaleBias)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetDepthBias(fConstantBias,slopeScaleBias);
-			return;
-		}
-
-		AddCommand(eRC_SetDepthBias);
-		AddFloat(fConstantBias);
-		AddFloat(slopeScaleBias);
-	}
-
-	void RenderThread::RC_SetBlendMode(BLEND_MODE eBlendMode)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetBlendMode(eBlendMode);
-			return;
-		}
-
-		AddCommand(eRC_SetBlendMode);
-		AddInt(eBlendMode);
-	}
-
-	void RenderThread::RC_SetStencilCheckEnabled(bool b)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetStencilEnable(b);
-			return;
-		}
-
-		AddCommand(eRC_SetStenCilEnabled);
-		AddBool(b);
-	}
-
-	void RenderThread::RC_SetStencilBufferParams(CompareFunction func, 
-		uint32 refValue, uint32 mask, uint32 writeMask,
-		StencilOperation stencilFailOp, 
-		StencilOperation depthFailOp,
-		StencilOperation passOp, 
-		bool twoSidedOperatio)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
-			return;
-		}
-
-		AddCommand(eRC_SetStenCilParam);
-		AddInt(func);
-		AddDWORD(refValue);
-		AddDWORD(mask);
-		AddDWORD(writeMask);
-		AddInt(stencilFailOp);
-		AddInt(depthFailOp);
-		AddInt(passOp);
-		AddBool(twoSidedOperatio);
+		AddCommand(eRC_SetVertexDeclation);
+		AddPointer(pVertexDecl);
 	}
 
 	void RenderThread::RC_SetInt(Uniform* uniform, int value)
@@ -715,18 +660,6 @@ namespace ma
 					}
 				}
 				break;
-// 			case eRC_CreateRenderTarget:
-// 				{
-// 					Texture* pTarget = ReadCommand<Texture*>(n);
-// 					pTarget->RT_CreateRenderTarget();
-// 				}
-// 				break;
-// 			case  eRC_CreateDepthStencil:
-// 				{
-// 					Texture* pTarget = ReadCommand<Texture*>(n);
-// 					pTarget->RT_CreateDepthStencil();
-// 				}
-// 				break;
 			case  eRC_SetShader:
 				{
 					ShaderProgram* pShader = ReadCommand<ShaderProgram*>(n);
@@ -773,69 +706,30 @@ namespace ma
 					GetRenderDevice()->ClearBuffer(bColor,bDepth,bStencil,c,z,s);
 				}
 				break;
-			case eRC_SetDepthCheckMode:
+			case eRC_SetBlendState:
 				{
-					CompareFunction eDepthChekMode = (CompareFunction)ReadCommand<int>(n);
-					GetRenderDevice()->SetDepthCheckMode(eDepthChekMode);
+					BlendState* pBlendState = ReadCommand<BlendState*>(n);
+					GetRenderDevice()->SetBlendState(pBlendState);
 				}
 				break;
-			case eRC_SetDepthWrite:
+			case eRC_SetDepthStencilState:
 				{
-					bool bDepthWrite = ReadCommand<bool>(n);
-					GetRenderDevice()->SetDepthWrite(bDepthWrite);
+					DepthStencilState* pDSState = ReadCommand<DepthStencilState*>(n);
+					GetRenderDevice()->SetDepthStencilState(pDSState);
 				}
 				break;
-			case eRC_SetColorWrite:
+			case eRC_SetRasterizerState:
 				{
-					bool bColorWrite = ReadCommand<bool>(n);
-					GetRenderDevice()->SetColorWrite(bColorWrite);
+					RasterizerState* pRSState = ReadCommand<RasterizerState*>(n);
+					GetRenderDevice()->SetRasterizerState(pRSState);
 				}
 				break;
-			case  eRC_SetSRGBWite:
+			case eRC_SetVertexDeclation:
 				{
-					bool bSRGBWrite = ReadCommand<bool>(n);
-					GetRenderDevice()->SetSRGBWrite(bSRGBWrite);
+					VertexDeclaration* pVertexDecl = ReadCommand<VertexDeclaration*>(n);
+					GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
 				}
-				break;
-			case eRC_SetCullMode:
-				{
-					CULL_MODE eCullMode = (CULL_MODE)ReadCommand<int>(n);
-					GetRenderDevice()->SetCullingMode(eCullMode);
-				}
-				break;
-			case eRC_SetDepthBias:
-				{
-					float fconstantBias = ReadCommand<float>(n);
-					float fSlopeScaleBias = ReadCommand<float>(n);
-					GetRenderDevice()->SetDepthBias(fconstantBias,fSlopeScaleBias);
-				}
-				break;
-			case eRC_SetBlendMode:
-				{
-					BLEND_MODE eBlendMode = (BLEND_MODE)ReadCommand<int>(n);
-					GetRenderDevice()->SetBlendMode(eBlendMode);
-				}
-				break;
-			case eRC_SetStenCilEnabled:
-				{
-					bool b = ReadCommand<bool>(n);
-					GetRenderDevice()->SetStencilEnable(b);
-				}
-				break;
-			case eRC_SetStenCilParam:
-				{
-					CompareFunction func = (CompareFunction)ReadCommand<int>(n);
-					uint32 refValue = ReadCommand<DWORD>(n); 
-					uint32 mask = ReadCommand<DWORD>(n);
-					uint32 writeMask = ReadCommand<DWORD>(n);
-					StencilOperation stencilFailOp = (StencilOperation)ReadCommand<int>(n);
-					StencilOperation depthFailOp = (StencilOperation)ReadCommand<int>(n);
-					StencilOperation passOp = (StencilOperation)ReadCommand<int>(n);
-					bool twoSidedOperatio = ReadCommand<bool>(n);
-
-					GetRenderDevice()->SetStencilBufferParams(func,refValue,mask,writeMask,stencilFailOp,depthFailOp,passOp,twoSidedOperatio);
-				}
-				break;
+			break;
 			case eRC_SetInt:
 				{
 					Uniform* pUnform = ReadCommand<Uniform*>(n);

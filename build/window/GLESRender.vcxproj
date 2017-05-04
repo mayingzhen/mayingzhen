@@ -95,6 +95,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\code\Plugin\GLESRender\GLESRenderState.h" />
+    <ClInclude Include="..\..\code\Plugin\GLESRender\GLESRenderState.hxx" />
     <ClInclude Include="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContext.h" />
     <ClInclude Include="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContext.hxx" />
     <ClInclude Include="..\..\code\Plugin\GLESRender\DeviceContext\GLESDeviceContextAndroid.h" />
@@ -110,6 +112,7 @@
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESMapping.hxx" />
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESRenderDevice.h" />
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESRenderDevice.hxx" />
+    <ClInclude Include="..\..\code\Plugin\GLESRender\GlESSamplerState.h" />
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESShaderProgram.h" />
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESShaderProgram.hxx" />
     <ClInclude Include="..\..\Code\Plugin\GLESRender\GLESTexture.h" />

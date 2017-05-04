@@ -5,6 +5,9 @@
 namespace ma
 {
 	class Uniform;
+	class BlendState;
+	class DepthStencilState;
+	class RasterizerState;
 	
 	enum ERenderCommand
 	{
@@ -17,14 +20,15 @@ namespace ma
 		eRC_ShaderStreamComplete,
 		eRC_VertexDeclaComplete,
 		eRC_HBStreamComplete,
+		eRC_BlendStateStreamComplete,
+		eRC_DepthStencilStreamComplete,
+		eRC_RasterizerStateStreamComplete,
 		eRC_BeginRender,
 		eRC_EndRender,
 		eRC_Render,
 		eRC_DrawRenderable,
 		eRC_CreateShader,
 		eRC_CreateTexture,
-		//eRC_CreateRenderTarget,
-		//eRC_CreateDepthStencil,
  		eRC_ClearBuffer,
 		eRC_SetFrameBuffer,
  		eRC_SetRenderTarget,
@@ -33,15 +37,11 @@ namespace ma
 		eRC_SetShader,
 
 		// RenderState
-		eRC_SetDepthCheckMode,
-		eRC_SetDepthWrite,
-		eRC_SetColorWrite,
-		eRC_SetCullMode,
-		eRC_SetDepthBias,
-		eRC_SetBlendMode,
-		eRC_SetSRGBWite,
-		eRC_SetStenCilEnabled,
-		eRC_SetStenCilParam,
+		eRC_SetBlendState,
+		eRC_SetDepthStencilState,
+		eRC_SetRasterizerState,
+
+		eRC_SetVertexDeclation,
 
 		// Unfiform
 		eRC_SetInt,
@@ -59,6 +59,7 @@ namespace ma
 		eRC_BeginProfile,
 		eRC_EndProfile,
 	};
+
 
 	class RenderThread : public Thread
 	{
@@ -120,10 +121,14 @@ namespace ma
 		void	RC_ShutDown();
 		void	RC_BeginRender();
 		void	RC_EndRender();
+
 		void	RC_TexStreamComplete(Texture* pTexture);
 		void	RC_ShaderStreamComplete(ShaderProgram* pShader);
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);
 		void	RC_HardwareBufferStreamComplete(HardwareBuffer* pHB);
+		void	RC_BlendStateStreamComplete(BlendState* pBSState);
+		void	RC_DepthStencilStateStreamComplete(DepthStencilState* pDSState);
+		void	RC_RasterizerStateStreamComplete(RasterizerState* pRSState);
 		void	RC_Render();
 		void	RC_DrawRenderable(Renderable* pRenderable,Technique* pTechnique);
 		void	RC_CreateShader(ShaderProgram* pShader);
@@ -134,21 +139,12 @@ namespace ma
 		void	RC_SetDepthStencil(Texture* pTexture);
 		void	RC_SetViewPort(const Rectangle& viewPort);
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
-		
-		void	RC_SetDepthCheckMode(CompareFunction eDepthCheckMode);
-		void	RC_SetDepthWrite(bool b);
-		void	RC_SetColorWrite(bool b);
-		void	RC_SetSRGBWite(bool b);
-		void	RC_SetCullMode(CULL_MODE eCullMode);
-		void	RC_SetDepthBias(float fConstantBias,float slopeScaleBias);
-		void	RC_SetBlendMode(BLEND_MODE eBlendMode);
-		void	RC_SetStencilCheckEnabled(bool b);
-		void	RC_SetStencilBufferParams(CompareFunction func, 
-			uint32 refValue, uint32 mask, uint32 writeMask,
-			StencilOperation stencilFailOp, 
-			StencilOperation depthFailOp,
-			StencilOperation passOp, 
-			bool twoSidedOperatio);
+
+		void	RC_SetBlendState(const BlendState* pBlendState);
+		void	RC_SetDepthStencilState(const DepthStencilState* pDSState);
+		void	RC_SetRasterizerState(const RasterizerState* pRSState);
+
+		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);
 
 		void	RC_SetInt(Uniform* uniform, int value);
 		void	RC_SetFloat(Uniform* uniform, float value);

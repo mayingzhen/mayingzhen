@@ -37,11 +37,6 @@ namespace ma
 
 	bool Texture::InitRes() 
 	{
-		if (stricmp(this->GetResPath(), "scene/terrain/chess.dds") == 0)
-		{
-			int i = 5;
-		}
-
 		GetRenderSystem()->TexStreamComplete(this);	
 
 		return true;

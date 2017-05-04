@@ -165,7 +165,6 @@ EXPORTS
 ?UpdateMeshData@MeshData@ma@@QAEXPAUStaticVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
 ?UpdateMeshData@MeshData@ma@@QAEXPAUSkinVertexV1@2@PAUSkinVertexV0@2@IPAG@Z
 ??0Thread@ma@@QAE@PBD@Z
-?GetJobScheduler@ma@@YAPAVJobScheduler@1@XZ
 ?CreateDirectonalLight@ma@@YA?AV?$RefPtr@VDirectonalLight@ma@@@1@XZ
 ?SetRadius@PointLight@ma@@QAEXM@Z
 ?SetShadowEnabled@DirectonalLight@ma@@QAEX_N@Z
@@ -193,7 +192,6 @@ EXPORTS
 ?Reset@Engine@ma@@QAEXII@Z
 ?InitRes@Texture@ma@@UAE_NXZ
 ?CreateSamplerState@ma@@YA?AV?$RefPtr@VSamplerState@ma@@@1@PBDW4Wrap@1@W4Filter@1@_N@Z
-??0RenderState@ma@@QAE@XZ
 ??MSamplerState@ma@@QBE_NABV01@@Z
 ?GetHash@VertexDeclaration@ma@@QAE_KXZ
 ?Yaw@Camera@ma@@QAEXABVRadian@2@@Z
@@ -224,3 +222,7 @@ EXPORTS
 ?SetFrame@Animatable@ma@@UAEXM@Z
 ?Process@Animatable@ma@@QAEMXZ
 ?SetMaxSplitCount@DirectonalLight@ma@@QAEXH@Z
+??0RasterizerState@ma@@QAE@XZ
+??0DepthStencilState@ma@@QAE@XZ
+??0BlendState@ma@@QAE@XZ
+??0SamplerState@ma@@QAE@XZ

@@ -23,7 +23,7 @@ namespace ma
 
 	void SampleShadowMap::OnTerrainLoadOver()
 	{
-		for (uint32 i = 0; i < 2000; ++i)
+		for (uint32 i = 0; i < 200; ++i)
 		{
 			SceneNode* pCharMagic = m_pScene->CreateSceneNode("magician/magician/magician.xml");
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -37,7 +37,7 @@ namespace ma
 // 			pAnimComp->SetAnimation(100);
 		}
 
-		for (uint32 i = 0; i < 2000; ++i)
+		for (uint32 i = 0; i < 200; ++i)
 		{
 			SceneNode* pBox = m_pScene->CreateSceneNode();
 			MeshComponent* pBoxMesh = pBox->CreateComponent<MeshComponent>();

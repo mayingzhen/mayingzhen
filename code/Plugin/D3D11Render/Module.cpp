@@ -10,6 +10,8 @@
 #include "D3D11Render/D3D11ShaderProgram.hxx"
 #include "D3D11Render/D3D11RenderDevice.hxx"
 #include "D3D11Render/D3D11ConstantBuffer.hxx"
+#include "D3D11Render/D3D11RenderState.hxx"
+#include "D3D11Render/D3D11SamplerState.hxx"
 
 using namespace ma;
 

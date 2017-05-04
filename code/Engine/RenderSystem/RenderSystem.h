@@ -2,7 +2,6 @@
 #define  _RenderSystem__H__
 
 #include "RenderThread.h"
-#include "Engine/Material/RenderState.h"
 #include "Engine/RenderScheme/RenderScheme.h"
 
 namespace ma
@@ -17,6 +16,9 @@ namespace ma
 	class Uniform;
 	class Texture;
 	class FrameBuffer;
+	class BlendState;
+	class RasterizerState;
+	class DepthStencilState;
 
 
 	class  RenderSystem 
@@ -52,21 +54,11 @@ namespace ma
 		void				SetShaderProgram(ShaderProgram* pShader);
 		
 		// RenderState
-		void				SetRenderState(const RenderState& state);
-		void				SetBlendMode(BLEND_MODE eBlendMode);
-		void				SetDepthCheckMode(CompareFunction eDepthCheckMode);
-		void				SetDepthWirte(bool b);
-		void				SetColorWrite(bool b);
-		void				SetCullMode(CULL_MODE eCullMode);
-		void				SetDepthBias(float fConstantBias,float slopeScaleBias);
+		void				SetBlendState(const BlendState* pBlendState);
+		void				SetDepthStencilState(const DepthStencilState* pDSState);
+		void				SetRasterizerState(const RasterizerState* pRSState);
 
-		void				SetStencilCheckEnabled(bool enabled);
-		void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
-			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
-			StencilOperation stencilFailOp = SOP_KEEP, 
-			StencilOperation depthFailOp = SOP_KEEP,
-			StencilOperation passOp = SOP_KEEP, 
-			bool twoSidedOperation = false);
+		void				SetVertexDeclaration(const VertexDeclaration* pVertexDecl);
 
 		// Uniform
 		void				SetValue(Uniform* uniform, int value);
@@ -92,10 +84,14 @@ namespace ma
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
 
+		void				SamplerStateStreamComplete(SamplerState* pSampler);
 		void				TexStreamComplete(Texture* pTexture);		
 		void				ShaderStreamComplete(ShaderProgram* pShader);
 		void				VertexDeclaComplete(VertexDeclaration* pDec);
 		void				HardwareBufferStreamComplete(HardwareBuffer* pHB);
+		void				BlendStateStreamComplete(BlendState* pBSState);
+		void				DepthStencilStateStreamComplete(DepthStencilState* pDSState);
+		void				RasterizerStateStreamComplete(RasterizerState* pRSState);
 
 		void				BeginProfile(const char* pszLale);
 		void				EndProfile();
@@ -158,7 +154,7 @@ namespace ma
 		Texture*			m_pRenderTarget[MAX_RENDER_TARGET];
 		Rectangle			m_curViewport;
 		ShaderProgram*		m_pCurShader;
-		RenderState			m_curState;
+		//RenderState			m_curState;
 		SamplerState*		m_arrSampState[MAX_TEXTURE_UNITS];
 		VertexDeclaration*	m_pCurVertexDecla;
 		VertexBuffer*		m_pCurVB;	

@@ -4,11 +4,13 @@
 namespace ma
 {
 
-	MeshBatch::MeshBatch(VertexDeclaration* vertexFormat, 
+	MeshBatch::MeshBatch(UINT nStreanmStride,
 						 PRIMITIVE_TYPE primitiveType,
 						 bool indexed, UINT initialCapacity, 
 						 UINT growSize)
 	{
+		m_nStreanmStride = nStreanmStride;
+
  		m_bIndexed = indexed;
  		m_nCapacity = initialCapacity;
 		m_nVertexCapacity = initialCapacity;
@@ -19,12 +21,11 @@ namespace ma
 		m_pIndicesPtr = NULL;
 		m_pIndicesPtrBase = NULL;
 	 
- 		m_pDeclaration = vertexFormat;
  		m_ePrimitiveType = primitiveType;
 
 		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,m_nIndexCapacity * sizeof(uint16),sizeof(uint16),HBU_DYNAMIC);
-		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, m_nVertexCapacity * m_pDeclaration->GetStreanmStride(),
-			m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC);
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, m_nVertexCapacity * m_nStreanmStride,
+			m_nStreanmStride,HBU_DYNAMIC);
 
 		m_pSubMeshData = new SubMeshData();
 	}
@@ -74,7 +75,7 @@ namespace ma
 	    
 		// Copy vertex data.
 		ASSERT(m_pVerticesPtr);
-		UINT vBytes = vertexCount * m_pDeclaration->GetStreanmStride();
+		UINT vBytes = vertexCount * m_nStreanmStride;
 		memcpy(m_pVerticesPtr, vertices, vBytes);
 
 		// Copy index data.
@@ -191,7 +192,7 @@ namespace ma
 		memcpy(&oldVertices[0],m_pVerticesPtrBase,voffset);
 
 		m_pVertexBuffer->Unlock();
-		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, vertexCapacity * m_pDeclaration->GetStreanmStride(),m_pDeclaration->GetStreanmStride(),HBU_DYNAMIC);
+		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer(NULL, vertexCapacity * m_nStreanmStride, m_nStreanmStride,HBU_DYNAMIC);
 		m_pVerticesPtrBase = (uint8*)m_pVertexBuffer->Lock(LOCK_DISCARD);
 		memcpy(m_pVerticesPtrBase, &oldVertices[0], voffset);
 		m_pVerticesPtr = m_pVerticesPtrBase + voffset;

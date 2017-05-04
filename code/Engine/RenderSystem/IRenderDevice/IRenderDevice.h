@@ -17,7 +17,9 @@ namespace ma
 	class MeshBatch;
 	class Renderable;
 	class ShaderProgram;
-	class RenderState;
+	class BlendState;
+	class DepthStencilState;
+	class RasterizerState;
 	class Technique;
 	class Uniform;
 	class FrameBuffer;
@@ -40,20 +42,9 @@ namespace ma
 		virtual void				SetViewport(const Rectangle& rect) = 0;
 		virtual Rectangle			GetViewport() = 0;
 
-		virtual	void				SetDepthBias(float constantBias, float slopeScaleBias = 0.0f) = 0;
-		virtual	void				SetCullingMode(CULL_MODE mode) = 0;
-		virtual void				SetBlendMode(BLEND_MODE mode) = 0;
-		virtual	void				SetDepthCheckMode(CompareFunction mode) = 0;
-		virtual	void				SetDepthWrite(bool b) = 0;
-		virtual	void				SetColorWrite(bool b) = 0;
-		virtual	void				SetSRGBWrite(bool b) = 0;
-		virtual void				SetStencilEnable(bool b) = 0;
-		virtual void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
-			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
-			StencilOperation stencilFailOp = SOP_KEEP, 
-			StencilOperation depthFailOp = SOP_KEEP,
-			StencilOperation passOp = SOP_KEEP, 
-			bool twoSidedOperation = false) = 0;
+		virtual void				SetBlendState(const BlendState* pBlendState) = 0;
+		virtual void				SetDepthStencilState(const DepthStencilState* pDSState) = 0;
+		virtual void				SetRasterizerState(const RasterizerState* pRSState) = 0;
 		
 		virtual void				SetValue(Uniform* uniform, int value) = 0;
 		virtual void				SetValue(Uniform* uniform, float value) = 0;
@@ -66,7 +57,7 @@ namespace ma
 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual) = 0;
 		virtual	void				SetSamplerState(Uniform* uniform,SamplerState* pSampler) = 0;
 		
-		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec) = 0;
+		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec) = 0;
 		virtual void				SetIndexBuffer(IndexBuffer* pIB) = 0;
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB) = 0;
 
@@ -93,6 +84,12 @@ namespace ma
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;
 		virtual ShaderProgram*		CreateShaderProgram() = 0;
+
+		virtual BlendState*			CreateBlendState() = 0;
+		virtual DepthStencilState*	CreateDepthStencilState() = 0;
+		virtual RasterizerState*	CreateRasterizerState() = 0;
+
+		virtual SamplerState*		CreateSamplerState() = 0;
 
 		virtual	Matrix4				MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf) = 0;
 		virtual	Matrix4				MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf) = 0;		

@@ -2,51 +2,33 @@
 
 namespace ma
 {
-	class D3D11RasterizerStateObject : public RasterizerStateObject
+	class D3D11RasterizerStateObject : public RasterizerState
 	{
 	public:
-		explicit D3D11RasterizerStateObject(const RasterizerStateDesc& desc);
 
-		void Active();
+		virtual void	RT_StreamComplete();
 
-		const ID3D11RasterizerState* D3DRasterizerState() const
-		{
-			return rasterizer_state_;
-		}
-
-	private:
-		ID3D11RasterizerState* rasterizer_state_;
+	public:
+		ID3D11RasterizerState* m_pD3D11RSState;
 	};
 
-	class D3D11DepthStencilStateObject : public DepthStencilStateObject
+	class D3D11DepthStencilStateObject : public DepthStencilState
 	{
 	public:
-		explicit D3D11DepthStencilStateObject(const DepthStencilStateDesc& desc);
 
-		void Active(UINT32 front_stencil_ref, UINT32 back_stencil_ref);
+		virtual void	RT_StreamComplete(/*UINT32 front_stencil_ref, UINT32 back_stencil_ref*/);
 
-		const ID3D11DepthStencilState* D3DDepthStencilState() const
-		{
-			return depth_stencil_state_;
-		}
 
-	private:
-		ID3D11DepthStencilState* depth_stencil_state_;
+	public:
+		ID3D11DepthStencilState* m_pD3D11DSState;
 	};
 
-	class D3D11BlendStateObject : public BlendStateObject
+	class D3D11BlendStateObject : public BlendState
 	{
 	public:
-		explicit D3D11BlendStateObject(const BlendStateDesc& desc);
+		virtual void	RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/);
 
-		void Active(const ColourValue& blend_factor, UINT32 sample_mask);
-
-		const ID3D11BlendState* D3DBlendState() const
-		{
-			return blend_state_;
-		}
-
-	private:
-		ID3D11BlendState* blend_state_;
+	public:
+		ID3D11BlendState* m_pD3D11BlendState;
 	};
 }

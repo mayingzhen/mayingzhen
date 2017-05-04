@@ -1,10 +1,12 @@
-#ifndef Technique_H_
-#define Technique_H_
+#pragma once
 
 namespace ma
 {
+	class BlendState;
+	class DepthStencilState;
+	class RasterizerState;
 
-	class Technique : public RenderState
+	class Technique : public Serializable
 	{
 	public:
 		Technique();
@@ -33,6 +35,12 @@ namespace ma
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
 
+		void				SetBlendState(BlendState* pBlendState);
+		void				SetDepthStencilState(DepthStencilState* pDSSate);
+		void				SetRasterizerState(RasterizerState* pRSState);
+
+		void				SetVertexDeclaration(VertexDeclaration* pVertexDecl);
+
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
@@ -44,14 +52,17 @@ namespace ma
 
 		RefPtr<ShaderProgram>			m_pShaderProgram;
 
+		RefPtr<BlendState>				m_pBlendState;
+		
+		RefPtr<DepthStencilState>		m_pDSState;
+
+		RefPtr<RasterizerState>			m_pRSState;
+
 		std::vector<Parameter*>			m_arrParameters;
+
+		RefPtr<VertexDeclaration>		m_pDeclaration;
 	};
 	
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 }
-
-
-
-
-#endif

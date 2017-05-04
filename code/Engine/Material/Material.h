@@ -20,8 +20,6 @@ namespace ma
 		void				SetShadingTechnqiue(const char* pShaderName,const char* pDefine);
 
 		Technique*			GetShadowDepthTechnqiue();
-		//void				SetShadowDepthTechnqiue(Technique* pTech);
-		//void				SetShadowDepthTechnqiue(const char* pShaderName,const char* pDefine);
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);

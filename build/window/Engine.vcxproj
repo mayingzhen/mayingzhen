@@ -126,7 +126,6 @@
     <ClInclude Include="..\..\code\Engine\Material\ParameterManager.h" />
     <ClInclude Include="..\..\code\Engine\Material\ParameterManager.hxx" />
     <ClInclude Include="..\..\code\Engine\Material\PrePareShaderSource.h" />
-    <ClInclude Include="..\..\code\Engine\Material\RenderState.h" />
     <ClInclude Include="..\..\code\Engine\Material\ShaderManager.h" />
     <ClInclude Include="..\..\code\Engine\Material\ShaderManager.hxx" />
     <ClInclude Include="..\..\code\Engine\Material\ShaderProgram.h" />
@@ -195,6 +194,8 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\IRenderDevice.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\IRenderDevice.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\RenderDefine.h" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\RenderState.h" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\RenderState.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\TransientBuffer.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\TransientBuffer.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexBuffer.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="..\..\code\Engine\RenderSystem\IRenderDevice\VertexDeclaration.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\PrefilterCube.hxx" />
+    <ClInclude Include="..\..\code\Engine\RenderSystem\RenderCommand.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderContext.h" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderContext.hxx" />
     <ClInclude Include="..\..\code\Engine\RenderSystem\RenderProfile.h" />

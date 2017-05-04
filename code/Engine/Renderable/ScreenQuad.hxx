@@ -19,7 +19,7 @@ namespace ma
 		element[1] = VertexElement(0,8,DT_FLOAT2,DU_TEXCOORD,0);
 		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
 
-		gpScrenQuad->m_pDeclaration = pVertexDec;
+		//gpScrenQuad->m_pDeclaration = pVertexDec;
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 
 		// Construct full screen quad

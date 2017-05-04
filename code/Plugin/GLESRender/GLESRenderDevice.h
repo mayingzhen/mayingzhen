@@ -24,6 +24,12 @@ namespace ma
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual	ShaderProgram*		CreateShaderProgram();
+
+		virtual BlendState*			CreateBlendState();
+		virtual DepthStencilState*	CreateDepthStencilState();
+		virtual RasterizerState*	CreateRasterizerState();
+
+		virtual SamplerState*		CreateSamplerState();
 		
 		//// Render
 		virtual void				SetFrameBuffer(FrameBuffer* pFB);
@@ -34,20 +40,9 @@ namespace ma
 		virtual void				SetViewport(const Rectangle& rect);
 		virtual Rectangle			GetViewport();
 
-		virtual	void				SetDepthBias(float constantBias, float slopeScaleBias = 0.0f);
-		virtual	void				SetCullingMode(CULL_MODE mode);
-		virtual void				SetBlendMode(BLEND_MODE mode);
-		virtual	void				SetDepthCheckMode(CompareFunction mode);
-		virtual	void				SetDepthWrite(bool b);
-		virtual	void				SetColorWrite(bool b);
-		virtual void				SetSRGBWrite(bool b);
-		virtual void				SetStencilEnable(bool b);
-		virtual void				SetStencilBufferParams(CompareFunction func = CMPF_ALWAYS_PASS, 
-			uint32 refValue = 0, uint32 mask = 0xFFFFFFFF, uint32 writeMask = 0xFFFFffff,
-			StencilOperation stencilFailOp = SOP_KEEP, 
-			StencilOperation depthFailOp = SOP_KEEP,
-			StencilOperation passOp = SOP_KEEP, 
-			bool twoSidedOperation = false);
+		virtual void				SetBlendState(const BlendState* pBlendState);
+		virtual void				SetDepthStencilState(const DepthStencilState* pDSState);
+		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 
 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
  		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
@@ -61,7 +56,7 @@ namespace ma
 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
 		
-		virtual	void				SetVertexDeclaration(VertexDeclaration* pDec);
+		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
 		virtual	void				SetVertexBuffer(int index, VertexBuffer* pVB);
 

@@ -155,7 +155,7 @@ namespace ma
 		
 		VertexElement element[1];
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		gpSphere->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1);
+		//gpSphere->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1);
 		gpSphere->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&vertBuff[0],vertBuff.size() * sizeof(Vector3),sizeof(Vector3));
 		gpSphere->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)&indBuff[0],vertBuff.size() * sizeof(UINT16),sizeof(UINT16));
 		gpSphere->m_ePrimitiveType = PRIM_TRIANGLELIST;

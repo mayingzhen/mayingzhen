@@ -23,7 +23,7 @@ namespace ma
 
 	public:
 		PRIMITIVE_TYPE					m_ePrimitiveType;
-		RefPtr<VertexDeclaration>		m_pDeclaration;
+		//RefPtr<VertexDeclaration>		m_pDeclaration;
 		RefPtr<VertexBuffer>			m_pVertexBuffer;	
 		RefPtr<IndexBuffer>				m_pIndexBuffer;
 		RefPtr<SubMeshData>				m_pSubMeshData;

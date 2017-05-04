@@ -1,5 +1,6 @@
 #include "AnimationComponent.h"
 #include "AnimationSet.h"
+//#include "MTScheduler.h"
 
 namespace ma
 {
@@ -236,7 +237,7 @@ namespace ma
 		if ( GetTimer()->GetFrameCount() - m_pSceneNode->GetLastVisibleFrame() > 1 )
 			return;
 
-		if (GetJobScheduler()->GetNumThreads() > 0)
+		if (/*GetTaskScheduler()->GetWorkersCount() > 0*/0)
 		{
 			GetSceneNode()->GetScene()->AddParallelUpdate(this);	
 		}

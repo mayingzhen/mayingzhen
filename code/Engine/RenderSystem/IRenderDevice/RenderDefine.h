@@ -92,20 +92,36 @@ namespace ma
 	*/
 	enum DECL_TYPE
 	{
-		DT_FLOAT1         = 0,
-		DT_FLOAT2         = 1,
-		DT_FLOAT3         = 2,
-		DT_FLOAT4         = 3,
-		DT_COLOR          = 4,
-		DT_UBYTE4         = 5,
-		DT_UBYTE4N        = 6,
-		DT_SHORT2         = 7,
-		DT_SHORT2N		  = 8,
-		DT_SHORT4         = 9,
-		DT_SHORT4N		  = 10,
+		DT_UNKNOWN,
+		DT_FLOAT1,
+		DT_FLOAT2,
+		DT_FLOAT3,
+		DT_FLOAT4,
+		DT_COLOR,
+		DT_UBYTE4,
+		DT_UBYTE4N,
+		DT_SHORT2,
+		DT_SHORT2N,
+		DT_SHORT4,
+		DT_SHORT4N,
+	};
 
+	static const char* strDECL_TYPE[] =
+	{
+		"DT_UNKNOWN",
+		"DT_FLOAT1",
+		"DT_FLOAT2",
+		"DT_FLOAT3",
+		"DT_FLOAT4",
+		"DT_COLOR",
+		"DT_UBYTE4",
+		"DT_UBYTE4N",
+		"DT_SHORT2",
+		"DT_SHORT2N",
+		"DT_SHORT4",
+		"DT_SHORT4N",
 
-		DT_UNKNOWN        = 255
+		0
 	};
 
 
@@ -117,17 +133,28 @@ namespace ma
 	*/
 	enum DECL_USAGE
 	{
-		DU_POSITION      = 0,
-		DU_TEXCOORD		 = 1,
-		DU_BLENDINDICES  = 2,
-		DU_BLENDWEIGHT   = 3,
-		DU_NORMAL        = 4,
-		DU_TANGENT       = 5,
-		DU_COLOR         = 6,
-		
-		MAX_DECL_USAGE   = 7,
+		DU_UNKNOWN,
+		DU_POSITION,
+		DU_TEXCOORD,
+		DU_BLENDINDICES,
+		DU_BLENDWEIGHT,
+		DU_NORMAL,
+		DU_TANGENT,
+		DU_COLOR,
+	};
 
-		DU_UNKNOWN       = 255
+	static const char* strDECL_USAGE[] =
+	{
+		"DU_UNKNOWN",
+		"DU_POSITION",
+		"DU_TEXCOORD",
+		"DU_BLENDINDICES",
+		"DU_BLENDWEIGHT",
+		"DU_NORMAL",
+		"DU_TANGENT",
+		"DU_COLOR",
+
+		0
 	};
 
 
@@ -138,82 +165,7 @@ namespace ma
 	};
 
 
-	/* struct: VertexElement
-	--------------------------------------------------------------------------------------
-		@Remark:
-			¶¥µãÔªËØÉùÃ÷.
-	--------------------------------------------------------------------------------------
-	*/
-	#define MAX_ELEMENT             16
 
-	#define DECL_UNUSED             255
-
-	struct  VertexElement
-	{
-		short           Stream;
-		short           Offset;
-		DECL_TYPE       Type;
-		DECL_USAGE      Usage;
-		unsigned char   UsageIndex;
-
-		uint32 mHash;
-	
-		VertexElement()
-		: Stream(DECL_UNUSED),
-		  Offset(0),
-		  Type(DT_UNKNOWN),
-		  Usage(DU_UNKNOWN),
-		  UsageIndex(0),
-		  mHash(0)
-		{
-		}
-
-		VertexElement(short stream,short offset,DECL_TYPE type,DECL_USAGE use,unsigned char index)
-			: Stream(stream),
-			Offset(offset),
-			Type(type),
-			Usage(use),
-			UsageIndex(index),
-			mHash(0)
-		{
-			BuildHash();
-		}
-
-		// ---------------------------------------------------------------------
-		//  stream  offset  type  semantic index GLLocate
-		//   4        12     4      4        4	    4
-		//  0~15    0~4096-1 0~15   0~15    0~15   0~15
-		// ---------------------------------------------------------------------
-		void BuildHash()
-		{
-			mHash = 0;
-
-			//ASSERT(mGLLocate <= 15);
-			//UINT32 n = mGLLocate;
-			//mHash += n;
-
-			ASSERT(UsageIndex<= 15);
-			UINT32 n = UsageIndex;
-			mHash += n << 4;
-
-			ASSERT(Usage<= 15);
-			n = Usage;
-			mHash += n << 8;
-
-			ASSERT(Type<= 15);
-			n = Type;
-			mHash += n << 12;
-
-			ASSERT(Offset<= 4096 - 1);
-			n = Offset;
-			mHash += n << 16;
-
-			ASSERT(Stream<= 15);
-			n = Stream;
-			mHash += n << 28;
-		}
-		uint32 GetHash() const{return mHash;}
-	};
 
 	enum PRIMITIVE_TYPE
 	{
