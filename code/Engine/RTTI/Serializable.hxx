@@ -8,7 +8,7 @@ namespace ma
 
 	Serializable::Serializable()
 	{
-		m_bXMLLoadOver = true;
+		m_bXMLLoadOver = false;
 	}
 
 	Serializable::~Serializable()
@@ -32,7 +32,6 @@ namespace ma
 	void Serializable::LoadFromXML(const char* pszXMlFile)
 	{
 		m_pXMlFile = CreateXmlFile(pszXMlFile);
-		m_bXMLLoadOver = false;
 		IsReady();
 	}
 

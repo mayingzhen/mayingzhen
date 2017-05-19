@@ -126,6 +126,8 @@ namespace ma
 
 	void RenderThread::RC_TexStreamComplete(Texture* pTexture)
 	{
+		ASSERT(pTexture);
+
 		if (IsRenderThread())
 		{
 			pTexture->RT_StreamComplete();
@@ -138,6 +140,8 @@ namespace ma
 
 	void RenderThread::RC_ShaderStreamComplete(ShaderProgram* pShader)
 	{
+		ASSERT(pShader);
+
 		if (IsRenderThread())
 		{
 			pShader->RT_StreamComplete();
@@ -150,6 +154,8 @@ namespace ma
 
 	void RenderThread::RC_VertexDeclaComplete(VertexDeclaration* pDecl)
 	{
+		ASSERT(pDecl);
+
 		if (IsRenderThread())
 		{
 			pDecl->RT_StreamComplete();
@@ -164,6 +170,8 @@ namespace ma
 
 	void RenderThread::RC_HardwareBufferStreamComplete(HardwareBuffer* pHB)
 	{
+		ASSERT(pHB);
+
 		if (IsRenderThread())
 		{
 			pHB->RT_StreamComplete();
@@ -192,6 +200,8 @@ namespace ma
 
 	void RenderThread::RC_DepthStencilStateStreamComplete(DepthStencilState* pDSState)
 	{
+		ASSERT(pDSState);
+
 		if (IsRenderThread())
 		{
 			pDSState->RT_StreamComplete();
@@ -206,6 +216,8 @@ namespace ma
 
 	void RenderThread::RC_RasterizerStateStreamComplete(RasterizerState* pRSState)
 	{
+		ASSERT(pRSState);
+
 		if (IsRenderThread())
 		{
 			pRSState->RT_StreamComplete();
@@ -370,16 +382,17 @@ namespace ma
 		AddPointer(pBlendState);
 	}
 
-	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState)
+	void RenderThread::RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
 		if (IsRenderThread())
 		{
-			GetRenderDevice()->SetDepthStencilState(pDSState);
+			GetRenderDevice()->SetDepthStencilState(pDSState,nStencilRef);
 			return;
 		}
 
 		AddCommand(eRC_SetDepthStencilState);
 		AddPointer(pDSState);
+		AddDWORD(nStencilRef);
 	}
 
 	void RenderThread::RC_SetRasterizerState(const RasterizerState* pRSState)
@@ -715,7 +728,8 @@ namespace ma
 			case eRC_SetDepthStencilState:
 				{
 					DepthStencilState* pDSState = ReadCommand<DepthStencilState*>(n);
-					GetRenderDevice()->SetDepthStencilState(pDSState);
+					UINT nRef = ReadCommand<UINT>(n);
+					GetRenderDevice()->SetDepthStencilState(pDSState, nRef);
 				}
 				break;
 			case eRC_SetRasterizerState:

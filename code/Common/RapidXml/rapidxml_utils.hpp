@@ -117,6 +117,12 @@ namespace rapidxml
         return count;
     }
 
+
+	inline void append_attribute(rapidxml::xml_node<>* pXmlElem, rapidxml::xml_document<>& doc, const char* pszName, const char* pszVale)
+	{
+		pXmlElem->append_attribute(doc.allocate_attribute(doc.allocate_string(doc.allocate_string(pszName)), doc.allocate_string(pszVale)));
+	}
+	
 }
 
 #endif

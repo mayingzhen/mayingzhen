@@ -141,7 +141,7 @@ namespace ma
 		void	RC_ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s);
 
 		void	RC_SetBlendState(const BlendState* pBlendState);
-		void	RC_SetDepthStencilState(const DepthStencilState* pDSState);
+		void	RC_SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef);
 		void	RC_SetRasterizerState(const RasterizerState* pRSState);
 
 		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);

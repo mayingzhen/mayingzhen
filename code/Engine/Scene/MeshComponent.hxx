@@ -158,7 +158,7 @@ namespace ma
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
 
-				pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMesData->GetVertexDeclar());
+				//pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMesData->GetVertexDeclar());
 
 				pRenderable->m_pSubMaterial = pSubMaterial;
 

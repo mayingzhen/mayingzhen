@@ -144,6 +144,7 @@ namespace ma
 			pRenderQueue->RenderObjList(RL_Terrain);
 		}
 
+		if (m_pDeferredShadingPass || m_pDeferredShadowPass)
 		{
 			FrameBuffer fb;
 			fb.AttachColor(0,m_pLinearDepthTex.get());

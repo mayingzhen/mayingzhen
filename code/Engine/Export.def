@@ -178,7 +178,6 @@ EXPORTS
 ?AddSubMeshData@MeshData@ma@@QAEXPAVSubMeshData@2@@Z
 ?Load@MeshComponent@ma@@QAE_NPBD0@Z
 ?SetMaterial@MeshComponent@ma@@QAEXPAVMaterial@2@@Z
-?SetShaderMacro@Technique@ma@@QAEXPBD_N@Z
 ?Clone@Material@ma@@QAE?AV?$RefPtr@VMaterial@ma@@@2@XZ
 ?GetMillisceonds@Time@ma@@QBE_KXZ
 ??1Animatable@ma@@QAE@XZ
@@ -226,3 +225,8 @@ EXPORTS
 ??0DepthStencilState@ma@@QAE@XZ
 ??0BlendState@ma@@QAE@XZ
 ??0SamplerState@ma@@QAE@XZ
+??0VertexElement@ma@@QAE@XZ
+??0VertexElement@ma@@QAE@FFW4DECL_TYPE@1@W4DECL_USAGE@1@E@Z
+?CreateVertexDeclaration@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexDeclaration@ma@@@2@PAUVertexElement@2@I@Z
+?SetVertexDeclaration@Technique@ma@@QAEXPAVVertexDeclaration@2@@Z
+?SetShaderMacroBool@Technique@ma@@QAEXPBD_N@Z

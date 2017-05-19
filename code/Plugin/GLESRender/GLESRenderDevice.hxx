@@ -401,7 +401,7 @@ namespace ma
 		GL_ASSERT(glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/));
 	}
 
-	void GLESRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState)
+	void GLESRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
 		switch (pDSState->m_eDepthCheckMode)
 		{
@@ -444,118 +444,6 @@ namespace ma
 
 	}
 
-// 	void GLESRenderDevice::SetDepthBias(float constantBias, float slopeScaleBias)
-// 	{
-// 		//ASSERT(false);
-// 	}
-// 
-// 	void GLESRenderDevice::SetCullingMode(CULL_MODE mode)
-// 	{
-// 		switch( mode )
-// 		{
-// 		case CULL_FACE_SIDE_NONE:
-// 			GL_ASSERT( glDisable(GL_CULL_FACE) );
-// 			return;
-// 		case CULL_FACE_SIDE_BACK:
-// 			GL_ASSERT( glEnable(GL_CULL_FACE) );	
-// 			GL_ASSERT( glCullFace(GL_BACK) );
-// 			return;
-// 		case CULL_FACE_SIDE_FRONT:
-// 			GL_ASSERT( glEnable(GL_CULL_FACE) );	
-// 			GL_ASSERT( glCullFace(GL_FRONT) );
-// 			return;
-// 		}
-// 	}
-// 
-// 	void GLESRenderDevice::SetDepthWrite(bool b)
-// 	{
-// 		GL_ASSERT( glDepthMask(b) );
-// 	}
-// 
-// 	void GLESRenderDevice::SetColorWrite(bool b)
-// 	{
-// 		GL_ASSERT( glColorMask(/*r*/b, b/*g*/, b/*b*/, b/*a*/) );
-// 	}
-// 
-// 	void GLESRenderDevice::SetSRGBWrite(bool b)
-// 	{
-// 
-// 	}
-// 
-// 	void GLESRenderDevice::SetStencilEnable(bool enabled)
-// 	{
-// 		if(mStencilEnabledGL == enabled)
-// 			return;
-// 
-// 		//mStencilEnabledGL = enabled;
-// 
-// 		if (enabled)
-// 		{
-// 			glEnable(GL_STENCIL_TEST);
-// 		}
-// 		else
-// 		{
-// 			glDisable(GL_STENCIL_TEST);
-// 		}
-// 		//GL_CHECK_ERROR;
-// 	}
-// 
-// 	void GLESRenderDevice::SetStencilBufferParams(CompareFunction func/* = CMPF_ALWAYS_PASS*/, 
-// 		uint32 refValue/* = 0*/, uint32 compareMask/* = 0xFFFFFFFF*/, uint32 writeMask/* = 0xFFFFffff*/,
-// 		StencilOperation stencilFailOp/* = SOP_KEEP*/, 
-// 		StencilOperation depthFailOp/* = SOP_KEEP*/,
-// 		StencilOperation passOp/* = SOP_KEEP*/, 
-// 		bool twoSidedOperation/* = false*/)
-// 	{
-// 		bool flip = false;
-// 
-// 		if (twoSidedOperation)
-// 		{
-// 			// 		if (!mCurrentCapabilities->hasCapability(RSC_TWO_SIDED_STENCIL))
-// 			// 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS, "2-sided stencils are not supported",
-// 			// 			"GLES2RenderSystem::setStencilBufferParams");
-// 
-// 			// NB: We should always treat CCW as front face for consistent with default
-// 			// culling mode. Therefore, we must take care with two-sided stencil settings.
-// 			//flip = !mInvertVertexWinding;
-// 
-// 			// Back
-// 			glStencilMaskSeparate(GL_BACK, writeMask);
-// 			//GL_CHECK_ERROR;
-// 			glStencilFuncSeparate(GL_BACK, GLESMapping::convertCompareFunction(func), refValue, compareMask);
-// 			//GL_CHECK_ERROR;
-// 			glStencilOpSeparate(GL_BACK, 
-// 				GLESMapping::convertStencilOp(stencilFailOp, !flip), 
-// 				GLESMapping::convertStencilOp(depthFailOp, !flip), 
-// 				GLESMapping::convertStencilOp(passOp, !flip));
-// 
-// 			//GL_CHECK_ERROR;
-// 			// Front
-// 			glStencilMaskSeparate(GL_FRONT, writeMask);
-// 			//GL_CHECK_ERROR;
-// 			glStencilFuncSeparate(GL_FRONT, GLESMapping::convertCompareFunction(func), refValue, compareMask);
-// 			//GL_CHECK_ERROR;
-// 			glStencilOpSeparate(GL_FRONT, 
-// 				GLESMapping::convertStencilOp(stencilFailOp, flip),
-// 				GLESMapping::convertStencilOp(depthFailOp, flip), 
-// 				GLESMapping::convertStencilOp(passOp, flip));
-// 			//GL_CHECK_ERROR;
-// 		}
-// 		else
-// 		{
-// 			flip = false;
-// 			this->SetStencilMaskGL(writeMask);
-// 
-// 			glStencilFunc(GLESMapping::convertCompareFunction(func), refValue, compareMask);
-// 			//GL_CHECK_ERROR;
-// 			glStencilOp(
-// 				GLESMapping::convertStencilOp(stencilFailOp, flip),
-// 				GLESMapping::convertStencilOp(depthFailOp, flip), 
-// 				GLESMapping::convertStencilOp(passOp, flip));
-// 			//GL_CHECK_ERROR;
-// 		}
-// 	}
-// 
 	void GLESRenderDevice::SetStencilMaskGL(GLuint mask)
 	{
 		if (mStencilMaskGL == mask)
@@ -564,70 +452,8 @@ namespace ma
 		}
 		mStencilMaskGL = mask;
 
-		glStencilMask(mask);
-		//GL_CHECK_ERROR;
+		GL_ASSERT( glStencilMask(mask) );
 	}
-// 
-// 	void GLESRenderDevice::SetDepthCheckMode(CompareFunction mode)
-// 	{
-// 		switch (mode)
-// 		{
-// 		case CMPF_ALWAYS_FAIL:
-// 			GL_ASSERT( glDisable(GL_DEPTH_TEST) );
-// 			break;
-// 
-// 		case CMPF_LESS_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_LEQUAL) );
-// 			break;
-// 
-// 		case CMPF_LESS:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_LESS) );
-// 			break;
-// 
-// 		case CMPF_GREATER_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_GEQUAL) );
-// 			break;
-// 
-// 		case CMPF_GREATER:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_GREATER) );
-// 			break;
-// 
-// 		case CMPF_EQUAL:
-// 			GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-// 			GL_ASSERT( glDepthFunc(GL_EQUAL) );
-// 			break;
-// 		default:
-// 			ASSERT(false);
-// 			break;
-// 		}
-// 	}
-// 
-// 	void GLESRenderDevice::SetBlendMode(BLEND_MODE mode)
-// 	{
-// 		switch (mode)
-// 		{
-// 		case BM_OPATICY:
-// 			GL_ASSERT( glDisable(GL_BLEND) );
-// 			break;
-// 
-// 		case BM_TRANSPARENT:
-// 			GL_ASSERT( glEnable(GL_BLEND) );
-// 			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
-// 			break;
-// 
-// 		case BM_ADD:
-// 			GL_ASSERT( glEnable(GL_BLEND) );
-// 			GL_ASSERT( glBlendFunc(GL_SRC_ALPHA, GL_ONE) );
-// 			break;
-// 
-// 		case BM_MULTIPLY:
-// 			break;
-// 		}
-// 	}
 
 	void GLESRenderDevice::SetTexture(uint32 nIndex,Texture* sampler,bool bSRGBNotEqual)
 	{

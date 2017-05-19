@@ -16,6 +16,8 @@ namespace ma
 
 		SetPosUVAABB(pTech);
 
+		pTech->CommitChanges();
+
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 

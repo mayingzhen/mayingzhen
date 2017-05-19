@@ -1,8 +1,6 @@
 
 #pragma once
 
-
-
 namespace ma
 {
 
@@ -36,6 +34,8 @@ namespace ma
 
 		ID3D11Buffer* GetD3D11Buffer() {return m_pD3D11Buffer;}
 
+		static void Clear();
+
 	private:
 		/// Shadow data.
 		vector<BYTE> m_shadowData;
@@ -45,5 +45,7 @@ namespace ma
 
 		ID3D11Buffer* m_pD3D11Buffer;
 	};
+
+	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
 
 }

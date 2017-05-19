@@ -18,6 +18,8 @@ namespace ma
 
 		virtual void RT_SetShader();
 
+		virtual void CommitChanges();
+
 		void Destory();
 
 		const BYTE*	GetByteVSCode() const {return &m_pByteVSCode[0];}

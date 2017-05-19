@@ -30,19 +30,12 @@ namespace ma
 		ClearAllStates();
 
 		m_bRenderTargetsDirty = true;
-		m_bRasterizerStateDirty = true;
-		m_bDepthStateDirty = true;
-		m_bBlendStateDirty = true;
-		m_pShader = NULL;
-		m_pVertexDecl = NULL;
 
 		m_nFirstDirtyVB = 0;
 		m_nLastDirtyVB = 0;
 		memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
 		memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
 		memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
-		//memset(elementMasks_,0,sizeof(elementMasks_));
-	
 
 	 	memset(m_arrTexture,0,sizeof(m_arrTexture));
 		memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
@@ -51,7 +44,6 @@ namespace ma
 		m_bTexturesDirty = true;
 
 		memset(m_arrD3d11Sampler,0,sizeof(m_arrD3d11Sampler));
-		memset(m_arrSamplerState,0,sizeof(m_arrSamplerState));
 		m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
 		m_nLastDirtySamplerState = M_MAX_UNSIGNED;
 		m_bSamplerStatesDirty = true;
@@ -59,12 +51,11 @@ namespace ma
 		m_pDepthStencil = NULL;
 		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
 
-
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-		{
-			m_vecD3D11ConstantBuffers[VS][i] = 0;
-			m_vecD3D11ConstantBuffers[PS][i] = 0;
-		}
+		m_pCurInput = NULL;
+		m_pCurDSState = NULL;
+		m_nStencilRef = 0;
+		m_pCurBlendState = NULL;
+		m_pCurRSState = NULL;
 	}
 
 	D3D11RenderDevice::~D3D11RenderDevice()
@@ -134,52 +125,26 @@ namespace ma
 	{
 		m_hWnd = NULL;
 
-		for (map<unsigned, ID3D11RasterizerState*>::iterator it = m_rasterizerStatePool.begin(); 
-			it != m_rasterizerStatePool.end(); ++it)
-		{
-			SAFE_RELEASE(it->second);
-		}
-
-		for (map<unsigned, ID3D11DepthStencilState*>::iterator it = m_depthStatePool.begin(); 
-			it != m_depthStatePool.end(); ++it)
-		{
-			SAFE_RELEASE(it->second);
-		}
-
-		for (map<unsigned, ID3D11BlendState*>::iterator it = m_blendStatePool.begin(); 
-			it != m_blendStatePool.end(); ++it)
-		{
-			SAFE_RELEASE(it->second);
-		}
-
-		for (map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.begin(); 
-			it != m_SamplerStatesPool.end(); ++it)
-		{
-			SAFE_RELEASE(it->second);
-		}
-		m_SamplerStatesPool.clear();
-
-		for (map<uint64, ID3D11InputLayout* >::iterator it = m_mapVertexDeclaration.begin(); 
-			it != m_mapVertexDeclaration.end(); ++it)
-		{
-			SAFE_RELEASE(it->second);
-		}
-
-		m_mapConstantBufferPool.clear();
+		D3D11RasterizerStateObject::Clear();
+		D3D11DepthStencilStateObject::Clear();
+		D3D11BlendStateObject::Clear();
+		D3D11VertexDeclaration::Clear();
+		D3D11SamplerStateObject::Clear();
+		ConstantBuffer::Clear();
 
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
 
-// #if defined(DEBUG) || defined(_DEBUG)
-// 		ID3D11Debug *d3dDebug;
-// 		HRESULT hr = m_pD3DDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&d3dDebug));
-// 		if (SUCCEEDED(hr))
-// 		{
-// 			hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-// 		}
-// 		if (d3dDebug != NULL)			
-// 			d3dDebug->Release();
-// #endif
+#if defined(DEBUG) || defined(_DEBUG)
+		ID3D11Debug *d3dDebug;
+		HRESULT hr = m_pD3DDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&d3dDebug));
+		if (SUCCEEDED(hr))
+		{
+			hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		}
+		if (d3dDebug != NULL)			
+			d3dDebug->Release();
+#endif
 
 		SAFE_RELEASE(m_pD3DDevice);
 	}
@@ -376,10 +341,10 @@ namespace ma
 			DetachSRV(pD3D11Texture->GetShaderResourceView());
 		}
 		else
+		{
 			m_pDepthStencil = NULL;
+		}
 
-		
-	
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
 	}
 
@@ -454,18 +419,34 @@ namespace ma
 		if (m_pCurBlendState != pD3DllObject->m_pD3D11BlendState)
 		{
 			m_pDeviceContext->OMSetBlendState(pD3DllObject->m_pD3D11BlendState, 0, M_MAX_UNSIGNED);
+
+			m_pCurBlendState = pD3DllObject->m_pD3D11BlendState;
 		}
 	}
 
-	void D3D11RenderDevice::SetDepthStencilState(const DepthStencilState* pDSState)
+	void D3D11RenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
-		D3D11BlendStateObject* pD3DllObject = (D3D11BlendStateObject*)pDSState;
+		D3D11DepthStencilStateObject* pD3DllObject = (D3D11DepthStencilStateObject*)pDSState;
+		
+		if (m_pCurDSState != pD3DllObject->m_pD3D11DSState || m_nStencilRef != nStencilRef)
+		{
+			m_pDeviceContext->OMSetDepthStencilState(pD3DllObject->m_pD3D11DSState, nStencilRef);
 
+			m_pCurDSState = pD3DllObject->m_pD3D11DSState;
+			m_nStencilRef = nStencilRef;
+		}
 	}
 	
 	void D3D11RenderDevice::SetRasterizerState(const RasterizerState* pRSState)
 	{
+		D3D11RasterizerStateObject* pD3DllObject = (D3D11RasterizerStateObject*)pRSState;
 
+		if (m_pCurRSState != pD3DllObject->m_pD3D11RSState)
+		{
+			m_pDeviceContext->RSSetState(pD3DllObject->m_pD3D11RSState);
+
+			m_pCurRSState = pD3DllObject->m_pD3D11RSState;
+		}
 	}
 
 	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
@@ -520,49 +501,18 @@ namespace ma
 		SetTexture(uniform->m_index,pTexture,TRUE);
 	}
 
-// 	ID3D11SamplerState* D3D11RenderDevice::CreateOrGetSamplerState(SamplerState* pSampler)
-// 	{
-// 		map<SamplerState, ID3D11SamplerState*>::iterator it = m_SamplerStatesPool.find(*pSampler);
-// 		if (it != m_SamplerStatesPool.end())
-// 		{
-// 			return it->second;
-// 		}
-// 		else
-// 		{
-// 			ID3D11SamplerState* sample = NULL;
-// 
-// 			D3D11_SAMPLER_DESC samplerDesc;
-// 			memset(&samplerDesc, 0, sizeof samplerDesc);
-// 
-// 			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(pSampler->GetFilterMode()); 
-// 			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-// 			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapMode());
-// 			samplerDesc.AddressW = D3D11Mapping::GetD3D11Wrap(pSampler->GetWrapModeW());
-// 			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
-// 			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-// 			samplerDesc.MinLOD = 0;
-// 			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-// 
-// 			if (pSampler->GetFilterMode() == TFO_SHADOWCOMPARE)
-// 			{
-// 				samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS;	 
-// 			}
-// 
-// 			m_pD3DDevice->CreateSamplerState(&samplerDesc, &sample);
-// 
-// 			m_SamplerStatesPool[*pSampler] = sample;
-// 
-// 			return sample;
-// 		}
-// 	}
-
 	void D3D11RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
 		uint32 index = uniform->m_index;
 
 		SetTexture(index,pSampler->GetTexture(),pSampler->GetSRGB() == pSampler->GetTexture()->GetSRGB());
 
-		if (pSampler != m_arrSamplerState[index])
+		D3D11SamplerStateObject* pD3D11Sampler = (D3D11SamplerStateObject*)pSampler;
+		if (pD3D11Sampler->m_pImpl == NULL)
+		{
+			pD3D11Sampler->RT_StreamComplete();
+		}
+		if (pD3D11Sampler->m_pImpl != m_arrD3d11Sampler[index])
 		{
 			if (m_nFirstDirtySamplerState == M_MAX_UNSIGNED)
 			{
@@ -580,58 +530,10 @@ namespace ma
 				}
 			}
 
-			m_arrSamplerState[index] = pSampler;
-			//m_arrD3d11Sampler[index] = //CreateOrGetSamplerState(pSampler);
+			m_arrD3d11Sampler[index] = pD3D11Sampler->m_pImpl;
 			m_bSamplerStatesDirty = true;
 		}
 	}
-
-// 	ID3D11DepthStencilState* D3D11RenderDevice::CreateOrGetDepthStencilState(const DepthStencilState* pDSState)
-// 	{
-// 		unsigned newDepthStateHash =
-// 			(pDSState->m_bDepthWrite ? 1 : 0) |
-// 			(pDSState->m_bStencil ? 2 : 0) |
-// 			(pDSState->m_eDepthCheckMode << 2) |
-// 			((pDSState->m_nStencilMask & 0xff) << 5) |
-// 			((pDSState->m_nStencilWriteMask & 0xff) << 13) | (pDSState->m_eStencilfunc << 21) |
-// 			((pDSState->m_eStencilFail + pDSState->m_eDepthFailOp * 5 + pDSState->m_eStencilPass * 25) << 24);
-// 
-// 		map<unsigned, ID3D11DepthStencilState*>::iterator i = m_depthStatePool.find(newDepthStateHash);
-// 		if (i == m_depthStatePool.end())
-// 		{
-// 			D3D11_DEPTH_STENCIL_DESC stateDesc;
-// 			memset(&stateDesc, 0, sizeof stateDesc);
-// 			stateDesc.DepthEnable = TRUE;
-// 			stateDesc.DepthWriteMask = pDSState->m_bDepthWrite ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-// 			stateDesc.DepthFunc = D3D11Mapping::get(pDSState->m_eDepthCheckMode); ;
-// 			stateDesc.StencilEnable = pDSState->m_bStencil ? TRUE : FALSE;
-// 			stateDesc.StencilReadMask = (unsigned char)pDSState->m_nStencilMask;
-// 			stateDesc.StencilWriteMask = (unsigned char)pDSState->m_nStencilWriteMask;
-// 			stateDesc.FrontFace.StencilFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
-// 			stateDesc.FrontFace.StencilDepthFailOp = D3D11Mapping::get(pDSState->m_eDepthFailOp);
-// 			stateDesc.FrontFace.StencilPassOp = D3D11Mapping::get(pDSState->m_eStencilPass);
-// 			stateDesc.FrontFace.StencilFunc = D3D11Mapping::get(pDSState->m_eStencilfunc);
-// 
-// 			// BackFace
-// 			stateDesc.BackFace.StencilFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
-// 			stateDesc.BackFace.StencilDepthFailOp = D3D11Mapping::get(pDSState->m_eStencilFail);
-// 			stateDesc.BackFace.StencilPassOp = D3D11Mapping::get(pDSState->m_eStencilFail);
-// 			stateDesc.BackFace.StencilFunc = D3D11_COMPARISON_NEVER;
-// 
-// 			ID3D11DepthStencilState* newDepthState = 0;
-// 			m_pD3DDevice->CreateDepthStencilState(&stateDesc, &newDepthState);
-// 			if (!newDepthState)
-// 				LogError("Failed to create depth state");
-// 
-// 			m_depthStatePool.insert(std::make_pair(newDepthStateHash, newDepthState));
-// 
-// 			return newDepthState;
-// 		}
-// 		else
-// 		{
-// 			return it->second;
-// 		}
-// 	}
 
 	void D3D11RenderDevice::CommitChanges()
 	{
@@ -651,236 +553,6 @@ namespace ma
 			m_nFirstDirtySamplerState = m_nLastDirtySamplerState = M_MAX_UNSIGNED;
 			m_bSamplerStatesDirty = false;
 		}
-
-		/*
-		if (m_bVertexDeclarationDirty && m_pShader && m_pShader->GetByteVSCodeSize())
-		{
-			uint64 newVertexDeclarationHash = m_pVertexDecl->GetHash();
-
-			// Do not create input layout if no vertex buffers / elements
-			if (newVertexDeclarationHash)
-			{
-				if (newVertexDeclarationHash != m_nVertexDeclarationHash)
-				{
-					map<unsigned long long, ID3D11InputLayout* >::iterator
-						it = m_mapVertexDeclaration.find(newVertexDeclarationHash);
-					if (it == m_mapVertexDeclaration.end())
-					{
-						D3D11_INPUT_ELEMENT_DESC d3dve[MAX_ELEMENT];
-						for (int i = 0; i < m_pVertexDecl->GetElementCount(); ++i)
-						{
-							const VertexElement& element = m_pVertexDecl->GetElement(i);
-							d3dve[i].SemanticName = D3D11Mapping::GetD3DDeclUsage(element.Usage);
-							d3dve[i].SemanticIndex = element.UsageIndex;
-							d3dve[i].Format = D3D11Mapping::GetD3DDeclType(element.Type);
-							d3dve[i].InputSlot = 0;
-							d3dve[i].AlignedByteOffset = element.Offset;
-							d3dve[i].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-							d3dve[i].InstanceDataStepRate =0;
-						}
-						
-						ID3D11InputLayout* pD3D11VertexDecl = NULL;
-						GetD3D11DxDevive()->CreateInputLayout(&d3dve[0], m_pVertexDecl->GetElementCount(), m_pShader->GetByteVSCode(),
-							m_pShader->GetByteVSCodeSize(), &pD3D11VertexDecl);
-						ASSERT(pD3D11VertexDecl);
-						if (pD3D11VertexDecl == NULL)
-						{
-							LogError("Failed to create input layout");
-						}
-
-						m_mapVertexDeclaration.insert(std::make_pair(newVertexDeclarationHash, pD3D11VertexDecl));
-						m_pDeviceContext->IASetInputLayout(pD3D11VertexDecl);
-					}
-					else
-					{
-						m_pDeviceContext->IASetInputLayout(it->second);
-					}
-
-					m_nVertexDeclarationHash = newVertexDeclarationHash;
-				}
-			}
-
-			m_bVertexDeclarationDirty = false;
-		}
-		*/
-
-		/*
-		if (m_bBlendStateDirty)
-		{
-			unsigned newBlendStateHash = (unsigned)((m_renderState.m_bColorWrite ? 1 : 0) | (m_renderState.m_eBlendMode << 1));
-			if (newBlendStateHash != m_nBlendStateHash)
-			{
-				map<unsigned, ID3D11BlendState*>::iterator i = m_blendStatePool.find(newBlendStateHash);
-				if (i == m_blendStatePool.end())
-				{
-					//PROF(CreateBlendState);
-
-					D3D11_BLEND_DESC stateDesc;
-					memset(&stateDesc, 0, sizeof stateDesc);
-					stateDesc.AlphaToCoverageEnable = false;
-					stateDesc.IndependentBlendEnable = false;
-
-					D3D11Mapping::GetD3DBlend(m_renderState.m_eBlendMode,
-						stateDesc.RenderTarget[0].BlendEnable,
-						stateDesc.RenderTarget[0].SrcBlend,
-						stateDesc.RenderTarget[0].DestBlend,
-						stateDesc.RenderTarget[0].BlendOp);
-
-					D3D11Mapping::GetD3DBlendAlpha(m_renderState.m_eBlendMode,
-						stateDesc.RenderTarget[0].BlendEnable,
-						stateDesc.RenderTarget[0].SrcBlendAlpha,
-						stateDesc.RenderTarget[0].DestBlendAlpha,
-						stateDesc.RenderTarget[0].BlendOpAlpha);
-
-					stateDesc.RenderTarget[0].RenderTargetWriteMask = m_renderState.m_bColorWrite ? D3D11_COLOR_WRITE_ENABLE_ALL : 0x0;
-
-					ID3D11BlendState* newBlendState = 0;
-					HRESULT hr = m_pD3DDevice->CreateBlendState(&stateDesc, &newBlendState);
-					if (!newBlendState)
-						LogError("Failed to create blend state");
-
-					m_blendStatePool.insert( std::make_pair(newBlendStateHash, newBlendState) );
-					
-					m_pDeviceContext->OMSetBlendState(newBlendState, 0, M_MAX_UNSIGNED);
-				}
-				else
-				{
-					m_pDeviceContext->OMSetBlendState(i->second, 0, M_MAX_UNSIGNED);
-				}
-				m_nBlendStateHash = newBlendStateHash;
-			}
-
-			m_bBlendStateDirty = false;
-		}
-		
-		if (m_bDepthStateDirty)
-		{
-			unsigned newDepthStateHash =
-				(m_renderState.m_bDepthWrite ? 1 : 0) | 
-				(m_renderState.m_bStencil ? 2 : 0) | 
-				(m_renderState.m_eDepthCheckMode << 2) | 
-				((m_renderState.m_nStencilMask & 0xff) << 5) |
-				((m_renderState.m_nStencilWriteMask & 0xff) << 13) | (m_renderState.m_eStencilfunc << 21) |
-				((m_renderState.m_eStencilFail + m_renderState.m_eDepthFailOp * 5 + m_renderState.m_eStencilPass * 25) << 24);
-			if (newDepthStateHash != m_nDepthStateHash || m_bStencilRefDirty)
-			{
-				map<unsigned, ID3D11DepthStencilState*>::iterator i = m_depthStatePool.find(newDepthStateHash);
-				if (i == m_depthStatePool.end())
-				{
-					D3D11_DEPTH_STENCIL_DESC stateDesc;
-					memset(&stateDesc, 0, sizeof stateDesc);
-					stateDesc.DepthEnable = TRUE;
-					stateDesc.DepthWriteMask = m_renderState.m_bDepthWrite ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-					stateDesc.DepthFunc = D3D11Mapping::get(m_renderState.m_eDepthCheckMode); ;
-					stateDesc.StencilEnable = m_renderState.m_bStencil ? TRUE : FALSE;
-					stateDesc.StencilReadMask = (unsigned char)m_renderState.m_nStencilMask;
-					stateDesc.StencilWriteMask = (unsigned char)m_renderState.m_nStencilWriteMask;
-					stateDesc.FrontFace.StencilFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					stateDesc.FrontFace.StencilDepthFailOp = D3D11Mapping::get(m_renderState.m_eDepthFailOp);
-					stateDesc.FrontFace.StencilPassOp = D3D11Mapping::get(m_renderState.m_eStencilPass);
-					stateDesc.FrontFace.StencilFunc = D3D11Mapping::get(m_renderState.m_eStencilfunc);
-					
-					// BackFace
-					stateDesc.BackFace.StencilFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					stateDesc.BackFace.StencilDepthFailOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					stateDesc.BackFace.StencilPassOp = D3D11Mapping::get(m_renderState.m_eStencilFail);
-					stateDesc.BackFace.StencilFunc = D3D11_COMPARISON_NEVER;
-
-					ID3D11DepthStencilState* newDepthState = 0;
-					m_pD3DDevice->CreateDepthStencilState(&stateDesc, &newDepthState);
-					if (!newDepthState)
-						LogError("Failed to create depth state");
-
-					m_depthStatePool.insert( std::make_pair(newDepthStateHash, newDepthState) );
-
-					m_pDeviceContext->OMSetDepthStencilState(newDepthState, m_nStencilRef);
-				}
-				else
-				{
-					m_pDeviceContext->OMSetDepthStencilState(i->second, m_nStencilRef);
-				}
-				
-				m_nDepthStateHash = newDepthStateHash;
-			}
-
-			m_bDepthStateDirty = false;
-			m_bStencilRefDirty = false;
-		}
-
-		if (m_bRasterizerStateDirty)
-		{
-			unsigned depthBits = 24;
-			//if (depthStencil_ && depthStencil_->GetParentTexture()->GetFormat() == DXGI_FORMAT_R16_TYPELESS)
-			//	depthBits = 16;
-			//int scaledDepthBias = (int)(constantDepthBias_ * (1 << depthBits));
-
-			unsigned newRasterizerStateHash =
-				(m_renderState.m_bScissorTest ? 1 : 0) | 
-				(m_renderState.m_eFillMode << 1) | 
-				(m_renderState.m_eCullMode << 3) | 
-				((*((unsigned*)&m_renderState.m_fConstantBias) & 0x1fff) << 5) |
-				((*((unsigned*)&m_renderState.m_fSlopeScaleBias) & 0x1fff) << 18);
-			if (newRasterizerStateHash != m_nRasterizerStateHash)
-			{
-				map<unsigned, ID3D11RasterizerState*>::iterator i = m_rasterizerStatePool.find(newRasterizerStateHash);
-				if (i == m_rasterizerStatePool.end())
-				{
-					D3D11_RASTERIZER_DESC stateDesc;
-					memset(&stateDesc, 0, sizeof stateDesc);
-					stateDesc.FillMode = D3D11Mapping::get(m_renderState.m_eFillMode);
-					stateDesc.CullMode = D3D11Mapping::get(m_renderState.m_eCullMode);
-					stateDesc.FrontCounterClockwise = TRUE;
-					stateDesc.DepthBias = (int)m_renderState.m_fConstantBias;
-					stateDesc.DepthBiasClamp = 0.0;
-					stateDesc.SlopeScaledDepthBias = m_renderState.m_fSlopeScaleBias;
-					stateDesc.DepthClipEnable = TRUE;
-					stateDesc.ScissorEnable = m_renderState.m_bScissorTest ? TRUE : FALSE;
-					stateDesc.MultisampleEnable = FALSE;
-					stateDesc.AntialiasedLineEnable = FALSE;
-
-					ID3D11RasterizerState* newRasterizerState = 0;
-					m_pD3DDevice->CreateRasterizerState(&stateDesc, &newRasterizerState);
-					if (!newRasterizerState)
-						LogError("Failed to create rasterizer state");
-
-					m_rasterizerStatePool.insert(std::make_pair(newRasterizerStateHash, newRasterizerState));
-
-					m_pDeviceContext->RSSetState(newRasterizerState);
-				}
-				else
-				{
-					m_pDeviceContext->RSSetState(i->second);
-				}
-
-				m_nRasterizerStateHash = newRasterizerStateHash;
-			}
-
-			m_bRasterizerStateDirty = false;
-		}
-		*/
-
-		for (unsigned i = 0; i < m_vecDirtyConstantBuffers.size(); ++i)
-			m_vecDirtyConstantBuffers[i]->Apply();
-		m_vecDirtyConstantBuffers.clear();
-
-	}
-
-	ConstantBuffer* D3D11RenderDevice::GetOrCreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
-	{
-		// Ensure that different shader types and index slots get unique buffers, even if the size is same
-		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = m_mapConstantBufferPool.find(key);
-		if (i != m_mapConstantBufferPool.end())
-		{
-			return i->second.get();
-		}
-		else
-		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
-			newConstantBuffer->SetSize(size);
-			m_mapConstantBufferPool[key] = newConstantBuffer;
-			return newConstantBuffer.get();
-		}
 	}
 
 	void D3D11RenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
@@ -890,8 +562,6 @@ namespace ma
 
 		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
 
-		if (!pConstantBuffer->IsDirty())
-			m_vecDirtyConstantBuffers.push_back(pConstantBuffer);
 		ASSERT(nSize <= uniform->m_nCBSize);
 		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
 	}
@@ -931,46 +601,16 @@ namespace ma
 		SetValue(uniform,(const float*)&value,12);
 	}
 
-	void D3D11RenderDevice::SetShaderProgram(ShaderProgram* pShader)
-	{
-		m_pShader = (D3D11ShaderProgram*)pShader;
-
-		bool vsBuffersChanged = false;
-		bool psBuffersChanged = false;
-
-		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-		{
-			ID3D11Buffer* vsBuffer = m_pShader->m_vecVSConstantBuffers[i] ? m_pShader->m_vecVSConstantBuffers[i]->GetD3D11Buffer() : NULL;
-			if (vsBuffer != m_vecD3D11ConstantBuffers[VS][i])
-			{
-				m_vecD3D11ConstantBuffers[VS][i] = vsBuffer;
-				vsBuffersChanged = true;
-			}
-
-			ID3D11Buffer* psBuffer = m_pShader->m_vecPSConstantBuffers[i] ? m_pShader->m_vecPSConstantBuffers[i]->GetD3D11Buffer() : NULL;
-			if (psBuffer != m_vecD3D11ConstantBuffers[PS][i])
-			{
-				m_vecD3D11ConstantBuffers[PS][i] = psBuffer;
-				psBuffersChanged = true;
-			}
-		}
-
-		if (vsBuffersChanged)
-			m_pDeviceContext->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &m_vecD3D11ConstantBuffers[VS][0]);
-		if (psBuffersChanged)
-			m_pDeviceContext->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &m_vecD3D11ConstantBuffers[PS][0]);
-	}
-
 	void D3D11RenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
 		D3D11VertexDeclaration* pD3D11Dec = (D3D11VertexDeclaration*)pDec;
 
-// 		if (m_pCurInput != pD3D11Dec->m_pImpl)
-// 		{
-// 			m_pDeviceContext->IASetInputLayout(pD3D11Dec->m_pImpl);
-// 
-// 			m_pCurInput = m_pVertexDecl->m_pImpl;
-// 		}
+		if (m_pCurInput != pD3D11Dec->m_pImpl)
+		{
+			m_pDeviceContext->IASetInputLayout(pD3D11Dec->m_pImpl);
+
+			m_pCurInput = pD3D11Dec->m_pImpl;
+		}
 	}
 
 	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)

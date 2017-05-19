@@ -21,16 +21,21 @@ namespace ma
 
 		void				UnBind();
 
+		void				CommitChanges();
+
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
 
-		ShaderProgram*		GetShaderProgram() const {return m_pShaderProgram.get();}
-		void				SetShaderProgram(ShaderProgram* pShader);	
+		const char*			GetShaderDefine() const;
+		void				SetShaderDefine(const char* pszDefine);
 
-		int					GetShaderMacroValue(const char* pszMacro);
-		void				SetShaderMacroValue(const char* pszMacro, int nValue);
-		void				SetShaderMacro(const char* pszMacro, bool b);
-		bool				GetShaderMacro(const char* pszMacro);
+		ShaderProgram*		GetShaderProgram() const { return m_pShaderProgram.get(); }
+		void				SetShaderProgram(ShaderProgram* pShader);
+
+		int					GetShaderMacroInt(const char* pszMacro);
+		void				SetShaderMacroInt(const char* pszMacro, int nValue);
+		void				SetShaderMacroBool(const char* pszMacro, bool b);
+		bool				GetShaderMacroBool(const char* pszMacro);
 
 		void				SetParameter(const char* pszName,const Any& value);	
 		Parameter*			GetParameter(const char* pszName);
@@ -49,12 +54,14 @@ namespace ma
 
 	private:
 		std::string						m_stName;
+		std::string						m_strDefine;
 
 		RefPtr<ShaderProgram>			m_pShaderProgram;
 
 		RefPtr<BlendState>				m_pBlendState;
 		
 		RefPtr<DepthStencilState>		m_pDSState;
+		UINT							m_nStencilRef;
 
 		RefPtr<RasterizerState>			m_pRSState;
 
@@ -64,5 +71,6 @@ namespace ma
 	};
 	
 	RefPtr<Technique> CreateTechnique();
+	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine);
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
 }

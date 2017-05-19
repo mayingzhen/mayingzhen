@@ -14,8 +14,10 @@ namespace ma
 
 		virtual void RT_StreamComplete();
 
+		static void Clear();
+
 	public:
-		D3D11VertexDeclaration*	m_pImpl;
+		ID3D11InputLayout*	m_pImpl;
 	};
 
 }

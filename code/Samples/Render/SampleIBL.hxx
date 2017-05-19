@@ -94,8 +94,8 @@ namespace ma
 
 				if (1)
 				{
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
-					pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("IBL",true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
+					pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("IBL",true);
 				}
 
 				if (1)

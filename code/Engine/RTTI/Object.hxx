@@ -26,6 +26,14 @@ namespace ma
 		{
 			return Any( StringConverter::parseInt(strVarValue) );
 		}
+		else if (strVarType == "short")
+		{
+			return Any((short)StringConverter::parseInt(strVarValue));
+		}
+		else if (strVarType == "BYTE")
+		{
+			return Any((unsigned char)StringConverter::parseInt(strVarValue));
+		}
 		else if (strVarType == "UINT")
 		{
 			return Any( StringConverter::parseUnsignedInt(strVarValue) );
@@ -75,6 +83,16 @@ namespace ma
 		{
 			strVarType = "int";
 			strVarValue = StringConverter::toString( any_cast<int>(varValue) ) ;
+		}
+		else if (type == typeid(short))
+		{
+			strVarType = "short";
+			strVarValue = StringConverter::toString(any_cast<short>(varValue));
+		}
+		else if (type == typeid(unsigned char))
+		{
+			strVarType = "BYTE";
+			strVarValue = StringConverter::toString(any_cast<unsigned char>(varValue));
 		}
 		else if (type == typeid(uint32))
 		{

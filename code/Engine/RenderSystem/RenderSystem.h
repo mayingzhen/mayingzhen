@@ -55,7 +55,7 @@ namespace ma
 		
 		// RenderState
 		void				SetBlendState(const BlendState* pBlendState);
-		void				SetDepthStencilState(const DepthStencilState* pDSState);
+		void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
 		void				SetRasterizerState(const RasterizerState* pRSState);
 
 		void				SetVertexDeclaration(const VertexDeclaration* pVertexDecl);

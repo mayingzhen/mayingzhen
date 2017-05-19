@@ -27,8 +27,6 @@ namespace ma
 			pTerrain->SetHeightSpcing(50);
 			pTerrain->SetStartPoint(Vector3(0, 0, 0));
 
-
-
 			RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",CLAMP,TFO_BILINEAR,false);
 			
 			int nMip = pEnv->GetTexture()->GetMipMapNumber();
@@ -62,11 +60,11 @@ namespace ma
 
 				subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
 				Technique* pShadingTech = subMaterial->GetShadingTechnqiue();
-				pShadingTech->SetShaderMacro("DIRLIGHT",true);
-				pShadingTech->SetShaderMacro("SPEC",true);
-				pShadingTech->SetShaderMacro("BRDF",true);
-				pShadingTech->SetShaderMacro("BUMPMAP",true);
-				pShadingTech->SetShaderMacro("PARALLAXMAPPING",true);
+				pShadingTech->SetShaderMacroBool("DIRLIGHT",true);
+				pShadingTech->SetShaderMacroBool("SPEC",true);
+				pShadingTech->SetShaderMacroBool("BRDF",true);
+				pShadingTech->SetShaderMacroBool("BUMPMAP",true);
+				pShadingTech->SetShaderMacroBool("PARALLAXMAPPING",true);
 				
 
 				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/wall.jpg") ) );

@@ -4,6 +4,7 @@
 
 namespace ma
 {
+	std::map<unsigned, RefPtr<ConstantBuffer> > g_mapConstantBufferPool;
 
 	ConstantBuffer::ConstantBuffer() 
 	{
@@ -100,6 +101,29 @@ namespace ma
 		{
 			GetD3D11DxDeviveContext()->UpdateSubresource(m_pD3D11Buffer, 0, 0, &m_shadowData[0], 0, 0);
 			m_bDirty = false;
+		}
+	}
+
+	void ConstantBuffer::Clear()
+	{
+		g_mapConstantBufferPool.clear();
+	}
+
+	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
+	{
+		// Ensure that different shader types and index slots get unique buffers, even if the size is same
+		unsigned key = type | (index << 1) | (size << 4);
+		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
+		if (i != g_mapConstantBufferPool.end())
+		{
+			return i->second.get();
+		}
+		else
+		{
+			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
+			newConstantBuffer->SetSize(size);
+			g_mapConstantBufferPool[key] = newConstantBuffer;
+			return newConstantBuffer;
 		}
 	}
 

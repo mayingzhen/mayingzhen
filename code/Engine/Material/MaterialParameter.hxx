@@ -37,7 +37,7 @@ namespace ma
 		{
 			if ( stricmp(pszType,"SamplerState") == 0 )
 			{
-				RefPtr<SamplerState> pSamplerState = new SamplerState();
+				RefPtr<SamplerState> pSamplerState = GetRenderDevice()->CreateSamplerState();
 				pSamplerState->Import(pXmlElem);
 				m_anyValue = Any(pSamplerState);
 				if (pParent)

@@ -2,6 +2,28 @@
 
 namespace ma
 {
+
+	VertexElement::VertexElement()
+		: Stream(DECL_UNUSED),
+		Offset(0),
+		Type(DT_UNKNOWN),
+		Usage(DU_UNKNOWN),
+		UsageIndex(0),
+		mHash(0)
+	{
+	}
+
+	VertexElement::VertexElement(short stream, short offset, DECL_TYPE type, DECL_USAGE use, unsigned char index)
+		: Stream(stream),
+		Offset(offset),
+		Type(type),
+		Usage(use),
+		UsageIndex(index),
+		mHash(0)
+	{
+		BuildHash();
+	}
+
 	void VertexElement::RegisterAttribute()
 	{
 		ATTRIBUTE(VertexElement, "Stream", Stream, short, 0, AM_DEFAULT);
@@ -127,7 +149,7 @@ namespace ma
 
 			++m_ElementCount;
 
-			pXmlEment = pXmlVD->next_sibling("Element");
+			pXmlEment = pXmlEment->next_sibling("Element");
 		}
 
 		return true;
@@ -140,7 +162,7 @@ namespace ma
 			rapidxml::xml_node<>* pXmlElement = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Element"));
 			pXmlVD->append_node(pXmlElement);
 
-			m_Elements[m_ElementCount].Export(pXmlElement, doc);
+			m_Elements[i].Export(pXmlElement, doc);
 		}
 
 		return true;

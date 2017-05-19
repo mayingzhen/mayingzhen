@@ -1,9 +1,12 @@
 #include "D3D11ShaderProgram.h"
-
-
+#include "D3D11ConstantBuffer.h"
 
 namespace ma
 {
+
+	//vector<ConstantBuffer*> g_vecDirtyConstantBuffers;
+	ID3D11Buffer* g_vecD3D11ConstantBuffers[2][MAX_SHADER_PARAMETER_GROUPS];
+
 	D3D11ShaderProgram::D3D11ShaderProgram()
 	{
 		m_pVertexShader = NULL;
@@ -232,7 +235,7 @@ namespace ma
 			cb->GetDesc(&cbDesc);
 			unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
 
-			ConstantBuffer* pConstantBuffer = pD3D11Device->GetOrCreateConstantBuffer(eType, cbRegister, cbDesc.Size);
+			RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, cbRegister, cbDesc.Size);
 			ConstantBuffersPtr[cbRegister] = pConstantBuffer;
 
 			for (unsigned j = 0; j < cbDesc.Variables; ++j)
@@ -248,7 +251,7 @@ namespace ma
 
 					pUniform->m_nCBOffset = varDesc.StartOffset;
 					pUniform->m_nCBSize = varDesc.Size;
-					pUniform->m_pD3D11CBPtr = pConstantBuffer;
+					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
 				}
 			}
 		}
@@ -262,8 +265,51 @@ namespace ma
 
 		GetD3D11DxDeviveContext()->PSSetShader(m_pPiexelShader, NULL, 0);
 
-		D3D11RenderDevice* pD3D11Device = (D3D11RenderDevice*)GetRenderDevice();
-		pD3D11Device->SetShaderProgram(this);
+		bool vsBuffersChanged = false;
+		bool psBuffersChanged = false;
+
+		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		{
+			ID3D11Buffer* vsBuffer = m_vecVSConstantBuffers[i] ? m_vecVSConstantBuffers[i]->GetD3D11Buffer() : NULL;
+			if (vsBuffer != g_vecD3D11ConstantBuffers[VS][i])
+			{
+				g_vecD3D11ConstantBuffers[VS][i] = vsBuffer;
+				vsBuffersChanged = true;
+			}
+
+			ID3D11Buffer* psBuffer = m_vecPSConstantBuffers[i] ? m_vecPSConstantBuffers[i]->GetD3D11Buffer() : NULL;
+			if (psBuffer != g_vecD3D11ConstantBuffers[PS][i])
+			{
+				g_vecD3D11ConstantBuffers[PS][i] = psBuffer;
+				psBuffersChanged = true;
+			}
+		}
+
+		if (vsBuffersChanged)
+		{
+			GetD3D11DxDeviveContext()->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &g_vecD3D11ConstantBuffers[VS][0]);
+		}
+
+		if (psBuffersChanged)
+		{
+			GetD3D11DxDeviveContext()->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &g_vecD3D11ConstantBuffers[PS][0]);
+		}
+	}
+
+	void D3D11ShaderProgram::CommitChanges()
+	{
+		for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+		{
+			if (m_vecVSConstantBuffers[i])
+			{
+				m_vecVSConstantBuffers[i]->Apply();
+			}
+			
+			if (m_vecPSConstantBuffers[i])
+			{
+				m_vecPSConstantBuffers[i]->Apply();
+			}
+		}
 	}
 
 }

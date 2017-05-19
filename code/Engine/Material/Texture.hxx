@@ -277,7 +277,7 @@ namespace ma
 
 	RefPtr<SamplerState> CreateSamplerState(const char* pPath,Wrap eWrap, Filter eFilter,bool bSRGB)
 	{
-		SamplerState* pSampler = new SamplerState();
+		SamplerState* pSampler = GetRenderDevice()->CreateSamplerState();
 		pSampler->SetWrapMode(eWrap);
 		pSampler->SetFilterMode(eFilter);
 		pSampler->SetSRGB(bSRGB);
@@ -287,7 +287,7 @@ namespace ma
 
 	RefPtr<SamplerState> CreateSamplerState(Texture* pTexutre,Wrap eWrap, Filter eFilter,bool bSRGB)
 	{
-		SamplerState* pSampler = new SamplerState();
+		SamplerState* pSampler = GetRenderDevice()->CreateSamplerState();
 		pSampler->SetWrapMode(eWrap);
 		pSampler->SetFilterMode(eFilter);
 		pSampler->SetSRGB(bSRGB);

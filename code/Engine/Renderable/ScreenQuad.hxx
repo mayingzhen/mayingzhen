@@ -72,6 +72,7 @@ namespace ma
 
 	void ScreenQuad::Render(Technique* pTechnique)
 	{
+		//pTechnique->SetVertexDeclaration(pVertexDec.get());
 		gpScrenQuad->Render(pTechnique);
 	}
 }

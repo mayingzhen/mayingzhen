@@ -54,15 +54,19 @@ namespace ma
 		rapidxml::xml_node<>* pXmlShadingTech = pXmlElem->first_node("ShadingTech");
 		if (pXmlShadingTech)
 		{
-			m_pShadingTech = new Technique();
-			m_pShadingTech->Import(pXmlShadingTech);
+			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
+			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
+
+			m_pShadingTech = CreateTechnique(pszTechName, pszTechMacro);
 		}
 
 		rapidxml::xml_node<>* pXmlShadowDepthTech = pXmlElem->first_node("ShadowDepthTech");
 		if (pXmlShadowDepthTech)
 		{
-			m_pShadowDepthTech = new Technique();
-			m_pShadowDepthTech->Import(pXmlShadowDepthTech);
+			const char* pszTechName = pXmlShadingTech->findAttribute("TechName");
+			const char* pszTechMacro = pXmlShadingTech->findAttribute("TechMarco");
+
+			m_pShadowDepthTech = CreateTechnique(pszTechName, pszTechMacro);
 		}
 
 		rapidxml::xml_node<>* pXmlParameter = pXmlElem->first_node("Parameters");
@@ -85,15 +89,23 @@ namespace ma
 			rapidxml::xml_node<>* pXmlShadingTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadingTech"));
 			pXmlElem->append_node(pXmlShadingTech);
 
-			m_pShadingTech->Export(pXmlShadingTech,doc);
+			const char* pszName = m_pShadingTech->GetTechName();
+			const char* pszMacro = m_pShadingTech->GetShaderDefine();
+
+			rapidxml::append_attribute(pXmlShadingTech, doc, "TechName", pszName);
+			rapidxml::append_attribute(pXmlShadingTech, doc, "TechMarco", pszMacro);
 		}
 
 		if (m_pShadowDepthTech)
 		{
 			rapidxml::xml_node<>* pXmlShadowDepthTech = doc.allocate_node(rapidxml::node_element, doc.allocate_string("ShadowDepthTech"));
 			pXmlElem->append_node(pXmlShadowDepthTech);
+			
+			const char* pszName = m_pShadowDepthTech->GetTechName();
+			const char* pszMacro = m_pShadowDepthTech->GetShaderDefine();
 
-			m_pShadingTech->Export(pXmlShadowDepthTech,doc);	
+			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechName", pszName);
+			rapidxml::append_attribute(pXmlShadowDepthTech, doc, "TechMarco", pszMacro);
 		}
 
 		for (UINT i = 0; i < m_arrParameters.size(); ++i)

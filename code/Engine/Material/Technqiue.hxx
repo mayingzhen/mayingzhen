@@ -4,6 +4,7 @@ namespace ma
 {
 	Technique::Technique()
 	{
+		m_nStencilRef = 0;
 	}
 
 	Technique::~Technique()
@@ -29,7 +30,7 @@ namespace ma
 		m_pShaderProgram = pShader;
 	}
 
-	int Technique::GetShaderMacroValue(const char* pszMacro)
+	int Technique::GetShaderMacroInt(const char* pszMacro)
 	{
 		ASSERT(pszMacro);
 		if (pszMacro == NULL)
@@ -60,7 +61,7 @@ namespace ma
 		return 0;
 	}
 
-	void Technique::SetShaderMacroValue(const char* pszMacro, int nValue)
+	void Technique::SetShaderMacroInt(const char* pszMacro, int nValue)
 	{
 		ASSERT(pszMacro);
 		if (pszMacro == NULL)
@@ -109,7 +110,7 @@ namespace ma
  		m_pShaderProgram = CreateShaderProgram(pVSFile,pPSFile,strFinal.c_str());
 	}
 
-	bool Technique::GetShaderMacro(const char* pszMacro)
+	bool Technique::GetShaderMacroBool(const char* pszMacro)
 	{
 		ASSERT(pszMacro);
 		if (pszMacro == NULL)
@@ -132,7 +133,7 @@ namespace ma
 		return false;
 	}
 
-	void Technique::SetShaderMacro(const char* pszMacro, bool b)
+	void Technique::SetShaderMacroBool(const char* pszMacro, bool b)
 	{
 		ASSERT(pszMacro);
 		if (pszMacro == NULL)
@@ -179,30 +180,43 @@ namespace ma
 
 	void Technique::Bind()
 	{
-		ASSERT(m_pShaderProgram);
-		if (m_pShaderProgram == NULL)
-			return;
-
-		GetRenderSystem()->SetVertexDeclaration(m_pDeclaration.get());
-
-		GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
-
-		m_pShaderProgram->BindUniform();
-		
-		GetRenderSystem()->SetBlendState(m_pBlendState.get());
-
-		GetRenderSystem()->SetDepthStencilState(m_pDSState.get());
-
-		GetRenderSystem()->SetRasterizerState(m_pRSState.get());
-
-		for (UINT i = 0; i < m_pShaderProgram->GetUniformCount(); ++i)
+		ASSERT(m_pDeclaration);
+		if (m_pDeclaration)
 		{
-			Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-			Parameter* pMatParam = GetParameter( pUniform->GetName() );
-			if (pMatParam == NULL)
-				continue;
+			GetRenderSystem()->SetVertexDeclaration(m_pDeclaration.get());
+		}
 
-			BindParametersUniform(pUniform,pMatParam->GetValue());
+		if (m_pBlendState)
+		{
+			GetRenderSystem()->SetBlendState(m_pBlendState.get());
+		}
+	
+		if (m_pDSState)
+		{
+			GetRenderSystem()->SetDepthStencilState(m_pDSState.get(), m_nStencilRef);
+		}
+		
+		if (m_pRSState)
+		{
+			GetRenderSystem()->SetRasterizerState(m_pRSState.get());
+		}
+		
+		ASSERT(m_pShaderProgram);
+		if (m_pShaderProgram)
+		{
+			GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
+
+			m_pShaderProgram->BindUniform();
+
+			for (UINT i = 0; i < m_pShaderProgram->GetUniformCount(); ++i)
+			{
+				Uniform* pUniform = m_pShaderProgram->GetUniform(i);
+				Parameter* pMatParam = GetParameter(pUniform->GetName());
+				if (pMatParam == NULL)
+					continue;
+
+				BindParametersUniform(pUniform, pMatParam->GetValue());
+			}
 		}
 	}
 
@@ -267,6 +281,15 @@ namespace ma
 		
 	}
 
+	void Technique::CommitChanges()
+	{
+		ASSERT(m_pShaderProgram);
+		if (m_pShaderProgram)
+		{
+			m_pShaderProgram->CommitChanges();
+		}
+	}
+
 	void Technique::SetParameter(const char* pszName,const Any& value)	
 	{
 		Parameter* pParame = GetParameter(pszName);
@@ -310,6 +333,20 @@ namespace ma
 		m_stName = pName ? pName : "";
 	}	
 
+	const char*	Technique::GetShaderDefine() const
+	{
+		return m_strDefine.c_str();
+	}
+
+	void Technique::SetShaderDefine(const char* pszDefine)
+	{
+		ASSERT(pszDefine);
+		if (pszDefine == NULL)
+			return;
+
+		m_strDefine = pszDefine;
+	}
+
 	void Technique::SetBlendState(BlendState* pBlendState)
 	{
 		m_pBlendState = pBlendState;
@@ -348,8 +385,8 @@ namespace ma
 		{
 			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
-			const char* pszMacro = pXmlShader->findAttribute("ShaderMacro");
-			m_pShaderProgram = CreateShaderProgram(pszVSFile, pszPSFile, pszMacro);
+
+			m_pShaderProgram = CreateShaderProgram(pszVSFile, pszPSFile, m_strDefine.c_str());
 		}
 
 		rapidxml::xml_node<>* pXmlRenderState = pXmlElem->first_node("RenderState");
@@ -359,22 +396,28 @@ namespace ma
 			rapidxml::xml_node<>* pXmlBlendState = pXmlElem->first_node("BlendState");
 			if (pXmlBlendState)
 			{
-				m_pBlendState = CreateBlendState();
-				m_pBlendState->Import(pXmlBlendState);
+				RefPtr<BlendState> pBlendState = CreateBlendState();
+				pBlendState->Import(pXmlBlendState);
+
+				this->SetBlendState(pBlendState.get());
 			}
 
 			rapidxml::xml_node<>* pXmlDSState = pXmlElem->first_node("DepthStencilState");
 			if (pXmlDSState)
 			{
-				m_pDSState = CreateDepthStencilState();
-				m_pDSState->Import(pXmlDSState);
+				RefPtr<DepthStencilState> pDSState = CreateDepthStencilState();
+				pDSState->Import(pXmlDSState);
+
+				this->SetDepthStencilState(pDSState.get());
 			}
 
 			rapidxml::xml_node<>* pXmlRSState = pXmlElem->first_node("RasterizerState");
 			if (pXmlRSState)
 			{
-				m_pRSState = CreateRasterizerState();
-				m_pRSState->Import(pXmlRSState);
+				RefPtr<RasterizerState> pRSState = CreateRasterizerState();
+				pRSState->Import(pXmlRSState);
+
+				this->SetRasterizerState(pRSState.get());
 			}
 		}
 
@@ -382,8 +425,10 @@ namespace ma
 		ASSERT(pXmlVertexDeclaration);
 		if (pXmlVertexDeclaration)
 		{
-			m_pDeclaration = CreateVertexDeclaration();
-			m_pDeclaration->Import(pXmlVertexDeclaration);
+			RefPtr<VertexDeclaration> pDeclaration = CreateVertexDeclaration();
+			pDeclaration->Import(pXmlVertexDeclaration);
+
+			this->SetVertexDeclaration(pDeclaration.get());
 		}
 	
 		return true;
@@ -395,9 +440,9 @@ namespace ma
 		{
 			rapidxml::xml_node<>* pXmlShader = doc.allocate_node(rapidxml::node_element, doc.allocate_string("Shader"));
 			pXmlElem->append_node(pXmlShader);
+
 			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("VSFile"), doc.allocate_string(m_pShaderProgram->GetVSFile())));
 			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("PSFile"), doc.allocate_string(m_pShaderProgram->GetPSFile())));
-			pXmlShader->append_attribute(doc.allocate_attribute(doc.allocate_string("ShaderMacro"), doc.allocate_string(m_pShaderProgram->GetShaderMacro())));
 		}
 
 		rapidxml::xml_node<>* pXmlRenderState = doc.allocate_node(rapidxml::node_element, doc.allocate_string("RenderState"));
@@ -426,6 +471,14 @@ namespace ma
 
 			m_pRSState->Export(pXmlRSState, doc);
 		}
+
+		if (m_pDeclaration)
+		{
+			rapidxml::xml_node<>* pXmlVertexDeclaration = doc.allocate_node(rapidxml::node_element, doc.allocate_string("VertexDeclaration"));
+			pXmlElem->append_node(pXmlVertexDeclaration);
+
+			m_pDeclaration->Export(pXmlVertexDeclaration, doc);
+		}
 	
 		return true;
 	}
@@ -433,6 +486,16 @@ namespace ma
 	RefPtr<Technique> CreateTechnique()
 	{
 		return new Technique();
+	}
+
+	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine)
+	{
+		Technique* pTech = new Technique();
+		pTech->SetTechName(pszXMLFile);
+		pTech->SetShaderDefine(pDefine);
+		pTech->LoadFromXML(pszXMLFile);
+		pTech->IsReady();
+		return pTech;
 	}
 
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine)

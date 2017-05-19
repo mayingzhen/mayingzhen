@@ -396,9 +396,9 @@ namespace ma
 		m_pRenderThread->RC_SetBlendState(pBlendState);
 	}
 
-	void RenderSystem::SetDepthStencilState(const DepthStencilState* pDSState)
+	void RenderSystem::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
-		m_pRenderThread->RC_SetDepthStencilState(pDSState);
+		m_pRenderThread->RC_SetDepthStencilState(pDSState, nStencilRef);
 	}
 
 	void RenderSystem::SetVertexDeclaration(const VertexDeclaration* pVertexDecl)

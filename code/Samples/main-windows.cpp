@@ -9,13 +9,13 @@ using namespace ma;
 int main(int argc, char* argv[])
 {
 	bool bForceGLES = false;
-	bool bRenderThread = true;
-	bool bDataThread = true;
+	bool bRenderThread = false;
+	bool bDataThread = false;
 	bool bJobScheduler = true;
 
 	SampleBrowser sampleBrowser("SampleBrowser");
 
-	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleShadowMap");
+	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleMaterial");
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
 

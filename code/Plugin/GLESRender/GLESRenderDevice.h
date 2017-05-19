@@ -41,7 +41,7 @@ namespace ma
 		virtual Rectangle			GetViewport();
 
 		virtual void				SetBlendState(const BlendState* pBlendState);
-		virtual void				SetDepthStencilState(const DepthStencilState* pDSState);
+		virtual void				SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRe);
 		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 
 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);

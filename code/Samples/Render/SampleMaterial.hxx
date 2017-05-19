@@ -41,8 +41,8 @@ namespace ma
 			pShpereMesh->SetMaterial(pClone.get());
 
 			SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("DIRLIGHT",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
 			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
 
 			//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
@@ -71,9 +71,9 @@ namespace ma
 			pShpereMesh->SetMaterial(pClone.get());
 
 			SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("DIRLIGHT",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("SPEC",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
+			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("BRDF",true);
 
 			//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 			

@@ -26,26 +26,9 @@ namespace ma
 
 		uint32 mHash;
 
-		VertexElement()
-			: Stream(DECL_UNUSED),
-			Offset(0),
-			Type(DT_UNKNOWN),
-			Usage(DU_UNKNOWN),
-			UsageIndex(0),
-			mHash(0)
-		{
-		}
+		VertexElement();
 
-		VertexElement(short stream, short offset, DECL_TYPE type, DECL_USAGE use, unsigned char index)
-			: Stream(stream),
-			Offset(offset),
-			Type(type),
-			Usage(use),
-			UsageIndex(index),
-			mHash(0)
-		{
-			BuildHash();
-		}
+		VertexElement(short stream, short offset, DECL_TYPE type, DECL_USAGE use, unsigned char index);
 
 		void BuildHash();
 

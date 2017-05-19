@@ -36,7 +36,9 @@ namespace ma
 		void				SetPSFile(const char* pszPSFile);
 
 		const char*			GetShaderMacro() const;
-		void				SetShaderMacro(const char* pszMacro);			
+		void				SetShaderMacro(const char* pszMacro);	
+
+		virtual void		CommitChanges() { ASSERT(false); }
 
 	protected:
 
