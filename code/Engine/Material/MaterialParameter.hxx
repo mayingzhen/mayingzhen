@@ -35,7 +35,7 @@ namespace ma
 		
 		if (m_anyValue.isEmpty())
 		{
-			if ( stricmp(pszType,"SamplerState") == 0 )
+			if ( strcmp(pszType,"SamplerState") == 0 )
 			{
 				RefPtr<SamplerState> pSamplerState = GetRenderDevice()->CreateSamplerState();
 				pSamplerState->Import(pXmlElem);
@@ -45,7 +45,7 @@ namespace ma
 					pParent->AddRes(pSamplerState->GetTexture());
 				}
 			}
-			else if (stricmp(pszType,"UniformAnimation"))
+			else if (strcmp(pszType,"UniformAnimation"))
 			{
 				RefPtr<UniformAnimation> pUniformAnimation = new UniformAnimation();
 				pUniformAnimation->Import(pXmlElem);

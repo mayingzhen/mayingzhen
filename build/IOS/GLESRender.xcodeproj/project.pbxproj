@@ -7,21 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B9ED2D418E13E1900917105 /* libDevIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9ED2D318E13DB200917105 /* libDevIL.a */; };
 		6F2042AF182A5EED0022C67C /* GLESDeviceContextIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6F204298182A5EED0022C67C /* GLESDeviceContextIOS.mm */; };
 		6F2042B0182A5EED0022C67C /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F2042AB182A5EED0022C67C /* Module.cpp */; };
 		6F2042B1182A5EED0022C67C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F2042AD182A5EED0022C67C /* stdafx.cpp */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		6B9ED2D218E13DB200917105 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B9ED2CB18E13DB200917105 /* DevIL.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D;
-			remoteInfo = DevIL;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6FA78E58179430A1005B3CD6 /* CopyFiles */ = {
@@ -36,7 +25,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6B9ED2CB18E13DB200917105 /* DevIL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DevIL.xcodeproj; path = ../../extern/DevIL/projects/xcode/DevIL.xcodeproj; sourceTree = "<group>"; };
 		6F204293182A5EED0022C67C /* GLESDeviceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContext.h; sourceTree = "<group>"; };
 		6F204294182A5EED0022C67C /* GLESDeviceContext.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GLESDeviceContext.hxx; sourceTree = "<group>"; };
 		6F204295182A5EED0022C67C /* GLESDeviceContextAndroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESDeviceContextAndroid.h; sourceTree = "<group>"; };
@@ -73,21 +61,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B9ED2D418E13E1900917105 /* libDevIL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B9ED2CC18E13DB200917105 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B9ED2D318E13DB200917105 /* libDevIL.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6F204291182A5EED0022C67C /* GLESRender */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,7 +114,6 @@
 		6FA78E51179430A1005B3CD6 = {
 			isa = PBXGroup;
 			children = (
-				6B9ED2CB18E13DB200917105 /* DevIL.xcodeproj */,
 				6F204291182A5EED0022C67C /* GLESRender */,
 				6FA78E5B179430A1005B3CD6 /* Products */,
 			);
@@ -188,28 +166,12 @@
 			mainGroup = 6FA78E51179430A1005B3CD6;
 			productRefGroup = 6FA78E5B179430A1005B3CD6 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6B9ED2CC18E13DB200917105 /* Products */;
-					ProjectRef = 6B9ED2CB18E13DB200917105 /* DevIL.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				6FA78E59179430A1005B3CD6 /* GLESRender */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		6B9ED2D318E13DB200917105 /* libDevIL.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDevIL.a;
-			remoteRef = 6B9ED2D218E13DB200917105 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6FA78E56179430A1005B3CD6 /* Sources */ = {
@@ -297,7 +259,7 @@
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -326,7 +288,7 @@
 					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
 					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

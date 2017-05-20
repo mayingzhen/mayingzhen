@@ -76,9 +76,9 @@ namespace ma
 			indBuff.push_back( (uint16)  nFaces[i][3] );
 		}
 
-		m_pRenderable->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((UINT8*)&vertBuff[0], sizeof(Vector3) * vertBuff.size(), sizeof(Vector3));
+		m_pRenderable->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&vertBuff[0], sizeof(Vector3) * vertBuff.size(), sizeof(Vector3));
 
-		m_pRenderable->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((UINT8*)&indBuff[0],sizeof(UINT16) * indBuff.size(), sizeof(UINT16));
+		m_pRenderable->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)&indBuff[0],sizeof(uint16) * indBuff.size(), sizeof(uint16));
 
 		m_pRenderable->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 		m_pRenderable->m_pSubMeshData = CreateSubMeshData();

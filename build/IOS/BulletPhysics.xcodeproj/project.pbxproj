@@ -7,34 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B00251818E18A2400613454 /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00250B18E189F900613454 /* libLinerMath.a */; };
-		6B00251918E18A2900613454 /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00251718E18A0400613454 /* libBulletCollision.a */; };
-		6B00251A18E18A2D00613454 /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B00251118E18A0100613454 /* libBulletDynamics.a */; };
 		6F173706182AA3F800004669 /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F173702182AA3F800004669 /* Module.cpp */; };
 		6F173707182AA3F800004669 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F173704182AA3F800004669 /* stdafx.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6B00250A18E189F900613454 /* PBXContainerItemProxy */ = {
+		6BDDCFD81ED0534300C3553A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B00250618E189F900613454 /* LinerMath.xcodeproj */;
+			containerPortal = 6BDDCFCE1ED0533900C3553A /* BulletCollision.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 6F38046517953497005195B3;
-			remoteInfo = LinerMath;
+			remoteGlobalIDString = 6F3804AC17953529005195B3;
+			remoteInfo = BulletCollision;
 		};
-		6B00251018E18A0100613454 /* PBXContainerItemProxy */ = {
+		6BDDCFDB1ED0534300C3553A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */;
+			containerPortal = 6BDDCFD11ED0533900C3553A /* BulletDynamics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6F380607179535AD005195B3;
 			remoteInfo = BulletDynamics;
 		};
-		6B00251618E18A0400613454 /* PBXContainerItemProxy */ = {
+		6BDDCFDE1ED0534300C3553A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B00251218E18A0300613454 /* BulletCollision.xcodeproj */;
+			containerPortal = 6BDDCFD41ED0533900C3553A /* LinerMath.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 6F3804AC17953529005195B3;
-			remoteInfo = BulletCollision;
+			remoteGlobalIDString = 6F38046517953497005195B3;
+			remoteInfo = LinerMath;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -51,9 +48,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6B00250618E189F900613454 /* LinerMath.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LinerMath.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/LinerMath.xcodeproj"; sourceTree = "<group>"; };
-		6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletDynamics.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/BulletDynamics.xcodeproj"; sourceTree = "<group>"; };
-		6B00251218E18A0300613454 /* BulletCollision.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletCollision.xcodeproj; path = "../../extern/Bullet-2.81/build/xCode/BulletCollision.xcodeproj"; sourceTree = "<group>"; };
+		6BDDCFCC1ED0511A00C3553A /* Export.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Export.def; sourceTree = "<group>"; };
+		6BDDCFCD1ED0511A00C3553A /* RTTIDecl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTTIDecl.h; sourceTree = "<group>"; };
+		6BDDCFCE1ED0533900C3553A /* BulletCollision.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletCollision.xcodeproj; path = "../../extern/Bullet-2.82/build/xCode/BulletCollision.xcodeproj"; sourceTree = "<group>"; };
+		6BDDCFD11ED0533900C3553A /* BulletDynamics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BulletDynamics.xcodeproj; path = "../../extern/Bullet-2.82/build/xCode/BulletDynamics.xcodeproj"; sourceTree = "<group>"; };
+		6BDDCFD41ED0533900C3553A /* LinerMath.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LinerMath.xcodeproj; path = "../../extern/Bullet-2.82/build/xCode/LinerMath.xcodeproj"; sourceTree = "<group>"; };
 		6F1736ED182AA3F800004669 /* BtCharacterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCharacterController.h; sourceTree = "<group>"; };
 		6F1736EE182AA3F800004669 /* BtCharacterController.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtCharacterController.hxx; sourceTree = "<group>"; };
 		6F1736EF182AA3F800004669 /* BtCollisionListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtCollisionListener.h; sourceTree = "<group>"; };
@@ -65,8 +64,6 @@
 		6F1736F5182AA3F800004669 /* BtContactReport.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtContactReport.hxx; sourceTree = "<group>"; };
 		6F1736F6182AA3F800004669 /* BtPhysicsJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsJoint.h; sourceTree = "<group>"; };
 		6F1736F7182AA3F800004669 /* BtPhysicsJoint.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsJoint.hxx; sourceTree = "<group>"; };
-		6F1736F8182AA3F800004669 /* BtPhysicsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsObject.h; sourceTree = "<group>"; };
-		6F1736F9182AA3F800004669 /* BtPhysicsObject.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsObject.hxx; sourceTree = "<group>"; };
 		6F1736FA182AA3F800004669 /* BtPhysicsSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsSystem.h; sourceTree = "<group>"; };
 		6F1736FB182AA3F800004669 /* BtPhysicsSystem.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtPhysicsSystem.hxx; sourceTree = "<group>"; };
 		6F1736FC182AA3F800004669 /* BtPhysicsThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtPhysicsThread.h; sourceTree = "<group>"; };
@@ -74,7 +71,6 @@
 		6F1736FE182AA3F800004669 /* BtRigidBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtRigidBody.h; sourceTree = "<group>"; };
 		6F1736FF182AA3F800004669 /* BtRigidBody.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BtRigidBody.hxx; sourceTree = "<group>"; };
 		6F173700182AA3F800004669 /* BulletUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletUtil.h; sourceTree = "<group>"; };
-		6F173701182AA3F800004669 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		6F173702182AA3F800004669 /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
 		6F173703182AA3F800004669 /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		6F173704182AA3F800004669 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
@@ -87,35 +83,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B00251A18E18A2D00613454 /* libBulletDynamics.a in Frameworks */,
-				6B00251918E18A2900613454 /* libBulletCollision.a in Frameworks */,
-				6B00251818E18A2400613454 /* libLinerMath.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B00250718E189F900613454 /* Products */ = {
+		6BDDCFCF1ED0533900C3553A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B00250B18E189F900613454 /* libLinerMath.a */,
+				6BDDCFD91ED0534300C3553A /* libBulletCollision.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6B00250D18E18A0000613454 /* Products */ = {
+		6BDDCFD21ED0533900C3553A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B00251118E18A0100613454 /* libBulletDynamics.a */,
+				6BDDCFDC1ED0534300C3553A /* libBulletDynamics.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6B00251318E18A0300613454 /* Products */ = {
+		6BDDCFD51ED0533900C3553A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B00251718E18A0400613454 /* libBulletCollision.a */,
+				6BDDCFDF1ED0534300C3553A /* libLinerMath.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,6 +116,8 @@
 		6F1736EC182AA3F800004669 /* BulletPhysics */ = {
 			isa = PBXGroup;
 			children = (
+				6BDDCFCC1ED0511A00C3553A /* Export.def */,
+				6BDDCFCD1ED0511A00C3553A /* RTTIDecl.h */,
 				6F1736ED182AA3F800004669 /* BtCharacterController.h */,
 				6F1736EE182AA3F800004669 /* BtCharacterController.hxx */,
 				6F1736EF182AA3F800004669 /* BtCollisionListener.h */,
@@ -134,8 +129,6 @@
 				6F1736F5182AA3F800004669 /* BtContactReport.hxx */,
 				6F1736F6182AA3F800004669 /* BtPhysicsJoint.h */,
 				6F1736F7182AA3F800004669 /* BtPhysicsJoint.hxx */,
-				6F1736F8182AA3F800004669 /* BtPhysicsObject.h */,
-				6F1736F9182AA3F800004669 /* BtPhysicsObject.hxx */,
 				6F1736FA182AA3F800004669 /* BtPhysicsSystem.h */,
 				6F1736FB182AA3F800004669 /* BtPhysicsSystem.hxx */,
 				6F1736FC182AA3F800004669 /* BtPhysicsThread.h */,
@@ -143,7 +136,6 @@
 				6F1736FE182AA3F800004669 /* BtRigidBody.h */,
 				6F1736FF182AA3F800004669 /* BtRigidBody.hxx */,
 				6F173700182AA3F800004669 /* BulletUtil.h */,
-				6F173701182AA3F800004669 /* Export.h */,
 				6F173702182AA3F800004669 /* Module.cpp */,
 				6F173703182AA3F800004669 /* Module.h */,
 				6F173704182AA3F800004669 /* stdafx.cpp */,
@@ -156,9 +148,9 @@
 		6FDF1ABE17951F1C005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6B00251218E18A0300613454 /* BulletCollision.xcodeproj */,
-				6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */,
-				6B00250618E189F900613454 /* LinerMath.xcodeproj */,
+				6BDDCFCE1ED0533900C3553A /* BulletCollision.xcodeproj */,
+				6BDDCFD11ED0533900C3553A /* BulletDynamics.xcodeproj */,
+				6BDDCFD41ED0533900C3553A /* LinerMath.xcodeproj */,
 				6F1736EC182AA3F800004669 /* BulletPhysics */,
 				6FDF1AC817951F1D005C7E62 /* Products */,
 			);
@@ -213,16 +205,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6B00251318E18A0300613454 /* Products */;
-					ProjectRef = 6B00251218E18A0300613454 /* BulletCollision.xcodeproj */;
+					ProductGroup = 6BDDCFCF1ED0533900C3553A /* Products */;
+					ProjectRef = 6BDDCFCE1ED0533900C3553A /* BulletCollision.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B00250D18E18A0000613454 /* Products */;
-					ProjectRef = 6B00250C18E18A0000613454 /* BulletDynamics.xcodeproj */;
+					ProductGroup = 6BDDCFD21ED0533900C3553A /* Products */;
+					ProjectRef = 6BDDCFD11ED0533900C3553A /* BulletDynamics.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B00250718E189F900613454 /* Products */;
-					ProjectRef = 6B00250618E189F900613454 /* LinerMath.xcodeproj */;
+					ProductGroup = 6BDDCFD51ED0533900C3553A /* Products */;
+					ProjectRef = 6BDDCFD41ED0533900C3553A /* LinerMath.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -233,25 +225,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6B00250B18E189F900613454 /* libLinerMath.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libLinerMath.a;
-			remoteRef = 6B00250A18E189F900613454 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6B00251118E18A0100613454 /* libBulletDynamics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBulletDynamics.a;
-			remoteRef = 6B00251018E18A0100613454 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6B00251718E18A0400613454 /* libBulletCollision.a */ = {
+		6BDDCFD91ED0534300C3553A /* libBulletCollision.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libBulletCollision.a;
-			remoteRef = 6B00251618E18A0400613454 /* PBXContainerItemProxy */;
+			remoteRef = 6BDDCFD81ED0534300C3553A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6BDDCFDC1ED0534300C3553A /* libBulletDynamics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBulletDynamics.a;
+			remoteRef = 6BDDCFDB1ED0534300C3553A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6BDDCFDF1ED0534300C3553A /* libLinerMath.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLinerMath.a;
+			remoteRef = 6BDDCFDE1ED0534300C3553A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -332,19 +324,19 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin,
-					"../../Extern/Bullet-2.81/Src/",
+					"../../extern/Bullet-2.82/src/",
 					../../extern/oisinput/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/Bullet-2.81/build/xCode/Lib\"",
+					"\"$(SRCROOT)/../../extern/Bullet-2.82/build/xCode/Lib\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv6";
 			};
 			name = Debug;
 		};
@@ -360,19 +352,19 @@
 				HEADER_SEARCH_PATHS = (
 					../../Code/,
 					../../Code/Plugin,
-					"../../Extern/Bullet-2.81/Src/",
+					"../../extern/Bullet-2.82/src/",
 					../../extern/oisinput/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/Bullet-2.81/build/xCode/Lib\"",
+					"\"$(SRCROOT)/../../extern/Bullet-2.82/build/xCode/Lib\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv6";
 			};
 			name = Release;
 		};

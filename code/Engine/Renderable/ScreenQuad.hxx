@@ -23,7 +23,7 @@ namespace ma
 		gpScrenQuad->m_ePrimitiveType = PRIM_TRIANGLESTRIP;
 
 		// Construct full screen quad
-		Rectangle rect = GetRenderSystem()->GetViewPort();
+		//Rectangle rect = GetRenderSystem()->GetViewPort();
 
 		//Reset((uint32)rect.width(),(uint32)rect.height());
 

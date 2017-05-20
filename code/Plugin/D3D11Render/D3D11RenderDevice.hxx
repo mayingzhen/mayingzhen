@@ -703,7 +703,7 @@ namespace ma
 				depthClearFlags |= D3D11_CLEAR_DEPTH;
 			if (bStencil)
 				depthClearFlags |= D3D11_CLEAR_STENCIL;
-			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (UINT8)s);
+			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (uint8)s);
 		}
 
 		ASSERT(hr == S_OK && "Clear buffer failed.");

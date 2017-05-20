@@ -19,7 +19,7 @@ namespace ma
 			if (pszRelPath == NULL)
 				return NULL;
 
-			ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
+			typename ResourceMap::iterator itRes = m_resMap.find(pszRelPath);
 			if (itRes != m_resMap.end())
 				return itRes->second;
 

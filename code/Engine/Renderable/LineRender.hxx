@@ -158,8 +158,6 @@ namespace ma
 		vY = vY * fAxisScale;
 		vZ = vZ * fAxisScale;
 
-		Vector3 vCenter = tsf.m_vPos * fCenterScale;
-
 		DrawLine(tsf.m_vPos,tsf.m_vPos + vX,ColourValue::Red);
 		DrawLine(tsf.m_vPos,tsf.m_vPos + vY,ColourValue::Green);
 		DrawLine(tsf.m_vPos,tsf.m_vPos + vZ,ColourValue::Blue);

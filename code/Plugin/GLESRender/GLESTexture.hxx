@@ -103,7 +103,7 @@ namespace ma
 		}
 
 #if GL_APPLE_texture_max_level
-		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
+		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, m_nMipLevels ) );
 #endif
 
 		return true;
@@ -158,7 +158,7 @@ namespace ma
 		}
 
 #if GL_APPLE_texture_max_level
-		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, mNumMipmaps ) );
+		GL_ASSERT( glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL_APPLE, m_nMipLevels ) );
 #endif
 
 		if (m_eUsage == USAGE_DEPTHSTENCIL)

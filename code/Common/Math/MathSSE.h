@@ -10,7 +10,7 @@ using namespace ma;
 #else
 
 // We require SSE2
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__APPLE__) 
 #include "SSE2NEON.h"
 #else
 #include <emmintrin.h>

@@ -16,28 +16,24 @@ bool MyAssert(const char *, const char *, unsigned int, bool *);
 #define MY_ASSERT(condition) MY_ASSERT_MESSAGE(condition,NULL)
 #define MY_ASSERT_MESSAGE(condition,message) MY_ASSERT_TRACE(condition,(message))
 
-#define MY_ASSERT_TRACE(condition,parenthese_message)			    \
+#define MY_ASSERT_TRACE(condition,parenthese_message)					\
     do														            \
     {															        \
         static bool s_bIgnoreAssert = false;					        \
         if(!s_bIgnoreAssert && !(condition))				            \
         {														        \
             MyAssertTrace parenthese_message;					        \
-            if(MyAssert(#condition,__FILE__,__LINE__,&s_bIgnoreAssert))    \
+            if(MyAssert(#condition,__FILE__,__LINE__,&s_bIgnoreAssert)) \
             {									                        \
                  DEBUG_BREAK;								            \
             }												            \
         }														        \
     } while(0)
 
-#undef assert
-#define assert MY_ASSERT
-#undef ASSERT
-#define ASSERT MY_ASSERT
-#define ASSERTMSG MY_ASSERT_MESSAGE
 #else
 
 #ifdef __APPLE__
+#define ASSERT assert
 #define chSTR2(x) #x
 #define chSTR(x) chSTR2(x)
 #define MY_ASSERT(condition) if(!(condition)) printf("[Assertion Failed] CONDITION:(" #condition")" " FILE:" __FILE__ " LINE:" chSTR(__LINE__) "\n")
@@ -51,4 +47,10 @@ bool MyAssert(const char *, const char *, unsigned int, bool *);
 #endif
 
 #endif
+
+#undef assert
+#define assert MY_ASSERT
+#undef ASSERT
+#define ASSERT MY_ASSERT
+#define ASSERTMSG MY_ASSERT_MESSAGE
 

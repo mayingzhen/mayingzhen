@@ -159,7 +159,7 @@ namespace MT
 
 		PersistentScopeDescriptorStorage()
 		{
-			static_assert(std::is_base_of<MT::ScopeDesc, T>::value, "Type must be derived from MT::ScopeDesc");
+            static_assert(std::is_base_of<MT::ScopeDesc, T>::value, "Type must be derived from MT::ScopeDesc");
 			top.Store(0);
 		}
 

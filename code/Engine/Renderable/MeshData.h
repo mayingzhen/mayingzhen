@@ -9,16 +9,16 @@ namespace ma
 {
 	struct SHORTV4
 	{
-		INT16 x;
-		INT16 y;
-		INT16 z;
-		INT16 w;
+		int16 x;
+		int16 y;
+		int16 z;
+		int16 w;
 	};
 
 	struct SHORTV2
 	{
-		INT16 x;
-		INT16 y;
+		int16 x;
+		int16 y;
 	};
 
 	UINT32 CompressNormal(const Vector3& vNorm);
@@ -133,8 +133,8 @@ namespace ma
 		
 		bool					SaveToFile(const char* pszFile);	
 
-		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);
-		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex);	
+		void					UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex);
+		void					UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex);	
 	
 	private:
 

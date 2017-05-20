@@ -50,6 +50,7 @@ namespace ma
 
 	void CameraController::mouseEvent( Mouse::MouseEvent evt, int x, int y, int wheelDelta )
 	{
+#ifdef WIN32
 		static bool s_bMButtonDown = false;
 		static Vector2 s_mbuttonCursorPoint;
 		static Vector3 s_mbuttonPos;
@@ -149,6 +150,8 @@ namespace ma
 		}
 
 		return;
+        
+#endif
 	}
 
 	void CameraController::keyEvent( Keyboard::KeyEvent evt, Keyboard::Key key )
@@ -315,7 +318,8 @@ namespace ma
 	}
 
 	void CameraController::Process(float dwElapsed)
-	{
+    {
+#ifdef WIN32
 		uint8 nMultiple = 1;
 		if (GetKeyState(VK_SHIFT) & 0x80000)
 		{
@@ -389,6 +393,7 @@ namespace ma
 		{
 			this->Pitch(Radian(-fRotateSpeed));
 		}
+#endif
 	}
 
 	void CameraController::Yaw( const Radian& r )

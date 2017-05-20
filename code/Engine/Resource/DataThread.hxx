@@ -50,7 +50,7 @@ namespace ma
 
 	void DataThread::Process()
 	{	
-		DWORD dTime = StaticFunc::GetTime();
+		UINT dTime = StaticFunc::GetTime();
 		while (true)
 		{
 			m_csLoadedQueue.Lock();

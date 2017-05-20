@@ -153,28 +153,6 @@ public:
 
 #endif
 
-class DebugSocpeTime
-{
-public:
-	DebugSocpeTime(const char* pszName)
-	{
-		m_strName = pszName;
-		QueryPerformanceFrequency(&m_nFreq);
-		QueryPerformanceCounter(&m_nBeginTime);
-	}
 
-	~DebugSocpeTime()
-	{
-		LARGE_INTEGER nEndTime;
-		QueryPerformanceCounter(&nEndTime); 
-        double dWasteTime = (double)(nEndTime.QuadPart-m_nBeginTime.QuadPart)/(double)m_nFreq.QuadPart*1000;
-		StaticFunc::DebugMsg("%s %fms", m_strName.c_str(), dWasteTime);
-	}
-
-private:
-	std::string m_strName;
-	LARGE_INTEGER m_nFreq;
-	LARGE_INTEGER m_nBeginTime;
-};
 
 

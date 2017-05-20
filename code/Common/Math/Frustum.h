@@ -97,7 +97,7 @@ namespace ma
 
 		AABB	m_aabb;
 
-		MS_ALIGN(16) struct SIMDPlane
+		struct SIMDPlane
 		{
 			float x,y,z,w;
 

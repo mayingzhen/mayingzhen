@@ -26,7 +26,7 @@ namespace ma
 		long nAllocs = m_lMaxAllocsInHeap - m_vecFree.size();
 		if (nAllocs > 0)
 		{
-			StaticFunc::DebugMsg("CMemHeap::~CMemHeap()的[%s]有[%d]个内存块没有释放", m_strName, nAllocs);
+			StaticFunc::DebugMsg("CMemHeap::~CMemHeap() [%s] have [%d] memm trunk not realse", m_strName, nAllocs);
 		}
 
 		for (std::list<void*>::iterator iter = m_vecFree.begin();iter != m_vecFree.end();++iter)

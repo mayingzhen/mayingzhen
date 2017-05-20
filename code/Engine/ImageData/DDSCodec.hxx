@@ -681,8 +681,8 @@ namespace ma
 						// 4x4 block of decompressed colour
 						ColourValue tempColours[16];
 						uint32 destBpp = PixelUtil::getNumElemBytes(imgData.format);
-						uint32 sx = __min(width, (uint32)4);
-						uint32 sy = __min(height, (uint32)4);
+						uint32 sx = min(width, (uint32)4);
+						uint32 sy = min(height, (uint32)4);
 						uint32 destPitchMinus4 = dstPitch - destBpp * sx;
 						// slices are done individually
 						for(uint32 z = 0; z < depth; ++z)
@@ -768,7 +768,7 @@ namespace ma
 					uint32 srcPitch;
 					if ( header.flags & DDSD_PITCH )
 					{
-						srcPitch = header.sizeOrPitch / __max(1,mip * 2);
+                        srcPitch = header.sizeOrPitch / max<uint32>(1,mip * 2);
 					}
 					else
 					{

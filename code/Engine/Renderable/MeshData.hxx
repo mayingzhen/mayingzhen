@@ -31,7 +31,6 @@ namespace ma
 	{
 		uint16 ShaeType = pDataStream->ReadUShort();
 		Vector3 vPos = pDataStream->ReadVector3();
-		Quaternion qRot = pDataStream->ReadQuaternion();
 
 		if (ShaeType ==0)
 		{
@@ -40,7 +39,6 @@ namespace ma
 		}
 		else
 		{
-			Vector2 vRadiusHeight = pDataStream->ReadVector2();
 			return AABB();
 		}
 	}
@@ -84,15 +82,15 @@ namespace ma
 
 		union UIndex
 		{
-			UINT32 uInde;
-			UINT8 uByte[4];
+			uint32 uInde;
+			uint8 uByte[4];
 		};
 
 		UIndex uTemp;
-		uTemp.uByte[0] = (UINT8)(vNormIn.x * 127.5f + 128.0f);
-		uTemp.uByte[1] = (UINT8)(vNormIn.y * 127.5f + 128.0f);
-		uTemp.uByte[2] = (UINT8)(vNormIn.z * 127.5f + 128.0f);
-		uTemp.uByte[3] = (UINT8)(0 * 127.5f + 128.0f);
+		uTemp.uByte[0] = (uint8)(vNormIn.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (uint8)(vNormIn.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (uint8)(vNormIn.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (uint8)(0 * 127.5f + 128.0f);
 
 		return uTemp.uInde;
 	}
@@ -138,15 +136,15 @@ namespace ma
 
 		union UIndex
 		{
-			UINT32 uInde;
-			UINT8 uByte[4];
+			uint32 uInde;
+			uint8 uByte[4];
 		};
 
 		UIndex uTemp;
-		uTemp.uByte[0] = (UINT8)(tangent_quat.x * 127.5f + 128.0f);
-		uTemp.uByte[1] = (UINT8)(tangent_quat.y * 127.5f + 128.0f);
-		uTemp.uByte[2] = (UINT8)(tangent_quat.z * 127.5f + 128.0f);
-		uTemp.uByte[3] = (UINT8)(tangent_quat.w * 127.5f + 128.0f);
+		uTemp.uByte[0] = (uint8)(tangent_quat.x * 127.5f + 128.0f);
+		uTemp.uByte[1] = (uint8)(tangent_quat.y * 127.5f + 128.0f);
+		uTemp.uByte[2] = (uint8)(tangent_quat.z * 127.5f + 128.0f);
+		uTemp.uByte[3] = (uint8)(tangent_quat.w * 127.5f + 128.0f);
 
 		return uTemp.uInde;
 	}
@@ -155,10 +153,10 @@ namespace ma
 	{
 		SHORTV4 vSkinPos;
 
-		vSkinPos.x = (INT16)(((vPos.x -  vCenter.x) / vExtent.x) * 32767.5f);
-		vSkinPos.y = (INT16)(((vPos.y -  vCenter.y) / vExtent.y) * 32767.5f);
-		vSkinPos.z = (INT16)(((vPos.z -  vCenter.z) / vExtent.z) * 32767.5f);
-		vSkinPos.w = (INT16)(((1.0f -  vCenter.z) / vExtent.z) * 32767.5f);
+		vSkinPos.x = (int16)(((vPos.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinPos.y = (int16)(((vPos.y -  vCenter.y) / vExtent.y) * 32767.5f);
+		vSkinPos.z = (int16)(((vPos.z -  vCenter.z) / vExtent.z) * 32767.5f);
+		vSkinPos.w = (int16)(((1.0f -  vCenter.z) / vExtent.z) * 32767.5f);
 
 		return vSkinPos;
 	}
@@ -167,8 +165,8 @@ namespace ma
 	{
 		SHORTV2 vSkinUV;
 
-		vSkinUV.x = (INT16)(((vUV.x -  vCenter.x) / vExtent.x) * 32767.5f);
-		vSkinUV.y = (INT16)(((vUV.y -  vCenter.y) / vExtent.y) * 32767.5f);
+		vSkinUV.x = (int16)(((vUV.x -  vCenter.x) / vExtent.x) * 32767.5f);
+		vSkinUV.y = (int16)(((vUV.y -  vCenter.y) / vExtent.y) * 32767.5f);
 
 		return vSkinUV;
 	}
@@ -238,7 +236,7 @@ namespace ma
 
 		m_nVertexType = (VertexType)m_pDataStream->ReadUInt();
 		
-		vector<UINT8> vecIBData;
+		vector<uint8> vecIBData;
 
 		uint32 nIndexSize = m_pDataStream->ReadUInt();
 		vecIBData.resize(nIndexSize);
@@ -259,7 +257,7 @@ namespace ma
 			m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(&vecIBData[0],nIndexSize,sizeof(UINT32));
 		}
 		
-		vector<UINT8> vecVBData;
+		vector<uint8> vecVBData;
 
 		uint32 nVertexSize = m_pDataStream->ReadUInt();
 		vecVBData.resize(nVertexSize);
@@ -342,7 +340,7 @@ namespace ma
 		ASSERT(m_nIndexType == INDEX_TYPE_U16);
 		ASSERT(m_nVertexType == SKIN_VERTEX_0);
 
-		vector<UINT8> vecIBData;
+		vector<uint8> vecIBData;
 
 		uint32 nIndexSize = m_pDataStream->ReadUInt();
 		vecIBData.resize(nIndexSize);
@@ -351,7 +349,7 @@ namespace ma
 		UINT32 nIndexCount = nIndexSize / sizeof(uint16);
 		ASSERT(nIndexCount == nIndexNum);
 		
-		vector<UINT8> vecVBData;
+		vector<uint8> vecVBData;
 
 		uint32 nVertexSize = m_pDataStream->ReadUInt();
 		vecVBData.resize(nVertexSize);
@@ -400,7 +398,7 @@ namespace ma
 		}
 
 		SkinVertexV0* pVertexV0 = (SkinVertexV0*)(&vecVBData[0]);
-		UINT16* pIndex = (UINT16*)(&vecIBData[0]);
+		uint16* pIndex = (uint16*)(&vecIBData[0]);
 
 		vector<SkinVertexV1> pVertexV1;
 		pVertexV1.resize(nVertexNum);
@@ -419,7 +417,7 @@ namespace ma
 		m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&pVertexV1[0],nVertexNum * sizeof(SkinVertexV1),sizeof(SkinVertexV1));
 	}
 
-	void MeshData::UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex)
+	void MeshData::UpdateMeshData(StaticVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex)
 	{
 		for (UINT32 i = 0; i < nVertexCount; ++i)
 		{
@@ -444,7 +442,7 @@ namespace ma
 		}
 	}
 
-	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,UINT16* pIndex)
+	void MeshData::UpdateMeshData(SkinVertexV1* pVertexV1,SkinVertexV0* pVertexV0,uint32 nVertexCount,uint16* pIndex)
 	{
 		for (UINT32 i = 0; i < nVertexCount; ++i)
 		{

@@ -1,5 +1,4 @@
 #include "Light.h"
-#include "Scene/Scene.h"
 
 
 namespace ma

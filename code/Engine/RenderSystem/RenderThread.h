@@ -252,7 +252,7 @@ namespace ma
 	template<class T>
 	T RenderThread::ReadDataPtr(int &nIndex,int nLen)
 	{
-		DWORD nReadLen = ReadCommand<DWORD>(nIndex);
+		UINT nReadLen = ReadCommand<UINT>(nIndex);
 		ASSERT(nLen == nReadLen);
 		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		nIndex += nReadLen;
@@ -262,7 +262,7 @@ namespace ma
 	template<class T>
 	inline void	RenderThread::ReadData(int &nIndex,T& data)
 	{
-		DWORD nLen = ReadCommand<DWORD>(nIndex);
+		UINT nLen = ReadCommand<UINT>(nIndex);
 		ASSERT(nLen == sizeof(T));
 		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(&data,pSrc,nLen);
@@ -271,7 +271,7 @@ namespace ma
 
 	inline void	RenderThread::ReadString(int &nIndex,char* pStr,UINT nInLen)
 	{
-		DWORD nLen = ReadCommand<DWORD>(nIndex);
+		UINT nLen = ReadCommand<UINT>(nIndex);
 		ASSERT(nLen <= nInLen);
 		BYTE* pSrc = &m_Commands[m_nCurThreadProcess][nIndex]; 
 		memcpy(pStr,pSrc,nLen);

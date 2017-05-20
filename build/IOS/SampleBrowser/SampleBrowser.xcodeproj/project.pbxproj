@@ -13,8 +13,6 @@
 		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
 		6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */; };
 		6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0018E3F2760041D433 /* libGLESRender.a */; };
-		6BBDAF0618E3F3A20041D433 /* libUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0518E3F3A20041D433 /* libUI.a */; };
-		6BCE0CA218F3962A00EBDF47 /* libRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCE0CA118F3962A00EBDF47 /* libRender.a */; };
 		6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
@@ -35,8 +33,6 @@
 		6BBDAEFA18E3F2590041D433 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
 		6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
 		6BBDAF0018E3F2760041D433 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
-		6BBDAF0518E3F3A20041D433 /* libUI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUI.a; path = .././lib/libUI.a; sourceTree = "<group>"; };
-		6BCE0CA118F3962A00EBDF47 /* libRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRender.a; path = .././lib/libRender.a; sourceTree = "<group>"; };
 		6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
@@ -75,9 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BCE0CA218F3962A00EBDF47 /* libRender.a in Frameworks */,
 				6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */,
-				6BBDAF0618E3F3A20041D433 /* libUI.a in Frameworks */,
 				6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */,
 				6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */,
 				6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */,
@@ -117,9 +111,7 @@
 		6FDF1A7717951DA5005C7E62 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6BCE0CA118F3962A00EBDF47 /* libRender.a */,
 				6B3C172A18F2E2C6006AE3BB /* libEngine.a */,
-				6BBDAF0518E3F3A20041D433 /* libUI.a */,
 				6BBDAF0018E3F2760041D433 /* libGLESRender.a */,
 				6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */,
 				6BBDAEFA18E3F2590041D433 /* libCommon.a */,
@@ -243,6 +235,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = nd;
+				TargetAttributes = {
+					6FDF1A7417951DA5005C7E62 = {
+						DevelopmentTeam = FP5W969CE8;
+					};
+				};
 			};
 			buildConfigurationList = 6FDF1A7017951DA5005C7E62 /* Build configuration list for PBXProject "SampleBrowser" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -363,8 +360,9 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = FP5W969CE8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -372,6 +370,7 @@
 					../../../Code/Plugin/,
 					../../../extern/Include/,
 					../../../extern/oisInput/include/,
+					"../../../extern/Bullet-2.82/src",
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -384,10 +383,11 @@
 					"$(SRCROOT)/../../../extern/Bullet-2.81/build/xCode/lib",
 					"$(SRCROOT)/../Lib",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ma.SampleBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;
@@ -400,8 +400,9 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = FP5W969CE8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../../../code/Samples/Stdafx.h;
 				HEADER_SEARCH_PATHS = (
@@ -409,6 +410,7 @@
 					../../../Code/Plugin/,
 					../../../extern/Include/,
 					../../../extern/oisInput/include/,
+					"../../../extern/Bullet-2.82/src",
 				);
 				INFOPLIST_FILE = "SampleBrowser/SampleBrowser-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -421,10 +423,11 @@
 					"$(SRCROOT)/../../../extern/Bullet-2.81/build/xCode/lib",
 					"$(SRCROOT)/../Lib",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ma.SampleBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4562E-AF56-4A9A-93C1-4D44D516D18A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;

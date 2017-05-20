@@ -165,10 +165,7 @@ namespace ma
 		VectorRegister OrigX = VectorReplicate(BoxOrigin, 0);
 		VectorRegister OrigY = VectorReplicate(BoxOrigin, 1);
 		VectorRegister OrigZ = VectorReplicate(BoxOrigin, 2);
-		// Splat extent into 3 vectors
-		VectorRegister ExtentX = VectorReplicate(BoxExtent, 0);
-		VectorRegister ExtentY = VectorReplicate(BoxExtent, 1);
-		VectorRegister ExtentZ = VectorReplicate(BoxExtent, 2);
+
 		// Splat the abs for the pushout calculation
 		VectorRegister AbsExt = VectorAbs(BoxExtent);
 		VectorRegister AbsExtentX = VectorReplicate(AbsExt, 0);

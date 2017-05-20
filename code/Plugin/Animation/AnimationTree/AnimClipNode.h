@@ -1,7 +1,7 @@
 #ifndef  _Animation_ClipNode__H__
 #define  _Animation_ClipNode__H__
 
-#include "BoneMap.h"
+#include "Animation/BoneMap.h"
 
 namespace ma
 {

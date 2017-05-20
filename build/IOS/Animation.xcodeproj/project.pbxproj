@@ -24,39 +24,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6F15263717B9221B0047EE3A /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
-		6F15263817B9221B0047EE3A /* Action.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Action.hxx; sourceTree = "<group>"; };
-		6F15263917B9221B0047EE3A /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
-		6F15263A17B9221B0047EE3A /* Animation.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hxx; sourceTree = "<group>"; };
-		6F15263B17B9221B0047EE3A /* AnimationClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationClip.h; sourceTree = "<group>"; };
-		6F15263C17B9221B0047EE3A /* AnimationClip.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationClip.hxx; sourceTree = "<group>"; };
-		6F15263D17B9221B0047EE3A /* AnimationDataCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDataCover.h; sourceTree = "<group>"; };
-		6F15263E17B9221B0047EE3A /* AnimationDataCover.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationDataCover.hxx; sourceTree = "<group>"; };
-		6F15263F17B9221B0047EE3A /* AnimationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationObject.h; sourceTree = "<group>"; };
-		6F15264017B9221B0047EE3A /* AnimationObject.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationObject.hxx; sourceTree = "<group>"; };
-		6F15264117B9221B0047EE3A /* AnimationPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationPlay.h; sourceTree = "<group>"; };
-		6F15264217B9221B0047EE3A /* AnimationPlay.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationPlay.hxx; sourceTree = "<group>"; };
-		6F15264317B9221B0047EE3A /* AnimationSerializer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationSerializer.hxx; sourceTree = "<group>"; };
-		6F15264417B9221B0047EE3A /* AnimationSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationSet.h; sourceTree = "<group>"; };
-		6F15264517B9221B0047EE3A /* AnimationSet.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationSet.hxx; sourceTree = "<group>"; };
-		6F15264617B9221B0047EE3A /* AnimationSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationSystem.h; sourceTree = "<group>"; };
-		6F15264717B9221B0047EE3A /* AnimationSystem.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationSystem.hxx; sourceTree = "<group>"; };
-		6F15264817B9221B0047EE3A /* AnimationTracks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationTracks.h; sourceTree = "<group>"; };
-		6F15264917B9221B0047EE3A /* AnimationTracks.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationTracks.hxx; sourceTree = "<group>"; };
+		6BDDCFE01ED0554C00C3553A /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		6BDDCFE11ED0554D00C3553A /* Animation.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animation.hxx; sourceTree = "<group>"; };
+		6BDDCFE21ED0554D00C3553A /* AnimationComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationComponent.h; sourceTree = "<group>"; };
+		6BDDCFE31ED0554D00C3553A /* AnimationComponent.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationComponent.hxx; sourceTree = "<group>"; };
+		6BDDCFE41ED0554D00C3553A /* AnimationDataCover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationDataCover.h; sourceTree = "<group>"; };
+		6BDDCFE51ED0554D00C3553A /* AnimationDataCover.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationDataCover.hxx; sourceTree = "<group>"; };
+		6BDDCFE61ED0554D00C3553A /* AnimationSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationSet.h; sourceTree = "<group>"; };
+		6BDDCFE71ED0554D00C3553A /* AnimationSet.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationSet.hxx; sourceTree = "<group>"; };
+		6BDDCFE81ED0554D00C3553A /* AnimDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimDataManager.h; sourceTree = "<group>"; };
+		6BDDCFE91ED0554D00C3553A /* AnimDataManager.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimDataManager.hxx; sourceTree = "<group>"; };
+		6BDDCFEA1ED0554D00C3553A /* Export.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Export.def; sourceTree = "<group>"; };
+		6BDDCFEB1ED0554D00C3553A /* Track.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Track.hxx; sourceTree = "<group>"; };
+		6BDDCFEC1ED0555F00C3553A /* AnimTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimTreeNode.h; sourceTree = "<group>"; };
+		6BDDCFED1ED0555F00C3553A /* AnimTreeNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimTreeNode.hxx; sourceTree = "<group>"; };
+		6BDDCFEE1ED0555F00C3553A /* FrameEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameEvent.h; sourceTree = "<group>"; };
+		6BDDCFEF1ED0555F00C3553A /* FrameEvent.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameEvent.hxx; sourceTree = "<group>"; };
 		6F15264B17B9221B0047EE3A /* AnimBlendNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimBlendNode.h; sourceTree = "<group>"; };
 		6F15264C17B9221B0047EE3A /* AnimBlendNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimBlendNode.hxx; sourceTree = "<group>"; };
 		6F15264D17B9221B0047EE3A /* AnimClipNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimClipNode.h; sourceTree = "<group>"; };
 		6F15264E17B9221B0047EE3A /* AnimClipNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimClipNode.hxx; sourceTree = "<group>"; };
-		6F15264F17B9221B0047EE3A /* AnimLayerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimLayerNode.h; sourceTree = "<group>"; };
-		6F15265017B9221B0047EE3A /* AnimLayerNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimLayerNode.hxx; sourceTree = "<group>"; };
-		6F15265117B9221C0047EE3A /* AnimationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationUtil.h; sourceTree = "<group>"; };
-		6F15265217B9221C0047EE3A /* AnimationUtil.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationUtil.hxx; sourceTree = "<group>"; };
-		6F15265317B9221C0047EE3A /* AnimEvalContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimEvalContext.h; sourceTree = "<group>"; };
 		6F15265417B9221C0047EE3A /* BoneMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneMap.h; sourceTree = "<group>"; };
 		6F15265517B9221C0047EE3A /* BoneMap.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoneMap.hxx; sourceTree = "<group>"; };
 		6F15265617B9221C0047EE3A /* BoneSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneSet.h; sourceTree = "<group>"; };
 		6F15265717B9221C0047EE3A /* BoneSet.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BoneSet.hxx; sourceTree = "<group>"; };
-		6F15265817B9221C0047EE3A /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		6F15265917B9221C0047EE3A /* Module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Module.cpp; sourceTree = "<group>"; };
 		6F15265A17B9221C0047EE3A /* Module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		6F15265C17B9221C0047EE3A /* LookAtModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookAtModifier.h; sourceTree = "<group>"; };
@@ -65,12 +56,10 @@
 		6F15265F17B9221C0047EE3A /* PoseModifier.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoseModifier.hxx; sourceTree = "<group>"; };
 		6F15266017B9221C0047EE3A /* TwoJointIKSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoJointIKSolver.h; sourceTree = "<group>"; };
 		6F15266117B9221C0047EE3A /* TwoJointIKSolver.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TwoJointIKSolver.hxx; sourceTree = "<group>"; };
-		6F15266217B9221C0047EE3A /* RTTIDecl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTTIDecl.h; sourceTree = "<group>"; };
 		6F15266317B9221C0047EE3A /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skeleton.h; sourceTree = "<group>"; };
 		6F15266417B9221C0047EE3A /* Skeleton.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Skeleton.hxx; sourceTree = "<group>"; };
 		6F15266517B9221C0047EE3A /* SkeletonPose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonPose.h; sourceTree = "<group>"; };
 		6F15266617B9221C0047EE3A /* SkeletonPose.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletonPose.hxx; sourceTree = "<group>"; };
-		6F15266717B9221C0047EE3A /* SkeletonSerializer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletonSerializer.hxx; sourceTree = "<group>"; };
 		6F15266817B9221C0047EE3A /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
 		6F15266917B9221C0047EE3A /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
 		6F15266A17B9221C0047EE3A /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
@@ -91,43 +80,30 @@
 		6F15263617B9221B0047EE3A /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				6F15263717B9221B0047EE3A /* Action.h */,
-				6F15263817B9221B0047EE3A /* Action.hxx */,
-				6F15263917B9221B0047EE3A /* Animation.h */,
-				6F15263A17B9221B0047EE3A /* Animation.hxx */,
-				6F15263B17B9221B0047EE3A /* AnimationClip.h */,
-				6F15263C17B9221B0047EE3A /* AnimationClip.hxx */,
-				6F15263D17B9221B0047EE3A /* AnimationDataCover.h */,
-				6F15263E17B9221B0047EE3A /* AnimationDataCover.hxx */,
-				6F15263F17B9221B0047EE3A /* AnimationObject.h */,
-				6F15264017B9221B0047EE3A /* AnimationObject.hxx */,
-				6F15264117B9221B0047EE3A /* AnimationPlay.h */,
-				6F15264217B9221B0047EE3A /* AnimationPlay.hxx */,
-				6F15264317B9221B0047EE3A /* AnimationSerializer.hxx */,
-				6F15264417B9221B0047EE3A /* AnimationSet.h */,
-				6F15264517B9221B0047EE3A /* AnimationSet.hxx */,
-				6F15264617B9221B0047EE3A /* AnimationSystem.h */,
-				6F15264717B9221B0047EE3A /* AnimationSystem.hxx */,
-				6F15264817B9221B0047EE3A /* AnimationTracks.h */,
-				6F15264917B9221B0047EE3A /* AnimationTracks.hxx */,
+				6BDDCFE01ED0554C00C3553A /* Animation.h */,
+				6BDDCFE11ED0554D00C3553A /* Animation.hxx */,
+				6BDDCFE21ED0554D00C3553A /* AnimationComponent.h */,
+				6BDDCFE31ED0554D00C3553A /* AnimationComponent.hxx */,
+				6BDDCFE41ED0554D00C3553A /* AnimationDataCover.h */,
+				6BDDCFE51ED0554D00C3553A /* AnimationDataCover.hxx */,
+				6BDDCFE61ED0554D00C3553A /* AnimationSet.h */,
+				6BDDCFE71ED0554D00C3553A /* AnimationSet.hxx */,
+				6BDDCFE81ED0554D00C3553A /* AnimDataManager.h */,
+				6BDDCFE91ED0554D00C3553A /* AnimDataManager.hxx */,
+				6BDDCFEA1ED0554D00C3553A /* Export.def */,
+				6BDDCFEB1ED0554D00C3553A /* Track.hxx */,
 				6F15264A17B9221B0047EE3A /* AnimationTree */,
-				6F15265117B9221C0047EE3A /* AnimationUtil.h */,
-				6F15265217B9221C0047EE3A /* AnimationUtil.hxx */,
-				6F15265317B9221C0047EE3A /* AnimEvalContext.h */,
 				6F15265417B9221C0047EE3A /* BoneMap.h */,
 				6F15265517B9221C0047EE3A /* BoneMap.hxx */,
 				6F15265617B9221C0047EE3A /* BoneSet.h */,
 				6F15265717B9221C0047EE3A /* BoneSet.hxx */,
-				6F15265817B9221C0047EE3A /* Export.h */,
 				6F15265917B9221C0047EE3A /* Module.cpp */,
 				6F15265A17B9221C0047EE3A /* Module.h */,
 				6F15265B17B9221C0047EE3A /* PoseModifier */,
-				6F15266217B9221C0047EE3A /* RTTIDecl.h */,
 				6F15266317B9221C0047EE3A /* Skeleton.h */,
 				6F15266417B9221C0047EE3A /* Skeleton.hxx */,
 				6F15266517B9221C0047EE3A /* SkeletonPose.h */,
 				6F15266617B9221C0047EE3A /* SkeletonPose.hxx */,
-				6F15266717B9221C0047EE3A /* SkeletonSerializer.hxx */,
 				6F15266817B9221C0047EE3A /* stdafx.cpp */,
 				6F15266917B9221C0047EE3A /* stdafx.h */,
 				6F15266A17B9221C0047EE3A /* Track.h */,
@@ -139,12 +115,14 @@
 		6F15264A17B9221B0047EE3A /* AnimationTree */ = {
 			isa = PBXGroup;
 			children = (
+				6BDDCFEC1ED0555F00C3553A /* AnimTreeNode.h */,
+				6BDDCFED1ED0555F00C3553A /* AnimTreeNode.hxx */,
+				6BDDCFEE1ED0555F00C3553A /* FrameEvent.h */,
+				6BDDCFEF1ED0555F00C3553A /* FrameEvent.hxx */,
 				6F15264B17B9221B0047EE3A /* AnimBlendNode.h */,
 				6F15264C17B9221B0047EE3A /* AnimBlendNode.hxx */,
 				6F15264D17B9221B0047EE3A /* AnimClipNode.h */,
 				6F15264E17B9221B0047EE3A /* AnimClipNode.hxx */,
-				6F15264F17B9221B0047EE3A /* AnimLayerNode.h */,
-				6F15265017B9221B0047EE3A /* AnimLayerNode.hxx */,
 			);
 			path = AnimationTree;
 			sourceTree = "<group>";
@@ -303,7 +281,7 @@
 					../../extern/oisinput/include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -326,7 +304,7 @@
 					../../extern/oisinput/include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

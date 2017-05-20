@@ -35,7 +35,7 @@ namespace ma
 
 		strcat(szMsg, "\r\n");
 
-		printf(szMsg);
+		printf("%s", szMsg);
 #ifdef WIN32
 		::OutputDebugString(szMsg);
 #endif

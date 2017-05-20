@@ -201,7 +201,7 @@ namespace ma
 		// find the nearest and farthest points of given
 		// scene objects in camera's view space
 		float fMaxZ = 0;
-		float fMinZ = FLT_MAX;
+		float fMinZ = (std::numeric_limits<float>::max)();
 
 		// for each object
 		for(uint32 i = 0; i < nNode; i++)

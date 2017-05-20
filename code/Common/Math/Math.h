@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "../BaseType.h"
 #include "../Macro.h"
 #include "Angle.h"
+#include <sstream>
 
 namespace ma
 {

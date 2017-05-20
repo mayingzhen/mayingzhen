@@ -14,7 +14,7 @@
 #if PLATFORM_WIN == 1
 #include <Common/Platform/Win/PlatformWin.h>
 #elif PLAFTORM_IOS == 1
-#include <Common/Platform/iOS/PlatformiOS.h>
+#include <Common/Platform/Ios/PlatformIos.h>
 #elif PLATFORM_ANDROID == 1
 #include <Common/Platform/Android/PlatformAndroid.h>
 #endif

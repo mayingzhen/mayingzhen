@@ -27,123 +27,123 @@ namespace ma
 			return;
 
 		const char* pszName = pParam->GetName();
-		if ( stricmp(pszName, "g_matWorld") == 0 )
+		if ( strcmp(pszName, "g_matWorld") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldMatrix);
 		}
-		else if ( stricmp(pszName,"g_matView") == 0 )
+		else if ( strcmp(pszName,"g_matView") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
 		}
-		else if ( stricmp(pszName,"g_matViewInv") == 0 )
+		else if ( strcmp(pszName,"g_matViewInv") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrixInv);
 		}
-		else if ( stricmp(pszName,"g_matProj") == 0 )
+		else if ( strcmp(pszName,"g_matProj") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(),&RenderContext::GetViewMatrix);
 		}
-		else if ( stricmp(pszName,"g_matProjInv") == 0 )
+		else if ( strcmp(pszName,"g_matProjInv") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseProjectionMatrix);
 		}
-		else if ( stricmp(pszName,"g_matWorldView") == 0 )
+		else if ( strcmp(pszName,"g_matWorldView") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewMatrix);
 		}
-		else if ( stricmp(pszName,"g_matViewProj") == 0 )
+		else if ( strcmp(pszName,"g_matViewProj") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetViewProjMatrix);
 		}
-		else if ( stricmp(pszName,"g_matWorldViewProj") == 0 )
+		else if ( strcmp(pszName,"g_matWorldViewProj") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetWorldViewProjectionMatrix);
 		}
-		else if (  stricmp(pszName,"g_vCameraNearFar") == 0 )
+		else if (  strcmp(pszName,"g_vCameraNearFar") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingGetCameraNearFar);
 		}
-		else if ( stricmp(pszName,"g_vEyeWorldPos") == 0 )
+		else if ( strcmp(pszName,"g_vEyeWorldPos") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetEyeWorldPos);
 		}
-		else if ( stricmp(pszName,"g_cSkyLight") == 0 )
+		else if ( strcmp(pszName,"g_cSkyLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetAmbientColor);
 		}
-		else if ( stricmp(pszName,"g_cDirLight") == 0 )
+		else if ( strcmp(pszName,"g_cDirLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightColor);
 		}
-		else if ( stricmp(pszName,"g_vDirLight") == 0 )
+		else if ( strcmp(pszName,"g_vDirLight") == 0 )
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightDir);
 		}
-		else if ( stricmp(pszName,"tDeviceDepthMapSampler") )
+		else if ( strcmp(pszName,"tDeviceDepthMapSampler") )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingDeviceDepthMap);
 		}
-		else if ( stricmp(pszName,"g_tShadowMap") == 0 )
+		else if ( strcmp(pszName,"g_tShadowMap") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMap);
 		}
-		else if ( stricmp(pszName,"g_matShadow") == 0 )
+		else if ( strcmp(pszName,"g_matShadow") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMatrix);
 		}
-		else if ( stricmp(pszName,"g_shadowMapTexelSize") == 0 )
+		else if ( strcmp(pszName,"g_shadowMapTexelSize") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowMapTexSize);
 		}
-		else if ( stricmp(pszName,"g_ShadowDepthFade") == 0 )
+		else if ( strcmp(pszName,"g_ShadowDepthFade") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingShadowDepthFade);
 		}
-		else if ( stricmp(pszName,"INVERSE_TRANSPOSE_WORLD_MATRIX") == 0 )
+		else if ( strcmp(pszName,"INVERSE_TRANSPOSE_WORLD_MATRIX") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldMatrix);
 		}
-		else if ( stricmp(pszName,"INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX") == 0 )
+		else if ( strcmp(pszName,"INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetInverseTransposeWorldViewMatrix);
 		}
-		else if ( stricmp(pszName,"CAMERA_WORLD_POSITION") == 0 )
+		else if ( strcmp(pszName,"CAMERA_WORLD_POSITION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraWorldPosition);
 		}
-		else if ( stricmp(pszName,"CAMERA_VIEW_POSITION") == 0 )
+		else if ( strcmp(pszName,"CAMERA_VIEW_POSITION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetCameraViewPosition);
 		}
-		else if ( stricmp(pszName,"SCENE_LIGHT_COLOR") == 0 )
+		else if ( strcmp(pszName,"SCENE_LIGHT_COLOR") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightColor);
 		}
-		else if ( stricmp(pszName,"SCENE_LIGHT_DIRECTION") == 0 )
+		else if ( strcmp(pszName,"SCENE_LIGHT_DIRECTION") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingGetLightDirection);
 		}
-		else if ( stricmp(pszName,"DepthNearFarInvfar") == 0 )
+		else if ( strcmp(pszName,"DepthNearFarInvfar") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingDepthNearFarInvfar);
 		}
-		else if ( stricmp(pszName,"TextureSceneDiffuse") == 0 )
+		else if ( strcmp(pszName,"TextureSceneDiffuse") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDiffuse);
 		}
-		else if ( stricmp(pszName,"TextureSceneDepth") == 0 )
+		else if ( strcmp(pszName,"TextureSceneDepth") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBingingSceneDetph);
 		}
-		else if ( stricmp(pszName,"TextureSceneDeviceDepth") == 0 )
+		else if ( strcmp(pszName,"TextureSceneDeviceDepth") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBingingSceneDetph);
 		}
-		else if ( stricmp(pszName,"TextureSceneNormal") == 0 )
+		else if ( strcmp(pszName,"TextureSceneNormal") == 0 )
 		{
 			pParam->BindMethod(this, &ParameterManager::autoBindingSceneNormal);
 		}
-		else if ( stricmp(pszName,"TextureLightShadow") == 0 )
+		else if ( strcmp(pszName,"TextureLightShadow") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingTextureLightShadow);
 		}

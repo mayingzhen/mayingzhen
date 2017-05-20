@@ -15,7 +15,7 @@ namespace ma
 		gpSphere->Render(pTech);
 	}
 
-	void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, vector<UINT16>& indBuff, vector<Vector3>& vertBuff)
+	void SphereTessR(Vector3& v0, Vector3& v1, Vector3& v2, int depth, vector<uint16>& indBuff, vector<Vector3>& vertBuff)
 	{
 		if (depth == 0)
 		{
@@ -51,7 +51,7 @@ namespace ma
 		}
 	}
 
-	void SphereTess(Vector3& v0, Vector3& v1, Vector3& v2, vector<UINT16>& indBuff, vector<Vector3>& vertBuff)
+	void SphereTess(Vector3& v0, Vector3& v1, Vector3& v2, vector<uint16>& indBuff, vector<Vector3>& vertBuff)
 	{
 		int depth;
 		Vector3 w0, w1, w2;
@@ -140,7 +140,7 @@ namespace ma
 			{7, 2, 11},
 		};
 
-		vector<UINT16> indBuff;
+		vector<uint16> indBuff;
 		vector<Vector3> vertBuff;
 
 		for (int i = 19; i >= 0; i--) 
@@ -157,7 +157,7 @@ namespace ma
 		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
 		//gpSphere->m_pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element,1);
 		gpSphere->m_pVertexBuffer = GetRenderSystem()->CreateVertexBuffer((uint8*)&vertBuff[0],vertBuff.size() * sizeof(Vector3),sizeof(Vector3));
-		gpSphere->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)&indBuff[0],vertBuff.size() * sizeof(UINT16),sizeof(UINT16));
+		gpSphere->m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer((uint8*)&indBuff[0],vertBuff.size() * sizeof(uint16),sizeof(uint16));
 		gpSphere->m_ePrimitiveType = PRIM_TRIANGLELIST;
 
 		gpSphere->m_pSubMeshData = CreateSubMeshData();

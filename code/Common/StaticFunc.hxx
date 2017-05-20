@@ -8,10 +8,11 @@
 #define MAX_STR_NAME 512
 #define MAX_STR 512
 
-#ifdef WIN32
-#else
+#ifndef WIN32
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/time.h>
+#include <time.h>
 #include <unistd.h>
 #endif
 
@@ -127,19 +128,14 @@ void StaticFunc::DebugMsg(const char* pszFormat, ...)
 unsigned long StaticFunc::GetTime(void)
 {
 #ifdef WIN32
-	LARGE_INTEGER nFreqname;
-	LARGE_INTEGER nBeginTimename;
-	if(QueryPerformanceFrequency(&nFreqname) != FALSE)
-	{
-		if(QueryPerformanceCounter(&nBeginTimename) != FALSE)
-		{
-			return (DWORD)(nBeginTimename.QuadPart * 1000/nFreqname.QuadPart);
-		}
-	}
-	
 	#pragma comment(lib, "winmm.lib")
+    return timeGetTime();
+#else
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    return now.tv_usec/1000;
 #endif
-	return timeGetTime();
+	
 }
 
 void StaticFunc::GetTime(OUT int& nYear, OUT int& nMonth, OUT int& nDay, OUT int& nHour, OUT int& nMin, OUT int& nSec)
@@ -180,16 +176,15 @@ int StaticFunc::RandGet(int nMax, bool bRealRand/* = false*/)
 // ---------------------------------------------------------------------
 string StaticFunc::GetCurrentExeDir()
 {
-	char szFullPath[MAX_STR_NAME] = "";
 #ifdef WIN32
+	char szFullPath[MAX_STR_NAME] = "";
 	::GetModuleFileName(NULL, szFullPath, MAX_STR_NAME);
 #endif
 	char szDrive[MAX_STR_NAME] = "";
 	char szDir[MAX_STR_NAME] = "";
+#ifdef WIN32
 	char szFileName[MAX_STR_NAME] = "";
 	char szExt[MAX_STR_NAME] = "";
-    
-#ifdef WIN32
 	_splitpath(szFullPath, szDrive, szDir, szFileName, szExt);
 #endif
 	char szReturn[MAX_STR_NAME] = "";
@@ -231,7 +226,7 @@ string StaticFunc::GetFileDir(const string& strFile)
     string strPath;
     int index1 = strFile.find_last_of( "\\" );
     int index2 = strFile.find_last_of( "/" );
-	int index = __max(index1,index2);
+    int index = /*std::*/max(index1,index2);
     if (index == -1)
     {
         return "";
@@ -568,7 +563,7 @@ string StaticFunc::ToString(int n)
     }
     else
     {
-        if (stricmp(subStr.c_str(), strEndWith.c_str()) == 0)
+        if (strcmp(subStr.c_str(), strEndWith.c_str()) == 0)
             return true;
         else
             return false;

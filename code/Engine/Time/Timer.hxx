@@ -2,7 +2,7 @@
 
 namespace ma
 {
-	static Time* g_pTimer = NULL;
+    Time* g_pTimer = NULL;
 
 	Time* GetTimer()
 	{

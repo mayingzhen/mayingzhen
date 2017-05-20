@@ -33,19 +33,11 @@ namespace ma
 
 	}
 
-	DWORD Thread::GetThreadId()
+	UINT Thread::GetThreadId()
 	{
-		return DWORD(m_hThread);
+		return UINT(m_hThread);
 	}
 
-
-	void Thread::ThreadLoop()
-	{
-		while(!m_bExit)
-		{
-			ThreadUpdate();
-		}
-	}
 }
 
 

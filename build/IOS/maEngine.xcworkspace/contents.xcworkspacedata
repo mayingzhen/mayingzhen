@@ -19,13 +19,7 @@
       <FileRef
          location = "group:GLESRender.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:UI.xcodeproj">
-      </FileRef>
    </Group>
-   <FileRef
-      location = "group:Render.xcodeproj">
-   </FileRef>
    <FileRef
       location = "group:Engine.xcodeproj">
    </FileRef>

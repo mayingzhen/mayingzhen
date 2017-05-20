@@ -4,9 +4,9 @@
 #include "Animation/Module.h"
 #include "GLESRender/Module.h"
 #include "BulletPhysics/Module.h"
-#include "MonoScript/Module.h"
 
 #if PLATFORM_WIN == 1
+#include "MonoScript/Module.h"
 #include "D3D11Render/Module.h"
 #endif
 
@@ -15,8 +15,8 @@
 
 #if PLATFORM_WIN == 1
 //#include "Samples/Serialize/SampleFbxImport.hxx"
-#endif
 #include "Samples/Script/SampleMonoScript.hxx"
+#endif
 #include "Samples/Render/SampleLighting.hxx"
 #include "Samples/Render/SampleShadowMap.hxx"
 #include "Samples/Render/SampleMaterial.hxx"
@@ -57,9 +57,10 @@ namespace ma
 	{
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
-		MonoScriptModuleInit();
 
 #if PLATFORM_WIN == 1
+        MonoScriptModuleInit();
+        
 		if (eType == RenderDevice_D3D11)
 		{
 			D3D11RenderModuleInit();
@@ -79,9 +80,9 @@ namespace ma
 	{
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
-		MonoScriptModuleShutdown();
 
 #if PLATFORM_WIN == 1
+        MonoScriptModuleShutdown();
 		//FBXImporterModuleShutdown();
 		
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
@@ -111,10 +112,10 @@ namespace ma
 #elif PLAFTORM_IOS == 1
 		std::string sAppDir = Platform::GetInstance().GetAppPath();
 
-		sDataDir = sAppDir + "data/data.zip";
+		std::string sDataDir = sAppDir + "data/data.zip";
 		GetArchiveMananger()->AddArchive( CreateZipArchive(sDataDir.c_str()).get() );
 
-        std::string sDataDir = sAppDir + "data";
+        sDataDir = sAppDir + "data";
 		GetArchiveMananger()->AddArchive( CreateFileArchive(sDataDir.c_str()).get() );
 
 #elif PLATFORM_ANDROID == 1
@@ -130,8 +131,10 @@ namespace ma
 			if (GetPhysicsSystem())
 				GetPhysicsSystem()->Stop();
 
+#if PLATFORM_WIN == 1
 			if (GetScriptSystem())
 				GetScriptSystem()->Stop();
+#endif
 		}
 		m_pCurSample = NULL;
 
@@ -139,10 +142,12 @@ namespace ma
 		
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Shoutdown();
-
+        
+#if PLATFORM_WIN == 1
 		if (GetScriptSystem())
 			GetScriptSystem()->Shoutdown();
-
+#endif
+        
 		Game::Shutdown();
 
 		ModuleShutdown();
@@ -165,9 +170,11 @@ namespace ma
 	
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Init();
-
+        
+#if PLATFORM_WIN == 1
 		if (GetScriptSystem())
 			GetScriptSystem()->Init();
+#endif
 			
 		HWND hWnd = Platform::GetInstance().GetWindId();
 		
@@ -180,71 +187,71 @@ namespace ma
 
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Start();
-
-		if (GetScriptSystem())
-			GetScriptSystem()->Start();
 	}
 
 	void SampleBrowser::RunSample(const char* pSample)
 	{
+#ifdef WIN32
 // 		if (stricmp(pSample,"SampleFbxImport") == 0)
 // 		{
 // 			m_pCurSample = new SampleFbxImport();
 // 		}
 //		else 
-		if (stricmp(pSample,"SampleMonoScript") == 0)
+		if (strcmp(pSample,"SampleMonoScript") == 0)
 		{
 			m_pCurSample = new SampleMonoScript();
 		}
-		else if (stricmp(pSample,"SampleLighting") == 0)
+		else
+#endif
+        if (strcmp(pSample,"SampleLighting") == 0)
 		{
 			m_pCurSample = new SampleLighting();
 		}
-		else if(stricmp(pSample,"SampleShadowMap") == 0)
+		else if(strcmp(pSample,"SampleShadowMap") == 0)
 		{
 			m_pCurSample = new SampleShadowMap();
 		}
-		else if(stricmp(pSample,"SampleMaterial") == 0)
+		else if(strcmp(pSample,"SampleMaterial") == 0)
 		{
 			m_pCurSample = new SampleMaterial();
 		}
-		else if(stricmp(pSample,"SampleIBL") == 0)
+		else if(strcmp(pSample,"SampleIBL") == 0)
 		{
 			m_pCurSample = new SampleIBL();
 		}
-		else if(stricmp(pSample,"SampleTerrain") == 0)
+		else if(strcmp(pSample,"SampleTerrain") == 0)
 		{
 			m_pCurSample = new SampleTerrain();
 		}
-		else if(stricmp(pSample,"SampleSceneSerialize") == 0)
+		else if(strcmp(pSample,"SampleSceneSerialize") == 0)
 		{
 			m_pCurSample = new SampleSceneSerialize();
 		}
-		else if(stricmp(pSample,"SampleRigidBody") == 0)
+		else if(strcmp(pSample,"SampleRigidBody") == 0)
 		{
 			m_pCurSample = new SampleRigidBody();
 		}
-		else if(stricmp(pSample,"SampleCharaControl") == 0)
+		else if(strcmp(pSample,"SampleCharaControl") == 0)
 		{
 			m_pCurSample = new SampleCharaControl();
 		}
-		else if(stricmp(pSample,"SampleJoint") == 0)
+		else if(strcmp(pSample,"SampleJoint") == 0)
 		{
 			m_pCurSample = new SampleJoint();
 		}
-		else if(stricmp(pSample,"SampleRagdoll") == 0)
+		else if(strcmp(pSample,"SampleRagdoll") == 0)
 		{
 			m_pCurSample = new SampleRagdoll();
 		}
-		else if(stricmp(pSample,"SampleAnimationRetarget") == 0)
+		else if(strcmp(pSample,"SampleAnimationRetarget") == 0)
 		{
 			m_pCurSample = new SampleAnimationRetarget();
 		}
-		else if(stricmp(pSample,"SampleAnimationTree") == 0)
+		else if(strcmp(pSample,"SampleAnimationTree") == 0)
 		{
 			m_pCurSample = new SampleAnimationTree();
 		}		
-		else if(stricmp(pSample,"SampleAnimationIK") == 0)
+		else if(strcmp(pSample,"SampleAnimationIK") == 0)
 		{
 			m_pCurSample = new SampleAnimationIK();
 		}

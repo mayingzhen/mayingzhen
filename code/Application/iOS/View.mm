@@ -137,7 +137,7 @@
     {
         m_bInited = TRUE;
         
-        ma::Game::GetInstance().Init();  
+        //ma::Game::GetInstance().Init();
     }
 
     // Execute a single game frame
