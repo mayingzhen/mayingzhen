@@ -92,7 +92,7 @@ namespace ma
 		char szMsg[10240];
 		sprintf(szMsg, "Error[%02u:%02u:%02u] %s", pTime->tm_hour, pTime->tm_min, pTime->tm_sec, szContent);
 		DebugMsg(szMsg);
-		assert(false);
+		ASSERT(false);
 
 		if(0)
 		{

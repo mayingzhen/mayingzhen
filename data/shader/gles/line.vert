@@ -1,6 +1,10 @@
 #include "common.h"
 
 
+uniform mat4 g_matWorldView;
+uniform mat4 g_matWorldViewProj;
+uniform mat4 g_matWorld;
+
 // Attributes
 attribute vec3 a_position;  
 attribute vec4 a_color0;

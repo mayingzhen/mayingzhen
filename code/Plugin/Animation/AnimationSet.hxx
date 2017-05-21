@@ -14,7 +14,7 @@ namespace ma
 
 	AnimTreeNode* AnimationSet::GetAnimationByIndex(UINT index)
 	{
-		if (index < 0 || index >= m_arrSkelAnim.size())
+		if (index >= m_arrSkelAnim.size())
 			return NULL;
 
 		return m_arrSkelAnim[index].get();
@@ -57,7 +57,7 @@ namespace ma
 		{
 			if (m_arrSkelAnim[i] == pAction || m_arrSkelAnim[i]->GetAnimID() == pAction->GetAnimID() )
 			{
-				ASSERT(false&&"存在相同的AnimNode");
+				ASSERT(false&&"AnimNode repet");
 				return;
 			}
 		}

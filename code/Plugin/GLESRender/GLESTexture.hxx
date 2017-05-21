@@ -78,7 +78,7 @@ namespace ma
 		m_DataType = GLESMapping::GetGLESDataType(m_eFormat);
 
 		// Check requested number of mipmaps
-		size_t maxMips = getMaxMipmaps(m_nWidth, m_nHeight);
+		//size_t maxMips = getMaxMipmaps(m_nWidth, m_nHeight);
 
 		// Generate texture name
 		GL_ASSERT( glGenTextures(1, &m_pTex) );

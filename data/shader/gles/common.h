@@ -1,19 +1,19 @@
+uniform float g_fTime;
+
 uniform mat4 g_matView;
 uniform mat4 g_matViewInv;
 uniform mat4 g_matProj;
+uniform mat4 g_matProjInv;
 uniform mat4 g_matViewProj;
-uniform mat4 g_matWorld;
-uniform mat4 g_matWorldView;
-uniform mat4 g_matWorldViewProj;
-uniform vec4 g_color;
-uniform vec3 g_cSkyLight;
-uniform vec3 g_cDirLight;
-uniform vec3 g_vDirLight;
+
 uniform vec3 g_vEyeWorldPos;
 uniform vec2 g_vViewport;
 uniform vec2 g_vViewportInv;
+uniform vec4 g_vCameraNearFar;
+uniform vec3 g_cSkyLight;
+uniform vec3 g_cDirLight;
+uniform vec3 g_vDirLight;
 
-uniform float g_fTime;
 
 vec3 transform_quat(vec3 v, vec4 quat)
 {
@@ -39,3 +39,4 @@ float DecodeFloatRGBA(vec4 rgba)
 {
 	return dot(rgba, vec4(1.0, 1.0 / 255.0, 1.0 / 65025.0, 1.0 / 16581375.0));
 }
+

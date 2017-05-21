@@ -36,8 +36,6 @@ namespace ma
 		if (pszMacro == NULL)
 			return false;
 
-		const char* pVSFile = m_pShaderProgram->GetVSFile();
-		const char* pPSFile = m_pShaderProgram->GetPSFile();
 		std::string stdShder = m_pShaderProgram->GetShaderMacro();
 
 		const vector<string> vecMacros = StringUtil::split(stdShder, ";");

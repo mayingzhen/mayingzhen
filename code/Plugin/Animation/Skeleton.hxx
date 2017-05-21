@@ -169,13 +169,13 @@ namespace ma
 		}
 
 		uint32 nRotOSNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nSacleOSNum; ++i)
+		for (uint32 i = 0; i < nRotOSNum; ++i)
 		{
 			m_arrTsfOS[i].m_qRot = m_pDataStream->ReadQuaternion();
 		}
 
 		uint32 nPosOSNum = m_pDataStream->ReadUInt();
-		for (uint32 i = 0; i < nSacleOSNum; ++i)
+		for (uint32 i = 0; i < nPosOSNum; ++i)
 		{
 			m_arrTsfOS[i].m_vPos = m_pDataStream->ReadVector3();
 		}

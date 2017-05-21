@@ -2,15 +2,17 @@
 #include "skin.h"
 
 
+uniform mat4 g_matWorldView;
+uniform mat4 g_matWorldViewProj;
+uniform mat4 g_matWorld;
+
 uniform vec3 pos_extent;
 uniform vec3 pos_center;
 uniform vec4 tc_extent_center;
 
 // Attributes
 attribute vec3 a_position; 
- 
 attribute vec2 a_texCoord0;
-
 attribute vec4 a_normal;
 
 #ifdef SKIN   

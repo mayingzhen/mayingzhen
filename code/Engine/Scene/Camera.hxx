@@ -167,7 +167,7 @@ namespace ma
 		m_fFOV = fFOV;
 		m_fNear = fNear;
 		m_fFar = fFar;
-		Matrix4 matProj = Matrix4::IDENTITY;
+
 		GetRenderDevice()->MakePerspectiveMatrix(m_matProj,fFOV,fAspect,fNear,fFar);
 		
 		UpdateViewProjMatrix();

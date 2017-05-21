@@ -147,7 +147,7 @@ namespace ma
 		j = Math::Clamp<int>(j, 0, nTrunkYCellAmont-1);
 		UINT index = i + j * nTrunkXCellAmont;
 		ASSERT(index >= 0 && index < m_vecTrunk.size());
-		if (index < 0 || index >= m_vecTrunk.size())
+		if (index >= m_vecTrunk.size())
 			return NULL;
 
 		TerrainTrunk* pTerrainTrunk = m_vecTrunk[index].get();

@@ -11,7 +11,6 @@ ParallHardWareBuffer::ParallHardWareBuffer(uint32 nVertexStride,uint32 nNumVerti
 	m_nVertexOffset = 0;	
 	m_nVertexBufferAvailableMemory = nVertexStride * nNumVertice;
 	
-	INDEX_TYPE idxType = INDEX_TYPE_U16;
 	if (numIndexes > 0)
 	{
 		m_pIndexBuffer = GetRenderSystem()->CreateIndexBuffer(NULL,sizeof(uint16) * numIndexes,sizeof(uint16),HBU_DYNAMIC_WRITE_ONLY_DISCARDABLE);

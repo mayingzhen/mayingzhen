@@ -103,8 +103,8 @@ namespace ma
             
         // Present the color buffer
         GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, m_hColorRenderbuffer) );
-        bool result =  [m_pDeviceGLRC presentRenderbuffer:GL_RENDERBUFFER];
-        ASSERT(result);
+        BOOL result =  [m_pDeviceGLRC presentRenderbuffer:GL_RENDERBUFFER];
+        //ASSERT(result);
         
 	}
 
