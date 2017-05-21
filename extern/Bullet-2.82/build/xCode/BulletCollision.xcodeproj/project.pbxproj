@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BD949BF1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BD949BD1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.cpp */; };
+		6BD949EB1ED18D09003172D0 /* btHashedSimplePairCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BD949E91ED18D09003172D0 /* btHashedSimplePairCache.cpp */; };
 		6F3805A21795358D005195B3 /* btAxisSweep3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F3804C51795358D005195B3 /* btAxisSweep3.cpp */; };
 		6F3805A31795358D005195B3 /* btBroadphaseProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F3804C81795358D005195B3 /* btBroadphaseProxy.cpp */; };
 		6F3805A41795358D005195B3 /* btCollisionAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F3804CA1795358D005195B3 /* btCollisionAlgorithm.cpp */; };
@@ -114,6 +116,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6BD949BD1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btCompoundCompoundCollisionAlgorithm.cpp; sourceTree = "<group>"; };
+		6BD949BE1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btCompoundCompoundCollisionAlgorithm.h; sourceTree = "<group>"; };
+		6BD949C01ED18A16003172D0 /* btCompoundFromGimpact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btCompoundFromGimpact.h; sourceTree = "<group>"; };
+		6BD949E91ED18D09003172D0 /* btHashedSimplePairCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btHashedSimplePairCache.cpp; sourceTree = "<group>"; };
+		6BD949EA1ED18D09003172D0 /* btHashedSimplePairCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btHashedSimplePairCache.h; sourceTree = "<group>"; };
 		6F3804AC17953529005195B3 /* libBulletCollision.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBulletCollision.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F3804C51795358D005195B3 /* btAxisSweep3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btAxisSweep3.cpp; sourceTree = "<group>"; };
 		6F3804C61795358D005195B3 /* btAxisSweep3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btAxisSweep3.h; sourceTree = "<group>"; };
@@ -403,6 +410,10 @@
 		6F3804DC1795358D005195B3 /* CollisionDispatch */ = {
 			isa = PBXGroup;
 			children = (
+				6BD949E91ED18D09003172D0 /* btHashedSimplePairCache.cpp */,
+				6BD949EA1ED18D09003172D0 /* btHashedSimplePairCache.h */,
+				6BD949BD1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.cpp */,
+				6BD949BE1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.h */,
 				6F3804DD1795358D005195B3 /* btActivatingCollisionAlgorithm.cpp */,
 				6F3804DE1795358D005195B3 /* btActivatingCollisionAlgorithm.h */,
 				6F3804DF1795358D005195B3 /* btBox2dBox2dCollisionAlgorithm.cpp */,
@@ -542,6 +553,7 @@
 		6F38055C1795358D005195B3 /* Gimpact */ = {
 			isa = PBXGroup;
 			children = (
+				6BD949C01ED18A16003172D0 /* btCompoundFromGimpact.h */,
 				6F38055D1795358D005195B3 /* btBoxCollision.h */,
 				6F38055E1795358D005195B3 /* btClipPolygon.h */,
 				6F38055F1795358D005195B3 /* btContactProcessing.cpp */,
@@ -672,6 +684,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F3805A21795358D005195B3 /* btAxisSweep3.cpp in Sources */,
+				6BD949EB1ED18D09003172D0 /* btHashedSimplePairCache.cpp in Sources */,
 				6F3805A31795358D005195B3 /* btBroadphaseProxy.cpp in Sources */,
 				6F3805A41795358D005195B3 /* btCollisionAlgorithm.cpp in Sources */,
 				6F3805A51795358D005195B3 /* btDbvt.cpp in Sources */,
@@ -753,6 +766,7 @@
 				6F3805F11795358D005195B3 /* gim_tri_collision.cpp in Sources */,
 				6F3805F21795358D005195B3 /* btContinuousConvexCollision.cpp in Sources */,
 				6F3805F31795358D005195B3 /* btConvexCast.cpp in Sources */,
+				6BD949BF1ED18A0A003172D0 /* btCompoundCompoundCollisionAlgorithm.cpp in Sources */,
 				6F3805F41795358D005195B3 /* btGjkConvexCast.cpp in Sources */,
 				6F3805F51795358D005195B3 /* btGjkEpa2.cpp in Sources */,
 				6F3805F61795358D005195B3 /* btGjkEpaPenetrationDepthSolver.cpp in Sources */,
@@ -826,7 +840,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CONFIGURATION_BUILD_DIR = ./lib;
+				CONFIGURATION_BUILD_DIR = "../../../IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DSTROOT = /tmp/BulletCollision.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -845,7 +859,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CONFIGURATION_BUILD_DIR = ./lib;
+				CONFIGURATION_BUILD_DIR = "../../../IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DSTROOT = /tmp/BulletCollision.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;

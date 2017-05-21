@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B3C172718F2E1AD006AE3BB /* libZZiplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7F8AA218F2DEAC000A5951 /* libZZiplib.a */; };
 		6B3C17D218F2E5CC006AE3BB /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C17B718F2E597006AE3BB /* stdAfx.cpp */; };
 		6B3C17D318F2E5D3006AE3BB /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C175D18F2E596006AE3BB /* Module.cpp */; };
 /* End PBXBuildFile section */
@@ -19,6 +18,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = C7393ED915CA7C9C00205F7C;
 			remoteInfo = ZZiplib;
+		};
+		6BDDCFF91ED177E200C3553A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C726DD801AC1826C0073F94B;
+			remoteInfo = FreeImage;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -379,6 +385,7 @@
 		6BDDCFC91ED0461D00C3553A /* Animatable.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animatable.hxx; sourceTree = "<group>"; };
 		6BDDCFCA1ED0461D00C3553A /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		6BDDCFCB1ED0461D00C3553A /* Timer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hxx; sourceTree = "<group>"; };
+		6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FreeImage.xcodeproj; path = "../../extern/FreeImage-3.13.1/Source/FreeImageLib/FreeImage.xcodeproj"; sourceTree = "<group>"; };
 		6FA78D6017943026005B3CD6 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -387,7 +394,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B3C172718F2E1AD006AE3BB /* libZZiplib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,10 +1015,19 @@
 			path = Time;
 			sourceTree = "<group>";
 		};
+		6BDDCFF51ED177E000C3553A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BDDCFFA1ED177E200C3553A /* libFreeImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6FA78D5717943026005B3CD6 = {
 			isa = PBXGroup;
 			children = (
 				6B3C173718F2E596006AE3BB /* Engine */,
+				6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */,
 				6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */,
 				6FA78D6117943026005B3CD6 /* Products */,
 			);
@@ -1067,6 +1082,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 6BDDCFF51ED177E000C3553A /* Products */;
+					ProjectRef = 6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */;
+				},
+				{
 					ProductGroup = 6B7F8A9D18F2DEAC000A5951 /* Products */;
 					ProjectRef = 6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */;
 				},
@@ -1084,6 +1103,13 @@
 			fileType = archive.ar;
 			path = libZZiplib.a;
 			remoteRef = 6B7F8AA118F2DEAC000A5951 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6BDDCFFA1ED177E200C3553A /* libFreeImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreeImage.a;
+			remoteRef = 6BDDCFF91ED177E200C3553A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1171,10 +1197,7 @@
 					../../code/Engine/TaskScheduler,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1201,10 +1224,7 @@
 					../../code/Engine/TaskScheduler,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../extern/oisInput/Lib/IOS\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -317,6 +317,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				CONFIGURATION_BUILD_DIR = "../../IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ../;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -325,7 +326,7 @@
 				PROVISIONING_PROFILE = "CFCDE6BD-CBF3-4243-B060-7C3C35B76AE8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -333,6 +334,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: ADAM GEISS (8SJU4ZD534)";
+				CONFIGURATION_BUILD_DIR = "../../IOSBuildLibs/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ../;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -341,7 +343,7 @@
 				PROVISIONING_PROFILE = "CFCDE6BD-CBF3-4243-B060-7C3C35B76AE8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
