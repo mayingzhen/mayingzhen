@@ -27,18 +27,35 @@ namespace ma
 			pTerrain->SetHeightSpcing(50);
 			pTerrain->SetStartPoint(Vector3(0, 0, 0));
 
-			RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",CLAMP,TFO_BILINEAR,false);
+			//RefPtr<SamplerState> pEnv = CreateSamplerState("env_filtered.dds",CLAMP,TFO_BILINEAR,false);
 			
-			int nMip = pEnv->GetTexture()->GetMipMapNumber();
-			Vector2 u_diff_spec_mip(nMip - 1, nMip - 2);
-			float u_mip_bias = nMip / -2.0f;
+			//int nMip = pEnv->GetTexture()->GetMipMapNumber();
+			//Vector2 u_diff_spec_mip(nMip - 1, nMip - 2);
+			//float u_mip_bias = nMip / -2.0f;
+
+			if(1)
+			{
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "terrain", "terrain", "");
+
+				VertexElement element[3];
+				element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
+				element[1] = VertexElement(0, 8, DT_SHORT2N, DU_TEXCOORD, 0);
+				element[2] = VertexElement(0, 12, DT_UBYTE4N, DU_TANGENT, 0);
+				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
+
+				pShadingTech->SetVertexDeclaration(pDeclaration.get());
+
+				pShadingTech->SaveToXML("shader/terrain.tech");
+			}
 
 			RefPtr<Material> testMaterial = CreateMaterial();
 			{
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
 				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				subMaterial->SetShadingTechnqiue("terrain","LAYER 2;DIRLIGHT;ENVREFLECT");
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 2;DIRLIGHT");
+
+				subMaterial->SetShadingTechnqiue(pShadingTech.get());
 				
 				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
 				subMaterial->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
@@ -49,16 +66,21 @@ namespace ma
 				subMaterial->SetParameter("u_cSpecColor", Any( Vector4::ZERO ));
 				subMaterial->SetParameter("u_roughness",Any(0.0f));
 
-				subMaterial->SetParameter("tEnv",Any(pEnv));
-				subMaterial->SetParameter("u_diff_spec_mip",Any(u_diff_spec_mip));
-				subMaterial->SetParameter("u_mip_bias",Any(u_mip_bias));
+				//subMaterial->SetParameter("tEnv",Any(pEnv));
+				//subMaterial->SetParameter("u_diff_spec_mip",Any(u_diff_spec_mip));
+				//subMaterial->SetParameter("u_mip_bias",Any(u_mip_bias));
 			}
 
 			{
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
 				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
+				//subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
+
+				RefPtr<Technique> pNewShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1");
+
+				subMaterial->SetShadingTechnqiue(pNewShadingTech.get());
+
 				Technique* pShadingTech = subMaterial->GetShadingTechnqiue();
 				pShadingTech->SetShaderMacroBool("DIRLIGHT",true);
 				pShadingTech->SetShaderMacroBool("SPEC",true);
@@ -80,7 +102,11 @@ namespace ma
 				RefPtr<SubMaterial> subMaterial = CreateSubMaterial();
 				testMaterial->AddSubMaterial(0,subMaterial.get());
 
-				subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
+				//subMaterial->SetShadingTechnqiue("terrain","LAYER 1");
+
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "LAYER 1");
+
+				subMaterial->SetShadingTechnqiue(pShadingTech.get());
 
 				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/diban_tu.dds") ) );
 				subMaterial->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
@@ -98,9 +124,9 @@ namespace ma
 
 			pTerrain->SaveToXML("scene/terrain/test.xml");
 
-			m_pScene->GetRootNode()->AddChild(pTerrain.get());
+			//m_pScene->GetRootNode()->AddChild(pTerrain.get());
 		}
-		else
+	
 		{
 			RefPtr<Terrain> pTerrain = CreateTerrain("scene/terrain/test.xml");
 

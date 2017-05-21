@@ -1,24 +1,7 @@
 <Material>
 	<LodMaterial>
 		<SubMaterial>
-			<ShadingTech>
-				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 2;DIRLIGHT;ENVREFLECT"/>
-				<RenderState ClassName="Technique">
-					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
-					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
-					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
-					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-					<Attribute Name="Stencil" Type="bool" Value="false"/>
-					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
-					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
-					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
-				</RenderState>
-			</ShadingTech>
+			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 2;DIRLIGHT"/>
 			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
 				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
 				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
@@ -48,36 +31,9 @@
 			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="0 0 0 0"/>
 			<Parameters Name="u_roughness" Type="float" Value="0"/>
-			<Parameters Name="tEnv" Type="SamplerState" ClassName="SamplerState">
-				<Attribute Name="Wrap" Type="string" Value="CLAMP"/>
-				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
-				<Attribute Name="Filter" Type="string" Value="TFO_BILINEAR"/>
-				<Attribute Name="SRGB" Type="bool" Value="false"/>
-				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="env_filtered.dds"/>
-			</Parameters>
-			<Parameters Name="u_diff_spec_mip" Type="Vector2" Value="5 4"/>
-			<Parameters Name="u_mip_bias" Type="float" Value="-3"/>
 		</SubMaterial>
 		<SubMaterial>
-			<ShadingTech>
-				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1;BRDF;BUMPMAP;DIRLIGHT;PARALLAXMAPPING;SPEC"/>
-				<RenderState ClassName="Technique">
-					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
-					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
-					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
-					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-					<Attribute Name="Stencil" Type="bool" Value="false"/>
-					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
-					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
-					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
-				</RenderState>
-			</ShadingTech>
+			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1"/>
 			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
 				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
 				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>
@@ -98,27 +54,10 @@
 			<Parameters Name="uDetailOffSet" Type="Vector4" Value="0 0 0 0"/>
 			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>
-			<Parameters Name="u_roughness" Type="float" Value="20"/>
+			<Parameters Name="u_roughness" Type="float" Value="0"/>
 		</SubMaterial>
 		<SubMaterial>
-			<ShadingTech>
-				<Shader VSFile="terrain" PSFile="terrain" ShaderMacro="LAYER 1"/>
-				<RenderState ClassName="Technique">
-					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
-					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
-					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
-					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-					<Attribute Name="Stencil" Type="bool" Value="false"/>
-					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
-					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
-					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
-				</RenderState>
-			</ShadingTech>
+			<ShadingTech TechName="shader/terrain.tech" TechMarco="LAYER 1"/>
 			<Parameters Name="tDetailMap0" Type="SamplerState" ClassName="SamplerState">
 				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
 				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>

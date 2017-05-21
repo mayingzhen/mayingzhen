@@ -230,3 +230,4 @@ EXPORTS
 ?CreateVertexDeclaration@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexDeclaration@ma@@@2@PAUVertexElement@2@I@Z
 ?SetVertexDeclaration@Technique@ma@@QAEXPAVVertexDeclaration@2@@Z
 ?SetShaderMacroBool@Technique@ma@@QAEXPBD_N@Z
+?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD0@Z

@@ -55,6 +55,8 @@ namespace ma
 		GetRenderSystem()->SetValue( pShader->GetUniform("pos_center"), pos_center );
 		GetRenderSystem()->SetValue( pShader->GetUniform("tc_extent_center"), tc_extent_center );
 
+		pShader->CommitChanges();
+
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 }
