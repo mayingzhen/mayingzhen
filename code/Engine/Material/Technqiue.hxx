@@ -5,6 +5,15 @@ namespace ma
 	Technique::Technique()
 	{
 		m_nStencilRef = 0;
+
+		m_pBlendState = CreateBlendState();
+		GetRenderSystem()->BlendStateStreamComplete(m_pBlendState.get());
+
+		m_pDSState = CreateDepthStencilState();
+		GetRenderSystem()->DepthStencilStateStreamComplete(m_pDSState.get());
+
+		m_pRSState = CreateRasterizerState();
+		GetRenderSystem()->RasterizerStateStreamComplete(m_pRSState.get());
 	}
 
 	Technique::~Technique()
