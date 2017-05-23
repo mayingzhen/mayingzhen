@@ -1,24 +1,7 @@
 <Material>
 	<LodMaterial>
 		<SubMaterial>
-			<ShadingTech>
-				<Shader VSFile="mesh" PSFile="mesh" ShaderMacro="DIFFUSECOLOR;SKIN"/>
-				<RenderState ClassName="Technique">
-					<Attribute Name="DepthWrite" Type="bool" Value="true"/>
-					<Attribute Name="ColorWrite" Type="bool" Value="true"/>
-					<Attribute Name="DepthCheckMode" Type="string" Value="CMPF_LESS_EQUAL"/>
-					<Attribute Name="BlendMode" Type="string" Value="BM_OPATICY"/>
-					<Attribute Name="CullMode" Type="string" Value="CULL_FACE_SIDE_BACK"/>
-					<Attribute Name="Stencil" Type="bool" Value="false"/>
-					<Attribute Name="Stencilfunc" Type="string" Value="CMPF_ALWAYS_PASS"/>
-					<Attribute Name="StencilPass" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilFail " Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="DepthFailOp" Type="string" Value="SOP_KEEP"/>
-					<Attribute Name="StencilRefValue" Type="UINT" Value="4294967295"/>
-					<Attribute Name="StencilMask" Type="UINT" Value="4294967295"/>
-					<Attribute Name="WriteMask" Type="UINT" Value="4294967295"/>
-				</RenderState>
-			</ShadingTech>
+			<ShadingTech TechName="shader/mesh.tech" TechMarco="DIFFUSECOLOR;SKIN"/>
 			<Parameters Name="u_texture" Type="SamplerState" ClassName="SamplerState">
 				<Attribute Name="Wrap" Type="string" Value="REPEAT"/>
 				<Attribute Name="WrapW" Type="string" Value="REPEAT"/>

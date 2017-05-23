@@ -31,6 +31,7 @@ namespace ma
 	{
 		uint16 ShaeType = pDataStream->ReadUShort();
 		Vector3 vPos = pDataStream->ReadVector3();
+		/*Quaternion qRot = */pDataStream->ReadQuaternion();
 
 		if (ShaeType ==0)
 		{
@@ -39,6 +40,7 @@ namespace ma
 		}
 		else
 		{
+			/*Vector2 vRadiusHeight = */pDataStream->ReadVector2();
 			return AABB();
 		}
 	}

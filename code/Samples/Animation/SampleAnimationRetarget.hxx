@@ -56,7 +56,7 @@ namespace ma
 
 
 		// character A MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
 
  			CreateMeshMaterial("gigi/gigi/body_b.tga","gigi/gigi/body_b.mtl","SKIN");
@@ -90,7 +90,7 @@ namespace ma
 		}
 
 		// character B MeshData & skeleton & Animation
-		if (0)
+		if (1)
 		{
 			m_pScene->GetDirLight()->GetSceneNode()->LookAt(Vector3(0,0,1),Vector3(0,0,0));
 			m_pScene->GetDirLight()->SetLightColor(ColourValue(0.5,0.5,0.5,1.0f));

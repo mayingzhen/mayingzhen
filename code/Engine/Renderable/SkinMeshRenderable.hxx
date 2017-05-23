@@ -27,6 +27,8 @@ namespace ma
 			GetRenderSystem()->SetValue( pShader->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
 
+		pShader->CommitChanges();
+
 		GetRenderSystem()->DrawRenderable(this,pTech);
 	}
 

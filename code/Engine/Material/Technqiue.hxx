@@ -509,6 +509,7 @@ namespace ma
 	{
 		Technique* pTech = new Technique();
 		pTech->SetTechName(pTechName);
+		pTech->SetShaderDefine(pDefine);
 
 		RefPtr<ShaderProgram> pShader = CreateShaderProgram(pVSFile,pPSFile,pDefine);
 

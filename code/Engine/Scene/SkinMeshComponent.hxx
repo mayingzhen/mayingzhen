@@ -38,7 +38,7 @@ namespace ma
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
 
-				pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMeshData->GetVertexDeclar());
+				//pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMeshData->GetVertexDeclar());
 				
 				pRenderable->m_pSubMaterial = pSubMaterial;
 
