@@ -8,7 +8,7 @@ using namespace ma;
 
 int main(int argc, char* argv[])
 {
-	bool bForceGLES = false;
+	bool bForceGLES = true;
 	bool bRenderThread = false;
 	bool bDataThread = false;
 	bool bJobScheduler = true;

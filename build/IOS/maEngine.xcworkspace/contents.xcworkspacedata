@@ -11,6 +11,9 @@
       location = "container:"
       name = "Plugin">
       <FileRef
+         location = "group:MetalRender.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Animation.xcodeproj">
       </FileRef>
       <FileRef

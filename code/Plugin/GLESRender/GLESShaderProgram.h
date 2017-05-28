@@ -20,6 +20,8 @@ namespace ma
 
 		virtual void RT_SetShader();
 
+		virtual void CommitChanges();
+
 		VertexAttribute GetVertexAttribute(const char* name) const;
 
 		void Destory();

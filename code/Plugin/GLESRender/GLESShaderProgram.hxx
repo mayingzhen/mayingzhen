@@ -251,4 +251,9 @@ namespace ma
 	{
 	   GL_ASSERT( glUseProgram(m_program) );
 	}
+
+	void GLESShaderProgram::CommitChanges()
+	{
+
+	}
 }
