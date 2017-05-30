@@ -28,7 +28,8 @@ namespace ma
 	{
 		RenderDevice_NULL,
 		RenderDevice_D3D11,
-		RenderDevice_GLES2
+		RenderDevice_GLES2,
+		RenderDevice_VULKAN
 	};
 
 	class IRenderDevice 
