@@ -92,6 +92,8 @@ namespace ma
 
 		GLESDeviceContext*			m_pDeviceContext;	
 
+		GLESVertexDeclaration*		m_pVertexDecl;
+
 		bool mStencilEnabledGL;
 		GLuint mStencilMaskGL;
 	};

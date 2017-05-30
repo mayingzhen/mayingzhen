@@ -16,6 +16,8 @@ namespace ma
 
 		mStencilEnabledGL = false;
 		mStencilMaskGL = 0xFFFFffff;
+
+		m_pVertexDecl = NULL;
 	}
 
 	GLESRenderDevice::~GLESRenderDevice()
@@ -555,7 +557,7 @@ namespace ma
 
 	void GLESRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
-
+		m_pVertexDecl = (GLESVertexDeclaration*)pDec;
 	}
 
 	void GLESRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
@@ -581,14 +583,6 @@ namespace ma
 		ASSERT(pTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
 
-// 		GLESIndexBuffer* pIndexBuffer = (GLESIndexBuffer*)pRenderable->m_pIndexBuffer.get();
-// 		GL_ASSERT( glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexBuffer() ) );
-
-// 		GLESVertexBuffer* pVertexBuffer = (GLESVertexBuffer*)pRenderable->m_pVertexBuffers.get();
-// 		GL_ASSERT( glBindBuffer( GL_ARRAY_BUFFER, pVertexBuffer->GetVertexBuffer() ) );
-
-		//GLESVertexDeclaration* pVertexDeclar = (GLESVertexDeclaration*)pRenderable->m_pDeclaration.get();
-
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
@@ -597,52 +591,52 @@ namespace ma
 		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
-		int vertexStartByte = 0;//nVertexStart * pVertexDeclar->GetStreanmStride();
+		int vertexStartByte = nVertexStart * m_pVertexDecl->GetStreanmStride();
 
-		int nSteam = 0;//pVertexDeclar->GetElementCount();
-// 		for (int i = 0; i < nSteam; ++i)
-// 		{
-// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
-// 
-// 			GLint typeCount = 1; 
-// 			GLenum type = 0;
-// 			GLboolean normalized = false;
-// 			std::string name;
-// 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
-// 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
-// 			if (attr == -1)
-// 				continue;
-// 
-// 			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
-// 
-// 			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDeclar->GetStreanmStride(), pVBufferData ) );
-// 
-// 			GL_ASSERT( glEnableVertexAttribArray(attr) );
-// 		}
-// 
-// 
-// 		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
-// 		void* pIBufferData = BUFFER_OFFSET(indexStride * nIndexStart);
-// 
-// 		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
-// 		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
-// 
-// 		GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIBufferData) );
-// 
-// 		for (int i = 0; i < nSteam; ++i)
-// 		{
-// 			const VertexElement& ve = pVertexDeclar->GetElement(i);
-// 			GLint typeCount = 1; 
-// 			GLenum type = 0;
-// 			GLboolean normalized = false;
-// 			std::string name;
-// 			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
-// 			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
-// 			if (attr == -1)
-// 				continue;
-// 
-// 			GL_ASSERT( glDisableVertexAttribArray(attr) );
-// 		}
+		int nSteam = m_pVertexDecl->GetElementCount();
+		for (int i = 0; i < nSteam; ++i)
+		{
+			const VertexElement& ve = m_pVertexDecl->GetElement(i);
+
+			GLint typeCount = 1; 
+			GLenum type = 0;
+			GLboolean normalized = false;
+			std::string name;
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
+			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
+			if (attr == -1)
+				continue;
+
+			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
+
+			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, m_pVertexDecl->GetStreanmStride(), pVBufferData ) );
+
+			GL_ASSERT( glEnableVertexAttribArray(attr) );
+		}
+
+
+		int indexStride = pRenderable->m_pIndexBuffer->GetStride();
+		void* pIBufferData = BUFFER_OFFSET(indexStride * nIndexStart);
+
+		GLenum ePrimType = GLESMapping::GetGLESPrimitiveType(pRenderable->m_ePrimitiveType);
+		GLenum eIndexType = GLESMapping::GetGLESIndexType(pRenderable->m_pIndexBuffer->GetIndexType());
+
+		GL_ASSERT( glDrawElements(ePrimType, nIndexCount, eIndexType, pIBufferData) );
+
+		for (int i = 0; i < nSteam; ++i)
+		{
+			const VertexElement& ve = m_pVertexDecl->GetElement(i);
+			GLint typeCount = 1; 
+			GLenum type = 0;
+			GLboolean normalized = false;
+			std::string name;
+			GLESMapping::GetGLESDeclType(ve.Usage,ve.UsageIndex,ve.Type,type,typeCount,normalized,name);
+			VertexAttribute attr = pProgram->GetVertexAttribute(name.c_str());
+			if (attr == -1)
+				continue;
+
+			GL_ASSERT( glDisableVertexAttribArray(attr) );
+		}
 	}
 
 	void GLESRenderDevice::DrawDyRenderable(const Renderable* pRenderable,Technique* pTech)

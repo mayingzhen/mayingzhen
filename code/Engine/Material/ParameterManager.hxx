@@ -79,7 +79,7 @@ namespace ma
 		{
 			pParam->BindMethod(GetRenderContext(), &RenderContext::GetDirLightDir);
 		}
-		else if ( strcmp(pszName,"tDeviceDepthMapSampler") )
+		else if ( strcmp(pszName,"tDeviceDepthMapSampler") == 0 )
 		{
 			pParam->BindMethod(this,&ParameterManager::autoBindingDeviceDepthMap);
 		}

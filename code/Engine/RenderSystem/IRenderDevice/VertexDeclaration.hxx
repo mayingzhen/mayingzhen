@@ -147,6 +147,8 @@ namespace ma
 		{
 			m_Elements[m_ElementCount].Import(pXmlEment);
 
+			m_nStreamStride = m_Elements[m_ElementCount].Offset + GetDeclTypeSize(m_Elements[m_ElementCount].Type);
+
 			++m_ElementCount;
 
 			pXmlEment = pXmlEment->next_sibling("Element");
