@@ -69,6 +69,9 @@ namespace ma
 	// Open a stream on a given file. 
 	Stream* ZipArchive::open(const char* pszFile, bool readOnly) const
 	{
+        if (mZzipDir == NULL)
+            return NULL;
+        
 		std::string filename = StringUtil::replaceAll(pszFile, "\\", "/");
 
 		// Format not used here (always binary)
@@ -148,6 +151,8 @@ namespace ma
 	bool ZipArchive::exists(const std::string& filename)
 	{
 		//MutexScope scope(CResourceBackgroundQueue::m_sIOMutex);
+        if (mZzipDir == NULL)
+            return false;
 
 		// zziplib is not threadsafe
 		ZZIP_STAT zstat;

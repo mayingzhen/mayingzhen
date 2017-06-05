@@ -85,9 +85,10 @@ namespace ma
 			const char* pszType = pXmlAnimNode->findAttribute("ClassName");
 
 			RefPtr<AnimTreeNode> pAnimNode = CreateObject<AnimTreeNode>(pszType);
-			this->AddSkelAnim(pAnimNode.get());
 
 			pAnimNode->Import(pXmlAnimNode);
+
+			this->AddSkelAnim(pAnimNode.get());
 
 			pXmlAnimNode = pXmlAnimNode->next_sibling("AnimNode");
 		}

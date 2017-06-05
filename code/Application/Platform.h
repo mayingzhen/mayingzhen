@@ -35,6 +35,8 @@ namespace ma
 		HWND			m_windId;
 
 		std::string		m_strAppPath;
+
+		bool			m_bInit;
 	};
 }
 

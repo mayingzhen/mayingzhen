@@ -44,7 +44,7 @@ void main()
 {     
 	vec3 iPos = a_position * pos_extent + pos_center;  	
 	vec2 iUV  = a_texCoord0 * tc_extent_center.xy + tc_extent_center.zw;
-	vec3 iNormal = a_normal * 2.0 - 1.0;     
+	vec3 iNormal = a_normal.xyz * 2.0 - 1.0;     
     
 #ifdef SKIN
 	iPos  =  SkinPos(iPos,a_blendIndices,a_blendWeights);

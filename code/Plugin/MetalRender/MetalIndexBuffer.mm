@@ -1,57 +1,56 @@
-#include "D3D11IndexBuffer.h"
+#include "MetalIndexBuffer.h"
+#include "MetalRenderDevice.h"
 
 namespace ma
 {
 
 
-D3D11IndexBuffer::D3D11IndexBuffer()
+MetalIndexBuffer::MetalIndexBuffer()
 {
-	mD3D11IndexBuffer = NULL;
+    mMetalIndexBuffer = nil;
 }
 
-D3D11IndexBuffer::~D3D11IndexBuffer()
+MetalIndexBuffer::~MetalIndexBuffer()
 {
-    SAFE_RELEASE(mD3D11IndexBuffer);
+    //SAFE_RELEASE(mMetalIndexBuffer);
 }
 
 
-void* D3D11IndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
+void* MetalIndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 {
-	D3D11_MAP D3DLock;
-
-	if (LockFlag & LOCK_WRITE)
-		D3DLock = D3D11_MAP_WRITE;
-
-	if (LockFlag & LOCK_READONLY)
-		D3DLock = D3D11_MAP_READ;
-
-	if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
-		D3DLock = D3D11_MAP_WRITE_DISCARD;
-
-	if (LockFlag & LOCK_NOOVERWRITE)
-		D3DLock = D3D11_MAP_WRITE_NO_OVERWRITE;
-
-
-	D3D11_MAPPED_SUBRESOURCE mappedData;
-	mappedData.pData = 0;
-
-	GetD3D11DxDeviveContext()->Map(mD3D11IndexBuffer, 0, D3DLock, 0,&mappedData);
-	ASSERT(mappedData.pData);
-	if (mappedData.pData == NULL)
-	{
-		LogError("Failed to map vertex buffer");
-	}
-
-	return mappedData.pData;
+    return NULL;
 }
 
-void D3D11IndexBuffer::UnlockImpl()
+void MetalIndexBuffer::UnlockImpl()
 {
-	GetD3D11DxDeviveContext()->Unmap(mD3D11IndexBuffer, 0);
+	//GetD3D11DxDeviveContext()->Unmap(mMetalIndexBuffer, 0);
 }
 
-void D3D11IndexBuffer::RT_StreamComplete()
+void MetalIndexBuffer::RT_StreamComplete()
 {
+    //MTLResourceOptions options;
+    //{
+    //    bool isWriteCombinedBuffer = (usage == RESOURCE_USAGE_STATIC_DRAW) || (usage == RESOURCE_USAGE_DYNAMIC_DRAW) || (usage == RESOURCE_USAGE_STREAM_DRAW);
+    //    options = (isWriteCombinedBuffer ? MTLResourceCPUCacheModeWriteCombined : MTLResourceCPUCacheModeDefaultCache) | kDefaultBufferStorageMode << MTLResourceStorageModeShift;
+   // }
+    //if (m_Usage & HBU_DYNAMIC)
+    //{
+    //    options = MTLResourceCPUCacheModeWriteCombined;
+    //}
+    //else if (m_Usage == HBU_STATIC)
+    //{
+    //   options = MTLResourceCPUCacheModeDefaultCache;
+    //}
+    
+    mMetalIndexBuffer = [GetMetalDevive() newBufferWithBytes:m_pData length:m_Size options:MTLResourceOptionCPUCacheModeDefault];
+    mMetalIndexBuffer.label = @"IndexBuffer";
+    
+    if (!m_bShadowData)
+    {
+        FreeData();
+    }
+    
+    /*
 	ASSERT(m_Size);
 
 	D3D11_BUFFER_DESC bufferDesc;
@@ -75,9 +74,9 @@ void D3D11IndexBuffer::RT_StreamComplete()
 	D3D11_SUBRESOURCE_DATA InitData;
 	InitData.pSysMem = m_pData;
 
-	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mD3D11IndexBuffer);
-	ASSERT(mD3D11IndexBuffer);
-	if (mD3D11IndexBuffer == NULL)
+	GetD3D11DxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mMetalIndexBuffer);
+	ASSERT(mMetalIndexBuffer);
+	if (mMetalIndexBuffer == NULL)
 	{
 		LogError("CreateVertexBuffer failed");
 		return;
@@ -87,11 +86,12 @@ void D3D11IndexBuffer::RT_StreamComplete()
 	{
 		FreeData();
 	}
+     */
 }
 
-ID3D11Buffer* D3D11IndexBuffer::GetD3DIndexBuffer() 
+id<MTLBuffer> MetalIndexBuffer::GetMetalIndexBuffer()
 {
-    return mD3D11IndexBuffer;
+    return mMetalIndexBuffer;
 }
 
 }

@@ -8,7 +8,7 @@ attribute vec2 a_texCoord0;
 varying vec2 v_texCoord;
 
 
-vec2 TexCoordFromPos(float4 pos)
+vec2 TexCoordFromPos(vec4 pos)
 {
 	vec2 tex = pos.xy / 2.0;
 	tex.y *= -1.0;

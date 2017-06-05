@@ -49,8 +49,6 @@
 		6B84178618E3133D003501D7 /* Platform.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Platform.hxx; sourceTree = "<group>"; };
 		6B84178718E3133D003501D7 /* stdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdAfx.cpp; sourceTree = "<group>"; };
 		6B84178818E3133D003501D7 /* stdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdAfx.h; sourceTree = "<group>"; };
-		6B84178918E3133D003501D7 /* Systems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Systems.h; sourceTree = "<group>"; };
-		6B84178A18E3133D003501D7 /* Systems.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Systems.hxx; sourceTree = "<group>"; };
 		6B84178C18E3133D003501D7 /* PlatformWin.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformWin.hxx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,8 +93,6 @@
 				6B84178618E3133D003501D7 /* Platform.hxx */,
 				6B84178718E3133D003501D7 /* stdAfx.cpp */,
 				6B84178818E3133D003501D7 /* stdAfx.h */,
-				6B84178918E3133D003501D7 /* Systems.h */,
-				6B84178A18E3133D003501D7 /* Systems.hxx */,
 				6B84178B18E3133D003501D7 /* Win */,
 			);
 			name = Application;

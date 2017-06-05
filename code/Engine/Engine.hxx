@@ -33,7 +33,7 @@ namespace ma
 
 		//g_pJobScheduler = new JobScheduler();
 
-		MT::g_pTaskScheduler = new MT::TaskScheduler();
+		//MT::g_pTaskScheduler = new MT::TaskScheduler();
 		//FiberTaskingLib::g_pTaskScheduler = new FiberTaskingLib::TaskScheduler();
 	}
 

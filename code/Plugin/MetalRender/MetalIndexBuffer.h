@@ -1,16 +1,17 @@
 #pragma once
 
+
 namespace ma
 {
 
-	class D3D11IndexBuffer : public IndexBuffer
+	class MetalIndexBuffer : public IndexBuffer
 	{
 	public:
-		D3D11IndexBuffer();
+		MetalIndexBuffer();
 
-		~D3D11IndexBuffer();
+		~MetalIndexBuffer();
 	
-		ID3D11Buffer * GetD3DIndexBuffer() ;
+		id<MTLBuffer> GetMetalIndexBuffer() ;
 
 	private:
 		virtual void*	LockImpl(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
@@ -20,8 +21,8 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	protected:
-	
-		ID3D11Buffer*    mD3D11IndexBuffer;	
+        
+		id<MTLBuffer>   mMetalIndexBuffer;
 	};
 
 }

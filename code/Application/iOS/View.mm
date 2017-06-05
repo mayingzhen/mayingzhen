@@ -65,6 +65,7 @@
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
         ma::Platform::GetInstance().SetAppPath([bundlePath fileSystemRepresentation]);
         ma::Platform::GetInstance().SetWindId(self.layer);
+        
     }
     return self;
 }
@@ -137,7 +138,7 @@
     {
         m_bInited = TRUE;
         
-        //ma::Game::GetInstance().Init();
+        ma::Game::GetInstance().Init();
     }
 
     // Execute a single game frame

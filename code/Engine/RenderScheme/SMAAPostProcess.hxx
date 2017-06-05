@@ -29,7 +29,7 @@ namespace ma
 		pDSSate->m_bDepthWrite = false;
 		pDSSate->m_bStencil = true;
 		pDSSate->m_eStencilfunc = CMPF_ALWAYS_PASS;
-		pDSSate->m_nStencilRefValue = 1;
+		//pDSSate->m_nStencilRefValue = 1;
 		pDSSate->m_nStencilMask = -1;
 		pDSSate->m_nStencilWriteMask = -1;
 		pDSSate->m_eStencilFail = SOP_KEEP;
@@ -57,7 +57,7 @@ namespace ma
 		pDSSate2->m_bDepthWrite = false;
 		pDSSate2->m_bStencil = true;
 		pDSSate2->m_eStencilfunc = CMPF_EQUAL;
-		pDSSate2->m_nStencilRefValue = 1;
+		//pDSSate2->m_nStencilRefValue = 1;
 		pDSSate2->m_nStencilMask = -1;
 		pDSSate2->m_nStencilWriteMask = -1;
 		pDSSate2->m_eStencilFail = SOP_KEEP;

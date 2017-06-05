@@ -13,17 +13,18 @@ namespace ma
 
 	void * GLESIndexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
-		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
-		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ; 
-		ASSERT(glGetError() == GL_NO_ERROR); 
-		return pLock;
+// 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
+// 		GL_ASSERT( glBufferData(GL_ELEMENT_ARRAY_BUFFER,m_Size,NULL,GL_STATIC_DRAW) );
+// 		void* pLock = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_WRITE_ONLY) ; 
+// 		ASSERT(glGetError() == GL_NO_ERROR); 
+// 		return pLock;
+		return NULL;
 	}
 
 	void GLESIndexBuffer::UnlockImpl()
 	{
-		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
-		GL_ASSERT( glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) );	
+// 		GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_hIndexBuffer) );
+// 		GL_ASSERT( glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) );	
 	}
 
 	void GLESIndexBuffer::RT_StreamComplete()

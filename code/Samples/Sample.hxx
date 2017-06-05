@@ -7,9 +7,10 @@ namespace ma
 		m_pScene = GetRenderSystem()->GetScene();
 		m_pCamera = m_pScene->GetCamera();
 
-
-		int nWndWidth,nWndHeigh;
-		Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
+		Rectangle viewPort = GetRenderSystem()->GetViewPort();
+		int nWndWidth = viewPort.width();
+		int nWndHeigh = viewPort.height();
+		//Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 		float fFOV = DegreesToRadians(50.0f);
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;
 		float fNearClip = 0.10f;
@@ -43,19 +44,40 @@ namespace ma
 		
 		std::string strMacro = "DIFFUSECOLOR";
 		strMacro = pszAddMacro ? strMacro + ";" + pszAddMacro : strMacro;
-		RefPtr<Technique> pShadingTech = CreateTechnique("shader/mesh.tech", "mesh", "mesh", strMacro.c_str());
 
-		VertexElement element[5];
-		element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
-		element[1] = VertexElement(0, 8, DT_UBYTE4N, DU_NORMAL, 0);
-		element[2] = VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0);
-		element[3] = VertexElement(0, 16, DT_UBYTE4, DU_BLENDINDICES, 0);
-		element[4] = VertexElement(0, 20, DT_UBYTE4N, DU_BLENDWEIGHT, 0);
-		RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 5);
+		RefPtr<Technique> pShadingTech;
 
-		pShadingTech->SetVertexDeclaration(pDeclaration.get());
+		bool bSkin = strMacro.find("SKIN") != std::string::npos;
+		if (bSkin)
+		{
+			pShadingTech = CreateTechnique("shader/skinmesh.tech", "mesh", "mesh", strMacro.c_str());
 
-		pShadingTech->SaveToXML("shader/mesh.tech");
+			VertexElement element[5];
+			element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
+			element[1] = VertexElement(0, 8, DT_UBYTE4N, DU_NORMAL, 0);
+			element[2] = VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0);
+			element[3] = VertexElement(0, 16, DT_UBYTE4, DU_BLENDINDICES, 0);
+			element[4] = VertexElement(0, 20, DT_UBYTE4N, DU_BLENDWEIGHT, 0);
+			RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 5);
+
+			pShadingTech->SetVertexDeclaration(pDeclaration.get());
+
+			pShadingTech->SaveToXML("shader/skinmesh.tech");
+		}
+		else
+		{
+			pShadingTech = CreateTechnique("shader/mesh.tech", "mesh", "mesh", strMacro.c_str());
+
+			VertexElement element[3];
+			element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
+			element[1] = VertexElement(0, 8, DT_UBYTE4N, DU_NORMAL, 0);
+			element[2] = VertexElement(0, 12, DT_SHORT2N, DU_TEXCOORD, 0);
+			RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
+
+			pShadingTech->SetVertexDeclaration(pDeclaration.get());
+
+			pShadingTech->SaveToXML("shader/mesh.tech");
+		}
 
 		pSubMaterial->SetShadingTechnqiue(pShadingTech.get());
 

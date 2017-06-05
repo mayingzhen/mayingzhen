@@ -28,13 +28,30 @@
 	#define  glPushGroupMarkerEXT(x,y)
 	#define  glPopGroupMarkerEXT()
 #elif WIN32
+	#include "GLES2/gl2.h"
+	#include "GLES2/gl2ext.h"
+	#include "GLES2/egl.h"
+
 	#define WIN32_LEAN_AND_MEAN
 	#define GLEW_STATIC
-	#include <GL/glew.h>
 	#define USE_VAO
+	//#define GL_OES_mapbuffer	
 
-	//#define glPushGroupMarkerEXT(x,y)
-	//#define glPopGroupMarkerEXT()
+	#define OPENGL_ES 1
+
+	#define PFNGLMAPBUFFERRANGEPROC PFNGLMAPBUFFERRANGEEXTPROC
+	#define PFNGLFLUSHMAPPEDBUFFERRANGEPROC PFNGLFLUSHMAPPEDBUFFERRANGEEXTPROC
+	#define GL_MAP_READ_BIT GL_MAP_READ_BIT_EXT
+	#define GL_MAP_WRITE_BIT GL_MAP_WRITE_BIT_EXT
+	#define GL_MAP_INVALIDATE_RANGE_BIT GL_MAP_INVALIDATE_RANGE_BIT_EXT
+	#define GL_MAP_INVALIDATE_BUFFER_BIT GL_MAP_INVALIDATE_BUFFER_BIT_EXT
+	#define GL_MAP_FLUSH_EXPLICIT_BIT GL_MAP_FLUSH_EXPLICIT_BIT_EXT
+	#define GL_MAP_UNSYNCHRONIZED_BIT GL_MAP_UNSYNCHRONIZED_BIT_EXT
+
+	#define GL_WRITE_ONLY GL_WRITE_ONLY_OES
+	#define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
+	//#define glMapBuffer glMapBufferOES
+	//#define glUnmapBuffer glUnmapBufferOES
 
 	#define eglGetProcAddress glewGetProcAddress
 

@@ -27,7 +27,7 @@
 #include <Engine/TaskScheduler/MTTaskQueue.h>
 #include <Engine/TaskScheduler/MTConcurrentRingBuffer.h>
 #include <Engine/TaskScheduler/MTGroupedTask.h>
-
+#include "fiber.h"
 
 #ifdef MT_INSTRUMENTED_BUILD
 

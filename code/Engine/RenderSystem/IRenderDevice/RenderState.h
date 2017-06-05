@@ -1,6 +1,7 @@
 #pragma once
 
 
+
 namespace ma
 {
 	class RasterizerState : public Serializable
@@ -42,12 +43,29 @@ namespace ma
 		StencilOperation	m_eStencilPass;
 		StencilOperation	m_eStencilFail;
 		StencilOperation	m_eDepthFailOp;
-		uint32				m_nStencilRefValue;
 		uint32              m_nStencilMask;
 		uint32				m_nStencilWriteMask;
 
 		bool				m_bDepthWrite;
 		CompareFunction		m_eDepthCheckMode;
+        
+        bool operator < (const DepthStencilState& other) const
+        {
+#define CMPVAR(x) if (x != other.x) return x < other.x;
+            CMPVAR(m_bStencil);
+            CMPVAR(m_eStencilfunc);
+            CMPVAR(m_eStencilPass);
+            CMPVAR(m_eDepthFailOp);
+            CMPVAR(m_eDepthFailOp);
+            CMPVAR(m_nStencilMask);
+            CMPVAR(m_nStencilWriteMask);
+            
+            CMPVAR(m_bDepthWrite);
+            CMPVAR(m_eDepthCheckMode);
+#undef CMPVAR
+            
+            return false;
+        }
 	};
 
 	RefPtr<DepthStencilState> CreateDepthStencilState();
@@ -67,6 +85,16 @@ namespace ma
 		BLEND_MODE			m_eBlendMode;
 
 		bool				m_bColorWrite;
+        
+        bool operator < (const BlendState& other) const
+        {
+#define CMPVAR(x) if (x != other.x) return x < other.x;
+            CMPVAR(m_eBlendMode);
+            CMPVAR(m_bColorWrite);
+#undef CMPVAR
+            
+            return false;
+        }
 	};
 
 	RefPtr<BlendState> CreateBlendState();

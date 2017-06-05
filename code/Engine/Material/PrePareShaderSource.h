@@ -6,13 +6,17 @@ namespace ma
 	void ReplaceDefines(const char* defines, std::string& out)
 	{
 
-#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
-		out.insert(0, "#define OPENGL_ES\n");
-#endif
+//#if PLATFORM_ANDROID == 1 || PLAFTORM_IOS == 1
+//		out.insert(0, "#define OPENGL_ES\n");
+//#endif
 
 		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
 		{
 			out.insert(0,"#define D3D11\n");
+		}
+		else if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2)
+		{
+			out.insert(0, "#define OPENGL_ES\n");
 		}
 
 		if (defines == NULL || strcmp(defines,"") == 0 )

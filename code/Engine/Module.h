@@ -81,7 +81,7 @@
 #include "Engine/Scene/CullNode.h"
 #include "Engine/Scene/CullTree.h"
 #include "Engine/Scene/Camera.h"
-#include "Engine/Scene/meshcomponent.h"
+#include "Engine/Scene/MeshComponent.h"
 #include "Engine/Scene/SkinMeshComponent.h"
 #include "Engine/Scene/Light/Light.h"
 #include "Engine/Scene/Light/DirectonalLight.h"

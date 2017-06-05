@@ -33,10 +33,11 @@ bool MyAssert(const char *, const char *, unsigned int, bool *);
 #else
 
 #ifdef __APPLE__
-#define ASSERT assert
+#include <assert.h>
+//#define ASSERT assert
 #define chSTR2(x) #x
 #define chSTR(x) chSTR2(x)
-#define MY_ASSERT(condition) if(!(condition)) printf("[Assertion Failed] CONDITION:(" #condition")" " FILE:" __FILE__ " LINE:" chSTR(__LINE__) "\n")
+#define MY_ASSERT(condition) if(!(condition)) printf("[Assertion Failed] CONDITION:(" #condition")" " FILE:" __FILE__ " LINE:" chSTR(__LINE__) "\n"); assert(condition);
 #define MY_ASSERT_MESSAGE(condition,message) if(!(condition)) printf("[Assertion Failed] CONDITION:(" #condition")" " FILE:" __FILE__ " LINE:" chSTR(__LINE__) " MESSAGE:" message "\n")
 #define MY_ASSERT_TRACE(condition,parenthese_message) if(!(condition)) {printf("[Assertion Failed] CONDITION:(" #condition")" " FILE:" __FILE__ " LINE:" chSTR(__LINE__) " MESSAGE:"); printf parenthese_message; printf("\n");}
 #else
@@ -48,8 +49,8 @@ bool MyAssert(const char *, const char *, unsigned int, bool *);
 
 #endif
 
-#undef assert
-#define assert MY_ASSERT
+//#undef assert
+//#define assert MY_ASSERT
 #undef ASSERT
 #define ASSERT MY_ASSERT
 #define ASSERTMSG MY_ASSERT_MESSAGE

@@ -84,7 +84,8 @@ namespace MT
 		threadContext = nullptr;
 
 		//switch to scheduler
-		Fiber::SwitchTo(fiber, schedulerFiber);
+		//Fiber::SwitchTo(fiber, schedulerFiber);
+		fiber.SwitchToFiber(&schedulerFiber);
 
 #ifdef MT_INSTRUMENTED_BUILD
 		threadContext->NotifyTaskExecuteStateChanged( currentTask.debugColor, currentTask.debugID, TaskExecuteState::RESUME, (int32)fiberIndex);
@@ -117,7 +118,8 @@ namespace MT
 		threadContext = nullptr;
 
 		//switch to scheduler
-		Fiber::SwitchTo(fiber, schedulerFiber);
+		//Fiber::SwitchTo(fiber, schedulerFiber);
+		fiber.SwitchToFiber(&schedulerFiber);
 
 #ifdef MT_INSTRUMENTED_BUILD
 		threadContext->NotifyTaskExecuteStateChanged( currentTask.debugColor, currentTask.debugID, TaskExecuteState::RESUME, (int32)fiberIndex);

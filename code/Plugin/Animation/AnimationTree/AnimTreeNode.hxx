@@ -10,6 +10,7 @@ namespace ma
 		m_fFadeTime = 0.3f;
 		m_fLocalFrame = 0;
 		m_pCallBack = NULL;
+		m_nAnimID = -1;
 	}
 
 	AnimTreeNode::~AnimTreeNode()

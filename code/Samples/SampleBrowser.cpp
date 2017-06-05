@@ -10,6 +10,10 @@
 #include "D3D11Render/Module.h"
 #endif
 
+#if defined(__APPLE__)
+#include "MetalRender/Module.h"
+#endif
+
 #include "CameraController.hxx"
 #include "Sample.hxx"
 
@@ -40,9 +44,11 @@ namespace ma
 	}
 
 
-	SampleBrowser::SampleBrowser(const char* pGameName)
-		:Game(pGameName)
+	SampleBrowser::SampleBrowser(const char* pGameName,const Setting& set,const char* pszRunSample)
+		:Game(pGameName,set)
 	{
+        m_strSample = pszRunSample;
+        
 		m_bPause = false;
 		m_bStepOneFrame = false;
 		m_pCurSample = NULL;
@@ -72,7 +78,11 @@ namespace ma
 
 		//FBXImporterModuleInit();
 #else
-		GLESRenderModuleInit();		
+    //#if __APPLE__
+    //    MetalRenderModuleInit();
+    //#else
+		GLESRenderModuleInit();
+    //#endif
 #endif
 	}
 
@@ -94,8 +104,11 @@ namespace ma
 			GLESRenderModuleShutdown();
 		}
 #else
-
+    //#if defined(__APPLE__)
+    //    MetalRenderModuleShutdown();
+    //#else
 		GLESRenderModuleShutdown();
+    //#endif
 #endif	
 	}
 
@@ -112,7 +125,7 @@ namespace ma
 #elif PLAFTORM_IOS == 1
 		std::string sAppDir = Platform::GetInstance().GetAppPath();
 
-		std::string sDataDir = sAppDir + "data/data.zip";
+		std::string sDataDir = sAppDir + "data.zip";
 		GetArchiveMananger()->AddArchive( CreateZipArchive(sDataDir.c_str()).get() );
 
         sDataDir = sAppDir + "data";
@@ -153,20 +166,20 @@ namespace ma
 		ModuleShutdown();
 	}
 
-	void SampleBrowser::Init(bool bForceGLES, bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample)
+	void SampleBrowser::Init()
 	{
-		if (bForceGLES)
+		if (m_setting.bForceGLES)
 		{
 			ModuleInit(RenderDevice_GLES2);
 		}
 		else
 		{
-			ModuleInit(RenderDevice_D3D11);	
+			ModuleInit(RenderDevice_D3D11);
 		}
 		
 		InitResourcePath();
 
-		Game::Init(bRenderThread,bDataThread,bJobScheduler);
+		Game::Init();
 	
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Init();
@@ -183,7 +196,7 @@ namespace ma
 
 		m_pCameraControl = new CameraController( pScene->GetCamera() );
 
-		RunSample(pszRunSample);
+		RunSample(m_strSample.c_str());
 
 		if (GetPhysicsSystem())
 			GetPhysicsSystem()->Start();

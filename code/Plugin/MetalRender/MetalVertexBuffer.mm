@@ -1,42 +1,43 @@
-#include "D3D11VertexBuffer.h"
+#include "MetalVertexBuffer.h"
 
 namespace ma
 {
 
-	D3D11VertexBuffer::D3D11VertexBuffer()
+	MetalVertexBuffer::MetalVertexBuffer()
 	{
-		mD3D11VertexBuffer = NULL;
+		mMetalVertexBuffer = NULL;
 	}
 
-	D3D11VertexBuffer::~D3D11VertexBuffer()
+	MetalVertexBuffer::~MetalVertexBuffer()
 	{
-		SAFE_RELEASE(mD3D11VertexBuffer);
+		//SAFE_RELEASE(mMetalVertexBuffer);
 	}
 
-	void* D3D11VertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
+	void* MetalVertexBuffer::LockImpl(int iOffsetBytes, int iLockSize, LOCK LockFlag)
 	{
-		ASSERT(mD3D11VertexBuffer);
-		if (mD3D11VertexBuffer == NULL)
+        /*
+		ASSERT(mMetalVertexBuffer);
+		if (mMetalVertexBuffer == NULL)
 			return NULL;
 
-		D3D11_MAP D3DLock;
+		Metal_MAP D3DLock;
 
 		if (LockFlag & LOCK_WRITE)
-			D3DLock = D3D11_MAP_WRITE;
+			D3DLock = Metal_MAP_WRITE;
 
 		if (LockFlag & LOCK_READONLY)
-			D3DLock = D3D11_MAP_READ;
+			D3DLock = Metal_MAP_READ;
 
 		if ((LockFlag & LOCK_DISCARD) && (m_Usage & USAGE_DYNAMIC))
-			D3DLock = D3D11_MAP_WRITE_DISCARD;
+			D3DLock = Metal_MAP_WRITE_DISCARD;
 
 		if (LockFlag & LOCK_NOOVERWRITE)
-			D3DLock = D3D11_MAP_WRITE_NO_OVERWRITE;
+			D3DLock = Metal_MAP_WRITE_NO_OVERWRITE;
 
-		D3D11_MAPPED_SUBRESOURCE mappedData;
+		Metal_MAPPED_SUBRESOURCE mappedData;
 		mappedData.pData = 0;
 
-		GetD3D11DxDeviveContext()->Map(mD3D11VertexBuffer, 0, D3DLock, 0,&mappedData);
+		GetMetalDxDeviveContext()->Map(mMetalVertexBuffer, 0, D3DLock, 0,&mappedData);
 		ASSERT(mappedData.pData);
 		if (mappedData.pData == NULL)
 		{
@@ -44,51 +45,54 @@ namespace ma
 		}
 
 		return mappedData.pData;
+      */
+        return NULL;
 	}
 
-	void D3D11VertexBuffer::UnlockImpl()
+	void MetalVertexBuffer::UnlockImpl()
 	{
-		ASSERT(mD3D11VertexBuffer);
-		if (mD3D11VertexBuffer == NULL)
+		ASSERT(mMetalVertexBuffer);
+		if (mMetalVertexBuffer == NULL)
 			return;
 
-		GetD3D11DxDeviveContext()->Unmap(mD3D11VertexBuffer, 0);
+		//GetMetalDxDeviveContext()->Unmap(mMetalVertexBuffer, 0);
 	}
 
-	void D3D11VertexBuffer::RT_StreamComplete()
+	void MetalVertexBuffer::RT_StreamComplete()
 	{
-		ASSERT(mD3D11VertexBuffer == NULL);
+		ASSERT(mMetalVertexBuffer == NULL);
 
 		ASSERT(m_Size);
-
-		D3D11_BUFFER_DESC bufferDesc;
+/*
+		Metal_BUFFER_DESC bufferDesc;
 		memset(&bufferDesc, 0, sizeof bufferDesc);
-		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		bufferDesc.CPUAccessFlags = m_Usage & HBU_DYNAMIC ? D3D11_CPU_ACCESS_WRITE : 0;
+		bufferDesc.BindFlags = Metal_BIND_VERTEX_BUFFER;
+		bufferDesc.CPUAccessFlags = m_Usage & HBU_DYNAMIC ? Metal_CPU_ACCESS_WRITE : 0;
 		if (m_Usage & HBU_DYNAMIC)
 		{
-			bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+			bufferDesc.Usage = Metal_USAGE_DYNAMIC;
 		}
 		else if (m_Usage == HBU_STATIC)
 		{
-			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+			bufferDesc.Usage = Metal_USAGE_IMMUTABLE;
 		}
 		else
 		{
-			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+			bufferDesc.Usage = Metal_USAGE_DEFAULT;
 		}
 		bufferDesc.ByteWidth = (UINT)(m_Size);
 
-		D3D11_SUBRESOURCE_DATA InitData;
+		Metal_SUBRESOURCE_DATA InitData;
 		InitData.pSysMem = m_pData;
 
-		GetD3D11DxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mD3D11VertexBuffer);
-		ASSERT(mD3D11VertexBuffer);
-		if (mD3D11VertexBuffer == NULL)
+		GetMetalDxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mMetalVertexBuffer);
+		ASSERT(mMetalVertexBuffer);
+		if (mMetalVertexBuffer == NULL)
 		{
 			LogError("CreateVertexBuffer failed");
 			return;
 		}
+ */
 
 		if (!m_bShadowData)
 		{
@@ -96,8 +100,8 @@ namespace ma
 		}
 	}
 
-	ID3D11Buffer * D3D11VertexBuffer::GetD3DVertexBuffer()
+	id<MTLBuffer> MetalVertexBuffer::GetMetalVertexBuffer()
 	{
-		return mD3D11VertexBuffer;
+		return mMetalVertexBuffer;
 	}
 }

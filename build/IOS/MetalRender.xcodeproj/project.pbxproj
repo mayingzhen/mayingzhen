@@ -1,0 +1,327 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6B39C59E1ED6886E0044DC77 /* MetalConstantBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */; };
+		6B39C59F1ED6886E0044DC77 /* MetalIndexBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5891ED6886E0044DC77 /* MetalIndexBuffer.mm */; };
+		6B39C5A01ED6886E0044DC77 /* MetalMapping.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C58B1ED6886E0044DC77 /* MetalMapping.mm */; };
+		6B39C5A11ED6886E0044DC77 /* MetalRenderDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C58D1ED6886E0044DC77 /* MetalRenderDevice.mm */; };
+		6B39C5A21ED6886E0044DC77 /* MetalRenderState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C58F1ED6886E0044DC77 /* MetalRenderState.mm */; };
+		6B39C5A31ED6886E0044DC77 /* MetalSamplerState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5911ED6886E0044DC77 /* MetalSamplerState.mm */; };
+		6B39C5A41ED6886E0044DC77 /* MetalShaderProgram.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5931ED6886E0044DC77 /* MetalShaderProgram.mm */; };
+		6B39C5A51ED6886E0044DC77 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5951ED6886E0044DC77 /* MetalTexture.mm */; };
+		6B39C5A61ED6886E0044DC77 /* MetalVertexBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5971ED6886E0044DC77 /* MetalVertexBuffer.mm */; };
+		6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C5991ED6886E0044DC77 /* MetalVertexDeclaration.mm */; };
+		6B39C5A81ED6886E0044DC77 /* Module.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59A1ED6886E0044DC77 /* Module.mm */; };
+		6B39C5A91ED6886E0044DC77 /* stdafx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B39C59C1ED6886E0044DC77 /* stdafx.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FA78E58179430A1005B3CD6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6B38673F1EE01BEE000B6D7A /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		6B39C5861ED6886E0044DC77 /* MetalConstantBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalConstantBuffer.h; sourceTree = "<group>"; };
+		6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalConstantBuffer.mm; sourceTree = "<group>"; };
+		6B39C5881ED6886E0044DC77 /* MetalIndexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalIndexBuffer.h; sourceTree = "<group>"; };
+		6B39C5891ED6886E0044DC77 /* MetalIndexBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalIndexBuffer.mm; sourceTree = "<group>"; };
+		6B39C58A1ED6886E0044DC77 /* MetalMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalMapping.h; sourceTree = "<group>"; };
+		6B39C58B1ED6886E0044DC77 /* MetalMapping.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalMapping.mm; sourceTree = "<group>"; };
+		6B39C58C1ED6886E0044DC77 /* MetalRenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalRenderDevice.h; sourceTree = "<group>"; };
+		6B39C58D1ED6886E0044DC77 /* MetalRenderDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderDevice.mm; sourceTree = "<group>"; };
+		6B39C58E1ED6886E0044DC77 /* MetalRenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalRenderState.h; sourceTree = "<group>"; };
+		6B39C58F1ED6886E0044DC77 /* MetalRenderState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalRenderState.mm; sourceTree = "<group>"; };
+		6B39C5901ED6886E0044DC77 /* MetalSamplerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalSamplerState.h; sourceTree = "<group>"; };
+		6B39C5911ED6886E0044DC77 /* MetalSamplerState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalSamplerState.mm; sourceTree = "<group>"; };
+		6B39C5921ED6886E0044DC77 /* MetalShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalShaderProgram.h; sourceTree = "<group>"; };
+		6B39C5931ED6886E0044DC77 /* MetalShaderProgram.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalShaderProgram.mm; sourceTree = "<group>"; };
+		6B39C5941ED6886E0044DC77 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalTexture.h; sourceTree = "<group>"; };
+		6B39C5951ED6886E0044DC77 /* MetalTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalTexture.mm; sourceTree = "<group>"; };
+		6B39C5961ED6886E0044DC77 /* MetalVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalVertexBuffer.h; sourceTree = "<group>"; };
+		6B39C5971ED6886E0044DC77 /* MetalVertexBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalVertexBuffer.mm; sourceTree = "<group>"; };
+		6B39C5981ED6886E0044DC77 /* MetalVertexDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalVertexDeclaration.h; sourceTree = "<group>"; };
+		6B39C5991ED6886E0044DC77 /* MetalVertexDeclaration.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetalVertexDeclaration.mm; sourceTree = "<group>"; };
+		6B39C59A1ED6886E0044DC77 /* Module.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = Module.mm; sourceTree = "<group>"; };
+		6B39C59B1ED6886E0044DC77 /* Module.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = Module.h; sourceTree = "<group>"; };
+		6B39C59C1ED6886E0044DC77 /* stdafx.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = stdafx.mm; sourceTree = "<group>"; };
+		6B39C59D1ED6886E0044DC77 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		6FA78E5A179430A1005B3CD6 /* libMetalRender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMetalRender.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FA78E57179430A1005B3CD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6B39C5851ED6886E0044DC77 /* MetalRender */ = {
+			isa = PBXGroup;
+			children = (
+				6B38673F1EE01BEE000B6D7A /* Export.h */,
+				6B39C5861ED6886E0044DC77 /* MetalConstantBuffer.h */,
+				6B39C5871ED6886E0044DC77 /* MetalConstantBuffer.mm */,
+				6B39C5881ED6886E0044DC77 /* MetalIndexBuffer.h */,
+				6B39C5891ED6886E0044DC77 /* MetalIndexBuffer.mm */,
+				6B39C58A1ED6886E0044DC77 /* MetalMapping.h */,
+				6B39C58B1ED6886E0044DC77 /* MetalMapping.mm */,
+				6B39C58C1ED6886E0044DC77 /* MetalRenderDevice.h */,
+				6B39C58D1ED6886E0044DC77 /* MetalRenderDevice.mm */,
+				6B39C58E1ED6886E0044DC77 /* MetalRenderState.h */,
+				6B39C58F1ED6886E0044DC77 /* MetalRenderState.mm */,
+				6B39C5901ED6886E0044DC77 /* MetalSamplerState.h */,
+				6B39C5911ED6886E0044DC77 /* MetalSamplerState.mm */,
+				6B39C5921ED6886E0044DC77 /* MetalShaderProgram.h */,
+				6B39C5931ED6886E0044DC77 /* MetalShaderProgram.mm */,
+				6B39C5941ED6886E0044DC77 /* MetalTexture.h */,
+				6B39C5951ED6886E0044DC77 /* MetalTexture.mm */,
+				6B39C5961ED6886E0044DC77 /* MetalVertexBuffer.h */,
+				6B39C5971ED6886E0044DC77 /* MetalVertexBuffer.mm */,
+				6B39C5981ED6886E0044DC77 /* MetalVertexDeclaration.h */,
+				6B39C5991ED6886E0044DC77 /* MetalVertexDeclaration.mm */,
+				6B39C59A1ED6886E0044DC77 /* Module.mm */,
+				6B39C59B1ED6886E0044DC77 /* Module.h */,
+				6B39C59C1ED6886E0044DC77 /* stdafx.mm */,
+				6B39C59D1ED6886E0044DC77 /* stdafx.h */,
+			);
+			name = MetalRender;
+			path = ../../code/Plugin/MetalRender;
+			sourceTree = "<group>";
+		};
+		6FA78E51179430A1005B3CD6 = {
+			isa = PBXGroup;
+			children = (
+				6B39C5851ED6886E0044DC77 /* MetalRender */,
+				6FA78E5B179430A1005B3CD6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FA78E5B179430A1005B3CD6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FA78E5A179430A1005B3CD6 /* libMetalRender.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FA78E59179430A1005B3CD6 /* MetalRender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FA78E68179430A1005B3CD6 /* Build configuration list for PBXNativeTarget "MetalRender" */;
+			buildPhases = (
+				6FA78E56179430A1005B3CD6 /* Sources */,
+				6FA78E57179430A1005B3CD6 /* Frameworks */,
+				6FA78E58179430A1005B3CD6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MetalRender;
+			productName = GLESRender;
+			productReference = 6FA78E5A179430A1005B3CD6 /* libMetalRender.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FA78E52179430A1005B3CD6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = nd;
+			};
+			buildConfigurationList = 6FA78E55179430A1005B3CD6 /* Build configuration list for PBXProject "MetalRender" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6FA78E51179430A1005B3CD6;
+			productRefGroup = 6FA78E5B179430A1005B3CD6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FA78E59179430A1005B3CD6 /* MetalRender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FA78E56179430A1005B3CD6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B39C5A71ED6886E0044DC77 /* MetalVertexDeclaration.mm in Sources */,
+				6B39C59F1ED6886E0044DC77 /* MetalIndexBuffer.mm in Sources */,
+				6B39C59E1ED6886E0044DC77 /* MetalConstantBuffer.mm in Sources */,
+				6B39C5A01ED6886E0044DC77 /* MetalMapping.mm in Sources */,
+				6B39C5A51ED6886E0044DC77 /* MetalTexture.mm in Sources */,
+				6B39C5A61ED6886E0044DC77 /* MetalVertexBuffer.mm in Sources */,
+				6B39C5A81ED6886E0044DC77 /* Module.mm in Sources */,
+				6B39C5A11ED6886E0044DC77 /* MetalRenderDevice.mm in Sources */,
+				6B39C5A41ED6886E0044DC77 /* MetalShaderProgram.mm in Sources */,
+				6B39C5A91ED6886E0044DC77 /* stdafx.mm in Sources */,
+				6B39C5A31ED6886E0044DC77 /* MetalSamplerState.mm in Sources */,
+				6B39C5A21ED6886E0044DC77 /* MetalRenderState.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6FA78E66179430A1005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6FA78E67179430A1005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FA78E69179430A1005B3CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/MetalRender.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/MetalRender/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/DevIL/include/,
+					../../extern/oisinput/include/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
+			};
+			name = Debug;
+		};
+		6FA78E6A179430A1005B3CD6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CONFIGURATION_BUILD_DIR = ./lib;
+				DSTROOT = /tmp/MetalRender.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../code/plugin/MetalRender/Stdafx.h;
+				HEADER_SEARCH_PATHS = (
+					../../code/,
+					../../code/plugin/,
+					../../extern/DevIL/include/,
+					../../extern/oisinput/include/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../extern/DevIL/lib/IOS\"",
+					"\"/Users/mayingzhen/Library/Developer/Xcode/DerivedData/DevIL-hiovobrvrjhsqreazoeqfvqiwyph/Build/Products/Debug-iphoneos\"",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FA78E55179430A1005B3CD6 /* Build configuration list for PBXProject "MetalRender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E66179430A1005B3CD6 /* Debug */,
+				6FA78E67179430A1005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FA78E68179430A1005B3CD6 /* Build configuration list for PBXNativeTarget "MetalRender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FA78E69179430A1005B3CD6 /* Debug */,
+				6FA78E6A179430A1005B3CD6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FA78E52179430A1005B3CD6 /* Project object */;
+}

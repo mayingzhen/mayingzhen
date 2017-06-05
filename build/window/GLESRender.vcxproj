@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code;../../code/plugin;../../extern/include;../../extern/glew-1.11.0/include;../../extern/vld/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code;../../code/plugin;../../extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GLESRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -64,8 +64,8 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OpenGL32.lib;glew32sd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../extern/glew-1.11.0/lib;../../extern/vld/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libGLESv2.lib;libEGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../extern/GLES2;../../extern/vld/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -133,6 +133,8 @@
     <None Include="..\..\Data\Shader\GLES\Default.vert" />
     <None Include="..\..\data\shader\GLES\font.frag" />
     <None Include="..\..\data\shader\GLES\font.vert" />
+    <None Include="..\..\data\shader\gles\mesh.frag" />
+    <None Include="..\..\data\shader\gles\mesh.vert" />
     <None Include="..\..\data\shader\gles\shadowDepth.frag" />
     <None Include="..\..\data\shader\gles\shadowDepth.vert" />
     <None Include="..\..\data\shader\GLES\terrain.frag" />

@@ -1,16 +1,19 @@
 #pragma once
 
+#include "MetalConstantBuffer.h"
+
+
 
 namespace ma
 {
 
-	class D3D11ShaderProgram : public ShaderProgram
+	class MetalShaderProgram : public ShaderProgram
 	{
 	public:
 
-		D3D11ShaderProgram();
+		MetalShaderProgram();
 
-		~D3D11ShaderProgram();
+		~MetalShaderProgram();
 
 		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
@@ -37,8 +40,8 @@ namespace ma
 
 	private:
 
-		ID3D11VertexShader*		m_pVertexShader;
-		ID3D11PixelShader*		m_pPiexelShader;
+		id<MTLFunction>         m_pVertexShader;
+		id<MTLFunction> 		m_pPiexelShader;
 
 		vector<BYTE>			m_pByteVSCode;		
 		vector<BYTE>			m_pBytePSCode;	
@@ -48,7 +51,7 @@ namespace ma
 		RefPtr<ConstantBuffer> m_vecVSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 		RefPtr<ConstantBuffer> m_vecPSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 
-		friend class D3D11RenderDevice;
+		friend class MetalRenderDevice;
 	};
 
 

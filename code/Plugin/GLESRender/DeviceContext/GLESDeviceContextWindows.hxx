@@ -4,66 +4,134 @@ namespace ma
 {
 	void GLESDeviceContext::Init(HWND wndhandle)
 	{
-		//------------------------------------------------------------------------------
-		//Create OpenGL Context
-		//------------------------------------------------------------------------------
-		m_hDC = GetDC(wndhandle);
-		int iPF = 0;
+		EGLint numConfigs;
+		EGLint majorVersion;
+		EGLint minorVersion;
+		EGLDisplay display;
+		EGLContext context;
+		EGLSurface surface;
+		EGLConfig config;
 
-		PIXELFORMATDESCRIPTOR pfd = { 
-			sizeof(PIXELFORMATDESCRIPTOR),  //  size of this pfd 
-			1,                     // version number 
-			PFD_DRAW_TO_WINDOW |   // support window 
-			PFD_SUPPORT_OPENGL |   // support OpenGL 
-			PFD_DOUBLEBUFFER,      // double buffered 
-			PFD_TYPE_RGBA,         // RGBA type 
-			24,                    // 24-bit color depth 
-			8, 0, 8, 0, 8, 0,      // color bits ignored 
-			0,                     // no alpha buffer 
-			0,                     // shift bit ignored 
-			0,                     // no accumulation buffer 
-			0, 0, 0, 0,            // accum bits ignored 
-			24,                    // 32-bit z-buffer     
-			8,                     // no stencil buffer 
-			0,                     // no auxiliary buffer 
-			PFD_MAIN_PLANE,        // main layer 
-			0,                     // reserved 
-			0, 0, 0                // layer masks ignored 
-		}; 
-		bool bOK = true;
-
-		if( !(iPF = ChoosePixelFormat( m_hDC, &pfd )) ) 
+		int nSamples = 0;
+		EGLint attribList[] =
 		{
-			bOK = false;
-		}
+			EGL_SURFACE_TYPE,       EGL_WINDOW_BIT,
+			EGL_RENDERABLE_TYPE,    EGL_OPENGL_ES2_BIT,
+			EGL_RED_SIZE,           5,
+			EGL_GREEN_SIZE,         6,
+			EGL_BLUE_SIZE,          5,
+			EGL_ALPHA_SIZE,         EGL_DONT_CARE,
+			EGL_DEPTH_SIZE,         16,
+			EGL_STENCIL_SIZE,       8,
+			EGL_SAMPLE_BUFFERS,     nSamples > 0 ? 1 : 0,
+			EGL_SAMPLES,            nSamples,
+			EGL_NONE
+		};
 
-		if( !SetPixelFormat( m_hDC, iPF, &pfd ) ) 
+		// Get Display
+		display = eglGetDisplay(GetDC(wndhandle));
+		if (display == EGL_NO_DISPLAY)
 		{
-			bOK =  false;
-		}
-
-		if( !(m_hGLRC = wglCreateContext( m_hDC )) ) 
-		{
-			bOK =  false;
-		}
-
-
-		BOOL bMCOK = wglMakeCurrent(m_hDC,m_hGLRC);
-		ASSERT(bMCOK && "Fail to init gl context");
-
-		// Initialize GLEW
-		if (GLEW_OK != glewInit())
-		{
-			wglDeleteContext(m_hGLRC);
-			DestroyWindow(wndhandle);
-			LogError("Failed to initialize GLEW.");
+			ASSERT(false);
 			return ;
 		}
+
+		// Initialize EGL
+		if (!eglInitialize(display, &majorVersion, &minorVersion))
+		{
+			ASSERT(false);
+			return ;
+		}
+
+		// Get configs
+		if (!eglGetConfigs(display, NULL, 0, &numConfigs))
+		{
+			ASSERT(false);
+			return ;
+		}
+
+		// Choose config
+		if (!eglChooseConfig(display, attribList, &config, 1, &numConfigs))
+		{
+			ASSERT(false);
+			return ;
+		}
+
+		EGLint nDepth = 0, nStencil = 0, nSampleBuffers;
+		if (!eglGetConfigAttrib(display, config, EGL_DEPTH_SIZE, &nDepth))
+		{
+			ASSERT(false);
+			return ;
+		}
+		if (!eglGetConfigAttrib(display, config, EGL_STENCIL_SIZE, &nStencil))
+		{
+			ASSERT(false);
+			return ;
+		}
+		if (!eglGetConfigAttrib(display, config, EGL_SAMPLE_BUFFERS, &nSampleBuffers))
+		{
+			ASSERT(false);
+			return ;
+		}
+		LogInfo("EGL Depth:%d, Stencil:%d, SampleBuffers:%d", nDepth, nStencil, nSampleBuffers);
+
+		// Create a surface
+		surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)wndhandle, NULL);
+		if (surface == EGL_NO_SURFACE)
+		{
+			EGLint err = eglGetError();
+			switch (err)
+			{
+			case EGL_BAD_MATCH:
+				LogError("Check window and EGLConfig attributes to determine compatibility, or verify that the EGLConfig supports rendering to a window");
+				break;
+			case EGL_BAD_CONFIG:
+				LogError("Verify that provided EGLConfig is valid");
+				break;
+			case EGL_BAD_NATIVE_WINDOW:
+				LogError("Verify that provided EGLNativeWindow is valid");
+				break;
+			case EGL_BAD_ALLOC:
+				LogError("Not enough resources available. Handle and recover");
+				break;
+			default:
+				LogError("Failed to eglCreateWindowSurface:%d", err);
+				break;
+			}
+			return ;
+		}
+
+		// Create a GL context
+		EGLint contextAttribs[] =
+		{
+			EGL_CONTEXT_CLIENT_VERSION, 2,
+			EGL_NONE
+		};
+		context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+		if (context == EGL_NO_CONTEXT)
+		{
+			ASSERT(false);
+			return;
+		}
+
+		// Make the context current
+		if (!eglMakeCurrent(display, surface, surface, context))
+		{
+			ASSERT(false);
+			return ;
+		}
+
+		m_eglDisplay = display;
+		m_eglSurface = surface;
+		m_eglContext = context;
+
+		//LogInfo("Init DefaultFBO:%d, HWND:0x%x", mFBO, m_hWnd);
+		return ;
 	}
 
 	void GLESDeviceContext::SwapBuffers()
 	{
-		GL_ASSERT( ::SwapBuffers(m_hDC) );
+		GL_ASSERT( eglSwapBuffers(m_eglDisplay, m_eglSurface) );
 	}
 }
 

@@ -30,7 +30,7 @@ namespace ma
 		ATTRIBUTE(VertexElement, "Offset", Offset, short, 0, AM_DEFAULT);
 		ENUM_ATTRIBUTE(VertexElement, "Type", Type, DECL_TYPE, strDECL_TYPE, DT_UNKNOWN, AM_DEFAULT);
 		ENUM_ATTRIBUTE(VertexElement, "Usage", Usage, DECL_USAGE, strDECL_USAGE, DU_UNKNOWN, AM_DEFAULT);
-		ATTRIBUTE(VertexElement, "UsageIndex", UsageIndex, unsigned char, 0, AM_DEFAULT);
+		ATTRIBUTE(VertexElement, "UsageIndex", UsageIndex, short, 0, AM_DEFAULT);
 	}
 
 	// ---------------------------------------------------------------------

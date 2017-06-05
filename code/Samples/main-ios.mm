@@ -12,14 +12,14 @@ int main(int argc, char** argv)
 {
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     
-	bool bForceGLES = false;
-	bool bRenderThread = false;
-	bool bDataThread = false;
-	bool bJobScheduler = true;
+    Setting set;
+	set.bForceGLES = true;
+	set.bRenderThread = false;
+	set.bDataThread = false;
+	set.bJobScheduler = true;
 
-	SampleBrowser sampleBrowser("SampleBrowser");
-
-	sampleBrowser.Init(bForceGLES,bRenderThread,bDataThread,bJobScheduler,"SampleMaterial");
+	SampleBrowser sampleBrowser("SampleBrowser",set,"SampleAnimationRetarget");
+    
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();
     

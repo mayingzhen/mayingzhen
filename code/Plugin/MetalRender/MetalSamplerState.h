@@ -2,10 +2,10 @@
 
 namespace ma
 {
-	class D3D11SamplerStateObject : public SamplerState
+	class MetalSamplerStateObject : public SamplerState
 	{
 	public:
-		D3D11SamplerStateObject();
+		MetalSamplerStateObject();
 
 	public:
 
@@ -14,7 +14,7 @@ namespace ma
 		static void Clear();
 
 	public:
-		ID3D11SamplerState* m_pImpl;
+		id<MTLSamplerState> m_pImpl;
 	};
 
 }

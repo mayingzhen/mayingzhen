@@ -8,15 +8,23 @@
 namespace ma
 {	
 	class Platform;
+    
+    struct APP_API Setting
+    {
+		bool bForceGLES;
+        bool bRenderThread;
+        bool bDataThread;
+        bool bJobScheduler;
+    };
 
 	class APP_API Game 
 	{
 	public:	
-		Game(const char* pGameName);
+		Game(const char* pGameName,const Setting& set);
 
 		virtual ~Game();
 	
-		virtual void	Init(bool bRenderThread, bool bDataThread, bool bJobScheduler);
+		virtual void	Init();
 	
 		virtual void	Reset(uint32 nWidth,uint32 nHeight);
 
@@ -32,8 +40,11 @@ namespace ma
 
 		static Game&	GetInstance();
 
-	private:
+	protected:
 		std::string		m_sGameName;
+        
+        Setting         m_setting;
+    
 
 	public:
 		bool m_bOnWindowSized;

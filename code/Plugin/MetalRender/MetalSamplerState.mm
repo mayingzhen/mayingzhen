@@ -1,17 +1,20 @@
-#include "D3D11SamplerState.h"
+#include "MetalSamplerState.h"
+#include "MetalMapping.h"
+#include "MetalRenderDevice.h"
+
 
 namespace ma
 {
-	std::map<SamplerState, ID3D11SamplerState*> g_samplerStatesPool;
+	std::map<SamplerState, id<MTLSamplerState> > g_samplerStatesPool;
 
-	D3D11SamplerStateObject::D3D11SamplerStateObject()
+	MetalSamplerStateObject::MetalSamplerStateObject()
 	{
-		m_pImpl = NULL;
+		m_pImpl = nil;
 	}
 
-	void D3D11SamplerStateObject::RT_StreamComplete()
+	void MetalSamplerStateObject::RT_StreamComplete()
 	{
-		ASSERT(m_pImpl == NULL);
+		ASSERT(m_pImpl == nil);
 
 		auto it = g_samplerStatesPool.find(*this);
 		if (it != g_samplerStatesPool.end())
@@ -20,38 +23,38 @@ namespace ma
 		}
 		else
 		{
-			ID3D11SamplerState* sample = NULL;
+			MTLSamplerDescriptor* samplerDesc = [[[MTLSamplerDescriptor alloc] init] autorelease];
 
-			D3D11_SAMPLER_DESC samplerDesc;
-			memset(&samplerDesc, 0, sizeof samplerDesc);
+            MTLSamplerMinMagFilter minmag;
+            MTLSamplerMipFilter mipmap;
+			MetalMapping::GetFilter(this->GetFilterMode(), minmag, mipmap);
+			samplerDesc.magFilter = minmag;
+            samplerDesc.mipFilter = mipmap;
+			//samplerDesc.Filter = MetalMapping::GetFilter(this->GetFilterMode()); 
+			samplerDesc.sAddressMode =  MetalMapping::GetWrap(this->GetWrapMode());
+			samplerDesc.tAddressMode = MetalMapping::GetWrap(this->GetWrapMode());
+			samplerDesc.rAddressMode = MetalMapping::GetWrap(this->GetWrapModeW());
+			samplerDesc.maxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
+			//samplerDesc.ComparisonFunc = Metal_COMPARISON_ALWAYS;
+			//samplerDesc.MinLOD = 0;
+			//samplerDesc.MaxLOD = Metal_FLOAT32_MAX;
 
-			samplerDesc.Filter = D3D11Mapping::GetD3D11Filter(this->GetFilterMode()); 
-			samplerDesc.AddressU =  D3D11Mapping::GetD3D11Wrap(this->GetWrapMode());
-			samplerDesc.AddressV = D3D11Mapping::GetD3D11Wrap(this->GetWrapMode());
-			samplerDesc.AddressW = D3D11Mapping::GetD3D11Wrap(this->GetWrapModeW());
-			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
-			samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-			samplerDesc.MinLOD = 0;
-			samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			//if (this->GetFilterMode() == TFO_SHADOWCOMPARE)
+			//{
+			//	samplerDesc.ComparisonFunc = Metal_COMPARISON_LESS;	 
+			//}
 
-			if (this->GetFilterMode() == TFO_SHADOWCOMPARE)
-			{
-				samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS;	 
-			}
+			m_pImpl = [GetMetalDevive() newSamplerStateWithDescriptor:samplerDesc];
 
-			GetD3D11DxDevive()->CreateSamplerState(&samplerDesc, &sample);
-
-			g_samplerStatesPool.insert(std::make_pair(*this, sample));
-
-			m_pImpl = sample;
+			g_samplerStatesPool.insert(std::make_pair(*this, m_pImpl));
 		}
 	}
 
-	void D3D11SamplerStateObject::Clear()
+	void MetalSamplerStateObject::Clear()
 	{
 		for (auto it = g_samplerStatesPool.begin(); it != g_samplerStatesPool.end(); ++it)
 		{
-			SAFE_RELEASE(it->second);
+			//SAFE_RELEASE(it->second);
 		}
 		g_samplerStatesPool.clear();
 	}

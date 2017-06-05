@@ -1,14 +1,15 @@
 #pragma once
 
+
 namespace ma
 {
-	class D3D11VertexDeclaration : public VertexDeclaration
+	class MetalVertexDeclaration : public VertexDeclaration
 	{
 
 	public: 
-		D3D11VertexDeclaration();
+		MetalVertexDeclaration();
 		
-		~D3D11VertexDeclaration();
+		~MetalVertexDeclaration();
 
 	public:
 
@@ -17,7 +18,7 @@ namespace ma
 		static void Clear();
 
 	public:
-		ID3D11InputLayout*	m_pImpl;
+		MTLVertexDescriptor* m_descriptor;
 	};
 
 }

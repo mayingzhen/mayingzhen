@@ -61,8 +61,7 @@ namespace MT
 		for (uint32 i = 0; i < MT_MAX_STANDART_FIBERS_COUNT; i++)
 		{
 			FiberContext& context = standartFiberContexts[i];
-			context.fiber.Create(MT_STANDART_FIBER_STACK_SIZE, FiberMain, &context);
-			context.fiberIndex = fiberIndex;
+			context.fiber = std::move(Fiber(MT_STANDART_FIBER_STACK_SIZE, FiberMain, &context));
 			bool res = standartFibersAvailable.TryPush( &context );
 			MT_USED_IN_ASSERT(res);
 			MT_ASSERT(res == true, "Can't add fiber to storage");
@@ -73,7 +72,7 @@ namespace MT
 		for (uint32 i = 0; i < MT_MAX_EXTENDED_FIBERS_COUNT; i++)
 		{
 			FiberContext& context = extendedFiberContexts[i];
-			context.fiber.Create(MT_EXTENDED_FIBER_STACK_SIZE, FiberMain, &context);
+			context.fiber = std::move(Fiber(MT_EXTENDED_FIBER_STACK_SIZE, FiberMain, &context));
 			context.fiberIndex = fiberIndex;
 			bool res = extendedFibersAvailable.TryPush( &context );
 			MT_USED_IN_ASSERT(res);
@@ -230,7 +229,8 @@ namespace MT
 #endif
 
 		// Run current task code
-		Fiber::SwitchTo(threadContext.schedulerFiber, fiberContext->fiber);
+		//Fiber::SwitchTo(threadContext.schedulerFiber, fiberContext->fiber);
+		threadContext.schedulerFiber.SwitchToFiber(&fiberContext->fiber);
 
 #ifdef MT_INSTRUMENTED_BUILD
 		threadContext.NotifyTaskExecuteStateChanged( MT_SYSTEM_TASK_COLOR, MT_SYSTEM_TASK_NAME, TaskExecuteState::START, MT_SYSTEM_FIBER_INDEX);
@@ -324,7 +324,8 @@ namespace MT
 			fiberContext.GetThreadContext()->NotifyTaskExecuteStateChanged( fiberContext.currentTask.debugColor, fiberContext.currentTask.debugID, TaskExecuteState::STOP, (int32)fiberContext.fiberIndex);
 #endif
 
-			Fiber::SwitchTo(fiberContext.fiber, fiberContext.GetThreadContext()->schedulerFiber);
+			//Fiber::SwitchTo(fiberContext.fiber, fiberContext.GetThreadContext()->schedulerFiber);
+			fiberContext.fiber.SwitchToFiber(&fiberContext.GetThreadContext()->schedulerFiber);
 		}
 
 	}
@@ -374,7 +375,9 @@ namespace MT
 		}
 #endif
 
-		context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberMain, userData);
+		//context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberMain, userData);
+		context.schedulerFiber = std::move( Fiber(MT_STANDART_FIBER_STACK_SIZE, SchedulerFiberMain, userData) );// CreateFromCurrentThreadAndRun(SchedulerFiberMain, userData);
+		SchedulerFiberMain(userData);
 	}
 
 
@@ -753,7 +756,9 @@ namespace MT
 
 		int32 waitingSlotIndex = nextWaitingThreadSlotIndex.IncFetch();
 		waitingThreads[waitingSlotIndex % waitingThreads.size()] = ThreadId::Self();
-		context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberWait, &waitContext);
+		//context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberWait, &waitContext)
+		context.schedulerFiber = std::move(Fiber(MT_STANDART_FIBER_STACK_SIZE, SchedulerFiberWait, &waitContext));
+		SchedulerFiberWait(&waitContext);
 		
 		MT_ASSERT( waitingThreads[waitingSlotIndex % waitingThreads.size()].IsEqual(ThreadId::Self()), "waitingThreads array overflow");
 		waitingThreads[waitingSlotIndex % waitingThreads.size()] = ThreadId();
@@ -789,7 +794,9 @@ namespace MT
 		int32 waitingSlotIndex = nextWaitingThreadSlotIndex.IncFetch();
 		waitingThreads[waitingSlotIndex % waitingThreads.size()] = ThreadId::Self();
 
-		context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberWait, &waitContext);
+		//context.schedulerFiber.CreateFromCurrentThreadAndRun(SchedulerFiberWait, &waitContext);
+		context.schedulerFiber = std::move(Fiber(MT_STANDART_FIBER_STACK_SIZE, SchedulerFiberWait, &waitContext));
+		SchedulerFiberWait(&waitContext);
 
 		MT_ASSERT( waitingThreads[waitingSlotIndex % waitingThreads.size()].IsEqual(ThreadId::Self()), "waitingThreads array overflow");
 		waitingThreads[waitingSlotIndex % waitingThreads.size()] = ThreadId();

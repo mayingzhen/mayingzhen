@@ -1,242 +1,207 @@
-#include "D3D11RenderDevice.h"
-#include "D3D11Texture.h"
-#include "D3D11ConstantBuffer.h"
-#include "D3D11RenderState.h"
-#include "D3D11SamplerState.h"
+#include "MetalRenderDevice.h"
+#include "MetalTexture.h"
+#include "MetalConstantBuffer.h"
+#include "MetalRenderState.h"
+#include "MetalSamplerState.h"
+#include "MetalVertexDeclaration.h"
+#include "MetalVertexBuffer.h"
+#include "MetalIndexBuffer.h"
+#include "MetalShaderProgram.h"
+
+#import <UIKit/UIkit.h>
+#import <UIKit/UIDevice.h>
 
 namespace ma
 {
 
-	ID3D11Device* GetD3D11DxDevive()
+	id<MTLDevice> GetMetalDevive()
 	{
-		D3D11RenderDevice* pRender = (D3D11RenderDevice*)GetRenderDevice();
+		MetalRenderDevice* pRender = (MetalRenderDevice*)GetRenderDevice();
 		ASSERT(pRender);
-		return pRender->GetDXDevive();
+		return pRender->GetMetalDevive();
 	}
 
-	ID3D11DeviceContext* GetD3D11DxDeviveContext()
-	{
-		D3D11RenderDevice* pRender = (D3D11RenderDevice*)GetRenderDevice();
-		ASSERT(pRender);
-		return pRender->GetDXDeviveContext();
-	}
+	//IMetalDeviceContext* GetMetalDxDeviveContext()
+	//{
+	//	MetalRenderDevice* pRender = (MetalRenderDevice*)GetRenderDevice();
+	//	ASSERT(pRender);
+	//	return pRender->GetDXDeviveContext();
+	//}
 
-	D3D11RenderDevice::D3D11RenderDevice()
+	MetalRenderDevice::MetalRenderDevice()
 	{
-		m_pD3DDevice = NULL;
-		m_pDeviceContext = NULL;
-		m_pSwapChain = NULL;
+		//m_pD3DDevice = NULL;
+		//m_pDeviceContext = NULL;
+		//m_pSwapChain = NULL;
 
 		ClearAllStates();
 
-		m_bRenderTargetsDirty = true;
+		//m_bRenderTargetsDirty = true;
 
-		m_nFirstDirtyVB = 0;
-		m_nLastDirtyVB = 0;
-		memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
-		memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
-		memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
+		//m_nFirstDirtyVB = 0;
+		//m_nLastDirtyVB = 0;
+		//memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
+		//memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
+		//memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
 
-	 	memset(m_arrTexture,0,sizeof(m_arrTexture));
-		memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
-		m_nFirstDirtyTexture = M_MAX_UNSIGNED;
-		m_nLastDirtyTexture = M_MAX_UNSIGNED;
-		m_bTexturesDirty = true;
+	 	//memset(m_arrTexture,0,sizeof(m_arrTexture));
+		//memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
+		//m_nFirstDirtyTexture = M_MAX_UNSIGNED;
+		//m_nLastDirtyTexture = M_MAX_UNSIGNED;
+		//m_bTexturesDirty = true;
 
-		memset(m_arrD3d11Sampler,0,sizeof(m_arrD3d11Sampler));
-		m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
-		m_nLastDirtySamplerState = M_MAX_UNSIGNED;
-		m_bSamplerStatesDirty = true;
+		//memset(m_arrMetalSampler,0,sizeof(m_arrMetalSampler));
+		//m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
+		//m_nLastDirtySamplerState = M_MAX_UNSIGNED;
+		//m_bSamplerStatesDirty = true;
 
-		m_pDepthStencil = NULL;
-		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
+		//m_pDepthStencil = NULL;
+		//memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
 
-		m_pCurInput = NULL;
-		m_pCurDSState = NULL;
-		m_nStencilRef = 0;
-		m_pCurBlendState = NULL;
-		m_pCurRSState = NULL;
+		//m_pCurInput = NULL;
+		//m_pCurDSState = NULL;
+		//m_nStencilRef = 0;
+		//m_pCurBlendState = NULL;
+		//m_pCurRSState = NULL;
 	}
 
-	D3D11RenderDevice::~D3D11RenderDevice()
+	MetalRenderDevice::~MetalRenderDevice()
 	{
 	}
 
-	void D3D11RenderDevice::ClearAllStates()
+	void MetalRenderDevice::ClearAllStates()
 	{
 	}
 
-	Texture* D3D11RenderDevice::CreateTexture()
+	Texture* MetalRenderDevice::CreateTexture()
 	{
-		return new D3D11Texture();
+		return new MetalTexture();
 	}
 
-	Texture* D3D11RenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
+	Texture* MetalRenderDevice::CreateRenderTarget(int nWidth,int nHeight,UINT32 nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType)
 	{
-		return new D3D11Texture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
+		return new MetalTexture(nWidth,nHeight,nMipMap,format,false,bSRGB,USAGE_RENDERTARGET,eType);
 	}
 
-	Texture* D3D11RenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
+	Texture* MetalRenderDevice::CreateDepthStencil(int nWidth,int nHeight,PixelFormat format,bool bTypeLess)
 	{
-		return new D3D11Texture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
+		return new MetalTexture(nWidth,nHeight,1,format,bTypeLess,false,USAGE_DEPTHSTENCIL,TEXTYPE_2D);
 	}
 
-	VertexDeclaration* D3D11RenderDevice::CreateVertexDeclaration()
+	VertexDeclaration* MetalRenderDevice::CreateVertexDeclaration()
 	{
-		return new D3D11VertexDeclaration();
+		return new MetalVertexDeclaration();
 	}
 
-	VertexBuffer*	D3D11RenderDevice::CreateVertexBuffer()
+	VertexBuffer*	MetalRenderDevice::CreateVertexBuffer()
 	{
-		return new D3D11VertexBuffer();
+		return new MetalVertexBuffer();
 	}
 
-	IndexBuffer*	D3D11RenderDevice::CreateIndexBuffer()
+	IndexBuffer*	MetalRenderDevice::CreateIndexBuffer()
 	{
-		return new D3D11IndexBuffer();
+		return new MetalIndexBuffer();
 	}
 
-	ShaderProgram*	D3D11RenderDevice::CreateShaderProgram()
+	ShaderProgram*	MetalRenderDevice::CreateShaderProgram()
 	{
-		return new D3D11ShaderProgram();
+		return new MetalShaderProgram();
 	}
 
-	BlendState*	D3D11RenderDevice::CreateBlendState()
+	BlendState*	MetalRenderDevice::CreateBlendState()
 	{
-		return new D3D11BlendStateObject();
+		return new MetalBlendStateObject();
 	}
 
-	DepthStencilState*	D3D11RenderDevice::CreateDepthStencilState()
+	DepthStencilState*	MetalRenderDevice::CreateDepthStencilState()
 	{
-		return new D3D11DepthStencilStateObject();
+		return new MetalDepthStencilStateObject();
 	}
 
-	RasterizerState* D3D11RenderDevice::CreateRasterizerState()
+	RasterizerState* MetalRenderDevice::CreateRasterizerState()
 	{
-		return new D3D11RasterizerStateObject();
+		return new MetalRasterizerStateObject();
 	}
 
-	SamplerState* D3D11RenderDevice::CreateSamplerState()
+	SamplerState* MetalRenderDevice::CreateSamplerState()
 	{
-		return new D3D11SamplerStateObject();
+		return new MetalSamplerStateObject();
 	}
 
-	void D3D11RenderDevice::Shoutdown()
+	void MetalRenderDevice::Shoutdown()
 	{
-		m_hWnd = NULL;
+		//m_hWnd = NULL;
 
-		D3D11RasterizerStateObject::Clear();
-		D3D11DepthStencilStateObject::Clear();
-		D3D11BlendStateObject::Clear();
-		D3D11VertexDeclaration::Clear();
-		D3D11SamplerStateObject::Clear();
+		MetalRasterizerStateObject::Clear();
+		MetalDepthStencilStateObject::Clear();
+		MetalBlendStateObject::Clear();
+		MetalVertexDeclaration::Clear();
+		MetalSamplerStateObject::Clear();
 		ConstantBuffer::Clear();
 
-		SAFE_RELEASE(m_pDeviceContext);
-		SAFE_RELEASE(m_pSwapChain);
-
-#if defined(DEBUG) || defined(_DEBUG)
-		ID3D11Debug *d3dDebug;
-		HRESULT hr = m_pD3DDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&d3dDebug));
-		if (SUCCEEDED(hr))
-		{
-			hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-		}
-		if (d3dDebug != NULL)			
-			d3dDebug->Release();
-#endif
-
-		SAFE_RELEASE(m_pD3DDevice);
 	}
 
-	void D3D11RenderDevice::Init(HWND wndhandle)
+	void MetalRenderDevice::Init(HWND wndhandle)
 	{
-		m_hWnd = wndhandle;
+		//m_hWnd = wndhandle;
 
-#if defined(DEBUG) || defined(_DEBUG)
-		UINT nCreateFlags = D3D11_CREATE_DEVICE_DEBUG;
-#else
-		UINT nCreateFlags = 0;
-#endif
 
-		D3D11CreateDevice(
-			0,
-			D3D_DRIVER_TYPE_HARDWARE,
-			0,
-			nCreateFlags,
-			0,
-			0,
-			D3D11_SDK_VERSION,
-			&m_pD3DDevice,
-			0,
-			&m_pDeviceContext
-			);
+        ASSERT(m_device == nil && m_command_queue == nil && m_command_buffer.mBuffer == nil);
+    
+        m_device = MTLCreateSystemDefaultDevice();
+        
+        m_command_queue = [m_device newCommandQueue];
+    
+        m_command_buffer.mBuffer = [[m_command_queue commandBuffer] retain];
+   
 
-		ASSERT(m_pD3DDevice && m_pDeviceContext);
-		if(!m_pD3DDevice || !m_pDeviceContext)
-		{
-			LogError("Failed to create D3D11 device");
-			return;
-		}
+        UIView* view = (UIView*)wndhandle;
+        if (view == nil)
+        {
+            //LogError("Window handle is nil");
+            return ;
+        }
+        CALayer* layer = view.layer;
+        if (![layer isKindOfClass:[CAMetalLayer class]])
+        {
+            //LogError("Layer of view is not CAMetalLayer");
+            return ;
+        }
+        m_layer = [(CAMetalLayer*)layer retain];
+        view.opaque = YES;
+        
+        
+        //param.ZBufferBits = 32;
+        //param.StencilBits = 8;
+        // 像素格式只支持RGBA8
+        //m_pixel_format = PixelFormat::A8R8G8B8();
+        //m_depth_pixel_format = PixelFormat::D24S8();
+        m_layer.device = m_device;
+        m_layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+        //m_layer.drawableSize = CGSizeMake(param.Width, param.Height);
+        m_layer.framebufferOnly = YES;
+        m_layer.presentsWithTransaction = NO;
+        m_layer.contentsScale = [UIScreen mainScreen].scale;
+        
 
-		RECT rect;
-		GetClientRect(m_hWnd,&rect);
-		
-		UINT width = rect.right - rect.left;
-		UINT height = rect.bottom - rect.top;
-
-		DXGI_SWAP_CHAIN_DESC swapChainDesc;
-		memset(&swapChainDesc, 0, sizeof swapChainDesc);
-		swapChainDesc.BufferCount = 1;
-		swapChainDesc.BufferDesc.Width = (UINT)width;
-		swapChainDesc.BufferDesc.Height = (UINT)height;
-		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapChainDesc.OutputWindow = wndhandle;
-		swapChainDesc.SampleDesc.Count = (UINT)1/*multiSample*/;
-		swapChainDesc.SampleDesc.Quality = 1/*multiSample*/ > 1 ? 0xffffffff : 0;
-		swapChainDesc.Windowed = TRUE;
-		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
-		IDXGIDevice* dxgiDevice = 0;
-		m_pD3DDevice->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
-		IDXGIAdapter* dxgiAdapter = 0;
-		dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&dxgiAdapter);
-		IDXGIFactory* dxgiFactory = 0;
-		dxgiAdapter->GetParent(IID_IDXGIFactory, (void**)&dxgiFactory);
-		dxgiFactory->CreateSwapChain(m_pD3DDevice, &swapChainDesc, &m_pSwapChain);
-		// After creating the swap chain, disable automatic Alt-Enter fullscreen/windowed switching
-		// (the application will switch manually if it wants to)
-		dxgiFactory->MakeWindowAssociation(wndhandle, DXGI_MWA_NO_ALT_ENTER);
-
-		dxgiFactory->Release();
-		dxgiAdapter->Release();
-		dxgiDevice->Release();
-
-		ASSERT(m_pSwapChain);
-		if (m_pSwapChain == NULL)
-		{
-			LogError("Failed to create D3D11 swap chain");
-			return;
-		}
-
-		UpdateSwapChain(width,height);
+		//UpdateSwapChain(width,height);
 
 		BuildDeviceCapabilities();
 	}
 
-	bool D3D11RenderDevice::UpdateSwapChain(int width, int height)
+	bool MetalRenderDevice::UpdateSwapChain(int width, int height)
 	{
-		ID3D11RenderTargetView* defaultRenderTargetView;
+        /*
+		IMetalRenderTargetView* defaultRenderTargetView;
 
-		ID3D11Texture2D* defaultDepthTexture;
-		ID3D11DepthStencilView* defaultDepthStencilView;
+		IMetalTexture2D* defaultDepthTexture;
+		IMetalDepthStencilView* defaultDepthStencilView;
 
 		m_pSwapChain->ResizeBuffers(1, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
 		// Create default rendertarget view representing the backbuffer
-		ID3D11Texture2D* backbufferTexture;
-		m_pSwapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backbufferTexture);
+		IMetalTexture2D* backbufferTexture;
+		m_pSwapChain->GetBuffer(0, IID_IMetalTexture2D, (void**)&backbufferTexture);
 		if (backbufferTexture)
 		{
 			m_pD3DDevice->CreateRenderTargetView(backbufferTexture, 0, &defaultRenderTargetView);
@@ -249,17 +214,17 @@ namespace ma
 		}
 
 		// Create default depth-stencil texture and view
-		D3D11_TEXTURE2D_DESC depthDesc;
+		Metal_TEXTURE2D_DESC depthDesc;
 		memset(&depthDesc, 0, sizeof depthDesc);
 		depthDesc.Width = (UINT)width;
 		depthDesc.Height = (UINT)height;
 		depthDesc.MipLevels = 1;
 		depthDesc.ArraySize = 1;
 		depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthDesc.SampleDesc.Count = (UINT)1/*multiSample_*/;
-		depthDesc.SampleDesc.Quality = 1/*multiSample_*/ > 1 ? 0xffffffff : 0;
-		depthDesc.Usage = D3D11_USAGE_DEFAULT;
-		depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		//depthDesc.SampleDesc.Count = (UINT)1/*multiSample_;
+		//depthDesc.SampleDesc.Quality = 1/*multiSample_ > 1 ? 0xffffffff : 0;
+		depthDesc.Usage = Metal_USAGE_DEFAULT;
+		depthDesc.BindFlags = Metal_BIND_DEPTH_STENCIL;
 		depthDesc.CPUAccessFlags = 0;
 		depthDesc.MiscFlags = 0;
 		m_pD3DDevice->CreateTexture2D(&depthDesc, 0, &defaultDepthTexture);
@@ -276,56 +241,60 @@ namespace ma
 		m_pDepthStencil = defaultDepthStencilView;
 		m_pRenderTarget[0] = defaultRenderTargetView;
 
-		m_pDefaultRenderTargetTexture = new D3D11Texture();
+		m_pDefaultRenderTargetTexture = new MetalTexture();
 		m_pDefaultRenderTargetTexture->SetRenderTargetView(defaultRenderTargetView);
 	
-		m_pDefaultDepthStencilTexture = new D3D11Texture();
+		m_pDefaultDepthStencilTexture = new MetalTexture();
 		m_pDefaultDepthStencilTexture->SetDepthStencilView(defaultDepthStencilView);
 		m_pDefaultDepthStencilTexture->SetTexture2D(defaultDepthTexture);	
 
 		SetViewport(Rectangle(0, 0, (float)width, (float)height));
+        */
 
 		return true;
 	}
 	
-	bool D3D11RenderDevice::TestDeviceLost()
+	bool MetalRenderDevice::TestDeviceLost()
 	{
 		return false;
 	}
 
-	bool D3D11RenderDevice::Rest()
+	bool MetalRenderDevice::Rest()
 	{
 		return true;
 	}
 
-	void D3D11RenderDevice::BeginRender()
+	void MetalRenderDevice::BeginRender()
 	{
-		ID3D11ShaderResourceView* pTextures[MAX_TEXTURE_UNITS];
+        /*
+		IMetalShaderResourceView* pTextures[MAX_TEXTURE_UNITS];
 		for (int i = 0;i< MAX_TEXTURE_UNITS;++i)
 		{
 			pTextures[i] = NULL;
 		}
-		GetD3D11DxDeviveContext()->VSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
-		GetD3D11DxDeviveContext()->PSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
+		GetMetalDxDeviveContext()->VSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
+		GetMetalDxDeviveContext()->PSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
+         */
 	}
 
-	void D3D11RenderDevice::EndRender()
+	void MetalRenderDevice::EndRender()
 	{
-		HRESULT hr = S_OK;
-		hr = m_pSwapChain->Present(0,0);
-		ASSERT( hr == S_OK);
+		//HRESULT hr = S_OK;
+		//hr = m_pSwapChain->Present(0,0);
+		//ASSERT( hr == S_OK);
 	}
 
-	void D3D11RenderDevice::SetFrameBuffer(FrameBuffer* pFB)
+	void MetalRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
 	{
+        /*
 		for (uint32 i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
-			D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_arrColor[i].get());
-			if (pD3D11Texture)
+			MetalTexture* pMetalTexture = (MetalTexture*)(pFB->m_arrColor[i].get());
+			if (pMetalTexture)
 			{
-				m_pRenderTarget[i] = pD3D11Texture->GetRenderTargetView();
+				m_pRenderTarget[i] = pMetalTexture->GetRenderTargetView();
 
-				DetachSRV(pD3D11Texture->GetShaderResourceView());
+				DetachSRV(pMetalTexture->GetShaderResourceView());
 			}
 			else
 			{
@@ -333,12 +302,12 @@ namespace ma
 			}
 		}
 
-		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pFB->m_pDepthStencil.get());
-		if (pD3D11Texture)
+		MetalTexture* pMetalTexture = (MetalTexture*)(pFB->m_pDepthStencil.get());
+		if (pMetalTexture)
 		{
-			m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+			m_pDepthStencil = pMetalTexture->GetDepthStencilView();
 
-			DetachSRV(pD3D11Texture->GetShaderResourceView());
+			DetachSRV(pMetalTexture->GetShaderResourceView());
 		}
 		else
 		{
@@ -346,16 +315,18 @@ namespace ma
 		}
 
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+         */
 	}
 
-	void D3D11RenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
+	void MetalRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
 	{
-		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
-		if (pD3D11Texture)
+        /*
+		MetalTexture* pMetalTexture = (MetalTexture*)(pTexture);
+		if (pMetalTexture)
 		{
-			m_pRenderTarget[index] = pD3D11Texture->GetRenderTargetView(level,array_index,face);
+			m_pRenderTarget[index] = pMetalTexture->GetRenderTargetView(level,array_index,face);
 		
-			DetachSRV(pD3D11Texture->GetShaderResourceView());
+			DetachSRV(pMetalTexture->GetShaderResourceView());
 		}
 		else
 		{
@@ -363,30 +334,36 @@ namespace ma
 		}
 
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+         */
 	}
 
 
-	void D3D11RenderDevice::SetDepthStencil(Texture* pTexture)
+	void MetalRenderDevice::SetDepthStencil(Texture* pTexture)
 	{
-		D3D11Texture* pD3D11Texture = (D3D11Texture*)(pTexture);
-		m_pDepthStencil = pD3D11Texture->GetDepthStencilView();
+        /*
+		MetalTexture* pMetalTexture = (MetalTexture*)(pTexture);
+		m_pDepthStencil = pMetalTexture->GetDepthStencilView();
 
 		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
+         */
 	}
 
-	Texture* D3D11RenderDevice::GetDefaultRenderTarget(int index)
+    
+	Texture* MetalRenderDevice::GetDefaultRenderTarget(int index)
 	{
-		return m_pDefaultRenderTargetTexture.get();
+        return NULL;//m_pDefaultRenderTargetTexture.get();
 	}
 
-	Texture* D3D11RenderDevice::GetDefaultDepthStencil()
+	Texture* MetalRenderDevice::GetDefaultDepthStencil()
 	{
-		return m_pDefaultDepthStencilTexture.get();
+        return NULL;//m_pDefaultDepthStencilTexture.get();
 	}
+     
 
-	void D3D11RenderDevice::SetViewport(const Rectangle& rect)
+	void MetalRenderDevice::SetViewport(const Rectangle& rect)
 	{
-		D3D11_VIEWPORT vp;
+        /*
+		Metal_VIEWPORT vp;
 		vp.TopLeftX = rect.left;
 		vp.TopLeftY = rect.top;
 		vp.Width = rect.width();
@@ -395,62 +372,72 @@ namespace ma
 		vp.MaxDepth = 1.0f;
 
 		m_pDeviceContext->RSSetViewports(1,&vp);
+         */
 	}
 
-	Rectangle D3D11RenderDevice::GetViewport()
+	Rectangle MetalRenderDevice::GetViewport()
 	{
 		Rectangle rect;
+        /*
 		UINT num = 1;
 
-		D3D11_VIEWPORT vp[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+		Metal_VIEWPORT vp[Metal_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
 		m_pDeviceContext->RSGetViewports(&num,vp);
 		rect.left = (float)vp[0].TopLeftX;
 		rect.top = (float)vp[0].TopLeftY;
 		rect.bottom = rect.top + (float)vp[0].Height;
 		rect.right = rect.left + (float)vp[0].Width;
+         */
 
 		return rect;
 	}
 
-	void D3D11RenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
+	void MetalRenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
 	{
-		D3D11BlendStateObject* pD3DllObject = (D3D11BlendStateObject*)pBlendState;
+		MetalBlendStateObject* pD3DllObject = (MetalBlendStateObject*)pBlendState;
 		
-		if (m_pCurBlendState != pD3DllObject->m_pD3D11BlendState)
+        /*
+		if (m_pCurBlendState != pD3DllObject->m_pMetalBlendState)
 		{
-			m_pDeviceContext->OMSetBlendState(pD3DllObject->m_pD3D11BlendState, 0, M_MAX_UNSIGNED);
+			m_pDeviceContext->OMSetBlendState(pD3DllObject->m_pMetalBlendState, 0, M_MAX_UNSIGNED);
 
-			m_pCurBlendState = pD3DllObject->m_pD3D11BlendState;
+			m_pCurBlendState = pD3DllObject->m_pMetalBlendState;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
+	void MetalRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
-		D3D11DepthStencilStateObject* pD3DllObject = (D3D11DepthStencilStateObject*)pDSState;
+		MetalDepthStencilStateObject* pD3DllObject = (MetalDepthStencilStateObject*)pDSState;
 		
-		if (m_pCurDSState != pD3DllObject->m_pD3D11DSState || m_nStencilRef != nStencilRef)
+        /*
+		if (m_pCurDSState != pD3DllObject->m_pMetalDSState || m_nStencilRef != nStencilRef)
 		{
-			m_pDeviceContext->OMSetDepthStencilState(pD3DllObject->m_pD3D11DSState, nStencilRef);
+			m_pDeviceContext->OMSetDepthStencilState(pD3DllObject->m_pMetalDSState, nStencilRef);
 
-			m_pCurDSState = pD3DllObject->m_pD3D11DSState;
+			m_pCurDSState = pD3DllObject->m_pMetalDSState;
 			m_nStencilRef = nStencilRef;
 		}
+         */
 	}
 	
-	void D3D11RenderDevice::SetRasterizerState(const RasterizerState* pRSState)
+	void MetalRenderDevice::SetRasterizerState(const RasterizerState* pRSState)
 	{
-		D3D11RasterizerStateObject* pD3DllObject = (D3D11RasterizerStateObject*)pRSState;
+		MetalRasterizerStateObject* pD3DllObject = (MetalRasterizerStateObject*)pRSState;
 
-		if (m_pCurRSState != pD3DllObject->m_pD3D11RSState)
+        /*
+		if (m_pCurRSState != pD3DllObject->m_pMetalRSState)
 		{
-			m_pDeviceContext->RSSetState(pD3DllObject->m_pD3D11RSState);
+			m_pDeviceContext->RSSetState(pD3DllObject->m_pMetalRSState);
 
-			m_pCurRSState = pD3DllObject->m_pD3D11RSState;
+			m_pCurRSState = pD3DllObject->m_pMetalRSState;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
+	void MetalRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
 	{
+        /*
 		if (pTexture != m_arrTexture[index])
 		{
 			if (m_nFirstDirtyTexture == M_MAX_UNSIGNED)
@@ -466,53 +453,35 @@ namespace ma
 			m_arrTexture[index] = pTexture;
 			if (bSRGBNotEqual)
 			{
-				m_arrShaderResourceView[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceView() : 0;
+				m_arrShaderResourceView[index] = pTexture ? ((MetalTexture*)pTexture)->GetShaderResourceView() : 0;
 			}
 			else
 			{
-				m_arrShaderResourceView[index] = pTexture ? ((D3D11Texture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
+				m_arrShaderResourceView[index] = pTexture ? ((MetalTexture*)pTexture)->GetShaderResourceViewSRGBNotEqual() : 0;
 			}
 			m_bTexturesDirty = true;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::DetachSRV(ID3D11ShaderResourceView* rtv_src)
-	{
-		bool cleared = false;
-		UINT i = 0;
-		for (i = 0; i < MAX_TEXTURE_UNITS; ++ i)
-		{
-			if (m_arrShaderResourceView[i] && m_arrShaderResourceView[i] == rtv_src)
-			{
-				m_arrShaderResourceView[i] = NULL;
-				cleared = true;
-				break;
-			}
-		}
-
-		if (cleared)
-		{
-			m_pDeviceContext->PSSetShaderResources(i, 1, &m_arrShaderResourceView[i]);
-		}
-	}
-
-	void D3D11RenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
+	void MetalRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
 	{
 		SetTexture(uniform->m_index,pTexture,TRUE);
 	}
 
-	void D3D11RenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
+	void MetalRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
+        /*
 		uint32 index = uniform->m_index;
 
 		SetTexture(index,pSampler->GetTexture(),pSampler->GetSRGB() == pSampler->GetTexture()->GetSRGB());
 
-		D3D11SamplerStateObject* pD3D11Sampler = (D3D11SamplerStateObject*)pSampler;
-		if (pD3D11Sampler->m_pImpl == NULL)
+		MetalSamplerStateObject* pMetalSampler = (MetalSamplerStateObject*)pSampler;
+		if (pMetalSampler->m_pImpl == NULL)
 		{
-			pD3D11Sampler->RT_StreamComplete();
+			pMetalSampler->RT_StreamComplete();
 		}
-		if (pD3D11Sampler->m_pImpl != m_arrD3d11Sampler[index])
+		if (pMetalSampler->m_pImpl != m_arrMetalSampler[index])
 		{
 			if (m_nFirstDirtySamplerState == M_MAX_UNSIGNED)
 			{
@@ -530,13 +499,15 @@ namespace ma
 				}
 			}
 
-			m_arrD3d11Sampler[index] = pD3D11Sampler->m_pImpl;
+			m_arrMetalSampler[index] = pMetalSampler->m_pImpl;
 			m_bSamplerStatesDirty = true;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::CommitChanges()
+	void MetalRenderDevice::CommitChanges()
 	{
+        /*
 		if (m_bTexturesDirty && m_nFirstDirtyTexture < M_MAX_UNSIGNED)
 		{
 			m_pDeviceContext->PSSetShaderResources(m_nFirstDirtyTexture, m_nLastDirtyTexture - m_nFirstDirtyTexture + 1,
@@ -548,74 +519,79 @@ namespace ma
 		if (m_bSamplerStatesDirty && m_nFirstDirtySamplerState < M_MAX_UNSIGNED)
 		{
 			m_pDeviceContext->PSSetSamplers(m_nFirstDirtySamplerState, m_nLastDirtySamplerState - m_nFirstDirtySamplerState + 1,
-				&m_arrD3d11Sampler[m_nFirstDirtySamplerState]);
+				&m_arrMetalSampler[m_nFirstDirtySamplerState]);
 
 			m_nFirstDirtySamplerState = m_nLastDirtySamplerState = M_MAX_UNSIGNED;
 			m_bSamplerStatesDirty = false;
 		}
+         */
+        
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
 	{
 		ASSERT(uniform);
 		ASSERT(values);
 
-		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
+		//ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pMetalCBPtr);
 
 		ASSERT(nSize <= uniform->m_nCBSize);
-		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
+		//pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, int value)
+	void MetalRenderDevice::SetValue(Uniform* uniform, int value)
 	{
 		SetValue(uniform,(const float*)&value,sizeof(int));
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, float value)
+	void MetalRenderDevice::SetValue(Uniform* uniform, float value)
 	{
 		SetValue(uniform,(const float*)&value,sizeof(float));
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const Vector2& value)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
 	{
 		SetValue(uniform,(const float*)&value,sizeof(Vector2));
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const Vector3& value)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
 	{
 		SetValue(uniform,(const float*)&value,sizeof(Vector3));
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
 		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
 	}
 
-	void D3D11RenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
+	void MetalRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
 	{
 		SetValue(uniform,(const float*)&value,12);
 	}
 
-	void D3D11RenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
+	void MetalRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
-		D3D11VertexDeclaration* pD3D11Dec = (D3D11VertexDeclaration*)pDec;
+        /*
+		MetalVertexDeclaration* pMetalDec = (MetalVertexDeclaration*)pDec;
 
-		if (m_pCurInput != pD3D11Dec->m_pImpl)
+		if (m_pCurInput != pMetalDec->m_pImpl)
 		{
-			m_pDeviceContext->IASetInputLayout(pD3D11Dec->m_pImpl);
+			m_pDeviceContext->IASetInputLayout(pMetalDec->m_pImpl);
 
-			m_pCurInput = pD3D11Dec->m_pImpl;
+			m_pCurInput = pMetalDec->m_pImpl;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::SetIndexBuffer(IndexBuffer* pIB)
+	void MetalRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
-		D3D11IndexBuffer* buffer = (D3D11IndexBuffer*)pIB;
+        /*
+		MetalIndexBuffer* buffer = (MetalIndexBuffer*)pIB;
 		if (buffer != m_pIndexBuffer)
 		{
 			if (buffer)
@@ -626,19 +602,23 @@ namespace ma
 
 			m_pIndexBuffer = buffer;
 		}
+         */
 	}
 
-	void D3D11RenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
+	void MetalRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
 	{
-		D3D11VertexBuffer* pD3D11VertexBuffer = (D3D11VertexBuffer*)pVB;
-		ID3D11Buffer* pBuffer = pD3D11VertexBuffer->GetD3DVertexBuffer();
-		UINT nStride = pD3D11VertexBuffer->GetStride();
+        /*
+		MetalVertexBuffer* pMetalVertexBuffer = (MetalVertexBuffer*)pVB;
+		IMetalBuffer* pBuffer = pMetalVertexBuffer->GetD3DVertexBuffer();
+		UINT nStride = pMetalVertexBuffer->GetStride();
 		UINT offset = 0; // no stream offset, this is handled in _render instead
 		m_pDeviceContext->IASetVertexBuffers(index, 1, &pBuffer, &nStride, &offset);
+         */
 	}
 
-	void D3D11RenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
+	void MetalRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
+        /*
 		if (pRenderable == NULL)
 			return;
 
@@ -646,7 +626,7 @@ namespace ma
 
 		HRESULT hr = S_OK;
 
-		D3D_PRIMITIVE_TOPOLOGY ePrimitiveType = D3D11Mapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
+		D3D_PRIMITIVE_TOPOLOGY ePrimitiveType = MetalMapping::GetD3DPrimitiveType(pRenderable->m_ePrimitiveType);
 
 		const RefPtr<SubMeshData>& pSubMeshData = pRenderable->m_pSubMeshData;
 
@@ -673,10 +653,12 @@ namespace ma
 		m_pDeviceContext->IASetPrimitiveTopology( ePrimitiveType );
 
 		m_pDeviceContext->DrawIndexed(nIndexCount,nIndexStart,nVertexStart);
+         */
 	}
 
-	void D3D11RenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
+	void MetalRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
+        /*
 		HRESULT hr = S_OK;
  
 		float ColorRGBA[4];
@@ -700,16 +682,17 @@ namespace ma
 		{
 			unsigned depthClearFlags = 0;
 			if (bDepth)
-				depthClearFlags |= D3D11_CLEAR_DEPTH;
+				depthClearFlags |= Metal_CLEAR_DEPTH;
 			if (bStencil)
-				depthClearFlags |= D3D11_CLEAR_STENCIL;
+				depthClearFlags |= Metal_CLEAR_STENCIL;
 			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (uint8)s);
 		}
 
 		ASSERT(hr == S_OK && "Clear buffer failed.");
+         */
 	}
 
-	Matrix4 D3D11RenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
+	Matrix4 MetalRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
 		float yScale = Math::Tan(Math::HALF_PI - fovy*0.5f);
 		float xScale = yScale/Aspect;
@@ -723,7 +706,7 @@ namespace ma
 		 return out;
 	}
 
-	Matrix4 D3D11RenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
+	Matrix4 MetalRenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)
 	{
 		out[0][0] = 2/width;
 		out[1][1] = 2/height;
@@ -739,7 +722,7 @@ namespace ma
 		return out;
 	}
 
-	Matrix4 D3D11RenderDevice::MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf)
+	Matrix4 MetalRenderDevice::MakeOrthoMatrixOffCenter(Matrix4& out, float left, float right, float bottom, float top, float zn, float zf)
 	{
 		out[0][0] = 2/(right-left);
 		out[1][1] = 2/(top-bottom);
@@ -756,7 +739,7 @@ namespace ma
 		return out;
 	}
 
-	void D3D11RenderDevice::BeginProfile(const char* pszLale)
+	void MetalRenderDevice::BeginProfile(const char* pszLale)
 	{
 // 		wchar_t buf[128]; 
 // 		size_t outCount=0; 
@@ -764,15 +747,15 @@ namespace ma
 // 		D3DPERF_BeginEvent(0xff00ff00, buf); 
 	}
 
-	void D3D11RenderDevice::EndProfile()
+	void MetalRenderDevice::EndProfile()
 	{
 		//D3DPERF_EndEvent();
 	}
 
-	bool D3D11RenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
+	bool MetalRenderDevice::CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage)
 	{
-// 		DWORD D3DUsage =  D3D11Mapping::GetD3DTextureUsage(eUsage); 
-// 		D3DFORMAT D3DFormat = D3D11Mapping::GetD3DFormat(eFormat);
+// 		DWORD D3DUsage =  MetalMapping::GetD3DTextureUsage(eUsage); 
+// 		D3DFORMAT D3DFormat = MetalMapping::GetD3DFormat(eFormat);
 // 
 // 		HRESULT hr = D3DXCheckTextureRequirements(m_pD3DDevice, NULL, NULL, NULL, D3DUsage, &D3DFormat, D3DPOOL_DEFAULT);
 // 		return hr == D3D_OK;
@@ -780,15 +763,15 @@ namespace ma
 		return false;
 	}
 
-	void D3D11RenderDevice::NotifyResourceCreated(D3D11Resource* pResource)
+	void MetalRenderDevice::NotifyResourceCreated(MetalResource* pResource)
 	{
 	}
 
-	void D3D11RenderDevice::NotifyResourceDestroyed(D3D11Resource* pResource)
+	void MetalRenderDevice::NotifyResourceDestroyed(MetalResource* pResource)
 	{
 	}
 
-	bool D3D11RenderDevice::BuildDeviceCapabilities()
+	bool MetalRenderDevice::BuildDeviceCapabilities()
 	{
 		GetDeviceCapabilities()->SetShadowMapColorFormat(PF_A8R8G8B8);
 		GetDeviceCapabilities()->SetShadowMapDepthFormat(PF_D24S8);

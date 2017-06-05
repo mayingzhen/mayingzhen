@@ -62,12 +62,12 @@ namespace ma
 		m_pDepthSampler = CreateSamplerState(m_pDepthTex.get(),CLAMP,TFO_POINT,false);
 		m_pFrameBuffer->AttachDepthStencil(m_pDepthTex.get());
 
-		m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
-		m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false); 
-		m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
-
 		if (m_pDeferredShadingPass)
 		{
+            m_pLinearDepthTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1,PF_FLOAT32_R,false);
+            m_pLinearDepthSampler = CreateSamplerState(m_pLinearDepthTex.get(),CLAMP,TFO_POINT,false);
+            m_pTecLinearDepth = CreateTechnique("LinearDepth","screen","linearizedepth","");
+            
 			m_pDiffTemp = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,true);
 			m_pNormalTex = GetRenderSystem()->CreateRenderTarget(-1, -1, 1, PF_A8R8G8B8,false);
 

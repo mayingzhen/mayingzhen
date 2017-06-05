@@ -14,6 +14,9 @@ uniform vec4 boneDQ[MAX_DQ_NUM_BONES*2];
 uniform vec4 boneMatrix[MAX_MAT_NUM_BONES * 3];
 #endif
 
+#ifndef BONE
+#define BONE 4
+#endif
 
 #ifdef BONE_DQ
 

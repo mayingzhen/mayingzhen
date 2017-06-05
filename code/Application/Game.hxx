@@ -7,8 +7,10 @@ namespace ma
 	static Game* __gameInstance = NULL;
 
 
-	Game::Game(const char* pGameName)
+	Game::Game(const char* pGameName,const Setting& set)
 	{
+         m_setting = set;
+        
 		__gameInstance = this;
 
 		___platform.Init();
@@ -44,10 +46,10 @@ namespace ma
 		return m_sGameName.c_str();
 	}
 
-	void Game::Init(bool bRenderThread, bool bDataThread, bool bJobScheduler)
+	void Game::Init()
 	{
 		HWND hWnd = Platform::GetInstance().GetWindId();
-		GetEngine()->Init(hWnd, bRenderThread, bDataThread, bJobScheduler);
+		GetEngine()->Init(hWnd, m_setting.bRenderThread, m_setting.bDataThread, m_setting.bJobScheduler);
 	}
 
 	void Game::Reset(uint32 nWidth,uint32 nHeight)

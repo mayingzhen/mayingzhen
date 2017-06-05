@@ -1,8 +1,9 @@
-#include"common.h"
-
 #ifdef OPENGL_ES
 precision mediump float;
 #endif
+
+#include"common.h"
+
 
 uniform sampler2D tDeviceDepthMapSampler;
 

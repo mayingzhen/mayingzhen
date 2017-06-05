@@ -22,7 +22,7 @@ namespace ma
 		short           Offset;
 		DECL_TYPE       Type;
 		DECL_USAGE      Usage;
-		unsigned char   UsageIndex;
+		short			UsageIndex;
 
 		uint32 mHash;
 

@@ -7,21 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B35BB4A1EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S in Sources */ = {isa = PBXBuildFile; fileRef = 6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */; };
+		6B35BB4B1EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S in Sources */ = {isa = PBXBuildFile; fileRef = 6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */; };
 		6B3C17D218F2E5CC006AE3BB /* stdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C17B718F2E597006AE3BB /* stdAfx.cpp */; };
 		6B3C17D318F2E5D3006AE3BB /* Module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6B3C175D18F2E596006AE3BB /* Module.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6B7F8AA118F2DEAC000A5951 /* PBXContainerItemProxy */ = {
+		6BCB9E951EE1A7AA009FD526 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C7393ED915CA7C9C00205F7C;
-			remoteInfo = ZZiplib;
-		};
-		6BDDCFF91ED177E200C3553A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */;
+			containerPortal = 6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C726DD801AC1826C0073F94B;
 			remoteInfo = FreeImage;
@@ -41,6 +36,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B2FE2001EE5648700A9CAAB /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		6B2FE2011EE5648700A9CAAB /* Engine.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hxx; sourceTree = "<group>"; };
+		6B2FE2021EE5648700A9CAAB /* Export.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Export.def; sourceTree = "<group>"; };
+		6B35BB0D1EE50F9C00C8B936 /* fcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fcontext.h; sourceTree = "<group>"; };
+		6B35BB3E1EE5139B00C8B936 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		6B35BB3F1EE5139B00C8B936 /* fiber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fiber.h; sourceTree = "<group>"; };
+		6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = jump_arm_aapcs_macho_gas.S; sourceTree = "<group>"; };
+		6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = make_arm_aapcs_macho_gas.S; sourceTree = "<group>"; };
 		6B3C175818F2E596006AE3BB /* AndroidInputInjector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AndroidInputInjector.h; sourceTree = "<group>"; };
 		6B3C175918F2E596006AE3BB /* AndroidInputInjector.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AndroidInputInjector.hxx; sourceTree = "<group>"; };
 		6B3C175A18F2E596006AE3BB /* Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gesture.h; sourceTree = "<group>"; };
@@ -120,7 +123,7 @@
 		6B3C17CC18F2E597006AE3BB /* Timer.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Timer.hxx; sourceTree = "<group>"; };
 		6B3C17D018F2E597006AE3BB /* WarningPrefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WarningPrefix.h; sourceTree = "<group>"; };
 		6B3C17D118F2E597006AE3BB /* WarningSuffix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WarningSuffix.h; sourceTree = "<group>"; };
-		6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZZiplib.xcodeproj; path = "../../extern/zziplib-0.13.57/ios/ZZiplib.xcodeproj"; sourceTree = "<group>"; };
+		6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FreeImage.xcodeproj; path = "../../extern/FreeImage-3.13.1/Source/FreeImageLib/FreeImage.xcodeproj"; sourceTree = "<group>"; };
 		6BDDCEAF1ED045EB00C3553A /* DDSCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDSCodec.h; sourceTree = "<group>"; };
 		6BDDCEB01ED045EB00C3553A /* DDSCodec.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DDSCodec.hxx; sourceTree = "<group>"; };
 		6BDDCEB11ED045EB00C3553A /* ETC1Codec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETC1Codec.h; sourceTree = "<group>"; };
@@ -347,7 +350,6 @@
 		6BDDCF9D1ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
 		6BDDCF9E1ED0461D00C3553A /* MTCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCommon.h; sourceTree = "<group>"; };
 		6BDDCF9F1ED0461D00C3553A /* MTEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEvent.h; sourceTree = "<group>"; };
-		6BDDCFA01ED0461D00C3553A /* MTFiber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFiber.h; sourceTree = "<group>"; };
 		6BDDCFA11ED0461D00C3553A /* MTMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMemory.h; sourceTree = "<group>"; };
 		6BDDCFA21ED0461D00C3553A /* MTMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutex.h; sourceTree = "<group>"; };
 		6BDDCFA31ED0461D00C3553A /* MTThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThread.h; sourceTree = "<group>"; };
@@ -357,9 +359,6 @@
 		6BDDCFA81ED0461D00C3553A /* MTAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAtomic.h; sourceTree = "<group>"; };
 		6BDDCFA91ED0461D00C3553A /* MTCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCommon.h; sourceTree = "<group>"; };
 		6BDDCFAA1ED0461D00C3553A /* MTEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEvent.h; sourceTree = "<group>"; };
-		6BDDCFAB1ED0461D00C3553A /* MTFiber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFiber.h; sourceTree = "<group>"; };
-		6BDDCFAC1ED0461D00C3553A /* MTFiberDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFiberDefault.h; sourceTree = "<group>"; };
-		6BDDCFAD1ED0461D00C3553A /* MTFiberOptimized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFiberOptimized.h; sourceTree = "<group>"; };
 		6BDDCFAE1ED0461D00C3553A /* MTMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMemory.h; sourceTree = "<group>"; };
 		6BDDCFAF1ED0461D00C3553A /* MTMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutex.h; sourceTree = "<group>"; };
 		6BDDCFB01ED0461D00C3553A /* MTThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTThread.h; sourceTree = "<group>"; };
@@ -385,7 +384,6 @@
 		6BDDCFC91ED0461D00C3553A /* Animatable.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animatable.hxx; sourceTree = "<group>"; };
 		6BDDCFCA1ED0461D00C3553A /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		6BDDCFCB1ED0461D00C3553A /* Timer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hxx; sourceTree = "<group>"; };
-		6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FreeImage.xcodeproj; path = "../../extern/FreeImage-3.13.1/Source/FreeImageLib/FreeImage.xcodeproj"; sourceTree = "<group>"; };
 		6FA78D6017943026005B3CD6 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -400,9 +398,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B35BADA1EE50F9C00C8B936 /* boost_context */ = {
+			isa = PBXGroup;
+			children = (
+				6B35BADB1EE50F9C00C8B936 /* asm */,
+				6B35BB0D1EE50F9C00C8B936 /* fcontext.h */,
+			);
+			path = boost_context;
+			sourceTree = "<group>";
+		};
+		6B35BADB1EE50F9C00C8B936 /* asm */ = {
+			isa = PBXGroup;
+			children = (
+				6B35BB481EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S */,
+				6B35BB491EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S */,
+			);
+			path = asm;
+			sourceTree = "<group>";
+		};
 		6B3C173718F2E596006AE3BB /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				6B2FE2001EE5648700A9CAAB /* Engine.h */,
+				6B2FE2011EE5648700A9CAAB /* Engine.hxx */,
+				6B2FE2021EE5648700A9CAAB /* Export.def */,
 				6BDDCEBD1ED0461D00C3553A /* Material */,
 				6BDDCED41ED0461D00C3553A /* Profile */,
 				6BDDCED81ED0461D00C3553A /* Renderable */,
@@ -579,10 +598,10 @@
 			path = Time;
 			sourceTree = "<group>";
 		};
-		6B7F8A9D18F2DEAC000A5951 /* Products */ = {
+		6BCB9E921EE1A7A4009FD526 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B7F8AA218F2DEAC000A5951 /* libZZiplib.a */,
+				6BCB9E961EE1A7AA009FD526 /* libFreeImage.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -867,6 +886,9 @@
 		6BDDCF781ED0461D00C3553A /* TaskScheduler */ = {
 			isa = PBXGroup;
 			children = (
+				6B35BB3E1EE5139B00C8B936 /* config.h */,
+				6B35BB3F1EE5139B00C8B936 /* fiber.h */,
+				6B35BADA1EE50F9C00C8B936 /* boost_context */,
 				6BDDCF791ED0461D00C3553A /* MTAppInterop.h */,
 				6BDDCF7A1ED0461D00C3553A /* MTArrayView.h */,
 				6BDDCF7B1ED0461D00C3553A /* MTAtomic.h */,
@@ -929,7 +951,6 @@
 				6BDDCF9D1ED0461D00C3553A /* MTAtomic.h */,
 				6BDDCF9E1ED0461D00C3553A /* MTCommon.h */,
 				6BDDCF9F1ED0461D00C3553A /* MTEvent.h */,
-				6BDDCFA01ED0461D00C3553A /* MTFiber.h */,
 				6BDDCFA11ED0461D00C3553A /* MTMemory.h */,
 				6BDDCFA21ED0461D00C3553A /* MTMutex.h */,
 				6BDDCFA31ED0461D00C3553A /* MTThread.h */,
@@ -946,9 +967,6 @@
 				6BDDCFA81ED0461D00C3553A /* MTAtomic.h */,
 				6BDDCFA91ED0461D00C3553A /* MTCommon.h */,
 				6BDDCFAA1ED0461D00C3553A /* MTEvent.h */,
-				6BDDCFAB1ED0461D00C3553A /* MTFiber.h */,
-				6BDDCFAC1ED0461D00C3553A /* MTFiberDefault.h */,
-				6BDDCFAD1ED0461D00C3553A /* MTFiberOptimized.h */,
 				6BDDCFAE1ED0461D00C3553A /* MTMemory.h */,
 				6BDDCFAF1ED0461D00C3553A /* MTMutex.h */,
 				6BDDCFB01ED0461D00C3553A /* MTThread.h */,
@@ -1015,20 +1033,11 @@
 			path = Time;
 			sourceTree = "<group>";
 		};
-		6BDDCFF51ED177E000C3553A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6BDDCFFA1ED177E200C3553A /* libFreeImage.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6FA78D5717943026005B3CD6 = {
 			isa = PBXGroup;
 			children = (
+				6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */,
 				6B3C173718F2E596006AE3BB /* Engine */,
-				6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */,
-				6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */,
 				6FA78D6117943026005B3CD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1082,12 +1091,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6BDDCFF51ED177E000C3553A /* Products */;
-					ProjectRef = 6BDDCFF41ED177E000C3553A /* FreeImage.xcodeproj */;
-				},
-				{
-					ProductGroup = 6B7F8A9D18F2DEAC000A5951 /* Products */;
-					ProjectRef = 6B7F8A9C18F2DEAC000A5951 /* ZZiplib.xcodeproj */;
+					ProductGroup = 6BCB9E921EE1A7A4009FD526 /* Products */;
+					ProjectRef = 6BCB9E911EE1A7A4009FD526 /* FreeImage.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1098,18 +1103,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6B7F8AA218F2DEAC000A5951 /* libZZiplib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZZiplib.a;
-			remoteRef = 6B7F8AA118F2DEAC000A5951 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6BDDCFFA1ED177E200C3553A /* libFreeImage.a */ = {
+		6BCB9E961EE1A7AA009FD526 /* libFreeImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libFreeImage.a;
-			remoteRef = 6BDDCFF91ED177E200C3553A /* PBXContainerItemProxy */;
+			remoteRef = 6BCB9E951EE1A7AA009FD526 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1119,6 +1117,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B35BB4B1EE53B6700C8B936 /* make_arm_aapcs_macho_gas.S in Sources */,
+				6B35BB4A1EE53B6700C8B936 /* jump_arm_aapcs_macho_gas.S in Sources */,
 				6B3C17D318F2E5D3006AE3BB /* Module.cpp in Sources */,
 				6B3C17D218F2E5CC006AE3BB /* stdAfx.cpp in Sources */,
 			);

@@ -248,7 +248,7 @@ namespace ma
 	{
 		ASSERT(vecObj.empty());
 
-		uint32 nNumJob = MT::g_pTaskScheduler->GetWorkersCount();//GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
+        uint32 nNumJob = MT::g_pTaskScheduler ? MT::g_pTaskScheduler->GetWorkersCount() : 0;//GetJobScheduler()->GetNumThreads() + 1; // WorkThread + MainThread
 		
 		if (MT::g_pTaskScheduler && m_vecNode.size() > nNumJob)
 		{

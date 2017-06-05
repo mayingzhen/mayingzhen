@@ -353,6 +353,8 @@ namespace ma
 	Platform::Platform()
 	{
 		gplatform = this;
+
+		m_bInit = false;
 	}
 
 	void Platform::Init()
@@ -456,6 +458,13 @@ namespace ma
 			}
 			else
 			{
+				if (!m_bInit)
+				{
+					Game::GetInstance().Init();
+
+					m_bInit = true;
+				}
+
 				//Update();
 				Game::GetInstance().Update();
 				

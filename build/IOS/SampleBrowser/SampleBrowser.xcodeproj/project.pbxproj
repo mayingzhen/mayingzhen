@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B2FE1F81EE5590300A9CAAB /* data.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6B2FE1F71EE5590300A9CAAB /* data.zip */; };
 		6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3C172A18F2E2C6006AE3BB /* libEngine.a */; };
 		6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF418E3F2440041D433 /* libAnimation.a */; };
 		6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF618E3F24A0041D433 /* libApplication.a */; };
 		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
 		6BBDAEFD18E3F2640041D433 /* libBulletPhysics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */; };
 		6BBDAF0118E3F2760041D433 /* libGLESRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAF0018E3F2760041D433 /* libGLESRender.a */; };
+		6BCB9E741EE13C2A009FD526 /* libMetalRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCB9E731EE13C2A009FD526 /* libMetalRender.a */; };
+		6BCB9E981EE1AA2E009FD526 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BCB9E971EE1AA2E009FD526 /* Metal.framework */; };
 		6BDDD7461ED1816400C3553A /* libFreeImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7441ED1816400C3553A /* libFreeImage.a */; };
 		6BDDD7471ED1816400C3553A /* libZZiplib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7451ED1816400C3553A /* libZZiplib.a */; };
 		6BDDD74B1ED1818D00C3553A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7481ED1818D00C3553A /* libBulletCollision.a */; };
 		6BDDD74C1ED1818D00C3553A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */; };
 		6BDDD74D1ED1818D00C3553A /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD74A1ED1818D00C3553A /* libLinerMath.a */; };
-		6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
@@ -31,19 +33,29 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B31D44618E4239C006363BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
+		6B2FE1F71EE5590300A9CAAB /* data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = data.zip; path = ../../../data/data.zip; sourceTree = "<group>"; };
+		6B2FE1F91EE5601300A9CAAB /* SampleIBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleIBL.h; sourceTree = "<group>"; };
+		6B2FE1FA1EE5601300A9CAAB /* SampleIBL.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleIBL.hxx; sourceTree = "<group>"; };
+		6B2FE1FB1EE5601300A9CAAB /* SampleMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMaterial.h; sourceTree = "<group>"; };
+		6B2FE1FC1EE5601400A9CAAB /* SampleMaterial.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleMaterial.hxx; sourceTree = "<group>"; };
+		6B2FE1FD1EE5601400A9CAAB /* SampleTerrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTerrain.h; sourceTree = "<group>"; };
+		6B2FE1FE1EE5601400A9CAAB /* SampleTerrain.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleTerrain.hxx; sourceTree = "<group>"; };
+		6B38673D1EE01900000B6D7A /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
 		6B3C172A18F2E2C6006AE3BB /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
 		6BBDAEF418E3F2440041D433 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
 		6BBDAEF618E3F24A0041D433 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
 		6BBDAEFA18E3F2590041D433 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
 		6BBDAEFC18E3F2640041D433 /* libBulletPhysics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletPhysics.a; path = .././lib/libBulletPhysics.a; sourceTree = "<group>"; };
 		6BBDAF0018E3F2760041D433 /* libGLESRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLESRender.a; path = .././lib/libGLESRender.a; sourceTree = "<group>"; };
+		6BCB9E711EE13BDE009FD526 /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
+		6BCB9E721EE13C01009FD526 /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
+		6BCB9E731EE13C2A009FD526 /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
+		6BCB9E971EE1AA2E009FD526 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		6BDDD7441ED1816400C3553A /* libFreeImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFreeImage.a; path = "../../../extern/FreeImage-3.13.1/Source/BuildLibs/Debug-iphoneos/libFreeImage.a"; sourceTree = "<group>"; };
 		6BDDD7451ED1816400C3553A /* libZZiplib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libZZiplib.a; path = "/Volumes/mydemon_git-1/mayingzhen/extern/zziplib-0.13.57/ios/../BuildLibs/Debug-iphoneos/libZZiplib.a"; sourceTree = "<absolute>"; };
 		6BDDD7481ED1818D00C3553A /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = "../../../extern/Bullet-2.82/build/xCode/lib/libBulletCollision.a"; sourceTree = "<group>"; };
 		6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = "../../../extern/Bullet-2.82/build/xCode/./Lib/libBulletDynamics.a"; sourceTree = "<group>"; };
 		6BDDD74A1ED1818D00C3553A /* libLinerMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinerMath.a; path = "../../../extern/Bullet-2.82/build/xCode/./Lib/libLinerMath.a"; sourceTree = "<group>"; };
-		6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -81,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BCB9E981EE1AA2E009FD526 /* Metal.framework in Frameworks */,
+				6BCB9E741EE13C2A009FD526 /* libMetalRender.a in Frameworks */,
 				6BDDD74B1ED1818D00C3553A /* libBulletCollision.a in Frameworks */,
 				6BDDD74C1ED1818D00C3553A /* libBulletDynamics.a in Frameworks */,
 				6BDDD74D1ED1818D00C3553A /* libLinerMath.a in Frameworks */,
@@ -104,11 +118,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B118AC01EE2E66D004BC70A /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				6B2FE1F71EE5590300A9CAAB /* data.zip */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
-				6B31D44618E4239C006363BF /* data */,
-				6F0DE417182D11EB0063C2D1 /* Default-568h@2x.png */,
+				6B118AC01EE2E66D004BC70A /* Resource */,
 				6FDF1A9517951DF3005C7E62 /* Samples */,
 				6FDF1A7717951DA5005C7E62 /* Frameworks */,
 				6FDF1A7617951DA5005C7E62 /* Products */,
@@ -126,6 +147,11 @@
 		6FDF1A7717951DA5005C7E62 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BCB9E971EE1AA2E009FD526 /* Metal.framework */,
+				6BCB9E731EE13C2A009FD526 /* libMetalRender.a */,
+				6BCB9E721EE13C01009FD526 /* libMetalRender.a */,
+				6BCB9E711EE13BDE009FD526 /* libMetalRender.a */,
+				6B38673D1EE01900000B6D7A /* libMetalRender.a */,
 				6BDDD7481ED1818D00C3553A /* libBulletCollision.a */,
 				6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */,
 				6BDDD74A1ED1818D00C3553A /* libLinerMath.a */,
@@ -193,6 +219,12 @@
 		6FDF1AA317951DF3005C7E62 /* Render */ = {
 			isa = PBXGroup;
 			children = (
+				6B2FE1F91EE5601300A9CAAB /* SampleIBL.h */,
+				6B2FE1FA1EE5601300A9CAAB /* SampleIBL.hxx */,
+				6B2FE1FB1EE5601300A9CAAB /* SampleMaterial.h */,
+				6B2FE1FC1EE5601400A9CAAB /* SampleMaterial.hxx */,
+				6B2FE1FD1EE5601400A9CAAB /* SampleTerrain.h */,
+				6B2FE1FE1EE5601400A9CAAB /* SampleTerrain.hxx */,
 				6FDF1AA417951DF3005C7E62 /* SampleLighting.h */,
 				6FDF1AA517951DF3005C7E62 /* SampleLighting.hxx */,
 				6FDF1AA617951DF3005C7E62 /* SampleShadowMap.h */,
@@ -283,7 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F0DE418182D11EB0063C2D1 /* Default-568h@2x.png in Resources */,
+				6B2FE1F81EE5590300A9CAAB /* data.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +333,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\ncd \"$PROJECT_DIR\"\ncp -Rf \"../../../data\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\nif [ \"$PLATFORM_NAME\" == \"iphonesimulator\" ]\nthen cp -f \"$PROJECT_DIR\"/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/\"\n                          fi";
+			shellScript = "rm -rf \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\ncd \"$PROJECT_DIR\"\ncp -Rf \"../../../data/data.zip\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app\"\nif [ \"$PLATFORM_NAME\" == \"iphonesimulator\" ]\nthen cp -f \"$PROJECT_DIR\"/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/\"\n                          fi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

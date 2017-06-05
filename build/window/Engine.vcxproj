@@ -28,7 +28,9 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -65,7 +67,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zziplibd.lib;FreeImaged.lib;libcpuidd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zziplibd.lib;FreeImaged.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../extern/zziplib-0.13.57/msvc8;../../extern/FreeImage-3.13.1/Source/FreeImageLib/Debug;../../extern/vld/lib;../../extern/LibCpuId/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>../../code/Engine/Export.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -293,6 +295,9 @@
     <ClInclude Include="..\..\code\Engine\Scene\Terrain\TerrainTrunk.h" />
     <ClInclude Include="..\..\code\Engine\Scene\Terrain\TerrainTrunk.hxx" />
     <ClInclude Include="..\..\Code\Engine\stdAfx.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\boost_context\fcontext.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\config.h" />
+    <ClInclude Include="..\..\code\Engine\TaskScheduler\fiber.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\MTAppInterop.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\MTArrayView.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\MTAtomic.h" />
@@ -327,7 +332,6 @@
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTAtomic.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTCommon.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTEvent.h" />
-    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTFiber.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTMemory.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTMutex.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Posix\MTThread.h" />
@@ -337,9 +341,6 @@
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTAtomic.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTCommon.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTEvent.h" />
-    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiber.h" />
-    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiberDefault.h" />
-    <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTFiberOptimized.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTMemory.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTMutex.h" />
     <ClInclude Include="..\..\code\Engine\TaskScheduler\Platform\Windows\MTThread.h" />
@@ -371,6 +372,12 @@
   <ItemGroup>
     <None Include="..\..\code\Engine\Export.def" />
     <None Include="..\..\code\Engine\Profile\CodeTimer.inl" />
+    <MASM Include="..\..\code\Engine\TaskScheduler\boost_context\asm\jump_i386_ms_pe_masm.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="..\..\code\Engine\TaskScheduler\boost_context\asm\make_i386_ms_pe_masm.asm">
+      <FileType>Document</FileType>
+    </MASM>
     <None Include="..\..\code\Engine\TaskScheduler\MTFiberContext.inl" />
     <None Include="..\..\code\Engine\TaskScheduler\MTScheduler.inl" />
   </ItemGroup>
@@ -388,5 +395,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
 </Project>

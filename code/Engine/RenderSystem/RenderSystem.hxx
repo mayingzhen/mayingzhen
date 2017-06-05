@@ -112,6 +112,8 @@ namespace ma
 		{
 			m_arrSampState[i] = NULL;
 		}
+        
+        m_pCurShader = NULL;
 
 		m_pRenderThread->RC_BeginRender();
 	}

@@ -16,9 +16,12 @@ namespace ma
 
 	void GLESShaderProgram::Destory()
 	{
-		GL_ASSERT( glDeleteProgram(m_program) );
-		m_program = 0;
-		m_vertexAttributes.clear();
+		if (m_program != 0)
+		{
+			GL_ASSERT(glDeleteProgram(m_program));
+			m_program = 0;
+			m_vertexAttributes.clear();
+		}
 	}
 
 	void GLESShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
@@ -29,7 +32,7 @@ namespace ma
 		ASSERT(fshSource);
 
 		//const UINT SHADER_SOURCE_LENGTH = 3;
-		const GLchar* shaderSource[1];
+		const char* shaderSource[1];
 		char* infoLog = NULL;
 		GLuint vertexShader;
 		GLuint fragmentShader;
@@ -54,7 +57,7 @@ namespace ma
 				infoLog = new char[length];
 				GL_ASSERT( glGetShaderInfoLog(vertexShader, length, NULL, infoLog) );
 				infoLog[length-1] = '\0';
-				ASSERTMSG(false,infoLog);
+				ASSERT(false && infoLog);
 			}
 
 			// Write out the expanded shader file.
@@ -87,7 +90,7 @@ namespace ma
 				infoLog = new char[length];
 				GL_ASSERT( glGetShaderInfoLog(fragmentShader, length, NULL, infoLog) );
 				infoLog[length-1] = '\0';
-				ASSERTMSG(false,infoLog);
+				ASSERT(false && infoLog);
 			}
 	        
 			// Write out the expanded shader file.
@@ -162,7 +165,7 @@ namespace ma
 			GL_ASSERT( glGetProgramiv(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &length) );
 			if (length > 0)
 			{
-				GLchar* attribName = new GLchar[length + 1];
+				char* attribName = new char[length + 1];
 				GLint attribSize;
 				GLenum attribType;
 				GLint attribLocation;
@@ -200,7 +203,7 @@ namespace ma
 		if (length <= 0 || length >= 256 )
 			return;
 
-		GLchar uniformName[256] = {0};
+		char uniformName[256] = {0};
 		GLint uniformSize;
 		GLenum uniformType;
 		GLint uniformLocation;

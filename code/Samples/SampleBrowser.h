@@ -15,11 +15,11 @@ namespace ma
 	class SampleBrowser : public Game, Scene::CCallback
 	{
 	public:
-		SampleBrowser(const char* pGameName);
+		SampleBrowser(const char* pGameName,const Setting& set,const char* pszSample);
 
 		~SampleBrowser();
 
-		virtual void		Init(bool bForceGLES, bool bRenderThread, bool bDataThread, bool bJobScheduler,const char* pszRunSample);
+		virtual void		Init();
 
 		virtual void		Shutdown();
 
@@ -50,6 +50,8 @@ namespace ma
 		bool				m_bStepOneFrame;
 
 		CameraController*	m_pCameraControl;
+        
+        std::string         m_strSample;
 	};
 
 	SampleBrowser* GetSampleBrowser();

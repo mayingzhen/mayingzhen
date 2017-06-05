@@ -1,5 +1,5 @@
 
-#include "D3D11ConstantBuffer.h"
+#include "MetalConstantBuffer.h"
 
 
 namespace ma
@@ -8,7 +8,7 @@ namespace ma
 
 	ConstantBuffer::ConstantBuffer() 
 	{
-		m_pD3D11Buffer = NULL;
+		m_pMetalBuffer = nil;
 		m_bDirty = false;
 	}
 
@@ -19,9 +19,9 @@ namespace ma
 
 	void ConstantBuffer::Release()
 	{
-		if (m_pD3D11Buffer)
+		if (m_pMetalBuffer)
 		{
-			SAFE_RELEASE(m_pD3D11Buffer);
+			//SAFE_RELEASE(m_pMetalBuffer);
 		}
 
 		m_shadowData.clear();
@@ -47,17 +47,17 @@ namespace ma
 
 		//if (graphics_)
 		{
-			D3D11_BUFFER_DESC bufferDesc;
-			memset(&bufferDesc, 0, sizeof bufferDesc);
+			//Metal_BUFFER_DESC bufferDesc;
+			//memset(&bufferDesc, 0, sizeof bufferDesc);
 
-			bufferDesc.ByteWidth = size;
-			bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-			bufferDesc.CPUAccessFlags = 0;
-			bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+			//bufferDesc.ByteWidth = size;
+			//bufferDesc.BindFlags = Metal_BIND_CONSTANT_BUFFER;
+			//bufferDesc.CPUAccessFlags = 0;
+			//bufferDesc.Usage = Metal_USAGE_DEFAULT;
 
-			GetD3D11DxDevive()->CreateBuffer(&bufferDesc, 0, &m_pD3D11Buffer);
-			ASSERT(m_pD3D11Buffer);
-			if (!m_pD3D11Buffer)
+			//GetMetalDxDevive()->CreateBuffer(&bufferDesc, 0, &m_pMetalBuffer);
+			ASSERT(m_pMetalBuffer);
+			if (!m_pMetalBuffer)
 			{
 				LogError("Failed to create constant buffer");
 				return false;
@@ -97,9 +97,9 @@ namespace ma
 
 	void ConstantBuffer::Apply()
 	{
-		if (m_bDirty && m_pD3D11Buffer)
+		if (m_bDirty && m_pMetalBuffer)
 		{
-			GetD3D11DxDeviveContext()->UpdateSubresource(m_pD3D11Buffer, 0, 0, &m_shadowData[0], 0, 0);
+			//GetMetalDeviveContext()->UpdateSubresource(m_pMetalBuffer, 0, 0, &m_shadowData[0], 0, 0);
 			m_bDirty = false;
 		}
 	}

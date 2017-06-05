@@ -80,7 +80,7 @@ namespace ma
 		}
 	}
 
-	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage, BYTE nUsageIndex, DECL_TYPE eType, GLenum& type, 
+	void	GLESMapping::GetGLESDeclType(DECL_USAGE Usage, short nUsageIndex, DECL_TYPE eType, GLenum& type,
 		GLint& typeCount,GLboolean& normalized,std::string& name)
 	{
 		if (Usage == DU_POSITION)
@@ -93,8 +93,8 @@ namespace ma
 				name = VERTEX_ATTRIBUTE_TEXCOORD0_NAME;
 			else if (nUsageIndex == 1)
 				name = VERTEX_ATTRIBUTE_TEXCOORD1_NAME;
-			else
-				ASSERT(false);
+			//else
+			//	ASSERT(false);
 		}
 		else if (Usage == DU_COLOR)
 		{

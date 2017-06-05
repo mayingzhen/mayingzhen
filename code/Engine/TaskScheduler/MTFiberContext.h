@@ -25,6 +25,7 @@
 #include <MTTools.h>
 #include <MTPlatform.h>
 #include <MTTaskBucket.h>
+#include "fiber.h"
 
 #ifdef Yield
 	#undef Yield

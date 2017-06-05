@@ -1,22 +1,63 @@
 #pragma once
 
+#import <QuartzCore/CAMetalLayer.h>
+#include <dispatch/semaphore.h>
+#include <atomic>
+
 namespace ma
 {
 	class IndexBuffer;
 	class VertexBuffer;
 	class ConstantBuffer;
-	class D3D11Resource;
-	class D3D11ShaderProgram;
-	class D3D11VertexDeclaration;
+	class MetalResource;
+	class MetalShaderProgram;
+	class MetalVertexDeclaration;
+    
+    /* metal fence is used to sync CPU with GPU,
+     * MetalCommandBuffer creates a fence at the start of each frame, and signal this fence when GPU complete this command buffer
+     * resouce can wait this fence to make sure GPU finished using this resource
+     */
+    struct MetalFence
+    {
+        MetalFence() :  mRefCount(0), mSignal(false)
+        {
+        }
+        
+    public:
+        void	Aquire();
+        void	Release();
+        
+        void	Wait();
+        void	Signal();
+        
+        std::mutex				mLock;
+        std::condition_variable	mCompleteCondVar;
+        std::atomic<int>		mRefCount;
+        std::atomic<bool>		mSignal;
+    };
+    
+    struct MetalCommandBuffer
+    {
+        MetalCommandBuffer() : mBuffer(nil), mCompleteFence(nil)
+        {}
+        
+        ~MetalCommandBuffer() {}
+        
+        id<MTLCommandBuffer>	mBuffer;
+        MetalFence*				mCompleteFence;
+        
+        void BeginEncodeCommand();
+        void EndEncodeCommand();
+    };
 
-	class D3D11RenderDevice : public IRenderDevice
+	class MetalRenderDevice : public IRenderDevice
 	{
 	public:
-		D3D11RenderDevice();
+		MetalRenderDevice();
 
-		~D3D11RenderDevice();
+		~MetalRenderDevice();
 
-		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_D3D11;}
+		virtual RenderDeviceType	GetRenderDeviceType() {return RenderDevice_METAL;}
 
 		virtual Texture*			CreateTexture();
 		virtual Texture*			CreateRenderTarget(int nWidth,int nHeight,UINT nMipMap,PixelFormat format,bool bSRGB,TEXTURE_TYPE eType);
@@ -80,12 +121,12 @@ namespace ma
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
-		ID3D11Device*				GetDXDevive() {return m_pD3DDevice;}
-		ID3D11DeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}
+		id<MTLDevice>				GetMetalDevive() {return m_device;}
+		//IMetalDeviceContext*		GetMetalDeviveContext() {return m_pDeviceContext;}
 
-		void						NotifyResourceCreated(D3D11Resource* pRes);
+		void						NotifyResourceCreated(MetalResource* pRes);
 
-		void						NotifyResourceDestroyed(D3D11Resource* pRes);
+		void						NotifyResourceDestroyed(MetalResource* pRes);
 
 		void						ClearAllStates();
 
@@ -98,58 +139,19 @@ namespace ma
 
 		bool						UpdateSwapChain(int width, int height);
 
-		void						DetachSRV(ID3D11ShaderResourceView* rtv_src);
+		//void						DetachSRV(IMetalShaderResourceView* rtv_src);
 	
 	private:
-		ID3D11Device*				m_pD3DDevice;
+        id<MTLDevice>               m_device;
+        id<MTLCommandQueue>         m_command_queue;
+        MetalCommandBuffer          m_command_buffer;
 
-		/// Immediate device context.
-		ID3D11DeviceContext*		m_pDeviceContext;
-
-		IDXGISwapChain*				m_pSwapChain;
-
-		HWND						m_hWnd;
-
-		RefPtr<D3D11Texture>		m_pDefaultRenderTargetTexture;
-		RefPtr<D3D11Texture>		m_pDefaultDepthStencilTexture;
-
-		ID3D11RenderTargetView*		m_pRenderTarget[MAX_RENDERTARGETS];
-		ID3D11DepthStencilView*		m_pDepthStencil;
-		bool						m_bRenderTargetsDirty;
-		
-		ID3D11DepthStencilState*	m_pCurDSState;
-		UINT						m_nStencilRef;
-
-		ID3D11BlendState*			m_pCurBlendState;
-
-		ID3D11RasterizerState*		m_pCurRSState;
-
-		ID3D11InputLayout*			m_pCurInput;
-
-		IndexBuffer*				m_pIndexBuffer;
-
-		//Vertex buffers
-		unsigned m_nFirstDirtyVB;
-		unsigned m_nLastDirtyVB;
-		ID3D11Buffer* m_arrVertexBuffers[MAX_VERTEX_STREAMS];
-		unsigned m_arrVertexSize[MAX_VERTEX_STREAMS];
-		unsigned m_arrVertexOffset[MAX_VERTEX_STREAMS];
-
-		Texture* m_arrTexture[MAX_TEXTURE_UNITS];
-		unsigned m_nFirstDirtyTexture;
-		unsigned m_nLastDirtyTexture;
-		bool	m_bTexturesDirty;
-		ID3D11ShaderResourceView* m_arrShaderResourceView[MAX_TEXTURE_UNITS];
-
-		unsigned m_nFirstDirtySamplerState;
-		unsigned m_nLastDirtySamplerState;
-		bool m_bSamplerStatesDirty;
-		ID3D11SamplerState* m_arrD3d11Sampler[MAX_TEXTURE_UNITS];
-
+        CAMetalLayer*               m_layer;
+        id<CAMetalDrawable>         m_drawable;
 	};
 
-	ID3D11Device* GetD3D11DxDevive();
-	ID3D11DeviceContext* GetD3D11DxDeviveContext();
+	id<MTLDevice> GetMetalDevive();
+	//IMetalDeviceContext* GetMetalDeviveContext();
 }
 
 

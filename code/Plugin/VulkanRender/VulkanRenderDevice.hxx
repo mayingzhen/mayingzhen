@@ -23,39 +23,7 @@ namespace ma
 
 	VulkanRenderDevice::VulkanRenderDevice()
 	{
-		m_pD3DDevice = NULL;
-		m_pDeviceContext = NULL;
-		m_pSwapChain = NULL;
 
-		ClearAllStates();
-
-		m_bRenderTargetsDirty = true;
-
-		m_nFirstDirtyVB = 0;
-		m_nLastDirtyVB = 0;
-		memset(m_arrVertexBuffers,0,sizeof(m_arrVertexBuffers));
-		memset(m_arrVertexSize,0,sizeof(m_arrVertexSize));
-		memset(m_arrVertexOffset,0,sizeof(m_arrVertexOffset));
-
-	 	memset(m_arrTexture,0,sizeof(m_arrTexture));
-		memset(m_arrShaderResourceView,0,sizeof(m_arrShaderResourceView));
-		m_nFirstDirtyTexture = M_MAX_UNSIGNED;
-		m_nLastDirtyTexture = M_MAX_UNSIGNED;
-		m_bTexturesDirty = true;
-
-		memset(m_arrVulkanSampler,0,sizeof(m_arrVulkanSampler));
-		m_nFirstDirtySamplerState = M_MAX_UNSIGNED;
-		m_nLastDirtySamplerState = M_MAX_UNSIGNED;
-		m_bSamplerStatesDirty = true;
-
-		m_pDepthStencil = NULL;
-		memset(m_pRenderTarget,0,sizeof(m_pRenderTarget));
-
-		m_pCurInput = NULL;
-		m_pCurDSState = NULL;
-		m_nStencilRef = 0;
-		m_pCurBlendState = NULL;
-		m_pCurRSState = NULL;
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()

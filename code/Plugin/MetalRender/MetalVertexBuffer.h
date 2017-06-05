@@ -4,14 +4,14 @@
 namespace ma
 {
 
-	class D3D11VertexBuffer : public VertexBuffer
+	class MetalVertexBuffer : public VertexBuffer
 	{
 	public:
-		D3D11VertexBuffer();
+		MetalVertexBuffer();
 
-		~D3D11VertexBuffer();
+		~MetalVertexBuffer();
 
-		ID3D11Buffer* GetD3DVertexBuffer();
+		id<MTLBuffer> GetMetalVertexBuffer();
 
 	private:
 
@@ -22,7 +22,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	protected:
-		ID3D11Buffer*	mD3D11VertexBuffer;	
+		id<MTLBuffer>	mMetalVertexBuffer;
 	};
 
 }

@@ -1,5 +1,5 @@
-
 #pragma once
+
 
 namespace ma
 {
@@ -32,7 +32,7 @@ namespace ma
 		/// Return whether has unapplied data.
 		bool IsDirty() const { return m_bDirty; }
 
-		ID3D11Buffer* GetD3D11Buffer() {return m_pD3D11Buffer;}
+		id<MTLBuffer> GetMetalBuffer() {return m_pMetalBuffer;}
 
 		static void Clear();
 
@@ -43,7 +43,7 @@ namespace ma
 		/// Dirty flag.
 		bool m_bDirty;
 
-		ID3D11Buffer* m_pD3D11Buffer;
+		id<MTLBuffer> m_pMetalBuffer;
 	};
 
 	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);

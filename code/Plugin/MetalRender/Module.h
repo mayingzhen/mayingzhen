@@ -1,12 +1,10 @@
-#ifndef  _D3D11RENDER_MODULE__H__
-#define  _D3D11RENDER_MODULE__H__
+#pragma once
 
 
-#include "D3D11Render/Export.h"
+#include "MetalRender/Export.h"
 
 
-D3D11RENDER_API void D3D11RenderModuleInit();
+METALRENDER_API void MetalRenderModuleInit();
 
-D3D11RENDER_API void D3D11RenderModuleShutdown();
+METALRENDER_API void MetalRenderModuleShutdown();
 
-#endif

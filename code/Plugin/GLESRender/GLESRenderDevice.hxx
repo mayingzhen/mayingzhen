@@ -186,20 +186,20 @@ namespace ma
 #endif
 			g_bGL_OES_vertex_array_object = false;
 
-#if GL_OES_mapbuffer
-		if(strExt.find("GL_OES_mapbuffer") != string::npos)
-		{
-			g_bGL_OES_mapbuffer = true;
-#if defined(WIN32) || defined(__ANDROID__)
-			glMapBuffer = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-			glUnmapBuffer = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
-			glGetBufferPointerv = (PFNGLGETBUFFERPOINTERVOESPROC)eglGetProcAddress("glGetBufferPointervOES");
-			g_bGL_OES_mapbuffer = (glMapBufferOES != NULL);
-#endif
-		}
-		else
-#endif
-			g_bGL_OES_mapbuffer = false;
+// #if GL_OES_mapbuffer
+// 		if(strExt.find("GL_OES_mapbuffer") != string::npos)
+// 		{
+// 			g_bGL_OES_mapbuffer = true;
+// #if defined(WIN32) || defined(__ANDROID__)
+// 			//glMapBuffer = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
+			//glUnmapBuffer = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+			//glGetBufferPointerv = (PFNGLGETBUFFERPOINTERVOESPROC)eglGetProcAddress("glGetBufferPointervOES");
+// 			g_bGL_OES_mapbuffer = (glMapBufferOES != NULL);
+// #endif
+// 		}
+// 		else
+// #endif
+// 			g_bGL_OES_mapbuffer = false;
 
 
 #if GL_APPLE_framebuffer_multisample
@@ -713,7 +713,7 @@ namespace ma
 
 		if (bDepth)
 		{
-			GL_ASSERT( glClearDepth(z) ); // glClearDepthf 在笔记本上出错
+			GL_ASSERT( glClearDepthf(z) ); // glClearDepthf 在笔记本上出错
 			mask |= GL_DEPTH_BUFFER_BIT;
 
 			GL_ASSERT( glDepthMask(GL_TRUE) );

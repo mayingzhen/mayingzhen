@@ -1,71 +1,93 @@
-#include "D3D11VertexDeclaration.h"
-#include "D3D11ShaderProgram.h"
+#include "MetalVertexDeclaration.h"
+#include "MetalShaderProgram.h"
 
 namespace ma
 {
-	std::map<uint64, ID3D11InputLayout* > g_vertexDeclarationPool;
+	std::map<uint64, MTLVertexDescriptor* > g_vertexDeclarationPool;
 
-	D3D11VertexDeclaration::D3D11VertexDeclaration()
+	MetalVertexDeclaration::MetalVertexDeclaration()
 	{
-		m_pImpl = NULL;
+		m_descriptor = nil;
 	}
 
-	D3D11VertexDeclaration::~D3D11VertexDeclaration()
+	MetalVertexDeclaration::~MetalVertexDeclaration()
 	{
+        if (m_descriptor != nil)
+            [m_descriptor release];
+        m_descriptor = nil;
 	}
 
-	void D3D11VertexDeclaration::RT_StreamComplete()
+	void MetalVertexDeclaration::RT_StreamComplete()
 	{
 		ASSERT(m_pShader);
 		if (m_pShader == NULL)
 			return;
+        
+        /*
 
-		ASSERT(m_pImpl == NULL);
-
+		ASSERT(m_descriptor == nil);
+        m_descriptor = [[MTLVertexDescriptor alloc] init];
+        
 		uint64 nHash = this->GetHash();
 
 		auto it = g_vertexDeclarationPool.find(nHash);
 		if (it != g_vertexDeclarationPool.end())
 		{
-			m_pImpl = it->second;
+			m_descriptor = it->second;
 		}
 		else
 		{
-			D3D11_INPUT_ELEMENT_DESC d3dve[MAX_ELEMENT];
-			for (int i = 0; i < this->GetElementCount(); ++i)
-			{
-				const VertexElement& element = this->GetElement(i);
-				d3dve[i].SemanticName = D3D11Mapping::GetD3DDeclUsage(element.Usage);
-				d3dve[i].SemanticIndex = element.UsageIndex;
-				d3dve[i].Format = D3D11Mapping::GetD3DDeclType(element.Type);
-				d3dve[i].InputSlot = 0;
-				d3dve[i].AlignedByteOffset = element.Offset;
-				d3dve[i].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-				d3dve[i].InstanceDataStepRate = 0;
-			}
+            m_vertex_size = stream_assign.GetVertexSize();
+            m_assign = StreamAssignmentPtr(new StreamAssignment(stream_assign));
+            m_stream_count = 0;
+            bool bit_vec[MAX_STREAMS];
+            memset(bit_vec, 0, sizeof(bit_vec));
+            nfd::Word stream = 0;
+            nfd::Word offset = 0;
+            for (nfd::Dword i = 0; i< stream_assign.GetLayout().GetCount(); ++i)
+            {
+                stream = stream_assign.GetAssign(i);
+                offset = stream_assign.GetOffset(i);
+                const VertexElement& layout = stream_assign.GetLayout()[i];
+                auto u = layout.GetUsage();
+                if (u == VertexElement::USAGE_POSITIONT)
+                {
+                    u = VertexElement::USAGE_POSITION;
+                }
+                MTLVertexAttributeDescriptor * attr = m_descriptor.attributes[u];
+                attr.offset = offset;
+                // stream 0 is reserved for constant buffer
+                attr.bufferIndex = stream + 1;
+                attr.format = GetDataFormat(layout);
+                if (!bit_vec[stream])
+                {
+                    bit_vec[stream] = true;
+                    m_stream_count++;
+                }
+            }
+            for (nfd::Dword i = 0; i < MAX_STREAMS; ++i)
+            {
+                if (!bit_vec[i])
+                {
+                    continue;
+                }
+                m_descriptor.layouts[i + 1].stride = stream_assign.GetStreamStride(i);
+                m_descriptor.layouts[i + 1].stepFunction =
+                (stream_assign.IsStreamPerInstance(i) ? MTLVertexStepFunctionPerInstance : MTLVertexStepFunctionPerVertex);
+            }
 
-			D3D11ShaderProgram* pD3D11Shader = (D3D11ShaderProgram*)(m_pShader.get());
+			g_vertexDeclarationPool.insert(std::make_pair(nHash, pMetalVertexDecl));
 
-			ID3D11InputLayout* pD3D11VertexDecl = NULL;
-			GetD3D11DxDevive()->CreateInputLayout(&d3dve[0], GetElementCount(), pD3D11Shader->GetByteVSCode(),
-				pD3D11Shader->GetByteVSCodeSize(), &pD3D11VertexDecl);
-			ASSERT(pD3D11VertexDecl);
-			if (pD3D11VertexDecl == NULL)
-			{
-				LogError("Failed to create input layout");
-			}
-
-			g_vertexDeclarationPool.insert(std::make_pair(nHash, pD3D11VertexDecl));
-
-			m_pImpl = pD3D11VertexDecl;
+			m_descriptor = pMetalVertexDecl;
 		}
+         */
 	}
 
-	void D3D11VertexDeclaration::Clear()
+	void MetalVertexDeclaration::Clear()
 	{
 		for (auto it = g_vertexDeclarationPool.begin(); it != g_vertexDeclarationPool.end(); ++it)
 		{
-			SAFE_RELEASE(it->second);
+			//SAFE_RELEASE(it->second);
 		}
 		g_vertexDeclarationPool.clear();
 	}

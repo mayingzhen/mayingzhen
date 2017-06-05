@@ -442,7 +442,7 @@ namespace ma
 	static const int MAX_RENDERTARGETS = 4;
 	static const int MAX_VERTEX_STREAMS = 4;
 	static const int MAX_CONSTANT_REGISTERS = 256;
-	static const int MAX_TEXTURE_UNITS = 16;
+	static const int MAX_TEXTURE_UNITS = 8;
 
 }
 
