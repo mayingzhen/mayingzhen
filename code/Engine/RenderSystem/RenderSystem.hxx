@@ -237,12 +237,12 @@ namespace ma
 
 	void RenderSystem::RT_BeginRender()
 	{
-		for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
+        GetRenderDevice()->BeginRender();
+		
+        for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		{
 			GetRenderDevice()->SetTexture(i,NULL,true);
 		}
-
-		GetRenderDevice()->BeginRender();
 	}
 
 	void RenderSystem::RT_EndRender()
@@ -592,7 +592,11 @@ namespace ma
 		{
 			return "shader/hlsl/";
 		}
-		else
+		else if (type == RenderDevice_METAL)
+        {
+            return "shader/metal/";
+        }
+        else
 		{
 			return "shader/gles/";
 		}

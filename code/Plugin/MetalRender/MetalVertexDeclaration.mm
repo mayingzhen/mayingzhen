@@ -1,5 +1,6 @@
 #include "MetalVertexDeclaration.h"
 #include "MetalShaderProgram.h"
+#include "MetalMapping.h"
 
 namespace ma
 {
@@ -19,9 +20,27 @@ namespace ma
 
 	void MetalVertexDeclaration::RT_StreamComplete()
 	{
-		ASSERT(m_pShader);
-		if (m_pShader == NULL)
-			return;
+        if (m_descriptor != nil)
+            return;
+        
+        //m_descriptor = nil;
+        m_descriptor = [[MTLVertexDescriptor alloc] init];
+        
+        for (int i = 0; i < this->GetElementCount(); ++i)
+        {
+            const VertexElement& element = this->GetElement(i);
+            
+            MTLVertexAttributeDescriptor* attr = m_descriptor.attributes[i];
+            attr.offset = element.Offset;
+            // stream 0 is reserved for constant buffer
+            //attr.bufferIndex = 0;//element.UsageIndex + 1;
+            attr.format = MetalMapping::GetDeclType(element.Type);
+            
+        }
+        
+        m_descriptor.layouts[0].stride = this->GetStreanmStride();
+        m_descriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
+        
         
         /*
 

@@ -7,6 +7,7 @@ namespace ma
 	{
 		Thread* pThread = (Thread*)pParameter;
 		pThread->ThreadLoop();
+        return NULL;
 	}
 
 	Thread::Thread(const char* pszName)

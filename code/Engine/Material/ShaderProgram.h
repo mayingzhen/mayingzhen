@@ -19,7 +19,7 @@ namespace ma
 		DECL_OBJECT(ShaderProgram)
 
 		virtual void		CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize) = 0;
-		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines = NULL);
+		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines, VertexDeclaration* pVertexDecl);
 
 		void				Reload();	
 
@@ -36,7 +36,9 @@ namespace ma
 		void				SetPSFile(const char* pszPSFile);
 
 		const char*			GetShaderMacro() const;
-		void				SetShaderMacro(const char* pszMacro);	
+		void				SetShaderMacro(const char* pszMacro);
+        
+        VertexDeclaration*  GetVertexDeclaration() {return m_pVertexDecl.get();}
 
 		virtual void		CommitChanges() { ASSERT(false); }
 
@@ -55,11 +57,13 @@ namespace ma
 		std::string			m_strVSFile;
 		std::string			m_strPSFile;
 		std::string			m_shaderMacro;
+        
+        RefPtr<VertexDeclaration> m_pVertexDecl;
 
 		friend class		RenderThread;
 	};
 
-	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco);
+	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl);
 }
 
 #endif

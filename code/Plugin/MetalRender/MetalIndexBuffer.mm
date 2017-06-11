@@ -41,8 +41,14 @@ void MetalIndexBuffer::RT_StreamComplete()
     //{
     //   options = MTLResourceCPUCacheModeDefaultCache;
     //}
-    
-    mMetalIndexBuffer = [GetMetalDevive() newBufferWithBytes:m_pData length:m_Size options:MTLResourceOptionCPUCacheModeDefault];
+    if (m_pData == NULL)
+    {
+        mMetalIndexBuffer = [GetMetalDevive() newBufferWithLength:m_Size options:MTLResourceOptionCPUCacheModeDefault];
+    }
+    else
+    {
+        mMetalIndexBuffer = [GetMetalDevive() newBufferWithBytes:m_pData length:m_Size options:MTLResourceOptionCPUCacheModeDefault];
+    }
     mMetalIndexBuffer.label = @"IndexBuffer";
     
     if (!m_bShadowData)

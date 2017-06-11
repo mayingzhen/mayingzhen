@@ -114,3 +114,4 @@
 /Bin/Release/Engine.lib
 /Bin/Release/GLESRender.lib
 /Bin/Release/MonoScript.lib
+/ios_res

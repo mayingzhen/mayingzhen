@@ -37,6 +37,8 @@ namespace ma
 		virtual void	Render();
 
 		const char*		GetGameName();
+        
+        const Setting&  GetSetting() {return m_setting;}
 
 		static Game&	GetInstance();
 

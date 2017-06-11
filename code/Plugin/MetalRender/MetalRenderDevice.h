@@ -12,6 +12,8 @@ namespace ma
 	class MetalResource;
 	class MetalShaderProgram;
 	class MetalVertexDeclaration;
+    class MetalBlendStateObject;
+    class MetalRasterizerStateObject;
     
     /* metal fence is used to sync CPU with GPU,
      * MetalCommandBuffer creates a fence at the start of each frame, and signal this fence when GPU complete this command buffer
@@ -122,7 +124,7 @@ namespace ma
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
 		id<MTLDevice>				GetMetalDevive() {return m_device;}
-		//IMetalDeviceContext*		GetMetalDeviveContext() {return m_pDeviceContext;}
+        id<MTLRenderCommandEncoder> GetRenderCommandEncoder() {return m_encoder;}
 
 		void						NotifyResourceCreated(MetalResource* pRes);
 
@@ -144,10 +146,22 @@ namespace ma
 	private:
         id<MTLDevice>               m_device;
         id<MTLCommandQueue>         m_command_queue;
-        MetalCommandBuffer          m_command_buffer;
+        dispatch_semaphore_t        _inflight_semaphore;
+        //MetalCommandBuffer          m_command_buffer;
+        id<MTLCommandBuffer>           m_command_buffer;
+        
+        MTLRenderPassDescriptor*    m_pass_desc;
+        MTLRenderPipelineDescriptor* m_pipe_desc;
+        id<MTLRenderCommandEncoder> m_encoder;
+  
+        
+        MetalBlendStateObject*      m_pCurBlendState;
+        MetalRasterizerStateObject* m_pCurRSState;
+        id<MTLDepthStencilState>    m_pDSState;
 
         CAMetalLayer*               m_layer;
         id<CAMetalDrawable>         m_drawable;
+        
 	};
 
 	id<MTLDevice> GetMetalDevive();

@@ -60,8 +60,8 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
 	//	return DXGI_FORMAT_UNKNOWN;
 	//case PF_A4R4G4B4:
 	//	return DXGI_FORMAT_UNKNOWN;
-	//case PF_R8G8B8:
-	//	return DXGI_FORMAT_UNKNOWN;
+	case PF_R8G8B8:
+        return MTLPixelFormatRGBA8Unorm;
 	case PF_A8R8G8B8:
 		return MTLPixelFormatRGBA8Unorm;
 	case PF_A8B8G8R8:
@@ -98,6 +98,7 @@ MTLPixelFormat MetalMapping::_getPF(PixelFormat ogrePF)
 		return MTLPixelFormatDepth32Float_Stencil8;
 	case PF_UNKNOWN:
 	default:
+        ASSERT(false);
 		return MTLPixelFormatInvalid;
 	}
 }

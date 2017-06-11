@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B2FE1F81EE5590300A9CAAB /* data.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6B2FE1F71EE5590300A9CAAB /* data.zip */; };
 		6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3C172A18F2E2C6006AE3BB /* libEngine.a */; };
+		6BB127601EEADEBC00DF85B2 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6BB1275F1EEADEBC00DF85B2 /* data */; };
+		6BB127621EEAE93400DF85B2 /* data.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6BB127611EEAE93400DF85B2 /* data.zip */; };
 		6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF418E3F2440041D433 /* libAnimation.a */; };
 		6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF618E3F24A0041D433 /* libApplication.a */; };
 		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
@@ -33,7 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B2FE1F71EE5590300A9CAAB /* data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = data.zip; path = ../../../data/data.zip; sourceTree = "<group>"; };
 		6B2FE1F91EE5601300A9CAAB /* SampleIBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleIBL.h; sourceTree = "<group>"; };
 		6B2FE1FA1EE5601300A9CAAB /* SampleIBL.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleIBL.hxx; sourceTree = "<group>"; };
 		6B2FE1FB1EE5601300A9CAAB /* SampleMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMaterial.h; sourceTree = "<group>"; };
@@ -42,6 +42,8 @@
 		6B2FE1FE1EE5601400A9CAAB /* SampleTerrain.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleTerrain.hxx; sourceTree = "<group>"; };
 		6B38673D1EE01900000B6D7A /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
 		6B3C172A18F2E2C6006AE3BB /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
+		6BB1275F1EEADEBC00DF85B2 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../ios_res/data; sourceTree = "<group>"; };
+		6BB127611EEAE93400DF85B2 /* data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = data.zip; path = ../../../data/data.zip; sourceTree = "<group>"; };
 		6BBDAEF418E3F2440041D433 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
 		6BBDAEF618E3F24A0041D433 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
 		6BBDAEFA18E3F2590041D433 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
@@ -121,7 +123,8 @@
 		6B118AC01EE2E66D004BC70A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				6B2FE1F71EE5590300A9CAAB /* data.zip */,
+				6BB127611EEAE93400DF85B2 /* data.zip */,
+				6BB1275F1EEADEBC00DF85B2 /* data */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -268,7 +271,6 @@
 				6FDF1A7117951DA5005C7E62 /* Sources */,
 				6FDF1A7217951DA5005C7E62 /* Frameworks */,
 				6FDF1A7317951DA5005C7E62 /* Resources */,
-				6BD7C95518E429C9000F3A32 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -315,27 +317,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B2FE1F81EE5590300A9CAAB /* data.zip in Resources */,
+				6BB127601EEADEBC00DF85B2 /* data in Resources */,
+				6BB127621EEAE93400DF85B2 /* data.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6BD7C95518E429C9000F3A32 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/data\"\ncd \"$PROJECT_DIR\"\ncp -Rf \"../../../data/data.zip\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app\"\nif [ \"$PLATFORM_NAME\" == \"iphonesimulator\" ]\nthen cp -f \"$PROJECT_DIR\"/*.png \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app/\"\n                          fi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6FDF1A7117951DA5005C7E62 /* Sources */ = {

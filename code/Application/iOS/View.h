@@ -24,9 +24,9 @@
 - (void)update:(id)sender;
 - (void)setSwapInterval:(NSInteger)interval;
 - (int)swapInterval;
-- (void)swapBuffers;
-- (BOOL)showKeyboard;
-- (BOOL)dismissKeyboard;
+//- (void)swapBuffers;
+//- (BOOL)showKeyboard;
+//- (BOOL)dismissKeyboard;
 @end
 
 @interface View (Private)

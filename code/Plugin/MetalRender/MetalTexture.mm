@@ -340,68 +340,31 @@ namespace ma
 
 	bool MetalTexture::SetLevelData(int nLevel, int nFace, const PixelBox& src)
 	{
-        /*
-		// for scoped deletion of conversion buffer
-		RefPtr<MemoryStream> buf;
-		PixelBox converted = src;
-		
-		int width = m_nWidth >> nLevel;
-		int height = m_nHeight >> nLevel;
-
-		if (PixelUtil::isCompressed(converted.format))
-		{
-			width += 3;
-			width &= 0xfffffffc;
-			height += 3;
-			height &= 0xfffffffc;
-		}
-
-		Box dstBox(0,0,width,height);
-
-		Metal_BOX dstBoxDx11 = OgreImageBoxToDx11Box(dstBox);
-		dstBoxDx11.front = 0;
-		dstBoxDx11.back = converted.getDepth();
-
-		// convert to pixelbuffer's native format if necessary
-		if (MetalMapping::_getPF(src.format) == DXGI_FORMAT_UNKNOWN)
-		{
-			buf = CreateMemoryStream(PixelUtil::getMemorySize(src.getWidth(), src.getHeight(), src.getDepth(),m_eFormat), false);
-			converted = PixelBox(src.getWidth(), src.getHeight(), src.getDepth(), m_eFormat, buf->GetPtr());
-			PixelUtil::bulkPixelConversion(src, converted);
-		}
-
-		uint32 rowWidth;
-		if (PixelUtil::isCompressed(converted.format))
-		{
-			// D3D wants the width of one row of cells in bytes
-			if (converted.format == PF_DXT1)
-			{
-				// 64 bits (8 bytes) per 4x4 block
-				rowWidth = (converted.rowPitch / 4) * 8;
-			}
-			else
-			{
-				// 128 bits (16 bytes) per 4x4 block
-				rowWidth = (converted.rowPitch / 4) * 16;
-			}
-		}
-		else
-		{
-			rowWidth = converted.rowPitch * PixelUtil::getNumElemBytes(converted.format);
-		}
-
-		unsigned subResource = MetalCalcSubresource(nLevel, nFace, m_nMipLevels);
-
-		GetMetalDxDeviveContext()->UpdateSubresource( 
-			m_pMetalTex2D, 
-			subResource,
-			&dstBoxDx11,
-			converted.data,
-			rowWidth,
-			0 );
-		*/
+        //const image::Surface* imgSurface = static_cast<const image::Surface*>(image->GetMipmap(i).get());
+        //MTLRegion region = MTLRegionMake2D(0, 0, (NSUInteger)imgSurface->Width(), (NSUInteger)imgSurface->Height());
+        //NSUInteger bytesPerRow = BytesPerRow(imgSurface);
+        //[GetMetalDevive() replaceRegion:region mipmapLevel:i slice:0 withBytes:imgSurface->Buffer() bytesPerRow:bytesPerRow bytesPerImage:0];
         
-		return true;
+        
+        //GL_ASSERT( glBindTexture(GL_TEXTURE_2D, m_pTex) );
+        
+        int width = m_nWidth >> nLevel;
+        int height = m_nHeight >> nLevel;
+        
+        PixelBox conver = src;
+        //PixelFormat closestFomat = GLESMapping::GetClosestFormat(m_PixelFormat,m_DataType);
+        //if (closestFomat != src.format)
+        //{
+        //    conver.format = closestFomat;
+        //    PixelUtil::bulkPixelConversion(src,conver);
+       // }
+        
+        //const image::Surface* imgSurface = static_cast<const image::Surface*>(image->GetMipmap(i).get());
+        MTLRegion region = MTLRegionMake2D(0, 0, (NSUInteger)width, (NSUInteger)height);
+        NSUInteger bytesPerRow = conver.rowPitch * PixelUtil::getNumElemBytes(conver.format);//BytesPerRow(imgSurface);
+        [m_native replaceRegion:region mipmapLevel:nLevel slice:nFace withBytes:conver.data bytesPerRow:bytesPerRow bytesPerImage:0];
+        
+        return true;
 	}
 
 	void MetalTexture::CopyTo(Texture* pDes,int nOutFace, int nOutLevel, int nInFace,int nInlevel)

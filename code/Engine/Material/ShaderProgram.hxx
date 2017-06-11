@@ -25,10 +25,10 @@ namespace ma
 		m_arrUniform.clear();
 		m_eResState = ResUnLoad;
 
-		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderMacro.c_str());
+		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderMacro.c_str(),m_pVertexDecl.get());
 	}
 
-	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines/* = NULL*/)
+	void ShaderProgram::CreateFromFile(const char* vshPath, const char* fshPath, const char* defines, VertexDeclaration* pVertexDecl)
 	{
 		if (m_eResState == ResInited)
 		{
@@ -41,10 +41,16 @@ namespace ma
 		m_strVSFile = vshPath ? vshPath : "";
 		m_strPSFile = fshPath ? fshPath : "";
 		m_shaderMacro = defines ? defines: "";
-
+        
+        m_pVertexDecl = pVertexDecl;
+        
 		m_eResState = ResLoaded;
+        
+        GetRenderSystem()->ShaderStreamComplete(this);
 
-		GetRenderSystem()->ShaderStreamComplete(this);
+        pVertexDecl->SetShaderProgram(this);
+        
+        GetRenderSystem()->VertexDeclaComplete(pVertexDecl);
 	}
 
 	void ShaderProgram::RT_StreamComplete()
@@ -136,9 +142,9 @@ namespace ma
 		return pUnifrom;
 	}
 
-	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
+	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl)
 	{
-		return g_pShaderManager->CreateShader(pszVSFile,pszPSFile,pszMarco);
+		return g_pShaderManager->CreateShader(pszVSFile,pszPSFile,pszMarco,pVertexDecl);
 	}
 
 }

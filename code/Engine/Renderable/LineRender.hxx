@@ -18,21 +18,27 @@ namespace ma
 
 	void LineRender::Init()
 	{
-		gpLinTech = CreateTechnique("Line","line","line","");
-		//gpLinTech->m_bDepthWrite = true;
-		//gpLinTech->m_eDepthCheckMode = CMPF_ALWAYS_PASS; 
+        gpLinTech = CreateTechnique();
+        
+        VertexElement element[2];
+        element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
+        element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
+        RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
+        
+        RefPtr<ShaderProgram> pShader = CreateShaderProgram("line","line","",pVertexDec.get());
+        
+        gpLinTech->SetShaderProgram(pShader.get());
+    
+        //gpLinTech->SetVertexDeclaration(pVertexDec.get());
+        
 		RefPtr<DepthStencilState> pDSSate = CreateDepthStencilState();
 		pDSSate->m_bDepthWrite = true;
 		pDSSate->m_eDepthCheckMode = CMPF_ALWAYS_PASS;
+        
 		gpLinTech->SetDepthStencilState(pDSSate.get());
-		
-		
-		VertexElement element[2];
-		element[0] = VertexElement(0,0,DT_FLOAT3,DU_POSITION,0);
-		element[1] = VertexElement(0,12,DT_COLOR,DU_COLOR,0);
-		RefPtr<VertexDeclaration> pVertexDec = GetRenderSystem()->CreateVertexDeclaration(element,2);
-
-		gpLinTech->SetVertexDeclaration(pVertexDec.get());
+        
+        gpLinTech->StreamComplete();
+        
 
 		gpMeshBatch = new MeshBatch(pVertexDec->GetStreanmStride(),PRIM_LINELIST, true, 1024);
 	}

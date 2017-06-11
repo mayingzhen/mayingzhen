@@ -588,7 +588,7 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
+		//UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
 		int vertexStartByte = nVertexStart * m_pVertexDecl->GetStreanmStride();

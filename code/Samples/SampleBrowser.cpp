@@ -59,56 +59,56 @@ namespace ma
 	{
 	}
 
-	void SampleBrowser::ModuleInit(RenderDeviceType eType)
+	void SampleBrowser::ModuleInit()
 	{
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
+        
+        if (m_setting.bForceGLES)
+        {
+            GLESRenderModuleInit();
+        }
+        else
+        {
+#if PLATFORM_WIN == 1
+            D3D11RenderModuleInit();
+#elif PLAFTORM_IOS == 1
+            MetalRenderModuleInit();
+#elif PLATFORM_ANDROID == 1
+            GLESRenderModuleInit();
+#endif
+        }
 
 #if PLATFORM_WIN == 1
         MonoScriptModuleInit();
-        
-		if (eType == RenderDevice_D3D11)
-		{
-			D3D11RenderModuleInit();
-		}
-		else
-		{
-			GLESRenderModuleInit();
-		}
-
 		//FBXImporterModuleInit();
-#else
-    //#if __APPLE__
-    //    MetalRenderModuleInit();
-    //#else
-		GLESRenderModuleInit();
-    //#endif
 #endif
+        
 	}
 
 	void SampleBrowser::ModuleShutdown()
 	{
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
+        
+        if (m_setting.bForceGLES)
+        {
+            GLESRenderModuleShutdown();
+        }
+        else
+        {
+#if PLATFORM_WIN == 1
+            D3D11RenderModuleShutdown();
+#elif PLAFTORM_IOS == 1
+            MetalRenderModuleShutdown();
+#elif PLATFORM_ANDROID == 1
+            GLESRenderModuleShutdown();
+#endif
+        }
 
 #if PLATFORM_WIN == 1
         MonoScriptModuleShutdown();
 		//FBXImporterModuleShutdown();
-		
-		if (GetRenderDevice()->GetRenderDeviceType() == RenderDevice_D3D11)
-		{
-			D3D11RenderModuleShutdown();
-		}
-		else
-		{
-			GLESRenderModuleShutdown();
-		}
-#else
-    //#if defined(__APPLE__)
-    //    MetalRenderModuleShutdown();
-    //#else
-		GLESRenderModuleShutdown();
-    //#endif
 #endif	
 	}
 
@@ -168,14 +168,7 @@ namespace ma
 
 	void SampleBrowser::Init()
 	{
-		if (m_setting.bForceGLES)
-		{
-			ModuleInit(RenderDevice_GLES2);
-		}
-		else
-		{
-			ModuleInit(RenderDevice_D3D11);
-		}
+        ModuleInit();
 		
 		InitResourcePath();
 

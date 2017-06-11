@@ -44,7 +44,9 @@ namespace ma
 		void				SetDepthStencilState(DepthStencilState* pDSSate);
 		void				SetRasterizerState(RasterizerState* pRSState);
 
-		void				SetVertexDeclaration(VertexDeclaration* pVertexDecl);
+		//void				SetVertexDeclaration(VertexDeclaration* pVertexDecl);
+        
+        void                StreamComplete();
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
@@ -67,10 +69,10 @@ namespace ma
 
 		std::vector<Parameter*>			m_arrParameters;
 
-		RefPtr<VertexDeclaration>		m_pDeclaration;
+		//RefPtr<VertexDeclaration>		m_pDeclaration;
 	};
 	
 	RefPtr<Technique> CreateTechnique();
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine);
-	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine);
+    RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine,VertexDeclaration* pVertexDecl = NULL);
 }

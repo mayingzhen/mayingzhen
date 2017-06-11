@@ -73,8 +73,10 @@ namespace ma
 	// Open a stream on a given file. 
 	Stream* FileArchive::open(const char* pszFile, bool readOnly) const
 	{
-		std::string full_path = concatenate_path(mName, pszFile);
-		StringUtil::toLowerCase(full_path);
+        std::string fileName = pszFile;
+        StringUtil::toLowerCase(fileName);
+        
+		std::string full_path = concatenate_path(mName, fileName);
 
 		// Use filesystem to determine size 
 		// (quicker than streaming to the end and back)

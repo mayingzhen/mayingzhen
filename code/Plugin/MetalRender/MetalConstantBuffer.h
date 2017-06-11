@@ -15,7 +15,7 @@ namespace ma
 		virtual void Release();
 
 		/// Set size and create GPU-side buffer. Return true on success.
-		bool SetSize(unsigned size);
+		bool SetSize(UINT size,UINT nIndex);
 
 		/// Set a generic parameter and mark buffer dirty.
 		void SetParameter(unsigned offset, unsigned size, const void* data);
@@ -24,10 +24,10 @@ namespace ma
 		void SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data);
 
 		/// Apply to GPU.
-		void Apply();
+		void Apply(id<MTLRenderCommandEncoder> renderEncoder,bool ps);
 
 		/// Return size.
-		unsigned GetSize() const { return m_shadowData.size(); }
+		//unsigned GetSize() const { return m_shadowData.size(); }
 
 		/// Return whether has unapplied data.
 		bool IsDirty() const { return m_bDirty; }
@@ -38,14 +38,18 @@ namespace ma
 
 	private:
 		/// Shadow data.
-		vector<BYTE> m_shadowData;
+		void* m_shadowData;
+        UINT m_nSize;
 
 		/// Dirty flag.
 		bool m_bDirty;
 
 		id<MTLBuffer> m_pMetalBuffer;
+        
+        UINT m_nIndex;
+        
 	};
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
+	RefPtr<ConstantBuffer> CreateConstantBuffer(const char* pszName, UINT nIndex, UINT size);
 
 }

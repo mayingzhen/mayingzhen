@@ -35,15 +35,15 @@ namespace ma
 
 			if(1)
 			{
-				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "terrain", "terrain", "");
+                VertexElement element[3];
+                element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
+                element[1] = VertexElement(0, 8, DT_SHORT2N, DU_TEXCOORD, 0);
+                element[2] = VertexElement(0, 12, DT_UBYTE4N, DU_TANGENT, 0);
+                RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
+                
+				RefPtr<Technique> pShadingTech = CreateTechnique("shader/terrain.tech", "terrain", "terrain", "", pDeclaration.get());
 
-				VertexElement element[3];
-				element[0] = VertexElement(0, 0, DT_SHORT4N, DU_POSITION, 0);
-				element[1] = VertexElement(0, 8, DT_SHORT2N, DU_TEXCOORD, 0);
-				element[2] = VertexElement(0, 12, DT_UBYTE4N, DU_TANGENT, 0);
-				RefPtr<VertexDeclaration> pDeclaration = GetRenderSystem()->CreateVertexDeclaration(element, 3);
-
-				pShadingTech->SetVertexDeclaration(pDeclaration.get());
+				//pShadingTech->SetVertexDeclaration(pDeclaration.get());
 
 				pShadingTech->SaveToXML("shader/terrain.tech");
 			}

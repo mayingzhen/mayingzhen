@@ -39,7 +39,7 @@ namespace ma
 
 		void				InitResourcePath();
 
-		void				ModuleInit(RenderDeviceType eType);
+		void				ModuleInit();
 
 		void				ModuleShutdown();
 

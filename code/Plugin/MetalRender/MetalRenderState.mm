@@ -28,7 +28,7 @@ namespace ma
 
 	void MetalDepthStencilStateObject::RT_StreamComplete()
 	{
-		ASSERT(m_pMetalDSState == NULL);
+		//ASSERT(m_pMetalDSState == NULL);
 
         auto it = g_depthStatePool.find(*this);
         if (it != g_depthStatePool.end())
@@ -39,7 +39,6 @@ namespace ma
         {
         
             MTLDepthStencilDescriptor* stateDesc = [[[MTLDepthStencilDescriptor alloc] init] autorelease];
-            memset(&stateDesc, 0, sizeof stateDesc);
             stateDesc.depthWriteEnabled = true;
             stateDesc.depthCompareFunction = MetalMapping::get(m_eDepthCheckMode);
         

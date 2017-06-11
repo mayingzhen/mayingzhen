@@ -8,7 +8,7 @@
 				<Attribute Name="Filter" Type="string" Value="TFO_TRILINEAR"/>
 				<Attribute Name="SRGB" Type="bool" Value="true"/>
 				<Attribute Name="LodBias" Type="float" Value="0"/>
-				<Attribute Name="ImagePath" Type="string" Value="FBX/Box.tga"/>
+				<Attribute Name="ImagePath" Type="string" Value="magician/magician/body.tga"/>
 			</Parameters>
 			<Parameters Name="u_cDiffuseColor" Type="Vector4" Value="1 1 1 1"/>
 			<Parameters Name="u_cSpecColor" Type="Vector4" Value="1 1 1 1"/>

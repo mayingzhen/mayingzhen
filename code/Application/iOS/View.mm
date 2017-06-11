@@ -12,7 +12,22 @@
 
 + (Class) layerClass
 {
-    return [CAEAGLLayer class];
+    if (ma::Game::GetInstance().GetSetting().bForceGLES)
+    {
+        return [CAEAGLLayer class];
+    }
+    else
+    {
+        return [CAMetalLayer class];
+    }
+}
+
+- (void)insertText:(NSString *)text
+{
+}
+
+- (void)deleteBackward
+{
 }
 
 - (id) initWithFrame:(CGRect)frame
@@ -46,11 +61,16 @@
         
         // Configure the CAEAGLLayer and setup out the rendering context
         CGFloat scale = [[UIScreen mainScreen] scale];
-        CAEAGLLayer* layer = (CAEAGLLayer *)self.layer;
+        CALayer* layer = (CALayer *)self.layer;
         layer.opaque = TRUE;
-        layer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, 
-                                    kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+        if ([layer isKindOfClass:[CAEAGLLayer class]])
+        {
+            CAEAGLLayer* eaglLayer = (CAEAGLLayer*)layer;
+            eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
+                                        kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+        }
+
         self.contentScaleFactor = scale;
         layer.contentsScale = scale;
     

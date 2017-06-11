@@ -27,7 +27,7 @@ namespace ma
 		m_strShaderName = pShaderName ? pShaderName : "";
 		m_strShaderMacro = pDefine ? pDefine : "";
 
-		SetShadingTechnqiue( CreateTechnique("Shading", pShaderName, pShaderName, pDefine).get() );
+		SetShadingTechnqiue( CreateTechnique("Shading", pShaderName, pShaderName, pDefine, NULL).get() );
 	}
 
 	Technique* SubMaterial::GetShadowDepthTechnqiue()
@@ -35,7 +35,7 @@ namespace ma
 		if (m_pShadowDepthTech == NULL)
 		{
 			string strShaderMacro = m_pShadingTech->GetShaderProgram()->GetShaderMacro();
-			m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str());
+            m_pShadowDepthTech = CreateTechnique("ShadowDepth", "ShadowDepth", "ShadowDepth", strShaderMacro.c_str(), NULL);
 			RefPtr<BlendState> pBlendSate = CreateBlendState();
 			pBlendSate->m_bColorWrite = false;
 			m_pShadowDepthTech->SetBlendState(pBlendSate.get());

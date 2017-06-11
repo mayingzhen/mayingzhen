@@ -70,7 +70,7 @@ namespace ma
 
 	void LogError( const char* pszFormat, ... )
 	{
-		char szContent[10240] = "";
+		char szContent[102400] = "";
 		va_list va_alist;
 		va_start(va_alist, pszFormat);
 		vsprintf(szContent, pszFormat, va_alist);

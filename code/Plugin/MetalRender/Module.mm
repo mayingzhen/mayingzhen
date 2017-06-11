@@ -21,15 +21,15 @@ using namespace ma;
 
 void MetalRenderModuleInit()
 {
-	MetalRenderDevice* pDxRenderDevice = new MetalRenderDevice();
-	SetRenderDevice(pDxRenderDevice);
+	MetalRenderDevice* pMetalRenderDevice = new MetalRenderDevice();
+	SetRenderDevice(pMetalRenderDevice);
 }
 
 
 void MetalRenderModuleShutdown()
 {
-	MetalRenderDevice* pDxRenderDevice = (MetalRenderDevice*)GetRenderDevice();
-	SAFE_DELETE(pDxRenderDevice);
+	MetalRenderDevice* pMetalRenderDevice = (MetalRenderDevice*)GetRenderDevice();
+	SAFE_DELETE(pMetalRenderDevice);
 	SetRenderDevice(NULL);
 }
 

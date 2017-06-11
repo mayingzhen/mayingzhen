@@ -12,18 +12,21 @@ namespace ma
 
 	}
 
-	RefPtr<ShaderProgram> ShaderManager::CreateShader(const char* pszVSFile,const char* pszPSFile,const char* pszMarco)
+	RefPtr<ShaderProgram> ShaderManager::CreateShader(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl)
 	{
 		string stMarco = pszMarco ? pszMarco : "";
-		string strKey = string(pszVSFile) + string("+") + pszPSFile + string("+") + stMarco + ".shader";
-
-		ResourceMap::iterator itRes = m_resMap.find(strKey);
+        
+        Reskey key;
+		key.m_strName = string(pszVSFile) + string("+") + pszPSFile + string("+") + stMarco + ".shader";
+        key.m_nVertecDecl= pVertexDecl->GetHash();
+        
+		ResourceMap::iterator itRes = m_resMap.find(key);
 		if (itRes != m_resMap.end())
 			return itRes->second.get();
 
 		RefPtr<ShaderProgram> pShader = GetRenderDevice()->CreateShaderProgram();
-		pShader->CreateFromFile(pszVSFile,pszPSFile,pszMarco);
-		m_resMap[strKey] = pShader;
+		pShader->CreateFromFile(pszVSFile,pszPSFile,pszMarco,pVertexDecl);
+		m_resMap[key] = pShader;
 		return pShader;	
 	}	
 
