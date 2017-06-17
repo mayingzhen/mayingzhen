@@ -34,7 +34,7 @@ namespace ma
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
-			pShpereMesh->Load("Fbx/shpere.skn","Fbx/Box.mtl");
+			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 
 			RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
 			RefPtr<Material> pClone = pMaterial->Clone();

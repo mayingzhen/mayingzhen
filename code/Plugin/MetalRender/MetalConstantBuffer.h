@@ -20,9 +20,6 @@ namespace ma
 		/// Set a generic parameter and mark buffer dirty.
 		void SetParameter(unsigned offset, unsigned size, const void* data);
 
-		/// Set a Vector3 array parameter and mark buffer dirty.
-		void SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data);
-
 		/// Apply to GPU.
 		void Apply(id<MTLRenderCommandEncoder> renderEncoder,bool ps);
 
@@ -32,19 +29,27 @@ namespace ma
 		/// Return whether has unapplied data.
 		bool IsDirty() const { return m_bDirty; }
 
-		id<MTLBuffer> GetMetalBuffer() {return m_pMetalBuffer;}
+		id<MTLBuffer> GetMetalBuffer() {return m_pMetalBuffer[m_nCurFrame];}
+        
+
+        static void OnEndFrame();
 
 		static void Clear();
+        
+    private:
+        void UpdateFrame();
 
 	private:
 		/// Shadow data.
-		void* m_shadowData;
+		//void* m_shadowData;
         UINT m_nSize;
 
 		/// Dirty flag.
 		bool m_bDirty;
 
-		id<MTLBuffer> m_pMetalBuffer;
+		id<MTLBuffer> m_pMetalBuffer[3];
+        UINT m_nCurFrame;
+        
         
         UINT m_nIndex;
         

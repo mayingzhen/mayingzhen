@@ -21,18 +21,9 @@ namespace ma
 
 		virtual void RT_SetShader();
         
-		virtual void CommitChanges(/*id<MTLRenderCommandEncoder> renderEncoder*/);
+		virtual void CommitChanges();
 
 		void Destory();
-
-		const BYTE*	GetByteVSCode() const {return &m_pByteVSCode[0];}
-		uint32	GetByteVSCodeSize() {return m_pByteVSCode.size();}
-
-		const BYTE*	GetBytePSCode() const {return &m_pBytePSCode[0];}
-		uint32	GetBytePSCodeSize() {return m_pBytePSCode.size();}
-
-		/// Return vertex element mask.
-        //void SetVetexDecal(MTLVertexDescriptor* pVDec) { m_pVertexDec = pVDec; }
 
 	private:
 		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
@@ -43,16 +34,12 @@ namespace ma
 		id<MTLFunction>         m_pVertexShader;
 		id<MTLFunction> 		m_pPiexelShader;
 
-		vector<BYTE>			m_pByteVSCode;		
-		vector<BYTE>			m_pBytePSCode;	
-
         std::vector< RefPtr<ConstantBuffer> > m_vecVSConstantBuffers;
         std::vector< RefPtr<ConstantBuffer> > m_vecPSConstantBuffers;
         
-        id <MTLRenderPipelineState> _pipelineState;
-        MTLRenderPipelineReflection *_reflection;
-        
-        //MTLVertexDescriptor*    m_pVertexDec;
+        id <MTLRenderPipelineState> m_pipelineState;
+        MTLRenderPipelineReflection* m_pReflection;
+    
 
 		friend class MetalRenderDevice;
 	};

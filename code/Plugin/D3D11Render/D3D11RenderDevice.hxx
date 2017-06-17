@@ -653,22 +653,8 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 		
-		UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
+		//UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
-
-		UINT nPrimCount = 0;
-		if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
-		{
-			nPrimCount = nIndexCount / 3;
-		}
-		else if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP)
-		{
-			nPrimCount = nIndexCount - 2;
-		}
-		else if (ePrimitiveType == D3D_PRIMITIVE_TOPOLOGY_LINELIST)
-		{
-			nPrimCount = nIndexCount / 2;
-		}
 
 		m_pDeviceContext->IASetPrimitiveTopology( ePrimitiveType );
 

@@ -582,6 +582,7 @@ namespace ma
 
 		ASSERT(pTech);
 		GLESShaderProgram* pProgram = (GLESShaderProgram*)pTech->GetShaderProgram();
+        GLESVertexDeclaration* pVertexDecl = (GLESVertexDeclaration*)pProgram->GetVertexDeclaration();
 
 		SubMeshData* pSubMeshData = pRenderable->m_pSubMeshData.get();
 
@@ -591,12 +592,12 @@ namespace ma
 		//UINT nVertexCount = pSubMeshData ? pSubMeshData->m_nVertexCount : pRenderable->m_pVertexBuffer->GetNumber();
 		UINT nVertexStart = pSubMeshData ? pSubMeshData->m_nVertexStart : 0;
 
-		int vertexStartByte = nVertexStart * m_pVertexDecl->GetStreanmStride();
+		int vertexStartByte = nVertexStart * pVertexDecl->GetStreanmStride();
 
-		int nSteam = m_pVertexDecl->GetElementCount();
+		int nSteam = pVertexDecl->GetElementCount();
 		for (int i = 0; i < nSteam; ++i)
 		{
-			const VertexElement& ve = m_pVertexDecl->GetElement(i);
+			const VertexElement& ve = pVertexDecl->GetElement(i);
 
 			GLint typeCount = 1; 
 			GLenum type = 0;
@@ -609,7 +610,7 @@ namespace ma
 
 			void* pVBufferData = BUFFER_OFFSET( vertexStartByte + ve.Offset );		
 
-			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, m_pVertexDecl->GetStreanmStride(), pVBufferData ) );
+			GL_ASSERT( glVertexAttribPointer( attr,typeCount,type,normalized, pVertexDecl->GetStreanmStride(), pVBufferData ) );
 
 			GL_ASSERT( glEnableVertexAttribArray(attr) );
 		}
@@ -625,7 +626,7 @@ namespace ma
 
 		for (int i = 0; i < nSteam; ++i)
 		{
-			const VertexElement& ve = m_pVertexDecl->GetElement(i);
+			const VertexElement& ve = pVertexDecl->GetElement(i);
 			GLint typeCount = 1; 
 			GLenum type = 0;
 			GLboolean normalized = false;

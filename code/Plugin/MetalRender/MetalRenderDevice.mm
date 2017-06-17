@@ -11,6 +11,7 @@
 
 #import <UIKit/UIkit.h>
 #import <UIKit/UIDevice.h>
+#import <cmath>
 
 namespace ma
 {
@@ -320,25 +321,6 @@ namespace ma
         
         
         m_encoder = [m_command_buffer renderCommandEncoderWithDescriptor: m_pass_desc];
-        //if (label)
-        //{
-        //    m_encoder.label = [[[NSString alloc] initWithBytes: label->data() length: label->size() * sizeof(wchar_t) encoding: NSUTF32LittleEndianStringEncoding] autorelease];
-        //}
-       // ResetStates();
-        //m_clear_dirty = false;
-        
-        
-
-        
-        /*
-		IMetalShaderResourceView* pTextures[MAX_TEXTURE_UNITS];
-		for (int i = 0;i< MAX_TEXTURE_UNITS;++i)
-		{
-			pTextures[i] = NULL;
-		}
-		GetMetalDxDeviveContext()->VSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
-		GetMetalDxDeviveContext()->PSSetShaderResources(0, MAX_TEXTURE_UNITS, &pTextures[0]);
-         */
 	}
 
 	void MetalRenderDevice::EndRender()
@@ -361,6 +343,9 @@ namespace ma
         
         // finalize rendering here. this will push the command buffer to the GPU
         [m_command_buffer commit];
+        
+        
+        ConstantBuffer::OnEndFrame();
 
 	}
 
@@ -395,32 +380,13 @@ namespace ma
 
 	void MetalRenderDevice::SetRenderTarget(int index,Texture* pTexture,int level, int array_index, int face)
 	{
-        /*
-		MetalTexture* pMetalTexture = (MetalTexture*)(pTexture);
-		if (pMetalTexture)
-		{
-			m_pRenderTarget[index] = pMetalTexture->GetRenderTargetView(level,array_index,face);
-		
-			DetachSRV(pMetalTexture->GetShaderResourceView());
-		}
-		else
-		{
-			m_pRenderTarget[index] = NULL;
-		}
-
-		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-         */
+        
 	}
 
 
 	void MetalRenderDevice::SetDepthStencil(Texture* pTexture)
 	{
-        /*
-		MetalTexture* pMetalTexture = (MetalTexture*)(pTexture);
-		m_pDepthStencil = pMetalTexture->GetDepthStencilView();
 
-		m_pDeviceContext->OMSetRenderTargets(MAX_RENDERTARGETS, &m_pRenderTarget[0], m_pDepthStencil);
-         */
 	}
 
     
@@ -482,24 +448,12 @@ namespace ma
 
 	void MetalRenderDevice::SetBlendState(const BlendState* pBlendState/*,const ColourValue& blend_factor, UINT32 sample_mask*/)
 	{
-		MetalBlendStateObject* pD3DllObject = (MetalBlendStateObject*)pBlendState;
-		
-
-        
-        /*
-		if (m_pCurBlendState != pD3DllObject->m_pMetalBlendState)
-		{
-			m_pDeviceContext->OMSetBlendState(pD3DllObject->m_pMetalBlendState, 0, M_MAX_UNSIGNED);
-
-			m_pCurBlendState = pD3DllObject->m_pMetalBlendState;
-		}
-         */
 	}
 
 	void MetalRenderDevice::SetDepthStencilState(const DepthStencilState* pDSState, UINT nStencilRef)
 	{
 		MetalDepthStencilStateObject* pMetalDSState = (MetalDepthStencilStateObject*)pDSState;
-        if (pMetalDSState && pMetalDSState->m_pMetalDSState != m_pDSState)
+        //if (pMetalDSState && pMetalDSState->m_pMetalDSState != m_pDSState)
         {
             m_pDSState = pMetalDSState->m_pMetalDSState;
             
@@ -509,16 +463,8 @@ namespace ma
 	
 	void MetalRenderDevice::SetRasterizerState(const RasterizerState* pRSState)
 	{
-		m_pCurRSState = (MetalRasterizerStateObject*)pRSState;
-
-        /*
-		if (m_pCurRSState != pD3DllObject->m_pMetalRSState)
-		{
-			m_pDeviceContext->RSSetState(pD3DllObject->m_pMetalRSState);
-
-			m_pCurRSState = pD3DllObject->m_pMetalRSState;
-		}
-         */
+        MTLCullMode eCull = MetalMapping::get(pRSState->m_eCullMode);
+        [m_encoder setCullMode:eCull];
 	}
 
 	void MetalRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
@@ -551,25 +497,6 @@ namespace ma
 
 	void MetalRenderDevice::CommitChanges()
 	{
-        /*
-		if (m_bTexturesDirty && m_nFirstDirtyTexture < M_MAX_UNSIGNED)
-		{
-			m_pDeviceContext->PSSetShaderResources(m_nFirstDirtyTexture, m_nLastDirtyTexture - m_nFirstDirtyTexture + 1,
-				&m_arrShaderResourceView[m_nFirstDirtyTexture]);
-			m_nFirstDirtyTexture = m_nLastDirtyTexture = M_MAX_UNSIGNED;
-			m_bTexturesDirty = false;
-		}
-
-		if (m_bSamplerStatesDirty && m_nFirstDirtySamplerState < M_MAX_UNSIGNED)
-		{
-			m_pDeviceContext->PSSetSamplers(m_nFirstDirtySamplerState, m_nLastDirtySamplerState - m_nFirstDirtySamplerState + 1,
-				&m_arrMetalSampler[m_nFirstDirtySamplerState]);
-
-			m_nFirstDirtySamplerState = m_nLastDirtySamplerState = M_MAX_UNSIGNED;
-			m_bSamplerStatesDirty = false;
-		}
-         */
-        
 	}
 
 	void MetalRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
@@ -620,38 +547,12 @@ namespace ma
 
 	void MetalRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
-        /*
-		MetalVertexDeclaration* pMetalDec = (MetalVertexDeclaration*)pDec;
-
-		if (m_pCurInput != pMetalDec->m_pImpl)
-		{
-			m_pDeviceContext->IASetInputLayout(pMetalDec->m_pImpl);
-
-			m_pCurInput = pMetalDec->m_pImpl;
-		}
-         */
+        
 	}
 
 	void MetalRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
-        //if ([arg.name isEqualToString:@"vertices"])
-        {
-            //[ m_encoder setVertexBuffer:pIB->_im.vertex_buffer offset:0 atIndex:arg.index];
-        }
-        
-        /*
-		MetalIndexBuffer* buffer = (MetalIndexBuffer*)pIB;
-		if (buffer != m_pIndexBuffer)
-		{
-			if (buffer)
-				m_pDeviceContext->IASetIndexBuffer(buffer->GetD3DIndexBuffer(),
-				buffer->GetStride() == sizeof(unsigned short) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT, 0);
-			else
-				m_pDeviceContext->IASetIndexBuffer(0, DXGI_FORMAT_UNKNOWN, 0);
 
-			m_pIndexBuffer = buffer;
-		}
-         */
 	}
 
 	void MetalRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
@@ -659,20 +560,12 @@ namespace ma
         MetalVertexBuffer* pMetalVertexBuffer = (MetalVertexBuffer*)(pVB);
         id<MTLBuffer> vb = pMetalVertexBuffer->GetMetalVertexBuffer();
         
-        [m_encoder setVertexBuffer:vb offset:0 atIndex:index + 2];
+        [m_encoder setVertexBuffer:vb offset:0 atIndex:0];
         
-        /*
-		MetalVertexBuffer* pMetalVertexBuffer = (MetalVertexBuffer*)pVB;
-		IMetalBuffer* pBuffer = pMetalVertexBuffer->GetD3DVertexBuffer();
-		UINT nStride = pMetalVertexBuffer->GetStride();
-		UINT offset = 0; // no stream offset, this is handled in _render instead
-		m_pDeviceContext->IASetVertexBuffers(index, 1, &pBuffer, &nStride, &offset);
-         */
 	}
 
 	void MetalRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
 	{
-        
 		if (pRenderable == NULL)
 			return;
         
@@ -691,44 +584,15 @@ namespace ma
         MetalIndexBuffer* pMetalIndexBuffer = (MetalIndexBuffer*)(pRenderable->m_pIndexBuffer.get());
         id<MTLBuffer> ib = pMetalIndexBuffer->GetMetalIndexBuffer();
         
-        [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:MTLIndexTypeUInt16 indexBuffer:ib indexBufferOffset:0];
+        MTLIndexType ibType = pRenderable->m_pIndexBuffer->GetIndexType() == INDEX_TYPE_U16 ? MTLIndexTypeUInt16 : MTLIndexTypeUInt32;
+        
+        [m_encoder drawIndexedPrimitives:ePrimitiveType indexCount:nIndexCount indexType:ibType indexBuffer:ib indexBufferOffset:0];
     
 	}
 
 	void MetalRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
 	{
-        /*
-		HRESULT hr = S_OK;
- 
-		float ColorRGBA[4];
-		ColorRGBA[0] = c.r;
-		ColorRGBA[1] = c.g;
-		ColorRGBA[2] = c.b;
-		ColorRGBA[3] = c.a;
-		
-		if (bColor)
-		{
-			for (UINT i = 0; i < MAX_RENDERTARGETS; ++i)
-			{
-				if (m_pRenderTarget[i])
-				{
-					m_pDeviceContext->ClearRenderTargetView(m_pRenderTarget[i], ColorRGBA);
-				}
-			}
-		}
-
-		if (bDepth || bStencil)
-		{
-			unsigned depthClearFlags = 0;
-			if (bDepth)
-				depthClearFlags |= Metal_CLEAR_DEPTH;
-			if (bStencil)
-				depthClearFlags |= Metal_CLEAR_STENCIL;
-			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, depthClearFlags, z, (uint8)s);
-		}
-
-		ASSERT(hr == S_OK && "Clear buffer failed.");
-         */
+        
 	}
 
 	Matrix4 MetalRenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)

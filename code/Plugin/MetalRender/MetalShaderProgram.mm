@@ -100,7 +100,8 @@ namespace ma
         pipelineStateDescriptor.depthAttachmentPixelFormat = depthPixelFormat;
         pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatStencil8;
         
-        //if (blending == YES)
+        bool blending = false;
+        if (blending)
         {
             //Enable Blending
             pipelineStateDescriptor.colorAttachments[0].blendingEnabled = YES;
@@ -114,13 +115,13 @@ namespace ma
         
         NSError* ns_error = nil;
         MTLRenderPipelineReflection *reflectionObj;
-        _pipelineState = [GetMetalDevive() newRenderPipelineStateWithDescriptor:pipelineStateDescriptor options:MTLPipelineOptionArgumentInfo reflection:&reflectionObj error:&ns_error];
+        m_pipelineState = [GetMetalDevive() newRenderPipelineStateWithDescriptor:pipelineStateDescriptor options:MTLPipelineOptionArgumentInfo reflection:&reflectionObj error:&ns_error];
         //ASSERT(_pipelineState);
-        if (_pipelineState == nil && ns_error != nil)
+        if (m_pipelineState == nil && ns_error != nil)
         {
             LogError("newRenderPipeline error: %s", ns_error.localizedDescription.UTF8String);
         }
-        _reflection = reflectionObj;
+        m_pReflection = reflectionObj;
 
 		return;
 	}
@@ -131,10 +132,13 @@ namespace ma
         ASSERT(m_vecVSConstantBuffers.empty());
         ASSERT(m_vecPSConstantBuffers.empty());
         
-        for (MTLArgument *arg in _reflection.vertexArguments)
+        for (MTLArgument *arg in m_pReflection.vertexArguments)
         {
             if (arg.type == MTLArgumentTypeBuffer)
             {
+                if (arg.bufferStructType == nil)
+                    continue;
+                
                 RefPtr<ConstantBuffer> pConBuffer =  CreateConstantBuffer(arg.name.UTF8String, arg.index, arg.bufferDataSize);
                 m_vecVSConstantBuffers.push_back(pConBuffer);
                 for (MTLStructMember* mem in arg.bufferStructType.members)
@@ -153,7 +157,7 @@ namespace ma
             }
         }
         
-        for (MTLArgument *arg in _reflection.fragmentArguments)
+        for (MTLArgument *arg in m_pReflection.fragmentArguments)
         {
             if (arg.type == MTLArgumentTypeBuffer)
             {
@@ -164,7 +168,7 @@ namespace ma
                     Uniform* pUniform = this->AddUniform(mem.name.UTF8String);
                     //pUniform->m_location = 0;
                     pUniform->m_type = mem.dataType;
-                    pUniform->m_vshShder = true;
+                    pUniform->m_vshShder = false;
                     //pUniform->m_index = 0;
                     pUniform->m_nCount = 0;
                     pUniform->m_pD3D11CBPtr = pConBuffer.get();
@@ -198,7 +202,7 @@ namespace ma
 	{
         MetalRenderDevice* pMetalRender = (MetalRenderDevice*)GetRenderDevice();
         id<MTLRenderCommandEncoder> renderEncoder = pMetalRender->GetRenderCommandEncoder();
-        [renderEncoder setRenderPipelineState:_pipelineState];
+        [renderEncoder setRenderPipelineState:m_pipelineState];
 
 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
 		{
