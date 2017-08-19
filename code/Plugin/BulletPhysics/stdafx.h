@@ -1,11 +1,7 @@
-#ifndef  _BULLETPHYSICS_STDAFX__H__
-#define  _BULLETPHYSICS_STDAFX__H__
-
+#pragma once
 
 #include "Common/Module.h"
 #include "Engine/Module.h"
 
 
-
-#endif
 

@@ -1,5 +1,4 @@
-#ifndef __MonoScriptModule_H__
-#define __MonoScriptModule_H__
+#pragma once
 
 #include <mono/metadata/metadata.h>
 #include <mono/jit/jit.h>
@@ -13,7 +12,6 @@
 #include <mono/metadata/tokentype.h>
 
 
-
 #include <MonoScript/ScriptObject.h>
 #include <MonoScript/ScriptSystem.h>
 
@@ -22,4 +20,3 @@ void MonoScriptModuleInit();
 void MonoScriptModuleShutdown();
 
 
-#endif // __ScriptModule_H__

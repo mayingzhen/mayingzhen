@@ -1,10 +1,12 @@
 
-cbuffer FrameVS : register(b0)
+using namespace metal;
+
+struct FrameVS //: register(b0)
 {	
 	float g_fTime;
-}
+};
 
-cbuffer CameraVS : register(b1)
+struct CameraVS //: register(b1)
 {
 	float4x4 g_matView;
 	float4x4 g_matViewInv;
@@ -16,16 +18,16 @@ cbuffer CameraVS : register(b1)
 	float2 g_vViewport;
 	float2 g_vViewportInv;
 	float4  g_vCameraNearFar;
-}
+};
 
-cbuffer LightPS : register(b3)
+struct LightPS //: register(b3)
 {
 	float3 g_cSkyLight;
 	float3 g_cDirLight;
 	float3 g_vDirLight;
-}
+};
 
-float3 transform_quat(float3 v, float4 quat)
+static float3 transform_quat(float3 v, float4 quat)
 {
 	return v + cross(quat.xyz, cross(quat.xyz, v) + quat.w * v) * 2;
 }
@@ -33,7 +35,7 @@ float3 transform_quat(float3 v, float4 quat)
 
 
 //http://aras-p.info/texts/CompactNormalStorage.html
-float2 EncodeNormal(float3 n)
+static float2 EncodeNormal(float3 n)
 {
 	float2 enc = normalize(n.xy) * (sqrt(-n.z*0.5+0.5));
 	enc = enc*0.5+0.5;
@@ -42,7 +44,7 @@ float2 EncodeNormal(float3 n)
 	//return( normal.x / (1.0f - normal.z), normal.y / (1.0f - normal.z) );
 }
 
-float3 DecodeNormal(float2 enc)
+static float3 DecodeNormal(float2 enc)
 {	
 // 	float fTemp = n.x * n.x + n.y * n.y;
 // 	return (2 * n.x / (1 + fTemp), 2 * n.y / (1 + fTemp), (-1 + fTemp) / (1 + fTemp));
@@ -55,15 +57,15 @@ float3 DecodeNormal(float2 enc)
 }
 
 // Encoding a [0, 1) float into a rgba8. From http://aras-p.info/blog/2009/07/30/encoding-floats-to-rgba-the-final/
-float4 EncodeFloatRGBA(float v)
+static float4 EncodeFloatRGBA(float v)
 {
 	float4 enc = float4(1.0f, 255.0f, 65025.0f, 16581375.0f) * v;
-	enc = frac(enc);
+	enc = fract(enc);
 	enc -= enc.yzww * float4(1 / 255.0f, 1 / 255.0f, 1 / 255.0f, 0);
 	return enc;
 }
 
-float DecodeFloatRGBA(float4 rgba)
+static float DecodeFloatRGBA(float4 rgba)
 {
 	return dot(rgba, float4(1, 1 / 255.0f, 1 / 65025.0f, 1 / 16581375.0f));
 }

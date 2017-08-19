@@ -1,78 +1,62 @@
 
 #include "common.h"
-#include "lighting.h"
 
-#if USING_SHADOW != 0
-#include"shadowMap.h"
-#endif
 
-#ifdef DEFERREDSHADING 
-#include"gbuffer.h"
-#endif 
+struct ObjectPS
+{
+    float4 u_cDiffuseColor;
+};
 
-Texture2D u_texture : register(t0);
-SamplerState s_texture : register(s0);
-
+/*
+struct Sampler
+{
+    texture2d<float> u_texture [[texture(0)]];
+    sampler s_texture [[sampler(0)];
+};
+*/
 
 // Varyings
-struct PS_IN
+struct VS_OUT
 {
-   float2   v_texCoord : TEXCOORD0;
+    float4 v_position [[position]];
+    
+    float2   v_texCoord ;
 
-	float4 WorldPos : TEXCOORD1;
-	float4 worldNormal :TEXCOORD2;
+	float4 WorldPos ;
+	float4 worldNormal;
 
 #ifdef DEFERREDSHADING 
-   float3 viewNormal  :TEXCOORD3;	
+    float3 viewNormal ;
 #else  
 
 #if USING_SHADOW != 0 && USING_DEFERREDSHADOW == 0
-	float2 oRandDirTC : TEXCOORD4;
-	float4 oShadowPos : TEXCOORD5;
+	float2 oRandDirTC ;
+	float4 oShadowPos ;
 #endif
 #endif 
    
 };
 
 
-void main(PS_IN In,
-out DRMRTOut mrtOut
+fragment float4 ps_main(VS_OUT In [[stage_in]]
+                , constant ObjectPS &constants[[buffer(0)]]
+                 , texture2d<float> u_texture [[texture(0)]]
+                 , sampler s_texture [[sampler(0)]]
 ) 
 {
-	InitMRTOutPut(mrtOut);
-
-	float4 oColor = 0;
-
-	float4 albedo = 0;
-	
-	albedo = u_cDiffuseColor;	
-   
-    albedo *= u_texture.Sample(s_texture, In.v_texCoord);
+    float4 gl_FragColor;
     
-	float3 vNormal = normalize(In.worldNormal.xyz);
-	float3 vView  = normalize(g_vEyeWorldPos.xyz - In.WorldPos.xyz);
-	
-		// “ı”∞
-	float fShadowMapShadow = 1.0;
-#if USING_SHADOW != 0  && USING_DEFERREDSHADOW == 0
-	#ifdef RECEIVESHADOW
-		float4 ShadowPos = In.oShadowPos;
-		float2 RandDirTC = 0;
-			#if SHADOW_BLUR == 2
-				RandDirTC = In.oRandDirTC;
-			#endif
-		fShadowMapShadow = DoShadowMapping(ShadowPos,RandDirTC,oWorldPos.w);
-	#endif		
-#endif
-	    
-	float metalness = 0;
-	float glossiness = 0;
-	GetMetalnessGlossiness(In.v_texCoord,metalness,glossiness,float2(0,0),0);
-
-#if DEFERREDSHADING == 0
-	mrtOut.oColor.rgb = ForwardPixelLighting(metalness,glossiness,vNormal,vView,albedo.rgb,fShadowMapShadow);
+#ifdef DIFFUSECOLOR
+    gl_FragColor = constants.u_cDiffuseColor;
 #else
-	FinalMRTOutPut(metalness,glossiness,albedo.rgb,vNormal,mrtOut);	
+    gl_FragColor = float4(1.0,1.0,1.0,1.0);
 #endif
-
+    
+#ifdef COLOR
+    gl_FragColor = v_color;
+#endif
+    
+    gl_FragColor *=  u_texture.sample(s_texture, In.v_texCoord);
+    
+    return gl_FragColor;
 }

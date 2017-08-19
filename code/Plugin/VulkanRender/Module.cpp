@@ -1,6 +1,7 @@
 #include "VulkanRender/stdafx.h"
 #include "VulkanRender/Module.h"
 
+#include "VulkanRender/VulkanTools.hxx"
 
 #include "VulkanRender/VulkanTexture.hxx"
 #include "VulkanRender/VulkanVertexBuffer.hxx"
@@ -12,6 +13,7 @@
 #include "VulkanRender/VulkanConstantBuffer.hxx"
 #include "VulkanRender/VulkanRenderState.hxx"
 #include "VulkanRender/VulkanSamplerState.hxx"
+
 
 using namespace ma;
 

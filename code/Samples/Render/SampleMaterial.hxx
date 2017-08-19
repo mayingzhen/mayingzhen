@@ -19,7 +19,7 @@ namespace ma
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
-		if (0)
+		if (1)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -40,21 +40,21 @@ namespace ma
 			RefPtr<Material> pClone = pMaterial->Clone();
 			pShpereMesh->SetMaterial(pClone.get());
 
-			SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);
-			pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
+			//SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
+			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);
+			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("SPEC",true);
 			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacro("BRDF",true);
 
 			//pSubMaterial->GetShadingTechnqiue()->SaveToXML("test.tech");
 
-			RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
-			pUniform->AddKeyFrame(0,Any(float(1.0f)));
-			pUniform->AddKeyFrame(50,Any(float(20.0f)));
-			pUniform->BuildFrames();
-			float fSpecPower = 20.0f;
+			//RefPtr<UniformAnimation> pUniform = CreateUniformAnimation();
+			//pUniform->AddKeyFrame(0,Any(float(1.0f)));
+			//pUniform->AddKeyFrame(50,Any(float(20.0f)));
+			//pUniform->BuildFrames();
+			//float fSpecPower = 20.0f;
 
-			pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
-			pSubMaterial->SetParameter("u_roughness",Any(pUniform));
+			//pSubMaterial->SetParameter("u_cSpecColor", Any( Vector4(1,1,1,1) ) );
+			//pSubMaterial->SetParameter("u_roughness",Any(pUniform));
 
 			//pShpere->Translate(Vector3(2,0,0));
 

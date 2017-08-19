@@ -1,5 +1,4 @@
-#ifndef  _ANIMATION_MODULE__H__
-#define  _ANIMATION_MODULE__H__
+#pragma once
 
 #include "Animation/Skeleton.h"
 #include "Animation/SkeletonPose.h"
@@ -15,10 +14,7 @@
 #include "Animation/PoseModifier/LookAtModifier.h"
 
 
-
 void AnimationModuleInit();
 
 void AnimationModuleShutdown();
 
-
-#endif

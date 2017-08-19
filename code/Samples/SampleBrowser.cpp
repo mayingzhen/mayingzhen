@@ -8,6 +8,7 @@
 #if PLATFORM_WIN == 1
 #include "MonoScript/Module.h"
 #include "D3D11Render/Module.h"
+#include "VulkanRender/Module.h"
 #endif
 
 #if defined(__APPLE__)
@@ -71,7 +72,8 @@ namespace ma
         else
         {
 #if PLATFORM_WIN == 1
-            D3D11RenderModuleInit();
+            //D3D11RenderModuleInit();
+			VulkanRenderModuleInit();
 #elif PLAFTORM_IOS == 1
             MetalRenderModuleInit();
 #elif PLATFORM_ANDROID == 1
@@ -98,7 +100,8 @@ namespace ma
         else
         {
 #if PLATFORM_WIN == 1
-            D3D11RenderModuleShutdown();
+            //D3D11RenderModuleShutdown();
+			VulkanRenderModuleShutdown();
 #elif PLAFTORM_IOS == 1
             MetalRenderModuleShutdown();
 #elif PLATFORM_ANDROID == 1

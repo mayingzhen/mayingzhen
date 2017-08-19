@@ -3,24 +3,24 @@
 namespace ma
 {
 
-DXGI_FORMAT VulkanMapping::GetD3DIndexType(INDEX_TYPE eType)
+VkIndexType VulkanMapping::GetIndexType(INDEX_TYPE eType)
 {
 	if (eType == INDEX_TYPE_U16)
 	{
-		return DXGI_FORMAT_R16_UINT;
+		return VK_INDEX_TYPE_UINT16;
 	}
 	else
 	{
-		return DXGI_FORMAT_R32_UINT;
+		return VK_INDEX_TYPE_UINT32;
 	}
 }
 
 PixelFormat VulkanMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 {
-	if (_getPF(ogrePF) != DXGI_FORMAT_UNKNOWN)
-	{
-		return ogrePF;
-	}
+// 	if (_getPF(ogrePF) != DXGI_FORMAT_UNKNOWN)
+// 	{
+// 		return ogrePF;
+// 	}
 	switch(ogrePF)
 	{
 	case PF_FLOAT16_RGB:
@@ -33,147 +33,121 @@ PixelFormat VulkanMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 	}
 }
 
-//https://msdn.microsoft.com/en-us/library/windows/desktop/hh308955(v=vs.85).aspx
-
-DXGI_FORMAT VulkanMapping::_getPF(PixelFormat ogrePF)
+VkFormat VulkanMapping::_getPF(PixelFormat ogrePF)
 {
 	switch(ogrePF)
 	{
-	case PF_L8:
-		return DXGI_FORMAT_R8_UNORM;
-	case PF_L16:
-		return DXGI_FORMAT_R16_UNORM;
-	case PF_A8:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_A4L4:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_BYTE_LA:
-		return DXGI_FORMAT_UNKNOWN; 
-	case PF_R3G3B2:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_A1R5G5B5:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_R5G6B5:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_A4R4G4B4:
-		return DXGI_FORMAT_UNKNOWN;
 	case PF_R8G8B8:
-		return DXGI_FORMAT_UNKNOWN;
+		return VK_FORMAT_R8G8B8_UNORM;
 	case PF_A8R8G8B8:
-		return DXGI_FORMAT_UNKNOWN;
+		return VK_FORMAT_R8G8B8A8_UNORM;
 	case PF_A8B8G8R8:
-		return DXGI_FORMAT_R8G8B8A8_UNORM;
-	case PF_X8R8G8B8:
-		return DXGI_FORMAT_UNKNOWN;
-	case PF_X8B8G8R8:
-		return DXGI_FORMAT_UNKNOWN;
+		return VK_FORMAT_A8B8G8R8_UNORM_PACK32;
 	case PF_A2B10G10R10:
-		return DXGI_FORMAT_R10G10B10A2_TYPELESS;
+		return VK_FORMAT_A2B10G10R10_UNORM_PACK32;
 	case PF_A2R10G10B10:
-		return DXGI_FORMAT_UNKNOWN;
+		return VK_FORMAT_A2R10G10B10_UNORM_PACK32;
 	case PF_FLOAT16_R:
-		return DXGI_FORMAT_R16_FLOAT;
+		return VK_FORMAT_R16_SFLOAT;
 	case PF_FLOAT16_RGBA:
-		return DXGI_FORMAT_R16G16B16A16_FLOAT;
+		return VK_FORMAT_R16G16B16A16_SFLOAT;
 	case PF_FLOAT32_R:
-		return DXGI_FORMAT_R32_FLOAT;
+		return VK_FORMAT_R32_SFLOAT;
 	case PF_FLOAT32_RGBA:
-		return DXGI_FORMAT_R32G32B32A32_FLOAT;
-	case PF_SHORT_RGBA:
-		return DXGI_FORMAT_R16G16B16A16_UNORM;
+		return VK_FORMAT_R32G32B32A32_SFLOAT;
 	case PF_DXT1:
-		return DXGI_FORMAT_BC1_UNORM;
+		return VK_FORMAT_BC1_RGB_UNORM_BLOCK;
 	case PF_DXT2:
-		return DXGI_FORMAT_BC2_UNORM;
+		return VK_FORMAT_BC2_UNORM_BLOCK;
 	case PF_DXT3:
-		return DXGI_FORMAT_BC2_UNORM;
+		return VK_FORMAT_BC3_UNORM_BLOCK;
 	case PF_DXT4:
-		return DXGI_FORMAT_BC3_UNORM;
+		return VK_FORMAT_BC4_UNORM_BLOCK;
 	case PF_DXT5:
-		return DXGI_FORMAT_BC3_UNORM;
+		return VK_FORMAT_BC5_UNORM_BLOCK;
 	case PF_D24S8:
-		return DXGI_FORMAT_D24_UNORM_S8_UINT;
+		return VK_FORMAT_D24_UNORM_S8_UINT;
 	case PF_UNKNOWN:
 	default:
-		return DXGI_FORMAT_UNKNOWN;
+		return VK_FORMAT_UNDEFINED;
 	}
 }
 
 
-DXGI_FORMAT VulkanMapping::GetD3DDeclType(DECL_TYPE DeclType)
+VkFormat VulkanMapping::GetDeclType(DECL_TYPE DeclType)
 {
     switch (DeclType)
     {
     case DT_FLOAT1:
-        return DXGI_FORMAT_R32_FLOAT;
+        return VK_FORMAT_R32_SFLOAT;
 
     case DT_FLOAT2:
-        return DXGI_FORMAT_R32G32_FLOAT;
+        return VK_FORMAT_R32G32_SFLOAT;
 
     case DT_FLOAT3:
-        return DXGI_FORMAT_R32G32B32_FLOAT;
+        return VK_FORMAT_R32G32B32_SFLOAT;
 
     case DT_FLOAT4:
-        return DXGI_FORMAT_R32G32B32A32_FLOAT;
+        return VK_FORMAT_R32G32B32A32_SFLOAT;
 
     case DT_COLOR:
-        return DXGI_FORMAT_R8G8B8A8_UNORM;
+        return VK_FORMAT_R8G8B8A8_UNORM;
 
     case DT_UBYTE4:
-		return DXGI_FORMAT_R8G8B8A8_UINT;
+		return VK_FORMAT_R8G8B8A8_UINT;
 
 	case  DT_UBYTE4N:
-		return DXGI_FORMAT_R8G8B8A8_UNORM;
+		return VK_FORMAT_R8G8B8A8_UNORM;
 
     case DT_SHORT2:
-		return DXGI_FORMAT_R16G16_SINT;
+		return VK_FORMAT_R16G16_SINT;
 
 	case DT_SHORT2N:
-		return DXGI_FORMAT_R16G16_SNORM;
+		return VK_FORMAT_R16G16_SNORM;
 
     case DT_SHORT4:
-		return DXGI_FORMAT_R16G16B16A16_SINT;
+		return VK_FORMAT_R16G16B16A16_SINT;
 
 	case DT_SHORT4N:
-		return DXGI_FORMAT_R16G16B16A16_SNORM;
+		return VK_FORMAT_R16G16B16A16_SNORM;
 
     default:
         ASSERT(0 && "Invalid Declaration Type.");
-        return DXGI_FORMAT_UNKNOWN;
+        return VK_FORMAT_UNDEFINED;
     }
 }
 
 
-D3D_PRIMITIVE_TOPOLOGY VulkanMapping::GetD3DPrimitiveType(PRIMITIVE_TYPE type)
+VkPrimitiveTopology VulkanMapping::GetPrimitiveType(PRIMITIVE_TYPE type)
 {
 	switch (type)
 	{
 	case PRIM_POINTLIST:
-		return D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
-
+		return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
+			  
 	case PRIM_LINELIST:
-		return D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+		return VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
 
 	case PRIM_LINESTRIP:
-		return D3D_PRIMITIVE_TOPOLOGY_LINESTRIP;
+		return VK_PRIMITIVE_TOPOLOGY_LINE_STRIP;
 
 	case PRIM_TRIANGLELIST:
-		return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 	case PRIM_TRIANGLESTRIP:
-		return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+		return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
 
 	case PRIM_TRIANGLEFAN:
-		return D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
+		return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN;
 
 	default:
 		ASSERT(0 && "Invalid Declaration Usage.");
-		return D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;
+		return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	} 
 }
 
 
-const char* VulkanMapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
+const char* VulkanMapping::GetDeclUsage(DECL_USAGE DeclUsage)
 {
     switch (DeclUsage)
     {
@@ -205,107 +179,107 @@ const char* VulkanMapping::GetD3DDeclUsage(DECL_USAGE DeclUsage)
 }
 
 
-Vulkan_FILTER VulkanMapping::GetVulkanFilter(Filter type)
+VkFilter VulkanMapping::GetFilter(Filter type)
 {
 	if (type == TFO_POINT)
 	{
-		return  Vulkan_FILTER_MIN_MAG_MIP_POINT;
+		return  VK_FILTER_NEAREST;
 	}
 	else if (type == TFO_BILINEAR)
 	{
-		return Vulkan_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+		return VK_FILTER_LINEAR;
 	}
 	else if (type == TFO_TRILINEAR)
 	{
-		return Vulkan_FILTER_MIN_MAG_MIP_LINEAR;
+		return VK_FILTER_CUBIC_IMG;
 	}
 	else if (type == TFO_ANISOTROPIC)
 	{
-		return Vulkan_FILTER_ANISOTROPIC;
+		return VK_FILTER_CUBIC_IMG;
 	}
 	else if (type == TFO_SHADOWCOMPARE)
 	{
-		return Vulkan_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT;
+		return VK_FILTER_CUBIC_IMG;
 	}
 	else
 	{
-		return Vulkan_FILTER_MIN_MAG_MIP_POINT;
+		return VK_FILTER_CUBIC_IMG;
 		ASSERT(false);
 	}
 }
 
 
-Vulkan_TEXTURE_ADDRESS_MODE		VulkanMapping::GetVulkanWrap(Wrap type)
+VkSamplerAddressMode VulkanMapping::GetWrap(Wrap type)
 {
 	if (type == REPEAT)
 	{
-		return Vulkan_TEXTURE_ADDRESS_WRAP;
+		return VK_SAMPLER_ADDRESS_MODE_REPEAT;
 	}
 	else if (type == CLAMP)
 	{
-		return Vulkan_TEXTURE_ADDRESS_CLAMP;
+		return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 	}
 	else 
 	{
 		ASSERT(false);
 	}
 
-	return Vulkan_TEXTURE_ADDRESS_WRAP;
+	return VK_SAMPLER_ADDRESS_MODE_REPEAT;
 }
 
-Vulkan_COMPARISON_FUNC VulkanMapping::get(CompareFunction cf)
+VkCompareOp VulkanMapping::get(CompareFunction cf)
 {
 	switch( cf )
 	{
 	case CMPF_ALWAYS_FAIL:
-		return Vulkan_COMPARISON_NEVER;
+		return VK_COMPARE_OP_NEVER;
 	case CMPF_ALWAYS_PASS:
-		return Vulkan_COMPARISON_ALWAYS;
+		return VK_COMPARE_OP_ALWAYS;
 	case CMPF_LESS:
-		return Vulkan_COMPARISON_LESS;
+		return VK_COMPARE_OP_LESS;
 	case CMPF_LESS_EQUAL:
-		return Vulkan_COMPARISON_LESS_EQUAL;
+		return VK_COMPARE_OP_LESS_OR_EQUAL;
 	case CMPF_EQUAL:
-		return Vulkan_COMPARISON_EQUAL;
+		return VK_COMPARE_OP_EQUAL;
 	case CMPF_NOT_EQUAL:
-		return Vulkan_COMPARISON_NOT_EQUAL;
+		return VK_COMPARE_OP_NOT_EQUAL;
 	case CMPF_GREATER_EQUAL:
-		return Vulkan_COMPARISON_GREATER_EQUAL;
+		return VK_COMPARE_OP_EQUAL;
 	case CMPF_GREATER:
-		return Vulkan_COMPARISON_GREATER;
+		return VK_COMPARE_OP_GREATER;
 	default:
 		ASSERT(false);
-		return Vulkan_COMPARISON_ALWAYS;
+		return VK_COMPARE_OP_LESS;
 	};
 }
 
-Vulkan_STENCIL_OP VulkanMapping::get(StencilOperation op, bool invert)
+VkStencilOp VulkanMapping::get(StencilOperation op, bool invert)
 {
 	switch(op)
 	{
 	case SOP_KEEP:
-		return Vulkan_STENCIL_OP_KEEP;
+		return VK_STENCIL_OP_KEEP;
 	case SOP_ZERO:
-		return Vulkan_STENCIL_OP_ZERO;
+		return VK_STENCIL_OP_ZERO;
 	case SOP_REPLACE:
-		return Vulkan_STENCIL_OP_REPLACE;
+		return VK_STENCIL_OP_REPLACE;
 	case SOP_INCREMENT:
-		return invert? Vulkan_STENCIL_OP_DECR_SAT : Vulkan_STENCIL_OP_INCR_SAT;
+		return VK_STENCIL_OP_INVERT;
 	case SOP_DECREMENT:
-		return invert? Vulkan_STENCIL_OP_INCR_SAT : Vulkan_STENCIL_OP_DECR_SAT;
+		return VK_STENCIL_OP_DECREMENT_AND_CLAMP;
 	case SOP_INCREMENT_WRAP:
-		return invert? Vulkan_STENCIL_OP_DECR : Vulkan_STENCIL_OP_INCR;
+		return VK_STENCIL_OP_INCREMENT_AND_WRAP;
 	case SOP_DECREMENT_WRAP:
-		return invert? Vulkan_STENCIL_OP_INCR : Vulkan_STENCIL_OP_DECR;
+		return VK_STENCIL_OP_DECREMENT_AND_CLAMP;
 	case SOP_INVERT:
-		return Vulkan_STENCIL_OP_INVERT;
+		return VK_STENCIL_OP_INVERT;
 	default:
 		ASSERT(false);
-		return Vulkan_STENCIL_OP_KEEP;
+		return VK_STENCIL_OP_KEEP;
 	}
 }
 
-void VulkanMapping::GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND& src,Vulkan_BLEND& dest,Vulkan_BLEND_OP& op)
+void VulkanMapping::GetBlend(BLEND_MODE mode, BOOL& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
 {
 	switch (mode)
 	{
@@ -315,23 +289,23 @@ void VulkanMapping::GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND& src,
 
 	case BM_TRANSPARENT:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_SRC_ALPHA;
-		dest = Vulkan_BLEND_INV_SRC_ALPHA;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_SRC_ALPHA;
+		dest = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_ADD:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_ONE;
-		dest = Vulkan_BLEND_ONE;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_ONE;
+		dest = VK_BLEND_FACTOR_ONE;
+		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_MULTIPLY:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_ZERO;
-		dest = Vulkan_BLEND_SRC_COLOR;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_ZERO;
+		dest = VK_BLEND_FACTOR_SRC_COLOR;
+		op = VK_BLEND_OP_ADD;
 		break;
 	default:
 		ASSERT(false);
@@ -339,7 +313,7 @@ void VulkanMapping::GetD3DBlend(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND& src,
 	}
 }
 
-void VulkanMapping::GetD3DBlendAlpha(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND& src,Vulkan_BLEND& dest,Vulkan_BLEND_OP& op)
+void VulkanMapping::GetBlendAlpha(BLEND_MODE mode, BOOL& bEnbale, VkBlendFactor& src, VkBlendFactor& dest, VkBlendOp& op)
 {
 	switch (mode)
 	{
@@ -349,23 +323,23 @@ void VulkanMapping::GetD3DBlendAlpha(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND&
 
 	case BM_TRANSPARENT:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_SRC_ALPHA;
-		dest = Vulkan_BLEND_INV_SRC_ALPHA;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_SRC_ALPHA;
+		dest = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_ADD:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_ONE;
-		dest = Vulkan_BLEND_ONE;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_ONE;
+		dest = VK_BLEND_FACTOR_ONE;
+		op = VK_BLEND_OP_ADD;
 		break;
 
 	case BM_MULTIPLY:
 		bEnbale = TRUE;
-		src = Vulkan_BLEND_ZERO;
-		dest = Vulkan_BLEND_SRC_ALPHA;
-		op = Vulkan_BLEND_OP_ADD;
+		src = VK_BLEND_FACTOR_ZERO;
+		dest = VK_BLEND_FACTOR_SRC_ALPHA;
+		op = VK_BLEND_OP_ADD;
 		break;
 	default:
 		ASSERT(false);
@@ -373,46 +347,46 @@ void VulkanMapping::GetD3DBlendAlpha(BLEND_MODE mode,BOOL& bEnbale,Vulkan_BLEND&
 	}
 }
 
-Vulkan_FILL_MODE VulkanMapping::get(FillMode mode)
+VkPolygonMode VulkanMapping::get(FillMode mode)
 {
 	if (mode == FILL_SOLID)
 	{
-		return Vulkan_FILL_SOLID;
+		return VK_POLYGON_MODE_FILL;
 	}
 	else if (mode == FILL_WIREFRAME)
 	{
-		return Vulkan_FILL_WIREFRAME;
+		return VK_POLYGON_MODE_LINE;
 	}
 	else if (mode == FILL_POINT)
 	{
-		return Vulkan_FILL_WIREFRAME;
+		return VK_POLYGON_MODE_POINT;
 	}
 	else
 	{
 		ASSERT(FALSE);
-		return Vulkan_FILL_SOLID;
+		return VK_POLYGON_MODE_FILL;
 	}
 }
 
 
-Vulkan_CULL_MODE VulkanMapping::get(CULL_MODE mode)
+VkCullModeFlagBits VulkanMapping::get(CULL_MODE mode)
 {
 	if (mode == CULL_FACE_SIDE_NONE)
 	{
-		return Vulkan_CULL_NONE;
+		return VK_CULL_MODE_NONE;
 	}
 	else if (mode == CULL_FACE_SIDE_BACK)
 	{
-		return Vulkan_CULL_BACK;
+		return VK_CULL_MODE_BACK_BIT;
 	}
 	else if (mode == CULL_FACE_SIDE_FRONT)
 	{
-		return Vulkan_CULL_FRONT;
+		return VK_CULL_MODE_FRONT_BIT;
 	}
 	else
 	{
 		ASSERT(FALSE);
-		return Vulkan_CULL_BACK;
+		return VK_CULL_MODE_BACK_BIT;
 	}
 }
 

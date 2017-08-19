@@ -8,7 +8,7 @@ namespace ma
 
 	ConstantBuffer::ConstantBuffer() 
 	{
-		m_pVulkanBuffer = NULL;
+		//m_pVulkanBuffer = NULL;
 		m_bDirty = false;
 	}
 
@@ -19,50 +19,50 @@ namespace ma
 
 	void ConstantBuffer::Release()
 	{
-		if (m_pVulkanBuffer)
-		{
-			SAFE_RELEASE(m_pVulkanBuffer);
-		}
+// 		if (m_pVulkanBuffer)
+// 		{
+// 			SAFE_RELEASE(m_pVulkanBuffer);
+// 		}
 
 		m_shadowData.clear();
 	}
 
 	bool ConstantBuffer::SetSize(unsigned size)
 	{
-		Release();
+//		Release();
 
-		if (!size)
-		{
-			LogError("Can not create zero-sized constant buffer");
-			return false;
-		}
-
-		// Round up to next 16 bytes
-		size += 15;
-		size &= 0xfffffff0;
-
-		m_bDirty = false;
-		m_shadowData.resize(size);// = new unsigned char[size_];
-		memset(&m_shadowData[0], 0, size);
-
-		//if (graphics_)
-		{
-			Vulkan_BUFFER_DESC bufferDesc;
-			memset(&bufferDesc, 0, sizeof bufferDesc);
-
-			bufferDesc.ByteWidth = size;
-			bufferDesc.BindFlags = Vulkan_BIND_CONSTANT_BUFFER;
-			bufferDesc.CPUAccessFlags = 0;
-			bufferDesc.Usage = Vulkan_USAGE_DEFAULT;
-
-			GetVulkanDxDevive()->CreateBuffer(&bufferDesc, 0, &m_pVulkanBuffer);
-			ASSERT(m_pVulkanBuffer);
-			if (!m_pVulkanBuffer)
-			{
-				LogError("Failed to create constant buffer");
-				return false;
-			}
-		}
+// 		if (!size)
+// 		{
+// 			LogError("Can not create zero-sized constant buffer");
+// 			return false;
+// 		}
+// 
+// 		// Round up to next 16 bytes
+// 		size += 15;
+// 		size &= 0xfffffff0;
+// 
+// 		m_bDirty = false;
+// 		m_shadowData.resize(size);// = new unsigned char[size_];
+// 		memset(&m_shadowData[0], 0, size);
+// 
+// 		//if (graphics_)
+// 		{
+// 			Vulkan_BUFFER_DESC bufferDesc;
+// 			memset(&bufferDesc, 0, sizeof bufferDesc);
+// 
+// 			bufferDesc.ByteWidth = size;
+// 			bufferDesc.BindFlags = Vulkan_BIND_CONSTANT_BUFFER;
+// 			bufferDesc.CPUAccessFlags = 0;
+// 			bufferDesc.Usage = Vulkan_USAGE_DEFAULT;
+// 
+// 			GetVulkanDxDevive()->CreateBuffer(&bufferDesc, 0, &m_pVulkanBuffer);
+// 			ASSERT(m_pVulkanBuffer);
+// 			if (!m_pVulkanBuffer)
+// 			{
+// 				LogError("Failed to create constant buffer");
+// 				return false;
+// 			}
+// 		}
 
 		return true;
 	}
@@ -97,34 +97,35 @@ namespace ma
 
 	void ConstantBuffer::Apply()
 	{
-		if (m_bDirty && m_pVulkanBuffer)
-		{
-			GetVulkanDxDeviveContext()->UpdateSubresource(m_pVulkanBuffer, 0, 0, &m_shadowData[0], 0, 0);
-			m_bDirty = false;
-		}
+// 		if (m_bDirty && m_pVulkanBuffer)
+// 		{
+// 			GetVulkanDxDeviveContext()->UpdateSubresource(m_pVulkanBuffer, 0, 0, &m_shadowData[0], 0, 0);
+// 			m_bDirty = false;
+// 		}
 	}
 
 	void ConstantBuffer::Clear()
 	{
-		g_mapConstantBufferPool.clear();
+		//g_mapConstantBufferPool.clear();
 	}
 
 	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
 	{
-		// Ensure that different shader types and index slots get unique buffers, even if the size is same
-		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
-		if (i != g_mapConstantBufferPool.end())
-		{
-			return i->second.get();
-		}
-		else
-		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
-			newConstantBuffer->SetSize(size);
-			g_mapConstantBufferPool[key] = newConstantBuffer;
-			return newConstantBuffer;
-		}
+// 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
+// 		unsigned key = type | (index << 1) | (size << 4);
+// 		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
+// 		if (i != g_mapConstantBufferPool.end())
+// 		{
+// 			return i->second.get();
+// 		}
+// 		else
+// 		{
+// 			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
+// 			newConstantBuffer->SetSize(size);
+// 			g_mapConstantBufferPool[key] = newConstantBuffer;
+// 			return newConstantBuffer;
+// 		}
+		return NULL;
 	}
 
 }

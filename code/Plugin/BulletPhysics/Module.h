@@ -1,5 +1,4 @@
-#ifndef  _BULLETPHYSICS_Moudule__H__
-#define  _BULLETPHYSICS_Moudule__H__
+#pragma once
 
 #include "btBulletCollisionCommon.h"
 #include "btBulletDynamicsCommon.h"
@@ -20,4 +19,3 @@ void BtPhysicsModuleInit();
 void BtPhysicsModuleShutdown();
 
 
-#endif

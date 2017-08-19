@@ -1,5 +1,4 @@
-#ifndef  _D3D11RenderExport__H__
-#define  _D3D11RenderExport__H__
+#pragma once
 
 #ifdef _MSC_VER
 
@@ -12,8 +11,5 @@
 #else
 
 	#define D3D11RENDER_API
-
-#endif
-
 
 #endif

@@ -37,8 +37,8 @@ namespace ma
 
 	private:
 
-		IVulkanVertexShader*		m_pVertexShader;
-		IVulkanPixelShader*		m_pPiexelShader;
+		//IVulkanVertexShader*		m_pVertexShader;
+		//IVulkanPixelShader*		m_pPiexelShader;
 
 		vector<BYTE>			m_pByteVSCode;		
 		vector<BYTE>			m_pBytePSCode;	

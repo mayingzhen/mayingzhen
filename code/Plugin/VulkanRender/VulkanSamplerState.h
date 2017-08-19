@@ -14,7 +14,7 @@ namespace ma
 		static void Clear();
 
 	public:
-		IVulkanSamplerState* m_pImpl;
+		//IVulkanSamplerState* m_pImpl;
 	};
 
 }

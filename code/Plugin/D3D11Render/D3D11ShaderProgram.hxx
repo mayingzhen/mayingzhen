@@ -265,6 +265,8 @@ namespace ma
 
 		GetD3D11DxDeviveContext()->PSSetShader(m_pPiexelShader, NULL, 0);
 
+		( (D3D11RenderDevice*)GetRenderDevice() )->SetVertexDeclaration(GetVertexDeclaration());
+
 		bool vsBuffersChanged = false;
 		bool psBuffersChanged = false;
 

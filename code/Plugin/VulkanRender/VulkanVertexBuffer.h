@@ -11,7 +11,7 @@ namespace ma
 
 		~VulkanVertexBuffer();
 
-		IVulkanBuffer* GetD3DVertexBuffer();
+		//IVulkanBuffer* GetD3DVertexBuffer();
 
 	private:
 
@@ -22,7 +22,7 @@ namespace ma
 		virtual void	RT_StreamComplete();
 
 	protected:
-		IVulkanBuffer*	mVulkanVertexBuffer;	
+		//IVulkanBuffer*	mVulkanVertexBuffer;	
 	};
 
 }

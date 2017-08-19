@@ -50,8 +50,23 @@ namespace ma
                 LogError("Shader vs %s compile error: %s", this->GetVSFile(), ns_error.localizedDescription.UTF8String);
             }
             
-            m_pVertexShader= [library newFunctionWithName:@"vs_main"];
+            m_pVertexShader = [library newFunctionWithName:@"vs_main"];
             ASSERT(m_pVertexShader);
+        
+            if (m_pVertexShader.vertexAttributes != nil)
+            {
+                for(MTLVertexAttribute * mtlAttr in m_pVertexShader.vertexAttributes)
+                {
+                    if (mtlAttr.active)
+                    {
+                        int i = 5;
+                    }
+                    else
+                    {
+                        int i = 5;
+                    }
+                }
+            }
         }
 
 

@@ -54,7 +54,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VK_USE_PLATFORM_WIN32_KHR;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -77,7 +77,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/oisInput/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VK_USE_PLATFORM_WIN32_KHR;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -111,16 +111,23 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\Export.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\Module.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\stdafx.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanConstantBuffer.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDevice.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanIndexBuffer.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanInitializers.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanMapping.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderDevice.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanRenderState.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanSamplerState.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanShaderProgram.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanSwapChain.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTexture.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTools.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTools.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanVertexBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanVertexDeclaration.h" />
   </ItemGroup>

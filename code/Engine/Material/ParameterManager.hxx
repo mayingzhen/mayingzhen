@@ -178,7 +178,7 @@ namespace ma
 			return Matrix4::IDENTITY;
 
 		return pCurScene->GetDirLight()->GetShadowMapFrustum(0).GetShadowMatrix();
-	}
+	}	
 
 	Vector4	ParameterManager::autoBindingShadowMapTexSize() const
 	{

@@ -54,7 +54,7 @@ EXPORTS
 ?GetScene@RenderSystem@ma@@QAEPAVScene@2@H@Z
 ?FindChildNode@SceneNode@ma@@QAEPAV12@PBD@Z
 ??0Serializable@ma@@QAE@XZ
-?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD000@Z
+?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD000PAVVertexDeclaration@1@@Z
 ?SetMaterialMap@Terrain@ma@@QAEXPBD@Z
 ?SetBlendMap@Terrain@ma@@QAEXPBD@Z
 ?SetHeightMap@Terrain@ma@@QAEXPBD@Z
@@ -228,7 +228,6 @@ EXPORTS
 ??0VertexElement@ma@@QAE@XZ
 ??0VertexElement@ma@@QAE@FFW4DECL_TYPE@1@W4DECL_USAGE@1@E@Z
 ?CreateVertexDeclaration@RenderSystem@ma@@QAE?AV?$RefPtr@VVertexDeclaration@ma@@@2@PAUVertexElement@2@I@Z
-?SetVertexDeclaration@Technique@ma@@QAEXPAVVertexDeclaration@2@@Z
 ?SetShaderMacroBool@Technique@ma@@QAEXPBD_N@Z
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD0@Z
 ?GetShaderMacroBool@Technique@ma@@QAE_NPBD@Z

@@ -20,7 +20,7 @@ namespace ma
 		if (m_pShader == NULL)
 			return;
 
-		ASSERT(m_pImpl == NULL);
+		//ASSERT(m_pImpl == NULL);
 
 		uint64 nHash = this->GetHash();
 

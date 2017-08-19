@@ -1,5 +1,8 @@
 #pragma once
 
+#include "VulkanSwapChain.h"
+#include "VulkanDevice.h"
+
 namespace ma
 {
 	class IndexBuffer;
@@ -80,8 +83,8 @@ namespace ma
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
-		IVulkanDevice*				GetDXDevive() {return m_pD3DDevice;}
-		IVulkanDeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}
+		//IVulkanDevice*				GetDXDevive() {return m_pD3DDevice;}
+		//IVulkanDeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}
 
 		void						NotifyResourceCreated(VulkanResource* pRes);
 
@@ -98,7 +101,7 @@ namespace ma
 
 		bool						UpdateSwapChain(int width, int height);
 
-		void						DetachSRV(IVulkanShaderResourceView* rtv_src);
+		//void						DetachSRV(IVulkanShaderResourceView* rtv_src);
 	
 	private:
 		// Vulkan instance, stores all per-application states
@@ -115,11 +118,41 @@ namespace ma
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties;
 		std::vector<std::string> supportedExtensions;
 
+		VkDevice device;
+
+		/** @brief Default command pool for the graphics queue family index */
+		//VkCommandPool commandPool = VK_NULL_HANDLE;
+	
+		VkQueue queue;
+
 		VulkanSwapChain swapChain;
+
+		// Swap chain image presentation
+		VkSemaphore presentComplete;
+		// Command buffer submission and execution
+		VkSemaphore renderComplete;
+
+		VkSubmitInfo submitInfo;
+
+		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+
+		std::vector<VkCommandBuffer> drawCmdBuffers;
+
+		struct
+		{
+			VkImage image;
+			VkDeviceMemory mem;
+			VkImageView view;
+		} depthStencil;
+
+		vks::VulkanDevice *vulkanDevice;
+
+		VkPhysicalDeviceFeatures enabledFeatures{};
+		std::vector<const char*> enabledExtensions;
 	};
 
-	IVulkanDevice* GetVulkanDxDevive();
-	IVulkanDeviceContext* GetVulkanDxDeviveContext();
+	//IVulkanDevice* GetVulkanDxDevive();
+	//IVulkanDeviceContext* GetVulkanDxDeviveContext();
 }
 
 

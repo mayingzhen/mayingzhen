@@ -17,7 +17,7 @@ namespace ma
 		static void Clear();
 
 	public:
-		IVulkanInputLayout*	m_pImpl;
+		//IVulkanInputLayout*	m_pImpl;
 	};
 
 }

@@ -32,7 +32,7 @@ namespace ma
 		/// Return whether has unapplied data.
 		bool IsDirty() const { return m_bDirty; }
 
-		IVulkanBuffer* GetVulkanBuffer() {return m_pVulkanBuffer;}
+		//IVulkanBuffer* GetVulkanBuffer() {return m_pVulkanBuffer;}
 
 		static void Clear();
 
@@ -43,7 +43,7 @@ namespace ma
 		/// Dirty flag.
 		bool m_bDirty;
 
-		IVulkanBuffer* m_pVulkanBuffer;
+		//IVulkanBuffer* m_pVulkanBuffer;
 	};
 
 	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);

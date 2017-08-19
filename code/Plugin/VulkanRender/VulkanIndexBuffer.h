@@ -10,7 +10,7 @@ namespace ma
 
 		~VulkanIndexBuffer();
 	
-		IVulkanBuffer * GetD3DIndexBuffer() ;
+		//IVulkanBuffer * GetD3DIndexBuffer() ;
 
 	private:
 		virtual void*	LockImpl(int iOffsetBytes, int uiLockSize, LOCK LockFlags);
@@ -21,7 +21,7 @@ namespace ma
 
 	protected:
 	
-		IVulkanBuffer*    mVulkanIndexBuffer;	
+		//IVulkanBuffer*    mVulkanIndexBuffer;	
 	};
 
 }

@@ -139,7 +139,7 @@ MTLVertexFormat MetalMapping::GetDeclType(DECL_TYPE DeclType)
 		return MTLVertexFormatShort4;
 
 	case DT_SHORT4N:
-		return MTLVertexFormatUShort4Normalized;
+		return MTLVertexFormatShort4Normalized;
 
     default:
         ASSERT(0 && "Invalid Declaration Type.");
