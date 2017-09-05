@@ -19,9 +19,10 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
-	protected:
+	public:
 	
 		//IVulkanBuffer*    mVulkanIndexBuffer;	
+		vks::Buffer indexBuffer;
 	};
 
 }

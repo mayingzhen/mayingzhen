@@ -48,6 +48,14 @@ namespace ma
 		RefPtr<ConstantBuffer> m_vecVSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 		RefPtr<ConstantBuffer> m_vecPSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 
+		VkPipelineShaderStageCreateInfo m_shaderStages[2];
+
+		VkPipelineCache m_pipelineCache;
+
+		VkPipeline m_pipeline;
+
+		VkPipelineLayout m_pipelineLayout;
+
 		friend class VulkanRenderDevice;
 	};
 

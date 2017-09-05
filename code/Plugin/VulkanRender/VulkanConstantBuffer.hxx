@@ -1,5 +1,6 @@
 
 #include "VulkanConstantBuffer.h"
+#include "VulkanRenderDevice.h"
 
 
 namespace ma
@@ -24,84 +25,109 @@ namespace ma
 // 			SAFE_RELEASE(m_pVulkanBuffer);
 // 		}
 
-		m_shadowData.clear();
+		//m_shadowData.clear();
 	}
+
+// 	bool memory_type_from_properties(struct sample_info &info, uint32_t typeBits, VkFlags requirements_mask, uint32_t *typeIndex) {
+// 		// Search memtypes to find first index with those properties
+// 		for (uint32_t i = 0; i < info.memory_properties.memoryTypeCount; i++) {
+// 			if ((typeBits & 1) == 1) {
+// 				// Type is available, does it match user properties?
+// 				if ((info.memory_properties.memoryTypes[i].propertyFlags & requirements_mask) == requirements_mask) {
+// 					*typeIndex = i;
+// 					return true;
+// 				}
+// 			}
+// 			typeBits >>= 1;
+// 		}
+// 		// No memory types matched, return failure
+// 		return false;
+//	}
 
 	bool ConstantBuffer::SetSize(unsigned size)
 	{
-//		Release();
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
-// 		if (!size)
-// 		{
-// 			LogError("Can not create zero-sized constant buffer");
-// 			return false;
-// 		}
-// 
-// 		// Round up to next 16 bytes
-// 		size += 15;
-// 		size &= 0xfffffff0;
-// 
-// 		m_bDirty = false;
-// 		m_shadowData.resize(size);// = new unsigned char[size_];
-// 		memset(&m_shadowData[0], 0, size);
-// 
-// 		//if (graphics_)
-// 		{
-// 			Vulkan_BUFFER_DESC bufferDesc;
-// 			memset(&bufferDesc, 0, sizeof bufferDesc);
-// 
-// 			bufferDesc.ByteWidth = size;
-// 			bufferDesc.BindFlags = Vulkan_BIND_CONSTANT_BUFFER;
-// 			bufferDesc.CPUAccessFlags = 0;
-// 			bufferDesc.Usage = Vulkan_USAGE_DEFAULT;
-// 
-// 			GetVulkanDxDevive()->CreateBuffer(&bufferDesc, 0, &m_pVulkanBuffer);
-// 			ASSERT(m_pVulkanBuffer);
-// 			if (!m_pVulkanBuffer)
-// 			{
-// 				LogError("Failed to create constant buffer");
-// 				return false;
-// 			}
-// 		}
+		// Round up to next 16 bytes
+		size += 15;
+		size &= 0xfffffff0;
+
+		m_bDirty = false;
+
+		/* VULKAN_KEY_START */
+		VkBufferCreateInfo buf_info = {};
+		buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+		buf_info.pNext = NULL;
+		buf_info.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+		buf_info.size = size;
+		buf_info.queueFamilyIndexCount = 0;
+		buf_info.pQueueFamilyIndices = NULL;
+		buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		buf_info.flags = 0;
+		VkResult res = vkCreateBuffer(vulkanDevice->logicalDevice, &buf_info, NULL, &m_buf);
+		assert(res == VK_SUCCESS);
+
+		VkMemoryRequirements mem_reqs;
+		vkGetBufferMemoryRequirements(vulkanDevice->logicalDevice, m_buf, &mem_reqs);
+
+		VkMemoryAllocateInfo alloc_info = {};
+		alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+		alloc_info.pNext = NULL;
+		alloc_info.memoryTypeIndex = 0;
+
+		alloc_info.allocationSize = mem_reqs.size;
+		//bool pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
+		//	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		//	&alloc_info.memoryTypeIndex);
+		//assert(pass && "No mappable, coherent memory");
+
+		res = vkAllocateMemory(vulkanDevice->logicalDevice, &alloc_info, NULL, &m_mem);
+		assert(res == VK_SUCCESS);
 
 		return true;
 	}
 
 	void ConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
 	{
-		if (offset + size > m_shadowData.size())
-			return; // Would overflow the buffer
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
-		memcpy(&m_shadowData[offset], data, size);
+		uint8_t *pData;
+		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, size, 0, (void **)&pData);
+		assert(res == VK_SUCCESS);
+
+		memcpy(pData, data, size);
+
+		vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
+
 		m_bDirty = true;
 	}
 
 	void ConstantBuffer::SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data)
 	{
-		if (offset + rows * 4 * sizeof(float) > m_shadowData.size())
-			return; // Would overflow the buffer
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
-		float* dest = (float*)&m_shadowData[offset];
-		const float* src = (const float*)data;
+		uint8_t *pData;
+		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, rows * sizeof(Vector3), 0, (void **)&pData);
+		assert(res == VK_SUCCESS);
 
-		while (rows--)
-		{
-			*dest++ = *src++;
-			*dest++ = *src++;
-			*dest++ = *src++;
-			++dest; // Skip over the w coordinate
-		}
+		memcpy(pData, data, rows * sizeof(Vector3));
+
+		vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
 
 		m_bDirty = true;
 	}
 
 	void ConstantBuffer::Apply()
 	{
-// 		if (m_bDirty && m_pVulkanBuffer)
-// 		{
-// 			GetVulkanDxDeviveContext()->UpdateSubresource(m_pVulkanBuffer, 0, 0, &m_shadowData[0], 0, 0);
-// 			m_bDirty = false;
-// 		}
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+
+		if (m_bDirty)
+		{
+			VkResult res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
+			assert(res == VK_SUCCESS);
+
+			m_bDirty = false;
+		}
 	}
 
 	void ConstantBuffer::Clear()

@@ -18,6 +18,9 @@ namespace ma
 
 	public:
 		//IVulkanInputLayout*	m_pImpl;
+		VkPipelineVertexInputStateCreateInfo m_inputState;
+		std::vector<VkVertexInputBindingDescription> m_bindingDescriptions;
+		std::vector<VkVertexInputAttributeDescription> m_attributeDescriptions;
 	};
 
 }

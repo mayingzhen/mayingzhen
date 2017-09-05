@@ -59,43 +59,58 @@ namespace ma
 
 	void VulkanVertexBuffer::RT_StreamComplete()
 	{
-// 		ASSERT(mVulkanVertexBuffer == NULL);
-// 
-// 		ASSERT(m_Size);
-// 
-// 		Vulkan_BUFFER_DESC bufferDesc;
-// 		memset(&bufferDesc, 0, sizeof bufferDesc);
-// 		bufferDesc.BindFlags = Vulkan_BIND_VERTEX_BUFFER;
-// 		bufferDesc.CPUAccessFlags = m_Usage & HBU_DYNAMIC ? Vulkan_CPU_ACCESS_WRITE : 0;
-// 		if (m_Usage & HBU_DYNAMIC)
-// 		{
-// 			bufferDesc.Usage = Vulkan_USAGE_DYNAMIC;
-// 		}
-// 		else if (m_Usage == HBU_STATIC)
-// 		{
-// 			bufferDesc.Usage = Vulkan_USAGE_IMMUTABLE;
-// 		}
-// 		else
-// 		{
-// 			bufferDesc.Usage = Vulkan_USAGE_DEFAULT;
-// 		}
-// 		bufferDesc.ByteWidth = (UINT)(m_Size);
-// 
-// 		Vulkan_SUBRESOURCE_DATA InitData;
-// 		InitData.pSysMem = m_pData;
-// 
-// 		GetVulkanDxDevive()->CreateBuffer(&bufferDesc, m_pData ? &InitData : NULL, &mVulkanVertexBuffer);
-// 		ASSERT(mVulkanVertexBuffer);
-// 		if (mVulkanVertexBuffer == NULL)
-// 		{
-// 			LogError("CreateVertexBuffer failed");
-// 			return;
-// 		}
-// 
-// 		if (!m_bShadowData)
-// 		{
-// 			FreeData();
-// 		}
+		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
+
+		vks::Buffer vertexStaging;
+
+		VK_CHECK_RESULT(vulkanDevice->createBuffer(
+			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			&vertexStaging,
+			static_cast<uint32_t>(m_Size),
+			m_pData));
+		// Target
+		VK_CHECK_RESULT(vulkanDevice->createBuffer(
+			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+			&vertexBuffer,
+			static_cast<uint32_t>((UINT)(m_Size))));
+
+		VkCommandBuffer copyCmd = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+
+		// Copy
+		VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
+		VK_CHECK_RESULT(vkBeginCommandBuffer(copyCmd, &cmdBufInfo));
+
+		VkBufferCopy copyRegion = {};
+
+		copyRegion.size = m_Size;
+		vkCmdCopyBuffer(
+			copyCmd,
+			vertexStaging.buffer,
+			vertexBuffer.buffer,
+			1,
+			&copyRegion);
+
+		VK_CHECK_RESULT(vkEndCommandBuffer(copyCmd));
+
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &copyCmd;
+
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
+
+		VK_CHECK_RESULT(vkQueueSubmit(pRender->queue, 1, &submitInfo, VK_NULL_HANDLE));
+		VK_CHECK_RESULT(vkQueueWaitIdle(pRender->queue));
+
+		//todo: fence
+		vertexStaging.destroy();
+
+		if (!m_bShadowData)
+		{
+			FreeData();
+		}
 	}
 
 // 	IVulkanBuffer * VulkanVertexBuffer::GetD3DVertexBuffer()

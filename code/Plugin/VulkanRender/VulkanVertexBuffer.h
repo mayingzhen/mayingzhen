@@ -21,8 +21,8 @@ namespace ma
 
 		virtual void	RT_StreamComplete();
 
-	protected:
-		//IVulkanBuffer*	mVulkanVertexBuffer;	
+	public:
+		vks::Buffer vertexBuffer;
 	};
 
 }

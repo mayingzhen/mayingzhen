@@ -16,6 +16,32 @@ namespace ma
 
 	void VulkanVertexDeclaration::RT_StreamComplete()
 	{
+		m_bindingDescriptions.resize(1);
+
+		m_bindingDescriptions[0].binding = 0/*VERTEX_BUFFER_BIND_ID*/;
+		m_bindingDescriptions[0].stride = this->GetStreanmStride();
+		m_bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+		m_attributeDescriptions.resize(this->GetElementCount());
+
+		for (int i = 0; i < this->GetElementCount(); ++i)
+		{
+			const VertexElement& element = this->GetElement(i);
+			m_attributeDescriptions[i].location = 0/*VulkanMapping::GetD3DDeclUsage(element.Usage)*/;
+			m_attributeDescriptions[i].binding = i/*element.UsageIndex*/;
+			m_attributeDescriptions[i].format = VulkanMapping::GetDeclType(element.Type);
+			m_attributeDescriptions[i].offset = element.Offset;
+		}
+
+		m_inputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+		m_inputState.pNext = NULL;
+		m_inputState.flags = 0;
+		m_inputState.vertexBindingDescriptionCount = static_cast<uint32_t>(m_bindingDescriptions.size());
+		m_inputState.pVertexBindingDescriptions = m_bindingDescriptions.data();
+		m_inputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(m_attributeDescriptions.size());
+		m_inputState.pVertexAttributeDescriptions = m_attributeDescriptions.data();
+
+
 // 		ASSERT(m_pShader);
 // 		if (m_pShader == NULL)
 // 			return;

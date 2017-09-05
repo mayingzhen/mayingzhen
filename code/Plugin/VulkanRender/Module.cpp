@@ -2,6 +2,7 @@
 #include "VulkanRender/Module.h"
 
 #include "VulkanRender/VulkanTools.hxx"
+#include "VulkanRender/VulkanDebug.hxx"
 
 #include "VulkanRender/VulkanTexture.hxx"
 #include "VulkanRender/VulkanVertexBuffer.hxx"
@@ -14,12 +15,15 @@
 #include "VulkanRender/VulkanRenderState.hxx"
 #include "VulkanRender/VulkanSamplerState.hxx"
 
+#include "SPIRV/GlslangToSpv.h"
 
 using namespace ma;
 
 
 void VulkanRenderModuleInit()
 {
+	glslang::InitializeProcess();
+
 	VulkanRenderDevice* pDxRenderDevice = new VulkanRenderDevice();
 	SetRenderDevice(pDxRenderDevice);
 }
@@ -30,6 +34,8 @@ void VulkanRenderModuleShutdown()
 	VulkanRenderDevice* pDxRenderDevice = (VulkanRenderDevice*)GetRenderDevice();
 	SAFE_DELETE(pDxRenderDevice);
 	SetRenderDevice(NULL);
+
+	glslang::FinalizeProcess();
 }
 
 

@@ -12,7 +12,7 @@ namespace ma
 		static void		Clear();
 
 	public:
-		//IVulkanRasterizerState* m_pVulkanRSState;
+		VkPipelineRasterizationStateCreateInfo rs;
 	};
 
 	class VulkanDepthStencilStateObject : public DepthStencilState
@@ -26,7 +26,7 @@ namespace ma
 		static void		Clear();
 
 	public:
-		//IVulkanDepthStencilState* m_pVulkanDSState;
+		VkPipelineDepthStencilStateCreateInfo ds;
 	};
 
 	class VulkanBlendStateObject : public BlendState
@@ -39,6 +39,6 @@ namespace ma
 		static void		Clear();
 
 	public:
-		//IVulkanBlendState* m_pVulkanBlendState;
+		VkPipelineColorBlendStateCreateInfo cb;
 	};
 }

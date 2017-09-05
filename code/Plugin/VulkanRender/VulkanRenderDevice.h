@@ -85,6 +85,7 @@ namespace ma
 
 		//IVulkanDevice*				GetDXDevive() {return m_pD3DDevice;}
 		//IVulkanDeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}
+		vks::VulkanDevice*			GetVulkanDevice() { return vulkanDevice; }
 
 		void						NotifyResourceCreated(VulkanResource* pRes);
 
@@ -102,8 +103,16 @@ namespace ma
 		bool						UpdateSwapChain(int width, int height);
 
 		//void						DetachSRV(IVulkanShaderResourceView* rtv_src);
+
+		void						SetupDepthStencil();
+
+		void						SetupRenderPass();
+
+		void						CreatePipelineCache();
+
+		void						SetupFrameBuffer();
 	
-	private:
+	public:
 		// Vulkan instance, stores all per-application states
 		VkInstance instance;
 		// Physical device (GPU) that Vulkan will ise
@@ -120,23 +129,34 @@ namespace ma
 
 		VkDevice device;
 
+		uint32_t m_width = 1280;
+		uint32_t m_height = 720;
+
 		/** @brief Default command pool for the graphics queue family index */
 		//VkCommandPool commandPool = VK_NULL_HANDLE;
 	
 		VkQueue queue;
 
-		VulkanSwapChain swapChain;
+		VulkanSwapChain m_swapChain;
 
 		// Swap chain image presentation
-		VkSemaphore presentComplete;
+		VkSemaphore m_presentComplete;
 		// Command buffer submission and execution
-		VkSemaphore renderComplete;
+		VkSemaphore m_renderComplete;
 
-		VkSubmitInfo submitInfo;
+		VkSubmitInfo m_submitInfo;
 
 		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
-		std::vector<VkCommandBuffer> drawCmdBuffers;
+		std::vector<VkCommandBuffer> m_drawCmdBuffers;
+
+		uint32_t currentBuffer = 0;
+
+		VkRenderPass m_renderPass;
+
+		VkPipelineCache m_pipelineCache;
+
+		std::vector<VkFramebuffer> m_frameBuffers;
 
 		struct
 		{
@@ -145,14 +165,16 @@ namespace ma
 			VkImageView view;
 		} depthStencil;
 
-		vks::VulkanDevice *vulkanDevice;
+		VkFormat m_depthFormat;
+
+		vks::VulkanDevice* vulkanDevice;
 
 		VkPhysicalDeviceFeatures enabledFeatures{};
 		std::vector<const char*> enabledExtensions;
 	};
 
-	//IVulkanDevice* GetVulkanDxDevive();
-	//IVulkanDeviceContext* GetVulkanDxDeviveContext();
+	vks::VulkanDevice* GetVulkanDevice();
+	//VkPhysicalDevice GetPhysicalDevice();
 }
 
 

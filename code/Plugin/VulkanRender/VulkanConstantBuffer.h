@@ -27,7 +27,7 @@ namespace ma
 		void Apply();
 
 		/// Return size.
-		unsigned GetSize() const { return m_shadowData.size(); }
+		//unsigned GetSize() const { return m_shadowData.size(); }
 
 		/// Return whether has unapplied data.
 		bool IsDirty() const { return m_bDirty; }
@@ -38,12 +38,15 @@ namespace ma
 
 	private:
 		/// Shadow data.
-		vector<BYTE> m_shadowData;
+		//vector<BYTE> m_shadowData;
 
 		/// Dirty flag.
 		bool m_bDirty;
 
 		//IVulkanBuffer* m_pVulkanBuffer;
+		VkBuffer m_buf;
+		VkDeviceMemory m_mem;
+		VkDescriptorBufferInfo m_buffer_info;
 	};
 
 	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
