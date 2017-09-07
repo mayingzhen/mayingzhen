@@ -42,7 +42,7 @@ namespace ma
 	
 	protected:
 
-		bool			LoadFromImagData(const ImageData& imageData);
+		virtual bool	LoadFromImagData(const ImageData& imageData);
 		
 		bool			RT_StreamComplete();  
 

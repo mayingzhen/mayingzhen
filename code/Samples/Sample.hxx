@@ -8,8 +8,8 @@ namespace ma
 		m_pCamera = m_pScene->GetCamera();
 
 		Rectangle viewPort = GetRenderSystem()->GetViewPort();
-		int nWndWidth = viewPort.width();
-		int nWndHeigh = viewPort.height();
+		int nWndWidth = 800;//viewPort.width();
+		int nWndHeigh = 600;//viewPort.height();
 		//Platform::GetInstance().GetWindowSize(nWndWidth,nWndHeigh);
 		float fFOV = DegreesToRadians(50.0f);
 		float fAspect = (float)nWndWidth / (float)nWndHeigh;

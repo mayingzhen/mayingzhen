@@ -27,8 +27,8 @@ namespace ma
 		for (int i = 0; i < this->GetElementCount(); ++i)
 		{
 			const VertexElement& element = this->GetElement(i);
-			m_attributeDescriptions[i].location = 0/*VulkanMapping::GetD3DDeclUsage(element.Usage)*/;
-			m_attributeDescriptions[i].binding = i/*element.UsageIndex*/;
+			m_attributeDescriptions[i].location = i/*VulkanMapping::GetD3DDeclUsage(element.Usage)*/;
+			m_attributeDescriptions[i].binding = 0/*element.UsageIndex*/;
 			m_attributeDescriptions[i].format = VulkanMapping::GetDeclType(element.Type);
 			m_attributeDescriptions[i].offset = element.Offset;
 		}

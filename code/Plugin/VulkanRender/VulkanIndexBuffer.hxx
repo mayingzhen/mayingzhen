@@ -70,7 +70,7 @@ void VulkanIndexBuffer::RT_StreamComplete()
 		&indexBuffer,
 		static_cast<uint32_t>((UINT)(m_Size))));
 
-	VkCommandBuffer copyCmd = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, true);
+	VkCommandBuffer copyCmd = vulkanDevice->createCommandBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, false);
 
 	// Copy
 	VkCommandBufferBeginInfo cmdBufInfo = vks::initializers::commandBufferBeginInfo();
@@ -95,8 +95,8 @@ void VulkanIndexBuffer::RT_StreamComplete()
 
 	VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
-	VK_CHECK_RESULT(vkQueueSubmit(pRender->queue, 1, &submitInfo, VK_NULL_HANDLE));
-	VK_CHECK_RESULT(vkQueueWaitIdle(pRender->queue));
+	VK_CHECK_RESULT(vkQueueSubmit(pRender->m_queue, 1, &submitInfo, VK_NULL_HANDLE));
+	VK_CHECK_RESULT(vkQueueWaitIdle(pRender->m_queue));
 
 	//todo: fence
 	indexStaging.destroy();

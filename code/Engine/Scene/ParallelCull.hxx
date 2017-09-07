@@ -349,7 +349,7 @@ namespace ma
 
 		//else
 		{
-			BEGIN_TIME(ParallelCull);
+			//BEGIN_TIME(ParallelCull);
 	
 			vecObj.clear();
 			for (UINT32 i = 0; i < m_vecNode.size(); ++i)
@@ -363,7 +363,7 @@ namespace ma
 				}
 			}
 
-			END_TIME(ParallelCull);
+			//END_TIME(ParallelCull);
 		}
 	}
 }

@@ -44,8 +44,6 @@ namespace ma
 		void				SetDepthStencilState(DepthStencilState* pDSSate);
 		void				SetRasterizerState(RasterizerState* pRSState);
 
-		//void				SetVertexDeclaration(VertexDeclaration* pVertexDecl);
-        
         void                StreamComplete();
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
@@ -68,8 +66,6 @@ namespace ma
 		RefPtr<RasterizerState>			m_pRSState;
 
 		std::vector<Parameter*>			m_arrParameters;
-
-		//RefPtr<VertexDeclaration>		m_pDeclaration;
 	};
 	
 	RefPtr<Technique> CreateTechnique();

@@ -92,7 +92,7 @@ namespace ma
 	{
 		//m_hWnd = wndhandle;
 
-		bool enableValidation = true;
+		bool enableValidation = false;
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -180,7 +180,7 @@ namespace ma
 		}
 		device = vulkanDevice->logicalDevice;
 
-		vkGetDeviceQueue(device, vulkanDevice->queueFamilyIndices.graphics, 0, &queue);
+		vkGetDeviceQueue(device, vulkanDevice->queueFamilyIndices.graphics, 0, &m_queue);
 
 		// Get list of supported extensions
 // 		uint32_t extCount = 0;
@@ -256,13 +256,13 @@ namespace ma
 		// Set up submit info structure
 		// Semaphores will stay the same during application lifetime
 		// Command buffer submission info is set by each example
-		VkSubmitInfo submitInfo{};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		submitInfo.pWaitDstStageMask = &submitPipelineStages;
-		submitInfo.waitSemaphoreCount = 1;
-		submitInfo.pWaitSemaphores = &m_presentComplete;
-		submitInfo.signalSemaphoreCount = 1;
-		submitInfo.pSignalSemaphores = &m_renderComplete;
+		m_submitInfo = VkSubmitInfo{};
+		m_submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		m_submitInfo.pWaitDstStageMask = &m_submitPipelineStages;
+		m_submitInfo.waitSemaphoreCount = 1;
+		m_submitInfo.pWaitSemaphores = &m_presentComplete;
+		m_submitInfo.signalSemaphoreCount = 1;
+		m_submitInfo.pSignalSemaphores = &m_renderComplete;
 
 		//setupSwapChain
 		m_swapChain.connect(instance, physicalDevice, device);
@@ -507,23 +507,22 @@ namespace ma
 		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers[currentBuffer]));
 
 		// Command buffer to be sumitted to the queue
-		m_submitInfo = {};
-		m_submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		m_submitInfo.pNext = NULL;
-		m_submitInfo.commandBufferCount = 1;
-		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers[currentBuffer];
-		m_submitInfo.waitSemaphoreCount = 1;
-		m_submitInfo.pWaitSemaphores = &m_renderComplete;
+ 		m_submitInfo.commandBufferCount = 1;
+ 		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers[currentBuffer];
+// 		m_submitInfo.waitSemaphoreCount = 1;
+// 		m_submitInfo.pWaitSemaphores = &m_presentComplete;
+// 		m_submitInfo.signalSemaphoreCount = 1;
+// 		m_submitInfo.pSignalSemaphores = &m_renderComplete;
 
-		VkPipelineStageFlags stageFlags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		m_submitInfo.pWaitDstStageMask = &stageFlags;
+		//VkPipelineStageFlags stageFlags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		//m_submitInfo.pWaitDstStageMask = &stageFlags;
 
 		// Submit to queue
-		/*VK_CHECK_RESULT(*/vkQueueSubmit(queue, 1, &m_submitInfo, VK_NULL_HANDLE)/*)*/;
+		VK_CHECK_RESULT(vkQueueSubmit(m_queue, 1, &m_submitInfo, VK_NULL_HANDLE));
 
-		VK_CHECK_RESULT(m_swapChain.queuePresent(queue, currentBuffer, m_renderComplete));
+		VK_CHECK_RESULT(m_swapChain.queuePresent(m_queue, currentBuffer, m_renderComplete));
 
-		VK_CHECK_RESULT(vkQueueWaitIdle(queue));
+		VK_CHECK_RESULT(vkQueueWaitIdle(m_queue));
 	}
 
 	void VulkanRenderDevice::SetFrameBuffer(FrameBuffer* pFB)
@@ -551,11 +550,18 @@ namespace ma
 
 	void VulkanRenderDevice::SetViewport(const Rectangle& rect)
 	{
+		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
+		vkCmdSetViewport(m_drawCmdBuffers[currentBuffer], 0, 1, &viewport);
+
+		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
+		vkCmdSetScissor(m_drawCmdBuffers[currentBuffer], 0, 1, &scissor);
 	}
 
 	Rectangle VulkanRenderDevice::GetViewport()
 	{
 		Rectangle rect;
+		rect.right = (float)m_width;
+		rect.bottom = (float)m_height;
 		return rect;
 	}
 
@@ -595,41 +601,48 @@ namespace ma
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
 	{
+		ASSERT(uniform);
+		ASSERT(values);
+
+		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
+
+		ASSERT(nSize <= uniform->m_nCBSize);
+		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, int value)
 	{
-		//SetValue(uniform,(const float*)&value,sizeof(int));
+		SetValue(uniform,(const float*)&value,sizeof(int));
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, float value)
 	{
-		//SetValue(uniform,(const float*)&value,sizeof(float));
+		SetValue(uniform,(const float*)&value,sizeof(float));
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
 	{
-		//SetValue(uniform,(const float*)&value,sizeof(Vector2));
+		SetValue(uniform,(const float*)&value,sizeof(Vector2));
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
 	{
-		//SetValue(uniform,(const float*)&value,sizeof(Vector3));
+		SetValue(uniform,(const float*)&value,sizeof(Vector3));
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
 	{
-		//SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
+		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
 	{
-		//SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
+		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
 	}
 
 	void VulkanRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
 	{
-		//SetValue(uniform,(const float*)&value,12);
+		SetValue(uniform,(const float*)&value,12);
 	}
 
 	void VulkanRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
@@ -639,7 +652,7 @@ namespace ma
 	void VulkanRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
-		vkCmdBindIndexBuffer(m_drawCmdBuffers[currentBuffer], pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+		vkCmdBindIndexBuffer(m_drawCmdBuffers[currentBuffer], pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
 	void VulkanRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)

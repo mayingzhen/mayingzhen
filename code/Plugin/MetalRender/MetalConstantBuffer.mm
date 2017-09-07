@@ -7,9 +7,7 @@ namespace ma
 
 	ConstantBuffer::ConstantBuffer() 
 	{
-		//m_pMetalBuffer = nil;
 		m_bDirty = false;
-        //m_shadowData = NULL;
         m_nIndex = 0;
         m_nCurFrame = 0;
 	}
@@ -21,12 +19,6 @@ namespace ma
 
 	void ConstantBuffer::Release()
 	{
-		//if (m_pMetalBuffer)
-		//{
-			//SAFE_RELEASE(m_pMetalBuffer);
-		//}
-
-		//m_shadowData.clear();
 	}
 
 	bool ConstantBuffer::SetSize(UINT size,UINT nIndex)

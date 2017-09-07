@@ -596,6 +596,10 @@ namespace ma
         {
             return "shader/metal/";
         }
+		else if (type == RenderDevice_VULKAN)
+		{
+			return "shader/hlsl/";
+		}
         else
 		{
 			return "shader/gles/";

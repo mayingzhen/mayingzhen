@@ -17,6 +17,8 @@ namespace ma
 		/// Set size and create GPU-side buffer. Return true on success.
 		bool SetSize(unsigned size);
 
+		UINT GetSize() { return m_nSize; }
+
 		/// Set a generic parameter and mark buffer dirty.
 		void SetParameter(unsigned offset, unsigned size, const void* data);
 
@@ -36,7 +38,7 @@ namespace ma
 
 		static void Clear();
 
-	private:
+	public:
 		/// Shadow data.
 		//vector<BYTE> m_shadowData;
 
@@ -46,7 +48,13 @@ namespace ma
 		//IVulkanBuffer* m_pVulkanBuffer;
 		VkBuffer m_buf;
 		VkDeviceMemory m_mem;
-		VkDescriptorBufferInfo m_buffer_info;
+		VkDescriptorBufferInfo m_descriptor;
+
+		BYTE* m_mapped = nullptr;
+
+		UINT m_nBound;
+
+		UINT m_nSize;
 	};
 
 	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);

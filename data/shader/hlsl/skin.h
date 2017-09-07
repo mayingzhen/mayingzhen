@@ -10,12 +10,15 @@
 #endif
 
 //#define BONE_DQ
-
+cbuffer SKIN_INFO : register(b7)
+{
 #ifdef BONE_DQ
-float4 boneDQ[MAX_DQ_NUM_BONES*2];
+	float4 boneDQ[MAX_DQ_NUM_BONES * 2];
 #else
-float4x3 boneMatrix[MAX_MAT_NUM_BONES];
+	float4x3 boneMatrix[MAX_MAT_NUM_BONES];
 #endif
+}
+
 
 #ifdef BONE_DQ
 float2x4 GetblendDQ(int4 iBoneIndex, float4 iBoneWeight)

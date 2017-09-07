@@ -697,16 +697,16 @@ namespace ma
 
 	Matrix4 D3D11RenderDevice::MakePerspectiveMatrix(Matrix4& out, float fovy, float Aspect, float zn, float zf)
 	{
-		float yScale = Math::Tan(Math::HALF_PI - fovy*0.5f);
-		float xScale = yScale/Aspect;
-		float inv = 1.f/(zn - zf);
+		float yScale = 1.0f / Math::Tan(fovy * 0.5f);
+		float xScale = yScale / Aspect;
+		float zScale = zf / (zn - zf);
 
 		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;    out[0][3] = 0.f;
 		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;    out[1][3] = 0.f;
-		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zf*inv; out[2][3] = zn*zf*inv;
+		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zScale; out[2][3] = zn * zScale;
 		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
 
-		 return out;
+		return out;
 	}
 
 	Matrix4 D3D11RenderDevice::MakeOrthoMatrix(Matrix4& out, float width, float height, float zn, float zf)

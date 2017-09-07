@@ -588,7 +588,7 @@ namespace ma
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
-		device->flushCommandBuffer(copyCmd, pRender->queue);
+		device->flushCommandBuffer(copyCmd, pRender->m_queue);
 
 		// Clean up staging resources
 		vkFreeMemory(device->logicalDevice, stagingMemory, nullptr);

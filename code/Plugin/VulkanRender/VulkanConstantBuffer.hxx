@@ -49,8 +49,10 @@ namespace ma
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
 		// Round up to next 16 bytes
-		size += 15;
-		size &= 0xfffffff0;
+// 		size += 15;
+// 		size &= 0xfffffff0;
+
+		m_nSize = size;
 
 		m_bDirty = false;
 
@@ -76,13 +78,20 @@ namespace ma
 		alloc_info.memoryTypeIndex = 0;
 
 		alloc_info.allocationSize = mem_reqs.size;
-		//bool pass = memory_type_from_properties(info, mem_reqs.memoryTypeBits,
-		//	VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-		//	&alloc_info.memoryTypeIndex);
-		//assert(pass && "No mappable, coherent memory");
+		alloc_info.memoryTypeIndex = vulkanDevice->getMemoryType(mem_reqs.memoryTypeBits,
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
 		res = vkAllocateMemory(vulkanDevice->logicalDevice, &alloc_info, NULL, &m_mem);
 		assert(res == VK_SUCCESS);
+
+		res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
+		assert(res == VK_SUCCESS);
+
+		VK_CHECK_RESULT(vkMapMemory(vulkanDevice->logicalDevice, m_mem, 0, size, 0, (void **)&m_mapped));
+
+		m_descriptor.offset = 0;
+		m_descriptor.buffer = m_buf;
+		m_descriptor.range = size;
 
 		return true;
 	}
@@ -91,13 +100,13 @@ namespace ma
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
-		uint8_t *pData;
-		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, size, 0, (void **)&pData);
-		assert(res == VK_SUCCESS);
+// 		uint8_t *pData;
+// 		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, size, 0, (void **)&pData);
+// 		assert(res == VK_SUCCESS);
 
-		memcpy(pData, data, size);
+		memcpy(m_mapped + offset, data, size);
 
-		vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
+		//vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
 
 		m_bDirty = true;
 	}
@@ -123,9 +132,8 @@ namespace ma
 
 		if (m_bDirty)
 		{
-			VkResult res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
-			assert(res == VK_SUCCESS);
-
+// 			VkResult res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
+// 			assert(res == VK_SUCCESS);
 			m_bDirty = false;
 		}
 	}
@@ -146,10 +154,11 @@ namespace ma
 // 		}
 // 		else
 // 		{
-// 			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
-// 			newConstantBuffer->SetSize(size);
-// 			g_mapConstantBufferPool[key] = newConstantBuffer;
-// 			return newConstantBuffer;
+			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
+			newConstantBuffer->SetSize(size);
+			newConstantBuffer->m_nBound = index;
+			//g_mapConstantBufferPool[key] = newConstantBuffer;
+			return newConstantBuffer;
 // 		}
 		return NULL;
 	}

@@ -135,7 +135,7 @@ namespace ma
 		/** @brief Default command pool for the graphics queue family index */
 		//VkCommandPool commandPool = VK_NULL_HANDLE;
 	
-		VkQueue queue;
+		VkQueue m_queue;
 
 		VulkanSwapChain m_swapChain;
 
@@ -146,7 +146,7 @@ namespace ma
 
 		VkSubmitInfo m_submitInfo;
 
-		VkPipelineStageFlags submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		VkPipelineStageFlags m_submitPipelineStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
 		std::vector<VkCommandBuffer> m_drawCmdBuffers;
 

@@ -4,6 +4,9 @@
 #include "..\glslang\glslang\Public\ShaderLang.h"
 #include "..\glslang\SPIRV\GlslangToSpv.h"
 
+#include "..\SPIRV-Cross\spirv_glsl.hpp"
+#include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
+
 namespace ma
 {
 
@@ -214,6 +217,47 @@ namespace ma
 			moduleCreateInfo.pCode = vtx_spv.data();
 			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
 			assert(res == VK_SUCCESS);
+
+			spirv_cross::CompilerGLSL glsl(std::move(vtx_spv));
+			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+			for (auto &resource : resources.uniform_buffers)
+			{
+				const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
+				size_t size_ = glsl.get_declared_struct_size(spType);
+				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+				RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(VS, binding, size_);
+				m_vecVSConstantBuffers.push_back(pConstantBuffer);
+				for (UINT i = 0; i < spType.member_types.size(); ++i)
+				{
+					std::string str = glsl.get_member_name(spType.self, i);
+					size_t offset = glsl.type_struct_member_offset(spType, i);
+					size_t size = glsl.get_declared_struct_member_size(spType, i);
+
+					Uniform* pUniform = this->AddUniform(str.c_str());
+					pUniform->m_index = i;
+					pUniform->m_vshShder = true;
+
+					pUniform->m_nCBOffset = offset;
+					pUniform->m_nCBSize = size;
+					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
+				}
+			}
+
+
+			{
+				// Set some options.
+				spirv_cross::CompilerGLSL::Options options;
+				//options.version = 310;
+				//options.es = false;
+				options.vulkan_semantics = true;
+				glsl.set_options(options);
+
+				// Compile to GLSL, ready to give to GL driver.
+				std::string source = glsl.compile();
+
+				int i = 0;
+			}
+
 		}
 
 		// PS
@@ -269,6 +313,45 @@ namespace ma
 			moduleCreateInfo.pCode = fsh_spv.data();
 			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[1].module);
 			assert(res == VK_SUCCESS);
+
+			spirv_cross::CompilerGLSL glsl(std::move(fsh_spv));
+			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+			for (auto &resource : resources.uniform_buffers)
+			{
+				const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
+				size_t size_ = glsl.get_declared_struct_size(spType);
+				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+				RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(PS, binding, size_);
+				m_vecPSConstantBuffers.push_back(pConstantBuffer);
+				for (UINT i = 0; i < spType.member_types.size(); ++i)
+				{
+					std::string str = glsl.get_member_name(spType.self,i);
+					size_t offset = glsl.type_struct_member_offset(spType, i);
+					size_t size = glsl.get_declared_struct_member_size(spType, i);
+
+					Uniform* pUniform = this->AddUniform( str.c_str() );
+					pUniform->m_index = i;
+					pUniform->m_vshShder = false;
+
+					pUniform->m_nCBOffset = offset;
+					pUniform->m_nCBSize = size;
+					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
+				}
+			}
+
+			{
+				// Set some options.
+				spirv_cross::CompilerGLSL::Options options;
+				//options.version = 310;
+				//options.es = false;
+				options.vulkan_semantics = true;
+				glsl.set_options(options);
+
+				// Compile to GLSL, ready to give to GL driver.
+				std::string source = glsl.compile();
+
+				int i = 0;
+			}
 		}
 
 		VulkanVertexDeclaration* pVertexDec = (VulkanVertexDeclaration*)(this->GetVertexDeclaration());
@@ -283,46 +366,104 @@ namespace ma
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 		vks::VulkanDevice* pDevice = GetVulkanDevice();
 
-		bool use_texture = false;
+// 		std::vector<VkDescriptorPoolSize> poolSizes;
+// 		size_t ubSize = m_vecPSConstantBuffers.size() + m_vecPSConstantBuffers.size();
+// 		poolSizes.push_back(vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ubSize));
+// 
+// 		VkDescriptorPool descriptorPool;
+// 
+// 		VkDescriptorPoolCreateInfo descriptorPoolInfo =
+// 			vks::initializers::descriptorPoolCreateInfo(
+// 				static_cast<uint32_t>(poolSizes.size()),
+// 				poolSizes.data(),
+// 				static_cast<uint32_t>(ubSize) + 1);
+// 
+// 		VK_CHECK_RESULT(vkCreateDescriptorPool(pDevice->logicalDevice, &descriptorPoolInfo, nullptr, &descriptorPool));
 
-		VkDescriptorSetLayoutBinding layout_bindings[2];
-		layout_bindings[0].binding = 0;
-		layout_bindings[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		layout_bindings[0].descriptorCount = 1;
-		layout_bindings[0].stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-		layout_bindings[0].pImmutableSamplers = NULL;
 
-		if (use_texture) 
+		//std::vector<VkDescriptorSetLayout> vec_layout;
+		//for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
 		{
-			layout_bindings[1].binding = 1;
-			layout_bindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-			layout_bindings[1].descriptorCount = 1;
-			layout_bindings[1].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-			layout_bindings[1].pImmutableSamplers = NULL;
+			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+			for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+			{
+				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+					VK_SHADER_STAGE_VERTEX_BIT,
+					i));
+			}
+
+			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+				setLayoutBindings.data(),
+				static_cast<uint32_t>(setLayoutBindings.size()));
+
+			//VkDescriptorSetLayout desc_layout;
+			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
+
+			//vec_layout.push_back(desc_layout);
 		}
 
-		/* Next take layout bindings and use them to create a descriptor set layout
-		*/
-		VkDescriptorSetLayoutCreateInfo descriptor_layout = {};
-		descriptor_layout.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-		descriptor_layout.pNext = NULL;
-		descriptor_layout.bindingCount = use_texture ? 2 : 1;
-		descriptor_layout.pBindings = layout_bindings;
+// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
+// 		{
+// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
+// 			setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
+// 				VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+// 				VK_SHADER_STAGE_FRAGMENT_BIT,
+// 				0));
+// 
+// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
+// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
+// 				setLayoutBindings.data(),
+// 				static_cast<uint32_t>(setLayoutBindings.size()));
+// 
+// 			VkDescriptorSetLayout desc_layout;
+// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptorLayout, nullptr, &desc_layout));
+// 
+// 			vec_layout.push_back(desc_layout);
+// 		}
 
-		std::vector<VkDescriptorSetLayout> desc_layout;
+// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
+// 		{
+// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
+// 				VK_SHADER_STAGE_FRAGMENT_BIT,
+// 				m_vecPSConstantBuffers[i]->GetSize(),
+// 				0);
+// 			pPushConstantRanges.push_back(pushConstantRange);
+// 		}
 
-		desc_layout.resize(1/*NUM_DESCRIPTOR_SETS*/);
-		res = vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptor_layout, NULL, desc_layout.data());
-		assert(res == VK_SUCCESS);
+
+		//desc_layout.resize(1/*NUM_DESCRIPTOR_SETS*/);
+		//res = vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptor_layout, NULL, desc_layout.data());
+		//assert(res == VK_SUCCESS);
+
+//  		std::vector<VkPushConstantRange> pPushConstantRanges;
+// 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
+// 		{
+// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
+// 				VK_SHADER_STAGE_VERTEX_BIT,
+// 				m_vecVSConstantBuffers[i]->GetSize(),
+// 				0);
+// 			pPushConstantRanges.push_back(pushConstantRange);
+// 		}
+// 
+// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
+// 		{
+// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
+// 				VK_SHADER_STAGE_FRAGMENT_BIT,
+// 				m_vecPSConstantBuffers[i]->GetSize(),
+// 				0);
+// 			pPushConstantRanges.push_back(pushConstantRange);
+// 		}
 
 		/* Now use the descriptor layout to create a pipeline layout */
 		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
 		pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 		pPipelineLayoutCreateInfo.pNext = NULL;
-		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
-		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
+		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
 		pPipelineLayoutCreateInfo.setLayoutCount = 1;
-		pPipelineLayoutCreateInfo.pSetLayouts = desc_layout.data();
+		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
 
 		res = vkCreatePipelineLayout(pDevice->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
 		assert(res == VK_SUCCESS);
@@ -336,68 +477,56 @@ namespace ma
 		res = vkCreatePipelineCache(pDevice->logicalDevice, &pipelineCache, NULL, &m_pipelineCache);
 		assert(res == VK_SUCCESS);
 
-		/*
+		
 		// init_descriptor_pool
-		VkResult res;
-		VkDescriptorPoolSize type_count[2];
+		//VkResult res;
+		VkDescriptorPoolSize type_count[1];
 		type_count[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		type_count[0].descriptorCount = 1;
-		if (use_texture) {
-			type_count[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-			type_count[1].descriptorCount = 1;
-		}
+		type_count[0].descriptorCount = MAX_SHADER_PARAMETER_GROUPS * 2;
 
 		VkDescriptorPoolCreateInfo descriptor_pool = {};
 		descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 		descriptor_pool.pNext = NULL;
-		descriptor_pool.maxSets = 1;
-		descriptor_pool.poolSizeCount = use_texture ? 2 : 1;
+		descriptor_pool.maxSets = MAX_SHADER_PARAMETER_GROUPS * 2;
+		descriptor_pool.poolSizeCount = 1;
 		descriptor_pool.pPoolSizes = type_count;
 
-		VkDescriptorPool desc_pool;
-		res = vkCreateDescriptorPool(pDevice->logicalDevice, &descriptor_pool, NULL, &desc_pool);
+		res = vkCreateDescriptorPool(pDevice->logicalDevice, &descriptor_pool, NULL, &m_desc_pool);
 		assert(res == VK_SUCCESS);
-
 
 		//init_descriptor_set
 		VkDescriptorSetAllocateInfo alloc_info[1];
 		alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		alloc_info[0].pNext = NULL;
-		alloc_info[0].descriptorPool = desc_pool;
+		alloc_info[0].descriptorPool = m_desc_pool;
 		alloc_info[0].descriptorSetCount = 1;
-		alloc_info[0].pSetLayouts = desc_layout.data();
+		alloc_info[0].pSetLayouts = &m_desc_layout;
 
-		std::vector<VkDescriptorSet> desc_set;
-		desc_set.resize(1);
-		res = vkAllocateDescriptorSets(pDevice->logicalDevice, alloc_info, desc_set.data());
+		VkDescriptorSet desc_set;
+
+		res = vkAllocateDescriptorSets(pDevice->logicalDevice, alloc_info, &desc_set);
 		assert(res == VK_SUCCESS);
 
-		VkWriteDescriptorSet writes[2];
+		m_descriptorSets.push_back(desc_set);
 
-		writes[0] = {};
-		writes[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		writes[0].pNext = NULL;
-		writes[0].dstSet = desc_set[0];
-		writes[0].descriptorCount = 1;
-		writes[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		writes[0].pBufferInfo = &uniform_data.buffer_info;
-		writes[0].dstArrayElement = 0;
-		writes[0].dstBinding = 0;
+		std::vector<VkWriteDescriptorSet> writes;
+		writes.resize(m_vecVSConstantBuffers.size());
+		for (uint32 i = 0; i < m_vecVSConstantBuffers.size(); ++i)
+		{
+			writes[i] = {};
+			writes[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			writes[i].pNext = NULL;
+			writes[i].dstSet = desc_set;
+			writes[i].descriptorCount = 1;
+			writes[i].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			writes[i].pBufferInfo = &m_vecVSConstantBuffers[i]->m_descriptor;
+			writes[i].dstArrayElement = 0;
+			writes[i].dstBinding = m_vecVSConstantBuffers[i]->m_nBound;
 
-		if (use_texture) {
-			writes[1] = {};
-			writes[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			writes[1].dstSet = desc_set[0];
-			writes[1].dstBinding = 1;
-			writes[1].descriptorCount = 1;
-			writes[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-			//writes[1].pImageInfo = &info.texture_data.image_info;
-			writes[1].dstArrayElement = 0;
 		}
 
-		vkUpdateDescriptorSets(pDevice->logicalDevice, use_texture ? 2 : 1, writes, 0, NULL);
-		*/
-
+		vkUpdateDescriptorSets(pDevice->logicalDevice, writes.size(), writes.data(), 0, NULL);
+		
 
 		VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
 		VkPipelineDynamicStateCreateInfo dynamicState = {};
@@ -458,8 +587,8 @@ namespace ma
 #ifndef __ANDROID__
 		vp.viewportCount = 1/*NUM_VIEWPORTS*/;
 		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
-		//vp.scissorCount = 1/*NUM_SCISSORS*/;
-		//dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
+		vp.scissorCount = 1/*NUM_SCISSORS*/;
+		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
 		vp.pScissors = NULL;
 		vp.pViewports = NULL;
 #else
@@ -535,7 +664,7 @@ namespace ma
 		pipelineCreateInfo.renderPass = pRender->m_renderPass;
 		pipelineCreateInfo.subpass = 0;
 
-		res = vkCreateGraphicsPipelines(pDevice->logicalDevice, VK_NULL_HANDLE/*m_pipelineCache*/, 1, &pipelineCreateInfo, NULL, &m_pipeline);
+		res = vkCreateGraphicsPipelines(pDevice->logicalDevice, m_pipelineCache, 1, &pipelineCreateInfo, NULL, &m_pipeline);
 		assert(res == VK_SUCCESS);
 
 
@@ -545,130 +674,16 @@ namespace ma
 
 	void VulkanShaderProgram::ParseUniform()
 	{
-		ParseShaderUniform(VS,m_pByteVSCode,m_vecVSConstantBuffers);
-		ParseShaderUniform(PS,m_pBytePSCode,m_vecPSConstantBuffers);
+
 	}
 
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
 		RefPtr<ConstantBuffer> ConstantBuffersPtr[])
 	{
-// 		IVulkanShaderReflection* reflection = 0;
-// 		Vulkan_SHADER_DESC shaderDesc;
-// 
-// 		D3DReflect(&vecByteCode[0], vecByteCode.size(), IID_IVulkanShaderReflection, (void**)&reflection);
-// 		if (!reflection)
-// 		{
-// 			LogError("Failed to reflect vertex shader's input signature");
-// 			return;
-// 		}
-// 
-// 		reflection->GetDesc(&shaderDesc);
-
-// 		if (eType == VS)
-// 		{
-// 			for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
-// 			{
-// 				Vulkan_SIGNATURE_PARAMETER_DESC paramDesc;
-// 				reflection->GetInputParameterDesc((UINT)i, &paramDesc);
-// 				for (unsigned j = 0; j < MAX_DECL_USAGE; ++j)
-// 				{
-// 					if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
-// 						paramDesc.SemanticIndex == elementSemanticIndices[j])
-// 					{
-// 						elementMask_ |= (1 << j);
-// 						break;
-// 					}
-// 				}
-// 			}
-// 		}
-
-// 		map<string, unsigned> cbRegisterMap;
-// 
-// 		for (unsigned i = 0; i < shaderDesc.BoundResources; ++i)
-// 		{
-// 			Vulkan_SHADER_INPUT_BIND_DESC resourceDesc;
-// 			reflection->GetResourceBindingDesc(i, &resourceDesc);
-// 			string resourceName(resourceDesc.Name);
-// 			if (resourceDesc.Type == D3D_SIT_CBUFFER)
-// 			{
-// 				cbRegisterMap[resourceName] = resourceDesc.BindPoint;
-// 			}
-// 			else if (resourceDesc.Type == D3D_SIT_TEXTURE)
-// 			{
-// 				Uniform* pUniform = this->AddUniform(resourceDesc.Name);
-// 				pUniform->m_index = resourceDesc.BindPoint;
-// 				pUniform->m_vshShder = false;
-// 			}
-// 		}
-// 
-// 		VulkanRenderDevice* pVulkanDevice = (VulkanRenderDevice*)GetRenderDevice();
-// 
-// 		for (unsigned i = 0; i < shaderDesc.ConstantBuffers; ++i)
-// 		{
-// 			IVulkanShaderReflectionConstantBuffer* cb = reflection->GetConstantBufferByIndex(i);
-// 			Vulkan_SHADER_BUFFER_DESC cbDesc;
-// 			cb->GetDesc(&cbDesc);
-// 			unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
-// 
-// 			RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, cbRegister, cbDesc.Size);
-// 			ConstantBuffersPtr[cbRegister] = pConstantBuffer;
-// 
-// 			for (unsigned j = 0; j < cbDesc.Variables; ++j)
-// 			{
-// 				IVulkanShaderReflectionVariable* var = cb->GetVariableByIndex(j);
-// 				Vulkan_SHADER_VARIABLE_DESC varDesc;
-// 				var->GetDesc(&varDesc);
-// 
-// 				if (varDesc.uFlags & D3D_SVF_USED)
-// 				{
-// 					Uniform* pUniform = this->AddUniform(varDesc.Name);
-// 					pUniform->m_vshShder = eType == VS;
-// 
-// 					pUniform->m_nCBOffset = varDesc.StartOffset;
-// 					pUniform->m_nCBSize = varDesc.Size;
-// 					pUniform->m_pVulkanCBPtr = pConstantBuffer.get();
-// 				}
-// 			}
-// 		}
-// 
-// 		reflection->Release();
 	}
 
 	void VulkanShaderProgram::RT_SetShader()
 	{
-// 		GetVulkanDxDeviveContext()->VSSetShader(m_pVertexShader, NULL, 0);
-// 
-// 		GetVulkanDxDeviveContext()->PSSetShader(m_pPiexelShader, NULL, 0);
-// 
-// 		bool vsBuffersChanged = false;
-// 		bool psBuffersChanged = false;
-// 
-// 		for (unsigned i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-// 		{
-// 			IVulkanBuffer* vsBuffer = m_vecVSConstantBuffers[i] ? m_vecVSConstantBuffers[i]->GetVulkanBuffer() : NULL;
-// 			if (vsBuffer != g_vecVulkanConstantBuffers[VS][i])
-// 			{
-// 				g_vecVulkanConstantBuffers[VS][i] = vsBuffer;
-// 				vsBuffersChanged = true;
-// 			}
-// 
-// 			IVulkanBuffer* psBuffer = m_vecPSConstantBuffers[i] ? m_vecPSConstantBuffers[i]->GetVulkanBuffer() : NULL;
-// 			if (psBuffer != g_vecVulkanConstantBuffers[PS][i])
-// 			{
-// 				g_vecVulkanConstantBuffers[PS][i] = psBuffer;
-// 				psBuffersChanged = true;
-// 			}
-// 		}
-// 
-// 		if (vsBuffersChanged)
-// 		{
-// 			GetVulkanDxDeviveContext()->VSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &g_vecVulkanConstantBuffers[VS][0]);
-// 		}
-// 
-// 		if (psBuffersChanged)
-// 		{
-// 			GetVulkanDxDeviveContext()->PSSetConstantBuffers(0, MAX_SHADER_PARAMETER_GROUPS, &g_vecVulkanConstantBuffers[PS][0]);
-// 		}
 	}
 
 	void VulkanShaderProgram::CommitChanges()
@@ -692,9 +707,10 @@ namespace ma
 // 		descriptorSets[1] = meshes[i].material->descriptorSet;
 
 		vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
-		//vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, static_cast<uint32_t>(descriptorSets.size()), descriptorSets.data(), 0, NULL);
+		vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0,
+			m_descriptorSets.size(), m_descriptorSets.data(), 0, NULL);
 
-// 		// Pass material properies via push constants
+		// Pass material properies via push constants
 // 		vkCmdPushConstants(
 // 			cmdBuffer,
 // 			m_pipelineLayout,
@@ -703,17 +719,15 @@ namespace ma
 // 			sizeof(SceneMaterialProperites),
 // 			&meshes[i].material->properties);
 
-		for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
+
+		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
 		{
-			if (m_vecVSConstantBuffers[i])
-			{
-				m_vecVSConstantBuffers[i]->Apply();
-			}
-			
-			if (m_vecPSConstantBuffers[i])
-			{
-				m_vecPSConstantBuffers[i]->Apply();
-			}
+			m_vecVSConstantBuffers[i]->Apply();
+		}
+
+		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
+		{
+			m_vecPSConstantBuffers[i]->Apply();
 		}
 	}
 

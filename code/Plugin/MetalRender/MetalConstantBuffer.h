@@ -41,7 +41,6 @@ namespace ma
 
 	private:
 		/// Shadow data.
-		//void* m_shadowData;
         UINT m_nSize;
 
 		/// Dirty flag.

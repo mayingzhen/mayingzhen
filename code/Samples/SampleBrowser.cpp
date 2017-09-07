@@ -128,10 +128,10 @@ namespace ma
 #elif PLAFTORM_IOS == 1
 		std::string sAppDir = Platform::GetInstance().GetAppPath();
 
-		std::string sDataDir = sAppDir + "data.zip";
-		GetArchiveMananger()->AddArchive( CreateZipArchive(sDataDir.c_str()).get() );
+		//std::string sDataDir = sAppDir + "data.zip";
+		//GetArchiveMananger()->AddArchive( CreateZipArchive(sDataDir.c_str()).get() );
 
-        sDataDir = sAppDir + "data";
+        std::string sDataDir = sAppDir + "data";
 		GetArchiveMananger()->AddArchive( CreateFileArchive(sDataDir.c_str()).get() );
 
 #elif PLATFORM_ANDROID == 1
