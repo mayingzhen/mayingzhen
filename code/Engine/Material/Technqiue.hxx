@@ -186,12 +186,6 @@ namespace ma
 
 	void Technique::Bind()
 	{
-		//ASSERT(m_pDeclaration);
-		//if (m_pDeclaration)
-		//{
-		//	GetRenderSystem()->SetVertexDeclaration(m_pDeclaration.get());
-		//}
-
 		if (m_pBlendState)
 		{
 			GetRenderSystem()->SetBlendState(m_pBlendState.get());
@@ -207,6 +201,11 @@ namespace ma
 			GetRenderSystem()->SetRasterizerState(m_pRSState.get());
 		}
 		
+		BindUniform();
+	}
+
+	void Technique::BindUniform()
+	{
 		ASSERT(m_pShaderProgram);
 		if (m_pShaderProgram)
 		{
@@ -368,11 +367,6 @@ namespace ma
 		m_pRSState = pRSState;
 	}
 
-	//void Technique::SetVertexDeclaration(VertexDeclaration* pVertexDecl)
-	//{
-	//	m_pDeclaration = pVertexDecl;
-	///}
-    
     void Technique::StreamComplete()
     {
         GetRenderSystem()->BlendStateStreamComplete(m_pBlendState.get());
@@ -380,29 +374,25 @@ namespace ma
         GetRenderSystem()->DepthStencilStateStreamComplete(m_pDSState.get());
         
         GetRenderSystem()->RasterizerStateStreamComplete(m_pRSState.get());
-        
-        //m_pDeclaration->SetShaderProgram(m_pShaderProgram.get());
-        
-        //GetRenderSystem()->VertexDeclaComplete(m_pDeclaration.get());
-        
-        //GetRenderSystem()->ShaderStreamComplete(m_pShaderProgram.get());
+
+		GetRenderSystem()->TechniqueStreamComplete(this);
     }
 
 	bool Technique::Import(rapidxml::xml_node<>* pXmlElem)
 	{
-        RefPtr<VertexDeclaration> pDeclaration;
-        rapidxml::xml_node<>* pXmlVertexDeclaration = pXmlElem->first_node("VertexDeclaration");
-        ASSERT(pXmlVertexDeclaration);
-        if (pXmlVertexDeclaration)
-        {
-            pDeclaration = CreateVertexDeclaration();
-            pDeclaration->Import(pXmlVertexDeclaration);
-        }
-        
 		rapidxml::xml_node<>* pXmlShader = pXmlElem->first_node("Shader");
 		ASSERT(pXmlShader);
 		if (pXmlShader)
 		{
+			RefPtr<VertexDeclaration> pDeclaration;
+			rapidxml::xml_node<>* pXmlVertexDeclaration = pXmlShader->first_node("VertexDeclaration");
+			ASSERT(pXmlVertexDeclaration);
+			if (pXmlVertexDeclaration)
+			{
+				pDeclaration = CreateVertexDeclaration();
+				pDeclaration->Import(pXmlVertexDeclaration);
+			}
+
 			const char* pszVSFile = pXmlShader->findAttribute("VSFile");
 			const char* pszPSFile = pXmlShader->findAttribute("PSFile");
             
@@ -498,12 +488,12 @@ namespace ma
 
 	RefPtr<Technique> CreateTechnique()
 	{
-		return new Technique();
+		return GetRenderDevice()->CreateTechnique();
 	}
 
 	RefPtr<Technique> CreateTechnique(const char* pszXMLFile, const char* pDefine)
 	{
-		Technique* pTech = new Technique();
+		Technique* pTech = GetRenderDevice()->CreateTechnique();
 		pTech->SetTechName(pszXMLFile);
 		pTech->SetShaderDefine(pDefine);
 		pTech->LoadFromXML(pszXMLFile);
@@ -513,7 +503,7 @@ namespace ma
 
 	RefPtr<Technique> CreateTechnique(const char* pTechName,const char* pVSFile, const char* pPSFile, const char* pDefine,VertexDeclaration* pVertexDecl)
 	{
-		Technique* pTech = new Technique();
+		Technique* pTech = GetRenderDevice()->CreateTechnique();
 		pTech->SetTechName(pTechName);
 		pTech->SetShaderDefine(pDefine);
 

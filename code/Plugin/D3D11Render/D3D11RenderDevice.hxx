@@ -121,6 +121,11 @@ namespace ma
 		return new D3D11SamplerStateObject();
 	}
 
+	Technique*  D3D11RenderDevice::CreateTechnique()
+	{
+		return new Technique();
+	}
+
 	void D3D11RenderDevice::Shoutdown()
 	{
 		m_hWnd = NULL;

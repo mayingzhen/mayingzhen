@@ -9,12 +9,12 @@ using namespace ma;
 int main(int argc, char* argv[])
 {
 	Setting set;
-	set.bForceGLES = false;
+	set.eRenderType = RenderDevice_VULKAN;
 	set.bRenderThread = false;
 	set.bDataThread = false;
 	set.bJobScheduler = true;
 
-	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleMaterial");
+	SampleBrowser sampleBrowser("SampleBrowser", set, "SampleTerrain");
 
 	sampleBrowser.Run();
 	sampleBrowser.Shutdown();

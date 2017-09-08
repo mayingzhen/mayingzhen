@@ -66,6 +66,7 @@
 #include "Engine/RenderScheme/SMAAPostProcess.h"
 
 #include "Engine/ImageData/PixelFormat.h"
+#include "Engine/ImageData/ImageData.h"
 #include "Engine/Material/Texture.h"
 #include "Engine/Material/ShaderProgram.h"
 #include "Engine/Material/MaterialParameter.h"

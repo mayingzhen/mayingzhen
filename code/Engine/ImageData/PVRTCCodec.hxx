@@ -155,52 +155,52 @@ namespace ma {
         uint32 bitmaskAlpha = header.bitmaskAlpha;
         flipEndian((void *)bitmaskAlpha, sizeof(uint32));
 
-        imgData.depth = 1;
-        imgData.width = header.width;
-        imgData.height = header.height;
-        imgData.num_mipmaps = static_cast<uint16>(header.numMipmaps);
+        imgData.m_nDepth = 1;
+        imgData.m_nWidth = header.width;
+        imgData.m_nHeight = header.height;
+        imgData.m_nNumMipmaps = static_cast<uint16>(header.numMipmaps);
 
 		switch(formatFlags)
 		{
 		case kPVRTextureFlagTypeRGBA_4444:
-			imgData.format = PF_R4G4B4A4;
+			imgData.m_eFormat = PF_R4G4B4A4;
 			break;
 		case kPVRTextureFlagTypeRGBA_5551:
-			imgData.format = PF_A1R5G5B5;
+			imgData.m_eFormat = PF_A1R5G5B5;
 			break;
 		case kPVRTextureFlagTypeRGBA_8888:
-			imgData.format = PF_A8B8G8R8;
+			imgData.m_eFormat = PF_A8B8G8R8;
 			break;
 		case kPVRTextureFlagTypeRGB_565:
-			imgData.format = PF_R5G6B5;
+			imgData.m_eFormat = PF_R5G6B5;
 			break;
 		case kPVRTextureFlagTypeRGB_888:
-			imgData.format = PF_B8G8R8;
+			imgData.m_eFormat = PF_B8G8R8;
 			break;
 		case kPVRTextureFlagTypeI_8:
-			imgData.format = PF_L8;
+			imgData.m_eFormat = PF_L8;
 			break;
 		case kPVRTextureFlagTypeAI_88:
-			imgData.format = PF_BYTE_LA;
+			imgData.m_eFormat = PF_BYTE_LA;
 			break;
 		case kPVRTextureFlagTypePVRTC_2:
-			imgData.format = bitmaskAlpha ? PF_PVRTC_RGBA2 : PF_PVRTC_RGB2;
-			imgData.flags |= IF_COMPRESSED;
+			imgData.m_eFormat = bitmaskAlpha ? PF_PVRTC_RGBA2 : PF_PVRTC_RGB2;
+			imgData.m_nFlags |= IF_COMPRESSED;
 			break;
 		case kPVRTextureFlagTypePVRTC_4:
-			imgData.format = bitmaskAlpha ? PF_PVRTC_RGBA4 : PF_PVRTC_RGB4;
-			imgData.flags |= IF_COMPRESSED;
+			imgData.m_eFormat = bitmaskAlpha ? PF_PVRTC_RGBA4 : PF_PVRTC_RGB4;
+			imgData.m_nFlags |= IF_COMPRESSED;
 			break;
 		case kPVRTextureFlagTypeBGRA_8888:
-			imgData.format = PF_A8R8G8B8;
+			imgData.m_eFormat = PF_A8R8G8B8;
 			break;
 		case kPVRTextureFlagTypeA_8:
-			imgData.format = PF_A8;
+			imgData.m_eFormat = PF_A8;
 			break;
 		case kPVRTextureFlagTypeETC:
 			ASSERT(bitmaskAlpha == false);
-			imgData.format = PF_ETC1_RGB8;
-			imgData.flags |= IF_COMPRESSED;
+			imgData.m_eFormat = PF_ETC1_RGB8;
+			imgData.m_nFlags |= IF_COMPRESSED;
 			break;
 		case kPVRTextureFlagTypeRGB_555://Unsupport
 		default:
@@ -210,19 +210,19 @@ namespace ma {
 		}
 
         // Calculate total size from number of mipmaps, faces and size
-		imgData.size = CImageCodec::calculateSize(imgData.num_mipmaps, numFaces, 
-                                             imgData.width, imgData.height, imgData.depth, imgData.format);
+		imgData.m_nSize = CImageCodec::calculateSize(imgData.m_nNumMipmaps, numFaces, 
+                                             imgData.m_nWidth, imgData.m_nHeight, imgData.m_nDepth, imgData.m_eFormat);
 
 		RefPtr<MemoryStream> output;
 		// Bind output buffer
-		output = CreateMemoryStream(imgData.size, false);
+		output = CreateMemoryStream(imgData.m_nSize, false);
 
 		// Now deal with the data
 		void *destPtr = output->GetPtr();
-        stream->Read(destPtr, imgData.size);
+        stream->Read(destPtr, imgData.m_nSize);
         destPtr = static_cast<void*>(static_cast<uint8*>(destPtr));
 
-		imgData.memory = output;
+		imgData.m_pMemory = output;
 		return true;
     }
 
@@ -247,22 +247,22 @@ namespace ma {
 		switch (header.pixelFormat)
 		{
 		case kPVRTC1_PF_2BPP_RGB:
-			imgData.format = PF_PVRTC_RGB2;
+			imgData.m_eFormat = PF_PVRTC_RGB2;
 			break;
 		case kPVRTC1_PF_2BPP_RGBA:
-			imgData.format = PF_PVRTC_RGBA2;
+			imgData.m_eFormat = PF_PVRTC_RGBA2;
 			break;
 		case kPVRTC1_PF_4BPP_RGB:
-			imgData.format = PF_PVRTC_RGB4;
+			imgData.m_eFormat = PF_PVRTC_RGB4;
 			break;
 		case kPVRTC1_PF_4BPP_RGBA:
-			imgData.format = PF_PVRTC_RGBA4;
+			imgData.m_eFormat = PF_PVRTC_RGBA4;
 			break;
 		case kPVRTC2_PF_2BPP:
-			imgData.format = PF_PVRTC2_2BPP;
+			imgData.m_eFormat = PF_PVRTC2_2BPP;
 			break;
 		case kPVRTC2_PF_4BPP:
-			imgData.format = PF_PVRTC2_4BPP;
+			imgData.m_eFormat = PF_PVRTC2_4BPP;
 			break;
 		}
 
@@ -270,44 +270,44 @@ namespace ma {
 		flags = header.flags;
 		flipEndian((void *)flags, sizeof(uint32));
 
-		imgData.depth = header.depth;
-		imgData.width = header.width;
-		imgData.height = header.height;
+		imgData.m_nDepth = header.depth;
+		imgData.m_nWidth = header.width;
+		imgData.m_nHeight = header.height;
 		ASSERT(header.mipMapCount >= 1);
-		imgData.num_mipmaps = static_cast<uint16>(header.mipMapCount-1);//v3格式要减去1，v2不需要
+		imgData.m_nNumMipmaps = static_cast<uint16>(header.mipMapCount-1);//v3格式要减去1，v2不需要
 
 		// PVRTC is a compressed format
-		imgData.flags |= IF_COMPRESSED;
+		imgData.m_nFlags |= IF_COMPRESSED;
 
 		if(header.numFaces == 6)
-			imgData.flags |= IF_CUBEMAP;
+			imgData.m_nFlags |= IF_CUBEMAP;
 
 		if(header.depth > 1)
-			imgData.flags |= IF_3D_TEXTURE;
+			imgData.m_nFlags |= IF_3D_TEXTURE;
 
 		// Calculate total size from number of mipmaps, faces and size
-		imgData.size = CImageCodec::calculateSize(imgData.num_mipmaps, numFaces, 
-			imgData.width, imgData.height, imgData.depth, imgData.format);
+		imgData.m_nSize = CImageCodec::calculateSize(imgData.m_nNumMipmaps, numFaces, 
+			imgData.m_nWidth, imgData.m_nHeight, imgData.m_nDepth, imgData.m_eFormat);
 
 		// Bind output buffer
-		RefPtr<MemoryStream> output = CreateMemoryStream(imgData.size, false);
+		RefPtr<MemoryStream> output = CreateMemoryStream(imgData.m_nSize, false);
 
 		// Now deal with the data
 		void *destPtr = output->GetPtr();
 
-		size_t width = imgData.width;
-		size_t height = imgData.height;
-		size_t depth = imgData.depth;
+		size_t width = imgData.m_nWidth;
+		size_t height = imgData.m_nHeight;
+		size_t depth = imgData.m_nDepth;
 
 		// All mips for a surface, then each face
-		for(size_t mip = 0; mip <= imgData.num_mipmaps; ++mip)
+		for(size_t mip = 0; mip <= imgData.m_nNumMipmaps; ++mip)
 		{
 			for(size_t surface = 0; surface < header.numSurfaces; ++surface)
 			{
 				for(size_t i = 0; i < numFaces; ++i)
 				{
 					// Load directly
-					size_t pvrSize = PixelUtil::getMemorySize(width, height, depth, imgData.format);
+					size_t pvrSize = PixelUtil::getMemorySize(width, height, depth, imgData.m_eFormat);
 					stream->Read(destPtr, pvrSize);
 					destPtr = static_cast<void*>(static_cast<uint8*>(destPtr) + pvrSize);
 				}
@@ -319,7 +319,7 @@ namespace ma {
 			if(depth!=1) depth /= 2;
 		}
 
-		imgData.memory = output;
+		imgData.m_pMemory = output;
 		return true;
 	}
 	//---------------------------------------------------------------------   

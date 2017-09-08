@@ -113,6 +113,8 @@
     <ClInclude Include="..\..\code\Engine\ImageData\ImageCodec.h" />
     <ClInclude Include="..\..\code\Engine\ImageData\ImageCodec.hxx" />
     <ClInclude Include="..\..\code\Engine\ImageData\ImageCodecResampler.h" />
+    <ClInclude Include="..\..\code\Engine\ImageData\ImageData.h" />
+    <ClInclude Include="..\..\code\Engine\ImageData\ImageData.hxx" />
     <ClInclude Include="..\..\code\Engine\ImageData\PixelConversions.h" />
     <ClInclude Include="..\..\code\Engine\ImageData\PixelFormat.h" />
     <ClInclude Include="..\..\code\Engine\ImageData\PixelFormat.hxx" />

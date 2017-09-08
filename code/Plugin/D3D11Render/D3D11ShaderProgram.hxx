@@ -164,6 +164,8 @@ namespace ma
 			}
 		}
 
+		ParseUniform();
+
 		return;
 	}
 

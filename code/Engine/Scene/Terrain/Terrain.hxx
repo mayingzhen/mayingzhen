@@ -334,8 +334,8 @@ namespace ma
 		Texture::BuildImageData(pszName,pMemory,nSizeBytes,imageData);
 
 		PixelBox src = imageData.GetPixelBox(0, 0);
-		nWidth = imageData.width;
-		nHeight = imageData.height; 
+		nWidth = imageData.m_nWidth;
+		nHeight = imageData.m_nHeight; 
 		PixelFormat format = src.format;
 		ASSERT( PixelUtil::getNumElemBytes(src.format) == sizeof(T) );
 		if (PixelUtil::getNumElemBytes(src.format) != sizeof(T))

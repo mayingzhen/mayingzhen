@@ -16,6 +16,7 @@ namespace ma
 		eRC_Init,
 		eRC_Reset,
 		eRC_ShutDown,
+		eRC_TechniqueStreamComplete,
 		eRC_TexStreamComplete,
 		eRC_ShaderStreamComplete,
 		eRC_VertexDeclaComplete,
@@ -122,6 +123,7 @@ namespace ma
 		void	RC_BeginRender();
 		void	RC_EndRender();
 
+		void	RC_TechniqueStreamComplete(Technique* pTech);
 		void	RC_TexStreamComplete(Texture* pTexture);
 		void	RC_ShaderStreamComplete(ShaderProgram* pShader);
 		void	RC_VertexDeclaComplete(VertexDeclaration* pDecl);

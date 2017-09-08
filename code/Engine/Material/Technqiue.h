@@ -17,11 +17,11 @@ namespace ma
 
 		static void			RegisterAttribute();
 
-		void				Bind();
+		virtual void		Bind();
 
-		void				UnBind();
+		virtual void		UnBind();
 
-		void				CommitChanges();
+		virtual void		CommitChanges();
 
 		const char*			GetTechName() const;
 		void				SetTechName(const char* pName);
@@ -41,15 +41,24 @@ namespace ma
 		Parameter*			GetParameter(const char* pszName);
 
 		void				SetBlendState(BlendState* pBlendState);
+		const BlendState*	GetBlendState() { return m_pBlendState.get(); }
+
 		void				SetDepthStencilState(DepthStencilState* pDSSate);
+		const DepthStencilState* GetDepthStencilState() { return m_pDSState.get(); }
+
 		void				SetRasterizerState(RasterizerState* pRSState);
+		const RasterizerState* GetRasterizerState() { return m_pRSState.get(); }
 
         void                StreamComplete();
+
+		virtual void        RT_StreamComplete() {}
 
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
 	private:
+		void				BindUniform();
+
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
 
 	private:

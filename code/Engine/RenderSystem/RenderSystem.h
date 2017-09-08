@@ -84,7 +84,7 @@ namespace ma
 		RefPtr<VertexBuffer> CreateVertexBuffer(uint8* pData,UINT nSize,int nStride,HBU_USAGE eUsage = HBU_STATIC,bool bShadowData = false);
 		RefPtr<VertexDeclaration> CreateVertexDeclaration(VertexElement* arrElememt,uint32 nCount);
 
-		void				SamplerStateStreamComplete(SamplerState* pSampler);
+		void				TechniqueStreamComplete(Technique* pTech);
 		void				TexStreamComplete(Texture* pTexture);		
 		void				ShaderStreamComplete(ShaderProgram* pShader);
 		void				VertexDeclaComplete(VertexDeclaration* pDec);

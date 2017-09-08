@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../code/;../../code/plugin;../../extern/include;../../extern/include/FBX;../../extern/ois/Includes;../../extern/vld/include;../../extern/vulkan;../../extern/glslang;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VK_USE_PLATFORM_WIN32_KHR;VULKANRENDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -63,9 +63,10 @@
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;../../extern\glslang\glslang\Debug\glslangd.lib;../../extern\glslang\SPIRV\Debug\SPIRVd.lib;../../extern\glslang\OGLCompilersDLL\Debug\OGLCompilerd.lib;../../extern\glslang\hlsl\Debug\HLSLd.lib;../../extern\glslang\glslang\OSDependent\Windows\Debug\OSDependentd.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-core.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-glsl.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-hlsl.lib;../../extern\SPIRV-Cross\Debug\spirv-cross-msl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../extern/vld/lib;../../extern/DXSDK/lib;../../extern/vulkan/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +117,8 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\stdafx.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanConstantBuffer.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDebug.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDebug.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanDevice.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanIndexBuffer.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanInitializers.h" />
@@ -125,6 +128,8 @@
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanSamplerState.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanShaderProgram.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanSwapChain.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTechniqueh.h" />
+    <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTechniqueh.hxx" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTexture.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTools.h" />
     <ClInclude Include="..\..\code\Plugin\VulkanRender\VulkanTools.hxx" />

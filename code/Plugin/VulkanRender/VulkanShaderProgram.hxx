@@ -6,6 +6,8 @@
 
 #include "..\SPIRV-Cross\spirv_glsl.hpp"
 #include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
+#include "..\..\..\SPIRV-Cross\spirv_msl.hpp"
+#include "VulkanRenderState.h"
 
 namespace ma
 {
@@ -156,13 +158,122 @@ namespace ma
 		}
 	}
 
+
+	void VulkanShaderProgram::HlslToSpirv(const char* vshSource, UINT vshSize, ShaderType eType, std::vector<UINT>& vtx_spv)
+	{
+		VkShaderStageFlagBits shaderStage = eType == VS ? VK_SHADER_STAGE_VERTEX_BIT : VK_SHADER_STAGE_FRAGMENT_BIT;
+
+		//VS
+		EShLanguage stage = FindLanguage(shaderStage);
+		glslang::TShader shader(stage);
+		glslang::TProgram program;
+		const char *shaderStrings[1];
+		TBuiltInResource Resources;
+		init_resources(Resources);
+
+		// Enable SPIR-V and Vulkan rules when parsing GLSL
+		EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules | EShMsgReadHlsl);
+
+		shaderStrings[0] = vshSource;
+		shader.setStrings(shaderStrings, 1);
+		shader.setEntryPoint("main");
+
+		if ( !shader.parse(&Resources, 100, false, messages) ) 
+		{
+			LogError(shader.getInfoLog());
+			LogError(shader.getInfoDebugLog());
+			return;  
+		}
+
+		program.addShader(&shader);
+
+		if ( !program.link(messages) ) 
+		{
+			LogError(shader.getInfoLog());
+			LogError(shader.getInfoDebugLog());
+			return;
+		}
+
+		std::vector<UINT> vtx_spv_tem;
+
+		glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv_tem);
+
+		{
+			spirv_cross::CompilerGLSL glsl(vtx_spv_tem.data(), vtx_spv_tem.size());
+
+			// The SPIR-V is now parsed, and we can perform reflection on it.
+			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+
+			for (auto &resource : resources.uniform_buffers)
+			{
+				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
+				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, eType == VS ? 0 : 1);
+			}
+
+			// Get all sampled images in the shader.
+			for (auto &resource : resources.separate_samplers)
+			{
+				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
+				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, 2);
+			}
+
+			for (auto &resource : resources.separate_images)
+			{
+				unsigned set = glsl.get_decoration(resource.id, spv::DecorationDescriptorSet);
+				glsl.set_decoration(resource.id, spv::DecorationDescriptorSet, 3);
+			}
+
+			// Set some options.
+			spirv_cross::CompilerGLSL::Options options;
+			options.vulkan_semantics = true;
+			glsl.set_options(options);
+
+			// Compile to GLSL, ready to give to GL driver.
+			std::string source = glsl.compile();
+
+			EShLanguage stage = FindLanguage(shaderStage);
+			glslang::TShader shader(stage);
+			glslang::TProgram program;
+			const char *shaderStrings[1];
+			TBuiltInResource Resources;
+			init_resources(Resources);
+
+			// Enable SPIR-V and Vulkan rules when parsing GLSL
+			EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
+
+			shaderStrings[0] = source.c_str();
+			shader.setStrings(shaderStrings, 1);
+			shader.setEntryPoint("main");
+
+			if (!shader.parse(&Resources, 100, false, messages))
+			{
+				LogError(shader.getInfoLog());
+				LogError(shader.getInfoDebugLog());
+				return;
+			}
+
+			program.addShader(&shader);
+
+			if (!program.link(messages))
+			{
+				LogError(shader.getInfoLog());
+				LogError(shader.getInfoDebugLog());
+				return;
+			}
+
+			glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
+
+		}
+	}
+
 	void VulkanShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
 	{
 		Destory();
 
-		VkShaderModuleCreateInfo moduleCreateInfo;
+		
 
 		vks::VulkanDevice* device = GetVulkanDevice();
+		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
 		//VS
 		{
@@ -174,90 +285,18 @@ namespace ma
 			m_shaderStages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
 			m_shaderStages[0].pName = "main";
 
-			EShLanguage stage = FindLanguage(VK_SHADER_STAGE_VERTEX_BIT);
-			glslang::TShader shader(stage);
-			glslang::TProgram program;
-			const char *shaderStrings[1];
-			TBuiltInResource Resources;
-			init_resources(Resources);
+			HlslToSpirv(vshSource, vshSize, VS, vtx_spv);
 
-			// Enable SPIR-V and Vulkan rules when parsing GLSL
-			EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules | EShMsgReadHlsl);
+			ParseShaderUniform(VS, vtx_spv);
 
-			//shaderStrings[0] = "#version 100\n";
-			shaderStrings[0] = vshSource;
-			shader.setStrings(shaderStrings, 1);
-			shader.setEntryPoint("main");
-
-			if (!shader.parse(&Resources, 100, false, messages)) {
-				puts(shader.getInfoLog());
-				puts(shader.getInfoDebugLog());
-				return;  // something didn't work
-			}
-
-			program.addShader(&shader);
-
-			//
-			// Program-level processing...
-			//
-
-			if (!program.link(messages)) {
-				puts(shader.getInfoLog());
-				puts(shader.getInfoDebugLog());
-				fflush(stdout);
-				return;
-			}
-
-			glslang::GlslangToSpv(*program.getIntermediate(stage), vtx_spv);
-
+			VkShaderModuleCreateInfo moduleCreateInfo;
 			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 			moduleCreateInfo.pNext = NULL;
 			moduleCreateInfo.flags = 0;
-			moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(unsigned int);
+			moduleCreateInfo.codeSize = vtx_spv.size() * sizeof(UINT);
 			moduleCreateInfo.pCode = vtx_spv.data();
-			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
-			assert(res == VK_SUCCESS);
-
-			spirv_cross::CompilerGLSL glsl(std::move(vtx_spv));
-			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
-			for (auto &resource : resources.uniform_buffers)
-			{
-				const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
-				size_t size_ = glsl.get_declared_struct_size(spType);
-				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-				RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(VS, binding, size_);
-				m_vecVSConstantBuffers.push_back(pConstantBuffer);
-				for (UINT i = 0; i < spType.member_types.size(); ++i)
-				{
-					std::string str = glsl.get_member_name(spType.self, i);
-					size_t offset = glsl.type_struct_member_offset(spType, i);
-					size_t size = glsl.get_declared_struct_member_size(spType, i);
-
-					Uniform* pUniform = this->AddUniform(str.c_str());
-					pUniform->m_index = i;
-					pUniform->m_vshShder = true;
-
-					pUniform->m_nCBOffset = offset;
-					pUniform->m_nCBSize = size;
-					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
-				}
-			}
-
-
-			{
-				// Set some options.
-				spirv_cross::CompilerGLSL::Options options;
-				//options.version = 310;
-				//options.es = false;
-				options.vulkan_semantics = true;
-				glsl.set_options(options);
-
-				// Compile to GLSL, ready to give to GL driver.
-				std::string source = glsl.compile();
-
-				int i = 0;
-			}
-
+			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[0].module);
+			assert(res == VK_SUCCESS);
 		}
 
 		// PS
@@ -270,416 +309,82 @@ namespace ma
 			m_shaderStages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 			m_shaderStages[1].pName = "main";
 
-			EShLanguage stage = FindLanguage(VK_SHADER_STAGE_FRAGMENT_BIT);
-			glslang::TShader shader(stage);
-			glslang::TProgram program;
-			const char *shaderStrings[1];
-			TBuiltInResource Resources;
-			init_resources(Resources);
+			HlslToSpirv(fshSource, fshSize, PS, fsh_spv);
 
-			// Enable SPIR-V and Vulkan rules when parsing GLSL
-			EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules | EShMsgReadHlsl);
+			ParseShaderUniform(PS, fsh_spv);
 
-			//shaderStrings[0] = "#version 100\n";
-			shaderStrings[0] = fshSource;
-			shader.setStrings(shaderStrings, 1);
-			shader.setEntryPoint("main");
-
-			if (!shader.parse(&Resources, 100, false, messages)) {
-				puts(shader.getInfoLog());
-				puts(shader.getInfoDebugLog());
-				return;  // something didn't work
-			}
-
-			program.addShader(&shader);
-
-			//
-			// Program-level processing...
-			//
-
-			if (!program.link(messages)) {
-				puts(shader.getInfoLog());
-				puts(shader.getInfoDebugLog());
-				fflush(stdout);
-				return;
-			}
-
-			glslang::GlslangToSpv(*program.getIntermediate(stage), fsh_spv);
-
+			VkShaderModuleCreateInfo moduleCreateInfo;
 			moduleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 			moduleCreateInfo.pNext = NULL;
 			moduleCreateInfo.flags = 0;
 			moduleCreateInfo.codeSize = fsh_spv.size() * sizeof(unsigned int);
 			moduleCreateInfo.pCode = fsh_spv.data();
-			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[1].module);
-			assert(res == VK_SUCCESS);
-
-			spirv_cross::CompilerGLSL glsl(std::move(fsh_spv));
-			spirv_cross::ShaderResources resources = glsl.get_shader_resources();
-			for (auto &resource : resources.uniform_buffers)
-			{
-				const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
-				size_t size_ = glsl.get_declared_struct_size(spType);
-				unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-				RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(PS, binding, size_);
-				m_vecPSConstantBuffers.push_back(pConstantBuffer);
-				for (UINT i = 0; i < spType.member_types.size(); ++i)
-				{
-					std::string str = glsl.get_member_name(spType.self,i);
-					size_t offset = glsl.type_struct_member_offset(spType, i);
-					size_t size = glsl.get_declared_struct_member_size(spType, i);
-
-					Uniform* pUniform = this->AddUniform( str.c_str() );
-					pUniform->m_index = i;
-					pUniform->m_vshShder = false;
-
-					pUniform->m_nCBOffset = offset;
-					pUniform->m_nCBSize = size;
-					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
-				}
-			}
-
-			{
-				// Set some options.
-				spirv_cross::CompilerGLSL::Options options;
-				//options.version = 310;
-				//options.es = false;
-				options.vulkan_semantics = true;
-				glsl.set_options(options);
-
-				// Compile to GLSL, ready to give to GL driver.
-				std::string source = glsl.compile();
-
-				int i = 0;
-			}
+			VkResult res = vkCreateShaderModule(device->logicalDevice, &moduleCreateInfo, NULL, &m_shaderStages[1].module);
+			assert(res == VK_SUCCESS);
 		}
-
-		VulkanVertexDeclaration* pVertexDec = (VulkanVertexDeclaration*)(this->GetVertexDeclaration());
-		ASSERT(pVertexDec);
-		if (pVertexDec->m_attributeDescriptions.empty())
-		{
-			pVertexDec->RT_StreamComplete();
-		}
-
-		VkResult res;
-		
-		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
-		vks::VulkanDevice* pDevice = GetVulkanDevice();
-
-// 		std::vector<VkDescriptorPoolSize> poolSizes;
-// 		size_t ubSize = m_vecPSConstantBuffers.size() + m_vecPSConstantBuffers.size();
-// 		poolSizes.push_back(vks::initializers::descriptorPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, ubSize));
-// 
-// 		VkDescriptorPool descriptorPool;
-// 
-// 		VkDescriptorPoolCreateInfo descriptorPoolInfo =
-// 			vks::initializers::descriptorPoolCreateInfo(
-// 				static_cast<uint32_t>(poolSizes.size()),
-// 				poolSizes.data(),
-// 				static_cast<uint32_t>(ubSize) + 1);
-// 
-// 		VK_CHECK_RESULT(vkCreateDescriptorPool(pDevice->logicalDevice, &descriptorPoolInfo, nullptr, &descriptorPool));
-
-
-		//std::vector<VkDescriptorSetLayout> vec_layout;
-		//for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-		{
-			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-			for (UINT i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-			{
-				setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-					VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-					VK_SHADER_STAGE_VERTEX_BIT,
-					i));
-			}
-
-			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-				setLayoutBindings.data(),
-				static_cast<uint32_t>(setLayoutBindings.size()));
-
-			//VkDescriptorSetLayout desc_layout;
-			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptorLayout, nullptr, &m_desc_layout));
-
-			//vec_layout.push_back(desc_layout);
-		}
-
-// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-// 		{
-// 			std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings;
-// 			setLayoutBindings.push_back(vks::initializers::descriptorSetLayoutBinding(
-// 				VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-// 				VK_SHADER_STAGE_FRAGMENT_BIT,
-// 				0));
-// 
-// 			VkDescriptorSetLayoutCreateInfo descriptorLayout;
-// 			descriptorLayout = vks::initializers::descriptorSetLayoutCreateInfo(
-// 				setLayoutBindings.data(),
-// 				static_cast<uint32_t>(setLayoutBindings.size()));
-// 
-// 			VkDescriptorSetLayout desc_layout;
-// 			VK_CHECK_RESULT(vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptorLayout, nullptr, &desc_layout));
-// 
-// 			vec_layout.push_back(desc_layout);
-// 		}
-
-// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-// 		{
-// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
-// 				VK_SHADER_STAGE_FRAGMENT_BIT,
-// 				m_vecPSConstantBuffers[i]->GetSize(),
-// 				0);
-// 			pPushConstantRanges.push_back(pushConstantRange);
-// 		}
-
-
-		//desc_layout.resize(1/*NUM_DESCRIPTOR_SETS*/);
-		//res = vkCreateDescriptorSetLayout(pDevice->logicalDevice, &descriptor_layout, NULL, desc_layout.data());
-		//assert(res == VK_SUCCESS);
-
-//  		std::vector<VkPushConstantRange> pPushConstantRanges;
-// 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-// 		{
-// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
-// 				VK_SHADER_STAGE_VERTEX_BIT,
-// 				m_vecVSConstantBuffers[i]->GetSize(),
-// 				0);
-// 			pPushConstantRanges.push_back(pushConstantRange);
-// 		}
-// 
-// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-// 		{
-// 			VkPushConstantRange pushConstantRange = vks::initializers::pushConstantRange(
-// 				VK_SHADER_STAGE_FRAGMENT_BIT,
-// 				m_vecPSConstantBuffers[i]->GetSize(),
-// 				0);
-// 			pPushConstantRanges.push_back(pushConstantRange);
-// 		}
-
-		/* Now use the descriptor layout to create a pipeline layout */
-		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
-		pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pPipelineLayoutCreateInfo.pNext = NULL;
-		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;// pPushConstantRanges.size();
-		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;// pPushConstantRanges.data();
-		pPipelineLayoutCreateInfo.setLayoutCount = 1;
-		pPipelineLayoutCreateInfo.pSetLayouts = &m_desc_layout;
-
-		res = vkCreatePipelineLayout(pDevice->logicalDevice, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
-		assert(res == VK_SUCCESS);
-
-		VkPipelineCacheCreateInfo pipelineCache;
-		pipelineCache.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-		pipelineCache.pNext = NULL;
-		pipelineCache.initialDataSize = 0;
-		pipelineCache.pInitialData = NULL;
-		pipelineCache.flags = 0;
-		res = vkCreatePipelineCache(pDevice->logicalDevice, &pipelineCache, NULL, &m_pipelineCache);
-		assert(res == VK_SUCCESS);
-
-		
-		// init_descriptor_pool
-		//VkResult res;
-		VkDescriptorPoolSize type_count[1];
-		type_count[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		type_count[0].descriptorCount = MAX_SHADER_PARAMETER_GROUPS * 2;
-
-		VkDescriptorPoolCreateInfo descriptor_pool = {};
-		descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-		descriptor_pool.pNext = NULL;
-		descriptor_pool.maxSets = MAX_SHADER_PARAMETER_GROUPS * 2;
-		descriptor_pool.poolSizeCount = 1;
-		descriptor_pool.pPoolSizes = type_count;
-
-		res = vkCreateDescriptorPool(pDevice->logicalDevice, &descriptor_pool, NULL, &m_desc_pool);
-		assert(res == VK_SUCCESS);
-
-		//init_descriptor_set
-		VkDescriptorSetAllocateInfo alloc_info[1];
-		alloc_info[0].sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		alloc_info[0].pNext = NULL;
-		alloc_info[0].descriptorPool = m_desc_pool;
-		alloc_info[0].descriptorSetCount = 1;
-		alloc_info[0].pSetLayouts = &m_desc_layout;
-
-		VkDescriptorSet desc_set;
-
-		res = vkAllocateDescriptorSets(pDevice->logicalDevice, alloc_info, &desc_set);
-		assert(res == VK_SUCCESS);
-
-		m_descriptorSets.push_back(desc_set);
-
-		std::vector<VkWriteDescriptorSet> writes;
-		writes.resize(m_vecVSConstantBuffers.size());
-		for (uint32 i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-		{
-			writes[i] = {};
-			writes[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			writes[i].pNext = NULL;
-			writes[i].dstSet = desc_set;
-			writes[i].descriptorCount = 1;
-			writes[i].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-			writes[i].pBufferInfo = &m_vecVSConstantBuffers[i]->m_descriptor;
-			writes[i].dstArrayElement = 0;
-			writes[i].dstBinding = m_vecVSConstantBuffers[i]->m_nBound;
-
-		}
-
-		vkUpdateDescriptorSets(pDevice->logicalDevice, writes.size(), writes.data(), 0, NULL);
-		
-
-		VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE];
-		VkPipelineDynamicStateCreateInfo dynamicState = {};
-		memset(dynamicStateEnables, 0, sizeof dynamicStateEnables);
-		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-		dynamicState.pNext = NULL;
-		dynamicState.pDynamicStates = dynamicStateEnables;
-		dynamicState.dynamicStateCount = 0;
-
-		VkPipelineInputAssemblyStateCreateInfo ia;
-		ia.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-		ia.pNext = NULL;
-		ia.flags = 0;
-		ia.primitiveRestartEnable = VK_FALSE;
-		ia.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-		VkPipelineRasterizationStateCreateInfo rs;
-		rs.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-		rs.pNext = NULL;
-		rs.flags = 0;
-		rs.polygonMode = VK_POLYGON_MODE_FILL;
-		rs.cullMode = VK_CULL_MODE_BACK_BIT;
-		rs.frontFace = VK_FRONT_FACE_CLOCKWISE;
-		rs.depthClampEnable = VK_FALSE;
-		rs.rasterizerDiscardEnable = VK_FALSE;
-		rs.depthBiasEnable = VK_FALSE;
-		rs.depthBiasConstantFactor = 0;
-		rs.depthBiasClamp = 0;
-		rs.depthBiasSlopeFactor = 0;
-		rs.lineWidth = 1.0f;
-
-		VkPipelineColorBlendStateCreateInfo cb;
-		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-		cb.flags = 0;
-		cb.pNext = NULL;
-		VkPipelineColorBlendAttachmentState att_state[1];
-		att_state[0].colorWriteMask = 0xf;
-		att_state[0].blendEnable = VK_FALSE;
-		att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
-		att_state[0].colorBlendOp = VK_BLEND_OP_ADD;
-		att_state[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		att_state[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		cb.attachmentCount = 1;
-		cb.pAttachments = att_state;
-		cb.logicOpEnable = VK_FALSE;
-		cb.logicOp = VK_LOGIC_OP_NO_OP;
-		cb.blendConstants[0] = 1.0f;
-		cb.blendConstants[1] = 1.0f;
-		cb.blendConstants[2] = 1.0f;
-		cb.blendConstants[3] = 1.0f;
-
-		VkPipelineViewportStateCreateInfo vp = {};
-		vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-		vp.pNext = NULL;
-		vp.flags = 0;
-#ifndef __ANDROID__
-		vp.viewportCount = 1/*NUM_VIEWPORTS*/;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_VIEWPORT;
-		vp.scissorCount = 1/*NUM_SCISSORS*/;
-		dynamicStateEnables[dynamicState.dynamicStateCount++] = VK_DYNAMIC_STATE_SCISSOR;
-		vp.pScissors = NULL;
-		vp.pViewports = NULL;
-#else
-		// Temporary disabling dynamic viewport on Android because some of drivers doesn't
-		// support the feature.
-		VkViewport viewports;
-		viewports.minDepth = 0.0f;
-		viewports.maxDepth = 1.0f;
-		viewports.x = 0;
-		viewports.y = 0;
-		viewports.width = info.width;
-		viewports.height = info.height;
-		VkRect2D scissor;
-		scissor.extent.width = info.width;
-		scissor.extent.height = info.height;
-		scissor.offset.x = 0;
-		scissor.offset.y = 0;
-		vp.viewportCount = NUM_VIEWPORTS;
-		vp.scissorCount = NUM_SCISSORS;
-		vp.pScissors = &scissor;
-		vp.pViewports = &viewports;
-#endif
-		VkPipelineDepthStencilStateCreateInfo ds;
-		ds.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-		ds.pNext = NULL;
-		ds.flags = 0;
-		ds.depthTestEnable = true/*include_depth*/;
-		ds.depthWriteEnable = true/*include_depth*/;
-		ds.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
-		ds.depthBoundsTestEnable = VK_FALSE;
-		ds.stencilTestEnable = VK_FALSE;
-		ds.back.failOp = VK_STENCIL_OP_KEEP;
-		ds.back.passOp = VK_STENCIL_OP_KEEP;
-		ds.back.compareOp = VK_COMPARE_OP_ALWAYS;
-		ds.back.compareMask = 0;
-		ds.back.reference = 0;
-		ds.back.depthFailOp = VK_STENCIL_OP_KEEP;
-		ds.back.writeMask = 0;
-		ds.minDepthBounds = 0;
-		ds.maxDepthBounds = 0;
-		ds.stencilTestEnable = VK_FALSE;
-		ds.front = ds.back;
-
-		VkPipelineMultisampleStateCreateInfo ms;
-		ms.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-		ms.pNext = NULL;
-		ms.flags = 0;
-		ms.pSampleMask = NULL;
-		ms.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT/*NUM_SAMPLES*/;
-		ms.sampleShadingEnable = VK_FALSE;
-		ms.alphaToCoverageEnable = VK_FALSE;
-		ms.alphaToOneEnable = VK_FALSE;
-		ms.minSampleShading = 0.0;
-
-		VkGraphicsPipelineCreateInfo pipelineCreateInfo;
-		pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		pipelineCreateInfo.pNext = NULL;
-		pipelineCreateInfo.layout = m_pipelineLayout;
-		pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
-		pipelineCreateInfo.basePipelineIndex = 0;
-		pipelineCreateInfo.flags = 0;
-		pipelineCreateInfo.pVertexInputState = &pVertexDec->m_inputState;
-		pipelineCreateInfo.pInputAssemblyState = &ia;
-		pipelineCreateInfo.pRasterizationState = &rs;
-		pipelineCreateInfo.pColorBlendState = &cb;
-		pipelineCreateInfo.pTessellationState = NULL;
-		pipelineCreateInfo.pMultisampleState = &ms;
-		pipelineCreateInfo.pDynamicState = &dynamicState;
-		pipelineCreateInfo.pViewportState = &vp;
-		pipelineCreateInfo.pDepthStencilState =&ds;
-		pipelineCreateInfo.pStages = m_shaderStages;
-		pipelineCreateInfo.stageCount = 2;
-		pipelineCreateInfo.renderPass = pRender->m_renderPass;
-		pipelineCreateInfo.subpass = 0;
-
-		res = vkCreateGraphicsPipelines(pDevice->logicalDevice, m_pipelineCache, 1, &pipelineCreateInfo, NULL, &m_pipeline);
-		assert(res == VK_SUCCESS);
-
 
 		return;
 	}
 
 
-	void VulkanShaderProgram::ParseUniform()
+	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32>& vtx_spv)
 	{
+		std::vector< RefPtr<ConstantBuffer> >& VSConstantBuffers = 
+			eType == VS ? m_vecVSConstantBuffers : m_vecPSConstantBuffers;
+		
+		spirv_cross::CompilerGLSL glsl(vtx_spv.data(),vtx_spv.size());
 
-	}
+		if (0)
+		{
+			// Set some options.
+			spirv_cross::CompilerGLSL::Options options;
+			options.vulkan_semantics = true;
+			glsl.set_options(options);
 
-	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
-		RefPtr<ConstantBuffer> ConstantBuffersPtr[])
-	{
+			// Compile to GLSL, ready to give to GL driver.
+			std::string source = glsl.compile();
+
+			LogInfo("%s", source.c_str());
+		}
+
+		spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+		for (auto &resource : resources.uniform_buffers)
+		{
+			const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
+			size_t size_ = glsl.get_declared_struct_size(spType);
+			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+			RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, binding, size_);
+			VSConstantBuffers.push_back(pConstantBuffer);
+			for (UINT i = 0; i < spType.member_types.size(); ++i)
+			{
+				std::string str = glsl.get_member_name(spType.self, i);
+				size_t offset = glsl.type_struct_member_offset(spType, i);
+				size_t size = glsl.get_declared_struct_member_size(spType, i);
+
+				Uniform* pUniform = this->AddUniform(str.c_str());
+				pUniform->m_index = i;
+				pUniform->m_vshShder = eType == VS;
+
+				pUniform->m_nCBOffset = offset;
+				pUniform->m_nCBSize = size;
+				pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
+			}
+		}
+
+		for (auto &resource : resources.separate_images)
+		{
+			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
+
+			Uniform* pUniform = this->AddUniform(resource.name.c_str());
+			pUniform->m_index = binding;
+			pUniform->m_vshShder = eType == VS;
+
+			pUniform->m_nCBOffset = 0;
+			pUniform->m_nCBSize = 0;
+			pUniform->m_pD3D11CBPtr = NULL;
+
+			m_vecPSSamplers.push_back(pUniform);
+		}
 	}
 
 	void VulkanShaderProgram::RT_SetShader()
@@ -688,38 +393,6 @@ namespace ma
 
 	void VulkanShaderProgram::CommitChanges()
 	{
-		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
-
-		VkCommandBuffer cmdBuffer = pRender->m_drawCmdBuffers[pRender->currentBuffer];
-
-		// todo : per material pipelines
-		// vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mesh.material->pipeline);
-
-		// We will be using multiple descriptor sets for rendering
-		// In GLSL the selection is done via the set and binding keywords
-		// VS: layout (set = 0, binding = 0) uniform UBO;
-		// FS: layout (set = 1, binding = 0) uniform sampler2D samplerColorMap;
-
-// 		std::array<VkDescriptorSet, 2> descriptorSets;
-// 		// Set 0: Scene descriptor set containing global matrices
-// 		descriptorSets[0] = descriptorSetScene;
-// 		// Set 1: Per-Material descriptor set containing bound images
-// 		descriptorSets[1] = meshes[i].material->descriptorSet;
-
-		vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
-		vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0,
-			m_descriptorSets.size(), m_descriptorSets.data(), 0, NULL);
-
-		// Pass material properies via push constants
-// 		vkCmdPushConstants(
-// 			cmdBuffer,
-// 			m_pipelineLayout,
-// 			VK_SHADER_STAGE_FRAGMENT_BIT,
-// 			0,
-// 			sizeof(SceneMaterialProperites),
-// 			&meshes[i].material->properties);
-
-
 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
 		{
 			m_vecVSConstantBuffers[i]->Apply();

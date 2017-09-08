@@ -124,6 +124,20 @@ namespace ma
 		AddCommand(eRC_EndRender);
 	}
 
+	void RenderThread::RC_TechniqueStreamComplete(Technique* pTech)
+	{
+		ASSERT(pTech);
+
+		if (IsRenderThread())
+		{
+			pTech->RT_StreamComplete();
+			return;
+		}
+
+		AddCommand(eRC_TechniqueStreamComplete);
+		AddPointer(pTech);
+	}
+
 	void RenderThread::RC_TexStreamComplete(Texture* pTexture)
 	{
 		ASSERT(pTexture);
@@ -628,6 +642,12 @@ namespace ma
 					Renderable* pRenderable = ReadCommand<Renderable*>(n);
 					Technique* pTech = ReadCommand<Technique*>(n);
 					GetRenderSystem()->RT_DrawRenderable(pRenderable,pTech);
+				}
+				break;
+			case  eRC_TechniqueStreamComplete:
+				{
+					Technique* pTech = ReadCommand<Technique*>(n);
+					pTech->RT_StreamComplete();
 				}
 				break;
 			case  eRC_TexStreamComplete:

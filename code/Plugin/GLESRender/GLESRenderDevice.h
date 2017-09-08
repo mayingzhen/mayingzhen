@@ -30,6 +30,8 @@ namespace ma
 		virtual RasterizerState*	CreateRasterizerState();
 
 		virtual SamplerState*		CreateSamplerState();
+
+		virtual Technique*			CreateTechnique();
 		
 		//// Render
 		virtual void				SetFrameBuffer(FrameBuffer* pFB);

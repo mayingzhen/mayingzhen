@@ -547,32 +547,32 @@ namespace ma
 
 		RefPtr<MemoryStream> output;
 
-		imgData.depth = 1; // (deal with volume later)
-		imgData.width = header.width;
-		imgData.height = header.height;
+		imgData.m_nDepth = 1; // (deal with volume later)
+		imgData.m_nWidth = header.width;
+		imgData.m_nHeight = header.height;
 		uint32 numFaces = 1; // assume one face until we know otherwise
 
 		if (header.caps.caps1 & DDSCAPS_MIPMAP)
 		{
-	        imgData.num_mipmaps = static_cast<unsigned short>(header.mipMapCount - 1);
+	        imgData.m_nNumMipmaps = static_cast<unsigned short>(header.mipMapCount - 1);
 		}
 		else
 		{
-			imgData.num_mipmaps = 0;
+			imgData.m_nNumMipmaps = 0;
 		}
-		imgData.flags = 0;
+		imgData.m_nFlags = 0;
 
 		bool decompressDXT = false;
 		// Figure out basic image type
 		if (header.caps.caps2 & DDSCAPS2_CUBEMAP)
 		{
-			imgData.flags |= IF_CUBEMAP;
+			imgData.m_nFlags |= IF_CUBEMAP;
 			numFaces = 6;
 		}
 		else if (header.caps.caps2 & DDSCAPS2_VOLUME)
 		{
-			imgData.flags |= IF_3D_TEXTURE;
-			imgData.depth = header.depth;
+			imgData.m_nFlags |= IF_3D_TEXTURE;
+			imgData.m_nDepth = header.depth;
 		}
 		// Pixel format
 		PixelFormat sourceFormat = PF_UNKNOWN;
@@ -616,11 +616,11 @@ namespace ma
 					// colour_0 <= colour_1 means transparency in DXT1
 					if (block.colour_0 <= block.colour_1)
 					{
-						imgData.format = PF_BYTE_RGBA;
+						imgData.m_eFormat = PF_BYTE_RGBA;
 					}
 					else
 					{
-						imgData.format = PF_BYTE_RGB;
+						imgData.m_eFormat = PF_BYTE_RGB;
 					}
 					break;
 				case PF_DXT2:
@@ -628,7 +628,7 @@ namespace ma
 				case PF_DXT4:
 				case PF_DXT5:
 					// full alpha present, formats vary only in encoding 
-					imgData.format = PF_BYTE_RGBA;
+					imgData.m_eFormat = PF_BYTE_RGBA;
 					break;
                 default:
                     // all other cases need no special format handling
@@ -638,24 +638,24 @@ namespace ma
 			else
 			{
 				// Use original format
-				imgData.format = sourceFormat;
+				imgData.m_eFormat = sourceFormat;
 				// Keep DXT data compressed
-				imgData.flags |= IF_COMPRESSED;
+				imgData.m_nFlags |= IF_COMPRESSED;
 			}
 		}
 		else // not compressed
 		{
 			// Don't test against DDPF_RGB since greyscale DDS doesn't set this
 			// just derive any other kind of format
-			imgData.format = sourceFormat;
+			imgData.m_eFormat = sourceFormat;
 		}
 
 		// Calculate total size from number of mipmaps, faces and size
-		imgData.size = CImageCodec::calculateSize(imgData.num_mipmaps, numFaces, 
-			imgData.width, imgData.height, imgData.depth, imgData.format);
+		imgData.m_nSize = CImageCodec::calculateSize(imgData.m_nNumMipmaps, numFaces, 
+			imgData.m_nWidth, imgData.m_nHeight, imgData.m_nDepth, imgData.m_eFormat);
 
 		// Bind output buffer
-		output = CreateMemoryStream(imgData.size, false);
+		output = CreateMemoryStream(imgData.m_nSize, false);
 
 		
 		// Now deal with the data
@@ -664,12 +664,12 @@ namespace ma
 		// all mips for a face, then each face
 		for ( uint32 i = 0; i < numFaces; ++i )
 		{   
-			uint32 width = imgData.width;
-			uint32 height = imgData.height;
-			uint32 depth = imgData.depth;
-			for ( uint32 mip=0; mip<=imgData.num_mipmaps; ++mip )
+			uint32 width = imgData.m_nWidth;
+			uint32 height = imgData.m_nHeight;
+			uint32 depth = imgData.m_nDepth;
+			for ( uint32 mip=0; mip<=imgData.m_nNumMipmaps; ++mip )
 			{
-				uint32 dstPitch = width * PixelUtil::getNumElemBytes( imgData.format );
+				uint32 dstPitch = width * PixelUtil::getNumElemBytes( imgData.m_eFormat );
 				if ( PixelUtil::isCompressed(sourceFormat) )
 				{
 					// Compressed data
@@ -680,7 +680,7 @@ namespace ma
 						DXTExplicitAlphaBlock eAlpha;
 						// 4x4 block of decompressed colour
 						ColourValue tempColours[16];
-						uint32 destBpp = PixelUtil::getNumElemBytes(imgData.format);
+						uint32 destBpp = PixelUtil::getNumElemBytes(imgData.m_eFormat);
 						uint32 sx = min(width, (uint32)4);
 						uint32 sy = min(height, (uint32)4);
 						uint32 destPitchMinus4 = dstPitch - destBpp * sx;
@@ -721,7 +721,7 @@ namespace ma
 										for (uint32 bx = 0; bx < sx; ++bx)
 										{
 											PixelUtil::packColour(tempColours[by*4+bx],
-												imgData.format, destPtr);
+												imgData.m_eFormat, destPtr);
 											destPtr = static_cast<void*>(
 												static_cast<uint8*>(destPtr) + destBpp);
 										}
@@ -756,7 +756,7 @@ namespace ma
 					{
 						// load directly
 						// DDS format lies! sizeOrPitch is not always set for DXT!!
-						uint32 dxtSize = PixelUtil::getMemorySize( width, height, depth, imgData.format );
+						uint32 dxtSize = PixelUtil::getMemorySize( width, height, depth, imgData.m_eFormat );
 						stream.Read( destPtr, dxtSize );
 						destPtr = static_cast<void*>( static_cast<uint8*>(destPtr) + dxtSize );
 					}
@@ -802,7 +802,7 @@ namespace ma
 // 		DecodeResult ret;
 // 		ret.first = output;
 // 		ret.second = CodecDataPtr(imgData);
-		imgData.memory = output;
+		imgData.m_pMemory = output;
 		return true;
     }
     //---------------------------------------------------------------------    

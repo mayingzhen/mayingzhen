@@ -65,22 +65,26 @@ namespace ma
 		AnimationModuleInit();
 		BtPhysicsModuleInit();
         
-        if (m_setting.bForceGLES)
-        {
-            GLESRenderModuleInit();
-        }
-        else
-        {
-#if PLATFORM_WIN == 1
-            //D3D11RenderModuleInit();
-			VulkanRenderModuleInit();
-#elif PLAFTORM_IOS == 1
-            MetalRenderModuleInit();
-#elif PLATFORM_ANDROID == 1
-            GLESRenderModuleInit();
-#endif
-        }
 
+#if PLATFORM_WIN == 1
+		if (m_setting.eRenderType == RenderDevice_D3D11)
+		{
+			D3D11RenderModuleInit();
+		}
+		else if (m_setting.eRenderType == RenderDevice_VULKAN)
+		{
+			VulkanRenderModuleInit();
+		}
+		else if (m_setting.eRenderType == RenderDevice_GLES2)
+		{
+			GLESRenderModuleInit();
+		}
+#elif PLAFTORM_IOS == 1
+        MetalRenderModuleInit();
+#elif PLATFORM_ANDROID == 1
+        GLESRenderModuleInit();
+#endif
+      
 #if PLATFORM_WIN == 1
         MonoScriptModuleInit();
 		//FBXImporterModuleInit();
@@ -93,22 +97,25 @@ namespace ma
 		AnimationModuleShutdown();
 		BtPhysicsModuleShutdown();
         
-        if (m_setting.bForceGLES)
-        {
-            GLESRenderModuleShutdown();
-        }
-        else
-        {
 #if PLATFORM_WIN == 1
-            //D3D11RenderModuleShutdown();
+		if (m_setting.eRenderType == RenderDevice_D3D11)
+		{
+			D3D11RenderModuleShutdown();
+		}
+		else if (m_setting.eRenderType == RenderDevice_VULKAN)
+		{
 			VulkanRenderModuleShutdown();
+		}
+		else if (m_setting.eRenderType == RenderDevice_GLES2)
+		{
+			GLESRenderModuleShutdown();
+		}	
 #elif PLAFTORM_IOS == 1
-            MetalRenderModuleShutdown();
+        MetalRenderModuleShutdown();
 #elif PLATFORM_ANDROID == 1
-            GLESRenderModuleShutdown();
+        GLESRenderModuleShutdown();
 #endif
-        }
-
+       
 #if PLATFORM_WIN == 1
         MonoScriptModuleShutdown();
 		//FBXImporterModuleShutdown();

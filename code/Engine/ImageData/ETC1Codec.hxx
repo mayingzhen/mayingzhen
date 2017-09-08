@@ -67,32 +67,32 @@ bool CETC1Codec::decode(const char* pszName, void* pMemory, uint32 nNumBytes, IN
 	uint16 paddedWidth = (header.iPaddedWidthMSB << 8) | header.iPaddedWidthLSB;
 	uint16 paddedHeight = (header.iPaddedHeightMSB << 8) | header.iPaddedHeightLSB;
 
-	imgData.depth = 1;
-	imgData.width = width;
-	imgData.height = height;
-	imgData.format = PF_ETC1_RGB8;
+	imgData.m_nDepth = 1;
+	imgData.m_nWidth = width;
+	imgData.m_nHeight = height;
+	imgData.m_eFormat = PF_ETC1_RGB8;
 
 	// ETC1 has no support for mipmaps - malideveloper.com has a example 
 	// where the load mipmap levels from different external files
-	imgData.num_mipmaps = 0; 
+	imgData.m_nNumMipmaps = 0; 
 
 	// ETC1 is a compressed format
-	imgData.flags |= IF_COMPRESSED;
+	imgData.m_nFlags |= IF_COMPRESSED;
 
 
 	// Calculate total size from number of mipmaps, faces and size
-	imgData.size = (paddedWidth * paddedHeight) >> 1;
+	imgData.m_nSize = (paddedWidth * paddedHeight) >> 1;
 
 	RefPtr<MemoryStream> output;
 	// Bind output buffer
-	output = CreateMemoryStream(imgData.size, false);
+	output = CreateMemoryStream(imgData.m_nSize, false);
 
 	// Now deal with the data
 	void *destPtr = output->GetPtr();
-	stream.Read(destPtr, imgData.size);
+	stream.Read(destPtr, imgData.m_nSize);
 	destPtr = static_cast<void*>(static_cast<uint8*>(destPtr));
 
-	imgData.memory = output;
+	imgData.m_pMemory = output;
 	return true;
 }
 //---------------------------------------------------------------------    

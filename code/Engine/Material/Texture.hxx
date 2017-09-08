@@ -76,9 +76,9 @@ namespace ma
 				return false;
 			}
 
-			if (PixelUtil::isCompressed(imageData.format))
+			if (PixelUtil::isCompressed(imageData.m_eFormat))
 			{
-				if(imageData.format == PF_ETC1_RGB8)
+				if(imageData.m_eFormat == PF_ETC1_RGB8)
 				{
 					if(!GetDeviceCapabilities()->GetTextureETC1Supported())
 					{
@@ -105,7 +105,7 @@ namespace ma
 				return false;
 			}
 
-			if (PixelUtil::isCompressed(imageData.format) && !GetDeviceCapabilities()->GetTextureETC1Supported())
+			if (PixelUtil::isCompressed(imageData.m_eFormat) && !GetDeviceCapabilities()->GetTextureETC1Supported())
 			{
 				ETC1Decompress(imageData);
 				LogWarning("Decompress etc texture to ARGB8 :%s", pszFile);
@@ -120,7 +120,7 @@ namespace ma
 				return false;
 			}
 
-			if (PixelUtil::isCompressed(imageData.format) && !GetDeviceCapabilities()->GetTextureDXTSupported())
+			if (PixelUtil::isCompressed(imageData.m_eFormat) && !GetDeviceCapabilities()->GetTextureDXTSupported())
 			{
 				DXTDecompress(imageData);
 				LogWarning("Decompress dxt texture to ARGB8 :%s", pszFile);
@@ -146,26 +146,26 @@ namespace ma
 	bool Texture::LoadFromImagData( const ImageData& imageData )
 	{
 		// Set desired texture size and properties from images[0]
-		m_nWidth = imageData.width;
-		m_nHeight = imageData.height;
+		m_nWidth = imageData.m_nWidth;
+		m_nHeight = imageData.m_nHeight;
 
 		// Get source image format and adjust if required
-		m_eFormat = imageData.format;
+		m_eFormat = imageData.m_eFormat;
 
 		// The custom mipmaps in the image have priority over everything
 		//size_t imageMips = imageData.num_mipmaps;
 
 		bool bAutoMipMap = m_bMipMap;
 
-		if(imageData.num_mipmaps > 0)
+		if(imageData.m_nNumMipmaps > 0)
 		{
-			m_nMipLevels = imageData.num_mipmaps;
+			m_nMipLevels = imageData.m_nNumMipmaps;
 			// Disable flag for auto mip generation
 			//bAutoMipMap  = false;
 		}
 
 		// Create the texture
-		if (imageData.flags & IF_CUBEMAP)
+		if (imageData.m_nFlags & IF_CUBEMAP)
 		{
 			m_eType = TEXTYPE_CUBE;
 			if (!RT_CreateCubeTexture())
@@ -174,7 +174,7 @@ namespace ma
 				return false;
 			}
 
-			for(size_t mip = 0; mip <= imageData.num_mipmaps && mip < m_nMipLevels; ++mip)
+			for(size_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
 			{
 				for (UINT32 iFace = 0; iFace < 6; ++iFace)
 				{
@@ -193,7 +193,7 @@ namespace ma
 				return false;
 			}
 
-			for(size_t mip = 0; mip <= imageData.num_mipmaps && mip < m_nMipLevels; ++mip)
+			for(size_t mip = 0; mip <= imageData.m_nNumMipmaps && mip < m_nMipLevels; ++mip)
 			{
 				PixelBox src = imageData.GetPixelBox(0, mip);
 

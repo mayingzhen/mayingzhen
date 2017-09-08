@@ -10,7 +10,9 @@ namespace ma
 	{
 		GetCamera()->LookAt(Vector3(0, 10, 0), Vector3(0, 0, 0));
 
-		//CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
+		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
+
+		CreateMeshMaterial("magician/magician/body.tga", "magician/magician/Body.mtl", "SKIN;LIGHT;BRDF;SPEC");
 		
 		if (0)
 		{

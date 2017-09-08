@@ -232,3 +232,12 @@ EXPORTS
 ?CreateTechnique@ma@@YA?AV?$RefPtr@VTechnique@ma@@@1@PBD0@Z
 ?GetShaderMacroBool@Technique@ma@@QAE_NPBD@Z
 ?LoadFromImagData@Texture@ma@@MAE_NABVImageData@2@@Z
+??0Technique@ma@@QAE@XZ
+??1Technique@ma@@UAE@XZ
+?Bind@Technique@ma@@UAEXXZ
+?UnBind@Technique@ma@@UAEXXZ
+?CommitChanges@Technique@ma@@UAEXXZ
+?Import@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@@Z
+?Export@Technique@ma@@UAE_NPAV?$xml_node@D@rapidxml@@AAV?$xml_document@D@4@@Z
+?GetPixelBox@ImageData@ma@@QBE?AVPixelBox@2@II@Z
+?bulkPixelConversion@ImageData@ma@@QAEXW4PixelFormat@2@@Z

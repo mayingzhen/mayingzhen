@@ -88,7 +88,9 @@ namespace ma
 		m_matVP = m_matProj*m_matView;
 		m_matVPInv = m_matVP.inverse();
 
-		m_frustum.Update(m_matVP, GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
+		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
+		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
+		m_frustum.Update(m_matVP, bGLSystem, bInvY);
 	}
 
 	const Matrix4& Camera::GetMatView()

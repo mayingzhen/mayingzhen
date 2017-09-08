@@ -987,7 +987,7 @@ int ETC1Decompress(const void * const pSrcData,
 void PVRTCDecompress(IN OUT ImageData& imgData)
 {
 	size_t faces;
-	if (imgData.flags & IF_CUBEMAP)
+	if (imgData.m_nFlags & IF_CUBEMAP)
 	{
 		faces = 6;
 	}
@@ -996,9 +996,9 @@ void PVRTCDecompress(IN OUT ImageData& imgData)
 		faces = 1;
 	}
 
-	int nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
+	int nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
 	int fullFaceSize = 0;
-	for(size_t mip=0; mip <= imgData.num_mipmaps; ++mip)
+	for(size_t mip=0; mip <= imgData.m_nNumMipmaps; ++mip)
 	{
 		fullFaceSize += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
 
@@ -1010,15 +1010,15 @@ void PVRTCDecompress(IN OUT ImageData& imgData)
 
 	RefPtr<MemoryStream> output = CreateMemoryStream(fullFaceSize, false);
 	int nOffset = 0;
-	nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
-	for(size_t mip = 0; mip<= imgData.num_mipmaps; ++mip)
+	nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
+	for(size_t mip = 0; mip<= imgData.m_nNumMipmaps; ++mip)
 	{
 		for(size_t i = 0; i < faces; ++i)
 		{
 			PixelBox src = imgData.GetPixelBox(i, mip);
 			ASSERT(nwidth == src.getWidth() && nheight == src.getHeight());
 
-			Decompress((AMTC_BLOCK_STRUCT*)src.data, (imgData.format == PF_PVRTC_RGB2 || imgData.format == PF_PVRTC_RGBA2)?1:0,
+			Decompress((AMTC_BLOCK_STRUCT*)src.data, (imgData.m_eFormat == PF_PVRTC_RGB2 || imgData.m_eFormat == PF_PVRTC_RGBA2)?1:0,
 				nwidth, nheight, 1, output->GetPtr() + nOffset);
 
 			nOffset += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
@@ -1028,14 +1028,14 @@ void PVRTCDecompress(IN OUT ImageData& imgData)
 		}
 	}
 
-	imgData.format = PF_A8B8G8R8;
-	imgData.memory = output;
+	imgData.m_eFormat = PF_A8B8G8R8;
+	imgData.m_pMemory = output;
 }
 
 void ETC1Decompress( IN OUT ImageData& imgData )
 {
 	size_t faces;
-	if (imgData.flags & IF_CUBEMAP)
+	if (imgData.m_nFlags & IF_CUBEMAP)
 	{
 		faces = 6;
 	}
@@ -1044,9 +1044,9 @@ void ETC1Decompress( IN OUT ImageData& imgData )
 		faces = 1;
 	}
 
-	int nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
+	int nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
 	int fullFaceSize = 0;
-	for(size_t mip=0; mip <= imgData.num_mipmaps; ++mip)
+	for(size_t mip=0; mip <= imgData.m_nNumMipmaps; ++mip)
 	{
 		fullFaceSize += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
 
@@ -1058,8 +1058,8 @@ void ETC1Decompress( IN OUT ImageData& imgData )
 
 	RefPtr<MemoryStream> output = CreateMemoryStream(fullFaceSize, false);
 	int nOffset = 0;
-	nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
-	for(size_t mip = 0; mip<= imgData.num_mipmaps; ++mip)
+	nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
+	for(size_t mip = 0; mip<= imgData.m_nNumMipmaps; ++mip)
 	{
 		for(size_t i = 0; i < faces; ++i)
 		{
@@ -1075,8 +1075,8 @@ void ETC1Decompress( IN OUT ImageData& imgData )
 		}
 	}
 
-	imgData.format = PF_A8B8G8R8;
-	imgData.memory = output;
+	imgData.m_eFormat = PF_A8B8G8R8;
+	imgData.m_pMemory = output;
 }
 
 // ------------------------------------------------------------------------------------------
@@ -1299,7 +1299,7 @@ void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int
 void DXTDecompress( IN OUT ImageData& imgData )
 {
 	size_t faces;
-	if (imgData.flags & IF_CUBEMAP)
+	if (imgData.m_nFlags & IF_CUBEMAP)
 	{
 		faces = 6;
 	}
@@ -1308,9 +1308,9 @@ void DXTDecompress( IN OUT ImageData& imgData )
 		faces = 1;
 	}
 
-	int nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
+	int nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
 	int fullFaceSize = 0;
-	for(size_t mip=0; mip <= imgData.num_mipmaps; ++mip)
+	for(size_t mip=0; mip <= imgData.m_nNumMipmaps; ++mip)
 	{
 		fullFaceSize += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
 
@@ -1322,14 +1322,14 @@ void DXTDecompress( IN OUT ImageData& imgData )
 
 	RefPtr<MemoryStream> output = CreateMemoryStream(fullFaceSize, false);
 	int nOffset = 0;
-	nwidth = imgData.width, nheight = imgData.height, ndepth = imgData.depth;
-	for(size_t mip = 0; mip<= imgData.num_mipmaps; ++mip)
+	nwidth = imgData.m_nWidth, nheight = imgData.m_nHeight, ndepth = imgData.m_nDepth;
+	for(size_t mip = 0; mip<= imgData.m_nNumMipmaps; ++mip)
 	{
 		for(size_t i = 0; i < faces; ++i)
 		{
 			PixelBox src = imgData.GetPixelBox(i, mip);
 			ASSERT(nwidth == src.getWidth() && nheight == src.getHeight());
-			DecompressImageDXT(output->GetPtr() + nOffset, src.data, nwidth, nheight, 1, imgData.format);
+			DecompressImageDXT(output->GetPtr() + nOffset, src.data, nwidth, nheight, 1, imgData.m_eFormat);
 
 			nOffset += PixelUtil::getMemorySize(nwidth, nheight, ndepth, PF_A8B8G8R8);
 			if(nwidth!=1) nwidth /= 2;
@@ -1338,8 +1338,8 @@ void DXTDecompress( IN OUT ImageData& imgData )
 		}
 	}
 
-	imgData.format = PF_A8B8G8R8;
-	imgData.memory = output;
+	imgData.m_eFormat = PF_A8B8G8R8;
+	imgData.m_pMemory = output;
 }
 
 }

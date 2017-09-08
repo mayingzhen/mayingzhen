@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		6B3C172B18F2E2C6006AE3BB /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3C172A18F2E2C6006AE3BB /* libEngine.a */; };
 		6B9A333B1EEE8FF600C11B43 /* libMetalRender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B38673D1EE01900000B6D7A /* libMetalRender.a */; };
-		6BB127601EEADEBC00DF85B2 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6BB1275F1EEADEBC00DF85B2 /* data */; };
-		6BB127621EEAE93400DF85B2 /* data.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6BB127611EEAE93400DF85B2 /* data.zip */; };
 		6BBDAEF518E3F2440041D433 /* libAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF418E3F2440041D433 /* libAnimation.a */; };
 		6BBDAEF718E3F24A0041D433 /* libApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEF618E3F24A0041D433 /* libApplication.a */; };
 		6BBDAEFB18E3F2590041D433 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBDAEFA18E3F2590041D433 /* libCommon.a */; };
@@ -22,6 +20,7 @@
 		6BDDD74B1ED1818D00C3553A /* libBulletCollision.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7481ED1818D00C3553A /* libBulletCollision.a */; };
 		6BDDD74C1ED1818D00C3553A /* libBulletDynamics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */; };
 		6BDDD74D1ED1818D00C3553A /* libLinerMath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BDDD74A1ED1818D00C3553A /* libLinerMath.a */; };
+		6BF1AE531F48485900ADB2FA /* data in Resources */ = {isa = PBXBuildFile; fileRef = 6BF1AE521F48485900ADB2FA /* data */; };
 		6FDF1AB817951DF3005C7E62 /* main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1A9B17951DF3005C7E62 /* main-ios.mm */; };
 		6FDF1ABB17951DF3005C7E62 /* SampleBrowser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AAA17951DF3005C7E62 /* SampleBrowser.cpp */; };
 		6FDF1ABD17951DF3005C7E62 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDF1AB517951DF3005C7E62 /* stdafx.cpp */; };
@@ -42,8 +41,6 @@
 		6B2FE1FE1EE5601400A9CAAB /* SampleTerrain.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleTerrain.hxx; sourceTree = "<group>"; };
 		6B38673D1EE01900000B6D7A /* libMetalRender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMetalRender.a; path = .././lib/libMetalRender.a; sourceTree = "<group>"; };
 		6B3C172A18F2E2C6006AE3BB /* libEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEngine.a; path = .././lib/libEngine.a; sourceTree = "<group>"; };
-		6BB1275F1EEADEBC00DF85B2 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../ios_res/data; sourceTree = "<group>"; };
-		6BB127611EEAE93400DF85B2 /* data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = data.zip; path = ../../../data/data.zip; sourceTree = "<group>"; };
 		6BBDAEF418E3F2440041D433 /* libAnimation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAnimation.a; path = .././lib/libAnimation.a; sourceTree = "<group>"; };
 		6BBDAEF618E3F24A0041D433 /* libApplication.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApplication.a; path = .././lib/libApplication.a; sourceTree = "<group>"; };
 		6BBDAEFA18E3F2590041D433 /* libCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCommon.a; path = .././Lib/libCommon.a; sourceTree = "<group>"; };
@@ -55,6 +52,7 @@
 		6BDDD7481ED1818D00C3553A /* libBulletCollision.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletCollision.a; path = "../../../extern/Bullet-2.82/build/xCode/lib/libBulletCollision.a"; sourceTree = "<group>"; };
 		6BDDD7491ED1818D00C3553A /* libBulletDynamics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBulletDynamics.a; path = "../../../extern/Bullet-2.82/build/xCode/./Lib/libBulletDynamics.a"; sourceTree = "<group>"; };
 		6BDDD74A1ED1818D00C3553A /* libLinerMath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLinerMath.a; path = "../../../extern/Bullet-2.82/build/xCode/./Lib/libLinerMath.a"; sourceTree = "<group>"; };
+		6BF1AE521F48485900ADB2FA /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../../data; sourceTree = "<group>"; };
 		6FDF1A7517951DA5005C7E62 /* SampleBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDF1A9717951DF3005C7E62 /* SampleAnimationRetarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAnimationRetarget.h; sourceTree = "<group>"; };
 		6FDF1A9817951DF3005C7E62 /* SampleAnimationRetarget.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SampleAnimationRetarget.hxx; sourceTree = "<group>"; };
@@ -120,8 +118,6 @@
 		6B118AC01EE2E66D004BC70A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				6BB127611EEAE93400DF85B2 /* data.zip */,
-				6BB1275F1EEADEBC00DF85B2 /* data */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -129,6 +125,7 @@
 		6FDF1A6C17951DA5005C7E62 = {
 			isa = PBXGroup;
 			children = (
+				6BF1AE521F48485900ADB2FA /* data */,
 				6B118AC01EE2E66D004BC70A /* Resource */,
 				6FDF1A9517951DF3005C7E62 /* Samples */,
 				6FDF1A7717951DA5005C7E62 /* Frameworks */,
@@ -311,8 +308,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BB127601EEADEBC00DF85B2 /* data in Resources */,
-				6BB127621EEAE93400DF85B2 /* data.zip in Resources */,
+				6BF1AE531F48485900ADB2FA /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

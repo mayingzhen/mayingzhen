@@ -438,31 +438,35 @@ namespace ma
 	bool VulkanTexture::LoadFromImagData(const ImageData& imageData)
 	{
 		// Set desired texture size and properties from images[0]
-		m_nWidth = imageData.width;
-		m_nHeight = imageData.height;
+		m_nWidth = imageData.m_nWidth;
+		m_nHeight = imageData.m_nHeight;
 
 		// Get source image format and adjust if required
-		m_eFormat = imageData.format;
+		m_eFormat = VulkanMapping::_getClosestSupportedPF(imageData.m_eFormat);
+		if (m_eFormat != imageData.m_eFormat)
+		{
+			ImageData& tem = const_cast<ImageData&>(imageData);
+			tem.bulkPixelConversion(m_eFormat);
+		}
+		m_vkformat = VulkanMapping::_getPF(m_eFormat);
 
 		// The custom mipmaps in the image have priority over everything
 		//size_t imageMips = imageData.num_mipmaps;
 
 		bool bAutoMipMap = m_bMipMap;
 
-		if (imageData.num_mipmaps > 0)
+		if (imageData.m_nNumMipmaps > 0)
 		{
-			m_nMipLevels = imageData.num_mipmaps;
+			m_nMipLevels = imageData.m_nNumMipmaps;
 			// Disable flag for auto mip generation
 			//bAutoMipMap  = false;
 		}
-
-		format = VulkanMapping::_getPF(m_eFormat);
 
 		vks::VulkanDevice* device = GetVulkanDevice();
 
 		// Get device properites for the requested texture format
 		VkFormatProperties formatProperties;
-		vkGetPhysicalDeviceFormatProperties(device->physicalDevice, format, &formatProperties);
+		vkGetPhysicalDeviceFormatProperties(device->physicalDevice, m_vkformat, &formatProperties);
 
 		VkMemoryAllocateInfo memAllocInfo = vks::initializers::memoryAllocateInfo();
 		VkMemoryRequirements memReqs;
@@ -474,7 +478,7 @@ namespace ma
 		VkDeviceMemory stagingMemory;
 
 		VkBufferCreateInfo bufferCreateInfo = vks::initializers::bufferCreateInfo();
-		bufferCreateInfo.size = imageData.size;
+		bufferCreateInfo.size = imageData.m_nSize;
 		// This buffer is used as a transfer source for the buffer copy
 		bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 		bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
@@ -494,21 +498,19 @@ namespace ma
 		// Copy texture data into staging buffer
 		uint8_t *data;
 		VK_CHECK_RESULT(vkMapMemory(device->logicalDevice, stagingMemory, 0, memReqs.size, 0, (void **)&data));
-		memcpy(data, imageData.memory->GetPtr(), imageData.size);
+		memcpy(data, imageData.m_pMemory->GetPtr(), imageData.m_pMemory->GetSize());
 		vkUnmapMemory(device->logicalDevice, stagingMemory);
 
 		// Setup buffer copy regions for each mip level
 		std::vector<VkBufferImageCopy> bufferCopyRegions;
 		uint32_t offset = 0;
 
-		for (uint32_t i = 0; i < imageData.num_mipmaps; i++)
+		for (uint32_t i = 0; i < m_nMipLevels/*imageData.num_mipmaps*/; i++)
 		{
 			int width = m_nWidth >> i;
 			int height = m_nHeight >> i;
 
 			UINT size = PixelUtil::getMemorySize(width, height, 1, m_eFormat);
-
-			PixelBox src = imageData.GetPixelBox(0, i);
 
 			VkBufferImageCopy bufferCopyRegion = {};
 			bufferCopyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -528,8 +530,8 @@ namespace ma
 		// Create optimal tiled target image
 		VkImageCreateInfo imageCreateInfo = vks::initializers::imageCreateInfo();
 		imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-		imageCreateInfo.format = format;
-		imageCreateInfo.mipLevels = imageData.num_mipmaps;
+		imageCreateInfo.format = m_vkformat;
+		imageCreateInfo.mipLevels = m_nMipLevels;
 		imageCreateInfo.arrayLayers = 1;
 		imageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 		imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
@@ -549,8 +551,8 @@ namespace ma
 		memAllocInfo.allocationSize = memReqs.size;
 
 		memAllocInfo.memoryTypeIndex = device->getMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAllocInfo, nullptr, &deviceMemory));
-		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, deviceMemory, 0));
+		VK_CHECK_RESULT(vkAllocateMemory(device->logicalDevice, &memAllocInfo, nullptr, &m_deviceMemory));
+		VK_CHECK_RESULT(vkBindImageMemory(device->logicalDevice, m_image, m_deviceMemory, 0));
 
 		VkImageSubresourceRange subresourceRange = {};
 		subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -578,12 +580,12 @@ namespace ma
 		);
 
 		// Change texture image layout to shader read after all mip levels have been copied
-		this->imageLayout = imageLayout;
+		m_imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 		vks::tools::setImageLayout(
 			copyCmd,
 			m_image,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-			imageLayout,
+			m_imageLayout,
 			subresourceRange);
 
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
@@ -593,6 +595,27 @@ namespace ma
 		// Clean up staging resources
 		vkFreeMemory(device->logicalDevice, stagingMemory, nullptr);
 		vkDestroyBuffer(device->logicalDevice, stagingBuffer, nullptr);
+
+		// Create image view
+		// Textures are not directly accessed by the shaders and
+		// are abstracted by image views containing additional
+		// information and sub resource ranges
+		VkImageViewCreateInfo view = vks::initializers::imageViewCreateInfo();
+		view.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		view.format = m_vkformat;
+		view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
+		// The subresource range describes the set of mip levels (and array layers) that can be accessed through this image view
+		// It's possible to create multiple image views for a single image referring to different (and/or overlapping) ranges of the image
+		view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		view.subresourceRange.baseMipLevel = 0;
+		view.subresourceRange.baseArrayLayer = 0;
+		view.subresourceRange.layerCount = 1;
+		// Linear tiling usually won't support mip maps
+		// Only set mip map count if optimal tiling is used
+		view.subresourceRange.levelCount = m_nMipLevels/* (useStaging) ? texture.mipLevels : 1*/;
+		// The view will be based on the texture's image
+		view.image = m_image;
+		VK_CHECK_RESULT(vkCreateImageView(device->logicalDevice, &view, nullptr, &m_view));
 
 
 		m_eResState = ResInited;

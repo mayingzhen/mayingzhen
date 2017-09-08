@@ -361,10 +361,10 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 	}
 
 	RefPtr<MemoryStream> output;
-	imgData.depth = 1; // only 2D formats handled by this codec
-	imgData.width = FreeImage_GetWidth(fiBitmap);
-	imgData.height = FreeImage_GetHeight(fiBitmap);
-	if (imgData.width == 0 || imgData.height == 0)
+	imgData.m_nDepth = 1; // only 2D formats handled by this codec
+	imgData.m_nWidth = FreeImage_GetWidth(fiBitmap);
+	imgData.m_nHeight = FreeImage_GetHeight(fiBitmap);
+	if (imgData.m_nWidth == 0 || imgData.m_nHeight == 0)
 	{
 		ASSERT(false);
 		FreeImage_Unload(fiBitmap);
@@ -372,8 +372,8 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 		return false;
 	}
 
-	imgData.num_mipmaps = 0; // no mipmaps in non-DDS 
-	imgData.flags = 0;
+	imgData.m_nNumMipmaps = 0; // no mipmaps in non-DDS 
+	imgData.m_nFlags = 0;
 
 	// Must derive format first, this may perform conversions
 
@@ -433,19 +433,19 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 		switch(bpp)
 		{
 		case 8:
-			imgData.format = PF_L8;
+			imgData.m_eFormat = PF_L8;
 			break;
 		case 16:
 			// Determine 555 or 565 from green mask
 			// cannot be 16-bit greyscale since that's FIT_UINT16
 			if(FreeImage_GetGreenMask(fiBitmap) == FI16_565_GREEN_MASK)
 			{
-				imgData.format = PF_R5G6B5;
+				imgData.m_eFormat = PF_R5G6B5;
 			}
 			else
 			{
 				// FreeImage doesn't support 4444 format so must be 1555
-				imgData.format = PF_A1R5G5B5;
+				imgData.m_eFormat = PF_A1R5G5B5;
 			}
 			break;
 		case 24:
@@ -453,16 +453,16 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 			//     PF_BYTE_BGR[A] for little endian (== PF_ARGB native)
 			//     PF_BYTE_RGB[A] for big endian (== PF_RGBA native)
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-			imgData.format = PF_BYTE_RGB;
+			imgData.m_eFormat = PF_BYTE_RGB;
 #else
-			imgData.format = PF_BYTE_BGR;
+			imgData.m_eFormat = PF_BYTE_BGR;
 #endif
 			break;
 		case 32:
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
-			imgData.format = PF_BYTE_RGBA;
+			imgData.m_eFormat = PF_BYTE_RGBA;
 #else
-			imgData.format = PF_BYTE_BGRA;
+			imgData.m_eFormat = PF_BYTE_BGRA;
 #endif
 			break;
 
@@ -472,23 +472,23 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 	case FIT_UINT16:
 	case FIT_INT16:
 		// 16-bit greyscale
-		imgData.format = PF_L16;
+		imgData.m_eFormat = PF_L16;
 		break;
 	case FIT_FLOAT:
 		// Single-component floating point data
-		imgData.format = PF_FLOAT32_R;
+		imgData.m_eFormat = PF_FLOAT32_R;
 		break;
 	case FIT_RGB16:
-		imgData.format = PF_SHORT_RGB;
+		imgData.m_eFormat = PF_SHORT_RGB;
 		break;
 	case FIT_RGBA16:
-		imgData.format = PF_SHORT_RGBA;
+		imgData.m_eFormat = PF_SHORT_RGBA;
 		break;
 	case FIT_RGBF:
-		imgData.format = PF_FLOAT32_RGB;
+		imgData.m_eFormat = PF_FLOAT32_RGB;
 		break;
 	case FIT_RGBAF:
-		imgData.format = PF_FLOAT32_RGBA;
+		imgData.m_eFormat = PF_FLOAT32_RGBA;
 		break;
 
 
@@ -498,15 +498,15 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 	unsigned srcPitch = FreeImage_GetPitch(fiBitmap);
 
 	// Final data - invert image and trim pitch at the same time
-	uint32 dstPitch = imgData.width * PixelUtil::getNumElemBytes(imgData.format);
-	imgData.size = dstPitch * imgData.height;
+	uint32 dstPitch = imgData.m_nWidth * PixelUtil::getNumElemBytes(imgData.m_eFormat);
+	imgData.m_nSize = dstPitch * imgData.m_nHeight;
 	// Bind output buffer
-	output = CreateMemoryStream(imgData.size, false);
+	output = CreateMemoryStream(imgData.m_nSize, false);
 
 	uint8* pDst = output->GetPtr();
-	for (uint32 y = 0; y < imgData.height; ++y)
+	for (uint32 y = 0; y < imgData.m_nHeight; ++y)
 	{
-		uint8* pSrc = srcData + (imgData.height - y - 1) * srcPitch;
+		uint8* pSrc = srcData + (imgData.m_nHeight - y - 1) * srcPitch;
 		memcpy(pDst, pSrc, dstPitch);
 		pDst += dstPitch;
 	}
@@ -515,7 +515,7 @@ bool CImageCodec::decode( const char* pszName, void* pMemory, uint32 nNumBytes, 
 	FreeImage_Unload(fiBitmap);
 	FreeImage_CloseMemory(fiMem);
 
-	imgData.memory = output;
+	imgData.m_pMemory = output;
 
 	/*if (imgData.format == PF_A8R8G8B8)
 	{

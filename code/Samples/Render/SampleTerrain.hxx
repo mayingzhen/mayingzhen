@@ -10,8 +10,8 @@ namespace ma
 
 	void SampleTerrain::Load()
 	{
- 		Vector3 lookAtPos(0,0,0);
- 		Vector3 eyePos = Vector3(0,-60,60);
+ 		Vector3 lookAtPos(100,0,0);
+ 		Vector3 eyePos = Vector3(100,-60,360);
  		GetCamera()->LookAt(eyePos,lookAtPos);
 
 		//GetResourceSystem()->SetDataThreadEnable(true);

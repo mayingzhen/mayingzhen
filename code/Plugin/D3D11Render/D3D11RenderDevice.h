@@ -32,6 +32,8 @@ namespace ma
 
 		virtual SamplerState*		CreateSamplerState();
 
+		virtual Technique*			CreateTechnique();
+
 		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);

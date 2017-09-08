@@ -45,6 +45,7 @@
 
 
 #include "Engine/ImageData/PixelFormat.hxx"
+#include "Engine/ImageData/ImageData.hxx"
 #include "Engine/ImageData/ImageCodec.hxx"
 #include "Engine/ImageData/DDSCodec.hxx"
 #include "Engine/ImageData/ETC1Codec.hxx"

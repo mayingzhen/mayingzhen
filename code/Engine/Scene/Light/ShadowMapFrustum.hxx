@@ -109,7 +109,9 @@ namespace ma
 
 		m_arrRenderable[GetRenderSystem()->CurThreadFill()].clear();
 
-		m_lightFrustum.Update(m_matLightProj * m_matLightView,GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
+		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
+		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
+		m_lightFrustum.Update(m_matLightProj * m_matLightView, bGLSystem, bInvY);
 
 		pCamera->GetScene()->GetCullTree()->FindObjectsIn(&m_lightFrustum,-1,m_arrCaster);
 		
@@ -134,7 +136,9 @@ namespace ma
 		Matrix4 matProj;
 		GetRenderDevice()->MakePerspectiveMatrix(matProj,pCamera->GetFov(),pCamera->GetAspect(),fSpiltNear,fSpiltFar);
 
-		m_frustum.Update(matProj * matView,GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2);
+		bool bGLSystem = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_GLES2;
+		bool bInvY = GetRenderDevice()->GetRenderDeviceType() == RenderDevice_VULKAN;
+		m_frustum.Update(matProj * matView, bGLSystem, bInvY);
 	}
 
 

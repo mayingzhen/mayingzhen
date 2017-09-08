@@ -293,7 +293,6 @@
 		6BDDCF5F1ED0461D00C3553A /* Octree.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Octree.hxx; sourceTree = "<group>"; };
 		6BDDCF601ED0461D00C3553A /* OctreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OctreeNode.h; sourceTree = "<group>"; };
 		6BDDCF611ED0461D00C3553A /* OctreeNode.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OctreeNode.hxx; sourceTree = "<group>"; };
-		6BDDCF621ED0461D00C3553A /* ParallelCull - 副本.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "ParallelCull - 副本.hxx"; sourceTree = "<group>"; };
 		6BDDCF631ED0461D00C3553A /* ParallelCull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallelCull.h; sourceTree = "<group>"; };
 		6BDDCF641ED0461D00C3553A /* ParallelCull.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParallelCull.hxx; sourceTree = "<group>"; };
 		6BDDCF651ED0461D00C3553A /* RenderComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderComponent.h; sourceTree = "<group>"; };
@@ -835,7 +834,6 @@
 				6BDDCF5F1ED0461D00C3553A /* Octree.hxx */,
 				6BDDCF601ED0461D00C3553A /* OctreeNode.h */,
 				6BDDCF611ED0461D00C3553A /* OctreeNode.hxx */,
-				6BDDCF621ED0461D00C3553A /* ParallelCull - 副本.hxx */,
 				6BDDCF631ED0461D00C3553A /* ParallelCull.h */,
 				6BDDCF641ED0461D00C3553A /* ParallelCull.hxx */,
 				6BDDCF651ED0461D00C3553A /* RenderComponent.h */,
