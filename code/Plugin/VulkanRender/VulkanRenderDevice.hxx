@@ -3,6 +3,7 @@
 #include "VulkanConstantBuffer.h"
 #include "VulkanRenderState.h"
 #include "VulkanSamplerState.h"
+#include "VulkanTechniqueh.h"
 
 #include <array>
 
@@ -18,7 +19,7 @@ namespace ma
 
 	VulkanRenderDevice::VulkanRenderDevice()
 	{
-
+		memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
@@ -84,6 +85,11 @@ namespace ma
 		return new VulkanSamplerStateObject();
 	}
 
+	Technique* VulkanRenderDevice::CreateTechnique()
+	{
+		return new VulkanTechnique();
+	}
+
 	void VulkanRenderDevice::Shoutdown()
 	{
 	}
@@ -92,7 +98,7 @@ namespace ma
 	{
 		//m_hWnd = wndhandle;
 
-		bool enableValidation = false;
+		bool enableValidation = true;
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -178,76 +184,20 @@ namespace ma
 		if (res != VK_SUCCESS) {
 			vks::tools::exitFatal("Could not create Vulkan device: \n" + vks::tools::errorString(res), "Fatal error");
 		}
-		device = vulkanDevice->logicalDevice;
 
-		vkGetDeviceQueue(device, vulkanDevice->queueFamilyIndices.graphics, 0, &m_queue);
+		vkGetDeviceQueue(vulkanDevice->logicalDevice, vulkanDevice->queueFamilyIndices.graphics, 0, &m_queue);
 
-		// Get list of supported extensions
-// 		uint32_t extCount = 0;
-// 		vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extCount, nullptr);
-// 		if (extCount > 0)
-// 		{
-// 			std::vector<VkExtensionProperties> extensions(extCount);
-// 			if (vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extCount, &extensions.front()) == VK_SUCCESS)
-// 			{
-// 				for (auto ext : extensions)
-// 				{
-// 					supportedExtensions.push_back(ext.extensionName);
-// 				}
-// 			}
-// 		}
-// 
-// 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos{};
-// 		//queueFamilyIndices.graphics = getQueueFamilyIndex(VK_QUEUE_GRAPHICS_BIT);
-// 		VkDeviceQueueCreateInfo queueInfo{};
-// 		queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-// 		queueInfo.queueFamilyIndex = 0;//queueFamilyIndices.graphics;
-// 		queueInfo.queueCount = 1;
-// 		//queueInfo.pQueuePriorities = &defaultQueuePriority;
-// 		queueCreateInfos.push_back(queueInfo);
-// 
-// 		std::vector<const char*> deviceExtensions;
-// 		deviceExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-// 
-// 		//VkResult res = vulkanDevice->createLogicalDevice(enabledFeatures, enabledExtensions);
-// 		VkDeviceCreateInfo deviceCreateInfo = {};
-// 		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-// 		deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());;
-// 		deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
-// 		//deviceCreateInfo.pEnabledFeatures = &enabledFeatures;
-// 		deviceCreateInfo.enabledExtensionCount = (uint32_t)deviceExtensions.size();
-// 		deviceCreateInfo.ppEnabledExtensionNames = deviceExtensions.data();
-// 		VkResult result = vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &device);
-// 		if (result != VK_SUCCESS) {
-// 			//vks::tools::exitFatal("Could not create Vulkan device: \n" + vks::tools::errorString(res), "Fatal error");
-// 		}
-// 		//device = vulkanDevice->logicalDevice;
-// 
-// 		VkCommandPoolCreateInfo cmdPoolInfo = {};
-// 		cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-// 		cmdPoolInfo.queueFamilyIndex = 0;//queueFamilyIndex;
-// 		cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-// 		//VkCommandPool cmdPool;
-// 		VK_CHECK_RESULT(vkCreateCommandPool(device, &cmdPoolInfo, nullptr, &commandPool));
-// 
-// 		// Get a graphics queue from the device
-// 		vkGetDeviceQueue(device, 0, 0, &queue);
 
-// 		// Find a suitable depth format
-// 		VkBool32 validDepthFormat = vks::tools::getSupportedDepthFormat(physicalDevice, &depthFormat);
-// 		assert(validDepthFormat);
-// 
-// 
 // 		// Create synchronization objects
  		//VkSemaphoreCreateInfo semaphoreCreateInfo = vks::initializers::semaphoreCreateInfo();
 		VkSemaphoreCreateInfo semaphoreCreateInfo{};
 		semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
  		// Create a semaphore used to synchronize image presentation
  		// Ensures that the image is displayed before we start submitting new commands to the queu
- 		VK_CHECK_RESULT(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &m_presentComplete));
+ 		VK_CHECK_RESULT(vkCreateSemaphore(vulkanDevice->logicalDevice, &semaphoreCreateInfo, nullptr, &m_presentComplete));
  		// Create a semaphore used to synchronize command submission
  		// Ensures that the image is not presented until all commands have been sumbitted and executed
- 		VK_CHECK_RESULT(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &m_renderComplete));
+ 		VK_CHECK_RESULT(vkCreateSemaphore(vulkanDevice->logicalDevice, &semaphoreCreateInfo, nullptr, &m_renderComplete));
 // 		// Create a semaphore used to synchronize command submission
 // 		// Ensures that the image is not presented until all commands for the text overlay have been sumbitted and executed
 // 		// Will be inserted after the render complete semaphore if the text overlay is enabled
@@ -265,7 +215,7 @@ namespace ma
 		m_submitInfo.pSignalSemaphores = &m_renderComplete;
 
 		//setupSwapChain
-		m_swapChain.connect(instance, physicalDevice, device);
+		m_swapChain.connect(instance, physicalDevice, vulkanDevice->logicalDevice);
 		m_swapChain.initSurface(NULL, wndhandle);
 		//UINT width = 0;
 		//UINT height = 0;
@@ -280,9 +230,9 @@ namespace ma
 				VK_COMMAND_BUFFER_LEVEL_PRIMARY,
 				static_cast<uint32_t>(m_drawCmdBuffers.size()));
 
-		VK_CHECK_RESULT(vkAllocateCommandBuffers(device, &cmdBufAllocateInfo, m_drawCmdBuffers.data()));
+		VK_CHECK_RESULT(vkAllocateCommandBuffers(vulkanDevice->logicalDevice, &cmdBufAllocateInfo, m_drawCmdBuffers.data()));
 
-		vks::debugmarker::setup(device);
+		vks::debugmarker::setup(vulkanDevice->logicalDevice);
 
 		m_depthFormat = VK_FORMAT_D24_UNORM_S8_UINT;
 
@@ -333,15 +283,15 @@ namespace ma
 
 		VkMemoryRequirements memReqs;
 
-		VK_CHECK_RESULT(vkCreateImage(device, &image, nullptr, &depthStencil.image));
-		vkGetImageMemoryRequirements(device, depthStencil.image, &memReqs);
+		VK_CHECK_RESULT(vkCreateImage(vulkanDevice->logicalDevice, &image, nullptr, &depthStencil.image));
+		vkGetImageMemoryRequirements(vulkanDevice->logicalDevice, depthStencil.image, &memReqs);
 		mem_alloc.allocationSize = memReqs.size;
 		mem_alloc.memoryTypeIndex = vulkanDevice->getMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-		VK_CHECK_RESULT(vkAllocateMemory(device, &mem_alloc, nullptr, &depthStencil.mem));
-		VK_CHECK_RESULT(vkBindImageMemory(device, depthStencil.image, depthStencil.mem, 0));
+		VK_CHECK_RESULT(vkAllocateMemory(vulkanDevice->logicalDevice, &mem_alloc, nullptr, &depthStencil.mem));
+		VK_CHECK_RESULT(vkBindImageMemory(vulkanDevice->logicalDevice, depthStencil.image, depthStencil.mem, 0));
 
 		depthStencilView.image = depthStencil.image;
-		VK_CHECK_RESULT(vkCreateImageView(device, &depthStencilView, nullptr, &depthStencil.view));
+		VK_CHECK_RESULT(vkCreateImageView(vulkanDevice->logicalDevice, &depthStencilView, nullptr, &depthStencil.view));
 	}
 
 	void VulkanRenderDevice::SetupRenderPass()
@@ -413,14 +363,14 @@ namespace ma
 		renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
 		renderPassInfo.pDependencies = dependencies.data();
 
-		VK_CHECK_RESULT(vkCreateRenderPass(device, &renderPassInfo, nullptr, &m_renderPass));
+		VK_CHECK_RESULT(vkCreateRenderPass(vulkanDevice->logicalDevice, &renderPassInfo, nullptr, &m_renderPass));
 	}
 
 	void VulkanRenderDevice::CreatePipelineCache()
 	{
 		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
 		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-		VK_CHECK_RESULT(vkCreatePipelineCache(device, &pipelineCacheCreateInfo, nullptr, &m_pipelineCache));
+		VK_CHECK_RESULT(vkCreatePipelineCache(vulkanDevice->logicalDevice, &pipelineCacheCreateInfo, nullptr, &m_pipelineCache));
 	}
 
 	void VulkanRenderDevice::SetupFrameBuffer()
@@ -445,7 +395,7 @@ namespace ma
 		for (uint32_t i = 0; i < m_frameBuffers.size(); i++)
 		{
 			attachments[0] = m_swapChain.buffers[i].view;
-			VK_CHECK_RESULT(vkCreateFramebuffer(device, &frameBufferCreateInfo, nullptr, &m_frameBuffers[i]));
+			VK_CHECK_RESULT(vkCreateFramebuffer(vulkanDevice->logicalDevice, &frameBufferCreateInfo, nullptr, &m_frameBuffers[i]));
 		}
 	}
 
@@ -469,7 +419,7 @@ namespace ma
 	void VulkanRenderDevice::BeginRender()
 	{
 		// Acquire the next image from the swap chain
-		VkResult res = m_swapChain.acquireNextImage(m_presentComplete, &currentBuffer);
+		VkResult res = m_swapChain.acquireNextImage(m_presentComplete, &m_currentBuffer);
 		assert(res == VK_SUCCESS);
 
 		VkCommandBufferBeginInfo cmd_buf_info = {};
@@ -478,7 +428,7 @@ namespace ma
 		cmd_buf_info.flags = 0;
 		cmd_buf_info.pInheritanceInfo = NULL;
 
-		res = vkBeginCommandBuffer(m_drawCmdBuffers[currentBuffer], &cmd_buf_info);
+		res = vkBeginCommandBuffer(m_drawCmdBuffers[m_currentBuffer], &cmd_buf_info);
 		assert(res == VK_SUCCESS);
 
 		VkClearValue clearValues[2];
@@ -490,25 +440,25 @@ namespace ma
 		rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		rp_begin.pNext = NULL;
 		rp_begin.renderPass = m_renderPass;
-		rp_begin.framebuffer = m_frameBuffers[currentBuffer];
+		rp_begin.framebuffer = m_frameBuffers[m_currentBuffer];
 		rp_begin.renderArea.offset.x = 0;
 		rp_begin.renderArea.offset.y = 0;
 		rp_begin.renderArea.extent.width = m_width;
 		rp_begin.renderArea.extent.height = m_height;
 		rp_begin.clearValueCount = 2;
 		rp_begin.pClearValues = clearValues;
-		vkCmdBeginRenderPass(m_drawCmdBuffers[currentBuffer], &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBeginRenderPass(m_drawCmdBuffers[m_currentBuffer], &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
 	}
 
 	void VulkanRenderDevice::EndRender()
 	{
-		vkCmdEndRenderPass(m_drawCmdBuffers[currentBuffer]);
+		vkCmdEndRenderPass(m_drawCmdBuffers[m_currentBuffer]);
 
-		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers[currentBuffer]));
+		VK_CHECK_RESULT(vkEndCommandBuffer(m_drawCmdBuffers[m_currentBuffer]));
 
 		// Command buffer to be sumitted to the queue
  		m_submitInfo.commandBufferCount = 1;
- 		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers[currentBuffer];
+ 		m_submitInfo.pCommandBuffers = &m_drawCmdBuffers[m_currentBuffer];
 // 		m_submitInfo.waitSemaphoreCount = 1;
 // 		m_submitInfo.pWaitSemaphores = &m_presentComplete;
 // 		m_submitInfo.signalSemaphoreCount = 1;
@@ -520,7 +470,7 @@ namespace ma
 		// Submit to queue
 		VK_CHECK_RESULT(vkQueueSubmit(m_queue, 1, &m_submitInfo, VK_NULL_HANDLE));
 
-		VK_CHECK_RESULT(m_swapChain.queuePresent(m_queue, currentBuffer, m_renderComplete));
+		VK_CHECK_RESULT(m_swapChain.queuePresent(m_queue, m_currentBuffer, m_renderComplete));
 
 		VK_CHECK_RESULT(vkQueueWaitIdle(m_queue));
 	}
@@ -551,10 +501,10 @@ namespace ma
 	void VulkanRenderDevice::SetViewport(const Rectangle& rect)
 	{
 		VkViewport viewport = vks::initializers::viewport((float)rect.width(), (float)rect.height(), 0.0f, 1.0f);
-		vkCmdSetViewport(m_drawCmdBuffers[currentBuffer], 0, 1, &viewport);
+		vkCmdSetViewport(m_drawCmdBuffers[m_currentBuffer], 0, 1, &viewport);
 
 		VkRect2D scissor = vks::initializers::rect2D((int)rect.width(), (int)rect.height(), 0, 0);
-		vkCmdSetScissor(m_drawCmdBuffers[currentBuffer], 0, 1, &scissor);
+		vkCmdSetScissor(m_drawCmdBuffers[m_currentBuffer], 0, 1, &scissor);
 	}
 
 	Rectangle VulkanRenderDevice::GetViewport()
@@ -588,11 +538,12 @@ namespace ma
 
 	void VulkanRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
 	{
-
+		
 	}
 
 	void VulkanRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
 	{
+		m_arrSampler[uniform->m_index] = pSampler;
 	}
 
 	void VulkanRenderDevice::CommitChanges()
@@ -652,7 +603,7 @@ namespace ma
 	void VulkanRenderDevice::SetIndexBuffer(IndexBuffer* pIB)
 	{
 		VulkanIndexBuffer* pIml = (VulkanIndexBuffer*)pIB;
-		vkCmdBindIndexBuffer(m_drawCmdBuffers[currentBuffer], pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
+		vkCmdBindIndexBuffer(m_drawCmdBuffers[m_currentBuffer], pIml->indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 	}
 
 	void VulkanRenderDevice::SetVertexBuffer(int index, VertexBuffer* pVB)
@@ -661,7 +612,7 @@ namespace ma
 
 		const VkDeviceSize offsets[1] = { 0 };
 
-		vkCmdBindVertexBuffers(m_drawCmdBuffers[currentBuffer], 0, 1, &pIml->vertexBuffer.buffer, offsets);
+		vkCmdBindVertexBuffers(m_drawCmdBuffers[m_currentBuffer], 0, 1, &pIml->vertexBuffer.buffer, offsets);
 	}
 
 	void VulkanRenderDevice::DrawRenderable(const Renderable* pRenderable,Technique* pTech)
@@ -674,7 +625,7 @@ namespace ma
 		UINT nIndexCount = pSubMeshData ? pSubMeshData->m_nIndexCount : pRenderable->m_pIndexBuffer->GetNumber();
 		UINT nIndexStart = pSubMeshData ? pSubMeshData->m_nIndexStart : 0;
 
-		vkCmdDrawIndexed(m_drawCmdBuffers[currentBuffer], nIndexCount, 1, 0, nIndexStart, 0);
+		vkCmdDrawIndexed(m_drawCmdBuffers[m_currentBuffer], nIndexCount, 1, 0, nIndexStart, 0);
 	}
 
 	void VulkanRenderDevice::ClearBuffer(bool bColor, bool bDepth, bool bStencil,const ColourValue & c, float z, int s)
@@ -720,7 +671,11 @@ namespace ma
 		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;    out[0][3] = 0.f;
 		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;    out[1][3] = 0.f;
 		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zScale; out[2][3] = zn * zScale;
-		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+		//Vulkan clip space has inverted Y
+		Matrix4 Clip = Matrix4::IDENTITY;
+		Clip.setScale(Vector3(1,-1,1));
+ 		out = Clip * out;
 
 		return out;
 	}

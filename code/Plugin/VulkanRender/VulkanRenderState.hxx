@@ -1,78 +1,9 @@
 #include "VulkanRenderState.h"
 
-#define CMPVAR(x) if (a.x != b.x) return a.x < b.x;
-	
+
 
 namespace ma
 {
-// 	struct CMP_DS_DESC 
-// 	{
-// 		bool operator()(const Vulkan_DEPTH_STENCIL_DESC& a, const Vulkan_DEPTH_STENCIL_DESC& b) const 
-// 		{
-// 			CMPVAR(DepthEnable);
-// 			CMPVAR(DepthWriteMask);
-// 			CMPVAR(DepthFunc);
-// 			CMPVAR(StencilEnable);
-// 			CMPVAR(StencilReadMask);
-// 			CMPVAR(StencilWriteMask);
-// 			CMPVAR(FrontFace.StencilDepthFailOp);
-// 			CMPVAR(FrontFace.StencilFailOp);
-// 			CMPVAR(FrontFace.StencilFunc);
-// 			CMPVAR(FrontFace.StencilPassOp);
-// 			CMPVAR(BackFace.StencilDepthFailOp);
-// 			CMPVAR(BackFace.StencilFailOp);
-// 			CMPVAR(BackFace.StencilFunc);
-// 			CMPVAR(BackFace.StencilPassOp);
-// 
-// 			return false;
-// 		}
-// 	};
-
-// 	struct CMP_RS_DESC
-// 	{
-// 		bool operator()(const Vulkan_RASTERIZER_DESC& a, const Vulkan_RASTERIZER_DESC& b) const
-// 		{
-// 			CMPVAR(FillMode);
-// 			CMPVAR(CullMode);
-// 			CMPVAR(FrontCounterClockwise);
-// 			CMPVAR(DepthBias);
-// 			CMPVAR(DepthBiasClamp);
-// 			CMPVAR(SlopeScaledDepthBias);
-// 			CMPVAR(DepthClipEnable);
-// 			CMPVAR(ScissorEnable);
-// 			CMPVAR(MultisampleEnable);
-// 			CMPVAR(AntialiasedLineEnable);
-// 
-// 			return false;
-// 		}
-// 	};
-
-// 	struct CMP_BS_DESC
-// 	{
-// 		bool operator()(const Vulkan_BLEND_DESC& a, const Vulkan_BLEND_DESC& b) const
-// 		{
-// 			CMPVAR(AlphaToCoverageEnable);
-// 			CMPVAR(IndependentBlendEnable); 
-// 			for (UINT i = 0; i < 8; ++i)
-// 			{
-// 				CMPVAR(RenderTarget[i].BlendEnable);
-// 				CMPVAR(RenderTarget[i].SrcBlend);
-// 				CMPVAR(RenderTarget[i].DestBlend);
-// 				CMPVAR(RenderTarget[i].BlendOp);
-// 				CMPVAR(RenderTarget[i].SrcBlendAlpha);
-// 				CMPVAR(RenderTarget[i].DestBlendAlpha);
-// 				CMPVAR(RenderTarget[i].BlendOpAlpha);
-// 				CMPVAR(RenderTarget[i].RenderTargetWriteMask);
-// 			}
-// 
-// 			return false;
-// 		}
-// 	};
-
-// 	map<Vulkan_DEPTH_STENCIL_DESC, IVulkanDepthStencilState*, CMP_DS_DESC> g_depthStatePool;
-// 	map<Vulkan_RASTERIZER_DESC, IVulkanRasterizerState*,CMP_RS_DESC> g_rasterizerStatePool;
-// 	map<Vulkan_BLEND_DESC, IVulkanBlendState*,CMP_BS_DESC> g_blendStatePool;
-
 	VulkanRasterizerStateObject::VulkanRasterizerStateObject()
 	{
 		rs.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
@@ -80,7 +11,7 @@ namespace ma
 		rs.flags = 0;
 		rs.polygonMode = VK_POLYGON_MODE_FILL;
 		rs.cullMode = VK_CULL_MODE_BACK_BIT;
-		rs.frontFace = VK_FRONT_FACE_CLOCKWISE;
+		rs.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		rs.depthClampEnable = VK_FALSE;
 		rs.rasterizerDiscardEnable = VK_FALSE;
 		rs.depthBiasEnable = VK_FALSE;
@@ -96,11 +27,6 @@ namespace ma
 
 	void VulkanRasterizerStateObject::Clear()
 	{
-// 		for (auto it = g_rasterizerStatePool.begin(); it != g_rasterizerStatePool.end(); ++it)
-// 		{
-// 			SAFE_RELEASE(it->second);
-// 		}
-// 		g_rasterizerStatePool.clear();
 	}
 
 	VulkanDepthStencilStateObject::VulkanDepthStencilStateObject()
@@ -179,7 +105,7 @@ namespace ma
 		cb.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		cb.flags = 0;
 		cb.pNext = NULL;
-		VkPipelineColorBlendAttachmentState att_state[1];
+		att_state[1];
 		att_state[0].colorWriteMask = 0xf;
 		att_state[0].blendEnable = VK_FALSE;
 		att_state[0].alphaBlendOp = VK_BLEND_OP_ADD;
@@ -196,7 +122,6 @@ namespace ma
 		cb.blendConstants[1] = 1.0f;
 		cb.blendConstants[2] = 1.0f;
 		cb.blendConstants[3] = 1.0f;
-		//m_pVulkanBlendState = NULL;
 	}
 
 	void VulkanBlendStateObject::RT_StreamComplete(/*const ColourValue& blend_factor, UINT32 sample_mask*/)

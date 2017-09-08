@@ -11,7 +11,7 @@ namespace ma
     
     struct APP_API Setting
     {
-		bool bForceGLES;
+		RenderDeviceType eRenderType;
         bool bRenderThread;
         bool bDataThread;
         bool bJobScheduler;

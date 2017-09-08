@@ -81,6 +81,11 @@ namespace ma
 		return new GLESSamplerState();
 	}
 
+	Technique* GLESRenderDevice::CreateTechnique()
+	{
+		return new Technique();
+	}
+
 	void GLESRenderDevice::Shoutdown()
 	{
 

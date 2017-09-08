@@ -65,8 +65,6 @@ namespace ma
 
 		CreateFromSource(strVshSource.c_str(), strVshSource.length(), 
 			strFshSource.c_str(), strFshSource.length());
-
-		ParseUniform();
 		
 		for (UINT i = 0; i < m_arrUniform.size(); ++i)
 		{

@@ -23,7 +23,7 @@ namespace ma
 		AlignedMemory_deallocate(m_rgSIMDPlane);
 	}
 
-	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem)
+	void Frustum::UpdatePoint(const Matrix4 &invProjViewMatrix,bool bGLSystem,bool bInvertedY)
 	{
 		float nearZ = 0.0f;
 		float farZ = 1.0f; // gl -1 ~ 1
@@ -33,15 +33,29 @@ namespace ma
 			farZ = 1.0f;
 		}
 
-		m_pPoints[near_left_top] = invProjViewMatrix * Vector3(-1,1,nearZ);
-		m_pPoints[near_left_bottom] = invProjViewMatrix * Vector3(-1,-1,nearZ);
-		m_pPoints[near_right_top] = invProjViewMatrix * Vector3(1,1,nearZ);
-		m_pPoints[near_right_bottom] = invProjViewMatrix * Vector3(1,-1,nearZ);
+		Vector3	pPoints[PointsNumber];
+		pPoints[near_left_top] = Vector3(-1, 1, nearZ);
+		pPoints[near_left_bottom] = Vector3(-1, -1, nearZ);
+		pPoints[near_right_top] = Vector3(1, 1 , nearZ);
+		pPoints[near_right_bottom] =  Vector3(1, -1, nearZ);
 
-		m_pPoints[far_left_top] = invProjViewMatrix * Vector3(-1,1,farZ);
-		m_pPoints[far_left_bottom] = invProjViewMatrix * Vector3(-1,-1,farZ);
-		m_pPoints[far_right_top] = invProjViewMatrix * Vector3(1,1,farZ);
-		m_pPoints[far_right_bottom] = invProjViewMatrix * Vector3(1,-1,farZ);
+		pPoints[far_left_top] =  Vector3(-1, 1, farZ);
+		pPoints[far_left_bottom] =  Vector3(-1, -1, farZ);
+		pPoints[far_right_top] =  Vector3(1, 1, farZ);
+		pPoints[far_right_bottom] = Vector3(1, -1, farZ);
+
+		if (bInvertedY)
+		{
+			for (UINT i = 0; i < PointsNumber; ++i)
+			{
+				pPoints[i].y *= -1.0f;
+			}
+		}
+
+		for (UINT i = 0; i < PointsNumber; ++i)
+		{
+			m_pPoints[i] = invProjViewMatrix * pPoints[i];
+		}
 
 		m_aabb.setNull();
 		for (int i = 0; i < PointsNumber; ++i)
@@ -50,9 +64,9 @@ namespace ma
 		}
 	}
 
-	void Frustum::Update(const Matrix4& matViewProj,bool bGLSystem)
+	void Frustum::Update(const Matrix4& matViewProj, bool bGLSystem, bool bInvertedY)
 	{
-		UpdatePoint(matViewProj.inverse(),bGLSystem);
+		UpdatePoint(matViewProj.inverse(),bGLSystem,bInvertedY);
 
 		UpdatePlanes();
 

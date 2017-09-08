@@ -14,7 +14,9 @@ namespace ma
 		static void Clear();
 
 	public:
-		VkSampler sampler;
+		VkSampler m_sampler;
+
+		VkDescriptorImageInfo m_descriptor;
 	};
 
 }

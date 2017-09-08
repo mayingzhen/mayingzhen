@@ -418,6 +418,11 @@ namespace ma
 		m_pRenderThread->RC_ClearBuffer(bColor,bDepth,bStencil,c,z,s);
 	}
 
+	void RenderSystem::TechniqueStreamComplete(Technique* pTech)
+	{
+		m_pRenderThread->RC_TechniqueStreamComplete(pTech);
+	}
+
 	void RenderSystem::TexStreamComplete(Texture* pTexture)
 	{
 		m_pRenderThread->RC_TexStreamComplete(pTexture);

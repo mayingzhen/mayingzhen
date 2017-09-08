@@ -40,5 +40,6 @@ namespace ma
 
 	public:
 		VkPipelineColorBlendStateCreateInfo cb;
+		VkPipelineColorBlendAttachmentState att_state[1];
 	};
 }

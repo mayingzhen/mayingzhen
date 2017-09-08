@@ -187,6 +187,8 @@ namespace ma
 
 		m_program = program;	
 
+		ParseUniform();
+
 		return /*effect*/;
 	}
 

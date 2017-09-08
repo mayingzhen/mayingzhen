@@ -11,40 +11,33 @@ namespace ma
 
 	void VulkanSamplerStateObject::RT_StreamComplete()
 	{
-// 		ASSERT(m_pImpl == NULL);
-// 
-// 		auto it = g_samplerStatesPool.find(*this);
-// 		if (it != g_samplerStatesPool.end())
-// 		{
-// 			m_pImpl = it->second;
-// 		}
-// 		else
-// 		{
-// 			IVulkanSamplerState* sample = NULL;
-// 
-// 			Vulkan_SAMPLER_DESC samplerDesc;
-// 			memset(&samplerDesc, 0, sizeof samplerDesc);
-// 
-// 			samplerDesc.Filter = VulkanMapping::GetVulkanFilter(this->GetFilterMode()); 
-// 			samplerDesc.AddressU =  VulkanMapping::GetVulkanWrap(this->GetWrapMode());
-// 			samplerDesc.AddressV = VulkanMapping::GetVulkanWrap(this->GetWrapMode());
-// 			samplerDesc.AddressW = VulkanMapping::GetVulkanWrap(this->GetWrapModeW());
-// 			samplerDesc.MaxAnisotropy = 1;//graphics_->GetTextureAnisotropy();
-// 			samplerDesc.ComparisonFunc = Vulkan_COMPARISON_ALWAYS;
-// 			samplerDesc.MinLOD = 0;
-// 			samplerDesc.MaxLOD = Vulkan_FLOAT32_MAX;
-// 
-// 			if (this->GetFilterMode() == TFO_SHADOWCOMPARE)
-// 			{
-// 				samplerDesc.ComparisonFunc = Vulkan_COMPARISON_LESS;	 
-// 			}
-// 
-// 			GetVulkanDxDevive()->CreateSamplerState(&samplerDesc, &sample);
-// 
-// 			g_samplerStatesPool.insert(std::make_pair(*this, sample));
-// 
-// 			m_pImpl = sample;
-// 		}
+		//ASSERT(m_pImpl == NULL);
+		vks::VulkanDevice* device = GetVulkanDevice();
+
+		VulkanTexture* pTex = (VulkanTexture*)this->GetTexture();
+
+		VkSamplerCreateInfo samplerCreateInfo = {};
+		samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
+		samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
+		samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerCreateInfo.mipLodBias = 0.0f;
+		samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
+		samplerCreateInfo.minLod = 0.0f;
+		// Max level-of-detail should match mip level count
+		samplerCreateInfo.maxLod = /*(useStaging) ? */(float)pTex->GetMipMapNumber()/* : 0.0f*/;
+		// Enable anisotropic filtering
+		samplerCreateInfo.maxAnisotropy = 1.0;
+		samplerCreateInfo.anisotropyEnable = VK_TRUE;
+		samplerCreateInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+		VK_CHECK_RESULT(vkCreateSampler(device->logicalDevice, &samplerCreateInfo, nullptr, &m_sampler));
+
+		m_descriptor.sampler = m_sampler;
+		m_descriptor.imageView = pTex->m_view;
+		m_descriptor.imageLayout = pTex->m_imageLayout;
 	}
 
 	void VulkanSamplerStateObject::Clear()

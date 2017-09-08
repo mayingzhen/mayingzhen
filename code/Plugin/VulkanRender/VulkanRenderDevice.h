@@ -35,6 +35,8 @@ namespace ma
 
 		virtual SamplerState*		CreateSamplerState();
 
+		virtual Technique*			CreateTechnique();
+
 		virtual	void				SetFrameBuffer(FrameBuffer* pFB);
 		virtual	void				SetRenderTarget(int index,Texture* pTexture,int level = 0, int array_index = 0, int face = 0);
 		virtual	Texture*			GetDefaultRenderTarget(int index = 0);
@@ -83,8 +85,6 @@ namespace ma
 		// Help fun
 		virtual	bool				CheckTextureFormat(PixelFormat eFormat,TEXTURE_USAGE eUsage);
 
-		//IVulkanDevice*				GetDXDevive() {return m_pD3DDevice;}
-		//IVulkanDeviceContext*		GetDXDeviveContext() {return m_pDeviceContext;}
 		vks::VulkanDevice*			GetVulkanDevice() { return vulkanDevice; }
 
 		void						NotifyResourceCreated(VulkanResource* pRes);
@@ -101,8 +101,6 @@ namespace ma
 		bool						BuildDeviceCapabilities();
 
 		bool						UpdateSwapChain(int width, int height);
-
-		//void						DetachSRV(IVulkanShaderResourceView* rtv_src);
 
 		void						SetupDepthStencil();
 
@@ -127,8 +125,6 @@ namespace ma
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties;
 		std::vector<std::string> supportedExtensions;
 
-		VkDevice device;
-
 		uint32_t m_width = 1280;
 		uint32_t m_height = 720;
 
@@ -150,13 +146,15 @@ namespace ma
 
 		std::vector<VkCommandBuffer> m_drawCmdBuffers;
 
-		uint32_t currentBuffer = 0;
+		uint32_t m_currentBuffer = 0;
 
 		VkRenderPass m_renderPass;
 
 		VkPipelineCache m_pipelineCache;
 
 		std::vector<VkFramebuffer> m_frameBuffers;
+
+		SamplerState* m_arrSampler[MAX_TEXTURE_UNITS];
 
 		struct
 		{

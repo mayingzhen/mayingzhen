@@ -23,7 +23,6 @@ namespace ma
 
 		void				Reload();	
 
-		virtual void		ParseUniform() = 0;
 		void				BindUniform();	
 		Uniform*			GetUniform(const char* name) const;
 		Uniform*			GetUniform(UINT index) const;

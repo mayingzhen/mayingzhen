@@ -14,8 +14,6 @@ namespace ma
 
 		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
 
-		virtual void ParseUniform();
-
 		virtual void RT_SetShader();
 
 		virtual void CommitChanges();
@@ -23,26 +21,17 @@ namespace ma
 		void Destory();
 
 	private:
-		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
-			RefPtr<ConstantBuffer> ConstantBuffersPtr[]);
+		void ParseShaderUniform(ShaderType eType, const vector<uint32>& vtx_spv);
 
-	private:
+		void HlslToSpirv(const char* vshSource, UINT vshSize, ShaderType eType, std::vector<UINT>& vtx_spv);
+
+	public:
 		std::vector< RefPtr<ConstantBuffer> > m_vecVSConstantBuffers;
 		std::vector< RefPtr<ConstantBuffer> > m_vecPSConstantBuffers;
 
+		std::vector< Uniform* > m_vecPSSamplers;
+
 		VkPipelineShaderStageCreateInfo m_shaderStages[2];
-
-		VkDescriptorSetLayout m_desc_layout;
-
-		VkDescriptorPool m_desc_pool;
-
-		std::vector<VkDescriptorSet> m_descriptorSets;
-
-		VkPipelineCache m_pipelineCache;
-
-		VkPipeline m_pipeline;
-
-		VkPipelineLayout m_pipelineLayout;
 
 		friend class VulkanRenderDevice;
 	};

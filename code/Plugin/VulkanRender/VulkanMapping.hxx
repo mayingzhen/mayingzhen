@@ -17,10 +17,11 @@ VkIndexType VulkanMapping::GetIndexType(INDEX_TYPE eType)
 
 PixelFormat VulkanMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 {
-// 	if (_getPF(ogrePF) != DXGI_FORMAT_UNKNOWN)
-// 	{
-// 		return ogrePF;
-// 	}
+	if (_getPF(ogrePF) != VK_FORMAT_UNDEFINED)
+	{
+		return ogrePF;
+	}
+
 	switch(ogrePF)
 	{
 	case PF_FLOAT16_RGB:
@@ -29,20 +30,18 @@ PixelFormat VulkanMapping::_getClosestSupportedPF(PixelFormat ogrePF)
 		return PF_FLOAT32_RGBA;
 	case PF_UNKNOWN:
 	default:
-		return PF_A8B8G8R8;
+		return PF_A8R8G8B8;
 	}
 }
+
+
 
 VkFormat VulkanMapping::_getPF(PixelFormat ogrePF)
 {
 	switch(ogrePF)
 	{
-	case PF_R8G8B8:
-		return VK_FORMAT_R8G8B8_UNORM;
-	case PF_A8R8G8B8:
-		return VK_FORMAT_R8G8B8A8_UNORM;
-	case PF_A8B8G8R8:
-		return VK_FORMAT_A8B8G8R8_UNORM_PACK32;
+	case PF_A8R8G8B8: 
+		return VK_FORMAT_B8G8R8A8_UNORM;
 	case PF_A2B10G10R10:
 		return VK_FORMAT_A2B10G10R10_UNORM_PACK32;
 	case PF_A2R10G10B10:

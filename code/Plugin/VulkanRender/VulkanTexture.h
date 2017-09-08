@@ -28,15 +28,14 @@ namespace ma
 
 		virtual bool			GenerateMipmaps();
 		
-	private:
-		VkImage	m_image;
-		VkImageLayout imageLayout;
-		VkImageView view;
-		VkDescriptorImageInfo descriptor;
+	public:
+		VkImage	m_image = 0;
+		VkImageLayout m_imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		VkImageView m_view  = 0;
 
-		VkDeviceMemory deviceMemory;
+		VkDeviceMemory m_deviceMemory;
 
-		VkFormat format;
+		VkFormat m_vkformat;
 	};
 
 

@@ -9,7 +9,7 @@ using namespace ma;
 int main(int argc, char* argv[])
 {
 	Setting set;
-	set.bForceGLES = false;
+	set.eRenderType = RenderDevice_VULKAN;
 	set.bRenderThread = false;
 	set.bDataThread = false;
 	set.bJobScheduler = true;
