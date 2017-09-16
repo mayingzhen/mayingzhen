@@ -5,25 +5,22 @@ namespace ma
 {
 
 	/// Hardware constant buffer.
-	class ConstantBuffer : public Referenced
+	class VulkanConstantBuffer : public ConstantBuffer
 	{
 	public:
-		ConstantBuffer();
-		virtual ~ConstantBuffer();
+		VulkanConstantBuffer();
+		virtual ~VulkanConstantBuffer();
 
 		/// Release buffer.
 		virtual void Release();
 
 		/// Set size and create GPU-side buffer. Return true on success.
-		bool SetSize(unsigned size);
+		//bool SetSize(unsigned size);
 
-		UINT GetSize() { return m_nSize; }
+		//UINT GetSize() { return m_nSize; }
 
 		/// Set a generic parameter and mark buffer dirty.
 		void SetParameter(unsigned offset, unsigned size, const void* data);
-
-		/// Set a Vector3 array parameter and mark buffer dirty.
-		void SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data);
 
 		/// Apply to GPU.
 		void Apply();
@@ -35,6 +32,8 @@ namespace ma
 		bool IsDirty() const { return m_bDirty; }
 
 		//IVulkanBuffer* GetVulkanBuffer() {return m_pVulkanBuffer;}
+
+		bool Create();
 
 		static void Clear();
 
@@ -51,12 +50,8 @@ namespace ma
 		VkDescriptorBufferInfo m_descriptor;
 
 		BYTE* m_mapped = nullptr;
-
-		UINT m_nBound;
-
-		UINT m_nSize;
 	};
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
+	RefPtr<VulkanConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
 
 }

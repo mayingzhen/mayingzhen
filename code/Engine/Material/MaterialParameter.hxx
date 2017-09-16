@@ -21,6 +21,16 @@ namespace ma
 		m_sName = pName ? pName : "";
 	}
 
+	void Parameter::SetValue(const Any& value)
+	{
+		m_anyValue = value; 
+	}
+
+	const Any& Parameter::GetValue() const 
+	{
+		return m_anyValue; 
+	}
+
 	void Parameter::Import(rapidxml::xml_node<>* pXmlElem,Resource* pParent)
 	{
 		m_sName = pXmlElem->findAttribute("Name");

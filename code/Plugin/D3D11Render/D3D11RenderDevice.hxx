@@ -135,7 +135,7 @@ namespace ma
 		D3D11BlendStateObject::Clear();
 		D3D11VertexDeclaration::Clear();
 		D3D11SamplerStateObject::Clear();
-		ConstantBuffer::Clear();
+		D3D11ConstantBuffer::Clear();
 
 		SAFE_RELEASE(m_pDeviceContext);
 		SAFE_RELEASE(m_pSwapChain);
@@ -565,10 +565,10 @@ namespace ma
 		ASSERT(uniform);
 		ASSERT(values);
 
-		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
+		D3D11ConstantBuffer* pConstantBuffer = (D3D11ConstantBuffer*)(uniform->m_pCBPtr);
 
-		ASSERT(nSize <= uniform->m_nCBSize);
-		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
+		ASSERT(nSize <= uniform->m_nSizeInCB);
+		pConstantBuffer->SetParameter(uniform->m_nOffSetInCB, nSize, values);
 	}
 
 	void D3D11RenderDevice::SetValue(Uniform* uniform, int value)

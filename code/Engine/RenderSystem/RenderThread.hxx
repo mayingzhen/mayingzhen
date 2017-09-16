@@ -433,125 +433,125 @@ namespace ma
 		AddPointer(pVertexDecl);
 	}
 
-	void RenderThread::RC_SetInt(Uniform* uniform, int value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetInt);
-		AddPointer(uniform);
-		AddInt(value);
-	}
-
-	void RenderThread::RC_SetFloat(Uniform* uniform, float value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetFloat);
-		AddPointer(uniform);
-		AddFloat(value);
-	}
-
-	void RenderThread::RC_SetVector2(Uniform* uniform, const Vector2& value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetVector2);
-		AddPointer(uniform);
-		AddVec2(value);
-	}
-
-	void RenderThread::RC_SetVector3(Uniform* uniform, const Vector3& value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetVector3);
-		AddPointer(uniform);
-		AddVec3(value);
-	}
-
-
-	void RenderThread::RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,values,count);
-			return;
-		}
-
-		AddCommand(eRC_SetVector4);
-		AddPointer(uniform);
-		AddDWORD(count);
-		AddData(values,sizeof(Vector4) * count);
-	}
-
-	void RenderThread::RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,values,count);
-			return;
-		}
-
-		AddCommand(eRC_SetMatrix4);
-		AddPointer(uniform);
-		AddDWORD(count);
-		AddData(values,sizeof(Matrix4) * count);
-	}
-
-	void RenderThread::RC_SetColourValue(Uniform* uniform, const ColourValue& value)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetValue(uniform,value);
-			return;
-		}
-
-		AddCommand(eRC_SetColourValue);
-		AddPointer(uniform);
-		AddColor(value);
-	}
-
-	void RenderThread::RC_SetTexture(Uniform* uniform, const Texture* sampler)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetTexture(uniform,(Texture*)sampler);
-			return;
-		}
-
-		AddCommand(eRC_SetTexture);
-		AddPointer(uniform);
-		AddPointer(sampler);
-	}
-
-	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
-	{
-		if (IsRenderThread())
-		{
-			GetRenderDevice()->SetSamplerState(uniform,(SamplerState*)sampler);
-			return;
-		}
-
-		AddCommand(eRC_SetSamplerState);
-		AddPointer(uniform);
-		AddPointer(sampler);
-	}
+// 	void RenderThread::RC_SetInt(Uniform* uniform, int value)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,value);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetInt);
+// 		AddPointer(uniform);
+// 		AddInt(value);
+// 	}
+// 
+// 	void RenderThread::RC_SetFloat(Uniform* uniform, float value)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,value);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetFloat);
+// 		AddPointer(uniform);
+// 		AddFloat(value);
+// 	}
+// 
+// 	void RenderThread::RC_SetVector2(Uniform* uniform, const Vector2& value)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,value);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetVector2);
+// 		AddPointer(uniform);
+// 		AddVec2(value);
+// 	}
+// 
+// 	void RenderThread::RC_SetVector3(Uniform* uniform, const Vector3& value)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,value);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetVector3);
+// 		AddPointer(uniform);
+// 		AddVec3(value);
+// 	}
+// 
+// 
+// 	void RenderThread::RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,values,count);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetVector4);
+// 		AddPointer(uniform);
+// 		AddDWORD(count);
+// 		AddData(values,sizeof(Vector4) * count);
+// 	}
+// 
+// 	void RenderThread::RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,values,count);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetMatrix4);
+// 		AddPointer(uniform);
+// 		AddDWORD(count);
+// 		AddData(values,sizeof(Matrix4) * count);
+// 	}
+// 
+// 	void RenderThread::RC_SetColourValue(Uniform* uniform, const ColourValue& value)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetValue(uniform,value);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetColourValue);
+// 		AddPointer(uniform);
+// 		AddColor(value);
+// 	}
+// 
+// 	void RenderThread::RC_SetTexture(Uniform* uniform, const Texture* sampler)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetTexture(uniform,(Texture*)sampler);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetTexture);
+// 		AddPointer(uniform);
+// 		AddPointer(sampler);
+// 	}
+// 
+// 	void RenderThread::RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler)
+// 	{
+// 		if (IsRenderThread())
+// 		{
+// 			GetRenderDevice()->SetSamplerState(uniform,(SamplerState*)sampler);
+// 			return;
+// 		}
+// 
+// 		AddCommand(eRC_SetSamplerState);
+// 		AddPointer(uniform);
+// 		AddPointer(sampler);
+// 	}
 
 
 	void RenderThread::RC_SetPoolId(uint32 poolId)
@@ -764,71 +764,71 @@ namespace ma
 					GetRenderDevice()->SetVertexDeclaration(pVertexDecl);
 				}
 			break;
-			case eRC_SetInt:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					int nValue = ReadCommand<int>(n);
-					GetRenderDevice()->SetValue(pUnform,nValue);
-				}
-				break;
-			case eRC_SetFloat:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					float fValue = ReadCommand<float>(n);
-					GetRenderDevice()->SetValue(pUnform,fValue);
-				}
-				break;
-			case eRC_SetVector2:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Vector2 value = ReadCommand<Vector2>(n);
-					GetRenderDevice()->SetValue(pUnform,value);
-				}
-				break;
-			case eRC_SetVector3:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Vector3 value = ReadCommand<Vector3>(n);
-					GetRenderDevice()->SetValue(pUnform,value);
-				}
-				break;
-			case eRC_SetVector4:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					UINT nCount = ReadCommand<UINT>(n);
-					Vector4* nValue = ReadDataPtr<Vector4*>(n,nCount * sizeof(Vector4));
-					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
-				}
-				break;
-			case eRC_SetMatrix4:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					UINT nCount = ReadCommand<UINT>(n);
-					Matrix4* nValue = ReadDataPtr<Matrix4*>(n,nCount * sizeof(Matrix4));
-					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
-				}
-				break;
-			case eRC_SetColourValue:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					ColourValue cValue = ReadCommand<ColourValue>(n);
-					GetRenderDevice()->SetValue(pUnform,cValue);
-				}
-				break;
-			case eRC_SetTexture:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					Texture* pTexture = ReadCommand<Texture*>(n);
-					GetRenderDevice()->SetTexture(pUnform,pTexture);
-				}
-				break;
-			case eRC_SetSamplerState:
-				{
-					Uniform* pUnform = ReadCommand<Uniform*>(n);
-					SamplerState* pTexture = ReadCommand<SamplerState*>(n);
-					GetRenderDevice()->SetSamplerState(pUnform,pTexture);
-				}
-				break;
+// 			case eRC_SetInt:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					int nValue = ReadCommand<int>(n);
+// 					GetRenderDevice()->SetValue(pUnform,nValue);
+// 				}
+// 				break;
+// 			case eRC_SetFloat:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					float fValue = ReadCommand<float>(n);
+// 					GetRenderDevice()->SetValue(pUnform,fValue);
+// 				}
+// 				break;
+// 			case eRC_SetVector2:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					Vector2 value = ReadCommand<Vector2>(n);
+// 					GetRenderDevice()->SetValue(pUnform,value);
+// 				}
+// 				break;
+// 			case eRC_SetVector3:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					Vector3 value = ReadCommand<Vector3>(n);
+// 					GetRenderDevice()->SetValue(pUnform,value);
+// 				}
+// 				break;
+// 			case eRC_SetVector4:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					UINT nCount = ReadCommand<UINT>(n);
+// 					Vector4* nValue = ReadDataPtr<Vector4*>(n,nCount * sizeof(Vector4));
+// 					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
+// 				}
+// 				break;
+// 			case eRC_SetMatrix4:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					UINT nCount = ReadCommand<UINT>(n);
+// 					Matrix4* nValue = ReadDataPtr<Matrix4*>(n,nCount * sizeof(Matrix4));
+// 					GetRenderDevice()->SetValue(pUnform,nValue,nCount);
+// 				}
+// 				break;
+// 			case eRC_SetColourValue:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					ColourValue cValue = ReadCommand<ColourValue>(n);
+// 					GetRenderDevice()->SetValue(pUnform,cValue);
+// 				}
+// 				break;
+// 			case eRC_SetTexture:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					Texture* pTexture = ReadCommand<Texture*>(n);
+// 					GetRenderDevice()->SetTexture(pUnform,pTexture);
+// 				}
+// 				break;
+// 			case eRC_SetSamplerState:
+// 				{
+// 					Uniform* pUnform = ReadCommand<Uniform*>(n);
+// 					SamplerState* pTexture = ReadCommand<SamplerState*>(n);
+// 					GetRenderDevice()->SetSamplerState(pUnform,pTexture);
+// 				}
+// 				break;
 			case  eRC_SetPoolId:
 				{
 					UINT nId = ReadCommand<UINT>(n);

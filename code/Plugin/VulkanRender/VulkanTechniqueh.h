@@ -3,6 +3,7 @@
 
 namespace ma
 {
+	class VulkanPipeline;
 
 	class VulkanTechnique : public Technique
 	{
@@ -12,30 +13,22 @@ namespace ma
 
 		~VulkanTechnique();
 
+		//virtual void		Bind();
+
 		virtual void		CommitChanges();
 
 		void				RT_StreamComplete();
 
-		void				SetTexture(Uniform* uniform, const SamplerState* sampler);
+		void				UpdateSamplerDescriptorSets();
 
 	private:
-
-		VkDescriptorPool m_desc_pool;
-
-		VkDescriptorSetLayout m_desc_layout[2];
 		VkDescriptorSet m_descriptorSets[2];
 
-		VkDescriptorSetLayout m_desc_layout_sampler[2];
 		VkDescriptorSet m_descriptorSets_sampler[2];
 
+		RefPtr<VulkanPipeline> m_pPipline;
 
-		VkPipelineCache m_pipelineCache;
-
-		VkPipeline m_pipeline;
-
-		VkPipelineLayout m_pipelineLayout;
-
-		bool m_bSamplerDirty = true;
+		bool m_bSamperDirty = true;
 	};
 
 

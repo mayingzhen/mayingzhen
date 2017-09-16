@@ -162,16 +162,8 @@
       <Project>{eaeb1ebb-991e-4344-b998-c216a391a5c2}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="D3D11Render.vcxproj">
-      <Project>{23cf4a66-fa4b-4282-904c-dfeb7915d002}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="Engine.vcxproj">
       <Project>{b409639e-14c1-4a05-a3f5-192f4f365582}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="GLESRender.vcxproj">
-      <Project>{e4062c38-5d4a-4fe1-af24-d7bb538a8ab3}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="MonoScript.vcxproj">

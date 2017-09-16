@@ -59,7 +59,7 @@ namespace ma
 				
 				subMaterial->SetParameter("tDetailMap0", Any( CreateSamplerState("scene/terrain/chess.dds") ) );
 				subMaterial->SetParameter("tDetailMap1", Any( CreateSamplerState("scene/terrain/diban_zhuanshi.dds") ) );
-				subMaterial->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds",CLAMP,TFO_POINT,false) ) );
+				//subMaterial->SetParameter("tBlendingMap", Any( CreateSamplerState("scene/terrain/test_b0.dds",CLAMP,TFO_POINT,false) ) );
 				subMaterial->SetParameter("uDetailScale", Any( Vector2(0.1f, 0.1f) ) );
 				subMaterial->SetParameter("uDetailOffSet", Any( Vector4::ZERO) );
 				subMaterial->SetParameter("u_cDiffuseColor", Any( Vector4::ONE ) );
@@ -112,6 +112,12 @@ namespace ma
 				subMaterial->SetParameter("uDetailScale", Any(Vector2(0.01f, 0.01f) ) );
 				subMaterial->SetParameter("uDetailOffSet", Any(Vector4::ZERO) );
 				subMaterial->SetParameter("u_cSpecColor", Any(Vector4::ZERO) );
+			}
+
+			for (uint32 i = 0; i < testMaterial->GetLodSubNumber(0); ++i)
+			{
+				SubMaterial* subMaterial = testMaterial->GetLodSubByIndex(0,i);
+				subMaterial->SetParameter("tBlendingMap", Any(CreateSamplerState("scene/terrain/test_b0.dds", CLAMP, TFO_POINT, false)));
 			}
 
 			testMaterial->SaveToFile("scene/terrain/test.mtl");

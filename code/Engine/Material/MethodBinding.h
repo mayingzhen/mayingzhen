@@ -78,7 +78,12 @@ namespace ma
 	template <class ClassType, class ParameterType>
 	void MethodValueBinding<ClassType, ParameterType>::SetValue()
 	{
-		GetRenderSystem()->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)() );
+		Technique* pTech = m_pParameter->GetParent()->GetParent();
+		ASSERT(pTech);
+		if (pTech == NULL)
+			return;
+
+		pTech->SetValue(m_pParameter, (m_pInstance->*m_pValueMethod)() );
 	}
 
 	template <class ClassType, class ParameterType>
@@ -90,7 +95,12 @@ namespace ma
 	template <class ClassType, class ParameterType>
 	void MethodArrayBinding<ClassType, ParameterType>::SetValue()
 	{
-		GetRenderSystem()->SetValue(m_pParameter,  (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
+		Technique* pTech = m_pParameter->GetParent()->GetParent();
+		ASSERT(pTech);
+		if (pTech == NULL)
+			return;
+
+		pTech->SetValue(m_pParameter,  (m_pInstance->*m_pValueMethod)(), (m_pInstance->*m_nCountMethod)() );
 	}
 
 }

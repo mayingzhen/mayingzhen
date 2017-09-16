@@ -29,17 +29,24 @@ namespace ma
 				SkinMeshRenderable* pRenderable = new SkinMeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				//pRenderable->m_pDeclaration = pMeshData->GetVertexDeclar(); 
 				pRenderable->m_pVertexBuffer = pMeshData->GetVertexBuffer(); 
 				pRenderable->m_pIndexBuffer = pMeshData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = pMeshData->GetSubMeshByIndex(iSub);
-				pRenderable->m_posAABB = pMeshData->GetBoundingAABB();
-				pRenderable->m_tcAABB = pMeshData->GetUVBoundingAABB();
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
-
-				//pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMeshData->GetVertexDeclar());
 				
+				Technique* pTech = pSubMaterial->GetShadingTechnqiue();
+
+				Vector3 pos_extent = pMeshData->GetBoundingAABB().getHalfSize();
+				Vector3 pos_center = pMeshData->GetBoundingAABB().getCenter();
+				Vector2 tc_extent = pMeshData->GetUVBoundingAABB().getHalfSize();
+				Vector2	tc_center = pMeshData->GetUVBoundingAABB().getCenter();
+				Vector4 tc_extent_center = Vector4(tc_extent.x, tc_extent.y, tc_center.x, tc_center.y);
+
+				pTech->SetValue(pTech->GetUniform("pos_extent"), pos_extent);
+				pTech->SetValue(pTech->GetUniform("pos_center"), pos_center);
+				pTech->SetValue(pTech->GetUniform("tc_extent_center"), tc_extent_center);
+
 				pRenderable->m_pSubMaterial = pSubMaterial;
 
 				arrRenderable.push_back(pRenderable);

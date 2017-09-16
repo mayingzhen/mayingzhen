@@ -146,10 +146,10 @@ namespace ma
 // 				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 2) << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
 // 					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
 
-				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
+				//ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 
 				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
-				GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
 
 				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
@@ -159,13 +159,13 @@ namespace ma
 // 				GetRenderSystem()->SetStencilBufferParams(CMPF_ALWAYS_PASS, (i * 2 + 1)  << SBU_DEFERREDSHADOW, stenCillUse, stenCillUse,
 // 					SOP_KEEP, SOP_REPLACE, SOP_KEEP, false);
 
-				ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
+				//ShaderProgram* pShader = m_pFrustumVolume->GetShaderProgram();
 
 				Matrix4 matFrum = m_ShadowLight->GetShadowMapFrustum(i).GetLightViewProjMatrix().inverse();
 				Matrix4 matBlend = Matrix4::IDENTITY;
 				matBlend.setScale(Vector3(fBlendValue,fBlendValue,1.0f));
 				matFrum = matFrum * matBlend;
-				GetRenderSystem()->SetValue( pShader->GetUniform("matFrustum"), matFrum );
+				m_pFrustumVolume->SetValue(m_pFrustumVolume->GetUniform("matFrustum"), matFrum );
 
 				GetRenderSystem()->DrawRenderable(m_pRenderable.get(),m_pFrustumVolume.get());
 			}
@@ -182,20 +182,20 @@ namespace ma
 // 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 // 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
-			ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
+			//ShaderProgram* pShader = m_pDefferedShadow->GetShaderProgram();
 
-			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
-			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
-			GetRenderSystem()->SetValue(pShader->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
-			GetRenderSystem()->SetValue(pShader->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
-			GetRenderSystem()->SetValue(pShader->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			GetRenderSystem()->SetValue(pShader->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
-			GetRenderSystem()->SetValue(pShader->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisX"),shadowMapFru.m_vWBasisX);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisY"),shadowMapFru.m_vWBasisY);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoWBasisZ"),shadowMapFru.m_vWBasisZ);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("vStoCamPos"),shadowMapFru.m_vShadowCamPos);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
+			m_pDefferedShadow->SetValue(m_pDefferedShadow->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			ScreenQuad::Render(m_pDefferedShadow.get());
 		}
 
-		ShaderProgram* pBlendShader = m_pBlendMaterial->GetShaderProgram();
+		//ShaderProgram* pBlendShader = m_pBlendMaterial->GetShaderProgram();
 
 		// Blend
 		for (int i = 0; i < m_ShadowLight->GetCurSplitCount() - 1; ++i)
@@ -210,28 +210,28 @@ namespace ma
 // 			GetRenderSystem()->SetStencilBufferParams(CMPF_EQUAL, refUse, stenCillUse, stenCillUse,
 // 				SOP_KEEP, SOP_KEEP, SOP_KEEP, false);
 
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisX"), shadowMapNextFru.m_vWBasisX);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisY"), shadowMapNextFru.m_vWBasisY);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoWBasisZ"), shadowMapNextFru.m_vWBasisZ);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vNextStoCamPos"), shadowMapNextFru.m_vShadowCamPos);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vNextViewPosVecLS"), shadowMapNextFru.m_viewPosVecLS);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("NextkernelRadius"),shadowMapNextFru.m_vkernelRadius);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tNextShadowMap"),shadowMapNextFru.GetShadowMap());
 
 			float fNextSize = (float)shadowMapNextFru.GetShadowMap()->GetTexture()->GetWidth();
 			Vector4 vNextshadowMapTexelSize(fNextSize, 1.0f / fNextSize, 0, 0);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_NextshadowMapTexelSize"),vNextshadowMapTexelSize);
 
 			Vector4 vBlendInfo = Vector4(fBlendValue,1.0f / (1.0f - fBlendValue),fBlendValue,1.0f / (1.0f - fBlendValue));
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("BlendInfo"), vBlendInfo);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("BlendInfo"), vBlendInfo);
 
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("vStoCamPos"), shadowMapFru.m_vShadowCamPos);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
-			GetRenderSystem()->SetValue(pBlendShader->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisX"), shadowMapFru.m_vWBasisX);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisY"), shadowMapFru.m_vWBasisY);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoWBasisZ"), shadowMapFru.m_vWBasisZ);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("vStoCamPos"), shadowMapFru.m_vShadowCamPos);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_vViewPosVecLS"), shadowMapFru.m_viewPosVecLS);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("kernelRadius"),shadowMapFru.m_vkernelRadius);
+			m_pBlendMaterial->SetValue(m_pBlendMaterial->GetUniform("g_tShadowMap"),shadowMapFru.GetShadowMap());
 
 			ScreenQuad::Render(m_pDefferedShadow.get());
 		}
@@ -243,8 +243,8 @@ namespace ma
 			fb.AttachDepthStencil(GetRenderSystem()->GetDefaultDepthStencil().get());
 			GetRenderSystem()->SetFrameBuffer(&fb);
 
-			ShaderProgram* pShader = m_pScreen->GetShaderProgram();
- 			GetRenderSystem()->SetValue(pShader->GetUniform("tSrcColor"),m_pShadowTex.get());
+			//ShaderProgram* pShader = m_pScreen->GetShaderProgram();
+			m_pScreen->SetValue(m_pScreen->GetUniform("tSrcColor"),m_pShadowTex.get());
 
 			ScreenQuad::Render(m_pScreen.get());	
 		}

@@ -9,7 +9,8 @@
 #define MAX_MAT_NUM_BONES 75
 #endif
 
-//#define BONE_DQ
+#define BONE_DQ
+
 cbuffer SKIN_INFO : register(b7)
 {
 #ifdef BONE_DQ

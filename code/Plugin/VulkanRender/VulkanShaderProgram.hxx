@@ -8,17 +8,13 @@
 #include "..\..\..\SPIRV-Cross\spirv_hlsl.hpp"
 #include "..\..\..\SPIRV-Cross\spirv_msl.hpp"
 #include "VulkanRenderState.h"
+#include "Engine\Material\PrePareShaderSource.h"
 
 namespace ma
 {
 
-	//vector<ConstantBuffer*> g_vecDirtyConstantBuffers;
-	//IVulkanBuffer* g_vecVulkanConstantBuffers[2][MAX_SHADER_PARAMETER_GROUPS];
-
 	VulkanShaderProgram::VulkanShaderProgram()
 	{
-		//m_pVertexShader = NULL;
-		//m_pPiexelShader = NULL;
 	}
 
 	VulkanShaderProgram::~VulkanShaderProgram()
@@ -28,14 +24,7 @@ namespace ma
 
 	void VulkanShaderProgram::Destory()
 	{
-// 		SAFE_RELEASE(m_pVertexShader);
-// 		SAFE_RELEASE(m_pPiexelShader);
-// 
-// 		for (uint32 i = 0; i < MAX_SHADER_PARAMETER_GROUPS; ++i)
-// 		{
-// 			m_vecVSConstantBuffers[i] = NULL;
-// 			m_vecPSConstantBuffers[i] = NULL;
-// 		}
+
 	}
 
 	void init_resources(TBuiltInResource &Resources) {
@@ -270,8 +259,7 @@ namespace ma
 	{
 		Destory();
 
-		
-
+	
 		vks::VulkanDevice* device = GetVulkanDevice();
 		VulkanRenderDevice* pRender = (VulkanRenderDevice*)GetRenderDevice();
 
@@ -329,9 +317,6 @@ namespace ma
 
 	void VulkanShaderProgram::ParseShaderUniform(ShaderType eType,const vector<uint32>& vtx_spv)
 	{
-		std::vector< RefPtr<ConstantBuffer> >& VSConstantBuffers = 
-			eType == VS ? m_vecVSConstantBuffers : m_vecPSConstantBuffers;
-		
 		spirv_cross::CompilerGLSL glsl(vtx_spv.data(),vtx_spv.size());
 
 		if (0)
@@ -353,21 +338,21 @@ namespace ma
 			const spirv_cross::SPIRType& spType = glsl.get_type(resource.type_id);
 			size_t size_ = glsl.get_declared_struct_size(spType);
 			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-			RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, binding, size_);
-			VSConstantBuffers.push_back(pConstantBuffer);
+			RefPtr<VulkanConstantBuffer> pConstantBuffer = new VulkanConstantBuffer();
+			pConstantBuffer->SetName(resource.name.c_str());
+			pConstantBuffer->SetBound(binding);
+			pConstantBuffer->SetSize(size_);
+			this->AddConstBuffer(eType, pConstantBuffer.get());
 			for (UINT i = 0; i < spType.member_types.size(); ++i)
 			{
 				std::string str = glsl.get_member_name(spType.self, i);
 				size_t offset = glsl.type_struct_member_offset(spType, i);
 				size_t size = glsl.get_declared_struct_member_size(spType, i);
 
-				Uniform* pUniform = this->AddUniform(str.c_str());
-				pUniform->m_index = i;
-				pUniform->m_vshShder = eType == VS;
-
-				pUniform->m_nCBOffset = offset;
-				pUniform->m_nCBSize = size;
-				pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
+				Uniform* pUniform = pConstantBuffer->AddUniform(str.c_str());
+				pUniform->SetIndex(i);
+				pUniform->SetOffset(offset);
+				pUniform->SetSize(size);
 			}
 		}
 
@@ -375,15 +360,10 @@ namespace ma
 		{
 			unsigned binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
 
-			Uniform* pUniform = this->AddUniform(resource.name.c_str());
-			pUniform->m_index = binding;
-			pUniform->m_vshShder = eType == VS;
+			RefPtr<Uniform> pUniform = CreateUniform(resource.name.c_str());
+			pUniform->SetIndex(binding);
 
-			pUniform->m_nCBOffset = 0;
-			pUniform->m_nCBSize = 0;
-			pUniform->m_pD3D11CBPtr = NULL;
-
-			m_vecPSSamplers.push_back(pUniform);
+			this->AddSampler(pUniform.get());
 		}
 	}
 
@@ -393,15 +373,33 @@ namespace ma
 
 	void VulkanShaderProgram::CommitChanges()
 	{
-		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
-		{
-			m_vecVSConstantBuffers[i]->Apply();
-		}
+// 		for (UINT i = 0; i < m_vecVSConstantBuffers.size(); ++i)
+// 		{
+// 			m_vecVSConstantBuffers[i]->Apply();
+// 		}
+// 
+// 		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
+// 		{
+// 			m_vecPSConstantBuffers[i]->Apply();
+// 		}
+	}
 
-		for (UINT i = 0; i < m_vecPSConstantBuffers.size(); ++i)
-		{
-			m_vecPSConstantBuffers[i]->Apply();
-		}
+	void VulkanShaderProgram::RT_StreamComplete()
+	{
+		ASSERT(GetResState() == ResLoaded);
+
+		std::string strPath = GetRenderSystem()->GetShaderPath();
+
+		std::string strPathVS = strPath + GetVSFile() + ".vert";
+		std::string strPathFS = strPath + GetPSFile() + ".frag";
+
+		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), GetShaderMacro());
+		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(), GetShaderMacro());
+
+		CreateFromSource(strVshSource.c_str(), strVshSource.length(),
+			strFshSource.c_str(), strFshSource.length());
+
+		SetResState(ResInited);
 	}
 
 }

@@ -49,6 +49,24 @@ namespace ma
 		void				SetRasterizerState(RasterizerState* pRSState);
 		const RasterizerState* GetRasterizerState() { return m_pRSState.get(); }
 
+		void				SetValue(Uniform* pUniform, int value);
+		void				SetValue(Uniform* pUniform, float value);
+		void				SetValue(Uniform* pUniform, const Vector2& value);
+		void				SetValue(Uniform* pUniform, const Vector3& value);
+		void				SetValue(Uniform* pUniform, const Vector4& value);
+		void				SetValue(Uniform* pUniform, const Matrix4& value);
+		void				SetValue(Uniform* pUniform, const Matrix4* values, UINT count);
+		void				SetValue(Uniform* pUniform, const Vector4* values, UINT count);
+		void				SetValue(Uniform* pUniform, const ColourValue& value);
+		void				SetValue(Uniform* pUniform, Texture* pTexture);
+		void				SetValue(Uniform* pUniform, SamplerState* sampler);
+
+		Uniform*			GetUniform(const char* pszName);
+
+		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
+		UINT				GetConstBufferCount(ShaderType eType);
+		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType, UINT nIndex);
+
         void                StreamComplete();
 
 		virtual void        RT_StreamComplete() {}
@@ -56,10 +74,12 @@ namespace ma
 		virtual bool		Import(rapidxml::xml_node<>* pXmlElem);
 		virtual bool		Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc);	
 
-	private:
+	protected:
 		void				BindUniform();
 
 		void				BindParametersUniform(Uniform* pUniform,const Any& anyValue);
+
+		void				SetValue(Uniform* uniform, const float* values, UINT nSize);
 
 	private:
 		std::string						m_stName;
@@ -74,7 +94,13 @@ namespace ma
 
 		RefPtr<RasterizerState>			m_pRSState;
 
-		std::vector<Parameter*>			m_arrParameters;
+		std::vector<Parameter*>			m_arrParameters; 
+
+		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
+		VEC_CONSTBUFFER					m_vecConstBuffer[ShaderType_Number];
+
+	protected:
+		SamplerState*					m_arrSampler[MAX_TEXTURE_UNITS];
 	};
 	
 	RefPtr<Technique> CreateTechnique();

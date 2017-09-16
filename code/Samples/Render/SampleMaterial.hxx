@@ -10,18 +10,21 @@ namespace ma
 	{
 		GetCamera()->LookAt(Vector3(0, 10, 0), Vector3(0, 0, 0));
 
-		CreateMeshMaterial("FBX/Box.tga","FBX/Box.mtl");
-
-		CreateMeshMaterial("magician/magician/body.tga", "magician/magician/Body.mtl", "SKIN;LIGHT;BRDF;SPEC");
-		
 		if (0)
+		{
+			CreateMeshMaterial("FBX/Box.tga", "FBX/Box.mtl");
+
+			CreateMeshMaterial("magician/magician/body.tga", "magician/magician/Body.mtl", "SKIN;LIGHT;BRDF;SPEC");
+		}
+		
+		if (1)
 		{
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
 		}
 
-		if (1)
+		if (0)
 		{
 			RefPtr<SceneNode> pCharMagic = m_pScene->CreateSceneNode();
 			pCharMagic->SetScale(Vector3(0.01f));
@@ -37,10 +40,11 @@ namespace ma
 			RefPtr<SceneNode> pShpere = m_pScene->CreateSceneNode();
 			RefPtr<MeshComponent> pShpereMesh = pShpere->CreateComponent<MeshComponent>();
 			pShpereMesh->Load("Fbx/Box.skn","Fbx/Box.mtl");
+			pShpere->Translate(Vector3(2,0,0));
 
-			RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
-			RefPtr<Material> pClone = pMaterial->Clone();
-			pShpereMesh->SetMaterial(pClone.get());
+// 			RefPtr<Material> pMaterial = CreateMaterial("Fbx/Box.mtl");
+// 			RefPtr<Material> pClone = pMaterial->Clone();
+// 			pShpereMesh->SetMaterial(pClone.get());
 
 			//SubMaterial* pSubMaterial = pClone->GetLodSubByIndex(0,0);
 			//pSubMaterial->GetShadingTechnqiue()->SetShaderMacroBool("DIRLIGHT",true);

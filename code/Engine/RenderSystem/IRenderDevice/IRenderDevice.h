@@ -23,6 +23,7 @@ namespace ma
 	class Technique;
 	class Uniform;
 	class FrameBuffer;
+	class ConstantBuffer;
 
 	enum RenderDeviceType
 	{
@@ -48,16 +49,16 @@ namespace ma
 		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef) = 0;
 		virtual void				SetRasterizerState(const RasterizerState* pRSState) = 0;
 		
-		virtual void				SetValue(Uniform* uniform, int value) = 0;
-		virtual void				SetValue(Uniform* uniform, float value) = 0;
-		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
-		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;
-		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count) = 0;
-		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count) = 0;
-		virtual void				SetValue(Uniform* uniform, const ColourValue& value) = 0;
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture) = 0;
-		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual) = 0;
-		virtual	void				SetSamplerState(Uniform* uniform,SamplerState* pSampler) = 0;
+// 		virtual void				SetValue(Uniform* uniform, int value) = 0;
+// 		virtual void				SetValue(Uniform* uniform, float value) = 0;
+// 		virtual void				SetValue(Uniform* uniform, const Vector2& value) = 0;
+// 		virtual void				SetValue(Uniform* uniform, const Vector3& value) = 0;
+// 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count) = 0;
+// 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count) = 0;
+// 		virtual void				SetValue(Uniform* uniform, const ColourValue& value) = 0;
+// 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture) = 0;
+// 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual) = 0;
+// 		virtual	void				SetSamplerState(Uniform* uniform,SamplerState* pSampler) = 0;
 		
 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec) = 0;
 		virtual void				SetIndexBuffer(IndexBuffer* pIB) = 0;
@@ -86,6 +87,7 @@ namespace ma
 		virtual VertexBuffer*		CreateVertexBuffer() = 0;
 		virtual IndexBuffer*		CreateIndexBuffer() = 0;
 		virtual ShaderProgram*		CreateShaderProgram() = 0;
+		virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize) = 0;
 
 		virtual BlendState*			CreateBlendState() = 0;
 		virtual DepthStencilState*	CreateDepthStencilState() = 0;

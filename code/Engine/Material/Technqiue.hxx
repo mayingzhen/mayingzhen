@@ -11,6 +11,8 @@ namespace ma
 		m_pDSState = CreateDepthStencilState();
 
 		m_pRSState = CreateRasterizerState();
+
+		memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
 
 	Technique::~Technique()
@@ -206,68 +208,90 @@ namespace ma
 
 	void Technique::BindUniform()
 	{
-		ASSERT(m_pShaderProgram);
-		if (m_pShaderProgram)
+		GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
+
+		for (UINT i = 0; i < ShaderType_Number; ++i)
 		{
-			GetRenderSystem()->SetShaderProgram(m_pShaderProgram.get());
-
-			m_pShaderProgram->BindUniform();
-
-			for (UINT i = 0; i < m_pShaderProgram->GetUniformCount(); ++i)
+			for (UINT iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
 			{
-				Uniform* pUniform = m_pShaderProgram->GetUniform(i);
-				Parameter* pMatParam = GetParameter(pUniform->GetName());
-				if (pMatParam == NULL)
-					continue;
+				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
+				for (UINT iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
+				{
+					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
 
-				BindParametersUniform(pUniform, pMatParam->GetValue());
+					pUniform->Bind();
+
+					Parameter* pMatParam = GetParameter(pUniform->GetName());
+					if (pMatParam == NULL)
+						continue;
+
+					BindParametersUniform(pUniform, pMatParam->GetValue());
+				}
 			}
+		}
+		
+		ShaderProgram* pShader = this->GetShaderProgram();
+		for (uint32 i = 0; i < pShader->GetSamplerCount(); ++i)
+		{
+			Uniform* pUniform = pShader->GetSamplerByIndex(i);
+			
+			pUniform->Bind();
+
+			Parameter* pMatParam = GetParameter(pUniform->GetName());
+			if (pMatParam == NULL)
+				continue;
+
+			BindParametersUniform(pUniform, pMatParam->GetValue());
 		}
 	}
 
 	void Technique::BindParametersUniform(Uniform* pUniform,const Any& anyValue)
 	{
+		ASSERT(pUniform);
+		if (pUniform == NULL)
+			return;
+
 		const std::type_info& type = anyValue.getType();
 		if (type == typeid(int))
 		{
 			const int* value = any_cast<int>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(float))
 		{
 			const float* value = any_cast<float>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(Vector2))
 		{
 			const Vector2* value = any_cast<Vector2>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(Vector3))
 		{
 			const Vector3* value = any_cast<Vector3>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(Vector4))
 		{
 			const Vector4* value = any_cast<Vector4>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(ColourValue))
 		{
 			ColourValue cColor = any_cast<ColourValue>(anyValue);
 			Vector4 vColor(cColor.r,cColor.g,cColor.b,cColor.a);
-			GetRenderSystem()->SetValue(pUniform,vColor);
+			this->SetValue(pUniform,vColor);
 		}
 		else if (type == typeid(Matrix4))
 		{
 			const Matrix4* value = any_cast<Matrix4>(&anyValue);
-			GetRenderSystem()->SetValue(pUniform, *value);
+			this->SetValue(pUniform, *value);
 		}
 		else if (type == typeid(RefPtr<SamplerState>))
 		{
 			SamplerState* pTexture = any_cast< RefPtr<SamplerState> >(&anyValue)->get();
-			GetRenderSystem()->SetValue(pUniform,pTexture);
+			this->SetValue(pUniform,pTexture);
 		}
 		else if (type == typeid(RefPtr<UniformAnimation>))
 		{
@@ -288,11 +312,11 @@ namespace ma
 
 	void Technique::CommitChanges()
 	{
-		ASSERT(m_pShaderProgram);
-		if (m_pShaderProgram)
-		{
-			m_pShaderProgram->CommitChanges();
-		}
+// 		ASSERT(m_pShaderProgram);
+// 		if (m_pShaderProgram)
+// 		{
+// 			m_pShaderProgram->CommitChanges();
+// 		}
 	}
 
 	void Technique::SetParameter(const char* pszName,const Any& value)	
@@ -309,6 +333,12 @@ namespace ma
 			pParame->SetValue(value);
 			m_arrParameters.push_back(pParame);
 		}
+
+// 		Uniform* pUniform = this->GetUniform(pszName);
+// 		if (pUniform == NULL)
+// 			return;
+// 
+// 		BindParametersUniform(this->GetUniform(pszName), value);
 	}
 
 	Parameter* Technique::GetParameter(const char* pszName)
@@ -365,6 +395,114 @@ namespace ma
 	void Technique::SetRasterizerState(RasterizerState* pRSState)
 	{
 		m_pRSState = pRSState;
+	}
+
+	void Technique::SetValue(Uniform* pUniform, int value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(int));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, float value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(float));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Vector2& value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(Vector2));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Vector3& value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(Vector3));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Vector4& value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(Vector4));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Matrix4& value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(Matrix4));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Matrix4* values, UINT count)
+	{
+		SetValue(pUniform, (const float*)values, sizeof(Matrix4) * count);
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const Vector4* values, UINT count)
+	{
+		SetValue(pUniform, (const float*)values, sizeof(Vector4) * count);
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const ColourValue& value)
+	{
+		SetValue(pUniform, (const float*)&value, sizeof(ColourValue));
+	}
+
+	void Technique::SetValue(Uniform* pUniform, const float* values, UINT nSize)
+	{
+		if (pUniform == NULL)
+			return;
+
+		ASSERT(values);
+
+		ASSERT(nSize <= pUniform->GetSize());
+		pUniform->GetParent()->SetParameter(pUniform->GetOffset(), pUniform->GetSize(), values);
+	}
+
+	void Technique::SetValue(Uniform* pUniform, Texture* pTexture)
+	{
+
+	}
+
+	void Technique::SetValue(Uniform* pUniform, SamplerState* sampler)
+	{
+		m_arrSampler[pUniform->GetIndex()] = sampler;
+	}
+
+	void Technique::AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer)
+	{
+		m_vecConstBuffer[eType].push_back(pConstBuffer);
+	}
+
+	UINT Technique::GetConstBufferCount(ShaderType eType)
+	{
+		return m_vecConstBuffer[eType].size();
+	}
+
+	ConstantBuffer*	Technique::GetConstBufferByIndex(ShaderType eType, UINT nIndex)
+	{
+		if (nIndex >= m_vecConstBuffer[eType].size())
+			return NULL;
+
+		return m_vecConstBuffer[eType][nIndex].get();
+	}
+
+	Uniform* Technique::GetUniform(const char* pszName)
+	{
+		for (UINT i = 0; i < ShaderType_Number; ++i)
+		{
+			for (UINT iCB = 0; iCB < m_vecConstBuffer[i].size(); ++iCB)
+			{
+				RefPtr<ConstantBuffer>& pCB = m_vecConstBuffer[i][iCB];
+				for (UINT iUniform = 0; iUniform < pCB->GetUniformCount(); ++iUniform)
+				{
+					Uniform* pUniform = pCB->GetUniformByIndex(iUniform);
+					if (pUniform == NULL)
+						continue;
+
+					if (strcmp(pszName, pUniform->GetName()) == 0)
+					{
+						return pUniform;
+					}
+				}
+			}
+		}
+
+		return NULL;
 	}
 
     void Technique::StreamComplete()
@@ -430,8 +568,6 @@ namespace ma
 				this->SetRasterizerState(pRSState.get());
 			}
 		}
-
-        this->StreamComplete();
 	
 		return true;
 	}

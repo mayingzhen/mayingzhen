@@ -12,17 +12,13 @@ namespace ma
 	{
 	}
 
-	void ShaderProgram::BindUniform()
-	{
-		for (UINT i = 0; i < m_arrUniform.size(); ++i)
-		{
-			m_arrUniform[i]->Bind();		
-		}
-	}
-
 	void ShaderProgram::Reload()
 	{
-		m_arrUniform.clear();
+		for (UINT i = 0; i < ShaderType_Number; ++i)
+		{
+			m_vecConstBuffer[i].clear();
+		}
+	
 		m_eResState = ResUnLoad;
 
 		CreateFromFile(m_strVSFile.c_str(),m_strPSFile.c_str(),m_shaderMacro.c_str(),m_pVertexDecl.get());
@@ -51,55 +47,6 @@ namespace ma
         pVertexDecl->SetShaderProgram(this);
         
         GetRenderSystem()->VertexDeclaComplete(pVertexDecl);
-	}
-
-	void ShaderProgram::RT_StreamComplete()
-	{
-		std::string strPath = GetRenderSystem()->GetShaderPath();
-
-		std::string strPathVS = strPath + m_strVSFile + ".vert";
-		std::string strPathFS = strPath + m_strPSFile + ".frag";
-	
-		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(),m_shaderMacro.c_str());
-		std::string strFshSource = PrePareShaderSource(strPathFS.c_str(),m_shaderMacro.c_str());
-
-		CreateFromSource(strVshSource.c_str(), strVshSource.length(), 
-			strFshSource.c_str(), strFshSource.length());
-		
-		for (UINT i = 0; i < m_arrUniform.size(); ++i)
-		{
-			GetParameterManager()->UseDefaultBing(m_arrUniform[i].get());
-		}
-		
-		m_eResState = ResInited;
-	}
-
-
-	Uniform* ShaderProgram::GetUniform(const char* name) const
-	{
-		ASSERT(name);
-		if (name == NULL)
-			return NULL;
-
-		for (UINT i = 0; i < m_arrUniform.size(); ++i)
-		{
-			if (strcmp(name,m_arrUniform[i]->GetName()) == 0)
-			{
-				return m_arrUniform[i].get();
-			}
-		}
-		
-		return NULL;
-	}
-
-	Uniform* ShaderProgram::GetUniform(UINT index) const
-	{
-		return m_arrUniform[index].get();
-	}
-
-	UINT ShaderProgram::GetUniformCount() const
-	{
-		return m_arrUniform.size();
 	}
 
 	const char* ShaderProgram::GetVSFile() const
@@ -132,12 +79,37 @@ namespace ma
 		m_shaderMacro = pszMacro ? pszMacro : "";
 	}
 
-	Uniform* ShaderProgram::AddUniform(const char* pName)
+	void ShaderProgram::AddSampler(Uniform* pUniform)
 	{
-		Uniform* pUnifrom = new Uniform();
-		pUnifrom->SetName(pName);
-		m_arrUniform.push_back(pUnifrom);
-		return pUnifrom;
+		m_vecPSSamplers.push_back(pUniform);
+	}
+
+	UINT ShaderProgram::GetSamplerCount()
+	{
+		return m_vecPSSamplers.size();
+	}
+
+	Uniform* ShaderProgram::GetSamplerByIndex(UINT nIndex)
+	{
+		return m_vecPSSamplers[nIndex].get();
+	}
+
+	void ShaderProgram::AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer)
+	{
+		m_vecConstBuffer[eType].push_back(pConstBuffer);
+	}
+
+	UINT ShaderProgram::GetConstBufferCount(ShaderType eType)
+	{
+		return m_vecConstBuffer[eType].size();
+	}
+
+	ConstantBuffer*	ShaderProgram::GetConstBufferByIndex(ShaderType eType, UINT nIndex)
+	{
+		if (nIndex >= m_vecConstBuffer[eType].size())
+			return NULL;
+
+		return m_vecConstBuffer[eType][nIndex].get();
 	}
 
 	RefPtr<ShaderProgram> CreateShaderProgram(const char* pszVSFile,const char* pszPSFile,const char* pszMarco,VertexDeclaration* pVertexDecl)

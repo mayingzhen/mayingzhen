@@ -12,9 +12,9 @@ namespace ma
 
 		~D3D11ShaderProgram();
 
-		virtual void CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize);
-
 		virtual void ParseUniform();
+
+		virtual void RT_Create();
 
 		virtual void RT_SetShader();
 
@@ -32,8 +32,20 @@ namespace ma
 		unsigned GetElementMask() const { return m_nElementMask; }
 
 	private:
+		void LoadByteCode();
+
+		void CreateFromByteCode();
+
 		void ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
-			RefPtr<ConstantBuffer> ConstantBuffersPtr[]);
+			RefPtr<D3D11ConstantBuffer> ConstantBuffersPtr[]);
+
+		void LoadByteCodeFromCache(const char* pszFile, vector<BYTE>& byteCode);
+		
+		void SaveByteCodeToCache(const char* pszFile, vector<BYTE>& byteCode);
+
+		void CompleVSFile();
+
+		void CompleFSFile();
 
 	private:
 
@@ -45,8 +57,8 @@ namespace ma
 
 		 /// Vertex element mask for vertex shaders. Zero for pixel shaders.
 		unsigned m_nElementMask;
-		RefPtr<ConstantBuffer> m_vecVSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
-		RefPtr<ConstantBuffer> m_vecPSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
+		RefPtr<D3D11ConstantBuffer> m_vecVSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
+		RefPtr<D3D11ConstantBuffer> m_vecPSConstantBuffers[MAX_SHADER_PARAMETER_GROUPS];
 
 		friend class D3D11RenderDevice;
 	};

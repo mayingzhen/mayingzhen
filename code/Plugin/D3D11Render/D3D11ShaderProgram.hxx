@@ -30,23 +30,77 @@ namespace ma
 		}
 	}
 
-	void D3D11ShaderProgram::CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize)
+
+	void D3D11ShaderProgram::LoadByteCodeFromCache(const char* pszFile, vector<BYTE>& byteCode)
 	{
-		Destory();
+		Stream*	pVSFile = GetArchiveMananger()->Open(pszFile);
+		if (pVSFile)
+		{
+			m_pByteVSCode.resize(pVSFile->GetSize());
+			UINT uReadSize = pVSFile->Read(&m_pByteVSCode[0], pVSFile->GetSize());
+		}
+	}
 
-		ASSERT(vshSource);
-		ASSERT(fshSource);
-		if (vshSource == NULL || fshSource == NULL)
-			return;
+	void D3D11ShaderProgram::SaveByteCodeToCache(const char* pszFile, vector<BYTE>& byteCode)
+	{
 
-		HRESULT hr = S_OK;
-		ID3D10Blob* pCode = NULL;
-		ID3D10Blob* error = NULL;
+	}
 
-
+	void D3D11ShaderProgram::CompleVSFile()
+	{
 		DWORD dwShaderFlags = 0;
 #ifdef _DEBUG
 		dwShaderFlags |= D3D10_SHADER_DEBUG;
+#endif
+		ID3D10Blob* pCode = NULL;
+		ID3D10Blob* error = NULL;
+
+		std::string strVshSource = PrePareShaderSource(strPathVS.c_str(), GetShaderMacro());
+	
+		HRESULT hr = D3DCompile(
+			strVshSource.c_str(),
+			strVshSource.size(),
+			NULL,
+			NULL,
+			NULL,
+			"main",
+			"vs_4_0",
+			dwShaderFlags,
+			dwShaderFlags,
+			&pCode,
+			&error);
+		//#endif
+		if (hr != S_OK)
+		{
+			if (error)
+			{
+				const char* pErrCode = (const char*)error->GetBufferPointer();
+				LogError(pErrCode);
+				ASSERT(false);
+			}
+		}
+	}
+
+	void D3D11ShaderProgram::CompleFSFile()
+	{		
+		hr = D3DCompile(
+			fshSource,
+			fshSize,
+			NULL,
+			NULL,
+			NULL,
+			"main",
+			"ps_4_0",
+			dwShaderFlags,
+			dwShaderFlags,
+			&pCode,
+			&error);
+		if (hr != S_OK)
+		{
+			const char* pErrCode = (const char*)error->GetBufferPointer();
+			LogError(pErrCode);
+			ASSERT(false);
+		}
 
 		char pszPath[MAX_PATH] = { 0 };
 		GetFullPathName("ShaderCach/D3D11/", MAX_PATH, pszPath, NULL);
@@ -67,104 +121,44 @@ namespace ma
 			saveFSile << fshSource;
 			saveFSile.close();
 		}
-#else
-		dwShaderFlags != D3DCOMPILE_OPTIMIZATION_LEVEL3;
-#endif 
+	}
 
-		if (vshSize > 0)
+	void D3D11ShaderProgram::LoadByteCode()
+	{
+		std::string strPath = GetRenderSystem()->GetShaderPath();
+
+		std::string strPathVS = strPath + GetVSFile() + ".vert";
+		std::string strPathFS = strPath + GetPSFile() + ".frag";
+
+		LoadByteCodeFromCache(strPathVS.c_str(), m_pByteVSCode);
+		LoadByteCodeFromCache(strPathFS.c_str(), m_pBytePSCode);
+
+		if (m_pByteVSCode.empty())
 		{
-// #ifdef _DEBUG
-// 			hr = D3DX11CompileFromFile(
-// 				strVshName.c_str(),
-// 				NULL,
-// 				NULL,
-// 				"main",
-// 				"vs_4_0", 
-// 				dwShaderFlags,
-// 				dwShaderFlags,
-// 				NULL,
-// 				&pCode,
-// 				&error,
-// 				&hr);
-// #else
-			hr = D3DCompile(
-				vshSource, 
-				vshSize,
-				NULL, 
-				NULL,
-				NULL,
-				"main",
-				"vs_4_0", 
-				dwShaderFlags, 
-				dwShaderFlags,
-				&pCode,
-				&error) ;
-//#endif
-			if (hr != S_OK)
-			{
-				if (error)
-				{
-					const char* pErrCode = (const char*)error->GetBufferPointer();
-					LogError(pErrCode);
-					ASSERT(false);
-				}
-			}
-			else
-			{
-				m_pByteVSCode.resize((unsigned)pCode->GetBufferSize());
-				memcpy(&m_pByteVSCode[0], pCode->GetBufferPointer(), m_pByteVSCode.size());
-				hr = GetD3D11DxDevive()->CreateVertexShader(&m_pByteVSCode[0], m_pByteVSCode.size(), NULL, &m_pVertexShader);
-				ASSERT(hr == S_OK);
-			}
+			CompleVSFile();
+
+			SaveByteCodeToCache(strPathVS.c_str(), m_pByteVSCode);
 		}
 
-
-		if (fshSize > 0)
+		if (m_pBytePSCode.empty())
 		{
-// #if _DEBUG
-// 			hr = D3DX11CompileFromFile(
-// 				strFshName.c_str(),
-// 				NULL,
-// 				NULL,
-// 				"main",
-// 				"ps_4_0", 
-// 				dwShaderFlags,
-// 				dwShaderFlags,
-// 				NULL,
-// 				&pCode,
-// 				&error,
-// 				&hr);
-// #else
-			hr = D3DCompile(
-				fshSource, 
-				fshSize,
-				NULL, 
-				NULL,
-				NULL,
-				"main",
-				"ps_4_0", 
-				dwShaderFlags, 
-				dwShaderFlags,
-				&pCode,
-				&error) ;
-//#endif
-			if (hr != S_OK)
-			{
-				const char* pErrCode = (const char*)error->GetBufferPointer();
-				LogError(pErrCode);
-				ASSERT(false);
-			}
-			else
-			{
-				m_pBytePSCode.resize((unsigned)pCode->GetBufferSize());
-				memcpy(&m_pBytePSCode[0], pCode->GetBufferPointer(), m_pBytePSCode.size());
+			CompleFSFile();
 
-				hr = GetD3D11DxDevive()->CreatePixelShader(pCode->GetBufferPointer(), pCode->GetBufferSize(), NULL, &m_pPiexelShader);
-				ASSERT(hr == S_OK);
-			}
+			SaveByteCodeToCache(strPathFS.c_str(), m_pBytePSCode);
 		}
+	}
 
-		ParseUniform();
+	void D3D11ShaderProgram::CreateFromByteCode()
+	{
+		Destory();
+
+		HRESULT hr = S_OK;
+
+		hr = GetD3D11DxDevive()->CreateVertexShader(&m_pByteVSCode[0], m_pByteVSCode.size(), NULL, &m_pVertexShader);
+		ASSERT(hr == S_OK);
+	
+		hr = GetD3D11DxDevive()->CreatePixelShader(&m_pBytePSCode[0], m_pBytePSCode.size(), NULL, &m_pPiexelShader);
+		ASSERT(hr == S_OK);
 
 		return;
 	}
@@ -177,7 +171,7 @@ namespace ma
 	}
 
 	void D3D11ShaderProgram::ParseShaderUniform(ShaderType eType,const vector<BYTE>& vecByteCode,
-		RefPtr<ConstantBuffer> ConstantBuffersPtr[])
+		RefPtr<D3D11ConstantBuffer> ConstantBuffersPtr[])
 	{
 		ID3D11ShaderReflection* reflection = 0;
 		D3D11_SHADER_DESC shaderDesc;
@@ -190,24 +184,6 @@ namespace ma
 		}
 
 		reflection->GetDesc(&shaderDesc);
-
-// 		if (eType == VS)
-// 		{
-// 			for (unsigned i = 0; i < shaderDesc.InputParameters; ++i)
-// 			{
-// 				D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
-// 				reflection->GetInputParameterDesc((UINT)i, &paramDesc);
-// 				for (unsigned j = 0; j < MAX_DECL_USAGE; ++j)
-// 				{
-// 					if (string(paramDesc.SemanticName) == string(elementSemantics[j]) &&
-// 						paramDesc.SemanticIndex == elementSemanticIndices[j])
-// 					{
-// 						elementMask_ |= (1 << j);
-// 						break;
-// 					}
-// 				}
-// 			}
-// 		}
 
 		map<string, unsigned> cbRegisterMap;
 
@@ -237,7 +213,7 @@ namespace ma
 			cb->GetDesc(&cbDesc);
 			unsigned cbRegister = cbRegisterMap[string(cbDesc.Name)];
 
-			RefPtr<ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, cbRegister, cbDesc.Size);
+			RefPtr<D3D11ConstantBuffer> pConstantBuffer = CreateConstantBuffer(eType, cbRegister, cbDesc.Size);
 			ConstantBuffersPtr[cbRegister] = pConstantBuffer;
 
 			for (unsigned j = 0; j < cbDesc.Variables; ++j)
@@ -251,14 +227,23 @@ namespace ma
 					Uniform* pUniform = this->AddUniform(varDesc.Name);
 					pUniform->m_vshShder = eType == VS;
 
-					pUniform->m_nCBOffset = varDesc.StartOffset;
-					pUniform->m_nCBSize = varDesc.Size;
-					pUniform->m_pD3D11CBPtr = pConstantBuffer.get();
+					pUniform->m_nOffSetInCB = varDesc.StartOffset;
+					pUniform->m_nSizeInCB = varDesc.Size;
+					pUniform->m_pCBPtr = pConstantBuffer.get();
 				}
 			}
 		}
 
 		reflection->Release();
+	}
+
+	void D3D11ShaderProgram::RT_Create()
+	{
+		LoadByteCode();
+
+		CreateFromByteCode();
+
+		ParseUniform();
 	}
 
 	void D3D11ShaderProgram::RT_SetShader()

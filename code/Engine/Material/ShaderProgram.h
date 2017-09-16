@@ -18,15 +18,9 @@ namespace ma
 	
 		DECL_OBJECT(ShaderProgram)
 
-		virtual void		CreateFromSource(const char* vshSource, UINT vshSize, const char* fshSource, UINT fshSize) = 0;
 		void				CreateFromFile(const char* vshPath, const char* fshPath, const char* defines, VertexDeclaration* pVertexDecl);
 
 		void				Reload();	
-
-		void				BindUniform();	
-		Uniform*			GetUniform(const char* name) const;
-		Uniform*			GetUniform(UINT index) const;
-		UINT				GetUniformCount() const;
 
 		const char*			GetVSFile() const;
 		void				SetVSFile(const char* pszVSFile);
@@ -39,19 +33,24 @@ namespace ma
         
         VertexDeclaration*  GetVertexDeclaration() {return m_pVertexDecl.get();}
 
-		virtual void		CommitChanges() { ASSERT(false); }
+		void				AddConstBuffer(ShaderType eType, ConstantBuffer* pConstBuffer);
+		UINT				GetConstBufferCount(ShaderType eType);
+		ConstantBuffer*		GetConstBufferByIndex(ShaderType eType,UINT nIndex);
+
+		void				AddSampler(Uniform* pUniform);
+		UINT				GetSamplerCount();
+		Uniform*			GetSamplerByIndex(UINT nIndex);
 
 	protected:
-
 		virtual	void		RT_SetShader() = 0;
 
-		void				RT_StreamComplete();
-
-		Uniform*			AddUniform(const char* pName);
+		virtual void		RT_StreamComplete() = 0;
 
 	private:
-		typedef std::vector< RefPtr<Uniform> > VEC_UNIFORM;
-		VEC_UNIFORM			m_arrUniform;
+		typedef std::vector< RefPtr<ConstantBuffer> > VEC_CONSTBUFFER;
+		VEC_CONSTBUFFER		m_vecConstBuffer[ShaderType_Number];
+
+		std::vector< RefPtr<Uniform> > m_vecPSSamplers;
 
 		std::string			m_strVSFile;
 		std::string			m_strPSFile;

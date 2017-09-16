@@ -216,11 +216,11 @@ namespace ma
 					continue;
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
-				//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = m_vecIBTemp[m];
-				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
+				pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID)->Clone();
 				pRenderable->m_fMateriID = (float)iMatID;
+				pRenderable->UpdateUniform(this);
 				lod.m_vecBody.push_back(pRenderable);
 			}
 			else
@@ -265,11 +265,11 @@ namespace ma
 						(uint8*)&bodyIBList[0],sizeof(uint16) * bodyIBList.size(),sizeof(uint16));
 
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
-					//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = pIB;
-					pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID);
+					pRenderable->m_pSubMaterial = m_pTerrain->GetMaterialByID(iMatID)->Clone();
 					pRenderable->m_fMateriID = (float)iMatID;
+					pRenderable->UpdateUniform(this);
 					lod.m_vecBody.push_back(pRenderable);
 				}
 			}
@@ -358,11 +358,11 @@ namespace ma
 				pTech->SetDepthStencilState(pDSState.get());
 
 				TerrainRenderable* pRenderable = new TerrainRenderable(this);
-				//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 				pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 				pRenderable->m_pIndexBuffer = it->second;
 				pRenderable->m_pSubMaterial = pBorderMaterial;
 				pRenderable->m_fMateriID = (float)it->first;
+				pRenderable->UpdateUniform(this);
 				lod.m_vecBorder.push_back(pRenderable);
 			}
 		}
@@ -399,10 +399,10 @@ namespace ma
 				for (UINT i = 0; i < SideNum; ++i)
 				{
 					TerrainRenderable* pRenderable = new TerrainRenderable(this);
-					//pRenderable->m_pDeclaration = m_pTerrain->GetVertexDeclaration();
 					pRenderable->m_pVertexBuffer = m_vecVBTemp[m];
 					pRenderable->m_pIndexBuffer = skitIB.skirtIB[i];
 					pRenderable->m_pSubMaterial = pSkirtMaterial.get();
+					pRenderable->UpdateUniform(this);
 					skirt.skirt[i] = pRenderable;
 				}
 			}

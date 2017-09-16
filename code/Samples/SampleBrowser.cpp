@@ -69,7 +69,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		if (m_setting.eRenderType == RenderDevice_D3D11)
 		{
-			D3D11RenderModuleInit();
+			//D3D11RenderModuleInit();
 		}
 		else if (m_setting.eRenderType == RenderDevice_VULKAN)
 		{
@@ -77,7 +77,7 @@ namespace ma
 		}
 		else if (m_setting.eRenderType == RenderDevice_GLES2)
 		{
-			GLESRenderModuleInit();
+			//GLESRenderModuleInit();
 		}
 #elif PLAFTORM_IOS == 1
         MetalRenderModuleInit();
@@ -100,7 +100,7 @@ namespace ma
 #if PLATFORM_WIN == 1
 		if (m_setting.eRenderType == RenderDevice_D3D11)
 		{
-			D3D11RenderModuleShutdown();
+			//D3D11RenderModuleShutdown();
 		}
 		else if (m_setting.eRenderType == RenderDevice_VULKAN)
 		{
@@ -108,7 +108,7 @@ namespace ma
 		}
 		else if (m_setting.eRenderType == RenderDevice_GLES2)
 		{
-			GLESRenderModuleShutdown();
+			//GLESRenderModuleShutdown();
 		}	
 #elif PLAFTORM_IOS == 1
         MetalRenderModuleShutdown();

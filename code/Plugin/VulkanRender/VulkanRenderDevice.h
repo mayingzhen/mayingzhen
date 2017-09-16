@@ -7,7 +7,7 @@ namespace ma
 {
 	class IndexBuffer;
 	class VertexBuffer;
-	class ConstantBuffer;
+	class VulkanConstantBuffer;
 	class VulkanResource;
 	class VulkanShaderProgram;
 	class VulkanVertexDeclaration;
@@ -28,6 +28,7 @@ namespace ma
 		virtual VertexBuffer*		CreateVertexBuffer();
 		virtual IndexBuffer*		CreateIndexBuffer();
 		virtual ShaderProgram*		CreateShaderProgram();
+		virtual ConstantBuffer*		CreateConstantBuffer(UINT nSize);
 
 		virtual BlendState*			CreateBlendState();
 		virtual DepthStencilState*	CreateDepthStencilState();
@@ -49,16 +50,16 @@ namespace ma
 		virtual void				SetDepthStencilState(const DepthStencilState* pDSState,UINT nStencilRef);
 		virtual void				SetRasterizerState(const RasterizerState* pRSState);
 		
-		virtual void				SetValue(Uniform* uniform, int value);
-		virtual void				SetValue(Uniform* uniform, float value);
-		virtual void				SetValue(Uniform* uniform, const Vector2& value);
-		virtual void				SetValue(Uniform* uniform, const Vector3& value);
-		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
-		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
-		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
-		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
-		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
-		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
+// 		virtual void				SetValue(Uniform* uniform, int value);
+// 		virtual void				SetValue(Uniform* uniform, float value);
+// 		virtual void				SetValue(Uniform* uniform, const Vector2& value);
+// 		virtual void				SetValue(Uniform* uniform, const Vector3& value);
+// 		virtual void				SetValue(Uniform* uniform, const Vector4* values, UINT count);
+// 		virtual void				SetValue(Uniform* uniform, const Matrix4* values, UINT count);
+// 		virtual void				SetValue(Uniform* uniform, const ColourValue& value);
+// 		virtual	void				SetTexture(Uniform* uniform,Texture* pTexture);
+// 		virtual	void				SetTexture(uint32 nIndex,Texture* pTexture,bool bSRGBNotEqual);
+// 		virtual void				SetSamplerState(Uniform* uniform,SamplerState* pTexture);
 
 		virtual	void				SetVertexDeclaration(const VertexDeclaration* pDec);
 		virtual void				SetIndexBuffer(IndexBuffer* pIB);
@@ -94,8 +95,6 @@ namespace ma
 		void						ClearAllStates();
 
 	private:
-		void						SetValue(Uniform* uniform, const float* values, UINT count);
-
 		void						CommitChanges();
 		
 		bool						BuildDeviceCapabilities();
@@ -154,7 +153,7 @@ namespace ma
 
 		std::vector<VkFramebuffer> m_frameBuffers;
 
-		SamplerState* m_arrSampler[MAX_TEXTURE_UNITS];
+		//SamplerState* m_arrSampler[MAX_TEXTURE_UNITS];
 
 		struct
 		{

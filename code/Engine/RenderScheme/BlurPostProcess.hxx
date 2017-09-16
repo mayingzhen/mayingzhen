@@ -66,9 +66,9 @@ namespace ma
 			GetRenderSystem()->SetFrameBuffer(&fb);
 			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
-			ShaderProgram* pShader = m_pBlurXTech->GetShaderProgram();
-			GetRenderSystem()->SetValue( pShader->GetUniform("color_weight"),(Vector4*)(&m_color_weightX[0]),m_color_weightX.size() / 4 );
-			GetRenderSystem()->SetValue( pShader->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetX[0]),m_tex_coord_offsetX.size() / 4 );
+			//ShaderProgram* pShader = m_pBlurXTech->GetShaderProgram();
+			m_pBlurXTech->SetValue(m_pBlurXTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightX[0]),m_color_weightX.size() / 4 );
+			m_pBlurXTech->SetValue(m_pBlurXTech->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetX[0]),m_tex_coord_offsetX.size() / 4 );
 
 			ScreenQuad::Render(m_pBlurXTech.get());
 		}
@@ -82,8 +82,8 @@ namespace ma
 			GetRenderSystem()->ClearBuffer(true,true,true,ColourValue::White,1.0f,0);
 
 			ShaderProgram* pShader = m_pBlurYTech->GetShaderProgram();
-			GetRenderSystem()->SetValue( pShader->GetUniform("color_weight"),(Vector4*)(&m_color_weightY[0]),m_color_weightY.size() / 4 );
-			GetRenderSystem()->SetValue( pShader->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetY[0]),m_tex_coord_offsetY.size() / 4 );
+			m_pBlurYTech->SetValue(m_pBlurYTech->GetUniform("color_weight"),(Vector4*)(&m_color_weightY[0]),m_color_weightY.size() / 4 );
+			m_pBlurYTech->SetValue(m_pBlurYTech->GetUniform("tex_coord_offset"),(Vector4*)(&m_tex_coord_offsetY[0]),m_tex_coord_offsetY.size() / 4 );
 
 			ScreenQuad::Render(m_pBlurYTech.get());
 		}

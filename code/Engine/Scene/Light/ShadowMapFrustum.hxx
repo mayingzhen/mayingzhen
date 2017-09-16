@@ -376,8 +376,8 @@ namespace ma
 
 			 pTech->Bind();
 
-			 Uniform* pUniform = pTech->GetShaderProgram()->GetUniform("matLightViewProj");
-			 GetRenderSystem()->SetValue(pUniform,m_matLightViewProj[GetRenderSystem()->CurThreadProcess()]);
+			 Uniform* pUniform = pTech->GetUniform("matLightViewProj");
+			 pTech->SetValue(pUniform,m_matLightViewProj[GetRenderSystem()->CurThreadProcess()]);
 
 			 pRenderObj->Render(pTech);
 		}

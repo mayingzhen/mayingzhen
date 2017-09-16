@@ -10,21 +10,17 @@ namespace ma
 
 		pTech->Bind();
 
-		SetPosUVAABB(pTech);
-
-		ShaderProgram* pShader = pTech->GetShaderProgram();
-		
-		if (pShader->GetUniform("boneDQ"))
+		if (pTech->GetUniform("boneDQ"))
 		{
 			const DualQuaternion* pDQ = GetSkinDQ();
 			uint32 nNumDQ = GetSkinDQCount();	
-			GetRenderSystem()->SetValue( pShader->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumDQ * 2 );
+			pTech->SetValue(pTech->GetUniform("boneDQ"), (const Vector4*)pDQ, nNumDQ * 2 );
 		}
 		else
 		{
 			const Matrix3x4* pMatrix = GetSkinMatrix();
 			UINT32 nNumMatrix = GetSkinMatrixCount();
-			GetRenderSystem()->SetValue( pShader->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
+			pTech->SetValue(pTech->GetUniform("boneMatrix"), (const Vector4*)pMatrix, nNumMatrix * 3 );
 		}
 
 		pTech->CommitChanges();

@@ -45,15 +45,15 @@ namespace ma
 		eRC_SetVertexDeclation,
 
 		// Unfiform
-		eRC_SetInt,
-		eRC_SetFloat,
-		eRC_SetVector2,
-		eRC_SetVector3,
-		eRC_SetVector4,
-		eRC_SetMatrix4,
-		eRC_SetColourValue,
- 		eRC_SetTexture,
-		eRC_SetSamplerState,
+// 		eRC_SetInt,
+// 		eRC_SetFloat,
+// 		eRC_SetVector2,
+// 		eRC_SetVector3,
+// 		eRC_SetVector4,
+// 		eRC_SetMatrix4,
+// 		eRC_SetColourValue,
+//  		eRC_SetTexture,
+// 		eRC_SetSamplerState,
 
 		eRC_SetPoolId,
 
@@ -148,15 +148,15 @@ namespace ma
 
 		void	RC_SetVertexDeclation(const VertexDeclaration* pVertexDecl);
 
-		void	RC_SetInt(Uniform* uniform, int value);
-		void	RC_SetFloat(Uniform* uniform, float value);
-		void	RC_SetVector2(Uniform* uniform, const Vector2& value);
-		void	RC_SetVector3(Uniform* uniform, const Vector3& value);
-		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
-		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
-		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
- 		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
-		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
+// 		void	RC_SetInt(Uniform* uniform, int value);
+// 		void	RC_SetFloat(Uniform* uniform, float value);
+// 		void	RC_SetVector2(Uniform* uniform, const Vector2& value);
+// 		void	RC_SetVector3(Uniform* uniform, const Vector3& value);
+// 		void	RC_SetVector4(Uniform* uniform, const Vector4* values, UINT count);
+// 		void	RC_SetMatrix4(Uniform* uniform, const Matrix4* values, UINT count);
+// 		void	RC_SetColourValue(Uniform* uniform, const ColourValue& value);
+//  		void	RC_SetTexture(Uniform* uniform, const Texture* sampler);
+// 		void	RC_SetSamplerState(Uniform* uniform, const SamplerState* sampler);
 
 		void	RC_SetPoolId(uint32 poolId);
 

@@ -12,13 +12,6 @@ namespace ma
 
 		virtual void					Render(Technique* pTech);
 
-	protected:
-		void							SetPosUVAABB(Technique* pTech);
-
-	public:
-		AABB							m_posAABB;
-		AABB2D							m_tcAABB;
-
 	};
 }
 

@@ -19,7 +19,7 @@ namespace ma
 
 	VulkanRenderDevice::VulkanRenderDevice()
 	{
-		memset(m_arrSampler, 0, sizeof(m_arrSampler));
+		//memset(m_arrSampler, 0, sizeof(m_arrSampler));
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
@@ -63,6 +63,13 @@ namespace ma
 	ShaderProgram*	VulkanRenderDevice::CreateShaderProgram()
 	{
 		return new VulkanShaderProgram();
+	}
+
+	ConstantBuffer*	VulkanRenderDevice::CreateConstantBuffer(UINT nSize)
+	{
+		VulkanConstantBuffer* pVKConstBuffer = new VulkanConstantBuffer();
+		pVKConstBuffer->SetSize(nSize);
+		return pVKConstBuffer;
 	}
 
 	BlendState*	VulkanRenderDevice::CreateBlendState()
@@ -439,8 +446,10 @@ namespace ma
 		rp_begin.renderArea.extent.width = m_width;
 		rp_begin.renderArea.extent.height = m_height;
 		rp_begin.clearValueCount = 2;
-		rp_begin.pClearValues = clearValues;
-		vkCmdBeginRenderPass(m_drawCmdBuffers[m_currentBuffer], &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
+		rp_begin.pClearValues = clearValues;
+
+		vkCmdBeginRenderPass(m_drawCmdBuffers[m_currentBuffer], &rp_begin, VK_SUBPASS_CONTENTS_INLINE);
+
 	}
 
 	void VulkanRenderDevice::EndRender()
@@ -523,71 +532,71 @@ namespace ma
 
 	}
 
-	void VulkanRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
-	{
-
-	}
-
-
-	void VulkanRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
-	{
-		
-	}
-
-	void VulkanRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
-	{
-		m_arrSampler[uniform->m_index] = pSampler;
-	}
+// 	void VulkanRenderDevice::SetTexture(uint32 index,Texture* pTexture,bool bSRGBNotEqual)
+// 	{
+// 
+// 	}
+// 
+// 
+// 	void VulkanRenderDevice::SetTexture(Uniform* uniform,Texture* pTexture)
+// 	{
+// 		
+// 	}
+// 
+// 	void VulkanRenderDevice::SetSamplerState(Uniform* uniform,SamplerState* pSampler)
+// 	{
+// 		//m_arrSampler[uniform->m_index] = pSampler;
+// 	}
 
 	void VulkanRenderDevice::CommitChanges()
 	{
 	}
 
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
-	{
-		ASSERT(uniform);
-		ASSERT(values);
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const float* values, UINT nSize)
+// 	{
+// 		ASSERT(uniform);
+// 		ASSERT(values);
+// 
+// 		VulkanConstantBuffer* pConstantBuffer = (VulkanConstantBuffer*)(uniform->m_pCBPtr);
+// 
+// 		ASSERT(nSize <= uniform->GetSize());
+// 		pConstantBuffer->SetParameter(uniform->GetOffset(), nSize, values);
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, int value)
+// 	{
+// 		SetValue(uniform,(const float*)&value,sizeof(int));
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, float value)
+// 	{
+// 		SetValue(uniform,(const float*)&value,sizeof(float));
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
+// 	{
+// 		SetValue(uniform,(const float*)&value,sizeof(Vector2));
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
+// 	{
+// 		SetValue(uniform,(const float*)&value,sizeof(Vector3));
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
+// 	{
+// 		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
+// 	}
+// 
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
+// 	{
+// 		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
+// 	}
 
-		ConstantBuffer* pConstantBuffer = (ConstantBuffer*)(uniform->m_pD3D11CBPtr);
-
-		ASSERT(nSize <= uniform->m_nCBSize);
-		pConstantBuffer->SetParameter(uniform->m_nCBOffset, nSize, values);
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, int value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(int));
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, float value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(float));
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector2& value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(Vector2));
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector3& value)
-	{
-		SetValue(uniform,(const float*)&value,sizeof(Vector3));
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-	{
-		SetValue(uniform,(const float*)values,sizeof(Vector4) * count);
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-	{
-		SetValue(uniform,(const float*)values,sizeof(Matrix4) * count);
-	}
-
-	void VulkanRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
-	{
-		SetValue(uniform,(const float*)&value,12);
-	}
+// 	void VulkanRenderDevice::SetValue(Uniform* uniform, const ColourValue& value)
+// 	{
+// 		SetValue(uniform,(const float*)&value,12);
+// 	}
 
 	void VulkanRenderDevice::SetVertexDeclaration(const VertexDeclaration* pDec)
 	{
@@ -664,7 +673,8 @@ namespace ma
 		out[0][0] = xScale; out[0][1] = 0.f;    out[0][2] = 0.f;    out[0][3] = 0.f;
 		out[1][0] = 0.f;    out[1][1] = yScale; out[1][2] = 0.f;    out[1][3] = 0.f;
 		out[2][0] = 0.f;    out[2][1] = 0.f;    out[2][2] = zScale; out[2][3] = zn * zScale;
-		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+		out[3][0] = 0.f;    out[3][1] = 0.f;    out[3][2] = -1;     out[3][3] = 0.f;
+
 		//Vulkan clip space has inverted Y
 		Matrix4 Clip = Matrix4::IDENTITY;
 		Clip.setScale(Vector3(1,-1,1));

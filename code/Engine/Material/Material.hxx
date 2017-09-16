@@ -80,6 +80,16 @@ namespace ma
 			
 			pXmlParameter = pXmlParameter->next_sibling("Parameters");
 		}
+
+		if (m_pShadingTech)
+		{
+			m_pShadingTech->StreamComplete();
+		}
+
+		if (m_pShadowDepthTech)
+		{
+			m_pShadowDepthTech->StreamComplete();
+		}
 	}
 
 	void SubMaterial::Export(rapidxml::xml_node<>* pXmlElem,rapidxml::xml_document<>& doc)

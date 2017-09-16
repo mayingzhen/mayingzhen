@@ -4,7 +4,7 @@ namespace ma
 {
 	class IndexBuffer;
 	class VertexBuffer;
-	class ConstantBuffer;
+	class D3D11ConstantBuffer;
 	class D3D11Resource;
 	class D3D11ShaderProgram;
 	class D3D11VertexDeclaration;

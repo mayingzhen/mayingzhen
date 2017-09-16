@@ -94,7 +94,9 @@ namespace ma
 
 	void MeshComponent::SetMaterialFile(const char* pFile)
 	{
-		SetMaterial( CreateMaterial(pFile).get() );
+		RefPtr<Material> pMaterilaTemp = CreateMaterial(pFile);
+		RefPtr<Material> pMaterila = pMaterilaTemp->Clone();
+		SetMaterial(pMaterila.get());
 	}
 
 	void MeshComponent::SetMaterial(Material* pMaterial)
@@ -149,18 +151,24 @@ namespace ma
 				MeshRenderable* pRenderable = new MeshRenderable();
 
 				pRenderable->m_ePrimitiveType = PRIM_TRIANGLELIST;
-				//pRenderable->m_pDeclaration = pMesData->GetVertexDeclar(); 
 				pRenderable->m_pVertexBuffer = pMesData->GetVertexBuffer(); 
 				pRenderable->m_pIndexBuffer = pMesData->GetIndexBuffer();
 				pRenderable->m_pSubMeshData = pMesData->GetSubMeshByIndex(iSub);
-				pRenderable->m_posAABB = pMesData->GetBoundingAABB();
-				pRenderable->m_tcAABB = pMesData->GetUVBoundingAABB();
 
 				SubMaterial* pSubMaterial = m_pMaterial->GetLodSubByIndex(iLod, iSub);
-
-				//pSubMaterial->GetShadingTechnqiue()->SetVertexDeclaration(pMesData->GetVertexDeclar());
-
 				pRenderable->m_pSubMaterial = pSubMaterial;
+
+				Technique* pTech = pSubMaterial->GetShadingTechnqiue();
+
+				Vector3 pos_extent = pMesData->GetBoundingAABB().getHalfSize();
+				Vector3 pos_center = pMesData->GetBoundingAABB().getCenter();
+				Vector2 tc_extent = pMesData->GetUVBoundingAABB().getHalfSize();
+				Vector2	tc_center = pMesData->GetUVBoundingAABB().getCenter();
+				Vector4 tc_extent_center = Vector4(tc_extent.x,tc_extent.y,tc_center.x,tc_center.y);
+
+				pTech->SetValue( pTech->GetUniform("pos_extent"), pos_extent );
+				pTech->SetValue( pTech->GetUniform("pos_center"), pos_center );
+				pTech->SetValue( pTech->GetUniform("tc_extent_center"), tc_extent_center );
 
 				arrRenderable.push_back(pRenderable);
 			}

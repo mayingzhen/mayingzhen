@@ -143,10 +143,6 @@
       <Project>{b409639e-14c1-4a05-a3f5-192f4f365582}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="GLESRender.vcxproj">
-      <Project>{e4062c38-5d4a-4fe1-af24-d7bb538a8ab3}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="MonoScript.vcxproj">
       <Project>{74713f14-9c40-4c2d-b6a9-56bee1d8904c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

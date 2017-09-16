@@ -4,20 +4,20 @@
 
 namespace ma
 {
-	std::map<unsigned, RefPtr<ConstantBuffer> > g_mapConstantBufferPool;
+	std::map<unsigned, RefPtr<D3D11ConstantBuffer> > g_mapConstantBufferPool;
 
-	ConstantBuffer::ConstantBuffer() 
+	D3D11ConstantBuffer::D3D11ConstantBuffer() 
 	{
 		m_pD3D11Buffer = NULL;
 		m_bDirty = false;
 	}
 
-	ConstantBuffer::~ConstantBuffer()
+	D3D11ConstantBuffer::~D3D11ConstantBuffer()
 	{
 		Release();
 	}
 
-	void ConstantBuffer::Release()
+	void D3D11ConstantBuffer::Release()
 	{
 		if (m_pD3D11Buffer)
 		{
@@ -27,7 +27,7 @@ namespace ma
 		m_shadowData.clear();
 	}
 
-	bool ConstantBuffer::SetSize(unsigned size)
+	bool D3D11ConstantBuffer::SetSize(unsigned size)
 	{
 		Release();
 
@@ -67,7 +67,7 @@ namespace ma
 		return true;
 	}
 
-	void ConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
+	void D3D11ConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
 	{
 		if (offset + size > m_shadowData.size())
 			return; // Would overflow the buffer
@@ -76,7 +76,7 @@ namespace ma
 		m_bDirty = true;
 	}
 
-	void ConstantBuffer::SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data)
+	void D3D11ConstantBuffer::SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data)
 	{
 		if (offset + rows * 4 * sizeof(float) > m_shadowData.size())
 			return; // Would overflow the buffer
@@ -95,7 +95,7 @@ namespace ma
 		m_bDirty = true;
 	}
 
-	void ConstantBuffer::Apply()
+	void D3D11ConstantBuffer::Apply()
 	{
 		if (m_bDirty && m_pD3D11Buffer)
 		{
@@ -104,23 +104,23 @@ namespace ma
 		}
 	}
 
-	void ConstantBuffer::Clear()
+	void D3D11ConstantBuffer::Clear()
 	{
 		g_mapConstantBufferPool.clear();
 	}
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
+	RefPtr<D3D11ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
 	{
 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 		unsigned key = type | (index << 1) | (size << 4);
-		map<unsigned, RefPtr<ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
+		map<unsigned, RefPtr<D3D11ConstantBuffer> >::iterator i = g_mapConstantBufferPool.find(key);
 		if (i != g_mapConstantBufferPool.end())
 		{
 			return i->second.get();
 		}
 		else
 		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
+			RefPtr<D3D11ConstantBuffer> newConstantBuffer(new D3D11ConstantBuffer());
 			newConstantBuffer->SetSize(size);
 			g_mapConstantBufferPool[key] = newConstantBuffer;
 			return newConstantBuffer;

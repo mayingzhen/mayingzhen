@@ -5,20 +5,18 @@
 
 namespace ma
 {
-	std::map<unsigned, RefPtr<ConstantBuffer> > g_mapConstantBufferPool;
-
-	ConstantBuffer::ConstantBuffer() 
+	VulkanConstantBuffer::VulkanConstantBuffer() 
 	{
 		//m_pVulkanBuffer = NULL;
 		m_bDirty = false;
 	}
 
-	ConstantBuffer::~ConstantBuffer()
+	VulkanConstantBuffer::~VulkanConstantBuffer()
 	{
 		Release();
 	}
 
-	void ConstantBuffer::Release()
+	void VulkanConstantBuffer::Release()
 	{
 // 		if (m_pVulkanBuffer)
 // 		{
@@ -28,23 +26,8 @@ namespace ma
 		//m_shadowData.clear();
 	}
 
-// 	bool memory_type_from_properties(struct sample_info &info, uint32_t typeBits, VkFlags requirements_mask, uint32_t *typeIndex) {
-// 		// Search memtypes to find first index with those properties
-// 		for (uint32_t i = 0; i < info.memory_properties.memoryTypeCount; i++) {
-// 			if ((typeBits & 1) == 1) {
-// 				// Type is available, does it match user properties?
-// 				if ((info.memory_properties.memoryTypes[i].propertyFlags & requirements_mask) == requirements_mask) {
-// 					*typeIndex = i;
-// 					return true;
-// 				}
-// 			}
-// 			typeBits >>= 1;
-// 		}
-// 		// No memory types matched, return failure
-// 		return false;
-//	}
 
-	bool ConstantBuffer::SetSize(unsigned size)
+	bool VulkanConstantBuffer::Create()
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
 
@@ -52,7 +35,7 @@ namespace ma
 // 		size += 15;
 // 		size &= 0xfffffff0;
 
-		m_nSize = size;
+		//m_nSize = size;
 
 		m_bDirty = false;
 
@@ -61,7 +44,7 @@ namespace ma
 		buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		buf_info.pNext = NULL;
 		buf_info.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-		buf_info.size = size;
+		buf_info.size = this->GetSize();
 		buf_info.queueFamilyIndexCount = 0;
 		buf_info.pQueueFamilyIndices = NULL;
 		buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
@@ -87,63 +70,38 @@ namespace ma
 		res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
 		assert(res == VK_SUCCESS);
 
-		VK_CHECK_RESULT(vkMapMemory(vulkanDevice->logicalDevice, m_mem, 0, size, 0, (void **)&m_mapped));
+		VK_CHECK_RESULT(vkMapMemory(vulkanDevice->logicalDevice, m_mem, 0, this->GetSize(), 0, (void **)&m_mapped));
+
+		memset(m_mapped, 0, this->GetSize());
+
+		//vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
 
 		m_descriptor.offset = 0;
 		m_descriptor.buffer = m_buf;
-		m_descriptor.range = size;
+		m_descriptor.range = this->GetSize();
 
 		return true;
 	}
 
-	void ConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
+	void VulkanConstantBuffer::SetParameter(unsigned offset, unsigned size, const void* data)
 	{
 		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
-
-// 		uint8_t *pData;
-// 		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, size, 0, (void **)&pData);
-// 		assert(res == VK_SUCCESS);
 
 		memcpy(m_mapped + offset, data, size);
 
-		//vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
-
 		m_bDirty = true;
 	}
 
-	void ConstantBuffer::SetVector3ArrayParameter(unsigned offset, unsigned rows, const void* data)
+	void VulkanConstantBuffer::Apply()
 	{
-		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
-
-		uint8_t *pData;
-		VkResult res = vkMapMemory(vulkanDevice->logicalDevice, m_mem, offset, rows * sizeof(Vector3), 0, (void **)&pData);
-		assert(res == VK_SUCCESS);
-
-		memcpy(pData, data, rows * sizeof(Vector3));
-
-		vkUnmapMemory(vulkanDevice->logicalDevice, m_mem);
-
-		m_bDirty = true;
 	}
 
-	void ConstantBuffer::Apply()
-	{
-		vks::VulkanDevice* vulkanDevice = GetVulkanDevice();
-
-		if (m_bDirty)
-		{
-// 			VkResult res = vkBindBufferMemory(vulkanDevice->logicalDevice, m_buf, m_mem, 0);
-// 			assert(res == VK_SUCCESS);
-			m_bDirty = false;
-		}
-	}
-
-	void ConstantBuffer::Clear()
+	void VulkanConstantBuffer::Clear()
 	{
 		//g_mapConstantBufferPool.clear();
 	}
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
+	RefPtr<VulkanConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size)
 	{
 // 		// Ensure that different shader types and index slots get unique buffers, even if the size is same
 // 		unsigned key = type | (index << 1) | (size << 4);
@@ -154,10 +112,10 @@ namespace ma
 // 		}
 // 		else
 // 		{
-			RefPtr<ConstantBuffer> newConstantBuffer(new ConstantBuffer());
+			RefPtr<VulkanConstantBuffer> newConstantBuffer(new VulkanConstantBuffer());
 			newConstantBuffer->SetSize(size);
-			newConstantBuffer->m_nBound = index;
-			//g_mapConstantBufferPool[key] = newConstantBuffer;
+			newConstantBuffer->SetBound(index);
+			newConstantBuffer->Create();
 			return newConstantBuffer;
 // 		}
 		return NULL;

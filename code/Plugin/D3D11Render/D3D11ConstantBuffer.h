@@ -5,11 +5,11 @@ namespace ma
 {
 
 	/// Hardware constant buffer.
-	class ConstantBuffer : public Referenced
+	class D3D11ConstantBuffer : public ConstantBuffer
 	{
 	public:
-		ConstantBuffer();
-		virtual ~ConstantBuffer();
+		D3D11ConstantBuffer();
+		virtual ~D3D11ConstantBuffer();
 
 		/// Release buffer.
 		virtual void Release();
@@ -46,6 +46,6 @@ namespace ma
 		ID3D11Buffer* m_pD3D11Buffer;
 	};
 
-	RefPtr<ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
+	RefPtr<D3D11ConstantBuffer> CreateConstantBuffer(ShaderType type, unsigned index, unsigned size);
 
 }

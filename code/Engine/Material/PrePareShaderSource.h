@@ -115,10 +115,10 @@ namespace ma
 		}
 	}
 
-	std::string PrePareShaderSource(const char* shPath,const char* defines)
+	std::string PrePareShaderSource(const char* shPath, const char* defines)
 	{
 		// Read source from file.
-		RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(shPath); 
+		RefPtr<MemoryStream> pDataStream = GetArchiveMananger()->ReadAll(shPath);
 		if (pDataStream == NULL)
 			return "";
 
@@ -147,11 +147,10 @@ namespace ma
 
 			//writeShaderToErrorFile(vshPath, vshSourceStr.c_str());   // Debugging
 		}
-		shaderSource[2] = shPath ? shSourceStr.c_str() :  shSource;
+		shaderSource[2] = shPath ? shSourceStr.c_str() : shSource;
 
 		return std::string(shaderSource[0]) + shaderSource[1] + shaderSource[2];
 	}
-
 }
 
 

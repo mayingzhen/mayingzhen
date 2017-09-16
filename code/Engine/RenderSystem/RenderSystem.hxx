@@ -239,10 +239,10 @@ namespace ma
 	{
         GetRenderDevice()->BeginRender();
 		
-        for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
-		{
-			GetRenderDevice()->SetTexture(i,NULL,true);
-		}
+//         for (uint32 i = 0; i < MAX_TEXTURE_UNITS; ++i)
+// 		{
+// 			GetRenderDevice()->SetTexture(i,NULL,true);
+// 		}
 	}
 
 	void RenderSystem::RT_EndRender()
@@ -497,98 +497,98 @@ namespace ma
 		return pVD;
 	}
 
-	void RenderSystem::SetValue(Uniform* uniform, int value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetInt(uniform,value);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, float value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetFloat(uniform,value);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const Vector2& value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetVector2(uniform,value);
-	}	
-
-	void RenderSystem::SetValue(Uniform* uniform, const Vector3& value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetVector3(uniform,value);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const Vector4& value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetVector4(uniform,&value,1);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const Matrix4& value)
-	{
-		m_pRenderThread->RC_SetMatrix4(uniform,&value,1);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
-	{
-		if (values == NULL)
-			return;
-
-		m_pRenderThread->RC_SetMatrix4(uniform,values,count);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
-	{
-		if (values == NULL)
-			return;
-
-		m_pRenderThread->RC_SetVector4(uniform,values,count);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, const ColourValue& value)
-	{
-		if (uniform == NULL)
-			return;
-
-		m_pRenderThread->RC_SetColourValue(uniform,value);
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, Texture* pTexture)
-	{
-		ASSERT(uniform);
-		//ASSERT(pTexture);
-
-		//if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
-		{
-			m_pRenderThread->RC_SetTexture(uniform,pTexture);
-		}
-	}
-
-	void RenderSystem::SetValue(Uniform* uniform, SamplerState* pTexture)
-	{
-		ASSERT(uniform);
-		ASSERT(pTexture);
-
-		//if ( m_arrSampState[uniform->m_index] != pTexture )
-		{
-			m_pRenderThread->RC_SetSamplerState(uniform,pTexture);
-
-			m_arrSampState[uniform->m_index] = pTexture; 
-		}
-	}
+// 	void RenderSystem::SetValue(Uniform* uniform, int value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetInt(uniform,value);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, float value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetFloat(uniform,value);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Vector2& value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetVector2(uniform,value);
+// 	}	
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Vector3& value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetVector3(uniform,value);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Vector4& value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetVector4(uniform,&value,1);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Matrix4& value)
+// 	{
+// 		m_pRenderThread->RC_SetMatrix4(uniform,&value,1);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Matrix4* values, UINT count)
+// 	{
+// 		if (values == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetMatrix4(uniform,values,count);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const Vector4* values, UINT count)
+// 	{
+// 		if (values == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetVector4(uniform,values,count);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, const ColourValue& value)
+// 	{
+// 		if (uniform == NULL)
+// 			return;
+// 
+// 		m_pRenderThread->RC_SetColourValue(uniform,value);
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, Texture* pTexture)
+// 	{
+// 		ASSERT(uniform);
+// 		//ASSERT(pTexture);
+// 
+// 		//if ( m_arrSampState[uniform->m_index]->GetTexture() != pTexture )
+// 		{
+// 			m_pRenderThread->RC_SetTexture(uniform,pTexture);
+// 		}
+// 	}
+// 
+// 	void RenderSystem::SetValue(Uniform* uniform, SamplerState* pTexture)
+// 	{
+// 		ASSERT(uniform);
+// 		ASSERT(pTexture);
+// 
+// 		//if ( m_arrSampState[uniform->m_index] != pTexture )
+// 		{
+// 			m_pRenderThread->RC_SetSamplerState(uniform,pTexture);
+// 
+// 			m_arrSampState[uniform->GetIndex()] = pTexture; 
+// 		}
+// 	}
 
 	const char*	RenderSystem::GetShaderPath()
 	{

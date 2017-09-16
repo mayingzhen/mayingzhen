@@ -59,14 +59,14 @@ namespace ma
 			{       
 				DirectonalLight* pDirLight = (DirectonalLight*)pLight;
 				
-				Uniform* pUniformDirES = m_pDirLight->GetShaderProgram()->GetUniform("light_dir_es");
-				Uniform* pUniformColor = m_pDirLight->GetShaderProgram()->GetUniform("light_color");
+				Uniform* pUniformDirES = m_pDirLight->GetUniform("light_dir_es");
+				Uniform* pUniformColor = m_pDirLight->GetUniform("light_color");
 					
 				Quaternion qRotate = matView.extractQuaternion();
 				Vector3 vDirES = qRotate * -pDirLight->GetSceneNode()->GetForward();
 				
-				GetRenderSystem()->SetValue(pUniformDirES,vDirES);
-				GetRenderSystem()->SetValue(pUniformColor,pLight->GetLightColor());
+				m_pDirLight->SetValue(pUniformDirES,vDirES);
+				m_pDirLight->SetValue(pUniformColor,pLight->GetLightColor());
 
 				ScreenQuad::Render(m_pDirLight.get());		
 			}
@@ -74,14 +74,14 @@ namespace ma
 			{
 				PointLight* pPointLight = (PointLight*)pLight;
 	
-				Uniform* pUniformColor = m_pDirLight->GetShaderProgram()->GetUniform("light_color");
-				Uniform* pUniformPosESRadius = m_pDirLight->GetShaderProgram()->GetUniform("light_pos_es_radius");
+				Uniform* pUniformColor = m_pPointLight->GetUniform("light_color");
+				Uniform* pUniformPosESRadius = m_pPointLight->GetUniform("light_pos_es_radius");
 				
 				Vector3 vPosES = matView * pPointLight->GetSceneNode()->GetPos();
 				Vector4 vPosESRadius(vPosES.x,vPosES.y,vPosES.z,pPointLight->GetRadius());
 				
-				GetRenderSystem()->SetValue(pUniformColor,pLight->GetLightColor());
-				GetRenderSystem()->SetValue(pUniformPosESRadius,vPosESRadius);
+				m_pPointLight->SetValue(pUniformColor,pLight->GetLightColor());
+				m_pPointLight->SetValue(pUniformPosESRadius,vPosESRadius);
 		
 				float cameraToCenter = vPosES.length();
 				if (cameraToCenter < pPointLight->GetRadius())
